@@ -117,6 +117,30 @@ export default function CVPage() {
           </Card>
         </section>
 
+        {/* Contact Section */}
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">Contact</h2>
+          <Card>
+            <p className="text-center">
+              <a href="mailto:vzakharov@gmail.com" className="underline hover:opacity-70">
+                vzakharov@gmail.com
+              </a>
+              {' | '}
+              <a href="https://github.com/vzakharov" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                github.com/vzakharov
+              </a>
+              {' | '}
+              <a href="https://linkedin.com/in/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                linkedin.com/in/vovahimself
+              </a>
+              {' | '}
+              <a href="https://x.com/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                x.com/vovahimself
+              </a>
+            </p>
+          </Card>
+        </section>
+
         {/* Footer */}
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
           <p>
