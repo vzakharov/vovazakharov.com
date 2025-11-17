@@ -73,7 +73,7 @@ export default function Home() {
               stars={65}
               description="Add AI to your app with one line of code. Lightweight TypeScript wrapper that abstracts prompt engineering complexity with single-function API."
               techStack="TypeScript, OpenAI API"
-              url="https://github.com/vzakharov/almostmagic"
+              url="https://github.com/losideadores/almostmagic"
             />
 
             <ProjectCard
