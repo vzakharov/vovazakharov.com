@@ -129,7 +129,7 @@ export default function Home() {
             <Card>
               <h4 className="text-xl font-bold mb-2">DDB / randddb.com (2023-2025)</h4>
               <p className="mb-3">
-                Experimental AI platform at one of the world's largest ad firms. Built enterprise-scale suite:
+                Experimental AI platform at one of the world’s largest ad firms. Built enterprise-scale suite:
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3">
                 <li><strong>Chatbot:</strong> ChatGPT-style corporate assistant with documents, images, personas, multi-user support</li>
@@ -162,7 +162,7 @@ export default function Home() {
 
           <div className="mt-8">
             <a
-              href="/cv.md"
+              href="/cv"
               target="_blank"
               className="inline-block border border-foreground/40 px-6 py-3 hover:bg-foreground hover:text-background transition-colors"
             >
@@ -177,14 +177,14 @@ export default function Home() {
 
           <div className="prose prose-invert max-w-none">
             <p className="text-lg leading-relaxed italic mb-4">
-              "AI as collaborator, not tool or replacement"
+              “AI as collaborator, not tool or replacement”
             </p>
             <p className="text-lg leading-relaxed">
               Been writing music since preteens, recently focused on AI music (since way before Suno —
               think OpenAI Jukebox). I view AI not as a replacement for my creativity, neither as a tool,
-              but as a brilliant musician who can bring my ideas to life in ways I often wouldn't imagine.
+              but as a brilliant musician who can bring my ideas to life in ways I often wouldn’t have imagined.
               To be clear, I write most of my AI music starting from my own humming/piano playing/MIDIs,
-              so it's "mine" in most copyright senses.
+              so it’s “mine” in most copyright senses.
             </p>
           </div>
 
@@ -247,14 +247,14 @@ export default function Home() {
           <div className="prose prose-invert max-w-none">
             <p className="text-lg leading-relaxed">
               Before I became a full-time coder, I worked for 22 years as a translator, editor, and copywriter.
-              Although I don't do it much anymore, I still find joy in stretching the writing muscles, especially
-              with my AI co-conspirator, "synthetic buddy" Finn O'Connor, under the brand of{' '}
+              Although I don’t do it much anymore, I still find joy in stretching the writing muscles, especially
+              with my AI co-conspirator, “synthetic buddy” Finn O’Connor, under the brand of{' '}
               <a href="https://glitchporn.substack.com" target="_blank" rel="noopener noreferrer" className="underline">
                 Glitchporn
               </a>.
             </p>
             <p className="text-xl italic mt-4 opacity-80">
-              "Caressing the cracks in reality until something breaks"
+              “Caressing the cracks in reality until something breaks”
             </p>
           </div>
 

@@ -22,3 +22,78 @@ body {
   color: var(--foreground);
   font-family: var(--font-merriweather), serif;
 }
+
+/* Print styles */
+@media print {
+  /* Force light mode for print */
+  :root, .dark {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+
+  /* Optimize page layout */
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Better page breaks */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Avoid breaking cards */
+  [class*="Card"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Ensure proper margins for PDF */
+  @page {
+    margin: 2cm;
+  }
+
+  /* Hide interactive elements */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Show print-only elements */
+  .print\:block {
+    display: block !important;
+  }
+
+  /* Ensure links are visible in print */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    opacity: 0.6;
+  }
+
+  a[href^="mailto:"]:after {
+    content: "";
+  }
+
+  /* Optimize font sizes for print */
+  body {
+    font-size: 12pt;
+  }
+
+  h1 {
+    font-size: 24pt;
+  }
+
+  h2 {
+    font-size: 18pt;
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  /* Remove shadows and optimize borders for print */
+  * {
+    box-shadow: none !important;
+  }
+}
