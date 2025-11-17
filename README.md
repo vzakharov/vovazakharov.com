@@ -15,13 +15,13 @@ Personal showcase website for Vova Zakharov - Developer, AI tinkerer, word shake
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Run development server
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 ```
 
 The dev server runs at [http://localhost:3000](http://localhost:3000)
