@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ProjectCard, ArticleCard, Card } from "@/components/Card";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -47,12 +48,12 @@ export default function Home() {
         <section id="dev" className="space-y-6">
           <h2 className="text-3xl font-bold">/dev</h2>
 
-          <div className="prose prose-invert max-w-none">
+          <div className="prose prose-invert max-w-none flex flex-col gap-6">
             <p className="text-lg leading-relaxed">
-              Been coding since 1990 (QBasic → Pascal → C++ → C# → Ruby → TypeScript/Python).
-              Physics and math background from Moscow Institute of Physics and Technology.
-              Turned my 38-year hobbyist passion into profession three years ago. Messing with
-              LLMs ever since GPT-3, accumulated a lot of knowledge on how they work and think.
+              I build stuff, and here’s what you’ll find: stuff that works, stuff that doesn’t, and stuff that’s still a work in progress.
+            </p>
+            <p className="text-lg leading-relaxed">
+              I’m currently looking for new challenges, so have a look at my <Link href="/cv" target="_blank" className="underline hover:opacity-100">CV</Link> if you’re looking for new people.
             </p>
           </div>
 
@@ -163,15 +164,6 @@ export default function Home() {
             </Card>
           </div>
 
-          <div className="mt-8">
-            <a
-              href="/cv"
-              target="_blank"
-              className="inline-block border border-foreground/40 px-6 py-3 hover:bg-foreground hover:text-background transition-colors"
-            >
-              View Full CV
-            </a>
-          </div>
         </section>
 
         {/* Music Section */}
