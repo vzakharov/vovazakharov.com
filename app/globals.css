@@ -35,23 +35,104 @@ body {
   body {
     background: white;
     color: black;
-  }
-
-  /* Better page breaks */
-  section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Avoid breaking cards */
-  [class*="Card"] {
-    page-break-inside: avoid;
-    break-inside: avoid;
+    font-size: 10pt;
+    line-height: 1.4;
   }
 
   /* Ensure proper margins for PDF */
   @page {
-    margin: 2cm;
+    margin: 1.5cm;
+    size: A4;
+  }
+
+  /* Compact spacing */
+  .max-w-4xl {
+    max-width: 100% !important;
+  }
+
+  /* Reduce padding throughout */
+  .p-8, .pb-20, .sm\:p-20 {
+    padding: 0.5cm !important;
+  }
+
+  /* Compact section spacing */
+  .space-y-8 > * + * {
+    margin-top: 0.8cm !important;
+  }
+
+  .space-y-6 > * + * {
+    margin-top: 0.4cm !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 0.3cm !important;
+  }
+
+  /* Better page breaks */
+  section {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  /* Avoid breaking cards but allow if necessary */
+  [class*="Card"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid #ddd !important;
+    padding: 0.4cm !important;
+    margin-bottom: 0.3cm !important;
+  }
+
+  /* Keep headings with content */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Optimize heading sizes */
+  h1 {
+    font-size: 20pt;
+    margin-bottom: 0.2cm;
+  }
+
+  h2 {
+    font-size: 16pt;
+    margin-bottom: 0.3cm;
+  }
+
+  h3 {
+    font-size: 12pt;
+    margin-bottom: 0.2cm;
+  }
+
+  h4 {
+    font-size: 11pt;
+    margin-bottom: 0.15cm;
+  }
+
+  /* Compact lists */
+  ul, ol {
+    margin: 0.2cm 0;
+  }
+
+  li {
+    margin-bottom: 0.1cm;
+  }
+
+  /* Compact paragraphs */
+  p {
+    margin-bottom: 0.2cm;
+  }
+
+  /* Make borders subtle */
+  .border-foreground\/20,
+  .border-foreground\/40 {
+    border-color: #ddd !important;
+  }
+
+  /* Remove shadows and optimize borders */
+  * {
+    box-shadow: none !important;
   }
 
   /* Hide interactive elements */
@@ -64,36 +145,45 @@ body {
     display: block !important;
   }
 
-  /* Ensure links are visible in print */
-  a[href^="http"]:after {
-    content: " (" attr(href) ")";
-    font-size: 0.8em;
-    opacity: 0.6;
+  /* Simplify links - don't show URLs for external links to save space */
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 
-  a[href^="mailto:"]:after {
-    content: "";
+  /* Only show email */
+  a[href^="mailto:"] {
+    text-decoration: underline;
   }
 
-  /* Optimize font sizes for print */
-  body {
-    font-size: 12pt;
+  /* Compact header */
+  header {
+    padding-bottom: 0.4cm !important;
+    margin-bottom: 0.5cm !important;
   }
 
-  h1 {
-    font-size: 24pt;
+  /* Compact footer */
+  footer {
+    padding-top: 0.3cm !important;
+    margin-top: 0.5cm !important;
   }
 
-  h2 {
-    font-size: 18pt;
+  /* Reduce text opacity differences */
+  .opacity-60,
+  .opacity-70,
+  .opacity-80,
+  .opacity-90 {
+    opacity: 1 !important;
   }
 
-  h3 {
-    font-size: 14pt;
+  /* Make tech stack text smaller and more compact */
+  .text-sm {
+    font-size: 9pt;
   }
 
-  /* Remove shadows and optimize borders for print */
-  * {
-    box-shadow: none !important;
+  /* Allow longer cards to break if needed */
+  [class*="Card"]:has(ul) {
+    page-break-inside: auto;
+    break-inside: auto;
   }
 }

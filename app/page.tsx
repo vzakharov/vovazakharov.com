@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ProjectCard, ArticleCard, Card } from "@/components/card";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,7 +35,10 @@ export default function Home() {
 
         {/* Navigation Links */}
         <nav className="flex justify-center gap-6 text-lg">
+          <span>
           <a href="#dev" className="hover:underline">dev</a>
+            &nbsp;(<a href="/cv" className="hover:underline" target="_blank">cv</a>)
+          </span>
           <a href="#music" className="hover:underline">music</a>
           <a href="#writing" className="hover:underline">writing</a>
           <a href="#contact" className="hover:underline">contact</a>

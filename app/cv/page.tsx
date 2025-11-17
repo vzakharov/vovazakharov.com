@@ -10,8 +10,8 @@ export default function CVPage() {
   };
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen p-8 pb-20 sm:p-20 print:p-0">
+      <div className="max-w-4xl mx-auto space-y-8 print:space-y-4">
         {/* Header with theme toggle and print button */}
         <div className="flex justify-between items-start print:hidden">
           <button
@@ -24,10 +24,10 @@ export default function CVPage() {
         </div>
 
         {/* CV Header */}
-        <header className="text-center space-y-4 pb-8 border-b border-foreground/20">
-          <h1 className="text-4xl sm:text-5xl font-bold">Vova Zakharov</h1>
-          <p className="text-xl opacity-80">Developer – AI, full-stack, and the bits in-between</p>
-          <p className="opacity-70">
+        <header className="text-center space-y-4 pb-8 border-b border-foreground/20 print:space-y-2 print:pb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">Vova Zakharov</h1>
+          <p className="text-xl opacity-80 print:text-base">Developer – AI, full-stack, and the bits in-between</p>
+          <p className="opacity-70 print:text-sm">
             <a href="mailto:vzakharov@gmail.com" className="underline">
               vzakharov@gmail.com
             </a>
@@ -35,8 +35,8 @@ export default function CVPage() {
         </header>
 
         {/* Profile Section */}
-        <section className="space-y-4">
-          <h2 className="text-3xl font-bold">Profile</h2>
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">Profile</h2>
           <Card>
             <p className="leading-relaxed">
               Developer with a physics-and-math brain, a poet’s love of abstraction, and a knack for building practical tools that turn AI buzz into actual features. I’ve built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants. I care about types, buttons, and the unspeakable elegance of just-enough abstraction.
@@ -45,18 +45,18 @@ export default function CVPage() {
         </section>
 
         {/* Experience Section */}
-        <section className="space-y-6">
-          <h2 className="text-3xl font-bold">Experience</h2>
+        <section className="space-y-6 print:space-y-3">
+          <h2 className="text-3xl font-bold print:text-2xl">Experience</h2>
 
-          <div className="space-y-6">
+          <div className="space-y-6 print:space-y-3">
             <Card>
-              <h3 className="text-2xl font-bold mb-2">Developer – Project Work</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90">Orcool (June – August 2025)</h4>
-              <p className="mb-3">
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Project Work</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">Orcool (June – August 2025)</h4>
+              <p className="mb-3 print:mb-1">
                 Short-term project shaping an AI-agent–based review intelligence tool for brand marketing.
               </p>
-              <p className="mb-3">Built the system end-to-end, covering:</p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4">
+              <p className="mb-3 print:mb-1">Built the system end-to-end, covering:</p>
+              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
                 <li>Automated review collection from diverse public sources.</li>
                 <li>AI-driven summarization with structured outputs (SWOT, competitive positioning, feature insights).</li>
                 <li>Early productization steps toward a scalable SaaS-style platform.</li>
@@ -67,12 +67,12 @@ export default function CVPage() {
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2">Developer</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90">randddb.com / DDB (2023 – 2025)</h4>
-              <p className="mb-3">
-                Experimental AI platform at one of the world’s largest ad firms. Built, back to front, a suite of interlinked AI tools:
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">randddb.com / DDB (2023 – 2025)</h4>
+              <p className="mb-3 print:mb-1">
+                Experimental AI platform at one of the world&apos;s largest ad firms. Built, back to front, a suite of interlinked AI tools:
               </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4">
+              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
                 <li><strong>Chatbot:</strong> ChatGPT-style assistant for corporate needs — secure, document-aware, image-savvy, with personas and real-time multi-user support.</li>
                 <li><strong>Robowriter:</strong> Build-your-own-agent tool for content generation. Functions as both user-facing product and meta-backend for LLM ops.</li>
                 <li><strong>Picmaker:</strong> Replicate-powered image generation/training tool with UX optimized for rapid iteration and intuitive pinning.</li>
@@ -84,10 +84,10 @@ export default function CVPage() {
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2">Developer – Independent Projects</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90">2020 – Present</h4>
-              <p className="mb-3">Selected highlights:</p>
-              <ul className="list-disc list-inside space-y-1 ml-4">
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Independent Projects</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">2020 – Present</h4>
+              <p className="mb-3 print:mb-1">Selected highlights:</p>
+              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
                 <li><strong>Jukebox Web UI:</strong> Gradio-based UI running inside Google Colab for OpenAI’s music model.</li>
                 <li><strong>almostmagic:</strong> Python package for instant LLM integration – one line, zero ceremony.</li>
                 <li><strong>JobGenie:</strong> AI assistant for job seekers that helps create roles as much as apply for them.</li>
@@ -97,10 +97,10 @@ export default function CVPage() {
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2">Prototyper – Experience & Innovation</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90">Voicemod (2023)</h4>
-              <p className="mb-3">Prototyped bleeding-edge tools for audio + AI experimentation.</p>
-              <ul className="list-disc list-inside space-y-1 ml-4">
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Prototyper – Experience & Innovation</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">Voicemod (2023)</h4>
+              <p className="mb-3 print:mb-1">Prototyped bleeding-edge tools for audio + AI experimentation.</p>
+              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
                 <li>Built a YAML-powered Discord bot framework for zero-code bot creation.</li>
                 <li>Developed a local Python web API with a ChatGPT-style interface.</li>
               </ul>
@@ -109,11 +109,11 @@ export default function CVPage() {
         </section>
 
         {/* Education Section */}
-        <section className="space-y-4">
-          <h2 className="text-3xl font-bold">Education</h2>
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">Education</h2>
           <Card>
-            <h3 className="text-xl font-bold mb-2">Moscow Institute of Physics and Technology</h3>
-            <p className="opacity-80">Master’s in Applied Math & Physics (2000 – 2006)</p>
+            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">Moscow Institute of Physics and Technology</h3>
+            <p className="opacity-80 print:text-sm">Master&apos;s in Applied Math & Physics (2000 – 2006)</p>
           </Card>
         </section>
 
