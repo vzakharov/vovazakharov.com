@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { Card } from "@/components/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -38,7 +39,7 @@ export default function CVPage() {
           <h2 className="text-3xl font-bold">Profile</h2>
           <Card>
             <p className="leading-relaxed">
-              Developer with a physics-and-math brain, a poet's love of abstraction, and a knack for building practical tools that turn AI buzz into actual features. I've built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants. I care about types, buttons, and the unspeakable elegance of just-enough abstraction.
+              Developer with a physics-and-math brain, a poet’s love of abstraction, and a knack for building practical tools that turn AI buzz into actual features. I’ve built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants. I care about types, buttons, and the unspeakable elegance of just-enough abstraction.
             </p>
           </Card>
         </section>
@@ -69,7 +70,7 @@ export default function CVPage() {
               <h3 className="text-2xl font-bold mb-2">Developer</h3>
               <h4 className="text-xl font-bold mb-3 opacity-90">randddb.com / DDB (2023 – 2025)</h4>
               <p className="mb-3">
-                Experimental AI platform at one of the world's largest ad firms. Built, back to front, a suite of interlinked AI tools:
+                Experimental AI platform at one of the world’s largest ad firms. Built, back to front, a suite of interlinked AI tools:
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4">
                 <li><strong>Chatbot:</strong> ChatGPT-style assistant for corporate needs — secure, document-aware, image-savvy, with personas and real-time multi-user support.</li>
@@ -87,7 +88,7 @@ export default function CVPage() {
               <h4 className="text-xl font-bold mb-3 opacity-90">2020 – Present</h4>
               <p className="mb-3">Selected highlights:</p>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li><strong>Jukebox Web UI:</strong> Gradio-based UI running inside Google Colab for OpenAI's music model.</li>
+                <li><strong>Jukebox Web UI:</strong> Gradio-based UI running inside Google Colab for OpenAI’s music model.</li>
                 <li><strong>almostmagic:</strong> Python package for instant LLM integration – one line, zero ceremony.</li>
                 <li><strong>JobGenie:</strong> AI assistant for job seekers that helps create roles as much as apply for them.</li>
                 <li><strong>Flows:</strong> A Django app for orchestrating async task pipelines with minimal ceremony.</li>
@@ -112,16 +113,16 @@ export default function CVPage() {
           <h2 className="text-3xl font-bold">Education</h2>
           <Card>
             <h3 className="text-xl font-bold mb-2">Moscow Institute of Physics and Technology</h3>
-            <p className="opacity-80">Master's in Applied Math & Physics (2000 – 2006)</p>
+            <p className="opacity-80">Master’s in Applied Math & Physics (2000 – 2006)</p>
           </Card>
         </section>
 
         {/* Footer */}
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
           <p>
-            <a href="/" className="underline hover:opacity-100">
+            <Link href="/" className="underline hover:opacity-100">
               ← Back to main page
-            </a>
+            </Link>
           </p>
         </footer>
 
