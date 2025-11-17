@@ -146,15 +146,15 @@ body {
   }
 
   /* Simplify links - don't show URLs for external links to save space */
-  a {
+  /* a {
     text-decoration: none;
     color: inherit;
-  }
+  } */
 
   /* Only show email */
-  a[href^="mailto:"] {
+  /* a[href^="mailto:"] {
     text-decoration: underline;
-  }
+  } */
 
   /* Compact header */
   header {

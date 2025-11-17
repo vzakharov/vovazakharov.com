@@ -121,19 +121,19 @@ export default function CVPage() {
         <section className="space-y-4 print:space-y-2">
           <h2 className="text-3xl font-bold print:text-2xl">Contact</h2>
           <Card>
-            <p className="text-center">
+            <p className="print:text-xs flex gap-2 justify-center">
               <a href="mailto:vzakharov@gmail.com" className="underline hover:opacity-70">
                 vzakharov@gmail.com
               </a>
-              {' | '}
+              ·
               <a href="https://github.com/vzakharov" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
                 github.com/vzakharov
               </a>
-              {' | '}
+              ·
               <a href="https://linkedin.com/in/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
                 linkedin.com/in/vovahimself
               </a>
-              {' | '}
+              ·
               <a href="https://x.com/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
                 x.com/vovahimself
               </a>
@@ -151,8 +151,10 @@ export default function CVPage() {
         </footer>
 
         {/* Print-only footer */}
-        <footer className="hidden print:block text-center text-sm pt-8 border-t border-foreground/20">
-          <p>Full portfolio: vovazakharov.com</p>
+        <footer className="hidden print:block text-center text-sm pt-8">
+          <p>Full portfolio:&nbsp;
+            <a href="https://vovazakharov.com" className="underline hover:opacity-100">vovazakharov.com</a>
+          </p>
         </footer>
       </div>
     </div>
