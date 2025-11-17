@@ -15,8 +15,43 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vova Zakharov",
+  metadataBase: new URL("https://vovazakharov.com"),
+  title: {
+    default: "Vova Zakharov",
+    template: "%s | Vova Zakharov",
+  },
   description: "Developer, AI tinkerer, word shaker, generative metalhead",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://vovazakharov.com",
+    siteName: "Vova Zakharov",
+    title: "Vova Zakharov",
+    description: "Developer, AI tinkerer, word shaker, generative metalhead",
+    images: [
+      {
+        url: "/ava.png",
+        width: 150,
+        height: 150,
+        alt: "Vova Zakharov",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@vovahimself",
+    creator: "@vovahimself",
+    title: "Vova Zakharov",
+    description: "Developer, AI tinkerer, word shaker, generative metalhead",
+    images: ["/ava.png"],
+  },
+  authors: [
+    {
+      name: "Vova Zakharov",
+      url: "https://vovazakharov.com",
+    },
+  ],
+  creator: "Vova Zakharov",
 };
 
 export default function RootLayout({
