@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { generateCvMetadata } from '../[locale]/cv/page';
+import { generateCvMetadata } from './cv-utils';
 
 export const metadata = generateCvMetadata('en');
 
