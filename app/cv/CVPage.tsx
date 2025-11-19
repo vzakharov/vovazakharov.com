@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { Card } from "@/components/Card";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LocalePicker } from "@/components/LocalePicker";
 
 type CVPageProps = {
   locale: string;
@@ -26,7 +27,10 @@ export default function CVPage(_props: CVPageProps) {
           >
             {t('printButton')}
           </button>
-          <ThemeToggle />
+          <div className="flex gap-2">
+            <LocalePicker />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* CV Header */}

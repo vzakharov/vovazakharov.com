@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { Sun, Moon, Monitor } from 'lucide-react'
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -11,30 +12,37 @@ export function ThemeToggle() {
     setMounted(true)
   }, [])
 
+  const cycleTheme = () => {
+    if (theme === 'dark') {
+      setTheme('light')
+    } else if (theme === 'light') {
+      setTheme('system')
+    } else {
+      setTheme('dark')
+    }
+  }
+
   if (!mounted) {
-    return <div className="w-20 h-8" />
+    return <div className="w-10 h-10" />
+  }
+
+  const getIcon = () => {
+    if (theme === 'dark') {
+      return <Moon className="w-5 h-5" />
+    } else if (theme === 'light') {
+      return <Sun className="w-5 h-5" />
+    } else {
+      return <Monitor className="w-5 h-5" />
+    }
   }
 
   return (
-    <div className="flex gap-2 text-sm">
-      <button
-        onClick={() => setTheme('light')}
-        className={`px-3 py-1 rounded ${theme === 'light' ? 'bg-foreground text-background' : 'opacity-50'}`}
-      >
-        Light
-      </button>
-      <button
-        onClick={() => setTheme('dark')}
-        className={`px-3 py-1 rounded ${theme === 'dark' ? 'bg-foreground text-background' : 'opacity-50'}`}
-      >
-        Dark
-      </button>
-      <button
-        onClick={() => setTheme('system')}
-        className={`px-3 py-1 rounded ${theme === 'system' ? 'bg-foreground text-background' : 'opacity-50'}`}
-      >
-        Auto
-      </button>
-    </div>
+    <button
+      onClick={cycleTheme}
+      className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors"
+      aria-label="Toggle theme"
+    >
+      {getIcon()}
+    </button>
   )
 }
