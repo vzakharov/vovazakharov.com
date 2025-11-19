@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Merriweather, JetBrains_Mono } from "next/font/google";
+import { NextIntlClientProvider } from 'next-intl';
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -35,9 +36,11 @@ export default function RootLayout({
       <body
         className={`${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,10 +1,16 @@
 'use client';
 
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { Card } from "@/components/Card";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-export default function CVPage() {
+type CVPageProps = {
+  locale: string;
+};
+
+export default function CVPage(_props: CVPageProps) {
+  const t = useTranslations('cv');
   const handlePrint = () => {
     window.print();
   };
@@ -18,63 +24,65 @@ export default function CVPage() {
             onClick={handlePrint}
             className="border border-foreground/40 px-6 py-3 hover:bg-foreground hover:text-background transition-colors"
           >
-            Print / Save as PDF
+            {t('printButton')}
           </button>
           <ThemeToggle />
         </div>
 
         {/* CV Header */}
         <header className="text-center space-y-4 pb-8 border-b border-foreground/20 print:space-y-2 print:pb-4">
-          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">Vova Zakharov</h1>
-          <p className="text-xl opacity-80 print:text-base">Developer – AI, full-stack, and the bits in-between</p>
+          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">{t('header.name')}</h1>
+          <p className="text-xl opacity-80 print:text-base">{t('header.tagline')}</p>
           <p className="opacity-70 print:text-sm">
-            <a href="mailto:vzakharov@gmail.com" className="underline">
-              vzakharov@gmail.com
+            <a href={`mailto:${t('header.email')}`} className="underline">
+              {t('header.email')}
             </a>
           </p>
         </header>
 
         {/* Profile Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">Profile</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('profile.title')}</h2>
           <Card className="space-y-4 print:space-y-2">
             <p className="leading-relaxed">
-              Developer with a physics-and-math brain and a knack for building practical tools that turn AI buzz into actual features. Ever since 2019, most of my work revolves around LLMs and image generation, following years of messing with smaller neural networks. This means I <strong>don’t buy or sell buzzwords</strong>, I understand things <strong>a level or two deeper than most</strong>, and I’ve developed an <strong>intuition for what models can and cannot do</strong>.
+              {t.rich('profile.paragraph1', {
+                strong: (chunks) => <strong>{chunks}</strong>
+              })}
             </p>
             <p className="leading-relaxed">
-              I’ve built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants.
+              {t('profile.paragraph2')}
             </p>
           </Card>
         </section>
 
         {/* What I Offer Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">What I Offer</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('whatIOffer.title')}</h2>
           <Card>
             <div className="space-y-4 print:space-y-2">
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Core Capabilities</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.coreCapabilities.title')}</h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  <li>Bring your idea to an MVP/prototype in 1-2 months</li>
-                  <li>Clean the mess in the prototype you vibe-coded</li>
-                  <li>Explain exactly why your AI agent doesn’t work the way you expected, and fix it</li>
+                  <li>{t('whatIOffer.coreCapabilities.item1')}</li>
+                  <li>{t('whatIOffer.coreCapabilities.item2')}</li>
+                  <li>{t('whatIOffer.coreCapabilities.item3')}</li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Working Style</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.workingStyle.title')}</h3>
                 <p className="leading-relaxed mb-2 print:mb-1">
-                  I’m the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a “treat any job as if it was your own brainchild” mentality.
+                  {t('whatIOffer.workingStyle.paragraph1')}
                 </p>
                 <p className="leading-relaxed">
-                  In other words: a surprisingly low-maintenance LLM tinkerer with a TypeScript kink, ready to prototype, debug, or sanity-check your AI-infused ambitions.
+                  {t('whatIOffer.workingStyle.paragraph2')}
                 </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">AI Expertise</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.aiExpertise.title')}</h3>
                 <p className="leading-relaxed">
-                  I tend to stick to a more “economical” paradigm of AI usage: smaller prompts, more aware of context limitations, less “let’s feed it all and it’ll somehow work!” My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the underlying patterns and limitations that most “AI engineers” are still discovering.
+                  {t('whatIOffer.aiExpertise.paragraph')}
                 </p>
               </div>
             </div>
@@ -83,79 +91,76 @@ export default function CVPage() {
 
         {/* Experience Section */}
         <section className="space-y-6 print:space-y-3">
-          <h2 className="text-3xl font-bold print:text-2xl">Experience</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('experience.title')}</h2>
 
           <div className="space-y-6 print:space-y-3">
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Project Work</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">October 2025 – Present</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.project1.title')}</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.project1.period')}</h4>
               <p className="mb-3 print:mb-1">
-                AI-powered English learning application for kids, combining generative AI with time-tested pedagogical methodology to make language acquisition engaging and effective.
+                {t('experience.project1.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                <li>Interactive game-based learning experiences powered by LLM-generated content.</li>
-                <li>Adaptive difficulty and personalized learning paths based on individual progress.</li>
-                <li>Integration of proven teaching methods with modern AI capabilities.</li>
+                {t.raw('experience.project1.items').map((item: string, idx: number) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
-                Next.js, OpenAI API, custom game engine
+                {t('experience.project1.tech')}
               </p>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Project Work</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">Orcool (June – August 2025)</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.project2.title')}</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.project2.period')}</h4>
               <p className="mb-3 print:mb-1">
-                Short-term project shaping an AI-agent–based review intelligence tool for brand marketing.
+                {t('experience.project2.description')}
               </p>
-              <p className="mb-3 print:mb-1">Built the system end-to-end, covering:</p>
+              <p className="mb-3 print:mb-1">{t('experience.project2.intro')}</p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                <li>Automated review collection from diverse public sources.</li>
-                <li>AI-driven summarization with structured outputs (SWOT, competitive positioning, feature insights).</li>
-                <li>Early productization steps toward a scalable SaaS-style platform.</li>
+                {t.raw('experience.project2.items').map((item: string, idx: number) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
-                Next.js/NestJS, Cloudflare Workers, Firebase, custom LLM orchestration framework
+                {t('experience.project2.tech')}
               </p>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">randddb.com / DDB (2023 – 2025)</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.randddb.title')}</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.randddb.period')}</h4>
               <p className="mb-3 print:mb-1">
-                Experimental AI platform at one of the world’s largest ad firms. Built, back to front, a suite of interlinked AI tools:
+                {t('experience.randddb.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                <li><strong>Chatbot:</strong> ChatGPT-style assistant for corporate needs — secure, document-aware, image-savvy, with personas and real-time multi-user support.</li>
-                <li><strong>Robowriter:</strong> Build-your-own-agent tool for content generation. Functions as both user-facing product and meta-backend for LLM ops.</li>
-                <li><strong>Picmaker:</strong> Replicate-powered image generation/training tool with UX optimized for rapid iteration and intuitive pinning.</li>
-                <li><strong>Client-specific apps:</strong> Including YesYouCannes, which builds Cannes award decks from idea to imagery in minutes.</li>
-                <li><strong>Spaces:</strong> White-label mini-platforms for agency clients (e.g. randddb.com/s/ikea).</li>
+                {t.raw('experience.randddb.items').map((item: { label: string; text: string }, idx: number) => (
+                  <li key={idx}><strong>{item.label}</strong> {item.text}</li>
+                ))}
               </ul>
-              <p className="text-sm font-mono opacity-60 mb-2">Django + PostgreSQL backend, Vue + TypeScript frontend</p>
-              <p className="text-sm italic opacity-70">Demo available on request.</p>
+              <p className="text-sm font-mono opacity-60 mb-2">{t('experience.randddb.tech')}</p>
+              <p className="text-sm italic opacity-70">{t('experience.randddb.demo')}</p>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Independent Projects</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">2020 – Present</h4>
-              <p className="mb-3 print:mb-1">Selected highlights:</p>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.independent.title')}</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.independent.period')}</h4>
+              <p className="mb-3 print:mb-1">{t('experience.independent.intro')}</p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                <li><strong>Jukebox Web UI:</strong> Gradio-based UI running inside Google Colab for OpenAI’s music model.</li>
-                <li><strong>almostmagic:</strong> Python package for instant LLM integration – one line, zero ceremony.</li>
-                <li><strong>JobGenie:</strong> AI assistant for job seekers that helps create roles as much as apply for them.</li>
-                <li><strong>Flows:</strong> A Django app for orchestrating async task pipelines with minimal ceremony.</li>
-                <li><strong>Unfindables:</strong> An experiment in surfacing valuable but hidden web content via absurd search queries.</li>
+                {t.raw('experience.independent.items').map((item: { label: string; text: string }, idx: number) => (
+                  <li key={idx}><strong>{item.label}</strong> {item.text}</li>
+                ))}
               </ul>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Prototyper – Experience & Innovation</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">Voicemod (2023)</h4>
-              <p className="mb-3 print:mb-1">Prototyped bleeding-edge tools for audio + AI experimentation.</p>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.voicemod.title')}</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.voicemod.period')}</h4>
+              <p className="mb-3 print:mb-1">{t('experience.voicemod.description')}</p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                <li>Built a YAML-powered Discord bot framework for zero-code bot creation.</li>
-                <li>Developed a local Python web API with a ChatGPT-style interface.</li>
+                {t.raw('experience.voicemod.items').map((item: string, idx: number) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
             </Card>
           </div>
@@ -163,32 +168,33 @@ export default function CVPage() {
 
         {/* Tech Stack Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">Tech Stack</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('techStack.title')}</h2>
           <Card>
             <div className="space-y-3 print:space-y-2">
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Backend</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.backend.title')}</h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  <li><strong>Django / FastAPI</strong> – If you rely on your own ML models or otherwise require computations/libs that the JavaScript world hasn’t yet caught up with</li>
-                  <li><strong>Next.js API</strong> – If you’re mostly using other people’s web APIs and don’t want to go all fancy and domain-driven</li>
-                  <li><strong>NestJS</strong> – If you do want to go all fancy and domain-driven</li>
+                  {t.raw('techStack.backend.items').map((item: { label: string; text: string }, idx: number) => (
+                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
+                  ))}
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Frontend</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.frontend.title')}</h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  <li><strong>Next.js / React</strong> – If you want to stay on the safe and “we can definitely hire another dev to work with it later” side</li>
-                  <li><strong>Nuxt / Vue</strong> – If you’re feeling all progressive and SFC-ish</li>
+                  {t.raw('techStack.frontend.items').map((item: { label: string; text: string }, idx: number) => (
+                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
+                  ))}
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Serverless / Other</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.serverless.title')}</h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  <li><strong>Cloudflare Workers</strong> – Because why not rely on something that can make the entire Internet stop a few times a year?</li>
-                  <li><strong>Google Colab</strong> — Had my fair share of fails and successes building and testing models</li>
-                  <li><strong>Gradio</strong> – Quick but powerful UIs for ML experiments</li>
+                  {t.raw('techStack.serverless.items').map((item: { label: string; text: string }, idx: number) => (
+                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -197,32 +203,32 @@ export default function CVPage() {
 
         {/* Education Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">Education</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('education.title')}</h2>
           <Card>
-            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">Moscow Institute of Physics and Technology</h3>
-            <p className="opacity-80 print:text-sm">Master’s in Applied Math & Physics (2000 – 2006)</p>
+            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">{t('education.school')}</h3>
+            <p className="opacity-80 print:text-sm">{t('education.degree')}</p>
           </Card>
         </section>
 
         {/* Contact Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">Contact</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">{t('contact.title')}</h2>
           <Card>
             <p className="print:text-xs flex gap-2 justify-center">
-              <a href="mailto:vzakharov@gmail.com" className="underline hover:opacity-70">
-                vzakharov@gmail.com
+              <a href={`mailto:${t('header.email')}`} className="underline hover:opacity-70">
+                {t('header.email')}
               </a>
               ·
-              <a href="https://github.com/vzakharov" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
-                github.com/vzakharov
+              <a href={`https://${t('contact.github')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                {t('contact.github')}
               </a>
               ·
-              <a href="https://linkedin.com/in/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
-                linkedin.com/in/vovahimself
+              <a href={`https://${t('contact.linkedin')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                {t('contact.linkedin')}
               </a>
               ·
-              <a href="https://x.com/vovahimself" className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
-                x.com/vovahimself
+              <a href={`https://${t('contact.x')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+                {t('contact.x')}
               </a>
             </p>
           </Card>
@@ -232,15 +238,15 @@ export default function CVPage() {
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
           <p>
             <Link href="/" className="underline hover:opacity-100">
-              ← Back to main page
+              {t('footer.backLink')}
             </Link>
           </p>
         </footer>
 
         {/* Print-only footer */}
         <footer className="hidden print:block text-center text-sm pt-8">
-          <p>Full portfolio:&nbsp;
-            <a href="https://vovazakharov.com" className="underline hover:opacity-100">vovazakharov.com</a>
+          <p>{t('footer.printFooter')}&nbsp;
+            <a href={`https://${t('footer.website')}`} className="underline hover:opacity-100">{t('footer.website')}</a>
           </p>
         </footer>
       </div>
