@@ -2,17 +2,13 @@
 
 import { usePathname, useRouter } from '@/i18n/routing'
 import { useLocale } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useMounted } from '@/hooks/useMounted'
 
 export function LocalePicker() {
   const pathname = usePathname()
   const router = useRouter()
   const locale = useLocale()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useMounted()
 
   const isI18nPage = pathname === '/cv'
   
