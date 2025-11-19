@@ -2,15 +2,12 @@
 
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
+import { Printer } from 'lucide-react';
 import { Card } from "@/components/Card";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LocalePicker } from "@/components/LocalePicker";
 
-type CVPageProps = {
-  locale: string;
-};
-
-export default function CVPage(_props: CVPageProps) {
+export default function CVPage() {
   const t = useTranslations('cv');
   const handlePrint = () => {
     window.print();
@@ -23,9 +20,12 @@ export default function CVPage(_props: CVPageProps) {
         <div className="flex justify-between items-start print:hidden">
           <button
             onClick={handlePrint}
-            className="border border-foreground/40 px-6 py-3 hover:bg-foreground hover:text-background transition-colors"
+            className="border border-foreground/40 p-3 hover:bg-foreground hover:text-background transition-colors"
+            aria-label={t('printButton')}
           >
-            {t('printButton')}
+            <span className="flex items-center gap-1">
+              <Printer className="w-5 h-5" /> / PDF
+            </span>
           </button>
           <div className="flex gap-2">
             <LocalePicker />
