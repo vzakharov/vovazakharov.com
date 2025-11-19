@@ -37,10 +37,47 @@ export default function CVPage() {
         {/* Profile Section */}
         <section className="space-y-4 print:space-y-2">
           <h2 className="text-3xl font-bold print:text-2xl">Profile</h2>
-          <Card>
+          <Card className="space-y-4 print:space-y-2">
             <p className="leading-relaxed">
-              Developer with a physics-and-math brain, a poet’s love of abstraction, and a knack for building practical tools that turn AI buzz into actual features. I’ve built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants. I care about types, buttons, and the unspeakable elegance of just-enough abstraction.
+              Developer with a physics-and-math brain and a knack for building practical tools that turn AI buzz into actual features. Ever since 2019, most of my work revolves around LLMs and image generation, following years of messing with smaller neural networks. This means I <strong>don’t buy or sell buzzwords</strong>, I understand things <strong>a level or two deeper than most</strong>, and I’ve developed an <strong>intuition for what models can and cannot do</strong>.
             </p>
+            <p className="leading-relaxed">
+              I’ve built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants.
+            </p>
+          </Card>
+        </section>
+
+        {/* What I Offer Section */}
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">What I Offer</h2>
+          <Card>
+            <div className="space-y-4 print:space-y-2">
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Core Capabilities</h3>
+                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
+                  <li>Bring your idea to an MVP/prototype in 1-2 months</li>
+                  <li>Clean the mess in the prototype you vibe-coded</li>
+                  <li>Explain exactly why your AI agent doesn’t work the way you expected, and fix it</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Working Style</h3>
+                <p className="leading-relaxed mb-2 print:mb-1">
+                  I’m the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a “treat any job as if it was your own brainchild” mentality.
+                </p>
+                <p className="leading-relaxed">
+                  In other words: a surprisingly low-maintenance LLM tinkerer with a TypeScript kink, ready to prototype, debug, or sanity-check your AI-infused ambitions.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">AI Expertise</h3>
+                <p className="leading-relaxed">
+                  I tend to stick to a more “economical” paradigm of AI usage: smaller prompts, more aware of context limitations, less “let’s feed it all and it’ll somehow work!” My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the underlying patterns and limitations that most “AI engineers” are still discovering.
+                </p>
+              </div>
+            </div>
           </Card>
         </section>
 
@@ -49,6 +86,22 @@ export default function CVPage() {
           <h2 className="text-3xl font-bold print:text-2xl">Experience</h2>
 
           <div className="space-y-6 print:space-y-3">
+            <Card>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Project Work</h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">October 2025 – Present</h4>
+              <p className="mb-3 print:mb-1">
+                AI-powered English learning application for kids, combining generative AI with time-tested pedagogical methodology to make language acquisition engaging and effective.
+              </p>
+              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
+                <li>Interactive game-based learning experiences powered by LLM-generated content.</li>
+                <li>Adaptive difficulty and personalized learning paths based on individual progress.</li>
+                <li>Integration of proven teaching methods with modern AI capabilities.</li>
+              </ul>
+              <p className="text-sm font-mono opacity-60">
+                Next.js, OpenAI API, custom game engine
+              </p>
+            </Card>
+
             <Card>
               <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer – Project Work</h3>
               <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">Orcool (June – August 2025)</h4>
@@ -70,7 +123,7 @@ export default function CVPage() {
               <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">Developer</h3>
               <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">randddb.com / DDB (2023 – 2025)</h4>
               <p className="mb-3 print:mb-1">
-                Experimental AI platform at one of the world&apos;s largest ad firms. Built, back to front, a suite of interlinked AI tools:
+                Experimental AI platform at one of the world’s largest ad firms. Built, back to front, a suite of interlinked AI tools:
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
                 <li><strong>Chatbot:</strong> ChatGPT-style assistant for corporate needs — secure, document-aware, image-savvy, with personas and real-time multi-user support.</li>
@@ -108,12 +161,46 @@ export default function CVPage() {
           </div>
         </section>
 
+        {/* Tech Stack Section */}
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">Tech Stack</h2>
+          <Card>
+            <div className="space-y-3 print:space-y-2">
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Backend</h3>
+                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
+                  <li><strong>Django / FastAPI</strong> – If you rely on your own ML models or otherwise require computations/libs that the JavaScript world hasn’t yet caught up with</li>
+                  <li><strong>Next.js API</strong> – If you’re mostly using other people’s web APIs and don’t want to go all fancy and domain-driven</li>
+                  <li><strong>NestJS</strong> – If you do want to go all fancy and domain-driven</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Frontend</h3>
+                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
+                  <li><strong>Next.js / React</strong> – If you want to stay on the safe and “we can definitely hire another dev to work with it later” side</li>
+                  <li><strong>Nuxt / Vue</strong> – If you’re feeling all progressive and SFC-ish</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">Serverless / Other</h3>
+                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
+                  <li><strong>Cloudflare Workers</strong> – Because why not rely on something that can make the entire Internet stop a few times a year?</li>
+                  <li><strong>Google Colab</strong> — Had my fair share of fails and successes building and testing models</li>
+                  <li><strong>Gradio</strong> – Quick but powerful UIs for ML experiments</li>
+                </ul>
+              </div>
+            </div>
+          </Card>
+        </section>
+
         {/* Education Section */}
         <section className="space-y-4 print:space-y-2">
           <h2 className="text-3xl font-bold print:text-2xl">Education</h2>
           <Card>
             <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">Moscow Institute of Physics and Technology</h3>
-            <p className="opacity-80 print:text-sm">Master&apos;s in Applied Math & Physics (2000 – 2006)</p>
+            <p className="opacity-80 print:text-sm">Master’s in Applied Math & Physics (2000 – 2006)</p>
           </Card>
         </section>
 
