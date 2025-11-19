@@ -15,6 +15,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
+  return generateCvMetadata(locale);
+}
+
+export function generateCvMetadata(locale: string) {
   const description =
     locale === 'ru'
       ? 'Full-stack разработчик с глубокой AI/ML экспертизой с 2019 года. Создаю практичные инструменты на базе LLM, прототипы и продакшн-системы.'
