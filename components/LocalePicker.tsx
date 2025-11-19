@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
-import { usePathname, useRouter } from '@/i18n/routing'
-import { useLocale } from 'next-intl'
-import { useMounted } from '@/hooks/useMounted'
+import { usePathname, useRouter } from '@/i18n/routing';
+import { useLocale } from 'next-intl';
+import { useMounted } from '@/hooks/useMounted';
 
 export function LocalePicker() {
-  const pathname = usePathname()
-  const router = useRouter()
-  const locale = useLocale()
-  const mounted = useMounted()
+  const pathname = usePathname();
+  const router = useRouter();
+  const locale = useLocale();
+  const mounted = useMounted();
 
-  const isI18nPage = pathname === '/cv'
-  
+  const isI18nPage = pathname === '/cv';
+
   if (!mounted || !isI18nPage) {
-    return null
+    return null;
   }
 
-  const currentLocale = locale as string
-  const nextLocale = currentLocale === 'en' ? 'ru' : 'en'
-  const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺'
+  const currentLocale = locale as string;
+  const nextLocale = currentLocale === 'en' ? 'ru' : 'en';
+  const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺';
 
   const toggleLocale = () => {
-    router.replace(pathname, { locale: nextLocale })
-  }
+    router.replace(pathname, { locale: nextLocale });
+  };
 
   return (
     <button
@@ -32,6 +32,5 @@ export function LocalePicker() {
     >
       {currentFlag}
     </button>
-  )
+  );
 }
-

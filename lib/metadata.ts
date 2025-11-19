@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import { SITE_CONFIG, getAbsoluteUrl } from "./site-config";
+import type { Metadata } from 'next';
+import { SITE_CONFIG, getAbsoluteUrl } from './site-config';
 
 export interface ConstructMetadataParams {
   title?: string;
   description?: string;
   ogDescription?: string; // Separate description for OpenGraph if different from main
   path?: string; // e.g., "/cv" - automatically converted to absolute URL
-  ogType?: "website" | "profile" | "article";
+  ogType?: 'website' | 'profile' | 'article';
 }
 
 export function constructMetadata({
   title,
-  description = "Developer, AI tinkerer, word shaker, generative metalhead",
+  description = 'Developer, AI tinkerer, word shaker, generative metalhead',
   ogDescription,
   path,
-  ogType = "website",
+  ogType = 'website',
 }: ConstructMetadataParams = {}): Metadata {
   const absoluteUrl = path ? getAbsoluteUrl(path) : SITE_CONFIG.url;
   const absoluteImageUrl = getAbsoluteUrl(SITE_CONFIG.avatar.path);
@@ -25,7 +25,7 @@ export function constructMetadata({
     description,
     openGraph: {
       type: ogType,
-      locale: "en_US",
+      locale: 'en_US',
       url: absoluteUrl,
       siteName: SITE_CONFIG.name,
       title: title || SITE_CONFIG.name,
@@ -40,7 +40,7 @@ export function constructMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       site: SITE_CONFIG.social.twitter,
       creator: SITE_CONFIG.social.twitter,
       title: title || SITE_CONFIG.name,

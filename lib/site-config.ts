@@ -1,17 +1,17 @@
 export const SITE_CONFIG = {
-  url: "https://vovazakharov.com",
-  name: "Vova Zakharov",
+  url: 'https://vovazakharov.com',
+  name: 'Vova Zakharov',
   author: {
-    name: "Vova Zakharov",
-    email: "vzakharov@gmail.com",
+    name: 'Vova Zakharov',
+    email: 'vzakharov@gmail.com',
   },
   social: {
-    twitter: "@vovahimself",
-    github: "vzakharov",
-    linkedin: "vovahimself",
+    twitter: '@vovahimself',
+    github: 'vzakharov',
+    linkedin: 'vovahimself',
   },
   avatar: {
-    path: "/ava.png",
+    path: '/ava.png',
     width: 150,
     height: 150,
   },

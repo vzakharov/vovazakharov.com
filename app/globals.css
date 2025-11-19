@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -26,7 +26,8 @@ body {
 /* Print styles */
 @media print {
   /* Force light mode for print */
-  :root, .dark {
+  :root,
+  .dark {
     --background: #ffffff;
     --foreground: #000000;
   }
@@ -51,7 +52,9 @@ body {
   }
 
   /* Reduce padding throughout */
-  .p-8, .pb-20, .sm\:p-20 {
+  .p-8,
+  .pb-20,
+  .sm\:p-20 {
     padding: 0.5cm !important;
   }
 
@@ -75,7 +78,7 @@ body {
   }
 
   /* Avoid breaking cards but allow if necessary */
-  [class*="Card"] {
+  [class*='Card'] {
     page-break-inside: avoid;
     break-inside: avoid;
     border: 1px solid #ddd !important;
@@ -84,7 +87,12 @@ body {
   }
 
   /* Keep headings with content */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     page-break-after: avoid;
     break-after: avoid;
   }
@@ -111,7 +119,8 @@ body {
   }
 
   /* Compact lists */
-  ul, ol {
+  ul,
+  ol {
     margin: 0.2cm 0;
   }
 
@@ -182,7 +191,7 @@ body {
   }
 
   /* Allow longer cards to break if needed */
-  [class*="Card"]:has(ul) {
+  [class*='Card']:has(ul) {
     page-break-inside: auto;
     break-inside: auto;
   }

@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { ProjectCard, ArticleCard, Card } from "@/components/Card";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import Link from "next/link";
+import Image from 'next/image';
+import { ProjectCard, ArticleCard, Card } from '@/components/Card';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -23,7 +23,9 @@ export default function Home() {
             priority
           />
           <div>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-3">Vova Zakharov</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-3">
+              Vova Zakharov
+            </h1>
             <p className="text-xl sm:text-2xl opacity-80">
               Developer, AI tinkerer, word shaker, generative metalhead
             </p>
@@ -36,12 +38,24 @@ export default function Home() {
         {/* Navigation Links */}
         <nav className="flex justify-center gap-6 text-lg">
           <span>
-          <a href="#dev" className="hover:underline">dev</a>
-            &nbsp;(<Link href="/cv" className="hover:underline">cv</Link>)
+            <a href="#dev" className="hover:underline">
+              dev
+            </a>
+            &nbsp;(
+            <Link href="/cv" className="hover:underline">
+              cv
+            </Link>
+            )
           </span>
-          <a href="#music" className="hover:underline">music</a>
-          <a href="#writing" className="hover:underline">writing</a>
-          <a href="#contact" className="hover:underline">contact</a>
+          <a href="#music" className="hover:underline">
+            music
+          </a>
+          <a href="#writing" className="hover:underline">
+            writing
+          </a>
+          <a href="#contact" className="hover:underline">
+            contact
+          </a>
         </nav>
 
         {/* Dev Section */}
@@ -50,10 +64,15 @@ export default function Home() {
 
           <div className="prose prose-invert max-w-none flex flex-col gap-6">
             <p className="text-lg leading-relaxed">
-              I build stuff, and here’s what you’ll find: stuff that works, stuff that doesn’t, and stuff that’s still a work in progress.
+              I build stuff, and here’s what you’ll find: stuff that works,
+              stuff that doesn’t, and stuff that’s still a work in progress.
             </p>
             <p className="text-lg leading-relaxed">
-              I’m currently looking for new challenges, so have a look at my <Link href="/cv" className="underline hover:opacity-100">CV</Link> if you’re looking for new people.
+              I’m currently looking for new challenges, so have a look at my{' '}
+              <Link href="/cv" className="underline hover:opacity-100">
+                CV
+              </Link>{' '}
+              if you’re looking for new people.
             </p>
           </div>
 
@@ -131,39 +150,66 @@ export default function Home() {
 
           <div className="space-y-4">
             <Card>
-              <h4 className="text-xl font-bold mb-2">DDB / randddb.com (2023-2025)</h4>
+              <h4 className="text-xl font-bold mb-2">
+                DDB / randddb.com (2023-2025)
+              </h4>
               <p className="mb-3">
-                Experimental AI platform at one of the world’s largest ad firms. Built enterprise-scale suite:
+                Experimental AI platform at one of the world’s largest ad firms.
+                Built enterprise-scale suite:
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3">
-                <li><strong>Chatbot:</strong> ChatGPT-style corporate assistant with documents, images, personas, multi-user support</li>
-                <li><strong>Robowriter:</strong> Build-your-own-agent content generation tool</li>
-                <li><strong>Picmaker:</strong> Replicate-powered image generation/training</li>
-                <li><strong>YesYouCannes:</strong> Cannes award deck generator (idea → imagery in minutes)</li>
-                <li><strong>Spaces:</strong> White-label mini-platforms for agency clients</li>
+                <li>
+                  <strong>Chatbot:</strong> ChatGPT-style corporate assistant
+                  with documents, images, personas, multi-user support
+                </li>
+                <li>
+                  <strong>Robowriter:</strong> Build-your-own-agent content
+                  generation tool
+                </li>
+                <li>
+                  <strong>Picmaker:</strong> Replicate-powered image
+                  generation/training
+                </li>
+                <li>
+                  <strong>YesYouCannes:</strong> Cannes award deck generator
+                  (idea → imagery in minutes)
+                </li>
+                <li>
+                  <strong>Spaces:</strong> White-label mini-platforms for agency
+                  clients
+                </li>
               </ul>
-              <p className="text-sm font-mono opacity-60">Django + PostgreSQL, Vue + TypeScript</p>
+              <p className="text-sm font-mono opacity-60">
+                Django + PostgreSQL, Vue + TypeScript
+              </p>
             </Card>
 
             <Card>
-              <h4 className="text-xl font-bold mb-2">Orcool (June-August 2025)</h4>
+              <h4 className="text-xl font-bold mb-2">
+                Orcool (June-August 2025)
+              </h4>
               <p className="mb-3">
-                AI-agent-based review intelligence tool for brand marketing. Built end-to-end: automated
-                review collection → AI summarization (SWOT, competitive positioning) → SaaS platform.
+                AI-agent-based review intelligence tool for brand marketing.
+                Built end-to-end: automated review collection → AI summarization
+                (SWOT, competitive positioning) → SaaS platform.
               </p>
-              <p className="text-sm font-mono opacity-60">Next.js/NestJS, Cloudflare Workers, Firebase</p>
+              <p className="text-sm font-mono opacity-60">
+                Next.js/NestJS, Cloudflare Workers, Firebase
+              </p>
             </Card>
 
             <Card>
               <h4 className="text-xl font-bold mb-2">Voicemod (2023)</h4>
               <p className="mb-3">
-                Prototyper for Experience & Innovation. Built YAML-powered Discord bot framework for
-                zero-code bot creation and local Python web API with ChatGPT interface.
+                Prototyper for Experience & Innovation. Built YAML-powered
+                Discord bot framework for zero-code bot creation and local
+                Python web API with ChatGPT interface.
               </p>
-              <p className="text-sm font-mono opacity-60">Python, YAML, Discord API</p>
+              <p className="text-sm font-mono opacity-60">
+                Python, YAML, Discord API
+              </p>
             </Card>
           </div>
-
         </section>
 
         {/* Music Section */}
@@ -175,11 +221,13 @@ export default function Home() {
               “AI as collaborator, not tool or replacement”
             </p>
             <p className="text-lg leading-relaxed">
-              Been writing music since preteens, recently focused on AI music (since way before Suno —
-              think OpenAI Jukebox). I view AI not as a replacement for my creativity, neither as a tool,
-              but as a brilliant musician who can bring my ideas to life in ways I often wouldn’t have imagined.
-              To be clear, I write most of my AI music starting from my own humming/piano playing/MIDIs,
-              so it’s “mine” in most copyright senses.
+              Been writing music since preteens, recently focused on AI music
+              (since way before Suno — think OpenAI Jukebox). I view AI not as a
+              replacement for my creativity, neither as a tool, but as a
+              brilliant musician who can bring my ideas to life in ways I often
+              wouldn’t have imagined. To be clear, I write most of my AI music
+              starting from my own humming/piano playing/MIDIs, so it’s “mine”
+              in most copyright senses.
             </p>
           </div>
 
@@ -189,7 +237,7 @@ export default function Home() {
             <Card>
               <h4 className="text-xl font-bold mb-3">GENERATED</h4>
               <iframe
-                style={{borderRadius: '12px'}}
+                style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/3tnTz9WCaghp3PJPSsTxQW?utm_source=generator"
                 width="100%"
                 height="152"
@@ -201,9 +249,11 @@ export default function Home() {
             </Card>
 
             <Card>
-              <h4 className="text-xl font-bold mb-3">Полуживые (ru. for “Half-Alive”)</h4>
+              <h4 className="text-xl font-bold mb-3">
+                Полуживые (ru. for “Half-Alive”)
+              </h4>
               <iframe
-                style={{borderRadius: '12px'}}
+                style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2rdnjZV6ahlz4pKeh9a8B3?utm_source=generator"
                 width="100%"
                 height="152"
@@ -217,7 +267,7 @@ export default function Home() {
             <Card>
               <h4 className="text-xl font-bold mb-3">Downtemple</h4>
               <iframe
-                style={{borderRadius: '12px'}}
+                style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2vN8JKg3rQLxleZ9xsafy6?utm_source=generator"
                 width="100%"
                 height="152"
@@ -230,8 +280,37 @@ export default function Home() {
           </div>
 
           <div className="space-y-2 text-sm opacity-70">
-            <p>Also on <a href="https://soundcloud.com/vzkrv" target="_blank" rel="noopener noreferrer" className="underline">SoundCloud</a> and <a href="https://suno.com/@vova" target="_blank" rel="noopener noreferrer" className="underline">Suno</a></p>
-            <p>All my music is open-source: <a href="https://vzakharov.github.io/vovas-music" target="_blank" rel="noopener noreferrer" className="underline">vzakharov.github.io/vovas-music</a></p>
+            <p>
+              Also on{' '}
+              <a
+                href="https://soundcloud.com/vzkrv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                SoundCloud
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://suno.com/@vova"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                Suno
+              </a>
+            </p>
+            <p>
+              All my music is open-source:{' '}
+              <a
+                href="https://vzakharov.github.io/vovas-music"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                vzakharov.github.io/vovas-music
+              </a>
+            </p>
           </div>
         </section>
 
@@ -241,12 +320,20 @@ export default function Home() {
 
           <div className="prose prose-invert max-w-none">
             <p className="text-lg leading-relaxed">
-              Before I became a full-time coder, I worked for 22 years as a translator, editor, and copywriter.
-              Although I don’t do it much anymore, I still find joy in stretching the writing muscles, especially
-              with my AI co-conspirator, “synthetic buddy” Finn O’Connor, under the brand of{' '}
-              <a href="https://glitchporn.substack.com" target="_blank" rel="noopener noreferrer" className="underline">
+              Before I became a full-time coder, I worked for 22 years as a
+              translator, editor, and copywriter. Although I don’t do it much
+              anymore, I still find joy in stretching the writing muscles,
+              especially with my AI co-conspirator, “synthetic buddy” Finn
+              O’Connor, under the brand of{' '}
+              <a
+                href="https://glitchporn.substack.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
                 Glitchporn
-              </a>.
+              </a>
+              .
             </p>
             <p className="text-xl italic mt-4 opacity-80">
               “Caressing the cracks in reality until something breaks”
@@ -301,25 +388,45 @@ export default function Home() {
               </p>
               <p>
                 <strong>GitHub:</strong>{' '}
-                <a href="https://github.com/vzakharov" target="_blank" rel="noopener noreferrer" className="underline">
+                <a
+                  href="https://github.com/vzakharov"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
                   github.com/vzakharov
                 </a>
               </p>
               <p>
                 <strong>LinkedIn:</strong>{' '}
-                <a href="https://linkedin.com/in/vovahimself" target="_blank" rel="noopener noreferrer" className="underline">
+                <a
+                  href="https://linkedin.com/in/vovahimself"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
                   linkedin.com/in/vovahimself
                 </a>
               </p>
               <p>
                 <strong>X/Twitter:</strong>{' '}
-                <a href="https://x.com/vovahimself" target="_blank" rel="noopener noreferrer" className="underline">
+                <a
+                  href="https://x.com/vovahimself"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
                   x.com/vovahimself
                 </a>
               </p>
               <p>
                 <strong>Substack:</strong>{' '}
-                <a href="https://substack.com/@vovahimself" target="_blank" rel="noopener noreferrer" className="underline">
+                <a
+                  href="https://substack.com/@vovahimself"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
                   substack.com/@vovahimself
                 </a>
               </p>
@@ -329,7 +436,9 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20">
-          <p>© {new Date().getFullYear()} Vova Zakharov. Built with Next.js.</p>
+          <p>
+            © {new Date().getFullYear()} Vova Zakharov. Built with Next.js.
+          </p>
         </footer>
       </div>
     </div>

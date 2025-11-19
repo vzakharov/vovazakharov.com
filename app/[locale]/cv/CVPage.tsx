@@ -1,11 +1,11 @@
 'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Printer } from 'lucide-react';
-import { Card } from "@/components/Card";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { LocalePicker } from "@/components/LocalePicker";
+import { Card } from '@/components/Card';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { LocalePicker } from '@/components/LocalePicker';
 
 export default function CVPage() {
   const t = useTranslations('cv');
@@ -35,8 +35,12 @@ export default function CVPage() {
 
         {/* CV Header */}
         <header className="text-center space-y-4 pb-8 border-b border-foreground/20 print:space-y-2 print:pb-4">
-          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">{t('header.name')}</h1>
-          <p className="text-xl opacity-80 print:text-base">{t('header.tagline')}</p>
+          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">
+            {t('header.name')}
+          </h1>
+          <p className="text-xl opacity-80 print:text-base">
+            {t('header.tagline')}
+          </p>
           <p className="opacity-70 print:text-sm">
             <a href={`mailto:${t('header.email')}`} className="underline">
               {t('header.email')}
@@ -46,26 +50,30 @@ export default function CVPage() {
 
         {/* Profile Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('profile.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('profile.title')}
+          </h2>
           <Card className="space-y-4 print:space-y-2">
             <p className="leading-relaxed">
               {t.rich('profile.paragraph1', {
-                strong: (chunks) => <strong>{chunks}</strong>
+                strong: (chunks) => <strong>{chunks}</strong>,
               })}
             </p>
-            <p className="leading-relaxed">
-              {t('profile.paragraph2')}
-            </p>
+            <p className="leading-relaxed">{t('profile.paragraph2')}</p>
           </Card>
         </section>
 
         {/* What I Offer Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('whatIOffer.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('whatIOffer.title')}
+          </h2>
           <Card>
             <div className="space-y-4 print:space-y-2">
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.coreCapabilities.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('whatIOffer.coreCapabilities.title')}
+                </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
                   <li>{t('whatIOffer.coreCapabilities.item1')}</li>
                   <li>{t('whatIOffer.coreCapabilities.item2')}</li>
@@ -74,7 +82,9 @@ export default function CVPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.workingStyle.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('whatIOffer.workingStyle.title')}
+                </h3>
                 <p className="leading-relaxed mb-2 print:mb-1">
                   {t('whatIOffer.workingStyle.paragraph1')}
                 </p>
@@ -84,7 +94,9 @@ export default function CVPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('whatIOffer.aiExpertise.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('whatIOffer.aiExpertise.title')}
+                </h3>
                 <p className="leading-relaxed">
                   {t('whatIOffer.aiExpertise.paragraph')}
                 </p>
@@ -95,19 +107,27 @@ export default function CVPage() {
 
         {/* Experience Section */}
         <section className="space-y-6 print:space-y-3">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('experience.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('experience.title')}
+          </h2>
 
           <div className="space-y-6 print:space-y-3">
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.project1.title')}</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.project1.period')}</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.project1.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.project1.period')}
+              </h4>
               <p className="mb-3 print:mb-1">
                 {t('experience.project1.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t.raw('experience.project1.items').map((item: string, idx: number) => (
-                  <li key={idx}>{item}</li>
-                ))}
+                {t
+                  .raw('experience.project1.items')
+                  .map((item: string, idx: number) => (
+                    <li key={idx}>{item}</li>
+                  ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
                 {t('experience.project1.tech')}
@@ -115,16 +135,24 @@ export default function CVPage() {
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.project2.title')}</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.project2.period')}</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.project2.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.project2.period')}
+              </h4>
               <p className="mb-3 print:mb-1">
                 {t('experience.project2.description')}
               </p>
-              <p className="mb-3 print:mb-1">{t('experience.project2.intro')}</p>
+              <p className="mb-3 print:mb-1">
+                {t('experience.project2.intro')}
+              </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t.raw('experience.project2.items').map((item: string, idx: number) => (
-                  <li key={idx}>{item}</li>
-                ))}
+                {t
+                  .raw('experience.project2.items')
+                  .map((item: string, idx: number) => (
+                    <li key={idx}>{item}</li>
+                  ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
                 {t('experience.project2.tech')}
@@ -132,39 +160,69 @@ export default function CVPage() {
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.randddb.title')}</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.randddb.period')}</h4>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.randddb.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.randddb.period')}
+              </h4>
               <p className="mb-3 print:mb-1">
                 {t('experience.randddb.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t.raw('experience.randddb.items').map((item: { label: string; text: string }, idx: number) => (
-                  <li key={idx}><strong>{item.label}</strong> {item.text}</li>
-                ))}
+                {t
+                  .raw('experience.randddb.items')
+                  .map((item: { label: string; text: string }, idx: number) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
               </ul>
-              <p className="text-sm font-mono opacity-60 mb-2">{t('experience.randddb.tech')}</p>
-              <p className="text-sm italic opacity-70">{t('experience.randddb.demo')}</p>
+              <p className="text-sm font-mono opacity-60 mb-2">
+                {t('experience.randddb.tech')}
+              </p>
+              <p className="text-sm italic opacity-70">
+                {t('experience.randddb.demo')}
+              </p>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.independent.title')}</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.independent.period')}</h4>
-              <p className="mb-3 print:mb-1">{t('experience.independent.intro')}</p>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.independent.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.independent.period')}
+              </h4>
+              <p className="mb-3 print:mb-1">
+                {t('experience.independent.intro')}
+              </p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t.raw('experience.independent.items').map((item: { label: string; text: string }, idx: number) => (
-                  <li key={idx}><strong>{item.label}</strong> {item.text}</li>
-                ))}
+                {t
+                  .raw('experience.independent.items')
+                  .map((item: { label: string; text: string }, idx: number) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
               </ul>
             </Card>
 
             <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">{t('experience.voicemod.title')}</h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">{t('experience.voicemod.period')}</h4>
-              <p className="mb-3 print:mb-1">{t('experience.voicemod.description')}</p>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.voicemod.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.voicemod.period')}
+              </h4>
+              <p className="mb-3 print:mb-1">
+                {t('experience.voicemod.description')}
+              </p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t.raw('experience.voicemod.items').map((item: string, idx: number) => (
-                  <li key={idx}>{item}</li>
-                ))}
+                {t
+                  .raw('experience.voicemod.items')
+                  .map((item: string, idx: number) => (
+                    <li key={idx}>{item}</li>
+                  ))}
               </ul>
             </Card>
           </div>
@@ -172,33 +230,59 @@ export default function CVPage() {
 
         {/* Tech Stack Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('techStack.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('techStack.title')}
+          </h2>
           <Card>
             <div className="space-y-3 print:space-y-2">
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.backend.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('techStack.backend.title')}
+                </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t.raw('techStack.backend.items').map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
-                  ))}
+                  {t
+                    .raw('techStack.backend.items')
+                    .map(
+                      (item: { label: string; text: string }, idx: number) => (
+                        <li key={idx}>
+                          <strong>{item.label}</strong> {item.text}
+                        </li>
+                      )
+                    )}
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.frontend.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('techStack.frontend.title')}
+                </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t.raw('techStack.frontend.items').map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
-                  ))}
+                  {t
+                    .raw('techStack.frontend.items')
+                    .map(
+                      (item: { label: string; text: string }, idx: number) => (
+                        <li key={idx}>
+                          <strong>{item.label}</strong> {item.text}
+                        </li>
+                      )
+                    )}
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">{t('techStack.serverless.title')}</h3>
+                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
+                  {t('techStack.serverless.title')}
+                </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t.raw('techStack.serverless.items').map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}><strong>{item.label}</strong> {item.text}</li>
-                  ))}
+                  {t
+                    .raw('techStack.serverless.items')
+                    .map(
+                      (item: { label: string; text: string }, idx: number) => (
+                        <li key={idx}>
+                          <strong>{item.label}</strong> {item.text}
+                        </li>
+                      )
+                    )}
                 </ul>
               </div>
             </div>
@@ -207,31 +291,55 @@ export default function CVPage() {
 
         {/* Education Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('education.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('education.title')}
+          </h2>
           <Card>
-            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">{t('education.school')}</h3>
+            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">
+              {t('education.school')}
+            </h3>
             <p className="opacity-80 print:text-sm">{t('education.degree')}</p>
           </Card>
         </section>
 
         {/* Contact Section */}
         <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">{t('contact.title')}</h2>
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('contact.title')}
+          </h2>
           <Card>
             <p className="print:text-xs flex gap-2 justify-center">
-              <a href={`mailto:${t('header.email')}`} className="underline hover:opacity-70">
+              <a
+                href={`mailto:${t('header.email')}`}
+                className="underline hover:opacity-70"
+              >
                 {t('header.email')}
               </a>
               ·
-              <a href={`https://${t('contact.github')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://${t('contact.github')}`}
+                className="underline hover:opacity-70"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t('contact.github')}
               </a>
               ·
-              <a href={`https://${t('contact.linkedin')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://${t('contact.linkedin')}`}
+                className="underline hover:opacity-70"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t('contact.linkedin')}
               </a>
               ·
-              <a href={`https://${t('contact.x')}`} className="underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://${t('contact.x')}`}
+                className="underline hover:opacity-70"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {t('contact.x')}
               </a>
             </p>
@@ -249,12 +357,17 @@ export default function CVPage() {
 
         {/* Print-only footer */}
         <footer className="hidden print:block text-center text-sm pt-8">
-          <p>{t('footer.printFooter')}&nbsp;
-            <a href={`https://${t('footer.website')}`} className="underline hover:opacity-100">{t('footer.website')}</a>
+          <p>
+            {t('footer.printFooter')}&nbsp;
+            <a
+              href={`https://${t('footer.website')}`}
+              className="underline hover:opacity-100"
+            >
+              {t('footer.website')}
+            </a>
           </p>
         </footer>
       </div>
     </div>
   );
 }
-

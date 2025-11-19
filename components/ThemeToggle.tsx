@@ -1,32 +1,34 @@
-'use client'
+'use client';
 
-import { useTheme } from 'next-themes'
-import { Sun, Moon, Monitor } from 'lucide-react'
-import { useMounted } from '@/hooks/useMounted'
+import { useTheme } from 'next-themes';
+import { Sun, Moon, Monitor } from 'lucide-react';
+import { useMounted } from '@/hooks/useMounted';
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const mounted = useMounted()
+  const { theme, setTheme } = useTheme();
+  const mounted = useMounted();
 
-  const themes = ['light', 'dark', 'system']
-  
+  const themes = ['light', 'dark', 'system'];
+
   const cycleTheme = () => {
-    setTheme(themes[((theme ? themes.indexOf(theme) : -1) + 1) % themes.length])
-  }
+    setTheme(
+      themes[((theme ? themes.indexOf(theme) : -1) + 1) % themes.length]
+    );
+  };
 
   if (!mounted) {
-    return <div className="w-10 h-10" />
+    return <div className="w-10 h-10" />;
   }
 
   const getIcon = () => {
     if (theme === 'dark') {
-      return <Moon className="w-5 h-5" />
+      return <Moon className="w-5 h-5" />;
     } else if (theme === 'light') {
-      return <Sun className="w-5 h-5" />
+      return <Sun className="w-5 h-5" />;
     } else {
-      return <Monitor className="w-5 h-5" />
+      return <Monitor className="w-5 h-5" />;
     }
-  }
+  };
 
   return (
     <button
@@ -36,5 +38,5 @@ export function ThemeToggle() {
     >
       {getIcon()}
     </button>
-  )
+  );
 }
