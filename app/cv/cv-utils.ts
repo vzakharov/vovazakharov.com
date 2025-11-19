@@ -16,5 +16,6 @@ export function generateCvMetadata(locale: string) {
         : `${description} Physics-math brain meets low-maintenance execution.`,
     path: `/${locale}/cv`,
     ogType: 'profile',
+    ogImage: '/cv_card.png',
   });
 }

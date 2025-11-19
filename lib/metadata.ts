@@ -7,6 +7,7 @@ export interface ConstructMetadataParams {
   ogDescription?: string; // Separate description for OpenGraph if different from main
   path?: string; // e.g., "/cv" - automatically converted to absolute URL
   ogType?: 'website' | 'profile' | 'article';
+  ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
 }
 
 export function constructMetadata({
@@ -15,9 +16,11 @@ export function constructMetadata({
   ogDescription,
   path,
   ogType = 'website',
+  ogImage,
 }: ConstructMetadataParams = {}): Metadata {
   const absoluteUrl = path ? getAbsoluteUrl(path) : SITE_CONFIG.url;
-  const absoluteImageUrl = getAbsoluteUrl(SITE_CONFIG.avatar.path);
+  const imagePath = ogImage || SITE_CONFIG.avatar.path;
+  const absoluteImageUrl = getAbsoluteUrl(imagePath);
   const finalOgDescription = ogDescription || description;
 
   return {
@@ -33,8 +36,12 @@ export function constructMetadata({
       images: [
         {
           url: absoluteImageUrl,
-          width: SITE_CONFIG.avatar.width,
-          height: SITE_CONFIG.avatar.height,
+          ...(ogImage
+            ? {}
+            : {
+                width: SITE_CONFIG.avatar.width,
+                height: SITE_CONFIG.avatar.height,
+              }),
           alt: SITE_CONFIG.name,
         },
       ],
