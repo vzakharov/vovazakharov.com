@@ -37,7 +37,7 @@ export default function Home() {
         <nav className="flex justify-center gap-6 text-lg">
           <span>
           <a href="#dev" className="hover:underline">dev</a>
-            &nbsp;(<a href="/cv" className="hover:underline" target="_blank">cv</a>)
+            &nbsp;(<Link href="/cv" className="hover:underline">cv</Link>)
           </span>
           <a href="#music" className="hover:underline">music</a>
           <a href="#writing" className="hover:underline">writing</a>
@@ -53,7 +53,7 @@ export default function Home() {
               I build stuff, and here’s what you’ll find: stuff that works, stuff that doesn’t, and stuff that’s still a work in progress.
             </p>
             <p className="text-lg leading-relaxed">
-              I’m currently looking for new challenges, so have a look at my <Link href="/cv" target="_blank" className="underline hover:opacity-100">CV</Link> if you’re looking for new people.
+              I’m currently looking for new challenges, so have a look at my <Link href="/cv" className="underline hover:opacity-100">CV</Link> if you’re looking for new people.
             </p>
           </div>
 
