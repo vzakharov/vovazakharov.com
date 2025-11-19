@@ -2,7 +2,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { routing } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
 import { SITE_CONFIG } from '@/lib/site-config';
-import CVPage from '../CVPage';
+import CVPage from './CVPage';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
     ogDescription: locale === 'ru'
       ? `${description} Физико-математический склад ума встречается с неприхотливым исполнением.`
       : `${description} Physics-math brain meets low-maintenance execution.`,
-    path: `/cv/${locale}`,
+    path: `/${locale}/cv`,
     ogType: 'profile',
   });
 }

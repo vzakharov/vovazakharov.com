@@ -14,7 +14,7 @@ export function LocalePicker() {
     setMounted(true)
   }, [])
 
-  const isI18nPage = pathname.startsWith('/cv')
+  const isI18nPage = pathname === '/cv'
   
   if (!mounted || !isI18nPage) {
     return null
@@ -25,7 +25,7 @@ export function LocalePicker() {
   const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺'
 
   const toggleLocale = () => {
-    router.push(pathname, { locale: nextLocale })
+    router.replace(pathname, { locale: nextLocale })
   }
 
   return (

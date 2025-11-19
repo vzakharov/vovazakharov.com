@@ -257,3 +257,4 @@ export default function CVPage(_props: CVPageProps) {
     </div>
   );
 }
+
