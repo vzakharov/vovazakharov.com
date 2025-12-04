@@ -30,7 +30,7 @@ export default function Home() {
               Developer, AI tinkerer, word shaker, generative metalhead
             </p>
             <p className="mt-4 opacity-70">
-              Helping our future overlords walk since 2019
+              Helping our future overlords walk since 2020
             </p>
           </div>
         </section>
