@@ -31,10 +31,34 @@ Two public artifacts come out of this:
 2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
    learned, including the meta-lessons about running an agent-driven codebase.
 
-The distinctive claim, and the reason the case study is worth writing at all: **one person
-plus Claude shipped ~99% of the code**, with the remaining ~1% coming from teammates who
-joined in the final 1–2 months and whose work Vova reviewed. That is the headline, not a
-caveat. See §6 for how to state it without either underselling it or shading the truth.
+**The headline claim, corrected against the data.** The working assumption going in was "one
+person plus Claude shipped ~99% of the code, teammates did ~1%". The dossier computed it and
+the number does not hold: it is **~90%**, on every metric (§7.5). Use the real figures — they
+are still remarkable, and a checkable 90% is worth more than an unfalsifiable 99%.
+
+| Metric                                        | Vova's share           |
+| --------------------------------------------- | ---------------------- |
+| Commits authored (of 1,509)                   | 89.73% (1,354)         |
+| Including Claude- and Cursor-authored commits | 92.38% (1,394)         |
+| Lines added, excluding generated files        | 91.46%                 |
+| PRs authored (of 1,222)                       | 89.69% (1,096)         |
+| Other humans' merged PRs he merged            | **99.1%** (111 of 112) |
+
+Two things the dossier corrects, both of which should be stated rather than smoothed over:
+
+1. **The other three engineers did real work** — 115 commits, 112 merged PRs, +39,403 net
+   lines (12% of net), including DB migrations and the subscription surface. Not cosmetics.
+   They also joined earlier than remembered: May 1–11, so they were present for three of the
+   five months, not the final one or two.
+2. **"With Claude" was the team's workflow, not one person's** — 85.2% of the other humans'
+   commits carry Claude co-author trailers, statistically identical to Vova's own 84.6%.
+
+Which points at the _actual_ distinctive claim, and it is a better one than the percentage:
+**what is uniquely his is the machine the whole team shipped through** — all 33 skills, the
+116 revisions of `CLAUDE.md`, the 27 project-local ESLint rules, and the `vet` gate. Everyone
+on the project was agent-assisted; one person built the harness that made that safe. Lead with
+that, support it with ~90% authorship, and let the review figure (99.1%, and no PR in the repo
+was ever reviewed by anyone else) carry the rest. See §6.
 
 ## 1. Decisions already locked
 
@@ -61,48 +85,37 @@ Three places in that repo are worth reading directly, beyond whatever the dossie
 project-local custom lint rules — conventions made machine-checkable), and the `retired.md`
 tombstones in `bubble/` and `legacy-data/` (what the Bubble cutover actually entailed).
 
-### Getting it
-
-`Playgramai/playgramapp` is **not reachable from a `vovazakharov.com` session** — `add_repo`
-refuses cross-owner adds, `gh api repos/Playgramai/playgramapp` returns 403 for this
-session's scope, GraphQL is pinned to PR-review operations, and a direct `git clone` hangs.
-Mine it from a session rooted at that repo instead (`create_session` with
-`source_url: https://github.com/Playgramai/playgramapp`, or open a session there directly).
-
-**Retrieval is manual.** A cloud sibling session cannot hand its output back
-programmatically: `get_session` returns status only, there is no `list_events` in this tool
-set, and `SendMessage`/`ListAgents` do not reach cloud sessions. So the mining session writes
-`DOSSIER.md` in its own container and you copy the text across by hand.
-
-A mining session was already started for this: **`session_017j8eoWqeFP6TSNLK5No17w`**, tagged
-`playgram-case-study`. Open it, take `DOSSIER.md`, and paste it in as the file below. If it
-never finished, its prompt is worth re-running: it asks for the skills text first (§7), then
-product, stack, timeline with weekly cadence, agentic-infra evolution, decision record,
-schema history, exact attribution numbers, vetted snippets, hard numbers, and publication risks.
-
-### Where it goes
+### It is already here
 
 ```
-docs/plans/playgram-dossier.md      # committed alongside this plan
+docs/plans/playgram-dossier.md      # 1,910 lines, committed alongside this plan
 ```
 
-The dossier is committed — it's internal in the sense that **no public page renders it**, not
-in the sense of being kept out of git. Keeping it in-repo means the numbers on the CV and the
-case study stay traceable to a source that travels with them.
+Mined by a session rooted at `playgramapp` (this repo's sessions cannot reach that repo —
+`add_repo` refuses cross-owner adds and `gh` 403s), then carried across by hand. It is
+committed rather than gitignored: internal here means **no public page renders it**, not kept
+out of git, and keeping it in-repo means every number on the CV and the case study stays
+traceable to its source.
 
-One thing to actually read before committing it: this repository is public
-(`vzakharov/vovazakharov.com`, GitHub Pages), so committing publishes. Skim dossier §10
-(publication risks) and §7 (per-contributor statistics) first — the founder has cleared the
-project's disclosure, but leaked credentials in git history and teammates' individual commit
-numbers are the two things that clearance doesn't automatically cover. Cut or redact anything
-in those two categories; everything else goes in as mined.
+**Read it before writing anything.** It is the only source for facts about a repo the writing
+session cannot open. Its §10 lists publication risks — check it before quoting code.
 
-### Dates
+### The facts that anchor everything
 
-Take the real first- and last-commit dates from the dossier rather than the approximate
-"last five months". Also check whether meaningful work predates the repo's first commit — a
-discovery or prototyping phase is worth stating if it happened, and is easy to lose when the
-dates come from git alone.
+| Fact                    | Value                                                                |
+| ----------------------- | -------------------------------------------------------------------- |
+| First commit            | `5461cd56`, **2026-03-06**                                           |
+| Last commit on `main`   | `4cd68a75`, **2026-08-11**                                           |
+| Span                    | 158 days (~22.6 weeks), 1,509 commits on `main`                      |
+| First production deploy | `0bf12dec9`, **2026-05-21** — release 4.0.0                          |
+| Bubble fully retired    | `17862eb9c`, **2026-07-11** — release 4.3.0, all workspaces over     |
+| Application code        | ~269,864 LOC; tests 118,318 LOC across 687 files                     |
+| Migrations              | 115                                                                  |
+| PRs / issues            | 1,222 PRs (1,035 merged), 1,214 issues                               |
+| Agent infrastructure    | 33 skills, 10 rule files, 116 `CLAUDE.md` revisions, 27 ESLint rules |
+
+Note the dates against memory: the work started **March 2026**, not October 2025, and the
+teammates joined **May 1–11**, not in the final month or two.
 
 ## 3. Deliverable 1 — the CV entry
 
@@ -216,17 +229,33 @@ chosen, what it cost, what replaced it, what the tell was that it needed replaci
 Candidates already visible in the README, worth expanding from `docs/decisions/` (the repo
 keeps a `DECISIONS_SUMMARY.md` master index, which is the place to start):
 
-- **RLS enabled on every table with no policies**, so Postgres denies anything that isn't the
-  trusted server connection. A deny-by-default posture rather than a policy surface to get
-  wrong — non-obvious, and a good snippet.
-- **`import 'server-only'` placed only on the most upstream file**, letting the taint trickle
-  down the import chain instead of being re-declared per consumer — with a custom
-  `poison-check` script catching accidental client imports before a build.
-- **A single LiteLLM proxy** as the one entry point for every provider, instead of per-provider
-  SDKs.
-- **Feature-Sliced Design + BFF**, with structure enforced by `lint:fsd` rather than by review.
-- **The release-commit promotion model** — a `release: X.Y.Z` commit merged to `staging` arms a
-  gated nightly rollout.
+The dossier's §5 found nine, ranked by cost. The three that carry the section:
+
+- **R-1: the Cloud Run detour (5 months).** Railway → Cloud Run → parked on unconfirmed $25k
+  credits → deleted. The lesson is in the deletion commit (`ed19d7d06`): a _parked_ decision
+  keeps costing you, because other decisions start citing it. Unwinding it meant unwinding
+  rationale that had justified unrelated present-day choices by Cloud Run's properties. This is
+  the best story in the repo — a wrong turn whose real cost was bookkeeping, not compute.
+- **R-3: deleting per-PR CI (`6c1adca44`).** Actions spend ran ~$190/mo against a 2,000-minute
+  free allowance, with the per-PR test lane at 69% of it — re-running a suite the agent can run
+  locally for free. What makes it a decision rather than a cost cut is what it refused: it
+  reproduced the old lane's change-picking rather than degrading to a 9-minute whole-repo run
+  "a check people skip", then found the old lane had been silently under-selecting (editing the
+  RTL setup selected 170 of 526 tests) and set `forceRerunTriggers` explicitly so the
+  replacement is _better_ than what it replaced. Cost stated honestly: a PR now carries no
+  verdict, so verification became a written attestation backstopped by a release gate.
+- **R-2: `/flow`, built and deleted (~2 months).** A bespoke DAG project-management system with
+  per-agent-persona team files, a coordination branch, sync scripts, two skills — abandoned for
+  plain GitHub Issues. One artifact survived because it earned it (`/propose-issue`). The
+  honest read: an agent-driven codebase makes it cheap to build elaborate process machinery,
+  which is exactly why it needs deleting when it doesn't pay.
+
+Also available, and worth a line each rather than a section: **RLS on every table with zero
+policies** (deny-by-default, enforced by a custom `playgram/enforce-rls` lint rule, and the
+_second_ migration in the repo); **`server-only` taint by import chain** with `poison-check`
+walking the madge graph; **the five-suffix barrel system** encoding access level rather than
+visibility; **R-4's chat-list rewrite**, which eliminated glitches "as classes rather than
+patches" and was staged behind an invariant ledger.
 
 **D. Running an agent-driven codebase — the meta section.** The most broadly interesting part,
 and the part nobody else can write. Source: dossier §4 — the version history of `CLAUDE.md` and
@@ -275,50 +304,60 @@ The page is worthless unlinked. Two links, both English-only surfaces:
 Non-negotiable, and worth getting exactly right; this is the part that can quietly damage
 someone if handled carelessly.
 
-1. **Derive every number from the dossier's git data.** No estimates. If the dossier says
-   the real figure is 97% rather than 99%, publish 97%.
-2. **Name the teammates by what they actually built**, from their real commit and PR
-   history — "X built the Y flow" credits a person far more concretely than a closing
-   "thanks to the team", and it is also what makes the 99% claim verifiable rather than
-   boastful. Do not attach percentages to individuals in a way that reads as diminishing
-   them; describe scope of ownership instead.
-3. **Use they/them for anyone whose pronouns aren't documented.** Do not infer pronouns
-   from names.
-4. **Be precise about the division of labour.** The accurate framing is: Vova directed,
-   Claude generated, Vova reviewed every line — and separately, Vova built the harness that
-   made that throughput possible. The work being claimed is architecture, specification,
-   review, and tooling, not typing. State that, and let the cadence numbers carry the
-   argument instead of adjectives.
-5. **Don't let the agent story erase the humans, or the humans blur the agent story.** Both
-   facts are interesting and neither needs softening.
-6. If any teammate is named, they should be fine with being named. Flag this for the owner
-   before publishing rather than deciding it in the implementation.
+1. **Publish ~90%, not 99%.** The dossier computed it six ways (§7.5) and none rounds to 99.
+   Its suggested phrasing is defensible as written: _"authored ~90% of commits and ~91% of
+   lines (1,354 of 1,509 commits; 1,096 of 1,222 PRs), directing Claude on 85% of them, and
+   personally reviewed and merged 99% of everything contributed by the three other engineers."_
+2. **Name the teammates by what they actually built.** From §7.2, which has it precisely:
+   - **Mina Rotari** — onboarding, auth, chat UI, icon assets. 51 commits from 2026-05-11.
+   - **Semyon "Sam" Golovachev** — the deepest of the three: model catalog, usage analytics,
+     member groups, and **DB migrations** (`src/shared/db`, `_journal.json`). 35 commits.
+   - **Julia Suhovici** — the **billing and subscription surface**, project management, a
+     backfill script. 29 commits.
+
+   That is more credit than a closing "thanks to the team", and it is also what makes the
+   ~90% checkable rather than boastful. Do not attach individual percentages to named people;
+   describe scope of ownership instead.
+
+3. **Use they/them throughout for all three.** Their pronouns are not documented anywhere in
+   the dossier, and a name is not evidence. Do not infer.
+4. **Say that the whole team was agent-assisted.** 85.2% of their commits carry Claude
+   trailers against Vova's 84.6% — statistically the same. Presenting Vova as the agent-driven
+   one and the others as conventional engineers would be a distortion the git data contradicts.
+5. **Claim the harness, not the typing.** What is uniquely his: 33 skills, 116 revisions of
+   `CLAUDE.md`, 27 project-local ESLint rules, the `vet` gate, and the review record — 111 of
+   112 non-Vova merged PRs merged by him, and **no PR in the repo was ever reviewed by anyone
+   else**. That last fact cuts both ways and is worth stating plainly: it is a real load-bearing
+   contribution and also a single point of failure.
+6. **State the 156 closed-unmerged PRs** (14.2% of his own) somewhere. Abandoned attempts left
+   visible in the record are evidence the process was real rather than curated.
+7. **Check with the three of them before publishing their names.** The founder cleared the
+   project; individuals clearing their own names is separate. Flag it for Vova rather than
+   deciding it during implementation.
 
 ## 7. Port the `/plan` and `/implement` skills
 
 `playgramapp` has `/plan` and `/implement` skills that the owner wants reproduced in this
 repo "to the extent that makes sense locally". They are also subject matter for §4 part D.
 
-**Already done, but as an adaptation rather than a port:** `.claude/skills/plan/SKILL.md` and
-`.claude/skills/implement/SKILL.md` now exist here. They were written **without access to the
-playgramapp originals** — see §2; the verbatim text was not retrievable from a
-`vovazakharov.com` session, and cross-session messaging could not reach the mining session
-either. What they encode instead is the `/plan` → `/implement` split plus the repo-specific
-constraints that were actually verified while writing this plan (public repo, static export,
-i18n key parity, theme parity, print view, design language).
+**Done.** `.claude/skills/plan/SKILL.md` and `.claude/skills/implement/SKILL.md` are adapted
+from the originals, whose verbatim text is in dossier §0.3–0.4. Each file ends with a "Local
+deviations" section recording what was changed and why.
 
-Remaining work:
+What carried over intact — and this is the interesting finding — is that the originals are not
+really about planning. They are a **workaround for a broken UI**: in web sessions the plan-mode
+approval and `AskUserQuestion` prompts get re-emitted after idle, stacking duplicates and
+silently dropping answers to superseded prompts. So plans became files and questions became
+numbered prose. Everything else — the `.draft.do-not-implement.md` → `.in-progress.md` →
+`.completed.md` lifecycle, the go-ahead-token gate, the handoff block, the canary for a handoff
+pasted into the wrong session — is scaffolding built around that one constraint.
 
-- **Reconcile against the originals.** Read `playgramapp`'s `.claude/skills/` and
-  `.claude/commands/`, then diff intent against the two local skills. Pull across anything
-  genuinely portable that is missing, and delete anything local that the original teaches is
-  wrong. Remove the "not yet reconciled" note in each file's header once done.
-- **Adapt, don't transplant.** This repo is a small static Next.js site with no test suite;
-  its verification surface is `pnpm lint`, `pnpm format:check`, and `pnpm build`. Rules
-  referencing `playgramapp`'s test gates, migrations, monorepo packages, or backend services
-  should be dropped or rewritten against those three commands, not carried over dead.
-- **Note what was dropped and why.** That list is itself material for the case study's meta
-  section: it shows which parts of the harness were project-specific and which were portable.
+What was dropped, and why it matters for §4 part D: `/from-branch`, `/dry`, `/tighten-docs`,
+`/pr`, `/finalize`, `pnpm vet`, the `## DRY notes` requirement, and the rule that plan files
+must never reach `main`. That last one **inverts** here — in `playgramapp` the plan is a
+transient artifact `/finalize` deletes before the PR; in this repo it is the deliverable. The
+portable core turned out to be small: the file-based gate and the question format. The rest was
+load-bearing only against that repo's specific machinery.
 
 ## 8. Verification
 
