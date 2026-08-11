@@ -87,13 +87,19 @@ separately rather than silently dropping.
 
 > **OPEN QUESTION — resolve before touching the CV.** This plan was drafted assuming
 > `cv.experience.project1` is the Playgram entry. That assumption is **unverified and probably
-> wrong.** Its description ("AI-powered English learning application for kids") does not match
-> Playgram, and its dates ("October 2025 – Present") do not match five months of work ending
-> August 2026. Either the entry is a stale placeholder describing something else, or it is a
-> different project entirely — in which case Playgram needs a **new** entry and `project1`
-> should be left alone. Check the dossier's §1 (product) against the CV before editing, and
-> decide which of the two it is. Everything below applies to whichever object ends up holding
-> Playgram.
+> wrong**, and nothing below should be applied to that object until it is settled.
+>
+> What is actually established, from this repo's history: the entry was hand-written by Vova
+> in `1b32d3b` (2025-11-19, "including a new recent project") as hardcoded JSX, anonymized to
+> "Developer – Project Work", dated "October 2025 – Present". `90fda1c` (same day) moved that
+> text verbatim into `messages/*.json` under the key `project1`. So it is authored copy, not a
+> generated placeholder — and it predates the five months of `playgramapp` work by roughly five
+> months.
+>
+> So either (a) it describes Playgram and is now inaccurate or badly outdated, in which case
+> rewrite it; or (b) it is a different engagement, in which case **Playgram needs a new entry**
+> and `project1` stays untouched. Resolve with Vova, or against the dossier's §1 (product).
+> Everything below applies to whichever object ends up holding Playgram.
 
 **Files:** `messages/en.json`, `messages/ru.json` — the target `cv.experience.*` object.
 **Rendered by:** `app/[locale]/cv/CVPage.tsx:115-135`, which reads exactly these keys:
