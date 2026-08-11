@@ -7,7 +7,25 @@
 
 Five months of work on `Playgramai/playgramapp` (private) is currently suspended for lack of
 funding, with Vova staying on part-time for ongoing issues. The work is worth putting on the
-record. Two public artifacts come out of it:
+record.
+
+**What Playgram is** (from the repo README — confirm details against the dossier):
+a multi-model AI chat platform for teams, serving `app.playgram.ai`. Team workspaces with
+project-level roles and invitations, chat across many LLM providers through a single LiteLLM
+proxy, file handling, vector search and persistent memory over Weaviate, deep-research runs,
+an editable canvas with PDF export, voice input, and Stripe billing.
+
+**The spine of the story: this is a rebuild.** The app was migrated off Bubble.io onto
+Next.js, and the cutover is complete — Bubble is retired and frozen as an archive. A no-code
+platform replaced by a production TypeScript codebase in five months, by one person directing
+an agent, is a sharper and more unusual claim than "built an AI app", and the case study
+should be built around it.
+
+Stack: Next.js App Router (Feature-Sliced Design layering, BFF pattern), TypeScript, Mantine
+v8 + SCSS modules, Supabase (Postgres + Auth), Drizzle ORM with `drizzle-zod`, LiteLLM,
+Weaviate, Bunny CDN, Stripe, Deepgram, Railway + GitHub Actions, Vitest + Playwright.
+
+Two public artifacts come out of this:
 
 1. **A new CV entry** — added above the existing ones, which stay as they are.
 2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
@@ -35,8 +53,13 @@ Do not re-litigate these; they came from the project owner.
 adjectives ("scalable AI platform") where the reader needs specifics. The input to all
 writing below is a facts dossier mined from the `playgramapp` git history: named timeline
 phases with dates and SHAs, weekly commit/diff cadence, the full evolution of the
-`CLAUDE.md` / `.claude/` instruction files, merged-PR decision record, schema history,
+`CLAUDE.md` / `.claude/rules/` instruction files, merged-PR decision record, schema history,
 exact per-contributor attribution numbers, and 4–8 vetted code snippets.
+
+Three places in that repo are worth reading directly, beyond whatever the dossier summarises:
+`docs/DECISIONS_SUMMARY.md` (the master index of architecture decisions), `eslint/` (the
+project-local custom lint rules — conventions made machine-checkable), and the `retired.md`
+tombstones in `bubble/` and `legacy-data/` (what the Bubble cutover actually entailed).
 
 ### Getting it
 
@@ -111,11 +134,16 @@ The experience section is not data-driven — each card is a hardcoded JSX block
 - **`period`** — real dates from the dossier, and say plainly that the project is suspended
   for funding with ongoing part-time involvement. Flat statement, no spin; everyone in this
   industry knows what running out of runway means, and hedging it reads worse than owning it.
+- **`description`** — a multi-model AI chat platform for teams, and the fact that it is a
+  completed rebuild off Bubble.io. Lead with the rebuild; it is the rarer thing.
 - **`items`** — 4–6 bullets, each carrying a **specific** fact from the dossier (a number, a
   named subsystem, a real architectural decision). No bullet may survive that would still be
-  true of a generic AI side project. This is where the agent-velocity claim lands, backed by
-  the cadence numbers.
-- **`tech`** — the real stack from dossier §2, replacing the guessed three-item list.
+  true of a generic AI side project. Two are close to writing themselves: the completed
+  Bubble → Next.js cutover, and the agent-velocity claim backed by the cadence numbers.
+- **`tech`** — the real stack, which is long enough that it needs picking rather than listing.
+  Next.js App Router / TypeScript / Supabase / Drizzle / LiteLLM / Weaviate / Stripe / Railway
+  carries the most signal per character; Mantine, Bunny CDN, Deepgram, Vitest, and Playwright
+  can go to the case study instead.
 
 Write these bullets **before** the case study. Six bullets is a hard budget, and the budget
 forces the distillation; the case study is then an expansion of a known thesis rather than a
@@ -166,33 +194,66 @@ components (`components/Card.tsx`) with no fills or shadows.
 Four parts. **A and D are the reasons anyone reads this page**; B and C are the evidence
 that makes A and D believable. If time runs short, cut from C, not from D.
 
-**A. The premise (short).** What Playgram is, who it's for, and the one-line version of the
-interesting claim: a one-person team shipping at team velocity, and what that actually took.
+**A. The premise (short).** What Playgram is, and the two claims worth reading on: a Bubble
+app rebuilt as a production Next.js codebase, and a one-person team doing it at team velocity.
 Open with the substance — no "in today's fast-moving AI landscape" throat-clearing.
 
-**B. Timeline.** The named phases from dossier §3 with real dates. Narrate the _shape_ of
-the five months — not a commit log. What got built when, what the product was thought to be
-at each stage, when that understanding changed. Fold in the schema evolution (dossier §6):
-migrations are the cleanest available proxy for how the domain model was actually understood
-over time.
+**B. Timeline.** The named phases from dossier §3 with real dates, organised around the
+migration: what shipped before the cutover, what the cutover itself required, what came after.
+Narrate the _shape_ of the five months, not a commit log. Fold in the schema evolution (dossier
+§6) — migrations are the cleanest available proxy for how the domain model was actually
+understood over time, and a Bubble-to-Postgres remodel makes that unusually legible.
 
-**C. Decisions, including the wrong ones.** From dossier §5. Prioritise **reversals** —
-things built and then replaced, directions abandoned. A case study with no reversals reads
-as marketing; the reversals are what make a skeptical reader trust the rest. For each: what
-was chosen, what it cost, what replaced it, what the tell was that it needed replacing.
+The cutover deserves specifics: how the switch was sequenced, what was done about live data,
+and what "Bubble is retired but frozen as an archive" meant in practice. Migrations that
+complete are rarer than migrations that are announced, and this one completed.
 
-**D. Running an agent-driven codebase — the meta section.** The most broadly interesting
-part, and the part nobody else can write. Source: dossier §4, the version history of
-`CLAUDE.md` and `.claude/`. Every diff to those files is a lesson with a timestamp and,
-usually, a visible incident in the surrounding commits. Structure each as **rule added → the
-problem that caused it**, which is concrete where "lessons learned" lists are vague.
+**C. Decisions, including the wrong ones.** From dossier §5. Prioritise **reversals** — things
+built and then replaced, directions abandoned. A case study with no reversals reads as
+marketing; the reversals are what make a skeptical reader trust the rest. For each: what was
+chosen, what it cost, what replaced it, what the tell was that it needed replacing.
 
-Cover at minimum: how the instruction files evolved and why; the `/plan` → `/implement`
-split and what problem separating them solved (see §7 — these skills are being ported into
-this repo, so the case study and the local skills should tell a consistent story); what
-safety rails made it viable to let an agent write nearly everything (test gates, typecheck
-hooks, review automation); and what did **not** work — abandoned rules, over-engineered
-scaffolding, guidance the agent kept ignoring. The failures are the credible part.
+Candidates already visible in the README, worth expanding from `docs/decisions/` (the repo
+keeps a `DECISIONS_SUMMARY.md` master index, which is the place to start):
+
+- **RLS enabled on every table with no policies**, so Postgres denies anything that isn't the
+  trusted server connection. A deny-by-default posture rather than a policy surface to get
+  wrong — non-obvious, and a good snippet.
+- **`import 'server-only'` placed only on the most upstream file**, letting the taint trickle
+  down the import chain instead of being re-declared per consumer — with a custom
+  `poison-check` script catching accidental client imports before a build.
+- **A single LiteLLM proxy** as the one entry point for every provider, instead of per-provider
+  SDKs.
+- **Feature-Sliced Design + BFF**, with structure enforced by `lint:fsd` rather than by review.
+- **The release-commit promotion model** — a `release: X.Y.Z` commit merged to `staging` arms a
+  gated nightly rollout.
+
+**D. Running an agent-driven codebase — the meta section.** The most broadly interesting part,
+and the part nobody else can write. Source: dossier §4 — the version history of `CLAUDE.md` and
+`.claude/rules/`. Every diff to those files is a lesson with a timestamp and, usually, a
+visible incident in the surrounding commits. Structure each as **rule added → the problem that
+caused it**, which is concrete where "lessons learned" lists are vague.
+
+The strongest thesis available here, and the README already evidences it: **the guardrails are
+machine-checked, not written down as prose for the agent to remember.** `pnpm vet` chains
+typegen, typecheck, format, lint, FSD structure (Steiger), knip, circular-dependency checks,
+`poison-check`, `security-diff`, and tests; there are **project-local custom ESLint rules** in
+`eslint/`; `db:chain-check` verifies the migration journal chain; tests are split into buckets
+by what credentials they need (default / integration / external / e2e) so the no-env bucket
+runs anywhere. Convention that can fail a command does not depend on the agent recalling it.
+Draw the contrast explicitly with rules that stayed prose, and how those fared.
+
+Also worth covering:
+
+- The `/plan` → `/implement` split and what separating them solved (see §7 — those skills are
+  being reproduced in this repo, so the case study and the local skills should agree).
+- The **tombstone practice**: retired work is not deleted but left as `retired.md` with an
+  archive SHA (`bubble/`, `legacy-data/`, `MIGRATION_PLAN.retired.md`). In an agent-driven
+  codebase, where the agent's only context is what the repo says, "why is this gone" is a
+  question the repo has to answer by itself.
+- What did **not** work — abandoned rules, over-engineered scaffolding, guidance the agent kept
+  ignoring. The failures are the credible part, and the dossier's instruction-file history will
+  show which rules were added and later removed.
 
 **Length:** aim for something read in 8–12 minutes. If it gets longer, the meta section is
 the part to spin out to Substack later, keeping a summary and a link here.
