@@ -5,6 +5,21 @@
 
 > **Mining note that affects reproducibility.** The session's clone was **shallow** (`.git/shallow` present, 50 commits, oldest `2ab4d8d` dated 2026-08-06). Every count below was computed **after** `git fetch --unshallow --no-tags origin main` + `git fetch origin --tags`. If you re-run any command in this dossier on a fresh Claude Code web clone, unshallow first or every history number will be wrong.
 
+> **STATUS NOTE, added 2026-08-11 after a verification pass against a full clone of `playgramapp`.**
+> This document was written as the only source for a repo the writing session could not open.
+> That is no longer true — the `gh` shim in `.claude/hooks/session-start.sh` plus `GH_TOKEN`
+> make the repo clonable, so **this dossier is now an index, not a source.** Verify anything
+> before publishing it.
+>
+> The computed numbers held up well (LOC, per-author commits and lines, trailer tallies, weekly
+> cadence, anchor SHAs all reproduce within the drift of one new commit). Several claims did
+> not. `docs/plans/playgram-case-study.md` § 2 carries the full list; the load-bearing ones are
+> annotated inline below. Known-wrong: the § 7.4 / § 7.5 review claim, the migration count
+> (§ 6, § 9), the `pnpm vet` check count (§ 4.5, § 9), the `.claude/rules/` file count (§ 2.2,
+> § 4.1), and the release-commit count (§ 3.3). Also note the RLS material in § 2.3 and § 8:
+> the code is as described, but `docs/decisions/auth-and-tenancy.md` records a *different*
+> decision that was never built — the dossier missed the drift entirely.
+
 ---
 
 ## SECTION 0 — `/plan` and `/implement`, verbatim
@@ -393,7 +408,7 @@ This is the repo's defining characteristic. 45 files / 5,658 lines under `.claud
 | Kind | Files | Notes |
 |---|---|---|
 Root instruction file | `CLAUDE.md` | 33,463 bytes; 116 commits touching it |
-Auto-loaded rule files | `.claude/rules/*.md` (10 files, 872 lines) | glob-scoped: `fsd.md` on `src/**`, `database.md` on `drizzle/**`+`src/shared/db/**`, `styling.md` on `*.scss`/`*.css`/`*.tsx`, `testing.md` on `*.test.ts(x)`, `eslint.md` on `eslint.config.ts`, `weaviate.md`, `dependencies.md`, `backfills.md` (410 lines), `tmp-visual-tests.md` |
+Auto-loaded rule files | `.claude/rules/*.md` (10 files, 872 lines) [**corrected: 9 files** — § 0.2's own tree lists 9; `etl.md` was retired with the ETL in `4e98b4952`] | glob-scoped: `fsd.md` on `src/**`, `database.md` on `drizzle/**`+`src/shared/db/**`, `styling.md` on `*.scss`/`*.css`/`*.tsx`, `testing.md` on `*.test.ts(x)`, `eslint.md` on `eslint.config.ts`, `weaviate.md`, `dependencies.md`, `backfills.md` (410 lines), `tmp-visual-tests.md` |
 Skills / slash commands | 33 skills, 4,741 lines | see § 4.3 |
 Hooks | `.claude/hooks/session-start.sh` | the only hook; SessionStart on `startup\|resume` |
 Settings | `.claude/settings.json` (15 lines) | hook wiring only |
@@ -545,7 +560,7 @@ bash -c 'set -o pipefail; pnpm typegen && scripts/run-parallel.py typecheck form
   license-check security-diff test 2>&1 | tee vet.log'
 ```
 
-13 parallel checks. Bespoke ones (all in `scripts/`, all `tsx`):
+13 parallel checks. [**Corrected 2026-08-11: 14.** Count them — `typecheck`, `format:fix`, `lint:fix`, `lint:fsd`, `lint:css:fix`, `poison-check`, `deps`, `ast-metrics`, `knip`, `type-overlap`, `db:chain-check`, `license-check`, `security-diff`, `test` — after a sequential `typegen`.] Bespoke ones (all in `scripts/`, all `tsx`):
 
 | Check | Script | What it prevents |
 |---|---|---|
@@ -692,6 +707,7 @@ By extension (text only): **`.ts` 196,054 (1,824 files)**, `.tsx` 60,452 (508), 
 1. **FSD (Feature-Sliced Design) + BFF, enforced mechanically.** All layers in `src/`; App Router stays at root `app/` as a routing-only shell (914 LOC across 73 files). Steiger lints structure; `eslint-plugin-boundaries` (`eslint/boundaries.ts`) lints layer direction. An **intentionally empty root `pages/`** shadows `src/pages/` so Next.js doesn't detect a Pages Router — with a README explaining it.
 2. **Server Actions are the default; API routes only for inbound callers we don't own.** Explicit in CLAUDE.md: *"If you find yourself defining an API route only called from our own code (including E2E tests), restructure to a server action — the test-only env-gated route pattern is not idiomatic."*
 3. **Defense-in-depth data access.** No browser ever holds a DB connection. **RLS is enabled on every table with zero policies** — so Postgres denies everything except the trusted server superuser connection, which also locks down Supabase's PostgREST Data API. Enforced by the `playgram/enforce-rls` lint rule, not by convention.
+   > **ADDED 2026-08-11 — this is a documentation-drift story, not a design story.** The code is exactly as described. But `docs/decisions/auth-and-tenancy.md`, the doc that owns this decision, records **"Decided: Option B — RLS as a safety net"**: per-table policies, `SET LOCAL app.current_org_id` inside transactions, a `withOrgContext` wrapper, fail-closed on missing context. There are **zero `CREATE POLICY` statements anywhere in the repo**, and `docs/DECISIONS_SUMMARY.md` still indexes that abandoned version. The doc still says `organization_id` and `memberships`, so it predates the `d828289e5` rename (2026-03-17) and was never revisited. The shipped design is documented consistently in `README.md`, `docs/codebase-guardrails.md`, `.claude/rules/database.md` and the lint rule's own comment — everywhere except the decision record. A silent reversal that was never recorded as one, in the security layer, surviving five months and a `/tighten-docs` skill.
 4. **`server-only` taint by import chain, with a graph checker.** `import 'server-only'` goes on the single most-upstream file (the env definitions); the taint trickles down. `pnpm poison-check` walks the madge graph from `'use client'` files *and* from the Node test harness to catch leaks before a build.
 5. **A five-suffix barrel system** encoding access level, not just visibility: `index.ts`, `index.client-safe.ts`, `index.server-only.ts`, `index.testing.ts`, `index.node-safe.ts`, `index.server-actions.ts`. `index.node-safe.ts` exists for an axis orthogonal to client/server: `scripts/**` runs under tsx with **no bundler**, so a barrel becomes unimportable the moment its graph reaches a `.module.scss` or a dep publishing no `require` condition.
 6. **Derive, never hand-write, anything whose shape tracks another declaration** — with a "type-overlap floor" at threshold 1, machine-enforced by `pnpm type-overlap`.
@@ -774,7 +790,7 @@ Median week: 67 commits. Peak: W28 (93). Including all files (lockfile, snapshot
 
 ### 3.3 Releases and hotfixes
 
-**50 `release:` commits** (2026-05-21 → 2026-08-10), **87 git tags** (50 SemVer `4.0.0`–`4.4.3` including `4.2.1-hotfix-2` and `4.2.2-hotfix-1`; 36 `ci/*` dispatch tags; 1 `attested/<sha>`; 1 `last-flow-docs`).
+**50 `release:` commits** (2026-05-21 → 2026-08-10) [**corrected 2026-08-11: 52 commits on `main`.** One subject lands twice — `4.2.2-hotfix-1 let the sidebar scroll on short viewports (pr #1837)` at both `beeafb025` and `ab8ef967d` — an artifact of the staging/production promotion model. 51 distinct versions, 50 of them tagged.], **87 git tags** (50 SemVer `4.0.0`–`4.4.3` including `4.2.1-hotfix-2` and `4.2.2-hotfix-1`; 36 `ci/*` dispatch tags; 1 `attested/<sha>`; 1 `last-flow-docs`).
 
 Version-line milestones:
 - `4.0.0` (2026-05-21, `0bf12dec9`) — first production deployment of the rebuild
@@ -836,7 +852,7 @@ See § 4.2. The failure is a UX failure, not a technical one — the session lis
 
 ## SECTION 6 — DOMAIN MODEL EVOLUTION
 
-**115 SQL migrations** (`0000`–`0113` plus `rollback-cut-12.sql`), 1,242 LOC, 56 files under `src/shared/db/`. Every table is created with `.enableRLS()` and zero policies. Enum values must be declared as top-level exported `pgEnum` constants — a rule that exists because inline enums are invisible to Drizzle's snapshot (§ 4.2, `f0d30fecf`).
+**115 SQL migrations** (`0000`–`0113` plus `rollback-cut-12.sql`), 1,242 LOC, 56 files under `src/shared/db/`. [**Corrected 2026-08-11: 114 migrations.** `drizzle/meta/_journal.json` has 114 entries (`0000`–`0113`); the 115th `.sql` file, `rollback-cut-12.sql`, is a hand-written rollback script for one cutover task (added in `864523920`), deliberately outside the journal. Say "114 migrations plus a hand-written rollback", not 115.] Every table is created with `.enableRLS()` and zero policies. Enum values must be declared as top-level exported `pgEnum` constants — a rule that exists because inline enums are invisible to Drizzle's snapshot (§ 4.2, `f0d30fecf`).
 
 ### Arc 1 — `0000`–`0009`: the core, and an immediate renaming
 `0000_core-workspaces-chats-projects` establishes workspaces / chats / projects. `0001_enable-rls-all-tables` — RLS is the *second* migration, before any feature. `0002` converts the chat model column to an enum. `0003` renames member personal instructions. `0004` adds `message_logs` + `usage_logs`, `0005` `project_members`, `0007` `files`, `0008` per-provider file columns, `0009` subscriptions + `stripe_webhook_events`.
@@ -959,13 +975,32 @@ Non-Vova PRs with a **formal** review by `vzakharov` | 52 / 126 (41.3%) |
 — `APPROVED` | 16 |
 — `CHANGES_REQUESTED` | 2 (#1676, #1685) |
 — `COMMENTED` | 34 |
-Non-Vova PRs reviewed by anyone other than Vova | 0 |
+Non-Vova PRs reviewed by anyone other than Vova | 0 | ← **WRONG, see correction below** |
 
 No PR in this repo was ever reviewed by anyone except Vova. Every non-Vova PR that landed except one was pressed by him.
 
+> **CORRECTION (2026-08-11, verified against a full clone).** The "0" row above is wrong as
+> written, and re-running the obvious query contradicts it: a GraphQL sweep of all 1,222 PRs
+> returns **10 PRs carrying a review event whose author is not `vzakharov`** — #1226, #1247,
+> #1685 (minarotari), #1711, #2099, #2322, #2341 (JuliaSuhovici), #2019, #2383, #2420 (Saam-G).
+>
+> In every one of the ten, the "reviewer" is the PR's **own author replying to Vova's inline
+> comments**. GitHub records a threaded reply to a review comment as a `REVIEWED` event with an
+> empty body, submitted by the author minutes-to-hours after Vova's review. So the *substance*
+> of the claim survives — nobody ever reviewed anyone **else's** PR except Vova — but the
+> phrasing here does not, and anyone recomputing it will get 10 hits and reasonably conclude the
+> dossier is unreliable. When recomputing, exclude review events whose author equals the PR
+> author.
+>
+> Two related figures also move with the tip: non-Vova merged PRs is **113**, of which
+> **112** were merged by `vzakharov` (still one exception, #2019, self-merged by `Saam-G`).
+> And the review record is livelier than the merge count implies: across the 52 reviewed
+> non-Vova PRs, Vova submitted ~149 review events (16 `APPROVED`, 2 `CHANGES_REQUESTED`, the
+> rest `COMMENTED`), with genuine multi-round threads — #2099 alternates a dozen times.
+
 ### 7.5 Verdict on the "~99% of the code, reviewed the rest" claim
 
-**The "reviewed the rest" half is accurate — 99.1% (111/112) of other people's merged PRs were merged by Vova, and no one else ever reviewed anything.**
+**The "reviewed the rest" half is accurate — 99.1% (111/112) of other people's merged PRs were merged by Vova, and no one else ever reviewed anything.** [**Amended 2026-08-11:** the merge figure is now **112/113**, and "no one else ever reviewed anything" needs the precision in § 7.4's correction box — nobody reviewed anyone *else's* PR, but PR authors do appear as reviewers on their own PRs.]
 
 **The "~99% of the code" half is overstated. The correct figures are ~89–92%.** Pick whichever metric you want to stand behind; all are computed, none rounds to 99%:
 
