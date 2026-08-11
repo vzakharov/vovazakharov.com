@@ -9,8 +9,7 @@ Five months of work on `Playgramai/playgramapp` (private) is currently suspended
 funding, with Vova staying on part-time for ongoing issues. The work is worth putting on the
 record. Two public artifacts come out of it:
 
-1. **A CV entry** — either a rewrite of an existing anonymized placeholder or a new entry;
-   which one is an open question, see §3.
+1. **A new CV entry** — added above the existing ones, which stay as they are.
 2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
    learned, including the meta-lessons about running an agent-driven codebase.
 
@@ -75,48 +74,38 @@ project's disclosure, but leaked credentials in git history and teammates' indiv
 numbers are the two things that clearance doesn't automatically cover. Cut or redact anything
 in those two categories; everything else goes in as mined.
 
-### One thing to reconcile
+### Dates
 
-`messages/en.json` currently dates this work "October 2025 – Present", while the owner
-describes it as roughly the last five months (i.e. starting ~March 2026). Take the real
-first-commit date from the dossier. If it contradicts the current CV text, fix the CV —
-and check whether the earlier date refers to a pre-repo discovery phase worth mentioning
-separately rather than silently dropping.
+Take the real first- and last-commit dates from the dossier rather than the approximate
+"last five months". Also check whether meaningful work predates the repo's first commit — a
+discovery or prototyping phase is worth stating if it happened, and is easy to lose when the
+dates come from git alone.
 
 ## 3. Deliverable 1 — the CV entry
 
-> **OPEN QUESTION — resolve before touching the CV.** This plan was drafted assuming
-> `cv.experience.project1` is the Playgram entry. That assumption is **unverified and probably
-> wrong**, and nothing below should be applied to that object until it is settled.
->
-> What is actually established, from this repo's history: the entry was hand-written by Vova
-> in `1b32d3b` (2025-11-19, "including a new recent project") as hardcoded JSX, anonymized to
-> "Developer – Project Work", dated "October 2025 – Present". `90fda1c` (same day) moved that
-> text verbatim into `messages/*.json` under the key `project1`. So it is authored copy, not a
-> generated placeholder — and it predates the five months of `playgramapp` work by roughly five
-> months.
->
-> So either (a) it describes Playgram and is now inaccurate or badly outdated, in which case
-> rewrite it; or (b) it is a different engagement, in which case **Playgram needs a new entry**
-> and `project1` stays untouched. Resolve with Vova, or against the dossier's §1 (product).
-> Everything below applies to whichever object ends up holding Playgram.
+This is a **new entry**, not a rewrite. Confirmed with Vova: the existing
+`cv.experience.project1` ("Developer – Project Work", October 2025 – Present, an English
+learning app for kids) is a **different engagement** and must be left alone. Do not edit it.
+It was hand-written in `1b32d3b` (2025-11-19) and moved into the message files by `90fda1c`;
+it is authored copy, not a placeholder to be reclaimed.
 
-**Files:** `messages/en.json`, `messages/ru.json` — the target `cv.experience.*` object.
-**Rendered by:** `app/[locale]/cv/CVPage.tsx:115-135`, which reads exactly these keys:
-`title`, `period`, `description`, `items` (array of strings), `tech`. Keep that shape, or
-update the component in step with it.
+### Adding an entry is a three-file change
 
-Current content (anonymized placeholder, `messages/en.json:34-44`):
+The experience section is not data-driven — each card is a hardcoded JSX block. So:
 
-```
-title:       "Developer – Project Work"
-period:      "October 2025 – Present"
-description: "AI-powered English learning application for kids, ..."
-items:       [3 generic bullets]
-tech:        "Next.js, OpenAI API, custom game engine"
-```
+1. **`messages/en.json`** — add a `cv.experience.playgram` object with the same key shape the
+   other entries use: `title`, `period`, `description`, `items` (array of strings), `tech`.
+2. **`messages/ru.json`** — the same object, same keys, **same array length**. A key present
+   in one file and missing in the other is a build break, not a cosmetic gap.
+3. **`app/[locale]/cv/CVPage.tsx`** — add a `<Card>` block reading those keys. Copy the
+   `project1` block (`:115-135`) as the template; it already has the right print classes and
+   the `t.raw(...).map(...)` pattern for `items`.
 
-What to change:
+**Ordering: Playgram goes first.** The section is reverse-chronological — `project1`
+(Oct 2025), `project2` (Orcool, Jun–Aug 2025), `randddb` (2023–2025), `independent`,
+`voicemod`. Playgram is the most recent work, so its card goes **above** `project1`.
+
+### What the entry says
 
 - **`title`** — name Playgram and state the actual role.
 - **`period`** — real dates from the dossier, and say plainly that the project is suspended
@@ -214,9 +203,9 @@ The page is worthless unlinked. Two links, both English-only surfaces:
 
 - `app/HomePage.tsx:149` — the "Professional Work" block under `/dev`. Add Playgram with a
   link to the case study. Match the surrounding card markup rather than adding a new component.
-- `app/[locale]/cv/CVPage.tsx:115-135` — the `project1` card. Add a "read the case study"
-  link. Because this card renders in both locales, the link label needs a translation key in
-  both message files; the _destination_ stays the English page.
+- `app/[locale]/cv/CVPage.tsx` — the **new Playgram card** added in §3. Add a "read the case
+  study" link. Because this card renders in both locales, the link label needs a translation
+  key in both message files; the _destination_ stays the English page.
 - The link must be `print:hidden` or rendered as a bare URL in print — a "read more" link is
   dead text in the PDF export that `/cv` is built to produce.
 
@@ -295,4 +284,5 @@ Then confirm:
 - Publishing the standalone agentic-infrastructure essay (drafted later from §4 part D).
 - Russian translation of the case study page.
 - Any change to the `playgramapp` repository itself.
-- Backfilling the other CV entries, however tempting once `project1` is sharper.
+- Backfilling the other CV entries, however tempting once the Playgram entry is sharper next
+  to them. `project1` in particular is a different engagement and is not ours to touch here.
