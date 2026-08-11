@@ -10,7 +10,7 @@ app for kids — is currently suspended for lack of funding, with Vova staying o
 ongoing issues. The work is worth putting on the record. Two public artifacts come out of it:
 
 1. **A rewritten CV entry** — the project is already on the CV, but anonymized and thin.
-2. **A case study page** on vovazakharov.com — the project timeline *and* the lessons
+2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
    learned, including the meta-lessons about running an agent-driven codebase.
 
 The distinctive claim, and the reason the case study is worth writing at all: **one person
@@ -22,12 +22,12 @@ caveat. See §6 for how to state it without either underselling it or shading th
 
 Do not re-litigate these; they came from the project owner.
 
-| Question | Decision |
-| --- | --- |
-| Disclosure | **Full.** The founder has approved naming Playgram, describing the architecture, and publishing individual code snippets. Not the whole codebase. |
-| Artifacts | Internal dossier (not published) + CV entry rewrite + case study page. |
+| Question                       | Decision                                                                                                                                                 |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Disclosure                     | **Full.** The founder has approved naming Playgram, describing the architecture, and publishing individual code snippets. Not the whole codebase.        |
+| Artifacts                      | Internal dossier (not published) + CV entry rewrite + case study page.                                                                                   |
 | Standalone agentic-infra essay | **Out of scope for now.** The meta-lessons go into the case study as a section (§4, part D). A Substack version can be spun out later from that section. |
-| i18n | CV entry: **both `en` and `ru`**. Case study: **English only**, consistent with `app/HomePage.tsx`, which is not localized. |
+| i18n                           | CV entry: **both `en` and `ru`**. Case study: **English only**, consistent with `app/HomePage.tsx`, which is not localized.                              |
 
 ## 2. Prerequisite: the dossier
 
@@ -42,10 +42,21 @@ exact per-contributor attribution numbers, and 4–8 vetted code snippets.
 
 `Playgramai/playgramapp` is **not reachable from a `vovazakharov.com` session** — `add_repo`
 refuses cross-owner adds, `gh api repos/Playgramai/playgramapp` returns 403 for this
-session's scope, and GraphQL is pinned to PR-review operations. Mine it from a session
-rooted at that repo instead (`create_session` with
-`source_url: https://github.com/Playgramai/playgramapp`, or just open a session there
-directly), then bring the dossier back as text.
+session's scope, GraphQL is pinned to PR-review operations, and a direct `git clone` hangs.
+Mine it from a session rooted at that repo instead (`create_session` with
+`source_url: https://github.com/Playgramai/playgramapp`, or open a session there directly).
+
+**Retrieval is manual.** A cloud sibling session cannot hand its output back
+programmatically: `get_session` returns status only, there is no `list_events` in this tool
+set, and `SendMessage`/`ListAgents` do not reach cloud sessions. So the mining session writes
+`DOSSIER.md` in its own container and you copy the text across by hand. That is not a real
+loss — the dossier has to be a local uncommitted file anyway (below).
+
+A mining session was already started for this: **`session_017j8eoWqeFP6TSNLK5No17w`**, tagged
+`playgram-case-study`. Open it, take `DOSSIER.md`, and paste it in as the file below. If it
+never finished, its prompt is worth re-running: it asks for the skills text first (§7), then
+product, stack, timeline with weekly cadence, agentic-infra evolution, decision record,
+schema history, exact attribution numbers, vetted snippets, hard numbers, and publication risks.
 
 ### Where it goes
 
@@ -134,7 +145,7 @@ components (`components/Card.tsx`) with no fills or shadows.
   slash-prefixed names where it fits the existing `/dev`, `/music`, `/writing` idiom.
 - Code snippets: mono, bordered, `overflow-x-auto` so the page body never scrolls
   horizontally on mobile. The site is mobile-first; verify at 375px.
-- **No theme-only colour definitions.** Anything new must read correctly in light *and*
+- **No theme-only colour definitions.** Anything new must read correctly in light _and_
   dark, since the theme toggle has three states (`components/ThemeToggle.tsx`).
 - The timeline is the one place a bit of visual structure earns its keep. Keep it CSS —
   borders and spacing, no charting library, nothing added to `package.json`.
@@ -148,7 +159,7 @@ that makes A and D believable. If time runs short, cut from C, not from D.
 interesting claim: a one-person team shipping at team velocity, and what that actually took.
 Open with the substance — no "in today's fast-moving AI landscape" throat-clearing.
 
-**B. Timeline.** The named phases from dossier §3 with real dates. Narrate the *shape* of
+**B. Timeline.** The named phases from dossier §3 with real dates. Narrate the _shape_ of
 the five months — not a commit log. What got built when, what the product was thought to be
 at each stage, when that understanding changed. Fold in the schema evolution (dossier §6):
 migrations are the cleanest available proxy for how the domain model was actually understood
@@ -183,7 +194,7 @@ The page is worthless unlinked. Two links, both English-only surfaces:
   link to the case study. Match the surrounding card markup rather than adding a new component.
 - `app/[locale]/cv/CVPage.tsx:115-135` — the `project1` card. Add a "read the case study"
   link. Because this card renders in both locales, the link label needs a translation key in
-  both message files; the *destination* stays the English page.
+  both message files; the _destination_ stays the English page.
 - The link must be `print:hidden` or rendered as a bare URL in print — a "read more" link is
   dead text in the PDF export that `/cv` is built to produce.
 
@@ -216,16 +227,26 @@ someone if handled carelessly.
 `playgramapp` has `/plan` and `/implement` skills that the owner wants reproduced in this
 repo "to the extent that makes sense locally". They are also subject matter for §4 part D.
 
-- Source: `.claude/skills/` (and possibly `.claude/commands/`) in `playgramapp` — the
-  verbatim text has to come from a session rooted at that repo, per §2.
-- Target: `.claude/skills/` here.
+**Already done, but as an adaptation rather than a port:** `.claude/skills/plan/SKILL.md` and
+`.claude/skills/implement/SKILL.md` now exist here. They were written **without access to the
+playgramapp originals** — see §2; the verbatim text was not retrievable from a
+`vovazakharov.com` session, and cross-session messaging could not reach the mining session
+either. What they encode instead is the `/plan` → `/implement` split plus the repo-specific
+constraints that were actually verified while writing this plan (public repo, static export,
+i18n key parity, theme parity, print view, design language).
+
+Remaining work:
+
+- **Reconcile against the originals.** Read `playgramapp`'s `.claude/skills/` and
+  `.claude/commands/`, then diff intent against the two local skills. Pull across anything
+  genuinely portable that is missing, and delete anything local that the original teaches is
+  wrong. Remove the "not yet reconciled" note in each file's header once done.
 - **Adapt, don't transplant.** This repo is a small static Next.js site with no test suite;
-  its verification surface is `pnpm lint`, `pnpm format:check`, and `pnpm build`. Rules that
-  reference `playgramapp`'s test gates, migrations, monorepo packages, or backend services
+  its verification surface is `pnpm lint`, `pnpm format:check`, and `pnpm build`. Rules
+  referencing `playgramapp`'s test gates, migrations, monorepo packages, or backend services
   should be dropped or rewritten against those three commands, not carried over dead.
-- Note what was dropped and why. That list is itself useful material for the case study's
-  meta section — it shows which parts of the harness were project-specific and which were
-  genuinely portable.
+- **Note what was dropped and why.** That list is itself material for the case study's meta
+  section: it shows which parts of the harness were project-specific and which were portable.
 
 ## 8. Verification
 
