@@ -106,8 +106,12 @@ tombstones in `bubble/` and `legacy-data/` (what the Bubble cutover actually ent
 ### It is already here
 
 ```
-docs/plans/playgram-dossier.md      # 1,910 lines, committed alongside this plan
+docs/playgram-dossier.md      # 1,910 lines, tracked and pushed
 ```
+
+It lives in `docs/`, deliberately **not** in `docs/plans/`: `/implement` globs `docs/plans/*.md`
+and expects to find exactly one file there, so a reference document sitting alongside the plan
+would read as a second plan and stall the session with "which one?".
 
 Mined by a session rooted at `playgramapp` (this repo's sessions cannot reach that repo —
 `add_repo` refuses cross-owner adds and `gh` 403s), then carried across by hand. It is

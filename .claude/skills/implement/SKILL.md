@@ -37,6 +37,9 @@ mirrored ways: it lands in a session that already exists, or it arrives stripped
 
 `ls docs/plans/*.md`. Read the target fully before touching anything.
 
+`docs/plans/` holds plan files and nothing else — reference material a plan depends on goes in
+`docs/`, so that this glob keeps returning one obvious answer.
+
 If several plans could be meant, **ask which** (as numbered prose, per `/plan`) rather than
 guessing. Never author a fresh plan in this mode.
 
