@@ -122,6 +122,21 @@ traceable to its source.
 **Read it before writing anything.** It is the only source for facts about a repo the writing
 session cannot open. Its §10 lists publication risks — check it before quoting code.
 
+**Trust its data; verify its glosses.** The dossier has two kinds of content, and they are not
+equally reliable. The **computed** parts — SHAs, dates, commit and line counts, contributor
+tables, migration numbers — come from git and hold up. The **interpretive** parts — what a
+change was for, what a commit message implies — are an LLM's readings of terse text, and at
+least one is wrong: §10 glossed `hotfix: #2239 stop impersonated sessions from consuming the
+target's tips` as "a superuser impersonation billing bug", when "tips" are the **onboarding
+tips** from migrations `0090`–`0091`, nothing to do with billing. §6 of the same document has
+`0090`–`0091` right, so the dossier contradicts itself and the correct reading was already in
+it. That one is now annotated inline.
+
+Practical rule: quote a number straight, but before building a paragraph on what some change
+_meant_, check it against the schema history (§6), the decision record (§5), or the commit text
+itself. A plausible-sounding gloss on a five-word commit subject is exactly the kind of thing
+that reads fine and is wrong.
+
 ### The facts that anchor everything
 
 | Fact                    | Value                                                                |
@@ -405,6 +420,17 @@ pnpm lint            # eslint --fix
 pnpm format:check    # prettier
 pnpm build           # must succeed under output:'export'
 ```
+
+**`pnpm format:check` is already red on `main`** — `.vscode/settings.json` and
+`app/HomePage.tsx` both fail, and did before this work started. Verified by checking out `main`
+and running it. So treat those two as the known baseline: the gate passes if the failure list is
+exactly those two files. Don't reformat them as a drive-by — it would bury the real diff under a
+whitespace commit. Fixing them is a reasonable separate change, and worth doing at some point,
+since a permanently-red check trains everyone to ignore it.
+
+`docs/playgram-dossier.md` is in `.prettierignore` on purpose: it is a verbatim mined record
+containing nested code fences (a 4-backtick block wrapping 3-backtick blocks, per its own §0.3
+reproduction note) that reflowing would mangle.
 
 Then confirm:
 
