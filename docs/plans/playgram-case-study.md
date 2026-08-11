@@ -33,16 +33,28 @@ Two public artifacts come out of this:
 
 **The headline claim, corrected against the data.** The working assumption going in was "one
 person plus Claude shipped ~99% of the code, teammates did ~1%". The dossier computed it and
-the number does not hold: it is **~90%**, on every metric (§7.5). Use the real figures — they
-are still remarkable, and a checkable 90% is worth more than an unfalsifiable 99%.
+the number does not hold: it is **~88–92%** depending on the metric (§7.5). Use the real
+figures — they are still remarkable, and a checkable 92% is worth more than an unfalsifiable 99.
 
-| Metric                                        | Vova's share           |
-| --------------------------------------------- | ---------------------- |
-| Commits authored (of 1,509)                   | 89.73% (1,354)         |
-| Including Claude- and Cursor-authored commits | 92.38% (1,394)         |
-| Lines added, excluding generated files        | 91.46%                 |
-| PRs authored (of 1,222)                       | 89.69% (1,096)         |
-| Other humans' merged PRs he merged            | **99.1%** (111 of 112) |
+**Attribution note, confirmed with Vova:** the 37 commits authored by
+`Claude <noreply@anthropic.com>` and the 3 by `Cursor Agent` are **his** — agent runs he
+directed where the harness wrote itself into the author field instead of the co-author trailer.
+They are ad-hoc misattribution, not third-party contributions, and the figures below already
+fold them in.
+
+| Metric                                 | Vova's share               |
+| -------------------------------------- | -------------------------- |
+| Commits authored (of 1,509)            | **92.38%** (1,394)         |
+| Lines added, excluding generated files | 91.75% (602,064 / 656,196) |
+| Net lines added−removed                | 87.95% (287,719 / 327,122) |
+| PRs authored (of 1,222)                | 89.69% (1,096)             |
+| Merged PRs authored (of 1,035)         | 89.18% (923)               |
+| Other humans' merged PRs he merged     | **99.1%** (111 of 112)     |
+
+Net lines is the least flattering row and worth understanding rather than dropping: the
+agent-authored commits were net **deletions** (−705 and −1,630), so folding them in lowers the
+net share slightly while raising the commit share. The stable fact underneath, unchanged by any
+attribution choice: **the other three engineers account for ~12% of net lines** (+39,403).
 
 Two things the dossier corrects, both of which should be stated rather than smoothed over:
 
@@ -50,8 +62,14 @@ Two things the dossier corrects, both of which should be stated rather than smoo
    lines (12% of net), including DB migrations and the subscription surface. Not cosmetics.
    They also joined earlier than remembered: May 1–11, so they were present for three of the
    five months, not the final one or two.
-2. **"With Claude" was the team's workflow, not one person's** — 85.2% of the other humans'
-   commits carry Claude co-author trailers, statistically identical to Vova's own 84.6%.
+2. **Essentially all of it was AI-assisted, by everyone.** Confirmed with Vova: a missing
+   `Co-authored-by` trailer does not mean a commit was hand-written — it means the trailer was
+   dropped, or a different tool was used. So do **not** publish the trailer rates (84.6% for
+   Vova, 85.2% for the others) as if they measured AI involvement; they measure tooling
+   discipline. The dossier says as much for Vova's own commits — 185 carry no trailer at all,
+   discipline was weakest in April–May, and 84.6% is "a floor, not a measurement". The
+   defensible claim is qualitative: the agent-assisted workflow was the team's, not one
+   person's, and no one on the project was working any other way.
 
 Which points at the _actual_ distinctive claim, and it is a better one than the percentage:
 **what is uniquely his is the machine the whole team shipped through** — all 33 skills, the
@@ -280,6 +298,19 @@ Also worth covering:
   archive SHA (`bubble/`, `legacy-data/`, `MIGRATION_PLAN.retired.md`). In an agent-driven
   codebase, where the agent's only context is what the repo says, "why is this gone" is a
   question the repo has to answer by itself.
+- **Git attribution stops meaning what it used to mean**, and this repo is a good exhibit.
+  Across five months the same work got recorded three different ways: agent as `Co-authored-by`
+  trailer, agent as the commit _author_ (37 Claude, 3 Cursor), and no trailer at all (185
+  commits). None of those distinguishes "a human typed this" from "an agent typed this under
+  direction" — the trailer records which tool ran and whether its convention survived, nothing
+  more. The dossier's own §7 tables are built on that signal and inherit its limits.
+
+  The honest conclusion is the interesting one: **in an agent-driven codebase the commit record
+  can no longer answer "who wrote this"**, and the useful question shifts to who specified it,
+  who reviewed it, and who owns it when it breaks. Say that plainly rather than reporting
+  co-authorship percentages as if they were measurements — and note that this is a problem the
+  whole industry is about to have, not a quirk of one repo's discipline.
+
 - What did **not** work — abandoned rules, over-engineered scaffolding, guidance the agent kept
   ignoring. The failures are the credible part, and the dossier's instruction-file history will
   show which rules were added and later removed.
@@ -304,10 +335,12 @@ The page is worthless unlinked. Two links, both English-only surfaces:
 Non-negotiable, and worth getting exactly right; this is the part that can quietly damage
 someone if handled carelessly.
 
-1. **Publish ~90%, not 99%.** The dossier computed it six ways (§7.5) and none rounds to 99.
-   Its suggested phrasing is defensible as written: _"authored ~90% of commits and ~91% of
-   lines (1,354 of 1,509 commits; 1,096 of 1,222 PRs), directing Claude on 85% of them, and
-   personally reviewed and merged 99% of everything contributed by the three other engineers."_
+1. **Publish ~92%, not 99%.** The dossier computed it six ways (§7.5) and none rounds to 99.
+   Adapting its suggested phrasing to fold in the misattributed agent commits: _"authored ~92%
+   of commits and ~92% of lines (1,394 of 1,509 commits; 1,096 of 1,222 PRs), directing Claude
+   on 85% of them, and personally reviewed and merged 99% of everything contributed by the
+   three other engineers."_ Do not round 92 up to "almost all" or "essentially everything" —
+   the specific number is the thing that makes it credible.
 2. **Name the teammates by what they actually built.** From §7.2, which has it precisely:
    - **Mina Rotari** — onboarding, auth, chat UI, icon assets. 51 commits from 2026-05-11.
    - **Semyon "Sam" Golovachev** — the deepest of the three: model catalog, usage analytics,
@@ -321,9 +354,11 @@ someone if handled carelessly.
 
 3. **Use they/them throughout for all three.** Their pronouns are not documented anywhere in
    the dossier, and a name is not evidence. Do not infer.
-4. **Say that the whole team was agent-assisted.** 85.2% of their commits carry Claude
-   trailers against Vova's 84.6% — statistically the same. Presenting Vova as the agent-driven
-   one and the others as conventional engineers would be a distortion the git data contradicts.
+4. **Say that the whole team was agent-assisted, without quoting trailer rates.** Presenting
+   Vova as the agent-driven one and the others as conventional engineers would be a distortion.
+   But state it qualitatively: trailer presence tracks which tool was used and whether its
+   trailer survived, not whether a human typed the code, so any percentage built on it is a
+   floor and reads as a precision the data does not have.
 5. **Claim the harness, not the typing.** What is uniquely his: 33 skills, 116 revisions of
    `CLAUDE.md`, 27 project-local ESLint rules, the `vet` gate, and the review record — 111 of
    112 non-Vova merged PRs merged by him, and **no PR in the repo was ever reviewed by anyone
