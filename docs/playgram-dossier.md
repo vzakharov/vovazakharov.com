@@ -975,28 +975,28 @@ Non-Vova PRs with a **formal** review by `vzakharov` | 52 / 126 (41.3%) |
 — `APPROVED` | 16 |
 — `CHANGES_REQUESTED` | 2 (#1676, #1685) |
 — `COMMENTED` | 34 |
-Non-Vova PRs reviewed by anyone other than Vova | 0 | ← **WRONG, see correction below** |
+Non-Vova PRs reviewed by anyone other than Vova | 0 | ← **confirmed, but see the note below before re-running this** |
 
 No PR in this repo was ever reviewed by anyone except Vova. Every non-Vova PR that landed except one was pressed by him.
 
-> **CORRECTION (2026-08-11, verified against a full clone).** The "0" row above is wrong as
-> written, and re-running the obvious query contradicts it: a GraphQL sweep of all 1,222 PRs
-> returns **10 PRs carrying a review event whose author is not `vzakharov`** — #1226, #1247,
-> #1685 (minarotari), #1711, #2099, #2322, #2341 (JuliaSuhovici), #2019, #2383, #2420 (Saam-G).
+> **CONFIRMED 2026-08-11 against a full clone — with a query caveat that will trip up anyone
+> recomputing it.** Third-party reviews (a teammate reviewing anyone else's PR, Vova's included)
+> come to **0** across all 1,222 PRs. The claim is right.
 >
-> In every one of the ten, the "reviewer" is the PR's **own author replying to Vova's inline
-> comments**. GitHub records a threaded reply to a review comment as a `REVIEWED` event with an
-> empty body, submitted by the author minutes-to-hours after Vova's review. So the *substance*
-> of the claim survives — nobody ever reviewed anyone **else's** PR except Vova — but the
-> phrasing here does not, and anyone recomputing it will get 10 hits and reasonably conclude the
-> dossier is unreliable. When recomputing, exclude review events whose author equals the PR
-> author.
+> But the naive query does not return 0. A GraphQL sweep for review events whose author is not
+> `vzakharov` returns **52 events across 10 PRs** — #1226, #1247, #1685 (minarotari), #1711,
+> #2099, #2322, #2341 (JuliaSuhovici), #2019, #2383, #2420 (Saam-G). In every one, the
+> "reviewer" **is the PR's own author**, and all 52 events have empty bodies: GitHub files a
+> threaded reply to one of Vova's inline comments as a `REVIEWED` event by the replier. So they
+> are authors answering review, not performing it. **When recomputing, exclude review events
+> whose author equals the PR author** — otherwise this row reads as 10 and the dossier looks
+> unreliable when it isn't.
 >
-> Two related figures also move with the tip: non-Vova merged PRs is **113**, of which
-> **112** were merged by `vzakharov` (still one exception, #2019, self-merged by `Saam-G`).
-> And the review record is livelier than the merge count implies: across the 52 reviewed
-> non-Vova PRs, Vova submitted ~149 review events (16 `APPROVED`, 2 `CHANGES_REQUESTED`, the
-> rest `COMMENTED`), with genuine multi-round threads — #2099 alternates a dozen times.
+> Two related figures move with the tip: non-Vova merged PRs is **113**, of which **112** were
+> merged by `vzakharov` (still one exception, #2019, self-merged by `Saam-G`). And Vova's own
+> reviewing is heavier than the per-PR count suggests: **167 review events** across those 52
+> PRs — 149 `COMMENTED`, 16 `APPROVED`, 2 `CHANGES_REQUESTED` — with genuine multi-round
+> threads (#2099 alternates a dozen times).
 
 ### 7.5 Verdict on the "~99% of the code, reviewed the rest" claim
 

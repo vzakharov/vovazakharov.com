@@ -126,28 +126,29 @@ and R2 were both re-verified as real (see §6 note 8).
 
 ### Corrections found in verification — do not re-inherit these
 
-1. **The review claim is mis-stated, and the naive query contradicts it.** The dossier says "no
-   PR in this repo was ever reviewed by anyone except Vova" and reports 0 non-Vova reviewers.
-   A GraphQL sweep of all 1,222 PRs returns **10 PRs carrying a review event from someone other
-   than `vzakharov`** — from all three teammates. Every one is the PR's **own author replying
-   to Vova's inline comments**: GitHub records a threaded reply as a review event with an empty
-   body, minutes to hours after Vova's review, by the author themself. So the substance holds
-   but the phrasing does not. Publish: **nobody ever reviewed anyone else's PR except Vova** —
-   and when recomputing, exclude review events whose author is the PR author.
-2. **The RLS story is the opposite of what it looks like — and it is a better story.** The plan
-   used to offer "RLS on every table with zero policies (deny-by-default, enforced by a custom
-   `playgram/enforce-rls` rule, and the _second_ migration in the repo)" as a designed decision.
-   The code is exactly that. But `docs/decisions/auth-and-tenancy.md` — the doc that owns the
-   decision — records **"Decided: Option B — RLS as a safety net"**: per-table policies,
-   `SET LOCAL app.current_org_id` inside transactions, a `withOrgContext` wrapper, fail-closed
-   on missing context, a seatbelt analogy. There are **zero `CREATE POLICY` statements anywhere
-   in the repo**, and `DECISIONS_SUMMARY.md` still indexes the abandoned version. The doc also
-   still says `organization_id` and `memberships`, so it predates the `d828289e5` rename
-   (2026-03-17) and was never revisited.
-   So: the shipped design is sound and consistently documented in `README.md`,
-   `docs/codebase-guardrails.md`, `.claude/rules/database.md` and the lint rule — everywhere
-   except the decision record. Write the drift, not the design. See §4 part D, which is where
-   it now belongs.
+1. **The review claim is right — but the obvious query says otherwise, so get the wording
+   exact.** The dossier says "no PR in this repo was ever reviewed by anyone except Vova."
+   Verified: third-party reviews — a teammate reviewing anyone else's PR, Vova's included — come
+   to **0** across all 1,222 PRs. Nobody else ever reviewed anything.
+   The trap is that a GraphQL sweep for review events whose author isn't `vzakharov` returns
+   **52 events across 10 PRs** (#1226, #1247, #1685 by minarotari; #1711, #2099, #2322, #2341 by
+   JuliaSuhovici; #2019, #2383, #2420 by Saam-G). In every one the "reviewer" **is the PR's own
+   author**, and all 52 have empty bodies — GitHub files a threaded reply to one of Vova's inline
+   comments as a review event by the replier. Authors answering review, not performing it.
+   **When recomputing, exclude review events whose author equals the PR author.** Publish the
+   claim as "sole reviewer on every pull request in the repository", and don't soften it to
+   something hedged after seeing the raw 10.
+2. **Don't repeat the dossier's framing of RLS as a from-scratch design decision.** The code is
+   as it describes — RLS enabled on every table with zero policies, enforced by
+   `playgram/enforce-rls` — and that is a real, deliberate, publishable design (§4 part C). But
+   `docs/decisions/auth-and-tenancy.md`, written in March and never revisited (it still says
+   `organization_id`, so it predates the `d828289e5` rename), records a _different_ decision:
+   per-table policies with `SET LOCAL app.current_org_id`. There are zero `CREATE POLICY`
+   statements in the repo. So describe RLS from the code and the lint rule's own comment, which
+   are accurate and agree with `README.md`, `docs/codebase-guardrails.md` and
+   `.claude/rules/database.md` — not from the decision doc, which will lead you into writing up
+   a design that was never built. The stale doc itself is a note for Vova (§9), not case-study
+   material.
 3. **`pnpm vet` runs 14 parallel checks, not 13.** Count them in `package.json`: `typecheck`,
    `format:fix`, `lint:fix`, `lint:fsd`, `lint:css:fix`, `poison-check`, `deps`, `ast-metrics`,
    `knip`, `type-overlap`, `db:chain-check`, `license-check`, `security-diff`, `test` — after a
@@ -382,8 +383,15 @@ Also available, and worth a line each rather than a section — the first three 
   — so someone away across several tipped releases gets the newest walkthrough, not a queue of
   every one they slept through, with no new state. The footgun is written down: removing the
   newest block lowers the derived max and revives the previous walkthrough, so "retire a
-  walkthrough by adding the next one, never by removing the current one." (This is also the doc
-  that would have caught the dossier's mis-gloss of the `tips` hotfix — worth a footnote.)
+  walkthrough by adding the next one, never by removing the current one."
+- **RLS on every table with zero policies.** Deny-by-default, and the _second_ migration in the
+  repo (`0001`, before any feature). The point is counterintuitive enough to be worth explaining:
+  the app queries as the Postgres superuser via Drizzle and so bypasses RLS entirely, which means
+  the policies aren't the mechanism — enabling RLS with **no** policies is what shuts down
+  Supabase's auto-generated PostgREST Data API, since anon and authenticated roles then get zero
+  access to public tables. It reads like a misunderstanding of RLS and isn't. Enforced by the
+  `playgram/enforce-rls` lint rule, whose own comment is the best short explanation and a good
+  snippet candidate. Take the description from the code and that comment — see §2, correction 2.
 - **`server-only` taint by import chain**, with `poison-check` walking the madge graph from
   both `'use client'` files and the Node test harness, exempting type-only imports — "a
   detector rather than a disarmer".
@@ -416,15 +424,10 @@ test on env presence is _prohibited_ because a skip would convert the one signal
 misfiled test into a green tick. Convention that can fail a command does not depend on the
 agent recalling it.
 
-**And then complicate it, because the repo does.** The RLS finding (§2, correction 2) is a
-counterexample sitting inside the same subsystem: `playgram/enforce-rls` mechanically enforces
-`.enableRLS()` on every table, and it works — while the decision doc explaining _why_ describes
-a per-table-policy design that was never built, and the master index still points at it. So the
-honest thesis is sharper than "machine-check your conventions": **a lint rule can hold a
-convention in place indefinitely without anyone noticing that the reasoning behind it has been
-replaced.** Machine-checked convention and correct documentation are different problems, and
-this repo solved one of them. Draw that contrast explicitly — it is the most credible paragraph
-available in the section, and it is about the author's own codebase.
+Support that thesis from the rules that _stayed_ prose and fared worse — the CLAUDE.md history
+shows which ones had to be re-litigated, and four rules are corrections of earlier rules rather
+than new ones. That contrast is the argument; make it from the instruction file's own history
+rather than reaching for examples elsewhere in the repo.
 
 Also worth covering:
 
@@ -525,16 +528,17 @@ someone if handled carelessly.
    reads as a precision the data does not have.
 5. **Claim the harness, not the typing.** What is uniquely his: 33 skills, 116 revisions of
    `CLAUDE.md`, 27 project-local ESLint rules, the `vet` gate, and the review record — 112 of
-   113 non-Vova merged PRs merged by him, and **no PR in the repo was ever reviewed by anyone
-   other than its own author and Vova** (see §2, correction 1 — get this phrasing right). That
-   last fact cuts both ways and is worth stating plainly: it is a real load-bearing
-   contribution and also a single point of failure.
+   113 non-Vova merged PRs merged by him, and **he was the sole reviewer on every pull request
+   in the repository** (verified; see §2, correction 1 for the query caveat). That last fact
+   cuts both ways and is worth stating plainly: it is a real load-bearing contribution and also
+   a single point of failure.
 
-   The review record is also livelier than a merge count suggests, and the livelier version is
-   the fairer one: 52 of 126 non-Vova PRs carry a formal review from him (16 `APPROVED`, 2
-   `CHANGES_REQUESTED`, the rest `COMMENTED` across ~149 review events), with real threaded
-   back-and-forth — #2099 runs a dozen alternating rounds. That is review, not rubber-stamping,
-   and it credits the teammates for responding rather than casting them as passive.
+   The reviewing itself was substantive, which is worth showing because "merged 112 of 113"
+   alone reads like rubber-stamping: 52 of the 126 non-Vova PRs carry a formal review, and those
+   52 hold **167 review events** — 149 `COMMENTED`, 16 `APPROVED`, 2 `CHANGES_REQUESTED` —
+   including multi-round threads (#2099 alternates a dozen times). Attribute the reviewing to
+   him and the responses to the authors; the teammates reviewed nothing, and the case study
+   should not imply otherwise.
 
 6. **State the 156 closed-unmerged PRs** (14.2% of his own) somewhere. Abandoned attempts left
    visible in the record are evidence the process was real rather than curated.
@@ -618,7 +622,10 @@ Then confirm:
 
 - Publishing the standalone agentic-infrastructure essay (drafted later from §4 part D).
 - Russian translation of the case study page.
-- Any change to the `playgramapp` repository itself. (The RLS documentation drift in §2 is a
-  real bug in that repo. Note it for Vova; do not fix it from here.)
+- Any change to the `playgramapp` repository itself.
+- **Auditing that repo's documentation.** The verification pass turned up a stale decision doc
+  (§2, correction 2). Mention it to Vova once, in a sentence, and move on — this plan exists to
+  produce a CV entry and a case study, and doc archaeology is neither. Verify claims you intend
+  to publish; do not go looking for more drift.
 - Backfilling the other CV entries, however tempting once the Playgram entry is sharper next
   to them. `project1` in particular is a different engagement and is not ours to touch here.
