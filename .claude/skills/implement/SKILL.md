@@ -49,8 +49,8 @@ Then confirm by eye what no command can check:
 - Both `/en/cv` and `/ru/cv` render, if translation files were touched.
 - The `/cv` print view, if that page was touched: no orphaned links, no broken page breaks.
 - New pages are actually reachable from somewhere. An unlinked page is not shipped.
-- `git status` shows nothing that should have stayed local. **This repo is public** —
-  `*.local.md` is gitignored for that reason; check with `git check-ignore -v` if unsure.
+- `git status` contains no credentials, third-party confidential material, or personal data
+  about other people. **This repo is public**, so committing publishes.
 
 ## Reporting
 

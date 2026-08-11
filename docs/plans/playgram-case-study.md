@@ -5,11 +5,12 @@
 
 ## 0. What this is
 
-Five months of work on `Playgramai/playgramapp` (private) — an AI-powered English-learning
-app for kids — is currently suspended for lack of funding, with Vova staying on part-time for
-ongoing issues. The work is worth putting on the record. Two public artifacts come out of it:
+Five months of work on `Playgramai/playgramapp` (private) is currently suspended for lack of
+funding, with Vova staying on part-time for ongoing issues. The work is worth putting on the
+record. Two public artifacts come out of it:
 
-1. **A rewritten CV entry** — the project is already on the CV, but anonymized and thin.
+1. **A CV entry** — either a rewrite of an existing anonymized placeholder or a new entry;
+   which one is an open question, see §3.
 2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
    learned, including the meta-lessons about running an agent-driven codebase.
 
@@ -25,7 +26,7 @@ Do not re-litigate these; they came from the project owner.
 | Question                       | Decision                                                                                                                                                 |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Disclosure                     | **Full.** The founder has approved naming Playgram, describing the architecture, and publishing individual code snippets. Not the whole codebase.        |
-| Artifacts                      | Internal dossier (not published) + CV entry rewrite + case study page.                                                                                   |
+| Artifacts                      | Dossier (committed to this repo, but no page renders it) + CV entry + case study page.                                                                   |
 | Standalone agentic-infra essay | **Out of scope for now.** The meta-lessons go into the case study as a section (§4, part D). A Substack version can be spun out later from that section. |
 | i18n                           | CV entry: **both `en` and `ru`**. Case study: **English only**, consistent with `app/HomePage.tsx`, which is not localized.                              |
 
@@ -49,8 +50,7 @@ Mine it from a session rooted at that repo instead (`create_session` with
 **Retrieval is manual.** A cloud sibling session cannot hand its output back
 programmatically: `get_session` returns status only, there is no `list_events` in this tool
 set, and `SendMessage`/`ListAgents` do not reach cloud sessions. So the mining session writes
-`DOSSIER.md` in its own container and you copy the text across by hand. That is not a real
-loss — the dossier has to be a local uncommitted file anyway (below).
+`DOSSIER.md` in its own container and you copy the text across by hand.
 
 A mining session was already started for this: **`session_017j8eoWqeFP6TSNLK5No17w`**, tagged
 `playgram-case-study`. Open it, take `DOSSIER.md`, and paste it in as the file below. If it
@@ -61,13 +61,19 @@ schema history, exact attribution numbers, vetted snippets, hard numbers, and pu
 ### Where it goes
 
 ```
-docs/plans/playgram-dossier.local.md      # gitignored — DO NOT COMMIT
+docs/plans/playgram-dossier.md      # committed alongside this plan
 ```
 
-**This repository is public** (`vzakharov/vovazakharov.com`, GitHub Pages). The dossier
-contains contributor-level statistics and unreviewed code excerpts and must stay local.
-The `.gitignore` entry is already in place. Verify with `git check-ignore -v` before
-committing anything in `docs/plans/`.
+The dossier is committed — it's internal in the sense that **no public page renders it**, not
+in the sense of being kept out of git. Keeping it in-repo means the numbers on the CV and the
+case study stay traceable to a source that travels with them.
+
+One thing to actually read before committing it: this repository is public
+(`vzakharov/vovazakharov.com`, GitHub Pages), so committing publishes. Skim dossier §10
+(publication risks) and §7 (per-contributor statistics) first — the founder has cleared the
+project's disclosure, but leaked credentials in git history and teammates' individual commit
+numbers are the two things that clearance doesn't automatically cover. Cut or redact anything
+in those two categories; everything else goes in as mined.
 
 ### One thing to reconcile
 
@@ -77,9 +83,19 @@ first-commit date from the dossier. If it contradicts the current CV text, fix t
 and check whether the earlier date refers to a pre-repo discovery phase worth mentioning
 separately rather than silently dropping.
 
-## 3. Deliverable 1 — CV entry rewrite
+## 3. Deliverable 1 — the CV entry
 
-**Files:** `messages/en.json`, `messages/ru.json` — the `cv.experience.project1` object.
+> **OPEN QUESTION — resolve before touching the CV.** This plan was drafted assuming
+> `cv.experience.project1` is the Playgram entry. That assumption is **unverified and probably
+> wrong.** Its description ("AI-powered English learning application for kids") does not match
+> Playgram, and its dates ("October 2025 – Present") do not match five months of work ending
+> August 2026. Either the entry is a stale placeholder describing something else, or it is a
+> different project entirely — in which case Playgram needs a **new** entry and `project1`
+> should be left alone. Check the dossier's §1 (product) against the CV before editing, and
+> decide which of the two it is. Everything below applies to whichever object ends up holding
+> Playgram.
+
+**Files:** `messages/en.json`, `messages/ru.json` — the target `cv.experience.*` object.
 **Rendered by:** `app/[locale]/cv/CVPage.tsx:115-135`, which reads exactly these keys:
 `title`, `period`, `description`, `items` (array of strings), `tech`. Keep that shape, or
 update the component in step with it.
@@ -264,7 +280,7 @@ Then confirm:
 - [ ] `/en/cv` and `/ru/cv` both render — `ru.json` structurally matches `en.json`.
 - [ ] The `/cv` print view is clean: no orphaned "read more" links, no broken page breaks.
 - [ ] The case study is reachable from the homepage and from the CV.
-- [ ] `git status` shows **no** `playgram-dossier.local.md` staged, and no code excerpt on
+- [ ] No code excerpt on
       the page contains a secret, credential, endpoint, or anything resembling user data.
 - [ ] Every number on either artifact traces to a dossier line. Anything that doesn't gets cut.
 

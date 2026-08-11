@@ -45,9 +45,11 @@ should change what the implementer does.
 
 These are properties of this codebase that are expensive to rediscover:
 
-- **This repo is public** (`vzakharov/vovazakharov.com`, deployed to GitHub Pages). Anything
-  internal — client facts, contributor statistics, unreviewed excerpts — must be gitignored,
-  not committed. `*.local.md` is already ignored for this purpose.
+- **This repo is public** (`vzakharov/vovazakharov.com`, deployed to GitHub Pages), so
+  committing publishes. Working notes and internal docs are fine to commit — not rendering a
+  page for something is the normal way to keep it out of the way. What is _not_ fine is
+  credentials, third-party confidential material, or personal data about other people; flag
+  those in the plan as needing a read-through before they land.
 - **Static export.** `next.config.ts` sets `output: 'export'`. No server-side data fetching,
   no runtime env reads, no dynamic route params without `generateStaticParams`.
 - **i18n key parity.** `messages/en.json` and `messages/ru.json` are rendered by the same
