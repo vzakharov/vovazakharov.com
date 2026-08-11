@@ -31,10 +31,10 @@ Two public artifacts come out of this:
 2. **A case study page** on vovazakharov.com — the project timeline _and_ the lessons
    learned, including the meta-lessons about running an agent-driven codebase.
 
-**The headline claim, corrected against the data.** The working assumption going in was "one
-person plus Claude shipped ~99% of the code, teammates did ~1%". The dossier computed it and
-the number does not hold: it is **~88–92%** depending on the metric (§7.5). Use the real
-figures — they are still remarkable, and a checkable 92% is worth more than an unfalsifiable 99.
+**The authorship numbers.** Vova's share of the codebase is **~88–92%** depending on which
+metric you pick (dossier §7.5, which computes six of them). Publish a specific figure with its
+denominator rather than a qualitative "almost all" — the specificity is what makes it credible,
+and every row below is checkable against the git history.
 
 **Attribution note, confirmed with Vova:** the 37 commits authored by
 `Claude <noreply@anthropic.com>` and the 3 by `Cursor Agent` are **his** — agent runs he
@@ -49,7 +49,7 @@ fold them in.
 | Net lines added−removed                | 87.95% (287,719 / 327,122) |
 | PRs authored (of 1,222)                | 89.69% (1,096)             |
 | Merged PRs authored (of 1,035)         | 89.18% (923)               |
-| Other humans' merged PRs he merged     | **99.1%** (111 of 112)     |
+| Other humans' merged PRs he merged     | **111 of 112**             |
 
 Net lines is the least flattering row and worth understanding rather than dropping: the
 agent-authored commits were net **deletions** (−705 and −1,630), so folding them in lowers the
@@ -75,8 +75,8 @@ Which points at the _actual_ distinctive claim, and it is a better one than the 
 **what is uniquely his is the machine the whole team shipped through** — all 33 skills, the
 116 revisions of `CLAUDE.md`, the 27 project-local ESLint rules, and the `vet` gate. Everyone
 on the project was agent-assisted; one person built the harness that made that safe. Lead with
-that, support it with ~92% authorship, and let the review figure (99.1%, and no PR in the repo
-was ever reviewed by anyone else) carry the rest. See §6.
+that, support it with ~92% authorship, and let the review record (111 of 112 non-Vova PRs
+merged by him, and no PR in the repo ever reviewed by anyone else) carry the rest. See §6.
 
 ## 1. Decisions already locked
 
@@ -335,12 +335,11 @@ The page is worthless unlinked. Two links, both English-only surfaces:
 Non-negotiable, and worth getting exactly right; this is the part that can quietly damage
 someone if handled carelessly.
 
-1. **Publish ~92%, not 99%.** The dossier computed it six ways (§7.5) and none rounds to 99.
-   Adapting its suggested phrasing to fold in the misattributed agent commits: _"authored ~92%
-   of commits and ~92% of lines (1,394 of 1,509 commits; 1,096 of 1,222 PRs), directing Claude
-   on 85% of them, and personally reviewed and merged 99% of everything contributed by the
-   three other engineers."_ Do not round 92 up to "almost all" or "essentially everything" —
-   the specific number is the thing that makes it credible.
+1. **Publish a specific figure with its denominator**, from dossier §7.5, folding in the
+   misattributed agent commits: _"authored ~92% of commits and ~92% of lines (1,394 of 1,509
+   commits; 1,096 of 1,222 PRs), and personally reviewed and merged every pull request the
+   three other engineers landed but one."_ Do not round up to "almost all" or "essentially
+   everything" — the specific number is what makes it credible.
 2. **Name the teammates by what they actually built.** From §7.2, which has it precisely:
    - **Mina Rotari** — onboarding, auth, chat UI, icon assets. 51 commits from 2026-05-11.
    - **Semyon "Sam" Golovachev** — the deepest of the three: model catalog, usage analytics,
