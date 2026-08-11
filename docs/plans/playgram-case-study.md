@@ -75,7 +75,7 @@ Which points at the _actual_ distinctive claim, and it is a better one than the 
 **what is uniquely his is the machine the whole team shipped through** — all 33 skills, the
 116 revisions of `CLAUDE.md`, the 27 project-local ESLint rules, and the `vet` gate. Everyone
 on the project was agent-assisted; one person built the harness that made that safe. Lead with
-that, support it with ~90% authorship, and let the review figure (99.1%, and no PR in the repo
+that, support it with ~92% authorship, and let the review figure (99.1%, and no PR in the repo
 was ever reviewed by anyone else) carry the rest. See §6.
 
 ## 1. Decisions already locked
