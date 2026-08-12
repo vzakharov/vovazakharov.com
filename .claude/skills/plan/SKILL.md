@@ -1,142 +1,84 @@
 ---
-name: plan
-description: File-based stand-in for plan mode and AskUserQuestion. Write the plan to a reviewable file under docs/plans/ instead of calling ExitPlanMode, and ask clarifying questions as numbered prose. Use whenever you would otherwise enter plan mode or call AskUserQuestion in a web/remote session. Do NOT use to make the change itself — that is /implement.
+description: File-based stand-in for plan mode and AskUserQuestion, for web/remote sessions where those UIs are buggy. Write the plan to a reviewable file under docs/plans/ instead of using ExitPlanMode, and ask clarifying questions as numbered prose instead of AskUserQuestion. Use in a remote/web session whenever you would otherwise enter plan mode or call AskUserQuestion.
 ---
 
 ## Why this skill exists
 
-In Claude Code **web/remote** sessions, the plan-mode approval UI and the `AskUserQuestion`
-tool are unreliable: after a session sits idle the backend re-wakes it and re-emits the
-pending prompt, so the operator returns to the same plan or question stacked several times,
-and answers given to superseded prompts are silently lost. Sessions sit idle constantly. This
-skill routes around both — a plan becomes a file the operator can pull and review at their
-leisure, and questions become prose that survives in the transcript.
+In Claude Code **web/remote** sessions, the plan-mode approval UI and the `AskUserQuestion` tool are unreliable: after a session sits idle, the backend appears to re-wake it and re-emit the pending plan/question prompt repeatedly, so on return the operator sees the plan (or question) stacked several times, answers given to the superseded prompts are silently lost, and the count scales with idle duration. Since operators run many concurrent web sessions, prompts routinely sit idle — so these two UIs can't be trusted here. This skill routes around both: a plan becomes a file the operator can pull and review at their leisure, and questions become prose that survives in the transcript.
 
-Adapted from the `/plan` skill in `Playgramai/playgramapp`. Differences from the original are
-noted under "Local deviations" at the end; read those before assuming a rule carries over.
+Tracking issue (check here for exact wording / current status): **https://github.com/anthropics/claude-code/issues/72704**
 
 ## Part 1 — Plan instead of plan mode
 
-A `/plan` session's deliverable is the **pushed plan file**, not code. The operator reviews it
-later, often from another machine, and implements in a **different** session. So a plan turn
-ends in a handoff, not a continuation.
+A `/plan` session's deliverable is the **pushed plan file**, not code. The operator reviews it from another machine, often hours later, and begins implementation in a **different** session via `/implement <branch>` (`@.claude/skills/implement/SKILL.md` routes that through `/from-branch`, which attaches to the branch and finds the plan under `docs/plans/`) — the handoff works because the plan file rides the branch. So a plan turn ends in a handoff, not a continuation; same-session implementation is the rare exception.
 
-Do **exactly what you would do in plan mode** — same research, same rigor, same "don't touch
-code until approved" discipline. The only difference is where the plan goes:
+Do **exactly what you would do in plan mode** — same research, same rigor, same "don't touch code until approved" discipline. The _only_ difference is where the plan goes and how it's approved:
 
-- Write it to `docs/plans/<slug>.draft.do-not-implement.md`, named for the task or branch.
-  The suffix is load-bearing: it is the on-disk marker that this plan is **not** approved,
-  visible in every `ls`, tool path, and `git status`, so you cannot drift past the gate
-  without noticing.
-- **Make line 1 a banner** restating the gate:
+- Instead of presenting the plan via `ExitPlanMode`, **write it to `docs/plans/<branch-slug>.draft.do-not-implement.md`** (one file per session; name it after the current branch's task slug, or the issue number when working an issue — e.g. `docs/plans/1234.draft.do-not-implement.md`). The `.draft.do-not-implement.md` suffix is load-bearing: it is the on-disk marker that this plan has **not** been approved, visible in every `ls`, tool-call path, and `git status` so you can't drift past the gate without noticing. This directory is **not** gitignored on purpose: **commit and push it** so the operator can pull and review the plan from another machine. Follow the repo's usual plan-content expectations, including the `## DRY notes` section CLAUDE.md requires.
+- **Make line 1 of the file a banner** that restates the gate:
   ```
-  > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md`. On an explicit go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
+  > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
   ```
-- **Commit and push it.** `docs/plans/` is not gitignored, on purpose.
-- Then **end the turn with the handoff block** and stop.
+- Then **end the turn with the handoff block** (§ "Handing off" below) and stop — do not start implementing.
+- **The in-session path is the exception, not the default.** If a literal go-ahead token does arrive in _this_ session, "The approval gate" below governs it unchanged — and on approval you hand off to `@.claude/skills/implement/SKILL.md`, whose Step 1 performs the flip that unlocks source edits (`git mv` the plan to `docs/plans/<branch-slug>.in-progress.md`, drop the draft banner, quote the go-ahead in the commit) as its first action, before any source edit. That flip is the on-record receipt that approval was given, so don't front-run it here; the mechanics live in `/implement` to avoid two copies drifting apart. The gate is exactly as strict on this path as on any other; it just fires rarely.
 
-### Handing off
+### Handing off — end the plan turn with a copyable `/implement` block
 
-Get the branch with `git branch --show-current`. Introduce the block with wording that **names
-the new session** — `To implement — start a new session with:` — because a bare "To implement:"
-reads as an offer to do it here, which is the misreading the block exists to remove. Emit the
-command in a fence containing only the command:
+Get the branch with `git branch --show-current` and substitute the real name. Introduce the block with wording that **names the new session** — `To implement — start a new session with:`, or an unmistakable equivalent. That lead-in is what carries the session model to the operator; a bare "To implement:" reads as an offer to do it here, which is the misreading the block exists to remove. Emit the command in a fenced block containing **only** the command — no language tag, nothing else inside the fence — so it can be copied verbatim:
 
+````
 ```
-/implement claude/some-branch-name
+/implement claude/add-usage-charts-k3n2af
 ```
+````
 
-- Emit it at the end of **every** turn that leaves the plan reviewable and complete.
-- **Open questions don't hold the block back when they carry recommendations** (Part 2). An
-  answer that differs revises the plan; silence is a valid resolution. Hold the block only for
-  a fork with no recommendation, where the plan has nothing executable to say.
-- **Never** end a plan turn with "Want me to implement it?" or any equivalent. The plan session
-  does not implement, so there is nothing to ask — and a turn ending on that question trains
-  you to read the operator's next message as assent, so a correction gets taken as a go-ahead
-  and code starts getting written.
+- Emit it at the end of **every** turn that leaves the plan in a reviewable, complete state — the turn that first writes the plan, and any later turn that revises or collapses it (Part 3). One block per turn, as the last thing in the reply.
+- **Open questions don't hold the block back when they carry recommendations.** Part 2 requires every fork to name a recommended option _and_ the plan file to be written with that option already in force, so implementing it unanswered is the same as adhering to the recommendations. Emit the block alongside the questions: an answer that differs revises the plan, and silence is a valid resolution. Hold the block only for a fork with no recommendation, where the plan has nothing executable to say until the operator picks — handing over a command to implement a genuinely unresolved fork invites implementing the wrong one.
+- **Never** close a plan turn with "Want me to implement it?", "Shall I proceed?", "Ready for me to start?", or any equivalent. Two reasons: the plan session does not implement, so there is nothing to ask; and a turn that ends on that question trains the agent to read the operator's _next_ message as an answer to it, so a correction ("actually, do X instead") gets taken as assent and code starts getting written. The handoff block is the structural fix that the approval gate's "a suggestion is a plan revision" and Part 3's "picking an option is not a signal to implement" can only exhort.
+- The block is built for a session that does not exist yet, which is why the lead-in names it. Pasting it back into _this_ session is a recognizable mistake with its own guard — see `@.claude/skills/implement/SKILL.md` § "Branch-name form" for the canary that catches it.
 
 ### The approval gate
 
-**Only start implementing when the operator's message literally contains a go-ahead token** —
-"go ahead", "implement", "ship it", "do it", "proceed", or an unmistakable equivalent.
+**Only start implementing when the operator's message literally contains a go-ahead token** — "go ahead", "let's go ahead", "implement", "let's implement", or an unmistakable equivalent ("ship it", "do it", "proceed", "lgtm go"). Until such a token arrives, you are still in the planning conversation, no matter how the exchange evolves.
 
-- **A suggestion to do something differently is a plan revision, not a go-ahead.** "How
-  about we…" means update the plan and wait.
-- **The exception is a combined message:** "let's do X instead and implement" — apply the
-  suggestion and proceed. The token unlocks; the suggestion adjusts what.
-- **When unsure, treat it as not-yet-approved**, and resolve by re-emitting the handoff block
-  rather than asking for a yes. Reverting speculative code costs more than a round-trip.
-- Approval is scoped to the plan as it stood when given. If the plan changed materially since,
-  re-confirm.
+- **A suggestion to do something differently is a plan revision, not a go-ahead.** When the operator proposes an alternative approach, tweak, or "how about we…", that means **update the plan file (or discuss it) to reflect the new direction** — it does **not** mean start coding with the suggestion folded in. Reflect the change in the plan and wait for the token.
+- **The exception is a combined message:** if the same message pairs a suggestion _with_ a go-ahead token — e.g. "let's do X instead of Y and implement", "go ahead, but use Z" — then apply the suggestion and proceed. The token is what unlocks implementation; the suggestion just adjusts what you implement.
+- **When unsure whether a reply is approval, treat it as not-yet-approved** — and resolve the ambiguity by re-emitting the handoff block, not by asking for a yes. A false start costs more than one more round-trip: reverting speculative code and re-aligning is worse than handing the command over again.
+- Approval is scoped to the plan as it stands when the token is given. A go-ahead on Monday's plan doesn't authorize a materially different Tuesday reshaping — re-confirm if the plan changed since.
+- The `*.draft.do-not-implement.md` → `*.in-progress.md` rename is the **single act** that unlocks source edits, and it belongs at the moment of the go-ahead — as the first thing you do after it, not retroactively once code is already written. If you catch yourself about to edit source while the file still says `do-not-implement`, that is the gate firing: stop and check whether the go-ahead token actually arrived.
+
+This gate applies to the **initial** transition from planning to implementing. Once you're past it and actively implementing an approved plan, the "Scope" section below governs: follow-ups are handled directly, including code changes the operator asks for, without reopening a plan cycle.
 
 ### Plan file lifecycle
 
-The name carries the state; move it with `git mv` (the base slug never changes):
+The plan file carries its state in its name, and moves through it by `git mv` (the base slug never changes):
 
-1. `docs/plans/<slug>.draft.do-not-implement.md` — awaiting go-ahead.
-2. `docs/plans/<slug>.in-progress.md` — flipped as the first post-go-ahead action.
-3. `docs/plans/<slug>.completed.md` — flipped by `/implement` when the work and its checks
-   are done.
+1. `docs/plans/<slug>.draft.do-not-implement.md` — written here, awaiting the operator's go-ahead.
+2. `docs/plans/<slug>.in-progress.md` — flipped as the first post-go-ahead action (above); `@.claude/skills/implement/SKILL.md` owns implementing against it.
+3. `docs/plans/<slug>.completed.md` — flipped by `/implement` once implementation and its quality passes are done, just before the draft PR.
 
-## Part 2 — Questions as numbered prose
+Every state still matches `docs/plans/*.md`, so consumers that glob the directory (`/implement`, `/from-branch`, `/finalize`, `/tighten-docs`) keep working unchanged.
 
-When you would call `AskUserQuestion`, ask the same questions with the same options — as prose.
-**Number each question, letter each option, and mark the recommended one**, so the operator can
-reply "1b, 2a, 3-default" without typing prose back.
+The plan file is a working artifact, not a deliverable: it rides the branch for review but must **never land on the trunk**. `@.claude/skills/finalize/SKILL.md` deletes the entire `docs/plans/` tree in the last commit before `gh pr ready` (any suffix — `git rm -r docs/plans/`), so the add-then-delete pair cancels out in the squash — the same lifecycle as `docs/issue/`. Do **not** delete it yourself mid-task; leave that to finalization.
 
-**A recommendation is a commitment, not a lean.** Write the plan with the recommended option
-already in force as its single approach, so an unanswered question degrades into "the
-recommendation stands" rather than a blocked fork. A fork you genuinely cannot recommend either
-way is the exception, and it does block — say so explicitly in the plan rather than picking
-silently.
+## Part 2 — Questions as numbered prose instead of AskUserQuestion
+
+When you would otherwise call `AskUserQuestion`, **ask the same questions, with the same options you'd have offered** — just render them as prose in your chat reply instead. Preserve the fast-answer affordance: **number each question and letter each option**, and state which option is the default/recommended, so the operator can reply tersely (e.g. "1b, 2a, 3-default") without typing prose back. This keeps the whole exchange in the durable transcript rather than in the flaky question UI.
+
+**A recommendation is a commitment, not a lean.** Write the plan file with the recommended option already in force as its single approach — the same collapse Part 3 performs when the operator picks — so an open question degrades into "the recommendation stands" instead of a blocked fork, and the plan is implementable as written no matter which questions go unanswered. That is what lets the handoff block go out with questions still open (Part 1) and lets `/implement` proceed without the answers (`@.claude/skills/implement/SKILL.md` § "Step 1"). A fork you can't recommend either way is the exception, and it does block: say so explicitly in the plan rather than picking silently.
 
 ## Part 3 — When the operator picks an option
 
-When a fork gets resolved — in whatever words — **rewrite the plan so the chosen option _is_
-the plan**, in the imperative, as if it had never been one of several. Delete the rejected
-options' exposition; the plan is re-read on every resume, so dead alternatives are a standing
-tax. Keep at most one paragraph per fork noting what was ruled out and the one-line why,
-especially where the why is a hard finding worth not rediscovering.
+Whenever the operator resolves one of the option forks you presented — by choosing an option, in whatever words ("the recommended one", "B", "the retry approach", "not the fixed cap") — **rewrite the plan so the chosen option _is_ the plan**: written as the single approach, in the imperative, as if it had never been one of several. No special keyword is required; a plain choice is the trigger. This is the one sanctioned plan rewrite, distinct from the "don't churn the plan after approval" rule in Part 1 (which forbids re-editing per code change during implementation — collapsing a resolved fork _before_ implementing is expected and wanted).
 
-**Picking an option is not a signal to start implementing.** Collapse the plan, then end the
-turn with the handoff block like any other reviewable turn.
+**Picking an option is not a signal to start implementing.** Collapse the plan and then stop — and here "stop" means ending the turn with the handoff block (Part 1 § "Handing off"), same as any other turn that leaves the plan reviewable. Unless the operator's message _also_ explicitly asks you to begin (e.g. "pick B and implement it"), a bare choice means "record this decision," not "go" — when in doubt, hand the command over instead of writing code.
 
-## What the plan must contain
+**Delete the rejected options' exposition to save context** — the plan gets re-read on every resume, so carrying dead alternatives is a standing tax. You may keep a brief note of what was rejected, but cap it at **one paragraph covering _all_ rejected options for that fork** (per fork), stating just what was ruled out and the one-line why (especially when the "why" is a hard finding worth not rediscovering). Drop the per-option cost/mechanics detail entirely. If several independent forks were resolved, each may keep its own one-paragraph note.
 
-- **Context** — what and why, enough that a cold reader understands the goal.
-- **Locked decisions** — a table of what is already settled and not to be re-litigated.
-- **Files and symbols with line references** — `path/to/file.tsx:120-135`, plus exact
-  translation keys, props, or config fields. Vague plans get re-researched from scratch.
-- **Constraints** the implementer cannot discover cheaply (below).
-- **Verification** — the literal commands, plus a checklist of what no command covers.
-- **Out of scope** — explicitly, including the tempting adjacent work.
+Then commit and push the rewritten plan (this refresh is explicitly wanted, so it's not the churn Part 1 warns against).
 
-## Repo-specific constraints to carry into any plan
+## Scope
 
-- **Static export.** `next.config.ts` sets `output: 'export'`. No server-side data fetching, no
-  runtime env reads, no dynamic route params without `generateStaticParams`.
-- **i18n key parity.** `messages/en.json` and `messages/ru.json` are rendered by the same
-  components, so a key in one and not the other is a build break. Array lengths must match.
-  Only `/cv` is localized; `app/HomePage.tsx` is English-only, so new standalone pages can be.
-- **Theme parity.** Three theme states (light / dark / system). Never define a colour only
-  inside `.dark` or only outside it.
-- **Print view.** `/cv` exists to be printed to PDF. Interactive elements added to it need
-  `print:hidden` or a print fallback, or they become dead text in the PDF.
-- **Design language.** Black and white only, Merriweather serif, JetBrains Mono for metadata,
-  bordered `Card` components with no fills or shadows, opacity as the only de-emphasis. Reuse
-  `components/Card.tsx`.
-- **Metadata** comes from `constructMetadata()` in `lib/metadata.ts` — never hand-rolled.
-- **Dependencies.** Adding to `package.json` is a decision to flag in the plan, not a detail.
-  This site carries five runtime dependencies on purpose.
-- **This repo is public.** Committing publishes. Working notes and internal docs are fine;
-  credentials, third-party confidential material, and other people's personal data are not.
+This is a **web/remote-session** workaround, and it applies to **new** sessions — see CLAUDE.md ("Plan mode & questions in web sessions") for exactly when it's mandatory vs. optional. It is **not** for continued work: once a plan has been approved and you're implementing, handle the operator's follow-ups directly — answer their questions in chat **and implement any code changes they ask for** — without re-writing the plan file or reopening a plan cycle.
 
-## Local deviations from the playgramapp original
-
-- **Plan files stay.** In `playgramapp` the plan is a transient artifact that must never reach
-  `main` — `/finalize` deletes `docs/plans/` wholesale before the PR. Here the plan file is a
-  wanted deliverable that lives in the repo. Do not sweep it.
-- **No `/from-branch`, `/dry`, `/finalize`, `/pr`, `/propose-issue`.** Those skills do not exist
-  here; references to them are dropped rather than faked.
-- **`## DRY notes` is not required** — there is no `/dry` pass to feed.
-- **Verification is three commands, not `pnpm vet`** — see `/implement`.
+A `/from-branch` launch counts as continued work, not a new session: the skill attaches to an existing branch or PR to resume work started elsewhere, so **do not open a plan cycle for it** — even though it's the first message of the session. Follow its embedded follow-up (or wait for the operator's) directly. The only exception is if that follow-up explicitly asks you to plan a fresh, separable piece of work.

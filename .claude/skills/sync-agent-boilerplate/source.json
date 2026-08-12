@@ -1,0 +1,43 @@
+{
+  "repo": "vzakharov/agent-project-boilerplate",
+  "lastSyncedSha": "1f6ee79f1bfd75eb8329f031591a7eb5e81cc705",
+  "lastSyncedAt": "2026-08-12",
+  "adopted": [
+    "CLAUDE.md",
+    ".claude/rules/README.md",
+    ".claude/skills/branch-rename/",
+    ".claude/skills/check-merge/",
+    ".claude/skills/dry/",
+    ".claude/skills/finalize/",
+    ".claude/skills/from-branch/",
+    ".claude/skills/implement/",
+    ".claude/skills/override-gh/",
+    ".claude/skills/plan/",
+    ".claude/skills/pr/",
+    ".claude/skills/preview/",
+    ".claude/skills/qa-checklist/",
+    ".claude/skills/squash-message/",
+    ".claude/skills/sync-branch/",
+    ".claude/skills/sync-upstream/",
+    ".claude/skills/tighten-docs/",
+    ".claude/skills/watch-ci/",
+    "scripts/check-merge.sh",
+    "scripts/check-skill-catalog.sh",
+    "scripts/ci-watch-tick.sh",
+    "scripts/lib/watch-tick-common.sh",
+    "scripts/pr-body.py",
+    "scripts/vet.sh"
+  ],
+  "declined": {
+    ".claude/skills/issue/": "no issue has ever been opened here; work arrives as direct prompts — revisit if work starts being tracked as GitHub issues",
+    ".claude/skills/propose-issue/": "no issue has ever been opened here; work arrives as direct prompts — revisit if work starts being tracked as GitHub issues",
+    ".claude/skills/audit-github-backlog/": "no issue has ever been opened here; work arrives as direct prompts — revisit if work starts being tracked as GitHub issues",
+    "scripts/export-github-issue.py": "no issue has ever been opened here; work arrives as direct prompts — revisit if work starts being tracked as GitHub issues",
+    ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
+    ".claude/skills/hotfix/": "no promotion path to bypass — main deploys straight to Pages",
+    ".claude/skills/log-review/": "static site on GitHub Pages; there are no deployed logs to read",
+    ".claude/skills/readonly-probe/": "no production datastore",
+    ".claude/skills/renumber-migration/": "no migrations",
+    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist"
+  }
+}
