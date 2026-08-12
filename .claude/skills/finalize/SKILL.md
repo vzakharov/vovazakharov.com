@@ -19,7 +19,7 @@ description: Finalize (a.k.a. "prep merge") — land prep: verify there's a draf
 
 **What actually gates this PR.** Establish this once, at the top, because everything below depends on it: check whether any workflow runs on a PR in this repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
 
-- **If nothing runs on a PR**, *you* are the entire gate — nothing downstream will report on this branch before someone merges it. Step 1's `./scripts/vet.sh` is the only thing that runs the project's checks before the merge, which is why vetting is not optional on this path even though ordinary development skips it. An empty Checks tab after step 4 is then the expected end state; do **not** push an empty commit to "relaunch CI".
+- **If nothing runs on a PR**, _you_ are the entire gate — nothing downstream will report on this branch before someone merges it. Step 1's `./scripts/vet.sh` is the only thing that runs the project's checks before the merge, which is why vetting is not optional on this path even though ordinary development skips it. An empty Checks tab after step 4 is then the expected end state; do **not** push an empty commit to "relaunch CI".
 - **If a workflow does run on PRs**, the vet run still happens here — it's faster and it catches things before a reviewer sees red — but step 4 also means watching that run to green (`@.claude/skills/watch-ci/SKILL.md`), and step 7 attests to both.
 
 Either way, **step 7's attestation comment is the record.** A reviewer cannot see from the diff what was run; if it isn't written down it did not happen as far as anyone else is concerned.

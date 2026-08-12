@@ -1,5 +1,5 @@
 ---
-description: "Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme."
+description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme.'
 ---
 
 ## What this skill is for
@@ -17,7 +17,7 @@ pnpm dev --port <port> > tmp/preview/dev.log 2>&1 &
 for i in $(seq 1 60); do curl -sf -o /dev/null "http://localhost:<port>/" && break; sleep 1; done
 ```
 
-Poll rather than sleeping a fixed interval — the server answers in a few seconds, but the *first* request to any route pays a compile cost of 20-30s. Nothing needs faking: this project has no credentials, no database and no external calls, so the dev server is the real thing.
+Poll rather than sleeping a fixed interval — the server answers in a few seconds, but the _first_ request to any route pays a compile cost of 20-30s. Nothing needs faking: this project has no credentials, no database and no external calls, so the dev server is the real thing.
 
 ### 2. Find a browser
 
@@ -45,10 +45,10 @@ There is deliberately no Playwright dependency — Chrome's own `--screenshot` i
 
 ## Routes
 
-| Route | Why |
-|---|---|
-| `/` | home |
-| `/en/cv` | the CV, English |
+| Route    | Why                                                                                                                   |
+| -------- | --------------------------------------------------------------------------------------------------------------------- |
+| `/`      | home                                                                                                                  |
+| `/en/cv` | the CV, English                                                                                                       |
 | `/ru/cv` | the CV, Russian — `ru` copy is longer and wraps differently, so it is a distinct layout, not a translation spot-check |
 
 `/cv` only 307-redirects to `/en/cv`, so capturing it adds nothing.
@@ -73,14 +73,14 @@ Confirm the expected class is there. A theme that silently failed to apply other
 `--window-size` has a **500px floor**, and below it the capture lies. Measured by reading `innerWidth` inside headless Chromium 141:
 
 | `--window-size` | resulting `innerWidth` |
-| --- | --- |
-| `360,800` | **500** |
-| `390,844` | **500** |
-| `500,844` | 500 |
-| `768,1024` | 768 |
-| `1280,900` | 1280 |
+| --------------- | ---------------------- |
+| `360,800`       | **500**                |
+| `390,844`       | **500**                |
+| `500,844`       | 500                    |
+| `768,1024`      | 768                    |
+| `1280,900`      | 1280                   |
 
-Any requested width under 500 is laid out at 500 CSS px and the screenshot is *then* cropped to the width asked for. Content that fits at 500 gets sliced mid-word and reads as horizontal overflow that isn't there — a 390px capture of `/en/cv` and `/ru/cv` produces exactly that, while the same page in a real browser at 360px reflows correctly.
+Any requested width under 500 is laid out at 500 CSS px and the screenshot is _then_ cropped to the width asked for. Content that fits at 500 gets sliced mid-word and reads as horizontal overflow that isn't there — a 390px capture of `/en/cv` and `/ru/cv` produces exactly that, while the same page in a real browser at 360px reflows correctly.
 
 So: **never report a sub-500 capture as a layout finding.** Neither workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth` at the requested window width, and `--headless=old`, which had no such clamp, is gone as of Chrome 141. Reviewing true mobile layout needs real viewport emulation (Playwright's `viewport`/`colorScheme`), which this project does not carry.
 

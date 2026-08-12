@@ -12,19 +12,19 @@ repo" and its `docs/catalog.md` group criteria.
 
 Established by inspection (`ADOPTING.md` Step 2), not by asking:
 
-| Probe | Finding |
-| --- | --- |
-| Remote | `github.com/vzakharov/vovazakharov.com`, public, `main`, squash-merge enabled |
-| Tooling | `python3` 3.11, `jq`, `gh` all present |
-| CI | `.github/workflows/deploy.yml` — GitHub Pages, triggered on **push to `main`** and `workflow_dispatch`. **Nothing runs on PRs.** |
-| Issues | zero issues ever opened (the one `/issues` hit is PR #1) |
-| Releases/tags | none |
-| Existing agent config | `.claude/settings.json` + `.claude/hooks/session-start.sh` (from PR #1) |
-| `CLAUDE.md` | absent |
-| Stack | Next.js 16 static export (`output: 'export'`), React 19, Tailwind 4, next-intl (`en`/`ru`), next-themes; pnpm. **No test suite.** |
+| Probe                 | Finding                                                                                                                           |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Remote                | `github.com/vzakharov/vovazakharov.com`, public, `main`, squash-merge enabled                                                     |
+| Tooling               | `python3` 3.11, `jq`, `gh` all present                                                                                            |
+| CI                    | `.github/workflows/deploy.yml` — GitHub Pages, triggered on **push to `main`** and `workflow_dispatch`. **Nothing runs on PRs.**  |
+| Issues                | zero issues ever opened (the one `/issues` hit is PR #1)                                                                          |
+| Releases/tags         | none                                                                                                                              |
+| Existing agent config | `.claude/settings.json` + `.claude/hooks/session-start.sh` (from PR #1)                                                           |
+| `CLAUDE.md`           | absent                                                                                                                            |
+| Stack                 | Next.js 16 static export (`output: 'export'`), React 19, Tailwind 4, next-intl (`en`/`ru`), next-themes; pnpm. **No test suite.** |
 
 **G4 is already in this repo and needs no decision.** PR #1 landed a
-`session-start.sh` that already installs the `gh` proxy shim *and* already
+`session-start.sh` that already installs the `gh` proxy shim _and_ already
 hydrates the dependency-install step the boilerplate ships as a stub. So the
 `HTTPS_PROXY` tradeoff `ADOPTING.md` Step 3 asks an adopter to weigh is settled
 here by pre-existing checked-in repo config rather than by a fresh choice made
@@ -35,15 +35,15 @@ vzakharov/vovazakharov.com` succeeds instead of 403-ing — which is
 
 ## Group decisions
 
-| Group | Decision | Why |
-| --- | --- | --- |
-| G0 — sync path | **adopt** | Keeps future upstream changes reachable; without it this is a dead snapshot. |
-| G1 — prose & principles | **adopt** | No dependencies, no stack assumptions. `CLAUDE.md` is a donor to merge, and none exists here yet. |
-| G2 — PR loop | **adopt** | GitHub, squash-merge on, `gh` working. `scripts/vet.sh` is a required rewrite. |
-| G3 — issue & backlog | **decline** | No issue has ever been opened here. Recorded with a present-tense reason so `/sync-upstream` re-offers it if that changes. |
-| G4 — remote-session plumbing | **already present** | See above. Adopt `/override-gh` (needed as closure by G0), plus one `settings.json` refinement. |
-| G5 — CI & landing | **adopt** | CI is GitHub Actions and reachable via `gh`. The deploy lane on `main` is a real run worth watching post-merge, which `/watch-ci` explicitly covers. |
-| G6 — stack stubs | **hydrate `/preview` only**, delete the other six | Criterion is "take a row only if you will hydrate it now". |
+| Group                        | Decision                                          | Why                                                                                                                                                  |
+| ---------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G0 — sync path               | **adopt**                                         | Keeps future upstream changes reachable; without it this is a dead snapshot.                                                                         |
+| G1 — prose & principles      | **adopt**                                         | No dependencies, no stack assumptions. `CLAUDE.md` is a donor to merge, and none exists here yet.                                                    |
+| G2 — PR loop                 | **adopt**                                         | GitHub, squash-merge on, `gh` working. `scripts/vet.sh` is a required rewrite.                                                                       |
+| G3 — issue & backlog         | **decline**                                       | No issue has ever been opened here. Recorded with a present-tense reason so `/sync-upstream` re-offers it if that changes.                           |
+| G4 — remote-session plumbing | **already present**                               | See above. Adopt `/override-gh` (needed as closure by G0), plus one `settings.json` refinement.                                                      |
+| G5 — CI & landing            | **adopt**                                         | CI is GitHub Actions and reachable via `gh`. The deploy lane on `main` is a real run worth watching post-merge, which `/watch-ci` explicitly covers. |
+| G6 — stack stubs             | **hydrate `/preview` only**, delete the other six | Criterion is "take a row only if you will hydrate it now".                                                                                           |
 
 ## Step 1 — Copy the `adopt` set verbatim
 
@@ -128,7 +128,7 @@ replacing its stubs with this project's reality rather than leaving them:
 
 ## Step 4 — Hydrate `/preview`
 
-This is the one G6 row worth taking: the repo *is* a visual surface, and the
+This is the one G6 row worth taking: the repo _is_ a visual surface, and the
 procedure below was **spiked and verified this session** rather than written
 speculatively.
 
@@ -142,7 +142,7 @@ Mechanism, all of it already available with **no new dependencies**:
   laptop too. No Playwright dependency: the CLI's own
   `--screenshot` is enough, which keeps this out of `package.json`.
 - **Capture** — `--headless=new --no-sandbox --disable-gpu --hide-scrollbars
-  --virtual-time-budget=6000 --window-size=<W>,<H> --screenshot=<out> <url>`.
+--virtual-time-budget=6000 --window-size=<W>,<H> --screenshot=<out> <url>`.
 - **Dark mode** — add **`--force-dark-mode` alone**. Verified: with it,
   next-themes resolves system → dark and `<html>` gets `class="dark"`; without
   it, `class="light"`. **Do not add
@@ -150,7 +150,7 @@ Mechanism, all of it already available with **no new dependencies**:
   which fabricates a dark rendering the project's own CSS never produces. The
   skill must say this: it is the trap that makes a dark preview a lie.
 - **Trust check before reporting a themed capture** — `--dump-dom | grep -o
-  '<html[^>]*>'` and confirm the expected class. A theme that silently failed to
+'<html[^>]*>'` and confirm the expected class. A theme that silently failed to
   apply otherwise reads as a design finding.
 - **Routes** — `/` (home), `/en/cv`, `/ru/cv`. `/cv` only redirects to `/en/cv`,
   so it is not worth capturing.
@@ -165,12 +165,12 @@ must state this with the number. Measured this session by reading `innerWidth`
 inside headless Chromium 141:
 
 | `--window-size` | resulting `innerWidth` |
-| --- | --- |
-| `360,800` | **500** |
-| `390,844` | **500** |
-| `500,844` | 500 |
-| `768,1024` | 768 |
-| `1280,900` | 1280 |
+| --------------- | ---------------------- |
+| `360,800`       | **500**                |
+| `390,844`       | **500**                |
+| `500,844`       | 500                    |
+| `768,1024`      | 768                    |
+| `1280,900`      | 1280                   |
 
 Any requested width under 500 is silently laid out at 500 CSS px and the
 screenshot is then cropped to the width asked for — so content that fits at 500
@@ -238,15 +238,15 @@ this session cannot read, with a foreign `lastSyncedSha`.
 `/sync-upstream` re-offers a group whose condition has flipped instead of staying
 quiet forever:
 
-| Declined | Reason recorded |
-| --- | --- |
+| Declined                                                                      | Reason recorded                                                                                                            |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `issue/`, `propose-issue/`, `audit-github-backlog/`, `export-github-issue.py` | no issue has ever been opened here; work arrives as direct prompts — revisit if work starts being tracked as GitHub issues |
-| `release/` | merging to `main` deploys automatically; there is no versioned release to cut |
-| `hotfix/` | no promotion path to bypass — `main` deploys straight to Pages |
-| `log-review/` | static site on GitHub Pages; there are no deployed logs to read |
-| `readonly-probe/` | no production datastore |
-| `renumber-migration/` | no migrations |
-| `test-on-gh/` | no test suite, so no CI-only bucket to dispatch — revisit when tests exist |
+| `release/`                                                                    | merging to `main` deploys automatically; there is no versioned release to cut                                              |
+| `hotfix/`                                                                     | no promotion path to bypass — `main` deploys straight to Pages                                                             |
+| `log-review/`                                                                 | static site on GitHub Pages; there are no deployed logs to read                                                            |
+| `readonly-probe/`                                                             | no production datastore                                                                                                    |
+| `renumber-migration/`                                                         | no migrations                                                                                                              |
+| `test-on-gh/`                                                                 | no test suite, so no CI-only bucket to dispatch — revisit when tests exist                                                 |
 
 ## Step 8 — Verify
 
@@ -296,13 +296,13 @@ apply by hand.
 - **No new shared abstraction for `/preview`'s browser invocation.** The Chromium
   flag set appears once, inside the one skill that captures screenshots.
   Extracting it into a `scripts/` helper would add a file with a single caller
-  and put the flags one indirection away from the prose explaining *why*
+  and put the flags one indirection away from the prose explaining _why_
   `--force-dark-mode` is right and `WebContentsForceDark` is wrong — that
   rationale has to sit next to the flags to survive.
 - **`vet.sh` calls `package.json` scripts rather than restating tool
   invocations.** `pnpm typecheck` and `pnpm format:check` keep the command
   definitions in one place. The two exceptions are deliberate: `pnpm exec eslint
-  .` because the existing `lint` script mutates via `--fix`, and `pnpm build`
+.` because the existing `lint` script mutates via `--fix`, and `pnpm build`
   because it is already a single canonical script.
 - **No new hook or shim.** G4's mechanism already exists here and is ahead of
   upstream's; Step 6 explicitly preserves it instead of copying a donor that

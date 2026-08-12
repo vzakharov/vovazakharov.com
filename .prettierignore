@@ -36,13 +36,3 @@ next-env.d.ts
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
-
-# Agent infrastructure vendored from vzakharov/agent-project-boilerplate, plus
-# CLAUDE.md as its merged donor. Kept byte-for-byte against upstream so
-# /sync-upstream diffs stay readable; reformatting would fork all of them.
-.claude/rules
-.claude/skills
-CLAUDE.md
-
-# Working artifacts (plans, PR/issue exports) that /finalize sweeps before merge.
-docs
