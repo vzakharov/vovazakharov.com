@@ -156,24 +156,38 @@ Mechanism, all of it already available with **no new dependencies**:
   apply otherwise reads as a design finding.
 - **Routes** — `/` (home), `/en/cv`, `/ru/cv`. `/cv` only redirects to `/en/cv`,
   so it is not worth capturing.
-- **Widths** — 1280 (desktop) and 768 (tablet) are trustworthy with this
-  mechanism. Both locales matter, because `ru` copy is longer and wraps
+- **Widths** — capture at **500px or wider**; 768 (tablet) and 1280 (desktop) are
+  honored exactly. Both locales matter, because `ru` copy is longer and wraps
   differently.
 - **Artifacts** — `tmp/preview/` (gitignored per Step 6), or
   `docs/remove-before-merging/` when they must ride the branch for review.
 
-**The narrow-width trap, which the skill must state outright.** A
-`--window-size=390,844` capture of `/en/cv` and `/ru/cv` during this spike showed
-content clipped mid-word, and it is **not a real defect** — the operator's own
-browser at 360px reflows correctly. Headless `--window-size` sets the window, not
-an emulated mobile viewport, so a narrow capture can lay the page out wider than
-the frame and manufacture overflow that no real device shows. So: do **not**
-report a sub-768 CLI capture as a layout finding. If mobile layout is genuinely
-what needs reviewing, either check it in a real browser or add proper viewport
-emulation (Playwright's `viewport`/`colorScheme`) at that point — this plan does
-not add that dependency for a case the project has not needed yet. Recording this
-trap is most of the value of hydrating the skill: the failure mode is an agent
-confidently reporting a bug that does not exist.
+**`--window-size` has a 500px floor, and below it the capture lies.** The skill
+must state this with the number. Measured this session by reading `innerWidth`
+inside headless Chromium 141:
+
+| `--window-size` | resulting `innerWidth` |
+| --- | --- |
+| `360,800` | **500** |
+| `390,844` | **500** |
+| `500,844` | 500 |
+| `768,1024` | 768 |
+| `1280,900` | 1280 |
+
+Any requested width under 500 is silently laid out at 500 CSS px and the
+screenshot is then cropped to the width asked for — so content that fits at 500
+gets sliced mid-word and reads as horizontal overflow. That is exactly what a
+390px capture of `/en/cv` and `/ru/cv` produced during this spike, and it is **not
+a real defect**: the operator's own browser at 360px reflows correctly. Neither
+workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth`
+at the requested window width (780 stays 780, at `dpr=2`), and `--headless=old`,
+which had no such clamp, is removed in Chrome 141.
+
+So: **never report a sub-500 capture as a layout finding.** Reviewing true mobile
+layout needs real viewport emulation (Playwright's `viewport`/`colorScheme`),
+which this plan does not add for a case the project has not needed yet. Recording
+this is most of the value of hydrating the skill — the failure mode it prevents is
+an agent confidently reporting a bug that does not exist.
 
 Then **delete the STUB banner and drop `STUB` from the frontmatter
 description** — the check script asserts those two markers agree, and an
