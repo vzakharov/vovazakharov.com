@@ -37,10 +37,9 @@ pnpm-lock.yaml
 package-lock.json
 yarn.lock
 
-# Agent infrastructure vendored from vzakharov/agent-project-boilerplate.
-# These files are copied byte-for-byte so /sync-upstream diffs stay readable;
-# reformatting them would fork every one of them from upstream. CLAUDE.md is
-# here for the same reason — it is a merged donor, re-diffed at each sync.
+# Agent infrastructure vendored from vzakharov/agent-project-boilerplate, plus
+# CLAUDE.md as its merged donor. Kept byte-for-byte against upstream so
+# /sync-upstream diffs stay readable; reformatting would fork all of them.
 .claude/rules
 .claude/skills
 CLAUDE.md

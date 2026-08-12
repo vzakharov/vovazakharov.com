@@ -82,7 +82,7 @@ Confirm the expected class is there. A theme that silently failed to apply other
 
 Any requested width under 500 is laid out at 500 CSS px and the screenshot is *then* cropped to the width asked for. Content that fits at 500 gets sliced mid-word and reads as horizontal overflow that isn't there — a 390px capture of `/en/cv` and `/ru/cv` produces exactly that, while the same page in a real browser at 360px reflows correctly.
 
-So: **never report a sub-500 capture as a layout finding.** Neither workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth` at the requested window width, and `--headless=old`, which had no such clamp, is gone as of Chrome 141. Reviewing true mobile layout needs real viewport emulation (Playwright's `viewport`/`colorScheme`), which this project does not currently carry.
+So: **never report a sub-500 capture as a layout finding.** Neither workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth` at the requested window width, and `--headless=old`, which had no such clamp, is gone as of Chrome 141. Reviewing true mobile layout needs real viewport emulation (Playwright's `viewport`/`colorScheme`), which this project does not carry.
 
 768 (tablet) and 1280 (desktop) are honored exactly and are the useful pair.
 
