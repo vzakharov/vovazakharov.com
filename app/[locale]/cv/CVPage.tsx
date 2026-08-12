@@ -114,6 +114,41 @@ export default function CVPage() {
           <div className="space-y-6 print:space-y-3">
             <Card>
               <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+                {t('experience.playgram.title')}
+              </h3>
+              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+                {t('experience.playgram.period')}
+              </h4>
+              <p className="mb-3 print:mb-1">
+                {t('experience.playgram.description')}
+              </p>
+              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
+                {t
+                  .raw('experience.playgram.items')
+                  .map((item: string, idx: number) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+              </ul>
+              <p className="text-sm font-mono opacity-60">
+                {t('experience.playgram.tech')}
+              </p>
+              <p className="mt-3 text-sm print:hidden">
+                <Link
+                  href="/case/playgram"
+                  className="underline hover:opacity-70"
+                >
+                  {t('experience.caseStudyLink')}
+                </Link>
+              </p>
+              {/* Print keeps the destination as a bare URL — a "read more" link
+                  is dead text in the PDF the /cv page exists to produce. */}
+              <p className="hidden print:block text-sm font-mono mt-1">
+                vovazakharov.com/case/playgram
+              </p>
+            </Card>
+
+            <Card>
+              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
                 {t('experience.project1.title')}
               </h3>
               <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">

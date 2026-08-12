@@ -31,6 +31,21 @@
     },
     "experience": {
       "title": "Experience",
+      "caseStudyLink": "Read the case study →",
+      "playgram": {
+        "title": "Lead Developer – Playgram (app.playgram.ai)",
+        "period": "March 2026 – Present. The project is currently suspended for lack of funding; I stay on part-time for ongoing issues.",
+        "description": "Multi-model AI chat platform for teams — workspaces with project-level roles, chat across many LLM providers behind a single proxy, vector search and persistent memory, deep-research runs, an editable canvas with PDF export, voice input and usage-based billing. Not a greenfield build: a complete rebuild off Bubble.io that had to reach parity with a live, still-shipping product and then replace it.",
+        "items": [
+          "Completed the Bubble.io → Next.js cutover: first commit to production in 76 days, all workspaces migrated and Bubble retired 127 days in — a no-code platform replaced by a production TypeScript codebase.",
+          "Authored ~92% of the codebase (1,394 of 1,513 commits; 1,098 of 1,229 pull requests), and was sole reviewer on every pull request in the repository, merging 115 of the 116 landed by the three other engineers.",
+          "Built the agent-assisted development harness the whole team shipped through: 33 skills, 116 revisions of the instruction file, 28 project-local ESLint rules and a 14-check pre-push gate — conventions made machine-checkable rather than written down and remembered.",
+          "Designed the data layer: 114 Drizzle migrations, deny-by-default row-level security on every table, and a standing rule that historical-attribution columns carry no foreign key so billing history survives deletes.",
+          "Shipped ~132,000 lines of application code against ~120,000 lines of tests, bucketed by the credentials they need so the credential-free suite runs on every iteration.",
+          "Cut CI spend from ~$190/month to ~$4/month by replacing the per-PR test lane with an in-session gate plus a release-qualification backstop — and fixed the silent test under-selection the old lane had been hiding."
+        ],
+        "tech": "Next.js App Router, TypeScript, Supabase (Postgres + Auth), Drizzle ORM, LiteLLM, Weaviate, Stripe, Railway"
+      },
       "project1": {
         "title": "Developer – Project Work",
         "period": "October 2025 – Present",
