@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Scratch space for dev artifacts — one-off scripts, spikes, probe output,
+# screenshots. Anything transient goes here rather than earning its own
+# .gitignore entry. See CLAUDE.md "Dev artifacts go under tmp/".
+tmp/
