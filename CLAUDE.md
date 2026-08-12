@@ -14,27 +14,27 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path | What lives there |
-|---|---|
-| `app/` | App Router. `page.tsx`/`HomePage.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens. |
-| `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`). |
-| `hooks/` | React hooks (`useMounted` — the hydration guard theme-dependent UI needs). |
-| `i18n/` | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading). |
-| `lib/` | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`. |
-| `messages/` | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other. |
-| `public/` | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory). |
-| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. |
-| `.claude/` | Skills, rules and session hooks. |
+| Path          | What lives there                                                                                                                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app/`        | App Router. `page.tsx`/`HomePage.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens. |
+| `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`).                                                                                                        |
+| `hooks/`      | React hooks (`useMounted` — the hydration guard theme-dependent UI needs).                                                                                                                        |
+| `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading).                                                                                |
+| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`.                                                                                                    |
+| `messages/`   | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other.                                                                                   |
+| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                                |
+| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                                              |
+| `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                  |
 
 ## Deployment
 
-Merging to `main` triggers `.github/workflows/deploy.yml`, which builds the static export and publishes `out/` to GitHub Pages. **There is no separate release step** — merge *is* deploy, which is why `/release` and `/hotfix` are not part of this project's skill set.
+Merging to `main` triggers `.github/workflows/deploy.yml`, which builds the static export and publishes `out/` to GitHub Pages. **There is no separate release step** — merge _is_ deploy, which is why `/release` and `/hotfix` are not part of this project's skill set.
 
 Nothing runs on pull requests. `./scripts/vet.sh` runs the same `pnpm build` the deploy does, so a green vet locally is the only pre-merge signal there is.
 
 ## Vetting
 
-Vetting is the fast local check the agent runs over a branch *before pushing* to save CI minutes — typically lint, type-check, format-check, and any tests fast enough to run in seconds. Entrypoint: `./scripts/vet.sh`. **Vetting is the run; attestation is the record that it happened** — `/finalize` does both, and its docs-only flag (`no vet`) skips the first while still posting the second.
+Vetting is the fast local check the agent runs over a branch _before pushing_ to save CI minutes — typically lint, type-check, format-check, and any tests fast enough to run in seconds. Entrypoint: `./scripts/vet.sh`. **Vetting is the run; attestation is the record that it happened** — `/finalize` does both, and its docs-only flag (`no vet`) skips the first while still posting the second.
 
 Here that is:
 
@@ -97,7 +97,7 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 
 ## Testing
 
-**There is no test suite yet.** `pnpm build` stands in for one: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is *correct*, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
+**There is no test suite yet.** `pnpm build` stands in for one: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
 
 Adding a suite is worthwhile as soon as there is logic worth asserting on (`lib/metadata.ts` and the `messages/` catalogs being the obvious first candidates). When it arrives, wire it into `scripts/vet.sh` alongside the existing checks and replace this paragraph.
 
@@ -157,7 +157,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
-- **`/sync-upstream`** — pull the agent infrastructure forward from the repo this one adopted it from, triaging commit by commit. Universal: the source is whatever `.claude/skills/sync-upstream/upstream.json` names, so the same procedure serves every link in the chain — including a project that adopted from this repo and wants this repo's later changes.
+- **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — but the skill is named for _this_ repo's source, since there is exactly one and it is not an upstream in the git sense.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 
 **Quality passes** (both are mandatory inside `/implement`):

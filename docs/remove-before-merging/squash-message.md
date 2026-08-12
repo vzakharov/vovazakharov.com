@@ -6,32 +6,25 @@ feat: adopt agent infrastructure from agent-project-boilerplate (pr #2)
 
 ```
 This repo carried no agent conventions beyond a SessionStart hook, so
-every session re-derived how to plan, branch, review and land work.
-Adopting the boilerplate's infrastructure brings that loop in as
-checked-in configuration, and records a sync watermark so later upstream
-changes stay pullable rather than leaving this a dead snapshot.
+every session re-derived how to plan, branch, review and land work. This
+brings that loop in as checked-in configuration, with a watermark so
+later upstream changes stay pullable.
 
-Sixteen skills and their supporting scripts are copied byte-for-byte
-from vzakharov/agent-project-boilerplate at 1f6ee79, so future syncs
-read as small diffs against unmodified files. Declines are recorded in
-upstream.json as present-tense conditions rather than a bare list, so a
-later sync re-offers a group whose condition has flipped: the issue and
-backlog skills (no issue has ever been opened here), release and hotfix
-(merging to main is the deploy — there is no version to cut), and the
-stubs for logs, datastores, migrations and CI-only tests.
+Sixteen skills and their scripts come from
+vzakharov/agent-project-boilerplate at 1f6ee79. source.json records
+each decline as a present-tense condition, so a later sync re-offers a
+group whose condition flipped: issue and backlog (no issue has ever been
+opened here), release and hotfix (merging to main is the deploy), and
+the stubs for logs, datastores, migrations and CI-only tests.
 
-Four things are local. scripts/vet.sh is implemented for this stack:
-with no test suite, the static-export build is the only end-to-end
-check, and it is what deploy.yml runs on main, so a green vet means a
-green deploy. It calls `pnpm exec eslint .` because `pnpm lint` carries
---fix and would mutate the tree mid-check. /preview is hydrated with two
-traps verified against Chromium 141: --force-dark-mode alone gives a
-true dark render, where WebContentsForceDark fabricates one the
-project's CSS never emits; and --window-size has a 500px floor, below
-which a capture is laid out at 500 and then cropped, so narrow
-screenshots show overflow that is not there. CLAUDE.md is a merge of the
-donor rather than a copy. The vendored trees sit in .prettierignore so
-they stay byte-identical to upstream.
+Three files are local. scripts/vet.sh is written for this stack: with no
+test suite the static-export build is the only end-to-end check, and it
+is what deploy.yml runs on main. /preview is hydrated with two traps
+verified against Chromium 141 — --force-dark-mode alone gives a true
+dark render where WebContentsForceDark fabricates one the CSS never
+emits, and --window-size has a 500px floor below which captures are laid
+out at 500 and cropped, faking overflow. CLAUDE.md merges the donor
+rather than copying it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
