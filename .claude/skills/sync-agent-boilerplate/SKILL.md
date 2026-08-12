@@ -9,15 +9,14 @@ whatever else — from another repo has a **source** that keeps editing those fi
 This skill finds what changed there since the last sync, decides commit by commit
 what applies here, and ports the ones that do.
 
-Here the source is `vzakharov/agent-project-boilerplate`, which is why this skill
-is named for it rather than for "upstream" — this repo is not a fork and has no
-upstream in the git sense.
+Here the source is `vzakharov/agent-project-boilerplate`, and the skill is named
+after it.
 
-**The source is relative to the repo you are standing in**, though, and the
-procedure is the same at every link in the chain; only the watermark differs. A
-repo that adopts this skill from _here_ should re-point `source.json` at this
-repo and rename accordingly. One operation applied repeatedly: _pull the vendored
-agent infrastructure forward from the repo I took it from._
+**The source is relative to the repo you are standing in**, and the procedure is
+the same at every link in the chain; only the watermark differs. A repo that
+adopts this skill from _here_ should re-point `source.json` at this repo and
+rename the skill after its own source. One operation applied repeatedly: _pull
+the vendored agent infrastructure forward from the repo I took it from._
 
 This is a path-scoped diff, not a fork merge. It never tries to reconcile whole
 histories — it reads a bounded set of paths, commit by commit, and re-expresses
@@ -25,19 +24,10 @@ what applies.
 
 ## The watermark
 
-`.claude/skills/sync-agent-boilerplate/source.json` is the state this skill runs on:
-
-```json
-{
-  "repo": "<owner>/<repo>",
-  "lastSyncedSha": "<source HEAD at the last sync>",
-  "lastSyncedAt": "<YYYY-MM-DD>",
-  "adopted": ["CLAUDE.md", "README.md", ".claude/", "scripts/"],
-  "declined": {
-    ".claude/skills/issue/": "we track work in Linear, not GitHub issues"
-  }
-}
-```
+`.claude/skills/sync-agent-boilerplate/source.json` is the state this skill runs
+on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
+`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the two fields
+worth explaining:
 
 - **`adopted`** — the paths you took, at whatever granularity is true: directories
   or individual files. It is what turns a wall of source commits into a handful of
@@ -53,12 +43,13 @@ log` inside the source clone, so a path that was renamed on adoption must stay
   every sync re-offers every skill the repo already refused.
 
 **A declined path is not declined forever.** Most reasons are conditions that can
-flip — _no CI yet_, _work isn't tracked as issues yet_ — which is why the map
-stores prose instead of a bare list, and why reasons are written in the present
-tense. **Re-read them on every sync** and re-offer anything whose condition has
-stopped holding: a repo that declined the issue skills because it used Linear,
-and has since moved to GitHub issues, should be asked again. A reason that says
-`"never — …"` is the one that does not need re-reading.
+flip, which is why the map stores prose instead of a bare list, and why reasons
+are written in the present tense. **Re-read them on every sync** and re-offer
+anything whose condition has stopped holding. The issue skills are declined here
+because no issue has ever
+been opened in this repo; the first time work arrives as a GitHub issue, that
+reason has stopped holding and they are due to be offered again. A reason that
+says `"never — …"` is the one that does not need re-reading.
 
 A repo with two sources would make this an array. Nothing here precludes that and
 nothing here builds it.

@@ -17,14 +17,16 @@ group whose condition flipped: issue and backlog (no issue has ever been
 opened here), release and hotfix (merging to main is the deploy), and
 the stubs for logs, datastores, migrations and CI-only tests.
 
-Three files are local. scripts/vet.sh is written for this stack: with no
-test suite the static-export build is the only end-to-end check, and it
-is what deploy.yml runs on main. /preview is hydrated with two traps
-verified against Chromium 141 — --force-dark-mode alone gives a true
-dark render where WebContentsForceDark fabricates one the CSS never
-emits, and --window-size has a 500px floor below which captures are laid
-out at 500 and cropped, faking overflow. CLAUDE.md merges the donor
-rather than copying it.
+Four pieces are local. scripts/vet.sh is written for this stack — with
+no test suite the static-export build is the only end-to-end check, and
+it is what deploy.yml runs on main — and runs its lint, type and format
+checks concurrently after it. /preview is hydrated with two Chromium
+traps verified on
+141: WebContentsForceDark fabricates a dark render the CSS never emits,
+and --window-size has a 500px floor below which captures are cropped,
+faking overflow. The sync skill is renamed /sync-agent-boilerplate, so
+source.json keeps the source's own spelling of its path. CLAUDE.md
+merges the donor rather than copying it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

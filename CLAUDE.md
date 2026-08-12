@@ -39,16 +39,17 @@ Vetting is the fast local check the agent runs over a branch _before pushing_ to
 Here that is:
 
 ```bash
-pnpm typecheck        # tsc --noEmit
-pnpm exec eslint .    # not `pnpm lint` — see below
-pnpm format:check     # prettier --check .
 pnpm build            # next build — the only end-to-end check available
+pnpm typecheck        # tsc --noEmit          ┐
+pnpm exec eslint .    # not `pnpm lint`       │ concurrent
+pnpm format:check     # prettier --check .    ┘
 ```
 
-Two things about that list are deliberate:
+Three things about that list are deliberate:
 
 - **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
+- **The build runs alone, before the other three.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. The other three touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
@@ -157,7 +158,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
-- **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — but the skill is named for _this_ repo's source, since there is exactly one and it is not an upstream in the git sense.
+- **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — while the name points at the one source this repo actually has.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 
 **Quality passes** (both are mandatory inside `/implement`):
