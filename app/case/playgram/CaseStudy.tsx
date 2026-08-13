@@ -166,13 +166,12 @@ export default function CaseStudy() {
             </p>
             <p>
               Two claims worth reading on, both checkable against the git
-              history. The first: the cutover{' '}
-              <strong>completed</strong>. Releases 4.1.0 through 4.3.0 moved
-              workspaces over in batches, ending at “Bubble retirement — all
-              workspaces cut over”. Migrations that complete are considerably
-              rarer than migrations that are announced. The second: one person
-              did most of it, at team velocity, by building the machine
-              described below.
+              history. The first: the cutover <strong>completed</strong>.
+              Releases 4.1.0 through 4.3.0 moved workspaces over in batches,
+              ending at “Bubble retirement — all workspaces cut over”.
+              Migrations that complete are considerably rarer than migrations
+              that are announced. The second: one person did most of it, at team
+              velocity, by building the machine described below.
             </p>
           </div>
         </Section>
@@ -199,27 +198,31 @@ export default function CaseStudy() {
               instructions and context from the account to the membership:{' '}
               <span className="font-mono text-base">0025</span>–
               <span className="font-mono text-base">0026</span> backfill and
-              then drop <span className="font-mono text-base">
+              then drop{' '}
+              <span className="font-mono text-base">
                 user_configs.display_name
-              </span>, <span className="font-mono text-base">0033</span> moves
-              the user context list onto members,{' '}
+              </span>
+              , <span className="font-mono text-base">0033</span> moves the user
+              context list onto members,{' '}
               <span className="font-mono text-base">0028</span> and later{' '}
-              <span className="font-mono text-base">0074</span> move the
-              avatar. It reads as churn and it isn’t — it’s a product insight
-              arriving in instalments. In a multi-workspace product, what you
-              are called and how you want the assistant to behave belong to a
-              membership, not to an account. You are a different colleague in a
-              different workspace.
+              <span className="font-mono text-base">0074</span> move the avatar.
+              It reads as churn and it isn’t — it’s a product insight arriving
+              in instalments. In a multi-workspace product, what you are called
+              and how you want the assistant to behave belong to a membership,
+              not to an account. You are a different colleague in a different
+              workspace.
             </p>
             <p>
               <strong>
                 For about six weeks the schema knew it had two populations
               </strong>{' '}
-              — <span className="font-mono text-base">
+              —{' '}
+              <span className="font-mono text-base">
                 is_migrated_from_legacy
-              </span>, a “requires password reset after migration” flag, a
-              creator column made nullable for legacy rows — and then it
-              deliberately stopped knowing. Migration{' '}
+              </span>
+              , a “requires password reset after migration” flag, a creator
+              column made nullable for legacy rows — and then it deliberately
+              stopped knowing. Migration{' '}
               <span className="font-mono text-base">0112</span> is the moment:
               it clears the unattributed legacy usage logs and restores the{' '}
               <span className="font-mono text-base">NOT NULL</span> constraint
@@ -424,10 +427,10 @@ export default function CaseStudy() {
               </strong>{' '}
               Railway was documented as the minimal approach on 6 March. On 10
               March Cloud Run was chosen over it, on the strength of $25,000 in
-              GCP credits. On 12 March it went on hold: GCP’s IAM and
-              org-policy complexity had “consumed hours for a task (public
-              staging URL) that takes seconds on any other platform”, and the
-              credits “remain unconfirmed”. On 5 August it was deleted.
+              GCP credits. On 12 March it went on hold: GCP’s IAM and org-policy
+              complexity had “consumed hours for a task (public staging URL)
+              that takes seconds on any other platform”, and the credits “remain
+              unconfirmed”. On 5 August it was deleted.
             </p>
             <p>
               The shape <em>is</em> the story. The decision was live for two
@@ -459,8 +462,8 @@ export default function CaseStudy() {
               skip”. So the replacement reproduced the old lane’s change-picking
               against the merge base, and in doing so discovered that the old
               lane had been silently under-selecting: editing the React Testing
-              Library setup file selected 170 of 526 test files, because the test
-              runner’s change detection cannot see files no test imports.
+              Library setup file selected 170 of 526 test files, because the
+              test runner’s change detection cannot see files no test imports.
               Setting those triggers explicitly made the replacement{' '}
               <em>better</em> than the thing it replaced, not merely cheaper.
             </p>
@@ -669,12 +672,12 @@ export default function CaseStudy() {
               would be a flattering distortion to present myself as the
               agent-driven one and my colleagues as conventional engineers, and
               it would also be false. I am not going to attach a percentage to
-              it, because the only available measurement — how often a
-              co-author trailer survived into a commit — measures tooling
-              discipline, not whether a human typed the code. What is genuinely
-              mine is not the typing. It is the harness: the skills, the
-              instruction file, the lint rules, the gate. Everyone was
-              agent-assisted; one person built the machine that made that safe.
+              it, because the only available measurement — how often a co-author
+              trailer survived into a commit — measures tooling discipline, not
+              whether a human typed the code. What is genuinely mine is not the
+              typing. It is the harness: the skills, the instruction file, the
+              lint rules, the gate. Everyone was agent-assisted; one person
+              built the machine that made that safe.
             </p>
             <p>
               And 156 of my own pull requests — 14% — were closed without ever
