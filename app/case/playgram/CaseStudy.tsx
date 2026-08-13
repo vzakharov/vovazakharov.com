@@ -39,6 +39,23 @@ function Snippet({ caption, code }: { caption: string; code: string }) {
   );
 }
 
+/** Inline code inside prose — sized to sit on the serif baseline without jumping. */
+function Code({ children }: { children: ReactNode }) {
+  return <span className="font-mono text-base">{children}</span>;
+}
+
+/** A run of body paragraphs at the page's reading measure. */
+function Prose({ children }: { children: ReactNode }) {
+  return <div className="space-y-5 text-lg leading-relaxed">{children}</div>;
+}
+
+/** `lead` drops the top padding for a subhead that directly follows its section heading. */
+function SubHead({ children, lead }: { children: ReactNode; lead?: boolean }) {
+  return (
+    <h3 className={`text-2xl font-bold${lead ? '' : ' pt-4'}`}>{children}</h3>
+  );
+}
+
 const TIMELINE = [
   {
     date: '6 March 2026',
@@ -135,7 +152,7 @@ export default function CaseStudy() {
         </header>
 
         <Section id="what" title="/what we built, and why">
-          <div className="space-y-5 text-lg leading-relaxed">
+          <Prose>
             <p>
               Playgram is a multi-model AI chat platform for teams. Workspaces
               with project-level roles and invitations, chat across many LLM
@@ -173,11 +190,11 @@ export default function CaseStudy() {
               that are announced. The second: one person did most of it, at team
               velocity, by building the machine described below.
             </p>
-          </div>
+          </Prose>
         </Section>
 
         <Section id="how" title="/how we built it">
-          <h3 className="text-2xl font-bold">The shape of five months</h3>
+          <SubHead lead>The shape of five months</SubHead>
           <Timeline />
           <p className="text-lg leading-relaxed">
             The cadence behind that: a median of 64 commits a week across 24
@@ -185,8 +202,8 @@ export default function CaseStudy() {
             product to break.
           </p>
 
-          <h3 className="text-2xl font-bold pt-4">What the schema remembers</h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>What the schema remembers</SubHead>
+          <Prose>
             <p>
               114 migrations are the cleanest available proxy for how a domain
               model was actually understood over time, and a Bubble-to-Postgres
@@ -196,48 +213,34 @@ export default function CaseStudy() {
               <strong>Identity moved from the user to the member.</strong> A
               cluster of migrations relocates display name, avatar, personal
               instructions and context from the account to the membership:{' '}
-              <span className="font-mono text-base">0025</span>–
-              <span className="font-mono text-base">0026</span> backfill and
-              then drop{' '}
-              <span className="font-mono text-base">
-                user_configs.display_name
-              </span>
-              , <span className="font-mono text-base">0033</span> moves the user
-              context list onto members,{' '}
-              <span className="font-mono text-base">0028</span> and later{' '}
-              <span className="font-mono text-base">0074</span> move the avatar.
-              It reads as churn and it isn’t — it’s a product insight arriving
-              in instalments. In a multi-workspace product, what you are called
-              and how you want the assistant to behave belong to a membership,
-              not to an account. You are a different colleague in a different
-              workspace.
+              <Code>0025</Code>–<Code>0026</Code> backfill and then drop{' '}
+              <Code>user_configs.display_name</Code>, <Code>0033</Code> moves
+              the user context list onto members, <Code>0028</Code> and later{' '}
+              <Code>0074</Code> move the avatar. It reads as churn and it isn’t
+              — it’s a product insight arriving in instalments. In a
+              multi-workspace product, what you are called and how you want the
+              assistant to behave belong to a membership, not to an account. You
+              are a different colleague in a different workspace.
             </p>
             <p>
               <strong>
                 For about six weeks the schema knew it had two populations
               </strong>{' '}
-              —{' '}
-              <span className="font-mono text-base">
-                is_migrated_from_legacy
-              </span>
-              , a “requires password reset after migration” flag, a creator
-              column made nullable for legacy rows — and then it deliberately
-              stopped knowing. Migration{' '}
-              <span className="font-mono text-base">0112</span> is the moment:
-              it clears the unattributed legacy usage logs and restores the{' '}
-              <span className="font-mono text-base">NOT NULL</span> constraint
-              the import had forced off. Its comment notes that the constraint
-              was dropped for exactly one reason — the Bubble import had rows
-              with no workspace and had to be able to land them — and that with
-              those rows now attributed or destroyed, “that reason is spent”.
-              That is the point where the product stops being a migration.
+              — <Code>is_migrated_from_legacy</Code>, a “requires password reset
+              after migration” flag, a creator column made nullable for legacy
+              rows — and then it deliberately stopped knowing. Migration{' '}
+              <Code>0112</Code> is the moment: it clears the unattributed legacy
+              usage logs and restores the <Code>NOT NULL</Code> constraint the
+              import had forced off. Its comment notes that the constraint was
+              dropped for exactly one reason — the Bubble import had rows with
+              no workspace and had to be able to land them — and that with those
+              rows now attributed or destroyed, “that reason is spent”. That is
+              the point where the product stops being a migration.
             </p>
-          </div>
+          </Prose>
 
-          <h3 className="text-2xl font-bold pt-4">
-            The choices that were load-bearing
-          </h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>The choices that were load-bearing</SubHead>
+          <Prose>
             <p>
               Not a stack list. Four decisions with something in them for
               somebody who wasn’t there.
@@ -250,12 +253,12 @@ export default function CaseStudy() {
               It reads like somebody misunderstood RLS, and it is the opposite
               of that.
             </p>
-          </div>
+          </Prose>
           <Snippet
             caption="eslint/rules/enforce-rls.ts — the rule that keeps it from decaying"
             code={RLS_COMMENT}
           />
-          <div className="space-y-5 text-lg leading-relaxed">
+          <Prose>
             <p>
               The app connects as the Postgres superuser through Drizzle, so it
               bypasses RLS entirely; policies were never the mechanism. Enabling
@@ -263,13 +266,10 @@ export default function CaseStudy() {
               auto-generated PostgREST Data API — with RLS on and nothing
               granted, the anonymous and authenticated roles get zero access to
               public tables. It is a kill switch, not an authorization model,
-              and a lint rule keeps it that way: every{' '}
-              <span className="font-mono text-base">pgTable()</span> must be
-              chained with{' '}
-              <span className="font-mono text-base">.enableRLS()</span>. There
-              are no <span className="font-mono text-base">CREATE POLICY</span>{' '}
-              statements anywhere in the repository, which is the point rather
-              than an omission.
+              and a lint rule keeps it that way: every <Code>pgTable()</Code>{' '}
+              must be chained with <Code>.enableRLS()</Code>. There are no{' '}
+              <Code>CREATE POLICY</Code> statements anywhere in the repository,
+              which is the point rather than an omission.
             </p>
             <p>
               <strong>
@@ -278,13 +278,11 @@ export default function CaseStudy() {
               A column recording which project a usage event belonged to is a
               fact about the past, not a live reference. A foreign key would
               assert that the referent still exists — forcing a choice between{' '}
-              <span className="font-mono text-base">CASCADE</span>, which
-              destroys billing history, and{' '}
-              <span className="font-mono text-base">SET NULL</span>, which
-              erases the attribution, the moment a project is hard-deleted.
-              Neither is acceptable, so the column is a denormalized fact with
-              no constraint, and readers bucket the dangling id as its own row
-              so breakdowns still sum to the total.
+              <Code>CASCADE</Code>, which destroys billing history, and{' '}
+              <Code>SET NULL</Code>, which erases the attribution, the moment a
+              project is hard-deleted. Neither is acceptable, so the column is a
+              denormalized fact with no constraint, and readers bucket the
+              dangling id as its own row so breakdowns still sum to the total.
             </p>
             <p>
               <strong>
@@ -305,17 +303,16 @@ export default function CaseStudy() {
                 A barrel system that encodes access level rather than
                 visibility.
               </strong>{' '}
-              Five suffixes, including{' '}
-              <span className="font-mono text-base">index.node-safe.ts</span>{' '}
-              for an axis orthogonal to client/server: scripts run under tsx
-              with no bundler, so a barrel becomes unimportable the moment its
-              import graph reaches a stylesheet. The suffix is what keeps that
+              Five suffixes, including <Code>index.node-safe.ts</Code> for an
+              axis orthogonal to client/server: scripts run under tsx with no
+              bundler, so a barrel becomes unimportable the moment its import
+              graph reaches a stylesheet. The suffix is what keeps that
               discoverable instead of a runtime surprise.
             </p>
-          </div>
+          </Prose>
 
-          <h3 className="text-2xl font-bold pt-4">The machine</h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>The machine</SubHead>
+          <Prose>
             <p>
               This is the part nobody else can write, and the most broadly
               useful. The thesis is one sentence:{' '}
@@ -399,17 +396,16 @@ export default function CaseStudy() {
               </strong>{' '}
               Working artifacts — squash proposals, preview screenshots, log
               dumps — live in a directory called{' '}
-              <span className="font-mono text-base">remove-before-merging</span>
-              , swept before merge. Across more than a thousand merged pull
-              requests, something reached the trunk from it exactly four times:
-              three of them a harmless scratch file, and once a 984,924-byte
-              production log dump containing customer email addresses. It sat
-              there for a day. The step that does the sweeping now cites its own
-              breach. A convention that holds almost always and fails once,
-              expensively, is more instructive than either “it works” or “it
-              doesn’t”.
+              <Code>remove-before-merging</Code>, swept before merge. Across
+              more than a thousand merged pull requests, something reached the
+              trunk from it exactly four times: three of them a harmless scratch
+              file, and once a 984,924-byte production log dump containing
+              customer email addresses. It sat there for a day. The step that
+              does the sweeping now cites its own breach. A convention that
+              holds almost always and fails once, expensively, is more
+              instructive than either “it works” or “it doesn’t”.
             </p>
-          </div>
+          </Prose>
         </Section>
 
         <Section id="trouble" title="/the interesting trouble">
@@ -420,7 +416,7 @@ export default function CaseStudy() {
           </p>
 
           <h3 className="text-2xl font-bold pt-2">Three reversals</h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <Prose>
             <p>
               <strong>
                 Cloud Run: live for two days, five months to finish reversing.
@@ -489,12 +485,10 @@ export default function CaseStudy() {
               which is exactly why it needs deleting when it doesn’t pay for
               itself.
             </p>
-          </div>
+          </Prose>
 
-          <h3 className="text-2xl font-bold pt-4">
-            The cutover’s three good problems
-          </h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>The cutover’s three good problems</SubHead>
+          <Prose>
             <p>
               <strong>Passwords couldn’t come across.</strong> Bubble’s hashes
               were proprietary. So every user was pre-created in Supabase Auth
@@ -526,41 +520,36 @@ export default function CaseStudy() {
               from the migration ledger so the tool stops believing they were
               applied, and explain why it is safe against soft-deleted members.
             </p>
-          </div>
+          </Prose>
           <Snippet
             caption="drizzle/rollback-cut-12.sql — abridged; concrete evidence the cutover was planned as reversible"
             code={ROLLBACK_SQL}
           />
 
-          <h3 className="text-2xl font-bold pt-4">
-            Four bugs with mechanisms worth learning from
-          </h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>Four bugs with mechanisms worth learning from</SubHead>
+          <Prose>
             <p>
               <strong>
                 Usage logs persisted zero tokens on every single insert.
               </strong>{' '}
               A hand-written params type declared{' '}
-              <span className="font-mono text-base">
+              <Code>
                 tokenCounts: {'{'} input, output {'}'}
-              </span>{' '}
-              while the columns were{' '}
-              <span className="font-mono text-base">inputTokens</span> /{' '}
-              <span className="font-mono text-base">outputTokens</span>. The ORM
-              silently dropped the fields that didn’t match. Nothing failed; the
-              numbers were just zero. It was found by accident during an
-              unrelated refactor, when the type was finally derived from the
-              table’s own inferred insert type. The rule it produced — anything
-              whose shape tracks another declaration must be derived from it,
-              never restated — is now machine-enforced by a type-overlap
-              detector at threshold one: any member that two named types both
-              declare has to have exactly one home.
+              </Code>{' '}
+              while the columns were <Code>inputTokens</Code> /{' '}
+              <Code>outputTokens</Code>. The ORM silently dropped the fields
+              that didn’t match. Nothing failed; the numbers were just zero. It
+              was found by accident during an unrelated refactor, when the type
+              was finally derived from the table’s own inferred insert type. The
+              rule it produced — anything whose shape tracks another declaration
+              must be derived from it, never restated — is now machine-enforced
+              by a type-overlap detector at threshold one: any member that two
+              named types both declare has to have exactly one home.
             </p>
             <p>
               <strong>“Draw a dog” produced empty assistant messages.</strong>{' '}
               The AI SDK put the image-generation tool’s output in{' '}
-              <span className="font-mono text-base">staticToolResults</span>,
-              not in <span className="font-mono text-base">result.files</span>,
+              <Code>staticToolResults</Code>, not in <Code>result.files</Code>,
               and the streaming pipeline only checked the latter. Generated
               images were silently dropped. This is the incident that produced
               the never-swallow-errors rule, later tightened into the “silent
@@ -597,12 +586,10 @@ export default function CaseStudy() {
               it eliminated the reported glitches{' '}
               <strong>as classes rather than as patches</strong>.
             </p>
-          </div>
+          </Prose>
 
-          <h3 className="text-2xl font-bold pt-4">
-            What the record can’t tell you
-          </h3>
-          <div className="space-y-5 text-lg leading-relaxed">
+          <SubHead>What the record can’t tell you</SubHead>
+          <Prose>
             <p>
               Across five months the same work got recorded three different
               ways: the agent as a co-author trailer, the agent as the commit{' '}
@@ -636,7 +623,7 @@ export default function CaseStudy() {
               until it had an answer from the person. That is what code review
               looks like now.
             </p>
-          </div>
+          </Prose>
         </Section>
 
         <Section id="credits" title="/who wrote it">
