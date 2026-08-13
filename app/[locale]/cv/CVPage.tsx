@@ -140,8 +140,7 @@ export default function CVPage() {
                   {t('experience.caseStudyLink')}
                 </Link>
               </p>
-              {/* Print keeps the destination as a bare URL — a "read more" link
-                  is dead text in the PDF the /cv page exists to produce. */}
+              {/* A link is dead text in print, so the PDF gets the bare URL. */}
               <p className="hidden print:block text-sm font-mono mt-1">
                 vovazakharov.com/case/playgram
               </p>

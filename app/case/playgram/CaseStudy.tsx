@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { Card } from '@/components/Card';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-/** Figures on this page were recomputed against the repository at this commit. */
+// Every figure quoted below is as-of this commit; update the stamp with them.
 const VERIFIED_AT = '12 August 2026';
 const VERIFIED_SHA = '27fb41f1';
 
@@ -44,7 +44,6 @@ function Code({ children }: { children: ReactNode }) {
   return <span className="font-mono text-base">{children}</span>;
 }
 
-/** A run of body paragraphs at the page's reading measure. */
 function Prose({ children }: { children: ReactNode }) {
   return <div className="space-y-5 text-lg leading-relaxed">{children}</div>;
 }
@@ -230,19 +229,18 @@ export default function CaseStudy() {
               after migration” flag, a creator column made nullable for legacy
               rows — and then it deliberately stopped knowing. Migration{' '}
               <Code>0112</Code> is the moment: it clears the unattributed legacy
-              usage logs and restores the <Code>NOT NULL</Code> constraint the
-              import had forced off. Its comment notes that the constraint was
-              dropped for exactly one reason — the Bubble import had rows with
-              no workspace and had to be able to land them — and that with those
-              rows now attributed or destroyed, “that reason is spent”. That is
-              the point where the product stops being a migration.
+              usage logs and restores the <Code>NOT NULL</Code> the import had
+              forced off. The constraint was dropped for exactly one reason —
+              Bubble rows with no workspace had to be able to land — and with
+              those rows attributed or destroyed, its comment says, “that reason
+              is spent”. That is where the product stops being a migration.
             </p>
           </Prose>
 
           <SubHead>The choices that were load-bearing</SubHead>
           <Prose>
             <p>
-              Not a stack list. Four decisions with something in them for
+              Not a stack list. Three decisions with something in them for
               somebody who wasn’t there.
             </p>
             <p>
@@ -265,11 +263,9 @@ export default function CaseStudy() {
               RLS with <em>no</em> policies is what shuts down Supabase’s
               auto-generated PostgREST Data API — with RLS on and nothing
               granted, the anonymous and authenticated roles get zero access to
-              public tables. It is a kill switch, not an authorization model,
-              and a lint rule keeps it that way: every <Code>pgTable()</Code>{' '}
-              must be chained with <Code>.enableRLS()</Code>. There are no{' '}
-              <Code>CREATE POLICY</Code> statements anywhere in the repository,
-              which is the point rather than an omission.
+              public tables. A kill switch, not an authorization model. There
+              are no <Code>CREATE POLICY</Code> statements anywhere in the
+              repository, which is the point rather than an omission.
             </p>
             <p>
               <strong>
@@ -294,47 +290,32 @@ export default function CaseStudy() {
               the reason voice dictation streams from the browser directly to
               Deepgram over a short-lived minted JWT instead of proxying through
               a server WebSocket — a server socket would sit inside the same
-              cap. One infrastructure constraint shaping two features that share
-              nothing else is a better architecture story than any table of
-              choices.
-            </p>
-            <p>
-              <strong>
-                A barrel system that encodes access level rather than
-                visibility.
-              </strong>{' '}
-              Five suffixes, including <Code>index.node-safe.ts</Code> for an
-              axis orthogonal to client/server: scripts run under tsx with no
-              bundler, so a barrel becomes unimportable the moment its import
-              graph reaches a stylesheet. The suffix is what keeps that
-              discoverable instead of a runtime surprise.
+              cap. Two features that share nothing else, both shaped by one line
+              in someone else’s pricing page.
             </p>
           </Prose>
 
           <SubHead>The machine</SubHead>
           <Prose>
             <p>
-              This is the part nobody else can write, and the most broadly
-              useful. The thesis is one sentence:{' '}
+              One sentence:{' '}
               <strong>
                 the guardrails are machine-checked, not written down as prose
                 for the agent to remember.
               </strong>
             </p>
             <p>
-              One command runs a type-generation step and then fourteen checks
-              in parallel: typecheck, format, lint, architectural structure, CSS
-              lint, an import-graph poison check that walks the module graph
-              from every client file looking for server-only code, dependency
-              checks, AST metrics, dead-code detection, type-overlap, a
-              migration-chain check, a license check, a security diff, and the
-              tests. Twenty-eight project-local ESLint rules encode conventions
-              a general-purpose linter has no opinion about — twenty-six of them
-              with their own rule-tester tests. Tests are bucketed by which
-              credentials they need so the credential-free bucket runs on every
-              iteration, and gating a test on the presence of an environment
-              variable is <em>prohibited</em>, because a skip would convert the
-              one signal that catches a misfiled test into a green tick.
+              One command runs fourteen checks in parallel — among them an
+              import-graph poison check that walks outward from every client
+              file hunting server-only code, a dead-code sweep, a type-overlap
+              detector, a migration-chain check, a license check and a security
+              diff. Twenty-eight project-local ESLint rules encode conventions a
+              general-purpose linter has no opinion about, twenty-six with their
+              own rule-tester tests. Tests are bucketed by which credentials
+              they need so the credential-free bucket runs every iteration — and
+              gating a test on an environment variable is <em>prohibited</em>,
+              because a skip would convert the one signal that catches a
+              misfiled test into a green tick.
             </p>
             <p>
               The argument is strongest made from the instruction file’s own
@@ -373,13 +354,12 @@ export default function CaseStudy() {
               scaffolding around that one constraint.
             </p>
             <p>
-              The sharpest lesson in that sequence is a failure mode specific to
-              working with agents. Ending a planning turn with “want me to
-              implement it?” primed the agent to read the operator’s next
-              message as assent — so a plan <em>correction</em> got code written
-              instead. Planning turns now end with a copyable command naming a
-              new session, because a question invites a misread and a command
-              doesn’t.
+              One failure mode there is specific to working with agents. Ending
+              a planning turn with “want me to implement it?” primed the agent
+              to read the operator’s next message as assent — so a plan{' '}
+              <em>correction</em> got code written instead. Planning turns now
+              end with a copyable command naming a new session: a question
+              invites a misread, a command doesn’t.
             </p>
             <p>
               <strong>Tombstones.</strong> Retired work isn’t deleted; it is
@@ -410,9 +390,7 @@ export default function CaseStudy() {
 
         <Section id="trouble" title="/the interesting trouble">
           <p className="text-lg leading-relaxed">
-            A case study with no reversals in it is marketing. For each of
-            these: what was chosen, what it cost, what replaced it, and what the
-            tell was.
+            A case study with no reversals in it is marketing.
           </p>
 
           <h3 className="text-2xl font-bold pt-2">Three reversals</h3>
@@ -429,16 +407,16 @@ export default function CaseStudy() {
               unconfirmed”. On 5 August it was deleted.
             </p>
             <p>
-              The shape <em>is</em> the story. The decision was live for two
-              days and took five months to finish reversing, because for five
-              months the repository described Cloud Run as parked rather than
-              gone and kept the tooling to resume it. Unwinding it meant
-              unwinding rationale that had justified unrelated present-day
-              choices by Cloud Run’s properties: a database driver’s fit for a
-              persistent server, the package manager’s Dockerfile integration, a
-              future worker as a second service, one database’s edge advantage,
-              the reverse-proxy examples in two unrelated modules. The lesson is
-              in the deletion commit rather than in the reversal:{' '}
+              The shape <em>is</em> the story. Two days live, five months to
+              finish reversing — because for five months the repository
+              described Cloud Run as parked rather than gone, and kept the
+              tooling to resume it. Unwinding it meant unwinding rationale that
+              had justified unrelated present-day choices by Cloud Run’s
+              properties: a database driver’s fit for a persistent server, the
+              package manager’s Dockerfile integration, a future worker as a
+              second service, one database’s edge advantage, reverse-proxy
+              examples in two unrelated modules. The lesson is in the deletion
+              commit rather than the reversal:{' '}
               <strong>
                 a parked decision keeps costing you, because other decisions
                 start citing it.
@@ -453,15 +431,15 @@ export default function CaseStudy() {
             </p>
             <p>
               What makes that a decision rather than a cost cut is what it
-              refused. Keeping only the old lane’s location would have meant a
-              nine-minute whole-repo run on every iteration — “a check people
-              skip”. So the replacement reproduced the old lane’s change-picking
-              against the merge base, and in doing so discovered that the old
-              lane had been silently under-selecting: editing the React Testing
-              Library setup file selected 170 of 526 test files, because the
-              test runner’s change detection cannot see files no test imports.
-              Setting those triggers explicitly made the replacement{' '}
-              <em>better</em> than the thing it replaced, not merely cheaper.
+              refused. Simply moving the old lane would have meant a nine-minute
+              whole-repo run every iteration — “a check people skip”. So the
+              replacement reproduced its change-picking against the merge base,
+              and in doing so found the old lane had been silently
+              under-selecting: editing the React Testing Library setup file
+              picked 170 of 526 test files, because the runner’s change
+              detection cannot see files no test imports. Setting those triggers
+              explicitly made the replacement <em>better</em> than what it
+              replaced, not merely cheaper.
             </p>
             <p>
               The cost is written down in the decision doc’s own blunt terms: a
@@ -469,8 +447,7 @@ export default function CaseStudy() {
               and sit until the nightly — contained by the trunk deploying only
               to a dev environment, and by a release gate that runs everything.
               A pull request now carries no CI verdict at all, so verification
-              became a written attestation with a release-qualification
-              backstop.
+              became a written attestation with a release gate behind it.
             </p>
             <p>
               <strong>A bespoke process system, built and deleted.</strong> A
@@ -497,11 +474,9 @@ export default function CaseStudy() {
               auto-generates a random hash during user creation, which makes the
               stored password field useless as a marker for “never set one”.
               Reset happens lazily, on first failed login, with no cutover-day
-              mass email. The accepted cost is written down rather than
-              discovered later: the login form leaks the existence of
-              fully-activated accounts, and rate limiting is the stated
-              mitigation. A migration constraint, a non-obvious solution and an
-              owned tradeoff in one story.
+              mass email. The cost is written down rather than discovered later:
+              the login form leaks the existence of fully-activated accounts,
+              and rate limiting is the stated mitigation.
             </p>
             <p>
               <strong>The old vectors had to stay readable.</strong> Chat and
@@ -538,13 +513,13 @@ export default function CaseStudy() {
               </Code>{' '}
               while the columns were <Code>inputTokens</Code> /{' '}
               <Code>outputTokens</Code>. The ORM silently dropped the fields
-              that didn’t match. Nothing failed; the numbers were just zero. It
-              was found by accident during an unrelated refactor, when the type
-              was finally derived from the table’s own inferred insert type. The
-              rule it produced — anything whose shape tracks another declaration
-              must be derived from it, never restated — is now machine-enforced
-              by a type-overlap detector at threshold one: any member that two
-              named types both declare has to have exactly one home.
+              that didn’t match. Nothing failed; the numbers were just zero, and
+              it surfaced by accident during an unrelated refactor that derived
+              the type from the table’s own inferred insert type. The rule it
+              produced — anything whose shape tracks another declaration must be
+              derived from it, never restated — is now enforced by a
+              type-overlap detector at threshold one: any member two named types
+              both declare has to have exactly one home.
             </p>
             <p>
               <strong>“Draw a dog” produced empty assistant messages.</strong>{' '}
@@ -655,16 +630,16 @@ export default function CaseStudy() {
               that alternate a dozen times. But there was nobody reviewing me.
             </p>
             <p>
-              <strong>Everyone was agent-assisted.</strong> Not just me. It
-              would be a flattering distortion to present myself as the
-              agent-driven one and my colleagues as conventional engineers, and
-              it would also be false. I am not going to attach a percentage to
-              it, because the only available measurement — how often a co-author
-              trailer survived into a commit — measures tooling discipline, not
-              whether a human typed the code. What is genuinely mine is not the
-              typing. It is the harness: the skills, the instruction file, the
-              lint rules, the gate. Everyone was agent-assisted; one person
-              built the machine that made that safe.
+              <strong>Everyone was agent-assisted.</strong> Not just me — and
+              presenting myself as the agent-driven one and my colleagues as
+              conventional engineers would be a flattering distortion. I am not
+              going to attach a percentage to it, because the only available
+              measurement — how often a co-author trailer survived into a commit
+              — measures tooling discipline, not whether a human typed the code.
+              What is genuinely mine is not the typing. It is the harness: the
+              skills, the instruction file, the lint rules, the gate. Everyone
+              was agent-assisted; one person built the machine that made that
+              safe.
             </p>
             <p>
               And 156 of my own pull requests — 14% — were closed without ever
