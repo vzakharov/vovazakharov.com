@@ -151,6 +151,31 @@ export default function Home() {
           <div className="space-y-4">
             <Card>
               <h4 className="text-xl font-bold mb-2">
+                Playgram (March 2026 – present)
+              </h4>
+              <p className="mb-3">
+                Multi-model AI chat platform for teams. Led the rebuild off
+                Bubble.io onto Next.js — production in 76 days, all workspaces
+                cut over and Bubble retired in 127. Authored ~92% of the
+                codebase and built the agent-assisted harness the whole team
+                shipped through. Suspended for funding; still on part-time.
+              </p>
+              <p className="text-sm font-mono opacity-60 mb-3">
+                Next.js, TypeScript, Supabase, Drizzle, LiteLLM, Weaviate,
+                Stripe
+              </p>
+              <p className="text-sm">
+                <Link
+                  href="/case/playgram"
+                  className="underline hover:opacity-70"
+                >
+                  Read the case study →
+                </Link>
+              </p>
+            </Card>
+
+            <Card>
+              <h4 className="text-xl font-bold mb-2">
                 DDB / randddb.com (2023-2025)
               </h4>
               <p className="mb-3">

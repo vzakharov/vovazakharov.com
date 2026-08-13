@@ -36,6 +36,7 @@ next-env.d.ts
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
 # Mined reference material — kept verbatim. It contains nested code fences
 # (a 4-backtick block wrapping 3-backtick blocks) that reflowing would mangle.
 docs/playgram-dossier.md
