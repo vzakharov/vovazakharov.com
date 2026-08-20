@@ -156,7 +156,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 **Entry points and support:**
 
-- **`/issue`** — take a GitHub issue end-to-end: export the thread and its attachments to `docs/issue/<n>/`, split it when the scope genuinely demands it, implement, open the draft PR. The export is what makes screenshots and screen recordings readable — `gh issue view` alone does not fetch them.
+- **`/issue`** — take a GitHub issue end-to-end: export the thread and its attachments to `docs/issue/<n>/`, split it when the scope genuinely demands it, implement, open the draft PR.
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
 - **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — while the name points at the one source this repo actually has.

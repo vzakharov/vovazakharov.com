@@ -31,7 +31,7 @@
     "scripts/vet.sh"
   ],
   "declined": {
-    ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is small enough that a dedupe pass has nothing to dedupe against — revisit when filing becomes routine enough to be worth a skill",
+    ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against — revisit when filing becomes routine",
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
     ".claude/skills/hotfix/": "no promotion path to bypass — main deploys straight to Pages",
