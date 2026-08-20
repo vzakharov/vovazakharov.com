@@ -20,7 +20,8 @@ refuses that path outright. Filed upstream as
 vzakharov/agent-project-boilerplate#17.
 
 The three helpers duplicated between the exporter and `pr-body.py` move
-to `scripts/lib/github.py` (upstream #18). `/finalize`'s sweep cited a
+to `scripts/lib/github.py`, filed there as
+vzakharov/agent-project-boilerplate#18. `/finalize`'s sweep cited a
 script path that never existed here, and `pr-body.py` no longer deletes a
 directory its sibling's export shares.
 
