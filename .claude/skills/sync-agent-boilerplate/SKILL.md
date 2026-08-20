@@ -45,11 +45,10 @@ log` inside the source clone, so a path that was renamed on adoption must stay
 **A declined path is not declined forever.** Most reasons are conditions that can
 flip, which is why the map stores prose instead of a bare list, and why reasons
 are written in the present tense. **Re-read them on every sync** and re-offer
-anything whose condition has stopped holding. The issue skills are declined here
-because no issue has ever
-been opened in this repo; the first time work arrives as a GitHub issue, that
-reason has stopped holding and they are due to be offered again. A reason that
-says `"never — …"` is the one that does not need re-reading.
+anything whose condition has stopped holding. `/test-on-gh` is declined here
+because there is no test suite to dispatch; the day one exists, that reason has
+stopped holding and the skill is due to be offered again. A reason that says
+`"never — …"` is the one that does not need re-reading.
 
 A repo with two sources would make this an array. Nothing here precludes that and
 nothing here builds it.
