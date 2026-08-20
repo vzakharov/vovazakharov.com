@@ -15,23 +15,31 @@ auth-gates them even on a public issue. It exports pull requests too,
 review threads and diff hunks included, which is why it is named for
 items rather than issues.
 
-Two adaptations are local. The skill's plan-mode branch names `/plan`
-explicitly, because web/remote sessions here route around the native
-plan-mode UI. And it records a verified environment limit: the agent
-proxy admits only repository-scoped paths on `github.com`, so an
-attachment served from `user-attachments` answers 403 whatever the
-token — making that the one export failure that must not halt a run the
-skill otherwise tells you to abandon.
+Running it surfaced that it never downloaded an attachment on
+`github.com/user-attachments/…` at all — the host GitHub has served
+every issue-composer upload from since 2024. urllib copies
+`Authorization` onto a redirected request, those URLs redirect to a
+pre-signed S3 URL, and S3 rejects a request carrying both its signature
+and that header. The header is now dropped when a redirect changes host.
+The failure is in the script rather than the environment, so it is filed
+upstream as vzakharov/agent-project-boilerplate#17. Layered on top, the
+remote-session egress proxy refuses that path outright, so a failed
+download retries on a direct connection — the accommodation the
+session-start hook already makes for `gh`, with the proxy-honoring
+attempt kept first so an environment that has no direct route out is
+unaffected.
 
-The rest is the reference closure the exporter's absence had left
-inconsistent. `/finalize`'s sweep cited a script path that never
-existed in this repo. `scripts/pr-body.py` unlinks its own `body.md`
-instead of removing a directory an export now shares, and
-`/qa-checklist`'s cleanup line agrees; `/from-branch` can export a
-whole PR when a review link points it at feedback. `/propose-issue`
-stays declined — `/issue` creates its own sub-issues and cites no such
-skill — but its reason now names the condition that actually holds, a
-backlog too small to dedupe against, rather than the retired one.
+The skill names `/plan` explicitly where it says "plan mode", because
+web sessions here route around the native UI, and it records how
+attachments get through so a future regression is diagnosable. The rest
+is the reference closure the exporter's absence had left inconsistent:
+`/finalize`'s sweep cited a script path that never existed in this repo,
+`scripts/pr-body.py` unlinks its own `body.md` instead of removing a
+directory an export now shares, `/qa-checklist` agrees, and
+`/from-branch` can export a whole PR. `/propose-issue` stays declined —
+`/issue` creates its own sub-issues and cites no such skill — but its
+reason now names the condition that actually holds, a backlog too small
+to dedupe against, rather than the retired one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
