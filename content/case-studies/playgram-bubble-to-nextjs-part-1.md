@@ -94,7 +94,7 @@ Before the grit, the shape of the thing.
 | **11 Jul**      | 127 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                 |
 | **7 Aug**       | 154 | Last day of my full-time assignment.                                    |
 
-A note on that chart, because it's the number I care about most. I claimed, when I sketched this article, that you could _precisely_ see the spot where my mindset changed. You can't, quite — it's a seam about four weeks wide, not a spot. But three completely independent signals agree on where that seam is. The commit rate steps from 6.8/day across the March–April grind to 11.1/day from late May. The `Co-Authored-By: Claude` trailer — the local CLI's default signature — is on 404 commits through March and April, and then simply stops. And the `(pr #…)` squash marker appears on 26 May and immediately runs at about eighty a week.
+A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my mindset changed. You can't, quite — it's a seam about four weeks wide, not a spot. But three independent signals agree on where it is. The commit rate steps from 6.8/day across the March–April grind to 11.1/day from late May. The `Co-Authored-By: Claude` trailer — the local CLI's default signature — is on 404 commits through March and April, and then simply stops. And the `(pr #…)` squash marker appears on 26 May and immediately runs at about eighty a week.
 
 The number that actually proves the point, though, is a boring one: **churn per commit stays flat at around 400 lines while commits per day go up 63%.** Same-sized units of work, just more of them at a time. That's the fingerprint of parallel streams, not of bigger batches — which is exactly what "I went from three agents to twenty" should look like in a graph, and it's a much better piece of evidence than the curve bending.
 
@@ -112,7 +112,7 @@ As I already said, the JSON that is an exported Bubble app is an 11 MB file, min
 
 But "splitting" isn't as straightforward as it seems.
 
-**1 — You can't just grab subobjects, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that has to read all of them to find anything.
+**1 — You can't just grab subobjects, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that must read all of them to find one.
 
 **2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff", you'd get a chaotic mess that would be impossible to make sense of. A split that isn't stable across re-exports is a split you can only use once.
 
@@ -143,7 +143,7 @@ export const actions = {
 };
 ```
 
-Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, and every step is a file you can open. Step 4's filename isn't a slug of an ID — it's the label a human typed into the Bubble editor, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
+Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is not a slug of an ID but the label a human typed into the Bubble editor, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
 
 And there's one lovely bit of self-incrimination in there. Step 0 is the only step with an unreadable name, because it's the only step Bubble keys purely by plugin ID — `1488796042609x768734193128308700`. That ID belongs to Toolbox. Remember Toolbox? The most-downloaded plugin in the entire Bubble marketplace, the one whose purpose is running raw JavaScript? Step zero of sending a chat message in our no-code app was a `Run javascript` action. I didn't plant that; I found it while writing this paragraph.
 
@@ -251,7 +251,7 @@ And on problem 2 — the weekly re-export — the answer turned out to be five s
 4. **Long strings get hoisted out to `.txt` siblings** whose filenames derive from their JSON path. This one is entirely about prompts: an LLM prompt embedded in JSON is a single line of `\n` escapes, so every edit to it diffs as one enormous changed line. Pulled out to a text file, it diffs like prose. 256 of them.
 5. **One key per line,** so a changed property is a one-line diff.
 
-The commit history of that script is the whole lesson in miniature. Seven refinements landed on the first day, and every one after the initial version is either a new structure-recogniser or a diff-legibility fix. At the first commit the split was 1,183 files and 15.3 MB. After the refinements: 3,137 files and 13.6 MB. **The total size barely moved; the file count tripled.** Same information, cut into three times as many navigable pieces. That's the entire trick, and it's why the final number is 3,487 files rather than something that sounds more restrained.
+The commit history of that script is the lesson in miniature. Seven refinements landed on the first day, and every one after the initial version is either a new structure-recogniser or a diff-legibility fix. At the first commit the split was 1,183 files and 15.3 MB. After the refinements: 3,137 files and 13.6 MB. **The total size barely moved; the file count tripled.** Same information, cut into three times as many navigable pieces — which is why the final number is 3,487 rather than something that sounds more restrained.
 
 Best of all, now every button, input group, workflow, etc., was tied to a specific file in the "split" — if the Bubble app ever changed, it would more likely than not be represented in diffs in relevant files.
 
@@ -314,7 +314,7 @@ Prisma and the Supabase client.
 | **Is Neon worth an extra vendor?**    | Yes — branching justifies it   | Not yet — revisit later                  | No — Supabase covers DB hosting           | Defer — pick host after stack          |
 ```
 
-I want to draw your attention to the Doc 3 column, because it's the whole argument of this section in one table cell. Doc 3 was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
+Look at the Doc 3 column. Doc 3 was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
 
 Doc 3 won both. We ship Supabase Auth and we ship RLS as a fail-closed safety net. And the decision doc says out loud why the arithmetic lost:
 
@@ -414,7 +414,7 @@ flowchart TD
 
 Even without looking into the code of each of them, such a structure gives not just an agent, but every human who first looks at the directory structure, an approximate understanding of what's going on. This has helped immensely especially when new features came into view: the agent doesn't need to spend its time, mental resource — and tokens — thinking about where to place that member-group access control feature we discussed in the standup and that has now to be implemented. It sees clear, logical patterns, and follows them.
 
-There's a second-order effect that shows up in the growth numbers, which I didn't expect and rather like. Between the first production build and today, `src/` went from 98,000 to 244,000 lines. The layers that grew _fastest_ in relative terms are the bottom ones: `shared` nearly tripled, `entities` nearly tripled, while the app-specific top layer grew by less than double. Rigid boundaries don't just stop things being put in the wrong place; they make the reusable layer the path of least resistance, so it thickens on its own.
+There's a second-order effect I didn't expect and rather like. Between the first production build and today, `src/` went from 98,000 to 244,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn't quite double. Rigid boundaries don't only stop things being put in the wrong place; they make the reusable layer the path of least resistance, so it thickens on its own.
 
 An unobvious beauty of it, which you only discover through struggle, is that when you have something that does NOT seem to fit, it almost always ends up meaning you've got some higher-level conceptual understanding wrong. The form ends up defining the essence — for everyone's better.
 
@@ -422,7 +422,7 @@ An unobvious beauty of it, which you only discover through struggle, is that whe
 >
 > **The form ends up defining the essence — for everyone's better.**
 
-**Verdict: 8.5/10** only because I think I could be MORE rigorous with intra-slice hygiene. And here's a tiny piece of evidence for exactly that, which I found while writing this: the boundaries config carries a hand-written exception letting `pages/chat` import from `app`, added for a chat header menu months ago. There are currently zero such imports. The carve-out has been dead for weeks and nobody noticed, including me. A rule you don't re-audit is a rule that slowly stops describing your codebase.
+**Verdict: 8.5/10** only because I think I could be MORE rigorous with intra-slice hygiene. A tiny piece of evidence for exactly that: the boundaries config carries a hand-written exception letting `pages/chat` import from `app`, added for a chat header menu months ago. There are currently zero such imports. The carve-out has been dead for weeks and nobody noticed, including me. A rule you don't re-audit is a rule that slowly stops describing your codebase.
 
 ### 2 — Linting
 
@@ -466,7 +466,7 @@ The other return is one I didn't anticipate: about a third of the time, a report
 
 Its blast radius was actually so big we had to ratchet it in stages before the entire codebase was clean. The real sequence, which I'd forgotten was quite this bad: threshold 3, then 2, then back up to 4 when we rewrote the detector and it started finding more, then 3, then 2, then finally 1. Five downward flips over 26 days, thirteen landings on `main`, about 1,300 file-changes, every one of them type-level only. At the tightest point we were running a second, per-member ratchet alongside the global one — a committed list of member signatures already deduped and held at threshold 1, so nothing that had been cleaned could get re-inlined while the floor was still 2. That list peaked at 277 signatures before we deleted it and dropped the floor to 1. 248 overlap groups were cleared in total. Roughly 330 shared bases exist now that didn't before.
 
-Overengineering, you think? But think about this: the alternative is 248 pairs of types quietly disagreeing with each other in a codebase where a dozen agents are editing in parallel and none of them can see the other copy. The `tokenCounts` bug cost us months of wrong analytics and was found by luck. And unlike a human, an agent handed "extract a base type and update 32 call sites" doesn't argue, doesn't get bored, and doesn't do 30 of them. Especially in an agent workflow, this is not something you should take lightly.
+Overengineering, you think? But think about this: the alternative is 248 pairs of types quietly disagreeing in a codebase where a dozen agents edit in parallel and none can see the other copy. The `tokenCounts` bug cost us months of wrong analytics and was found by luck. And unlike a human, an agent handed "extract a base type and update 32 call sites" doesn't argue, doesn't get bored, and doesn't do 30 of them. Especially in an agent workflow, this is not something you should take lightly.
 
 **Verdict: 10/10** — they just work, make the code cleaner, and, unlike humans, agents don't get rage bouts from them.
 
@@ -601,7 +601,7 @@ A few notes on reading that table.
 
 The first is that they compose. `/implement` doesn't just implement; it loads `/dry` and `/tighten-docs` by reference and then hands off to `/pr`, which loads `/branch-rename`, `/qa-checklist` and `/squash-message`. `/finalize` reaches into six others. The skills are less a menu than a call graph, and the reason that works is that each one is a file in the repo that another one can point at.
 
-The second is that this is not a tidy garden. Writing this article made me go and look, and `roundtable` still refers to a methodology we deleted in May; `weigh` and `synthesize` are the two halves of that multi-model decision process from March and nothing has invoked them since; `explore` is 655 bytes of frontmatter that restates what the default behaviour already does. That's about four of thirty-three that should probably go.
+The second is that this is not a tidy garden. `roundtable` still refers to a methodology we deleted in May; `weigh` and `synthesize` are the two halves of that multi-model decision process from March and nothing has invoked them since; `explore` is 655 bytes of frontmatter restating what the default behaviour already does. Four of thirty-three that should probably go.
 
 **Verdict: 8/10** — some skills got churned along the way, some might as well be in the future. I guess that's the nature of the process, but having to keep an eye on updating them — and mostly forgetting to — is a burden. Thirty-three files that describe how you work is a real asset. It's also a second codebase, and it drifts exactly like the first one, except nothing lints it.
 
