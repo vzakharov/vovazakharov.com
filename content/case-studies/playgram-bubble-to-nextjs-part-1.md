@@ -5,12 +5,13 @@
 |                          |                                                                        |
 | ------------------------ | ---------------------------------------------------------------------- |
 | **Assignment**           | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase |
-| **Span**                 | 6 March – 20 August 2026 · 168 days                                     |
+| **Span**                 | 6 March – 10 August 2026 · 158 days                                     |
 | **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                   |
-| **Shipped**              | 1,537 commits to `main` · 1,063 merged pull requests · 244,000 lines of TypeScript |
+| **Shipped**              | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript |
 | **Cold load**            | multi-second → sub-second                                              |
-| **Releases**             | 4 majors, 3 workspace cutovers, zero rollbacks                          |
-| **Team**                 | me, and somewhere between ten and twenty-five Claude Code agents at a time |
+| **Released**             | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days |
+| **Cutovers**             | 3 workspaces, zero rollbacks                                            |
+| **Team**                 | four people, and ten to twenty-five Claude Code agents at a time        |
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -50,7 +51,14 @@ In the case of Playgram, by the way, the makers are Zeroqode, with a ballpark of
 
 **3 — Missing out on all the AI agents stuff.** Although Bubble has been making inroads into using AI for its builders, needless to say its capabilities are far behind what modern tools like Claude Code, Cursor, or Codex provide. The team was feeling like they were missing out on being able to deliver more features in smaller time frames.
 
-That last one is the interesting one, and it's most of what this case study is actually about. They didn't just want code. They wanted the thing that code makes possible.
+That third one is the interesting one, and it's most of what this case study is about. It's also the one that turned out to be measurable. Two examples from the far end of the project, both of them things the product had wanted for a long time:
+
+- **Billing that actually bills.** In Bubble, credits were a line of marketing copy on a pricing card; the app's own release notes mention them twice and both times cosmetically. Fifteen days after the first commit on it, credits were a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen distinct cost stages, decremented live, enforced server-side at send time, carried over at renewal and capped per member.
+- **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that. Server-authoritative enforcement was live six days after the first commit on it; the admin UI and the model-picker gating, thirteen days.
+
+Good luck shipping either of those on that clock by drawing boxes.
+
+And there's a second-order version of the point that I didn't fully appreciate until the end. The people who'd be living in this codebase weren't some future team of hired engineers — they were the same people who had drawn the app in the first place. Making _them_ faster was the actual assignment. Whether that worked is a question this piece can answer, and I'll come back to it at the end.
 
 ## What
 
@@ -68,11 +76,11 @@ To give some perspective on why this was a pretty challenging endeavor:
 
 Below you'll find how we tackled each of these challenges; how we discovered new ones I would've never envisioned, and what mistakes we made along the way (so you don't have to).
 
-## The four months, in numbers
+## The rebuild, in numbers
 
 Before the grit, the shape of the thing.
 
-![Cumulative commits to main across the rebuild: 6.8 commits/day through the March–April grind, 11.1/day from late May onward, with the 2-month deadline and the four release milestones marked](./assets/playgram-commit-cumsum.svg)
+![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from about six a day to about nine across a four-week seam in late April and May; weekly units of work go from the forties to the eighties across the same seam, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 | Date            | Day | What happened                                                          |
 | --------------- | --- | ---------------------------------------------------------------------- |
@@ -80,17 +88,27 @@ Before the grit, the shape of the thing.
 | **10 Mar**      | 5   | The Next.js app gets bootstrapped. `layout.tsx`, `page.tsx`, and nothing else. |
 | **12 Mar**      | 7   | First feature code: auth screens, styled to match the Bubble original.  |
 | **19 Mar**      | 14  | A message goes to an LLM and a response comes back. The product loop works. |
+| **24 Apr**      | 50  | The first pull requests. Until now everything went straight to `main`.  |
 | **6 May**       | 62  | **The original deadline.** Nothing in production.                       |
-| **21 May**      | 76  | `4.0.0` — first production build.                                       |
-| **26 May**      | 81  | Everything moves to PR-based flow and cloud agents. The slope changes.  |
-| **24 Jun**      | 110 | `4.1.0` — first workspace actually running on the rewrite.              |
-| **3 Jul**       | 119 | `4.2.0` — the big cutover.                                              |
-| **11 Jul**      | 127 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                 |
-| **7 Aug**       | 154 | Last day of my full-time assignment.                                    |
+| **21 May**      | 77  | `4.0.0` — first production build.                                       |
+| **26 May**      | 82  | The last local sessions. From here it's cloud agents and PR squashes.   |
+| **24 Jun**      | 111 | `4.1.0` — first workspace actually running on the rewrite.              |
+| **3 Jul**       | 120 | `4.2.0` — the big cutover.                                              |
+| **11 Jul**      | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                 |
+| **31 Jul**      | 148 | `4.4.0` — workspace credits and model access control.                   |
+| **10 Aug**      | 158 | `4.4.3` — the last release that's mostly mine. Handover.                |
 
-A note on that chart. The point where my working method changed isn't a spot — it's a seam about four weeks wide, and three independent signals agree on where it sits. The commit rate steps from 6.8/day across the March–April grind to 11.1/day from late May. The `Co-Authored-By: Claude` trailer — the local CLI's default signature — is on 404 commits through March and April, and then simply stops. And the `(pr #…)` squash marker appears on 26 May and immediately runs at about eighty a week.
+A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. It isn't a spot; it's a seam about four weeks wide, running from the last week of April to the last week of May. Three signals agree on where it sits:
 
-The number that actually proves the point, though, is a boring one: **churn per commit stays flat at around 400 lines while commits per day go up 63%.** Same-sized units of work, just more of them at a time. That's the fingerprint of parallel streams, not of bigger batches — which is exactly what "I went from three agents to twenty" should look like in a graph.
+- **The local CLI's signature stops.** Claude Code stamps a model-named `Co-Authored-By` trailer — `Claude Opus 4.6`, `Claude Sonnet 4.6`, `Claude Opus 4.7 (1M context)` — on commits made from my laptop. It's on 393 commits through March and April, twice more in May, and never again.
+- **The cloud's signature starts.** The bare `Co-Authored-By: Claude` form, which is what the web sessions write, appears for the first time in May and is on 806 commits from there to the end.
+- **Pull requests start existing.** Before 24 April there are none — the work went straight to `main`. From that week on everything arrives as a branch, and by late May the `(pr #…)` squash marker is running at about eighty a week.
+
+The number that actually proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
+
+The bottom panel has a shape worth walking through, because it's the project's whole arc in one row of bars. Output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves, and never returns to the ceiling. That isn't a slump. It's the point where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
+
+(Both panels count code only. Documentation commits are excluded, because the opening fortnight produced enough of them to bury everything else on the chart — the decision-docs section below explains what they all were.)
 
 A word on what a "commit" means here, because it's load-bearing for that chart. A commit is not just "a piece of code shipped to GitHub." Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -408,7 +426,7 @@ flowchart TD
 
 Even without looking into the code of each of them, such a structure gives not just an agent, but every human who first looks at the directory structure, an approximate understanding of what's going on. This has helped immensely especially when new features came into view: the agent doesn't need to spend its time, mental resource — and tokens — thinking about where to place that member-group access control feature we discussed in the standup and that has now to be implemented. It sees clear, logical patterns, and follows them.
 
-There's a second-order effect I didn't expect and rather like. Between the first production build and today, `src/` went from 98,000 to 244,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn't quite double. Rigid boundaries don't only stop things being put in the wrong place; they make the reusable layer the path of least resistance, so it thickens on its own.
+There's a second-order effect I didn't expect and rather like. Between the first production build and the handover, `src/` went from 98,000 to 223,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn't quite double. Rigid boundaries don't only stop things being put in the wrong place; they make the reusable layer the path of least resistance, so it thickens on its own.
 
 An unobvious beauty of it, which you only discover through struggle, is that when you have something that does NOT seem to fit, it almost always ends up meaning you've got some higher-level conceptual understanding wrong. The form ends up defining the essence — for everyone's better.
 
@@ -545,7 +563,7 @@ In a way, I turned from a boss who's constantly micromanaging his team into one 
 
 **3 — Handling merge conflicts turned out to be the most overestimated complexity.**
 
-Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable of resolving merge conflicts in a large variety of situations. I'm not only talking about leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interact with each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of — but, after 1,063 merged PRs resolved this way, I've had zero problems with agents doing this.
+Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable of resolving merge conflicts in a large variety of situations. I'm not only talking about leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interact with each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of — but, after more than a thousand merged PRs resolved this way, I've had zero problems with agents doing this.
 
 **Verdict: 10/10** — you can't get back to the CLI or the VS Code plugin once you've mastered the zen of the cloud.
 
@@ -671,6 +689,20 @@ So in the end, my usual flow goes like this:
 I always merge with a squash — I don't want each PR's detailed archaeology to reach `main`. I need one commit with a snappy title and a high-level description body, so any agent (or a human, for that matter) trying to figure out how this or that feature came to be, or how this or that file advanced over time, or what stuff we need to include in the [release](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/release/SKILL.md), can do so from the log alone.
 
 **Verdict: 9/10** — there's still stuff to optimize but as it stands it's a wallet (and mind) saver.
+
+## The handover
+
+On 10 August I shipped `4.4.3` and stopped writing code for this project. In the eleven days that followed, forty-two more units of work landed on `main` and two more releases went out. Four of the pull requests were mine: two sets of release notes, a CI permissions fix, and a change to some agent tooling. The other thirty-eight were the rest of the team's.
+
+That's the number I care about most, because of who the rest of the team is. Three people worked in this repo besides me, and they are the Bubble developers who built Playgram in the first place. Two of them created their GitHub accounts during this project — one of them on its first day. None of them had a professional software-engineering history before March.
+
+Which is not the same as being junior at anything. They had built a product on a no-code platform that most of the industry would tell you can't hold a product like that, and built it well enough that reproducing it in code took me five months. What they hadn't done before was work in a repository — branches, reviews, a type checker, a migration that has to run forwards.
+
+Some of what they shipped in those eleven days: metering for every non-reply cost stage in the product, across seventy-seven files, with a type-level guard that makes it impossible to add a new model call without declaring which budget absorbs its cost. A production data recovery that found 241 stranded attachments among twelve hundred candidates and proved across four dry runs that the naive fix would have resurrected about a thousand files users had deliberately deleted. An authorization bug fixed by introducing the access level that was missing rather than by widening the check that was there. A streaming spreadsheet reader that took a 2.4-second uninterruptible stall down to 76 milliseconds and peak memory from 2.3 GB to 389 MB.
+
+Every one of those thirty-eight pull requests came through the same pipeline this article describes — plan file, implementation, a DRY pass, a docs pass, a finalize attestation — and 84% of them carry a live agent session link in their commit trailers. Nobody was working around the system. That, more than the app, is what I think was actually delivered.
+
+The weekly rate is lower after the handover than before it, and you can see that in the chart. Eleven days is too short a window to read much into, and I'm the wrong person to be objective about it anyway. The part I'd stand behind is narrower: the work kept going, through the same machinery, with nobody calling me.
 
 ## To be continued
 

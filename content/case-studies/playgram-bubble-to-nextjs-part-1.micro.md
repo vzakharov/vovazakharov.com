@@ -4,9 +4,9 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 ---
 
-**The job.** Playgram is a live AI chat product — many models, team chats, file libraries, memory, voice — built entirely in Bubble, a no-code tool. They wanted it as real code in two months, mainly so they could use AI coding agents on it. I took it, and missed the deadline: the first production build was day 76, all workspaces were over by day 127.
+**The job.** Playgram is a live AI chat product — many models, team chats, file libraries, memory, voice — built entirely in Bubble, a no-code tool. They wanted it as real code in two months, mainly so they could use AI coding agents on it. I took it, and missed the deadline: the first production build was day 77, all workspaces were over by day 128.
 
-**The result.** 168 days. 1,537 commits, 1,063 merged PRs, 244,000 lines of TypeScript. Cold loads from multi-second to sub-second. Four major releases, three workspace cutovers, no rollbacks.
+**The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of TypeScript. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
 
 **How.** I wrote almost none of it. At the peak, twenty-plus Claude Code agents ran in parallel in the cloud while I reviewed pull requests. Three things made that possible:
 
@@ -16,7 +16,11 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 3. **One session, one thread.** Bloated context is the biggest killer of agent productivity and of your budget. Every unit of work gets a plan file in the repo, and a plan good enough to implement is a plan good enough to implement in a *fresh* session — which is the test of whether it was any good.
 
-**The number I'd put on a slide.** Churn per commit stayed flat at ~400 lines while commits per day rose 63%. Same-sized units of work, just more of them at once. That's parallelism, measured.
+**What that bought.** Two examples from the far end: billing went from a line of marketing copy on a pricing card to a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen cost stages, enforced server-side — in fifteen days. Member groups with per-group and per-member model access took six days to server-authoritative enforcement, thirteen to the admin UI.
+
+**The number I'd put on a slide.** Across the switch to parallel cloud agents, the median unit of work stayed about the same size — 367 changed lines, then 330 — while units per day went from 6.1 to 8.9. Same-sized pieces, more of them at once. That's parallelism, measured.
+
+**The part I'd actually point at.** I stopped writing code on 10 August. In the eleven days after, 38 of the 42 pull requests merged were the rest of the team's — and the rest of the team is the three Bubble developers who built the app in the first place, two of whom opened their GitHub accounts during this project. Every one of those PRs went through the same plan-implement-review pipeline, 84% of them carrying a live agent session link. The scaffolding was as much the deliverable as the app.
 
 **What I'd do differently.** Less upfront deliberation (four models researching every decision was partly just spreading the blame), and a migration plan with the big picture only — the exhaustively detailed one drifted into a liability within weeks.
 

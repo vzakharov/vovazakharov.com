@@ -6,7 +6,7 @@ _Disclaimer: the disclosures in this case study were approved by Playgram manage
 
 ---
 
-Playgram is a serious AI chat product — multiple providers and models, realtime team and project chats, image and file libraries, memory and knowledge management, voice input — and it was built entirely in Bubble, a no-code app builder. Between March and August 2026 I rebuilt it as a Next.js 16 codebase. 168 days, 1,537 commits to `main`, 1,063 merged PRs, 244,000 lines of TypeScript, and cold load times from multi-second to sub-second.
+Playgram is a serious AI chat product — multiple providers and models, realtime team and project chats, image and file libraries, memory and knowledge management, voice input — and it was built entirely in Bubble, a no-code app builder. Between March and August 2026 I rebuilt it as a Next.js 16 codebase. 158 days, 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of TypeScript, 48 versioned releases, and cold load times from multi-second to sub-second.
 
 I did almost none of the typing. At the peak I was running twenty-plus Claude Code agents at once, and that shift — from three local agents I babysat line by line to twenty in the cloud I reviewed like a manager — is the actual subject here.
 
@@ -16,9 +16,9 @@ Three reasons, in the order they mattered.
 
 **Performance has a floor you can't optimise past.** Bubble's own docs explain that the platform ships the code for every element on a page, visible or not, before it draws anything — and that installed plugins load whether you use them or not. Developers measuring a page with a single text heading on it report a Lighthouse Speed Index of 1.5–1.7 seconds. That's the floor, and no amount of app-side tuning reaches under it.
 
-**The platform has edges, and everyone hits them.** The most-downloaded plugin in the entire Bubble marketplace, at 538,000 installs, is Toolbox — whose purpose is running raw JavaScript. The most popular thing anyone ever built for the no-code platform is a way out of it. Playgram's makers are Zeroqode, who publish 800+ Bubble plugins themselves, and they still felt the walls.
+**The platform has edges, and everyone hits them.** The most-downloaded plugin in the entire Bubble marketplace, at 538,000 installs, is one that lets you run raw JavaScript. The most popular thing anyone ever built for the platform is a way out of it. Playgram's makers are Zeroqode, with a ballpark of 800 plugins shipped, and they still felt the walls.
 
-**And the AI tooling wasn't there.** They wanted the thing that having real code makes possible. That turned out to be the whole point.
+**And the AI tooling wasn't there.** They wanted the thing that having real code makes possible, and they wanted it for themselves — the people who'd live in this codebase were the same people who had drawn the app. Two examples of what that turned into once the code existed: billing went from a line of marketing copy on a pricing card to a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen cost stages, enforced server-side at send time — in fifteen days. Member groups with per-group and per-member model access took six days to server-authoritative enforcement and thirteen to the admin UI.
 
 ## What made it hard
 
@@ -58,7 +58,7 @@ I resisted cloud agents. The laptop melting past five parallel sessions is what 
 
 > **But boy could I be wronger.**
 
-Weeks in I was running 20+ at once, capped only by quota. Merge conflicts turned out to be the most overestimated risk of the lot: after 1,063 merged PRs, agents resolving them properly — reasoning about what changed on each side, not just producing a file that compiles — has never once burned me. It took one skill to encode the footguns.
+Weeks in I was running 20+ at once, capped only by quota. Merge conflicts turned out to be the most overestimated risk of the lot: after more than a thousand merged PRs, agents resolving them properly — reasoning about what changed on each side, not just producing a file that compiles — has never once burned me. It took one skill to encode the footguns.
 
 And the hands-off part inverted completely. **I turned from a boss who's constantly micromanaging his team into one who reviews the outcome, not the process.** My flow is now almost entirely code review on already-made changes, in GitHub's native interface. *(Cloud VMs: 10/10 — you can't go back to the CLI once you've mastered the zen of the cloud.)*
 
@@ -82,8 +82,16 @@ Four sessions per feature, then: plan it, implement it, address the review, fina
 
 ## The timeline, honestly
 
-They asked for 1.5–2 months. I agreed and missed it. At the two-month mark there was nothing in production. The first production build was day 76; the first workspace actually running on the rewrite was seven weeks after the original deadline; all workspaces were over by day 127.
+They asked for 1.5–2 months. I agreed and missed it. At the two-month mark there was nothing in production. The first production build was day 77; the first workspace actually running on the rewrite was seven weeks after the original deadline; all workspaces were over by day 128.
 
-The chart of cumulative commits does show where my method changed, though not as a spot — as a seam about four weeks wide in May, corroborated by three independent signals. The number I like best is the dull one: **churn per commit stays flat at ~400 lines while commits per day rise 63%.** Same-sized units of work, more of them at a time. That's what parallelism looks like from the outside.
+The chart of units of work does show where my method changed, though not as a spot — as a seam about four weeks wide, from the last week of April to the last week of May, corroborated by three independent signals in the commit trailers and the squash markers. The number I like best is the dull one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, more of them at a time. That's what parallelism looks like from the outside.
+
+## The handover
+
+I shipped `4.4.3` on 10 August and stopped writing code. In the eleven days after, 38 of the 42 pull requests merged to `main` were the rest of the team's; my four were release notes, a CI permissions fix and some agent tooling.
+
+The rest of the team is three people, and they are the Bubble developers who built Playgram in the first place. Two of them created their GitHub accounts during this project, one on its first day; none had a professional software-engineering history before March. They are not junior at anything — they built a product on a no-code platform that most of the industry says can't hold one — they just hadn't worked in a repository before.
+
+What they shipped in those eleven days includes metering for every non-reply cost stage across 77 files, a production data recovery that proved over four dry runs that the naive fix would have resurrected a thousand deliberately-deleted files, and a streaming spreadsheet reader that cut a 2.4-second stall to 76 milliseconds. Every one of those PRs came through the same plan-implement-review pipeline described above, 84% of them carrying a live agent session link. The scaffolding was as much the deliverable as the app.
 
 Part II covers CI/CD and the test-bucket problem, data migration, the things that sound simple and aren't — and why everything seemed ALMOST ready at two months and stayed ALMOST ready for two more. Pareto never fails.
