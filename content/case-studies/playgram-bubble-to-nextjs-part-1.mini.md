@@ -22,7 +22,7 @@ Three reasons, in the order they mattered.
 
 ## What made it hard
 
-The Bubble export — the "code" in "no code", and the thing you feed an agent — is a single minified JSON of about 25 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
+The Bubble export — the "code" in "no code", and the thing you feed an agent — is a single minified JSON of 11.6 MB. VS Code won't open it. Meanwhile the app was live and shipping features the whole time, the rewrite had to be pixel-perfect against a design the team had invested heavily in, and the data lived in Bubble's proprietary format with no easy path out. That last one is Part II's story.
 
 ## Setting the table
 

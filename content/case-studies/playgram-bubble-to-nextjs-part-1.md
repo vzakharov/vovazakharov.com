@@ -6,7 +6,7 @@
 | ------------------------ | ---------------------------------------------------------------------- |
 | **Assignment**           | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase |
 | **Span**                 | 6 March – 20 August 2026 · 168 days                                     |
-| **The "code" I started from** | a ~25 MB minified JSON — the Bubble app export                     |
+| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                   |
 | **Shipped**              | 1,537 commits to `main` · 1,063 merged pull requests · 244,000 lines of TypeScript |
 | **Cold load**            | multi-second → sub-second                                              |
 | **Releases**             | 4 majors, 3 workspace cutovers, zero rollbacks                          |
@@ -24,9 +24,7 @@ In case you didn't know, Bubble is a no-code app builder.
 
 When you think of such tools, you'd think that people would just use it to make simple things — a directory site, an internal CRUD tool, a booking form, the kind of marketplace MVP you build to find out whether anyone wants it.
 
-But you'd be surprised how far people can actually take it.
-
-[Ohana](https://bubble.io/blog/ohana/) is a subletting marketplace built on Bubble from day one; its hosts have earned $16.2 million through it, and [Stripe's own customer page](https://stripe.com/customers/ohana) — the payment processor's numbers, not the founders' — forecasts $60 million in annual payment volume for 2026. [SuiteOp](https://bubble.io/blog/suiteop/) runs hospitality operations for over a hundred organizations and up to 30,000 daily guest users, on a $3 million seed round [independently reported](https://hoteltechnologynews.com/2025/04/suiteop-raises-3-million-to-scale-its-hospitality-operations-platform-for-small-to-mid-sized-lodging-operators/) in the trade press. [Formula Bot](https://bubble.io/blog/formula-bot/) is a one-person company that reached a million users, built by a non-programmer over a paternity leave.
+But you'd be surprised how far people can actually take it — from a [subletting marketplace](https://bubble.io/blog/ohana/) whose hosts have earned $16.2 million and which [Stripe projects](https://stripe.com/customers/ohana) will process $60 million this year, to a [hospitality operations platform](https://bubble.io/blog/suiteop/) running a hundred-plus organizations and up to 30,000 daily guest users, to a [one-person company](https://bubble.io/blog/formula-bot/) that reached a million users, built by a non-programmer over a paternity leave.
 
 None of those are toys. A lot of software you've used was probably drawn rather than typed.
 
@@ -40,19 +38,15 @@ So why would then they want to switch to code if it was all so great?
 
 ## Why
 
-**1 — Performance.** However hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple of interconnected boxes, and it just works" fashion, you're bound to hurt the performance.
+**1 — Performance.** However hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple of interconnected boxes, and it just works" fashion, you're bound to hurt the performance. The platform — quoting its [own performance guide](https://manual.bubble.io/help-guides/maintaining-an-application/performance-and-scaling) — sends "the code for all the elements (visible and invisible)" before it draws anything, degrades multiplicatively with every nested repeating group, and ships the code of every plugin you install on every page load, whether you use it or not.
 
-To be fair to Bubble, they don't hide it. Their [own performance guide](https://manual.bubble.io/help-guides/maintaining-an-application/performance-and-scaling) explains that the platform "sends the code for all the elements (visible and invisible)" before it draws anything, that "the number of elements is a bigger factor than the type of elements", that "a nested repeating group has a multiplicative effect on the number of elements", and — my favourite — that "plugins have their code included on each page load regardless if it's used". It's a document about clawing performance back by removing things.
-
-But the part you can't claw back is the floor. A Bubble page ships three render-blocking platform bundles before your app exists, and developers measuring [an almost-empty page](https://forum.bubble.io/t/seeking-advice-on-slow-page-loads-in-bubble-applications/327360) — one text heading, nothing else — report a Lighthouse Speed Index of 1.5–1.7 seconds. The most quoted reply in that thread, to someone asking whether others had hit the same wall on minimal pages, is four words: _"Yes, every single user."_
+But the part you can't claw back is the floor. A Bubble page ships three render-blocking platform bundles before your app exists; a group of developers [measured](https://forum.bubble.io/t/seeking-advice-on-slow-page-loads-in-bubble-applications/327360) an almost-empty page — one text heading, nothing else — and found a Lighthouse Speed Index of 1.5–1.7 seconds.
 
 To spoil the ending: moving Playgram to Next changed cold load times from multi-second to sub-second; something which is _instantly_ tangible for a user, even if "wait a couple secs at first load" doesn't sound like such a big thing.
 
-**2 — Bumping into Bubble's edges.** Every platform has edges. This one is named after the thing that pops when you reach them.
+**2 — Bumping into the bubble's edges.** All too many Bubble developers have faced the same thing again and again as their apps grow: they meet the system's limits and end up installing (and sometimes purchasing) third-party plugins, running vanilla JS in the browser, or even writing their own reactivity frameworks to make up for what Bubble can not provide. Quite illustratively, the number one Bubble plugin, with over 538,000 lifetime downloads, is [one that allows](https://bubble.io/blog/top-community-plugins-templates-2023/) running custom JavaScript. The most popular thing anyone ever built for the platform is a way out of it — and two of the five top templates that year were entire homegrown application frameworks built on top of Bubble, for the same reason one layer up.
 
-All too many Bubble developers have faced the same thing again and again as their apps grow: they meet the system's limits and end up installing (and sometimes purchasing) third-party plugins, running vanilla JS in the browser, or even writing their own reactivity frameworks to make up for what Bubble can not provide. You don't have to take my word for how common that is — Bubble published [its own ranking of the top community plugins](https://bubble.io/blog/top-community-plugins-templates-2023/), and the number one plugin, with over 538,000 lifetime downloads, is Toolbox: a plugin whose purpose is to let you run custom JavaScript. The most popular thing anyone ever built for the no-code platform is a way out of it. Two of the five top templates that year were entire homegrown application frameworks built on top of Bubble, for the same reason one layer up.
-
-In the case of Playgram, by the way, the makers are Zeroqode, who describe themselves as "one of the largest developers for Bubble.io space" and list 800+ plugins by their own count — and two of the five most-installed community plugins in Bubble's 2023 round-up are theirs. And they still felt like they were lacking. When the people who supply everyone else's escape hatches start wanting out, that tells you something.
+In the case of Playgram, by the way, the makers are Zeroqode, with a ballpark of 800 plugins shipped, two of which were among the five most-installed community plugins for Bubble in 2023. And they still felt like they were lacking. When the people who supply everyone else's escape hatches start wanting out, that tells you something.
 
 **3 — Missing out on all the AI agents stuff.** Although Bubble has been making inroads into using AI for its builders, needless to say its capabilities are far behind what modern tools like Claude Code, Cursor, or Codex provide. The team was feeling like they were missing out on being able to deliver more features in smaller time frames.
 
@@ -64,7 +58,7 @@ So that's what Levon and his team came up to me with. They wanted a fully functi
 
 To give some perspective on why this was a pretty challenging endeavor:
 
-**1 — A Bubble app export** — the "code" in "no code", and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed about 25 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent. The instruction that ended up in the repo's own guide for agents is blunter than anything I'd have written for a human: **"Do not read directly** — all the info you might need is in the split files."
+**1 — A Bubble app export** — the "code" in "no code", and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent. The instruction that ended up in the repo's own guide for agents is blunter than anything I'd have written for a human: **"Do not read directly** — all the info you might need is in the split files."
 
 **2 — This was a live app in the beginning of its lifecycle.** The team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel. The target kept moving, on purpose, and correctly so — you don't freeze a product for four months to please your contractor.
 
@@ -94,9 +88,9 @@ Before the grit, the shape of the thing.
 | **11 Jul**      | 127 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                 |
 | **7 Aug**       | 154 | Last day of my full-time assignment.                                    |
 
-A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my mindset changed. You can't, quite — it's a seam about four weeks wide, not a spot. But three independent signals agree on where it is. The commit rate steps from 6.8/day across the March–April grind to 11.1/day from late May. The `Co-Authored-By: Claude` trailer — the local CLI's default signature — is on 404 commits through March and April, and then simply stops. And the `(pr #…)` squash marker appears on 26 May and immediately runs at about eighty a week.
+A note on that chart. The point where my working method changed isn't a spot — it's a seam about four weeks wide, and three independent signals agree on where it sits. The commit rate steps from 6.8/day across the March–April grind to 11.1/day from late May. The `Co-Authored-By: Claude` trailer — the local CLI's default signature — is on 404 commits through March and April, and then simply stops. And the `(pr #…)` squash marker appears on 26 May and immediately runs at about eighty a week.
 
-The number that actually proves the point, though, is a boring one: **churn per commit stays flat at around 400 lines while commits per day go up 63%.** Same-sized units of work, just more of them at a time. That's the fingerprint of parallel streams, not of bigger batches — which is exactly what "I went from three agents to twenty" should look like in a graph, and it's a much better piece of evidence than the curve bending.
+The number that actually proves the point, though, is a boring one: **churn per commit stays flat at around 400 lines while commits per day go up 63%.** Same-sized units of work, just more of them at a time. That's the fingerprint of parallel streams, not of bigger batches — which is exactly what "I went from three agents to twenty" should look like in a graph.
 
 A word on what a "commit" means here, because it's load-bearing for that chart. A commit is not just "a piece of code shipped to GitHub." Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -108,7 +102,7 @@ Everything in this half happened before the code could scale. It's the least gla
 
 ## The split
 
-As I already said, the JSON that is an exported Bubble app is an 11 MB file, minified, so not even the most context-rich agent would be able to eat it at once. That's why the first step I took was to write a script that splits it into pieces.
+As I already said, the JSON that is an exported Bubble app is an 11.6 MB file, minified, so not even the most context-rich agent would be able to eat it at once. That's why the first step I took was to write a script that splits it into pieces.
 
 But "splitting" isn't as straightforward as it seems.
 
@@ -145,7 +139,7 @@ export const actions = {
 
 Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is not a slug of an ID but the label a human typed into the Bubble editor, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
 
-And there's one lovely bit of self-incrimination in there. Step 0 is the only step with an unreadable name, because it's the only step Bubble keys purely by plugin ID — `1488796042609x768734193128308700`. That ID belongs to Toolbox. Remember Toolbox? The most-downloaded plugin in the entire Bubble marketplace, the one whose purpose is running raw JavaScript? Step zero of sending a chat message in our no-code app was a `Run javascript` action. I didn't plant that; I found it while writing this paragraph.
+And there's one lovely bit of self-incrimination in there. Step 0 is the only step with an unreadable name, because it's the only step Bubble keys purely by plugin ID — `1488796042609x768734193128308700`. That ID belongs to Toolbox, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
 
 Elements got the same treatment. A whole reusable component, 27 lines, untrimmed — its own properties, then the two imports that bind it to its children and to its handlers:
 
@@ -330,9 +324,9 @@ A note aside, I think here lies the most important thing to keep in mind when co
 
 > **Whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.**
 
-Two more things I'd correct in my own memory of this phase, now that I've gone back and read the history.
+Two more things I'd correct in my own memory of this phase.
 
-The first is that the decision docs were never a two-week artifact. There are 26 of them today and only 12 were written in that first fortnight; the rest are dated June, July, August. The repo's own summary states the policy better than I would have:
+The first is that the decision docs were never a two-week artifact. There are 26 of them today and only 12 were written in that first fortnight; the rest are dated June, July, August. The policy that settled in:
 
 > Decisions are generally made at the point where they're needed, not speculatively upfront. The testing framework decision, for example, was taken when the first production code shipped — not before.
 
@@ -452,7 +446,7 @@ export const RESERVED_JSX_ATTRS = new Set(['key', 'ref']);
 
 **`no-subaction-server-export`** is my favourite, because it's the only one of the 28 whose failure mode is a live authentication hole. We have a `subAction` gate for internal steps that run inside an already-authorized flow; it deliberately performs no access check. Export one from a `'use server'` file and Next's server-action transform turns it into a client-callable, unauthenticated endpoint. One keystroke. An agent tidying helpers into a barrel file would do it without any local signal that anything was wrong. And we already had a rule requiring every `'use server'` export to be wrapped in `safeAction(...)` — it just never looked at _which gate_ was inside. So this rule draws the line the other one missed.
 
-Individually, they don't seem like a big deal. Together though, they make the entire codebase look DRY, clean and less token-wasteful for agents who keep reading them hundreds of times a day. The repo's own guardrails doc puts the case better than I can, and it's the sentence I'd hand to anyone who thinks custom lint rules are a vanity project:
+Individually, they don't seem like a big deal. Together though, they make the entire codebase look DRY, clean and less token-wasteful for agents who keep reading them hundreds of times a day. And the case for writing your own is one sentence:
 
 > Custom rules catch issues at write time instead of code review time. They're especially effective at constraining AI agents, which will never violate a lint rule but will happily violate a comment-based convention.
 

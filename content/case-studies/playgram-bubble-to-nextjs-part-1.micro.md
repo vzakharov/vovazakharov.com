@@ -10,7 +10,7 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 **How.** I wrote almost none of it. At the peak, twenty-plus Claude Code agents ran in parallel in the cloud while I reviewed pull requests. Three things made that possible:
 
-1. **A splitter for the 25 MB Bubble export.** Not chunked by size but reconstructed by shape into 3,487 files that read almost like source, with names recovered from the export's own fields — and, crucially, stable enough that re-exporting the live app weekly produced a legible diff instead of noise.
+1. **A splitter for the 11.6 MB Bubble export.** Not chunked by size but reconstructed by shape into 3,487 files that read almost like source, with names recovered from the export's own fields — and, crucially, stable enough that re-exporting the live app weekly produced a legible diff instead of noise.
 
 2. **Guardrails an agent cannot argue with.** Feature-Sliced Design with zero upward or sideways imports across 8,123 of them, enforced by tooling rather than by good intentions. 362 lint rules, 28 hand-written, every one an error because warnings are rules nobody enforces. Agents will happily ignore a convention written in prose and will never once ship a lint error.
 
