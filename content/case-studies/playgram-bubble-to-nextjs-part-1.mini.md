@@ -26,9 +26,9 @@ The Bubble export — the "code" in "no code", and the thing you feed an agent �
 
 ## Setting the table
 
-**The split (10/10).** First thing I did was write a Python script that cuts the export into files an agent can navigate. Not by size — by *shape*. The script duck-types every object in the JSON against a set of predicates ("does 70% of this dict look like a workflow?"), then recovers human-readable names from the export's own `name` fields, so a click handler lands at `pages/index/workflows/buttonclicked_btnaw0/` with one file per step, in order, as ES module imports. It reads like a function body because it is one, transcribed.
+**The split (10/10).** First thing I did was write a Python script that cuts the export into files an agent can navigate. Not by size — by _shape_. The script duck-types every object in the JSON against a set of predicates ("does 70% of this dict look like a workflow?"), then recovers human-readable names from the export's own `name` fields, so a click handler lands at `pages/index/workflows/buttonclicked_btnaw0/` with one file per step, in order, as ES module imports. It reads like a function body because it is one, transcribed.
 
-The final split is 3,487 files. The part that took real thought wasn't cutting it up once — it was making the cut *stable*, so that re-exporting the app every week produced a legible diff instead of noise. Names derive from content, never position. Ordering is deterministic. Chunks are named by their key range rather than an index, so inserting one entry doesn't renumber eighteen files. Long strings — mostly LLM prompts — get hoisted into `.txt` siblings so they diff as prose rather than as one giant line of `\n` escapes.
+The final split is 3,487 files. The part that took real thought wasn't cutting it up once — it was making the cut _stable_, so that re-exporting the app every week produced a legible diff instead of noise. Names derive from content, never position. Ordering is deterministic. Chunks are named by their key range rather than an index, so inserting one entry doesn't renumber eighteen files. Long strings — mostly LLM prompts — get hoisted into `.txt` siblings so they diff as prose rather than as one giant line of `\n` escapes.
 
 At the first commit the split was 1,183 files and 15.3 MB. After a day of refinements, 3,137 files and 13.6 MB — same information, three times as many navigable pieces.
 
@@ -54,19 +54,19 @@ The most feared of them isn't a lint rule but a script: `type-overlap` fails the
 
 ## Learning to run twenty agents
 
-I resisted cloud agents. The laptop melting past five parallel sessions is what pushed me, and I expected the web UX to be as clumsy as the first Codex, the merge conflicts to be constant, and the whole thing to feel too hands-off — the agent working *somewhere* that isn't *right here*.
+I resisted cloud agents. The laptop melting past five parallel sessions is what pushed me, and I expected the web UX to be as clumsy as the first Codex, the merge conflicts to be constant, and the whole thing to feel too hands-off — the agent working _somewhere_ that isn't _right here_.
 
 > **But boy could I be wronger.**
 
 Weeks in I was running 20+ at once, capped only by quota. Merge conflicts turned out to be the most overestimated risk of the lot: after more than a thousand merged PRs, agents resolving them properly — reasoning about what changed on each side, not just producing a file that compiles — has never once burned me. It took one skill to encode the footguns.
 
-And the hands-off part inverted completely. **I turned from a boss who's constantly micromanaging his team into one who reviews the outcome, not the process.** My flow is now almost entirely code review on already-made changes, in GitHub's native interface. *(Cloud VMs: 10/10 — you can't go back to the CLI once you've mastered the zen of the cloud.)*
+And the hands-off part inverted completely. **I turned from a boss who's constantly micromanaging his team into one who reviews the outcome, not the process.** My flow is now almost entirely code review on already-made changes, in GitHub's native interface. _(Cloud VMs: 10/10 — you can't go back to the CLI once you've mastered the zen of the cloud.)_
 
 **Thirty-three skills (8/10).** Every repeatable process became a file in the repo: `/plan`, `/implement`, `/pr`, `/finalize`, `/dry`, `/tighten-docs`, `/sync-branch`, and twenty-six more. They compose by pointing at each other — `/implement` runs `/dry` and `/tighten-docs`, then hands off to `/pr`, which loads three more. About four of the thirty-three are stale. Thirty-three files describing how you work is a real asset and also a second codebase, and nothing lints it.
 
-**Plan and implement (9/10).** `/plan` began as a workaround for a Claude Code bug — the plan-approval dialog doesn't survive a web session going idle, so you get the same prompt stacked four times and answers to the superseded copies vanish. So I wrote a skill that does what plan mode does but writes a tracked file in the repo instead of an ephemeral object. It became the core of a [spinoff boilerplate](https://github.com/vzakharov/agent-project-boilerplate) I now use everywhere. It also let me put things into the flow that plan mode has no opinion about — every plan must carry a "DRY notes" section arguing what's shared vs. duplicated *before* implementation, rather than discovering it in review.
+**Plan and implement (9/10).** `/plan` began as a workaround for a Claude Code bug — the plan-approval dialog doesn't survive a web session going idle, so you get the same prompt stacked four times and answers to the superseded copies vanish. So I wrote a skill that does what plan mode does but writes a tracked file in the repo instead of an ephemeral object. It became the core of a [spinoff boilerplate](https://github.com/vzakharov/agent-project-boilerplate) I now use everywhere. It also let me put things into the flow that plan mode has no opinion about — every plan must carry a "DRY notes" section arguing what's shared vs. duplicated _before_ implementation, rather than discovering it in review.
 
-**Context hygiene (9/10).** This is the one I'd tell you first if we had one minute. The single biggest killer of agent productivity — and of your wallet — is bloated context. The mistake I see constantly is people never ending a conversation: do this, and also that, oh and this unrelated thing. Yes, models take a million tokens now. Past 200k you've strayed, and the agent can no longer *use* all of it reliably even if it can still recall it.
+**Context hygiene (9/10).** This is the one I'd tell you first if we had one minute. The single biggest killer of agent productivity — and of your wallet — is bloated context. The mistake I see constantly is people never ending a conversation: do this, and also that, oh and this unrelated thing. Yes, models take a million tokens now. Past 200k you've strayed, and the agent can no longer _use_ all of it reliably even if it can still recall it.
 
 > _on why a 1M-token context window is not a target_
 >
@@ -76,7 +76,7 @@ And the hands-off part inverted completely. **I turned from a boss who's constan
 >
 > **One session, one thread.**
 
-Which connects straight back to the plan file. If a plan is any good, it has to be sufficient on its own — no part of the conversation that produced it should matter to the quality of the implementation. That's a litmus test: if it isn't sufficient, the plan is bad. And if it *is* sufficient, you can implement it in a brand-new session. Which you can't do with built-in plan mode, because there's nothing to start *from* — but a plan file sitting on the feature branch works perfectly. So `/plan` ends by handing me a copyable `/implement <branch>` command, and the next session picks it up cold.
+Which connects straight back to the plan file. If a plan is any good, it has to be sufficient on its own — no part of the conversation that produced it should matter to the quality of the implementation. That's a litmus test: if it isn't sufficient, the plan is bad. And if it _is_ sufficient, you can implement it in a brand-new session. Which you can't do with built-in plan mode, because there's nothing to start _from_ — but a plan file sitting on the feature branch works perfectly. So `/plan` ends by handing me a copyable `/implement <branch>` command, and the next session picks it up cold.
 
 Four sessions per feature, then: plan it, implement it, address the review, finalize it. Always squash-merged, so `main` reads as one clean commit per unit of work rather than an archaeology of how the agent got there.
 

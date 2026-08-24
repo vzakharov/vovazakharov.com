@@ -15,6 +15,7 @@
 Make, first as an in-repo md file (for further conversion into a proper page and PDF once the content is finalized -- not as part of this issue), a case study of my recent work (Mar 9 - Aug 9) converting the Playgram bubble AP to code.
 
 Approximate plan/structure. Notes:
+
 - brackets indicate what needs to be supplemented by the agent themself
 - when I use Russian, it's not an indication to use the same in the story -- I was just struggling to find the right idiom, but you won't:)
 - although you'll be most certainly extending on my thoughts below, pls try to keep my tone of voice, and certain parts verbatim, even when they sound mildly unnatural (but not if they're way off)
@@ -50,7 +51,7 @@ so why would then they want to switch to code if it was all so great?
 
 [for each of the points below, it makes sense to make some research to grab an actual pain story or two; not to mention them specifically, but to just put them as markdown links on respective phrase here or there, so it doesn't look like hand-waving]
 
-1- performance. however hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple interconnected boxes, and it just works" fashion, you're bound to hurt the performance. Забегая вперёд, moving Playgram to Next changed cold load times from multi-second to sub-second; something which is *instantly* tangible for a user, even if "wait a couple secs at first load" doesn't sound like such a big thing.
+1- performance. however hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple interconnected boxes, and it just works" fashion, you're bound to hurt the performance. Забегая вперёд, moving Playgram to Next changed cold load times from multi-second to sub-second; something which is _instantly_ tangible for a user, even if "wait a couple secs at first load" doesn't sound like such a big thing.
 
 2- bumping into the bubble's edges [use some clever wordplay as in bubble as the platform vs an actual bubble]. All too many bubble developers have faced the same thing again and again as their apps grow: they meet the system's limits and end up installing (and sometimes purchasing) third-party plugins, running vanilla js in browser, or even up writing their own reactivity frameworks to make up for what bubble can not provide. In case of Playgram, by the way, the makers are Zeroqode -- the #1 provider of bubble plugins [source claim], and they still felt like they were lacking.
 
@@ -68,7 +69,7 @@ Suffice to say, VS Code crashes when you try to open a JSON that big -- good luc
 
 2- This was a live app in the beginning of its lifecycle -- the team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel.
 
-3- The team invested quite a lot into design, so they were adamant the rewrite had to be not just functionally equivalent, but a *pixel-perfect* match visually, too.
+3- The team invested quite a lot into design, so they were adamant the rewrite had to be not just functionally equivalent, but a _pixel-perfect_ match visually, too.
 
 4- Like most Bubble apps, the app kept its data in Bubble's proprietary DB format, with no way of easy data migration to a new platform, whatever that would ultimately be.
 
@@ -88,7 +89,7 @@ As I already said, the JSON that is an exported Bubble app is a 11 MB file minif
 
 But "splitting" isn't as straightfoward as it seems
 
-1- You can't just grab subobjects, cutting them by some ceiling size, and expect an agent to be able to handle this. For context, our *ultimate* split turned out to be [restore & count] files -- far more than what an agent can comfortably navigate.
+1- You can't just grab subobjects, cutting them by some ceiling size, and expect an agent to be able to handle this. For context, our _ultimate_ split turned out to be [restore & count] files -- far more than what an agent can comfortably navigate.
 
 2- Even if you DO manage to split it ones -- remember, the app changes; so every week, once you re-export the bubble app and try to have the agent to "look at the diff", you'd get a chaotic mess that would be impossible to make sense of.
 
@@ -118,7 +119,7 @@ The decision process was insanely intricated: four different models from differe
 
 [Find some example of an early decision made so I can put a screenshot of a commit message or a doc including several opinions]
 
-Frankly? I think it was to a considerable degree overthinking and -- I hate to admit that -- avoiding (future) responsibility. "But five agents told it would be fine!" sounds like a good argument until it isn't. (A note aside, I think here lies the most important thing to keep in mind when coding with agents: whoever writes the code or a document, it's *you* who gets kicked if things go wrong, and rightfully so.)
+Frankly? I think it was to a considerable degree overthinking and -- I hate to admit that -- avoiding (future) responsibility. "But five agents told it would be fine!" sounds like a good argument until it isn't. (A note aside, I think here lies the most important thing to keep in mind when coding with agents: whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.)
 
 Verdict: 6.5/10; next time I'd probably spend much less time on obvious things. (Obvious counter-argument: next time I will have the setup that worked the first time, so I would likely not need so much decision-making at all.)
 
@@ -132,7 +133,7 @@ Which is why, from the moment the first line of code was placed, I made sure to 
 
 The control freak work here consisted of three angles:
 
-1- feature-sliced design. In case you don't know the term, feature-sliced design, or FSD, is an approach to (mostly) frontend development that prescribes splitting your code into *layers* and *slices*, with rigid rules on what can be placed where, and what and how can import from what and where.
+1- feature-sliced design. In case you don't know the term, feature-sliced design, or FSD, is an approach to (mostly) frontend development that prescribes splitting your code into _layers_ and _slices_, with rigid rules on what can be placed where, and what and how can import from what and where.
 
 As an example, in our final state, we have the following interconnected entities, features, widgets, and pages:
 
@@ -158,7 +159,7 @@ Individually, they don't seem like a big deal. Together though, they make the en
 
 To top it all, the fearful `type-overlap` script that [describe]. Its blast radius was actually so big we had to ratchet it in 5 to 10 stages before the entire codebase was clean. Overengineering, you think? But think about this: [arguments]. Especially in an agent workflow, this is not something you should take lightly.
 
-Verdict: 10/10 -- they just work, make the code cleaner, and, unlike humans, agents don't get rage bouts  from them.
+Verdict: 10/10 -- they just work, make the code cleaner, and, unlike humans, agents don't get rage bouts from them.
 
 Tip: Put something along these lines in your CLAUDE.md to stop agents from trying to circumvent lint rules:
 
@@ -168,7 +169,7 @@ Tip: Put something along these lines in your CLAUDE.md to stop agents from tryin
 
 Now that we had the functionality figured out (or so we thought), and all the strutwork in place to not have the code fall under its own weight once it's there, it was time to figure out where to actually start.
 
-Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the "migration plan" was born, and it looked *very* detailed -- including code paths, [smth, smth]:
+Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the "migration plan" was born, and it looked _very_ detailed -- including code paths, [smth, smth]:
 
 [Find some state from the era when it was detailed so I can make and insert a screenshot]
 
@@ -180,11 +181,11 @@ Verdict: 6/10 -- next time I'd keep only the big picture in the plan, leaving th
 
 Before I started working on the project, I used to work with 3, tops 5 parallel agents at once, all on my local machine, all with carefully looking into every line change as they made it, and even into their "thinking" (talk about micromanagement). The way this assignment turned me from this to comfortably handling 10-15 parallel sessions, all in claude, with focused code reviews instead of "looking from behind the shoulder", represents probably the biggest evolution of me as an AI-enabled software engineer.
 
-Look at the number of commits* shipped across time, you can precisely [this needs to be confirmed] see the spot where my mindset changed:
+Look at the number of commits\* shipped across time, you can precisely [this needs to be confirmed] see the spot where my mindset changed:
 
 [here we'd need a cum-sum char]
 
-* Here, a "commit" is not just "a piece of code shipped to github." Before switching to a PR-based approach (more on that below), every commit to main was a finished set of work on a specific, well-defined scope. So, basically, you can say it *was* a PR, just not formed as such. After the switch, every commit on main is a squash from a PR branch -- so, throughout this codebase's evolution, the "conceptual" meaning of a commit on main hasn't changed.
+- Here, a "commit" is not just "a piece of code shipped to github." Before switching to a PR-based approach (more on that below), every commit to main was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on main is a squash from a PR branch -- so, throughout this codebase's evolution, the "conceptual" meaning of a commit on main hasn't changed.
 
 So what drove it and how exactly it translated?
 
@@ -196,7 +197,7 @@ So my initial switch to the web interface was one born out of necessity, and ver
 
 Thing is, my first-ever introduction to coding agents was via the first version of Codex, which ran on web, and the UX felt counterintuitive and cumbersome. I imagined it would be the same.
 
-It also felt too "hands-off" that the agent would be working *somewhere* that isn't *right here*, you know? 
+It also felt too "hands-off" that the agent would be working _somewhere_ that isn't _right here_, you know?
 
 Finally, constantly having to merge conflicting branches into main seemed like it would have been quite a headache.
 
@@ -210,10 +211,10 @@ So how did my fears resolve?
 
 1- UI/UX has largely improved.
 
-Depending on your choice of the agent software (Claude Code/Cursor/Codex/etc.), these will vary, but I can judge by the first two, and both are *really* convenient to use.
+Depending on your choice of the agent software (Claude Code/Cursor/Codex/etc.), these will vary, but I can judge by the first two, and both are _really_ convenient to use.
 
 - Each starts a new branch in the cloud, which can be turned into PR with a click of a button (although I did end up replacing it with my own /pr skill -- more on that below)
-- Whenever there *is* a PR, you can conveniently navigate to it to review files, post your comments, and hand them over to the agent afterwards
+- Whenever there _is_ a PR, you can conveniently navigate to it to review files, post your comments, and hand them over to the agent afterwards
 - You can pin the sessions you're working on right now, and the sidebar shows each with its current state -- in progress vs completed -- so switching between them becomes a matter of clicking any one that's currently idle
 
 A callout on choice of software, models, etc.: Things all those benchmarks don't usually tell you is: It doesn't make much difference! Each model and each app has its quirks -- but at this point, all are really good. If you read in a bechmark, that <this model name> now beats <that model name> by 100 ELO points in coding tasks, don't take this as an urge to FOMO.
@@ -222,13 +223,13 @@ A callout on choice of software, models, etc.: Things all those benchmarks don't
 
 Like many coders, I liked to be “close to code.” I thought, I know the tricks of the trade better than an AI would do, I had opinions on how certain things should look, etc. Well, guess what, I still do, in a way (for 95% of case, agents do know better than me, but the remaining 5% isn’t trifle, it can actually steer the architecture from going astray).
 
-But here’s the thing: You don’t have to be constantly *in* it to be able to steer it. Right now my flow is almost 100% based on code reviews I do in gh's native interface based on *already made* changes. (And, of course, before that there is also most often the planning stage, which I also review rigorously.)
+But here’s the thing: You don’t have to be constantly _in_ it to be able to steer it. Right now my flow is almost 100% based on code reviews I do in gh's native interface based on _already made_ changes. (And, of course, before that there is also most often the planning stage, which I also review rigorously.)
 
 In a way, I turned from a boss who's constantly micromanaging his team to one who reviews the outcome, not the process.
 
 3- Handling merging conflicts turned out to be the most overestimated complexity
 
-Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable to resolve merge conflicts in a large variety of situations. I'm not only talking leading the branch to *technically* not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interacts between each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of -- but, after a thousand PRs resolved this wat [here pls double check how many actual PRs since this approach was introduced], I've had zero problems with agents doing this.
+Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable to resolve merge conflicts in a large variety of situations. I'm not only talking leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interacts between each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of -- but, after a thousand PRs resolved this wat [here pls double check how many actual PRs since this approach was introduced], I've had zero problems with agents doing this.
 
 #### Building the skills
 
@@ -245,19 +246,20 @@ Obviously, everyone knows all the agent software already has "plan mode", so why
 
 Well, believe it or not, it initially started as a way to work around a [bug](https://github.com/anthropics/claude-code/issues/72704) in Claude Code: [describe the bug in a simple way].
 
-So I thought, okay, I'll just create a skill that would do *exactly* the same as what plan mode does (by mentioning it by reference), but produce an in-repo, tracked file instead of a transient, ephemeral, obscurely stored plan file-object.
+So I thought, okay, I'll just create a skill that would do _exactly_ the same as what plan mode does (by mentioning it by reference), but produce an in-repo, tracked file instead of a transient, ephemeral, obscurely stored plan file-object.
 
 But what started as a workaround ended up being not just a permanent part of my own workflow, but the core of a [spinoff](https://github.com/vzakharov/agent-project-boilerplate) I created to then use in my other projects, new and old -- but more on that later.
 
 First of all, I've been able to squeeze a few essential things into both `/plan` and `/implement` that aren't part of the usual "create a plan" / "implement the plan" flow. For example, the "/plan" skill prescribes to include a "DRY notes" section in the plan, which would specifically mention steps that will be taken to prevent the codebase from bloating and WETting.
 
 And /implement skill includes:
+
 - prescription to run the `/dry` sill again (!) -- because even if there were DRY notes in the plan, the agent (from experience!) will often and up inserting repetitive code in places that weren't described in detail in the plan
 - Run the "/tighten-docs" skill, which does two things:
--- a "make the docs durable" step. You might've encountered this: an agent works on your review, and they start inserting stuff like "it was this, now it's that, because..." -- stuff that does *not* belong in the codebase because it describes archaeology that noises the reader's context window (whether a human or an agent). So it will meticulously go through the added prose and bring it back to describing "durable contract" instead of said archaeology, for example: [add an example]
--- a "tighten the docs" step, because gosh agents can be loquacious when they write docstrings, comments etc. (btw, throughout this, I'm referring to "docs" as anything that describes how the app/code works -- it doesn't have to be an .md file; a two-line comment in an especially tricky part is a doc too).
+  -- a "make the docs durable" step. You might've encountered this: an agent works on your review, and they start inserting stuff like "it was this, now it's that, because..." -- stuff that does _not_ belong in the codebase because it describes archaeology that noises the reader's context window (whether a human or an agent). So it will meticulously go through the added prose and bring it back to describing "durable contract" instead of said archaeology, for example: [add an example]
+  -- a "tighten the docs" step, because gosh agents can be loquacious when they write docstrings, comments etc. (btw, throughout this, I'm referring to "docs" as anything that describes how the app/code works -- it doesn't have to be an .md file; a two-line comment in an especially tricky part is a doc too).
 
-But most importantly, once I started having the plan in my codebase, I started thinking, hmmm, do I even have to implement this plan *with all the conversation context kept*? After a few trials, I concluded that no, I don't!
+But most importantly, once I started having the plan in my codebase, I started thinking, hmmm, do I even have to implement this plan _with all the conversation context kept_? After a few trials, I concluded that no, I don't!
 
 Which led me to probably the most important part of the process I've adopted and that I now replicate everywhere, which is
 
@@ -265,15 +267,15 @@ Which led me to probably the most important part of the process I've adopted and
 
 One of the biggest killers of agent productivity (and your wallet) is bloated context. Whenever I get to consult someone on how to use agents, the first mistake I see -- over and over again -- that people will just not ever end their conversations. "Do smth here; or let's also do smth there; oh, you know what, let's also do this totally unrelated thing."
 
-Yes, today's agents can handle up to 1M tokens of context, but it doesn't mean you should use them all! Moreover, my rule of thumb is: if you're anywhere past 200k, you've likely strayed too far, and the agent can no longer reliably remember* the stuff you started talking about.
+Yes, today's agents can handle up to 1M tokens of context, but it doesn't mean you should use them all! Moreover, my rule of thumb is: if you're anywhere past 200k, you've likely strayed too far, and the agent can no longer reliably remember\* the stuff you started talking about.
 
-Now, when I say "remember", it doesn't mean it has no recall. Most likely if you ask them to reproduce some exchange from earlier in the convo, they'll be able to -- but they won't be able to use *all of it* reliably.
+Now, when I say "remember", it doesn't mean it has no recall. Most likely if you ask them to reproduce some exchange from earlier in the convo, they'll be able to -- but they won't be able to use _all of it_ reliably.
 
 If you're old enough to have lived through the digital camera revolution of early 2000s, you remember the "race for megapixels". 2, then 4, then 8, then 16 -- but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff has become a marketing race, not a technical one.
 
 This long rant is meant to say: In any given session, you must hold one specific thread for the agent. If you have a side thought, it's better to create and use a separate skill to file [follow-up issues](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/propose-issue/SKILL.md) on github rather than pulling the agent every any way.
 
-Okay but what does any of this have to do with planning and implementing? Here's what: when you've written a plan, *iff* it is a good plan, it *has* to be enough for the agent to follow through. No previous part of your conversation -- how you came up with this approach instead of that approach -- should be a factor to the quality of work done. It's like a litmus test: if it doesn't hold, it means your plan itself is bad.
+Okay but what does any of this have to do with planning and implementing? Here's what: when you've written a plan, _iff_ it is a good plan, it _has_ to be enough for the agent to follow through. No previous part of your conversation -- how you came up with this approach instead of that approach -- should be a factor to the quality of work done. It's like a litmus test: if it doesn't hold, it means your plan itself is bad.
 
 Then, this makes the next consequence obvious: if your plan is necessary and sufficient for quality implementation, you can just start a new session and implement from there. It's obviously not possible with the standard UX-based "plan mode" (there's nothing to start "from"), but with a plan file that sits right in your repo on this feature's branch, it fits perfectly.
 
@@ -283,7 +285,7 @@ For example, here's how it looks for the plan to write this exact case study:
 
 [We'll add a screenshot here once we get to this stage]
 
-(Right, these skills can be applied not just code -- I actually do even all my personal stuff in a separate repo with almost the same set of  skills now, that’s how versatile it is. And yes, you can read what was actually used as an input to create this case study: https://github.com/vzakharov/vovazakharov.com/issues/4 -- I've nothing to hide.)
+(Right, these skills can be applied not just code -- I actually do even all my personal stuff in a separate repo with almost the same set of skills now, that’s how versatile it is. And yes, you can read what was actually used as an input to create this case study: https://github.com/vzakharov/vovazakharov.com/issues/4 -- I've nothing to hide.)
 
 So in the end, my usual flow goes like this:
 
@@ -291,7 +293,7 @@ Session 1: start writing a plan using the `/issue` skill (if you laid it out on 
 
 Session 2: `/implement <branch/name>` -- which the agent in session 1 gracefully provided. Go to the PR, review code, add comments.
 
-Session 3: `/from-branch <branch/name> address code review` -- the agent sees my comments, also sees the entire PR history, does the changes, replies to all of my comments right on gh (also *very* handy, because you get the archaeology of every decision taken, also helps restore your memory when you're coming to the PR from one of the 10 others you're working on simultaneously).
+Session 3: `/from-branch <branch/name> address code review` -- the agent sees my comments, also sees the entire PR history, does the changes, replies to all of my comments right on gh (also _very_ handy, because you get the archaeology of every decision taken, also helps restore your memory when you're coming to the PR from one of the 10 others you're working on simultaneously).
 
 Session 4: `/finalize <branch/name>` -- it removes the unnecessary artifacts (such as the branch file itself), sees how the trunk has advanced since, merges it in, runs the necessary quality gates (more on that below), fixes them, and hands it off to you to merge.
 
@@ -302,21 +304,20 @@ I always merge with a squash -- I don't want each PR's detailed archaeology to r
 This ends Part I of the case study; coming up in Part II:
 
 - Continuous integration and deployment
--- Unit, integration and E2E tests, and why it may not be a good idea to run all on every PR & merge
--- Using Claude Code's own VM as the petri dish to avoid spending money on GitHub actions
--- Release cycles and hotfix break-ins
+  -- Unit, integration and E2E tests, and why it may not be a good idea to run all on every PR & merge
+  -- Using Claude Code's own VM as the petri dish to avoid spending money on GitHub actions
+  -- Release cycles and hotfix break-ins
 - Data migration
--- [some three-way split into sub bullets too]
+  -- [some three-way split into sub bullets too]
 - Stuff that sounds simple but isn't
--- Navigation and that PR we had 75-commit, 139-file PR [referring to https://github.com/Playgramai/playgramapp/pull/2006] we had to ship mid-production because our representation of "what chat exists" kept bloating and drifting as more and more consumers were added
--- Attachment handling: spreadsheets with unexpected stuff in them, images that failed to convert, and spreadsheets, always the spreadsheets, that made us end up writing a home-grown XLS reader
--- Memory chunking and that time a malformed HTML hang our entire app for 4+ hours and made us start using workers (I know I know)
+  -- Navigation and that PR we had 75-commit, 139-file PR [referring to https://github.com/Playgramai/playgramapp/pull/2006] we had to ship mid-production because our representation of "what chat exists" kept bloating and drifting as more and more consumers were added
+  -- Attachment handling: spreadsheets with unexpected stuff in them, images that failed to convert, and spreadsheets, always the spreadsheets, that made us end up writing a home-grown XLS reader
+  -- Memory chunking and that time a malformed HTML hang our entire app for 4+ hours and made us start using workers (I know I know)
 - And, finally, why the hell it seemed like everything was ALMOST ready in 2 months, and stayed ALMOST ready for 2 more, or Pareto never fails.
 
 Stay tuned!
 
 ---
-
 
 ## Timeline (status, references, and other events)
 

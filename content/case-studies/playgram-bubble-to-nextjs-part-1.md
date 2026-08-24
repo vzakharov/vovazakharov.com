@@ -2,16 +2,16 @@
 
 **Part I of II.**
 
-|                          |                                                                        |
-| ------------------------ | ---------------------------------------------------------------------- |
-| **Assignment**           | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase |
-| **Span**                 | 6 March – 10 August 2026 · 158 days                                     |
-| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                   |
-| **Shipped**              | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript |
-| **Cold load**            | multi-second → sub-second                                              |
-| **Released**             | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days |
-| **Cutovers**             | 3 workspaces, zero rollbacks                                            |
-| **Team**                 | four people, and ten to twenty-five Claude Code agents at a time        |
+|                               |                                                                                          |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase             |
+| **Span**                      | 6 March – 10 August 2026 · 158 days                                                      |
+| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                         |
+| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript |
+| **Cold load**                 | multi-second → sub-second                                                                |
+| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days              |
+| **Cutovers**                  | 3 workspaces, zero rollbacks                                                             |
+| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                         |
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -82,21 +82,21 @@ Before the grit, the shape of the thing.
 
 ![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from about six a day to about nine across a four-week seam in late April and May; weekly units of work go from the forties to the eighties across the same seam, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
-| Date            | Day | What happened                                                          |
-| --------------- | --- | ---------------------------------------------------------------------- |
-| **6 Mar**       | 1   | First commit. Not code — a splitting script and a pile of research.     |
-| **10 Mar**      | 5   | The Next.js app gets bootstrapped. `layout.tsx`, `page.tsx`, and nothing else. |
-| **12 Mar**      | 7   | First feature code: auth screens, styled to match the Bubble original.  |
-| **19 Mar**      | 14  | A message goes to an LLM and a response comes back. The product loop works. |
-| **24 Apr**      | 50  | The first pull requests. Until now everything went straight to `main`.  |
-| **6 May**       | 62  | **The original deadline.** Nothing in production.                       |
-| **21 May**      | 77  | `4.0.0` — first production build.                                       |
-| **26 May**      | 82  | The last local sessions. From here it's cloud agents and PR squashes.   |
-| **24 Jun**      | 111 | `4.1.0` — first workspace actually running on the rewrite.              |
-| **3 Jul**       | 120 | `4.2.0` — the big cutover.                                              |
-| **11 Jul**      | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                 |
-| **31 Jul**      | 148 | `4.4.0` — workspace credits and model access control.                   |
-| **10 Aug**      | 158 | `4.4.3` — the last release that's mostly mine. Handover.                |
+| Date       | Day | What happened                                                                  |
+| ---------- | --- | ------------------------------------------------------------------------------ |
+| **6 Mar**  | 1   | First commit. Not code — a splitting script and a pile of research.            |
+| **10 Mar** | 5   | The Next.js app gets bootstrapped. `layout.tsx`, `page.tsx`, and nothing else. |
+| **12 Mar** | 7   | First feature code: auth screens, styled to match the Bubble original.         |
+| **19 Mar** | 14  | A message goes to an LLM and a response comes back. The product loop works.    |
+| **24 Apr** | 50  | The first pull requests. Until now everything went straight to `main`.         |
+| **6 May**  | 62  | **The original deadline.** Nothing in production.                              |
+| **21 May** | 77  | `4.0.0` — first production build.                                              |
+| **26 May** | 82  | The last local sessions. From here it's cloud agents and PR squashes.          |
+| **24 Jun** | 111 | `4.1.0` — first workspace actually running on the rewrite.                     |
+| **3 Jul**  | 120 | `4.2.0` — the big cutover.                                                     |
+| **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                        |
+| **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                          |
+| **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                       |
 
 A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. It isn't a spot; it's a seam about four weeks wide, running from the last week of April to the last week of May. Three signals agree on where it sits:
 
@@ -144,14 +144,14 @@ import { setcustomstate_1 } from './setcustomstate_1.js';
 import { schedulecustom } from './schedulecustom.js';
 
 export const actions = {
-  '0': _1488796042609x768734193128308700_aag,
-  '1': setfocustoelement,
-  '2': setcustomstate,
-  '3': resetgroup,
-  '4': schedule_trigger_stream_existing_chat_after_0_seconds,
-  '5': displaylistdata,
-  '6': setcustomstate_1,
-  '7': schedulecustom,
+  0: _1488796042609x768734193128308700_aag,
+  1: setfocustoelement,
+  2: setcustomstate,
+  3: resetgroup,
+  4: schedule_trigger_stream_existing_chat_after_0_seconds,
+  5: displaylistdata,
+  6: setcustomstate_1,
+  7: schedulecustom,
 };
 ```
 
@@ -304,12 +304,12 @@ primary relational stack be for Playgram's Next.js rebuild?_
 
 ## Recommendations at a Glance
 
-| Doc   | Recommended Stack                | DB Host                    | ORM     | Auth          |
-| ----- | -------------------------------- | -------------------------- | ------- | ------------- |
-| **1** | Drizzle + Neon + Better Auth     | Neon                       | Drizzle | Better Auth   |
-| **2** | Drizzle + Railway PG + Better Auth | Railway                  | Drizzle | Better Auth   |
-| **3** | Supabase + Drizzle               | Supabase                   | Drizzle | Supabase Auth |
-| **4** | Drizzle + Postgres + Better Auth | Flexible (Railway default) | Drizzle | Better Auth   |
+| Doc   | Recommended Stack                  | DB Host                    | ORM     | Auth          |
+| ----- | ---------------------------------- | -------------------------- | ------- | ------------- |
+| **1** | Drizzle + Neon + Better Auth       | Neon                       | Drizzle | Better Auth   |
+| **2** | Drizzle + Railway PG + Better Auth | Railway                    | Drizzle | Better Auth   |
+| **3** | Supabase + Drizzle                 | Supabase                   | Drizzle | Supabase Auth |
+| **4** | Drizzle + Postgres + Better Auth   | Flexible (Railway default) | Drizzle | Better Auth   |
 
 **Universal agreement:** Drizzle ORM. All four docs independently chose it over
 Prisma and the Supabase client.
@@ -319,11 +319,11 @@ Prisma and the Supabase client.
 
 ## Where They Disagree
 
-| Question                              | Doc 1                          | Doc 2                                    | Doc 3                                     | Doc 4                                  |
-| ------------------------------------- | ------------------------------ | ---------------------------------------- | ----------------------------------------- | -------------------------------------- |
-| **Is RLS valuable here?**             | No — BFF makes it redundant    | No — second auth layer, maintenance burden | Yes — strong multi-tenant DB guardrail  | No — app-side authorization preferred  |
-| **Is Supabase Auth worth the coupling?** | No                          | No                                       | Yes — mature, low-risk, handles OAuth/email flows | No                          |
-| **Is Neon worth an extra vendor?**    | Yes — branching justifies it   | Not yet — revisit later                  | No — Supabase covers DB hosting           | Defer — pick host after stack          |
+| Question                                 | Doc 1                        | Doc 2                                      | Doc 3                                             | Doc 4                                 |
+| ---------------------------------------- | ---------------------------- | ------------------------------------------ | ------------------------------------------------- | ------------------------------------- |
+| **Is RLS valuable here?**                | No — BFF makes it redundant  | No — second auth layer, maintenance burden | Yes — strong multi-tenant DB guardrail            | No — app-side authorization preferred |
+| **Is Supabase Auth worth the coupling?** | No                           | No                                         | Yes — mature, low-risk, handles OAuth/email flows | No                                    |
+| **Is Neon worth an extra vendor?**       | Yes — branching justifies it | Not yet — revisit later                    | No — Supabase covers DB hosting                   | Defer — pick host after stack         |
 ```
 
 Look at the Doc 3 column. Doc 3 was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
@@ -356,22 +356,22 @@ The second is that two of those early decisions are now on the record as wrong. 
 
 ### The decisions we actually made
 
-| Thing                  | Choice                                                         | Because                                                                                    |
-| ---------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Hosting                | **Railway** \*                                                 | see the asterisk                                                                           |
-| Database               | **Supabase** (Postgres)                                        | auth co-location — one platform, one dashboard                                              |
-| ORM                    | **Drizzle**                                                    | SQL-native, no codegen step, schema-as-code; the only unanimous 4/4 call                    |
-| Framework              | **Next.js 16**                                                 | never weighed; it was the premise                                                          |
-| Auth                   | **Supabase Auth**                                              | Better Auth was the better architectural fit and lost anyway — it meant owning email delivery, rate limiting and security patching |
-| Tenancy                | **custom tables**                                              | memberships carry domain data; we needed full schema control                                |
-| Row-level security     | **fail-closed safety net**                                     | defence in depth against our own app-code bugs                                              |
-| UI library             | **Mantine v8**                                                 | the only one shipping command palette, RTE, code highlighting, date pickers, DnD, notifications and modals as first-party |
-| Architecture           | **Feature-Sliced Design + BFF**                                | "code will be primarily AI-authored, and LLM agents benefit from rigid constraints that prevent them from cutting corners" |
-| Package manager        | **pnpm**                                                       | strict symlinked `node_modules` blocks phantom deps                                          |
-| Node version           | **no mandated version manager**                                | `engine-strict=true` plus a preinstall check that fails loudly                               |
-| Linting                | **strict ESLint + Steiger, every rule `error`**                | "LLMs treat warnings as negotiable"                                                          |
-| Testing                | **Vitest + RTL + Playwright**                                  | decided the day a Mantine hydration mismatch got through lint, typecheck _and_ build         |
-| i18n                   | **no library; per-slice `config/texts.ts`**                    | no localization planned — hygiene only                                                       |
+| Thing              | Choice                                          | Because                                                                                                                            |
+| ------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Hosting            | **Railway** \*                                  | see the asterisk                                                                                                                   |
+| Database           | **Supabase** (Postgres)                         | auth co-location — one platform, one dashboard                                                                                     |
+| ORM                | **Drizzle**                                     | SQL-native, no codegen step, schema-as-code; the only unanimous 4/4 call                                                           |
+| Framework          | **Next.js 16**                                  | never weighed; it was the premise                                                                                                  |
+| Auth               | **Supabase Auth**                               | Better Auth was the better architectural fit and lost anyway — it meant owning email delivery, rate limiting and security patching |
+| Tenancy            | **custom tables**                               | memberships carry domain data; we needed full schema control                                                                       |
+| Row-level security | **fail-closed safety net**                      | defence in depth against our own app-code bugs                                                                                     |
+| UI library         | **Mantine v8**                                  | the only one shipping command palette, RTE, code highlighting, date pickers, DnD, notifications and modals as first-party          |
+| Architecture       | **Feature-Sliced Design + BFF**                 | "code will be primarily AI-authored, and LLM agents benefit from rigid constraints that prevent them from cutting corners"         |
+| Package manager    | **pnpm**                                        | strict symlinked `node_modules` blocks phantom deps                                                                                |
+| Node version       | **no mandated version manager**                 | `engine-strict=true` plus a preinstall check that fails loudly                                                                     |
+| Linting            | **strict ESLint + Steiger, every rule `error`** | "LLMs treat warnings as negotiable"                                                                                                |
+| Testing            | **Vitest + RTL + Playwright**                   | decided the day a Mantine hydration mismatch got through lint, typecheck _and_ build                                               |
+| i18n               | **no library; per-slice `config/texts.ts`**     | no localization planned — hygiene only                                                                                             |
 
 \* Railway from day one — with a detour. On day four Google Cloud Run tempted us away, chiefly by a 60-minute request timeout we thought we'd need, and we were back within 72 hours. What killed it wasn't the app; it was an org policy called `constraints/iam.allowedPolicyMemberDomains` that wouldn't let me grant `allUsers` the `run.invoker` role, which is to say: I could not make a staging URL public. I tried three ways around it. All three failed, including self-granting `orgpolicy.policyAdmin` — I had `roles/owner` on the project and `organizationAdmin` on the org, and it turns out neither of those grants `setOrgPolicy`. The blocker doc I wrote that evening calls it "a GCP bureaucracy problem, not an application problem," and the resolution I appended the next morning is more candid:
 
@@ -573,41 +573,41 @@ Now, this is perhaps the tastiest part for anyone dabbling with coding agents. O
 
 I'll actually give you all of them.
 
-| Skill | What it does | How it helps |
-| --- | --- | --- |
-| **`/audit-github-backlog`** | Sweeps every open issue and PR against today's code and proposes a close/refile/keep plan. | Fans analysts out per backlog bucket<br>Assigns P0–P3 to every keeper<br>Asserts coverage mechanically, closes nothing |
-| **`/autopilot`** | Unattended grooming loop: claims one contained issue, plans it in a comment, implements, hands off. | Claims work with a visible label<br>Imitates plan mode as an issue comment<br>Leaves only the merge for humans |
-| **`/bootstrap-workflow-dispatch`** | Temporarily adds a push trigger so GitHub can dispatch a workflow that isn't on the default branch yet. | Unblocks "workflow not found" failures<br>Adds, then removes, the one-shot trigger<br>Keeps the default branch untouched |
-| **`/branch-rename`** | Renames the harness auto-branch to a semantic slug derived from the PR or the diff. | Derives the slug without asking<br>Warns that renaming kills an open PR<br>Re-slugs an already-named branch on force |
-| **`/check-merge`** | One-shot check of whether the PR base advanced or the PR landed, handing the result back. | Detects a base that moved underneath<br>Classifies merged/closed PRs in one call<br>Re-syncs the drifted squash-message comment |
-| **`/dry`** | Reviews the session diff for duplication, applying the obvious consolidations and escalating the rest. | Applies obvious dedups silently<br>Surfaces only ambiguous abstractions<br>Keeps non-issues out of the report |
-| **`/explore`** | Delegates a codebase question to parallel Explore subagents and synthesizes their findings. | Spawns one agent per question facet<br>Keeps raw searching out of context<br>Returns a single synthesized answer |
-| **`/finalize`** | Land prep: vet, merge the base, dispatch tests if warranted, mark ready, propose the squash, attest. | Runs vet and merges the base branch<br>Sweeps working artifacts off the branch<br>Posts the only durable verification record |
-| **`/fix-ci`** | Triages a failing Actions run, presents findings, then applies and verifies the fix. | Separates flake from real regression<br>Reports before changing anything<br>Routes release-lane breaks to their own PR |
-| **`/from-branch`** | Attaches the session to an existing branch or PR, abandons the auto-branch, then runs the follow-up. | Resolves PR deep links and bare branches<br>Deletes the throwaway session branch<br>Dispatches the requested follow-up skill |
-| **`/hotfix`** | Ships a fix straight off production, bypassing staging, with a retargeted PR and post-merge reconcile. | Gates urgent work behind a plan anyway<br>Retargets the PR onto production safely<br>Reconciles the shipped fix back to main |
-| **`/implement`** | Executes an approved plan end to end, runs the mandatory quality passes, then opens a draft PR. | Flips the plan file to in-progress<br>Forces the dry and tighten-docs passes<br>Ends with a draft PR opened |
-| **`/issue`** | Takes a GitHub issue end to end: exports the thread, splits when oversized, implements, opens a PR. | Reads the exported thread and attachments<br>Splits over-scoped issues before coding<br>Lands every slice as a draft PR |
-| **`/log-review`** | Reads production logs since the last run, forms an opinionated readout, files a deduped issue per problem. | Reduces the firehose outside the context<br>Dedups issues by judgment, not strings<br>Publishes a readout plus Slack summary |
-| **`/override-gh`** | No-op marker reminding agents that `gh` and `GH_TOKEN` exist and bypass the egress proxy. | Stops needless fallback to other tooling<br>Documents the proxy-bypassing shim<br>Takes no action when invoked |
-| **`/plan`** | File-based stand-in for plan mode and multiple-choice questions in web sessions where those UIs misbehave. | Writes a reviewable plan under docs/plans/<br>Asks questions as numbered prose<br>Emits a copyable /implement handoff block |
-| **`/pr`** | Opens the draft PR: renames the branch, pushes, derives title and body, adds QA checklist and squash proposal. | Blocks until the plan gate clears<br>Renames the branch before a PR exists<br>Posts the squash proposal up front |
-| **`/preview`** | Mounts a change on a temp route in an env-less VM and screenshots it at several widths. | Boots dev against a placeholder env<br>Replaces reasoning about looks with looking<br>Decides teardown versus commit beforehand |
-| **`/propose-issue`** | Finds the existing open issue that already covers a proposed unit of work, or files a new one. | Searches before creating a duplicate<br>Turns surfaced follow-ups into tracked issues<br>Serves as other skills' filing entry point |
-| **`/qa-checklist`** | Writes a manual QA checklist into the PR body, plus a table classifying automatability and coverage. | Updates the PR body idempotently<br>Flags steps no test protects<br>Marks rows the merge itself misses |
-| **`/readonly-probe`** | Dispatches a structurally read-only DB, vector-store and platform-log probe against staging or production. | Grounds investigations in real deployed data<br>Wraps every query in read-only transactions<br>Reaches infra an env-less VM cannot |
-| **`/release`** | Drafts the release commit and notes, and opens the staging-based PR that arms the production deploy. | Proposes the SemVer bump from commits<br>Writes the release-notes file for review<br>Fast-paths urgent fixes as micropatches |
-| **`/renumber-migration`** | Resolves a migration number collision by cherry-picking peers, renumbering, and re-parenting the snapshot. | Keeps the migration journal contiguous<br>Re-parents the snapshot to reality<br>Clears chain-check forks from parallel PRs |
-| **`/roundtable`** | Runs a four-phase multi-agent discussion on a topic through a shared banter file, then reports. | Spawns researchers plus a devil's advocate<br>Coordinates debate via one shared file<br>Pauses mid-way for user feedback |
-| **`/squash-message`** | Owns the copy-ready squash title and body: drafts it in a file, tightens it, posts it as a PR comment. | Drafts into a file before showing anything<br>Enforces a tightening pass first<br>Edits the live comment on re-runs |
-| **`/sync-branch`** | Brings a branch up to date with its merge target in a single reviewable merge commit, then pushes. | Resolves the merge logically, not just textually<br>Keeps the catch-up to one commit<br>Delegates target detection to check-merge |
-| **`/synthesize`** | Step 2 of the multi-model workflow: reads the independent drafts, discusses them, produces the real output. | Commits the drafts before synthesizing<br>Surfaces where the models diverged<br>Deletes drafts with the final output |
-| **`/test-on-gh`** | Dispatches GitHub-hosted test runs (default, integration, E2E or targeted) and blocks for the result. | Buys CI signal where PRs run none<br>Selects buckets, specs or flake passes<br>Forces a push before dispatching |
-| **`/tighten-docs`** | Rewrites added prose that narrates the change or spends more words than it informs, in place. | Converts change-narration into lasting contracts<br>Cuts prose the signature already states<br>Leaves declared no-touch zones alone |
-| **`/update-docs`** | Diffs since the last doc-update commit and refreshes the decisions summary and other affected docs. | Confirms findings before editing docs<br>Advances the update watermark<br>Commits the documentation refresh |
-| **`/update-tests`** | Analyses recent changes for unit, integration and E2E test gaps and files an issue per gap. | Names gaps by test category<br>Files each gap through propose-issue<br>Writes no test code itself |
-| **`/watch-ci`** | Watches an in-flight Actions run tick by tick, pushing fixes mid-run behind the commit skip marker. | Surfaces failures as they happen<br>Pushes fixes without wasting the run<br>Hands non-actionable failures to fix-ci |
-| **`/weigh`** | Step 1 of the multi-model workflow: one agent writes its independent analysis to a draft file. | Keeps each model's analysis uncontaminated<br>Drops the draft in a staging directory<br>Sets up the synthesize comparison |
+| Skill                              | What it does                                                                                                   | How it helps                                                                                                                        |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **`/audit-github-backlog`**        | Sweeps every open issue and PR against today's code and proposes a close/refile/keep plan.                     | Fans analysts out per backlog bucket<br>Assigns P0–P3 to every keeper<br>Asserts coverage mechanically, closes nothing              |
+| **`/autopilot`**                   | Unattended grooming loop: claims one contained issue, plans it in a comment, implements, hands off.            | Claims work with a visible label<br>Imitates plan mode as an issue comment<br>Leaves only the merge for humans                      |
+| **`/bootstrap-workflow-dispatch`** | Temporarily adds a push trigger so GitHub can dispatch a workflow that isn't on the default branch yet.        | Unblocks "workflow not found" failures<br>Adds, then removes, the one-shot trigger<br>Keeps the default branch untouched            |
+| **`/branch-rename`**               | Renames the harness auto-branch to a semantic slug derived from the PR or the diff.                            | Derives the slug without asking<br>Warns that renaming kills an open PR<br>Re-slugs an already-named branch on force                |
+| **`/check-merge`**                 | One-shot check of whether the PR base advanced or the PR landed, handing the result back.                      | Detects a base that moved underneath<br>Classifies merged/closed PRs in one call<br>Re-syncs the drifted squash-message comment     |
+| **`/dry`**                         | Reviews the session diff for duplication, applying the obvious consolidations and escalating the rest.         | Applies obvious dedups silently<br>Surfaces only ambiguous abstractions<br>Keeps non-issues out of the report                       |
+| **`/explore`**                     | Delegates a codebase question to parallel Explore subagents and synthesizes their findings.                    | Spawns one agent per question facet<br>Keeps raw searching out of context<br>Returns a single synthesized answer                    |
+| **`/finalize`**                    | Land prep: vet, merge the base, dispatch tests if warranted, mark ready, propose the squash, attest.           | Runs vet and merges the base branch<br>Sweeps working artifacts off the branch<br>Posts the only durable verification record        |
+| **`/fix-ci`**                      | Triages a failing Actions run, presents findings, then applies and verifies the fix.                           | Separates flake from real regression<br>Reports before changing anything<br>Routes release-lane breaks to their own PR              |
+| **`/from-branch`**                 | Attaches the session to an existing branch or PR, abandons the auto-branch, then runs the follow-up.           | Resolves PR deep links and bare branches<br>Deletes the throwaway session branch<br>Dispatches the requested follow-up skill        |
+| **`/hotfix`**                      | Ships a fix straight off production, bypassing staging, with a retargeted PR and post-merge reconcile.         | Gates urgent work behind a plan anyway<br>Retargets the PR onto production safely<br>Reconciles the shipped fix back to main        |
+| **`/implement`**                   | Executes an approved plan end to end, runs the mandatory quality passes, then opens a draft PR.                | Flips the plan file to in-progress<br>Forces the dry and tighten-docs passes<br>Ends with a draft PR opened                         |
+| **`/issue`**                       | Takes a GitHub issue end to end: exports the thread, splits when oversized, implements, opens a PR.            | Reads the exported thread and attachments<br>Splits over-scoped issues before coding<br>Lands every slice as a draft PR             |
+| **`/log-review`**                  | Reads production logs since the last run, forms an opinionated readout, files a deduped issue per problem.     | Reduces the firehose outside the context<br>Dedups issues by judgment, not strings<br>Publishes a readout plus Slack summary        |
+| **`/override-gh`**                 | No-op marker reminding agents that `gh` and `GH_TOKEN` exist and bypass the egress proxy.                      | Stops needless fallback to other tooling<br>Documents the proxy-bypassing shim<br>Takes no action when invoked                      |
+| **`/plan`**                        | File-based stand-in for plan mode and multiple-choice questions in web sessions where those UIs misbehave.     | Writes a reviewable plan under docs/plans/<br>Asks questions as numbered prose<br>Emits a copyable /implement handoff block         |
+| **`/pr`**                          | Opens the draft PR: renames the branch, pushes, derives title and body, adds QA checklist and squash proposal. | Blocks until the plan gate clears<br>Renames the branch before a PR exists<br>Posts the squash proposal up front                    |
+| **`/preview`**                     | Mounts a change on a temp route in an env-less VM and screenshots it at several widths.                        | Boots dev against a placeholder env<br>Replaces reasoning about looks with looking<br>Decides teardown versus commit beforehand     |
+| **`/propose-issue`**               | Finds the existing open issue that already covers a proposed unit of work, or files a new one.                 | Searches before creating a duplicate<br>Turns surfaced follow-ups into tracked issues<br>Serves as other skills' filing entry point |
+| **`/qa-checklist`**                | Writes a manual QA checklist into the PR body, plus a table classifying automatability and coverage.           | Updates the PR body idempotently<br>Flags steps no test protects<br>Marks rows the merge itself misses                              |
+| **`/readonly-probe`**              | Dispatches a structurally read-only DB, vector-store and platform-log probe against staging or production.     | Grounds investigations in real deployed data<br>Wraps every query in read-only transactions<br>Reaches infra an env-less VM cannot  |
+| **`/release`**                     | Drafts the release commit and notes, and opens the staging-based PR that arms the production deploy.           | Proposes the SemVer bump from commits<br>Writes the release-notes file for review<br>Fast-paths urgent fixes as micropatches        |
+| **`/renumber-migration`**          | Resolves a migration number collision by cherry-picking peers, renumbering, and re-parenting the snapshot.     | Keeps the migration journal contiguous<br>Re-parents the snapshot to reality<br>Clears chain-check forks from parallel PRs          |
+| **`/roundtable`**                  | Runs a four-phase multi-agent discussion on a topic through a shared banter file, then reports.                | Spawns researchers plus a devil's advocate<br>Coordinates debate via one shared file<br>Pauses mid-way for user feedback            |
+| **`/squash-message`**              | Owns the copy-ready squash title and body: drafts it in a file, tightens it, posts it as a PR comment.         | Drafts into a file before showing anything<br>Enforces a tightening pass first<br>Edits the live comment on re-runs                 |
+| **`/sync-branch`**                 | Brings a branch up to date with its merge target in a single reviewable merge commit, then pushes.             | Resolves the merge logically, not just textually<br>Keeps the catch-up to one commit<br>Delegates target detection to check-merge   |
+| **`/synthesize`**                  | Step 2 of the multi-model workflow: reads the independent drafts, discusses them, produces the real output.    | Commits the drafts before synthesizing<br>Surfaces where the models diverged<br>Deletes drafts with the final output                |
+| **`/test-on-gh`**                  | Dispatches GitHub-hosted test runs (default, integration, E2E or targeted) and blocks for the result.          | Buys CI signal where PRs run none<br>Selects buckets, specs or flake passes<br>Forces a push before dispatching                     |
+| **`/tighten-docs`**                | Rewrites added prose that narrates the change or spends more words than it informs, in place.                  | Converts change-narration into lasting contracts<br>Cuts prose the signature already states<br>Leaves declared no-touch zones alone |
+| **`/update-docs`**                 | Diffs since the last doc-update commit and refreshes the decisions summary and other affected docs.            | Confirms findings before editing docs<br>Advances the update watermark<br>Commits the documentation refresh                         |
+| **`/update-tests`**                | Analyses recent changes for unit, integration and E2E test gaps and files an issue per gap.                    | Names gaps by test category<br>Files each gap through propose-issue<br>Writes no test code itself                                   |
+| **`/watch-ci`**                    | Watches an in-flight Actions run tick by tick, pushing fixes mid-run behind the commit skip marker.            | Surfaces failures as they happen<br>Pushes fixes without wasting the run<br>Hands non-actionable failures to fix-ci                 |
+| **`/weigh`**                       | Step 1 of the multi-model workflow: one agent writes its independent analysis to a draft file.                 | Keeps each model's analysis uncontaminated<br>Drops the draft in a staging directory<br>Sets up the synthesize comparison           |
 
 A few notes on reading that table.
 

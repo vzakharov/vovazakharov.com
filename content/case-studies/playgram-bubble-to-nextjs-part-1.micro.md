@@ -14,7 +14,7 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 2. **Guardrails an agent cannot argue with.** Feature-Sliced Design with zero upward or sideways imports across 8,123 of them, enforced by tooling rather than by good intentions. 362 lint rules, 28 hand-written, every one an error because warnings are rules nobody enforces. Agents will happily ignore a convention written in prose and will never once ship a lint error.
 
-3. **One session, one thread.** Bloated context is the biggest killer of agent productivity and of your budget. Every unit of work gets a plan file in the repo, and a plan good enough to implement is a plan good enough to implement in a *fresh* session — which is the test of whether it was any good.
+3. **One session, one thread.** Bloated context is the biggest killer of agent productivity and of your budget. Every unit of work gets a plan file in the repo, and a plan good enough to implement is a plan good enough to implement in a _fresh_ session — which is the test of whether it was any good.
 
 **What that bought.** Two examples from the far end: billing went from a line of marketing copy on a pricing card to a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen cost stages, enforced server-side — in fifteen days. Member groups with per-group and per-member model access took six days to server-authoritative enforcement, thirteen to the admin UI.
 
