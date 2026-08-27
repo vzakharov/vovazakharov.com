@@ -16,7 +16,7 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 3. **One session, one thread.** Bloated context is the biggest killer of agent productivity and of your budget. Every unit of work gets a plan file in the repo, and a plan good enough to implement is a plan good enough to implement in a _fresh_ session — which is the test of whether it was any good.
 
-**What that bought.** Two examples from the far end: billing went from a line of marketing copy on a pricing card to a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen cost stages, enforced server-side — in fifteen days. Member groups with per-group and per-member model access took six days to server-authoritative enforcement, thirteen to the admin UI.
+**What that bought.** Billing went from a number attached to a price, never enforced, to a metered balance — every reply priced from the real provider cost, decremented live, enforced at send time, capped per member — in about four weeks. Per-group and per-member model access control took about two. And a per-query CO₂e estimate, asked for by a university customer, went from request to production in eleven days, built by one of the Bubble developers after I'd stopped writing code.
 
 **The number I'd put on a slide.** Across the switch to parallel cloud agents, the median unit of work stayed about the same size — 367 changed lines, then 330 — while units per day went from 6.1 to 8.9. Same-sized pieces, more of them at once. That's parallelism, measured.
 
