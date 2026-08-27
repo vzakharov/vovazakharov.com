@@ -7,7 +7,7 @@
 | **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase             |
 | **Span**                      | 6 March – 10 August 2026 · 158 days                                                      |
 | **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                         |
-| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript |
+| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
 | **Cold load**                 | multi-second → sub-second                                                                |
 | **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days              |
 | **Cutovers**                  | 3 workspaces, zero rollbacks                                                             |
@@ -25,7 +25,7 @@ In case you didn't know, Bubble is a no-code app builder.
 
 When you think of such tools, you'd think that people would just use it to make simple things — a directory site, an internal CRUD tool, a booking form, the kind of marketplace MVP you build to find out whether anyone wants it.
 
-But you'd be surprised how far people can actually take it — from a [subletting marketplace](https://bubble.io/blog/ohana/) whose hosts have earned $16.2 million and which [Stripe projects](https://stripe.com/customers/ohana) will process $60 million this year, to a [hospitality operations platform](https://bubble.io/blog/suiteop/) running a hundred-plus organizations and up to 30,000 daily guest users, to a [one-person company](https://bubble.io/blog/formula-bot/) that reached a million users, built by a non-programmer over a paternity leave.
+But you'd be surprised how far people can actually take it — from a [subletting marketplace](https://bubble.io/blog/ohana/) whose hosts have earned $16.2 million and which [Stripe projects](https://stripe.com/customers/ohana) will process $60 million this year, to a [hospitality operations platform](https://bubble.io/blog/suiteop/) running a hundred-plus organizations and up to 30,000 daily guest users.
 
 None of those are toys. A lot of software you've used was probably drawn rather than typed.
 
@@ -41,38 +41,36 @@ So why would then they want to switch to code if it was all so great?
 
 **1 — Performance.** However hard you try, when you put abstraction over abstraction over abstraction to make an app work in a "draw a couple of interconnected boxes, and it just works" fashion, you're bound to hurt the performance. The platform — quoting its [own performance guide](https://manual.bubble.io/help-guides/maintaining-an-application/performance-and-scaling) — sends "the code for all the elements (visible and invisible)" before it draws anything, degrades multiplicatively with every nested repeating group, and ships the code of every plugin you install on every page load, whether you use it or not.
 
-But the part you can't claw back is the floor. A Bubble page ships three render-blocking platform bundles before your app exists; a group of developers [measured](https://forum.bubble.io/t/seeking-advice-on-slow-page-loads-in-bubble-applications/327360) an almost-empty page — one text heading, nothing else — and found a Lighthouse Speed Index of 1.5–1.7 seconds.
+Regardless of any performance improvements you try, a Bubble page ships three render-blocking platform bundles before your app even exists. A group of developers [measured](https://forum.bubble.io/t/seeking-advice-on-slow-page-loads-in-bubble-applications/327360) an almost-empty page — one text heading, nothing else — and found a [Lighthouse Speed Index](https://developer.chrome.com/docs/lighthouse/performance/speed-index) of 1.5–1.7 seconds.
 
 To spoil the ending: moving Playgram to Next changed cold load times from multi-second to sub-second; something which is _instantly_ tangible for a user, even if "wait a couple secs at first load" doesn't sound like such a big thing.
 
 **2 — Bumping into the bubble's edges.** All too many Bubble developers have faced the same thing again and again as their apps grow: they meet the system's limits and end up installing (and sometimes purchasing) third-party plugins, running vanilla JS in the browser, or even writing their own reactivity frameworks to make up for what Bubble can not provide. Quite illustratively, the number one Bubble plugin, with over 538,000 lifetime downloads, is [one that allows](https://bubble.io/blog/top-community-plugins-templates-2023/) running custom JavaScript. The most popular thing anyone ever built for the platform is a way out of it — and two of the five top templates that year were entire homegrown application frameworks built on top of Bubble, for the same reason one layer up.
 
-In the case of Playgram, by the way, the makers are Zeroqode, with a ballpark of 800 plugins shipped, two of which were among the five most-installed community plugins for Bubble in 2023. And they still felt like they were lacking. When the people who supply everyone else's escape hatches start wanting out, that tells you something.
+In the case of Playgram, by the way, the makers are [Zeroqode](https://bubble.io/expert/zeroqodetopbubbleagency), an agency specializing _specifically_ in Bubble, with a ballpark of 800 plugins shipped, two of which were among the five most-installed community plugins for Bubble in 2023. And they still felt like they were lacking.
 
 **3 — Missing out on all the AI agents stuff.** Although Bubble has been making inroads into using AI for its builders, needless to say its capabilities are far behind what modern tools like Claude Code, Cursor, or Codex provide. The team was feeling like they were missing out on being able to deliver more features in smaller time frames.
 
-That third one is the interesting one, and it's most of what this case study is about. It's also the one that turned out to be measurable. Two examples from the far end of the project, both of them things the product had wanted for a long time:
+That third one is most of what this case study is about. The customer didn't just want code. They wanted the thing that code makes possible. Running ahead a bit, heretwo examples from the far end of the project, both of them things the product had wanted for a long time:
 
-- **Billing that actually bills.** In Bubble, credits were a line of marketing copy on a pricing card; the app's own release notes mention them twice and both times cosmetically. Fifteen days after the first commit on it, credits were a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen distinct cost stages, decremented live, enforced server-side at send time, carried over at renewal and capped per member.
-- **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that. Server-authoritative enforcement was live six days after the first commit on it; the admin UI and the model-picker gating, thirteen days.
+- **Billing that actually bills.** In Bubble, credits were a line of marketing copy on a pricing card. In the rebuilt app, **fifteen days** after the first commit on it, credits were a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen distinct cost stages, decremented live, enforced server-side at send time, carried over at renewal and capped per member.
+- **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that. Server-authoritative enforcement was live **six days** after the first commit on it; the admin UI and the model-picker gating, thirteen days.
 
-Good luck shipping either of those on that clock by drawing boxes.
-
-And there's a second-order version of the point that I didn't fully appreciate until the end. The people who'd be living in this codebase weren't some future team of hired engineers — they were the same people who had drawn the app in the first place. Making _them_ faster was the actual assignment. Whether that worked is a question this piece can answer, and I'll come back to it at the end.
+Now, keep in mind, the people who'd be living in this codebase weren't some future team of hired engineers — they were the same people who had drawn the app in the first place. Making _them_ faster was the actual assignment. Whether that worked is a question this piece can answer, and I'll come back to it at the end.
 
 ## What
 
-So that's what Levon and his team came up to me with. They wanted a fully functional code-based rewrite of an already working app shipped in 1.5–2 months (a timeline I agreed to but didn't ultimately meet).
+With all the why’s settled, Levon and his team came up to me with. They wanted a fully functional code-based rewrite of an already working app shipped in 1.5–2 months (a timeline I agreed to but didn't ultimately meet).
 
 To give some perspective on why this was a pretty challenging endeavor:
 
-**1 — A Bubble app export** — the "code" in "no code", and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent. The instruction that ended up in the repo's own guide for agents is blunter than anything I'd have written for a human: **"Do not read directly** — all the info you might need is in the split files."
+**1 — A Bubble app export** — the "code" in "no code", and the thing you're going to feed to an agent while rebuilding — **is a multi-megabyte JSON.** In the case of Playgram, it weighed 11.6 megabytes, minified, on one line. Suffice to say, VS Code crashes when you try to open a JSON that big. Good luck feeding that to an agent.
 
-**2 — This was a live app in the beginning of its lifecycle.** The team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel. The target kept moving, on purpose, and correctly so — you don't freeze a product for four months to please your contractor.
+**2 — This was a live app in the beginning of its lifecycle.** The team was meant to keep shipping new features, improving prompts, and catching bugs while a code rewrite was being built in parallel. The target kept moving, on purpose: you don't freeze a product for four months to please your contractor.
 
 **3 — The team invested quite a lot into design,** so they were adamant the rewrite had to be not just functionally equivalent, but a _pixel-perfect_ match visually, too.
 
-**4 — Like most Bubble apps, the app kept its data in Bubble's proprietary DB format,** with no way of easy data migration to a new platform, whatever that would ultimately be. That one is a story of its own, and it's Part II's.
+**4 — Like most Bubble apps, the app kept its data in Bubble's proprietary DB format,** with no way of easy data migration to a new platform, whatever that would ultimately be.
 
 Below you'll find how we tackled each of these challenges; how we discovered new ones I would've never envisioned, and what mistakes we made along the way (so you don't have to).
 
@@ -106,9 +104,7 @@ A note on that chart. When I sketched this article I claimed you could _precisel
 
 The number that actually proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
 
-The bottom panel has a shape worth walking through, because it's the project's whole arc in one row of bars. Output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves, and never returns to the ceiling. That isn't a slump. It's the point where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
-
-(Both panels count code only. Documentation commits are excluded, because the opening fortnight produced enough of them to bury everything else on the chart — the decision-docs section below explains what they all were.)
+Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves, and never returns to the ceiling. t's the point where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
 A word on what a "commit" means here, because it's load-bearing for that chart. A commit is not just "a piece of code shipped to GitHub." Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -124,13 +120,13 @@ As I already said, the JSON that is an exported Bubble app is an 11.6 MB file, m
 
 But "splitting" isn't as straightforward as it seems.
 
-**1 — You can't just grab subobjects, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that must read all of them to find one.
+**1 — You can't just grab subobjects from the huge JSON, cut them by some ceiling size, and expect an agent to handle it.** For context, our _ultimate_ split turned out to be **3,487 files** — far more than what an agent can comfortably navigate. Slicing by size gets you 3,487 files named after nothing, and an agent that must grep through them to find something it needs, every time.
 
-**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff", you'd get a chaotic mess that would be impossible to make sense of. A split that isn't stable across re-exports is a split you can only use once.
+**2 — Even if you DO manage to split it once** — remember, the app changes; so every week, once you re-export the Bubble app and try to have the agent "look at the diff", you'd get a chaotic mess that would be impossible to make sense of.
 
-**What we did right:** the agent researched the common data structures within the JSON programmatically, figuring out what a usual "workflow" is, how its constituent "actions" look, which keys store the "names" of all those entities, etc. As a result, it was able to split it into something that _almost_ looks like code (or, at least, enough so for an AI agent — not a human, mind you — to be able to figure it out).
+So what did we do? We had an agent research the common data structures within the JSON programmatically, figuring out what a usual "workflow" is, how its constituent "actions" look, which keys store the "names" of all those entities, etc. As a result, we were able to split it into something that _almost_ looks like code (or, at least, enough so for an AI agent — not a human, mind you — to be able to figure it out).
 
-Here's the click handler on the chat composer's send button. The splitter gave it a directory of its own and wrote one file per step, so `actions/index.js` is the workflow's body, in order, as ES module imports:
+For example, here's the click handler on the chat composer's send button. The splitter gave it a directory of its own and wrote one file per step, so `actions/index.js` is the workflow's body, in order, as ES module imports:
 
 ```js
 // bubble/playgram_split/pages/index/workflows/buttonclicked_btnaw0/actions/index.js
@@ -157,7 +153,7 @@ export const actions = {
 
 Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is not a slug of an ID but the label a human typed into the Bubble editor, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
 
-And there's one lovely bit of self-incrimination in there. Step 0 is the only step with an unreadable name, because it's the only step Bubble keys purely by plugin ID — `1488796042609x768734193128308700`. That ID belongs to Toolbox, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
+One lovely detail: Step 0, the only step with an unreadable name, refers to using `Toolbox`, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
 
 Elements got the same treatment. A whole reusable component, 27 lines, untrimmed — its own properties, then the two imports that bind it to its children and to its handlers:
 
@@ -255,7 +251,7 @@ def workflow_item_name(key, v):
 
 That last line is why an unnamed handler lands as `buttonclicked_bthdj.js` and not `bthdj.js`. Even the fallback tries to say something.
 
-And on problem 2 — the weekly re-export — the answer turned out to be five separate deliberate choices, none of which is obvious until a diff has burned you:
+As for the regular re-exports — the part where the Bubble app keeps being developed while we're rebuilding it — the answer turned out to be five separate deliberate choices, none of which is obvious until a diff has burned you:
 
 1. **Names come from content, never from position.** A workflow keeps its filename when a step is inserted above it; a new element doesn't renumber its siblings.
 2. **Everything is emitted in a deterministic order.** Numeric collections sort numerically, chunk contents sort case-insensitively. Nothing depends on dict-iteration luck.
@@ -284,17 +280,11 @@ What were we deciding? Things like:
 3. Whether row-level security was a safety net or a maintenance tax
 4. Which UI component library
 
-Code-wise, the project was greenfield — although the app itself wasn't — so every road was open. (One road was never actually open, and I should be honest about it: **the framework was never really in question.** "Next.js rebuild" is in the very first commit message of the repo. There's no decision doc weighing Remix or SvelteKit, because there was no such deliberation. Hosting and database, on the other hand, were wide open, and we spent real effort there.)
+Code-wise, the project was greenfield — although the app itself wasn't — so every road was open. One road was never actually open, and I should be honest about it: **the framework was never really in question.** "Next.js rebuild" is in the very first commit message of the repo. There's no decision doc weighing Remix or SvelteKit, because there was no such deliberation. Hosting and database, on the other hand, were wide open, and we spent real effort there.)
 
-Even stuff like which Node version to use, or which package manager, was subjected to scrutiny. The package-manager doc is my favourite of the small ones, because its reasoning is entirely about the thing that makes this project unusual: we picked pnpm because its strict symlinked `node_modules` blocks phantom dependencies, and phantom dependencies matter more in a codebase that is mostly written by agents — an agent will happily import a package that only happens to be present transitively, and be right, until the day it isn't.
+Even stuff like which Node version to use, or which package manager, was subjected to scrutiny, and the decision process was insanely intricate: four different models from different providers each made its own research, then a fifth synthesized their inputs and provided it for us humans to decide on.
 
-The decision process was insanely intricate: four different models from different providers each made its own research, then a fifth synthesized their inputs and provided it for us humans to decide on. And there's one detail in that process I'm still a bit proud of, which is what happens between the two steps:
-
-> **Bias removal.** After Step 1, analysis files are renamed from `_<model>` to `_1/_2/_3/_4` before Claude Code sees them. This prevents anchoring on a model's reputation when evaluating arguments.
-
-Each model wrote its analysis into its own file, unaware of the others (parallel worktrees — each agent genuinely can't see its siblings). Then, by hand, I stripped the model names off the filenames before the synthesizer ever read them. The synthesizing skill is instructed to recap what each analysis argued _without revealing which model wrote which_. It's a small thing that took ten seconds per decision, and it meant nobody — me included — got to decide that the argument was good because Opus made it.
-
-Here's what that produced for the database question:
+As an example, here's what the decision flow produced for the database question. (Note that the doc doesn't mention model names — intentional to avoid the "judging" being biased for/against any or some of them.)
 
 ```markdown
 # Database Decision Documents: Comparison
@@ -326,35 +316,21 @@ Prisma and the Supabase client.
 | **Is Neon worth an extra vendor?**       | Yes — branching justifies it | Not yet — revisit later                    | No — Supabase covers DB hosting                   | Defer — pick host after stack         |
 ```
 
-Look at the Doc 3 column. Doc 3 was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
+If you look at the Doc 3 column, you'll see that it was the lone dissenter — one against three — on both "is RLS valuable" and "is Supabase Auth worth the coupling."
 
-Doc 3 won both. We ship Supabase Auth and we ship RLS as a fail-closed safety net. And the decision doc says out loud why the arithmetic lost:
+Doc 3 won both. We ship Supabase Auth and we ship RLS as a fail-closed safety net. The decision doc says out loud why the arithmetic lost:
 
 > **Supabase was chosen despite a lower weighted score.** Neon led the scoring on raw capability […] The matrix simply had no row for the factor that decided it, auth co-location.
 
-Frankly? I think the whole thing was to a considerable degree overthinking and — I hate to admit that — avoiding (future) responsibility. "But five agents told it would be fine!" sounds like a good argument until it isn't.
+This is an example of why I think the whole thing was to a considerable degree overthinking and — I hate to admit that — avoiding (future) responsibility ("but five agents told it would be fine!" sounds like a good argument until it isn't).
 
-> _on outsourcing a decision to a panel of models_
->
 > **"But five agents told it would be fine!" sounds like a good argument until it isn't.**
 
 A note aside, I think here lies the most important thing to keep in mind when coding with agents: whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.
 
-> **Whoever writes the code or a document, it's _you_ who gets kicked if things go wrong, and rightfully so.**
-
-Two more things I'd correct in my own memory of this phase.
-
-The first is that the decision docs were never a two-week artifact. There are 26 of them today and only 12 were written in that first fortnight; the rest are dated June, July, August. The policy that settled in:
-
-> Decisions are generally made at the point where they're needed, not speculatively upfront. The testing framework decision, for example, was taken when the first production code shipped — not before.
-
-Which is right, and is also a gentle rebuke to the fortnight: the docs written at the point of need are the good ones.
-
-The second is that two of those early decisions are now on the record as wrong. `database.md` argued that per-PR database branching was low-value with a single developer; `database-branching.md` reverses it four months later, because with a dozen agents opening migration PRs in parallel, it turned out to be worth quite a lot. That's the honest score for a two-week upfront decision pass: durable on tooling, wrong on at least two operational calls.
-
 **Verdict: 6.5/10;** next time I'd probably spend much less time on obvious things. (Obvious counter-argument: next time I will have the setup that worked the first time, so I would likely not need so much decision-making at all.)
 
-### The decisions we actually made
+For the record, here are the decisions we actually made:
 
 | Thing              | Choice                                          | Because                                                                                                                            |
 | ------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -366,18 +342,12 @@ The second is that two of those early decisions are now on the record as wrong. 
 | Tenancy            | **custom tables**                               | memberships carry domain data; we needed full schema control                                                                       |
 | Row-level security | **fail-closed safety net**                      | defence in depth against our own app-code bugs                                                                                     |
 | UI library         | **Mantine v8**                                  | the only one shipping command palette, RTE, code highlighting, date pickers, DnD, notifications and modals as first-party          |
-| Architecture       | **Feature-Sliced Design + BFF**                 | "code will be primarily AI-authored, and LLM agents benefit from rigid constraints that prevent them from cutting corners"         |
+| Architecture       | **Feature-Sliced Design + BFF**                 | code would be primarily AI-authored, and LLM agents benefit from rigid constraints that prevent them from cutting corners         |
 | Package manager    | **pnpm**                                        | strict symlinked `node_modules` blocks phantom deps                                                                                |
 | Node version       | **no mandated version manager**                 | `engine-strict=true` plus a preinstall check that fails loudly                                                                     |
 | Linting            | **strict ESLint + Steiger, every rule `error`** | "LLMs treat warnings as negotiable"                                                                                                |
 | Testing            | **Vitest + RTL + Playwright**                   | decided the day a Mantine hydration mismatch got through lint, typecheck _and_ build                                               |
 | i18n               | **no library; per-slice `config/texts.ts`**     | no localization planned — hygiene only                                                                                             |
-
-\* Railway from day one — with a detour. On day four Google Cloud Run tempted us away, chiefly by a 60-minute request timeout we thought we'd need, and we were back within 72 hours. What killed it wasn't the app; it was an org policy called `constraints/iam.allowedPolicyMemberDomains` that wouldn't let me grant `allUsers` the `run.invoker` role, which is to say: I could not make a staging URL public. I tried three ways around it. All three failed, including self-granting `orgpolicy.policyAdmin` — I had `roles/owner` on the project and `organizationAdmin` on the org, and it turns out neither of those grants `setOrgPolicy`. The blocker doc I wrote that evening calls it "a GCP bureaucracy problem, not an application problem," and the resolution I appended the next morning is more candid:
-
-> **The honest reason:** beyond the org policy blocker, the accumulated friction of GCP's IAM/permission model became too much to justify continuing. Getting a public staging URL — a task that takes seconds on any other platform — consumed hours navigating org policies, service accounts, and permission layers.
-
-Could've been a skill issue. Genuinely — three of my four failures there were me typing the wrong `gcloud` incantation at an organization I owned. But we have never once wanted to move off Railway, and five months later somebody deleted the last of the Cloud Run tooling.
 
 ## The strutwork: FSD, linters, and other things to keep the agents focused
 
