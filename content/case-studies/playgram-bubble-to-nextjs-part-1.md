@@ -51,7 +51,7 @@ In the case of Playgram, by the way, the makers are [Zeroqode](https://bubble.io
 
 **3 — Missing out on all the AI agents stuff.** Although Bubble has been making inroads into using AI for its builders, needless to say its capabilities are far behind what modern tools like Claude Code, Cursor, or Codex provide. The team was feeling like they were missing out on being able to deliver more features in smaller time frames.
 
-That third one is most of what this case study is about. The customer didn't just want code. They wanted the thing that code makes possible. Running ahead a bit, heretwo examples from the far end of the project, both of them things the product had wanted for a long time:
+That third one is most of what this case study is about. The customer didn't just want code. They wanted the thing that code makes possible. Running ahead a bit, here are three examples from the far end of the project, all of them things the product had wanted for a long time:
 
 - **Billing that actually bills.** In Bubble, credits were a line of marketing copy on a pricing card. In the rebuilt app, **fifteen days** after the first commit on it, credits were a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen distinct cost stages, decremented live, enforced server-side at send time, carried over at renewal and capped per member.
 - **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that. Server-authoritative enforcement was live **six days** after the first commit on it; the admin UI and the model-picker gating, thirteen days.
@@ -60,7 +60,7 @@ Now, keep in mind, the people who'd be living in this codebase weren't some futu
 
 ## What
 
-With all the why’s settled, Levon and his team came up to me with. They wanted a fully functional code-based rewrite of an already working app shipped in 1.5–2 months (a timeline I agreed to but didn't ultimately meet).
+With all the why's settled, here's what Levon and his team came up to me with. They wanted a fully functional code-based rewrite of an already working app shipped in 1.5–2 months (a timeline I agreed to but didn't ultimately meet).
 
 To give some perspective on why this was a pretty challenging endeavor:
 
@@ -96,17 +96,13 @@ Before the grit, the shape of the thing.
 | **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                          |
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                       |
 
-A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. It isn't a spot; it's a seam about four weeks wide, running from the last week of April to the last week of May. Three signals agree on where it sits:
+A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. What the chart shows is a seam about four weeks wide, running from the last week of April to the last week of May, and the number that proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
 
-- **The local CLI's signature stops.** Claude Code stamps a model-named `Co-Authored-By` trailer — `Claude Opus 4.6`, `Claude Sonnet 4.6`, `Claude Opus 4.7 (1M context)` — on commits made from my laptop. It's on 393 commits through March and April, twice more in May, and never again.
-- **The cloud's signature starts.** The bare `Co-Authored-By: Claude` form, which is what the web sessions write, appears for the first time in May and is on 806 commits from there to the end.
-- **Pull requests start existing.** Before 24 April there are none — the work went straight to `main`. From that week on everything arrives as a branch, and by late May the `(pr #…)` squash marker is running at about eighty a week.
+Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
-The number that actually proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
+(Both panels exclude docs commits.)
 
-Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves, and never returns to the ceiling. t's the point where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
-
-A word on what a "commit" means here, because it's load-bearing for that chart. A commit is not just "a piece of code shipped to GitHub." Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
+A word on what a "commit" means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
 ---
 
@@ -187,81 +183,9 @@ export const Dropdown_admin_analytics = {
 
 The directory tree does the rest of the work, because it reproduces the UI containment hierarchy verbatim. `workspace_settings/elements/popup_delete_member/elements/group_buttons/` is, quite literally, where the Cancel and Delete buttons live. `memory_knowledge/.../group_container_voice_recorder/elements/button_save_recording.js` is the save button on the voice recorder. An agent asked to find the delete-member confirmation does not search; it navigates.
 
-Two details in there that I'd steal for any future version of this. The first is that the export's own opaque-ID map gets rewritten as a lookup table, so any ID an agent stumbles on resolves to a path:
+As for the regular re-exports — the part where the Bubble app keeps being developed while we're rebuilding it — keeping the diffs readable came down to five deliberate choices, none of which is obvious until a diff has burned you. Names are derived from content rather than from position, so inserting a step doesn't rename its neighbours. Everything is emitted in a fixed order, so nothing depends on the order the parser happened to walk. Chunked files are named after the range of keys they hold rather than by an index, so adding an entry perturbs two filenames instead of shifting a numbered sequence and rewriting every file in it. Long strings get hoisted into sibling text files — that one is entirely about prompts, because a prompt embedded in JSON is a single line of escaped newlines and every edit to it diffs as one enormous changed line, whereas a text file diffs like prose. And there's one key per line, so a changed property is a one-line diff.
 
-```js
-export const id_to_path_aal_to_btduh1 = {
-  bTaDh: '%p3.bTUzR0.%wf.bTYJM.actions.0',
-  bTaEG: '%ed.bTMNU.%wf.bTaEL',
-  bTavl: '%ed.bTaul.%el.bTavh.%el.bTavx.%el.bTavy',
-  // ...
-```
-
-The second is what happens when a Bubble element tree nests deeper than a filesystem enjoys. Anything past a 300-character path gets diverted into a `contd/` directory under a name built from the initials of each path segment, with the real location restored as the file's first line:
-
-```js
-// Original path: element_definitions/memory_knowledge/elements/group_main_column_container/elements/group_main_container/elements/group_add_new_memory/elements/group_input_add_memory_content/elements/group_container_input_voice/elements/group_container_voice_recorder/elements/group_dictate_use_button/elements/group_micro_use_button
-export const group_micro_use_button = {
-```
-
-491 of the 3,487 files live in `contd/`. That's a hack, and it's the right hack.
-
-### How it actually works, since that's the transferable part
-
-The script is 1,036 lines of dependency-free Python. Two things in it are the reason the output reads like code rather than like sliced JSON.
-
-**It duck-types on shape, because there's nothing else to go on.** Bubble's export carries no type tags at the collection level, so the splitter sniffs every dict against a handful of predicates and routes it to a specialised writer. Each predicate is a majority vote, which is precisely what makes it survive a format nobody documented:
-
-```python
-def is_workflows_dict(d):
-    """True if the dict looks like a Bubble workflows collection."""
-    if not isinstance(d, dict):
-        return False
-    vals = [v for v in d.values() if v is not None]
-    if not vals:
-        return False
-    hits = sum(
-        1 for v in vals
-        if isinstance(v, dict) and 'type' in v and 'actions' in v
-    )
-    return hits / len(vals) >= 0.7
-```
-
-Seventy percent. Not all. Ask a schema-first parser to handle a real Bubble export and it dies on the first irregularity; a voting heuristic shrugs and carries on.
-
-**It recovers human names through a precedence chain,** which is the single highest-leverage function in the file:
-
-```python
-def workflow_item_name(key, v):
-    """Best human-readable name for a single workflow item."""
-    if not isinstance(v, dict):
-        return key
-    event_name = (v.get('properties') or {}).get('event_name') or ''
-    if event_name:
-        return event_name
-    name = v.get('name') or ''
-    if name:
-        return name
-    wf_name = (v.get('properties') or {}).get('wf_name') or ''
-    if wf_name:
-        return wf_name
-    wtype = v.get('type') or ''
-    return f'{wtype}_{key}' if wtype else key
-```
-
-That last line is why an unnamed handler lands as `buttonclicked_bthdj.js` and not `bthdj.js`. Even the fallback tries to say something.
-
-As for the regular re-exports — the part where the Bubble app keeps being developed while we're rebuilding it — the answer turned out to be five separate deliberate choices, none of which is obvious until a diff has burned you:
-
-1. **Names come from content, never from position.** A workflow keeps its filename when a step is inserted above it; a new element doesn't renumber its siblings.
-2. **Everything is emitted in a deterministic order.** Numeric collections sort numerically, chunk contents sort case-insensitively. Nothing depends on dict-iteration luck.
-3. **Chunks are named by their range, not by an index** — `id_to_path_btlgb_to_btnwa0.js`. Insert an entry and you perturb two boundary names, instead of shifting an `_1 … _18` sequence and rewriting every file in it.
-4. **Long strings get hoisted out to `.txt` siblings** whose filenames derive from their JSON path. This one is entirely about prompts: an LLM prompt embedded in JSON is a single line of `\n` escapes, so every edit to it diffs as one enormous changed line. Pulled out to a text file, it diffs like prose. 256 of them.
-5. **One key per line,** so a changed property is a one-line diff.
-
-The commit history of that script is the lesson in miniature. Seven refinements landed on the first day, and every one after the initial version is either a new structure-recogniser or a diff-legibility fix. At the first commit the split was 1,183 files and 15.3 MB. After the refinements: 3,137 files and 13.6 MB. **The total size barely moved; the file count tripled.** Same information, cut into three times as many navigable pieces.
-
-Best of all, now every button, input group, workflow, etc., was tied to a specific file in the "split" — if the Bubble app ever changed, it would more likely than not be represented in diffs in relevant files.
+Once everything was done, every button, input group, workflow and the rest was tied to a specific file in the split — so when the Bubble app changed, the change showed up as a diff in the relevant files.
 
 There was a lot of trial and error along the way, but overall I would say it was one of the most successful parts of the project, and something that definitely is a know-how to keep for further projects.
 
@@ -280,7 +204,7 @@ What were we deciding? Things like:
 3. Whether row-level security was a safety net or a maintenance tax
 4. Which UI component library
 
-Code-wise, the project was greenfield — although the app itself wasn't — so every road was open. One road was never actually open, and I should be honest about it: **the framework was never really in question.** "Next.js rebuild" is in the very first commit message of the repo. There's no decision doc weighing Remix or SvelteKit, because there was no such deliberation. Hosting and database, on the other hand, were wide open, and we spent real effort there.)
+Code-wise, the project was greenfield — although the app itself wasn't — so every road was open. (The only one that wasn't was basing it all on Next.js: that was the premise from the very first commit, on the reasoning that it's the stack most likely to leave you with a maintainable codebase whoever comes onto the project later, human or agent.)
 
 Even stuff like which Node version to use, or which package manager, was subjected to scrutiny, and the decision process was insanely intricate: four different models from different providers each made its own research, then a fifth synthesized their inputs and provided it for us humans to decide on.
 
@@ -332,22 +256,22 @@ A note aside, I think here lies the most important thing to keep in mind when co
 
 For the record, here are the decisions we actually made:
 
-| Thing              | Choice                                          | Because                                                                                                                            |
-| ------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Hosting            | **Railway** \*                                  | see the asterisk                                                                                                                   |
-| Database           | **Supabase** (Postgres)                         | auth co-location — one platform, one dashboard                                                                                     |
-| ORM                | **Drizzle**                                     | SQL-native, no codegen step, schema-as-code; the only unanimous 4/4 call                                                           |
-| Framework          | **Next.js 16**                                  | never weighed; it was the premise                                                                                                  |
-| Auth               | **Supabase Auth**                               | Better Auth was the better architectural fit and lost anyway — it meant owning email delivery, rate limiting and security patching |
-| Tenancy            | **custom tables**                               | memberships carry domain data; we needed full schema control                                                                       |
-| Row-level security | **fail-closed safety net**                      | defence in depth against our own app-code bugs                                                                                     |
-| UI library         | **Mantine v8**                                  | the only one shipping command palette, RTE, code highlighting, date pickers, DnD, notifications and modals as first-party          |
-| Architecture       | **Feature-Sliced Design + BFF**                 | code would be primarily AI-authored, and LLM agents benefit from rigid constraints that prevent them from cutting corners         |
-| Package manager    | **pnpm**                                        | strict symlinked `node_modules` blocks phantom deps                                                                                |
-| Node version       | **no mandated version manager**                 | `engine-strict=true` plus a preinstall check that fails loudly                                                                     |
-| Linting            | **strict ESLint + Steiger, every rule `error`** | "LLMs treat warnings as negotiable"                                                                                                |
-| Testing            | **Vitest + RTL + Playwright**                   | decided the day a Mantine hydration mismatch got through lint, typecheck _and_ build                                               |
-| i18n               | **no library; per-slice `config/texts.ts`**     | no localization planned — hygiene only                                                                                             |
+| Thing              | Choice                                          |
+| ------------------ | ----------------------------------------------- |
+| Hosting            | **Railway**                                     |
+| Database           | **Supabase** (Postgres)                         |
+| ORM                | **Drizzle**                                     |
+| Framework          | **Next.js 16**                                  |
+| Auth               | **Supabase Auth**                               |
+| Tenancy            | **custom tables**                               |
+| Row-level security | **fail-closed safety net**                      |
+| UI library         | **Mantine v8**                                  |
+| Architecture       | **Feature-Sliced Design + BFF**                 |
+| Package manager    | **pnpm**                                        |
+| Node version       | **no mandated version manager**                 |
+| Linting            | **strict ESLint + Steiger, every rule `error`** |
+| Testing            | **Vitest + RTL + Playwright**                   |
+| i18n               | **no library; per-slice `config/texts.ts`**     |
 
 ## The strutwork: FSD, linters, and other things to keep the agents focused
 
@@ -392,11 +316,11 @@ flowchart TD
     entities -->|394| shared
 ```
 
-13 page slices, 14 features, 8 widgets, 8 entities — `chat`, `subscription`, `llm-model`, `tenancy`, `file`, `member-group`, `project`, `keyboard-shortcut`. 8,123 import statements inside `src/`. Number of imports that point upward: **zero**. Number of imports that reach sideways between slices of the same layer: also **zero**. Not because we were careful — because two tools won't let us. Steiger runs as `pnpm lint:fsd` and is the authority; `eslint-plugin-boundaries` re-implements the same rules in the editor so you find out while you're typing rather than at the gate.
+13 page slices, 14 features, 8 widgets, 8 entities — `chat`, `subscription`, `llm-model`, `tenancy`, `file`, `member-group`, `project`, `keyboard-shortcut`. 8,123 import statements inside `src/`. Number of imports that point upward: **zero**. Number of imports that reach sideways between slices of the same layer: also **zero** — because two tools won't let us. Steiger runs as `pnpm lint:fsd` and is the authority; `eslint-plugin-boundaries` re-implements the same rules in the editor so you find out while you're typing rather than at the gate.
 
 Even without looking into the code of each of them, such a structure gives not just an agent, but every human who first looks at the directory structure, an approximate understanding of what's going on. This has helped immensely especially when new features came into view: the agent doesn't need to spend its time, mental resource — and tokens — thinking about where to place that member-group access control feature we discussed in the standup and that has now to be implemented. It sees clear, logical patterns, and follows them.
 
-There's a second-order effect I didn't expect and rather like. Between the first production build and the handover, `src/` went from 98,000 to 223,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn't quite double. Rigid boundaries don't only stop things being put in the wrong place; they make the reusable layer the path of least resistance, so it thickens on its own.
+There's a second-order effect worth pointing out. Between the first production build and the handover, `src/` went from 98,000 to 223,000 lines — and the layers that grew _fastest_ in relative terms are the bottom ones. `shared` and `entities` both nearly tripled; the app-specific top layer didn't quite double. Rigid boundaries make the reusable layer the path of least resistance, so it thickens on its own.
 
 An unobvious beauty of it, which you only discover through struggle, is that when you have something that does NOT seem to fit, it almost always ends up meaning you've got some higher-level conceptual understanding wrong. The form ends up defining the essence — for everyone's better.
 
@@ -432,7 +356,7 @@ export const RESERVED_JSX_ATTRS = new Set(['key', 'ref']);
 
 `matches` is a seam. The day we want `{ field: null }` to mean `isNull`, we change one function instead of four hundred call sites. And the rule is careful about when _not_ to fire — a lone `eq(table.col, obj.col)` stays as it is, because `matches(table, pick(obj, 'col'))` is genuinely worse to read.
 
-**`no-subaction-server-export`** is my favourite, because it's the only one of the 28 whose failure mode is a live authentication hole. We have a `subAction` gate for internal steps that run inside an already-authorized flow; it deliberately performs no access check. Export one from a `'use server'` file and Next's server-action transform turns it into a client-callable, unauthenticated endpoint. One keystroke. An agent tidying helpers into a barrel file would do it without any local signal that anything was wrong. And we already had a rule requiring every `'use server'` export to be wrapped in `safeAction(...)` — it just never looked at _which gate_ was inside. So this rule draws the line the other one missed.
+**`no-subaction-server-export`** is the most consequential of the 28: its failure mode is a live authentication hole. We have a `subAction` gate for internal steps that run inside an already-authorized flow; it deliberately performs no access check. Export one from a `'use server'` file and Next's server-action transform turns it into a client-callable, unauthenticated endpoint. One keystroke. An agent tidying helpers into a barrel file would do it without any local signal that anything was wrong. And we already had a rule requiring every `'use server'` export to be wrapped in `safeAction(...)` — it just never looked at _which gate_ was inside. So this rule draws the line the other one missed.
 
 Individually, they don't seem like a big deal. Together though, they make the entire codebase look DRY, clean and less token-wasteful for agents who keep reading them hundreds of times a day. And the case for writing your own is one sentence:
 
@@ -444,9 +368,9 @@ To top it all, the fearful `type-overlap` script. It parses every type alias in 
 
 Why bother? Because a duplicated shape is two things to change, and TypeScript will never tell you they've diverged — each copy redeclared its own fields, so both compile perfectly while meaning different things. The incident that bought this script its budget is worth spelling out: we had a `tokenCounts: { input, output }` shape sitting next to a pair of DB columns called `inputTokens` and `outputTokens`. Both type-checked. Every usage log we wrote recorded zero tokens. We found it by accident, months later, during an unrelated refactor.
 
-The other return is one I didn't anticipate: about a third of the time, a reported overlap isn't a missing base at all — it's a key that's lying. Two types both had a `file`, and one meant a path while the other meant a `File`. Two had an `owner`, meaning a repo owner and a workspace owner. One pair had `isActive` and `active` for the same concept. As the decision doc puts it: _the tool can't tell you which; it makes you look._
+There's a second return: about a third of the time, a reported overlap turns out to be a key that's lying rather than a missing base. Two types both had a `file`, and one meant a path while the other meant a `File`. Two had an `owner`, meaning a repo owner and a workspace owner. One pair had `isActive` and `active` for the same concept. As the decision doc puts it: _the tool can't tell you which; it makes you look._
 
-Its blast radius was actually so big we had to ratchet it in stages before the entire codebase was clean. The real sequence, which I'd forgotten was quite this bad: threshold 3, then 2, then back up to 4 when we rewrote the detector and it started finding more, then 3, then 2, then finally 1. Five downward flips over 26 days, thirteen landings on `main`, about 1,300 file-changes, every one of them type-level only. At the tightest point we were running a second, per-member ratchet alongside the global one — a committed list of member signatures already deduped and held at threshold 1, so nothing that had been cleaned could get re-inlined while the floor was still 2. That list peaked at 277 signatures before we deleted it and dropped the floor to 1. 248 overlap groups were cleared in total. Roughly 330 shared bases exist now that didn't before.
+Its blast radius was so big we had to ratchet it in stages before the entire codebase was clean: threshold 3, then 2, then back up to 4 when we rewrote the detector and it started finding more, then 3, then 2, then finally 1. Five downward flips over 26 days, thirteen landings on `main`, about 1,300 file-changes, every one of them type-level only. At the tightest point we were running a second, per-member ratchet alongside the global one — a committed list of member signatures already deduped and held at threshold 1, so nothing that had been cleaned could get re-inlined while the floor was still 2. That list peaked at 277 signatures before we deleted it and dropped the floor to 1. 248 overlap groups were cleared in total. Roughly 330 shared bases exist now that didn't before.
 
 Overengineering, you think? But think about this: the alternative is 248 pairs of types quietly disagreeing in a codebase where a dozen agents edit in parallel and none can see the other copy. The `tokenCounts` bug cost us months of wrong analytics and was found by luck. And unlike a human, an agent handed "extract a base type and update 32 call sites" doesn't argue, doesn't get bored, and doesn't do 30 of them. Especially in an agent workflow, this is not something you should take lightly.
 
@@ -463,7 +387,7 @@ A lint rule sees one file. Some things you want to forbid are properties of the 
 - **`poison-check`** — catches `server-only` poisoning: any `'use client'` file that transitively imports a server-only module. It reads madge's dependency graph and re-parses with TypeScript, specifically so type-only imports don't count, since those are erased at compile time and are harmless.
 - **`drizzle-chain-check`** — verifies that the migration snapshots form an unbroken chain. This one was written after migration `0099` was generated on a branch that hadn't merged `0098`, which silently forked the chain and dropped an enum value, and nothing failed at deploy time for two whole migrations. Parallel agents plus sequentially-numbered migrations is a footgun with a very quiet trigger.
 - **Four `check-standalone-*` scripts** that each prove one native dependency actually works inside the built bundle: PDF text extraction, image transcoding, HEIC decoding, the worker pool. All four exist because Next's file tracing cannot see how those libraries load their own assets — a dynamic `require`, an ELF RPATH, a base64 data URI in a static require, a path-loaded worker isolate. The bundle looks complete and dies on first use. Each of these was a production incident once.
-- **`ast-metrics`** — measures file size in semantic AST nodes rather than lines, and deliberately never fails. It's a trend tripwire, not a gate.
+- **`ast-metrics`** — measures file size in semantic AST nodes rather than lines, and deliberately never fails: it's a trend tripwire.
 
 All of them run concurrently, all of them run to completion even when one has already failed, and the summary at the end names every check that broke. That last property matters more than it sounds when the consumer is an agent: fail fast and it fixes one thing, pushes, and waits four minutes to be told about the next.
 
@@ -581,7 +505,7 @@ I'll actually give you all of them.
 
 A few notes on reading that table.
 
-The first is that they compose. `/implement` doesn't just implement; it loads `/dry` and `/tighten-docs` by reference and then hands off to `/pr`, which loads `/branch-rename`, `/qa-checklist` and `/squash-message`. `/finalize` reaches into six others. The skills are less a menu than a call graph, and the reason that works is that each one is a file in the repo that another one can point at.
+The first is that they compose. `/implement` doesn't just implement; it loads `/dry` and `/tighten-docs` by reference and then hands off to `/pr`, which loads `/branch-rename`, `/qa-checklist` and `/squash-message`. `/finalize` reaches into six others. The skills work as a call graph, and the reason that works is that each one is a file in the repo that another one can point at.
 
 The second is that this is not a tidy garden. `roundtable` still refers to a methodology we deleted in May; `weigh` and `synthesize` are the two halves of that multi-model decision process from March and nothing has invoked them since; `explore` is 655 bytes of frontmatter restating what the default behaviour already does. Four of thirty-three that should probably go.
 

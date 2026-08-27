@@ -6,7 +6,7 @@ _Disclaimer: the disclosures in this case study were approved by Playgram manage
 
 ---
 
-Playgram is a serious AI chat product — multiple providers and models, realtime team and project chats, image and file libraries, memory and knowledge management, voice input — and it was built entirely in Bubble, a no-code app builder. Between March and August 2026 I rebuilt it as a Next.js 16 codebase. 158 days, 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of TypeScript, 48 versioned releases, and cold load times from multi-second to sub-second.
+Playgram is a serious AI chat product — multiple providers and models, realtime team and project chats, image and file libraries, memory and knowledge management, voice input — and it was built entirely in Bubble, a no-code app builder. Between March and August 2026 I rebuilt it as a Next.js 16 codebase. 158 days, 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of production TypeScript, 48 versioned releases, and cold load times from multi-second to sub-second.
 
 I did almost none of the typing. At the peak I was running twenty-plus Claude Code agents at once, and that shift — from three local agents I babysat line by line to twenty in the cloud I reviewed like a manager — is the actual subject here.
 
@@ -28,11 +28,9 @@ The Bubble export — the "code" in "no code", and the thing you feed an agent �
 
 **The split (10/10).** First thing I did was write a Python script that cuts the export into files an agent can navigate. Not by size — by _shape_. The script duck-types every object in the JSON against a set of predicates ("does 70% of this dict look like a workflow?"), then recovers human-readable names from the export's own `name` fields, so a click handler lands at `pages/index/workflows/buttonclicked_btnaw0/` with one file per step, in order, as ES module imports. It reads like a function body because it is one, transcribed.
 
-The final split is 3,487 files. The part that took real thought wasn't cutting it up once — it was making the cut _stable_, so that re-exporting the app every week produced a legible diff instead of noise. Names derive from content, never position. Ordering is deterministic. Chunks are named by their key range rather than an index, so inserting one entry doesn't renumber eighteen files. Long strings — mostly LLM prompts — get hoisted into `.txt` siblings so they diff as prose rather than as one giant line of `\n` escapes.
+The final split is 3,487 files. The part that took real thought was making the cut _stable_, so that re-exporting the app every week produced a legible diff instead of noise. Names derive from content, never position. Ordering is deterministic. Chunks are named by their key range rather than an index, so inserting one entry doesn't renumber eighteen files. Long strings — mostly LLM prompts — get hoisted into `.txt` siblings so they diff as prose rather than as one giant line of `\n` escapes. Once it was done, every button, input group and workflow was tied to a specific file, so a change in the Bubble app showed up as a diff in the relevant one.
 
-At the first commit the split was 1,183 files and 15.3 MB. After a day of refinements, 3,137 files and 13.6 MB — same information, three times as many navigable pieces.
-
-**The decision docs (6.5/10).** The first four days produced 23,000 lines of documentation and zero lines of application code. The process: four models from different providers each researched a question independently, in parallel worktrees where none could see the others, then a fifth synthesised. The detail I'm still proud of is what happened in between — I renamed the files from `_opus`/`_gpt54`/`_gemini` to `_1`/`_2`/`_3`/`_4` before the synthesiser ever read them, so nobody got to decide an argument was good because of who made it.
+**The decision docs (6.5/10).** The first four days produced 23,000 lines of documentation and zero lines of application code. The process: four models from different providers each researched a question independently, in parallel worktrees where none could see the others, then a fifth synthesised — with the model names stripped off the files first, so the judging couldn't be biased for or against any of them.
 
 It worked, and it was too much. On the database question the lone dissenter — one model against three — won both contested points, and the decision doc says so out loud: _"Supabase was chosen despite a lower weighted score… The matrix simply had no row for the factor that decided it."_ Which is the lesson. "But five agents told it would be fine!" sounds like a good argument until it isn't.
 
@@ -40,7 +38,7 @@ It worked, and it was too much. On the database question the lone dissenter — 
 
 **The strutwork (FSD 8.5/10, linting 10/10).** Agents place code by nearest-neighbour. Misfile one import and the next agent copies you, and the one after that. Over time, the likelihood of your codebase getting properly screwed up converges to 1.
 
-So: Feature-Sliced Design, strictly enforced. Six layers, 8,123 internal imports, and **zero** that point upward or sideways — not because we're careful but because two separate tools refuse to let us. An unexpected second-order effect: the bottom, reusable layers grew nearly three times over while the app-specific top layer didn't quite double. Rigid boundaries make the shared layer the path of least resistance.
+So: Feature-Sliced Design, strictly enforced. Six layers, 8,123 internal imports, and **zero** that point upward or sideways — because two separate tools refuse to let us. A second-order effect worth pointing out: the bottom, reusable layers grew nearly three times over while the app-specific top layer didn't quite double. Rigid boundaries make the shared layer the path of least resistance.
 
 Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because "LLMs treat warnings as negotiable". The repo's own guardrails doc says why this is worth the effort better than I can:
 
@@ -48,7 +46,7 @@ Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `e
 
 That's the whole thing. An agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
 
-The most feared of them isn't a lint rule but a script: `type-overlap` fails the build if any two type aliases declare the same member. It cost us a 26-day ratchet — threshold 3, then 2, then back to 4 when we improved the detector, then 3, 2, and finally 1 — across thirteen landings and about 1,300 file changes. Worth it, because of what it was written for: we once had a `tokenCounts: { input, output }` shape sitting beside DB columns named `inputTokens`/`outputTokens`. Both type-checked perfectly. Every usage log we wrote recorded zero. We found it months later, by accident.
+The most feared guardrail of the lot is a script rather than a lint rule: `type-overlap` fails the build if any two type aliases declare the same member. It cost us a 26-day ratchet — threshold 3, then 2, then back to 4 when we improved the detector, then 3, 2, and finally 1 — across thirteen landings and about 1,300 file changes. Worth it, because of what it was written for: we once had a `tokenCounts: { input, output }` shape sitting beside DB columns named `inputTokens`/`outputTokens`. Both type-checked perfectly. Every usage log we wrote recorded zero. We found it months later, by accident.
 
 **Planning (6/10).** We started with one exhaustive migration plan, file paths and all. It became a liability — every path was a promise the codebase kept breaking for good reasons. Next time: big picture only, details as we go.
 
@@ -84,7 +82,7 @@ Four sessions per feature, then: plan it, implement it, address the review, fina
 
 They asked for 1.5–2 months. I agreed and missed it. At the two-month mark there was nothing in production. The first production build was day 77; the first workspace actually running on the rewrite was seven weeks after the original deadline; all workspaces were over by day 128.
 
-The chart of units of work does show where my method changed, though not as a spot — as a seam about four weeks wide, from the last week of April to the last week of May, corroborated by three independent signals in the commit trailers and the squash markers. The number I like best is the dull one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, more of them at a time. That's what parallelism looks like from the outside.
+The chart of units of work does show where my method changed — as a seam about four weeks wide, from the last week of April to the last week of May. The number I like best is the dull one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, more of them at a time. That's what parallelism looks like from the outside.
 
 ## The handover
 

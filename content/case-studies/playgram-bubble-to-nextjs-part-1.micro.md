@@ -6,11 +6,11 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 **The job.** Playgram is a live AI chat product — many models, team chats, file libraries, memory, voice — built entirely in Bubble, a no-code tool. They wanted it as real code in two months, mainly so they could use AI coding agents on it. I took it, and missed the deadline: the first production build was day 77, all workspaces were over by day 128.
 
-**The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of TypeScript. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
+**The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of production TypeScript. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
 
 **How.** I wrote almost none of it. At the peak, twenty-plus Claude Code agents ran in parallel in the cloud while I reviewed pull requests. Three things made that possible:
 
-1. **A splitter for the 11.6 MB Bubble export.** Not chunked by size but reconstructed by shape into 3,487 files that read almost like source, with names recovered from the export's own fields — and, crucially, stable enough that re-exporting the live app weekly produced a legible diff instead of noise.
+1. **A splitter for the 11.6 MB Bubble export.** Reconstructed by shape rather than chunked by size, into 3,487 files that read almost like source, with names recovered from the export's own fields — and, crucially, stable enough that re-exporting the live app weekly produced a legible diff instead of noise.
 
 2. **Guardrails an agent cannot argue with.** Feature-Sliced Design with zero upward or sideways imports across 8,123 of them, enforced by tooling rather than by good intentions. 362 lint rules, 28 hand-written, every one an error because warnings are rules nobody enforces. Agents will happily ignore a convention written in prose and will never once ship a lint error.
 
