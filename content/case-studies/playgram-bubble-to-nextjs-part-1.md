@@ -2,16 +2,16 @@
 
 **Part I of II.**
 
-|                               |                                                                                          |
-| ----------------------------- | ---------------------------------------------------------------------------------------- |
-| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase             |
-| **Span**                      | 6 March – 10 August 2026 · 158 days                                                      |
-| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                         |
+|                               |                                                                                                     |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                        |
+| **Span**                      | 6 March – 10 August 2026 · 158 days                                                                 |
+| **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
 | **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
-| **Cold load**                 | multi-second → sub-second                                                                |
-| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days              |
-| **Cutovers**                  | 3 workspaces, zero rollbacks                                                             |
-| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                         |
+| **Cold load**                 | multi-second → sub-second                                                                           |
+| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                         |
+| **Cutovers**                  | 3 workspaces, zero rollbacks                                                                        |
+| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                                    |
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -54,7 +54,8 @@ In the case of Playgram, by the way, the makers are [Zeroqode](https://bubble.io
 That third one is most of what this case study is about. The customer didn't just want code. They wanted the thing that code makes possible. Running ahead a bit, here are three examples from the far end of the project, all of them things the product had wanted for a long time:
 
 - **Billing that actually bills.** In Bubble, credits were a line of marketing copy on a pricing card. In the rebuilt app, **fifteen days** after the first commit on it, credits were a metered quantity — every model call, embedding, transcription and provider-run tool priced into a usage ledger across fifteen distinct cost stages, decremented live, enforced server-side at send time, carried over at renewal and capped per member.
-- **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that. Server-authoritative enforcement was live **six days** after the first commit on it; the admin UI and the model-picker gating, thirteen days.
+- **Access control.** Member groups with a per-group allow or deny list over the model catalogue, and a per-member override on top of that, enforced server-side and reflected in the model picker.
+- **A carbon estimate.** This one came from one of our university customers, who wanted to know what a chat turn costs in emissions. What shipped is a per-query CO₂e figure — token counts against a versioned per-model energy coefficient — presented as a range rather than false precision, on the workspace analytics tab and in personal usage settings, plus a public methodology page so a customer citing the number in its own sustainability reporting has something to cite. Eleven days from the request to production, and I wrote none of it: by then I had handed the codebase over.
 
 Now, keep in mind, the people who'd be living in this codebase weren't some future team of hired engineers — they were the same people who had drawn the app in the first place. Making _them_ faster was the actual assignment. Whether that worked is a question this piece can answer, and I'll come back to it at the end.
 
@@ -147,7 +148,7 @@ export const actions = {
 };
 ```
 
-Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is not a slug of an ID but the label a human typed into the Bubble editor, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
+Read that as a function body and you're reading it correctly. The directory name carries the trigger, the numbered map is Bubble's own step order, every step is a file you can open — and step 4's filename is the label a human typed into the Bubble editor rather than a slug of an ID, recovered from the export's `name` field: _"Schedule trigger_stream_existing_chat after 0 seconds"_.
 
 One lovely detail: Step 0, the only step with an unreadable name, refers to using `Toolbox`, the run-custom-JavaScript plugin from a few paragraphs up. Step zero of sending a chat message in our no-code app was a `Run javascript` action.
 
