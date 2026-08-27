@@ -55,7 +55,7 @@ That third one is most of what this case study is about. The customer didn't jus
 
 - **Billing that actually bills.** In Bubble, a plan's credit allowance was a number attached to a price — never shown, never counted against, never enforced. In the rebuilt app it's a metered balance: every reply priced from the real provider cost, decremented live, enforced server-side at send time, carried over at renewal and capped per member. **About four weeks** from the first commit to all of that running in production.
 - **Access control.** Member groups with a per-group allow or deny list over the model catalogue and a per-member override on top, enforced server-side and greyed out in the model picker rather than hidden from it. **About two weeks.**
-- **A carbon estimate.** This one came from one of our university customers, who wanted to know what a chat turn costs in emissions. What shipped is a per-query CO₂e figure — token counts against a versioned per-model energy coefficient — presented as a range rather than false precision, on the workspace analytics tab and in personal usage settings, plus a public methodology page so a customer citing the number in its own sustainability reporting has something to cite. Eleven days from the request to production, and I wrote none of it: by then I had handed the codebase over.
+- **A carbon estimate.** This one came from one of our university customers, who wanted to know what a chat turn costs in emissions. What shipped is a per-query CO₂e figure — token counts against a versioned per-model energy coefficient. Eleven days from the start to production.
 
 Now, keep in mind, the people who'd be living in this codebase weren't some future team of hired engineers — they were the same people who had drawn the app in the first place. Making _them_ faster was the actual assignment. Whether that worked is a question this piece can answer, and I'll come back to it at the end.
 
@@ -95,10 +95,6 @@ Before the grit, the shape of the thing.
 | **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                          |
 | **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                            |
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
-
-A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed, and you can: it's 25 April, the day the work moved into the cloud. There was no transition period — no stretch of running both ways, no gradual migration. What takes a few weeks is not the switch but the output catching up with it, while I worked out how many agents I could actually keep in the air.
-
-The number that proves the point is a boring one: **the median unit of work stays the same size — 375 changed lines before the switch, 384 after — while units per day go from 6.2 to 8.2.** Same-sized pieces, about a third more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
 
 Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
@@ -330,7 +326,7 @@ An unobvious beauty of it, which you only discover through struggle, is that whe
 >
 > **The form ends up defining the essence — for everyone's better.**
 
-**Verdict: 8.5/10** only because I think I could be MORE rigorous with intra-slice hygiene. A tiny piece of evidence for exactly that: the boundaries config carries a hand-written exception letting `pages/chat` import from `app`, added for a chat header menu months ago. There are currently zero such imports. The carve-out has been dead for weeks and nobody noticed, including me. A rule you don't re-audit is a rule that slowly stops describing your codebase.
+**Verdict: 8.5/10** only because I think I could be MORE rigorous with FSD hygiene, things like type definitions placed in `/api` segment rather than `/model` where they belong.
 
 ### 2 — Linting
 
@@ -338,21 +334,13 @@ Now, I'm a simple man: I see a lint rule, I turn it on.
 
 No, seriously. We have **362 lint rules explicitly enabled** in the project: 111 from core ESLint, 102 from `@typescript-eslint`, 38 from `jsx-a11y`, 35 from `@eslint-react`, 21 from `@next/next`, and a scattering from `unicorn`, `boundaries`, `drizzle`, `simple-import-sort` and friends. We also have **28 hand-written ones** on top. AND, where linting itself isn't enough, we've written standalone scripts that make it even harder for an agent to go astray.
 
-Two things about that config are deliberate. The first is that nothing is silently inherited: every rule is listed explicitly as `error` or `off`, with a comment, including rules a preset already turns on. It's a longer config, and it means no rule ever changes behaviour because a dependency bumped its recommended set. The second is a one-line policy that I'd now put in every repo I own:
+To add to this, nothing is ever silently inherited: every rule is listed explicitly as `error` or `off`. It's a longer config, but it means no rule ever changes behaviour because a dependency bumped its recommended set. No rule is ever set to `warn`: a warning is a rule nobody enforces — LLMs and humans alike treat warnings as negotiable and let them accumulate.
 
-> **Severity is `error` or `off` — never `warn`.** … a warning is a rule nobody enforces (LLMs and humans alike treat warnings as negotiable and let them accumulate).
+Here are some examples of the hand-written ones:
 
-For examples of the hand-written ones:
+**`prefer-shorthand-spread`** requires `{ ...{ wug } }` instead of `wug={wug}` on components, and folds runs of them together, so `a={a} b={b} c={c}` becomes `{...{ a, b, c }}`.
 
-**`prefer-shorthand-spread`** requires `{ ...{ wug } }` instead of `wug={wug}` on components, and folds runs of them together, so `a={a} b={b} c={c}` becomes `{...{ a, b, c }}`. It's auto-fixable, so nobody ever thinks about it. It also knows one thing that makes it more than a style rule:
-
-```ts
-// React strips `key` and `ref` from spread props, so folding `key={key}` into
-// `{...{ key }}` silently drops the key. A spread carrying one is opaque.
-export const RESERVED_JSX_ATTRS = new Set(['key', 'ref']);
-```
-
-**`prefer-matches`** prohibits using bare `eq(table.field, field)` in favour of the hand-written `matches(table, { field })` helper. The obvious reason is that `and(eq(t.a, x), eq(t.b, y))` chains are noise. The better reason is in the commit that renamed the helper from `eqCols`:
+**`prefer-matches`** prohibits using bare `eq(table.field, field)` in favour of the hand-written `matches(table, { field })` helper: The obvious reason is that `and(eq(t.a, x), eq(t.b, y))` chains are noise. The better reason is in the commit that renamed the helper from `eqCols`:
 
 > Column-map WHERE fragments are operator-agnostic going forward (`null`, `inArray`, etc.), so the name no longer promises eq-only semantics.
 
@@ -368,7 +356,7 @@ That's the whole thing. An agent will cheerfully ignore a paragraph in your CLAU
 
 To top it all, the fearful `type-overlap` script. It parses every type alias in the codebase and reports any two of them that declare the same member — same name, same modifiers, same annotation. Threshold one. If `Chat` and `ChatSummary` both declare `workspaceId: string`, that's a failure, and the fix is to extract a shared base and have both include it.
 
-Why bother? Because a duplicated shape is two things to change, and TypeScript will never tell you they've diverged — each copy redeclared its own fields, so both compile perfectly while meaning different things. The incident that bought this script its budget is worth spelling out: we had a `tokenCounts: { input, output }` shape sitting next to a pair of DB columns called `inputTokens` and `outputTokens`. Both type-checked. Every usage log we wrote recorded zero tokens. We found it by accident, months later, during an unrelated refactor.
+Why bother? Because a duplicated shape is two things to change, and TypeScript will never tell you they've diverged — each copy redeclared its own fields, so both compile perfectly while meaning different things. For example: we had a `tokenCounts: { input, output }` shape sitting next to a pair of DB columns called `inputTokens` and `outputTokens`. Both type-checked. Every usage log we wrote recorded zero tokens. We found it by accident, months later, during an unrelated refactor.
 
 There's a second return: about a third of the time, a reported overlap turns out to be a key that's lying rather than a missing base. Two types both had a `file`, and one meant a path while the other meant a `File`. Two had an `owner`, meaning a repo owner and a workspace owner. One pair had `isActive` and `active` for the same concept. As the decision doc puts it: _the tool can't tell you which; it makes you look._
 
@@ -596,9 +584,7 @@ Which is not the same as being junior at anything. They had built a product on a
 
 Some of what they shipped in those eleven days: metering for every non-reply cost stage in the product, across seventy-seven files, with a type-level guard that makes it impossible to add a new model call without declaring which budget absorbs its cost. A production data recovery that found 241 stranded attachments among twelve hundred candidates and proved across four dry runs that the naive fix would have resurrected about a thousand files users had deliberately deleted. An authorization bug fixed by introducing the access level that was missing rather than by widening the check that was there. A streaming spreadsheet reader that took a 2.4-second uninterruptible stall down to 76 milliseconds and peak memory from 2.3 GB to 389 MB.
 
-Every one of those thirty-eight pull requests came through the same pipeline this article describes — plan file, implementation, a DRY pass, a docs pass, a finalize attestation — and 84% of them carry a live agent session link in their commit trailers. Nobody was working around the system. That, more than the app, is what I think was actually delivered.
-
-The weekly rate is lower after the handover than before it, and you can see that in the chart. Eleven days is too short a window to read much into, and I'm the wrong person to be objective about it anyway. The part I'd stand behind is narrower: the work kept going, through the same machinery, with nobody calling me.
+Every one of those thirty-eight pull requests came through the same pipeline this article describes — plan file, implementation, a DRY pass, a docs pass, a finalize attestation. The weekly rate is lower after the handover than before it, as you can see in the chart, but the work kept going, through the same machinery, with nobody calling me but for code reviews, which I still own.
 
 ## To be continued
 
