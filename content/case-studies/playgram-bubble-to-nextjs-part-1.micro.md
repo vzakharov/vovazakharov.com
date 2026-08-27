@@ -18,7 +18,7 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 
 **What that bought.** Billing went from a number attached to a price, never enforced, to a metered balance — every reply priced from the real provider cost, decremented live, enforced at send time, capped per member — in about four weeks. Per-group and per-member model access control took about two. And a per-query CO₂e estimate, asked for by a university customer, went from request to production in eleven days, built by one of the Bubble developers after I'd stopped writing code.
 
-**The number I'd put on a slide.** Across the switch to parallel cloud agents, the median unit of work stayed about the same size — 367 changed lines, then 330 — while units per day went from 6.1 to 8.9. Same-sized pieces, more of them at once. That's parallelism, measured.
+**The number I'd put on a slide.** Across the switch to parallel cloud agents — one day, 25 April — the median unit of work stayed the same size, 375 changed lines then 384, while units per day went from 6.2 to 8.2. Same-sized pieces, about a third more of them at once. That's parallelism, measured.
 
 **The part I'd actually point at.** I stopped writing code on 10 August. In the eleven days after, 38 of the 42 pull requests merged were the rest of the team's — and the rest of the team is the three Bubble developers who built the app in the first place, two of whom opened their GitHub accounts during this project. Every one of those PRs went through the same plan-implement-review pipeline, 84% of them carrying a live agent session link. The scaffolding was as much the deliverable as the app.
 

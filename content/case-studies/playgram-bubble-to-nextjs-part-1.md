@@ -79,7 +79,7 @@ Below you'll find how we tackled each of these challenges; how we discovered new
 
 Before the grit, the shape of the thing.
 
-![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from about six a day to about nine across a four-week seam in late April and May; weekly units of work go from the forties to the eighties across the same seam, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
+![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from 6.2 a day to 8.2 at the 25 April switch into the cloud; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 | Date       | Day | What happened                                                                    |
 | ---------- | --- | -------------------------------------------------------------------------------- |
@@ -96,7 +96,9 @@ Before the grit, the shape of the thing.
 | **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                            |
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
 
-A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. What the chart shows is a seam about four weeks wide, running from the last week of April to the last week of May, and the number that proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
+A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed, and you can: it's 25 April, the day the work moved into the cloud. There was no transition period — no stretch of running both ways, no gradual migration. What takes a few weeks is not the switch but the output catching up with it, while I worked out how many agents I could actually keep in the air.
+
+The number that proves the point is a boring one: **the median unit of work stays the same size — 375 changed lines before the switch, 384 after — while units per day go from 6.2 to 8.2.** Same-sized pieces, about a third more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
 
 Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 

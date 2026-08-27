@@ -82,7 +82,7 @@ Four sessions per feature, then: plan it, implement it, address the review, fina
 
 They asked for 1.5–2 months. I agreed and missed it. At the two-month mark there was nothing in production. The first production build was day 77; the first workspace actually running on the rewrite was seven weeks after the original deadline; all workspaces were over by day 128.
 
-The chart of units of work does show where my method changed — as a seam about four weeks wide, from the last week of April to the last week of May. The number I like best is the dull one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, more of them at a time. That's what parallelism looks like from the outside.
+The chart of units of work does show where my method changed, and it's a single day: 25 April, when the work moved into the cloud. What takes a few weeks afterwards is the output catching up, not the switch. The number I like best is the dull one: **the median unit of work stays the same size — 375 changed lines before, 384 after — while units per day go from 6.2 to 8.2.** Same-sized pieces, about a third more of them at a time. That's what parallelism looks like from the outside.
 
 ## The handover
 
