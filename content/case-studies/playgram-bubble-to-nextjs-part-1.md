@@ -53,7 +53,7 @@ In the case of Playgram, by the way, the makers are [Zeroqode](https://bubble.io
 
 That third one is most of what this case study is about. The customer didn't just want code. They wanted the thing that code makes possible. Running ahead a bit, here are three examples from the far end of the project, all of them things the product had wanted for a long time:
 
-- **Billing that actually bills.** In Bubble, a plan's credit allowance was a number attached to a price — never shown, never counted against, never enforced. In the rebuilt app it's a metered balance: every reply priced from the real provider cost, decremented live, enforced server-side at send time, carried over at renewal and capped per member. **About four weeks** from the first commit to all of that running in production.
+- **Billing that actually bills.** In Bubble, a plan's credit allowance was a number attached to a price — never shown, never counted against, never enforced. In the rebuilt app it's a metered balance: every reply priced from the real provider cost, decremented live, and enforced server-side at send time, so a workspace that runs out gets refused rather than billed. **Fifteen days** from the first commit to that running in production. The trimmings — carry-over at renewal, a per-member cap — took another week and a half on top of it.
 - **Access control.** Member groups with a per-group allow or deny list over the model catalogue and a per-member override on top, enforced server-side and greyed out in the model picker rather than hidden from it. **About two weeks.**
 - **A carbon estimate.** This one came from one of our university customers, who wanted to know what a chat turn costs in emissions. What shipped is a per-query CO₂e figure — token counts against a versioned per-model energy coefficient. Eleven days from the start to production.
 
@@ -97,8 +97,6 @@ Before the grit, the shape of the thing.
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
 
 Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
-
-(Both panels exclude docs commits.)
 
 A word on what a "commit" means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -181,7 +179,7 @@ export const Dropdown_admin_analytics = {
 
 The directory tree does the rest of the work, because it reproduces the UI containment hierarchy verbatim. `workspace_settings/elements/popup_delete_member/elements/group_buttons/` is, quite literally, where the Cancel and Delete buttons live. `memory_knowledge/.../group_container_voice_recorder/elements/button_save_recording.js` is the save button on the voice recorder. An agent asked to find the delete-member confirmation does not search; it navigates.
 
-As for the regular re-exports — the part where the Bubble app keeps being developed while we're rebuilding it — keeping the diffs readable came down to five deliberate choices, none of which is obvious until a diff has burned you. Names are derived from content rather than from position, so inserting a step doesn't rename its neighbours. Everything is emitted in a fixed order, so nothing depends on the order the parser happened to walk. Chunked files are named after the range of keys they hold rather than by an index, so adding an entry perturbs two filenames instead of shifting a numbered sequence and rewriting every file in it. Long strings get hoisted into sibling text files — that one is entirely about prompts, because a prompt embedded in JSON is a single line of escaped newlines and every edit to it diffs as one enormous changed line, whereas a text file diffs like prose. And there's one key per line, so a changed property is a one-line diff.
+As for the regular re-exports — the part where the Bubble app keeps being developed while we're rebuilding it — keeping the diffs readable came down to a handful of deliberate choices, none of them obvious until a diff has burned you: naming files after their contents rather than their position, so inserting a step doesn't rename its neighbours; emitting one key per line, so a changed property is a one-line diff; and hoisting long strings out into sibling text files, which is entirely about prompts — a prompt embedded in JSON is a single line of escaped newlines that diffs as one enormous changed line, whereas a text file diffs like prose.
 
 Once everything was done, every button, input group, workflow and the rest was tied to a specific file in the split — so when the Bubble app changed, the change showed up as a diff in the relevant files.
 
@@ -261,12 +259,10 @@ For the record, here are the decisions we actually made:
 | ORM                | **Drizzle**                                     |
 | Framework          | **Next.js 16**                                  |
 | Auth               | **Supabase Auth**                               |
-| Tenancy            | **custom tables**                               |
 | Row-level security | **fail-closed safety net**                      |
 | UI library         | **Mantine v8**                                  |
 | Architecture       | **Feature-Sliced Design + BFF**                 |
 | Package manager    | **pnpm**                                        |
-| Node version       | **no mandated version manager**                 |
 | Linting            | **strict ESLint + Steiger, every rule `error`** |
 | Testing            | **Vitest + RTL + Playwright**                   |
 | i18n               | **no library; per-slice `config/texts.ts`**     |
@@ -275,9 +271,7 @@ For the record, here are the decisions we actually made:
 
 Now, if there's one thing I've learned about coding with agents it's that agents work best when there are strict guardrails in place. For their own good. See, especially when it comes to "where to put what" decisions, agents work by the "nearest neighbor" principle. If you awkwardly misplace a line of code, cross-importing a low-level abstraction from a high-level component module, the next agent working on your codebase is more likely to do the same again. And again. And again. Over time, the likelihood of your codebase getting properly screwed up converges to 1.
 
-> _on letting one misplaced import slide_
->
-> **Over time, the likelihood of your codebase getting properly screwed up converges to 1.**
+> **When you don't care about code hygiene, the likelihood of your codebase getting screwed up in the long run converges to 1.**
 
 Which is why, from the moment the first line of code was placed, I made sure to introduce SUPER-STRICT project structuring and linting requirements, and they only grew stricter as the work progressed.
 
@@ -285,7 +279,7 @@ The control freak work here consisted of three angles.
 
 ### 1 — Feature-sliced design
 
-In case you don't know the term, feature-sliced design, or FSD, is an approach to (mostly) frontend development that prescribes splitting your code into _layers_ and _slices_, with rigid rules on what can be placed where, and what and how can import from what and where.
+In case you don't know the term, [feature-sliced design](https://feature-sliced.design/), or FSD, is an approach to (mostly) frontend development that prescribes splitting your code into _layers_ and _slices_, with rigid rules on what can be placed where, and what and how can import from what and where.
 
 As an example, here's the real import graph of the final state — every arrow is a count of actual import statements, and every arrow points down:
 
@@ -322,9 +316,7 @@ There's a second-order effect worth pointing out. Between the first production b
 
 An unobvious beauty of it, which you only discover through struggle, is that when you have something that does NOT seem to fit, it almost always ends up meaning you've got some higher-level conceptual understanding wrong. The form ends up defining the essence — for everyone's better.
 
-> _on FSD's refusal to let a thing sit in the wrong place_
->
-> **The form ends up defining the essence — for everyone's better.**
+> **When a piece of code refuses to sit anywhere in your structure, the form ends up defining the essence — for everyone's better.**
 
 **Verdict: 8.5/10** only because I think I could be MORE rigorous with FSD hygiene, things like type definitions placed in `/api` segment rather than `/model` where they belong.
 
@@ -340,29 +332,21 @@ Here are some examples of the hand-written ones:
 
 **`prefer-shorthand-spread`** requires `{ ...{ wug } }` instead of `wug={wug}` on components, and folds runs of them together, so `a={a} b={b} c={c}` becomes `{...{ a, b, c }}`.
 
-**`prefer-matches`** prohibits using bare `eq(table.field, field)` in favour of the hand-written `matches(table, { field })` helper: The obvious reason is that `and(eq(t.a, x), eq(t.b, y))` chains are noise. The better reason is in the commit that renamed the helper from `eqCols`:
+**`prefer-matches`** prohibits using bare `eq(table.field, field)` in favour of the hand-written `matches(table, { field })` helper, to avoid noise such as `and(eq(chats.workspaceId, workspaceId), eq(chats.projectId, projectId))` — which `matches(chats, { workspaceId, projectId })` says in a third of the width. (It also supports things like `{ archivedAt: null }`, which becomes `isNull(chats.archivedAt)` under the hood.)
 
-> Column-map WHERE fragments are operator-agnostic going forward (`null`, `inArray`, etc.), so the name no longer promises eq-only semantics.
+**`safe-action-required`** is the most consequential of the 28, because its failure mode is a live authentication hole. Next turns every function exported from a `'use server'` file into an endpoint the browser can call — no route file, no ceremony, just an export. So the rule requires every one of them to be wrapped in `safeAction(...)`, the helper that establishes who is asking before the body runs. Miss the wrapper and you have published an unauthenticated endpoint with one keystroke, and an agent tidying helpers into a barrel file would do exactly that with no local signal that anything was wrong.
 
-`matches` is a seam. The day we want `{ field: null }` to mean `isNull`, we change one function instead of four hundred call sites. And the rule is careful about when _not_ to fire — a lone `eq(table.col, obj.col)` stays as it is, because `matches(table, pick(obj, 'col'))` is genuinely worse to read.
+Individually, they don't seem like a big deal. Together though, they make the entire codebase look DRY, clean and less token-wasteful for agents who keep reading them hundreds of times a day — and, as the one above shows, several of them are stopping real bugs rather than untidy formatting. The case for writing your own is that an agent will cheerfully ignore a paragraph in your CLAUDE.md and will never, ever ship a lint error.
 
-**`no-subaction-server-export`** is the most consequential of the 28: its failure mode is a live authentication hole. We have a `subAction` gate for internal steps that run inside an already-authorized flow; it deliberately performs no access check. Export one from a `'use server'` file and Next's server-action transform turns it into a client-callable, unauthenticated endpoint. One keystroke. An agent tidying helpers into a barrel file would do it without any local signal that anything was wrong. And we already had a rule requiring every `'use server'` export to be wrapped in `safeAction(...)` — it just never looked at _which gate_ was inside. So this rule draws the line the other one missed.
-
-Individually, they don't seem like a big deal. Together though, they make the entire codebase look DRY, clean and less token-wasteful for agents who keep reading them hundreds of times a day. And the case for writing your own is one sentence:
-
-> Custom rules catch issues at write time instead of code review time. They're especially effective at constraining AI agents, which will never violate a lint rule but will happily violate a comment-based convention.
-
-That's the whole thing. An agent will cheerfully ignore a paragraph in your CLAUDE.md and will never, ever ship a lint error.
-
-To top it all, the fearful `type-overlap` script. It parses every type alias in the codebase and reports any two of them that declare the same member — same name, same modifiers, same annotation. Threshold one. If `Chat` and `ChatSummary` both declare `workspaceId: string`, that's a failure, and the fix is to extract a shared base and have both include it.
+To top it all, the fearful `type-overlap` script. It parses every type alias in the codebase and reports any two of them that declare the same member — same name, same modifiers, same annotation. One shared member is enough to fail the build. If `Chat` and `ChatSummary` both declare `workspaceId: string`, that's a failure, and the fix is to extract a shared base and have both include it.
 
 Why bother? Because a duplicated shape is two things to change, and TypeScript will never tell you they've diverged — each copy redeclared its own fields, so both compile perfectly while meaning different things. For example: we had a `tokenCounts: { input, output }` shape sitting next to a pair of DB columns called `inputTokens` and `outputTokens`. Both type-checked. Every usage log we wrote recorded zero tokens. We found it by accident, months later, during an unrelated refactor.
 
 There's a second return: about a third of the time, a reported overlap turns out to be a key that's lying rather than a missing base. Two types both had a `file`, and one meant a path while the other meant a `File`. Two had an `owner`, meaning a repo owner and a workspace owner. One pair had `isActive` and `active` for the same concept. As the decision doc puts it: _the tool can't tell you which; it makes you look._
 
-Its blast radius was so big we had to ratchet it in stages before the entire codebase was clean: threshold 3, then 2, then back up to 4 when we rewrote the detector and it started finding more, then 3, then 2, then finally 1. Five downward flips over 26 days, thirteen landings on `main`, about 1,300 file-changes, every one of them type-level only. At the tightest point we were running a second, per-member ratchet alongside the global one — a committed list of member signatures already deduped and held at threshold 1, so nothing that had been cleaned could get re-inlined while the floor was still 2. That list peaked at 277 signatures before we deleted it and dropped the floor to 1. 248 overlap groups were cleared in total. Roughly 330 shared bases exist now that didn't before.
+Turning it on at full strength would have failed the build in hundreds of places at once, so we tightened it a notch at a time. At first the script only complained when two types shared three or more fields; then two; then — after we rewrote the detector and it started finding more than before — briefly back out to four, before coming down through three and two to the strict setting, where a single shared field is a failure. Six settings over 26 days, thirteen landings on `main`, about 1,300 file-changes, every one of them type-level only. While the loose setting was still in force we also kept a committed list of the field groups already cleaned up, each one held to the strict setting on its own, so nothing we had just deduplicated could slide back in behind us. That list peaked at 277 entries before we deleted it and made the strict setting global. 248 overlapping groups were cleared in total, and roughly 330 shared bases exist now that didn't before.
 
-Overengineering, you think? But think about this: the alternative is 248 pairs of types quietly disagreeing in a codebase where a dozen agents edit in parallel and none can see the other copy. The `tokenCounts` bug cost us months of wrong analytics and was found by luck. And unlike a human, an agent handed "extract a base type and update 32 call sites" doesn't argue, doesn't get bored, and doesn't do 30 of them. Especially in an agent workflow, this is not something you should take lightly.
+Overengineering, you think? But think about this: the alternative is 248 pairs of types disagreeing with each other in a codebase where a dozen agents edit in parallel and none can see the other copy. The `tokenCounts` bug cost us months of wrong analytics and was found by luck. In a codebase with about 3,000 declared types, it's not something you should take lightly.
 
 **Verdict: 10/10** — they just work, make the code cleaner, and, unlike humans, agents don't get rage bouts from them.
 
@@ -375,9 +359,8 @@ Overengineering, you think? But think about this: the alternative is 248 pairs o
 A lint rule sees one file. Some things you want to forbid are properties of the whole graph, so they end up as scripts in the vet suite. A few, to give the flavour of what this category is for:
 
 - **`poison-check`** — catches `server-only` poisoning: any `'use client'` file that transitively imports a server-only module. It reads madge's dependency graph and re-parses with TypeScript, specifically so type-only imports don't count, since those are erased at compile time and are harmless.
-- **`drizzle-chain-check`** — verifies that the migration snapshots form an unbroken chain. This one was written after migration `0099` was generated on a branch that hadn't merged `0098`, which silently forked the chain and dropped an enum value, and nothing failed at deploy time for two whole migrations. Parallel agents plus sequentially-numbered migrations is a footgun with a very quiet trigger.
-- **Four `check-standalone-*` scripts** that each prove one native dependency actually works inside the built bundle: PDF text extraction, image transcoding, HEIC decoding, the worker pool. All four exist because Next's file tracing cannot see how those libraries load their own assets — a dynamic `require`, an ELF RPATH, a base64 data URI in a static require, a path-loaded worker isolate. The bundle looks complete and dies on first use. Each of these was a production incident once.
-- **`ast-metrics`** — measures file size in semantic AST nodes rather than lines, and deliberately never fails: it's a trend tripwire.
+- **`drizzle-chain-check`** — verifies that the migration snapshots form an unbroken chain. This one was written after migration `0099` was generated on a branch that hadn't merged `0098`, which forked the chain and dropped an enum value, with nothing failing at deploy time for two whole migrations. Parallel agents plus sequentially-numbered migrations is a footgun you don't hear go off.
+- **`ast-metrics`** — reports the biggest files in the codebase so you can see when one is turning unwieldy, and deliberately never fails. It sizes them by counting syntax nodes rather than lines, because some of our largest files are LLM prompts, which run to hundreds of lines as they should while being, structurally, a single string.
 
 All of them run concurrently, all of them run to completion even when one has already failed, and the summary at the end names every check that broke. That last property matters more than it sounds when the consumer is an agent: fail fast and it fixes one thing, pushes, and waits four minutes to be told about the next.
 
@@ -387,7 +370,22 @@ Now that we had the functionality figured out (or so we thought), and all the st
 
 Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the "migration plan" was born, and it looked _very_ detailed — file-by-file, path-by-path, with stage numbers and acceptance criteria.
 
-As the work progressed though (we'll get to that later in more detail), this detailedness started being more of a burden than a help. There are few annoying things more important, and few important things more annoying, than keeping codebase documentation from drifting — and this file was a prime illustration of it. Every one of those file paths was a promise, and the codebase kept breaking them for perfectly good reasons. After a while you're not reading the plan to find out what to do; you're reading it to find out how out of date it is.
+Here's a piece of it as of early April, a month in — the plan's own inventory of the entity slices, labelled "current state":
+
+```
+├── entities/                         # FSD Entities layer
+│   ├── auth/                         # getUser, env config, Zod schemas
+│   ├── chat/                         # Chat queries, scope filters, Weaviate message ops
+│   ├── file/                         # File CRUD queries, CDN cleanup, provider cleanup
+│   ├── keyboard-shortcut/            # Shortcut type registry, provider, hooks
+│   ├── llm-model/                    # Static model catalog, provider groups, cost calculation
+│   ├── message/                      # Message display components (markdown, code blocks)
+│   └── tenancy/                      # Workspace/member queries, mutations, workspace cookie
+```
+
+Seven slices, described as the state of the code on the day. On that same commit the codebase actually had six: there was never an `entities/message` — not then, not once, in the entire history of the repo. `auth` was real, and was gone by the first production build in May, absorbed into `shared/supabase`. And of the eight slices the codebase finally settled on — `chat`, `subscription`, `llm-model`, `tenancy`, `file`, `member-group`, `project`, `keyboard-shortcut` — three aren't on that list at all, the last of them, `member-group`, not arriving until late July. And this is the _tidy_ layer; the stage-by-stage file lists drifted faster and further.
+
+As the work progressed (we'll get to that later in more detail), this detailedness started being more of a burden than a help. There are few annoying things more important, and few important things more annoying, than keeping codebase documentation from drifting — and this file was a prime illustration of it. Every one of those file paths was a promise, and the codebase kept breaking them for perfectly good reasons. After a while you're not reading the plan to find out what to do; you're reading it to find out how out of date it is.
 
 **Verdict: 6/10** — next time I'd keep only the big picture in the plan, leaving the details to figure out as we go.
 
@@ -415,9 +413,7 @@ Finally, constantly having to merge conflicting branches into main seemed like i
 
 But boy could I be wronger.
 
-> _on the fear of handing work to something that isn't on your own machine_
->
-> **But boy could I be wronger.**
+> **It felt too "hands-off" that the agent would be working _somewhere_ that isn't _right here_. But boy could I be wronger.**
 
 Mere weeks after starting, I was already running 20+ agents at once, limited only by the account's five-hourly quota:
 
@@ -433,13 +429,17 @@ Depending on your choice of agent software (Claude Code / Cursor / Codex / etc.)
 - Whenever there _is_ a PR, you can conveniently navigate to it to review files, post your comments, and hand them over to the agent afterwards
 - You can pin the sessions you're working on right now, and the sidebar shows each with its current state — in progress vs completed — so switching between them becomes a matter of clicking any one that's currently idle
 
-A callout on the choice of software, models, etc.: the thing all those benchmarks don't usually tell you is that it doesn't make much difference! Each model and each app has its quirks — but at this point, all are really good. If you read in a benchmark that _this model_ now beats _that model_ by 100 ELO points in coding tasks, don't take this as an urge to FOMO.
+A callout on the choice of software, models, etc.: the thing all those benchmarks don't usually tell you is that it doesn't make much difference! Each model and each app has its quirks — but at this point, all are really good. It's like choosing between a Makita and a Bosch hammer drill to do home repairs: there are people who will argue about it all afternoon, and either one puts the shelf up. If you read in a benchmark that _this model_ now beats _that model_ by 100 ELO points in coding tasks, don't take this as an urge to FOMO.
 
 **2 — "Hands-off" engineering actually turned out much more comfortable than I thought.**
 
-Like many coders, I liked to be "close to code." I thought, I know the tricks of the trade better than an AI would do, I had opinions on how certain things should look, etc. Well, guess what, I still do, in a way (for 95% of cases, agents do know better than me, but the remaining 5% isn't trifle — it can actually steer the architecture from going astray).
+Like many coders, I liked to be "close to code." I thought, I know the tricks of the trade better than an AI would do, I had opinions on how certain things should look, etc. Well, guess what, I still do, in a way (for 95% of cases, agents do know better than me, but the remaining 5% is where you actually understand why you still need a knowledgeable human in the loop).
 
 But here's the thing: you don't have to be constantly _in_ it to be able to steer it. Right now my flow is almost 100% based on code reviews I do in GitHub's native interface, based on _already made_ changes. (And, of course, before that there is also most often the planning stage, which I also review rigorously.)
+
+![A GitHub pull request review open in the split diff view, with two pending inline comments left on the paragraphs of this very article](./assets/playgram-code-review.png)
+
+(Right, the process we came up with can be applied to far more than code — that screenshot is me reviewing _this very article_ the same way I'd review a migration PR, comment by comment. I run all my personal stuff in a separate repo with almost the same set of skills now, that's how versatile it is. And yes, you can read what was actually used as an input to create this case study: <https://github.com/vzakharov/vovazakharov.com/issues/4> — I've nothing to hide.)
 
 In a way, I turned from a boss who's constantly micromanaging his team into one who reviews the outcome, not the process.
 
@@ -455,51 +455,38 @@ Apart from handling database migrations, which do have the tendency to go south 
 
 Now, this is perhaps the tastiest part for anyone dabbling with coding agents. Over the work, I came up with a variety of skills that make sure every repeatable process behaves in an expectable way.
 
-I'll actually give you all of them.
+Let me give you the most useful of them.
 
-| Skill                              | What it does                                                                                                   | How it helps                                                                                                                        |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **`/audit-github-backlog`**        | Sweeps every open issue and PR against today's code and proposes a close/refile/keep plan.                     | Fans analysts out per backlog bucket<br>Assigns P0–P3 to every keeper<br>Asserts coverage mechanically, closes nothing              |
-| **`/autopilot`**                   | Unattended grooming loop: claims one contained issue, plans it in a comment, implements, hands off.            | Claims work with a visible label<br>Imitates plan mode as an issue comment<br>Leaves only the merge for humans                      |
-| **`/bootstrap-workflow-dispatch`** | Temporarily adds a push trigger so GitHub can dispatch a workflow that isn't on the default branch yet.        | Unblocks "workflow not found" failures<br>Adds, then removes, the one-shot trigger<br>Keeps the default branch untouched            |
-| **`/branch-rename`**               | Renames the harness auto-branch to a semantic slug derived from the PR or the diff.                            | Derives the slug without asking<br>Warns that renaming kills an open PR<br>Re-slugs an already-named branch on force                |
-| **`/check-merge`**                 | One-shot check of whether the PR base advanced or the PR landed, handing the result back.                      | Detects a base that moved underneath<br>Classifies merged/closed PRs in one call<br>Re-syncs the drifted squash-message comment     |
-| **`/dry`**                         | Reviews the session diff for duplication, applying the obvious consolidations and escalating the rest.         | Applies obvious dedups silently<br>Surfaces only ambiguous abstractions<br>Keeps non-issues out of the report                       |
-| **`/explore`**                     | Delegates a codebase question to parallel Explore subagents and synthesizes their findings.                    | Spawns one agent per question facet<br>Keeps raw searching out of context<br>Returns a single synthesized answer                    |
-| **`/finalize`**                    | Land prep: vet, merge the base, dispatch tests if warranted, mark ready, propose the squash, attest.           | Runs vet and merges the base branch<br>Sweeps working artifacts off the branch<br>Posts the only durable verification record        |
-| **`/fix-ci`**                      | Triages a failing Actions run, presents findings, then applies and verifies the fix.                           | Separates flake from real regression<br>Reports before changing anything<br>Routes release-lane breaks to their own PR              |
-| **`/from-branch`**                 | Attaches the session to an existing branch or PR, abandons the auto-branch, then runs the follow-up.           | Resolves PR deep links and bare branches<br>Deletes the throwaway session branch<br>Dispatches the requested follow-up skill        |
-| **`/hotfix`**                      | Ships a fix straight off production, bypassing staging, with a retargeted PR and post-merge reconcile.         | Gates urgent work behind a plan anyway<br>Retargets the PR onto production safely<br>Reconciles the shipped fix back to main        |
-| **`/implement`**                   | Executes an approved plan end to end, runs the mandatory quality passes, then opens a draft PR.                | Flips the plan file to in-progress<br>Forces the dry and tighten-docs passes<br>Ends with a draft PR opened                         |
-| **`/issue`**                       | Takes a GitHub issue end to end: exports the thread, splits when oversized, implements, opens a PR.            | Reads the exported thread and attachments<br>Splits over-scoped issues before coding<br>Lands every slice as a draft PR             |
-| **`/log-review`**                  | Reads production logs since the last run, forms an opinionated readout, files a deduped issue per problem.     | Reduces the firehose outside the context<br>Dedups issues by judgment, not strings<br>Publishes a readout plus Slack summary        |
-| **`/override-gh`**                 | No-op marker reminding agents that `gh` and `GH_TOKEN` exist and bypass the egress proxy.                      | Stops needless fallback to other tooling<br>Documents the proxy-bypassing shim<br>Takes no action when invoked                      |
-| **`/plan`**                        | File-based stand-in for plan mode and multiple-choice questions in web sessions where those UIs misbehave.     | Writes a reviewable plan under docs/plans/<br>Asks questions as numbered prose<br>Emits a copyable /implement handoff block         |
-| **`/pr`**                          | Opens the draft PR: renames the branch, pushes, derives title and body, adds QA checklist and squash proposal. | Blocks until the plan gate clears<br>Renames the branch before a PR exists<br>Posts the squash proposal up front                    |
-| **`/preview`**                     | Mounts a change on a temp route in an env-less VM and screenshots it at several widths.                        | Boots dev against a placeholder env<br>Replaces reasoning about looks with looking<br>Decides teardown versus commit beforehand     |
-| **`/propose-issue`**               | Finds the existing open issue that already covers a proposed unit of work, or files a new one.                 | Searches before creating a duplicate<br>Turns surfaced follow-ups into tracked issues<br>Serves as other skills' filing entry point |
-| **`/qa-checklist`**                | Writes a manual QA checklist into the PR body, plus a table classifying automatability and coverage.           | Updates the PR body idempotently<br>Flags steps no test protects<br>Marks rows the merge itself misses                              |
-| **`/readonly-probe`**              | Dispatches a structurally read-only DB, vector-store and platform-log probe against staging or production.     | Grounds investigations in real deployed data<br>Wraps every query in read-only transactions<br>Reaches infra an env-less VM cannot  |
-| **`/release`**                     | Drafts the release commit and notes, and opens the staging-based PR that arms the production deploy.           | Proposes the SemVer bump from commits<br>Writes the release-notes file for review<br>Fast-paths urgent fixes as micropatches        |
-| **`/renumber-migration`**          | Resolves a migration number collision by cherry-picking peers, renumbering, and re-parenting the snapshot.     | Keeps the migration journal contiguous<br>Re-parents the snapshot to reality<br>Clears chain-check forks from parallel PRs          |
-| **`/roundtable`**                  | Runs a four-phase multi-agent discussion on a topic through a shared banter file, then reports.                | Spawns researchers plus a devil's advocate<br>Coordinates debate via one shared file<br>Pauses mid-way for user feedback            |
-| **`/squash-message`**              | Owns the copy-ready squash title and body: drafts it in a file, tightens it, posts it as a PR comment.         | Drafts into a file before showing anything<br>Enforces a tightening pass first<br>Edits the live comment on re-runs                 |
-| **`/sync-branch`**                 | Brings a branch up to date with its merge target in a single reviewable merge commit, then pushes.             | Resolves the merge logically, not just textually<br>Keeps the catch-up to one commit<br>Delegates target detection to check-merge   |
-| **`/synthesize`**                  | Step 2 of the multi-model workflow: reads the independent drafts, discusses them, produces the real output.    | Commits the drafts before synthesizing<br>Surfaces where the models diverged<br>Deletes drafts with the final output                |
-| **`/test-on-gh`**                  | Dispatches GitHub-hosted test runs (default, integration, E2E or targeted) and blocks for the result.          | Buys CI signal where PRs run none<br>Selects buckets, specs or flake passes<br>Forces a push before dispatching                     |
-| **`/tighten-docs`**                | Rewrites added prose that narrates the change or spends more words than it informs, in place.                  | Converts change-narration into lasting contracts<br>Cuts prose the signature already states<br>Leaves declared no-touch zones alone |
-| **`/update-docs`**                 | Diffs since the last doc-update commit and refreshes the decisions summary and other affected docs.            | Confirms findings before editing docs<br>Advances the update watermark<br>Commits the documentation refresh                         |
-| **`/update-tests`**                | Analyses recent changes for unit, integration and E2E test gaps and files an issue per gap.                    | Names gaps by test category<br>Files each gap through propose-issue<br>Writes no test code itself                                   |
-| **`/watch-ci`**                    | Watches an in-flight Actions run tick by tick, pushing fixes mid-run behind the commit skip marker.            | Surfaces failures as they happen<br>Pushes fixes without wasting the run<br>Hands non-actionable failures to fix-ci                 |
-| **`/weigh`**                       | Step 1 of the multi-model workflow: one agent writes its independent analysis to a draft file.                 | Keeps each model's analysis uncontaminated<br>Drops the draft in a staging directory<br>Sets up the synthesize comparison           |
+| Skill                       | What it does                                                                                                   | How it helps                                                                                                                        |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **`/audit-github-backlog`** | Sweeps every open issue and PR against today's code and proposes a close/refile/keep plan.                     | Fans analysts out per backlog bucket<br>Assigns P0–P3 to every keeper<br>Asserts coverage mechanically, closes nothing              |
+| **`/autopilot`**            | Unattended grooming loop: claims one contained issue, plans it in a comment, implements, hands off.            | Claims work with a visible label<br>Imitates plan mode as an issue comment<br>Leaves only the merge for humans                      |
+| **`/dry`**                  | Reviews the session diff for duplication, applying the obvious consolidations and escalating the rest.         | Applies obvious dedups silently<br>Surfaces only ambiguous abstractions<br>Keeps non-issues out of the report                       |
+| **`/finalize`**             | Land prep: vet, merge the base, dispatch tests if warranted, mark ready, propose the squash, attest.           | Runs vet and merges the base branch<br>Sweeps working artifacts off the branch<br>Posts the only durable verification record        |
+| **`/from-branch`**          | Attaches the session to an existing branch or PR, abandons the auto-branch, then runs the follow-up.           | Resolves PR deep links and bare branches<br>Deletes the throwaway session branch<br>Dispatches the requested follow-up skill        |
+| **`/hotfix`**               | Ships a fix straight off production, bypassing staging, with a retargeted PR and post-merge reconcile.         | Gates urgent work behind a plan anyway<br>Retargets the PR onto production safely<br>Reconciles the shipped fix back to main        |
+| **`/implement`**            | Executes an approved plan end to end, runs the mandatory quality passes, then opens a draft PR.                | Flips the plan file to in-progress<br>Forces the dry and tighten-docs passes<br>Ends with a draft PR opened                         |
+| **`/issue`**                | Takes a GitHub issue end to end: exports the thread, splits when oversized, implements, opens a PR.            | Reads the exported thread and attachments<br>Splits over-scoped issues before coding<br>Lands every slice as a draft PR             |
+| **`/log-review`**           | Reads production logs since the last run, forms an opinionated readout, files a deduped issue per problem.     | Reduces the firehose outside the context<br>Dedups issues by judgment, not strings<br>Publishes a readout plus Slack summary        |
+| **`/plan`**                 | File-based stand-in for plan mode and multiple-choice questions in web sessions where those UIs misbehave.     | Writes a reviewable plan under docs/plans/<br>Asks questions as numbered prose<br>Emits a copyable /implement handoff block         |
+| **`/pr`**                   | Opens the draft PR: renames the branch, pushes, derives title and body, adds QA checklist and squash proposal. | Blocks until the plan gate clears<br>Renames the branch before a PR exists<br>Posts the squash proposal up front                    |
+| **`/preview`**              | Mounts a change on a temp route in an env-less VM and screenshots it at several widths.                        | Boots dev against a placeholder env<br>Replaces reasoning about looks with looking<br>Decides teardown versus commit beforehand     |
+| **`/propose-issue`**        | Finds the existing open issue that already covers a proposed unit of work, or files a new one.                 | Searches before creating a duplicate<br>Turns surfaced follow-ups into tracked issues<br>Serves as other skills' filing entry point |
+| **`/readonly-probe`**       | Dispatches a structurally read-only DB, vector-store and platform-log probe against staging or production.     | Grounds investigations in real deployed data<br>Wraps every query in read-only transactions<br>Reaches infra an env-less VM cannot  |
+| **`/release`**              | Drafts the release commit and notes, and opens the staging-based PR that arms the production deploy.           | Proposes the SemVer bump from commits<br>Writes the release-notes file for review<br>Fast-paths urgent fixes as micropatches        |
+| **`/squash-message`**       | Owns the copy-ready squash title and body: drafts it in a file, tightens it, posts it as a PR comment.         | Drafts into a file before showing anything<br>Enforces a tightening pass first<br>Edits the live comment on re-runs                 |
+| **`/sync-branch`**          | Brings a branch up to date with its merge target in a single reviewable merge commit, then pushes.             | Resolves the merge logically, not just textually<br>Keeps the catch-up to one commit<br>Delegates target detection to check-merge   |
+| **`/test-on-gh`**           | Dispatches GitHub-hosted test runs (default, integration, E2E or targeted) and blocks for the result.          | Buys CI signal where PRs run none<br>Selects buckets, specs or flake passes<br>Forces a push before dispatching                     |
+| **`/tighten-docs`**         | Rewrites added prose that narrates the change or spends more words than it informs, in place.                  | Converts change-narration into lasting contracts<br>Cuts prose the signature already states<br>Leaves declared no-touch zones alone |
+| **`/update-docs`**          | Diffs since the last doc-update commit and refreshes the decisions summary and other affected docs.            | Confirms findings before editing docs<br>Advances the update watermark<br>Commits the documentation refresh                         |
+| **`/update-tests`**         | Analyses recent changes for unit, integration and E2E test gaps and files an issue per gap.                    | Names gaps by test category<br>Files each gap through propose-issue<br>Writes no test code itself                                   |
+| **`/watch-ci`**             | Watches an in-flight Actions run tick by tick, pushing fixes mid-run behind the commit skip marker.            | Surfaces failures as they happen<br>Pushes fixes without wasting the run<br>Hands non-actionable failures to fix-ci                 |
 
-A few notes on reading that table.
-
-The first is that they compose. `/implement` doesn't just implement; it loads `/dry` and `/tighten-docs` by reference and then hands off to `/pr`, which loads `/branch-rename`, `/qa-checklist` and `/squash-message`. `/finalize` reaches into six others. The skills work as a call graph, and the reason that works is that each one is a file in the repo that another one can point at.
-
-The second is that this is not a tidy garden. `roundtable` still refers to a methodology we deleted in May; `weigh` and `synthesize` are the two halves of that multi-model decision process from March and nothing has invoked them since; `explore` is 655 bytes of frontmatter restating what the default behaviour already does. Four of thirty-three that should probably go.
+The thing worth pointing out about that table is that they compose. `/implement` doesn't just implement; it loads `/dry` and `/tighten-docs` by reference and then hands off to `/pr`, which loads three more. `/finalize` reaches into six others. The skills work as a call graph, and the reason that works is that each one is a file in the repo that another one can point at.
 
 **Verdict: 8/10** — some skills got churned along the way, some might as well be in the future. I guess that's the nature of the process, but having to keep an eye on updating them — and mostly forgetting to — is a burden. Thirty-three files that describe how you work is a real asset. It's also a second codebase, and it drifts exactly like the first one, except nothing lints it.
+
+> **If any of this looks worth stealing:** the whole set, minus everything Playgram-specific, now lives in [`agent-project-boilerplate`](https://github.com/vzakharov/agent-project-boilerplate) — the repo I start every new project from, this website included. It's the shortest path to the parts of the above that travel.
 
 ## Planning and implementing
 
@@ -538,14 +525,10 @@ Yes, today's agents can handle up to 1M tokens of context, but it doesn't mean y
 
 If you're old enough to have lived through the digital camera revolution of the early 2000s, you remember the "race for megapixels". 2, then 4, then 8, then 16 — but at some point you started realizing that more megapixels just meant more noise on the matrix; the stuff had become a marketing race, not a technical one.
 
-> _on why a 1M-token context window is not a target_
->
-> **More megapixels just meant more noise on the matrix.**
+> **A 1M-token context window is the megapixel race all over again: past a point, more megapixels just meant more noise on the matrix.**
 
 This long rant is meant to say: in any given session, you must hold one specific thread for the agent. If you have a side thought, it's better to create and use a separate skill to file [follow-up issues](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/propose-issue/SKILL.md) on GitHub rather than pulling the agent every which way.
 
-> _the rule_
->
 > **One session, one thread.**
 
 Okay, but what does any of this have to do with planning and implementing? Here's what: when you've written a plan, _iff_ it is a good plan, it _has_ to be enough for the agent to follow through. No previous part of your conversation — how you came up with this approach instead of that approach — should be a factor in the quality of work done. It's like a litmus test: if it doesn't hold, it means your plan itself is bad.
@@ -558,9 +541,22 @@ For example, here's how it looks for the plan to write this exact case study:
 
 ![The plan skill's handoff: numbered questions on the left, the plan file's diff on the right, and a copyable /implement command with the branch name](./assets/playgram-plan-handoff.png)
 
-(Right, these skills can be applied not just to code — I actually do even all my personal stuff in a separate repo with almost the same set of skills now, that's how versatile it is. And yes, you can read what was actually used as an input to create this case study: <https://github.com/vzakharov/vovazakharov.com/issues/4> — I've nothing to hide.)
-
 So in the end, my usual flow goes like this:
+
+```mermaid
+flowchart TD
+    I["a GitHub issue, or a one-line ask"] --> S1
+    S1["Session 1 — /issue or /plan<br/>a plan file, committed to the branch"]
+    S2["Session 2 — /implement<br/>code, DRY pass, docs pass, draft PR"]
+    S3["Session 3 — /from-branch, address code review<br/>fixes, and a reply on every thread"]
+    S4["Session 4 — /finalize<br/>sweep artifacts, merge main, run the gates"]
+    M["I squash-merge"]
+    S1 -->|"I review the plan"| S2
+    S2 -->|"I review the diff"| S3
+    S3 --> S4
+    S4 --> M
+    S3 -.->|"another round of comments"| S3
+```
 
 **Session 1:** start writing a plan using the `/issue` skill (if you laid it out on GitHub first, or if e.g. the [log review](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/log-review/SKILL.md) agent created it itself), or just from `/pr do this-and-that`. Review the plan, discuss it, come up with the decisions for the forks.
 
@@ -574,17 +570,21 @@ I always merge with a squash — I don't want each PR's detailed archaeology to 
 
 **Verdict: 9/10** — there's still stuff to optimize but as it stands it's a wallet (and mind) saver.
 
+## Data migration
+
+Getting a live app's data — users, workspaces, chats, files, memories — out of Bubble's proprietary store and into the new schema, without losing a row, double-charging anyone, or clobbering a workspace that had already cut over, was a project of its own: a reversible ETL behind a flag, an alpha cohort, repeated dry runs, and a cutover-day sequence per workspace. It's too big to squeeze in at the end of Part I, so it gets its own section in Part II.
+
 ## The handover
 
-On 10 August I shipped `4.4.3` and stopped writing code for this project. In the eleven days that followed, forty-two more units of work landed on `main` and two more releases went out. Four of the pull requests were mine: two sets of release notes, a CI permissions fix, and a change to some agent tooling. The other thirty-eight were the rest of the team's.
+As of this writing, seventeen days have passed since I shipped `4.4.3` on 10 August and stopped writing code for this project. Fifty-four more units of work have landed on `main` and two more releases have gone out. Of the fifty-two pull requests in that window, three were mine — one set of release notes, a CI permissions fix, and a change to some agent tooling — and I pushed the second release straight to `main`. The other forty-nine were the rest of the team's.
 
-That's the number I care about most, because of who the rest of the team is. Three people worked in this repo besides me, and they are the Bubble developers who built Playgram in the first place. Two of them created their GitHub accounts during this project — one of them on its first day. None of them had a professional software-engineering history before March.
+That's the number I care about most, because of who the rest of the team is. Three people worked in this repo besides me, and they are the Bubble developers who built Playgram in the first place. Two of them created their GitHub accounts during this project — one of them on its first day. None of them had major coding experience before March — some hand-written JavaScript dropped into that Toolbox plugin here and there, usually after talking it through with an LLM first.
 
 Which is not the same as being junior at anything. They had built a product on a no-code platform that most of the industry would tell you can't hold a product like that, and built it well enough that reproducing it in code took me five months. What they hadn't done before was work in a repository — branches, reviews, a type checker, a migration that has to run forwards.
 
-Some of what they shipped in those eleven days: metering for every non-reply cost stage in the product, across seventy-seven files, with a type-level guard that makes it impossible to add a new model call without declaring which budget absorbs its cost. A production data recovery that found 241 stranded attachments among twelve hundred candidates and proved across four dry runs that the naive fix would have resurrected about a thousand files users had deliberately deleted. An authorization bug fixed by introducing the access level that was missing rather than by widening the check that was there. A streaming spreadsheet reader that took a 2.4-second uninterruptible stall down to 76 milliseconds and peak memory from 2.3 GB to 389 MB.
+Of the features they shipped in those seventeen days, in plain terms: a carbon estimate for every chat turn, built from the energy inputs recorded per query all the way up to the figure on the analytics tab and in personal settings, with a published methodology page standing behind the number. Per-project spend, so a team can see which project is burning the budget rather than only the workspace total. Billing that counts everything a reply actually costs — the tools it called, the images it made — instead of just the reply, with a type-level guard that makes it impossible to add a new model call without declaring which budget absorbs its cost. A hardening change that stops pasted content from impersonating the app's own instructions to the model. Automatic retries that re-send a failed model pick to a different model instead of showing the user an error. And the unglamorous upkeep: two models retired onto newer ones, analytics filters rebuilt, a deploy that refuses to ship against a misconfigured environment.
 
-Every one of those thirty-eight pull requests came through the same pipeline this article describes — plan file, implementation, a DRY pass, a docs pass, a finalize attestation. The weekly rate is lower after the handover than before it, as you can see in the chart, but the work kept going, through the same machinery, with nobody calling me but for code reviews, which I still own.
+Every one of those forty-nine pull requests came through the same pipeline this article describes — plan file, implementation, a DRY pass, a docs pass, a finalize attestation. The weekly rate is lower after the handover than before it, as you can see in the chart's last full weeks, but the work kept going, through the same machinery, with nobody calling me but for code reviews, which I still own.
 
 ## To be continued
 
