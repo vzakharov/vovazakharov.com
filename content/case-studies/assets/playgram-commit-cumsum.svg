@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" width="980" height="640" role="img" aria-labelledby="ttl desc">
 <title id="ttl">Units of work and merged pull requests across the Playgram Bubble-to-Next.js rebuild</title>
-<desc id="desc">Two stacked charts sharing a timeline from the first commit on 6 March 2026 to 21 August 2026. The upper chart is cumulative units of work on main, reaching 1,287 — a gentle curve rising from about six units a day to about nine across the four-week seam between 24 April and 26 May, when the work moved from a local command line to cloud agents and pull requests. The lower chart is units of work landed per week, in the forties before the seam and the seventies and eighties after it, at an unchanged median size of roughly 350 changed lines. Release milestones are marked: 4.0.0, the first production build, on 21 May; 4.1.0, the first workspace live, on 24 June; 4.2.0, the big cutover, on 3 July; 4.3.0, Bubble switched off, on 11 July; 4.4.0, credits and access control, on 31 July; and 4.4.3 on 10 August, after which the work was handed over to the team and the weekly figure falls by about two thirds.</desc>
+<desc id="desc">Two stacked charts sharing a timeline from the first commit on 6 March 2026 to 21 August 2026. The upper chart is cumulative units of work on main, reaching 1,287 — a gentle curve rising from about six units a day to about nine across the four-week seam between 25 April and 25 May, when development moved into the cloud and every change started arriving as a branch and a review. The lower chart is units of work landed per week, in the forties before the seam and the seventies and eighties after it, at an unchanged median size of roughly 350 changed lines. Release milestones are marked: 4.0.0, the first production build, on 21 May; 4.1.0, the first workspace live, on 24 June; 4.2.0, the big cutover, on 3 July; 4.3.0, Bubble switched off, on 11 July; 4.4.0, credits and access control, on 31 July; and 4.4.3 on 10 August, after which the work was handed over to the team and the weekly figure falls by about two thirds.</desc>
 <style>
   text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
   .ttl   { fill: #0b0b0b; font-size: 16px; font-weight: 600; }
@@ -42,8 +42,8 @@
 </style>
 <text class="ttl" x="14" y="26">The rebuild, in units of work</text>
 <text class="sub" x="14" y="45">6 Mar – 21 Aug 2026 · 1,287 code commits to <tspan font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5">main</tspan>, each a self-contained unit of work · documentation-only commits excluded</text>
-<rect class="band" x="274.2" y="130.0" width="136.0" height="272.0"/>
-<rect class="band" x="274.2" y="478.0" width="136.0" height="102.0"/>
+<rect class="band" x="278.5" y="130.0" width="127.5" height="272.0"/>
+<rect class="band" x="278.5" y="478.0" width="127.5" height="102.0"/>
 <rect class="band2" x="733.2" y="130.0" width="46.8" height="272.0"/>
 <rect class="band2" x="733.2" y="478.0" width="46.8" height="102.0"/>
 <text class="pnl" x="14" y="66">Cumulative units of work on <tspan font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12">main</tspan></text>
@@ -58,7 +58,7 @@
 <text class="an" x="316.2" y="96.0" text-anchor="end">the 2-month deadline</text>
 <text class="an2" x="316.2" y="110.0" text-anchor="end">nothing in production yet</text>
 <text class="an" x="419.2" y="96.0">the four-week seam</text>
-<text class="an2" x="419.2" y="110.0">local CLI out, cloud agents and pull requests in</text>
+<text class="an2" x="419.2" y="110.0">into the cloud, then branch and review</text>
 <text class="slope" x="117.0" y="334.0">6.1 units/day</text>
 <text class="slope2" x="117.0" y="348.0">three agents, one screen</text>
 <text class="slope" x="431.5" y="351.0">8.9 units/day</text>

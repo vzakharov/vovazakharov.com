@@ -81,25 +81,25 @@ Before the grit, the shape of the thing.
 
 ![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from about six a day to about nine across a four-week seam in late April and May; weekly units of work go from the forties to the eighties across the same seam, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
-| Date       | Day | What happened                                                                  |
-| ---------- | --- | ------------------------------------------------------------------------------ |
-| **6 Mar**  | 1   | First commit. Not code — a splitting script and a pile of research.            |
-| **10 Mar** | 5   | The Next.js app gets bootstrapped. `layout.tsx`, `page.tsx`, and nothing else. |
-| **12 Mar** | 7   | First feature code: auth screens, styled to match the Bubble original.         |
-| **19 Mar** | 14  | A message goes to an LLM and a response comes back. The product loop works.    |
-| **24 Apr** | 50  | The first pull requests. Until now everything went straight to `main`.         |
-| **6 May**  | 62  | **The original deadline.** Nothing in production.                              |
-| **21 May** | 77  | `4.0.0` — first production build.                                              |
-| **26 May** | 82  | The last local sessions. From here it's cloud agents and PR squashes.          |
-| **24 Jun** | 111 | `4.1.0` — first workspace actually running on the rewrite.                     |
-| **3 Jul**  | 120 | `4.2.0` — the big cutover.                                                     |
-| **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                        |
-| **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                          |
-| **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                       |
+| Date       | Day | What happened                                                                    |
+| ---------- | --- | -------------------------------------------------------------------------------- |
+| **6 Mar**  | 1   | First commit. Not code — a splitting script and a pile of research.              |
+| **10 Mar** | 5   | The Next.js app gets bootstrapped. `layout.tsx`, `page.tsx`, and nothing else.   |
+| **12 Mar** | 7   | First feature code: auth screens, styled to match the Bubble original.           |
+| **19 Mar** | 14  | A message goes to an LLM and a response comes back. The product loop works.      |
+| **25 Apr** | 51  | Development moves into the cloud. The first web sessions, on their own branches. |
+| **6 May**  | 62  | **The original deadline.** Nothing in production.                                |
+| **21 May** | 77  | `4.0.0` — first production build.                                                |
+| **18 May** | 74  | The last code I commit straight to `main`. Everything after is a pull request.   |
+| **24 Jun** | 111 | `4.1.0` — first workspace actually running on the rewrite.                       |
+| **3 Jul**  | 120 | `4.2.0` — the big cutover.                                                       |
+| **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                          |
+| **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                            |
+| **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
 
 A note on that chart. When I sketched this article I claimed you could _precisely_ see the spot where my working method changed. What the chart shows is a seam about four weeks wide, running from the last week of April to the last week of May, and the number that proves the point is a boring one: **the median unit of work stays about the same size — 367 changed lines before the seam, 330 after — while units per day go from 6.1 to 8.9.** Same-sized pieces, forty-odd percent more of them at a time. That's the fingerprint of parallel streams rather than bigger batches, which is exactly what "I went from three agents to twenty" should look like in a graph.
 
-Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, when I moved to the web sessions. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
+Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
 (Both panels exclude docs commits.)
 
