@@ -90,7 +90,6 @@ Before the grit, the shape of the thing.
 | **25 Apr** | 51  | Development moves into the cloud. The first web sessions, on their own branches. |
 | **6 May**  | 62  | **The original deadline.** Nothing in production.                                |
 | **21 May** | 77  | `4.0.0` — first production build.                                                |
-| **18 May** | 74  | The last code I commit straight to `main`. Everything after is a pull request.   |
 | **24 Jun** | 111 | `4.1.0` — first workspace actually running on the rewrite.                       |
 | **3 Jul**  | 120 | `4.2.0` — the big cutover.                                                       |
 | **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.                          |
