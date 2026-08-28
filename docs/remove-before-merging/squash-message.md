@@ -7,42 +7,40 @@ feat: #4 write the Playgram case study, Part I (pr #9)
 ```
 Issue #4 is a 5,300-word brief in note form — Vova's own prose,
 structure and verdicts, with roughly twenty bracketed placeholders
-marking where an agent was to go find the real numbers, excerpts and
+marking where an agent was to find the real numbers, excerpts and
 diagrams. This hydrates it into three finished documents under a new
 `content/` root, kept separate from `docs/` because `docs/` is agent
 and process material that finalize sweeps off the trunk while this is
-publishable site content: the full case study plus rewrites at roughly
-a fifth and a twentieth of its length, and a chart generated from a
-committed CSV so the figures and the prose cannot drift apart. The
-issue defers the page and the PDF, so nothing here renders a route.
+publishable site content: the full case study at ~9,900 words, plus
+genuine rewrites at roughly a fifth and a twentieth of that length, and
+a chart drawn from a committed CSV so the figures and the prose cannot
+drift apart. The issue defers the page and the PDF, so nothing here
+renders a route.
 
-Filling the placeholders from the Playgram repo's history contradicted
-six of the brief's claims, and the documents carry the corrected
-version of each. The export is documented as ~25 MB rather than 11 MB,
-identically across every revision of the file that records it, and the
-raw JSON is gitignored so neither figure can be measured now. The
-docs-only stretch at the start was four days, not two weeks — the app
-was bootstrapped on day 5 and the first feature code landed on day 7,
-which is a stronger claim than the original because it is checkable.
-The GCP episode ran Railway to Cloud Run and back inside 72 hours
-rather than starting on GCP. The framework was never deliberated;
-"Next.js rebuild" is in the first commit message and no decision doc
-weighs an alternative. The four-provider model panel describes the
-process only from 14 March. And Zeroqode's "#1 plugin provider" is
-unsupportable from any neutral source, so their own wording stands in
-its place. Every external citation was verified by fetching it; the
-usual Bubble success stories were dropped because their platform
-attribution traces only to agency marketing.
+The placeholders are filled from the Playgram repository over a window
+ending at the 4.4.3 handover on 10 August rather than at the repo's
+tip: 158 days, 1,395 units of work on `main`, 1,029 merged pull
+requests, 250,000 lines of production TypeScript. Read against that
+history, three of the brief's claims did not survive, and the documents
+carry the corrected version of each. The documentation-only stretch at
+the start was four days, not two weeks — the app was bootstrapped on
+day 5 and the first feature code landed on day 7, which is checkable
+where the original wasn't. The move into the cloud is a single day, 25
+April, with no transition period: the commits landing straight to
+`main` that suggested one are cloud pull requests amended as they
+landed. And the throughput finding is that the median unit of work
+stays flat, 375 changed lines before the switch against 384 after,
+while units land at 6.2 a day before and 8.2 after — same-sized pieces
+of work, about a third more of them at a time. The brief's "flat churn,
+commits up 63%" had compared April with June rather than the two sides
+of the switch.
 
-The research also settled the one thing the brief explicitly asked to
-have confirmed, and settled it against the brief: the point where the
-working method changed is a four-week seam rather than a spot. Three
-independent signals agree on where it sits, and the evidence for
-parallelism turns out to be that churn per commit stays flat at ~400
-lines while commits per day rise 63% — same-sized units of work, more
-of them at once. Three follow-up issues (#6, #7, #8) take the skill
-library, the type-overlap ratchet and the export-splitting technique,
-so the deferred depth has somewhere to go instead of enlarging Part I.
+Every external citation is verified by fetching it, which is why the
+usually-cited Bubble success stories are absent: their platform
+attribution traces only to agency marketing. Three follow-up issues
+(#6, #7, #8) take the skill library, the type-overlap ratchet and the
+export-splitting technique, so the deferred depth has somewhere to go
+instead of enlarging Part I.
 
 Closes #4
 
