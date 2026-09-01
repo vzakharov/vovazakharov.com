@@ -117,7 +117,7 @@ Noted here so the decision is findable, not re-derived.
 1. **Dependencies.** Add `@eslint-react/eslint-plugin`, `eslint-plugin-unicorn`,
    `eslint-plugin-react-compiler`, `eslint-plugin-simple-import-sort`,
    `eslint-plugin-jsx-a11y`, `eslint-plugin-react`, `typescript-eslint`, `jiti`. Drop
-   `eslint-plugin-prettier` (below). Keep `eslint-config-prettier`.
+   `eslint-plugin-prettier` (see the open question). Keep `eslint-config-prettier`.
 2. **`tsconfig.json`** — add `noUnusedLocals`, `noUnusedParameters`, `noImplicitReturns`,
    `noPropertyAccessFromIndexSignature`, `noUncheckedIndexedAccess`,
    `noFallthroughCasesInSwitch`, `noImplicitOverride`, `allowUnusedLabels: false`,
@@ -135,9 +135,8 @@ Noted here so the decision is findable, not re-derived.
 5. **`eslint.config.ts`** — the orchestrator: preset spreads, plugin registration, merged
    rule set, `globalIgnores`. Delete `eslint.config.mjs`.
 6. **Fix the violations.** Expected, from reading the tree:
-   - `unicorn/filename-case` vs `HomePage.tsx`, `RootLayout.tsx`, `CVPage.tsx`, `Card.tsx`,
-     `LocalePicker.tsx`, `ThemeProvider.tsx`, `ThemeToggle.tsx`, `useMounted.ts` — see
-     question 1.
+   - `unicorn/filename-case` over the eight PascalCase files — the kebab-case renames
+     under "Decisions", each with its importers updated.
    - `i18n/request.ts`: `(await import(\`../messages/${locale}.json\`)).default` is `any`,
      so `no-unsafe-assignment`/`no-unsafe-return` fire. Fix by typing the catalog against
      `en.json` rather than casting.
@@ -153,47 +152,48 @@ Noted here so the decision is findable, not re-derived.
    table.
 9. **Vet** (`./scripts/vet.sh`) and iterate to green.
 
-## Open questions
+## Decisions
 
-**1 — `unicorn/filename-case` conflicts with the eight PascalCase component files.**
-Unicorn's recommended preset enforces kebab-case filenames; `playgramapp` is kebab-case
-throughout. This repo is `Card.tsx`, `ThemeToggle.tsx`, `useMounted.ts`, etc.
+**Filenames go kebab-case.** `unicorn/filename-case` stays on at `error`, and the eight
+PascalCase files rename to match: `Card.tsx` → `card.tsx`, `ThemeToggle.tsx` →
+`theme-toggle.tsx`, `HomePage.tsx` → `home-page.tsx`, `RootLayout.tsx` → `root-layout.tsx`,
+`CVPage.tsx` → `cv-page.tsx`, `LocalePicker.tsx` → `locale-picker.tsx`, `ThemeProvider.tsx`
+→ `theme-provider.tsx`, `useMounted.ts` → `use-mounted.ts`, with their importers updated.
+Use `git mv` so history follows. Next's own reserved filenames (`page.tsx`, `layout.tsx`)
+are already kebab-compatible and unaffected. *Rejected: exempting PascalCase via
+`cases: { kebabCase: true, pascalCase: true }`, or disabling the rule — both keep the
+current names but forfeit the parity that is the point of the adoption, on eight files
+whose rename is mechanical.*
 
-  - **(a) Rename the files to kebab-case** (`card.tsx`, `theme-toggle.tsx`, `use-mounted.ts`)
-    and keep the rule on. — **Recommended.** Full parity with the source ruleset, which is
-    the ask; eight files and their imports, mechanical, and the rule then holds for
-    everything added later. Written into the plan as the operative choice.
-  - (b) Configure `unicorn/filename-case` to accept `kebabCase` *and* `pascalCase`, keeping
-    current filenames.
-  - (c) Turn `unicorn/filename-case` off entirely.
+**`trailingComma` becomes `"all"`**, matching the source and Prettier 3's own default. The
+resulting reformat is part of the same pass.
 
-**2 — Prettier: drop `eslint-plugin-prettier`?** Today Prettier runs twice — as an ESLint
-rule (`prettier/prettier: 'error'`) and standalone via `pnpm format:check`, which
-`vet.sh` already runs. `playgramapp` uses only `eslint-config-prettier` (disable
-conflicting rules) and lets Prettier be Prettier.
+**`no-console` is `error` with no exemptions.** There are zero `console.*` calls in `app/`,
+`components/`, `hooks/`, `i18n/` and `lib/` today, so it costs nothing, and a static export
+has no server-side logging destination to route to. `next dev` does not run ESLint, so
+`console.log` still works while developing. No `scripts/**` exemption is needed — this
+repo's `scripts/` is shell and Python, already outside ESLint's reach.
 
-  - **(a) Drop `eslint-plugin-prettier`, keep `eslint-config-prettier`.** — **Recommended**
-    and written into the plan. Matches the source, removes a duplicate check, and stops
-    formatting noise from drowning real lint diagnostics in ESLint output. Coverage is
-    unchanged because `vet.sh` runs `format:check` independently.
-  - (b) Keep it as-is.
+## Open question
 
-**3 — Align `.prettierrc.json` with theirs?** Ours sets `trailingComma: "es5"`; theirs
-`"all"`. Everything else that overlaps already matches.
+**Prettier: drop `eslint-plugin-prettier`?** Formatting is currently checked twice — inside
+`eslint .` as a `prettier/prettier` rule, and again by `pnpm format:check`, which `vet.sh`
+runs. `playgramapp` keeps only `eslint-config-prettier` (which is purely a list of `off`s
+disabling rules that fight Prettier, and stays either way) and lets Prettier run as its own
+binary.
 
-  - **(a) Switch to `trailingComma: "all"`.** — **Recommended** and written into the plan.
-    It is the modern default (Prettier 3's own), and the reformat is trivial at this size.
-  - (b) Leave `.prettierrc.json` untouched — the ask was linting, not formatting.
-
-**4 — How strict on `no-console`?** The source makes it an `error` and routes logging
-through `shared/logging`. This repo currently has **zero** `console.*` calls in `app/`,
-`components/`, `hooks/`, `i18n/`, `lib/`.
-
-  - **(a) `error`, with no exemptions.** — **Recommended** and written into the plan. It
-    costs nothing today (no violations) and a static site has no logging destination
-    anyway. `next dev` doesn't run ESLint, so `console.log` still works while developing.
-  - (b) `error` with a `scripts/**` exemption mirroring theirs — unnecessary here, since
-    this repo's `scripts/` is shell and Python, already outside ESLint's reach.
+  - **(a) Drop `eslint-plugin-prettier`.** — **Recommended**, and written into the plan as
+    the operative choice. It collapses a doubled failure into one, keeps ESLint's output
+    about correctness rather than whitespace — which matters far more once the rule count
+    goes from ~30 to several hundred including the type-aware ones — and drops a Prettier
+    pass over every file from every lint run. Coverage is unchanged: `format:check` was
+    always the check doing the work. The usual cost is editor feedback, and it does not
+    apply here: `.vscode/settings.json` already sets `formatOnSave` with
+    `esbenp.prettier-vscode` as the default formatter for every language in the project,
+    with ESLint wired separately to `source.fixAll.eslint`. Prettier is already the
+    editor's formatter. The one real change is that `pnpm lint` (`eslint . --fix`) stops
+    reformatting as a side effect; `pnpm format` is that command.
+  - (b) Keep it, accepting the duplicate check and the formatting noise in ESLint output.
 
 ## DRY notes
 
