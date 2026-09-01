@@ -38,13 +38,7 @@ function CutSwitcher({
   ];
 
   return (
-    <Group
-      component="nav"
-      gap={8}
-      wrap="wrap"
-      fz="sm"
-      className="print-hidden"
-    >
+    <Group component="nav" gap={8} wrap="wrap" fz="sm" className="print-hidden">
       {cuts.map((cut) => {
         const label = CUT_LABELS[cut ?? 'full'];
 

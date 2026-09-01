@@ -2,7 +2,7 @@
 
 ## About this project
 
-Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Tailwind 4, next-intl for `en`/`ru`, next-themes for light/dark, pnpm.
+Vova Zakharov's personal site and CV — [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project built as a **static export** (`output: 'export'`) and deployed to GitHub Pages: React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm.
 
 Static export is the constraint that shapes everything else — there is no server at runtime, so no API routes, no server actions, no request-time rendering. Every page is HTML on a CDN.
 
@@ -14,16 +14,17 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path       | What lives there                                                                                                                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`, `app/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them.               |
-| `app/`     | **Routing only** — not the FSD app layer, which is `src/app`. `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.                                                      |
-| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                                        |
-| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                         |
-| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference. |
-| `.claude/` | Skills, rules and session hooks.                                                                                                                                                                 |
+| Path       | What lives there                                                                                                                                                                                                                                                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`, `app/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them.                                                                                                                                              |
+| `app/`     | **Routing only** — not the FSD app layer, which is `src/app`. `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.                                                                                                                                                                                     |
+| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                                                                                                                                                                       |
+| `styles/`  | The one stylesheet outside `src/`: `_mantine.scss`, the Sass counterparts to `postcss-preset-mantine`'s mixins. It sits here because a Sass partial is not an FSD module — it has no import graph for the layer checkers to reason about, and a `shared/` segment holding it would need a public API that nothing could import. |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                                                                                                                                                        |
+| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference.                                                                                                                                |
+| `.claude/` | Skills, rules and session hooks.                                                                                                                                                                                                                                                                                                |
 
-Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the FSD layering and the markdown content pipeline are both documented there rather than here.
+Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the FSD layering, the markdown content pipeline and the styling cascade are all documented there rather than here.
 
 ## Deployment
 
@@ -42,17 +43,19 @@ pnpm build            # next build — the whole-app end-to-end check
 pnpm typecheck        # tsc --noEmit                     ┐
 pnpm exec eslint .    # not `pnpm lint`                  │
 pnpm format:check     # prettier --check .               │ concurrent
+pnpm lint:css         # stylelint, check-only            │
 pnpm lint:fsd         # steiger src                      │
 pnpm type-overlap     # scripts/type-overlap-check.ts    │
 pnpm test             # node --test over **/*.test.ts    ┘
 ```
 
-Six things about that list are deliberate:
+Seven things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite reaches one script so far (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
-- **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The build runs alone, before the other six.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other six touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
+- **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form, and `pnpm lint:css` is stylelint's.
+- **The build runs alone, before the other seven.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other seven touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
 - **Only failures are printed.** `run-parallel.sh` buffers each check under `tmp/run-parallel/` and replays just the ones that failed, prefixed by label and ending in the path to the verbatim log; the build does the same through `tmp/vet-build.log`. Every check still runs when an earlier one fails. The runner also flags a tree that was clean before the run and is dirty after — an autofix step that rewrote files and still exited 0.
+- **`pnpm lint:css` is stylelint over `.css`/`.scss` only.** It is what holds the styling cascade to `@.claude/rules/styling.md` — the layered-Mantine import means no rule in the tree needs `!important`, and a new one is the signal that a value belongs in a CSS module rather than on a call site. Reading only stylesheets, it overlaps the rest safely.
 - **`pnpm type-overlap` fails on any member two named types both declare** (floor 1) **and on any combination of bases two of them both spell** (floor 2), with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the others safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
 - **`pnpm test` is Node's own runner, loaded through `tsx`** — every `.test.ts` in the tree, no framework installed and none needed. It covers `scripts/type-overlap-check.ts` today; see "Testing" for what belongs in it next.
 

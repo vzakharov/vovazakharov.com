@@ -1,4 +1,4 @@
-@use '../../shared/styles/mantine' as mantine;
+@use '../../../styles/mantine' as mantine;
 
 // Bound to components through `theme.components`, so the site's skins hold
 // without any call site repeating them. Control colours are not here: Mantine

@@ -6,8 +6,8 @@ Personal showcase website for Vova Zakharov - Developer, AI tinkerer, word shake
 
 - **Framework:** Next.js 16 with App Router
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Theme:** Dark/Light/Auto switching via next-themes
+- **Styling:** Mantine 9, with SCSS modules for component CSS
+- **Theme:** Dark/Light/Auto switching via Mantine's colour scheme
 - **Fonts:** Merriweather (serif), JetBrains Mono (monospace)
 - **Deployment:** GitHub Pages via GitHub Actions
 
@@ -53,7 +53,8 @@ under `src/`; `.claude/rules/fsd.md` carries the conventions.
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/Dark/Auto theme switcher
 │   ├── pages/                  # Page composition — home, cv, case-studies
-│   └── app/                    # FSD app layer — root layout, theme provider, globals.css
+│   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
+├── styles/                     # _mantine.scss — Sass counterparts to the PostCSS preset's mixins
 ├── public/
 │   ├── content/                # Long-form prose and its assets, served raw
 │   ├── ava.png                 # Avatar image
