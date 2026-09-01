@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # Adopt Feature-Sliced Design
 
 Restructure all application code into `src/` under [Feature-Sliced Design](https://feature-sliced.design/), and make that structure machine-enforced by Steiger (`@feature-sliced/steiger-plugin`) and `eslint-plugin-boundaries`, both taken from `Playgramai/playgramapp`. The end state is a tree that passes `pnpm lint:fsd` with the **stock recommended ruleset and zero rule overrides** — no per-path disables, no grandfathering, no ratchet file.
