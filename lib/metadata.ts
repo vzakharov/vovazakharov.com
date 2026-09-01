@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_CONFIG, getAbsoluteUrl } from './site-config';
+import type { ContentDocument } from './content/documents';
 
 export type ConstructMetadataParams = {
   title?: string;
@@ -62,4 +63,23 @@ export function constructMetadata({
     ],
     creator: SITE_CONFIG.name,
   };
+}
+
+/**
+ * Article metadata, routed through `constructMetadata` so a content page's
+ * cards are built the same way as the rest of the site's. The title comes from
+ * the rendered document rather than from frontmatter — the markdown's own
+ * leading heading is the one copy of it.
+ */
+export function constructArticleMetadata(
+  document: ContentDocument,
+  title: string
+): Metadata {
+  return constructMetadata({
+    title,
+    description: document.frontmatter.description,
+    path: document.route,
+    ogType: 'article',
+    ogImage: document.ogImageUrl,
+  });
 }

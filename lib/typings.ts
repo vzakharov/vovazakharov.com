@@ -18,3 +18,6 @@ export type WithFilePath = { filePath: string };
 
 export type Titled = { title: string };
 export type Described = { description: string };
+
+/** Extra classes a caller merges into the component's own. */
+export type WithOptionalClassName = { className?: string };

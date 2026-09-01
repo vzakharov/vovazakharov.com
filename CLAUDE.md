@@ -14,17 +14,19 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path          | What lives there                                                                                                                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/`        | App Router. `page.tsx`/`HomePage.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens. |
-| `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`).                                                                                                        |
-| `hooks/`      | React hooks (`useMounted` — the hydration guard theme-dependent UI needs).                                                                                                                        |
-| `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading).                                                                                |
-| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by).                        |
-| `messages/`   | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other.                                                                                   |
-| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                                |
-| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference.  |
-| `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                  |
+| Path          | What lives there                                                                                                                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app/`        | App Router. `page.tsx`/`HomePage.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens.                             |
+| `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`).                                                                                                                                    |
+| `hooks/`      | React hooks (`useMounted` — the hydration guard theme-dependent UI needs).                                                                                                                                                    |
+| `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading).                                                                                                            |
+| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by), and `content/` (the build-time markdown pipeline). |
+| `messages/`   | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other.                                                                                                               |
+| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                                                      |
+| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference.                              |
+| `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                                              |
+
+Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the markdown content pipeline (`public/content/`, `lib/content/`, the case-study routes) is documented there rather than here.
 
 ## Deployment
 
