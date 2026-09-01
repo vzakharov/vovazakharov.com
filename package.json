@@ -2,6 +2,7 @@
   "name": "website",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "content:mermaid": "node scripts/render-mermaid.mjs"
+    "content:mermaid": "node scripts/render-mermaid.ts"
   },
   "dependencies": {
     "@shikijs/rehype": "^4.4.3",

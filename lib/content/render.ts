@@ -14,6 +14,7 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { getAbsoluteUrl } from '../site-config';
 import type { CollectionId, Variant } from './collections';
 import {
   listPrimaryDocuments,
@@ -129,7 +130,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeMediaEmbeds)
     // Before the image pass, so the diagrams it produces are sized like any
     // other image and do not collapse the page until their SVG loads.
-    .use(rehypeMermaid)
+    .use(rehypeMermaid, { sourceUrl: getAbsoluteUrl(document.rawUrl) })
     .use(rehypeImageDimensions)
     .use(rehypeTableScroll)
     .use(rehypeShiki, {

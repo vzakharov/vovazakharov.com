@@ -10,6 +10,9 @@
  *
  *   pnpm content:mermaid            # render what changed, prune what is gone
  *   pnpm content:mermaid --check    # report staleness, write nothing
+ *
+ * Bare Node runs this file, relying on its type stripping, so it needs Node
+ * 22.18 or newer and every relative import carries its `.ts` extension.
  */
 
 import { execFileSync } from 'node:child_process';
@@ -23,19 +26,30 @@ import {
   MERMAID_DIR,
   mermaidFileName,
   mermaidHash,
-} from '../lib/content/mermaid-hash.mjs';
+  type ColorScheme,
+} from '../lib/content/mermaid-hash.ts';
+
+interface Fence {
+  hash: string;
+  source: string;
+  /** Repo-relative path of the document the fence was found in. */
+  file: string;
+}
 
 const REPO_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT_ROOT = path.join(REPO_ROOT, 'public', 'content');
 const OUTPUT_DIR = path.join(REPO_ROOT, 'public', MERMAID_DIR);
 
 /** The Mermaid built-in theme to render each colour scheme with. */
-const MERMAID_THEMES = { light: 'default', dark: 'dark' };
+const MERMAID_THEMES: Record<ColorScheme, string> = {
+  light: 'default',
+  dark: 'dark',
+};
 
 const checkOnly = process.argv.includes('--check');
 
-/** @returns {string[]} Every markdown file under the content tree. */
-function markdownFiles(dir) {
+/** Every markdown file under the content tree. */
+function markdownFiles(dir: string): string[] {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const entryPath = path.join(dir, entry.name);
 
@@ -47,11 +61,8 @@ function markdownFiles(dir) {
   });
 }
 
-/**
- * @returns {{hash: string, source: string, file: string}[]} Every fence found,
- * in document order.
- */
-function collectFences() {
+/** Every fence found, in document order. */
+function collectFences(): Fence[] {
   const fencePattern = /^```mermaid[ \t]*\r?\n([\s\S]*?)^```/gm;
 
   return markdownFiles(CONTENT_ROOT).flatMap((file) => {
@@ -65,31 +76,33 @@ function collectFences() {
   });
 }
 
+/** The Playwright-managed Chromium builds, newest first. */
+function playwrightChromiums(): string[] {
+  const root = process.env.PLAYWRIGHT_BROWSERS_PATH;
+
+  if (!root || !fs.existsSync(root)) return [];
+
+  return fs
+    .readdirSync(root)
+    .filter((name) => name.startsWith('chromium'))
+    .sort()
+    .reverse()
+    .map((name) => path.join(root, name, 'chrome-linux', 'chrome'));
+}
+
 /**
  * Chromium is preinstalled in the agent environment and on most dev machines,
  * so mermaid-cli is told where it is rather than left to download its own.
- *
- * @returns {string} Path to a Chromium binary.
  */
-function findChromium() {
+function findChromium(): string {
   const candidates = [
     process.env.PUPPETEER_EXECUTABLE_PATH,
-    ...(process.env.PLAYWRIGHT_BROWSERS_PATH
-      ? fs
-          .globSync(
-            path.join(
-              process.env.PLAYWRIGHT_BROWSERS_PATH,
-              'chromium*/chrome-linux/chrome'
-            )
-          )
-          .sort()
-          .reverse()
-      : []),
+    ...playwrightChromiums(),
     '/usr/bin/chromium',
     '/usr/bin/chromium-browser',
     '/usr/bin/google-chrome',
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  ].filter(Boolean);
+  ].filter((candidate): candidate is string => Boolean(candidate));
 
   const found = candidates.find((candidate) => fs.existsSync(candidate));
 
@@ -103,7 +116,11 @@ function findChromium() {
   return found;
 }
 
-function renderFence({ hash, source }, chromium, puppeteerConfig) {
+function renderFence(
+  { hash, source }: Fence,
+  chromium: string,
+  puppeteerConfig: string
+): void {
   const inputPath = path.join(
     fs.mkdtempSync(path.join(os.tmpdir(), 'mermaid-')),
     `${hash}.mmd`
@@ -141,7 +158,7 @@ function renderFence({ hash, source }, chromium, puppeteerConfig) {
   console.log(`  rendered ${hash} (${chromium})`);
 }
 
-function main() {
+function main(): void {
   const fences = collectFences();
   const byHash = new Map(fences.map((fence) => [fence.hash, fence]));
 

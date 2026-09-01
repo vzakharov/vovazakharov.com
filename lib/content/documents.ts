@@ -13,7 +13,7 @@ import {
   collectionDir,
   documentRoute,
 } from './collections';
-import { parseFrontmatter, type Frontmatter } from './frontmatter';
+import { frontmatterSchema, type Frontmatter } from './frontmatter';
 
 export interface ContentDocument {
   collection: CollectionId;
@@ -54,9 +54,20 @@ function readDocument(
   const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
     encoding: 'utf8',
   });
-  const { data, content } = matter(raw);
   const { slug, variant } = parseFileName(fileName);
-  const frontmatter = parseFrontmatter(data, fileName);
+
+  // Naming the file is the whole point of the rethrow: a build failure has to
+  // say which document is malformed, and neither the YAML parser nor the
+  // schema knows what it was handed.
+  let frontmatter: Frontmatter;
+  let content: string;
+  try {
+    const parsed = matter(raw);
+    frontmatter = frontmatterSchema.parse(parsed.data);
+    content = parsed.content;
+  } catch (cause) {
+    throw new Error(`Invalid frontmatter in ${fileName}`, { cause });
+  }
 
   return {
     collection,

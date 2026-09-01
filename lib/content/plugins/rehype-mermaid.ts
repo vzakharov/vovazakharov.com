@@ -12,7 +12,13 @@ import {
   MERMAID_DIR,
   mermaidFileName,
   mermaidHash,
-} from '../mermaid-hash.mjs';
+  type ColorScheme,
+} from '../mermaid-hash.ts';
+
+export interface RehypeMermaidOptions {
+  /** Absolute URL of the authored markdown, appended to every diagram's `alt`. */
+  sourceUrl: string;
+}
 
 function fenceSource(pre: Element): string | undefined {
   const code = pre.children.find(
@@ -44,10 +50,7 @@ function accessibleDescription(source: string): string | undefined {
   return inline?.[1].trim();
 }
 
-function renderUrl(
-  hash: string,
-  theme: (typeof COLOR_SCHEMES)[number]
-): string {
+function renderUrl(hash: string, theme: ColorScheme): string {
   const fileName = mermaidFileName(hash, theme);
   const filePath = path.join(PUBLIC_DIR, MERMAID_DIR, fileName);
 
@@ -61,16 +64,25 @@ function renderUrl(
   return `/${MERMAID_DIR}/${fileName}`;
 }
 
-function diagramElement(hash: string, source: string): Element {
-  const alt = accessibleDescription(source);
+function diagramElement(
+  hash: string,
+  source: string,
+  sourceUrl: string
+): Element {
+  const description = accessibleDescription(source);
 
-  if (!alt) {
+  if (!description) {
     throw new Error(
       `Mermaid fence ${hash} has no accessible description. Add an ` +
         `\`accDescr: …\` line to the fence — Mermaid renders it into the SVG, ` +
         `and it becomes the diagram's alt text on the site.`
     );
   }
+
+  // The Mermaid source stays in the markdown and never reaches the page, so
+  // the alt points at the file — a reader that cannot see the image, human or
+  // machine, can still get to the fence the diagram was drawn from.
+  const alt = `${description} Mermaid source: ${sourceUrl}`;
 
   return {
     type: 'element',
@@ -97,7 +109,9 @@ function diagramElement(hash: string, source: string): Element {
  * drift from their source. The markdown keeps the fence, so GitHub still draws
  * the diagram itself, and the page ships no diagram JavaScript.
  */
-export const rehypeMermaid: Plugin<[], Root> = () => {
+export const rehypeMermaid: Plugin<[RehypeMermaidOptions], Root> = ({
+  sourceUrl,
+}) => {
   return (tree) => {
     visit(tree, 'element', (node: Element, index, parent) => {
       if (node.tagName !== 'pre' || index === undefined || !parent) return;
@@ -105,7 +119,11 @@ export const rehypeMermaid: Plugin<[], Root> = () => {
       const source = fenceSource(node);
       if (source === undefined) return;
 
-      parent.children[index] = diagramElement(mermaidHash(source), source);
+      parent.children[index] = diagramElement(
+        mermaidHash(source),
+        source,
+        sourceUrl
+      );
     });
   };
 };

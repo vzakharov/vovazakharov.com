@@ -6,10 +6,10 @@ import { createHash } from 'node:crypto';
  * without a re-render fails the build rather than shipping a stale diagram.
  * Both sides import this — changing it invalidates every cached render.
  *
- * @param {string} source The fence body, exactly as authored.
- * @returns {string} A 12-character hex digest.
+ * Deliberately free of `import 'server-only'`, unlike the rest of `lib/content/`:
+ * `scripts/render-mermaid.ts` runs it under bare Node, outside any bundler.
  */
-export function mermaidHash(source) {
+export function mermaidHash(source: string): string {
   return createHash('sha256')
     .update(source.trim(), 'utf8')
     .digest('hex')
@@ -20,9 +20,11 @@ export function mermaidHash(source) {
 export const MERMAID_DIR = 'content/generated/mermaid';
 
 /** One render per scheme; the page shows whichever the theme calls for. */
-export const COLOR_SCHEMES = /** @type {const} */ (['light', 'dark']);
+export const COLOR_SCHEMES = ['light', 'dark'] as const;
 
-/** @returns {string} The render's file name inside {@link MERMAID_DIR}. */
-export function mermaidFileName(hash, theme) {
+export type ColorScheme = (typeof COLOR_SCHEMES)[number];
+
+/** The render's file name inside {@link MERMAID_DIR}. */
+export function mermaidFileName(hash: string, theme: ColorScheme): string {
   return `${hash}.${theme}.svg`;
 }
