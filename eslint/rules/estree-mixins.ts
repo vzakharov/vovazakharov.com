@@ -1,7 +1,6 @@
-// Member signatures shared across the project-local ESLint rules. They live in
-// `eslint/` rather than `lib/` because the rule files are loaded by jiti, which
-// resolves relatively and does not apply the `@/` alias — and because an AST
-// vocabulary has no business in the app's type catalog.
+// Member signatures shared across the project-local ESLint rules. They live here
+// rather than `lib/` because jiti gives `eslint/` no `@/` alias, and because an
+// AST vocabulary has no business in the app's type catalog.
 
 import type * as ESTree from 'estree';
 

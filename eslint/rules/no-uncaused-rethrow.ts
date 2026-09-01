@@ -84,12 +84,9 @@ function hasSpread(node: ESTree.ObjectExpression): boolean {
  * syntactic reports and skips `causeNotError`.
  *
  * The one fix is a suggestion, never an autofix, and only on `missingCause` with a
- * binding already narrowed to an `Error`. Most sites wrap a custom error class, and
- * appending an options argument to a constructor that doesn't declare
- * `ErrorOptions` emits code that doesn't compile — the real fix there is widening
- * the constructor, which no fixer can do. The other two reports name the change and
- * leave it to the author: wrapping an `unknown` binding takes an error helper this
- * project doesn't have, so a fixer would have to invent one.
+ * binding already narrowed to an `Error`. Appending an options argument to a
+ * constructor that doesn't declare `ErrorOptions` emits code that doesn't compile,
+ * and the real fix — widening the constructor — is beyond any fixer.
  */
 const rule: Rule.RuleModule = {
   meta: {

@@ -4,8 +4,7 @@
  * `Record<'a' | 'b', 'error'>` and a typo in a rule name is a type error rather
  * than a silently-inert config entry.
  *
- * Local to `eslint/` so the ESLint tree stays self-contained: its rule files are
- * loaded by jiti, which resolves relatively and does not apply the `@/` alias.
+ * Lives here rather than `lib/`: jiti gives `eslint/` no `@/` alias.
  */
 export function fromEntries<const K extends PropertyKey, const V>(
   entries: ReadonlyArray<readonly [K, V]>,

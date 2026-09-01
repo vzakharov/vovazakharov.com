@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArticleCard, Card, ProjectCard } from '@/components/card';
 import { ThemeToggle } from '@/components/theme-toggle';
 
+// A static export evaluates this at build time, so the footer year is the
+// year the site was last deployed.
 const BUILD_YEAR = new Date().getFullYear();
 
 export default function Home() {
