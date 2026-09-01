@@ -2,8 +2,23 @@ import Image from 'next/image';
 import { ProjectCard, ArticleCard, Card } from '@/components/Card';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import Link from 'next/link';
+import { COLLECTIONS } from '@/lib/content/collections';
+import { listPrimaryDocuments } from '@/lib/content/documents';
+import { renderDocument } from '@/lib/content/render';
 
-export default function Home() {
+/** Titles come from the documents themselves, so a renamed piece cannot drift. */
+async function featuredCaseStudies() {
+  return Promise.all(
+    listPrimaryDocuments('case-studies').map(async (document) => ({
+      document,
+      title: (await renderDocument(document)).title,
+    }))
+  );
+}
+
+export default async function Home() {
+  const caseStudies = await featuredCaseStudies();
+
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20">
       <div className="max-w-4xl mx-auto space-y-16">
@@ -73,6 +88,35 @@ export default function Home() {
                 CV
               </Link>{' '}
               if you’re looking for new people.
+            </p>
+          </div>
+
+          <h3 className="text-2xl font-bold mt-8">Case studies</h3>
+
+          <div className="space-y-4">
+            {caseStudies.map(({ document, title }) => (
+              <Link
+                key={document.slug}
+                href={document.route}
+                className="block group"
+              >
+                <Card>
+                  <h4 className="text-xl font-bold mb-2 group-hover:underline">
+                    {title}
+                  </h4>
+                  <p className="leading-relaxed">
+                    {document.frontmatter.description}
+                  </p>
+                </Card>
+              </Link>
+            ))}
+            <p className="text-sm">
+              <Link
+                href={COLLECTIONS['case-studies'].routeBase}
+                className="underline hover:opacity-70"
+              >
+                All case studies, including the shorter cuts →
+              </Link>
             </p>
           </div>
 

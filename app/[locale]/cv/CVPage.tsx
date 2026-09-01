@@ -7,7 +7,75 @@ import { Card } from '@/components/Card';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LocalePicker } from '@/components/LocalePicker';
 
-export default function CVPage() {
+/**
+ * Order is a presentation decision, so it lives here rather than in the
+ * catalogs — `en` and `ru` cannot disagree about it, and adding an entry is a
+ * key in both catalogs plus a line here.
+ */
+const EXPERIENCE_KEYS = [
+  'playgram',
+  'englishForKids',
+  'orcool',
+  'randddb',
+  'independent',
+  'voicemod',
+] as const;
+
+/** The catalogs carry both shapes; neither is migrated to the other. */
+type ExperienceItem = string | { label: string; text: string };
+
+function ExperienceCard({ entryKey }: { entryKey: string }) {
+  const t = useTranslations('cv.experience');
+  const at = (field: string) => `${entryKey}.${field}`;
+  const items = t.raw(at('items')) as ExperienceItem[];
+
+  return (
+    <Card>
+      <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+        {t(at('title'))}
+      </h3>
+      <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+        {t(at('period'))}
+      </h4>
+
+      {t.has(at('description')) && (
+        <p className="mb-3 print:mb-1">{t(at('description'))}</p>
+      )}
+      {t.has(at('intro')) && <p className="mb-3 print:mb-1">{t(at('intro'))}</p>}
+
+      <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1 last:mb-0">
+        {items.map((item, index) => (
+          <li key={index}>
+            {typeof item === 'string' ? (
+              item
+            ) : (
+              <>
+                <strong>{item.label}</strong> {item.text}
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      {t.has(at('tech')) && (
+        <p className="text-sm font-mono opacity-60">{t(at('tech'))}</p>
+      )}
+      {t.has(at('demo')) && (
+        <p className="text-sm italic opacity-70 mt-2">{t(at('demo'))}</p>
+      )}
+    </Card>
+  );
+}
+
+export interface CVPageProps {
+  /**
+   * Route of the case study the CV links to. Resolved by the page, because the
+   * collection registry that owns URL shapes is build-time-only.
+   */
+  caseStudyHref: string;
+}
+
+export default function CVPage({ caseStudyHref }: CVPageProps) {
   const t = useTranslations('cv');
   const handlePrint = () => {
     window.print();
@@ -112,120 +180,30 @@ export default function CVPage() {
           </h2>
 
           <div className="space-y-6 print:space-y-3">
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.project1.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.project1.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project1.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.project1.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60">
-                {t('experience.project1.tech')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.project2.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.project2.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project2.description')}
-              </p>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project2.intro')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.project2.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60">
-                {t('experience.project2.tech')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.randddb.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.randddb.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.randddb.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.randddb.items')
-                  .map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60 mb-2">
-                {t('experience.randddb.tech')}
-              </p>
-              <p className="text-sm italic opacity-70">
-                {t('experience.randddb.demo')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.independent.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.independent.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.independent.intro')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t
-                  .raw('experience.independent.items')
-                  .map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
-              </ul>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.voicemod.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.voicemod.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.voicemod.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t
-                  .raw('experience.voicemod.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-              </ul>
-            </Card>
+            {EXPERIENCE_KEYS.map((entryKey) => (
+              <ExperienceCard key={entryKey} entryKey={entryKey} />
+            ))}
           </div>
+        </section>
+
+        {/* Case Studies Section */}
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('caseStudies.title')}
+          </h2>
+          <Card>
+            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">
+              {t('caseStudies.playgram.title')}
+            </h3>
+            <p className="leading-relaxed mb-3 print:mb-1">
+              {t('caseStudies.playgram.description')}
+            </p>
+            <p className="text-sm">
+              <Link href={caseStudyHref} className="underline hover:opacity-70">
+                {t('caseStudies.playgram.link')}
+              </Link>
+            </p>
+          </Card>
         </section>
 
         {/* Tech Stack Section */}
