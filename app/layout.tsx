@@ -1,1 +1,1 @@
-export { default } from './RootLayout';
+export { RootLayout as default } from '@/app/ui';

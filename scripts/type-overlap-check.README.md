@@ -78,8 +78,8 @@ together; neither is worth much alone.
 ## 3. Naming families
 
 The sole home for the families. The table is the at-the-keyboard reference; the rules below hold what
-a table can't. `lib/typings.ts` is the repo-wide catalog, and the seeded bases (`Named`, `WithId`,
-`WithFilePath`, `Titled`, `Described`) are the families in miniature.
+a table can't. `Named`, `WithId`, `WithFilePath`, `Titled`, `Described` are the families in
+miniature — the names to reach for first, wherever § 6 puts the base.
 
 | Member kind         | Required                                                          | `?:`                                  | `\| undefined`, required key | `\| null`              | may be both         |
 | ------------------- | ----------------------------------------------------------------- | ------------------------------------- | ---------------------------- | ---------------------- | ------------------- |
@@ -205,13 +205,16 @@ _render no affordance_ — a third state by construction — where an absent boo
 **Home rule**: the topmost module that every declarer already imports and that semantically owns the
 member. **Module-local is the default and needs no justification** — when both declarers sit in one
 file, the base belongs in that file, and a "why it lives here" docstring clause on such a base gets
-deleted. `lib/typings.ts` is for bases that are genuinely cross-cutting or whose declarers share no
-natural upstream module; parking everything there by default turns it into a junk drawer and makes
-the import graph stop describing anything.
+deleted. A base that is genuinely cross-cutting, or whose declarers share no natural upstream
+module, belongs in the `src/shared/` segment that owns the concept — `Summarized`, the card copy
+both home cards render, sits in `shared/ui` beside the `Card` they both import. There is no
+repo-wide catalog module: a segment named for the types it holds rather than their purpose is
+exactly what Steiger's `segments-by-purpose` rejects, and one drawer for every base makes the
+import graph stop describing anything.
 
 **Don't mint a file per base.** Group them. Upstream's module shapes — `*-mixins.ts`, `*-flags.ts`,
-`*-refs.ts` — are the pattern to reach for once `lib/typings.ts` outgrows one file. Rename a module
-when its contents outgrow its name.
+`*-refs.ts` — are the pattern to reach for once a segment's bases outgrow the module holding them.
+Rename a module when its contents outgrow its name.
 
 **Resolve homes after the optionality audit, not before.** A collapse changes which variant reaches
 the floor, and can promote a signature the pre-collapse scan scored as a singleton.

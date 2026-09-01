@@ -40,11 +40,11 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { NamedRecord, WithFilePath } from '@/lib/typings';
+import type { WithId } from '@/shared/typings';
 
 // Run from the repo root (via `pnpm type-overlap` or `tsx scripts/...`), so
-// cwd is the project root. We avoid `import.meta.dirname` because tsx loads
-// these scripts as CommonJS, where that property is undefined.
+// cwd is the project root — which is what the scan walks, rather than a path
+// derived from this file's own location.
 const ROOT = process.cwd();
 
 // The scan covers the whole repo minus the directories below, so a new source
@@ -76,13 +76,14 @@ if (!Number.isInteger(THRESHOLD) || THRESHOLD < 1) {
 type WithMembers = { members: string[] };
 
 // --- Collect type aliases ---
-type TypeDecl =
-  // `id` is the decl locator `rel/path.ts#TypeName` (with a `#n` suffix on name
-  // collisions); `name` is the type's own name
-  NamedRecord &
-    // repo-relative, e.g. components/card.tsx
-    WithFilePath &
-    WithMembers;
+type TypeDecl = WithId &
+  WithMembers & {
+    // `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on
+    // name collisions; `name` is the type's own name.
+    name: string;
+    // Repo-relative, e.g. src/shared/ui/card.tsx.
+    filePath: string;
+  };
 
 const decls: TypeDecl[] = [];
 const usedIds = new Set<string>();
@@ -236,8 +237,8 @@ const lines = [
   '     reuse it via intersection (`type Foo = SomeBase & { …own members… }`).',
   '  2. Home the base at its most upstream consumer — the module both types',
   '     already import, or the file that declares both. Only reach for the',
-  '     repo-wide catalog in lib/typings.ts when no such module exists or the',
-  '     base is genuinely cross-cutting.',
+  '     src/shared/ segment that owns the concept when no such module exists',
+  '     or the base is genuinely cross-cutting.',
   '  3. Do not give the base its own single-type module — a file that exists only',
   '     to hold one type is churn.',
   '  4. Name it from what the members MEAN, not their count — see the naming',

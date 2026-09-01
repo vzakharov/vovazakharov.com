@@ -39,20 +39,27 @@ The site automatically deploys to GitHub Pages when you push to the `main` branc
 
 ## Project Structure
 
+Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
+under `src/`; `.claude/rules/fsd.md` carries the conventions.
+
 ```
-├── app/
-│   ├── layout.tsx          # Root layout with fonts and theme provider
-│   ├── page.tsx            # Main homepage with all sections
-│   └── globals.css         # Global styles and theme variables
-├── components/
-│   ├── card.tsx            # Reusable card components
-│   ├── theme-provider.tsx  # Theme context provider
-│   └── theme-toggle.tsx    # Light/Dark/Auto theme switcher
+├── app/                        # App Router — routing only, one-line re-exports
+│   ├── layout.tsx              # → src/app/ui
+│   ├── page.tsx                # → src/pages/home
+│   ├── cv/, [locale]/cv/       # → src/pages/cv
+│   └── case-studies/           # → src/pages/case-studies
+├── pages/                      # Empty Pages-Router shadow — see pages/README.md
+├── src/
+│   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
+│   ├── features/switch-theme/  # Light/Dark/Auto theme switcher
+│   ├── pages/                  # Page composition — home, cv, case-studies
+│   └── app/                    # FSD app layer — root layout, theme provider, globals.css
 ├── public/
-│   ├── ava.png            # Avatar image
-│   └── .nojekyll          # GitHub Pages configuration
+│   ├── content/                # Long-form prose and its assets, served raw
+│   ├── ava.png                 # Avatar image
+│   └── .nojekyll               # GitHub Pages configuration
 └── .github/workflows/
-    └── deploy.yml         # GitHub Actions deployment workflow
+    └── deploy.yml              # GitHub Actions deployment workflow
 ```
 
 ## Features

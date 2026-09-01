@@ -27,7 +27,7 @@ import {
   mermaidFileName,
   mermaidHash,
   type ColorScheme,
-} from '../lib/content/mermaid-hash.ts';
+} from '../src/shared/content/mermaid-hash.ts';
 
 type Fence = {
   hash: string;
