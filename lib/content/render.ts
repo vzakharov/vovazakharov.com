@@ -127,8 +127,10 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeAutolinkHeadings, { behavior: 'wrap' })
     .use(rehypeContentLinks, { collection: document.collection })
     .use(rehypeMediaEmbeds)
-    .use(rehypeImageDimensions)
+    // Before the image pass, so the diagrams it produces are sized like any
+    // other image and do not collapse the page until their SVG loads.
     .use(rehypeMermaid)
+    .use(rehypeImageDimensions)
     .use(rehypeTableScroll)
     .use(rehypeShiki, {
       themes: { light: 'github-light', dark: 'github-dark' },

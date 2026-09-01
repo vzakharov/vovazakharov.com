@@ -18,6 +18,7 @@ function pngDimensions(file: Buffer): Dimensions {
   return { width: file.readUInt32BE(16), height: file.readUInt32BE(20) };
 }
 
+/** Only the ratio matters — the attributes reserve space, CSS sets the size. */
 function svgDimensions(file: Buffer): Dimensions | undefined {
   const head = file.subarray(0, 2048).toString('utf8');
   const viewBox = head.match(
@@ -25,14 +26,20 @@ function svgDimensions(file: Buffer): Dimensions | undefined {
   );
 
   if (viewBox) {
-    return { width: Number(viewBox[1]), height: Number(viewBox[2]) };
+    return {
+      width: Math.round(Number(viewBox[1])),
+      height: Math.round(Number(viewBox[2])),
+    };
   }
 
   const width = head.match(/\bwidth\s*=\s*["']([\d.]+)(?:px)?["']/i);
   const height = head.match(/\bheight\s*=\s*["']([\d.]+)(?:px)?["']/i);
 
   return width && height
-    ? { width: Number(width[1]), height: Number(height[1]) }
+    ? {
+        width: Math.round(Number(width[1])),
+        height: Math.round(Number(height[1])),
+      }
     : undefined;
 }
 

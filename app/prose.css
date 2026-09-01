@@ -23,9 +23,26 @@
   --tw-prose-captions: color-mix(in srgb, var(--foreground) 70%, transparent);
   --tw-prose-code: var(--foreground);
   --tw-prose-pre-code: var(--foreground);
-  --tw-prose-pre-bg: color-mix(in srgb, var(--foreground) 4%, transparent);
   --tw-prose-th-borders: color-mix(in srgb, var(--foreground) 30%, transparent);
   --tw-prose-td-borders: color-mix(in srgb, var(--foreground) 15%, transparent);
+
+  /* Code sits on a tinted surface rather than either Shiki theme's own
+     background, which for `github-light` is white and vanishes into the page. */
+  --code-surface: color-mix(in srgb, var(--foreground) 7%, var(--background));
+  --tw-prose-pre-bg: var(--code-surface);
+}
+
+/* Typography wraps inline code in literal backticks. The markdown already said
+   it was code; the monospace face says it again. */
+.prose-content code::before,
+.prose-content code::after {
+  content: none;
+}
+
+.prose-content :not(pre) > code {
+  background: var(--code-surface);
+  padding: 0.15em 0.35em;
+  font-weight: inherit;
 }
 
 /* `rehype-autolink-headings` wraps each heading's text in a link to its own
@@ -96,20 +113,20 @@
 }
 
 /* Shiki emits both themes' colours as CSS variables on every token, so one
-   render serves light and dark and no theme is baked in. */
+   render serves light and dark and no theme is baked in. Only the token colours
+   are taken from it — the surface behind them is the site's. */
 .prose-content .shiki,
 .prose-content .shiki span {
   color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
 }
 
 .dark .prose-content .shiki,
 .dark .prose-content .shiki span {
   color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
 }
 
 .prose-content .shiki {
+  background: var(--code-surface);
   padding: 1em;
   overflow-x: auto;
 }

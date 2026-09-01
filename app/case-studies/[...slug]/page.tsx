@@ -80,21 +80,30 @@ export default async function ArticlePage({ params }: Props) {
           <ThemeToggle />
         </nav>
 
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12">
-          <aside className="mb-10 lg:mb-0 lg:order-last">
-            <TableOfContents headings={rendered.headings} />
-          </aside>
-
-          <article className="space-y-10 min-w-0">
+        {/*
+          Three grid children rather than an article and a rail, so one DOM
+          order serves both layouts: stacked, the reader gets the title, then
+          the outline, then the prose; on a wide viewport the outline moves
+          into its own column beside both.
+        */}
+        <article className="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12">
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1">
             <ArticleHeader
               document={document}
               title={rendered.title}
               readingMinutes={rendered.readingMinutes}
               availableVariants={siblingVariants(COLLECTION, document.slug)}
             />
+          </div>
+
+          <aside className="my-10 lg:my-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
+            <TableOfContents headings={rendered.headings} />
+          </aside>
+
+          <div className="min-w-0 lg:col-start-1 lg:row-start-2 lg:mt-10">
             <ArticleBody html={rendered.html} />
-          </article>
-        </div>
+          </div>
+        </article>
 
         <BackToHome />
       </div>
