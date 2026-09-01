@@ -28,16 +28,17 @@
     "scripts/export-github-item.py",
     "scripts/lib/watch-tick-common.sh",
     "scripts/pr-body.py",
+    "scripts/run-parallel.sh",
     "scripts/vet.sh"
   ],
   "declined": {
-    ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against — revisit when filing becomes routine",
-    ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
+    ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against \u2014 revisit when filing becomes routine",
+    ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting \u2014 revisit when it is large enough that a sweep beats reading it",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
-    ".claude/skills/hotfix/": "no promotion path to bypass — main deploys straight to Pages",
+    ".claude/skills/hotfix/": "no promotion path to bypass \u2014 main deploys straight to Pages",
     ".claude/skills/log-review/": "static site on GitHub Pages; there are no deployed logs to read",
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist"
+    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch \u2014 revisit when tests exist"
   }
 }
