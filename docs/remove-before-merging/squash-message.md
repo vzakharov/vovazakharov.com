@@ -5,49 +5,34 @@ chore: #17 flag repeated base combinations in type-overlap (pr #18)
 ```
 
 ```
-The gate counted only a type's own members, treating the named
-constituents of an intersection as inherited. That is exactly what lets
-`& Base` clear a member finding — and it is also why the same
-*combination* of bases spelled across two types was invisible.
-`Titled & Described` written twice is the same shape under two
-spellings, one level up, and the run landed green on it.
+The gate counted only a type's own members, so the named constituents
+of an intersection were invisible to it: `Titled & Described` spelled
+across two types is one shape under two spellings, one level up, and
+the run landed green on it. A second pairwise pass now compares those
+constituents, at a floor of 2 (`TYPE_OVERLAP_BASES_MIN`) where members
+sit at 1 — one shared base is reuse working as intended, and is the end
+state every member finding is fixed into. A pure combination alias
+participates despite having no own members, so the fix a finding names
+is "use the alias that already exists".
 
-A second pairwise pass now compares each alias's named constituents, at
-a floor of 2 (`TYPE_OVERLAP_BASES_MIN`) where members sit at 1: one
-shared base is reuse working as intended, and is the end state every
-member finding is fixed into, so 2 is the floor rather than a rung to
-ratchet down. A pure combination alias participates despite having no
-own members, so a type respelling `Titled & Described` is flagged
-against the existing `Summarized` and the fix the finding names is
-"use the alias that already exists". The run exits 1 when either pass
-fires.
+Both passes share one pairwise scan and group collapse, one section
+renderer, and a `PASSES` table stating each pass's threshold and
+wording once, so the scan, the section and the fix bullet cannot drift
+apart. Constituent identity stays syntactic, matching the member pass,
+which leaves an alias and its expansion unmatched; the README carries
+that residual in place of the gap this closes.
 
-Both passes share their machinery — one pairwise scan and group
-collapse, one section renderer, and a `PASSES` table stating each
-pass's threshold and wording once, so the scan, the section, the fix
-bullet and the clean line cannot drift apart. Constituent identity
-stays syntactic, matching the member pass, which leaves an alias and
-its expansion still unmatched; that residual replaces the closed gap in
-the README rather than going unsaid.
+The gate also gains the repo's first tests. `pnpm test` is Node's
+built-in runner over `**/*.test.ts` through `tsx`, wired into `vet.sh`;
+each case materializes a throwaway source tree in the OS temp directory
+and runs the real script against it, so what is asserted is the
+artifact `pnpm type-overlap` runs and production code gains no seam for
+the test's benefit. A committed fixture would be a `.ts` file the gate
+itself then scanned.
 
-The gate now has tests, and they are the repo's first. `pnpm test` is
-Node's built-in runner over `**/*.test.ts` through `tsx` — no framework
-and no config — wired into `vet.sh` beside the other read-only checks.
-Each case materializes a throwaway source tree in the OS temp directory
-and runs the real script against it with `cwd` set there, so what is
-asserted is the artifact `pnpm type-overlap` runs, and production code
-gains no seam for the test's benefit. Both directions are covered: the
-clean line verbatim, and, per pass, the section, the group listing and
-the fix bullet, plus the threshold overrides and every skip rule. A
-committed fixture would be a `.ts` file the repo's own gate then
-scanned, which is why the trees are written at runtime.
-
-The new pass then had a finding waiting for it: the content pipeline
-that landed on main spells `Titled & WithReadingMinutes` in both
-`RenderedDocument` and `ArticleHeaderProps`. That pair is now
-`Headlined` — the two facts a reader sees above the body — homed in
-src/shared/content/render.ts and re-exported from the segment barrel
-the header already imports.
+The new pass had a finding waiting: `Titled & WithReadingMinutes`,
+spelled in both `RenderedDocument` and `ArticleHeaderProps`, is now
+`Headlined` in `src/shared/content/render.ts`.
 
 Closes #17
 
