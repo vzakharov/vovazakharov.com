@@ -1,3 +1,9 @@
+---
+description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript, and twenty-plus Claude Code agents running in parallel.
+date: 2026-08-29
+part: I of II
+---
+
 # From Bubble to Next.js in 4 months: the Playgram case study
 
 **Part I of II.**
@@ -31,7 +37,7 @@ None of those are toys. A lot of software you've used was probably drawn rather 
 
 In our case, we're talking about Playgram, an app that managed to put together a chat interface giving access to multiple providers and models, realtime team/project chat UIs, libraries of generated images & files, memory & knowledge management, voice input, and tons of other small "nifties" — all brought to life with no code at all:
 
-https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
 
 (This is a screen recording already after migration to code, but you get the idea.)
 
@@ -285,6 +291,12 @@ As an example, here's the real import graph of the final state — every arrow i
 
 ```mermaid
 flowchart TD
+    accDescr {
+      The final codebase's import graph, six layers deep and acyclic. app sits at
+      the top, then pages, widgets, features, entities, and shared at the bottom.
+      Every arrow points downward and is labelled with the number of import
+      statements crossing it; shared receives the most by a wide margin.
+    }
     app["app · 207 files"]
     pages["pages · 757 files"]
     widgets["widgets · 149 files"]
@@ -545,6 +557,13 @@ So in the end, my usual flow goes like this:
 
 ```mermaid
 flowchart TD
+    accDescr {
+      The four-session flow a change passes through. A GitHub issue or one-line
+      ask feeds session 1, which writes a plan file; I review the plan, and
+      session 2 implements it into a draft PR; I review the diff, and session 3
+      addresses the code review, looping back on itself for further rounds;
+      session 4 finalizes, and I squash-merge.
+    }
     I["a GitHub issue, or a one-line ask"] --> S1
     S1["Session 1 — /issue or /plan<br/>a plan file, committed to the branch"]
     S2["Session 2 — /implement<br/>code, DRY pass, docs pass, draft PR"]

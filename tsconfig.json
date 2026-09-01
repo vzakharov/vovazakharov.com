@@ -25,6 +25,9 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    // `scripts/render-mermaid.ts` runs under bare Node, whose ESM resolver
+    // needs the extension it imports `lib/content/mermaid-hash.ts` by.
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",

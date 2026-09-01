@@ -12,7 +12,77 @@ function handlePrint() {
   globalThis.print();
 }
 
-export default function CVPage() {
+/**
+ * Order is a presentation decision, so it lives in code rather than in the
+ * catalogs, where `en` and `ru` would be free to disagree about it.
+ */
+const EXPERIENCE_KEYS = [
+  'playgram',
+  'englishForKids',
+  'orcool',
+  'randddb',
+  'independent',
+  'voicemod',
+] as const;
+
+type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
+
+/** Entries use whichever shape suits them; a card renders both. */
+type ExperienceItem = string | { label: string; text: string };
+
+type ExperienceCardProps = { entryKey: ExperienceKey };
+
+function ExperienceCard({ entryKey }: ExperienceCardProps) {
+  // Read the entry off the typed catalog: its fields vary per entry, so a
+  // computed `t('<key>.title')` resolves to no known message key.
+  const { cv } = useMessages();
+  const entry = cv.experience[entryKey];
+  const items: ExperienceItem[] = entry.items;
+
+  return (
+    <Card>
+      <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
+        {entry.title}
+      </h3>
+      <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
+        {entry.period}
+      </h4>
+
+      {'description' in entry && (
+        <p className="mb-3 print:mb-1">{entry.description}</p>
+      )}
+      {'intro' in entry && <p className="mb-3 print:mb-1">{entry.intro}</p>}
+
+      <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1 last:mb-0">
+        {items.map((item, index) => (
+          <li key={index}>
+            {typeof item === 'string' ? (
+              item
+            ) : (
+              <>
+                <strong>{item.label}</strong> {item.text}
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      {'tech' in entry && (
+        <p className="text-sm font-mono opacity-60">{entry.tech}</p>
+      )}
+      {'demo' in entry && (
+        <p className="text-sm italic opacity-70 mt-2">{entry.demo}</p>
+      )}
+    </Card>
+  );
+}
+
+export type CVPageProps = {
+  /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
+  caseStudyHref: string;
+};
+
+export default function CVPage({ caseStudyHref }: CVPageProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
 
@@ -115,110 +185,30 @@ export default function CVPage() {
           </h2>
 
           <div className="space-y-6 print:space-y-3">
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.project1.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.project1.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project1.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {cv.experience.project1.items.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60">
-                {t('experience.project1.tech')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.project2.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.project2.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project2.description')}
-              </p>
-              <p className="mb-3 print:mb-1">
-                {t('experience.project2.intro')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {cv.experience.project2.items.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60">
-                {t('experience.project2.tech')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.randddb.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.randddb.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.randddb.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {cv.experience.randddb.items.map((item, idx) => (
-                  <li key={idx}>
-                    <strong>{item.label}</strong> {item.text}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-sm font-mono opacity-60 mb-2">
-                {t('experience.randddb.tech')}
-              </p>
-              <p className="text-sm italic opacity-70">
-                {t('experience.randddb.demo')}
-              </p>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.independent.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.independent.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.independent.intro')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {cv.experience.independent.items.map((item, idx) => (
-                  <li key={idx}>
-                    <strong>{item.label}</strong> {item.text}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card>
-              <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-                {t('experience.voicemod.title')}
-              </h3>
-              <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-                {t('experience.voicemod.period')}
-              </h4>
-              <p className="mb-3 print:mb-1">
-                {t('experience.voicemod.description')}
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {cv.experience.voicemod.items.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </Card>
+            {EXPERIENCE_KEYS.map((entryKey) => (
+              <ExperienceCard key={entryKey} {...{ entryKey }} />
+            ))}
           </div>
+        </section>
+
+        {/* Case Studies Section */}
+        <section className="space-y-4 print:space-y-2">
+          <h2 className="text-3xl font-bold print:text-2xl">
+            {t('caseStudies.title')}
+          </h2>
+          <Card>
+            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">
+              {t('caseStudies.playgram.title')}
+            </h3>
+            <p className="leading-relaxed mb-3 print:mb-1">
+              {t('caseStudies.playgram.description')}
+            </p>
+            <p className="text-sm">
+              <Link href={caseStudyHref} className="underline hover:opacity-70">
+                {t('caseStudies.playgram.link')}
+              </Link>
+            </p>
+          </Card>
         </section>
 
         {/* Tech Stack Section */}

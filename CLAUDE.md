@@ -20,12 +20,14 @@ This file is intentionally bare. It carries only the conventions that hold true 
 | `components/` | Shared presentational components (`card.tsx`, `locale-picker.tsx`, `theme-provider.tsx`, `theme-toggle.tsx`). Filenames are kebab-case — `unicorn/filename-case` enforces it — while the exported components stay PascalCase. |
 | `hooks/`      | React hooks (`use-mounted.ts` — the hydration guard theme-dependent UI needs).                                                                                                                                                |
 | `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy), `messages.ts` (the catalogs keyed by locale), `request.ts` (per-request config) and `next-intl.d.ts` (registers the catalogs so keys are type-checked).   |
-| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by).                                                    |
+| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by), and `content/` (the build-time markdown pipeline). |
 | `messages/`   | Translation catalogs, `en.json` and `ru.json`. `i18n/messages.ts` types `ru` against `en`, so a key added to one and not the other is a type error.                                                                           |
-| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                                                            |
+| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                                                      |
 | `eslint/`     | The lint ruleset `eslint.config.ts` orchestrates: `rule-groups/` by plugin family, `rules/` for the project-local `vova/*` rules. Linted like any other source; see `.claude/rules/eslint.md`.                                |
-| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference.                              |
+| `scripts/`    | Agent-facing tooling; `vet.sh` is the entrypoint below. The TypeScript ones run under `tsx` — `type-overlap-check.ts` (reference: `type-overlap-check.README.md`) and `render-mermaid.ts`; the rest is shell and Python.      |
 | `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                                              |
+
+Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the markdown content pipeline (`public/content/`, `lib/content/`, the case-study routes) is documented there rather than here.
 
 ## Deployment
 

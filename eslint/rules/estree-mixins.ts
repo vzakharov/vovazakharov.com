@@ -6,12 +6,10 @@
 import type * as ESTree from 'estree';
 
 // Relative, not `@/` — jiti gives `eslint/` no path alias.
-export type { Named } from '../../lib/typings';
+export type { Named, WithText } from '../../lib/typings';
 
 /** The `TSTypeAnnotation` wrapper (`: Foo`) a rule reports or autofixes over. */
 export type WithAnnotation = { annotation: ESTree.Node };
 
 /** The `type` key as a bare `string` — an ESTree node kind before it is narrowed. */
 export type WithStringType = { type: string };
-
-export type WithText = { text: string };

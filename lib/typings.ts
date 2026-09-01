@@ -17,4 +17,14 @@ export type NamedRecord = Named & WithId;
 export type WithFilePath = { filePath: string };
 
 export type Titled = { title: string };
+
+/** A title that may be absent — a document's is derived, so it exists only once read. */
+export type MaybeTitled = { title?: string };
+
 export type Described = { description: string };
+
+/** Rendered or authored text, as opposed to a title or a label. */
+export type WithText = { text: string };
+
+/** Extra classes a caller merges into the component's own. */
+export type WithOptionalClassName = { className?: string };

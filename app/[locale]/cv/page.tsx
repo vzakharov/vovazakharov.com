@@ -1,12 +1,16 @@
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
+import { documentRoute } from '@/lib/content/collections';
+
 import { MESSAGES } from '@/i18n/messages';
 import { routing } from '@/i18n/routing';
 
 import { generateCvMetadata } from '@/app/cv/cv-utils';
 
 import CVPage from './cv-page';
+
+const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -30,7 +34,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <NextIntlClientProvider {...{ locale, messages: MESSAGES[locale] }}>
-      <CVPage />
+      <CVPage
+        caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}
+      />
     </NextIntlClientProvider>
   );
 }

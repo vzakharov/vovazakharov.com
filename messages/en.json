@@ -31,7 +31,36 @@
     },
     "experience": {
       "title": "Experience",
-      "project1": {
+      "playgram": {
+        "title": "Developer",
+        "period": "Playgram (March – August 2026)",
+        "description": "Rebuilt a live, feature-rich AI chat product — multiple model providers, realtime team chats, image and file libraries, memory and knowledge management, voice input — from Bubble, a no-code builder, into a production Next.js 16 codebase, while it stayed in production for its users throughout.",
+        "intro": "Delivered in 158 days — parallel AI sessions, up to 20 agents working at once:",
+        "items": [
+          {
+            "label": "1,395 commits on main",
+            "text": "and 250,000 lines of production TypeScript, none of it hand-written."
+          },
+          {
+            "label": "48 releases and 18 hotfixes:",
+            "text": "a production deploy every 2.4 days."
+          },
+          {
+            "label": "Sub-second cold loads,",
+            "text": "down from multi-second."
+          },
+          {
+            "label": "Feature-sliced architecture held by linters,",
+            "text": "so a crowd of agents working at once could not drift the structure."
+          },
+          {
+            "label": "A repeatable agent pipeline:",
+            "text": "plan, implement, review, finalize — each stage its own session, with a reviewable artifact between them."
+          }
+        ],
+        "tech": "Next.js 16, TypeScript, feature-sliced design, Claude Code"
+      },
+      "englishForKids": {
         "title": "Developer – Project Work",
         "period": "October 2025 – Present",
         "description": "AI-powered English learning application for kids, combining generative AI with time-tested pedagogical methodology to make language acquisition engaging and effective.",
@@ -42,7 +71,7 @@
         ],
         "tech": "Next.js, OpenAI API, custom game engine"
       },
-      "project2": {
+      "orcool": {
         "title": "Developer – Project Work",
         "period": "Orcool (June – August 2025)",
         "description": "Short-term project shaping an AI-agent–based review intelligence tool for brand marketing.",
@@ -118,6 +147,14 @@
           "Built a YAML-powered Discord bot framework for zero-code bot creation.",
           "Developed a local Python web API with a ChatGPT-style interface."
         ]
+      }
+    },
+    "caseStudies": {
+      "title": "Case studies",
+      "playgram": {
+        "title": "From Bubble to Next.js in 4 months: the Playgram case study",
+        "description": "Part I of II — the long-form write-up of the rebuild above: what made a no-code app worth leaving, the architecture and tooling that let twenty agents work at once, and the numbers behind all of it.",
+        "link": "Read the case study"
       }
     },
     "techStack": {

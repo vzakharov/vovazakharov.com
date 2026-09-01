@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react';
 
-import type { Described, Titled } from '@/lib/typings';
+import type { Described, Titled, WithOptionalClassName } from '@/lib/typings';
 
-type CardProps = {
+type CardProps = WithOptionalClassName & {
   children: ReactNode;
-  className?: string;
 };
 
 export function Card({ children, className = '' }: CardProps) {

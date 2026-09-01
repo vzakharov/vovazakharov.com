@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { COLLECTIONS } from '@/lib/content/collections';
+import { renderPrimaryDocuments } from '@/lib/content/render';
+
 import { ArticleCard, Card, ProjectCard } from '@/components/card';
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -8,7 +11,10 @@ import { ThemeToggle } from '@/components/theme-toggle';
 // year the site was last deployed.
 const BUILD_YEAR = new Date().getFullYear();
 
-export default function Home() {
+export default async function Home() {
+  // Titles come from the documents themselves, so a renamed piece cannot drift.
+  const caseStudies = await renderPrimaryDocuments('case-studies');
+
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20">
       <div className="max-w-4xl mx-auto space-y-16">
@@ -67,7 +73,7 @@ export default function Home() {
         <section id="dev" className="space-y-6">
           <h2 className="text-3xl font-bold">/dev</h2>
 
-          <div className="prose prose-invert max-w-none flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <p className="text-lg leading-relaxed">
               I build stuff, and here’s what you’ll find: stuff that works,
               stuff that doesn’t, and stuff that’s still a work in progress.
@@ -78,6 +84,35 @@ export default function Home() {
                 CV
               </Link>{' '}
               if you’re looking for new people.
+            </p>
+          </div>
+
+          <h3 className="text-2xl font-bold mt-8">Case studies</h3>
+
+          <div className="space-y-4">
+            {caseStudies.map(({ document, rendered }) => (
+              <Link
+                key={document.slug}
+                href={document.route}
+                className="block group"
+              >
+                <Card>
+                  <h4 className="text-xl font-bold mb-2 group-hover:underline">
+                    {rendered.title}
+                  </h4>
+                  <p className="leading-relaxed">
+                    {document.frontmatter.description}
+                  </p>
+                </Card>
+              </Link>
+            ))}
+            <p className="text-sm">
+              <Link
+                href={COLLECTIONS['case-studies'].routeBase}
+                className="underline hover:opacity-70"
+              >
+                All case studies, including the shorter cuts →
+              </Link>
             </p>
           </div>
 
@@ -221,7 +256,7 @@ export default function Home() {
         <section id="music" className="space-y-6">
           <h2 className="text-3xl font-bold">/music</h2>
 
-          <div className="prose prose-invert max-w-none">
+          <div>
             <p className="text-lg leading-relaxed italic mb-4">
               “AI as collaborator, not tool or replacement”
             </p>
@@ -326,7 +361,7 @@ export default function Home() {
         <section id="writing" className="space-y-6">
           <h2 className="text-3xl font-bold">/writing</h2>
 
-          <div className="prose prose-invert max-w-none">
+          <div>
             <p className="text-lg leading-relaxed">
               Before I became a full-time coder, I worked for 22 years as a
               translator, editor, and copywriter. Although I don’t do it much

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 
+import type { ContentDocument } from './content/documents';
 import { getAbsoluteUrl, SITE_CONFIG } from './site-config';
+import type { MaybeTitled } from './typings';
 
-export type ConstructMetadataParams = {
-  title?: string;
+export type ConstructMetadataParams = MaybeTitled & {
   description?: string;
   ogDescription?: string; // Separate description for OpenGraph if different from main
   path?: string; // e.g., "/cv" - automatically converted to absolute URL
@@ -53,4 +54,26 @@ export function constructMetadata({
     authors: [{ name: authorName, url: siteUrl }],
     creator: siteName,
   };
+}
+
+/**
+ * Article metadata, routed through `constructMetadata` so a content page's
+ * cards are built the same way as the rest of the site's. The title comes from
+ * the rendered document rather than from frontmatter — the markdown's own
+ * leading heading is the one copy of it.
+ */
+export function constructArticleMetadata(
+  document: ContentDocument,
+  title: string,
+): Metadata {
+  const { frontmatter, route, ogImageUrl } = document;
+  const { description } = frontmatter;
+
+  return constructMetadata({
+    title,
+    description,
+    path: route,
+    ogType: 'article',
+    ogImage: ogImageUrl,
+  });
 }
