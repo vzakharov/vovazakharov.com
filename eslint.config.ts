@@ -1,4 +1,4 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { type Config, defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import prettierConfig from 'eslint-config-prettier';
@@ -18,7 +18,7 @@ const PUBLIC_API = 'index.ts';
 //
 // `boundaries/dependencies` carries all of it: v7 folds the former `entry-point`
 // and `external` rules into its policies.
-const boundariesConfig = {
+const boundariesConfig: Config = {
   plugins: { boundaries: boundariesPlugin },
   files: ['src/**/*.{ts,tsx}'],
   settings: {
