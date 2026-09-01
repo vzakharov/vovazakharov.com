@@ -35,15 +35,15 @@
         "title": "Developer",
         "period": "Playgram (March – August 2026)",
         "description": "Rebuilt a live, feature-rich AI chat product — multiple model providers, realtime team chats, image and file libraries, memory and knowledge management, voice input — from Bubble, a no-code builder, into a production Next.js 16 codebase, while it stayed in production for its users throughout.",
-        "intro": "Delivered in 158 days, running twenty-plus AI coding agents in parallel and reviewing their work rather than typing it:",
+        "intro": "Delivered in 158 days — parallel AI sessions, up to 20 agents working at once:",
         "items": [
           {
-            "label": "1,029 merged pull requests",
-            "text": "and 250,000 lines of production TypeScript, almost none of it hand-written."
+            "label": "1,395 commits on main,",
+            "text": "1,029 of them merged pull requests, and 250,000 lines of production TypeScript, none of it hand-written."
           },
           {
             "label": "48 releases and 18 hotfixes:",
-            "text": "a production deploy every 2.4 days, across three workspace cutovers, with no rollbacks."
+            "text": "a production deploy every 2.4 days, with no rollbacks."
           },
           {
             "label": "Sub-second cold loads,",
@@ -51,7 +51,7 @@
           },
           {
             "label": "Feature-sliced architecture held by linters,",
-            "text": "so a crowd of agents working at once could not drift the structure — of 8,123 imports, zero point upward and zero reach sideways."
+            "text": "so a crowd of agents working at once could not drift the structure."
           },
           {
             "label": "A repeatable agent pipeline:",
