@@ -29,7 +29,10 @@ the work.
 
 What it surfaced was mostly real. The theme toggle rendered an
 English aria-label on the Russian CV, {stars && …} rendered a
-bare 0, and three Spotify embeds had no title. i18n/messages.ts
+bare 0, and three Spotify embeds had no title; the locale picker
+carried the same English-label defect one step outside the
+rule's reach, in a template expression rather than a literal.
+i18n/messages.ts
 now keys the catalogs by locale and registers them with
 next-intl, so translation keys are checked, useMessages()
 returns the catalog's real shape, and a key added to en.json but
