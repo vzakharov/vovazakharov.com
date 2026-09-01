@@ -47,3 +47,7 @@ next-env.d.ts
 # screenshots. Anything transient goes here rather than earning its own
 # .gitignore entry. See CLAUDE.md "Dev artifacts go under tmp/".
 tmp/
+
+# python
+__pycache__/
+*.py[cod]
