@@ -1,6 +1,6 @@
 'use client';
 
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { usePathname, useRouter } from '@/i18n/routing';
 
@@ -11,6 +11,7 @@ export function LocalePicker() {
   const router = useRouter();
   const locale = useLocale();
   const mounted = useMounted();
+  const t = useTranslations('ui');
 
   const isI18nPage = pathname === '/cv';
 
@@ -30,7 +31,9 @@ export function LocalePicker() {
     <button
       onClick={toggleLocale}
       className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors text-lg"
-      aria-label={`Switch to ${nextLocale === 'en' ? 'English' : 'Russian'}`}
+      aria-label={t(
+        nextLocale === 'en' ? 'switchToEnglish' : 'switchToRussian',
+      )}
     >
       {currentFlag}
     </button>

@@ -188,6 +188,8 @@
     }
   },
   "ui": {
-    "toggleTheme": "Переключить тему"
+    "toggleTheme": "Переключить тему",
+    "switchToEnglish": "Переключить на английский",
+    "switchToRussian": "Переключить на русский"
   }
 }

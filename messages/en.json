@@ -188,6 +188,8 @@
     }
   },
   "ui": {
-    "toggleTheme": "Toggle theme"
+    "toggleTheme": "Toggle theme",
+    "switchToEnglish": "Switch to English",
+    "switchToRussian": "Switch to Russian"
   }
 }
