@@ -38,12 +38,12 @@
         "intro": "Delivered in 158 days — parallel AI sessions, up to 20 agents working at once:",
         "items": [
           {
-            "label": "1,395 commits on main,",
-            "text": "1,029 of them merged pull requests, and 250,000 lines of production TypeScript, none of it hand-written."
+            "label": "1,395 commits on main",
+            "text": "and 250,000 lines of production TypeScript, none of it hand-written."
           },
           {
             "label": "48 releases and 18 hotfixes:",
-            "text": "a production deploy every 2.4 days, with no rollbacks."
+            "text": "a production deploy every 2.4 days."
           },
           {
             "label": "Sub-second cold loads,",
