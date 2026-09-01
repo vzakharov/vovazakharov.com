@@ -1,10 +1,10 @@
 # `src/` — Feature-Sliced Design
 
 Every application module lives here, organized by
-[Feature-Sliced Design](https://feature-sliced.design/): `shared/`, `features/`
-and `pages/` today, with `entities/` and `widgets/` left out until something
-earns them. Root `app/` is the Next.js App Router and, at the same time, the FSD
-app layer, so its route files stay thin — each re-exports a `src/pages/` slice.
+[Feature-Sliced Design](https://feature-sliced.design/): `shared/`, `features/`,
+`pages/` and `app/` today, with `entities/` and `widgets/` left out until
+something earns them. Root `app/` is the Next.js App Router and nothing else —
+`layout.tsx` and each `page.tsx` are one-line re-exports of what they render.
 
 **The conventions live in [`.claude/rules/fsd.md`](../.claude/rules/fsd.md)**:
 layer directionality, the public-API rule, what decides which layer a module

@@ -43,17 +43,16 @@ Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
 under `src/`; `.claude/rules/fsd.md` carries the conventions.
 
 ```
-├── app/                        # App Router, and the FSD app layer
-│   ├── layout.tsx              # Root layout — fonts, providers, base metadata
-│   ├── theme-provider.tsx      # Theme context provider
-│   ├── page.tsx                # Homepage route → src/pages/home
-│   ├── cv/, [locale]/cv/       # CV routes → src/pages/cv
-│   └── globals.css             # Global styles and theme variables
+├── app/                        # App Router — routing only, one-line re-exports
+│   ├── layout.tsx              # → src/app/ui
+│   ├── page.tsx                # → src/pages/home
+│   └── cv/, [locale]/cv/       # → src/pages/cv
 ├── pages/                      # Empty Pages-Router shadow — see pages/README.md
 ├── src/
 │   ├── shared/                 # config, i18n, seo, ui, lib/*
 │   ├── features/switch-theme/  # Light/Dark/Auto theme switcher
-│   └── pages/{home,cv}/        # Page composition
+│   ├── pages/{home,cv}/        # Page composition
+│   └── app/                    # FSD app layer — root layout, theme provider, globals.css
 ├── content/                    # Long-form prose and its assets
 ├── public/
 │   ├── ava.png                 # Avatar image

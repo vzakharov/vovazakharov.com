@@ -8,9 +8,10 @@ paths:
 # FSD (Feature-Sliced Design)
 
 `src/` holds every application module, organized by [Feature-Sliced
-Design](https://feature-sliced.design/). Root `app/` is the Next.js App Router
-and, at the same time, the FSD **app layer**. Steiger (`pnpm lint:fsd`) and
-`eslint-plugin-boundaries` enforce what follows; `./scripts/vet.sh` runs both.
+Design](https://feature-sliced.design/) — every layer, the app layer included.
+Root `app/` is the Next.js App Router and nothing else. Steiger
+(`pnpm lint:fsd`) and `eslint-plugin-boundaries` enforce what follows;
+`./scripts/vet.sh` runs both.
 
 ## Layers
 
@@ -23,7 +24,7 @@ Lowest (most generic) first — an import may only point downward:
 | `features/` | User-facing capabilities — currently `switch-theme`                                      |
 | `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                       |
 | `pages/`    | Page composition — `home`, `cv`                                                          |
-| root `app/` | Root layout, providers, global stylesheet, and the route tree                            |
+| `app/`      | Root layout, theme provider, global stylesheet — `ui` and `styles` segments              |
 
 `entities/` and `widgets/` are absent because nothing earns them yet, not as an
 oversight. Layers are optional; **inventing one costs more than leaving it out**
@@ -37,31 +38,32 @@ oversight. Layers are optional; **inventing one costs more than leaving it out**
 - **Segments are named by purpose, not by essence** — `shared/seo`, not `shared/utils`; `shared/lib/hydration`, not `shared/hooks`. Steiger's `segments-by-purpose` rejects the second form.
 - **No insignificant slices.** A slice with a single upward consumer belongs _inside_ that consumer, and Steiger says so (`insignificant-slice`). This is why the CV locale picker lives in `pages/cv/ui/` and the home page's project and article cards live in `pages/home/ui/`, rather than each becoming a feature.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported identifiers keep their PascalCase (`card.tsx` exports `Card`).
-- **The checkers run with the stock recommended ruleset and no overrides.** A new rule violation is a signal that the code is in the wrong place — move the code rather than exempting the path.
+- **The checkers run with the stock recommended ruleset and one override**, the `no-ui-in-app` exemption below. A new rule violation is a signal that the code is in the wrong place — move the code rather than exempting the path.
 
-## The app layer is root `app/`, not `src/app`
+## The app layer is `src/app`; root `app/` is the router
 
-The app layer here is three files — the root layout, the theme provider, the
-global stylesheet — so there is nothing to segment. Root `app/` already holds
-them and sits outside the `steiger src` scan root, so the stock ruleset passes
-untouched. Route files there stay thin: a `page.tsx` re-exports its slice
-(`export { HomePage as default } from '@/pages/home'`) and adds only the
-route-level metadata Next needs.
+Every layer lives under `src/`, the app layer with them. A layer parked at the
+repo root would be the single exception to that, and the consistency is worth
+more than what the exception saves. Root `app/` holds routing and nothing else:
+`layout.tsx` and each `page.tsx` are one-line re-exports of what they render.
 
-Moving the layer to `src/app` puts it under the scanner, at a cost of up to two
-overrides: `no-ui-in-app` on `src/app/ui/**`, unavoidable once the layer has UI,
-and `segments-by-purpose` on a segment named for what it holds — `provider(s)`,
-`context`, `hook(s)` are on the plugin's list, while `config`, `styles`, `api`
-and `tests` pass. That is the right trade for an app layer big enough to
-segment; `Playgramai/playgramapp`, which this structure is modelled on, does
-exactly that and carries one override for it. Revisit this the day an app shell
-here would earn the same.
+That costs exactly one Steiger override — `fsd/no-ui-in-app`, scoped to
+`src/app/ui/**` in `steiger.config.mjs`. Next mandates a root layout, and a
+root layout is app-layer UI wherever it is filed, so the rule has no answer
+here.
 
-Because root `app/` is above every layer, it may import from any of them —
-through their public APIs.
+Segment naming keeps it to that one. `provider(s)`, `context` and `hook(s)` are
+on the plugin's `segments-by-purpose` list, so the theme provider is a file in
+`src/app/ui/` rather than a `src/app/providers/` segment; `styles`, `config`,
+`api` and `tests` pass as segment names if the layer ever needs them.
+
+Because the app layer is above every other, it may import from all of them —
+through their public APIs — and, being one unit rather than a set of isolated
+slices, its own segments reach each other directly.
 
 ## Traps
 
 - **Root `pages/` must keep existing**, empty of routes — it is what keeps the FSD pages layer invisible to the router. `pages/README.md` has the mechanism.
+- **`@/app` is the FSD app layer, not root `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. Root `app/` is reached only by Next's own routing conventions, never by import.
 - **`@/` points at `src/`.** Anything outside it — `public/`, `content/` — is reached by URL or relative path, not by alias.
 - **next-intl's request config is found by path, not by import.** `next.config.ts` names `./src/shared/i18n/request.ts` explicitly; moving that file means editing the config.

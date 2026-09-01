@@ -14,15 +14,15 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path       | What lives there                                                                                                                                                           |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them. |
-| `app/`     | App Router, and the FSD app layer: root layout, theme provider, `globals.css`. Route files are thin — they re-export a `src/pages/` slice and add route-level metadata.    |
-| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                  |
-| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                     |
-| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                         |
-| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                       |
-| `.claude/` | Skills, rules and session hooks.                                                                                                                                           |
+| Path       | What lives there                                                                                                                                                                   |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`, `app/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them. |
+| `app/`     | **Routing only** — not the FSD app layer, which is `src/app`. `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.                                        |
+| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                          |
+| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                             |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                 |
+| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                               |
+| `.claude/` | Skills, rules and session hooks.                                                                                                                                                   |
 
 ## Deployment
 

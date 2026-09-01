@@ -5,24 +5,25 @@ refactor: adopt Feature-Sliced Design, enforced by Steiger (pr #12)
 ```
 
 ```
-Four top-level code directories named after what their contents are —
+Four top-level directories named for what their contents are —
 components/, hooks/, lib/, i18n/ — said nothing about what may depend
 on what. Feature-Sliced Design answers that in a form a checker can
-read: code now lives in src/ under shared/, features/ and pages/,
-every slice publishes an index.ts, and imports point downward only,
-through that barrel. Steiger and eslint-plugin-boundaries enforce it
-on the stock ruleset with no overrides, and were confirmed to reject
-an upward import and a barrel sidestep rather than pass vacuously.
+read: code now lives in src/ under shared/, features/, pages/ and
+app/, every slice publishes an index.ts, and imports point downward
+only, through that barrel. Steiger and eslint-plugin-boundaries both
+enforce it, verified non-vacuous against a planted upward import and
+barrel sidestep.
 
 Placement follows from the rules: the theme toggle is a feature
-because both pages use it; single-consumer pieces like the CV's locale
-picker stay in the page that renders them. The app layer is root app/,
-not src/app, which would cost two overrides — and root pages/ must
-stay, or Next finds src/pages and refuses to build.
+because both pages use it; single-consumer pieces stay in their page. Every layer sits under src/, the app layer with
+them, leaving root app/ as routing alone — bought with one override,
+no-ui-in-app, since Next mandates a root layout and a root layout is
+app-layer UI wherever it is filed. Root pages/ must stay, or Next
+finds src/pages and refuses to build.
 
 Locale handling gained real types: a Locale from routing.locales, a
-toLocale() boundary check, and a catalogue map typed against en.json,
-so a key missing from one translation file now fails the type check.
+toLocale() boundary check, and a catalogue map typed against en.json
+that fails the build on a key missing from one translation file.
 vet.sh fans out through run-parallel.sh; eslint.config is TypeScript.
 
 No behaviour changes — the same five routes, rendered in both themes

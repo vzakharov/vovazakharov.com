@@ -23,6 +23,14 @@ const boundariesConfig: Config = {
   files: ['src/**/*.{ts,tsx}'],
   settings: {
     'boundaries/elements': [
+      // The app layer is segmented, not sliced — like `shared`, and unlike
+      // every layer in FSD_LAYERS.
+      {
+        type: 'app',
+        pattern: ['src/app/(*)/**'],
+        capture: ['segmentName'],
+        partialMatch: false,
+      },
       ...FSD_LAYERS.map((layer) => ({
         type: layer,
         pattern: [`src/${layer}/(*)/**`],
@@ -52,6 +60,25 @@ const boundariesConfig: Config = {
       {
         default: 'disallow',
         policies: [
+          // The app layer sits above all of them, so it may import any,
+          // through their public API.
+          {
+            from: { element: { type: 'app' } },
+            allow: {
+              to: {
+                element: {
+                  types: { anyOf: [...FSD_LAYERS, 'shared'] },
+                  fileInternalPath: PUBLIC_API,
+                },
+              },
+            },
+          },
+          // It is one unit rather than a set of isolated slices, so its
+          // segments reach each other directly.
+          {
+            from: { element: { type: 'app' } },
+            allow: { to: { element: { type: 'app' } } },
+          },
           ...FSD_LAYERS.flatMap((layer, index) => [
             // Downward, and only through the target's public API.
             {
