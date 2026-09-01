@@ -46,7 +46,8 @@ The new pass then had a finding waiting for it: the content pipeline
 that landed on main spells `Titled & WithReadingMinutes` in both
 `RenderedDocument` and `ArticleHeaderProps`. That pair is now
 `Headlined` — the two facts a reader sees above the body — homed in
-lib/content/render.ts, the module the header already imports.
+src/shared/content/render.ts and re-exported from the segment barrel
+the header already imports.
 
 Closes #17
 
