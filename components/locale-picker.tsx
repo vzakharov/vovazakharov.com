@@ -31,9 +31,7 @@ export function LocalePicker() {
     <button
       onClick={toggleLocale}
       className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors text-lg"
-      aria-label={t(
-        nextLocale === 'en' ? 'switchToEnglish' : 'switchToRussian',
-      )}
+      aria-label={t('switchToOther')}
     >
       {currentFlag}
     </button>

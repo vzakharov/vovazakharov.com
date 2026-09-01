@@ -49,13 +49,12 @@ pnpm format:check     # prettier --check .               │
 pnpm type-overlap     # scripts/type-overlap-check.ts    ┘
 ```
 
-Five things about that list are deliberate:
+Four things about that list are deliberate:
 
 - **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The ESLint config is TypeScript** (`eslint.config.ts`, loaded via `jiti`), and `eslint/` is itself linted and type-checked — a broken rule file fails the lint run and the type check, not just the rules it implements. Its severity policy lives in `.claude/rules/eslint.md`.
 - **The build runs alone, before the others.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The others touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
-- **`pnpm type-overlap` fails on any member two named types both declare**, at a floor of 1 with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the others safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
+- **`pnpm type-overlap` fails on any member two named types both declare**, at a floor of 1 with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the other three safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 

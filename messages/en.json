@@ -226,7 +226,6 @@
   },
   "ui": {
     "toggleTheme": "Toggle theme",
-    "switchToEnglish": "Switch to English",
-    "switchToRussian": "Switch to Russian"
+    "switchToOther": "Switch to Russian"
   }
 }
