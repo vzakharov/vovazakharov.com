@@ -1,3 +1,9 @@
+---
+description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript, and twenty-plus Claude Code agents running in parallel.
+date: 2026-08-29
+part: I of II
+---
+
 # From Bubble to Next.js in 4 months: the Playgram case study
 
 **Part I of II.**
@@ -31,7 +37,7 @@ None of those are toys. A lot of software you've used was probably drawn rather 
 
 In our case, we're talking about Playgram, an app that managed to put together a chat interface giving access to multiple providers and models, realtime team/project chat UIs, libraries of generated images & files, memory & knowledge management, voice input, and tons of other small "nifties" — all brought to life with no code at all:
 
-https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
 
 (This is a screen recording already after migration to code, but you get the idea.)
 
