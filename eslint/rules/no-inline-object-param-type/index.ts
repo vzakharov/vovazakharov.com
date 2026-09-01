@@ -1,5 +1,4 @@
 import type { Rule } from 'eslint';
-import type * as ESTree from 'estree';
 
 import {
   type FunctionNode,

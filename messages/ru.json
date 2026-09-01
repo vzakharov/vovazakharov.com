@@ -186,5 +186,8 @@
       "printFooter": "Полное портфолио:",
       "website": "vovazakharov.com"
     }
+  },
+  "ui": {
+    "toggleTheme": "Переключить тему"
   }
 }

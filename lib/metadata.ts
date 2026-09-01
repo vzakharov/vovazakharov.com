@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { getAbsoluteUrl,SITE_CONFIG } from './site-config';
+import { getAbsoluteUrl, SITE_CONFIG } from './site-config';
 
 export type ConstructMetadataParams = {
   title?: string;
@@ -9,7 +9,7 @@ export type ConstructMetadataParams = {
   path?: string; // e.g., "/cv" - automatically converted to absolute URL
   ogType?: 'website' | 'profile' | 'article';
   ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
-}
+};
 
 export function constructMetadata({
   title,
@@ -19,10 +19,15 @@ export function constructMetadata({
   ogType = 'website',
   ogImage,
 }: ConstructMetadataParams = {}): Metadata {
-  const absoluteUrl = path ? getAbsoluteUrl(path) : SITE_CONFIG.url;
-  const imagePath = ogImage || SITE_CONFIG.avatar.path;
-  const absoluteImageUrl = getAbsoluteUrl(imagePath);
-  const finalOgDescription = ogDescription || description;
+  const { url: siteUrl, name: siteName, author, social, avatar } = SITE_CONFIG;
+  const { name: authorName } = author;
+
+  const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
+  const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
+  // The avatar's intrinsic dimensions describe only the avatar, so a custom
+  // image is published without them rather than with the wrong ones.
+  const { width, height } = avatar;
+  const imageDimensions = ogImage === undefined ? { width, height } : {};
 
   return {
     title,
@@ -31,36 +36,20 @@ export function constructMetadata({
       type: ogType,
       locale: 'en_US',
       url: absoluteUrl,
-      siteName: SITE_CONFIG.name,
-      title: title || SITE_CONFIG.name,
-      description: finalOgDescription,
-      images: [
-        {
-          url: absoluteImageUrl,
-          ...(ogImage
-            ? {}
-            : {
-                width: SITE_CONFIG.avatar.width,
-                height: SITE_CONFIG.avatar.height,
-              }),
-          alt: SITE_CONFIG.name,
-        },
-      ],
+      siteName,
+      title: title ?? siteName,
+      description: ogDescription ?? description,
+      images: [{ url: absoluteImageUrl, ...imageDimensions, alt: siteName }],
     },
     twitter: {
       card: 'summary_large_image',
-      site: SITE_CONFIG.social.twitter,
-      creator: SITE_CONFIG.social.twitter,
-      title: title || SITE_CONFIG.name,
+      site: social.twitter,
+      creator: social.twitter,
+      title: title ?? siteName,
       description,
       images: [absoluteImageUrl],
     },
-    authors: [
-      {
-        name: SITE_CONFIG.author.name,
-        url: SITE_CONFIG.url,
-      },
-    ],
-    creator: SITE_CONFIG.name,
+    authors: [{ name: authorName, url: siteUrl }],
+    creator: siteName,
   };
 }

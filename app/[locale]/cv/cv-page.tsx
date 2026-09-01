@@ -2,19 +2,19 @@
 
 import { Printer } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useMessages, useTranslations } from 'next-intl';
 
 import { Card } from '@/components/card';
 import { LocalePicker } from '@/components/locale-picker';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-type CVPageItem = { label: string; text: string };
+function handlePrint() {
+  globalThis.print();
+}
 
 export default function CVPage() {
   const t = useTranslations('cv');
-  const handlePrint = () => {
-    globalThis.print();
-  };
+  const { cv } = useMessages();
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 print:p-0">
@@ -126,11 +126,9 @@ export default function CVPage() {
                 {t('experience.project1.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.project1.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
+                {cv.experience.project1.items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
                 {t('experience.project1.tech')}
@@ -151,11 +149,9 @@ export default function CVPage() {
                 {t('experience.project2.intro')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.project2.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
+                {cv.experience.project2.items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
               <p className="text-sm font-mono opacity-60">
                 {t('experience.project2.tech')}
@@ -173,13 +169,11 @@ export default function CVPage() {
                 {t('experience.randddb.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
-                {t
-                  .raw('experience.randddb.items')
-                  .map((item: CVPageItem, idx: number) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
+                {cv.experience.randddb.items.map((item, idx) => (
+                  <li key={idx}>
+                    <strong>{item.label}</strong> {item.text}
+                  </li>
+                ))}
               </ul>
               <p className="text-sm font-mono opacity-60 mb-2">
                 {t('experience.randddb.tech')}
@@ -200,13 +194,11 @@ export default function CVPage() {
                 {t('experience.independent.intro')}
               </p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t
-                  .raw('experience.independent.items')
-                  .map((item: { label: string; text: string }, idx: number) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
+                {cv.experience.independent.items.map((item, idx) => (
+                  <li key={idx}>
+                    <strong>{item.label}</strong> {item.text}
+                  </li>
+                ))}
               </ul>
             </Card>
 
@@ -221,11 +213,9 @@ export default function CVPage() {
                 {t('experience.voicemod.description')}
               </p>
               <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                {t
-                  .raw('experience.voicemod.items')
-                  .map((item: string, idx: number) => (
-                    <li key={idx}>{item}</li>
-                  ))}
+                {cv.experience.voicemod.items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
             </Card>
           </div>
@@ -243,15 +233,11 @@ export default function CVPage() {
                   {t('techStack.backend.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.backend.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.backend.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -260,15 +246,11 @@ export default function CVPage() {
                   {t('techStack.frontend.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.frontend.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.frontend.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -277,15 +259,11 @@ export default function CVPage() {
                   {t('techStack.serverless.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.serverless.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.serverless.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

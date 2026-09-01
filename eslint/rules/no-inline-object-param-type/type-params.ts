@@ -2,7 +2,7 @@ import type { Rule, SourceCode } from 'eslint';
 import type * as ESTree from 'estree';
 
 import type { Named, WithText } from '../estree-mixins';
-import { type AstNode, type FunctionNode, tsType } from './ast';
+import { type AstNode, type FunctionNode, parentOf, tsType } from './ast';
 
 /** All `TSTypeReference` identifier names appearing anywhere under `node`. */
 export function collectTypeReferences(
@@ -67,7 +67,7 @@ export function collectInScopeTypeParams(
       );
     }
     if (node === anchor) break;
-    node = node.parent;
+    node = parentOf(node);
   }
   declarations.reverse();
   const result: ScopedTypeParam[] = [];

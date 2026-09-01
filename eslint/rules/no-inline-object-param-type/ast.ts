@@ -170,6 +170,15 @@ export function isRedundantDefaultedObjectParam(
   });
 }
 
+/**
+ * The node's parent, or `null` at the root. ESLint types `parent` as
+ * non-nullable, so a walk that reads it directly gets a termination check the
+ * type checker believes is dead — this states the runtime truth once instead.
+ */
+export function parentOf(node: Rule.Node): Rule.Node | null {
+  return (node as { parent?: Rule.Node | null }).parent ?? null;
+}
+
 /** Whether `anchor`'s direct parent is the module root (a safe insertion point). */
 function isModuleTopLevel(anchor: ESTree.Node): boolean {
   const parent = (anchor as Rule.Node).parent as ESTree.Node | null;

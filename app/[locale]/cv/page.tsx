@@ -1,5 +1,7 @@
-import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
 
+import { MESSAGES } from '@/i18n/messages';
 import { routing } from '@/i18n/routing';
 
 import { generateCvMetadata } from '@/app/cv/cv-utils';
@@ -10,7 +12,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
@@ -22,10 +24,12 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function Page({ params }: Props) {
   const { locale } = await params;
-  const messages = (await import(`@/messages/${locale}.json`)).default;
+  // `generateStaticParams` only emits the configured locales, so this narrows
+  // the segment to a catalog key rather than guarding a reachable case.
+  if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
-    <NextIntlClientProvider {...{ locale, messages }}>
+    <NextIntlClientProvider {...{ locale, messages: MESSAGES[locale] }}>
       <CVPage />
     </NextIntlClientProvider>
   );

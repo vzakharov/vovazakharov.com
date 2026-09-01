@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ArticleCard, Card,ProjectCard } from '@/components/card';
+import { ArticleCard, Card, ProjectCard } from '@/components/card';
 import { ThemeToggle } from '@/components/theme-toggle';
+
+const BUILD_YEAR = new Date().getFullYear();
 
 export default function Home() {
   return (
@@ -240,6 +242,7 @@ export default function Home() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/3tnTz9WCaghp3PJPSsTxQW?utm_source=generator"
+                title="GENERATED on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -256,6 +259,7 @@ export default function Home() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2rdnjZV6ahlz4pKeh9a8B3?utm_source=generator"
+                title="Полуживые on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -270,6 +274,7 @@ export default function Home() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2vN8JKg3rQLxleZ9xsafy6?utm_source=generator"
+                title="Downtemple on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -437,9 +442,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20">
-          <p>
-            © {new Date().getFullYear()} Vova Zakharov. Built with Next.js.
-          </p>
+          <p>© {BUILD_YEAR} Vova Zakharov. Built with Next.js.</p>
         </footer>
       </div>
     </div>

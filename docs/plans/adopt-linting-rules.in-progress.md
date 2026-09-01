@@ -3,8 +3,8 @@
 ## Goal
 
 Replace this repo's 30-line `eslint.config.mjs` with the explicit, auditable ruleset
-`playgramapp` runs — *every rule listed as `error` or `off`, never `warn`, each `off`
-carrying its rationale* — scaled down to what a static-export marketing/CV site actually
+`playgramapp` runs — _every rule listed as `error` or `off`, never `warn`, each `off`
+carrying its rationale_ — scaled down to what a static-export marketing/CV site actually
 has. The custom rules (upstream's `playgram/*`; `vova/*` here — see "Decisions") are
 triaged individually: ported where the premise
 survives the move, dropped where it doesn't.
@@ -18,14 +18,14 @@ than a softened one.
 
 ## Starting point
 
-| | this repo | `playgramapp` |
-|---|---|---|
-| ESLint | `^9` | `10.0.3` |
-| Config | `eslint.config.mjs`, 30 lines | `eslint.config.ts` + `eslint/` (rule groups, 30 custom rules) |
-| Presets | `next/core-web-vitals`, `next/typescript`, `prettier` | + `@eslint-react`, `unicorn`, `react-compiler`, `jsx-a11y` (all 39), `simple-import-sort`, `boundaries`, `drizzle` |
-| Type-aware linting | no | yes (`projectService: true`) |
-| Prettier | run **through** ESLint (`eslint-plugin-prettier`) *and* standalone | standalone only; `eslint-config-prettier` just disables conflicts |
-| `tsconfig` strictness | `strict` only | `strict` + 13 extra flags |
+|                       | this repo                                                          | `playgramapp`                                                                                                      |
+| --------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| ESLint                | `^9`                                                               | `10.0.3`                                                                                                           |
+| Config                | `eslint.config.mjs`, 30 lines                                      | `eslint.config.ts` + `eslint/` (rule groups, 30 custom rules)                                                      |
+| Presets               | `next/core-web-vitals`, `next/typescript`, `prettier`              | + `@eslint-react`, `unicorn`, `react-compiler`, `jsx-a11y` (all 39), `simple-import-sort`, `boundaries`, `drizzle` |
+| Type-aware linting    | no                                                                 | yes (`projectService: true`)                                                                                       |
+| Prettier              | run **through** ESLint (`eslint-plugin-prettier`) _and_ standalone | standalone only; `eslint-config-prettier` just disables conflicts                                                  |
+| `tsconfig` strictness | `strict` only                                                      | `strict` + 13 extra flags                                                                                          |
 
 ## Scope
 
@@ -48,22 +48,22 @@ than a softened one.
   grandfather with a scoped `off`, never a softened severity). This is the rule that keeps
   the ruleset from decaying, so it ports with the config.
 - **The `tsconfig.json` strictness flags**, because several rule-group `off`s are
-  *delegations* to them and become silent coverage gaps without them
+  _delegations_ to them and become silent coverage gaps without them
   (`@typescript-eslint/no-unused-vars` → `noUnusedLocals`/`noUnusedParameters`,
   `consistent-return` → `noImplicitReturns`, `dot-notation` →
   `noPropertyAccessFromIndexSignature`).
 
 ### Excluded, with reasons
 
-| Not adopted | Why |
-|---|---|
-| `eslint-plugin-boundaries` + `eslint/boundaries.ts` | Enforces FSD layer imports. This repo has no FSD layers — `app/`, `components/`, `lib/` is flat. |
-| `eslint-plugin-drizzle` | No ORM, no database. |
-| Steiger | FSD file-structure validator; same reason as `boundaries`. |
-| Stylelint (`stylelint.config.mjs`, `stylelint/rules/`) | Their setup is `stylelint-config-standard-scss` for SCSS-authored CSS modules. This repo's only stylesheet is `app/globals.css`, a Tailwind 4 entry — `@theme`/`@apply`/`@custom-variant` at-rules that standard Stylelint flags as unknown. Adopting it would be net-negative config churn for one file. |
-| `eslint/no-install-scripts.ts`, `eslint/bare-node-deploy.ts` | Guard modules that run under bare `node` with no install (their nightly CI tools, Railway pre-deploy gates). Nothing here runs that way. |
-| The ESLint 10 workarounds | The pinned `react` version override and the manual `{ plugins: { react: reactPlugin } }` re-registration exist because `eslint-config-next` ships an `eslint-plugin-react` that breaks under ESLint 10 (`getFilename()`/`getSourceCode()` removed — vercel/next.js#89764). On ESLint 9 the spread registers cleanly, so both workarounds are dropped rather than copied. |
-| Their scoped-override blocks | Every one of them exempts infrastructure this repo doesn't have (Mantine wrappers, safe-action internals, `db-url.ts`, worker threads, the two grandfathering backlogs). New overrides get written from this repo's own violations instead. |
+| Not adopted                                                  | Why                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `eslint-plugin-boundaries` + `eslint/boundaries.ts`          | Enforces FSD layer imports. This repo has no FSD layers — `app/`, `components/`, `lib/` is flat.                                                                                                                                                                                                                                                                         |
+| `eslint-plugin-drizzle`                                      | No ORM, no database.                                                                                                                                                                                                                                                                                                                                                     |
+| Steiger                                                      | FSD file-structure validator; same reason as `boundaries`.                                                                                                                                                                                                                                                                                                               |
+| Stylelint (`stylelint.config.mjs`, `stylelint/rules/`)       | Their setup is `stylelint-config-standard-scss` for SCSS-authored CSS modules. This repo's only stylesheet is `app/globals.css`, a Tailwind 4 entry — `@theme`/`@apply`/`@custom-variant` at-rules that standard Stylelint flags as unknown. Adopting it would be net-negative config churn for one file.                                                                |
+| `eslint/no-install-scripts.ts`, `eslint/bare-node-deploy.ts` | Guard modules that run under bare `node` with no install (their nightly CI tools, Railway pre-deploy gates). Nothing here runs that way.                                                                                                                                                                                                                                 |
+| The ESLint 10 workarounds                                    | The pinned `react` version override and the manual `{ plugins: { react: reactPlugin } }` re-registration exist because `eslint-config-next` ships an `eslint-plugin-react` that breaks under ESLint 10 (`getFilename()`/`getSourceCode()` removed — vercel/next.js#89764). On ESLint 9 the spread registers cleanly, so both workarounds are dropped rather than copied. |
+| Their scoped-override blocks                                 | Every one of them exempts infrastructure this repo doesn't have (Mantine wrappers, safe-action internals, `db-url.ts`, worker threads, the two grandfathering backlogs). New overrides get written from this repo's own violations instead.                                                                                                                              |
 
 ## Custom-rule triage
 
@@ -74,17 +74,17 @@ suite?**
 
 ### Port (9)
 
-| Rule | Why it survives |
-|---|---|
-| `no-default-true` | Boolean params must default off (invert `enabled=true` → `disabled=false`). Pure language convention. |
-| `no-redundant-type-alias` | `type A = B` that only renames a named type. Generic TS; its one `@/shared/typings` import is a type-only `{ type: string }` helper to inline. |
-| `no-redundant-property-copy` | Prefer destructuring over `key: source.key`. Generic. |
-| `no-redundant-defaulted-param-type` | Drops a named annotation on a fully-defaulted destructured param when types prove it redundant. Type-aware, generic. |
-| `no-inline-object-param-type` | Inline object type literals in params must be extracted to a named alias. Generic TS; the largest port (5 files, ~800 lines) and the one with real ongoing value as the CV/case-study components grow. |
-| `no-split-jsx-spreads` | Multiple `{...{ prop }}` spreads on one element belong in one. Generic JSX. |
-| `prefer-shorthand-spread` | `{...{ prop }}` over `prop={prop}`. Generic JSX; pairs with the rule above and with `no-split-jsx-spreads`'s shared `jsx-reserved-attrs` helper. |
-| `no-uncaused-rethrow` | `throw new X(…)` in a `catch` must carry the caught error as `{ cause }`. The *check* is generic; only the autofix is coupled (it injects `toError` from `@/shared/logging`, which doesn't exist here). Port the check, reduce the suggestion to the `cause`-threading fix without the import injection. |
-| `no-hardcoded-strings` | Flags string literals on user-facing JSX props (`title`, `label`, `alt`, `aria-label`, …). Their target is a slice's `config/texts.ts`; ours is next-intl. The rule body is convention-agnostic — only the diagnostic message names `texts.ts`. Re-point the message at `messages/*.json` + `useTranslations`. This is the one rule with a *direct* bug to catch here: a hardcoded English string silently defeats the `ru` locale. |
+| Rule                                | Why it survives                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `no-default-true`                   | Boolean params must default off (invert `enabled=true` → `disabled=false`). Pure language convention.                                                                                                                                                                                                                                                                                                                               |
+| `no-redundant-type-alias`           | `type A = B` that only renames a named type. Generic TS; its one `@/shared/typings` import is a type-only `{ type: string }` helper to inline.                                                                                                                                                                                                                                                                                      |
+| `no-redundant-property-copy`        | Prefer destructuring over `key: source.key`. Generic.                                                                                                                                                                                                                                                                                                                                                                               |
+| `no-redundant-defaulted-param-type` | Drops a named annotation on a fully-defaulted destructured param when types prove it redundant. Type-aware, generic.                                                                                                                                                                                                                                                                                                                |
+| `no-inline-object-param-type`       | Inline object type literals in params must be extracted to a named alias. Generic TS; the largest port (5 files, ~800 lines) and the one with real ongoing value as the CV/case-study components grow.                                                                                                                                                                                                                              |
+| `no-split-jsx-spreads`              | Multiple `{...{ prop }}` spreads on one element belong in one. Generic JSX.                                                                                                                                                                                                                                                                                                                                                         |
+| `prefer-shorthand-spread`           | `{...{ prop }}` over `prop={prop}`. Generic JSX; pairs with the rule above and with `no-split-jsx-spreads`'s shared `jsx-reserved-attrs` helper.                                                                                                                                                                                                                                                                                    |
+| `no-uncaused-rethrow`               | `throw new X(…)` in a `catch` must carry the caught error as `{ cause }`. The _check_ is generic; only the autofix is coupled (it injects `toError` from `@/shared/logging`, which doesn't exist here). Port the check, reduce the suggestion to the `cause`-threading fix without the import injection.                                                                                                                            |
+| `no-hardcoded-strings`              | Flags string literals on user-facing JSX props (`title`, `label`, `alt`, `aria-label`, …). Their target is a slice's `config/texts.ts`; ours is next-intl. The rule body is convention-agnostic — only the diagnostic message names `texts.ts`. Re-point the message at `messages/*.json` + `useTranslations`. This is the one rule with a _direct_ bug to catch here: a hardcoded English string silently defeats the `ru` locale. |
 
 Supporting helpers that come along because ported rules import them: `estree-mixins.ts`,
 `jsx-reserved-attrs.ts`, `type-services.ts`.
@@ -96,7 +96,7 @@ Supporting helpers that come along because ported rules import them: `estree-mix
 - **Server actions** — `safe-action-required`, `safe-action-name-matches-const`,
   `no-direct-safe-action-call`, `no-subaction-server-export`,
   `server-actions-barrel-use-server`. `output: 'export'` makes server actions
-  *unrepresentable*, not merely unused — these can never fire.
+  _unrepresentable_, not merely unused — these can never fire.
 - **Mantine** — `no-direct-mantine-button-import`,
   `no-autosize-textarea-styles-input-height`. This repo is Tailwind.
 - **Their module conventions** — `prefer-isnil-isempty`, `prefer-omit-undefined` (both
@@ -141,9 +141,8 @@ Noted here so the decision is findable, not re-derived.
 6. **Fix the violations.** Expected, from reading the tree:
    - `unicorn/filename-case` over the eight PascalCase files — the kebab-case renames
      under "Decisions", each with its importers updated.
-   - `i18n/request.ts`: `(await import(\`../messages/${locale}.json\`)).default` is `any`,
-     so `no-unsafe-assignment`/`no-unsafe-return` fire. Fix by typing the catalog against
-     `en.json` rather than casting.
+   - `i18n/request.ts`: `(await import(\`../messages/${locale}.json\`)).default`is`any`,
+so `no-unsafe-assignment`/`no-unsafe-return`fire. Fix by typing the catalog against`en.json` rather than casting.
    - `@typescript-eslint/consistent-type-imports` (inline `fixStyle`) and
      `simple-import-sort/imports` will rewrite most import blocks — both autofixable.
    - `jsx-a11y` at full strength (39 rules vs. the 6 `eslint-config-next` enables at warn)
@@ -174,10 +173,10 @@ PascalCase files rename to match: `Card.tsx` → `card.tsx`, `ThemeToggle.tsx` �
 `CVPage.tsx` → `cv-page.tsx`, `LocalePicker.tsx` → `locale-picker.tsx`, `ThemeProvider.tsx`
 → `theme-provider.tsx`, `useMounted.ts` → `use-mounted.ts`, with their importers updated.
 Use `git mv` so history follows. Next's own reserved filenames (`page.tsx`, `layout.tsx`)
-are already kebab-compatible and unaffected. *Rejected: exempting PascalCase via
+are already kebab-compatible and unaffected. _Rejected: exempting PascalCase via
 `cases: { kebabCase: true, pascalCase: true }`, or disabling the rule — both keep the
 current names but forfeit the parity that is the point of the adoption, on eight files
-whose rename is mechanical.*
+whose rename is mechanical._
 
 **`trailingComma` becomes `"all"`**, matching the source and Prettier 3's own default. The
 resulting reformat is part of the same pass.
@@ -196,18 +195,18 @@ runs. `playgramapp` keeps only `eslint-config-prettier` (which is purely a list 
 disabling rules that fight Prettier, and stays either way) and lets Prettier run as its own
 binary.
 
-  - **(a) Drop `eslint-plugin-prettier`.** — **Recommended**, and written into the plan as
-    the operative choice. It collapses a doubled failure into one, keeps ESLint's output
-    about correctness rather than whitespace — which matters far more once the rule count
-    goes from ~30 to several hundred including the type-aware ones — and drops a Prettier
-    pass over every file from every lint run. Coverage is unchanged: `format:check` was
-    always the check doing the work. The usual cost is editor feedback, and it does not
-    apply here: `.vscode/settings.json` already sets `formatOnSave` with
-    `esbenp.prettier-vscode` as the default formatter for every language in the project,
-    with ESLint wired separately to `source.fixAll.eslint`. Prettier is already the
-    editor's formatter. The one real change is that `pnpm lint` (`eslint . --fix`) stops
-    reformatting as a side effect; `pnpm format` is that command.
-  - (b) Keep it, accepting the duplicate check and the formatting noise in ESLint output.
+- **(a) Drop `eslint-plugin-prettier`.** — **Recommended**, and written into the plan as
+  the operative choice. It collapses a doubled failure into one, keeps ESLint's output
+  about correctness rather than whitespace — which matters far more once the rule count
+  goes from ~30 to several hundred including the type-aware ones — and drops a Prettier
+  pass over every file from every lint run. Coverage is unchanged: `format:check` was
+  always the check doing the work. The usual cost is editor feedback, and it does not
+  apply here: `.vscode/settings.json` already sets `formatOnSave` with
+  `esbenp.prettier-vscode` as the default formatter for every language in the project,
+  with ESLint wired separately to `source.fixAll.eslint`. Prettier is already the
+  editor's formatter. The one real change is that `pnpm lint` (`eslint . --fix`) stops
+  reformatting as a side effect; `pnpm format` is that command.
+- (b) Keep it, accepting the duplicate check and the formatting noise in ESLint output.
 
 ## DRY notes
 
@@ -224,7 +223,7 @@ binary.
   the "rule files use relative imports, never `@/`" constraint hold trivially here.
 - **Deliberate near-duplication in the rule-group files.** `core.ts` and `typescript.ts`
   both name rules like `no-loop-func` — one turning the core rule `off`, the other enabling
-  the `@typescript-eslint` replacement. That pairing *is* the audit trail the config's
+  the `@typescript-eslint` replacement. That pairing _is_ the audit trail the config's
   philosophy promises; collapsing it into a generated "core rule → TS replacement" map
   would hide the rationale comments that are the whole point. Keep both lines.
 - **No shared abstraction over the ported rules.** Each is an independent `Rule.RuleModule`.
