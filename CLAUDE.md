@@ -20,10 +20,11 @@ This file is intentionally bare. It carries only the conventions that hold true 
 | `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`).                                                                                                        |
 | `hooks/`      | React hooks (`useMounted` — the hydration guard theme-dependent UI needs).                                                                                                                        |
 | `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading).                                                                                |
-| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`.                                                                                                    |
+| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by).                        |
 | `messages/`   | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other.                                                                                   |
 | `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                                |
-| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                                              |
+| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`.                                                       |
+| `docs/`       | Long-form prose: `decisions/` for standing decisions with their rationale, `plans/` for the plan files `/plan` writes.                                                                            |
 | `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                  |
 
 ## Deployment
@@ -40,16 +41,18 @@ Here that is:
 
 ```bash
 pnpm build            # next build — the only end-to-end check available
-pnpm typecheck        # tsc --noEmit          ┐
-pnpm exec eslint .    # not `pnpm lint`       │ concurrent
-pnpm format:check     # prettier --check .    ┘
+pnpm typecheck        # tsc --noEmit                     ┐
+pnpm exec eslint .    # not `pnpm lint`                  │ concurrent
+pnpm format:check     # prettier --check .               │
+pnpm type-overlap     # scripts/type-overlap-check.ts    ┘
 ```
 
-Three things about that list are deliberate:
+Four things about that list are deliberate:
 
 - **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The build runs alone, before the other three.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other three touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
+- **The build runs alone, before the other three.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The others touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
+- **`pnpm type-overlap` fails on any member two named types both declare**, at a floor of 1 with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the other three safely. Working a finding, the naming families for a base, and the gate's known blind spots: `docs/decisions/type-overlap-and-shared-bases.md`.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
@@ -95,6 +98,7 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 - Use your ORM/library's derivation utilities (e.g. `drizzle-zod`, Pydantic's `from_orm`, `sqlc`-generated types).
 - When a runtime schema exists, infer the type from it rather than declaring a parallel type.
 - For enums, define the values as a `const` array and derive the typed schema from it (`z.enum(VALUES)`, equivalents in other stacks). Use the array's element type for dispatch maps so the compiler enforces exhaustiveness.
+- **Every member two named types both declare has exactly one home** — a shared base type they both intersect (`type Foo = Titled & { …own members… }`). This is the member-level half of the rule above: it covers a shape tracking nothing but a sibling's copy of itself. `pnpm type-overlap` enforces it at a floor of 1, and `interface` is banned repo-wide (`@typescript-eslint/consistent-type-definitions`) because the gate scans type aliases only. Full reference: `docs/decisions/type-overlap-and-shared-bases.md`.
 
 ## Testing
 
