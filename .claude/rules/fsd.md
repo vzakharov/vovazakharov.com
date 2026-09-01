@@ -54,6 +54,6 @@ through their public APIs.
 
 ## Traps
 
-- **Root `pages/` must keep existing.** Next resolves `pages` as root `pages/` first and `src/pages/` second, then refuses to build when its parent differs from `app/`'s. `pages/README.md` is what keeps the FSD pages layer invisible to the router. Never put route files there.
+- **Root `pages/` must keep existing**, empty of routes — it is what keeps the FSD pages layer invisible to the router. `pages/README.md` has the mechanism.
 - **`@/` points at `src/`.** Anything outside it — `public/`, `content/` — is reached by URL or relative path, not by alias.
 - **next-intl's request config is found by path, not by import.** `next.config.ts` names `./src/shared/i18n/request.ts` explicitly; moving that file means editing the config.

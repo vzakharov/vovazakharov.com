@@ -12,13 +12,12 @@ const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 const PUBLIC_API = 'index.ts';
 
 // Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
-// discipline at CLI time; the boundaries plugin restates them as inline editor
-// feedback, which Steiger has no live extension for. Scoped to src/ — the App
-// Router at root `app/` is the FSD app layer, above every slice, and imports
-// downward by definition.
+// discipline at CLI time; boundaries restates them as inline editor feedback,
+// which Steiger has no live extension for. Scoped to src/ — root `app/` is the
+// FSD app layer, above every slice, so it imports downward by definition.
 //
-// Everything is expressed through `boundaries/dependencies`: v7 deprecated the
-// separate `entry-point` and `external` rules in favour of policies on it.
+// `boundaries/dependencies` carries all of it: v7 folds the former `entry-point`
+// and `external` rules into its policies.
 const boundariesConfig = {
   plugins: { boundaries: boundariesPlugin },
   files: ['src/**/*.{ts,tsx}'],
@@ -30,9 +29,9 @@ const boundariesConfig = {
         capture: ['sliceName'],
         partialMatch: false,
       })),
-      // Listed before the generic shared pattern so it wins the match:
-      // shared/lib is addressed one sub-library at a time, not through a
-      // segment-wide barrel it deliberately does not have.
+      // Ordered before the generic shared pattern so it wins the match:
+      // shared/lib is addressed one sub-library at a time, never through a
+      // segment-wide barrel.
       {
         type: 'shared',
         pattern: ['src/shared/lib/(*)/**'],
