@@ -1,7 +1,8 @@
 # Type Overlap & Shared Bases
 
 **Every member two named types both declare has exactly one home — a shared base type they
-both intersect. Enforced at threshold 1 by `pnpm type-overlap`, in `vet`.**
+both intersect; and every _combination_ of bases two types both spell has a name of its own.
+Enforced by `pnpm type-overlap`, in `vet`, at threshold 1 for members and 2 for combinations.**
 
 _Adopted wholesale from `Playgramai/playgramapp`, where the detector was ratcheted 4→3→2→1 over
 several batches before landing globally at 1. This repo starts at 1: it was clean at that floor on
@@ -48,22 +49,47 @@ and category three above is only reachable at 1, every lying key and drifted ste
 shared exactly one member. A base over a recurring primitive costs one intersection and buys the
 seam. What it does not buy is coverage the detector's syntax can't see (§8).
 
+### Why combinations start at 2
+
+A second pass applies the same rule one level up: the _set of named constituents_ two types both
+spell. `Titled & Described` written out twice is the same shape under two spellings, and the member
+pass is blind to it by construction — it counts those constituents as inherited, which is the very
+property that lets `& Base` clear a member finding.
+
+**Its floor is 2, and that is not a rung to ratchet down.** One shared base is reuse working as
+intended — it is the end state every member finding is fixed _into_, so flagging it would fail the
+gate for obeying the gate. Two is the point at which a combination becomes a thing worth naming.
+
+A pure combination alias (`type Summarized = Titled & Described`) is itself a participant, so a type
+respelling the combination is flagged against it and the fix the finding names is "use the alias
+that already exists" rather than "mint a second one".
+
 ## 2. The mechanism
 
 `scripts/type-overlap-check.ts`, wired into `scripts/vet.sh`. Nothing runs on pull requests here
 (see CLAUDE.md → Deployment), so the vet run is the only place the gate fires — which makes
 `/finalize` the point at which a branch is actually held to it.
 
-Only a type's _own_ members count — the named constituents of an intersection are inherited — which
-is exactly why `& Base` on both types makes a finding disappear. Two members are "the same" when
-their normalized signature text (name, modifiers, type annotation, whitespace-collapsed) is
-identical, so `title?` ≠ `title` and `path: string | undefined` ≠ `path?: string` — a pair that is
-materially different as a contract too (§3), not merely as text. Findings group by identical shared
-member set, so one extraction clears a whole group, and a type sharing _different_ sets with
-different partners needs a base for each.
+Two passes run over the same set of aliases, both pairwise, and the run fails when either has
+findings.
 
-**Threshold 1 is the floor.** `TYPE_OVERLAP_MIN` overrides it upward only, so it can triage a looser
-run but never preview a stricter one.
+**The member pass** counts only a type's _own_ members — the named constituents of an intersection
+are inherited — which is exactly why `& Base` on both types makes a finding disappear. Two members
+are "the same" when their normalized signature text (name, modifiers, type annotation,
+whitespace-collapsed) is identical, so `title?` ≠ `title` and `path: string | undefined` ≠
+`path?: string` — a pair that is materially different as a contract too (§3), not merely as text.
+
+**The combination pass** takes the other half of each intersection: every constituent that is not an
+object literal, so `Titled`, `Maybe<Foo>` and `Pick<X, 'y'>` all count. The two halves partition the
+constituents, which is what keeps them from needing a carve-out to hold in sync. An alias with no
+own members takes part in this pass alone.
+
+Findings group by identical shared set, so one extraction clears a whole group, and a type sharing
+_different_ sets with different partners needs a base for each.
+
+**Both thresholds are floors** — 1 for members, 2 for combinations (§1). `TYPE_OVERLAP_MIN` and
+`TYPE_OVERLAP_BASES_MIN` override them upward only, so a run can triage a looser gate but never
+preview a stricter one.
 
 **The scan covers the whole repo** minus dot-directories, dependencies, build output, `public/` and
 `tmp/`. A skip-list rather than upstream's root allowlist, because the failure modes are not
@@ -235,9 +261,11 @@ The order of work on a finding:
 7. **Extract**, and delete any alias that collapsed to a pure rename of one base.
 8. **Sweep**: orphaned docstrings (§7), then `./scripts/vet.sh`.
 9. **For a gate change, assert the failure mode as well as the success one.** A clean run proves the
-   repo is deduped; it does not prove the gate still fires. A throwaway two-type file sharing one
-   member, confirming the run fails and names the pair, takes ten seconds and is the only evidence
-   that distinguishes the two.
+   repo is deduped; it does not prove the gate still fires. A throwaway two-type file — sharing one
+   member for the member pass, spelling one combination twice for the other — confirming the run
+   fails and names the types, takes ten seconds and is the only evidence that distinguishes the two.
+   **The probe cannot live in `tmp/`**, which the scanner skips; put it somewhere scanned, under a
+   name that reads as disposable, and delete it before committing.
 
 ## 7. Docstrings on a base
 
@@ -274,13 +302,13 @@ The floor is not complete coverage.
   should compose the bases too, and nothing but review will tell you when it doesn't.** There is no
   suite here yet (CLAUDE.md → Testing); the exclusion is inherited so that adding one doesn't
   immediately light the gate up.
-- **A repeated _combination_ of bases is invisible**, because constituents count as inherited. Two
-  types that both spell `Titled & Described` are clean by the gate and duplicated in exactly the
-  sense a shared member is — the same shape under two spellings, one level up. The fix is the same
-  move applied to the combination: name it and intersect that. Until the detector covers it
-  ([#17](https://github.com/vzakharov/vovazakharov.com/issues/17)), catching it is review's job, so
-  read the constituent lists of a group's types, not only their own members. The floor there cannot
-  be 1 — one shared base is reuse working as intended.
+- **Combinations match syntactically, so an alias and its expansion don't.** The combination pass
+  compares constituent _text_, exactly as the member pass compares signature text. A type spelling
+  `Summarized` and one spelling `Titled & Described` therefore share a combination without sharing a
+  token, and the gate sees two unrelated sets. Resolving the alias graph would catch it and is a
+  separate change; until then, reading a group's constituent lists is review's job. **And a single
+  shared base is never flagged** — deliberately, per §1 — so two types differing by one base each are
+  clean by design, not by oversight.
 - **Inline shapes are invisible at any threshold**, in three positions: a return type, a `const`
   annotation, and — the one that matters most — a **render-prop's argument type**, which is a
   contract between two files and drifts exactly like a named type. So grep the key in inline

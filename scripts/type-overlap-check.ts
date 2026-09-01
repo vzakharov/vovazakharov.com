@@ -296,7 +296,9 @@ const fixSteps = [
     ? ['       - members → `type Foo = SomeBase & { …own members… }`']
     : []),
   ...(baseFindings.groups.length > 0
-    ? ['       - bases   → `type SomeBase = A & B`, then `type Foo = SomeBase & { … }`']
+    ? [
+        '       - bases   → `type SomeBase = A & B`, then `type Foo = SomeBase & { … }`',
+      ]
     : []),
 ];
 
