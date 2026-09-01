@@ -18,8 +18,10 @@ fails on any member both declare. Only a type's own members count, so
 extracting a base and intersecting it from both sides clears a finding;
 lib/typings.ts is the catalog those bases live in. It runs in
 scripts/vet.sh, the only place it can fire — nothing runs on pull
-requests here — and its README carries the rationale, the naming
-families and the blind spots.
+requests here — beside a README carrying the rationale, the naming
+families and the blind spots. Eslint and prettier now skip tmp/ as the
+gate does, so a scratch file no longer fails the run on formatting it
+has no reason to obey.
 
 Two adaptations, both because the layout differs: upstream's root
 allowlist becomes a skip-list, which at worst scans a directory holding
@@ -27,8 +29,6 @@ no types where an allowlist silently un-scans the next one added; and
 `interface` is banned repo-wide, the detector reading type aliases only.
 The four interfaces convert, and the one finding — Card.tsx's card props
 both declaring title and description — is cleared by a Summarized base.
-Eslint and prettier pick up the gate's own skip of tmp/, so the scratch
-directory CLAUDE.md mandates no longer fails vet on a spike's formatting.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
