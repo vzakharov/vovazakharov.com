@@ -1,0 +1,38 @@
+import 'server-only';
+
+import { z } from 'zod';
+
+/**
+ * Frontmatter carries only what the markdown cannot express on its own. The
+ * title, word count and heading outline are derived from the document body, so
+ * they are deliberately absent here — a second copy would be free to drift.
+ */
+export const frontmatterSchema = z.object({
+  /** Meta description and index-card blurb. */
+  description: z.string().min(1),
+  /** Published date. YAML parses an unquoted `2026-08-29` into a Date. */
+  date: z.coerce.date(),
+  /** Free-text series marker, e.g. `I of II`. */
+  part: z.string().min(1).optional(),
+  /** Open Graph image, relative to the document. */
+  ogImage: z.string().min(1).optional(),
+});
+
+export type Frontmatter = z.infer<typeof frontmatterSchema>;
+
+/**
+ * `gray-matter` hands back `{[key: string]: any}`, so this is the boundary
+ * where content becomes typed. Parses rather than casts, and names the file in
+ * the failure so a bad document is obvious at build time.
+ */
+export function parseFrontmatter(data: unknown, fileName: string): Frontmatter {
+  const result = frontmatterSchema.safeParse(data);
+
+  if (!result.success) {
+    throw new Error(
+      `Invalid frontmatter in ${fileName}:\n${z.prettifyError(result.error)}`
+    );
+  }
+
+  return result.data;
+}

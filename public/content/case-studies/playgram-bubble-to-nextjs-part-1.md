@@ -291,6 +291,12 @@ As an example, here's the real import graph of the final state — every arrow i
 
 ```mermaid
 flowchart TD
+    accDescr {
+      The final codebase's import graph, six layers deep and acyclic. app sits at
+      the top, then pages, widgets, features, entities, and shared at the bottom.
+      Every arrow points downward and is labelled with the number of import
+      statements crossing it; shared receives the most by a wide margin.
+    }
     app["app · 207 files"]
     pages["pages · 757 files"]
     widgets["widgets · 149 files"]
@@ -551,6 +557,13 @@ So in the end, my usual flow goes like this:
 
 ```mermaid
 flowchart TD
+    accDescr {
+      The four-session flow a change passes through. A GitHub issue or one-line
+      ask feeds session 1, which writes a plan file; I review the plan, and
+      session 2 implements it into a draft PR; I review the diff, and session 3
+      addresses the code review, looping back on itself for further rounds;
+      session 4 finalizes, and I squash-merge.
+    }
     I["a GitHub issue, or a one-line ask"] --> S1
     S1["Session 1 — /issue or /plan<br/>a plan file, committed to the branch"]
     S2["Session 2 — /implement<br/>code, DRY pass, docs pass, draft PR"]
