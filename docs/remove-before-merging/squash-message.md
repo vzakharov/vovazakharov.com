@@ -25,9 +25,11 @@ failed, and exits non-zero, while still writing the Markdown.
 
 The watermark gains a `{path: note}` entry form for paths taken but not
 verbatim, so the next sync expects `translate` rather than `take` on
-commits touching them. /bootstrap-workflow-dispatch and
-scripts/run-parallel.sh are declined with conditions a later sync can
-re-check.
+commits touching them. CLAUDE.md takes that form — the port's
+decision-doc guidance stays out, this repo keeping no decision docs —
+as do this skill and scripts/vet.sh. /bootstrap-workflow-dispatch and
+scripts/run-parallel.sh are declined outright, with conditions a later
+sync can re-check.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
