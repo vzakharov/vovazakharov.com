@@ -3,21 +3,11 @@ import { ProjectCard, ArticleCard, Card } from '@/components/Card';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import Link from 'next/link';
 import { COLLECTIONS } from '@/lib/content/collections';
-import { listPrimaryDocuments } from '@/lib/content/documents';
-import { renderDocument } from '@/lib/content/render';
-
-/** Titles come from the documents themselves, so a renamed piece cannot drift. */
-async function featuredCaseStudies() {
-  return Promise.all(
-    listPrimaryDocuments('case-studies').map(async (document) => ({
-      document,
-      title: (await renderDocument(document)).title,
-    }))
-  );
-}
+import { renderPrimaryDocuments } from '@/lib/content/render';
 
 export default async function Home() {
-  const caseStudies = await featuredCaseStudies();
+  // Titles come from the documents themselves, so a renamed piece cannot drift.
+  const caseStudies = await renderPrimaryDocuments('case-studies');
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20">
@@ -94,7 +84,7 @@ export default async function Home() {
           <h3 className="text-2xl font-bold mt-8">Case studies</h3>
 
           <div className="space-y-4">
-            {caseStudies.map(({ document, title }) => (
+            {caseStudies.map(({ document, rendered }) => (
               <Link
                 key={document.slug}
                 href={document.route}
@@ -102,7 +92,7 @@ export default async function Home() {
               >
                 <Card>
                   <h4 className="text-xl font-bold mb-2 group-hover:underline">
-                    {title}
+                    {rendered.title}
                   </h4>
                   <p className="leading-relaxed">
                     {document.frontmatter.description}

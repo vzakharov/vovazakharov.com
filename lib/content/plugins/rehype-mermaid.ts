@@ -7,9 +7,12 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { PUBLIC_DIR } from '../collections';
-import { MERMAID_DIR, mermaidFileName, mermaidHash } from '../mermaid-hash.mjs';
-
-const THEMES = ['light', 'dark'] as const;
+import {
+  COLOR_SCHEMES,
+  MERMAID_DIR,
+  mermaidFileName,
+  mermaidHash,
+} from '../mermaid-hash.mjs';
 
 function fenceSource(pre: Element): string | undefined {
   const code = pre.children.find(
@@ -41,7 +44,10 @@ function accessibleDescription(source: string): string | undefined {
   return inline?.[1].trim();
 }
 
-function renderUrl(hash: string, theme: (typeof THEMES)[number]): string {
+function renderUrl(
+  hash: string,
+  theme: (typeof COLOR_SCHEMES)[number]
+): string {
   const fileName = mermaidFileName(hash, theme);
   const filePath = path.join(PUBLIC_DIR, MERMAID_DIR, fileName);
 
@@ -70,7 +76,7 @@ function diagramElement(hash: string, source: string): Element {
     type: 'element',
     tagName: 'figure',
     properties: { className: ['content-mermaid'] },
-    children: THEMES.map((theme) => ({
+    children: COLOR_SCHEMES.map((theme) => ({
       type: 'element' as const,
       tagName: 'img',
       properties: {

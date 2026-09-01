@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { ArticleBody } from '@/components/content/ArticleBody';
+import { BackToHome } from '@/components/content/BackToHome';
 import { ArticleHeader } from '@/components/content/ArticleHeader';
 import { TableOfContents } from '@/components/content/TableOfContents';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -95,11 +96,7 @@ export default async function ArticlePage({ params }: Props) {
           </article>
         </div>
 
-        <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
-          <Link href="/" className="underline">
-            ← Back to the home page
-          </Link>
-        </footer>
+        <BackToHome />
       </div>
     </div>
   );

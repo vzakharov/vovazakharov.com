@@ -41,7 +41,9 @@ function ExperienceCard({ entryKey }: { entryKey: string }) {
       {t.has(at('description')) && (
         <p className="mb-3 print:mb-1">{t(at('description'))}</p>
       )}
-      {t.has(at('intro')) && <p className="mb-3 print:mb-1">{t(at('intro'))}</p>}
+      {t.has(at('intro')) && (
+        <p className="mb-3 print:mb-1">{t(at('intro'))}</p>
+      )}
 
       <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1 last:mb-0">
         {items.map((item, index) => (

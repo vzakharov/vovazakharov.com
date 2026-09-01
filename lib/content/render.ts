@@ -14,7 +14,13 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import type { ContentDocument } from './documents';
+import type { CollectionId, Variant } from './collections';
+import {
+  listPrimaryDocuments,
+  siblingVariants,
+  type ContentDocument,
+} from './documents';
+import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
@@ -52,16 +58,6 @@ export interface RenderedDocument {
   headings: Heading[];
   wordCount: number;
   readingMinutes: number;
-}
-
-function textContent(node: Element): string {
-  return node.children
-    .map((child) => {
-      if (child.type === 'text') return child.value;
-      if (child.type === 'element') return textContent(child);
-      return '';
-    })
-    .join('');
 }
 
 /**
@@ -106,7 +102,7 @@ function collectHeadings(collected: { headings: Heading[] }) {
 
       if (depth === 0 || typeof id !== 'string') return;
 
-      collected.headings.push({ id, text: textContent(node), depth });
+      collected.headings.push({ id, text: hastText(node), depth });
     });
   };
 }
@@ -156,7 +152,10 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     title: collected.title,
     headings: collected.headings,
     wordCount: collected.wordCount,
-    readingMinutes: Math.max(1, Math.round(collected.wordCount / READING_SPEED)),
+    readingMinutes: Math.max(
+      1,
+      Math.round(collected.wordCount / READING_SPEED)
+    ),
   };
 }
 
@@ -176,4 +175,28 @@ export function renderDocument(
   cache.set(key, pending);
 
   return pending;
+}
+
+export interface DocumentCard {
+  document: ContentDocument;
+  rendered: RenderedDocument;
+  /** The shorter cuts that exist beside it, in `VARIANTS` order. */
+  variants: Variant[];
+}
+
+/**
+ * The full documents of a collection, rendered — what a list of cards needs.
+ * Rendering to read a title looks wasteful but is not: `renderDocument`
+ * memoizes, and the article page would parse the same file anyway.
+ */
+export function renderPrimaryDocuments(
+  collection: CollectionId
+): Promise<DocumentCard[]> {
+  return Promise.all(
+    listPrimaryDocuments(collection).map(async (document) => ({
+      document,
+      rendered: await renderDocument(document),
+      variants: siblingVariants(collection, document.slug),
+    }))
+  );
 }

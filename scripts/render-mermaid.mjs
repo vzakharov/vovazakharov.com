@@ -19,6 +19,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  COLOR_SCHEMES,
   MERMAID_DIR,
   mermaidFileName,
   mermaidHash,
@@ -28,8 +29,8 @@ const REPO_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT_ROOT = path.join(REPO_ROOT, 'public', 'content');
 const OUTPUT_DIR = path.join(REPO_ROOT, 'public', MERMAID_DIR);
 
-/** Mermaid's built-in themes, mapped to the site's two colour schemes. */
-const THEMES = { light: 'default', dark: 'dark' };
+/** The Mermaid built-in theme to render each colour scheme with. */
+const MERMAID_THEMES = { light: 'default', dark: 'dark' };
 
 const checkOnly = process.argv.includes('--check');
 
@@ -109,7 +110,7 @@ function renderFence({ hash, source }, chromium, puppeteerConfig) {
   );
   fs.writeFileSync(inputPath, source);
 
-  for (const [scheme, mermaidTheme] of Object.entries(THEMES)) {
+  for (const scheme of COLOR_SCHEMES) {
     execFileSync(
       'pnpm',
       [
@@ -120,7 +121,7 @@ function renderFence({ hash, source }, chromium, puppeteerConfig) {
         '--output',
         path.join(OUTPUT_DIR, mermaidFileName(hash, scheme)),
         '--theme',
-        mermaidTheme,
+        MERMAID_THEMES[scheme],
         '--backgroundColor',
         'transparent',
         // Keeps the two renders' generated ids stable, so re-rendering an
@@ -130,7 +131,10 @@ function renderFence({ hash, source }, chromium, puppeteerConfig) {
         '--puppeteerConfigFile',
         puppeteerConfig,
       ],
-      { stdio: 'inherit', env: { ...process.env, PUPPETEER_SKIP_DOWNLOAD: '1' } }
+      {
+        stdio: 'inherit',
+        env: { ...process.env, PUPPETEER_SKIP_DOWNLOAD: '1' },
+      }
     );
   }
 
@@ -148,14 +152,14 @@ function main() {
     .filter((name) => name.endsWith('.svg'));
 
   const missing = [...byHash.values()].filter((fence) =>
-    Object.keys(THEMES).some(
-      (scheme) =>
-        !existing.includes(mermaidFileName(fence.hash, scheme))
+    COLOR_SCHEMES.some(
+      (scheme) => !existing.includes(mermaidFileName(fence.hash, scheme))
     )
   );
 
+  const schemeSuffix = new RegExp(`\\.(${COLOR_SCHEMES.join('|')})\\.svg$`);
   const orphans = existing.filter(
-    (name) => !byHash.has(name.replace(/\.(light|dark)\.svg$/, ''))
+    (name) => !byHash.has(name.replace(schemeSuffix, ''))
   );
 
   console.log(
@@ -164,7 +168,8 @@ function main() {
   );
 
   if (checkOnly) {
-    for (const fence of missing) console.log(`  missing: ${fence.hash} in ${fence.file}`);
+    for (const fence of missing)
+      console.log(`  missing: ${fence.hash} in ${fence.file}`);
     for (const name of orphans) console.log(`  stale:   ${name}`);
     process.exitCode = missing.length || orphans.length ? 1 : 0;
     return;

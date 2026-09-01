@@ -8,6 +8,7 @@ import {
   documentRoute,
 } from '@/lib/content/collections';
 import type { ContentDocument } from '@/lib/content/documents';
+import { DocumentMeta } from './DocumentMeta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
 const CUT_LABELS: Record<Variant | 'full', string> = {
@@ -61,13 +62,6 @@ function CutSwitcher({
   );
 }
 
-const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
-
 export interface ArticleHeaderProps {
   document: ContentDocument;
   title: string;
@@ -94,19 +88,7 @@ export function ArticleHeader({
         </p>
       </div>
 
-      <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm opacity-70">
-        <time dateTime={frontmatter.date.toISOString().slice(0, 10)}>
-          {DATE_FORMAT.format(frontmatter.date)}
-        </time>
-        <span aria-hidden>·</span>
-        <span>{readingMinutes} min read</span>
-        {frontmatter.part && (
-          <>
-            <span aria-hidden>·</span>
-            <span>Part {frontmatter.part}</span>
-          </>
-        )}
-      </p>
+      <DocumentMeta frontmatter={frontmatter} readingMinutes={readingMinutes} />
 
       <div className="flex flex-wrap items-center justify-between gap-4">
         <CutSwitcher

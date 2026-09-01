@@ -1,8 +1,10 @@
 import 'server-only';
 
-import type { Element, ElementContent, Root } from 'hast';
+import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
+
+import { hastText } from '../hast-text';
 
 const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.mov', '.m4v'] as const;
 
@@ -27,13 +29,6 @@ function isVideoLink(node: Element): boolean {
       href.toLowerCase().split(/[?#]/)[0].endsWith(extension)
     )
   );
-}
-
-function textOf(node: ElementContent | Element): string {
-  if (node.type === 'text') return node.value;
-  if (node.type === 'element')
-    return node.children.map((child) => textOf(child)).join('');
-  return '';
 }
 
 /** The paragraph's only meaningful child, ignoring the whitespace around it. */
@@ -96,7 +91,7 @@ export const rehypeMediaEmbeds: Plugin<[], Root> = () => {
       const href = link.properties.href;
       if (typeof href !== 'string') return;
 
-      parent.children[index] = videoElement(href, textOf(link).trim());
+      parent.children[index] = videoElement(href, hastText(link).trim());
     });
   };
 };
