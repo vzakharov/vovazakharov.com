@@ -1,42 +1,18 @@
-@plugin '@tailwindcss/typography';
-
 /**
- * Rendered markdown, themed from the site's own `--foreground`/`--background`
- * tokens rather than with `dark:` utilities — the same way the rest of the site
- * themes itself, so both colour schemes follow from one set of variables.
+ * Rendered markdown. Mantine's `TypographyStylesProvider` supplies the base
+ * rhythm — heading scale, paragraph and list spacing, tables, blockquotes — off
+ * the same theme variables as the rest of the site, so only what the content
+ * pipeline itself emits is styled here.
  */
-.prose-content {
-  --tw-prose-body: var(--foreground);
-  --tw-prose-headings: var(--foreground);
-  --tw-prose-lead: var(--foreground);
-  --tw-prose-links: var(--foreground);
-  --tw-prose-bold: var(--foreground);
-  --tw-prose-counters: color-mix(in srgb, var(--foreground) 60%, transparent);
-  --tw-prose-bullets: color-mix(in srgb, var(--foreground) 40%, transparent);
-  --tw-prose-hr: color-mix(in srgb, var(--foreground) 20%, transparent);
-  --tw-prose-quotes: var(--foreground);
-  --tw-prose-quote-borders: color-mix(
-    in srgb,
-    var(--foreground) 40%,
-    transparent
-  );
-  --tw-prose-captions: color-mix(in srgb, var(--foreground) 70%, transparent);
-  --tw-prose-code: var(--foreground);
-  --tw-prose-pre-code: var(--foreground);
-  --tw-prose-th-borders: color-mix(in srgb, var(--foreground) 30%, transparent);
-  --tw-prose-td-borders: color-mix(in srgb, var(--foreground) 15%, transparent);
 
+.prose-content {
   /* Code sits on a tinted surface rather than either Shiki theme's own
      background, which for `github-light` is white and vanishes into the page. */
-  --code-surface: color-mix(in srgb, var(--foreground) 7%, var(--background));
-  --tw-prose-pre-bg: var(--code-surface);
-}
-
-/* Typography wraps inline code in literal backticks. The markdown already said
-   it was code; the monospace face says it again. */
-.prose-content code::before,
-.prose-content code::after {
-  content: none;
+  --code-surface: color-mix(
+    in srgb,
+    var(--color-foreground) 7%,
+    var(--color-background)
+  );
 }
 
 .prose-content :not(pre) > code {
@@ -62,7 +38,7 @@
 /* Part dividers. The leading `# ` is lifted into the page header, so every `h1`
    left in the body opens a new part. */
 .prose-content > h1 {
-  border-top: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  border-top: 1px solid var(--color-border-hairline);
   padding-top: 1.5em;
 }
 
@@ -86,8 +62,8 @@
   display: block;
   width: 100%;
   margin: 1.5em 0;
-  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
-  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+  border: 1px solid var(--color-border-hairline);
+  background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
 }
 
 /* Each Mermaid fence renders to a committed pair of SVGs; the theme picks one.
@@ -104,11 +80,11 @@
 }
 
 .content-mermaid > .content-mermaid-dark,
-.dark .content-mermaid > .content-mermaid-light {
+[data-mantine-color-scheme='dark'] .content-mermaid > .content-mermaid-light {
   display: none;
 }
 
-.dark .content-mermaid > .content-mermaid-dark {
+[data-mantine-color-scheme='dark'] .content-mermaid > .content-mermaid-dark {
   display: inline-block;
 }
 
@@ -120,8 +96,8 @@
   color: var(--shiki-light);
 }
 
-.dark .prose-content .shiki,
-.dark .prose-content .shiki span {
+[data-mantine-color-scheme='dark'] .prose-content .shiki,
+[data-mantine-color-scheme='dark'] .prose-content .shiki span {
   color: var(--shiki-dark);
 }
 

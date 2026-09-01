@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Box, Container, Group, Stack } from '@mantine/core';
 
 import { ThemeToggle } from '@/features/switch-theme';
 import {
@@ -12,10 +12,12 @@ import {
   type Variant,
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
+import { InternalLink } from '@/shared/ui';
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import { BackToHome } from './back-to-home';
 import { TableOfContents } from './table-of-contents';
+import classes from './case-studies.module.scss';
 
 const COLLECTION = 'case-studies';
 
@@ -70,45 +72,46 @@ export async function ArticlePage({ params }: Props) {
   const { document, rendered } = await resolve(params);
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-12 lg:p-16 print:p-0">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <nav className="flex items-center justify-between print:hidden">
-          <Link
-            href={COLLECTIONS[COLLECTION].routeBase}
-            className="text-sm underline hover:opacity-70"
+    <Box className={classes.articlePage}>
+      <Container size={1152} px={0}>
+        <Stack gap={32}>
+          <Group
+            component="nav"
+            justify="space-between"
+            className="print-hidden"
           >
-            ← {COLLECTIONS[COLLECTION].label}
-          </Link>
-          <ThemeToggle />
-        </nav>
+            <InternalLink
+              href={COLLECTIONS[COLLECTION].routeBase}
+              size="sm"
+              className={classes.hoverDim}
+            >
+              ← {COLLECTIONS[COLLECTION].label}
+            </InternalLink>
+            <ThemeToggle />
+          </Group>
 
-        {/*
-          Three grid children rather than an article and a rail, so one DOM
-          order serves both layouts: stacked, the reader gets the title, then
-          the outline, then the prose; on a wide viewport the outline moves
-          into its own column beside both.
-        */}
-        <article className="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12">
-          <div className="min-w-0 lg:col-start-1 lg:row-start-1">
-            <ArticleHeader
-              document={document}
-              title={rendered.title}
-              readingMinutes={rendered.readingMinutes}
-              availableVariants={siblingVariants(COLLECTION, document.slug)}
-            />
-          </div>
+          <Box component="article" className={classes.articleLayout}>
+            <Box className={classes.articleIntro}>
+              <ArticleHeader
+                document={document}
+                title={rendered.title}
+                readingMinutes={rendered.readingMinutes}
+                availableVariants={siblingVariants(COLLECTION, document.slug)}
+              />
+            </Box>
 
-          <aside className="my-10 lg:my-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-            <TableOfContents headings={rendered.headings} />
-          </aside>
+            <Box component="aside" className={classes.articleAside}>
+              <TableOfContents headings={rendered.headings} />
+            </Box>
 
-          <div className="min-w-0 lg:col-start-1 lg:row-start-2 lg:mt-10">
-            <ArticleBody html={rendered.html} />
-          </div>
-        </article>
+            <Box className={classes.articleBody}>
+              <ArticleBody html={rendered.html} />
+            </Box>
+          </Box>
 
-        <BackToHome />
-      </div>
-    </div>
+          <BackToHome />
+        </Stack>
+      </Container>
+    </Box>
   );
 }

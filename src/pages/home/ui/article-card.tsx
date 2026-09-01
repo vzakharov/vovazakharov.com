@@ -1,4 +1,5 @@
-import { Card, type Summarized } from '@/shared/ui';
+import { Text, Title } from '@mantine/core';
+import { Card, CardLink, type Summarized } from '@/shared/ui';
 
 type ArticleCardProps = Summarized & {
   url: string;
@@ -6,11 +7,13 @@ type ArticleCardProps = Summarized & {
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="block">
+    <CardLink href={url}>
       <Card>
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="leading-relaxed">{description}</p>
+        <Title order={3} size="h4" mb={8}>
+          {title}
+        </Title>
+        <Text lh={1.625}>{description}</Text>
       </Card>
-    </a>
+    </CardLink>
   );
 }

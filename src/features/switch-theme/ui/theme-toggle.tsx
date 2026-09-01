@@ -1,42 +1,46 @@
 'use client';
 
-import { useTheme } from 'next-themes';
+import {
+  ActionIcon,
+  Box,
+  useMantineColorScheme,
+  type MantineColorScheme,
+} from '@mantine/core';
+import { useMounted } from '@mantine/hooks';
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { useMounted } from '@/shared/lib/hydration';
+
+const SCHEMES = [
+  'light',
+  'dark',
+  'auto',
+] as const satisfies MantineColorScheme[];
+
+const ICONS = { light: Sun, dark: Moon, auto: Monitor };
+
+const SIZE = 38;
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
   const mounted = useMounted();
 
-  const themes = ['light', 'dark', 'system'];
-
-  const cycleTheme = () => {
-    setTheme(
-      themes[((theme ? themes.indexOf(theme) : -1) + 1) % themes.length]
-    );
-  };
-
+  // Until hydration there is no telling a stored `auto` from the scheme it
+  // resolved to, so the button reserves its space rather than guessing an icon.
   if (!mounted) {
-    return <div className="w-10 h-10" />;
+    return <Box w={SIZE} h={SIZE} />;
   }
 
-  const getIcon = () => {
-    if (theme === 'dark') {
-      return <Moon className="w-5 h-5" />;
-    } else if (theme === 'light') {
-      return <Sun className="w-5 h-5" />;
-    } else {
-      return <Monitor className="w-5 h-5" />;
-    }
-  };
+  const Icon = ICONS[colorScheme];
+  const next = SCHEMES[(SCHEMES.indexOf(colorScheme) + 1) % SCHEMES.length];
 
   return (
-    <button
-      onClick={cycleTheme}
-      className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors"
+    <ActionIcon
+      variant="default"
+      size={SIZE}
+      radius={4}
+      onClick={() => setColorScheme(next)}
       aria-label="Toggle theme"
     >
-      {getIcon()}
-    </button>
+      <Icon size={20} />
+    </ActionIcon>
   );
 }

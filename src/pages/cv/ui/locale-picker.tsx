@@ -1,13 +1,16 @@
 'use client';
 
+import { ActionIcon } from '@mantine/core';
+import { useMounted } from '@mantine/hooks';
 import { useLocale } from 'next-intl';
-import { useMounted } from '@/shared/lib/hydration';
 import { usePathname, useRouter } from '@/shared/i18n';
 
 export function LocalePicker() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
+  // `usePathname` only knows the route after hydration, and the picker is
+  // rendered for exactly one route.
   const mounted = useMounted();
 
   const isI18nPage = pathname === '/cv';
@@ -16,21 +19,19 @@ export function LocalePicker() {
     return null;
   }
 
-  const currentLocale = locale as string;
-  const nextLocale = currentLocale === 'en' ? 'ru' : 'en';
-  const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺';
-
-  const toggleLocale = () => {
-    router.replace(pathname, { locale: nextLocale });
-  };
+  const nextLocale = locale === 'en' ? 'ru' : 'en';
+  const currentFlag = locale === 'en' ? '🇬🇧' : '🇷🇺';
 
   return (
-    <button
-      onClick={toggleLocale}
-      className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors text-lg"
+    <ActionIcon
+      variant="default"
+      size={38}
+      radius={4}
+      fz={18}
+      onClick={() => router.replace(pathname, { locale: nextLocale })}
       aria-label={`Switch to ${nextLocale === 'en' ? 'English' : 'Russian'}`}
     >
       {currentFlag}
-    </button>
+    </ActionIcon>
   );
 }

@@ -1,0 +1,227 @@
+@use '../../../shared/styles/mantine' as mantine;
+
+// The CV is the only page that gets printed, so its screen values and their
+// print counterparts are declared together here rather than split between a
+// style prop and a global sheet — an inline style prop is unreachable from
+// `src/app/styles/print.scss`, and a class here outranks that sheet's element
+// rules. Page-level print concerns (`@page`, the forced light scheme, the
+// element defaults these classes are exceptions to) stay in that sheet.
+
+.page {
+  min-height: 100vh;
+  padding: 32px;
+  padding-bottom: 80px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    padding: 80px;
+  }
+
+  @media print {
+    padding: 0.5cm;
+  }
+}
+
+// Print has the page margin to itself; the reading measure is the paper's.
+.container {
+  @media print {
+    max-width: 100%;
+  }
+}
+
+.pageSections {
+  gap: 32px;
+
+  @media print {
+    gap: 0.8cm;
+  }
+}
+
+.section {
+  gap: 16px;
+
+  @media print {
+    gap: 0.3cm;
+
+    > p:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Experience entries sit further apart than the contents of a section.
+.sectionWide {
+  gap: 24px;
+
+  @media print {
+    gap: 0.4cm;
+  }
+}
+
+// A Stack's gap does not collapse with its items' margins, so a trailing margin
+// inside an item would add to the gap rather than fold into it.
+.subsection {
+  @media print {
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.subsections {
+  gap: 12px;
+
+  @media print {
+    gap: 8px;
+  }
+}
+
+.header {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border-hairline);
+
+  @media print {
+    padding-bottom: 0.4cm;
+  }
+}
+
+.screenFooter {
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border-hairline);
+}
+
+.printFooter {
+  padding-top: 32px;
+
+  @media print {
+    padding-top: 0.3cm;
+  }
+}
+
+// A subsection heading, one step down from an experience entry's title.
+.subheading {
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: 8px;
+
+  @media print {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 0.2cm;
+  }
+}
+
+.subheadingLarge {
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 8px;
+
+  @media print {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 0.2cm;
+  }
+}
+
+.tagline {
+  font-size: 20px;
+  line-height: 28px;
+
+  @media print {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+// Body copy that prints a step down from the rest — the email, the degree.
+.printSmall {
+  @media print {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+// Tech-stack lines and asides.
+.small {
+  font-size: 14px;
+  line-height: 1.4286;
+
+  @media print {
+    font-size: 9pt;
+  }
+}
+
+.contactLine {
+  a {
+    @include mantine.hover {
+      opacity: 0.7;
+    }
+  }
+
+  @media print {
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.tight {
+  margin-bottom: 12px;
+
+  @media print {
+    margin-bottom: 0.2cm;
+  }
+}
+
+.tightHeading {
+  margin-bottom: 8px;
+
+  @media print {
+    margin-bottom: 0.2cm;
+  }
+}
+
+.period {
+  margin-bottom: 12px;
+
+  @media print {
+    margin-bottom: 0.15cm;
+  }
+}
+
+.bullets {
+  --list-spacing: 4px;
+
+  margin-left: 16px;
+
+  @media print {
+    --list-spacing: 0;
+
+    margin-left: 0;
+  }
+}
+
+.dim60 {
+  opacity: 0.6;
+}
+
+.dim70 {
+  opacity: 0.7;
+}
+
+.dim80 {
+  opacity: 0.8;
+}
+
+.dim90 {
+  opacity: 0.9;
+}
+
+// Print flattens the dimming: on paper the contrast is the legibility budget.
+// Declared after the values it overrides, which share its specificity.
+.dim60,
+.dim70,
+.dim80,
+.dim90 {
+  @media print {
+    opacity: 1;
+  }
+}

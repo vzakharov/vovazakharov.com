@@ -1,0 +1,109 @@
+// Page-level print rules. Anything a single component owns — a card's border,
+// the CV's dimmed text — lives in that component's own `.module.scss` beside
+// the screen rule it overrides, because a Mantine style prop renders as an
+// inline style that a global sheet cannot reach.
+
+// Every size here is stated rather than inherited: Mantine's Text and Title set
+// an explicit `font-size`, so a print body size alone would not reach them.
+
+// This file is unlayered, so it beats `@layer mantine` on cascade alone; no
+// `!important` is needed anywhere in it.
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  // Print is always light, whatever the reader had on screen. `color-scheme`
+  // has to go too, or Mantine's `light-dark()` calls keep resolving dark.
+  :root,
+  [data-mantine-color-scheme='dark'] {
+    color-scheme: light;
+
+    --color-background: #fff;
+    --color-foreground: #000;
+    --color-border-hairline: #ddd;
+    --color-border-hairline-strong: #ddd;
+  }
+
+  @page {
+    margin: 1.5cm;
+    size: a4;
+  }
+
+  body {
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  * {
+    box-shadow: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid;
+  }
+
+  h1 {
+    font-size: 20pt;
+    line-height: 1.2;
+    margin-bottom: 0.2cm;
+  }
+
+  h2 {
+    font-size: 16pt;
+    line-height: 1.3333;
+    margin-bottom: 0.3cm;
+  }
+
+  h3 {
+    font-size: 12pt;
+    line-height: 1.5556;
+    margin-bottom: 0.2cm;
+  }
+
+  h4 {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin-bottom: 0.15cm;
+  }
+
+  p,
+  ul,
+  ol,
+  li {
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  // The shorthand also drops the screen indent, which print does not want.
+  ul,
+  ol {
+    margin: 0.2cm 0;
+  }
+
+  li {
+    margin-bottom: 0.1cm;
+  }
+
+  p {
+    margin-bottom: 0.2cm;
+  }
+
+  section {
+    break-inside: auto;
+  }
+
+  .print-hidden {
+    display: none;
+  }
+
+  .print-only {
+    display: block;
+  }
+}

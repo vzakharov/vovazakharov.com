@@ -1,11 +1,19 @@
-import Link from 'next/link';
+import { Box, Text } from '@mantine/core';
+import { InternalLink } from '@/shared/ui';
+import classes from './case-studies.module.scss';
 
 export function BackToHome() {
   return (
-    <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
-      <Link href="/" className="underline">
-        ← Back to the home page
-      </Link>
-    </footer>
+    <Box
+      component="footer"
+      ta="center"
+      className={`print-hidden ${classes.pageFooter}`}
+    >
+      <Text size="sm" opacity={0.6}>
+        <InternalLink href="/" inherit>
+          ← Back to the home page
+        </InternalLink>
+      </Text>
+    </Box>
   );
 }

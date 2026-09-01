@@ -1,0 +1,194 @@
+@use '../../../shared/styles/mantine' as mantine;
+
+.page {
+  min-height: 100vh;
+  padding: 32px;
+  padding-bottom: 80px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    padding: 80px;
+  }
+}
+
+// The article reads wider than the index: its outline needs a column of its own.
+.articlePage {
+  min-height: 100vh;
+  padding: 32px;
+  padding-bottom: 80px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    padding: 48px;
+  }
+
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    padding: 64px;
+  }
+
+  @media print {
+    padding: 0;
+  }
+}
+
+.pageFooter {
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border-hairline);
+}
+
+// Three grid children rather than an article and a rail, so one DOM order
+// serves both layouts: stacked, the reader gets the title, then the outline,
+// then the prose; on a wide viewport the outline moves into its own column
+// beside both.
+.articleLayout {
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    gap: 48px;
+  }
+}
+
+.articleIntro {
+  min-width: 0;
+
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.articleAside {
+  margin-block: 40px;
+
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    margin-block: 0;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+.articleBody {
+  min-width: 0;
+
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 40px;
+  }
+}
+
+.articleHeader {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border-hairline);
+}
+
+// Outranks the theme's own `.title[data-order='1']`, which sizes the site's
+// hero headings; an article title is a step smaller than one.
+h1[data-order='1'].articleTitle {
+  font-size: 30px;
+  line-height: 1.25;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    font-size: 36px;
+  }
+}
+
+// One cut of a document, as offered by the switcher above the article.
+.cut {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--color-border-hairline-strong);
+}
+
+.cutCurrent {
+  border-color: var(--color-foreground);
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
+.cutLink {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+
+  @include mantine.hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+}
+
+.hoverDim {
+  @include mantine.hover {
+    opacity: 0.7;
+  }
+}
+
+// A byline that wraps sets its rows closer than the gap between its parts.
+.meta {
+  row-gap: 4px;
+}
+
+.cardMeta {
+  margin-bottom: 12px;
+}
+
+// A cut sits below the full document it belongs to, and comes back up on hover.
+.variantLink {
+  opacity: 0.7;
+
+  @include mantine.hover {
+    opacity: 1;
+  }
+}
+
+.toc {
+  font-size: 14px;
+
+  @include mantine.larger-than(mantine.$breakpoint-lg) {
+    position: sticky;
+    top: 32px;
+  }
+}
+
+.tocHeading {
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.tocList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--color-border-hairline);
+
+  > li + li {
+    margin-top: 6px;
+  }
+}
+
+// A part divider, thick enough to read as the level above its entries.
+.tocPart {
+  margin-left: -1px;
+  padding-left: 12px;
+  border-left: 2px solid var(--color-border-hairline-strong);
+  font-weight: 700;
+}
+
+.tocEntry {
+  padding-left: 24px;
+}
+
+.tocLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.375;
+  opacity: 0.75;
+
+  @include mantine.hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}
