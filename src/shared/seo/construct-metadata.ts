@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_CONFIG, getAbsoluteUrl } from '@/shared/config';
-import type { ContentDocument } from '@/shared/lib/content';
+import type { ContentDocument } from '@/shared/content';
 
 export type ConstructMetadataParams = {
   title?: string;

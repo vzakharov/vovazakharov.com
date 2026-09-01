@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ThemeToggle } from '@/features/switch-theme';
-import { COLLECTIONS, renderPrimaryDocuments } from '@/shared/lib/content';
+import { COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
 import { Card } from '@/shared/ui';
 import { ArticleCard } from './article-card';
 import { ProjectCard } from './project-card';

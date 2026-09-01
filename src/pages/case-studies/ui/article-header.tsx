@@ -8,7 +8,7 @@ import {
   type Variant,
   type WithContentDocument,
   type WithReadingMinutes,
-} from '@/shared/lib/content';
+} from '@/shared/content';
 import type { Titled } from '@/shared/typings';
 import { DocumentMeta } from './document-meta';
 

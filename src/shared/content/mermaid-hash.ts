@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
  * without a re-render fails the build rather than shipping a stale diagram.
  * Both sides import this — changing it invalidates every cached render.
  *
- * Deliberately free of `import 'server-only'`, unlike the rest of `shared/lib/content/`:
+ * Deliberately free of `import 'server-only'`, unlike the rest of `shared/content/`:
  * `scripts/render-mermaid.ts` runs it under bare Node, outside any bundler.
  */
 export function mermaidHash(source: string): string {

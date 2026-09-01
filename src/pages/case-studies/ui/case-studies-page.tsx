@@ -5,7 +5,7 @@ import {
   COLLECTIONS,
   documentRoute,
   renderPrimaryDocuments,
-} from '@/shared/lib/content';
+} from '@/shared/content';
 import { constructMetadata } from '@/shared/seo';
 import { Card } from '@/shared/ui';
 import { BackToHome } from './back-to-home';

@@ -6,7 +6,7 @@ import {
   COLLECTIONS,
   COLLECTION_IDS,
   listAllDocuments,
-} from '@/shared/lib/content';
+} from '@/shared/content';
 
 /**
  * Every page the site renders. Content entries are derived from the collection

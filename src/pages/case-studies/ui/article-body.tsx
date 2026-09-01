@@ -1,4 +1,4 @@
-import type { WithHtml } from '@/shared/lib/content';
+import type { WithHtml } from '@/shared/content';
 
 export function ArticleBody({ html }: WithHtml) {
   return (

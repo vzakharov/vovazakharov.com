@@ -22,14 +22,14 @@ Next mandates a root layout and a root layout is app-layer UI wherever
 it is filed. Root pages/ must stay, or Next finds src/pages and
 refuses to build.
 
-The layers absorb what main landed while this branch was open. The
-markdown pipeline becomes shared/lib/content behind one index.ts — it
-is build-time-only and site-agnostic, so shared rather than an entity —
-and its components and both routes become a single pages/case-studies
-slice, since slices on a layer cannot share sideways. The type-overlap
-gate's bases end up in shared/typings, a segment named for what it
-holds because that is the point: the one home for a member two named
-types share.
+The markdown pipeline is shared/content behind one index.ts: build-
+time-only and site-agnostic, so shared rather than an entity, and a
+segment of its own rather than a shared/lib sub-library because
+consumers on three layers reach for it. Its components and both routes
+are one pages/case-studies slice, since slices on a layer cannot share
+sideways. The type-overlap gate's bases sit in shared/typings, a
+segment named for what it holds because that is the point: the one
+home for a member two named types share.
 
 Locale handling gained real types: a Locale from routing.locales, a
 toLocale() boundary check, and a catalogue map typed against en.json

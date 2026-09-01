@@ -1,4 +1,4 @@
-import type { WithHeadings } from '@/shared/lib/content';
+import type { WithHeadings } from '@/shared/content';
 
 /**
  * The document's outline as plain anchors — no JavaScript, so it works without

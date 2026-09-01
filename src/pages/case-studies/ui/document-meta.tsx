@@ -1,4 +1,4 @@
-import type { WithFrontmatter, WithReadingMinutes } from '@/shared/lib/content';
+import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
 import type { WithOptionalClassName } from '@/shared/typings';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {

@@ -10,7 +10,7 @@ import {
   renderDocument,
   siblingVariants,
   type Variant,
-} from '@/shared/lib/content';
+} from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';

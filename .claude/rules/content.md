@@ -2,7 +2,7 @@
 description: How long-form markdown under public/content/ becomes a page — the build-time pipeline, the frontmatter contract, and the traps that fail the build
 paths:
   - public/content/**
-  - src/shared/lib/content/**
+  - src/shared/content/**
   - src/pages/case-studies/**
   - app/case-studies/**
   - scripts/render-mermaid.ts
@@ -26,9 +26,9 @@ public/content/
 
 **The markdown is itself a published artifact**, which is why it sits in `public/` rather than beside it. One copy of every file, served raw at `/content/…`, no build step to forget and no generated tree to drift from the source. Relative links inside a document (`./assets/…`, `./<slug>.mini.md`) resolve the same way in the repo, on GitHub, and in the served copy.
 
-**Everything in `shared/lib/content/` is build-time-only, and must stay that way.** There is no server at runtime, so the whole pipeline — `unified`, `remark`, `rehype`, `shiki`, `gray-matter`, `zod` — resolves into the build graph and is thrown away with it. A content page therefore costs **zero bytes of client JavaScript** beyond the site's existing baseline, which is the property the whole design exists for. Every module starts with `import 'server-only'` so that is enforced rather than hoped for: importing one from a `'use client'` component fails the build. When a client component needs something the registry owns — a route, say — the **server page resolves it and passes it down**; that is what `app/[locale]/cv/page.tsx` does for the CV's case-study link.
+**Everything in `shared/content/` is build-time-only, and must stay that way.** There is no server at runtime, so the whole pipeline — `unified`, `remark`, `rehype`, `shiki`, `gray-matter`, `zod` — resolves into the build graph and is thrown away with it. A content page therefore costs **zero bytes of client JavaScript** beyond the site's existing baseline, which is the property the whole design exists for. Every module starts with `import 'server-only'` so that is enforced rather than hoped for: importing one from a `'use client'` component fails the build. When a client component needs something the registry owns — a route, say — the **server page resolves it and passes it down**; that is what `app/[locale]/cv/page.tsx` does for the CV's case-study link.
 
-The one exception is `shared/lib/content/mermaid-hash.ts`, which `scripts/render-mermaid.ts` runs under bare Node, outside any bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's resolver finds it. That script needs Node 22.18 or newer for type stripping.
+The one exception is `shared/content/mermaid-hash.ts`, which `scripts/render-mermaid.ts` runs under bare Node, outside any bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's resolver finds it. That script needs Node 22.18 or newer for type stripping.
 
 ## Adding a document
 
@@ -45,7 +45,7 @@ The one exception is `shared/lib/content/mermaid-hash.ts`, which `scripts/render
 
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
-2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/lib/content/collections.ts`.
+2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts`.
 
 ## Traps worth knowing
 

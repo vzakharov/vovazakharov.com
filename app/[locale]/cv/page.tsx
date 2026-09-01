@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { CvPage, generateCvMetadata } from '@/pages/cv';
 import { loadMessages, routing, toLocale } from '@/shared/i18n';
-import { documentRoute } from '@/shared/lib/content';
+import { documentRoute } from '@/shared/content';
 
 const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
 
