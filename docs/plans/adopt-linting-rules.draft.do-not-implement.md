@@ -7,7 +7,8 @@
 Replace this repo's 30-line `eslint.config.mjs` with the explicit, auditable ruleset
 `playgramapp` runs — *every rule listed as `error` or `off`, never `warn`, each `off`
 carrying its rationale* — scaled down to what a static-export marketing/CV site actually
-has. Custom (`playgram/*`) rules are triaged individually: ported where the premise
+has. The custom rules (upstream's `playgram/*`; `local/*` here — see "Decisions") are
+triaged individually: ported where the premise
 survives the move, dropped where it doesn't.
 
 ## Why this is cheap here
@@ -68,7 +69,8 @@ than a softened one.
 
 ## Custom-rule triage
 
-Thirty `playgram/*` rules. The test applied to each: **does the premise survive in a
+Thirty upstream `playgram/*` rules, re-namespaced to `local/*` on the way in. The test
+applied to each: **does the premise survive in a
 static-export site with no database, no server actions, no Zod, no Mantine, and no test
 suite?**
 
@@ -128,12 +130,16 @@ Noted here so the decision is findable, not re-derived.
    exists there for a bare-`node` migrate script).
 3. **`eslint/rule-groups/`** — port `core`, `typescript`, `next`, `jsx-a11y`, `unicorn`,
    `react`, `import-sort` (drop its `drizzle/*` half, re-map the import groups),
-   `rule-severity`. `rule-severity.ts` imports their `fromEntries`; vendor a local
-   dependency-free copy under `eslint/` rather than pulling `src/shared/collections`.
+   `rule-severity`, plus `local.ts` (upstream `playgram.ts`) carrying the ported custom
+   rules at `error` with their one-line rationale each. `rule-severity.ts` imports their
+   `fromEntries`; vendor a local dependency-free copy under `eslint/` rather than pulling
+   `src/shared/collections`.
 4. **`eslint/rules/`** — port the 9 rules above plus the 3 helpers, inlining the type-only
-   `@/shared/typings` imports and de-coupling `no-uncaused-rethrow`'s autofix.
-5. **`eslint.config.ts`** — the orchestrator: preset spreads, plugin registration, merged
-   rule set, `globalIgnores`. Delete `eslint.config.mjs`.
+   `@/shared/typings` imports and de-coupling `no-uncaused-rethrow`'s autofix. Rule
+   filenames are unchanged; only the plugin namespace differs.
+5. **`eslint.config.ts`** — the orchestrator: preset spreads, plugin registration (the
+   custom rules under the `local` key), merged rule set, `globalIgnores`. Delete
+   `eslint.config.mjs`.
 6. **Fix the violations.** Expected, from reading the tree:
    - `unicorn/filename-case` over the eight PascalCase files — the kebab-case renames
      under "Decisions", each with its importers updated.
@@ -153,6 +159,18 @@ Noted here so the decision is findable, not re-derived.
 9. **Vet** (`./scripts/vet.sh`) and iterate to green.
 
 ## Decisions
+
+**The project-local rules are namespaced `local/`, not `playgram/`.** The plugin key in
+`eslint.config.ts` is `local`, so every ported rule is `local/no-default-true`,
+`local/no-hardcoded-strings`, and so on — in the rule group, in the config, and in the
+diagnostics ESLint prints. The upstream name is an artifact of the repo they came from and
+carries no meaning here. `local` is the conventional key for rules defined in the repo
+rather than installed from a package, and it says the useful thing at a violation site:
+this rule lives in this tree, look in `eslint/rules/`. It also stays accurate if the
+project is ever renamed. The rule-group file is `eslint/rule-groups/local.ts`, exporting
+`localRules`. *Alternatives considered and dropped: `site/` (ties the namespace to what
+this project happens to be) and `vz/` (an author initial says nothing about where the rule
+is defined).*
 
 **Filenames go kebab-case.** `unicorn/filename-case` stays on at `error`, and the eight
 PascalCase files rename to match: `Card.tsx` → `card.tsx`, `ThemeToggle.tsx` →
