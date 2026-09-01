@@ -6,38 +6,23 @@ feat: #10 publish case studies from build-time-compiled markdown (pr #14)
 
 ```
 The site had a finished case study in the repo and no way to put it in
-front of a reader. The question underneath that — how this site delivers
-prose at all — is answered here once, for every document that follows:
-markdown is the source of truth, and `next build` compiles it to HTML.
-Under `output: 'export'` the page components run in Node on the Actions
-runner, read the `.md` off disk, and render static files; nothing about
-this needs a server, and Pages stays a dumb file host.
+front of a reader. This settles how it delivers prose, for every document
+that follows: markdown under `public/content/` is the source of truth and
+`next build` compiles it to HTML, so the authored file is itself the
+published artifact — served raw at `/content/`, its relative links
+resolving the same in the repo, on GitHub and on the site.
 
-What that buys is a content page whose client cost is zero bytes beyond
-the site's existing baseline — no parser, no highlighter, no diagram
-renderer reaches a browser. `import 'server-only'` at the top of every
-`lib/content/` module keeps it that way by construction: importing one
-from a client component fails the build rather than quietly shipping a
-markdown parser to readers. A client component that needs something the
-registry owns takes it as a prop from its server page instead.
+A content page therefore costs zero bytes of client JavaScript beyond the
+site's baseline, which `import 'server-only'` atop every `lib/content/`
+module holds by construction. A new document is a page and a sitemap entry
+with no route work, the collection registry being the one place a content
+URL is shaped. Mermaid fences are the single authoring step:
+`pnpm content:mermaid` renders each to a committed pair of SVGs keyed by a
+hash of the fence, and the build fails on one whose render is missing
+rather than shipping a stale diagram.
 
-The markdown lives in `public/content/`, because the authored file is
-itself a published artifact — one copy, served raw at `/content/`, with
-no generated tree to drift from it and relative links that resolve the
-same in the repo, on GitHub and on the site. The collection registry is
-the one place a content URL shape is decided, so a new document is a new
-page and a sitemap entry with no route work. Frontmatter carries only
-what markdown cannot say; the title, word count and outline are derived
-from the document. Mermaid fences are the one thing that needs an
-authoring step: `pnpm content:mermaid` renders each to a committed pair
-of SVGs keyed by a hash of the fence, and the build fails on a fence
-whose render is missing rather than shipping a stale diagram — which is
-what keeps CI free of puppeteer without letting the two drift.
-
-Riding along, the CV gains Playgram and a link to the write-up in both
-locales, and its five hand-written experience cards collapse into one
-component driven by an ordered key list, so a sixth entry is a catalog
-key rather than another copy-paste. One caveat worth knowing: the screen
+Riding along, the CV gains Playgram in both locales, and its five
+hand-written experience cards collapse into one component. The screen
 recording is hotlinked from GitHub's user-attachments rather than
 vendored, so it serves as `video/quicktime` and Firefox will not play it.
 
