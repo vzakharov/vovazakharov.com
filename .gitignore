@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# python bytecode — scripts/lib is imported, so running any script writes here
+__pycache__/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
