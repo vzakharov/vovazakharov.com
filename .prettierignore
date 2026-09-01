@@ -19,6 +19,9 @@ dist
 # Logs
 *.log
 
+# Scratch (dev artifacts, per CLAUDE.md)
+tmp
+
 # Misc
 .DS_Store
 *.pem

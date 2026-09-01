@@ -28,6 +28,8 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Scratch: CLAUDE.md sends dev artifacts here, so a spike must not fail vet.
+    'tmp/**',
   ]),
 ]);
 
