@@ -39,6 +39,17 @@ log` inside the source clone, so a path that was renamed on adoption must stay
   the name it has _there_. Renaming the local copy without leaving the entry alone
   silently drops that path's commits from every future candidate set.
 
+  **An entry may be a bare path or a single-key `{path: note}` object.** Both are
+  adopted and both filter the log identically — read the key when an entry is an
+  object. The note records _how_ the path lives here when that is not verbatim:
+  rewritten for this stack, renamed, ported to another language, generalized past
+  the source's interface. It is not a soft decline. A path taken with a note still
+  surfaces every source commit that touches it, which is the point — the local
+  version is a re-expression, so the source's later changes to the original are
+  worth reading for the idea even though the file itself never lands. Expect
+  `translate` rather than `take` on those commits, and treat the note as the
+  standing statement of what the local re-expression already does differently.
+
 - **`declined`** — path → why-not. This is what keeps re-sync quiet: without it,
   every sync re-offers every skill the repo already refused.
 
@@ -138,6 +149,9 @@ every command that needs to be inside it.
 cd <scratchpad>/up && git log --oneline <lastSyncedSha>..HEAD -- <adopted paths>
 ```
 
+`<adopted paths>` is every entry in `adopted`, taking the single key of any entry
+written as an object.
+
 Record `git rev-parse HEAD` **now**, before triage — that value is the next
 watermark regardless of how the triage goes.
 
@@ -183,7 +197,8 @@ source's inventory, read from the clone and never vendored, so it is current by
 construction — and surface the decision **with its criteria attached** rather than
 as a bare "the source added `/foo`, want it?".
 
-- **Taken** → add the path to `adopted`, and **re-run the closure check**: a new
+- **Taken** → add the path to `adopted` — as a `{path: note}` entry if it landed
+  as anything other than a verbatim copy — and **re-run the closure check**: a new
   skill can `@`-reference a sibling this repo declined. `bash
 scripts/check-skill-catalog.sh` is that check where it was adopted.
 - **Declined** → add the path to `declined` with the reason.

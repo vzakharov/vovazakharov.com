@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/agent-project-boilerplate",
-  "lastSyncedSha": "1f6ee79f1bfd75eb8329f031591a7eb5e81cc705",
-  "lastSyncedAt": "2026-08-12",
+  "lastSyncedSha": "eab4dc7df50efdbb007eb931b7802e45cdb9bace",
+  "lastSyncedAt": "2026-09-01",
   "adopted": [
     "CLAUDE.md",
     ".claude/rules/README.md",
@@ -17,18 +17,23 @@
     ".claude/skills/pr/",
     ".claude/skills/preview/",
     ".claude/skills/qa-checklist/",
+    {
+      ".claude/skills/sync-upstream/": "this skill, renamed .claude/skills/sync-agent-boilerplate/ after the one source this repo has. The entry keeps the source's spelling because Step 3 hands it to git log there."
+    },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
-    ".claude/skills/sync-upstream/",
     ".claude/skills/tighten-docs/",
     ".claude/skills/watch-ci/",
     "scripts/check-merge.sh",
     "scripts/check-skill-catalog.sh",
     "scripts/ci-watch-tick.sh",
     "scripts/export-github-item.py",
+    "scripts/lib/github.py",
     "scripts/lib/watch-tick-common.sh",
     "scripts/pr-body.py",
-    "scripts/vet.sh"
+    {
+      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then typecheck, eslint and format:check concurrently with per-check capture and serial replay. Read the source's edits for the idea; the file itself never lands."
+    }
   ],
   "declined": {
     ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against — revisit when filing becomes routine",
@@ -38,6 +43,8 @@
     ".claude/skills/log-review/": "static site on GitHub Pages; there are no deployed logs to read",
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist"
+    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist",
+    ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh",
+    "scripts/run-parallel.sh": "vet.sh here is a local rewrite that already fans out with per-check capture and serial replay, and the source's own catalog calls this helper optional — adopting it would replace working code with a generic runner. Revisit if vet.sh's check list grows past what its inline fan-out reads well for"
   }
 }
