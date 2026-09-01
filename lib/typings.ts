@@ -3,7 +3,7 @@
  * named type declares. `pnpm type-overlap` fails the run when two types
  * duplicate a member, and intersecting a base from here is the fix.
  *
- * Names follow the families in docs/decisions/type-overlap-and-shared-bases.md;
+ * Names follow the families in scripts/type-overlap-check.README.md;
  * a base whose declarers all live in one module belongs in that module instead.
  */
 

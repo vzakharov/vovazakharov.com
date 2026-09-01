@@ -271,6 +271,13 @@ The floor is not complete coverage.
   should compose the bases too, and nothing but review will tell you when it doesn't.** There is no
   suite here yet (CLAUDE.md → Testing); the exclusion is inherited so that adding one doesn't
   immediately light the gate up.
+- **A repeated _combination_ of bases is invisible**, because constituents count as inherited. Two
+  types that both spell `Titled & Described` are clean by the gate and duplicated in exactly the
+  sense a shared member is — the same shape under two spellings, one level up. The fix is the same
+  move applied to the combination: name it and intersect that. Until the detector covers it
+  ([#17](https://github.com/vzakharov/vovazakharov.com/issues/17)), catching it is review's job, so
+  read the constituent lists of a group's types, not only their own members. The floor there cannot
+  be 1 — one shared base is reuse working as intended.
 - **Inline shapes are invisible at any threshold**, in three positions: a return type, a `const`
   annotation, and — the one that matters most — a **render-prop's argument type**, which is a
   contract between two files and drifts exactly like a named type. So grep the key in inline

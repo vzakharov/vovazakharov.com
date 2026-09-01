@@ -27,7 +27,7 @@
  * scope complete rather than a blind spot.
  *
  * Why the floor is 1, the naming families, and how to work a finding:
- * docs/decisions/type-overlap-and-shared-bases.md.
+ * scripts/type-overlap-check.README.md.
  *
  * Usage:
  *   pnpm type-overlap                      # threshold from THRESHOLD_DEFAULT (1)
@@ -241,7 +241,7 @@ const lines = [
   '  3. Do not give the base its own single-type module — a file that exists only',
   '     to hold one type is churn.',
   '  4. Name it from what the members MEAN, not their count — see the naming',
-  '     families in docs/decisions/type-overlap-and-shared-bases.md.',
+  '     families in scripts/type-overlap-check.README.md.',
 ];
 
 process.stdout.write(`${lines.join('\n')}\n`);

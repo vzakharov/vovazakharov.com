@@ -16,12 +16,14 @@ export function Card({ children, className = '' }: CardProps) {
   );
 }
 
-type ProjectCardProps = Titled &
-  Described & {
-    techStack?: string;
-    stars?: number;
-    url?: string;
-  };
+/** A heading and the prose under it — the copy every card kind renders. */
+type Summarized = Titled & Described;
+
+type ProjectCardProps = Summarized & {
+  techStack?: string;
+  stars?: number;
+  url?: string;
+};
 
 export function ProjectCard({
   title,
@@ -52,10 +54,9 @@ export function ProjectCard({
   return content;
 }
 
-type ArticleCardProps = Titled &
-  Described & {
-    url: string;
-  };
+type ArticleCardProps = Summarized & {
+  url: string;
+};
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (

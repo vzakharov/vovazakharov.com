@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: adopt the type-overlap gate from playgramapp (pr #11)
+chore: adopt the type-overlap gate from playgramapp (pr #11)
 ```
 
 ```
@@ -10,31 +10,23 @@ change, and the compiler catches neither the drift nor the duplication,
 because each declaration redeclared its own fields. That is the
 member-level gap in the repo's "derive types from the source of truth"
 rule, and playgramapp closes it with a detector at threshold 1. Adopted
-here wholesale rather than phased in: the repo was clean at that floor
-bar one pair, so there was nothing to ratchet.
+wholesale rather than phased in: the repo was clean at that floor bar
+one pair, so there was nothing to ratchet.
 
-scripts/type-overlap-check.ts compares every pair of type aliases in the
-repo and fails on any member both declare. Only a type's own members
-count — the named constituents of an intersection are inherited — so
-extracting a shared base and intersecting it from both sides is what
-clears a finding, and lib/typings.ts is the catalog those bases live in.
-It runs in scripts/vet.sh, the only place it can fire: nothing runs on
-pull requests here, so a branch first meets the gate at /finalize.
-docs/decisions/type-overlap-and-shared-bases.md holds the rationale, the
-naming families a base is named from, and the blind spots the floor does
-not cover — tests, inline shapes and derived forms stay invisible.
+scripts/type-overlap-check.ts compares every pair of type aliases and
+fails on any member both declare. Only a type's own members count, so
+extracting a base and intersecting it from both sides clears a finding;
+lib/typings.ts is the catalog those bases live in. It runs in
+scripts/vet.sh, the only place it can fire — nothing runs on pull
+requests here — and its README carries the rationale, the naming
+families and the blind spots.
 
-Two things depart from upstream, both because the layout differs. Its
-explicit root allowlist becomes a skip-list over the repo root, since
-the failure modes are not symmetric: an allowlist silently un-scans the
-next source directory someone adds, where a skip-list at worst scans one
-holding no type aliases. And `interface` is now banned repo-wide, the
-detector reading type aliases only — complete upstream precisely because
-interfaces are banned there, and otherwise blind to every shape spelled
-as one. The four existing interfaces convert, and the repo's single
-finding at threshold 1 — Card.tsx's project and article card props both
-declaring `title: string` and `description: string` — is cleared by
-intersecting Titled & Described.
+Two adaptations, both because the layout differs: upstream's root
+allowlist becomes a skip-list, which at worst scans a directory holding
+no types where an allowlist silently un-scans the next one added; and
+`interface` is banned repo-wide, the detector reading type aliases only.
+The four interfaces convert, and the one finding — Card.tsx's card props
+both declaring title and description — is cleared by a Summarized base.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

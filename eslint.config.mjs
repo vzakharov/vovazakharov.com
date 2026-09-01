@@ -17,7 +17,7 @@ const eslintConfig = defineConfig([
       // `type` over `interface`: interfaces allow unintentional declaration
       // merging, and the type-overlap gate scans type aliases only — the ban is
       // what makes that scope cover every named object shape rather than a
-      // subset. See docs/decisions/type-overlap-and-shared-bases.md.
+      // subset. See scripts/type-overlap-check.README.md.
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
   },
