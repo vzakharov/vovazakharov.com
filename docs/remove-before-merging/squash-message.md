@@ -10,37 +10,24 @@ vzakharov/agent-project-boilerplate, which keeps editing those files.
 Eight commits touched an adopted path since the 1f6ee79 watermark; four
 are ported here whole or in part, four are skipped as already-held or
 stack-bound. The watermark advances past the skips, so pr #13's body is
-the only record of why each was skipped.
+the only record of why.
 
-/issue no longer owns implementation. It had restated the whole
-lifecycle — export, split, implement, open a draft PR — so a session
-could conclude, correctly per the text, that it needed no plan. It now
-exports, reads and splits, then hands /pr a one-line task plus the issue
-number to close, and refuses a native plan-mode launch outright: the
-flow needs a committed export and plan file that plan mode cannot write.
-The export is committed before any planning, and every slice of a split
-becomes a sub-issue — the first included, so the PR has a child to close
-— linked through the sub-issues API rather than by `Part of #<parent>`
-prose alone. /pr gains an <issue> parameter that beats its inference
-from commit bodies.
+/issue no longer owns implementation. Restating the whole lifecycle let
+a session conclude, correctly per the text, that it needed no plan; it
+now exports, reads and splits, then hands /pr a one-line task plus the
+issue number to close. Every slice of a split becomes a sub-issue, the
+first included, linked through the sub-issues API.
 
 The GitHub exporter reports attachment failures instead of swallowing
-them. A failed download was a skip: one stderr line, a success count
-with no denominator, silence when every download failed, and exit 0 — so
-a thread whose screenshots never arrived read exactly like a clean
-export. It now prints the count as a fraction, names every URL that
-failed, and exits non-zero, while still writing the Markdown, since the
-prose is worth having without its images. Failure text stays body-free:
-S3's rejection echoes the bearer token in full.
+them — a thread whose screenshots never arrived read exactly like a
+clean export. It prints the count as a fraction, names every URL that
+failed, and exits non-zero, while still writing the Markdown.
 
 The watermark gains a `{path: note}` entry form for paths taken but not
-verbatim, so the next sync knows what the local re-expression already
-does differently and expects `translate` rather than `take` on commits
-touching it — used for this skill, renamed from the source's
-sync-upstream, and for scripts/vet.sh. /bootstrap-workflow-dispatch and
+verbatim, so the next sync expects `translate` rather than `take` on
+commits touching them. /bootstrap-workflow-dispatch and
 scripts/run-parallel.sh are declined with conditions a later sync can
-re-check. Separately, a tracked .pyc under scripts/lib made every run of
-either Python script show binary churn in git status.
+re-check.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
