@@ -1,3 +1,9 @@
+---
+description: The 2,000-word cut of the Playgram case study — why a working no-code app got rebuilt in code, and what it takes to run twenty coding agents at once.
+date: 2026-08-29
+part: I of II
+---
+
 # From Bubble to Next.js in 4 months: the Playgram case study (mini)
 
 _The [full version](./playgram-bubble-to-nextjs-part-1.md) is about six times this long. There's also a [micro version](./playgram-bubble-to-nextjs-part-1.micro.md) if this is still too much. Part I of II._

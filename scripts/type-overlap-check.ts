@@ -40,9 +40,11 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
+import type { WithId } from '@/shared/typings';
+
 // Run from the repo root (via `pnpm type-overlap` or `tsx scripts/...`), so
-// cwd is the project root. We avoid `import.meta.dirname` because tsx loads
-// these scripts as CommonJS, where that property is undefined.
+// cwd is the project root — which is what the scan walks, rather than a path
+// derived from this file's own location.
 const ROOT = process.cwd();
 
 // The scan covers the whole repo minus the directories below, so a new source
@@ -74,14 +76,14 @@ if (!Number.isInteger(THRESHOLD) || THRESHOLD < 1) {
 type WithMembers = { members: string[] };
 
 // --- Collect type aliases ---
-type TypeDecl = WithMembers & {
-  // The decl locator `rel/path.ts#TypeName`, with a `#n` suffix on name collisions.
-  id: string;
-  // The type's own name.
-  name: string;
-  // Repo-relative, e.g. src/shared/ui/card.tsx.
-  filePath: string;
-};
+type TypeDecl = WithId &
+  WithMembers & {
+    // `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on
+    // name collisions; `name` is the type's own name.
+    name: string;
+    // Repo-relative, e.g. src/shared/ui/card.tsx.
+    filePath: string;
+  };
 
 const decls: TypeDecl[] = [];
 const usedIds = new Set<string>();

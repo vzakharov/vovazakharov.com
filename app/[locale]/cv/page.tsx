@@ -1,6 +1,9 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { CvPage, generateCvMetadata } from '@/pages/cv';
 import { loadMessages, routing, toLocale } from '@/shared/i18n';
+import { documentRoute } from '@/shared/lib/content';
+
+const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -24,7 +27,9 @@ export default async function Page({ params }: Props) {
       locale={locale}
       messages={loadMessages(toLocale(locale))}
     >
-      <CvPage />
+      <CvPage
+        caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}
+      />
     </NextIntlClientProvider>
   );
 }

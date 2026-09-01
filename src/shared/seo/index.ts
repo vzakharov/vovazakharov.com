@@ -1,2 +1,5 @@
-export { constructMetadata } from './construct-metadata';
-export type { ConstructMetadataParams } from './construct-metadata';
+export {
+  constructArticleMetadata,
+  constructMetadata,
+  type ConstructMetadataParams,
+} from './construct-metadata';

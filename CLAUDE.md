@@ -19,10 +19,11 @@ This file is intentionally bare. It carries only the conventions that hold true 
 | `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`, `app/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them.               |
 | `app/`     | **Routing only** — not the FSD app layer, which is `src/app`. `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.                                                      |
 | `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                                        |
-| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                                           |
-| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                               |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                         |
 | `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one TypeScript script, run under `tsx`, and `type-overlap-check.README.md` is its reference. |
 | `.claude/` | Skills, rules and session hooks.                                                                                                                                                                 |
+
+Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the FSD layering and the markdown content pipeline are both documented there rather than here.
 
 ## Deployment
 

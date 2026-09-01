@@ -1,12 +1,16 @@
 import { ReactNode } from 'react';
+import type {
+  Described,
+  Titled,
+  WithOptionalClassName,
+} from '@/shared/typings';
 
-type CardProps = {
+type CardProps = WithOptionalClassName & {
   children: ReactNode;
-  className?: string;
 };
 
 /** A heading and the prose under it — the copy every card kind renders. */
-export type Summarized = { title: string; description: string };
+export type Summarized = Titled & Described;
 
 export function Card({ children, className = '' }: CardProps) {
   return (
