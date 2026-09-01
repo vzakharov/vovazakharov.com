@@ -42,6 +42,12 @@ the fix bullet, plus the threshold overrides and every skip rule. A
 committed fixture would be a `.ts` file the repo's own gate then
 scanned, which is why the trees are written at runtime.
 
+The new pass then had a finding waiting for it: the content pipeline
+that landed on main spells `Titled & WithReadingMinutes` in both
+`RenderedDocument` and `ArticleHeaderProps`. That pair is now
+`Headlined` — the two facts a reader sees above the body — homed in
+lib/content/render.ts, the module the header already imports.
+
 Closes #17
 
 Co-authored-by: Claude <noreply@anthropic.com>
