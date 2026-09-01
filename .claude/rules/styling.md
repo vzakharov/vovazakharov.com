@@ -53,6 +53,17 @@ Sizes have to be **stated** in the print rules rather than inherited: Mantine's
 `Text` and `Title` always set an explicit `font-size`, so a print `body` size
 alone reaches nothing.
 
+## `white` and `black` are bound to the tokens, and Mantine does not know it
+
+`theme.white` is the **background** token and `theme.black` the **foreground**
+one, so a filled control paints background-coloured text on a foreground-coloured
+fill in either scheme. Mantine's own stylesheet was written against a literal
+palette, though, and a handful of its rules reach for `--mantine-color-white` as
+"the readable colour in the dark scheme" — which here is the colour of the
+surface behind the text. Its inline-`code` rule is one, which is why
+`prose.css` states that colour itself. Suspect this first when something is
+invisible in exactly one scheme.
+
 ## Rendered markdown
 
 The content pipeline's HTML is wrapped in Mantine's `Typography`, which supplies

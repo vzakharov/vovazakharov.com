@@ -15,8 +15,13 @@
   );
 }
 
+/* The colour is stated rather than left to Mantine, whose inline-code rule
+   reaches for `--mantine-color-white` in the dark scheme — literally white to
+   it, but bound to this site's *background* token by the theme, which would
+   paint the text the colour of the surface behind it. */
 .prose-content :not(pre) > code {
   background: var(--code-surface);
+  color: var(--color-foreground);
   padding: 0.15em 0.35em;
   font-weight: inherit;
 }
