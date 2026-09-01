@@ -1,0 +1,125 @@
+@plugin '@tailwindcss/typography';
+
+/**
+ * Rendered markdown, themed from the site's own `--foreground`/`--background`
+ * tokens rather than with `dark:` utilities — the same way the rest of the site
+ * themes itself, so both colour schemes follow from one set of variables.
+ */
+.prose-content {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: color-mix(in srgb, var(--foreground) 60%, transparent);
+  --tw-prose-bullets: color-mix(in srgb, var(--foreground) 40%, transparent);
+  --tw-prose-hr: color-mix(in srgb, var(--foreground) 20%, transparent);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: color-mix(
+    in srgb,
+    var(--foreground) 40%,
+    transparent
+  );
+  --tw-prose-captions: color-mix(in srgb, var(--foreground) 70%, transparent);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: color-mix(in srgb, var(--foreground) 4%, transparent);
+  --tw-prose-th-borders: color-mix(in srgb, var(--foreground) 30%, transparent);
+  --tw-prose-td-borders: color-mix(in srgb, var(--foreground) 15%, transparent);
+}
+
+/* `rehype-autolink-headings` wraps each heading's text in a link to its own
+   anchor. It should read as a heading, not as a link. */
+.prose-content :is(h1, h2, h3, h4, h5, h6) > a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.prose-content :is(h1, h2, h3, h4, h5, h6) > a:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.2em;
+}
+
+/* Part dividers. The leading `# ` is lifted into the page header, so every `h1`
+   left in the body opens a new part. */
+.prose-content > h1 {
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  padding-top: 1.5em;
+}
+
+.prose-content > h1:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* A table wider than the column scrolls inside it, rather than widening the
+   page. Wrapper courtesy of `rehypeTableScroll`. */
+.content-table-scroll {
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.content-table-scroll > table {
+  margin: 0;
+}
+
+.content-video {
+  display: block;
+  width: 100%;
+  margin: 1.5em 0;
+  border: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+/* Each Mermaid fence renders to a committed pair of SVGs; the theme picks one.
+   Both are in the markup, so neither needs JavaScript to appear. */
+.content-mermaid {
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+.content-mermaid > img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+.content-mermaid > .content-mermaid-dark,
+.dark .content-mermaid > .content-mermaid-light {
+  display: none;
+}
+
+.dark .content-mermaid > .content-mermaid-dark {
+  display: inline-block;
+}
+
+/* Shiki emits both themes' colours as CSS variables on every token, so one
+   render serves light and dark and no theme is baked in. */
+.prose-content .shiki,
+.prose-content .shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark .prose-content .shiki,
+.dark .prose-content .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+.prose-content .shiki {
+  padding: 1em;
+  overflow-x: auto;
+}
+
+@media print {
+  .content-mermaid > .content-mermaid-dark {
+    display: none;
+  }
+
+  .content-mermaid > .content-mermaid-light {
+    display: inline-block;
+  }
+}

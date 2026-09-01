@@ -89,7 +89,7 @@ export const rehypeContentLinks: Plugin<[ContentLinksOptions], Root> = ({
 
       if (external && node.tagName === 'a') {
         node.properties.target = '_blank';
-        node.properties.rel = 'noopener noreferrer';
+        node.properties.rel = ['noopener', 'noreferrer'];
       }
     });
   };

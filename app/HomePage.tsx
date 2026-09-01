@@ -62,7 +62,7 @@ export default function Home() {
         <section id="dev" className="space-y-6">
           <h2 className="text-3xl font-bold">/dev</h2>
 
-          <div className="prose prose-invert max-w-none flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <p className="text-lg leading-relaxed">
               I build stuff, and here’s what you’ll find: stuff that works,
               stuff that doesn’t, and stuff that’s still a work in progress.
@@ -216,7 +216,7 @@ export default function Home() {
         <section id="music" className="space-y-6">
           <h2 className="text-3xl font-bold">/music</h2>
 
-          <div className="prose prose-invert max-w-none">
+          <div>
             <p className="text-lg leading-relaxed italic mb-4">
               “AI as collaborator, not tool or replacement”
             </p>
@@ -318,7 +318,7 @@ export default function Home() {
         <section id="writing" className="space-y-6">
           <h2 className="text-3xl font-bold">/writing</h2>
 
-          <div className="prose prose-invert max-w-none">
+          <div>
             <p className="text-lg leading-relaxed">
               Before I became a full-time coder, I worked for 22 years as a
               translator, editor, and copywriter. Although I don’t do it much

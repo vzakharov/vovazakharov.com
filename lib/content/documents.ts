@@ -27,6 +27,8 @@ export interface ContentDocument {
   /** Where `public/` serves the authored markdown, for the download link. */
   rawUrl: string;
   route: string;
+  /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
+  ogImageUrl?: string;
 }
 
 const VARIANT_PATTERN = new RegExp(`\\.(${VARIANTS.join('|')})$`);
@@ -54,16 +56,20 @@ function readDocument(
   });
   const { data, content } = matter(raw);
   const { slug, variant } = parseFileName(fileName);
+  const frontmatter = parseFrontmatter(data, fileName);
 
   return {
     collection,
     slug,
     variant,
-    frontmatter: parseFrontmatter(data, fileName),
+    frontmatter,
     body: content,
     fileName,
     rawUrl: collectionAssetUrl(collection, fileName),
     route: documentRoute(collection, slug, variant),
+    ogImageUrl: frontmatter.ogImage
+      ? collectionAssetUrl(collection, frontmatter.ogImage.replace(/^\.\//, ''))
+      : undefined,
   };
 }
 

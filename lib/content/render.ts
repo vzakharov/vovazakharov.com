@@ -5,6 +5,7 @@ import type { Root as MdastRoot } from 'mdast';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
 import rehypeShiki from '@shikijs/rehype';
+import type { BuiltinLanguage } from 'shiki';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
@@ -24,7 +25,7 @@ import { rehypeTableScroll } from './plugins/rehype-table-scroll';
 const READING_SPEED = 220;
 
 /** Fence languages the content uses. An unlisted one falls back to plain text. */
-const CODE_LANGUAGES = [
+const CODE_LANGUAGES: BuiltinLanguage[] = [
   'bash',
   'css',
   'html',
