@@ -15,16 +15,21 @@ enforce it, verified non-vacuous against a planted upward import and
 barrel sidestep.
 
 Placement follows from the rules: the theme toggle is a feature
-because both pages use it; single-consumer pieces stay in their page. Every layer sits under src/, the app layer with
-them, leaving root app/ as routing alone — bought with one override,
-no-ui-in-app, since Next mandates a root layout and a root layout is
-app-layer UI wherever it is filed. Root pages/ must stay, or Next
-finds src/pages and refuses to build.
+because both pages use it; single-consumer pieces stay in their page.
+Every layer sits under src/, the app layer with them, leaving root
+app/ as routing alone — bought with one override, no-ui-in-app, since
+Next mandates a root layout and a root layout is app-layer UI wherever
+it is filed. Root pages/ must stay, or Next finds src/pages and
+refuses to build.
 
 Locale handling gained real types: a Locale from routing.locales, a
 toLocale() boundary check, and a catalogue map typed against en.json
 that fails the build on a key missing from one translation file.
-vet.sh fans out through run-parallel.sh; eslint.config is TypeScript.
+vet.sh fans out through run-parallel.sh — steiger and the type-overlap
+gate among its checks — and eslint.config is TypeScript, which Node
+now runs without a loader. The gate's seeded bases follow its own home
+rule into the modules that declare them, emptying lib/typings.ts:
+Summarized sits in shared/ui beside the Card both home cards render.
 
 No behaviour changes — the same five routes, rendered in both themes
 and compared against the pre-change pages.
