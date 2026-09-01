@@ -29,9 +29,14 @@ Spotify embeds. i18n/messages.ts now keys the catalogs by locale
 and registers them with next-intl, so a key in en.json missing
 from ru.json is a type error — which also retired eighteen
 no-unsafe-* reports by replacing t.raw(). Component files are
-kebab-case, moved with git mv; two scoped off blocks carry their
-rationale rather than soften a rule, under the error-or-off
-policy in .claude/rules/eslint.md.
+kebab-case, moved with git mv.
+
+Exemptions sit at the point of use — an inline disable carrying
+its rationale, where whoever edits the line will read it —
+rather than soften a rule to warn; a config block is for an
+exemption spanning files, which leaves one, for eslint/ itself.
+.claude/rules/eslint.md records that and the error-or-off
+policy.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

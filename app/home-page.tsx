@@ -7,6 +7,12 @@ import { renderPrimaryDocuments } from '@/lib/content/render';
 import { ArticleCard, Card, ProjectCard } from '@/components/card';
 import { ThemeToggle } from '@/components/theme-toggle';
 
+/* eslint-disable vova/no-hardcoded-strings -- the site root is served at `/`
+   with no locale segment — only `[locale]/cv/` is localized — so its copy is
+   authored in English in the JSX and there is no `ru` rendering for a literal
+   to defeat. Drop this if the root page is ever localized; the rule stays
+   `error` everywhere else, including every component the CV renders. */
+
 // A static export evaluates this at build time, so the footer year is the
 // year the site was last deployed.
 const BUILD_YEAR = new Date().getFullYear();

@@ -15,6 +15,10 @@
  * 22.18 or newer and every relative import carries its `.ts` extension.
  */
 
+/* eslint-disable no-console -- stdout is this script's interface: progress,
+   the `--check` staleness report, and the prune log are what a human runs it
+   for. The rule stays `error` in the app, where a stray log ships to a user. */
+
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';

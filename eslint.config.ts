@@ -140,22 +140,6 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/no-unsafe-type-assertion': 'off',
     },
   },
-  {
-    // The site root is served at `/` with no locale segment — only `[locale]/cv/`
-    // is localized — so its copy is authored in English in the JSX and there is no
-    // `ru` rendering for a literal to defeat. Drop this block if the root page is
-    // ever localized; the rule stays `error` everywhere else, including every
-    // component the CV renders.
-    files: ['app/home-page.tsx'],
-    rules: { 'vova/no-hardcoded-strings': 'off' },
-  },
-  {
-    // Declaration merging into a library's own type is only expressible as an
-    // `interface`, so the next-intl registration cannot satisfy the project-wide
-    // preference for `type`. Permanent, and scoped to the one file that augments.
-    files: ['i18n/next-intl.d.ts'],
-    rules: { '@typescript-eslint/consistent-type-definitions': 'off' },
-  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
