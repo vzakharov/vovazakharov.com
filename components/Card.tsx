@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
+import type { Described, Titled } from '@/lib/typings';
 
-interface CardProps {
+type CardProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 export function Card({ children, className = '' }: CardProps) {
   return (
@@ -15,13 +16,14 @@ export function Card({ children, className = '' }: CardProps) {
   );
 }
 
-interface ProjectCardProps {
-  title: string;
-  description: string;
+/** A heading and the prose under it — the copy every card kind renders. */
+type Summarized = Titled & Described;
+
+type ProjectCardProps = Summarized & {
   techStack?: string;
   stars?: number;
   url?: string;
-}
+};
 
 export function ProjectCard({
   title,
@@ -52,11 +54,9 @@ export function ProjectCard({
   return content;
 }
 
-interface ArticleCardProps {
-  title: string;
-  description: string;
+type ArticleCardProps = Summarized & {
   url: string;
-}
+};
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (

@@ -14,6 +14,11 @@ const eslintConfig = defineConfig([
     },
     rules: {
       'prettier/prettier': 'error',
+      // `type` over `interface`: interfaces allow unintentional declaration
+      // merging, and the type-overlap gate scans type aliases only — the ban is
+      // what makes that scope cover every named object shape rather than a
+      // subset. See scripts/type-overlap-check.README.md.
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
   },
   // Override default ignores of eslint-config-next.
@@ -23,6 +28,8 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Scratch: CLAUDE.md sends dev artifacts here, so a spike must not fail vet.
+    'tmp/**',
   ]),
 ]);
 

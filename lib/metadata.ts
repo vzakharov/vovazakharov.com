@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import { SITE_CONFIG, getAbsoluteUrl } from './site-config';
 
-export interface ConstructMetadataParams {
+export type ConstructMetadataParams = {
   title?: string;
   description?: string;
   ogDescription?: string; // Separate description for OpenGraph if different from main
   path?: string; // e.g., "/cv" - automatically converted to absolute URL
   ogType?: 'website' | 'profile' | 'article';
   ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
-}
+};
 
 export function constructMetadata({
   title,
