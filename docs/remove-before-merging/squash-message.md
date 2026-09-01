@@ -27,6 +27,8 @@ no types where an allowlist silently un-scans the next one added; and
 `interface` is banned repo-wide, the detector reading type aliases only.
 The four interfaces convert, and the one finding — Card.tsx's card props
 both declaring title and description — is cleared by a Summarized base.
+Eslint and prettier pick up the gate's own skip of tmp/, so the scratch
+directory CLAUDE.md mandates no longer fails vet on a spike's formatting.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
