@@ -14,17 +14,15 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path          | What lives there                                                                                                                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/`        | App Router. `page.tsx`/`HomePage.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens. |
-| `components/` | Shared presentational components (`Card`, `LocalePicker`, `ThemeProvider`, `ThemeToggle`).                                                                                                        |
-| `hooks/`      | React hooks (`useMounted` — the hydration guard theme-dependent UI needs).                                                                                                                        |
-| `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy) and `request.ts` (per-request message loading).                                                                                |
-| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`.                                                                                                    |
-| `messages/`   | Translation catalogs, `en.json` and `ru.json`. Both must stay in sync: a key added to one belongs in the other.                                                                                   |
-| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                                |
-| `scripts/`    | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                                              |
-| `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                  |
+| Path       | What lives there                                                                                                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`. See `src/README.md` for the tour and `@.claude/rules/fsd.md` for the enforced conventions. |
+| `app/`     | App Router, and the FSD app layer: root layout, theme provider, `globals.css`. Route files are thin — they re-export a `src/pages/` slice and add route-level metadata.              |
+| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                            |
+| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                               |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                   |
+| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                                 |
+| `.claude/` | Skills, rules and session hooks.                                                                                                                                                     |
 
 ## Deployment
 
@@ -42,14 +40,15 @@ Here that is:
 pnpm build            # next build — the only end-to-end check available
 pnpm typecheck        # tsc --noEmit          ┐
 pnpm exec eslint .    # not `pnpm lint`       │ concurrent
-pnpm format:check     # prettier --check .    ┘
+pnpm format:check     # prettier --check .    │
+pnpm lint:fsd         # steiger src           ┘
 ```
 
 Three things about that list are deliberate:
 
 - **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The build runs alone, before the other three.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other three touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
+- **The build runs alone, before the other four.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other four touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
@@ -100,7 +99,7 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 
 **There is no test suite yet.** `pnpm build` stands in for one: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
 
-Adding a suite is worthwhile as soon as there is logic worth asserting on (`lib/metadata.ts` and the `messages/` catalogs being the obvious first candidates). When it arrives, wire it into `scripts/vet.sh` alongside the existing checks and replace this paragraph.
+Adding a suite is worthwhile as soon as there is logic worth asserting on (`src/shared/seo/` and the message catalogues under `src/shared/i18n/` being the obvious first candidates). When it arrives, wire it into `scripts/vet.sh` alongside the existing checks and replace this paragraph.
 
 Universal guidance regardless of stack:
 

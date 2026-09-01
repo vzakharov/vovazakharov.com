@@ -39,20 +39,27 @@ The site automatically deploys to GitHub Pages when you push to the `main` branc
 
 ## Project Structure
 
+Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
+under `src/`; `src/README.md` is the tour.
+
 ```
-├── app/
-│   ├── layout.tsx          # Root layout with fonts and theme provider
-│   ├── page.tsx            # Main homepage with all sections
-│   └── globals.css         # Global styles and theme variables
-├── components/
-│   ├── card.tsx            # Reusable card components
-│   ├── theme-provider.tsx  # Theme context provider
-│   └── theme-toggle.tsx    # Light/Dark/Auto theme switcher
+├── app/                        # App Router, and the FSD app layer
+│   ├── layout.tsx              # Root layout — fonts, providers, base metadata
+│   ├── theme-provider.tsx      # Theme context provider
+│   ├── page.tsx                # Homepage route → src/pages/home
+│   ├── cv/, [locale]/cv/       # CV routes → src/pages/cv
+│   └── globals.css             # Global styles and theme variables
+├── pages/                      # Empty Pages-Router shadow — see pages/README.md
+├── src/
+│   ├── shared/                 # config, i18n, seo, ui, lib/*
+│   ├── features/switch-theme/  # Light/Dark/Auto theme switcher
+│   └── pages/{home,cv}/        # Page composition
+├── content/                    # Long-form prose and its assets
 ├── public/
-│   ├── ava.png            # Avatar image
-│   └── .nojekyll          # GitHub Pages configuration
+│   ├── ava.png                 # Avatar image
+│   └── .nojekyll               # GitHub Pages configuration
 └── .github/workflows/
-    └── deploy.yml         # GitHub Actions deployment workflow
+    └── deploy.yml              # GitHub Actions deployment workflow
 ```
 
 ## Features
