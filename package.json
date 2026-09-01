@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test \"**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
     "lint": "eslint . --fix",
     "lint:fsd": "steiger src",

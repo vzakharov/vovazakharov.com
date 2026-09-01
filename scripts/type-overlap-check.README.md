@@ -261,11 +261,14 @@ The order of work on a finding:
 7. **Extract**, and delete any alias that collapsed to a pure rename of one base.
 8. **Sweep**: orphaned docstrings (§7), then `./scripts/vet.sh`.
 9. **For a gate change, assert the failure mode as well as the success one.** A clean run proves the
-   repo is deduped; it does not prove the gate still fires. A throwaway two-type file — sharing one
-   member for the member pass, spelling one combination twice for the other — confirming the run
-   fails and names the types, takes ten seconds and is the only evidence that distinguishes the two.
-   **The probe cannot live in `tmp/`**, which the scanner skips; put it somewhere scanned, under a
-   name that reads as disposable, and delete it before committing.
+   repo is deduped; it does not prove the gate still fires. That distinction is what
+   `scripts/type-overlap-check.test.ts` exists for: it drives the real script over throwaway source
+   trees and asserts both directions — the clean line verbatim, and, for each pass, the section, the
+   group's member list and the fix bullet. Extend it in the same commit as the gate change, and check
+   the new case actually fails against the unchanged script before you keep it.
+   **An ad-hoc probe cannot live in `tmp/`**, which the scanner skips — nor anywhere else committed,
+   since the repo's own run would then scan it. That is why the fixtures are written into the OS temp
+   directory at runtime rather than checked in.
 
 ## 7. Docstrings on a base
 
@@ -299,9 +302,9 @@ The floor is not complete coverage.
 
 - **`*.test.*` is skipped by design — the permanent gap.** Production re-inlines are impossible, so
   tests are the only place a deduped member can quietly come back. **A test that annotates a shape
-  should compose the bases too, and nothing but review will tell you when it doesn't.** There is no
-  suite here yet (CLAUDE.md → Testing); the exclusion is inherited so that adding one doesn't
-  immediately light the gate up.
+  should compose the bases too, and nothing but review will tell you when it doesn't.** The exclusion
+  is what lets a suite exist at all without lighting the gate up — this gate's own tests declare
+  duplicate shapes on purpose.
 - **Combinations match syntactically, so an alias and its expansion don't.** The combination pass
   compares constituent _text_, exactly as the member pass compares signature text. A type spelling
   `Summarized` and one spelling `Titled & Described` therefore share a combination without sharing a

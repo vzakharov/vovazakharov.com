@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: #17 flag repeated base combinations in type-overlap (pr #18)
+chore: #17 flag repeated base combinations in type-overlap (pr #18)
 ```
 
 ```
@@ -28,9 +28,19 @@ pass's threshold and wording once, so the scan, the section, the fix
 bullet and the clean line cannot drift apart. Constituent identity
 stays syntactic, matching the member pass, which leaves an alias and
 its expansion still unmatched; that residual replaces the closed gap in
-the README rather than going unsaid. Anyone changing this gate should
-know its verification probe cannot live in `tmp/`, which the scanner
-skips.
+the README rather than going unsaid.
+
+The gate now has tests, and they are the repo's first. `pnpm test` is
+Node's built-in runner over `**/*.test.ts` through `tsx` — no framework
+and no config — wired into `vet.sh` beside the other read-only checks.
+Each case materializes a throwaway source tree in the OS temp directory
+and runs the real script against it with `cwd` set there, so what is
+asserted is the artifact `pnpm type-overlap` runs, and production code
+gains no seam for the test's benefit. Both directions are covered: the
+clean line verbatim, and, per pass, the section, the group listing and
+the fix bullet, plus the threshold overrides and every skip rule. A
+committed fixture would be a `.ts` file the repo's own gate then
+scanned, which is why the trees are written at runtime.
 
 Closes #17
 
