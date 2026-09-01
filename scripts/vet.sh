@@ -31,11 +31,12 @@ start() {
 # build here means a green deploy.
 pnpm build >"$logs/build.log" 2>&1 || failed+=(build)
 
-# None of these three writes anything another one reads, so they overlap freely.
+# None of these four writes anything another one reads, so they overlap freely.
 start typecheck pnpm typecheck
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
 start eslint pnpm exec eslint .
 start format pnpm format:check
+start fsd pnpm lint:fsd
 
 for i in "${!names[@]}"; do
   wait "${pids[$i]}" || failed+=("${names[$i]}")

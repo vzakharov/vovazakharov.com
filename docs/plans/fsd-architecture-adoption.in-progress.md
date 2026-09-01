@@ -34,7 +34,7 @@ content/                          # unchanged — prose, not code
 
 ### Why the app layer is root `app/`, not `src/app`
 
-Steiger's stock ruleset flags `src/app/ui/**` (`fsd/no-ui-in-app`) and `src/app/providers` (`fsd/segments-by-purpose` — "providers" names what the contents *are*, not their purpose). `playgramapp` buys `src/app` back by disabling `fsd/no-ui-in-app` for that path; under "no workarounds" that override is not available here. Root `app/` already *is* the app-wide setup — the root layout, providers and global stylesheet — and it sits outside the Steiger scan root, so putting the app layer there is the honest reading rather than a dodge. This is the one deliberate divergence from the boilerplate.
+Steiger's stock ruleset flags `src/app/ui/**` (`fsd/no-ui-in-app`) and `src/app/providers` (`fsd/segments-by-purpose` — "providers" names what the contents _are_, not their purpose). `playgramapp` buys `src/app` back by disabling `fsd/no-ui-in-app` for that path; under "no workarounds" that override is not available here. Root `app/` already _is_ the app-wide setup — the root layout, providers and global stylesheet — and it sits outside the Steiger scan root, so putting the app layer there is the honest reading rather than a dodge. This is the one deliberate divergence from the boilerplate.
 
 ### The `pages` trap
 
@@ -42,21 +42,21 @@ Steiger's stock ruleset flags `src/app/ui/**` (`fsd/no-ui-in-app`) and `src/app/
 
 ### Slice-by-slice placement
 
-| Current                      | Goes to                                | Why                                                              |
-| ---------------------------- | -------------------------------------- | ---------------------------------------------------------------- |
-| `components/Card.tsx` → `Card` | `shared/ui/card.tsx`                   | Generic primitive, used by both pages                            |
-| `components/Card.tsx` → `ProjectCard`, `ArticleCard` | `pages/home/ui/`     | Home-only content cards; a slice for them would be insignificant |
-| `components/ThemeToggle.tsx` | `features/switch-theme/ui/theme-toggle.tsx` | User-facing capability with two consumers                   |
-| `components/LocalePicker.tsx`| `pages/cv/ui/locale-picker.tsx`        | Single consumer — merged into it, per `insignificant-slice`      |
-| `components/ThemeProvider.tsx` | `app/theme-provider.tsx`             | App-wide provider                                                |
-| `hooks/useMounted.ts`        | `shared/lib/hydration/use-mounted.ts`  | Two consumers; sub-library import, no `shared/lib` root barrel   |
-| `i18n/{routing,request}.ts`  | `shared/i18n/`                         | Infrastructure                                                   |
-| `messages/{en,ru}.json`      | `shared/i18n/messages/`                | Owned by the segment that loads them                             |
-| `lib/site-config.ts`         | `shared/config/`                       | Infrastructure                                                   |
-| `lib/metadata.ts`            | `shared/seo/construct-metadata.ts`     | Purpose-named segment                                            |
-| `app/HomePage.tsx`           | `pages/home/ui/home-page.tsx`          | Page composition                                                 |
-| `app/[locale]/cv/CVPage.tsx` | `pages/cv/ui/cv-page.tsx`              | Page composition                                                 |
-| `app/cv/cv-utils.ts`         | `pages/cv/lib/cv-metadata.ts`          | Belongs to the slice both CV routes consume                      |
+| Current                                              | Goes to                                     | Why                                                              |
+| ---------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------- |
+| `components/Card.tsx` → `Card`                       | `shared/ui/card.tsx`                        | Generic primitive, used by both pages                            |
+| `components/Card.tsx` → `ProjectCard`, `ArticleCard` | `pages/home/ui/`                            | Home-only content cards; a slice for them would be insignificant |
+| `components/ThemeToggle.tsx`                         | `features/switch-theme/ui/theme-toggle.tsx` | User-facing capability with two consumers                        |
+| `components/LocalePicker.tsx`                        | `pages/cv/ui/locale-picker.tsx`             | Single consumer — merged into it, per `insignificant-slice`      |
+| `components/ThemeProvider.tsx`                       | `app/theme-provider.tsx`                    | App-wide provider                                                |
+| `hooks/useMounted.ts`                                | `shared/lib/hydration/use-mounted.ts`       | Two consumers; sub-library import, no `shared/lib` root barrel   |
+| `i18n/{routing,request}.ts`                          | `shared/i18n/`                              | Infrastructure                                                   |
+| `messages/{en,ru}.json`                              | `shared/i18n/messages/`                     | Owned by the segment that loads them                             |
+| `lib/site-config.ts`                                 | `shared/config/`                            | Infrastructure                                                   |
+| `lib/metadata.ts`                                    | `shared/seo/construct-metadata.ts`          | Purpose-named segment                                            |
+| `app/HomePage.tsx`                                   | `pages/home/ui/home-page.tsx`               | Page composition                                                 |
+| `app/[locale]/cv/CVPage.tsx`                         | `pages/cv/ui/cv-page.tsx`                   | Page composition                                                 |
+| `app/cv/cv-utils.ts`                                 | `pages/cv/lib/cv-metadata.ts`               | Belongs to the slice both CV routes consume                      |
 
 Files in `src/` are kebab-case (`card.tsx` exporting `Card`), page components are `*-page.tsx` — the boilerplate's convention.
 

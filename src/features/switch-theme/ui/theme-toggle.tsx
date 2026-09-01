@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/shared/lib/hydration';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();

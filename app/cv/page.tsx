@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
-import { generateCvMetadata } from './cv-utils';
+import { generateCvMetadata } from '@/pages/cv';
+import { routing } from '@/shared/i18n';
 
-export const metadata = generateCvMetadata('en');
+export const metadata = generateCvMetadata(routing.defaultLocale);
 
-export default function CVRedirect() {
-  redirect('/en/cv');
+export default function CvRedirect() {
+  redirect(`/${routing.defaultLocale}/cv`);
 }

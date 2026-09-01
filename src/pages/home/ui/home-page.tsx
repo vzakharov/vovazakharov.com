@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import { ProjectCard, ArticleCard, Card } from '@/components/Card';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import Link from 'next/link';
+import { ThemeToggle } from '@/features/switch-theme';
+import { Card } from '@/shared/ui';
+import { ArticleCard } from './article-card';
+import { ProjectCard } from './project-card';
 
-export default function Home() {
+export function HomePage() {
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20">
       <div className="max-w-4xl mx-auto space-y-16">

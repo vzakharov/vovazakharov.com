@@ -1,4 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
+import { loadMessages } from './load-messages';
 import { routing } from './routing';
 
 export default getRequestConfig(async () => {
@@ -6,6 +7,6 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: loadMessages(locale),
   };
 });

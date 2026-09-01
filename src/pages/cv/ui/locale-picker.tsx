@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname, useRouter } from '@/i18n/routing';
 import { useLocale } from 'next-intl';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/shared/lib/hydration';
+import { usePathname, useRouter } from '@/shared/i18n';
 
 export function LocalePicker() {
   const pathname = usePathname();

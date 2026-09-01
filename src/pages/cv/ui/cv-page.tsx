@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Printer } from 'lucide-react';
-import { Card } from '@/components/Card';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LocalePicker } from '@/components/LocalePicker';
+import { ThemeToggle } from '@/features/switch-theme';
+import { Card } from '@/shared/ui';
+import { LocalePicker } from './locale-picker';
 
-export default function CVPage() {
+export function CvPage() {
   const t = useTranslations('cv');
   const handlePrint = () => {
     window.print();

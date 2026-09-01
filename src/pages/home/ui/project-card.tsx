@@ -1,19 +1,4 @@
-import { ReactNode } from 'react';
-
-interface CardProps {
-  children: ReactNode;
-  className?: string;
-}
-
-export function Card({ children, className = '' }: CardProps) {
-  return (
-    <div
-      className={`border border-foreground/20 p-6 hover:border-foreground/40 transition-colors print:p-4 print:border-0 print:border-b ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+import { Card } from '@/shared/ui';
 
 interface ProjectCardProps {
   title: string;
@@ -50,21 +35,4 @@ export function ProjectCard({
   }
 
   return content;
-}
-
-interface ArticleCardProps {
-  title: string;
-  description: string;
-  url: string;
-}
-
-export function ArticleCard({ title, description, url }: ArticleCardProps) {
-  return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="block">
-      <Card>
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="leading-relaxed">{description}</p>
-      </Card>
-    </a>
-  );
 }

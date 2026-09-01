@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SITE_CONFIG, getAbsoluteUrl } from './site-config';
+import { SITE_CONFIG, getAbsoluteUrl } from '@/shared/config';
 
 export interface ConstructMetadataParams {
   title?: string;
