@@ -165,8 +165,6 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     // Dev artifacts (gitignored, transient — CLAUDE.md § "Key principles"):
     'tmp/**',
-    // scripts/ is shell and Python only; nothing here for ESLint to read.
-    'scripts/**',
   ]),
 ]);
 

@@ -36,6 +36,8 @@ start typecheck pnpm typecheck
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
 start eslint pnpm exec eslint .
 start format pnpm format:check
+# Reads source text only — no generated types, nothing another check writes.
+start type-overlap pnpm type-overlap
 
 for i in "${!names[@]}"; do
   wait "${pids[$i]}" || failed+=("${names[$i]}")

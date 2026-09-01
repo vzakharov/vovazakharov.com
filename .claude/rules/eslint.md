@@ -37,8 +37,12 @@ paths:
 
 - **Rule files import relatively, never through `@/`.** ESLint loads the config
   with jiti, which does not apply the TypeScript path alias. `eslint/` is
-  therefore self-contained: anything a rule needs from elsewhere is vendored
-  into the tree (`eslint/from-entries.ts`) rather than imported from `lib/`.
+  therefore self-contained in its runtime helpers: anything a rule needs from
+  elsewhere is vendored into the tree (`eslint/from-entries.ts`) rather than
+  imported from `lib/`. Shared _base types_ are the exception — the type-overlap
+  gate allows a member exactly one declaration repo-wide, so a base the catalog
+  already homes is re-exported from `lib/typings.ts` through a relative path
+  (`eslint/rules/estree-mixins.ts`) instead of being redeclared here.
 
 - **Some rules turn `off` because `tsconfig.json` already covers them.**
   `no-unused-vars` delegates to `noUnusedLocals`/`noUnusedParameters`,

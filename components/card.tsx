@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import type { Described, Titled } from '@/lib/typings';
+
 type CardProps = {
   children: ReactNode;
   className?: string;
@@ -15,9 +17,10 @@ export function Card({ children, className = '' }: CardProps) {
   );
 }
 
-type ProjectCardProps = {
-  title: string;
-  description: string;
+/** A heading and the prose under it — the copy every card kind renders. */
+type Summarized = Titled & Described;
+
+type ProjectCardProps = Summarized & {
   techStack?: string;
   stars?: number;
   url?: string;
@@ -56,9 +59,7 @@ export function ProjectCard({
   return content;
 }
 
-type ArticleCardProps = {
-  title: string;
-  description: string;
+type ArticleCardProps = Summarized & {
   url: string;
 };
 

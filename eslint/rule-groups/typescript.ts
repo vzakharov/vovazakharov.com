@@ -129,7 +129,11 @@ export const typescriptRules = {
     'error',
     { assertionStyle: 'as', objectLiteralTypeAssertions: 'never' },
   ],
-  '@typescript-eslint/consistent-type-definitions': ['error', 'type'], // type over interface — interfaces allow unintentional declaration merging
+  // `type` over `interface`: interfaces allow unintentional declaration merging,
+  // and the type-overlap gate scans type aliases only — the ban is what makes
+  // that scope cover every named object shape rather than a subset.
+  // See scripts/type-overlap-check.README.md.
+  '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
   '@typescript-eslint/consistent-type-exports': [
     'error',
     { fixMixedExportsWithInlineTypeSpecifier: true },
