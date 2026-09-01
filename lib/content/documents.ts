@@ -73,10 +73,7 @@ function readDocument(
   };
 }
 
-/**
- * Every document in a collection, full versions and variants alike, newest
- * first. Reads the disk on every call; the build calls it a handful of times.
- */
+/** Every document in a collection, variants included, newest first. */
 export function listDocuments(collection: CollectionId): ContentDocument[] {
   return fs
     .readdirSync(collectionDir(collection))
@@ -87,7 +84,7 @@ export function listDocuments(collection: CollectionId): ContentDocument[] {
     );
 }
 
-/** The full documents only — what the index page lists. */
+/** The full documents only, without the shorter cuts. */
 export function listPrimaryDocuments(
   collection: CollectionId
 ): ContentDocument[] {
@@ -107,10 +104,7 @@ export function loadDocument(
     : undefined;
 }
 
-/**
- * The variants of `slug` that exist on disk, in `VARIANTS` order — what the
- * article header offers as alternative cuts.
- */
+/** The variants of `slug` that exist on disk, in `VARIANTS` order. */
 export function siblingVariants(
   collection: CollectionId,
   slug: string
@@ -120,7 +114,6 @@ export function siblingVariants(
   );
 }
 
-/** Every document across every collection — the sitemap's source. */
 export function listAllDocuments(): ContentDocument[] {
   return Object.keys(COLLECTIONS).flatMap((collection) =>
     listDocuments(collection as CollectionId)

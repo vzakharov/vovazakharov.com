@@ -4,7 +4,6 @@ import CVPage from './CVPage';
 import { generateCvMetadata } from '@/app/cv/cv-utils';
 import { documentRoute } from '@/lib/content/collections';
 
-/** The write-up the CV's case-studies section points at. */
 const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
 
 type Props = {

@@ -8,9 +8,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { LocalePicker } from '@/components/LocalePicker';
 
 /**
- * Order is a presentation decision, so it lives here rather than in the
- * catalogs — `en` and `ru` cannot disagree about it, and adding an entry is a
- * key in both catalogs plus a line here.
+ * Order is a presentation decision, so it lives in code rather than in the
+ * catalogs, where `en` and `ru` would be free to disagree about it.
  */
 const EXPERIENCE_KEYS = [
   'playgram',
@@ -21,7 +20,7 @@ const EXPERIENCE_KEYS = [
   'voicemod',
 ] as const;
 
-/** The catalogs carry both shapes; neither is migrated to the other. */
+/** Entries use whichever shape suits them; a card renders both. */
 type ExperienceItem = string | { label: string; text: string };
 
 function ExperienceCard({ entryKey }: { entryKey: string }) {
@@ -70,10 +69,7 @@ function ExperienceCard({ entryKey }: { entryKey: string }) {
 }
 
 export interface CVPageProps {
-  /**
-   * Route of the case study the CV links to. Resolved by the page, because the
-   * collection registry that owns URL shapes is build-time-only.
-   */
+  /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
 }
 

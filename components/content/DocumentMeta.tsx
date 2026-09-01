@@ -4,8 +4,8 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
-  // The build machine's zone is nobody's business; a date-only frontmatter
-  // value parses as UTC midnight and must format back as the same day.
+  // A date-only frontmatter value parses as UTC midnight; formatting it in the
+  // build machine's zone would shift it a day.
   timeZone: 'UTC',
 });
 

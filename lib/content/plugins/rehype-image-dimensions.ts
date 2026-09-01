@@ -37,9 +37,8 @@ function svgDimensions(file: Buffer): Dimensions | undefined {
 }
 
 /**
- * Reads dimensions out of the bytes rather than pulling in an image library —
- * the two formats first-party content uses are both readable from their header.
- * Throws on a source that does not resolve to a file, so a broken image
+ * Reads the file's own header, so no image library is needed for the two formats
+ * the content uses. Throws on a `src` that resolves to nothing, so a broken
  * reference fails the build instead of reaching a reader.
  */
 function intrinsicDimensions(src: string): Dimensions | undefined {
@@ -62,10 +61,9 @@ function intrinsicDimensions(src: string): Dimensions | undefined {
 }
 
 /**
- * Gives every content image its intrinsic size so it reserves layout space
- * before it loads, and defers the ones below the fold. Sizes only images the
- * repo serves — a remote source has no bytes to read at build time — and never
- * overwrites dimensions the author set by hand.
+ * Reserves each image's layout space before it loads, and defers the ones below
+ * the fold. Sizes only images the repo serves — a remote source has no bytes to
+ * read at build time — and never overwrites dimensions the author set by hand.
  */
 export const rehypeImageDimensions: Plugin<[], Root> = () => {
   return (tree) => {

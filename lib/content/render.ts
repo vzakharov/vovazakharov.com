@@ -62,8 +62,7 @@ export interface RenderedDocument {
 
 /**
  * Lifts the leading `# ` heading out of the body and counts the prose. The
- * title becomes the page's `<h1>`, rendered by the article header rather than
- * by the body, and leaving it in place would show it twice.
+ * article header renders that heading, so leaving it in shows the title twice.
  */
 function extractTitleAndCount(collected: {
   title?: string;
@@ -161,11 +160,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
 
 const cache = new Map<string, Promise<RenderedDocument>>();
 
-/**
- * Renders a document, once per build process. The index page and the article
- * pages both want a document's derived title and reading time, and parsing the
- * long ones twice is the difference the memo buys.
- */
+/** Renders a document, memoized per build process — several pages want the same one. */
 export function renderDocument(
   document: ContentDocument
 ): Promise<RenderedDocument> {
@@ -186,8 +181,7 @@ export interface DocumentCard {
 
 /**
  * The full documents of a collection, rendered — what a list of cards needs.
- * Rendering to read a title looks wasteful but is not: `renderDocument`
- * memoizes, and the article page would parse the same file anyway.
+ * Rendering just to read a title is free: `renderDocument` memoizes.
  */
 export function renderPrimaryDocuments(
   collection: CollectionId

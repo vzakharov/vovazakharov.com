@@ -3,9 +3,8 @@ import 'server-only';
 import path from 'node:path';
 
 /**
- * The one place a content URL shape is decided. Adding a collection here is
- * all it takes for its documents to get pages, sitemap entries and index
- * cards — the routes derive their static params from this registry.
+ * The one place a content URL shape is decided. Routes, the sitemap and the
+ * index cards all derive from it, so a new collection is an entry here.
  */
 export const COLLECTIONS = {
   'case-studies': {
@@ -20,10 +19,7 @@ export type CollectionId = keyof typeof COLLECTIONS;
 
 export const COLLECTION_IDS = Object.keys(COLLECTIONS) as CollectionId[];
 
-/**
- * Shorter cuts of a document, as `<slug>.<variant>.md` beside the full one.
- * Order is the order they are offered to the reader.
- */
+/** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
 export const VARIANTS = ['mini', 'micro'] as const;
 
 export type Variant = (typeof VARIANTS)[number];

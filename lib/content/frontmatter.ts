@@ -21,9 +21,8 @@ export const frontmatterSchema = z.object({
 export type Frontmatter = z.infer<typeof frontmatterSchema>;
 
 /**
- * `gray-matter` hands back `{[key: string]: any}`, so this is the boundary
- * where content becomes typed. Parses rather than casts, and names the file in
- * the failure so a bad document is obvious at build time.
+ * The boundary where `gray-matter`'s untyped output becomes content. Names the
+ * file in the failure, so a bad document is obvious at build time.
  */
 export function parseFrontmatter(data: unknown, fileName: string): Frontmatter {
   const result = frontmatterSchema.safeParse(data);

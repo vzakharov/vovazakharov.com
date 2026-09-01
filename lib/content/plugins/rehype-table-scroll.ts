@@ -5,9 +5,8 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 /**
- * Puts every table in its own scroll container, so a table wider than the
- * viewport scrolls inside the column instead of widening the page. The
- * documents' comparison tables are far wider than a phone.
+ * Puts every table in its own scroll container, so one wider than the viewport
+ * scrolls inside the column instead of widening the page.
  */
 export const rehypeTableScroll: Plugin<[], Root> = () => {
   return (tree) => {

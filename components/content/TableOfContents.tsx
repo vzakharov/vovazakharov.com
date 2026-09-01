@@ -5,9 +5,8 @@ export interface TableOfContentsProps {
 }
 
 /**
- * The document's own outline, as plain anchors — sticky on a wide viewport and
- * shipping no JavaScript, so it works before (and without) hydration. `h1` is a
- * part divider in these documents, so `h2` entries sit indented under one.
+ * The document's outline as plain anchors — no JavaScript, so it works without
+ * hydration. `h1` is a part divider here, so `h2` entries indent under one.
  */
 export function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length < 3) return null;
