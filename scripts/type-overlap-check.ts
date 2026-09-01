@@ -13,10 +13,9 @@
  *   as inherited, so extracting a base and having both types `& Base` is exactly
  *   what makes a finding disappear. *Any* member two types both declare is a
  *   finding, so every shared member has a single home.
- * - **Repeated base combinations**, floor 2. The same named constituents spelled
- *   across two types — `Titled & Described` written twice — is duplication in
- *   the sense a shared member is, one level up, and the member pass cannot see
- *   it because it counts those constituents as inherited. The floor is 2 because
+ * - **Repeated base combinations**, floor 2. The set of constituents the member
+ *   pass discards as inherited — `Titled & Described` written across two types
+ *   is the same shape under two spellings, one level up. The floor is 2 because
  *   a single shared base is reuse working as intended, and is the end state
  *   every member finding is fixed into.
  *
@@ -61,9 +60,8 @@ const SKIP_DIRS = new Set([
   'tmp',
 ]);
 
-// A floor doubles as the default: an env override raises it, never lowers it,
-// so a run can triage the worst offenders first but never preview a stricter
-// gate than the one vet enforces.
+// The floor doubles as the default and an override may only raise it, so a run
+// can triage a looser gate but never preview a stricter one than vet enforces.
 function readThreshold(name: string, floor: number): number {
   const override = process.env[name];
   const value = Number(override ?? floor);
@@ -126,9 +124,8 @@ function ownMembers(typeNode: ts.TypeNode, sf: ts.SourceFile): string[] {
 
 function namedConstituents(typeNode: ts.TypeNode, sf: ts.SourceFile): string[] {
   if (!ts.isIntersectionTypeNode(typeNode)) return [];
-  // Everything `ownMembers` leaves behind: `Titled`, `Maybe<Foo>`,
-  // `Pick<X, 'y'>` are all genuinely part of the combination, so the two halves
-  // partition the constituents with no carve-out to keep in sync.
+  // Exactly what `ownMembers` discards, so the two halves partition an
+  // intersection with no carve-out to keep in sync.
   return typeNode.types
     .filter((c) => !ts.isTypeLiteralNode(c))
     .map((c) => normalize(c.getText(sf)));
@@ -139,9 +136,8 @@ function walk(node: ts.Node, sf: ts.SourceFile, rel: string): void {
     const members = ownMembers(node.type, sf);
     const bases = namedConstituents(node.type, sf);
     // A pure combination alias (`type Summarized = Titled & Described`) has no
-    // own members and still belongs in the base pass — as a participant, so a
-    // type respelling the combination is flagged against it and the fix the
-    // finding names is "use the alias that already exists".
+    // own members and still participates, so a type respelling its combination
+    // is flagged against it rather than against nothing.
     if (members.length > 0 || bases.length > 0) {
       const name = node.name.text;
       let id = `${rel}#${name}`;
@@ -241,10 +237,9 @@ function findOverlaps(
 }
 
 // --- Report ---
-// Everything that differs between the two passes lives in one descriptor each,
-// so a pass is described once rather than restated at the scan, the section, the
-// fix bullet and the clean line — four spots that have to agree, where a missed
-// one is silent (a fix bullet that never prints, a clean line that lies).
+// A pass's threshold and wording are stated once, here: the scan, the section,
+// the fix bullet and the clean line all read them from this descriptor, so they
+// cannot drift apart — a disagreement between them is silent in the output.
 type Pass = {
   threshold: number;
   select: (d: TypeDecl) => string[];

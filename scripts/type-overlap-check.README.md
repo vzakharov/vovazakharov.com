@@ -306,9 +306,9 @@ The floor is not complete coverage.
   compares constituent _text_, exactly as the member pass compares signature text. A type spelling
   `Summarized` and one spelling `Titled & Described` therefore share a combination without sharing a
   token, and the gate sees two unrelated sets. Resolving the alias graph would catch it and is a
-  separate change; until then, reading a group's constituent lists is review's job. **And a single
-  shared base is never flagged** — deliberately, per §1 — so two types differing by one base each are
-  clean by design, not by oversight.
+  separate change; until then, reading a group's constituent lists is review's job. **And two types
+  sharing exactly one base are never flagged** — deliberately, per §1 — so that silence is by design,
+  not oversight.
 - **Inline shapes are invisible at any threshold**, in three positions: a return type, a `const`
   annotation, and — the one that matters most — a **render-prop's argument type**, which is a
   contract between two files and drifts exactly like a named type. So grep the key in inline
