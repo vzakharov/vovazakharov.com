@@ -14,15 +14,15 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path       | What lives there                                                                                                                                                                     |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`. See `src/README.md` for the tour and `@.claude/rules/fsd.md` for the enforced conventions. |
-| `app/`     | App Router, and the FSD app layer: root layout, theme provider, `globals.css`. Route files are thin — they re-export a `src/pages/` slice and add route-level metadata.              |
-| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                            |
-| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                               |
-| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                                   |
-| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                                 |
-| `.claude/` | Skills, rules and session hooks.                                                                                                                                                     |
+| Path       | What lives there                                                                                                                                                           |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them. |
+| `app/`     | App Router, and the FSD app layer: root layout, theme provider, `globals.css`. Route files are thin — they re-export a `src/pages/` slice and add route-level metadata.    |
+| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                  |
+| `content/` | Long-form prose (case studies) and its assets. Content, not code — nothing imports it.                                                                                     |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory).                                         |
+| `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below.                                                                                                       |
+| `.claude/` | Skills, rules and session hooks.                                                                                                                                           |
 
 ## Deployment
 
@@ -44,11 +44,12 @@ pnpm format:check     # prettier --check .    │
 pnpm lint:fsd         # steiger src           ┘
 ```
 
-Three things about that list are deliberate:
+Four things about that list are deliberate:
 
 - **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The build runs alone, before the other four.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other four touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
+- **The build runs alone, before the other four.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other four touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
+- **Only failures are printed.** `run-parallel.sh` buffers each check under `tmp/run-parallel/` and replays just the ones that failed, prefixed by label and ending in the path to the verbatim log; the build does the same through `tmp/vet-build.log`. Every check still runs when an earlier one fails. The runner also flags a tree that was clean before the run and is dirty after — an autofix step that rewrote files and still exited 0.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 

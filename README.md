@@ -40,7 +40,7 @@ The site automatically deploys to GitHub Pages when you push to the `main` branc
 ## Project Structure
 
 Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
-under `src/`; `src/README.md` is the tour.
+under `src/`; `.claude/rules/fsd.md` carries the conventions.
 
 ```
 ├── app/                        # App Router, and the FSD app layer
