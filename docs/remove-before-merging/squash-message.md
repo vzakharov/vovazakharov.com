@@ -22,9 +22,9 @@ Next mandates a root layout and a root layout is app-layer UI wherever
 it is filed. Root pages/ must stay, or Next finds src/pages and
 refuses to build.
 
-The markdown pipeline is shared/content behind one index.ts: build-
-time-only and site-agnostic, so shared rather than an entity, and a
-segment of its own rather than a shared/lib sub-library because
+The markdown pipeline is shared/content behind one index.ts:
+build-time-only and site-agnostic, so shared rather than an entity,
+and a segment of its own rather than a shared/lib sub-library because
 consumers on three layers reach for it. Its components and both routes
 are one pages/case-studies slice, since slices on a layer cannot share
 sideways. The type-overlap gate's bases sit in shared/typings, a
