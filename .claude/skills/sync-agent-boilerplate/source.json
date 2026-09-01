@@ -18,7 +18,7 @@
     ".claude/skills/preview/",
     ".claude/skills/qa-checklist/",
     {
-      ".claude/skills/sync-upstream/": "this skill, renamed .claude/skills/sync-agent-boilerplate/ after the one source this repo has. The entry keeps the source's spelling because Step 3 hands it to git log there."
+      ".claude/skills/sync-upstream/": "this skill, renamed .claude/skills/sync-agent-boilerplate/ after the one source this repo has."
     },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",

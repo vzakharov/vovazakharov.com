@@ -246,11 +246,10 @@ def extension_for_bytes(buf: bytes, content_type: str | None) -> str:
 
 
 class AttachmentDownloadError(Exception):
-    """Every opener failed for one attachment.
+    """Raised once every opener has failed for one attachment.
 
-    The message carries each attempt's status line and nothing else: S3's
-    rejection body echoes the offending header value — i.e. the bearer token in
-    full — so no response body ever reaches it.
+    The message carries each attempt's status line and nothing else — S3's
+    rejection body echoes the offending header value, i.e. the bearer token.
     """
 
 
@@ -641,8 +640,7 @@ def main() -> None:
         print(f"Failed to download {url}: {reason}", file=sys.stderr)
     if downloads.failures:
         # The prose is worth having without its images, so the export stays
-        # written and the exit code carries the failure — the Markdown still
-        # points at whatever did not download.
+        # written and the exit code is what reports the failure.
         die(
             f"{len(downloads.failures)} of {total} attachment(s) failed; "
             f"{md_path} still links to them remotely."
