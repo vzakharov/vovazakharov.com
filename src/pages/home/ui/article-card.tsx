@@ -1,10 +1,8 @@
-import { Card } from '@/shared/ui';
+import { Card, type Summarized } from '@/shared/ui';
 
-interface ArticleCardProps {
-  title: string;
-  description: string;
+type ArticleCardProps = Summarized & {
   url: string;
-}
+};
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (

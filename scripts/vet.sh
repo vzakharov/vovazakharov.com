@@ -27,13 +27,16 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# None of these four writes anything another one reads, so they overlap freely.
+# None of these five writes anything another one reads, so they overlap freely.
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
+# type-overlap reads source text only — no generated types, nothing another
+# check writes.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
   format='pnpm format:check' \
-  fsd='pnpm lint:fsd' || status=1
+  fsd='pnpm lint:fsd' \
+  type-overlap='pnpm type-overlap' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

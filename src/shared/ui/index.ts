@@ -1,1 +1,1 @@
-export { Card } from './card';
+export { Card, type Summarized } from './card';

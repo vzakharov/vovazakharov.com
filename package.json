@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
+    "type-overlap": "tsx scripts/type-overlap-check.ts",
     "lint": "eslint . --fix",
     "lint:fsd": "steiger src",
     "format": "prettier --write .",
@@ -35,6 +36,7 @@
     "prettier": "^3.6.2",
     "steiger": "^0.6.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

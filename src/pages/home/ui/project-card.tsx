@@ -1,12 +1,10 @@
-import { Card } from '@/shared/ui';
+import { Card, type Summarized } from '@/shared/ui';
 
-interface ProjectCardProps {
-  title: string;
-  description: string;
+type ProjectCardProps = Summarized & {
   techStack?: string;
   stars?: number;
   url?: string;
-}
+};
 
 export function ProjectCard({
   title,

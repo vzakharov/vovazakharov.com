@@ -1,9 +1,12 @@
 import { ReactNode } from 'react';
 
-interface CardProps {
+type CardProps = {
   children: ReactNode;
   className?: string;
-}
+};
+
+/** A heading and the prose under it — the copy every card kind renders. */
+export type Summarized = { title: string; description: string };
 
 export function Card({ children, className = '' }: CardProps) {
   return (
