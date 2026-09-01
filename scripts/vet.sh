@@ -14,8 +14,9 @@ status=0
 # on an import that is fine by the time anyone looks. Going first also means the
 # type check reads current generated types rather than a stale set.
 #
-# It also stands in for a test suite, and is what deploy.yml runs, so a green
-# build here means a green deploy.
+# It is also the only check that covers the app itself — the suite below reaches
+# one script so far — and is what deploy.yml runs, so a green build here means a
+# green deploy.
 #
 # Kept out of the fan-out below rather than run as a batch of its own, because
 # run-parallel.sh wipes its log directory at startup — a build log written there
@@ -27,16 +28,17 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# None of these five writes anything another one reads, so they overlap freely.
+# None of these six writes anything another one reads, so they overlap freely.
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
 # type-overlap reads source text only — no generated types, nothing another
-# check writes.
+# check writes; the test run adds only writes into the OS temp directory.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
   format='pnpm format:check' \
   fsd='pnpm lint:fsd' \
-  type-overlap='pnpm type-overlap' || status=1
+  type-overlap='pnpm type-overlap' \
+  test='pnpm test' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

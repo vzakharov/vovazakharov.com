@@ -60,11 +60,15 @@ export type WithHtml = { html: string };
 
 export type WithReadingMinutes = { readingMinutes: number };
 
+/**
+ * What a reader sees above the body: the document's leading `# ` heading,
+ * lifted out of it, and how long the prose takes.
+ */
+export type Headlined = Titled & WithReadingMinutes;
+
 export type RenderedDocument = WithHtml &
-  // The `title` is the document's leading `# ` heading, lifted out of the body.
-  Titled &
-  WithHeadings &
-  WithReadingMinutes & {
+  Headlined &
+  WithHeadings & {
     wordCount: number;
   };
 
