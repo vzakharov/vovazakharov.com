@@ -22,17 +22,22 @@ Next mandates a root layout and a root layout is app-layer UI wherever
 it is filed. Root pages/ must stay, or Next finds src/pages and
 refuses to build.
 
+The layers absorb what main landed while this branch was open. The
+markdown pipeline becomes shared/lib/content behind one index.ts — it
+is build-time-only and site-agnostic, so shared rather than an entity —
+and its components and both routes become a single pages/case-studies
+slice, since slices on a layer cannot share sideways. The type-overlap
+gate's bases end up in shared/typings, a segment named for what it
+holds because that is the point: the one home for a member two named
+types share.
+
 Locale handling gained real types: a Locale from routing.locales, a
 toLocale() boundary check, and a catalogue map typed against en.json
 that fails the build on a key missing from one translation file.
 vet.sh fans out through run-parallel.sh — steiger and the type-overlap
 gate among its checks — and eslint.config is TypeScript, which Node
-now runs without a loader. The gate's seeded bases follow its own home
-rule into the modules that declare them, emptying lib/typings.ts:
-Summarized sits in shared/ui beside the Card both home cards render.
-
-No behaviour changes — the same five routes, rendered in both themes
-and compared against the pre-change pages.
+now runs without a loader. No behaviour changes: every route renders
+as it did, in both themes, compared against the pre-change pages.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
