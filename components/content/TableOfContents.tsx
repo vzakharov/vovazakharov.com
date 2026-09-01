@@ -1,14 +1,10 @@
-import type { Heading } from '@/lib/content/render';
-
-export interface TableOfContentsProps {
-  headings: Heading[];
-}
+import type { WithHeadings } from '@/lib/content/render';
 
 /**
  * The document's outline as plain anchors — no JavaScript, so it works without
  * hydration. `h1` is a part divider here, so `h2` entries indent under one.
  */
-export function TableOfContents({ headings }: TableOfContentsProps) {
+export function TableOfContents({ headings }: WithHeadings) {
   if (headings.length < 3) return null;
 
   return (

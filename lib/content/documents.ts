@@ -8,28 +8,33 @@ import {
   COLLECTIONS,
   VARIANTS,
   type CollectionId,
+  type DocumentRef,
   type Variant,
   collectionAssetUrl,
   collectionDir,
   documentRoute,
 } from './collections';
-import { frontmatterSchema, type Frontmatter } from './frontmatter';
+import {
+  frontmatterSchema,
+  type Frontmatter,
+  type WithFrontmatter,
+} from './frontmatter';
 
-export interface ContentDocument {
-  collection: CollectionId;
-  slug: string;
-  /** Absent on the full document; set on each shorter cut. */
-  variant?: Variant;
-  frontmatter: Frontmatter;
-  /** The markdown body with the frontmatter block removed. */
-  body: string;
-  fileName: string;
-  /** Where `public/` serves the authored markdown, for the download link. */
-  rawUrl: string;
-  route: string;
-  /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
-  ogImageUrl?: string;
-}
+export type ContentDocument = DocumentRef &
+  WithFrontmatter & {
+    /** Absent on the full document; set on each shorter cut. */
+    variant?: Variant;
+    /** The markdown body with the frontmatter block removed. */
+    body: string;
+    fileName: string;
+    /** Where `public/` serves the authored markdown, for the download link. */
+    rawUrl: string;
+    route: string;
+    /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
+    ogImageUrl?: string;
+  };
+
+export type WithContentDocument = { document: ContentDocument };
 
 const VARIANT_PATTERN = new RegExp(`\\.(${VARIANTS.join('|')})$`);
 

@@ -8,10 +8,10 @@ import { visit } from 'unist-util-visit';
 
 import { PUBLIC_DIR } from '../collections';
 
-interface Dimensions {
+type Dimensions = {
   width: number;
   height: number;
-}
+};
 
 /** IHDR is the first chunk: 8-byte signature, 4-byte length, 4-byte type. */
 function pngDimensions(file: Buffer): Dimensions {

@@ -1,9 +1,6 @@
-export interface ArticleBodyProps {
-  /** HTML from `renderDocument` — first-party markdown, compiled at build time. */
-  html: string;
-}
+import type { WithHtml } from '@/lib/content/render';
 
-export function ArticleBody({ html }: ArticleBodyProps) {
+export function ArticleBody({ html }: WithHtml) {
   return (
     <div
       className="prose prose-content max-w-none"

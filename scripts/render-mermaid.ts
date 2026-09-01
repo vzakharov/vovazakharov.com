@@ -29,12 +29,12 @@ import {
   type ColorScheme,
 } from '../lib/content/mermaid-hash.ts';
 
-interface Fence {
+type Fence = {
   hash: string;
   source: string;
   /** Repo-relative path of the document the fence was found in. */
   file: string;
-}
+};
 
 const REPO_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT_ROOT = path.join(REPO_ROOT, 'public', 'content');

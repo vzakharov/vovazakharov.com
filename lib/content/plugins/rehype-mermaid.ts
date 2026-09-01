@@ -15,10 +15,10 @@ import {
   type ColorScheme,
 } from '../mermaid-hash.ts';
 
-export interface RehypeMermaidOptions {
+export type RehypeMermaidOptions = {
   /** Absolute URL of the authored markdown, appended to every diagram's `alt`. */
   sourceUrl: string;
-}
+};
 
 function fenceSource(pre: Element): string | undefined {
   const code = pre.children.find(

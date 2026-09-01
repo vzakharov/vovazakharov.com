@@ -3,11 +3,13 @@ import { FileText } from 'lucide-react';
 
 import {
   VARIANTS,
-  type CollectionId,
+  type DocumentRef,
   type Variant,
   documentRoute,
 } from '@/lib/content/collections';
-import type { ContentDocument } from '@/lib/content/documents';
+import type { WithContentDocument } from '@/lib/content/documents';
+import type { WithReadingMinutes } from '@/lib/content/render';
+import type { Titled } from '@/lib/typings';
 import { DocumentMeta } from './DocumentMeta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
@@ -17,12 +19,10 @@ const CUT_LABELS: Record<Variant | 'full', string> = {
   micro: 'Micro',
 };
 
-interface CutSwitcherProps {
-  collection: CollectionId;
-  slug: string;
+type CutSwitcherProps = DocumentRef & {
   current?: Variant;
   available: Variant[];
-}
+};
 
 function CutSwitcher({
   collection,
@@ -62,12 +62,11 @@ function CutSwitcher({
   );
 }
 
-export interface ArticleHeaderProps {
-  document: ContentDocument;
-  title: string;
-  readingMinutes: number;
-  availableVariants: Variant[];
-}
+export type ArticleHeaderProps = WithContentDocument &
+  Titled &
+  WithReadingMinutes & {
+    availableVariants: Variant[];
+  };
 
 export function ArticleHeader({
   document,

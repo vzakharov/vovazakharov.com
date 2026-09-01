@@ -15,11 +15,13 @@ import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { getAbsoluteUrl } from '../site-config';
+import type { Titled, WithId } from '../typings';
 import type { CollectionId, Variant } from './collections';
 import {
   listPrimaryDocuments,
   siblingVariants,
   type ContentDocument,
+  type WithContentDocument,
 } from './documents';
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
@@ -45,21 +47,26 @@ const CODE_LANGUAGES: BuiltinLanguage[] = [
   'yaml',
 ];
 
-export interface Heading {
-  id: string;
+export type Heading = WithId & {
   text: string;
   /** 1 for a part divider, 2 for a section inside one. */
   depth: 1 | 2;
-}
+};
 
-export interface RenderedDocument {
-  html: string;
-  /** The document's leading `# ` heading, which the pipeline lifts out of the body. */
-  title: string;
-  headings: Heading[];
-  wordCount: number;
-  readingMinutes: number;
-}
+export type WithHeadings = { headings: Heading[] };
+
+/** Compiled from first-party markdown at build time, so it is safe to inject raw. */
+export type WithHtml = { html: string };
+
+export type WithReadingMinutes = { readingMinutes: number };
+
+export type RenderedDocument = WithHtml &
+  // The `title` is the document's leading `# ` heading, lifted out of the body.
+  Titled &
+  WithHeadings &
+  WithReadingMinutes & {
+    wordCount: number;
+  };
 
 /**
  * Lifts the leading `# ` heading out of the body and counts the prose. The
@@ -175,12 +182,11 @@ export function renderDocument(
   return pending;
 }
 
-export interface DocumentCard {
-  document: ContentDocument;
+export type DocumentCard = WithContentDocument & {
   rendered: RenderedDocument;
   /** The shorter cuts that exist beside it, in `VARIANTS` order. */
   variants: Variant[];
-}
+};
 
 /**
  * The full documents of a collection, rendered — what a list of cards needs.

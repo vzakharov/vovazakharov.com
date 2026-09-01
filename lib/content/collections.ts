@@ -24,6 +24,12 @@ export const VARIANTS = ['mini', 'micro'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
+export type WithCollectionId = { collection: CollectionId };
+export type Slugged = { slug: string };
+
+/** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
+export type DocumentRef = WithCollectionId & Slugged;
+
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
 export function collectionDir(id: CollectionId): string {

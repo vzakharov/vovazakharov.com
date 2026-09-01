@@ -1,4 +1,6 @@
-import type { Frontmatter } from '@/lib/content/frontmatter';
+import type { WithFrontmatter } from '@/lib/content/frontmatter';
+import type { WithReadingMinutes } from '@/lib/content/render';
+import type { WithOptionalClassName } from '@/lib/typings';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
@@ -9,11 +11,9 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'UTC',
 });
 
-export interface DocumentMetaProps {
-  frontmatter: Frontmatter;
-  readingMinutes: number;
-  className?: string;
-}
+export type DocumentMetaProps = WithFrontmatter &
+  WithReadingMinutes &
+  WithOptionalClassName;
 
 /** A document's byline — the same one on an index card and above the article. */
 export function DocumentMeta({

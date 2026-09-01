@@ -68,10 +68,10 @@ function ExperienceCard({ entryKey }: { entryKey: string }) {
   );
 }
 
-export interface CVPageProps {
+export type CVPageProps = {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
-}
+};
 
 export default function CVPage({ caseStudyHref }: CVPageProps) {
   const t = useTranslations('cv');

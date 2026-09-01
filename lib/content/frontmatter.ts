@@ -19,3 +19,5 @@ export const frontmatterSchema = z.object({
 });
 
 export type Frontmatter = z.infer<typeof frontmatterSchema>;
+
+export type WithFrontmatter = { frontmatter: Frontmatter };

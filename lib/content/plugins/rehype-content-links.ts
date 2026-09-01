@@ -8,13 +8,10 @@ import {
   VARIANTS,
   type CollectionId,
   type Variant,
+  type WithCollectionId,
   collectionAssetUrl,
   documentRoute,
 } from '../collections';
-
-export interface ContentLinksOptions {
-  collection: CollectionId;
-}
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
@@ -74,7 +71,7 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
  * new tab. Runs before the media and image plugins, which read the rewritten
  * URLs.
  */
-export const rehypeContentLinks: Plugin<[ContentLinksOptions], Root> = ({
+export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
   collection,
 }) => {
   return (tree) => {
