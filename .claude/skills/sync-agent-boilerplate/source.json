@@ -3,7 +3,9 @@
   "lastSyncedSha": "eab4dc7df50efdbb007eb931b7802e45cdb9bace",
   "lastSyncedAt": "2026-09-01",
   "adopted": [
-    "CLAUDE.md",
+    {
+      "CLAUDE.md": "adopted except the source's decision-doc guidance: this repo keeps no decision docs — docs/ holds plans and transient review artifacts only. Skip that material until one exists."
+    },
     ".claude/rules/README.md",
     ".claude/skills/branch-rename/",
     ".claude/skills/check-merge/",
