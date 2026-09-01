@@ -42,9 +42,9 @@ import ts from 'typescript';
 
 import type { WithId } from '@/shared/typings';
 
-// Run from the repo root (via `pnpm type-overlap` or `tsx scripts/...`), so
-// cwd is the project root — which is what the scan walks, rather than a path
-// derived from this file's own location.
+// The scan root is the working directory, not the script's own location:
+// `pnpm type-overlap` runs from the repo root, and the tests drive this same
+// entrypoint over a fixture tree by pointing cwd at it.
 const ROOT = process.cwd();
 
 // The scan covers the whole repo minus the directories below, so a new source

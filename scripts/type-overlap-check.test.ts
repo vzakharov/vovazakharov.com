@@ -18,9 +18,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
 
-// Run from the repo root (via `pnpm test`), matching the script's own
-// convention — `import.meta.dirname` is undefined under tsx's CommonJS loader.
-const ROOT = process.cwd();
+// Resolved from this file, not from cwd — cwd is what each case reassigns.
+const ROOT = path.resolve(import.meta.dirname, '..');
 const TSX = path.join(ROOT, 'node_modules/.bin/tsx');
 const SCRIPT = path.join(ROOT, 'scripts/type-overlap-check.ts');
 

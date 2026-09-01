@@ -6,10 +6,9 @@ import {
   documentRoute,
   type DocumentRef,
   type Variant,
+  type Headlined,
   type WithContentDocument,
-  type WithReadingMinutes,
 } from '@/shared/content';
-import type { Titled } from '@/shared/typings';
 import { DocumentMeta } from './document-meta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
@@ -63,8 +62,7 @@ function CutSwitcher({
 }
 
 export type ArticleHeaderProps = WithContentDocument &
-  Titled &
-  WithReadingMinutes & {
+  Headlined & {
     availableVariants: Variant[];
   };
 

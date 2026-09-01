@@ -21,6 +21,7 @@ export {
   renderDocument,
   renderPrimaryDocuments,
   type DocumentCard,
+  type Headlined,
   type Heading,
   type RenderedDocument,
   type WithHeadings,
