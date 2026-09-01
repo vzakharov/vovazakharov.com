@@ -1,5 +1,9 @@
 {
   "cv": {
+    "metadata": {
+      "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",
+      "ogSuffix": "Physics-math brain meets low-maintenance execution."
+    },
     "printButton": "Print / Save as PDF",
     "header": {
       "name": "Vova Zakharov",
