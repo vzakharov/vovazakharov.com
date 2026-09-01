@@ -143,7 +143,7 @@ The proposed squash title/body goes up when the PR opens and is kept in sync as 
 ## Keeping docs in sync
 
 - **Plan drift**: When work deviates significantly from your plan docs, update them to reflect actual progress and revised ordering. The plan is a living document, not a stale ideal.
-- **Decision-doc consistency**: When revising a decision (e.g., renaming a convention, changing a tool choice), update all docs that reference the old convention.
+- **Convention renames**: When a convention is renamed or a tool swapped, grep the old term across the docs and skills and update every reference in the same change.
 - **Plan-item voice**: Plan checklist items should read as forward-looking intent (how you'd phrase them _before_ doing the work), not as retrospective reports.
 - **Retiring a doc leaves a tombstone.** Don't just `rm` a doc that other files, comments, or history cite — leave a file recording the last commit that contained it and the `git show <sha>:<path>` recipe to read it, so every surviving citation still resolves, plus a pointer to where any still-live content went. **One tombstone per retirement, not per file**: docs retired together get a single tombstone with a row each. A tombstone standing in for a whole retired directory is `retired.md` at that directory's root; one standing in for a single file is `<name>.retired.md` beside its siblings — so every tombstone matches `*retired.md`.
 
@@ -160,7 +160,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 **Entry points and support:**
 
-- **`/issue`** — take a GitHub issue end-to-end: export the thread and its attachments to `docs/issue/<n>/`, split it when the scope genuinely demands it, implement, open the draft PR.
+- **`/issue`** — export a GitHub issue and its attachments to `docs/issue/<n>/`, read it, split it when the scope genuinely demands, then hand the work to `/pr`.
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
 - **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — while the name points at the one source this repo actually has.

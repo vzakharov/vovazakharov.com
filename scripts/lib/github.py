@@ -1,9 +1,13 @@
 """Shared GitHub plumbing for the scripts in `scripts/`.
 
-Imported as `from lib.github import …`: a script run as
-`python3 scripts/<name>.py` puts `scripts/` on `sys.path`, so this resolves
-from any working directory — which matters because these scripts write
-relative to the caller's cwd while living elsewhere.
+Imported as `from lib.github import …`. A script run as
+`python3 scripts/<name>.py` puts `scripts/` on `sys.path[0]`, so `lib.github`
+resolves as a PEP 420 namespace package from any working directory — no
+`__init__.py`, no `sys.path` manipulation. Both callers write output relative to
+the caller's cwd while living elsewhere, so that cwd-independence matters.
+
+Deliberately excluded: each script's `USER_AGENT` (they differ, which is how the
+two are told apart server-side) and the `DOCS_*_ROOT` output paths.
 
 Stdlib only — no third-party deps. Python 3.9+.
 """
@@ -14,9 +18,10 @@ import os
 import re
 import subprocess
 import sys
+from typing import NoReturn
 
 
-def die(msg: str, code: int = 1) -> None:
+def die(msg: str, code: int = 1) -> NoReturn:
     print(msg, file=sys.stderr)
     sys.exit(code)
 
