@@ -101,7 +101,7 @@ export function blockLocalBindings(
 ): { typeNames: Set<string>; valueNames: Set<string> } {
   const typeNames = new Set<string>();
   const valueNames = new Set<string>();
-  let node: Rule.Node | null = fn as unknown as Rule.Node;
+  let node: Rule.Node | null = fn;
   while (node !== null && node !== anchor) {
     const params = (node as { params?: unknown }).params;
     if (Array.isArray(params)) {

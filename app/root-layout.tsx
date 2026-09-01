@@ -1,10 +1,13 @@
-import type { Metadata } from 'next';
-import { Merriweather, JetBrains_Mono } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
 import './globals.css';
-import { ThemeProvider } from '@/components/ThemeProvider';
-import { SITE_CONFIG } from '@/lib/site-config';
+
+import type { Metadata } from 'next';
+import { JetBrains_Mono,Merriweather } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+
 import { constructMetadata } from '@/lib/metadata';
+import { SITE_CONFIG } from '@/lib/site-config';
+
+import { ThemeProvider } from '@/components/theme-provider';
 
 const merriweather = Merriweather({
   weight: ['300', '400', '700'],

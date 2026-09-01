@@ -1,7 +1,10 @@
 import { NextIntlClientProvider } from 'next-intl';
+
 import { routing } from '@/i18n/routing';
-import CVPage from './CVPage';
+
 import { generateCvMetadata } from '@/app/cv/cv-utils';
+
+import CVPage from './cv-page';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -22,7 +25,7 @@ export default async function Page({ params }: Props) {
   const messages = (await import(`@/messages/${locale}.json`)).default;
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider {...{ locale, messages }}>
       <CVPage />
     </NextIntlClientProvider>
   );

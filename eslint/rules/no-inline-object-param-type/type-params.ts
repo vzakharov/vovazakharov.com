@@ -2,7 +2,6 @@ import type { Rule, SourceCode } from 'eslint';
 import type * as ESTree from 'estree';
 
 import type { Named, WithText } from '../estree-mixins';
-
 import { type AstNode, type FunctionNode, tsType } from './ast';
 
 /** All `TSTypeReference` identifier names appearing anywhere under `node`. */
@@ -56,7 +55,7 @@ export function collectInScopeTypeParams(
   sourceCode: SourceCode,
 ): ScopedTypeParam[] {
   const declarations: AstNode[][] = [];
-  let node: Rule.Node | null = fn as unknown as Rule.Node;
+  let node: Rule.Node | null = fn;
   while (node !== null) {
     const typeParams = (node as { typeParameters?: AstNode }).typeParameters;
     if (

@@ -1,16 +1,19 @@
 'use client';
 
+import { Printer } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Printer } from 'lucide-react';
-import { Card } from '@/components/Card';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LocalePicker } from '@/components/LocalePicker';
+
+import { Card } from '@/components/card';
+import { LocalePicker } from '@/components/locale-picker';
+import { ThemeToggle } from '@/components/theme-toggle';
+
+type CVPageItem = { label: string; text: string };
 
 export default function CVPage() {
   const t = useTranslations('cv');
   const handlePrint = () => {
-    window.print();
+    globalThis.print();
   };
 
   return (
@@ -172,7 +175,7 @@ export default function CVPage() {
               <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1">
                 {t
                   .raw('experience.randddb.items')
-                  .map((item: { label: string; text: string }, idx: number) => (
+                  .map((item: CVPageItem, idx: number) => (
                     <li key={idx}>
                       <strong>{item.label}</strong> {item.text}
                     </li>

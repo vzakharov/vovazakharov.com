@@ -118,7 +118,7 @@ const rule: Rule.RuleModule = {
         return;
       }
 
-      const base = deriveBaseName(fn as unknown as Rule.Node);
+      const base = deriveBaseName(fn);
       if (base === null) {
         context.report({ node: literal, messageId: 'extractManual' });
         return;
@@ -190,9 +190,9 @@ const rule: Rule.RuleModule = {
     };
 
     return {
-      FunctionDeclaration: checkFunction as (node: ESTree.Node) => void,
-      FunctionExpression: checkFunction as (node: ESTree.Node) => void,
-      ArrowFunctionExpression: checkFunction as (node: ESTree.Node) => void,
+      FunctionDeclaration: checkFunction,
+      FunctionExpression: checkFunction,
+      ArrowFunctionExpression: checkFunction,
     };
   },
 };

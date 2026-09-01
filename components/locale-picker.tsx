@@ -1,8 +1,10 @@
 'use client';
 
-import { usePathname, useRouter } from '@/i18n/routing';
 import { useLocale } from 'next-intl';
-import { useMounted } from '@/hooks/useMounted';
+
+import { usePathname, useRouter } from '@/i18n/routing';
+
+import { useMounted } from '@/hooks/use-mounted';
 
 export function LocalePicker() {
   const pathname = usePathname();
@@ -16,7 +18,7 @@ export function LocalePicker() {
     return null;
   }
 
-  const currentLocale = locale as string;
+  const currentLocale = locale;
   const nextLocale = currentLocale === 'en' ? 'ru' : 'en';
   const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺';
 

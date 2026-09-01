@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-interface CardProps {
+type CardProps = {
   children: ReactNode;
   className?: string;
 }
@@ -15,7 +15,7 @@ export function Card({ children, className = '' }: CardProps) {
   );
 }
 
-interface ProjectCardProps {
+type ProjectCardProps = {
   title: string;
   description: string;
   techStack?: string;
@@ -52,7 +52,7 @@ export function ProjectCard({
   return content;
 }
 
-interface ArticleCardProps {
+type ArticleCardProps = {
   title: string;
   description: string;
   url: string;

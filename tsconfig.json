@@ -44,7 +44,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "**/*.mjs",
+    "**/*.cjs"
   ],
   "exclude": ["node_modules", "tmp"]
 }

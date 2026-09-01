@@ -40,7 +40,7 @@ export function annotationCarrier(param: ESTree.Node): {
 } {
   if (param.type === 'AssignmentPattern') {
     return {
-      carrier: param.left as AnnotatedNode,
+      carrier: param.left,
       optional: true,
       paramDefault: param.right,
     };

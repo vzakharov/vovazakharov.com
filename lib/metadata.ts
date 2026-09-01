@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { SITE_CONFIG, getAbsoluteUrl } from './site-config';
 
-export interface ConstructMetadataParams {
+import { getAbsoluteUrl,SITE_CONFIG } from './site-config';
+
+export type ConstructMetadataParams = {
   title?: string;
   description?: string;
   ogDescription?: string; // Separate description for OpenGraph if different from main

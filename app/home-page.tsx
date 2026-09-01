@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { ProjectCard, ArticleCard, Card } from '@/components/Card';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import Link from 'next/link';
+
+import { ArticleCard, Card,ProjectCard } from '@/components/card';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Home() {
   return (

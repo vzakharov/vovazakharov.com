@@ -1,8 +1,9 @@
 'use client';
 
+import { Monitor,Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { Sun, Moon, Monitor } from 'lucide-react';
-import { useMounted } from '@/hooks/useMounted';
+
+import { useMounted } from '@/hooks/use-mounted';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -25,9 +26,9 @@ export function ThemeToggle() {
       return <Moon className="w-5 h-5" />;
     } else if (theme === 'light') {
       return <Sun className="w-5 h-5" />;
-    } else {
+    } 
       return <Monitor className="w-5 h-5" />;
-    }
+    
   };
 
   return (
