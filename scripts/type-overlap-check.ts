@@ -241,19 +241,47 @@ function findOverlaps(
 }
 
 // --- Report ---
-type SectionStyle = {
+// Everything that differs between the two passes lives in one descriptor each,
+// so a pass is described once rather than restated at the scan, the section, the
+// fix bullet and the clean line — four spots that have to agree, where a missed
+// one is silent (a fix bullet that never prints, a clean line that lies).
+type Pass = {
+  threshold: number;
+  select: (d: TypeDecl) => string[];
   heading: string;
   /** Plural noun for the shared entries, as the group and summary lines read. */
   noun: string;
   /** Renders one group's shared set as report lines. */
   renderShared: (shared: string[]) => string[];
+  /** The sub-bullet under fix step 1, printed only when this pass fires. */
+  fixStep: string;
+  /** How the clean line names this pass having found nothing. */
+  cleanPhrase: string;
 };
 
-function renderSection(
-  findings: Findings,
-  threshold: number,
-  style: SectionStyle
-): string[] {
+const PASSES: Pass[] = [
+  {
+    threshold: MEMBERS_MIN,
+    select: (d) => d.members,
+    heading: 'Overlapping type shapes',
+    noun: 'members',
+    renderShared: (shared) => shared.map((m) => `     ${m};`),
+    fixStep: '       - members → `type Foo = SomeBase & { …own members… }`',
+    cleanPhrase: 'no shared members',
+  },
+  {
+    threshold: BASES_MIN,
+    select: (d) => d.bases,
+    heading: 'Repeated base combinations',
+    noun: 'bases',
+    renderShared: (shared) => [`     ${shared.join(' & ')}`],
+    fixStep:
+      '       - bases   → `type SomeBase = A & B`, then `type Foo = SomeBase & { … }`',
+    cleanPhrase: 'no repeated base combinations',
+  },
+];
+
+function renderSection(findings: Findings, pass: Pass): string[] {
   if (findings.groups.length === 0) return [];
 
   const groupLines = findings.groups.flatMap((g, i) => {
@@ -262,8 +290,8 @@ function renderSection(
         a.filePath.localeCompare(b.filePath) || a.name.localeCompare(b.name)
     );
     return [
-      `${i + 1}. ${g.shared.length} shared ${style.noun} across ${types.length} types:`,
-      ...style.renderShared(g.shared),
+      `${i + 1}. ${g.shared.length} shared ${pass.noun} across ${types.length} types:`,
+      ...pass.renderShared(g.shared),
       '   in:',
       ...types.map((t) => `     ${t.filePath}  ${t.name}`),
       '',
@@ -271,53 +299,35 @@ function renderSection(
   });
 
   return [
-    `== ${style.heading} (threshold=${threshold}) ==`,
+    `== ${pass.heading} (threshold=${pass.threshold}) ==`,
     '',
     ...groupLines,
-    `${findings.groups.length} group(s) of shared ${style.noun} covering ${findings.pairs} overlapping type-pair(s) across ${findings.typesInvolved} type(s) (threshold=${threshold}).`,
+    `${findings.groups.length} group(s) of shared ${pass.noun} covering ${findings.pairs} overlapping type-pair(s) across ${findings.typesInvolved} type(s) (threshold=${pass.threshold}).`,
     '',
   ];
 }
 
-const memberFindings = findOverlaps((d) => d.members, MEMBERS_MIN);
-const baseFindings = findOverlaps((d) => d.bases, BASES_MIN);
+const results = PASSES.map((pass) => ({
+  pass,
+  findings: findOverlaps(pass.select, pass.threshold),
+}));
+const firing = results.filter((r) => r.findings.groups.length > 0);
 
-if (memberFindings.groups.length === 0 && baseFindings.groups.length === 0) {
-  process.stdout.write(
-    `type-overlap: clean — no shared members (min=${MEMBERS_MIN}), no repeated base combinations (min=${BASES_MIN}).\n`
-  );
+if (firing.length === 0) {
+  const phrases = PASSES.map((p) => `${p.cleanPhrase} (min=${p.threshold})`);
+  process.stdout.write(`type-overlap: clean — ${phrases.join(', ')}.\n`);
   process.exit(0);
 }
 
-// Step 1 is the same move for both kinds, so it takes a sub-bullet per kind —
-// emitted only for the kinds that fired. Steps 2–4 are kind-agnostic.
-const fixSteps = [
-  ...(memberFindings.groups.length > 0
-    ? ['       - members → `type Foo = SomeBase & { …own members… }`']
-    : []),
-  ...(baseFindings.groups.length > 0
-    ? [
-        '       - bases   → `type SomeBase = A & B`, then `type Foo = SomeBase & { … }`',
-      ]
-    : []),
-];
-
 const lines = [
-  ...renderSection(memberFindings, MEMBERS_MIN, {
-    heading: 'Overlapping type shapes',
-    noun: 'members',
-    renderShared: (shared) => shared.map((m) => `     ${m};`),
-  }),
-  ...renderSection(baseFindings, BASES_MIN, {
-    heading: 'Repeated base combinations',
-    noun: 'bases',
-    renderShared: (shared) => [`     ${shared.join(' & ')}`],
-  }),
+  ...results.flatMap((r) => renderSection(r.findings, r.pass)),
   '== How to fix ==',
   'For each group above:',
   '  1. Extract the shared shape as a base type, then have each listed type',
   '     reuse it via intersection:',
-  ...fixSteps,
+  // Step 1 is the same move for either kind, so it takes a sub-bullet per kind
+  // that fired. Steps 2–4 are kind-agnostic.
+  ...firing.map((r) => r.pass.fixStep),
   '  2. Home the base at its most upstream consumer — the module both types',
   '     already import, or the file that declares both. Only reach for the',
   '     src/shared/ segment that owns the concept when no such module exists',
