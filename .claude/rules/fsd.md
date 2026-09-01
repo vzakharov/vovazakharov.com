@@ -41,13 +41,21 @@ oversight. Layers are optional; **inventing one costs more than leaving it out**
 
 ## The app layer is root `app/`, not `src/app`
 
-Putting the app layer under `src/` costs two Steiger overrides: `no-ui-in-app`
-fires on `src/app/ui/**`, and `segments-by-purpose` fires on names like
-`src/app/providers`. Root `app/` already _is_ the app-wide setup — the root
-layout, the theme provider, the global stylesheet — and sits outside the Steiger
-scan root, so nothing needs exempting. Route files there stay thin: a `page.tsx`
-re-exports its slice (`export { HomePage as default } from '@/pages/home'`) and
-adds only the route-level metadata Next needs.
+The app layer here is three files — the root layout, the theme provider, the
+global stylesheet — so there is nothing to segment. Root `app/` already holds
+them and sits outside the `steiger src` scan root, so the stock ruleset passes
+untouched. Route files there stay thin: a `page.tsx` re-exports its slice
+(`export { HomePage as default } from '@/pages/home'`) and adds only the
+route-level metadata Next needs.
+
+Moving the layer to `src/app` puts it under the scanner, at a cost of up to two
+overrides: `no-ui-in-app` on `src/app/ui/**`, unavoidable once the layer has UI,
+and `segments-by-purpose` on a segment named for what it holds — `provider(s)`,
+`context`, `hook(s)` are on the plugin's list, while `config`, `styles`, `api`
+and `tests` pass. That is the right trade for an app layer big enough to
+segment; `Playgramai/playgramapp`, which this structure is modelled on, does
+exactly that and carries one override for it. Revisit this the day an app shell
+here would earn the same.
 
 Because root `app/` is above every layer, it may import from any of them —
 through their public APIs.
