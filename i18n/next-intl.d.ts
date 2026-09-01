@@ -1,5 +1,4 @@
-import type en from '../messages/en.json';
-import type { routing } from './routing';
+import type { Locale, Messages } from './messages';
 
 // Registers the catalogs with next-intl so `useTranslations` keys are checked
 // against `en.json` and `useMessages()` returns the catalog's real shape rather
@@ -10,7 +9,7 @@ import type { routing } from './routing';
 // scoped off (see eslint.config.ts).
 declare module 'next-intl' {
   interface AppConfig {
-    Locale: (typeof routing.locales)[number];
-    Messages: typeof en;
+    Locale: Locale;
+    Messages: Messages;
   }
 }

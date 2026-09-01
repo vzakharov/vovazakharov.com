@@ -27,6 +27,7 @@ export function constructMetadata({
   // The avatar's intrinsic dimensions describe only the avatar, so a custom
   // image is published without them rather than with the wrong ones.
   const { width, height } = avatar;
+  const sharedTitle = title ?? siteName;
   const imageDimensions = ogImage === undefined ? { width, height } : {};
 
   return {
@@ -37,7 +38,7 @@ export function constructMetadata({
       locale: 'en_US',
       url: absoluteUrl,
       siteName,
-      title: title ?? siteName,
+      title: sharedTitle,
       description: ogDescription ?? description,
       images: [{ url: absoluteImageUrl, ...imageDimensions, alt: siteName }],
     },
@@ -45,7 +46,7 @@ export function constructMetadata({
       card: 'summary_large_image',
       site: social.twitter,
       creator: social.twitter,
-      title: title ?? siteName,
+      title: sharedTitle,
       description,
       images: [absoluteImageUrl],
     },
