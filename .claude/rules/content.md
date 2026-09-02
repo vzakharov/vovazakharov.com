@@ -17,7 +17,7 @@ public/content/
   case-studies/
     <slug>.md                 # the full document
     <slug>.mini.md            # optional shorter cuts
-    <slug>.micro.md
+    <slug>.nano.md
     assets/                   # images, data, video
   generated/
     mermaid/<hash>.light.svg  # committed, produced by `pnpm content:mermaid`

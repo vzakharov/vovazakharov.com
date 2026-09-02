@@ -6,7 +6,7 @@ part: I of II
 
 # From Bubble to Next.js in 4 months: the Playgram case study (mini)
 
-_The [full version](./playgram-bubble-to-nextjs-part-1.md) is about six times this long. There's also a [micro version](./playgram-bubble-to-nextjs-part-1.micro.md) if this is still too much. Part I of II._
+_The [full version](./playgram-bubble-to-nextjs-part-1.md) is about six times this long. There's also a [nano version](./playgram-bubble-to-nextjs-part-1.nano.md) if this is still too much. Part I of II._
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 

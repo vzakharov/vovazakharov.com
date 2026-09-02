@@ -4,7 +4,7 @@ date: 2026-08-29
 part: I of II
 ---
 
-# From Bubble to Next.js in 4 months: the Playgram case study (micro)
+# From Bubble to Next.js in 4 months: the Playgram case study (nano)
 
 _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a [mini version](./playgram-bubble-to-nextjs-part-1.mini.md). Part I of II. Disclosures approved by Playgram management._
 
