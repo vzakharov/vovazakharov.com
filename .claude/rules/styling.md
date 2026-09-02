@@ -72,11 +72,21 @@ invisible in exactly one scheme.
 
 ## Rendered markdown
 
-The content pipeline's HTML is wrapped in Mantine's `Typography`, which supplies
-the base rhythm. `src/app/styles/prose.scss` adds only what the pipeline itself
-emits — Shiki token colours, the Mermaid light/dark pair, scrollable tables and
-the heading anchors — and is scoped under `.prose-content`, which sits on the
-element holding the markup so that `> h1` still keys the part dividers.
+`src/app/styles/prose.scss` owns the whole rhythm of the content pipeline's
+HTML — sizes, leading, vertical spacing, rules and the pipeline's own emissions
+(Shiki token colours, the Mermaid light/dark pair, scrollable tables, heading
+anchors) — scoped under `.prose-content`, which sits on the element holding the
+markup so that `> h1` still keys the part dividers. The markup is wrapped in
+nothing.
+
+**Long-form copy is not on the site's UI scale, and Mantine's `Typography` is
+not a substitute for this sheet.** `--mantine-line-height` and
+`--mantine-font-size-*` are sized for controls: 1.55 is right on a button label
+and cramped on a paragraph of an essay, and `Typography`'s own element rules
+reach for `--mantine-color-gray-0` behind `code`, `pre` and `blockquote` — a
+literal light grey that survives into the dark scheme. Every base rule here is
+`:where()`, so its specificity is the class alone and `print.scss`, a component
+sheet or an element-specific rule below overrides it without out-specifying it.
 
 ## SCSS
 

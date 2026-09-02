@@ -1,7 +1,9 @@
 /** @type {import('stylelint').Config} */
 const config = {
   extends: ['stylelint-config-standard-scss'],
-  ignoreFiles: ['.next/**', 'out/**', 'node_modules/**'],
+  // Build output and the scratch tree. `tmp/` is where every dev artifact goes
+  // (CLAUDE.md), including vet's own logs — nothing authored, nothing to lint.
+  ignoreFiles: ['.next/**', 'out/**', 'node_modules/**', 'tmp/**'],
   rules: {
     // Mantine ships as `@layer mantine`, so every unlayered rule in this tree
     // already outranks it whatever the specificity. An `!important` here can
