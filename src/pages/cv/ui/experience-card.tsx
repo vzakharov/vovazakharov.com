@@ -46,7 +46,8 @@ export function ExperienceCard({
   const items: BulletItem[] = entry.items;
   const hasTech = 'tech' in entry;
   const hasNote = 'demo' in entry;
-  const hasTrailer = hasNote || caseStudyHref !== undefined;
+  const hasCaseStudyLink = caseStudyHref !== undefined;
+  const hasTrailer = hasNote || hasCaseStudyLink;
 
   return (
     <Card>
@@ -86,7 +87,7 @@ export function ExperienceCard({
       )}
       {/* Print carries the URL in the featured section instead, where there is
           room to spell it out. */}
-      {caseStudyHref !== undefined && (
+      {hasCaseStudyLink && (
         <Text size="sm" className="print-hidden">
           <InternalLink href={caseStudyHref} inherit>
             {cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link}
