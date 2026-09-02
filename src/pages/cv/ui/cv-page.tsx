@@ -21,7 +21,11 @@ import { ThemeToggle } from '@/features/switch-theme';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
 import { CvSection, CvSubsection } from './cv-section';
-import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
+import {
+  CASE_STUDY_EXPERIENCE_KEY,
+  EXPERIENCE_KEYS,
+  ExperienceCard,
+} from './experience-card';
 import { LocalePicker } from './locale-picker';
 
 function handlePrint() {
@@ -125,14 +129,6 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
             </Card>
           </CvSection>
 
-          <CvSection title={t('experience.title')} wide>
-            <Stack className={classes['sectionWide']}>
-              {EXPERIENCE_KEYS.map((entryKey) => (
-                <ExperienceCard key={entryKey} {...{ entryKey }} />
-              ))}
-            </Stack>
-          </CvSection>
-
           <CvSection title={t('caseStudies.title')}>
             <Card>
               <Title
@@ -153,7 +149,30 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
                   {t('caseStudies.playgram.link')}
                 </InternalLink>
               </Text>
+              {/* Paper has no clickable link, so it gets the address. */}
+              <Text
+                className={cx('print-only', classes['small'], classes['dim60'])}
+              >
+                {t('website')}
+                {caseStudyHref}
+              </Text>
             </Card>
+          </CvSection>
+
+          <CvSection title={t('experience.title')} wide>
+            <Stack className={classes['sectionWide']}>
+              {EXPERIENCE_KEYS.map((entryKey) => (
+                <ExperienceCard
+                  key={entryKey}
+                  {...{ entryKey }}
+                  caseStudyHref={
+                    entryKey === CASE_STUDY_EXPERIENCE_KEY
+                      ? caseStudyHref
+                      : undefined
+                  }
+                />
+              ))}
+            </Stack>
           </CvSection>
 
           <CvSection title={t('techStack.title')}>
@@ -244,8 +263,8 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           >
             <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
-              <Anchor href={`https://${t('footer.website')}`} inherit>
-                {t('footer.website')}
+              <Anchor href={`https://${t('website')}`} inherit>
+                {t('website')}
               </Anchor>
             </Text>
           </Box>

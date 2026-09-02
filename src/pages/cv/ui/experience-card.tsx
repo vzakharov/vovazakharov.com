@@ -2,7 +2,7 @@ import { Text, Title } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import { Card } from '@/shared/ui';
+import { Card, InternalLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
 import { type BulletItem, CvBullets } from './cv-bullets';
@@ -22,9 +22,23 @@ export const EXPERIENCE_KEYS = [
 
 type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
-type ExperienceCardProps = { entryKey: ExperienceKey };
+/**
+ * Which entry the featured case study documents — a presentation decision, so
+ * it lives here rather than as a catalog field the two locales could disagree
+ * about. The slug it points at is the route file's `FEATURED_CASE_STUDY`.
+ */
+export const CASE_STUDY_EXPERIENCE_KEY = 'playgram' satisfies ExperienceKey;
 
-export function ExperienceCard({ entryKey }: ExperienceCardProps) {
+type ExperienceCardProps = {
+  entryKey: ExperienceKey;
+  /** Renders the case-study link; given only for `CASE_STUDY_EXPERIENCE_KEY`. */
+  caseStudyHref?: string;
+};
+
+export function ExperienceCard({
+  entryKey,
+  caseStudyHref,
+}: ExperienceCardProps) {
   // Read the entry off the typed catalog: its fields vary per entry, so a
   // computed `t('<key>.title')` resolves to no known message key.
   const { cv } = useMessages();
@@ -32,6 +46,7 @@ export function ExperienceCard({ entryKey }: ExperienceCardProps) {
   const items: BulletItem[] = entry.items;
   const hasTech = 'tech' in entry;
   const hasNote = 'demo' in entry;
+  const hasTrailer = hasNote || caseStudyHref !== undefined;
 
   return (
     <Card>
@@ -51,14 +66,14 @@ export function ExperienceCard({ entryKey }: ExperienceCardProps) {
       {'intro' in entry && (
         <Text className={classes['tight']}>{entry.intro}</Text>
       )}
-      <CvBullets {...{ items }} last={!hasTech && !hasNote} />
+      <CvBullets {...{ items }} last={!hasTech && !hasTrailer} />
       {hasTech && (
         <Text
           ff="monospace"
           className={cx(
             classes['small'],
             classes['dim60'],
-            hasNote && classes['tightHeading'],
+            hasTrailer && classes['tightHeading'],
           )}
         >
           {entry.tech}
@@ -67,6 +82,15 @@ export function ExperienceCard({ entryKey }: ExperienceCardProps) {
       {hasNote && (
         <Text fs="italic" className={cx(classes['small'], classes['dim70'])}>
           {entry.demo}
+        </Text>
+      )}
+      {/* Print carries the URL in the featured section instead, where there is
+          room to spell it out. */}
+      {caseStudyHref !== undefined && (
+        <Text size="sm" className="print-hidden">
+          <InternalLink href={caseStudyHref} inherit>
+            {cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link}
+          </InternalLink>
         </Text>
       )}
     </Card>
