@@ -20,21 +20,18 @@ paths:
   stays `error` everywhere it isn't explicitly exempted, so it still catches any
   new violation the moment it's added.
 
-- **Exempt at the point of use; reach for a config block only when the
-  exemption spans files.** A call site legitimately outside a rule's premise
-  carries its own `eslint-disable-next-line`, or a file-level
-  `/* eslint-disable <rule> -- … */` under the docstring when every occurrence
-  in the file shares one reason. That puts the rationale where the next person
-  to edit the line will read it. A scoped override block in `eslint.config.ts`
-  is for an exemption that spans files — a whole directory, a migration
-  backlog — and names them in `files:`.
+- **The ESLint spellings of the placement rule** (CLAUDE.md, "an approved
+  suppression goes at the point of use"). A single call site carries its own
+  `eslint-disable-next-line`; a file whose every occurrence shares one reason
+  carries `/* eslint-disable <rule> -- … */` under the docstring; an exemption
+  spanning files is a scoped override block in `eslint.config.ts` that names
+  them in `files:`.
 
-- **A permanent exemption gets a rationale, a temporary one gets an issue.**
-  Some call sites are legitimately outside a rule's premise (a file that must
-  augment a library type through an `interface`, a page with no locale for an
-  i18n rule to protect). Those stay `off` permanently — document the invariant
-  in the comment carrying the disable. A migration backlog stays `off` too, but
-  its comment names the issue that tracks emptying it.
+- **A rule turned `off` for a call site legitimately outside its premise stays
+  off permanently** — a file that must augment a library type through an
+  `interface`, a page with no locale for an i18n rule to protect. A migration
+  backlog is the temporary case, and its comment names the issue that tracks
+  emptying it.
 
 - **Rule severities live in `eslint/rule-groups/*.ts`** via
   `withSeverity('error', [...])` / `withSeverity('off', [...])`; exceptions
