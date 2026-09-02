@@ -88,6 +88,12 @@ literal light grey that survives into the dark scheme. Every base rule here is
 `:where()`, so its specificity is the class alone and `print.scss`, a component
 sheet or an element-specific rule below overrides it without out-specifying it.
 
+**A `:where()` selector cannot be split across a Sass nesting level.** Nesting
+`&:last-child` under `:where(tbody tr)` compiles to `:where(tbody tr):last-child`
+— the pseudo-class now sits outside the wrapper and weighs, which is the one
+thing the wrapper exists to prevent. Anything that belongs inside the
+parentheses is written out in full, however much it repeats.
+
 ## SCSS
 
 Every stylesheet here is Sass — a co-located `.module.scss` per component, plain
