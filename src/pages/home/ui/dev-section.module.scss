@@ -1,0 +1,11 @@
+@use '../../../../styles/mantine' as mantine;
+
+// A case-study card is one link, so hovering anywhere in it underlines the
+// heading — the only cue that the card is clickable beyond its border.
+.caseStudyLink {
+  @include mantine.hover {
+    h4 {
+      text-decoration: underline;
+    }
+  }
+}

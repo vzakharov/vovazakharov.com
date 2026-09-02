@@ -8,6 +8,8 @@
  * is why this segment holds only what genuinely crosses slices.
  */
 
+import type { ReactNode } from 'react';
+
 export type Named = { name: string };
 
 export type WithId = { id: string };
@@ -24,3 +26,6 @@ export type WithText = { text: string };
 
 /** Extra classes a caller merges into the component's own. */
 export type WithOptionalClassName = { className?: string };
+
+/** What a wrapper component renders inside itself. */
+export type WithChildren = { children: ReactNode };

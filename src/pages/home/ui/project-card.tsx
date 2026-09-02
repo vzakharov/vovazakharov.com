@@ -1,4 +1,6 @@
-import { Card, type Summarized } from '@/shared/ui';
+import { Group, Text, Title } from '@mantine/core';
+
+import { Card, CardLink, type Summarized } from '@/shared/ui';
 
 type ProjectCardProps = Summarized & {
   techStack?: string;
@@ -15,26 +17,32 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const content = (
     <Card>
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="text-xl font-bold">{title}</h3>
+      <Group justify="space-between" align="flex-start" mb={8} wrap="nowrap">
+        <Title order={3} size="h4">
+          {title}
+        </Title>
         {stars !== undefined && (
-          <span className="text-sm opacity-60">★ {stars}</span>
+          <Text size="sm" opacity={0.6}>
+            ★ {stars}
+          </Text>
         )}
-      </div>
-      <p className="mb-3 leading-relaxed">{description}</p>
+      </Group>
+      <Text mb={12} lh={1.625}>
+        {description}
+      </Text>
       {techStack !== undefined && (
-        <p className="text-sm font-mono opacity-60">{techStack}</p>
+        <Text size="sm" ff="monospace" opacity={0.6}>
+          {techStack}
+        </Text>
       )}
     </Card>
   );
 
-  if (url !== undefined) {
-    return (
-      <a href={url} target="_blank" rel="noopener noreferrer" className="block">
-        {content}
-      </a>
-    );
-  }
-
-  return content;
+  return url === undefined ? (
+    content
+  ) : (
+    <CardLink href={url} aria-label={title}>
+      {content}
+    </CardLink>
+  );
 }

@@ -1,5 +1,7 @@
-import '../styles/globals.css';
+import '../styles/globals.scss';
+import '../styles/print.scss';
 
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
@@ -34,15 +36,21 @@ export function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // The font variables have to be on <html>: a custom property resolves in the
+  // scope it is declared in, and Mantine declares `--mantine-font-family` —
+  // which reads them — on `:root`.
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${merriweather.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      className={`${merriweather.variable} ${jetbrainsMono.variable}`}
+      {...mantineHtmlProps}
+    >
+      <head>
+        <ColorSchemeScript defaultColorScheme="auto" />
+      </head>
+      <body>
         <NextIntlClientProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

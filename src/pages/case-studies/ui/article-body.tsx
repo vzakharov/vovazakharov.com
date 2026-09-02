@@ -1,9 +1,11 @@
 import type { WithHtml } from '@/shared/content';
 
 export function ArticleBody({ html }: WithHtml) {
+  // `prose-content` sits on the element holding the markup, so that
+  // `prose-content > h1` keys the part dividers off direct children.
   return (
     <div
-      className="prose prose-content max-w-none"
+      className="prose-content"
       // The HTML is the build-time markdown pipeline's own output over
       // first-party documents in `public/content/`, reviewed in the same PR as
       // the code — nothing here is user-submitted. Sanitize at the pipeline if

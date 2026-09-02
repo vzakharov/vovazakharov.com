@@ -1,5 +1,5 @@
+import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { FileText } from 'lucide-react';
-import Link from 'next/link';
 
 import {
   type DocumentRef,
@@ -9,7 +9,10 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
+import { cx } from '@/shared/lib/class-names';
+import { InternalLink } from '@/shared/ui';
 
+import classes from './case-studies.module.scss';
 import { DocumentMeta } from './document-meta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
@@ -36,29 +39,32 @@ function CutSwitcher({
   ];
 
   return (
-    <nav className="flex flex-wrap items-center gap-2 text-sm print:hidden">
+    <Group component="nav" gap={8} wrap="wrap" fz="sm" className="print-hidden">
       {cuts.map((cut) => {
         const label = CUT_LABELS[cut ?? 'full'];
 
         return cut === current ? (
-          <span
+          <Box
             key={label}
+            component="span"
             aria-current="page"
-            className="border border-foreground bg-foreground text-background px-3 py-1"
+            className={cx(classes['cut'], classes['cutCurrent'])}
           >
             {label}
-          </span>
+          </Box>
         ) : (
-          <Link
+          <InternalLink
             key={label}
             href={documentRoute(collection, slug, cut)}
-            className="border border-foreground/40 px-3 py-1 hover:bg-foreground hover:text-background transition-colors"
+            underline="never"
+            c="inherit"
+            className={cx(classes['cut'], classes['cutLink'])}
           >
             {label}
-          </Link>
+          </InternalLink>
         );
       })}
-    </nav>
+    </Group>
   );
 }
 
@@ -76,34 +82,39 @@ export function ArticleHeader({
   const { frontmatter, collection, slug, variant, rawUrl } = document;
 
   return (
-    <header className="space-y-6 pb-8 border-b border-foreground/20">
-      <div className="space-y-3">
-        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
-          {title}
-        </h1>
-        <p className="text-lg opacity-80 leading-relaxed">
-          {frontmatter.description}
-        </p>
-      </div>
+    <Box component="header" className={classes['articleHeader']}>
+      <Stack gap={24}>
+        <Stack gap={12}>
+          <Title order={1} className={classes['articleTitle']}>
+            {title}
+          </Title>
+          <Text size="lg" lh={1.625} opacity={0.8}>
+            {frontmatter.description}
+          </Text>
+        </Stack>
 
-      <DocumentMeta {...{ frontmatter, readingMinutes }} />
+        <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <CutSwitcher
-          {...{ collection, slug }}
-          current={variant}
-          available={availableVariants}
-        />
+        <Group justify="space-between" gap={16} wrap="wrap">
+          <CutSwitcher
+            {...{ collection, slug }}
+            current={variant}
+            available={availableVariants}
+          />
 
-        {/* The authored markdown, served straight out of `public/`. */}
-        <a
-          href={rawUrl}
-          className="flex items-center gap-1.5 text-sm underline hover:opacity-70 print:hidden"
-        >
-          <FileText className="w-4 h-4" aria-hidden />
-          Markdown
-        </a>
-      </div>
-    </header>
+          {/* The authored markdown, served straight out of `public/`. */}
+          <Anchor
+            href={rawUrl}
+            size="sm"
+            className={cx('print-hidden', classes['hoverDim'])}
+          >
+            <Group component="span" gap={6} wrap="nowrap">
+              <FileText size={16} aria-hidden />
+              Markdown
+            </Group>
+          </Anchor>
+        </Group>
+      </Stack>
+    </Box>
   );
 }

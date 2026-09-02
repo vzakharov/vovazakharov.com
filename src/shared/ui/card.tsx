@@ -1,24 +1,41 @@
-import type { ReactNode } from 'react';
+import { Paper } from '@mantine/core';
 
-import type {
-  Described,
-  Titled,
-  WithOptionalClassName,
-} from '@/shared/typings';
+import type { Described, Titled, WithChildren } from '@/shared/typings';
 
-type CardProps = WithOptionalClassName & {
-  children: ReactNode;
-};
+import classes from './card.module.scss';
 
 /** A heading and the prose under it — the copy every card kind renders. */
 export type Summarized = Titled & Described;
 
-export function Card({ children, className = '' }: CardProps) {
+/** The label a screen reader reads for a card whose text is its own markup. */
+type CardLinkProps = WithChildren & {
+  href: string;
+  'aria-label': string;
+};
+
+export function Card({ children }: WithChildren) {
   return (
-    <div
-      className={`border border-foreground/20 p-6 hover:border-foreground/40 transition-colors print:p-4 print:border-0 print:border-b ${className}`}
+    <Paper withBorder className={classes['card']}>
+      {children}
+    </Paper>
+  );
+}
+
+/** Makes a whole card one link to somewhere off the site. */
+export function CardLink({
+  href,
+  children,
+  'aria-label': ariaLabel,
+}: CardLinkProps) {
+  return (
+    <a
+      {...{ href }}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={classes['link']}
+      aria-label={ariaLabel}
     >
       {children}
-    </div>
+    </a>
   );
 }

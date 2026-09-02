@@ -1,5 +1,10 @@
+import { Group } from '@mantine/core';
+
 import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
+import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
+
+import classes from './case-studies.module.scss';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
@@ -18,11 +23,16 @@ export type DocumentMetaProps = WithFrontmatter &
 export function DocumentMeta({
   frontmatter,
   readingMinutes,
-  className = '',
+  className,
 }: DocumentMetaProps) {
   return (
-    <p
-      className={`flex flex-wrap items-center gap-x-3 gap-y-1 text-sm opacity-70 ${className}`}
+    <Group
+      component="p"
+      gap={12}
+      wrap="wrap"
+      fz="sm"
+      opacity={0.7}
+      className={cx(classes['meta'], className)}
     >
       <time dateTime={frontmatter.date.toISOString().slice(0, 10)}>
         {DATE_FORMAT.format(frontmatter.date)}
@@ -35,6 +45,6 @@ export function DocumentMeta({
           <span>Part {frontmatter.part}</span>
         </>
       )}
-    </p>
+    </Group>
   );
 }

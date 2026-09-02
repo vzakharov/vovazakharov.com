@@ -1,83 +1,35 @@
 'use client';
 
+import {
+  Anchor,
+  Box,
+  Button,
+  Container,
+  Group,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import { Printer } from 'lucide-react';
-import Link from 'next/link';
 import { useMessages, useTranslations } from 'next-intl';
 
-import { Card } from '@/shared/ui';
+import { cx } from '@/shared/lib/class-names';
+import { Card, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
+import classes from './cv.module.scss';
+import { CvBullets } from './cv-bullets';
+import { CvSection, CvSubsection } from './cv-section';
+import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
 
 function handlePrint() {
   globalThis.print();
 }
 
-/**
- * Order is a presentation decision, so it lives in code rather than in the
- * catalogs, where `en` and `ru` would be free to disagree about it.
- */
-const EXPERIENCE_KEYS = [
-  'playgram',
-  'englishForKids',
-  'orcool',
-  'randddb',
-  'independent',
-  'voicemod',
-] as const;
-
-type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
-
-/** Entries use whichever shape suits them; a card renders both. */
-type ExperienceItem = string | { label: string; text: string };
-
-type ExperienceCardProps = { entryKey: ExperienceKey };
-
-function ExperienceCard({ entryKey }: ExperienceCardProps) {
-  // Read the entry off the typed catalog: its fields vary per entry, so a
-  // computed `t('<key>.title')` resolves to no known message key.
-  const { cv } = useMessages();
-  const entry = cv.experience[entryKey];
-  const items: ExperienceItem[] = entry.items;
-
-  return (
-    <Card>
-      <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-        {entry.title}
-      </h3>
-      <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-        {entry.period}
-      </h4>
-
-      {'description' in entry && (
-        <p className="mb-3 print:mb-1">{entry.description}</p>
-      )}
-      {'intro' in entry && <p className="mb-3 print:mb-1">{entry.intro}</p>}
-
-      <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1 last:mb-0">
-        {items.map((item, index) => (
-          <li key={index}>
-            {typeof item === 'string' ? (
-              item
-            ) : (
-              <>
-                <strong>{item.label}</strong> {item.text}
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {'tech' in entry && (
-        <p className="text-sm font-mono opacity-60">{entry.tech}</p>
-      )}
-      {'demo' in entry && (
-        <p className="text-sm italic opacity-70 mt-2">{entry.demo}</p>
-      )}
-    </Card>
-  );
-}
+/** Order is a presentation decision, as with the experience entries. */
+const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 export type CvPageProps = {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
@@ -89,258 +41,216 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
   const { cv } = useMessages();
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 print:p-0">
-      <div className="max-w-4xl mx-auto space-y-8 print:space-y-4">
-        {/* Header with theme toggle and print button */}
-        <div className="flex justify-between items-start print:hidden">
-          <button
-            onClick={handlePrint}
-            className="border border-foreground/40 p-3 hover:bg-foreground hover:text-background transition-colors"
-            aria-label={t('printButton')}
+    <Box className={classes['page']}>
+      <Container size={896} px={0} className={classes['container']}>
+        <Stack className={classes['pageSections']}>
+          <Group
+            justify="space-between"
+            align="flex-start"
+            className="print-hidden"
           >
-            <span className="flex items-center gap-1">
-              <Printer className="w-5 h-5" /> / PDF
-            </span>
-          </button>
-          <div className="flex gap-2">
-            <LocalePicker />
-            <ThemeToggle />
-          </div>
-        </div>
-
-        {/* CV Header */}
-        <header className="text-center space-y-4 pb-8 border-b border-foreground/20 print:space-y-2 print:pb-4">
-          <h1 className="text-4xl sm:text-5xl font-bold print:text-3xl">
-            {t('header.name')}
-          </h1>
-          <p className="text-xl opacity-80 print:text-base">
-            {t('header.tagline')}
-          </p>
-          <p className="opacity-70 print:text-sm">
-            <a href={`mailto:${t('header.email')}`} className="underline">
-              {t('header.email')}
-            </a>
-          </p>
-        </header>
-
-        {/* Profile Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('profile.title')}
-          </h2>
-          <Card className="space-y-4 print:space-y-2">
-            <p className="leading-relaxed">
-              {t.rich('profile.paragraph1', {
-                strong: (chunks) => <strong>{chunks}</strong>,
-              })}
-            </p>
-            <p className="leading-relaxed">{t('profile.paragraph2')}</p>
-          </Card>
-        </section>
-
-        {/* What I Offer Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('whatIOffer.title')}
-          </h2>
-          <Card>
-            <div className="space-y-4 print:space-y-2">
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('whatIOffer.coreCapabilities.title')}
-                </h3>
-                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  <li>{t('whatIOffer.coreCapabilities.item1')}</li>
-                  <li>{t('whatIOffer.coreCapabilities.item2')}</li>
-                  <li>{t('whatIOffer.coreCapabilities.item3')}</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('whatIOffer.workingStyle.title')}
-                </h3>
-                <p className="leading-relaxed mb-2 print:mb-1">
-                  {t('whatIOffer.workingStyle.paragraph1')}
-                </p>
-                <p className="leading-relaxed">
-                  {t('whatIOffer.workingStyle.paragraph2')}
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('whatIOffer.aiExpertise.title')}
-                </h3>
-                <p className="leading-relaxed">
-                  {t('whatIOffer.aiExpertise.paragraph')}
-                </p>
-              </div>
-            </div>
-          </Card>
-        </section>
-
-        {/* Experience Section */}
-        <section className="space-y-6 print:space-y-3">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('experience.title')}
-          </h2>
-
-          <div className="space-y-6 print:space-y-3">
-            {EXPERIENCE_KEYS.map((entryKey) => (
-              <ExperienceCard key={entryKey} {...{ entryKey }} />
-            ))}
-          </div>
-        </section>
-
-        {/* Case Studies Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('caseStudies.title')}
-          </h2>
-          <Card>
-            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">
-              {t('caseStudies.playgram.title')}
-            </h3>
-            <p className="leading-relaxed mb-3 print:mb-1">
-              {t('caseStudies.playgram.description')}
-            </p>
-            <p className="text-sm">
-              <Link href={caseStudyHref} className="underline hover:opacity-70">
-                {t('caseStudies.playgram.link')}
-              </Link>
-            </p>
-          </Card>
-        </section>
-
-        {/* Tech Stack Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('techStack.title')}
-          </h2>
-          <Card>
-            <div className="space-y-3 print:space-y-2">
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('techStack.backend.title')}
-                </h3>
-                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {cv.techStack.backend.items.map((item, idx) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('techStack.frontend.title')}
-                </h3>
-                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {cv.techStack.frontend.items.map((item, idx) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold mb-2 print:text-base print:mb-1">
-                  {t('techStack.serverless.title')}
-                </h3>
-                <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {cv.techStack.serverless.items.map((item, idx) => (
-                    <li key={idx}>
-                      <strong>{item.label}</strong> {item.text}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Card>
-        </section>
-
-        {/* Education Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('education.title')}
-          </h2>
-          <Card>
-            <h3 className="text-xl font-bold mb-2 print:text-base print:mb-1">
-              {t('education.school')}
-            </h3>
-            <p className="opacity-80 print:text-sm">{t('education.degree')}</p>
-          </Card>
-        </section>
-
-        {/* Contact Section */}
-        <section className="space-y-4 print:space-y-2">
-          <h2 className="text-3xl font-bold print:text-2xl">
-            {t('contact.title')}
-          </h2>
-          <Card>
-            <p className="print:text-xs flex gap-2 justify-center">
-              <a
-                href={`mailto:${t('header.email')}`}
-                className="underline hover:opacity-70"
-              >
-                {t('header.email')}
-              </a>
-              ·
-              <a
-                href={`https://${t('contact.github')}`}
-                className="underline hover:opacity-70"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('contact.github')}
-              </a>
-              ·
-              <a
-                href={`https://${t('contact.linkedin')}`}
-                className="underline hover:opacity-70"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('contact.linkedin')}
-              </a>
-              ·
-              <a
-                href={`https://${t('contact.x')}`}
-                className="underline hover:opacity-70"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('contact.x')}
-              </a>
-            </p>
-          </Card>
-        </section>
-
-        {/* Footer */}
-        <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20 print:hidden">
-          <p>
-            <Link href="/" className="underline hover:opacity-100">
-              {t('footer.backLink')}
-            </Link>
-          </p>
-        </footer>
-
-        {/* Print-only footer */}
-        <footer className="hidden print:block text-center text-sm pt-8">
-          <p>
-            {t('footer.printFooter')}&nbsp;
-            <a
-              href={`https://${t('footer.website')}`}
-              className="underline hover:opacity-100"
+            <Button
+              variant="default"
+              size="md"
+              h={50}
+              px={12}
+              leftSection={<Printer size={20} />}
+              onClick={handlePrint}
+              aria-label={t('printButton')}
             >
-              {t('footer.website')}
-            </a>
-          </p>
-        </footer>
-      </div>
-    </div>
+              / PDF
+            </Button>
+            <Group gap={8}>
+              <LocalePicker />
+              <ThemeToggle />
+            </Group>
+          </Group>
+
+          <Box component="header" ta="center" className={classes['header']}>
+            <Stack className={classes['section']}>
+              <Title order={1}>{t('header.name')}</Title>
+              <Text className={cx(classes['tagline'], classes['dim80'])}>
+                {t('header.tagline')}
+              </Text>
+              <Text className={cx(classes['printSmall'], classes['dim70'])}>
+                <Anchor href={`mailto:${t('header.email')}`} inherit>
+                  {t('header.email')}
+                </Anchor>
+              </Text>
+            </Stack>
+          </Box>
+
+          <CvSection title={t('profile.title')}>
+            <Card>
+              <Stack className={classes['section']}>
+                <Text lh={1.625}>
+                  {t.rich('profile.paragraph1', {
+                    strong: (chunks) => <strong>{chunks}</strong>,
+                  })}
+                </Text>
+                <Text lh={1.625}>{t('profile.paragraph2')}</Text>
+              </Stack>
+            </Card>
+          </CvSection>
+
+          <CvSection title={t('whatIOffer.title')}>
+            <Card>
+              <Stack className={classes['section']}>
+                <CvSubsection title={t('whatIOffer.coreCapabilities.title')}>
+                  <CvBullets
+                    items={[
+                      t('whatIOffer.coreCapabilities.item1'),
+                      t('whatIOffer.coreCapabilities.item2'),
+                      t('whatIOffer.coreCapabilities.item3'),
+                    ]}
+                    last
+                  />
+                </CvSubsection>
+
+                <CvSubsection title={t('whatIOffer.workingStyle.title')}>
+                  <Text lh={1.625} className={classes['tightHeading']}>
+                    {t('whatIOffer.workingStyle.paragraph1')}
+                  </Text>
+                  <Text lh={1.625}>
+                    {t('whatIOffer.workingStyle.paragraph2')}
+                  </Text>
+                </CvSubsection>
+
+                <CvSubsection title={t('whatIOffer.aiExpertise.title')}>
+                  <Text lh={1.625}>
+                    {t('whatIOffer.aiExpertise.paragraph')}
+                  </Text>
+                </CvSubsection>
+              </Stack>
+            </Card>
+          </CvSection>
+
+          <CvSection title={t('experience.title')} wide>
+            <Stack className={classes['sectionWide']}>
+              {EXPERIENCE_KEYS.map((entryKey) => (
+                <ExperienceCard key={entryKey} {...{ entryKey }} />
+              ))}
+            </Stack>
+          </CvSection>
+
+          <CvSection title={t('caseStudies.title')}>
+            <Card>
+              <Title
+                order={3}
+                size="h4"
+                className={cx(
+                  classes['subheadingLarge'],
+                  classes['tightHeading'],
+                )}
+              >
+                {t('caseStudies.playgram.title')}
+              </Title>
+              <Text lh={1.625} className={classes['tight']}>
+                {t('caseStudies.playgram.description')}
+              </Text>
+              <Text size="sm">
+                <InternalLink href={caseStudyHref} inherit>
+                  {t('caseStudies.playgram.link')}
+                </InternalLink>
+              </Text>
+            </Card>
+          </CvSection>
+
+          <CvSection title={t('techStack.title')}>
+            <Card>
+              <Stack className={classes['subsections']}>
+                {TECH_STACK_GROUPS.map((group) => {
+                  const { title, items } = cv.techStack[group];
+
+                  return (
+                    <CvSubsection key={group} {...{ title }}>
+                      <CvBullets {...{ items }} last />
+                    </CvSubsection>
+                  );
+                })}
+              </Stack>
+            </Card>
+          </CvSection>
+
+          <CvSection title={t('education.title')}>
+            <Card>
+              <Title order={3} className={classes['subheadingLarge']}>
+                {t('education.school')}
+              </Title>
+              <Text className={cx(classes['printSmall'], classes['dim80'])}>
+                {t('education.degree')}
+              </Text>
+            </Card>
+          </CvSection>
+
+          <CvSection title={t('contact.title')}>
+            <Card>
+              <Group
+                gap={8}
+                justify="center"
+                className={classes['contactLine']}
+                wrap="wrap"
+              >
+                <Anchor href={`mailto:${t('header.email')}`} inherit>
+                  {t('header.email')}
+                </Anchor>
+                ·
+                <Anchor
+                  href={`https://${t('contact.github')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  inherit
+                >
+                  {t('contact.github')}
+                </Anchor>
+                ·
+                <Anchor
+                  href={`https://${t('contact.linkedin')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  inherit
+                >
+                  {t('contact.linkedin')}
+                </Anchor>
+                ·
+                <Anchor
+                  href={`https://${t('contact.x')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  inherit
+                >
+                  {t('contact.x')}
+                </Anchor>
+              </Group>
+            </Card>
+          </CvSection>
+
+          <Box
+            component="footer"
+            ta="center"
+            className={cx('print-hidden', classes['screenFooter'])}
+          >
+            <Text size="sm" className={classes['dim60']}>
+              <InternalLink href="/" inherit>
+                {t('footer.backLink')}
+              </InternalLink>
+            </Text>
+          </Box>
+
+          <Box
+            component="footer"
+            ta="center"
+            className={cx('print-only', classes['printFooter'])}
+          >
+            <Text className={classes['small']}>
+              {t('footer.printFooter')}&nbsp;
+              <Anchor href={`https://${t('footer.website')}`} inherit>
+                {t('footer.website')}
+              </Anchor>
+            </Text>
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
   );
 }

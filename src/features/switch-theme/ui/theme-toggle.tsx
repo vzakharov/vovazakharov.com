@@ -1,52 +1,53 @@
 'use client';
 
+import {
+  ActionIcon,
+  Box,
+  type MantineColorScheme,
+  useMantineColorScheme,
+} from '@mantine/core';
+import { useMounted } from '@mantine/hooks';
 import { type LucideIcon, Monitor, Moon, Sun } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useTheme } from 'next-themes';
 
-import { useMounted } from '@/shared/lib/hydration';
-
-type Theme = 'light' | 'dark' | 'system';
-
-const NEXT_THEME: Record<Theme, Theme> = {
+const NEXT_SCHEME = {
   light: 'dark',
-  dark: 'system',
-  system: 'light',
-};
+  dark: 'auto',
+  auto: 'light',
+} as const satisfies Record<MantineColorScheme, MantineColorScheme>;
 
-const ICON: Record<Theme, LucideIcon> = {
+const ICONS = {
   light: Sun,
   dark: Moon,
-  system: Monitor,
-};
+  auto: Monitor,
+} as const satisfies Record<MantineColorScheme, LucideIcon>;
 
-/** next-themes types `theme` as an open string; anything unrecognized reads as `system`. */
-function asTheme(theme: string | undefined): Theme {
-  return theme === 'light' || theme === 'dark' ? theme : 'system';
-}
+const SIZE = 38;
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
   const mounted = useMounted();
   const t = useTranslations('ui');
 
-  const cycleTheme = () => {
-    setTheme(NEXT_THEME[asTheme(theme)]);
-  };
-
+  // Until hydration there is no telling a stored `auto` from the scheme it
+  // resolved to, so the button reserves its space rather than guessing an icon.
   if (!mounted) {
-    return <div className="w-10 h-10" />;
+    return <Box w={SIZE} h={SIZE} />;
   }
 
-  const Icon = ICON[asTheme(theme)];
+  const Icon = ICONS[colorScheme];
 
   return (
-    <button
-      onClick={cycleTheme}
-      className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors"
+    <ActionIcon
+      variant="default"
+      size={SIZE}
+      radius={4}
+      onClick={() => {
+        setColorScheme(NEXT_SCHEME[colorScheme]);
+      }}
       aria-label={t('toggleTheme')}
     >
-      <Icon className="w-5 h-5" />
-    </button>
+      <Icon size={20} />
+    </ActionIcon>
   );
 }

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Box, Container, Group, Stack, Text, Title } from '@mantine/core';
 
 import {
   COLLECTIONS,
@@ -6,11 +6,12 @@ import {
   renderPrimaryDocuments,
 } from '@/shared/content';
 import { constructMetadata } from '@/shared/seo';
-import { Card } from '@/shared/ui';
+import { Card, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
 import { BackToHome } from './back-to-home';
+import classes from './case-studies.module.scss';
 import { DocumentMeta } from './document-meta';
 
 const COLLECTION = 'case-studies';
@@ -28,59 +29,64 @@ export async function CaseStudiesPage() {
   const cards = await renderPrimaryDocuments(COLLECTION);
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20">
-      <div className="max-w-4xl mx-auto space-y-12">
-        <div className="flex justify-end">
-          <ThemeToggle />
-        </div>
+    <Box className={classes['page']}>
+      <Container size={896} px={0}>
+        <Stack gap={48}>
+          <Group justify="flex-end">
+            <ThemeToggle />
+          </Group>
 
-        <header className="space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold">
-            {COLLECTIONS[COLLECTION].routeBase}
-          </h1>
-          <p className="text-lg opacity-80">{DESCRIPTION}</p>
-        </header>
+          <Box component="header">
+            <Stack gap={16}>
+              <Title order={1}>{COLLECTIONS[COLLECTION].routeBase}</Title>
+              <Text size="lg" opacity={0.8}>
+                {DESCRIPTION}
+              </Text>
+            </Stack>
+          </Box>
 
-        <div className="space-y-6">
-          {cards.map(({ document, rendered, variants }) => {
-            const { frontmatter, slug, route } = document;
-            const { title, readingMinutes } = rendered;
+          <Stack gap={24}>
+            {cards.map(({ document, rendered, variants }) => {
+              const { frontmatter, slug, route } = document;
+              const { title, readingMinutes } = rendered;
 
-            return (
-              <Card key={slug}>
-                <Link href={route} className="block group">
-                  <h2 className="text-2xl font-bold mb-2 group-hover:underline">
-                    {title}
-                  </h2>
-                </Link>
-                <DocumentMeta
-                  {...{ frontmatter, readingMinutes }}
-                  className="mb-3"
-                />
-                <p className="leading-relaxed mb-4">
-                  {frontmatter.description}
-                </p>
-                <p className="flex flex-wrap gap-3 text-sm">
-                  <Link href={route} className="underline">
-                    Read
-                  </Link>
-                  {variants.map((variant) => (
-                    <Link
-                      key={variant}
-                      href={documentRoute(COLLECTION, slug, variant)}
-                      className="underline opacity-70 hover:opacity-100"
-                    >
-                      {variant} version
-                    </Link>
-                  ))}
-                </p>
-              </Card>
-            );
-          })}
-        </div>
+              return (
+                <Card key={slug}>
+                  <Title order={2} size="h3" mb={8}>
+                    <InternalLink href={route} underline="hover" inherit>
+                      {title}
+                    </InternalLink>
+                  </Title>
+                  <DocumentMeta
+                    {...{ frontmatter, readingMinutes }}
+                    className={classes['cardMeta']}
+                  />
+                  <Text lh={1.625} mb={16}>
+                    {frontmatter.description}
+                  </Text>
+                  <Group component="p" gap={12} wrap="wrap" fz="sm">
+                    <InternalLink href={route} inherit>
+                      Read
+                    </InternalLink>
+                    {variants.map((variant) => (
+                      <InternalLink
+                        key={variant}
+                        href={documentRoute(COLLECTION, slug, variant)}
+                        className={classes['variantLink']}
+                        inherit
+                      >
+                        {variant} version
+                      </InternalLink>
+                    ))}
+                  </Group>
+                </Card>
+              );
+            })}
+          </Stack>
 
-        <BackToHome />
-      </div>
-    </div>
+          <BackToHome />
+        </Stack>
+      </Container>
+    </Box>
   );
 }

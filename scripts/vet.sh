@@ -28,8 +28,24 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# None of these seven writes anything another one reads, so they overlap freely.
-# Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
+# The one check that repairs what it finds, and it reports by failing: the
+# generator exits non-zero exactly when it had to write, so a stale partial is
+# both fixed and named in one pass and `git diff` is the report. A generated
+# file has one correct content, so the rewrite is never the judgment call that
+# keeps `eslint --fix` out of vet.
+#
+# It runs alone for the mirror image of the build's reason: it *writes* two
+# `.scss` files that the fan-out's stylelint and Prettier glob, and would hand
+# one of them over truncated.
+if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
+  sed 's/^/[styles] /' tmp/vet-styles.log
+  printf '[styles] full log: tmp/vet-styles.log\n'
+  status=1
+fi
+
+# None of these eight writes anything another one reads, so they overlap freely.
+# Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
+# `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap reads source text only — no generated types, nothing another
 # check writes; the test run adds only writes into the OS temp directory, and
 # `content:og --check` only hashes files, needing no browser.
@@ -37,6 +53,7 @@ scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
   format='pnpm format:check' \
+  stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
   og='pnpm content:og --check' \
