@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { ThemeToggle } from '@/features/switch-theme';
 import {
   COLLECTIONS,
   documentRoute,
@@ -8,6 +7,9 @@ import {
 } from '@/shared/content';
 import { constructMetadata } from '@/shared/seo';
 import { Card } from '@/shared/ui';
+
+import { ThemeToggle } from '@/features/switch-theme';
+
 import { BackToHome } from './back-to-home';
 import { DocumentMeta } from './document-meta';
 
@@ -40,37 +42,41 @@ export async function CaseStudiesPage() {
         </header>
 
         <div className="space-y-6">
-          {cards.map(({ document, rendered, variants }) => (
-            <Card key={document.slug}>
-              <Link href={document.route} className="block group">
-                <h2 className="text-2xl font-bold mb-2 group-hover:underline">
-                  {rendered.title}
-                </h2>
-              </Link>
-              <DocumentMeta
-                frontmatter={document.frontmatter}
-                readingMinutes={rendered.readingMinutes}
-                className="mb-3"
-              />
-              <p className="leading-relaxed mb-4">
-                {document.frontmatter.description}
-              </p>
-              <p className="flex flex-wrap gap-3 text-sm">
-                <Link href={document.route} className="underline">
-                  Read
+          {cards.map(({ document, rendered, variants }) => {
+            const { frontmatter, slug, route } = document;
+            const { title, readingMinutes } = rendered;
+
+            return (
+              <Card key={slug}>
+                <Link href={route} className="block group">
+                  <h2 className="text-2xl font-bold mb-2 group-hover:underline">
+                    {title}
+                  </h2>
                 </Link>
-                {variants.map((variant) => (
-                  <Link
-                    key={variant}
-                    href={documentRoute(COLLECTION, document.slug, variant)}
-                    className="underline opacity-70 hover:opacity-100"
-                  >
-                    {variant} version
+                <DocumentMeta
+                  {...{ frontmatter, readingMinutes }}
+                  className="mb-3"
+                />
+                <p className="leading-relaxed mb-4">
+                  {frontmatter.description}
+                </p>
+                <p className="flex flex-wrap gap-3 text-sm">
+                  <Link href={route} className="underline">
+                    Read
                   </Link>
-                ))}
-              </p>
-            </Card>
-          ))}
+                  {variants.map((variant) => (
+                    <Link
+                      key={variant}
+                      href={documentRoute(COLLECTION, slug, variant)}
+                      className="underline opacity-70 hover:opacity-100"
+                    >
+                      {variant} version
+                    </Link>
+                  ))}
+                </p>
+              </Card>
+            );
+          })}
         </div>
 
         <BackToHome />

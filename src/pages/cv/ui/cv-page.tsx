@@ -1,11 +1,18 @@
 'use client';
 
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import { Printer } from 'lucide-react';
-import { ThemeToggle } from '@/features/switch-theme';
+import Link from 'next/link';
+import { useMessages, useTranslations } from 'next-intl';
+
 import { Card } from '@/shared/ui';
+
+import { ThemeToggle } from '@/features/switch-theme';
+
 import { LocalePicker } from './locale-picker';
+
+function handlePrint() {
+  globalThis.print();
+}
 
 /**
  * Order is a presentation decision, so it lives in code rather than in the
@@ -20,29 +27,33 @@ const EXPERIENCE_KEYS = [
   'voicemod',
 ] as const;
 
+type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
+
 /** Entries use whichever shape suits them; a card renders both. */
 type ExperienceItem = string | { label: string; text: string };
 
-function ExperienceCard({ entryKey }: { entryKey: string }) {
-  const t = useTranslations('cv.experience');
-  const at = (field: string) => `${entryKey}.${field}`;
-  const items = t.raw(at('items')) as ExperienceItem[];
+type ExperienceCardProps = { entryKey: ExperienceKey };
+
+function ExperienceCard({ entryKey }: ExperienceCardProps) {
+  // Read the entry off the typed catalog: its fields vary per entry, so a
+  // computed `t('<key>.title')` resolves to no known message key.
+  const { cv } = useMessages();
+  const entry = cv.experience[entryKey];
+  const items: ExperienceItem[] = entry.items;
 
   return (
     <Card>
       <h3 className="text-2xl font-bold mb-2 print:text-lg print:mb-1">
-        {t(at('title'))}
+        {entry.title}
       </h3>
       <h4 className="text-xl font-bold mb-3 opacity-90 print:text-base print:mb-1">
-        {t(at('period'))}
+        {entry.period}
       </h4>
 
-      {t.has(at('description')) && (
-        <p className="mb-3 print:mb-1">{t(at('description'))}</p>
+      {'description' in entry && (
+        <p className="mb-3 print:mb-1">{entry.description}</p>
       )}
-      {t.has(at('intro')) && (
-        <p className="mb-3 print:mb-1">{t(at('intro'))}</p>
-      )}
+      {'intro' in entry && <p className="mb-3 print:mb-1">{entry.intro}</p>}
 
       <ul className="list-disc list-inside space-y-1 mb-3 ml-4 print:space-y-0 print:mb-1 last:mb-0">
         {items.map((item, index) => (
@@ -58,11 +69,11 @@ function ExperienceCard({ entryKey }: { entryKey: string }) {
         ))}
       </ul>
 
-      {t.has(at('tech')) && (
-        <p className="text-sm font-mono opacity-60">{t(at('tech'))}</p>
+      {'tech' in entry && (
+        <p className="text-sm font-mono opacity-60">{entry.tech}</p>
       )}
-      {t.has(at('demo')) && (
-        <p className="text-sm italic opacity-70 mt-2">{t(at('demo'))}</p>
+      {'demo' in entry && (
+        <p className="text-sm italic opacity-70 mt-2">{entry.demo}</p>
       )}
     </Card>
   );
@@ -75,9 +86,7 @@ export type CvPageProps = {
 
 export function CvPage({ caseStudyHref }: CvPageProps) {
   const t = useTranslations('cv');
-  const handlePrint = () => {
-    window.print();
-  };
+  const { cv } = useMessages();
 
   return (
     <div className="min-h-screen p-8 pb-20 sm:p-20 print:p-0">
@@ -179,7 +188,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
 
           <div className="space-y-6 print:space-y-3">
             {EXPERIENCE_KEYS.map((entryKey) => (
-              <ExperienceCard key={entryKey} entryKey={entryKey} />
+              <ExperienceCard key={entryKey} {...{ entryKey }} />
             ))}
           </div>
         </section>
@@ -216,15 +225,11 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
                   {t('techStack.backend.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.backend.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.backend.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -233,15 +238,11 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
                   {t('techStack.frontend.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.frontend.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.frontend.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -250,15 +251,11 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
                   {t('techStack.serverless.title')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 ml-4 print:space-y-0">
-                  {t
-                    .raw('techStack.serverless.items')
-                    .map(
-                      (item: { label: string; text: string }, idx: number) => (
-                        <li key={idx}>
-                          <strong>{item.label}</strong> {item.text}
-                        </li>
-                      )
-                    )}
+                  {cv.techStack.serverless.items.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.label}</strong> {item.text}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

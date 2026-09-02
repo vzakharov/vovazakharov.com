@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { ElementContent, Node, Parent } from 'hast';
+import type { ElementContent, Nodes } from 'hast';
 
 /**
  * Every text descendant of a node, concatenated — a heading's or a link's label.
@@ -8,10 +8,10 @@ import type { ElementContent, Node, Parent } from 'hast';
  * "hast" is the unified ecosystem's name for its HTML syntax tree, the shape
  * every `rehype` plugin operates on (as "mdast" is the markdown one).
  */
-export function hastText(node: Node | ElementContent): string {
-  if (node.type === 'text') return (node as { value: string }).value;
+export function hastText(node: Nodes | ElementContent): string {
+  if (node.type === 'text') return node.value;
 
-  const children = (node as Parent).children;
-
-  return Array.isArray(children) ? children.map(hastText).join('') : '';
+  return 'children' in node
+    ? node.children.map((child) => hastText(child)).join('')
+    : '';
 }

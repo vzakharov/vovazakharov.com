@@ -1,9 +1,12 @@
-import type { Metadata } from 'next';
-import { Merriweather, JetBrains_Mono } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
 import '../styles/globals.css';
+
+import type { Metadata } from 'next';
+import { JetBrains_Mono, Merriweather } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+
 import { SITE_CONFIG } from '@/shared/config';
 import { constructMetadata } from '@/shared/seo';
+
 import { ThemeProvider } from './theme-provider';
 
 const merriweather = Merriweather({

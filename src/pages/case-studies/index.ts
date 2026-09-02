@@ -3,4 +3,4 @@ export {
   generateArticleMetadata,
   generateArticleParams,
 } from './ui/article-page';
-export { CaseStudiesPage, caseStudiesMetadata } from './ui/case-studies-page';
+export { caseStudiesMetadata, CaseStudiesPage } from './ui/case-studies-page';

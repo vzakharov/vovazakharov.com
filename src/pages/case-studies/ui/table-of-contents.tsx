@@ -9,10 +9,13 @@ export function TableOfContents({ headings }: WithHeadings) {
 
   return (
     <nav
-      aria-label="On this page"
+      aria-labelledby="table-of-contents"
       className="lg:sticky lg:top-8 text-sm print:hidden"
     >
-      <h2 className="font-bold mb-3 uppercase tracking-wide text-xs opacity-60">
+      <h2
+        id="table-of-contents"
+        className="font-bold mb-3 uppercase tracking-wide text-xs opacity-60"
+      >
         On this page
       </h2>
       <ol className="space-y-1.5 border-l border-foreground/20">

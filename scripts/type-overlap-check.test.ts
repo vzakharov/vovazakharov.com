@@ -51,17 +51,13 @@ function run(tree: Tree, overrides: Record<string, string> = {}): Run {
   for (const name of ['TYPE_OVERLAP_MIN', 'TYPE_OVERLAP_BASES_MIN'])
     if (!(name in overrides)) delete env[name];
 
-  const result = spawnSync(TSX, [SCRIPT], {
+  const { error, status, stdout, stderr } = spawnSync(TSX, [SCRIPT], {
     cwd: dir,
     encoding: 'utf8',
     env,
   });
-  assert.equal(result.error, undefined);
-  return {
-    status: result.status ?? -1,
-    stdout: result.stdout,
-    stderr: result.stderr,
-  };
+  assert.equal(error, undefined);
+  return { status: status ?? -1, stdout, stderr };
 }
 
 const BASES = `
@@ -230,7 +226,7 @@ describe('type-overlap: thresholds', () => {
         'lib/a.ts': 'export type A = { title: string; href: string };',
         'lib/b.ts': 'export type B = { title: string; icon: string };',
       },
-      { TYPE_OVERLAP_MIN: '2' }
+      { TYPE_OVERLAP_MIN: '2' },
     );
     assert.equal(status, 0);
     assert.match(stdout, /no shared members \(min=2\)/);
@@ -239,7 +235,7 @@ describe('type-overlap: thresholds', () => {
   it('refuses to lower a floor', () => {
     const { status, stderr } = run(
       { 'lib/a.ts': 'export type A = { title: string };' },
-      { TYPE_OVERLAP_BASES_MIN: '1' }
+      { TYPE_OVERLAP_BASES_MIN: '1' },
     );
     assert.notEqual(status, 0);
     assert.match(stderr, /TYPE_OVERLAP_BASES_MIN must be an integer >= 2/);
@@ -248,7 +244,7 @@ describe('type-overlap: thresholds', () => {
   it('refuses a non-integer', () => {
     const { status, stderr } = run(
       { 'lib/a.ts': 'export type A = { title: string };' },
-      { TYPE_OVERLAP_MIN: 'nope' }
+      { TYPE_OVERLAP_MIN: 'nope' },
     );
     assert.notEqual(status, 0);
     assert.match(stderr, /TYPE_OVERLAP_MIN must be an integer >= 1, got: nope/);
@@ -277,5 +273,5 @@ describe('type-overlap: what the scan skips', () => {
 });
 
 function escapeRegExp(literal: string): string {
-  return literal.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
+  return literal.replaceAll(/[$()*+.?[\\\]^{|}]/g, String.raw`\$&`);
 }

@@ -227,5 +227,9 @@
       "printFooter": "Полное портфолио:",
       "website": "vovazakharov.com"
     }
+  },
+  "ui": {
+    "toggleTheme": "Переключить тему",
+    "switchToOther": "Переключить на английский"
   }
 }

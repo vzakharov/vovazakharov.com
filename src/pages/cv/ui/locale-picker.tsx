@@ -1,14 +1,16 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-import { useMounted } from '@/shared/lib/hydration';
+import { useLocale, useTranslations } from 'next-intl';
+
 import { usePathname, useRouter } from '@/shared/i18n';
+import { useMounted } from '@/shared/lib/hydration';
 
 export function LocalePicker() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const mounted = useMounted();
+  const t = useTranslations('ui');
 
   const isI18nPage = pathname === '/cv';
 
@@ -16,7 +18,7 @@ export function LocalePicker() {
     return null;
   }
 
-  const currentLocale = locale as string;
+  const currentLocale = locale;
   const nextLocale = currentLocale === 'en' ? 'ru' : 'en';
   const currentFlag = currentLocale === 'en' ? '🇬🇧' : '🇷🇺';
 
@@ -28,7 +30,7 @@ export function LocalePicker() {
     <button
       onClick={toggleLocale}
       className="p-2 rounded border border-foreground/40 hover:bg-foreground hover:text-background transition-colors text-lg"
-      aria-label={`Switch to ${nextLocale === 'en' ? 'English' : 'Russian'}`}
+      aria-label={t('switchToOther')}
     >
       {currentFlag}
     </button>

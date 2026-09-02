@@ -22,24 +22,22 @@ function isVideoLink(node: Element): boolean {
   const title = node.properties.title;
 
   if (title === 'video') return true;
+  if (typeof href !== 'string') return false;
 
-  return (
-    typeof href === 'string' &&
-    VIDEO_EXTENSIONS.some((extension) =>
-      href.toLowerCase().split(/[?#]/)[0].endsWith(extension)
-    )
-  );
+  const [base = ''] = href.toLowerCase().split(/[#?]/);
+
+  return VIDEO_EXTENSIONS.some((extension) => base.endsWith(extension));
 }
 
 /** The paragraph's only meaningful child, ignoring the whitespace around it. */
 function soleElementChild(node: Element): Element | undefined {
   const meaningful = node.children.filter(
-    (child) => !(child.type === 'text' && child.value.trim() === '')
+    (child) => !(child.type === 'text' && child.value.trim() === ''),
   );
 
-  return meaningful.length === 1 && meaningful[0].type === 'element'
-    ? meaningful[0]
-    : undefined;
+  const [only] = meaningful;
+
+  return meaningful.length === 1 && only?.type === 'element' ? only : undefined;
 }
 
 function videoElement(href: string, label: string): Element {
@@ -80,18 +78,18 @@ function videoElement(href: string, label: string): Element {
  * text becomes the player's accessible label, and the fallback inside it keeps
  * the video reachable in a browser that cannot play the format.
  */
-export const rehypeMediaEmbeds: Plugin<[], Root> = () => {
-  return (tree) => {
-    visit(tree, 'element', (node: Element, index, parent) => {
-      if (node.tagName !== 'p' || index === undefined || !parent) return;
+function embedVideos(tree: Root) {
+  visit(tree, 'element', (node: Element, index, parent) => {
+    if (node.tagName !== 'p' || index === undefined || !parent) return;
 
-      const link = soleElementChild(node);
-      if (!link || link.tagName !== 'a' || !isVideoLink(link)) return;
+    const link = soleElementChild(node);
+    if (link?.tagName !== 'a' || !isVideoLink(link)) return;
 
-      const href = link.properties.href;
-      if (typeof href !== 'string') return;
+    const href = link.properties.href;
+    if (typeof href !== 'string') return;
 
-      parent.children[index] = videoElement(href, hastText(link).trim());
-    });
-  };
-};
+    parent.children[index] = videoElement(href, hastText(link).trim());
+  });
+}
+
+export const rehypeMediaEmbeds: Plugin<[], Root> = () => embedVideos;

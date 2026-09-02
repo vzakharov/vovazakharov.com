@@ -1,14 +1,15 @@
-import Link from 'next/link';
 import { FileText } from 'lucide-react';
+import Link from 'next/link';
 
 import {
-  VARIANTS,
-  documentRoute,
   type DocumentRef,
-  type Variant,
+  documentRoute,
   type Headlined,
+  type Variant,
+  VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
+
 import { DocumentMeta } from './document-meta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
@@ -29,7 +30,7 @@ function CutSwitcher({
   current,
   available,
 }: CutSwitcherProps) {
-  const cuts: (Variant | undefined)[] = [
+  const cuts: Array<Variant | undefined> = [
     undefined,
     ...VARIANTS.filter((variant) => available.includes(variant)),
   ];
@@ -85,12 +86,11 @@ export function ArticleHeader({
         </p>
       </div>
 
-      <DocumentMeta frontmatter={frontmatter} readingMinutes={readingMinutes} />
+      <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
       <div className="flex flex-wrap items-center justify-between gap-4">
         <CutSwitcher
-          collection={collection}
-          slug={slug}
+          {...{ collection, slug }}
           current={variant}
           available={availableVariants}
         />

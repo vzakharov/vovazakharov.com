@@ -1,10 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ThemeToggle } from '@/features/switch-theme';
+
 import { COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
 import { Card } from '@/shared/ui';
+
+import { ThemeToggle } from '@/features/switch-theme';
+
 import { ArticleCard } from './article-card';
 import { ProjectCard } from './project-card';
+
+/* eslint-disable vova/no-hardcoded-strings -- the site root is served at `/`
+   with no locale segment — only `[locale]/cv/` is localized — so its copy is
+   authored in English in the JSX and there is no `ru` rendering for a literal
+   to defeat. Drop this if the root page is ever localized; the rule stays
+   `error` everywhere else, including every component the CV renders. */
+
+// A static export evaluates this at build time, so the footer year is the
+// year the site was last deployed.
+const BUILD_YEAR = new Date().getFullYear();
 
 export async function HomePage() {
   // Titles come from the documents themselves, so a renamed piece cannot drift.
@@ -274,6 +287,7 @@ export async function HomePage() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/3tnTz9WCaghp3PJPSsTxQW?utm_source=generator"
+                title="GENERATED on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -290,6 +304,7 @@ export async function HomePage() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2rdnjZV6ahlz4pKeh9a8B3?utm_source=generator"
+                title="Полуживые on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -304,6 +319,7 @@ export async function HomePage() {
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/artist/2vN8JKg3rQLxleZ9xsafy6?utm_source=generator"
+                title="Downtemple on Spotify"
                 width="100%"
                 height="152"
                 frameBorder="0"
@@ -471,9 +487,7 @@ export async function HomePage() {
 
         {/* Footer */}
         <footer className="text-center opacity-60 text-sm pt-8 border-t border-foreground/20">
-          <p>
-            © {new Date().getFullYear()} Vova Zakharov. Built with Next.js.
-          </p>
+          <p>© {BUILD_YEAR} Vova Zakharov. Built with Next.js.</p>
         </footer>
       </div>
     </div>

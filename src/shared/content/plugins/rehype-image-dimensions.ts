@@ -1,8 +1,8 @@
 import 'server-only';
 
+import type { Element, Root } from 'hast';
 import fs from 'node:fs';
 import path from 'node:path';
-import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
@@ -21,9 +21,10 @@ function pngDimensions(file: Buffer): Dimensions {
 /** Only the ratio matters — the attributes reserve space, CSS sets the size. */
 function svgDimensions(file: Buffer): Dimensions | undefined {
   const head = file.subarray(0, 2048).toString('utf8');
-  const viewBox = head.match(
-    /viewBox\s*=\s*["']\s*[-\d.]+[,\s]+[-\d.]+[,\s]+([\d.]+)[,\s]+([\d.]+)/i
-  );
+  const viewBox =
+    /viewbox\s*=\s*["']\s*(?:[\d.-]+[\s,]+){2}([\d.]+)[\s,]+([\d.]+)/i.exec(
+      head,
+    );
 
   if (viewBox) {
     return {
@@ -32,8 +33,8 @@ function svgDimensions(file: Buffer): Dimensions | undefined {
     };
   }
 
-  const width = head.match(/\bwidth\s*=\s*["']([\d.]+)(?:px)?["']/i);
-  const height = head.match(/\bheight\s*=\s*["']([\d.]+)(?:px)?["']/i);
+  const width = /\bwidth\s*=\s*["']([\d.]+)(?:px)?["']/i.exec(head);
+  const height = /\bheight\s*=\s*["']([\d.]+)(?:px)?["']/i.exec(head);
 
   return width && height
     ? {
@@ -54,7 +55,7 @@ function intrinsicDimensions(src: string): Dimensions | undefined {
   if (!fs.existsSync(filePath)) {
     throw new Error(
       `Content image not found: ${src} (looked in ${filePath}). ` +
-        `Check the reference in the markdown, or add the file under public/.`
+        `Check the reference in the markdown, or add the file under public/.`,
     );
   }
 
@@ -72,25 +73,31 @@ function intrinsicDimensions(src: string): Dimensions | undefined {
  * the fold. Sizes only images the repo serves — a remote source has no bytes to
  * read at build time — and never overwrites dimensions the author set by hand.
  */
-export const rehypeImageDimensions: Plugin<[], Root> = () => {
-  return (tree) => {
-    visit(tree, 'element', (node: Element) => {
-      if (node.tagName !== 'img') return;
+function sizeImages(tree: Root) {
+  visit(tree, 'element', (node: Element) => {
+    if (node.tagName !== 'img') return;
 
-      node.properties.loading ??= 'lazy';
-      node.properties.decoding ??= 'async';
+    node.properties.loading ??= 'lazy';
+    node.properties.decoding ??= 'async';
 
-      const src = node.properties.src;
-      const authored = node.properties.width ?? node.properties.height;
+    const src = node.properties.src;
+    const authored =
+      node.properties.width ?? node.properties.height ?? undefined;
 
-      if (typeof src !== 'string' || !src.startsWith('/') || authored) return;
+    if (
+      typeof src !== 'string' ||
+      !src.startsWith('/') ||
+      authored !== undefined
+    )
+      return;
 
-      const dimensions = intrinsicDimensions(src);
+    const dimensions = intrinsicDimensions(src);
 
-      if (dimensions) {
-        node.properties.width = dimensions.width;
-        node.properties.height = dimensions.height;
-      }
-    });
-  };
-};
+    if (dimensions) {
+      node.properties.width = dimensions.width;
+      node.properties.height = dimensions.height;
+    }
+  });
+}
+
+export const rehypeImageDimensions: Plugin<[], Root> = () => sizeImages;

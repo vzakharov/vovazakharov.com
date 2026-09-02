@@ -5,17 +5,16 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import {
-  VARIANTS,
-  type CollectionId,
-  type Variant,
-  type WithCollectionId,
   collectionAssetUrl,
+  type CollectionId,
   documentRoute,
+  VARIANTS,
+  type WithCollectionId,
 } from '../collections';
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
-  return !/^(?:[a-z][a-z0-9+.-]*:|\/\/|\/|#)/i.test(url);
+  return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
 function stripLeadingDot(url: string): string {
@@ -31,31 +30,33 @@ function markdownRoute(collection: CollectionId, target: string): string {
   const stem = target.replace(/\.md$/, '');
   const dotted = stem.lastIndexOf('.');
   const suffix = dotted === -1 ? '' : stem.slice(dotted + 1);
-  const isVariant = (VARIANTS as readonly string[]).includes(suffix);
+  const variant = VARIANTS.find((candidate) => candidate === suffix);
 
   return documentRoute(
     collection,
-    isVariant ? stem.slice(0, dotted) : stem,
-    isVariant ? (suffix as Variant) : undefined
+    variant === undefined ? stem : stem.slice(0, dotted),
+    variant,
   );
 }
 
 function rewrite(
   collection: CollectionId,
-  url: string
+  url: string,
 ): { href: string; external: boolean } {
   if (!isRelative(url)) {
     return { href: url, external: /^https?:/i.test(url) };
   }
 
   const target = stripLeadingDot(url);
-  const [pathPart, fragment] = target.split(/(?=#)/, 2);
+  const hashAt = target.indexOf('#');
+  const pathPart = hashAt === -1 ? target : target.slice(0, hashAt);
+  const fragment = hashAt === -1 ? '' : target.slice(hashAt);
 
   const href = pathPart.endsWith('.md')
     ? markdownRoute(collection, pathPart)
     : collectionAssetUrl(collection, pathPart);
 
-  return { href: `${href}${fragment ?? ''}`, external: false };
+  return { href: `${href}${fragment}`, external: false };
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -77,7 +78,10 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       const attribute = URL_ATTRIBUTE[node.tagName];
-      const value = attribute && node.properties[attribute];
+
+      if (attribute === undefined) return;
+
+      const value = node.properties[attribute];
 
       if (typeof value !== 'string') return;
 

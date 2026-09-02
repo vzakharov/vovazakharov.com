@@ -29,7 +29,7 @@ export function DocumentMeta({
       </time>
       <span aria-hidden>·</span>
       <span>{readingMinutes} min read</span>
-      {frontmatter.part && (
+      {frontmatter.part !== undefined && (
         <>
           <span aria-hidden>·</span>
           <span>Part {frontmatter.part}</span>
