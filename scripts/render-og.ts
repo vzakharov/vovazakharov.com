@@ -35,44 +35,41 @@ import { contentHash } from '../src/shared/content/content-hash.ts';
 import { findChromium } from './lib/chromium.ts';
 import { CONTENT_ROOT, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
+/** Absolute paths. A card's PNG, its source SVG and its manifest share a directory. */
 type Card = {
-  /** Absolute path of the SVG the card is rasterized from. */
   svgPath: string;
-  /** Absolute path of the PNG written beside it. */
   pngPath: string;
-  /** Absolute path of the manifest recording this card's source hash. */
   manifestPath: string;
 };
 
 /**
- * 1200×630 is what X's `summary_large_image` crops to; the chart's native
- * 980×640 would lose its title row and x-axis to that crop, so the card is
- * letterboxed into the ratio instead — fitted to the height, side padding
- * absorbing the rest.
+ * 1200×630 is what X's `summary_large_image` crops to, and the chart's native
+ * 980×640 would lose its title row and x-axis to that crop. Letterboxing into
+ * the ratio costs padding and loses nothing.
  */
 const CANVAS = { width: 1200, height: 630 };
 
 /** Doubled so the card stays sharp where a consumer renders it at 2×. */
 const SCALE = 2;
 
-/** The PNG's real pixel size — the canvas the page is laid out in. */
+/**
+ * The PNG's real pixel size, and the size the page is laid out at — scaling
+ * `CANVAS` by a device pixel ratio instead widens the bottom-row loss `PADDING`
+ * guards against.
+ */
 const PIXELS = {
   width: CANVAS.width * SCALE,
   height: CANVAS.height * SCALE,
 };
 
 /**
- * Inset, in canvas pixels, between the drawing and the card's edge. Also keeps
- * the drawing off the raster's bottom row, where Chromium loses a sliver of an
- * SVG image whose box ends exactly there.
+ * Inset between the drawing and the card's edge, in canvas pixels. Load-bearing
+ * as well as cosmetic: Chromium rasterizes an SVG image whose box ends on the
+ * surface's last row short of the bottom.
  */
 const PADDING = 24;
 
-/**
- * The surface behind the card. The same value as `--background` in
- * `globals.css` and as the source SVG's own plate, which is what makes the
- * padding read as part of the figure rather than as a border around it.
- */
+/** `globals.css`'s `--background`, so the inset extends the source's own plate. */
 const CANVAS_BACKGROUND = '#ffffff';
 
 /** A frontmatter `ogImage` under this suffix is rendered from `<stem>.svg`. */
@@ -137,7 +134,7 @@ function readManifest(manifestPath: string): Record<string, string> {
   );
 }
 
-/** The hash of the SVG a card is rendered from. Throws when it is missing. */
+/** Throws when a card names a source SVG that is not there. */
 function sourceHash({ svgPath, pngPath }: Card): string {
   if (!fs.existsSync(svgPath)) {
     throw new Error(
@@ -151,12 +148,9 @@ function sourceHash({ svgPath, pngPath }: Card): string {
 }
 
 /**
- * A card needs rendering when its PNG is absent or when the manifest's hash no
- * longer matches the source — the two conditions `--check` reports.
- *
- * The manifest exists because a re-render cannot be byte-compared: PNG encoding
- * is not stable across Chromium versions, so an unchanged source would look
- * changed on a different machine.
+ * Staleness goes through a recorded hash because a re-render cannot be
+ * byte-compared: PNG encoding is not stable across Chromium versions, so an
+ * unchanged source would look changed on another machine.
  */
 function isStale(card: Card): boolean {
   const recorded = readManifest(card.manifestPath)[path.basename(card.pngPath)];
@@ -171,19 +165,12 @@ function isStale(card: Card): boolean {
  * content and spills the rest of the chart out as text — and authored content
  * cannot be asked to avoid those.
  *
- * `object-fit` does the letterboxing, so the framing follows from the canvas
- * alone: any source scales to fit and centres, whatever its own aspect, with
- * nothing cropped and no intrinsic-size arithmetic to get wrong.
+ * `object-fit` does the letterboxing, so any source scales to fit and centres
+ * whatever its own aspect, with no intrinsic-size arithmetic to get wrong.
  *
- * The page is laid out at the PNG's real pixel size rather than at the card's
- * dimensions under a doubled device scale factor. Those should be equivalent
- * and are not: headless Chromium rasterizes an SVG image under a scaled
- * device pixel ratio into a surface that drops the bottom of the drawing —
- * silently, and only in the screenshot.
- *
- * Chromium's default scheme is light, which is the one a social card wants:
- * every consumer composites it onto its own surface, and light is the one both
- * light and dark surfaces frame legibly.
+ * Chromium's default scheme is light, which is what a social card wants: every
+ * consumer composites it onto a surface of its own, and light frames legibly on
+ * either.
  */
 function cardPage(svgName: string): string {
   return `<!doctype html>
@@ -214,9 +201,8 @@ function cardPage(svgName: string): string {
 }
 
 function renderCard(card: Card, chromium: string): void {
-  // The source is copied in beside the page rather than linked across the
-  // filesystem: a file:// document's reach outside its own directory is not
-  // something to depend on.
+  // Copied in beside the page: a file:// document's reach outside its own
+  // directory is not something to depend on.
   const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'og-'));
   const svgName = path.basename(card.svgPath);
   const pagePath = path.join(stagingDir, 'card.html');
@@ -233,9 +219,8 @@ function renderCard(card: Card, chromium: string): void {
       '--disable-gpu',
       '--no-sandbox',
       '--hide-scrollbars',
-      // `--screenshot` alone can fire before the referenced SVG has painted,
-      // yielding a blank card. Virtual time runs the page's clock forward to
-      // the budget or to quiescence, whichever comes first.
+      // Without it `--screenshot` can fire before the referenced SVG has
+      // painted, yielding a blank card.
       '--virtual-time-budget=10000',
       `--window-size=${PIXELS.width},${PIXELS.height}`,
       `--screenshot=${card.pngPath}`,
@@ -251,9 +236,8 @@ function renderCard(card: Card, chromium: string): void {
 }
 
 /**
- * Every manifest already in the content tree. Found by walking rather than
- * derived from the cards, so removing the last card in a directory still
- * surfaces the manifest it leaves behind.
+ * Walked rather than derived from the cards, so removing the last card in a
+ * directory still surfaces the manifest it leaves behind.
  */
 function manifestFiles(): string[] {
   return contentFiles(CONTENT_ROOT, (name) => name === MANIFEST_NAME);

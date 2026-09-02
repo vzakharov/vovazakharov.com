@@ -32,9 +32,8 @@ export function constructMetadata({
   const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
   const sharedTitle = title ?? siteName;
   const { width, height } = avatar;
-  // A custom image publishes the size its caller read off the file; only the
-  // avatar's is known from config. Left unstated where neither applies, rather
-  // than stated wrongly.
+  // Published only when known — the avatar's from config, a custom image's
+  // from the caller that read the file. A wrong pair is worse than none.
   const imageDimensions =
     ogImage === undefined ? { width, height } : ogImageSize;
 

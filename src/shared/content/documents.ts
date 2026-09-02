@@ -39,10 +39,7 @@ export type ContentDocument = DocumentRef &
     ogImageUrl?: string;
   };
 
-/**
- * The card's URL and its size are resolved together so they cannot disagree —
- * a consumer that drops an unsized card needs both or neither.
- */
+/** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
