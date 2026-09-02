@@ -6,8 +6,8 @@ Two changes to `/[locale]/cv`, independent of each other:
 
 1. The **Playgram case study** sits sixth of eight sections, below the whole
    experience list — the strongest artifact on the page is the one a reader is
-   least likely to reach. Lift it to just under Profile, and cross-link it from
-   the Playgram experience card so it is also findable in context.
+   least likely to reach. Lift it to directly above Experience, and cross-link
+   it from the Playgram experience card so it is also findable in context.
 2. The **English-for-kids** entry reads `October 2025 – Present`; the assignment
    ended in February 2026.
 
@@ -25,16 +25,18 @@ resolves it from the build-time content registry (`documentRoute('case-studies',
 FEATURED_CASE_STUDY)`) and passes it as `CvPageProps.caseStudyHref`, because
 `@/shared/content` is `server-only` and `CvPage` is `'use client'`.
 
-## 1. Move the case-study section under Profile
+## 1. Move the case-study section above Experience
 
-Reorder `cv-page.tsx` so the sections read: header, Profile, **Case studies**,
-What I offer, Experience, Tech stack, Education, Contact. The JSX block moves
-verbatim — no markup change, no new component.
+Reorder `cv-page.tsx` so the sections read: header, Profile, What I offer,
+**Case studies**, Experience, Tech stack, Education, Contact. The pitch keeps
+the lead, and the case study lands adjacent to the entry it documents. The JSX
+block moves verbatim — no markup change, no new component.
 
-The copy has one positional reference that the move breaks. `cv.caseStudies.playgram.description`
-currently opens "the long-form write-up of **the rebuild above**"; above becomes
-below. Reword both catalogs to name the subject instead of its position, so the
-sentence survives any future reordering:
+The copy has one positional reference that the move breaks.
+`cv.caseStudies.playgram.description` currently opens "the long-form write-up of
+**the rebuild above**", and the rebuild now sits below. Reword both catalogs to
+name the subject instead of its position, so the sentence survives this move and
+any future one:
 
 | Locale | From                                            | To                                     |
 | ------ | ----------------------------------------------- | -------------------------------------- |
@@ -85,17 +87,21 @@ decides both `CvBullets`' `last` and the tech line's `tightHeading` becomes a
 `demo` and it has no case study, so no entry needs spacing between the two
 trailers.
 
-## 3. Print the case-study URL
+## 3. Print the case-study URL, on paper only
 
 A printed CV that says "Read the case study" and nothing else is a dead end,
-and the point of §1 is that this is the artifact worth reaching. Add a
-`print-only` line under the section's link carrying the URL as text:
+and the point of §1 is that this is the artifact worth reaching. On screen the
+link is already clickable, so a spelled-out URL there is noise. Add a line under
+the section's link carrying the URL as text, marked `print-only` — the global
+class in `src/app/styles/print.scss` is `display: none` outright and
+`display: block` inside `@media print`, which is exactly "on paper, not on
+screen". The CV's own print footer already rides it.
 
 ```
 vovazakharov.com/case-studies/playgram-bubble-to-nextjs-part-1
 ```
 
-Composed as `{t('cv.website')}{caseStudyHref}` — the host string already exists
+Composed as `{t('website')}{caseStudyHref}` — the host string already exists
 in both catalogs as `cv.footer.website`, and the print footer already spells its
 protocol at the call site (`href={`https://${t('footer.website')}`}`), so this
 adds no third copy of the host. Move that key from `cv.footer.website` to
@@ -162,8 +168,9 @@ No new files, no dependency changes, no route or metadata changes.
 `pnpm build` covers the type-level half — a catalog key moved in `en` and not in
 `ru` fails `Record<Locale, Messages>`. The rest is visual and needs `/preview`:
 
-- `/en/cv` and `/ru/cv` — Case studies sits directly under Profile; the
-  description no longer says "above" / "выше".
+- `/en/cv` and `/ru/cv` — Case studies sits between "What I offer" and
+  Experience; the description no longer says "above" / "выше"; no URL is
+  spelled out on screen.
 - The Playgram experience card ends with the case-study link, and it resolves to
   `/case-studies/playgram-bubble-to-nextjs-part-1`.
 - Print preview (both locales) — the featured section shows the bare URL, the
@@ -171,32 +178,13 @@ No new files, no dependency changes, no route or metadata changes.
 - The English-for-kids card reads `February 2026`, and the experience order is
   unchanged.
 
-## Open questions
+## Decisions
 
-Each carries a recommendation, and this plan is written with the recommendation
-already in force — so silence resolves it.
-
-1. **Where does the case-study section go?**
-   - **(a) Directly under Profile, above "What I offer" — recommended.** Profile
-     says who; the case study is the evidence; "What I offer" is the pitch that
-     the evidence has already backed.
-   - (b) Under "What I offer", directly above Experience — keeps the pitch
-     first, and puts the case study adjacent to the entry it documents.
-   - (c) Above Profile, right under the header — maximally front-facing, but a
-     CV that opens on an artifact before naming its subject reads oddly.
-
-2. **Should print carry the case-study URL (§3)?**
-   - **(a) Yes — recommended.** It is what makes the printed CV actionable, and
-     it is what lets the experience-card link be `print-hidden`.
-   - (b) No — leave print as it is. Then drop §3 and the `cv.website` move, and
-     the experience-card link stays visible in print so paper keeps at least a
-     mention of the case study.
-
-3. **Both surfaces, or only one?** The task says "front-facing and/or linked
-   from relevant experience block".
-   - **(a) Both — recommended.** They serve different readers: the section
-     catches a scanner, the card catches someone already reading about the
-     rebuild.
-   - (b) Move the section only (§1, drop §2).
-   - (c) Link from the card only (§2, drop §1) — leaves the strongest artifact
-     six sections down.
+The three placement/scope forks are resolved and written above as the single
+approach. Ruled out: seating the section under Profile or under the header
+(above Profile) — the first two sections earn their lead, and the case study
+gains from sitting next to the entry it documents; leaving the printed URL out
+or showing it on screen too — the link is already clickable on screen, and
+paper needs the address; and surfacing the case study in only one of the two
+places — the section catches a scanner, the card catches someone already
+reading about the rebuild.
