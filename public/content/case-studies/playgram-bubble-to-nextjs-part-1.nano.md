@@ -2,6 +2,7 @@
 description: The Playgram case study in five minutes — 158 days, 1,029 merged pull requests, and twenty-plus agents in the cloud.
 date: 2026-08-29
 part: I of II
+ogImage: ./assets/playgram-commit-cumsum.og.png
 ---
 
 # From Bubble to Next.js in 4 months: the Playgram case study (nano)

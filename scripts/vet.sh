@@ -28,16 +28,18 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# None of these six writes anything another one reads, so they overlap freely.
+# None of these seven writes anything another one reads, so they overlap freely.
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree.
 # type-overlap reads source text only — no generated types, nothing another
-# check writes; the test run adds only writes into the OS temp directory.
+# check writes; the test run adds only writes into the OS temp directory, and
+# `content:og --check` only hashes files, needing no browser.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
   format='pnpm format:check' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
+  og='pnpm content:og --check' \
   test='pnpm test' || status=1
 
 if ((status)); then

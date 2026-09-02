@@ -3,11 +3,13 @@
 <desc id="desc">Two stacked charts sharing a timeline from the first commit on 6 March 2026 to 21 August 2026. The upper chart is cumulative units of work on main, reaching 1,287 — a gentle curve rising from 6.2 units a day to 8.2 at 25 April, when development moved into the cloud and every change started arriving as a branch and a review. The lower chart is units of work landed per week, in the forties before the switch and the seventies and eighties after it, at an unchanged median size of roughly 380 changed lines. Release milestones are marked: 4.0.0, the first production build, on 21 May; 4.1.0, the first workspace live, on 24 June; 4.2.0, the big cutover, on 3 July; 4.3.0, Bubble switched off, on 11 July; 4.4.0, credits and access control, on 31 July; and 4.4.3 on 10 August, after which the work was handed over to the team and the weekly figure falls by about two thirds.</desc>
 <style>
   text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-  /* An SVG inside <img> sees only the OS colour scheme, never the page's theme
-     class, so the palette below can land on a surface it did not choose — a
-     paste target's, or the site's in the opposite theme. The plate is the
+  /* An SVG loaded as an image sees only the OS colour scheme, never the page's
+     theme class, so the palette below can land on a surface it did not choose —
+     a paste target's, or the site's in the opposite theme. The plate is the
      matching surface, painted first, which is what keeps the figure legible
-     wherever it ends up. */
+     wherever it ends up.
+     Angle brackets stay out of this block: an SVG document is parsed as XML,
+     where a tag name inside a style element is markup rather than text. */
   .plate { fill: #ffffff; }
   .ttl   { fill: #0b0b0b; font-size: 16px; font-weight: 600; }
   .sub   { fill: #52514e; font-size: 12.5px; }

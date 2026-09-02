@@ -2,6 +2,7 @@
 description: The 2,000-word cut of the Playgram case study — why a working no-code app got rebuilt in code, and what it takes to run twenty coding agents at once.
 date: 2026-08-29
 part: I of II
+ogImage: ./assets/playgram-commit-cumsum.og.png
 ---
 
 # From Bubble to Next.js in 4 months: the Playgram case study (mini)
