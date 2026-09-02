@@ -84,7 +84,7 @@ export function ExperienceCard({
           {entry.demo}
         </Text>
       )}
-      {/* On paper the featured section carries the URL, so this would say nothing. */}
+      {/* Print carries the URL in the featured section; this adds nothing. */}
       {hasCaseStudyLink && (
         <Text size="sm" className="print-hidden">
           <InternalLink href={caseStudyHref} inherit>
