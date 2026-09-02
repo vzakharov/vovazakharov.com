@@ -19,7 +19,7 @@ import { DocumentMeta } from './document-meta';
 const CUT_LABELS: Record<Variant | 'full', string> = {
   full: 'Full',
   mini: 'Mini',
-  micro: 'Micro',
+  nano: 'Nano',
 };
 
 type CutSwitcherProps = DocumentRef & {

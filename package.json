@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "node scripts/render-mermaid.ts",
+    "content:og": "node scripts/render-og.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {

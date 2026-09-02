@@ -7,13 +7,13 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { PUBLIC_DIR } from '../collections';
+import { contentHash } from '../content-hash.ts';
 import {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
-  mermaidHash,
-} from '../mermaid-hash.ts';
+} from '../mermaid-renders.ts';
 
 export type RehypeMermaidOptions = {
   /** Absolute URL of the authored markdown, appended to every diagram's `alt`. */
@@ -122,7 +122,7 @@ export const rehypeMermaid: Plugin<[RehypeMermaidOptions], Root> = ({
       if (source === undefined) return;
 
       parent.children[index] = diagramElement(
-        mermaidHash(source),
+        contentHash(source),
         source,
         sourceUrl,
       );

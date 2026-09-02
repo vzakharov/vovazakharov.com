@@ -2,6 +2,7 @@
 description: Rebuilding a live, feature-rich Bubble app as a production Next.js 16 codebase in 158 days — 1,029 merged pull requests, 250,000 lines of TypeScript, and twenty-plus Claude Code agents running in parallel.
 date: 2026-08-29
 part: I of II
+ogImage: ./assets/playgram-commit-cumsum.og.png
 ---
 
 # From Bubble to Next.js in 4 months: the Playgram case study
@@ -23,7 +24,7 @@ _Disclaimer: the disclosures in this case study were approved by Playgram manage
 
 ---
 
-After I started writing this case study, I realized that even the [brief](https://github.com/vzakharov/vovazakharov.com/issues/4) I'd give Claude to hydrate turned out to be 5,300 words long — and even then, after I'd finished it I understood that I'd only scratched the surface of everything I wanted to tell. So, (a) sorry it's so long, (b) check out the [mini version](./playgram-bubble-to-nextjs-part-1.mini.md) and the [micro version](./playgram-bubble-to-nextjs-part-1.micro.md), and (c) I'll post more detailed insights on some or all of the aspects later.
+After I started writing this case study, I realized that even the [brief](https://github.com/vzakharov/vovazakharov.com/issues/4) I'd give Claude to hydrate turned out to be 5,300 words long — and even then, after I'd finished it I understood that I'd only scratched the surface of everything I wanted to tell. So, (a) sorry it's so long, (b) check out the [mini version](./playgram-bubble-to-nextjs-part-1.mini.md) and the [nano version](./playgram-bubble-to-nextjs-part-1.nano.md), and (c) I'll post more detailed insights on some or all of the aspects later.
 
 ## Intro
 
