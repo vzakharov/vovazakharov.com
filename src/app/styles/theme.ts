@@ -4,7 +4,9 @@ import {
   type MantineColorsTuple,
   type VariantColorsResolver,
 } from '@mantine/core';
+
 import { cssColor } from '@/shared/ui';
+
 import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';
 
@@ -81,17 +83,23 @@ export const theme = createTheme({
     // Structure only — a visual value in `defaultProps` renders as an inline
     // style that no CSS-module class can override.
     Button: {
-      classNames: { root: classes.control, section: classes.controlSection },
+      classNames: {
+        root: classes['control'],
+        section: classes['controlSection'],
+      },
     },
-    ActionIcon: { classNames: { root: classes.control } },
-    Title: { classNames: { root: classes.title } },
+    ActionIcon: { classNames: { root: classes['control'] } },
+    Title: { classNames: { root: classes['title'] } },
     // The nav is the one place that opts out. Safe in `defaultProps` because it
     // renders as a data attribute, not the inline style a visual value becomes.
     Anchor: { defaultProps: { underline: 'always' } },
     // `List.Item` reads its class names off the List context, so the item
     // wrapper is styled from here rather than on the item.
     List: {
-      classNames: { root: classes.list, itemWrapper: classes.listItemWrapper },
+      classNames: {
+        root: classes['list'],
+        itemWrapper: classes['listItemWrapper'],
+      },
     },
   },
 });

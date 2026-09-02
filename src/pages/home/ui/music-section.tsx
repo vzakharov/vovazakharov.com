@@ -1,5 +1,7 @@
 import { Anchor, Box, Stack, Text, Title } from '@mantine/core';
+
 import { Card } from '@/shared/ui';
+
 import { Section, Subheading } from './section';
 
 export function MusicSection() {
@@ -27,21 +29,21 @@ export function MusicSection() {
           <Title order={4} mb={12}>
             GENERATED
           </Title>
-          <SpotifyEmbed artistId="3tnTz9WCaghp3PJPSsTxQW" />
+          <SpotifyEmbed artist="GENERATED" artistId="3tnTz9WCaghp3PJPSsTxQW" />
         </Card>
 
         <Card>
           <Title order={4} mb={12}>
             Полуживые (ru. for “Half-Alive”)
           </Title>
-          <SpotifyEmbed artistId="2rdnjZV6ahlz4pKeh9a8B3" />
+          <SpotifyEmbed artist="Полуживые" artistId="2rdnjZV6ahlz4pKeh9a8B3" />
         </Card>
 
         <Card>
           <Title order={4} mb={12}>
             Downtemple
           </Title>
-          <SpotifyEmbed artistId="2vN8JKg3rQLxleZ9xsafy6" />
+          <SpotifyEmbed artist="Downtemple" artistId="2vN8JKg3rQLxleZ9xsafy6" />
         </Card>
       </Stack>
 
@@ -82,10 +84,15 @@ export function MusicSection() {
   );
 }
 
-function SpotifyEmbed({ artistId }: { artistId: string }) {
+type SpotifyEmbedProps = {
+  artist: string;
+  artistId: string;
+};
+
+function SpotifyEmbed({ artist, artistId }: SpotifyEmbedProps) {
   return (
     <iframe
-      title={`Spotify artist ${artistId}`}
+      title={`${artist} on Spotify`}
       // Replaced elements are inline by default, which would leave a
       // descender-sized gap under each embed inside its card.
       style={{ display: 'block', borderRadius: '12px' }}

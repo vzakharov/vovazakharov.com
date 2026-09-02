@@ -1,5 +1,5 @@
 import { SITE_CONFIG } from '@/shared/config';
-import { type Locale, loadMessages } from '@/shared/i18n';
+import { loadMessages, type Locale } from '@/shared/i18n';
 import { constructMetadata } from '@/shared/seo';
 
 export function generateCvMetadata(locale: Locale) {

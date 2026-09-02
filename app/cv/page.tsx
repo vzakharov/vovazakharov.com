@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
-import { generateCvMetadata } from '@/pages/cv';
+
 import { routing } from '@/shared/i18n';
+
+import { generateCvMetadata } from '@/pages/cv';
 
 export const metadata = generateCvMetadata(routing.defaultLocale);
 

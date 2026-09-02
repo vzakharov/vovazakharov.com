@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next';
 
 import { getAbsoluteUrl } from '@/shared/config';
-import { routing } from '@/shared/i18n';
 import {
-  COLLECTIONS,
   COLLECTION_IDS,
+  COLLECTIONS,
   listAllDocuments,
 } from '@/shared/content';
+import { routing } from '@/shared/i18n';
 
 /**
  * Every page the site renders. Content entries are derived from the collection

@@ -40,7 +40,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { WithId } from '@/shared/typings';
+import type { Named, WithId } from '@/shared/typings';
 
 // The scan root is the working directory, not the script's own location:
 // `pnpm type-overlap` runs from the repo root, and the tests drive this same
@@ -81,12 +81,12 @@ type WithMembers = { members: string[] };
 type WithBases = { bases: string[] };
 
 // --- Collect type aliases ---
+// `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on name
+// collisions; `name` is the type's own name.
 type TypeDecl = WithId &
+  Named &
   WithMembers &
   WithBases & {
-    // `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on
-    // name collisions; `name` is the type's own name.
-    name: string;
     // Repo-relative, e.g. src/shared/ui/card.tsx.
     filePath: string;
   };
@@ -169,7 +169,7 @@ function scan(dir: string): void {
       text,
       ts.ScriptTarget.Latest,
       /* setParentNodes */ true,
-      entry.name.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS
+      entry.name.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
     );
     walk(sf, sf, rel);
   }
@@ -197,7 +197,7 @@ type Findings = {
 // that is correct, not double-counting.
 function findOverlaps(
   select: (d: TypeDecl) => string[],
-  threshold: number
+  threshold: number,
 ): Findings {
   const overlaps: Overlap[] = [];
   for (const [i, a] of decls.entries()) {
@@ -229,7 +229,7 @@ function findOverlaps(
       (x, y) =>
         y.shared.length - x.shared.length ||
         y.types.size - x.types.size ||
-        x.shared.join('\n').localeCompare(y.shared.join('\n'))
+        x.shared.join('\n').localeCompare(y.shared.join('\n')),
     ),
     pairs: overlaps.length,
     typesInvolved: typesInvolved.size,
@@ -282,7 +282,7 @@ function renderSection(findings: Findings, pass: Pass): string[] {
   const groupLines = findings.groups.flatMap((g, i) => {
     const types = [...g.types.values()].toSorted(
       (a, b) =>
-        a.filePath.localeCompare(b.filePath) || a.name.localeCompare(b.name)
+        a.filePath.localeCompare(b.filePath) || a.name.localeCompare(b.name),
     );
     return [
       `${i + 1}. ${g.shared.length} shared ${pass.noun} across ${types.length} types:`,

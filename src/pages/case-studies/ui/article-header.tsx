@@ -2,17 +2,18 @@ import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { FileText } from 'lucide-react';
 
 import {
-  VARIANTS,
-  documentRoute,
   type DocumentRef,
-  type Variant,
+  documentRoute,
   type Headlined,
+  type Variant,
+  VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import { InternalLink } from '@/shared/ui';
-import { DocumentMeta } from './document-meta';
+
 import classes from './case-studies.module.scss';
+import { DocumentMeta } from './document-meta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
 const CUT_LABELS: Record<Variant | 'full', string> = {
@@ -32,7 +33,7 @@ function CutSwitcher({
   current,
   available,
 }: CutSwitcherProps) {
-  const cuts: (Variant | undefined)[] = [
+  const cuts: Array<Variant | undefined> = [
     undefined,
     ...VARIANTS.filter((variant) => available.includes(variant)),
   ];
@@ -47,7 +48,7 @@ function CutSwitcher({
             key={label}
             component="span"
             aria-current="page"
-            className={cx(classes.cut, classes.cutCurrent)}
+            className={cx(classes['cut'], classes['cutCurrent'])}
           >
             {label}
           </Box>
@@ -57,7 +58,7 @@ function CutSwitcher({
             href={documentRoute(collection, slug, cut)}
             underline="never"
             c="inherit"
-            className={cx(classes.cut, classes.cutLink)}
+            className={cx(classes['cut'], classes['cutLink'])}
           >
             {label}
           </InternalLink>
@@ -81,10 +82,10 @@ export function ArticleHeader({
   const { frontmatter, collection, slug, variant, rawUrl } = document;
 
   return (
-    <Box component="header" className={classes.articleHeader}>
+    <Box component="header" className={classes['articleHeader']}>
       <Stack gap={24}>
         <Stack gap={12}>
-          <Title order={1} className={classes.articleTitle}>
+          <Title order={1} className={classes['articleTitle']}>
             {title}
           </Title>
           <Text size="lg" lh={1.625} opacity={0.8}>
@@ -92,15 +93,11 @@ export function ArticleHeader({
           </Text>
         </Stack>
 
-        <DocumentMeta
-          frontmatter={frontmatter}
-          readingMinutes={readingMinutes}
-        />
+        <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
         <Group justify="space-between" gap={16} wrap="wrap">
           <CutSwitcher
-            collection={collection}
-            slug={slug}
+            {...{ collection, slug }}
             current={variant}
             available={availableVariants}
           />
@@ -109,7 +106,7 @@ export function ArticleHeader({
           <Anchor
             href={rawUrl}
             size="sm"
-            className={cx('print-hidden', classes.hoverDim)}
+            className={cx('print-hidden', classes['hoverDim'])}
           >
             <Group component="span" gap={6} wrap="nowrap">
               <FileText size={16} aria-hidden />

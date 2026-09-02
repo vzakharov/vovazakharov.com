@@ -1,18 +1,18 @@
 import 'server-only';
 
+import type { Element, Root } from 'hast';
 import fs from 'node:fs';
 import path from 'node:path';
-import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { PUBLIC_DIR } from '../collections';
 import {
   COLOR_SCHEMES,
+  type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
   mermaidHash,
-  type ColorScheme,
 } from '../mermaid-hash.ts';
 
 export type RehypeMermaidOptions = {
@@ -23,16 +23,17 @@ export type RehypeMermaidOptions = {
 function fenceSource(pre: Element): string | undefined {
   const code = pre.children.find(
     (child): child is Element =>
-      child.type === 'element' && child.tagName === 'code'
+      child.type === 'element' && child.tagName === 'code',
   );
 
-  const classes = code?.properties.className;
-  const isMermaid =
-    Array.isArray(classes) && classes.includes('language-mermaid');
+  if (!code) return undefined;
 
-  if (!isMermaid) return undefined;
+  const classes = code.properties.className;
 
-  return code!.children
+  if (!Array.isArray(classes) || !classes.includes('language-mermaid'))
+    return undefined;
+
+  return code.children
     .map((child) => (child.type === 'text' ? child.value : ''))
     .join('');
 }
@@ -43,11 +44,12 @@ function fenceSource(pre: Element): string | undefined {
  * assistive technology, so they are lifted onto `alt` here instead.
  */
 function accessibleDescription(source: string): string | undefined {
-  const braced = source.match(/^\s*accDescr\s*\{([\s\S]*?)\}/m);
-  if (braced) return braced[1].trim().replace(/\s+/g, ' ');
+  const braced = /^\s*accDescr\s*{([\S\s]*?)}/m.exec(source);
+  if (braced?.[1] !== undefined)
+    return braced[1].trim().replaceAll(/\s+/g, ' ');
 
-  const inline = source.match(/^\s*acc(?:Descr|Title)\s*:\s*(.+)$/m);
-  return inline?.[1].trim();
+  const inline = /^\s*acc(?:Descr|Title)\s*:\s*(.+)$/m.exec(source);
+  return inline?.[1]?.trim();
 }
 
 function renderUrl(hash: string, theme: ColorScheme): string {
@@ -57,7 +59,7 @@ function renderUrl(hash: string, theme: ColorScheme): string {
   if (!fs.existsSync(filePath)) {
     throw new Error(
       `No ${theme} Mermaid render for fence ${hash}. Run \`pnpm content:mermaid\` ` +
-        `and commit the SVGs under public/${MERMAID_DIR}/.`
+        `and commit the SVGs under public/${MERMAID_DIR}/.`,
     );
   }
 
@@ -67,15 +69,15 @@ function renderUrl(hash: string, theme: ColorScheme): string {
 function diagramElement(
   hash: string,
   source: string,
-  sourceUrl: string
+  sourceUrl: string,
 ): Element {
   const description = accessibleDescription(source);
 
-  if (!description) {
+  if (description === undefined || description.length === 0) {
     throw new Error(
       `Mermaid fence ${hash} has no accessible description. Add an ` +
         `\`accDescr: …\` line to the fence — Mermaid renders it into the SVG, ` +
-        `and it becomes the diagram's alt text on the site.`
+        `and it becomes the diagram's alt text on the site.`,
     );
   }
 
@@ -122,7 +124,7 @@ export const rehypeMermaid: Plugin<[RehypeMermaidOptions], Root> = ({
       parent.children[index] = diagramElement(
         mermaidHash(source),
         source,
-        sourceUrl
+        sourceUrl,
       );
     });
   };

@@ -1,9 +1,11 @@
 import { List, ListItem, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+
 import { COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
 import { Card, InternalLink } from '@/shared/ui';
+
+import classes from './dev-section.module.scss';
 import { ProjectCard } from './project-card';
 import { Section, Subheading } from './section';
-import classes from './dev-section.module.scss';
 
 export async function DevSection() {
   // Titles come from the documents themselves, so a renamed piece cannot drift.
@@ -35,7 +37,7 @@ export async function DevSection() {
             underline="never"
             c="inherit"
             display="block"
-            className={classes.caseStudyLink}
+            className={classes['caseStudyLink']}
           >
             <Card>
               <Title order={4} mb={8}>

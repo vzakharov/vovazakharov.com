@@ -2,7 +2,8 @@
 
 import { ActionIcon } from '@mantine/core';
 import { useMounted } from '@mantine/hooks';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+
 import { usePathname, useRouter } from '@/shared/i18n';
 
 export function LocalePicker() {
@@ -12,6 +13,7 @@ export function LocalePicker() {
   // `usePathname` only knows the route after hydration, and the picker is
   // rendered for exactly one route.
   const mounted = useMounted();
+  const t = useTranslations('ui');
 
   const isI18nPage = pathname === '/cv';
 
@@ -28,8 +30,10 @@ export function LocalePicker() {
       size={38}
       radius={4}
       fz={18}
-      onClick={() => router.replace(pathname, { locale: nextLocale })}
-      aria-label={`Switch to ${nextLocale === 'en' ? 'English' : 'Russian'}`}
+      onClick={() => {
+        router.replace(pathname, { locale: nextLocale });
+      }}
+      aria-label={t('switchToOther')}
     >
       {currentFlag}
     </ActionIcon>

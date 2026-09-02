@@ -1,5 +1,7 @@
 import { Anchor, Stack, Text } from '@mantine/core';
+
 import { Card } from '@/shared/ui';
+
 import { Section } from './section';
 
 // A `mailto:` has no page to leave for, so it stays in this tab and takes none

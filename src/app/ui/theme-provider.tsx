@@ -1,8 +1,12 @@
 'use client';
 
 import '@mantine/core/styles.layer.css';
-import { MantineProvider, type CSSVariablesResolver } from '@mantine/core';
+
+import { type CSSVariablesResolver, MantineProvider } from '@mantine/core';
+
+import type { WithChildren } from '@/shared/typings';
 import { cssColor } from '@/shared/ui';
+
 import { theme } from '../styles/theme';
 
 // Every `--mantine-*` override belongs here rather than in a stylesheet:
@@ -20,11 +24,10 @@ const cssVariablesResolver: CSSVariablesResolver = () => ({
   dark: {},
 });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: WithChildren) {
   return (
     <MantineProvider
-      theme={theme}
-      cssVariablesResolver={cssVariablesResolver}
+      {...{ theme, cssVariablesResolver }}
       defaultColorScheme="auto"
     >
       {children}

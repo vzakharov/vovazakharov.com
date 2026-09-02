@@ -1,4 +1,5 @@
 export { loadMessages } from './load-messages';
+export type { Locale } from './routing';
 export {
   Link,
   redirect,
@@ -7,4 +8,3 @@ export {
   usePathname,
   useRouter,
 } from './routing';
-export type { Locale } from './routing';

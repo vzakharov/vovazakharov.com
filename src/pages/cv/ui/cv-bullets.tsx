@@ -1,20 +1,21 @@
 import { List, ListItem } from '@mantine/core';
+
 import { cx } from '@/shared/lib/class-names';
+
 import classes from './cv.module.scss';
 
 /** A plain bullet, or one whose first words are set in bold as a label. */
 export type BulletItem = string | { label: string; text: string };
 
-export function CvBullets({
-  items,
-  last,
-}: {
+type CvBulletsProps = {
   items: BulletItem[];
   /** Drops the trailing gap where nothing follows the list in its card. */
   last?: boolean;
-}) {
+};
+
+export function CvBullets({ items, last = false }: CvBulletsProps) {
   return (
-    <List className={cx(classes.bullets, !last && classes.tight)}>
+    <List className={cx(classes['bullets'], !last && classes['tight'])}>
       {items.map((item, index) => (
         <ListItem key={index}>
           {typeof item === 'string' ? (

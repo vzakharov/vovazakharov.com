@@ -1,6 +1,7 @@
 import { Anchor, Box, Button, SimpleGrid, Text } from '@mantine/core';
+
 import { ArticleCard } from './article-card';
-import { SUBHEADING_GAP, Section, Subheading } from './section';
+import { Section, Subheading, SUBHEADING_GAP } from './section';
 
 export function WritingSection() {
   return (

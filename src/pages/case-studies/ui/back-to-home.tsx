@@ -1,5 +1,7 @@
 import { Box, Text } from '@mantine/core';
+
 import { InternalLink } from '@/shared/ui';
+
 import classes from './case-studies.module.scss';
 
 export function BackToHome() {
@@ -7,7 +9,7 @@ export function BackToHome() {
     <Box
       component="footer"
       ta="center"
-      className={`print-hidden ${classes.pageFooter}`}
+      className={`print-hidden ${classes['pageFooter']}`}
     >
       <Text size="sm" opacity={0.6}>
         <InternalLink href="/" inherit>

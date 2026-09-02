@@ -1,7 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { Printer } from 'lucide-react';
 import {
   Anchor,
   Box,
@@ -12,27 +10,26 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { ThemeToggle } from '@/features/switch-theme';
+import { Printer } from 'lucide-react';
+import { useMessages, useTranslations } from 'next-intl';
+
 import { cx } from '@/shared/lib/class-names';
 import { Card, InternalLink } from '@/shared/ui';
-import { CvBullets, type BulletItem } from './cv-bullets';
-import { CvSection, CvSubsection } from './cv-section';
-import { ExperienceCard } from './experience-card';
-import { LocalePicker } from './locale-picker';
-import classes from './cv.module.scss';
 
-/**
- * Order is a presentation decision, so it lives in code rather than in the
- * catalogs, where `en` and `ru` would be free to disagree about it.
- */
-const EXPERIENCE_KEYS = [
-  'playgram',
-  'englishForKids',
-  'orcool',
-  'randddb',
-  'independent',
-  'voicemod',
-] as const;
+import { ThemeToggle } from '@/features/switch-theme';
+
+import classes from './cv.module.scss';
+import { CvBullets } from './cv-bullets';
+import { CvSection, CvSubsection } from './cv-section';
+import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
+import { LocalePicker } from './locale-picker';
+
+function handlePrint() {
+  globalThis.print();
+}
+
+/** Order is a presentation decision, as with the experience entries. */
+const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 export type CvPageProps = {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
@@ -41,12 +38,12 @@ export type CvPageProps = {
 
 export function CvPage({ caseStudyHref }: CvPageProps) {
   const t = useTranslations('cv');
-  const bullets = (key: string) => t.raw(key) as BulletItem[];
+  const { cv } = useMessages();
 
   return (
-    <Box className={classes.page}>
-      <Container size={896} px={0} className={classes.container}>
-        <Stack className={classes.pageSections}>
+    <Box className={classes['page']}>
+      <Container size={896} px={0} className={classes['container']}>
+        <Stack className={classes['pageSections']}>
           <Group
             justify="space-between"
             align="flex-start"
@@ -58,7 +55,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
               h={50}
               px={12}
               leftSection={<Printer size={20} />}
-              onClick={() => window.print()}
+              onClick={handlePrint}
               aria-label={t('printButton')}
             >
               / PDF
@@ -69,13 +66,13 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
             </Group>
           </Group>
 
-          <Box component="header" ta="center" className={classes.header}>
-            <Stack className={classes.section}>
+          <Box component="header" ta="center" className={classes['header']}>
+            <Stack className={classes['section']}>
               <Title order={1}>{t('header.name')}</Title>
-              <Text className={cx(classes.tagline, classes.dim80)}>
+              <Text className={cx(classes['tagline'], classes['dim80'])}>
                 {t('header.tagline')}
               </Text>
-              <Text className={cx(classes.printSmall, classes.dim70)}>
+              <Text className={cx(classes['printSmall'], classes['dim70'])}>
                 <Anchor href={`mailto:${t('header.email')}`} inherit>
                   {t('header.email')}
                 </Anchor>
@@ -85,7 +82,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
 
           <CvSection title={t('profile.title')}>
             <Card>
-              <Stack className={classes.section}>
+              <Stack className={classes['section']}>
                 <Text lh={1.625}>
                   {t.rich('profile.paragraph1', {
                     strong: (chunks) => <strong>{chunks}</strong>,
@@ -98,7 +95,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
 
           <CvSection title={t('whatIOffer.title')}>
             <Card>
-              <Stack className={classes.section}>
+              <Stack className={classes['section']}>
                 <CvSubsection title={t('whatIOffer.coreCapabilities.title')}>
                   <CvBullets
                     items={[
@@ -111,7 +108,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
                 </CvSubsection>
 
                 <CvSubsection title={t('whatIOffer.workingStyle.title')}>
-                  <Text lh={1.625} className={classes.tightHeading}>
+                  <Text lh={1.625} className={classes['tightHeading']}>
                     {t('whatIOffer.workingStyle.paragraph1')}
                   </Text>
                   <Text lh={1.625}>
@@ -129,9 +126,9 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           </CvSection>
 
           <CvSection title={t('experience.title')} wide>
-            <Stack className={classes.sectionWide}>
+            <Stack className={classes['sectionWide']}>
               {EXPERIENCE_KEYS.map((entryKey) => (
-                <ExperienceCard key={entryKey} entryKey={entryKey} />
+                <ExperienceCard key={entryKey} {...{ entryKey }} />
               ))}
             </Stack>
           </CvSection>
@@ -141,11 +138,14 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
               <Title
                 order={3}
                 size="h4"
-                className={cx(classes.subheadingLarge, classes.tightHeading)}
+                className={cx(
+                  classes['subheadingLarge'],
+                  classes['tightHeading'],
+                )}
               >
                 {t('caseStudies.playgram.title')}
               </Title>
-              <Text lh={1.625} className={classes.tight}>
+              <Text lh={1.625} className={classes['tight']}>
                 {t('caseStudies.playgram.description')}
               </Text>
               <Text size="sm">
@@ -158,29 +158,26 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
 
           <CvSection title={t('techStack.title')}>
             <Card>
-              <Stack className={classes.subsections}>
-                <CvSubsection title={t('techStack.backend.title')}>
-                  <CvBullets items={bullets('techStack.backend.items')} last />
-                </CvSubsection>
-                <CvSubsection title={t('techStack.frontend.title')}>
-                  <CvBullets items={bullets('techStack.frontend.items')} last />
-                </CvSubsection>
-                <CvSubsection title={t('techStack.serverless.title')}>
-                  <CvBullets
-                    items={bullets('techStack.serverless.items')}
-                    last
-                  />
-                </CvSubsection>
+              <Stack className={classes['subsections']}>
+                {TECH_STACK_GROUPS.map((group) => {
+                  const { title, items } = cv.techStack[group];
+
+                  return (
+                    <CvSubsection key={group} {...{ title }}>
+                      <CvBullets {...{ items }} last />
+                    </CvSubsection>
+                  );
+                })}
               </Stack>
             </Card>
           </CvSection>
 
           <CvSection title={t('education.title')}>
             <Card>
-              <Title order={3} className={classes.subheadingLarge}>
+              <Title order={3} className={classes['subheadingLarge']}>
                 {t('education.school')}
               </Title>
-              <Text className={cx(classes.printSmall, classes.dim80)}>
+              <Text className={cx(classes['printSmall'], classes['dim80'])}>
                 {t('education.degree')}
               </Text>
             </Card>
@@ -191,7 +188,7 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
               <Group
                 gap={8}
                 justify="center"
-                className={classes.contactLine}
+                className={classes['contactLine']}
                 wrap="wrap"
               >
                 <Anchor href={`mailto:${t('header.email')}`} inherit>
@@ -231,9 +228,9 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           <Box
             component="footer"
             ta="center"
-            className={cx('print-hidden', classes.screenFooter)}
+            className={cx('print-hidden', classes['screenFooter'])}
           >
-            <Text size="sm" className={classes.dim60}>
+            <Text size="sm" className={classes['dim60']}>
               <InternalLink href="/" inherit>
                 {t('footer.backLink')}
               </InternalLink>
@@ -243,9 +240,9 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           <Box
             component="footer"
             ta="center"
-            className={cx('print-only', classes.printFooter)}
+            className={cx('print-only', classes['printFooter'])}
           >
-            <Text className={classes.small}>
+            <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
               <Anchor href={`https://${t('footer.website')}`} inherit>
                 {t('footer.website')}

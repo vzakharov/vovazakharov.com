@@ -1,4 +1,5 @@
 import { Text, Title } from '@mantine/core';
+
 import { Card, CardLink, type Summarized } from '@/shared/ui';
 
 type ArticleCardProps = Summarized & {
@@ -7,7 +8,7 @@ type ArticleCardProps = Summarized & {
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (
-    <CardLink href={url}>
+    <CardLink href={url} aria-label={title}>
       <Card>
         <Title order={3} size="h4" mb={8}>
           {title}

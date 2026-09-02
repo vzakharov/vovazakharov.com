@@ -1,23 +1,25 @@
-import { notFound } from 'next/navigation';
 import { Box, Container, Group, Stack } from '@mantine/core';
+import { notFound } from 'next/navigation';
 
-import { ThemeToggle } from '@/features/switch-theme';
 import {
   COLLECTIONS,
-  VARIANTS,
   listDocuments,
   loadDocument,
   renderDocument,
   siblingVariants,
   type Variant,
+  VARIANTS,
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
 import { InternalLink } from '@/shared/ui';
+
+import { ThemeToggle } from '@/features/switch-theme';
+
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import { BackToHome } from './back-to-home';
-import { TableOfContents } from './table-of-contents';
 import classes from './case-studies.module.scss';
+import { TableOfContents } from './table-of-contents';
 
 const COLLECTION = 'case-studies';
 
@@ -37,15 +39,18 @@ export function generateArticleParams() {
 
 /** `[slug]` is the full document, `[slug, variant]` one of its shorter cuts. */
 function parseSegments(
-  segments: string[]
+  segments: string[],
 ): { slug: string; variant?: Variant } | undefined {
-  if (segments.length === 1) return { slug: segments[0] };
+  const [first] = segments;
+
+  if (segments.length === 1 && first !== undefined) return { slug: first };
 
   if (segments.length === 2) {
-    const [slug, variant] = segments;
+    const [slug, suffix] = segments;
+    const variant = VARIANTS.find((candidate) => candidate === suffix);
 
-    return (VARIANTS as readonly string[]).includes(variant)
-      ? { slug, variant: variant as Variant }
+    return slug !== undefined && variant !== undefined
+      ? { slug, variant }
       : undefined;
   }
 
@@ -70,9 +75,10 @@ export async function generateArticleMetadata({ params }: Props) {
 
 export async function ArticlePage({ params }: Props) {
   const { document, rendered } = await resolve(params);
+  const { title, readingMinutes, headings, html } = rendered;
 
   return (
-    <Box className={classes.articlePage}>
+    <Box className={classes['articlePage']}>
       <Container size={1152} px={0}>
         <Stack gap={32}>
           <Group
@@ -83,29 +89,33 @@ export async function ArticlePage({ params }: Props) {
             <InternalLink
               href={COLLECTIONS[COLLECTION].routeBase}
               size="sm"
-              className={classes.hoverDim}
+              className={classes['hoverDim']}
             >
               ← {COLLECTIONS[COLLECTION].label}
             </InternalLink>
             <ThemeToggle />
           </Group>
 
-          <Box component="article" className={classes.articleLayout}>
-            <Box className={classes.articleIntro}>
+          {/*
+            Three grid children rather than an article and a rail, so one DOM
+            order serves both layouts: stacked, the reader gets the title, then
+            the outline, then the prose; on a wide viewport the outline moves
+            into its own column beside both.
+          */}
+          <Box component="article" className={classes['articleLayout']}>
+            <Box className={classes['articleIntro']}>
               <ArticleHeader
-                document={document}
-                title={rendered.title}
-                readingMinutes={rendered.readingMinutes}
+                {...{ document, title, readingMinutes }}
                 availableVariants={siblingVariants(COLLECTION, document.slug)}
               />
             </Box>
 
-            <Box component="aside" className={classes.articleAside}>
-              <TableOfContents headings={rendered.headings} />
+            <Box component="aside" className={classes['articleAside']}>
+              <TableOfContents {...{ headings }} />
             </Box>
 
-            <Box className={classes.articleBody}>
-              <ArticleBody html={rendered.html} />
+            <Box className={classes['articleBody']}>
+              <ArticleBody {...{ html }} />
             </Box>
           </Box>
 

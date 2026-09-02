@@ -23,14 +23,17 @@
  * the sources carry their `.ts` extension.
  */
 
+/* eslint-disable no-console -- stderr is how this script reports drift: which
+   partial it rewrote, and the summary the vet run's non-zero exit refers to.
+   The rule stays `error` in the app, where a stray log ships to a user. */
+
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import { breakpoints } from '../src/app/styles/breakpoints.ts';
 import { CSS_COLORS } from '../src/shared/ui/css-color.ts';
 
-const REPO_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const REPO_ROOT = path.join(import.meta.dirname, '..');
 
 function scale(): string {
   return Object.entries(breakpoints)
@@ -44,7 +47,7 @@ function scale(): string {
 function colorMixin(): string {
   const parameters = CSS_COLORS.map((name) => `  $${name}`).join(',\n');
   const declarations = CSS_COLORS.map(
-    (name) => `  --color-${name}: #{$${name}};`
+    (name) => `  --color-${name}: #{$${name}};`,
   ).join('\n');
 
   return `@mixin colors(\n${parameters}\n) {\n${declarations}\n}`;

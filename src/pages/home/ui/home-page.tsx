@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Anchor,
   Box,
@@ -10,12 +9,20 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import Image from 'next/image';
+
+import { cssColor, InternalLink } from '@/shared/ui';
+
 import { ThemeToggle } from '@/features/switch-theme';
-import { InternalLink, cssColor } from '@/shared/ui';
+
 import { ContactSection } from './contact-section';
 import { DevSection } from './dev-section';
 import { MusicSection } from './music-section';
 import { WritingSection } from './writing-section';
+
+// A static export evaluates this at build time, so the footer year is the
+// year the site was last deployed.
+const BUILD_YEAR = new Date().getFullYear();
 
 export function HomePage() {
   return (
@@ -88,7 +95,7 @@ export function HomePage() {
           <Box component="footer" ta="center">
             <Divider mb={32} color={cssColor('border-hairline')} />
             <Text size="sm" opacity={0.6}>
-              © {new Date().getFullYear()} Vova Zakharov. Built with Next.js.
+              © {BUILD_YEAR} Vova Zakharov. Built with Next.js.
             </Text>
           </Box>
         </Stack>

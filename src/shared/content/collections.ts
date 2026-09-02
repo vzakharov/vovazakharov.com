@@ -2,6 +2,11 @@ import 'server-only';
 
 import path from 'node:path';
 
+/** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
+export const COLLECTION_IDS = ['case-studies'] as const;
+
+export type CollectionId = (typeof COLLECTION_IDS)[number];
+
 /**
  * The one place a content URL shape is decided. Routes, the sitemap and the
  * index cards all derive from it, so a new collection is an entry here.
@@ -13,11 +18,10 @@ export const COLLECTIONS = {
     routeBase: '/case-studies',
     label: 'Case studies',
   },
-} as const;
-
-export type CollectionId = keyof typeof COLLECTIONS;
-
-export const COLLECTION_IDS = Object.keys(COLLECTIONS) as CollectionId[];
+} as const satisfies Record<
+  CollectionId,
+  { dir: string; routeBase: string; label: string }
+>;
 
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
 export const VARIANTS = ['mini', 'micro'] as const;
@@ -44,7 +48,7 @@ export function collectionAssetUrl(id: CollectionId, fileName: string): string {
 export function documentRoute(
   id: CollectionId,
   slug: string,
-  variant?: Variant
+  variant?: Variant,
 ): string {
   const base = `${COLLECTIONS[id].routeBase}/${slug}`;
   return variant ? `${base}/${variant}` : base;

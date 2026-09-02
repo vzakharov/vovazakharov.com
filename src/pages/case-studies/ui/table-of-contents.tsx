@@ -1,5 +1,7 @@
 import { Box } from '@mantine/core';
+
 import type { WithHeadings } from '@/shared/content';
+
 import classes from './case-studies.module.scss';
 
 /**
@@ -12,17 +14,21 @@ export function TableOfContents({ headings }: WithHeadings) {
   return (
     <Box
       component="nav"
-      aria-label="On this page"
-      className={`print-hidden ${classes.toc}`}
+      aria-labelledby="table-of-contents"
+      className={`print-hidden ${classes['toc']}`}
     >
-      <h2 className={classes.tocHeading}>On this page</h2>
-      <ol className={classes.tocList}>
+      <h2 id="table-of-contents" className={classes['tocHeading']}>
+        On this page
+      </h2>
+      <ol className={classes['tocList']}>
         {headings.map((heading) => (
           <li
             key={heading.id}
-            className={heading.depth === 1 ? classes.tocPart : classes.tocEntry}
+            className={
+              heading.depth === 1 ? classes['tocPart'] : classes['tocEntry']
+            }
           >
-            <a href={`#${heading.id}`} className={classes.tocLink}>
+            <a href={`#${heading.id}`} className={classes['tocLink']}>
               {heading.text}
             </a>
           </li>

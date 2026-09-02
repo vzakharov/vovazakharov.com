@@ -1,8 +1,8 @@
 'use client';
 
-import { ReactNode } from 'react';
-import Link from 'next/link';
 import { Anchor, type AnchorProps } from '@mantine/core';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 /**
  * React refuses to serialise `next/link` across the server boundary, so Mantine's
@@ -15,7 +15,7 @@ export function InternalLink({
   ...props
 }: AnchorProps & { href: string; children: ReactNode }) {
   return (
-    <Anchor component={Link} href={href} {...props}>
+    <Anchor component={Link} {...{ href }} {...props}>
       {children}
     </Anchor>
   );

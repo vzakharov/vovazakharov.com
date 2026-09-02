@@ -1,4 +1,5 @@
 import { Group, Text, Title } from '@mantine/core';
+
 import { Card, CardLink, type Summarized } from '@/shared/ui';
 
 type ProjectCardProps = Summarized & {
@@ -20,7 +21,7 @@ export function ProjectCard({
         <Title order={3} size="h4">
           {title}
         </Title>
-        {stars && (
+        {stars !== undefined && (
           <Text size="sm" opacity={0.6}>
             ★ {stars}
           </Text>
@@ -29,7 +30,7 @@ export function ProjectCard({
       <Text mb={12} lh={1.625}>
         {description}
       </Text>
-      {techStack && (
+      {techStack !== undefined && (
         <Text size="sm" ff="monospace" opacity={0.6}>
           {techStack}
         </Text>
@@ -37,5 +38,11 @@ export function ProjectCard({
     </Card>
   );
 
-  return url ? <CardLink href={url}>{content}</CardLink> : content;
+  return url === undefined ? (
+    content
+  ) : (
+    <CardLink href={url} aria-label={title}>
+      {content}
+    </CardLink>
+  );
 }
