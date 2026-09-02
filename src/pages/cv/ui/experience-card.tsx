@@ -23,9 +23,8 @@ export const EXPERIENCE_KEYS = [
 type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
 /**
- * Which entry the featured case study documents — a presentation decision, so
- * it lives here rather than as a catalog field the two locales could disagree
- * about. The slug it points at is the route file's `FEATURED_CASE_STUDY`.
+ * Which entry the featured case study documents — in code for the same reason
+ * the order is. The route file's `FEATURED_CASE_STUDY` owns the slug itself.
  */
 export const CASE_STUDY_EXPERIENCE_KEY = 'playgram' satisfies ExperienceKey;
 
@@ -85,8 +84,7 @@ export function ExperienceCard({
           {entry.demo}
         </Text>
       )}
-      {/* Print carries the URL in the featured section instead, where there is
-          room to spell it out. */}
+      {/* On paper the featured section carries the URL, so this would say nothing. */}
       {hasCaseStudyLink && (
         <Text size="sm" className="print-hidden">
           <InternalLink href={caseStudyHref} inherit>
