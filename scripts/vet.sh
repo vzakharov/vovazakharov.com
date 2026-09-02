@@ -28,9 +28,10 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# None of these seven writes anything another one reads, so they overlap freely.
+# None of these eight writes anything another one reads, so they overlap freely.
 # Not `pnpm lint` — it carries --fix, and vetting must not mutate the tree;
-# `lint:css` is the check-only stylelint form for the same reason.
+# `lint:css` is the check-only stylelint form, and `--check` is the generator's,
+# for the same reason.
 # type-overlap reads source text only — no generated types, nothing another
 # check writes; the test run adds only writes into the OS temp directory.
 scripts/run-parallel.sh \
@@ -40,6 +41,7 @@ scripts/run-parallel.sh \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
+  breakpoints='pnpm styles:breakpoints --check' \
   test='pnpm test' || status=1
 
 if ((status)); then

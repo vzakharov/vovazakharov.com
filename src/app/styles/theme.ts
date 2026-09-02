@@ -5,6 +5,7 @@ import {
   type VariantColorsResolver,
 } from '@mantine/core';
 import { cssColor } from '@/shared/ui';
+import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';
 
 const foreground = cssColor('foreground');
@@ -69,15 +70,7 @@ export const theme = createTheme({
     lg: '1.5556',
     xl: '1.4',
   },
-  // The design's own scale. `styles/_mantine.scss` carries the same five values
-  // for Sass, which cannot read this file; change the two together.
-  breakpoints: {
-    xs: '30em',
-    sm: '40em',
-    md: '48em',
-    lg: '64em',
-    xl: '80em',
-  },
+  breakpoints,
   defaultRadius: 0,
   white: cssColor('background'),
   black: cssColor('foreground'),

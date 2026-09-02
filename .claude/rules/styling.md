@@ -81,9 +81,9 @@ element holding the markup so that `> h1` still keys the part dividers.
 
 Every stylesheet here is Sass — a co-located `.module.scss` per component, plain
 `.scss` for the global sheets. Two root partials carry what they share:
-`styles/_mantine.scss` for the breakpoint scale and the `light` / `dark` /
-`hover` / `smaller-than` / `larger-than` mixins, `styles/_tokens.scss` for the
-colour-token mixin each palette calls. Pull either in per file with a relative
+`styles/_mantine.scss` for the `light` / `dark` / `hover` / `smaller-than` /
+`larger-than` mixins and the forwarded breakpoint scale, `styles/_tokens.scss`
+for the colour-token mixin each palette calls. Pull either in per file with a relative
 `@use '…/_mantine' as mantine`, which keeps a module's dependencies visible in
 the module; relative because Sass resolves its own imports and knows nothing
 about the `@/` alias.
@@ -93,6 +93,11 @@ work here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` read
 as an undefined _Sass_ mixin and fails the build before PostCSS sees the file.
 Reach for `_mantine.scss`, not the preset.
 
-The breakpoint scale is declared twice — `theme.breakpoints` and
-`styles/_mantine.scss` — because TypeScript and Sass cannot read each other.
-Change them together.
+The breakpoint scale is written once, in `src/app/styles/breakpoints.ts`, and
+`styles/_breakpoints.scss` is **generated** from it by
+`pnpm styles:breakpoints` — Sass needs the numbers as literals, since a
+media-query condition cannot read a custom property, and cannot import
+TypeScript. `_mantine.scss` forwards the generated partial, so a call site
+still reaches `mantine.$breakpoint-sm`. Change the scale in the TypeScript and
+re-run the generator; the vet run's `pnpm styles:breakpoints --check` fails on
+a partial that is stale or hand-edited.

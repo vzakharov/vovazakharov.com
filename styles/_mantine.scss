@@ -9,12 +9,10 @@
 
 @use 'sass:math';
 
-// Kept in step with `theme.breakpoints` in src/app/styles/theme.ts.
-$breakpoint-xs: 30em;
-$breakpoint-sm: 40em;
-$breakpoint-md: 48em;
-$breakpoint-lg: 64em;
-$breakpoint-xl: 80em;
+// The breakpoint scale, generated from src/app/styles/breakpoints.ts. Forwarded
+// rather than used, so `@use '…/_mantine' as mantine` reaches
+// `mantine.$breakpoint-sm` alongside the mixins below.
+@forward 'breakpoints';
 
 // Takes a px length, e.g. `rem(24px)`.
 @function rem($px) {
