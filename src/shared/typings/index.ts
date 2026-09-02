@@ -15,12 +15,3 @@ export type Described = { description: string };
 
 /** Extra classes a caller merges into the component's own. */
 export type WithOptionalClassName = { className?: string };
-
-/**
- * A hyphen-joined name family: `Suffixed<'a', '' | 'b'>` is `'a' | 'a-b'`. The
- * empty suffix is the family's bare root and takes no hyphen.
- */
-export type Suffixed<
-  Base extends string,
-  Suffix extends string | number,
-> = Suffix extends '' ? Base : `${Base}-${Suffix}`;

@@ -1,6 +1,6 @@
 // Generated from src/app/styles/breakpoints.ts
-// by `pnpm styles:breakpoints`. Edit the scale there, not here — the vet
-// run's `--check` fails on a stale partial.
+// by `pnpm styles:codegen`. Edit the source, not here — the vet run
+// regenerates this file and fails when it had to.
 
 $breakpoint-xs: 30em;
 $breakpoint-sm: 40em;

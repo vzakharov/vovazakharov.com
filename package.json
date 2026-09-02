@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "node scripts/render-mermaid.ts",
-    "styles:breakpoints": "node scripts/generate-breakpoints.ts"
+    "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {
     "@mantine/core": "^9.6.0",

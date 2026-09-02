@@ -1,10 +1,15 @@
-// The site's colour tokens — one call per palette (light, dark, print).
-// `src/shared/ui/css-color.ts` mirrors the names as a union type and is how TSX
-// reaches them; the two must stay in step.
+// Generated from src/shared/ui/css-color.ts
+// by `pnpm styles:codegen`. Edit the source, not here — the vet run
+// regenerates this file and fails when it had to.
 
-@mixin colors($background, $foreground, $hairline, $hairline-strong) {
+@mixin colors(
+  $background,
+  $foreground,
+  $border-hairline,
+  $border-hairline-strong
+) {
   --color-background: #{$background};
   --color-foreground: #{$foreground};
-  --color-border-hairline: #{$hairline};
-  --color-border-hairline-strong: #{$hairline-strong};
+  --color-border-hairline: #{$border-hairline};
+  --color-border-hairline-strong: #{$border-hairline-strong};
 }

@@ -32,11 +32,12 @@ attributes (`underline`), never for sizes or colours.
 
 ## Colours
 
-Never write a colour literal in a component. The tokens live in
-`src/app/styles/globals.scss` as `--color-*` and are reached from TSX through
-`cssColor()` in `src/shared/ui/css-color.ts`, whose union is the source of truth
-for which tokens exist. They are colour-scheme aware, so nothing branches on the
-scheme itself.
+Never write a colour literal in a component. The tokens are declared in
+`src/app/styles/globals.scss` as `--color-*` and reached from TSX through
+`cssColor()`. Which tokens exist is settled by the `CSS_COLORS` array in
+`src/shared/ui/css-color.ts` — it types `cssColor()` and generates the mixin
+that declares them, so adding one is a single edit there. They are
+colour-scheme aware, so nothing branches on the scheme itself.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
 in `src/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine renders its
@@ -93,11 +94,22 @@ work here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` read
 as an undefined _Sass_ mixin and fails the build before PostCSS sees the file.
 Reach for `_mantine.scss`, not the preset.
 
-The breakpoint scale is written once, in `src/app/styles/breakpoints.ts`, and
-`styles/_breakpoints.scss` is **generated** from it by
-`pnpm styles:breakpoints` — Sass needs the numbers as literals, since a
-media-query condition cannot read a custom property, and cannot import
-TypeScript. `_mantine.scss` forwards the generated partial, so a call site
-still reaches `mantine.$breakpoint-sm`. Change the scale in the TypeScript and
-re-run the generator; the vet run's `pnpm styles:breakpoints --check` fails on
-a partial that is stale or hand-edited.
+Both of the shared scales are written once in TypeScript, and their Sass halves
+are **generated** by `pnpm styles:codegen` — TypeScript is the source because it
+is the side a type can constrain, and Sass cannot import it:
+
+| Written in                      | Generates                  | Why Sass needs its own copy                                                                           |
+| ------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `src/app/styles/breakpoints.ts` | `styles/_breakpoints.scss` | A media-query condition cannot read a custom property, so the numbers have to be literals.            |
+| `src/shared/ui/css-color.ts`    | `styles/_tokens.scss`      | Sass is what declares the `--color-*` properties; TypeScript only types the names `cssColor()` reads. |
+
+`_mantine.scss` forwards the breakpoint partial, so a call site still reaches
+`mantine.$breakpoint-sm`; the token mixin is `@use`d directly by the sheets that
+declare a palette. Change either scale in its TypeScript and re-run the
+generator — and forgetting to is caught either way, since the vet run runs the
+generator itself and fails when it had to rewrite something, hand-edits of the
+partial included.
+
+Adding a colour token therefore cannot half-land: the generated mixin gains a
+required parameter, and every `@include tokens.colors(…)` that does not pass it
+fails the Sass build outright rather than defaulting.

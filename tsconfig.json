@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-    // `scripts/render-mermaid.ts` and `scripts/generate-breakpoints.ts` run
+    // `scripts/render-mermaid.ts` and `scripts/generate-styles.ts` run
     // under bare Node, whose ESM resolver needs the extension they import from
     // `src/` by.
     "allowImportingTsExtensions": true,
