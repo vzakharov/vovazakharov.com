@@ -80,19 +80,19 @@ element holding the markup so that `> h1` still keys the part dividers.
 ## SCSS
 
 Every stylesheet here is Sass — a co-located `.module.scss` per component, plain
-`.scss` for the global sheets. That rules out `postcss-preset-mantine`
-altogether: Next runs Sass first, so `@include smaller-than(…)` reads as an
-undefined _Sass_ mixin and fails the build before PostCSS ever sees it. Root
-`styles/_mantine.scss` carries Sass equivalents instead, and `styles/_tokens.scss`
-the colour-token mixin the light, dark and print palettes share. Pull either in
-per file with a relative `@use '…/_mantine' as mantine`, which keeps a module's
-dependencies visible in the module — relative because Sass resolves its own
-imports and knows nothing about the `@/` alias.
+`.scss` for the global sheets. Two root partials carry what they share:
+`styles/_mantine.scss` for the breakpoint scale and the `light` / `dark` /
+`hover` / `smaller-than` / `larger-than` mixins, `styles/_tokens.scss` for the
+colour-token mixin each palette calls. Pull either in per file with a relative
+`@use '…/_mantine' as mantine`, which keeps a module's dependencies visible in
+the module; relative because Sass resolves its own imports and knows nothing
+about the `@/` alias.
 
-**There is no `postcss.config.*`, deliberately.** The preset's mixins are
-unreachable as above, and `postcss-simple-vars`' `$mantine-breakpoint-*` are
-Sass variables' job here, so a config declaring either only replaced Next's own
-defaults with two no-ops. Dropping it also cut the breakpoint scale from three
-declarations to two — `theme.breakpoints` and `styles/_mantine.scss`, which
-still cannot share one because TypeScript and Sass cannot read each other.
-Change those two together.
+**Mantine documents those mixins as a PostCSS preset, and that route cannot
+work here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` reads
+as an undefined _Sass_ mixin and fails the build before PostCSS sees the file.
+Reach for `_mantine.scss`, not the preset.
+
+The breakpoint scale is declared twice — `theme.breakpoints` and
+`styles/_mantine.scss` — because TypeScript and Sass cannot read each other.
+Change them together.

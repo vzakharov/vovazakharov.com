@@ -13,11 +13,7 @@ export function Section({ id, children }: { id: string; children: ReactNode }) {
   );
 }
 
-/**
- * Top margin that lifts a section's second-level block clear of the one above
- * it. A Stack's gap does not collapse with its children's margins, so against
- * the 24px gap this reads as the 32px such a block wants.
- */
+/** Adds to a Stack's 24px gap, which does not collapse with it, to reach 32px. */
 export const SUBHEADING_GAP = 8;
 
 /** A heading inside a `Section`, one level down from its title. */

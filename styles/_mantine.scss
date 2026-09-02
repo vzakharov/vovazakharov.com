@@ -1,8 +1,7 @@
-// Sass counterparts to `postcss-preset-mantine`'s mixins, which are unreachable
-// from `.scss`: Next runs Sass first, so `@include smaller-than(…)` reads as an
-// undefined *Sass* mixin and fails the build before PostCSS ever sees it. Since
-// every stylesheet here is Sass, this file is the whole of that vocabulary and
-// the repo carries no PostCSS config at all.
+// Sass counterparts to the mixins Mantine documents as a PostCSS preset. That
+// preset is unreachable from `.scss`: Next runs Sass first, so
+// `@include smaller-than(…)` reads as an undefined *Sass* mixin and fails the
+// build before PostCSS sees the file. Reach for these instead.
 
 // Pull them in per-file — `@use '…/_mantine' as mantine` — so a module's
 // dependencies stay visible in the module. `light-dark()` needs nothing here:

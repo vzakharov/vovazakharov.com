@@ -17,10 +17,8 @@ export type Described = { description: string };
 export type WithOptionalClassName = { className?: string };
 
 /**
- * A hyphen-joined name whose stem is shared across a family — `Suffixed<'a', ''
- * | 'b'>` is `'a' | 'a-b'`. The empty suffix is the family's unqualified member
- * and takes no hyphen, so a naming scheme with a bare root spells that root
- * once rather than alongside its own variants.
+ * A hyphen-joined name family: `Suffixed<'a', '' | 'b'>` is `'a' | 'a-b'`. The
+ * empty suffix is the family's bare root and takes no hyphen.
  */
 export type Suffixed<
   Base extends string,
