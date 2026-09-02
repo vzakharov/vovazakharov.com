@@ -2,11 +2,12 @@
 description: The 2,000-word cut of the Playgram case study — why a working no-code app got rebuilt in code, and what it takes to run twenty coding agents at once.
 date: 2026-08-29
 part: I of II
+ogImage: ./assets/playgram-commit-cumsum.og.png
 ---
 
 # From Bubble to Next.js in 4 months: the Playgram case study (mini)
 
-_The [full version](./playgram-bubble-to-nextjs-part-1.md) is about six times this long. There's also a [micro version](./playgram-bubble-to-nextjs-part-1.micro.md) if this is still too much. Part I of II._
+_The [full version](./playgram-bubble-to-nextjs-part-1.md) is about six times this long. There's also a [nano version](./playgram-bubble-to-nextjs-part-1.nano.md) if this is still too much. Part I of II._
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -15,6 +16,8 @@ _Disclaimer: the disclosures in this case study were approved by Playgram manage
 Playgram is a serious AI chat product — multiple providers and models, realtime team and project chats, image and file libraries, memory and knowledge management, voice input — and it was built entirely in Bubble, a no-code app builder. Between March and August 2026 I rebuilt it as a Next.js 16 codebase. 158 days, 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of production TypeScript, 48 versioned releases, and cold load times from multi-second to sub-second.
 
 I did almost none of the typing. At the peak I was running twenty-plus Claude Code agents at once, and that shift — from three local agents I babysat line by line to twenty in the cloud I reviewed like a manager — is the actual subject here.
+
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
 
 ## Why leave a working no-code app
 
@@ -46,6 +49,37 @@ It worked, and it was too much. On the database question the lone dissenter — 
 
 So: Feature-Sliced Design, strictly enforced. Six layers, 8,123 internal imports, and **zero** that point upward or sideways — because two separate tools refuse to let us. A second-order effect worth pointing out: the bottom, reusable layers grew nearly three times over while the app-specific top layer didn't quite double. Rigid boundaries make the shared layer the path of least resistance.
 
+```mermaid
+flowchart TD
+    accDescr {
+      The final codebase's import graph, six layers deep and acyclic. app sits at
+      the top, then pages, widgets, features, entities, and shared at the bottom.
+      Every arrow points downward and is labelled with the number of import
+      statements crossing it; shared receives the most by a wide margin.
+    }
+    app["app · 207 files"]
+    pages["pages · 757 files"]
+    widgets["widgets · 149 files"]
+    features["features · 312 files"]
+    entities["entities · 228 files"]
+    shared["shared · 539 files"]
+
+    app -->|55| pages
+    app -->|58| features
+    app -->|87| entities
+    app -->|434| shared
+    pages -->|88| widgets
+    pages -->|207| features
+    pages -->|361| entities
+    pages -->|1274| shared
+    widgets -->|20| features
+    widgets -->|40| entities
+    widgets -->|165| shared
+    features -->|116| entities
+    features -->|611| shared
+    entities -->|394| shared
+```
+
 Then 362 explicitly enabled lint rules, 28 of them hand-written, every one an `error` because "LLMs treat warnings as negotiable". They're worth the effort because an agent will cheerfully ignore a paragraph of your CLAUDE.md and will never once ship a lint error.
 
 The most feared guardrail of the lot is a script rather than a lint rule: `type-overlap` fails the build if any two type aliases declare the same member. Turning it on at full strength would have failed the build in hundreds of places, so it took a 26-day climb-down: at first it only complained when two types shared three or more fields, then two, then briefly back out to four when we improved the detector, and finally down to a single shared field — thirteen landings and about 1,300 file changes. Worth it, because of what it was written for: we once had a `tokenCounts: { input, output }` shape sitting beside DB columns named `inputTokens`/`outputTokens`. Both type-checked perfectly. Every usage log we wrote recorded zero. We found it months later, by accident.
@@ -57,6 +91,8 @@ The most feared guardrail of the lot is a script rather than a lint rule: `type-
 I resisted cloud agents. The laptop melting past five parallel sessions is what pushed me, and I expected the web UX to be as clumsy as the first Codex, the merge conflicts to be constant, and the whole thing to feel too hands-off — the agent working _somewhere_ that isn't _right here_.
 
 > **But boy could I be wronger.**
+
+<img width="681" alt="A sidebar of about two dozen pinned Claude Code sessions, each showing its own state" src="https://github.com/user-attachments/assets/43addf90-2906-4fe5-bea6-0f8016c9deeb" />
 
 Weeks in I was running 20+ at once, capped only by quota. Merge conflicts turned out to be the most overestimated risk of the lot: after more than a thousand merged PRs, agents resolving them properly — reasoning about what changed on each side, not just producing a file that compiles — has never once burned me. It took one skill to encode the footguns.
 
@@ -83,6 +119,17 @@ Four sessions per feature, then: plan it, implement it, address the review, fina
 ## The timeline, honestly
 
 They asked for 1.5–2 months. I agreed and missed it. At the two-month mark there was nothing in production. The first production build was day 77; the first workspace actually running on the rewrite was seven weeks after the original deadline; all workspaces were over by day 128.
+
+| Date       | Day | What happened                                                    |
+| ---------- | --- | ---------------------------------------------------------------- |
+| **6 Mar**  | 1   | First commit — a splitting script and a pile of research.        |
+| **25 Apr** | 51  | Development moves into the cloud, on branches and pull requests. |
+| **6 May**  | 62  | **The original deadline.** Nothing in production.                |
+| **21 May** | 77  | `4.0.0` — first production build.                                |
+| **11 Jul** | 128 | `4.3.0` — all workspaces on the rewrite. Bubble is off.          |
+| **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.         |
+
+![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from 6.2 a day to 8.2 at the 25 April switch into the cloud; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 The chart of units of work does show where my method changed, and it's a single day: 25 April, when the work moved into the cloud. What takes a few weeks afterwards is the output catching up, not the switch. The number I like best is the dull one: **the median unit of work stays the same size — 375 changed lines before, 384 after — while units per day go from 6.2 to 8.2.** Same-sized pieces, about a third more of them at a time. That's what parallelism looks like from the outside.
 

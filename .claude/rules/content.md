@@ -6,6 +6,7 @@ paths:
   - src/pages/case-studies/**
   - app/case-studies/**
   - scripts/render-mermaid.ts
+  - scripts/render-og.ts
 ---
 
 # Content
@@ -17,8 +18,10 @@ public/content/
   case-studies/
     <slug>.md                 # the full document
     <slug>.mini.md            # optional shorter cuts
-    <slug>.micro.md
+    <slug>.nano.md
     assets/                   # images, data, video
+      <name>.og.png           # committed, produced by `pnpm content:og`
+      og-renders.json         # each card's source hash
   generated/
     mermaid/<hash>.light.svg  # committed, produced by `pnpm content:mermaid`
     mermaid/<hash>.dark.svg
@@ -28,7 +31,7 @@ public/content/
 
 **Everything in `shared/content/` is build-time-only, and must stay that way.** There is no server at runtime, so the whole pipeline — `unified`, `remark`, `rehype`, `shiki`, `gray-matter`, `zod` — resolves into the build graph and is thrown away with it. A content page therefore costs **zero bytes of client JavaScript** beyond the site's existing baseline, which is the property the whole design exists for. Every module starts with `import 'server-only'` so that is enforced rather than hoped for: importing one from a `'use client'` component fails the build. When a client component needs something the registry owns — a route, say — the **server page resolves it and passes it down**; that is what `app/[locale]/cv/page.tsx` does for the CV's case-study link.
 
-The one exception is `shared/content/mermaid-hash.ts`, which `scripts/render-mermaid.ts` runs under bare Node, outside any bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's resolver finds it. That script needs Node 22.18 or newer for type stripping.
+The exceptions are `shared/content/content-hash.ts` and `mermaid-renders.ts`, which the render scripts run under bare Node, outside any bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's resolver finds it. Those scripts need Node 22.18 or newer for type stripping.
 
 ## Adding a document
 
@@ -43,6 +46,8 @@ The one exception is `shared/content/mermaid-hash.ts`, which `scripts/render-mer
    ---
    ```
 
+   **`ogImage` names a PNG, never the SVG it came from** — see the traps below.
+
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
 2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts`.
@@ -50,6 +55,8 @@ The one exception is `shared/content/mermaid-hash.ts`, which `scripts/render-mer
 ## Traps worth knowing
 
 - **A `mermaid` fence needs a committed render, and an `accDescr`.** `pnpm content:mermaid` renders each fence to a light and a dark SVG named by a hash of the fence text, and prunes renders nothing refers to any more; `--check` reports staleness without writing. Run it by hand when a diagram changes and commit the SVGs — `next build` never invokes it, so CI stays free of puppeteer, and instead **fails loudly** on a fence whose render is missing. The `accDescr` block becomes the diagram's `alt`, followed by the URL of the markdown it was drawn from: an `<img>` hides the SVG's own description, so `alt` is the only place a reader who cannot see the image — an agent reading the HTML included — learns what the diagram says and where its source is.
+- **An Open Graph card is a PNG rendered from an SVG, and both are committed.** No major consumer renders an SVG `og:image` — X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to nothing. So `ogImage` names `./assets/<name>.og.png`, `pnpm content:og` rasterizes it from `./assets/<name>.svg`, and `--check` — wired into `vet.sh` — fails when a source's hash no longer matches `og-renders.json`. Run it by hand after editing a card's SVG and commit the PNG with it. The card's dimensions are read from the PNG and published alongside the URL, which several consumers need to render it at all.
+- **Angle brackets are markup inside an SVG's `<style>`.** An SVG document is parsed as XML, where a CSS comment mentioning a tag name makes the file not well-formed — and a malformed SVG behind an `<img>` fails silently, showing nothing. Nothing in the build catches it.
 - **A video link needs an extension or a `video` title.** A paragraph holding nothing but a link to a video becomes a player. Detection is by file extension; for a URL that has none, mark it explicitly: `[label](url 'video')`.
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
 - **Raw HTML in a document passes through unsanitized.** First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.

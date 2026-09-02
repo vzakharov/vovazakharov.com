@@ -19,9 +19,14 @@ import {
   frontmatterSchema,
   type WithFrontmatter,
 } from './frontmatter';
+import {
+  intrinsicDimensions,
+  type WithOptionalOgImageSize,
+} from './image-dimensions';
 
 export type ContentDocument = DocumentRef &
-  WithFrontmatter & {
+  WithFrontmatter &
+  WithOptionalOgImageSize & {
     /** Absent on the full document; set on each shorter cut. */
     variant?: Variant;
     /** The markdown body with the frontmatter block removed. */
@@ -33,6 +38,21 @@ export type ContentDocument = DocumentRef &
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
   };
+
+/** One function returns both, so the URL and the size cannot disagree. */
+function resolveOgImage(
+  collection: CollectionId,
+  ogImage: string | undefined,
+): Pick<ContentDocument, 'ogImageUrl' | 'ogImageSize'> {
+  if (ogImage === undefined) return {};
+
+  const ogImageUrl = collectionAssetUrl(
+    collection,
+    ogImage.replace(/^\.\//, ''),
+  );
+
+  return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
+}
 
 export type WithContentDocument = { document: ContentDocument };
 
@@ -83,13 +103,7 @@ function readDocument(
     fileName,
     rawUrl: collectionAssetUrl(collection, fileName),
     route: documentRoute(collection, slug, variant),
-    ogImageUrl:
-      frontmatter.ogImage === undefined
-        ? undefined
-        : collectionAssetUrl(
-            collection,
-            frontmatter.ogImage.replace(/^\.\//, ''),
-          ),
+    ...resolveOgImage(collection, frontmatter.ogImage),
   };
 }
 
