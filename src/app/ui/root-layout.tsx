@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import { Merriweather, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
-import '../styles/globals.css';
+import '../styles/globals.scss';
 import '../styles/print.scss';
 import { SITE_CONFIG } from '@/shared/config';
 import { constructMetadata } from '@/shared/seo';
-import { Providers } from './providers';
+import { ThemeProvider } from './theme-provider';
 
 const merriweather = Merriweather({
   weight: ['300', '400', '700'],
@@ -47,7 +47,7 @@ export function RootLayout({
       </head>
       <body>
         <NextIntlClientProvider>
-          <Providers>{children}</Providers>
+          <ThemeProvider>{children}</ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

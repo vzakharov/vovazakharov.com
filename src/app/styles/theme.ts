@@ -69,10 +69,8 @@ export const theme = createTheme({
     lg: '1.5556',
     xl: '1.4',
   },
-  // The design's own scale. `postcss.config.cjs` and
-  // `src/shared/styles/_mantine.scss` carry the same five values for CSS and
-  // Sass; the three cannot share a declaration, so they have to be changed
-  // together.
+  // The design's own scale. `styles/_mantine.scss` carries the same five values
+  // for Sass, which cannot read this file; change the two together.
   breakpoints: {
     xs: '30em',
     sm: '40em',

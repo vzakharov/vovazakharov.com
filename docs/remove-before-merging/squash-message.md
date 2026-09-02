@@ -6,38 +6,30 @@ feat: swap Tailwind for Mantine as the styling layer (pr #19)
 
 ```
 Tailwind's footprint here was small and fully enumerable — six files
-using className, one PostCSS plugin, one globals.css — which made it
-cheap to move the site onto Mantine and align it with the conventions
-Playgramai/playgramapp already runs on. Mantine is the mechanism, not a
-restyle: the visual identity is preserved exactly, and that was checked
-by rendering both revisions and comparing computed typography, opacity
-and element geometry across both pages, both colour schemes, two widths
-and print media rather than by eye.
+using className, one PostCSS plugin, one globals.css — so this is a
+change of mechanism, not a restyle. The visual identity is preserved
+exactly, checked by rendering both revisions and comparing computed
+typography, opacity and geometry across both pages, both colour
+schemes, two widths and print media.
 
-Mantine 9 takes over the colour scheme from next-themes, covering the
-same light/dark/system toggle with one provider boundary instead of
-two. app/RootLayout.tsx stays a server component holding
-mantineHtmlProps and ColorSchemeScript, with app/Providers.tsx beside
-it for MantineProvider. Colour tokens live in globals.css as --color-*
-and reach TSX through a typed cssColor(); Mantine's own variables are
-bound to them through a cssVariablesResolver rather than a :root block,
-because the provider injects its stylesheet at runtime and outranks
-one. Component CSS is co-located .module.scss, linted by a stylelint
-run that joins the vet suite as a fourth concurrent check.
+Mantine 9 also takes the colour scheme over from next-themes, covering
+the same light/dark/system toggle with one provider boundary instead of
+two. Colour tokens live in globals.scss as --color-* and reach TSX
+through a typed cssColor(); Mantine's own variables bind to them in a
+cssVariablesResolver, because it renders its variable block into <body>
+where a stylesheet's :root cannot outrank it.
 
-Two cascade facts shape where every rule had to go, and .claude/rules/
-styling.md records them. Mantine ships as styles.layer.css, so any
-unlayered rule beats it and nothing in this tree needs !important. But
-style props, varsResolver output and visual defaultProps all render as
-inline styles that no stylesheet can reach — so print splits into
-page-level rules in styles/print.scss and component-owned overrides
-sitting beside the screen rules they override, and the control skin
-lives in theme.variantColorResolver rather than a module.
+Two cascade facts decide where every rule lands, both recorded in
+.claude/rules/styling.md. Mantine ships layered, so unlayered rules beat
+it and !important is now a stylelint error. Style props, varsResolver
+output and visual defaultProps render inline, out of reach of any
+stylesheet — so print rules split between print.scss and the components
+that own them, and the control skin lives in variantColorResolver.
 
-CVPage.tsx is split into CvSection, CvSubsection, CvBullets and
-ExperienceEntry, seams the conversion exposed rather than a speculative
-refactor, and hooks/useMounted.ts gives way to the one @mantine/hooks
-ships.
+Every stylesheet is Sass, so Mantine's PostCSS plugins had nothing to do
+either and the repo now carries no PostCSS config at all. CVPage and
+HomePage split along the seams the conversion exposed, and useMounted
+gives way to the @mantine/hooks one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

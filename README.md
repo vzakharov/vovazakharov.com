@@ -54,7 +54,7 @@ under `src/`; `.claude/rules/fsd.md` carries the conventions.
 │   ├── features/switch-theme/  # Light/Dark/Auto theme switcher
 │   ├── pages/                  # Page composition — home, cv, case-studies
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
-├── styles/                     # _mantine.scss — Sass counterparts to the PostCSS preset's mixins
+├── styles/                     # Shared Sass partials — Mantine mixin counterparts, colour tokens
 ├── public/
 │   ├── content/                # Long-form prose and its assets, served raw
 │   ├── ava.png                 # Avatar image

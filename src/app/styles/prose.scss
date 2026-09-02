@@ -1,13 +1,11 @@
-/**
- * Rendered markdown. Mantine's `TypographyStylesProvider` supplies the base
- * rhythm — heading scale, paragraph and list spacing, tables, blockquotes — off
- * the same theme variables as the rest of the site, so only what the content
- * pipeline itself emits is styled here.
- */
+// Rendered markdown. Mantine's `TypographyStylesProvider` supplies the base
+// rhythm — heading scale, paragraph and list spacing, tables, blockquotes — off
+// the same theme variables as the rest of the site, so only what the content
+// pipeline itself emits is styled here.
 
 .prose-content {
-  /* Code sits on a tinted surface rather than either Shiki theme's own
-     background, which for `github-light` is white and vanishes into the page. */
+  // Code sits on a tinted surface rather than either Shiki theme's own
+  // background, which for `github-light` is white and vanishes into the page.
   --code-surface: color-mix(
     in srgb,
     var(--color-foreground) 7%,
@@ -15,10 +13,10 @@
   );
 }
 
-/* The colour is stated rather than left to Mantine, whose inline-code rule
-   reaches for `--mantine-color-white` in the dark scheme — literally white to
-   it, but bound to this site's *background* token by the theme, which would
-   paint the text the colour of the surface behind it. */
+// The colour is stated rather than left to Mantine, whose inline-code rule
+// reaches for `--mantine-color-white` in the dark scheme — literally white to
+// it, but bound to this site's *background* token by the theme, which would
+// paint the text the colour of the surface behind it.
 .prose-content :not(pre) > code {
   background: var(--code-surface);
   color: var(--color-foreground);
@@ -26,8 +24,8 @@
   font-weight: inherit;
 }
 
-/* `rehype-autolink-headings` wraps each heading's text in a link to its own
-   anchor. It should read as a heading, not as a link. */
+// `rehype-autolink-headings` wraps each heading's text in a link to its own
+// anchor. It should read as a heading, not as a link.
 .prose-content :is(h1, h2, h3, h4, h5, h6) > a {
   color: inherit;
   font-weight: inherit;
@@ -40,8 +38,8 @@
   text-underline-offset: 0.2em;
 }
 
-/* Part dividers. The leading `# ` is lifted into the page header, so every `h1`
-   left in the body opens a new part. */
+// Part dividers. The leading `# ` is lifted into the page header, so every `h1`
+// left in the body opens a new part.
 .prose-content > h1 {
   border-top: 1px solid var(--color-border-hairline);
   padding-top: 1.5em;
@@ -52,8 +50,8 @@
   padding-top: 0;
 }
 
-/* A table wider than the column scrolls inside it, rather than widening the
-   page. Wrapper courtesy of `rehypeTableScroll`. */
+// A table wider than the column scrolls inside it, rather than widening the
+// page. Wrapper courtesy of `rehypeTableScroll`.
 .content-table-scroll {
   overflow-x: auto;
   margin: 1.5em 0;
@@ -71,8 +69,8 @@
   background: color-mix(in srgb, var(--color-foreground) 4%, transparent);
 }
 
-/* Each Mermaid fence renders to a committed pair of SVGs; the theme picks one.
-   Both are in the markup, so neither needs JavaScript to appear. */
+// Each Mermaid fence renders to a committed pair of SVGs; the theme picks one.
+// Both are in the markup, so neither needs JavaScript to appear.
 .content-mermaid {
   margin: 1.5em 0;
   text-align: center;
@@ -93,9 +91,9 @@
   display: inline-block;
 }
 
-/* Shiki emits both themes' colours as CSS variables on every token, so one
-   render serves light and dark and no theme is baked in. Only the token colours
-   are taken from it — the surface behind them is the site's. */
+// Shiki emits both themes' colours as CSS variables on every token, so one
+// render serves light and dark and no theme is baked in. Only the token colours
+// are taken from it — the surface behind them is the site's.
 .prose-content .shiki,
 .prose-content .shiki span {
   color: var(--shiki-light);

@@ -3,6 +3,10 @@ const config = {
   extends: ['stylelint-config-standard-scss'],
   ignoreFiles: ['.next/**', 'out/**', 'node_modules/**'],
   rules: {
+    // Mantine ships as `@layer mantine`, so every unlayered rule in this tree
+    // already outranks it whatever the specificity. An `!important` here can
+    // only be fighting another rule of ours.
+    'declaration-no-important': true,
     // CSS-module class and keyframe names are camelCase here, which the
     // standard config's kebab-case patterns reject.
     'selector-class-pattern': null,

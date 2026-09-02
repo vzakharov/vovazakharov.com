@@ -1,6 +1,8 @@
 // Sass counterparts to `postcss-preset-mantine`'s mixins, which are unreachable
 // from `.scss`: Next runs Sass first, so `@include smaller-than(…)` reads as an
-// undefined *Sass* mixin and fails the build before PostCSS ever sees it.
+// undefined *Sass* mixin and fails the build before PostCSS ever sees it. Since
+// every stylesheet here is Sass, this file is the whole of that vocabulary and
+// the repo carries no PostCSS config at all.
 
 // Pull them in per-file — `@use '…/_mantine' as mantine` — so a module's
 // dependencies stay visible in the module. `light-dark()` needs nothing here:
@@ -8,8 +10,7 @@
 
 @use 'sass:math';
 
-// Kept in step with `theme.breakpoints` in src/app/styles/theme.ts and the
-// `mantine-breakpoint-*` variables in postcss.config.cjs.
+// Kept in step with `theme.breakpoints` in src/app/styles/theme.ts.
 $breakpoint-xs: 30em;
 $breakpoint-sm: 40em;
 $breakpoint-md: 48em;

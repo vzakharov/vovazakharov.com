@@ -1,3 +1,5 @@
+@use '../../../styles/tokens' as tokens;
+
 // Page-level print rules. Anything a single component owns — a card's border,
 // the CV's dimmed text — lives in that component's own `.module.scss` beside
 // the screen rule it overrides, because a Mantine style prop renders as an
@@ -20,10 +22,7 @@
   [data-mantine-color-scheme='dark'] {
     color-scheme: light;
 
-    --color-background: #fff;
-    --color-foreground: #000;
-    --color-border-hairline: #ddd;
-    --color-border-hairline-strong: #ddd;
+    @include tokens.colors(#fff, #000, #ddd, #ddd);
   }
 
   @page {

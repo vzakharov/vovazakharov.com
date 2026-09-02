@@ -2,7 +2,7 @@
 description: How styling is layered here — where a rule has to live to win, and which Mantine props are unreachable from a stylesheet
 paths:
   - src/app/styles/**
-  - src/app/ui/providers.tsx
+  - src/app/ui/theme-provider.tsx
   - styles/**
   - src/shared/ui/css-color.ts
   - '**/*.module.scss'
@@ -12,8 +12,9 @@ paths:
 
 Mantine is imported as `@mantine/core/styles.layer.css`, so everything it ships
 lives in `@layer mantine`. **Any unlayered rule beats it, whatever the
-specificity** — `globals.css`, `print.scss` and every `.module.scss` are
-unlayered, so none of them needs `!important`. Don't add one.
+specificity** — `globals.scss`, `print.scss` and every `.module.scss` are
+unlayered, so none of them needs `!important` — stylelint's
+`declaration-no-important` holds that line.
 
 ## What a stylesheet cannot reach
 
@@ -32,14 +33,18 @@ attributes (`underline`), never for sizes or colours.
 ## Colours
 
 Never write a colour literal in a component. The tokens live in
-`src/app/styles/globals.css` as `--color-*` and are reached from TSX through
+`src/app/styles/globals.scss` as `--color-*` and are reached from TSX through
 `cssColor()` in `src/shared/ui/css-color.ts`, whose union is the source of truth
 for which tokens exist. They are colour-scheme aware, so nothing branches on the
 scheme itself.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
-in `src/app/ui/providers.tsx`, not by a `:root` block — the provider injects its
-stylesheet at runtime and a second `:root` rule cannot reliably outrank it.
+in `src/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine renders its
+variable block as a `<style data-mantine-styles>` at the top of `<body>` — after
+every stylesheet in `<head>`, on the same `:root` selector — so a `--mantine-*`
+override written in a stylesheet loses on document order at equal specificity.
+The `--color-*` tokens are safe there because Mantine never declares those
+names.
 
 ## Print
 
@@ -61,27 +66,33 @@ fill in either scheme. Mantine's own stylesheet was written against a literal
 palette, though, and a handful of its rules reach for `--mantine-color-white` as
 "the readable colour in the dark scheme" — which here is the colour of the
 surface behind the text. Its inline-`code` rule is one, which is why
-`prose.css` states that colour itself. Suspect this first when something is
+`prose.scss` states that colour itself. Suspect this first when something is
 invisible in exactly one scheme.
 
 ## Rendered markdown
 
 The content pipeline's HTML is wrapped in Mantine's `Typography`, which supplies
-the base rhythm. `src/app/styles/prose.css` adds only what the pipeline itself
+the base rhythm. `src/app/styles/prose.scss` adds only what the pipeline itself
 emits — Shiki token colours, the Mermaid light/dark pair, scrollable tables and
 the heading anchors — and is scoped under `.prose-content`, which sits on the
 element holding the markup so that `> h1` still keys the part dividers.
 
 ## SCSS
 
-Component CSS is a co-located `.module.scss`; global sheets are plain `.scss`.
-`postcss-preset-mantine`'s mixins cannot be used from either — Next runs Sass
-first, so they read as undefined _Sass_ mixins. Root `styles/_mantine.scss`
-carries Sass equivalents; pull them in per file with a relative
-`@use '…/_mantine' as mantine`, which keeps a module's dependencies visible in
-the module. The path is relative because Sass resolves its own imports and knows
-nothing about the `@/` alias.
+Every stylesheet here is Sass — a co-located `.module.scss` per component, plain
+`.scss` for the global sheets. That rules out `postcss-preset-mantine`
+altogether: Next runs Sass first, so `@include smaller-than(…)` reads as an
+undefined _Sass_ mixin and fails the build before PostCSS ever sees it. Root
+`styles/_mantine.scss` carries Sass equivalents instead, and `styles/_tokens.scss`
+the colour-token mixin the light, dark and print palettes share. Pull either in
+per file with a relative `@use '…/_mantine' as mantine`, which keeps a module's
+dependencies visible in the module — relative because Sass resolves its own
+imports and knows nothing about the `@/` alias.
 
-The breakpoint scale is declared three times — `theme.breakpoints`,
-`postcss.config.cjs`, `styles/_mantine.scss` — because the three
-languages cannot share a declaration. Change them together.
+**There is no `postcss.config.*`, deliberately.** The preset's mixins are
+unreachable as above, and `postcss-simple-vars`' `$mantine-breakpoint-*` are
+Sass variables' job here, so a config declaring either only replaced Next's own
+defaults with two no-ops. Dropping it also cut the breakpoint scale from three
+declarations to two — `theme.breakpoints` and `styles/_mantine.scss`, which
+still cannot share one because TypeScript and Sass cannot read each other.
+Change those two together.
