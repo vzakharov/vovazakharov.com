@@ -28,7 +28,9 @@ loses its bottom rows when its box ends on the surface's last one.
 The mini and nano cuts gain the chart and six other assets that already
 existed in the full document, so neither reads as a wall of text. The
 copied mermaid fence is byte-identical, which is what lets both
-documents share one committed render pair.
+documents share one committed render pair; #22 measures what the blocks
+now repeated across the cuts cost, and argues that a transclusion
+mechanism may not be worth what it takes from the raw markdown.
 
 `micro` is renamed `nano` so the two cuts' leading letters differ;
 VARIANTS is the source of truth, so the routes, the sitemap and the cut
