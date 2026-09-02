@@ -151,9 +151,8 @@ def fetch(
     """Walk the opener ladder; return the first success as (body, headers).
 
     Takes a factory, not a `Request`: `ProxyHandler.proxy_open` rewrites the
-    request's host in place, so one `Request` reused across rungs aims at the
-    proxy on every rung. Building one per rung is what keeps the direct rung
-    direct.
+    request's host in place, so one `Request` reused across rungs would aim at
+    the proxy on every rung.
     """
     failures: list[RouteFailure] = []
     for opener in _openers():
