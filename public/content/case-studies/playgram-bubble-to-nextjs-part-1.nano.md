@@ -9,11 +9,21 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 
 _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a [mini version](./playgram-bubble-to-nextjs-part-1.mini.md). Part I of II. Disclosures approved by Playgram management._
 
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
+
 ---
 
 **The job.** Playgram is a live AI chat product — many models, team chats, file libraries, memory, voice — built entirely in Bubble, a no-code tool. They wanted it as real code in two months, mainly so they could use AI coding agents on it. I took it, and missed the deadline: the first production build was day 77, all workspaces were over by day 128.
 
 **The result.** 158 days. 1,395 units of work on `main`, 1,029 merged PRs, 250,000 lines of production TypeScript. Cold loads from multi-second to sub-second. 48 versioned releases and 18 hotfixes — a production deploy every 2.4 days — three workspace cutovers, no rollbacks.
+
+|                |                                                                  |
+| -------------- | ---------------------------------------------------------------- |
+| **Span**       | 6 March – 10 August 2026 · 158 days                              |
+| **Started at** | an 11.6 MB minified JSON — the Bubble app export                 |
+| **Shipped**    | 1,029 merged PRs · 250,000 lines of production TypeScript        |
+| **Released**   | 48 versioned releases plus 18 hotfixes — a deploy every 2.4 days |
+| **Team**       | four people, and ten to twenty-five Claude Code agents at a time |
 
 **How.** I wrote almost none of it. At the peak, twenty-plus Claude Code agents ran in parallel in the cloud while I reviewed pull requests. Three things made that possible:
 
@@ -26,6 +36,8 @@ _Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a
 **What that bought.** Billing went from a number attached to a price, never enforced, to a metered balance — every reply priced from the real provider cost, decremented live, enforced at send time — in fifteen days. Per-group and per-member model access control took about two. And a per-query CO₂e estimate, asked for by a university customer, went from request to production in eleven days, built by one of the Bubble developers after I'd stopped writing code.
 
 **The number I'd put on a slide.** Across the switch to parallel cloud agents — one day, 25 April — the median unit of work stayed the same size, 375 changed lines then 384, while units per day went from 6.2 to 8.2. Same-sized pieces, about a third more of them at once. That's parallelism, measured.
+
+![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from 6.2 a day to 8.2 at the 25 April switch into the cloud; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 **The part I'd actually point at.** I stopped writing code on 10 August. In the seventeen days since, 49 of the 52 pull requests merged were the rest of the team's — and the rest of the team is the three Bubble developers who built the app in the first place, two of whom opened their GitHub accounts during this project. Every one of those PRs went through the same plan-implement-review pipeline. The scaffolding was as much the deliverable as the app.
 
