@@ -23,7 +23,7 @@ function stripLeadingDot(url: string): string {
 
 /**
  * A sibling markdown file becomes the site route that renders it, so the
- * documents' own cross-links between the full, mini and micro cuts work
+ * documents' own cross-links between the full, mini and nano cuts work
  * unchanged on GitHub and on the site.
  */
 function markdownRoute(collection: CollectionId, target: string): string {

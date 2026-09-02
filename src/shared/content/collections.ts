@@ -24,7 +24,7 @@ export const COLLECTIONS = {
 >;
 
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
-export const VARIANTS = ['mini', 'micro'] as const;
+export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 

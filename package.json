@@ -14,7 +14,8 @@
     "lint:fsd": "steiger src",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "content:mermaid": "node scripts/render-mermaid.ts"
+    "content:mermaid": "node scripts/render-mermaid.ts",
+    "content:og": "node scripts/render-og.ts"
   },
   "dependencies": {
     "@shikijs/rehype": "^4.4.3",
