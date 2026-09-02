@@ -24,13 +24,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import { contentHash } from '../src/shared/content/content-hash.ts';
 import {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
-  mermaidHash,
-} from '../src/shared/content/mermaid-hash.ts';
+} from '../src/shared/content/mermaid-renders.ts';
+import { findChromium } from './lib/chromium.ts';
 
 type Fence = {
   hash: string;
@@ -75,52 +76,12 @@ function collectFences(): Fence[] {
       const source = match[1] ?? '';
 
       return {
-        hash: mermaidHash(source),
+        hash: contentHash(source),
         source,
         file: path.relative(REPO_ROOT, file),
       };
     });
   });
-}
-
-/** The Playwright-managed Chromium builds, newest first. */
-function playwrightChromiums(): string[] {
-  const root = process.env['PLAYWRIGHT_BROWSERS_PATH'];
-
-  if (root === undefined || !fs.existsSync(root)) return [];
-
-  return fs
-    .readdirSync(root)
-    .filter((name) => name.startsWith('chromium'))
-    .toSorted()
-    .toReversed()
-    .map((name) => path.join(root, name, 'chrome-linux', 'chrome'));
-}
-
-/**
- * Chromium is preinstalled in the agent environment and on most dev machines,
- * so mermaid-cli is told where it is rather than left to download its own.
- */
-function findChromium(): string {
-  const candidates = [
-    process.env['PUPPETEER_EXECUTABLE_PATH'],
-    ...playwrightChromiums(),
-    '/usr/bin/chromium',
-    '/usr/bin/chromium-browser',
-    '/usr/bin/google-chrome',
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  ].filter((candidate): candidate is string => candidate !== undefined);
-
-  const found = candidates.find((candidate) => fs.existsSync(candidate));
-
-  if (found === undefined) {
-    throw new Error(
-      'No Chromium found for mermaid-cli. Set PUPPETEER_EXECUTABLE_PATH to a ' +
-        `Chromium or Chrome binary. Looked at:\n  ${candidates.join('\n  ')}`,
-    );
-  }
-
-  return found;
 }
 
 function renderFence(

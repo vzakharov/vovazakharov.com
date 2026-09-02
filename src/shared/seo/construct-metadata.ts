@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 
 import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
-import type { ContentDocument } from '@/shared/content';
+import type {
+  ContentDocument,
+  WithOptionalOgImageSize,
+} from '@/shared/content';
 import type { MaybeTitled } from '@/shared/typings';
 
-export type ConstructMetadataParams = MaybeTitled & {
-  description?: string;
-  ogDescription?: string; // Separate description for OpenGraph if different from main
-  path?: string; // e.g., "/cv" - automatically converted to absolute URL
-  ogType?: 'website' | 'profile' | 'article';
-  ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
-};
+export type ConstructMetadataParams = MaybeTitled &
+  WithOptionalOgImageSize & {
+    description?: string;
+    ogDescription?: string; // Separate description for OpenGraph if different from main
+    path?: string; // e.g., "/cv" - automatically converted to absolute URL
+    ogType?: 'website' | 'profile' | 'article';
+    ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
+  };
 
 export function constructMetadata({
   title,
@@ -19,17 +23,20 @@ export function constructMetadata({
   path,
   ogType = 'website',
   ogImage,
+  ogImageSize,
 }: ConstructMetadataParams = {}): Metadata {
   const { url: siteUrl, name: siteName, author, social, avatar } = SITE_CONFIG;
   const { name: authorName } = author;
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
   const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
-  // The avatar's intrinsic dimensions describe only the avatar, so a custom
-  // image is published without them rather than with the wrong ones.
-  const { width, height } = avatar;
   const sharedTitle = title ?? siteName;
-  const imageDimensions = ogImage === undefined ? { width, height } : {};
+  const { width, height } = avatar;
+  // A custom image publishes the size its caller read off the file; only the
+  // avatar's is known from config. Left unstated where neither applies, rather
+  // than stated wrongly.
+  const imageDimensions =
+    ogImage === undefined ? { width, height } : ogImageSize;
 
   return {
     title,
@@ -66,7 +73,7 @@ export function constructArticleMetadata(
   document: ContentDocument,
   title: string,
 ): Metadata {
-  const { frontmatter, route, ogImageUrl } = document;
+  const { frontmatter, route, ogImageUrl, ogImageSize } = document;
   const { description } = frontmatter;
 
   return constructMetadata({
@@ -75,5 +82,6 @@ export function constructArticleMetadata(
     path: route,
     ogType: 'article',
     ogImage: ogImageUrl,
+    ogImageSize,
   });
 }
