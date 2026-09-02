@@ -32,6 +32,7 @@ import {
   mermaidFileName,
 } from '../src/shared/content/mermaid-renders.ts';
 import { findChromium } from './lib/chromium.ts';
+import { CONTENT_ROOT, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
 type Fence = {
   hash: string;
@@ -40,8 +41,6 @@ type Fence = {
   file: string;
 };
 
-const REPO_ROOT = path.join(import.meta.dirname, '..');
-const CONTENT_ROOT = path.join(REPO_ROOT, 'public', 'content');
 const OUTPUT_DIR = path.join(REPO_ROOT, 'public', MERMAID_DIR);
 
 /** The Mermaid built-in theme to render each colour scheme with. */
@@ -52,36 +51,25 @@ const MERMAID_THEMES: Record<ColorScheme, string> = {
 
 const checkOnly = process.argv.includes('--check');
 
-/** Every markdown file under the content tree. */
-function markdownFiles(dir: string): string[] {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const entryPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      return entry.name === 'generated' ? [] : markdownFiles(entryPath);
-    }
-
-    return entry.name.endsWith('.md') ? [entryPath] : [];
-  });
-}
-
 /** Every fence found, in document order. */
 function collectFences(): Fence[] {
   const fencePattern = /^```mermaid[\t ]*\r?\n([\S\s]*?)^```/gm;
 
-  return markdownFiles(CONTENT_ROOT).flatMap((file) => {
-    const markdown = fs.readFileSync(file, 'utf8');
+  return contentFiles(CONTENT_ROOT, (name) => name.endsWith('.md')).flatMap(
+    (file) => {
+      const markdown = fs.readFileSync(file, 'utf8');
 
-    return [...markdown.matchAll(fencePattern)].map((match) => {
-      const source = match[1] ?? '';
+      return [...markdown.matchAll(fencePattern)].map((match) => {
+        const source = match[1] ?? '';
 
-      return {
-        hash: contentHash(source),
-        source,
-        file: path.relative(REPO_ROOT, file),
-      };
-    });
-  });
+        return {
+          hash: contentHash(source),
+          source,
+          file: path.relative(REPO_ROOT, file),
+        };
+      });
+    },
+  );
 }
 
 function renderFence(

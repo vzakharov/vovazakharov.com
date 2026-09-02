@@ -33,6 +33,7 @@ import { z } from 'zod';
 
 import { contentHash } from '../src/shared/content/content-hash.ts';
 import { findChromium } from './lib/chromium.ts';
+import { CONTENT_ROOT, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
 type Card = {
   /** Absolute path of the SVG the card is rasterized from. */
@@ -42,9 +43,6 @@ type Card = {
   /** Absolute path of the manifest recording this card's source hash. */
   manifestPath: string;
 };
-
-const REPO_ROOT = path.join(import.meta.dirname, '..');
-const CONTENT_ROOT = path.join(REPO_ROOT, 'public', 'content');
 
 /**
  * 1200×630 is what X's `summary_large_image` crops to; the chart's native
@@ -85,19 +83,6 @@ const MANIFEST_NAME = 'og-renders.json';
 
 const checkOnly = process.argv.includes('--check');
 
-/** Every markdown file under the content tree. */
-function markdownFiles(dir: string): string[] {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const entryPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      return entry.name === 'generated' ? [] : markdownFiles(entryPath);
-    }
-
-    return entry.name.endsWith('.md') ? [entryPath] : [];
-  });
-}
-
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
  * document. Read with a pattern rather than through the content pipeline for
@@ -108,17 +93,21 @@ function ogImagePaths(): string[] {
   const frontmatterPattern = /^---\r?\n([\S\s]*?)^---/m;
   const ogImagePattern = /^ogImage:[\t ]*(\S+)[\t ]*$/m;
 
-  return markdownFiles(CONTENT_ROOT).flatMap((file) => {
-    const frontmatter = frontmatterPattern.exec(fs.readFileSync(file, 'utf8'));
+  return contentFiles(CONTENT_ROOT, (name) => name.endsWith('.md')).flatMap(
+    (file) => {
+      const frontmatter = frontmatterPattern.exec(
+        fs.readFileSync(file, 'utf8'),
+      );
 
-    if (frontmatter === null) return [];
+      if (frontmatter === null) return [];
 
-    const reference = ogImagePattern.exec(frontmatter[1] ?? '');
+      const reference = ogImagePattern.exec(frontmatter[1] ?? '');
 
-    return reference?.[1] === undefined
-      ? []
-      : [path.resolve(path.dirname(file), reference[1])];
-  });
+      return reference?.[1] === undefined
+        ? []
+        : [path.resolve(path.dirname(file), reference[1])];
+    },
+  );
 }
 
 /** The cards to render, one per distinct PNG the frontmatter asks for. */
@@ -266,14 +255,8 @@ function renderCard(card: Card, chromium: string): void {
  * derived from the cards, so removing the last card in a directory still
  * surfaces the manifest it leaves behind.
  */
-function manifestFiles(dir: string): string[] {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const entryPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) return manifestFiles(entryPath);
-
-    return entry.name === MANIFEST_NAME ? [entryPath] : [];
-  });
+function manifestFiles(): string[] {
+  return contentFiles(CONTENT_ROOT, (name) => name === MANIFEST_NAME);
 }
 
 /** The renders — recorded or on disk — that no frontmatter asks for any more. */
@@ -281,7 +264,7 @@ function orphans(cards: Card[]): string[] {
   const wanted = new Set(cards.map((card) => card.pngPath));
   const directories = new Set([
     ...cards.map((card) => path.dirname(card.pngPath)),
-    ...manifestFiles(CONTENT_ROOT).map((file) => path.dirname(file)),
+    ...manifestFiles().map((file) => path.dirname(file)),
   ]);
 
   return [
@@ -312,7 +295,7 @@ function writeManifests(cards: Card[]): void {
     ]);
   }
 
-  for (const manifestPath of manifestFiles(CONTENT_ROOT)) {
+  for (const manifestPath of manifestFiles()) {
     if (!grouped.has(manifestPath)) fs.rmSync(manifestPath);
   }
 
