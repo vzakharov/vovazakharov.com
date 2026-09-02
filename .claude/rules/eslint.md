@@ -27,17 +27,14 @@ paths:
   spanning files is a scoped override block in `eslint.config.ts` that names
   them in `files:`.
 
-- **A rule turned `off` for a call site legitimately outside its premise stays
-  off permanently** — a file that must augment a library type through an
-  `interface`, a page with no locale for an i18n rule to protect. A migration
-  backlog is the temporary case, and its comment names the issue that tracks
-  emptying it.
+- **What the permanent case looks like here**: a file that must augment a
+  library type through an `interface`, a page with no locale for an i18n rule
+  to protect. The migration backlog is the temporary one.
 
 - **Rule severities live in `eslint/rule-groups/*.ts`** via
-  `withSeverity('error', [...])` / `withSeverity('off', [...])`; exceptions
-  spanning files live in the scoped-override blocks of `eslint.config.ts`, and a
-  lone call site carries its own disable comment. Keep the concerns in their
-  respective places.
+  `withSeverity('error', [...])` / `withSeverity('off', [...])`. That tree sets
+  what a rule is worth repo-wide; the exemptions above are how one site opts
+  out of it. Keep the concerns in their respective places.
 
 - **Rule files import relatively, never through `@/`.** ESLint loads the config
   with jiti, which does not apply the TypeScript path alias. `eslint/` is
