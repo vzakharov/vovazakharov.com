@@ -14,20 +14,17 @@ This file is intentionally bare. It carries only the conventions that hold true 
 
 ## Repository layout
 
-| Path          | What lives there                                                                                                                                                                                                              |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/`        | App Router. `page.tsx`/`home-page.tsx` at the root, the localized CV under `[locale]/cv/`, and `cv/` as the unlocalized redirect into it. `globals.css` holds the Tailwind entry and theme tokens.                            |
-| `components/` | Shared presentational components (`card.tsx`, `locale-picker.tsx`, `theme-provider.tsx`, `theme-toggle.tsx`). Filenames are kebab-case — `unicorn/filename-case` enforces it — while the exported components stay PascalCase. |
-| `hooks/`      | React hooks (`use-mounted.ts` — the hydration guard theme-dependent UI needs).                                                                                                                                                |
-| `i18n/`       | next-intl wiring: `routing.ts` (locales, default, prefix strategy), `messages.ts` (the catalogs keyed by locale), `request.ts` (per-request config) and `next-intl.d.ts` (registers the catalogs so keys are type-checked).   |
-| `lib/`        | Non-React helpers — `metadata.ts` (shared Open Graph/metadata construction), `site-config.ts`, `typings.ts` (the shared base types the type-overlap gate is satisfied by), and `content/` (the build-time markdown pipeline). |
-| `messages/`   | Translation catalogs, `en.json` and `ru.json`. `i18n/messages.ts` types `ru` against `en`, so a key added to one and not the other is a type error.                                                                           |
-| `public/`     | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                                                      |
-| `eslint/`     | The lint ruleset `eslint.config.ts` orchestrates: `rule-groups/` by plugin family, `rules/` for the project-local `vova/*` rules. Linted like any other source; see `.claude/rules/eslint.md`.                                |
-| `scripts/`    | Agent-facing tooling; `vet.sh` is the entrypoint below. The TypeScript ones run under `tsx` — `type-overlap-check.ts` (reference: `type-overlap-check.README.md`) and `render-mermaid.ts`; the rest is shell and Python.      |
-| `.claude/`    | Skills, rules and session hooks.                                                                                                                                                                                              |
+| Path       | What lives there                                                                                                                                                                                                         |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/`     | All application code, in Feature-Sliced Design layers — `shared/`, `features/`, `pages/`, `app/`. `@.claude/rules/fsd.md` carries the conventions, and both checkers enforce them.                                       |
+| `app/`     | **Routing only** — not the FSD app layer, which is `src/app`. `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.                                                                              |
+| `pages/`   | **Not routes.** An empty shadow that keeps Next.js from mistaking `src/pages/` for the Pages Router; `pages/README.md` explains why it cannot be deleted.                                                                |
+| `eslint/`  | The lint ruleset `eslint.config.ts` orchestrates: `rule-groups/` by plugin family, `rules/` for the project-local `vova/*` rules. Linted like any other source; see `.claude/rules/eslint.md`.                           |
+| `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and `content/`, the authored markdown.                                                 |
+| `scripts/` | Agent-facing tooling; `vet.sh` is the entrypoint below. The TypeScript ones run under `tsx` — `type-overlap-check.ts` (reference: `type-overlap-check.README.md`) and `render-mermaid.ts`; the rest is shell and Python. |
+| `.claude/` | Skills, rules and session hooks.                                                                                                                                                                                         |
 
-Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the markdown content pipeline (`public/content/`, `lib/content/`, the case-study routes) is documented there rather than here.
+Anything that holds only over part of that tree lives as a path-scoped rule in `.claude/rules/`, loaded when a session touches the paths it names — the FSD layering and the markdown content pipeline are both documented there rather than here.
 
 ## Deployment
 
@@ -42,19 +39,23 @@ Vetting is the fast local check the agent runs over a branch _before pushing_ to
 Here that is:
 
 ```bash
-pnpm build            # next build — the only end-to-end check available
+pnpm build            # next build — the whole-app end-to-end check
 pnpm typecheck        # tsc --noEmit                     ┐
-pnpm exec eslint .    # not `pnpm lint`                  │ concurrent
-pnpm format:check     # prettier --check .               │
-pnpm type-overlap     # scripts/type-overlap-check.ts    ┘
+pnpm exec eslint .    # not `pnpm lint`                  │
+pnpm format:check     # prettier --check .               │ concurrent
+pnpm lint:fsd         # steiger src                      │
+pnpm type-overlap     # scripts/type-overlap-check.ts    │
+pnpm test             # node --test over **/*.test.ts    ┘
 ```
 
-Four things about that list are deliberate:
+Six things about that list are deliberate:
 
-- **`pnpm build` stands in for a test suite.** There isn't one (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
+- **`pnpm build` is the only check that covers the app itself.** The suite reaches one script so far (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, which rewrites the working tree — vetting must stay read-only. `pnpm exec eslint .` is the checking form.
-- **The build runs alone, before the others.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The others touch nothing each other reads, so they overlap. Each check's output is captured and replayed in order, and all of them run even when an earlier one fails — the summary line names every one that did. A check added here has to be independent of whatever it runs beside.
-- **`pnpm type-overlap` fails on any member two named types both declare**, at a floor of 1 with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the other three safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
+- **The build runs alone, before the other six.** It regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The other six touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
+- **Only failures are printed.** `run-parallel.sh` buffers each check under `tmp/run-parallel/` and replays just the ones that failed, prefixed by label and ending in the path to the verbatim log; the build does the same through `tmp/vet-build.log`. Every check still runs when an earlier one fails. The runner also flags a tree that was clean before the run and is dirty after — an autofix step that rewrote files and still exited 0.
+- **`pnpm type-overlap` fails on any member two named types both declare** (floor 1) **and on any combination of bases two of them both spell** (floor 2), with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the others safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
+- **`pnpm test` is Node's own runner, loaded through `tsx`** — every `.test.ts` in the tree, no framework installed and none needed. It covers `scripts/type-overlap-check.ts` today; see "Testing" for what belongs in it next.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
@@ -100,13 +101,17 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 - Use your ORM/library's derivation utilities (e.g. `drizzle-zod`, Pydantic's `from_orm`, `sqlc`-generated types).
 - When a runtime schema exists, infer the type from it rather than declaring a parallel type.
 - For enums, define the values as a `const` array and derive the typed schema from it (`z.enum(VALUES)`, equivalents in other stacks). Use the array's element type for dispatch maps so the compiler enforces exhaustiveness.
-- **Every member two named types both declare has exactly one home** — a shared base type they both intersect (`type Foo = Titled & { …own members… }`). This is the member-level half of the rule above: it covers a shape tracking nothing but a sibling's copy of itself. `pnpm type-overlap` enforces it at a floor of 1, and `interface` is banned repo-wide (`@typescript-eslint/consistent-type-definitions`) because the gate scans type aliases only. Full reference: `scripts/type-overlap-check.README.md`.
+- **Every member two named types both declare has exactly one home** — a shared base type they both intersect (`type Foo = Titled & { …own members… }`). This is the member-level half of the rule above: it covers a shape tracking nothing but a sibling's copy of itself. **The same holds one level up: a combination of bases spelled by two types gets a name of its own** (`type Summarized = Titled & Described`), since two spellings of one combination drift exactly as two spellings of one member do. `pnpm type-overlap` enforces both — floor 1 for members, floor 2 for combinations, one shared base being reuse working as intended — and `interface` is banned repo-wide (`@typescript-eslint/consistent-type-definitions`) because the gate scans type aliases only. Full reference: `scripts/type-overlap-check.README.md`.
 
 ## Testing
 
-**There is no test suite yet.** `pnpm build` stands in for one: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
+`pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`) over every `**/*.test.ts`. There is no test framework and no config file: a test imports `node:test` and `node:assert/strict` directly, sits beside the module it covers, and is picked up by the glob. Keep it that way unless something genuinely needs a framework — the runner ships with the Node the project already requires.
 
-Adding a suite is worthwhile as soon as there is logic worth asserting on (`lib/metadata.ts` and the `messages/` catalogs being the obvious first candidates). When it arrives, wire it into `scripts/vet.sh` alongside the existing checks and replace this paragraph.
+**The suite covers `scripts/type-overlap-check.ts` and nothing else so far.** For the app itself `pnpm build` is still the stand-in: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
+
+The obvious next candidates are `src/shared/seo/` and the message catalogues under `src/shared/i18n/`. Anything whose behavior is a pure function of its input belongs here rather than in a QA checklist row.
+
+`scripts/type-overlap-check.test.ts` is the pattern to copy for a CLI: it materializes a throwaway source tree under the OS temp directory, runs the real script against it with `cwd` set there, and asserts on exit code and report text — so what is under test is the artifact `pnpm type-overlap` runs, with no seam opened in production code for the test's benefit. A committed fixture would have to be a `.ts` file the repo's own gate then scans, which is why the fixtures are written at runtime.
 
 Universal guidance regardless of stack:
 

@@ -33,8 +33,9 @@
     "scripts/lib/github.py",
     "scripts/lib/watch-tick-common.sh",
     "scripts/pr-body.py",
+    "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then typecheck, eslint and format:check concurrently with per-check capture and serial replay. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then typecheck, eslint, format:check, lint:fsd and type-overlap fanned out through run-parallel.sh. Read the source's edits for the idea; the file itself never lands."
     }
   ],
   "declined": {
@@ -46,7 +47,6 @@
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/renumber-migration/": "no migrations",
     ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist",
-    ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh",
-    "scripts/run-parallel.sh": "vet.sh here is a local rewrite that already fans out with per-check capture and serial replay, and the source's own catalog calls this helper optional — adopting it would replace working code with a generic runner. Revisit if vet.sh's check list grows past what its inline fan-out reads well for"
+    ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh"
   }
 }

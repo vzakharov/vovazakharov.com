@@ -1,7 +1,7 @@
 import type { Rule, SourceCode } from 'eslint';
 import type * as ESTree from 'estree';
 
-import type { WithAnnotation } from '../estree-mixins';
+import { type AstNode, tsType, type WithAnnotation } from '../estree-mixins';
 
 /** A parameter node that may carry a TS type annotation (Identifier/ObjectPattern). */
 export type AnnotatedNode = ESTree.Node & {
@@ -15,13 +15,6 @@ export type FunctionNode = (
   | ESTree.ArrowFunctionExpression
 ) &
   Rule.NodeParentExtension;
-
-/** Loosely-typed AST node — the TS-specific node kinds aren't in @types/estree. */
-export type AstNode = ESTree.Node & Record<string, unknown>;
-
-/** Cast a TS-only node `type` string that @types/estree's union doesn't include. */
-export const tsType = (name: string): ESTree.Node['type'] =>
-  name as ESTree.Node['type'];
 
 export const isTypeLiteral = (node: ESTree.Node | undefined): boolean =>
   node?.type === tsType('TSTypeLiteral');
@@ -220,3 +213,5 @@ export function leadingInsertPos(
   }
   return start;
 }
+
+export { type AstNode, tsType } from '../estree-mixins';

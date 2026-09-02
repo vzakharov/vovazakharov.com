@@ -30,7 +30,7 @@ import {
   MERMAID_DIR,
   mermaidFileName,
   mermaidHash,
-} from '../lib/content/mermaid-hash.ts';
+} from '../src/shared/content/mermaid-hash.ts';
 
 type Fence = {
   hash: string;

@@ -28,10 +28,11 @@
 // This config is TypeScript; ESLint loads it via jiti (a direct devDependency).
 
 import eslintReact from '@eslint-react/eslint-plugin';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { type Config, defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import prettierConfig from 'eslint-config-prettier';
+import boundariesPlugin from 'eslint-plugin-boundaries';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unicornPlugin from 'eslint-plugin-unicorn';
@@ -54,6 +55,136 @@ import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
 
+// FSD layers, highest first. Each may import from the layers below it plus
+// `shared`, and from its own slice. See .claude/rules/fsd.md.
+const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
+
+const PUBLIC_API = 'index.ts';
+
+// Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
+// discipline at CLI time; boundaries restates them as inline editor feedback,
+// which Steiger has no live extension for. Scoped to src/ — root `app/` is the
+// FSD app layer, above every slice, so it imports downward by definition.
+//
+// `boundaries/dependencies` carries all of it: v7 folds the former `entry-point`
+// and `external` rules into its policies.
+const boundariesConfig: Config = {
+  plugins: { boundaries: boundariesPlugin },
+  files: ['src/**/*.{ts,tsx}'],
+  settings: {
+    'boundaries/elements': [
+      // The app layer is segmented, not sliced — like `shared`, and unlike
+      // every layer in FSD_LAYERS.
+      {
+        type: 'app',
+        pattern: ['src/app/(*)/**'],
+        capture: ['segmentName'],
+        partialMatch: false,
+      },
+      ...FSD_LAYERS.map((layer) => ({
+        type: layer,
+        pattern: [`src/${layer}/(*)/**`],
+        capture: ['sliceName'],
+        partialMatch: false,
+      })),
+      // Ordered before the generic shared pattern so it wins the match:
+      // shared/lib is addressed one sub-library at a time, never through a
+      // segment-wide barrel.
+      {
+        type: 'shared',
+        pattern: ['src/shared/lib/(*)/**'],
+        capture: ['segmentName'],
+        partialMatch: false,
+      },
+      {
+        type: 'shared',
+        pattern: ['src/shared/(*)/**'],
+        capture: ['segmentName'],
+        partialMatch: false,
+      },
+    ],
+  },
+  rules: {
+    'boundaries/dependencies': [
+      'error',
+      {
+        default: 'disallow',
+        policies: [
+          // The app layer sits above all of them, so it may import any,
+          // through their public API.
+          {
+            from: { element: { type: 'app' } },
+            allow: {
+              to: {
+                element: {
+                  types: { anyOf: [...FSD_LAYERS, 'shared'] },
+                  fileInternalPath: PUBLIC_API,
+                },
+              },
+            },
+          },
+          // It is one unit rather than a set of isolated slices, so its
+          // segments reach each other directly.
+          {
+            from: { element: { type: 'app' } },
+            allow: { to: { element: { type: 'app' } } },
+          },
+          ...FSD_LAYERS.flatMap((layer, index) => [
+            // Downward, and only through the target's public API.
+            {
+              from: { element: { type: layer } },
+              allow: {
+                to: {
+                  element: {
+                    types: {
+                      anyOf: [...FSD_LAYERS.slice(index + 1), 'shared'],
+                    },
+                    fileInternalPath: PUBLIC_API,
+                  },
+                },
+              },
+            },
+            // Inside its own slice, a file reaches any sibling directly.
+            {
+              from: { element: { type: layer } },
+              allow: {
+                to: {
+                  element: {
+                    type: layer,
+                    captured: { sliceName: '{{ from.captured.sliceName }}' },
+                  },
+                },
+              },
+            },
+          ]),
+          {
+            from: { element: { type: 'shared' } },
+            allow: {
+              to: {
+                element: { type: 'shared', fileInternalPath: PUBLIC_API },
+              },
+            },
+          },
+          {
+            from: { element: { type: 'shared' } },
+            allow: {
+              to: {
+                element: {
+                  type: 'shared',
+                  captured: { segmentName: '{{ from.captured.segmentName }}' },
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+    'boundaries/no-ignored-dependencies': 'error',
+    'boundaries/no-unknown-dependencies': 'error',
+    'boundaries/no-unknown-files': 'error',
+  },
+};
+
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
@@ -75,6 +206,7 @@ const eslintConfig = defineConfig([
 
   // Prettier must come after all other configs to override formatting rules.
   prettierConfig,
+  boundariesConfig,
 
   // Project-local ESLint rules (eslint/rules/).
   {

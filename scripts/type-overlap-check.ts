@@ -1,50 +1,50 @@
 #!/usr/bin/env tsx
 /**
- * Cross-file duplicate type-member detector.
+ * Cross-file duplicate type-shape detector.
  *
- * Flags `type` aliases across the repo that declare the same members (same name
- * AND same type text) and should instead share a common base type. Comparison
- * is purely syntactic: two members are "the same" when their normalized
- * signature text (name + optional/readonly modifiers + type annotation,
- * whitespace-collapsed) is identical.
+ * Two passes over the same set of `type` aliases, both purely syntactic and both
+ * measured PAIRWISE — for every unordered pair we intersect the pass's sets and
+ * report the pair when the intersection meets that pass's floor:
  *
- * Overlap is measured PAIRWISE: for every unordered pair of type aliases we
- * intersect their member sets, and report the pair when the intersection is at
- * least THRESHOLD members. This asks "how much do *these two* share" and is
- * indifferent to whether a shared member also appears in some third, unrelated
- * type.
+ * - **Shared members**, floor 1. Two members are "the same" when their
+ *   normalized signature text (name + optional/readonly modifiers + type
+ *   annotation, whitespace-collapsed) is identical. Only a type's OWN members
+ *   count: the named constituents of an intersection (`A & { … }`) are treated
+ *   as inherited, so extracting a base and having both types `& Base` is exactly
+ *   what makes a finding disappear. *Any* member two types both declare is a
+ *   finding, so every shared member has a single home.
+ * - **Repeated base combinations**, floor 2. The set of constituents the member
+ *   pass discards as inherited — `Titled & Described` written across two types
+ *   is the same shape under two spellings, one level up. The floor is 2 because
+ *   a single shared base is reuse working as intended, and is the end state
+ *   every member finding is fixed into.
  *
- * Only a type's OWN members count: the named constituents of an intersection
- * (`A & { … }`) are treated as inherited, so extracting a base and having both
- * types `& Base` is exactly what makes a finding disappear.
- *
- * The floor is 1: *any* member two types both declare is a finding, so every
- * shared member has a single home. Nothing is grandfathered — a run is either
- * clean or names the pair to fix.
+ * Nothing is grandfathered — a run is either clean or names the pairs to fix.
  *
  * Only `type` aliases are scanned; `interface` is banned repo-wide by
  * `@typescript-eslint/consistent-type-definitions`, which is what makes that
  * scope complete rather than a blind spot.
  *
- * Why the floor is 1, the naming families, and how to work a finding:
- * scripts/type-overlap-check.README.md.
+ * Why the floors are what they are, the naming families, and how to work a
+ * finding: scripts/type-overlap-check.README.md.
  *
  * Usage:
- *   pnpm type-overlap                      # threshold from THRESHOLD_DEFAULT (1)
- *   TYPE_OVERLAP_MIN=3 pnpm type-overlap   # override min shared members per pair
+ *   pnpm type-overlap                             # floors: members 1, bases 2
+ *   TYPE_OVERLAP_MIN=3 pnpm type-overlap          # raise the shared-member floor
+ *   TYPE_OVERLAP_BASES_MIN=3 pnpm type-overlap    # raise the shared-base floor
  *
- * Exit code is non-zero when any pair meets the threshold.
+ * Exit code is non-zero when either pass has findings.
  */
 
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { NamedRecord, WithFilePath } from '@/lib/typings';
+import type { Named, WithId } from '@/shared/typings';
 
-// Run from the repo root (via `pnpm type-overlap` or `tsx scripts/...`), so
-// cwd is the project root. We avoid `import.meta.dirname` because tsx loads
-// these scripts as CommonJS, where that property is undefined.
+// The scan root is the working directory, not the script's own location:
+// `pnpm type-overlap` runs from the repo root, and the tests drive this same
+// entrypoint over a fixture tree by pointing cwd at it.
 const ROOT = process.cwd();
 
 // The scan covers the whole repo minus the directories below, so a new source
@@ -60,34 +60,41 @@ const SKIP_DIRS = new Set([
   'tmp',
 ]);
 
-// Minimum shared members for a pair to be significant. 1 is the enforced floor:
-// any member two types both declare belongs in a shared base. Raise it per-run
-// with TYPE_OVERLAP_MIN to triage the worst offenders first.
-const THRESHOLD_DEFAULT = 1;
-const thresholdOverride = process.env['TYPE_OVERLAP_MIN'];
-const THRESHOLD = Number(thresholdOverride ?? THRESHOLD_DEFAULT);
-if (!Number.isInteger(THRESHOLD) || THRESHOLD < 1) {
-  throw new Error(
-    `TYPE_OVERLAP_MIN must be a positive integer, got: ${thresholdOverride}`,
-  );
+// The floor doubles as the default and an override may only raise it, so a run
+// can triage a looser gate but never preview a stricter one than vet enforces.
+function readThreshold(name: string, floor: number): number {
+  const override = process.env[name];
+  const value = Number(override ?? floor);
+  if (!Number.isInteger(value) || value < floor) {
+    throw new Error(`${name} must be an integer >= ${floor}, got: ${override}`);
+  }
+  return value;
 }
+
+const MEMBERS_MIN = readThreshold('TYPE_OVERLAP_MIN', 1);
+const BASES_MIN = readThreshold('TYPE_OVERLAP_BASES_MIN', 2);
 
 /** Normalized own-member signatures. */
 type WithMembers = { members: string[] };
 
+/** Normalized text of the named constituents of an intersection. */
+type WithBases = { bases: string[] };
+
 // --- Collect type aliases ---
-type TypeDecl =
-  // `id` is the decl locator `rel/path.ts#TypeName` (with a `#n` suffix on name
-  // collisions); `name` is the type's own name
-  NamedRecord &
-    // repo-relative, e.g. components/card.tsx
-    WithFilePath &
-    WithMembers;
+// `id` is the decl locator `rel/path.ts#TypeName`, with a `#n` suffix on name
+// collisions; `name` is the type's own name.
+type TypeDecl = WithId &
+  Named &
+  WithMembers &
+  WithBases & {
+    // Repo-relative, e.g. src/shared/ui/card.tsx.
+    filePath: string;
+  };
 
 const decls: TypeDecl[] = [];
 const usedIds = new Set<string>();
 
-function normalizeMember(text: string): string {
+function normalize(text: string): string {
   // getText() includes the trailing `;`/`,` separator — strip it so it doesn't
   // affect identity (and so `;` vs `,` styles match) and re-added at render.
   return text
@@ -102,7 +109,7 @@ function ownMembers(typeNode: ts.TypeNode, sf: ts.SourceFile): string[] {
     for (const m of members) {
       // Only property signatures (name: type). Methods, index/call signatures
       // are out of scope for this repo's params-object types.
-      if (ts.isPropertySignature(m)) out.push(normalizeMember(m.getText(sf)));
+      if (ts.isPropertySignature(m)) out.push(normalize(m.getText(sf)));
     }
   };
   if (ts.isTypeLiteralNode(typeNode)) {
@@ -115,15 +122,28 @@ function ownMembers(typeNode: ts.TypeNode, sf: ts.SourceFile): string[] {
   return out;
 }
 
+function namedConstituents(typeNode: ts.TypeNode, sf: ts.SourceFile): string[] {
+  if (!ts.isIntersectionTypeNode(typeNode)) return [];
+  // Exactly what `ownMembers` discards, so the two halves partition an
+  // intersection with no carve-out to keep in sync.
+  return typeNode.types
+    .filter((c) => !ts.isTypeLiteralNode(c))
+    .map((c) => normalize(c.getText(sf)));
+}
+
 function walk(node: ts.Node, sf: ts.SourceFile, rel: string): void {
   if (ts.isTypeAliasDeclaration(node)) {
     const members = ownMembers(node.type, sf);
-    if (members.length > 0) {
+    const bases = namedConstituents(node.type, sf);
+    // A pure combination alias (`type Summarized = Titled & Described`) has no
+    // own members and still participates, so a type respelling its combination
+    // is flagged against it rather than against nothing.
+    if (members.length > 0 || bases.length > 0) {
       const name = node.name.text;
       let id = `${rel}#${name}`;
       for (let n = 2; usedIds.has(id); n++) id = `${rel}#${name}#${n}`;
       usedIds.add(id);
-      decls.push({ id, name, filePath: rel, members });
+      decls.push({ id, name, filePath: rel, members, bases });
     }
   }
   ts.forEachChild(node, (child) => {
@@ -156,88 +176,157 @@ function scan(dir: string): void {
 }
 scan(ROOT);
 
-// --- Pairwise member-set intersection ---
-type Overlap = { a: TypeDecl; b: TypeDecl; shared: string[] };
-const overlaps: Overlap[] = [];
-for (const [i, a] of decls.entries()) {
-  const aSet = new Set(a.members);
-  for (const b of decls.slice(i + 1)) {
-    const shared = [...new Set(b.members)].filter((m) => aSet.has(m));
-    if (shared.length >= THRESHOLD) overlaps.push({ a, b, shared });
+/** The entries a pair was found to have in common — members or bases. */
+type WithShared = { shared: string[] };
+
+type Overlap = WithShared & { a: TypeDecl; b: TypeDecl };
+type Group = WithShared & { types: Map<string, TypeDecl> };
+
+type Findings = {
+  groups: Group[];
+  pairs: number;
+  typesInvolved: number;
+};
+
+// --- Pairwise intersection, collapsed into shared-shape groups ---
+// The scan is pairwise, so a set of N types that all share the same entries is
+// found as N-choose-2 separate pairs echoing one shape. Group those pairs by
+// their (identical) shared set: every type in a group contains that set, so one
+// extraction clears the whole group at once. A type that shares different sets
+// with different partners appears in more than one group (it needs each base);
+// that is correct, not double-counting.
+function findOverlaps(
+  select: (d: TypeDecl) => string[],
+  threshold: number,
+): Findings {
+  const overlaps: Overlap[] = [];
+  for (const [i, a] of decls.entries()) {
+    const aSet = new Set(select(a));
+    for (const b of decls.slice(i + 1)) {
+      const shared = [...new Set(select(b))].filter((m) => aSet.has(m));
+      if (shared.length >= threshold) overlaps.push({ a, b, shared });
+    }
   }
+
+  const groups = new Map<string, Group>();
+  const typesInvolved = new Set<string>();
+  for (const o of overlaps) {
+    typesInvolved.add(o.a.id);
+    typesInvolved.add(o.b.id);
+    const shared = o.shared.toSorted((x, y) => x.localeCompare(y));
+    const key = shared.join('\n');
+    let g = groups.get(key);
+    if (!g) {
+      g = { shared, types: new Map() };
+      groups.set(key, g);
+    }
+    g.types.set(o.a.id, o.a);
+    g.types.set(o.b.id, o.b);
+  }
+
+  return {
+    groups: [...groups.values()].toSorted(
+      (x, y) =>
+        y.shared.length - x.shared.length ||
+        y.types.size - x.types.size ||
+        x.shared.join('\n').localeCompare(y.shared.join('\n')),
+    ),
+    pairs: overlaps.length,
+    typesInvolved: typesInvolved.size,
+  };
 }
 
 // --- Report ---
-if (overlaps.length === 0) {
-  process.stdout.write(
-    `type-overlap: no overlapping type-pairs found (threshold=${THRESHOLD}).\n`,
-  );
+// A pass's threshold and wording are stated once, here: the scan, the section,
+// the fix bullet and the clean line all read them from this descriptor, so they
+// cannot drift apart — a disagreement between them is silent in the output.
+type Pass = {
+  threshold: number;
+  select: (d: TypeDecl) => string[];
+  heading: string;
+  /** Plural noun for the shared entries, as the group and summary lines read. */
+  noun: string;
+  /** Renders one group's shared set as report lines. */
+  renderShared: (shared: string[]) => string[];
+  /** The sub-bullet under fix step 1, printed only when this pass fires. */
+  fixStep: string;
+  /** How the clean line names this pass having found nothing. */
+  cleanPhrase: string;
+};
+
+const PASSES: Pass[] = [
+  {
+    threshold: MEMBERS_MIN,
+    select: (d) => d.members,
+    heading: 'Overlapping type shapes',
+    noun: 'members',
+    renderShared: (shared) => shared.map((m) => `     ${m};`),
+    fixStep: '       - members → `type Foo = SomeBase & { …own members… }`',
+    cleanPhrase: 'no shared members',
+  },
+  {
+    threshold: BASES_MIN,
+    select: (d) => d.bases,
+    heading: 'Repeated base combinations',
+    noun: 'bases',
+    renderShared: (shared) => [`     ${shared.join(' & ')}`],
+    fixStep:
+      '       - bases   → `type SomeBase = A & B`, then `type Foo = SomeBase & { … }`',
+    cleanPhrase: 'no repeated base combinations',
+  },
+];
+
+function renderSection(findings: Findings, pass: Pass): string[] {
+  if (findings.groups.length === 0) return [];
+
+  const groupLines = findings.groups.flatMap((g, i) => {
+    const types = [...g.types.values()].toSorted(
+      (a, b) =>
+        a.filePath.localeCompare(b.filePath) || a.name.localeCompare(b.name),
+    );
+    return [
+      `${i + 1}. ${g.shared.length} shared ${pass.noun} across ${types.length} types:`,
+      ...pass.renderShared(g.shared),
+      '   in:',
+      ...types.map((t) => `     ${t.filePath}  ${t.name}`),
+      '',
+    ];
+  });
+
+  return [
+    `== ${pass.heading} (threshold=${pass.threshold}) ==`,
+    '',
+    ...groupLines,
+    `${findings.groups.length} group(s) of shared ${pass.noun} covering ${findings.pairs} overlapping type-pair(s) across ${findings.typesInvolved} type(s) (threshold=${pass.threshold}).`,
+    '',
+  ];
+}
+
+const results = PASSES.map((pass) => ({
+  pass,
+  findings: findOverlaps(pass.select, pass.threshold),
+}));
+const firing = results.filter((r) => r.findings.groups.length > 0);
+
+if (firing.length === 0) {
+  const phrases = PASSES.map((p) => `${p.cleanPhrase} (min=${p.threshold})`);
+  process.stdout.write(`type-overlap: clean — ${phrases.join(', ')}.\n`);
   process.exit(0);
 }
 
-const typesInvolved = new Set<string>();
-for (const o of overlaps) {
-  typesInvolved.add(o.a.id);
-  typesInvolved.add(o.b.id);
-}
-
-// --- Collapse pairs into shared-shape groups ---
-// The scan is pairwise, so a set of N types that all share the same members is
-// emitted as N-choose-2 separate pairs echoing one shared shape. Group those
-// pairs by their (identical) shared member set: every type in a group contains
-// that set, so one base extraction — `type Foo = Base & { …own… }` on each
-// listed type — clears the whole group at once. A type that shares different
-// sets with different partners appears in more than one group (it needs each
-// base); that is correct, not double-counting.
-type Group = WithMembers & { types: Map<string, TypeDecl> };
-const groups = new Map<string, Group>();
-for (const o of overlaps) {
-  const members = o.shared.toSorted((a, b) => a.localeCompare(b));
-  const key = members.join('\n');
-  let g = groups.get(key);
-  if (!g) {
-    g = { members, types: new Map() };
-    groups.set(key, g);
-  }
-  g.types.set(o.a.id, o.a);
-  g.types.set(o.b.id, o.b);
-}
-
-const groupList = [...groups.values()].toSorted(
-  (x, y) =>
-    y.members.length - x.members.length ||
-    y.types.size - x.types.size ||
-    x.members.join('\n').localeCompare(y.members.join('\n')),
-);
-
-const groupLines = groupList.flatMap((g, i) => {
-  const types = [...g.types.values()].toSorted(
-    (a, b) =>
-      a.filePath.localeCompare(b.filePath) || a.name.localeCompare(b.name),
-  );
-  return [
-    `${i + 1}. ${g.members.length} shared members across ${types.length} types:`,
-    ...g.members.map((m) => `     ${m};`),
-    '   in:',
-    ...types.map((t) => `     ${t.filePath}  ${t.name}`),
-    '',
-  ];
-});
-
 const lines = [
-  `== Overlapping type shapes (threshold=${THRESHOLD}) ==`,
-  '',
-  ...groupLines,
-  `${groupList.length} shared-shape group(s) covering ${overlaps.length} overlapping type-pair(s) across ${typesInvolved.size} type(s) (threshold=${THRESHOLD}).`,
-  '',
+  ...results.flatMap((r) => renderSection(r.findings, r.pass)),
   '== How to fix ==',
   'For each group above:',
-  '  1. Extract the shared members as a base type, then have each listed type',
-  '     reuse it via intersection (`type Foo = SomeBase & { …own members… }`).',
+  '  1. Extract the shared shape as a base type, then have each listed type',
+  '     reuse it via intersection:',
+  // Step 1 is the same move for either kind, so it takes a sub-bullet per kind
+  // that fired. Steps 2–4 are kind-agnostic.
+  ...firing.map((r) => r.pass.fixStep),
   '  2. Home the base at its most upstream consumer — the module both types',
   '     already import, or the file that declares both. Only reach for the',
-  '     repo-wide catalog in lib/typings.ts when no such module exists or the',
-  '     base is genuinely cross-cutting.',
+  '     src/shared/ segment that owns the concept when no such module exists',
+  '     or the base is genuinely cross-cutting.',
   '  3. Do not give the base its own single-type module — a file that exists only',
   '     to hold one type is churn.',
   '  4. Name it from what the members MEAN, not their count — see the naming',

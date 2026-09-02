@@ -1,14 +1,9 @@
-import { notFound } from 'next/navigation';
-import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
 
-import { documentRoute } from '@/lib/content/collections';
+import { documentRoute } from '@/shared/content';
+import { loadMessages, routing, toLocale } from '@/shared/i18n';
 
-import { MESSAGES } from '@/i18n/messages';
-import { routing } from '@/i18n/routing';
-
-import { generateCvMetadata } from '@/app/cv/cv-utils';
-
-import CVPage from './cv-page';
+import { CvPage, generateCvMetadata } from '@/pages/cv';
 
 const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
 
@@ -23,18 +18,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
-  return generateCvMetadata(locale);
+  return generateCvMetadata(toLocale(locale));
 }
 
 export default async function Page({ params }: Props) {
-  const { locale } = await params;
-  // `generateStaticParams` only emits the configured locales, so this narrows
-  // the segment to a catalog key rather than guarding a reachable case.
-  if (!hasLocale(routing.locales, locale)) notFound();
+  const locale = toLocale((await params).locale);
 
   return (
-    <NextIntlClientProvider {...{ locale, messages: MESSAGES[locale] }}>
-      <CVPage
+    <NextIntlClientProvider {...{ locale }} messages={loadMessages(locale)}>
+      <CvPage
         caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}
       />
     </NextIntlClientProvider>

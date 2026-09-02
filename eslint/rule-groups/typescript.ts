@@ -74,7 +74,6 @@ export const typescriptRules = {
 
     // Correctness (require type information — enabled via projectService: true):
     '@typescript-eslint/await-thenable',
-    '@typescript-eslint/no-floating-promises',
     '@typescript-eslint/no-for-in-array',
     '@typescript-eslint/no-misused-promises',
     '@typescript-eslint/no-misused-spread',
@@ -114,6 +113,16 @@ export const typescriptRules = {
   ]),
 
   // Options:
+  '@typescript-eslint/no-floating-promises': [
+    'error',
+    {
+      // `node:test` awaits the promise its own `describe`/`it` return; a caller
+      // that handled it would be racing the runner.
+      allowForKnownSafeCalls: [
+        { from: 'package', package: 'node:test', name: ['describe', 'it'] },
+      ],
+    },
+  ],
   '@typescript-eslint/no-use-before-define': [
     'error',
     { functions: false, classes: true, variables: true },

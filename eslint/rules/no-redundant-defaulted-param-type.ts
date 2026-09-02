@@ -2,15 +2,8 @@ import type { Rule } from 'eslint';
 import type * as ESTree from 'estree';
 import type * as ts from 'typescript';
 
-import type { WithAnnotation } from './estree-mixins';
+import { type AstNode, tsType, type WithAnnotation } from './estree-mixins';
 import { hasTypeServices, type TypeServices } from './type-services';
-
-/** Loosely-typed AST node — the TS-specific node kinds aren't in @types/estree. */
-type AstNode = ESTree.Node & Record<string, unknown>;
-
-/** Cast a TS-only node `type` string that @types/estree's union doesn't include. */
-const tsType = (name: string): ESTree.Node['type'] =>
-  name as ESTree.Node['type'];
 
 /** The named-type of a `TSTypeReference`, or null when it isn't a bare identifier. */
 function referenceName(typeRef: AstNode): string | null {

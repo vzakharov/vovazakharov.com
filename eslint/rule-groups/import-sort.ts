@@ -8,7 +8,8 @@ export const importSortRules = {
   ...withSeverity('error', ['simple-import-sort/exports']),
 
   // Import ordering, bottom-up by dependency direction: side-effects → external →
-  // the repo's own directories from leaf data up to the App Router → relative.
+  // the FSD layers in the order an import may point (`shared` upward to `app`,
+  // see .claude/rules/fsd.md) → relative.
   'simple-import-sort/imports': [
     'error',
     {
@@ -17,12 +18,12 @@ export const importSortRules = {
         [String.raw`^\u0000`],
         // External packages
         ['^'],
-        // Repo directories (bottom-up)
-        ['^@/messages/'],
-        ['^@/lib/'],
-        ['^@/i18n/'],
-        ['^@/hooks/'],
-        ['^@/components/'],
+        // FSD layers, lowest first
+        ['^@/shared/'],
+        ['^@/entities/'],
+        ['^@/features/'],
+        ['^@/widgets/'],
+        ['^@/pages/'],
         ['^@/app/'],
         // Relative imports
         [String.raw`^\.`],
