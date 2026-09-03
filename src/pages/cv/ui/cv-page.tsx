@@ -129,36 +129,6 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
             </Card>
           </CvSection>
 
-          <CvSection title={t('caseStudies.title')}>
-            <Card>
-              <Title
-                order={3}
-                size="h4"
-                className={cx(
-                  classes['subheadingLarge'],
-                  classes['tightHeading'],
-                )}
-              >
-                {t('caseStudies.playgram.title')}
-              </Title>
-              <Text lh={1.625} className={classes['tight']}>
-                {t('caseStudies.playgram.description')}
-              </Text>
-              <Text size="sm">
-                <InternalLink href={caseStudyHref} inherit>
-                  {t('caseStudies.playgram.link')}
-                </InternalLink>
-              </Text>
-              {/* Paper has no clickable link, so it gets the address. */}
-              <Text
-                className={cx('print-only', classes['small'], classes['dim60'])}
-              >
-                {t('website')}
-                {caseStudyHref}
-              </Text>
-            </Card>
-          </CvSection>
-
           <CvSection title={t('experience.title')} wide>
             <Stack className={classes['sectionWide']}>
               {EXPERIENCE_KEYS.map((entryKey) => (

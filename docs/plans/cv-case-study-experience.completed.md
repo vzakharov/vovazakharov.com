@@ -9,6 +9,24 @@ Two changes to `/[locale]/cv`, independent of each other:
 2. The **English-for-kids** entry reads `October 2025 – Present`; the assignment
    ended in February 2026.
 
+## Revision: the section is cut, not moved
+
+Operator, after seeing the moved section rendered: "I don't think we need the
+case study card at all — a 'Read the case study' link under the relevant
+experience is just right for a CV (but make it right under the experience
+heading, not under the body)."
+
+So the CV drops the Case studies section outright and keeps only the cross-link
+from § 2, moved from the card's trailer to directly under the entry's period.
+That supersedes § 1 (nothing is reordered, since nothing is left to reorder) and
+relocates § 3 (paper still gets the address, now inline after the link label
+rather than under a section that no longer exists). § 2 and § 4 stand.
+
+The section's own copy — `caseStudies.title` and the Playgram entry's `title`
+and `description` — has no remaining call site and leaves both catalogs with it.
+The Russian description carried a caveat the link label now carries instead:
+the article is English-only.
+
 ## Current shape
 
 `src/pages/cv/ui/cv-page.tsx` renders eight `CvSection`s in source order:
@@ -36,10 +54,10 @@ The copy has one positional reference that the move breaks.
 name the subject instead of its position, so the sentence survives this move and
 any future one:
 
-| Locale | From                                            | To                                     |
-| ------ | ----------------------------------------------- | -------------------------------------- |
+| Locale | From                                            | To                                                 |
+| ------ | ----------------------------------------------- | -------------------------------------------------- |
 | `en`   | `…the long-form write-up of the rebuild above:` | `…the long-form write-up of the Playgram rebuild:` |
-| `ru`   | `…подробный разбор переезда, описанного выше:`  | `…подробный разбор переезда Playgram:` |
+| `ru`   | `…подробный разбор переезда, описанного выше:`  | `…подробный разбор переезда Playgram:`             |
 
 Section heading stays `Case studies` / `Разборы проектов` — the collection is
 built to grow, and one entry under a plural heading reads as a selection rather
@@ -113,10 +131,10 @@ already flattens to full opacity in print.
 
 `cv.experience.englishForKids.period` in both catalogs:
 
-| Locale | From                             | To                              |
-| ------ | -------------------------------- | ------------------------------- |
-| `en`   | `October 2025 – Present`         | `October 2025 – February 2026`  |
-| `ru`   | `Октябрь 2025 – Настоящее время` | `Октябрь 2025 – Февраль 2026`   |
+| Locale | From                             | To                             |
+| ------ | -------------------------------- | ------------------------------ |
+| `en`   | `October 2025 – Present`         | `October 2025 – February 2026` |
+| `ru`   | `Октябрь 2025 – Настоящее время` | `Октябрь 2025 – Февраль 2026`  |
 
 No reordering follows: `EXPERIENCE_KEYS` lists it after `playgram` (March –
 August 2026) and before `orcool` (June – August 2025), which is still reverse
@@ -124,12 +142,12 @@ chronological. `independent` keeps its `2020 – Present` — that one is ongoin
 
 ## Files touched
 
-| File                                    | Change                                                                       |
-| --------------------------------------- | ---------------------------------------------------------------------------- |
-| `src/pages/cv/ui/cv-page.tsx`           | section order; pass `caseStudyHref` per entry; print URL line                |
-| `src/pages/cv/ui/experience-card.tsx`   | `CASE_STUDY_EXPERIENCE_KEY`, optional `caseStudyHref` prop, trailer spacing   |
-| `src/shared/i18n/messages/en.json`      | case-study description, `cv.website` move, `englishForKids.period`           |
-| `src/shared/i18n/messages/ru.json`      | same four edits                                                              |
+| File                                  | Change                                                                      |
+| ------------------------------------- | --------------------------------------------------------------------------- |
+| `src/pages/cv/ui/cv-page.tsx`         | section order; pass `caseStudyHref` per entry; print URL line               |
+| `src/pages/cv/ui/experience-card.tsx` | `CASE_STUDY_EXPERIENCE_KEY`, optional `caseStudyHref` prop, trailer spacing |
+| `src/shared/i18n/messages/en.json`    | case-study description, `cv.website` move, `englishForKids.period`          |
+| `src/shared/i18n/messages/ru.json`    | same four edits                                                             |
 
 No new files, no dependency changes, no route or metadata changes.
 
@@ -149,7 +167,7 @@ No new files, no dependency changes, no route or metadata changes.
   `CASE_STUDY_EXPERIENCE_KEY` in `experience-card.tsx` — beside `EXPERIENCE_KEYS`,
   which is there for the same reason (a presentation decision the catalogs must
   not be able to disagree about). The route file's `FEATURED_CASE_STUDY` stays
-  the single source of the *slug*; the two answer different questions.
+  the single source of the _slug_; the two answer different questions.
 - **No shared abstraction is extracted for the two case-study links.** They
   differ in placement, size context, and print behaviour, and share only an
   `InternalLink` with a label — a `CaseStudyLink` component wrapping that would

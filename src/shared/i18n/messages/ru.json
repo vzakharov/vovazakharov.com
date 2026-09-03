@@ -155,11 +155,8 @@
       }
     },
     "caseStudies": {
-      "title": "Разборы проектов",
       "playgram": {
-        "title": "From Bubble to Next.js in 4 months: the Playgram case study",
-        "description": "Часть I из II — подробный разбор переезда Playgram: почему стоило уходить с no-code, какая архитектура и какие инструменты позволили двадцати агентам работать одновременно, и все цифры. Пока на английском.",
-        "link": "Читать разбор"
+        "link": "Читать разбор (англ.)"
       }
     },
     "techStack": {

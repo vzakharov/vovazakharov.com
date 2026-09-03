@@ -155,10 +155,7 @@
       }
     },
     "caseStudies": {
-      "title": "Case studies",
       "playgram": {
-        "title": "From Bubble to Next.js in 4 months: the Playgram case study",
-        "description": "Part I of II — the long-form write-up of the Playgram rebuild: what made a no-code app worth leaving, the architecture and tooling that let twenty agents work at once, and the numbers behind all of it.",
         "link": "Read the case study"
       }
     },

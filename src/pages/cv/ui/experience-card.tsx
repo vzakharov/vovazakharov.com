@@ -45,8 +45,6 @@ export function ExperienceCard({
   const items: BulletItem[] = entry.items;
   const hasTech = 'tech' in entry;
   const hasNote = 'demo' in entry;
-  const hasCaseStudyLink = caseStudyHref !== undefined;
-  const hasTrailer = hasNote || hasCaseStudyLink;
 
   return (
     <Card>
@@ -60,20 +58,33 @@ export function ExperienceCard({
       >
         {entry.period}
       </Title>
+      {caseStudyHref !== undefined && (
+        <Text size="sm" className={classes['tight']}>
+          <InternalLink href={caseStudyHref} inherit>
+            {cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link}
+          </InternalLink>
+          {/* Paper has no clickable link, so it gets the address. */}
+          <span className={classes['printUrl']}>
+            {': '}
+            {cv.website}
+            {caseStudyHref}
+          </span>
+        </Text>
+      )}
       {'description' in entry && (
         <Text className={classes['tight']}>{entry.description}</Text>
       )}
       {'intro' in entry && (
         <Text className={classes['tight']}>{entry.intro}</Text>
       )}
-      <CvBullets {...{ items }} last={!hasTech && !hasTrailer} />
+      <CvBullets {...{ items }} last={!hasTech && !hasNote} />
       {hasTech && (
         <Text
           ff="monospace"
           className={cx(
             classes['small'],
             classes['dim60'],
-            hasTrailer && classes['tightHeading'],
+            hasNote && classes['tightHeading'],
           )}
         >
           {entry.tech}
@@ -82,14 +93,6 @@ export function ExperienceCard({
       {hasNote && (
         <Text fs="italic" className={cx(classes['small'], classes['dim70'])}>
           {entry.demo}
-        </Text>
-      )}
-      {/* Print carries the URL in the featured section; this adds nothing. */}
-      {hasCaseStudyLink && (
-        <Text size="sm" className="print-hidden">
-          <InternalLink href={caseStudyHref} inherit>
-            {cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link}
-          </InternalLink>
         </Text>
       )}
     </Card>
