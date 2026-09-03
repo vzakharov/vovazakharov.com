@@ -28,9 +28,11 @@ address is what a reader there has to act on. A local printLink class
 does the swap inline — the global print-only is display:block and would
 spend a whole line on it — and the address is composed from cv.website,
 which moves up out of cv.footer now that the footer is no longer its
-only consumer. The whole line takes the small + dim60 treatment the
-tech line already has, so it reads as one of the card's asides rather
-than as a sentence of prose between the period and the description.
+only consumer. A caseStudyLine class sets the whole line as one of the
+card's asides rather than as a sentence of prose between the period and
+the description — at the aside size and dimmed in both media, unlike
+the dim* classes, which print flattens. The size and margin it shares
+with those asides move into placeholders the existing classes extend.
 
 The retired section's copy leaves both catalogs with it: caseStudies
 keeps only the link label, since its title and the Playgram entry's
