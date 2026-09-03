@@ -5,6 +5,7 @@
       "ogSuffix": "Physics-math brain meets low-maintenance execution."
     },
     "printButton": "Print / Save as PDF",
+    "website": "vovazakharov.com",
     "header": {
       "name": "Vova Zakharov",
       "tagline": "Developer – AI, full-stack, and the bits in-between",
@@ -66,7 +67,7 @@
       },
       "englishForKids": {
         "title": "Developer – Project Work",
-        "period": "October 2025 – Present",
+        "period": "October 2025 – February 2026",
         "description": "AI-powered English learning application for kids, combining generative AI with time-tested pedagogical methodology to make language acquisition engaging and effective.",
         "items": [
           "Interactive game-based learning experiences powered by LLM-generated content.",
@@ -154,10 +155,7 @@
       }
     },
     "caseStudies": {
-      "title": "Case studies",
       "playgram": {
-        "title": "From Bubble to Next.js in 4 months: the Playgram case study",
-        "description": "Part I of II — the long-form write-up of the rebuild above: what made a no-code app worth leaving, the architecture and tooling that let twenty agents work at once, and the numbers behind all of it.",
         "link": "Read the case study"
       }
     },
@@ -224,8 +222,7 @@
     },
     "footer": {
       "backLink": "← Back to main page",
-      "printFooter": "Full portfolio:",
-      "website": "vovazakharov.com"
+      "printFooter": "Full portfolio:"
     }
   },
   "ui": {

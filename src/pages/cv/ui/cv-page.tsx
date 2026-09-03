@@ -21,7 +21,11 @@ import { ThemeToggle } from '@/features/switch-theme';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
 import { CvSection, CvSubsection } from './cv-section';
-import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
+import {
+  CASE_STUDY_EXPERIENCE_KEY,
+  EXPERIENCE_KEYS,
+  ExperienceCard,
+} from './experience-card';
 import { LocalePicker } from './locale-picker';
 
 function handlePrint() {
@@ -128,32 +132,17 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           <CvSection title={t('experience.title')} wide>
             <Stack className={classes['sectionWide']}>
               {EXPERIENCE_KEYS.map((entryKey) => (
-                <ExperienceCard key={entryKey} {...{ entryKey }} />
+                <ExperienceCard
+                  key={entryKey}
+                  {...{ entryKey }}
+                  caseStudyHref={
+                    entryKey === CASE_STUDY_EXPERIENCE_KEY
+                      ? caseStudyHref
+                      : undefined
+                  }
+                />
               ))}
             </Stack>
-          </CvSection>
-
-          <CvSection title={t('caseStudies.title')}>
-            <Card>
-              <Title
-                order={3}
-                size="h4"
-                className={cx(
-                  classes['subheadingLarge'],
-                  classes['tightHeading'],
-                )}
-              >
-                {t('caseStudies.playgram.title')}
-              </Title>
-              <Text lh={1.625} className={classes['tight']}>
-                {t('caseStudies.playgram.description')}
-              </Text>
-              <Text size="sm">
-                <InternalLink href={caseStudyHref} inherit>
-                  {t('caseStudies.playgram.link')}
-                </InternalLink>
-              </Text>
-            </Card>
           </CvSection>
 
           <CvSection title={t('techStack.title')}>
@@ -244,8 +233,8 @@ export function CvPage({ caseStudyHref }: CvPageProps) {
           >
             <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
-              <Anchor href={`https://${t('footer.website')}`} inherit>
-                {t('footer.website')}
+              <Anchor href={`https://${t('website')}`} inherit>
+                {t('website')}
               </Anchor>
             </Text>
           </Box>

@@ -140,14 +140,44 @@
   }
 }
 
+// The case-study cross-link — one of the card's asides rather than prose, so it
+// carries the aside size and margin. Its dimming is its own rather than
+// `.dim60`'s, because it is the one aside that keeps it on paper: the line is
+// half address, and at full contrast that reads as the entry's subject.
+.caseStudyLine {
+  @extend %aside;
+  @extend %tight-spacing;
+
+  opacity: 0.6;
+
+  @media print {
+    opacity: 0.65;
+  }
+}
+
+// Paper's counterpart to a link, carrying its address inline after the label —
+// which is why this exists next to the global `.print-only`, whose print
+// display is block.
+.printLink {
+  display: none;
+
+  @media print {
+    display: inline;
+  }
+}
+
 // Tech-stack lines and asides.
-.small {
+%aside {
   font-size: 14px;
   line-height: 1.4286;
 
   @media print {
     font-size: 9pt;
   }
+}
+
+.small {
+  @extend %aside;
 }
 
 .contactLine {
@@ -163,12 +193,16 @@
   }
 }
 
-.tight {
+%tight-spacing {
   margin-bottom: 12px;
 
   @media print {
     margin-bottom: 0.2cm;
   }
+}
+
+.tight {
+  @extend %tight-spacing;
 }
 
 .tightHeading {
