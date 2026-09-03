@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/agent-project-boilerplate",
-  "lastSyncedSha": "eab4dc7df50efdbb007eb931b7802e45cdb9bace",
-  "lastSyncedAt": "2026-09-01",
+  "lastSyncedSha": "7f3ca7646d9d7cad0b76dc6a67936d28b31584c8",
+  "lastSyncedAt": "2026-09-02",
   "adopted": [
     {
       "CLAUDE.md": "adopted except the source's decision-doc guidance: this repo keeps no decision docs — docs/ holds plans and transient review artifacts only. Skip that material until one exists."
@@ -39,6 +39,7 @@
     }
   ],
   "declined": {
+    "ADOPTING.md": "the source's guide for a repo taking the boilerplate on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
     ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against — revisit when filing becomes routine",
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
