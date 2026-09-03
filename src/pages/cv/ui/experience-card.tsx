@@ -45,6 +45,7 @@ export function ExperienceCard({
   const items: BulletItem[] = entry.items;
   const hasTech = 'tech' in entry;
   const hasNote = 'demo' in entry;
+  const caseStudyLabel = cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link;
 
   return (
     <Card>
@@ -60,14 +61,19 @@ export function ExperienceCard({
       </Title>
       {caseStudyHref !== undefined && (
         <Text size="sm" className={classes['tight']}>
-          <InternalLink href={caseStudyHref} inherit>
-            {cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link}
+          <InternalLink href={caseStudyHref} className="print-hidden" inherit>
+            {caseStudyLabel}
           </InternalLink>
-          {/* Paper has no clickable link, so it gets the address. */}
-          <span className={classes['printUrl']}>
+          {/* A printed page can only be followed by hand, so paper puts the
+              link on the address the reader has to type. */}
+          <span className={classes['printLink']}>
+            {caseStudyLabel}
             {': '}
-            {cv.website}
-            {caseStudyHref}
+            {/* One text node, not two: a PDF gets a link annotation per node,
+                and the first is placed over whatever precedes the anchor. */}
+            <InternalLink href={caseStudyHref} inherit>
+              {`${cv.website}${caseStudyHref}`}
+            </InternalLink>
           </span>
         </Text>
       )}
