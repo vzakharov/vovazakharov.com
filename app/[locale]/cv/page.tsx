@@ -5,7 +5,7 @@ import { loadMessages, routing, toLocale } from '@/shared/i18n';
 
 import { CvPage, generateCvMetadata } from '@/pages/cv';
 
-const FEATURED_CASE_STUDY = 'playgram-bubble-to-nextjs-part-1';
+const FEATURED_CASE_STUDY = 'playgram';
 
 type Props = {
   params: Promise<{ locale: string }>;

@@ -11,6 +11,11 @@ reader was least likely to reach. A CV has no room for a section about a
 single article, so the section is gone and the Playgram experience entry
 carries a "Read the case study" link directly under its period — where
 someone deciding whether that entry is worth reading will be looking.
+The document's slug shortens to playgram with it, so the address that
+line prints is /case-studies/playgram rather than a title in URL form;
+the series marker that drops is already in the document's own part
+frontmatter. Nothing had linked to the old URL, which is as well — a
+static export cannot serve a redirect.
 
 ExperienceCard takes an optional caseStudyHref and renders the link only
 when given one; CvPage supplies it for CASE_STUDY_EXPERIENCE_KEY alone.

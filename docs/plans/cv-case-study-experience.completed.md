@@ -27,6 +27,14 @@ and `description` — has no remaining call site and leaves both catalogs with i
 The Russian description carried a caveat the link label now carries instead:
 the article is English-only.
 
+Two follow-ups from the same review. Paper puts the link on the address rather
+than the label, since the address is the half a reader there has to act on. And
+the document's slug shortens to `playgram`, which is the difference between a
+CV line ending in `/case-studies/playgram` and one ending in
+`/case-studies/playgram-bubble-to-nextjs-part-1`; the series marker it drops is
+already in the document's `part` frontmatter. Nothing links to the old URL yet,
+so no redirect is owed — and a static export has no way to serve one.
+
 ## Current shape
 
 `src/pages/cv/ui/cv-page.tsx` renders eight `CvSection`s in source order:
@@ -114,7 +122,7 @@ class in `src/app/styles/print.scss` is `display: none` outright and
 screen". The CV's own print footer already rides it.
 
 ```
-vovazakharov.com/case-studies/playgram-bubble-to-nextjs-part-1
+vovazakharov.com/case-studies/playgram
 ```
 
 Composed as `{t('website')}{caseStudyHref}` — the host string already exists
@@ -188,7 +196,7 @@ No new files, no dependency changes, no route or metadata changes.
   Experience; the description no longer says "above" / "выше"; no URL is
   spelled out on screen.
 - The Playgram experience card ends with the case-study link, and it resolves to
-  `/case-studies/playgram-bubble-to-nextjs-part-1`.
+  `/case-studies/playgram`.
 - Print preview (both locales) — the featured section shows the bare URL, the
   experience card's link is absent, and no card's trailing spacing collapsed.
 - The English-for-kids card reads `February 2026`, and the experience order is

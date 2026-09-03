@@ -7,7 +7,7 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 
 # From Bubble to Next.js in 4 months: the Playgram case study (nano)
 
-_Also available: the [full version](./playgram-bubble-to-nextjs-part-1.md) and a [mini version](./playgram-bubble-to-nextjs-part-1.mini.md). Part I of II. Disclosures approved by Playgram management._
+_Also available: the [full version](./playgram.md) and a [mini version](./playgram.mini.md). Part I of II. Disclosures approved by Playgram management._
 
 [Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
 
