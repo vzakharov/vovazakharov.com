@@ -31,27 +31,31 @@ jobs:
           set -euo pipefail
 
           if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
-            echo "Manual run — deploying regardless of commit subjects." | tee -a "$GITHUB_STEP_SUMMARY"
-            echo 'deploy=true' >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # Subject lines only: a body that happens to mention "fix:" is not a fix.
-          subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
-
-          if grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subjects"; then
-            echo 'deploy=true' >> "$GITHUB_OUTPUT"
-            verdict='Deploying — a feat:/fix: subject is in this push.'
+            subjects=''
+            deploy=true
+            verdict='Manual run — deploying regardless of commit subjects.'
           else
-            echo 'deploy=false' >> "$GITHUB_OUTPUT"
-            verdict='Skipping the deploy — no feat:/fix: subject in this push.'
+            # Subject lines only: a body that happens to mention "fix:" is not a fix.
+            subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
+
+            if grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subjects"; then
+              deploy=true
+              verdict='Deploying — a feat:/fix: subject is in this push.'
+            else
+              deploy=false
+              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
+            fi
           fi
+
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
 
           {
             echo "$verdict"
-            echo
-            echo 'Pushed subjects:'
-            sed 's/^/- /' <<< "$subjects"
+            if [ -n "$subjects" ]; then
+              echo
+              echo 'Pushed subjects:'
+              sed 's/^/- /' <<< "$subjects"
+            fi
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
   build:

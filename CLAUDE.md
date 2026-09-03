@@ -31,7 +31,7 @@ Anything that holds only over part of that tree lives as a path-scoped rule in `
 
 Merging to `main` triggers `.github/workflows/deploy.yml`, which builds the static export and publishes `out/` to GitHub Pages. **There is no separate release step** — merge _is_ deploy, which is why `/release` and `/hotfix` are not part of this project's skill set.
 
-**Only a `feat:` or `fix:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix, so a `docs:`, `chore:`, `refactor:`, `style:`, `test:`, `ci:` or `perf:` merge lands on `main` without spending a deploy. Consequences worth knowing:
+**Only a `feat:` or `fix:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Three things follow:
 
 - **The squash subject is the deploy switch**, so it is a production decision, not just a log entry — `@.claude/skills/squash-message/SKILL.md` picks it, and a mixed branch should carry the prefix of what it actually ships.
 - **A non-`feat:`/`fix:` merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case.
