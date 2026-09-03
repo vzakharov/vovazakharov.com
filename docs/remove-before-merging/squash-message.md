@@ -7,24 +7,28 @@ feat: surface the CV case study, and close the learning-app period (pr #23)
 ```
 The Playgram case study sat sixth of eight sections on the CV, below the
 whole experience list: the strongest artifact on the page was the one a
-reader was least likely to reach. It now sits directly above Experience,
-and the Playgram experience card links to it, so it is findable both by
-someone scanning the page and by someone already reading about the
-rebuild.
+reader was least likely to reach. A CV has no room for a section about a
+single article, so the section is gone and the Playgram experience entry
+carries a "Read the case study" link directly under its period — where
+someone deciding whether that entry is worth reading will be looking.
 
 ExperienceCard takes an optional caseStudyHref and renders the link only
 when given one; CvPage supplies it for CASE_STUDY_EXPERIENCE_KEY alone.
 Which entry owns the case study is a presentation decision, so it lives
 in code beside EXPERIENCE_KEYS rather than as a catalog field the two
-locales could disagree about. The card's link is print-hidden — paper
-gets the bare URL under the featured section instead, composed from
-cv.website, which moves up out of cv.footer now that the footer is no
-longer its only consumer.
+locales could disagree about. Paper has no clickable link, so it gets
+the address inline after the label, through a local printUrl class — the
+global print-only is display:block and would spend a whole line on it.
+The address is composed from cv.website, which moves up out of cv.footer
+now that the footer is no longer its only consumer.
 
-Two copy edits follow the move. The case-study description named the
-rebuild by its position ("the rebuild above"), which the move breaks, so
-it names the subject instead; and the English-for-kids entry read
-"Present" for an assignment that ended in February 2026.
+The retired section's copy leaves both catalogs with it: caseStudies
+keeps only the link label, since its title and the Playgram entry's
+title and description have no call site left. The Russian description's
+caveat that the article is English-only moves into that label, the only
+place left to carry it. One unrelated copy fix rides along: the
+English-for-kids entry read "Present" for an assignment that ended in
+February 2026.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_016Gr7QwKpQG3csuN2114pQp
