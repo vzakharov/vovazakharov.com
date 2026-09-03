@@ -60,9 +60,7 @@ export function ExperienceCard({
         {entry.period}
       </Title>
       {caseStudyHref !== undefined && (
-        <Text
-          className={cx(classes['small'], classes['dim60'], classes['tight'])}
-        >
+        <Text className={classes['caseStudyLine']}>
           <InternalLink href={caseStudyHref} className="print-hidden" inherit>
             {caseStudyLabel}
           </InternalLink>
