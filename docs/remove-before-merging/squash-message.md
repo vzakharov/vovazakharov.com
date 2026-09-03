@@ -16,11 +16,14 @@ ExperienceCard takes an optional caseStudyHref and renders the link only
 when given one; CvPage supplies it for CASE_STUDY_EXPERIENCE_KEY alone.
 Which entry owns the case study is a presentation decision, so it lives
 in code beside EXPERIENCE_KEYS rather than as a catalog field the two
-locales could disagree about. Paper has no clickable link, so it gets
-the address inline after the label, through a local printUrl class — the
-global print-only is display:block and would spend a whole line on it.
-The address is composed from cv.website, which moves up out of cv.footer
-now that the footer is no longer its only consumer.
+locales could disagree about. Screen and paper put the link on opposite
+halves of that line: screen shows the label alone and paper prints the
+label as text followed by the address, carrying the link, since the
+address is what a reader there has to act on. A local printLink class
+does the swap inline — the global print-only is display:block and would
+spend a whole line on it — and the address is composed from cv.website,
+which moves up out of cv.footer now that the footer is no longer its
+only consumer.
 
 The retired section's copy leaves both catalogs with it: caseStudies
 keeps only the link label, since its title and the Playgram entry's
