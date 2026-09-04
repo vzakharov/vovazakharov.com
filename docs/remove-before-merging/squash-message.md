@@ -27,6 +27,11 @@ change the built output and will not deploy itself. workflow_dispatch
 bypasses the gate, so that case is a manual run from the Actions tab.
 CLAUDE.md's Deployment section carries both.
 
+The gate's bash has no committed test: pnpm test globs **/*.test.ts and
+nothing in the tree reads a workflow YAML. Checking a change to the
+match means extracting jobs.gate.steps[0].run and driving it over fake
+COMMITS payloads by hand.
+
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_019Nyg1GpQe8ZhkyKNAjv3sf
 ```
