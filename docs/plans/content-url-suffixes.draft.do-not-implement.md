@@ -115,7 +115,11 @@ pnpm content:pdf --check    # report staleness, write nothing
 
 Beside the existing **Markdown** link, both `print-hidden` and both derived from `route`.
 
-The markdown link carries `download` with the document's **fully-qualified name** — every slash in its absolute URL replaced by a dot, e.g. `vovazakharov.com.case-studies.playgram.mini.md` — so a saved copy says where it came from instead of landing in a downloads folder as an anonymous `playgram.mini.md`. The attribute's filename is an arbitrary string independent of the URL, which is what lets the name be self-describing without the URL, the repo path, or the single-copy property paying for it. Derive it from `getAbsoluteUrl(route)` so the domain is never typed twice.
+The markdown link carries `download` with the document's **dot-joined path under a site prefix** — `vova.case-studies.playgram.mini.md` — so a saved copy says what it is and whose it is, instead of landing in a downloads folder as an anonymous `playgram.mini.md`. The attribute's filename is an arbitrary string independent of the URL, which is what lets the name be self-describing without the URL, the repo path, or the single-copy property paying for it.
+
+The prefix is one field on `SITE_CONFIG` (`downloadPrefix: 'vova'`) beside the `url` it stands in for, and `ContentDocument` carries the assembled name next to `rawUrl` and `pdfUrl` — all three derived from `route`, so a document's name is built in one place and every generated link is fed from it.
+
+**The prefix is a legibility-for-resolvability trade, and reversible.** The full host would make the name something a reader can type back into a browser; `vova` makes it something they can read at a glance. Resolvability was never mechanical anyway — a dot already means three other things in these names (the host's own, the cut suffix, the extension), so decoding one back to a URL was always a human recognising it rather than a parser reading it. The PDF gives up nothing either way, since it carries its canonical URL in the footer; the markdown has no second carrier, because the content rule forbids restating a derivable path in frontmatter and the file is served raw, so nothing can inject one. That makes the short prefix a small real loss, taken deliberately — and taken cheaply, since one `SITE_CONFIG` field is the whole of it.
 
 The PDF link carries no `download`: it would replace the browser's inline viewer with a forced save, and the PDF states its own origin in the footer anyway.
 
@@ -130,7 +134,7 @@ The PDF link carries no `download`: it would replace the browser's inline viewer
 
 - **The sitemap stays page-only.** `.md` and `.pdf` are alternate representations of a listed page, not additional pages.
 - **PDFs are committed, not built in CI.** It matches the mermaid renders and the OG cards, keeps the deploy free of a browser render on its critical path, and is what the request assumed. The cost is binary churn in git history whenever a print-affecting style changes; the source-set hash is what keeps that churn honest rather than optional.
-- **The dot-joined full path names the download, not the URL.** Serving the markdown at `/vovazakharov.com.case-studies.playgram.mini.md` would cost the affordance this whole change is for — appending `.md` to a page URL would no longer find it — and keeping both paths means two copies of every document, which is exactly the single-copy property `public/` was chosen for. The name is also not reversible: a dot already means three other things here (the domain's own, the cut suffix, the extension), so nothing can decode it back to a URL, only guess. Applied to the `download` attribute instead, the same name costs nothing at all.
+- **The dot-joined path names the download, not the URL.** Serving the markdown at `/vova.case-studies.playgram.mini.md` would cost the affordance this whole change is for — appending `.md` to a page URL would no longer find it — and keeping both paths means two copies of every document, which is exactly the single-copy property `public/` was chosen for. Applied to the `download` attribute instead, the same name costs nothing at all.
 - **The CV PDF is out of scope.** `/cv.pdf`, `/en/cv.pdf`, `/ru/cv.pdf` all follow naturally once this mechanism exists, and the CV already has a print button. A separate change, once the pipeline has proven itself on the case study.
 
 ## Accepted breakage
@@ -154,6 +158,6 @@ Two live URL shapes stop resolving: `/content/case-studies/playgram.md` (and the
 - `./scripts/vet.sh` — `pnpm build` is the end-to-end check that every route, import and image reference still resolves after the move.
 - `pnpm content:mermaid --check` and `pnpm content:og --check` must stay green through the path changes.
 - Re-run the URL table above against the real tree, on both servers — the spike proved the mechanism, not this implementation of it.
-- Save the markdown link from a browser and confirm it lands as `vovazakharov.com.case-studies.playgram.mini.md`; fetch the same URL directly and confirm the fallback name is `playgram.mini.md`, not `mini.md` — the second is why the route flattened, so it is worth checking rather than assuming.
+- Save the markdown link from a browser and confirm it lands as `vova.case-studies.playgram.mini.md`; fetch the same URL directly and confirm the fallback name is `playgram.mini.md`, not `mini.md` — the second is why the route flattened, so it is worth checking rather than assuming.
 - Open a rendered PDF and confirm the footer names the public URL, not `localhost`, and that the text selects.
 - `/preview` the article header to see the two links side by side, and open a rendered PDF.
