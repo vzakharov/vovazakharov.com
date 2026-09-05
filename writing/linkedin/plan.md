@@ -43,12 +43,6 @@ open.
 - **The first two lines carry it.** LinkedIn folds at roughly 200 characters, so
   the opening states the concrete thing rather than promising it. No "I want to
   share some thoughts on…", no question-as-opener.
-- **`--`, never `—`.** Two hyphens on purpose: enough readers now treat an em
-  dash as a machine's fingerprint that the correct punctuation has become the
-  wrong signal.
-- **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
-  the voice; emoji as decoration, as bullet markers, or as enthusiasm is not.
-  Text emoticons — `;-)` — are in the voice too.
 - **One idea per post.** A second good idea is a second post.
 - **No single-sentence-per-line staccato**, which is the house style of the
   genre and reads as the genre rather than as a person.
@@ -56,9 +50,11 @@ open.
   is the evidence.
 - **English only.** The site is bilingual; this isn't.
 
-`.claude/rules/writing.md` carries the conventions that are worth enforcing on
-every draft, and grows as the anti-slop rules get written against marked-up
-drafts rather than anticipated.
+Those are the constraints particular to the channel. The voice conventions that
+hold across every draft — punctuation, emoji, the copy-exactness of a post's
+fenced text — live in `.claude/rules/writing.md`, which loads whenever anything
+under `writing/` is touched and grows as the anti-slop rules get written against
+marked-up drafts rather than anticipated.
 
 ## The five shapes
 

@@ -14,10 +14,8 @@ The opening is the operator's own, filled in at its three ellipses and otherwise
 untouched. It is the voice specimen the writing rules get calibrated against, so
 it does not get tightened, rebalanced or improved.
 
-**The fence below is the post, verbatim and copy-exact.** It is one unwrapped
-line because a hard wrap in the source becomes a line break in the feed. 603
-characters, against the 1,000 ceiling; the fold at ~200 falls on the sentence
-break, so the JSON lands above it.
+603 characters, against the 1,000 ceiling; the fold at ~200 falls on the
+sentence break, so the JSON lands above it.
 
 ```text
 So from March to August this year I was doing quite a fun thing -- well, fun if you're the weird kind who loves dabbling with parsings, abstractions and 11.6-megabyte JSONs that live on a single line. Once done, I thought, why not write a case study about it. I only went halfway and it's already a 40-minute read 🙈 Not really thinking anyone would seriously read it all -- but maybe skim through? There's some interesting stuff on a lint rule whose failure mode was an authentication hole, two type shapes that both compiled while logging zeroes for months, and managing a team of 15+ agents at a time.
