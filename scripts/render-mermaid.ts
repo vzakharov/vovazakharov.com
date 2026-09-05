@@ -32,7 +32,7 @@ import {
   mermaidFileName,
 } from '../src/shared/content/mermaid-renders.ts';
 import { findChromium } from './lib/chromium.ts';
-import { CONTENT_ROOT, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
 type Fence = {
   hash: string;
@@ -55,7 +55,7 @@ const checkOnly = process.argv.includes('--check');
 function collectFences(): Fence[] {
   const fencePattern = /^```mermaid[\t ]*\r?\n([\S\s]*?)^```/gm;
 
-  return contentFiles(CONTENT_ROOT, (name) => name.endsWith('.md')).flatMap(
+  return contentFiles((name) => name.endsWith('.md')).flatMap(
     (file) => {
       const markdown = fs.readFileSync(file, 'utf8');
 

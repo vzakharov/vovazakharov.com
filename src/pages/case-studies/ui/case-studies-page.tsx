@@ -2,6 +2,7 @@ import { Box, Container, Group, Stack, Text, Title } from '@mantine/core';
 
 import {
   COLLECTIONS,
+  collectionRoute,
   documentRoute,
   renderPrimaryDocuments,
 } from '@/shared/content';
@@ -22,7 +23,7 @@ const DESCRIPTION =
 export const caseStudiesMetadata = constructMetadata({
   title: `${COLLECTIONS[COLLECTION].label} - Vova Zakharov`,
   description: DESCRIPTION,
-  path: COLLECTIONS[COLLECTION].routeBase,
+  path: collectionRoute(COLLECTION),
 });
 
 export async function CaseStudiesPage() {
@@ -38,7 +39,7 @@ export async function CaseStudiesPage() {
 
           <Box component="header">
             <Stack gap={16}>
-              <Title order={1}>{COLLECTIONS[COLLECTION].routeBase}</Title>
+              <Title order={1}>{collectionRoute(COLLECTION)}</Title>
               <Text size="lg" opacity={0.8}>
                 {DESCRIPTION}
               </Text>

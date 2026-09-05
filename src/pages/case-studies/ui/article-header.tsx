@@ -1,5 +1,5 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
-import { FileText } from 'lucide-react';
+import { FileDown, FileText } from 'lucide-react';
 
 import {
   type DocumentRef,
@@ -79,7 +79,8 @@ export function ArticleHeader({
   readingMinutes,
   availableVariants,
 }: ArticleHeaderProps) {
-  const { frontmatter, collection, slug, variant, rawUrl } = document;
+  const { frontmatter, collection, slug, variant, rawUrl, pdfUrl, downloadName } =
+    document;
 
   return (
     <Box component="header" className={classes['articleHeader']}>
@@ -102,17 +103,37 @@ export function ArticleHeader({
             available={availableVariants}
           />
 
-          {/* The authored markdown, served straight out of `public/`. */}
-          <Anchor
-            href={rawUrl}
-            size="sm"
-            className={cx('print-hidden', classes['hoverDim'])}
-          >
-            <Group component="span" gap={6} wrap="nowrap">
-              <FileText size={16} aria-hidden />
-              Markdown
-            </Group>
-          </Anchor>
+          {/*
+            The document's own two files, each served straight out of
+            `public/` at this page's URL plus an extension. Only the markdown
+            carries `download`: on the PDF the attribute would replace the
+            browser's inline viewer with a forced save, and the PDF names its
+            origin in its own footer.
+          */}
+          <Group gap={16} wrap="wrap">
+            <Anchor
+              href={rawUrl}
+              download={downloadName}
+              size="sm"
+              className={cx('print-hidden', classes['hoverDim'])}
+            >
+              <Group component="span" gap={6} wrap="nowrap">
+                <FileText size={16} aria-hidden />
+                Markdown
+              </Group>
+            </Anchor>
+
+            <Anchor
+              href={pdfUrl}
+              size="sm"
+              className={cx('print-hidden', classes['hoverDim'])}
+            >
+              <Group component="span" gap={6} wrap="nowrap">
+                <FileDown size={16} aria-hidden />
+                PDF
+              </Group>
+            </Anchor>
+          </Group>
         </Group>
       </Stack>
     </Box>

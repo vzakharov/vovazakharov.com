@@ -4,12 +4,15 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { SITE_CONFIG } from '@/shared/config';
+
 import {
   COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
   type DocumentRef,
+  documentName,
   documentRoute,
   type Variant,
   VARIANTS,
@@ -34,7 +37,16 @@ export type ContentDocument = DocumentRef &
     fileName: string;
     /** Where `public/` serves the authored markdown, for the download link. */
     rawUrl: string;
+    /** Where `public/` serves the prebuilt PDF, produced by `pnpm content:pdf`. */
+    pdfUrl: string;
     route: string;
+    /**
+     * What a saved copy of the markdown is called — the document's path under
+     * the site, dot-joined, so the file says what it is and whose it is once it
+     * has left the browser. Only an anchor's `download` can set it: a static
+     * export serves fixed headers, so `Content-Disposition` is unavailable.
+     */
+    downloadName: string;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
   };
@@ -94,6 +106,8 @@ function readDocument(
     });
   }
 
+  const route = documentRoute(collection, slug, variant);
+
   return {
     collection,
     slug,
@@ -101,8 +115,10 @@ function readDocument(
     frontmatter,
     body: content,
     fileName,
-    rawUrl: collectionAssetUrl(collection, fileName),
-    route: documentRoute(collection, slug, variant),
+    rawUrl: `${route}.md`,
+    pdfUrl: `${route}.pdf`,
+    route,
+    downloadName: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.md`,
     ...resolveOgImage(collection, frontmatter.ogImage),
   };
 }
@@ -130,7 +146,7 @@ export function loadDocument(
   slug: string,
   variant?: Variant,
 ): ContentDocument | undefined {
-  const fileName = `${slug}${variant ? `.${variant}` : ''}.md`;
+  const fileName = `${documentName(slug, variant)}.md`;
   const filePath = path.join(collectionDir(collection), fileName);
 
   return fs.existsSync(filePath)
@@ -145,7 +161,7 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      path.join(collectionDir(collection), `${slug}.${variant}.md`),
+      path.join(collectionDir(collection), `${documentName(slug, variant)}.md`),
     ),
   );
 }

@@ -33,7 +33,7 @@ import { z } from 'zod';
 
 import { contentHash } from '../src/shared/content/content-hash.ts';
 import { findChromium } from './lib/chromium.ts';
-import { CONTENT_ROOT, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 
 /** Absolute paths. A card's PNG, its source SVG and its manifest share a directory. */
 type Card = {
@@ -90,7 +90,7 @@ function ogImagePaths(): string[] {
   const frontmatterPattern = /^---\r?\n([\S\s]*?)^---/m;
   const ogImagePattern = /^ogImage:[\t ]*(\S+)[\t ]*$/m;
 
-  return contentFiles(CONTENT_ROOT, (name) => name.endsWith('.md')).flatMap(
+  return contentFiles((name) => name.endsWith('.md')).flatMap(
     (file) => {
       const frontmatter = frontmatterPattern.exec(
         fs.readFileSync(file, 'utf8'),
@@ -240,7 +240,7 @@ function renderCard(card: Card, chromium: string): void {
  * directory still surfaces the manifest it leaves behind.
  */
 function manifestFiles(): string[] {
-  return contentFiles(CONTENT_ROOT, (name) => name === MANIFEST_NAME);
+  return contentFiles((name) => name === MANIFEST_NAME);
 }
 
 /** The renders — recorded or on disk — that no frontmatter asks for any more. */

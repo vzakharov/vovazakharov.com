@@ -7,8 +7,6 @@ import { visit } from 'unist-util-visit';
 import {
   collectionAssetUrl,
   type CollectionId,
-  documentRoute,
-  VARIANTS,
   type WithCollectionId,
 } from '../collections';
 
@@ -19,24 +17,6 @@ function isRelative(url: string): boolean {
 
 function stripLeadingDot(url: string): string {
   return url.replace(/^\.\//, '');
-}
-
-/**
- * A sibling markdown file becomes the site route that renders it, so the
- * documents' own cross-links between the full, mini and nano cuts work
- * unchanged on GitHub and on the site.
- */
-function markdownRoute(collection: CollectionId, target: string): string {
-  const stem = target.replace(/\.md$/, '');
-  const dotted = stem.lastIndexOf('.');
-  const suffix = dotted === -1 ? '' : stem.slice(dotted + 1);
-  const variant = VARIANTS.find((candidate) => candidate === suffix);
-
-  return documentRoute(
-    collection,
-    variant === undefined ? stem : stem.slice(0, dotted),
-    variant,
-  );
 }
 
 function rewrite(
@@ -52,9 +32,13 @@ function rewrite(
   const pathPart = hashAt === -1 ? target : target.slice(0, hashAt);
   const fragment = hashAt === -1 ? '' : target.slice(hashAt);
 
-  const href = pathPart.endsWith('.md')
-    ? markdownRoute(collection, pathPart)
-    : collectionAssetUrl(collection, pathPart);
+  // A sibling document's route is its file name minus the `.md`, cuts
+  // included, so the documents' own cross-links resolve the same way every
+  // other relative target does — and this plugin never learns what a cut is.
+  const href = collectionAssetUrl(
+    collection,
+    pathPart.replace(/\.md$/, ''),
+  );
 
   return { href: `${href}${fragment}`, external: false };
 }
