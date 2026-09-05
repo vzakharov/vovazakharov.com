@@ -29,3 +29,9 @@ export type WithOptionalClassName = { className?: string };
 
 /** What a wrapper component renders inside itself. */
 export type WithChildren = { children: ReactNode };
+
+/** Where an anchor points. */
+export type Linked = { href: string };
+
+/** An anchor whose content is its own label — markup rather than a string. */
+export type Anchored = Linked & WithChildren;

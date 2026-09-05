@@ -1,6 +1,5 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { FileDown, FileText, type LucideIcon } from 'lucide-react';
-import type { ReactNode } from 'react';
 
 import {
   type DocumentRef,
@@ -11,6 +10,7 @@ import {
   type WithContentDocument,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
+import type { Anchored } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './case-studies.module.scss';
@@ -69,15 +69,13 @@ function CutSwitcher({
   );
 }
 
-type FileLinkProps = {
-  href: string;
+type FileLinkProps = Anchored & {
   /**
    * Absent on the PDF, where forcing a save would replace the browser's inline
    * viewer — and the PDF names its own origin in its footer anyway.
    */
   download?: string;
   icon: LucideIcon;
-  children: ReactNode;
 };
 
 /** One of the document's own files, served at this page's URL plus an extension. */
