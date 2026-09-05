@@ -19,9 +19,21 @@ A case study's alternate representations live at its own URL plus an extension:
 
 A static export writes `out/case-studies/playgram.html` and, beside it, the directory `out/case-studies/playgram/` holding the variants' HTML. Nothing in `out/` occupies `case-studies/playgram.md`. And `public/` is copied into `out/` verbatim.
 
-So a file at `public/case-studies/playgram.md` **is already served at `/case-studies/playgram.md`** — no route, no handler, no build step. Verified by spike on this tree: with `public/case-studies/{playgram.md,playgram.pdf,playgram/mini.md}` present, `pnpm build` exits 0 with no conflict warning and emits all six files (`playgram.html`, `playgram.md`, `playgram.pdf`, `playgram/mini.html`, `playgram/mini.md`, `playgram/nano.html`) side by side. The spike was removed; the tree is clean.
+So a file at `public/case-studies/playgram.md` **is already served at `/case-studies/playgram.md`** — no route, no handler, no build step. Verified by spike on this tree, on both servers, with `public/case-studies/{playgram.md,playgram.pdf,playgram/mini.md}` planted:
+
+| URL                              | `next dev`            | `pnpm build`                        |
+| -------------------------------- | --------------------- | ----------------------------------- |
+| `/case-studies/playgram`         | 200 `text/html`       | `out/case-studies/playgram.html`    |
+| `/case-studies/playgram.md`      | 200 `text/markdown`   | `out/case-studies/playgram.md`      |
+| `/case-studies/playgram.pdf`     | 200 `application/pdf` | `out/case-studies/playgram.pdf`     |
+| `/case-studies/playgram/mini`    | 200 `text/html`       | `out/case-studies/playgram/mini.html` |
+| `/case-studies/playgram/mini.md` | 200 `text/markdown`   | `out/case-studies/playgram/mini.md` |
+
+Both servers return the right bytes with the right content type, and neither log carries a conflict or a warning. Next's static-file layer resolves ahead of the dynamic route, so `[...slug]` never sees these requests; on GitHub Pages there is no Next in the path at all. The spike was removed and the tree left clean.
 
 This matters because the alternative is impossible. `/case-studies/playgram` and `/case-studies/playgram.md` are the *same* dynamic segment of `[...slug]`, and a segment resolves to exactly one handler — a `route.ts` cannot coexist with the `page.tsx` that renders the document. `output: 'export'` also has no rewrites. Serving the file from `public/` is not a workaround for that dead end; it is the only mechanism, and it happens to be the cheapest one available.
+
+**A route reserves exactly two extensions, and takes them silently.** Probing the collision case — `public/case-studies/playgram.html`, against the page's own output — `next build` exits 0 with no warning and the route output overwrites the public file. So the reserved set at a document's route is `.html` (the page) and `.txt` (the RSC payload Next emits beside it); every other extension is free, which is what makes `.md` and `.pdf` safe and leaves room for a third later. Nothing in the build reports a file lost this way, so the rule has to be documented rather than discovered.
 
 ## The rule the change establishes
 
@@ -112,7 +124,7 @@ Beside the existing **Markdown** link, both `print-hidden` and both derived from
 
 ### 9. Docs
 
-- `.claude/rules/content.md` — the tree, the `file = route + ext` rule, `collections.ts` joining the bare-Node exceptions, and the PDF trap (a print-affecting style change needs `pnpm content:pdf` re-run and the PDFs committed).
+- `.claude/rules/content.md` — the tree, the `file = route + ext` rule, `collections.ts` joining the bare-Node exceptions, and two traps: a print-affecting style change needs `pnpm content:pdf` re-run and the PDFs committed, and a document's route reserves `.html` and `.txt`, which a colliding file in `public/` loses to without a word.
 - `CLAUDE.md` — the `public/` row names `content/`; it becomes the collection directories.
 - `.claude/rules/content.md` frontmatter `paths:` — `public/content/**` no longer matches anything.
 
@@ -140,5 +152,5 @@ Beside the existing **Markdown** link, both `print-hidden` and both derived from
 
 - `./scripts/vet.sh` — `pnpm build` is the end-to-end check that every route, import and image reference still resolves after the move.
 - `pnpm content:mermaid --check` and `pnpm content:og --check` must stay green through the path changes.
-- Confirm `next dev` serves `/case-studies/playgram.md` and not a 404 — the static export is verified, but dev resolves public files and dynamic routes through a different path. Production correctness does not depend on this; the developer experience does.
+- Re-run the URL table above against the real tree, on both servers — the spike proved the mechanism, not this implementation of it.
 - `/preview` the article header to see the two links side by side, and open a rendered PDF.
