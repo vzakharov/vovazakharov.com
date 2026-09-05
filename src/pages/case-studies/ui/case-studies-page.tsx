@@ -1,8 +1,8 @@
 import { Box, Container, Group, Stack, Text, Title } from '@mantine/core';
 
 import {
-  COLLECTIONS,
   collectionRoute,
+  COLLECTIONS,
   documentRoute,
   renderPrimaryDocuments,
 } from '@/shared/content';

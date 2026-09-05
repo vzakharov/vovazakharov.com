@@ -36,13 +36,21 @@ export type Renderable = {
   sourceHash: string;
 };
 
-export type RenderJob<T extends Renderable> = {
-  /** Names the unit in the log line, e.g. `'Open Graph card'`. */
-  label: string;
+/**
+ * How a job's renders are recognized on disk. The bookkeeping below reads only
+ * this much of a job, which is what lets it stay blind to the entry type the
+ * caller actually renders.
+ */
+type ManifestLayout = {
   /** The manifest's file name, written into each directory that holds a render. */
   manifestName: string;
   /** Whether a file already in a render directory is one this job produces. */
   isOutput: (fileName: string) => boolean;
+};
+
+export type RenderJob<T extends Renderable> = ManifestLayout & {
+  /** Names the unit in the log line, e.g. `'Open Graph card'`. */
+  label: string;
   /** Every render the sources now ask for. */
   entries: T[];
   render: (stale: T[]) => void | Promise<void>;
@@ -60,12 +68,12 @@ function readManifest(manifestPath: string): Record<string, string> {
   );
 }
 
-function manifestPathFor(job: RenderJob<Renderable>, outputPath: string): string {
-  return path.join(path.dirname(outputPath), job.manifestName);
+function manifestPathFor(layout: ManifestLayout, outputPath: string): string {
+  return path.join(path.dirname(outputPath), layout.manifestName);
 }
 
-function isStale(job: RenderJob<Renderable>, entry: Renderable): boolean {
-  const recorded = readManifest(manifestPathFor(job, entry.outputPath))[
+function isStale(layout: ManifestLayout, entry: Renderable): boolean {
+  const recorded = readManifest(manifestPathFor(layout, entry.outputPath))[
     path.basename(entry.outputPath)
   ];
 
@@ -76,24 +84,24 @@ function isStale(job: RenderJob<Renderable>, entry: Renderable): boolean {
  * Walked rather than derived from the entries, so removing the last render in a
  * directory still surfaces the manifest it leaves behind.
  */
-function manifestFiles(job: RenderJob<Renderable>): string[] {
-  return contentFiles((name) => name === job.manifestName);
+function manifestFiles(layout: ManifestLayout): string[] {
+  return contentFiles((name) => name === layout.manifestName);
 }
 
 /** The renders — recorded or on disk — that no source asks for any more. */
-function orphans(job: RenderJob<Renderable>): string[] {
-  const wanted = new Set(job.entries.map((entry) => entry.outputPath));
+function orphans(layout: ManifestLayout, entries: Renderable[]): string[] {
+  const wanted = new Set(entries.map((entry) => entry.outputPath));
   const directories = new Set([
-    ...job.entries.map((entry) => path.dirname(entry.outputPath)),
-    ...manifestFiles(job).map((file) => path.dirname(file)),
+    ...entries.map((entry) => path.dirname(entry.outputPath)),
+    ...manifestFiles(layout).map((file) => path.dirname(file)),
   ]);
 
   return [
     ...new Set(
       [...directories].flatMap((dir) =>
         [
-          ...Object.keys(readManifest(path.join(dir, job.manifestName))),
-          ...fs.readdirSync(dir).filter((name) => job.isOutput(name)),
+          ...Object.keys(readManifest(path.join(dir, layout.manifestName))),
+          ...fs.readdirSync(dir).filter((name) => layout.isOutput(name)),
         ].map((name) => path.join(dir, name)),
       ),
     ),
@@ -104,20 +112,20 @@ function orphans(job: RenderJob<Renderable>): string[] {
  * Rewrites each manifest to exactly the renders its directory now holds, and
  * removes the one a directory no longer needs.
  */
-function writeManifests(job: RenderJob<Renderable>): void {
+function writeManifests(layout: ManifestLayout, entries: Renderable[]): void {
   const grouped = new Map<string, Renderable[]>();
 
-  for (const entry of job.entries) {
-    const manifestPath = manifestPathFor(job, entry.outputPath);
+  for (const entry of entries) {
+    const manifestPath = manifestPathFor(layout, entry.outputPath);
     grouped.set(manifestPath, [...(grouped.get(manifestPath) ?? []), entry]);
   }
 
-  for (const manifestPath of manifestFiles(job)) {
+  for (const manifestPath of manifestFiles(layout)) {
     if (!grouped.has(manifestPath)) fs.rmSync(manifestPath);
   }
 
   for (const [manifestPath, group] of grouped) {
-    const entries = group
+    const recorded = group
       .map((entry): [string, string] => [
         path.basename(entry.outputPath),
         entry.sourceHash,
@@ -126,7 +134,7 @@ function writeManifests(job: RenderJob<Renderable>): void {
 
     fs.writeFileSync(
       manifestPath,
-      `${JSON.stringify(Object.fromEntries(entries), undefined, 2)}\n`,
+      `${JSON.stringify(Object.fromEntries(recorded), undefined, 2)}\n`,
     );
   }
 }
@@ -137,7 +145,7 @@ export async function runRenderJob<T extends Renderable>(
   checkOnly: boolean,
 ): Promise<void> {
   const stale = job.entries.filter((entry) => isStale(job, entry));
-  const gone = orphans(job);
+  const gone = orphans(job, job.entries);
 
   console.log(
     `${job.entries.length} ${job.label}(s) in the content tree, ` +
@@ -160,5 +168,5 @@ export async function runRenderJob<T extends Renderable>(
     console.log(`  pruned ${path.relative(REPO_ROOT, outputPath)}`);
   }
 
-  writeManifests(job);
+  writeManifests(job, job.entries);
 }

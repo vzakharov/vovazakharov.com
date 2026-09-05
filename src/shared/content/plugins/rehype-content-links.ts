@@ -35,10 +35,7 @@ function rewrite(
   // A sibling document's route is its file name minus the `.md`, cuts
   // included, so the documents' own cross-links resolve the same way every
   // other relative target does — and this plugin never learns what a cut is.
-  const href = collectionAssetUrl(
-    collection,
-    pathPart.replace(/\.md$/, ''),
-  );
+  const href = collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''));
 
   return { href: `${href}${fragment}`, external: false };
 }

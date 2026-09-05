@@ -56,7 +56,8 @@ under `src/`; `.claude/rules/fsd.md` carries the conventions.
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, colour tokens
 ├── public/
-│   ├── content/                # Long-form prose and its assets, served raw
+│   ├── case-studies/           # Long-form prose, its assets and its renders, served raw
+│   ├── generated/              # Committed mermaid renders, shared across collections
 │   ├── ava.png                 # Avatar image
 │   └── .nojekyll               # GitHub Pages configuration
 └── .github/workflows/

@@ -32,6 +32,9 @@ export type Variant = (typeof VARIANTS)[number];
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
 
+/** Carries a site-root path, as `documentRoute` and `collectionRoute` shape one. */
+export type Routed = { route: string };
+
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
 export type DocumentRef = WithCollectionId & Slugged;
 

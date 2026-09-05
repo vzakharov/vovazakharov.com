@@ -11,9 +11,10 @@ import {
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
-  type DocumentRef,
   documentName,
+  type DocumentRef,
   documentRoute,
+  type Routed,
   type Variant,
   VARIANTS,
 } from './collections';
@@ -28,6 +29,7 @@ import {
 } from './image-dimensions';
 
 export type ContentDocument = DocumentRef &
+  Routed &
   WithFrontmatter &
   WithOptionalOgImageSize & {
     /** Absent on the full document; set on each shorter cut. */
@@ -39,7 +41,6 @@ export type ContentDocument = DocumentRef &
     rawUrl: string;
     /** Where `public/` serves the prebuilt PDF, produced by `pnpm content:pdf`. */
     pdfUrl: string;
-    route: string;
     /**
      * What a saved copy of the markdown is called — the document's path under
      * the site, dot-joined, so the file says what it is and whose it is once it

@@ -79,8 +79,15 @@ export function ArticleHeader({
   readingMinutes,
   availableVariants,
 }: ArticleHeaderProps) {
-  const { frontmatter, collection, slug, variant, rawUrl, pdfUrl, downloadName } =
-    document;
+  const {
+    frontmatter,
+    collection,
+    slug,
+    variant,
+    rawUrl,
+    pdfUrl,
+    downloadName,
+  } = document;
 
   return (
     <Box component="header" className={classes['articleHeader']}>

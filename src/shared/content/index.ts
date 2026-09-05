@@ -7,6 +7,7 @@ export {
   documentName,
   type DocumentRef,
   documentRoute,
+  type Routed,
   type Variant,
   VARIANTS,
 } from './collections';

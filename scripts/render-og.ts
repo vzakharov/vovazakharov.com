@@ -33,10 +33,7 @@ import path from 'node:path';
 import { contentHash } from '../src/shared/content/content-hash.ts';
 import { findChromium } from './lib/chromium.ts';
 import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
-import {
-  type Renderable,
-  runRenderJob,
-} from './lib/render-manifest.ts';
+import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
 
 /** Absolute paths. A card's PNG and its source SVG share a directory. */
 type Card = Renderable & { svgPath: string };

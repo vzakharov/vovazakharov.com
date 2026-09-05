@@ -1,6 +1,7 @@
 import { Box, Text } from '@mantine/core';
 
 import { getAbsoluteUrl } from '@/shared/config';
+import type { Routed } from '@/shared/content';
 
 import classes from './case-studies.module.scss';
 
@@ -11,7 +12,7 @@ import classes from './case-studies.module.scss';
  * this line is correct whatever host printed it, and survives the re-sharing
  * that strips a file of its name.
  */
-export function PrintedFrom({ route }: { route: string }) {
+export function PrintedFrom({ route }: Routed) {
   return (
     <Box component="footer" className={`print-only ${classes['printedFrom']}`}>
       <Text size="sm" opacity={0.6}>

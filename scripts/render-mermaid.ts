@@ -55,21 +55,19 @@ const checkOnly = process.argv.includes('--check');
 function collectFences(): Fence[] {
   const fencePattern = /^```mermaid[\t ]*\r?\n([\S\s]*?)^```/gm;
 
-  return contentFiles((name) => name.endsWith('.md')).flatMap(
-    (file) => {
-      const markdown = fs.readFileSync(file, 'utf8');
+  return contentFiles((name) => name.endsWith('.md')).flatMap((file) => {
+    const markdown = fs.readFileSync(file, 'utf8');
 
-      return [...markdown.matchAll(fencePattern)].map((match) => {
-        const source = match[1] ?? '';
+    return [...markdown.matchAll(fencePattern)].map((match) => {
+      const source = match[1] ?? '';
 
-        return {
-          hash: contentHash(source),
-          source,
-          file: path.relative(REPO_ROOT, file),
-        };
-      });
-    },
-  );
+      return {
+        hash: contentHash(source),
+        source,
+        file: path.relative(REPO_ROOT, file),
+      };
+    });
+  });
 }
 
 function renderFence(

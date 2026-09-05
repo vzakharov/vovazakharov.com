@@ -2,8 +2,8 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import {
-  COLLECTIONS,
   collectionRoute,
+  COLLECTIONS,
   documentName,
   listDocuments,
   loadDocument,
@@ -77,6 +77,7 @@ export async function generateArticleMetadata({ params }: Props) {
 
 export async function ArticlePage({ params }: Props) {
   const { document, rendered } = await resolve(params);
+  const { route, slug } = document;
   const { title, readingMinutes, headings, html } = rendered;
 
   return (
@@ -108,7 +109,7 @@ export async function ArticlePage({ params }: Props) {
             <Box className={classes['articleIntro']}>
               <ArticleHeader
                 {...{ document, title, readingMinutes }}
-                availableVariants={siblingVariants(COLLECTION, document.slug)}
+                availableVariants={siblingVariants(COLLECTION, slug)}
               />
             </Box>
 
@@ -121,7 +122,7 @@ export async function ArticlePage({ params }: Props) {
             </Box>
           </Box>
 
-          <PrintedFrom route={document.route} />
+          <PrintedFrom {...{ route }} />
           <BackToHome />
         </Stack>
       </Container>
