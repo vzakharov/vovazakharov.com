@@ -29,18 +29,17 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { z } from 'zod';
 
 import { contentHash } from '../src/shared/content/content-hash.ts';
 import { findChromium } from './lib/chromium.ts';
 import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+import {
+  type Renderable,
+  runRenderJob,
+} from './lib/render-manifest.ts';
 
-/** Absolute paths. A card's PNG, its source SVG and its manifest share a directory. */
-type Card = {
-  svgPath: string;
-  pngPath: string;
-  manifestPath: string;
-};
+/** Absolute paths. A card's PNG and its source SVG share a directory. */
+type Card = Renderable & { svgPath: string };
 
 /**
  * 1200×630 is what X's `summary_large_image` crops to, and the chart's native
@@ -78,8 +77,6 @@ const RENDERED_SUFFIX = '.og.png';
 /** Records each render's source hash, beside the render it describes. */
 const MANIFEST_NAME = 'og-renders.json';
 
-const checkOnly = process.argv.includes('--check');
-
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
  * document. Read with a pattern rather than through the content pipeline for
@@ -90,52 +87,21 @@ function ogImagePaths(): string[] {
   const frontmatterPattern = /^---\r?\n([\S\s]*?)^---/m;
   const ogImagePattern = /^ogImage:[\t ]*(\S+)[\t ]*$/m;
 
-  return contentFiles((name) => name.endsWith('.md')).flatMap(
-    (file) => {
-      const frontmatter = frontmatterPattern.exec(
-        fs.readFileSync(file, 'utf8'),
-      );
+  return contentFiles((name) => name.endsWith('.md')).flatMap((file) => {
+    const frontmatter = frontmatterPattern.exec(fs.readFileSync(file, 'utf8'));
 
-      if (frontmatter === null) return [];
+    if (frontmatter === null) return [];
 
-      const reference = ogImagePattern.exec(frontmatter[1] ?? '');
+    const reference = ogImagePattern.exec(frontmatter[1] ?? '');
 
-      return reference?.[1] === undefined
-        ? []
-        : [path.resolve(path.dirname(file), reference[1])];
-    },
-  );
-}
-
-/** The cards to render, one per distinct PNG the frontmatter asks for. */
-function collectCards(): Card[] {
-  const pngPaths = [
-    ...new Set(
-      ogImagePaths().filter((pngPath) => pngPath.endsWith(RENDERED_SUFFIX)),
-    ),
-  ];
-
-  return pngPaths.map((pngPath) => ({
-    svgPath: `${pngPath.slice(0, -RENDERED_SUFFIX.length)}.svg`,
-    pngPath,
-    manifestPath: path.join(path.dirname(pngPath), MANIFEST_NAME),
-  }));
-}
-
-/** Output file name → the hash of the source it was rendered from. */
-const manifestSchema = z.record(z.string(), z.string());
-
-function readManifest(manifestPath: string): Record<string, string> {
-  if (!fs.existsSync(manifestPath)) return {};
-
-  return manifestSchema.parse(
-    JSON.parse(fs.readFileSync(manifestPath, 'utf8')),
-    { error: () => `Malformed OG manifest: ${manifestPath}` },
-  );
+    return reference?.[1] === undefined
+      ? []
+      : [path.resolve(path.dirname(file), reference[1])];
+  });
 }
 
 /** Throws when a card names a source SVG that is not there. */
-function sourceHash({ svgPath, pngPath }: Card): string {
+function sourceHash(svgPath: string, pngPath: string): string {
   if (!fs.existsSync(svgPath)) {
     throw new Error(
       `No source SVG for the Open Graph card ${path.relative(REPO_ROOT, pngPath)}: ` +
@@ -147,15 +113,23 @@ function sourceHash({ svgPath, pngPath }: Card): string {
   return contentHash(fs.readFileSync(svgPath, 'utf8'));
 }
 
-/**
- * Staleness goes through a recorded hash because a re-render cannot be
- * byte-compared: PNG encoding is not stable across Chromium versions, so an
- * unchanged source would look changed on another machine.
- */
-function isStale(card: Card): boolean {
-  const recorded = readManifest(card.manifestPath)[path.basename(card.pngPath)];
+/** The cards to render, one per distinct PNG the frontmatter asks for. */
+function collectCards(): Card[] {
+  const pngPaths = [
+    ...new Set(
+      ogImagePaths().filter((pngPath) => pngPath.endsWith(RENDERED_SUFFIX)),
+    ),
+  ];
 
-  return !fs.existsSync(card.pngPath) || recorded !== sourceHash(card);
+  return pngPaths.map((pngPath) => {
+    const svgPath = `${pngPath.slice(0, -RENDERED_SUFFIX.length)}.svg`;
+
+    return {
+      svgPath,
+      outputPath: pngPath,
+      sourceHash: sourceHash(svgPath, pngPath),
+    };
+  });
 }
 
 /**
@@ -210,7 +184,7 @@ function renderCard(card: Card, chromium: string): void {
   fs.copyFileSync(card.svgPath, path.join(stagingDir, svgName));
   fs.writeFileSync(pagePath, cardPage(svgName));
 
-  fs.mkdirSync(path.dirname(card.pngPath), { recursive: true });
+  fs.mkdirSync(path.dirname(card.outputPath), { recursive: true });
 
   execFileSync(
     chromium,
@@ -223,111 +197,28 @@ function renderCard(card: Card, chromium: string): void {
       // painted, yielding a blank card.
       '--virtual-time-budget=10000',
       `--window-size=${PIXELS.width},${PIXELS.height}`,
-      `--screenshot=${card.pngPath}`,
+      `--screenshot=${card.outputPath}`,
       `file://${pagePath}`,
     ],
     { stdio: 'inherit' },
   );
 
   console.log(
-    `  rendered ${path.relative(REPO_ROOT, card.pngPath)} ` +
+    `  rendered ${path.relative(REPO_ROOT, card.outputPath)} ` +
       `(${PIXELS.width}×${PIXELS.height})`,
   );
 }
 
-/**
- * Walked rather than derived from the cards, so removing the last card in a
- * directory still surfaces the manifest it leaves behind.
- */
-function manifestFiles(): string[] {
-  return contentFiles((name) => name === MANIFEST_NAME);
-}
-
-/** The renders — recorded or on disk — that no frontmatter asks for any more. */
-function orphans(cards: Card[]): string[] {
-  const wanted = new Set(cards.map((card) => card.pngPath));
-  const directories = new Set([
-    ...cards.map((card) => path.dirname(card.pngPath)),
-    ...manifestFiles().map((file) => path.dirname(file)),
-  ]);
-
-  return [
-    ...new Set(
-      [...directories].flatMap((dir) =>
-        [
-          ...Object.keys(readManifest(path.join(dir, MANIFEST_NAME))),
-          ...fs
-            .readdirSync(dir)
-            .filter((name) => name.endsWith(RENDERED_SUFFIX)),
-        ].map((name) => path.join(dir, name)),
-      ),
-    ),
-  ].filter((pngPath) => !wanted.has(pngPath));
-}
-
-/**
- * Rewrites each manifest to exactly the cards its directory now holds, and
- * removes the one a directory no longer needs.
- */
-function writeManifests(cards: Card[]): void {
-  const grouped = new Map<string, Card[]>();
-
-  for (const card of cards) {
-    grouped.set(card.manifestPath, [
-      ...(grouped.get(card.manifestPath) ?? []),
-      card,
-    ]);
-  }
-
-  for (const manifestPath of manifestFiles()) {
-    if (!grouped.has(manifestPath)) fs.rmSync(manifestPath);
-  }
-
-  for (const [manifestPath, group] of grouped) {
-    const entries = group
-      .map((card): [string, string] => [
-        path.basename(card.pngPath),
-        sourceHash(card),
-      ])
-      .toSorted(([a], [b]) => a.localeCompare(b));
-
-    fs.writeFileSync(
-      manifestPath,
-      `${JSON.stringify(Object.fromEntries(entries), undefined, 2)}\n`,
-    );
-  }
-}
-
-function main(): void {
-  const cards = collectCards();
-  const stale = cards.filter((card) => isStale(card));
-  const gone = [...new Set(orphans(cards))];
-
-  console.log(
-    `${cards.length} Open Graph card(s) in the content tree, ${stale.length} to render, ` +
-      `${gone.length} stale render(s) to prune.`,
-  );
-
-  if (checkOnly) {
-    for (const card of stale)
-      console.log(`  stale:   ${path.relative(REPO_ROOT, card.pngPath)}`);
-    for (const pngPath of gone)
-      console.log(`  orphan:  ${path.relative(REPO_ROOT, pngPath)}`);
-    process.exitCode = stale.length > 0 || gone.length > 0 ? 1 : 0;
-    return;
-  }
-
-  if (stale.length > 0) {
-    const chromium = findChromium();
-    for (const card of stale) renderCard(card, chromium);
-  }
-
-  for (const pngPath of gone) {
-    if (fs.existsSync(pngPath)) fs.rmSync(pngPath);
-    console.log(`  pruned ${path.relative(REPO_ROOT, pngPath)}`);
-  }
-
-  writeManifests(cards);
-}
-
-main();
+await runRenderJob(
+  {
+    label: 'Open Graph card',
+    manifestName: MANIFEST_NAME,
+    isOutput: (name) => name.endsWith(RENDERED_SUFFIX),
+    entries: collectCards(),
+    render: (stale) => {
+      const chromium = findChromium();
+      for (const card of stale) renderCard(card, chromium);
+    },
+  },
+  process.argv.includes('--check'),
+);
