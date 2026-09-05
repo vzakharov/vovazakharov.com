@@ -17,6 +17,7 @@
     "format:check": "prettier --check .",
     "content:mermaid": "node scripts/render-mermaid.ts",
     "content:og": "node scripts/render-og.ts",
+    "content:pdf": "node scripts/render-pdf.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {

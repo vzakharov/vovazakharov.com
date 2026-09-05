@@ -1,6 +1,6 @@
 import { List, ListItem, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 
-import { COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
+import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 import { Card, InternalLink } from '@/shared/ui';
 
 import classes from './dev-section.module.scss';
@@ -48,7 +48,7 @@ export async function DevSection() {
           </InternalLink>
         ))}
         <Text size="sm">
-          <InternalLink href={COLLECTIONS['case-studies'].routeBase} inherit>
+          <InternalLink href={collectionRoute('case-studies')} inherit>
             All case studies, including the shorter cuts →
           </InternalLink>
         </Text>

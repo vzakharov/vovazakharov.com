@@ -2,7 +2,9 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import {
+  collectionRoute,
   COLLECTIONS,
+  documentName,
   listDocuments,
   loadDocument,
   renderDocument,
@@ -19,6 +21,7 @@ import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import { BackToHome } from './back-to-home';
 import classes from './case-studies.module.scss';
+import { PrintedFrom } from './printed-from';
 import { TableOfContents } from './table-of-contents';
 
 const COLLECTION = 'case-studies';
@@ -33,28 +36,27 @@ type Props = {
  */
 export function generateArticleParams() {
   return listDocuments(COLLECTION).map(({ slug, variant }) => ({
-    slug: variant ? [slug, variant] : [slug],
+    slug: [documentName(slug, variant)],
   }));
 }
 
-/** `[slug]` is the full document, `[slug, variant]` one of its shorter cuts. */
+/**
+ * Splits the single `<slug>[.<variant>]` segment. A trailing suffix that is not
+ * a known variant stays part of the slug — the same rule `parseFileName`
+ * applies to file names, which is what keeps route and file in agreement.
+ */
 function parseSegments(
   segments: string[],
 ): { slug: string; variant?: Variant } | undefined {
-  const [first] = segments;
+  const [name] = segments;
 
-  if (segments.length === 1 && first !== undefined) return { slug: first };
+  if (segments.length !== 1 || name === undefined) return undefined;
 
-  if (segments.length === 2) {
-    const [slug, suffix] = segments;
-    const variant = VARIANTS.find((candidate) => candidate === suffix);
+  const variant = VARIANTS.find((candidate) => name.endsWith(`.${candidate}`));
 
-    return slug !== undefined && variant !== undefined
-      ? { slug, variant }
-      : undefined;
-  }
-
-  return undefined;
+  return variant === undefined
+    ? { slug: name }
+    : { slug: name.slice(0, -(variant.length + 1)), variant };
 }
 
 async function resolve(params: Props['params']) {
@@ -75,6 +77,7 @@ export async function generateArticleMetadata({ params }: Props) {
 
 export async function ArticlePage({ params }: Props) {
   const { document, rendered } = await resolve(params);
+  const { route, slug } = document;
   const { title, readingMinutes, headings, html } = rendered;
 
   return (
@@ -87,7 +90,7 @@ export async function ArticlePage({ params }: Props) {
             className="print-hidden"
           >
             <InternalLink
-              href={COLLECTIONS[COLLECTION].routeBase}
+              href={collectionRoute(COLLECTION)}
               size="sm"
               className={classes['hoverDim']}
             >
@@ -106,7 +109,7 @@ export async function ArticlePage({ params }: Props) {
             <Box className={classes['articleIntro']}>
               <ArticleHeader
                 {...{ document, title, readingMinutes }}
-                availableVariants={siblingVariants(COLLECTION, document.slug)}
+                availableVariants={siblingVariants(COLLECTION, slug)}
               />
             </Box>
 
@@ -119,6 +122,7 @@ export async function ArticlePage({ params }: Props) {
             </Box>
           </Box>
 
+          <PrintedFrom {...{ route }} />
           <BackToHome />
         </Stack>
       </Container>

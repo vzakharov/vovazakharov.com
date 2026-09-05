@@ -1,5 +1,5 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
-import { FileText } from 'lucide-react';
+import { FileDown, FileText, type LucideIcon } from 'lucide-react';
 
 import {
   type DocumentRef,
@@ -10,6 +10,7 @@ import {
   type WithContentDocument,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
+import type { Anchored } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './case-studies.module.scss';
@@ -68,6 +69,31 @@ function CutSwitcher({
   );
 }
 
+type FileLinkProps = Anchored & {
+  /**
+   * Absent on the PDF, where forcing a save would replace the browser's inline
+   * viewer — and the PDF names its own origin in its footer anyway.
+   */
+  download?: string;
+  icon: LucideIcon;
+};
+
+/** One of the document's own files, served at this page's URL plus an extension. */
+function FileLink({ href, download, icon: Icon, children }: FileLinkProps) {
+  return (
+    <Anchor
+      {...{ href, download }}
+      size="sm"
+      className={cx('print-hidden', classes['hoverDim'])}
+    >
+      <Group component="span" gap={6} wrap="nowrap">
+        <Icon size={16} aria-hidden />
+        {children}
+      </Group>
+    </Anchor>
+  );
+}
+
 export type ArticleHeaderProps = WithContentDocument &
   Headlined & {
     availableVariants: Variant[];
@@ -79,7 +105,15 @@ export function ArticleHeader({
   readingMinutes,
   availableVariants,
 }: ArticleHeaderProps) {
-  const { frontmatter, collection, slug, variant, rawUrl } = document;
+  const {
+    frontmatter,
+    collection,
+    slug,
+    variant,
+    rawUrl,
+    pdfUrl,
+    downloadName,
+  } = document;
 
   return (
     <Box component="header" className={classes['articleHeader']}>
@@ -102,17 +136,14 @@ export function ArticleHeader({
             available={availableVariants}
           />
 
-          {/* The authored markdown, served straight out of `public/`. */}
-          <Anchor
-            href={rawUrl}
-            size="sm"
-            className={cx('print-hidden', classes['hoverDim'])}
-          >
-            <Group component="span" gap={6} wrap="nowrap">
-              <FileText size={16} aria-hidden />
+          <Group gap={16} wrap="wrap">
+            <FileLink href={rawUrl} download={downloadName} icon={FileText}>
               Markdown
-            </Group>
-          </Anchor>
+            </FileLink>
+            <FileLink href={pdfUrl} icon={FileDown}>
+              PDF
+            </FileLink>
+          </Group>
         </Group>
       </Stack>
     </Box>
