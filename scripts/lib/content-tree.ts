@@ -14,22 +14,23 @@ import {
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
-function walk(dir: string, matches: (name: string) => boolean): string[] {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const entryPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) return walk(entryPath, matches);
-
-    return matches(entry.name) ? [entryPath] : [];
-  });
+/** Every file at or under `target`, recursively; a `target` that is itself a file. */
+export function filesUnder(target: string): string[] {
+  return fs.statSync(target).isDirectory()
+    ? fs
+        .readdirSync(target)
+        .flatMap((name) => filesUnder(path.join(target, name)))
+    : [target];
 }
 
 /**
- * Every file in every collection whose name satisfies `matches`, recursively.
- * The renders the pipeline produces for a whole site — the mermaid SVGs — sit
- * outside the collections entirely, so this walk cannot hand a script its own
- * output as a source.
+ * Every file in every collection whose name satisfies `matches`. The renders the
+ * pipeline produces for a whole site — the mermaid SVGs — sit outside the
+ * collections entirely, so this walk cannot hand a script its own output as a
+ * source.
  */
 export function contentFiles(matches: (name: string) => boolean): string[] {
-  return COLLECTION_IDS.flatMap((id) => walk(collectionDir(id), matches));
+  return COLLECTION_IDS.flatMap((id) => filesUnder(collectionDir(id))).filter(
+    (file) => matches(path.basename(file)),
+  );
 }

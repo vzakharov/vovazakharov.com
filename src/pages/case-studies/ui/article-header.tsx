@@ -1,5 +1,6 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
-import { FileDown, FileText } from 'lucide-react';
+import { FileDown, FileText, type LucideIcon } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 import {
   type DocumentRef,
@@ -68,6 +69,33 @@ function CutSwitcher({
   );
 }
 
+type FileLinkProps = {
+  href: string;
+  /**
+   * Absent on the PDF, where forcing a save would replace the browser's inline
+   * viewer — and the PDF names its own origin in its footer anyway.
+   */
+  download?: string;
+  icon: LucideIcon;
+  children: ReactNode;
+};
+
+/** One of the document's own files, served at this page's URL plus an extension. */
+function FileLink({ href, download, icon: Icon, children }: FileLinkProps) {
+  return (
+    <Anchor
+      {...{ href, download }}
+      size="sm"
+      className={cx('print-hidden', classes['hoverDim'])}
+    >
+      <Group component="span" gap={6} wrap="nowrap">
+        <Icon size={16} aria-hidden />
+        {children}
+      </Group>
+    </Anchor>
+  );
+}
+
 export type ArticleHeaderProps = WithContentDocument &
   Headlined & {
     availableVariants: Variant[];
@@ -110,36 +138,13 @@ export function ArticleHeader({
             available={availableVariants}
           />
 
-          {/*
-            The document's own two files, each served straight out of
-            `public/` at this page's URL plus an extension. Only the markdown
-            carries `download`: on the PDF the attribute would replace the
-            browser's inline viewer with a forced save, and the PDF names its
-            origin in its own footer.
-          */}
           <Group gap={16} wrap="wrap">
-            <Anchor
-              href={rawUrl}
-              download={downloadName}
-              size="sm"
-              className={cx('print-hidden', classes['hoverDim'])}
-            >
-              <Group component="span" gap={6} wrap="nowrap">
-                <FileText size={16} aria-hidden />
-                Markdown
-              </Group>
-            </Anchor>
-
-            <Anchor
-              href={pdfUrl}
-              size="sm"
-              className={cx('print-hidden', classes['hoverDim'])}
-            >
-              <Group component="span" gap={6} wrap="nowrap">
-                <FileDown size={16} aria-hidden />
-                PDF
-              </Group>
-            </Anchor>
+            <FileLink href={rawUrl} download={downloadName} icon={FileText}>
+              Markdown
+            </FileLink>
+            <FileLink href={pdfUrl} icon={FileDown}>
+              PDF
+            </FileLink>
           </Group>
         </Group>
       </Stack>
