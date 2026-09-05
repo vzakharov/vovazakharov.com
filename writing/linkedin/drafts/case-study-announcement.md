@@ -10,9 +10,9 @@ blocked-on: claude/content-url-suffixes-j2qjau
 Attaches `playgram.pdf`. No link in the body — the file is right there. No
 sign-off line.
 
-The opening is the operator's own, filled in at its three ellipses and otherwise
-untouched. It is the voice specimen the writing rules get calibrated against, so
-it does not get tightened, rebalanced or improved.
+Everything but the three phrases below is the operator's own. This is the voice
+specimen the writing rules calibrate against, so it does not get tightened,
+rebalanced or improved.
 
 603 characters, against the 1,000 ceiling; the fold at ~200 falls on the
 sentence break, so the JSON lands above it.
@@ -21,9 +21,9 @@ sentence break, so the JSON lands above it.
 So from March to August this year I was doing quite a fun thing -- well, fun if you're the weird kind who loves dabbling with parsings, abstractions and 11.6-megabyte JSONs that live on a single line. Once done, I thought, why not write a case study about it. I only went halfway and it's already a 40-minute read 🙈 Not really thinking anyone would seriously read it all -- but maybe skim through? There's some interesting stuff on a lint rule whose failure mode was an authentication hole, two type shapes that both compiled while logging zeroes for months, and managing a team of 15+ agents at a time.
 ```
 
-## What went in the blanks
+## The three phrases
 
-Each wanted something concrete rather than a category:
+Each names something concrete rather than a category:
 
 - **"parsings, abstractions and …"** — the app's entire source was an 11.6 MB
   Bubble export, minified onto one line. VS Code crashes trying to open it.

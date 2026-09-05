@@ -50,11 +50,9 @@ open.
   is the evidence.
 - **English only.** The site is bilingual; this isn't.
 
-Those are the constraints particular to the channel. The voice conventions that
-hold across every draft — punctuation, emoji, the copy-exactness of a post's
-fenced text — live in `.claude/rules/writing.md`, which loads whenever anything
-under `writing/` is touched and grows as the anti-slop rules get written against
-marked-up drafts rather than anticipated.
+The voice conventions that hold across every draft — punctuation, emoji, the
+copy-exactness of a post's fenced text — live in `.claude/rules/writing.md`,
+which loads whenever anything under `writing/` is touched.
 
 ## The five shapes
 
