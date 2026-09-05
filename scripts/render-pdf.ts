@@ -81,13 +81,12 @@ function hashFiles(files: string[]): string {
 }
 
 /**
- * The assets a document points at, resolved against it. Read with a pattern
- * rather than through the content pipeline for the same reason the mermaid and
- * Open Graph scripts read their sources that way: this runs outside the
- * bundler, where `shared/content` is unavailable.
+ * The assets a document points at, resolved against it. Matched with a pattern
+ * because this runs outside the bundler, where `shared/content` is unavailable
+ * — the same reason the mermaid and Open Graph scripts read their sources so.
  *
- * A sibling `.md` is not an asset — it is a document of its own, with a PDF of
- * its own, and including it would make each cut's PDF stale on the others' edits.
+ * A sibling `.md` is a document of its own, with a PDF of its own, so counting
+ * it here would make each cut stale on the others' edits.
  */
 function referencedAssets(documentPath: string): string[] {
   const references = /(?:!?\[[^\]]*]\(|(?:src|href)=")([^\s")]+)/g;
@@ -176,11 +175,10 @@ async function served(url: string): Promise<boolean> {
 }
 
 /**
- * Waits for the server to answer at all. It refuses connections until it is
- * listening and then pays a compile cost, so this is a poll rather than a fixed
- * sleep — retrying from the tail rather than in a loop, since each attempt
- * depends on the last having failed. Once it answers, a route's own first
- * compile happens inside Chromium's request, which simply waits for it.
+ * Waits for the server to answer at all — it refuses connections until it is
+ * listening, then pays a compile cost, so the wait is a poll. Each route's own
+ * first compile needs no such warm-up: it happens inside Chromium's request,
+ * which waits for it like any client.
  */
 async function awaitServer(
   origin: string,

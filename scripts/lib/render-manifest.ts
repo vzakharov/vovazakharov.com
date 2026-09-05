@@ -9,9 +9,9 @@
  * Chromium versions, so an unchanged source would look changed on another
  * machine.
  *
- * Producing the renders is the caller's, handed every stale entry at once so
- * one browser or one dev server covers the batch — and awaited, so the prune
- * and the manifest write see what the render actually produced.
+ * The caller renders, handed every stale entry at once so one browser or one
+ * dev server covers the batch, and awaited so the prune and the manifest write
+ * see what it produced.
  *
  * Bare Node runs the scripts that use this, relying on its type stripping, so
  * this file stays free of syntax the stripper cannot erase and every relative
@@ -36,11 +36,7 @@ export type Renderable = {
   sourceHash: string;
 };
 
-/**
- * How a job's renders are recognized on disk. The bookkeeping below reads only
- * this much of a job, which is what lets it stay blind to the entry type the
- * caller actually renders.
- */
+/** All the bookkeeping reads of a job, which is what keeps it blind to the entry type. */
 type ManifestLayout = {
   /** The manifest's file name, written into each directory that holds a render. */
   manifestName: string;

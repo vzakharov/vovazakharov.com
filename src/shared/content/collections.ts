@@ -1,3 +1,8 @@
+/**
+ * No `import 'server-only'`, unlike most of `shared/content/`: string constants
+ * and pure path functions, which the render scripts run under bare Node.
+ */
+
 import path from 'node:path';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
@@ -8,17 +13,11 @@ export type CollectionId = (typeof COLLECTION_IDS)[number];
 /**
  * The one place a content URL shape is decided. Routes, the sitemap and the
  * index cards all derive from it, so a new collection is an entry here.
- *
- * No `import 'server-only'`, unlike most of `shared/content/`: string constants
- * and pure path functions, which the render scripts run under bare Node.
  */
 export const COLLECTIONS = {
   'case-studies': {
-    /**
-     * The collection's one path segment — its directory under `public/` and the
-     * first segment of its routes, so a document's files sit at its own route
-     * plus an extension.
-     */
+    /** Its directory under `public/` and the first segment of its routes, which
+     * is what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
   },

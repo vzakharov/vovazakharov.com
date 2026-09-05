@@ -14,7 +14,7 @@ import {
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
-/** Every file at or under `target`, recursively; a `target` that is itself a file. */
+/** Every file under `target`, recursively — or `target` itself when it is a file. */
 export function filesUnder(target: string): string[] {
   return fs.statSync(target).isDirectory()
     ? fs
