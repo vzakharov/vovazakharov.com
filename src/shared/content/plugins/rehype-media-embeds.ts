@@ -60,6 +60,9 @@ function printedVideoNote(src: string): Element {
         tagName: 'em',
         properties: {},
         children: [
+          // TODO: localize, along with the player's fallback text below. Both
+          // are English because content pages are; they need the document's
+          // locale once the `<slug>.<locale>.md` seam is built.
           { type: 'text', value: 'See video at ' },
           {
             type: 'element',

@@ -17,7 +17,7 @@ Playgram is a serious AI chat product — multiple providers and models, realtim
 
 I did almost none of the typing. At the peak I was running twenty-plus Claude Code agents at once, and that shift — from three local agents I babysat line by line to twenty in the cloud I reviewed like a manager — is the actual subject here.
 
-[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](./assets/playgram-demo.mp4)
 
 ## Why leave a working no-code app
 
@@ -92,7 +92,7 @@ I resisted cloud agents. The laptop melting past five parallel sessions is what 
 
 > **But boy could I be wronger.**
 
-<img width="681" alt="A sidebar of about two dozen pinned Claude Code sessions, each showing its own state" src="https://github.com/user-attachments/assets/43addf90-2906-4fe5-bea6-0f8016c9deeb" />
+<img width="681" alt="A sidebar of about two dozen pinned Claude Code sessions, each showing its own state" src="./assets/playgram-agent-sidebar.png" />
 
 Weeks in I was running 20+ at once, capped only by quota. Merge conflicts turned out to be the most overestimated risk of the lot: after more than a thousand merged PRs, agents resolving them properly — reasoning about what changed on each side, not just producing a file that compiles — has never once burned me. It took one skill to encode the footguns.
 
