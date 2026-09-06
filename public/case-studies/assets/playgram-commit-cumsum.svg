@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 640" width="980" height="640" role="img" aria-labelledby="ttl desc">
 <title id="ttl">Units of work and merged pull requests across the Playgram Bubble-to-Next.js rebuild</title>
-<desc id="desc">Two stacked charts sharing a timeline from the first commit on 6 March 2026 to 21 August 2026. The upper chart is cumulative units of work on main, reaching 1,287 — a gentle curve rising from 6.2 units a day to 8.2 at 25 April, when development moved into the cloud and every change started arriving as a branch and a review. The lower chart is units of work landed per week, in the forties before the switch and the seventies and eighties after it, at an unchanged median size of roughly 380 changed lines. Release milestones are marked: 4.0.0, the first production build, on 21 May; 4.1.0, the first workspace live, on 24 June; 4.2.0, the big cutover, on 3 July; 4.3.0, Bubble switched off, on 11 July; 4.4.0, credits and access control, on 31 July; and 4.4.3 on 10 August, after which the work was handed over to the team and the weekly figure falls by about two thirds.</desc>
+<desc id="desc">Two stacked charts sharing a timeline from the first commit on 6 March 2026 to 21 August 2026. The upper chart is cumulative units of work on main, reaching 1,287. Two measured windows are bracketed beneath the curve: 11 March to 24 April, before development moved into the cloud, at 6.8 units a day; and 27 April to 24 June, after the move, when every change started arriving as a branch and a review, at 11.2 units a day — two thirds again as much. Both rates are per calendar day. A week off from 6 to 10 May is excluded from the second window and drawn as a gap in its bracket; nothing else is excluded from either. The lower chart is units of work landed per week, in the forties before the switch and the seventies and eighties after it, at an unchanged median size of roughly 380 changed lines. Release milestones are marked: 4.0.0, the first production build, on 21 May; 4.1.0, the first workspace live, on 24 June; 4.2.0, the big cutover, on 3 July; 4.3.0, Bubble switched off, on 11 July; 4.4.0, credits and access control, on 31 July; and 4.4.3 on 10 August, after which the work was handed over to the team and the weekly figure falls by about two thirds.</desc>
 <style>
   text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
   /* An SVG loaded as an image sees the OS colour scheme, never the page's theme
@@ -67,10 +67,18 @@
 <text class="an2" x="272.5" y="110.0" text-anchor="end">web sessions and pull requests</text>
 <text class="an" x="331.2" y="96.0">the 2-month deadline</text>
 <text class="an2" x="331.2" y="110.0">nothing in production yet</text>
-<text class="slope" x="117.0" y="334.0">6.2 units/day</text>
-<text class="slope2" x="117.0" y="348.0">three agents, one screen</text>
-<text class="slope" x="431.5" y="351.0">8.2 units/day</text>
-<text class="slope2" x="431.5" y="365.0">twenty agents, reviewed as pull requests</text>
+<text class="slope" x="180.75" y="322.0" text-anchor="middle">6.8 units/day</text>
+<text class="slope2" x="180.75" y="336.0" text-anchor="middle">three agents, one screen · 11 Mar – 24 Apr</text>
+<text class="slope" x="410.25" y="351.0" text-anchor="middle">11.2 units/day</text>
+<text class="slope2" x="410.25" y="365.0" text-anchor="middle">twenty agents, reviewed as pull requests · 27 Apr – 24 Jun</text>
+<line class="rule" x1="87.25" y1="414.0" x2="274.25" y2="414.0"/>
+<line class="rule" x1="87.25" y1="414.0" x2="87.25" y2="408.0"/>
+<line class="rule" x1="274.25" y1="414.0" x2="274.25" y2="408.0"/>
+<line class="rule" x1="287.0" y1="414.0" x2="323.12" y2="414.0"/>
+<line class="rule" x1="344.38" y1="414.0" x2="533.5" y2="414.0"/>
+<line class="rule" x1="287.0" y1="414.0" x2="287.0" y2="408.0"/>
+<line class="rule" x1="533.5" y1="414.0" x2="533.5" y2="408.0"/>
+<text class="an2" x="333.75" y="426.0" text-anchor="middle">days off</text>
 <circle class="dot" cx="389.0" cy="309.9" r="4.5"/>
 <path class="lead" d="M 396.0 309.9 L 794.0 321.1 L 796 321.1"/>
 <text class="mv" x="802" y="321.1">4.0.0</text>
@@ -97,7 +105,7 @@
 <text class="ms" x="802" y="149.0">handover</text>
 <line class="grid" x1="66.0" y1="402.0" x2="780.0" y2="402.0"/>
 <text class="pnl" x="14" y="448.0">Units of work landed per week</text>
-<text class="sub" x="14" y="464.0">up by about a third after the switch — the same size of unit, more of them at once</text>
+<text class="sub" x="14" y="464.0">up by about two thirds after the switch — the same size of unit, more of them at once</text>
 <line class="grid" x1="66.0" y1="580.0" x2="780.0" y2="580.0"/><text class="ax" x="54" y="584.0" text-anchor="end">0</text>
 <line class="grid" x1="66.0" y1="529.0" x2="780.0" y2="529.0"/><text class="ax" x="54" y="533.0" text-anchor="end">50</text>
 <line class="grid" x1="66.0" y1="478.0" x2="780.0" y2="478.0"/><text class="ax" x="54" y="482.0" text-anchor="end">100</text>
