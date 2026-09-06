@@ -16,19 +16,18 @@ One rule now does: a document's file sits at its route plus an
 extension. The collections move to public/<base>/, a cut's route
 flattens to /<base>/<slug>.<variant>, and documentRoute() becomes the
 only place a content URL is shaped — the registry's dir and routeBase
-collapse into one segment, a document's markdown and PDF are that route
-plus an extension, and the link plugin no longer knows what a cut is.
-Nothing in a static export occupies those URLs, so this costs no route,
-no handler and no build step; public/ is not a workaround for the dead
-end that output: 'export' has no rewrites and a route.ts cannot share a
-segment with a page.tsx — it is the whole mechanism. The mermaid
-renders leave the collection tree for public/generated/, which retires
-the skip the source walk carried to avoid its own output. Two live URL
-shapes stop resolving for it, deliberately:
+collapse into one segment, and the link plugin no longer knows what a
+cut is. Nothing in a static export occupies those URLs, so this costs
+no route, no handler and no build step: public/ is not a workaround for
+the dead end that output: 'export' has no rewrites and a route.ts
+cannot share a segment with a page.tsx — it is the whole mechanism. The
+mermaid renders leave the collection tree for public/generated/,
+retiring the skip the source walk carried to avoid its own output. Two
+live URL shapes stop resolving, deliberately —
 /content/case-studies/<slug>.md with the asset paths under it, and
-/case-studies/<slug>/<variant>. A static export has no redirects, and
-leaving duplicate copies behind to preserve them would undo the
-single-source property the change is for.
+/case-studies/<slug>/<variant> — since a static export has no redirects
+and leaving duplicate copies behind would undo the single-source
+property the change is for.
 
 pnpm content:pdf renders a committed PDF per document, cuts included,
 from the site's existing print stylesheet, since a static export has no
@@ -43,18 +42,22 @@ shipping a stale one.
 
 Because that PDF leaves the browser, it carries what a screen supplies
 by other means. Every page repeats the document's URL, scheme dropped,
-opposite the site's copyright, as a real <tfoot> via PrintSheet: fixed
-positioning repeats per page but lets the prose run under it, and
-table-footer-group prints once, at the end. The table is table-layout:
-fixed in print, an auto one having widened to its widest child and
-silently cropped 2,600 words past the paper's edge. A video becomes an
-italic "See video at <url>", the player itself printing as a blank
-rectangle — which makes a video URL something a reader transcribes, so
-an opaque CDN id is now a content problem. And a document's own links
-are spelled absolutely, since a site-root href in a committed PDF means
-whichever host printed it; a src stays site-root, the page fetching that
-itself. Both files download under the document's dot-joined name, so
-neither opens over the article the reader was in.
+opposite the site's copyright, as a real <tfoot> via PrintSheet — fixed
+positioning repeats but lets the prose run under it, and
+table-footer-group prints once, at the end — set in the monospace face,
+being an address rather than prose. Pagination governs the rest of the
+sheet: the table is table-layout: fixed, an auto one having widened to
+its widest child and silently cropped 2,600 words past the paper's
+edge, and print media is bounded to the page's content height, a
+replaced element having no way to break across pages. A video prints as
+an italic "See video at <url>", the player itself a blank rectangle —
+so the case study's video and screenshot are self-hosted, a headless
+print not resolving a GitHub attachment and a CDN id being nothing a
+reader would retype. A document's own links are spelled absolutely,
+since a site-root href in a committed PDF means whichever host printed
+it; a src stays site-root, the page fetching that itself. Both files
+download under the document's dot-joined name, so neither opens over
+the article the reader was in.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_012kRiwmP39y3DrUj7rRLAZK
