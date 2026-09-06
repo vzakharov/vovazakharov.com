@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { SITE_CONFIG } from '@/shared/config';
+import type { Linked } from '@/shared/typings';
 
 import {
   COLLECTION_IDS,
@@ -28,6 +29,15 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
+/**
+ * One of a document's own files, as the header offers it: where `public/`
+ * serves it, and what a saved copy is called — the document's path under the
+ * site, dot-joined, so the file says what it is and whose it is once it has
+ * left the browser. Only an anchor's `download` can set that name: a static
+ * export serves fixed headers, so `Content-Disposition` is unavailable.
+ */
+export type DocumentFile = Linked & { download: string };
+
 export type ContentDocument = DocumentRef &
   Routed &
   WithFrontmatter &
@@ -37,17 +47,10 @@ export type ContentDocument = DocumentRef &
     /** The markdown body with the frontmatter block removed. */
     body: string;
     fileName: string;
-    /** Where `public/` serves the authored markdown, for the download link. */
-    rawUrl: string;
-    /** Where `public/` serves the prebuilt PDF, produced by `pnpm content:pdf`. */
-    pdfUrl: string;
-    /**
-     * What a saved copy of the markdown is called — the document's path under
-     * the site, dot-joined, so the file says what it is and whose it is once it
-     * has left the browser. Only an anchor's `download` can set it: a static
-     * export serves fixed headers, so `Content-Disposition` is unavailable.
-     */
-    downloadName: string;
+    /** The authored markdown, as served. */
+    markdown: DocumentFile;
+    /** The prebuilt PDF, produced by `pnpm content:pdf`. */
+    pdf: DocumentFile;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
   };
@@ -108,6 +111,10 @@ function readDocument(
   }
 
   const route = documentRoute(collection, slug, variant);
+  const file = (extension: string): DocumentFile => ({
+    href: `${route}.${extension}`,
+    download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
+  });
 
   return {
     collection,
@@ -116,10 +123,9 @@ function readDocument(
     frontmatter,
     body: content,
     fileName,
-    rawUrl: `${route}.md`,
-    pdfUrl: `${route}.pdf`,
+    markdown: file('md'),
+    pdf: file('pdf'),
     route,
-    downloadName: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.md`,
     ...resolveOgImage(collection, frontmatter.ogImage),
   };
 }

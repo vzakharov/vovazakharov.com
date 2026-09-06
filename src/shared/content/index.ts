@@ -13,6 +13,7 @@ export {
 } from './collections';
 export {
   type ContentDocument,
+  type DocumentFile,
   listAllDocuments,
   listDocuments,
   loadDocument,

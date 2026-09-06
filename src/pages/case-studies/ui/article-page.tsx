@@ -21,7 +21,7 @@ import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import { BackToHome } from './back-to-home';
 import classes from './case-studies.module.scss';
-import { PrintedFrom } from './printed-from';
+import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
 
 const COLLECTION = 'case-studies';
@@ -99,30 +99,31 @@ export async function ArticlePage({ params }: Props) {
             <ThemeToggle />
           </Group>
 
-          {/*
-            Three grid children rather than an article and a rail, so one DOM
-            order serves both layouts: stacked, the reader gets the title, then
-            the outline, then the prose; on a wide viewport the outline moves
-            into its own column beside both.
-          */}
-          <Box component="article" className={classes['articleLayout']}>
-            <Box className={classes['articleIntro']}>
-              <ArticleHeader
-                {...{ document, title, readingMinutes }}
-                availableVariants={siblingVariants(COLLECTION, slug)}
-              />
-            </Box>
+          <PrintSheet {...{ route }}>
+            {/*
+              Three grid children rather than an article and a rail, so one DOM
+              order serves both layouts: stacked, the reader gets the title,
+              then the outline, then the prose; on a wide viewport the outline
+              moves into its own column beside both.
+            */}
+            <Box component="article" className={classes['articleLayout']}>
+              <Box className={classes['articleIntro']}>
+                <ArticleHeader
+                  {...{ document, title, readingMinutes }}
+                  availableVariants={siblingVariants(COLLECTION, slug)}
+                />
+              </Box>
 
-            <Box component="aside" className={classes['articleAside']}>
-              <TableOfContents {...{ headings }} />
-            </Box>
+              <Box component="aside" className={classes['articleAside']}>
+                <TableOfContents {...{ headings }} />
+              </Box>
 
-            <Box className={classes['articleBody']}>
-              <ArticleBody {...{ html }} />
+              <Box className={classes['articleBody']}>
+                <ArticleBody {...{ html }} />
+              </Box>
             </Box>
-          </Box>
+          </PrintSheet>
 
-          <PrintedFrom {...{ route }} />
           <BackToHome />
         </Stack>
       </Container>

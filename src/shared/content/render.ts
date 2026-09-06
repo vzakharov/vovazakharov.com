@@ -122,7 +122,7 @@ function collectHeadings(collected: WithHeadings) {
 }
 
 async function render(document: ContentDocument): Promise<RenderedDocument> {
-  const { collection, rawUrl, body, fileName } = document;
+  const { collection, markdown, body, fileName } = document;
   const collected = {
     title: undefined as string | undefined,
     wordCount: 0,
@@ -145,7 +145,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeMediaEmbeds)
     // Before the image pass, so the diagrams it produces are sized like any
     // other image and do not collapse the page until their SVG loads.
-    .use(rehypeMermaid, { sourceUrl: getAbsoluteUrl(rawUrl) })
+    .use(rehypeMermaid, { sourceUrl: getAbsoluteUrl(markdown.href) })
     .use(rehypeImageDimensions)
     .use(rehypeTableScroll)
     .use(rehypeShiki, {

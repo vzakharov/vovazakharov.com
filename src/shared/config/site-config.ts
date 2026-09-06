@@ -1,3 +1,10 @@
+/**
+ * A static export renders once per deploy, so the year a copyright line shows
+ * is the year the site was built. Shared because the page footer and the PDF's
+ * printed one must not disagree.
+ */
+export const BUILD_YEAR = new Date().getFullYear();
+
 export const SITE_CONFIG = {
   url: 'https://vovazakharov.com',
   /**
@@ -26,3 +33,11 @@ export const SITE_CONFIG = {
 
 // Helper to get absolute URL
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
+
+/**
+ * The same URL with its scheme dropped, for print — paper carries no click, so
+ * `https://` is six characters that tell the reader nothing. A link that shows
+ * this still points at `getAbsoluteUrl`, so navigation is unaffected.
+ */
+export const getBareUrl = (path: string) =>
+  getAbsoluteUrl(path).replace(/^https?:\/\//, '');

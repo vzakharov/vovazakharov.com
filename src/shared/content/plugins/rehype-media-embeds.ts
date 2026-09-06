@@ -2,7 +2,9 @@ import 'server-only';
 
 import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
-import { visit } from 'unist-util-visit';
+import { SKIP, visit } from 'unist-util-visit';
+
+import { getAbsoluteUrl } from '@/shared/config';
 
 import { hastText } from '../hast-text';
 
@@ -40,6 +42,48 @@ function soleElementChild(node: Element): Element | undefined {
   return meaningful.length === 1 && only?.type === 'element' ? only : undefined;
 }
 
+/**
+ * How a printed line spells a URL: absolute, so it resolves off the page it was
+ * printed from, and without the scheme paper cannot click anyway. The link
+ * keeps the scheme, so the PDF's annotation still navigates.
+ */
+function printedLink(src: string): { href: string; text: string } {
+  const href = src.startsWith('/') ? getAbsoluteUrl(src) : src;
+
+  return { href, text: href.replace(/^https?:\/\//, '') };
+}
+
+/**
+ * What the player leaves behind on paper. A printed video is a blank rectangle,
+ * so the page prints where to watch it instead — which is only useful if the
+ * URL can be typed off the page.
+ */
+function printedVideoNote(src: string): Element {
+  const { href, text } = printedLink(src);
+
+  return {
+    type: 'element',
+    tagName: 'p',
+    properties: { className: ['print-only', 'content-video-note'] },
+    children: [
+      {
+        type: 'element',
+        tagName: 'em',
+        properties: {},
+        children: [
+          { type: 'text', value: 'See video at ' },
+          {
+            type: 'element',
+            tagName: 'a',
+            properties: { href },
+            children: [{ type: 'text', value: text }],
+          },
+        ],
+      },
+    ],
+  };
+}
+
 function videoElement(href: string, label: string): Element {
   return {
     type: 'element',
@@ -49,7 +93,7 @@ function videoElement(href: string, label: string): Element {
       controls: true,
       preload: 'metadata',
       playsInline: true,
-      className: ['content-video'],
+      className: ['content-video', 'print-hidden'],
       'aria-label': label,
     },
     children: [
@@ -76,7 +120,8 @@ function videoElement(href: string, label: string): Element {
  * Turns a paragraph that holds nothing but a link to a video into a player, so
  * a document reads as a link on GitHub and plays inline on the site. The link
  * text becomes the player's accessible label, and the fallback inside it keeps
- * the video reachable in a browser that cannot play the format.
+ * the video reachable in a browser that cannot play the format. A printed copy
+ * gets the note beside it instead, since the player prints as nothing.
  */
 function embedVideos(tree: Root) {
   visit(tree, 'element', (node: Element, index, parent) => {
@@ -88,7 +133,14 @@ function embedVideos(tree: Root) {
     const href = link.properties.href;
     if (typeof href !== 'string') return;
 
-    parent.children[index] = videoElement(href, hastText(link).trim());
+    parent.children.splice(
+      index,
+      1,
+      videoElement(href, hastText(link).trim()),
+      printedVideoNote(href),
+    );
+
+    return [SKIP, index + 2];
   });
 }
 

@@ -193,8 +193,58 @@ h1[data-order='1'].articleTitle {
   }
 }
 
-// The printed page's own URL, at the foot of the article.
+// The table that carries the repeating print footer. Its rows display as plain
+// blocks on screen — the table exists only for paged media, where a `<tfoot>`
+// is what repeats per page. The child combinators keep every rule off the
+// tables inside the article.
+.printSheet {
+  &,
+  > tbody,
+  > tbody > tr,
+  > tbody > tr > td {
+    display: block;
+  }
+
+  > tfoot {
+    display: none;
+  }
+
+  @media print {
+    display: table;
+
+    // `fixed` rather than the default: an auto table widens to its widest
+    // child — a code block or a data table — and everything past the paper's
+    // edge, the footer's right half included, is then simply cut off.
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+
+    > tbody {
+      display: table-row-group;
+    }
+
+    > tfoot {
+      display: table-footer-group;
+    }
+
+    > tbody > tr,
+    > tfoot > tr {
+      display: table-row;
+    }
+
+    > tbody > tr > td,
+    > tfoot > tr > td {
+      padding: 0;
+      display: table-cell;
+    }
+  }
+}
+
+// The printed page's own URL and the site's copyright, at the foot of each
+// page. The top padding is the gap the repeated footer keeps from the text
+// above it, which the table reserves along with the footer's own height.
 .printedFrom {
   padding-top: 0.4cm;
   border-top: 1px solid var(--color-border-hairline);
+  opacity: 0.6;
 }

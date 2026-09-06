@@ -4,6 +4,8 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { getAbsoluteUrl } from '@/shared/config';
+
 import {
   collectionAssetUrl,
   type CollectionId,
@@ -21,6 +23,7 @@ function stripLeadingDot(url: string): string {
 
 function rewrite(
   collection: CollectionId,
+  tagName: string,
   url: string,
 ): { href: string; external: boolean } {
   if (!isRelative(url)) {
@@ -35,9 +38,17 @@ function rewrite(
   // A sibling document's route is its file name minus the `.md`, cuts
   // included, so the documents' own cross-links resolve the same way every
   // other relative target does — and this plugin never learns what a cut is.
-  const href = collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''));
+  const path = `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
 
-  return { href: `${href}${fragment}`, external: false };
+  // A link is spelled absolutely and a media source is not, because the two
+  // travel differently: the printed PDF carries its links out of the browser
+  // that resolved them, where a site-root path means the reader's own host —
+  // while a source is fetched by the page itself, and an absolute one would
+  // cost a preview its images and the dimension pass its file.
+  return {
+    href: tagName === 'a' ? getAbsoluteUrl(path) : path,
+    external: false,
+  };
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -66,7 +77,7 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
 
       if (typeof value !== 'string') return;
 
-      const { href, external } = rewrite(collection, value);
+      const { href, external } = rewrite(collection, node.tagName, value);
       node.properties[attribute] = href;
 
       if (external && node.tagName === 'a') {

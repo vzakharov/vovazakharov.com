@@ -44,15 +44,19 @@ type Printable = Renderable & Routed;
 const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
- * What shapes a printed page besides the document itself. A markdown-only hash
- * would let a style or component change ship behind a stale PDF; the cost of
- * casting this wide is that a tweak to any of it re-flags every PDF, and that
- * costs one `pnpm content:pdf` run.
+ * What shapes a printed page besides the document itself: the sheets that style
+ * it, the components that lay it out, the pipeline that turns the markdown into
+ * the markup, and the site's own identity, which the footer prints. A narrower
+ * hash would let a change to any of them ship behind a stale PDF; the cost of
+ * casting it this wide is that a tweak to any of it re-flags every PDF, and
+ * that costs one `pnpm content:pdf` run.
  */
 const SHARED_SOURCES = [
   'src/app/styles/print.scss',
   'src/app/styles/prose.scss',
   'src/pages/case-studies/ui',
+  'src/shared/content',
+  'src/shared/config',
 ];
 
 /** How long the dev server gets to answer before the run is abandoned. */
