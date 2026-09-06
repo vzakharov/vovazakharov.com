@@ -21,7 +21,7 @@
 - **`documentRoute()` becomes the only URL shaper.** The collections registry's `dir` and `routeBase` collapse into one `base` segment, `rawUrl`/`pdfUrl` are the route plus an extension, and the link plugin stops re-deriving what a cut is — three duplications become one derivation. The markdown moves from `public/content/<collection>/` to `public/<collection>/`, and the mermaid renders leave the collection tree for `public/generated/`, which retires the `generated/` skip the source walk carried.
 - **`pnpm content:pdf` renders a committed PDF per document, cuts included**, from the site's existing print stylesheet — a static export has no request-time renderer, so a committed file is the only PDF there can be. Its staleness bookkeeping is `scripts/lib/render-manifest.ts`, extracted from `render-og.ts` and now shared; `--check` hashes files only and joins vet's fan-out. A PDF's source set is wider than its markdown (the print sheet and the article components shape it too), so a component tweak re-flags every PDF — the stated cost of not shipping a stale one.
 - **Provenance travels with both files.** The header offers them as `.md` and `.pdf`, and each carries a `download` naming the document's dot-joined path under a site prefix (`vova.case-studies.playgram.mini.pdf`), so neither opens over the article the reader is in. Every printed page then carries a footer of its own — the document's URL, scheme dropped, opposite `© Vova Zakharov, <year>` — because Chrome's own footer would name the `localhost` that printed it and the CLI cannot override its text. That footer is a real `<tfoot>` (`PrintSheet`) rather than a `position: fixed` line: fixed repeats per page but lets the prose run underneath it, and `display: table-footer-group` on a plain element prints once, at the end. The table is `table-layout: fixed` in print, because an auto one widens to its widest child and silently crops everything past the paper's edge.
-- **A video prints as the line that replaces it** — an italic *See video at &lt;url&gt;* note, since the player itself prints as a blank rectangle. Which makes a video's URL something a reader transcribes off paper, so an opaque CDN id is a content problem rather than a rendering one.
+- **A video prints as the line that replaces it** — an italic _See video at &lt;url&gt;_ note, since the player itself prints as a blank rectangle. Which makes a video's URL something a reader transcribes off paper, so an opaque CDN id is a content problem rather than a rendering one.
 - **A document's own links are absolute; its media sources are not.** Without that, a committed PDF points its in-document links at the dev server that printed it (`http://localhost:44985/case-studies/playgram.nano`) — two dead links per document. A `src` stays site-root: the page fetches it itself, and an absolute one would cost a local preview its images and the dimension pass its file.
 - **The PDF manifest hashes the pipeline too.** `SHARED_SOURCES` covers `shared/content` and `shared/config` alongside the sheets and the article components, so a rehype-plugin or site-config edit re-flags every PDF instead of shipping behind one `--check` calls fresh.
 - **Two live URL shapes stop resolving**, as planned: `/content/case-studies/playgram.md` (and the asset paths under `/content/`) and `/case-studies/playgram/mini`. Static export has no redirects, and keeping duplicates would undo the single-copy property the change is for.
@@ -34,7 +34,7 @@
 - [ ] `cut-route` — open `/case-studies/playgram.mini`; the mini cut renders, and its `.md`/`.pdf` siblings resolve too.
 - [ ] `download-name` — click **.md** and **.pdf** in the header; both save rather than open, as `vova.case-studies.playgram.mini.md` and `…mini.pdf`. Fetch either URL directly (`curl -O`) and it falls back to `playgram.mini.md`, not `mini.md`.
 - [ ] `pdf-footer` — open a rendered PDF: **every** page carries `vovazakharov.com/case-studies/…` opposite `© Vova Zakharov, 2026`, no page's prose runs under it, the text selects, and clicking the URL navigates (the annotation keeps `https://`).
-- [ ] `pdf-video` — the same PDF shows an italic *See video at …* where the player sits on screen, and no blank rectangle.
+- [ ] `pdf-video` — the same PDF shows an italic _See video at …_ where the player sits on screen, and no blank rectangle.
 - [ ] `pdf-links` — follow an in-document cross-cut link from inside a PDF; it resolves to `vovazakharov.com`, not to a `localhost` port.
 - [ ] `cross-links` — from the mini cut, follow the in-document links to the full and nano cuts; both resolve, and the document's images and mermaid diagrams load (`/case-studies/assets/…`, `/generated/mermaid/…`).
 - [ ] `gone` — `/case-studies/playgram/mini` and `/content/case-studies/playgram.md` both 404. Expected: this is the accepted breakage.
@@ -47,10 +47,10 @@
 | `raw-md`        | e2e         | ❌       | Assert `out/case-studies/playgram.md` exists and matches the authored file                 |
 | `pdf-url`       | e2e         | ❌       | Assert `out/case-studies/playgram.pdf` exists and parses as a PDF                          |
 | `cut-route`     | e2e         | ❌       | Assert the build emits `playgram.mini.html` beside `playgram.html`                         |
-| `download-name` | unit        | ❌       | `readDocument` → `markdown`/`pdf` `download` for a cut and for a full document            |
-| `pdf-footer`    | e2e         | ❌       | Extract per-page text, assert the footer on every page and no prose below its top edge    |
-| `pdf-video`     | e2e         | ❌       | Assert the note's text is in the PDF and the player's rectangle is not                    |
-| `pdf-links`     | e2e         | ❌       | Assert no link annotation in any committed PDF matches `localhost`                        |
+| `download-name` | unit        | ❌       | `readDocument` → `markdown`/`pdf` `download` for a cut and for a full document             |
+| `pdf-footer`    | e2e         | ❌       | Extract per-page text, assert the footer on every page and no prose below its top edge     |
+| `pdf-video`     | e2e         | ❌       | Assert the note's text is in the PDF and the player's rectangle is not                     |
+| `pdf-links`     | e2e         | ❌       | Assert no link annotation in any committed PDF matches `localhost`                         |
 | `cross-links`   | unit        | ❌       | `rehypeContentLinks` over a `./x.mini.md` link and a `./assets/y.png` src                  |
 | `gone`          | e2e         | ❌       | Assert `out/` holds neither path                                                           |
 | `pdf-staleness` | integration | ❌       | Same shape as `type-overlap-check.test.ts`: a temp tree, run `--check`, assert exit + text |
@@ -140,15 +140,15 @@ _Generated by [Claude Code](https://claude.ai/code)_
 
 ```diff
 @@ -54,6 +64,8 @@ The exceptions are `shared/content/content-hash.ts` and `mermaid-renders.ts`, wh
- 
+
  ## Traps worth knowing
- 
+
 +- **A document's route reserves `.html` and `.txt`, and takes them without a word.** Those are the page and the RSC payload Next emits beside it, and a file in `public/` that collides with either is silently overwritten by the route's output — `next build` exits 0 and reports nothing. Every other extension is free, which is what makes `.md` and `.pdf` safe and leaves room for a third.
 ```
 
 **@vzakharov** — 2026-09-06T12:02:29Z
 
-Just out of curiousity, why .txt too? (This is *not* a request to edit.)
+Just out of curiousity, why .txt too? (This is _not_ a request to edit.)
 
 **@vzakharov** — 2026-09-06T12:55:56Z
 
@@ -165,6 +165,7 @@ out/case-studies/
 So the route claims both, and a `public/case-studies/playgram.txt` would lose to the second one silently. Left as-is per your note.
 
 ---
+
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
@@ -186,6 +187,7 @@ The bigger cost is that it un-does the extraction this PR just made. `scripts/li
 What it would buy is one fewer committed file per render directory. Worth it if that's the objection — but if what actually bugs you is that build bookkeeping **ships to the site** (`/case-studies/pdf-renders.json` and `/case-studies/assets/og-renders.json` are both live URLs right now), that's the cheaper thing to fix: move both manifests out of `public/` and key them by path instead of by directory. Say which and I'll do it.
 
 ---
+
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
@@ -194,9 +196,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-06T12:20:19Z
 
-two things: 
+two things:
 a) the video (obviously) doesn't render in pdf, so videos have to be replaced with "See video at <url>" in italic. For the same reason, the video url should be human-typable (not sha or smth)
-b) I don't see any footer in the pdf (on every page), only one footnote after the entire body -- we need it on every page for visibility. For better look, exclude "https://" prefix (unless it breaks navigation). Also, a juxtaposed "© Vova Zakharov, <current year>" would be a nice addition too. 
+b) I don't see any footer in the pdf (on every page), only one footnote after the entire body -- we need it on every page for visibility. For better look, exclude "https://" prefix (unless it breaks navigation). Also, a juxtaposed "© Vova Zakharov, <current year>" would be a nice addition too.
 
 **@vzakharov** — 2026-09-06T12:56:12Z
 
@@ -206,15 +208,15 @@ Both done in 3f10992 — verified by extracting text and link annotations out of
 
 On the URL being typable: it currently prints as `github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c`, which is exactly the unusable thing you mean, and I can't fix it from here — this session's proxy scopes `github.com` to this repo, so I can't download the attachment to re-host it. Left you a choice in the session; the mechanism prints whatever the `src` is, so it's a one-line content edit either way.
 
-**(b) Footer on every page.** It repeats now, reserves its own space, and reads `vovazakharov.com/case-studies/playgram.mini` opposite `© Vova Zakharov, 2026`. The `https://` is dropped from the *text* only — the link annotation keeps it, so clicking still navigates.
+**(b) Footer on every page.** It repeats now, reserves its own space, and reads `vovazakharov.com/case-studies/playgram.mini` opposite `© Vova Zakharov, 2026`. The `https://` is dropped from the _text_ only — the link annotation keeps it, so clicking still navigates.
 
 The mechanism is worth knowing about because it constrains the markup: `PrintSheet` wraps the article in a presentational table so the footer is a real `<tfoot>`. That's the only thing Chromium both repeats per page **and** keeps the flow clear of. Measured, on a 6-page probe:
 
-| Approach | Repeats per page | Reserves space |
-| --- | --- | --- |
-| `position: fixed; bottom: 0` | yes | **no** — text runs under it |
-| `display: table-footer-group` on a div | **no** — prints once, at the end | n/a |
-| real `<tfoot>` | yes | yes |
+| Approach                               | Repeats per page                 | Reserves space              |
+| -------------------------------------- | -------------------------------- | --------------------------- |
+| `position: fixed; bottom: 0`           | yes                              | **no** — text runs under it |
+| `display: table-footer-group` on a div | **no** — prints once, at the end | n/a                         |
+| real `<tfoot>`                         | yes                              | yes                         |
 
 Two things fell out of verifying it:
 
@@ -222,6 +224,7 @@ Two things fell out of verifying it:
 - Every committed PDF was pointing its in-document links at `http://localhost:44985/...`, i.e. the dev server that printed it — same root cause as your footer complaint, two links per document. `rehypeContentLinks` now spells internal `<a href>`s absolutely (a `src` stays site-root, or a local preview loses its images). All three PDFs are at 0 localhost links now.
 
 ---
+
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
