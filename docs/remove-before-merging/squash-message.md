@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-docs: a LinkedIn backlog mined from the Playgram case study (pr #26)
+feat: a LinkedIn backlog mined from the Playgram case study (pr #26)
 ```
 
 ```
@@ -12,32 +12,37 @@ rather than invented one at a time.
 
 `writing/linkedin/plan.md` is the standing backlog: eighteen posts, each
 anchored to a fact specific enough that it could not have been written
-by someone who wasn't there, plus the five shapes they take and the mix
-between them, the form constraints, and a reserve list for when the
-current material thins. Drafts sit one per file under `drafts/`, each
-naming the case-study section its facts come from. A post restates those
-facts rather than linking to them -- a reader has nothing open -- so
-that key is what makes "which posts repeat this number?" a grep.
+by someone who wasn't there, the opening run, a reserve list for when
+the current material thins, and an "Unsettled" section for the four
+rows that carry an objection rather than a draft.
 
-The first draft is the announcement, and it doubles as a calibration
-piece: the operator wrote it, so only its three ellipses are filled and
-the rest is frozen as a voice specimen. Its post text sits in a fence as
-one unwrapped line, because a hard wrap in the source becomes a line
-break in the feed. `.claude/rules/writing.md` is scoped to `writing/**`
-and holds what applies to every draft -- today the two settled
-conventions, since the anti-slop rules are meant to be written against
-marked-up drafts rather than anticipated.
+`.claude/rules/writing.md` is the per-draft contract, scoped to
+`writing/**`: the 1,000-character ceiling and the fold, the five shapes
+a post can take, the frontmatter every draft carries, and the voice
+conventions -- `--` over an em dash, self-deprecating emoji only, and
+the copy-exactness of a post's fenced text, which is one unwrapped line
+per paragraph because a hard wrap in the source becomes a line break in
+the feed.
+
+The first draft is the announcement, carrying the case study as a PDF
+attachment rather than a link. Its text is the operator's own, filled
+at one blank, and it is the specimen the voice rules are written
+against.
 
 `writing/` sits at the repo root deliberately: `public/` is served, and
 an unposted draft crawlable before it runs is the wrong order of
-operations, while `docs/` is where working artifacts go to be swept. The
-announcement attaches the case study as a PDF, which
-`claude/content-url-suffixes-j2qjau` owns rather than this branch, so
-the draft is held by a `blocked-on` key until that lands.
+operations, while `docs/` is where working artifacts go to be swept.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01FL6zdfWFDTC2jvazgWQQQR
+Claude-Session: https://claude.ai/code/session_01QDxBYFvDDJXaKQmFaAdrLV
 ```
+
+**On the prefix.** `docs:` was wrong — this documents nothing; it is the
+repo starting to carry editorial content and the rules for producing it.
+`feat:` is the closest of the allowed prefixes by substance, and the
+trade is that it trips the deploy gate for a change that alters nothing
+in the built site: one no-op Pages republish. Say the word and it goes
+back to `chore:`, which is deploy-free but undersells it.
 
 ---
 

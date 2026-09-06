@@ -2,39 +2,30 @@
 source: whole document
 shape: announcement
 status: draft
-blocked-on: claude/content-url-suffixes-j2qjau
 ---
 
 # Case study announcement
 
-Attaches `playgram.pdf`. No link in the body — the file is right there. No
-sign-off line.
+The post that says the case study exists. Being an announcement, it does one
+thing — give a reader enough to decide whether to open a 40-minute read — and
+nothing else: no lesson, no CTA, no sign-off line.
 
-Everything but the three phrases below is the operator's own. This is the voice
-specimen the writing rules calibrate against, so it does not get tightened,
-rebalanced or improved.
+The three skim baits are picked to be legible to someone who wasn't there: a
+number to react to (362 rules), a change in how the work felt (CLI to web
+agents), and an admission (the mistakes). The technically impressive specifics
+stay in the case study, where there is room to earn them.
 
-603 characters, against the 1,000 ceiling; the fold at ~200 falls on the
-sentence break, so the JSON lands above it.
+The PDF is attached rather than linked. An attachment opens in the feed and
+flips locally; a link asks the reader to leave.
+
+The text below is the operator's, filled at its one blank. 573 characters
+against the 1,000 ceiling; the first paragraph is 186, so the whole opening
+clears the ~200 fold and the JSON is visible unexpanded.
 
 ```text
-So from March to August this year I was doing quite a fun thing -- well, fun if you're the weird kind who loves dabbling with parsings, abstractions and 11.6-megabyte JSONs that live on a single line. Once done, I thought, why not write a case study about it. I only went halfway and it's already a 40-minute read 🙈 Not really thinking anyone would seriously read it all -- but maybe skim through? There's some interesting stuff on a lint rule whose failure mode was an authentication hole, two type shapes that both compiled while logging zeroes for months, and managing a team of 15+ agents at a time.
+So, from March to August this year I was doing quite a fun thing -- well, fun if you're the weird kind who loves dabbling with parsings, abstractions and 11.6-megabyte single-line JSONs.
+
+Once done, I thought, why not write a case study about it. I only went halfway and it's already a 40-minute read 🙈
+
+Not really thinking anyone would seriously read it all -- but maybe skim through? There's some interesting stuff on why I decided to turn on 362 linter rules, how much faster switching from CLI to Web agents made me, and some embarrassing mistakes I made along the way.
 ```
-
-## The three phrases
-
-Each names something concrete rather than a category:
-
-- **"parsings, abstractions and …"** — the app's entire source was an 11.6 MB
-  Bubble export, minified onto one line. VS Code crashes trying to open it.
-- **first skim bait** — `safe-action-required`, the hand-written lint rule whose
-  failure mode is a live authentication hole, because Next turns every export
-  from a `'use server'` file into an endpoint the browser can call.
-- **second skim bait** — `tokenCounts: { input, output }` sitting beside DB
-  columns named `inputTokens`/`outputTokens`. Both type-checked; every usage log
-  recorded zero, found by accident months later.
-
-An announcement calibrates the personal register only, and says nothing about
-the teaching register the other eighteen posts live in. Post #3, the
-type-overlap gate, is the natural second calibration draft once the first round
-of rules exists.

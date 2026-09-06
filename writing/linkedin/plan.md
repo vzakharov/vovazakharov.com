@@ -12,80 +12,26 @@ becomes one people recognise on the subject of running coding agents at scale.
 Both come from the writing being useful and specific. No CTA, no "what's your
 experience?", no "DM me". The dots stay for the reader to connect.
 
-## Layout
+That very likely costs engagement, and knowingly — the CTA is standard advice
+because it moves the metric. It is traded away on purpose: sounding authentic
+rather than needy, unlike most of what this genre publishes, is a long-term bet
+on how the name reads a year from now, not on how a post performs this week.
 
-```
-writing/linkedin/
-  plan.md              # this file
-  drafts/
-    <slug>.md          # one file per post
-```
-
-Each draft carries frontmatter:
-
-| Key          | Meaning                                             |
-| ------------ | --------------------------------------------------- |
-| `source`     | the case-study section its facts come from          |
-| `shape`      | one of the five below                               |
-| `status`     | `draft` \| `approved` \| `posted`                   |
-| `posted`     | the date, once it is                                |
-| `blocked-on` | while something outside the draft has to land first |
-
-`source` exists so "which posts repeat this number?" is a grep rather than a
-memory. The case study is the single source of truth for every fact, and posts
-restate those facts rather than link to them — a LinkedIn reader has nothing
-open.
-
-## Form
-
-- **1,000 characters, hard ceiling.** Long enough for one idea completely; short
-  enough to be read whole.
-- **The first two lines carry it.** LinkedIn folds at roughly 200 characters, so
-  the opening states the concrete thing rather than promising it. No "I want to
-  share some thoughts on…", no question-as-opener.
-- **One idea per post.** A second good idea is a second post.
-- **No single-sentence-per-line staccato**, which is the house style of the
-  genre and reads as the genre rather than as a person.
-- **Numbers stay unrounded.** 3,487 files, 11.6 MB, 8,123 imports. The precision
-  is the evidence.
-- **English only.** The site is bilingual; this isn't.
-
-The voice conventions that hold across every draft — punctuation, emoji, the
-copy-exactness of a post's fenced text — live in `.claude/rules/writing.md`,
-which loads whenever anything under `writing/` is touched.
-
-## The five shapes
-
-Naming the shapes is what stops eighteen posts from being eighteen variations of
-one paragraph. Drafts name a shape in frontmatter and never restate its
-definition.
-
-- **Footgun** — a specific bug, why it was invisible, and the thing that catches
-  it now. Ends on the mechanism, never on a moral.
-- **Measurement** — a number nobody else has, and what it does and doesn't mean.
-  Must include the deflating half; a measurement that only flatters is an ad.
-- **Reversal** — a received best practice that is wrong in a named context, with
-  the reason it's usually right left standing.
-- **Receipt** — an unflattering fact about my own work, scored. It does the most
-  for credibility, and must never be false modesty about something that actually
-  went well.
-- **Artifact** — a small piece of real code, config or output, shown and then
-  explained. The reader should be able to steal it.
-
-Rough mix over any ten posts: 3 footgun, 2 measurement, 2 reversal, 2 receipt,
-1 artifact. Receipts are the scarce ingredient — overused they turn into a bit.
-
-The announcement post belongs to none of them. A one-off does not need a
-category invented for it.
+The form, the five shapes and the per-draft frontmatter are in
+`.claude/rules/writing.md`, which loads whenever anything under `writing/` is
+touched.
 
 ## Sequencing
 
 Free-standing and unnumbered — a numbered series makes every post after the
 first look like homework and makes a missed week visible. The suggested opening
 run is a shape, not a schedule: **the announcement, then 1 → 3 → 12 → 5 → 2**.
-That opens on the strangest artifact, follows with a bug that cost real money,
-then the handover — the one that most plainly answers "so did it work?" —
-before settling into practitioner material.
+That opens on the strangest artifact, follows with the gate that came out of a
+bug that cost real money, then the handover — the one that most plainly answers
+"so did it work?" — before settling into practitioner material.
+
+Whether later posts link anywhere at all is left open on purpose — the first few
+answers will settle it better than a rule written now.
 
 ## The attachment
 
@@ -93,48 +39,69 @@ The announcement post carries the case study as a PDF attachment rather than a
 link. Attaching one on LinkedIn reads differently: it opens in the feed, it
 flips locally, it does not ask the reader to leave.
 
-|                    |                                                   |
-| ------------------ | ------------------------------------------------- |
-| **File**           | `public/case-studies/playgram.pdf`                |
-| **URL**            | `/case-studies/playgram.pdf`                      |
-| **Cuts**           | `playgram.mini.pdf`, `playgram.nano.pdf`          |
-| **Regenerated by** | `pnpm content:pdf`                                |
-| **Available from** | the merge of `claude/content-url-suffixes-j2qjau` |
+|                    |                                          |
+| ------------------ | ---------------------------------------- |
+| **File**           | `public/case-studies/playgram.pdf`       |
+| **URL**            | `/case-studies/playgram.pdf`             |
+| **Cuts**           | `playgram.mini.pdf`, `playgram.nano.pdf` |
+| **Regenerated by** | `pnpm content:pdf`                       |
 
-**The announcement cannot go out before that branch lands on `main`.** The draft
-carries `blocked-on: claude/content-url-suffixes-j2qjau` until it does. A print
-rendering goes wrong by producing something ugly rather than by failing a gate,
-so somebody opens the PDF and looks at it before the post goes out.
-
-Whether later posts link anywhere at all is left open on purpose — the first few
-answers will settle it better than a rule written now.
+A print rendering goes wrong by producing something ugly rather than by failing
+a gate, so somebody opens the PDF and looks at it before the post goes out.
 
 ## The inventory
 
 Eighteen candidates, each anchored to something specific enough that it could
 not have been written by someone who wasn't there. Ordered by how well each
-stands alone, not by publishing order.
+stands alone, not by publishing order. Rows marked ⚠ are not ready to draft —
+see "Unsettled" below.
 
-| #   | Working title                                          | What it teaches                                                                                                                                                                                                                                                                                                                                            | Shape       |
-| --- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 1   | Splitting by shape, not by size                        | An 11.6 MB minified JSON export cut into 3,487 files an agent can _navigate_ instead of grep. Names derived from content, never position, so inserting a step doesn't rename its neighbours; long strings hoisted into `.txt` siblings so a prompt diffs as prose instead of one enormous escaped line. The point is the weekly re-export staying legible. | Artifact    |
-| 2   | The lint rule that closes an auth hole                 | Next turns every export from a `'use server'` file into an endpoint the browser can call — no route file, no ceremony. `safe-action-required` forces every one through a wrapper that establishes who is asking before the body runs. An agent will cheerfully ignore a paragraph in CLAUDE.md and will never once ship a lint error.                      | Footgun     |
-| 3   | Two types, one lie, months of zero analytics           | `tokenCounts: { input, output }` beside DB columns named `inputTokens`/`outputTokens`. Both compiled. Every usage log recorded zero, found by accident months later. Then the second return nobody expects: about a third of reported overlaps are a _key that's lying_, not a missing base.                                                               | Footgun     |
-| 4   | A warning is a rule nobody enforces                    | 362 rules, every one explicitly `error` or `off`, nothing inherited from a recommended set a dependency bump can change under you. No rule is ever `warn`, because humans and LLMs alike treat a warning as negotiable and let it accumulate.                                                                                                              | Reversal    |
-| 5   | One session, one thread                                | The 1M-token context window as the megapixel race — past a point more just means more noise on the matrix. The rule of thumb: past 200k you've strayed. Side thoughts get filed as issues, not appended to the conversation.                                                                                                                               | Reversal    |
-| 6   | The litmus test for a plan                             | If a plan is any good, a session with _none_ of the conversation that produced it can implement it. If it can't, the plan was bad — a falsifiable test, and the reason plans belong in the repo rather than in a dialog box.                                                                                                                               | Reversal    |
-| 7   | Parallel agents meet sequential migration numbers      | Migration `0099` generated on a branch that hadn't merged `0098`. Forked chain, dropped enum value, nothing failed at deploy for two whole migrations. Now a script walks the snapshots and refuses a broken chain.                                                                                                                                        | Footgun     |
-| 8   | Rigid boundaries thicken the shared layer on their own | Between first production build and handover `src/` went 98,000 → 223,000 lines, and the layers that grew fastest _in relative terms_ were the bottom ones: `shared` and `entities` nearly tripled while the app-specific top layer didn't quite double. Nobody planned that.                                                                               | Measurement |
-| 9   | Five agents told me it would be fine                   | Four models researching every decision independently, names stripped so the synthesis couldn't be biased, a fifth judging. The lone dissenter won both contested points. And the honest half: a good chunk of it was spreading the blame. Verdict 6.5/10.                                                                                                  | Receipt     |
-| 10  | The plan listed a directory that never existed         | The detailed migration plan's own "current state" inventory named an `entities/message` slice that was never in the repo, not once, in its entire history. After a while you're not reading the plan to find out what to do — you're reading it to find out how out of date it is. Verdict 6/10.                                                           | Receipt     |
-| 11  | What parallelism actually measures as                  | Across the one-day switch into the cloud: median unit of work 375 → 384 changed lines, units per day 6.2 → 8.2. Same-sized pieces, about a third more of them at a time. That's the number, and it is smaller than the marketing.                                                                                                                          | Measurement |
-| 12  | The handover is the deliverable                        | Seventeen days after the last commit, 49 of 52 merged PRs were the team's — and the team is the Bubble developers who drew the app, two of whom opened their GitHub accounts during the project. What they shipped alone, listed plainly.                                                                                                                  | Measurement |
-| 13  | The most popular Bubble plugin is a way out of Bubble  | 538,000 installs for "run custom JavaScript"; two of the top five templates that year were homegrown application frameworks built on top of the platform. And step 0 of sending a chat message in this no-code app was a `Run javascript` action.                                                                                                          | Reversal    |
-| 14  | The merge conflicts I was wrong about                  | The loudest fear about parallel agents, and after a thousand-plus merged PRs, zero problems — once one skill encoded the footguns. Agents resolve conflicts semantically, not just to a state where the file no longer has markers in it.                                                                                                                  | Receipt     |
-| 15  | Thirty-three files that describe how you work          | Skills compose into a call graph because each is a file another can point at — `/implement` loads two by reference and hands to a third, which loads three more. And the half that's less fun: it's a second codebase, it drifts exactly like the first, and nothing lints it.                                                                             | Receipt     |
-| 16  | Measure files in syntax nodes, not lines               | The biggest files in the codebase are LLM prompts — hundreds of lines, as they should be, and structurally a single string. So the size report counts AST nodes, and deliberately never fails the build. A metric that fails is a metric people game.                                                                                                      | Artifact    |
-| 17  | Fail slow, when the reader is an agent                 | Every check runs to completion even after one has failed, and the summary names all of them. Fail fast and the agent fixes one thing, pushes, and waits four minutes to be told about the next. Received wisdom, inverted for a reason.                                                                                                                    | Reversal    |
-| 18  | Reviewing the outcome, not the process                 | From three local agents whose _thinking_ I read, to twenty in the cloud reviewed as pull requests. For 95% of cases the agent knows better; the remaining 5% is the entire argument for a knowledgeable human still being in the loop.                                                                                                                     | Receipt     |
+| #     | Working title                                          | What it teaches                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Shape       |
+| ----- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1     | Splitting by shape, not by size                        | An 11.6 MB minified JSON export cut into 3,487 files an agent can _navigate_ instead of grep. Names derived from content, never position, so inserting a step doesn't rename its neighbours; long strings hoisted into `.txt` siblings so a prompt diffs as prose instead of one enormous escaped line. The point is the weekly re-export staying legible.                                                                                                                                                                                                                               | Artifact    |
+| 2     | One wrapper every server action goes through           | Next turns every export from a `'use server'` file into an endpoint the browser can call. `safeAction(...)` is the single door they all go through: it establishes who is asking before the body runs, and turns a thrown error into a key on a result object the frontend can read. Because everything funnels through one place, logging lands where it belongs by construction — which is what makes a `/log-review` agent possible at all. The lint rule enforcing it is the footnote, not the story.                                                                                | Artifact    |
+| 3 ⚠  | The gate that makes you look                           | `tokenCounts: { input, output }` beside DB columns `inputTokens`/`outputTokens` — both compiled, every usage log recorded zero, found by accident months later. That is the hook; the gate is the subject. Turned on a notch at a time over 26 days: thirteen landings, ~1,300 type-level file-changes, 248 overlapping groups cleared, ~330 shared bases that didn't exist before. And about a third of reported overlaps are a key that's _lying_ rather than a missing base — two types with a `file`, one a path and one a `File`. The tool can't tell you which; it makes you look. | Footgun     |
+| 4     | A warning is a rule nobody enforces                    | 362 rules, every one explicitly `error` or `off`, nothing inherited from a recommended set a dependency bump can change under you. No rule is ever `warn`, because humans and LLMs alike treat a warning as negotiable and let it accumulate.                                                                                                                                                                                                                                                                                                                                            | Reversal    |
+| 5     | One session, one thread                                | The 1M-token context window as the megapixel race — past a point more just means more noise on the matrix. The rule of thumb: past 200k you've strayed. Side thoughts get filed as issues, not appended to the conversation.                                                                                                                                                                                                                                                                                                                                                             | Reversal    |
+| 6     | The litmus test for a plan                             | If a plan is any good, a session with _none_ of the conversation that produced it can implement it. If it can't, the plan was bad — a falsifiable test, and the reason plans belong in the repo rather than in a dialog box.                                                                                                                                                                                                                                                                                                                                                             | Reversal    |
+| 7     | Parallel agents meet sequential migration numbers      | Migration `0099` generated on a branch that hadn't merged `0098`. Forked chain, dropped enum value, nothing failed at deploy for two whole migrations. Now a script walks the snapshots and refuses a broken chain.                                                                                                                                                                                                                                                                                                                                                                      | Footgun     |
+| 8 ⚠  | Rigid boundaries thicken the shared layer on their own | Between first production build and handover `src/` went 98,000 → 223,000 lines, and the layers that grew fastest _in relative terms_ were the bottom ones: `shared` and `entities` nearly tripled while the app-specific top layer didn't quite double. Nobody planned that.                                                                                                                                                                                                                                                                                                             | Measurement |
+| 9     | Five agents told me it would be fine                   | Four models researching every decision independently, names stripped so the synthesis couldn't be biased, a fifth judging. The lone dissenter won both contested points. And the honest half: a good chunk of it was spreading the blame. Verdict 6.5/10.                                                                                                                                                                                                                                                                                                                                | Erratum     |
+| 10    | How much documentation is the right amount             | The migration plan's own "current state" inventory named an `entities/message` slice that was never in the repo, not once, in its history — and after a while you're not reading a plan to find out what to do, you're reading it to find out how out of date it is. The general question underneath: a doc is worth only as much as whatever updates it, so the right amount is however much will actually be maintained. Verdict 6/10.                                                                                                                                                 | Reversal    |
+| 11 ⚠ | What parallelism actually measures as                  | The one honest answer to "how much faster did twenty cloud agents make me", which is smaller than the marketing whatever it turns out to be. **The published 6.2 → 8.2 units per day cannot be used as written** — both windows are drawn wrong. See "Unsettled".                                                                                                                                                                                                                                                                                                                        | Measurement |
+| 12    | The handover is the deliverable                        | Seventeen days after the last commit, 49 of 52 merged PRs were the team's — and the team is the Bubble developers who drew the app, two of whom opened their GitHub accounts during the project. What they shipped alone, listed plainly.                                                                                                                                                                                                                                                                                                                                                | Measurement |
+| 13    | The most popular Bubble plugin is a way out of Bubble  | 538,000 installs for "run custom JavaScript"; two of the top five templates that year were homegrown application frameworks built on top of the platform. And step 0 of sending a chat message in this no-code app was a `Run javascript` action.                                                                                                                                                                                                                                                                                                                                        | Reversal    |
+| 14    | The merge conflicts I was wrong about                  | The loudest fear about parallel agents, and after a thousand-plus merged PRs, zero problems — once one skill encoded the footguns. Agents resolve conflicts semantically, not just to a state where the file no longer has markers in it.                                                                                                                                                                                                                                                                                                                                                | Erratum     |
+| 15    | The spinoff that came out of the contract              | `agent-project-boilerplate` — the skills, rules and vet suite with everything Playgram-specific stripped out — is now the repo every new project starts from, this website included. Born inside a client project and open-sourced at Playgram management's courtesy, since technically it is their asset too. The half that's less fun: it's a second codebase, it drifts exactly like the first, and nothing lints it.                                                                                                                                                                 | Artifact    |
+| 16    | Measure files in syntax nodes, not lines               | The biggest files in the codebase are LLM prompts — hundreds of lines, as they should be, and structurally a single string. So the size report counts AST nodes, and deliberately never fails the build. A metric that fails is a metric people game.                                                                                                                                                                                                                                                                                                                                    | Artifact    |
+| 17    | Fail slow, when the reader is an agent                 | Every check runs to completion even after one has failed, and the summary names all of them. Fail fast and the agent fixes one thing, pushes, and waits four minutes to be told about the next. Received wisdom, inverted for a reason.                                                                                                                                                                                                                                                                                                                                                  | Reversal    |
+| 18 ⚠ | Reviewing the outcome, not the process                 | From three local agents whose _thinking_ I read, to twenty in the cloud reviewed as pull requests. For 95% of cases the agent knows better; the remaining 5% is the entire argument for a knowledgeable human still being in the loop — and the honest part is that I cannot yet name what the 5% is.                                                                                                                                                                                                                                                                                    | Erratum     |
+
+## Unsettled
+
+Rows the backlog keeps but is not ready to draft. Each names what has to be
+decided, so a later session doesn't rediscover the objection from scratch.
+
+- **3 — the gate that makes you look.** The `tokenCounts` opener may be too
+  hooky for what it introduces. The substance is the 26-day tightening and the
+  lying keys, not one caught mismatch; the bug might be the prime illustration
+  or might be crowding out the point. Whether it leads or illustrates is open.
+- **8 — the shared layer thickening.** "A shared layer that grows is a good
+  sign" is asserted rather than established, and may simply be wrong. The
+  numbers are real; the reading of them needs another pass before drafting.
+- **11 — what parallelism measures as.** Both windows behind 6.2 → 8.2 are
+  mis-drawn: the before-window starts inside a docs-only phase, and the
+  after-window runs past `4.1.0` — where the job changed from shipping the
+  Bubble-parity app to bug fixes and later features — while also swallowing a
+  stretch of days off. Tracked in
+  [#28](https://github.com/vzakharov/vovazakharov.com/issues/28); the post
+  cannot be drafted until the recomputation lands, because its whole claim is
+  that the honest number is smaller than the marketing.
+- **18 — the 5%.** That a knowledgeable human still catches something is the
+  claim; naming _what_ needs specimens rather than argument. The review of this
+  backlog is the first one — the human cut the narration, picked hooks the agent
+  had passed over, and rejected a measurement the agent had taken as given.
+  Collect a few more before drafting.
 
 ## Not yet
 
