@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 import { getAbsoluteUrl } from '@/shared/config';
 import {
   COLLECTION_IDS,
-  COLLECTIONS,
+  collectionRoute,
   listAllDocuments,
 } from '@/shared/content';
 import { routing } from '@/shared/i18n';
@@ -16,7 +16,7 @@ export function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     '/',
     ...routing.locales.map((locale) => `/${locale}/cv`),
-    ...COLLECTION_IDS.map((id) => COLLECTIONS[id].routeBase),
+    ...COLLECTION_IDS.map((id) => collectionRoute(id)),
   ];
 
   return [

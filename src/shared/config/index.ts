@@ -1,1 +1,6 @@
-export { getAbsoluteUrl, SITE_CONFIG } from './site-config';
+export {
+  BUILD_YEAR,
+  getAbsoluteUrl,
+  printedUrl,
+  SITE_CONFIG,
+} from './site-config';

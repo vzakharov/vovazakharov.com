@@ -2,14 +2,18 @@ export {
   COLLECTION_IDS,
   collectionAssetUrl,
   type CollectionId,
+  collectionRoute,
   COLLECTIONS,
+  documentName,
   type DocumentRef,
   documentRoute,
+  type Routed,
   type Variant,
   VARIANTS,
 } from './collections';
 export {
   type ContentDocument,
+  type DocumentFile,
   listAllDocuments,
   listDocuments,
   loadDocument,

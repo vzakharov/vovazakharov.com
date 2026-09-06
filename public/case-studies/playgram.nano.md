@@ -9,7 +9,7 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 
 _Also available: the [full version](./playgram.md) and a [mini version](./playgram.mini.md). Part I of II. Disclosures approved by Playgram management._
 
-[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](https://github.com/user-attachments/assets/16e67cd5-5727-419b-be2b-ffaa2541a44c 'video')
+[Playgram in use: a screen recording of the chat interface, the model picker, and the file library](./assets/playgram-demo.mp4)
 
 ---
 
