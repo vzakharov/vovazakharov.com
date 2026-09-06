@@ -86,7 +86,7 @@ Below you'll find how we tackled each of these challenges; how we discovered new
 
 Before the grit, the shape of the thing.
 
-![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main carries a bracket over each of two measured windows: 6.8 a day from 11 March to 24 April, before the switch into the cloud, and 11.2 a day from 27 April to 24 June after it, with a week off in May excluded and drawn as a gap; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
+![Two charts sharing a timeline from 6 March to 21 August 2026. The cumulative curve on main rises at 6.8 units a day from 11 March to 24 April, before the switch into the cloud, and 11.2 from 27 April to 24 June after it, a week off in May excluded; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 | Date       | Day | What happened                                                                    |
 | ---------- | --- | -------------------------------------------------------------------------------- |
