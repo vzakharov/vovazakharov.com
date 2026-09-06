@@ -18,11 +18,19 @@ aesthetic it prefers.
 ## Layout and frontmatter
 
 ```
-writing/<channel>/
-  plan.md              # the backlog for that channel
-  drafts/
-    <slug>.md          # one file per post
+writing/
+  notes/
+    <slug>.md          # evidence gathered for a post not yet drafted
+  <channel>/
+    plan.md            # the backlog for that channel
+    drafts/
+      <slug>.md        # one file per post
 ```
+
+`notes/` is for a claim that needs specimens rather than argument: the file
+collects them as they occur, so the post is written from a record instead of
+from memory. A backlog row whose objection is "this needs evidence" points at
+its notes file.
 
 | Key      | Meaning                                    |
 | -------- | ------------------------------------------ |
@@ -48,7 +56,6 @@ restates those facts rather than linking to them — a reader has nothing open.
   the house style of the genre and reads as the genre rather than as a person.
 - **Numbers stay unrounded.** 3,487 files, 11.6 MB, 8,123 imports. The precision
   is the evidence.
-- **English only.** The site is bilingual; this isn't.
 
 ## The five shapes
 

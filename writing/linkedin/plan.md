@@ -65,7 +65,7 @@ see "Unsettled" below.
 | 5     | One session, one thread                                | The 1M-token context window as the megapixel race — past a point more just means more noise on the matrix. The rule of thumb: past 200k you've strayed. Side thoughts get filed as issues, not appended to the conversation.                                                                                                                                                                                                                                                                                                                                                             | Reversal    |
 | 6     | The litmus test for a plan                             | If a plan is any good, a session with _none_ of the conversation that produced it can implement it. If it can't, the plan was bad — a falsifiable test, and the reason plans belong in the repo rather than in a dialog box.                                                                                                                                                                                                                                                                                                                                                             | Reversal    |
 | 7     | Parallel agents meet sequential migration numbers      | Migration `0099` generated on a branch that hadn't merged `0098`. Forked chain, dropped enum value, nothing failed at deploy for two whole migrations. Now a script walks the snapshots and refuses a broken chain.                                                                                                                                                                                                                                                                                                                                                                      | Footgun     |
-| 8 ⚠  | Rigid boundaries thicken the shared layer on their own | Between first production build and handover `src/` went 98,000 → 223,000 lines, and the layers that grew fastest _in relative terms_ were the bottom ones: `shared` and `entities` nearly tripled while the app-specific top layer didn't quite double. Nobody planned that.                                                                                                                                                                                                                                                                                                             | Measurement |
+| 8 ⚠  | Rigid boundaries thicken the shared layer on their own | Between first production build and handover `src/` went 98,000 → 223,000 lines, and the layers that grew fastest _in relative terms_ were the bottom ones: `shared` and `entities` nearly tripled while the app-specific top layer didn't quite double. Nobody planned that. **The counts are published but unchecked**, and so is the reading of them. See "Unsettled".                                                                                                                                                                                                                 | Measurement |
 | 9     | Five agents told me it would be fine                   | Four models researching every decision independently, names stripped so the synthesis couldn't be biased, a fifth judging. The lone dissenter won both contested points. And the honest half: a good chunk of it was spreading the blame. Verdict 6.5/10.                                                                                                                                                                                                                                                                                                                                | Erratum     |
 | 10    | How much documentation is the right amount             | The migration plan's own "current state" inventory named an `entities/message` slice that was never in the repo, not once, in its history — and after a while you're not reading a plan to find out what to do, you're reading it to find out how out of date it is. The general question underneath: a doc is worth only as much as whatever updates it, so the right amount is however much will actually be maintained. Verdict 6/10.                                                                                                                                                 | Reversal    |
 | 11 ⚠ | What parallelism actually measures as                  | The one honest answer to "how much faster did twenty cloud agents make me", which is smaller than the marketing whatever it turns out to be. **The published 6.2 → 8.2 units per day cannot be used as written** — both windows are drawn wrong. See "Unsettled".                                                                                                                                                                                                                                                                                                                        | Measurement |
@@ -86,9 +86,13 @@ decided, so a later session doesn't rediscover the objection from scratch.
   hooky for what it introduces. The substance is the 26-day tightening and the
   lying keys, not one caught mismatch; the bug might be the prime illustration
   or might be crowding out the point. Whether it leads or illustrates is open.
-- **8 — the shared layer thickening.** "A shared layer that grows is a good
-  sign" is asserted rather than established, and may simply be wrong. The
-  numbers are real; the reading of them needs another pass before drafting.
+- **8 — the shared layer thickening.** Two objections, either one blocking.
+  "A shared layer that grows is a good sign" is asserted rather than
+  established, and may simply be wrong. And **the figures themselves are
+  unverified**: 98,000 → 223,000 lines in the eighty-one days between `4.0.0`
+  and handover is a lot of lines, and it is published rather than checked. Both
+  the count and its window need re-deriving from the repo before either is
+  repeated.
 - **11 — what parallelism measures as.** Both windows behind 6.2 → 8.2 are
   mis-drawn: the before-window starts inside a docs-only phase, and the
   after-window runs past `4.1.0` — where the job changed from shipping the
@@ -98,10 +102,11 @@ decided, so a later session doesn't rediscover the objection from scratch.
   cannot be drafted until the recomputation lands, because its whole claim is
   that the honest number is smaller than the marketing.
 - **18 — the 5%.** That a knowledgeable human still catches something is the
-  claim; naming _what_ needs specimens rather than argument. The review of this
-  backlog is the first one — the human cut the narration, picked hooks the agent
-  had passed over, and rejected a measurement the agent had taken as given.
-  Collect a few more before drafting.
+  claim; naming _what_ needs specimens rather than argument. They are collected
+  in `writing/notes/the-five-percent.md`, starting with the review of this
+  backlog, and the post is drafted once there are enough to generalise from.
+  Every review of agent work is a chance to add one, so the entry goes in while
+  it is still accurate rather than at drafting time.
 
 ## Not yet
 

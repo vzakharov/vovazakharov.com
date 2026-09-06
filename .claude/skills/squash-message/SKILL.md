@@ -134,9 +134,10 @@ Format rules:
 
 - **Title** — exactly `<type>: #<issue number if applicable> <essence> (pr #<pr
 number>)`, e.g. `refactor: #1150 extract useVisibilityPoll to shared/lib (pr
-#1155)`. `<type>` is a conventional-commit prefix (`feat`, `fix`, `refactor`,
-  `docs`, `chore`, `style`, `test`, `ci`, `perf`) with no scope or extra words
-  before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
+#1155)`. `<type>` is one of the prefixes the project's `CLAUDE.md` lists under
+  "Git conventions" — read them there rather than assuming the
+  conventional-commit set, since a project may carry its own — with no scope or
+  extra words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
   (the primary one if several); omit it otherwise. Always end with ` (pr #<pr
 number>)`.
 - **Body** — the why, then what changed, at the altitude Step 3 sets. When the PR or diff references an issue, end

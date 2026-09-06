@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: a LinkedIn backlog mined from the Playgram case study (pr #26)
+content: a LinkedIn backlog mined from the Playgram case study (pr #26)
 ```
 
 ```
@@ -29,20 +29,39 @@ attachment rather than a link. Its text is the operator's own, filled
 at one blank, and it is the specimen the voice rules are written
 against.
 
+`writing/notes/` holds evidence gathered for a post that isn't
+draftable yet. Its first file collects cases where a human review
+caught what an agent could not -- the claim one backlog row makes and
+cannot yet support.
+
 `writing/` sits at the repo root deliberately: `public/` is served, and
 an unposted draft crawlable before it runs is the wrong order of
 operations, while `docs/` is where working artifacts go to be swept.
+
+`content:` is a new commit prefix, added because none of the existing
+ones describes a change to the site's own written material -- `docs:`
+is for documentation and `feat:` is for the code that serves it. It
+joins `feat:` and `fix:` in the deploy gate, since content that reaches
+`public/` changes what a visitor sees, and a missed deploy costs more
+than a redundant one.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01QDxBYFvDDJXaKQmFaAdrLV
 ```
 
-**On the prefix.** `docs:` was wrong — this documents nothing; it is the
-repo starting to carry editorial content and the rules for producing it.
-`feat:` is the closest of the allowed prefixes by substance, and the
-trade is that it trips the deploy gate for a change that alters nothing
-in the built site: one no-op Pages republish. Say the word and it goes
-back to `chore:`, which is deploy-free but undersells it.
+**On the prefix.** `content:`, per review, and the vocabulary was the thing
+worth changing rather than the choice within it — `docs:`, `feat:` and `chore:`
+were three ways of misdescribing the same change. `CLAUDE.md` now carries the
+row and records that the list is local and extensible.
+
+**One call made inside that.** `content:` publishes: it is in the gate's regex
+alongside `feat:` and `fix:`. The prefix covers both content that reaches
+`public/` and drafts under `writing/` that are never built, and the subject line
+is all the gate reads, so one of the two has to be wrong. Publishing is the
+cheaper way to be wrong — a no-op republish nobody notices, against a live site
+silently stale behind `main`. The visible consequence is that this PR, which
+changes nothing built, spends a deploy on merge. Say so and the regex drops back
+to `feat|fix`, with `content:` under `public/` then deployed by hand.
 
 ---
 

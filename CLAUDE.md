@@ -32,10 +32,11 @@ Anything that holds only over part of that tree lives as a path-scoped rule in `
 
 Merging to `main` triggers `.github/workflows/deploy.yml`, which builds the static export and publishes `out/` to GitHub Pages. **There is no separate release step** — merge _is_ deploy, which is why `/release` and `/hotfix` are not part of this project's skill set.
 
-**Only a `feat:` or `fix:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Three things follow:
+**Only a `feat:`, `fix:` or `content:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Four things follow:
 
 - **The squash subject is the deploy switch**, so it is a production decision, not just a log entry — `@.claude/skills/squash-message/SKILL.md` picks it, and a mixed branch should carry the prefix of what it actually ships.
-- **A non-`feat:`/`fix:` merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case.
+- **A non-publishing merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case.
+- **`content:` publishes even though some of it isn't served.** Content that reaches `public/` changes what a visitor sees, and content under `writing/` doesn't; one prefix covers both because the subject is the only thing the gate reads. It is in the publishing set because the two ways of being wrong don't cost the same: a spurious deploy is a no-op republish nobody sees, while a missed one leaves the live site quietly stale behind `main`, and the escape hatch for that direction is remembering to use it.
 - **The gate matches subjects only**, in either scoped or breaking form (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies — so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
 
 Nothing runs on pull requests. `./scripts/vet.sh` runs the same `pnpm build` the deploy does, so a green vet locally is the only pre-merge signal there is.
@@ -149,6 +150,7 @@ Use semantic commit prefixes:
 
 - `feat:` — new feature
 - `fix:` — bug fix
+- `content:` — the site's own written material: a case study, a post, the plans and conventions for writing them
 - `docs:` — documentation changes
 - `chore:` — maintenance, config, dependencies
 - `refactor:` — code restructuring without behavior change
@@ -156,6 +158,8 @@ Use semantic commit prefixes:
 - `test:` — adding or updating tests
 - `ci:` — CI/CD changes
 - `perf:` — performance improvements
+
+**This list is local and extensible**, not the conventional-commits spec. `content:` was added because the closest standard prefix (`feat:`) misdescribed what the change was. When a change genuinely doesn't fit any row above, proposing a new row is a legitimate move — better than filing it under the nearest wrong one — provided the addition names a kind of change that recurs and says whether it publishes.
 
 Write descriptive commit messages: the subject line summarizes the change, and the body explains what was changed and why in enough detail that someone reading the log understands the commit without looking at the diff.
 
