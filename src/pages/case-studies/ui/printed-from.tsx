@@ -24,10 +24,10 @@ export function PrintedFrom({ route }: Routed) {
       wrap="nowrap"
       className={classes['printedFrom']}
     >
-      <Anchor {...{ href }} size="sm" c="inherit" underline="never">
+      <Anchor {...{ href }} c="inherit" underline="never">
         {text}
       </Anchor>
-      <Text size="sm">
+      <Text>
         © {SITE_CONFIG.name}, {BUILD_YEAR}
       </Text>
     </Group>
