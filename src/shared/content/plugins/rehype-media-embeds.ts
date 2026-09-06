@@ -4,7 +4,7 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { printedUrl } from '@/shared/config';
 
 import { hastText } from '../hast-text';
 
@@ -43,23 +43,12 @@ function soleElementChild(node: Element): Element | undefined {
 }
 
 /**
- * How a printed line spells a URL: absolute, so it resolves off the page it was
- * printed from, and without the scheme paper cannot click anyway. The link
- * keeps the scheme, so the PDF's annotation still navigates.
- */
-function printedLink(src: string): { href: string; text: string } {
-  const href = src.startsWith('/') ? getAbsoluteUrl(src) : src;
-
-  return { href, text: href.replace(/^https?:\/\//, '') };
-}
-
-/**
  * What the player leaves behind on paper. A printed video is a blank rectangle,
  * so the page prints where to watch it instead — which is only useful if the
  * URL can be typed off the page.
  */
 function printedVideoNote(src: string): Element {
-  const { href, text } = printedLink(src);
+  const { href, text } = printedUrl(src);
 
   return {
     type: 'element',

@@ -1,7 +1,8 @@
+import type { Linked, WithText } from '@/shared/typings';
+
 /**
- * A static export renders once per deploy, so the year a copyright line shows
- * is the year the site was built. Shared because the page footer and the PDF's
- * printed one must not disagree.
+ * A static export renders once per deploy, so a copyright year is the build's.
+ * Shared so the page footer and the printed one cannot disagree.
  */
 export const BUILD_YEAR = new Date().getFullYear();
 
@@ -35,9 +36,12 @@ export const SITE_CONFIG = {
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
 
 /**
- * The same URL with its scheme dropped, for print — paper carries no click, so
- * `https://` is six characters that tell the reader nothing. A link that shows
- * this still points at `getAbsoluteUrl`, so navigation is unaffected.
+ * How print spells a URL: absolute, because the page leaves the browser that
+ * resolved it, and shown without the scheme, which tells a reader holding paper
+ * nothing. The two differ, so a printed link can navigate and still read well.
  */
-export const getBareUrl = (path: string) =>
-  getAbsoluteUrl(path).replace(/^https?:\/\//, '');
+export const printedUrl = (url: string): Linked & WithText => {
+  const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
+
+  return { href, text: href.replace(/^https?:\/\//, '') };
+};

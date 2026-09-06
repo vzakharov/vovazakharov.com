@@ -40,11 +40,10 @@ function rewrite(
   // other relative target does — and this plugin never learns what a cut is.
   const path = `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
 
-  // A link is spelled absolutely and a media source is not, because the two
-  // travel differently: the printed PDF carries its links out of the browser
-  // that resolved them, where a site-root path means the reader's own host —
-  // while a source is fetched by the page itself, and an absolute one would
-  // cost a preview its images and the dimension pass its file.
+  // A link is absolute and a source is not, because they travel differently: a
+  // link leaves in the printed PDF, where a site-root path would mean whatever
+  // host opened it, while a source is fetched by the page itself — and an
+  // absolute one would cost a local preview its images.
   return {
     href: tagName === 'a' ? getAbsoluteUrl(path) : path,
     external: false,

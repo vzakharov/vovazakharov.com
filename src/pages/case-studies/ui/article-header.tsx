@@ -73,8 +73,7 @@ type FileLinkProps = DocumentFile & WithChildren;
 
 /**
  * One of the document's own files, served at this page's URL plus an extension.
- * Both carry `download`, so either lands under the document's own name rather
- * than opening over the article the reader is in.
+ * It saves rather than opens, so neither file replaces the article in the tab.
  */
 function FileLink({ href, download, children }: FileLinkProps) {
   return (

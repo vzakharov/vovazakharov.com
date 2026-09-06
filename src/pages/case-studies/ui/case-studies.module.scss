@@ -193,10 +193,9 @@ h1[data-order='1'].articleTitle {
   }
 }
 
-// The table that carries the repeating print footer. Its rows display as plain
-// blocks on screen — the table exists only for paged media, where a `<tfoot>`
-// is what repeats per page. The child combinators keep every rule off the
-// tables inside the article.
+// The table `PrintSheet` wraps the article in — its docstring has why. Blocks
+// on screen, a table only in print, and child combinators throughout so no
+// rule here reaches the tables inside the article.
 .printSheet {
   &,
   > tbody,
@@ -240,9 +239,7 @@ h1[data-order='1'].articleTitle {
   }
 }
 
-// The printed page's own URL and the site's copyright, at the foot of each
-// page. The top padding is the gap the repeated footer keeps from the text
-// above it, which the table reserves along with the footer's own height.
+// The printed page's own URL and the site's copyright, at the foot of each page.
 .printedFrom {
   padding-top: 0.4cm;
   border-top: 1px solid var(--color-border-hairline);

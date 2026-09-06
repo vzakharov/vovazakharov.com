@@ -30,11 +30,10 @@ import {
 } from './image-dimensions';
 
 /**
- * One of a document's own files, as the header offers it: where `public/`
- * serves it, and what a saved copy is called — the document's path under the
- * site, dot-joined, so the file says what it is and whose it is once it has
- * left the browser. Only an anchor's `download` can set that name: a static
- * export serves fixed headers, so `Content-Disposition` is unavailable.
+ * One of a document's own files: where `public/` serves it, and what a saved
+ * copy is called — its path under the site, dot-joined, so the file says what
+ * it is and whose once it has left the browser. Only an anchor's `download` can
+ * set that name; a static export has no `Content-Disposition` to set it with.
  */
 export type DocumentFile = Linked & { download: string };
 

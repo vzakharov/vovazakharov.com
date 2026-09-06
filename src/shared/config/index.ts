@@ -1,6 +1,6 @@
 export {
   BUILD_YEAR,
   getAbsoluteUrl,
-  getBareUrl,
+  printedUrl,
   SITE_CONFIG,
 } from './site-config';

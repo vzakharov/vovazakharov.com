@@ -44,12 +44,11 @@ type Printable = Renderable & Routed;
 const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
- * What shapes a printed page besides the document itself: the sheets that style
- * it, the components that lay it out, the pipeline that turns the markdown into
- * the markup, and the site's own identity, which the footer prints. A narrower
- * hash would let a change to any of them ship behind a stale PDF; the cost of
- * casting it this wide is that a tweak to any of it re-flags every PDF, and
- * that costs one `pnpm content:pdf` run.
+ * What shapes a printed page besides the document itself: the sheets, the
+ * components, the pipeline that produces the markup, and the site identity the
+ * footer prints. Anything omitted here can ship behind a PDF the check calls
+ * fresh; the price of casting it wide is that a tweak to any of it re-flags
+ * every PDF, and that costs one `pnpm content:pdf` run.
  */
 const SHARED_SOURCES = [
   'src/app/styles/print.scss',
