@@ -1,6 +1,11 @@
 import { Paper } from '@mantine/core';
 
-import type { Described, Titled, WithChildren } from '@/shared/typings';
+import type {
+  Anchored,
+  Described,
+  Titled,
+  WithChildren,
+} from '@/shared/typings';
 
 import classes from './card.module.scss';
 
@@ -8,8 +13,7 @@ import classes from './card.module.scss';
 export type Summarized = Titled & Described;
 
 /** The label a screen reader reads for a card whose text is its own markup. */
-type CardLinkProps = WithChildren & {
-  href: string;
+type CardLinkProps = Anchored & {
   'aria-label': string;
 };
 

@@ -307,6 +307,18 @@
     vertical-align: middle;
   }
 
+  // A tall image scaled to the column outgrows the page box, and a replaced
+  // element does not paginate — so uncapped it runs straight through the
+  // footer's band and out the bottom of the sheet. The bound is the A4 content
+  // height, 29.7cm less the 1.5cm margins, minus the image's own 2em margins
+  // and the band `PrintSheet` reserves.
+  @media print {
+    :where(img, video) {
+      max-height: 23cm;
+      break-inside: avoid;
+    }
+  }
+
   :where(img, video, figure) {
     margin: 2em 0;
   }

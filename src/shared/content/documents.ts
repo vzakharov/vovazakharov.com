@@ -4,13 +4,18 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { SITE_CONFIG } from '@/shared/config';
+import type { Linked } from '@/shared/typings';
+
 import {
   COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
+  documentName,
   type DocumentRef,
   documentRoute,
+  type Routed,
   type Variant,
   VARIANTS,
 } from './collections';
@@ -24,7 +29,16 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
+/**
+ * One of a document's own files: where `public/` serves it, and what a saved
+ * copy is called — its path under the site, dot-joined, so the file says what
+ * it is and whose once it has left the browser. Only an anchor's `download` can
+ * set that name; a static export has no `Content-Disposition` to set it with.
+ */
+export type DocumentFile = Linked & { download: string };
+
 export type ContentDocument = DocumentRef &
+  Routed &
   WithFrontmatter &
   WithOptionalOgImageSize & {
     /** Absent on the full document; set on each shorter cut. */
@@ -32,9 +46,10 @@ export type ContentDocument = DocumentRef &
     /** The markdown body with the frontmatter block removed. */
     body: string;
     fileName: string;
-    /** Where `public/` serves the authored markdown, for the download link. */
-    rawUrl: string;
-    route: string;
+    /** The authored markdown, as served. */
+    markdown: DocumentFile;
+    /** The prebuilt PDF, produced by `pnpm content:pdf`. */
+    pdf: DocumentFile;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
   };
@@ -94,6 +109,12 @@ function readDocument(
     });
   }
 
+  const route = documentRoute(collection, slug, variant);
+  const file = (extension: string): DocumentFile => ({
+    href: `${route}.${extension}`,
+    download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
+  });
+
   return {
     collection,
     slug,
@@ -101,8 +122,9 @@ function readDocument(
     frontmatter,
     body: content,
     fileName,
-    rawUrl: collectionAssetUrl(collection, fileName),
-    route: documentRoute(collection, slug, variant),
+    markdown: file('md'),
+    pdf: file('pdf'),
+    route,
     ...resolveOgImage(collection, frontmatter.ogImage),
   };
 }
@@ -130,7 +152,7 @@ export function loadDocument(
   slug: string,
   variant?: Variant,
 ): ContentDocument | undefined {
-  const fileName = `${slug}${variant ? `.${variant}` : ''}.md`;
+  const fileName = `${documentName(slug, variant)}.md`;
   const filePath = path.join(collectionDir(collection), fileName);
 
   return fs.existsSync(filePath)
@@ -145,7 +167,7 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      path.join(collectionDir(collection), `${slug}.${variant}.md`),
+      path.join(collectionDir(collection), `${documentName(slug, variant)}.md`),
     ),
   );
 }

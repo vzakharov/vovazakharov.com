@@ -1,4 +1,7 @@
-import 'server-only';
+/**
+ * No `import 'server-only'`, unlike most of `shared/content/`: string constants
+ * and pure path functions, which the render scripts run under bare Node.
+ */
 
 import path from 'node:path';
 
@@ -13,15 +16,12 @@ export type CollectionId = (typeof COLLECTION_IDS)[number];
  */
 export const COLLECTIONS = {
   'case-studies': {
-    /** Relative to `public/`, so the raw markdown is also served from it. */
-    dir: 'content/case-studies',
-    routeBase: '/case-studies',
+    /** Its directory under `public/` and the first segment of its routes, which
+     * is what puts a document's files at its own route plus an extension. */
+    base: 'case-studies',
     label: 'Case studies',
   },
-} as const satisfies Record<
-  CollectionId,
-  { dir: string; routeBase: string; label: string }
->;
+} as const satisfies Record<CollectionId, { base: string; label: string }>;
 
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
 export const VARIANTS = ['mini', 'nano'] as const;
@@ -31,25 +31,42 @@ export type Variant = (typeof VARIANTS)[number];
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
 
+/** Carries a site-root path, as `documentRoute` and `collectionRoute` shape one. */
+export type Routed = { route: string };
+
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
 export type DocumentRef = WithCollectionId & Slugged;
 
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
 export function collectionDir(id: CollectionId): string {
-  return path.join(PUBLIC_DIR, COLLECTIONS[id].dir);
+  return path.join(PUBLIC_DIR, COLLECTIONS[id].base);
 }
 
 /** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
 export function collectionAssetUrl(id: CollectionId, fileName: string): string {
-  return `/${COLLECTIONS[id].dir}/${fileName}`;
+  return `/${COLLECTIONS[id].base}/${fileName}`;
 }
 
+/** The route base of a collection — its index page. */
+export function collectionRoute(id: CollectionId): string {
+  return `/${COLLECTIONS[id].base}`;
+}
+
+/**
+ * The one URL shaper. A cut is a dotted suffix on the slug rather than a nested
+ * segment, so the route matches the file name it was authored as and every
+ * alternate representation is this URL plus an extension.
+ */
 export function documentRoute(
   id: CollectionId,
   slug: string,
   variant?: Variant,
 ): string {
-  const base = `${COLLECTIONS[id].routeBase}/${slug}`;
-  return variant ? `${base}/${variant}` : base;
+  return `${collectionRoute(id)}/${documentName(slug, variant)}`;
+}
+
+/** The `<slug>[.<variant>]` stem a document's route and its files share. */
+export function documentName(slug: string, variant?: Variant): string {
+  return variant === undefined ? slug : `${slug}.${variant}`;
 }

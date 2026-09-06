@@ -4,11 +4,11 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { getAbsoluteUrl } from '@/shared/config';
+
 import {
   collectionAssetUrl,
   type CollectionId,
-  documentRoute,
-  VARIANTS,
   type WithCollectionId,
 } from '../collections';
 
@@ -21,26 +21,9 @@ function stripLeadingDot(url: string): string {
   return url.replace(/^\.\//, '');
 }
 
-/**
- * A sibling markdown file becomes the site route that renders it, so the
- * documents' own cross-links between the full, mini and nano cuts work
- * unchanged on GitHub and on the site.
- */
-function markdownRoute(collection: CollectionId, target: string): string {
-  const stem = target.replace(/\.md$/, '');
-  const dotted = stem.lastIndexOf('.');
-  const suffix = dotted === -1 ? '' : stem.slice(dotted + 1);
-  const variant = VARIANTS.find((candidate) => candidate === suffix);
-
-  return documentRoute(
-    collection,
-    variant === undefined ? stem : stem.slice(0, dotted),
-    variant,
-  );
-}
-
 function rewrite(
   collection: CollectionId,
+  tagName: string,
   url: string,
 ): { href: string; external: boolean } {
   if (!isRelative(url)) {
@@ -52,11 +35,19 @@ function rewrite(
   const pathPart = hashAt === -1 ? target : target.slice(0, hashAt);
   const fragment = hashAt === -1 ? '' : target.slice(hashAt);
 
-  const href = pathPart.endsWith('.md')
-    ? markdownRoute(collection, pathPart)
-    : collectionAssetUrl(collection, pathPart);
+  // A sibling document's route is its file name minus the `.md`, cuts
+  // included, so the documents' own cross-links resolve the same way every
+  // other relative target does — and this plugin never learns what a cut is.
+  const path = `${collectionAssetUrl(collection, pathPart.replace(/\.md$/, ''))}${fragment}`;
 
-  return { href: `${href}${fragment}`, external: false };
+  // A link is absolute and a source is not, because they travel differently: a
+  // link leaves in the printed PDF, where a site-root path would mean whatever
+  // host opened it, while a source is fetched by the page itself — and an
+  // absolute one would cost a local preview its images.
+  return {
+    href: tagName === 'a' ? getAbsoluteUrl(path) : path,
+    external: false,
+  };
 }
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
@@ -85,7 +76,7 @@ export const rehypeContentLinks: Plugin<[WithCollectionId], Root> = ({
 
       if (typeof value !== 'string') return;
 
-      const { href, external } = rewrite(collection, value);
+      const { href, external } = rewrite(collection, node.tagName, value);
       node.properties[attribute] = href;
 
       if (external && node.tagName === 'a') {

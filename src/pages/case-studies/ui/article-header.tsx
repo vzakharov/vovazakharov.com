@@ -1,7 +1,7 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
-import { FileText } from 'lucide-react';
 
 import {
+  type DocumentFile,
   type DocumentRef,
   documentRoute,
   type Headlined,
@@ -10,6 +10,7 @@ import {
   type WithContentDocument,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
+import type { WithChildren } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './case-studies.module.scss';
@@ -68,6 +69,24 @@ function CutSwitcher({
   );
 }
 
+type FileLinkProps = DocumentFile & WithChildren;
+
+/**
+ * One of the document's own files, served at this page's URL plus an extension.
+ * It saves rather than opens, so neither file replaces the article in the tab.
+ */
+function FileLink({ href, download, children }: FileLinkProps) {
+  return (
+    <Anchor
+      {...{ href, download }}
+      size="sm"
+      className={cx('print-hidden', classes['hoverDim'])}
+    >
+      {children}
+    </Anchor>
+  );
+}
+
 export type ArticleHeaderProps = WithContentDocument &
   Headlined & {
     availableVariants: Variant[];
@@ -79,7 +98,7 @@ export function ArticleHeader({
   readingMinutes,
   availableVariants,
 }: ArticleHeaderProps) {
-  const { frontmatter, collection, slug, variant, rawUrl } = document;
+  const { frontmatter, collection, slug, variant, markdown, pdf } = document;
 
   return (
     <Box component="header" className={classes['articleHeader']}>
@@ -102,17 +121,10 @@ export function ArticleHeader({
             available={availableVariants}
           />
 
-          {/* The authored markdown, served straight out of `public/`. */}
-          <Anchor
-            href={rawUrl}
-            size="sm"
-            className={cx('print-hidden', classes['hoverDim'])}
-          >
-            <Group component="span" gap={6} wrap="nowrap">
-              <FileText size={16} aria-hidden />
-              Markdown
-            </Group>
-          </Anchor>
+          <Group gap={16} wrap="wrap">
+            <FileLink {...markdown}>.md</FileLink>
+            <FileLink {...pdf}>.pdf</FileLink>
+          </Group>
         </Group>
       </Stack>
     </Box>
