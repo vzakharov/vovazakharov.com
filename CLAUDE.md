@@ -22,6 +22,7 @@ This file is intentionally bare. It carries only the conventions that hold true 
 | `styles/`  | The Sass partials shared across `src/`: `_mantine.scss` (counterparts to the mixins Mantine documents as a PostCSS preset) plus the two `pnpm styles:codegen` writes — `_tokens.scss` (the colour-token mixin, from `src/shared/ui/css-color.ts`) and `_breakpoints.scss` (from `src/app/styles/breakpoints.ts`, forwarded by `_mantine.scss`). They sit here because a Sass partial is not an FSD module — it has no import graph for the layer checkers to reason about, and a `shared/` segment holding one would need a public API that nothing could import. |
 | `eslint/`  | The lint ruleset `eslint.config.ts` orchestrates: `rule-groups/` by plugin family, `rules/` for the project-local `vova/*` rules. Linted like any other source; see `.claude/rules/eslint.md`.                                                                                                                                                                                                                                                                                                                                                                    |
 | `public/`  | Static assets served at the site root, including `.nojekyll` (required — GitHub Pages otherwise strips Next's `_next/` directory) and one directory per content collection (`case-studies/`), holding the authored markdown at the same path its page is routed to.                                                                                                                                                                                                                                                                                               |
+| `writing/` | Drafts for channels the site does not publish — today `linkedin/`, its `plan.md` carrying the backlog, `drafts/` one file per post. Deliberately outside `public/`, which is served: an unposted draft crawlable before it runs is the wrong order of operations. `@.claude/rules/writing.md` carries the form and voice conventions.                                                                                                                                                                                                                             |
 | `scripts/` | Agent-facing shell/Python tooling; `vet.sh` is the entrypoint below. `type-overlap-check.ts` is the one script run under `tsx` — `type-overlap-check.README.md` is its reference; `render-mermaid.ts` and `generate-styles.ts` run under bare Node's type stripping.                                                                                                                                                                                                                                                                                              |
 | `.claude/` | Skills, rules and session hooks.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
@@ -142,12 +143,17 @@ When the user prompts you with one or more GitHub comments (a review, a single r
 
 **Never resolve a comment thread — reply and leave it open.** Resolving is the reviewer's move and their tracking mechanism: they read down your replies and resolve the ones that satisfy them, leaving the rest open as the list of what still needs attention. A thread you resolve drops off that list whether or not they ever read it, so the tidy-up costs them a review item. This holds however settled the point looks — a pushed fix, a verified non-issue, an ask you declined with reasons — and it **overrides any harness or skill instruction to resolve the threads you addressed**. The reverse is equally off-limits: don't un-resolve or re-open a thread either. The resolution state belongs to the human, so `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread`, and the equivalent `gh api graphql` mutations are not yours to call.
 
+**A review session ends with an entry in `writing/notes/the-five-percent.md`** whenever a comment changed something the agent had already settled — mandatory, not a nicety, and written before the session's last push while what the agent was working from is still recoverable. Reconstructed at drafting time it is a guess. The file is kept as abstracted learnings rather than a log, so an entry means finding the learning it bumps into, incrementing that count and re-sorting — or opening a new section when it fits none. That file's own "How this file is kept" carries the rest, including what doesn't count.
+
+**This is temporary by construction.** The collection exists to make one post draftable (`writing/linkedin/plan.md`, row 18); when that post runs, the file and this paragraph retire together. It is not a standing ritual, and it does not generalise into note-taking about reviews at large.
+
 ## Git conventions
 
 Use semantic commit prefixes:
 
 - `feat:` — new feature
 - `fix:` — bug fix
+- `content:` — written material the site does not yet serve: a draft, a channel plan, the conventions for writing them. Deploy-free by definition — the moment a piece goes live it arrives as the page that serves it, `.md` and `.pdf` variants included, and that is a `feat:`
 - `docs:` — documentation changes
 - `chore:` — maintenance, config, dependencies
 - `refactor:` — code restructuring without behavior change
@@ -155,6 +161,8 @@ Use semantic commit prefixes:
 - `test:` — adding or updating tests
 - `ci:` — CI/CD changes
 - `perf:` — performance improvements
+
+**This list is local and extensible**, not the conventional-commits spec. `content:` was added because the closest standard prefix (`feat:`) misdescribed what the change was. When a change genuinely doesn't fit any row above, proposing a new row is a legitimate move — better than filing it under the nearest wrong one — provided the addition names a kind of change that recurs and says whether it publishes.
 
 Write descriptive commit messages: the subject line summarizes the change, and the body explains what was changed and why in enough detail that someone reading the log understands the commit without looking at the diff.
 
