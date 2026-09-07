@@ -15,6 +15,7 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 | **Span**                      | 6 March – 10 August 2026 · 158 days                                                                 |
 | **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
 | **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
+| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud                                 |
 | **Cold load**                 | multi-second → sub-second                                                                           |
 | **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                         |
 | **Cutovers**                  | 3 workspaces, zero rollbacks                                                                        |
@@ -86,7 +87,7 @@ Below you'll find how we tackled each of these challenges; how we discovered new
 
 Before the grit, the shape of the thing.
 
-![Two charts sharing a timeline from 6 March to 21 August 2026. Cumulative units of work on main rises from 6.2 a day to 8.2 at the 25 April switch into the cloud; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
+![Two charts sharing a timeline from 6 March to 21 August 2026. The cumulative curve on main rises at 6.8 units a day from 11 March to 24 April, before the switch into the cloud, and 11.2 from 27 April to 24 June after it, a week off in May excluded; weekly units of work go from the forties to the eighties over the weeks that follow, then fall by two thirds after the 4.4.3 handover](./assets/playgram-commit-cumsum.svg)
 
 | Date       | Day | What happened                                                                    |
 | ---------- | --- | -------------------------------------------------------------------------------- |
@@ -103,7 +104,7 @@ Before the grit, the shape of the thing.
 | **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                            |
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
 
-Let's have a look at the dynamics for a bit. As you can see, the output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
+Let's have a look at the dynamics for a bit. As you can see, the output steps up from 6.8 to 11.2 units of work a day — **by 65%!** — within days of the switch to web sessions in late April (more on that below). It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
 A word on what a "commit" means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -461,6 +462,8 @@ In a way, I turned from a boss who's constantly micromanaging his team into one 
 **3 — Handling merge conflicts turned out to be the most overestimated complexity.**
 
 Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable of resolving merge conflicts in a large variety of situations. I'm not only talking about leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interact with each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of — but, after more than a thousand merged PRs resolved this way, I've had zero problems with agents doing this.
+
+And what did it actually buy? The chart at the top has it bracketed: 6.8 units of work a day on `main` in the six weeks before the switch, 11.2 in the eight weeks after, at the same median size of about 380 changed lines either side. 65% more shipped work, out of the same one person — reviewing instead of typing.
 
 **Verdict: 10/10** — you can't get back to the CLI or the VS Code plugin once you've mastered the zen of the cloud.
 
