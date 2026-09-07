@@ -30,13 +30,16 @@ The annotation layer now carries the claim rather than floating free:
 a measurement bracket per window beneath the curve, the vacation as a
 labelled gap in the second, and each rate label centred over its own
 bracket with the window dates in its sub-label, so a reader can check
-the number against the segment it describes. The two figures live on
-four surfaces with no shared runtime between them -- the visible
-labels, the SVG's <desc>, and the rate sentences in the mini and nano
-cuts -- and the alt text is triplicated across the three markdown
-cuts, which the content pipeline serves raw at their own URLs; all of
-it changes together by hand. Editing the SVG stales the Open Graph
-card and every PDF, both of which vet.sh gates on hashes only.
+the number against the segment it describes. The full version stops
+leaving the headline to the chart and its alt text, too -- the pair
+reaches its summary table, the paragraph that walks the chart, and
+the payoff of the cloud-VM section whose verdict it measures. Nothing
+here shares a runtime with anything else: the SVG's labels and
+<desc>, the alt text triplicated across the three markdown cuts the
+content pipeline serves raw at their own URLs, and the rate prose in
+each of them all change together by hand. Editing the SVG stales the
+Open Graph card and all three PDFs, editing a document stales its
+own, and vet.sh gates both on hashes only.
 
 Fixes #28
 
