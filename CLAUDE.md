@@ -95,6 +95,7 @@ Nine things about that list are deliberate:
 - **Never silently swallow errors.** On primary code paths, errors must propagate — logging alone isn't enough. A logged-and-continued error is a silent fail with paperwork. Silent fallbacks are acceptable only for secondary fire-and-forget operations where failure demonstrably cannot affect the user-facing result, and only with explicit user approval for the specific call site.
 - **Validate at boundaries.** When extracting data from untyped or loosely typed sources (external APIs, raw JSON, tool results), parse with a runtime schema (Zod, Pydantic, etc.) instead of asserting/casting. A cast hides shape mismatches at runtime; a parse surfaces them immediately. Don't re-parse data that's already type-safe inside the program.
 - **Keep production files under ~450 lines.** Rule of thumb, not a hard cap. Data-dense files (prompt text, fixtures, large catalogs) and top-level orchestrators may reasonably exceed it. When a logic-heavy file climbs well past ~450 lines, look for natural seams (focused helpers, sub-components) rather than letting it grow indefinitely.
+- **Read and edit files with the `Read`/`Edit`/`Write` tools, in every permission mode.** Auto mode drops the per-edit approval prompt, and an agent that no longer needs one drifts into doing the same work through `cat`/`sed`/heredocs in Bash. What that costs is the session log as the web UI renders it: an `Edit` shows up as a `+N −M` diff the operator can skim and expand, a heredoc as a wall of shell whose effect they have to reconstruct by reading it. Reach for Bash on a file's _contents_ only where it is **significantly** better, not merely adequate — the same mechanical substitution across dozens of files, a generated file rewritten wholesale — never because the mode stopped asking.
 - **Don't run Bash with `run_in_background`.** Always run commands synchronously, even long ones. Background tasks have a tendency to stall without an obvious reason — set a long `timeout` on a normal foreground call instead.
 
 ## Plan mode & questions in web sessions
@@ -174,12 +175,23 @@ Write descriptive commit messages: the subject line summarizes the change, and t
 
 The proposed squash title/body goes up when the PR opens and is kept in sync as the branch changes — see `@.claude/skills/squash-message/SKILL.md` for when a push warrants a re-sync.
 
-## Keeping docs in sync
+## Writing things down
 
-- **Plan drift**: When work deviates significantly from your plan docs, update them to reflect actual progress and revised ordering. The plan is a living document, not a stale ideal.
-- **Convention renames**: When a convention is renamed or a tool swapped, grep the old term across the docs and skills and update every reference in the same change.
-- **Plan-item voice**: Plan checklist items should read as forward-looking intent (how you'd phrase them _before_ doing the work), not as retrospective reports.
-- **Retiring a doc leaves a tombstone.** Don't just `rm` a doc that other files, comments, or history cite — leave a file recording the last commit that contained it and the `git show <sha>:<path>` recipe to read it, so every surviving citation still resolves, plus a pointer to where any still-live content went. **One tombstone per retirement, not per file**: docs retired together get a single tombstone with a row each. A tombstone standing in for a whole retired directory is `retired.md` at that directory's root; one standing in for a single file is `<name>.retired.md` beside its siblings — so every tombstone matches `*retired.md`.
+The default is not to write it. Prose costs context on every session that loads it, and it goes stale invisibly — a constraint survives a refactor, a description of how the constraint works does not. Three questions, in this order:
+
+1. **Should it exist at all?** Keep it only when all three hold: it is a **constraint or an accepted cost** rather than a description of how the code works; it is **not recoverable** from the code and its docstrings (or recovering it means holding more modules in your head at once than anyone does, where a paragraph gets there faster); and **getting it wrong breaks something** you can name.
+2. **Is it durable?** Phrase it as a present-tense property of the code, never as the change that produced it. ("Key principles" above carries this.)
+3. **Is it as short as it can be?** Only the non-obvious contract, at the length that contract takes.
+
+**Never create a new top-level doc without asking the user**, and argue the "don't" side when you ask. A top-level doc is the one home nothing scopes, so every later session pays for it — and a decision plus the alternatives it beat already lives in the PR or issue thread that made it, which any of the scoped homes can cite by number.
+
+**Read the long version sparingly.** `@.claude/skills/tighten-docs/SKILL.md` holds the full test — where a line goes, the rule-vs-README criterion, the tells for each defect, and what to do with a finding — and it is the only home for those rules. Load it for a borderline call or a deliberate pass over prose you just wrote, not on every doc touch; loading it every time is the cost these rules exist to remove.
+
+**When a convention changes, every place that states it changes with it.** Repoint the citations rather than leaving one home right and the others quietly wrong — and if you find the same constraint stated in two places, that is the finding: one of them is the home and the other is a pointer.
+
+**Retiring a doc leaves a tombstone.** Don't just `rm` a doc that other files, comments, or history cite — leave a file recording the last commit that contained it and the `git show <sha>:<path>` recipe to read it, so every surviving citation still resolves, plus a pointer to where any still-live content went. **One tombstone per retirement, not per file**: docs retired together get a single tombstone with a row each. A tombstone standing in for a whole retired directory is `retired.md` at that directory's root; one standing in for a single file is `<name>.retired.md` beside its siblings — so every tombstone matches `*retired.md`.
+
+**Plans are the exception**, being transient by construction. Keep them current — when work deviates from the plan, update it to reflect actual progress and revised ordering — and keep their checklist items in forward-looking voice: how you'd phrase them _before_ doing the work, not as retrospective reports.
 
 ## Working with skills
 
@@ -203,7 +215,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 **Quality passes** (both are mandatory inside `/implement`):
 
 - **`/dry`** — review the session's diff for DRY opportunities; applies obvious wins, surfaces ambiguous ones.
-- **`/tighten-docs`** — rewrite prose that narrates the change into present-tense contracts, and cut what the names and types already say.
+- **`/tighten-docs`** — cut prose that shouldn't exist, rewrite what narrates the change into present-tense contracts, and trim what the names and types already say. Naming one lens (`existence`, `durability`, `tightness`) runs only that one.
 
 **Mechanical pieces**, individually invocable and composed by the loop above:
 
