@@ -103,11 +103,13 @@ decided, so a later session doesn't rediscover the objection from scratch.
   that the honest number is smaller than the marketing.
 - **18 — the 5%.** That a knowledgeable human still catches something is the
   claim; naming _what_ needs specimens rather than argument. They are collected
-  in `writing/notes/the-five-percent.md`, starting with the review of this
-  backlog, and the post is drafted once there are enough to generalise from.
-  An entry after a review that changed something is mandatory (`CLAUDE.md`
-  § "GitHub comments"), so it goes in while it is still accurate rather than at
-  drafting time. Posting this row retires the collection and that rule with it.
+  in `writing/notes/the-five-percent.md`, as learnings carrying a count of how
+  many reviews bumped into each, sorted by it — so the post is written from the
+  top of that list rather than from whichever specimen is most vivid, and it is
+  draftable once the top is convincing on its own. An entry after a review that
+  changed something is mandatory (`CLAUDE.md` § "GitHub comments"), so it goes in
+  while it is still accurate rather than at drafting time. Posting this row
+  retires the collection and that rule with it.
 
 ## Not yet
 
