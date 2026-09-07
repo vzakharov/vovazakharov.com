@@ -188,11 +188,10 @@ never had _and_ a change that fixes one it does. Take the second half, drop the
 first, and say so.
 
 **The unit of triage is the rationale, not the commit — and so is the unit of
-commit on this side.** A source that squashes a branch into one commit ships
-several independent changes under one subject, each with its own verdict. Port
-them as separate local commits, one per rationale, rather than one commit echoing
-the source's subject: a reviewer here can then take or strike any of them
-individually, which is exactly what a Step 4a decision needs.
+commit on this side.** A source that squash-merges ships several independent
+changes under one subject, each with its own verdict. Port them as separate local
+commits, one per rationale, so a reviewer here can take or strike any of them
+individually.
 
 ### Step 4a — New skills get offered, not taken
 
@@ -221,12 +220,12 @@ and file layout.
 
 ### Step 6 — Consistency sweep
 
-**A renumbered reference is the dangerous kind**, because it still resolves.
-When a port inserts an item into a lettered or numbered sequence — a new first
-lens, a new lifecycle state — every sibling that cites the old letter now points
-at the wrong thing and no checker complains: `scripts/check-skill-catalog.sh`
-verifies that an `@`-reference resolves to a file, not that a citation inside one
-still means what it meant. So grep the sequence's labels, not just its prose.
+**A renumbered reference is the dangerous kind, because it still resolves.** When
+a port inserts an item into a lettered or numbered sequence, every sibling citing
+the old label now points at the wrong item and no checker complains:
+`scripts/check-skill-catalog.sh` verifies that an `@`-reference resolves to a
+file, not that a citation inside one still means what it meant. Grep the
+sequence's labels, not just its prose.
 
 When a port renames a term, grep the old one across the whole of `adopted` —
 **including frontmatter `description:` lines**. Those are a separate surface from
@@ -247,6 +246,14 @@ reasoning, skips included. Then hand off to `@.claude/skills/dry/SKILL.md`,
 `@.claude/skills/tighten-docs/SKILL.md` and `@.claude/skills/pr/SKILL.md`; the
 skipped commits' reasoning belongs in the PR body, since the watermark advances
 past them and nothing else records why.
+
+**Those two passes see only what you wrote — never the text you took.** Their
+scope is "prose added in this session", which on a sync diff is mostly the
+source's, and tightening a `take` is what turns every future sync of that file
+into a `translate`. So scope both passes to the translations and to whatever the
+port added on top, and leave a verbatim adoption verbatim. A vendored file worth
+restyling is a case for `declined` or a `{path: note}` rewrite, decided at Step 4
+— not a quality pass quietly diverging it.
 
 ## Add what the next sync teaches you
 

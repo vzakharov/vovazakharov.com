@@ -4,7 +4,7 @@
   "lastSyncedAt": "2026-09-07",
   "adopted": [
     {
-      "CLAUDE.md": "adopted in full. The source's decision-doc guidance used to be the one exception — this repo keeps no decision docs, docs/ holding plans and transient review artifacts only — but as of 71c6201 the source's § \"Writing things down\" replaced it with prose that routes alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog is the last upstream mention, and it is declined."
+      "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined."
     },
     ".claude/rules/README.md",
     ".claude/skills/branch-rename/",
