@@ -13,7 +13,7 @@ rather than invented one at a time.
 `writing/linkedin/plan.md` is the standing backlog: eighteen posts, each
 anchored to a fact specific enough that it could not have been written
 by someone who wasn't there, the opening run, a reserve list for when
-the current material thins, and an "Unsettled" section for the four
+the current material thins, and an "Unsettled" section for the three
 rows that carry an objection rather than a draft.
 
 `.claude/rules/writing.md` is the per-draft contract, scoped to
@@ -32,7 +32,9 @@ against.
 `writing/notes/` holds evidence gathered for a post that isn't
 draftable yet. Its first file collects cases where a human review
 caught what an agent could not -- the claim one backlog row makes and
-cannot yet support.
+cannot yet support -- keyed on the abstracted learning rather than the
+review and sorted by how many reviews bumped into each, so the post is
+written from the top of that list.
 
 `writing/` sits at the repo root deliberately: `public/` is served, and
 an unposted draft crawlable before it runs is the wrong order of
