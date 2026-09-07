@@ -15,7 +15,7 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 | **Span**                      | 6 March – 10 August 2026 · 158 days                                                                 |
 | **The "code" I started from** | an 11.6 MB minified JSON — the Bubble app export                                                    |
 | **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of production TypeScript |
-| **Throughput**                | 6.8 → 11.2 units of work a day across the move into the cloud — two thirds again as many            |
+| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud                                 |
 | **Cold load**                 | multi-second → sub-second                                                                           |
 | **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                         |
 | **Cutovers**                  | 3 workspaces, zero rollbacks                                                                        |
@@ -104,9 +104,7 @@ Before the grit, the shape of the thing.
 | **31 Jul** | 148 | `4.4.0` — workspace credits and model access control.                            |
 | **10 Aug** | 158 | `4.4.3` — the last release that's mostly mine. Handover.                         |
 
-Let's have a look at the dynamics for a bit. The two brackets under the cumulative curve are the measurement I'd actually defend: **6.8 units of work a day over the six weeks before development moved into the cloud, 11.2 over the eight weeks after — two thirds again as many.** Both are per calendar day, 11 March to 24 April against 27 April to 24 June, with the week I took off in May excluded from the second and nothing else excluded from either.
-
-The weekly panel underneath the curve shows where that came from. The output steps up in the first week of May, days after the move into the cloud. It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
+Let's have a look at the dynamics for a bit. As you can see, the output steps up from 6.8 to 11.2 units of work a day — **by 65%!** — within days of the switch to web sessions in late April (more on that below). It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what's left is new features, bug fixes and chores at a pace a normal team would recognise.
 
 A word on what a "commit" means here, because it's load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase's evolution, the "conceptual" meaning of a commit on `main` hasn't changed.
 
@@ -465,7 +463,7 @@ In a way, I turned from a boss who's constantly micromanaging his team into one 
 
 Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I'll get back to this later), agents turned out to be perfectly capable of resolving merge conflicts in a large variety of situations. I'm not only talking about leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interact with each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of — but, after more than a thousand merged PRs resolved this way, I've had zero problems with agents doing this.
 
-And what did it actually buy? The chart at the top has it bracketed: 6.8 units of work a day on `main` in the six weeks before the switch, 11.2 in the eight weeks after, at the same median size of about 380 changed lines either side. Two thirds again as much shipped work, out of the same one person — reviewing instead of typing.
+And what did it actually buy? The chart at the top has it bracketed: 6.8 units of work a day on `main` in the six weeks before the switch, 11.2 in the eight weeks after, at the same median size of about 380 changed lines either side. 65% more shipped work, out of the same one person — reviewing instead of typing.
 
 **Verdict: 10/10** — you can't get back to the CLI or the VS Code plugin once you've mastered the zen of the cloud.
 
