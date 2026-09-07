@@ -24,22 +24,26 @@ the slope of the line the reader is actually looking at, and the one
 exclusion is the 6-10 May vacation: a known absence rather than a
 slow stretch, and worth about 8% of the headline. The weekly panel
 agrees independently, its median going 44 to 74 over the same two
-windows, so its subtitle reports that same two thirds.
+windows, so its subtitle reports that same two thirds. The median
+unit size becomes "about 380 changed lines" either side, the
+published 375/384 pair having been measured across the switch and
+inviting a comparison of two figures whose point is that they match.
 
 The annotation layer now carries the claim rather than floating free:
 a measurement bracket per window beneath the curve, the vacation as a
 labelled gap in the second, and each rate label centred over its own
 bracket with the window dates in its sub-label, so a reader can check
 the number against the segment it describes. The full version stops
-leaving the headline to the chart and its alt text, too -- the pair
-reaches its summary table, the paragraph that walks the chart, and
-the payoff of the cloud-VM section whose verdict it measures. Nothing
-here shares a runtime with anything else: the SVG's labels and
-<desc>, the alt text triplicated across the three markdown cuts the
-content pipeline serves raw at their own URLs, and the rate prose in
-each of them all change together by hand. Editing the SVG stales the
-Open Graph card and all three PDFs, editing a document stales its
-own, and vet.sh gates both on hashes only.
+leaving the headline to the chart and its alt text, too -- as +65%,
+the louder form of the same 1.65, the pair reaches its summary table,
+the paragraph that walks the chart, and the payoff of the cloud-VM
+section whose verdict it measures. Nothing here shares a runtime with
+anything else: the SVG's labels and <desc>, the alt text triplicated
+across the three markdown cuts the content pipeline serves raw at
+their own URLs, and the rate prose in each of them all change
+together by hand. Editing the SVG stales the Open Graph card and all
+three PDFs, editing a document stales its own, and vet.sh gates both
+on hashes only.
 
 Fixes #28
 
