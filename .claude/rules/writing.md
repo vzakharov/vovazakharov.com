@@ -30,7 +30,8 @@ writing/
 `notes/` is for a claim that needs specimens rather than argument: the file
 collects them as they occur, so the post is written from a record instead of
 from memory. A backlog row whose objection is "this needs evidence" points at
-its notes file.
+its notes file, and the file retires with the post it fed — a notes file is
+scaffolding for one draft, not a document the repo keeps.
 
 | Key      | Meaning                                    |
 | -------- | ------------------------------------------ |

@@ -15,16 +15,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Only a feat:, fix: or content: subject reaches production; anything else
-  # lands on main without publishing. `workflow_dispatch` bypasses the gate, so
-  # a chore: that does change the built site is deployed by running this
-  # workflow by hand.
+  # Only a feat: or fix: subject reaches production; anything else lands on main
+  # without publishing. `workflow_dispatch` bypasses the gate, so a chore: that
+  # does change the built site is deployed by running this workflow by hand.
   gate:
     runs-on: ubuntu-latest
     outputs:
       deploy: ${{ steps.subjects.outputs.deploy }}
     steps:
-      - name: 'Scan the pushed subjects for a publishing prefix'
+      - name: 'Scan the pushed subjects for feat:/fix:'
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
@@ -39,12 +38,12 @@ jobs:
             # Subject lines only: a body that happens to mention "fix:" is not a fix.
             subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
 
-            if grep -qE '^(feat|fix|content)(\([^)]+\))?!?:' <<< "$subjects"; then
+            if grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subjects"; then
               deploy=true
-              verdict='Deploying — a feat:/fix:/content: subject is in this push.'
+              verdict='Deploying — a feat:/fix: subject is in this push.'
             else
               deploy=false
-              verdict='Skipping the deploy — no publishing subject in this push.'
+              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
             fi
           fi
 

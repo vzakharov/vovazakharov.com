@@ -105,8 +105,9 @@ decided, so a later session doesn't rediscover the objection from scratch.
   claim; naming _what_ needs specimens rather than argument. They are collected
   in `writing/notes/the-five-percent.md`, starting with the review of this
   backlog, and the post is drafted once there are enough to generalise from.
-  Every review of agent work is a chance to add one, so the entry goes in while
-  it is still accurate rather than at drafting time.
+  An entry after a review that changed something is mandatory (`CLAUDE.md`
+  § "GitHub comments"), so it goes in while it is still accurate rather than at
+  drafting time. Posting this row retires the collection and that rule with it.
 
 ## Not yet
 

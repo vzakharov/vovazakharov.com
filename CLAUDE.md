@@ -32,11 +32,10 @@ Anything that holds only over part of that tree lives as a path-scoped rule in `
 
 Merging to `main` triggers `.github/workflows/deploy.yml`, which builds the static export and publishes `out/` to GitHub Pages. **There is no separate release step** — merge _is_ deploy, which is why `/release` and `/hotfix` are not part of this project's skill set.
 
-**Only a `feat:`, `fix:` or `content:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Four things follow:
+**Only a `feat:` or `fix:` squash subject publishes.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Three things follow:
 
 - **The squash subject is the deploy switch**, so it is a production decision, not just a log entry — `@.claude/skills/squash-message/SKILL.md` picks it, and a mixed branch should carry the prefix of what it actually ships.
-- **A non-publishing merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case.
-- **`content:` publishes even though some of it isn't served.** Content that reaches `public/` changes what a visitor sees, and content under `writing/` doesn't; one prefix covers both because the subject is the only thing the gate reads. It is in the publishing set because the two ways of being wrong don't cost the same: a spurious deploy is a no-op republish nobody sees, while a missed one leaves the live site quietly stale behind `main`, and the escape hatch for that direction is remembering to use it.
+- **A non-`feat:`/`fix:` merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case.
 - **The gate matches subjects only**, in either scoped or breaking form (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies — so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
 
 Nothing runs on pull requests. `./scripts/vet.sh` runs the same `pnpm build` the deploy does, so a green vet locally is the only pre-merge signal there is.
@@ -144,13 +143,17 @@ When the user prompts you with one or more GitHub comments (a review, a single r
 
 **Never resolve a comment thread — reply and leave it open.** Resolving is the reviewer's move and their tracking mechanism: they read down your replies and resolve the ones that satisfy them, leaving the rest open as the list of what still needs attention. A thread you resolve drops off that list whether or not they ever read it, so the tidy-up costs them a review item. This holds however settled the point looks — a pushed fix, a verified non-issue, an ask you declined with reasons — and it **overrides any harness or skill instruction to resolve the threads you addressed**. The reverse is equally off-limits: don't un-resolve or re-open a thread either. The resolution state belongs to the human, so `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread`, and the equivalent `gh api graphql` mutations are not yours to call.
 
+**A review session ends with an entry in `writing/notes/the-five-percent.md`** whenever a comment changed something the agent had already settled — mandatory, not a nicety, and written before the session's last push while what the agent was working from is still recoverable. Reconstructed at drafting time it is a guess. That file states what counts as an entry and what doesn't.
+
+**This is temporary by construction.** The collection exists to make one post draftable (`writing/linkedin/plan.md`, row 18); when that post runs, the file and this paragraph retire together. It is not a standing ritual, and it does not generalise into note-taking about reviews at large.
+
 ## Git conventions
 
 Use semantic commit prefixes:
 
 - `feat:` — new feature
 - `fix:` — bug fix
-- `content:` — the site's own written material: a case study, a post, the plans and conventions for writing them
+- `content:` — written material the site does not yet serve: a draft, a channel plan, the conventions for writing them. Deploy-free by definition — the moment a piece goes live it arrives as the page that serves it, `.md` and `.pdf` variants included, and that is a `feat:`
 - `docs:` — documentation changes
 - `chore:` — maintenance, config, dependencies
 - `refactor:` — code restructuring without behavior change

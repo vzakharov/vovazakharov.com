@@ -12,6 +12,17 @@ that matters — what the agent could not have seen from where it stood. It feed
 backlog row 18 in `writing/linkedin/plan.md`, which stays undraftable until
 there are enough entries here to generalise from.
 
+**Adding to it is mandatory after a review session** that changed something the
+agent had settled — the rule is in `CLAUDE.md` § "GitHub comments", and it is
+there because the entry has to be written while the session still remembers what
+it was working from.
+
+**This file has an end.** It is scaffolding for one post, not a permanent
+journal of reviews: once row 18 is drafted and posted, the file retires along
+with the rule that feeds it. Everything durable that comes out of a review
+belongs where the code can see it — a rule under `.claude/rules/`, a line in
+`CLAUDE.md` — and goes there whether or not it also lands here.
+
 Entries stay in whatever they show, including the ones where the human turns
 out to have been wrong. A collection that only vindicates the reviewer is worth
 as much as a measurement that only flatters.
@@ -80,19 +91,52 @@ operator had supplied verbatim. That is a rule in `.claude/rules/writing.md`
 doing its job — worth noting so it isn't later miscounted as judgement, since
 the specimens above are the ones no rule anticipated.
 
+## 7 September 2026 — the second pass over the same branch
+
+Five comments, on the prefix the first pass introduced and on the commit message
+carrying it.
+
+### The frame was negotiable
+
+**A word one day old, already treated as given.** Having added `content:`, the
+agent had to decide whether it trips the deploy gate, and framed that as a
+trade with no clean answer: the prefix would cover both material under `public/`
+(which a visitor sees) and drafts under `writing/` (never built), the gate reads
+nothing but the subject line, so one of the two had to be wrong. It picked
+publishing as the cheaper error — a redundant republish nobody notices against a
+live site quietly stale — flagged the call, and offered the veto. The reply
+dissolved the dilemma instead of settling it: `content:` is _specifically_ for
+what isn't published yet, and the moment a piece goes live it arrives as the page
+that serves it, `.md` and `.pdf` variants included, which is a `feat:`. The
+agent had invented the word the day before and was already reasoning as though
+its meaning were handed to it.
+
+### The tell is the polish
+
+**The commit body that documented the deploy gate.** The squash message
+explained the new prefix and its place in the gate, and two notes beside it
+recorded the call and offered the veto. All of it true, and traceable to the
+threads it came from. The operator cut all three: not the place for
+implementation detail, and the prefix was a minor ride-along on a branch about a
+content plan. The agent was completing the record; a squash body is read by
+someone scanning the log for what shipped, and a ride-along given a paragraph in
+it reads as what the commit was for.
+
 ## What they have in common so far
 
-One sitting is not a pattern, but the split is already visible and worth
-holding loosely until it survives a few more reviews.
+Two reviews is not a pattern either, but the split survived the second one, and
+each specimen landed in a family that already existed rather than opening a
+third.
 
-Three of the six are not mistakes _inside_ the problem — the reasoning within
+Four of the eight are not mistakes _inside_ the problem — the reasoning within
 each frame was sound, and a second agent checking the work would have passed it.
 They are failures to notice that the frame was ours: the prefix list, the
-published chart, the brief to write rules. Whatever an agent is handed as
-context, it treats as the given, and the human's move each time was to change
-the given rather than to answer better within it.
+published chart, the brief to write rules, the meaning of a word the agent had
+itself coined the day before. Whatever an agent is handed as context, it treats
+as the given, and the human's move each time was to change the given rather than
+to answer better within it.
 
-The other three are the opposite of a mistake: the output was well-formed,
+The other four are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 here. There is no version of "be more careful" that catches them, which is
 probably why they need a person and not a better prompt.
