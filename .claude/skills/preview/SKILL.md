@@ -39,6 +39,8 @@ There is deliberately no Playwright dependency — Chrome's own `--screenshot` i
 
 `--screenshot` captures the **viewport, not the full page** — a `1280,900` window yields a 1280×900 image and everything below the fold is simply absent. To see a whole page, raise the height (`--window-size=1280,3000`); the image grows to match.
 
+**Put the theme in `<name>`.** Light and dark differ only by a launch flag, so a filename that omits the theme has one capture silently overwrite the other — and the surviving image is then evidence for whichever run went last.
+
 ### 4. Report what you saw
 
 "Captured 3 screenshots" is not a finding. Read the images back and say what they show, whether it matches what was intended, and surface the ones that don't.
@@ -54,6 +56,8 @@ There is deliberately no Playwright dependency — Chrome's own `--screenshot` i
 `/cv` only 307-redirects to `/en/cv`, so capturing it adds nothing.
 
 ## Dark mode
+
+**A colour change needs both themes, not one.** A value that reads correctly against a dark surface can be invisible against a light one, so a single capture is half the evidence — shoot the route twice whenever the change touches colour at all.
 
 Add **`--force-dark-mode` alone**. With it, next-themes resolves system → dark and `<html>` gets `class="dark"`; without it, `class="light"`.
 
