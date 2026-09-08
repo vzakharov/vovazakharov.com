@@ -44,7 +44,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×4)
+## What it was handed, it treats as fixed (×5)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -94,6 +94,17 @@ question of import directionality, suggest introducing a case study entity_.
 The gate asks whether a duplicated member has one home and has no opinion on
 which layer that home belongs to, so green was again the whole of the evidence
 — this time about a placement the agent made while fixing the previous bump.
+
+**8 September — a cost measured against its own earlier choice.** Asked why the
+two CV route files could not collapse into one optional catch-all, the agent
+spiked it, measured, and reported a single cost: the bare `/en/cv` would inherit
+`og:url: /en/cv/cto`. True, and it is only a cost if `/en/cv` is the address
+that ought to be indexed — which the agent had decided itself, hours earlier, in
+the same branch, and by review time was reasoning from rather than about. The
+reply changed the given: _I'd likely actually prefer the latter being canonical:
+then in the search people see "ok, this one's for cto, and it sits on
+en/cv/cto"_. Flipped, the cost is the goal, and the collapse the agent had
+argued against became free — four route files down to two.
 
 ## It writes its reasoning into the artifact (×2)
 
@@ -154,6 +165,43 @@ neither. Every gloss was a confident sentence about the operator's own work,
 and the slot never suggested that leaving one blank was available. Not knowing
 is not the finding; writing rather than asking is.
 
+## An account that explains the code stands in for running it (×2)
+
+The sibling of "It checks the render against its intent" below, and the worse
+half: there the agent looked and asked the wrong question, here it never looked,
+because the reasoning closed. An explanation that accounts for every line is
+complete on its own terms, and completeness is what removes the prompt to
+measure. Nothing inside the account can report that it was never checked against
+the artifact.
+
+**8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
+route needs a hand-written redirect file, the agent gave the right reason:
+next-intl redirects in middleware, a static export has no middleware, so every
+unlocalized entry point needs a file. Correct at every step, and it closed the
+question — so the agent never asked what the file it was defending actually
+does. The reply refused the account rather than adding to it: _how do we do
+"redirect" if it's not supposed to work in a static export at all?_ One grep of
+`out/` answered it: no HTTP redirect, no `meta refresh` anywhere in the tree,
+just an empty body and `NEXT_REDIRECT;replace;/en/cv;307` in the RSC payload.
+The hop is done by React after hydration, so `/cv` is a blank page to anything
+that doesn't run JS. A real defect, live on the site, sitting under an
+explanation that was true. In the same round the agent had also written that the
+change would need the CV PDFs re-rendered; there are no CV PDFs, and `find` says
+so in a second.
+
+**8 September — the schema it never wrote.** Told that route params would be
+better parsed with a zod schema, the agent declined and kept its hand-written
+type guards, on three reasons. Two rounds took two of them away, the timing one
+conceded unprompted. What was left was that a schema would restate the variant
+ids and hand back a `string` union to keep in sync with them — and one line
+would have shown otherwise, since `z.enum(CV_VARIANTS)` reads the same const the
+type does and infers `'cto' | 'dev'`. The reply was a question rather than a
+correction — _they would be defined first, followed by `z.enum(...)` over them.
+Am I missing smth?_ — and the answer was no. What the account did displace was a
+different measurement, which nobody had: zod imported into a module a client
+component reaches puts 89 kB gzipped in the CV page's bundle, and that decides
+where the schema lives rather than whether it exists.
+
 ## Editing removes slack, and the slack was the voice (×1)
 
 Removing slack is what editing _is_, which is exactly why an agent does it by
@@ -191,29 +239,6 @@ edge-to-edge, another was inset a fifth of its own and off-centre besides, so
 rendered at one size they read as different sizes on a wobbling axis. The
 screenshot had shown that. What the agent had asked it was "are the logos
 there", and it answered yes.
-
-## An account that explains the code stands in for running it (×1)
-
-The sibling of the one above, and the worse half: there the agent looked and
-asked the wrong question, here it never looked, because the reasoning closed.
-An explanation that accounts for every line is complete on its own terms, and
-completeness is what removes the prompt to measure. Nothing inside the account
-can report that it was never checked against the artifact.
-
-**8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
-route needs a hand-written redirect file, the agent gave the right reason:
-next-intl redirects in middleware, a static export has no middleware, so every
-unlocalized entry point needs a file. Correct at every step, and it closed the
-question — so the agent never asked what the file it was defending actually
-does. The reply refused the account rather than adding to it: _how do we do
-"redirect" if it's not supposed to work in a static export at all?_ One grep of
-`out/` answered it: no HTTP redirect, no `meta refresh` anywhere in the tree,
-just an empty body and `NEXT_REDIRECT;replace;/en/cv;307` in the RSC payload.
-The hop is done by React after hydration, so `/cv` is a blank page to anything
-that doesn't run JS. A real defect, live on the site, sitting under an
-explanation that was true. In the same round the agent had also written that the
-change would need the CV PDFs re-rendered; there are no CV PDFs, and `find` says
-so in a second.
 
 ## A fact restated into a pitch stops being a measurement (×1)
 
@@ -258,7 +283,7 @@ every learning above is one no rule anticipated.
 
 ## The two families
 
-Five reviews is not a pattern, but the ten learnings already fall in two
+Six reviews is not a pattern, but the ten learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
