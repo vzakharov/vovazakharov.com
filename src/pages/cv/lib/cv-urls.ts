@@ -2,10 +2,7 @@ import type { Locale } from '@/shared/i18n';
 
 import { CV_VARIANTS, type CvVariant, DEFAULT_CV_VARIANT } from './cv-variants';
 
-/**
- * The one place the CV's URL shape is decided. The variant switch, the locale
- * picker's route guard, the sitemap and the locale-less redirects all need it.
- */
+/** The one place the CV's URL shape is decided. */
 const CV_BASE = '/cv';
 
 /** Locale-less, as next-intl's navigation and `usePathname` speak it. */
@@ -18,12 +15,11 @@ export function cvVariantPath(variant: CvVariant): string {
   return cvPath(variant === DEFAULT_CV_VARIANT ? undefined : variant);
 }
 
-/** Absolute within the site, as metadata and the sitemap need it. */
+/** Locale-prefixed, as a metadata path or a sitemap entry must be. */
 export function cvRoute(locale: Locale, variant?: CvVariant): string {
   return `/${locale}${cvPath(variant)}`;
 }
 
-/** Whether a locale-less pathname is one of the CV's own addresses. */
 export function isCvPath(pathname: string): boolean {
   return (
     pathname === cvPath() ||

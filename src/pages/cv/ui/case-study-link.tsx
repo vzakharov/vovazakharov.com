@@ -8,9 +8,8 @@ import classes from './cv.module.scss';
 
 /**
  * Which case study the CV cross-links, as the key its label and its experience
- * entry share. The slug the route is built from is the server's
- * `FEATURED_CASE_STUDY`: `shared/content` is build-time-only, so a client
- * component is handed the resolved href instead of the registry.
+ * entry share. Its slug is the server's `FEATURED_CASE_STUDY`: `shared/content`
+ * is build-time-only, so a client component gets the resolved href instead.
  */
 export const CASE_STUDY_KEY = 'playgram';
 

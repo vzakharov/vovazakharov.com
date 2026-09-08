@@ -3,13 +3,9 @@ export const CV_VARIANTS = ['cto', 'dev'] as const;
 
 export type CvVariant = (typeof CV_VARIANTS)[number];
 
-/** Which framing the CV is read in — the developer one is its own evidence. */
 export type WithCvVariant = { variant: CvVariant };
 
-/**
- * What `/{locale}/cv` serves, in place rather than by redirect. Every link on
- * the site points at that address, so this is the framing a reader meets first.
- */
+/** What `/{locale}/cv` serves, in place rather than by redirect. */
 export const DEFAULT_CV_VARIANT = 'cto' satisfies CvVariant;
 
 function isCvVariant(value: string): value is CvVariant {

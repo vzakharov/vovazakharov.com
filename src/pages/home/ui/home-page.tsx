@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/features/switch-theme';
 import { ContactSection } from './contact-section';
 import { DevSection } from './dev-section';
 
-/** The nouns the hero claims that this page no longer carries a section for. */
+/** The nouns the hero claims that live on pages of their own. */
 const SEE_ALSO = [
   { href: PAGE_ROUTES.writing, label: 'writing' },
   { href: PAGE_ROUTES.music, label: 'music' },

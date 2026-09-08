@@ -13,8 +13,8 @@ export type ConstructMetadataParams = MaybeTitled &
     ogDescription?: string; // Separate description for OpenGraph if different from main
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
     /**
-     * Site-root path this page defers to, for a URL that serves content another
-     * one also serves. Left off, a search engine picks its own canonical.
+     * Site-root path this page defers to, where two URLs serve one page. Left
+     * off, a search engine picks its own canonical.
      */
     canonical?: string;
     ogType?: 'website' | 'profile' | 'article';

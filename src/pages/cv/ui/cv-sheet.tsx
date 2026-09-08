@@ -37,11 +37,7 @@ const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
-/**
- * Which blocks each framing offers, and in what order — the one thing that
- * differs between the variants without differing in wording, so it lives in
- * code rather than in the catalogs.
- */
+/** Which blocks each framing offers, and in what order. */
 const OFFER_BLOCKS = {
   cto: ['engagements', 'engineeringSystem', 'aiExpertise', 'workingStyle'],
   dev: ['coreCapabilities', 'workingStyle', 'aiExpertise'],
@@ -124,10 +120,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                     </CvSubsection>
                   );
                 })}
-                {/* The framing that leads with proof keeps the proof one click
-                    from the claim, not only from the experience entry. Screen
-                    only: paper has no click, and the entry already prints the
-                    address this would print a second time. */}
+                {/* The framing that leads with proof keeps it one click from
+                    the claim. Screen only: the experience entry already prints
+                    this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
                     <CaseStudyLink href={caseStudyHref} />

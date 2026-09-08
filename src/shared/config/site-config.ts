@@ -7,11 +7,9 @@ import type { Linked, WithText } from '@/shared/typings';
 export const BUILD_YEAR = new Date().getFullYear();
 
 /**
- * The unlocalized standalone pages, spelled once for the home-page footer that
- * links them, the metadata that declares them and the sitemap that lists them.
- * They sit below `pages/` because the footer and the page are separate slices,
- * which may not reach each other sideways. The CV and the content collections
- * are parameterized, so they shape their own URLs instead.
+ * The unlocalized standalone pages. Below `pages/` because the footer that
+ * links them is a different slice from the pages themselves, and slices may not
+ * reach each other sideways; the CV and the collections shape their own URLs.
  */
 export const PAGE_ROUTES = {
   writing: '/writing',

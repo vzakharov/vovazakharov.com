@@ -23,11 +23,7 @@ export const COLLECTIONS = {
   },
 } as const satisfies Record<CollectionId, { base: string; label: string }>;
 
-/**
- * The document the home page and the CV both cross-link. A curation call rather
- * than a URL shape, but it lives beside `documentRoute` because that is what
- * every consumer immediately hands it to.
- */
+/** The document the home page and the CV both cross-link. */
 export const FEATURED_CASE_STUDY = 'playgram';
 
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */

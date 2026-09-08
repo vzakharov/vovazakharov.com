@@ -5,7 +5,6 @@ import { cx } from '@/shared/lib/class-names';
 import classes from './back-to-home.module.scss';
 import { InternalLink } from './internal-link';
 
-/** The way back from a page the reader arrived at from somewhere else. */
 export function BackToHome() {
   return (
     <Box

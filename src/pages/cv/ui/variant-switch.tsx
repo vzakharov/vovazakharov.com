@@ -9,9 +9,9 @@ import { cvVariantPath } from '../lib/cv-urls';
 import { CV_VARIANTS, type WithCvVariant } from '../lib/cv-variants';
 
 /**
- * Deliberately visible rather than discoverable: two framings are on offer, and
- * a second one a reader finds rather than is shown is the version that reads as
- * evasive. Links rather than a control, so each framing keeps its own address.
+ * Deliberately visible: a second framing a reader finds rather than is shown
+ * reads as evasive. Links rather than a control, so each framing keeps its own
+ * address.
  */
 export function VariantSwitch({ variant: current }: WithCvVariant) {
   const t = useTranslations('ui');

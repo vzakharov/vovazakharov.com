@@ -7,10 +7,9 @@ import { cvRoute } from './cv-urls';
 import { type CvVariant, DEFAULT_CV_VARIANT } from './cv-variants';
 
 /**
- * `variant` is the segment the URL being described carries, so omitting it
- * describes `/{locale}/cv` itself. The default variant is served there in
- * place, which is why its self-describing address declares the bare route
- * canonical rather than competing with it for the same content.
+ * `variant` is the segment the described URL carries, so omitting it describes
+ * `/{locale}/cv` itself — which is why the default variant's own address
+ * declares that bare route canonical rather than competing with it.
  */
 export function generateCvMetadata(locale: Locale, variant?: CvVariant) {
   const { description, ogSuffix } = cvMessages(
