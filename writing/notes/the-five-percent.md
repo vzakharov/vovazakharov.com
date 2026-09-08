@@ -44,7 +44,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×3)
+## What it was handed, it treats as fixed (×4)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -83,6 +83,17 @@ aliases only, so an inlined generic argument is invisible to it — which the
 agent knew, having read the README that says so, and read as the boundary of the
 rule rather than as a hole in its enforcement. A checker that passes is
 evidence about the checker.
+
+**8 September — the same hole, opened by the fix for it.** Applying that rule,
+the agent named the bases the route files had inlined, and the gate then found
+two more members declared twice. One was `caseStudyHref?`, shared by a card in
+`pages/home` and a card in `pages/cv` — sibling slices, so the base had to sit
+below both, and `shared/typings` was the lowest home that already existed. It
+went there and the gate went green. The reply: _not domain-less; if it's a
+question of import directionality, suggest introducing a case study entity_.
+The gate asks whether a duplicated member has one home and has no opinion on
+which layer that home belongs to, so green was again the whole of the evidence
+— this time about a placement the agent made while fixing the previous bump.
 
 ## It writes its reasoning into the artifact (×2)
 
@@ -181,6 +192,29 @@ rendered at one size they read as different sizes on a wobbling axis. The
 screenshot had shown that. What the agent had asked it was "are the logos
 there", and it answered yes.
 
+## An account that explains the code stands in for running it (×1)
+
+The sibling of the one above, and the worse half: there the agent looked and
+asked the wrong question, here it never looked, because the reasoning closed.
+An explanation that accounts for every line is complete on its own terms, and
+completeness is what removes the prompt to measure. Nothing inside the account
+can report that it was never checked against the artifact.
+
+**8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
+route needs a hand-written redirect file, the agent gave the right reason:
+next-intl redirects in middleware, a static export has no middleware, so every
+unlocalized entry point needs a file. Correct at every step, and it closed the
+question — so the agent never asked what the file it was defending actually
+does. The reply refused the account rather than adding to it: _how do we do
+"redirect" if it's not supposed to work in a static export at all?_ One grep of
+`out/` answered it: no HTTP redirect, no `meta refresh` anywhere in the tree,
+just an empty body and `NEXT_REDIRECT;replace;/en/cv;307` in the RSC payload.
+The hop is done by React after hydration, so `/cv` is a blank page to anything
+that doesn't run JS. A real defect, live on the site, sitting under an
+explanation that was true. In the same round the agent had also written that the
+change would need the CV PDFs re-rendered; there are no CV PDFs, and `find` says
+so in a second.
+
 ## A fact restated into a pitch stops being a measurement (×1)
 
 Numbers from the case study are the site's evidence, and moving one into an
@@ -224,18 +258,25 @@ every learning above is one no rule anticipated.
 
 ## The two families
 
-Four reviews is not a pattern, but the nine learnings already fall in two
+Five reviews is not a pattern, but the ten learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
 as the rule. Whatever the agent is handed as context, it treats as the given.
 
-The other five are the opposite of a mistake: the output was well-formed,
+The other six are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 there. The sharpest is the one where the agent did the extra step and it did not
-help: it rendered the page, looked at it, and verified its own intention. The
-newest is its sibling — an edit correct and minimal at the site it was made,
-whose minimality is what left the same fact spelled three ways. No version of
-"be more careful" catches these, which is probably why they need a person and
-not a better prompt.
+help: it rendered the page, looked at it, and verified its own intention. Two
+are its siblings — an edit correct and minimal at the site it was made, whose
+minimality is what left the same fact spelled three ways; and an explanation
+sound at every step, whose soundness is what stopped anyone opening the file it
+described. No version of "be more careful" catches these, which is probably why
+they need a person and not a better prompt.
+
+They also differ in what the human had to supply. Most of these were caught by
+knowing something the agent didn't — which chart window was drawn wrong, what a
+side project actually was. The redirect one was not: the reply carried no
+information, only a refusal to accept a well-formed account. That is a cheaper
+kind of review to give and, on this evidence, not a less productive one.
