@@ -1,11 +1,12 @@
 import { Anchor, Box, Button, SimpleGrid, Text } from '@mantine/core';
 
+import { Section, Subheading, SUBHEADING_GAP } from '@/shared/ui';
+
 import { ArticleCard } from './article-card';
-import { Section, Subheading, SUBHEADING_GAP } from './section';
 
 export function WritingSection() {
   return (
-    <Section id="writing">
+    <Section id="writing" order={1}>
       <Box>
         <Text size="lg" lh={1.625}>
           Before I became a full-time coder, I worked for 22 years as a

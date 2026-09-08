@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl, PAGE_ROUTES } from '@/shared/config';
 import {
   COLLECTION_IDS,
   collectionRoute,
@@ -8,14 +8,23 @@ import {
 } from '@/shared/content';
 import { routing } from '@/shared/i18n';
 
+import { cvRoute } from '@/pages/cv';
+
 /**
- * Every page the site renders. Content entries are derived from the collection
- * registry, so a new document appears here without touching this file.
+ * Every page the site advertises. Content entries are derived from the
+ * collection registry, so a new document appears here without touching this
+ * file. `/{locale}/cv/cto` is the deliberate omission: it renders what
+ * `/{locale}/cv` renders, and listing both twins would ask the crawler to
+ * resolve a duplicate the canonical link already resolved.
  */
 export function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     '/',
-    ...routing.locales.map((locale) => `/${locale}/cv`),
+    ...Object.values(PAGE_ROUTES),
+    ...routing.locales.flatMap((locale) => [
+      cvRoute(locale),
+      cvRoute(locale, 'dev'),
+    ]),
     ...COLLECTION_IDS.map((id) => collectionRoute(id)),
   ];
 

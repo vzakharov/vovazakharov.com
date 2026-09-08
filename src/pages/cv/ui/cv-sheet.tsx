@@ -13,7 +13,6 @@ import {
 import { Printer } from 'lucide-react';
 import { useMessages, useTranslations } from 'next-intl';
 
-import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Card, InternalLink } from '@/shared/ui';
 
@@ -23,6 +22,7 @@ import type { CvVariant, WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
+import { CvOfferBlock, type OfferBlockKey } from './cv-offer-block';
 import { CvSection, CvSubsection } from './cv-section';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
@@ -36,8 +36,6 @@ function handlePrint() {
 const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
-
-type OfferBlockKey = keyof Messages['cv']['whatIOffer']['blocks'];
 
 /**
  * Which blocks each framing offers, and in what order — the one thing that
@@ -118,25 +116,11 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
               <Stack className={classes['section']}>
                 {OFFER_BLOCKS[variant].map((key) => {
                   const block = cv.whatIOffer.blocks[key];
+                  const { title } = block;
 
                   return (
-                    <CvSubsection key={key} title={block.title}>
-                      {'items' in block ? (
-                        <CvBullets items={block.items} last />
-                      ) : (
-                        block.paragraphs.map((paragraph, index) => (
-                          <Text
-                            key={index}
-                            lh={1.625}
-                            className={cx(
-                              index < block.paragraphs.length - 1 &&
-                                classes['tightHeading'],
-                            )}
-                          >
-                            {paragraph}
-                          </Text>
-                        ))
-                      )}
+                    <CvSubsection key={key} {...{ title }}>
+                      <CvOfferBlock {...{ block }} />
                     </CvSubsection>
                   );
                 })}

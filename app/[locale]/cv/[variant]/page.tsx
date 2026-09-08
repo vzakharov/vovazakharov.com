@@ -1,6 +1,11 @@
 import { routing, toLocale } from '@/shared/i18n';
 
-import { CV_VARIANTS, CvPage, generateCvMetadata, toCvVariant } from '@/pages/cv';
+import {
+  CV_VARIANTS,
+  CvPage,
+  generateCvMetadata,
+  toCvVariant,
+} from '@/pages/cv';
 
 type Props = {
   params: Promise<{ locale: string; variant: string }>;

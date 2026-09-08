@@ -2,7 +2,12 @@ import { redirect } from 'next/navigation';
 
 import { routing } from '@/shared/i18n';
 
-import { CV_VARIANTS, cvRoute, generateCvMetadata, toCvVariant } from '@/pages/cv';
+import {
+  CV_VARIANTS,
+  cvRoute,
+  generateCvMetadata,
+  toCvVariant,
+} from '@/pages/cv';
 
 type Props = {
   params: Promise<{ variant: string }>;

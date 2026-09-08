@@ -1,10 +1,6 @@
 import type { Locale } from '@/shared/i18n';
 
-import {
-  CV_VARIANTS,
-  type CvVariant,
-  DEFAULT_CV_VARIANT,
-} from './cv-variants';
+import { CV_VARIANTS, type CvVariant, DEFAULT_CV_VARIANT } from './cv-variants';
 
 /**
  * The one place the CV's URL shape is decided. The variant switch, the locale

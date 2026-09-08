@@ -1,15 +1,17 @@
 import { Box, Text } from '@mantine/core';
 
-import { InternalLink } from '@/shared/ui';
+import { cx } from '@/shared/lib/class-names';
 
-import classes from './case-studies.module.scss';
+import classes from './back-to-home.module.scss';
+import { InternalLink } from './internal-link';
 
+/** The way back from a page the reader arrived at from somewhere else. */
 export function BackToHome() {
   return (
     <Box
       component="footer"
       ta="center"
-      className={`print-hidden ${classes['pageFooter']}`}
+      className={cx('print-hidden', classes['pageFooter'])}
     >
       <Text size="sm" opacity={0.6}>
         <InternalLink href="/" inherit>

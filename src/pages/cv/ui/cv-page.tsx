@@ -11,7 +11,10 @@ export type CvPageProps = WithCvVariant & { locale: Locale };
 
 export function CvPage({ locale, variant }: CvPageProps) {
   return (
-    <NextIntlClientProvider {...{ locale }} messages={cvMessages(locale, variant)}>
+    <NextIntlClientProvider
+      {...{ locale }}
+      messages={cvMessages(locale, variant)}
+    >
       <CvSheet
         {...{ variant }}
         caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}

@@ -13,13 +13,12 @@ import {
   VARIANTS,
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
-import { InternalLink } from '@/shared/ui';
+import { BackToHome, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
-import { BackToHome } from './back-to-home';
 import classes from './case-studies.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';

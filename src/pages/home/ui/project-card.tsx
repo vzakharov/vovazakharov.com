@@ -1,4 +1,5 @@
 import { Group, Text, Title } from '@mantine/core';
+import type { ReactNode } from 'react';
 
 import { Card, CardLink, type Summarized } from '@/shared/ui';
 
@@ -6,6 +7,8 @@ type ProjectCardProps = Summarized & {
   techStack?: string;
   stars?: number;
   url?: string;
+  /** A cross-link the card itself cannot be, since only one anchor may wrap it. */
+  footer?: ReactNode;
 };
 
 export function ProjectCard({
@@ -14,6 +17,7 @@ export function ProjectCard({
   techStack,
   stars,
   url,
+  footer,
 }: ProjectCardProps) {
   const content = (
     <Card>
@@ -35,6 +39,7 @@ export function ProjectCard({
           {techStack}
         </Text>
       )}
+      {footer}
     </Card>
   );
 

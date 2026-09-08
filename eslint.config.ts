@@ -252,14 +252,14 @@ const eslintConfig = defineConfig([
       ...vovaRules,
     },
   },
-  // The site root is served at `/` with no locale segment — only `[locale]/cv/`
-  // is localized — so its copy is authored in English in the JSX and there is no
-  // `ru` rendering for a literal to defeat. The exemption spans the whole slice
-  // because the page is composed from one section component per topic. Drop this
-  // if the root page is ever localized; the rule stays `error` everywhere else,
-  // including every component the CV renders.
+  // These pages are served with no locale segment — only `[locale]/cv/` is
+  // localized — so their copy is authored in English in the JSX and there is no
+  // `ru` rendering for a literal to defeat. The exemption spans each whole
+  // slice because a page is composed from one section component per topic. Drop
+  // a slice from the list if its page is ever localized; the rule stays `error`
+  // everywhere else, including every component the CV renders.
   {
-    files: ['src/pages/home/ui/**/*.tsx'],
+    files: ['src/pages/{home,writing,music}/ui/**/*.tsx'],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.
