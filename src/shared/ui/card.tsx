@@ -21,9 +21,9 @@ export function Card({ children }: WithChildren) {
 }
 
 /**
- * Makes a whole card one link to somewhere off the site. It goes *inside* the
- * card as an overlay rather than around it, so the card may hold links of its
- * own — an anchor cannot nest, and the card's content paints over this one.
+ * Makes a whole card one link off the site. Rendered as the card's first child,
+ * an overlay rather than a wrapper: an anchor cannot nest, so a link the card
+ * holds itself stays clickable by painting over this one.
  */
 export function CardLink({ href, 'aria-label': ariaLabel }: CardLinkProps) {
   return (

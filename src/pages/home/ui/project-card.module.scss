@@ -1,6 +1,5 @@
-// Positioned, and so painted over the whole-card overlay anchor that precedes
-// it — which is what keeps this link clickable while the rest of the card is
-// one big link to somewhere else.
+// Painted over the whole-card overlay anchor that precedes it, which is what
+// keeps this link clickable inside a card that is itself one big link.
 .aboveCardLink {
   position: relative;
 }

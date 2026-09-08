@@ -32,6 +32,27 @@ function handlePrint() {
   globalThis.print();
 }
 
+/** The addresses the sheet renders in more than one place. */
+function EmailLink() {
+  const t = useTranslations('cv');
+
+  return (
+    <Anchor href={`mailto:${t('header.email')}`} inherit>
+      {t('header.email')}
+    </Anchor>
+  );
+}
+
+function WebsiteLink() {
+  const t = useTranslations('cv');
+
+  return (
+    <Anchor href={`https://${t('website')}`} inherit>
+      {t('website')}
+    </Anchor>
+  );
+}
+
 /** Order is a presentation decision, as with the experience entries. */
 const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
@@ -86,13 +107,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 {t('header.tagline')}
               </Text>
               <Text className={cx(classes['printSmall'], classes['dim70'])}>
-                <Anchor href={`mailto:${t('header.email')}`} inherit>
-                  {t('header.email')}
-                </Anchor>
+                <EmailLink />
                 {' · '}
-                <Anchor href={`https://${t('website')}`} inherit>
-                  {t('website')}
-                </Anchor>
+                <WebsiteLink />
               </Text>
             </Stack>
           </Box>
@@ -185,10 +202,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 className={classes['contactLine']}
                 wrap="wrap"
               >
-                <Anchor href={`mailto:${t('header.email')}`} inherit>
-                  {t('header.email')}
-                </Anchor>
-                ·
+                <EmailLink />·
                 <Anchor
                   href={`https://${t('contact.github')}`}
                   target="_blank"
@@ -238,9 +252,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           >
             <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
-              <Anchor href={`https://${t('website')}`} inherit>
-                {t('website')}
-              </Anchor>
+              <WebsiteLink />
             </Text>
           </Box>
         </Stack>

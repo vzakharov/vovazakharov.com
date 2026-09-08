@@ -10,14 +10,12 @@ import {
 } from '@mantine/core';
 import Image from 'next/image';
 
-import { documentRoute, FEATURED_CASE_STUDY } from '@/shared/content';
+import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { TitledBlock } from '@/shared/typings';
 import { Card, InternalButton, Section, Subheading } from '@/shared/ui';
 
 import { ProjectCard } from './project-card';
 import { TechLine } from './tech-line';
-
-const CASE_STUDY_ROUTE = documentRoute('case-studies', FEATURED_CASE_STUDY);
 
 /** Projects the grid names rather than cards, each a thing a big player later shipped as a standard. */
 const EARLIER_PROJECTS = [
@@ -27,7 +25,7 @@ const EARLIER_PROJECTS = [
 ];
 
 type HighlightCardProps = TitledBlock & {
-  /** Basename under `public/logos/`, where the organisation's own mark is vendored. */
+  /** Basename under `public/logos/`. */
   logo: string;
   tech: string;
 };
@@ -76,7 +74,7 @@ export function DevSection() {
           description="A live, feature-rich AI chat product lifted off a no-code builder into a production Next.js codebase in 158 days, and in production for its users the whole way through."
           techStack="Next.js 16, Supabase, Railway, feature-sliced design, Claude Code"
           url="https://playgram.ai"
-          caseStudyHref={CASE_STUDY_ROUTE}
+          caseStudyHref={FEATURED_CASE_STUDY_ROUTE}
         />
 
         <ProjectCard

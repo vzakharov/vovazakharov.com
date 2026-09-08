@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/features/switch-theme';
 import { ContactSection } from './contact-section';
 import { DevSection } from './dev-section';
 
-/** The nouns the hero claims that live on pages of their own; each path is its own label. */
+/** The nouns the hero claims that live on pages of their own. */
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {

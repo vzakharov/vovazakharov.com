@@ -1,6 +1,6 @@
 import { NextIntlClientProvider } from 'next-intl';
 
-import { documentRoute, FEATURED_CASE_STUDY } from '@/shared/content';
+import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 
 import { cvMessages } from '../lib/cv-messages';
@@ -15,10 +15,7 @@ export function CvPage({ locale, variant }: CvPageProps) {
       {...{ locale }}
       messages={cvMessages(locale, variant)}
     >
-      <CvSheet
-        {...{ variant }}
-        caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}
-      />
+      <CvSheet {...{ variant }} caseStudyHref={FEATURED_CASE_STUDY_ROUTE} />
     </NextIntlClientProvider>
   );
 }

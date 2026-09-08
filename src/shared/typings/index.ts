@@ -33,7 +33,7 @@ export type WithChildren = { children: ReactNode };
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 
-/** The case study a card cross-links, absent on the cards that document none. */
+/** The case study a card cross-links. */
 export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
 
 /** Where an anchor points. */

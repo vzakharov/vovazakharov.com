@@ -69,6 +69,12 @@ export function documentRoute(
   return `${collectionRoute(id)}/${documentName(slug, variant)}`;
 }
 
+/** The route of the case study the home page and the CV cross-link. */
+export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
+  'case-studies',
+  FEATURED_CASE_STUDY,
+);
+
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */
 export function documentName(slug: string, variant?: Variant): string {
   return variant === undefined ? slug : `${slug}.${variant}`;
