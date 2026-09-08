@@ -100,8 +100,7 @@
             "label": "A repeatable agent pipeline:",
             "text": "plan, implement, review, finalize — each stage its own session, with a reviewable artifact between them."
           }
-        ],
-        "tech": "Next.js 16, TypeScript, feature-sliced design, Claude Code"
+        ]
       },
       "englishForKids": {
         "title": "Developer – Project Work",
@@ -111,8 +110,7 @@
           "Interactive game-based learning experiences powered by LLM-generated content.",
           "Adaptive difficulty and personalized learning paths based on individual progress.",
           "Integration of proven teaching methods with modern AI capabilities."
-        ],
-        "tech": "Next.js, OpenAI API, custom game engine"
+        ]
       },
       "orcool": {
         "title": "Developer – Project Work",
@@ -123,8 +121,7 @@
           "Automated review collection from diverse public sources.",
           "AI-driven summarization with structured outputs (SWOT, competitive positioning, feature insights).",
           "Early productization steps toward a scalable SaaS-style platform."
-        ],
-        "tech": "Next.js/NestJS, Cloudflare Workers, Firebase, custom LLM orchestration framework"
+        ]
       },
       "randddb": {
         "title": "Developer",
@@ -152,7 +149,6 @@
             "text": "White-label mini-platforms for agency clients (e.g. randddb.com/s/ikea)."
           }
         ],
-        "tech": "Django + PostgreSQL backend, Vue + TypeScript frontend",
         "demo": "Demo available on request."
       },
       "independent": {

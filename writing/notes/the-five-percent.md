@@ -196,6 +196,25 @@ tally that is a description of work already done rather than anything on sale �
 _it's not always nine_, and _no need, it's not an "offer"_. The case study
 states them as measurements, which is the genre they are true in.
 
+## It edits the copy in front of it, not the fact behind it (×1)
+
+A value the agent is told to change is a value it can see, so it changes the one
+on the screen. One fact rendered in three places gets one rendering updated, and
+nothing catches the split: every site still reads correctly on its own, and the
+divergence exists only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders on
+the home page's project card, on its work-highlight card, and in the CV's
+experience entry. Told to put Supabase and Railway in it, the agent edited the
+project card and left the other two reading _Next.js 16, TypeScript,
+feature-sliced design, Claude Code_ — having authored all three itself, in the
+same branch, hours earlier. Two neighbours had drifted the same way: the CV
+credited Orcool with a custom LLM orchestration framework that neither home card
+mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
+other. The reply was one line — _the tech stack lines should be the same (and
+DRY)_ — and it named a defect no screenshot of any single page could show,
+because each page was right.
+
 ## Not bumps
 
 The agent flagged rather than silently fixed two words missing from text the
@@ -205,16 +224,18 @@ every learning above is one no rule anticipated.
 
 ## The two families
 
-Three reviews is not a pattern, but the eight learnings already fall in two
+Four reviews is not a pattern, but the nine learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
 as the rule. Whatever the agent is handed as context, it treats as the given.
 
-The other four are the opposite of a mistake: the output was well-formed,
+The other five are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
-there. The newest of them is the sharpest, because the agent did the extra step
-and it did not help: it rendered the page, looked at it, and verified its own
-intention. No version of "be more careful" catches these, which is probably why
-they need a person and not a better prompt.
+there. The sharpest is the one where the agent did the extra step and it did not
+help: it rendered the page, looked at it, and verified its own intention. The
+newest is its sibling — an edit correct and minimal at the site it was made,
+whose minimality is what left the same fact spelled three ways. No version of
+"be more careful" catches these, which is probably why they need a person and
+not a better prompt.

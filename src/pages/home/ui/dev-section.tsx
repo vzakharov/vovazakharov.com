@@ -10,6 +10,7 @@ import {
 } from '@mantine/core';
 import Image from 'next/image';
 
+import { TECH_STACKS } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { TitledBlock } from '@/shared/typings';
 import { Card, InternalButton, Section, Subheading } from '@/shared/ui';
@@ -29,6 +30,17 @@ type HighlightCardProps = TitledBlock & {
   logo: string;
   tech: string;
 };
+
+/** The section's call to action, above the projects and again after them. */
+function ReadCvButton() {
+  return (
+    <Group>
+      <InternalButton href="/cv" variant="default" size="md">
+        Read full CV
+      </InternalButton>
+    </Group>
+  );
+}
 
 function HighlightCard({ logo, title, tech, children }: HighlightCardProps) {
   return (
@@ -61,9 +73,7 @@ export function DevSection() {
           These days I’m looking for a hands-on CTO position — taking an idea to
           production, or putting a team that already exists onto agent rails.
         </Text>
-        <InternalButton href="/cv" variant="default" size="md">
-          Read full CV
-        </InternalButton>
+        <ReadCvButton />
       </Stack>
 
       <Subheading>Featured Projects</Subheading>
@@ -72,7 +82,7 @@ export function DevSection() {
         <ProjectCard
           title="Playgram.ai"
           description="A live, feature-rich AI chat product lifted off a no-code builder into a production Next.js codebase in 158 days, and in production for its users the whole way through."
-          techStack="Next.js 16, Supabase, Railway, feature-sliced design, Claude Code"
+          techStack={TECH_STACKS.playgram}
           url="https://playgram.ai"
           caseStudyHref={FEATURED_CASE_STUDY_ROUTE}
         />
@@ -80,7 +90,7 @@ export function DevSection() {
         <ProjectCard
           title="agent-project-boilerplate"
           description="The engineering platform that rebuild ran on, extracted so it travels: the architecture, the staged pipeline and the pre-push gate, ready to carry onto my — or anyone’s — next project."
-          techStack="Claude Code, project templating, open source"
+          techStack="agentic development, project templating, open source"
           url="https://github.com/vzakharov/agent-project-boilerplate"
         />
 
@@ -88,7 +98,7 @@ export function DevSection() {
           title="jukebox-webui"
           stars={84}
           description="Suno before Suno: running OpenAI's music model in Google Colab back when there was no product to use instead."
-          techStack="Python, Gradio, Google Colab"
+          techStack="Python, Gradio, Google Colab, open source"
           url="https://github.com/vzakharov/jukebox-webui"
         />
 
@@ -96,7 +106,7 @@ export function DevSection() {
           title="almostmagic"
           stars={65}
           description="Structured generation before it was a feature — typed output from a single call, years before every SDK shipped its own version of it."
-          techStack="TypeScript, OpenAI API"
+          techStack="TypeScript, OpenAI API, npm package, open source"
           url="https://github.com/losideadores/almostmagic"
         />
       </SimpleGrid>
@@ -126,7 +136,7 @@ export function DevSection() {
         <HighlightCard
           logo="playgram"
           title="Playgram (March–August 2026)"
-          tech="Next.js 16, TypeScript, feature-sliced design, Claude Code"
+          tech={TECH_STACKS.playgram}
         >
           <Text mb={12}>
             Rebuilt a live AI chat product from Bubble into production Next.js
@@ -140,7 +150,7 @@ export function DevSection() {
         <HighlightCard
           logo="ddb"
           title="DDB / randddb.com (2023-2025)"
-          tech="Django + PostgreSQL, Vue + TypeScript"
+          tech={TECH_STACKS.randddb}
         >
           <Text mb={12}>
             Experimental AI platform at one of the world’s largest ad firms.
@@ -173,7 +183,7 @@ export function DevSection() {
         <HighlightCard
           logo="orcool"
           title="Orcool (June-August 2025)"
-          tech="Next.js/NestJS, Cloudflare Workers, Firebase"
+          tech={TECH_STACKS.orcool}
         >
           <Text mb={12}>
             AI-agent-based review intelligence tool for brand marketing. Built
@@ -182,6 +192,8 @@ export function DevSection() {
           </Text>
         </HighlightCard>
       </Stack>
+
+      <ReadCvButton />
     </Section>
   );
 }

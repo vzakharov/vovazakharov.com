@@ -5,3 +5,4 @@ export {
   printedUrl,
   SITE_CONFIG,
 } from './site-config';
+export { TECH_STACKS } from './tech-stacks';
