@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/i18n';
 
-import { cvVariantPath } from '../lib/cv-urls';
+import { cvPath } from '../lib/cv-urls';
 import { CV_VARIANTS, type WithCvVariant } from '../lib/cv-variants';
 
 /**
@@ -22,7 +22,7 @@ export function VariantSwitch({ variant: current }: WithCvVariant) {
         <Button
           key={variant}
           component={Link}
-          href={cvVariantPath(variant)}
+          href={cvPath(variant)}
           variant={variant === current ? 'filled' : 'default'}
           size="compact-sm"
           h={38}
