@@ -85,17 +85,39 @@ Guiding constraints, unchanged from the first draft:
 
 ### B1. Two CV variants, one implementation
 
-`/cv` (and its `/{locale}/cv` pair) keeps today's developer framing, unchanged in
-substance. A second variant is added under **`/{locale}/cv/cto`**, titled
-_Fractional hands-on CTO for AI-native delivery_.
+The developer CV keeps its framing, unchanged in substance; the CTO variant —
+titled _Fractional hands-on CTO for AI-native delivery_ — becomes what `/cv`
+serves by default, with a visible switch between the two on the page itself.
 
-**Routing.** A literal `app/[locale]/cv/cto/page.tsx` mirroring the existing
-`app/[locale]/cv/page.tsx`, plus `app/cv/cto/page.tsx` mirroring the locale-less
-`app/cv/page.tsx` redirect. Both route modules stay one-liners in the repo's
-convention and differ only in the `variant` they pass. Deliberately **not** a
-`[variant]` dynamic segment: that would mint a second URL for the default
-variant (`/cv` and `/cv/dev` rendering identically) and buy nothing a literal
-route doesn't give under static export.
+**Routing.** A `[variant]` dynamic segment — `app/[locale]/cv/[variant]/page.tsx`
+with `generateStaticParams` over locales × `['cto', 'dev']` — alongside the
+existing `app/[locale]/cv/page.tsx`, which renders the default:
+
+| URL                    | Renders                                                       |
+| ---------------------- | ------------------------------------------------------------- |
+| `/{locale}/cv`         | CTO — the default                                             |
+| `/{locale}/cv/cto`     | CTO — the same page under a URL that says which one it is      |
+| `/{locale}/cv/dev`     | the developer variant                                         |
+| `/cv`, `/cv/{variant}` | locale-less redirects, mirroring today's `app/cv/page.tsx`     |
+
+`/cv` and `/cv/cto` rendering identically is the one thing this costs, and it is
+worth pricing rather than waving off: two URLs with the same content split link
+equity, and a search engine picks its own canonical when we don't. The fix is one
+field and belongs in this change — `constructMetadata` has no `alternates`
+support today, so add it and have `/cv/cto` declare `/cv` canonical. With that,
+the self-describing URL is free, and the earlier objection to the dynamic segment
+does not survive it.
+
+**The toggle.** A light dev/cto switch in the CV header, beside the locale
+picker. It is deliberately visible: it does not hide that two roles are being
+pitched, and on a site whose whole voice advantage is not sounding like vendor
+copy, a second framing discovered rather than shown is the version that reads
+badly. Mechanics: the two controls must compose — switching locale preserves the
+variant, switching variant preserves the locale — and `locale-picker.tsx`'s
+`pathname === '/cv'` guard becomes a check over the CV route family. Both are
+small in-page controls with one consumer, so the switch sits beside the picker in
+`pages/cv/ui/`, and the CTO side of it always links `/cv` so the active state
+maps to one URL.
 
 **Where the variant lives.** `cv-page.tsx` and `cv-metadata.ts` both need the
 same variant-resolved messages, so the resolution gets exactly one home — a
@@ -120,17 +142,14 @@ page then renders through the existing `t('…')` calls untouched.
 build-vs-buy reasoning rather than a skills list, so it reads as CTO material
 unchanged. It is the one section that needed nothing.
 
-**Cross-linking.** Neither variant links the other in its body — two CVs on one
-page reads as indecision, and each is a document sent into a specific
-conversation. `/cv` stays live and crawlable; the home page links whichever
-variant question 6 settles.
+Rejected: hiding the pairing — no cross-link, each variant sent by hand into its
+own conversation. It made the reader guess which document they had, and a second
+framing found rather than offered is the one that looks evasive.
 
-**Details to get right during implementation:** `locale-picker.tsx` must preserve
-the variant when switching locale (today it can only reach `/{locale}/cv`);
-`constructMetadata` has no canonical/alternates support, so the two variants ship
-distinct titles and descriptions and accept that the shared experience section is
-duplicated across two URLs; the CTO variant reuses `/cv_card.png` as its OG image
-until there is a reason for its own.
+**Details to get right during implementation:** the developer CV moves from `/cv`
+to `/cv/dev`, so `/cv` changes meaning rather than location — anything already
+pointing at it now lands on the CTO framing, which is the intent; the CTO variant
+reuses `/cv_card.png` as its OG image until there is a reason for its own.
 
 ### B2. Profile — proof first, boundary named
 
@@ -217,6 +236,11 @@ the handover, the three engineers mentored, the boilerplate now on other
 projects), DDB/randddb and Orcool kept, **Voicemod removed** as irrelevant to the
 current pitch, and a **Read full CV →** line beneath.
 
+Every CV link on the site — the offer intro and _Read full CV_ alike — points at
+`/cv`, which serves the CTO framing and carries the switch to the developer one.
+One link, one place to change, and no page has to decide which framing its reader
+came for.
+
 Drive-by: the CV calls `almostmagic` a "Python package", the home page a
 TypeScript wrapper. The repo is TypeScript — fix the CV.
 
@@ -224,10 +248,10 @@ TypeScript wrapper. The repo is TypeScript — fix the CV.
 
 - New page slices `src/pages/writing/` and `src/pages/music/`, taking `writing-section.tsx` + `article-card.tsx` and `music-section.tsx` respectively.
 - New routes `app/writing/page.tsx` and `app/music/page.tsx`, one-line re-exports with metadata from a `lib/*-metadata.ts` per slice — the pattern `pages/case-studies` already uses. Both are unlocalized, matching home (only the CV is localized today).
-- **`section.tsx` moves to `shared/ui`.** Three page slices can't import a fourth's internals, and FSD allows only downward imports — so `Section`, `Subheading` and `SUBHEADING_GAP` become shared. On a standalone page the `/{id}` heading may want to be the `h1`; decide while looking at it in `/preview`.
+- **`section.tsx` moves to `shared/ui`, not to `widgets/`.** Three page slices need it and FSD allows only downward imports, so it has to move somewhere below `pages/` — and the `widgets/` layer is for composites assembled from features and entities, which `Section` is not: it takes an id and children and renders a heading. Nothing in it composes a page or carries domain meaning, which is the definition of a `shared/ui` primitive. Opening `widgets/` for a layout shell would also be the layer-invention that `.claude/rules/fsd.md` prices as costing more than it saves; the layer earns its keep the day a block with real content is reused across pages (a contact block on all three, say), and that day is not this change. On a standalone page the `/{id}` heading may want to be the `h1`; decide while looking at it in `/preview`.
 - `ProjectCard` stays inside `pages/home` and `ArticleCard` travels with writing — each has one consumer, which is what "no insignificant slices" asks for.
 - **Footer:** a _See also_ line linking `/writing` and `/music`, and **"Built with Next.js" is removed** — it tells the reader nothing. The copyright line stays.
-- **Sitemap:** `staticRoutes` in `src/app/lib/sitemap.ts` is hand-listed; add `/writing`, `/music` and the per-locale CTO CV.
+- **Sitemap:** `staticRoutes` in `src/app/lib/sitemap.ts` is hand-listed; add `/writing`, `/music` and `/{locale}/cv/dev`. `/{locale}/cv/cto` stays out of it — it is the non-canonical twin of `/{locale}/cv`, and a sitemap that lists both asks the crawler to resolve a duplicate we already resolved.
 
 ### B6. What this plan deliberately does not do
 
@@ -239,12 +263,12 @@ TypeScript wrapper. The repo is TypeScript — fix the CV.
 ### B7. Order of work
 
 1. `en.json` — the `cv.variants.cto` subtree (metadata, header, profile, whatIOffer + engineering system). This is where the thinking happens; everything else follows.
-2. `cvMessages(locale, variant)` in `src/pages/cv/lib/`, wired through `cv-metadata.ts` and `cv-page.tsx`; make `whatIOffer` data-driven; teach `locale-picker.tsx` the variant.
-3. Routes: `app/[locale]/cv/cto/page.tsx`, `app/cv/cto/page.tsx`.
+2. `cvMessages(locale, variant)` in `src/pages/cv/lib/`, wired through `cv-metadata.ts` and `cv-page.tsx`; make `whatIOffer` data-driven; add the variant switch beside the locale picker and widen the picker's route guard.
+3. Routes: `app/[locale]/cv/[variant]/page.tsx` and its locale-less redirect; `alternates.canonical` in `constructMetadata`, set on the CTO variant's `/cv/cto` form.
 4. `ru.json` — same keys, translated in the established RU voice, not transliterated.
 5. `section.tsx` → `shared/ui`; extract `pages/writing` and `pages/music` slices with their routes and metadata; sitemap entries.
 6. Home: nav removed, intro rewritten, four-card grid with the same-pattern line, Recent Work, footer _See also_ minus "Built with Next.js".
-7. `/preview`: home, `/writing`, `/music`, `/{en,ru}/cv`, `/{en,ru}/cv/cto` — both themes, plus the print view of both CV variants, which is a real output here.
+7. `/preview`: home, `/writing`, `/music`, `/{en,ru}/cv`, `/{en,ru}/cv/dev` — both themes, plus the print view of both CV variants, which is a real output here. Exercise the two switches together: locale then variant, and the reverse.
 8. Check whether the CV participates in `content:og` / `content:pdf` hashing before assuming the new route needs no render; then vet and `/finalize`.
 
 Squash prefix: **`feat:`** — this changes the built site and should deploy.
@@ -252,6 +276,7 @@ Squash prefix: **`feat:`** — this changes the built site and should deploy.
 ## DRY notes
 
 - **The CTO CV is an override subtree, not a second catalogue.** This is the whole reason two CVs are affordable: only the four differing sections exist twice per locale (~40 lines), while experience, tech stack, education and contact exist once. The first draft of this plan argued against dual CVs on exactly this maintenance ground; the merge-over-base design is what answers that objection rather than overriding it. A variant that starts restating shared keys is the signal the design has been abandoned.
+- **One place knows the CV's URL shape.** The variant switch, the locale picker's route guard, the sitemap and the redirect all need it, and four hand-spelled copies of `/{locale}/cv/{variant}` is how a fifth one gets it wrong. A `cvRoute(locale, variant)` on the `pages/cv` public API serves all of them — the sitemap included, since the app layer sits above pages and may import it.
 - **One resolution point for variant messages.** `cv-metadata.ts` and `cv-page.tsx` both need variant-resolved messages, so `cvMessages(locale, variant)` is the single home; neither caller merges anything itself.
 - **`whatIOffer` reuses the `techStack` pattern in the same file** — messages read off `useMessages()` and mapped — rather than a new component. Its label+text items are the shape `cv-bullets.tsx` already renders for experience entries; reuse it rather than adding a sibling.
 - **`section.tsx` moving to `shared/ui` is forced by FSD, not by taste.** Three page slices need it and sideways imports are banned. It genuinely belongs there: nothing in it composes a page.
@@ -262,10 +287,13 @@ Squash prefix: **`feat:`** — this changes the built site and should deploy.
 
 ## Open questions
 
-Each carries a recommendation, and the plan above is written with the recommended
-option in force — so silence resolves them. Questions 2–5 were settled in the
-previous round and are not re-asked.
+**None.** Every fork raised across the two planning rounds is resolved and folded
+into the plan above; nothing here waits on an answer.
 
-6. **What does home link?** (a) The offer intro links `/cv/cto` and _Read full CV_ under Recent Work links `/cv` — _recommended_: the pitch links the pitch, the credential list links the credentials, and both stay one link each. (b) Everything links `/cv/cto` — single message, but then the developer CV is reachable only by a link he sends by hand. (c) Everything links `/cv` — safest, and wastes the new variant.
-7. **The CTO variant's URL.** (a) `/{locale}/cv/cto` — _recommended_: obvious, short, and leaves `/cv` untouched. (b) `/{locale}/cv/fractional-cto` — more searchable, uglier to say out loud. (c) `/{locale}/cto`, outside the CV tree — reads as a landing page, which B6 rules out.
-8. **The `/writing` and `/music` pages' headings.** (a) Keep the `/{id}` slash-heading style as the page's `h1` — _recommended_: it is the site's existing visual signature and costs nothing. (b) Give standalone pages a normal title and keep the slash style only on home.
+The rejections worth not rediscovering: a separate `/cto` landing page (B6 — the
+CV is the page); two independent CV catalogues (B1 — the override subtree is what
+made two variants affordable at all); rates on the site (B6); a `/{locale}/cto`
+URL outside the CV tree (reads as a landing page); and the no-cross-link version
+of the two variants (B1 — evasive). The `/writing` and `/music` pages keep the
+`/{id}` slash-heading style as their `h1`: it is the site's existing visual
+signature and costs nothing.
