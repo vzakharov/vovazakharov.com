@@ -44,7 +44,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×2)
+## What it was handed, it treats as fixed (×3)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -72,6 +72,17 @@ settling it — `content:` is _specifically_ for what isn't published yet, and a
 piece going live arrives as the page that serves it, which is a `feat:`. The
 agent had coined the word the day before and was already reasoning as though its
 meaning had been handed to it.
+
+**8 September — the gate's coverage read as the rule's extent.** The CV's route
+files each spelled their params as an object literal inside a generic —
+`Promise<{ locale: string; variant: string }>`. The repo's own rule is that
+every member two named types declare has one home, and `pnpm type-overlap`
+enforces it; the agent had run the gate, seen it clean, and stopped. The reply:
+_type-overlap doesn't cover this, but consider it covered_. The gate scans type
+aliases only, so an inlined generic argument is invisible to it — which the
+agent knew, having read the README that says so, and read as the boundary of the
+rule rather than as a hole in its enforcement. A checker that passes is
+evidence about the checker.
 
 ## It writes its reasoning into the artifact (×2)
 
@@ -111,7 +122,7 @@ flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
 
-## Given a form, it fills the form (×1)
+## Given a form, it fills the form (×2)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -121,6 +132,16 @@ option the format hides is silence.
 came back carrying _English only. The site is bilingual; this isn't._ Nothing had
 prompted it. The reply: sometimes I want to write in Russian, and this doesn't
 need saying at all — we'll see case by case.
+
+**8 September — three glosses invented to fill three slots.** The home page got
+a one-line gloss beside each of three old side projects: _an LLM-agnostic text
+processor_, _group AI chat_, _no-code AI widgets_. Two came back corrected to
+things no reading of the repos would have produced — _a BYOK AI-first text
+processor_, _chatgpt before chatgpt_ — and a fourth card's stack was wrong in
+kind, listing TypeScript and feature-sliced design for a boilerplate that has
+neither. Every gloss was a confident sentence about the operator's own work,
+and the slot never suggested that leaving one blank was available. Not knowing
+is not the finding; writing rather than asking is.
 
 ## Editing removes slack, and the slack was the voice (×1)
 
@@ -143,6 +164,38 @@ reached for the technically hardest — a lint rule whose failure mode was an au
 hole. The human took a round number to be surprised by, a change in how the work
 felt, and an admission of error.
 
+## It checks the render against its intent, not against the page (×1)
+
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, and only the second one is
+answerable from the intent.
+
+**8 September — the logos it had already looked at.** Three organisation marks
+were added beside the work-highlight titles, and the agent screenshotted the
+page in both schemes, read the images and reported that they were legible and
+aligned. They were legible. The reply was _the logos are slightly mis-aligned_,
+and measuring the source files bore it out: one mark filled its canvas
+edge-to-edge, another was inset a fifth of its own and off-centre besides, so
+rendered at one size they read as different sizes on a wobbling axis. The
+screenshot had shown that. What the agent had asked it was "are the logos
+there", and it answered yes.
+
+## A fact restated into a pitch stops being a measurement (×1)
+
+Numbers from the case study are the site's evidence, and moving one into an
+offer changes what the sentence claims without changing whether it is true. The
+agent carries it across on the truth.
+
+**8 September — nine checks and an audit trail, sold as capabilities.** The
+CV's engineering-system block offered _one gate before every push: nine
+concurrent checks_ and _an audit trail by construction: 1,395 commits, 48
+releases and 18 hotfixes_. Both are exact facts about this repo. As offers they
+promise a stranger a specific check count on their codebase, and a commit
+tally that is a description of work already done rather than anything on sale —
+_it's not always nine_, and _no need, it's not an "offer"_. The case study
+states them as measurements, which is the genre they are true in.
+
 ## Not bumps
 
 The agent flagged rather than silently fixed two words missing from text the
@@ -152,14 +205,16 @@ every learning above is one no rule anticipated.
 
 ## The two families
 
-Two reviews is not a pattern, but the six learnings already fall in two groups,
-and the second is the more interesting half of the post.
+Three reviews is not a pattern, but the eight learnings already fall in two
+groups, and the second is the more interesting half of the post.
 
-Three are failures to notice that the frame was ours — the prefix list, the
-published chart, the brief that wanted filling. Whatever the agent is handed as
-context, it treats as the given.
+Four are failures to notice that the frame was ours — the prefix list, the
+published chart, the brief that wanted filling, the checker whose coverage read
+as the rule. Whatever the agent is handed as context, it treats as the given.
 
-The other three are the opposite of a mistake: the output was well-formed,
+The other four are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
-there. No version of "be more careful" catches them, which is probably why they
-need a person and not a better prompt.
+there. The newest of them is the sharpest, because the agent did the extra step
+and it did not help: it rendered the page, looked at it, and verified its own
+intention. No version of "be more careful" catches these, which is probably why
+they need a person and not a better prompt.
