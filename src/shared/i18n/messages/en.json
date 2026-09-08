@@ -261,11 +261,11 @@
     "variants": {
       "cto": {
         "metadata": {
-          "description": "Fractional hands-on CTO for AI-native delivery: agent orchestration, guardrails, and a pipeline that shipped 250,000 lines of production TypeScript in 158 days.",
+          "description": "Fractional, hands-on CTO for AI-native delivery: agent orchestration, guardrails, and a pipeline that shipped 250,000 lines of production TypeScript in 158 days.",
           "ogSuffix": "The platform outlived my involvement — the engineers who took it over run it today."
         },
         "header": {
-          "tagline": "Fractional hands-on CTO for AI-native delivery"
+          "tagline": "Fractional, hands-on CTO for AI-native delivery"
         },
         "profile": {
           "paragraph1": "158 days, <strong>250,000 lines of production TypeScript</strong>, none of it hand-written, up to <strong>20 agents working at once</strong>, and <strong>a production deploy every 2.4 days</strong> — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
