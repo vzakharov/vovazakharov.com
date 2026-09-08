@@ -12,8 +12,8 @@ import {
 type Props = WithParams<WithStringLocale & WithOptionalVariantSegments>;
 
 /**
- * Both variants get an address that says which one it is, plus the bare `/cv`
- * the default variant also answers — one page, three URLs per locale.
+ * Three URLs per locale: each variant's own address, plus the bare `/cv` the
+ * default variant also answers.
  */
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>

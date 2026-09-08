@@ -13,7 +13,6 @@ import {
 
 type Props = WithParams<WithOptionalVariantSegments>;
 
-/** The unlocalized entry points, one per localized address minus the locale. */
 export function generateStaticParams() {
   return cvVariantParams();
 }

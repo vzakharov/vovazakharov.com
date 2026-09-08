@@ -8,7 +8,7 @@ export const routing = defineRouting({
 
 export type Locale = (typeof routing.locales)[number];
 
-/** The locale as a route segment carries it, before `localeSchema` narrows it. */
+/** The locale as a route segment carries it, before the route's schema narrows it. */
 export type WithStringLocale = { locale: string };
 
 export const { Link, redirect, usePathname, useRouter } =

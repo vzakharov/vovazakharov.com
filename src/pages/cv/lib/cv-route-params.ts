@@ -18,21 +18,17 @@ const variantSegments = z
   .transform((segments) => segments?.[0] ?? DEFAULT_CV_VARIANT);
 
 /**
- * Route params reach a page as bare strings, and these are the schemas that
- * narrow them — a parse rather than a cast, so a segment neither list covers
- * fails `next build`, the only thing that ever runs them under `output:
- * 'export'`.
+ * A parse rather than a cast: a segment neither list covers fails `next build`,
+ * which under `output: 'export'` is the only thing that ever runs these.
  *
- * They sit in the CV slice, the one localized route, rather than in
- * `shared/i18n`: every client component reaches that segment's barrel for
- * `Link` and `usePathname`, and a zod import there puts ~90 kB gzipped of
+ * Keep them out of `shared/i18n`, whose barrel every client component reaches
+ * for `Link` and `usePathname` — a zod import there puts ~90 kB gzipped of
  * parser in the browser bundle to validate a build-time segment.
  */
 export const cvVariantParamsSchema = z.object({ variant: variantSegments });
 
-export const cvParamsSchema = z.object({
+export const cvParamsSchema = cvVariantParamsSchema.extend({
   locale: z.enum(routing.locales),
-  variant: variantSegments,
 });
 
 /** Every address the CV answers, as an optional catch-all spells them. */

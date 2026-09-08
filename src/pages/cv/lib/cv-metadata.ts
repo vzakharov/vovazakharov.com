@@ -7,20 +7,20 @@ import { cvRoute } from './cv-urls';
 import type { CvVariant } from './cv-variants';
 
 /**
- * Every CV page names the variant's own address as its canonical one, so the
- * bare `/{locale}/cv` — which serves the default variant — defers to
- * `/{locale}/cv/{DEFAULT_CV_VARIANT}` instead of competing with it, and a
- * searcher reads the URL that says which framing it is.
+ * Every CV page declares its variant's own address canonical, so the bare
+ * `/{locale}/cv` defers to `/{locale}/cv/cto` rather than competing with it —
+ * the indexed URL is the one that names the framing.
  */
 export function generateCvMetadata(locale: Locale, variant: CvVariant) {
   const { description, ogSuffix } = cvMessages(locale, variant).cv.metadata;
+  const route = cvRoute(locale, variant);
 
   return constructMetadata({
     title: `CV - ${SITE_CONFIG.name}`,
     description,
     ogDescription: `${description} ${ogSuffix}`,
-    path: cvRoute(locale, variant),
-    canonical: cvRoute(locale, variant),
+    path: route,
+    canonical: route,
     ogType: 'profile',
     ogImage: '/cv_card.png',
   });
