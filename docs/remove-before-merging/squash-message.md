@@ -25,23 +25,32 @@ subsections are keyed blocks with the per-variant order in code, the
 shape `experience` and `techStack` already use. Nothing retitles
 history: Playgram is "Developer" in both.
 
-The home page becomes the pitch. Writing and music each get a page of
+The home page becomes the pitch: writing and music each get a page of
 their own behind a *See also* footer line, the in-page nav goes, the
-case-studies block folds into a four-card featured grid, and
-Professional Work becomes Recent Work. That puts three page slices on
-`Section` and `BackToHome`, so those and a new `PageShell` move to
-`shared/ui` — FSD allows only downward imports, and none of the three
-composes a page or carries domain meaning, which is what keeps them
-out of a `widgets/` layer invented to hold them. The unlocalized page
-routes live in `shared/config` for the same reason: home's footer and
-the pages it links are separate slices.
+case-studies block folds into a featured project grid, and Professional
+Work becomes Work Highlights — ordered by weight, each entry carrying
+the organisation's own mark. That puts three page slices on `Section`
+and `BackToHome`, so those and a new `PageShell` move to `shared/ui`:
+FSD allows only downward imports, and none of the three composes a page
+or carries domain meaning, which is what keeps them out of a `widgets/`
+layer invented to hold them. The unlocalized page routes sit in
+`shared/config` for the same reason, and `TECH_STACKS` beside them is
+the one source for every stack line — the same three facts had been
+spelled three ways, across the project cards, the highlight cards and
+the CV. One string serving both locales is the accepted cost: two
+descriptors read in English on the ru CV.
 
-Two things to know when editing this area. The case-study PDFs hash
-`src/shared/content`, `src/shared/config` and `src/pages/case-studies/ui`
-as one source set, so touching any of them means re-running
-`pnpm content:pdf` even when nothing printed changes. And the
-`no-hardcoded-strings` exemption now names three slices rather than
-one — every unlocalized page authors its copy in the JSX.
+Four things to know when editing here. The case-study PDFs hash
+`src/shared/content`, `src/shared/config` and
+`src/pages/case-studies/ui` as one source set, so touching any of them
+means re-running `pnpm content:pdf` even when nothing printed changes.
+A card that both leads somewhere and holds its own links carries
+`CardLink` as a positioned first child, not an anchor around it —
+anchors cannot nest. Route params get named shapes (`WithStringLocale`,
+`WithStringVariant`, `WithParams`) instead of an object literal inlined
+into a generic, which `pnpm type-overlap` cannot read across. And the
+`no-hardcoded-strings` exemption names three slices rather than one:
+every unlocalized page authors its copy in the JSX.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 ```
