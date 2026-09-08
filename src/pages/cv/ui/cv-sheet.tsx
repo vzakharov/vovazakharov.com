@@ -125,8 +125,14 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                   );
                 })}
                 {/* The framing that leads with proof keeps the proof one click
-                    from the claim, not only from the experience entry. */}
-                {variant === 'cto' && <CaseStudyLink href={caseStudyHref} />}
+                    from the claim, not only from the experience entry. Screen
+                    only: paper has no click, and the entry already prints the
+                    address this would print a second time. */}
+                {variant === 'cto' && (
+                  <Box className="print-hidden">
+                    <CaseStudyLink href={caseStudyHref} />
+                  </Box>
+                )}
               </Stack>
             </Card>
           </CvSection>

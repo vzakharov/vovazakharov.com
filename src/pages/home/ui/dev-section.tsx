@@ -50,7 +50,7 @@ export function DevSection() {
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
         <ProjectCard
           title="Playgram.ai"
-          description="A live, feature-rich AI chat product rebuilt out of a no-code builder into a production Next.js codebase in 158 days, without ever coming out of production for its users."
+          description="A live, feature-rich AI chat product lifted off a no-code builder into a production Next.js codebase in 158 days, and in production for its users the whole way through."
           techStack="Next.js 16, TypeScript, Claude Code"
           footer={
             <Text size="sm" mt={12}>
@@ -63,7 +63,7 @@ export function DevSection() {
 
         <ProjectCard
           title="agent-project-boilerplate"
-          description="The engineering platform that rebuild produced, extracted so it travels: the architecture, the staged pipeline and the pre-push gate, now carried onto their own projects by the engineers who took it over."
+          description="The engineering platform that rebuild ran on, extracted so it travels: the architecture, the staged pipeline and the pre-push gate, now carried onto their own projects by the engineers who took it over."
           techStack="Claude Code, TypeScript, feature-sliced design"
           url="https://github.com/vzakharov/agent-project-boilerplate"
         />
