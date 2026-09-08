@@ -4,16 +4,16 @@ import type { WithChildren, WithId } from '@/shared/typings';
 
 type SectionProps = WithId &
   WithChildren & {
-    /** `1` where the section is the whole page, so its heading is the document's. */
-    order?: 1 | 2;
+    /** The section is the whole page, so its heading is the document's. */
+    standalone?: boolean;
   };
 
 /** A titled top-level section; its anchor doubles as the nav target. */
-export function Section({ id, order = 2, children }: SectionProps) {
+export function Section({ id, standalone = false, children }: SectionProps) {
   return (
     <Box component="section" {...{ id }}>
       <Stack gap={24}>
-        <Title {...{ order }}>/{id}</Title>
+        <Title order={standalone ? 1 : 2}>/{id}</Title>
         {children}
       </Stack>
     </Box>

@@ -13,6 +13,7 @@ import {
   VARIANTS,
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
+import type { WithParams } from '@/shared/typings';
 import { BackToHome, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
@@ -25,9 +26,10 @@ import { TableOfContents } from './table-of-contents';
 
 const COLLECTION = 'case-studies';
 
-type Props = {
-  params: Promise<{ slug: string[] }>;
-};
+/** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
+type WithSlugSegments = { slug: string[] };
+
+type Props = WithParams<WithSlugSegments>;
 
 /**
  * One catch-all covers the full document and each of its cuts, so a new

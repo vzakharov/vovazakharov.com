@@ -9,11 +9,8 @@ import { ThemeToggle } from '@/features/switch-theme';
 import { ContactSection } from './contact-section';
 import { DevSection } from './dev-section';
 
-/** The nouns the hero claims that live on pages of their own. */
-const SEE_ALSO = [
-  { href: PAGE_ROUTES.writing, label: 'writing' },
-  { href: PAGE_ROUTES.music, label: 'music' },
-];
+/** The nouns the hero claims that live on pages of their own; each path is its own label. */
+const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {
   return (
@@ -56,16 +53,15 @@ export function HomePage() {
         <DevSection />
         <ContactSection />
 
-        <Box component="footer" ta="center">
+        <Box component="footer">
           <Divider mb={32} color={cssColor('border-hairline')} />
-          <Stack gap={8}>
+          <Group justify="space-between" gap={8}>
             <Text size="sm" opacity={0.6}>
-              See also:{' '}
-              {SEE_ALSO.map(({ href, label }, index) => (
+              {SEE_ALSO.map((href, index) => (
                 <span key={href}>
                   {index > 0 && ' · '}
                   <InternalLink {...{ href }} inherit>
-                    {label}
+                    {href}
                   </InternalLink>
                 </span>
               ))}
@@ -73,7 +69,7 @@ export function HomePage() {
             <Text size="sm" opacity={0.6}>
               © {BUILD_YEAR} Vova Zakharov
             </Text>
-          </Stack>
+          </Group>
         </Box>
       </Stack>
     </PageShell>

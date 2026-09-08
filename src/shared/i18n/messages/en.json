@@ -52,10 +52,9 @@
           "title": "The Engineering System",
           "items": [
             "Feature-sliced architecture held by linters, so a crowd of agents working at once cannot drift the structure.",
-            "A staged pipeline — plan, implement, review, finalize — each stage its own session, with a reviewable artifact between them.",
-            "One gate before every push: nine concurrent checks with the production build as the end-to-end.",
-            "CI/CD where merging is deploying, and a 2.4-day deploy cadence to show for it.",
-            "An audit trail by construction: 1,395 commits, 48 releases and 18 hotfixes, every one of them reviewable."
+            "A staged pipeline — plan, implement, review, finalize — each stage its own session, with reviewable artifacts between them.",
+            "Branch hygiene held in-session: a gate of concurrent checks before every push, the production build among them, so no agent contaminates main with code that breaks it.",
+            "CI/CD that fits your workflow — ship every commit off main, staging-based release cycles, or release trains."
           ]
         },
         "workingStyle": {

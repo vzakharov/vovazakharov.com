@@ -8,13 +8,12 @@ type ArticleCardProps = Summarized & {
 
 export function ArticleCard({ title, description, url }: ArticleCardProps) {
   return (
-    <CardLink href={url} aria-label={title}>
-      <Card>
-        <Title order={3} size="h4" mb={8}>
-          {title}
-        </Title>
-        <Text lh={1.625}>{description}</Text>
-      </Card>
-    </CardLink>
+    <Card>
+      <CardLink href={url} aria-label={title} />
+      <Title order={3} size="h4" mb={8}>
+        {title}
+      </Title>
+      <Text lh={1.625}>{description}</Text>
+    </Card>
   );
 }

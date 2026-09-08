@@ -8,6 +8,9 @@ export const routing = defineRouting({
 
 export type Locale = (typeof routing.locales)[number];
 
+/** The locale as a route segment carries it, before `toLocale` narrows it. */
+export type WithStringLocale = { locale: string };
+
 function isLocale(value: string): value is Locale {
   return (routing.locales as readonly string[]).includes(value);
 }

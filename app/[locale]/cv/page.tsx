@@ -1,10 +1,9 @@
-import { routing, toLocale } from '@/shared/i18n';
+import { routing, toLocale, type WithStringLocale } from '@/shared/i18n';
+import type { WithParams } from '@/shared/typings';
 
 import { CvPage, DEFAULT_CV_VARIANT, generateCvMetadata } from '@/pages/cv';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+type Props = WithParams<WithStringLocale>;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

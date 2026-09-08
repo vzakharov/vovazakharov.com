@@ -89,6 +89,10 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 <Anchor href={`mailto:${t('header.email')}`} inherit>
                   {t('header.email')}
                 </Anchor>
+                {' · '}
+                <Anchor href={`https://${t('website')}`} inherit>
+                  {t('website')}
+                </Anchor>
               </Text>
             </Stack>
           </Box>

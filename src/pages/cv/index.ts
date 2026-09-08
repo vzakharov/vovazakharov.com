@@ -5,5 +5,6 @@ export {
   type CvVariant,
   DEFAULT_CV_VARIANT,
   toCvVariant,
+  type WithStringVariant,
 } from './lib/cv-variants';
 export { CvPage } from './ui/cv-page';

@@ -30,8 +30,17 @@ export type WithOptionalClassName = { className?: string };
 /** What a wrapper component renders inside itself. */
 export type WithChildren = { children: ReactNode };
 
+/** A heading and whatever renders under it. */
+export type TitledBlock = Titled & WithChildren;
+
+/** The case study a card cross-links, absent on the cards that document none. */
+export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
+
 /** Where an anchor points. */
 export type Linked = { href: string };
+
+/** What a Next route hands the page it resolves to, its segments still raw. */
+export type WithParams<Params> = { params: Promise<Params> };
 
 /** An anchor whose content is its own label — markup rather than a string. */
 export type Anchored = Linked & WithChildren;

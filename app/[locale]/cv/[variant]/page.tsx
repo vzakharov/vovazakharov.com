@@ -1,15 +1,15 @@
-import { routing, toLocale } from '@/shared/i18n';
+import { routing, toLocale, type WithStringLocale } from '@/shared/i18n';
+import type { WithParams } from '@/shared/typings';
 
 import {
   CV_VARIANTS,
   CvPage,
   generateCvMetadata,
   toCvVariant,
+  type WithStringVariant,
 } from '@/pages/cv';
 
-type Props = {
-  params: Promise<{ locale: string; variant: string }>;
-};
+type Props = WithParams<WithStringLocale & WithStringVariant>;
 
 /**
  * Both variants get an address that says which one it is, the default included

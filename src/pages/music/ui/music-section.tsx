@@ -4,7 +4,7 @@ import { Card, Section, Subheading } from '@/shared/ui';
 
 export function MusicSection() {
   return (
-    <Section id="music" order={1}>
+    <Section id="music" standalone>
       <Box>
         <Text size="lg" lh={1.625} fs="italic" mb={16}>
           “AI as collaborator, not tool or replacement”

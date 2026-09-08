@@ -1,17 +1,17 @@
 import { redirect } from 'next/navigation';
 
 import { routing } from '@/shared/i18n';
+import type { WithParams } from '@/shared/typings';
 
 import {
   CV_VARIANTS,
   cvRoute,
   generateCvMetadata,
   toCvVariant,
+  type WithStringVariant,
 } from '@/pages/cv';
 
-type Props = {
-  params: Promise<{ variant: string }>;
-};
+type Props = WithParams<WithStringVariant>;
 
 export function generateStaticParams() {
   return CV_VARIANTS.map((variant) => ({ variant }));

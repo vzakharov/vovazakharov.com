@@ -2,6 +2,7 @@ import { Text, Title } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
+import type { WithOptionalCaseStudyHref } from '@/shared/typings';
 import { Card } from '@/shared/ui';
 
 import { CaseStudyLink } from './case-study-link';
@@ -23,10 +24,8 @@ export const EXPERIENCE_KEYS = [
 
 export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
-type ExperienceCardProps = {
+type ExperienceCardProps = WithOptionalCaseStudyHref & {
   entryKey: ExperienceKey;
-  /** Renders the case-study link; given only for the entry it documents. */
-  caseStudyHref?: string;
 };
 
 export function ExperienceCard({

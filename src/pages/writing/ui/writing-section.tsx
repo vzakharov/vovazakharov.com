@@ -6,7 +6,7 @@ import { ArticleCard } from './article-card';
 
 export function WritingSection() {
   return (
-    <Section id="writing" order={1}>
+    <Section id="writing" standalone>
       <Box>
         <Text size="lg" lh={1.625}>
           Before I became a full-time coder, I worked for 22 years as a
