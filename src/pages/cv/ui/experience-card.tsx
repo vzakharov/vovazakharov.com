@@ -2,8 +2,9 @@ import { Text, Title } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import { Card, InternalLink } from '@/shared/ui';
+import { Card } from '@/shared/ui';
 
+import { CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { type BulletItem, CvBullets } from './cv-bullets';
 
@@ -20,17 +21,11 @@ export const EXPERIENCE_KEYS = [
   'voicemod',
 ] as const;
 
-type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
-
-/**
- * Which entry the featured case study documents — in code for the same reason
- * the order is. The route file's `FEATURED_CASE_STUDY` owns the slug itself.
- */
-export const CASE_STUDY_EXPERIENCE_KEY = 'playgram' satisfies ExperienceKey;
+export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
 type ExperienceCardProps = {
   entryKey: ExperienceKey;
-  /** Renders the case-study link; given only for `CASE_STUDY_EXPERIENCE_KEY`. */
+  /** Renders the case-study link; given only for the entry it documents. */
   caseStudyHref?: string;
 };
 
@@ -45,7 +40,6 @@ export function ExperienceCard({
   const items: BulletItem[] = entry.items;
   const hasTech = 'tech' in entry;
   const hasNote = 'demo' in entry;
-  const caseStudyLabel = cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link;
 
   return (
     <Card>
@@ -59,24 +53,7 @@ export function ExperienceCard({
       >
         {entry.period}
       </Title>
-      {caseStudyHref !== undefined && (
-        <Text className={classes['caseStudyLine']}>
-          <InternalLink href={caseStudyHref} className="print-hidden" inherit>
-            {caseStudyLabel}
-          </InternalLink>
-          {/* A printed page can only be followed by hand, so paper puts the
-              link on the address the reader has to type. */}
-          <span className={classes['printLink']}>
-            {caseStudyLabel}
-            {': '}
-            {/* One text node, not two: a PDF gets a link annotation per node,
-                and the first is placed over whatever precedes the anchor. */}
-            <InternalLink href={caseStudyHref} inherit>
-              {`${cv.website}${caseStudyHref}`}
-            </InternalLink>
-          </span>
-        </Text>
-      )}
+      {caseStudyHref !== undefined && <CaseStudyLink href={caseStudyHref} />}
       {'description' in entry && (
         <Text className={classes['tight']}>{entry.description}</Text>
       )}

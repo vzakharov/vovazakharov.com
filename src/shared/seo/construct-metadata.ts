@@ -12,6 +12,11 @@ export type ConstructMetadataParams = MaybeTitled &
     description?: string;
     ogDescription?: string; // Separate description for OpenGraph if different from main
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
+    /**
+     * Site-root path this page defers to, for a URL that serves content another
+     * one also serves. Left off, a search engine picks its own canonical.
+     */
+    canonical?: string;
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
   };
@@ -21,6 +26,7 @@ export function constructMetadata({
   description = 'Developer, AI tinkerer, word shaker, generative metalhead',
   ogDescription,
   path,
+  canonical,
   ogType = 'website',
   ogImage,
   ogImageSize,
@@ -40,6 +46,10 @@ export function constructMetadata({
   return {
     title,
     description,
+    alternates:
+      canonical === undefined
+        ? undefined
+        : { canonical: getAbsoluteUrl(canonical) },
     openGraph: {
       type: ogType,
       locale: 'en_US',

@@ -7,6 +7,7 @@ export {
   documentName,
   type DocumentRef,
   documentRoute,
+  FEATURED_CASE_STUDY,
   type Routed,
   type Variant,
   VARIANTS,

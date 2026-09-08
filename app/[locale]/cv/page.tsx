@@ -1,11 +1,6 @@
-import { NextIntlClientProvider } from 'next-intl';
+import { routing, toLocale } from '@/shared/i18n';
 
-import { documentRoute } from '@/shared/content';
-import { loadMessages, routing, toLocale } from '@/shared/i18n';
-
-import { CvPage, generateCvMetadata } from '@/pages/cv';
-
-const FEATURED_CASE_STUDY = 'playgram';
+import { CvPage, DEFAULT_CV_VARIANT, generateCvMetadata } from '@/pages/cv';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -22,13 +17,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function Page({ params }: Props) {
-  const locale = toLocale((await params).locale);
+  const { locale } = await params;
 
-  return (
-    <NextIntlClientProvider {...{ locale }} messages={loadMessages(locale)}>
-      <CvPage
-        caseStudyHref={documentRoute('case-studies', FEATURED_CASE_STUDY)}
-      />
-    </NextIntlClientProvider>
-  );
+  return <CvPage locale={toLocale(locale)} variant={DEFAULT_CV_VARIANT} />;
 }

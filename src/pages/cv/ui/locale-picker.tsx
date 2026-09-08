@@ -6,18 +6,18 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { usePathname, useRouter } from '@/shared/i18n';
 
+import { isCvPath } from '../lib/cv-urls';
+
 export function LocalePicker() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   // `usePathname` only knows the route after hydration, and the picker is
-  // rendered for exactly one route.
+  // rendered for the CV routes alone.
   const mounted = useMounted();
   const t = useTranslations('ui');
 
-  const isI18nPage = pathname === '/cv';
-
-  if (!mounted || !isI18nPage) {
+  if (!mounted || !isCvPath(pathname)) {
     return null;
   }
 
