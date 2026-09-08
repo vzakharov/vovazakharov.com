@@ -95,7 +95,7 @@ existing `app/[locale]/cv/page.tsx`, which renders the default:
 
 | URL                    | Renders                                                       |
 | ---------------------- | ------------------------------------------------------------- |
-| `/{locale}/cv`         | CTO — the default                                             |
+| `/{locale}/cv`         | CTO — the default, **rendered in place**: no redirect or URL rewrite to the `/cto` form, since the canonical address is the one that should serve content directly and every redirect under static export is a client-side hop. The existing `/cv` → `/{defaultLocale}/cv` locale hop is unchanged |
 | `/{locale}/cv/cto`     | CTO — the same page under a URL that says which one it is      |
 | `/{locale}/cv/dev`     | the developer variant                                         |
 | `/cv`, `/cv/{variant}` | locale-less redirects, mirroring today's `app/cv/page.tsx`     |
