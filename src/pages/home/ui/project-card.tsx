@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 
 import { Card, CardLink, type Summarized } from '@/shared/ui';
 
+import { TechLine } from './tech-line';
+
 type ProjectCardProps = Summarized & {
   techStack?: string;
   stars?: number;
@@ -34,11 +36,7 @@ export function ProjectCard({
       <Text mb={12} lh={1.625}>
         {description}
       </Text>
-      {techStack !== undefined && (
-        <Text size="sm" ff="monospace" opacity={0.6}>
-          {techStack}
-        </Text>
-      )}
+      {techStack !== undefined && <TechLine>{techStack}</TechLine>}
       {footer}
     </Card>
   );

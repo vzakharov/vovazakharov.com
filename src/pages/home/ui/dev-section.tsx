@@ -16,6 +16,7 @@ import {
 import { Card, InternalLink, Section, Subheading } from '@/shared/ui';
 
 import { ProjectCard } from './project-card';
+import { TechLine } from './tech-line';
 
 const CASE_STUDY_ROUTE = documentRoute('case-studies', FEATURED_CASE_STUDY);
 
@@ -125,9 +126,9 @@ export function DevSection() {
             days. Reviewed and mentored three engineers on the platform, which
             they run today without me.
           </Text>
-          <Text size="sm" ff="monospace" opacity={0.6}>
+          <TechLine>
             Next.js 16, TypeScript, feature-sliced design, Claude Code
-          </Text>
+          </TechLine>
         </Card>
 
         <Card>
@@ -160,9 +161,7 @@ export function DevSection() {
               clients
             </ListItem>
           </List>
-          <Text size="sm" ff="monospace" opacity={0.6}>
-            Django + PostgreSQL, Vue + TypeScript
-          </Text>
+          <TechLine>Django + PostgreSQL, Vue + TypeScript</TechLine>
         </Card>
 
         <Card>
@@ -174,9 +173,7 @@ export function DevSection() {
             end-to-end: automated review collection → AI summarization (SWOT,
             competitive positioning) → SaaS platform.
           </Text>
-          <Text size="sm" ff="monospace" opacity={0.6}>
-            Next.js/NestJS, Cloudflare Workers, Firebase
-          </Text>
+          <TechLine>Next.js/NestJS, Cloudflare Workers, Firebase</TechLine>
         </Card>
 
         <Text size="sm">
