@@ -12,18 +12,26 @@ supports a different offer. Both halves of the site now make that
 offer, and the developer framing stays as the offer's evidence rather
 than being replaced by it.
 
-The CV comes in two framings from one implementation. `/{locale}/cv`
-renders the CTO variant in place, since a static export has no
-server-side redirect, and `/{locale}/cv/cto` is the self-describing
-address for the same content — it declares `/cv` canonical so the twins
-do not split link equity, and it stays out of the sitemap for the same
-reason. Only prose that differs exists twice: `cv.variants.cto` holds
-`metadata`, `header.tagline` and `profile`, and `cvMessages` merges it
-over the base catalogue a section at a time, so a key the variant does
-not restate cannot drift. `whatIOffer` needs no override at all — its
-subsections are keyed blocks with the per-variant order in code, the
-shape `experience` and `techStack` already use. Nothing retitles
-history: Playgram is "Developer" in both.
+The CV comes in two framings from one implementation. Only prose that
+differs exists twice: `cv.variants.cto` holds `metadata`,
+`header.tagline` and `profile`, and `cvMessages` merges it over the base
+catalogue a section at a time, so a key the variant does not restate
+cannot drift. `whatIOffer` needs no override at all — its subsections
+are keyed blocks with the per-variant order in code, the shape
+`experience` and `techStack` already use. Nothing retitles history:
+Playgram is "Developer" in both.
+
+One route answers every CV address. `app/cv/[[...variantAndLocale]]`
+resolves `/cv`, `/cv/<variant>` and `/cv/<variant>/<locale>`, each
+omitted segment falling back, so the shorter forms render in place and
+declare the fully-specified twin canonical — only the twins are in the
+sitemap. That leaves no redirect page anywhere on the site, which
+matters because a static export cannot serve a real one: `redirect()`
+under `output: 'export'` emits a blank page that moves only once JS runs
+(#32). next-intl's `createNavigation` goes with the locale prefix,
+having no suffix mode to express this shape, so the CV's two controls
+build their hrefs from `cvPath` and `shared/i18n` keeps the locale list
+and nothing else.
 
 The home page becomes the pitch: writing and music each get a page of
 their own behind a *See also* footer line, the in-page nav goes, the
@@ -39,18 +47,6 @@ the one source for every stack line — the same three facts had been
 spelled three ways, across the project cards, the highlight cards and
 the CV. One string serving both locales is the accepted cost: two
 descriptors read in English on the ru CV.
-
-Four things to know when editing here. The case-study PDFs hash
-`src/shared/content`, `src/shared/config` and
-`src/pages/case-studies/ui` as one source set, so touching any of them
-means re-running `pnpm content:pdf` even when nothing printed changes.
-A card that both leads somewhere and holds its own links carries
-`CardLink` as a positioned first child, not an anchor around it —
-anchors cannot nest. Route params get named shapes (`WithStringLocale`,
-`WithStringVariant`, `WithParams`) instead of an object literal inlined
-into a generic, which `pnpm type-overlap` cannot read across. And the
-`no-hardcoded-strings` exemption names three slices rather than one:
-every unlocalized page authors its copy in the JSX.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 ```
