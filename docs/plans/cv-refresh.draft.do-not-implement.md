@@ -8,18 +8,20 @@ Six changes to the CV plus one site-wide change: the theme picker goes, and ever
 
 `cv.experience.<key>.title` in both catalogues. `period` already carries the company and dates, so only `title` moves.
 
-| Key              | Now (en)                          | After (en)                                 |
-| ---------------- | --------------------------------- | ------------------------------------------ |
-| `playgram`       | Developer                         | **Fractional CTO**                         |
-| `englishForKids` | Developer – Project Work          | **Senior Fullstack Developer – Project Work** |
-| `orcool`         | Developer – Project Work          | **Senior Fullstack Developer – Project Work** |
-| `randddb`        | Developer                         | **Fullstack Developer**                    |
-| `independent`    | Developer – Independent Projects  | unchanged                                  |
-| `voicemod`       | Prototyper – Experience & Innovation | unchanged                                |
+| Key              | Now (en)                             | After (en)                   |
+| ---------------- | ------------------------------------ | ---------------------------- |
+| `playgram`       | Developer                            | **Fractional CTO**           |
+| `englishForKids` | Developer – Project Work             | **Senior Fullstack Developer** |
+| `orcool`         | Developer – Project Work             | **Senior Fullstack Developer** |
+| `randddb`        | Developer                            | **Fullstack Developer**      |
+| `independent`    | Developer – Independent Projects     | unchanged                    |
+| `voicemod`       | Prototyper – Experience & Innovation | unchanged                    |
 
-Russian counterparts: `Fractional CTO` (kept in English — there is no idiomatic Russian for it and the term is used untranslated in the market), `Senior Fullstack-разработчик – Проектная работа`, `Fullstack-разработчик`.
+The `– Project Work` qualifiers go with the retitling: most of the history the CV now shows _is_ project work, so a suffix on two of the entries distinguishes nothing.
 
-`independent` and `voicemod` sit below `randddb` in `EXPERIENCE_KEYS`, which is the "up to randddb" boundary, so they keep their titles. Q1 and Q2 below can move both of these calls.
+Russian counterparts: `Fractional CTO`, `Senior Fullstack-разработчик`, `Fullstack-разработчик` — the seniority and stack terms untranslated, as the market they read to uses them.
+
+`independent` and `voicemod` sit below `randddb` in `EXPERIENCE_KEYS`, which is the "up to randddb" boundary, so they keep their titles.
 
 Nothing else reads `cv.experience`: the CV's Open Graph cards are generated off `cv.header`, `cv.contact` and the offer-block headings only, so the cards do not go stale on this. The **CV PDFs do** — see §3.
 
@@ -37,6 +39,8 @@ That markup and its three classes (`.cut`, `.cutCurrent`, `.cutLink`) live in `p
 ## 3 — `[.pdf]` in place of the print button
 
 The button calls `globalThis.print()`. It becomes the same `.pdf` link the article header offers — an anchor with a `download`, pointing at a committed file — and the CV joins the committed-render pipeline.
+
+`FileLink` moves down to `shared/ui` beside `ChipNav`, with the `.hoverDim` class it carries, and both headers use it. The two anchors are the same anchor: small, dimmed on hover, hidden in print, `download` set so the file saves rather than replacing the page. Only the href and the label differ, and those are already props.
 
 **Where the files sit.** A document's file is its route plus an extension, and the CV's cards already follow that rule (`/cv/cto` → `public/cv/cto.og.png`). So the canonical address `/cv/<variant>/<locale>` gets `public/cv/<variant>/<locale>.pdf` — four files. The short rungs (`/cv`, `/cv/<variant>`) serve the same page as their defaults and already declare a canonical URL in their metadata; their `.pdf` link points at that canonical PDF rather than duplicating it. Saved name follows `documents.ts`'s rule — the route dot-joined under the download prefix: `vova.cv.cto.en.pdf`.
 
@@ -69,7 +73,7 @@ The button calls `globalThis.print()`. It becomes the same `.pdf` link the artic
 ## Order of work
 
 1. Catalogue titles (§1) — self-contained, both locales.
-2. `ChipNav` down into `shared/ui`; `CutSwitcher` and `LocalePicker` onto it (§2).
+2. `ChipNav` and `FileLink` down into `shared/ui`; `CutSwitcher` and `LocalePicker` onto the first, both headers onto the second (§2, §3).
 3. Theme removal (§5), including the fsd/README repointing.
 4. The heading link (§4).
 5. `render-pdf.ts` and the CV `.pdf` link (§3), then `pnpm content:pdf` and commit the seven PDFs.
@@ -77,34 +81,7 @@ The button calls `globalThis.print()`. It becomes the same `.pdf` link the artic
 
 ## DRY notes
 
-- **`ChipNav` is a genuine extraction, not a speculative one.** Two call sites want the identical control — a row of bordered chips, one of them the current page — and FSD forbids the CV reaching into `pages/case-studies` for it, so the choice is one shared component or two copies of the same twenty lines and three classes. The component owns markup and styling; each call site keeps its own labels and URL shaping, which is the part that genuinely differs (`CUT_LABELS` and `documentRoute` on one side, locale codes and `cvPath` on the other).
-- **`FileLink` is not extracted.** The article header's version and the CV's `.pdf` link are four lines of `Anchor` each, and the CV's differs where it matters: it is not `print-hidden` inside a printed document, it sits in a different row, and it points at a canonical address rather than its own. Sharing them would mean a component whose whole body is prop plumbing. The `.hoverDim` class stays in `case-studies.module.scss`; the CV's link uses the `%aside`/opacity vocabulary already in `cv.module.scss`.
-- **`DocumentFile` (`Linked & { download: string }`) moves to `shared/typings`.** The CV needs the same pair and `shared/content` is `server-only`, so the type cannot be imported from there into a client component. Two named types spelling `download` is exactly what `pnpm type-overlap` floor 1 rejects, so the base gets its one home; `shared/content/documents.ts` re-exports nothing and imports it instead.
+- **`ChipNav` and `FileLink` are genuine extractions, not speculative ones.** Each has two call sites wanting the identical control, and FSD forbids the CV reaching into `pages/case-studies` for either — so the choice is one shared component or two copies. Both are domainless presentation with no feature or entity under them, which is what puts them in `shared/ui` rather than in a `widgets/` layer invented to hold them (`.claude/rules/fsd.md`: a widget is a composite block assembled from features and entities). Each component owns markup and styling; the call sites keep their own labels and URL shaping, which is the part that genuinely differs — `CUT_LABELS` and `documentRoute` on one side, locale codes and `cvPath` on the other.
+- **`DocumentFile` (`Linked & { download: string }`) moves to `shared/typings`.** `FileLink`'s props and `shared/content`'s document record both spell `download`, and two named types declaring one member is exactly what `pnpm type-overlap` floor 1 rejects — so the base gets its one home. It has to leave `shared/content` regardless: that segment is `server-only` and a client component cannot import from it.
 - **The PDF source list is factored, not duplicated.** Documents and the CV share most of what shapes a printed page. One shared array plus a per-kind extra is the shape; two hand-maintained lists would drift, and a source missing from one of them ships a stale PDF that `--check` calls fresh.
 - **Locale codes are not a new constant.** `routing.locales` already is the list; the chips upper-case it for display.
-
-## Questions
-
-Each is answered in the plan above by its recommended option, so silence resolves them.
-
-**1. What happens to the engagement suffixes on the retitled roles?**
- a. _(recommended, and what the plan does)_ Keep them: `Senior Fullstack Developer – Project Work` for `englishForKids` and `orcool`. The suffix says the engagement was project work, which a bare seniority title would quietly overwrite on two two-month engagements.
- b. Replace the whole title: exactly `Senior Fullstack Developer`, suffix dropped.
- c. As (a), and normalize `independent` too → `Senior Fullstack Developer – Independent Projects`, so the ladder reads consistently.
-
-**2. Russian wording for the three new titles?**
- a. _(recommended)_ `Fractional CTO` / `Senior Fullstack-разработчик` / `Fullstack-разработчик` — the seniority and stack terms are the ones used untranslated in Russian job listings.
- b. Translate throughout: `Фракционный CTO` / `Старший fullstack-разработчик` / `Fullstack-разработчик`.
- c. Leave all three in English in the `ru` catalogue.
-
-**3. Which addresses get a committed PDF?**
- a. _(recommended)_ Four — one per canonical `/cv/<variant>/<locale>`; the short rungs link to their canonical file.
- b. Two — English only, and the `ru` pages link to the English PDF. Halves the committed weight and the render time, at the cost of a Russian reader downloading an English CV.
-
-**4. Where do the two controls sit in the CV's header row?**
- a. _(recommended)_ Mirror the article header: `[EN] [RU]` left, `.pdf` right.
- b. Keep today's sides: `.pdf` left where the print button was, `[EN] [RU]` right where the pickers were.
-
-**5. A reader who used the theme toggle before it was removed — what do they see?**
- a. _(recommended)_ The system scheme. Costs the ~15-line no-storage colour-scheme manager in §5.
- b. Their stored choice, indefinitely. Nothing to build, but "always the system theme" would not be true for them.
