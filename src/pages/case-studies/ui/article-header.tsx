@@ -1,7 +1,6 @@
-import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
 import {
-  type DocumentFile,
   type DocumentRef,
   documentRoute,
   type Headlined,
@@ -9,9 +8,7 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
-import { cx } from '@/shared/lib/class-names';
-import type { WithChildren } from '@/shared/typings';
-import { InternalLink } from '@/shared/ui';
+import { type Chip, ChipNav, FileLink } from '@/shared/ui';
 
 import classes from './case-studies.module.scss';
 import { DocumentMeta } from './document-meta';
@@ -39,52 +36,15 @@ function CutSwitcher({
     ...VARIANTS.filter((variant) => available.includes(variant)),
   ];
 
-  return (
-    <Group component="nav" gap={8} wrap="wrap" fz="sm" className="print-hidden">
-      {cuts.map((cut) => {
-        const label = CUT_LABELS[cut ?? 'full'];
-
-        return cut === current ? (
-          <Box
-            key={label}
-            component="span"
-            aria-current="page"
-            className={cx(classes['cut'], classes['cutCurrent'])}
-          >
-            {label}
-          </Box>
-        ) : (
-          <InternalLink
-            key={label}
-            href={documentRoute(collection, slug, cut)}
-            underline="never"
-            c="inherit"
-            className={cx(classes['cut'], classes['cutLink'])}
-          >
-            {label}
-          </InternalLink>
-        );
-      })}
-    </Group>
+  const chips = cuts.map(
+    (cut): Chip => ({
+      label: CUT_LABELS[cut ?? 'full'],
+      href: documentRoute(collection, slug, cut),
+      current: cut === current,
+    }),
   );
-}
 
-type FileLinkProps = DocumentFile & WithChildren;
-
-/**
- * One of the document's own files, served at this page's URL plus an extension.
- * It saves rather than opens, so neither file replaces the article in the tab.
- */
-function FileLink({ href, download, children }: FileLinkProps) {
-  return (
-    <Anchor
-      {...{ href, download }}
-      size="sm"
-      className={cx('print-hidden', classes['hoverDim'])}
-    >
-      {children}
-    </Anchor>
-  );
+  return <ChipNav {...{ chips }} />;
 }
 
 export type ArticleHeaderProps = WithContentDocument &

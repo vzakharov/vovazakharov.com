@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { SITE_CONFIG } from '@/shared/config';
-import type { Linked } from '@/shared/typings';
+import type { DocumentFile } from '@/shared/typings';
 
 import {
   COLLECTION_IDS,
@@ -28,14 +28,6 @@ import {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
-
-/**
- * One of a document's own files: where `public/` serves it, and what a saved
- * copy is called — its path under the site, dot-joined, so the file says what
- * it is and whose once it has left the browser. Only an anchor's `download` can
- * set that name; a static export has no `Content-Disposition` to set it with.
- */
-export type DocumentFile = Linked & { download: string };
 
 export type ContentDocument = DocumentRef &
   Routed &

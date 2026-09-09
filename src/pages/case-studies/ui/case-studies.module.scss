@@ -81,36 +81,6 @@ h1[data-order='1'].articleTitle {
   }
 }
 
-// One cut of a document, as offered by the switcher above the article.
-.cut {
-  display: inline-block;
-  padding: 4px 12px;
-  border: 1px solid var(--color-border-hairline-strong);
-}
-
-.cutCurrent {
-  border-color: var(--color-foreground);
-  background: var(--color-foreground);
-  color: var(--color-background);
-}
-
-.cutLink {
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
-
-  @include mantine.hover {
-    background: var(--color-foreground);
-    color: var(--color-background);
-  }
-}
-
-.hoverDim {
-  @include mantine.hover {
-    opacity: 0.7;
-  }
-}
-
 // A byline that wraps sets its rows closer than the gap between its parts.
 .meta {
   row-gap: 4px;

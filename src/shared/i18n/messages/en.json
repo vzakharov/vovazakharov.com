@@ -280,7 +280,6 @@
   },
   "ui": {
     "toggleTheme": "Toggle theme",
-    "switchToOther": "Switch to Russian",
     "cvVariants": {
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"

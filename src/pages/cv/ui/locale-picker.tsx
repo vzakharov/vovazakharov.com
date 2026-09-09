@@ -1,34 +1,29 @@
 'use client';
 
-import { ActionIcon } from '@mantine/core';
-import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
+
+import { routing } from '@/shared/i18n';
+import { type Chip, ChipNav } from '@/shared/ui';
 
 import { cvPath } from '../lib/cv-urls';
 import type { WithCvVariant } from '../lib/cv-variants';
 
 /**
- * A link rather than a control: the other language has its own address, so the
- * switch is navigation and works before hydration.
+ * Both languages shown rather than the one being read: the label says which
+ * language each link goes to, which a flag standing for the current page never
+ * did.
  */
 export function LocalePicker({ variant }: WithCvVariant) {
-  const locale = useLocale();
-  const t = useTranslations('ui');
+  const current = useLocale();
 
-  const nextLocale = locale === 'en' ? 'ru' : 'en';
-  const currentFlag = locale === 'en' ? '🇬🇧' : '🇷🇺';
-
-  return (
-    <ActionIcon
-      component={Link}
-      href={cvPath(variant, nextLocale)}
-      variant="default"
-      size={38}
-      radius={4}
-      fz={18}
-      aria-label={t('switchToOther')}
-    >
-      {currentFlag}
-    </ActionIcon>
+  const chips = routing.locales.map(
+    (locale): Chip => ({
+      label: locale.toUpperCase(),
+      href: cvPath(variant, locale),
+      hrefLang: locale,
+      current: locale === current,
+    }),
   );
+
+  return <ChipNav {...{ chips }} />;
 }
