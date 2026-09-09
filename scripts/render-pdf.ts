@@ -18,9 +18,9 @@
  *   pnpm content:pdf            # render what changed, prune what is gone
  *   pnpm content:pdf --check    # report staleness, write nothing
  *
- * Runs under `tsx`, which the CV's routes need — `CV_VARIANTS`, `routing` and
- * `cvPath` come from `src/` through the `@/` alias, and a catalogue is a JSON
- * import bare Node cannot take without an attribute.
+ * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
+ * the `i18n` barrel behind them is a JSON import bare Node cannot take without
+ * an attribute.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: progress,
@@ -77,10 +77,9 @@ const DOCUMENT_SOURCES = [
   'src/shared/content',
 ];
 
-/** What shapes the CV's, its own language's catalogue added per printable. */
+/** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
 
-/** Where the CV's renders live: its route's own directory under `public/`. */
 const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** How long the dev server gets to answer before the run is abandoned. */
@@ -141,7 +140,6 @@ function referencedAssets(documentPath: string): string[] {
   ];
 }
 
-/** Every file under each listed path, which is what a source set is hashed from. */
 function sourceFiles(...sources: string[][]): string[] {
   return sources
     .flat()
@@ -172,10 +170,9 @@ function documentPrintables(): Printable[] {
 }
 
 /**
- * The CV's PDF per framing and language, at its canonical address plus an
- * extension — the same rule, with the address the page's own rather than a
- * file's. Only the printable's own catalogue is hashed, so rewording the
- * English does not re-flag the Russian print.
+ * The CV's PDF per framing and language, at the page's canonical address plus an
+ * extension. Only the printable's own catalogue is hashed, so rewording the
+ * English leaves the Russian print alone.
  */
 function cvPrintables(): Printable[] {
   const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);

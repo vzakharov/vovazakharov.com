@@ -6,14 +6,14 @@ Six changes to the CV plus one site-wide change: the theme picker goes, and ever
 
 `cv.experience.<key>.title` in both catalogues. `period` already carries the company and dates, so only `title` moves.
 
-| Key              | Now (en)                             | After (en)                   |
-| ---------------- | ------------------------------------ | ---------------------------- |
-| `playgram`       | Developer                            | **Fractional CTO**           |
+| Key              | Now (en)                             | After (en)                     |
+| ---------------- | ------------------------------------ | ------------------------------ |
+| `playgram`       | Developer                            | **Fractional CTO**             |
 | `englishForKids` | Developer – Project Work             | **Senior Fullstack Developer** |
 | `orcool`         | Developer – Project Work             | **Senior Fullstack Developer** |
-| `randddb`        | Developer                            | **Fullstack Developer**      |
-| `independent`    | Developer – Independent Projects     | unchanged                    |
-| `voicemod`       | Prototyper – Experience & Innovation | unchanged                    |
+| `randddb`        | Developer                            | **Fullstack Developer**        |
+| `independent`    | Developer – Independent Projects     | unchanged                      |
+| `voicemod`       | Prototyper – Experience & Innovation | unchanged                      |
 
 The `– Project Work` qualifiers go with the retitling: most of the history the CV now shows _is_ project work, so a suffix on two of the entries distinguishes nothing.
 

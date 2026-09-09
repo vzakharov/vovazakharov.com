@@ -16,9 +16,9 @@ import type { Anchored } from '@/shared/typings';
  * polymorphic `component` prop cannot take it from a server component. The
  * pairing lives behind this client boundary instead.
  *
- * The element props are those Mantine's own do not claim, so an anchor
- * attribute with no Mantine counterpart — `hrefLang`, `target`, `rel` — reaches
- * the rendered `<a>` without either side's type shadowing the other's.
+ * `ElementProps` omits what `AnchorProps` claims, so an anchor attribute with no
+ * Mantine counterpart — `hrefLang`, `target` — reaches the `<a>` without the two
+ * types shadowing each other.
  */
 export function InternalLink({
   href,

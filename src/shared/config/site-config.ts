@@ -54,11 +54,7 @@ export const SITE_CONFIG = {
 // Helper to get absolute URL
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
 
-/**
- * A page's own file, at that page's route plus an extension: where `public/`
- * serves it, and the name a saved copy takes. The documents and the CV both
- * offer one, and the naming is a property of the site rather than of either.
- */
+/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
 export const pageFile = (route: string, extension: string): DocumentFile => ({
   href: `${route}.${extension}`,
   download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,

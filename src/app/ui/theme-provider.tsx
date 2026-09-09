@@ -32,13 +32,10 @@ const cssVariablesResolver: CSSVariablesResolver = () => ({
 const LEGACY_SCHEME_KEY = 'mantine-color-scheme-value';
 
 /**
- * Removing the key is what keeps a reader who used the toggle before it was
- * removed from carrying their stored choice forever: `ColorSchemeScript` reads
- * `localStorage` before hydration, and `forceColorScheme` accepts only
- * `light`/`dark`, never `auto`.
- *
- * Browser-only, as every caller below is: Mantine subscribes from an effect,
- * and the rest answer a reader's action.
+ * Storage can still hold a scheme from when the site had a control for one, and
+ * `ColorSchemeScript` reads `localStorage` before hydration while
+ * `forceColorScheme` accepts only `light`/`dark` — so a leftover would override
+ * the system scheme forever. Browser-only, as every caller below is.
  */
 function forgetStoredScheme(): void {
   globalThis.localStorage.removeItem(LEGACY_SCHEME_KEY);

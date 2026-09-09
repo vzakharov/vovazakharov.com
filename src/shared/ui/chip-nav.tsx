@@ -8,12 +8,9 @@ import type { Labeled, Linked } from '@/shared/typings';
 import classes from './chip-nav.module.scss';
 import { InternalLink } from './internal-link';
 
-/**
- * One destination in the row. The chip standing for where the reader already
- * is has no `href`: it is the current page, so there is nothing to navigate to.
- */
+/** One destination in the row; the current one renders inert rather than linked. */
 export type Chip = Labeled &
-  Partial<Linked> & {
+  Linked & {
     current: boolean;
     /** The language the chip's destination is in, where the row switches one. */
     hrefLang?: string;
@@ -23,14 +20,13 @@ export type ChipNavProps = { chips: Chip[] };
 
 /**
  * Every alternative shown at once, the current one inverted and inert. A row of
- * links rather than a control, so the switch works before hydration; hidden in
- * print, where the reader holds one of the alternatives already.
+ * links rather than a control, so the switch works before hydration.
  */
 export function ChipNav({ chips }: ChipNavProps) {
   return (
     <Group component="nav" gap={8} wrap="wrap" fz="sm" className="print-hidden">
       {chips.map(({ label, href, current, hrefLang }) =>
-        current || href === undefined ? (
+        current ? (
           <Box
             key={label}
             component="span"

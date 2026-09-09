@@ -2,9 +2,8 @@
 @use '../../../styles/tokens' as tokens;
 @use './prose';
 
-// Global rather than a module class, as the print utilities are: it is claimed
-// by slices that may not reach each other sideways, and a global name has no
-// import graph to route around that.
+// Global rather than a module class, as the print utilities are: slices that
+// may not reach each other sideways both claim it.
 .hover-dim {
   @include mantine.hover {
     opacity: 0.7;

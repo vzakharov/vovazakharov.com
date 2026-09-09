@@ -28,9 +28,7 @@ Lowest (most generic) first — an import may only point downward:
 
 `entities/`, `features/` and `widgets/` are absent because nothing earns them
 yet, not as an oversight. Layers are optional; **inventing one costs more than
-leaving it out** (see "insignificant slices" below). The theme switcher was the
-one feature, and the layer directory went with it when the site settled on the
-reader's system scheme.
+leaving it out** (see "insignificant slices" below).
 
 ## Rules
 

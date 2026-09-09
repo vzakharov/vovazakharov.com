@@ -80,8 +80,6 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" ta="center" className={classes['header']}>
             <Stack className={classes['section']}>
               <Title order={1}>
-                {/* Colour inherited and underline off, so the heading reads as
-                    a heading rather than as a link inside one. */}
                 <InternalLink href="/" underline="never" inherit>
                   {t('header.name')}
                 </InternalLink>

@@ -8,12 +8,15 @@ export type FileLinkProps = DocumentFile & WithChildren;
 
 /**
  * One of a page's own files, served at that page's URL plus an extension. It
- * saves rather than opens, so the file never replaces the page in the tab;
- * hidden in print, where the reader is holding one of them already.
+ * saves rather than opens, so the file never replaces the page in the tab.
  */
 export function FileLink({ href, download, children }: FileLinkProps) {
   return (
-    <Anchor {...{ href, download }} size="sm" className="print-hidden hover-dim">
+    <Anchor
+      {...{ href, download }}
+      size="sm"
+      className="print-hidden hover-dim"
+    >
       {children}
     </Anchor>
   );
