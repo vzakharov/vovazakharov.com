@@ -49,7 +49,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×6)
+## What it was handed, it treats as fixed (×7)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -122,6 +122,19 @@ reply was two clauses — _if "boundaries don't allow" is the only argument, let
 rewrite the boundaries_, and go read how the sibling repo does it. That repo
 pins no public API at all and runs four suffixed barrels; the cost the agent had
 quoted is simply how it works there.
+
+**9 September — a comment about what the site's controls wear, read as a rule
+about what everything interactive is.** Told the theme toggle cost a row it did
+not need, the agent moved it into the header's corner and left its skin
+untouched: `variant="default"`, which `theme.ts` describes beside it as "the
+site's only control skin". So the corner now held a hairline box fencing off
+empty space, which is what the operator saw — _let's remove the borders around
+the theme buttons_, then _and generally make them gray, unobtrusive_. The
+comment is ours, six days old, and it says what the site's controls wear, not
+that everything clickable is one. The agent had just finished arguing that the
+toggle is page furniture rather than content — that is the whole reason it left
+the flow — and never carried the argument the one step further to how it should
+look.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 
@@ -397,6 +410,12 @@ positioning call on the operator's own work, and `.claude/rules/writing.md` says
 so outright: offer the options, don't pick for them. So the residue is the entry
 above's — offering was available and unoffered — and the tendency the section
 named, real or not, has no evidence in one overruled taste call.
+
+**Where a control goes on the page.** "I don't like the extra vertical space the
+switcher takes — let's make it sit beside the respective headers" is the same
+kind of call: a layout the operator is looking at and the agent is not. Only the
+skin that came with it is a bump, and it is one because the reason to change it
+was already in the agent's own argument for moving the control.
 
 ## The two families
 
