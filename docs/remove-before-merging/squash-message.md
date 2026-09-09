@@ -11,24 +11,21 @@ each behaving unlike anything else on the site: a flag showing the
 language you were already reading, a button that opened the browser's
 print dialog, and a theme toggle cycling three states.
 
-The titles say what the work was — Fractional CTO at Playgram, Senior
-Fullstack Developer for the two project engagements above it, Fullstack
-Developer for randddb — in both catalogues, with the seniority and
-stack terms left untranslated in the Russian one, as they are in the
-market it reads to.
-
-The language switch becomes the chip pair the article header already
-offers for a document's cuts: both languages shown, the current one
-inverted and inert. The print button becomes the `.pdf` link every
-other document offers. Both controls move down to `shared/ui`, the CV
-having no sideways reach into `pages/case-studies` for either, and they
-sit below the hero as the article's row does, since they act on the
-document rather than introduce it. The CV joins the committed-render
-pipeline — one PDF per canonical `/cv/<variant>/<locale>`, the short
-rungs linking to theirs, and `content:pdf` moving to `tsx` to reach the
-CV's own addresses. Its source list splits into the print surface both
-kinds share and a per-kind remainder, so an English reword leaves the
-Russian sheet alone. The name heading links home.
+The titles now say what the work was — Fractional CTO at Playgram,
+Senior Fullstack Developer for the two project engagements above it,
+Fullstack Developer for randddb — in both catalogues, the seniority
+and stack terms left untranslated in the Russian one as they are in
+the market it reads to. The language switch becomes the chip pair the
+article header already offers for a document's cuts, both languages
+shown and the current one inert; the print button becomes the `.pdf`
+link every other document offers. Both move down to `shared/ui`, the CV
+having no sideways reach into `pages/case-studies`, and sit below the
+hero as the article's row does, since they act on the document rather
+than introduce it. The CV joins the committed-render pipeline — one
+PDF per canonical `/cv/<variant>/<locale>`, the short rungs linking to
+theirs — and `content:pdf` moves to `tsx` to reach those addresses,
+its source list split so an English reword leaves the Russian sheet
+alone. The name heading links home.
 
 The theme toggle keeps two visible states over one rule: a pick that
 agrees with the reader's system scheme is stored as no preference at
@@ -42,14 +39,16 @@ after hydration.
 
 It also stops presenting as a control. Where the site's buttons and
 chips wear a hairline box, the toggle is a bare grey glyph that comes up
-to full on hover; and on home and the CV it sits in the top-right corner
-of the header rather than on a row of its own, out of the flow, so a
-page that spent a band on it now starts at its heading. `CornerHeader`
-owns both halves of that positioning, so no caller can pair an absolute
-corner with a header that forgot to be its context.
+to full on hover, and on home and the CV it sits in the header's
+top-right corner rather than on a row of its own, so a page that spent
+a band on it now starts at its heading. `CornerHeader` owns both halves
+of that positioning, so no caller can pair an absolute corner with a
+header that forgot to be its context. Riding along: `writing/notes/`
+gets the line ceiling it previously only stated in prose, as a vet
+check.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01PXB3UF8SiKuA8hrogYoTn1
+Claude-Session: https://claude.ai/code/session_01HGV2q91etXHLc8qK2G6bba
 ```
 
 ---
