@@ -18,6 +18,10 @@ alternates between "follow the system" (dark, nothing stored) and "light"
 (stored). The reader sees a plain two-state switch; the machine sees `auto` or
 one explicit value, and never an explicit value that duplicates the system's.
 
+In one sentence, for anyone who has to explain the behaviour later: **the site
+follows your system, and an override lasts until your system catches up with
+you.**
+
 That rule is the whole design, and it is one pure function used in two places —
 when the reader clicks, and whenever the stored value and the system value come
 to agree on their own.
@@ -27,11 +31,11 @@ to agree on their own.
 The picker's removal is unmerged: it is `38225ef` on this branch, behind draft
 PR [#36](https://github.com/vzakharov/vovazakharov.com/pull/36). So most of this
 work is **un-writing that commit** rather than writing new code — the five
-`<Group justify="flex-end">` deletions, the article page's nav collapse, the
-`ui.toggleTheme` catalogue removal, and the `.claude/rules/fsd.md` / `README.md`
-/ `src/README.md` repointing all come back to what `main` says, and the pair
-cancels out in the squash. What is genuinely new is the toggle's own logic and
-the provider's manager going back to Mantine's default.
+`<Group justify="flex-end">` deletions, the article page's nav collapse, and the
+`.claude/rules/fsd.md` / `README.md` / `src/README.md` repointing all come back
+to what `main` says, and the pair cancels out in the squash. What is genuinely
+new is the toggle's own logic and the provider's manager going back to Mantine's
+default.
 
 Two loose ends the removal left get closed by the same move: `theme.ts` still
 carries an `ActionIcon: { classNames: … }` entry that nothing renders, and
@@ -83,22 +87,41 @@ So the system scheme is read **synchronously** —
 handler and effect. Nothing renders from those values (see footgun 2), so
 reading them synchronously costs no hydration mismatch.
 
-### Footgun 2 — the icon cannot be chosen in JavaScript
+### Footgun 2 — neither the icon nor the button's name can be chosen in JavaScript
 
 The site is a static export: the prerendered HTML is built with no knowledge of
 the reader's scheme, so an icon picked from React state is the light-scheme icon
 for everyone until hydration. The removed toggle answered this by rendering an
 empty `38×38` box until `useMounted()` — a placeholder the reader watched pop.
 
-**Both icons render, and CSS picks one.** `ColorSchemeScript` sets
+**Both states render, and CSS picks one.** `ColorSchemeScript` sets
 `data-mantine-color-scheme` on `<html>` from inside `<head>`, before first
 paint, and `styles/_mantine.scss`'s `light` / `dark` mixins key off exactly that
 attribute — so the correct icon is painted on the first frame, with no
 placeholder and no pop. This is why the `useMounted` hack does not come back.
 
-The `aria-label` is the one thing CSS cannot switch, which settles it as the
-static `ui.toggleTheme` string the catalogues carried before ("Switch theme" /
-«Переключить тему») rather than a per-state label.
+**The accessible name rides the same mechanism**, which is what lets the button
+follow the convention in "The icon shows the scheme you'll get" below rather
+than settling for a static label. `aria-label` cannot be switched by CSS, so
+there is no `aria-label`: each branch carries its own `<VisuallyHidden>` label
+beside its icon, and the hidden branch is hidden with **`display: none`**, which
+removes it from the accessibility tree as well as from the page. So the button's
+name is "Switch to dark mode" in light and "Switch to light mode" in dark, with
+one mechanism doing both and no hydration involved. The icons are
+`aria-hidden`; the label is the whole name.
+
+```tsx
+<ActionIcon variant="default" size={38} radius={4} onClick={…}>
+  <Box component="span" className={classes['whenLight']}>
+    <Moon size={20} aria-hidden />
+    <VisuallyHidden>{t('switchToDark')}</VisuallyHidden>
+  </Box>
+  <Box component="span" className={classes['whenDark']}>
+    <Sun size={20} aria-hidden />
+    <VisuallyHidden>{t('switchToLight')}</VisuallyHidden>
+  </Box>
+</ActionIcon>
+```
 
 ### Footgun 3 — the pre-hydration script and the manager disagree, benignly
 
@@ -137,11 +160,38 @@ the run is part of implementation, not a follow-up.
 
 The Open Graph cards are **not** affected: `cvCards()` hashes the generated card
 page plus the `cv.header` / `cv.contact` / offer-heading slices and the
-portrait, and a new `ui.toggleTheme` key touches none of them.
+portrait, and the new `ui.switchTo*` keys touch none of them.
 
 The toggle itself carries `print-hidden` — baked into the component the way
 `ChipNav` bakes it in, rather than left to each call site. On `main` four of the
 six call sites printed the control.
+
+## The accepted cost
+
+The rule cannot distinguish "light, because it is night and my OS has not caught
+up" from "light, always" — that is the same collapse that buys the two-state
+control, not a bug in it. It has one consequence worth stating rather than
+discovering:
+
+**On a system that auto-switches by time of day, a reader who tries the other
+scheme and changes their mind is put back on `auto`, and so gets switched at
+nightfall.** Daytime, OS light, nothing stored: click → dark is stored; click
+again → light agrees with the system, so it is _cleared_ rather than pinned. At
+21:00 the OS flips and the page goes dark, and from where the reader sits they
+chose light and were overruled. This is the documented failure mode of exactly
+this design — see the tri-state argument in "Sources" below.
+
+Two things bound it. It only reaches readers whose OS auto-switches at all — for
+the majority who set one scheme and leave it, agreement never arises
+spontaneously and the toggle is an ordinary two-state switch. And the escape is
+the toggle itself: one click at nightfall stores `light` against a dark system,
+which is a preference the rule keeps.
+
+**What is genuinely unavailable is "always light" for an auto-switching
+reader**: any daytime attempt to say it reads as no preference, and a night-time
+one decays the next morning. Accepting that is accepting the premise — if it
+turns out to matter, the fix is a third state, which is the thing this design
+exists to avoid.
 
 ## Steps
 
@@ -149,16 +199,17 @@ six call sites printed the control.
    - `lib/color-scheme.ts` — `preferredColorScheme` above.
    - `lib/color-scheme.test.ts` — the rule as a table: agreement on either
      scheme gives `auto`, disagreement gives the scheme back.
-   - `ui/theme-toggle.tsx` — an `ActionIcon` at `size={38} radius={4}` with
-     `variant="default"`, holding both a `Sun` and a `Moon`, labelled
-     `ui.toggleTheme`, classed `print-hidden`. Reads the stored scheme via
-     `useMantineColorScheme()` and the system scheme synchronously; the click
-     computes the reader's ask (the opposite of what is on screen) and applies
-     `preferredColorScheme`; an effect applies the same function to the stored
-     scheme so agreement decays to `auto` on mount and whenever the OS flips
-     under a stored preference.
-   - `ui/theme-toggle.module.scss` — the two icons, one hidden per scheme
-     through `styles/_mantine.scss`'s `light` / `dark` mixins.
+   - `ui/theme-toggle.tsx` — the `ActionIcon` sketched in footgun 2, classed
+     `print-hidden`. Reads the stored scheme via `useMantineColorScheme()` and
+     the system scheme synchronously; the click computes the reader's ask (the
+     opposite of what is on screen) and applies `preferredColorScheme`; an
+     effect applies the same function to the stored scheme so agreement decays
+     to `auto` on mount and whenever the OS flips under a stored preference.
+   - `ui/theme-toggle.module.scss` — `.whenLight` / `.whenDark`, each
+     `display: none` under the opposite scheme through `styles/_mantine.scss`'s
+     `light` / `dark` mixins. `display` rather than `visibility` or a clip is
+     load-bearing: it is what takes the hidden branch's label out of the
+     accessibility tree.
    - `index.ts` — `export { ThemeToggle } from './ui/theme-toggle';`
 2. **Revert `theme-provider.tsx`** to `main`'s shape: drop `colorSchemeManager`,
    `LEGACY_SCHEME_KEY` and `forgetStoredScheme`; keep
@@ -169,8 +220,10 @@ six call sites printed the control.
    `<Group gap={8}>` around `LocalePicker` and the toggle. `.hover-dim` stays a
    global utility (the article back-link and `FileLink` both claim it), so that
    part of `38225ef` is _not_ reverted.
-4. **Restore `ui.toggleTheme`** in `en.json` and `ru.json` — the
-   `vova/no-hardcoded-strings` rule is what requires it.
+4. **Add `ui.switchToDark` and `ui.switchToLight`** to `en.json` and `ru.json` —
+   the `vova/no-hardcoded-strings` rule is what requires them. These replace
+   `main`'s single `ui.toggleTheme`, which named a three-way cycle no button
+   performs any more.
 5. **Repoint the docs** back: `.claude/rules/fsd.md`'s layer table and its
    "absent because nothing earns them" paragraph, `src/README.md`'s layer list,
    `README.md`'s theme line, tree entry and feature bullet. Each states the
@@ -196,6 +249,8 @@ six call sites printed the control.
 - With nothing stored, flip the OS with the page open: the page follows, live.
 - Hard-load a dark-system browser: the moon/sun shown is correct on the first
   frame, and no empty box precedes it.
+- A screen reader reads one name, matching the scheme: "Switch to dark mode" in
+  light, "Switch to light mode" in dark — not both, and not neither.
 - Ctrl+P on the CV and on an article: no toggle on the sheet.
 
 ## DRY notes
@@ -211,6 +266,10 @@ six call sites printed the control.
   Putting the rule in `shared/` would be the move only if the provider needed it
   too, and it does not: `clearColorScheme`/`setColorScheme` are the whole of the
   provider's involvement, and both are Mantine's.
+- **One CSS mechanism serves the icon and the accessible name.** `.whenLight` /
+  `.whenDark` wrap an icon and its label together rather than the sheet hiding
+  icons and something else switching the label, so there is no second way for
+  the two to disagree about which scheme is on.
 - **The repeated `<Group justify="flex-end"><ThemeToggle /></Group>` on four
   shell pages is left duplicated on purpose.** Hosting it inside `PageShell`
   would cut those four to zero, but `PageShell` is `shared/ui` and may not
@@ -222,43 +281,57 @@ six call sites printed the control.
   `FileLink` sit in slices that cannot reach each other sideways, and that is
   unrelated to the toggle. Not reverted.
 - **The `useMounted` placeholder is not reused.** It was the removed toggle's
-  answer to footgun 2; the CSS-keyed icons answer it without reserving space, so
-  copying the old component wholesale would carry a hack whose reason is gone.
+  answer to footgun 2; the CSS-keyed branches answer it without reserving space,
+  so copying the old component wholesale would carry a hack whose reason is gone.
 
-## Open questions
+## Decisions
 
-Each is written with its recommended option already in force above, so silence
-resolves them.
+**The icon shows the scheme you'll get** — a moon while light, a sun while dark
+— with the accessible name naming the action ("Switch to dark mode"). This is
+the documented convention, and the name is the part the sources are unanimous
+about: the icon alone is ambiguous either way round, so the label is what
+carries the meaning. Rejected: showing the scheme you are in, which is what the
+removed three-state toggle did and what Docusaurus settled on when it closed the
+same reversal request as `wontfix` — a real split in practice, but the minority
+side, and it reads as status rather than as a control on a two-state switch. A
+hover tooltip stating the current mode was also considered and dropped: the site
+has no tooltips anywhere, and it would restate what the page already shows.
 
-1. **What does the icon show — the scheme you're in, or the one you'll get?**
-   - **(a) The one you'll get** — a moon while light, a sun while dark.
-     _Recommended, and what the plan is written to._ A button's face should say
-     what pressing it does, and the scheme you are in is already stated by the
-     entire page around it.
-   - (b) The scheme you're in — a sun while light, a moon while dark. What the
-     three-state toggle showed, so it is the continuity option; but as a
-     two-state switch it reads as decoration rather than a control.
+**`features/switch-theme`, the layer directory restored** — it is what
+`.claude/rules/fsd.md` names the layer for, the slice has five upward consumers
+so Steiger's `insignificant-slice` is satisfied, and it keeps this branch's diff
+against `main` largely cancelling. Rejected: `shared/ui/theme-toggle.tsx`, which
+would let `PageShell` host it and cut four call sites — see the DRY notes.
 
-2. **Does the agreement rule apply beyond the click?**
-   - **(a) Yes — at the click, on mount, and live when the OS flips.**
-     _Recommended._ Without it the rule holds only at the instant of clicking: a
-     reader who picks light at night keeps an explicit `light` through the
-     morning's system flip, and is silently pinned to a preference they never
-     re-expressed. This is the step 1 effect.
-   - (b) Click only. One fewer effect, and the stored value never changes without
-     a click — at the cost of the promise going stale exactly once per OS flip.
+**All six surfaces, as `main` had them** — a control present on some pages and
+not others is worse than either extreme, and the CV is where a reader is most
+likely to be reading at length. Rejected: skipping the CV, whose header already
+carries the language chips and the `.pdf` link.
 
-3. **Where does the toggle live?**
-   - **(a) `src/features/switch-theme/`, the layer directory restored.**
-     _Recommended._ It is what `.claude/rules/fsd.md` names the layer for, the
-     slice has five upward consumers so Steiger's `insignificant-slice` is
-     satisfied, and it makes this branch's diff against `main` largely cancel.
-   - (b) `src/shared/ui/theme-toggle.tsx`, keeping `features/` absent and
-     letting `PageShell` host it. Rejected in the DRY notes above.
+## Open question
 
-4. **All six surfaces, or fewer?**
-   - **(a) All six, as `main` had them.** _Recommended._ A control that is
-     present on some pages and not others is worse than either extreme, and the
-     CV is where a reader is most likely to be reading at length.
-   - (b) Skip the CV, whose header already carries the language chips and the
-     `.pdf` link. Leaves the CV's long read at the system's mercy.
+Written with the recommended option already in force above, so silence resolves
+it.
+
+**Does the agreement rule apply beyond the click?**
+
+- **(a) Yes — at the click, on mount, and live when the OS flips.**
+  _Recommended, and what this plan is written to._ Without it the rule holds
+  only at the instant of clicking, and whether an override is permanent depends
+  on **what time of day the reader happened to click** — which is hidden state
+  nobody can explain. Worked through in the session's turn alongside (b).
+- (b) Click only. One fewer effect, and the stored value never changes without a
+  click — at the cost that a preference set while it disagreed with the OS
+  outlives the disagreement forever, so a single night-time click pins the
+  reader for every day after.
+
+Note that the nightfall case in "The accepted cost" above is **not** a
+difference between these two: the click path is identical in both, so it belongs
+to the core rule either way.
+
+## Sources
+
+- [The Case for Tri-State Dark Mode Toggles — Bram.us](https://www.bram.us/2026/08/18/the-case-for-tri-state-dark-mode-toggles/) — names the nightfall case above as the specific failure mode of a two-state toggle that maps one option back to "system".
+- [The UX of dark mode toggles — Dylan Smith](https://dylanatsmith.com/writing/the-ux-of-dark-mode-toggles) — the persistence question this design answers, and its six options; "reversible preference" is the family this one belongs to.
+- [Dark/Light Mode Toggle: a Usability Issue — DEV](https://dev.to/zetareticoli/dark-light-mode-toggle-a-usability-issue-1gg2) — why the target-state icon needs a dynamic label to carry current state.
+- [Light/dark mode toggle icon is reversed — facebook/docusaurus#11370](https://github.com/facebook/docusaurus/issues/11370) — the minority side of the icon convention, closed `wontfix`.
