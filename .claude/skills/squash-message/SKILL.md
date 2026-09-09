@@ -178,11 +178,10 @@ target.
 
 The target is **three paragraphs of prose, four at the outside**, inside the
 measured caps above — 80 chars of title, 50 lines of body at 72 wide. The
-opening says
-why the change exists; the rest say what it does about it, named at the level of
-the behavior, contract or module affected, plus anything that would trip someone
-editing that area later. Not a bullet-per-change inventory: detail that doesn't
-survive at that size was below the high-level picture and lives in the diff.
+opening says why the change exists; the rest say what it does about it, named at
+the level of the behavior, contract or module affected. Not a bullet-per-change
+inventory: detail that doesn't survive at that size was below the high-level
+picture and lives in the diff.
 
 Why the change exists is whatever is honest. Often that's a defect or a gap. Just
 as often it's planned work landing as planned, and then the opening says where the
@@ -195,6 +194,13 @@ an argument for a fifth. What fills a draft past the cap: per-file narration,
 intermediate steps and "added a test for it"; process meta; benefit padding; and
 the linked issue's own symptom and repro re-filed here, which `Closes #N` already
 points at.
+
+**A trap for whoever edits the area next is not part of the record either.** The
+log answers what changed and why; nobody opens a squash message to learn which
+files a render step hashes. A constraint that has to be obeyed goes where the
+person about to break it is already looking — a `.claude/rules/` file, or a
+docstring on the thing itself — unless the change _is_ that the constraint now
+exists. A "things to know when editing here" paragraph is the tell.
 
 This is `@.claude/skills/tighten-docs/SKILL.md`'s **Lens A (existence)** and
 **Lens C (bloat)** applied to a commit body. Only its Lens B (narration) is
@@ -228,6 +234,13 @@ and a project whose release bodies genuinely outgrow 50 lines edits its own copy
 of `scripts/check-squash-message.sh` — raising the constant, or teaching the
 script to recognize a release first and widen only there — as a reviewable
 change.
+
+**A re-run rewrites; it never accretes.** Step 2 starts from what the file
+already says, so the temptation on a refresh is to append the new scope and
+leave the rest — which walks the body past the cap one push at a time and leaves
+superseded wording beside what replaced it. Cut and replace, and re-apply the
+cap to the whole body on every run. A proposal that grew every time the branch
+did is the tell.
 
 Overwrite the file with the tightened version, then **measure it**:
 

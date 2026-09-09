@@ -59,7 +59,9 @@ import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
 // `shared`, and from its own slice. See .claude/rules/fsd.md.
 const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
-const PUBLIC_API = 'index.ts';
+// A closed list, so any other `index.*.ts` is still reaching into internals.
+// See .claude/rules/fsd.md.
+const PUBLIC_API = ['index.ts', 'index.server-only.ts'];
 
 // Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
 // discipline at CLI time; boundaries restates them as inline editor feedback,
@@ -252,14 +254,14 @@ const eslintConfig = defineConfig([
       ...vovaRules,
     },
   },
-  // The site root is served at `/` with no locale segment — only `[locale]/cv/`
-  // is localized — so its copy is authored in English in the JSX and there is no
-  // `ru` rendering for a literal to defeat. The exemption spans the whole slice
-  // because the page is composed from one section component per topic. Drop this
-  // if the root page is ever localized; the rule stays `error` everywhere else,
-  // including every component the CV renders.
+  // These pages are served at one address in one language — the CV is the only
+  // localized route — so their copy is authored in English in the JSX and there
+  // is no `ru` rendering for a literal to defeat. The exemption spans each whole
+  // slice because a page is composed from one section component per topic. Drop
+  // a slice from the list if its page is ever localized; the rule stays `error`
+  // everywhere else, including every component the CV renders.
   {
-    files: ['src/pages/home/ui/**/*.tsx'],
+    files: ['src/pages/{home,writing,music}/ui/**/*.tsx'],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.

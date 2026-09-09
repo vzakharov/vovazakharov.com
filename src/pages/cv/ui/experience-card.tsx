@@ -1,9 +1,12 @@
 import { Text, Title } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
+import { TECH_STACKS } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import { Card, InternalLink } from '@/shared/ui';
+import type { WithOptionalCaseStudyHref } from '@/shared/typings';
+import { Card } from '@/shared/ui';
 
+import { CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { type BulletItem, CvBullets } from './cv-bullets';
 
@@ -20,18 +23,14 @@ export const EXPERIENCE_KEYS = [
   'voicemod',
 ] as const;
 
-type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
+export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
-/**
- * Which entry the featured case study documents — in code for the same reason
- * the order is. The route file's `FEATURED_CASE_STUDY` owns the slug itself.
- */
-export const CASE_STUDY_EXPERIENCE_KEY = 'playgram' satisfies ExperienceKey;
+/** Not every entry carries a stack line, and the annotation is what holds the
+ *  registry's keys to ones the CV renders. */
+const ENTRY_TECH_STACKS: Partial<Record<ExperienceKey, string>> = TECH_STACKS;
 
-type ExperienceCardProps = {
+type ExperienceCardProps = WithOptionalCaseStudyHref & {
   entryKey: ExperienceKey;
-  /** Renders the case-study link; given only for `CASE_STUDY_EXPERIENCE_KEY`. */
-  caseStudyHref?: string;
 };
 
 export function ExperienceCard({
@@ -43,9 +42,8 @@ export function ExperienceCard({
   const { cv } = useMessages();
   const entry = cv.experience[entryKey];
   const items: BulletItem[] = entry.items;
-  const hasTech = 'tech' in entry;
+  const tech = ENTRY_TECH_STACKS[entryKey];
   const hasNote = 'demo' in entry;
-  const caseStudyLabel = cv.caseStudies[CASE_STUDY_EXPERIENCE_KEY].link;
 
   return (
     <Card>
@@ -59,32 +57,15 @@ export function ExperienceCard({
       >
         {entry.period}
       </Title>
-      {caseStudyHref !== undefined && (
-        <Text className={classes['caseStudyLine']}>
-          <InternalLink href={caseStudyHref} className="print-hidden" inherit>
-            {caseStudyLabel}
-          </InternalLink>
-          {/* A printed page can only be followed by hand, so paper puts the
-              link on the address the reader has to type. */}
-          <span className={classes['printLink']}>
-            {caseStudyLabel}
-            {': '}
-            {/* One text node, not two: a PDF gets a link annotation per node,
-                and the first is placed over whatever precedes the anchor. */}
-            <InternalLink href={caseStudyHref} inherit>
-              {`${cv.website}${caseStudyHref}`}
-            </InternalLink>
-          </span>
-        </Text>
-      )}
+      {caseStudyHref !== undefined && <CaseStudyLink href={caseStudyHref} />}
       {'description' in entry && (
         <Text className={classes['tight']}>{entry.description}</Text>
       )}
       {'intro' in entry && (
         <Text className={classes['tight']}>{entry.intro}</Text>
       )}
-      <CvBullets {...{ items }} last={!hasTech && !hasNote} />
-      {hasTech && (
+      <CvBullets {...{ items }} last={tech === undefined && !hasNote} />
+      {tech !== undefined && (
         <Text
           ff="monospace"
           className={cx(
@@ -93,7 +74,7 @@ export function ExperienceCard({
             hasNote && classes['tightHeading'],
           )}
         >
-          {entry.tech}
+          {tech}
         </Text>
       )}
       {hasNote && (

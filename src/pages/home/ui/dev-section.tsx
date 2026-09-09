@@ -1,136 +1,157 @@
-import { List, ListItem, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import {
+  Anchor,
+  Group,
+  List,
+  ListItem,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
+import Image from 'next/image';
 
-import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
-import { Card, InternalLink } from '@/shared/ui';
+import { TECH_STACKS } from '@/shared/config';
+import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
+import type { TitledBlock } from '@/shared/typings';
+import { Card, InternalButton, Section, Subheading } from '@/shared/ui';
 
-import classes from './dev-section.module.scss';
 import { ProjectCard } from './project-card';
-import { Section, Subheading } from './section';
+import { TechLine } from './tech-line';
 
-export async function DevSection() {
-  // Titles come from the documents themselves, so a renamed piece cannot drift.
-  const caseStudies = await renderPrimaryDocuments('case-studies');
+/** Projects the grid names rather than cards, each a thing a big player later shipped as a standard. */
+const EARLIER_PROJECTS = [
+  { name: 'write', gloss: 'a BYOK AI-first text processor' },
+  { name: 'mindy', gloss: 'ChatGPT before ChatGPT' },
+  { name: 'ideality-nuxt', gloss: 'no-code AI widgets' },
+];
 
+type HighlightCardProps = TitledBlock & {
+  /** Basename under `public/logos/`. */
+  logo: string;
+  tech: string;
+};
+
+/** The section's call to action, above the projects and again after them. */
+function ReadCvButton() {
+  return (
+    <Group>
+      <InternalButton href="/cv" variant="default" size="md">
+        Read full CV
+      </InternalButton>
+    </Group>
+  );
+}
+
+function HighlightCard({ logo, title, tech, children }: HighlightCardProps) {
+  return (
+    <Card>
+      <Group gap={12} mb={8} wrap="nowrap">
+        <Image
+          src={`/logos/${logo}.png`}
+          alt=""
+          width={28}
+          height={28}
+          style={{ borderRadius: 6 }}
+        />
+        <Title order={4}>{title}</Title>
+      </Group>
+      {children}
+      <TechLine>{tech}</TechLine>
+    </Card>
+  );
+}
+
+export function DevSection() {
   return (
     <Section id="dev">
-      <Stack gap={24}>
+      <Stack gap={24} align="flex-start">
         <Text size="lg" lh={1.625}>
           I build stuff, and here’s what you’ll find: stuff that works, stuff
           that doesn’t, and stuff that’s still a work in progress.
         </Text>
         <Text size="lg" lh={1.625}>
-          I’m currently looking for new challenges, so have a look at my{' '}
-          <InternalLink href="/cv" inherit>
-            CV
-          </InternalLink>{' '}
-          if you’re looking for new people.
+          These days I’m looking for a hands-on CTO position — taking an idea to
+          production, or putting a team that already exists onto agent rails.
         </Text>
-      </Stack>
-
-      <Subheading>Case studies</Subheading>
-
-      <Stack gap={16}>
-        {caseStudies.map(({ document, rendered }) => (
-          <InternalLink
-            key={document.slug}
-            href={document.route}
-            underline="never"
-            c="inherit"
-            display="block"
-            className={classes['caseStudyLink']}
-          >
-            <Card>
-              <Title order={4} mb={8}>
-                {rendered.title}
-              </Title>
-              <Text lh={1.625}>{document.frontmatter.description}</Text>
-            </Card>
-          </InternalLink>
-        ))}
-        <Text size="sm">
-          <InternalLink href={collectionRoute('case-studies')} inherit>
-            All case studies, including the shorter cuts →
-          </InternalLink>
-        </Text>
+        <ReadCvButton />
       </Stack>
 
       <Subheading>Featured Projects</Subheading>
 
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
         <ProjectCard
+          title="Playgram.ai"
+          description="A live, feature-rich AI chat product lifted off a no-code builder into a production Next.js codebase in 158 days, and in production for its users the whole way through."
+          techStack={TECH_STACKS.playgram}
+          url="https://playgram.ai"
+          caseStudyHref={FEATURED_CASE_STUDY_ROUTE}
+        />
+
+        <ProjectCard
+          title="agent-project-boilerplate"
+          description="The engineering platform that rebuild ran on, extracted so it travels: the architecture, the staged pipeline and the pre-push gate, ready to carry onto my — or anyone’s — next project."
+          techStack="agentic development, project templating, open source"
+          url="https://github.com/vzakharov/agent-project-boilerplate"
+        />
+
+        <ProjectCard
           title="jukebox-webui"
           stars={84}
-          description="Google Colab-backed Web UI for OpenAI's Jukebox music generation model. Democratized access to computationally expensive AI music generation with Gradio interface."
-          techStack="Python, Gradio, Google Colab"
+          description="Suno before Suno: running OpenAI's music model in Google Colab back when there was no product to use instead."
+          techStack="Python, Gradio, Google Colab, open source"
           url="https://github.com/vzakharov/jukebox-webui"
         />
 
         <ProjectCard
           title="almostmagic"
           stars={65}
-          description="Add AI to your app with one line of code. Lightweight TypeScript wrapper that abstracts prompt engineering complexity with single-function API."
-          techStack="TypeScript, OpenAI API"
+          description="Structured generation before it was a feature — typed output from a single call, years before every SDK shipped its own version of it."
+          techStack="TypeScript, OpenAI API, npm package, open source"
           url="https://github.com/losideadores/almostmagic"
-        />
-
-        <ProjectCard
-          title="write"
-          description="One of the first text processors with fully configurable LLM provider integration. Way ahead of its time, even if I was the only one using it."
-          techStack="Vue, TypeScript"
-          url="https://github.com/vzakharov/write"
-        />
-
-        <ProjectCard
-          title="mindy"
-          description="Group AI chatbot. ChatGPT before ChatGPT."
-          techStack="Nuxt.js, Vue.js, Vuex"
-          url="https://github.com/vzakharov/mindy"
-        />
-
-        <ProjectCard
-          title="ollum"
-          description="Evolution-inspired LLM framework where models act as both creators AND critics. Seeding → Elo-style evaluation → mutation → crossover for iterative content evolution."
-          techStack="Python, async-first"
-          url="https://github.com/vzakharov/ollum"
-        />
-
-        <ProjectCard
-          title="sympathico"
-          description="Experimental neural networks without traditional weight matrices or backpropagation. Networks as 'colonies of symbolic paths' using evolutionary principles."
-          techStack="Python"
-          url="https://github.com/vzakharov/sympathico"
-        />
-
-        <ProjectCard
-          title="komple"
-          stars={13}
-          description="AI autocomplete for any website. Press Ctrl+Space for suggestions in any text field. Chrome extension with multiple API endpoint support."
-          techStack="JavaScript, Vue.js, BPE encoder"
-          url="https://github.com/vzakharov/komple"
-        />
-
-        <ProjectCard
-          title="ideality-nuxt"
-          description="AI ideation platform allowing creation of no-code widgets for one-click AI generations (copy, ideas, etc.) embeddable on any website. Configurable by users."
-          techStack="Nuxt.js, Vue.js, Bubble backend"
-          url="https://github.com/vzakharov/ideality-nuxt"
-        />
-
-        <ProjectCard
-          title="suno-power-tools"
-          description="Collection of in-browser-console tools for Suno. Includes tree-structure display for visualizing clip relationships, extensions, and inpaintings."
-          techStack="HTML, JavaScript"
-          url="https://github.com/vzakharov/suno-power-tools"
         />
       </SimpleGrid>
 
-      <Subheading>Professional Work</Subheading>
+      <Text size="sm" opacity={0.7}>
+        Same pattern, earlier:{' '}
+        {EARLIER_PROJECTS.map(({ name, gloss }, index) => (
+          <span key={name}>
+            {index > 0 && ', '}
+            <Anchor
+              href={`https://github.com/vzakharov/${name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              inherit
+            >
+              {name}
+            </Anchor>{' '}
+            ({gloss})
+          </span>
+        ))}
+        .
+      </Text>
+
+      <Subheading>Work Highlights</Subheading>
 
       <Stack gap={16}>
-        <Card>
-          <Title order={4} mb={8}>
-            DDB / randddb.com (2023-2025)
-          </Title>
+        <HighlightCard
+          logo="playgram"
+          title="Playgram (March–August 2026)"
+          tech={TECH_STACKS.playgram}
+        >
+          <Text mb={12}>
+            Rebuilt a live AI chat product from Bubble into production Next.js
+            16 in 158 days: 250,000 lines of TypeScript, none of it
+            hand-written, up to 20 agents working at once, a deploy every 2.4
+            days. Reviewed and mentored three engineers on the platform, which
+            they run today without me.
+          </Text>
+        </HighlightCard>
+
+        <HighlightCard
+          logo="ddb"
+          title="DDB / randddb.com (2023-2025)"
+          tech={TECH_STACKS.randddb}
+        >
           <Text mb={12}>
             Experimental AI platform at one of the world’s largest ad firms.
             Built enterprise-scale suite:
@@ -157,39 +178,22 @@ export async function DevSection() {
               clients
             </ListItem>
           </List>
-          <Text size="sm" ff="monospace" opacity={0.6}>
-            Django + PostgreSQL, Vue + TypeScript
-          </Text>
-        </Card>
+        </HighlightCard>
 
-        <Card>
-          <Title order={4} mb={8}>
-            Orcool (June-August 2025)
-          </Title>
+        <HighlightCard
+          logo="orcool"
+          title="Orcool (June-August 2025)"
+          tech={TECH_STACKS.orcool}
+        >
           <Text mb={12}>
             AI-agent-based review intelligence tool for brand marketing. Built
             end-to-end: automated review collection → AI summarization (SWOT,
             competitive positioning) → SaaS platform.
           </Text>
-          <Text size="sm" ff="monospace" opacity={0.6}>
-            Next.js/NestJS, Cloudflare Workers, Firebase
-          </Text>
-        </Card>
-
-        <Card>
-          <Title order={4} mb={8}>
-            Voicemod (2023)
-          </Title>
-          <Text mb={12}>
-            Prototyper for Experience & Innovation. Built YAML-powered Discord
-            bot framework for zero-code bot creation and local Python web API
-            with ChatGPT interface.
-          </Text>
-          <Text size="sm" ff="monospace" opacity={0.6}>
-            Python, YAML, Discord API
-          </Text>
-        </Card>
+        </HighlightCard>
       </Stack>
+
+      <ReadCvButton />
     </Section>
   );
 }
