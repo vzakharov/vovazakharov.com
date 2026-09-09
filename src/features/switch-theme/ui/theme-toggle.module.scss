@@ -5,9 +5,8 @@
 // `ColorSchemeScript` sets `data-mantine-color-scheme` inside `<head>`, so the
 // survivor is painted on the first frame instead.
 
-// The toggle is page furniture rather than content, so it rests as grey at a
-// fraction of the foreground and comes up to full on hover — the inverse of
-// `.hover-dim`, which dims things that read at full strength to begin with.
+// The inverse of the site's `.hover-dim`: this is page furniture rather than
+// content, so it rests below full strength and comes up on hover, not down.
 .toggle {
   opacity: 0.45;
 
