@@ -18,9 +18,9 @@ export type ConstructMetadataParams = MaybeTitled &
      */
     canonical?: string;
     /**
-     * Site-root paths of this page's translations, keyed by BCP-47 tag (plus
-     * `x-default`). Nothing else tells a crawler that two addresses are the
-     * same page in different languages.
+     * Site-root paths of this page's translations, by BCP-47 tag (or
+     * `x-default`). Nothing else marks two addresses as one page in two
+     * languages.
      */
     languages?: Record<string, string>;
     ogType?: 'website' | 'profile' | 'article';

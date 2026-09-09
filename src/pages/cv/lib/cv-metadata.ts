@@ -12,10 +12,8 @@ import type { CvVariant } from './cv-variants';
  * framing and the language. `path` is the rung actually being served, so each
  * still advertises itself as its own `og:url`.
  *
- * The same framing in the other language is a translation, not a duplicate, so
- * every rung also lists both twins as `hreflang` alternates. With the locale
- * carried as a trailing segment, a crawler has nothing else to read the
- * language off.
+ * The `hreflang` alternates are load-bearing rather than belt-and-braces: with
+ * the locale in a trailing segment, nothing else in a CV URL names its language.
  */
 export function generateCvMetadata(
   locale: Locale,
