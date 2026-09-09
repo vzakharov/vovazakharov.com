@@ -200,6 +200,44 @@ deleted. The reply asked for the content to become a rule, not for the argument
 to be re-made, and one pass over the four found the gap in a minute. An account
 that would have been checked in a minute is the kind that never is.
 
+## It edits the copy in front of it, not the fact behind it (×3)
+
+A change the agent is told to make, it makes where it was raised. One fact
+rendered in three places gets one rendering updated; a rule fixed in the repo
+that adopted it leaves the source it came from carrying the cause; a test written
+into a file is run against the one entry under discussion. Nothing catches the
+split — every site still reads correctly on its own, and the divergence exists
+only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders on
+the home page's project card, on its work-highlight card, and in the CV's
+experience entry. Told to put Supabase and Railway in it, the agent edited the
+project card and left the other two reading _Next.js 16, TypeScript,
+feature-sliced design, Claude Code_ — having authored all three itself, in the
+same branch, hours earlier. Two neighbours had drifted the same way: the CV
+credited Orcool with a custom LLM orchestration framework that neither home card
+mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
+other. The reply was one line — _the tech stack lines should be the same (and
+DRY)_ — and it named a defect no screenshot of any single page could show,
+because each page was right.
+
+**9 September — the rule fixed in the copy, not in the source.** Told a squash
+body has no business carrying a "things to know when editing here" paragraph,
+the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
+the round as closed. That skill is adopted from a boilerplate repo — named by
+line in `.claude/skills/sync-agent-boilerplate/source.json` — whose copy still
+asks the pass for "anything that would trip someone editing that area later".
+The clause that licensed the paragraph is upstream, so the same body gets written
+there next month. The reply was _let's file an issue on the boilerplate repo_.
+Whether to file was the operator's call; that the fix had a second site was not.
+
+**9 September — a test written and not run over the file it was for.** The same
+round added the test above to this file — a bump is something the agent could
+have seen and didn't — and ran it against exactly the entry under discussion,
+retiring one. Ten sections sat above it unexamined, in the file the test had been
+written about. The reply was one line: _do the other learnings here de-qualify
+per this lens? edit if yes_. One did.
+
 ## A published number is not a verified number (×2)
 
 A figure already in print reads as settled, so the agent stops at it. The person
@@ -302,25 +340,6 @@ tally that is a description of work already done rather than anything on sale �
 _it's not always nine_, and _no need, it's not an "offer"_. The case study
 states them as measurements, which is the genre they are true in.
 
-## It edits the copy in front of it, not the fact behind it (×1)
-
-A value the agent is told to change is a value it can see, so it changes the one
-on the screen. One fact rendered in three places gets one rendering updated, and
-nothing catches the split: every site still reads correctly on its own, and the
-divergence exists only between them.
-
-**8 September — one stack, three spellings.** Playgram's tech line renders on
-the home page's project card, on its work-highlight card, and in the CV's
-experience entry. Told to put Supabase and Railway in it, the agent edited the
-project card and left the other two reading _Next.js 16, TypeScript,
-feature-sliced design, Claude Code_ — having authored all three itself, in the
-same branch, hours earlier. Two neighbours had drifted the same way: the CV
-credited Orcool with a custom LLM orchestration framework that neither home card
-mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
-other. The reply was one line — _the tech stack lines should be the same (and
-DRY)_ — and it named a defect no screenshot of any single page could show,
-because each page was right.
-
 ## Not bumps
 
 The agent flagged rather than silently fixed two words missing from text the
@@ -346,7 +365,7 @@ named, real or not, has no evidence in one overruled taste call.
 
 ## The two families
 
-Eight reviews is not a pattern, but the ten learnings already fall in two
+Nine reviews is not a pattern, but the ten learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
