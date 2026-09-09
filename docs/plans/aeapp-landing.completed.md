@@ -297,8 +297,18 @@ grandchild of the boilerplate rather than a sibling.
 ## Phase 1 — Bootstrap
 
 The deliverable is a new repository the operator can immediately `/handle` into.
-That requires the branch there to carry the agent infrastructure — a `/handle`
-session cannot load `.claude/skills/handle/SKILL.md` if it is not on the branch.
+That requires the agent infrastructure to be there already — a `/handle` session
+cannot load `.claude/skills/handle/SKILL.md` if it is not on the branch it
+attaches to.
+
+**The infrastructure goes on `main`, not on the feature branch**, so every
+branch cut there afterwards inherits the loop rather than only the seeded one,
+and so the seed PR's diff is the site rather than a hundred files that were
+already reviewed here. Where that line falls is settled by closure rather than
+taste: `check-skill-catalog.sh` fails on a dangling `@.claude/skills/…`
+reference, and the transitive closure of `/handle` reaches nearly the whole
+skill set — so "the skills needed to run the loop" is "all of them", and
+infrastructure-vs-project is the only clean cut left.
 
 **Phase 1 runs in the planning session itself**, on the go-ahead, rather than in
 a fresh `/go` one. It is repository plumbing, not implementation: it writes no
@@ -316,24 +326,24 @@ Nothing here touches this site. The only marks Phase 1 leaves on
    by the session's repo scope, ask the operator to create the empty repo. Then
    `add_repo` with `access: "push"` + clone it — a read-scoped attach cannot push
    the branch this phase exists to produce.
-2. **`main` gets one empty commit** — `git commit --allow-empty -m "chore: initial commit"`.
-3. **Branch `claude/aeapp-landing-l7d745`** — the same slug and suffix as this
-   branch, so the lineage is readable from the name.
-4. **Commit the agent infrastructure onto it**: `.claude/` (all eighteen skills,
-   the four rule files, hook, settings), `scripts/`, the rewritten `CLAUDE.md`,
-   `README.md`, `src/README.md`, `.gitignore`, `.gitattributes`,
-   `.prettierrc.json`, `.prettierignore`, `.vscode/settings.json`. Run
-   `bash scripts/check-skill-catalog.sh` — a skill cross-reference pointing at a
-   file that did not come along fails **silently**.
-5. **Commit this plan as `docs/plans/aeapp-landing.paused.md`**, banner removed,
-   with a "what is done / what is left" note naming Phase 2 as the remainder.
-   `/handle`'s plan lane fires on `*.paused.md`, and `/go` Step 1 resumes from
-   it.
-6. **Open the draft PR there and post the squash proposal** (`/pr`, which
+2. **`main` gets one commit — the agent infrastructure**: `.claude/` (all
+   eighteen skills, the four rule files, hook, settings), `scripts/`, the
+   rewritten `CLAUDE.md`, `README.md`, `src/README.md`, `.gitignore`,
+   `.gitattributes`, `.prettierrc.json`, `.prettierignore`,
+   `.vscode/settings.json`. Nothing project-specific. Run
+   `bash scripts/check-skill-catalog.sh` there — a skill cross-reference
+   pointing at a file that did not come along fails **silently**.
+3. **Branch `claude/aeapp-landing-l7d745`** off it — the same slug and suffix as
+   this branch, so the lineage is readable from the name.
+4. **Commit this plan onto the branch as `docs/plans/aeapp-landing.paused.md`**,
+   banner removed, with a "what is done / what is left" note naming Phase 2 as
+   the remainder. `/handle`'s plan lane fires on `*.paused.md`, and `/go` Step 1
+   resumes from it.
+5. **Open the draft PR there and post the squash proposal** (`/pr`, which
    delegates to `/squash-message`), so the new repo's PR carries the same
    furniture this one does. The proposal is for the whole landing — a `feat:`,
    since that is what will eventually publish.
-7. **Close PR #38 here unmerged**, with a comment linking the new repo's PR, and
+6. **Close PR #38 here unmerged**, with a comment linking the new repo's PR, and
    leave this branch for the record.
 
 Phase 1 deliberately stops before `package.json`. The scaffolding is the first
