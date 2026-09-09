@@ -68,18 +68,8 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
     <Box className={classes['page']}>
       <Container size={896} px={0} className={classes['container']}>
         <Stack className={classes['pageSections']}>
-          <Group
-            justify="space-between"
-            align="center"
-            wrap="wrap"
-            gap={16}
-            className="print-hidden"
-          >
-            <LocalePicker {...{ variant }} />
-            <Group gap={8} align="center">
-              <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
-              <ThemeToggle />
-            </Group>
+          <Group justify="flex-end" className="print-hidden">
+            <ThemeToggle />
           </Group>
 
           <Box component="header" ta="center" className={classes['header']}>
@@ -99,6 +89,19 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
               </Text>
             </Stack>
           </Box>
+
+          {/* Below the hero, as the article offers its cuts and files: the row
+              acts on the document, so it sits with it rather than above it. */}
+          <Group
+            justify="space-between"
+            align="center"
+            wrap="wrap"
+            gap={16}
+            className="print-hidden"
+          >
+            <LocalePicker {...{ variant }} />
+            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+          </Group>
 
           <CvSection title={t('profile.title')}>
             <Card>

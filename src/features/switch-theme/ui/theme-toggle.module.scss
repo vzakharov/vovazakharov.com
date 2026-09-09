@@ -1,18 +1,25 @@
 @use '../../../../styles/mantine' as mantine;
 
-// Both icons are rendered and CSS picks one, because the export is static: an
-// icon chosen from React state would be the light-scheme icon in every
-// prerendered page until hydration. `ColorSchemeScript` sets
-// `data-mantine-color-scheme` from inside `<head>`, so the surviving icon is
-// the one painted on the first frame.
+// Both icons render and CSS picks one, because the export is static: an icon
+// chosen from React state would be the light-scheme icon in every prerendered
+// page until hydration. `ColorSchemeScript` sets `data-mantine-color-scheme`
+// from inside `<head>`, so the surviving icon is the one painted on the first
+// frame — no placeholder, no pop.
+
+// Light is the base and only `dark` is keyed, so a document that never got the
+// attribute shows one icon rather than both.
 .whenLight {
+  display: block;
+
   @include mantine.dark {
     display: none;
   }
 }
 
 .whenDark {
-  @include mantine.light {
-    display: none;
+  display: none;
+
+  @include mantine.dark {
+    display: block;
   }
 }
