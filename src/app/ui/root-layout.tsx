@@ -30,8 +30,9 @@ const jetbrainsMono = JetBrains_Mono({
  */
 export const rootMetadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
-  title: SITE_CONFIG.name,
-  ...constructMetadata(),
+  // Through the helper, not beside it: the spread carries every key the
+  // helper knows, so a `title` set here would be overwritten with undefined.
+  ...constructMetadata({ title: SITE_CONFIG.name }),
 };
 
 export function RootLayout({
