@@ -4,17 +4,24 @@
 
 Ship the page drafted at
 `vzakharov/leisan-psy-work@local:work/ассоциация/Лендинг — бесплатные консультации.html`
-as a static GitHub Pages site, in a **new repository** built on the
+as a static GitHub Pages site, in a **new private repository** built on the
 architectural decisions this repo (`vzakharov/vovazakharov.com`) already made —
 while pointing its agent-infrastructure watermark at
 `vzakharov/agent-project-boilerplate` rather than at this repo.
+
+The work runs in two sessions, and this plan travels between them:
+
+1. **Bootstrap**, from this branch — create the repo, seed it with the agent
+   infrastructure, and leave a paused copy of this plan on a branch there with
+   its own draft PR.
+2. **Build**, from `/handle` in the new repo — everything below "Phase 2".
 
 ## What the source draft is
 
 A single self-contained HTML fragment (no `<html>`/`<head>`/`<body>`): a
 `<title>`, a Google-Fonts `<link>` (Prata + Golos Text), one `<style>` block of
 ~360 lines, and the markup. It is design-complete and copy-complete except for
-three bracketed placeholders (see "Unresolved content" below). Its structure:
+three bracketed placeholders. Its structure:
 
 | Block                  | Content                                                                                                        |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -32,11 +39,13 @@ Two properties of the draft decide most of what follows:
   properties (`--ground`, `--surface`, `--ink`, `--muted`, `--faint`, `--line`,
   `--line-soft`, `--accent`, `--accent-hover`, `--accent-soft`, `--on-accent`)
   declared three times: `:root`, `@media (prefers-color-scheme: dark)` guarded
-  by `:root:not([data-theme="light"])`, and `:root[data-theme="dark"]`. That is
-  exactly the shape `styles/_tokens.scss` generates here, and exactly the shape
-  a `data-theme` toggle needs.
+  by `:root:not([data-theme="light"])`, and `:root[data-theme="dark"]`. The
+  first two carry over; the third goes with the theme toggle.
 - **It uses no components.** Every element is bespoke CSS. Nothing in it asks
   for a component library.
+
+Its `<title>` ("Три бесплатные встречи") deliberately differs from its `h1`
+("Бесплатные психологические консультации"); both are kept as written.
 
 ## Target architecture
 
@@ -48,38 +57,56 @@ answers to _this_ site's problems dropped. Kept, dropped, and why:
 | Next.js 16 App Router, `output: 'export'`, React 19, pnpm                           | keep                                        | The constraint is identical — HTML on a CDN, no server.                                                                        |
 | GitHub Pages via `deploy.yml`, with the `feat:`/`fix:` subject gate                 | keep                                        | Merge _is_ deploy; the gate keeps a `docs:` merge from spending one.                                                           |
 | Feature-Sliced Design under `src/`, root `app/` as routing only, shadow `pages/`    | keep                                        | Costs a directory layout and buys two enforced checkers. Cheap at any size.                                                    |
-| Sass partials + `pnpm styles:codegen` generating `_tokens.scss`/`_breakpoints.scss` | keep                                        | The draft's eleven tokens become the `CSS_COLORS` array; the three palettes become three `@include tokens.colors(…)` calls.    |
+| Sass partials + `pnpm styles:codegen` generating `_tokens.scss`/`_breakpoints.scss` | keep                                        | The draft's eleven tokens become the `CSS_COLORS` array; its two palettes become two `@include tokens.colors(…)` calls.        |
 | stylelint with `declaration-no-important`                                           | keep                                        | Holds without Mantine too — nothing is layered, so nothing needs to out-rank a layer.                                          |
-| Custom `eslint/` ruleset, including `vova/no-hardcoded-strings`                     | keep                                        | The page _is_ copy; a rule that keeps copy out of components earns more on a landing page than it does here.                   |
+| Custom `eslint/` ruleset, including `vova/no-hardcoded-strings`                     | keep                                        | The page _is_ copy, and the copy will keep changing; a rule keeping it out of components earns more there than it does here.   |
 | next-intl                                                                           | keep, single `ru` locale, no locale routing | Buys the message catalogue (one JSON file a non-developer can edit) and the lint rule above. Locale routing is not configured. |
 | `pnpm type-overlap`, `pnpm test` (Node's runner), `vet.sh` + `run-parallel.sh`      | keep                                        | Straight ports.                                                                                                                |
 | Committed OG render + manifest hash check                                           | keep                                        | The page will be shared in Telegram/WhatsApp/VK; the card is the first impression. See "Social card".                          |
-| **Mantine 9**                                                                       | **drop**                                    | See below.                                                                                                                     |
+| **Mantine 9**                                                                       | **drop**                                    | See "Styling" below.                                                                                                           |
+| **Colour-scheme toggle** (`features/switch-theme`)                                  | **drop**                                    | Not wanted. Dark mode stays as `prefers-color-scheme` alone, which is a media query and no JavaScript.                         |
 | Markdown content pipeline (`shared/content`, Shiki, Mermaid, `content:pdf`)         | drop                                        | Nothing here is authored as markdown.                                                                                          |
 | `.claude/rules/content.md`, `logos.md`, `writing.md`; `writing/`                    | drop                                        | They scope directories the new repo does not have.                                                                             |
 
-### Dropping Mantine
+### Styling
 
-Mantine earns its place here by rendering components. The draft renders none —
-its entire surface is eleven tokens, two fonts and hand-written CSS. Bringing it
-in would add a client bundle to a conversion-critical landing page, and would
-import a whole rule file (`.claude/rules/styling.md`) whose subject matter is
-_working around Mantine's layering and inline styles_: the `@layer mantine`
-import, what a stylesheet cannot reach, `theme.white`/`theme.black` being bound
-to tokens Mantine does not know about, `Typography` not being a substitute for
-`prose.scss`. None of that has anything to teach a repo that isn't using it.
+Mantine earns its place here by rendering components and by managing the colour
+scheme. The draft renders no components, and the colour scheme is now a media
+query — so nothing is left for it to do, and the rule file that travels with it
+(`.claude/rules/styling.md`) is almost entirely about working around its
+layering and its inline styles. It is not the styling mechanism in either
+version of this plan; **Sass CSS Modules are**, and they carry over intact:
 
-What Mantine provides that the new repo still needs is **colour-scheme
-management** — a persisted user choice, applied before first paint. That is one
-`features/switch-theme` slice: a client toggle writing `data-theme` to
-`document.documentElement` and `localStorage`, plus a small blocking script in
-`<head>` that reads the stored value so the page never flashes the wrong scheme.
-The draft's CSS is already written against exactly that attribute.
+- **One `.module.scss` per component**, co-located, scoped by Next and typed by
+  `css.d.ts`. Plain `.scss` for the two global sheets.
+- **`styles/_tokens.scss` is generated** from `CSS_COLORS` in
+  `src/shared/ui/css-color.ts` by `pnpm styles:codegen`. It emits
+  `@mixin colors($ground, $surface, $ink, …)`, and `globals.scss` calls it
+  twice: on `:root`, and inside `@media (prefers-color-scheme: dark)`. Adding a
+  token is one edit in TypeScript, and a palette that then fails to pass it
+  fails the Sass build rather than defaulting.
+- **`styles/_breakpoints.scss` is generated** from
+  `src/app/styles/breakpoints.ts` — a media-query condition cannot read a custom
+  property, so Sass needs the numbers as literals. `styles/_mixins.scss` carries
+  `smaller-than()` / `larger-than()` over that scale: this repo's
+  `_mantine.scss` with the Mantine half removed.
+- **No colour literal in a component.** `cssColor('accent')` returns
+  `var(--color-accent)` and is the only way TSX names a colour; stylesheets
+  write the `var()` directly. `globals.scss` also carries the reset and the
+  element defaults the draft sets on `body` and `a`.
+- **stylelint** (`stylelint-config-standard-scss`) over `.css`/`.scss`, with
+  `declaration-no-important`: nothing is layered, so nothing needs `!important`,
+  and reaching for one means a value belongs in a module rather than a call
+  site.
+- **Fonts through `next/font/google`**, exposed as `--font-display` (Prata) and
+  `--font-body` (Golos Text 400/500/600) on `<html>`.
 
-The new repo therefore keeps a `.claude/rules/styling.md` of its own, carrying
-the parts that survive: the Sass-partial layout, the codegen table, colour
-literals banned from components in favour of `cssColor()`, and the
-`:where()`-cannot-be-split trap.
+No CSS-in-JS, no utility framework, no runtime theming. **The page ships zero
+client JavaScript** — a property worth stating as a target, since it is what
+makes the whole `features/` layer unnecessary.
+
+The new repo keeps a `.claude/rules/styling.md` of its own carrying exactly the
+above, plus the `:where()`-cannot-be-split-across-a-Sass-nesting-level trap.
 
 ### Repository layout
 
@@ -95,19 +122,21 @@ scripts/          vet.sh, run-parallel.sh, generate-styles.ts, render-og.ts,
                   export-github-item.py, gh_export/, lib/github.py, pr-body.py,
                   ci-watch-tick.sh, lib/watch-tick-common.sh,
                   type-overlap-check.ts + .README.md + .test.ts
-styles/           _mixins.scss (breakpoint helpers), _breakpoints.scss*, _tokens.scss*   (* generated)
+styles/           _mixins.scss, _breakpoints.scss*, _tokens.scss*        (* generated)
 src/
-  app/            lib/sitemap.ts · styles/{globals.scss,breakpoints.ts,fonts.ts} · ui/root-layout.tsx
-  features/       switch-theme/
+  app/            lib/sitemap.ts · styles/{globals.scss,breakpoints.ts} · ui/root-layout.tsx
   pages/          consultations/
   shared/         config/site-config.ts · i18n/ · seo/ · typings/ · ui/
 ```
 
+`features/`, `entities/` and `widgets/` are absent because nothing earns them —
+the same reason `entities/` and `widgets/` are absent here.
+
 The landing is `src/pages/consultations`, composed of one slice's worth of UI:
 `consultations-page.tsx` plus `top-bar`, `hero`, `facts`, `prose-section`,
 `pull-quote`, `signup-section`, `site-footer`, each with its `.module.scss`.
-They stay inside the slice rather than becoming shared or features, because
-each has exactly one consumer — Steiger's `insignificant-slice` says so.
+They stay inside the slice rather than becoming shared, because each has exactly
+one consumer — Steiger's `insignificant-slice` says so.
 
 `src/shared/ui` holds only what genuinely crosses: `css-color.ts` (the token
 array and `cssColor()`), `aeapp-mark.tsx` (the inline SVG), and `wrap.tsx` (the
@@ -115,26 +144,61 @@ array and `cssColor()`), `aeapp-mark.tsx` (the inline SVG), and `wrap.tsx` (the
 
 ### Copy, and the data behind it
 
-All Russian copy moves to `src/shared/i18n/messages/ru.json`, keyed by section.
-The two repeating structures become data in the slice's `lib/`, keyed into the
-catalogue rather than duplicated as markup:
+All Russian copy moves to `src/shared/i18n/messages/ru.json`, keyed by section —
+which is what keeps the copy edits that are still coming out of the components
+entirely. The two repeating structures become data in the slice's `lib/`, keyed
+into the catalogue rather than duplicated as markup:
 
 - `facts.ts` — four `{ value, label }` keys rendered by one `<Facts>`.
 - `sections.ts` — the four prose sections in order; the third names the
   pull-quote that interrupts it, so `<ProseSection>` stays one component.
 
-`site-config.ts` holds what is not copy: the canonical URL, the contact handle,
-and the signup-form URL.
+`site-config.ts` holds what is not copy — canonical URL, contact, the signup
+form URL and the "около N минут" figure — and is where the placeholders below
+carry their `// TODO`s, since JSON cannot hold a comment.
 
-### Fonts
+### The three placeholders
 
-Prata (display) and Golos Text 400/500/600 (body) load through
-`next/font/google`, which self-hosts them into the export. That replaces the
-draft's `<link>` to `fonts.googleapis.com`, removing a third-party request from
-a page about psychological help — a privacy improvement that also matters under
-152-ФЗ, and one fewer render-blocking round trip. Both faces are on Google
-Fonts; if Golos Text turns out not to be fetchable at build, fall back to
-self-hosting the woff2 under `public/` via `next/font/local`.
+The draft's bracketed placeholders resolve as follows, each with a `// TODO` in
+`site-config.ts` naming what it is waiting for:
+
+| Draft                                      | Ships as                                                                                 |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `[ЗДЕСЬ БУДЕТ АНКЕТА КЛИЕНТА]`             | The draft's own dashed `.placeholder` block, kept verbatim, until `signupFormUrl` is set |
+| `Занимает около [N] минут`                 | `signupFormMinutes: 5` in config, interpolated through the catalogue's ICU message       |
+| `Вопросы о проекте — [ПОЧТА ИЛИ ТЕЛЕГРАМ]` | `contact: 'info@example.org'` — visibly not real, so it cannot be mistaken for launched  |
+
+`signupFormUrl` is `null` for now. While it is, the signup section renders the
+dashed placeholder and no CTA; once set, the placeholder is replaced by a CTA
+linking out to the externally hosted form in a new tab. The form stays external:
+static export has no backend, an embedded third-party form breaks the page's
+scheme and typography, and the host carries the 152-ФЗ consent burden that an
+in-page form would put on this site.
+
+_Rejected for the signup section:_ an `<iframe>` embed (visual seam, third-party
+cookies) and an in-page form POSTing to Formspree or similar (needs a consent
+checkbox, a privacy notice and a paid dependency, for a form the association
+already has elsewhere).
+
+### Serving it
+
+The repo is **private**, and Pages is not enabled until the association is ready
+to serve. Two things follow:
+
+- **The deploy workflow ships with the build and deploy jobs gated on a repo
+  variable** — `if: vars.PAGES_ENABLED == 'true'`, alongside the existing
+  `feat:`/`fix:` subject gate. Without it every merge to `main` fails on a
+  Pages-not-enabled error; with it, CI stays green and launch is a variable
+  flip rather than a code change.
+- **`basePath` is empty and a custom domain is assumed**, per the decision to
+  serve from one. `public/CNAME` is written when the domain is known — see the
+  launch checklist.
+
+**Pages on a private repository requires GitHub Pro or above**, and even there
+the _published site_ is public; only Enterprise can restrict who reads it. So
+"private" protects the source before launch, not the site after it. If the
+account is on Free, the repo has to flip public at launch — which is fine, but
+it is a decision to make knowingly rather than discover.
 
 ### Social card
 
@@ -153,7 +217,8 @@ The `/og` route is excluded from `sitemap.ts` and `robots.ts`.
 `shared/seo/construct-metadata.ts` ports with the i18n-alternates branch
 removed: `<html lang="ru">`, title, description, canonical, OpenGraph and
 Twitter card pointing at `og.png`. Plus `Organization` JSON-LD naming the
-association, and a `sitemap.ts`/`robots.ts` pair.
+association, an `app/icon.svg` derived from the mark, and a
+`sitemap.ts`/`robots.ts` pair.
 
 ### Vetting
 
@@ -175,7 +240,9 @@ pnpm styles:codegen             # alone, second — it writes the two .scss file
 ```
 
 `pnpm content:pdf --check` and `content:mermaid` are gone with the content
-pipeline.
+pipeline. `pnpm test` carries the ported `type-overlap-check.test.ts` plus one
+new test: **the catalogue holds no bracketed placeholder**, which is the cheapest
+possible guard against shipping `[ПОЧТА ИЛИ ТЕЛЕГРАМ]` to a live page.
 
 ### Agent infrastructure and the boilerplate link
 
@@ -198,48 +265,85 @@ carries a note that the copy arrived via `vzakharov/vovazakharov.com`, and the
 `/propose-issue`, `/audit-github-backlog`, `docs/catalog.md`, `ADOPTING.md` all
 decline for the same reasons they decline here).
 
-**The cost of pointing past this repo** is that the adaptations made _here_ —
-notably the `vet.sh` rewrite for a Next/pnpm stack, which the new repo needs in
-almost the same form — will not flow forward on a sync; only the boilerplate's
-generic version will, and it will have to be re-adapted each time. Question 6
-offers the alternative.
+The accepted cost: the adaptations made _here_ — notably the `vet.sh` rewrite
+for a Next/pnpm stack, which the new repo needs in almost the same form — will
+not flow forward on a sync; only the boilerplate's generic version will, and it
+has to be re-adapted each time. _Rejected:_ pointing `source.json` at this repo
+instead, which would carry those adaptations forward but make the new repo a
+grandchild of the boilerplate rather than a sibling.
 
-## Work plan
+## Phase 1 — Bootstrap (this branch's `/go` session)
 
-1. **Create `vzakharov/aeapp-consultations`**, public, empty. Try
+The deliverable is a new repository the operator can immediately `/handle` into.
+That requires the branch there to carry the agent infrastructure — a `/handle`
+session cannot load `.claude/skills/handle/SKILL.md` if it is not on the branch.
+
+1. **Create `vzakharov/aeapp-consultations`, private, with no auto-init.** Try
    `mcp__github__create_repository`, then `gh repo create`; if both are refused
-   by the session's repo scope, ask the operator to create the empty repo and
-   push into it. Attach it with `add_repo`, clone it, and work there.
-2. **Scaffold.** `pnpm create next-app` is not used — the tree is assembled by
+   by the session's repo scope, ask the operator to create the empty repo. Then
+   `add_repo` + clone it.
+2. **`main` gets one empty commit** — `git commit --allow-empty -m "chore: initial commit"`.
+3. **Branch `claude/aeapp-landing-l7d745`** — the same slug and suffix as this
+   branch, so the lineage is readable from the name.
+4. **Commit the agent infrastructure onto it**: `.claude/` (all eighteen skills,
+   the four rule files, hook, settings), `scripts/`, the rewritten `CLAUDE.md`,
+   `README.md`, `src/README.md`, `.gitignore`, `.gitattributes`,
+   `.prettierrc.json`, `.prettierignore`, `.vscode/settings.json`. Run
+   `bash scripts/check-skill-catalog.sh` — a skill cross-reference pointing at a
+   file that did not come along fails **silently**.
+5. **Commit this plan as `docs/plans/aeapp-landing.paused.md`**, banner removed,
+   with a "what is done / what is left" note naming Phase 2 as the remainder.
+   `/handle`'s plan lane fires on `*.paused.md`, and `/go` Step 1 resumes from
+   it.
+6. **Open the draft PR there and post the squash proposal** (`/pr`, which
+   delegates to `/squash-message`), so the new repo's PR carries the same
+   furniture this one does. The proposal is for the whole landing — a `feat:`,
+   since that is what will eventually publish.
+7. **Close PR #38 here unmerged**, with a comment linking the new repo's PR, and
+   leave this branch for the record.
+
+Phase 1 deliberately stops before `package.json`. The scaffolding is the first
+thing Phase 2 does, and it is better done in a session where the new repo's
+`CLAUDE.md` and `.claude/rules/` are actually loaded.
+
+## Phase 2 — Build (`/handle claude/aeapp-landing-l7d745` in the new repo)
+
+1. **Scaffold.** `pnpm create next-app` is not used — the tree is assembled by
    copying this repo's config files (`tsconfig.json`, `next.config.ts`,
    `eslint.config.ts`, `eslint/`, `steiger.config.mjs`, `stylelint.config.mjs`,
-   `.prettierrc.json`, `.prettierignore`, `.gitattributes`, `.gitignore`,
-   `.vscode/settings.json`, `css.d.ts`, `pages/README.md`, `public/.nojekyll`)
-   and writing a `package.json` with the trimmed dependency set. Verify
+   `css.d.ts`, `pages/README.md`, `public/.nojekyll`) and writing a
+   `package.json` with the trimmed dependency set. Verify
    `pnpm install && pnpm build` on an empty page before anything else.
-3. **Agent infrastructure.** `.claude/`, `scripts/`, `CLAUDE.md`, `README.md`,
-   `src/README.md`. Run `bash scripts/check-skill-catalog.sh` — a skill
-   cross-reference pointing at a file that did not come along fails silently.
-4. **Tokens and styling.** `src/shared/ui/css-color.ts` gains the eleven tokens;
+2. **Tokens and styling.** `src/shared/ui/css-color.ts` gains the eleven tokens;
    `src/app/styles/breakpoints.ts` gets the draft's two breakpoints (620px,
-   900px) expressed on the em scale; `pnpm styles:codegen` writes the partials;
-   `globals.scss` declares the three palettes through the generated mixin.
-5. **Shell.** `root-layout.tsx` with the fonts, the no-flash theme script and
-   `lang="ru"`; `app/layout.tsx` and `app/page.tsx` as one-line re-exports;
-   `features/switch-theme`.
-6. **The page.** Port the markup section by section into the slice's components,
+   900px) on the em scale; `pnpm styles:codegen` writes the partials;
+   `globals.scss` declares the two palettes through the generated mixin.
+3. **Shell.** `root-layout.tsx` with the fonts and `lang="ru"`; `app/layout.tsx`
+   and `app/page.tsx` as one-line re-exports.
+4. **The page.** Port the markup section by section into the slice's components,
    each `.module.scss` carrying the draft's rules for that block verbatim except
-   for colour literals, which become `cssColor()`/token `var()`s. Copy into
-   `ru.json`; facts and sections into `lib/`.
-7. **Signup section.** Whatever question 3 resolves to.
-8. **SEO, sitemap, robots, OG card**, then `pnpm content:og` to produce the
+   for colour literals, which become token `var()`s. Copy into `ru.json`; facts
+   and sections into `lib/`; the three placeholders per the table above.
+5. **SEO, sitemap, robots, icon, OG card**, then `pnpm content:og` to produce the
    committed render.
-9. **`deploy.yml`**, plus `basePath` (or `public/CNAME`) per question 2.
-10. **`/preview`** at both schemes and at 375 / 768 / 1440 px against the draft
-    rendered in the same browser — the page is a visual port, so a green vet
-    proves nothing about it.
-11. **`/dry`, `/tighten-docs`, `/qa-checklist`**, then `/pr` and `/finalize` in
-    the new repo.
+6. **`deploy.yml`** with both gates.
+7. **`/preview`** at both schemes and at 375 / 768 / 1440 px against the draft
+   rendered in the same browser — the page is a visual port, so a green vet
+   proves nothing about it.
+8. **`/dry`, `/tighten-docs`, `/qa-checklist`**, then `/pr` and `/finalize`.
+
+## Launch checklist (after Phase 2, when the association is ready)
+
+Not part of either phase — the items that need a human decision or an external
+value:
+
+- [ ] The custom domain — `public/CNAME` plus the DNS records.
+- [ ] `signupFormUrl` — the hosted client questionnaire.
+- [ ] `contact` — the real address or Telegram handle.
+- [ ] `signupFormMinutes` — confirm 5 is honest for the real form.
+- [ ] GitHub Pro (or flip the repo public), then Pages enabled and
+      `PAGES_ENABLED=true` set.
+- [ ] A `feat:` merge to `main` to publish.
 
 ## DRY notes
 
@@ -249,42 +353,28 @@ offers the alternative.
   mechanism for exactly this duplication; that is what the watermark is for.
 - **No shared design-system package between the two sites.** They share the
   _method_ (tokens generated from a TypeScript array, no colour literals in
-  components) and nothing of the substance: different palettes, different
-  fonts, different type scale, one on Mantine and one not. A package holding
-  the method alone would be `generate-styles.ts`, ~100 lines that will diverge
-  the moment either token list grows a shape the other does not have.
+  components) and nothing of the substance: different palettes, different fonts,
+  different type scale, one on Mantine and one not. A package holding the method
+  alone would be `generate-styles.ts`, ~100 lines that will diverge the moment
+  either token list grows a shape the other does not have.
 - **`generate-styles.ts`, `render-manifest.ts`, `chromium.ts`, `run-parallel.sh`,
   `type-overlap-check.ts` copy verbatim** — they are generic over what they
   operate on, so the copies are identical files, not parallel implementations.
   Divergence risk is real and is the sync skill's job, not a refactor's.
 - **`og-render.ts` copies with a branch removed**, not rewritten: the
   authored-SVG card kind has no source here. `construct-metadata.ts` likewise
-  loses the alternates branch.
+  loses the alternates branch, and `_mixins.scss` is `_mantine.scss` minus the
+  Mantine half.
 - **Within the new repo**: the four prose sections are one `<ProseSection>` over
   a data array, not four components; the four facts are one `<Facts>` over a
   data array; the two CTAs are one `<Cta>`; the eleven colours have exactly one
   home (`CSS_COLORS`) from which both the Sass mixin and the TypeScript union
-  derive. The draft repeats its dark palette twice (media query and
-  `[data-theme]`) — the generated mixin collapses that to one `@include` per
-  palette.
+  derive. The draft declares its dark palette twice (media query and
+  `[data-theme]`) — dropping the toggle collapses that to one.
 - **Not extracted:** `<TopBar>` and `<SiteFooter>` stay inside the
   `consultations` slice rather than moving to `shared/ui` or a `widgets/` layer.
   One page consumes them; promoting them now would invent a layer to hold a
   single consumer, which `.claude/rules/fsd.md` explicitly rejects.
-
-## Unresolved content
-
-The draft ships three bracketed placeholders that cannot go live as written:
-
-- `[ЗДЕСЬ БУДЕТ АНКЕТА КЛИЕНТА — БЕЗ ИЗМЕНЕНИЙ]` — question 3.
-- `Занимает около [N] минут` — question 4.
-- `Вопросы о проекте — [ПОЧТА ИЛИ ТЕЛЕГРАМ]` — question 4.
-
-A fourth is not in the draft at all: **consent to personal-data processing.**
-If the signup form is hosted elsewhere (the recommendation), the consent notice
-is that host's responsibility and the landing needs nothing. If a form is ever
-built into the page, it needs an explicit 152-ФЗ consent checkbox and a privacy
-notice — which is a second reason to prefer the link-out.
 
 ## Explicitly out of scope
 
@@ -292,54 +382,25 @@ The other АЭАПП material in `leisan-psy-work` (Лекторий, Интен
 фестиваль, Супервизия, …) is not part of this. If the association later wants a
 full site, `/consultations` is already a stable path to keep.
 
-## Open questions
+## Still open
 
-Every question below carries a recommendation, and **the plan above is written
-with each recommendation already in force** — so silence resolves them and the
-plan is implementable as it stands. Answer tersely (`1a, 2b, …`) if you want
-something else.
+Three things surfaced while collapsing the decisions above. None blocks either
+phase; all three block launch.
 
-**1. Repository name and owner.**
+**a. Is the draft's SVG mark the association's real logo?** It is drawn inline —
+a grey triangle under a gold gradient spiral — and reads as a sketch rather than
+an exported asset. If АЭАПП has an official file, that is what should ship; if
+not, someone at the association should sign off on this one, since it is the
+first thing on the page.
 
-- **a. `vzakharov/aeapp-consultations`, public — recommended.** Single-purpose, named after what it ships. Public is required for Pages without a paid plan.
-- b. A different name (say which) — e.g. `aeapp-site` if you expect the rest of the association's material to follow.
-- c. Under an organization account rather than `vzakharov` (say which org).
+**b. Who owns the repository long-term?** The copy and the mark are the
+association's, and a private repo under a personal account holding a client's
+brand is fine for building and awkward afterwards. Worth deciding now whether it
+eventually transfers to an org — cheap before launch, and it changes the Pages
+URL and the custom-domain setup if it happens after.
 
-**2. Where it is served.**
-
-- **a. Project Pages at `vzakharov.github.io/aeapp-consultations`, with `basePath` set accordingly — recommended as the default**, because it needs nothing from anyone. Moving to a custom domain later is a two-line change (`basePath: ''` plus `public/CNAME`) but breaks every already-shared link.
-- b. A custom domain or subdomain from day one — say which, and I will set `CNAME` and leave `basePath` empty.
-
-**3. The signup form.**
-
-- **a. The CTA links out to an externally hosted form (Google Forms / Yandex Forms / Tally), opening in a new tab — recommended.** Static export has no backend, an embedded third-party form breaks the page's dark scheme and typography, and the host carries the 152-ФЗ consent burden. Needs the form URL.
-- b. Embed the external form in an `<iframe>` where the placeholder is, so the visitor never leaves. Needs the form URL, and accepts a visual seam.
-- c. Build the form in-page and POST to a third-party endpoint (Formspree or similar). Most work, and it adds a consent checkbox, a privacy notice and a paid dependency.
-
-If you do not have the URL yet, I will build (a) with the URL read from
-`site-config.ts` and the section rendering a "скоро" state until it is filled —
-but that state must not reach production.
-
-**4. The two remaining placeholders.** What goes in `Занимает около [N] минут`,
-and what is the footer contact (email or Telegram handle)? If unanswered:
-**drop the "около N минут" line entirely** rather than guess, and hold the
-launch on the contact — a footer that ships a placeholder is the one thing here
-I would not do.
-
-**5. Is the draft's copy final?** I plan to port it **verbatim**, changing
-nothing but the placeholders. Say so if any of it is still being edited, or if
-the association has a review step the text has not been through.
-
-**6. The boilerplate link.**
-
-- **a. `source.json` → `vzakharov/agent-project-boilerplate` — recommended, and what you asked for.** The new repo is a sibling of this one rather than a child.
-- b. `source.json` → `vzakharov/vovazakharov.com` (skill renamed `sync-vovazakharov`), which is what the sync skill's own doctrine prescribes for a repo adopting from here: the stack-specific adaptations (`vet.sh` above all) then flow forward, and the boilerplate reaches the new repo one hop later, through this one.
-
-**7. Where this plan lands.** This plan file sits on
-`claude/aeapp-landing-l7d745` **in this repo**, because a planning session has
-no other reviewable surface — but its deliverable is a different repository, so
-nothing here should merge into `main`. Recommendation: **review the plan on this
-PR, then close it unmerged** once the new repo exists; the `/go` session copies
-the plan into the new repo's `docs/plans/` as its own `*.in-progress.md` and
-finalizes it there. Say if you would rather it land here as a `docs:` commit for
-the record.
+**c. Analytics — none is planned.** Which is the right default here: no
+analytics means no consent banner, and a page about psychological help is
+exactly where a third-party tracker is worst. Say if the association needs
+conversion numbers and I will plan a self-hosted or cookieless option rather
+than bolting on GA later.
