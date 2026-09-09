@@ -6,41 +6,41 @@ feat: carry the CTO positioning to the landing page and card (pr #35)
 
 ```
 PR #31 repositioned the CV around a fractional, hands-on CTO offer and
-left behind the two surfaces that carry it to strangers. External
-feedback from an industry CEO on the live site named the first: the
-landing page still opened as a developer looking for a position, under
-a section heading that read `/dev`. Chasing its last point — that the
-picture suits a developer and not a CTO — turned up the second. The
-CV's social card was a hand-committed PNG with the dev tagline baked
-into the pixels, served as `og:image` for both framings, so a shared
-CTO link unfurled beside a card that said DEVELOPER.
+left behind the surfaces that carry it to strangers. Feedback from an
+industry CEO on the live site named them: the landing page still opened
+as a developer looking for a position under a heading that read `/dev`,
+the offer had no engagement for architecture and foundations, the CV's
+two framings sat behind a toggle that read as indecision, and the
+picture suited a developer. Behind that last point was a stale card: a
+hand-committed PNG with the dev tagline in its pixels, served as
+`og:image` for both framings, that nothing checked.
 
-The landing page now makes the offer in its first screen and splits in
-two: `/offer` states what the engagement is and names each kind of it,
-`/work` keeps the projects and highlights that evidence it. The offer
-gains the kind the feedback asked for — architecture drawn and the
-foundation stood up for a team that writes the features itself, a
-different purchase from delivery and from the agent pipeline — while
-standing technical judgment gives up the clause that now covers as
-work rather than as advice. Those names are read from the CV's own
-catalogue, so the two pages cannot come to disagree about what is on
-offer.
+The landing page makes the offer in its first screen. The hero's middle
+line is the site tagline, held in `SITE_CONFIG` because it is also what
+every page without a description of its own unfurls with; `/offer`
+states the engagement and lists each kind of it off the CV's own
+catalogue, `/work` keeps the projects and highlights. The offer gains
+"Architecture and foundations", and standing technical judgment gives
+up the clause that bullet now covers as work. Bullet labels stop
+carrying their own colon — the renderer sets it — which surfaced two
+shapes under one key: labels a colon follows, and clauses the text
+continues from, now `lead`. The CV's header toggle becomes one
+invitation to the other framing at the foot of the sheet, opposite the
+back link.
 
-The card is generated from that same catalogue rather than drawn once
-and left: one per framing, its copy taken through the merge the page
-itself reads, its manifest hash covering the template, the catalogue
-and the portrait, so any of the three moving re-flags the render. A
-tagline maintained by hand inside a PNG that nothing checked is what
-the old card cost. Reaching cards that live outside the content tree
-grew the prune bookkeeping a directory list, and the portrait stops
-publishing 150 square for a file that is 1024.
+The card is generated per framing from that same catalogue, as an HTML
+page `render-og.ts` screenshots beside the chart cards, so it cannot
+contradict the page; the manifest hashes the page and the portrait, and
+the script moves to `tsx` to import the catalogue. The prune walk takes
+a directory list, since these renders live outside the content tree.
+The portrait publishes its real 1024 square instead of 150.
 
-The CV keeps both framings and stops offering them as a coin flip: the
-header's two-button toggle becomes one invitation at the foot of the
-sheet, opposite the back link, so each framing still has an address to
-share and neither reads as an unmade decision.
+Two defects turned up alongside: the layout route never re-exported the
+root `metadata`, so `/` shipped with no title and no Open Graph tags at
+all; and its title was erased by a spread. Both fixed, so the home page
+now unfurls with the tagline and the portrait.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
 ```
 
 ---
