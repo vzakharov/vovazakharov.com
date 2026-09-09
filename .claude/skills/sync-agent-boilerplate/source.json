@@ -54,7 +54,7 @@
     ".claude/skills/log-review/": "static site on GitHub Pages; there are no deployed logs to read",
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and `pnpm test` is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. (The earlier reason — no test suite at all — stopped holding once scripts/type-overlap-check.test.ts landed; this is the condition that actually gates the skill.) Revisit if a suite appears that needs a browser, a service, or minutes rather than seconds",
+    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the whole suite is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
     ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh"
   }
 }
