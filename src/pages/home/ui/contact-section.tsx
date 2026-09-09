@@ -1,4 +1,4 @@
-import { Anchor, Stack, Text } from '@mantine/core';
+import { Anchor, Stack, Text, Title } from '@mantine/core';
 
 import { Card, Section } from '@/shared/ui';
 
@@ -16,6 +16,7 @@ const PROFILES = [
 export function ContactSection() {
   return (
     <Section id="contact">
+      <Title order={2}>Contact</Title>
       <Card>
         <Stack gap={12}>
           <Text>
