@@ -339,11 +339,10 @@ claimed. Entries removed under this test lose their bump count with them.
 to a stranger" stood on one bump: given three things to lead a post with, the
 agent reached for the technically hardest — a lint rule whose failure mode was an
 auth hole — and the human took a round number instead. A post's hook is a
-positioning call about the operator's own work, and `.claude/rules/writing.md`
-says so outright: offer the options, don't pick for them. The residue is the same
-as the entry above — offering was available and the agent picked instead — and
-being overruled on a taste call is not a blind spot. The tendency the section
-named may well be real; one overruled pick is not evidence of it.
+positioning call on the operator's own work, and `.claude/rules/writing.md` says
+so outright: offer the options, don't pick for them. So the residue is the entry
+above's — offering was available and unoffered — and the tendency the section
+named, real or not, has no evidence in one overruled taste call.
 
 ## The two families
 
