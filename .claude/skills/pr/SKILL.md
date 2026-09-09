@@ -8,13 +8,13 @@ End state of this skill: a draft PR exists against `<base>`, targeting a semanti
 
 `/pr` takes **no arguments** — new work is `@.claude/skills/plan/SKILL.md`, which publishes its own plan through this skill, and unplanned work is `@.claude/skills/go/SKILL.md`. What this skill owns is the PR object, in three modes. The branch decides which one, not the caller:
 
-| Invocation | Behavior |
-|---|---|
-| **plan-open** (caller: `/plan`'s publish step) | rename → push → create draft → body **from the plan**, since there is no diff yet → `/squash-message` |
-| **`/pr`, no PR** | open from the commits already on the branch |
-| **`/pr`, PR exists** | **refresh**: re-compose the body against the real diff — Step 4 unchanged, `gh pr edit` in place of `gh pr create` |
+| Invocation                                     | Behavior                                                                                                           |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **plan-open** (caller: `/plan`'s publish step) | rename → push → create draft → body **from the plan**, since there is no diff yet → `/squash-message`              |
+| **`/pr`, no PR**                               | open from the commits already on the branch                                                                        |
+| **`/pr`, PR exists**                           | **refresh**: re-compose the body against the real diff — Step 4 unchanged, `gh pr edit` in place of `gh pr create` |
 
-Refresh exists because the body written at plan time is a **forecast**. Step 4 writes the Summary from the branch and delegates the QA section to `/qa-checklist`; at plan time both come from the plan. By the end of `/go` there is a diff and the body still says what the change was *going to* be. Reconciling it is the same Step 4 composition over a different input.
+Refresh exists because the body written at plan time is a **forecast**. Step 4 writes the Summary from the branch and delegates the QA section to `/qa-checklist`; at plan time both come from the plan. By the end of `/go` there is a diff and the body still says what the change was _going to_ be. Reconciling it is the same Step 4 composition over a different input.
 
 **Refresh's own work is the body, and nothing more.** `/squash-message` § "When to (re)run" owns its own trigger and already fires on implementation pushes; `/qa-checklist` Steps 1 and 3 already edit an existing body. Refresh reaches both the way any other mode does.
 

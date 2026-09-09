@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/agent-project-boilerplate",
-  "lastSyncedSha": "71c62016e129ec07ab1fa82cb29e7d71da939497",
-  "lastSyncedAt": "2026-09-07",
+  "lastSyncedSha": "499814953f6bd781483f645f7fb027976aef3215",
+  "lastSyncedAt": "2026-09-09",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined."
@@ -12,8 +12,11 @@
     ".claude/skills/dry/",
     ".claude/skills/finalize/",
     ".claude/skills/from-branch/",
+    ".claude/skills/go/",
     ".claude/skills/handle/",
-    ".claude/skills/implement/",
+    {
+      ".claude/skills/implement/": "the redirect stub to /go, taken because /implement was this repo's shipped name and handoff blocks in open PR comments still say it. The source's catalog makes this row the adopter's call, so it is the operator's to strike — dropping it means deleting the directory, not re-asking. The stub's closing pointer at the source's docs/catalog.md is dropped here, that file being declined."
+    },
     ".claude/skills/issue/",
     ".claude/skills/override-gh/",
     ".claude/skills/plan/",
@@ -29,6 +32,7 @@
     ".claude/skills/watch-ci/",
     "scripts/check-merge.sh",
     "scripts/check-skill-catalog.sh",
+    "scripts/check-squash-message.sh",
     "scripts/ci-watch-tick.sh",
     "scripts/export-github-item.py",
     "scripts/gh_export/",
@@ -37,7 +41,7 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then typecheck, eslint, format:check, lint:fsd and type-overlap fanned out through run-parallel.sh. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. CLAUDE.md § Vetting carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     }
   ],
   "declined": {
@@ -50,7 +54,7 @@
     ".claude/skills/log-review/": "static site on GitHub Pages; there are no deployed logs to read",
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "no test suite, so no CI-only bucket to dispatch — revisit when tests exist",
+    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and `pnpm test` is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. (The earlier reason — no test suite at all — stopped holding once scripts/type-overlap-check.test.ts landed; this is the condition that actually gates the skill.) Revisit if a suite appears that needs a browser, a service, or minutes rather than seconds",
     ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh"
   }
 }
