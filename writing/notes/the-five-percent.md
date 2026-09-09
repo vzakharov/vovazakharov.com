@@ -44,7 +44,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×5)
+## What it was handed, it treats as fixed (×6)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -106,7 +106,19 @@ then in the search people see "ok, this one's for cto, and it sits on
 en/cv/cto"_. Flipped, the cost is the goal, and the collapse the agent had
 argued against became free — four route files down to two.
 
-## It writes its reasoning into the artifact (×2)
+**9 September — the prefix as the shape a locale comes in.** Told the two CV
+route files still repeated each other, the agent had collapsed four into two the
+round before and reported that as the answer. What it never asked was whether
+`/{locale}/…` had to be the shape at all: `app/[locale]/` is Next's documented
+convention and next-intl's whole routing story, so it arrived as the given and
+the duplication got reasoned about inside it. The reply moved the segment to the
+end — `/cv/cto/ru` — and one file answers every address. The operator's stated
+reason was wrong in one respect, that nothing here used next-intl's
+out-of-the-box means: `Link`, `usePathname` and `useRouter` were doing real work.
+They were also 35 kB of prefix machinery serving two links, which is what the
+question surfaced and what the agent's own defence of the prefix never reached.
+
+## It writes its reasoning into the artifact (×3)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and it is still wrong, because what the
@@ -125,6 +137,15 @@ three: not the place for implementation detail, and the prefix was a minor
 ride-along on a branch about a content plan. A squash body is read by someone
 scanning the log for what shipped, and a ride-along given a paragraph in it reads
 as what the commit was for.
+
+**9 September — the maintenance manual in the commit body.** The squash proposal
+ended on a paragraph headed "Four things to know when editing here": which files
+the PDF renders hash, that a card's link cannot be an anchor wrapped around it,
+the prop shape the type gate can read. Every item true, and every item something
+a person about to break it needs — in a rules file or a docstring, not in a body
+read by someone scanning the log for what shipped. The operator cut it in one
+line and named the mechanism too: the body had accreted across refreshes rather
+than being rewritten, which is how a cap gets walked past one push at a time.
 
 ## A published number is not a verified number (×2)
 
@@ -201,6 +222,26 @@ Am I missing smth?_ — and the answer was no. What the account did displace was
 different measurement, which nobody had: zod imported into a module a client
 component reaches puts 89 kB gzipped in the CV page's bundle, and that decides
 where the schema lives rather than whether it exists.
+
+## It settles a constraint in prose where a mechanism was available (×1)
+
+A constraint the agent can't see how to enforce, it writes down. The note is
+accurate, it sits on the right module, and it is invisible to the edit that
+violates it — nothing reads a docstring on its way to moving a file. Prose is
+what gets reached for because prose is always available; whether a mechanism was
+_also_ available is a separate question, and it doesn't get asked.
+
+**9 September — "keep them out of `shared/i18n`".** Having measured that a zod
+schema in the i18n barrel puts 89 kB gzipped into the CV's client bundle, the
+agent filed the schema in `pages/cv/lib` and wrote the finding into a docstring
+telling the next person not to move it. Settled, as far as it was concerned. The
+reply proposed a different placement — _barrels can be different in fsd, e.g.
+index.server-only.ts_ — which turned out to be blocked here, since the repo's
+`boundaries/dependencies` policy defines the public API as the single literal
+`index.ts`. What the round produced was neither placement: `import 'server-only'`
+at the top of the module, which turns the same mistake into a build error. It had
+been available all along, in the pattern every module under `shared/content`
+already uses.
 
 ## Editing removes slack, and the slack was the voice (×1)
 
@@ -283,12 +324,14 @@ every learning above is one no rule anticipated.
 
 ## The two families
 
-Six reviews is not a pattern, but the ten learnings already fall in two
+Seven reviews is not a pattern, but the eleven learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
-as the rule. Whatever the agent is handed as context, it treats as the given.
+as the rule. A fifth is the same thing about a URL: `[locale]` first is a
+convention, and the agent read it as the shape a locale comes in. Whatever the
+agent is handed as context, it treats as the given.
 
 The other six are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
@@ -297,8 +340,10 @@ help: it rendered the page, looked at it, and verified its own intention. Two
 are its siblings — an edit correct and minimal at the site it was made, whose
 minimality is what left the same fact spelled three ways; and an explanation
 sound at every step, whose soundness is what stopped anyone opening the file it
-described. No version of "be more careful" catches these, which is probably why
-they need a person and not a better prompt.
+described. A third joins them: a docstring correct about the constraint it
+states, whose correctness is what stopped the agent looking for a checker that
+would have stated it in a form something reads. No version of "be more careful"
+catches these, which is probably why they need a person and not a better prompt.
 
 They also differ in what the human had to supply. Most of these were caught by
 knowing something the agent didn't — which chart window was drawn wrong, what a
