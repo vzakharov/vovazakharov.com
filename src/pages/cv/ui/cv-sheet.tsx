@@ -68,6 +68,8 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
     <Box className={classes['page']}>
       <Container size={896} px={0} className={classes['container']}>
         <Stack className={classes['pageSections']}>
+          {/* `print-hidden` here as well as on the toggle: `display: none`
+              takes the row's `pageSections` gap out of the printed sheet too. */}
           <Group justify="flex-end" className="print-hidden">
             <ThemeToggle />
           </Group>
@@ -90,8 +92,6 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             </Stack>
           </Box>
 
-          {/* Below the hero, as the article offers its cuts and files: the row
-              acts on the document, so it sits with it rather than above it. */}
           <Group
             justify="space-between"
             align="center"

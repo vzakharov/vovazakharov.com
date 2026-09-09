@@ -25,11 +25,7 @@ function systemColorScheme(): PickedColorScheme {
     : 'light';
 }
 
-/**
- * Two visible states over a stored `auto`: the reader's system scheme is
- * followed until they pick the other one, and picking their system's scheme
- * back hands control to the system again.
- */
+/** Two visible states over a three-value store; the rule is in `../lib`. */
 export function ThemeToggle() {
   const { colorScheme, setColorScheme, clearColorScheme } =
     useMantineColorScheme();
