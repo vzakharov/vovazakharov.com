@@ -12,27 +12,33 @@ landing for someone else's organisation does not belong on a
 personal CV site, and it needs its own Pages deployment, its own
 domain and its own copy owners.
 
-The plan settles which of this repo's decisions the new one inherits
-and which were answers to problems it does not have. Static export
-to Pages behind the feat:/fix: deploy gate, Feature-Sliced Design
-under src/, the Sass token codegen, the custom ESLint ruleset,
-next-intl carrying the copy as a single-locale catalogue, the vet
-suite with its run-parallel fan-out and the committed-OG-render hash
-check all carry across. Mantine does not: the draft renders no
-components, and the styling rule that comes with it is entirely
-about working around Mantine's layering — colour-scheme persistence,
-the one thing it was providing, becomes a switch-theme slice writing
-data-theme. The markdown content pipeline and the rule files scoped
-to it go with it.
+The plan settles which of this repo's decisions the new one
+inherits and which were answers to problems it does not have.
+Static export to Pages behind the feat:/fix: deploy gate,
+Feature-Sliced Design under src/, the Sass token codegen, the
+custom ESLint ruleset, next-intl carrying the copy as a
+single-locale catalogue, the vet suite with its run-parallel
+fan-out and the committed-OG-render hash check all carry across.
+Mantine does not, and neither does the colour-scheme toggle: the
+draft renders no components, dark mode reduces to a media query,
+and the page ships no client JavaScript at all, which leaves
+Sass modules over generated colour and breakpoint partials as the
+whole styling story. The markdown content pipeline and the rule
+files scoped to it go too.
 
-The new repo's sync watermark points at agent-project-boilerplate
-rather than at this repo, making the two siblings; the plan names
-what that costs, since the stack-specific vet.sh adaptation then has
-to be re-derived on every sync. Seven open questions each carry a
-recommendation the plan is already written against, so it is
-implementable as it stands — the ones that genuinely block are the
-draft's three bracketed placeholders, which cannot go live as
-written.
+The repository is private and Pages stays off until the
+association is ready, so the deploy workflow gates its build on a
+repo variable and launch is a flip rather than an edit; the three
+bracketed placeholders in the draft resolve to a kept placeholder
+block, a believable figure and a visibly fake contact, guarded by
+a test that the copy catalogue holds no brackets. The work runs
+in two phases because a /handle session cannot load skills that
+are not on its branch: the first creates the repo and seeds a
+branch there with the agent infrastructure, the paused plan and
+its own PR, the second builds the site from inside it. That new
+repo's sync watermark points at agent-project-boilerplate rather
+than at this one, making the two siblings at the cost of
+re-deriving the stack-specific vet.sh on every sync.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
