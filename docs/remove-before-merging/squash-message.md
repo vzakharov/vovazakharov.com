@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: refresh the CV's roles and controls, drop the theme picker (pr #36)
+feat: refresh the CV's roles and controls, rework the theme picker (pr #36)
 ```
 
 ```
@@ -21,24 +21,27 @@ The language switch becomes the chip pair the article header already
 offers for a document's cuts: both languages shown, the current one
 inverted and inert. The print button becomes the `.pdf` link every
 other document offers. Both controls move down to `shared/ui`, the CV
-having no sideways reach into `pages/case-studies` for either, and it
-joins the committed-render pipeline — one PDF per canonical
-`/cv/<variant>/<locale>`, the short rungs linking to theirs, and
-`content:pdf` moving to `tsx` to reach the CV's own addresses. Its
-source list splits into the print surface both kinds share and a
-per-kind remainder, so an English reword leaves the Russian sheet
-alone. The name heading links home.
+having no sideways reach into `pages/case-studies` for either, and they
+sit below the hero as the article's row does, since they act on the
+document rather than introduce it. The CV joins the committed-render
+pipeline — one PDF per canonical `/cv/<variant>/<locale>`, the short
+rungs linking to theirs, and `content:pdf` moving to `tsx` to reach the
+CV's own addresses. Its source list splits into the print surface both
+kinds share and a per-kind remainder, so an English reword leaves the
+Russian sheet alone. The name heading links home.
 
-The theme picker goes from every page, which leaves the reader's system
-scheme in charge and the features layer with no slices. A colour-scheme
-manager that reports `auto` and stores nothing keeps that true for a
-reader who used the toggle before it was removed: Mantine's
-`forceColorScheme` takes only `light` or `dark`, so the pre-hydration
-script would otherwise go on honouring a stored choice with nothing
-left to change it.
+The theme toggle keeps two visible states over one rule: a pick that
+agrees with the reader's system scheme is stored as no preference at
+all. So the system leads until the reader picks the other scheme; that
+pick then stands, through the system's own changes included, until they
+pick the system's scheme back, which hands control to it again. The
+click reads the media query rather than a hook whose first render says
+`light` whatever the OS says, and both icons render for CSS to choose
+between, so the right one is painted on the first frame rather than
+after hydration.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01ACP7um43XqwkMapdGrYWhA
+Claude-Session: https://claude.ai/code/session_01GKxDZ7EAK7LVfG71N7fT5m
 ```
 
 ---
