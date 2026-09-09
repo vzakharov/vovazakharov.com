@@ -270,16 +270,6 @@ available from the text.
 write a case study about it_ came back from an edit that would have compressed
 it, restored.
 
-## Impressive to have done is not legible to a stranger (×1)
-
-The agent optimises for the hardest thing it did. The reader is scrolling, knows
-none of it, and reacts to what needs no context.
-
-**6 September — the hook.** Given three things to lead the post with, the agent
-reached for the technically hardest — a lint rule whose failure mode was an auth
-hole. The human took a round number to be surprised by, a change in how the work
-felt, and an admission of error.
-
 ## It checks the render against its intent, not against the page (×1)
 
 Told to look at a visual change rather than reason about it, the agent looks —
@@ -345,9 +335,19 @@ on its own, and taking it unasked would have been the worse failure of the two.
 Pitching it was available and unpitched, which is a smaller thing than the entry
 claimed. Entries removed under this test lose their bump count with them.
 
+**A pick the agent was invited to make.** "Impressive to have done is not legible
+to a stranger" stood on one bump: given three things to lead a post with, the
+agent reached for the technically hardest — a lint rule whose failure mode was an
+auth hole — and the human took a round number instead. A post's hook is a
+positioning call about the operator's own work, and `.claude/rules/writing.md`
+says so outright: offer the options, don't pick for them. The residue is the same
+as the entry above — offering was available and the agent picked instead — and
+being overruled on a taste call is not a blind spot. The tendency the section
+named may well be real; one overruled pick is not evidence of it.
+
 ## The two families
 
-Eight reviews is not a pattern, but the eleven learnings already fall in two
+Eight reviews is not a pattern, but the ten learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
@@ -356,7 +356,7 @@ as the rule. A fifth is the same thing about our own tooling: a line in our
 `eslint.config.ts` read as a specification rather than as a decision we made and
 can remake. Whatever the agent is handed as context, it treats as the given.
 
-The other six are the opposite of a mistake: the output was well-formed,
+The other five are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 there. The sharpest is the one where the agent did the extra step and it did not
 help: it rendered the page, looked at it, and verified its own intention. Two

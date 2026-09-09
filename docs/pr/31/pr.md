@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-08T11:50:23Z
-- **Updated:** 2026-09-09T01:07:31Z
+- **Updated:** 2026-09-09T01:37:45Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -17,41 +17,41 @@
 
 ## Summary
 
-- **The CV comes in two framings.** `/{locale}/cv` renders a _fractional hands-on CTO for AI-native delivery_ variant in place — no redirect, since a static export has no server-side one — and `/{locale}/cv/cto` is the self-describing address for the same content, declaring `/cv` canonical so the pair does not split link equity. `/{locale}/cv/dev` keeps the developer framing, unchanged in substance, at its own URL, and a visible CTO/Dev switch sits beside the locale picker.
+- **The CV comes in two framings.** `/{locale}/cv` renders a *fractional hands-on CTO for AI-native delivery* variant in place — no redirect, since a static export has no server-side one — and `/{locale}/cv/cto` is the self-describing address for the same content, declaring `/cv` canonical so the pair does not split link equity. `/{locale}/cv/dev` keeps the developer framing, unchanged in substance, at its own URL, and a visible CTO/Dev switch sits beside the locale picker.
 - **Only differing prose exists twice.** `cv.variants.cto` carries `metadata`, `header.tagline` and `profile`; `cvMessages` merges it over the base catalogue a section at a time, so a key the variant does not restate cannot drift. Experience, tech stack, education and contact are one set of facts stated once — and `whatIOffer` needed no override at all: its subsections became keyed blocks with the per-variant order in code, the pattern `experience` and `techStack` already use.
-- **The home page is dev-first.** Writing and music each move to a page of their own, reached from a _See also_ footer line; the dev intro states what is on offer instead of that its author is looking for work; the case-studies block folds into a four-card featured grid, with the earlier three projects named on one line; Professional Work becomes Recent Work with Playgram at the top and Voicemod dropped.
+- **The home page is dev-first.** Writing and music each move to a page of their own, reached from a *See also* footer line; the dev intro states what is on offer instead of that its author is looking for work; the case-studies block folds into a four-card featured grid, with the earlier three projects named on one line; Professional Work becomes Recent Work with Playgram at the top and Voicemod dropped.
 - **Nothing retitles history.** Playgram is "Developer" in both variants — the developer identity is the CTO claim's evidence, which is why both CVs exist rather than one replacing the other. Drive-by fixes: `ru.json` said "с 2019 года" where `en.json` says 2020, and the CV called `almostmagic` a Python package.
 - Plan: `docs/plans/cto-positioning.completed.md`.
 
 ## QA Checklist
 
-- [ ] `default-framing` — open `/en/cv`: tagline reads _Fractional hands-on CTO for AI-native delivery_, the profile opens on the numbers, and What I Offer lists Engagements / The Engineering System / AI Expertise / Working Style.
+- [ ] `default-framing` — open `/en/cv`: tagline reads *Fractional hands-on CTO for AI-native delivery*, the profile opens on the numbers, and What I Offer lists Engagements / The Engineering System / AI Expertise / Working Style.
 - [ ] `dev-framing` — click `Dev`: the URL becomes `/en/cv/dev` and the page returns to today's developer tagline, profile and three capability bullets.
 - [ ] `switch-composes` — from `/ru/cv/dev`, flip the locale then the variant, and the reverse; each control preserves the other's choice.
 - [ ] `canonical` — view source on `/en/cv/cto`: `<link rel="canonical">` points at `/en/cv`. `/en/cv` and `/en/cv/dev` carry none.
 - [ ] `cv-print` — print `/en/cv` and `/en/cv/dev`: the switch and picker are hidden, and the case-study address appears once, in the Playgram entry.
 - [ ] `shared-sections` — compare both variants' Experience, Tech Stack, Education and Contact: identical, and Playgram is still titled "Developer".
-- [ ] `home-nav` — open `/`: no in-page nav, `/dev` and `/contact` only, and the footer's _See also_ reaches `/writing` and `/music`.
+- [ ] `home-nav` — open `/`: no in-page nav, `/dev` and `/contact` only, and the footer's *See also* reaches `/writing` and `/music`.
 - [ ] `standalone-pages` — `/writing` and `/music` render their content under a `/writing` / `/music` h1 with a working back-link.
-- [ ] `cv-links` — every CV link on the site (dev intro, _Read full CV_) lands on `/cv` and shows the CTO framing.
+- [ ] `cv-links` — every CV link on the site (dev intro, *Read full CV*) lands on `/cv` and shows the CTO framing.
 - [ ] `sitemap` — `/sitemap.xml` lists `/writing`, `/music` and both locales' `/cv` and `/cv/dev`, and omits `/cv/cto`.
 - [ ] `dark-mode` — the CV, home, `/writing` and `/music` all render correctly in the dark scheme, switch included.
 - [ ] `ru-copy` — `/ru/cv` reads as Russian prose rather than transliteration, and says 2020 rather than 2019.
 
-| Item               | Automatable | Covered? | Notes                                                                                                |
-| ------------------ | ----------- | -------- | ---------------------------------------------------------------------------------------------------- |
-| `default-framing`  | integration | ❌       | Assert the built `out/en/cv.html` contains the CTO tagline and the engagement labels                 |
-| `dev-framing`      | integration | ❌       | Same over `out/en/cv/dev.html`, asserting the developer tagline                                      |
-| `switch-composes`  | e2e         | ❌       | Drive both controls in sequence and assert the resulting pathname                                    |
-| `canonical`        | integration | ❌       | Assert `alternates.canonical` from `generateCvMetadata(locale, 'cto')` and its absence otherwise     |
-| `cv-print`         | manual-only | —        | Print layout needs a human's eye; the address-once rule is the part a test could reach               |
-| `shared-sections`  | unit        | ❌       | `cvMessages` returns the same `experience`/`techStack`/`education`/`contact` for both variants       |
-| `home-nav`         | integration | ❌       | Assert the built `out/index.html` has no `#music`/`#writing` anchors and does carry the footer links |
-| `standalone-pages` | integration | ❌       | Assert both routes build and their h1 is the slash heading                                           |
-| `cv-links`         | integration | ❌       | Grep the built home page for `href="/cv"` and assert no `/cv/cto`                                    |
-| `sitemap`          | unit        | ❌       | `sitemap()` output over the fixed route set — the plainest "pure function of its input" case here    |
-| `dark-mode`        | manual-only | —        | Colour-scheme rendering is a visual judgment                                                         |
-| `ru-copy`          | manual-only | —        | Translation quality is not assertable; the 2020 figure is the only mechanical half                   |
+| Item | Automatable | Covered? | Notes |
+|------|-------------|----------|-------|
+| `default-framing` | integration | ❌ | Assert the built `out/en/cv.html` contains the CTO tagline and the engagement labels |
+| `dev-framing` | integration | ❌ | Same over `out/en/cv/dev.html`, asserting the developer tagline |
+| `switch-composes` | e2e | ❌ | Drive both controls in sequence and assert the resulting pathname |
+| `canonical` | integration | ❌ | Assert `alternates.canonical` from `generateCvMetadata(locale, 'cto')` and its absence otherwise |
+| `cv-print` | manual-only | — | Print layout needs a human's eye; the address-once rule is the part a test could reach |
+| `shared-sections` | unit | ❌ | `cvMessages` returns the same `experience`/`techStack`/`education`/`contact` for both variants |
+| `home-nav` | integration | ❌ | Assert the built `out/index.html` has no `#music`/`#writing` anchors and does carry the footer links |
+| `standalone-pages` | integration | ❌ | Assert both routes build and their h1 is the slash heading |
+| `cv-links` | integration | ❌ | Grep the built home page for `href="/cv"` and assert no `/cv/cto` |
+| `sitemap` | unit | ❌ | `sitemap()` output over the fixed route set — the plainest "pure function of its input" case here |
+| `dark-mode` | manual-only | — | Colour-scheme rendering is a visual judgment |
+| `ru-copy` | manual-only | — | Translation quality is not assertable; the 2020 figure is the only mechanical half |
 
 `pnpm build` covers "every route builds and renders" for all of the above; none of the rows has a behavioural test yet, and `cvMessages` plus `sitemap()` are the two the testing section would take first.
 
@@ -122,11 +122,12 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
 
 _Generated by [Claude Code](https://claude.ai/code)_
 
+
 ---
 
 ## Review threads
 
-### `app/[locale]/cv/[variant]/page.tsx`:1
+### `app/[locale]/cv/[variant]/page.tsx`:1 — resolved
 
 **@vzakharov** — 2026-09-08T16:51:31Z
 
@@ -138,21 +139,20 @@ Discussion only, no code change. I spiked it rather than guess, then reverted �
 
 **It works.** `app/[locale]/cv/[[...variant]]/page.tsx` with `generateStaticParams` returning `{ locale, variant: [] }` alongside `{ locale, variant: [v] }` builds clean under `output: 'export'` and emits exactly the right three files per locale: `out/en/cv.html`, `out/en/cv/cto.html`, `out/en/cv/dev.html`, with the CTO framing served in place at the bare route. So the "two files for one page" objection is real and collapsible — 4 route files down to 2 if the unlocalized side goes the same way.
 
-**What it costs is one distinction.** `generateCvMetadata(locale, variant?)` treats an absent variant as _the bare route itself_: no variant means `path: /en/cv` and no `canonical`, whereas `variant: 'cto'` means `path: /en/cv/cto` with `canonical: /en/cv`. That is deliberate — the default variant's own address points search back at the bare route instead of competing with it.
+**What it costs is one distinction.** `generateCvMetadata(locale, variant?)` treats an absent variant as *the bare route itself*: no variant means `path: /en/cv` and no `canonical`, whereas `variant: 'cto'` means `path: /en/cv/cto` with `canonical: /en/cv`. That is deliberate — the default variant's own address points search back at the bare route instead of competing with it.
 
 Collapse the routes and both addresses arrive at the same page with the same resolved variant, so the bare route inherits the variant's metadata. Measured off the spike's build:
 
-|                | `out/en/cv.html` og:url                 |
-| -------------- | --------------------------------------- |
-| on this branch | `https://vovazakharov.com/en/cv` ✅     |
-| spike          | `https://vovazakharov.com/en/cv/cto` ❌ |
+| | `out/en/cv.html` og:url |
+| --- | --- |
+| on this branch | `https://vovazakharov.com/en/cv` ✅ |
+| spike | `https://vovazakharov.com/en/cv/cto` ❌ |
 
 The bare route advertises the variant address as its own. Fixable — `resolve()` returns `DEFAULT_CV_VARIANT` for rendering and `undefined` for metadata — but that is one param with two resolutions depending on which export reads it, which is a subtler thing than two files that each say one plain thing.
 
-**My read:** not worth it as a duplication fix. The two files are ~10 and ~12 lines and neither branches. It _is_ worth it if you want the bare route to stop being a special case in the metadata too — i.e. `/cv` becomes literally "the CV, variant unspecified" and the canonical/og pairing goes away. That is a positioning decision, not a refactor, so it is yours. Happy to land either.
+**My read:** not worth it as a duplication fix. The two files are ~10 and ~12 lines and neither branches. It *is* worth it if you want the bare route to stop being a special case in the metadata too — i.e. `/cv` becomes literally "the CV, variant unspecified" and the canonical/og pairing goes away. That is a positioning decision, not a refactor, so it is yours. Happy to land either.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T22:35:50Z
@@ -167,11 +167,11 @@ Explanation only, no code change yet.
 
 **What the build actually emits today** (measured off `out/`, this branch):
 
-| page         | its `rel="canonical"`              | its `og:url`                         |
-| ------------ | ---------------------------------- | ------------------------------------ |
-| `/en/cv`     | _none_                             | `https://vovazakharov.com/en/cv`     |
+| page | its `rel="canonical"` | its `og:url` |
+| --- | --- | --- |
+| `/en/cv` | *none* | `https://vovazakharov.com/en/cv` |
 | `/en/cv/cto` | → `https://vovazakharov.com/en/cv` | `https://vovazakharov.com/en/cv/cto` |
-| `/en/cv/dev` | _none_                             | `https://vovazakharov.com/en/cv/dev` |
+| `/en/cv/dev` | *none* | `https://vovazakharov.com/en/cv/dev` |
 
 So right now `/en/cv/cto` says "don't index me, index `/en/cv`", and a searcher sees `vovazakharov.com/en/cv`. `/en/cv/dev` carries no canonical because it isn't a duplicate of anything — it's the only address for the dev CV.
 
@@ -187,7 +187,6 @@ So right now `/en/cv/cto` says "don't index me, index `/en/cv`", and a searcher 
 Say go and I'll land both together: `/en/cv/cto` as the canonical, indexed, addressed CV, `/en/cv` kept as a short alias pointing at it.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T23:30:21Z
@@ -200,11 +199,11 @@ Landed in 5b4f244, all four places plus the collapse.
 
 Built output, `out/` on this branch:
 
-| page         | `rel="canonical"` | `og:url`     |
-| ------------ | ----------------- | ------------ |
-| `/en/cv`     | → `/en/cv/cto`    | `/en/cv/cto` |
-| `/en/cv/cto` | → itself          | `/en/cv/cto` |
-| `/en/cv/dev` | → itself          | `/en/cv/dev` |
+| page | `rel="canonical"` | `og:url` |
+| --- | --- | --- |
+| `/en/cv` | → `/en/cv/cto` | `/en/cv/cto` |
+| `/en/cv/cto` | → itself | `/en/cv/cto` |
+| `/en/cv/dev` | → itself | `/en/cv/dev` |
 
 The sitemap now lists `/{locale}/cv/cto` and `/{locale}/cv/dev` and omits the bare route, and the switch puts `/en/cv/cto` in the address bar. `/en/cv` still serves the CTO CV in place — it is the short alias, it just no longer claims to be the indexed one.
 
@@ -213,12 +212,11 @@ The rule that fell out is simpler than the conditional I was carrying: **every C
 One consequence worth naming: `/cv` (unlocalized) now hops to `/en/cv/cto` rather than `/en/cv`. Same reasoning — the address that names the framing is the one to land on. Say the word if you'd rather it kept the short form.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `app/[locale]/cv/[variant]/page.tsx`:11
+### `app/[locale]/cv/[variant]/page.tsx`:11 — resolved
 
 ```diff
 @@ -0,0 +1,34 @@
@@ -256,7 +254,6 @@ The gate found two more things once the shapes were named, both now based: `case
 Happy to be overruled if you want the consistency of one validation idiom repo-wide — say so and I will convert them.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T22:36:55Z
@@ -274,14 +271,13 @@ Explanation only, no code change.
 - `toLocale` (`src/shared/i18n/routing.ts`) → `Unsupported locale: <value>`
 - `toCvVariant` (`src/pages/cv/lib/cv-variants.ts`) → `Unsupported CV variant: <value>`
 
-**When.** They're called from `generateMetadata` and from the page component. Under `output: 'export'` those two functions run **only** inside `next build` — every route is prerendered to a file, once per `generateStaticParams` entry, and nothing on the CDN ever runs them again. So "at build" is literal rather than a figure of speech: there is no later moment at which they _could_ throw. A throw during prerender fails `next build` with a non-zero exit, the deploy workflow stops, and nothing publishes.
+**When.** They're called from `generateMetadata` and from the page component. Under `output: 'export'` those two functions run **only** inside `next build` — every route is prerendered to a file, once per `generateStaticParams` entry, and nothing on the CDN ever runs them again. So "at build" is literal rather than a figure of speech: there is no later moment at which they *could* throw. A throw during prerender fails `next build` with a non-zero exit, the deploy workflow stops, and nothing publishes.
 
 **What would actually trigger one.** Only `generateStaticParams` and the narrowing function disagreeing. Both read the same constants — `routing.locales` and `CV_VARIANTS` — so an unroutable segment cannot reach the page: the export simply never emits that file. In normal operation the throw is unreachable, and that is the point rather than a weakness. The functions exist to turn the `string` a route param arrives as into `Locale` / `CvVariant`; the throw is what makes that narrowing sound instead of a cast. It fires the day someone adds a segment to one list and forgets the other, which is exactly when you want a red build.
 
 **And the honest limit on what I argued against zod.** Zod would throw at the same moment, for the same reason — timing was never the difference, and I shouldn't have leant on it as though it were. The actual difference is that `CV_VARIANTS` stays the single source of truth and the narrowed union comes back for free, where a schema would restate the values and hand back a `string` union to keep in sync. That argument stands on its own; the build-vs-render framing added nothing to it.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T23:31:39Z
@@ -312,18 +308,17 @@ so a route is one `cvParamsSchema.parse(await params)` and `isLocale`/`toLocale`
 
 **One thing neither of us had, and it's the reason this took a detour.** Zod is not free where it lands. First pass I put `localeSchema` in `shared/i18n` beside `routing` — the obvious home. That segment's barrel is what every client component reaches for `Link` and `usePathname`, and Turbopack won't tree-shake a `z.enum(...)` call out of a barrel it can't prove pure. Measured:
 
-|                          | `out/_next/static/chunks` | zod in a client chunk                                |
-| ------------------------ | ------------------------- | ---------------------------------------------------- |
-| before                   | 1,039,701 B               | no                                                   |
-| schema in `shared/i18n`  | 1,417,062 B               | yes — 389 kB raw, 89 kB gzipped, on all six CV pages |
-| schema in `pages/cv/lib` | 1,039,570 B               | no                                                   |
+| | `out/_next/static/chunks` | zod in a client chunk |
+| --- | --- | --- |
+| before | 1,039,701 B | no |
+| schema in `shared/i18n` | 1,417,062 B | yes — 389 kB raw, 89 kB gzipped, on all six CV pages |
+| schema in `pages/cv/lib` | 1,039,570 B | no |
 
 89 kB gzipped shipped to a browser to validate a segment only `next build` ever reads, since `generateStaticParams` enumerates every value under `output: 'export'`. So the schemas live in `pages/cv/lib/cv-route-params.ts` — the CV is the only localized route, and `.claude/rules/fsd.md`'s "no insignificant slices" says a thing with one consumer belongs inside it. The docstring there says so as a don't-move-this, since nothing else would catch the regression. If a second localized route shows up, the locale half moves down and `shared/i18n` needs a barrel-free entry point for it.
 
 That leaves timing and sync as arguments I made that were wrong, and placement as the real constraint I hadn't looked for.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-09T00:06:57Z
@@ -344,7 +339,7 @@ pnpm exec eslint src/shared/i18n src/pages/cv
     ... to elements of type "shared" and captured values: segmentName="i18n"
 ```
 
-`eslint.config.ts` defines `const PUBLIC_API = 'index.ts'` — a single literal, used as the `fileInternalPath` in every downward policy. So your option isn't a local move; it's a change to what "public API" means repo-wide, and once `PUBLIC_API` is a list, `index.*.ts` becomes a legal entry point on _every_ slice and segment with nothing narrowing it back to the one that wanted it. That's the cost, and it's the part I couldn't have argued from memory.
+`eslint.config.ts` defines `const PUBLIC_API = 'index.ts'` — a single literal, used as the `fileInternalPath` in every downward policy. So your option isn't a local move; it's a change to what "public API" means repo-wide, and once `PUBLIC_API` is a list, `index.*.ts` becomes a legal entry point on *every* slice and segment with nothing narrowing it back to the one that wanted it. That's the cost, and it's the part I couldn't have argued from memory.
 
 **Your read on the weak part was right regardless.** The docstring was the weak thing — a note asking the next person not to move a file, which nothing reads on the way to moving it. So I took the enforcement without the barrel: `cv-route-params.ts` now opens with `import 'server-only'`, which makes a client component reaching for these schemas a build error instead of a silent 89 kB, and the docstring shrank to the one fact it still has to carry. It's the pattern every module under `shared/content` already uses, and I should have reached for it the first time instead of writing prose.
 
@@ -353,16 +348,38 @@ pnpm exec eslint src/shared/i18n src/pages/cv
 If you'd still rather have the schema next to `routing` and are fine widening `PUBLIC_API` to a list, say so — it's a small diff and I'll take the eslint change with it.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
+
 
 **@vzakharov** — 2026-09-09T00:56:23Z
 
 If "boundaries don't allow" is the only argument -- let's rewrite the boundaries; check `playgramai/playgramapp` for how it works there (use the shimmed gh, otherwise the harness won't allow you to clone it).
 
+**@vzakharov** — 2026-09-09T01:22:38Z
+
+Rewrote the boundaries, in d52c5d3 — and playgramapp's answer is more radical than the one I'd been arguing against.
+
+**It doesn't pin a public API at all.** `eslint/boundaries.ts` there declares its elements with no `fileInternalPath` anywhere; what keeps `.unsafe.*` env modules out of client code is a `no-restricted-imports` pattern plus `import 'server-only'`, and the barrels multiply freely — `index.ts`, `index.testing.ts`, `index.server-actions.ts`, `index.client-safe.ts`. So the thing I called the cost ("`index.*.ts` becomes legal on every slice") is just how that repo works, and the suffix is treated as a *declaration* of what's behind it rather than as a hole in the boundary.
+
+**What landed here takes that with one narrowing.** `PUBLIC_API` is now `['index.ts', 'index.server-only.ts']` — a closed two-name list rather than a glob, so a third suffix is still an error and the widening can't be reached for by accident. `boundaries/dependencies` takes an array for `fileInternalPath` natively, so it's a one-line change.
+
+`localeSchema` moves back to `src/shared/i18n/locale-schema.ts`, beside `routing` where the locale list already lives, re-exported from `src/shared/i18n/index.server-only.ts`. `pages/cv/lib` imports it from there.
+
+Measured off `out/` — the regression this was all guarding against does not happen:
+
+| | client chunks | zod in a client chunk |
+| --- | --- | --- |
+| before this round | 1,004,108 B | no |
+| after | 1,004,108 B | no |
+
+`import 'server-only'` in `locale-schema.ts` is what holds that, not the barrel: the barrel names the split, the import fails the build. `.claude/rules/fsd.md` carries the rule now; the config comment is two lines pointing at it.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
+
 ---
 
-### `app/cv/[variant]/page.tsx`:1
+### `app/cv/[variant]/page.tsx`:1 — resolved
 
 **@vzakharov** — 2026-09-08T16:55:32Z
 
@@ -381,7 +398,6 @@ That said, your objection lands, and there is a real reduction available: `app/c
 Say go and I will land that in this PR.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T22:39:00Z
@@ -394,9 +410,9 @@ also: how do we do "redirect" if it's not supposed to work in a static export at
 
 Two answers, and the second one corrects me.
 
-**"Spiked"** — jargon I should have unpacked the first time. A _spike_ is a throwaway implementation written only to find out whether something works: you build it, measure it, and delete it. That's what I did with `[[...variant]]` — wrote it, ran `next build`, read the emitted files, then `git checkout`'d the lot. Nothing from it is on this branch, and nothing from it will be unless you say go. Read it as "I tried it in a scratch copy and threw it away."
+**"Spiked"** — jargon I should have unpacked the first time. A *spike* is a throwaway implementation written only to find out whether something works: you build it, measure it, and delete it. That's what I did with `[[...variant]]` — wrote it, ran `next build`, read the emitted files, then `git checkout`'d the lot. Nothing from it is on this branch, and nothing from it will be unless you say go. Read it as "I tried it in a scratch copy and threw it away."
 
-**"How do we redirect at all in a static export?"** — better question than I gave it credit for, because the honest answer isn't what my previous comment implied. I said a static export has no middleware (true) and left the impression that `redirect()` therefore does something server-side instead. It doesn't. Here is what `/cv` actually _is_, measured off `out/` on this branch:
+**"How do we redirect at all in a static export?"** — better question than I gave it credit for, because the honest answer isn't what my previous comment implied. I said a static export has no middleware (true) and left the impression that `redirect()` therefore does something server-side instead. It doesn't. Here is what `/cv` actually *is*, measured off `out/` on this branch:
 
 - **No HTTP redirect.** GitHub Pages serves `out/cv.html` with a `200`.
 - **No `<meta http-equiv="refresh">` either** — I grepped every `.html` in `out/`; there isn't one anywhere.
@@ -419,7 +435,6 @@ So, three separable calls, and I'll do whichever you want:
 3. The localized half of that collapse, which is the canonical question over on the other thread.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T23:35:00Z
@@ -435,7 +450,6 @@ Yes, it does — the canonical decision unblocked option 3, and option 2 came al
 **Option 1 — the `meta refresh` — I have not done**, since you named option 2 and I'd rather not widen the PR on my own read. It is still the actual defect in here: those three files are blank pages that only move if the browser runs JS, so a crawler that doesn't sees nothing. Two lines on the redirect page fixes it and it is independent of everything above. Say go and it's in.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-09T00:08:14Z
@@ -451,12 +465,12 @@ So the issue is written against the trap rather than a live bug, which is the ho
 Not fixed here: it's independent of this PR's scope, and this PR happens to leave nothing to fix.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
+
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:25
+### `src/pages/home/ui/dev-section.tsx`:25 — resolved
 
 ```diff
 @@ -1,16 +1,33 @@
@@ -477,7 +491,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +  FEATURED_CASE_STUDY,
 +} from '@/shared/content';
 +import { Card, InternalLink, Section, Subheading } from '@/shared/ui';
-
+ 
 -import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 -import { Card, InternalLink } from '@/shared/ui';
 -
@@ -487,7 +501,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +import { TechLine } from './tech-line';
 +
 +const CASE_STUDY_ROUTE = documentRoute('case-studies', FEATURED_CASE_STUDY);
-
+ 
 -export async function DevSection() {
 -  // Titles come from the documents themselves, so a renamed piece cannot drift.
 -  const caseStudies = await renderPrimaryDocuments('case-studies');
@@ -505,12 +519,11 @@ a BYOK AI-first text processor
 Fixed in ea186a5 — `a BYOK AI-first text processor`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:26
+### `src/pages/home/ui/dev-section.tsx`:26 — resolved
 
 ```diff
 @@ -1,16 +1,33 @@
@@ -531,7 +544,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +  FEATURED_CASE_STUDY,
 +} from '@/shared/content';
 +import { Card, InternalLink, Section, Subheading } from '@/shared/ui';
-
+ 
 -import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 -import { Card, InternalLink } from '@/shared/ui';
 -
@@ -541,7 +554,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +import { TechLine } from './tech-line';
 +
 +const CASE_STUDY_ROUTE = documentRoute('case-studies', FEATURED_CASE_STUDY);
-
+ 
 -export async function DevSection() {
 -  // Titles come from the documents themselves, so a renamed piece cannot drift.
 -  const caseStudies = await renderPrimaryDocuments('case-studies');
@@ -560,12 +573,11 @@ chatgpt before chatgpt
 Fixed in ea186a5 — `ChatGPT before ChatGPT`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:45
+### `src/pages/home/ui/dev-section.tsx`:45 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -621,12 +633,11 @@ Done in ea186a5 — the inline CV link is gone and there is a `Read full CV` but
 One judgement call worth flagging: the Work Highlights list used to end with its own `Read full CV →` text link, and I removed it rather than have the same label twice on one page. Say the word and it comes back — a quiet link after a long list is a reasonable thing to want.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:39
+### `src/pages/home/ui/dev-section.tsx`:39 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -646,12 +657,11 @@ _Generated by [Claude Code](https://claude.ai/code)_
 Fixed in ea186a5. Now: "These days I’m looking for a hands-on CTO position — taking an idea to production, or putting a team that already exists onto agent rails." Dropped the "for hire" too, since "looking for a position" already says the availability.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/cv/ui/cv-page.tsx`:1
+### `src/pages/cv/ui/cv-page.tsx`:1 — resolved
 
 **@vzakharov** — 2026-09-08T17:07:19Z
 
@@ -664,12 +674,11 @@ Done in ea186a5 — the header line under the name is now `vzakharov@gmail.com �
 Ride-along from the DRY pass: the email anchor was already spelled twice (header + contact block) and adding the site address made a second pair, so both became tiny local `EmailLink` / `WebsiteLink` components in `cv-sheet.tsx`. Three call sites collapse onto two components. Screenshot of the header in `docs/remove-before-merging/cv-header.png`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:61
+### `src/pages/home/ui/dev-section.tsx`:61 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -714,9 +723,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -739,12 +748,11 @@ Put the case study right under the title -- same pattern as in the respective ex
 Done in ea186a5 — the case-study link now renders straight under the title, same position `ExperienceCard` puts it in. It stopped being a `footer` prop and became `caseStudyHref`, matching `ExperienceCard`’s own prop name.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:82
+### `src/pages/home/ui/dev-section.tsx`:82 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -789,9 +797,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 ```
@@ -802,19 +810,18 @@ let's make the card lead to playgram.ai (making sure "Read the case study" still
 
 **@vzakharov** — 2026-09-08T17:52:56Z
 
-Done in ea186a5. This needed a structural change, because an anchor cannot nest: the card was previously a `CardLink` wrapped _around_ the card, so putting a working case-study link inside it was invalid HTML.
+Done in ea186a5. This needed a structural change, because an anchor cannot nest: the card was previously a `CardLink` wrapped *around* the card, so putting a working case-study link inside it was invalid HTML.
 
 `CardLink` is now rendered as the card’s **first child** — an absolutely-positioned overlay filling the card — and the case-study line carries `.aboveCardLink` (`position: relative`), so it paints over the overlay and keeps its own click. Verified by tinting the overlay red in a local render: the whole card washed red except that one line, which is exactly the hit-testing wanted.
 
 So: card → playgram.ai, "Read the case study" → the case study.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:55
+### `src/pages/home/ui/dev-section.tsx`:55 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -859,9 +866,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -878,12 +885,11 @@ _Generated by [Claude Code](https://claude.ai/code)_
 Fixed in ea186a5 — `Next.js 16, Supabase, Railway, feature-sliced design, Claude Code`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:67
+### `src/pages/home/ui/dev-section.tsx`:67 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -928,9 +934,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -959,12 +965,11 @@ now carriable over to my or anyone's new projects.
 Fixed in ea186a5 — the description now ends "…ready to carry onto my — or anyone’s — next project." (dropped the old "carried onto their own projects by the engineers who took it over", which said the narrower thing).
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:68
+### `src/pages/home/ui/dev-section.tsx`:68 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -1009,9 +1014,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -1041,12 +1046,11 @@ there's no ts or fsd there, it's a boilerplate. Say smth along the lines of temp
 Fixed in ea186a5 — `Claude Code, project templating, open source`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:112
+### `src/pages/home/ui/dev-section.tsx`:112 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -1091,9 +1095,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -1123,7 +1127,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
            techStack="Python, Gradio, Google Colab"
            url="https://github.com/vzakharov/jukebox-webui"
          />
-
+ 
          <ProjectCard
            title="almostmagic"
            stars={65}
@@ -1183,7 +1187,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 -          url="https://github.com/vzakharov/suno-power-tools"
 -        />
        </SimpleGrid>
-
+ 
 -      <Subheading>Professional Work</Subheading>
 +      <Stack gap={8}>
 +        <Text size="sm" opacity={0.7}>
@@ -1220,12 +1224,11 @@ No need for this at this point as there's just a single case study
 Removed in ea186a5. That also emptied the `Stack` that wrapped it, so the "Same pattern, earlier:" line is now a plain `Text`.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:115
+### `src/pages/home/ui/dev-section.tsx`:115 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -1270,9 +1273,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -1302,7 +1305,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
            techStack="Python, Gradio, Google Colab"
            url="https://github.com/vzakharov/jukebox-webui"
          />
-
+ 
          <ProjectCard
            title="almostmagic"
            stars={65}
@@ -1362,7 +1365,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 -          url="https://github.com/vzakharov/suno-power-tools"
 -        />
        </SimpleGrid>
-
+ 
 -      <Subheading>Professional Work</Subheading>
 +      <Stack gap={8}>
 +        <Text size="sm" opacity={0.7}>
@@ -1402,12 +1405,11 @@ Let's call it work highlights as they're not strictly in chronological order and
 Renamed to **Work Highlights** in ea186a5.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/dev-section.tsx`:135
+### `src/pages/home/ui/dev-section.tsx`:135 — resolved
 
 ```diff
 @@ -19,114 +36,101 @@ export async function DevSection() {
@@ -1452,9 +1454,9 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +          has the numbers.
          </Text>
        </Stack>
-
+ 
        <Subheading>Featured Projects</Subheading>
-
+ 
        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
 +        <ProjectCard
 +          title="Playgram.ai"
@@ -1484,7 +1486,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
            techStack="Python, Gradio, Google Colab"
            url="https://github.com/vzakharov/jukebox-webui"
          />
-
+ 
          <ProjectCard
            title="almostmagic"
            stars={65}
@@ -1544,7 +1546,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 -          url="https://github.com/vzakharov/suno-power-tools"
 -        />
        </SimpleGrid>
-
+ 
 -      <Subheading>Professional Work</Subheading>
 +      <Stack gap={8}>
 +        <Text size="sm" opacity={0.7}>
@@ -1573,7 +1575,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +      </Stack>
 +
 +      <Subheading>Recent Work</Subheading>
-
+ 
        <Stack gap={16}>
 ```
 
@@ -1592,7 +1594,6 @@ Fixed at the source rather than with per-logo nudges: each file is trimmed to it
 `public/logos/README.md` carries the rule so the next logo does not reintroduce it.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T22:41:42Z
@@ -1604,12 +1605,11 @@ _Generated by [Claude Code](https://claude.ai/code)_
 Done in 770b7df — `public/logos/README.md` is gone and the convention is `.claude/rules/logos.md`, scoped to `public/logos/**`, so it loads for the session that adds a logo rather than waiting to be found.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/home-page.tsx`:68
+### `src/pages/home/ui/home-page.tsx`:68 — resolved
 
 ```diff
 @@ -1,105 +1,81 @@
@@ -1626,18 +1626,18 @@ _Generated by [Claude Code](https://claude.ai/code)_
 -} from '@mantine/core';
 +import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
  import Image from 'next/image';
-
+ 
 -import { cssColor, InternalLink } from '@/shared/ui';
 +import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
 +import { cssColor, InternalLink, PageShell } from '@/shared/ui';
-
+ 
  import { ThemeToggle } from '@/features/switch-theme';
-
+ 
  import { ContactSection } from './contact-section';
  import { DevSection } from './dev-section';
 -import { MusicSection } from './music-section';
 -import { WritingSection } from './writing-section';
-
+ 
 -// A static export evaluates this at build time, so the footer year is the
 -// year the site was last deployed.
 -const BUILD_YEAR = new Date().getFullYear();
@@ -1646,7 +1646,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +  { href: PAGE_ROUTES.writing, label: 'writing' },
 +  { href: PAGE_ROUTES.music, label: 'music' },
 +];
-
+ 
  export function HomePage() {
    return (
 -    <Box mih="100vh" p={{ base: 32, sm: 80 }} pb={80}>
@@ -1660,7 +1660,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +        <Group justify="flex-end">
 +          <ThemeToggle />
 +        </Group>
-
+ 
 -          <Box component="section">
 -            <Stack gap={24} ta="center">
 -              <Center>
@@ -1742,14 +1742,14 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +            </Box>
 +          </Stack>
 +        </Box>
-
+ 
 -          <DevSection />
 -          <MusicSection />
 -          <WritingSection />
 -          <ContactSection />
 +        <DevSection />
 +        <ContactSection />
-
+ 
 -          <Box component="footer" ta="center">
 -            <Divider mb={32} color={cssColor('border-hairline')} />
 +        <Box component="footer" ta="center">
@@ -1772,15 +1772,14 @@ let's make it `/writing` and `/music` as labels (with the slash)
 
 Done in ea186a5 — the labels are `/writing` and `/music`.
 
-Small ride-along: since the path _is_ the label now, `SEE_ALSO` collapsed from `{ href, label }` pairs to just `[PAGE_ROUTES.writing, PAGE_ROUTES.music]`, with the href rendered as its own text. One less place for the two to disagree.
+Small ride-along: since the path *is* the label now, `SEE_ALSO` collapsed from `{ href, label }` pairs to just `[PAGE_ROUTES.writing, PAGE_ROUTES.music]`, with the href rendered as its own text. One less place for the two to disagree.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/pages/home/ui/home-page.tsx`:61
+### `src/pages/home/ui/home-page.tsx`:61 — resolved
 
 ```diff
 @@ -1,105 +1,81 @@
@@ -1797,18 +1796,18 @@ _Generated by [Claude Code](https://claude.ai/code)_
 -} from '@mantine/core';
 +import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
  import Image from 'next/image';
-
+ 
 -import { cssColor, InternalLink } from '@/shared/ui';
 +import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
 +import { cssColor, InternalLink, PageShell } from '@/shared/ui';
-
+ 
  import { ThemeToggle } from '@/features/switch-theme';
-
+ 
  import { ContactSection } from './contact-section';
  import { DevSection } from './dev-section';
 -import { MusicSection } from './music-section';
 -import { WritingSection } from './writing-section';
-
+ 
 -// A static export evaluates this at build time, so the footer year is the
 -// year the site was last deployed.
 -const BUILD_YEAR = new Date().getFullYear();
@@ -1817,7 +1816,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +  { href: PAGE_ROUTES.writing, label: 'writing' },
 +  { href: PAGE_ROUTES.music, label: 'music' },
 +];
-
+ 
  export function HomePage() {
    return (
 -    <Box mih="100vh" p={{ base: 32, sm: 80 }} pb={80}>
@@ -1831,7 +1830,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +        <Group justify="flex-end">
 +          <ThemeToggle />
 +        </Group>
-
+ 
 -          <Box component="section">
 -            <Stack gap={24} ta="center">
 -              <Center>
@@ -1913,14 +1912,14 @@ _Generated by [Claude Code](https://claude.ai/code)_
 +            </Box>
 +          </Stack>
 +        </Box>
-
+ 
 -          <DevSection />
 -          <MusicSection />
 -          <WritingSection />
 -          <ContactSection />
 +        <DevSection />
 +        <ContactSection />
-
+ 
 -          <Box component="footer" ta="center">
 -            <Divider mb={32} color={cssColor('border-hairline')} />
 +        <Box component="footer" ta="center">
@@ -1937,12 +1936,11 @@ let's experiment with placement of sections to the left, copyright to the right 
 Done in ea186a5 — the footer `Stack` became a `Group justify="space-between"`, so the section links sit left and the copyright right. Dropped the `ta="center"` on the footer and the "See also:" prefix with it: the slashed labels read as nav on their own.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/i18n/messages/en.json`:55
+### `src/shared/i18n/messages/en.json`:55 — resolved
 
 ```diff
 @@ -18,20 +18,59 @@
@@ -2009,12 +2007,11 @@ with reviewable artifacts
 Done in ea186a5 — pluralised: "…each stage its own session, with reviewable artifacts between them." Mirrored in `ru.json` (`с проверяемыми артефактами между ними`).
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/i18n/messages/en.json`:58
+### `src/shared/i18n/messages/en.json`:58 — resolved
 
 ```diff
 @@ -18,20 +18,59 @@
@@ -2084,12 +2081,11 @@ no need, it's not an "offer"
 Agreed, and removed in ea186a5 (both catalogues). The commit tally is a description of work already done, and the block it sat in is "What I Offer" — nothing about it is on sale. It still stands where it belongs: the case study and the Playgram experience entry.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/i18n/messages/en.json`:56
+### `src/shared/i18n/messages/en.json`:56 — resolved
 
 ```diff
 @@ -18,20 +18,59 @@
@@ -2161,12 +2157,11 @@ Fair — nine is a fact about this repo today, not a promise anyone can make abo
 Dropped the count, kept the production build as the thing that makes it a real gate. `ru.json` mirrored.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/i18n/messages/en.json`:57
+### `src/shared/i18n/messages/en.json`:57 — resolved
 
 ```diff
 @@ -18,20 +18,59 @@
@@ -2228,7 +2223,7 @@ _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T17:19:44Z
 
-more like ci/cd that fits _your_ workflows -- whether it's ship every commit from main, staging-based release cycles, or release trains
+more like ci/cd that fits *your* workflows -- whether it's ship every commit from main, staging-based release cycles, or release trains
 
 **@vzakharov** — 2026-09-08T17:53:32Z
 
@@ -2239,12 +2234,11 @@ Done in ea186a5:
 That drops the old line’s "2.4-day deploy cadence" proof, which was the other half of the sentence. No loss on the page — the cadence still appears in the profile paragraph and in the Playgram experience entry, where it reads as a measurement rather than as an offer. `ru.json` mirrored.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/i18n/messages/en.json`:273
+### `src/shared/i18n/messages/en.json`:273 — resolved
 
 ```diff
 @@ -223,10 +262,30 @@
@@ -2270,16 +2264,15 @@ How about "Fractional, hands-on" with a comma? Don't edit yet, weigh in
 
 Weighing in, no edit — and I would **take the comma**.
 
-Two reasons. Grammatically they are coordinate adjectives, not a compound modifier: "fractional and hands-on CTO" is a sentence you can say, which is the standard test, and the comma is what marks that. Without it the phrase reads as a single job title — _fractional-hands-on_ — as though the two words were one category someone already recognises. They are not.
+Two reasons. Grammatically they are coordinate adjectives, not a compound modifier: "fractional and hands-on CTO" is a sentence you can say, which is the standard test, and the comma is what marks that. Without it the phrase reads as a single job title — *fractional-hands-on* — as though the two words were one category someone already recognises. They are not.
 
-The better reason is that the comma is load-bearing for the pitch. "Fractional" and "hands-on" pull in opposite directions — part-time versus in-the-code — and that tension _is_ the offer. Run together they blur; with the pause, "hands-on" lands as its own claim rather than as a qualifier on how fractional you are.
+The better reason is that the comma is load-bearing for the pitch. "Fractional" and "hands-on" pull in opposite directions — part-time versus in-the-code — and that tension *is* the offer. Run together they blur; with the pause, "hands-on" lands as its own claim rather than as a qualifier on how fractional you are.
 
 Cost: it makes the tagline read a beat more formal, and a comma inside a five-word line is visible. I think that is worth it here, because the line has to survive being read by someone deciding whether "fractional" means "will not be around when it breaks".
 
 **Scope if you say go:** four strings, not one — `en` `variants.cto.header.tagline` and `variants.cto.metadata.description`, plus `ru`. The Russian is "Фракционный hands-on CTO для AI-native разработки"; the same comma works there ("Фракционный, hands-on CTO"), though Russian is more tolerant of the run-together form, so it is a separate call if you want them to differ. Re-rendering the CV PDFs is part of the change.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-08T22:43:27Z
@@ -2292,21 +2285,20 @@ Done in 770b7df — the comma is in all four strings: `variants.cto.header.tagli
 
 **One correction to my own scoping comment above: there are no CV PDFs to re-render.** I said re-rendering them was part of the change, and that was wrong. The only committed PDFs are the three case-study cuts, and `SHARED_SOURCES` in `scripts/render-pdf.ts` doesn't list `shared/i18n` — so the tagline isn't in their source set at all. The CV prints live from the browser off `print.scss`; nothing about it is a committed artifact.
 
-Separately, and not caused by this: the case-study PDFs _were_ stale on this branch, from the earlier commits touching `pages/case-studies/ui`, `shared/config` and `shared/content`. Re-rendered and committed in 560922f, with the printed output verified unchanged.
+Separately, and not caused by this: the case-study PDFs *were* stale on this branch, from the earlier commits touching `pages/case-studies/ui`, `shared/config` and `shared/content`. Re-rendered and committed in 560922f, with the printed output verified unchanged.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/ui/section.tsx`:8
+### `src/shared/ui/section.tsx`:8 — resolved
 
 ```diff
 @@ -2,14 +2,18 @@ import { Box, Stack, Title } from '@mantine/core';
-
+ 
  import type { WithChildren, WithId } from '@/shared/typings';
-
+ 
 -type SectionProps = WithId & WithChildren;
 +type SectionProps = WithId &
 +  WithChildren & {
@@ -2322,21 +2314,20 @@ why not some boolean prop (default false)?
 
 Done in ea186a5 — `order?: 1 | 2` is now `standalone?: boolean` (default `false`), with the component doing `<Title order={standalone ? 1 : 2}>`.
 
-Agreed on the reasoning: the call site knows whether the section _is_ the whole page, which is a fact about the page; it should not have to know that the fact implies `h1`. `music-section` and `writing-section` now read `<Section id="music" standalone>`, which says the thing rather than encoding it.
+Agreed on the reasoning: the call site knows whether the section *is* the whole page, which is a fact about the page; it should not have to know that the fact implies `h1`. `music-section` and `writing-section` now read `<Section id="music" standalone>`, which says the thing rather than encoding it.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 ---
 
-### `src/shared/typings/index.ts`:38
+### `src/shared/typings/index.ts`:38 — resolved
 
 ```diff
 @@ -30,8 +30,17 @@ export type WithOptionalClassName = { className?: string };
  /** What a wrapper component renders inside itself. */
  export type WithChildren = { children: ReactNode };
-
+ 
 +/** A heading and whatever renders under it. */
 +export type TitledBlock = Titled & WithChildren;
 +
@@ -2358,14 +2349,14 @@ Analysis, no code change yet — this one has a wrinkle worth putting to you bef
 **I went to cost out the entity and found its main payoff isn't available.** What I expected to collapse was `'playgram'`, which the tree spells three times:
 
 - `FEATURED_CASE_STUDY = 'playgram'` — `shared/content/collections.ts`
-- `CASE_STUDY_KEY = 'playgram'` — `pages/cv/ui/case-study-link.tsx`, whose own docstring admits it: _"Its slug is the server's `FEATURED_CASE_STUDY`"_
+- `CASE_STUDY_KEY = 'playgram'` — `pages/cv/ui/case-study-link.tsx`, whose own docstring admits it: *"Its slug is the server's `FEATURED_CASE_STUDY`"*
 - `EXPERIENCE_KEYS[0] === 'playgram'` — `pages/cv/ui/experience-card.tsx`
 
 An `entities/case-study` slice can't merge those, because of the wall that created the second one. The entity would need `documentRoute` to build `FEATURED_CASE_STUDY_ROUTE`, that comes from `@/shared/content`, and FSD requires going through its barrel — which re-exports `documents.ts`, which is `import 'server-only'`. So the entity's own public API inherits the taint, and `CaseStudyLink` (a client component, it calls `useMessages`) still can't value-import the slug from it. Same wall, one layer up.
 
-**And I think the duplication is misdiagnosed anyway.** `CASE_STUDY_KEY` isn't really a second copy of the content slug — it's a key into `cv.caseStudies`, which merely happens to be _named_ after the slug. The clean fix for that is the pattern already in use one line over: the href is resolved on the server and passed down as a prop, so the label can be too. That's a `pages/cv` change with no layer involved.
+**And I think the duplication is misdiagnosed anyway.** `CASE_STUDY_KEY` isn't really a second copy of the content slug — it's a key into `cv.caseStudies`, which merely happens to be *named* after the slug. The clean fix for that is the pattern already in use one line over: the href is resolved on the server and passed down as a prop, so the label can be too. That's a `pages/cv` change with no layer involved.
 
-Which leaves the entity holding one optional-prop type and a route constant, and that lands squarely on what `.claude/rules/fsd.md` warns about — _"`entities/` and `widgets/` are absent because nothing earns them yet, not as an oversight... inventing one costs more than leaving it out"_ — plus the trap line two sections down, _"The content pipeline is `shared/content`, not an entity."_ I'd be introducing the repo's first `entities/` layer and rewriting both statements in the same change.
+Which leaves the entity holding one optional-prop type and a route constant, and that lands squarely on what `.claude/rules/fsd.md` warns about — *"`entities/` and `widgets/` are absent because nothing earns them yet, not as an oversight... inventing one costs more than leaving it out"* — plus the trap line two sections down, *"The content pipeline is `shared/content`, not an entity."* I'd be introducing the repo's first `entities/` layer and rewriting both statements in the same change.
 
 **So my counter-proposal, which I think answers "not domain-less" at the right price:** move `WithOptionalCaseStudyHref` from `shared/typings` into `shared/content`, beside `DocumentRef`, `Slugged` and `Routed` — the segment that already owns case-study nouns and already exports domain-shaped types. It's `export type`, and both call sites already `import type`, so nothing pulls `server-only` and the client subtree is unaffected. `shared/typings` goes back to holding only what genuinely has no domain, which is what its own docstring claims for it.
 
@@ -2376,7 +2367,6 @@ Three ways to go, and it's your call:
 3. **Either of those, plus passing the CV's case-study label down as a prop** — which is the change that actually removes a spelling of `'playgram'`, and is worth doing independently of where the type lives.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
 
 **@vzakharov** — 2026-09-09T00:09:50Z
@@ -2385,35 +2375,35 @@ neither; let's keep as is for now
 
 ---
 
-### `app/cv/[[...variant]]/page.tsx`:1
+### `app/cv/[[...variant]]/page.tsx`:1 — unresolved
 
 **@vzakharov** — 2026-09-09T00:13:07Z
 
-again, we're left with this essentially repeating `app/[locale]/cv/[[...variant]]/page.tsx`.
+again, we're left with this essentially repeating `app/[locale]/cv/[[...variant]]/page.tsx`. 
 
-what if we just do `app/cv/[[...variantAndLocale]]`, resulting in cto/en, dev/en, cto/ru, dev/ru -- all parsed by a single page. Iirc (and I might not), the original argument for locale being the first route segment was "smth smth i18n works this way" -- but at this point I don't see us doing _anything_ here using i18n's out-of-the-box means, so we're hand-writing it anyway, and frankly a locale in the end of the route looks better to me than in the beginning
+what if we just do `app/cv/[[...variantAndLocale]]`, resulting in cto/en, dev/en, cto/ru, dev/ru -- all parsed by a single page. Iirc (and I might not), the original argument for locale being the first route segment was "smth smth i18n works this way" -- but at this point I don't see us doing *anything* here using i18n's out-of-the-box means, so we're hand-writing it anyway, and frankly a locale in the end of the route looks better to me than in the beginning
 
-let me know if it has a bigger blast radius than I imagine (one is backward comp -- but ignore it as long as bare /cv/ -- a link I might've actually shared where it matters -- resolves to _something_)
+let me know if it has a bigger blast radius than I imagine (one is backward comp -- but ignore it as long as bare /cv/ -- a link I might've actually shared where it matters -- resolves to *something*)
 
 **@vzakharov** — 2026-09-09T00:40:27Z
 
 Landed in 9f1c4c7 — the blast radius is one item bigger than your list, and the item is small.
 
-**Your premise is wrong in one respect, and it doesn't change the answer.** We _were_ using next-intl's out-of-the-box means: `createNavigation(routing)` gave `Link`, `usePathname` and `useRouter`, and those were what made the variant switch and the locale picker work. `localePrefix` has `'always' | 'as-needed' | 'never'` and custom _prefixes_ — no suffix mode — so a trailing locale can't be expressed through them and they had to go. That turned out to be worth doing on its own: the two controls now build hrefs from `cvPath` and use `next/link`, the locale picker is a real link instead of a post-hydration `router.replace`, and the client bundle drops 35 kB (1,039,570 → 1,004,108 B of chunks). `shared/i18n` keeps the locale list and nothing else.
+**Your premise is wrong in one respect, and it doesn't change the answer.** We *were* using next-intl's out-of-the-box means: `createNavigation(routing)` gave `Link`, `usePathname` and `useRouter`, and those were what made the variant switch and the locale picker work. `localePrefix` has `'always' | 'as-needed' | 'never'` and custom *prefixes* — no suffix mode — so a trailing locale can't be expressed through them and they had to go. That turned out to be worth doing on its own: the two controls now build hrefs from `cvPath` and use `next/link`, the locale picker is a real link instead of a post-hydration `router.replace`, and the client bundle drops 35 kB (1,039,570 → 1,004,108 B of chunks). `shared/i18n` keeps the locale list and nothing else.
 
 **What it emits**, measured off `out/`:
 
-|                                                        |                  |
-| ------------------------------------------------------ | ---------------- |
-| `/cv`                                                  | cto, en          |
-| `/cv/cto`, `/cv/dev`                                   | that framing, en |
-| `/cv/cto/en`, `/cv/cto/ru`, `/cv/dev/en`, `/cv/dev/ru` | both named       |
+| | |
+| --- | --- |
+| `/cv` | cto, en |
+| `/cv/cto`, `/cv/dev` | that framing, en |
+| `/cv/cto/en`, `/cv/cto/ru`, `/cv/dev/en`, `/cv/dev/ru` | both named |
 
 7 files where there were 9, from 1 route file where there were 2, and `app/[locale]/` is gone. Each rung advertises itself as its own `og:url` and declares the fully-specified twin canonical, so `/cv` is `og:url=/cv` + `canonical=/cv/cto/en`; the sitemap lists only the four twins. Interaction always moves you to a full address — from `/cv`, the switch goes to `/cv/dev/en` — so the short rungs are entry points rather than a second set of pages.
 
 **The one thing you asked about is fine:** bare `/cv` is a real 72 kB page with the CTO CV in it, not a stub. `/en/cv` and `/ru/cv` 404, as you authorised.
 
-**And a side effect worth naming:** that was the last `redirect()` in the tree, so the site now has _no_ JS-only redirect page — the defect from the thread above has no live instance. `grep -rl NEXT_REDIRECT out/` hits only Next's own router chunk. Filed the latent trap as #32.
+**And a side effect worth naming:** that was the last `redirect()` in the tree, so the site now has *no* JS-only redirect page — the defect from the thread above has no live instance. `grep -rl NEXT_REDIRECT out/` hits only Next's own router chunk. Filed the latent trap as #32.
 
 Two things I did **not** do, both yours to call:
 
@@ -2423,20 +2413,41 @@ Two things I did **not** do, both yours to call:
 Say the word and I'll revert the whole thing; it's one commit.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
+
 
 **@vzakharov** — 2026-09-09T01:00:08Z
 
 let's do 1; for the second one file an issue
 
+**@vzakharov** — 2026-09-09T01:22:51Z
+
+Both done.
+
+**1 — `hreflang`, in 43d54f1.** Every rung now lists both fully-specified twins plus an `x-default`. Off the build, `/cv/cto/ru`:
+
+```html
+<link rel="alternate" hrefLang="en" href="https://vovazakharov.com/cv/cto/en"/>
+<link rel="alternate" hrefLang="ru" href="https://vovazakharov.com/cv/cto/ru"/>
+<link rel="alternate" hrefLang="x-default" href="https://vovazakharov.com/cv/cto/en"/>
+```
+
+The short rungs carry the same three beside their canonical, which is what you want — a crawler landing on `/cv` learns both the indexed address and that a Russian one exists. `constructMetadata` takes the alternates as site-root paths and absolutizes them the way it already does the canonical; a page that passes none emits no alternate links, so nothing else on the site changed.
+
+**2 — filed as #33.** `<html lang="en">` is hardcoded in the root layout, so both `ru` CVs serve Cyrillic under an English `lang`. The issue carries what it costs (screen-reader pronunciation, and it contradicts the `hreflang` above), the reason it isn't a one-liner — the root layout renders once with no route params under `output: 'export'`, so it can't read the trailing locale segment — and three options with their trade-offs.
+
+It also names a sibling I found while wiring the alternates: `constructMetadata` hardcodes `openGraph.locale: 'en_US'`, so the Russian CV's social card advertises English too. That one *is* reachable per-route and can be fixed independently — say the word and it's a separate small commit rather than a rider on this branch.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
+
 ---
 
-### `docs/remove-before-merging/squash-message.md`:1
+### `docs/remove-before-merging/squash-message.md`:1 — resolved
 
 **@vzakharov** — 2026-09-09T00:15:00Z
 
-this is getting hefty; cut the "four things to know" part -- it doesn't belong to a squash message (no one will be accidentally looking into it to figure out how pdfs work), and going forward make sure the message doesn't bloat following our future edits (cut&replace, don't just append)
+this is getting hefty; cut the "four things to know" part -- it doesn't belong to a squash message (no one will be accidentally looking into it to figure out how pdfs work), and going forward make sure the message doesn't bloat following our future edits (cut&replace, don't just append) 
 
 **@vzakharov** — 2026-09-09T00:40:58Z
 
@@ -2447,18 +2458,18 @@ The same commit re-states the CV paragraph rather than appending to it, which yo
 `WithStringVariant`, which the cut paragraph named, no longer exists either — the schemas replaced it two rounds ago. That's the failure mode you're describing: a body that only ever gains sentences accumulates claims nobody re-checks.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
+
 
 ---
 
-### `docs/remove-before-merging/squash-message.md`:53
+### `docs/remove-before-merging/squash-message.md`:53 — resolved
 
 ```diff
 @@ -25,23 +25,32 @@ subsections are keyed blocks with the per-variant order in code, the
  shape `experience` and `techStack` already use. Nothing retitles
  history: Playgram is "Developer" in both.
-
+ 
 -The home page becomes the pitch. Writing and music each get a page of
 +The home page becomes the pitch: writing and music each get a page of
  their own behind a *See also* footer line, the in-page nav goes, the
@@ -2511,26 +2522,45 @@ to add to the above general-file comment, if this needs a rule, let it be a rule
 
 Made a rule, in b5f4bf2 — two of them, in `.claude/skills/squash-message/SKILL.md` § "Step 3 — Tighten it", since that skill is the home for the body's format and a second home would just drift from it:
 
-- **A trap for whoever edits the area next is not part of the record.** It sits with the existing list of what else stays out of a body. It also names the line that licensed the paragraph you cut — Step 3 used to ask for "anything that would trip someone editing that area later", which is how a maintenance manual ended up in a commit message with the pass thinking it had done its job. That clause is gone, and the rule says where such a constraint goes instead (a `.claude/rules/` file, or a docstring on the thing itself) and the one case where the body does mention it: when the change _is_ that the constraint now exists.
+- **A trap for whoever edits the area next is not part of the record.** It sits with the existing list of what else stays out of a body. It also names the line that licensed the paragraph you cut — Step 3 used to ask for "anything that would trip someone editing that area later", which is how a maintenance manual ended up in a commit message with the pass thinking it had done its job. That clause is gone, and the rule says where such a constraint goes instead (a `.claude/rules/` file, or a docstring on the thing itself) and the one case where the body does mention it: when the change *is* that the constraint now exists.
 - **A re-run rewrites; it never accretes.** Step 2 hands the run a live file, so the cap has to be re-applied to the whole body on every refresh, not just the first. The tell is named: a proposal that grew every time the branch did.
 
 ---
-
 _Generated by [Claude Code](https://claude.ai/code)_
+
 
 **@vzakharov** — 2026-09-09T01:01:31Z
 
 I was referring to making a rule out of what the removed prose used to say; but your added one is okay too lol (but the suggestion stays).
 
+**@vzakharov** — 2026-09-09T01:23:05Z
+
+Understood — you meant the content, not the process. Took the suggestion in fa18122, and checking it found one item that genuinely had nowhere to live.
+
+I'd asserted when cutting the paragraph that each of the four already had a home. Three did:
+
+| trap | home |
+| --- | --- |
+| the PDFs hash `shared/content`, `shared/config` and the article components as one source set | `.claude/rules/content.md`, "A print-affecting change needs `pnpm content:pdf` re-run" |
+| a card's link is an overlay, not a wrapper — anchors can't nest | `CardLink`'s docstring in `src/shared/ui/card.tsx` |
+| the `no-hardcoded-strings` exemption covers three whole slices | the scoped block's own comment in `eslint.config.ts` |
+
+The fourth didn't. `scripts/type-overlap-check.README.md` § "Known gaps" listed **three** positions where an inline shape is invisible to the gate — a return type, a `const` annotation, a render-prop's argument — and not the one route params actually sit in: a generic's type argument. `WithParams<{ slug: string }>` hides `slug` from the gate exactly the way the README says the other three do, and nothing said so. It now names four positions and shows the route case, so `WithParams<WithOptionalCvSegments>` has something to lose an argument to.
+
+One stale line fell out while I was in there: that exemption comment still said "only `[locale]/cv/` is localized", which 9f1c4c7 retired.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
+
 ---
 
-### `writing/notes/the-five-percent.md`:119
+### `writing/notes/the-five-percent.md`:119 — resolved
 
 ```diff
 @@ -106,7 +106,19 @@ then in the search people see "ok, this one's for cto, and it sits on
  en/cv/cto"_. Flipped, the cost is the goal, and the collapse the agent had
  argued against became free — four route files down to two.
-
+ 
 -## It writes its reasoning into the artifact (×2)
 +**9 September — the prefix as the shape a locale comes in.** Told the two CV
 +route files still repeated each other, the agent had collapsed four into two the
@@ -2549,6 +2579,50 @@ I was referring to making a rule out of what the removed prose used to say; but 
 
 I feel like you've gotten into the habit on overadding to this lol (which in itself is a meta-lesson): you wouldn't have known that moving locale to another segment location would be an answer -- that's not an agent's call to take. Perhaps you could've pitched the idea -- but it's not like you should've went "oh ok, here's a problem, let me break the entire routing structure to fix it", it'd be a worse sin
 
+**@vzakharov** — 2026-09-09T01:23:20Z
+
+You're right, and the entry is gone in 41bea99 — the section is back to ×5.
+
+Rereading it with your point in hand, the entry doesn't survive its own file's premise. "The five percent" is supposed to collect things the agent *could have seen and didn't*. Restructuring the site's routing is not that: it's a positioning call, and an agent that went ahead and took it unasked would have produced a worse session than the one that didn't think of it. What I actually left undone is pitching the idea, which is a real but much smaller thing — and not the same shape as the four genuine bumps in that section, where the frame really was mine to question.
+
+Two edits beyond the removal:
+
+- **"Not bumps"** gains it as a specimen, so the removal is legible rather than silent — that section already exists to record things that shouldn't be miscounted as judgement.
+- **"How this file is kept"** gains the test that decides it: a bump is something the agent could have seen and didn't; where the review supplied a decision that was yours to take, it goes under "Not bumps" or nowhere.
+
+On the meta-lesson: I didn't open a section for it, deliberately — adding a learning about over-adding, in the same pass, seemed like the joke writing itself. The criterion in "How this file is kept" is where it'll actually get applied. Say the word if you'd rather it were a numbered learning too; it's a reasonable read that "the agent can't tell its own blind spot from the human's prerogative" is itself a specimen.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
+
+---
+
+### `.claude/skills/squash-message/SKILL.md`:1 — unresolved
+
+**@vzakharov** — 2026-09-09T01:35:18Z
+
+let's file an issue on the boilerplate repo suggesting to adopt the changes taken here
+
+---
+
+### `writing/notes/the-five-percent.md`:44 — unresolved
+
+```diff
+@@ -37,6 +37,11 @@ much as a measurement that only flatters.
+ - **Sorted by count, descending**, ties ordered by hand. The order is the claim
+   the file makes, so a changed count means re-reading the list and moving the
+   section, not appending to the end.
++- **A bump is something the agent could have seen and didn't.** Where the review
++  supplied a decision that was the human's to take — a positioning call, a change
++  of scope, anything the agent taking it unasked would have been worse — it goes
++  under "Not bumps" or nowhere. Not every correction is a blind spot, and a file
++  that counts them all reads as an agent grading its own obedience.
+```
+
+**@vzakharov** — 2026-09-09T01:36:33Z
+
+do the other learnings here de-qualify per this lens? edit if yes
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -2558,3 +2632,5 @@ I feel like you've gotten into the habit on overadding to this lol (which in its
 - **2026-09-09T00:16:51Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/31#pullrequestreview-5148340350.
 - **2026-09-09T00:32:38Z** @vzakharov cross-referenced this pull request from [#32 Static-export redirects are JS-only blank pages — needs one durable primitive](https://github.com/vzakharov/vovazakharov.com/issues/32).
 - **2026-09-09T01:07:31Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/31#pullrequestreview-5148621579.
+- **2026-09-09T01:17:06Z** @vzakharov cross-referenced this pull request from [#33 Every page declares `<html lang="en">`, including the Russian CV](https://github.com/vzakharov/vovazakharov.com/issues/33).
+- **2026-09-09T01:37:45Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/31#pullrequestreview-5148794884.
