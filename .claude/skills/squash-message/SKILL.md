@@ -168,7 +168,7 @@ answers what changed and why; nobody opens a squash message to find out how the
 PDF hashes work or which prop shape the type gate can read. A constraint that
 has to be obeyed goes where the person about to break it is already looking — a
 `.claude/rules/` file, a docstring on the thing itself — and the body mentions
-it only when the change *is* that the constraint now exists. A "things to know
+it only when the change _is_ that the constraint now exists. A "things to know
 when editing here" paragraph is the tell that the pass put it in the wrong home.
 
 Why the change exists is whatever is honest. Often that's a defect or a gap. Just

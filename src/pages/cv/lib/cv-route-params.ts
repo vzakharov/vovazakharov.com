@@ -10,6 +10,9 @@ import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 /** The catch-all's segments as a route hands them over, before the schema narrows them. */
 export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 
+const variantSegment = z.enum(CV_VARIANTS);
+const localeSegment = z.enum(routing.locales);
+
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
  * which under `output: 'export'` is the only thing that ever runs this.
@@ -22,8 +25,8 @@ export const cvSegmentsSchema = z.object({
   variantAndLocale: z
     .union([
       z.tuple([]),
-      z.tuple([z.enum(CV_VARIANTS)]),
-      z.tuple([z.enum(CV_VARIANTS), z.enum(routing.locales)]),
+      z.tuple([variantSegment]),
+      z.tuple([variantSegment, localeSegment]),
     ])
     .default([]),
 });
@@ -38,13 +41,13 @@ export function cvAddressDefaults(address: CvAddress) {
 
 /** Every address the CV answers, as the catch-all spells them. */
 export function cvSegmentParams(): WithOptionalCvSegments[] {
-  return [
-    { variantAndLocale: [] },
-    ...CV_VARIANTS.flatMap((variant) => [
-      { variantAndLocale: [variant] },
-      ...routing.locales.map((locale) => ({
-        variantAndLocale: [variant, locale],
-      })),
+  const addresses: CvAddress[] = [
+    [],
+    ...CV_VARIANTS.flatMap<CvAddress>((variant) => [
+      [variant],
+      ...routing.locales.map<CvAddress>((locale) => [variant, locale]),
     ]),
   ];
+
+  return addresses.map((variantAndLocale) => ({ variantAndLocale }));
 }
