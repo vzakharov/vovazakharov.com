@@ -124,6 +124,56 @@ rewrite the boundaries_, and go read how the sibling repo does it. That repo
 pins no public API at all and runs four suffixed barrels; the cost the agent had
 quoted is simply how it works there.
 
+## It edits the copy in front of it, not the fact behind it (×4)
+
+A change the agent is told to make, it makes where it was raised. One fact
+rendered in three places gets one rendering updated; a rule fixed in the repo
+that adopted it leaves the source it came from carrying the cause; a test written
+into a file is run against the one entry under discussion. Nothing catches the
+split — every site still reads correctly on its own, and the divergence exists
+only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders on
+the home page's project card, on its work-highlight card, and in the CV's
+experience entry. Told to put Supabase and Railway in it, the agent edited the
+project card and left the other two reading _Next.js 16, TypeScript,
+feature-sliced design, Claude Code_ — having authored all three itself, in the
+same branch, hours earlier. Two neighbours had drifted the same way: the CV
+credited Orcool with a custom LLM orchestration framework that neither home card
+mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
+other. The reply was one line — _the tech stack lines should be the same (and
+DRY)_ — and it named a defect no screenshot of any single page could show,
+because each page was right.
+
+**9 September — the rule fixed in the copy, not in the source.** Told a squash
+body has no business carrying a "things to know when editing here" paragraph,
+the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
+the round as closed. That skill is adopted from a boilerplate repo — named by
+line in `.claude/skills/sync-agent-boilerplate/source.json` — whose copy still
+asks the pass for "anything that would trip someone editing that area later".
+The clause that licensed the paragraph is upstream, so the same body gets written
+there next month. The reply was _let's file an issue on the boilerplate repo_.
+Whether to file was the operator's call; that the fix had a second site was not.
+
+**9 September — a test written and not run over the file it was for.** The same
+round added the test above to this file — a bump is something the agent could
+have seen and didn't — and ran it against exactly the entry under discussion,
+retiring one. Ten sections sat above it unexamined, in the file the test had been
+written about. The reply was one line: _do the other learnings here de-qualify
+per this lens? edit if yes_. One did.
+
+**9 September — the tagline in the catalogue, the tagline in the pixels.** The
+CV repositioning rewrote the tagline and the description for the CTO framing and
+wired `cv-metadata.ts` to serve each framing its own. Two lines below, in the
+same file, the same PR left `ogImage: '/cv_card.png'` — a hand-made composite
+with the developer tagline and the retired Core Capabilities bullets baked in —
+now advertised for both framings, so a shared `/cv` link unfurled the CTO
+description beside a card reading DEVELOPER. The card was a fact rendered in
+pixels rather than in text, and the search for the copy to update never reached
+it; nothing in the tree hashed it either. An industry CEO named the picture as
+wrong for the framing, and the operator, shown the unfurl, needed five words:
+_бли, картинку уже поменять надо_ 🙈.
+
 ## It writes its reasoning into the artifact (×3)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
@@ -199,44 +249,6 @@ shape inlined into a generic — was named nowhere but in the paragraph being
 deleted. The reply asked for the content to become a rule, not for the argument
 to be re-made, and one pass over the four found the gap in a minute. An account
 that would have been checked in a minute is the kind that never is.
-
-## It edits the copy in front of it, not the fact behind it (×3)
-
-A change the agent is told to make, it makes where it was raised. One fact
-rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source it came from carrying the cause; a test written
-into a file is run against the one entry under discussion. Nothing catches the
-split — every site still reads correctly on its own, and the divergence exists
-only between them.
-
-**8 September — one stack, three spellings.** Playgram's tech line renders on
-the home page's project card, on its work-highlight card, and in the CV's
-experience entry. Told to put Supabase and Railway in it, the agent edited the
-project card and left the other two reading _Next.js 16, TypeScript,
-feature-sliced design, Claude Code_ — having authored all three itself, in the
-same branch, hours earlier. Two neighbours had drifted the same way: the CV
-credited Orcool with a custom LLM orchestration framework that neither home card
-mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
-other. The reply was one line — _the tech stack lines should be the same (and
-DRY)_ — and it named a defect no screenshot of any single page could show,
-because each page was right.
-
-**9 September — the rule fixed in the copy, not in the source.** Told a squash
-body has no business carrying a "things to know when editing here" paragraph,
-the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
-the round as closed. That skill is adopted from a boilerplate repo — named by
-line in `.claude/skills/sync-agent-boilerplate/source.json` — whose copy still
-asks the pass for "anything that would trip someone editing that area later".
-The clause that licensed the paragraph is upstream, so the same body gets written
-there next month. The reply was _let's file an issue on the boilerplate repo_.
-Whether to file was the operator's call; that the fix had a second site was not.
-
-**9 September — a test written and not run over the file it was for.** The same
-round added the test above to this file — a bump is something the agent could
-have seen and didn't — and ran it against exactly the entry under discussion,
-retiring one. Ten sections sat above it unexamined, in the file the test had been
-written about. The reply was one line: _do the other learnings here de-qualify
-per this lens? edit if yes_. One did.
 
 ## A published number is not a verified number (×2)
 
