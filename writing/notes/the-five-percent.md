@@ -79,15 +79,14 @@ agent had coined the word the day before and was already reasoning as though its
 meaning had been handed to it.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
-files each spelled their params as an object literal inside a generic —
-`Promise<{ locale: string; variant: string }>`. The repo's own rule is that
-every member two named types declare has one home, and `pnpm type-overlap`
-enforces it; the agent had run the gate, seen it clean, and stopped. The reply:
-_type-overlap doesn't cover this, but consider it covered_. The gate scans type
-aliases only, so an inlined generic argument is invisible to it — which the
-agent knew, having read the README that says so, and read as the boundary of the
-rule rather than as a hole in its enforcement. A checker that passes is
-evidence about the checker.
+files each inlined their params as an object literal inside a generic. The
+repo's rule is that every member two named types declare has one home, and
+`pnpm type-overlap` enforces it; the agent ran the gate, saw it clean, and
+stopped. The reply: _type-overlap doesn't cover this, but consider it covered_.
+The gate scans type aliases only, so an inlined generic argument is invisible to
+it — which the agent knew, having read the README that says so, and read as the
+boundary of the rule rather than as a hole in its enforcement. A checker that
+passes is evidence about the checker.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule,
 the agent named the bases the route files had inlined, and the gate then found
@@ -124,7 +123,7 @@ rewrite the boundaries_, and go read how the sibling repo does it. That repo
 pins no public API at all and runs four suffixed barrels; the cost the agent had
 quoted is simply how it works there.
 
-## It edits the copy in front of it, not the fact behind it (×4)
+## It edits the copy in front of it, not the fact behind it (×5)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -173,6 +172,18 @@ pixels rather than in text, and the search for the copy to update never reached
 it; nothing in the tree hashed it either. An industry CEO named the picture as
 wrong for the framing, and the operator, shown the unfurl, needed five words:
 _бли, картинку уже поменять надо_ 🙈.
+
+**9 September — a rename that took its own inventory on trust.** Told the double
+`l` in `Labelled` hurt, the agent renamed the type and `LabelledText`, then
+accounted for the remainder: the two left in the tree "are authored prose, not
+identifiers", and here is where they are. Both halves were wrong. The prose
+occurrences were four across three files, not two, and `scripts/run-parallel.sh`
+holds a shell variable named `labelled` — an identifier, in the script every vet
+run executes. Offering to sweep the rest reads as having looked at it; what the
+agent had actually looked at was the diff it had just written. The reply took
+the frame back: _yes let's change them too, they were probably the reason you
+reached for the double l in the first place_ — the spelling was in the tree
+before the type was, and the type had been the copy.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -272,14 +283,12 @@ sections up — a hand-made card advertising the wrong framing — was fixed by
 rendering one card per framing off the catalogue, and the property the agent set
 itself was that the card could no longer say what the page had stopped saying.
 It rendered both, read them, and confirmed exactly that. The same image showed a
-plate empty across its top and bottom thirds, carrying a name, a tagline, and
-`metadata.ogSuffix` — "The platform outlived my involvement" — which names
-nothing on sale, and no way to reach the person on it. The five engagement
-labels sat in the same catalogue slice, on the landing page the agent had
-written hours earlier. The reply spent four lines on what the render was for:
-_the prose itself says nothing_, take a shorter version of "what I offer", add
-GitHub and LinkedIn, and in general a physical business-card-like view is
-welcome.
+plate empty across its top and bottom thirds, carrying a name, a tagline and
+`metadata.ogSuffix` — which names nothing on sale — and no way to reach the
+person on it. The five engagement labels sat in the same catalogue slice. The
+reply spent four lines on what the render was for: _the prose itself says
+nothing_, take a shorter version of "what I offer", add GitHub and LinkedIn, and
+in general a physical business-card-like view is welcome.
 
 ## A published number is not a verified number (×2)
 
