@@ -5,6 +5,17 @@
 // `ColorSchemeScript` sets `data-mantine-color-scheme` inside `<head>`, so the
 // survivor is painted on the first frame instead.
 
+// The toggle is page furniture rather than content, so it rests as grey at a
+// fraction of the foreground and comes up to full on hover — the inverse of
+// `.hover-dim`, which dims things that read at full strength to begin with.
+.toggle {
+  opacity: 0.45;
+
+  @include mantine.hover {
+    opacity: 1;
+  }
+}
+
 // Light is the base and only `dark` is keyed, so a document that never got the
 // attribute shows one icon rather than both.
 .whenLight {

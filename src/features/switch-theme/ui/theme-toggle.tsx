@@ -4,6 +4,8 @@ import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { Moon, Sun } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { cx } from '@/shared/lib/class-names';
+
 import {
   type PickedColorScheme,
   preferredColorScheme,
@@ -45,12 +47,11 @@ export function ThemeToggle() {
 
   return (
     <ActionIcon
-      variant="default"
+      variant="transparent"
       size={SIZE}
-      radius={4}
       onClick={switchScheme}
       aria-label={t('toggleTheme')}
-      className="print-hidden"
+      className={cx(classes['toggle'], 'print-hidden')}
     >
       {/* The icon names the scheme a click gets you, not the one you are in. */}
       <Moon size={20} aria-hidden className={classes['whenLight']} />
