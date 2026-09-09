@@ -258,9 +258,9 @@ const eslintConfig = defineConfig([
       ...vovaRules,
     },
   },
-  // These pages are served with no locale segment — only `[locale]/cv/` is
-  // localized — so their copy is authored in English in the JSX and there is no
-  // `ru` rendering for a literal to defeat. The exemption spans each whole
+  // These pages are served at one address in one language — the CV is the only
+  // localized route — so their copy is authored in English in the JSX and there
+  // is no `ru` rendering for a literal to defeat. The exemption spans each whole
   // slice because a page is composed from one section component per topic. Drop
   // a slice from the list if its page is ever localized; the rule stays `error`
   // everywhere else, including every component the CV renders.
