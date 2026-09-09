@@ -15,11 +15,14 @@ picture suited a developer. Behind that last point was a stale card: a
 hand-committed PNG with the dev tagline in its pixels, served as
 `og:image` for both framings, that nothing checked.
 
-The landing page makes the offer in its first screen. The hero's middle
-line is the site tagline, held in `SITE_CONFIG` because it is also what
-every page without a description of its own unfurls with; `/offer`
-states the engagement and lists each kind of it off the CV's own
-catalogue, `/work` keeps the projects and highlights. The offer gains
+The landing page makes the offer in its first screen. The site tagline
+heads the offer section — held in `SITE_CONFIG` because it is also
+what every page without a description of its own unfurls with — over
+the engagement and each kind of it read off the CV's own catalogue; the
+hero above it keeps the name and the overlords line, and the projects
+and highlights follow. No section there is headed by its slash name:
+`Section` titles only a page that is a single section, as `/writing`
+and `/music` are. The offer gains
 "Architecture and foundations", and standing technical judgment gives
 up the clause that bullet now covers as work. Bullet labels stop
 carrying their own colon — the renderer sets it — which surfaced two
