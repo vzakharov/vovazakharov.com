@@ -1,9 +1,10 @@
 import { SITE_CONFIG } from '@/shared/config';
+import { intrinsicDimensions } from '@/shared/content';
 import { type Locale, routing } from '@/shared/i18n';
 import { constructMetadata } from '@/shared/seo';
 
 import { cvMessages } from './cv-messages';
-import { cvPath } from './cv-urls';
+import { cvCardPath, cvPath } from './cv-urls';
 import type { CvVariant } from './cv-variants';
 
 /**
@@ -14,6 +15,10 @@ import type { CvVariant } from './cv-variants';
  *
  * The `hreflang` alternates are load-bearing rather than belt-and-braces: with
  * the locale in a trailing segment, nothing else in a CV URL names its language.
+ *
+ * The card's size is read off the committed render, so a framing whose card
+ * `pnpm content:og` never produced fails the build rather than advertising
+ * nothing.
  */
 export function generateCvMetadata(
   locale: Locale,
@@ -21,6 +26,7 @@ export function generateCvMetadata(
   path: string,
 ) {
   const { description, ogSuffix } = cvMessages(locale, variant).cv.metadata;
+  const ogImage = cvCardPath(variant);
 
   return constructMetadata({
     title: `CV - ${SITE_CONFIG.name}`,
@@ -38,6 +44,7 @@ export function generateCvMetadata(
       'x-default': cvPath(variant, routing.defaultLocale),
     },
     ogType: 'profile',
-    ogImage: '/cv_card.png',
+    ogImage,
+    ogImageSize: intrinsicDimensions(ogImage),
   });
 }

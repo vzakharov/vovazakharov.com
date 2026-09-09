@@ -54,7 +54,7 @@ flowchart TD
     accDescr {
       The final codebase's import graph, six layers deep and acyclic. app sits at
       the top, then pages, widgets, features, entities, and shared at the bottom.
-      Every arrow points downward and is labelled with the number of import
+      Every arrow points downward and is labeled with the number of import
       statements crossing it; shared receives the most by a wide margin.
     }
     app["app · 207 files"]

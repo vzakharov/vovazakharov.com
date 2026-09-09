@@ -296,7 +296,7 @@ flowchart TD
     accDescr {
       The final codebase's import graph, six layers deep and acyclic. app sits at
       the top, then pages, widgets, features, entities, and shared at the bottom.
-      Every arrow points downward and is labelled with the number of import
+      Every arrow points downward and is labeled with the number of import
       statements crossing it; shared receives the most by a wide margin.
     }
     app["app · 207 files"]
@@ -384,7 +384,7 @@ Now that we had the functionality figured out (or so we thought), and all the st
 
 Our initial approach was: if we know the entire functionality, why not just describe everything we have to do in a single document? That's how the "migration plan" was born, and it looked _very_ detailed — file-by-file, path-by-path, with stage numbers and acceptance criteria.
 
-Here's a piece of it as of early April, a month in — the plan's own inventory of the entity slices, labelled "current state":
+Here's a piece of it as of early April, a month in — the plan's own inventory of the entity slices, labeled "current state":
 
 ```
 ├── entities/                         # FSD Entities layer

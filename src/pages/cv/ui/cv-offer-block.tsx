@@ -1,17 +1,10 @@
 import { Text } from '@mantine/core';
 
-import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 
+import type { OfferBlock } from '../lib/cv-offer';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
-
-type OfferBlocks = Messages['cv']['whatIOffer']['blocks'];
-
-export type OfferBlockKey = keyof OfferBlocks;
-
-/** A block states its offer as either a bullet list or prose, never both. */
-type OfferBlock = OfferBlocks[OfferBlockKey];
 
 type CvOfferBlockProps = { block: OfferBlock };
 

@@ -9,7 +9,7 @@
 #   scripts/run-parallel.sh 'cargo clippy --all-targets -- -D warnings' 'cargo test'
 #
 # Splitting at the first `=` keeps a leading environment assignment working when
-# the check is labelled (`test='CI=1 pnpm test'`); bare, `CI=1 pnpm test` reads
+# the check is labeled (`test='CI=1 pnpm test'`); bare, `CI=1 pnpm test` reads
 # as label `CI`. Label everything and the edge never comes up.
 #
 # Output is buffered per check under `tmp/run-parallel/` and printed only for
@@ -61,7 +61,7 @@ case "${1:-}" in
   -h | --help) usage ;;
 esac
 
-# Sets `label`, `cmd` and `labelled`. Both passes parse through here, so the
+# Sets `label`, `cmd` and `labeled`. Both passes parse through here, so the
 # label that gets validated is the one that gets run. Only an explicit label is
 # constrained — a bare command labels itself and may contain anything.
 parse_check() {
@@ -69,12 +69,12 @@ parse_check() {
     *=*)
       label=${1%%=*}
       cmd=${1#*=}
-      labelled=1
+      labeled=1
       ;;
     *)
       label=$1
       cmd=$1
-      labelled=0
+      labeled=0
       ;;
   esac
 }
@@ -84,7 +84,7 @@ parse_check() {
 for arg in "$@"; do
   [ -n "$arg" ] || die "empty argument"
   parse_check "$arg"
-  [ "$labelled" = "1" ] || continue
+  [ "$labeled" = "1" ] || continue
   [ -n "$label" ] || die "empty label in argument: $arg"
   case "$label" in
     *[!A-Za-z0-9_.:-]*)
@@ -110,7 +110,7 @@ mkdir -p "$RUN_DIR"
 
 # Bookkeeping lives in files keyed by index, not variables: labels contain
 # spaces (a bare command labels itself) and so cannot be held in a word-split
-# list, and the index keeps two same-labelled checks from sharing a log.
+# list, and the index keeps two same-labeled checks from sharing a log.
 INDICES=""
 PIDS=""
 idx=0

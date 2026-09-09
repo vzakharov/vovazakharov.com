@@ -23,7 +23,11 @@ export {
   type WithContentDocument,
 } from './documents';
 export type { Frontmatter, WithFrontmatter } from './frontmatter';
-export type { Sized, WithOptionalOgImageSize } from './image-dimensions';
+export {
+  intrinsicDimensions,
+  type Sized,
+  type WithOptionalOgImageSize,
+} from './image-dimensions';
 export {
   type DocumentCard,
   type Heading,

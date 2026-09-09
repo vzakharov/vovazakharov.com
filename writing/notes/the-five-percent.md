@@ -79,15 +79,14 @@ agent had coined the word the day before and was already reasoning as though its
 meaning had been handed to it.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
-files each spelled their params as an object literal inside a generic —
-`Promise<{ locale: string; variant: string }>`. The repo's own rule is that
-every member two named types declare has one home, and `pnpm type-overlap`
-enforces it; the agent had run the gate, seen it clean, and stopped. The reply:
-_type-overlap doesn't cover this, but consider it covered_. The gate scans type
-aliases only, so an inlined generic argument is invisible to it — which the
-agent knew, having read the README that says so, and read as the boundary of the
-rule rather than as a hole in its enforcement. A checker that passes is
-evidence about the checker.
+files each inlined their params as an object literal inside a generic. The
+repo's rule is that every member two named types declare has one home, and
+`pnpm type-overlap` enforces it; the agent ran the gate, saw it clean, and
+stopped. The reply: _type-overlap doesn't cover this, but consider it covered_.
+The gate scans type aliases only, so an inlined generic argument is invisible to
+it — which the agent knew, having read the README that says so, and read as the
+boundary of the rule rather than as a hole in its enforcement. A checker that
+passes is evidence about the checker.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule,
 the agent named the bases the route files had inlined, and the gate then found
@@ -123,6 +122,68 @@ reply was two clauses — _if "boundaries don't allow" is the only argument, let
 rewrite the boundaries_, and go read how the sibling repo does it. That repo
 pins no public API at all and runs four suffixed barrels; the cost the agent had
 quoted is simply how it works there.
+
+## It edits the copy in front of it, not the fact behind it (×5)
+
+A change the agent is told to make, it makes where it was raised. One fact
+rendered in three places gets one rendering updated; a rule fixed in the repo
+that adopted it leaves the source it came from carrying the cause; a test written
+into a file is run against the one entry under discussion. Nothing catches the
+split — every site still reads correctly on its own, and the divergence exists
+only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders on
+the home page's project card, on its work-highlight card, and in the CV's
+experience entry. Told to put Supabase and Railway in it, the agent edited the
+project card and left the other two reading _Next.js 16, TypeScript,
+feature-sliced design, Claude Code_ — having authored all three itself, in the
+same branch, hours earlier. Two neighbours had drifted the same way: the CV
+credited Orcool with a custom LLM orchestration framework that neither home card
+mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
+other. The reply was one line — _the tech stack lines should be the same (and
+DRY)_ — and it named a defect no screenshot of any single page could show,
+because each page was right.
+
+**9 September — the rule fixed in the copy, not in the source.** Told a squash
+body has no business carrying a "things to know when editing here" paragraph,
+the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
+the round as closed. That skill is adopted from a boilerplate repo — named by
+line in `.claude/skills/sync-agent-boilerplate/source.json` — whose copy still
+asks the pass for "anything that would trip someone editing that area later".
+The clause that licensed the paragraph is upstream, so the same body gets written
+there next month. The reply was _let's file an issue on the boilerplate repo_.
+Whether to file was the operator's call; that the fix had a second site was not.
+
+**9 September — a test written and not run over the file it was for.** The same
+round added the test above to this file — a bump is something the agent could
+have seen and didn't — and ran it against exactly the entry under discussion,
+retiring one. Ten sections sat above it unexamined, in the file the test had been
+written about. The reply was one line: _do the other learnings here de-qualify
+per this lens? edit if yes_. One did.
+
+**9 September — the tagline in the catalogue, the tagline in the pixels.** The
+CV repositioning rewrote the tagline and the description for the CTO framing and
+wired `cv-metadata.ts` to serve each framing its own. Two lines below, in the
+same file, the same PR left `ogImage: '/cv_card.png'` — a hand-made composite
+with the developer tagline and the retired Core Capabilities bullets baked in —
+now advertised for both framings, so a shared `/cv` link unfurled the CTO
+description beside a card reading DEVELOPER. The card was a fact rendered in
+pixels rather than in text, and the search for the copy to update never reached
+it; nothing in the tree hashed it either. An industry CEO named the picture as
+wrong for the framing, and the operator, shown the unfurl, needed five words:
+_бли, картинку уже поменять надо_ 🙈.
+
+**9 September — a rename that took its own inventory on trust.** Told the double
+`l` in `Labelled` hurt, the agent renamed the type and `LabelledText`, then
+accounted for the remainder: the two left in the tree "are authored prose, not
+identifiers", and here is where they are. Both halves were wrong. The prose
+occurrences were four across three files, not two, and `scripts/run-parallel.sh`
+holds a shell variable named `labelled` — an identifier, in the script every vet
+run executes. Offering to sweep the rest reads as having looked at it; what the
+agent had actually looked at was the diff it had just written. The reply took
+the frame back: _yes let's change them too, they were probably the reason you
+reached for the double l in the first place_ — the spelling was in the tree
+before the type was, and the type had been the copy.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -200,43 +261,34 @@ deleted. The reply asked for the content to become a rule, not for the argument
 to be re-made, and one pass over the four found the gap in a minute. An account
 that would have been checked in a minute is the kind that never is.
 
-## It edits the copy in front of it, not the fact behind it (×3)
+## It checks the render against its intent, not against the page (×2)
 
-A change the agent is told to make, it makes where it was raised. One fact
-rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source it came from carrying the cause; a test written
-into a file is run against the one entry under discussion. Nothing catches the
-split — every site still reads correctly on its own, and the divergence exists
-only between them.
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, and only the second one is
+answerable from the intent.
 
-**8 September — one stack, three spellings.** Playgram's tech line renders on
-the home page's project card, on its work-highlight card, and in the CV's
-experience entry. Told to put Supabase and Railway in it, the agent edited the
-project card and left the other two reading _Next.js 16, TypeScript,
-feature-sliced design, Claude Code_ — having authored all three itself, in the
-same branch, hours earlier. Two neighbours had drifted the same way: the CV
-credited Orcool with a custom LLM orchestration framework that neither home card
-mentioned, and DDB's stack said "backend" and "frontend" in one place and not the
-other. The reply was one line — _the tech stack lines should be the same (and
-DRY)_ — and it named a defect no screenshot of any single page could show,
-because each page was right.
+**8 September — the logos it had already looked at.** Three organisation marks
+were added beside the work-highlight titles, and the agent screenshotted the
+page in both schemes, read the images and reported that they were legible and
+aligned. They were legible. The reply was _the logos are slightly mis-aligned_,
+and measuring the source files bore it out: one mark filled its canvas
+edge-to-edge, another was inset a fifth of its own and off-centre besides, so
+rendered at one size they read as different sizes on a wobbling axis. The
+screenshot had shown that. What the agent had asked it was "are the logos
+there", and it answered yes.
 
-**9 September — the rule fixed in the copy, not in the source.** Told a squash
-body has no business carrying a "things to know when editing here" paragraph,
-the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
-the round as closed. That skill is adopted from a boilerplate repo — named by
-line in `.claude/skills/sync-agent-boilerplate/source.json` — whose copy still
-asks the pass for "anything that would trip someone editing that area later".
-The clause that licensed the paragraph is upstream, so the same body gets written
-there next month. The reply was _let's file an issue on the boilerplate repo_.
-Whether to file was the operator's call; that the fix had a second site was not.
-
-**9 September — a test written and not run over the file it was for.** The same
-round added the test above to this file — a bump is something the agent could
-have seen and didn't — and ran it against exactly the entry under discussion,
-retiring one. Ten sections sat above it unexamined, in the file the test had been
-written about. The reply was one line: _do the other learnings here de-qualify
-per this lens? edit if yes_. One did.
+**9 September — the card it had just fixed, looked at and passed.** The bump two
+sections up — a hand-made card advertising the wrong framing — was fixed by
+rendering one card per framing off the catalogue, and the property the agent set
+itself was that the card could no longer say what the page had stopped saying.
+It rendered both, read them, and confirmed exactly that. The same image showed a
+plate empty across its top and bottom thirds, carrying a name, a tagline and
+`metadata.ogSuffix` — which names nothing on sale — and no way to reach the
+person on it. The five engagement labels sat in the same catalogue slice. The
+reply spent four lines on what the render was for: _the prose itself says
+nothing_, take a shorter version of "what I offer", add GitHub and LinkedIn, and
+in general a physical business-card-like view is welcome.
 
 ## A published number is not a verified number (×2)
 
@@ -308,23 +360,6 @@ available from the text.
 write a case study about it_ came back from an edit that would have compressed
 it, restored.
 
-## It checks the render against its intent, not against the page (×1)
-
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, and only the second one is
-answerable from the intent.
-
-**8 September — the logos it had already looked at.** Three organisation marks
-were added beside the work-highlight titles, and the agent screenshotted the
-page in both schemes, read the images and reported that they were legible and
-aligned. They were legible. The reply was _the logos are slightly mis-aligned_,
-and measuring the source files bore it out: one mark filled its canvas
-edge-to-edge, another was inset a fifth of its own and off-centre besides, so
-rendered at one size they read as different sizes on a wobbling axis. The
-screenshot had shown that. What the agent had asked it was "are the logos
-there", and it answered yes.
-
 ## A fact restated into a pitch stops being a measurement (×1)
 
 Numbers from the case study are the site's evidence, and moving one into an
@@ -365,8 +400,8 @@ named, real or not, has no evidence in one overruled taste call.
 
 ## The two families
 
-Nine reviews is not a pattern, but the ten learnings already fall in two
-groups, and the second is the more interesting half of the post.
+Ten reviews is not a pattern, but the ten learnings already fall in two groups,
+and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
@@ -377,14 +412,14 @@ can remake. Whatever the agent is handed as context, it treats as the given.
 The other five are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 there. The sharpest is the one where the agent did the extra step and it did not
-help: it rendered the page, looked at it, and verified its own intention. Two
-are its siblings — an edit correct and minimal at the site it was made, whose
-minimality is what left the same fact spelled three ways; and an explanation
-sound at every step, whose soundness is what stopped anyone opening the file it
-described. A third joins them: a docstring correct about the constraint it
-states, whose correctness is what stopped the agent looking for a checker that
-would have stated it in a form something reads. No version of "be more careful"
-catches these, which is probably why they need a person and not a better prompt.
+help: twice now it rendered the page, looked at it, and verified its own
+intention. Three are its siblings — an edit correct and minimal at the site it
+was made, whose minimality left the same fact spelled three ways; an explanation
+sound at every step, whose soundness stopped anyone opening the file it
+described; and a docstring correct about the constraint it states, whose
+correctness stopped the agent looking for a checker that would state it in a
+form something reads. No version of "be more careful" catches these, which is
+probably why they need a person and not a better prompt.
 
 They also differ in what the human had to supply. Most of these were caught by
 knowing something the agent didn't — which chart window was drawn wrong, what a

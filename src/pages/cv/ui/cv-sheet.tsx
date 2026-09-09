@@ -18,15 +18,16 @@ import { Card, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
-import type { CvVariant, WithCvVariant } from '../lib/cv-variants';
+import { OFFER_BLOCKS } from '../lib/cv-offer';
+import type { WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
-import { CvOfferBlock, type OfferBlockKey } from './cv-offer-block';
+import { CvOfferBlock } from './cv-offer-block';
 import { CvSection, CvSubsection } from './cv-section';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
-import { VariantSwitch } from './variant-switch';
+import { OtherVariantLink } from './other-variant-link';
 
 function handlePrint() {
   globalThis.print();
@@ -58,12 +59,6 @@ const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
-/** Which blocks each framing offers, and in what order. */
-const OFFER_BLOCKS = {
-  cto: ['engagements', 'engineeringSystem', 'aiExpertise', 'workingStyle'],
-  dev: ['coreCapabilities', 'workingStyle', 'aiExpertise'],
-} as const satisfies Record<CvVariant, readonly OfferBlockKey[]>;
-
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
@@ -94,7 +89,6 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
               / PDF
             </Button>
             <Group gap={8}>
-              <VariantSwitch {...{ variant }} />
               <LocalePicker {...{ variant }} />
               <ThemeToggle />
             </Group>
@@ -233,9 +227,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             </Card>
           </CvSection>
 
-          <Box
+          <Group
             component="footer"
-            ta="center"
+            justify="space-between"
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
@@ -243,7 +237,8 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 {t('footer.backLink')}
               </InternalLink>
             </Text>
-          </Box>
+            <OtherVariantLink {...{ variant }} />
+          </Group>
 
           <Box
             component="footer"
