@@ -7,11 +7,10 @@ import { cvPath } from './cv-urls';
 import type { CvVariant } from './cv-variants';
 
 /**
- * Every CV page declares the fully-specified address canonical, so the shorter
- * rungs that serve the same page defer to it rather than competing with it —
- * the indexed URL is the one that names both the framing and the language.
- * `path` is the address actually being served, so each rung still advertises
- * itself as its own `og:url`.
+ * The fully-specified address is canonical, so the shorter rungs serving the
+ * same page defer to it rather than competing — the indexed URL names both the
+ * framing and the language. `path` is the rung actually being served, so each
+ * still advertises itself as its own `og:url`.
  */
 export function generateCvMetadata(
   locale: Locale,

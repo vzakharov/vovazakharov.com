@@ -15,11 +15,9 @@ const localeSegment = z.enum(routing.locales);
 
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
- * which under `output: 'export'` is the only thing that ever runs this.
- *
- * `server-only` above keeps that build-time cost build-time — zod is ~90 kB
- * gzipped, and nothing on the CDN re-validates a segment `generateStaticParams`
- * already enumerated.
+ * which under `output: 'export'` is the only thing that ever runs this — hence
+ * `server-only` above, since zod is ~90 kB gzipped and nothing on the CDN
+ * re-validates a segment `generateStaticParams` already enumerated.
  */
 export const cvSegmentsSchema = z.object({
   variantAndLocale: z

@@ -6,9 +6,8 @@ import type { CvVariant } from './cv-variants';
 const CV_BASE = '/cv';
 
 /**
- * Every address the CV answers, most specific last. A segment left off means
- * "unspecified", so the shorter forms are aliases of the full one rather than
- * pages of their own — which is why a locale never appears without a variant.
+ * Every address the CV answers. A segment left off means "unspecified", so the
+ * shorter forms are aliases the full one is canonical for, not pages of their own.
  */
 export type CvAddress = [] | [CvVariant] | [CvVariant, Locale];
 

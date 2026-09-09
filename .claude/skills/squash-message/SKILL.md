@@ -163,14 +163,6 @@ the behavior, contract or module affected. Not a bullet-per-change inventory:
 detail that doesn't survive at that size was below the high-level picture and
 lives in the diff.
 
-**A trap for whoever edits the area next is not part of the record.** The log
-answers what changed and why; nobody opens a squash message to find out how the
-PDF hashes work or which prop shape the type gate can read. A constraint that
-has to be obeyed goes where the person about to break it is already looking — a
-`.claude/rules/` file, a docstring on the thing itself — and the body mentions
-it only when the change _is_ that the constraint now exists. A "things to know
-when editing here" paragraph is the tell that the pass put it in the wrong home.
-
 Why the change exists is whatever is honest. Often that's a defect or a gap. Just
 as often it's planned work landing as planned, and then the opening says where the
 change sits in that work. Don't go looking for something to have been wrong.
@@ -182,6 +174,13 @@ an argument for a fifth. What fills a draft past the cap: per-file narration,
 intermediate steps and "added a test for it"; process meta; benefit padding; and
 the linked issue's own symptom and repro re-filed here, which `Closes #N` already
 points at.
+
+**A trap for whoever edits the area next is not part of the record either.** The
+log answers what changed and why; nobody opens a squash message to learn which
+files a render step hashes. A constraint that has to be obeyed goes where the
+person about to break it is already looking — a `.claude/rules/` file, or a
+docstring on the thing itself — unless the change _is_ that the constraint now
+exists. A "things to know when editing here" paragraph is the tell.
 
 This is `@.claude/skills/tighten-docs/SKILL.md`'s **Lens B (bloat)** applied to a
 commit body. Its Lens A (narration) does **not** apply — narrating the change is
@@ -196,12 +195,11 @@ release's areas rather than dropping areas, and never padding a hotfix out to lo
 substantial.
 
 **A re-run rewrites; it never accretes.** Step 2 starts from what the file
-already says, and the temptation on a refresh is to append the new scope and
-leave the rest — which walks the body past the cap one push at a time and, worse,
-leaves superseded wording standing next to what replaced it. Cut and replace:
-new scope displaces the sentences it supersedes, and the cap is re-applied to the
-whole body on every run, not just the first. A proposal that grew every time the
-branch did is the tell.
+already says, so the temptation on a refresh is to append the new scope and
+leave the rest — which walks the body past the cap one push at a time and leaves
+superseded wording beside what replaced it. Cut and replace, and re-apply the
+cap to the whole body on every run. A proposal that grew every time the branch
+did is the tell.
 
 Overwrite the file with the tightened version.
 
