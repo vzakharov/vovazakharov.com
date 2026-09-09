@@ -22,7 +22,7 @@ export type MaybeTitled = { title?: string };
 export type Described = { description: string };
 
 /** The short name a thing is shown or logged under. */
-export type Labelled = { label: string };
+export type Labeled = { label: string };
 
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };

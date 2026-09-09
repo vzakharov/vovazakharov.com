@@ -27,7 +27,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import type { Labelled } from '../../src/shared/typings/index.ts';
+import type { Labeled } from '../../src/shared/typings/index.ts';
 import { CONTENT_DIRS, filesUnder, REPO_ROOT } from './content-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */
@@ -53,7 +53,7 @@ type ManifestLayout = {
 
 /** `label` names the unit in the log line, e.g. `'Open Graph card'`. */
 export type RenderJob<T extends Renderable> = ManifestLayout &
-  Labelled & {
+  Labeled & {
     /** Every render the sources now ask for. */
     entries: T[];
     render: (stale: T[]) => void | Promise<void>;

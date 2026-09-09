@@ -1,7 +1,7 @@
 import { List, ListItem } from '@mantine/core';
 
 import { cx } from '@/shared/lib/class-names';
-import type { Labelled, WithText } from '@/shared/typings';
+import type { Labeled, WithText } from '@/shared/typings';
 
 import classes from './cv.module.scss';
 
@@ -9,12 +9,12 @@ import classes from './cv.module.scss';
  * Bold first words that name what follows, so the renderer sets the colon
  * between them — which is what lets another page show the label on its own.
  */
-type LabelledText = Labelled & WithText;
+type LabeledText = Labeled & WithText;
 
 /** Bold first words the rest of the sentence continues from, punctuation included. */
 type LedText = WithText & { lead: string };
 
-export type BulletItem = string | LabelledText | LedText;
+export type BulletItem = string | LabeledText | LedText;
 
 type CvBulletsProps = {
   items: BulletItem[];
