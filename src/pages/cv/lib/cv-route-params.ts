@@ -1,40 +1,50 @@
+import 'server-only';
+
 import { z } from 'zod';
 
 import { routing } from '@/shared/i18n';
 
+import type { CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 
-/** The variant as an optional catch-all carries it, before the schema narrows it. */
-export type WithOptionalVariantSegments = { variant?: string[] };
-
-/**
- * One route file answers every CV address, so the variant arrives absent at the
- * bare `/cv` and as a single segment at each variant's own URL.
- */
-const variantSegments = z
-  .array(z.enum(CV_VARIANTS))
-  .max(1)
-  .optional()
-  .transform((segments) => segments?.[0] ?? DEFAULT_CV_VARIANT);
+/** The catch-all's segments as a route hands them over, before the schema narrows them. */
+export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
- * which under `output: 'export'` is the only thing that ever runs these.
+ * which under `output: 'export'` is the only thing that ever runs this.
  *
- * Keep them out of `shared/i18n`, whose barrel every client component reaches
- * for `Link` and `usePathname` — a zod import there puts ~90 kB gzipped of
- * parser in the browser bundle to validate a build-time segment.
+ * `server-only` above keeps that build-time cost build-time — zod is ~90 kB
+ * gzipped, and nothing on the CDN re-validates a segment `generateStaticParams`
+ * already enumerated.
  */
-export const cvVariantParamsSchema = z.object({ variant: variantSegments });
-
-export const cvParamsSchema = cvVariantParamsSchema.extend({
-  locale: z.enum(routing.locales),
+export const cvSegmentsSchema = z.object({
+  variantAndLocale: z
+    .union([
+      z.tuple([]),
+      z.tuple([z.enum(CV_VARIANTS)]),
+      z.tuple([z.enum(CV_VARIANTS), z.enum(routing.locales)]),
+    ])
+    .default([]),
 });
 
-/** Every address the CV answers, as an optional catch-all spells them. */
-export function cvVariantParams(): WithOptionalVariantSegments[] {
+/** Which page an address resolves to, each segment it omits falling back. */
+export function cvAddressDefaults(address: CvAddress) {
+  const [variant = DEFAULT_CV_VARIANT, locale = routing.defaultLocale] =
+    address;
+
+  return { variant, locale };
+}
+
+/** Every address the CV answers, as the catch-all spells them. */
+export function cvSegmentParams(): WithOptionalCvSegments[] {
   return [
-    { variant: [] },
-    ...CV_VARIANTS.map((variant) => ({ variant: [variant] })),
+    { variantAndLocale: [] },
+    ...CV_VARIANTS.flatMap((variant) => [
+      { variantAndLocale: [variant] },
+      ...routing.locales.map((locale) => ({
+        variantAndLocale: [variant, locale],
+      })),
+    ]),
   ];
 }

@@ -1,23 +1,17 @@
 import type { Locale } from '@/shared/i18n';
 
-import { CV_VARIANTS, type CvVariant } from './cv-variants';
+import type { CvVariant } from './cv-variants';
 
 /** The one place the CV's URL shape is decided. */
 const CV_BASE = '/cv';
 
-/** Locale-less, as next-intl's navigation and `usePathname` speak it. */
-export function cvPath(variant?: CvVariant): string {
-  return variant === undefined ? CV_BASE : `${CV_BASE}/${variant}`;
-}
+/**
+ * Every address the CV answers, most specific last. A segment left off means
+ * "unspecified", so the shorter forms are aliases of the full one rather than
+ * pages of their own — which is why a locale never appears without a variant.
+ */
+export type CvAddress = [] | [CvVariant] | [CvVariant, Locale];
 
-/** Locale-prefixed, as a metadata path or a sitemap entry must be. */
-export function cvRoute(locale: Locale, variant?: CvVariant): string {
-  return `/${locale}${cvPath(variant)}`;
-}
-
-export function isCvPath(pathname: string): boolean {
-  return (
-    pathname === cvPath() ||
-    CV_VARIANTS.some((variant) => pathname === cvPath(variant))
-  );
+export function cvPath(...address: CvAddress): string {
+  return [CV_BASE, ...address].join('/');
 }

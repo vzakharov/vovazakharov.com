@@ -5,5 +5,5 @@ export type CvVariant = (typeof CV_VARIANTS)[number];
 
 export type WithCvVariant = { variant: CvVariant };
 
-/** What the bare `/{locale}/cv` serves, in place rather than by redirect. */
+/** What an address that names no variant serves, in place rather than by redirect. */
 export const DEFAULT_CV_VARIANT = 'cto' satisfies CvVariant;

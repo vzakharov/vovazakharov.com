@@ -1,38 +1,31 @@
 'use client';
 
 import { ActionIcon } from '@mantine/core';
-import { useMounted } from '@mantine/hooks';
+import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { usePathname, useRouter } from '@/shared/i18n';
+import { cvPath } from '../lib/cv-urls';
+import type { WithCvVariant } from '../lib/cv-variants';
 
-import { isCvPath } from '../lib/cv-urls';
-
-export function LocalePicker() {
-  const pathname = usePathname();
-  const router = useRouter();
+/**
+ * A link rather than a control: the other language has its own address, so the
+ * switch is navigation and works before hydration.
+ */
+export function LocalePicker({ variant }: WithCvVariant) {
   const locale = useLocale();
-  // `usePathname` only knows the route after hydration, and the picker is
-  // rendered for the CV routes alone.
-  const mounted = useMounted();
   const t = useTranslations('ui');
-
-  if (!mounted || !isCvPath(pathname)) {
-    return null;
-  }
 
   const nextLocale = locale === 'en' ? 'ru' : 'en';
   const currentFlag = locale === 'en' ? '🇬🇧' : '🇷🇺';
 
   return (
     <ActionIcon
+      component={Link}
+      href={cvPath(variant, nextLocale)}
       variant="default"
       size={38}
       radius={4}
       fz={18}
-      onClick={() => {
-        router.replace(pathname, { locale: nextLocale });
-      }}
       aria-label={t('switchToOther')}
     >
       {currentFlag}

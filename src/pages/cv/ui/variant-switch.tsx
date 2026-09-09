@@ -1,9 +1,8 @@
 'use client';
 
 import { Button } from '@mantine/core';
-import { useTranslations } from 'next-intl';
-
-import { Link } from '@/shared/i18n';
+import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { cvPath } from '../lib/cv-urls';
 import { CV_VARIANTS, type WithCvVariant } from '../lib/cv-variants';
@@ -14,6 +13,7 @@ import { CV_VARIANTS, type WithCvVariant } from '../lib/cv-variants';
  * address.
  */
 export function VariantSwitch({ variant: current }: WithCvVariant) {
+  const locale = useLocale();
   const t = useTranslations('ui');
 
   return (
@@ -22,7 +22,7 @@ export function VariantSwitch({ variant: current }: WithCvVariant) {
         <Button
           key={variant}
           component={Link}
-          href={cvPath(variant)}
+          href={cvPath(variant, locale)}
           variant={variant === current ? 'filled' : 'default'}
           size="compact-sm"
           h={38}

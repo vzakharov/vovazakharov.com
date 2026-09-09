@@ -1,3 +1,3 @@
 export { loadMessages, type Messages } from './load-messages';
-export type { Locale, WithStringLocale } from './routing';
-export { Link, redirect, routing, usePathname, useRouter } from './routing';
+export type { Locale } from './routing';
+export { routing } from './routing';

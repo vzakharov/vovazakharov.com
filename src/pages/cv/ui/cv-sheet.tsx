@@ -95,7 +95,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             </Button>
             <Group gap={8}>
               <VariantSwitch {...{ variant }} />
-              <LocalePicker />
+              <LocalePicker {...{ variant }} />
               <ThemeToggle />
             </Group>
           </Group>

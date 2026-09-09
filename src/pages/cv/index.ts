@@ -1,11 +1,11 @@
 export { generateCvMetadata } from './lib/cv-metadata';
 export {
-  cvParamsSchema,
-  cvVariantParams,
-  cvVariantParamsSchema,
-  type WithOptionalVariantSegments,
+  cvAddressDefaults,
+  cvSegmentParams,
+  cvSegmentsSchema,
+  type WithOptionalCvSegments,
 } from './lib/cv-route-params';
-export { cvRoute } from './lib/cv-urls';
+export { type CvAddress, cvPath } from './lib/cv-urls';
 export {
   CV_VARIANTS,
   type CvVariant,
