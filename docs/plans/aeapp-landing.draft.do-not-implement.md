@@ -180,6 +180,29 @@ cookies) and an in-page form POSTing to Formspree or similar (needs a consent
 checkbox, a privacy notice and a paid dependency, for a form the association
 already has elsewhere).
 
+### The mark
+
+The draft's inline SVG is an approximation of the real one, which belongs to
+GLE-International: a grey triangle under a yellow spiral with a grey shadow
+spiral offset behind it. АЭАПП is GLE-International's official representative in
+Russia and Russian-speaking countries (`aeapp.ru` states this), so the mark is
+theirs to use.
+
+Every raster the search turns up is a JPEG or a small PNG on a white background
+— including `aeapp.ru`'s own 70×66 favicon-grade PNG — and a raster is the wrong
+asset regardless of resolution: it cannot sit on the dark palette without a
+matte. The only true vector found is the German society's lockup at
+`https://www.gle-d.de/wp-content/themes/gle-d/img/logo.svg`, whose
+`<g id="Group-10">` (with `path-1` and `mask-2` from its `<defs>`) is the mark
+alone, wordmark excluded: ~4.8 kB of paths, transparent, legible at 18 px.
+
+That group ships inlined as `src/shared/ui/aeapp-mark.tsx`. Its greys are
+token-driven rather than literal — the German lockup uses a dark triangle
+(`#6F6F6E`) where `aeapp.ru` uses a light one, and neither reads well in both
+colour schemes — while the brand yellow `#FAB900` stays a literal, being the one
+colour the mark is recognised by. Which grey АЭАПП wants is theirs to say, and
+answering it after the fact costs one token change.
+
 ### Serving it
 
 The repo is **private**, and Pages is not enabled until the association is ready
@@ -337,10 +360,12 @@ thing Phase 2 does, and it is better done in a session where the new repo's
 Not part of either phase — the items that need a human decision or an external
 value:
 
-- [ ] The custom domain — `public/CNAME` plus the DNS records.
+- [ ] The custom domain — `public/CNAME` plus the DNS records. A subdomain of
+      the association's existing `aeapp.ru` is the obvious candidate.
 - [ ] `signupFormUrl` — the hosted client questionnaire.
 - [ ] `contact` — the real address or Telegram handle.
 - [ ] `signupFormMinutes` — confirm 5 is honest for the real form.
+- [ ] Which grey the mark's triangle takes — see "The mark".
 - [ ] GitHub Pro (or flip the repo public), then Pages enabled and
       `PAGES_ENABLED=true` set.
 - [ ] A `feat:` merge to `main` to publish.
@@ -382,25 +407,13 @@ The other АЭАПП material in `leisan-psy-work` (Лекторий, Интен
 фестиваль, Супервизия, …) is not part of this. If the association later wants a
 full site, `/consultations` is already a stable path to keep.
 
-## Still open
+## Ownership and analytics
 
-Three things surfaced while collapsing the decisions above. None blocks either
-phase; all three block launch.
+The repository stays under `vzakharov` with Leisan added as a collaborator, and
+transfers to the association only when there is a reason to. Nothing in the
+build depends on which account holds it; a transfer after launch changes the
+Pages URL, which the custom domain already insulates the shared links from.
 
-**a. Is the draft's SVG mark the association's real logo?** It is drawn inline —
-a grey triangle under a gold gradient spiral — and reads as a sketch rather than
-an exported asset. If АЭАПП has an official file, that is what should ship; if
-not, someone at the association should sign off on this one, since it is the
-first thing on the page.
-
-**b. Who owns the repository long-term?** The copy and the mark are the
-association's, and a private repo under a personal account holding a client's
-brand is fine for building and awkward afterwards. Worth deciding now whether it
-eventually transfers to an org — cheap before launch, and it changes the Pages
-URL and the custom-domain setup if it happens after.
-
-**c. Analytics — none is planned.** Which is the right default here: no
-analytics means no consent banner, and a page about psychological help is
-exactly where a third-party tracker is worst. Say if the association needs
-conversion numbers and I will plan a self-hosted or cookieless option rather
-than bolting on GA later.
+**No analytics, deliberately.** Nothing to consent to, no banner, and no
+third-party script on a page about psychological help. Adding one later is a
+decision with a consent notice attached, not a config line.
