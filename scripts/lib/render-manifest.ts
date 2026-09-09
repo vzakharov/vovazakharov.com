@@ -27,6 +27,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import type { Labelled } from '../../src/shared/typings/index.ts';
 import { contentFiles, REPO_ROOT } from './content-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */
@@ -44,13 +45,13 @@ type ManifestLayout = {
   isOutput: (fileName: string) => boolean;
 };
 
-export type RenderJob<T extends Renderable> = ManifestLayout & {
-  /** Names the unit in the log line, e.g. `'Open Graph card'`. */
-  label: string;
-  /** Every render the sources now ask for. */
-  entries: T[];
-  render: (stale: T[]) => void | Promise<void>;
-};
+/** `label` names the unit in the log line, e.g. `'Open Graph card'`. */
+export type RenderJob<T extends Renderable> = ManifestLayout &
+  Labelled & {
+    /** Every render the sources now ask for. */
+    entries: T[];
+    render: (stale: T[]) => void | Promise<void>;
+  };
 
 /** Output file name → the hash of the source it was rendered from. */
 const manifestSchema = z.record(z.string(), z.string());

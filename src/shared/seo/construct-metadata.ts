@@ -24,12 +24,12 @@ export type ConstructMetadataParams = MaybeTitled &
      */
     languages?: Record<string, string>;
     ogType?: 'website' | 'profile' | 'article';
-    ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
+    ogImage?: string; // Custom Open Graph image path; the avatar when absent
   };
 
 export function constructMetadata({
   title,
-  description = 'Developer, AI tinkerer, word shaker, generative metalhead',
+  description = SITE_CONFIG.tagline,
   ogDescription,
   path,
   canonical,

@@ -1,13 +1,14 @@
 import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
+import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
 import { cssColor, InternalLink, PageShell } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
 import { ContactSection } from './contact-section';
-import { DevSection } from './dev-section';
+import { OfferSection } from './offer-section';
+import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
@@ -41,7 +42,7 @@ export function HomePage() {
                 lh={{ base: '28px', sm: '32px' }}
                 opacity={0.8}
               >
-                Developer, AI tinkerer, word shaker, generative metalhead
+                {SITE_CONFIG.tagline}
               </Text>
               <Text mt={16} opacity={0.7}>
                 Helping our future overlords walk since 2020
@@ -50,7 +51,8 @@ export function HomePage() {
           </Stack>
         </Box>
 
-        <DevSection />
+        <OfferSection />
+        <WorkSection />
         <ContactSection />
 
         <Box component="footer">

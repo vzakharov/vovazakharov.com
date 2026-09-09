@@ -26,7 +26,7 @@ import { CvOfferBlock, type OfferBlockKey } from './cv-offer-block';
 import { CvSection, CvSubsection } from './cv-section';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
-import { VariantSwitch } from './variant-switch';
+import { OtherVariantLink } from './other-variant-link';
 
 function handlePrint() {
   globalThis.print();
@@ -94,7 +94,6 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
               / PDF
             </Button>
             <Group gap={8}>
-              <VariantSwitch {...{ variant }} />
               <LocalePicker {...{ variant }} />
               <ThemeToggle />
             </Group>
@@ -233,9 +232,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             </Card>
           </CvSection>
 
-          <Box
+          <Group
             component="footer"
-            ta="center"
+            justify="space-between"
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
@@ -243,7 +242,8 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 {t('footer.backLink')}
               </InternalLink>
             </Text>
-          </Box>
+            <OtherVariantLink {...{ variant }} />
+          </Group>
 
           <Box
             component="footer"

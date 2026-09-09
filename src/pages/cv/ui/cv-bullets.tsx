@@ -1,11 +1,20 @@
 import { List, ListItem } from '@mantine/core';
 
 import { cx } from '@/shared/lib/class-names';
+import type { Labelled, WithText } from '@/shared/typings';
 
 import classes from './cv.module.scss';
 
-/** A plain bullet, or one whose first words are set in bold as a label. */
-export type BulletItem = string | { label: string; text: string };
+/**
+ * Bold first words that name what follows, so the renderer sets the colon
+ * between them — which is what lets another page show the label on its own.
+ */
+type LabelledText = Labelled & WithText;
+
+/** Bold first words the rest of the sentence continues from, punctuation included. */
+type LedText = WithText & { lead: string };
+
+export type BulletItem = string | LabelledText | LedText;
 
 type CvBulletsProps = {
   items: BulletItem[];
@@ -13,18 +22,36 @@ type CvBulletsProps = {
   last?: boolean;
 };
 
+type BulletProps = { item: BulletItem };
+
+function Bullet({ item }: BulletProps) {
+  if (typeof item === 'string') return item;
+
+  if ('label' in item) {
+    const { label, text } = item;
+
+    return (
+      <>
+        <strong>{label}:</strong> {text}
+      </>
+    );
+  }
+
+  const { lead, text } = item;
+
+  return (
+    <>
+      <strong>{lead}</strong> {text}
+    </>
+  );
+}
+
 export function CvBullets({ items, last = false }: CvBulletsProps) {
   return (
     <List className={cx(classes['bullets'], !last && classes['tight'])}>
       {items.map((item, index) => (
         <ListItem key={index}>
-          {typeof item === 'string' ? (
-            item
-          ) : (
-            <>
-              <strong>{item.label}</strong> {item.text}
-            </>
-          )}
+          <Bullet {...{ item }} />
         </ListItem>
       ))}
     </List>

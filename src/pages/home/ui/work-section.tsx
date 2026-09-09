@@ -13,9 +13,10 @@ import Image from 'next/image';
 import { TECH_STACKS } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { TitledBlock } from '@/shared/typings';
-import { Card, InternalButton, Section, Subheading } from '@/shared/ui';
+import { Card, Section, Subheading } from '@/shared/ui';
 
 import { ProjectCard } from './project-card';
+import { ReadCvButton } from './read-cv-button';
 import { TechLine } from './tech-line';
 
 /** Projects the grid names rather than cards, each a thing a big player later shipped as a standard. */
@@ -30,17 +31,6 @@ type HighlightCardProps = TitledBlock & {
   logo: string;
   tech: string;
 };
-
-/** The section's call to action, above the projects and again after them. */
-function ReadCvButton() {
-  return (
-    <Group>
-      <InternalButton href="/cv" variant="default" size="md">
-        Read full CV
-      </InternalButton>
-    </Group>
-  );
-}
 
 function HighlightCard({ logo, title, tech, children }: HighlightCardProps) {
   return (
@@ -61,21 +51,9 @@ function HighlightCard({ logo, title, tech, children }: HighlightCardProps) {
   );
 }
 
-export function DevSection() {
+export function WorkSection() {
   return (
-    <Section id="dev">
-      <Stack gap={24} align="flex-start">
-        <Text size="lg" lh={1.625}>
-          I build stuff, and here’s what you’ll find: stuff that works, stuff
-          that doesn’t, and stuff that’s still a work in progress.
-        </Text>
-        <Text size="lg" lh={1.625}>
-          These days I’m looking for a hands-on CTO position — taking an idea to
-          production, or putting a team that already exists onto agent rails.
-        </Text>
-        <ReadCvButton />
-      </Stack>
-
+    <Section id="work">
       <Subheading>Featured Projects</Subheading>
 
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>

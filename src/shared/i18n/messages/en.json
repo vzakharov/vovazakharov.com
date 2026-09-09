@@ -31,20 +31,24 @@
           "title": "Engagements",
           "items": [
             {
-              "label": "Idea → production:",
+              "label": "Idea → production",
               "text": "your idea in the hands of real users in one to two months, built the way it will be maintained rather than as a demo to throw away."
             },
             {
-              "label": "Your team on agent rails:",
+              "label": "Architecture and foundations",
+              "text": "the system drawn and the foundation stood up — framework and platform chosen, the structure and its conventions in place — for a team that will build the features itself."
+            },
+            {
+              "label": "Your team on agent rails",
               "text": "the architecture, the staged pipeline and the pre-push gate that let a crowd of agents ship without drifting — set up on your codebase, then handed over as checked-in procedure rather than as advice. It has been handed over once already, and the engineers who took it carried it to projects of their own."
             },
             {
-              "label": "Rescue and diagnosis:",
+              "label": "Rescue and diagnosis",
               "text": "the prototype that got vibe-coded into a corner, and the agent that doesn't do what you expected — usually the same purchase."
             },
             {
-              "label": "Standing technical judgment:",
-              "text": "framework and platform selection, build-vs-buy, and a straight answer on what the models still cannot do."
+              "label": "Standing technical judgment",
+              "text": "build-vs-buy calls, and a straight answer on what the models still cannot do."
             }
           ]
         },
@@ -81,23 +85,23 @@
         "intro": "Delivered in 158 days — parallel AI sessions, up to 20 agents working at once:",
         "items": [
           {
-            "label": "1,395 commits on main",
+            "lead": "1,395 commits on main",
             "text": "and 250,000 lines of production TypeScript, none of it hand-written."
           },
           {
-            "label": "48 releases and 18 hotfixes:",
+            "label": "48 releases and 18 hotfixes",
             "text": "a production deploy every 2.4 days."
           },
           {
-            "label": "Sub-second cold loads,",
+            "lead": "Sub-second cold loads,",
             "text": "down from multi-second."
           },
           {
-            "label": "Feature-sliced architecture held by linters,",
+            "lead": "Feature-sliced architecture held by linters,",
             "text": "so a crowd of agents working at once could not drift the structure."
           },
           {
-            "label": "A repeatable agent pipeline:",
+            "label": "A repeatable agent pipeline",
             "text": "plan, implement, review, finalize — each stage its own session, with a reviewable artifact between them."
           }
         ]
@@ -129,23 +133,23 @@
         "description": "Experimental AI platform at one of the world's largest ad firms. Built, back to front, a suite of interlinked AI tools:",
         "items": [
           {
-            "label": "Chatbot:",
+            "label": "Chatbot",
             "text": "ChatGPT-style assistant for corporate needs — secure, document-aware, image-savvy, with personas and real-time multi-user support."
           },
           {
-            "label": "Robowriter:",
+            "label": "Robowriter",
             "text": "Build-your-own-agent tool for content generation. Functions as both user-facing product and meta-backend for LLM ops."
           },
           {
-            "label": "Picmaker:",
+            "label": "Picmaker",
             "text": "Replicate-powered image generation/training tool with UX optimized for rapid iteration and intuitive pinning."
           },
           {
-            "label": "Client-specific apps:",
+            "label": "Client-specific apps",
             "text": "Including YesYouCannes, which builds Cannes award decks from idea to imagery in minutes."
           },
           {
-            "label": "Spaces:",
+            "label": "Spaces",
             "text": "White-label mini-platforms for agency clients (e.g. randddb.com/s/ikea)."
           }
         ],
@@ -157,23 +161,23 @@
         "intro": "Selected highlights:",
         "items": [
           {
-            "label": "Jukebox Web UI:",
+            "label": "Jukebox Web UI",
             "text": "Gradio-based UI running inside Google Colab for OpenAI's music model."
           },
           {
-            "label": "almostmagic:",
+            "label": "almostmagic",
             "text": "TypeScript package for instant LLM integration – one line, zero ceremony."
           },
           {
-            "label": "JobGenie:",
+            "label": "JobGenie",
             "text": "AI assistant for job seekers that helps create roles as much as apply for them."
           },
           {
-            "label": "Flows:",
+            "label": "Flows",
             "text": "A Django app for orchestrating async task pipelines with minimal ceremony."
           },
           {
-            "label": "Unfindables:",
+            "label": "Unfindables",
             "text": "An experiment in surfacing valuable but hidden web content via absurd search queries."
           }
         ]
@@ -199,15 +203,15 @@
         "title": "Backend",
         "items": [
           {
-            "label": "Django / FastAPI",
+            "lead": "Django / FastAPI",
             "text": "– If you rely on your own ML models or otherwise require computations/libs that the JavaScript world hasn't yet caught up with"
           },
           {
-            "label": "Next.js API",
+            "lead": "Next.js API",
             "text": "– If you're mostly using other people's web APIs and don't want to go all fancy and domain-driven"
           },
           {
-            "label": "NestJS",
+            "lead": "NestJS",
             "text": "– If you do want to go all fancy and domain-driven"
           }
         ]
@@ -216,11 +220,11 @@
         "title": "Frontend",
         "items": [
           {
-            "label": "Next.js / React",
+            "lead": "Next.js / React",
             "text": "– If you want to stay on the safe and \"we can definitely hire another dev to work with it later\" side"
           },
           {
-            "label": "Nuxt / Vue",
+            "lead": "Nuxt / Vue",
             "text": "– If you're feeling all progressive and SFC-ish"
           }
         ]
@@ -229,15 +233,15 @@
         "title": "Serverless / Other",
         "items": [
           {
-            "label": "Cloudflare Workers",
+            "lead": "Cloudflare Workers",
             "text": "– Because why not rely on something that can make the entire Internet stop a few times a year?"
           },
           {
-            "label": "Google Colab",
+            "lead": "Google Colab",
             "text": "— Had my fair share of fails and successes building and testing models"
           },
           {
-            "label": "Gradio",
+            "lead": "Gradio",
             "text": "– Quick but powerful UIs for ML experiments"
           }
         ]
@@ -277,10 +281,9 @@
   "ui": {
     "toggleTheme": "Toggle theme",
     "switchToOther": "Switch to Russian",
-    "switchVariant": "Switch CV framing",
     "cvVariants": {
-      "cto": "CTO",
-      "dev": "Dev"
+      "cto": "Looking for a CTO?",
+      "dev": "Looking for a dev?"
     }
   }
 }

@@ -26,6 +26,13 @@ export const SITE_CONFIG = {
    */
   downloadPrefix: 'vova',
   name: 'Vova Zakharov',
+  /**
+   * The offer in one line, as the home hero states it and as every page that
+   * states no description of its own unfurls. The CV header's tagline is
+   * deliberately a different, plainer sentence — this one carries the voice.
+   */
+  tagline:
+    'Fractional CTO for teams that don’t want to YOLO into the agent era.',
   author: {
     name: 'Vova Zakharov',
     email: 'vzakharov@gmail.com',
@@ -35,10 +42,11 @@ export const SITE_CONFIG = {
     github: 'vzakharov',
     linkedin: 'vovahimself',
   },
+  /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
   avatar: {
     path: '/ava.png',
-    width: 150,
-    height: 150,
+    width: 1024,
+    height: 1024,
   },
 } as const;
 
