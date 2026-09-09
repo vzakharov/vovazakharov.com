@@ -250,6 +250,37 @@ deleted. The reply asked for the content to become a rule, not for the argument
 to be re-made, and one pass over the four found the gap in a minute. An account
 that would have been checked in a minute is the kind that never is.
 
+## It checks the render against its intent, not against the page (×2)
+
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, and only the second one is
+answerable from the intent.
+
+**8 September — the logos it had already looked at.** Three organisation marks
+were added beside the work-highlight titles, and the agent screenshotted the
+page in both schemes, read the images and reported that they were legible and
+aligned. They were legible. The reply was _the logos are slightly mis-aligned_,
+and measuring the source files bore it out: one mark filled its canvas
+edge-to-edge, another was inset a fifth of its own and off-centre besides, so
+rendered at one size they read as different sizes on a wobbling axis. The
+screenshot had shown that. What the agent had asked it was "are the logos
+there", and it answered yes.
+
+**9 September — the card it had just fixed, looked at and passed.** The bump two
+sections up — a hand-made card advertising the wrong framing — was fixed by
+rendering one card per framing off the catalogue, and the property the agent set
+itself was that the card could no longer say what the page had stopped saying.
+It rendered both, read them, and confirmed exactly that. The same image showed a
+plate empty across its top and bottom thirds, carrying a name, a tagline, and
+`metadata.ogSuffix` — "The platform outlived my involvement" — which names
+nothing on sale, and no way to reach the person on it. The five engagement
+labels sat in the same catalogue slice, on the landing page the agent had
+written hours earlier. The reply spent four lines on what the render was for:
+_the prose itself says nothing_, take a shorter version of "what I offer", add
+GitHub and LinkedIn, and in general a physical business-card-like view is
+welcome.
+
 ## A published number is not a verified number (×2)
 
 A figure already in print reads as settled, so the agent stops at it. The person
@@ -320,23 +351,6 @@ available from the text.
 write a case study about it_ came back from an edit that would have compressed
 it, restored.
 
-## It checks the render against its intent, not against the page (×1)
-
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, and only the second one is
-answerable from the intent.
-
-**8 September — the logos it had already looked at.** Three organisation marks
-were added beside the work-highlight titles, and the agent screenshotted the
-page in both schemes, read the images and reported that they were legible and
-aligned. They were legible. The reply was _the logos are slightly mis-aligned_,
-and measuring the source files bore it out: one mark filled its canvas
-edge-to-edge, another was inset a fifth of its own and off-centre besides, so
-rendered at one size they read as different sizes on a wobbling axis. The
-screenshot had shown that. What the agent had asked it was "are the logos
-there", and it answered yes.
-
 ## A fact restated into a pitch stops being a measurement (×1)
 
 Numbers from the case study are the site's evidence, and moving one into an
@@ -377,8 +391,8 @@ named, real or not, has no evidence in one overruled taste call.
 
 ## The two families
 
-Nine reviews is not a pattern, but the ten learnings already fall in two
-groups, and the second is the more interesting half of the post.
+Ten reviews is not a pattern, but the ten learnings already fall in two groups,
+and the second is the more interesting half of the post.
 
 Four are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
@@ -389,14 +403,14 @@ can remake. Whatever the agent is handed as context, it treats as the given.
 The other five are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 there. The sharpest is the one where the agent did the extra step and it did not
-help: it rendered the page, looked at it, and verified its own intention. Two
-are its siblings — an edit correct and minimal at the site it was made, whose
-minimality is what left the same fact spelled three ways; and an explanation
-sound at every step, whose soundness is what stopped anyone opening the file it
-described. A third joins them: a docstring correct about the constraint it
-states, whose correctness is what stopped the agent looking for a checker that
-would have stated it in a form something reads. No version of "be more careful"
-catches these, which is probably why they need a person and not a better prompt.
+help: twice now it rendered the page, looked at it, and verified its own
+intention. Three are its siblings — an edit correct and minimal at the site it
+was made, whose minimality left the same fact spelled three ways; an explanation
+sound at every step, whose soundness stopped anyone opening the file it
+described; and a docstring correct about the constraint it states, whose
+correctness stopped the agent looking for a checker that would state it in a
+form something reads. No version of "be more careful" catches these, which is
+probably why they need a person and not a better prompt.
 
 They also differ in what the human had to supply. Most of these were caught by
 knowing something the agent didn't — which chart window was drawn wrong, what a
