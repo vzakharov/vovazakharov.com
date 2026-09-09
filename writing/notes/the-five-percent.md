@@ -37,6 +37,11 @@ much as a measurement that only flatters.
 - **Sorted by count, descending**, ties ordered by hand. The order is the claim
   the file makes, so a changed count means re-reading the list and moving the
   section, not appending to the end.
+- **A bump is something the agent could have seen and didn't.** Where the review
+  supplied a decision that was the human's to take — a positioning call, a change
+  of scope, anything the agent taking it unasked would have been worse — it goes
+  under "Not bumps" or nowhere. Not every correction is a blind spot, and a file
+  that counts them all reads as an agent grading its own obedience.
 - **Past ~400 lines, squeeze instead of growing.** In order: tighten the prose;
   then cut archaeology — a bump needs the shortest account that still shows what
   the agent could not see, not the blow-by-blow that was easy to write while it
@@ -44,7 +49,7 @@ much as a measurement that only flatters.
   coincidence with a paragraph attached. A learning cut for thinness comes back
   if something bumps into it again.
 
-## What it was handed, it treats as fixed (×6)
+## What it was handed, it treats as fixed (×5)
 
 Whatever arrives as context — a list, a vocabulary, a published figure — the
 agent reasons _inside_ rather than _about_. That is what makes the failure
@@ -105,18 +110,6 @@ reply changed the given: _I'd likely actually prefer the latter being canonical:
 then in the search people see "ok, this one's for cto, and it sits on
 en/cv/cto"_. Flipped, the cost is the goal, and the collapse the agent had
 argued against became free — four route files down to two.
-
-**9 September — the prefix as the shape a locale comes in.** Told the two CV
-route files still repeated each other, the agent had collapsed four into two the
-round before and reported that as the answer. What it never asked was whether
-`/{locale}/…` had to be the shape at all: `app/[locale]/` is Next's documented
-convention and next-intl's whole routing story, so it arrived as the given and
-the duplication got reasoned about inside it. The reply moved the segment to the
-end — `/cv/cto/ru` — and one file answers every address. The operator's stated
-reason was wrong in one respect, that nothing here used next-intl's
-out-of-the-box means: `Link`, `usePathname` and `useRouter` were doing real work.
-They were also 35 kB of prefix machinery serving two links, which is what the
-question surfaced and what the agent's own defence of the prefix never reached.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -322,16 +315,22 @@ operator had supplied verbatim. That is a rule in `.claude/rules/writing.md`
 doing its job, and it is recorded here so it isn't later miscounted as judgement:
 every learning above is one no rule anticipated.
 
+**A decision that was the operator's to make.** Moving the CV's locale out of
+the leading segment was filed here as a frame the agent had failed to question.
+It was not: restructuring the site's routing is a call the agent should not take
+on its own, and taking it unasked would have been the worse failure of the two.
+Pitching it was available and unpitched, which is a smaller thing than the entry
+claimed. Entries removed under this test lose their bump count with them.
+
 ## The two families
 
 Seven reviews is not a pattern, but the eleven learnings already fall in two
 groups, and the second is the more interesting half of the post.
 
-Four are failures to notice that the frame was ours — the prefix list, the
+Five are failures to notice that the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
-as the rule. A fifth is the same thing about a URL: `[locale]` first is a
-convention, and the agent read it as the shape a locale comes in. Whatever the
-agent is handed as context, it treats as the given.
+as the rule, the address the agent had itself decided was the one to index.
+Whatever the agent is handed as context, it treats as the given.
 
 The other six are the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
