@@ -4,10 +4,8 @@
 # the file it governs, which is invisible to the append that breaks it — nothing
 # reads a paragraph on its way to adding a section.
 #
-# Failing is the whole point: past the ceiling a notes file is meant to be
-# squeezed rather than grown — tighten the prose, cut the archaeology, then drop
-# entries from the bottom — and the squeeze is a judgement, so this reports and
-# stops rather than trimming anything itself.
+# Failing is the whole point, and failing is all it does: which of the squeezes
+# the file itself names applies is a judgement, so nothing here trims.
 #
 # Usage:
 #   scripts/check-notes-length.sh [<path>...]
@@ -68,9 +66,8 @@ for file in "$@"; do
   [ -f "$file" ] || continue
   measured=$((measured + 1))
   lines=$(wc -l <"$file")
-  # `wc -l` counts newlines, so a file whose last line is unterminated is one
-  # short. Nothing here writes one, and a single line either way is noise
-  # against a 400-line ceiling.
+  # `wc -l` counts newlines, so an unterminated last line reads one short —
+  # noise against a ceiling this size.
   if [ "$lines" -gt "$MAX_LINES" ]; then
     failures="${failures}${NL}  $file: $lines lines, ceiling $MAX_LINES — over by $((lines - MAX_LINES))"
   fi

@@ -1,8 +1,5 @@
 import classes from './hover-dim.module.scss';
 
-/**
- * The site's hover dim, as a class name a caller passes on. Slices that may not
- * reach each other sideways both claim it, and it is handed out from here so
- * that costs no global class.
- */
+// Slices with no sideways reach to each other claim it, so it is handed out
+// from here rather than declared as a global.
 export const hoverDim = classes['hoverDim'];
