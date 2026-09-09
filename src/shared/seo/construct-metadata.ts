@@ -17,6 +17,12 @@ export type ConstructMetadataParams = MaybeTitled &
      * off, a search engine picks its own canonical.
      */
     canonical?: string;
+    /**
+     * Site-root paths of this page's translations, keyed by BCP-47 tag (plus
+     * `x-default`). Nothing else tells a crawler that two addresses are the
+     * same page in different languages.
+     */
+    languages?: Record<string, string>;
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path (e.g., "/cv_card.png")
   };
@@ -27,6 +33,7 @@ export function constructMetadata({
   ogDescription,
   path,
   canonical,
+  languages,
   ogType = 'website',
   ogImage,
   ogImageSize,
@@ -46,10 +53,18 @@ export function constructMetadata({
   return {
     title,
     description,
-    alternates:
-      canonical === undefined
-        ? undefined
-        : { canonical: getAbsoluteUrl(canonical) },
+    alternates: {
+      canonical: canonical === undefined ? undefined : getAbsoluteUrl(canonical),
+      languages:
+        languages === undefined
+          ? undefined
+          : Object.fromEntries(
+              Object.entries(languages).map(([tag, languagePath]) => [
+                tag,
+                getAbsoluteUrl(languagePath),
+              ]),
+            ),
+    },
     openGraph: {
       type: ogType,
       locale: 'en_US',
