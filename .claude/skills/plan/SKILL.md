@@ -9,7 +9,7 @@ A plan on disk is a different artifact from a plan in an approval dialog:
 - **Reviewable on another machine, on the operator's schedule.** The plan rides the branch, so it is pulled and read in the same tools as code, hours later.
 - **Room for sections plan mode has nowhere to put** — notably the mandatory `## DRY notes`, which forces the reuse-vs-duplication call to be argued before any code exists rather than discovered in review.
 - **The filename is the approval gate**, and the `git mv` that clears it is a commit — so _when_ approval arrived and _in whose words_ outlives the session.
-- **Approval carries into the next session.** The turn ends with a copyable `/implement <branch>` line, so implementation starts from a recorded decision instead of re-litigating it.
+- **Approval carries into the next session.** The turn ends with a copyable `/go <branch>` line, so implementation starts from a recorded decision instead of re-litigating it.
 - **Questions as numbered prose stay in the transcript** — tersely answerable ("1b, 2a"), and re-readable after a context wipe.
 
 **Origin.** The skill began as a workaround for a bug in Claude Code's web/remote sessions, which is why web/remote is where this path is _mandatory_ rather than merely better: there, plan mode and `AskUserQuestion` silently lose the answers given to prompts they re-emit after a session idles, and the stack grows with the idle. Operators run many concurrent web sessions, so prompts idle routinely — the loss is the normal case, not an edge one. CLAUDE.md § "Plan mode & questions in web sessions" describes the failure and owns where this skill is mandatory vs. optional; the tracking issue carries its exact wording and current status: **https://github.com/anthropics/claude-code/issues/72704**
@@ -18,7 +18,7 @@ None of the value above depends on that bug, so fixing it upstream does not reti
 
 ## Part 1 — Plan instead of plan mode
 
-A `/plan` session's deliverable is the **pushed plan file**, not code. The operator reviews it from another machine, often hours later, and begins implementation in a **different** session via `/implement <branch>` (`@.claude/skills/implement/SKILL.md` routes that through `/from-branch`, which attaches to the branch and finds the plan under `docs/plans/`) — the handoff works because the plan file rides the branch. So a plan turn ends in a handoff, not a continuation; same-session implementation is the rare exception.
+A `/plan` session's deliverable is the **pushed plan file**, not code. The operator reviews it from another machine, often hours later, and begins implementation in a **different** session via `/go <branch>` (`@.claude/skills/go/SKILL.md` routes that through `/from-branch`, which attaches to the branch and finds the plan under `docs/plans/`) — the handoff works because the plan file rides the branch. So a plan turn ends in a handoff, not a continuation; same-session implementation is the rare exception.
 
 Do **exactly what you would do in plan mode** — same research, same rigor, same "don't touch code until approved" discipline. The _only_ difference is where the plan goes and how it's approved:
 
@@ -28,22 +28,22 @@ Do **exactly what you would do in plan mode** — same research, same rigor, sam
   > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
   ```
 - Then **end the turn with the handoff block** (§ "Handing off" below) and stop — do not start implementing.
-- **The in-session path is the exception, not the default.** If a literal go-ahead token does arrive in _this_ session, "The approval gate" below governs it unchanged — and on approval you hand off to `@.claude/skills/implement/SKILL.md`, whose Step 1 performs the flip that unlocks source edits (`git mv` the plan to `docs/plans/<branch-slug>.in-progress.md`, drop the draft banner, quote the go-ahead in the commit) as its first action, before any source edit. That flip is the on-record receipt that approval was given, so don't front-run it here; the mechanics live in `/implement` to avoid two copies drifting apart. The gate is exactly as strict on this path as on any other; it just fires rarely.
+- **The in-session path is the exception, not the default.** If a literal go-ahead token does arrive in _this_ session, "The approval gate" below governs it unchanged — and on approval you hand off to `@.claude/skills/go/SKILL.md`, whose Step 1 performs the flip that unlocks source edits (`git mv` the plan to `docs/plans/<branch-slug>.in-progress.md`, drop the draft banner, quote the go-ahead in the commit) as its first action, before any source edit. That flip is the on-record receipt that approval was given, so don't front-run it here; the mechanics live in `/go` to avoid two copies drifting apart. The gate is exactly as strict on this path as on any other; it just fires rarely.
 
-### Handing off — end the plan turn with a copyable `/implement` block
+### Handing off — end the plan turn with a copyable `/go` block
 
 Get the branch with `git branch --show-current` and substitute the real name. Introduce the block with wording that **names the new session** — `To implement — start a new session with:`, or an unmistakable equivalent. That lead-in is what carries the session model to the operator; a bare "To implement:" reads as an offer to do it here, which is the misreading the block exists to remove. Emit the command in a fenced block containing **only** the command — no language tag, nothing else inside the fence — so it can be copied verbatim:
 
 ````
 ```
-/implement claude/add-usage-charts-k3n2af
+/go claude/add-usage-charts-k3n2af
 ```
 ````
 
 - Emit it at the end of **every** turn that leaves the plan in a reviewable, complete state — the turn that first writes the plan, and any later turn that revises or collapses it (Part 3). One block per turn, as the last thing in the reply.
 - **Open questions don't hold the block back when they carry recommendations.** Part 2 requires every fork to name a recommended option _and_ the plan file to be written with that option already in force, so implementing it unanswered is the same as adhering to the recommendations. Emit the block alongside the questions: an answer that differs revises the plan, and silence is a valid resolution. Hold the block only for a fork with no recommendation, where the plan has nothing executable to say until the operator picks — handing over a command to implement a genuinely unresolved fork invites implementing the wrong one.
 - **Never** close a plan turn with "Want me to implement it?", "Shall I proceed?", "Ready for me to start?", or any equivalent. Two reasons: the plan session does not implement, so there is nothing to ask; and a turn that ends on that question trains the agent to read the operator's _next_ message as an answer to it, so a correction ("actually, do X instead") gets taken as assent and code starts getting written. The handoff block is the structural fix that the approval gate's "a suggestion is a plan revision" and Part 3's "picking an option is not a signal to implement" can only exhort.
-- The block is built for a session that does not exist yet, which is why the lead-in names it. Pasting it back into _this_ session is a recognizable mistake with its own guard — see `@.claude/skills/implement/SKILL.md` § "Branch-name form" for the canary that catches it.
+- The block is built for a session that does not exist yet, which is why the lead-in names it. Pasting it back into _this_ session is a recognizable mistake with its own guard — see `@.claude/skills/go/SKILL.md` § "Argument shape" for the canary that catches it.
 
 ### The approval gate
 
@@ -62,11 +62,11 @@ This gate applies to the **initial** transition from planning to implementing. O
 The plan file carries its state in its name, and moves through it by `git mv` (the base slug never changes):
 
 1. `docs/plans/<slug>.draft.do-not-implement.md` — written here, awaiting the operator's go-ahead.
-2. `docs/plans/<slug>.in-progress.md` — flipped as the first post-go-ahead action (above). **The name is a claim: a session has this plan open right now**, so it is not a file another session may pick up. `@.claude/skills/implement/SKILL.md` owns implementing against it, and owns the one escape hatch for a session that died still holding it.
-3. `docs/plans/<slug>.paused.md` — a session stopped partway, recorded what is done and what is left, and released the plan. This is the resumable state, and the one a later `/implement` continues from.
-4. `docs/plans/<slug>.completed.md` — flipped by `/implement` once implementation and its quality passes are done, just before the draft PR.
+2. `docs/plans/<slug>.in-progress.md` — flipped as the first post-go-ahead action (above). **The name is a claim: a session has this plan open right now**, so it is not a file another session may pick up. `@.claude/skills/go/SKILL.md` owns implementing against it, and owns the one escape hatch for a session that died still holding it.
+3. `docs/plans/<slug>.paused.md` — a session stopped partway, recorded what is done and what is left, and released the plan. This is the resumable state, and the one a later `/go` continues from.
+4. `docs/plans/<slug>.completed.md` — flipped by `/go` once implementation and its quality passes are done, just before it hands the PR to `/pr`.
 
-Every state still matches `docs/plans/*.md`, so consumers that glob the directory (`/implement`, `/from-branch`, `/handle`, `/finalize`, `/tighten-docs`) keep working unchanged.
+Every state still matches `docs/plans/*.md`, so consumers that glob the directory (`/go`, `/from-branch`, `/handle`, `/finalize`, `/tighten-docs`) keep working unchanged.
 
 The plan file is a working artifact, not a deliverable: it rides the branch for review but must **never land on the trunk**. `@.claude/skills/finalize/SKILL.md` deletes the entire `docs/plans/` tree in the last commit before `gh pr ready` (any suffix — `git rm -r docs/plans/`), so the add-then-delete pair cancels out in the squash — the same lifecycle as `docs/issue/`. Do **not** delete it yourself mid-task; leave that to finalization.
 
@@ -74,7 +74,7 @@ The plan file is a working artifact, not a deliverable: it rides the branch for 
 
 When you would otherwise call `AskUserQuestion`, **ask the same questions, with the same options you'd have offered** — just render them as prose in your chat reply instead. Preserve the fast-answer affordance: **number each question and letter each option**, and state which option is the default/recommended, so the operator can reply tersely (e.g. "1b, 2a, 3-default") without typing prose back. This keeps the whole exchange in the durable transcript rather than in the flaky question UI.
 
-**A recommendation is a commitment, not a lean.** Write the plan file with the recommended option already in force as its single approach — the same collapse Part 3 performs when the operator picks — so an open question degrades into "the recommendation stands" instead of a blocked fork, and the plan is implementable as written no matter which questions go unanswered. That is what lets the handoff block go out with questions still open (Part 1) and lets `/implement` proceed without the answers (`@.claude/skills/implement/SKILL.md` § "Step 1"). A fork you can't recommend either way is the exception, and it does block: say so explicitly in the plan rather than picking silently.
+**A recommendation is a commitment, not a lean.** Write the plan file with the recommended option already in force as its single approach — the same collapse Part 3 performs when the operator picks — so an open question degrades into "the recommendation stands" instead of a blocked fork, and the plan is implementable as written no matter which questions go unanswered. That is what lets the handoff block go out with questions still open (Part 1) and lets `/go` proceed without the answers (`@.claude/skills/go/SKILL.md` § "Step 1"). A fork you can't recommend either way is the exception, and it does block: say so explicitly in the plan rather than picking silently.
 
 ## Part 3 — When the operator picks an option
 

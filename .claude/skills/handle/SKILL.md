@@ -14,7 +14,7 @@ Three parts, order-free:
 
 ## A `/handle` session is continued work
 
-It attaches to work started elsewhere, so **no plan cycle opens** — the same standing as `/from-branch` (CLAUDE.md § "Plan mode & questions in web sessions"). That also makes the invocation itself the go-ahead a `*.draft.do-not-implement.md` plan is waiting for; `@.claude/skills/implement/SKILL.md` Step 1 owns the flip.
+It attaches to work started elsewhere, so **no plan cycle opens** — the same standing as `/from-branch` (CLAUDE.md § "Plan mode & questions in web sessions"). That also makes the invocation itself the go-ahead a `*.draft.do-not-implement.md` plan is waiting for; `@.claude/skills/go/SKILL.md` Step 1 owns the flip.
 
 ## Step 1 — Attach
 
@@ -24,7 +24,7 @@ Load and follow `@.claude/skills/from-branch/SKILL.md` with the target and **no 
 
 Two lanes, and the branch should present **exactly one**:
 
-- **Plan lane** — `docs/plans/` holds a plan in any state but `*.completed.md`: `*.draft.do-not-implement.md`, `*.paused.md` or `*.in-progress.md`. Any one of the three fires the lane; completed siblings don't. Everything past that — which file is actionable, the `git mv` flips, and what to do about an `*.in-progress.md` a live session may still hold — is `@.claude/skills/implement/SKILL.md` Step 1's, so hand it over rather than adjudicating here.
+- **Plan lane** — `docs/plans/` holds a plan in any state but `*.completed.md`: `*.draft.do-not-implement.md`, `*.paused.md` or `*.in-progress.md`. Any one of the three fires the lane; completed siblings don't. Everything past that — which file is actionable, the `git mv` flips, and what to do about an `*.in-progress.md` a live session may still hold — is `@.claude/skills/go/SKILL.md` Step 1's, so hand it over rather than adjudicating here.
 - **Review lane** — the PR carries feedback nobody has answered. Two signals, which **coexist by design and must both be collected before either is worked**:
   - **Unresolved threads whose newest comment is guidance nobody has answered**, from reviews of any age. Unresolved is necessary but not sufficient: an operator who read your reply and moved on routinely never clicks Resolve, so firing on `unresolved` alone re-works threads that are already done. The test runs on the thread's **tail**, not on whether a reply exists anywhere in it — which is also what catches the mirrored case, a thread a prior agent answered and the operator then came back on unsatisfied.
   - **Reviews submitted since the branch's last push**, plus top-level PR comments by the same recency test — they carry no resolved state, so recency is the only handle on them. Compare `reviews[].submittedAt` and `comments[].createdAt` against the head commit's `committedDate` (`gh pr view <n> --repo <owner>/<repo> --json commits,reviews,comments`).
@@ -45,7 +45,7 @@ One rule this skill contributes: **reply on GitHub for every comment addressed**
 
 ## Step 4 — No lane fired
 
-With extra guidance in the argument, that guidance is the task → `/implement` § "Planless entry". With none, **stop and ask**: report what the branch looks like (last commit, PR state, what `docs/plans/` holds) and let the operator direct. Do not invent work, and do not open a plan cycle to manufacture some.
+With extra guidance in the argument, that guidance is the task → `/go` § "Planless entry". With none, **stop and ask**: report what the branch looks like (last commit, PR state, what `docs/plans/` holds) and let the operator direct. Do not invent work, and do not open a plan cycle to manufacture some.
 
 ## Step 5 — `and finalize`
 
