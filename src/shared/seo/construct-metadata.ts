@@ -54,7 +54,8 @@ export function constructMetadata({
     title,
     description,
     alternates: {
-      canonical: canonical === undefined ? undefined : getAbsoluteUrl(canonical),
+      canonical:
+        canonical === undefined ? undefined : getAbsoluteUrl(canonical),
       languages:
         languages === undefined
           ? undefined
