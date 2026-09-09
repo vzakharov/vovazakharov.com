@@ -40,8 +40,16 @@ click reads the media query rather than a hook whose first render says
 between, so the right one is painted on the first frame rather than
 after hydration.
 
+It also stops presenting as a control. Where the site's buttons and
+chips wear a hairline box, the toggle is a bare grey glyph that comes up
+to full on hover; and on home and the CV it sits in the top-right corner
+of the header rather than on a row of its own, out of the flow, so a
+page that spent a band on it now starts at its heading. `CornerHeader`
+owns both halves of that positioning, so no caller can pair an absolute
+corner with a header that forgot to be its context.
+
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01GKxDZ7EAK7LVfG71N7fT5m
+Claude-Session: https://claude.ai/code/session_01PXB3UF8SiKuA8hrogYoTn1
 ```
 
 ---
