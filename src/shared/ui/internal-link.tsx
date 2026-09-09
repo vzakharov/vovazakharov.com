@@ -1,8 +1,14 @@
 'use client';
 
-import { Anchor, type AnchorProps } from '@mantine/core';
+import {
+  Anchor,
+  type AnchorProps,
+  Button,
+  type ButtonProps,
+} from '@mantine/core';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+
+import type { Anchored } from '@/shared/typings';
 
 /**
  * React refuses to serialise `next/link` across the server boundary, so Mantine's
@@ -13,10 +19,23 @@ export function InternalLink({
   href,
   children,
   ...props
-}: AnchorProps & { href: string; children: ReactNode }) {
+}: AnchorProps & Anchored) {
   return (
     <Anchor component={Link} {...{ href }} {...props}>
       {children}
     </Anchor>
+  );
+}
+
+/** The call-to-action shape of the pairing above. */
+export function InternalButton({
+  href,
+  children,
+  ...props
+}: ButtonProps & Anchored) {
+  return (
+    <Button component={Link} {...{ href }} {...props}>
+      {children}
+    </Button>
   );
 }

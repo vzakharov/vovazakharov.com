@@ -6,6 +6,16 @@ import type { Linked, WithText } from '@/shared/typings';
  */
 export const BUILD_YEAR = new Date().getFullYear();
 
+/**
+ * The unlocalized standalone pages. Below `pages/` because the footer that
+ * links them is a different slice from the pages themselves, and slices may not
+ * reach each other sideways; the CV and the collections shape their own URLs.
+ */
+export const PAGE_ROUTES = {
+  writing: '/writing',
+  music: '/music',
+} as const;
+
 export const SITE_CONFIG = {
   url: 'https://vovazakharov.com',
   /**

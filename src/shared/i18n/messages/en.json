@@ -18,20 +18,58 @@
     },
     "whatIOffer": {
       "title": "What I Offer",
-      "coreCapabilities": {
-        "title": "Core Capabilities",
-        "item1": "Bring your idea to an MVP/prototype in 1-2 months",
-        "item2": "Clean the mess in the prototype you vibe-coded",
-        "item3": "Explain exactly why your AI agent doesn't work the way you expected, and fix it"
-      },
-      "workingStyle": {
-        "title": "Working Style",
-        "paragraph1": "I'm the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a \"treat any job as if it was your own brainchild\" mentality.",
-        "paragraph2": "In other words: a surprisingly low-maintenance LLM tinkerer with a TypeScript kink, ready to prototype, debug, or sanity-check your AI-infused ambitions."
-      },
-      "aiExpertise": {
-        "title": "AI Expertise",
-        "paragraph": "I tend to stick to a more \"economical\" paradigm of AI usage: smaller prompts, more aware of context limitations, less \"let's feed it all and it'll somehow work!\" My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the underlying patterns and limitations that most \"AI engineers\" are still discovering."
+      "blocks": {
+        "coreCapabilities": {
+          "title": "Core Capabilities",
+          "items": [
+            "Bring your idea to an MVP/prototype in 1-2 months",
+            "Clean the mess in the prototype you vibe-coded",
+            "Explain exactly why your AI agent doesn't work the way you expected, and fix it"
+          ]
+        },
+        "engagements": {
+          "title": "Engagements",
+          "items": [
+            {
+              "label": "Idea → production:",
+              "text": "your idea in the hands of real users in one to two months, built the way it will be maintained rather than as a demo to throw away."
+            },
+            {
+              "label": "Your team on agent rails:",
+              "text": "the architecture, the staged pipeline and the pre-push gate that let a crowd of agents ship without drifting — set up on your codebase, then handed over as checked-in procedure rather than as advice. It has been handed over once already, and the engineers who took it carried it to projects of their own."
+            },
+            {
+              "label": "Rescue and diagnosis:",
+              "text": "the prototype that got vibe-coded into a corner, and the agent that doesn't do what you expected — usually the same purchase."
+            },
+            {
+              "label": "Standing technical judgment:",
+              "text": "framework and platform selection, build-vs-buy, and a straight answer on what the models still cannot do."
+            }
+          ]
+        },
+        "engineeringSystem": {
+          "title": "The Engineering System",
+          "items": [
+            "Feature-sliced architecture held by linters, so a crowd of agents working at once cannot drift the structure.",
+            "A staged pipeline — plan, implement, review, finalize — each stage its own session, with reviewable artifacts between them.",
+            "Branch hygiene held in-session: a gate of concurrent checks before every push, the production build among them, so no agent contaminates main with code that breaks it.",
+            "CI/CD that fits your workflow — ship every commit off main, staging-based release cycles, or release trains."
+          ]
+        },
+        "workingStyle": {
+          "title": "Working Style",
+          "paragraphs": [
+            "I'm the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a \"treat any job as if it was your own brainchild\" mentality.",
+            "In other words: a surprisingly low-maintenance LLM tinkerer with a TypeScript kink, ready to prototype, debug, or sanity-check your AI-infused ambitions."
+          ]
+        },
+        "aiExpertise": {
+          "title": "AI Expertise",
+          "paragraphs": [
+            "I tend to stick to a more \"economical\" paradigm of AI usage: smaller prompts, more aware of context limitations, less \"let's feed it all and it'll somehow work!\" My expertise predates the ChatGPT hype cycle, which means I understand not just the APIs, but the underlying patterns and limitations that most \"AI engineers\" are still discovering."
+          ]
+        }
       }
     },
     "experience": {
@@ -62,8 +100,7 @@
             "label": "A repeatable agent pipeline:",
             "text": "plan, implement, review, finalize — each stage its own session, with a reviewable artifact between them."
           }
-        ],
-        "tech": "Next.js 16, TypeScript, feature-sliced design, Claude Code"
+        ]
       },
       "englishForKids": {
         "title": "Developer – Project Work",
@@ -73,8 +110,7 @@
           "Interactive game-based learning experiences powered by LLM-generated content.",
           "Adaptive difficulty and personalized learning paths based on individual progress.",
           "Integration of proven teaching methods with modern AI capabilities."
-        ],
-        "tech": "Next.js, OpenAI API, custom game engine"
+        ]
       },
       "orcool": {
         "title": "Developer – Project Work",
@@ -85,8 +121,7 @@
           "Automated review collection from diverse public sources.",
           "AI-driven summarization with structured outputs (SWOT, competitive positioning, feature insights).",
           "Early productization steps toward a scalable SaaS-style platform."
-        ],
-        "tech": "Next.js/NestJS, Cloudflare Workers, Firebase, custom LLM orchestration framework"
+        ]
       },
       "randddb": {
         "title": "Developer",
@@ -114,7 +149,6 @@
             "text": "White-label mini-platforms for agency clients (e.g. randddb.com/s/ikea)."
           }
         ],
-        "tech": "Django + PostgreSQL backend, Vue + TypeScript frontend",
         "demo": "Demo available on request."
       },
       "independent": {
@@ -128,7 +162,7 @@
           },
           {
             "label": "almostmagic:",
-            "text": "Python package for instant LLM integration – one line, zero ceremony."
+            "text": "TypeScript package for instant LLM integration – one line, zero ceremony."
           },
           {
             "label": "JobGenie:",
@@ -223,10 +257,30 @@
     "footer": {
       "backLink": "← Back to main page",
       "printFooter": "Full portfolio:"
+    },
+    "variants": {
+      "cto": {
+        "metadata": {
+          "description": "Fractional, hands-on CTO for AI-native delivery: agent orchestration, guardrails, and a pipeline that shipped 250,000 lines of production TypeScript in 158 days.",
+          "ogSuffix": "The platform outlived my involvement — the engineers who took it over run it today."
+        },
+        "header": {
+          "tagline": "Fractional, hands-on CTO for AI-native delivery"
+        },
+        "profile": {
+          "paragraph1": "158 days, <strong>250,000 lines of production TypeScript</strong>, none of it hand-written, up to <strong>20 agents working at once</strong>, and <strong>a production deploy every 2.4 days</strong> — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
+          "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I <strong>don't buy or sell buzzwords</strong>, I understand things <strong>a level or two deeper than most</strong>, and I've developed an <strong>intuition for what models can and cannot do</strong>. What I'm not is a compliance function or a headcount manager: this is founder-and-small-team scale, where I run the delivery rather than the org chart."
+        }
+      }
     }
   },
   "ui": {
     "toggleTheme": "Toggle theme",
-    "switchToOther": "Switch to Russian"
+    "switchToOther": "Switch to Russian",
+    "switchVariant": "Switch CV framing",
+    "cvVariants": {
+      "cto": "CTO",
+      "dev": "Dev"
+    }
   }
 }

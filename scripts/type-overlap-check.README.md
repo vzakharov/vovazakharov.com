@@ -312,13 +312,15 @@ The floor is not complete coverage.
   separate change; until then, reading a group's constituent lists is review's job. **And two types
   sharing exactly one base are never flagged** — deliberately, per §1 — so that silence is by design,
   not oversight.
-- **Inline shapes are invisible at any threshold**, in three positions: a return type, a `const`
-  annotation, and — the one that matters most — a **render-prop's argument type**, which is a
-  contract between two files and drifts exactly like a named type. So grep the key in inline
-  positions too (`{ key:`, `(args: {`), and when you find one, the contract belongs with the
-  component that _declares_ the prop, not the one that implements it. Invisibility also cuts the
-  other way, as a budget guard: an inline member whose rename would churn ~30 call sites for no
-  type-level gain is legitimately left alone.
+- **Inline shapes are invisible at any threshold**, in four positions: a return type, a `const`
+  annotation, a **generic's type argument**, and — the one that matters most — a **render-prop's
+  argument type**, which is a contract between two files and drifts exactly like a named type. So
+  grep the key in inline positions too (`{ key:`, `(args: {`, `<{ `), and when you find one, the
+  contract belongs with the component that _declares_ the prop, not the one that implements it. The
+  generic position is where route params land: `WithParams<{ slug: string }>` hides `slug` from the
+  gate, so a route's segments get a named shape (`WithParams<WithOptionalCvSegments>`) even though
+  nothing but the route reads it. Invisibility also cuts the other way, as a budget guard: an inline
+  member whose rename would churn ~30 call sites for no type-level gain is legitimately left alone.
 - **Derived forms are invisible** — `Pick<>`, `Omit<>` and mapped types. Where they conflict,
   **deriving from the source of truth outranks the detector's anchor**: a one-member type that is
   honestly a `Pick<SomeRow, 'field'>` stays one.

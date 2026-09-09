@@ -1,11 +1,8 @@
 import { Box, Stack, Title } from '@mantine/core';
 
-import type { Titled, WithChildren } from '@/shared/typings';
+import type { TitledBlock } from '@/shared/typings';
 
 import classes from './cv.module.scss';
-
-/** A heading and whatever the CV renders under it. */
-type TitledBlock = Titled & WithChildren;
 
 type CvSectionProps = TitledBlock & {
   /** Spaces children further apart, as the experience entries need. */

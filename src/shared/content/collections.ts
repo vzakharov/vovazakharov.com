@@ -23,6 +23,9 @@ export const COLLECTIONS = {
   },
 } as const satisfies Record<CollectionId, { base: string; label: string }>;
 
+/** The document the home page and the CV both cross-link. */
+export const FEATURED_CASE_STUDY = 'playgram';
+
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
 export const VARIANTS = ['mini', 'nano'] as const;
 
@@ -65,6 +68,12 @@ export function documentRoute(
 ): string {
   return `${collectionRoute(id)}/${documentName(slug, variant)}`;
 }
+
+/** The route of the case study the home page and the CV cross-link. */
+export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
+  'case-studies',
+  FEATURED_CASE_STUDY,
+);
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */
 export function documentName(slug: string, variant?: Variant): string {
