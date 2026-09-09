@@ -14,6 +14,8 @@ import { useLocale, useMessages, useTranslations } from 'next-intl';
 import { cx } from '@/shared/lib/class-names';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
+import { ThemeToggle } from '@/features/switch-theme';
+
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import { cvPdfFile } from '../lib/cv-urls';
 import type { WithCvVariant } from '../lib/cv-variants';
@@ -74,7 +76,10 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             className="print-hidden"
           >
             <LocalePicker {...{ variant }} />
-            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+            <Group gap={8} align="center">
+              <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+              <ThemeToggle />
+            </Group>
           </Group>
 
           <Box component="header" ta="center" className={classes['header']}>

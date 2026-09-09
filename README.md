@@ -7,7 +7,7 @@ Personal showcase website for Vova Zakharov - Developer, AI tinkerer, word shake
 - **Framework:** Next.js 16 with App Router
 - **Language:** TypeScript
 - **Styling:** Mantine 9, with SCSS modules for component CSS
-- **Theme:** Light and dark, following the reader's system scheme
+- **Theme:** Light and dark, defaulting to the reader's system scheme
 - **Fonts:** Merriweather (serif), JetBrains Mono (monospace)
 - **Deployment:** GitHub Pages via GitHub Actions
 
@@ -51,6 +51,7 @@ under `src/`; `.claude/rules/fsd.md` carries the conventions.
 ├── pages/                      # Empty Pages-Router shadow — see pages/README.md
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
+│   ├── features/switch-theme/  # Light/dark toggle over a stored system default
 │   ├── pages/                  # Page composition — home, cv, case-studies
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, colour tokens
@@ -68,7 +69,7 @@ under `src/`; `.claude/rules/fsd.md` carries the conventions.
 - Responsive design (mobile-first)
 - Card-based layout throughout
 - Spotify embeds for music projects
-- Light and dark, following the reader's system scheme
+- Light and dark, defaulting to the reader's system scheme
 - Static export for fast loading
 - SEO-friendly metadata
 

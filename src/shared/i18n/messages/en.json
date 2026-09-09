@@ -278,6 +278,7 @@
     }
   },
   "ui": {
+    "toggleTheme": "Toggle theme",
     "cvVariants": {
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"

@@ -1,4 +1,4 @@
-import { Box, Container, Stack } from '@mantine/core';
+import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import {
@@ -15,6 +15,8 @@ import {
 import { constructArticleMetadata } from '@/shared/seo';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, InternalLink } from '@/shared/ui';
+
+import { ThemeToggle } from '@/features/switch-theme';
 
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
@@ -83,7 +85,11 @@ export async function ArticlePage({ params }: Props) {
     <Box className={classes['articlePage']}>
       <Container size={1152} px={0}>
         <Stack gap={32}>
-          <Box component="nav" className="print-hidden">
+          <Group
+            component="nav"
+            justify="space-between"
+            className="print-hidden"
+          >
             <InternalLink
               href={collectionRoute(COLLECTION)}
               size="sm"
@@ -91,7 +97,8 @@ export async function ArticlePage({ params }: Props) {
             >
               ← {COLLECTIONS[COLLECTION].label}
             </InternalLink>
-          </Box>
+            <ThemeToggle />
+          </Group>
 
           <PrintSheet {...{ route }}>
             {/*
