@@ -19,10 +19,10 @@ market it reads to.
 
 The language switch becomes the chip pair the article header already
 offers for a document's cuts: both languages shown, the current one
-inverted and inert. That control moves down to `shared/ui`, since the
-CV may not reach sideways into `pages/case-studies` for it. The print
-button becomes the `.pdf` link every other document offers, which puts
-the CV in the committed-render pipeline — one PDF per canonical
+inverted and inert. The print button becomes the `.pdf` link every
+other document offers. Both controls move down to `shared/ui`, the CV
+having no sideways reach into `pages/case-studies` for either, and it
+joins the committed-render pipeline — one PDF per canonical
 `/cv/<variant>/<locale>`, the short rungs linking to theirs, and
 `content:pdf` moving to `tsx` to reach the CV's own addresses. Its
 source list splits into the print surface both kinds share and a
