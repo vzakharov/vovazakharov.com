@@ -3,20 +3,19 @@
 import {
   Anchor,
   Box,
-  Button,
   Container,
   Group,
   Stack,
   Text,
   Title,
 } from '@mantine/core';
-import { Printer } from 'lucide-react';
-import { useMessages, useTranslations } from 'next-intl';
+import { useLocale, useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import { Card, InternalLink } from '@/shared/ui';
+import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
+import { cvPdfFile } from '../lib/cv-urls';
 import type { WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
@@ -26,10 +25,6 @@ import { CvSection, CvSubsection } from './cv-section';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
 import { OtherVariantLink } from './other-variant-link';
-
-function handlePrint() {
-  globalThis.print();
-}
 
 /** The addresses the sheet renders in more than one place. */
 function EmailLink() {
@@ -65,6 +60,7 @@ export type CvSheetProps = WithCvVariant & {
 export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
+  const locale = useLocale();
 
   return (
     <Box className={classes['page']}>
@@ -72,21 +68,13 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
         <Stack className={classes['pageSections']}>
           <Group
             justify="space-between"
-            align="flex-start"
+            align="center"
+            wrap="wrap"
+            gap={16}
             className="print-hidden"
           >
-            <Button
-              variant="default"
-              size="md"
-              h={50}
-              px={12}
-              leftSection={<Printer size={20} />}
-              onClick={handlePrint}
-              aria-label={t('printButton')}
-            >
-              / PDF
-            </Button>
             <LocalePicker {...{ variant }} />
+            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
           </Group>
 
           <Box component="header" ta="center" className={classes['header']}>

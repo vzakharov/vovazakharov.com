@@ -5,6 +5,7 @@ paths:
   - public/generated/**
   - src/shared/content/**
   - src/pages/case-studies/**
+  - src/pages/cv/**
   - app/case-studies/**
   - scripts/render-mermaid.ts
   - scripts/render-og.ts
@@ -33,6 +34,8 @@ public/generated/
 public/cv/
   <variant>.og.png            # the CV's social cards, produced by `pnpm content:og`
   og-renders.json
+  <variant>/<locale>.pdf      # committed, produced by `pnpm content:pdf`
+  <variant>/pdf-renders.json
 ```
 
 **A document's file sits at its route plus an extension.** The page at `/case-studies/playgram` is `public/case-studies/playgram.md` served raw, and `.pdf` beside it; a cut is a dotted suffix on the slug — `/case-studies/playgram.mini`, `playgram.mini.md`, `playgram.mini.pdf` — rather than a nested segment, so the route matches the name the file was authored as. One sentence covers the markdown, the PDF, the full document and every cut, and `documentRoute()` in `collections.ts` is the single place that shapes any of it.
@@ -71,7 +74,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 ## Traps worth knowing
 
 - **A document's route reserves `.html` and `.txt`, and takes them without a word.** Those are the page and the RSC payload Next emits beside it, and a file in `public/` that collides with either is silently overwritten by the route's output — `next build` exits 0 and reports nothing. Every other extension is free, which is what makes `.md` and `.pdf` safe and leaves room for a third.
-- **A print-affecting change needs `pnpm content:pdf` re-run and the PDFs committed.** A PDF's sources are more than its markdown: the print stylesheet, the article components, the whole of `shared/content` that turns the markdown into markup, and `shared/config`, whose name and URL the footer prints. `SHARED_SOURCES` in `scripts/render-pdf.ts` names them, the manifest hashes all of them as one source set, and a tweak to any of it re-flags every PDF. `--check` — wired into `vet.sh` — is what catches the omission; the cost of the false positives is one run. **Anything that shapes the printed page belongs in that list**, or a change to it ships behind a PDF the check calls fresh.
+- **A print-affecting change needs `pnpm content:pdf` re-run and the PDFs committed.** A PDF's sources are more than the page's own text: the print stylesheet, the theme it is drawn with, the presentation components, and `shared/config`, whose name and URL the footer prints. `PRINT_SOURCES` in `scripts/render-pdf.ts` names what shapes any printed page; `DOCUMENT_SOURCES` and `CV_SOURCES` name what each kind adds — the markdown pipeline and the article components for a document, `pages/cv` plus that printable's own catalogue for the CV, so an English reword leaves the Russian print alone. The manifest hashes a printable's whole set as one hash, so a tweak to the shared part re-flags every PDF. `--check` — wired into `vet.sh` — is what catches the omission; the cost of the false positives is one run. **Anything that shapes the printed page belongs in one of those lists**, or a change to it ships behind a PDF the check calls fresh.
 - **The printed footer repeats because it is a real `<tfoot>`.** `PrintSheet` wraps the article in a presentational table so the footer — the document's own URL, scheme dropped, opposite the site's copyright — lands at the foot of every page. That markup is load-bearing: `position: fixed` repeats but lets the text run underneath it, and `display: table-footer-group` on a plain element prints once, at the end; only a `<tfoot>` both repeats and keeps the flow clear of its height. The table is `table-layout: fixed` in print for the same reason — an auto table widens to its widest child and everything past the paper's edge is silently cut off, the footer's right half included. On screen the whole thing lays out as the blocks it wraps.
 - **A video prints as the line that replaces it.** A player is a blank rectangle on paper, so `rehypeMediaEmbeds` emits a print-only "See video at …" note beside it. Which means **a video URL is read off paper and typed** — an opaque CDN id is unusable there, so a video worth printing wants a URL a human can transcribe.
 - **Every asset a document points at lives under `assets/`, never off-site.** A `github.com/user-attachments/…` URL is what a drag-and-drop into an issue leaves behind, and it holds up in a browser — but `pnpm content:pdf` prints through a headless Chromium that may have no route to that host, and a fetch it loses becomes a broken-image icon in a PDF the run still exits 0 on. Self-hosting also buys the typable URL the trap above wants. `scripts/export-github-item.py`'s fetch ladder downloads an attachment the agent proxy refuses, by falling back to a direct connection.

@@ -1,5 +1,7 @@
+import { pageFile } from '@/shared/config';
 import type { Locale } from '@/shared/i18n';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
+import type { DocumentFile } from '@/shared/typings';
 
 import type { CvVariant } from './cv-variants';
 
@@ -22,4 +24,13 @@ export function cvPath(...address: CvAddress): string {
  */
 export function cvCardPath(variant: CvVariant): string {
   return `${cvPath(variant)}${OG_CARD_SUFFIX}`;
+}
+
+/**
+ * The committed print of one framing in one language. Keyed off the canonical
+ * address rather than the rung being served, so the short rungs offer the same
+ * file their metadata already points at instead of duplicating it.
+ */
+export function cvPdfFile(variant: CvVariant, locale: Locale): DocumentFile {
+  return pageFile(cvPath(variant, locale), 'pdf');
 }

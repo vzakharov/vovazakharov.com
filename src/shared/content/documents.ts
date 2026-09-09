@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { pageFile } from '@/shared/config';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
@@ -102,10 +102,6 @@ function readDocument(
   }
 
   const route = documentRoute(collection, slug, variant);
-  const file = (extension: string): DocumentFile => ({
-    href: `${route}.${extension}`,
-    download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
-  });
 
   return {
     collection,
@@ -114,8 +110,8 @@ function readDocument(
     frontmatter,
     body: content,
     fileName,
-    markdown: file('md'),
-    pdf: file('pdf'),
+    markdown: pageFile(route, 'md'),
+    pdf: pageFile(route, 'pdf'),
     route,
     ...resolveOgImage(collection, frontmatter.ogImage),
   };
