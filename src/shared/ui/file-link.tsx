@@ -2,7 +2,10 @@
 
 import { Anchor } from '@mantine/core';
 
+import { cx } from '@/shared/lib/class-names';
 import type { DocumentFile, WithChildren } from '@/shared/typings';
+
+import { hoverDim } from './hover-dim';
 
 export type FileLinkProps = DocumentFile & WithChildren;
 
@@ -15,7 +18,7 @@ export function FileLink({ href, download, children }: FileLinkProps) {
     <Anchor
       {...{ href, download }}
       size="sm"
-      className="print-hidden hover-dim"
+      className={cx('print-hidden', hoverDim)}
     >
       {children}
     </Anchor>

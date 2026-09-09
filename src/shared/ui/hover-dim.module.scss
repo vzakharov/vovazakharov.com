@@ -1,0 +1,9 @@
+@use '../../../styles/mantine' as mantine;
+
+// Bound to call sites through `hover-dim.ts` rather than by name, so the two
+// slices that dim on hover share the rule without a global class.
+.hoverDim {
+  @include mantine.hover {
+    opacity: 0.7;
+  }
+}
