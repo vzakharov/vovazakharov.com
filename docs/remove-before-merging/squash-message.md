@@ -27,16 +27,16 @@ one's.
 The rest gives each skill in the loop one thing to own. `/plan` now
 publishes its own plan as a draft PR, so a plan is reviewed as a diff,
 with inline comments and threads, instead of chat prose; the trigger
-sits in `/plan` because that is where a plan becomes pushed.
-That leaves `/pr` with no reason to take a task argument: it owns the PR
-object in three modes, the old duplicate-PR guard inverted into a
-refresh that re-derives body and QA checklist against the diff the plan
-could only forecast. `/implement` becomes `/go`, keeping a redirect stub
-for the handoff blocks in open PR comments that still say the old name.
-One predicate carries the review loop — implementation has begun iff
-`docs/plans/` holds a file that is not a draft — so a draft plan plus
-unanswered feedback reads as review of the plan, and no review comment
-unlocks source edits; only an invocation does.
+sits in `/plan` because that is where a plan becomes pushed. That leaves
+`/pr` with no reason to take a task argument: it owns the PR object in
+three modes, the old duplicate-PR guard inverted into a refresh that
+re-derives body and QA checklist against the diff the plan could only
+forecast. `/implement` becomes `/go`, the retired name declined rather
+than kept resolvable by a stub. One predicate carries the review loop
+— implementation has begun iff `docs/plans/` holds a file that is not
+a draft — so a draft plan plus unanswered feedback reads as review of
+the plan, and no review comment unlocks source edits; only an invocation
+does.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

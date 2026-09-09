@@ -213,7 +213,6 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
 - **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — while the name points at the one source this repo actually has.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
-- **`/implement`** — a redirect to `/go`, kept because handoff blocks written before the rename still say it.
 
 **Quality passes** (both are mandatory inside `/go`):
 
