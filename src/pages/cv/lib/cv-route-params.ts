@@ -3,6 +3,7 @@ import 'server-only';
 import { z } from 'zod';
 
 import { routing } from '@/shared/i18n';
+import { localeSchema } from '@/shared/i18n/index.server-only';
 
 import type { CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
@@ -11,7 +12,6 @@ import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 
 const variantSegment = z.enum(CV_VARIANTS);
-const localeSegment = z.enum(routing.locales);
 
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
@@ -24,7 +24,7 @@ export const cvSegmentsSchema = z.object({
     .union([
       z.tuple([]),
       z.tuple([variantSegment]),
-      z.tuple([variantSegment, localeSegment]),
+      z.tuple([variantSegment, localeSchema]),
     ])
     .default([]),
 });

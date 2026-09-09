@@ -59,7 +59,13 @@ import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
 // `shared`, and from its own slice. See .claude/rules/fsd.md.
 const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
-const PUBLIC_API = 'index.ts';
+// An element exposes itself through `index.ts` and, where it has something a
+// client bundle must not reach, `index.server-only.ts` — a closed list, so a
+// name outside it is still reaching into internals. The suffixed barrel is a
+// declaration, not an escape hatch: what it re-exports opens with
+// `import 'server-only'`, which is what actually fails the build on a client
+// import. See .claude/rules/fsd.md.
+const PUBLIC_API = ['index.ts', 'index.server-only.ts'];
 
 // Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
 // discipline at CLI time; boundaries restates them as inline editor feedback,
