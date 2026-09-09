@@ -4,16 +4,20 @@ import type { WithChildren, WithId } from '@/shared/typings';
 
 type SectionProps = WithId &
   WithChildren & {
-    /** The section is the whole page, so its heading is the document's. */
+    /** The section is the whole page, so its `/id` is the document's heading. */
     standalone?: boolean;
   };
 
-/** A titled top-level section; its anchor doubles as the nav target. */
+/**
+ * A top-level section whose anchor doubles as the nav target. Only a standalone
+ * one is titled from its id; a section sharing a page heads itself, or not at
+ * all.
+ */
 export function Section({ id, standalone = false, children }: SectionProps) {
   return (
     <Box component="section" {...{ id }}>
       <Stack gap={24}>
-        <Title order={standalone ? 1 : 2}>/{id}</Title>
+        {standalone && <Title order={1}>/{id}</Title>}
         {children}
       </Stack>
     </Box>

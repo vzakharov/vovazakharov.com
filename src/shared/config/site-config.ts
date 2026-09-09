@@ -27,9 +27,10 @@ export const SITE_CONFIG = {
   downloadPrefix: 'vova',
   name: 'Vova Zakharov',
   /**
-   * The offer in one line, as the home hero states it and as every page that
-   * states no description of its own unfurls. The CV header's tagline is
-   * deliberately a different, plainer sentence — this one carries the voice.
+   * The offer in one line, as the home page's offer section is headed and as
+   * every page that states no description of its own unfurls. The CV header's
+   * tagline is deliberately a different, plainer sentence — this one carries
+   * the voice.
    */
   tagline:
     'Fractional CTO for teams that don’t want to YOLO into the agent era.',

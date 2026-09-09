@@ -1,7 +1,7 @@
 import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
 import { cssColor, InternalLink, PageShell } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
@@ -37,14 +37,7 @@ export function HomePage() {
               <Title order={1} mb={12}>
                 Vova Zakharov
               </Title>
-              <Text
-                fz={{ base: 20, sm: 24 }}
-                lh={{ base: '28px', sm: '32px' }}
-                opacity={0.8}
-              >
-                {SITE_CONFIG.tagline}
-              </Text>
-              <Text mt={16} opacity={0.7}>
+              <Text opacity={0.7}>
                 Helping our future overlords walk since 2020
               </Text>
             </Box>

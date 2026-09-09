@@ -1,5 +1,6 @@
 import { List, ListItem, Stack, Text } from '@mantine/core';
 
+import { SITE_CONFIG } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import { loadMessages } from '@/shared/i18n';
 import { InternalLink, Section } from '@/shared/ui';
@@ -16,6 +17,14 @@ export function OfferSection() {
   return (
     <Section id="offer">
       <Stack gap={24} align="flex-start">
+        <Text
+          component="h2"
+          fz={{ base: 20, sm: 24 }}
+          lh={{ base: '28px', sm: '32px' }}
+          opacity={0.8}
+        >
+          {SITE_CONFIG.tagline}
+        </Text>
         <Text size="lg" lh={1.625}>
           A lot of teams now have agents writing their code, and nobody whose
           job it is to keep what comes out shippable. That’s the job I do: I
