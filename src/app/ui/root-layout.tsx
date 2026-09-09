@@ -22,12 +22,15 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
+/**
+ * What every route without metadata of its own — `/` — publishes. Reaches Next
+ * only through `app/layout.tsx`'s re-export, as each page's does through its
+ * route module: a `metadata` this file exports and the route does not is never
+ * read.
+ */
+export const rootMetadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
-  title: {
-    default: SITE_CONFIG.name,
-    template: `%s | ${SITE_CONFIG.name}`,
-  },
+  title: SITE_CONFIG.name,
   ...constructMetadata(),
 };
 
