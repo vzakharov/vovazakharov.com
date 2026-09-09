@@ -56,16 +56,23 @@ metalhead"_ and _"Helping our future overlords walk since 2020"_ are both cut.
 
 **The tagline is the landing page's own, not the CV's** — the CV header's
 _"Fractional, hands-on CTO for AI-native delivery"_ is the right register for a
-CV and a flat one for a first screen. Default, unless the operator picks
-otherwise:
+CV and a flat one for a first screen. The operator's line, verbatim:
 
-> **Fractional CTO — I ship the thing, then hand you the machine that keeps
-> shipping it.**
+> **Fractional CTO for teams that don't want to YOLO into the agent era.**
 
-Alternatives offered alongside it: _"Fractional CTO for teams that let the agents
-write the code — and now need someone who can read it."_ and _"Hands-on
-fractional CTO: 250,000 lines in 158 days, none of them typed by a human, all of
-them still running."_
+It names what the buyer is afraid of rather than what the seller is, which is
+what makes it the hook the alternatives weren't.
+
+**"Hands-on" belongs in the supporting line, not the tagline** — asserted beside
+"Fractional CTO" it is one more adjective, and the sentence underneath can show
+it instead. Default, with the operator to pick:
+
+> Hands-on means hands on the keyboard: the last team I did this for runs the
+> platform today without me.
+
+Alternative: _"I write the code, review what the agents write, and hand over a
+machine your team runs without me."_ Neither restates `cv.metadata.ogSuffix`
+verbatim, which makes the same point in the CV's register.
 
 `src/pages/home/ui/dev-section.tsx` splits, so the page stops showing a heading
 that reads `/dev`:
