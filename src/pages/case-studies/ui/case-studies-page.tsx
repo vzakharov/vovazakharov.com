@@ -9,8 +9,6 @@ import {
 import { constructMetadata } from '@/shared/seo';
 import { BackToHome, Card, InternalLink, PageShell } from '@/shared/ui';
 
-import { ThemeToggle } from '@/features/switch-theme';
-
 import classes from './case-studies.module.scss';
 import { DocumentMeta } from './document-meta';
 
@@ -31,10 +29,6 @@ export async function CaseStudiesPage() {
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group justify="flex-end">
-          <ThemeToggle />
-        </Group>
-
         <Box component="header">
           <Stack gap={16}>
             <Title order={1}>{collectionRoute(COLLECTION)}</Title>

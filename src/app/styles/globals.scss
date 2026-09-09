@@ -1,5 +1,15 @@
+@use '../../../styles/mantine' as mantine;
 @use '../../../styles/tokens' as tokens;
 @use './prose';
+
+// Global rather than a module class, as the print utilities are: it is claimed
+// by slices that may not reach each other sideways, and a global name has no
+// import graph to route around that.
+.hover-dim {
+  @include mantine.hover {
+    opacity: 0.7;
+  }
+}
 
 :root {
   @include tokens.colors(#fff, #000, rgb(0 0 0 / 20%), rgb(0 0 0 / 40%));

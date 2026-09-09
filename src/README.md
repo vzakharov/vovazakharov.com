@@ -1,8 +1,8 @@
 # `src/` — Feature-Sliced Design
 
 Every application module lives here, organized by
-[Feature-Sliced Design](https://feature-sliced.design/): `shared/`, `features/`,
-`pages/` and `app/` today, with `entities/` and `widgets/` left out until
+[Feature-Sliced Design](https://feature-sliced.design/): `shared/`, `pages/` and
+`app/` today, with `entities/`, `features/` and `widgets/` left out until
 something earns them. Root `app/` is the Next.js App Router and nothing else —
 `layout.tsx` and each `page.tsx` are one-line re-exports of what they render.
 

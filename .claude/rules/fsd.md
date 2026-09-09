@@ -21,14 +21,16 @@ Lowest (most generic) first — an import may only point downward:
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
 | `entities/` | _(none yet)_ business nouns                                                                              |
-| `features/` | User-facing capabilities — currently `switch-theme`                                                      |
+| `features/` | _(none yet)_ user-facing capabilities                                                                    |
 | `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
 | `pages/`    | Page composition — `home`, `cv`, `case-studies`                                                          |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
-`entities/` and `widgets/` are absent because nothing earns them yet, not as an
-oversight. Layers are optional; **inventing one costs more than leaving it out**
-(see "insignificant slices" below).
+`entities/`, `features/` and `widgets/` are absent because nothing earns them
+yet, not as an oversight. Layers are optional; **inventing one costs more than
+leaving it out** (see "insignificant slices" below). The theme switcher was the
+one feature, and the layer directory went with it when the site settled on the
+reader's system scheme.
 
 ## Rules
 

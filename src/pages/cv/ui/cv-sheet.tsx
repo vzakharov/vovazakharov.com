@@ -16,8 +16,6 @@ import { useMessages, useTranslations } from 'next-intl';
 import { cx } from '@/shared/lib/class-names';
 import { Card, InternalLink } from '@/shared/ui';
 
-import { ThemeToggle } from '@/features/switch-theme';
-
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import type { WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
@@ -88,10 +86,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             >
               / PDF
             </Button>
-            <Group gap={8}>
-              <LocalePicker {...{ variant }} />
-              <ThemeToggle />
-            </Group>
+            <LocalePicker {...{ variant }} />
           </Group>
 
           <Box component="header" ta="center" className={classes['header']}>

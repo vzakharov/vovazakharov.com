@@ -4,8 +4,6 @@ import Image from 'next/image';
 import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
 import { cssColor, InternalLink, PageShell } from '@/shared/ui';
 
-import { ThemeToggle } from '@/features/switch-theme';
-
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';
 import { WorkSection } from './work-section';
@@ -17,10 +15,6 @@ export function HomePage() {
   return (
     <PageShell>
       <Stack gap={64}>
-        <Group justify="flex-end">
-          <ThemeToggle />
-        </Group>
-
         <Box component="section">
           <Stack gap={24} ta="center">
             <Center>
