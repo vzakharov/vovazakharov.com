@@ -16,10 +16,9 @@ import type { CvVariant } from './cv-variants';
  * The `hreflang` alternates are load-bearing rather than belt-and-braces: with
  * the locale in a trailing segment, nothing else in a CV URL names its language.
  *
- * The card is the framing's own, rendered by `pnpm content:og` from the same
- * catalogue this description comes from. Its size is read off the committed
- * file, so a card that was never rendered fails the build rather than shipping
- * a page that advertises nothing.
+ * The card's size is read off the committed render, so a framing whose card
+ * `pnpm content:og` never produced fails the build rather than advertising
+ * nothing.
  */
 export function generateCvMetadata(
   locale: Locale,

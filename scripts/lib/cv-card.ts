@@ -2,16 +2,10 @@
  * The CV's social card, one per framing, as a page for `og-render.ts` to
  * screenshot. Its copy is read, never retyped: name, tagline and the proof line
  * come from the message catalogue through the same variant merge the page uses,
- * so the card cannot say what the page has stopped saying — which is the drift
- * a hand-made card once shipped.
- *
- * English only. A `ru` card would double the committed weight for the site's
- * secondary surface, and the localized `og:description` already tells a
- * consumer which language it got.
+ * so the card cannot say what the page has stopped saying.
  *
  * Runs under `tsx`, unlike the other render libraries: the catalogue is a JSON
- * import bare Node takes only with an attribute, and the merge lives in `src/`
- * behind the `@/` alias.
+ * import bare Node takes only with an attribute.
  */
 
 import fs from 'node:fs';
@@ -30,7 +24,7 @@ import {
   type StagedPage,
 } from './og-render.ts';
 
-/** The portrait's file name inside the staging directory, and the `src` the page uses. */
+/** Staged beside the page under this name, which is the `src` it uses. */
 const PORTRAIT = 'portrait.png';
 
 /** The chart card's palette, so the two card kinds read as one site. */
@@ -46,10 +40,9 @@ function escapeHtml(text: string): string {
 }
 
 /**
- * Laid out at the canvas size in CSS pixels and zoomed to the screenshot's, so
- * the numbers below are the numbers a consumer's 1200×630 preview shows. HTML
- * rather than SVG because the proof line is a sentence, and SVG text does not
- * wrap.
+ * Laid out at the canvas size and zoomed to the screenshot's, so the numbers
+ * below are the ones a consumer's preview shows. HTML rather than SVG because
+ * the proof line is a sentence, and SVG text does not wrap.
  */
 function cardPage(name: string, tagline: string, proof: string): string {
   return `<!doctype html>

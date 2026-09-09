@@ -19,8 +19,7 @@
  *   pnpm content:og            # render what changed, prune what is gone
  *   pnpm content:og --check    # report staleness, write nothing
  *
- * Runs under `tsx` rather than bare Node, for the CV card's sake — see
- * `lib/cv-card.ts` — so it reaches `src/` by the `@/` alias.
+ * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias.
  */
 
 import fs from 'node:fs';
