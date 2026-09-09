@@ -43,12 +43,14 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these nine writes anything another one reads, so they overlap freely.
+# None of these ten writes anything another one reads, so they overlap freely.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap reads source text only — no generated types, nothing another
 # check writes; the test run adds only writes into the OS temp directory, and
-# the two `--check` render passes only hash files, needing no browser.
+# the two `--check` render passes only hash files, needing no browser. The
+# squash check reads the proposal under docs/remove-before-merging/ (or its own
+# history), which nothing else here touches.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
@@ -58,7 +60,8 @@ scripts/run-parallel.sh \
   type-overlap='pnpm type-overlap' \
   og='pnpm content:og --check' \
   pdf='pnpm content:pdf --check' \
-  test='pnpm test' || status=1
+  test='pnpm test' \
+  squash='scripts/check-squash-message.sh' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

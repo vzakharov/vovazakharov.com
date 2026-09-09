@@ -21,6 +21,11 @@ and the per-file steps mixed in with the things worth remembering — hence the
 mandatory tighten pass in Step 3. Never print or post a draft that hasn't been
 through it.
 
+The first reader reaches it earlier than merge time: `/plan` publishes the PR
+over the plan commit, so the proposal composed there is **the plan as it would
+be recorded** — a much shorter second read of the same decision, in front of the
+operator before any code exists.
+
 ## Invocation modes
 
 - `/squash-message` (default) — create the proposal, or update it in place if one
@@ -58,8 +63,19 @@ PR is open.
   the why lives.
 - `git diff --stat origin/<base>..HEAD` — the shape of the change.
 - `gh pr view --json number,title,body` — the PR number for the `(pr #N)` suffix,
-  and the description.
+  and the description. **No number yet** — the PR is not open — is not something
+  to wait for: compose with `(pr #tbd)` and let the number land at whatever run
+  next touches the comment, which § "When to (re)run" already counts as a
+  refresh trigger and `/finalize` Step 5 backstops.
 - Whichever issue the PR addresses, if any (`#N` in the PR body or commits).
+
+**A branch carrying only a plan commit has the plan as its input**, not `git
+log`: the plan states the change the record will describe, and the commit
+subject only says a plan was written. **Write it in the same completed voice as
+any other proposal** — what the change does, never what it will do once
+implemented. This is the body that gets pasted at merge, so one hedged as
+forthcoming ("once this lands, X will…") becomes a permanent record describing a
+plan rather than a change.
 
 ## Step 2 — Draft into the working file (do not print it)
 
@@ -139,16 +155,19 @@ number>)`, e.g. `refactor: #1150 extract useVisibilityPoll to shared/lib (pr
   conventional-commit set, since a project may carry its own — with no scope or
   extra words before the colon. Include `#<issue>` only when the PR addresses a GitHub issue
   (the primary one if several); omit it otherwise. Always end with ` (pr #<pr
-number>)`.
+number>)`. **One line, at most 80 chars** — the mandatory suffix eats ~10 of it,
+  which is why it isn't the body's own 72.
 - **Body** — the why, then what changed, at the altitude Step 3 sets. When the PR or diff references an issue, end
   the prose with a `Closes #N` (for `feat`/`refactor`/…) or `Fixes #N` (for
   `fix`) trailer. Then a blank line, then `Co-authored-by: Claude
 <noreply@anthropic.com>` as the final line (or your other assigned vendor email
   if you aren't running on Claude Code) — the body is pasted verbatim, so the
   byline has to be inside it.
-- **Hard-wrap the body at ~72 chars with real newlines.** A git commit message
-  doesn't soft-wrap; one long line per paragraph reads as an unwrapped wall in
-  `git log`. Continuation lines of a bullet align under its text.
+- **Hard-wrap the body at 72 chars with real newlines**, and keep it to **at most
+  50 lines**. A git commit message doesn't soft-wrap; one long line per paragraph
+  reads as an unwrapped wall in `git log`. Continuation lines of a bullet align
+  under its text. A line holding a single unwrappable token — a URL, a long path,
+  no interior whitespace — has no wrapped form and is exempt from the width.
 - Two **separate** fenced blocks, never one — the UI offers a copy button per
   block.
 
@@ -157,11 +176,12 @@ number>)`.
 Re-read the draft as the future reader above, and rewrite it until it hits the
 target.
 
-The target is **three paragraphs of prose, four at the outside**. The opening says
-why the change exists; the rest say what it does about it, named at the level of
-the behavior, contract or module affected. Not a bullet-per-change inventory:
-detail that doesn't survive at that size was below the high-level picture and
-lives in the diff.
+The target is **three paragraphs of prose, four at the outside**, inside the
+measured caps above — 80 chars of title, 50 lines of body at 72 wide. The
+opening says why the change exists; the rest say what it does about it, named at
+the level of the behavior, contract or module affected. Not a bullet-per-change
+inventory: detail that doesn't survive at that size was below the high-level
+picture and lives in the diff.
 
 Why the change exists is whatever is honest. Often that's a defect or a gap. Just
 as often it's planned work landing as planned, and then the opening says where the
@@ -206,10 +226,14 @@ Three things a draft reaches for fail Lens A, however well written:
 
 Scope is the caller's call, not this step's, and it cuts both ways. If the project
 has hydrated a release lane, a release body is deliberately long (a paragraph per
-product area) and isn't held to the cap; a hotfix body for a minimal fix is one or
-two paragraphs. The pass runs at either size — trimming words inside each of a
-release's areas rather than dropping areas, and never padding a hotfix out to look
-substantial.
+product area); a hotfix body for a minimal fix is one or two paragraphs. The pass
+runs at either size — trimming words inside each of a release's areas rather than
+dropping areas, and never padding a hotfix out to look substantial. The paragraph
+target moves with scope that way; the measured caps do not. They bind every lane,
+and a project whose release bodies genuinely outgrow 50 lines edits its own copy
+of `scripts/check-squash-message.sh` — raising the constant, or teaching the
+script to recognize a release first and widen only there — as a reviewable
+change.
 
 **A re-run rewrites; it never accretes.** Step 2 starts from what the file
 already says, so the temptation on a refresh is to append the new scope and
@@ -218,7 +242,15 @@ superseded wording beside what replaced it. Cut and replace, and re-apply the
 cap to the whole body on every run. A proposal that grew every time the branch
 did is the tell.
 
-Overwrite the file with the tightened version.
+Overwrite the file with the tightened version, then **measure it**:
+
+```bash
+scripts/check-squash-message.sh <working file>
+```
+
+Running it here fails at authorship, where the rewrite is already in hand — and
+it is the only run `/finalize no vet` gets, since that mode skips step 1 but still
+reaches step 5. Do not emit anything until it passes.
 
 ## Step 4 — Emit (comment first, then transcript)
 
