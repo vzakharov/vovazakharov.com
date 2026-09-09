@@ -26,8 +26,8 @@ joins the committed-render pipeline — one PDF per canonical
 `/cv/<variant>/<locale>`, the short rungs linking to theirs, and
 `content:pdf` moving to `tsx` to reach the CV's own addresses. Its
 source list splits into the print surface both kinds share and a
-per-kind remainder, so an English reword no longer re-flags the Russian
-sheet. The name heading links home.
+per-kind remainder, so an English reword leaves the Russian sheet
+alone. The name heading links home.
 
 The theme picker goes from every page, which leaves the reader's system
 scheme in charge and the features layer with no slices. A colour-scheme
@@ -38,7 +38,7 @@ script would otherwise go on honouring a stored choice with nothing
 left to change it.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_01UPejBpptYJRH3E7FRtSNSm
+Claude-Session: https://claude.ai/code/session_01ACP7um43XqwkMapdGrYWhA
 ```
 
 ---
