@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 
 import { cvMessages } from '@/pages/cv/lib/cv-messages';
@@ -86,7 +86,7 @@ function cardPage(name: string, tagline: string, proof: string): string {
       <h1>${escapeHtml(name)}</h1>
       <p class="tagline">${escapeHtml(tagline)}</p>
       <p class="proof">${escapeHtml(proof)}</p>
-      <p class="site">${escapeHtml(SITE_CONFIG.url.replace(/^https?:\/\//, ''))}</p>
+      <p class="site">${escapeHtml(printedUrl(SITE_CONFIG.url).text)}</p>
     </div>
   </body>
 </html>

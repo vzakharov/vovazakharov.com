@@ -30,7 +30,7 @@ import { PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
 
-import { cvCardPath } from '@/pages/cv/lib/cv-urls';
+import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
 import { findChromium } from './lib/chromium.ts';
@@ -54,8 +54,8 @@ const PADDING = 24;
 /** Records each render's source hash, beside the render it describes. */
 const MANIFEST_NAME = 'og-renders.json';
 
-/** Where the CV's cards live — the directory `cvCardPath` resolves into. */
-const CV_CARD_DIR = path.dirname(path.join(PUBLIC_DIR, cvCardPath('cto')));
+/** Where the CV's cards live: its route's own directory under `public/`. */
+const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
