@@ -50,9 +50,10 @@ Six pieces, in this order.
 
 ### 1 — The landing page leads with the offer
 
-`src/pages/home/ui/home-page.tsx` — the hero becomes name, one tagline, one
-supporting sentence. _"Developer, AI tinkerer, word shaker, generative
-metalhead"_ and _"Helping our future overlords walk since 2020"_ are both cut.
+`src/pages/home/ui/home-page.tsx` — the hero keeps its three lines and changes
+only the middle one. _"Developer, AI tinkerer, word shaker, generative
+metalhead"_ is cut; _"Helping our future overlords walk since 2020"_ stays
+verbatim, in place, at the size and opacity it already has.
 
 **The tagline is the landing page's own, not the CV's** — the CV header's
 _"Fractional, hands-on CTO for AI-native delivery"_ is the right register for a
@@ -61,18 +62,16 @@ CV and a flat one for a first screen. The operator's line, verbatim:
 > **Fractional CTO for teams that don't want to YOLO into the agent era.**
 
 It names what the buyer is afraid of rather than what the seller is, which is
-what makes it the hook the alternatives weren't.
+what makes it the hook the alternatives weren't. **"The agent era" is ironic and
+stays** — the line is arch throughout, so the phrase is being quoted rather than
+sold, and the CV's _"I don't buy or sell buzzwords"_ two clicks away reads as the
+same joke rather than against it. Do not tighten it into something plainer.
 
-**"Hands-on" belongs in the supporting line, not the tagline** — asserted beside
-"Fractional CTO" it is one more adjective, and the sentence underneath can show
-it instead. Default, with the operator to pick:
-
-> Hands-on means hands on the keyboard: the last team I did this for runs the
-> platform today without me.
-
-Alternative: _"I write the code, review what the agents write, and hand over a
-machine your team runs without me."_ Neither restates `cv.metadata.ogSuffix`
-verbatim, which makes the same point in the CV's register.
+**"Hands-on" is not in the hero at all.** Asserted beside "Fractional CTO" it is
+one more adjective, and the two lines around it are spoken for — the tagline by
+the offer, the line under it by the voice. It is demonstrated instead, one
+screen down, by the `/offer` section's framing paragraph and by the engagements
+under it.
 
 `src/pages/home/ui/dev-section.tsx` splits, so the page stops showing a heading
 that reads `/dev`:
