@@ -1,9 +1,8 @@
 /**
  * The CV's social card, one per framing, as a page for `og-render.ts` to
- * screenshot. Its copy is read, never retyped: the name, the tagline, the offer
- * bullets and the two social addresses come from the message catalogue through
- * the same variant merge the page uses, so the card cannot say what the page has
- * stopped saying.
+ * screenshot. Its copy is read, never retyped: every string on it comes from the
+ * message catalogue through the same variant merge the page uses, so the card
+ * cannot say what the page has stopped saying.
  *
  * Runs under `tsx`, unlike the other render libraries: the catalogue is a JSON
  * import bare Node takes only with an attribute.
@@ -46,9 +45,7 @@ function escapeHtml(text: string): string {
 type CardCopy = Named & {
   tagline: string;
   offerTitle: string;
-  /** The offer at its shortest — one line each, however many the framing has. */
   offer: string[];
-  /** Addresses shown as the text they are, the way the printed CV spells them. */
   addresses: string[];
 };
 
@@ -57,10 +54,8 @@ type CardCopy = Named & {
  * below are the ones a consumer's preview shows. HTML rather than SVG because
  * the offer bullets wrap and SVG text does not.
  *
- * Composed as a business card: who, with the addresses to reach him, in the
- * left column; what he sells in the right. Splitting it that way is what keeps
- * the plate full either side of the rule — stacked instead, the short labels of
- * one framing leave the whole right half empty.
+ * Two columns rather than one stacked block: a framing whose offer is five
+ * few-word labels leaves a stacked plate's lower half empty.
  */
 function cardPage({ name, tagline, offerTitle, offer, addresses }: CardCopy) {
   return `<!doctype html>
@@ -143,8 +138,6 @@ export function cvCard(variant: CvVariant): StagedPage {
   const { name, tagline } = header;
 
   const [headBlock] = OFFER_BLOCKS[variant];
-  // A bulleted engagement is named by its label; a bullet that is already one
-  // clause is its own shortest form.
   const items: ReadonlyArray<string | Labeled> =
     whatIOffer.blocks[headBlock].items;
 

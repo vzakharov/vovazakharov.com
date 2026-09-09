@@ -4,7 +4,7 @@ import type { CvVariant } from './cv-variants';
 
 type OfferBlocks = Messages['cv']['whatIOffer']['blocks'];
 
-export type OfferBlockKey = keyof OfferBlocks;
+type OfferBlockKey = keyof OfferBlocks;
 
 /** A block states its offer as either a bullet list or prose, never both. */
 export type OfferBlock = OfferBlocks[OfferBlockKey];
