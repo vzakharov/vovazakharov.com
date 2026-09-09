@@ -1,6 +1,6 @@
-import { Anchor, Stack, Text, Title } from '@mantine/core';
+import { Anchor, Stack, Text } from '@mantine/core';
 
-import { Card, Section } from '@/shared/ui';
+import { Card, Section, Subheading } from '@/shared/ui';
 
 // A `mailto:` has no page to leave for, so it stays in this tab and takes none
 // of the new-tab hardening the rest get.
@@ -16,7 +16,7 @@ const PROFILES = [
 export function ContactSection() {
   return (
     <Section id="contact">
-      <Title order={2}>Contact</Title>
+      <Subheading>Contact</Subheading>
       <Card>
         <Stack gap={12}>
           <Text>
