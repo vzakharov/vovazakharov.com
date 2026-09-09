@@ -2,7 +2,7 @@ import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
-import { cssColor, InternalLink, PageShell } from '@/shared/ui';
+import { CornerHeader, cssColor, InternalLink, PageShell } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
@@ -17,11 +17,7 @@ export function HomePage() {
   return (
     <PageShell>
       <Stack gap={64}>
-        <Group justify="flex-end">
-          <ThemeToggle />
-        </Group>
-
-        <Box component="section">
+        <CornerHeader corner={<ThemeToggle />}>
           <Stack gap={24} ta="center">
             <Center>
               <Image
@@ -42,7 +38,7 @@ export function HomePage() {
               </Text>
             </Box>
           </Stack>
-        </Box>
+        </CornerHeader>
 
         <OfferSection />
         <WorkSection />

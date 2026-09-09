@@ -12,7 +12,7 @@ import {
 import { useLocale, useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import { Card, FileLink, InternalLink } from '@/shared/ui';
+import { Card, CornerHeader, FileLink, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
@@ -68,14 +68,11 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
     <Box className={classes['page']}>
       <Container size={896} px={0} className={classes['container']}>
         <Stack className={classes['pageSections']}>
-          {/* `print-hidden` here as well as on the toggle: `display: none`
-              takes the row's `pageSections` gap out of the printed sheet too. */}
-          <Group justify="flex-end" className="print-hidden">
-            <ThemeToggle />
-          </Group>
-
-          <Box component="header" ta="center" className={classes['header']}>
-            <Stack className={classes['section']}>
+          <CornerHeader
+            corner={<ThemeToggle />}
+            className={classes['header']}
+          >
+            <Stack ta="center" className={classes['section']}>
               <Title order={1}>
                 <InternalLink href="/" underline="never" inherit>
                   {t('header.name')}
@@ -90,7 +87,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 <WebsiteLink />
               </Text>
             </Stack>
-          </Box>
+          </CornerHeader>
 
           <Group
             justify="space-between"
