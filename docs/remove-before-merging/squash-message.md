@@ -24,14 +24,19 @@ Playgram is "Developer" in both.
 One route answers every CV address. `app/cv/[[...variantAndLocale]]`
 resolves `/cv`, `/cv/<variant>` and `/cv/<variant>/<locale>`, each
 omitted segment falling back, so the shorter forms render in place and
-declare the fully-specified twin canonical — only the twins are in the
-sitemap. That leaves no redirect page anywhere on the site, which
-matters because a static export cannot serve a real one: `redirect()`
-under `output: 'export'` emits a blank page that moves only once JS runs
-(#32). next-intl's `createNavigation` goes with the locale prefix,
-having no suffix mode to express this shape, so the CV's two controls
-build their hrefs from `cvPath` and `shared/i18n` keeps the locale list
-and nothing else.
+declare the fully-specified twin canonical; only the twins are in the
+sitemap, and every rung lists both twins plus an `x-default` as
+`hreflang` alternates, since a trailing locale leaves nothing in the URL
+to tell a crawler which language it got. That leaves no redirect page
+anywhere on the site, which matters because a static export cannot serve
+a real one: `redirect()` under `output: 'export'` emits a blank page
+that moves only once JS runs (#32). next-intl's `createNavigation` goes
+with the locale prefix, having no suffix mode to express this shape, so
+the CV's two controls build their hrefs from `cvPath`. `shared/i18n`
+keeps the locale list and the schema that parses a segment, the latter
+behind an `index.server-only.ts` barrel — zod reached from the client
+barrel puts 89 kB gzipped in the CV's bundle, so `PUBLIC_API` is a
+closed two-name list rather than one literal.
 
 The home page becomes the pitch: writing and music each get a page of
 their own behind a *See also* footer line, the in-page nav goes, the
