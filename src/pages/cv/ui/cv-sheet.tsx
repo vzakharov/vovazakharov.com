@@ -68,10 +68,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
     <Box className={classes['page']}>
       <Container size={896} px={0} className={classes['container']}>
         <Stack className={classes['pageSections']}>
-          <CornerHeader
-            corner={<ThemeToggle />}
-            className={classes['header']}
-          >
+          <CornerHeader corner={<ThemeToggle />} className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
                 <InternalLink href="/" underline="never" inherit>
