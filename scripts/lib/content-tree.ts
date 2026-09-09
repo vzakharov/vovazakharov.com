@@ -23,6 +23,9 @@ export function filesUnder(target: string): string[] {
     : [target];
 }
 
+/** The collections' directories under `public/` — the content tree's roots. */
+export const CONTENT_DIRS = COLLECTION_IDS.map((id) => collectionDir(id));
+
 /**
  * Every file in every collection whose name satisfies `matches`. The renders the
  * pipeline produces for a whole site — the mermaid SVGs — sit outside the
@@ -30,7 +33,7 @@ export function filesUnder(target: string): string[] {
  * source.
  */
 export function contentFiles(matches: (name: string) => boolean): string[] {
-  return COLLECTION_IDS.flatMap((id) => filesUnder(collectionDir(id))).filter(
-    (file) => matches(path.basename(file)),
+  return CONTENT_DIRS.flatMap((dir) => filesUnder(dir)).filter((file) =>
+    matches(path.basename(file)),
   );
 }

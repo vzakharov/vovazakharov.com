@@ -1,8 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
- * Rasterizes every Open Graph card the content's frontmatter names, from the
- * SVG beside it, into a committed PNG.
+ * Rasterizes every Open Graph card the site advertises into a committed PNG:
+ * the chart cards a content document's frontmatter names, from the SVG beside
+ * each, and the CV's card per framing, from a page generated off the message
+ * catalogue.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -10,53 +12,37 @@
  *
  * Run by hand when a card's source changes — never by `next build`, so CI
  * installs no browser. `--check` is what keeps that honest: it recomputes each
- * source's hash against the manifest, so an edited chart cannot ship behind a
- * stale social card. It hashes files only, needing no browser, which is why
- * `vet.sh` can run it beside every other check.
+ * source's hash against the manifest, so an edited chart or a reworded tagline
+ * cannot ship behind a stale social card. It hashes sources only, needing no
+ * browser, which is why `vet.sh` can run it beside every other check.
  *
  *   pnpm content:og            # render what changed, prune what is gone
  *   pnpm content:og --check    # report staleness, write nothing
  *
- * Bare Node runs this file, relying on its type stripping, so it needs Node
- * 22.18 or newer and every relative import carries its `.ts` extension.
+ * Runs under `tsx` rather than bare Node, for the CV card's sake — see
+ * `lib/cv-card.ts` — so it reaches `src/` by the `@/` alias.
  */
 
-/* eslint-disable no-console -- stdout is this script's interface: progress,
-   the `--check` staleness report, and the prune log are what a human runs it
-   for. The rule stays `error` in the app, where a stray log ships to a user. */
-
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 
-import { contentHash } from '../src/shared/content/content-hash.ts';
+import { PUBLIC_DIR } from '@/shared/content/collections';
+import { contentHash } from '@/shared/content/content-hash';
+import { OG_CARD_SUFFIX } from '@/shared/seo';
+
+import { cvCardPath } from '@/pages/cv/lib/cv-urls';
+import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+
 import { findChromium } from './lib/chromium.ts';
-import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
-import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
-
-/** Absolute paths. A card's PNG and its source SVG share a directory. */
-type Card = Renderable & { svgPath: string };
-
-/**
- * 1200×630 is what X's `summary_large_image` crops to, and the chart's native
- * 980×640 would lose its title row and x-axis to that crop. Letterboxing into
- * the ratio costs padding and loses nothing.
- */
-const CANVAS = { width: 1200, height: 630 };
-
-/** Doubled so the card stays sharp where a consumer renders it at 2×. */
-const SCALE = 2;
-
-/**
- * The PNG's real pixel size, and the size the page is laid out at — scaling
- * `CANVAS` by a device pixel ratio instead widens the bottom-row loss `PADDING`
- * guards against.
- */
-const PIXELS = {
-  width: CANVAS.width * SCALE,
-  height: CANVAS.height * SCALE,
-};
+import { CONTENT_DIRS, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+import { cvCard } from './lib/cv-card.ts';
+import {
+  CANVAS_BACKGROUND,
+  type Card,
+  PIXELS,
+  renderCard,
+} from './lib/og-render.ts';
+import { runRenderJob } from './lib/render-manifest.ts';
 
 /**
  * Inset between the drawing and the card's edge, in canvas pixels. Load-bearing
@@ -65,14 +51,11 @@ const PIXELS = {
  */
 const PADDING = 24;
 
-/** `globals.css`'s `--background`, so the inset extends the source's own plate. */
-const CANVAS_BACKGROUND = '#ffffff';
-
-/** A frontmatter `ogImage` under this suffix is rendered from `<stem>.svg`. */
-const RENDERED_SUFFIX = '.og.png';
-
 /** Records each render's source hash, beside the render it describes. */
 const MANIFEST_NAME = 'og-renders.json';
+
+/** Where the CV's cards live — the directory `cvCardPath` resolves into. */
+const CV_CARD_DIR = path.dirname(path.join(PUBLIC_DIR, cvCardPath('cto')));
 
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
@@ -98,35 +81,16 @@ function ogImagePaths(): string[] {
 }
 
 /** Throws when a card names a source SVG that is not there. */
-function sourceHash(svgPath: string, pngPath: string): string {
+function readSvg(svgPath: string, pngPath: string): string {
   if (!fs.existsSync(svgPath)) {
     throw new Error(
       `No source SVG for the Open Graph card ${path.relative(REPO_ROOT, pngPath)}: ` +
         `expected ${path.relative(REPO_ROOT, svgPath)}. A frontmatter ogImage ending ` +
-        `in ${RENDERED_SUFFIX} is rendered from the SVG of the same stem.`,
+        `in ${OG_CARD_SUFFIX} is rendered from the SVG of the same stem.`,
     );
   }
 
-  return contentHash(fs.readFileSync(svgPath, 'utf8'));
-}
-
-/** The cards to render, one per distinct PNG the frontmatter asks for. */
-function collectCards(): Card[] {
-  const pngPaths = [
-    ...new Set(
-      ogImagePaths().filter((pngPath) => pngPath.endsWith(RENDERED_SUFFIX)),
-    ),
-  ];
-
-  return pngPaths.map((pngPath) => {
-    const svgPath = `${pngPath.slice(0, -RENDERED_SUFFIX.length)}.svg`;
-
-    return {
-      svgPath,
-      outputPath: pngPath,
-      sourceHash: sourceHash(svgPath, pngPath),
-    };
-  });
+  return fs.readFileSync(svgPath, 'utf8');
 }
 
 /**
@@ -143,7 +107,7 @@ function collectCards(): Card[] {
  * consumer composites it onto a surface of its own, and light frames legibly on
  * either.
  */
-function cardPage(svgName: string): string {
+function svgPage(svgName: string): string {
   return `<!doctype html>
 <html>
   <head>
@@ -171,47 +135,58 @@ function cardPage(svgName: string): string {
 `;
 }
 
-function renderCard(card: Card, chromium: string): void {
-  // Copied in beside the page: a file:// document's reach outside its own
-  // directory is not something to depend on.
-  const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'og-'));
-  const svgName = path.basename(card.svgPath);
-  const pagePath = path.join(stagingDir, 'card.html');
+/** One card per distinct PNG the frontmatter asks for, its source the SVG. */
+function chartCards(): Card[] {
+  const pngPaths = [
+    ...new Set(
+      ogImagePaths().filter((pngPath) => pngPath.endsWith(OG_CARD_SUFFIX)),
+    ),
+  ];
 
-  fs.copyFileSync(card.svgPath, path.join(stagingDir, svgName));
-  fs.writeFileSync(pagePath, cardPage(svgName));
+  return pngPaths.map((pngPath) => {
+    const svgPath = `${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`;
+    const svgName = path.basename(svgPath);
+    const svg = readSvg(svgPath, pngPath);
 
-  fs.mkdirSync(path.dirname(card.outputPath), { recursive: true });
+    return {
+      outputPath: pngPath,
+      sourceHash: contentHash(svg),
+      page: svgPage(svgName),
+      files: { [svgName]: svg },
+    };
+  });
+}
 
-  execFileSync(
-    chromium,
-    [
-      '--headless',
-      '--disable-gpu',
-      '--no-sandbox',
-      '--hide-scrollbars',
-      // Without it `--screenshot` can fire before the referenced SVG has
-      // painted, yielding a blank card.
-      '--virtual-time-budget=10000',
-      `--window-size=${PIXELS.width},${PIXELS.height}`,
-      `--screenshot=${card.outputPath}`,
-      `file://${pagePath}`,
-    ],
-    { stdio: 'inherit' },
-  );
+/**
+ * One card per framing, its source the generated page and the files it
+ * references — so the template, the catalogue slice it reads and the portrait
+ * are all covered, and editing any of them re-flags the card.
+ */
+function cvCards(): Card[] {
+  return CV_VARIANTS.map((variant) => {
+    const staged = cvCard(variant);
+    const files = Object.entries(staged.files)
+      .toSorted(([a], [b]) => a.localeCompare(b))
+      .map(
+        ([name, content]) =>
+          `${name}:${Buffer.from(content).toString('base64')}`,
+      );
 
-  console.log(
-    `  rendered ${path.relative(REPO_ROOT, card.outputPath)} ` +
-      `(${PIXELS.width}×${PIXELS.height})`,
-  );
+    return {
+      ...staged,
+      outputPath: path.join(PUBLIC_DIR, cvCardPath(variant)),
+      sourceHash: contentHash([staged.page, ...files].join('\n')),
+    };
+  });
 }
 
 await runRenderJob(
   {
     label: 'Open Graph card',
     manifestName: MANIFEST_NAME,
-    isOutput: (name) => name.endsWith(RENDERED_SUFFIX),
-    entries: collectCards(),
+    isOutput: (name) => name.endsWith(OG_CARD_SUFFIX),
+    manifestDirs: [...CONTENT_DIRS, CV_CARD_DIR],
+    entries: [...chartCards(), ...cvCards()],
     render: (stale) => {
       const chromium = findChromium();
       for (const card of stale) renderCard(card, chromium);

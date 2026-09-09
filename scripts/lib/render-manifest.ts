@@ -28,7 +28,7 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import type { Labelled } from '../../src/shared/typings/index.ts';
-import { contentFiles, REPO_ROOT } from './content-tree.ts';
+import { CONTENT_DIRS, filesUnder, REPO_ROOT } from './content-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */
 export type Renderable = {
@@ -43,6 +43,12 @@ type ManifestLayout = {
   manifestName: string;
   /** Whether a file already in a render directory is one this job produces. */
   isOutput: (fileName: string) => boolean;
+  /**
+   * The roots under which this job's renders live, walked for manifests so a
+   * render whose source is gone is still found and pruned. The content tree
+   * when left off.
+   */
+  manifestDirs?: string[];
 };
 
 /** `label` names the unit in the log line, e.g. `'Open Graph card'`. */
@@ -79,19 +85,28 @@ function isStale(layout: ManifestLayout, entry: Renderable): boolean {
 
 /**
  * Walked rather than derived from the entries, so removing the last render in a
- * directory still surfaces the manifest it leaves behind.
+ * directory still surfaces the manifest it leaves behind. A root that is not
+ * there yet holds no manifest: the job's first render is what creates it.
  */
 function manifestFiles(layout: ManifestLayout): string[] {
-  return contentFiles((name) => name === layout.manifestName);
+  return (layout.manifestDirs ?? CONTENT_DIRS)
+    .filter((dir) => fs.existsSync(dir))
+    .flatMap((dir) => filesUnder(dir))
+    .filter((file) => path.basename(file) === layout.manifestName);
 }
 
-/** The renders — recorded or on disk — that no source asks for any more. */
+/**
+ * The renders — recorded or on disk — that no source asks for any more. An
+ * entry's directory may not exist yet: its first render creates it.
+ */
 function orphans(layout: ManifestLayout, entries: Renderable[]): string[] {
   const wanted = new Set(entries.map((entry) => entry.outputPath));
-  const directories = new Set([
-    ...entries.map((entry) => path.dirname(entry.outputPath)),
-    ...manifestFiles(layout).map((file) => path.dirname(file)),
-  ]);
+  const directories = new Set(
+    [
+      ...entries.map((entry) => path.dirname(entry.outputPath)),
+      ...manifestFiles(layout).map((file) => path.dirname(file)),
+    ].filter((dir) => fs.existsSync(dir)),
+  );
 
   return [
     ...new Set(
@@ -145,7 +160,7 @@ export async function runRenderJob<T extends Renderable>(
   const gone = orphans(job, job.entries);
 
   console.log(
-    `${job.entries.length} ${job.label}(s) in the content tree, ` +
+    `${job.entries.length} ${job.label}(s) asked for, ` +
       `${stale.length} to render, ${gone.length} stale render(s) to prune.`,
   );
 
