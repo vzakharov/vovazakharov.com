@@ -9,12 +9,13 @@ architectural decisions this repo (`vzakharov/vovazakharov.com`) already made �
 while pointing its agent-infrastructure watermark at
 `vzakharov/agent-project-boilerplate` rather than at this repo.
 
-The work runs in two sessions, and this plan travels between them:
+The work runs in two phases, and this plan travels between them:
 
-1. **Bootstrap**, from this branch — create the repo, seed it with the agent
-   infrastructure, and leave a paused copy of this plan on a branch there with
-   its own draft PR.
-2. **Build**, from `/handle` in the new repo — everything below "Phase 2".
+1. **Bootstrap**, in the planning session — create the repo, seed it with the
+   agent infrastructure, and leave a paused copy of this plan on a branch there
+   with its own draft PR.
+2. **Build**, in a new session rooted in the new repo, opened with
+   `/handle claude/aeapp-landing-l7d745` — everything below "Phase 2".
 
 ## What the source draft is
 
@@ -295,16 +296,28 @@ has to be re-adapted each time. _Rejected:_ pointing `source.json` at this repo
 instead, which would carry those adaptations forward but make the new repo a
 grandchild of the boilerplate rather than a sibling.
 
-## Phase 1 — Bootstrap (this branch's `/go` session)
+## Phase 1 — Bootstrap
 
 The deliverable is a new repository the operator can immediately `/handle` into.
 That requires the branch there to carry the agent infrastructure — a `/handle`
 session cannot load `.claude/skills/handle/SKILL.md` if it is not on the branch.
 
+**Phase 1 runs in the planning session itself**, on the go-ahead, rather than in
+a fresh `/go` one. It is repository plumbing, not implementation: it writes no
+application code, and every file it commits lands in the new repo. The planning
+session already holds the draft, the survey of this repo and the extracted mark,
+all of which a fresh session would re-read to do fifteen minutes of `git`. A
+`/go` on this branch runs the same steps correctly — it is just the more
+expensive way in.
+
+Nothing here touches this site. The only marks Phase 1 leaves on
+`vovazakharov.com` are the plan file's lifecycle flips and closing PR #38.
+
 1. **Create `vzakharov/aeapp-consultations`, private, with no auto-init.** Try
    `mcp__github__create_repository`, then `gh repo create`; if both are refused
    by the session's repo scope, ask the operator to create the empty repo. Then
-   `add_repo` + clone it.
+   `add_repo` with `access: "push"` + clone it — a read-scoped attach cannot push
+   the branch this phase exists to produce.
 2. **`main` gets one empty commit** — `git commit --allow-empty -m "chore: initial commit"`.
 3. **Branch `claude/aeapp-landing-l7d745`** — the same slug and suffix as this
    branch, so the lineage is readable from the name.
