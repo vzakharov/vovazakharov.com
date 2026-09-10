@@ -14,12 +14,11 @@
 }
 
 .chipLink {
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
+  transition: background-color 150ms ease;
 
+  // A tint rather than a fill: a solid foreground is what marks the current
+  // chip, and a hover wearing it puts two chips in the row claiming to be it.
   @include mantine.hover {
-    background: var(--color-foreground);
-    color: var(--color-background);
+    background: var(--color-surface-strong);
   }
 }

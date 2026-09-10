@@ -77,11 +77,27 @@
 
 .header {
   padding-bottom: 32px;
-  border-bottom: 1px solid var(--color-border-hairline);
 
-  @media print {
-    padding-bottom: 0.4cm;
+  // The one title centred across the full column, so below `sm` its ink runs
+  // under the layout's corner toggle without this clearance.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-top: 48px;
   }
+
+  // The toolbar below separates on screen and is gone on paper, so the rule
+  // here is print's alone.
+  @media print {
+    padding-top: 0;
+    padding-bottom: 0.4cm;
+    border-bottom: 1px solid var(--color-border-hairline);
+  }
+}
+
+// Inline padding is the Card's 24px, so the chips line up with the copy in the
+// sheets below.
+.toolbar {
+  padding: 12px 24px;
+  background: var(--color-surface);
 }
 
 .screenFooter {

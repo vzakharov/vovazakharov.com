@@ -47,19 +47,21 @@ There is deliberately no Playwright dependency — Chrome's own `--screenshot` i
 
 ## Routes
 
-| Route    | Why                                                                                                                   |
-| -------- | --------------------------------------------------------------------------------------------------------------------- |
-| `/`      | home                                                                                                                  |
-| `/en/cv` | the CV, English                                                                                                       |
-| `/ru/cv` | the CV, Russian — `ru` copy is longer and wraps differently, so it is a distinct layout, not a translation spot-check |
+| Route        | Why                                                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `/`          | home                                                                                                                  |
+| `/cv`        | the CV, English                                                                                                       |
+| `/cv/cto/ru` | the CV, Russian — `ru` copy is longer and wraps differently, so it is a distinct layout, not a translation spot-check |
 
-`/cv` only 307-redirects to `/en/cv`, so capturing it adds nothing.
+The locale sits inside the CV's own route (`/cv/<variant>/<locale>`), not in a
+prefix: there is no `/en/…` or `/ru/…` on this site, and `/cv` renders the
+English `cto` variant directly.
 
 ## Dark mode
 
 **A colour change needs both themes.** A value that reads correctly against a dark surface can be invisible against a light one, so shoot the route twice whenever the change touches colour at all.
 
-Add **`--force-dark-mode` alone**. With it, next-themes resolves system → dark and `<html>` gets `class="dark"`; without it, `class="light"`.
+Add **`--force-dark-mode` alone**. Mantine's `ColorSchemeScript` resolves `auto` against the OS preference, so `<html>` gets `data-mantine-color-scheme="dark"` with the flag and `"light"` without it.
 
 **Do not add `--enable-features=WebContentsForceDark`.** That is Chrome's automatic inverter: it fabricates a dark rendering out of the light one, which the project's own CSS never produces. A preview captured that way is a picture of a page that does not exist — the trap that makes a dark preview a lie.
 
@@ -70,7 +72,7 @@ Add **`--force-dark-mode` alone**. With it, next-themes resolves system → dark
   --virtual-time-budget=6000 --dump-dom "http://localhost:<port><route>" | grep -o '<html[^>]*>'
 ```
 
-Confirm the expected class is there. A theme that silently failed to apply otherwise reads as a design finding.
+Confirm the expected attribute is there. A theme that silently failed to apply otherwise reads as a design finding.
 
 ## Widths — capture at 500px or wider, never narrower
 
@@ -86,9 +88,25 @@ Confirm the expected class is there. A theme that silently failed to apply other
 
 Any requested width under 500 is laid out at 500 CSS px and the screenshot is _then_ cropped to the width asked for. Content that fits at 500 gets sliced mid-word and reads as horizontal overflow that isn't there — a 390px capture of `/en/cv` and `/ru/cv` produces exactly that, while the same page in a real browser at 360px reflows correctly.
 
-So: **never report a sub-500 capture as a layout finding.** Neither workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth` at the requested window width, and `--headless=old`, which had no such clamp, is gone as of Chrome 141. Reviewing true mobile layout needs real viewport emulation (Playwright's `viewport`/`colorScheme`), which this project does not carry.
+So: **never report a sub-500 capture as a layout finding.** Neither flag-level workaround survives contact — `--force-device-scale-factor=2` leaves `innerWidth` at the requested window width, and `--headless=old`, which had no such clamp, is gone as of Chrome 141.
 
 768 (tablet) and 1280 (desktop) are honored exactly and are the useful pair.
+
+**Below 500 needs CDP, not a flag** — see § "Driving the page" below. `Emulation.setDeviceMetricsOverride` sets a real layout viewport, so 360 and 390 are honest there.
+
+## Driving the page — hover, true phone widths, measurement
+
+`--screenshot` renders one static frame of a page nobody is touching, which three things need more than:
+
+- **Any `:hover` rule is invisible in a plain capture, and silently so.** Headless Chromium reports `(hover: none)`, so `styles/_mantine.scss`'s `hover` mixin takes its `:active` branch and the hover rule never applies — the capture shows the resting state and looks like a correct render of it. Pass `--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4` to make the page report a hover-capable pointer.
+- **True phone width**, per the floor above.
+- **Overlap, ink extent and computed values**, where the eye is guessing at a few pixels — an absolutely-positioned control against a heading is the case that motivated this.
+
+All three come from the DevTools Protocol, and Node's built-in `WebSocket` speaks it with no dependency: launch with `--remote-debugging-port=<port>`, poll `http://127.0.0.1:<port>/json/list` for the page target, then send `Page.navigate`, `Emulation.setDeviceMetricsOverride`, `Input.dispatchMouseEvent` (a `mouseMoved` at an element's centre sets `:hover`), `Runtime.evaluate` and `Page.captureScreenshot` — the last taking a `clip` with a `scale`, which is how a 25px chip becomes readable.
+
+**Measure ink, not boxes.** A block-level heading's rect spans the whole column whether or not its glyphs reach the corner, so a box-intersection test reports collisions that aren't there. `Range.selectNodeContents(el).getBoundingClientRect()` gives the text's real extent.
+
+Write these as throwaway scripts under `tmp/preview/`; nothing here belongs in `package.json`.
 
 ## Artifacts
 

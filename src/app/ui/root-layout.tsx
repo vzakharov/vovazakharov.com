@@ -9,6 +9,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { SITE_CONFIG } from '@/shared/config';
 import { constructMetadata } from '@/shared/seo';
 
+import { ThemeCorner } from './theme-corner';
 import { ThemeProvider } from './theme-provider';
 
 const merriweather = Merriweather({
@@ -54,7 +55,10 @@ export function RootLayout({
       </head>
       <body>
         <NextIntlClientProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <ThemeCorner />
+            {children}
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
