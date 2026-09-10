@@ -20,14 +20,14 @@ Raised in review on [#36](https://github.com/vzakharov/vovazakharov.com/pull/36)
 
 Six pages render `<ThemeToggle />` themselves, two of them through `CornerHeader`:
 
-| Page | How it renders the toggle |
-| --- | --- |
-| `pages/home` | `CornerHeader corner={<ThemeToggle />}` |
-| `pages/cv` | `CornerHeader corner={<ThemeToggle />}` |
-| `pages/writing` | a `<Group>` of its own |
-| `pages/music` | a `<Group>` of its own |
-| `pages/case-studies` (index) | a `<Group>` of its own |
-| `pages/case-studies` (article) | a `<Group>` beside the back-link |
+| Page                           | How it renders the toggle               |
+| ------------------------------ | --------------------------------------- |
+| `pages/home`                   | `CornerHeader corner={<ThemeToggle />}` |
+| `pages/cv`                     | `CornerHeader corner={<ThemeToggle />}` |
+| `pages/writing`                | a `<Group>` of its own                  |
+| `pages/music`                  | a `<Group>` of its own                  |
+| `pages/case-studies` (index)   | a `<Group>` of its own                  |
+| `pages/case-studies` (article) | a `<Group>` beside the back-link        |
 
 That is every page on the site, which is the objection: an opt-in every consumer takes is not an opt-in. A page that forgets it ships without a toggle and nothing says so, and the four `<Group>` sites are also where `print-hidden` went missing before #36 put it on the control itself.
 
@@ -37,7 +37,7 @@ The toggle moves into the app layer — `src/app/ui/root-layout.tsx`, or a wrapp
 
 Two things to work out on the way:
 
-- **Where it sits per page.** The current corner is positioned against the *header's* box, which is why `CornerHeader` owns both halves of it. From a layout the anchor is the viewport or the page shell instead, so the control's position stops tracking the header — fine on the pages that put it in a row today, a visible change on home and the CV, where it is currently level with the avatar and the name. Worth looking at with `/preview` rather than deciding from source.
+- **Where it sits per page.** The current corner is positioned against the _header's_ box, which is why `CornerHeader` owns both halves of it. From a layout the anchor is the viewport or the page shell instead, so the control's position stops tracking the header — fine on the pages that put it in a row today, a visible change on home and the CV, where it is currently level with the avatar and the name. Worth looking at with `/preview` rather than deciding from source.
 - **The article's back-link row.** On `/case-studies/<slug>` the toggle is the right-hand end of a `justify="space-between"` nav whose left is the back-link. Hoisting the toggle leaves that row with one child and a `space-between` that no longer means anything.
 
 Neither is load-bearing on #36, which is why this is filed rather than done there.
@@ -59,7 +59,6 @@ To the questions:
 Unrelated but riding along: make the buttons in CV sit above the separator, not below it:
 
 <img width="750" height="516" alt="Image" src="./attachments/eb45399f-4317-4376-870f-3fb27d41d785.png" />
-
 
 ---
 

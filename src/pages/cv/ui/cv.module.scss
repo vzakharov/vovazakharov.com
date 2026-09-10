@@ -78,16 +78,14 @@
 .header {
   padding-bottom: 32px;
 
-  // The CV's is the one title centred across the full column, so below `sm` its
-  // ink reaches the corner the layout's theme toggle occupies. The clearance is
-  // the header's because the corner is every page's and this collision is not.
+  // The one title centred across the full column, so below `sm` its ink runs
+  // under the layout's corner toggle without this clearance.
   @include mantine.smaller-than(mantine.$breakpoint-sm) {
     padding-top: 48px;
   }
 
-  // On screen the toolbar below is the separator; on paper it is gone, so the
-  // header is once again the last thing before the sections and carries the
-  // rule itself.
+  // The toolbar below separates on screen and is gone on paper, so the rule
+  // here is print's alone.
   @media print {
     padding-top: 0;
     padding-bottom: 0.4cm;
@@ -95,9 +93,8 @@
   }
 }
 
-// The locale picker and the .pdf link read as one band of controls rather than
-// two links loose above the sheet. Its inline padding is the Card's, the site's
-// one existing surface measure.
+// Inline padding is the Card's 24px, so the chips line up with the copy in the
+// sheets below.
 .toolbar {
   padding: 12px 24px;
   background: var(--color-surface);

@@ -3,10 +3,9 @@ import { ThemeToggle } from '@/features/switch-theme';
 import classes from './theme-corner.module.scss';
 
 /**
- * The theme toggle's one home, rendered by `RootLayout` for every page. It is
- * out of the flow and anchored to the page rather than the viewport, so it
- * costs no vertical band and scrolls away with the top of the document —
- * which is why a page's own first line has to clear the top-right corner.
+ * The theme toggle's one home — `RootLayout` renders it for every page, so a
+ * page renders nothing for it. It sits out of the flow in the top-right
+ * corner, which a page's own first line has to clear.
  */
 export function ThemeCorner() {
   return (

@@ -1,9 +1,7 @@
 @use '../../../styles/mantine' as mantine;
 
-// No positioned ancestor, so the corner is placed against the initial
-// containing block — the page's full width, whatever measure the sheet below
-// it keeps to, and scrolling with the document rather than pinned to the
-// viewport.
+// Anchored to the initial containing block — the page's full width, not the
+// measure of the sheet below it. A positioned ancestor would re-anchor it.
 .corner {
   position: absolute;
   top: 32px;
