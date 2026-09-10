@@ -16,18 +16,26 @@ ThemeCorner that pins it to the page's top-right corner, anchored to the
 page rather than to a header's box -- so it no longer tracks each page's
 reading measure, and a page renders nothing for it. CornerHeader retires
 with its last caller, and the case-study nav keeps only its back-link.
+The CV's centred title is the one first line that reaches that corner,
+and its header takes the clearance at phone width.
 
 The CV's locale and .pdf controls move onto a tinted strip, which
 replaces the header's hairline on screen and leaves it on paper. It is
 the site's first filled surface, so the colour tokens gain a
 surface/surface-strong pair -- two of them, because a chip hovering to
-the same tint as the strip it sits on would be invisible.
+the same tint as the strip it sits on would be invisible. The second
+settles a chip's hover, which had copied the current chip exactly:
+hovering an unselected language painted it the same solid black as the
+selected one, leaving the row with two chips both claiming to be
+current. Solid foreground now means only that.
 
-That second token settles a chip's hover, which had copied the current
-chip exactly: hovering an unselected language painted it the same solid
-black as the selected one, leaving the row with two chips both claiming
-to be current. Solid foreground now means only that. The committed PDFs
-re-render unchanged.
+Previewing all of it corrected the preview skill in three places: its
+documented capture floor is escapable through CDP viewport emulation,
+which is what caught that CV collision; a hover rule never renders in a
+capture at all, because headless Chromium reports (hover: none) and the
+project's hover mixin takes its touch branch; and the theme attribute it
+had the agent grep for was next-themes', not Mantine's. The seven
+committed PDFs re-render with their ink unchanged.
 
 Closes #40
 
