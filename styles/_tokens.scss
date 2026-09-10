@@ -6,10 +6,14 @@
   $background,
   $foreground,
   $border-hairline,
-  $border-hairline-strong
+  $border-hairline-strong,
+  $surface,
+  $surface-strong
 ) {
   --color-background: #{$background};
   --color-foreground: #{$foreground};
   --color-border-hairline: #{$border-hairline};
   --color-border-hairline-strong: #{$border-hairline-strong};
+  --color-surface: #{$surface};
+  --color-surface-strong: #{$surface-strong};
 }

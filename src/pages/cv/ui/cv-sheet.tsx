@@ -12,9 +12,7 @@ import {
 import { useLocale, useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import { Card, CornerHeader, FileLink, InternalLink } from '@/shared/ui';
-
-import { ThemeToggle } from '@/features/switch-theme';
+import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import { cvPdfFile } from '../lib/cv-urls';
@@ -68,7 +66,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
     <Box className={classes['page']}>
       <Container size={896} px={0} className={classes['container']}>
         <Stack className={classes['pageSections']}>
-          <CornerHeader corner={<ThemeToggle />} className={classes['header']}>
+          <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
                 <InternalLink href="/" underline="never" inherit>
@@ -84,14 +82,14 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 <WebsiteLink />
               </Text>
             </Stack>
-          </CornerHeader>
+          </Box>
 
           <Group
             justify="space-between"
             align="center"
             wrap="wrap"
             gap={16}
-            className="print-hidden"
+            className={cx('print-hidden', classes['toolbar'])}
           >
             <LocalePicker {...{ variant }} />
             <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>

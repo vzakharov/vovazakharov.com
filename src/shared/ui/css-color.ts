@@ -14,6 +14,8 @@ export const CSS_COLORS = [
   'foreground',
   'border-hairline',
   'border-hairline-strong',
+  'surface',
+  'surface-strong',
 ] as const;
 
 /** A token missing from here is a type error rather than a dead `var()`. */

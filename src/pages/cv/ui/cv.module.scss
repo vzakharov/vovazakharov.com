@@ -77,11 +77,23 @@
 
 .header {
   padding-bottom: 32px;
-  border-bottom: 1px solid var(--color-border-hairline);
 
+  // On screen the toolbar below is the separator; on paper it is gone, so the
+  // header is once again the last thing before the sections and carries the
+  // rule itself.
   @media print {
     padding-bottom: 0.4cm;
+    border-bottom: 1px solid var(--color-border-hairline);
   }
+}
+
+// The locale picker and the .pdf link read as one band of controls rather than
+// two links loose above the sheet. Its inline padding is the Card's, the site's
+// one existing surface measure.
+.toolbar {
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: var(--color-surface);
 }
 
 .screenFooter {

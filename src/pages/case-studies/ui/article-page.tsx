@@ -16,8 +16,6 @@ import { constructArticleMetadata } from '@/shared/seo';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 
-import { ThemeToggle } from '@/features/switch-theme';
-
 import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import classes from './case-studies.module.scss';
@@ -85,11 +83,7 @@ export async function ArticlePage({ params }: Props) {
     <Box className={classes['articlePage']}>
       <Container size={1152} px={0}>
         <Stack gap={32}>
-          <Group
-            component="nav"
-            justify="space-between"
-            className="print-hidden"
-          >
+          <Group component="nav" className="print-hidden">
             <InternalLink
               href={collectionRoute(COLLECTION)}
               size="sm"
@@ -97,7 +91,6 @@ export async function ArticlePage({ params }: Props) {
             >
               ← {COLLECTIONS[COLLECTION].label}
             </InternalLink>
-            <ThemeToggle />
           </Group>
 
           <PrintSheet {...{ route }}>

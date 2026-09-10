@@ -2,9 +2,7 @@ import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
-import { CornerHeader, cssColor, InternalLink, PageShell } from '@/shared/ui';
-
-import { ThemeToggle } from '@/features/switch-theme';
+import { cssColor, InternalLink, PageShell } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';
@@ -17,28 +15,26 @@ export function HomePage() {
   return (
     <PageShell>
       <Stack gap={64}>
-        <CornerHeader corner={<ThemeToggle />}>
-          <Stack gap={24} ta="center">
-            <Center>
-              <Image
-                src="/ava.png"
-                alt="Vova Zakharov"
-                width={150}
-                height={150}
-                style={{ borderRadius: '50%' }}
-                priority
-              />
-            </Center>
-            <Box>
-              <Title order={1} mb={12}>
-                Vova Zakharov
-              </Title>
-              <Text opacity={0.7}>
-                Helping our future overlords walk since 2020
-              </Text>
-            </Box>
-          </Stack>
-        </CornerHeader>
+        <Stack component="header" gap={24} ta="center">
+          <Center>
+            <Image
+              src="/ava.png"
+              alt="Vova Zakharov"
+              width={150}
+              height={150}
+              style={{ borderRadius: '50%' }}
+              priority
+            />
+          </Center>
+          <Box>
+            <Title order={1} mb={12}>
+              Vova Zakharov
+            </Title>
+            <Text opacity={0.7}>
+              Helping our future overlords walk since 2020
+            </Text>
+          </Box>
+        </Stack>
 
         <OfferSection />
         <WorkSection />

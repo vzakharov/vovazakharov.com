@@ -1,0 +1,16 @@
+@use '../../../styles/mantine' as mantine;
+
+// No positioned ancestor, so the corner is placed against the initial
+// containing block — the page's full width, whatever measure the sheet below
+// it keeps to, and scrolling with the document rather than pinned to the
+// viewport.
+.corner {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    top: 48px;
+    right: 48px;
+  }
+}
