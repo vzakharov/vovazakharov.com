@@ -29,7 +29,9 @@ document, so the toggle scrolls away exactly as today's does — the issue's
 comment settles the horizontal anchor ("regardless of the current page's
 header/max width") and says nothing about scroll, and a fixed toggle would
 overlap running prose at phone width, where the site's column has no gutter to
-spare. Question 1 below reopens this if the operator wants it pinned.
+spare. (`position: fixed` was the alternative — always reachable on a long case
+study, but it needs a scrim to be safe on a phone, which is more than this issue
+asks for.)
 
 The inset is the toggle's own, since the three page shells disagree —
 `PageShell` and the CV pad 32px → 80px at `sm`, the article page 32px → 48px at
@@ -42,18 +44,18 @@ needed for paper.
 
 ## The call sites
 
-| File                                              | Change                                                                                                |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `src/app/ui/root-layout.tsx`                      | render `<ThemeCorner />` inside `<ThemeProvider>`                                                     |
-| `src/app/ui/theme-corner.tsx`, `.module.scss`     | new — the positioned box                                                                              |
-| `src/shared/ui/corner-header.tsx`, `.module.scss` | delete                                                                                                |
-| `src/shared/ui/index.ts`                          | drop the `CornerHeader` export                                                                        |
-| `src/pages/home/ui/home-page.tsx`                 | `CornerHeader` → `<Stack component="header" gap={24} ta="center">`                                    |
-| `src/pages/cv/ui/cv-sheet.tsx`                    | `CornerHeader` → a `header` element keeping `classes['header']`; absorb the locale/`.pdf` row (below) |
-| `src/pages/writing/ui/writing-page.tsx`           | drop the `<Group justify="flex-end">` row                                                             |
-| `src/pages/music/ui/music-page.tsx`               | same                                                                                                  |
-| `src/pages/case-studies/ui/case-studies-page.tsx` | same                                                                                                  |
-| `src/pages/case-studies/ui/article-page.tsx`      | the nav keeps the back-link and loses `justify="space-between"`                                       |
+| File                                              | Change                                                                                                       |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `src/app/ui/root-layout.tsx`                      | render `<ThemeCorner />` inside `<ThemeProvider>`                                                            |
+| `src/app/ui/theme-corner.tsx`, `.module.scss`     | new — the positioned box                                                                                     |
+| `src/shared/ui/corner-header.tsx`, `.module.scss` | delete                                                                                                       |
+| `src/shared/ui/index.ts`                          | drop the `CornerHeader` export                                                                               |
+| `src/pages/home/ui/home-page.tsx`                 | `CornerHeader` → `<Stack component="header" gap={24} ta="center">`                                           |
+| `src/pages/cv/ui/cv-sheet.tsx`                    | `CornerHeader` → a `header` element keeping `classes['header']`; the locale/`.pdf` row gains a class (below) |
+| `src/pages/writing/ui/writing-page.tsx`           | drop the `<Group justify="flex-end">` row                                                                    |
+| `src/pages/music/ui/music-page.tsx`               | same                                                                                                         |
+| `src/pages/case-studies/ui/case-studies-page.tsx` | same                                                                                                         |
+| `src/pages/case-studies/ui/article-page.tsx`      | the nav keeps the back-link and loses `justify="space-between"`                                              |
 
 `CornerHeader` goes rather than losing its `corner` prop: with the corner gone
 it is a one-prop wrapper around a `<header>`, and both call sites read better
@@ -65,23 +67,28 @@ real visual change to look at, not just a deletion.
 
 ## The CV separator
 
+**The separator moves down past the locale/`.pdf` row; nothing else moves.**
 `classes['header']` carries `padding-bottom: 32px` and the hairline
-`border-bottom`. Today the locale/`.pdf` `<Group>` is the next sibling in
-`.pageSections`, so it lands _below_ that line; the issue's screenshot asks for
-it above. So the `<Group>` becomes the header's second child:
+`border-bottom`, and the `<Group>` is the header's next sibling in
+`.pageSections` — so today the line falls between them. The border alone
+relocates: `.header` keeps its padding and loses its `border-bottom`, and the
+`<Group>` gains a class carrying that border plus the matching
+`padding-bottom`. The DOM is untouched apart from the added `className`, and the
+name, tagline, contacts and both controls stay exactly where they are.
 
-```tsx
-<Stack component="header" className={classes['header']}>
-  <Stack ta="center" className={classes['section']}>…name, tagline, contacts…</Stack>
-  <Group justify="space-between" align="center" wrap="wrap" gap={16} className="print-hidden">
-    <LocalePicker … /> <FileLink …>.pdf</FileLink>
-  </Group>
-</Stack>
-```
+Two consequences to hold:
 
-`.header` gains the 32px gap `.pageSections` used to supply between the two. In
-print the `<Group>` is `display: none`, so it leaves the flex flow and the gap
-with it — the printed header is unchanged, which is the intent.
+- **The new class is `print-hidden`'s neighbour, so print never sees the line.**
+  Today the separator prints, as the header's own border. The row it moves onto
+  is `print-hidden`, so on paper the CV header would lose its rule entirely —
+  which is a change to the printed page, not just the screen. Keep it by giving
+  `.header` its `border-bottom` back inside `@media print`, where the row is
+  gone and the header is once again the last thing before the sections.
+- **`padding-bottom` on the row is screen-only**, for the same reason.
+
+Nesting the `<Group>` inside the `<header>` was the alternative: same pixels,
+but it restructures the DOM and re-homes the row's print handling for a border
+that could just move.
 
 ## Rendered artifacts
 
@@ -129,8 +136,9 @@ needed. If that ever changes, dissolving the feature into `src/app/ui` +
   the three pages that lost a row. This is the step the issue's "worth looking
   at with `/preview` rather than deciding from source" names, and it is what
   settles the inset numbers above.
-- The CV separator sits below the locale/`.pdf` row, on screen and unchanged in
-  print.
+- On screen the CV separator sits below the locale/`.pdf` row, with nothing else
+  on the page having moved. On paper the header still carries its rule, in the
+  same place as on `main`.
 - `./scripts/vet.sh` — `pnpm build` covers the six pages' compile and render,
   `lint:fsd` and eslint the layering, `content:pdf --check` the re-render.
 
@@ -139,7 +147,8 @@ needed. If that ever changes, dissolving the feature into `src/app/ui` +
 1. `git mv` the plan to `.in-progress.md`, quoting the go-ahead.
 2. Add `theme-corner.tsx` + its module; render it from `RootLayout`.
 3. Strip the toggle from the six pages; delete `CornerHeader` and its export.
-4. Move the CV's locale/`.pdf` row above the separator.
+4. Move the CV separator's border down onto the locale/`.pdf` row, keeping the
+   header's rule in print.
 5. `/preview` all six pages in both themes at both widths; settle the inset.
 6. `pnpm content:pdf`; commit the re-rendered PDFs.
 7. `/dry`, `/tighten-docs`, `./scripts/vet.sh`, hand the PR to `/pr`.
@@ -155,9 +164,9 @@ needed. If that ever changes, dissolving the feature into `src/app/ui` +
   HTML element is worse than the element.
 - **Home's and the CV's headers are not factored into a shared `PageHeader`.**
   They share only the element: home's is a centered avatar-and-title stack, the
-  CV's a name/tagline/contact stack carrying a border, a 32px gap, print rules
-  and now the locale row. A shared wrapper would take one prop per difference —
-  which is `CornerHeader`'s failure mode repeated with a bigger surface.
+  CV's a name/tagline/contact stack carrying padding and print rules of its own.
+  A shared wrapper would take one prop per difference — which is
+  `CornerHeader`'s failure mode repeated with a bigger surface.
 - **The toggle's inset does not reuse `PageShell`'s padding.** Binding them
   would read as one decision and silently mis-place the toggle on the article
   page, which has a padding scale of its own. Three sheets already spell their
@@ -165,28 +174,6 @@ needed. If that ever changes, dissolving the feature into `src/app/ui` +
 - **No new named type.** Both new components are props-free, and deleting
   `CornerHeaderProps` removes one — `pnpm type-overlap` has nothing to say
   either way.
-
-## Open questions
-
-Answer tersely (e.g. "1b") or say nothing — the plan is written with the
-recommendations already in force and is implementable as it stands.
-
-**1. Does the toggle scroll away, or stay pinned?**
-
-- **(a) `position: absolute` — scrolls away, as today. (recommended)** Matches
-  the current behaviour on all six pages, adds no failure mode, and satisfies
-  "always sits in the top-right corner, regardless of the current page's
-  header/max width" — that line fixes the horizontal anchor, not the scroll.
-- (b) `position: fixed` — always reachable, which is a real gain on a long case
-  study. The cost is at phone width, where a 38px translucent icon with no
-  backdrop would sit over running prose; it would need a scrim or a shrink-on-
-  scroll treatment to be safe, which is a bigger change than this issue asks for.
-
-**2. The CV's locale/`.pdf` row moves above the separator — inside the header,
-or as its own band above it?**
-
-- **(a) Inside the header, as its second child. (recommended)** One element owns
-  the separator, and the row inherits the header's print handling for free.
-- (b) A sibling above the header, with the border moved onto it. Same pixels,
-  two elements sharing one rule — the border and the padding would have to move
-  together every time either changes.
+- **The separator's border is not extracted.** It is one declaration living on
+  one element; moving it between two elements is an edit, not a case for a
+  shared rule.
