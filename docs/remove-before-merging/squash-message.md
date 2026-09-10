@@ -17,10 +17,17 @@ page rather than to a header's box -- so it no longer tracks each page's
 reading measure, and a page renders nothing for it. CornerHeader retires
 with its last caller, and the case-study nav keeps only its back-link.
 
-The CV's locale and .pdf controls move above the header's separator.
-Every committed PDF is re-rendered along with it: the print manifest
-hashes src/shared/ui and both page slices wholesale, so retiring one
-component in there re-flags the lot.
+The CV's locale and .pdf controls move onto a tinted strip, which
+replaces the header's hairline on screen and leaves it on paper. It is
+the site's first filled surface, so the colour tokens gain a
+surface/surface-strong pair -- two of them, because a chip hovering to
+the same tint as the strip it sits on would be invisible.
+
+That second token settles a chip's hover, which had copied the current
+chip exactly: hovering an unselected language painted it the same solid
+black as the selected one, leaving the row with two chips both claiming
+to be current. Solid foreground now means only that. The committed PDFs
+re-render unchanged.
 
 Closes #40
 
