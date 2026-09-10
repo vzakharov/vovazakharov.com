@@ -42,6 +42,14 @@ export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
 /** Where an anchor points. */
 export type Linked = { href: string };
 
+/**
+ * One of a page's own files: where `public/` serves it, and what a saved copy
+ * is called — its path under the site, dot-joined, so the file says what it is
+ * and whose once it has left the browser. Only an anchor's `download` can set
+ * that name; a static export has no `Content-Disposition` to set it with.
+ */
+export type DocumentFile = Linked & { download: string };
+
 /** What a Next route hands the page it resolves to, its segments still raw. */
 export type WithParams<Params> = { params: Promise<Params> };
 

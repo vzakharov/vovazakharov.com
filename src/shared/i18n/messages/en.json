@@ -4,7 +4,6 @@
       "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",
       "ogSuffix": "Physics-math brain meets low-maintenance execution."
     },
-    "printButton": "Print / Save as PDF",
     "website": "vovazakharov.com",
     "header": {
       "name": "Vova Zakharov",
@@ -79,7 +78,7 @@
     "experience": {
       "title": "Experience",
       "playgram": {
-        "title": "Developer",
+        "title": "Fractional CTO",
         "period": "Playgram (March – August 2026)",
         "description": "Rebuilt a live, feature-rich AI chat product — multiple model providers, realtime team chats, image and file libraries, memory and knowledge management, voice input — from Bubble, a no-code builder, into a production Next.js 16 codebase, while it stayed in production for its users throughout.",
         "intro": "Delivered in 158 days — parallel AI sessions, up to 20 agents working at once:",
@@ -107,7 +106,7 @@
         ]
       },
       "englishForKids": {
-        "title": "Developer – Project Work",
+        "title": "Senior Fullstack Developer",
         "period": "October 2025 – February 2026",
         "description": "AI-powered English learning application for kids, combining generative AI with time-tested pedagogical methodology to make language acquisition engaging and effective.",
         "items": [
@@ -117,7 +116,7 @@
         ]
       },
       "orcool": {
-        "title": "Developer – Project Work",
+        "title": "Senior Fullstack Developer",
         "period": "Orcool (June – August 2025)",
         "description": "Short-term project shaping an AI-agent–based review intelligence tool for brand marketing.",
         "intro": "Built the system end-to-end, covering:",
@@ -128,7 +127,7 @@
         ]
       },
       "randddb": {
-        "title": "Developer",
+        "title": "Fullstack Developer",
         "period": "randddb.com / DDB (2023 – 2025)",
         "description": "Experimental AI platform at one of the world's largest ad firms. Built, back to front, a suite of interlinked AI tools:",
         "items": [
@@ -280,7 +279,6 @@
   },
   "ui": {
     "toggleTheme": "Toggle theme",
-    "switchToOther": "Switch to Russian",
     "cvVariants": {
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"

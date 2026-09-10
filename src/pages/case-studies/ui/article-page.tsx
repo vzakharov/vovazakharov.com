@@ -14,7 +14,7 @@ import {
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
 import type { WithParams } from '@/shared/typings';
-import { BackToHome, InternalLink } from '@/shared/ui';
+import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 
 import { ThemeToggle } from '@/features/switch-theme';
 
@@ -93,7 +93,7 @@ export async function ArticlePage({ params }: Props) {
             <InternalLink
               href={collectionRoute(COLLECTION)}
               size="sm"
-              className={classes['hoverDim']}
+              className={hoverDim}
             >
               ← {COLLECTIONS[COLLECTION].label}
             </InternalLink>

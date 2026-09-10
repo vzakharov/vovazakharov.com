@@ -1,4 +1,4 @@
-import type { Linked, WithText } from '@/shared/typings';
+import type { DocumentFile, Linked, WithText } from '@/shared/typings';
 
 /**
  * A static export renders once per deploy, so a copyright year is the build's.
@@ -53,6 +53,12 @@ export const SITE_CONFIG = {
 
 // Helper to get absolute URL
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
+
+/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
+export const pageFile = (route: string, extension: string): DocumentFile => ({
+  href: `${route}.${extension}`,
+  download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
+});
 
 /**
  * How print spells a URL: absolute, because the page leaves the browser that

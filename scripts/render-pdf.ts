@@ -1,15 +1,16 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
- * Prints every document — each cut included — to a committed PDF beside the
- * markdown it was authored as, so `/case-studies/playgram.mini.pdf` sits at the
- * page's own URL plus an extension.
+ * Prints every printable page to a committed PDF at that page's own URL plus an
+ * extension: each document and its cuts beside the markdown they were authored
+ * as (`/case-studies/playgram.mini.pdf`), and the CV once per framing and
+ * language (`/cv/cto/en.pdf`).
  *
  * A static export has no request-time renderer, so the alternative to a
- * committed file is no PDF at all. It is the page's existing print stylesheet
+ * committed file is no PDF at all. It is each page's existing print stylesheet
  * that is printed, not a layout of its own.
  *
- * Run by hand when a document or anything shaping its printed form changes —
+ * Run by hand when a printable or anything shaping its printed form changes —
  * never by `next build`, so CI installs no browser. `--check` keeps that
  * honest: it hashes each PDF's whole source set against the manifest, needing
  * no browser, which is why `vet.sh` can run it beside every other check.
@@ -17,8 +18,9 @@
  *   pnpm content:pdf            # render what changed, prune what is gone
  *   pnpm content:pdf --check    # report staleness, write nothing
  *
- * Bare Node runs this file, relying on its type stripping, so it needs Node
- * 22.18 or newer and every relative import carries its `.ts` extension.
+ * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
+ * the `i18n` barrel behind them is a JSON import bare Node cannot take without
+ * an attribute.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: progress,
@@ -31,10 +33,20 @@ import net from 'node:net';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import { PUBLIC_DIR, type Routed } from '../src/shared/content/collections.ts';
-import { contentHash } from '../src/shared/content/content-hash.ts';
+import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
+import { contentHash } from '@/shared/content/content-hash';
+import { routing } from '@/shared/i18n';
+
+import { cvPath } from '@/pages/cv/lib/cv-urls';
+import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+
 import { findChromium } from './lib/chromium.ts';
-import { contentFiles, filesUnder, REPO_ROOT } from './lib/content-tree.ts';
+import {
+  CONTENT_DIRS,
+  contentFiles,
+  filesUnder,
+  REPO_ROOT,
+} from './lib/content-tree.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
@@ -44,19 +56,31 @@ type Printable = Renderable & Routed;
 const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
- * What shapes a printed page besides the document itself: the sheets, the
- * components, the pipeline that produces the markup, and the site identity the
- * footer prints. Anything omitted here can ship behind a PDF the check calls
- * fresh; the price of casting it wide is that a tweak to any of it re-flags
- * every PDF, and that costs one `pnpm content:pdf` run.
+ * What shapes any printed page: the print sheet, the theme it is drawn with,
+ * the presentation components, and the site identity the footer prints.
+ * Anything omitted here can ship behind a PDF the check calls fresh; the price
+ * of casting it wide is that a tweak to any of it re-flags every PDF, and that
+ * costs one `pnpm content:pdf` run.
  */
-const SHARED_SOURCES = [
+const PRINT_SOURCES = [
   'src/app/styles/print.scss',
+  'src/app/styles/theme.ts',
+  'src/app/styles/theme.module.scss',
+  'src/shared/config',
+  'src/shared/ui',
+];
+
+/** What shapes a document's printed page on top of that: its prose and its pipeline. */
+const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
   'src/pages/case-studies/ui',
   'src/shared/content',
-  'src/shared/config',
 ];
+
+/** What shapes the CV's printed page; its own language's catalogue is added per printable. */
+const CV_SOURCES = ['src/pages/cv'];
+
+const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** How long the dev server gets to answer before the run is abandoned. */
 const SERVE_TIMEOUT_MS = 120_000;
@@ -116,15 +140,19 @@ function referencedAssets(documentPath: string): string[] {
   ];
 }
 
+function sourceFiles(...sources: string[][]): string[] {
+  return sources
+    .flat()
+    .flatMap((source) => filesUnder(path.join(REPO_ROOT, source)));
+}
+
 /**
  * Every document's PDF. The route is the output path's own place under
  * `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
  */
-function collectPrintables(): Printable[] {
-  const shared = SHARED_SOURCES.flatMap((source) =>
-    filesUnder(path.join(REPO_ROOT, source)),
-  );
+function documentPrintables(): Printable[] {
+  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES);
 
   return contentFiles((name) => name.endsWith('.md')).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');
@@ -139,6 +167,30 @@ function collectPrintables(): Printable[] {
       ]),
     };
   });
+}
+
+/**
+ * The CV's PDF per framing and language, at the page's canonical address plus an
+ * extension. Only the printable's own catalogue is hashed, so rewording the
+ * English leaves the Russian print alone.
+ */
+function cvPrintables(): Printable[] {
+  const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);
+
+  return CV_VARIANTS.flatMap((variant) =>
+    routing.locales.map((locale) => {
+      const route = cvPath(variant, locale);
+
+      return {
+        route,
+        outputPath: path.join(PUBLIC_DIR, `${route}.pdf`),
+        sourceHash: hashFiles([
+          ...shared,
+          path.join(REPO_ROOT, `src/shared/i18n/messages/${locale}.json`),
+        ]),
+      };
+    }),
+  );
 }
 
 async function freePort(): Promise<number> {
@@ -283,10 +335,13 @@ async function printAll(stale: Printable[]): Promise<void> {
 
 await runRenderJob(
   {
-    label: 'document PDF',
+    label: 'page PDF',
     manifestName: MANIFEST_NAME,
     isOutput: (name) => name.endsWith('.pdf'),
-    entries: collectPrintables(),
+    // The CV's renders sit outside the content tree, so its root is walked too
+    // — otherwise a pruned render's manifest is never found.
+    manifestDirs: [...CONTENT_DIRS, CV_DIR],
+    entries: [...documentPrintables(), ...cvPrintables()],
     render: printAll,
   },
   process.argv.includes('--check'),
