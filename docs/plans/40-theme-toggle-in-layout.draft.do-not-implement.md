@@ -102,6 +102,15 @@ shaping the printed page belongs in one of those lists, and nothing this change
 puts there does — `ThemeCorner` is print-hidden. (`root-layout.tsx` declaring
 the print fonts is a pre-existing gap in those lists, out of scope here.)
 
+## The squash prefix is `feat:`
+
+The change is visible on every page — the toggle's corner moves, three pages
+lose a row, the CV's controls cross the separator — so the merge has to deploy,
+and only a `feat:` or `fix:` subject clears the workflow's gate. `refactor:`
+would read as the honest description of the hoist and would strand the visible
+half on `main` until someone dispatched the workflow by hand. Nothing here is
+repairing a defect, so `feat:` it is.
+
 ## `features/switch-theme` stays a feature
 
 After the hoist the slice has exactly one consumer, which normally trips
