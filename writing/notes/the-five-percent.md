@@ -124,15 +124,15 @@ got asked, because they were there. _why are we bypassing modules here? not a
 fan_. The mechanism was in the tree too: `theme.module.scss` hands its class
 names to Mantine through a plain module, which is what the dim now does.
 
-**11 September — its own spelling, one sync old, arriving as the incumbent.** The
-sync skill and its watermark were `/sync-agent-infra` and `source.json` because
-the agent had named them so at the previous sync. Asked whether the source's
-renames travelled, it proved they need not — Step 1 finds a watermark by what it
-contains, not where it sits — and read a free choice as a reason to keep. Two
-one-word comments took both: `watermark.json`, which every adopter downstream has
-on disk, and `sync-muthur`, retired upstream two renames ago and right here for
-the source's own stated reason — it names the command for the tree it runs in,
-which inverts one link down. That reason sat in the agent's own triage table.
+**11 September — its own spelling, then the operator's typo, both taken as
+given.** The sync skill and its watermark were `/sync-agent-infra` and
+`source.json` because the agent had named them so at the previous sync. Told the
+source renamed its copy `/update-muthur`, it proved the rename need not travel —
+Step 1 finds a watermark by what it contains, not where it sits — and read a free
+choice as a reason to keep its own, misreading the source's stated reason on the
+way: `npm update` names what gets updated, not what it updates from. Two one-word
+comments took both names, and one was a typo; rather than notice it matched no
+spelling the source ever settled on, the agent wrote a paragraph defending it.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 

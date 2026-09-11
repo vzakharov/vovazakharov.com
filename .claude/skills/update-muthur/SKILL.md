@@ -1,5 +1,5 @@
 ---
-description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-muthur/watermark.json` names the source and the last sync point. Use when the user says "sync muthur", "update muthur", "sync agent infra", "sync the source", "sync upstream", or "/sync-muthur".'
+description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/update-muthur/watermark.json` names the source and the last sync point. Use when the user says "update muthur", "sync muthur", "sync agent infra", "sync the source", "sync upstream", or "/update-muthur".'
 ---
 
 ## What this skill is for
@@ -9,11 +9,11 @@ whatever else — from another repo has a **source** that keeps editing those fi
 This skill finds what changed there since the last sync, decides commit by commit
 what applies here, and ports the ones that do.
 
-Here the source is `vzakharov/muthur`, which calls the skill `/update-muthur` —
-named, it says, for the tree it runs in, which there is muthur itself. That name
-inverts one link down: run in this tree it reads as updating muthur, the one
-thing this skill never does. So the local copy is `/sync-muthur`, which names the
-repo it pulls from and the direction it pulls.
+Here the source is `vzakharov/muthur`, and the command is `/update-muthur` — its
+own name for it, kept. The verb is `npm update`'s: what gets updated is the
+vendored copy in the tree you are standing in, never the repo it came from, which
+this skill only ever reads. That reading holds at every link, which is why the
+name travels rather than being re-coined per repo.
 
 **The source is relative to the repo you are standing in**, and the procedure is
 the same at every link in the chain; only the watermark differs. A repo that
@@ -31,7 +31,7 @@ what applies.
 
 ## The watermark
 
-`.claude/skills/sync-muthur/watermark.json` is the state this skill runs
+`.claude/skills/update-muthur/watermark.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
 `lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the three
 fields worth explaining:
@@ -42,10 +42,11 @@ fields worth explaining:
 
   **These are the source's paths, not this repo's.** Step 3 hands them to `git
 log` inside the source clone, so a path that was renamed on adoption must stay
-  spelled the source's way — `.claude/skills/update-muthur/` is this skill, under
-  the name it has _there_. Renaming the local copy without leaving the entry
-  alone, or leaving the entry behind when the source renames its own copy,
-  silently drops that path's commits from every future candidate set.
+  spelled the source's way. Every path here happens to be spelled the same on
+  both sides today, which is what makes the rule easy to forget: renaming a local
+  copy without leaving the entry alone, or leaving the entry behind when the
+  source renames its own copy, silently drops that path's commits from every
+  future candidate set.
 
   **An entry may be a bare path or a single-key `{path: note}` object.** Both are
   adopted and both filter the log identically — read the key when an entry is an
