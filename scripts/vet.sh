@@ -53,13 +53,10 @@ fi
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
-# The last two read the agent infrastructure itself. skills asserts that every
-# `@`-reference into `.claude/skills/` resolves — a dangling one fails silently,
-# the agent following the surviving prose past the step they could not load, so
-# dropping this line puts the check back on memory. export runs the exporter's
-# tests by path, never through `unittest discover`, which reports `Ran 0 tests
-# ... OK` over a namespace package and would certify a run that executed
-# nothing.
+# The last two read the agent infrastructure itself and nothing else here
+# touches it. `export` runs by path on purpose: `unittest discover` reports
+# `Ran 0 tests ... OK` over this namespace package and would certify a run that
+# executed nothing.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
