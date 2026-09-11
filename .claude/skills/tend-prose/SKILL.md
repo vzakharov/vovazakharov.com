@@ -26,7 +26,7 @@ Markdown (skill bodies, `docs/`, READMEs) — for four defects that carry
 - **N**egation — text whose subject is a thing the change removed, surviving as
   its own denial instead of being removed altogether. It is written in clean
   present tense, so it reads as a constraint and no change verb fires. The idiom
-  is *don't think about the polar bear*.
+  is _don't think about the polar bear_.
 - **D**urability — text that describes the change that produced the code rather
   than the code's durable behaviour, whether it narrates against the state before
   the branch or against an earlier step inside it. CLAUDE.md: "Comments describe
@@ -49,12 +49,12 @@ The argument may **name one lens**, optionally followed by focus guidance:
 `/tend-prose durability`, `/tend-prose tightness src/db`, `/tend-prose polar
 bear`.
 
-| Lens | Primary      | Alias         |
-| ---- | ------------ | ------------- |
-| 1    | `existence`  | —             |
-| 2    | `durability` | `narration`   |
-| 3    | `tightness`  | `bloat`       |
-| 4    | `negation`   | `polar bear`  |
+| Lens | Primary      | Alias        |
+| ---- | ------------ | ------------ |
+| 1    | `existence`  | —            |
+| 2    | `durability` | `narration`  |
+| 3    | `tightness`  | `bloat`      |
+| 4    | `negation`   | `polar bear` |
 
 Then run **only** that lens: skip the other three in Step 2 and apply only its
 fixes in Step 3. This is the mode for "I just saw narration in there", and for a
@@ -177,7 +177,7 @@ final code a year from now, with no memory of the edit?** If it only informs
 **The special case is narration against an intermediate step inside the branch.**
 In shipped prose it is the same defect as the rest of the lens. It earns a name
 because it is the half that survives in the documents Step 4 excludes: a commit
-body is *meant* to narrate the branch against the state before it, and still has
+body is _meant_ to narrate the branch against the state before it, and still has
 no business reporting what a draft became on the way there
 (`@.claude/skills/squash-message/SKILL.md` owns that pass).
 
@@ -225,7 +225,7 @@ denial, and every later reader pays for a thing that is not there. Tells:
 The test: **with the sentence gone, would its subject have crossed the reader's
 mind at all?** If the sentence is the only reason they are thinking about the
 thing, the sentence is what put the bear there — which is Dostoevsky's point in
-*Winter Notes on Summer Impressions*: set yourself the task of not thinking
+_Winter Notes on Summer Impressions_: set yourself the task of not thinking
 about a polar bear, and the cursed thing comes to mind every minute. Denying a
 removed thing sets the reader that task.
 
@@ -235,10 +235,10 @@ properly full of negative rules. Apply the test and the two separate cleanly: a
 constraint's subject is something the reader reaches for **anyway**, so it
 crosses their mind with or without the sentence.
 
-- *"Dev artifacts go under gitignored `tmp/`, not as new `.gitignore` entries."*
+- _"Dev artifacts go under gitignored `tmp/`, not as new `.gitignore` entries."_
   — a **constraint**. The next editor reaches for a `.gitignore` line whether or
   not anything was ever removed. Keep it.
-- *"Copy is not a segment — every string sits in the module that renders it."* —
+- _"Copy is not a segment — every string sits in the module that renders it."_ —
   **residue**, if the copy catalogue was just deleted. Nobody reading the current
   tree would propose a catalogue; the sentence exists to answer the draft that
   had one. Cut it.
@@ -288,7 +288,7 @@ draft did, which no longer threatens anyone.
 - **Delete.** A sentence whose whole content is that something is absent has
   nothing to restate positively, so this lens cuts where the others rewrite.
 - **Keep the fact, drop the denial** where the mention carries a live fact
-  alongside it. Rephrase as what *is* there: "The mark is not generated —
+  alongside it. Rephrase as what _is_ there: "The mark is not generated —
   `public/aeapp-mark.svg` is committed" → "**One committed
   `public/aeapp-mark.svg` serves every consumer**", the page, the favicon and the
   Open Graph card alike.

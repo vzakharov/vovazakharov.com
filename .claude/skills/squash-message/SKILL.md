@@ -206,7 +206,7 @@ This is `@.claude/skills/tend-prose/SKILL.md`'s **existence**, **tightness** and
 **negation** lenses applied to a commit body, plus **durability**'s special case:
 narrating the branch against the state before it is this document's job, which is
 why that skill's Step 4 excludes commit messages and PR bodies from its own
-sweep. Narrating it against an earlier step *inside* the branch is not.
+sweep. Narrating it against an earlier step _inside_ the branch is not.
 
 **That half and negation both reach a body through the draft, not the diff.** A
 branch that tried something non-obvious and then dropped it leaves a draft
@@ -224,7 +224,7 @@ Four things a draft reaches for fail **existence**, however well written:
   why; nobody opens a squash message to learn which files a render step hashes.
   A constraint that has to be obeyed goes where the person about to break it is
   already looking — a `.claude/rules/` file, or a docstring on the thing itself
-  — unless the change *is* that the constraint now exists. A "things to know
+  — unless the change _is_ that the constraint now exists. A "things to know
   when editing here" paragraph is the tell. Cutting one is a **move, not a
   deletion**: name the home each item lands in as you cut it, checking rather
   than assuming it has one. An item with none gets one first — the body is
@@ -236,7 +236,7 @@ Four things a draft reaches for fail **existence**, however well written:
   a move, a rename, a file that got smaller — **where it rides along with other
   work**. The tree already shows where the code lives; the record is for what a
   reader carries away before opening it. This is the one of the four with an
-  exception: where the restructuring is what the PR was *for*, it is the record,
+  exception: where the restructuring is what the PR was _for_, it is the record,
   and the body says why the old arrangement stopped holding and what the new one
   buys — still not a module-by-module tour. The same goes for a new boundary
   that is load-bearing for whoever extends it next.
