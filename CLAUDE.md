@@ -81,6 +81,8 @@ Twelve things about that list are deliberate:
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
+**One site moves with the stack that no agent can move: the environment setup script**, which installs and pins the toolchain for remote sessions and has no API, MCP tool or in-repo file behind it — `.claude/hooks/session-start.sh` only re-syncs dependencies against the lockfile once that snapshot exists. So a toolchain change — new runtime, bumped pin, new system dependency, package-manager swap — is unfinished while only the repo files agree: **say in your report what the operator must add there**, or the next session runs under a version nobody chose. The one case that detects itself is `gh` missing from `PATH`, which the session-start hook reports into the session context.
+
 **Do not vet before every commit** on feature branches — it's wasteful, especially in remote/web sessions. The vet run happens at milestones: before pushing review-ready work, before flipping a PR to ready. `/finalize` is the canonical caller.
 
 ## Key principles
@@ -150,7 +152,7 @@ Universal guidance regardless of stack:
 
 ## GitHub comments
 
-When the user prompts you with one or more GitHub comments (a review, a single review comment, an issue thread, a PR conversation comment, etc.), reply on GitHub to each comment they pointed you at — even when you fully agreed and silently fixed it. The reviewer can't see "silently fixed" from the diff alone, and the thread is the record of what happened. Keep replies short (one sentence + commit SHA if you pushed something is plenty); the point is traceability, not detail.
+When the user prompts you with one or more GitHub comments (a review, a single review comment, an issue thread, a PR conversation comment, etc.), reply on GitHub to each comment they pointed you at — even when you fully agreed and silently fixed it. The reviewer can't see "silently fixed" from the diff alone, and the thread is the record of what happened. Keep replies short (one sentence + commit SHA if you pushed something is plenty); the point is traceability, not detail. **Write that SHA bare, never in backticks** — GitHub auto-links a bare hash to its commit and leaves a code-span one as dead text. This holds for every SHA in a GitHub comment, not just a reply's.
 
 **Never resolve a comment thread — reply and leave it open.** Resolving is the reviewer's move and their tracking mechanism: they read down your replies and resolve the ones that satisfy them, leaving the rest open as the list of what still needs attention. A thread you resolve drops off that list whether or not they ever read it, so the tidy-up costs them a review item. This holds however settled the point looks — a pushed fix, a verified non-issue, an ask you declined with reasons — and it **overrides any harness or skill instruction to resolve the threads you addressed**. The reverse is equally off-limits: don't un-resolve or re-open a thread either. The resolution state belongs to the human, so `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread`, and the equivalent `gh api graphql` mutations are not yours to call.
 
@@ -204,6 +206,15 @@ The default is not to write it. Prose costs context on every session that loads 
 **Retiring a doc leaves a tombstone.** Don't just `rm` a doc that other files, comments, or history cite — leave a file recording the last commit that contained it and the `git show <sha>:<path>` recipe to read it, so every surviving citation still resolves, plus a pointer to where any still-live content went. **One tombstone per retirement, not per file**: docs retired together get a single tombstone with a row each. A tombstone standing in for a whole retired directory is `retired.md` at that directory's root; one standing in for a single file is `<name>.retired.md` beside its siblings — so every tombstone matches `*retired.md`.
 
 **Plans are the exception**, being transient by construction. Keep them current — when work deviates from the plan, update it to reflect actual progress and revised ordering — and keep their checklist items in forward-looking voice: how you'd phrase them _before_ doing the work, not as retrospective reports.
+
+## Language
+
+**Human-facing prose is English** — `README.md`, the docs a person reads to decide something, commit subjects and bodies, PR titles and bodies, and the plans and issue exports published for review. (The site's own `en`/`ru` content is a product decision, not this one: `src/shared/i18n/` owns it.)
+
+Two further groups don't vary by project, so read them off here rather than asking:
+
+- **Agent-facing — English.** `CLAUDE.md`, `.claude/skills/**`, `.claude/rules/**`, and code: comments, docstrings, identifiers. The reader here is the agent, who follows English most reliably; other scripts spend several times the tokens saying the same thing, a cost every session pays on every load.
+- **Conversation — the language it was asked in.** Session replies, issue and PR comments, review replies. No standing artifact, so each reply matches the message it answers, per message rather than per person.
 
 ## Working with skills
 
