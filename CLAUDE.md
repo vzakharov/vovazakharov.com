@@ -216,6 +216,25 @@ Two further groups don't vary by project, so read them off here rather than aski
 - **Agent-facing — English.** `CLAUDE.md`, `.claude/skills/**`, `.claude/rules/**`, and code: comments, docstrings, identifiers. The reader here is the agent, who follows English most reliably; other scripts spend several times the tokens saying the same thing, a cost every session pays on every load.
 - **Conversation — the language it was asked in.** Session replies, issue and PR comments, review replies. No standing artifact, so each reply matches the message it answers, per message rather than per person.
 
+## Explaining things to people
+
+How to write for a person is a large enough topic to live with the skill that
+expands it, so it is imported from there rather than stated here. That skill is
+`/plainly`: bare, it re-explains an answer that did not land; with a question, it
+answers under the rule from the start. Invoking it is optional — the rule itself
+governs every reply regardless.
+
+<!-- Both lines are real imports, not pointers, so they are unbackticked: the
+     import parser skips code spans, and backticking either would silently stop
+     it loading. Every other @-reference in this file is backticked because it
+     is a pointer the agent opens on demand. Both files are imported here
+     rather than the second from the first: an import inside an imported file
+     does not load, whatever the nesting depth the docs give. -->
+
+@.claude/skills/plainly/voice.md
+
+@.claude/skills/plainly/operators.md
+
 ## Working with skills
 
 This project ships a set of Claude Code skills under `.claude/skills/`. Invoke them as `/<name>` in a session.
