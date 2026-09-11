@@ -1,12 +1,14 @@
 {
   "repo": "vzakharov/agent-project-boilerplate",
-  "lastSyncedSha": "499814953f6bd781483f645f7fb027976aef3215",
-  "lastSyncedAt": "2026-09-09",
+  "lastSyncedSha": "0706dbbb259a6893864ee14bcd4841d7d856de4c",
+  "lastSyncedAt": "2026-09-11",
   "adopted": [
     {
-      "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined."
+      "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
     },
     ".claude/rules/README.md",
+    ".claude/settings.json",
+    ".claude/hooks/",
     ".claude/skills/branch-rename/",
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
@@ -21,11 +23,11 @@
     ".claude/skills/preview/",
     ".claude/skills/qa-checklist/",
     {
-      ".claude/skills/sync-upstream/": "this skill, renamed .claude/skills/sync-agent-boilerplate/ after the one source this repo has."
+      ".claude/skills/sync-agent-infra/": "this skill, which the source renamed here from .claude/skills/sync-upstream/ and shipped as an unhydrated stub. The local copy takes the name and keeps the hydrated procedure, so what lands from a commit touching this path is the procedure's own changes, never the stub framing. Its watermark is source.json, not the source's upstream.json."
     },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
-    ".claude/skills/tighten-docs/",
+    ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-merge.sh",
     "scripts/check-skill-catalog.sh",
@@ -33,18 +35,22 @@
     "scripts/ci-watch-tick.sh",
     "scripts/export-github-item.py",
     "scripts/gh_export/",
+    "scripts/lib/gh-repo.sh",
     "scripts/lib/github.py",
     "scripts/lib/watch-tick-common.sh",
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
+    "scripts/test_authorship.py",
     {
       "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. CLAUDE.md § Vetting carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     }
   ],
   "declined": {
-    ".claude/skills/implement/": "the source's redirect stub pointing /implement at /go, declined on the operator's call at the sync that renamed the skill: a permanent extra row is not worth keeping a retired name resolvable. `/plan` writes `/go <branch>` handoff blocks, and an older block saying `/implement` is a word an agent reads, not a skill it must load. Never — the stub only ever earns its place in the window right after the rename, and that window is closed",
+    ".claude/skills/implement/": "the source's redirect stub pointing /implement at /go, declined on the operator's call at the sync that renamed the skill: a permanent extra row is not worth keeping a retired name resolvable. `/plan` writes `/go <branch>` handoff blocks, and an older block saying `/implement` is a word an agent reads, not a skill they must load. Never — the stub only ever earns its place in the window right after the rename, and that window is closed",
     "ADOPTING.md": "the source's guide for a repo taking the boilerplate on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
-    "docs/catalog.md": "never — the source's own inventory of what it ships, describing the upstream boilerplate rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift. CLAUDE.md § \"Adding or renaming a skill\" records that check-skill-catalog.sh skips its catalog assertions here for the same reason",
+    ".claude/skills/sync-agent-infra/catalog.md": "never — the source's own inventory of what it ships, describing the upstream boilerplate rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; CLAUDE.md § \"Adding or renaming a skill\" records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
+    ".claude/skills/spinoff/": "seeds a sibling repo out of the project you are standing in, carrying its foundation rather than the boilerplate's. This repo's foundation is one personal site — there is no second product to fire out of it, and the boilerplate itself is the route to a new project. It also refuses on a catalog this repo declines, so adopting it means translating its sentinel. Revisit if a second repo is ever started from this one's layout rather than from the boilerplate",
+    ".claude/skills/detemplate/": "turns a fresh \"Use this template\" fork into a project. This repo acquired its infrastructure by subset copy, not by forking the template, and is long past the one moment the skill exists for. Never",
     ".claude/skills/propose-issue/": "issues are opened by hand here, and the backlog is too small to dedupe against — revisit when filing becomes routine",
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
