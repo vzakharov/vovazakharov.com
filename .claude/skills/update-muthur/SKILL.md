@@ -1,5 +1,5 @@
 ---
-description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/agent-project-boilerplate forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-boilerplate/source.json` names the source and the last sync point. Use when the user says "sync boilerplate", "sync upstream", "check the boilerplate", or "/sync-agent-boilerplate".'
+description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/update-muthur/watermark.json` names the source and the last sync point. Use when the user says "update muthur", "sync muthur", "sync agent infra", "sync the source", "sync upstream", or "/update-muthur".'
 ---
 
 ## What this skill is for
@@ -9,14 +9,21 @@ whatever else — from another repo has a **source** that keeps editing those fi
 This skill finds what changed there since the last sync, decides commit by commit
 what applies here, and ports the ones that do.
 
-Here the source is `vzakharov/agent-project-boilerplate`, and the skill is named
-after it.
+Here the source is `vzakharov/muthur`, and the command is `/update-muthur` — its
+own name for it, kept. The verb is `npm update`'s: what gets updated is the
+vendored copy in the tree you are standing in, never the repo it came from, which
+this skill only ever reads. That reading holds at every link, which is why the
+name travels rather than being re-coined per repo.
 
 **The source is relative to the repo you are standing in**, and the procedure is
 the same at every link in the chain; only the watermark differs. A repo that
-adopts this skill from _here_ should re-point `source.json` at this repo and
-rename the skill after its own source. One operation applied repeatedly: _pull
-the vendored agent infrastructure forward from the repo I took it from._
+adopts this skill from _here_ re-points `watermark.json` at the repo it took it from
+— `@.claude/skills/spinoff/SKILL.md` writes that file for a repo it seeds, and
+points it at the root rather than at this one; the name of
+the skill and of the watermark file are then free, since nothing locates either
+by its path — the watermark is found by the `repo` and `lastSyncedSha` it
+carries. One operation applied repeatedly: _pull the vendored agent
+infrastructure forward from the repo I took it from._
 
 This is a path-scoped diff, not a fork merge. It never tries to reconcile whole
 histories — it reads a bounded set of paths, commit by commit, and re-expresses
@@ -24,10 +31,10 @@ what applies.
 
 ## The watermark
 
-`.claude/skills/sync-agent-boilerplate/source.json` is the state this skill runs
+`.claude/skills/update-muthur/watermark.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
-`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the two fields
-worth explaining:
+`lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the three
+fields worth explaining:
 
 - **`adopted`** — the paths you took, at whatever granularity is true: directories
   or individual files. It is what turns a wall of source commits into a handful of
@@ -35,9 +42,11 @@ worth explaining:
 
   **These are the source's paths, not this repo's.** Step 3 hands them to `git
 log` inside the source clone, so a path that was renamed on adoption must stay
-  spelled the source's way — `.claude/skills/sync-upstream/` is this skill, under
-  the name it has _there_. Renaming the local copy without leaving the entry alone
-  silently drops that path's commits from every future candidate set.
+  spelled the source's way. Every path here happens to be spelled the same on
+  both sides today, which is what makes the rule easy to forget: renaming a local
+  copy without leaving the entry alone, or leaving the entry behind when the
+  source renames its own copy, silently drops that path's commits from every
+  future candidate set.
 
   **An entry may be a bare path or a single-key `{path: note}` object.** Both are
   adopted and both filter the log identically — read the key when an entry is an
@@ -52,6 +61,25 @@ log` inside the source clone, so a path that was renamed on adoption must stay
 
 - **`declined`** — path → why-not. This is what keeps re-sync quiet: without it,
   every sync re-offers every skill the repo already refused.
+
+- **`lineage`** — optional provenance: the whole ancestry, **root first**, so the
+  repo actually synced from leads and each later entry is one hop further from
+  it. Each entry is `{repo, atSha}`, naming an ancestor and its HEAD **at the
+  moment the next link was created**. `@.claude/skills/spinoff/SKILL.md` is what
+  writes it, into the repo it seeds, and owns how.
+
+  **Nothing syncs from it.** This procedure reads `repo` and `lastSyncedSha` and
+  nothing else; a sync that walked the ancestry would multiply the triage at
+  every link, which is the cost `/spinoff`'s point-at-the-root rule declines to
+  pay.
+
+  **An empty array means no ancestors; a missing one means nobody wrote them
+  down.** This file has no `lineage` at all, and that is the honest state: the
+  watermark here was filled in by hand rather than written by `/spinoff`, so the
+  birth point is not recoverable from anything in the tree. Where the ancestry is
+  complete, `lineage[0]` names the same repo as `repo` and the two SHAs are still
+  different facts — `lastSyncedSha` advances on every sync, `lineage[0].atSha`
+  never moves.
 
 **A declined path is not declined forever.** Most reasons are conditions that can
 flip, which is why the map stores prose instead of a bare list, and why reasons
@@ -80,7 +108,7 @@ watermark.
 
 ### Never sync the watermark file itself
 
-`source.json` lives inside `.claude/`, which is inside `adopted` — so a naive
+`watermark.json` lives inside `.claude/`, which is inside `adopted` — so a naive
 sync overwrites this repo's watermark with the source's. That silently repoints
 the sync at a repo this one may not be able to clone and resets `lastSyncedSha`
 to a foreign history. **The failure surfaces one sync later, as an unresolvable
@@ -101,7 +129,7 @@ chain is what makes it load-bearing.
 
 ### Step 1 — Read the watermark
 
-Read `source.json`. Stop and report if it is missing, or if `lastSyncedSha` is
+Read `watermark.json`. Stop and report if it is missing, or if `lastSyncedSha` is
 still a placeholder — there is no baseline to diff against, and guessing one would
 either re-port work already here or skip work that isn't.
 
@@ -198,8 +226,9 @@ individually.
 A commit that adds a skill in neither `adopted` nor `declined` is an open
 question, and the answer belongs in the watermark so it is asked exactly once.
 
-Read the new skill's row in the source's `docs/catalog.md` — that file is the
-source's inventory, read from the clone and never vendored, so it is current by
+Read the new skill's row in the source's
+`.claude/skills/update-muthur/catalog.md` — that file is the source's
+inventory, read from the clone and never vendored, so it is current by
 construction — and surface the decision **with its criteria attached** rather than
 as a bare "the source added `/foo`, want it?".
 
@@ -243,9 +272,21 @@ the sync.
 
 Report the triage table — every candidate, with its verdict and one line of
 reasoning, skips included. Then hand off to `@.claude/skills/dry/SKILL.md`,
-`@.claude/skills/tighten-docs/SKILL.md` and `@.claude/skills/pr/SKILL.md`; the
+`@.claude/skills/tend-prose/SKILL.md` and `@.claude/skills/pr/SKILL.md`; the
 skipped commits' reasoning belongs in the PR body, since the watermark advances
 past them and nothing else records why.
+
+**The squash record names the change, not the sync.** The `<essence>`
+`@.claude/skills/squash-message/SKILL.md` asks a title for is what landed in
+_this_ tree — `chore: one job per loop skill, and a size cap on squash bodies`,
+not `chore: sync the source forward to <source sha>`. A source SHA is a
+commit in another repository, unresolvable from the log it sits in, and "sync
+forward" names the transport: the second title sends every reader to the diff.
+
+Provenance needs no prose. `watermark.json`'s `lastSyncedSha`, committed in Step 7,
+is the precise record and the only one that survives the squash. "The repo we
+vendor from moved" is still the honest _why_, so it earns one clause of the
+body's opening sentence and nothing more.
 
 **Those two passes see only what you wrote — never the text you took.** Their
 scope is "prose added in this session", which on a sync diff is mostly the

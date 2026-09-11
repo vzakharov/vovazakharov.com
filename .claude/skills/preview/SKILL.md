@@ -114,4 +114,4 @@ Write these as throwaway scripts under `tmp/preview/`; nothing here belongs in `
 
 ## Related
 
-`/qa-checklist` classifies some verification steps as `manual-only` precisely because they need a human's eye on pixels; `/preview` is what lets the agent close some of that gap itself — with the 500px floor above marking exactly where the gap remains.
+`/qa-checklist` classifies some verification steps as `manual-only` precisely because they need a human's eye on pixels; `/preview` is what lets you close some of that gap yourself — with the 500px floor above marking exactly where the gap remains.

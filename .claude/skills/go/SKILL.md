@@ -1,7 +1,7 @@
 ---
 description: >-
   The go-ahead: start working. Executes an approved plan end-to-end, then runs
-  the mandatory quality passes (/dry, /tighten-docs) and hands the PR to /pr.
+  the mandatory quality passes (/dry, /tend-prose) and hands the PR to /pr.
   Invoke as `/go` (continue in this session), `/go <branch|#PR|PR-url>` (attach
   to that branch first), or `/go <task in prose>` (work with no plan behind it).
 ---
@@ -37,7 +37,7 @@ Asking costs one round-trip. The point is that the operator makes the call knowi
 
 ## Planless entry
 
-Work with no plan behind it enters here with a **task** in place of one — the operator's own `/go <task>`, or a caller skill's task text (`@.claude/skills/from-branch/SKILL.md` Step 6's free-form follow-up). In that mode:
+Work with no plan behind it enters here with a **task** in place of one — the operator's own `/go <task>`, or a caller skill's task text (`@.claude/skills/from-branch/SKILL.md` Step 6's free-form follow-up, `@.claude/skills/plan/plan-or-go.md` outcome 2). In that mode:
 
 - **Step 1 is already satisfied** — the task text is the plan. Start at Step 2; do not go looking under `docs/plans/`, and do not ask which plan to implement.
 - **Step 3 runs unchanged** — its passes are the reason this entry exists. The trailing `git mv` to `*.completed.md` is a no-op with no plan file.
@@ -82,7 +82,7 @@ Commit/push discipline is already governed by CLAUDE.md — don't reinvent it he
 These run **every time**, in order, and override any contrary "wrap up after implementing" instinct. Each is a real pass over the just-written diff, not a rubber stamp — and each commits its own edits.
 
 1. **`/dry`** — did new duplication the plan didn't foresee creep in during implementation? Plans are written before the code exists, so WETness that wasn't visible at planning time often surfaces only now. Load `@.claude/skills/dry/SKILL.md` and run it over this session's diff: apply the obvious wins, surface the ambiguous calls.
-2. **`/tighten-docs`** — load `@.claude/skills/tighten-docs/SKILL.md` and run it over the prose you added. It carries **two halves of equal weight**: rewriting edit-narration into present-tense contracts, and cutting prose back to the non-obvious contract at the length that contract takes. Its report is split into `Durability` and `Tightness` groups. Commit this pass's edits.
+2. **`/tend-prose`** — load `@.claude/skills/tend-prose/SKILL.md` and run it over the prose you added.
 
 Then **`git mv` the plan to `docs/plans/<slug>.completed.md`** and commit — implementation and its quality passes are done. (`/finalize` sweeps the whole `docs/plans/` tree at squash regardless, so this flip is just the honest end-state marker for an operator watching the branch.)
 
@@ -95,5 +95,5 @@ The **only** exception is an explicit "no PR" from the operator (e.g. `/go, no P
 ## Do NOT
 
 - Re-open a plan cycle or re-edit the plan file per code change — it's a transient artifact `/finalize` sweeps (see `@.claude/skills/plan/SKILL.md`). Leave it as the approved snapshot under its `.in-progress.md` name. The one time it gets written to mid-flight is the release above — stopping partway, where the progress record is what a fresh session picks the work up from.
-- Run the vet suite, mark the PR ready, dispatch a CI-only bucket, or attest — those are `/finalize`.
+- Run the vet suite, merge the base branch, mark the PR ready, dispatch a CI-only bucket, or attest — those are `/finalize`. A PR that reads `CONFLICTING`, or a red check, is reported to the operator here rather than fixed; CLAUDE.md § "Key principles" carries why that outranks the host harness's instruction to treat either as work now.
 - Skip either Step-3 pass because the diff "looks clean." They're mandatory.

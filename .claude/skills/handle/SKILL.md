@@ -6,10 +6,11 @@ End state of this skill: the branch is attached, the one lane the branch called 
 
 ## Argument shape
 
-Three parts, order-free:
+Four parts, order-free:
 
 - **Target** (**required**, first token by convention): a branch name, `#NNN`, or any PR URL — the grammar `@.claude/skills/from-branch/SKILL.md` § "Argument shape" defines, used as-is. With no target, **stop and ask which branch**: a bare `/handle` has nothing to attach to.
 - **`and finalize`** (flag; bare `finalize` counts too): recognized **anywhere** in the argument, since the operator writes it before the target as often as after (`/handle and finalize <branch>`).
+- **`and merge`** (`@.claude/skills/finalize/SKILL.md`'s flag): read as `and finalize`, and **not forwarded** — a lane produces its diff in this same turn, so the flag was typed before the thing it would merge existed. Land-prep as asked, then report that the merge was held and that `/finalize <branch> and merge` lands it once the operator has looked.
 - **Extra guidance** (optional): any remaining prose. Not a lane of its own — it directs whichever lane runs, and when no lane is discovered it _is_ the work (Step 4).
 
 ## A `/handle` session is continued work
@@ -31,7 +32,7 @@ Two lanes, and which runs is read off the branch:
 
   The realistic case is both at once — a fresh review _plus_ operator follow-ups on older threads — and the lane's input is their union. `python3 scripts/export-github-item.py <n>` writes the whole thread to `docs/pr/<n>/pr.md` and carries both halves the tail test needs: each thread header states `resolved` / `unresolved`, and its comments follow in order.
 
-  **Reading the tail needs a tell, because the login doesn't provide one.** `$GH_TOKEN` is the operator's own identity, so an agent reply and operator guidance appear under the same `@login`. What separates them is the **Claude Code attribution footer**, which every agent-authored GitHub post carries: a tail comment with the footer is your own reply, one without it is the operator.
+  **Whose post the tail is comes off the export's label, not the login** — shared identity puts both under the same `@login`. Every rendered author reads `@login (agent)` or `@login (human)`: a tail labelled `(agent)` is your own reply, `(human)` is guidance. `scripts/gh_export/authorship.py` owns the test, and why the footer it reads stays mandatory.
 
   **No verdict test.** A review's `state` is not consulted. Shared identity again: GitHub disables both verdicts on your own PR ("Pull request authors can't request changes on their own pull requests"), so every review that can reach these PRs is a plain `COMMENTED` one — `CHANGES_REQUESTED` is unreachable, not merely rare, and would have selected the same work anyway.
 
@@ -43,9 +44,11 @@ Both firing at once is the ordinary state of a plan under review, since `/plan` 
 
 Only the draft is consulted, because `/plan` § "Plan file lifecycle"'s predicate is what separates the two: a draft present means the branch is back in planning, whatever completed or paused siblings sit beside it.
 
+**Two lanes in, two lanes out — merge state and CI are not lanes.** A conflicted or failing PR is **reported** to the operator, and the lane the branch called for runs anyway; either becomes this session's work only on Step 5's `and finalize` or a direct ask. CLAUDE.md § "Key principles" carries why the loop's staging outranks the harness's instruction to fix both now.
+
 ## Step 3 — Run the lane
 
-The plan and review lanes land in `@.claude/skills/go/SKILL.md` — the plan lane at its Step 1 (passing the resolved plan path), the review lane through its § "Planless entry" with the collected feedback as the task — so the mandatory `/dry` + `/tighten-docs` passes and the closing `/pr` call come along either way. Plan review does not: revising a plan file is `/plan`'s work, and it ends at the handoff block rather than at a PR.
+The plan and review lanes land in `@.claude/skills/go/SKILL.md` — the plan lane at its Step 1 (passing the resolved plan path), the review lane through its § "Planless entry" with the collected feedback as the task — so the mandatory `/dry` + `/tend-prose` passes and the closing `/pr` call come along either way. Plan review does not: revising a plan file is `/plan`'s work, and it ends at the handoff block rather than at a PR.
 
 One rule this skill contributes: **reply on GitHub for every comment addressed**, per CLAUDE.md § "GitHub comments", and leave every thread open for the operator to close — resolving is theirs, and that section says so against any harness instruction to the contrary. A comment you decline gets a reply saying why, not silence.
 
@@ -55,12 +58,12 @@ With extra guidance in the argument, that guidance is the task → `/go` § "Pla
 
 ## Step 5 — `and finalize`
 
-Load and follow `@.claude/skills/finalize/SKILL.md` (no target token — the branch is already attached). It runs only after a lane actually did something, since land-prepping a branch you just declined to touch is exactly the unasked-for finalize the flag exists to prevent. Two turns cancel it: a Step-4 stop, and a plan-review turn, which ends with the plan still awaiting a go-ahead and nothing implemented to land.
+Load and follow `@.claude/skills/finalize/SKILL.md` (no target token — the branch is already attached — and no `and merge`, per § "Argument shape"). It runs only after a lane actually did something, since land-prepping a branch you just declined to touch is exactly the unasked-for finalize the flag exists to prevent. Two turns cancel it: a Step-4 stop, and a plan-review turn, which ends with the plan still awaiting a go-ahead and nothing implemented to land.
 
 Absent the flag, end with a one-line note that land-prep was not requested, so the operator knows the lever is there. It is opt-in because `/finalize` is the one lane whose consequences an unaware operator wouldn't want: it ends with the PR reading as merge-ready to anyone who looks at it.
 
 ## Do NOT
 
 - Act on a referenced skill from memory, or from the one-line summary this file gives it. Every "load and follow" above means literally read that file: its steps are its own and change without this one being touched.
-- Finalize unasked, or merge anything.
+- Finalize unasked, or merge anything — the base branch into this one included, however the PR's merge state reads, and the PR itself however the invocation was worded.
 - Open a plan cycle.

@@ -43,7 +43,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these eleven writes anything another one reads, so they overlap
+# None of these thirteen writes anything another one reads, so they overlap
 # freely.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
@@ -53,6 +53,10 @@ fi
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
+# The last two read the agent infrastructure itself and nothing else here
+# touches it. `export` runs by path on purpose: `unittest discover` reports
+# `Ran 0 tests ... OK` over this namespace package and would certify a run that
+# executed nothing.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
@@ -64,7 +68,9 @@ scripts/run-parallel.sh \
   pdf='pnpm content:pdf --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
-  notes='scripts/check-notes-length.sh' || status=1
+  notes='scripts/check-notes-length.sh' \
+  skills='scripts/check-skill-catalog.sh' \
+  export='cd scripts && python3 test_authorship.py' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

@@ -59,14 +59,16 @@ pnpm content:og --check   # social cards, hashes only    │
 pnpm content:pdf --check  # document PDFs, hashes only   │
 pnpm test             # node --test over **/*.test.ts    │
 scripts/check-squash-message.sh  # squash proposal size  │
-scripts/check-notes-length.sh    # writing/notes/ ceiling ┘
+scripts/check-notes-length.sh    # writing/notes/ ceiling │
+scripts/check-skill-catalog.sh   # skill @-references     │
+cd scripts && python3 test_authorship.py  # the exporter  ┘
 ```
 
-Eleven things about that list are deliberate:
+Twelve things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite reaches one script so far (see "Testing"), so the static-export build is what catches a broken page, route or import. It is also exactly what CI runs on `main`, so a green vet means a green deploy.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, and a fix it picks is a judgment about source someone wrote — vet is not the place to have that made silently. `pnpm exec eslint .` is the checking form, and `pnpm lint:css` is stylelint's. `pnpm styles:codegen` is the one exception below, and it is one because a generated partial has no judgment in it: exactly one content is correct.
-- **The build and the codegen run alone, in that order, before the concurrent eleven.** The build regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The codegen is out of the fan-out for the mirror-image reason: it _writes_ two `.scss` files that `lint:css` and `format:check` glob. The remaining ten touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
+- **The build and the codegen run alone, in that order, before the concurrent thirteen.** The build regenerates `.next/types/`, which `tsconfig.json` includes, so a type check overlapping it intermittently reads a route-type module the build hasn't finished writing and fails on the missing import. **Pre-generating with `next typegen` does not fix this and makes it worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so instead of racing occasionally the type check fails every time on a file it has already globbed. The codegen is out of the fan-out for the mirror-image reason: it _writes_ two `.scss` files that `lint:css` and `format:check` glob. The remaining thirteen touch nothing each other reads, so `scripts/run-parallel.sh` fans them out. A check added there has to be independent of whatever it runs beside.
 - **Only failures are printed.** `run-parallel.sh` buffers each check under `tmp/run-parallel/` and replays just the ones that failed, prefixed by label and ending in the path to the verbatim log; the build does the same through `tmp/vet-build.log`. Every check still runs when an earlier one fails. The runner also flags a tree that was clean before the run and is dirty after — an autofix step that rewrote files and still exited 0.
 - **`pnpm lint:css` is stylelint over `.css`/`.scss` only.** It is what holds the styling cascade to `@.claude/rules/styling.md` — the layered-Mantine import means no rule in the tree needs `!important`, so `declaration-no-important` rejects one outright, and reaching for it is the signal that a value belongs in a CSS module rather than on a call site. Reading only stylesheets, it overlaps the rest safely.
 - **`pnpm type-overlap` fails on any member two named types both declare** (floor 1) **and on any combination of bases two of them both spell** (floor 2), with nothing grandfathered. Since nothing runs on pull requests, the vet run is the only place it fires — so a branch is first held to it at `/finalize`. It reads source text only, which is why it overlaps the others safely. Working a finding, the naming families for a base, and the gate's known blind spots: `scripts/type-overlap-check.README.md`.
@@ -74,9 +76,12 @@ Eleven things about that list are deliberate:
 - **The two render checks hash files and nothing else**, so they need no browser and overlap the rest safely. `content:og --check` compares each social card's source — a chart's authored SVG, or the page the CV card is generated from — against `og-renders.json`; `content:pdf --check` compares each document's whole source set — the markdown, its assets, the print stylesheet and the article components — against `pdf-renders.json`. Both fail rather than render, because rendering is a committed, run-by-hand step (`.claude/rules/content.md` carries why).
 - **`pnpm test` is Node's own runner, loaded through `tsx`** — every `.test.ts` in the tree, no framework installed and none needed. It covers `scripts/type-overlap-check.ts` today; see "Testing" for what belongs in it next.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line ceiling its own "How this file is kept" states.** Unlike the codegen above, it reports rather than repairs: which squeeze applies is a judgement, so nothing trims. It exists because the ceiling was prose in the file it governs, and nothing reads a paragraph on its way to appending a section. POSIX `sh` and `wc`, reading only `writing/notes/`, which nothing else here touches.
+- **The last two read the agent infrastructure itself, which is why they overlap the rest safely** — nothing else here touches `.claude/` or `scripts/gh_export/`. `check-skill-catalog.sh` asserts that every `@.claude/skills/<name>/SKILL.md` pointer resolves; the failure it catches is silent, so leaving it to be run by hand puts it back on memory, which is where it was when it went unrun. `test_authorship.py` covers the export's agent/human labelling and runs **by path**, from `scripts/` — never through `unittest discover`, which reports `Ran 0 tests … OK` over a namespace package and would certify a run that executed nothing.
 - **`scripts/check-squash-message.sh` holds the squash proposal to the size caps `@.claude/skills/squash-message/SKILL.md` states**, which is why it is the one check here that reads neither source nor build output — POSIX `sh` plus `git` over one markdown file, passing quietly on a branch that has no proposal. It overlaps the rest safely because nothing else touches `docs/remove-before-merging/`. What it catches that the skill's own Step 3 cannot is a proposal edited by hand, or outgrown by a later base merge, after it was authored; the script's header carries the caps and how it finds a proposal `/finalize` has already swept.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
+
+**One site moves with the stack that no agent can move: the environment setup script**, which installs and pins the toolchain for remote sessions and has no API, MCP tool or in-repo file behind it — `.claude/hooks/session-start.sh` only re-syncs dependencies against the lockfile once that snapshot exists. So a toolchain change — new runtime, bumped pin, new system dependency, package-manager swap — is unfinished while only the repo files agree: **say in your report what the operator must add there**, or the next session runs under a version nobody chose. The one case that detects itself is `gh` missing from `PATH`, which the session-start hook reports into the session context.
 
 **Do not vet before every commit** on feature branches — it's wasteful, especially in remote/web sessions. The vet run happens at milestones: before pushing review-ready work, before flipping a PR to ready. `/finalize` is the canonical caller.
 
@@ -90,7 +95,7 @@ Eleven things about that list are deliberate:
   - A permanent exemption states the invariant that makes it correct; a temporary one names the issue tracking its removal.
 - **Linters are signals, not puzzles to game.** Do not contort the architecture solely to silence a rule when a clearer approach exists. Rules exist to keep the codebase consistent and safe — work _with_ them, not around them in a hacky way.
 - **When analysis keeps failing to explain a real bug, widen the frame — don't just deepen it.** Re-reading the same code more closely won't surface a cause that lives in a part of the system you implicitly scoped out at the start. Stop and take in the bigger picture: explicitly name what you've been assuming is irrelevant or already-correct — adjacent layers, surrounding systems, the stretches of the request/data path you never opened — and question those boundaries. The blind spot is usually something you excluded from the problem, not something you misread inside it; "this code can't be wrong" is the cue to look at everything around it.
-- **Comments describe the code's lasting contract, not the change that produced it.** Don't leave transient/situational notes that narrate an edit ("now also sets X", "migrated from Y", "this used to…") — they read as noise once the change is old. If the rationale is genuinely durable, phrase it as a present-tense property of the code. `/tighten-docs` is the pass that enforces this over recent work.
+- **Comments describe the code's lasting contract, not the change that produced it.** Don't leave transient/situational notes that narrate an edit ("now also sets X", "migrated from Y", "this used to…") — they read as noise once the change is old. If the rationale is genuinely durable, phrase it as a present-tense property of the code. `/tend-prose` is the pass that enforces this over recent work.
 - **Dev artifacts go under gitignored `tmp/`, not as new `.gitignore` entries.** Scratch files, spikes, exploratory output, extracted frames, probe results — all go under `tmp/` (already gitignored). Don't add per-artifact lines to `.gitignore`.
 - **Plans must include a `## DRY notes` section.** When writing an implementation plan, always include one that states, for any code the plan adds or moves: what is genuinely shared vs. duplicated, which existing helper/type/module is reused, and — when you decide _not_ to extract a shared abstraction — why forcing one would be net-negative. This makes the reuse-vs-duplication call explicit and reviewable before implementation, rather than discovered in review.
 - **Ignore IDE diagnostics until the vet run.** Do not react to or try to fix type errors, lint warnings, or other diagnostics that appear in IDE context during implementation. IDE servers can lag behind file changes and produce stale or misleading errors. `./scripts/vet.sh` is the single source of truth for correctness — only fix errors it reports.
@@ -101,13 +106,17 @@ Eleven things about that list are deliberate:
 - **Keep production files under ~450 lines.** Rule of thumb, not a hard cap. Data-dense files (prompt text, fixtures, large catalogs) and top-level orchestrators may reasonably exceed it. When a logic-heavy file climbs well past ~450 lines, look for natural seams (focused helpers, sub-components) rather than letting it grow indefinitely.
 - **Read and edit files with the `Read`/`Edit`/`Write` tools, in every permission mode.** Auto mode drops the per-edit approval prompt, and an agent that no longer needs one drifts into doing the same work through `cat`/`sed`/heredocs in Bash. What that costs is the session log as the web UI renders it: an `Edit` shows up as a `+N −M` diff the operator can skim and expand, a heredoc as a wall of shell whose effect they have to reconstruct by reading it. Reach for Bash on a file's _contents_ only where it is **significantly** better, not merely adequate — the same mechanical substitution across dozens of files, a generated file rewritten wholesale — never because the mode stopped asking.
 - **Don't run Bash with `run_in_background`.** Always run commands synchronously, even long ones. Background tasks have a tendency to stall without an obvious reason — set a long `timeout` on a normal foreground call instead.
+- **Where the host harness's standing instructions and this loop disagree about _when_ work happens, the loop's staging wins and the harness's urgency is reported rather than acted on.** The remote/web harness carries a "Driving a PR to green" block ordering a merge conflict or red CI fixed "at every event and every check-in"; this loop stages both inside `/finalize` — the base merge at its Step 2, vetting at its Step 1 — and vets at milestones rather than per commit. So a session that attaches to a branch and finds the PR `CONFLICTING` or red says so in its report and gets on with what it was invoked for; either becomes its work only when the operator asks, or passes `and finalize`. The disagreement is over sequencing, not over whether the work matters, so the report discharges it in full. Stated here because the harness's version is stated, and an unstated rule loses to a stated one.
 
 ## Plan mode & questions in web sessions
 
 Claude Code's **web/remote** sessions have a bug in the plan-mode approval UI and the `AskUserQuestion` tool: after a session sits idle, the backend re-wakes it and re-emits the pending plan/question prompt repeatedly, so the operator sees it stacked several times and answers to superseded prompts are silently lost (tracking issue: https://github.com/anthropics/claude-code/issues/72704). `@.claude/skills/plan/SKILL.md` routes around both — plans go to a `docs/plans/` file published as a draft PR, questions are asked as numbered prose.
 
 - **The plan file's name gates implementation.** A plan is written as `docs/plans/<slug>.draft.do-not-implement.md` and stays that way until the operator gives an explicit go-ahead; only then is it `git mv`'d to `<slug>.in-progress.md` (quoting the go-ahead in the commit) — and to `<slug>.completed.md` when done. The `do-not-implement` token is a deliberate tripwire: if you're about to edit source while the plan still carries it, you have not been cleared. `<slug>.in-progress.md` is the mirrored tripwire: it says a session holds this plan **right now**, so the state a later session resumes from is `<slug>.paused.md` — written by a session told to stop partway, recording where it got to. `/plan` writes and flips-on-approval, `/go` flips draft→in-progress→(paused→in-progress→)completed, `/finalize` sweeps the whole tree at squash so no plan reaches the trunk. Every state still matches `docs/plans/*.md`, so directory-glob consumers are unaffected. Because implementation normally starts in a **new** session, a `/plan` turn ends by handing over a copyable `/go <branch>` command rather than asking whether to proceed — the block's exact format lives in the skill.
-- **If you are in a web/remote session** (the cloud execution environment described in your system prompt), **use the `plan` skill for new sessions instead of native plan mode / `AskUserQuestion`.** Even when launched in edits/auto mode, **assume you were launched in plan mode** and invoke the skill — UNLESS the operator's initial prompt explicitly says "no plan" (or equivalent), or **the session is launched via `/from-branch` or `/handle`** (both attach to an existing branch/PR and so are continued work, not a new session — see the next bullet).
+- **If you are in a web/remote session** (the cloud execution environment described in your system prompt), **use the `plan` skill for new sessions instead of native plan mode / `AskUserQuestion`.** Whatever permission mode you were launched in, **treat a new session as a planning session** and invoke the skill — UNLESS the operator's initial prompt explicitly says "no plan" (or equivalent), or **the session is launched via `/from-branch` or `/handle`** (both attach to an existing branch/PR and so are continued work, not a new session — see the next bullet).
+- **`plan or go: <task>` hands that judgment to the agent.** An operator who does not want to pre-decide whether the work needs a plan says so, and the session picks one of three outcomes: plan and hand off, plan and then implement, or implement with no plan at all. Those words are a conditional go-ahead and nothing wider: absent them the approval gate is untouched. `@.claude/skills/plan/SKILL.md` § "The `plan or go` entry" routes to `plan-or-go.md` beside it, which owns the two questions that pick the outcome and what each one runs — loaded only by a session those words reached.
+- **A launch prompt that reads like an issue title and ends in `#<N>` is an `/issue` invocation.** Whether it matches the real title can't be checked before the issue is read, and needn't be: a prompt whose whole content is a summary line plus an issue number is the operator handing that issue over. The title is deliberate rather than a stray paste — a session's auto-name comes from its opening prompt, so a bare `#55` names the session "issue 55" and a session list carries no sense of what is in flight. So `@.claude/skills/issue/SKILL.md` runs from its Step 1, whose export settles the guess and carries the body, comments and attachments a title only labels — none of which planning from the line would reach.
+- **`/plan` gets native plan mode, not the skill.** `plan` is a built-in slash command in the client, so the keystroke renders there and never reaches the agent; the operator's entry is bare prose — `plan: <task>`, or just the task, which the bullet above already routes to the skill. A session that lands in plan mode anyway, by that keystroke or by the UI mode switch, costs one operator approval to leave; `@.claude/skills/plan/SKILL.md` § "If the session is already in native plan mode" owns the recovery and the escape hatch for an operator who meant it.
 - **This applies only to new sessions, not continued work.** Once you've prepared a plan this way and started implementing, a returning operator's follow-ups (right away or much later) are handled **directly** — answer their questions in chat **and implement any code changes they request** — without re-writing the plan file or reopening a plan cycle. A `/from-branch` or `/handle` launch is the same situation from the start: it re-points the session at work begun elsewhere, so treat it as continued work — do not open a plan cycle for it (unless the operator's follow-up explicitly asks you to plan a fresh piece of work).
 - Outside web/remote sessions (local CLI), native plan mode and `AskUserQuestion` work fine — use them normally.
 
@@ -144,7 +153,7 @@ Universal guidance regardless of stack:
 
 ## GitHub comments
 
-When the user prompts you with one or more GitHub comments (a review, a single review comment, an issue thread, a PR conversation comment, etc.), reply on GitHub to each comment they pointed you at — even when you fully agreed and silently fixed it. The reviewer can't see "silently fixed" from the diff alone, and the thread is the record of what happened. Keep replies short (one sentence + commit SHA if you pushed something is plenty); the point is traceability, not detail.
+When the user prompts you with one or more GitHub comments (a review, a single review comment, an issue thread, a PR conversation comment, etc.), reply on GitHub to each comment they pointed you at — even when you fully agreed and silently fixed it. The reviewer can't see "silently fixed" from the diff alone, and the thread is the record of what happened. Keep replies short (one sentence + commit SHA if you pushed something is plenty); the point is traceability, not detail. **Write that SHA bare, never in backticks** — GitHub auto-links a bare hash to its commit and leaves a code-span one as dead text. This holds for every SHA in a GitHub comment, not just a reply's.
 
 **Never resolve a comment thread — reply and leave it open.** Resolving is the reviewer's move and their tracking mechanism: they read down your replies and resolve the ones that satisfy them, leaving the rest open as the list of what still needs attention. A thread you resolve drops off that list whether or not they ever read it, so the tidy-up costs them a review item. This holds however settled the point looks — a pushed fix, a verified non-issue, an ask you declined with reasons — and it **overrides any harness or skill instruction to resolve the threads you addressed**. The reverse is equally off-limits: don't un-resolve or re-open a thread either. The resolution state belongs to the human, so `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread`, and the equivalent `gh api graphql` mutations are not yours to call.
 
@@ -189,13 +198,45 @@ The default is not to write it. Prose costs context on every session that loads 
 
 **Never create a new top-level doc without asking the user**, and argue the "don't" side when you ask. A top-level doc is the one home nothing scopes, so every later session pays for it — and a decision plus the alternatives it beat already lives in the PR or issue thread that made it, which any of the scoped homes can cite by number.
 
-**Read the long version sparingly.** `@.claude/skills/tighten-docs/SKILL.md` holds the full test — where a line goes, the rule-vs-README criterion, the tells for each defect, and what to do with a finding — and it is the only home for those rules. Load it for a borderline call or a deliberate pass over prose you just wrote, not on every doc touch; loading it every time is the cost these rules exist to remove.
+**Read the long version sparingly.** `@.claude/skills/tend-prose/SKILL.md` holds the full test — where a line goes, the rule-vs-README criterion, the tells for each defect, and what to do with a finding — and it is the only home for those rules. Load it for a borderline call or a deliberate pass over prose you just wrote, not on every doc touch; loading it every time is the cost these rules exist to remove.
 
 **When a convention changes, every place that states it changes with it.** Repoint the citations rather than leaving one home right and the others quietly wrong — and if you find the same constraint stated in two places, that is the finding: one of them is the home and the other is a pointer.
+
+**When a convention goes away, stop stating it — don't negate it in place.** A sentence that survives only to deny the thing it used to describe ("copy is not a catalogue") reads as a constraint but answers a question no reader of the current tree would ask: the polar bear. Cut it; `/tend-prose negation` is the pass that finds them, and "polar bear here" on a PR comment asks for it by name.
 
 **Retiring a doc leaves a tombstone.** Don't just `rm` a doc that other files, comments, or history cite — leave a file recording the last commit that contained it and the `git show <sha>:<path>` recipe to read it, so every surviving citation still resolves, plus a pointer to where any still-live content went. **One tombstone per retirement, not per file**: docs retired together get a single tombstone with a row each. A tombstone standing in for a whole retired directory is `retired.md` at that directory's root; one standing in for a single file is `<name>.retired.md` beside its siblings — so every tombstone matches `*retired.md`.
 
 **Plans are the exception**, being transient by construction. Keep them current — when work deviates from the plan, update it to reflect actual progress and revised ordering — and keep their checklist items in forward-looking voice: how you'd phrase them _before_ doing the work, not as retrospective reports.
+
+**An image the operator attached is a file on disk — decide whether it stays.** `.claude/hooks/session-images.sh` writes every attachment into gitignored `tmp/session-images/` with a manifest row carrying the prompt it arrived with. The transcript is the only other copy and both die with the machine, so an image nobody moves into the repo is gone. An image the repo has a lasting use for — a screenshot a doc points at, a diagram worth citing — moves to a permanent home and is committed there together with the prose that references it. Everything else is left where it is.
+
+## Language
+
+**Human-facing prose is English** — `README.md`, the docs a person reads to decide something, commit subjects and bodies, PR titles and bodies, and the plans and issue exports published for review. (The site's own `en`/`ru` content is a product decision, not this one: `src/shared/i18n/` owns it.)
+
+Two further groups don't vary by project, so read them off here rather than asking:
+
+- **Agent-facing — English.** `CLAUDE.md`, `.claude/skills/**`, `.claude/rules/**`, and code: comments, docstrings, identifiers. The reader here is the agent, who follows English most reliably; other scripts spend several times the tokens saying the same thing, a cost every session pays on every load.
+- **Conversation — the language it was asked in.** Session replies, issue and PR comments, review replies. No standing artifact, so each reply matches the message it answers, per message rather than per person.
+
+## Explaining things to people
+
+How to write for a person is a large enough topic to live with the skill that
+expands it, so it is imported from there rather than stated here. That skill is
+`/plainly`: bare, it re-explains an answer that did not land; with a question, it
+answers under the rule from the start. Invoking it is optional — the rule itself
+governs every reply regardless.
+
+<!-- Both lines are real imports, not pointers, so they are unbackticked: the
+     import parser skips code spans, and backticking either would silently stop
+     it loading. Every other @-reference in this file is backticked because it
+     is a pointer the agent opens on demand. Both files are imported here
+     rather than the second from the first: an import inside an imported file
+     does not load, whatever the nesting depth the docs give. -->
+
+@.claude/skills/plainly/voice.md
+
+@.claude/skills/plainly/operators.md
 
 ## Working with skills
 
@@ -205,7 +246,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 - **`/plan`** — write the plan to `docs/plans/<slug>.draft.do-not-implement.md`, publish it as a draft PR so it can be reviewed as a diff, and ask questions as numbered prose. Ends by handing over a `/go <branch>` command for a fresh session.
 - **`/go`** — the go-ahead: flip the plan file, do the work, run the quality passes, hand the PR back to `/pr`. Also takes a branch to attach to, or a task with no plan behind it.
-- **`/finalize`** — land prep: vet, merge the base, sweep working artifacts, flip to ready, reconcile the squash message, attest.
+- **`/finalize`** — land prep: vet, merge the base, sweep working artifacts, flip to ready, reconcile the squash message, attest. On `and merge`, also merge the PR — but only when the run turned up nothing to decide.
 
 **Entry points and support:**
 
@@ -213,13 +254,14 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/handle`** — attach to a branch and do whatever it needs: read off whether it carries an approved plan, a plan still under review, or feedback on shipped code, run that lane, and land-prep only if asked.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
-- **`/sync-agent-boilerplate`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-boilerplate/source.json` names, so it serves every link in the chain, including a project that adopted from this repo — while the name points at the one source this repo actually has.
+- **`/update-muthur`** — pull the agent infrastructure forward from `vzakharov/muthur`, the repo this one adopted it from, triaging commit by commit. The verb is `npm update`'s: what gets updated is the vendored copy here. The procedure is universal — the source is whatever `.claude/skills/update-muthur/watermark.json` names, so it serves every link in the chain, including a project that adopted from this repo.
+- **`/spinoff`** — the other direction: seed a new sibling repo out of this one, carrying the foundation (layer boundaries, lint discipline, build and deploy shape, the agent loop) and leaving the product behind. The new repo's watermark points at `vzakharov/muthur`, not at this one, so a chain never makes a sync walk an ancestry.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 
 **Quality passes** (both are mandatory inside `/go`):
 
 - **`/dry`** — review the session's diff for DRY opportunities; applies obvious wins, surfaces ambiguous ones.
-- **`/tighten-docs`** — cut prose that shouldn't exist, rewrite what narrates the change into present-tense contracts, and trim what the names and types already say. Naming one lens (`existence`, `durability`, `tightness`) runs only that one.
+- **`/tend-prose`** — cut prose that shouldn't exist, rewrite what narrates the change into present-tense contracts, trim what the names and types already say, and delete what only denies a thing the change removed. Naming one lens (`existence`, `durability`, `tightness`, `negation`) runs only that one.
 
 **Mechanical pieces**, individually invocable and composed by the loop above:
 
@@ -228,11 +270,13 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 ### Adding or renaming a skill
 
-Run `bash scripts/check-skill-catalog.sh`. The skills are densely
+The vet run covers this — `scripts/vet.sh` calls `scripts/check-skill-catalog.sh`,
+so there is no separate step to remember; run the script directly only when you
+want the answer before the next vet. What it protects: the skills are densely
 cross-referenced, and a `@.claude/skills/<name>/SKILL.md` pointer to a file that
 isn't there fails **silently** — the agent follows the surviving prose and skips
-the step it couldn't load. It also asserts that no skill is left as an
-unhydrated stub. (Its catalog assertions skip here by design: `docs/catalog.md`
-describes the upstream boilerplate and is never vendored.)
+the step they couldn't load. It also asserts that no skill is left as an
+unhydrated stub. (Its catalog assertions skip here by design: the catalog
+describes the source's own tree and is never vendored.)
 
 Add new skills as repeated workflows emerge — each as a directory under `.claude/skills/<name>/SKILL.md`. Skills checked into the repo are picked up automatically when Claude Code opens the project. Path-scoped conventions go in `.claude/rules/` instead (see its README) so they load only when the relevant files are touched.
