@@ -48,13 +48,13 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
   is a coincidence with a paragraph attached. A learning cut for thinness comes
   back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×8)
+## What it was handed, it treats as fixed (×9)
 
-Whatever arrives as context — a list, a vocabulary, a published figure, a
-pattern already in the tree — the agent reasons _inside_ rather than _about_.
-That is what makes the failure invisible: the reasoning within the frame is
-sound, and a second agent checking the work would pass it. The human's move each
-time is to change the given rather than to answer better within it.
+Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
+already in the tree — the agent reasons _inside_ rather than _about_. That is
+what makes the failure invisible: the reasoning within the frame is sound, and a
+second agent checking it would pass. The human's move is to change the given
+rather than to answer better within it.
 
 **6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
 `docs:` for a change that documents nothing. The agent weighed three candidates
@@ -82,20 +82,19 @@ so — and read as the boundary of the rule rather than as a hole in its
 enforcement. A checker that passes is evidence about the checker.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule,
-the agent found `caseStudyHref?` declared by cards in two sibling slices, put
-the base in `shared/typings` as the lowest home that already existed, and the
-gate went green. The reply: _not domain-less; if it's a question of import
-directionality, suggest introducing a case study entity_. The gate has no
-opinion on which layer a shared base belongs to, so green was again the whole of
-the evidence.
+the agent found `caseStudyHref?` declared by cards in two sibling slices, put the
+base in `shared/typings` as the lowest home that already existed, and the gate
+went green. The reply: _not domain-less; if it's a question of import
+directionality, suggest introducing a case study entity_. The gate has no opinion
+on which layer a shared base belongs to, so green was again the whole evidence.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the
 two CV route files could not collapse into one optional catch-all, the agent
-spiked it and reported a single cost: the bare `/en/cv` would inherit `og:url:
-/en/cv/cto`. True, and only a cost if `/en/cv` is the address that ought to be
-indexed — which the agent had decided itself, hours earlier, in the same branch.
-The reply changed the given: _I'd likely actually prefer the latter being
-canonical_. Flipped, the cost is the goal, and four route files became two.
+spiked it and reported one cost: the bare `/en/cv` would inherit `og:url:
+/en/cv/cto`. Only a cost if `/en/cv` is the address that ought to be indexed —
+which the agent had decided itself, hours earlier, in the same branch. _I'd
+likely actually prefer the latter being canonical_: flipped, the cost is the
+goal, and four route files became two.
 
 **9 September — our own lint config, read as a specification.** Asked whether a
 `server-only` barrel would be a better home for a schema, the agent built it,
@@ -107,25 +106,33 @@ an external constraint is. The reply: _if "boundaries don't allow" is the only
 argument, let's rewrite the boundaries_ — and the sibling repo pins none at all.
 
 **9 September — a comment about what the site's controls wear, read as a rule
-about what everything interactive is.** Told the theme toggle cost a row it did
-not need, the agent moved it into the header's corner and left its skin
-untouched: `variant="default"`, which `theme.ts` describes beside it as "the
-site's only control skin". So the corner held a hairline box fencing off empty
-space — _let's remove the borders around the theme buttons_, then _and generally
-make them gray, unobtrusive_. The comment is ours, six days old, and says what
-the site's controls wear, not that everything clickable is one. The agent had
-just argued the toggle is page furniture rather than content — the whole reason
-it left the flow — and never carried that one step further to how it looks.
+about what everything interactive is.** Moving the theme toggle into the header's
+corner, the agent left its skin untouched: `variant="default"`, which `theme.ts`
+describes beside it as "the site's only control skin". So the corner held a
+hairline box fencing off empty space — _let's remove the borders around the theme
+buttons_, then _and generally make them gray, unobtrusive_. The comment is ours,
+six days old, and says what the site's controls wear, not that everything
+clickable is one. The agent had just argued the toggle is page furniture rather
+than content, and never carried that one step further to how it looks.
 
-**9 September — a global class read off the globals beside it.** A hover dim was
-claimed by two slices with no sideways reach to each other, so the agent put it
-in `globals.scss` and wrote the reason in: "as the print utilities are". Those
-are global for a reason that does not transfer — the content pipeline emits
-`print-hidden` into HTML strings, where a hashed module class is unreachable —
-and what made the neighbours global never got asked, because they were there.
-The reply was _why are we bypassing modules here? not a fan_. The mechanism was
-in the tree too: `theme.module.scss` hands its class names to Mantine through a
-plain module, which is what the dim now does through `shared/ui`'s public API.
+**9 September — a global class read off the globals beside it.** A hover dim
+claimed by two slices with no sideways reach went into `globals.scss`, reason
+written in: "as the print utilities are". Those are global for a reason that does
+not transfer — the content pipeline emits `print-hidden` into HTML strings, where
+a hashed module class is unreachable — and what made the neighbours global never
+got asked, because they were there. _why are we bypassing modules here? not a
+fan_. The mechanism was in the tree too: `theme.module.scss` hands its class
+names to Mantine through a plain module, which is what the dim now does.
+
+**11 September — its own spelling, one sync old, arriving as the incumbent.** The
+sync skill and its watermark were `/sync-agent-infra` and `source.json` because
+the agent had named them so at the previous sync. Asked whether the source's
+renames travelled, it proved they need not — Step 1 finds a watermark by what it
+contains, not where it sits — and read a free choice as a reason to keep. Two
+one-word comments took both: `watermark.json`, which every adopter downstream has
+on disk, and `sync-muthur`, retired upstream two renames ago and right here for
+the source's own stated reason — it names the command for the tree it runs in,
+which inverts one link down. That reason sat in the agent's own triage table.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 
@@ -173,12 +180,12 @@ hashed it. The operator, shown the unfurl, needed five words: _бли, карт�
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type, then accounted for the
 remainder: the two left "are authored prose, not identifiers". Both halves were
-wrong — four occurrences across three files, and `scripts/run-parallel.sh` holds
-a shell variable named `labelled`, an identifier in the script every vet run
-executes. What the agent had looked at was the diff it had just written. The
-reply took the frame back: _yes let's change them too, they were probably the
-reason you reached for the double l in the first place_ — the spelling was in
-the tree before the type was, and the type had been the copy.
+wrong — four occurrences across three files, and `scripts/run-parallel.sh` holds a
+shell variable named `labelled`, in the script every vet run executes. What the
+agent had looked at was the diff it had just written. The reply took the frame
+back: _yes let's change them too, they were probably the reason you reached for
+the double l in the first place_ — the spelling was in the tree before the type
+was, and the type had been the copy.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -351,45 +358,43 @@ measurements, which is the genre they are true in.
 ## Not bumps
 
 The agent flagged rather than silently fixed two words missing from text the
-operator had supplied verbatim. That is a rule in `.claude/rules/writing.md`
-doing its job, recorded here so it isn't later miscounted as judgement: every
-learning above is one no rule anticipated.
+operator had supplied verbatim — a rule in `.claude/rules/writing.md` doing its
+job, recorded so it isn't miscounted as judgement: every learning above is one no
+rule anticipated.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: moving the CV's locale out of the leading segment, the hook a
-post leads with, where the theme toggle sits on the page, and whether the
-toggle should come from a layout rather than from every consumer that wants one.
-A routing restructure, a positioning call, and two layouts the operator is
-looking at and the agent is not. In each the residue is the same, and smaller
-than the entry claimed: pitching the option was available and unpitched. Only
-the toggle's _skin_ stayed a bump, and it is one because the reason to change it
-was already in the agent's own argument for moving the control. Entries removed
-under this test lose their bump count with them.
+post leads with, where the theme toggle sits, and whether it should come from a
+layout rather than from every consumer wanting one. A routing restructure, a
+positioning call, and two layouts the operator is looking at and the agent is
+not. The residue each time is smaller than the entry claimed: pitching the option
+was available and unpitched. Only the toggle's _skin_ stayed a bump, because the
+reason to change it was already in the agent's own argument for moving the
+control. Entries removed under this test lose their bump count with them.
 
 ## The two families
 
 Nine learnings is not a pattern, but they already fall in two groups, and the
 second is the more interesting half of the post.
 
-One group is failures to notice that the frame was ours — the prefix list, the
+One group is failures to notice the frame was ours — the prefix list, the
 published chart, the brief that wanted filling, the checker whose coverage read
-as the rule, a line in our own `eslint.config.ts` read as a specification rather
-than as a decision we can remake. Whatever the agent is handed as context, it
-treats as the given.
+as the rule, our own `eslint.config.ts` read as a specification rather than a
+decision we can remake. Whatever the agent is handed, it reasons inside.
 
 The other group is the opposite of a mistake: the output was well-formed,
 justified and efficient, and every one of those properties is what made it wrong
 there. The sharpest is where the agent did the extra step and it did not help —
-twice now it rendered the page, looked at it, and verified its own intention.
-Its siblings are an edit minimal at the site it was made, whose minimality left
-one fact spelled three ways; an explanation sound at every step, whose soundness
-stopped anyone opening the file it described; and a constraint correctly stated
-in prose, whose correctness stopped the agent looking for a checker to state it
-in a form something reads. No version of "be more careful" catches these, which
-is probably why they need a person and not a better prompt.
+twice now it rendered the page, looked at it, and verified its own intention. Its
+siblings are an edit minimal at the site it was made, whose minimality left one
+fact spelled three ways; an explanation sound at every step, whose soundness
+stopped anyone opening the file it described; a constraint correctly stated in
+prose, whose correctness stopped the search for a checker. No version of "be more
+careful" catches these, which is probably why they need a person and not a better
+prompt.
 
-They also differ in what the human had to supply. Most were caught by knowing
-something the agent didn't — which chart window was drawn wrong, what a side
-project actually was. The redirect one was not: the reply carried no
-information, only a refusal to accept a well-formed account. That is a cheaper
-kind of review to give and, on this evidence, not a less productive one.
+Most were caught by the human knowing something the agent didn't — which chart
+window was drawn wrong, what a side project actually was. The redirect one was
+not: the reply carried no information, only a refusal to accept a well-formed
+account — a cheaper kind of review to give and, on this evidence, not a less
+productive one.
