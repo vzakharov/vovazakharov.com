@@ -254,7 +254,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/handle`** — attach to a branch and do whatever it needs: read off whether it carries an approved plan, a plan still under review, or feedback on shipped code, run that lane, and land-prep only if asked.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
-- **`/sync-agent-infra`** — pull the agent infrastructure forward from `vzakharov/muthur`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-infra/source.json` names, so it serves every link in the chain, including a project that adopted from this repo.
+- **`/sync-muthur`** — pull the agent infrastructure forward from `vzakharov/muthur`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-muthur/watermark.json` names, so it serves every link in the chain, including a project that adopted from this repo.
 - **`/spinoff`** — the other direction: seed a new sibling repo out of this one, carrying the foundation (layer boundaries, lint discipline, build and deploy shape, the agent loop) and leaving the product behind. The new repo's watermark points at `vzakharov/muthur`, not at this one, so a chain never makes a sync walk an ancestry.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 

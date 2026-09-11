@@ -1,5 +1,5 @@
 ---
-description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-infra/source.json` names the source and the last sync point. Use when the user says "sync agent infra", "update muthur", "sync muthur", "sync the source", "sync upstream", or "/sync-agent-infra".'
+description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-muthur/watermark.json` names the source and the last sync point. Use when the user says "sync muthur", "update muthur", "sync agent infra", "sync the source", "sync upstream", or "/sync-muthur".'
 ---
 
 ## What this skill is for
@@ -9,14 +9,15 @@ whatever else — from another repo has a **source** that keeps editing those fi
 This skill finds what changed there since the last sync, decides commit by commit
 what applies here, and ports the ones that do.
 
-Here the source is `vzakharov/muthur`, which calls the skill `/update-muthur`
-after itself. The local copy is named for the job instead: nothing in this tree
-is called muthur, so a command named after another repo tells a reader here
-nothing.
+Here the source is `vzakharov/muthur`, which calls the skill `/update-muthur` —
+named, it says, for the tree it runs in, which there is muthur itself. That name
+inverts one link down: run in this tree it reads as updating muthur, the one
+thing this skill never does. So the local copy is `/sync-muthur`, which names the
+repo it pulls from and the direction it pulls.
 
 **The source is relative to the repo you are standing in**, and the procedure is
 the same at every link in the chain; only the watermark differs. A repo that
-adopts this skill from _here_ re-points `source.json` at the repo it took it from
+adopts this skill from _here_ re-points `watermark.json` at the repo it took it from
 — `@.claude/skills/spinoff/SKILL.md` writes that file for a repo it seeds, and
 points it at the root rather than at this one; the name of
 the skill and of the watermark file are then free, since nothing locates either
@@ -30,7 +31,7 @@ what applies.
 
 ## The watermark
 
-`.claude/skills/sync-agent-infra/source.json` is the state this skill runs
+`.claude/skills/sync-muthur/watermark.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
 `lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the three
 fields worth explaining:
@@ -106,7 +107,7 @@ watermark.
 
 ### Never sync the watermark file itself
 
-`source.json` lives inside `.claude/`, which is inside `adopted` — so a naive
+`watermark.json` lives inside `.claude/`, which is inside `adopted` — so a naive
 sync overwrites this repo's watermark with the source's. That silently repoints
 the sync at a repo this one may not be able to clone and resets `lastSyncedSha`
 to a foreign history. **The failure surfaces one sync later, as an unresolvable
@@ -127,7 +128,7 @@ chain is what makes it load-bearing.
 
 ### Step 1 — Read the watermark
 
-Read `source.json`. Stop and report if it is missing, or if `lastSyncedSha` is
+Read `watermark.json`. Stop and report if it is missing, or if `lastSyncedSha` is
 still a placeholder — there is no baseline to diff against, and guessing one would
 either re-port work already here or skip work that isn't.
 
@@ -281,7 +282,7 @@ not `chore: sync the source forward to <source sha>`. A source SHA is a
 commit in another repository, unresolvable from the log it sits in, and "sync
 forward" names the transport: the second title sends every reader to the diff.
 
-Provenance needs no prose. `source.json`'s `lastSyncedSha`, committed in Step 7,
+Provenance needs no prose. `watermark.json`'s `lastSyncedSha`, committed in Step 7,
 is the precise record and the only one that survives the squash. "The repo we
 vendor from moved" is still the honest _why_, so it earns one clause of the
 body's opening sentence and nothing more.

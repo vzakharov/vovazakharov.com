@@ -201,7 +201,7 @@ The cost is accepted rather than argued away: improvements the caller makes to
 its _own_ adaptations never reach the new repo. **Once you've raised your kids,
 it's their own life to grow.**
 
-`@.claude/skills/sync-agent-infra/SKILL.md` § "The watermark" owns the file's
+`@.claude/skills/sync-muthur/SKILL.md` § "The watermark" owns the file's
 field-by-field contract. Three things are this skill's own, and getting any of
 them wrong is silent:
 
@@ -221,14 +221,15 @@ them wrong is silent:
   never a root entry derived from `lastSyncedSha`, which would state a birth
   point nobody recorded.
 
-The target's sync skill travels as a **copy of the caller's**, keeping the name
-and the watermark filename it has here — `/sync-agent-infra` and `source.json`,
-neither of them the root's spelling. Nothing locates either by path: Step 1 finds
-a watermark by the `repo` and `lastSyncedSha` it carries, which is what makes the
-copy safe. Clear any stub markers the copy carries — the banner and the `STUB` in
-its frontmatter description; this tree's is hydrated and has neither. The
-watermark you just wrote _is_ the hydration, and `scripts/check-skill-catalog.sh`
-fails a half-cleared pair.
+The target's sync skill is named after the **root**, which is what the caller's
+is named after too, so it travels as a copy rather than a rename. Only the verb
+differs here — `/sync-muthur`, not the root's `/update-muthur`, which names the
+command for the tree it runs in and so inverts one link down — and nothing turns
+on that: Step 1 finds a watermark by the `repo` and `lastSyncedSha` it carries.
+Clear any stub markers the copy carries — the banner and the `STUB` in its
+frontmatter description; this tree's is hydrated and has neither. The watermark
+you just wrote _is_ the hydration, and `scripts/check-skill-catalog.sh` fails a
+half-cleared pair.
 
 ## Step 4 — Seed: `main`, then the branch
 
