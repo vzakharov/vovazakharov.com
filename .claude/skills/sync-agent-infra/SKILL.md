@@ -1,5 +1,5 @@
 ---
-description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/agent-project-boilerplate forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-boilerplate/source.json` names the source and the last sync point. Use when the user says "sync boilerplate", "sync upstream", "check the boilerplate", or "/sync-agent-boilerplate".'
+description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/agent-project-boilerplate forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-infra/source.json` names the source and the last sync point. Use when the user says "sync agent infra", "sync boilerplate", "sync upstream", "check the boilerplate", or "/sync-agent-infra".'
 ---
 
 ## What this skill is for
@@ -24,7 +24,7 @@ what applies.
 
 ## The watermark
 
-`.claude/skills/sync-agent-boilerplate/source.json` is the state this skill runs
+`.claude/skills/sync-agent-infra/source.json` is the state this skill runs
 on; Step 1 reads it, so it doubles as the worked example. It carries `repo`,
 `lastSyncedSha` (source HEAD at the last sync), `lastSyncedAt`, and the two fields
 worth explaining:
@@ -198,8 +198,9 @@ individually.
 A commit that adds a skill in neither `adopted` nor `declined` is an open
 question, and the answer belongs in the watermark so it is asked exactly once.
 
-Read the new skill's row in the source's `docs/catalog.md` — that file is the
-source's inventory, read from the clone and never vendored, so it is current by
+Read the new skill's row in the source's
+`.claude/skills/sync-agent-infra/catalog.md` — that file is the source's
+inventory, read from the clone and never vendored, so it is current by
 construction — and surface the decision **with its criteria attached** rather than
 as a bare "the source added `/foo`, want it?".
 
@@ -243,9 +244,21 @@ the sync.
 
 Report the triage table — every candidate, with its verdict and one line of
 reasoning, skips included. Then hand off to `@.claude/skills/dry/SKILL.md`,
-`@.claude/skills/tighten-docs/SKILL.md` and `@.claude/skills/pr/SKILL.md`; the
+`@.claude/skills/tend-prose/SKILL.md` and `@.claude/skills/pr/SKILL.md`; the
 skipped commits' reasoning belongs in the PR body, since the watermark advances
 past them and nothing else records why.
+
+**The squash record names the change, not the sync.** The `<essence>`
+`@.claude/skills/squash-message/SKILL.md` asks a title for is what landed in
+_this_ tree — `chore: one job per loop skill, and a size cap on squash bodies`,
+not `chore: sync the boilerplate forward to <source sha>`. A source SHA is a
+commit in another repository, unresolvable from the log it sits in, and "sync
+forward" names the transport: the second title sends every reader to the diff.
+
+Provenance needs no prose. `source.json`'s `lastSyncedSha`, committed in Step 7,
+is the precise record and the only one that survives the squash. "The repo we
+vendor from moved" is still the honest _why_, so it earns one clause of the
+body's opening sentence and nothing more.
 
 **Those two passes see only what you wrote — never the text you took.** Their
 scope is "prose added in this session", which on a sync diff is mostly the

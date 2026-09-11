@@ -1,8 +1,9 @@
 #!/bin/sh
-# Measure the squash proposal's copy-pasteable text against the size caps
-# `@.claude/skills/squash-message/SKILL.md` states as prose, and fail when it is
-# over. The skill's Step 3 is an agent reading its own output; this is the part
-# of that target a machine can settle.
+# Hold the squash proposal's copy-pasteable text to the rules
+# `@.claude/skills/squash-message/SKILL.md` states as prose — size caps, and no
+# session link in the body — and fail when one breaks. The skill's Step 3 is an
+# agent reading their own output; this is the part of that target a machine can
+# settle.
 #
 # There is deliberately no env override: a hatch in the boilerplate teaches
 # reaching for it instead of tightening. An adopter needing more room edits this
@@ -23,15 +24,16 @@
 # interpreter or a `jq`/`gh` prerequisite to the floor.
 #
 # Exit codes:
-#   0  - every cap held, or there is no proposal to measure.
-#   1  - a cap was exceeded, the proposal was unparseable, or bad arguments.
+#   0  - every rule held, or there is no proposal to measure.
+#   1  - a cap was exceeded, the body carried a session link, the proposal was
+#        unparseable, or bad arguments.
 
 set -eu
 
 PROG="check-squash-message"
 
 TITLE_MAX_CHARS=80
-BODY_MAX_LINES=50
+BODY_MAX_LINES=40
 BODY_MAX_WIDTH=72
 
 TRACKED_PATH="docs/remove-before-merging/squash-message.md"
@@ -139,6 +141,16 @@ is_blank() {
   esac
 }
 
+# The caps are terminal columns, so they count characters — but `${#…}` counts
+# bytes under `dash` and under `bash` outside a UTF-8 locale, agreeing only while
+# the message is ASCII. Deleting UTF-8 continuation bytes leaves one byte per
+# character. `wc -m` is the other route and is worse: bytes under `LC_ALL=C`,
+# and otherwise a UTF-8 locale whose name differs between glibc and macOS.
+char_len() {
+  s=$(printf '%s' "$1" | LC_ALL=C tr -d '\200-\277')
+  printf '%s' "${#s}"
+}
+
 # True when the line still holds whitespace once its own indent and any trailing
 # spaces are gone — i.e. it is more than one unwrappable token and so had a
 # wrapped form available to it.
@@ -166,6 +178,8 @@ body_blanks_held=0
 body_over=""
 body_over_count=0
 body_widest=0
+body_session=""
+body_session_count=0
 
 while IFS= read -r line || [ -n "$line" ]; do
   case $line in
@@ -189,9 +203,10 @@ while IFS= read -r line || [ -n "$line" ]; do
       continue
     fi
     title_lines=$((title_lines + 1))
-    [ "${#line}" -le "$title_widest" ] || title_widest=${#line}
-    if [ "${#line}" -gt "$TITLE_MAX_CHARS" ]; then
-      title_over="${title_over}${NL}    ${#line} chars: ${line}"
+    len=$(char_len "$line")
+    [ "$len" -le "$title_widest" ] || title_widest=$len
+    if [ "$len" -gt "$TITLE_MAX_CHARS" ]; then
+      title_over="${title_over}${NL}    ${len} chars: ${line}"
     fi
     continue
   fi
@@ -205,13 +220,24 @@ while IFS= read -r line || [ -n "$line" ]; do
   body_lines=$((body_lines + body_blanks_held + 1))
   body_blanks_held=0
 
+  # Both spellings: the trailer key the harness attribution emits, and a bare
+  # session URL that reached the prose some other way. The key is anchored to
+  # the head of its line, so a body writing *about* this rule isn't a hit.
+  case ${line#"${line%%[![:space:]]*}"} in
+    Claude-Session:* | *claude.ai/code/session*)
+      body_session_count=$((body_session_count + 1))
+      body_session="${body_session}${NL}    line ${body_lines}: ${line}"
+      ;;
+  esac
+
   # Exempt lines stay out of the widest-line figure, so a passing run never
   # reports a width above the cap.
   if is_wrappable "$line"; then
-    [ "${#line}" -le "$body_widest" ] || body_widest=${#line}
-    if [ "${#line}" -gt "$BODY_MAX_WIDTH" ]; then
+    len=$(char_len "$line")
+    [ "$len" -le "$body_widest" ] || body_widest=$len
+    if [ "$len" -gt "$BODY_MAX_WIDTH" ]; then
       body_over_count=$((body_over_count + 1))
-      body_over="${body_over}${NL}    line ${body_lines} (${#line} chars): ${line}"
+      body_over="${body_over}${NL}    line ${body_lines} (${len} chars): ${line}"
     fi
   fi
 done <"$SRC_FILE"
@@ -240,11 +266,14 @@ else
   if [ -n "$body_over" ]; then
     fail "$body_over_count body line(s) over $BODY_MAX_WIDTH chars:$body_over"
   fi
+  if [ -n "$body_session" ]; then
+    fail "$body_session_count body line(s) carry a session link; a squash record takes none:$body_session"
+  fi
 fi
 
 if [ -n "$failures" ]; then
   printf '%s: FAIL — %s%s\n' "$PROG" "$SRC_DESC" "$failures" >&2
-  printf '%s: tighten it — /squash-message step 3, then re-run.\n' "$PROG" >&2
+  printf '%s: fix it — /squash-message steps 2–3, then re-run.\n' "$PROG" >&2
   exit 1
 fi
 

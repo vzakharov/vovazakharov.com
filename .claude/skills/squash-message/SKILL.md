@@ -163,8 +163,16 @@ number>)`. **One line, at most 80 chars** — the mandatory suffix eats ~10 of i
 <noreply@anthropic.com>` as the final line (or your other assigned vendor email
   if you aren't running on Claude Code) — the body is pasted verbatim, so the
   byline has to be inside it.
+  - **The byline is the last line: no session link after it.** This
+    **overrides the harness attribution block** that ends every commit message
+    with a `Claude-Session:` URL — that block is written for a branch's own
+    commits, which the squash discards. Several sessions work a branch here by
+    design, so the one link a squash record could carry is whichever of them
+    last touched the proposal, usually the finalize one — the session holding
+    least of the change's reasoning. `scripts/check-squash-message.sh` fails a
+    body that carries one.
 - **Hard-wrap the body at 72 chars with real newlines**, and keep it to **at most
-  50 lines**. A git commit message doesn't soft-wrap; one long line per paragraph
+  40 lines**. A git commit message doesn't soft-wrap; one long line per paragraph
   reads as an unwrapped wall in `git log`. Continuation lines of a bullet align
   under its text. A line holding a single unwrappable token — a URL, a long path,
   no interior whitespace — has no wrapped form and is exempt from the width.
@@ -177,11 +185,10 @@ Re-read the draft as the future reader above, and rewrite it until it hits the
 target.
 
 The target is **three paragraphs of prose, four at the outside**, inside the
-measured caps above — 80 chars of title, 50 lines of body at 72 wide. The
-opening says why the change exists; the rest say what it does about it, named at
-the level of the behavior, contract or module affected. Not a bullet-per-change
-inventory: detail that doesn't survive at that size was below the high-level
-picture and lives in the diff.
+measured caps above. The opening says why the change exists; the rest say what it
+does about it, named at the level of the behavior, contract or module affected.
+Not a bullet-per-change inventory: detail that doesn't survive at that size was
+below the high-level picture and lives in the diff.
 
 Why the change exists is whatever is honest. Often that's a defect or a gap. Just
 as often it's planned work landing as planned, and then the opening says where the
@@ -195,31 +202,41 @@ intermediate steps and "added a test for it"; process meta; benefit padding; and
 the linked issue's own symptom and repro re-filed here, which `Closes #N` already
 points at.
 
-**A trap for whoever edits the area next is not part of the record either.** The
-log answers what changed and why; nobody opens a squash message to learn which
-files a render step hashes. A constraint that has to be obeyed goes where the
-person about to break it is already looking — a `.claude/rules/` file, or a
-docstring on the thing itself — unless the change _is_ that the constraint now
-exists. A "things to know when editing here" paragraph is the tell.
+This is `@.claude/skills/tend-prose/SKILL.md`'s **existence**, **tightness** and
+**negation** lenses applied to a commit body, plus **durability**'s special case:
+narrating the branch against the state before it is this document's job, which is
+why that skill's Step 4 excludes commit messages and PR bodies from its own
+sweep. Narrating it against an earlier step *inside* the branch is not.
 
-This is `@.claude/skills/tighten-docs/SKILL.md`'s **Lens A (existence)** and
-**Lens C (bloat)** applied to a commit body. Only its Lens B (narration) is
-inapplicable — narrating the change is a commit message's whole job, which is why
-that skill's Step 4 excludes commit messages and PR bodies from its own sweep.
+**That half and negation both reach a body through the draft, not the diff.** A
+branch that tried something non-obvious and then dropped it leaves a draft
+written while the thing was still there. Kept, that draft reports what the work
+became rather than what it is, or denies something no reader of the squashed
+commit would otherwise have considered — and the log carries either forever.
 
-Three things a draft reaches for fail Lens A, however well written:
+Four things a draft reaches for fail **existence**, however well written:
 
 - **Standing context**, which a draft reaches for in the opening paragraph —
   what the project is, what the tooling is for, how the work is normally done. A
   reader who wants that has the repo; what only this commit can tell them is why
   it exists.
+- **A trap for whoever edits the area next.** The log answers what changed and
+  why; nobody opens a squash message to learn which files a render step hashes.
+  A constraint that has to be obeyed goes where the person about to break it is
+  already looking — a `.claude/rules/` file, or a docstring on the thing itself
+  — unless the change *is* that the constraint now exists. A "things to know
+  when editing here" paragraph is the tell. Cutting one is a **move, not a
+  deletion**: name the home each item lands in as you cut it, checking rather
+  than assuming it has one. An item with none gets one first — the body is
+  sometimes the only place a constraint was ever written down, and the tidy cut
+  is what loses it.
 - **An inventory of what the change declined to do** — commits skipped, options
   rejected. It leaves no trace in the tree for the record to explain.
 - **Internal restructuring that changed no behavior and no contract** — a split,
   a move, a rename, a file that got smaller — **where it rides along with other
   work**. The tree already shows where the code lives; the record is for what a
-  reader carries away before opening it. This is the one of the three with an
-  exception: where the restructuring is what the PR was _for_, it is the record,
+  reader carries away before opening it. This is the one of the four with an
+  exception: where the restructuring is what the PR was *for*, it is the record,
   and the body says why the old arrangement stopped holding and what the new one
   buys — still not a module-by-module tour. The same goes for a new boundary
   that is load-bearing for whoever extends it next.
@@ -230,17 +247,17 @@ product area); a hotfix body for a minimal fix is one or two paragraphs. The pas
 runs at either size — trimming words inside each of a release's areas rather than
 dropping areas, and never padding a hotfix out to look substantial. The paragraph
 target moves with scope that way; the measured caps do not. They bind every lane,
-and a project whose release bodies genuinely outgrow 50 lines edits its own copy
-of `scripts/check-squash-message.sh` — raising the constant, or teaching the
+and a project whose release bodies genuinely outgrow the line cap edits its own
+copy of `scripts/check-squash-message.sh` — raising the constant, or teaching the
 script to recognize a release first and widen only there — as a reviewable
 change.
 
 **A re-run rewrites; it never accretes.** Step 2 starts from what the file
 already says, so the temptation on a refresh is to append the new scope and
-leave the rest — which walks the body past the cap one push at a time and leaves
-superseded wording beside what replaced it. Cut and replace, and re-apply the
-cap to the whole body on every run. A proposal that grew every time the branch
-did is the tell.
+leave the rest standing — which walks the body past the cap one push at a time,
+and leaves superseded wording beside what replaced it. Cut and replace, and
+re-apply the paragraph target and the caps to the whole body every run. A
+proposal that grew every time the branch did is the tell.
 
 Overwrite the file with the tightened version, then **measure it**:
 
