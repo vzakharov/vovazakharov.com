@@ -1,6 +1,6 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "0706dbbb259a6893864ee14bcd4841d7d856de4c",
+  "lastSyncedSha": "a3ec24ec8dc1d3e77338592365da8b7a854d9360",
   "lastSyncedAt": "2026-09-11",
   "adopted": [
     {
@@ -18,6 +18,9 @@
     ".claude/skills/handle/",
     ".claude/skills/issue/",
     ".claude/skills/override-gh/",
+    {
+      ".claude/skills/plainly/": "adopted whole, operators.md included. The source marks that file `rewrite` because its one entry is its own operator's; here that is the same person, so there is nothing to re-derive. A second operator gets an entry of their own rather than a rewrite of this one."
+    },
     ".claude/skills/plan/",
     ".claude/skills/pr/",
     ".claude/skills/preview/",
@@ -34,9 +37,11 @@
     "scripts/check-squash-message.sh",
     "scripts/ci-watch-tick.sh",
     "scripts/export-github-item.py",
+    "scripts/extract-session-images.py",
     "scripts/gh_export/",
     "scripts/lib/gh-repo.sh",
     "scripts/lib/github.py",
+    "scripts/lib/media.py",
     "scripts/lib/watch-tick-common.sh",
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
@@ -47,6 +52,7 @@
   ],
   "declined": {
     ".claude/skills/implement/": "the source's redirect stub pointing /implement at /go, declined on the operator's call at the sync that renamed the skill: a permanent extra row is not worth keeping a retired name resolvable. `/plan` writes `/go <branch>` handoff blocks, and an older block saying `/implement` is a word an agent reads, not a skill they must load. Never — the stub only ever earns its place in the window right after the rename, and that window is closed",
+    "README.md": "never — the source's README describes the source. This repo's is the site's own, written for a person who lands on the repository, and the two answer different questions",
     "ADOPTING.md": "the source's guide for a repo taking the template on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
     "scripts/check-repo-identity.sh": "never — it holds the source's own owner/repo to one home, the watermark's `repo` field, across the clone lines and gh recipes a human copies. The source's own vet.sh calls it the one line there that is that repo's alone: it keys on the catalog, which this repo declines, so it exits 0 here and would certify nothing",
     ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; CLAUDE.md § \"Adding or renaming a skill\" records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
