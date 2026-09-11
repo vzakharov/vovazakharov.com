@@ -251,7 +251,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 - **`/from-branch`** — attach the session to an existing branch or PR, abandoning the auto-created session branch.
 - **`/handle`** — attach to a branch and do whatever it needs: read off whether it carries an approved plan, a plan still under review, or feedback on shipped code, run that lane, and land-prep only if asked.
 - **`/preview`** — boot the dev server, capture the pages with headless Chromium and look at them. The one way to judge a visual change without guessing from source.
-- **`/sync-agent-infra`** — pull the agent infrastructure forward from `vzakharov/agent-project-boilerplate`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-infra/source.json` names, so it serves every link in the chain, including a project that adopted from this repo.
+- **`/sync-agent-infra`** — pull the agent infrastructure forward from `vzakharov/muthur`, the repo this one adopted it from, triaging commit by commit. The procedure is universal — the source is whatever `.claude/skills/sync-agent-infra/source.json` names, so it serves every link in the chain, including a project that adopted from this repo.
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 
 **Quality passes** (both are mandatory inside `/go`):
@@ -273,6 +273,6 @@ cross-referenced, and a `@.claude/skills/<name>/SKILL.md` pointer to a file that
 isn't there fails **silently** — the agent follows the surviving prose and skips
 the step they couldn't load. It also asserts that no skill is left as an
 unhydrated stub. (Its catalog assertions skip here by design: the catalog
-describes the upstream boilerplate and is never vendored.)
+describes the source's own tree and is never vendored.)
 
 Add new skills as repeated workflows emerge — each as a directory under `.claude/skills/<name>/SKILL.md`. Skills checked into the repo are picked up automatically when Claude Code opens the project. Path-scoped conventions go in `.claude/rules/` instead (see its README) so they load only when the relevant files are touched.

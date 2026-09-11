@@ -1,5 +1,5 @@
 ---
-description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/agent-project-boilerplate forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-infra/source.json` names the source and the last sync point. Use when the user says "sync agent infra", "sync boilerplate", "sync upstream", "check the boilerplate", or "/sync-agent-infra".'
+description: 'Pull the agent-infrastructure changes this repo adopted from vzakharov/muthur forward since the last sync, triage them, and port the ones that apply. The watermark at `.claude/skills/sync-agent-infra/source.json` names the source and the last sync point. Use when the user says "sync agent infra", "update muthur", "sync muthur", "sync the source", "sync upstream", or "/sync-agent-infra".'
 ---
 
 ## What this skill is for
@@ -9,14 +9,18 @@ whatever else — from another repo has a **source** that keeps editing those fi
 This skill finds what changed there since the last sync, decides commit by commit
 what applies here, and ports the ones that do.
 
-Here the source is `vzakharov/agent-project-boilerplate`, and the skill is named
-after it.
+Here the source is `vzakharov/muthur`, which calls the skill `/update-muthur`
+after itself. The local copy is named for the job instead: nothing in this tree
+is called muthur, so a command named after another repo tells a reader here
+nothing.
 
 **The source is relative to the repo you are standing in**, and the procedure is
 the same at every link in the chain; only the watermark differs. A repo that
-adopts this skill from _here_ should re-point `source.json` at this repo and
-rename the skill after its own source. One operation applied repeatedly: _pull
-the vendored agent infrastructure forward from the repo I took it from._
+adopts this skill from _here_ re-points `source.json` at this repo; the name of
+the skill and of the watermark file are then free, since nothing locates either
+by its path — the watermark is found by the `repo` and `lastSyncedSha` it
+carries. One operation applied repeatedly: _pull the vendored agent
+infrastructure forward from the repo I took it from._
 
 This is a path-scoped diff, not a fork merge. It never tries to reconcile whole
 histories — it reads a bounded set of paths, commit by commit, and re-expresses
@@ -35,8 +39,9 @@ worth explaining:
 
   **These are the source's paths, not this repo's.** Step 3 hands them to `git
 log` inside the source clone, so a path that was renamed on adoption must stay
-  spelled the source's way — `.claude/skills/sync-upstream/` is this skill, under
-  the name it has _there_. Renaming the local copy without leaving the entry alone
+  spelled the source's way — `.claude/skills/update-muthur/` is this skill, under
+  the name it has _there_. Renaming the local copy without leaving the entry
+  alone, or leaving the entry behind when the source renames its own copy,
   silently drops that path's commits from every future candidate set.
 
   **An entry may be a bare path or a single-key `{path: note}` object.** Both are
@@ -199,7 +204,7 @@ A commit that adds a skill in neither `adopted` nor `declined` is an open
 question, and the answer belongs in the watermark so it is asked exactly once.
 
 Read the new skill's row in the source's
-`.claude/skills/sync-agent-infra/catalog.md` — that file is the source's
+`.claude/skills/update-muthur/catalog.md` — that file is the source's
 inventory, read from the clone and never vendored, so it is current by
 construction — and surface the decision **with its criteria attached** rather than
 as a bare "the source added `/foo`, want it?".
@@ -251,7 +256,7 @@ past them and nothing else records why.
 **The squash record names the change, not the sync.** The `<essence>`
 `@.claude/skills/squash-message/SKILL.md` asks a title for is what landed in
 _this_ tree — `chore: one job per loop skill, and a size cap on squash bodies`,
-not `chore: sync the boilerplate forward to <source sha>`. A source SHA is a
+not `chore: sync the source forward to <source sha>`. A source SHA is a
 commit in another repository, unresolvable from the log it sits in, and "sync
 forward" names the transport: the second title sends every reader to the diff.
 
