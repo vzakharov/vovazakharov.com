@@ -106,7 +106,6 @@ Steps (stop on first unresolved failure):
    One predicate governs, and the list below only spells out how it fails: **merge only when the run's whole effect on the branch was step 3's sweep and whatever a tool's own fixer rewrote, and every check it ran passed the first time it ran.** The gate is evaluated once, here, by walking the run back against the list — not decided step by step as the run goes.
 
    **Stand down if any of this happened**, at whichever step it happened:
-
    - **Pre-check** — `HEAD` was detached, or there was no PR and you created one. A PR opened and merged inside one turn was never a reviewable object. (A PR you flipped back to draft is fine — that is the ordinary re-finalize.)
    - **Step 1** — the vet run needed a change **you authored** to go green. A tool's own fixer (`pnpm styles:codegen` rewriting a generated partial, a formatter rewriting its own output) that clears it does not count; that is the autofix this flag allows. The test is whether you had to read the failure and decide what to change.
    - **Step 2** — any conflict, however trivially resolved; or you applied a dedup/simplification the base merge opened, or surfaced one as ambiguous. A clean merge that **brought commits in** is survivable, but step 1 vetted a tree without them: re-run it, green first try, and stand down on any interaction of the kind that step already has you reading the incoming diff for.

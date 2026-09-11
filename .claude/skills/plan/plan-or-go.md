@@ -2,7 +2,7 @@
 
 The decision `@.claude/skills/plan/SKILL.md` § "The `plan or go` entry" routes here to make, before any other: **does this task get a plan, and does the plan block on the operator?**
 
-**The prompt is a conditional go-ahead.** It authorizes implementation *on condition that* the agent judges the operator's gate unnecessary, scoped to the task in that message and to that message alone.
+**The prompt is a conditional go-ahead.** It authorizes implementation _on condition that_ the agent judges the operator's gate unnecessary, scoped to the task in that message and to that message alone.
 
 ## Question 1 — does the operator need to decide before the work exists?
 
@@ -11,7 +11,7 @@ Any one of these is a yes:
 - **The work costs far more to produce than to describe.** The plan is a page, the work is a day, and a wrong direction is caught for the price of the page.
 - **A fork carries no recommendation** — the exception in the skill's Part 2. Guess wrong and most of the work is wasted; the plan is what makes the choice the operator's.
 - **A review round comes too late.** The step is irreversible or outward-facing, or later work builds on it before the PR is read.
-- **The scope is itself the question** — you would be deciding *what* the task is, not just how to do it.
+- **The scope is itself the question** — you would be deciding _what_ the task is, not just how to do it.
 
 None of these asks how important the change is. Importance is why the operator reviews the diff; the gate is for what reviewing a diff cannot undo.
 
@@ -31,7 +31,7 @@ The test: if you can hold the whole change in your head and name every file it t
 2. **Go** — both said no, so the diff is the plan. Enter `@.claude/skills/go/SKILL.md` § "Planless entry" with the task.
 3. **Plan, then go** — Question 1 no, Question 2 yes. Write the plan straight to `docs/plans/<slug>.in-progress.md`, no draft banner, in a commit quoting the `plan or go` prompt and naming the call; publish it through `@.claude/skills/pr/SKILL.md` so the operator has a surface to interrupt on; then run `/go` from its Step 2. The draft state is skipped rather than flipped, because nothing here awaits approval — writing the file was the agent's own call and the conditional go-ahead already cleared the work.
 
-**Report the call in the first sentence of the turn, with its reason and the override**: "Doing this directly rather than planning it — *reason*. Say `plan` and I'll write one instead." That costs the operator one word to reverse, and puts the judgment on the record in the turn that acted on it.
+**Report the call in the first sentence of the turn, with its reason and the override**: "Doing this directly rather than planning it — _reason_. Say `plan` and I'll write one instead." That costs the operator one word to reverse, and puts the judgment on the record in the turn that acted on it.
 
 **On that override, stop where you are.** Write the plan for the whole task and name the commits that already exist, so the operator reviews it knowing what is built. Leave those commits in place; reverting work nobody asked you to revert costs more than the work does.
 
