@@ -143,20 +143,30 @@ what let the operator see the seam and take it back out.
 
 **Where a turn of phrase doesn't make sense, ask rather than smooth it.** A
 sentence that reads as a non-sequitur is usually one mis-heard word, and the
-guess that makes it read well is the guess that hides it — «кофе красивый, почти
-как предзакатное солнце» for «код». Put the question in the handover; a smoothed
-version costs the operator the chance to catch it.
+guess that makes it read well is the guess that hides it. What that costs, on
+the recording this skill was written from: the speaker was describing the code
+he had been writing — «потом ты смотришь на код, он красивый, почти как
+предзакатное солнце» — and the recognizer heard «на кофе». A coffee had been
+sitting on a rock two sentences earlier, so the line parsed, read well, and drew
+no attention; the rung the recording's whole payoff called back to was simply
+gone. Put the question in the handover; a smoothed version costs the operator
+the chance to catch it.
 
 ## Step 4 — List what you guessed
 
 A table at the foot of the file, one row per place the recognizer was
 unintelligible and you chose a reading: what it heard, and what the text says.
-The operator corrects these themselves and cannot do that from a file that reads
+The operator corrects these themself and cannot do that from a file that reads
 smoothly everywhere — a silent guess is the failure mode this table exists to
 prevent.
 
 Where you could not make out a reading at all, leave `[?]` in the text and say
 so in the table. An honest gap beats a plausible invention.
+
+**The table is transient and shrinks to nothing.** It carries the rows that are
+still open questions, so a reading the operator has ruled on has done its work
+and comes out — and when the last row goes, the heading goes with it. A finished
+dictation file has no table: what it would have said is in the text.
 
 ## Step 5 — The lede and the afterword
 
@@ -195,36 +205,13 @@ Two things the afterword must keep straight:
   argument was settled elsewhere, «как обсудили отдельно» and the conclusion is
   the whole of it.
 
-## Subtitles
+## What happens after
 
-Not built yet, and larger than it sounds: what the operator means is words
-burned onto the picture, the way short-form video does it. So the step reads the
-video and writes a new video, rather than dropping a `.srt` beside it.
-
-**It runs on the corrected text**, which is what puts it after this skill rather
-than inside it: the transcript is reviewed and fixed first, and only the agreed
-version goes anywhere near the picture — a track built from the raw JSON would
-put the uncorrected words back on screen. What the JSON supplies is the timings —
-the one thing the API will not hand back a second time — so the step is a join,
-each corrected word onto the time its mis-heard counterpart occupied.
-
-Three stages follow the corrected text, and each is a decision of the
-operator's, not a setting: which stretches of the recording go on the video at
-all, whether the silences come out, and then the burn.
-
-**The burn renders a page, and the page is what the operator approves.** The
-video underneath, the words as ordinary DOM with CSS animations: an HTML file
-they open in a browser and adjust by hand, with the media beside it. Headless
-Chromium then walks that page frame by frame and ffmpeg muxes the frames — a
-step they trigger on a version they have looked at, never the tail of this one.
-The animations run off the frame number rather than the clock, or two renders of
-the approved page disagree.
-
-The join is the part to settle before writing any of it, because corrections
-change the word count: «человек, научный не обязательностью» is four words and
-«наученный необязательностью» is two, so two timings have to collapse into one
-span. Matching off by index gets this wrong silently, and the subtitles drift
-for the rest of the video.
+Burning the words onto the video is `@.claude/skills/subtitles/SKILL.md`, and it
+begins where this skill ends — on the corrected text and the saved response,
+never on a fresh call. Turning a recording into something written for a reader
+is `@.claude/skills/dictation-to-post/SKILL.md`. Neither is this skill's work,
+and neither starts until the operator has agreed the transcript.
 
 ## Do NOT
 
