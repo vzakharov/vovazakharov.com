@@ -49,9 +49,15 @@ is the deliverable the operator reviews: a self-contained HTML file — styles,
 fonts and script inlined — that they download, open from `file://` on any
 machine, and adjust by hand. The video sits beside it in the same folder.
 
-Inlining the video as a `data:` URI would make it one file, and costs about a
-third more bytes plus a full load before the first frame paints. A folder of two
-is the better trade; revisit it only if the operator asks for the single file.
+**Where the page gets the video from is one setting, and both values are
+useful.** A relative path is what the operator edits against — frame-accurate
+scrubbing while they adjust timings, and a page that works with no network. A
+`raw.githubusercontent.com` URL makes the page a single file they can send
+someone, at the cost of that offline property, and it is served as
+`application/octet-stream`, which not every browser will play in a `<video>`
+element. Inlining the bytes as a `data:` URI is the third option and the worst
+of them: about a third more bytes, and the whole file loads before the first
+frame paints.
 
 **Rendering is a step they trigger on a version they have looked at**, never the
 automatic tail of the previous stage. Headless Chromium walks the approved page
