@@ -129,15 +129,26 @@ what is in it before deciding to read it, and then wants somebody to have
 thought about it. So the file opens with a summary and closes with your reading
 of it. Both are in the recording's language, not this file's.
 
-- **The lede**, above the transcript. Three or four sentences on what the
-  recording says, in the operator's own vocabulary, so that he recognises it
-  rather than decodes it. It reports and does not evaluate — that is the
-  afterword's job, and a lede that starts judging stops being a way back in.
-- **The afterword**, at the foot. What the recording is arguing under what it
-  says, what it takes for granted without saying, what the argument is missing,
-  and what is said three times where once would carry it. This is the half that
+- **The lede** — `## О чём это`, above the transcript. Three or four sentences
+  on what the recording says, in the operator's own vocabulary, so that he
+  recognises it rather than decodes it. It reports and does not evaluate — that
+  is the afterword's job, and a lede that starts judging stops being a way back
+  in.
+- **The afterword** — `## Заметки агента`, at the foot, opening with one line
+  saying whose words follow. What the recording is arguing under what it says,
+  what it takes for granted without saying, what the argument is missing, and
+  what is said three times where once would carry it. This is the half that
   earns the file: say what you would say if he asked what you thought, not a
   compliment and not the lede again.
+
+Keep those two headings as they are across recordings — the operator reads the
+files against each other, and a file that invents its own names for the same two
+parts costs him the comparison.
+
+One thing the afterword must keep straight: **what would be cut from a post is
+not what gets cut from the transcript.** A digression that carries a third of
+the recording is still the recording. Say "in a post I would cut this" and leave
+the text alone — Step 3's rule does not bend for your own editorial opinion.
 
 One file, not two. A summary in a file of its own is a second thing to open and
 a second thing to leave stale, and nothing consumes the transcript as a whole
