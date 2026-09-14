@@ -14,27 +14,34 @@ holding only part of the experience there is while a model that
 absorbed all of it finds a sunset exactly as beautiful as it is
 indifferent.
 
-Both land under writing/late-stage-agentic/dictations/ as transcripts
-rather than prose, which is the constraint the whole change turns on:
-the same text becomes the subtitle track, so a sentence that reads
-better than the audio is wrong. Filler and false starts come out,
-punctuation and headings go in, wording and order stay. Each file
-ends with a table pairing what the recognizer heard against what the
-text says, so a guess is visible without opening the response.
+Both land under writing/late-stage-agentic/dictations/ in five parts,
+of which only the middle one is the recording: a lede to recognise it
+by, the transcript, a table pairing what the recognizer heard against
+what the text says, and a reading of what was said -- what it argues
+underneath, what it assumes, what a post would cut. The transcript is
+a transcript rather than prose because the same text becomes the
+subtitle track, and the rule for it is mechanical: every word is the
+recognizer's word in its place, bar a filler removed, a mis-hearing
+corrected and tabled, or a heading added. Smoothness is the tell.
 
 scripts/transcribe.py takes everything a re-run would do identically
--- reduce a video to mono 64k AAC, call Deepgram, keep the whole
-response, render a timecoded transcript that ends with the words
-scored under 0.6 -- and .claude/skills/dictation/SKILL.md takes the
-judgement the script cannot make: which words in the output are the
-speaker's and which are its mistakes. The responses are kept because
-their per-word timings are what a subtitle track is built from and
-the API will not return them without another call; the skill records
-why subtitles will belong to it rather than to a skill of their own,
-their input being the corrected text and not the raw response.
+-- install ffmpeg where the box lacks it, reduce a video to mono 64k
+AAC, call Deepgram, keep the whole response, render a timecoded
+transcript ending in the words scored under 0.6 -- and
+.claude/skills/dictation/SKILL.md takes the judgement it cannot make:
+which words in the output are the speaker's and which are its
+mistakes. The responses are kept for their per-word timings, which a
+subtitle track needs and the API will not hand back twice.
+--video-out keeps a re-encoded copy of the video, what a phone sends
+through a messenger being a generous re-encode already: CRF 28 takes
+this one from 83.9 MB to 30.4 MB with nothing visible on paired
+frames.
 
+The recordings themselves stay in the branch under
+docs/remove-before-merging/, swept before the squash so none of it
+reaches main and kept reachable by a branch that is not deleted.
 die() moves to scripts/lib/cli.py on the way, the transcription
-script being the first caller that has nothing to do with GitHub.
+script being the first caller with nothing to do with GitHub.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
