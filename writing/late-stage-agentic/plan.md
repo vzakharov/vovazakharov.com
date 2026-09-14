@@ -1,10 +1,12 @@
 # Late-stage agentic — plan
 
 Two channels for one body of knowledge: **latestageagentic.com** in English and
-the Telegram channel **«Клод четвёртой стадии»** in Russian. The subject is
-human–agent collaboration and what the human is still for. The dictations under
-`dictations/` are where the material starts; this file is what has been settled
-about the shape around them, and what has not.
+the Telegram channel **«Клод четвёртой стадии»** in Russian. The subject is how
+not to make a mess of agentic coding: every piece takes a position on how the
+work is done and shows the grounds under it. The first post narrows that to one
+question — what the human is still for — because it is the introduction. The
+dictations under `dictations/` are where the material starts; this file is what
+has been settled about the shape around them, and what has not.
 
 ## The site is a wiki, not a blog
 
@@ -57,6 +59,10 @@ this is a task and not a hope. Two halves:
 
 ## Post format: the human half and the agent's answer
 
+**A column format**, which is the dated and personal half of the project rather
+than the whole of it — as is the licence below to stop short of a conclusion.
+What a wiki article does instead is one of the open questions at the foot.
+
 A post can run in two voices — what the human said, then the agent's response to
 it, which the human reads aloud on video. The dictations already have the shape:
 a lede, the recording, and the afterword `@.claude/skills/dictation/SKILL.md`
@@ -64,7 +70,7 @@ Step 5 requires.
 
 What it costs is on the agent's side: the afterword has to be actual reflection
 and introspection — what the recording is arguing underneath, what it takes for
-granted, where its author is talking themselves out of a conclusion — and not a
+granted, where its author is talking themself out of a conclusion — and not a
 summary with compliments. Agreeing is allowed where something actually lands;
 what is useless is the half that only agrees, which is praise wearing the shape
 of a response. The agent's half may also end unconcluded — the format's whole
@@ -78,11 +84,26 @@ which is what the verbatim mode of `@.claude/skills/dictation/SKILL.md` protects
 A post is not bound that way — where the argument genuinely needs a sentence that
 was not said, the text can be written to. "Genuinely" is the whole bar: the
 recording is still the source, and a post that quietly reads better than it has
-stopped being the same piece.
+stopped being the same piece. `@.claude/skills/dictation-to-post/SKILL.md` is
+where that line is drawn in practice, and every crossing of it is listed in the
+draft so the operator can put it back.
 
 ## Open
 
-- **What the wiki is called.** «Библия» is the working name and the only one
-  with a reason behind it; nothing is decided.
+- **What the wiki is called.** «Библия» is the working name, for the reason set
+  out under "Not balanced" above, and the only candidate that has one; nothing
+  is decided.
+- **Where the column ends and the wiki begins.** Two kinds of piece are visible
+  now: the column piece, dated and two-voiced, which is allowed to stop at the
+  question; and the wiki article, which states a position and is what you send
+  someone a year later. How they get separated in practice — one written and
+  then rewritten as the other, or the two written apart — is undecided, and the
+  rules above are the column's until it is.
+- **Being categorical and leaving the conclusion to the reader at once.**
+  «Библия» promises a flat answer; the case against the model register says a
+  reader handed the question gets further than one handed the conclusion. Both
+  are wanted and they pull against each other. Left standing as a live conflict
+  rather than settled here, so that whichever piece gets written first does not
+  settle it by default.
 - **The English video.** The LinkedIn post is English and the video is Russian.
   Re-record it, subtitle it, or let the post stand alone — undecided.
