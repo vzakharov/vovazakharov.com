@@ -47,7 +47,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from typing import Any, NoReturn, Optional
+from typing import Any, Optional
+
+from lib.cli import die
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
@@ -73,11 +75,6 @@ AUDIO_ARGS = ["-vn", "-ac", "1", "-c:a", "aac", "-b:a", "64k"]
 # hint, not a verdict — a correctly heard rare word scores low too.
 LOW_CONFIDENCE = 0.6
 LOW_CONFIDENCE_LIMIT = 40
-
-
-def die(msg: str, code: int = 1) -> NoReturn:
-    print(msg, file=sys.stderr)
-    sys.exit(code)
 
 
 def timecode(seconds: float) -> str:

@@ -32,11 +32,11 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from lib.cli import die
 from lib.github import (
     GITHUB_API_VERSION,
     AllRoutesFailed,
     detect_origin_repo,
-    die,
     fetch,
     format_route_statuses_and_bodies,
     gh_token,
