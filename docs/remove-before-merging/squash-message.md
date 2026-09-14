@@ -35,9 +35,9 @@ from 83.9 MB to 30.4 MB, nothing visible on paired frames.
 Two skills carry what happens after, both specified and neither built:
 subtitles joins the corrected words onto the saved timings and burns
 them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. Both posts so far sit in
-drafts/, the second written rather than spoken -- whether the arrow
-points that way from now on is open in plan.md, with the rest.
+argument out as text, listing every departure. Of the two drafts only
+the welcome text is a post, written rather than spoken; the limits
+piece stays material -- philosophy is not how weight is gained.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it
