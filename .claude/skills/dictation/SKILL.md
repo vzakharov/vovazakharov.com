@@ -135,7 +135,7 @@ text is loose — smoothness is the tell that a sentence has been improved rathe
 than transcribed, which is the same rule `@.claude/rules/writing.md` § "Voice"
 states for drafts.
 
-The two new departures are the ones to be careful with, because both are you
+The slip and the insertion are the two to be careful with, because both are you
 deciding what was meant. A slip is replaceable only where the intended word is
 not in doubt — «последствия, которые мы учим» for «несём» — and a word is
 insertable only where the clause does not parse without it; the brackets are
@@ -201,10 +201,11 @@ Not built yet, and larger than it sounds: what the operator means is words
 burned onto the picture, the way short-form video does it. So the step reads the
 video and writes a new video, rather than dropping a `.srt` beside it.
 
-It runs **after** this skill and not inside it. The order is the constraint: the
-text is transcribed, reviewed and corrected first, and only the agreed version
-goes anywhere near the picture — a track built from the raw JSON would put the
-uncorrected words back on screen. What the JSON supplies is the timings — the
+**It runs on the corrected text**, which is what puts it after this skill rather
+than inside it: the transcript is reviewed and fixed first, and only the agreed
+version goes anywhere near the picture — a track built from the raw JSON would
+put the uncorrected words back on screen. What the JSON supplies is the
+timings — the
 one thing the API will not hand back a second time — so the step is a join, each
 corrected word onto the time its mis-heard counterpart occupied.
 
