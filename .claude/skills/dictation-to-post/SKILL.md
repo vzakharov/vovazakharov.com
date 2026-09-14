@@ -56,11 +56,10 @@ does the heading.
 
 Where the recording stops at the question, the post stops at the question. This
 is the one place where supplying the missing link is forbidden, because it is
-not missing — `writing/late-stage-agentic/plan.md` § "The site is a wiki, not a
-blog" carries why: the compulsory conclusion is the tell of a generated text,
-and a piece that stops short of the moral is doing the thing a generated one
-cannot. That holds for the column pieces this skill produces; an article that
-states a position is a different job.
+not missing: a link the speaker reasoned through and left unvoiced is theirs to
+restore, and the conclusion they did not reach is yours, arriving in their
+voice. It is also the one departure the seams table cannot make good — a row
+saying "the moral is the agent's" leaves a post whose position nobody holds.
 
 ## Do NOT
 

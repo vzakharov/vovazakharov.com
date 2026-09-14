@@ -180,30 +180,14 @@ of it. Both are in the recording's language, not this file's.
   on what it says, in the operator's own vocabulary, so that they recognise it
   rather than decode it. It reports and does not evaluate — that is the
   afterword's job, and a lede that starts judging stops being a way back in.
-- **The afterword** — `## Заметки агента`, at the foot, opening with one line
-  saying whose words follow. What the recording is arguing under what it says,
-  what it takes for granted without saying, what the argument is missing, and
-  what is said three times where once would carry it. This is the half that
-  earns the file: say what you would say if they asked what you thought, not a
-  compliment and not the lede again.
+- **The afterword** — `## Заметки агента`, at the foot, owned by
+  `@.claude/skills/afterword/SKILL.md`. Load it and follow it: the section is not
+  specific to recordings, and its rules — what the block has to do to earn its
+  place, and the narration it must not become — are that skill's.
 
-Keep those two headings as they are across recordings — the operator reads the
-files against each other, and a file that invents its own names for the same two
-parts costs them the comparison.
-
-Two things the afterword must keep straight:
-
-- **What would be cut from a post is not what gets cut from the transcript.** A
-  digression that carries a third of the recording is still the recording. Say
-  "in a post I would cut this" and leave the text alone — Step 3's rule does not
-  bend for your own editorial opinion.
-- **No account of how the afterword got here.** Review of a dictation file puts
-  you in the odd position of writing about your own writing, and the way that
-  goes wrong is a file narrating its own revisions — "I first read this as X,
-  now I read it as Y". The PR threads are where that belongs. What the file
-  carries is a durable reading of the version it is attached to; where an
-  argument was settled elsewhere, «как обсудили отдельно» and the conclusion is
-  the whole of it.
+Keep the lede's heading as it is across recordings — the operator reads the files
+against each other, and a file that invents its own name for it costs them the
+comparison.
 
 ## What happens after
 

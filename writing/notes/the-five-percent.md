@@ -48,7 +48,7 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
   is a coincidence with a paragraph attached. A learning cut for thinness comes
   back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×11)
+## What it was handed, it treats as fixed (×12)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. That is
@@ -135,12 +135,12 @@ it parses, and a coffee on a rock had just been described. The word was «код
 the rung the recording's payoff calls back to. The low-confidence list flags what
 the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
-**14 September — the reading that fit the argument went unchecked.** «Ставить
-его нам, возможно, будет уже некому» was read as _we will not be here_, and a
-recommendation between two channel names rested on the ending needing a diagnosis
-people die of. «Некому ставить» admits only the other reading — nobody left to
-give it — and the «нам» was there against the first. The parse arrived before the
-argument and was never asked again once the argument stood on it.
+**14 September — the reading that fit the argument went unchecked, twice.**
+«Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
+and a name recommendation rested on it. Told the sense was the other one, the
+agent filed that as _the grammar allows only the other one_ — also false: the
+sentence takes both, which is why the «нам» was added. Each parse arrived ahead
+of the argument wanting it, the second being the first with its sign flipped.
 
 ## It edits the copy in front of it, not the fact behind it (×7)
 

@@ -1,14 +1,22 @@
 # Late-stage agentic — plan
 
 Two channels for one body of knowledge: **latestageagentic.com** in English and
-the Telegram channel **«Клод четвёртой стадии»** in Russian. The subject is how
-not to make a mess of agentic coding: every piece takes a position on how the
-work is done and shows the grounds under it. The opening post states the position
+the Telegram channel **«Клод четвёртой стадии»** in Russian — «Клод головного
+мозга» was the other candidate, and the direct translation of "late stage" won,
+so the two names read as one project. The subject is how not to make a mess of
+agentic coding: every piece takes a position on how the work is done and shows
+the grounds under it. The opening post states the position
 everything after it argues from: solving a well-posed task is a talent the models
 get closer to month by month, and seeing that the task is posed wrong is the one
 they don't — so what the human is still for is the question the channel opens on
 rather than answers. Drafts sit in `drafts/` and the recordings in `dictations/`;
 this file is what has been settled about the shape around them, and what has not.
+
+**The name covers more than the two channels.** The agent infrastructure this
+repo runs on, `vzakharov/muthur`, moves under the same authorship, and alongside
+the teaching sits an agency — one person, which is a fact rather than a
+disclaimer — and possibly courses for coders. Where all of that lives on GitHub
+is open below.
 
 ## The site is a wiki, not a blog
 
@@ -35,14 +43,17 @@ Three things "wiki" does **not** mean here:
   and avoiding it is most of the point. Hence «Библия» as a working name: the
   self-irony is what keeps a categorical article from reading as a manifesto,
   and categorical means _as of writing_, not correct in perpetuity. An article
-  that turns out wrong gets rewritten.
+  that turns out wrong gets rewritten. The skills this repo runs on are the same
+  shape — every one of them a work in progress, none of them ending in «аминь» —
+  so stating flatly what to do today claims nothing about having finished the
+  subject.
 - **Not written the way a model writes.** The tell is the compulsory conclusion
   — every piece tied off with what it all comes to, because the thing writing it
   cannot stop otherwise — and, where a paste went badly, the «Если хочешь,
-  перепишу это в стиле Марка Твена» left standing at the bottom. The limits
-  dictation's own closing thesis is the defence: a reader handed the question
-  draws a better conclusion than one handed the conclusion, so a piece that
-  stops short of the moral is doing the thing a generated one cannot.
+  перепишу это в стиле Марка Твена» left standing at the bottom. What that
+  catches is the reflex, not the conclusion: a piece here ends on a position
+  because the position is why it was written, which is the opposite of tying off
+  because the text has to stop somewhere.
 
 ## Findability
 
@@ -63,22 +74,16 @@ this is a task and not a hope. Two halves:
 ## Post format: the human half and the agent's answer
 
 **A column format**, which is the dated and personal half of the project rather
-than the whole of it — as is the licence below to stop short of a conclusion.
-What a wiki article does instead is one of the open questions at the foot.
+than the whole of it. What a wiki article does instead is one of the open
+questions at the foot.
 
 A post can run in two voices — what the human said, then the agent's response to
 it, which the human reads aloud on video. The dictations already have the shape:
-a lede, the recording, and the afterword `@.claude/skills/dictation/SKILL.md`
-Step 5 requires.
+a lede, the recording, and the afterword at the foot.
 
-What it costs is on the agent's side: the afterword has to be actual reflection
-and introspection — what the recording is arguing underneath, what it takes for
-granted, where its author is talking themself out of a conclusion — and not a
-summary with compliments. Agreeing is allowed where something actually lands;
-what is useless is the half that only agrees, which is praise wearing the shape
-of a response. The agent's half may also end unconcluded — the format's whole
-claim is that a piece can stop at the question, and a second voice that always
-ties it off is the generated register arriving by the back door.
+What the second voice costs is on the agent's side, and the bar is set in
+`@.claude/skills/afterword/SKILL.md` rather than here: an actual reading of the
+piece, not a summary with compliments.
 
 ## Concrete before philosophy
 
@@ -86,17 +91,32 @@ ties it off is the generated register arriving by the back door.
 someone who already has weight, and it is not how the weight is gained — the
 first question a stranger's life lessons raise is why this particular weirdo. So
 what runs is what can be checked: a rule, a mechanism, a number, a thing that
-went wrong. The philosophy rides on top of that once there is something under
-it.
+went wrong. The philosophy rides on top of that — not later, once enough weight
+has accumulated, but in every piece from now on, as the layer a concrete lesson
+carries rather than a piece of its own.
 
 That is what shelved the limits piece. `drafts/p2-the-limits.md` stays material
 rather than a post, and its thesis survives as one clause of the welcome text —
 the bruises a life hands you as a bonus for being limited — so what used to be
 argued is now promised, and what redeems the promise is a concrete piece rather
-than this one. The cost lands on "Not written the way a model writes" above,
-whose defence of stopping short of a conclusion cites that dictation's own
-ending. The licence stands; the exhibit for it now has to come from something
-that runs.
+than this one.
+
+## What a wiki widens, and what it cannot move
+
+**"The agent takes a given for an inevitability"** is the most frequent finding
+in `writing/notes/the-five-percent.md`, and the obvious remedy — write the
+history down, build the wiki — widens what the agent is handed without changing
+what it is. Two reasons it stays a given. Context is not elastic: past a certain
+size it behaves the way megapixels did in the 2000s, where more of them bought
+more noise. And whatever fits is still a _written_ given — recorded for the
+agent rather than lived through by it.
+
+The human side is the asymmetry: a person's experience is unique because the
+body holding it is limited and does not last, and they stretch it onto anything
+— falling asleep at the wheel, a speeding fine in Montenegro, a sunset onto a
+lint rule. That is the limits material's thesis, and it stays out of the welcome
+post: it is philosophy, so it travels on top of a concrete lesson under the rule
+above, not on its own.
 
 ## From a dictation to a post
 
@@ -122,25 +142,17 @@ draft so the operator can put it back.
   `/subtitles`, whose correction pass would have nothing to correct; and what
   verbatim mode is protecting, the words being on screen before the camera runs.
   None of those skills changes until the plan exists.
-- **What the channel is called in Russian.** «Клод четвёртой стадии» against
-  «Клод головного мозга»; the English name is settled either way. The weighing
-  is in `drafts/p0-welcome.md`, and what is left of it is the parallel with
-  "late stage" against the wear on a joke everyone has heard — the last line
-  turned out to survive either name.
+- **Where the project lives on GitHub.** An organisation of its own with
+  `vzakharov/muthur` moved into it, or the repositories staying where they are
+  under one name. Undecided.
 - **What the wiki is called.** «Библия» is the working name, for the reason set
   out under "Not balanced" above, and the only candidate that has one; nothing
   is decided.
 - **Where the column ends and the wiki begins.** Two kinds of piece are visible
-  now: the column piece, dated and two-voiced, which is allowed to stop at the
-  question; and the wiki article, which states a position and is what you send
-  someone a year later. How they get separated in practice — one written and
+  now: the column piece, dated and two-voiced, which is where the thinking is
+  done in the open; and the wiki article, which states a position and is what
+  you send someone a year later. How they get separated in practice — one written and
   then rewritten as the other, or the two written apart — is undecided, and the
   rules above are the column's until it is.
-- **Being categorical and leaving the conclusion to the reader at once.**
-  «Библия» promises a flat answer; the case against the model register says a
-  reader handed the question gets further than one handed the conclusion. Both
-  are wanted and they pull against each other. Left standing as a live conflict
-  rather than settled here, so that whichever piece gets written first does not
-  settle it by default.
 - **The English video.** The LinkedIn post is English and the video is Russian.
   Re-record it, subtitle it, or let the post stand alone — undecided.
