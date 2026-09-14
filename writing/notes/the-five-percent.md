@@ -137,7 +137,7 @@ it parses, and a coffee on a rock had just been described. The word was «код
 the rung the recording's payoff calls back to. The low-confidence list flags what
 the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
-## It edits the copy in front of it, not the fact behind it (×6)
+## It edits the copy in front of it, not the fact behind it (×7)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -146,13 +146,11 @@ into a file is run against the one entry under discussion. Nothing catches the
 split — every site still reads correctly on its own, and the divergence exists
 only between them.
 
-**8 September — one stack, three spellings.** Playgram's tech line renders on
-the home page's project card, on its work-highlight card, and in the CV's
-experience entry. Told to put Supabase and Railway in it, the agent edited the
-project card and left the other two on the old list — having authored all three
-itself, in the same branch, hours earlier. Two neighbours had drifted the same
-way. The reply — _the tech stack lines should be the same (and DRY)_ — named a
-defect no screenshot of any single page could show, because each page was right.
+**8 September — one stack, three spellings.** Playgram's tech line renders in
+three places, all of them the agent's own work from hours earlier in the same
+branch. Told to add Supabase and Railway, it edited one and left the others on
+the old list. _the tech stack lines should be the same (and DRY)_ — a defect no
+screenshot of any single page could show, because each page was right.
 
 **9 September — the rule fixed in the copy, not in the source.** Told a squash
 body has no business carrying a "things to know when editing here" paragraph,
@@ -192,6 +190,12 @@ stopped re-verifying for that session and left the sentence ordering it in the
 skill, where the next run reads it. _убери текст, где ты просишь от агента
 перепроверять что «всё правильно»._ A comment on a rule is about the rule.
 
+**14 September — the correction landed on the line it was raised on.** _читатель
+получит понимание как не надо делать агентский кодинг_, raised on the first
+dictation and written into that file. The project plan, the agent's own work
+from the same hour, went on opening "the subject is … what the human is still
+for" — the introductory post's question standing in for the publication.
+
 ## An account that explains the code stands in for running it (×5)
 
 The sibling of "It checks the render against its intent" below, and the worse
@@ -215,13 +219,10 @@ in a module a client component reaches puts 89 kB gzipped in the CV's bundle,
 which decides where the schema lives rather than whether it exists.
 
 **9 September — four homes, three of them checked.** Cutting a maintenance
-paragraph out of a commit body, the agent justified the cut by saying each item
-already sat where whoever is about to break it would look. That is the right
-test and it made the cut obviously correct, which is why nobody ran it: three of
-the four did have such a home, and the fourth — the type gate's blindness to a
-shape inlined into a generic — was named nowhere but in the paragraph being
-deleted. An account that would have been checked in a minute is the kind that
-never is.
+paragraph from a commit body, the agent justified it: each item already sits
+where whoever is about to break it would look. The right test, which is why
+nobody ran it — the fourth item, the type gate's blindness to a shape inlined
+into a generic, was named nowhere but in the paragraph being deleted.
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
 Asked where source recordings should live, the agent argued nothing sits between
@@ -257,11 +258,10 @@ ride-along given a paragraph in a body read by someone scanning the log reads as
 what the commit was for.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
-ended on a paragraph headed "Four things to know when editing here". Every item
-true, and every item something a person about to break it needs — in a rules
-file or a docstring, not in that body. The operator cut it and named the
-mechanism too: the body had accreted across refreshes rather than being
-rewritten, which is how a cap gets walked past one push at a time.
+ended on "Four things to know when editing here". Every item true, and every one
+belonging in a rules file or a docstring rather than that body. The operator cut
+it and named the mechanism: the body had accreted across refreshes rather than
+being rewritten, which is how a cap gets walked past one push at a time.
 
 ## Given a form, it fills the form (×3)
 
@@ -298,13 +298,11 @@ what gets reached for because prose is always available; whether a mechanism was
 _also_ available is a separate question, and it doesn't get asked.
 
 **9 September — "keep them out of `shared/i18n`".** Having measured that a zod
-schema in the i18n barrel puts 89 kB gzipped into the CV's client bundle, the
-agent filed the schema in `pages/cv/lib` and wrote the finding into a docstring
-telling the next person not to move it. Settled, as far as it was concerned. The
-reply proposed a placement that turned out to be blocked here, and what the
-round produced was neither: `import 'server-only'` at the top of the module,
-which turns the same mistake into a build error. It had been available all
-along, in the pattern every module under `shared/content` already uses.
+schema in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent
+filed it elsewhere and wrote the finding into a docstring telling the next
+person not to move it. What the round produced instead was `import 'server-only'`
+at the top of the module, which turns the same mistake into a build error — the
+pattern every module under `shared/content` already uses.
 
 **9 September — the ceiling this file states, walked past by the append that
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
@@ -320,23 +318,19 @@ and then verifies the thing it set out to do. Whether the result is right is a
 different question from whether it happened, and only the second one is
 answerable from the intent.
 
-**8 September — the logos it had already looked at.** Three organisation marks
-were added beside the work-highlight titles, and the agent screenshotted the
-page in both schemes, read the images and reported them legible and aligned.
-They were legible. The reply was _the logos are slightly mis-aligned_, and the
-source files bore it out: one mark filled its canvas edge-to-edge, another was
-inset a fifth of its own and off-centre, so at one size they read as different
-sizes on a wobbling axis. The screenshot had shown that. What the agent asked it
-was "are the logos there", and it answered yes.
+**8 September — the logos it had already looked at.** The agent screenshotted
+three new organisation marks in both schemes and reported them legible and
+aligned. _the logos are slightly mis-aligned_: one filled its canvas
+edge-to-edge, another was inset a fifth and off-centre, so they read as
+different sizes on a wobbling axis. The screenshot had shown that; the question
+asked of it was "are the logos there".
 
-**9 September — the card it had just fixed, looked at and passed.** The bump two
-sections up was fixed by rendering one card per framing off the catalogue, and
-the property the agent set itself was that the card could no longer say what the
-page had stopped saying. It rendered both, read them, and confirmed exactly
-that. The same image showed a plate empty across its top and bottom thirds and
-no way to reach the person on it, with the five engagement labels sitting in the
-same catalogue slice. The reply spent four lines on what the render was for:
-_the prose itself says nothing_, add GitHub and LinkedIn.
+**9 September — the card it had just fixed, looked at and passed.** Rendering
+one card per framing off the catalogue, the agent checked the property it had
+set itself — the card can no longer say what the page stopped saying — and
+confirmed it held. The same image showed a plate empty across two thirds with no
+way to reach the person on it: _the prose itself says nothing_, add GitHub and
+LinkedIn.
 
 ## A published number is not a verified number (×2)
 
@@ -346,15 +340,26 @@ denominator, what was excluded — and none of that is recoverable from the numb
 itself.
 
 **6 September — 6.2 → 8.2 units of work per day.** Lifted from the case study
-into a backlog row as the headline of a post about parallelism. Both windows are
-drawn wrong: the before-window starts inside a stretch of docs-only work, the
-after-window runs past the point where the job changed from shipping the app to
-fixing it, and days off are left in the denominator.
+into a backlog row as a post's headline. Both windows are drawn wrong: one
+starts inside a stretch of docs-only work, the other runs past where the job
+changed from shipping the app to fixing it, and days off stay in the denominator.
 
 **6 September — `src/` went from 98,000 to 223,000 lines.** Same move, and the
 flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
+
+## The example only reads from inside the session (×1)
+
+Illustrating a durable rule, the agent reaches for the case it has just lived
+through, compressed to the shorthand that was legible in the session. The rule
+is right and the case is real; what the reader would need to see that is gone.
+
+**14 September — the mis-hearing nobody else can find.** The dictation skill's
+rule about asking rather than smoothing a non-sequitur carried «кофе красивый,
+почти как предзакатное солнце» for «код» as its entire example: the mis-heard
+word unnamed, no sign the passage around it was about writing code. _этот пример
+не будет иметь значения для последующего агента._
 
 ## Not bumps
 
@@ -364,18 +369,15 @@ job, recorded so it isn't miscounted as judgement: every learning above is one n
 rule anticipated.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
-taken back out: moving the CV's locale out of the leading segment, the hook a
-post leads with, where the theme toggle sits, and whether it should come from a
-layout rather than from every consumer wanting one. A routing restructure, a
-positioning call, and two layouts the operator is looking at and the agent is
-not. The residue each time is smaller than the entry claimed: pitching the option
-was available and unpitched. Only the toggle's _skin_ stayed a bump, because the
-reason to change it was already in the agent's own argument for moving the
-control. Entries removed under this test lose their bump count with them.
+taken back out: the CV's locale segment, the hook a post leads with, where the
+theme toggle sits, and whether it comes from a layout. The residue each time is
+smaller than the entry claimed — pitching the option was available and unpitched
+— and only the toggle's _skin_ stayed a bump, its reason already standing in the
+agent's own argument. Entries removed under this test lose their count with them.
 
 ## The two families
 
-Eight learnings is not a pattern, but they already fall in two groups, and the
+Nine learnings is not a pattern, but they already fall in two groups, and the
 second is the more interesting half of the post.
 
 One is failures to notice the frame was ours — the prefix list, the published
@@ -387,11 +389,9 @@ The other is the opposite of a mistake: the output was well-formed, justified
 and efficient, and every one of those properties is what made it wrong there. An
 edit minimal where it was made left one fact spelled three ways; an explanation
 sound at every step stopped anyone opening the file it described; a constraint
-correctly stated in prose stopped the search for a checker; an argument
-structural enough to close the question was never checked against the twenty-eight
-branches contradicting it. Twice the agent rendered the page, looked at it, and
-verified its own intention. No version of "be more careful" catches these, which
-is probably why they need a person and not a better prompt.
+correctly stated in prose stopped the search for a checker. Twice the agent
+rendered the page, looked at it, and verified its own intention. No version of
+"be more careful" catches these, which is why they need a person.
 
 Most were caught by the human knowing something the agent didn't — which chart
 window was drawn wrong, what a side project actually was. The redirect one was
