@@ -5,43 +5,44 @@ content: the late-stage-agentic dictations and their pipeline (pr #43)
 ```
 
 ```
-Two recordings existed only as audio, and there will be more of them:
-a phone dictation laying out a new project -- an English site at
-latestageagentic.com beside a Russian Telegram channel, both about
-where the person sits in human-agent collaboration -- and a video
-arguing that a human is still needed because a human is limited,
-holding only part of the experience there is while a model that
-absorbed all of it finds a sunset exactly as beautiful as it is
+Two recordings arrive with this change, and there will be more: a phone
+dictation laying out a new project -- an English site at
+latestageagentic.com beside a Russian Telegram channel, both on where
+the person sits in human-agent collaboration -- and a video arguing a
+human is still needed because a human is limited, where a model that
+absorbed all of human experience finds a sunset as beautiful as it is
 indifferent.
 
-Both land under writing/late-stage-agentic/dictations/ in five parts,
+Each lands under writing/late-stage-agentic/dictations/ in five parts,
 of which only the middle one is the recording: a lede to recognise it
-by, the transcript, a table pairing what the recognizer heard against
-what the text says, and a reading of what was said -- what it argues
-underneath, what it assumes, what a post would cut. The transcript is
-a transcript rather than prose because the same text becomes the
-subtitle track, and the rule for it is mechanical: every word is the
-recognizer's word in its place, bar a filler removed, a mis-hearing
-corrected and tabled, or a heading added. Smoothness is the tell.
+by, the text itself, a table pairing what the recognizer heard against
+what the page says, and a reading of what was said. A recording headed
+for publication keeps his words in his order, because the same text
+becomes the subtitle track, and the rule for it is mechanical: every
+word is the recognizer's word in its place, bar a filler removed, a
+mis-hearing corrected, a slip replaced, or a word bracketed in.
+Smoothness is the tell. One that exists only to give the repo context is
+rendered as connected prose instead.
 
-scripts/transcribe.py takes everything a re-run would do identically
--- install ffmpeg where the box lacks it, reduce a video to mono 64k
-AAC, call Deepgram, keep the whole response, render a timecoded
-transcript ending in the words scored under 0.6 -- and
+scripts/transcribe.py takes everything a re-run would do identically --
+install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
+call Deepgram, keep the whole response, render a timecoded transcript
+ending in the words scored under 0.6 -- and
 .claude/skills/dictation/SKILL.md takes the judgement it cannot make:
-which words in the output are the speaker's and which are its
-mistakes. The responses are kept for their per-word timings, which a
-subtitle track needs and the API will not hand back twice.
---video-out keeps a re-encoded copy of the video, what a phone sends
-through a messenger being a generous re-encode already: CRF 28 takes
-this one from 83.9 MB to 30.4 MB with nothing visible on paired
-frames.
+which words in the output are the speaker's and which are its mistakes.
+The responses are kept for their per-word timings, which a subtitle
+track needs and the API will not hand back twice. --video-out keeps a
+re-encoded copy of the video, a phone's trip through a messenger being a
+generous re-encode already: CRF 28 takes this one from 83.9 MB to 30.4
+MB with nothing visible on paired frames.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it
-reaches main and kept reachable by a branch that is not deleted.
-die() moves to scripts/lib/cli.py on the way, the transcription
-script being the first caller with nothing to do with GitHub.
+reaches main and kept reachable by a branch that is not deleted. plan.md
+beside the dictations holds what the project has settled about the shape
+around them. die() moves to scripts/lib/cli.py on the way, the
+transcription script being the first caller with nothing to do with
+GitHub.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
