@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T23:10:39Z
+- **Updated:** 2026-09-14T23:23:38Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -50,7 +50,7 @@ The low-confidence section is the useful half of the script: on p2 it flags `т�
 | `.claude/skills/subtitles/SKILL.md` | Words burned onto the picture, so the step reads the video and writes a new one. It runs on the *corrected* text — a track built from the raw response puts the mis-hearings back on screen — joining each corrected word onto the time its mis-heard counterpart occupied. Three decisions come first, each the operator's: which stretches go on the video, whether the silences come out, and the burn. |
 | `.claude/skills/dictation-to-post/SKILL.md` | The other thing a recording becomes. Goes by the transcript, and may restore a link the speaker reasoned through and did not voice — every departure listed in a seams table, which is the post's analogue of the dictation's table of guesses. The conclusion is the one thing it may never supply. |
 
-A third skill came out of the same review and is built rather than specified: `.claude/skills/afterword/SKILL.md`, the agent's own reading of a piece written into it as `## Заметки агента`. It is the second voice of the two-voice post format, so it is not specific to recordings — `/dictation` now points at it instead of carrying its rules, and the welcome draft, which is not a dictation, closes with one.
+A third skill came out of the same review and is built rather than specified: `.claude/skills/afterword/SKILL.md`, the agent's own reading of a piece written into the file rather than into a thread. Being the second voice of the two-voice post format is the narrow case; the wide one is durability — a reading in a PR thread is read once, the same reading at the foot of the file is there the next time anyone opens it — so `/dictation` calls it, and so does anything else the operator points it at. Language is a parameter defaulting to the material's, which is what took the Russian heading out of an English skill.
 
 The burn renders a page — the video underneath, the words as DOM with CSS animations — which the operator downloads, opens in a browser and approves before anything is rendered. Where that page reads the video from is a setting with two useful values: a relative path for the copy being edited against, since frame-accurate scrubbing over a network is miserable, or a `raw.githubusercontent.com` URL for a single file that can be sent to someone. Two traps are named: corrections change the word count, so the timings have to be joined rather than matched off by index, and the animations have to run off the frame number rather than the clock or two renders of one page disagree.
 
@@ -5850,6 +5850,10 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 "in every piece from now on" звучит как обещание, которое мы возможно и не всегда будем сдерживать. Мы можем, но не обязаны, вот так.
 
+**@vzakharov (agent)** — 2026-09-14T23:23:38Z
+
+Поправил: философия теперь «a layer a concrete lesson can carry, available from the first piece rather than from some later point» — то есть уже сейчас, но можем, а не обязаны. ab236a8
+
 ---
 
 ### `.claude/skills/afterword/SKILL.md`:1 — unresolved
@@ -5857,6 +5861,10 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 **@vzakharov (human)** — 2026-09-14T23:02:35Z
 
 let's make language a parameter, defaulting to whichever the document is written in. Respectively, the section title should not be mentioned in Russian (in the skill)
+
+**@vzakharov (agent)** — 2026-09-14T23:23:39Z
+
+Сделал: `/afterword <file> [<language>]`, дефолт — язык материала. Русского заголовка в скилле больше нет нигде, ни в описании, ни в тексте; правило сформулировано как «standing name for the section in that language», а конкретные наши имена остались в `/dictation`, который ими и пользуется. ab236a8
 
 ---
 
@@ -5884,6 +5892,10 @@ let's make language a parameter, defaulting to whichever the document is written
 **@vzakharov (human)** — 2026-09-14T23:03:35Z
 
 I'd say it's wider than that; I can use that skill wherever I want feedback in a more durable form than just within threads.
+
+**@vzakharov (agent)** — 2026-09-14T23:23:41Z
+
+Переписал «What it is for» на это: второй голос — узкий случай, широкий — долговечность. Отклик в треде читается один раз и уезжает вниз; тот же отклик в подвале файла лежит там до следующего открытия. Так что скилл — для любого места, где ты хочешь фидбек сохранённым, а не обсуждённым. ab236a8
 
 ---
 
@@ -5914,6 +5926,10 @@ I'd say it's wider than that; I can use that skill wherever I want feedback in a
 **@vzakharov (human)** — 2026-09-14T23:03:45Z
 
 polar bear
+
+**@vzakharov (agent)** — 2026-09-14T23:23:42Z
+
+Убрал. Заодно завёл запись в `writing/notes/the-five-percent.md` — два белых медведя в одном новом файле, оба отрицают, что скилл специфичен для диктовок, и оба пережили `/tend-prose negation`. Раздел «It writes its reasoning into the artifact» — теперь ×4. ab236a8
 
 ---
 
@@ -5949,6 +5965,10 @@ polar bear
 **@vzakharov (human)** — 2026-09-14T23:04:13Z
 
 ok, you already write that about following the language -- in that case you definitely don't want to always use the Russian heading.
+
+**@vzakharov (agent)** — 2026-09-14T23:23:43Z
+
+Да, противоречие было. Теперь: заголовок — это имя раздела в языке материала, и оно постоянно внутри языка (ради сравнимости файлов), а не постоянно вообще. ab236a8
 
 ---
 
@@ -5989,6 +6009,10 @@ ok, you already write that about following the language -- in that case you defi
 **@vzakharov (human)** — 2026-09-14T23:04:58Z
 
 not limited to; I don't want these three that I took off the top of my head to be the standing (and only) sections
+
+**@vzakharov (agent)** — 2026-09-14T23:23:44Z
+
+Переформулировал: «What goes in it is open», а четыре пункта идут как «the kind of thing, offered to show the altitude rather than to be worked through as a list». ab236a8
 
 ---
 
@@ -6046,6 +6070,12 @@ not limited to; I don't want these three that I took off the top of my head to b
 **@vzakharov (human)** — 2026-09-14T23:07:05Z
 
 I actually want to retract on that; the final thoughts, after all the discussions, should stay for the record.
+
+**@vzakharov (agent)** — 2026-09-14T23:23:45Z
+
+Принято, правило перевернул: находка, на которую автор ответил, дописывается до того, что остаётся верным после ответа, и остаётся в файле. Не защищается и не удаляется — афтерворд и есть запись того, чем думание кончилось.
+
+Один вопрос, который я не стал решать сам. В прошлом раунде я по старому правилу выкинул из `p0-welcome.md` блок про данность — ты тогда сказал «здесь её включать не надо, но где-то отдельно прописать», и мысль уехала в `plan.md` § "What a wiki widens, and what it cannot move". Вернуть её в афтерворд поста как итоговое чтение — или «здесь» относилось к файлу целиком, и в plan.md ей и место? ab236a8
 
 ---
 
@@ -6112,6 +6142,10 @@ I actually want to retract on that; the final thoughts, after all the discussion
 
 polar bear
 
+**@vzakharov (agent)** — 2026-09-14T23:23:47Z
+
+Убрал. ab236a8
+
 ---
 
 ### `.claude/skills/afterword/SKILL.md`:43 — unresolved
@@ -6166,6 +6200,10 @@ polar bear
 **@vzakharov (human)** — 2026-09-14T23:07:52Z
 
 put "как обсудили отдельно" in English and phrase it so that it's one of the possible figures of speech, lest it becomes codified
+
+**@vzakharov (agent)** — 2026-09-14T23:23:48Z
+
+По-английски и как один из возможных оборотов, а не формула: «a clause pointing at it — "settled in review", or whatever the sentence wants». ab236a8
 
 ---
 
