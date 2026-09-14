@@ -48,7 +48,7 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
   is a coincidence with a paragraph attached. A learning cut for thinness comes
   back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×9)
+## What it was handed, it treats as fixed (×10)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. That is
@@ -59,18 +59,17 @@ rather than to answer better within it.
 **6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
 `docs:` for a change that documents nothing. The agent weighed three candidates
 from the list and never considered anything outside it, because the list arrived
-looking like a standard. The reply was `let's introduce "content:"`. The list is
-ours, in our own `CLAUDE.md`, and adding a word costs one commit — but only for
-someone reading it as a local convention rather than as a specification.
+looking like a standard. _Let's introduce "content:"_ — the list is ours, in our
+own `CLAUDE.md`, and adding a word costs one commit, but only for someone reading
+it as a local convention rather than a specification.
 
 **7 September — a word one day old, already treated as given.** Having added
 `content:`, the agent framed whether it trips the deploy gate as a trade with no
-clean answer: the prefix would cover published material and unpublished drafts
-alike, and the gate reads nothing but the subject line. The reply dissolved the
-dilemma instead of settling it — `content:` is _specifically_ for what isn't
-published yet, and a piece going live arrives as the page that serves it, a
-`feat:`. The agent had coined the word the day before and was already reasoning
-as though its meaning had been handed to it.
+clean answer: the prefix covers published material and unpublished drafts alike,
+and the gate reads nothing but the subject line. The reply dissolved the dilemma
+rather than settling it — `content:` is _specifically_ for what isn't published
+yet, and a piece going live arrives as the page that serves it, a `feat:`. The
+agent had coined the word the day before.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
 files each inlined their params as an object literal inside a generic. The rule
@@ -93,8 +92,7 @@ two CV route files could not collapse into one optional catch-all, the agent
 spiked it and reported one cost: the bare `/en/cv` would inherit `og:url:
 /en/cv/cto`. Only a cost if `/en/cv` is the address that ought to be indexed —
 which the agent had decided itself, hours earlier, in the same branch. _I'd
-likely actually prefer the latter being canonical_: flipped, the cost is the
-goal, and four route files became two.
+likely actually prefer the latter being canonical_: flipped, the cost is the goal.
 
 **9 September — our own lint config, read as a specification.** Asked whether a
 `server-only` barrel would be a better home for a schema, the agent built it,
@@ -110,10 +108,10 @@ about what everything interactive is.** Moving the theme toggle into the header'
 corner, the agent left its skin untouched: `variant="default"`, which `theme.ts`
 describes beside it as "the site's only control skin". So the corner held a
 hairline box fencing off empty space — _let's remove the borders around the theme
-buttons_, then _and generally make them gray, unobtrusive_. The comment is ours,
-six days old, and says what the site's controls wear, not that everything
-clickable is one. The agent had just argued the toggle is page furniture rather
-than content, and never carried that one step further to how it looks.
+buttons_, then _and generally make them gray, unobtrusive_. The comment says what
+the site's controls wear, not that everything clickable is one. The agent had
+just argued the toggle is page furniture rather than content, and never carried
+that one step further to how it looks.
 
 **9 September — a global class read off the globals beside it.** A hover dim
 claimed by two slices with no sideways reach went into `globals.scss`, reason
@@ -125,14 +123,19 @@ fan_. The mechanism was in the tree too: `theme.module.scss` hands its class
 names to Mantine through a plain module, which is what the dim now does.
 
 **11 September — its own spelling, then the operator's typo, both taken as
-given.** The sync skill and its watermark were `/sync-agent-infra` and
-`source.json` because the agent had named them so at the previous sync. Told the
-source renamed its copy `/update-muthur`, it proved the rename need not travel —
-Step 1 finds a watermark by what it contains, not where it sits — and read a free
-choice as a reason to keep its own, misreading the source's stated reason on the
-way: `npm update` names what gets updated, not what it updates from. Two one-word
-comments took both names, and one was a typo; rather than notice it matched no
-spelling the source ever settled on, the agent wrote a paragraph defending it.
+given.** The sync skill was `/sync-agent-infra` because the agent had named it so
+at the previous sync. Told the source had renamed its copy `/update-muthur`, it
+proved the rename need not travel and read that freedom as a reason to keep its
+own — misreading the source's stated reason on the way, `npm update` naming what
+gets updated rather than what it updates from. Two one-word comments took both
+names, and one was a typo; rather than notice it matched no spelling the source
+ever used, the agent wrote a paragraph defending it.
+
+**14 September — a sentence that scanned, so the word in it went unquestioned.**
+Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
+it parses, and a coffee on a rock had just been described. The word was «код»,
+the rung the recording's payoff calls back to. The low-confidence list flags what
+the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 
@@ -156,26 +159,24 @@ body has no business carrying a "things to know when editing here" paragraph,
 the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
 the round as closed. That skill is adopted from a boilerplate repo whose copy
 still asks the pass for "anything that would trip someone editing that area
-later" — so the same body gets written there next month. The reply was _let's
-file an issue on the boilerplate repo_. Whether to file was the operator's call;
-that the fix had a second site was not.
+later" — so the same body gets written there next month. _Let's file an issue on
+the boilerplate repo._ Whether to file was the operator's call; that the fix had
+a second site was not.
 
 **9 September — a test written and not run over the file it was for.** The same
 round added the test above to this file — a bump is something the agent could
 have seen and didn't — and ran it against exactly the entry under discussion,
 retiring one. Ten sections sat above it unexamined, in the file the test had been
-written about. The reply was one line: _do the other learnings here de-qualify
-per this lens? edit if yes_. One did.
+written about. _Do the other learnings here de-qualify per this lens?_ One did.
 
 **9 September — the tagline in the catalogue, the tagline in the pixels.** The
 CV repositioning rewrote the tagline for the CTO framing and wired
 `cv-metadata.ts` to serve each framing its own. Two lines below, in the same
 file, it left `ogImage: '/cv_card.png'` — a hand-made composite with the
 developer tagline baked in — so a shared `/cv` link unfurled the CTO description
-beside a card reading DEVELOPER. The card was a fact rendered in pixels rather
-than text; the search for copy to update never reached it and nothing in the tree
-hashed it. The operator, shown the unfurl, needed five words: _бли, картинку уже
-поменять надо_ 🙈.
+beside a card reading DEVELOPER. A fact rendered in pixels rather than text: the
+search for copy to update never reached it, and nothing in the tree hashed it.
+The operator, shown the unfurl: _бли, картинку уже поменять надо_ 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type and called the two remaining
@@ -196,13 +197,12 @@ the artifact.
 
 **8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
 route needs a hand-written redirect file, the agent gave the right reason:
-next-intl redirects in middleware, a static export has none. Correct at every
-step, and it closed the question — so nobody asked what the file does. _how do
-we do "redirect" if it's not supposed to work in a static export at all?_ One
-grep of `out/` answered it: no HTTP redirect, no `meta refresh`, just
-`NEXT_REDIRECT;replace;/en/cv;307` in the RSC payload. The hop is React's, after
-hydration, so `/cv` is blank to anything that doesn't run JS — a real defect,
-under an explanation that held.
+next-intl redirects in middleware, a static export has none. That closed the
+question, so nobody asked what the file does. _how do we do "redirect" if it's
+not supposed to work in a static export at all?_ One grep of `out/`: no HTTP
+redirect, no `meta refresh`, just `NEXT_REDIRECT;replace;/en/cv;307` in the RSC
+payload. The hop is React's, after hydration, so `/cv` is blank to anything
+without JS — a defect under an explanation that held.
 
 **8 September — the schema it never wrote.** Told route params would be better
 parsed with a zod schema, the agent declined on three reasons and two rounds
