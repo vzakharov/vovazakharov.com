@@ -3,10 +3,12 @@
 Two channels for one body of knowledge: **latestageagentic.com** in English and
 the Telegram channel **«Клод четвёртой стадии»** in Russian. The subject is how
 not to make a mess of agentic coding: every piece takes a position on how the
-work is done and shows the grounds under it. The first post narrows that to one
-question — what the human is still for — because it is the introduction. The
-dictations under `dictations/` are where the material starts; this file is what
-has been settled about the shape around them, and what has not.
+work is done and shows the grounds under it. The opening post states the position
+everything after it argues from: solving a well-posed task is a talent the models
+get closer to month by month, and seeing that the task is posed wrong is the one
+they don't — so what the human is still for is the question the channel opens on
+rather than answers. Drafts sit in `drafts/` and the recordings in `dictations/`;
+this file is what has been settled about the shape around them, and what has not.
 
 ## The site is a wiki, not a blog
 
@@ -18,8 +20,8 @@ send someone a year later.
 
 **Everything but the opening is evergreen**, in the only sense the subject
 allows: it goes stale when the technology under it moves, not when the week
-turns. The first post, the one about limits, is the exception — it is an
-introduction and reads as one.
+turns. The opening post is the exception — it is an introduction and reads as
+one.
 
 Three things "wiki" does **not** mean here:
 
@@ -90,6 +92,35 @@ draft so the operator can put it back.
 
 ## Open
 
+- **Writing the piece first and recording off it.** The opening post was written
+  rather than spoken, which points the arrow the other way from everything built
+  so far — thinking out loud rather than a decision, and tracked here until
+  there is a plan. What it looks like it buys: the thinking happens where it is
+  cheap to redo, a paragraph cut or a formulation hunted for over an hour, none
+  of which a recording absorbs without being made again. What it would touch if
+  it holds: what the transcript is for, since on a scripted recording the words
+  are known and what needs catching is where the speaker left the script;
+  `/subtitles`, whose correction pass would have nothing to correct; and what
+  verbatim mode is protecting, the words being on screen before the camera runs.
+  None of those skills changes until the plan exists.
+- **What the channel is called in Russian.** «Клод четвёртой стадии» against
+  «Клод головного мозга»; the English name is settled either way. The weighing
+  is in `drafts/p0-welcome.md`, because the choice is load-bearing for that
+  post's last line rather than for anything here — a diagnosis nobody dies of
+  takes the ending with it.
+- **Whether `--` holds in Russian too.** `@.claude/rules/writing.md` § "Voice"
+  spells an em dash as two hyphens, on the ground that an English reader reads
+  the correct punctuation as a machine's fingerprint — a tell that does not
+  transfer, in a language where the dash is ordinary and its absence looks like
+  damage. What is on the record is practice rather than a decision: the opening
+  post, written by hand, uses `--` six times and `—` never.
+- **Whether the limits piece stays a post.** The verdict on the recording it
+  came from is that it says its thing foggily — «мямлим, рассусоливаем, нудим» —
+  which is about the message rather than about how the message was captured. The
+  opening post carries the same thesis in one clause, the bruises a life hands
+  you as a bonus for being limited, so the argument is now promised where it
+  used to be made. What redeems the promise, and whether the current draft is
+  material for it or a post, is open.
 - **What the wiki is called.** «Библия» is the working name, for the reason set
   out under "Not balanced" above, and the only candidate that has one; nothing
   is decided.
