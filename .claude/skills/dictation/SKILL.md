@@ -32,16 +32,17 @@ It writes `<slug>.deepgram.json` and `<slug>.transcript.md` under
 A recording is either headed for publication or not, and that decides how much
 of it is the speaker's own wording:
 
-| Mode                   | What it is                                                                | What the body is                                              |
-| ---------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| **verbatim** (default) | a recording that will be posted — the words go on screen as subtitles     | the speaker's words in the speaker's order, under Step 3      |
-| **prose**              | a read-aloud that exists to give the repo context, and is never published | the same content as connected text, loose sentences tightened |
+| Mode         | What it is                                                                | What the body is                                              |
+| ------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **verbatim** | a recording that will be posted — the words go on screen as subtitles     | the speaker's words in the speaker's order, under Step 3      |
+| **prose**    | a read-aloud that exists to give the repo context, and is never published | the same content as connected text, loose sentences tightened |
 
-**Ask which one when the invocation doesn't say.** The cost of guessing runs
-both ways — a published recording rewritten is a subtitle track in nobody's
-voice, and a context recording left verbatim is four screens of talk where a
-page of prose was wanted. The mode goes in the file's header line, since a
-reader of the file otherwise cannot tell which rule it was held to.
+**Ask which one when the invocation doesn't say.** Neither is the default: a
+default is what makes the question skippable, and the cost of guessing runs both
+ways — a published recording rewritten is a subtitle track in nobody's voice, a
+context recording left verbatim is four screens of talk where a page of prose
+was wanted. The mode goes in the file's header line, since a reader of the file
+otherwise cannot tell which rule it was held to.
 
 Everything below holds in both modes except Step 3's word test, which is
 verbatim's alone.
@@ -115,11 +116,10 @@ subtitles say. So:
 | Fix what the recognizer misheard                 | Replace a word with a better word       |
 | Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
 
-The test is mechanical, and it runs on **words** — punctuation, capitalisation
-and paragraph breaks are yours to put in, so they cannot be what it checks. Lay
-each sentence you write against the transcript's words in order: every word of
-yours is the transcript's word in the transcript's place, and five departures
-are licensed.
+The rule is mechanical, and it holds over **words** — punctuation,
+capitalisation and paragraph breaks are yours to put in, so they are not what it
+governs. Every word you write is the transcript's word in the transcript's
+place, and five departures are licensed.
 
 | Departure                            | What it looks like                                                               |
 | ------------------------------------ | -------------------------------------------------------------------------------- |
@@ -130,7 +130,7 @@ are licensed.
 | A heading you added                  | your words between their sentences, never inside one                             |
 
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
-test does **not** ask: that the result read well. The recording was loose, so the
+rule does **not** ask: that the result read well. The recording was loose, so the
 text is loose — smoothness is the tell that a sentence has been improved rather
 than transcribed, which is the same rule `@.claude/rules/writing.md` § "Voice"
 states for drafts.
@@ -204,14 +204,21 @@ video and writes a new video, rather than dropping a `.srt` beside it.
 **It runs on the corrected text**, which is what puts it after this skill rather
 than inside it: the transcript is reviewed and fixed first, and only the agreed
 version goes anywhere near the picture — a track built from the raw JSON would
-put the uncorrected words back on screen. What the JSON supplies is the
-timings — the
-one thing the API will not hand back a second time — so the step is a join, each
-corrected word onto the time its mis-heard counterpart occupied.
+put the uncorrected words back on screen. What the JSON supplies is the timings —
+the one thing the API will not hand back a second time — so the step is a join,
+each corrected word onto the time its mis-heard counterpart occupied.
 
 Three stages follow the corrected text, and each is a decision of the
 operator's, not a setting: which stretches of the recording go on the video at
 all, whether the silences come out, and then the burn.
+
+**The burn renders a page, and the page is what the operator approves.** The
+video underneath, the words as ordinary DOM with CSS animations: an HTML file
+they open in a browser and adjust by hand, with the media beside it. Headless
+Chromium then walks that page frame by frame and ffmpeg muxes the frames — a
+step they trigger on a version they have looked at, never the tail of this one.
+The animations run off the frame number rather than the clock, or two renders of
+the approved page disagree.
 
 The join is the part to settle before writing any of it, because corrections
 change the word count: «человек, научный не обязательностью» is four words and
