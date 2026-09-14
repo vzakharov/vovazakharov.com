@@ -6,9 +6,9 @@ End state of this skill: a new video file with the recording's own words on the
 picture, rendered from a page the operator looked at and approved.
 
 **None of the tooling exists yet.** What follows is the shape it is to be built
-in, settled in review before anything was written — so the first session that
-builds it starts from the decisions rather than re-taking them. Say so plainly
-when the operator asks for subtitles before the tooling is there.
+in, so the session that builds it starts from the decisions rather than re-taking
+them. Say so plainly when the operator asks for subtitles before the tooling is
+there.
 
 ## What it runs on, and why not earlier
 
