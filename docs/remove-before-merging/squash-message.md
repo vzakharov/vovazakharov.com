@@ -26,18 +26,18 @@ install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
 call Deepgram, keep the whole response, render a timecoded transcript
 ending in the words scored under 0.6 -- and the dictation skill takes
 the judgement it cannot make: which words are the speaker's and which
-are its mistakes. The responses are kept for their per-word timings,
-which a subtitle track needs and the API will not hand back twice.
---video-out re-encodes the video on the way, a phone's trip through a
-messenger being a generous re-encode already: CRF 28 takes this one
-from 83.9 MB to 30.4 MB, nothing visible on paired frames.
+are its mistakes. Responses are kept for the per-word timings a
+subtitle track needs. --video-out re-encodes the video on the way, a
+phone's trip through a messenger being a generous re-encode already:
+CRF 28 takes this one from 83.9 MB to 30.4 MB.
 
 Two skills carry what happens after, both specified and neither built:
 subtitles joins the corrected words onto the saved timings and burns
 them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. Of the two drafts only
-the welcome text is a post, written rather than spoken; the limits
-piece stays material -- philosophy is not how weight is gained.
+argument out as text, listing every departure. A third, afterword, is
+built: the agent's own reading, which a dictation and a draft both
+close with. Of the two drafts only the welcome text is a post; the
+limits piece stays material -- philosophy is not how weight is gained.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it

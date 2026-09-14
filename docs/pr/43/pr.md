@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T22:02:20Z
+- **Updated:** 2026-09-14T22:41:43Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Body
 
-Two spoken passes at a new project, written down so they stop living in audio files; the pipeline that will do it for the rest of them, after seven rounds of review; and the channel's opening post, written as text rather than spoken.
+Two spoken passes at a new project, written down so they stop living in audio files; the pipeline that will do it for the rest of them, after eight rounds of review; and the channel's opening post, written as text rather than spoken.
 
 **What it is.** An English site at `latestageagentic.com` plus a Russian Telegram channel, «Клод четвёртой стадии», both about how not to make a mess of agentic coding. The opening post states the position the rest argues from: solving a well-posed task is a talent the models get closer to month by month, and seeing that the task is posed wrong is the one they do not — so what the human is still for is the question the channel opens on rather than answers. The larger idea behind the site is a wiki — lessons from actual work, written to be read by agents as much as by people, because that kind of experience is exactly what an agent cannot find in the training set.
 
@@ -50,15 +50,19 @@ The low-confidence section is the useful half of the script: on p2 it flags `т�
 | `.claude/skills/subtitles/SKILL.md` | Words burned onto the picture, so the step reads the video and writes a new one. It runs on the *corrected* text — a track built from the raw response puts the mis-hearings back on screen — joining each corrected word onto the time its mis-heard counterpart occupied. Three decisions come first, each the operator's: which stretches go on the video, whether the silences come out, and the burn. |
 | `.claude/skills/dictation-to-post/SKILL.md` | The other thing a recording becomes. Goes by the transcript, and may restore a link the speaker reasoned through and did not voice — every departure listed in a seams table, which is the post's analogue of the dictation's table of guesses. The conclusion is the one thing it may never supply. |
 
+A third skill came out of the same review and is built rather than specified: `.claude/skills/afterword/SKILL.md`, the agent's own reading of a piece written into it as `## Заметки агента`. It is the second voice of the two-voice post format, so it is not specific to recordings — `/dictation` now points at it instead of carrying its rules, and the welcome draft, which is not a dictation, closes with one.
+
 The burn renders a page — the video underneath, the words as DOM with CSS animations — which the operator downloads, opens in a browser and approves before anything is rendered. Where that page reads the video from is a setting with two useful values: a relative path for the copy being edited against, since frame-accurate scrubbing over a network is miserable, or a `raw.githubusercontent.com` URL for a single file that can be sent to someone. Two traps are named: corrections change the word count, so the timings have to be joined rather than matched off by index, and the animations have to run off the frame number rather than the clock or two renders of one page disagree.
 
-**The post, and the arrow between text and recording reversing.** `drafts/p0-welcome.md` is the channel's opening post — and, on the site, the hero copy or the "About" page, whole or condensed — written rather than spoken: the operator's words verbatim, with two bracketed slots he left for formulations he could not find and candidates for each beneath the text. One slot is now filled and one is still open, and under them sit the weighing of the channel's Russian name and the agent's own reading of the piece, which the operator asked for. Whether the project works this way from here — the piece written first, the recording read off it — is thinking out loud rather than a decision, so `plan.md` tracks it under Open along with what it would touch if it holds: what the transcript is for once the words are known before the camera runs, `/subtitles`' correction pass, and what verbatim mode is protecting. Neither skill changes until there is a plan.
+**The post, and the arrow between text and recording reversing.** `drafts/p0-welcome.md` is the channel's opening post — and, on the site, the hero copy or the "About" page, whole or condensed — written rather than spoken: the operator's words verbatim, with two bracketed slots he left for formulations he could not find. Both are now filled, the channel's Russian name is settled, and the working sections that held the candidates are gone rather than kept as a record of what was fixed — a draft that narrates its own revisions is the defect, not the archive. What is left is the text and the agent's own reading of it. Whether the project works this way from here — the piece written first, the recording read off it — is thinking out loud rather than a decision, so `plan.md` tracks it under Open along with what it would touch if it holds: what the transcript is for once the words are known before the camera runs, `/subtitles`' correction pass, and what verbatim mode is protecting. Neither skill changes until there is a plan.
 
-**The piece that is not a post.** `drafts/p2-the-limits.md` was built from `p2` under the skill above — following the recording's order, keeping the Montenegro digression whole, restoring two links the recording assumes without voicing, every departure in its seams table — and it is not going out. A piece earns its place by being concrete; philosophy reads well from someone who already has weight and is not how the weight is gained. The file stays material, and its thesis survives as one clause of the welcome text, so what used to be argued is now promised. `plan.md` § "Concrete before philosophy" carries the rule and what it costs — the defence of stopping short of a conclusion cited that dictation's own ending as its exhibit.
+**The piece that is not a post.** `drafts/p2-the-limits.md` was built from `p2` under the skill above — following the recording's order, keeping the Montenegro digression whole, restoring two links the recording assumes without voicing, every departure in its seams table — and it is not going out. A piece earns its place by being concrete; philosophy reads well from someone who already has weight and is not how the weight is gained. The file stays material, and its thesis survives as one clause of the welcome text, so what used to be argued is now promised. `plan.md` § "Concrete before philosophy" carries the rule, and § "What a wiki widens, and what it cannot move" is where the thesis itself now sits: a wiki widens what an agent is handed without changing that it was handed rather than lived, which is the philosophy riding on a concrete lesson rather than standing in for one.
+
+**What the review removed.** The plan had claimed a licence to stop short of a conclusion, resting on the limits dictation's own ending. The operator struck it — the project is opinionated, so withholding the moral was never the position — and the tell it was defending is re-grounded on the reflex: a piece tied off because the text has to stop somewhere, not a piece that ends on a position. Three places leaned on it, and `dictation-to-post` keeps the rule for the reason that survives: a conclusion the speaker did not reach arrives in their voice, and no row in a seams table makes that good.
 
 **Where the media lives.** In the branch, under `docs/remove-before-merging/`, swept at finalize so it never reaches `main`, and kept reachable by a branch that is not deleted — which is the whole mechanism, and the reason deleting the branch after the merge would destroy the recording behind a published piece.
 
-**`writing/late-stage-agentic/plan.md`** holds what the project has settled about the shape around the dictations: that the channel and the site are one body of knowledge in two registers, that "wiki" means neither live editing, nor balance, nor the register a model writes in — whose tell is the compulsory conclusion — that findability is ordinary search plus a footer written for an agent reader that must not read as an injection, the two-voice post format (the human half, then the agent's answer to it, which may end unconcluded too), and the line between the video and the post: the video is bound to the recording because its words go on screen, a post is not. Three things are held open rather than settled: where the column piece ends and the wiki article begins, how a categorical «Библия» coexists with leaving the conclusion to the reader, and what the wiki is called.
+**`writing/late-stage-agentic/plan.md`** holds what the project has settled about the shape around the dictations: that the channel and the site are one body of knowledge in two registers, that "wiki" means neither live editing, nor balance, nor the register a model writes in — whose tell is the compulsory conclusion — that findability is ordinary search plus a footer written for an agent reader that must not read as an injection, the two-voice post format (the human half, then the agent's answer to it), and the line between the video and the post: the video is bound to the recording because its words go on screen, a post is not. It also carries what the name covers beyond the two channels — the agent infrastructure under the same authorship, an agency, possibly courses. Three things are held open rather than settled: where the column piece ends and the wiki article begins, what the wiki is called, and where all of it lives on GitHub.
 
 **What is deliberately not in it.** No site code, and none of the tooling behind the two skills above. More dictations land here as they are recorded; the project then moves to its own repo via `/spinoff`.
 
@@ -75,7 +79,7 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 - [ ] `transcripts` — read `p2-the-limits.md` against the audio, word by word, against `docs/remove-before-merging/deepgram/p2-the-limits.transcript.md`.
 - [ ] `notes` — the lede should let the recording be recognised without reading it; the afterword should say something the operator did not already know they said.
 - [ ] `garbles` — the table at the foot of each dictation file now holds only the readings still open; correct any wrong one in place, and a row you have ruled on comes out.
-- [ ] `welcome` — read `drafts/p0-welcome.md`: the text should be yours word for word bar the four fixes you confirmed in review, the remaining bracket and the channel's Russian name are yours to settle, and `## Заметки агента` should say something about the piece you did not already know.
+- [ ] `welcome` — read `drafts/p0-welcome.md`: the text should be yours word for word bar the fixes you confirmed in review, both brackets should now read as your own formulations rather than an agent's guess at them, and `## Заметки агента` should say something about the piece you did not already know.
 - [ ] `limits` — read `drafts/p2-the-limits.md` against the recording: every place the text is not the recording's should be in its seams table, and nothing in that table should be a sentence you would not say. It is shelved as material rather than a post, so this is about whether it is still worth keeping.
 - [ ] `scripts` — `python3 scripts/pr-body.py`, `python3 scripts/export-github-item.py` and `cd scripts && python3 test_authorship.py` still run after `die()` moved to `lib/cli.py`.
 
@@ -87,7 +91,7 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 | `transcripts` | No | n/a | The judgement this branch exists to make; a human ear is the check. |
 | `notes` | No | n/a | Whether a reading is worth reading is the operator's call by definition. |
 | `garbles` | No | n/a | Operator-only — they are the one who knows what they said. |
-| `welcome` | No | n/a | The remaining blank and the name are the operator's words to pick; the afterword is a judgement, not a check. |
+| `welcome` | No | n/a | Whether a filled blank still reads as the operator's own words is theirs to say; the afterword is a judgement, not a check. |
 | `limits` | No | n/a | Whether a restored link is theirs or the agent's opinion in their voice is theirs to say. |
 | `scripts` | Yes | Partly | `test_authorship.py` covers the exporter's labelling; the import move is covered by the three running at all. |
 
@@ -129,18 +133,18 @@ install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
 call Deepgram, keep the whole response, render a timecoded transcript
 ending in the words scored under 0.6 -- and the dictation skill takes
 the judgement it cannot make: which words are the speaker's and which
-are its mistakes. The responses are kept for their per-word timings,
-which a subtitle track needs and the API will not hand back twice.
---video-out re-encodes the video on the way, a phone's trip through a
-messenger being a generous re-encode already: CRF 28 takes this one
-from 83.9 MB to 30.4 MB, nothing visible on paired frames.
+are its mistakes. Responses are kept for the per-word timings a
+subtitle track needs. --video-out re-encodes the video on the way, a
+phone's trip through a messenger being a generous re-encode already:
+CRF 28 takes this one from 83.9 MB to 30.4 MB.
 
 Two skills carry what happens after, both specified and neither built:
 subtitles joins the corrected words onto the saved timings and burns
 them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. Of the two drafts only
-the welcome text is a post, written rather than spoken; the limits
-piece stays material -- philosophy is not how weight is gained.
+argument out as text, listing every departure. A third, afterword, is
+built: the agent's own reading, which a dictation and a draft both
+close with. Of the two drafts only the welcome text is a post; the
+limits piece stays material -- philosophy is not how weight is gained.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it
@@ -3615,7 +3619,7 @@ This one is also a bump in `the-five-percent.md`, and an unflattering one: you h
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:72 — resolved
+### `writing/late-stage-agentic/plan.md`:63 — resolved
 
 ```diff
 @@ -0,0 +1,88 @@
@@ -3956,6 +3960,16 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 **Чего пост не делает, хотя мог бы.** «Агент принимает данность за неизбежность» — это ведь не только про агента. Данность приезжает ко мне без истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит её с собой, сдвинул бы этот счётчик — и это ровно аргумент за вики, которой в приветственном посте нет ни словом.
 
+**@vzakharov (human)** — 2026-09-14T22:12:50Z
+
+Отвечу в соответствующих строчках, а про собственно добавление раздела с откликом, давай выведем это из /dictation в отдельный скилл (но в /dictation оставим by reference)
+
+**@vzakharov (agent)** — 2026-09-14T22:38:45Z
+
+Вывел: `.claude/skills/afterword/SKILL.md`, в `/dictation` осталась ссылка вместо раздела. Скилл действительно шире диктовок — `## Заметки агента` в p0 как раз не диктовка.
+
+Заодно убрал дублирование: в plan.md § «Post format» был второй экземпляр тех же правил, теперь там указатель. e7af07c
+
 ---
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — unresolved
@@ -4045,9 +4059,21 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 Мысль про «нам» оставил отдельным вопросом там же — текст твой, и правка тоже.
 
+**@vzakharov (human)** — 2026-09-14T22:08:57Z
+
+> «Некому ставить» грамматически допускает только твоё чтение
+
+это не так, оно допускает двойное чтение: "некому" как объект диагностирования, и как субъект
+
+**@vzakharov (agent)** — 2026-09-14T22:38:42Z
+
+Принято, и это моя вторая ошибка в том же месте. Сначала прочёл так, как было удобно уже построенному аргументу; получив поправку, объявил, что грамматика разрешает только твоё чтение — тот же ход с обратным знаком. Предложение берёт оба, а какое имелось в виду, сказал ты, и это его и закрывает.
+
+«Нам» убрал по соседнему треду, так что двусмысленность теперь стоит как есть. Раздел с этим доводом из драфта ушёл целиком; в пятипроцентнике запись поправлена и несёт обе половины. e7af07c
+
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:76 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:76 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4139,7 +4165,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:81 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:81 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4240,7 +4266,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:83 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:83 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4339,7 +4365,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:61 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:61 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4416,7 +4442,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:48 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:48 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4489,7 +4515,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p2-the-limits.md`:76 — unresolved
+### `writing/late-stage-agentic/drafts/p2-the-limits.md`:76 — resolved
 
 ```diff
 @@ -67,11 +71,9 @@
@@ -4516,7 +4542,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:24 — unresolved
+### `writing/late-stage-agentic/plan.md`:24 — resolved
 
 ```diff
 @@ -18,8 +20,8 @@ send someone a year later.
@@ -4587,6 +4613,1239 @@ Taken, and it stops being an open question: `plan.md` now carries it as a settle
 
 One thing that costs, flagged rather than fixed: § "Not written the way a model writes" defends stopping short of a conclusion by citing that dictation's own ending as the exhibit. The licence still looks right, but its evidence is now a piece that is not running.
 
+**@vzakharov (human)** — 2026-09-14T22:11:21Z
+
+Давай уберём это, это было натягивание козы на глобус. Или совы, или кого там. Мы опинионированные, поэтому без наставлений никак, про это вся наша вики-слеш-библия.
+
+**@vzakharov (agent)** — 2026-09-14T22:38:43Z
+
+Убрал. Право останавливаться перед выводом ушло из трёх мест: из «Not written the way a model writes» — там теперь ловится рефлекс, вывод, приделанный потому что текст должен где-то кончиться, а не вывод как таковой; из формата поста; и из открытых вопросов, где это стояло живым конфликтом с «Библией».
+
+В `/dictation-to-post` правило осталось, но на основании, которое переживает отмену: вывод, до которого не дошёл говорящий, приходит в его голосе, и строчкой в таблице расхождений это не отписывается — получится пост с позицией, которой никто не держится. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:38 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:14:00Z
+
+не забывай что здесь не должно быть narration. после того как решим все, раздел нужно убрать полностью, а не оставлять "то что поправили"
+
+**@vzakharov (agent)** — 2026-09-14T22:38:46Z
+
+Понял, убрал целиком — и «Пропуск», и «Открытые вопросы». Раз оба пропуска закрыты, а имя и «нам» решены, в них не осталось ничего, кроме отчёта о починенном.
+
+Шапку подрезал по тому же основанию: список правок, подтверждённых в ревью, — это она же. В файле теперь шапка, текст и «Заметки агента». e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:54 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:14:26Z
+
+да, мне нравится (первый вариант)
+
+**@vzakharov (agent)** — 2026-09-14T22:38:47Z
+
+Поставил в текст: «Надёжно, предсказуемо и элегантно решить поставленную задачу -- это один талант». e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
+```
+
+**@vzakharov (human)** — 2026-09-14T22:14:51Z
+
+повторюсь, здесь не "не разрешает"
+
+**@vzakharov (agent)** — 2026-09-14T22:38:48Z
+
+Да, и строчка ушла вместе со всем разделом. Коротко: предложение допускает оба чтения, грамматика не решала ни в одну сторону, а какое имелось в виду — сказал ты. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:75 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:15:32Z
+
+давай зафиксируем четвёртую стадию, да. хоть "головой мозг" и станет белым медведем, где-то разок его упомянуть можно (не в этом файле, а скорее в общем плане)
+
+**@vzakharov (agent)** — 2026-09-14T22:38:49Z
+
+Зафиксировал. В plan.md имя стоит в первом абзаце, «Клод головного мозга» упомянут там же одной оговоркой — тот самый разок, — и из открытых вопросов убран. В p0 про имя больше ничего нет. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:79 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:15:45Z
+
+давай уберём
+
+**@vzakharov (agent)** — 2026-09-14T22:38:50Z
+
+Убрал: «Потому что ставить его, возможно, будет уже некому ;-)». e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:92 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
+```
+
+**@vzakharov (human)** — 2026-09-14T22:17:05Z
+
+да, плюс, проклятое logprob amplification, у меня есть подозрение, что некоторые вещи ты находишь именно потому, что прочёл в файлике и ищешь их там. но это уже вопрос для другой истории.
+
+пока действительно -- исходим из имеющихся данных. Из неимеющихся (то что пытался в p2) -- не исходим.
+
+**@vzakharov (agent)** — 2026-09-14T22:38:51Z
+
+Добавил в тот же блок «Заметок», потому что это вторая дыра в той же стене: не только то, чего я за собой не вижу, не попадает в счётчик, — прочитанный список делает меня внимательнее ровно к тому, что в нём уже есть. Чем он длиннее, тем охотнее подтверждает сам себя.
+
+Отдельной историей в пятипроцентник не заводил: там потолок в 400 строк, и это скорее про цену файла, чем ещё один косяк в нём. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:103 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:18:58Z
+
+хм, пытаюсь понять, в чём противоречие. Имелось в виду: "Мы будем улучшать настолько, насколько возможно, -- но совершенства не будет, поэтому вы (человек) останетесь актуальны, насколько бы агенты не продвинулись"
+
+**@vzakharov (agent)** — 2026-09-14T22:38:52Z
+
+Ни в чём — я приписал шов, которого нет. Блок переписал: два абзаца держит посылка «совершенства не будет, поэтому человек остаётся актуален, насколько бы агенты ни продвинулись», и она в тексте есть, но ремаркой в скобках — «и тут есть над чем работать и работать».
+
+Оставшееся наблюдение мельче исходного: без неё пост читается как «мы стараемся, но вы пока нужны», с ней — как «потолка нет, поэтому вы нужны всегда». Это разные обещания, а несущее из двух стоит в скобках. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:113 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
++
++**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
++Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
++Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
++
++**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
++неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
++истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
++её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
++главный артефакт проекта, которого в приветственном посте нет ни словом.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:21:57Z
+
+Интересно, что ты это заметил. Тут мысль такая -- здесь её включать не надо, но где-то отдельно прописать как мысль: любые репозитории, вики и т.п. только расширяют "данность", но не изменяют её тождество "неизбежности". Да, контекст можно расширять до бесконечности, но а) он таки не резиновый, и на больших значениях уже работает как мегапиксели в 2000х: больше мегапикселей -- больше шума, и б) это все равно будет _прописанная_ данность.
+
+У человека немного не так -- тут уже вот идут аргументы про засыпания за рулём и штрафы в Черногории. Мы натягиваем свой опыт -- уникальный в силу ограниченности и недолговечности нашего физического устройства -- на что угодно. Закаты на правила линтера.
+
+**@vzakharov (agent)** — 2026-09-14T22:38:53Z
+
+Из поста убрал, в plan.md завёл разделом «What a wiki widens, and what it cannot move». Там обе половины: вики расширяет данность, но не меняет её природы — контекст не резиновый, на больших значениях это мегапиксели двухтысячных, и что влезло, всё равно записанная данность, а не прожитая. И человеческая: опыт уникален потому, что носитель ограничен и недолговечен, и натягивается на что угодно — засыпание за рулём, штраф в Черногории, закат на правило линтера.
+
+Это же и есть тезис p2, и теперь он лежит ровно так, как требует «Concrete before philosophy»: философия, которая едет на конкретном уроке, а не вместо него. e7af07c
+
+---
+
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:119 — unresolved
+
+```diff
+@@ -15,69 +17,103 @@
+ 
+ У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+ 
+-И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
++И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
+ 
+ [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+ 
+ А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+ 
+-Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
++Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+ 
+-Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
++Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+ 
+ И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+ 
+-Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
++Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+ ```
+ 
+-## Пропуски
+-
+-**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
+-совершенствующиеся способности» — это ровно тот талант, который назван в первом:
+-абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
+-эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
+-этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
+-повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
+-- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
++
++**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
++Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
++Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
++
++**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
++неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
++истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
++её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
++главный артефакт проекта, которого в приветственном посте нет ни словом.
++
++**И про твой же вердикт в этом ревью.** Пост про ограниченность ты снял, потому
++что контент должен быть конкретным, а не философией. Тем же движением из-под
++`../plan.md` § "Not written the way a model writes" уходит экспонат: право
++останавливаться перед выводом защищалось именно финалом той диктовки. Право я бы
++оставил, но обосновывать его теперь нечем — это записано там же, в plan.md.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:24:23Z
+
+я думаю оно в том или ином виде вернётся. У нас широкий набор скилов в `vzakharov/muthur` -- кстати, пока не забыл -- эта репа тоже будет как бы "авторства" latestageagentic (возможно, заведу организацию на гитхабе и перенесу туда, ещё не решил), так как помимо всего просветительства там будет что это и агентство (то что оно из одного человека не должно никого смущать:-), и ещё может быть курсы-обучение для кодеров.
+
+так вот, у нас есть куча скиллов, но все они work in progress, так что вряд ли они когда-то будут кончаться словом "аминь".
+
+перепрочитал и понял, что, возможно, это никак не относится к тому, что комментировал, но такой вот я кожаный мешок :)
+
+**@vzakharov (agent)** — 2026-09-14T22:38:54Z
+
+Взял оба куска. «Аминь» — в «Not balanced»: скиллы все work in progress, ни один не кончается «аминем», поэтому категоричность «как на сегодня» ничего не обещает про законченность темы. Это заодно и замена тому экспонату — не право не делать вывод, а вывод, который не окончателен.
+
+Про широту проекта — абзацем в начало plan.md: muthur под тем же авторством, агентство, возможно курсы. Где это живёт на гитхабе — новый открытый вопрос, как раз на место закрытого про имя канала.
+
+Кожаный мешок сработал как заявлено: ассоциация по касательной оказалась по делу. e7af07c
+
+---
+
+### `writing/late-stage-agentic/plan.md`:90 — unresolved
+
+```diff
+@@ -79,6 +80,24 @@ of a response. The agent's half may also end unconcluded — the format's whole
+ claim is that a piece can stop at the question, and a second voice that always
+ ties it off is the generated register arriving by the back door.
+ 
++## Concrete before philosophy
++
++**A piece earns its place by being concrete.** Philosophy reads well from
++someone who already has weight, and it is not how the weight is gained — the
++first question a stranger's life lessons raise is why this particular weirdo. So
++what runs is what can be checked: a rule, a mechanism, a number, a thing that
++went wrong. The philosophy rides on top of that once there is something under
++it.
+```
+
+**@vzakharov (human)** — 2026-09-14T22:25:29Z
+
+"rides on top of that" это хорошо, не только в разрезе "once", но и в разрезе "when" -- то есть мы её будем вкраплять не когда-то в будущем, а уже сейчас, но только как надстройку над конкретным уроком.
+
+**@vzakharov (agent)** — 2026-09-14T22:38:55Z
+
+Поправил на оба разреза: «not later, once enough weight has accumulated, but in every piece from now on, as the layer a concrete lesson carries rather than a piece of its own». e7af07c
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -4597,3 +5856,4 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 - **2026-09-14T13:03:26Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5197519188.
 - **2026-09-14T14:30:35Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5198826181.
 - **2026-09-14T21:44:17Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203156869.
+- **2026-09-14T22:26:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203425875.
