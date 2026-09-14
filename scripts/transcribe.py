@@ -72,15 +72,11 @@ DEFAULT_MODEL = "nova-3"
 # grows.
 AUDIO_ARGS = ["-vn", "-ac", "1", "-c:a", "aac", "-b:a", "64k"]
 
-# For the archived copy, where the picture is the point. What a phone sends
-# through a messenger arrives already re-encoded and generously so — the first
-# recording was 1.6 Mbit/s at 464x848 — and CRF 28 took it from 84 MB to 30 MB
-# with no difference visible on paired frames. The audio track is copied rather
-# than re-encoded: it is already at 64 kbit/s, so a second pass would only cost
-# a generation.
+# What a phone sends through a messenger is already a re-encode, and a generous
+# one — the first recording was 1.6 Mbit/s at 464x848 — so CRF 28 took it from
+# 83.9 MB to 30.4 MB with nothing visible on paired frames. The audio is copied:
+# already at 64 kbit/s, a second pass would only cost a generation.
 VIDEO_ARGS = ["-c:v", "libx264", "-crf", "28", "-preset", "veryfast", "-c:a", "copy"]
-
-FFMPEG_TOOLS = ("ffmpeg", "ffprobe")
 
 # Both binaries ship in one package everywhere, so one install covers a missing
 # either. Homebrew leads so a Mac is never asked for a password it doesn't need.
@@ -110,14 +106,21 @@ def install_commands() -> Optional[list[list[str]]]:
     return None
 
 
+def missing_ffmpeg() -> list[str]:
+    return [tool for tool in ("ffmpeg", "ffprobe") if shutil.which(tool) is None]
+
+
 def ensure_ffmpeg() -> None:
-    missing = [t for t in FFMPEG_TOOLS if shutil.which(t) is None]
+    missing = missing_ffmpeg()
     if not missing:
         return
 
     commands = install_commands()
     if commands is None:
-        die(f"{' and '.join(missing)} not on PATH, and no package manager this script knows how to drive is either. Install ffmpeg and re-run.")
+        die(
+            f"{' and '.join(missing)} not on PATH, and neither is any package "
+            "manager this script knows how to drive. Install ffmpeg and re-run."
+        )
 
     print(f"{' and '.join(missing)} missing — installing ffmpeg.", file=sys.stderr)
     for command in commands:
@@ -125,7 +128,7 @@ def ensure_ffmpeg() -> None:
         if subprocess.run(command).returncode != 0:
             die("That failed. Run it by hand and re-run this script.")
 
-    still_missing = [t for t in FFMPEG_TOOLS if shutil.which(t) is None]
+    still_missing = missing_ffmpeg()
     if still_missing:
         die(f"ffmpeg installed, but {' and '.join(still_missing)} still not on PATH.")
 
