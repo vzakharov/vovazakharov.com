@@ -6,9 +6,9 @@ resolves as a PEP 420 namespace package from any working directory — no
 `__init__.py`, no `sys.path` manipulation.
 
 It lives here rather than in `lib/github.py` for the reason `lib/media.py`
-gives for itself: three scripts need it and only two of them talk to GitHub, so
-a home under the GitHub plumbing would make the transcription script import an
-API client to print an error.
+gives for itself: not every script that needs it talks to GitHub, and a home
+under the GitHub plumbing would make those import an API client to print an
+error.
 
 Stdlib only — no third-party deps. Python 3.9+.
 """

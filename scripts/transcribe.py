@@ -20,10 +20,9 @@ otherwise) under `--out-dir` (default `docs/remove-before-merging/deepgram/`):
   <slug>.transcript.md    one line per sentence with its timecode, plus the
                           words Deepgram was least sure of
 
-The second file is the one a person or an agent reads.
-`@.claude/skills/dictation/SKILL.md` owns what happens to it next, and is where
-the judgement lives — this script makes no decision a re-run could make
-differently.
+The second file is the one a person or an agent reads. This script makes no
+decision a re-run could make differently; the judgement is
+`@.claude/skills/dictation/SKILL.md`'s.
 
 Requires `ffmpeg`/`ffprobe` on PATH and `DEEPGRAM_API_KEY` in the environment.
 
@@ -53,10 +52,8 @@ from lib.cli import die
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
-# Fixed because the responses are kept and compared across recordings: a
-# parameter that drifts between runs makes two transcripts incomparable without
-# anyone noticing. `model` and `language` are the two a caller can move, and
-# both are recorded in the transcript header.
+# Fixed because the responses are kept and read against each other: a parameter
+# that drifts between runs makes two transcripts incomparable, silently.
 DEEPGRAM_PARAMS = {
     "smart_format": "true",
     "punctuate": "true",
@@ -67,12 +64,10 @@ DEEPGRAM_PARAMS = {
 DEFAULT_OUT_DIR = Path("docs") / "remove-before-merging" / "deepgram"
 DEFAULT_MODEL = "nova-3"
 
-# Mono at 64 kbit/s. Below this, recognition starts to suffer on quiet
-# consonants; above it, nothing changes but the upload.
+# Below 64k mono, quiet consonants start to drop; above it, only the upload
+# grows.
 AUDIO_ARGS = ["-vn", "-ac", "1", "-c:a", "aac", "-b:a", "64k"]
 
-# A word Deepgram scores under this is worth a human's eye. The listing is a
-# hint, not a verdict — a correctly heard rare word scores low too.
 LOW_CONFIDENCE = 0.6
 LOW_CONFIDENCE_LIMIT = 40
 
@@ -197,9 +192,9 @@ def render_transcript(
     lines += [
         f"## Words scored under {LOW_CONFIDENCE}",
         "",
-        "Where a mis-hearing is most likely — start here rather than reading for",
-        "them. A rare word heard correctly scores low too, so this is a place to",
-        "look, not a list of errors.",
+        "Where a mis-hearing is most likely, not where they all are: a rare word",
+        "heard correctly scores low, and a confident recognizer is sometimes",
+        "confidently wrong. Read it first, then read the transcript.",
         "",
     ]
     if not unsure:

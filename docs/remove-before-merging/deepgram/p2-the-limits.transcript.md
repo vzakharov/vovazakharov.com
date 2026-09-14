@@ -70,9 +70,9 @@ beside this file.
 
 ## Words scored under 0.6
 
-Where a mis-hearing is most likely — start here rather than reading for
-them. A rare word heard correctly scores low too, so this is a place to
-look, not a list of errors.
+Where a mis-hearing is most likely, not where they all are: a rare word
+heard correctly scores low, and a confident recognizer is sometimes
+confidently wrong. Read it first, then read the transcript.
 
 - `00:11` **г** (0.57)
 - `00:38` **той** (0.21)

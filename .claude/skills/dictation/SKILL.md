@@ -23,9 +23,7 @@ python3 scripts/transcribe.py <media> --slug <slug> \
 ```
 
 It writes `<slug>.deepgram.json` and `<slug>.transcript.md` under
-`docs/remove-before-merging/deepgram/`, and refuses to overwrite either — a
-second run costs another API call and would clobber a file someone has since
-corrected by hand.
+`docs/remove-before-merging/deepgram/`.
 
 ## Step 1 — Get the media into the repo
 
@@ -45,9 +43,9 @@ interchangeable:
 line per sentence with a timecode, and — at the foot — every word Deepgram
 scored under 0.6.
 
-**Read that list before reading the transcript.** It is where the mis-hearings
-are, and reading the prose for them instead means finding the ones that read
-oddly and missing the ones that read fine and are wrong.
+**Read that list first, then read the transcript anyway.** It concentrates the
+mis-hearings without holding all of them — on the recordings so far it caught
+three of the seven places the text needed a correction.
 
 ## Step 3 — Write the dictation file
 
@@ -71,8 +69,7 @@ rewritten rather than transcribed. Loose, talked-out phrasing survives that test
 and an efficient paraphrase does not — which is the point, and the same rule
 `@.claude/rules/writing.md` § "Voice" states for drafts.
 
-Headings are yours to add; they are navigation, not content, and the operator
-has asked for them.
+Headings are yours to add — navigation, not content.
 
 ## Step 4 — List what you guessed
 
