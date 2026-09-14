@@ -3,9 +3,10 @@ description: Turn a dictation — a video shot on camera or audio talked into a 
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
-recording as readable text in the speaker's own words, the whole Deepgram
+recording as readable text in the speaker's own words — framed by a summary he
+can recognise it from and your own reading of what he said — the whole Deepgram
 response is kept beside the media, and every place the recognizer was guessing
-is listed at the foot of the file for the operator to correct.
+is listed in the file for him to correct.
 
 ## The split
 
@@ -19,7 +20,8 @@ The script's header carries its flags. The short form:
 
 ```bash
 python3 scripts/transcribe.py <media> --slug <slug> \
-  --audio-out docs/remove-before-merging/<slug>.m4a
+  --audio-out docs/remove-before-merging/<slug>.m4a \
+  --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```
 
 It writes `<slug>.deepgram.json` and `<slug>.transcript.md` under
@@ -37,6 +39,18 @@ interchangeable:
   and **exists nowhere else** — the transcript outlives it, the file does not.
   Copy it under `docs/remove-before-merging/` as the first thing you do with it.
 
+`docs/remove-before-merging/` is where the media stays, not a waiting room it
+passes through. The sweep at `/finalize` is what keeps a recording off `main`,
+and the branch is what keeps it reachable afterwards — so **these branches are
+not deleted after the merge**; deleting one is what would destroy the recording
+behind a published piece. A shallow clone is not the thing that spares `main`:
+`--depth 1` fetches every blob at the tip it fetched, so a video on `main` would
+be paid for by every clone, agent session and deploy. The sweep spares it.
+
+For video, pass `--video-out` and commit that copy rather than the file the
+phone and the messenger produced — a third the bytes, no visible difference,
+same tool that is already extracting the audio.
+
 ## Step 2 — Run the script, then read the transcript
 
 `<slug>.transcript.md` is what you work from, not the raw JSON. It carries one
@@ -52,9 +66,24 @@ three of the seven places the text needed a correction.
 `writing/<project>/dictations/<slug>.md`, no frontmatter — the keys in
 `@.claude/rules/writing.md` describe post drafts, and this is not one.
 
-**This is a transcript, not a rewrite.** Two things depend on it: it is the
-speaker's own manner of talking, and it becomes the subtitle track on the video,
-where a sentence that does not match the audio is simply wrong. So:
+Five parts, in this order, and the middle one is the only one that is the
+recording:
+
+| Part                                           | Whose words |
+| ---------------------------------------------- | ----------- |
+| A header line — when, where, what was recorded | yours       |
+| The lede (Step 5)                              | yours       |
+| **The transcript**, under headings you add     | **his**     |
+| The table of what you guessed (Step 4)         | yours       |
+| The afterword (Step 5)                         | yours       |
+
+That boundary is not layout. The transcript becomes the subtitle track, so a
+sentence of yours left inside it is a sentence that ends up burned onto the
+video in his voice. Your own writing goes in the parts named above and nowhere
+else.
+
+**The transcript is a transcript, not a rewrite.** Two things depend on it: it
+is the speaker's own manner of talking, and it is what the subtitles say. So:
 
 | Do                                               | Don't                                   |
 | ------------------------------------------------ | --------------------------------------- |
@@ -63,13 +92,23 @@ where a sentence that does not match the audio is simply wrong. So:
 | Fix what the recognizer misheard                 | Replace a word with a better word       |
 | Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
 
-The test is a line-by-line one: **for each sentence you write, the same sentence
-should be findable in `<slug>.transcript.md`.** When it is not, you have
-rewritten rather than transcribed. Loose, talked-out phrasing survives that test
-and an efficient paraphrase does not — which is the point, and the same rule
-`@.claude/rules/writing.md` § "Voice" states for drafts.
+The test is mechanical, and it runs on **words** — punctuation, capitalisation
+and paragraph breaks are yours to put in, so they cannot be what it checks. Lay
+each sentence you write against the transcript's words in order: every word of
+yours is the transcript's word in the transcript's place, and exactly three
+departures are licensed.
 
-Headings are yours to add — navigation, not content.
+| Departure                           | What it looks like                                                               |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| A filler or false start you removed | the transcript has a word, you have none                                         |
+| A mis-hearing you corrected         | you have a different word, and it has a row in the table at the foot of the file |
+| A heading you added                 | your words between his sentences, never inside one                               |
+
+An inserted word, a reordering or a synonym is none of the three, so it is a
+rewrite. Note what the test does **not** ask: that the result read well. The
+recording was loose, so the text is loose — smoothness is the tell that a
+sentence has been improved rather than transcribed, which is the same rule
+`@.claude/rules/writing.md` § "Voice" states for drafts.
 
 ## Step 4 — List what you guessed
 
@@ -82,14 +121,46 @@ prevent.
 Where you could not make out a reading at all, leave `[?]` in the text and say
 so in the table. An honest gap beats a plausible invention.
 
+## Step 5 — The lede and the afterword
+
+Six minutes of talking is four screens of text, and a transcript on its own is a
+poor thing to come back to: the operator opening it a month later wants to know
+what is in it before deciding to read it, and then wants somebody to have
+thought about it. So the file opens with a summary and closes with your reading
+of it. Both are in the recording's language, not this file's.
+
+- **The lede**, above the transcript. Three or four sentences on what the
+  recording says, in the operator's own vocabulary, so that he recognises it
+  rather than decodes it. It reports and does not evaluate — that is the
+  afterword's job, and a lede that starts judging stops being a way back in.
+- **The afterword**, at the foot. What the recording is arguing under what it
+  says, what it takes for granted without saying, what the argument is missing,
+  and what is said three times where once would carry it. This is the half that
+  earns the file: say what you would say if he asked what you thought, not a
+  compliment and not the lede again.
+
+One file, not two. A summary in a file of its own is a second thing to open and
+a second thing to leave stale, and nothing consumes the transcript as a whole
+file — the subtitle step below reads sentences, not bytes.
+
 ## Subtitles
 
-Not built yet. When it is, it belongs **here** rather than in a skill of its
-own, because its input is this file and not the JSON: the operator corrects the
-recognizer's mistakes in the dictation text, and a subtitle track built from the
-raw response would put the uncorrected words back on screen. The per-word
-timings in `<slug>.deepgram.json` are kept for exactly that step — they are the
-one thing the API will not hand back a second time.
+Not built yet, and larger than it sounds: what the operator means is words
+burned onto the picture, the way short-form video does it. So the step reads the
+video and writes a new video, rather than dropping a `.srt` beside it.
+
+It belongs **here** rather than in a skill of its own, because its input is the
+dictation file and not the response: the operator corrects the recognizer's
+mistakes in that text, and a track built from the raw JSON would put the
+uncorrected words back on screen. What the JSON supplies is the timings — the
+one thing the API will not hand back a second time — so the step is a join, each
+corrected word onto the time its mis-heard counterpart occupied.
+
+The join is the part to settle before writing any of it, because corrections
+change the word count: «человек, научный не обязательностью» is four words and
+«наученный необязательностью» is two, so two timings have to collapse into one
+span. Matching off by index gets this wrong silently, and the subtitles drift
+for the rest of the video.
 
 ## Do NOT
 

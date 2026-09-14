@@ -3,13 +3,16 @@
 
 Usage:
   python3 scripts/transcribe.py <media> [--slug SLUG] [--out-dir DIR]
-                                       [--audio-out PATH] [--model MODEL]
-                                       [--language LANG] [--force]
+                                       [--audio-out PATH] [--video-out PATH]
+                                       [--model MODEL] [--language LANG]
+                                       [--force]
 
 `<media>` is audio or video in anything ffmpeg reads. A file carrying a video
 stream is first reduced to mono 64 kbit/s AAC — speech recognition hears no
 difference and the upload shrinks by roughly 25x — and the extracted audio is
-thrown away unless `--audio-out` names somewhere to keep it.
+thrown away unless `--audio-out` names somewhere to keep it. `--video-out` keeps
+a re-encoded copy of the video itself, for a recording being archived rather
+than uploaded.
 
 Two files come back, named for the slug (the input's stem unless `--slug` says
 otherwise) under `--out-dir` (default `docs/remove-before-merging/deepgram/`):
@@ -24,7 +27,8 @@ The second file is the one a person or an agent reads. This script makes no
 decision a re-run could make differently; the judgement is
 `@.claude/skills/dictation/SKILL.md`'s.
 
-Requires `ffmpeg`/`ffprobe` on PATH and `DEEPGRAM_API_KEY` in the environment.
+Requires `DEEPGRAM_API_KEY` in the environment. `ffmpeg` and `ffprobe` are
+installed if they are missing, through whichever package manager is on the box.
 
 Exit codes:
   0  - both files written.
@@ -68,6 +72,25 @@ DEFAULT_MODEL = "nova-3"
 # grows.
 AUDIO_ARGS = ["-vn", "-ac", "1", "-c:a", "aac", "-b:a", "64k"]
 
+# For the archived copy, where the picture is the point. What a phone sends
+# through a messenger arrives already re-encoded and generously so — the first
+# recording was 1.6 Mbit/s at 464x848 — and CRF 28 took it from 84 MB to 30 MB
+# with no difference visible on paired frames. The audio track is copied rather
+# than re-encoded: it is already at 64 kbit/s, so a second pass would only cost
+# a generation.
+VIDEO_ARGS = ["-c:v", "libx264", "-crf", "28", "-preset", "veryfast", "-c:a", "copy"]
+
+FFMPEG_TOOLS = ("ffmpeg", "ffprobe")
+
+# Both binaries ship in one package everywhere, so one install covers a missing
+# either. Homebrew leads so a Mac is never asked for a password it doesn't need.
+FFMPEG_INSTALLERS = (
+    ("brew", (["brew", "install", "ffmpeg"],)),
+    ("apt-get", (["apt-get", "update"], ["apt-get", "install", "-y", "ffmpeg"])),
+    ("dnf", (["dnf", "install", "-y", "ffmpeg"],)),
+    ("apk", (["apk", "add", "ffmpeg"],)),
+)
+
 LOW_CONFIDENCE = 0.6
 LOW_CONFIDENCE_LIMIT = 40
 
@@ -77,9 +100,34 @@ def timecode(seconds: float) -> str:
     return f"{total // 60:02d}:{total % 60:02d}"
 
 
-def require_tool(name: str) -> None:
-    if shutil.which(name) is None:
-        die(f"{name} is not on PATH — install ffmpeg (it ships both ffmpeg and ffprobe).")
+def install_commands() -> Optional[list[list[str]]]:
+    for manager, commands in FFMPEG_INSTALLERS:
+        if shutil.which(manager) is None:
+            continue
+        root = manager == "brew" or os.geteuid() == 0
+        prefix = [] if root or shutil.which("sudo") is None else ["sudo"]
+        return [prefix + list(command) for command in commands]
+    return None
+
+
+def ensure_ffmpeg() -> None:
+    missing = [t for t in FFMPEG_TOOLS if shutil.which(t) is None]
+    if not missing:
+        return
+
+    commands = install_commands()
+    if commands is None:
+        die(f"{' and '.join(missing)} not on PATH, and no package manager this script knows how to drive is either. Install ffmpeg and re-run.")
+
+    print(f"{' and '.join(missing)} missing — installing ffmpeg.", file=sys.stderr)
+    for command in commands:
+        print(f"$ {' '.join(command)}", file=sys.stderr)
+        if subprocess.run(command).returncode != 0:
+            die("That failed. Run it by hand and re-run this script.")
+
+    still_missing = [t for t in FFMPEG_TOOLS if shutil.which(t) is None]
+    if still_missing:
+        die(f"ffmpeg installed, but {' and '.join(still_missing)} still not on PATH.")
 
 
 def probe(media: Path) -> dict[str, Any]:
@@ -104,15 +152,19 @@ def probe(media: Path) -> dict[str, Any]:
     return json.loads(out.stdout)
 
 
-def extract_audio(media: Path, dest: Path) -> None:
+def convert(media: Path, dest: Path, args: list[str], label: str) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     out = subprocess.run(
-        ["ffmpeg", "-y", "-i", str(media), *AUDIO_ARGS, str(dest)],
+        ["ffmpeg", "-y", "-i", str(media), *args, str(dest)],
         capture_output=True,
         text=True,
     )
     if out.returncode != 0:
-        die(f"ffmpeg failed extracting audio from {media}:\n{out.stderr.strip()}")
+        die(f"ffmpeg failed making {label.lower()} from {media}:\n{out.stderr.strip()}")
+    print(
+        f"{label}: {dest} ({dest.stat().st_size / 1e6:.1f} MB "
+        f"from {media.stat().st_size / 1e6:.1f} MB)"
+    )
 
 
 def transcribe(audio: Path, model: str, language: Optional[str]) -> dict[str, Any]:
@@ -225,6 +277,11 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         type=Path,
         help="keep the extracted audio here instead of discarding it",
     )
+    parser.add_argument(
+        "--video-out",
+        type=Path,
+        help="also write a re-encoded copy of the video, about a third the size",
+    )
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument(
         "--language",
@@ -243,34 +300,35 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     if not args.media.is_file():
         die(f"No such file: {args.media}")
-    require_tool("ffmpeg")
-    require_tool("ffprobe")
+    ensure_ffmpeg()
 
     slug = args.slug or args.media.stem
     json_path = args.out_dir / f"{slug}.deepgram.json"
     transcript_path = args.out_dir / f"{slug}.transcript.md"
     # Checked before the upload, not after: the call costs money and the file it
     # would clobber is usually one someone has since corrected by hand.
-    existing = [p for p in (json_path, transcript_path) if p.exists()]
+    outputs = (json_path, transcript_path, args.audio_out, args.video_out)
+    existing = [p for p in outputs if p is not None and p.exists()]
     if existing and not args.force:
         die(
             "Refusing to overwrite:\n"
             + "\n".join(f"  {p}" for p in existing)
-            + "\nPass --force, or --slug for a different name."
+            + "\nPass --force, or name a different output."
         )
 
     probed = probe(args.media)
     has_video = any(s["codec_type"] == "video" for s in probed.get("streams", []))
+    if args.video_out and not has_video:
+        die(f"--video-out was given, but {args.media} carries no video stream.")
 
     with tempfile.TemporaryDirectory() as tmp:
         if has_video:
             audio = args.audio_out or Path(tmp) / f"{slug}.m4a"
-            extract_audio(args.media, audio)
-            print(
-                f"Extracted audio: {audio} "
-                f"({audio.stat().st_size / 1e6:.1f} MB "
-                f"from {args.media.stat().st_size / 1e6:.1f} MB)"
-            )
+            convert(args.media, audio, AUDIO_ARGS, "Audio")
+            # Before the paid call rather than after it, so a failed re-encode
+            # costs time and nothing else.
+            if args.video_out:
+                convert(args.media, args.video_out, VIDEO_ARGS, "Video")
         else:
             audio = args.media
 
