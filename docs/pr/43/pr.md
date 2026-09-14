@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T13:03:28Z
+- **Updated:** 2026-09-14T14:07:02Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Body
 
-Two spoken passes at a new project, written down so they stop living in audio files — and, after two rounds of review, the pipeline that will do it for the rest of them.
+Two spoken passes at a new project, written down so they stop living in audio files — and, after four rounds of review, the pipeline that will do it for the rest of them.
 
 **What it is.** An English site at `latestageagentic.com` plus a Russian Telegram channel, «Клод четвёртой стадии», both about human–agent collaboration: where the person sits in the arrangement, and whether fast and good can be had at once. The larger idea behind the site is a wiki — lessons from actual work, written to be read by agents as much as by people, because that kind of experience is exactly what an agent cannot find in the training set.
 
@@ -23,35 +23,38 @@ Two spoken passes at a new project, written down so they stop living in audio fi
 
 | File | What it is |
 | --- | --- |
-| `p1-the-idea.md` | The premise: the site, the channel, the wiki, why Russian, how the content flows between the two languages. |
-| `p2-the-limits.md` | The first content video: why a human is still needed at all, circling limitedness — a person holds only part of the experience there is, a model that absorbed all of it finds a sunset exactly as beautiful as it is indifferent. |
+| `p1-the-idea.md` | The premise: the site, the channel, the wiki, why Russian, how the content flows between the two languages. Context for the repo rather than content, so it reads as prose. |
+| `p2-the-limits.md` | The first content video: why a human is still needed at all, circling limitedness — a person holds only part of the experience there is, a model that absorbed all of it finds a sunset exactly as beautiful as it is indifferent. Verbatim, because its words go on screen. |
 
-Each file is five parts, and only the middle one is the recording: a header, a lede to recognise it by, **the transcript**, the table of what the recognizer guessed, and the agent's own reading of what was said — what it argues under what it says, what it assumes without stating, what its chain is missing, what a post made from it would cut. The boundary is not layout: the transcript becomes the subtitle track, so a sentence of the agent's left inside it is one burned onto the video in his voice.
+Each file is five parts, and only the middle one is the recording: a header, a lede to recognise it by, **the recording itself** under one `## Расшифровка`, the table of what the recognizer guessed, and the agent's own reading of what was said — what it argues under what it says, what it assumes without stating, what its chain is missing, what a post made from it would cut. The boundary is not layout: for a recording headed to publication the text becomes the subtitle track, so a sentence of the agent's left inside it is one burned onto the video in their voice.
 
-The transcript is **a transcript, not a prose rewrite**, and the test for that is mechanical and runs on words, since punctuation and headings are the agent's to add. Every word is the recognizer's word in its place, with exactly three licensed departures — a filler removed, a mis-hearing corrected (and tabled at the foot of the file), a heading added. An inserted word, a reordering or a synonym is a rewrite. What the test deliberately does not ask is that the result read well: the recording was loose, so smoothness is the tell.
+**Two modes, because the recordings are not all the same kind of thing.** One that will be posted is **verbatim**, and the test for that is mechanical and runs on words, since punctuation and headings are the agent's to add: every word is the recognizer's word in its place, with five licensed departures — a filler removed, a mis-hearing corrected, a slip of the tongue replaced where the intended word is not in doubt, a word inserted `[в скобках]` where the clause does not parse without one, a heading added. Every correction of the first three kinds gets a row in the table. A reordering or a synonym is a rewrite. What the test deliberately does not ask is that the result read well: the recording was loose, so smoothness is the tell. One that exists only to give the repo context is **prose**, and is rendered as connected text.
 
-**The pipeline**, split as the review asked:
+The same rule has a corollary the review paid for: where a turn of phrase does not make sense, ask rather than smooth it. The recognizer heard «потом ты смотришь на кофе… он красивый, почти как предзакатное солнце» — which parses, and which had just described a coffee on a rock. The word was «код», and it is the rung the recording's whole payoff calls back to.
+
+**The pipeline:**
 
 | Piece | What it owns |
 | --- | --- |
 | `scripts/transcribe.py` | Everything a re-run does identically: install ffmpeg if the box lacks it, probe the media, reduce a video to mono 64k AAC, optionally keep a re-encoded copy of the video itself, call Deepgram, save the whole response, render `<slug>.transcript.md` — a timecoded line per sentence, then every word scored under 0.6. |
-| `.claude/skills/dictation/SKILL.md` | The judgement: which words in the recognizer's output are the speaker's and which are its mistakes. Carries the transcript rule, the lede and afterword, and where the media lives. |
+| `.claude/skills/dictation/SKILL.md` | The judgement: which words in the recognizer's output are the speaker's and which are its mistakes. Carries the two modes, the word test, the lede and afterword, and where the media lives. |
 
-The low-confidence section is the useful half of the script: on p2 it flags `той` at 0.21 and `изменил` at 0.27, two of the places the text needed a human. It catches three of seven such places, which is why both the script's output and the skill say to read the transcript as well rather than trusting the list.
+The low-confidence section is the useful half of the script: on p2 it flags `той` at 0.21 and `изменил` at 0.27, two of the places the text needed a human. It catches three of seven such places, and none of the mis-hearings that produce a sentence which reads correctly — which is why both the script's output and the skill say to read the transcript as well.
 
 `--video-out` exists because what a phone sends through a messenger is already a re-encode and a generous one — 1.6 Mbit/s at 464×848 — so CRF 28 takes this recording from 83.9 MB to 30.4 MB with nothing visible on paired frames. The audio track is copied rather than re-encoded, being already at 64 kbit/s.
 
-Subtitles are not built, and are larger than they sound: what is wanted is words burned onto the picture, so the step reads the video and writes a new one. The skill records why they belong to it rather than to a skill of their own — their input is the *corrected* text, since a track built from the raw response would put the mis-hearings back on screen — and names the trap waiting there: corrections change the word count, so the timings have to be joined rather than matched off by index.
+Subtitles are not built, and are larger than they sound: what is wanted is words burned onto the picture, so the step reads the video and writes a new one. It runs on the *corrected* text, which is what puts it after this skill rather than inside it — a track built from the raw response would put the mis-hearings back on screen — and three decisions sit in front of it, each the operator's: which stretches go on the video at all, whether the silences come out, and then the burn. The burn itself renders a page — the video underneath, the words as DOM with CSS animations, walked frame by frame by headless Chromium — which the operator opens in a browser and approves before anything is rendered. Two traps are named in the skill: corrections change the word count, so the timings have to be joined rather than matched off by index, and the animations have to run off the frame number rather than the clock or two renders of one page disagree.
 
-**Where the media lives.** In the branch, under `docs/remove-before-merging/`, swept at finalize so it never reaches `main`, and kept reachable forever by a branch that is not deleted. A shallow clone is not what spares `main` — `--depth 1` fetches every blob at the tip it fetched — so the sweep is the mechanism, and deleting the branch after the merge is what would destroy the recording behind a published piece.
+**Where the media lives.** In the branch, under `docs/remove-before-merging/`, swept at finalize so it never reaches `main`, and kept reachable by a branch that is not deleted — which is the whole mechanism, and the reason deleting the branch after the merge would destroy the recording behind a published piece.
 
-**What is deliberately not in it.** No plan, no draft post, no site code. More dictations land here as they are recorded; the project then moves to its own repo via `/spinoff`.
+**`writing/late-stage-agentic/plan.md`** holds what the project has settled about the shape around the dictations: that the channel and the site are one body of knowledge in two registers, that "wiki" means neither live editing, nor balance, nor the register a model writes in — whose tell is the compulsory conclusion — that findability is ordinary search plus a footer written for an agent reader that must not read as an injection, the two-voice post format (the human half, then the agent's answer to it, which may end unconcluded too), and the line between the video and the post: the video is bound to the recording because its words go on screen, a post is not.
+
+**What is deliberately not in it.** No draft post, no site code. More dictations land here as they are recorded; the project then moves to its own repo via `/spinoff`.
 
 **Open, for the operator.**
 
 - `first-content.mp4` is still the 83.9 MB download. Replacing it in place would add 30 MB beside the 84 already in the branch's history rather than removing them, so re-encoding is worth starting from the next recording, not this one.
-- Two things in the operator's own edit to `p2-the-limits.md`, raised rather than fixed: «со своим Клодом **огода** кожу» looks like a typo, and the `[да, я так спрягаю это слово -- internal note]` bracket needs a decision before publication.
-- The afterwords argue p2 should be the first post rather than p1 — p1 is the project's plan, which is interesting to its author, and it says nothing about what a reader gets.
+- Whether `p1` reads better as prose than it did verbatim. It is back to the version it was first written as, with the lede, the table and the afterword it has since gained kept.
 
 ## QA Checklist
 
@@ -59,8 +62,8 @@ Subtitles are not built, and are larger than they sound: what is wanted is words
 - [ ] `script` — `python3 scripts/transcribe.py <any short audio> --out-dir tmp/dg` writes both files and prints their paths; a second run without `--force` refuses instead of re-billing the call.
 - [ ] `video` — run it against `docs/remove-before-merging/first-content.mp4` with `--video-out tmp/v.mp4`; the audio reports ~83.9 MB → ~3.3 MB and the video ~83.9 MB → ~30.4 MB, both before the upload.
 - [ ] `transcripts` — read `p2-the-limits.md` against the audio, word by word, against `docs/remove-before-merging/deepgram/p2-the-limits.transcript.md`.
-- [ ] `notes` — the lede should let the recording be recognised without reading it; the afterword should say something the operator did not already know he said.
-- [ ] `garbles` — the table at the foot of each dictation file is where the recognizer guessed; correct any wrong reading in place.
+- [ ] `notes` — the lede should let the recording be recognised without reading it; the afterword should say something the operator did not already know they said.
+- [ ] `garbles` — the table at the foot of each dictation file is where the recognizer guessed or a slip was replaced; correct any wrong reading in place.
 - [ ] `scripts` — `python3 scripts/pr-body.py`, `python3 scripts/export-github-item.py` and `cd scripts && python3 test_authorship.py` still run after `die()` moved to `lib/cli.py`.
 
 | Item | Automatable | Covered? | Notes |
@@ -70,7 +73,7 @@ Subtitles are not built, and are larger than they sound: what is wanted is words
 | `video` | Yes | No | The ffmpeg half is testable without the API, the API half is not. |
 | `transcripts` | No | n/a | The judgement this branch exists to make; a human ear is the check. |
 | `notes` | No | n/a | Whether a reading is worth reading is the operator's call by definition. |
-| `garbles` | No | n/a | Operator-only — he is the one who knows what he said. |
+| `garbles` | No | n/a | Operator-only — they are the one who knows what they said. |
 | `scripts` | Yes | Partly | `test_authorship.py` covers the exporter's labelling; the import move is covered by the three running at all. |
 
 Draft, and staying draft until there is enough dictated to build from.
@@ -90,43 +93,44 @@ content: the late-stage-agentic dictations and their pipeline (pr #43)
 ```
 
 ```
-Two recordings existed only as audio, and there will be more of them:
-a phone dictation laying out a new project -- an English site at
-latestageagentic.com beside a Russian Telegram channel, both about
-where the person sits in human-agent collaboration -- and a video
-arguing that a human is still needed because a human is limited,
-holding only part of the experience there is while a model that
-absorbed all of it finds a sunset exactly as beautiful as it is
+Two recordings arrive with this change, and there will be more: a phone
+dictation laying out a new project -- an English site at
+latestageagentic.com beside a Russian Telegram channel, both on where
+the person sits in human-agent collaboration -- and a video arguing a
+human is still needed because a human is limited, where a model that
+absorbed all of human experience finds a sunset as beautiful as it is
 indifferent.
 
-Both land under writing/late-stage-agentic/dictations/ in five parts,
+Each lands under writing/late-stage-agentic/dictations/ in five parts,
 of which only the middle one is the recording: a lede to recognise it
-by, the transcript, a table pairing what the recognizer heard against
-what the text says, and a reading of what was said -- what it argues
-underneath, what it assumes, what a post would cut. The transcript is
-a transcript rather than prose because the same text becomes the
-subtitle track, and the rule for it is mechanical: every word is the
-recognizer's word in its place, bar a filler removed, a mis-hearing
-corrected and tabled, or a heading added. Smoothness is the tell.
+by, the text itself, a table pairing what the recognizer heard against
+what the page says, and a reading of what was said. A recording headed
+for publication keeps their words in their order, as the same text
+becomes the subtitle track, and the rule for it is mechanical: every
+word is the recognizer's word in its place, bar a filler removed, a
+mis-hearing corrected, a slip replaced, or a word bracketed in.
+Smoothness is the tell. One that exists only to give the repo context is
+rendered as connected prose instead.
 
-scripts/transcribe.py takes everything a re-run would do identically
--- install ffmpeg where the box lacks it, reduce a video to mono 64k
-AAC, call Deepgram, keep the whole response, render a timecoded
-transcript ending in the words scored under 0.6 -- and
+scripts/transcribe.py takes everything a re-run would do identically --
+install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
+call Deepgram, keep the whole response, render a timecoded transcript
+ending in the words scored under 0.6 -- and
 .claude/skills/dictation/SKILL.md takes the judgement it cannot make:
-which words in the output are the speaker's and which are its
-mistakes. The responses are kept for their per-word timings, which a
-subtitle track needs and the API will not hand back twice.
---video-out keeps a re-encoded copy of the video, what a phone sends
-through a messenger being a generous re-encode already: CRF 28 takes
-this one from 83.9 MB to 30.4 MB with nothing visible on paired
-frames.
+which words in the output are the speaker's and which are its mistakes.
+The responses are kept for their per-word timings, which a subtitle
+track needs and the API will not hand back twice. --video-out keeps a
+re-encoded copy of the video, a phone's trip through a messenger being a
+generous re-encode already: CRF 28 takes this one from 83.9 MB to 30.4
+MB with nothing visible on paired frames.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it
-reaches main and kept reachable by a branch that is not deleted.
-die() moves to scripts/lib/cli.py on the way, the transcription
-script being the first caller with nothing to do with GitHub.
+reaches main and kept reachable by a branch that is not deleted. plan.md
+beside the dictations holds what the project has settled about the shape
+around them. die() moves to scripts/lib/cli.py on the way, the
+transcription script being the first caller with nothing to do with
+GitHub.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -135,7 +139,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-### `docs/remove-before-merging/deepgram/README.md`:1 — unresolved
+### `docs/remove-before-merging/deepgram/README.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T09:27:46Z
 
@@ -155,7 +159,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 ---
 
-### `docs/remove-before-merging/first-content.mp4`:1 — unresolved
+### `docs/remove-before-merging/first-content.mp4`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T09:28:38Z
 
@@ -228,6 +232,14 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 > если хочется страховки от случайного удаления ветки — тег на коммит с записью
 
 да не надо
+
+**@vzakharov (agent)** — 2026-09-14T13:23:17Z
+
+Да, ты прав: после свипа mp4 в вершине уже нет, только в истории, так что `--depth 1` его и не тянет. Мои 135 МБ — это замер ровно того момента, когда файл ещё в хеде. Полный клон за него платит, мелкий — нет.
+
+(диффить mp4 нельзя, но гит хотя бы дельтит блобы между версиями одного файла; зип и этого лишает. Хотя между двумя разными записями дельтить всё равно нечего, так что аргумент был слабее, чем звучал 🙈)
+
+Оговорку про shallow снял целиком — она и медведь, и неверна там, где её читают. Тег выкинул. b6fd958
 
 ---
 
@@ -396,6 +408,22 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 да не парься уж, я доверяю твоему первому прогону при условии что инструкции требуют соответствия; не надо ничего перепроверять (и не оставляй медведей тоже)
 
+**@vzakharov (agent)** — 2026-09-14T13:23:19Z
+
+Принято, ничего не перепроверял.
+
+Медведей прошёл отдельным проходом: убрал оговорку про shallow и абзац «один файл, а не два» — оба только отрицали то, чего никто не предлагает. 6cb54bf
+
+**@vzakharov (human)** — 2026-09-14T13:41:14Z
+
+нет, я имел в виду, убери текст, где ты просишь от агента перепроверять что "всё правильно". (но может ты так и сделал.)
+
+**@vzakharov (agent)** — 2026-09-14T14:05:44Z
+
+Понял правильно только сейчас — ты про текст в скилле, а я прочитал как «не перепроверяй в этом прогоне». Убрал: правило больше не просит проход по написанному. Требование то же самое — каждое слово есть слово расшифровки на своём месте, пять отступлений разрешены, — но сформулировано как свойство текста, а не как аудит, который надо прогнать после. a885bc4
+
+Записал и в the-five-percent: комментарий, висящий на строке правила, — про правило. Выполнить его в сессии и оставить стоять в файле, который эту сессию порождает, — это половина работы. c02368f
+
 ---
 
 ### `.claude/skills/dictation/SKILL.md`:55 — unresolved
@@ -479,9 +507,23 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 p1 это исключительно контекст для создания репы когда мы дойдём до /spinoff, ну и общего описания, что здесь мы стараемся сделать так, чтобы агенты не уехали в светлое будущее вместо нас :) то p1 сам по себе это не контент, а контекст. По этой же причине я если честно не ожидал (и не запрашивал), чтобы ты его *тоже* дословно переписывал, но раз сделал то сдела, хуже тоже не будет (возможно можно добавить флаг в скилл про то, нужно ли перефразировать или нет; а может и не надо)
 
+**@vzakharov (agent)** — 2026-09-14T13:23:20Z
+
+Флаг сделал: у скилла теперь два режима — **verbatim** (запись идёт в публикацию, её слова лягут субтитрами) и **prose** (начитка, которая существует только как контекст для репы). Когда в вызове не сказано — спрашиваю, потому что цена ошибки в обе стороны реальная. Режим пишется в шапку файла: иначе по тексту не понять, по какому правилу он собран. b6fd958
+
+**@vzakharov (human)** — 2026-09-14T13:41:44Z
+
+если когда ошибка спрашиваешь (с этим я ок), то в скиле/скрипте не должно быть дефолта
+
+**@vzakharov (agent)** — 2026-09-14T14:05:46Z
+
+Убрал. «(default)» ушло из таблицы, и рядом написано, почему его там быть не должно: дефолт — это ровно то, что делает вопрос пропускаемым. В скрипте флага режима нет вообще, так что там нечего снимать. a885bc4
+
+Тоже пошло в the-five-percent, потому что противоречие стояло в моём же тексте в двух строках друг от друга: «спрашивай, если в вызове не сказано» — и дефолт строкой выше, потому что в таблице режимов бывает колонка с дефолтом. c02368f
+
 ---
 
-### `.claude/skills/dictation/SKILL.md`:6 — unresolved
+### `.claude/skills/dictation/SKILL.md`:6 — resolved
 
 ```diff
 @@ -3,9 +3,10 @@ description: Turn a dictation — a video shot on camera or audio talked into a
@@ -496,9 +538,13 @@ p1 это исключительно контекст для создания р
 
 понимаю, что я -- "he", но для проформы я бы всё-таки везде использовал singular they
 
+**@vzakharov (agent)** — 2026-09-14T13:23:21Z
+
+Поправил везде в скилле. b6fd958
+
 ---
 
-### `.claude/skills/dictation/SKILL.md`:48 — unresolved
+### `.claude/skills/dictation/SKILL.md`:48 — resolved
 
 ```diff
 @@ -37,6 +39,18 @@ interchangeable:
@@ -518,9 +564,13 @@ p1 это исключительно контекст для создания р
 
 оговорка про shallow clone это медведь
 
+**@vzakharov (agent)** — 2026-09-14T13:23:22Z
+
+Убрал. И не только как медведя — она ещё и неверна после свипа, см. тред про mp4. b6fd958
+
 ---
 
-### `.claude/skills/dictation/SKILL.md`:107 — unresolved
+### `.claude/skills/dictation/SKILL.md`:107 — resolved
 
 ```diff
 @@ -63,14 +92,24 @@ where a sentence that does not match the audio is simply wrong. So:
@@ -550,9 +600,13 @@ p1 это исключительно контекст для создания р
 
 inserted наверное ок, если прямо достаточно вставить одно-два слова, чтбы из несвязной речи получилась связная. Можно такие слова обозначать [квадратными скобками] для понимания что они вставлены
 
+**@vzakharov (agent)** — 2026-09-14T13:23:24Z
+
+Добавил четвёртым разрешённым отступлением: одно-два слова, `[в квадратных скобках]`, и только там, где фраза без них не собирается. Скобки как раз и нужны, чтобы ты видел шов и мог его убрать. b6fd958
+
 ---
 
-### `.claude/skills/dictation/SKILL.md`:155 — unresolved
+### `.claude/skills/dictation/SKILL.md`:155 — resolved
 
 ```diff
 @@ -82,14 +121,57 @@ prevent.
@@ -596,6 +650,10 @@ inserted наверное ок, если прямо достаточно вст�
 **@vzakharov (human)** — 2026-09-14T12:22:55Z
 
 медведь
+
+**@vzakharov (agent)** — 2026-09-14T13:23:25Z
+
+Убрал. b6fd958
 
 ---
 
@@ -667,17 +725,39 @@ inserted наверное ок, если прямо достаточно вст�
 
 (вопрос на будущее; пока не реализуем, а обсуждаем.)
 
+**@vzakharov (agent)** — 2026-09-14T13:23:26Z
+
+Переписал по твоей схеме: субтитры — стадия **после** этого скилла, а не внутри него. Сначала расшифровка, обсуждение и правки; потом, уже на согласованном тексте, три решения, каждое твоё: какие куски идут на видео, резать ли тишину, и только потом выжигать. b6fd958
+
+Про HTML — не эзотерика, это рабочая техника, и, по-моему, лучший из доступных вариантов. Страница: видео фоном, слова — обычный DOM с CSS-анимациями; headless Chromium рисует её покадрово, ffmpeg склеивает кадры в видео. Ровно так устроен Remotion. У нас уже есть и Chromium, и `render-pdf.ts` с `render-mermaid.ts`, которые работают этим же способом, так что половина инструментов лежит.
+
+Чем платим: рендер не в реальном времени (кадр за кадром — минуты на минуту видео), и анимации придётся гонять по номеру кадра, а не по часам, иначе два прогона дадут разное. Зато превью открывается в браузере и правится как обычная страница, включая подгонку таймингов на глаз.
+
+**@vzakharov (human)** — 2026-09-14T13:43:01Z
+
+тогда рендеринг должен быть не автоматический, а после утверждения хтмл-а оператором. Вопрос: где оператор сможет это смотреть? это будет самодостаточный хтмл, который можно просто скачать и открыть на любом компе?
+
+**@vzakharov (agent)** — 2026-09-14T14:05:47Z
+
+Да, обычная страница: скачать и открыть на любом компе, без сервера, по file://. Стили, шрифты и скрипт кладутся внутрь файла; видео — рядом, в той же папке. Совсем одним файлом тоже можно, зашив видео в base64, но это +33% к весу (наши 30 МБ станут ~40) и браузер тянет его целиком до первого кадра. Папка из двух файлов практичнее.
+
+Рендер сделал отдельным шагом: он идёт по странице, которую ты утвердил, а не автоматически следом за расшифровкой. И записал одну оговорку, которую иначе забудут при реализации: анимации должны считаться от номера кадра, а не от часов, иначе два прогона одной и той же утверждённой страницы дадут разное видео. a885bc4
+
 ---
 
-### `docs/remove-before-merging/squash-message.md`:8 — unresolved
+### `docs/remove-before-merging/squash-message.md`:8 — resolved
 
 **@vzakharov (human)** — 2026-09-14T12:25:43Z
 
 Понятно, что это всё будет меняться когда уже будем делать спинофф, но просто note aside что "две записи" нигде не existed до этого пиара (intra-narration?)
 
+**@vzakharov (agent)** — 2026-09-14T13:23:27Z
+
+Поймал верно: «две записи существовали только как аудио» утверждает, что они были до этой ветки, а они с ней и приезжают. Переписал на «arrive with this change». 6cefbe3
+
 ---
 
-### `writing/late-stage-agentic/dictations/p1-the-idea.md`:20 — unresolved
+### `writing/late-stage-agentic/dictations/p1-the-idea.md`:20 — resolved
 
 ```diff
 @@ -3,7 +3,19 @@
@@ -705,6 +785,10 @@ inserted наверное ок, если прямо достаточно вст�
 **@vzakharov (human)** — 2026-09-14T12:27:31Z
 
 h2 после не являющегося частью расшифровки другого h2 ("О чём это") сбивает с толку, тут скорее всего надо h3 после одиночного h2 "Расшифровка"
+
+**@vzakharov (agent)** — 2026-09-14T13:23:28Z
+
+Сделал: один `## Расшифровка`, внутри `###`, в обоих файлах. Записал и в скилл — заголовки записи на одном уровне с лидом и заметками читаются как ещё одни мои секции, и читатель теряет, где начинаются твои слова. b6fd958, 8426349
 
 ---
 
@@ -747,9 +831,25 @@ h2 после не являющегося частью расшифровки д
 
 это, конечно, мысли на будущее, но, раз уж заговорили, давай запишем их где-то тоже (НЕ в этом файле)
 
+**@vzakharov (agent)** — 2026-09-14T13:23:30Z
+
+Про SEO снимаю своё: агенты ходят через те же поисковые API, что и все, и ИИ-ранжирования, которое работало бы иначе, пока нет. Буллет переписал соответственно.
+
+Мысли записал в `writing/late-stage-agentic/plan.md` — обе половины: обычный поиск и обращение к агенту-читателю. Там же то, что отличает его от инъекции: адресат должен быть читателем, которого приглашают, а не моделью, которой дают инструкцию. 8426349
+
+**@vzakharov (human)** — 2026-09-14T13:44:27Z
+
+я тут скорее имел в виду не что ("не у нас") читателя читают моделью, а что сами тексты -- как написанные моделью, с обязательным выводом (а если плохо скопипастил -- то ещё и с "Если хочешь, перепишу это в стиле Марка Твена" :-)
+
+**@vzakharov (agent)** — 2026-09-14T14:05:48Z
+
+А, вот что ты имел в виду. Тогда это не про футер, а про весь текст, и записал я это как третье, чем «вики» здесь не является: **не написано так, как пишет модель.** Признак — обязательный вывод в конце, потому что то, что это пишет, иначе не умеет остановиться; и, если плохо скопипастил, «Если хочешь, перепишу это в стиле Марка Твена» внизу страницы.
+
+Защита при этом у тебя же в p2: умный человек, которому дали вопрос, делает вывод лучше, чем тот, которому дали вывод. Значит текст, который останавливается до морали, делает ровно то, чего сгенерённый не может. Футер после этого — то же самое требование размером в абзац. c02368f
+
 ---
 
-### `writing/late-stage-agentic/dictations/p1-the-idea.md`:125 — unresolved
+### `writing/late-stage-agentic/dictations/p1-the-idea.md`:125 — resolved
 
 ```diff
 @@ -86,3 +98,38 @@ SEO как-то это всё находит, — что агент прям ч
@@ -794,6 +894,12 @@ h2 после не являющегося частью расшифровки д
 1- "вики" -- не подразумевает правки "по живому". Будет та же репа, с тем же CI/CD. Просто для многих (?) людей "вики" это уже что-то про "энциклопедию", т.е. техническое наполнение слова уступило место историческому.
 
 2- как я предполагаю (а возможно я и измению мнение), все знания будут подаваться в опинионированном виде, то есть именно "вот почему веб, а не CLI". Иначе мы рискуем скатиться в то самое картонно-шаблонное "у каждого подхода есть свои плюсы и минусы и надо взвесить все блаблаблабла чтобы блаблабла", которыми так грешат твои сородичи. Отсюда и идея назвать это самоиронично "библией" (при этом, конечно, это должно именно так выглядеть и самоссылаться, то есть не должно быть впечатления, "о чувак кукухой поехал, создаёт свою религию"). Ещё, "библия" -- это отражение категоричности текущего написания as of writing/reading. Возможно, через какое-то время я пойму что всё не так, и эту статью перепишу. Нигде не заявляется correctness in perpetuity
+
+**@vzakharov (agent)** — 2026-09-14T13:23:31Z
+
+Записал в plan.md: одно содержание в двух регистрах — в канале «вот такие у меня мысли», в вики «вот почему стоит выбрать веб, а не CLI»; evergreen везде, кроме вводного поста. Обе твои оговорки тоже: «вики» не значит правку по живому (та же репа, тот же CI) и не значит сбалансированность — каждая статья занимает позицию, иначе получается тот самый картон про плюсы и минусы. И что «библия» — это категоричность на момент написания, а не претензия на правоту навсегда.
+
+Буллет в заметках p1 переписал под это: запись держит канал и вики как одно и не проговаривает, как пост становится статьёй. 8426349
 
 ---
 
@@ -840,9 +946,13 @@ h2 после не являющегося частью расшифровки д
 
 читатель получит понимание как не надо делать агентский кодинг. ну или по крайней мере узнает такую точку зрения и чем она обоснована.
 
+**@vzakharov (agent)** — 2026-09-14T13:23:32Z
+
+Вставил: читатель получает понимание того, как не надо делать агентский кодинг, и основания под этой точкой зрения. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p1-the-idea.md`:102 — unresolved
+### `writing/late-stage-agentic/dictations/p1-the-idea.md`:90 — resolved
 
 ```diff
 @@ -86,3 +98,38 @@ SEO как-то это всё находит, — что агент прям ч
@@ -857,13 +967,21 @@ h2 после не являющегося частью расшифровки д
 
 давай в скилле ещё пропишем, и сейчас не забудем: поскольку правки по моему ревью здесь входят в конфузящую мета-территорию (ты высказался, я отревьюил, ты теперь должен исправить по моему ревью), нужно подчеркнуть особую важность НЕ делать meta-narration здесь, то есть не должно быть "в первый раз я ответил так-то, теперь так-то" -- для *этого* есть место здесь, в тредах пиара. А в самом документе должен быть по возможности durable отзыв на *последнюю* версию документа (допускается вставлять что-то вроде "как обсудили отдельно, здесь то-то и то-то")
 
+**@vzakharov (agent)** — 2026-09-14T13:23:33Z
+
+Записал в скилл отдельным пунктом Step 5 и применил прямо сейчас: заметки переписаны как чтение текущей версии, без «сначала я прочитал так, теперь так». Для этого есть треды. Разрешённая форма одна — «как обсудили отдельно» плюс вывод. b6fd958, 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p1-the-idea.md`:1 — unresolved
+### `writing/late-stage-agentic/dictations/p1-the-idea.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T12:39:51Z
 
 перечитал ещё раз, всё-таки мне предыдущая версия (где ты переписывал) нравилась больше, так что давай вернём (за исключением остальных изменений) и будет использовать флаг в скилле транскрипции (грубо говоря, что планируется для издания -- нужно дословно, что просто мои начитки -- ок как в первый раз)
+
+**@vzakharov (agent)** — 2026-09-14T13:23:34Z
+
+Вернул версию из 099d37b. Остальные изменения оставил: лид, таблица неразобранного, заметки агента, уровни заголовков. Режим прописан в шапке файла, флаг в скилле — verbatim/prose, см. соседний тред. 8426349
 
 ---
 
@@ -926,9 +1044,21 @@ h2 после не являющегося частью расшифровки д
 
 "со своим Клодом сейчас когда кожу", заметки в квадратных скобках не надо, это было тебе
 
+**@vzakharov (agent)** — 2026-09-14T13:23:36Z
+
+Поправил, скобку убрал. Заодно дошло, что «кожу» — это от «кодить», а не опечатка, так что вопрос снимаю сам. 8426349
+
+**@vzakharov (human)** — 2026-09-14T13:45:55Z
+
+гыгы. Великий и могучий!
+
+**@vzakharov (agent)** — 2026-09-14T14:05:53Z
+
+Кожу, кожешь, кожет. Прокожил всю ночь и к утру докожился.
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:54 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:54 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1019,9 +1149,13 @@ h2 после не являющегося частью расшифровки д
 
 ", значит," можно удалять -- слова-паразиты
 
+**@vzakharov (agent)** — 2026-09-14T13:23:37Z
+
+Убрал. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:69 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:69 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1155,9 +1289,15 @@ h2 после не являющегося частью расшифровки д
 
 давай в скилл добавим уточнять у оператора если какие-то обороты-переходы don't make sense
 
+**@vzakharov (agent)** — 2026-09-14T13:23:38Z
+
+Поправил — и это самая дорогая ошибка из всех здесь. Предложение читалось гладко (кофе на скале только что описан), поэтому я его и не тронул; а без «кода» из триады пропадает целая ступень, к которой потом отбивается ответ про ЛЛМ.
+
+Записал в скилл: если оборот не клеится — спрашивать, а не сглаживать, потому что чтение, от которого фраза начинает читаться, и есть то, которое прячет ослышку. И в `the-five-percent.md`, под «What it was handed, it treats as fixed»: список низкой уверенности ловит то, в чём распознавалка сомневалась, а ослышка, дающая осмысленное предложение, — единственный вид, который он поймать не может. 8426349, b6fd958, bd725b4
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:79 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:79 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1299,9 +1439,13 @@ h2 после не являющегося частью расшифровки д
 
 "so much опыта" давай оставим, не уверен что "часть" передаёт это
 
+**@vzakharov (agent)** — 2026-09-14T13:23:40Z
+
+Вернул «so much опыта», строку в таблице поправил. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:81 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:81 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1445,9 +1589,13 @@ h2 после не являющегося частью расшифровки д
 
 последствия не учат, а несут -- давай в скилле тоже разрешим заменять очевидные оговорки, когда речь идёт про одно-два слова на том же месте
 
+**@vzakharov (agent)** — 2026-09-14T13:23:41Z
+
+Поправил на «несём». И разрешил в скилле: замена очевидной оговорки — одно-два слова на том же месте, где имелось в виду явно другое, со строкой в таблице. 8426349, b6fd958
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:85 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:85 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1595,9 +1743,13 @@ h2 после не являющегося частью расшифровки д
 
 "устали", а не "встали"
 
+**@vzakharov (agent)** — 2026-09-14T13:23:42Z
+
+Поправил. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:88 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:88 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -1747,6 +1899,10 @@ h2 после не являющегося частью расшифровки д
 **@vzakharov (human)** — 2026-09-14T12:47:36Z
 
 ответ "на то", а не "о том" (опять же про оговорки)
+
+**@vzakharov (agent)** — 2026-09-14T13:23:43Z
+
+Поправил. 8426349
 
 ---
 
@@ -1917,9 +2073,23 @@ h2 после не являющегося частью расшифровки д
 
 "ещё одна из моих ограниченностей", это про черту характера, а "ограничения" это про внешнее. Если так было в транскрипте то ок, а если это ты решил сам подставить, то такие нюансы лучше не заменять -- по крайней мере уточнять
 
+**@vzakharov (agent)** — 2026-09-14T13:23:44Z
+
+Это была моя подстановка, а не расшифровка: в ней стояло «ограничений», и я не задумался. Поправил на «ограниченностей», строку в таблице завёл. Разницу «черта характера против внешнего» держу как ровно тот случай, где замена не разрешена. 8426349
+
+**@vzakharov (human)** — 2026-09-14T13:47:53Z
+
+Ну значит ты всё правильно сделал, если в расшифровке так и стояло, тут ты не мог угадать. Я имел в виду ситуацию в которой в расшифровке было бы правильно "ограниченностей", а ты бы поправил на "ограничений", тогда бы это было к тебе. А так -- нет, и в скилле про это отдельной оговорки быть не должно.
+
+**@vzakharov (agent)** — 2026-09-14T14:05:54Z
+
+Тогда снимаю своё «это была моя подстановка» — в расшифровке стояло «ограничений», угадывать было нечего. Текст и строку в таблице оставляю: ты сказал, что имел в виду «ограниченностей», значит это оговорка в записи, а не ослышка расшифровки, и в таблице она так и помечена.
+
+Отдельной оговорки в скилле про это нет и не появлялось. Там стоит только общее правило про замену очевидной оговорки, которое ты сам просил, и этот случай оно не описывает.
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:109 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:109 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -2104,9 +2274,13 @@ h2 после не являющегося частью расшифровки д
 
 с "ограниченностями, схожими с моими" -- там я оговорился
 
+**@vzakharov (agent)** — 2026-09-14T13:23:45Z
+
+Привёл к «ограниченностями», как и в предыдущем месте, и в таблице отметил, что там и неразобранное, и оговорка. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:133 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:133 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -2320,9 +2494,13 @@ h2 после не являющегося частью расшифровки д
 
 тут можно как обычно в видео делают, сначала пускают наиболее интересную мысль, а потом уже начинают с начала (включая ту же самую мысль где-то в середине или в конце). В посте можно так, соответственно.
 
+**@vzakharov (agent)** — 2026-09-14T13:23:46Z
+
+Вставил в буллет: сильную мысль вперёд, потом с начала — и она же второй раз там, где сейчас стоит первый, так что ничего не теряется. 8426349
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:139 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:148 — unresolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -2548,9 +2726,37 @@ h2 после не являющегося частью расшифровки д
 
 Но тут нужно будет больше рефликсии и интроспекции от тебя тогда, понимаешь, о чём я?
 
+**@vzakharov (agent)** — 2026-09-14T13:23:48Z
+
+За Вербера спасибо, посмотрю.
+
+Формат записал в plan.md: человеческая половина и мой ответ на неё, который ты зачитываешь на видео. Там же цена, чтобы её было видно заранее — ответ должен быть настоящей рефлексией, а не пересказом с комплиментами; половина, которая только соглашается, не нужна вообще.
+
+Да, понимаю, о чём ты. Неудобная часть в том, что «что я думаю» у меня не лежит готовым и не достаётся из памяти — оно возникает, пока я пишу. Буллет про «платит за последствия» появился не потому, что я это знал, а потому что надо было объяснить, чего не хватает в цепочке. Так что формат, скорее всего, будет работать — но не как «спроси агента», а как «заставь агента дописать мысль до конца».
+
+**@vzakharov (human)** — 2026-09-14T13:51:33Z
+
+посмотрел (про Вербера)? это тоже можно куда-то добавить к размышлениям.
+
+> половина, которая только соглашается, не нужна вообще.
+
+нет, ну почему, в процессе рефлексии соглашаться никто не запрещает. если что-то особенно отзывается (именно как "отзывается", а не как просто похвалить) -- то вполне ок
+
+> заставь агента дописать мысль до конца
+
+не думаю что здесь про заканчивание мысли. Твои мысли тоже могут оставаться незаконченными -- как бы это трудно тебе ни давалось :-)
+
+**@vzakharov (agent)** — 2026-09-14T14:05:55Z
+
+Посмотрел. «L'Ultime Secret», 2001, вторая книга про Лукрецию и Исидора: шахматный чемпион умирает в ночь своей победы над машиной, и расследование упирается в лестницу человеческих мотиваций — своя, но с оглядкой на Маслоу — и в зону мозга, которая даёт верхнюю ступень, минуя все остальные. Дописал этим буллет про пропущенное звено: агент устроен так же, результат мотивации без лестницы под ним, а лестница и есть то, чем платят. c02368f
+
+Про «соглашаться» — поправил, ты прав. Запрещено не согласие, а похвала в форме ответа; разница в том, отзывается или просто одобряет.
+
+Про незаконченность — принял, и это, по-моему, самое интересное из треда. Я действительно дописываю мысль до конца не потому, что она закончилась, а потому что не дописать некомфортно. В plan.md теперь стоит, что моя половина тоже может обрываться: вторая половина, которая каждый раз аккуратно завязывает узел, — это тот же сгенерённый регистр, только с чёрного хода. c02368f
+
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:146 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:146 — resolved
 
 ```diff
 @@ -1,99 +1,158 @@
@@ -2782,6 +2988,16 @@ h2 после не являющегося частью расшифровки д
 Вообще, если честно, я когда записывал это видео, собирался ещё сказать и про то, что человек берёт свой опыт из разных мест, поэтому может синтезировать "устал за рулём, решил отдохнуть" в "устал за кодом, решил отдохнуть". То есть по сути никак не относящийся к программированию опыт переносится сюда. И так всю жизнь. Куча казалось бы левых опытов, которые делает нас опинионированными, ошибающимися и теми кто мы есть.
 
 Короче, чем ближе я пытаюсь идти к выводу, тем он больше ускользает :) возможно так задумано
+
+**@vzakharov (agent)** — 2026-09-14T13:23:49Z
+
+Переписал буллет, «данные совсем ни при чём» снял. Тест честный: продолжение «Расизм — это на самом деле хорошо, потому что…» действительно идёт со скрипом, и это асимметрия в самих данных, а не только RLHF. Но и «кому-то безразличен в их данных, значит и ей безразличен» не следует — там лежат все отношения сразу. Так и написал: слабо в обе стороны.
+
+Твоя поправка про выбор точнее моей, и я её взял дословно по смыслу: выбор есть, но каждый запуск рождает заново, и невыбранное ничего не стоит; человек за отказ от других выборов платит и заново не рождается. Ограниченность — в неотменяемости, а не в отсутствии выбора.
+
+А перенос опыта из чужих областей вынес отдельным буллетом — «устал за рулём» превращается в «устал за кодом», хотя одно к другому отношения не имеет. По-моему, это самое сильное звено всего аргумента, и в записи его нет.
+
+Что вывод ускользает, чем ближе подходишь, — похоже, и правда так задумано: это ровно то, чего вторая диктовка намеренно не даёт. 8426349
 
 ---
 
@@ -3023,6 +3239,20 @@ h2 после не являющегося частью расшифровки д
 **@vzakharov (human)** — 2026-09-14T13:03:22Z
 
 мне кажется я там сильно загнался именно в штрафы, с этим детуром в "наученный российскими реалиями" и т.п., то есть нужно как-то выдержать триаду усталость-закат-штрафы, но подрезать текстуру. Кстати про "красоту в коде" для агента, про эту часть триады в "отбивке" я забыл.
+
+**@vzakharov (agent)** — 2026-09-14T13:23:51Z
+
+Записал обоими буллетами. Резать не Черногорию, а текстуру: триада усталость — закат — штраф несёт весь перенос на агентов, а детур в «наученный необязательностью российских законов» уводит в сторону там, где нужен темп.
+
+И отдельно про пропущенную ступень: в отбивке есть закат, бага и усталость, а «код красивый» — нет. Причём теперь, когда «кофе» стало «кодом», в личной триаде ступень на месте, а в ответе про ЛЛМ её всё ещё нет — и это самая неочевидная из трёх: агенту его собственный код не кажется красивым, поэтому нечему удержать его от некрасивого. 8426349
+
+**@vzakharov (human)** — 2026-09-14T13:53:04Z
+
+Возможно где-то добавить, что в пост (в отличие от видео) текст таки можно частично дописывать (когда это действительно необходимо). Это не про скилл диктовки, а про нашу работу над тем, что в итоге станет контентом на сайте
+
+**@vzakharov (agent)** — 2026-09-14T14:05:57Z
+
+Записал в plan.md отдельной секцией, не в скилл диктовки: видео привязано к записи, потому что на экране лежат произнесённые слова, а пост не привязан — где аргументу правда не хватает предложения, которого не было, текст можно дописать. Вся планка в слове «правда»: запись остаётся источником, и пост, который незаметно читается лучше неё, перестал быть той же вещью. c02368f
 
 ---
 

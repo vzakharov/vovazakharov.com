@@ -17,7 +17,7 @@ Each lands under writing/late-stage-agentic/dictations/ in five parts,
 of which only the middle one is the recording: a lede to recognise it
 by, the text itself, a table pairing what the recognizer heard against
 what the page says, and a reading of what was said. A recording headed
-for publication keeps his words in his order, because the same text
+for publication keeps their words in their order, as the same text
 becomes the subtitle track, and the rule for it is mechanical: every
 word is the recognizer's word in its place, bar a filler removed, a
 mis-hearing corrected, a slip replaced, or a word bracketed in.
