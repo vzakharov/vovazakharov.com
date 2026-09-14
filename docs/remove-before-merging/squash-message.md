@@ -35,14 +35,14 @@ from 83.9 MB to 30.4 MB, nothing visible on paired frames.
 Two skills carry what happens after, both specified and neither built:
 subtitles joins the corrected words onto the saved timings and burns
 them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. The first is in drafts/.
+argument out as text, listing every departure. Both posts so far sit in
+drafts/, the second written rather than spoken -- whether the arrow
+points that way from now on is open in plan.md, with the rest.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash so none of it
-reaches main and kept reachable by a branch that is not deleted.
-plan.md beside the dictations holds what the project has settled about
-the shape around them, and what it has not; die() moves to
-scripts/lib/cli.py, the first caller with nothing to do with GitHub.
+reaches main and kept reachable by a branch that is not deleted; die()
+moves to scripts/lib/cli.py, the first caller unrelated to GitHub.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

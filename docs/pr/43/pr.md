@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T14:51:56Z
+- **Updated:** 2026-09-14T21:16:42Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -148,6 +148,42 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ---
 
+### Comment by @vzakharov (human) on 2026-09-14T21:16:03Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5670919481](https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5670919481)
+
+
+
+Знаешь, почитал я-почитал, подумал-подумал, и понял, что это всё не про то и не то. Мямлим, рассусоливаем, нудим, пытаемся всем понравиться. Короче, решил, напишу поток мыслей, но именно письменно а не устно — потом буду наговаривать основываясь на этом, а не наоборот — кажется, мне так проще.
+
+В квадратных скобках -- то, где не могу найти достаточно ёмкой формулировки.
+
+> Задаюсь тут вопросом, да и мне всё чаще его задают, нафига нужны все эти ваши разработчики-программисты, если агент может написать гта 6 с одного промпта.
+> 
+> На протяжении последних нескольких недель мы с моим Клодом пытаемся дать на это не какой-то философский, а подкреплённый конкретными данными ответ.
+> 
+> У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+> 
+> И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
+> 
+> [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
+> 
+> А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
+> 
+> Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
+> 
+> Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
+> 
+> И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
+> 
+> Доброе пожаловать в “Клод четвёртой стадии”* -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+
+*может лучше “Клод головного мозга”? давай взвесим (на английское late stage agentic это не влияет)
+
+А ещё, не забавно ли, как этот пиар тоже является примером “понять что поставлена неправильная задача”?..
+
+---
+
 ## Review threads
 
 ### `docs/remove-before-merging/deepgram/README.md`:1 — resolved
@@ -254,7 +290,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:1 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T09:33:52Z
 
@@ -668,7 +704,7 @@ inserted наверное ок, если прямо достаточно вст�
 
 ---
 
-### `.claude/skills/dictation/SKILL.md`:168 — unresolved
+### `.claude/skills/dictation/SKILL.md`:168 — resolved
 
 ```diff
 @@ -82,14 +121,57 @@ prevent.
@@ -3380,7 +3416,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 
 ---
 
-### `.claude/skills/dictation/SKILL.md`:154 — unresolved
+### `.claude/skills/dictation/SKILL.md`:154 — resolved
 
 ```diff
 @@ -92,29 +116,42 @@ is the speaker's own manner of talking, and it is what the subtitles say. So:
@@ -3522,9 +3558,13 @@ One thing I could not do the way you asked. A stub in this repo means the two ST
 
 While there: `/dictation-to-post` is the other downstream step, see the thread on `p2-the-limits.md`.
 
+**@vzakharov (human)** — 2026-09-14T15:04:30Z
+
+а зачем пускать vet до finalize-а? ;) ну сделал так сделал.
+
 ---
 
-### `writing/late-stage-agentic/plan.md`:5 — unresolved
+### `writing/late-stage-agentic/plan.md`:5 — resolved
 
 ```diff
 @@ -0,0 +1,88 @@
@@ -3547,7 +3587,7 @@ This one is also a bump in `the-five-percent.md`, and an unflattering one: you h
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:69 — unresolved
+### `writing/late-stage-agentic/plan.md`:69 — resolved
 
 ```diff
 @@ -0,0 +1,88 @@
@@ -3628,7 +3668,7 @@ For what it is worth, the two candidate answers already look different in kind: 
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:86 — unresolved
+### `writing/late-stage-agentic/plan.md`:86 — resolved
 
 ```diff
 @@ -0,0 +1,88 @@
@@ -3732,7 +3772,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:116 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:116 — resolved
 
 ```diff
 @@ -106,21 +108,26 @@ GPT-3, который работал через раз. И, конечно, то
@@ -3762,7 +3802,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:151 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:151 — resolved
 
 ```diff
 @@ -129,21 +136,36 @@ GPT-3, который работал через раз. И, конечно, то
@@ -3805,7 +3845,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/dictations/p2-the-limits.md`:188 — unresolved
+### `writing/late-stage-agentic/dictations/p2-the-limits.md`:188 — resolved
 
 ```diff
 @@ -154,5 +176,13 @@ GPT-3, который работал через раз. И, конечно, то
@@ -3863,6 +3903,10 @@ The open bullet read as though it were not, so it now points at that bullet inst
 - **Длина.** ~3 500 знаков. Резать есть что: абзац про файлик с уроками живёт ради одного примера.
 
 Скилл написан по этому первому прогону, как ты и сказал: где проходит граница дозволенного (восстановить звено, которое говорящий продумал и не произнёс — можно; своё мнение чужим голосом — нет), что таблица швов обязательна, и что вывод дописывать нельзя нигде. Дошлифуем по твоим правкам.
+
+**@vzakharov (human)** — 2026-09-14T15:08:08Z
+
+нет, все равно --, русскоязычные так же реагируют на длинное тире (обычно все пишут просто дефис -- который даже и не дефис, а hyphen-minus, но я digress...)
 
 ---
 
