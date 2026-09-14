@@ -48,7 +48,7 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
   is a coincidence with a paragraph attached. A learning cut for thinness comes
   back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×10)
+## What it was handed, it treats as fixed (×11)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. That is
@@ -135,6 +135,13 @@ it parses, and a coffee on a rock had just been described. The word was «код
 the rung the recording's payoff calls back to. The low-confidence list flags what
 the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
+**14 September — the reading that fit the argument went unchecked.** «Ставить
+его нам, возможно, будет уже некому» was read as _we will not be here_, and a
+recommendation between two channel names rested on the ending needing a diagnosis
+people die of. «Некому ставить» admits only the other reading — nobody left to
+give it — and the «нам» was there against the first. The parse arrived before the
+argument and was never asked again once the argument stood on it.
+
 ## It edits the copy in front of it, not the fact behind it (×7)
 
 A change the agent is told to make, it makes where it was raised. One fact
@@ -207,18 +214,16 @@ not supposed to work in a static export at all?_ One grep of `out/`: the hop is
 React's, after hydration, so `/cv` is blank to anything without JS.
 
 **8 September — the schema it never wrote.** Told route params would be better
-parsed with a zod schema, the agent declined on three reasons and two rounds
-took two of them away. What was left was that a schema would restate the variant
-ids — and `z.enum(CV_VARIANTS)` reads the same const the type does. _Am I
-missing smth?_ No. What the account displaced was a measurement nobody had: zod
-in a module a client component reaches puts 89 kB gzipped in the CV's bundle,
-which decides where the schema lives rather than whether it exists.
+parsed with a zod schema, the agent declined; what survived two rounds was that
+a schema would restate the variant ids — which `z.enum(CV_VARIANTS)` does from
+the same const. _Am I missing smth?_ The account displaced a measurement nobody
+had: zod in a module a client component reaches costs the CV's bundle 89 kB
+gzipped, which decides where the schema lives, not whether it exists.
 
 **9 September — four homes, three of them checked.** Cutting a maintenance
 paragraph from a commit body, the agent justified it: each item already sits
 where whoever is about to break it would look. The right test, which is why
-nobody ran it — the fourth item, the type gate's blindness to a shape inlined
-into a generic, was named nowhere but in the paragraph being deleted.
+nobody ran it — the fourth item was named nowhere but in the deleted paragraph.
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
 Asked where source recordings live, the agent argued nothing sits between `main`
@@ -246,17 +251,16 @@ carried a passage on its own calibration, arguing why its register was pitched
 where it was. The human deleted it: a reader came for the post, not its defence.
 
 **7 September — the commit body that documented the deploy gate.** The squash
-message explained the new prefix and its place in the gate, with two notes
-recording the call and offering the veto. All of it true. The operator cut all
-three: the prefix was a minor ride-along on a branch about a content plan, and a
-ride-along given a paragraph in a body read by someone scanning the log reads as
-what the commit was for.
+message explained the new prefix and its place in the gate, plus two notes
+recording the call and offering the veto — all true, all cut. A ride-along on a
+branch about a content plan, given a paragraph in a body read by someone
+scanning the log, reads as what the commit was for.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
-ended on "Four things to know when editing here". Every item true, and every one
-belonging in a rules file or a docstring rather than that body. The operator cut
-it and named the mechanism: the body had accreted across refreshes rather than
-being rewritten, which is how a cap gets walked past one push at a time.
+ended on "Four things to know when editing here" — every item true, every one
+belonging in a rules file or a docstring. The body had accreted across refreshes
+rather than being rewritten, which is how a cap gets walked past one push at a
+time.
 
 ## Given a form, it fills the form (×3)
 
@@ -313,9 +317,8 @@ answerable from the intent.
 **8 September — the logos it had already looked at.** The agent screenshotted
 three new organisation marks in both schemes and reported them legible and
 aligned. _the logos are slightly mis-aligned_: one filled its canvas
-edge-to-edge, another was inset a fifth and off-centre, so they read as
-different sizes on a wobbling axis. The screenshot had shown that; the question
-asked of it was "are the logos there".
+edge-to-edge, another was inset a fifth and off-centre. The screenshot had shown
+that; the question asked of it was "are the logos there".
 
 **9 September — the card it had just fixed, looked at and passed.** Rendering
 one card per framing off the catalogue, the agent checked the property it had
@@ -355,10 +358,9 @@ word unnamed, no sign the passage around it was about writing code. _этот п
 
 ## Not bumps
 
-The agent flagged rather than silently fixed two words missing from text the
-operator had supplied verbatim — a rule in `.claude/rules/writing.md` doing its
-job, recorded so it isn't miscounted as judgement: every learning above is one no
-rule anticipated.
+The agent flagged rather than silently fixed two words missing from text supplied
+verbatim — a rule in `.claude/rules/writing.md` doing its job, recorded so it
+isn't miscounted as judgement: every learning above is one no rule anticipated.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
 recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
@@ -370,10 +372,10 @@ holds the original of.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
-theme toggle sits, and whether it comes from a layout. The residue each time is
-smaller than the entry claimed — pitching the option was available and unpitched
-— and only the toggle's _skin_ stayed a bump, its reason already standing in the
-agent's own argument. Entries removed under this test lose their count with them.
+theme toggle sits, and whether it comes from a layout. Each residue is smaller
+than its entry claimed; only the toggle's _skin_ stayed a bump, its reason
+already standing in the agent's own argument. An entry removed this way takes
+its count with it.
 
 ## The two families
 
@@ -386,14 +388,12 @@ rule, our own `eslint.config.ts` read as a specification rather than a decision
 we can remake. Whatever the agent is handed, it reasons inside.
 
 The other is the opposite of a mistake: the output was well-formed, justified
-and efficient, and every one of those properties is what made it wrong there. An
-edit minimal where it was made left one fact spelled three ways; an explanation
-sound at every step stopped anyone opening the file it described; a constraint
-correctly stated in prose stopped the search for a checker. Twice the agent
-rendered the page, looked at it, and verified its own intention. No version of
-"be more careful" catches these, which is why they need a person.
+and efficient, and every one of those properties is what made it wrong. An edit
+minimal where it was made left one fact spelled three ways; an explanation sound
+at every step stopped anyone opening the file it described; a constraint
+correctly stated in prose stopped the search for a checker. No version of "be
+more careful" catches these, which is why they need a person.
 
-Most were caught by the human knowing something the agent didn't — which chart
-window was drawn wrong, what a side project actually was. The redirect one was
-not: the reply carried no information, only a refusal to accept a well-formed
-account — cheaper to give and, on this evidence, not less productive.
+Most were caught by the human knowing something the agent didn't. The redirect
+one was not: a reply carrying no information, only a refusal to accept a
+well-formed account — cheaper to give and not less productive.

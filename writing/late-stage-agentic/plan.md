@@ -18,10 +18,11 @@ an article that states the position — "here is why to choose the web client ov
 the CLI". The channel post is dated and personal; the article is the thing you
 send someone a year later.
 
-**Everything but the opening is evergreen**, in the only sense the subject
-allows: it goes stale when the technology under it moves, not when the week
-turns. The opening post is the exception — it is an introduction and reads as
-one.
+**Everything here is evergreen**, in the only sense the subject allows: a piece
+goes stale when the technology under it moves, not when the week turns. The
+welcome text is not the exception it looks like — it opens the channel, and on
+the site the same words are the hero copy or the "About" page, whole or
+condensed, which is the least dated thing there.
 
 Three things "wiki" does **not** mean here:
 
@@ -79,6 +80,24 @@ of a response. The agent's half may also end unconcluded — the format's whole
 claim is that a piece can stop at the question, and a second voice that always
 ties it off is the generated register arriving by the back door.
 
+## Concrete before philosophy
+
+**A piece earns its place by being concrete.** Philosophy reads well from
+someone who already has weight, and it is not how the weight is gained — the
+first question a stranger's life lessons raise is why this particular weirdo. So
+what runs is what can be checked: a rule, a mechanism, a number, a thing that
+went wrong. The philosophy rides on top of that once there is something under
+it.
+
+That is what shelved the limits piece. `drafts/p2-the-limits.md` stays material
+rather than a post, and its thesis survives as one clause of the welcome text —
+the bruises a life hands you as a bonus for being limited — so what used to be
+argued is now promised, and what redeems the promise is a concrete piece rather
+than this one. The cost lands on "Not written the way a model writes" above,
+whose defence of stopping short of a conclusion cites that dictation's own
+ending. The licence stands; the exhibit for it now has to come from something
+that runs.
+
 ## From a dictation to a post
 
 The video is bound to the recording: the words on screen are the words spoken,
@@ -105,22 +124,9 @@ draft so the operator can put it back.
   None of those skills changes until the plan exists.
 - **What the channel is called in Russian.** «Клод четвёртой стадии» against
   «Клод головного мозга»; the English name is settled either way. The weighing
-  is in `drafts/p0-welcome.md`, because the choice is load-bearing for that
-  post's last line rather than for anything here — a diagnosis nobody dies of
-  takes the ending with it.
-- **Whether `--` holds in Russian too.** `@.claude/rules/writing.md` § "Voice"
-  spells an em dash as two hyphens, on the ground that an English reader reads
-  the correct punctuation as a machine's fingerprint — a tell that does not
-  transfer, in a language where the dash is ordinary and its absence looks like
-  damage. What is on the record is practice rather than a decision: the opening
-  post, written by hand, uses `--` six times and `—` never.
-- **Whether the limits piece stays a post.** The verdict on the recording it
-  came from is that it says its thing foggily — «мямлим, рассусоливаем, нудим» —
-  which is about the message rather than about how the message was captured. The
-  opening post carries the same thesis in one clause, the bruises a life hands
-  you as a bonus for being limited, so the argument is now promised where it
-  used to be made. What redeems the promise, and whether the current draft is
-  material for it or a post, is open.
+  is in `drafts/p0-welcome.md`, and what is left of it is the parallel with
+  "late stage" against the wear on a joke everyone has heard — the last line
+  turned out to survive either name.
 - **What the wiki is called.** «Библия» is the working name, for the reason set
   out under "Not balanced" above, and the only candidate that has one; nothing
   is decided.
