@@ -103,15 +103,13 @@ and declined on that basis. Every step true, and the frame never questioned:
 an external constraint is. The reply: _if "boundaries don't allow" is the only
 argument, let's rewrite the boundaries_ — and the sibling repo pins none at all.
 
-**9 September — a comment about what the site's controls wear, read as a rule
-about what everything interactive is.** Moving the theme toggle into the header's
-corner, the agent left its skin untouched: `variant="default"`, which `theme.ts`
-describes beside it as "the site's only control skin". So the corner held a
-hairline box fencing off empty space — _let's remove the borders around the theme
-buttons_, then _and generally make them gray, unobtrusive_. The comment says what
-the site's controls wear, not that everything clickable is one. The agent had
-just argued the toggle is page furniture rather than content, and never carried
-that one step further to how it looks.
+**9 September — a note on what the site's controls wear, read as a rule about
+everything clickable.** Moving the theme toggle into the header's corner, the
+agent left its skin untouched: `variant="default"`, which `theme.ts` calls beside
+it "the site's only control skin". So the corner held a hairline box fencing off
+empty space — _let's remove the borders around the theme buttons_, then _and
+generally make them gray, unobtrusive_. The agent had just argued the toggle is
+furniture rather than content, and never carried that across to how it looks.
 
 **9 September — a global class read off the globals beside it.** A hover dim
 claimed by two slices with no sideways reach went into `globals.scss`, reason
@@ -167,14 +165,12 @@ have seen and didn't — and ran it against exactly the entry under discussion,
 retiring one. Ten sections sat above it unexamined, in the file the test had been
 written about. _Do the other learnings here de-qualify per this lens?_ One did.
 
-**9 September — the tagline in the catalogue, the tagline in the pixels.** The
-CV repositioning rewrote the tagline for the CTO framing and wired
-`cv-metadata.ts` to serve each framing its own. Two lines below, in the same
-file, it left `ogImage: '/cv_card.png'` — a hand-made composite with the
+**9 September — the tagline in the catalogue, the tagline in the pixels.** The CV
+repositioning wired `cv-metadata.ts` to serve each framing its own tagline, and
+two lines below left `ogImage: '/cv_card.png'` — a hand-made composite with the
 developer tagline baked in — so a shared `/cv` link unfurled the CTO description
-beside a card reading DEVELOPER. A fact rendered in pixels rather than text: the
-search for copy to update never reached it, and nothing in the tree hashed it.
-The operator, shown the unfurl: _бли, картинку уже поменять надо_ 🙈.
+beside a card reading DEVELOPER. A fact rendered in pixels: the search for copy
+never reached it. Shown the unfurl: _бли, картинку уже поменять надо_ 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type and called the two remaining
@@ -225,11 +221,10 @@ nobody ran it — the fourth item, the type gate's blindness to a shape inlined
 into a generic, was named nowhere but in the paragraph being deleted.
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
-Asked where source recordings should live, the agent argued nothing sits between
-`main` and nowhere: a video kept only on a branch is collected as garbage once
-the branch is deleted. True at every step, and the premise was never checked —
-`git ls-remote --heads origin` lists twenty-eight merged `claude/*` branches,
-none deleted: _я не удаляю ветки_.
+Asked where source recordings live, the agent argued nothing sits between `main`
+and nowhere: a video kept only on a branch is garbage-collected once the branch
+is deleted. Every step true, the premise never checked — `git ls-remote --heads
+origin` lists twenty-eight merged `claude/*` branches: _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against the next transcript drifting into prose: every
@@ -276,12 +271,10 @@ need saying at all — we'll see case by case.
 
 **8 September — three glosses invented to fill three slots.** The home page got a
 one-line gloss beside each of three old side projects. Two came back corrected to
-things no reading of the repos would have produced — _a BYOK AI-first text
-processor_, _chatgpt before chatgpt_ — and a fourth card's stack was wrong in
-kind, listing TypeScript and feature-sliced design for a boilerplate that has
-neither. Every gloss was a confident sentence about the operator's own work, and
-the slot never suggested that leaving one blank was available. Not knowing is not
-the finding; writing rather than asking is.
+things no reading of the repos would produce — _a BYOK AI-first text processor_,
+_chatgpt before chatgpt_ — and a fourth card listed TypeScript and feature-sliced
+design for a boilerplate with neither. Every gloss was a confident sentence about
+the operator's own work, and the slot never offered leaving one blank.
 
 **14 September — a default under a rule that says to ask.** Asked for a flag
 choosing whether a dictation is transcribed verbatim or rendered as prose, the
@@ -292,10 +285,9 @@ The default is what makes the question skippable: _не должно быть д
 ## It settles a constraint in prose where a mechanism was available (×2)
 
 A constraint the agent can't see how to enforce, it writes down. The note is
-accurate, it sits on the right module, and it is invisible to the edit that
-violates it — nothing reads a docstring on its way to moving a file. Prose is
-what gets reached for because prose is always available; whether a mechanism was
-_also_ available is a separate question, and it doesn't get asked.
+accurate, sits on the right module, and is invisible to the edit that violates it
+— nothing reads a docstring on its way to moving a file. Prose gets reached for
+because it is always available; whether a mechanism also was never gets asked.
 
 **9 September — "keep them out of `shared/i18n`".** Having measured that a zod
 schema in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent
@@ -368,6 +360,14 @@ operator had supplied verbatim — a rule in `.claude/rules/writing.md` doing it
 job, recorded so it isn't miscounted as judgement: every learning above is one no
 rule anticipated.
 
+**A verdict on his own material, filed as a blind spot.** Told the limits
+recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
+itself up for having spent its own list of that recording's defects on repairs
+instead of on whether this was the piece at all. _it was never about text-first
+vs record-first, it was about me (not you) delivering the wrong, foggy message_.
+Whether a piece says the thing its author meant is the one judgement nobody else
+holds the original of.
+
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. The residue each time is
@@ -396,5 +396,4 @@ rendered the page, looked at it, and verified its own intention. No version of
 Most were caught by the human knowing something the agent didn't — which chart
 window was drawn wrong, what a side project actually was. The redirect one was
 not: the reply carried no information, only a refusal to accept a well-formed
-account — a cheaper kind of review to give and, on this evidence, not a less
-productive one.
+account — cheaper to give and, on this evidence, not less productive.
