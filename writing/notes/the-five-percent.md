@@ -178,14 +178,69 @@ hashed it. The operator, shown the unfurl, needed five words: _бли, карт�
 поменять надо_ 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
-`l` in `Labelled` hurt, the agent renamed the type, then accounted for the
-remainder: the two left "are authored prose, not identifiers". Both halves were
-wrong — four occurrences across three files, and `scripts/run-parallel.sh` holds a
-shell variable named `labelled`, in the script every vet run executes. What the
-agent had looked at was the diff it had just written. The reply took the frame
-back: _yes let's change them too, they were probably the reason you reached for
-the double l in the first place_ — the spelling was in the tree before the type
-was, and the type had been the copy.
+`l` in `Labelled` hurt, the agent renamed the type and called the two remaining
+mentions "authored prose, not identifiers". Both halves were wrong — four
+occurrences across three files, one a shell variable in the script every vet run
+executes — because what it had looked at was the diff it had just written. _yes
+let's change them too, they were probably the reason you reached for the double
+l in the first place_: the spelling predated the type, so the type was the copy.
+
+## An account that explains the code stands in for running it (×5)
+
+The sibling of "It checks the render against its intent" below, and the worse
+half: there the agent looked and asked the wrong question, here it never looked,
+because the reasoning closed. An explanation that accounts for every line is
+complete on its own terms, and completeness is what removes the prompt to
+measure. Nothing inside the account can report that it was never checked against
+the artifact.
+
+**8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
+route needs a hand-written redirect file, the agent gave the right reason:
+next-intl redirects in middleware, a static export has none. Correct at every
+step, and it closed the question — so nobody asked what the file does. _how do
+we do "redirect" if it's not supposed to work in a static export at all?_ One
+grep of `out/` answered it: no HTTP redirect, no `meta refresh`, just
+`NEXT_REDIRECT;replace;/en/cv;307` in the RSC payload. The hop is React's, after
+hydration, so `/cv` is blank to anything that doesn't run JS — a real defect,
+under an explanation that held.
+
+**8 September — the schema it never wrote.** Told route params would be better
+parsed with a zod schema, the agent declined on three reasons and two rounds
+took two of them away. What was left was that a schema would restate the variant
+ids and hand back a `string` union — and one line would have shown otherwise,
+since `z.enum(CV_VARIANTS)` reads the same const the type does. The reply was a
+question rather than a correction — _Am I missing smth?_ — and the answer was
+no. What the account displaced was a measurement nobody had: zod in a module a
+client component reaches puts 89 kB gzipped in the CV's bundle, and that decides
+where the schema lives rather than whether it exists.
+
+**9 September — four homes, three of them checked.** Cutting a maintenance
+paragraph out of a commit body, the agent justified the cut by saying each item
+already sat where whoever is about to break it would look. That is the right
+test and it made the cut obviously correct, which is why nobody ran it: three of
+the four did have such a home, and the fourth — the type gate's blindness to a
+shape inlined into a generic — was named nowhere but in the paragraph being
+deleted. An account that would have been checked in a minute is the kind that
+never is.
+
+**14 September — no middle option, in a repo holding twenty-eight of them.**
+Asked where source recordings should live, the agent argued nothing sits between
+`main` and nowhere: a video kept only on a branch is collected as garbage once
+the branch is deleted. True at every step, and the premise was never checked —
+`git ls-remote --heads origin` lists twenty-eight merged `claude/*` branches,
+none deleted: _я не удаляю ветки_. The same completeness took the other half, the
+recommendation resting on "everything the repo does with a recording it does with
+the audio" while the subtitles under discussion burn words onto the picture.
+
+**14 September — a test whose counterexample sat in the diff proposing it.** The
+dictation skill got a rule against the next transcript drifting into prose: every
+sentence written should be findable in the recognizer's output. It reads as
+exactly the right check, which is why it was never run against the two
+transcripts shipping beside it, where «человек, научный не обязательностью» had
+just been corrected to «наученный необязательностью» and is findable nowhere.
+_как такое получится, если там будут поправляться ошибки, пунктуация и пр.?_ The
+rule survives, on words rather than characters and with its three licensed
+departures named.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -212,45 +267,6 @@ file or a docstring, not in that body. The operator cut it and named the
 mechanism too: the body had accreted across refreshes rather than being
 rewritten, which is how a cap gets walked past one push at a time.
 
-## An account that explains the code stands in for running it (×3)
-
-The sibling of "It checks the render against its intent" below, and the worse
-half: there the agent looked and asked the wrong question, here it never looked,
-because the reasoning closed. An explanation that accounts for every line is
-complete on its own terms, and completeness is what removes the prompt to
-measure. Nothing inside the account can report that it was never checked against
-the artifact.
-
-**8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
-route needs a hand-written redirect file, the agent gave the right reason:
-next-intl redirects in middleware, a static export has none, so every
-unlocalized entry point needs a file. Correct at every step, and it closed the
-question — so the agent never asked what the file actually does. The reply
-refused the account rather than adding to it: _how do we do "redirect" if it's
-not supposed to work in a static export at all?_ One grep of `out/` answered it:
-no HTTP redirect, no `meta refresh`, just `NEXT_REDIRECT;replace;/en/cv;307` in
-the RSC payload. The hop is React's, after hydration, so `/cv` is a blank page
-to anything that doesn't run JS — a real defect, under an explanation that held.
-
-**8 September — the schema it never wrote.** Told route params would be better
-parsed with a zod schema, the agent declined on three reasons and two rounds
-took two of them away. What was left was that a schema would restate the variant
-ids and hand back a `string` union — and one line would have shown otherwise,
-since `z.enum(CV_VARIANTS)` reads the same const the type does. The reply was a
-question rather than a correction — _Am I missing smth?_ — and the answer was
-no. What the account displaced was a measurement nobody had: zod in a module a
-client component reaches puts 89 kB gzipped in the CV's bundle, and that decides
-where the schema lives rather than whether it exists.
-
-**9 September — four homes, three of them checked.** Cutting a maintenance
-paragraph out of a commit body, the agent justified the cut by saying each item
-already sat where whoever is about to break it would look. That is the right
-test and it made the cut obviously correct, which is why nobody ran it: three of
-the four did have such a home, and the fourth — the type gate's blindness to a
-shape inlined into a generic — was named nowhere but in the paragraph being
-deleted. An account that would have been checked in a minute is the kind that
-never is.
-
 ## It settles a constraint in prose where a mechanism was available (×2)
 
 A constraint the agent can't see how to enforce, it writes down. The note is
@@ -270,13 +286,12 @@ along, in the pattern every module under `shared/content` already uses.
 
 **9 September — the ceiling this file states, walked past by the append that
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above, written by the agent, about the file it was appending to. It added
-a section and pushed the file to 447 lines, having read the bullet on the way in
-— prose in the file it governs is still only prose, and nothing consults it. The
-reply named the mechanism in the same breath as the miss: _isn't 400 lines the
-agreed ceiling? let's put a vet.sh-controlled check_. The mirror of the bump
-above, and the worse half of it: there the constraint was one the agent had
-merely written, here one it was simultaneously breaking.
+section above, written by the agent, about the file it was appending to. It
+added a section and pushed the file to 447 lines, having read the bullet on the
+way in — prose in the file it governs is still only prose, and nothing consults
+it. _isn't 400 lines the agreed ceiling? let's put a vet.sh-controlled check_:
+the mirror of the bump above and the worse half of it, the constraint here being
+one the agent was simultaneously breaking.
 
 ## It checks the render against its intent, not against the page (×2)
 
@@ -341,20 +356,6 @@ neither. Every gloss was a confident sentence about the operator's own work, and
 the slot never suggested that leaving one blank was available. Not knowing is not
 the finding; writing rather than asking is.
 
-## A fact restated into a pitch stops being a measurement (×1)
-
-Numbers from the case study are the site's evidence, and moving one into an
-offer changes what the sentence claims without changing whether it is true. The
-agent carries it across on the truth.
-
-**8 September — nine checks and an audit trail, sold as capabilities.** The CV's
-engineering-system block offered _one gate before every push: nine concurrent
-checks_ and _an audit trail by construction: 1,395 commits_. Both are exact
-facts about this repo. As offers they promise a stranger a specific check count
-on their codebase, and a tally describing work already done — _it's not always
-nine_, and _no need, it's not an "offer"_. The case study states them as
-measurements, which is the genre they are true in.
-
 ## Not bumps
 
 The agent flagged rather than silently fixed two words missing from text the
@@ -374,24 +375,23 @@ control. Entries removed under this test lose their bump count with them.
 
 ## The two families
 
-Nine learnings is not a pattern, but they already fall in two groups, and the
+Eight learnings is not a pattern, but they already fall in two groups, and the
 second is the more interesting half of the post.
 
-One group is failures to notice the frame was ours — the prefix list, the
-published chart, the brief that wanted filling, the checker whose coverage read
-as the rule, our own `eslint.config.ts` read as a specification rather than a
-decision we can remake. Whatever the agent is handed, it reasons inside.
+One is failures to notice the frame was ours — the prefix list, the published
+chart, the brief that wanted filling, the checker whose coverage read as the
+rule, our own `eslint.config.ts` read as a specification rather than a decision
+we can remake. Whatever the agent is handed, it reasons inside.
 
-The other group is the opposite of a mistake: the output was well-formed,
-justified and efficient, and every one of those properties is what made it wrong
-there. The sharpest is where the agent did the extra step and it did not help —
-twice now it rendered the page, looked at it, and verified its own intention. Its
-siblings are an edit minimal at the site it was made, whose minimality left one
-fact spelled three ways; an explanation sound at every step, whose soundness
-stopped anyone opening the file it described; a constraint correctly stated in
-prose, whose correctness stopped the search for a checker. No version of "be more
-careful" catches these, which is probably why they need a person and not a better
-prompt.
+The other is the opposite of a mistake: the output was well-formed, justified
+and efficient, and every one of those properties is what made it wrong there. An
+edit minimal where it was made left one fact spelled three ways; an explanation
+sound at every step stopped anyone opening the file it described; a constraint
+correctly stated in prose stopped the search for a checker; an argument
+structural enough to close the question was never checked against the twenty-eight
+branches contradicting it. Twice the agent rendered the page, looked at it, and
+verified its own intention. No version of "be more careful" catches these, which
+is probably why they need a person and not a better prompt.
 
 Most were caught by the human knowing something the agent didn't — which chart
 window was drawn wrong, what a side project actually was. The redirect one was
