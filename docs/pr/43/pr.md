@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T22:41:43Z
+- **Updated:** 2026-09-14T23:10:39Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -3381,7 +3381,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 
 ---
 
-### `.claude/skills/dictation/SKILL.md`:147 — unresolved
+### `.claude/skills/dictation/SKILL.md`:147 — resolved
 
 ```diff
 @@ -92,29 +116,42 @@ is the speaker's own manner of talking, and it is what the subtitles say. So:
@@ -3523,7 +3523,7 @@ Same slip was in `plan.md`, in "talking themselves out of a conclusion" — fixe
 
 ---
 
-### `.claude/skills/dictation/SKILL.md`:198 — unresolved
+### `.claude/skills/dictation/SKILL.md`:198 — resolved
 
 ```diff
 @@ -129,43 +166,59 @@ what is in it before deciding to read it, and then wants somebody to have
@@ -3942,7 +3942,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:1 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T21:36:38Z
 
@@ -3972,7 +3972,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — resolved
 
 ```diff
 @@ -0,0 +1,83 @@
@@ -4565,7 +4565,7 @@ Changed in both places. `plan.md` no longer files it as the exception to evergre
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:123 — unresolved
+### `writing/late-stage-agentic/plan.md`:123 — resolved
 
 ```diff
 @@ -90,6 +92,35 @@ draft so the operator can put it back.
@@ -4625,7 +4625,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:38 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:38 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -4789,7 +4789,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -4910,7 +4910,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:75 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:75 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -5037,7 +5037,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:79 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:79 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -5168,7 +5168,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:92 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:92 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -5473,7 +5473,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:113 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:113 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -5642,7 +5642,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/drafts/p0-welcome.md`:119 — unresolved
+### `writing/late-stage-agentic/drafts/p0-welcome.md`:119 — resolved
 
 ```diff
 @@ -15,69 +17,103 @@
@@ -5846,6 +5846,327 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 Поправил на оба разреза: «not later, once enough weight has accumulated, but in every piece from now on, as the layer a concrete lesson carries rather than a piece of its own». e7af07c
 
+**@vzakharov (human)** — 2026-09-14T23:01:53Z
+
+"in every piece from now on" звучит как обещание, которое мы возможно и не всегда будем сдерживать. Мы можем, но не обязаны, вот так.
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-14T23:02:35Z
+
+let's make language a parameter, defaulting to whichever the document is written in. Respectively, the section title should not be mentioned in Russian (in the skill)
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:15 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
+```
+
+**@vzakharov (human)** — 2026-09-14T23:03:35Z
+
+I'd say it's wider than that; I can use that skill wherever I want feedback in a more durable form than just within threads.
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:18 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
+```
+
+**@vzakharov (human)** — 2026-09-14T23:03:45Z
+
+polar bear
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:23 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
++
++## The section
++
++`## Заметки агента`, at the foot of the file, opening with one line saying whose
++words follow. Written in the language of the material, not of this file. **Keep
+```
+
+**@vzakharov (human)** — 2026-09-14T23:04:13Z
+
+ok, you already write that about following the language -- in that case you definitely don't want to always use the Russian heading.
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:28 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
++
++## The section
++
++`## Заметки агента`, at the foot of the file, opening with one line saying whose
++words follow. Written in the language of the material, not of this file. **Keep
++the heading exactly as it is** — the operator reads these files against each
++other, and a file that invents its own name for the section costs them the
++comparison.
++
++What goes in it: what the piece is arguing under what it says, what it takes for
+```
+
+**@vzakharov (human)** — 2026-09-14T23:04:58Z
+
+not limited to; I don't want these three that I took off the top of my head to be the standing (and only) sections
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:45 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
++
++## The section
++
++`## Заметки агента`, at the foot of the file, opening with one line saying whose
++words follow. Written in the language of the material, not of this file. **Keep
++the heading exactly as it is** — the operator reads these files against each
++other, and a file that invents its own name for the section costs them the
++comparison.
++
++What goes in it: what the piece is arguing under what it says, what it takes for
++granted without saying, where the argument is missing a step, what is said three
++times where once would carry it. Order the blocks by what matters, and say so in
++the opening line if the order is doing work.
++
++**This is the half that earns the file.** A summary of what was already read, or
++a compliment, is the failure mode — agreeing is fine where something actually
++lands, but a block that only agrees is praise wearing the shape of a response.
++
++## Four things it must keep straight
++
++- **No account of how the afterword got here.** Writing about your own writing
++  goes wrong as a file narrating its own revisions — "I first read this as X,
++  now I read it as Y". The PR threads are where that belongs. What the file
++  carries is a durable reading of the version it is attached to; where something
++  was settled elsewhere, «как обсудили отдельно» and the conclusion are the whole
++  of it.
++- **A finding the author has answered comes out, it does not get a rebuttal.**
+```
+
+**@vzakharov (human)** — 2026-09-14T23:07:05Z
+
+I actually want to retract on that; the final thoughts, after all the discussions, should stay for the record.
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:53 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
++
++## The section
++
++`## Заметки агента`, at the foot of the file, opening with one line saying whose
++words follow. Written in the language of the material, not of this file. **Keep
++the heading exactly as it is** — the operator reads these files against each
++other, and a file that invents its own name for the section costs them the
++comparison.
++
++What goes in it: what the piece is arguing under what it says, what it takes for
++granted without saying, where the argument is missing a step, what is said three
++times where once would carry it. Order the blocks by what matters, and say so in
++the opening line if the order is doing work.
++
++**This is the half that earns the file.** A summary of what was already read, or
++a compliment, is the failure mode — agreeing is fine where something actually
++lands, but a block that only agrees is praise wearing the shape of a response.
++
++## Four things it must keep straight
++
++- **No account of how the afterword got here.** Writing about your own writing
++  goes wrong as a file narrating its own revisions — "I first read this as X,
++  now I read it as Y". The PR threads are where that belongs. What the file
++  carries is a durable reading of the version it is attached to; where something
++  was settled elsewhere, «как обсудили отдельно» and the conclusion are the whole
++  of it.
++- **A finding the author has answered comes out, it does not get a rebuttal.**
++  They know what they meant. Either their answer leaves something worth saying —
++  in which case say that, as a fresh block — or the block goes.
++- **What would be cut from a post is not what gets cut from the source.** A
++  digression carrying a third of a recording is still the recording. Say "in a
++  post I would cut this" and leave the text alone.
++- **It is not the lede.** A summary the operator can recognise the file by is a
++  different section with a different job, and it belongs above the material
++  rather than below it.
+```
+
+**@vzakharov (human)** — 2026-09-14T23:07:11Z
+
+polar bear
+
+---
+
+### `.claude/skills/afterword/SKILL.md`:43 — unresolved
+
+```diff
+@@ -0,0 +1,61 @@
++---
++description: Write the agent's own reading of a piece as a `## Заметки агента` section at the foot of the file it is about — a dictation, a draft, anything the operator wrote and wants answered rather than summarised. Invoke as `/afterword <file>`. Use when the operator asks what you think of something, says "а твой отклик?", "рефлексия", or asks for the agent's half of a two-voice piece.
++---
++
++End state of this skill: the file carries a `## Заметки агента` section saying
++what you would say if the operator asked what you thought — in the file's own
++language, at its foot, and short enough that every block in it earns its place.
++
++## What it is for
++
++The project's post format runs in two voices: what the human said, then the
++agent's answer to it (`writing/late-stage-agentic/plan.md` § "Post format").
++This is the second voice. It also does a second job wherever a file is long
++enough to be daunting — somebody has thought about this, and here is what they
++found — which is why a dictation closes with one and a draft can.
++
++`@.claude/skills/dictation/SKILL.md` calls this skill for its transcripts; it
++applies to anything the operator wrote, recorded or asked about.
++
++## The section
++
++`## Заметки агента`, at the foot of the file, opening with one line saying whose
++words follow. Written in the language of the material, not of this file. **Keep
++the heading exactly as it is** — the operator reads these files against each
++other, and a file that invents its own name for the section costs them the
++comparison.
++
++What goes in it: what the piece is arguing under what it says, what it takes for
++granted without saying, where the argument is missing a step, what is said three
++times where once would carry it. Order the blocks by what matters, and say so in
++the opening line if the order is doing work.
++
++**This is the half that earns the file.** A summary of what was already read, or
++a compliment, is the failure mode — agreeing is fine where something actually
++lands, but a block that only agrees is praise wearing the shape of a response.
++
++## Four things it must keep straight
++
++- **No account of how the afterword got here.** Writing about your own writing
++  goes wrong as a file narrating its own revisions — "I first read this as X,
++  now I read it as Y". The PR threads are where that belongs. What the file
++  carries is a durable reading of the version it is attached to; where something
++  was settled elsewhere, «как обсудили отдельно» and the conclusion are the whole
+```
+
+**@vzakharov (human)** — 2026-09-14T23:07:52Z
+
+put "как обсудили отдельно" in English and phrase it so that it's one of the possible figures of speech, lest it becomes codified
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -5857,3 +6178,4 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 - **2026-09-14T14:30:35Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5198826181.
 - **2026-09-14T21:44:17Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203156869.
 - **2026-09-14T22:26:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203425875.
+- **2026-09-14T23:10:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203721625.

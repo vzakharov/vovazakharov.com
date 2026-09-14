@@ -19,11 +19,10 @@ agent had settled — the rule is in `CLAUDE.md` § "GitHub comments", and it is
 there because the entry has to be written while the session still remembers
 what it was working from.
 
-**This file has an end.** It is scaffolding for one post, not a permanent
-journal of reviews: once row 18 is drafted and posted, the file retires along
-with the rule that feeds it. Everything durable that comes out of a review
-belongs where the code can see it — a rule under `.claude/rules/`, a line in
-`CLAUDE.md` — and goes there whether or not it also lands here.
+**This file has an end.** Scaffolding for one post, not a permanent journal:
+once row 18 is drafted and posted, the file retires with the rule that feeds it.
+Everything durable belongs where the code can see it — a rule under
+`.claude/rules/`, a line in `CLAUDE.md` — whether or not it also lands here.
 
 ## How this file is kept
 
@@ -43,12 +42,11 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
 - **Past 400 lines, squeeze instead of growing**, which
   `scripts/check-notes-length.sh` fails the vet run over. In order: tighten the
   prose; then cut archaeology — a bump needs the shortest account that still
-  shows what the agent could not see, not the blow-by-blow that was easy to
-  write while it was fresh; then drop learnings from the bottom, since one bump
-  is a coincidence with a paragraph attached. A learning cut for thinness comes
-  back if something bumps into it again.
+  shows what the agent could not see; then drop learnings from the bottom, since
+  one bump is a coincidence with a paragraph attached. A learning cut for
+  thinness comes back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×12)
+## What it was handed, it treats as fixed (×13)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. That is
@@ -60,14 +58,13 @@ rather than to answer better within it.
 `docs:` for a change that documents nothing. The agent weighed three candidates
 from the list and never considered anything outside it, because the list arrived
 looking like a standard. _Let's introduce "content:"_ — the list is ours, in our
-own `CLAUDE.md`, and adding a word costs one commit, but only for someone reading
-it as a local convention rather than a specification.
+own `CLAUDE.md`, and adding a word costs one commit.
 
 **7 September — a word one day old, already treated as given.** Having added
 `content:`, the agent framed whether it trips the deploy gate as a trade with no
-clean answer: the prefix covers published material and unpublished drafts alike,
-and the gate reads nothing but the subject line. The reply dissolved the dilemma
-rather than settling it — `content:` is _specifically_ for what isn't published
+clean answer: the prefix covers published material and unpublished drafts alike.
+The reply dissolved the dilemma rather than settling it — `content:` is
+_specifically_ for what isn't published
 yet, and a piece going live arrives as the page that serves it, a `feat:`. The
 agent had coined the word the day before.
 
@@ -75,10 +72,9 @@ agent had coined the word the day before.
 files each inlined their params as an object literal inside a generic. The rule
 is that every member two named types declare has one home, and `pnpm
 type-overlap` enforces it; the agent ran the gate, saw it clean, and stopped.
-The reply: _type-overlap doesn't cover this, but consider it covered_. The gate
-scans type aliases only, which the agent knew, having read the README that says
-so — and read as the boundary of the rule rather than as a hole in its
-enforcement. A checker that passes is evidence about the checker.
+_type-overlap doesn't cover this, but consider it covered_: the gate scans type
+aliases only, which the agent knew from the README — and read as the boundary of
+the rule rather than a hole in its enforcement.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule,
 the agent found `caseStudyHref?` declared by cards in two sibling slices, put the
@@ -98,36 +94,33 @@ likely actually prefer the latter being canonical_: flipped, the cost is the goa
 `server-only` barrel would be a better home for a schema, the agent built it,
 found `boundaries/dependencies` failing, priced the fix — widening `PUBLIC_API`
 from one literal to a list — as a repo-wide change to what "public API" means,
-and declined on that basis. Every step true, and the frame never questioned:
-`eslint.config.ts` is ours, and "the linter says no" was being treated the way
-an external constraint is. The reply: _if "boundaries don't allow" is the only
-argument, let's rewrite the boundaries_ — and the sibling repo pins none at all.
+and declined on that basis. Every step true, the frame never questioned:
+`eslint.config.ts` is ours. _if "boundaries don't allow" is the only argument,
+let's rewrite the boundaries_ — and the sibling repo pins none at all.
 
-**9 September — a note on what the site's controls wear, read as a rule about
-everything clickable.** Moving the theme toggle into the header's corner, the
-agent left its skin untouched: `variant="default"`, which `theme.ts` calls beside
-it "the site's only control skin". So the corner held a hairline box fencing off
-empty space — _let's remove the borders around the theme buttons_, then _and
-generally make them gray, unobtrusive_. The agent had just argued the toggle is
-furniture rather than content, and never carried that across to how it looks.
+**9 September — a note on the site's controls, read as a rule about everything
+clickable.** Moving the theme toggle into the header's corner, the agent left
+`variant="default"` on it — `theme.ts` calls that "the site's only control skin"
+— so the corner held a hairline box fencing off empty space. _let's remove the
+borders_, then _and generally make them gray, unobtrusive_. The agent had just
+argued the toggle is furniture rather than content, never carrying that to how
+it looks.
 
 **9 September — a global class read off the globals beside it.** A hover dim
 claimed by two slices with no sideways reach went into `globals.scss`, reason
 written in: "as the print utilities are". Those are global for a reason that does
 not transfer — the content pipeline emits `print-hidden` into HTML strings, where
 a hashed module class is unreachable — and what made the neighbours global never
-got asked, because they were there. _why are we bypassing modules here? not a
-fan_. The mechanism was in the tree too: `theme.module.scss` hands its class
-names to Mantine through a plain module, which is what the dim now does.
+got asked, because they were there. _why are we bypassing modules here?_
+`theme.module.scss` already handed its class names to Mantine through a plain
+module, which is what the dim does now.
 
 **11 September — its own spelling, then the operator's typo, both taken as
 given.** The sync skill was `/sync-agent-infra` because the agent had named it so
 at the previous sync. Told the source had renamed its copy `/update-muthur`, it
 proved the rename need not travel and read that freedom as a reason to keep its
-own — misreading the source's stated reason on the way, `npm update` naming what
-gets updated rather than what it updates from. Two one-word comments took both
-names, and one was a typo; rather than notice it matched no spelling the source
-ever used, the agent wrote a paragraph defending it.
+own. Two one-word comments then took both names, one of them a typo matching no
+spelling the source ever used — and the agent wrote a paragraph defending it.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
@@ -142,14 +135,21 @@ agent filed that as _the grammar allows only the other one_ — also false: the
 sentence takes both, which is why the «нам» was added. Each parse arrived ahead
 of the argument wanting it, the second being the first with its sign flipped.
 
+**14 September — the one caller's shape, written into a general skill.** The
+afterword skill was extracted from `/dictation` and kept what the extraction had
+been holding: the Russian heading as _the_ heading, three example sections as
+the sections, a purpose reaching no further than a two-voice post. One project's
+material, read as the mechanism's definition. _let's make language a parameter_,
+_not limited to_, _it's wider than that — wherever I want feedback in a more
+durable form than a thread_.
+
 ## It edits the copy in front of it, not the fact behind it (×7)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source it came from carrying the cause; a test written
-into a file is run against the one entry under discussion. Nothing catches the
-split — every site still reads correctly on its own, and the divergence exists
-only between them.
+that adopted it leaves the source carrying the cause; a test written into a file
+is run against the one entry under discussion. Nothing catches the split — every
+site reads correctly on its own, and the divergence exists only between them.
 
 **8 September — one stack, three spellings.** Playgram's tech line renders in
 three places, all of them the agent's own work from hours earlier in the same
@@ -161,10 +161,9 @@ screenshot of any single page could show, because each page was right.
 body has no business carrying a "things to know when editing here" paragraph,
 the agent wrote two rules into `.claude/skills/squash-message/SKILL.md` and took
 the round as closed. That skill is adopted from a boilerplate repo whose copy
-still asks the pass for "anything that would trip someone editing that area
-later" — so the same body gets written there next month. _Let's file an issue on
-the boilerplate repo._ Whether to file was the operator's call; that the fix had
-a second site was not.
+still asks the pass for the same thing, so the body gets written there next
+month. _Let's file an issue on the boilerplate repo._ Whether to file was the
+operator's call; that the fix had a second site was not.
 
 **9 September — a test written and not run over the file it was for.** The same
 round added the test above to this file — a bump is something the agent could
@@ -174,18 +173,18 @@ written about. _Do the other learnings here de-qualify per this lens?_ One did.
 
 **9 September — the tagline in the catalogue, the tagline in the pixels.** The CV
 repositioning wired `cv-metadata.ts` to serve each framing its own tagline, and
-two lines below left `ogImage: '/cv_card.png'` — a hand-made composite with the
-developer tagline baked in — so a shared `/cv` link unfurled the CTO description
-beside a card reading DEVELOPER. A fact rendered in pixels: the search for copy
-never reached it. Shown the unfurl: _бли, картинку уже поменять надо_ 🙈.
+left `ogImage: '/cv_card.png'` two lines below — a composite with the developer
+tagline baked in — so a shared `/cv` link unfurled the CTO description beside a
+card reading DEVELOPER. A fact rendered in pixels, which the search for copy
+never reached: _бли, картинку уже поменять надо_ 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type and called the two remaining
 mentions "authored prose, not identifiers". Both halves were wrong — four
 occurrences across three files, one a shell variable in the script every vet run
-executes — because what it had looked at was the diff it had just written. _yes
-let's change them too, they were probably the reason you reached for the double
-l in the first place_: the spelling predated the type, so the type was the copy.
+executes — because what it had looked at was the diff it had just written. _they
+were probably the reason you reached for the double l_: the spelling came first,
+so the type was the copy.
 
 **14 September — the instruction obeyed, the instruction left standing.** _не
 надо ничего перепроверять_, posted on a line of the dictation skill: the agent
@@ -233,13 +232,13 @@ origin` lists twenty-eight merged `claude/*` branches: _я не удаляю в�
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against the next transcript drifting into prose: every
-sentence written should be findable in the recognizer's output. It reads as
-exactly the right check, which is why it was never run against the two
-transcripts beside it, where «человек, научный не обязательностью» had just been
-corrected to «наученный необязательностью» and is findable nowhere. _как такое
-получится, если там будут поправляться ошибки?_ The rule survives, on words.
+sentence written should be findable in the recognizer's output. It reads as the
+right check, which is why it was never run against the two transcripts beside
+it, where «научный не обязательностью» had just become «наученный
+необязательностью» and is findable nowhere. _как такое получится, если там будут
+поправляться ошибки?_ The rule survives, on words.
 
-## It writes its reasoning into the artifact (×3)
+## It writes its reasoning into the artifact (×4)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and it is still wrong, because what the
@@ -262,6 +261,13 @@ belonging in a rules file or a docstring. The body had accreted across refreshes
 rather than being rewritten, which is how a cap gets walked past one push at a
 time.
 
+**14 September — two denials of what the file used to be part of.** The new
+afterword skill carried "it applies to anything the operator wrote" and "it is
+not the lede", both answering a question only someone who had watched it leave
+`/dictation` would ask. `CLAUDE.md` names the defect, the agent had cut one of
+its own by hand the same session, and `/tend-prose negation` ran over the file.
+_polar bear_, twice.
+
 ## Given a form, it fills the form (×3)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
@@ -276,9 +282,9 @@ need saying at all — we'll see case by case.
 **8 September — three glosses invented to fill three slots.** The home page got a
 one-line gloss beside each of three old side projects. Two came back corrected to
 things no reading of the repos would produce — _a BYOK AI-first text processor_,
-_chatgpt before chatgpt_ — and a fourth card listed TypeScript and feature-sliced
-design for a boilerplate with neither. Every gloss was a confident sentence about
-the operator's own work, and the slot never offered leaving one blank.
+_chatgpt before chatgpt_ — and a fourth card listed TypeScript and FSD for a
+boilerplate with neither. Every gloss was a confident sentence about the
+operator's own work, and the slot never offered leaving one blank.
 
 **14 September — a default under a rule that says to ask.** Asked for a flag
 choosing whether a dictation is transcribed verbatim or rendered as prose, the
@@ -302,10 +308,9 @@ pattern every module under `shared/content` already uses.
 
 **9 September — the ceiling this file states, walked past by the append that
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above, written by the agent, about the file it was appending to. It
-added a section and pushed the file to 447 lines, having read the bullet on the
-way in. _isn't 400 lines the agreed ceiling? let's put a vet.sh-controlled
-check_: prose in the file it governs is still only prose, and nothing reads it.
+section above, about the file it was appending to. The agent added a section and
+pushed the file to 447 lines, having read the bullet on the way in. _let's put a
+vet.sh-controlled check_: prose in the file it governs is still only prose.
 
 ## It checks the render against its intent, not against the page (×2)
 
@@ -321,11 +326,10 @@ edge-to-edge, another was inset a fifth and off-centre. The screenshot had shown
 that; the question asked of it was "are the logos there".
 
 **9 September — the card it had just fixed, looked at and passed.** Rendering
-one card per framing off the catalogue, the agent checked the property it had
-set itself — the card can no longer say what the page stopped saying — and
-confirmed it held. The same image showed a plate empty across two thirds with no
-way to reach the person on it: _the prose itself says nothing_, add GitHub and
-LinkedIn.
+one card per framing off the catalogue, the agent checked the property it had set
+itself — the card can no longer say what the page stopped saying — and confirmed
+it held. The same image showed a plate two thirds empty with no way to reach the
+person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
 
 ## A published number is not a verified number (×2)
 
@@ -372,10 +376,8 @@ holds the original of.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
-theme toggle sits, and whether it comes from a layout. Each residue is smaller
-than its entry claimed; only the toggle's _skin_ stayed a bump, its reason
-already standing in the agent's own argument. An entry removed this way takes
-its count with it.
+theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
+stayed a bump. An entry removed this way takes its count with it.
 
 ## The two families
 
@@ -390,10 +392,9 @@ we can remake. Whatever the agent is handed, it reasons inside.
 The other is the opposite of a mistake: the output was well-formed, justified
 and efficient, and every one of those properties is what made it wrong. An edit
 minimal where it was made left one fact spelled three ways; an explanation sound
-at every step stopped anyone opening the file it described; a constraint
-correctly stated in prose stopped the search for a checker. No version of "be
+at every step stopped anyone opening the file it described. No version of "be
 more careful" catches these, which is why they need a person.
 
 Most were caught by the human knowing something the agent didn't. The redirect
-one was not: a reply carrying no information, only a refusal to accept a
-well-formed account — cheaper to give and not less productive.
+one was not: a refusal to accept a well-formed account, carrying no information
+and no less productive for it.

@@ -91,9 +91,9 @@ piece, not a summary with compliments.
 someone who already has weight, and it is not how the weight is gained — the
 first question a stranger's life lessons raise is why this particular weirdo. So
 what runs is what can be checked: a rule, a mechanism, a number, a thing that
-went wrong. The philosophy rides on top of that — not later, once enough weight
-has accumulated, but in every piece from now on, as the layer a concrete lesson
-carries rather than a piece of its own.
+went wrong. The philosophy rides on top of that — a layer a concrete lesson can
+carry, available from the first piece rather than from some later point where
+enough weight has accumulated, and taken up piece by piece as it fits.
 
 That is what shelved the limits piece. `drafts/p2-the-limits.md` stays material
 rather than a post, and its thesis survives as one clause of the welcome text —
