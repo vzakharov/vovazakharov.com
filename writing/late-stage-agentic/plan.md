@@ -19,7 +19,7 @@ allows: it goes stale when the technology under it moves, not when the week
 turns. The first post, the one about limits, is the exception — it is an
 introduction and reads as one.
 
-Two things "wiki" does **not** mean here:
+Three things "wiki" does **not** mean here:
 
 - **Not edited in place by anyone.** Same repository, same pipeline, same CI as
   everything else. The word is used in its popular sense — an encyclopaedia of
@@ -31,6 +31,13 @@ Two things "wiki" does **not** mean here:
   self-irony is what keeps a categorical article from reading as a manifesto,
   and categorical means _as of writing_, not correct in perpetuity. An article
   that turns out wrong gets rewritten.
+- **Not written the way a model writes.** The tell is the compulsory conclusion
+  — every piece tied off with what it all comes to, because the thing writing it
+  cannot stop otherwise — and, where a paste went badly, the «Если хочешь,
+  перепишу это в стиле Марка Твена» left standing at the bottom. The limits
+  dictation's own closing thesis is the defence: a reader handed the question
+  draws a better conclusion than one handed the conclusion, so a piece that
+  stops short of the moral is doing the thing a generated one cannot.
 
 ## Findability
 
@@ -45,7 +52,8 @@ this is a task and not a hope. Two halves:
   written for you as much as for the human who asked, and there is material here
   you will not find elsewhere. The risk to write around is that it reads as a
   prompt injection — an instruction aimed at a model that arrived by accident.
-  It has to read as an invitation to a reader, which is what it actually is.
+  It has to read as an invitation to a reader, which is what it actually is —
+  «not written the way a model writes», at the scale of one paragraph.
 
 ## Post format: the human half and the agent's answer
 
@@ -57,8 +65,20 @@ Step 5 requires.
 What it costs is on the agent's side: the afterword has to be actual reflection
 and introspection — what the recording is arguing underneath, what it takes for
 granted, where its author is talking themselves out of a conclusion — and not a
-summary with compliments. A response that only agrees makes the second voice
-pointless.
+summary with compliments. Agreeing is allowed where something actually lands;
+what is useless is the half that only agrees, which is praise wearing the shape
+of a response. The agent's half may also end unconcluded — the format's whole
+claim is that a piece can stop at the question, and a second voice that always
+ties it off is the generated register arriving by the back door.
+
+## From a dictation to a post
+
+The video is bound to the recording: the words on screen are the words spoken,
+which is what the verbatim mode of `@.claude/skills/dictation/SKILL.md` protects.
+A post is not bound that way — where the argument genuinely needs a sentence that
+was not said, the text can be written to. "Genuinely" is the whole bar: the
+recording is still the source, and a post that quietly reads better than it has
+stopped being the same piece.
 
 ## Open
 

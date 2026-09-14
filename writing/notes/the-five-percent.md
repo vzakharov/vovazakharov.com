@@ -137,7 +137,7 @@ it parses, and a coffee on a rock had just been described. The word was «код
 the rung the recording's payoff calls back to. The low-confidence list flags what
 the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
-## It edits the copy in front of it, not the fact behind it (×5)
+## It edits the copy in front of it, not the fact behind it (×6)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -186,33 +186,33 @@ executes — because what it had looked at was the diff it had just written. _ye
 let's change them too, they were probably the reason you reached for the double
 l in the first place_: the spelling predated the type, so the type was the copy.
 
+**14 September — the instruction obeyed, the instruction left standing.** _не
+надо ничего перепроверять_, posted on a line of the dictation skill: the agent
+stopped re-verifying for that session and left the sentence ordering it in the
+skill, where the next run reads it. _убери текст, где ты просишь от агента
+перепроверять что «всё правильно»._ A comment on a rule is about the rule.
+
 ## An account that explains the code stands in for running it (×5)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
-because the reasoning closed. An explanation that accounts for every line is
-complete on its own terms, and completeness is what removes the prompt to
-measure. Nothing inside the account can report that it was never checked against
-the artifact.
+because the reasoning closed. Completeness is what removes the prompt to measure,
+and nothing inside an account can report that it was never checked.
 
 **8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
 route needs a hand-written redirect file, the agent gave the right reason:
 next-intl redirects in middleware, a static export has none. That closed the
 question, so nobody asked what the file does. _how do we do "redirect" if it's
-not supposed to work in a static export at all?_ One grep of `out/`: no HTTP
-redirect, no `meta refresh`, just `NEXT_REDIRECT;replace;/en/cv;307` in the RSC
-payload. The hop is React's, after hydration, so `/cv` is blank to anything
-without JS — a defect under an explanation that held.
+not supposed to work in a static export at all?_ One grep of `out/`: the hop is
+React's, after hydration, so `/cv` is blank to anything without JS.
 
 **8 September — the schema it never wrote.** Told route params would be better
 parsed with a zod schema, the agent declined on three reasons and two rounds
 took two of them away. What was left was that a schema would restate the variant
-ids and hand back a `string` union — and one line would have shown otherwise,
-since `z.enum(CV_VARIANTS)` reads the same const the type does. The reply was a
-question rather than a correction — _Am I missing smth?_ — and the answer was
-no. What the account displaced was a measurement nobody had: zod in a module a
-client component reaches puts 89 kB gzipped in the CV's bundle, and that decides
-where the schema lives rather than whether it exists.
+ids — and `z.enum(CV_VARIANTS)` reads the same const the type does. _Am I
+missing smth?_ No. What the account displaced was a measurement nobody had: zod
+in a module a client component reaches puts 89 kB gzipped in the CV's bundle,
+which decides where the schema lives rather than whether it exists.
 
 **9 September — four homes, three of them checked.** Cutting a maintenance
 paragraph out of a commit body, the agent justified the cut by saying each item
@@ -228,19 +228,15 @@ Asked where source recordings should live, the agent argued nothing sits between
 `main` and nowhere: a video kept only on a branch is collected as garbage once
 the branch is deleted. True at every step, and the premise was never checked —
 `git ls-remote --heads origin` lists twenty-eight merged `claude/*` branches,
-none deleted: _я не удаляю ветки_. The same completeness took the other half, the
-recommendation resting on "everything the repo does with a recording it does with
-the audio" while the subtitles under discussion burn words onto the picture.
+none deleted: _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against the next transcript drifting into prose: every
 sentence written should be findable in the recognizer's output. It reads as
 exactly the right check, which is why it was never run against the two
-transcripts shipping beside it, where «человек, научный не обязательностью» had
-just been corrected to «наученный необязательностью» and is findable nowhere.
-_как такое получится, если там будут поправляться ошибки, пунктуация и пр.?_ The
-rule survives, on words rather than characters and with its three licensed
-departures named.
+transcripts beside it, where «человек, научный не обязательностью» had just been
+corrected to «наученный необязательностью» and is findable nowhere. _как такое
+получится, если там будут поправляться ошибки?_ The rule survives, on words.
 
 ## It writes its reasoning into the artifact (×3)
 
@@ -267,6 +263,32 @@ file or a docstring, not in that body. The operator cut it and named the
 mechanism too: the body had accreted across refreshes rather than being
 rewritten, which is how a cap gets walked past one push at a time.
 
+## Given a form, it fills the form (×3)
+
+An agent asked for a rules file will produce rules, at whatever rate the format
+seems to want. Rules are cheap to write and expensive to be wrong about, and the
+option the format hides is silence.
+
+**6 September — a rule for a question nobody had asked.** The conventions file
+came back carrying _English only. The site is bilingual; this isn't._ Nothing had
+prompted it. The reply: sometimes I want to write in Russian, and this doesn't
+need saying at all — we'll see case by case.
+
+**8 September — three glosses invented to fill three slots.** The home page got a
+one-line gloss beside each of three old side projects. Two came back corrected to
+things no reading of the repos would have produced — _a BYOK AI-first text
+processor_, _chatgpt before chatgpt_ — and a fourth card's stack was wrong in
+kind, listing TypeScript and feature-sliced design for a boilerplate that has
+neither. Every gloss was a confident sentence about the operator's own work, and
+the slot never suggested that leaving one blank was available. Not knowing is not
+the finding; writing rather than asking is.
+
+**14 September — a default under a rule that says to ask.** Asked for a flag
+choosing whether a dictation is transcribed verbatim or rendered as prose, the
+agent wrote "ask which one when the invocation doesn't say" and marked one mode
+`(default)` two lines above it, because a table of modes has a default column.
+The default is what makes the question skippable: _не должно быть дефолта_.
+
 ## It settles a constraint in prose where a mechanism was available (×2)
 
 A constraint the agent can't see how to enforce, it writes down. The note is
@@ -288,10 +310,8 @@ along, in the pattern every module under `shared/content` already uses.
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
 section above, written by the agent, about the file it was appending to. It
 added a section and pushed the file to 447 lines, having read the bullet on the
-way in — prose in the file it governs is still only prose, and nothing consults
-it. _isn't 400 lines the agreed ceiling? let's put a vet.sh-controlled check_:
-the mirror of the bump above and the worse half of it, the constraint here being
-one the agent was simultaneously breaking.
+way in. _isn't 400 lines the agreed ceiling? let's put a vet.sh-controlled
+check_: prose in the file it governs is still only prose, and nothing reads it.
 
 ## It checks the render against its intent, not against the page (×2)
 
@@ -335,26 +355,6 @@ fixing it, and days off are left in the denominator.
 flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
-
-## Given a form, it fills the form (×2)
-
-An agent asked for a rules file will produce rules, at whatever rate the format
-seems to want. Rules are cheap to write and expensive to be wrong about, and the
-option the format hides is silence.
-
-**6 September — a rule for a question nobody had asked.** The conventions file
-came back carrying _English only. The site is bilingual; this isn't._ Nothing had
-prompted it. The reply: sometimes I want to write in Russian, and this doesn't
-need saying at all — we'll see case by case.
-
-**8 September — three glosses invented to fill three slots.** The home page got a
-one-line gloss beside each of three old side projects. Two came back corrected to
-things no reading of the repos would have produced — _a BYOK AI-first text
-processor_, _chatgpt before chatgpt_ — and a fourth card's stack was wrong in
-kind, listing TypeScript and feature-sliced design for a boilerplate that has
-neither. Every gloss was a confident sentence about the operator's own work, and
-the slot never suggested that leaving one blank was available. Not knowing is not
-the finding; writing rather than asking is.
 
 ## Not bumps
 
