@@ -14,7 +14,7 @@ plain sentence rather than waiting at the end of it, the register stays level
 while the subject gets funnier, and the affection for the thing being mocked
 stays audible. That is the whole of it, on purpose — the most frequent finding
 in `writing/notes/the-five-percent.md` is that an agent treats what it was
-handed as fixed, and a voice specified to the point of being executable is a
-voice nobody looks at again. The rest gets found a line at a time, in review, by
-someone reading a draft and saying _that's not it_; write the tell down here
-when that happens, rather than guessing at it now.
+handed as fixed, and a voice handed over complete is a voice that stops being
+worked on. The rest gets found a line at a time, in review, by someone reading a
+draft and saying _that's not it_; write the tell down here when that happens,
+rather than guessing at it now.

@@ -352,17 +352,19 @@ flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
 
-## The example only reads from inside the session (×1)
+## Asked to render a source, it rewrites it (×2)
 
-Illustrating a durable rule, the agent reaches for the case it has just lived
-through, compressed to the shorthand that was legible in the session. The rule
-is right and the case is real; what the reader would need to see that is gone.
+Quoting a file, translating a draft — the agent holds the source open and still
+writes what it would have written. Each departure improves something on its own
+terms, which is why none of them stops it; what goes is that a reader can check.
 
-**14 September — the mis-hearing nobody else can find.** The dictation skill's
-rule about asking rather than smoothing a non-sequitur carried «кофе красивый,
-почти как предзакатное солнце» for «код» as its entire example: the mis-heard
-word unnamed, no sign the passage around it was about writing code. _этот пример
-не будет иметь значения для последующего агента._
+**15 September — the finding, paraphrased.** The site copy quotes this file's
+most frequent heading, and the agent wrote its own gloss — hours after appending
+four bumps to the section it was naming. _take the actual heading._
+
+**15 September — em dashes over the source's `--`.** The Russian draft the copy
+renders spells every dash `--`. The agent set em dashes, a default it brought
+rather than read. _--, not —._
 
 ## Not bumps
 
@@ -372,11 +374,10 @@ isn't miscounted as judgement: every learning above is one no rule anticipated.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
 recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
-itself up for having spent its own list of that recording's defects on repairs
-instead of on whether this was the piece at all. _it was never about text-first
-vs record-first, it was about me (not you) delivering the wrong, foggy message_.
-Whether a piece says the thing its author meant is the one judgement nobody else
-holds the original of.
+itself up for spending its list of that recording's defects on repairs instead of
+on whether this was the piece at all. _it was about me (not you) delivering the
+wrong, foggy message_. Whether a piece says what its author meant is the one
+judgement nobody else holds the original of.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
@@ -389,8 +390,7 @@ Nine learnings is not a pattern, but they fall in two groups, and the second is
 the more interesting half of the post.
 
 One is failures to notice the frame was ours — the prefix list, the published
-chart, the checker whose coverage read as the rule, our own `eslint.config.ts`
-read as a specification rather than a decision we can remake.
+chart, the checker whose coverage read as the rule, our own `eslint.config.ts`.
 
 The other is the opposite of a mistake: the output was well-formed, justified
 and efficient, and every one of those properties is what made it wrong. An edit
