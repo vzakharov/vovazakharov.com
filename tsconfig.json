@@ -42,15 +42,18 @@
       "@/*": ["./src/*"]
     }
   },
+  // One type check covers both apps, so the generated route types of each are
+  // named here: TypeScript's wildcards skip dot-prefixed directories, which is
+  // where Next writes them.
   "include": [
-    "next-env.d.ts",
+    "apps/*/next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
+    "apps/*/.next/types/**/*.ts",
+    "apps/*/.next/dev/types/**/*.ts",
     "**/*.mts",
     "**/*.mjs",
     "**/*.cjs"
   ],
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "apps/*/out"]
 }

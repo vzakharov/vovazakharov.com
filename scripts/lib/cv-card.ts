@@ -13,7 +13,7 @@ import path from 'node:path';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
-import type { Labeled, Named } from '@/shared/typings';
+import type { Billed, Labeled } from '@/shared/typings';
 
 import { cvMessages } from '@/pages/cv/lib/cv-messages';
 import { OFFER_BLOCKS } from '@/pages/cv/lib/cv-offer';
@@ -42,8 +42,7 @@ function escapeHtml(text: string): string {
     .replaceAll('"', '&quot;');
 }
 
-type CardCopy = Named & {
-  tagline: string;
+type CardCopy = Billed & {
   offerTitle: string;
   offer: string[];
   addresses: string[];

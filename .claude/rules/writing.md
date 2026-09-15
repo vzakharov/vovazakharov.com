@@ -86,9 +86,10 @@ invented for it.
 
 - **`--`, never `—`.** Written as two hyphens on purpose. Enough readers now
   treat an em dash as a machine's fingerprint that the correct punctuation has
-  become the wrong signal. This holds inside the post text itself; the prose
-  around it in a draft file is ordinary Markdown and uses whatever punctuation
-  reads best.
+  become the wrong signal. This holds inside the post text itself, in every
+  language a draft is written in — Russian included, where the dash is ordinary
+  and the fingerprint reads fainter. The prose around the text in a draft file is
+  ordinary Markdown and uses whatever punctuation reads best.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
   the voice. Emoji as decoration, as bullet markers, or as enthusiasm is not.
   Text emoticons — `;-)` — are in the voice too.

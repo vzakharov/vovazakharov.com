@@ -37,7 +37,7 @@ next-env.d.ts
 
 # Generated content renders — produced by `pnpm content:mermaid`, keyed by a
 # hash of their source, so reformatting them would only churn the diff.
-public/content/generated
+apps/*/public/generated
 
 # Lock files
 pnpm-lock.yaml

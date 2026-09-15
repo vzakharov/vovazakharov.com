@@ -27,6 +27,12 @@ export type Labeled = { label: string };
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };
 
+/** The one line under a name — what is on offer, said once. */
+export type WithTagline = { tagline: string };
+
+/** A name and the line it is billed under: a site's identity, a card's header. */
+export type Billed = Named & WithTagline;
+
 /** Extra classes a caller merges into the component's own. */
 export type WithOptionalClassName = { className?: string };
 

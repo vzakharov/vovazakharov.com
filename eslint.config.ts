@@ -286,11 +286,12 @@ const eslintConfig = defineConfig([
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
-    '.next/**',
-    'out/**',
+    // Default ignores of eslint-config-next, re-stated for `apps/*` because each
+    // app builds into its own directory rather than the repository root.
+    '**/.next/**',
+    '**/out/**',
     'build/**',
-    'next-env.d.ts',
+    '**/next-env.d.ts',
     // Dev artifacts (gitignored, transient — CLAUDE.md § "Key principles"):
     'tmp/**',
   ]),

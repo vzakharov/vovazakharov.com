@@ -1,8 +1,7 @@
-import { Box, Center, Divider, Group, Stack, Text, Title } from '@mantine/core';
-import Image from 'next/image';
+import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 
-import { BUILD_YEAR, PAGE_ROUTES } from '@/shared/config';
-import { cssColor, InternalLink, PageShell } from '@/shared/ui';
+import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';
@@ -12,23 +11,16 @@ import { WorkSection } from './work-section';
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {
+  const { name, author } = SITE_CONFIG;
+
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <Center>
-            <Image
-              src="/ava.png"
-              alt="Vova Zakharov"
-              width={150}
-              height={150}
-              style={{ borderRadius: '50%' }}
-              priority
-            />
-          </Center>
+          <SiteAvatar />
           <Box>
             <Title order={1} mb={12}>
-              Vova Zakharov
+              {name}
             </Title>
             <Text opacity={0.7}>
               Helping our future overlords walk since 2020
@@ -54,7 +46,7 @@ export function HomePage() {
               ))}
             </Text>
             <Text size="sm" opacity={0.6}>
-              © {BUILD_YEAR} Vova Zakharov
+              © {BUILD_YEAR} {author.name}
             </Text>
           </Group>
         </Box>
