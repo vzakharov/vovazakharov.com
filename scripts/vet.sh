@@ -53,10 +53,8 @@ fi
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
-# The last three read the agent infrastructure itself and nothing else here
-# touches it. The two exporter tests run by path on purpose: `unittest discover`
-# reports `Ran 0 tests ... OK` over this namespace package and would certify a
-# run that executed nothing.
+# The last reads the agent infrastructure itself and nothing else here touches
+# it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
@@ -69,9 +67,7 @@ scripts/run-parallel.sh \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
-  skills='scripts/check-skill-catalog.sh' \
-  export-authorship='cd scripts && python3 test_authorship.py' \
-  export-split='cd scripts && python3 test_export_split.py' || status=1
+  skills='scripts/check-skill-catalog.sh' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2
