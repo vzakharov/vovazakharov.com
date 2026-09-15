@@ -6,15 +6,13 @@ End state: `https://<domain>` serves the new site over an approved certificate,
 `www` and plain HTTP redirect onto it, and every site already published from
 this repository still serves its own content.
 
-**A repository gets one Pages site.** The first site published from here takes
-it; every one after that is built here and pushed to a **receiving repository**
-that holds no source and runs no workflow, whose Pages is set to deploy from a
-branch — so the push _is_ the deploy. That is the arrangement this skill stands
-up, and the reason it needs a credential and a second repository at all.
+**A repository gets one Pages site**, so every site after the first is published
+to a **receiving repository** of its own — CLAUDE.md § "Deployment" carries the
+arrangement that follows, and what this skill stands up is its receiving end.
 
-What only the operator can do is **own the domain and write its DNS**. No token
-this repository holds reaches a registrar, so those steps are handed over rather
-than run, and the site is dark until they land whatever CI reports.
+**The domain and its DNS are the operator's**, since no token here reaches a
+registrar. Those steps are handed over rather than run, and the site is dark
+until they land whatever CI reports.
 
 The code half — the app directory, its `next.config.ts`, the site's entry in the
 shared config — is ordinary work on the branch and is not this skill's; CLAUDE.md
@@ -90,12 +88,11 @@ The apex should answer with all eight GitHub addresses.
 
 ## Step 3 — Publish before the merge
 
-The operator will want the site checked before it lands, and a manual run is the
-only way to get it there — but a dispatch from an unmerged branch publishes
-whatever it is told to publish, including sites whose pages this branch also
-changes.
+A manual run is the only way to serve the site before the merge, and a dispatch
+from an unmerged branch publishes whatever it is told to — including sites whose
+pages the branch also changes.
 
-**So the run has to name one site.** The gate reads a scope off the commit
+**So the run names one site.** The gate reads a scope off the commit
 subject on a push and off the **site** picker on a manual run (CLAUDE.md
 § "Deployment"); naming one site is what keeps an unmerged tree from republishing
 the others.
@@ -150,7 +147,7 @@ is the thing under test, so reading the tree only confirms the input.
   pushing, so propagation is the likelier of the two.
 - **The new domain serving an existing site** means the apex records point
   somewhere else entirely — that is DNS, not the build.
-- **The picker exists on the branch that added it, not on the base.** GitHub's
-  run-workflow form reads its input list off the default branch, so a site the
-  form cannot offer falls back to the default and publishes everything. Dispatch
-  from the CLI, where `-f site=` is passed whatever the form knows.
+- **GitHub's run-workflow form reads its input list off the default branch.** A
+  picker still only on the branch under test is not in the form, and an unset
+  picker falls back to publishing everything. Dispatch from the CLI, where
+  `-f site=` goes through whatever the form knows.

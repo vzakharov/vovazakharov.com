@@ -1,8 +1,7 @@
 # Standing up latestageagentic.com — what ran, and what is left
 
 The procedure is `@.claude/skills/stand-up-site/SKILL.md`, which outlives this
-branch. This file is the record of running it for this one domain, and it is
-swept at the squash along with the rest of this directory.
+branch. This file is the record of running it for this one domain.
 
 ## One step left, and it is yours
 

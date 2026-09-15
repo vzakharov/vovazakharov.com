@@ -122,8 +122,8 @@ const SITE_CONFIGS = {
 export const SITE_CONFIG = SITE_CONFIGS[siteId];
 
 /**
- * The author's own site, which the other site's byline links to. Read off that
- * site's own config rather than spelled again, so one domain has one home.
+ * The author's own site, which every other site's byline links to. Read off
+ * that site's config rather than spelled again, so the domain has one home.
  */
 export const AUTHOR_URL = SITE_CONFIGS.vova.url;
 
