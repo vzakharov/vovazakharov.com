@@ -126,49 +126,61 @@ The orphan push is deliberate: the receiver never grows, and rollback does not
 need its history, because the source of every byte is a commit here — an older
 deploy is re-run by dispatching this workflow from an older ref.
 
-## The runbook — the by-hand half
+## Provisioning — the agent's half
 
-Everything below is done once, by a person, because none of it has an API this
-repository can reach. Run it before merging the branch; the pipeline is inert
-until the secret exists.
+None of this is code and all of it is `gh`, so the implementing session runs it
+rather than writing it down for someone else. It splits around the first deploy,
+because Pages cannot be aimed at a branch that does not exist yet.
 
-**0. Own the domain.** `latestageagentic.com` has to be registered to you at some
-registrar. If it is not, stop here — nothing below works without it.
-
-**1. Create the receiving repository.**
+**Before the merge**, in the session's scratch directory:
 
 ```bash
 gh repo create vzakharov/latestageagentic.com --public \
   --description "Built site for latestageagentic.com — source lives in vzakharov/vovazakharov.com"
-```
 
-It must be public: Pages on a private repository is a paid-plan feature.
+ssh-keygen -t ed25519 -f "$SCRATCH/lsa-pages" -N "" -C "lsa-pages deploy key"
 
-**2. Make the deploy key.**
-
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/lsa-pages -N "" -C "lsa-pages deploy key"
-```
-
-That writes two files — `~/.ssh/lsa-pages` (private) and `~/.ssh/lsa-pages.pub`
-(public). They go to opposite ends:
-
-```bash
-# public half → the receiver, with write access
-gh repo deploy-key add ~/.ssh/lsa-pages.pub \
+gh repo deploy-key add "$SCRATCH/lsa-pages.pub" \
   --repo vzakharov/latestageagentic.com \
   --title "vovazakharov.com CI" --allow-write
 
-# private half → a secret on this repository
 gh secret set LSA_PAGES_DEPLOY_KEY \
-  --repo vzakharov/vovazakharov.com < ~/.ssh/lsa-pages
+  --repo vzakharov/vovazakharov.com < "$SCRATCH/lsa-pages"
 ```
 
-`--allow-write` is the whole point of the key; without it the push 403s. Then
-delete both local files — rotating is repeating this step, not recovering them.
+Public, because Pages on a private repository is a paid-plan feature.
+`--allow-write` is the whole of what the key is for; without it the push 403s.
+The private half is never printed and dies with the container — and it is never
+recovered either, so rotating the key is re-running these four commands.
 
-**3. DNS, at the registrar for `latestageagentic.com`.** Delete any A, AAAA or
-ALIAS already on the apex, then add these eight:
+**After the first deploy**, which is what creates `gh-pages`: point Pages at it,
+then force HTTPS once GitHub has issued the certificate for the domain it reads
+off the `CNAME` file, usually about fifteen minutes later.
+
+```bash
+gh api -X POST repos/vzakharov/latestageagentic.com/pages \
+  -f 'source[branch]=gh-pages' -f 'source[path]=/'
+
+gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
+curl -sI https://latestageagentic.com | head -1        # expect 200
+```
+
+**If it serves a 404**, the `CNAME` file did not reach the branch — but the
+publish script asserts on that before pushing, so the likelier cause is DNS that
+has not propagated. **If it serves `vovazakharov.com`**, the apex records point
+somewhere else entirely.
+
+## The runbook — what only you can do
+
+Three steps, and only three: two at your registrar, because neither has an API
+this repository can reach, and the merge, which is yours either way. Everything
+else the implementing session does for itself.
+
+**1. Own the domain.** `latestageagentic.com` has to be registered to you
+somewhere. If it is not, nothing else works.
+
+**2. Point it at GitHub.** Delete any A, AAAA or ALIAS already on the apex, then
+add these eight:
 
 | Type  | Name  | Value                                                                                   |
 | ----- | ----- | --------------------------------------------------------------------------------------- |
@@ -180,29 +192,9 @@ These are GitHub's shared Pages addresses — the same ones `vovazakharov.com`
 already resolves to. Which repository answers is decided by the `CNAME` file
 inside each published branch, which is why that file is part of the build.
 
-**4. Merge the branch, then point Pages at the branch it created.** The first
-deploy is what creates `gh-pages`, and Pages cannot be aimed at a branch that
-does not exist yet. So: merge with a subject that publishes (`feat:` or
-`feat(lsa):`), wait for the workflow, then
-
-```bash
-gh api -X POST repos/vzakharov/latestageagentic.com/pages \
-  -f 'source[branch]=gh-pages' -f 'source[path]=/'
-```
-
-**5. Wait for the certificate, then force HTTPS.** GitHub reads the domain off
-the `CNAME` file in the branch and issues a certificate, usually within about
-fifteen minutes. Once it has:
-
-```bash
-gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
-curl -sI https://latestageagentic.com | head -1        # expect 200
-```
-
-**If it serves a 404**, the `CNAME` file did not reach the branch — but the
-publish script asserts on that before pushing, so the more likely cause is DNS
-that has not propagated. **If it serves `vovazakharov.com`**, the apex records
-are pointing somewhere else entirely.
+**3. Merge with a subject that publishes** — `feat:` or `feat(lsa):` — since the
+gate skips the build for anything else, and the first deploy is what the
+provisioning above waits on.
 
 ## Vetting and prose
 
@@ -218,8 +210,9 @@ and `pnpm type-overlap` all read `src/`, which does not move.
 CLAUDE.md changes in three places: the repository-layout table gains `apps/`
 and repoints `app/` and `public/`; § "Deployment" describes two sites, the
 scope-reading gate, and the receiver; and § "Vetting"'s closing paragraph about
-the one site an agent cannot reach gains a second — the deploy key, which no
-file in this tree can install.
+the one site an agent cannot reach gains a second — the domain's DNS, which no
+file here can write and no token here can set, and which the site is dark
+without.
 
 ## What this plan does not do
 
