@@ -40,6 +40,12 @@ export type Routed = { route: string };
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
 export type DocumentRef = WithCollectionId & Slugged;
 
+/**
+ * The site's static assets, resolved against the working directory — which is
+ * the app's own directory under `apps/`, because every build and every render
+ * script is entered there rather than at the repository root. Run one from the
+ * root and this points at nothing.
+ */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
 export function collectionDir(id: CollectionId): string {

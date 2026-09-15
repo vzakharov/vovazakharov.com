@@ -24,6 +24,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import { PUBLIC_DIR } from '../src/shared/content/collections.ts';
 import { contentHash } from '../src/shared/content/content-hash.ts';
 import {
   COLOR_SCHEMES,
@@ -41,7 +42,7 @@ type Fence = {
   file: string;
 };
 
-const OUTPUT_DIR = path.join(REPO_ROOT, 'public', MERMAID_DIR);
+const OUTPUT_DIR = path.join(PUBLIC_DIR, MERMAID_DIR);
 
 /** The Mermaid built-in theme to render each colour scheme with. */
 const MERMAID_THEMES: Record<ColorScheme, string> = {

@@ -13,9 +13,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# next.js — each app builds into its own directory under apps/
+.next/
+out/
 
 # production
 /build

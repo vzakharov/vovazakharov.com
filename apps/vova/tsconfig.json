@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["../../src/*"]
+    }
+  },
+  // The reach back into the repository root is for the ambient declarations —
+  // the stylesheet modules and the next-intl catalogue registration — which
+  // nothing imports and which are therefore invisible to a check that only
+  // follows this directory's imports.
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "../../*.d.ts",
+    "../../src/**/*.d.ts"
+  ],
+  "exclude": ["node_modules", "out"]
+}

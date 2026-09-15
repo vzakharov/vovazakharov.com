@@ -275,7 +275,7 @@ async function withDevServer(
   const server = spawn(
     path.join(REPO_ROOT, 'node_modules', '.bin', 'next'),
     ['dev', '--port', String(port)],
-    { cwd: REPO_ROOT, stdio: 'ignore', detached: true },
+    { stdio: 'ignore', detached: true },
   );
 
   try {
