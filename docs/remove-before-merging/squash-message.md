@@ -1,33 +1,37 @@
 Proposed squash title/body:
 
 ```
-content: hand the late-stage-agentic project to its own repo (pr #44)
+chore: hand off the late-stage-agentic project and amend /spinoff (pr #44)
 ```
 
 ```
 The late-stage-agentic material was always going to leave: it is a
 separate publication with its own site, channel and audience, and this
 repo is a personal site that happened to be where the dictation
-pipeline got built. Two recordings, two drafts and an opening post are
-enough of it to move.
+pipeline got built. /spinoff seeds vzakharov/latestageagentic.com out
+of this tree and carries the writing across; what lands here is the
+half that run is forbidden to touch.
 
-/spinoff seeds vzakharov/latestageagentic.com out of this tree — the
-agent loop and the stack scaffolding as its foundation, the writing
-carried through the product hatch onto its first branch. What cannot
-sit inside that run is the half that lands here, the skill holding the
-caller read-only for its whole length: writing/late-stage-agentic/ and
-the four dictation skills come out, scripts/transcribe.py goes with
-them, and CLAUDE.md loses the catalogue entries that named them.
-scripts/lib/media.py stays, being shared with the loop's own image
-extraction.
+writing/late-stage-agentic/ goes, leaving one tombstone for the whole
+retirement — the commit that last held the tree, the recipe to read it
+out of history, and where the material now lives. The tooling stays:
+the four dictation skills and scripts/transcribe.py are tooling rather
+than material, and a recording made here later has them waiting. The
+cost is two copies with no path between them, both repos syncing from
+vzakharov/muthur and it carrying none of the four.
 
-One tombstone stands in for the whole retirement, carrying the commit
-that last held the tree, the recipe to read it out of history, and the
-pointer to where the material now lives. It also records the thing no
-file can enforce: deleting claude/late-stage-agentic-phnz8v destroys
-the recordings behind every piece published from them, because
-docs/remove-before-merging/ is swept at merge and the branch is the
-only thing keeping them reachable.
+The tombstone also records what no file can enforce: deleting
+claude/late-stage-agentic-phnz8v destroys the recordings behind every
+piece published from them, because docs/remove-before-merging/ is
+swept at merge and the branch is the only thing keeping them
+reachable.
+
+Being the first caller to run /spinoff, this repo is also where it
+gets amended. The skill never says when to run it relative to the
+material, so content still under review travels and every later
+outcome is applied twice; and it states that a new repo's main carries
+a stub vet.sh without saying what a caller whose own vet.sh is real
+should write there.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

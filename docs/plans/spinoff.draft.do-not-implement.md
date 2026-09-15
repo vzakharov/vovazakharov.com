@@ -6,38 +6,48 @@
 there is enough of it; PR #43 is the point where there is. This plan is the
 per-run half of that move. `@.claude/skills/spinoff/SKILL.md` owns the
 procedure and is not restated here — what a run of it cannot derive on its own
-is the triage's output, the answers to its Step 1 questions, and the fact that
-the move has a **caller-side half the skill is forbidden to do**, since its
-second invariant makes this repo read-only for the whole run.
+is the triage's output, the answers to its Step 1 questions, and **the two
+places the skill turns out not to reach**, which are what this branch ships
+back into it.
 
-## Decisions in force
+## Decisions
 
 |                       |                                                                                                                                 |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | **Target**            | `vzakharov/latestageagentic.com`, public                                                                                        |
 | **Stack**             | the same one — Next.js static export to Pages, Mantine, next-intl. So Step 2's fork resolves to _organization travels as files_ |
 | **When**              | after PR #43 has merged, off `main`                                                                                             |
-| **The dictation set** | moves out and does not stay here; this repo keeps a tombstone                                                                   |
+| **The dictation set** | travels as a copy and **stays here too**; nothing about it is removed from this repo                                            |
+| **The material**      | leaves. `writing/late-stage-agentic/` is the project, and the project is what moves                                             |
 
-Each is a question at the foot with a recommendation; the plan is written with
-the recommendations already in force, so an unanswered question is the
-recommendation standing rather than a fork.
+Ruled out along the way: an organisation of its own now, rather than a repo
+under `vzakharov` — the org question stays open in `plan.md`, and a transfer
+later breaks no clone, watermark or lineage entry, so deciding it here would
+only be a guess. Private-until-launch, which the repo's visibility does not buy:
+the guard that keeps drafts out of `public/` is about what the site serves.
+Moving the dictation set out entirely, and moving it up into
+`vzakharov/muthur` — see § "What the two copies cost" below.
 
-**The name does not settle where the project lives on GitHub.** That is open in
-`writing/late-stage-agentic/plan.md` and stays open: a repo under `vzakharov`
-transfers into an organisation later without breaking a clone, a watermark or a
-lineage entry, so the org decision costs nothing by waiting and would cost a
-guess by being made here. Neither does the wiki's name block anything — nothing
-in the seed is named after it.
+The wiki's name blocks nothing: nothing in the seed is named after it.
 
-## Why after #43 and not off its branch
+## When to run, and what the skill says about it
 
-The content that travels is on `claude/late-stage-agentic-phnz8v`, so a run
-today is possible. It is still wrong: the branch is mid-review with findings
-still open — the afterword's данность block, whether `p1` reads better as prose,
-where the column ends and the wiki begins — and content copied before those land
-has to have each outcome applied twice, in two repos, by hand. Waiting costs one
-merge.
+**The skill does not prescribe this.** Step 1 says "read the caller at HEAD" and
+never asks what HEAD is; the only place the caller's branch state appears at all
+is Step 4's substep 3, which reuses the caller's slug and hash where it is on a
+session branch — a naming rule for the target's branch, not a judgment about
+whether to wait. So a run today, off `claude/late-stage-agentic-phnz8v`, is
+procedurally fine.
+
+It is still wrong here, for a reason particular to this run: the material is on
+a branch mid-review with findings still open — the afterword's данность block,
+whether `p1` reads better as prose, where the column ends and the wiki begins —
+and content copied before those land has every outcome applied twice, in two
+repos, by hand. Waiting costs one merge.
+
+That is the first thing the skill learns from this run, and the first of the two
+amendments below: the caller's branch state is not the question, **whether the
+material travelling through the product hatch is settled is**.
 
 The seed step is supposed to run in the session that holds the context for why
 the new repo exists, and this session will not survive the wait. **This file is
@@ -94,7 +104,7 @@ lands them on.
 | `scripts/type-overlap-check.{ts,test.ts,README.md}`, `render-og.ts`, `render-pdf.ts`, `render-mermaid.ts`, `lib/content-tree.ts`, `lib/og-render.ts`, `lib/render-manifest.ts` | stack gates and asset tooling. They arrive **with the stack in PR #1**, not on `main`: a TS gate on a tree with no `package.json` certifies nothing, and `main`'s `vet.sh` must name no stack-specific check. `lib/cv-card.ts` is product and stays                                                          |
 | `.claude/rules/eslint.md`, `.claude/rules/styling.md`                                                                                                                          | **copies** — the severity policy and the Mantine layering name no product. The only near-miss is `eslint.md`'s `src/shared/typings`, which is architecture                                                                                                                                                   |
 
-### Product — stays, except by the hatch
+### Product — stays
 
 `src/**` contents, `public/case-studies/`, `public/cv/`, `public/logos/`,
 `public/generated/`, `public/ava.png`, `.claude/rules/logos.md`,
@@ -104,7 +114,9 @@ lands them on.
 **Through the hatch, onto the target's session branch and never its `main`:**
 `writing/late-stage-agentic/**` — the two dictations, the two drafts, the plan —
 and the recordings under `docs/remove-before-merging/`. This is the thing the
-whole move is for, so it is named in the invocation rather than waited for.
+whole move is for, so it is named in the invocation rather than waited for. It
+is also the only thing that **leaves**: everything else travelling is a copy,
+which is what the skill does and all it does.
 
 `writing/notes/the-five-percent.md` stays: it is this repo's record of its own
 reviews, not content. The target accumulates its own from its first review.
@@ -158,30 +170,49 @@ Two closure knots to expect rather than discover:
 
 - `check-skill-catalog.sh` fails on a dangling `@.claude/skills/…` reference,
   and `/dictation` references all three of `afterword`, `subtitles` and
-  `dictation-to-post`. The four move as a set or not at all — which is also why
-  they cannot be half-left behind here.
+  `dictation-to-post`. The four travel as a set.
 - The sync skill and its watermark land together on `main` or `main` fails its
   own gate: the watermark **is** that skill's hydration.
 
-## The caller-side half — what lands on this branch
+## What lands on this branch
 
 `/spinoff`'s second invariant makes this repo read-only for the whole run, so
-none of this can be inside it. It runs here, after the target has the content:
+none of this can be inside it. Two things, in this order:
 
-1. `git rm -r writing/late-stage-agentic/`, and the four dictation skills.
-2. `writing/late-stage-agentic/retired.md` — one tombstone for the whole
-   retirement, per CLAUDE.md § "Writing things down": the last commit that
-   contained the tree, the `git show <sha>:<path>` recipe, and a pointer to the
-   new repo. One tombstone, not one per file.
-3. `scripts/transcribe.py` and `scripts/lib/media.py` — `media.py` is in the
-   adopted list and shared with the loop's own image extraction, so it **stays**;
-   `transcribe.py` goes with the skill that calls it.
-4. `CLAUDE.md` — drop the four catalogue entries, the `/dictation` row in
-   § "Repository layout"'s `writing/` cell, and the `scripts/` cell's mention of
-   the transcription tooling. `.claude/rules/writing.md` loses its late-stage
-   material and keeps what holds for `writing/linkedin/`.
-5. `scripts/check-skill-catalog.sh` and `./scripts/vet.sh` green, which is what
-   catches a reference left dangling by step 1.
+### 1. The amendments the run owes the skill
+
+This is what the PR is, read from this side. Two are visible before the run and
+are the ones it is committed to; anything else it surfaces joins them.
+
+- **Nothing in the skill says when to run it relative to the material.** Step 1
+  reads the caller at HEAD and never asks what HEAD holds, and the hatch carries
+  content that may be mid-review — which is this run's actual constraint and the
+  reason it waits for #43. The amendment belongs in § "Step 2 — Triage" beside
+  the hatch, where the content is already being named: what travels through it
+  is settled content, and an unmerged review is the tell that it is not.
+- **The stub `vet.sh` an adopter cannot supply.** Step 4's third consequence
+  states the rule — `main`'s `vet.sh` is the stub, and the stub exits 0 — and
+  names the failure of copying the real one, but a caller whose own `vet.sh` is
+  real has nothing to put there and the skill does not say what to write. It
+  should: the loop's own checks, nothing that reads a package manifest. This
+  repo is the first caller to hit it, and the next one hits it identically.
+
+Where an amendment is a repo-level rule rather than a procedure, it goes to
+`CLAUDE.md` instead and the skill points at it — one home, one pointer.
+
+### 2. The material leaves
+
+`git rm -r writing/late-stage-agentic/`, and one tombstone for the whole
+retirement per CLAUDE.md § "Writing things down":
+`writing/late-stage-agentic/retired.md`, carrying the last commit that held the
+tree, the `git show <sha>:<path>` recipe, and the pointer to where the material
+now lives. One tombstone, not one per file.
+
+`CLAUDE.md` § "Repository layout" loses the late-stage half of its `writing/`
+cell; `.claude/rules/writing.md` keeps what holds for `writing/linkedin/`. **The
+four dictation skills, `scripts/transcribe.py` and their catalogue entries all
+stay** — they are tooling, not material, and a recording made here later has
+them waiting.
 
 The five-percent file keeps its late-stage entries. They are learnings about how
 the agent works, which is this repo's subject, not the project's.
@@ -189,24 +220,31 @@ the agent works, which is this repo's subject, not the project's.
 **Deleting `claude/late-stage-agentic-phnz8v` at any point destroys the
 recordings.** The tombstone says so.
 
+Then `scripts/check-skill-catalog.sh` and `./scripts/vet.sh` green.
+
 ## DRY notes
 
 **The whole operation is a deliberate duplication, and the sharing mechanism is
-the watermark rather than a package.** Two repos will carry the same twenty-odd
+the watermark rather than a package.** Two repos will carry the same two dozen
 skill files. Extracting them into a dependency is the reflex and it is wrong
 here: Claude Code loads skills from the tree it opens, so there is no runtime
-that could resolve a package, and a shared one would couple two projects'
-agent loops so that a change wanted in one lands in the other unreviewed. The
-copy plus `/update-muthur`'s triage is what keeps the divergence deliberate and
+that could resolve a package, and a shared one would couple two projects' agent
+loops so that a change wanted in one lands in the other unreviewed. The copy
+plus `/update-muthur`'s triage is what keeps the divergence deliberate and
 per-path. `/spinoff` § "The watermark points at the root" already accepts this
 cost; this plan does not reopen it.
 
-**The one duplication that would be real is the dictation set**, and it is
-resolved by the set _leaving_ rather than being copied. Four skills and a
-script maintained in two trees, against one project's recordings, is exactly the
-drift this repo's own "one home, one pointer" rule names. That is the argument
-for the recommendation in question 4, and the reason the tombstone is part of
-the plan rather than a nicety.
+**What the two copies cost.** The dictation set staying on both sides is the one
+duplication with no reconciliation path at all: both repos' watermarks point at
+`vzakharov/muthur`, which does not carry these four skills, so `/update-muthur`
+never reaches them in either direction and a fix made in one is a fix made in
+one. That is accepted rather than solved — the skill's own "once you've raised
+your kids, it's their own life to grow", applied to a set of skills instead of a
+tree. Moving them out entirely was the single-home answer and costs the ability
+to dictate anything here again; moving them up into `vzakharov/muthur` would
+give them a real home and make the template carry content production, which is
+not what it ships. Revisit if the two copies actually diverge in a way that
+matters.
 
 **What is genuinely re-derived rather than shared**: `vet.sh`, `CLAUDE.md`,
 `.claude/rules/content.md`, `.claude/rules/writing.md` and `fsd.md`. Each states
@@ -217,44 +255,3 @@ that does not exist, which is the failure the caller's own `adopted` notes keep
 flagging.
 
 **No new abstraction is introduced by this plan**, in either repo.
-
-## Open questions
-
-Each carries a recommendation, and the plan above is written with the
-recommendation in force — so silence resolves them.
-
-**1. The target's name.**
-
-- **a. `vzakharov/latestageagentic.com` — recommended.** Mirrors this repo's own
-  domain-as-name convention, and leaves the organisation question open, since a
-  transfer later breaks nothing.
-- b. A new organisation now — `late-stage-agentic/site` or similar — settling
-  `plan.md`'s open question in the same move.
-- c. `vzakharov/late-stage-agentic`, the slug rather than the domain.
-
-**2. Visibility.**
-
-- **a. Public — recommended.** This repo is public and carries unposted drafts
-  already; the guard that keeps drafts out of `public/` is about what the site
-  serves, not about who can read the repository.
-- b. Private until the site launches, then flipped.
-
-**3. When.**
-
-- **a. After PR #43 merges — recommended**, for the reason under "Why after #43"
-  above.
-- b. Now, off `claude/late-stage-agentic-phnz8v`, accepting that every review
-  outcome still open on #43 gets applied twice.
-
-**4. Where the dictation set lives afterwards.**
-
-- **a. It moves out; this repo keeps a tombstone — recommended.** The set exists
-  for recordings, and after the move every recording is in the other repo.
-- b. It stays here too, and the two copies are allowed to drift. Buys the
-  ability to dictate a LinkedIn post here without a second repo; costs the
-  single home.
-- c. It goes **up** to `vzakharov/muthur` and reaches both repos through
-  `/update-muthur`. The DRY-correct shape on paper, and not recommended: the
-  template ships the loop, and turning a recording into a post is content
-  production rather than loop, so it would be the first thing there that is
-  neither.
