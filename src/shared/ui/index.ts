@@ -7,3 +7,4 @@ export { hoverDim } from './hover-dim';
 export { InternalButton, InternalLink } from './internal-link';
 export { PageShell } from './page-shell';
 export { Section, Subheading, SUBHEADING_GAP } from './section';
+export { SummaryCard } from './summary-card';
