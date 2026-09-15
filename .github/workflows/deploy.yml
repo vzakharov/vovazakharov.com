@@ -16,12 +16,16 @@ concurrency:
 
 jobs:
   # Only a feat: or fix: subject reaches production; anything else lands on main
-  # without publishing. `workflow_dispatch` bypasses the gate, so a chore: that
-  # does change the built site is deployed by running this workflow by hand.
+  # without publishing. Its scope picks the site: `feat(lsa):` publishes
+  # latestageagentic.com alone, `feat(vova):` vovazakharov.com alone, and any
+  # other scope — or none — publishes both, since a change to the shared layer
+  # is both sites' change. `workflow_dispatch` bypasses the gate entirely, so a
+  # chore: that does change a built site is deployed by running this by hand.
   gate:
     runs-on: ubuntu-latest
     outputs:
-      deploy: ${{ steps.subjects.outputs.deploy }}
+      vova: ${{ steps.subjects.outputs.vova }}
+      lsa: ${{ steps.subjects.outputs.lsa }}
     steps:
       - name: 'Scan the pushed subjects for feat:/fix:'
         id: subjects
@@ -30,24 +34,42 @@ jobs:
         run: |
           set -euo pipefail
 
+          vova=false
+          lsa=false
+
           if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
             subjects=''
-            deploy=true
-            verdict='Manual run — deploying regardless of commit subjects.'
+            vova=true
+            lsa=true
+            verdict='Manual run — deploying both sites regardless of commit subjects.'
           else
             # Subject lines only: a body that happens to mention "fix:" is not a fix.
             subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
 
-            if grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subjects"; then
-              deploy=true
-              verdict='Deploying — a feat:/fix: subject is in this push.'
+            while IFS= read -r subject; do
+              [ -n "$subject" ] || continue
+
+              grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
+              scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
+
+              case "$scope" in
+                lsa) lsa=true ;;
+                vova) vova=true ;;
+                *) vova=true; lsa=true ;;
+              esac
+            done <<< "$subjects"
+
+            if [ "$vova" = true ] || [ "$lsa" = true ]; then
+              verdict="Deploying — vovazakharov.com: $vova, latestageagentic.com: $lsa."
             else
-              deploy=false
               verdict='Skipping the deploy — no feat:/fix: subject in this push.'
             fi
           fi
 
-          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+          {
+            echo "vova=$vova"
+            echo "lsa=$lsa"
+          } >> "$GITHUB_OUTPUT"
 
           {
             echo "$verdict"
@@ -58,10 +80,10 @@ jobs:
             fi
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
-  build:
+  build-vova:
     runs-on: ubuntu-latest
     needs: gate
-    if: needs.gate.outputs.deploy == 'true'
+    if: needs.gate.outputs.vova == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,20 +103,53 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm build
+        run: pnpm build:vova
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./apps/vova/out
 
-  deploy:
+  deploy-vova:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-vova
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # The second site has no Pages site of its own here — a repository gets one —
+  # so it is built here and pushed to the repository that serves it.
+  # scripts/publish-lsa.sh carries the credential's contract.
+  publish-lsa:
+    runs-on: ubuntu-latest
+    needs: gate
+    if: needs.gate.outputs.lsa == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:lsa
+
+      - name: Publish to the receiving repository
+        env:
+          LSA_PAGES_DEPLOY_KEY: ${{ secrets.LSA_PAGES_DEPLOY_KEY }}
+        run: ./scripts/publish-lsa.sh
