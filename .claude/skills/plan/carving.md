@@ -13,7 +13,7 @@ proposal takes.
 
 Under a heading of its own, the plan names every issue it proposes — the parent and each child — with a title and a one-line scope each, in dependency order, saying which child this plan specs. That list is the proposal the operator approves by approving the plan.
 
-**Say which slices are already tracked.** This repo's backlog is a handful of issues an operator reads in one sitting, so the check is reading the open list rather than a dedupe procedure. Record beside a slice any open issue that already covers it, so a slice already filed gets linked as the child instead of filed twice — and so a match on the **parent** stops and reports, somebody else already tracking the whole umbrella being what changes the operator's judgment about whether to carve at all.
+**Say which slices are already tracked.** Read the open issue list — a handful here, and one sitting — and record beside each slice anything that already covers it, so a slice already filed gets linked as the child instead of filed twice. A match on the **parent** stops and reports instead: somebody else already tracking the whole umbrella is what changes the operator's judgment about whether to carve at all.
 
 **The parent.** Arriving from `/take-issue` it exists already. Arriving from bare prose the plan proposes one and `/go` creates it. It stays open as a grouping artifact and is never what the PR closes — **every slice is a child, the first included.** Filing children 2..n and doing slice 1 "under the parent" leaves the PR nothing to close and makes the parent both umbrella and work item. The parent closes once its children are done, which is the operator's call.
 

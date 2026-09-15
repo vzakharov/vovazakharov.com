@@ -21,10 +21,8 @@ happen.
 **With no number:** there is no issue to take, so the prose is an ordinary task.
 Name `@.claude/skills/task/SKILL.md` and stop rather than running it — the old
 name meant "an issue is involved", and a run that quietly drops that premise is
-one the operator cannot see they got.
-
-Filing the work as an issue first is theirs to do by hand: this repo opens issues
-that way, so there is no skill here to forward to.
+one the operator cannot see they got. Filing it as an issue first is theirs to
+do by hand, this repo opening issues that way.
 
 Do not act on the summary above — this file carries no procedure of its own
 beyond the fork, and `/handle`'s Do-NOT names acting on a one-line summary of a
