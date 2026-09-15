@@ -30,10 +30,21 @@ export function AboutSection() {
         <Text size="lg" lh={1.625}>
           My Claude and I have been trying to answer that with something other
           than philosophy. There is a{' '}
-          <Anchor href={FIVE_PERCENT_URL}>file</Anchor> that Claude writes to
-          after every review of code it wrote — what exactly it got wrong,
-          generalised and grouped with everything before it. The most frequent
-          finding in it reads: <em>What it was handed, it treats as fixed</em>.
+          <Anchor
+            href={FIVE_PERCENT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            inherit
+          >
+            file
+          </Anchor>{' '}
+          that Claude writes to after every review of code it wrote — what
+          exactly it got wrong, generalised and grouped with everything before
+          it. The most frequent finding in it reads:
+        </Text>
+
+        <Text size="xl" fs="italic" opacity={0.8}>
+          What it was handed, it treats as fixed
         </Text>
 
         <Text size="lg" lh={1.625}>

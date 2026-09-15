@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      site:
+        description: Which site this run publishes
+        type: choice
+        options: [both, vova, lsa]
+        default: both
 
 permissions:
   contents: read
@@ -27,6 +33,7 @@ jobs:
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
+          SITE: ${{ inputs.site }}
         run: |
           set -euo pipefail
 
@@ -34,10 +41,20 @@ jobs:
           lsa=false
           subjects=''
 
+          # A site name selects that site; anything else — an unscoped subject,
+          # a scope naming neither — selects both.
+          select_site() {
+            case "$1" in
+              vova) vova=true ;;
+              lsa) lsa=true ;;
+              *) vova=true; lsa=true ;;
+            esac
+          }
+
           if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
-            vova=true
-            lsa=true
-            verdict='Manual run — deploying both sites regardless of commit subjects.'
+            # No subject to read a scope off, so the picker stands in for one.
+            select_site "${SITE:-both}"
+            verdict="Manual run — vovazakharov.com: $vova, latestageagentic.com: $lsa."
           else
             # Subject lines only: a body that happens to mention "fix:" is not a fix.
             subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
@@ -48,11 +65,7 @@ jobs:
               grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
               scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
 
-              case "$scope" in
-                lsa) lsa=true ;;
-                vova) vova=true ;;
-                *) vova=true; lsa=true ;;
-              esac
+              select_site "$scope"
             done <<< "$subjects"
 
             if [ "$vova" = true ] || [ "$lsa" = true ]; then

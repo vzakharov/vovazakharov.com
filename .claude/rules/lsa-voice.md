@@ -5,22 +5,11 @@ paths:
   - 'writing/late-stage-agentic/**'
   - 'apps/lsa/**/*.md'
   - 'apps/lsa/**/*.json'
-  - 'src/shared/config/site-config.ts'
 ---
 
 # The Late Stage Agentic voice
 
-Write it with a touch of Terry Pratchett-ish irony: the joke rides inside the
-plain sentence rather than waiting at the end of it, the register stays level
-while the subject gets funnier, and the affection for the thing being mocked
-stays audible. That is the whole of it, on purpose — the most frequent finding
-in `writing/notes/the-five-percent.md` is that an agent treats what it was
-handed as fixed, and a voice handed over complete is a voice that stops being
-worked on. The rest gets found a line at a time, in review, by someone reading a
-draft and saying _that's not it_; write the tell down here when that happens,
-rather than guessing at it now.
-
-**The copy's dashes are em dashes** — `—`, not `--`. The site is set in
-Merriweather, where the long dash is the one that sits right; the Russian drafts
-spell theirs `--` for a reader's sake rather than a typeface's, so neither
-convention settles the other.
+Write it with a touch of Terry Pratchett-ish irony — what that means is for
+every agent to find out and for the codebase to settle on as more prose
+accumulates, which is a roundabout way of saying that nobody here has defined
+it and it has been going rather well so far.

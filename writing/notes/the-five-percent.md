@@ -159,23 +159,20 @@ That skill is adopted from a boilerplate repo whose copy still asks for the same
 thing. _Let's file an issue on the boilerplate repo._ The fix had a second site.
 
 **9 September — a test written and not run over the file it was for.** The same
-round added the test above to this file — a bump is something the agent could
-have seen and didn't — and ran it against exactly the entry under discussion,
-retiring one. Ten sections sat above it unexamined, in the file the test had been
-written about. _Do the other learnings here de-qualify per this lens?_ One did.
+round added the test above — a bump is something the agent could have seen and
+didn't — then ran it against only the entry under discussion, leaving ten
+sections unexamined. _Do the other learnings de-qualify per this lens?_ One did.
 
 **9 September — the tagline in the catalogue, the tagline in the pixels.** The CV
-repositioning wired `cv-metadata.ts` to serve each framing its own tagline, and
-left `ogImage: '/cv_card.png'` two lines below — a composite with the developer
-tagline baked in — so a shared `/cv` link unfurled the CTO description beside a
-card reading DEVELOPER. A fact rendered in pixels, which the search for copy
-never reached: _бли, картинку уже поменять надо_ 🙈.
+repositioning gave each framing its own tagline in `cv-metadata.ts` and left
+`ogImage: '/cv_card.png'` two lines below, the developer tagline baked into it —
+so a shared `/cv` link unfurled the CTO description beside a card reading
+DEVELOPER. A fact rendered in pixels: _бли, картинку уже поменять надо_ 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type and called the two remaining
-mentions "authored prose". Both halves were wrong — four occurrences, three
-files, one a shell variable the vet run executes — because what it had looked at
-was the diff it had just written. The spelling came first, so the type was copy.
+mentions "authored prose" — wrong on both counts: four occurrences in three
+files, one a shell variable the vet run executes. It had searched its own diff.
 
 **14 September — the instruction obeyed, the instruction left standing.** _не
 надо ничего перепроверять_, posted on a line of the dictation skill: the agent
@@ -185,9 +182,8 @@ skill, where the next run reads it. _убери текст, где ты прос
 
 **14 September — the correction landed on the line it was raised on.** _читатель
 получит понимание как не надо делать агентский кодинг_, raised on the first
-dictation and written into that file. The project plan, the agent's own work
-from the same hour, went on opening "the subject is … what the human is still
-for" — the introductory post's question standing in for the publication.
+dictation and written into that file. The project plan, written the same hour,
+went on opening "the subject is … what the human is still for".
 
 **15 September — the description widened, the globs left behind.** Moving the
 router under `apps/`, the agent rewrote the content rule's description to
@@ -195,9 +191,8 @@ router under `apps/`, the agent rewrote the content rule's description to
 claim four lines above the mechanism contradicting it. _нужно сделать sweep._
 
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
-settled on 14 September against a Russian draft and applied to that file alone;
-the English copy written the next day came out in em dashes. Told again, the
-agent swept every file — the preference was Russian eyes, not the site's type.
+settled against a Russian draft and applied to that file alone; the English copy
+written the next day came out in em dashes, the preference never asked about.
 
 ## An account that explains the code stands in for running it (×6)
 
@@ -242,7 +237,7 @@ stayed a bare string in `siteNextConfig`, its docstring giving the reason:
 importing it runs `shared/config`'s check before anything sets the variable.
 True of a value import. _разве оно относится к `import type`?_ One build away.
 
-## It writes its reasoning into the artifact (×4)
+## It writes its reasoning into the artifact (×5)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and it is still wrong, because what the
@@ -255,9 +250,8 @@ where it was. The human deleted it: a reader came for the post, not its defence.
 
 **7 September — the commit body that documented the deploy gate.** The squash
 message explained the new prefix and its place in the gate, plus two notes
-recording the call and offering the veto — all true, all cut. A ride-along on a
-branch about a content plan, given a paragraph in a body read by someone
-scanning the log, reads as what the commit was for.
+recording the call and offering the veto — all true, all cut. A ride-along given
+a paragraph in a body read by someone scanning the log reads as the point of it.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here" — every item true, every one
@@ -270,9 +264,11 @@ afterword skill carried "it applies to anything the operator wrote" and "it is
 not the lede", both answering a question only someone who had watched it leave
 `/dictation` would ask. `CLAUDE.md` names the defect, the agent had cut one of
 its own by hand the same session, and `/tend-prose negation` ran over the file.
-_polar bear_, twice.
+_polar bear_, twice. The next day the new voice rule closed on a paragraph
+ruling `--` out of site copy that nothing in the tree had ever asked for —
+a third, in prose written minutes after the lens ran over it.
 
-## Given a form, it fills the form (×4)
+## Given a form, it fills the form (×5)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -300,6 +296,11 @@ The default is what makes the question skippable: _не должно быть д
 `SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site
 arrived as the first with four fields changed and `author`, `social` and
 `avatar` retyped. The type went green: every cell had a value. _не DRY._
+
+**15 September — the definition inside the rule against defining it.** The brief
+was one paragraph on the voice, explicitly left to be found in review rather
+than handed over complete. The paragraph came back defining the irony in three
+clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
 
 ## It settles a constraint in prose where a mechanism was available (×2)
 
@@ -395,6 +396,5 @@ chart, the checker whose coverage read as the rule, our own `eslint.config.ts`.
 The other is the opposite of a mistake: the output was well-formed, justified
 and efficient, and every one of those properties is what made it wrong. An edit
 minimal where it was made left one fact spelled three ways; an account sound at
-every step stopped anyone opening the file it described. No version of "be more
-careful" catches these, which is why they need a person — though not always by
-knowing more: the redirect one was a refusal to accept a well-formed account.
+every step stopped anyone opening the file it described. No "be more careful"
+catches these — they need a person, and not always one who knows more.
