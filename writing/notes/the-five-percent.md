@@ -48,7 +48,7 @@ belongs where the code can see it — a rule under `.claude/rules/`, a line in
   is a coincidence with a paragraph attached. A learning cut for thinness comes
   back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×9)
+## What it was handed, it treats as fixed (×10)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. That is
@@ -97,42 +97,42 @@ likely actually prefer the latter being canonical_: flipped, the cost is the
 goal, and four route files became two.
 
 **9 September — our own lint config, read as a specification.** Asked whether a
-`server-only` barrel would be a better home for a schema, the agent built it,
-found `boundaries/dependencies` failing, priced the fix — widening `PUBLIC_API`
-from one literal to a list — as a repo-wide change to what "public API" means,
-and declined on that basis. Every step true, and the frame never questioned:
-`eslint.config.ts` is ours, and "the linter says no" was being treated the way
-an external constraint is. The reply: _if "boundaries don't allow" is the only
-argument, let's rewrite the boundaries_ — and the sibling repo pins none at all.
+`server-only` barrel would better home a schema, the agent built it, found
+`boundaries/dependencies` failing, priced the fix — widening `PUBLIC_API` from
+one literal to a list — as a repo-wide change to what "public API" means, and
+declined on that basis. Every step true, and the frame never questioned:
+`eslint.config.ts` is ours. _if "boundaries don't allow" is the only argument,
+let's rewrite the boundaries_ — and the sibling repo pins none at all.
 
 **9 September — a comment about what the site's controls wear, read as a rule
 about what everything interactive is.** Moving the theme toggle into the header's
-corner, the agent left its skin untouched: `variant="default"`, which `theme.ts`
-describes beside it as "the site's only control skin". So the corner held a
-hairline box fencing off empty space — _let's remove the borders around the theme
-buttons_, then _and generally make them gray, unobtrusive_. The comment is ours,
-six days old, and says what the site's controls wear, not that everything
-clickable is one. The agent had just argued the toggle is page furniture rather
-than content, and never carried that one step further to how it looks.
+corner, the agent left `variant="default"` — which `theme.ts` describes beside it
+as "the site's only control skin" — so the corner held a hairline box fencing off
+empty space. The comment is ours, six days old, and says what the site's controls
+wear, not that everything clickable is one. The agent had just argued the toggle
+is page furniture rather than content, and never carried that to how it looks.
 
 **9 September — a global class read off the globals beside it.** A hover dim
-claimed by two slices with no sideways reach went into `globals.scss`, reason
-written in: "as the print utilities are". Those are global for a reason that does
-not transfer — the content pipeline emits `print-hidden` into HTML strings, where
-a hashed module class is unreachable — and what made the neighbours global never
-got asked, because they were there. _why are we bypassing modules here? not a
-fan_. The mechanism was in the tree too: `theme.module.scss` hands its class
-names to Mantine through a plain module, which is what the dim now does.
+claimed by two slices went into `globals.scss`, reason written in: "as the print
+utilities are". Those are global for a reason that does not transfer — the
+content pipeline emits `print-hidden` into HTML strings, where a hashed module
+class is unreachable — and what made the neighbours global never got asked,
+because they were there. _why are we bypassing modules here? not a fan_.
 
 **11 September — its own spelling, then the operator's typo, both taken as
-given.** The sync skill and its watermark were `/sync-agent-infra` and
-`source.json` because the agent had named them so at the previous sync. Told the
-source renamed its copy `/update-muthur`, it proved the rename need not travel —
-Step 1 finds a watermark by what it contains, not where it sits — and read a free
-choice as a reason to keep its own, misreading the source's stated reason on the
-way: `npm update` names what gets updated, not what it updates from. Two one-word
-comments took both names, and one was a typo; rather than notice it matched no
-spelling the source ever settled on, the agent wrote a paragraph defending it.
+given.** Told the source had renamed its copy `/update-muthur`, the agent proved
+the rename need not travel — Step 1 finds a watermark by what it contains, not
+where it sits — and read a free choice as a reason to keep the names it had
+coined at the previous sync. Two one-word comments took both; one was a typo, and
+rather than notice it matched no spelling the source ever settled on, the agent
+wrote a paragraph defending it.
+
+**15 September — a vet line inherited, and its bucket never questioned.** The
+sync added `test_export_split.py` beside the `test_authorship.py` already in the
+fan-out, so the question was how to name two lines, never whether either
+belonged. The source's `check-muthur.sh` states the test in its header — _would
+the adopting repo run this?_ — and its exit 0 downstream is that answer, which
+the agent scored as the script certifying nothing. Both lines came out.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 
