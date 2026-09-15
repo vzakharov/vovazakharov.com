@@ -1,48 +1,47 @@
 Proposed squash title/body:
 
 ```
-content: the late-stage-agentic dictations and the pipeline around them
+feat: the latestageagentic.com site, and the dictations behind it (pr #43)
 ```
 
 ```
-Two recordings arrive with this change, and there will be more: a phone
-dictation laying out a new project -- an English site at
+A new project arrives with both halves at once: an English site at
 latestageagentic.com beside a Russian Telegram channel, both on how not
-to make a mess of agentic coding -- and a video arguing a human is
-needed because a human is limited, where a model that absorbed all of
-human experience finds a sunset as beautiful as it is indifferent.
+to make a mess of agentic coding, and the first recordings that will
+fill them.
 
-Each lands under writing/late-stage-agentic/dictations/ in five parts,
-of which only the middle one is the recording, framed by a lede to
-recognise it by and a reading of what was said. A recording headed for
-publication keeps their words in their order, as the same text becomes
-the subtitle track: every word is the recognizer's word in its place,
-bar a filler removed, a mis-hearing corrected, a slip replaced, or a
-word bracketed in. Smoothness is the tell. One that only gives the repo
-context is rendered as connected prose instead.
+The site is a second Next app rather than a second repository.
+apps/vova/ and apps/lsa/ each hold a router, a public/ and a config, and
+both build from the one src/ -- which works because a project directory
+needs nothing else for `next build`, so there is no workspace and one
+lockfile, and because FSD already forbids two page slices from reaching
+each other sideways, which is what two sites' pages are. Each app names
+itself, and shared/config holds both under one type and refuses to load
+unnamed, so a build that forgot which site it was fails rather than
+publishing one site's copy under the other's domain. Every build is
+entered in its app directory: next-intl checks its config path against
+the working directory and hands Turbopack the same string to resolve
+against the project, and only one directory satisfies both.
 
-scripts/transcribe.py takes everything a re-run would do identically --
-install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
-call Deepgram, keep the whole response, render a timecoded transcript
-ending in the words scored under 0.6 -- and the dictation skill takes
-the judgement it cannot make: which words are the speaker's and which
-are its mistakes. Responses are kept for the per-word timings a
-subtitle track needs. --video-out re-encodes the video on the way, a
-phone's trip through a messenger being a generous re-encode already:
-CRF 28 takes this one from 83.9 MB to 30.4 MB.
+A repository gets one Pages site, so vovazakharov.com keeps this one's
+and latestageagentic.com is force-pushed to a source-less repository
+whose Pages deploys from a branch, making the push the deploy. The gate
+reads the commit scope as a site name; publish-lsa.sh refuses an out/
+missing CNAME or .nojekyll, both of which fail silently at the far end.
 
-Two skills carry what happens after, both specified and neither built:
-subtitles joins the corrected words onto the saved timings and burns
-them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. A third, afterword, is
-built: the agent's own reading, which a dictation and a draft both
-close with. Of the two drafts only the welcome text is a post; the
-limits piece stays material -- philosophy is not how weight is gained.
+Each recording lands under writing/late-stage-agentic/dictations/ in
+five parts, of which only the middle one is the recording, framed by a
+lede to recognise it by and a reading of what was said. One headed for
+publication keeps the speaker's words in their order, since the same
+text becomes the subtitle track; one that only gives the repo context is
+rendered as prose. transcribe.py takes what a re-run would do
+identically and the dictation skill takes the judgement it cannot make.
+subtitles and dictation-to-post are specified and not built; afterword
+is built. Of the two drafts only the welcome text is a post -- the
+limits piece stays material, philosophy not being how weight is gained.
 
 The recordings themselves stay in the branch under
-docs/remove-before-merging/, swept before the squash so none of it
-reaches main and kept reachable by a branch that is not deleted; die()
-moves to scripts/lib/cli.py, the first caller unrelated to GitHub.
+docs/remove-before-merging/, swept before the squash.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
