@@ -245,7 +245,7 @@ async function awaitServer(
   if (server.exitCode !== null) {
     throw new Error(
       `The dev server exited with ${server.exitCode} before answering on ` +
-        `${origin}. Run \`pnpm dev\` to see why.`,
+        `${origin}. Run \`pnpm dev:vova\` to see why.`,
     );
   }
 
