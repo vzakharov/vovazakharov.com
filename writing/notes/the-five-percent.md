@@ -15,14 +15,12 @@ the human turns out to have been wrong included: a collection that only
 vindicates the reviewer is worth as much as a measurement that only flatters.
 
 **Adding to it is mandatory after a review session** that changed something the
-agent had settled — the rule is in `CLAUDE.md` § "GitHub comments", and it is
-there because the entry has to be written while the session still remembers
-what it was working from.
+agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule, and why
+the entry is written before the session forgets what it worked from.
 
-**This file has an end.** Scaffolding for one post, not a permanent journal:
-once row 18 is drafted and posted, the file retires with the rule that feeds it.
-Everything durable belongs where the code can see it — a rule under
-`.claude/rules/`, a line in `CLAUDE.md` — whether or not it also lands here.
+**This file has an end.** Once row 18 is drafted and posted, it retires with the
+rule that feeds it. Everything durable belongs where the code can see it — a
+rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands here.
 
 ## How this file is kept
 
@@ -46,13 +44,12 @@ Everything durable belongs where the code can see it — a rule under
   one bump is a coincidence with a paragraph attached. A learning cut for
   thinness comes back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×14)
+## What it was handed, it treats as fixed (×15)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
-already in the tree — the agent reasons _inside_ rather than _about_. That is
-what makes the failure invisible: the reasoning within the frame is sound, and a
-second agent checking it would pass. The human's move is to change the given
-rather than to answer better within it.
+already in the tree — the agent reasons _inside_ rather than _about_. The failure
+is invisible because the reasoning inside the frame is sound: a second agent
+checking it would pass. The human's move is to change the given.
 
 **6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
 `docs:` for a change that documents nothing. The agent weighed three candidates
@@ -104,15 +101,15 @@ written in: "as the print utilities are". Those are global for a reason that doe
 not transfer — the content pipeline emits `print-hidden` into HTML strings, where
 a hashed module class is unreachable — and what made the neighbours global never
 got asked, because they were there. _why are we bypassing modules here?_
-`theme.module.scss` already handed its class names to Mantine through a plain
-module, which is what the dim does now.
+`theme.module.scss` already hands its class names to Mantine through a plain
+module.
 
 **11 September — its own spelling, then the operator's typo, both taken as
-given.** The sync skill was `/sync-agent-infra` because the agent had named it so
-at the previous sync. Told the source had renamed its copy `/update-muthur`, it
-proved the rename need not travel and read that freedom as a reason to keep its
-own. Two one-word comments then took both names, one of them a typo matching no
-spelling the source ever used — and the agent wrote a paragraph defending it.
+given.** The sync skill was `/sync-agent-infra`, named so by the agent at the
+previous sync. Told the source had renamed its copy `/update-muthur`, it proved
+the rename need not travel and read that freedom as a reason to keep its own. Two
+one-word comments then took both names, one a typo matching no spelling the
+source ever used, and the agent defended it.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
@@ -138,13 +135,18 @@ by-hand steps for standing the second site up went into the plan file, whose
 whole tree `CLAUDE.md` says is swept before the squash. _смотреть в .completed
 кажется концептуально неверно_ — never which document, only which section.
 
+**15 September — findings filed where the path says they get deleted.** The
+runbook for the second site carried GitHub's Pages addresses, the 409 a
+self-enabling `gh-pages` answers and the form that reads its inputs off the
+default branch — under `docs/remove-before-merging/`. _давай экстрагируем это в
+скилл._
+
 ## It edits the copy in front of it, not the fact behind it (×9)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source carrying the cause; a test written into a file
-is run against the one entry under discussion. Nothing catches the split — every
-site reads correctly on its own, and the divergence exists only between them.
+that adopted it leaves the source carrying the cause. Nothing catches the split —
+every site reads correctly alone, and the divergence exists only between them.
 
 **8 September — one stack, three spellings.** Playgram's tech line renders in
 three places, all of them the agent's own work from hours earlier in the same
@@ -205,8 +207,8 @@ and nothing inside an account can report that it was never checked.
 route needs a hand-written redirect file, the agent gave the right reason:
 next-intl redirects in middleware, a static export has none. That closed the
 question, so nobody asked what the file does. _how do we do "redirect" if it's
-not supposed to work in a static export at all?_ One grep of `out/`: the hop is
-React's, after hydration, so `/cv` is blank to anything without JS.
+not supposed to work in a static export at all?_ The hop is React's: `/cv` is
+blank to anything without JS.
 
 **8 September — the schema it never wrote.** Told route params would be better
 parsed with a zod schema, the agent declined; what survived two rounds was that
@@ -222,9 +224,9 @@ nobody ran it — the fourth item was named nowhere but in the deleted paragraph
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
 Asked where source recordings live, the agent argued nothing sits between `main`
-and nowhere: a video kept only on a branch is garbage-collected once the branch
-is deleted. Every step true, the premise never checked — `git ls-remote --heads
-origin` lists twenty-eight merged `claude/*` branches: _я не удаляю ветки_.
+and nowhere: a video kept only on a branch is garbage-collected with it. Every
+step true, the premise never checked — `git ls-remote --heads origin` lists
+twenty-eight merged `claude/*` branches: _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against drifting into prose: every sentence written
@@ -240,9 +242,8 @@ True of a value import. _разве оно относится к `import type`?_
 ## It writes its reasoning into the artifact (×5)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
-defence is accurate and traceable, and it is still wrong, because what the
-artifact is _for_ decides what belongs in it — and it is never the record of how
-the artifact was chosen.
+defence is accurate and traceable, and still wrong: what the artifact is _for_
+decides what belongs in it, and that is never the record of how it was chosen.
 
 **6 September — the paragraph explaining the paragraph.** The announcement draft
 carried a passage on its own calibration, arguing why its register was pitched
@@ -255,16 +256,15 @@ a paragraph in a body read by someone scanning the log reads as the point of it.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here" — every item true, every one
-belonging in a rules file or a docstring. The body had accreted across refreshes
-rather than being rewritten, which is how a cap gets walked past one push at a
-time.
+belonging in a rules file or a docstring. The body had accreted across refreshes,
+which is how a cap gets walked past one push at a time.
 
 **14 September — two denials of what the file used to be part of.** The new
 afterword skill carried "it applies to anything the operator wrote" and "it is
 not the lede", both answering a question only someone who had watched it leave
-`/dictation` would ask. `CLAUDE.md` names the defect, the agent had cut one of
-its own by hand the same session, and `/tend-prose negation` ran over the file.
-_polar bear_, twice. The next day the new voice rule closed on a paragraph
+`/dictation` would ask. `CLAUDE.md` names the defect and `/tend-prose negation`
+ran over the file. _polar bear_, twice. The next day the voice rule closed on a
+paragraph
 ruling `--` out of site copy that nothing in the tree had ever asked for —
 a third, in prose written minutes after the lens ran over it.
 
@@ -284,7 +284,7 @@ one-line gloss beside each of three old side projects. Two came back corrected t
 things no reading of the repos would produce — _a BYOK AI-first text processor_,
 _chatgpt before chatgpt_ — and a fourth card listed TypeScript and FSD for a
 boilerplate with neither. Every gloss was a confident sentence about the
-operator's own work, and the slot never offered leaving one blank.
+operator's own work, and the slot never offered a blank.
 
 **14 September — a default under a rule that says to ask.** Asked for a flag
 choosing whether a dictation is transcribed verbatim or rendered as prose, the
@@ -318,9 +318,9 @@ pattern every module under `shared/content` already uses.
 
 **9 September — the ceiling this file states, walked past by the append that
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above, about the file it was appending to. The agent added a section and
-pushed the file to 447 lines, having read the bullet on the way in. _let's put a
-vet.sh-controlled check_: prose in the file it governs is still only prose.
+section above. The agent added a section and pushed the file to 447 lines, having
+read the bullet on the way in. _let's put a vet.sh-controlled check_: prose in
+the file it governs is still only prose.
 
 ## It checks the render against its intent, not against the page (×2)
 
