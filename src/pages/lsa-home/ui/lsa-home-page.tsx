@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Divider,
   Group,
   SimpleGrid,
@@ -8,37 +7,34 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import Image from 'next/image';
 
 import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config';
-import { cssColor, PageShell, Section, SummaryCard } from '@/shared/ui';
+import {
+  cssColor,
+  PageShell,
+  Section,
+  SiteAvatar,
+  SummaryCard,
+} from '@/shared/ui';
 
 import { ENTRIES } from '../lib/entries';
 import { AboutSection } from './about-section';
 
 export function LsaHomePage() {
-  const { name, avatar, author } = SITE_CONFIG;
+  const { name, author } = SITE_CONFIG;
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <Center>
-            <Image
-              src={avatar.path}
-              alt={name}
-              width={150}
-              height={150}
-              style={{ borderRadius: '50%' }}
-              priority
-            />
-          </Center>
+          <SiteAvatar />
           <Title order={1}>{name}</Title>
         </Stack>
 
         <AboutSection />
 
         <Section id="writing">
+          <Title order={2}>Writing</Title>
           {ENTRIES.length > 0 ? (
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
               {ENTRIES.map((entry) => (

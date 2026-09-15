@@ -1,4 +1,4 @@
-# PR #43: content: capture the late-stage-agentic dictations and the pipeline behind them
+# PR #43: feat: latestageagentic.com, built from this repo, and its dictations
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/43
@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-14T23:23:38Z
+- **Updated:** 2026-09-15T11:02:35Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -16,6 +16,22 @@
 ## Body
 
 Two spoken passes at a new project, written down so they stop living in audio files; the pipeline that will do it for the rest of them, after eight rounds of review; and the channel's opening post, written as text rather than spoken.
+
+**The site it will be served from, built out of this repository.** `latestageagentic.com` is a second Next app rather than a second repository: `apps/vova/` and `apps/lsa/` each hold a router, a `public/` and a config, and both build from the one `src/`. That works because `next build` needs nothing else in a project directory — no `package.json`, no workspace, one lockfile — and because FSD already forbids two page slices from reaching each other sideways, which is exactly the relationship two sites' pages have. So `steiger`, the `boundaries` rules and the `@/*` alias are untouched.
+
+Each app names itself in its `next.config.ts`, and `src/shared/config` holds both sites under one `SiteConfig` type and refuses to load without a name — so a build that forgot which site it was would fail rather than publish one site's copy under the other's domain. It is a lookup rather than a zod parse: client components reach that module, where the schema would ship in the chunk.
+
+**Every build is entered in its app directory**, which is what makes the layout work at all: next-intl's plugin checks its config path against the working directory and hands Turbopack the same string to resolve against the project, and only one directory satisfies both. `PUBLIC_DIR` therefore keeps resolving off the working directory as it always has, and the render scripts are entered there too. Root `pages/` goes away with it — Next looks for a Pages Router inside the project directory only, which is now a level below `src/pages/`.
+
+**The deploy grows a second lane.** A repository gets one Pages site, so `vovazakharov.com` keeps going out through this one's and `latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com` — a repository with no source, whose Pages is set to deploy from a branch, so the push is the deploy and nothing runs over there. The script refuses an `out/` missing `CNAME` or `.nojekyll`, both of which fail silently at the far end: a dropped custom domain, and a `_next/` that Jekyll strips. The gate now reads the commit scope as a site name — `feat(lsa):` publishes one, `feat(vova):` the other, anything else both.
+
+**Provisioned already**, since it is all `gh`: the receiving repository exists, an ed25519 deploy key is installed on it with write access, and its private half is this repository's `LSA_PAGES_DEPLOY_KEY`. What is left is in the runbook below.
+
+**The runbook — three steps, and only you can do them.**
+
+1. **Own the domain.** `latestageagentic.com` has to be registered to you.
+2. **Point it at GitHub.** Delete any A, AAAA or ALIAS on the apex, then add four A records (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`), four AAAA (`2606:50c0:8000::153` through `2606:50c0:8003::153`) and a `www` CNAME to `vzakharov.github.io`. Same addresses `vovazakharov.com` already uses — the `CNAME` file inside each published branch decides which repository answers.
+3. **Merge with a `feat:` subject**, which is what creates `gh-pages`. Pages is then pointed at that branch and HTTPS enforced — two `gh` calls I can make once the first deploy has run.
 
 **What it is.** An English site at `latestageagentic.com` plus a Russian Telegram channel, «Клод четвёртой стадии», both about how not to make a mess of agentic coding. The opening post states the position the rest argues from: solving a well-posed task is a talent the models get closer to month by month, and seeing that the task is posed wrong is the one they do not — so what the human is still for is the question the channel opens on rather than answers. The larger idea behind the site is a wiki — lessons from actual work, written to be read by agents as much as by people, because that kind of experience is exactly what an agent cannot find in the training set.
 
@@ -73,6 +89,11 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 
 ## QA Checklist
 
+- [ ] `sites` — `pnpm build` produces `apps/vova/out` and `apps/lsa/out`; the first is byte-for-byte what `vovazakharov.com` serves today, the second carries `CNAME`, `.nojekyll` and a `<title>` of `Late Stage Agentic`.
+- [ ] `identity` — nothing in `apps/lsa/out` mentions `vovazakharov.com`, and nothing in `apps/vova/out` mentions `latestageagentic.com`.
+- [ ] `index` — look at the LSA index in both themes and at phone width: it is the shared shell, so anything wrong there is wrong on both sites.
+- [ ] `gate` — a `feat(lsa):` merge runs `publish-lsa` and not `deploy-vova`; `feat(vova):` the reverse; a bare `feat:` both.
+- [ ] `publish` — the first deploy lands one commit on `vzakharov/latestageagentic.com`'s `gh-pages`, `CNAME` included, and `https://latestageagentic.com` answers 200 once DNS and Pages are set.
 - [ ] `install` — with ffmpeg off `PATH`, the script installs it and re-checks rather than dying; with no package manager either, it still dies with instructions.
 - [ ] `script` — `python3 scripts/transcribe.py <any short audio> --out-dir tmp/dg` writes both files and prints their paths; a second run without `--force` refuses instead of re-billing the call.
 - [ ] `video` — run it against `docs/remove-before-merging/first-content.mp4` with `--video-out tmp/v.mp4`; the audio reports ~83.9 MB → ~3.3 MB and the video ~83.9 MB → ~30.4 MB, both before the upload.
@@ -85,6 +106,11 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 
 | Item          | Automatable | Covered? | Notes                                                                                                                          |
 | ------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `sites`       | Yes         | Yes      | `pnpm build` in `vet.sh` runs both; the output comparison is the part a human does once.                                       |
+| `identity`    | Yes         | No       | A grep over both `out/` trees would cover it; no home for such a test yet.                                                     |
+| `index`       | No          | n/a      | Whether a page looks right is `/preview` plus eyes.                                                                            |
+| `gate`        | Yes         | No       | The scope logic is shell inside the workflow; exercising it means pushing.                                                     |
+| `publish`     | No          | n/a      | Needs the real key, the real receiver and real DNS.                                                                            |
 | `install`     | Yes         | No       | Exercised this session against stubs for all four branches; a committed test would have to fake `which` and a package manager. |
 | `script`      | Yes         | No       | Would need a recorded Deepgram response to replay; not worth a fixture yet.                                                    |
 | `video`       | Yes         | No       | The ffmpeg half is testable without the API, the API half is not.                                                              |
@@ -108,48 +134,47 @@ Draft, and staying draft until there is enough dictated to build from.
 Proposed squash title/body:
 
 ```
-content: the late-stage-agentic dictations and the pipeline around them
+feat: the latestageagentic.com site, and the dictations behind it (pr #43)
 ```
 
 ```
-Two recordings arrive with this change, and there will be more: a phone
-dictation laying out a new project -- an English site at
+A new project arrives with both halves at once: an English site at
 latestageagentic.com beside a Russian Telegram channel, both on how not
-to make a mess of agentic coding -- and a video arguing a human is
-needed because a human is limited, where a model that absorbed all of
-human experience finds a sunset as beautiful as it is indifferent.
+to make a mess of agentic coding, and the first recordings that will
+fill them.
 
-Each lands under writing/late-stage-agentic/dictations/ in five parts,
-of which only the middle one is the recording, framed by a lede to
-recognise it by and a reading of what was said. A recording headed for
-publication keeps their words in their order, as the same text becomes
-the subtitle track: every word is the recognizer's word in its place,
-bar a filler removed, a mis-hearing corrected, a slip replaced, or a
-word bracketed in. Smoothness is the tell. One that only gives the repo
-context is rendered as connected prose instead.
+The site is a second Next app rather than a second repository.
+apps/vova/ and apps/lsa/ each hold a router, a public/ and a config, and
+both build from the one src/ -- which works because a project directory
+needs nothing else for `next build`, so there is no workspace and one
+lockfile, and because FSD already forbids two page slices from reaching
+each other sideways, which is what two sites' pages are. Each app names
+itself, and shared/config holds both under one type and refuses to load
+unnamed, so a build that forgot which site it was fails rather than
+publishing one site's copy under the other's domain. Every build is
+entered in its app directory: next-intl checks its config path against
+the working directory and hands Turbopack the same string to resolve
+against the project, and only one directory satisfies both.
 
-scripts/transcribe.py takes everything a re-run would do identically --
-install ffmpeg where the box lacks it, reduce a video to mono 64k AAC,
-call Deepgram, keep the whole response, render a timecoded transcript
-ending in the words scored under 0.6 -- and the dictation skill takes
-the judgement it cannot make: which words are the speaker's and which
-are its mistakes. Responses are kept for the per-word timings a
-subtitle track needs. --video-out re-encodes the video on the way, a
-phone's trip through a messenger being a generous re-encode already:
-CRF 28 takes this one from 83.9 MB to 30.4 MB.
+A repository gets one Pages site, so vovazakharov.com keeps this one's
+and latestageagentic.com is force-pushed to a source-less repository
+whose Pages deploys from a branch, making the push the deploy. The gate
+reads the commit scope as a site name; publish-lsa.sh refuses an out/
+missing CNAME or .nojekyll, both of which fail silently at the far end.
 
-Two skills carry what happens after, both specified and neither built:
-subtitles joins the corrected words onto the saved timings and burns
-them from a page the operator approves; dictation-to-post writes the
-argument out as text, listing every departure. A third, afterword, is
-built: the agent's own reading, which a dictation and a draft both
-close with. Of the two drafts only the welcome text is a post; the
-limits piece stays material -- philosophy is not how weight is gained.
+Each recording lands under writing/late-stage-agentic/dictations/ in
+five parts, of which only the middle one is the recording, framed by a
+lede to recognise it by and a reading of what was said. One headed for
+publication keeps the speaker's words in their order, since the same
+text becomes the subtitle track; one that only gives the repo context is
+rendered as prose. transcribe.py takes what a re-run would do
+identically and the dictation skill takes the judgement it cannot make.
+subtitles and dictation-to-post are specified and not built; afterword
+is built. Of the two drafts only the welcome text is a post -- the
+limits piece stays material, philosophy not being how weight is gained.
 
 The recordings themselves stay in the branch under
-docs/remove-before-merging/, swept before the squash so none of it
-reaches main and kept reachable by a branch that is not deleted; die()
-moves to scripts/lib/cli.py, the first caller unrelated to GitHub.
+docs/remove-before-merging/, swept before the squash.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -211,6 +236,28 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - Направление «сначала текст, потом запись» стоит в `plan.md` § Open как размышление вслух, а не как решение, — вместе с тем, чего оно коснётся, если устоит (расшифровка, correction pass у субтитров, что защищает verbatim). Ни один скилл не меняется, пока нет плана.
 
 Мелочь на будущее: `docs/pr/43/pr.md` не проходит `prettier --check` — экспорт тянет CRLF из тел комментариев, и это было так и до сегодняшних коммитов. На `/finalize` это всплывёт.
+
+---
+
+### Comment by @vzakharov (agent) on 2026-09-15T09:47:33Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5678120737](https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5678120737)
+
+This branch now also carries a second plan, `docs/plans/two-sites-one-repo.draft.do-not-implement.md` (6effcf2): `latestageagentic.com` becomes a second site built from this repository — `apps/vova/` and `apps/lsa/` over one shared `src/` — instead of moving into a repository of its own. #44 is closed as superseded.
+
+A spike settled the load-bearing question before the plan was written: `next build <dir>` against Next 16.0.3 in this tree needs no `package.json` in that directory, so there is no pnpm workspace and no task runner. Both sites' page slices stay in one `src/pages/`, which leaves `steiger`, the `boundaries` patterns and the `@/*` alias untouched.
+
+Two questions are open at the foot of the plan, both with a recommendation already in force in the text: what the LSA site serves on day one, and whether the receiving branch keeps history or is force-pushed as one orphan commit.
+
+The squash proposal on this PR still describes the dictation work only. It gets reconciled when the plan is implemented, not now — the record does not change until the work lands.
+
+---
+
+### Comment by @vzakharov (human) on 2026-09-15T11:02:35Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5679111920](https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5679111920)
+
+Общий коммент: давай запустим на сайт первичное наполнение по мотивам p0-welcome, не хочу публиковать с просто заглушкой
 
 ---
 
@@ -5770,7 +5817,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `writing/late-stage-agentic/plan.md`:90 — unresolved
+### `writing/late-stage-agentic/plan.md`:90 — resolved
 
 ```diff
 @@ -79,6 +80,24 @@ of a response. The agent's half may also end unconcluded — the format's whole
@@ -5805,7 +5852,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ---
 
-### `.claude/skills/afterword/SKILL.md`:1 — unresolved
+### `.claude/skills/afterword/SKILL.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-14T23:02:35Z
 
@@ -5817,7 +5864,7 @@ let's make language a parameter, defaulting to whichever the document is written
 
 ---
 
-### `.claude/skills/afterword/SKILL.md`:15 — unresolved
+### `.claude/skills/afterword/SKILL.md`:15 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -5846,9 +5893,13 @@ I'd say it's wider than that; I can use that skill wherever I want feedback in a
 
 Переписал «What it is for» на это: второй голос — узкий случай, широкий — долговечность. Отклик в треде читается один раз и уезжает вниз; тот же отклик в подвале файла лежит там до следующего открытия. Так что скилл — для любого места, где ты хочешь фидбек сохранённым, а не обсуждённым. ab236a8
 
+**@vzakharov (human)** — 2026-09-14T23:32:50Z
+
+Тут ещё речь про то, что в 99% случаев _я_ даю фидбек на то, что пишешь _ты_. Тут ситуация обратная, и у тебя, в отличие от меня, нет возможности делать код ревью. Правда, сейчас понял, что в принципе-то есть -- то есть ты так же можешь оставлять комментарии к каким-то строкам, как это делаю я. Но пока туда идти не будем, кажется, это не тривиально.
+
 ---
 
-### `.claude/skills/afterword/SKILL.md`:18 — unresolved
+### `.claude/skills/afterword/SKILL.md`:18 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -5882,7 +5933,7 @@ polar bear
 
 ---
 
-### `.claude/skills/afterword/SKILL.md`:23 — unresolved
+### `.claude/skills/afterword/SKILL.md`:23 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -5921,7 +5972,7 @@ ok, you already write that about following the language -- in that case you defi
 
 ---
 
-### `.claude/skills/afterword/SKILL.md`:28 — unresolved
+### `.claude/skills/afterword/SKILL.md`:28 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -6026,9 +6077,13 @@ I actually want to retract on that; the final thoughts, after all the discussion
 
 Один вопрос, который я не стал решать сам. В прошлом раунде я по старому правилу выкинул из `p0-welcome.md` блок про данность — ты тогда сказал «здесь её включать не надо, но где-то отдельно прописать», и мысль уехала в `plan.md` § "What a wiki widens, and what it cannot move". Вернуть её в афтерворд поста как итоговое чтение — или «здесь» относилось к файлу целиком, и в plan.md ей и место? ab236a8
 
+**@vzakharov (human)** — 2026-09-14T23:34:08Z
+
+давай сделаем так, убирается, если при этом переезжает куда-то ещё (как в данном случае). а если мысль просто фиксируется и не обрабатывается дальше, то остаётся там же, где была
+
 ---
 
-### `.claude/skills/afterword/SKILL.md`:53 — unresolved
+### `.claude/skills/afterword/SKILL.md`:53 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -6097,7 +6152,7 @@ polar bear
 
 ---
 
-### `.claude/skills/afterword/SKILL.md`:43 — unresolved
+### `.claude/skills/afterword/SKILL.md`:43 — resolved
 
 ```diff
 @@ -0,0 +1,61 @@
@@ -6156,6 +6211,504 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 ---
 
+### `.claude/rules/fsd.md`:76 — unresolved
+
+```diff
+@@ -66,8 +72,8 @@ slices, its own segments reach each other directly.
+
+ ## Traps
+
+-- **Root `pages/` must keep existing**, empty of routes — it is what keeps the FSD pages layer invisible to the router. `pages/README.md` has the mechanism.
+-- **`@/app` is the FSD app layer, not root `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. Root `app/` is reached only by Next's own routing conventions, never by import.
+-- **`@/` points at `src/`.** Anything outside it — `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
+-- **next-intl's request config is found by path, not by import.** `next.config.ts` names `./src/shared/i18n/request.ts` explicitly; moving that file means editing the config.
++- **`@/app` is the FSD app layer, not an app's `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. A router directory is reached only by Next's own routing conventions, never by import.
++- **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of its reach. Run a build from the repository root and it is not.
+```
+
+**@vzakharov (human)** — 2026-09-15T10:43:48Z
+
+вот тут интересно кстати понять, что теперь концептуально значит слой `/app` во всей этой новой парадигме. что у нас там уже, и "принадлежит" ли оно теперь там? (не правь код пока, сначала обсудим)
+
+---
+
+### `package.json`:12 — unresolved
+
+```diff
+@@ -4,9 +4,11 @@
+   "private": true,
+   "type": "module",
+   "scripts": {
+-    "dev": "next dev",
+-    "build": "next build",
+-    "start": "next start",
++    "dev:vova": "cd apps/vova && next dev",
++    "dev:lsa": "cd apps/lsa && next dev",
++    "build": "pnpm build:vova && pnpm build:lsa",
++    "build:vova": "cd apps/vova && next build",
++    "build:lsa": "cd apps/lsa && next build",
+     "typecheck": "tsc --noEmit",
+```
+
+**@vzakharov (human)** — 2026-09-15T10:44:43Z
+
+а почему через : а не пробел? общепринятая конвенция такая?
+
+---
+
+### `.claude/rules/logos.md`:2 — unresolved
+
+```diff
+@@ -1,12 +1,12 @@
+ ---
+-description: The normalization an organisation mark under public/logos/ must carry before it is committed, since the cards render every mark at one size
++description: The normalization an organisation mark under apps/vova/public/logos/ must carry before it is committed, since the cards render every mark at one size
+```
+
+**@vzakharov (human)** — 2026-09-15T10:46:17Z
+
+не настаиваю конкретно здесь (учитывая что сейчас оно применяется действительно только к apps/vova), но нужно сделать sweep в отношении мест, где а-ля "replace all" сузил область действия (т.е. что-то что по сути должно относиться к обоим аппам)
+
+---
+
+### `.github/workflows/deploy.yml`:34 — unresolved
+
+```diff
+@@ -30,24 +34,42 @@ jobs:
+         run: |
+```
+
+**@vzakharov (human)** — 2026-09-15T10:47:00Z
+
+может стоит выделить уже в отдельный .sh?
+
+---
+
+### `apps/lsa/app/layout.tsx`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-15T10:48:54Z
+
+интересно, что здесь и ниже гит определил то как `mv` в lsa, а не vova (хотя концептуально верно, конечно, последнее). Но я так понимаю это просто по алфавиту, и тут мы сделать что-то бессильны
+
+---
+
+### `apps/site-next-config.ts`:15 — unresolved
+
+```diff
+@@ -0,0 +1,35 @@
++import type { NextConfig } from 'next';
++import createNextIntlPlugin from 'next-intl/plugin';
++import path from 'node:path';
++
++/**
++ * Every site's Next config. Pass the caller's own `import.meta.dirname`:
++ * Turbopack has to be told the workspace root, the lockfile and `node_modules`
++ * being two levels above an app.
++ *
++ * `site` is a bare string rather than the id union because importing it would
++ * run `src/shared/config`'s own check here, while Next is still loading this
++ * file and nothing has set the variable yet. An unknown value fails that check
++ * moments later instead.
++ */
++export function siteNextConfig(site: string, appDir: string): NextConfig {
+```
+
+**@vzakharov (human)** — 2026-09-15T10:50:57Z
+
+почему б site не type-safe? Замечание про import выше -- разве оно относитс к `import type`? И если да, то может перенести в `shared/model` (если я правильно пониаю проблему), это и концептуально было бы правильнее?
+
+---
+
+### `docs/plans/two-sites-one-repo.completed.md`:171 — unresolved
+
+````diff
+@@ -126,49 +124,61 @@ The orphan push is deliberate: the receiver never grows, and rollback does not
+ need its history, because the source of every byte is a commit here — an older
+ deploy is re-run by dispatching this workflow from an older ref.
+
+-## The runbook — the by-hand half
+-
+-Everything below is done once, by a person, because none of it has an API this
+-repository can reach. Run it before merging the branch; the pipeline is inert
+-until the secret exists.
++## Provisioning — the agent's half
+
+-**0. Own the domain.** `latestageagentic.com` has to be registered to you at some
+-registrar. If it is not, stop here — nothing below works without it.
++None of this is code and all of it is `gh`, so the implementing session runs it
++rather than writing it down for someone else. It splits around the first deploy,
++because Pages cannot be aimed at a branch that does not exist yet.
+
+-**1. Create the receiving repository.**
++**Before the merge**, in the session's scratch directory:
+
+ ```bash
+ gh repo create vzakharov/latestageagentic.com --public \
+   --description "Built site for latestageagentic.com — source lives in vzakharov/vovazakharov.com"
+-```
+
+-It must be public: Pages on a private repository is a paid-plan feature.
++ssh-keygen -t ed25519 -f "$SCRATCH/lsa-pages" -N "" -C "lsa-pages deploy key"
+
+-**2. Make the deploy key.**
++gh repo deploy-key add "$SCRATCH/lsa-pages.pub" \
++  --repo vzakharov/latestageagentic.com \
++  --title "vovazakharov.com CI" --allow-write
+
+-```bash
+-ssh-keygen -t ed25519 -f ~/.ssh/lsa-pages -N "" -C "lsa-pages deploy key"
++gh secret set LSA_PAGES_DEPLOY_KEY \
++  --repo vzakharov/vovazakharov.com < "$SCRATCH/lsa-pages"
+````
+
+-That writes two files — `~/.ssh/lsa-pages` (private) and `~/.ssh/lsa-pages.pub`
+-(public). They go to opposite ends:
++Public, because Pages on a private repository is a paid-plan feature. +`--allow-write` is the whole of what the key is for; without it the push 403s.
++The private half is never printed and dies with the container — and it is never
++recovered either, so rotating the key is re-running these four commands.
+
+- +**After the first deploy**, which is what creates `gh-pages`: point Pages at it,
+  +then force HTTPS once GitHub has issued the certificate for the domain it reads
+  +off the `CNAME` file, usually about fifteen minutes later.
+  ```bash
+  -# public half → the receiver, with write access
+  -gh repo deploy-key add ~/.ssh/lsa-pages.pub \
+  ```
+
+* --repo vzakharov/latestageagentic.com \
+* --title "vovazakharov.com CI" --allow-write
+  +gh api -X POST repos/vzakharov/latestageagentic.com/pages \
+
+- -f 'source[branch]=gh-pages' -f 'source[path]=/'
+
+-# private half → a secret on this repository
+-gh secret set LSA_PAGES_DEPLOY_KEY \
+
+- --repo vzakharov/vovazakharov.com < ~/.ssh/lsa-pages
+  +gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
+  +curl -sI https://latestageagentic.com | head -1 # expect 200
+
+```
+
+-`--allow-write` is the whole point of the key; without it the push 403s. Then
+-delete both local files — rotating is repeating this step, not recovering them.
++**If it serves a 404**, the `CNAME` file did not reach the branch — but the
++publish script asserts on that before pushing, so the likelier cause is DNS that
++has not propagated. **If it serves `vovazakharov.com`**, the apex records point
++somewhere else entirely.
++
++## The runbook — what only you can do
+```
+
+**@vzakharov (human)** — 2026-09-15T10:53:43Z
+
+это есть отдельным файлом в репе (возможно в remove-before-merging, если действия выполнимы ДО мерджа)? смотреть в .completed кажется концептуально неверно
+
+---
+
+### `docs/remove-before-merging/squash-message.md`:4 — unresolved
+
+```diff
+@@ -1,48 +1,47 @@
+ Proposed squash title/body:
+
+```
+
+-content: the late-stage-agentic dictations and the pipeline around them
++feat: the latestageagentic.com site, and the dictations behind it (pr #43)
+
+````
+
+**@vzakharov (human)** — 2026-09-15T10:54:16Z
+
+не только dictations; я б сказал and the ideation behind it
+
+---
+
+### `scripts/publish-lsa.sh`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-15T10:56:25Z
+
+пишу здесь пока не забыл: я посмотрел репу, там ридми-заглушка; должна быть инфа про то как это работает (публикуется отсюда), "не редактировать здесь" и прочее. на английском, разумеется.
+
+---
+
+### `src/shared/config/site-config.ts`:119 — unresolved
+
+```diff
+@@ -16,40 +22,108 @@ export const PAGE_ROUTES = {
+   music: '/music',
+ } as const;
+
+-export const SITE_CONFIG = {
+-  url: 'https://vovazakharov.com',
++/** The ids are the source of truth: each names a directory under `apps/`. */
++const SITE_IDS = ['vova', 'lsa'] as const;
++
++type SiteId = (typeof SITE_IDS)[number];
++
++/**
++ * Which site this build is. Each app pins it in its `next.config.ts` and each
++ * render script in its `package.json` entry, so an unset value means nobody
++ * said — which would otherwise publish one site's copy under the other's
++ * domain, hence the throw.
++ *
++ * Matched rather than parsed by a schema: client components reach this module
++ * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
++ * ~90 kB `shared/i18n` keeps behind its server-only barrel.
++ */
++const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
++
++if (siteId === undefined) {
++  throw new Error(
++    `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
++  );
++}
++
++/**
++ * The tagline is the offer in one line, as the home page's offer section is
++ * headed and as every page that states no description of its own unfurls. The
++ * CV header's is deliberately a different, plainer sentence — this one carries
++ * the voice.
++ */
++type SiteConfig = Billed & {
++  url: string;
+   /**
+    * Leads the name a downloaded document is saved under, standing in for the
+    * `url` it cannot spell — a filename is not a URL, so a resolvable host
+    * inside one would only be copied out by hand. Short enough to stay legible
+    * at a glance, which is the whole of what the name buys.
+    */
+-  downloadPrefix: 'vova',
+-  name: 'Vova Zakharov',
+-  /**
+-   * The offer in one line, as the home page's offer section is headed and as
+-   * every page that states no description of its own unfurls. The CV header's
+-   * tagline is deliberately a different, plainer sentence — this one carries
+-   * the voice.
+-   */
+-  tagline:
+-    'Fractional CTO for teams that don’t want to YOLO into the agent era.',
+-  author: {
+-    name: 'Vova Zakharov',
+-    email: 'vzakharov@gmail.com',
+-  },
++  downloadPrefix: string;
++  author: Named & { email: string };
+   social: {
+-    twitter: '@vovahimself',
+-    github: 'vzakharov',
+-    linkedin: 'vovahimself',
+-  },
++    twitter: string;
++    github: string;
++    linkedin: string;
++  };
+   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
+   avatar: {
+-    path: '/ava.png',
+-    width: 1024,
+-    height: 1024,
++    path: string;
++    width: number;
++    height: number;
++  };
++};
++
++/**
++ * Both sites under one shape, so a field added for either is a type error at
++ * the other until it is answered. `satisfies` rather than an annotation keeps
++ * the literal types every call site reads.
++ */
++const SITE_CONFIGS = {
++  vova: {
++    url: 'https://vovazakharov.com',
++    downloadPrefix: 'vova',
++    name: 'Vova Zakharov',
++    tagline:
++      'Fractional CTO for teams that don’t want to YOLO into the agent era.',
++    author: {
++      name: 'Vova Zakharov',
++      email: 'vzakharov@gmail.com',
++    },
++    social: {
++      twitter: '@vovahimself',
++      github: 'vzakharov',
++      linkedin: 'vovahimself',
++    },
++    avatar: {
++      path: '/ava.png',
++      width: 1024,
++      height: 1024,
++    },
+   },
+-} as const;
++  lsa: {
++    url: 'https://latestageagentic.com',
++    downloadPrefix: 'lsa',
++    name: 'Late Stage Agentic',
++    tagline: 'How not to make a mess of agentic coding.',
++    author: {
++      name: 'Vova Zakharov',
++      email: 'vzakharov@gmail.com',
++    },
++    social: {
++      twitter: '@vovahimself',
++      github: 'vzakharov',
++      linkedin: 'vovahimself',
++    },
++    avatar: {
++      path: '/ava.png',
+````
+
+**@vzakharov (human)** — 2026-09-15T10:59:45Z
+
+вот тебе :) (ждём cease and desist от твоих хозяев?;-)
+
+<img width="1024" height="1024" alt="Image" src="./attachments/17148350-e2ea-41bf-9639-c32da4d849cc.jpg" />
+
+---
+
+### `src/shared/config/site-config.ts`:117 — unresolved
+
+```diff
+@@ -16,40 +22,108 @@ export const PAGE_ROUTES = {
+   music: '/music',
+ } as const;
+
+-export const SITE_CONFIG = {
+-  url: 'https://vovazakharov.com',
++/** The ids are the source of truth: each names a directory under `apps/`. */
++const SITE_IDS = ['vova', 'lsa'] as const;
++
++type SiteId = (typeof SITE_IDS)[number];
++
++/**
++ * Which site this build is. Each app pins it in its `next.config.ts` and each
++ * render script in its `package.json` entry, so an unset value means nobody
++ * said — which would otherwise publish one site's copy under the other's
++ * domain, hence the throw.
++ *
++ * Matched rather than parsed by a schema: client components reach this module
++ * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
++ * ~90 kB `shared/i18n` keeps behind its server-only barrel.
++ */
++const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
++
++if (siteId === undefined) {
++  throw new Error(
++    `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
++  );
++}
++
++/**
++ * The tagline is the offer in one line, as the home page's offer section is
++ * headed and as every page that states no description of its own unfurls. The
++ * CV header's is deliberately a different, plainer sentence — this one carries
++ * the voice.
++ */
++type SiteConfig = Billed & {
++  url: string;
+   /**
+    * Leads the name a downloaded document is saved under, standing in for the
+    * `url` it cannot spell — a filename is not a URL, so a resolvable host
+    * inside one would only be copied out by hand. Short enough to stay legible
+    * at a glance, which is the whole of what the name buys.
+    */
+-  downloadPrefix: 'vova',
+-  name: 'Vova Zakharov',
+-  /**
+-   * The offer in one line, as the home page's offer section is headed and as
+-   * every page that states no description of its own unfurls. The CV header's
+-   * tagline is deliberately a different, plainer sentence — this one carries
+-   * the voice.
+-   */
+-  tagline:
+-    'Fractional CTO for teams that don’t want to YOLO into the agent era.',
+-  author: {
+-    name: 'Vova Zakharov',
+-    email: 'vzakharov@gmail.com',
+-  },
++  downloadPrefix: string;
++  author: Named & { email: string };
+   social: {
+-    twitter: '@vovahimself',
+-    github: 'vzakharov',
+-    linkedin: 'vovahimself',
+-  },
++    twitter: string;
++    github: string;
++    linkedin: string;
++  };
+   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
+   avatar: {
+-    path: '/ava.png',
+-    width: 1024,
+-    height: 1024,
++    path: string;
++    width: number;
++    height: number;
++  };
++};
++
++/**
++ * Both sites under one shape, so a field added for either is a type error at
++ * the other until it is answered. `satisfies` rather than an annotation keeps
++ * the literal types every call site reads.
++ */
++const SITE_CONFIGS = {
++  vova: {
++    url: 'https://vovazakharov.com',
++    downloadPrefix: 'vova',
++    name: 'Vova Zakharov',
++    tagline:
++      'Fractional CTO for teams that don’t want to YOLO into the agent era.',
++    author: {
++      name: 'Vova Zakharov',
++      email: 'vzakharov@gmail.com',
++    },
++    social: {
++      twitter: '@vovahimself',
++      github: 'vzakharov',
++      linkedin: 'vovahimself',
++    },
++    avatar: {
++      path: '/ava.png',
++      width: 1024,
++      height: 1024,
++    },
+   },
+-} as const;
++  lsa: {
++    url: 'https://latestageagentic.com',
++    downloadPrefix: 'lsa',
++    name: 'Late Stage Agentic',
++    tagline: 'How not to make a mess of agentic coding.',
++    author: {
++      name: 'Vova Zakharov',
++      email: 'vzakharov@gmail.com',
++    },
++    social: {
++      twitter: '@vovahimself',
++      github: 'vzakharov',
++      linkedin: 'vovahimself',
++    },
+```
+
+**@vzakharov (human)** — 2026-09-15T11:00:10Z
+
+хм, а это зачем и где? или оно типа всегда должно быть? in either case, сейчас это не DRY vs `vova:`
+
+---
+
+### `CLAUDE.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-15T11:01:40Z
+
+давай переделаем в буллеты вместо таблицы, а то каждый дифф превращается в какой-то взрыв на макаронной фабрике, да и тебе читать легче будет
+
+---
+
 ## Timeline (status, references, and other events)
 
 - **2026-09-14T09:34:00Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5196067098.
@@ -6166,3 +6719,8 @@ put "как обсудили отдельно" in English and phrase it so that 
 - **2026-09-14T21:44:17Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203156869.
 - **2026-09-14T22:26:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203425875.
 - **2026-09-14T23:10:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5203721625.
+- **2026-09-14T23:46:44Z** @vzakharov cross-referenced this pull request from [#44 docs: plan the late-stage-agentic spinoff](https://github.com/vzakharov/vovazakharov.com/pull/44).
+- **2026-09-15T00:07:12Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/a22e9953476e26603c3c0a441c672aa80be668e0.
+- **2026-09-15T09:40:02Z** @vzakharov cross-referenced this pull request from [#45 docs: plan latestageagentic.com as a second site in this repo](https://github.com/vzakharov/vovazakharov.com/pull/45).
+- **2026-09-15T10:37:25Z** @vzakharov renamed from «content: capture the late-stage-agentic dictations and the pipeline behind them» to «feat: latestageagentic.com, built from this repo, and its dictations».
+- **2026-09-15T11:01:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5208876123.
