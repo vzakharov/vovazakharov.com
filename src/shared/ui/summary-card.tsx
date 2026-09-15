@@ -5,9 +5,9 @@ import type { Linked } from '@/shared/typings';
 import { Card, CardLink, type Summarized } from './card';
 
 /**
- * A heading and its blurb, the whole card linking off the site. Both sites'
- * indexes are lists of these, which is why it sits here rather than in either's
- * slice.
+ * A heading and its blurb, the whole card linking off the site. Here rather
+ * than in a page slice because both sites' indexes are lists of these, and
+ * slices may not reach each other sideways.
  */
 export function SummaryCard({ title, description, href }: Summarized & Linked) {
   return (

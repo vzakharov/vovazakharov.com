@@ -28,16 +28,14 @@ const SITE_IDS = ['vova', 'lsa'] as const;
 type SiteId = (typeof SITE_IDS)[number];
 
 /**
- * Which site this build is. Each app pins it in its own `next.config.ts`, and
- * the render scripts pin it in their `package.json` entries, so an unset value
- * means nobody said — the one case that would otherwise publish one site's copy
- * under the other's domain, hence the throw.
+ * Which site this build is. Each app pins it in its `next.config.ts` and each
+ * render script in its `package.json` entry, so an unset value means nobody
+ * said — which would otherwise publish one site's copy under the other's
+ * domain, hence the throw.
  *
- * Matched against the ids rather than parsed by a schema: this module is
- * reached from client components (the CV sheet through `cv-urls`), where zod
- * would land in the chunk — the same ~90 kB `shared/i18n` keeps behind its
- * server-only barrel. Two legal values buy nothing from a parser a lookup does
- * not already give.
+ * Matched rather than parsed by a schema: client components reach this module
+ * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
+ * ~90 kB `shared/i18n` keeps behind its server-only barrel.
  */
 const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
 
