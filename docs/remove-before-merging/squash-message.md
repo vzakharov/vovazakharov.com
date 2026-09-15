@@ -34,10 +34,10 @@ Underneath, PR and issue exports stop growing without bound — threads
 quote the reviewer's own line selection, an index opens the review
 section, and long exports hoist their bodies into sibling files. The
 reference check widens from skill pointers to every @-reference into
-.claude/, which is what covers CLAUDE.md's own imports; and the vet
-fan-out drops to twelve, scripts/gh_export/ and the tests covering it
-being vendored byte for byte and edited only at the source, which is
-where their suite runs.
+.claude/, which is what covers CLAUDE.md's own imports. The vet fan-out
+drops to twelve and scripts/test_*.py leaves the tree, the source's
+catalog dispositioning those tests never: they cover scripts/gh_export/,
+which is vendored byte for byte and edited only there.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
