@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev:vova": "cd apps/vova && next dev",
+    "dev:lsa": "cd apps/lsa && next dev",
+    "build": "pnpm build:vova && pnpm build:lsa",
+    "build:vova": "cd apps/vova && next build",
+    "build:lsa": "cd apps/lsa && next build",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test \"**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
@@ -15,9 +17,9 @@
     "lint:fsd": "steiger src",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "content:mermaid": "node scripts/render-mermaid.ts",
-    "content:og": "tsx scripts/render-og.ts",
-    "content:pdf": "tsx scripts/render-pdf.ts",
+    "content:mermaid": "cd apps/vova && node ../../scripts/render-mermaid.ts",
+    "content:og": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-og.ts",
+    "content:pdf": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-pdf.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {

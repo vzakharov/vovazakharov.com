@@ -13,7 +13,7 @@ The failure mode this exists to prevent is specific and common: reasoning about 
 ### 1. Boot the dev server
 
 ```bash
-pnpm dev --port <port> > tmp/preview/dev.log 2>&1 &
+pnpm dev:<site> --port <port> > tmp/preview/dev.log 2>&1 &   # site is vova or lsa
 for i in $(seq 1 60); do curl -sf -o /dev/null "http://localhost:<port>/" && break; sleep 1; done
 ```
 

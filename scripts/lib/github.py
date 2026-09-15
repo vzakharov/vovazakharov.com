@@ -17,20 +17,16 @@ from __future__ import annotations
 import os
 import re
 import subprocess
-import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Callable, NamedTuple, NoReturn
+from typing import Callable, NamedTuple
+
+from lib.cli import die
 
 # Both scripts pin the same REST API version, and a bump has to move them
 # together — unlike `USER_AGENT`, which is deliberately per-script.
 GITHUB_API_VERSION = "2022-11-28"
-
-
-def die(msg: str, code: int = 1) -> NoReturn:
-    print(msg, file=sys.stderr)
-    sys.exit(code)
 
 
 def gh_token() -> str:
