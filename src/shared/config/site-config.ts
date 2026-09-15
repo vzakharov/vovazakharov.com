@@ -25,7 +25,7 @@ export const PAGE_ROUTES = {
 /** The ids are the source of truth: each names a directory under `apps/`. */
 const SITE_IDS = ['vova', 'lsa'] as const;
 
-type SiteId = (typeof SITE_IDS)[number];
+export type SiteId = (typeof SITE_IDS)[number];
 
 /**
  * Which site this build is. Each app pins it in its `next.config.ts` and each
@@ -74,6 +74,29 @@ type SiteConfig = Billed & {
   };
 };
 
+/** One person publishes both sites, so neither of them owns the byline. */
+const PUBLISHER = {
+  author: {
+    name: 'Vova Zakharov',
+    email: 'vzakharov@gmail.com',
+  },
+  social: {
+    twitter: '@vovahimself',
+    github: 'vzakharov',
+    linkedin: 'vovahimself',
+  },
+} as const;
+
+/**
+ * Where a site's mark is served from its own `public/`, and what shape it is:
+ * one square at one size, a different image per site.
+ */
+const AVATAR = {
+  path: '/ava.png',
+  width: 1024,
+  height: 1024,
+} as const;
+
 /**
  * Both sites under one shape, so a field added for either is a type error at
  * the other until it is answered. `satisfies` rather than an annotation keeps
@@ -86,40 +109,16 @@ const SITE_CONFIGS = {
     name: 'Vova Zakharov',
     tagline:
       'Fractional CTO for teams that don’t want to YOLO into the agent era.',
-    author: {
-      name: 'Vova Zakharov',
-      email: 'vzakharov@gmail.com',
-    },
-    social: {
-      twitter: '@vovahimself',
-      github: 'vzakharov',
-      linkedin: 'vovahimself',
-    },
-    avatar: {
-      path: '/ava.png',
-      width: 1024,
-      height: 1024,
-    },
+    avatar: AVATAR,
+    ...PUBLISHER,
   },
   lsa: {
     url: 'https://latestageagentic.com',
     downloadPrefix: 'lsa',
     name: 'Late Stage Agentic',
     tagline: 'How not to make a mess of agentic coding.',
-    author: {
-      name: 'Vova Zakharov',
-      email: 'vzakharov@gmail.com',
-    },
-    social: {
-      twitter: '@vovahimself',
-      github: 'vzakharov',
-      linkedin: 'vovahimself',
-    },
-    avatar: {
-      path: '/ava.png',
-      width: 1024,
-      height: 1024,
-    },
+    avatar: AVATAR,
+    ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;
 

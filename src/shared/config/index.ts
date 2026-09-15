@@ -5,5 +5,6 @@ export {
   pageFile,
   printedUrl,
   SITE_CONFIG,
+  type SiteId,
 } from './site-config';
 export { TECH_STACKS } from './tech-stacks';
