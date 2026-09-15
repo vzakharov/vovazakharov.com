@@ -32,11 +32,11 @@ pnpm dev:lsa
 pnpm build
 ```
 
-There is no root `pnpm dev` or bare `next build`: a Next project directory is
-`apps/<site>/`, and every build and dev server is entered there.
+A Next project directory is `apps/<site>/`, so every build and dev server is
+entered there — hence no root `pnpm dev`.
 
-`./scripts/vet.sh` is the check to run before pushing — both builds, type-check,
-lint, format, tests. `CLAUDE.md` § Vetting lists what it covers and why.
+`./scripts/vet.sh` is the check to run before pushing; `CLAUDE.md` § Vetting says
+what it covers.
 
 ## Project Structure
 
@@ -73,10 +73,7 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 ## Deployment
 
 Merging to `main` is the deploy; there is no separate release step. A `feat:` or
-`fix:` squash subject is what triggers it, and its scope picks the site —
-`feat(lsa):` publishes latestageagentic.com alone, an unscoped subject publishes
-both. Any other prefix lands without deploying, and a run can be started by hand
-from the Actions tab.
+`fix:` squash subject is what triggers it, and its scope picks the site.
 
 A repository gets one Pages site, so the two leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
@@ -84,13 +81,6 @@ A repository gets one Pages site, so the two leave by different doors:
 `gh-pages` branch of a source-less repository whose Pages deploys from a branch.
 `CLAUDE.md` § Deployment carries the rest, and the `/stand-up-site` skill is what
 puts a site on a domain in the first place.
-
-### Setup GitHub Pages (one-time)
-
-1. Go to repository Settings → Pages
-2. Under "Build and deployment":
-   - Source: GitHub Actions
-3. Merge a `feat:` or `fix:` commit to `main` to trigger deployment
 
 ## Routes
 
