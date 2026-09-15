@@ -130,9 +130,9 @@ wrote a paragraph defending it.
 **15 September — a vet line inherited, and its bucket never questioned.** The
 sync added `test_export_split.py` beside the `test_authorship.py` already in the
 fan-out, so the question was how to name two lines, never whether either
-belonged. The source's `check-muthur.sh` states the test in its header — _would
-the adopting repo run this?_ — and its exit 0 downstream is that answer, which
-the agent scored as the script certifying nothing. Both lines came out.
+belonged. The catalog answers it in a column — both files are `never` — and
+`check-muthur.sh` exits 0 downstream, the same answer, read instead as the script
+certifying nothing. Files and lines both went; muthur#82 has why.
 
 ## It edits the copy in front of it, not the fact behind it (×5)
 
