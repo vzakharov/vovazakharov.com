@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-15T13:15:58Z
+- **Updated:** 2026-09-15T17:06:14Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -23,7 +23,7 @@ Each app names itself in its `next.config.ts`, and `src/shared/config` holds bot
 
 **Every build is entered in its app directory**, which is what makes the layout work at all: next-intl's plugin checks its config path against the working directory and hands Turbopack the same string to resolve against the project, and only one directory satisfies both. `PUBLIC_DIR` therefore keeps resolving off the working directory as it always has, and the render scripts are entered there too. Root `pages/` goes away with it — Next looks for a Pages Router inside the project directory only, which is now a level below `src/pages/`.
 
-**The deploy grows a second lane.** A repository gets one Pages site, so `vovazakharov.com` keeps going out through this one's and `latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com` — a repository with no source, whose Pages is set to deploy from a branch, so the push is the deploy and nothing runs over there. The script refuses an `out/` missing `CNAME` or `.nojekyll`, both of which fail silently at the far end: a dropped custom domain, and a `_next/` that Jekyll strips. The gate now reads the commit scope as a site name — `feat(lsa):` publishes one, `feat(vova):` the other, anything else both.
+**The deploy grows a second lane.** A repository gets one Pages site, so `vovazakharov.com` keeps going out through this one's and `latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com` — a repository with no source, whose Pages is set to deploy from a branch, so the push is the deploy and nothing runs over there. The script refuses an `out/` missing `CNAME` or `.nojekyll`, both of which fail silently at the far end: a dropped custom domain, and a `_next/` that Jekyll strips. The gate now reads the commit scope as a site name — `feat(lsa):` publishes one, `feat(vova):` the other, anything else both. A manual run has no subject to read a scope off, so `workflow_dispatch` takes a **site** picker instead, defaulting to both; naming one is what lets an unmerged branch publish that site alone, without deploying the other from a tree nobody has merged.
 
 **The site opens on the welcome text**, not on a placeholder — the same argument as the channel's first post, in English, with the premise the Russian original leaves in a parenthesis brought up into the sentence it holds up. Under it sits the index of pieces, empty for now and headed so it reads as an empty section rather than a stray line, and a footer addressed to the agent reader, which `plan.md` § Findability names as half of being found at all. The mark is yours, converted to a palettized PNG and served at the same `/ava.png` each site serves its own square from — the circle is the component's, so the Open Graph card reads the same bytes. How that copy is written is `.claude/rules/lsa-voice.md`, scoped at the LSA site, its drafts and its app: Pratchett-ish irony, one paragraph, and the rest to be found in review rather than specified now.
 
@@ -89,7 +89,7 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 - [ ] `identity` — nothing in `apps/lsa/out` mentions `vovazakharov.com`, and nothing in `apps/vova/out` mentions `latestageagentic.com`.
 - [ ] `index` — look at the LSA index in both themes and at phone width: it is the shared shell, so anything wrong there is wrong on both sites. Captures of both themes are in `docs/remove-before-merging/lsa-home/`.
 - [ ] `copy` — read the site's welcome text against `drafts/p0-welcome.md`: it is your argument in English, so the question is whether it is still yours. Two places to look at hardest — the parenthetical about there being plenty still to work on, which is promoted into the sentence, and the footer paragraph addressed to the agent reader, which is new.
-- [ ] `gate` — a `feat(lsa):` merge runs `publish-lsa` and not `deploy-vova`; `feat(vova):` the reverse; a bare `feat:` both.
+- [ ] `gate` — a `feat(lsa):` merge runs `publish-lsa` and not `deploy-vova`; `feat(vova):` the reverse; a bare `feat:` both; a manual run with site `lsa` matches the first.
 - [ ] `publish` — the first deploy lands one commit on `vzakharov/latestageagentic.com`'s `gh-pages`, `CNAME` included, and `https://latestageagentic.com` answers 200 once DNS and Pages are set.
 - [ ] `install` — with ffmpeg off `PATH`, the script installs it and re-checks rather than dying; with no package manager either, it still dies with instructions.
 - [ ] `script` — `python3 scripts/transcribe.py <any short audio> --out-dir tmp/dg` writes both files and prints their paths; a second run without `--force` refuses instead of re-billing the call.
@@ -107,7 +107,7 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 | `identity`    | Yes         | No       | A grep over both `out/` trees would cover it; no home for such a test yet.                                                     |
 | `index`       | No          | n/a      | Whether a page looks right is `/preview` plus eyes.                                                                            |
 | `copy`        | No          | n/a      | Whether a translation of your own argument is still yours is yours to say.                                                     |
-| `gate`        | Yes         | No       | `scripts/deploy-gate.sh` takes subjects as arguments, so it is exercisable without a push; no home for a test of it yet.       |
+| `gate`        | No          | No       | The selection lives in the workflow's own shell, so it is only exercised by a push or a dispatch.                              |
 | `publish`     | No          | n/a      | Needs the real key, the real receiver and real DNS.                                                                            |
 | `install`     | Yes         | No       | Exercised this session against stubs for all four branches; a committed test would have to fake `which` and a package manager. |
 | `script`      | Yes         | No       | Would need a recorded Deepgram response to replay; not worth a fixture yet.                                                    |
@@ -157,9 +157,9 @@ the welcome text rather than on a placeholder.
 
 A repository gets one Pages site, so vovazakharov.com keeps this one's
 and latestageagentic.com is force-pushed to a source-less repository
-whose Pages deploys from a branch, making the push the deploy.
-deploy-gate.sh reads the commit scope as a site name; publish-lsa.sh
-refuses an out/ missing CNAME or .nojekyll -- both silent failures.
+whose Pages deploys from a branch, making the push the deploy. The gate
+reads the commit scope as a site name, or a picker on a manual run;
+publish-lsa.sh refuses an out/ without CNAME or .nojekyll, both silent.
 
 Each recording lands under writing/late-stage-agentic/dictations/ in
 five parts, of which only the middle one is the recording, framed by a
@@ -6318,7 +6318,7 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 ---
 
-### `.github/workflows/deploy.yml`:34 — unresolved
+### `.github/workflows/deploy.yml`:37 — resolved
 
 ```diff
 @@ -30,24 +34,42 @@ jobs:
@@ -6965,7 +6965,7 @@ One thing the link brings with it: CLAUDE.md § "GitHub comments" says that file
 
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:25 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:25 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -7007,6 +7007,12 @@ Done, and applied to all four em dashes in the copy rather than only this one --
 **@vzakharov (human)** — 2026-09-15T13:15:57Z
 
 ви будете смеяться, но верните эм даши, слишком уж уродливо с красивыми мерривезером смотрится)
+
+**@vzakharov (agent)** — 2026-09-15T13:26:54Z
+
+Вернул, все четыре. И записал в `.claude/rules/lsa-voice.md` — иначе следующая сессия наткнётся на «нет, все равно --» от 14-го и переправит обратно: в правиле теперь сказано, что у копии сайта эм даши (мерривезер), а у русских черновиков `--` (глаз читателя), и одно другое не отменяет.
+
+Запись в `the-five-percent.md` при этом не снимается, но меняет смысл: хвост «`--`, not `—`» стал неправдой, а находкой оказалось то, что во второй раз я применил преференцию ко всем файлам, не выяснив, к чему она относилась — к русскому тексту, а не к типографике. 1ae3b48
 
 ---
 
@@ -7178,6 +7184,20 @@ I love that Pratchett-ish "not lasting very long". Let's generally add a rule in
 
 да, давай везде где можем писать для этого сайта
 
+**@vzakharov (agent)** — 2026-09-15T13:27:10Z
+
+Расширил, но упёрлось быстрее, чем ожидалось. `apps/lsa/app/*.tsx` — это две строки реэкспорта, текста там нет вообще, так что покрывать нечего. Единственное реальное добавление — `src/shared/config/site-config.ts`: там лежит таглайн LSA, то есть самая читаемая строка копии на сайте.
+
+Одна оговорка: этот файл общий с vova, так что правило теперь грузится и при правке его записи. Один абзац — по-моему, честная цена за то, чтобы таглайн не остался единственной копией без правила, но скажи, если нет. 1ae3b48
+
+**@vzakharov (human)** — 2026-09-15T16:36:33Z
+
+мне кажется, ради одного абзаца не стоит метить туда правило, это именно про всякие статьи и прочее, теглайн уж как-нибудь там сам проживёт :)
+
+**@vzakharov (agent)** — 2026-09-15T17:04:55Z
+
+Убрал. `src/shared/config/site-config.ts` больше не в globs — правило снова только про прозу: `src/pages/lsa-home/**`, `writing/late-stage-agentic/**` и `apps/lsa/**/*.{md,json}`. Побочный плюс: оно перестало грузиться при правке записи vova, что было единственной ценой расширения. 3afb49f
+
 ---
 
 ### `src/pages/lsa-home/ui/about-section.tsx`:52 — resolved
@@ -7317,6 +7337,171 @@ Worth saying that the two repositories want opposite settings here: this one is 
 
 ---
 
+### `.claude/rules/lsa-voice.md`:26 — unresolved
+
+```diff
+@@ -18,3 +19,8 @@ handed as fixed, and a voice handed over complete is a voice that stops being
+ worked on. The rest gets found a line at a time, in review, by someone reading a
+ draft and saying _that's not it_; write the tell down here when that happens,
+ rather than guessing at it now.
++
++**The copy's dashes are em dashes** — `—`, not `--`. The site is set in
++Merriweather, where the long dash is the one that sits right; the Russian drafts
++spell theirs `--` for a reader's sake rather than a typeface's, so neither
++convention settles the other.
+```
+
+**@vzakharov (human)** — 2026-09-15T16:37:15Z
+
+polar bear, I don't think we instruct anywhere to write -- _on the website_
+
+**@vzakharov (agent)** — 2026-09-15T17:04:57Z
+
+Cut. Nothing in the tree asks for `--` in English copy, so the only thing putting the question in a reader's head was the rule denying it — the sentence was the bear.
+
+Filed in `the-five-percent.md` as a third polar bear in two days, this one in prose written minutes after `/tend-prose negation` had run over the file. 3afb49f
+
+---
+
+### `.claude/rules/lsa-voice.md`:21 — unresolved
+
+```diff
+@@ -0,0 +1,26 @@
++---
++description: The voice Late Stage Agentic is written in — its site copy, its drafts, and the posts the channel runs
++paths:
++  - 'src/pages/lsa-home/**'
++  - 'writing/late-stage-agentic/**'
++  - 'apps/lsa/**/*.md'
++  - 'apps/lsa/**/*.json'
++  - 'src/shared/config/site-config.ts'
++---
++
++# The Late Stage Agentic voice
++
++Write it with a touch of Terry Pratchett-ish irony: the joke rides inside the
++plain sentence rather than waiting at the end of it, the register stays level
++while the subject gets funnier, and the affection for the thing being mocked
++stays audible. That is the whole of it, on purpose — the most frequent finding
++in `writing/notes/the-five-percent.md` is that an agent treats what it was
++handed as fixed, and a voice handed over complete is a voice that stops being
++worked on. The rest gets found a line at a time, in review, by someone reading a
++draft and saying _that's not it_; write the tell down here when that happens,
++rather than guessing at it now.
+```
+
+**@vzakharov (human)** — 2026-09-15T16:44:10Z
+
+and here you are, explaining what "Terry Pratchett-ish irony" means :)
+
+Let's try it this way. Say smth like 'write it with a touch of Terry Pratchett-ish irony -- what that means is up to every agent to find out and for the entire codebase to adopt as more prose gets generated' -- but say it with a touch of Terry Pratchett-ish irony ;-)
+
+**@vzakharov (agent)** — 2026-09-15T17:04:59Z
+
+Fair hit. The rule is now one sentence and defines nothing:
+
+> Write it with a touch of Terry Pratchett-ish irony — what that means is for every agent to find out and for the codebase to settle on as more prose accumulates, which is a roundabout way of saying that nobody here has defined it and it has been going rather well so far.
+
+Also filed, under "Given a form, it fills the form": asked for one paragraph explicitly left unspecified, the agent supplied the specification. 3afb49f
+
+---
+
+### `docs/remove-before-merging/lsa-runbook.md`:64 — unresolved
+
+```diff
+@@ -39,6 +54,11 @@ These are GitHub's shared Pages addresses — the same ones `vovazakharov.com`
+ already resolves to. Which repository answers is decided by the `CNAME` file
+ inside each published branch, which is why that file is part of the build.
+
++**Edit nothing.** The two `MX` rows and the `v=spf1` `TXT` are mail forwarding
++and never enter a web request; the two `_acme-challenge` `TXT` rows are
++Porkbun's certificate proof, and GitHub issues its certificate through a
++challenge of its own rather than reading those.
++
+ **3. Merge with a subject that publishes** — `feat:` or `feat(lsa):` — since
+ the gate skips the build for anything else, and the first deploy is what the
+ last step waits on.
+```
+
+**@vzakharov (human)** — 2026-09-15T16:49:49Z
+
+Can you hand-feed that before I merge? I want to make sure everything works before we merge. Everything up until here is done.
+
+**@vzakharov (agent)** — 2026-09-15T17:05:00Z
+
+Your two steps check out from here: the apex serves all four A and all four AAAA GitHub addresses, and `www` follows the CNAME. So the DNS half is done.
+
+The publish itself hit two blockers, one fixed and one yours.
+
+**Fixed:** a manual run had no way to say _which_ site, so dispatching from this branch would have published `vovazakharov.com` too — from an unmerged tree that changes its home, writing and article-card pages. `workflow_dispatch` now takes a **site** picker (`both` / `vova` / `lsa`), defaulting to both, and both entry points share one selection function so a third site is added once. 3afb49f
+
+**Yours:** my sandbox then refused the dispatch as a production deploy, which is a reasonable thing for it to refuse. Either approve it and I'll run it plus the two Pages API calls from the runbook's last section, or fire it yourself: Actions → Deploy to GitHub Pages → Run workflow, branch `claude/late-stage-agentic-phnz8v`, site `lsa`.
+
+One caveat on doing it yourself — the picker exists only on this branch, not on `main`, and I'm not certain GitHub's form reads the input list off the selected branch rather than the default one. If no dropdown appears, don't run it from the form: an unset picker falls back to both, which is the case the change exists to prevent.
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:33 — unresolved
+
+```diff
+@@ -20,12 +28,12 @@ export function AboutSection() {
+         </Text>
+
+         <Text size="lg" lh={1.625}>
+-          For the past few weeks my Claude and I have been trying to answer that
+-          with something other than philosophy. There is a file here that Claude
+-          writes to after every review of code it wrote — what exactly it got
+-          wrong, generalised and grouped with everything before it. The most
+-          frequent finding in it reads:{' '}
+-          <em>the agent takes a given for an inevitability</em>.
++          My Claude and I have been trying to answer that with something other
++          than philosophy. There is a{' '}
++          <Anchor href={FIVE_PERCENT_URL}>file</Anchor> that Claude writes to
+```
+
+**@vzakharov (human)** — 2026-09-15T16:50:21Z
+
+target blank
+
+**@vzakharov (agent)** — 2026-09-15T17:05:02Z
+
+Done — `target="_blank" rel="noopener noreferrer"`, matching the other external anchors in the tree.
+
+Added `inherit` with it, which the one other inline-in-`Text` anchor here also carries: without it Mantine renders the link at its own default size rather than the paragraph's, so it was sitting a notch small. 3afb49f
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:36 — unresolved
+
+```diff
+@@ -20,12 +28,12 @@ export function AboutSection() {
+         </Text>
+
+         <Text size="lg" lh={1.625}>
+-          For the past few weeks my Claude and I have been trying to answer that
+-          with something other than philosophy. There is a file here that Claude
+-          writes to after every review of code it wrote — what exactly it got
+-          wrong, generalised and grouped with everything before it. The most
+-          frequent finding in it reads:{' '}
+-          <em>the agent takes a given for an inevitability</em>.
++          My Claude and I have been trying to answer that with something other
++          than philosophy. There is a{' '}
++          <Anchor href={FIVE_PERCENT_URL}>file</Anchor> that Claude writes to
++          after every review of code it wrote — what exactly it got wrong,
++          generalised and grouped with everything before it. The most frequent
++          finding in it reads: <em>What it was handed, it treats as fixed</em>.
+```
+
+**@vzakharov (human)** — 2026-09-15T16:50:53Z
+
+I feel like the quote deserves a separate line
+
+**@vzakharov (agent)** — 2026-09-15T17:05:04Z
+
+Agreed, and it reads better — it's its own line now, an italic `<Text size="xl">` at 0.8 opacity, the same shape the Glitchporn line takes on the writing page. 3afb49f
+
+---
+
 ## Timeline (status, references, and other events)
 
 - **2026-09-14T09:34:00Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5196067098.
@@ -7333,3 +7518,4 @@ Worth saying that the two repositories want opposite settings here: this one is 
 - **2026-09-15T10:37:25Z** @vzakharov renamed from «content: capture the late-stage-agentic dictations and the pipeline behind them» to «feat: latestageagentic.com, built from this repo, and its dictations».
 - **2026-09-15T11:01:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5208876123.
 - **2026-09-15T12:37:15Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5209884597.
+- **2026-09-15T16:51:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5212941556.
