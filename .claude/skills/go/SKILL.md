@@ -1,7 +1,7 @@
 ---
 description: >-
   The go-ahead: start working. Executes an approved plan end-to-end, then runs
-  the mandatory quality passes (/dry, /tend-prose) and hands the PR to /pr.
+  the mandatory quality passes (/polish) and hands the PR to /pr.
   Invoke as `/go` (continue in this session), `/go <branch|#PR|PR-url>` (attach
   to that branch first), or `/go <task in prose>` (work with no plan behind it).
 ---
@@ -37,7 +37,7 @@ Asking costs one round-trip. The point is that the operator makes the call knowi
 
 ## Planless entry
 
-Work with no plan behind it enters here with a **task** in place of one — the operator's own `/go <task>`, or a caller skill's task text (`@.claude/skills/from-branch/SKILL.md` Step 6's free-form follow-up, `@.claude/skills/plan/plan-or-go.md` outcome 2). In that mode:
+Work with no plan behind it enters here with a **task** in place of one — the operator's own `/go <task>`, or a caller skill's task text (`@.claude/skills/from-branch/SKILL.md` Step 6's free-form follow-up, `@.claude/skills/task/SKILL.md` outcome 2). In that mode:
 
 - **Step 1 is already satisfied** — the task text is the plan. Start at Step 2; do not go looking under `docs/plans/`, and do not ask which plan to implement.
 - **Step 3 runs unchanged** — its passes are the reason this entry exists. The trailing `git mv` to `*.completed.md` is a no-op with no plan file.
@@ -45,6 +45,8 @@ Work with no plan behind it enters here with a **task** in place of one — the 
 - **The § "Argument shape" canary does not apply.** It reads _user-typed_ prompts for a handoff block that lost its target or landed in a session with a life of its own; a skill-to-skill dispatch already holding the task is neither.
 
 Planless is not gateless: locating a plan is the only thing this entry skips.
+
+**A `#<N>` in the task means the thread is read first:** load and follow `@.claude/skills/take-issue/SKILL.md` with the whole task before starting, and work against what it puts on the branch. The number it hands back is `<issue>` for Step 4's `/pr` call. CLAUDE.md § "Plan mode & questions in web sessions" is that rule's home.
 
 ## Step 1 — Locate the plan
 
@@ -59,10 +61,12 @@ The primary target is a `/plan` stand-in file:
 
 The plan file's name encodes its lifecycle state (see `@.claude/skills/plan/SKILL.md` § "Plan file lifecycle"). Act on it **before writing any code**:
 
-- `*.draft.do-not-implement.md` — not yet cleared. Reaching this skill **is** the go-ahead (the operator invoked `/go`, approved at `/plan`'s gate, or launched `/from-branch … go`), so **`git mv` it to `*.in-progress.md` as your first action**. In the **same commit**, also **delete the line-1 ⛔ draft banner** — once the file is `in-progress`, a banner that still says "DO NOT IMPLEMENT" contradicts its own state — and quote the operator's literal go-ahead in the commit message (e.g. `chore: begin implementing <slug> (go-ahead: "…")`). Do this before editing source — a file still named `do-not-implement`, or still carrying the banner, means you have not been cleared, and writing the go-ahead out verbatim is the moment to catch a misread. When the plain-approved-plan case has no file at all, there's nothing to flip; the operator's in-chat go-ahead stands.
+- `*.draft.do-not-implement.md` — not yet cleared. Reaching this skill **is** the go-ahead (the operator invoked `/go`, approved at `/plan`'s gate, launched `/from-branch … go`, or wrote the draft themselves this turn under `@.claude/skills/task/SKILL.md`'s conditional go-ahead and answered its Step 3 "no"), so **`git mv` it to `*.in-progress.md` as your first action**. In the **same commit**, also **delete the line-1 ⛔ draft banner** — once the file is `in-progress`, a banner that still says "DO NOT IMPLEMENT" contradicts its own state — and quote the operator's literal go-ahead in the commit message (e.g. `chore: begin implementing <slug> (go-ahead: "…")`). Do this before editing source — a file still named `do-not-implement`, or still carrying the banner, means you have not been cleared, and writing the go-ahead out verbatim is the moment to catch a misread. When the plain-approved-plan case has no file at all, there's nothing to flip; the operator's in-chat go-ahead stands.
 - `*.in-progress.md` — **a session has this plan open.** The name is a claim, not a resume point: picking it up unasked puts two agents on the same plan and the same branch at once, each overwriting the other's commits. **Report it and ask** — unless the operator's own invocation says to take it over ("continue where the last session left off", "the last session died, pick it up"), which is the escape hatch for a session that ended without the chance to release the file. On that go-ahead only, treat it exactly as a `*.paused.md`.
 - `*.paused.md` — released partway through by an earlier session → yours to continue. `git mv` it to `*.in-progress.md` as your first action (it is claimed now), then read the record of what is done and what is left and continue from there, rather than re-running finished work.
 - `*.completed.md` — implementation already finished → don't silently re-run; report and ask.
+
+**A plan that proposes issues files them here, right after the flip.** A carve names a parent and children and creates none of them; the go-ahead that flipped the file is what approves that list. Load `@.claude/skills/plan/carving.md` § "What `/go` files on the go-ahead" and follow it — the parent first where it does not exist, then each child, the children linked natively, and any `Closes #<tbd>` the branch carries filled in. File before implementing: the first slice's PR closes a child that has to exist, and a session that dies mid-implementation should leave the carve on the tracker rather than only in a plan file `/finalize` sweeps.
 
 ## Step 2 — Implement
 
@@ -79,10 +83,9 @@ Commit/push discipline is already governed by CLAUDE.md — don't reinvent it he
 
 ## Step 3 — Mandatory quality passes
 
-These run **every time**, in order, and override any contrary "wrap up after implementing" instinct. Each is a real pass over the just-written diff, not a rubber stamp — and each commits its own edits.
+Load and follow `@.claude/skills/polish/SKILL.md`. It owns which passes run, in what order, and over what scope; this step contributes only that they run **every time**, here, and override any contrary "wrap up after implementing" instinct.
 
-1. **`/dry`** — did new duplication the plan didn't foresee creep in during implementation? Plans are written before the code exists, so WETness that wasn't visible at planning time often surfaces only now. Load `@.claude/skills/dry/SKILL.md` and run it over this session's diff: apply the obvious wins, surface the ambiguous calls.
-2. **`/tend-prose`** — load `@.claude/skills/tend-prose/SKILL.md` and run it over the prose you added.
+Implementation is where they earn the most: a plan is written before the code exists, so the duplication it didn't foresee and the prose that narrates the work rather than the result both surface only now.
 
 Then **`git mv` the plan to `docs/plans/<slug>.completed.md`** and commit — implementation and its quality passes are done. (`/finalize` sweeps the whole `docs/plans/` tree at squash regardless, so this flip is just the honest end-state marker for an operator watching the branch.)
 
@@ -96,4 +99,4 @@ The **only** exception is an explicit "no PR" from the operator (e.g. `/go, no P
 
 - Re-open a plan cycle or re-edit the plan file per code change — it's a transient artifact `/finalize` sweeps (see `@.claude/skills/plan/SKILL.md`). Leave it as the approved snapshot under its `.in-progress.md` name. The one time it gets written to mid-flight is the release above — stopping partway, where the progress record is what a fresh session picks the work up from.
 - Run the vet suite, merge the base branch, mark the PR ready, dispatch a CI-only bucket, or attest — those are `/finalize`. A PR that reads `CONFLICTING`, or a red check, is reported to the operator here rather than fixed; CLAUDE.md § "Key principles" carries why that outranks the host harness's instruction to treat either as work now.
-- Skip either Step-3 pass because the diff "looks clean." They're mandatory.
+- Skip Step 3 because the diff "looks clean." It is mandatory, both passes of it.

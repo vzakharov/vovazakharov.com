@@ -9,7 +9,7 @@
 # forgotten mid-session. (The first firing is the operator's task message —
 # `/plan` is client-side and submits no prompt of its own.)
 #
-# Remote-only, matching .claude/hooks/session-start.sh: CLAUDE.md § "Plan mode &
+# Remote-only, matching .claude/hooks/gh-shim.sh: CLAUDE.md § "Plan mode &
 # questions in web sessions" leaves native plan mode alone on the local CLI,
 # where the answer-losing bug this routes around does not bite.
 
@@ -17,13 +17,12 @@ set -euo pipefail
 
 [ "${CLAUDE_CODE_REMOTE:-}" = "true" ] || exit 0
 
-if ! command -v jq >/dev/null; then
-  echo "plan-mode-notice: jq not found; skipping the plan-mode notice." >&2
-  exit 0
-fi
+. "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
 
-mode="$(jq -r '.permission_mode // empty')"
-[ "$mode" = "plan" ] || exit 0
+need_command jq "skipping the plan-mode notice."
+read_payload
+
+[ "$(field permission_mode)" = "plan" ] || exit 0
 
 read -r -d '' notice <<'NOTICE' || true
 This repo plans on disk: the deliverable is a git-tracked
@@ -43,9 +42,4 @@ notice re-fires on every prompt while the mode is on, so if the operator
 rejected the exit or said to stay, it is already answered: don't re-raise it.
 NOTICE
 
-jq -n --arg ctx "$notice" '{
-  hookSpecificOutput: {
-    hookEventName: "UserPromptSubmit",
-    additionalContext: $ctx
-  }
-}'
+emit_context "$notice"
