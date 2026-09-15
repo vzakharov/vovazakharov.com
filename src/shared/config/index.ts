@@ -1,4 +1,5 @@
 export {
+  AUTHOR_URL,
   BUILD_YEAR,
   getAbsoluteUrl,
   PAGE_ROUTES,

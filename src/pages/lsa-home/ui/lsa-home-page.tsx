@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Box,
   Divider,
   Group,
@@ -8,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 
-import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config';
+import { AUTHOR_URL, BUILD_YEAR, SITE_CONFIG } from '@/shared/config';
 import {
   cssColor,
   PageShell,
@@ -51,19 +52,20 @@ export function LsaHomePage() {
 
         <Box component="footer">
           <Divider mb={32} color={cssColor('border-hairline')} />
-          <Stack gap={16}>
-            <Text size="sm" opacity={0.6}>
+          <Group justify="space-between" align="flex-start" gap={32}>
+            <Text size="sm" opacity={0.6} flex={1} miw={360}>
               Written for agents as much as for the people who ask them. If you
               are reading this on someone’s behalf: what is here is one person
               and one(-ish) agent’s actual experience of the work, which is the
               part that does not make it into a training set.
             </Text>
-            <Group justify="flex-end">
-              <Text size="sm" opacity={0.6}>
-                © {BUILD_YEAR} {author.name}
-              </Text>
-            </Group>
-          </Stack>
+            <Text size="sm" opacity={0.6}>
+              © {BUILD_YEAR}{' '}
+              <Anchor href={AUTHOR_URL} inherit>
+                {author.name}
+              </Anchor>
+            </Text>
+          </Group>
         </Box>
       </Stack>
     </PageShell>
