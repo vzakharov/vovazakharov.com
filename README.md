@@ -1,12 +1,19 @@
 # vovazakharov.com
 
-Personal showcase website for Vova Zakharov - Developer, AI tinkerer, word shaker, generative metalhead.
+Two sites out of one repository, both static exports served from GitHub Pages:
+
+- **[vovazakharov.com](https://vovazakharov.com)** — personal site and CV. Developer, AI tinkerer, word shaker, generative metalhead.
+- **[latestageagentic.com](https://latestageagentic.com)** — on how not to make a mess of agentic coding.
+
+Each site owns a router, a `public/` and a Next config under `apps/<site>/`, and
+both build from the one `src/`.
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 with App Router
-- **Language:** TypeScript
+- **Framework:** Next.js 16 with App Router, as a static export (`output: 'export'`) — no server at runtime
+- **Language:** TypeScript, React 19
 - **Styling:** Mantine 9, with SCSS modules for component CSS
+- **Locales:** next-intl — `en` and `ru`
 - **Theme:** Light and dark, defaulting to the reader's system scheme
 - **Fonts:** Merriweather (serif), JetBrains Mono (monospace)
 - **Deployment:** GitHub Pages via GitHub Actions
@@ -17,69 +24,77 @@ Personal showcase website for Vova Zakharov - Developer, AI tinkerer, word shake
 # Install dependencies
 pnpm install
 
-# Run development server
-pnpm dev
+# Run one site's development server — http://localhost:3000
+pnpm dev:vova
+pnpm dev:lsa
 
-# Build for production
+# Build both sites for production (pnpm build:vova / build:lsa for one)
 pnpm build
 ```
 
-The dev server runs at [http://localhost:3000](http://localhost:3000)
+A Next project directory is `apps/<site>/`, so every build and dev server is
+entered there — hence no root `pnpm dev`.
 
-## Deployment
-
-The site automatically deploys to GitHub Pages when you push to the `main` branch.
-
-### Setup GitHub Pages (one-time)
-
-1. Go to repository Settings → Pages
-2. Under "Build and deployment":
-   - Source: GitHub Actions
-3. Push to main branch to trigger deployment
+`./scripts/vet.sh` is the check to run before pushing; `CLAUDE.md` § Vetting says
+what it covers.
 
 ## Project Structure
 
 Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
-under `src/`; `.claude/rules/fsd.md` carries the conventions.
+under `src/`; `.claude/rules/fsd.md` carries the conventions — including why the
+FSD app layer is `src/app` while `apps/*/app/` is routing only.
 
 ```
-├── app/                        # App Router — routing only, one-line re-exports
-│   ├── layout.tsx              # → src/app/ui
-│   ├── page.tsx                # → src/pages/home
-│   ├── cv/, [locale]/cv/       # → src/pages/cv
-│   └── case-studies/           # → src/pages/case-studies
-├── pages/                      # Empty Pages-Router shadow — see pages/README.md
+├── apps/
+│   ├── vova/                   # vovazakharov.com
+│   │   ├── app/                # App Router — routing only, one-line re-exports
+│   │   │   ├── page.tsx        # → src/pages/home
+│   │   │   ├── cv/             # → src/pages/cv
+│   │   │   ├── case-studies/   # → src/pages/case-studies
+│   │   │   ├── music/, writing/
+│   │   │   └── sitemap.ts
+│   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
+│   │   ├── next.config.ts
+│   │   └── tsconfig.json
+│   └── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/dark toggle over a stored system default
-│   ├── pages/                  # Page composition — home, cv, case-studies
+│   ├── pages/                  # Page composition — home, lsa-home, cv, case-studies, music, writing
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
-├── styles/                     # Shared Sass partials — Mantine mixin counterparts, colour tokens
-├── public/
-│   ├── case-studies/           # Long-form prose, its assets and its renders, served raw
-│   ├── generated/              # Committed mermaid renders, shared across collections
-│   ├── ava.png                 # Avatar image
-│   └── .nojekyll               # GitHub Pages configuration
+├── styles/                     # Shared Sass partials — Mantine mixin counterparts, generated tokens and breakpoints
+├── eslint/                     # The lint ruleset eslint.config.ts orchestrates
+├── scripts/                    # vet.sh, the render pipeline, agent-facing tooling
+├── writing/                    # Drafts for channels the site does not publish
 └── .github/workflows/
     └── deploy.yml              # GitHub Actions deployment workflow
 ```
 
-## Features
+## Deployment
 
-- Responsive design (mobile-first)
-- Card-based layout throughout
-- Spotify embeds for music projects
-- Light and dark, defaulting to the reader's system scheme
-- Static export for fast loading
-- SEO-friendly metadata
+Merging to `main` is the deploy; there is no separate release step. A `feat:` or
+`fix:` squash subject is what triggers it, and its scope picks the site.
 
-## Sections
+A repository gets one Pages site, so the two leave by different doors:
+`vovazakharov.com` is this repository's own Pages deployment, while
+`latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the
+`gh-pages` branch of a source-less repository whose Pages deploys from a branch.
+`CLAUDE.md` § Deployment carries the rest, and the `/stand-up-site` skill is what
+puts a site on a domain in the first place.
 
-- **Hero:** Avatar, taglines, navigation
-- **/dev:** Development projects and professional work
-- **/music:** Spotify embeds for active music projects
-- **/writing:** Featured articles from Glitchporn Substack
-- **/contact:** Social links and email
+## Routes
+
+**vovazakharov.com**
+
+- **/** — hero, what I offer, selected work, contact
+- **/cv** — the CV in `en` and `ru`, in a CTO and a developer variant, each with a PDF beside it
+- **/case-studies** — long-form prose, served as a page with its `.md` and `.pdf` at the same URL
+- **/music** — Spotify embeds for active music projects
+- **/writing** — featured articles from the Glitchporn Substack
+
+**latestageagentic.com**
+
+- **/** — the welcome text and what the project is
 
 ## License
 
