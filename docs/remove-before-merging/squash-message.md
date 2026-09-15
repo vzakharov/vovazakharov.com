@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: the latestageagentic.com site, and the dictations behind it (pr #43)
+feat: the latestageagentic.com site, and the ideation behind it (pr #43)
 ```
 
 ```
@@ -15,30 +15,31 @@ apps/vova/ and apps/lsa/ each hold a router, a public/ and a config, and
 both build from the one src/ -- which works because a project directory
 needs nothing else for `next build`, so there is no workspace and one
 lockfile, and because FSD already forbids two page slices from reaching
-each other sideways, which is what two sites' pages are. Each app names
-itself, and shared/config holds both under one type and refuses to load
-unnamed, so a build that forgot which site it was fails rather than
-publishing one site's copy under the other's domain. Every build is
-entered in its app directory: next-intl checks its config path against
-the working directory and hands Turbopack the same string to resolve
-against the project, and only one directory satisfies both.
+each other sideways, which is what two sites' pages are. shared/config
+holds both sites under one type and refuses to load unnamed, so a build
+that forgot which site it was fails rather than publishing one site's
+copy under the other's domain. Every build is entered in its app
+directory: next-intl checks its config path against the working
+directory and hands Turbopack the same string to resolve against the
+project, and only one directory satisfies both. The new site opens on
+the welcome text rather than on a placeholder.
 
 A repository gets one Pages site, so vovazakharov.com keeps this one's
 and latestageagentic.com is force-pushed to a source-less repository
-whose Pages deploys from a branch, making the push the deploy. The gate
-reads the commit scope as a site name; publish-lsa.sh refuses an out/
-missing CNAME or .nojekyll, both of which fail silently at the far end.
+whose Pages deploys from a branch, making the push the deploy.
+deploy-gate.sh reads the commit scope as a site name; publish-lsa.sh
+refuses an out/ missing CNAME or .nojekyll -- both silent failures.
 
 Each recording lands under writing/late-stage-agentic/dictations/ in
 five parts, of which only the middle one is the recording, framed by a
-lede to recognise it by and a reading of what was said. One headed for
-publication keeps the speaker's words in their order, since the same
-text becomes the subtitle track; one that only gives the repo context is
-rendered as prose. transcribe.py takes what a re-run would do
-identically and the dictation skill takes the judgement it cannot make.
-subtitles and dictation-to-post are specified and not built; afterword
-is built. Of the two drafts only the welcome text is a post -- the
-limits piece stays material, philosophy not being how weight is gained.
+lede and a reading of what was said. One headed for publication keeps
+the speaker's words in their order, since the same text becomes the
+subtitle track; one that only gives the repo context is rendered as
+prose. transcribe.py takes what a re-run would do identically and the
+dictation skill takes the judgement it cannot make. subtitles and
+dictation-to-post are specified and not built; afterword is built. Of
+the two drafts only the welcome text is a post -- the limits piece
+stays material, philosophy not being how weight is gained.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash.
