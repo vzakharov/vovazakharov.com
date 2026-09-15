@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Which subject publishes which site is CLAUDE.md § Deployment. Inline, and so
-  # without a checkout: the job reads the push event and never the tree.
+  # Which subject publishes which site is CLAUDE.md § Deployment. No checkout
+  # step: this job reads the push event and never the tree.
   gate:
     runs-on: ubuntu-latest
     outputs:
