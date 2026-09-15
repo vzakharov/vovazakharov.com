@@ -53,7 +53,10 @@ lands, but a block that only agrees is praise wearing the shape of a response.
   Their answer is part of what the file now knows, so the block is rewritten to
   what holds once it is taken in: not defended, not deleted. The afterword is the
   record of where the thinking came out, which is the half worth having a month
-  later.
+  later. **A block leaves only by moving**: where the answer was that the thought
+  belongs elsewhere, write it there and cut it here, so one thought never stands
+  in two places. A thought merely noted and taken no further has nowhere to have
+  gone, and stays where it is.
 - **What would be cut from a post is not what gets cut from the source.** A
   digression carrying a third of a recording is still the recording. Say "in a
   post I would cut this" and leave the text alone.

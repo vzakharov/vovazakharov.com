@@ -1,17 +1,17 @@
 ---
 description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
-  - apps/vova/public/case-studies/**
-  - apps/vova/public/generated/**
+  - apps/*/public/case-studies/**
+  - apps/*/public/generated/**
   - src/shared/content/**
   - src/pages/case-studies/**
   - src/pages/cv/**
-  - apps/vova/app/case-studies/**
+  - apps/*/app/case-studies/**
   - scripts/render-mermaid.ts
   - scripts/render-og.ts
   - scripts/render-pdf.ts
   - scripts/lib/**
-  - apps/vova/public/cv/**
+  - apps/*/public/cv/**
 ---
 
 # Content
@@ -54,7 +54,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
 ## Adding a document
 
-1. Write `apps/vova/public/<collection>/<slug>.md` with frontmatter:
+1. Write `apps/<site>/public/<collection>/<slug>.md` with frontmatter:
 
    ```yaml
    ---

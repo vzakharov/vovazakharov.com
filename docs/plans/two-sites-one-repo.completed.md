@@ -124,75 +124,13 @@ The orphan push is deliberate: the receiver never grows, and rollback does not
 need its history, because the source of every byte is a commit here — an older
 deploy is re-run by dispatching this workflow from an older ref.
 
-## Provisioning — the agent's half
+## Standing the site up
 
-None of this is code and all of it is `gh`, so the implementing session runs it
-rather than writing it down for someone else. It splits around the first deploy,
-because Pages cannot be aimed at a branch that does not exist yet.
-
-**Before the merge**, in the session's scratch directory:
-
-```bash
-gh repo create vzakharov/latestageagentic.com --public \
-  --description "Built site for latestageagentic.com — source lives in vzakharov/vovazakharov.com"
-
-ssh-keygen -t ed25519 -f "$SCRATCH/lsa-pages" -N "" -C "lsa-pages deploy key"
-
-gh repo deploy-key add "$SCRATCH/lsa-pages.pub" \
-  --repo vzakharov/latestageagentic.com \
-  --title "vovazakharov.com CI" --allow-write
-
-gh secret set LSA_PAGES_DEPLOY_KEY \
-  --repo vzakharov/vovazakharov.com < "$SCRATCH/lsa-pages"
-```
-
-Public, because Pages on a private repository is a paid-plan feature.
-`--allow-write` is the whole of what the key is for; without it the push 403s.
-The private half is never printed and dies with the container — and it is never
-recovered either, so rotating the key is re-running these four commands.
-
-**After the first deploy**, which is what creates `gh-pages`: point Pages at it,
-then force HTTPS once GitHub has issued the certificate for the domain it reads
-off the `CNAME` file, usually about fifteen minutes later.
-
-```bash
-gh api -X POST repos/vzakharov/latestageagentic.com/pages \
-  -f 'source[branch]=gh-pages' -f 'source[path]=/'
-
-gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
-curl -sI https://latestageagentic.com | head -1        # expect 200
-```
-
-**If it serves a 404**, the `CNAME` file did not reach the branch — but the
-publish script asserts on that before pushing, so the likelier cause is DNS that
-has not propagated. **If it serves `vovazakharov.com`**, the apex records point
-somewhere else entirely.
-
-## The runbook — what only you can do
-
-Three steps, and only three: two at your registrar, because neither has an API
-this repository can reach, and the merge, which is yours either way. Everything
-else the implementing session does for itself.
-
-**1. Own the domain.** `latestageagentic.com` has to be registered to you
-somewhere. If it is not, nothing else works.
-
-**2. Point it at GitHub.** Delete any A, AAAA or ALIAS already on the apex, then
-add these eight:
-
-| Type  | Name  | Value                                                                                   |
-| ----- | ----- | --------------------------------------------------------------------------------------- |
-| A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
-| AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
-| CNAME | `www` | `vzakharov.github.io`                                                                   |
-
-These are GitHub's shared Pages addresses — the same ones `vovazakharov.com`
-already resolves to. Which repository answers is decided by the `CNAME` file
-inside each published branch, which is why that file is part of the build.
-
-**3. Merge with a subject that publishes** — `feat:` or `feat(lsa):` — since the
-gate skips the build for anything else, and the first deploy is what the
-provisioning above waits on.
+Every one-time step outside the code — the repository that receives the build,
+its deploy key, the DNS, and pointing Pages at the branch once the first deploy
+has created it — is `docs/remove-before-merging/lsa-runbook.md`, which says who
+does each part. It lives there rather than here because a plan is read to find
+out what was decided, and a runbook is read to do something.
 
 ## Vetting and prose
 

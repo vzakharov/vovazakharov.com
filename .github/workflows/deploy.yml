@@ -15,70 +15,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Only a feat: or fix: subject reaches production; anything else lands on main
-  # without publishing. Its scope picks the site: `feat(lsa):` publishes
-  # latestageagentic.com alone, `feat(vova):` vovazakharov.com alone, and any
-  # other scope — or none — publishes both, since a change to the shared layer
-  # is both sites' change. `workflow_dispatch` bypasses the gate entirely, so a
-  # chore: that does change a built site is deployed by running this by hand.
+  # scripts/deploy-gate.sh carries which subjects publish which site, and is
+  # runnable against a branch's own log.
   gate:
     runs-on: ubuntu-latest
     outputs:
       vova: ${{ steps.subjects.outputs.vova }}
       lsa: ${{ steps.subjects.outputs.lsa }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: 'Scan the pushed subjects for feat:/fix:'
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
-        run: |
-          set -euo pipefail
-
-          vova=false
-          lsa=false
-
-          if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
-            subjects=''
-            vova=true
-            lsa=true
-            verdict='Manual run — deploying both sites regardless of commit subjects.'
-          else
-            # Subject lines only: a body that happens to mention "fix:" is not a fix.
-            subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
-
-            while IFS= read -r subject; do
-              [ -n "$subject" ] || continue
-
-              grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
-              scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
-
-              case "$scope" in
-                lsa) lsa=true ;;
-                vova) vova=true ;;
-                *) vova=true; lsa=true ;;
-              esac
-            done <<< "$subjects"
-
-            if [ "$vova" = true ] || [ "$lsa" = true ]; then
-              verdict="Deploying — vovazakharov.com: $vova, latestageagentic.com: $lsa."
-            else
-              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
-            fi
-          fi
-
-          {
-            echo "vova=$vova"
-            echo "lsa=$lsa"
-          } >> "$GITHUB_OUTPUT"
-
-          {
-            echo "$verdict"
-            if [ -n "$subjects" ]; then
-              echo
-              echo 'Pushed subjects:'
-              sed 's/^/- /' <<< "$subjects"
-            fi
-          } | tee -a "$GITHUB_STEP_SUMMARY"
+        run: ./scripts/deploy-gate.sh
 
   build-vova:
     runs-on: ubuntu-latest
