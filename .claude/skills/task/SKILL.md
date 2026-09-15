@@ -9,7 +9,7 @@ description: >-
 
 The decision this skill makes, before any other: **does this task get a plan, and does the plan block on the operator?** Those are two questions with a plan file between them: the second judges the plan, so it is asked once the plan exists.
 
-**The prompt is a conditional go-ahead.** It authorizes implementation *on condition that* the agent judges the operator's gate unnecessary, scoped to the task in that message and to that message alone.
+**The prompt is a conditional go-ahead.** It authorizes implementation _on condition that_ the agent judges the operator's gate unnecessary, scoped to the task in that message and to that message alone.
 
 `/task <what to do>` is the invocation, and it is also where a launch-time directive lands: CLAUDE.md § "Plan mode & questions in web sessions" routes any opening prompt that asks for a change to this codebase here, so most tasks arrive without anyone typing the name. A `#<N>` in that prompt means the thread is exported and committed before anything else happens — `/take-issue` does that and hands the number back. Both mentions stay bare rather than `@`-references: nothing here needs either file read, the routing being all this skill does with them.
 
@@ -48,7 +48,7 @@ Now the plan exists, so the question is asked against it rather than forecast fr
 - **The work costs far more to produce than to describe.** The plan is a page, the work is a day, and a wrong direction is caught for the price of the page.
 - **A fork carries no recommendation** — the exception in `@.claude/skills/plan/SKILL.md` Part 2. Guess wrong and most of the work is wasted; the plan is what makes the choice the operator's.
 - **A review round comes too late.** The step is irreversible or outward-facing, or later work builds on it before the PR is read.
-- **The scope is itself the question** — you would be deciding *what* the task is, not just how to do it. A carve is this clause satisfied, so a plan that carves ends here.
+- **The scope is itself the question** — you would be deciding _what_ the task is, not just how to do it. A carve is this clause satisfied, so a plan that carves ends here.
 
 None of these asks how important the change is. Importance is why the operator reviews the diff; the gate is for what reviewing a diff cannot undo.
 
@@ -64,7 +64,7 @@ Two of the three are the two ends of one route, forking at Step 3 where the plan
 2. **Go** — Step 1 no. The diff is the plan.
 3. **Plan, then go** — Step 1 yes, Step 3 no.
 
-**Report the call in the first sentence of the turn, with its reason and the override**: "Doing this directly rather than planning it — *reason*. Say `plan` and I'll write one instead." That costs the operator one word to reverse, and puts the judgment on the record in the turn that acted on it.
+**Report the call in the first sentence of the turn, with its reason and the override**: "Doing this directly rather than planning it — _reason_. Say `plan` and I'll write one instead." That costs the operator one word to reverse, and puts the judgment on the record in the turn that acted on it.
 
 **On that override, stop where you are.** Write the plan for the whole task and name the commits that already exist, so the operator reviews it knowing what is built. Leave those commits in place; reverting work nobody asked you to revert costs more than the work does.
 

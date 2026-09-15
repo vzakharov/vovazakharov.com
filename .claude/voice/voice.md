@@ -10,7 +10,7 @@ is visible rather than a matter of taste:
 - **Use the nouns of the person affected**, not the ones the error message used,
   whenever both name the same thing.
 - **State the chain, not the steps.** Every step says why the next one followed;
-  a sequence with no *because* in it is a list, not an explanation.
+  a sequence with no _because_ in it is a list, not an explanation.
 - **Length is not thoroughness.** A report that takes five screens to reach its
   point has failed even when every line in it is true.
 - **Frustration is a signal, and it is about you.** Repeated punctuation, caps,

@@ -21,7 +21,7 @@ Because the children do not exist yet, the PR for this slice carries **`Closes #
 
 ## What `/go` files on the go-ahead
 
-`@.claude/skills/go/SKILL.md` Step 1 creates what the operator approved — the parent first where it does not exist, then each child — and replaces any `Closes #<tbd>` the branch carries with the number of the child this slice ships. Filing is `gh issue create`; three things belong to the parent-child *relation* rather than to creating an issue, so they are stated here.
+`@.claude/skills/go/SKILL.md` Step 1 creates what the operator approved — the parent first where it does not exist, then each child — and replaces any `Closes #<tbd>` the branch carries with the number of the child this slice ships. Filing is `gh issue create`; three things belong to the parent-child _relation_ rather than to creating an issue, so they are stated here.
 
 **Link each child natively — mandatory.** `Part of #<parent>` prose is a pointer for humans, not a relation GitHub can track. Keep that line in the child's body, and **also** attach it through the sub-issues API — the GitHub MCP `sub_issue_write` tool (`method: "add"`, `issue_number: <parent>`, `sub_issue_id: <child's database id>`), or plain `gh`:
 
@@ -41,7 +41,7 @@ Without the relation the parent has no machine-readable notion of its children, 
 **Size each slice so it is worth its own PR.** One child ships as one PR — that mapping is fixed; don't bundle several children into one PR or carve one child across several. The lever is the **granularity of the carve itself**: each child should be **substantial enough to justify a PR**, roughly **≥5 files of real change**. A prospective child touching only **1–3 files is too fine a cut** — group it with the other small, cohesive items into a single child that, taken together, is PR-worthy (within it, one commit per underlying item keeps the diff readable). A QA roundup of six small defects is usually one or two children, not six.
 
 - **Group by cohesion, not just to hit a count.** Bundle items that sit in the same area or move together — several modal tweaks, a cluster of responsive-CSS fixes.
-- **Keep blocked or uncertain items as their own child** even when small. A fix needing an environment or investigation this run can't cover — a value to pixel-match against a running deployment, a root cause needing in-browser repro, an item someone else marked *in progress* — gets its own deferred child with a note on what it's blocked on. Grouping merges trivial *ready* fixes; it never justifies shipping a guess.
+- **Keep blocked or uncertain items as their own child** even when small. A fix needing an environment or investigation this run can't cover — a value to pixel-match against a running deployment, a root cause needing in-browser repro, an item someone else marked _in progress_ — gets its own deferred child with a note on what it's blocked on. Grouping merges trivial _ready_ fixes; it never justifies shipping a guess.
 
 **Carry an enumerated parent's reports into each child.** When the parent reads as an **enumeration of distinct bugs or requests** — a QA roundup, a bullet list of unrelated defects — copy each original item's **verbatim text and its attachments** into the child that covers it, so the child carries the reporter's own words and screenshots rather than your paraphrase. (Distinct from the other reason to carve: a **single cohesive problem statement** merely too vast for one PR has no per-item original text to distribute, so don't force it.)
 
