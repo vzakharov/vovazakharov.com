@@ -27,8 +27,8 @@ the welcome text rather than on a placeholder.
 A repository gets one Pages site, so vovazakharov.com keeps this one's
 and latestageagentic.com is force-pushed to a source-less repository
 whose Pages deploys from a branch, making the push the deploy. The gate
-reads the commit scope as a site name, or a picker on a manual run;
-publish-lsa.sh refuses an out/ without CNAME or .nojekyll, both silent.
+reads the scope as a site name, or a picker on a manual run; what it
+takes to get a domain serving one at all is /stand-up-site.
 
 Each recording lands under writing/late-stage-agentic/dictations/ in
 five parts, of which only the middle one is the recording, framed by a
