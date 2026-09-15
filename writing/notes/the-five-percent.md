@@ -195,9 +195,9 @@ router under `apps/`, the agent rewrote the content rule's description to
 claim four lines above the mechanism contradicting it. _нужно сделать sweep._
 
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
-settled on 14 September against a Russian draft, and applied to it. The English
-copy written the next day, rendering that same draft, came out in em dashes
-throughout: a preference about dashes filed as a fix to one file. _--, not —._
+settled on 14 September against a Russian draft and applied to that file alone;
+the English copy written the next day came out in em dashes. Told again, the
+agent swept every file — the preference was Russian eyes, not the site's type.
 
 ## An account that explains the code stands in for running it (×6)
 

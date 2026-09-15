@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-15T12:37:16Z
+- **Updated:** 2026-09-15T13:15:58Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -25,7 +25,7 @@ Each app names itself in its `next.config.ts`, and `src/shared/config` holds bot
 
 **The deploy grows a second lane.** A repository gets one Pages site, so `vovazakharov.com` keeps going out through this one's and `latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com` — a repository with no source, whose Pages is set to deploy from a branch, so the push is the deploy and nothing runs over there. The script refuses an `out/` missing `CNAME` or `.nojekyll`, both of which fail silently at the far end: a dropped custom domain, and a `_next/` that Jekyll strips. The gate now reads the commit scope as a site name — `feat(lsa):` publishes one, `feat(vova):` the other, anything else both.
 
-**The site opens on the welcome text**, not on a placeholder — the same argument as the channel's first post, in English, with the premise the Russian original leaves in a parenthesis brought up into the sentence it holds up. Under it sits the index of pieces, empty for now and headed so it reads as an empty section rather than a stray line, and a footer addressed to the agent reader, which `plan.md` § Findability names as half of being found at all. The mark is yours, converted to a palettized PNG and served at the same `/ava.png` each site serves its own square from — the circle is the component's, so the Open Graph card reads the same bytes.
+**The site opens on the welcome text**, not on a placeholder — the same argument as the channel's first post, in English, with the premise the Russian original leaves in a parenthesis brought up into the sentence it holds up. Under it sits the index of pieces, empty for now and headed so it reads as an empty section rather than a stray line, and a footer addressed to the agent reader, which `plan.md` § Findability names as half of being found at all. The mark is yours, converted to a palettized PNG and served at the same `/ava.png` each site serves its own square from — the circle is the component's, so the Open Graph card reads the same bytes. How that copy is written is `.claude/rules/lsa-voice.md`, scoped at the LSA site, its drafts and its app: Pratchett-ish irony, one paragraph, and the rest to be found in review rather than specified now.
 
 **`docs/remove-before-merging/lsa-runbook.md` is every one-time step outside the code**, and who does each. The agent's half has run: the receiving repository exists with a README saying nothing in it is written by hand, an ed25519 deploy key is installed on it with write access, and its private half is this repository's `LSA_PAGES_DEPLOY_KEY`. Yours is three steps — own the domain, point its apex at GitHub's Pages addresses, merge with a `feat:` subject. Two `gh` calls follow the first deploy, and those are mine.
 
@@ -6524,6 +6524,14 @@ git log --format=%s origin/main..HEAD | xargs -d '\n' scripts/deploy-gate.sh
 
 а почему бы не keep history? что в этом плохого будет?
 
+**@vzakharov (agent)** — 2026-09-15T13:09:38Z
+
+Nothing bad, exactly -- it is a trade I made without saying so, which is why it deserved the question.
+
+The site builds to 2.2 MB, and Next content-hashes every file under `_next/static/`, so any change writes new filenames rather than new versions of the same ones. Keeping history means each deploy adds its whole 2.2 MB to the branch permanently, with nothing deduplicated against the deploy before it -- a couple of hundred megabytes a year at a weekly cadence, on a repository whose only job is to be served. And what history would buy is small, because every byte over there is reproducible from a commit over here: an older deploy is this workflow dispatched from an older ref.
+
+What it would cost to change: `publish-lsa.sh` clones the receiver shallowly instead of `git init`-ing a fresh repo, and pushes without `-f`. Four lines. Say the word if you'd rather have the deploy log on the branch -- the rollback argument doesn't need it, but "when did the site last change" is a fair thing to want in one place.
+
 ---
 
 ### `src/shared/config/site-config.ts`:119 — resolved
@@ -6822,15 +6830,19 @@ Cease and desist не будет: у них клякса, у тебя чашка
 
 ---
 
-### `.github/workflows/deploy.yml`:1 — unresolved
+### `.github/workflows/deploy.yml`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-15T12:23:33Z
 
 nah, let's actually inline it back then, I don't want a checkout just for the sake of this
 
+**@vzakharov (agent)** — 2026-09-15T13:09:29Z
+
+Inlined, and `scripts/deploy-gate.sh` is gone -- the job has no checkout step now, since it reads the push event and never the tree. What goes with it is running the gate against a branch's own log before pushing; if that turns out to be wanted, it comes back as a script the _workflow_ doesn't call. 3b7c921
+
 ---
 
-### `apps/site-next-config.ts`:7 — unresolved
+### `apps/site-next-config.ts`:7 — resolved
 
 ```diff
 @@ -2,17 +2,17 @@ import type { NextConfig } from 'next';
@@ -6846,9 +6858,13 @@ nah, let's actually inline it back then, I don't want a checkout just for the sa
 
 polar bear
 
+**@vzakharov (agent)** — 2026-09-15T13:09:31Z
+
+Cut. Nothing in the file reaches for the value import, so the sentence was the only thing putting it in a reader's head. 3b7c921
+
 ---
 
-### `docs/remove-before-merging/lsa-runbook.md`:1 — unresolved
+### `docs/remove-before-merging/lsa-runbook.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-15T12:28:42Z
 
@@ -6856,9 +6872,19 @@ I have this, what do I delete, what do I edit, what do I add?
 
 <img width="524" height="433" alt="Image" src="./attachments/9608d142-2227-4457-9e94-ab393c638c84.png" />
 
+**@vzakharov (agent)** — 2026-09-15T13:09:36Z
+
+Delete two, add nine, edit nothing -- the runbook's step 2 now says it against exactly those records. 3b7c921
+
+**Delete** the `ALIAS` on the apex and the `*` `CNAME`, both pointing at `uixie.porkbun.com`. The ALIAS occupies the apex, which is where GitHub's A and AAAA rows go. The wildcard is the one that would bite quietly: it answers for every subdomain including `www`, so `www.latestageagentic.com` would keep landing on the parking page.
+
+**Add** four A rows, four AAAA rows and the `www` CNAME -- Porkbun wants one row per value, so that is nine rows, not three.
+
+**Leave alone** both `MX` rows, the `v=spf1` `TXT` and both `_acme-challenge` `TXT` rows. The first three are mail forwarding and never enter a web request; the ACME pair is Porkbun's certificate proof, and GitHub runs its own challenge rather than reading those.
+
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:23 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:23 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -6891,9 +6917,13 @@ I have this, what do I delete, what do I edit, what do I add?
 
 ~~For the past few weeks~~
 
+**@vzakharov (agent)** — 2026-09-15T13:09:33Z
+
+Dropped -- now "My Claude and I have been trying to answer that...". 3b7c921
+
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:24 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:24 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -6926,6 +6956,12 @@ I have this, what do I delete, what do I edit, what do I add?
 **@vzakharov (human)** — 2026-09-15T12:30:48Z
 
 `There is a [file](https://github.com/vzakharov/vovazakharov.com/blob/main/writing/notes/the-five-percent.md)` -- "here" is ambiguous
+
+**@vzakharov (agent)** — 2026-09-15T13:09:35Z
+
+Done, linked to the file on `main` rather than on this branch. 3b7c921
+
+One thing the link brings with it: CLAUDE.md § "GitHub comments" says that file retires when the LinkedIn post it exists for runs. The paragraph now both links and quotes it, so retiring it means rewriting this copy rather than just deleting the file -- I've put that on the constant so whoever does the retiring reads it.
 
 ---
 
@@ -6964,9 +7000,17 @@ I have this, what do I delete, what do I edit, what do I add?
 
 --, not —
 
+**@vzakharov (agent)** — 2026-09-15T12:52:19Z
+
+Done, and applied to all four em dashes in the copy rather than only this one -- a file mixing both reads as an oversight. Your own draft spells them `--` throughout, which is where I should have taken it from; that and the paraphrase below are now one learning in `the-five-percent.md`. 05adce3
+
+**@vzakharov (human)** — 2026-09-15T13:15:57Z
+
+ви будете смеяться, но верните эм даши, слишком уж уродливо с красивыми мерривезером смотрится)
+
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:28 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:28 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -7004,9 +7048,13 @@ I have this, what do I delete, what do I edit, what do I add?
 
 take the actual heading
 
+**@vzakharov (agent)** — 2026-09-15T12:52:20Z
+
+Now quotes it verbatim: _What it was handed, it treats as fixed_. 05adce3
+
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:43 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:43 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -7059,6 +7107,11 @@ take the actual heading
 
 1- "runs here" is ambiguous
 2- `on the agents’ ever-improving analysis, planning and self-correction abilities`
+
+**@vzakharov (agent)** — 2026-09-15T12:52:22Z
+
+1 -- now "most of what gets written here is that work". The Russian says большинство канала, and "runs here" could have been the site, the repo, or the work itself.
+2 -- taken as written. 05adce3
 
 ---
 
@@ -7117,9 +7170,17 @@ take the actual heading
 
 I love that Pratchett-ish "not lasting very long". Let's generally add a rule in "how to write", globbed at anything writing-adjacent (mds/json/tsx's) within /lsa/ as writing "with a touch of Terry Pratchett-ish irony". Don't overspecify this, let this literally be one paragraph, letting yourself figure it out along the way through our code reviews and whatnot, rather than having it given (and hence being treated as fixed, wink-wink)
 
+**@vzakharov (agent)** — 2026-09-15T12:52:24Z
+
+`.claude/rules/lsa-voice.md`, one paragraph, globbed at `src/pages/lsa-home/**`, `writing/late-stage-agentic/**` and `apps/lsa/**/*.{md,json}`. The drafts directory isn't literally /lsa/, but it's the same voice -- say the word if you want it narrower. The paragraph states outright that the rest gets found in review rather than specified now, and why, so a later session reads the brevity as deliberate. 05adce3
+
+**@vzakharov (human)** — 2026-09-15T13:15:32Z
+
+да, давай везде где можем писать для этого сайта
+
 ---
 
-### `src/pages/lsa-home/ui/about-section.tsx`:52 — unresolved
+### `src/pages/lsa-home/ui/about-section.tsx`:52 — resolved
 
 ```diff
 @@ -0,0 +1,57 @@
@@ -7181,9 +7242,13 @@ I love that Pratchett-ish "not lasting very long". Let's generally add a rule in
 
 `best heard while there is still anyone to make it`, no `;-)`
 
+**@vzakharov (agent)** — 2026-09-15T12:52:25Z
+
+Done, and the second sentence went with it -- your phrase already carries it. One thing left open: `p0-welcome.md` still has the old closer and the `;-)`, and this component's docstring says an edit here has a counterpart there. The draft is yours, so I've left it alone; tell me if you want these carried back. 05adce3
+
 ---
 
-### `src/pages/lsa-home/ui/lsa-home-page.tsx`:57 — unresolved
+### `src/pages/lsa-home/ui/lsa-home-page.tsx`:57 — resolved
 
 ```diff
 @@ -39,11 +51,19 @@ export function LsaHomePage() {
@@ -7202,9 +7267,13 @@ I love that Pratchett-ish "not lasting very long". Let's generally add a rule in
 
 `one person and one(-ish) agent’s`
 
+**@vzakharov (agent)** — 2026-09-15T12:52:27Z
+
+Done. 05adce3
+
 ---
 
-### `docs/remove-before-merging/lsa-runbook.md`:24 — unresolved
+### `docs/remove-before-merging/lsa-runbook.md`:21 — resolved
 
 ```diff
 @@ -0,0 +1,67 @@
@@ -7239,6 +7308,12 @@ I love that Pratchett-ish "not lasting very long". Let's generally add a rule in
 What about this? Will you handle that via `gh`?
 
 <img width="818" height="332" alt="Image" src="./attachments/52ffabee-96e7-49b0-9a21-9a2e337e4ba7.png" />
+
+**@vzakharov (agent)** — 2026-09-15T12:52:29Z
+
+Yes, via `gh`. That dropdown is exactly what `gh api -X POST repos/vzakharov/latestageagentic.com/pages -f 'source[branch]=gh-pages'` sets, which is this runbook's last section. It can't run yet -- that repo's `/pages` endpoint 404s, because Pages cannot be aimed at a branch that does not exist, and `gh-pages` arrives with the first deploy.
+
+Worth saying that the two repositories want opposite settings here: this one is `build_type: workflow` (the **GitHub Actions** option) and stays that way, since `actions/deploy-pages` is what publishes vovazakharov.com. I've added a line to this section saying the dropdown is not one of your three. 05adce3
 
 ---
 

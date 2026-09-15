@@ -31,14 +31,14 @@ export function AboutSection() {
           My Claude and I have been trying to answer that with something other
           than philosophy. There is a{' '}
           <Anchor href={FIVE_PERCENT_URL}>file</Anchor> that Claude writes to
-          after every review of code it wrote -- what exactly it got wrong,
+          after every review of code it wrote — what exactly it got wrong,
           generalised and grouped with everything before it. The most frequent
           finding in it reads: <em>What it was handed, it treats as fixed</em>.
         </Text>
 
         <Text size="lg" lh={1.625}>
           Solving a well-posed task reliably, predictably and elegantly is one
-          talent, and the models get closer to it month by month -- though there
+          talent, and the models get closer to it month by month — though there
           is a great deal still to work on, and a great deal of this site is
           about that. Seeing that the task is posed wrong, or that it is the
           wrong task altogether, is the other talent. That one, as Mastercard
@@ -51,13 +51,13 @@ export function AboutSection() {
           gets written here is that work. But don’t count on the agents’
           ever-improving analysis, planning and self-correction abilities to
           replace what we meat sacks get as a bonus for being limited and not
-          lasting very long -- the bumps and bruises collected over a life. And
+          lasting very long — the bumps and bruises collected over a life. And
           the new bruises, for every one of Claude’s mistakes, are still yours
           to collect.
         </Text>
 
         <Text size="lg" lh={1.625}>
-          Welcome to {SITE_CONFIG.name} -- a diagnosis best heard while there is
+          Welcome to {SITE_CONFIG.name} — a diagnosis best heard while there is
           still anyone to make it.
         </Text>
       </Stack>

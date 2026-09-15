@@ -5,6 +5,7 @@ paths:
   - 'writing/late-stage-agentic/**'
   - 'apps/lsa/**/*.md'
   - 'apps/lsa/**/*.json'
+  - 'src/shared/config/site-config.ts'
 ---
 
 # The Late Stage Agentic voice
@@ -18,3 +19,8 @@ handed as fixed, and a voice handed over complete is a voice that stops being
 worked on. The rest gets found a line at a time, in review, by someone reading a
 draft and saying _that's not it_; write the tell down here when that happens,
 rather than guessing at it now.
+
+**The copy's dashes are em dashes** — `—`, not `--`. The site is set in
+Merriweather, where the long dash is the one that sits right; the Russian drafts
+spell theirs `--` for a reader's sake rather than a typeface's, so neither
+convention settles the other.
