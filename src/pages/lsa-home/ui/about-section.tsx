@@ -1,7 +1,15 @@
-import { Stack, Text, Title } from '@mantine/core';
+import { Anchor, Stack, Text, Title } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { Section } from '@/shared/ui';
+
+/**
+ * CLAUDE.md § "GitHub comments" retires this file once the post it exists for
+ * runs. The paragraph below sends a reader to it and quotes it, so retiring it
+ * is a rewrite here, not just a deletion there.
+ */
+const FIVE_PERCENT_URL =
+  'https://github.com/vzakharov/vovazakharov.com/blob/main/writing/notes/the-five-percent.md';
 
 /**
  * The opening argument, which is also the channel's first post: the same thing
@@ -20,10 +28,11 @@ export function AboutSection() {
         </Text>
 
         <Text size="lg" lh={1.625}>
-          For the past few weeks my Claude and I have been trying to answer that
-          with something other than philosophy. There is a file here that Claude
-          writes to after every review of code it wrote -- what exactly it got
-          wrong, generalised and grouped with everything before it. The most
+          My Claude and I have been trying to answer that with something other
+          than philosophy. There is a{' '}
+          <Anchor href={FIVE_PERCENT_URL}>file</Anchor> that Claude writes to
+          after every review of code it wrote -- what exactly it got wrong,
+          generalised and grouped with everything before it. The most
           frequent finding in it reads:{' '}
           <em>What it was handed, it treats as fixed</em>.
         </Text>

@@ -138,7 +138,7 @@ by-hand steps for standing the second site up went into the plan file, whose
 whole tree `CLAUDE.md` says is swept before the squash. _смотреть в .completed
 кажется концептуально неверно_ — never which document, only which section.
 
-## It edits the copy in front of it, not the fact behind it (×8)
+## It edits the copy in front of it, not the fact behind it (×9)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -193,6 +193,11 @@ for" — the introductory post's question standing in for the publication.
 router under `apps/`, the agent rewrote the content rule's description to
 `apps/<site>/public/` and left its `paths:` matching `apps/vova/` only — the
 claim four lines above the mechanism contradicting it. _нужно сделать sweep._
+
+**15 September — em dashes, a day after being told.** _нет, все равно --_ was
+settled on 14 September against a Russian draft, and applied to it. The English
+copy written the next day, rendering that same draft, came out in em dashes
+throughout: a preference about dashes filed as a fix to one file. _--, not —._
 
 ## An account that explains the code stands in for running it (×6)
 
@@ -352,19 +357,14 @@ flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
 
-## Asked to render a source, it rewrites it (×2)
+## Asked to quote a source, it writes its own version (×1)
 
-Quoting a file, translating a draft — the agent holds the source open and still
-writes what it would have written. Each departure improves something on its own
-terms, which is why none of them stops it; what goes is that a reader can check.
+Holding the file open, the agent still writes its own version. The paraphrase
+improves something, so nothing stops it; what goes is that a reader can check.
 
 **15 September — the finding, paraphrased.** The site copy quotes this file's
 most frequent heading, and the agent wrote its own gloss — hours after appending
 four bumps to the section it was naming. _take the actual heading._
-
-**15 September — em dashes over the source's `--`.** The Russian draft the copy
-renders spells every dash `--`. The agent set em dashes, a default it brought
-rather than read. _--, not —._
 
 ## Not bumps
 

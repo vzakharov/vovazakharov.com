@@ -28,10 +28,23 @@ the last section below rather than this one.
 **1. Own the domain.** `latestageagentic.com` has to be registered to you
 somewhere. If it is not, nothing else works.
 
-**2. Point it at GitHub.** Delete any A, AAAA or ALIAS already on the apex,
-then add these nine records:
+**2. Point it at GitHub**, against the records Porkbun holds on it today.
 
-| Type  | Name  | Value                                                                                   |
+**Delete two**, both of them the parking page:
+
+| Type  | Host                     | Value               |
+| ----- | ------------------------ | ------------------- |
+| ALIAS | `latestageagentic.com`   | `uixie.porkbun.com` |
+| CNAME | `*.latestageagentic.com` | `uixie.porkbun.com` |
+
+The ALIAS sits on the apex, which is where GitHub's own addresses go, so the
+two cannot both be there. The wildcard goes for its own reason: it answers for
+every subdomain, `www` among them, and would send it to the parking page.
+
+**Add nine** — one record per value, so four A rows, four AAAA rows and one
+CNAME:
+
+| Type  | Host  | Value                                                                                   |
 | ----- | ----- | --------------------------------------------------------------------------------------- |
 | A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
 | AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
@@ -40,6 +53,11 @@ then add these nine records:
 These are GitHub's shared Pages addresses — the same ones `vovazakharov.com`
 already resolves to. Which repository answers is decided by the `CNAME` file
 inside each published branch, which is why that file is part of the build.
+
+**Edit nothing.** The two `MX` rows and the `v=spf1` `TXT` are mail forwarding
+and never enter a web request; the two `_acme-challenge` `TXT` rows are
+Porkbun's certificate proof, and GitHub issues its certificate through a
+challenge of its own rather than reading those.
 
 **3. Merge with a subject that publishes** — `feat:` or `feat(lsa):` — since
 the gate skips the build for anything else, and the first deploy is what the

@@ -15,22 +15,66 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # scripts/deploy-gate.sh carries which subjects publish which site, and is
-  # runnable against a branch's own log.
+  # Which subject publishes which site is CLAUDE.md § Deployment. Inline, and so
+  # without a checkout: the job reads the push event and never the tree.
   gate:
     runs-on: ubuntu-latest
     outputs:
       vova: ${{ steps.subjects.outputs.vova }}
       lsa: ${{ steps.subjects.outputs.lsa }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: 'Scan the pushed subjects for feat:/fix:'
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
-        run: ./scripts/deploy-gate.sh
+        run: |
+          set -euo pipefail
+
+          vova=false
+          lsa=false
+          subjects=''
+
+          if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
+            vova=true
+            lsa=true
+            verdict='Manual run — deploying both sites regardless of commit subjects.'
+          else
+            # Subject lines only: a body that happens to mention "fix:" is not a fix.
+            subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
+
+            while IFS= read -r subject; do
+              [ -n "$subject" ] || continue
+
+              grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
+              scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
+
+              case "$scope" in
+                lsa) lsa=true ;;
+                vova) vova=true ;;
+                *) vova=true; lsa=true ;;
+              esac
+            done <<< "$subjects"
+
+            if [ "$vova" = true ] || [ "$lsa" = true ]; then
+              verdict="Deploying — vovazakharov.com: $vova, latestageagentic.com: $lsa."
+            else
+              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
+            fi
+          fi
+
+          {
+            echo "vova=$vova"
+            echo "lsa=$lsa"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "$verdict"
+            if [ -n "$subjects" ]; then
+              echo
+              echo 'Pushed subjects:'
+              sed 's/^/- /' <<< "$subjects"
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
   build-vova:
     runs-on: ubuntu-latest

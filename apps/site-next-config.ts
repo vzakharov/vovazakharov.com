@@ -2,8 +2,6 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'node:path';
 
-// Type-only on purpose — erased before resolution. Importing the value would
-// run `src/shared/config`'s own check, against the variable this file sets.
 import type { SiteId } from '@/shared/config';
 
 /**
