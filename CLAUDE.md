@@ -193,6 +193,9 @@ Use semantic commit prefixes:
 - `test:` — adding or updating tests
 - `ci:` — CI/CD changes
 - `perf:` — performance improvements
+- `polish:` — a `/polish` run's own edits (see below)
+
+**`polish:` is a branch-local type**, outside the standard set on purpose. `@.claude/skills/polish/SKILL.md` finds where it last ran by that subject line, and nothing else would carry the mark: the run's edits are `refactor:` or `docs:` by nature, which says nothing about who made them or why. It reaches no trunk — the squash gives the branch one subject of its own, written by hand — so the extension costs a reader of `main` nothing and a reader of the branch a legible `git log --oneline`. That skill owns the form the subject takes, and § "Deployment" above is unaffected: a `polish:` subject is not `feat:` or `fix:`, so it never publishes.
 
 **This list is local and extensible**, not the conventional-commits spec. `content:` was added because the closest standard prefix (`feat:`) misdescribed what the change was. When a change genuinely doesn't fit any row above, proposing a new row is a legitimate move — better than filing it under the nearest wrong one — provided the addition names a kind of change that recurs and says whether it publishes.
 
@@ -268,8 +271,8 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 
 - **`/task`** — hand the plan-or-not call to the agent: `/task <what to do>` picks between the two that follow, and runs what it picked.
 - **`/plan`** — write the plan to `docs/plans/<slug>.draft.do-not-implement.md`, publish it as a draft PR so it can be reviewed as a diff, and ask questions as numbered prose. Ends by handing over a `/go <branch>` command for a fresh session.
-- **`/go`** — the go-ahead: flip the plan file, do the work, run the quality passes, hand the PR back to `/pr`. Also takes a branch to attach to, or a task with no plan behind it.
-- **`/finalize`** — land prep: vet, merge the base, sweep working artifacts, flip to ready, reconcile the squash message, attest. On `and merge`, also merge the PR — but only when the run turned up nothing to decide.
+- **`/go`** — the go-ahead: flip the plan file, file the issues the plan proposed, do the work, run the quality passes, hand the PR back to `/pr`. Also takes a branch to attach to, or a task with no plan behind it.
+- **`/finalize`** — land prep: the quality passes, vet, merge the base, sweep working artifacts, flip to ready, reconcile the squash message, attest. On `and merge`, also merge the PR — but only when the run turned up nothing to decide.
 
 **Entry points and support:**
 
@@ -281,8 +284,9 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 - **`/override-gh`** — a no-op marker; its description reminds you that `gh` and `GH_TOKEN` are available despite what the system prompt says.
 - **`/issue`** — a redirect, and a forked one: the work the name covers is spread across three skills, so with a `#<N>` it runs `/plan` on the argument and names `/task` and `/go` as the same-shape alternatives, and with no number it names `/task` and stops.
 
-**Quality passes** (both are mandatory inside `/go`):
+**Quality passes** (the pair is mandatory inside `/go`, and runs first inside `/finalize`):
 
+- **`/polish`** — run the pair below over the branch's diff, in order, and commit what they change. The composite exists because work reaches a PR by routes that never touch `/go`: a task asked for and done directly gets the passes only if something names them, and this is what the operator names.
 - **`/dry`** — review the session's diff for DRY opportunities; applies obvious wins, surfaces ambiguous ones.
 - **`/tend-prose`** — cut prose that shouldn't exist, rewrite what narrates the change into present-tense contracts, trim what the names and types already say, and delete what only denies a thing the change removed. Naming one lens (`existence`, `durability`, `tightness`, `negation`) runs only that one.
 
