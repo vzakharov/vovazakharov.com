@@ -76,12 +76,12 @@ Twelve things about that list are deliberate:
 - **The two render checks hash files and nothing else**, so they need no browser and overlap the rest safely. `content:og --check` compares each social card's source — a chart's authored SVG, or the page the CV card is generated from — against `og-renders.json`; `content:pdf --check` compares each document's whole source set — the markdown, its assets, the print stylesheet and the article components — against `pdf-renders.json`. Both fail rather than render, because rendering is a committed, run-by-hand step (`.claude/rules/content.md` carries why).
 - **`pnpm test` is Node's own runner, loaded through `tsx`** — every `.test.ts` in the tree, no framework installed and none needed. It covers `scripts/type-overlap-check.ts` today; see "Testing" for what belongs in it next.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line ceiling its own "How this file is kept" states.** Unlike the codegen above, it reports rather than repairs: which squeeze applies is a judgement, so nothing trims. It exists because the ceiling was prose in the file it governs, and nothing reads a paragraph on its way to appending a section. POSIX `sh` and `wc`, reading only `writing/notes/`, which nothing else here touches.
-- **The last two read the agent infrastructure itself, which is why they overlap the rest safely** — nothing else here touches `.claude/` or `scripts/gh_export/`. `check-skill-catalog.sh` asserts that every `@.claude/skills/<name>/SKILL.md` pointer resolves; the failure it catches is silent, so leaving it to be run by hand puts it back on memory, which is where it was when it went unrun. `test_authorship.py` covers the export's agent/human labelling and runs **by path**, from `scripts/` — never through `unittest discover`, which reports `Ran 0 tests … OK` over a namespace package and would certify a run that executed nothing.
+- **The last two read the agent infrastructure itself, which is why they overlap the rest safely** — nothing else here touches `.claude/` or `scripts/gh_export/`. `check-skill-catalog.sh` asserts that every `@`-reference into `.claude/` resolves — the skill pointers and this file's own imports alike; the failure it catches is silent, so leaving it to be run by hand puts it back on memory, which is where it was when it went unrun. `test_authorship.py` covers the export's agent/human labelling and runs **by path**, from `scripts/` — never through `unittest discover`, which reports `Ran 0 tests … OK` over a namespace package and would certify a run that executed nothing.
 - **`scripts/check-squash-message.sh` holds the squash proposal to the size caps `@.claude/skills/squash-message/SKILL.md` states**, which is why it is the one check here that reads neither source nor build output — POSIX `sh` plus `git` over one markdown file, passing quietly on a branch that has no proposal. It overlaps the rest safely because nothing else touches `docs/remove-before-merging/`. What it catches that the skill's own Step 3 cannot is a proposal edited by hand, or outgrown by a later base merge, after it was authored; the script's header carries the caps and how it finds a proposal `/finalize` has already swept.
 
 **Keep it current** as tooling evolves. If a CI job catches something `vet.sh` should have caught, that's a signal to extend it.
 
-**One site moves with the stack that no agent can move: the environment setup script**, which installs and pins the toolchain for remote sessions and has no API, MCP tool or in-repo file behind it — `.claude/hooks/session-start.sh` only re-syncs dependencies against the lockfile once that snapshot exists. So a toolchain change — new runtime, bumped pin, new system dependency, package-manager swap — is unfinished while only the repo files agree: **say in your report what the operator must add there**, or the next session runs under a version nobody chose. The one case that detects itself is `gh` missing from `PATH`, which the session-start hook reports into the session context.
+**One site moves with the stack that no agent can move: the environment setup script**, which installs and pins the toolchain for remote sessions and has no API, MCP tool or in-repo file behind it — `.claude/hooks/install-deps.sh` only re-syncs dependencies against the lockfile once that snapshot exists. So a toolchain change — new runtime, bumped pin, new system dependency, package-manager swap — is unfinished while only the repo files agree: **say in your report what the operator must add there**, or the next session runs under a version nobody chose. The one case that detects itself is `gh` missing from `PATH`, which `.claude/hooks/gh-shim.sh` reports into the session context.
 
 **Do not vet before every commit** on feature branches — it's wasteful, especially in remote/web sessions. The vet run happens at milestones: before pushing review-ready work, before flipping a PR to ready. `/finalize` is the canonical caller.
 
@@ -223,22 +223,26 @@ Two further groups don't vary by project, so read them off here rather than aski
 
 ## Explaining things to people
 
-How to write for a person is a large enough topic to live with the skill that
-expands it, so it is imported from there rather than stated here. That skill is
-`/plainly`: bare, it re-explains an answer that did not land; with a question, it
-answers under the rule from the start. Invoking it is optional — the rule itself
-governs every reply regardless.
+How to write for a person is long enough to have its own file, so it is imported
+from `.claude/voice/` rather than stated here — in force from every session's
+first reply. `operators/` beside it holds one file per person, saying how that
+person in particular wants to be talked to.
 
-<!-- Both lines are real imports, not pointers, so they are unbackticked: the
-     import parser skips code spans, and backticking either would silently stop
-     it loading. Every other @-reference in this file is backticked because it
-     is a pointer the agent opens on demand. Both files are imported here
-     rather than the second from the first: an import inside an imported file
-     does not load, whatever the nesting depth the docs give. -->
+`/plainly` is the on-demand procedure: bare, it re-explains an answer that did
+not land; with a question, it answers plainly from the start. Invoking it is
+optional — the rule itself governs every reply regardless.
 
-@.claude/skills/plainly/voice.md
+<!-- A real import, not a pointer, so it is unbackticked: the import parser
+     skips code spans, and backticking it would silently stop it loading. Every
+     other @-reference in this file is backticked because it is a pointer the
+     agent opens on demand.
 
-@.claude/skills/plainly/operators.md
+     `operators/` beside it is deliberately not imported. A session applies one
+     person's entry, so importing the directory spends context on everyone
+     else's, every session — `.claude/hooks/operator-voice.sh` resolves the
+     operator at startup and prints that one entry instead. -->
+
+@.claude/voice/voice.md
 
 ## Working with skills
 
@@ -275,7 +279,7 @@ This project ships a set of Claude Code skills under `.claude/skills/`. Invoke t
 The vet run covers this — `scripts/vet.sh` calls `scripts/check-skill-catalog.sh`,
 so there is no separate step to remember; run the script directly only when you
 want the answer before the next vet. What it protects: the skills are densely
-cross-referenced, and a `@.claude/skills/<name>/SKILL.md` pointer to a file that
+cross-referenced, and an `@`-reference into `.claude/` naming a file that
 isn't there fails **silently** — the agent follows the surviving prose and skips
 the step they couldn't load. It also asserts that no skill is left as an
 unhydrated stub. (Its catalog assertions skip here by design: the catalog
