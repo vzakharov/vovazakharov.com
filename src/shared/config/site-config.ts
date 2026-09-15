@@ -1,4 +1,10 @@
-import type { DocumentFile, Linked, Named, WithText } from '@/shared/typings';
+import type {
+  Billed,
+  DocumentFile,
+  Linked,
+  Named,
+  WithText,
+} from '@/shared/typings';
 
 /**
  * A static export renders once per deploy, so a copyright year is the build's.
@@ -41,7 +47,13 @@ if (siteId === undefined) {
   );
 }
 
-type SiteConfig = Named & {
+/**
+ * The tagline is the offer in one line, as the home page's offer section is
+ * headed and as every page that states no description of its own unfurls. The
+ * CV header's is deliberately a different, plainer sentence — this one carries
+ * the voice.
+ */
+type SiteConfig = Billed & {
   url: string;
   /**
    * Leads the name a downloaded document is saved under, standing in for the
@@ -50,13 +62,6 @@ type SiteConfig = Named & {
    * at a glance, which is the whole of what the name buys.
    */
   downloadPrefix: string;
-  /**
-   * The offer in one line, as the home page's offer section is headed and as
-   * every page that states no description of its own unfurls. The CV header's
-   * tagline is deliberately a different, plainer sentence — this one carries
-   * the voice.
-   */
-  tagline: string;
   author: Named & { email: string };
   social: {
     twitter: string;

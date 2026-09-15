@@ -2,14 +2,14 @@
 description: Feature-Sliced Design conventions for src/ — layer structure, public API, where the app layer lives, and the Next.js traps around it
 paths:
   - src/**
-  - app/**
+  - apps/*/app/**
 ---
 
 # FSD (Feature-Sliced Design)
 
 `src/` holds every application module, organized by [Feature-Sliced
 Design](https://feature-sliced.design/) — every layer, the app layer included.
-Root `app/` is the Next.js App Router and nothing else. Steiger
+Each site's `apps/<site>/app/` is a Next.js App Router and nothing else. Steiger
 (`pnpm lint:fsd`) and `eslint-plugin-boundaries` enforce what follows;
 `./scripts/vet.sh` runs both.
 
@@ -23,7 +23,7 @@ Lowest (most generic) first — an import may only point downward:
 | `entities/` | _(none yet)_ business nouns                                                                              |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
-| `pages/`    | Page composition — `home`, `cv`, `case-studies`                                                          |
+| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `case-studies`                                              |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
 `entities/` and `widgets/` are absent because nothing earns them yet, not as an
@@ -41,14 +41,20 @@ oversight. Layers are optional; **inventing one costs more than leaving it out**
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported identifiers keep their PascalCase (`card.tsx` exports `Card`).
 - **The checkers run with the stock recommended ruleset and one override**, the `no-ui-in-app` exemption below. A new rule violation is a signal that the code is in the wrong place — move the code rather than exempting the path.
 
-## The app layer is `src/app`; root `app/` is the router
+## The app layer is `src/app`; `apps/*/app/` is the router
 
-Every layer lives under `src/`, the app layer with them. A layer parked at the
-repo root would be the single exception to that, and the consistency is worth
-more than what the exception saves. Root `app/` holds routing and nothing else:
-`layout.tsx` and each `page.tsx` are one-line re-exports of what they render,
-and `sitemap.ts` re-exports `@/app/lib` behind the route-segment config Next
-reads off the route module itself.
+Every layer lives under `src/`, the app layer with them. A layer parked beside
+the routers would be the single exception to that, and the consistency is worth
+more than what the exception saves — the more so with two routers, which would
+have to share it. An app's `app/` holds routing and nothing else: `layout.tsx`
+and each `page.tsx` are one-line re-exports of what they render, and
+`sitemap.ts` re-exports `@/app/lib` behind the route-segment config Next reads
+off the route module itself.
+
+**That is what lets two sites share one `src/`.** Both sites' page slices sit in
+`src/pages/` side by side, which FSD already permits: slices may not import each
+other sideways, and two sites' pages are exactly that relationship. Each app's
+router picks the slices its site serves.
 
 That costs exactly one Steiger override — `fsd/no-ui-in-app`, scoped to
 `src/app/ui/**` in `steiger.config.mjs`. Next mandates a root layout, and a
@@ -66,8 +72,8 @@ slices, its own segments reach each other directly.
 
 ## Traps
 
-- **Root `pages/` must keep existing**, empty of routes — it is what keeps the FSD pages layer invisible to the router. `pages/README.md` has the mechanism.
-- **`@/app` is the FSD app layer, not root `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. Root `app/` is reached only by Next's own routing conventions, never by import.
-- **`@/` points at `src/`.** Anything outside it — `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
-- **next-intl's request config is found by path, not by import.** `next.config.ts` names `./src/shared/i18n/request.ts` explicitly; moving that file means editing the config.
+- **`@/app` is the FSD app layer, not an app's `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. A router directory is reached only by Next's own routing conventions, never by import.
+- **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/`, so `src/pages/` is out of its reach by construction. That is why no empty `pages/` shadow is needed beside it; move a build back to the repository root and it comes back.
+- **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
+- **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
 - **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/case-studies` slice, because two slices could not share `back-to-home` or `document-meta` sideways.

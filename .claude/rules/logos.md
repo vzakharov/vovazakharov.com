@@ -1,12 +1,12 @@
 ---
-description: The normalization an organisation mark under public/logos/ must carry before it is committed, since the cards render every mark at one size
+description: The normalization an organisation mark under apps/vova/public/logos/ must carry before it is committed, since the cards render every mark at one size
 paths:
-  - public/logos/**
+  - apps/vova/public/logos/**
 ---
 
 # Organisation marks
 
-Each file under `public/logos/` is the organisation's own favicon or app icon,
+Each file under `apps/vova/public/logos/` is the organisation's own favicon or app icon,
 **trimmed to its ink box and re-padded to a centred transparent square**. Trim
 a new one before committing it.
 

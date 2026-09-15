@@ -1,7 +1,6 @@
-import path from 'node:path';
-
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import path from 'node:path';
 
 // Found by string rather than by import, and relative to this directory, which
 // is both where Turbopack resolves the alias from and where every build is

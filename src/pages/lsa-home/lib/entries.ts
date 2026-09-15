@@ -6,4 +6,4 @@ import type { Summarized } from '@/shared/ui';
  * elsewhere and are listed here — so each carries its own URL rather than a
  * route this app serves.
  */
-export const ENTRIES: (Summarized & Linked)[] = [];
+export const ENTRIES: Array<Summarized & Linked> = [];
