@@ -13,13 +13,10 @@ rather than writing it down for someone else:
 - `vzakharov/latestageagentic.com` exists, public, holding nothing but the
   README that says what it is. Public because Pages on a private repository is
   a paid-plan feature.
-- An ed25519 deploy key is installed on it **with write access**, which is the
-  whole of what the key is for — without it the push 403s.
-- Its private half is the `LSA_PAGES_DEPLOY_KEY` secret on this repository,
-  because `GITHUB_TOKEN` is scoped to this repository and cannot push to
-  another one. It was never printed and both halves are gone from the
-  container, so rotating the key is re-running the four commands in
-  `scripts/publish-lsa.sh`'s header rather than recovering anything.
+- An ed25519 deploy key is installed on it with write access, its private half
+  set as the `LSA_PAGES_DEPLOY_KEY` secret here. `scripts/publish-lsa.sh`'s
+  header carries what the key is for and how to rotate it — which is the only
+  way back, the private half having never been printed.
 
 ## Yours — three steps, and only three
 

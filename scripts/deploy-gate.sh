@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
-# Decides which sites a push publishes, from its commit subjects alone.
+# Decides which sites a push publishes, from its commit subjects alone. Which
+# subject publishes which site is CLAUDE.md § Deployment; this is where it runs.
 #
-# Only a feat: or fix: subject reaches production; every other prefix lands on
-# main without spending a deploy. The scope picks the site: `feat(lsa):`
-# publishes latestageagentic.com alone, `feat(vova):` vovazakharov.com alone,
-# and any other scope — or none — publishes both, a change to the shared src/
-# being both sites' change. A run that is not a push deploys both regardless,
-# which is what makes `workflow_dispatch` the way to ship a `chore:` that did
-# change a built site.
-#
-# Answering "what would this push deploy?" locally is the reason this is a
-# script rather than inline YAML:
+# Answering "what would this push deploy?" without pushing is why it is a script
+# rather than inline YAML:
 #
 #   git log --format=%s origin/main..HEAD | xargs -d '\n' scripts/deploy-gate.sh
 #
 # Subjects come from the arguments when there are any, and otherwise from
 # COMMITS — the push event's commits as JSON, which is how the workflow passes
-# them. GITHUB_OUTPUT and GITHUB_STEP_SUMMARY are written when set, so a local
-# run just prints its verdict.
+# them. Anything that is not a push deploys both sites, which is what makes
+# `workflow_dispatch` the way to ship a change no subject would publish.
+# GITHUB_OUTPUT and GITHUB_STEP_SUMMARY are written when set, so a local run
+# just prints its verdict.
 
 set -euo pipefail
 

@@ -2,9 +2,8 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'node:path';
 
-// Type-only, and so erased before anything resolves it: naming the union costs
-// nothing at load time, where importing the value would run `src/shared/config`
-// and hit its own check with the variable this file is on its way to setting.
+// Type-only on purpose — erased before resolution. Importing the value would
+// run `src/shared/config`'s own check, against the variable this file sets.
 import type { SiteId } from '@/shared/config';
 
 /**

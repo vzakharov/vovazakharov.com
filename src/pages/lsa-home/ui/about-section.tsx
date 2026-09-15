@@ -4,9 +4,9 @@ import { SITE_CONFIG } from '@/shared/config';
 import { Section } from '@/shared/ui';
 
 /**
- * The opening argument, which is also the channel's first post — the site and
- * the channel say this once, in their own language. `writing/late-stage-agentic/
- * drafts/p0-welcome.md` is where the Russian original is kept.
+ * The opening argument, which is also the channel's first post: the same thing
+ * said once in each language, so an edit here has a counterpart in
+ * `writing/late-stage-agentic/drafts/p0-welcome.md`.
  */
 export function AboutSection() {
   return (

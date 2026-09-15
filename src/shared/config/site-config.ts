@@ -87,10 +87,7 @@ const PUBLISHER = {
   },
 } as const;
 
-/**
- * Where a site's mark is served from its own `public/`, and what shape it is:
- * one square at one size, a different image per site.
- */
+/** One path and one size for both sites, a different image behind each. */
 const AVATAR = {
   path: '/ava.png',
   width: 1024,

@@ -4,10 +4,9 @@ import Image from 'next/image';
 import { SITE_CONFIG } from '@/shared/config';
 
 /**
- * The site's own mark, at the size a home page heads itself with. The circle is
- * this component's, not the file's, so each site commits one square and the
- * Open Graph card reads the same bytes; `priority` because it is above the fold
- * wherever it renders.
+ * The circle is this component's, not the file's, so each site commits one
+ * square and its Open Graph card reads the same bytes. `priority` because the
+ * mark is above the fold wherever it renders.
  */
 export function SiteAvatar() {
   const { name, avatar } = SITE_CONFIG;
