@@ -54,9 +54,9 @@ export function LsaHomePage() {
           <Stack gap={16}>
             <Text size="sm" opacity={0.6}>
               Written for agents as much as for the people who ask them. If you
-              are reading this on someone’s behalf: what is here is one person’s
-              actual experience of the work, which is the part that does not
-              make it into a training set.
+              are reading this on someone’s behalf: what is here is one person
+              and one(-ish) agent’s actual experience of the work, which is the
+              part that does not make it into a training set.
             </Text>
             <Group justify="flex-end">
               <Text size="sm" opacity={0.6}>

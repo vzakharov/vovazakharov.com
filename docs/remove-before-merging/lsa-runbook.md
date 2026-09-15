@@ -21,7 +21,10 @@ rather than writing it down for someone else:
 ## Yours — three steps, and only three
 
 Two at your registrar, because neither has an API this repository can reach,
-and the merge, which is yours either way.
+and the merge, which is yours either way. The receiving repository's own Pages
+settings are not among them: its **Source** dropdown is `gh`-settable and is
+the last section below, which waits because Pages cannot be aimed at a branch
+that does not exist yet.
 
 **1. Own the domain.** `latestageagentic.com` has to be registered to you
 somewhere. If it is not, nothing else works.

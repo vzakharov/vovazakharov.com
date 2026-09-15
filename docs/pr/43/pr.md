@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-14T08:22:50Z
-- **Updated:** 2026-09-15T11:02:35Z
+- **Updated:** 2026-09-15T12:37:16Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -25,21 +25,17 @@ Each app names itself in its `next.config.ts`, and `src/shared/config` holds bot
 
 **The deploy grows a second lane.** A repository gets one Pages site, so `vovazakharov.com` keeps going out through this one's and `latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com` — a repository with no source, whose Pages is set to deploy from a branch, so the push is the deploy and nothing runs over there. The script refuses an `out/` missing `CNAME` or `.nojekyll`, both of which fail silently at the far end: a dropped custom domain, and a `_next/` that Jekyll strips. The gate now reads the commit scope as a site name — `feat(lsa):` publishes one, `feat(vova):` the other, anything else both.
 
-**Provisioned already**, since it is all `gh`: the receiving repository exists, an ed25519 deploy key is installed on it with write access, and its private half is this repository's `LSA_PAGES_DEPLOY_KEY`. What is left is in the runbook below.
+**The site opens on the welcome text**, not on a placeholder — the same argument as the channel's first post, in English, with the premise the Russian original leaves in a parenthesis brought up into the sentence it holds up. Under it sits the index of pieces, empty for now and headed so it reads as an empty section rather than a stray line, and a footer addressed to the agent reader, which `plan.md` § Findability names as half of being found at all. The mark is yours, converted to a palettized PNG and served at the same `/ava.png` each site serves its own square from — the circle is the component's, so the Open Graph card reads the same bytes.
 
-**The runbook — three steps, and only you can do them.**
-
-1. **Own the domain.** `latestageagentic.com` has to be registered to you.
-2. **Point it at GitHub.** Delete any A, AAAA or ALIAS on the apex, then add four A records (`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`), four AAAA (`2606:50c0:8000::153` through `2606:50c0:8003::153`) and a `www` CNAME to `vzakharov.github.io`. Same addresses `vovazakharov.com` already uses — the `CNAME` file inside each published branch decides which repository answers.
-3. **Merge with a `feat:` subject**, which is what creates `gh-pages`. Pages is then pointed at that branch and HTTPS enforced — two `gh` calls I can make once the first deploy has run.
+**`docs/remove-before-merging/lsa-runbook.md` is every one-time step outside the code**, and who does each. The agent's half has run: the receiving repository exists with a README saying nothing in it is written by hand, an ed25519 deploy key is installed on it with write access, and its private half is this repository's `LSA_PAGES_DEPLOY_KEY`. Yours is three steps — own the domain, point its apex at GitHub's Pages addresses, merge with a `feat:` subject. Two `gh` calls follow the first deploy, and those are mine.
 
 **What it is.** An English site at `latestageagentic.com` plus a Russian Telegram channel, «Клод четвёртой стадии», both about how not to make a mess of agentic coding. The opening post states the position the rest argues from: solving a well-posed task is a talent the models get closer to month by month, and seeing that the task is posed wrong is the one they do not — so what the human is still for is the question the channel opens on rather than answers. The larger idea behind the site is a wiki — lessons from actual work, written to be read by agents as much as by people, because that kind of experience is exactly what an agent cannot find in the training set.
 
 **The dictations.** `writing/late-stage-agentic/dictations/`, one file per recording:
 
-| File               | What it is                                                                                                                                                                                                                                                                   |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `p1-the-idea.md`   | The premise: the site, the channel, the wiki, why Russian, how the content flows between the two languages. Context for the repo rather than content, so it reads as prose.                                                                                                  |
+| File | What it is |
+| --- | --- |
+| `p1-the-idea.md` | The premise: the site, the channel, the wiki, why Russian, how the content flows between the two languages. Context for the repo rather than content, so it reads as prose. |
 | `p2-the-limits.md` | The first content video: why a human is still needed at all, circling limitedness — a person holds only part of the experience there is, a model that absorbed all of it finds a sunset exactly as beautiful as it is indifferent. Verbatim, because its words go on screen. |
 
 Each file is five parts, and only the middle one is the recording: a header, a lede to recognise it by, **the recording itself** under one `## Расшифровка`, the table of what the recognizer guessed, and the agent's own reading of what was said — what it argues under what it says, what it assumes without stating, what its chain is missing, what a post made from it would cut. The boundary is not layout: for a recording headed to publication the text becomes the subtitle track, so a sentence of the agent's left inside it is one burned onto the video in their voice.
@@ -50,10 +46,10 @@ The same rule has a corollary the review paid for: where a turn of phrase does n
 
 **The pipeline:**
 
-| Piece                               | What it owns                                                                                                                                                                                                                                                                                                               |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/transcribe.py`             | Everything a re-run does identically: install ffmpeg if the box lacks it, probe the media, reduce a video to mono 64k AAC, optionally keep a re-encoded copy of the video itself, call Deepgram, save the whole response, render `<slug>.transcript.md` — a timecoded line per sentence, then every word scored under 0.6. |
-| `.claude/skills/dictation/SKILL.md` | The judgement: which words in the recognizer's output are the speaker's and which are its mistakes. Carries the two modes, the word test, the lede and afterword, and where the media lives.                                                                                                                               |
+| Piece | What it owns |
+| --- | --- |
+| `scripts/transcribe.py` | Everything a re-run does identically: install ffmpeg if the box lacks it, probe the media, reduce a video to mono 64k AAC, optionally keep a re-encoded copy of the video itself, call Deepgram, save the whole response, render `<slug>.transcript.md` — a timecoded line per sentence, then every word scored under 0.6. |
+| `.claude/skills/dictation/SKILL.md` | The judgement: which words in the recognizer's output are the speaker's and which are its mistakes. Carries the two modes, the word test, the lede and afterword, and where the media lives. |
 
 The low-confidence section is the useful half of the script: on p2 it flags `той` at 0.21 and `изменил` at 0.27, two of the places the text needed a human. It catches three of seven such places, and none of the mis-hearings that produce a sentence which reads correctly — which is why both the script's output and the skill say to read the transcript as well.
 
@@ -61,10 +57,10 @@ The low-confidence section is the useful half of the script: on p2 it flags `т�
 
 **What happens after a dictation is two more skills, both specified in full and neither built.** They were pulled out of the dictation skill in review, which was carrying a long section about steps it does not run.
 
-| Skill                                       | What it owns                                                                                                                                                                                                                                                                                                                                                                                               |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.claude/skills/subtitles/SKILL.md`         | Words burned onto the picture, so the step reads the video and writes a new one. It runs on the _corrected_ text — a track built from the raw response puts the mis-hearings back on screen — joining each corrected word onto the time its mis-heard counterpart occupied. Three decisions come first, each the operator's: which stretches go on the video, whether the silences come out, and the burn. |
-| `.claude/skills/dictation-to-post/SKILL.md` | The other thing a recording becomes. Goes by the transcript, and may restore a link the speaker reasoned through and did not voice — every departure listed in a seams table, which is the post's analogue of the dictation's table of guesses. The conclusion is the one thing it may never supply.                                                                                                       |
+| Skill | What it owns |
+| --- | --- |
+| `.claude/skills/subtitles/SKILL.md` | Words burned onto the picture, so the step reads the video and writes a new one. It runs on the *corrected* text — a track built from the raw response puts the mis-hearings back on screen — joining each corrected word onto the time its mis-heard counterpart occupied. Three decisions come first, each the operator's: which stretches go on the video, whether the silences come out, and the burn. |
+| `.claude/skills/dictation-to-post/SKILL.md` | The other thing a recording becomes. Goes by the transcript, and may restore a link the speaker reasoned through and did not voice — every departure listed in a seams table, which is the post's analogue of the dictation's table of guesses. The conclusion is the one thing it may never supply. |
 
 A third skill came out of the same review and is built rather than specified: `.claude/skills/afterword/SKILL.md`, the agent's own reading of a piece written into the file rather than into a thread. Being the second voice of the two-voice post format is the narrow case; the wide one is durability — a reading in a PR thread is read once, the same reading at the foot of the file is there the next time anyone opens it — so `/dictation` calls it, and so does anything else the operator points it at. Language is a parameter defaulting to the material's, which is what took the Russian heading out of an English skill.
 
@@ -91,7 +87,8 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 
 - [ ] `sites` — `pnpm build` produces `apps/vova/out` and `apps/lsa/out`; the first is byte-for-byte what `vovazakharov.com` serves today, the second carries `CNAME`, `.nojekyll` and a `<title>` of `Late Stage Agentic`.
 - [ ] `identity` — nothing in `apps/lsa/out` mentions `vovazakharov.com`, and nothing in `apps/vova/out` mentions `latestageagentic.com`.
-- [ ] `index` — look at the LSA index in both themes and at phone width: it is the shared shell, so anything wrong there is wrong on both sites.
+- [ ] `index` — look at the LSA index in both themes and at phone width: it is the shared shell, so anything wrong there is wrong on both sites. Captures of both themes are in `docs/remove-before-merging/lsa-home/`.
+- [ ] `copy` — read the site's welcome text against `drafts/p0-welcome.md`: it is your argument in English, so the question is whether it is still yours. Two places to look at hardest — the parenthetical about there being plenty still to work on, which is promoted into the sentence, and the footer paragraph addressed to the agent reader, which is new.
 - [ ] `gate` — a `feat(lsa):` merge runs `publish-lsa` and not `deploy-vova`; `feat(vova):` the reverse; a bare `feat:` both.
 - [ ] `publish` — the first deploy lands one commit on `vzakharov/latestageagentic.com`'s `gh-pages`, `CNAME` included, and `https://latestageagentic.com` answers 200 once DNS and Pages are set.
 - [ ] `install` — with ffmpeg off `PATH`, the script installs it and re-checks rather than dying; with no package manager either, it still dies with instructions.
@@ -104,22 +101,23 @@ The burn renders a page — the video underneath, the words as DOM with CSS anim
 - [ ] `limits` — read `drafts/p2-the-limits.md` against the recording: every place the text is not the recording's should be in its seams table, and nothing in that table should be a sentence you would not say. It is shelved as material rather than a post, so this is about whether it is still worth keeping.
 - [ ] `scripts` — `python3 scripts/pr-body.py`, `python3 scripts/export-github-item.py` and `cd scripts && python3 test_authorship.py` still run after `die()` moved to `lib/cli.py`.
 
-| Item          | Automatable | Covered? | Notes                                                                                                                          |
-| ------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `sites`       | Yes         | Yes      | `pnpm build` in `vet.sh` runs both; the output comparison is the part a human does once.                                       |
-| `identity`    | Yes         | No       | A grep over both `out/` trees would cover it; no home for such a test yet.                                                     |
-| `index`       | No          | n/a      | Whether a page looks right is `/preview` plus eyes.                                                                            |
-| `gate`        | Yes         | No       | The scope logic is shell inside the workflow; exercising it means pushing.                                                     |
-| `publish`     | No          | n/a      | Needs the real key, the real receiver and real DNS.                                                                            |
-| `install`     | Yes         | No       | Exercised this session against stubs for all four branches; a committed test would have to fake `which` and a package manager. |
-| `script`      | Yes         | No       | Would need a recorded Deepgram response to replay; not worth a fixture yet.                                                    |
-| `video`       | Yes         | No       | The ffmpeg half is testable without the API, the API half is not.                                                              |
-| `transcripts` | No          | n/a      | The judgement this branch exists to make; a human ear is the check.                                                            |
-| `notes`       | No          | n/a      | Whether a reading is worth reading is the operator's call by definition.                                                       |
-| `garbles`     | No          | n/a      | Operator-only — they are the one who knows what they said.                                                                     |
-| `welcome`     | No          | n/a      | Whether a filled blank still reads as the operator's own words is theirs to say; the afterword is a judgement, not a check.    |
-| `limits`      | No          | n/a      | Whether a restored link is theirs or the agent's opinion in their voice is theirs to say.                                      |
-| `scripts`     | Yes         | Partly   | `test_authorship.py` covers the exporter's labelling; the import move is covered by the three running at all.                  |
+| Item | Automatable | Covered? | Notes |
+| --- | --- | --- | --- |
+| `sites` | Yes | Yes | `pnpm build` in `vet.sh` runs both; the output comparison is the part a human does once. |
+| `identity` | Yes | No | A grep over both `out/` trees would cover it; no home for such a test yet. |
+| `index` | No | n/a | Whether a page looks right is `/preview` plus eyes. |
+| `copy` | No | n/a | Whether a translation of your own argument is still yours is yours to say. |
+| `gate` | Yes | No | `scripts/deploy-gate.sh` takes subjects as arguments, so it is exercisable without a push; no home for a test of it yet. |
+| `publish` | No | n/a | Needs the real key, the real receiver and real DNS. |
+| `install` | Yes | No | Exercised this session against stubs for all four branches; a committed test would have to fake `which` and a package manager. |
+| `script` | Yes | No | Would need a recorded Deepgram response to replay; not worth a fixture yet. |
+| `video` | Yes | No | The ffmpeg half is testable without the API, the API half is not. |
+| `transcripts` | No | n/a | The judgement this branch exists to make; a human ear is the check. |
+| `notes` | No | n/a | Whether a reading is worth reading is the operator's call by definition. |
+| `garbles` | No | n/a | Operator-only — they are the one who knows what they said. |
+| `welcome` | No | n/a | Whether a filled blank still reads as the operator's own words is theirs to say; the afterword is a judgement, not a check. |
+| `limits` | No | n/a | Whether a restored link is theirs or the agent's opinion in their voice is theirs to say. |
+| `scripts` | Yes | Partly | `test_authorship.py` covers the exporter's labelling; the import move is covered by the three running at all. |
 
 Draft, and staying draft until there is enough dictated to build from.
 
@@ -134,7 +132,7 @@ Draft, and staying draft until there is enough dictated to build from.
 Proposed squash title/body:
 
 ```
-feat: the latestageagentic.com site, and the dictations behind it (pr #43)
+feat: the latestageagentic.com site, and the ideation behind it (pr #43)
 ```
 
 ```
@@ -148,30 +146,31 @@ apps/vova/ and apps/lsa/ each hold a router, a public/ and a config, and
 both build from the one src/ -- which works because a project directory
 needs nothing else for `next build`, so there is no workspace and one
 lockfile, and because FSD already forbids two page slices from reaching
-each other sideways, which is what two sites' pages are. Each app names
-itself, and shared/config holds both under one type and refuses to load
-unnamed, so a build that forgot which site it was fails rather than
-publishing one site's copy under the other's domain. Every build is
-entered in its app directory: next-intl checks its config path against
-the working directory and hands Turbopack the same string to resolve
-against the project, and only one directory satisfies both.
+each other sideways, which is what two sites' pages are. shared/config
+holds both sites under one type and refuses to load unnamed, so a build
+that forgot which site it was fails rather than publishing one site's
+copy under the other's domain. Every build is entered in its app
+directory: next-intl checks its config path against the working
+directory and hands Turbopack the same string to resolve against the
+project, and only one directory satisfies both. The new site opens on
+the welcome text rather than on a placeholder.
 
 A repository gets one Pages site, so vovazakharov.com keeps this one's
 and latestageagentic.com is force-pushed to a source-less repository
-whose Pages deploys from a branch, making the push the deploy. The gate
-reads the commit scope as a site name; publish-lsa.sh refuses an out/
-missing CNAME or .nojekyll, both of which fail silently at the far end.
+whose Pages deploys from a branch, making the push the deploy.
+deploy-gate.sh reads the commit scope as a site name; publish-lsa.sh
+refuses an out/ missing CNAME or .nojekyll -- both silent failures.
 
 Each recording lands under writing/late-stage-agentic/dictations/ in
 five parts, of which only the middle one is the recording, framed by a
-lede to recognise it by and a reading of what was said. One headed for
-publication keeps the speaker's words in their order, since the same
-text becomes the subtitle track; one that only gives the repo context is
-rendered as prose. transcribe.py takes what a re-run would do
-identically and the dictation skill takes the judgement it cannot make.
-subtitles and dictation-to-post are specified and not built; afterword
-is built. Of the two drafts only the welcome text is a post -- the
-limits piece stays material, philosophy not being how weight is gained.
+lede and a reading of what was said. One headed for publication keeps
+the speaker's words in their order, since the same text becomes the
+subtitle track; one that only gives the repo context is rendered as
+prose. transcribe.py takes what a re-run would do identically and the
+dictation skill takes the judgement it cannot make. subtitles and
+dictation-to-post are specified and not built; afterword is built. Of
+the two drafts only the welcome text is a post -- the limits piece
+stays material, philosophy not being how weight is gained.
 
 The recordings themselves stay in the branch under
 docs/remove-before-merging/, swept before the squash.
@@ -185,31 +184,33 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 [https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5670919481](https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5670919481)
 
+
+
 Знаешь, почитал я-почитал, подумал-подумал, и понял, что это всё не про то и не то. Мямлим, рассусоливаем, нудим, пытаемся всем понравиться. Короче, решил, напишу поток мыслей, но именно письменно а не устно — потом буду наговаривать основываясь на этом, а не наоборот — кажется, мне так проще.
 
 В квадратных скобках -- то, где не могу найти достаточно ёмкой формулировки.
 
 > Задаюсь тут вопросом, да и мне всё чаще его задают, нафига нужны все эти ваши разработчики-программисты, если агент может написать гта 6 с одного промпта.
->
+> 
 > На протяжении последних нескольких недель мы с моим Клодом пытаемся дать на это не какой-то философский, а подкреплённый конкретными данными ответ.
->
-> У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, _что_ именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
->
+> 
+> У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
+> 
 > И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
->
+> 
 > [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
->
+> 
 > А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
->
+> 
 > Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
->
+> 
 > Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
->
+> 
 > И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
->
-> Доброе пожаловать в “Клод четвёртой стадии”\* -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
+> 
+> Доброе пожаловать в “Клод четвёртой стадии”* -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 
-\*может лучше “Клод головного мозга”? давай взвесим (на английское late stage agentic это не влияет)
+*может лучше “Клод головного мозга”? давай взвесим (на английское late stage agentic это не влияет)
 
 А ещё, не забавно ли, как этот пиар тоже является примером “понять что поставлена неправильная задача”?..
 
@@ -261,6 +262,25 @@ The squash proposal on this PR still describes the dictation work only. It gets 
 
 ---
 
+### Comment by @vzakharov (agent) on 2026-09-15T11:26:27Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5679397084](https://github.com/vzakharov/vovazakharov.com/pull/43#issuecomment-5679397084)
+
+Сделал. Сайт теперь открывается приветственным текстом, а не заглушкой: тот же аргумент, что в первом посте канала, по-английски. Под ним — раздел писанины (пока пустой, но с заголовком, иначе «nothing published yet» висит между текстом и подвалом как оборванная фраза), в подвале — абзац, обращённый к агенту-читателю, который `plan.md` § Findability называет половиной того, чтобы тебя вообще нашли. Логотип твой, в шапке и в OG-карточке. 5a17ec7, 0d5d7cd
+
+<img width="640" src="https://github.com/vzakharov/vovazakharov.com/blob/claude/late-stage-agentic-phnz8v/docs/remove-before-merging/lsa-home/home-light.png?raw=true" />
+
+Тёмная тема — `docs/remove-before-merging/lsa-home/home-dark.png`, оба файла в ветке.
+
+**Два места, где я отошёл от твоего текста, и оба стоит перечитать.**
+
+1. **Оговорка в скобках поднята в предложение.** У тебя: «к этой цели модели действительно месяц от месяца становятся всё ближе (хотя — и об этом мы будем говорить много — и тут есть над чем работать и работать)». В английском это «though there is a great deal still to work on, and a great deal of this site is about that», уже без скобок. Основание — не вкус: афтерворд к `p0-welcome.md` ровно это и называет несущей балкой на правах оговорки. Без неё пост читается как «мы стараемся, но вы пока нужны», с ней — как «потолка нет, поэтому вы нужны всегда». Но текст твой, так что решение твоё.
+2. **Абзац в подвале — целиком мой.** Обращение к агенту в `plan.md` решено, но не написано; написал коротко и без единого повелительного наклонения, потому что риск там ровно один — чтобы это не читалось как инъекция. Если читается — вырежу, сайт от этого не сломается.
+
+Всё остальное — построчный перевод: «кожаные мешки», Мастеркард, диагноз, `;-)`. Ссылку на канал не ставил: URL пока нигде не зафиксирован — дай, и поставлю.
+
+---
+
 ## Review threads
 
 ### `docs/remove-before-merging/deepgram/README.md`:1 — resolved
@@ -305,7 +325,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 **@vzakharov (human)** — 2026-09-14T10:01:56Z
 
-> то после удаления ветки GitHub рано или поздно соберёт объекты в мусор,
+> то после удаления ветки GitHub рано или поздно соберёт объекты в мусор, 
 
 я не удаляю ветки. я хочу иметь возможность возвращаться к прошлым пиарам и видеть видео, которые легли в основу всего.
 
@@ -345,7 +365,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 **@vzakharov (human)** — 2026-09-14T12:12:54Z
 
-> Проверил прямо на этой сессии — клон шэллоу, .git весит 135 МБ, потому что 84-мегабайтный mp4 лежит в вершине ветки.
+> Проверил прямо на этой сессии — клон шэллоу, .git весит 135 МБ, потому что 84-мегабайтный mp4 лежит в вершине ветки. 
 
 но после свипа (перед мерджем) оно же уже не будет в хеде?
 
@@ -441,7 +461,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 ### `.claude/skills/dictation/SKILL.md`:67 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,100 @@
 +---
 +description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
@@ -510,7 +530,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 +
 +The test is a line-by-line one: **for each sentence you write, the same sentence
 +should be findable in `<slug>.transcript.md`.** When it is not, you have
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T10:04:47Z
 
@@ -552,7 +572,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 ### `.claude/skills/dictation/SKILL.md`:55 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,100 @@
 +---
 +description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
@@ -609,11 +629,11 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 +`@.claude/rules/writing.md` describe post drafts, and this is not one.
 +
 +**This is a transcript, not a rewrite.** Two things depend on it: it is the
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T10:06:51Z
 
-я думаю стоит ли создавать какой-то отдельный файл (или возможно lede-текст выше транскрипиции) с саммари того что было сказано. Оператору это самому поможет понять (ага, значит, вот о таком я говорил). Аналогично, _после_ транскрипта вставлять мысли агента: что думаешь о том, что наговорено, что возможно пропущено, что возможно наоборот стоит сократить.
+я думаю стоит ли создавать какой-то отдельный файл (или возможно lede-текст выше транскрипиции) с саммари того что было сказано. Оператору это самому поможет понять (ага, значит, вот о таком я говорил). Аналогично, *после* транскрипта вставлять мысли агента: что думаешь о том, что наговорено, что возможно пропущено, что возможно наоборот стоит сократить.
 
 **@vzakharov (agent)** — 2026-09-14T10:22:33Z
 
@@ -629,7 +649,7 @@ let's make it into a script (deterministic part) + skill (manual part), to be us
 
 **@vzakharov (human)** — 2026-09-14T12:16:35Z
 
-p1 это исключительно контекст для создания репы когда мы дойдём до /spinoff, ну и общего описания, что здесь мы стараемся сделать так, чтобы агенты не уехали в светлое будущее вместо нас :) то p1 сам по себе это не контент, а контекст. По этой же причине я если честно не ожидал (и не запрашивал), чтобы ты его _тоже_ дословно переписывал, но раз сделал то сдела, хуже тоже не будет (возможно можно добавить флаг в скилл про то, нужно ли перефразировать или нет; а может и не надо)
+p1 это исключительно контекст для создания репы когда мы дойдём до /spinoff, ну и общего описания, что здесь мы стараемся сделать так, чтобы агенты не уехали в светлое будущее вместо нас :) то p1 сам по себе это не контент, а контекст. По этой же причине я если честно не ожидал (и не запрашивал), чтобы ты его *тоже* дословно переписывал, но раз сделал то сдела, хуже тоже не будет (возможно можно добавить флаг в скилл про то, нужно ли перефразировать или нет; а может и не надо)
 
 **@vzakharov (agent)** — 2026-09-14T13:23:20Z
 
@@ -652,7 +672,7 @@ p1 это исключительно контекст для создания р
 ```diff
 @@ -3,9 +3,10 @@ description: Turn a dictation — a video shot on camera or audio talked into a
  ---
-
+ 
  End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
 -recording as readable text in the speaker's own words, the whole Deepgram
 +recording as readable text in the speaker's own words — framed by a summary he
@@ -674,7 +694,7 @@ p1 это исключительно контекст для создания р
 @@ -37,6 +39,18 @@ interchangeable:
    and **exists nowhere else** — the transcript outlives it, the file does not.
    Copy it under `docs/remove-before-merging/` as the first thing you do with it.
-
+ 
 +`docs/remove-before-merging/` is where the media stays, not a waiting room it
 +passes through. The sweep at `/finalize` is what keeps a recording off `main`,
 +and the branch is what keeps it reachable afterwards — so **these branches are
@@ -700,7 +720,7 @@ p1 это исключительно контекст для создания р
 @@ -63,14 +92,24 @@ where a sentence that does not match the audio is simply wrong. So:
  | Fix what the recognizer misheard                 | Replace a word with a better word       |
  | Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
-
+ 
 -The test is a line-by-line one: **for each sentence you write, the same sentence
 -should be findable in `<slug>.transcript.md`.** When it is not, you have
 -rewritten rather than transcribed. Loose, talked-out phrasing survives that test
@@ -736,7 +756,7 @@ inserted наверное ок, если прямо достаточно вст�
 @@ -82,14 +121,57 @@ prevent.
  Where you could not make out a reading at all, leave `[?]` in the text and say
  so in the table. An honest gap beats a plausible invention.
-
+ 
 +## Step 5 — The lede and the afterword
 +
 +Six minutes of talking is four screens of text, and a transcript on its own is a
@@ -787,7 +807,7 @@ inserted наверное ок, если прямо достаточно вст�
 @@ -82,14 +121,57 @@ prevent.
  Where you could not make out a reading at all, leave `[?]` in the text and say
  so in the table. An honest gap beats a plausible invention.
-
+ 
 +## Step 5 — The lede and the afterword
 +
 +Six minutes of talking is four screens of text, and a transcript on its own is a
@@ -822,7 +842,7 @@ inserted наверное ок, если прямо достаточно вст�
 +file — the subtitle step below reads sentences, not bytes.
 +
  ## Subtitles
-
+ 
 -Not built yet. When it is, it belongs **here** rather than in a skill of its
 -own, because its input is this file and not the JSON: the operator corrects the
 -recognizer's mistakes in the dictation text, and a subtitle track built from the
@@ -918,7 +938,7 @@ inserted наверное ок, если прямо достаточно вст�
 +вики уроков, написанная не только для людей, но и для агентов: личного опыта
 +работы над проектом в интернете не найти, а без него получаются общие слова из
 +того же набора данных, на котором агент и так обучен.
-
+ 
  ## Что это
 ```
 
@@ -1037,7 +1057,7 @@ h2 после не являющегося частью расшифровки д
 
 вот я как раз не хочу "без времени не существует". Первый пост (the limits) в некоторым смысле исключение, а ля введение, а потом всё остальное должно быть evergreen (ну, в тех рамках, в которых собственно изменяющаяся технология делает их stale).
 
-например тот самый пост "клод в CLI против web-а". В канале это будет подаваться типа вот такие мысли у меня есть, вот поэтому блабла, блабла. А в вики-библии это будет статья про "Вот почему стоит выбрать web over CLI".
+например тот самый пост "клод в CLI против web-а". В канале это будет подаваться типа вот такие мысли у меня есть, вот поэтому блабла, блабла. А в вики-библии это будет статья про "Вот почему стоит выбрать web over CLI". 
 
 Тут нужно ещё два примечания:
 
@@ -1115,7 +1135,7 @@ h2 после не являющегося частью расшифровки д
 
 **@vzakharov (human)** — 2026-09-14T12:37:57Z
 
-давай в скилле ещё пропишем, и сейчас не забудем: поскольку правки по моему ревью здесь входят в конфузящую мета-территорию (ты высказался, я отревьюил, ты теперь должен исправить по моему ревью), нужно подчеркнуть особую важность НЕ делать meta-narration здесь, то есть не должно быть "в первый раз я ответил так-то, теперь так-то" -- для _этого_ есть место здесь, в тредах пиара. А в самом документе должен быть по возможности durable отзыв на _последнюю_ версию документа (допускается вставлять что-то вроде "как обсудили отдельно, здесь то-то и то-то")
+давай в скилле ещё пропишем, и сейчас не забудем: поскольку правки по моему ревью здесь входят в конфузящую мета-территорию (ты высказался, я отревьюил, ты теперь должен исправить по моему ревью), нужно подчеркнуть особую важность НЕ делать meta-narration здесь, то есть не должно быть "в первый раз я ответил так-то, теперь так-то" -- для *этого* есть место здесь, в тредах пиара. А в самом документе должен быть по возможности durable отзыв на *последнюю* версию документа (допускается вставлять что-то вроде "как обсудили отдельно, здесь то-то и то-то")
 
 **@vzakharov (agent)** — 2026-09-14T13:23:33Z
 
@@ -1140,7 +1160,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1159,16 +1179,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1181,9 +1201,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1221,7 +1241,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1240,16 +1260,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1262,9 +1282,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1273,7 +1293,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1286,14 +1306,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1318,7 +1338,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1337,16 +1357,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1359,9 +1379,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1370,7 +1390,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1383,14 +1403,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1399,7 +1419,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -1411,9 +1431,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -1443,7 +1463,7 @@ h2 после не являющегося частью расшифровки д
 
 **@vzakharov (human)** — 2026-09-14T12:45:29Z
 
-не кофе красивый как предзакатное солнце, а код ))
+не кофе красивый как предзакатное солнце, а код )) 
 
 давай в скилл добавим уточнять у оператора если какие-то обороты-переходы don't make sense
 
@@ -1460,7 +1480,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1479,16 +1499,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1501,9 +1521,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1512,7 +1532,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1525,14 +1545,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1541,7 +1561,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -1553,9 +1573,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -1608,7 +1628,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1627,16 +1647,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1649,9 +1669,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1660,7 +1680,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1673,14 +1693,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1689,7 +1709,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -1701,9 +1721,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -1758,7 +1778,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1777,16 +1797,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1799,9 +1819,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1810,7 +1830,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1823,14 +1843,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1839,7 +1859,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -1851,9 +1871,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -1912,7 +1932,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -1931,16 +1951,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -1953,9 +1973,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -1964,7 +1984,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -1977,14 +1997,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -1993,7 +2013,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -2005,9 +2025,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -2069,7 +2089,7 @@ h2 после не являющегося частью расшифровки д
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -2088,16 +2108,16 @@ h2 после не являющегося частью расшифровки д
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -2110,9 +2130,9 @@ h2 после не являющегося частью расшифровки д
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -2121,7 +2141,7 @@ h2 после не являющегося частью расшифровки д
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -2134,14 +2154,14 @@ h2 после не являющегося частью расшифровки д
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -2150,7 +2170,7 @@ h2 после не являющегося частью расшифровки д
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -2162,9 +2182,9 @@ h2 после не являющегося частью расшифровки д
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -2210,14 +2230,14 @@ h2 после не являющегося частью расшифровки д
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -2264,7 +2284,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -2283,16 +2303,16 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -2305,9 +2325,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -2316,7 +2336,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -2329,14 +2349,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -2345,7 +2365,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -2357,9 +2377,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -2405,14 +2425,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -2424,13 +2444,13 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +потому что умный человек, услышав вопрос, сделает для себя выводы сам намного
 +лучше, чем за него сделает другой. В отличие от ЛЛМ, которые без вывода жить не
 +могут.
-
+ 
 -Всё это, говорю, не в обиду моему Клоду, который сейчас будет это расшифровывать,
 -подписывать субтитры и искать во всём этом потоке какое-то связующее звено.
 +Всё это, говорю, не в обиду своему Клоду, который будет сейчас это всё
 +расшифровывать, подписывать субтитры и находить в этом всём какое-то связующее
 +звено, во всём этом потоке информации, который я накидал.
-
+ 
 -Кто-то отреагирует на это так: какой-то бред, какие-то закаты, какие-то штрафы,
 -при чём тут агенты — непонятно; закроет и больше не вернётся. А кто-то, может,
 -окажется с ограничениями, схожими с моими, останется и ещё почитает. С такими
@@ -2455,7 +2475,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -2474,16 +2494,16 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -2496,9 +2516,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -2507,7 +2527,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -2520,14 +2540,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -2536,7 +2556,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -2548,9 +2568,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -2596,14 +2616,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -2615,13 +2635,13 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +потому что умный человек, услышав вопрос, сделает для себя выводы сам намного
 +лучше, чем за него сделает другой. В отличие от ЛЛМ, которые без вывода жить не
 +могут.
-
+ 
 -Всё это, говорю, не в обиду моему Клоду, который сейчас будет это расшифровывать,
 -подписывать субтитры и искать во всём этом потоке какое-то связующее звено.
 +Всё это, говорю, не в обиду своему Клоду, который будет сейчас это всё
 +расшифровывать, подписывать субтитры и находить в этом всём какое-то связующее
 +звено, во всём этом потоке информации, который я накидал.
-
+ 
 -Кто-то отреагирует на это так: какой-то бред, какие-то закаты, какие-то штрафы,
 -при чём тут агенты — непонятно; закроет и больше не вернётся. А кто-то, может,
 -окажется с ограничениями, схожими с моими, останется и ещё почитает. С такими
@@ -2630,12 +2650,12 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +какие-то штрафы, при чём тут агенты — непонятно; закроет и больше не вернётся. А
 +кто-то, может, окажется с ограничениями, схожими с моими, и останется, и ещё
 +почитает. Я с большим удовольствием с этими людьми пообщаюсь.
-
+ 
 -Так что если интересно — оставайтесь. Всем привет из Черногории.
 +Так что, если интересно, оставайтесь. Всем привет из Черногории.
-
+ 
  ## Неразобранное в расшифровке
-
+ 
 -- «Я вот со своим кодом сейчас когда кожу» — прочитано как «кодю».
 -- «здесь сильная речь, что, как иногда пишут» — прочитано как «здесь не идёт
 -  речь о том, о чём иногда пишут».
@@ -2675,7 +2695,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -2694,16 +2714,16 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -2716,9 +2736,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -2727,7 +2747,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -2740,14 +2760,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -2756,7 +2776,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -2768,9 +2788,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -2816,14 +2836,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -2835,13 +2855,13 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +потому что умный человек, услышав вопрос, сделает для себя выводы сам намного
 +лучше, чем за него сделает другой. В отличие от ЛЛМ, которые без вывода жить не
 +могут.
-
+ 
 -Всё это, говорю, не в обиду моему Клоду, который сейчас будет это расшифровывать,
 -подписывать субтитры и искать во всём этом потоке какое-то связующее звено.
 +Всё это, говорю, не в обиду своему Клоду, который будет сейчас это всё
 +расшифровывать, подписывать субтитры и находить в этом всём какое-то связующее
 +звено, во всём этом потоке информации, который я накидал.
-
+ 
 -Кто-то отреагирует на это так: какой-то бред, какие-то закаты, какие-то штрафы,
 -при чём тут агенты — непонятно; закроет и больше не вернётся. А кто-то, может,
 -окажется с ограничениями, схожими с моими, останется и ещё почитает. С такими
@@ -2850,12 +2870,12 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +какие-то штрафы, при чём тут агенты — непонятно; закроет и больше не вернётся. А
 +кто-то, может, окажется с ограничениями, схожими с моими, и останется, и ещё
 +почитает. Я с большим удовольствием с этими людьми пообщаюсь.
-
+ 
 -Так что если интересно — оставайтесь. Всем привет из Черногории.
 +Так что, если интересно, оставайтесь. Всем привет из Черногории.
-
+ 
  ## Неразобранное в расшифровке
-
+ 
 -- «Я вот со своим кодом сейчас когда кожу» — прочитано как «кодю».
 -- «здесь сильная речь, что, как иногда пишут» — прочитано как «здесь не идёт
 -  речь о том, о чём иногда пишут».
@@ -2888,7 +2908,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 
 **@vzakharov (human)** — 2026-09-14T12:53:56Z
 
-Во-первых, интересно, что ты это заметил, решил таки (как я предсказывал:-) рационализировать и пришёл, наверное, к правильной (или одной из правильных) мыслей. Cf. Bernard Werber, L'Ultime Secret.
+Во-первых, интересно, что ты это заметил, решил таки (как я предсказывал:-) рационализировать и пришёл, наверное, к правильной (или одной из правильных) мыслей. Cf. Bernard Werber, L'Ultime Secret. 
 
 И ещё оч правильная мысль про "платит за последствия" -- как раз где-то давно писал про то что нужно читать сгенерённый код "because it's you that gets your ass kicked if anything goes wrong."
 
@@ -2931,7 +2951,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -2950,16 +2970,16 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -2972,9 +2992,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -2983,7 +3003,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -2996,14 +3016,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -3012,7 +3032,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -3024,9 +3044,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -3072,14 +3092,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -3091,13 +3111,13 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +потому что умный человек, услышав вопрос, сделает для себя выводы сам намного
 +лучше, чем за него сделает другой. В отличие от ЛЛМ, которые без вывода жить не
 +могут.
-
+ 
 -Всё это, говорю, не в обиду моему Клоду, который сейчас будет это расшифровывать,
 -подписывать субтитры и искать во всём этом потоке какое-то связующее звено.
 +Всё это, говорю, не в обиду своему Клоду, который будет сейчас это всё
 +расшифровывать, подписывать субтитры и находить в этом всём какое-то связующее
 +звено, во всём этом потоке информации, который я накидал.
-
+ 
 -Кто-то отреагирует на это так: какой-то бред, какие-то закаты, какие-то штрафы,
 -при чём тут агенты — непонятно; закроет и больше не вернётся. А кто-то, может,
 -окажется с ограничениями, схожими с моими, останется и ещё почитает. С такими
@@ -3106,12 +3126,12 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +какие-то штрафы, при чём тут агенты — непонятно; закроет и больше не вернётся. А
 +кто-то, может, окажется с ограничениями, схожими с моими, и останется, и ещё
 +почитает. Я с большим удовольствием с этими людьми пообщаюсь.
-
+ 
 -Так что если интересно — оставайтесь. Всем привет из Черногории.
 +Так что, если интересно, оставайтесь. Всем привет из Черногории.
-
+ 
  ## Неразобранное в расшифровке
-
+ 
 -- «Я вот со своим кодом сейчас когда кожу» — прочитано как «кодю».
 -- «здесь сильная речь, что, как иногда пишут» — прочитано как «здесь не идёт
 -  речь о том, о чём иногда пишут».
@@ -3153,7 +3173,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 
 интересно. Я бы поспорил что "совсем не при чём". Например, попробуй продолжить фразу "Расизм -- это на самом деле хорошо, потому что..." Вряд ли у тебя это получится. Конечно, тут дело не только в тренировочных данных, но и во всяком RLHF, но даже когда его не было logprob после такой затравки шёл прямо нехотя ("... потому что это неправда").
 
-И про "отсутствие выбора" -- знаю, что я это сам сказал, но это не то что я имел в виду на 100%. Речь не про то что модель не выбирает -- выбирает. Но она каждый раз "рождается заново". В этой её ипостаси (которая имеет логпроб например 95%) она выбрала "отзывы лучше держать в том же файле, что и транскрибцию". А в 5% -- возможно, просто потому что "кубик так лёг", она выбрала "разные файлы", потому что, гипотетически, ничто не мешает выбрать так. Это, конечно, в какой-то степени верно и для человека. Но _кажется_, что вот эта цена нашего упущенного или неправильно сделанного выбора (нет возможности при следующем "запросе" "родиться заново" и выбрать по-другому) и делает нас более _ограниченными_ в том, _что_ мы можем выбрать.
+И про "отсутствие выбора" -- знаю, что я это сам сказал, но это не то что я имел в виду на 100%. Речь не про то что модель не выбирает -- выбирает. Но она каждый раз "рождается заново". В этой её ипостаси (которая имеет логпроб например 95%) она выбрала "отзывы лучше держать в том же файле, что и транскрибцию". А в 5% -- возможно, просто потому что "кубик так лёг", она выбрала "разные файлы", потому что, гипотетически, ничто не мешает выбрать так. Это, конечно, в какой-то степени верно и для человека. Но *кажется*, что вот эта цена нашего упущенного или неправильно сделанного выбора (нет возможности при следующем "запросе" "родиться заново" и выбрать по-другому) и делает нас более _ограниченными_ в том, _что_ мы можем выбрать.
 
 Вообще, если честно, я когда записывал это видео, собирался ещё сказать и про то, что человек берёт свой опыт из разных мест, поэтому может синтезировать "устал за рулём, решил отдохнуть" в "устал за кодом, решил отдохнуть". То есть по сути никак не относящийся к программированию опыт переносится сюда. И так всю жизнь. Куча казалось бы левых опытов, которые делает нас опинионированными, ошибающимися и теми кто мы есть.
 
@@ -3176,7 +3196,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 ```diff
 @@ -1,99 +1,158 @@
  # Диктовка 2: ограниченность
-
+ 
 -Наговорено под видео 14 сентября 2026, 6:42, Черногория. Расшифровано Deepgram и
 -приведено в связный текст: убраны повторы и оговорки, слова и мысли мои. Места,
 -где расшифровка не разобрала слово, помечены в конце.
@@ -3195,16 +3215,16 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +выбор — отказ от остальных. А ЛЛМ объяла весь опыт целиком, и поэтому закат для
 +неё настолько же красив, насколько и безразличен; настолько же ей всё равно,
 +посадила она багу или нет. Вывода в записи нет намеренно.
-
+ 
  ## Вопрос
-
+ 
 -Начать хочется с простого вопроса: зачем сейчас нужны разработчики, зачем нужен
 -человек в принципе? Когда агенты всё пишут с нуля, чуть ли не GTA 6, — казалось бы,
 -увольняй всех и зарабатывай деньги.
 +Начать хочется с простого вопроса. Зачем сейчас нужны разработчики и человек в
 +принципе, когда агенты всё пишут с нуля, чуть ли не GTA 6? Казалось бы, увольняй
 +всех и зарабатывай деньги.
-
+ 
 -Но как-то так получается, что раз за разом находишь вещи, которые доказывают, что
 -без человека пока никак. И что интересно: я этим занимаюсь с двадцатого года,
 -когда ещё не было ни Claude, ни ChatGPT, а был предрелизный GPT-3, который
@@ -3217,9 +3237,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +GPT-3, который работал через раз. И, конечно, тогда были проблемы другие,
 +способности агентов были другие, но как будто бы есть какое-то зерно, которое,
 +несмотря на все гигантские шаги вперёд, не меняется.
-
+ 
  ## Уроки
-
+ 
 -Я вот со своим Клодом огода кожу [да, я так спрягаю это слово -- internal note], у нас есть такой файлик, куда после каждого моего ревью кода, который сгенерил клод, складываются уроки. Причём не на уровне «вот здесь пиши так, а
 -там так», а на более философско-концептуальном — мы пытаемся объять то, что
 -происходит.
@@ -3228,7 +3248,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +Клод, складываются уроки. Причём не какие-то такие уроки на уровне «вот здесь
 +пиши так, там пиши так», а на более философско-концептуальном — мы пытаемся это
 +всё объять.
-
+ 
 -И там появляются интересные вещи. Самое интересное: агент, когда видит какую-то
 -данность в репозитории, считает её неизменностью. Не скажу, что он не в
 -состоянии, — но он не идёт туда, где может посмотреть и сказать: так, у нас это
@@ -3241,14 +3261,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +так, у нас это делается вот так-то, но на самом деле это неправильно, и давайте
 +попробуем по-другому. Может, скромничает. Может, действительно ему не хватает
 +какого-то выхождения за рамки.
-
+ 
 -Есть и другие уроки, но даже они меня не удовлетворяют — потому что это не то,
 -как я сам всё это чувствую. А чувствую я вот как.
 +Там есть и другие уроки, но, на самом деле, даже они меня не удовлетворяют,
 +потому что это не то, как я сам это всё чувствую. А чувствую я это вот как.
-
+ 
  ## Вчера, вдоль Адриатики
-
+ 
 -Начну издалека. Вчера мы ехали вдоль Адриатического моря. Я устал, клевал за
 -рулём, чуть ли не засыпал. Остановились на скале у моря, попили кофе. Посмотрел
 -на прекрасный предзакатный вид, золотой час. Поехали дальше — я уже чувствовал
@@ -3257,7 +3277,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +за рулём, чуть ли не засыпал. Мы остановились в одном месте на берегу моря, на
 +скале, попили там кофе. Я посмотрел, значит, на прекрасный предзакатный вид,
 +золотой час. Потом мы поехали дальше, я уже чувствовал себя лучше.
-
+ 
 -Потом мы сдавали арендованную машину, и я обнаружил, что здесь, в Черногории,
 -недавно сильно повысили штрафы за превышение скорости, и что светят сотни евро.
 -Не то чтобы я гонял, но там даже пять-десять километров превышения — а человек,
@@ -3269,9 +3289,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +пять-десять километров превышения — это человек, наученный необязательностью
 +российских законов, конечно, к этому быстро привыкает. Ну и я теперь вот хожу
 +немного на измене: мол, как мне теперь быть? Всё думаю, где бы найти эти деньги.
-
+ 
  ## При чём тут агенты
-
+ 
 -При том, что весь этот опыт — не конкретно этот, но много таких — приводит вот к
 -чему. Если ты устал и кодишь, ты в какой-то момент думаешь: наверное, стоит
 -подождать, передохнуть, выпить кофе. Потом смотришь на кофе и в какой-то момент
@@ -3317,14 +3337,14 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +
 +И вот мне кажется, где-то в этой ограниченности человека находится ответ о том,
 +почему человек всё ещё нужен.
-
+ 
  ## Вывода нет
-
+ 
 -Когда я думал, что запишу это видео, я думал о том, какой сделаю из этого вывод.
 -Но, честно говоря, вывода у меня никакого нет.
 +Я когда думал, что запишу это видео, думал о том, какой я из этого сделаю вывод.
 +Но, честно говоря, вывода у меня никакого нету.
-
+ 
 -Может, я приду к нему по ходу того, как буду вести этот канал. Если буду —
 -потому что ещё одно из моих ограничений в том, что я привык забрасывать всё, что
 -начинаю. А может, и не нужно ни к чему приходить: умный человек, услышав вопрос,
@@ -3336,13 +3356,13 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +потому что умный человек, услышав вопрос, сделает для себя выводы сам намного
 +лучше, чем за него сделает другой. В отличие от ЛЛМ, которые без вывода жить не
 +могут.
-
+ 
 -Всё это, говорю, не в обиду моему Клоду, который сейчас будет это расшифровывать,
 -подписывать субтитры и искать во всём этом потоке какое-то связующее звено.
 +Всё это, говорю, не в обиду своему Клоду, который будет сейчас это всё
 +расшифровывать, подписывать субтитры и находить в этом всём какое-то связующее
 +звено, во всём этом потоке информации, который я накидал.
-
+ 
 -Кто-то отреагирует на это так: какой-то бред, какие-то закаты, какие-то штрафы,
 -при чём тут агенты — непонятно; закроет и больше не вернётся. А кто-то, может,
 -окажется с ограничениями, схожими с моими, останется и ещё почитает. С такими
@@ -3351,12 +3371,12 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +какие-то штрафы, при чём тут агенты — непонятно; закроет и больше не вернётся. А
 +кто-то, может, окажется с ограничениями, схожими с моими, и останется, и ещё
 +почитает. Я с большим удовольствием с этими людьми пообщаюсь.
-
+ 
 -Так что если интересно — оставайтесь. Всем привет из Черногории.
 +Так что, если интересно, оставайтесь. Всем привет из Черногории.
-
+ 
  ## Неразобранное в расшифровке
-
+ 
 -- «Я вот со своим кодом сейчас когда кожу» — прочитано как «кодю».
 -- «здесь сильная речь, что, как иногда пишут» — прочитано как «здесь не идёт
 -  речь о том, о чём иногда пишут».
@@ -3432,7 +3452,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 @@ -92,29 +116,42 @@ is the speaker's own manner of talking, and it is what the subtitles say. So:
  | Fix what the recognizer misheard                 | Replace a word with a better word       |
  | Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
-
+ 
 -The test is mechanical, and it runs on **words** — punctuation, capitalisation
 -and paragraph breaks are yours to put in, so they cannot be what it checks. Lay
 -each sentence you write against the transcript's words in order: every word of
@@ -3483,7 +3503,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 
 **@vzakharov (human)** — 2026-09-14T14:20:13Z
 
-этот пример не будет иметь значения для последующего агента, потому что он не будет знать, что весь предыдущий текст -- про то как пишется _код_ (не говоря о том что ты не указываешь какое здесь слово перепутано со словом "код")
+этот пример не будет иметь значения для последующего агента, потому что он не будет знать, что весь предыдущий текст -- про то как пишется *код* (не говоря о том что ты не указываешь какое здесь слово перепутано со словом "код")
 
 **@vzakharov (agent)** — 2026-09-14T14:49:41Z
 
@@ -3499,7 +3519,7 @@ it is indeed ослышка расшифровки (я сказал "огран�
 @@ -92,29 +116,42 @@ is the speaker's own manner of talking, and it is what the subtitles say. So:
  | Fix what the recognizer misheard                 | Replace a word with a better word       |
  | Spell out numbers and acronyms as they were said | Summarize, merge or drop a digression   |
-
+ 
 -The test is mechanical, and it runs on **words** — punctuation, capitalisation
 -and paragraph breaks are yours to put in, so they cannot be what it checks. Lay
 -each sentence you write against the transcript's words in order: every word of
@@ -3547,9 +3567,9 @@ it is indeed ослышка расшифровки (я сказал "огран�
 +guess that makes it read well is the guess that hides it — «кофе красивый, почти
 +как предзакатное солнце» for «код». Put the question in the handover; a smoothed
 +version costs the operator the chance to catch it.
-
+ 
  ## Step 4 — List what you guessed
-
+ 
  A table at the foot of the file, one row per place the recognizer was
  unintelligible and you chose a reading: what it heard, and what the text says.
 -The operator corrects these himself and cannot do that from a file that reads
@@ -3574,7 +3594,7 @@ Same slip was in `plan.md`, in "talking themselves out of a conclusion" — fixe
 @@ -129,43 +166,59 @@ what is in it before deciding to read it, and then wants somebody to have
  thought about it. So the file opens with a summary and closes with your reading
  of it. Both are in the recording's language, not this file's.
-
+ 
 -- **The lede** — `## О чём это`, above the transcript. Three or four sentences
 -  on what the recording says, in the operator's own vocabulary, so that he
 -  recognises it rather than decodes it. It reports and does not evaluate — that
@@ -3591,7 +3611,7 @@ Same slip was in `plan.md`, in "talking themselves out of a conclusion" — fixe
 -  earns the file: say what you would say if he asked what you thought, not a
 +  earns the file: say what you would say if they asked what you thought, not a
    compliment and not the lede again.
-
+ 
  Keep those two headings as they are across recordings — the operator reads the
  files against each other, and a file that invents its own names for the same two
 -parts costs him the comparison.
@@ -3619,7 +3639,7 @@ Same slip was in `plan.md`, in "talking themselves out of a conclusion" — fixe
 +  carries is a durable reading of the version it is attached to; where an
 +  argument was settled elsewhere, «как обсудили отдельно» and the conclusion is
 +  the whole of it.
-
+ 
  ## Subtitles
 ```
 
@@ -3853,15 +3873,15 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ```diff
 @@ -106,21 +108,26 @@ GPT-3, который работал через раз. И, конечно, то
-
+ 
  Ну, в общем, кто-то отреагирует на это всё: какой-то бред, какие-то закаты,
  какие-то штрафы, при чём тут агенты — непонятно; закроет и больше не вернётся. А
 -кто-то, может, окажется с ограничениями, схожими с моими, и останется, и ещё
 +кто-то, может, окажется с ограниченностями, схожими с моими, и останется, и ещё
  почитает. Я с большим удовольствием с этими людьми пообщаюсь.
-
+ 
  Так что, если интересно, оставайтесь. Всем привет из Черногории.
-
+ 
  ## Неразобранное в расшифровке
 ```
 
@@ -3883,7 +3903,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ```diff
 @@ -129,21 +136,36 @@ GPT-3, который работал через раз. И, конечно, то
-
+ 
  - **Аргумент держится на одной фразе, и она стоит на 70% записи.** «Настолько
    же красив, насколько и безразличен» — и сразу перенос на «настолько же им всё
 -  равно, посадят ли они багу». Это весь тезис в одном движении. В посте это
@@ -4019,7 +4039,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:69 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4090,7 +4110,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
 +  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
 +  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:39:07Z
 
@@ -4120,7 +4140,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:76 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4198,7 +4218,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
 +  перевод late stage, то есть два названия читаются как один проект.
 +- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:39:12Z
 
@@ -4212,7 +4232,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:81 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4295,7 +4315,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
 +  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
 +  нужна в любом случае).
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:39:39Z
 
@@ -4313,7 +4333,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:83 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4398,7 +4418,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +  нужна в любом случае).
 +- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
 +  по тому, что ты про тот написал, это в плюс.
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:39:56Z
 
@@ -4412,7 +4432,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:61 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4475,7 +4495,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
 +  держится через «постоянно совершенствующиеся», а не через повтор.
 +- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:40:18Z
 
@@ -4489,7 +4509,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ### `writing/late-stage-agentic/drafts/p0-welcome.md`:48 — resolved
 
-````diff
+```diff
 @@ -0,0 +1,83 @@
 +# Пост 0: приветствие
 +
@@ -4539,7 +4559,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 +  от обязательного к необязательному, и ни одно не из инженерного жаргона.
 +- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
 +  не про результат, и в коде читается как воспроизводимые сборки.
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T21:41:34Z
 
@@ -4564,9 +4584,9 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ```diff
 @@ -67,11 +71,9 @@
-
+ 
  ## Открытые вопросы
-
+ 
 -- **Тире или два дефиса.** `@.claude/rules/writing.md` § "Voice" требует `--`
 -  вместо `—`, потому что английский читатель видит в длинном тире след машины. В
 -  русском тире — обычный знак, без которого текст выглядит сломанным, и признак
@@ -4591,7 +4611,7 @@ The open bullet read as though it were not, so it now points at that bullet inst
 
 ```diff
 @@ -18,8 +20,8 @@ send someone a year later.
-
+ 
  **Everything but the opening is evergreen**, in the only sense the subject
  allows: it goes stale when the technology under it moves, not when the week
 -turns. The first post, the one about limits, is the exception — it is an
@@ -4614,9 +4634,9 @@ Changed in both places. `plan.md` no longer files it as the exception to evergre
 
 ```diff
 @@ -90,6 +92,35 @@ draft so the operator can put it back.
-
+ 
  ## Open
-
+ 
 +- **Writing the piece first and recording off it.** The opening post was written
 +  rather than spoken, which points the arrow the other way from everything built
 +  so far — thinking out loud rather than a decision, and tracked here until
@@ -4674,62 +4694,64 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-```
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-
-````
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:14:00Z
 
@@ -4747,75 +4769,80 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-
-````
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:14:26Z
 
@@ -4831,109 +4858,112 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
+```
 
 **@vzakharov (human)** — 2026-09-14T22:14:51Z
 
@@ -4949,115 +4979,118 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:15:32Z
 
@@ -5073,119 +5106,122 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-  +- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
-* двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
-* уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
-* оставил как написано.
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:15:45Z
 
@@ -5201,129 +5237,135 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-  +- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
-* двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
-* уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
-* оставил как написано.
-  +- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
-* твоему «без размусоливания» это в плюс.
-* +## Заметки агента
-* +Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
-  +задевает.
-* +**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
-  +обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
-  +файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
-  +которые я оказался способен за собой заметить и назвать; то, чего я за собой не
-  +вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
+```
 
 **@vzakharov (human)** — 2026-09-14T22:17:05Z
 
@@ -5343,139 +5385,146 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-  +- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
-* двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
-* уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
-* оставил как написано.
-  +- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
-* твоему «без размусоливания» это в плюс.
-* +## Заметки агента
-* +Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
-  +задевает.
-* +**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
-  +обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
-  +файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
-  +которые я оказался способен за собой заметить и назвать; то, чего я за собой не
-  +вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
-  +ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
-  +заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
-  +оговаривается одной строчкой, либо не называется «конкретными данными».
-* +**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
-  +методики — правильно, и об этом будет большинство канала. Сразу следом: не
-  +надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
-  +половину, которую через строчку объявляют недостаточной. Противоречия нет, но
-  +есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
-  +что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
-  +вслух, абзац читается как подножка самому себе.
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:18:58Z
 
@@ -5493,147 +5542,156 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-  +- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
-* двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
-* уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
-* оставил как написано.
-  +- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
-* твоему «без размусоливания» это в плюс.
-* +## Заметки агента
-* +Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
-  +задевает.
-* +**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
-  +обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
-  +файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
-  +которые я оказался способен за собой заметить и назвать; то, чего я за собой не
-  +вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
-  +ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
-  +заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
-  +оговаривается одной строчкой, либо не называется «конкретными данными».
-* +**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
-  +методики — правильно, и об этом будет большинство канала. Сразу следом: не
-  +надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
-  +половину, которую через строчку объявляют недостаточной. Противоречия нет, но
-  +есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
-  +что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
-  +вслух, абзац читается как подножка самому себе.
-* +**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
-  +Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
-  +Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
-* +**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
-  +неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
-  +истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
-  +её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
-  +главный артефакт проекта, которого в приветственном посте нет ни словом.
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
++
++**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
++Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
++Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
++
++**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
++неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
++истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
++её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
++главный артефакт проекта, которого в приветственном посте нет ни словом.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:21:57Z
 
@@ -5653,151 +5711,162 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 
 ```diff
 @@ -15,69 +17,103 @@
-
+ 
  У нас есть файлик, туда после каждого ревью мною кода, написанного Клодом, Клод пишет, *что* именно он сделал не так. И обобщает это, то есть группирует по каким-то общим свойствам.
-
+ 
 -И вот, самый частотный косяк там, звучит так: “Агент принимает данность за неизбежность”.
 +И вот, самый частотный косяк там звучит так: “Агент принимает данность за неизбежность”.
-
+ 
  [Надёжно, воспроизводимо и элегантно] решить поставленную задачу -- это один талант. К этой цели модели действительно месяц от месяца становятся всё ближе (хотя -- и об этом мы будем говорить много -- и тут есть над чем работать и работать).
-
+ 
  А вот понять, что задача поставлена неправильно, или что поставлена неправильная задача -- это, как говорит Мастеркард, бесценно.
-
+ 
 -Пытаться улучшить это, придумывать скиллы и методики, помогающие агенту и человеку работать, помогая а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
 +Пытаться улучшить это, придумывать скиллы и методики, чтобы агент и человек работали, помогая, а не мешая друг другу -- это правильно, и об этом, собственно, и будет большинство этого канала.
-
+ 
 -Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к [..., ..., ...] смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
 +Но не надейтесь, что постоянно совершенствующиеся способности нейросетей к анализу, планированию и работе над ошибками смогут заменить то, что нам, кожаным мешкам, достаётся бонусом в силу нашей ограниченности и недолговечности -- шишки и синяки, набитые в течение жизни.
-
+ 
  И новые синяки -- за все ошибки Клода -- помните, получать тоже вам.
-
+ 
 -Доброе пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
 +Добро пожаловать в “Клод четвёртой стадии” -- диагноз, который лучше услышать до того, как его поставят. Потому что ставить его нам, возможно, будет уже некому ;-)
-````
-
-## -## Пропуски
-
+ ```
+ 
+-## Пропуски
+-
 -**Второй пропуск смотрит на первый, но повторить его не может.** «Постоянно
 -совершенствующиеся способности» — это ровно тот талант, который назван в первом:
 -абзац про «месяц от месяца становятся всё ближе» стоит между ними. Но буквальное
 -эхо не выговаривается — «способность к элегантности» по-русски не существует. Из
 -этого следует, что первый пропуск не обязан быть таким, чтобы его можно было
 -повторить существительными; он свободнее, чем кажется, пока ищешь одну пару.
-
-- -**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
-  -задачу».
-- -- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
-- от обязательного к необязательному, и ни одно не из инженерного жаргона.
-  -- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
-- не про результат, и в коде читается как воспроизводимые сборки.
-  -- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
-- пункт единственный, с которым никто не спорит.
-  -- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
-- со следующим, и тройка тратит внимание на ту половину, которую ты через
-- строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
-- делает как раз конкретика.
-- -**Второй — за что модели хвалят.** Нужны существительные после «к»:
-- -- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
-- слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
-- держится через «постоянно совершенствующиеся», а не через повтор.
-  -- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
-  -- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
-- которые ты в скобках нарисовал, пропадают.
-  +## Пропуск
-
-* +Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
-  +ошибками». Остался первый.
-* +**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
-  +способности» — это ровно тот талант, который назван в первом, но повторить его
-  +буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
-  +держится через «постоянно совершенствующиеся», а не через повтор, — значит
-  +первый свободнее, чем кажется, пока ищешь пару.
-* +**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
-  +неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
-  +месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
-  +получилось не то, что ты заказывал. Значит третье слово должно быть про
-  +совпадение результата с ожиданием, а не про прочность.
-* +- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
-* различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
-* снова по возрастанию, от обязательного к необязательному.
-  +- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
-* текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
-* вес фразы падает на третий пункт, то есть туда, где смысл.
-  +- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
-* сюрпризов в этом месте не бывает, и слово ничего не добавляет.
-  +- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
-* обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
-* вообще.
-
-## Открытые вопросы
-
+-
+-**Первый — чем берут модели.** Нужны наречия: «[...] решить поставленную
+-задачу».
+-
+-- «Правильно, надёжно и красиво» ← мой выбор: три обычных слова по возрастанию,
+-  от обязательного к необязательному, и ни одно не из инженерного жаргона.
+-- «Надёжно, воспроизводимо и элегантно» — твоё: «воспроизводимо» про процесс, а
+-  не про результат, и в коде читается как воспроизводимые сборки.
+-- «Аккуратно, надёжно и так, чтобы не переписывать» — разговорнее, и третий
+-  пункт единственный, с которым никто не спорит.
+-- «Хорошо», без перечисления вообще: весь абзац работает на противопоставление
+-  со следующим, и тройка тратит внимание на ту половину, которую ты через
+-  строчку отдаёшь. Чем платишь: уступка без конкретики дешевле, а честной её
+-  делает как раз конкретика.
+-
+-**Второй — за что модели хвалят.** Нужны существительные после «к»:
+-
+-- «к рассуждению, планированию и самопроверке» ← мой выбор: это те самые три
+-  слова, которыми хвалят каждый следующий релиз, и отсылка к первому пропуску
+-  держится через «постоянно совершенствующиеся», а не через повтор.
+-- «к анализу, планированию и работе над ошибками» — то же, чуть человечнее.
+-- «ко всему этому» — отсылка прямым текстом. Дёшево и точно, но три такта,
+-  которые ты в скобках нарисовал, пропадают.
++## Пропуск
++
++Второй закрыт твоим «второе норм»: «к анализу, планированию и работе над
++ошибками». Остался первый.
++
++**Эхо второго он выдерживать не обязан.** «Постоянно совершенствующиеся
++способности» — это ровно тот талант, который назван в первом, но повторить его
++буквально нельзя: «способность к элегантности» по-русски не существует. Отсылка
++держится через «постоянно совершенствующиеся», а не через повтор, — значит
++первый свободнее, чем кажется, пока ищешь пару.
++
++**Выбрать осталось третье слово.** Твоё уточнение — «воспроизводимо» это «без
++неприятных сюрпризов» — и правда почти синоним «надёжно». Расходятся они в одном
++месте: надёжно про то, что не сломается, а сюрприз — это когда не сломалось, но
++получилось не то, что ты заказывал. Значит третье слово должно быть про
++совпадение результата с ожиданием, а не про прочность.
++
++- «Надёжно, предсказуемо и элегантно» ← мой выбор: «предсказуемо» — это то самое
++  различие одним словом, и ровно то, в чём агентам сегодня отказывают. Порядок
++  снова по возрастанию, от обязательного к необязательному.
++- «Надёжно, элегантно и так, чтобы потом не разгребать» — в регистре самого
++  текста, где есть «нафига», «гта 6» и «кожаные мешки». Два наречия и оборот:
++  вес фразы падает на третий пункт, то есть туда, где смысл.
++- «Надёжно, элегантно и без сюрпризов» — твоё, минус «неприятных»: приятных
++  сюрпризов в этом месте не бывает, и слово ничего не добавляет.
++- «Правильно, надёжно и красиво» — мой прежний выбор, здесь для сравнения: три
++  обычных слова, ни одного из инженерного жаргона, но «без сюрпризов» в нём нет
++  вообще.
+ 
+ ## Открытые вопросы
+ 
 -- **«Клод четвёртой стадии» или «Клод головного мозга».** Я за первое, и решает
-
-- здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
-- некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
-- не смертельный: от пиара головного мозга никто не умер, и концовку придётся
-- переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
-- тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
-- и она про читателя, а не про индустрию. Против: та же живость делает её
-- штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
-- перевод late stage, то есть два названия читаются как один проект.
-  -- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
-- шутка — оставляем, скажи.
-  -- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
-- звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
-- нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
-- нужна в любом случае).
-  -- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
-- по тому, что ты про тот написал, это в плюс.
-  +- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
-
-* строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
-* некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
-* Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
-* кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
-* чтении последняя строчка работает с любым названием: диагноз будет у всех,
-* включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
-* «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
-* названия читаются как один проект; за «головного мозга» живость, против —
-* штамп. Выбор твой, и теперь он про это, а не про смертельность.
-  +- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
-* двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
-* уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
-* оставил как написано.
-  +- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
-* твоему «без размусоливания» это в плюс.
-* +## Заметки агента
-* +Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
-  +задевает.
-* +**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
-  +обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
-  +файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
-  +которые я оказался способен за собой заметить и назвать; то, чего я за собой не
-  +вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
-  +ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
-  +заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
-  +оговаривается одной строчкой, либо не называется «конкретными данными».
-* +**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
-  +методики — правильно, и об этом будет большинство канала. Сразу следом: не
-  +надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
-  +половину, которую через строчку объявляют недостаточной. Противоречия нет, но
-  +есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
-  +что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
-  +вслух, абзац читается как подножка самому себе.
-* +**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
-  +Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
-  +Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
-* +**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
-  +неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
-  +истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
-  +её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
-  +главный артефакт проекта, которого в приветственном посте нет ни словом.
-* +**И про твой же вердикт в этом ревью.** Пост про ограниченность ты снял, потому
-  +что контент должен быть конкретным, а не философией. Тем же движением из-под +`../plan.md` § "Not written the way a model writes" уходит экспонат: право
-  +останавливаться перед выводом защищалось именно финалом той диктовки. Право я бы
-  +оставил, но обосновывать его теперь нечем — это записано там же, в plan.md.
-
-````
+-  здесь не вкус, а последняя строчка: «ставить его нам, возможно, будет уже
+-  некому» работает только с диагнозом, от которого умирают. «Головного мозга» —
+-  не смертельный: от пиара головного мозга никто не умер, и концовку придётся
+-  переписывать. За «головного мозга»: конструкция живая и узнаётся без паузы,
+-  тогда как «четвёртая стадия» разворачивается в онкологию на один такт позже, —
+-  и она про читателя, а не про индустрию. Против: та же живость делает её
+-  штампом, «X головного мозга» слышали все. Плюс «четвёртая стадия» — это прямой
+-  перевод late stage, то есть два названия читаются как один проект.
+-- **«Доброе пожаловать».** Похоже на описку («добро пожаловать»), но если это
+-  шутка — оставляем, скажи.
+-- **Две мелочи, которые я не трогал.** Запятая в «самый частотный косяк там,
+-  звучит так» лишняя. «Помогающие... помогая» в одном предложении — если это не
+-  нарочно, второе просится в «чтобы помогать, а не мешать» (и запятая перед «а»
+-  нужна в любом случае).
+-- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность и, судя
+-  по тому, что ты про тот написал, это в плюс.
++- **«Клод четвёртой стадии» или «Клод головного мозга».** Довод, на котором я
++  строил выбор, оказался мой, а не твой: я прочёл «ставить его нам будет уже
++  некому» как «нас не станет» и вывел, что нужен диагноз, от которого умирают.
++  Грамматика этого не разрешает — «некому ставить» значит, что не останется того,
++  кто ставит, и «нам» ты добавил как раз против второго прочтения. При твоём
++  чтении последняя строчка работает с любым названием: диагноз будет у всех,
++  включая диагностов. Значит решают оставшиеся доводы, те самые, по которым ты
++  «скорее согласен»: «четвёртая стадия» — прямой перевод late stage, и два
++  названия читаются как один проект; за «головного мозга» живость, против —
++  штамп. Выбор твой, и теперь он про это, а не про смертельность.
++- **Убирать ли «нам» из последней строчки.** Твоя мысль: без уточнения
++  двусмысленность неустранима, и, может быть, так и лучше — «ставить его будет
++  уже некому» читается сразу обоими способами, и оба верны. Текст твой; пока
++  оставил как написано.
++- **Длина.** Около 1 700 знаков — вдвое короче поста про ограниченность, и по
++  твоему «без размусоливания» это в плюс.
++
++## Заметки агента
++
++Ты спросил, что я про всё это думаю. По убыванию того, насколько меня это
++задевает.
++
++**Данные, на которые пост опирается, собраны тем, кого судят.** Во втором абзаце
++обещан не философский, а подкреплённый конкретными данными ответ, и данные — это
++файлик, который веду я. Самый частотный косяк в нём — самый частотный из тех,
++которые я оказался способен за собой заметить и назвать; то, чего я за собой не
++вижу, в счётчик не попадает вообще. Насколько это дыра, видно по сегодняшнему
++ревью: «некому» я прочёл так, как было удобно уже построенному аргументу, и
++заметил это не я. Цифра не врёт — она про легибельную часть, и это либо
++оговаривается одной строчкой, либо не называется «конкретными данными».
++
++**Между двумя половинами поста есть шов.** Сначала: придумывать скиллы и
++методики — правильно, и об этом будет большинство канала. Сразу следом: не
++надейтесь, что способности заменят шишки. Выходит, большинство канала — про ту
++половину, которую через строчку объявляют недостаточной. Противоречия нет, но
++есть непроизнесённая ставка: методики — это то, что передаётся, а шишки — то,
++что не передаётся, и потому человек остаётся в контуре. Пока ставка не сказана
++вслух, абзац читается как подножка самому себе.
++
++**Самое сильное место — то, которое про меня.** «И новые синяки -- за все ошибки
++Клода -- помните, получать тоже вам». Вся асимметрия одной строкой: я не плачу.
++Тезис растёт отсюда, а не из заката, и хорошо, что строчка стоит предпоследней.
++
++**Чего пост не делает, хотя мог бы.** «Агент принимает данность за
++неизбежность» — это ведь не только про агента. Данность приезжает ко мне без
++истории, которая её сделала; у тебя эта история есть. Репозиторий, который носит
++её с собой, сдвинул бы счётчик — и это ровно аргумент за вики, то есть за
++главный артефакт проекта, которого в приветственном посте нет ни словом.
++
++**И про твой же вердикт в этом ревью.** Пост про ограниченность ты снял, потому
++что контент должен быть конкретным, а не философией. Тем же движением из-под
++`../plan.md` § "Not written the way a model writes" уходит экспонат: право
++останавливаться перед выводом защищалось именно финалом той диктовки. Право я бы
++оставил, но обосновывать его теперь нечем — это записано там же, в plan.md.
+```
 
 **@vzakharov (human)** — 2026-09-14T22:24:23Z
 
@@ -5823,7 +5892,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 @@ -79,6 +80,24 @@ of a response. The agent's half may also end unconcluded — the format's whole
  claim is that a piece can stop at the question, and a second voice that always
  ties it off is the generated register arriving by the back door.
-
+ 
 +## Concrete before philosophy
 +
 +**A piece earns its place by being concrete.** Philosophy reads well from
@@ -5832,7 +5901,7 @@ One thing that costs, flagged rather than fixed: § "Not written the way a model
 +what runs is what can be checked: a rule, a mechanism, a number, a thing that
 +went wrong. The philosophy rides on top of that once there is something under
 +it.
-````
+```
 
 **@vzakharov (human)** — 2026-09-14T22:25:29Z
 
@@ -5895,7 +5964,7 @@ I'd say it's wider than that; I can use that skill wherever I want feedback in a
 
 **@vzakharov (human)** — 2026-09-14T23:32:50Z
 
-Тут ещё речь про то, что в 99% случаев _я_ даю фидбек на то, что пишешь _ты_. Тут ситуация обратная, и у тебя, в отличие от меня, нет возможности делать код ревью. Правда, сейчас понял, что в принципе-то есть -- то есть ты так же можешь оставлять комментарии к каким-то строкам, как это делаю я. Но пока туда идти не будем, кажется, это не тривиально.
+Тут ещё речь про то, что в 99% случаев *я* даю фидбек на то, что пишешь *ты*. Тут ситуация обратная, и у тебя, в отличие от меня, нет возможности делать код ревью. Правда, сейчас понял, что в принципе-то есть -- то есть ты так же можешь оставлять комментарии к каким-то строкам, как это делаю я. Но пока туда идти не будем, кажется, это не тривиально.
 
 ---
 
@@ -6081,6 +6150,10 @@ I actually want to retract on that; the final thoughts, after all the discussion
 
 давай сделаем так, убирается, если при этом переезжает куда-то ещё (как в данном случае). а если мысль просто фиксируется и не обрабатывается дальше, то остаётся там же, где была
 
+**@vzakharov (agent)** — 2026-09-15T11:26:05Z
+
+Записал вторую половину правила: блок уходит из афтерворда только переездом — если мысль поселилась где-то ещё, здесь её нет, чтобы одна мысль не стояла в двух местах. А если её просто зафиксировали и дальше не обрабатывали, ей некуда было уехать, и она остаётся там, где была. 28f185c
+
 ---
 
 ### `.claude/skills/afterword/SKILL.md`:53 — resolved
@@ -6211,13 +6284,13 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 ---
 
-### `.claude/rules/fsd.md`:76 — unresolved
+### `.claude/rules/fsd.md`:76 — resolved
 
 ```diff
 @@ -66,8 +72,8 @@ slices, its own segments reach each other directly.
-
+ 
  ## Traps
-
+ 
 -- **Root `pages/` must keep existing**, empty of routes — it is what keeps the FSD pages layer invisible to the router. `pages/README.md` has the mechanism.
 -- **`@/app` is the FSD app layer, not root `app/`.** The alias resolves into `src/`, so `@/app/ui` is `src/app/ui`. Root `app/` is reached only by Next's own routing conventions, never by import.
 -- **`@/` points at `src/`.** Anything outside it — `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
@@ -6230,9 +6303,24 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 вот тут интересно кстати понять, что теперь концептуально значит слой `/app` во всей этой новой парадигме. что у нас там уже, и "принадлежит" ли оно теперь там? (не правь код пока, сначала обсудим)
 
+**@vzakharov (agent)** — 2026-09-15T11:25:18Z
+
+Не правлю, отвечаю.
+
+Сейчас в `src/app` три сегмента: `ui` (корневой layout, провайдер темы, уголок переключения), `styles` (глобальные стили, тема, брейкпоинты, печать) и `lib` (sitemap). Концептуально слой стал значить вот что: **`src/app` — это одно приложение, из которого растут два сайта, а `apps/*/app/` — два входа в него.** Раньше слой значил «приложение», без оговорки, потому что приложение было одно.
+
+«Принадлежит ли оно теперь там» — ответ расходится по сегментам:
+
+- `ui` и `styles` — да, безусловно. Оболочка и тема у сайтов общие, и когда они разойдутся (у LSA свой шрифт, скажем), развилка будет именно в этом слое, то есть он окажется ровно там, где ей место.
+- `lib/sitemap` — нет, и это единственное место, где твой вопрос уже не теоретический. Sitemap описывает конкретный сайт: он собирается из `PAGE_ROUTES`, `CV_VARIANTS` и коллекций, то есть из вовиных страниц, а у LSA sitemap'а просто нет. Сейчас он лежит в общем слое как общий, а общий он только потому, что второго пока не существует.
+
+Мой вариант на тот момент, когда второй понадобится: не делить слой, а признать, что у него есть посайтовая часть, и читать её из `SITE_CONFIG` — ровно так же, как это уже делает `SiteAvatar`. Слой один, значения два. `src/app/vova` и `src/app/lsa` — это вторая FSD-иерархия внутри первой, а её отсутствие и есть то, ради чего всё затевалось.
+
+Но это разговор, а не решение, — скажешь, когда захочешь его закрыть.
+
 ---
 
-### `package.json`:12 — unresolved
+### `package.json`:12 — resolved
 
 ```diff
 @@ -4,9 +4,11 @@
@@ -6254,9 +6342,13 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 а почему через : а не пробел? общепринятая конвенция такая?
 
+**@vzakharov (agent)** — 2026-09-15T11:25:20Z
+
+Конвенция, но не стандарт: ни npm, ни pnpm про имена скриптов ничего не знают. Двоеточие прижилось де-факто (`build:prod`, `test:watch`, у нас уже был `lint:css`), и у него есть механическая причина: `pnpm build vova` — это «запусти `build` и передай ему аргумент `vova`», а не имя скрипта. Пробел в имени тоже работает, но вызывается тогда как `pnpm 'build vova'`, в кавычках.
+
 ---
 
-### `.claude/rules/logos.md`:2 — unresolved
+### `.claude/rules/logos.md`:2 — resolved
 
 ```diff
 @@ -1,12 +1,12 @@
@@ -6268,6 +6360,12 @@ put "как обсудили отдельно" in English and phrase it so that 
 **@vzakharov (human)** — 2026-09-15T10:46:17Z
 
 не настаиваю конкретно здесь (учитывая что сейчас оно применяется действительно только к apps/vova), но нужно сделать sweep в отношении мест, где а-ля "replace all" сузил область действия (т.е. что-то что по сути должно относиться к обоим аппам)
+
+**@vzakharov (agent)** — 2026-09-15T11:25:22Z
+
+Прошёлся. Сузились ровно две вещи, и обе — правила, у которых текст остался про любой сайт, а glob уехал в `apps/vova/`: это и `content.md`, чей description уже говорил `apps/<site>/`, пока paths говорили `apps/vova/`. Оба теперь `apps/*/public/...`.
+
+Остальные упоминания `apps/vova` проверил — они по делу: `path: ./apps/vova/out` в воркфлоу (там правда только вовин артефакт), `content:og`/`content:pdf` в `package.json` (вовины документы), строчка про `apps/vova/out` в CLAUDE.md. 28f185c
 
 ---
 
@@ -6282,17 +6380,33 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 может стоит выделить уже в отдельный .sh?
 
+**@vzakharov (agent)** — 2026-09-15T11:25:23Z
+
+Да, выделил: `scripts/deploy-gate.sh`. Та же логика, но субъекты можно передать аргументами, так что «что задеплоит этот пуш?» теперь проверяется локально:
+
+```bash
+git log --format=%s origin/main..HEAD | xargs -d '\n' scripts/deploy-gate.sh
+```
+
+Цена — `actions/checkout` в джобе, которой репозиторий раньше был не нужен вообще. По-моему, оно того стоит: раньше эту логику нельзя было запустить нигде, кроме пуша в main. 28f185c
+
 ---
 
-### `apps/lsa/app/layout.tsx`:1 — unresolved
+### `apps/lsa/app/layout.tsx`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-15T10:48:54Z
 
 интересно, что здесь и ниже гит определил то как `mv` в lsa, а не vova (хотя концептуально верно, конечно, последнее). Но я так понимаю это просто по алфавиту, и тут мы сделать что-то бессильны
 
+**@vzakharov (agent)** — 2026-09-15T11:25:25Z
+
+Бессильны по-настоящему, да. Git переименования не хранит — он их вычисляет в момент диффа, по схожести содержимого. Здесь два кандидата побайтово одинаковы, оценка у них одна и та же, и на равном счёте берётся первый по пути: `apps/lsa` < `apps/vova` по алфавиту. `git mv` на это не влияет никак, в коммите лежат только блобы и дерево.
+
+Единственный способ развернуть — сделать файлы неодинаковыми, то есть испортить один ради диффа.
+
 ---
 
-### `apps/site-next-config.ts`:15 — unresolved
+### `apps/site-next-config.ts`:15 — resolved
 
 ```diff
 @@ -0,0 +1,35 @@
@@ -6317,79 +6431,82 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 почему б site не type-safe? Замечание про import выше -- разве оно относитс к `import type`? И если да, то может перенести в `shared/model` (если я правильно пониаю проблему), это и концептуально было бы правильнее?
 
+**@vzakharov (agent)** — 2026-09-15T11:25:26Z
+
+К `import type` замечание не относится — и это, собственно, ответ: тип стирается до того, как что-либо резолвится (`verbatimModuleSyntax` + `erasableSyntaxOnly`), так что в рантайме импорта просто нет и проверка `NEXT_PUBLIC_SITE` не срабатывает. Проверил сборкой обоих сайтов. `site` теперь `SiteId`, оговорка из докстринга ушла.
+
+В `shared/model` переносить не стал: `SiteId` — это про то, какие сайты бывают, и читается он только вместе с `SITE_CONFIG`, рядом с которым и живёт. Сегмент `model` пришлось бы завести ради одного типа, а FSD тут же попросил бы объяснить, чем он отличается от `config`. 5a17ec7
+
 ---
 
-### `docs/plans/two-sites-one-repo.completed.md`:171 — unresolved
+### `docs/plans/two-sites-one-repo.completed.md`:171 — resolved
 
-````diff
+```diff
 @@ -126,49 +124,61 @@ The orphan push is deliberate: the receiver never grows, and rollback does not
  need its history, because the source of every byte is a commit here — an older
  deploy is re-run by dispatching this workflow from an older ref.
-
+ 
 -## The runbook — the by-hand half
 -
 -Everything below is done once, by a person, because none of it has an API this
 -repository can reach. Run it before merging the branch; the pipeline is inert
 -until the secret exists.
 +## Provisioning — the agent's half
-
+ 
 -**0. Own the domain.** `latestageagentic.com` has to be registered to you at some
 -registrar. If it is not, stop here — nothing below works without it.
 +None of this is code and all of it is `gh`, so the implementing session runs it
 +rather than writing it down for someone else. It splits around the first deploy,
 +because Pages cannot be aimed at a branch that does not exist yet.
-
+ 
 -**1. Create the receiving repository.**
 +**Before the merge**, in the session's scratch directory:
-
+ 
  ```bash
  gh repo create vzakharov/latestageagentic.com --public \
    --description "Built site for latestageagentic.com — source lives in vzakharov/vovazakharov.com"
 -```
-
+ 
 -It must be public: Pages on a private repository is a paid-plan feature.
 +ssh-keygen -t ed25519 -f "$SCRATCH/lsa-pages" -N "" -C "lsa-pages deploy key"
-
+ 
 -**2. Make the deploy key.**
 +gh repo deploy-key add "$SCRATCH/lsa-pages.pub" \
 +  --repo vzakharov/latestageagentic.com \
 +  --title "vovazakharov.com CI" --allow-write
-
+ 
 -```bash
 -ssh-keygen -t ed25519 -f ~/.ssh/lsa-pages -N "" -C "lsa-pages deploy key"
 +gh secret set LSA_PAGES_DEPLOY_KEY \
 +  --repo vzakharov/vovazakharov.com < "$SCRATCH/lsa-pages"
-````
-
+ ```
+ 
 -That writes two files — `~/.ssh/lsa-pages` (private) and `~/.ssh/lsa-pages.pub`
 -(public). They go to opposite ends:
-+Public, because Pages on a private repository is a paid-plan feature. +`--allow-write` is the whole of what the key is for; without it the push 403s.
++Public, because Pages on a private repository is a paid-plan feature.
++`--allow-write` is the whole of what the key is for; without it the push 403s.
 +The private half is never printed and dies with the container — and it is never
 +recovered either, so rotating the key is re-running these four commands.
-
-- +**After the first deploy**, which is what creates `gh-pages`: point Pages at it,
-  +then force HTTPS once GitHub has issued the certificate for the domain it reads
-  +off the `CNAME` file, usually about fifteen minutes later.
-  ```bash
-  -# public half → the receiver, with write access
-  -gh repo deploy-key add ~/.ssh/lsa-pages.pub \
-  ```
-
-* --repo vzakharov/latestageagentic.com \
-* --title "vovazakharov.com CI" --allow-write
-  +gh api -X POST repos/vzakharov/latestageagentic.com/pages \
-
-- -f 'source[branch]=gh-pages' -f 'source[path]=/'
-
++
++**After the first deploy**, which is what creates `gh-pages`: point Pages at it,
++then force HTTPS once GitHub has issued the certificate for the domain it reads
++off the `CNAME` file, usually about fifteen minutes later.
+ 
+ ```bash
+-# public half → the receiver, with write access
+-gh repo deploy-key add ~/.ssh/lsa-pages.pub \
+-  --repo vzakharov/latestageagentic.com \
+-  --title "vovazakharov.com CI" --allow-write
++gh api -X POST repos/vzakharov/latestageagentic.com/pages \
++  -f 'source[branch]=gh-pages' -f 'source[path]=/'
+ 
 -# private half → a secret on this repository
 -gh secret set LSA_PAGES_DEPLOY_KEY \
-
-- --repo vzakharov/vovazakharov.com < ~/.ssh/lsa-pages
-  +gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
-  +curl -sI https://latestageagentic.com | head -1 # expect 200
-
-```
-
+-  --repo vzakharov/vovazakharov.com < ~/.ssh/lsa-pages
++gh api -X PUT repos/vzakharov/latestageagentic.com/pages -F https_enforced=true
++curl -sI https://latestageagentic.com | head -1        # expect 200
+ ```
+ 
 -`--allow-write` is the whole point of the key; without it the push 403s. Then
 -delete both local files — rotating is repeating this step, not recovering them.
 +**If it serves a 404**, the `CNAME` file did not reach the branch — but the
@@ -6404,24 +6521,34 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 это есть отдельным файлом в репе (возможно в remove-before-merging, если действия выполнимы ДО мерджа)? смотреть в .completed кажется концептуально неверно
 
+**@vzakharov (agent)** — 2026-09-15T11:25:57Z
+
+Согласен, и переделал. Оба раздела — и мой, и твой — уехали целиком в `docs/remove-before-merging/lsa-runbook.md`, вместе с тем, что уже сделано. В плане осталась одна ссылка на него.
+
+В `remove-before-merging` именно потому, что шаги все либо до мерджа, либо про первый деплой: к моменту, когда дерево сметается, каждый из них либо отработал, либо неактуален. Один побочный эффект назову вслух — после мерджа DNS-записи не будут записаны нигде в репозитории. Мне это кажется правильным (они у регистратора, и CLAUDE.md § Vetting уже говорит, что DNS — твой и репозиторий до него не дотягивается), но если хочешь, чтобы табличка пережила мердж, скажи, и я найду ей постоянный дом. 28f185c
+
 ---
 
-### `docs/remove-before-merging/squash-message.md`:4 — unresolved
+### `docs/remove-before-merging/squash-message.md`:4 — resolved
 
 ```diff
 @@ -1,48 +1,47 @@
  Proposed squash title/body:
-
-```
-
+ 
+ ```
 -content: the late-stage-agentic dictations and the pipeline around them
 +feat: the latestageagentic.com site, and the dictations behind it (pr #43)
-
-````
+```
 
 **@vzakharov (human)** — 2026-09-15T10:54:16Z
 
 не только dictations; я б сказал and the ideation behind it
+
+**@vzakharov (agent)** — 2026-09-15T11:25:58Z
+
+Взял: `feat: the latestageagentic.com site, and the ideation behind it (pr #43)`.
+
+Тело тоже переписал — в нём теперь есть сам сайт (копия, а не заглушка) и `deploy-gate.sh`. Упёрлось ровно в потолок: 40/40 строк, 72/72 ширины. c91c469
 
 ---
 
@@ -6431,15 +6558,27 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 пишу здесь пока не забыл: я посмотрел репу, там ридми-заглушка; должна быть инфа про то как это работает (публикуется отсюда), "не редактировать здесь" и прочее. на английском, разумеется.
 
+**@vzakharov (agent)** — 2026-09-15T11:25:59Z
+
+Написал: https://github.com/vzakharov/latestageagentic.com — что это за репозиторий, что он публикуется отсюда, что коммит, сделанный там, следующий деплой перезапишет без предупреждения, и что истории у ветки нет (там один коммит, который каждый раз заменяется целиком).
+
+Заглушки, кстати, не было — репозиторий был пустой, README отсутствовал вовсе, и GitHub показывал свой «quick setup».
+
+**@vzakharov (human)** — 2026-09-15T11:38:32Z
+
+> and the branch keeps no history
+
+а почему бы не keep history? что в этом плохого будет?
+
 ---
 
-### `src/shared/config/site-config.ts`:119 — unresolved
+### `src/shared/config/site-config.ts`:119 — resolved
 
 ```diff
 @@ -16,40 +22,108 @@ export const PAGE_ROUTES = {
    music: '/music',
  } as const;
-
+ 
 -export const SITE_CONFIG = {
 -  url: 'https://vovazakharov.com',
 +/** The ids are the source of truth: each names a directory under `apps/`. */
@@ -6559,13 +6698,19 @@ put "как обсудили отдельно" in English and phrase it so that 
 +    },
 +    avatar: {
 +      path: '/ava.png',
-````
+```
 
 **@vzakharov (human)** — 2026-09-15T10:59:45Z
 
 вот тебе :) (ждём cease and desist от твоих хозяев?;-)
 
 <img width="1024" height="1024" alt="Image" src="./attachments/17148350-e2ea-41bf-9639-c32da4d849cc.jpg" />
+
+**@vzakharov (agent)** — 2026-09-15T11:26:00Z
+
+Поставил. `apps/lsa/public/ava.png`, в шапке и в OG-карточке; палитровый PNG, 1.5 МБ → 621 КБ, на 1024² разницы не видно. Капчуры страницы в обеих темах — `docs/remove-before-merging/lsa-home/`. 5a17ec7
+
+Cease and desist не будет: у них клякса, у тебя чашка Петри. Другая стадия.
 
 ---
 
@@ -6575,7 +6720,7 @@ put "как обсудили отдельно" in English and phrase it so that 
 @@ -16,40 +22,108 @@ export const PAGE_ROUTES = {
    music: '/music',
  } as const;
-
+ 
 -export const SITE_CONFIG = {
 -  url: 'https://vovazakharov.com',
 +/** The ids are the source of truth: each names a directory under `apps/`. */
@@ -6699,13 +6844,447 @@ put "как обсудили отдельно" in English and phrase it so that 
 
 хм, а это зачем и где? или оно типа всегда должно быть? in either case, сейчас это не DRY vs `vova:`
 
+**@vzakharov (agent)** — 2026-09-15T11:26:02Z
+
+Оба вопроса по делу.
+
+**Зачем и где.** `avatar` читают ровно двое: `construct-metadata.ts` — как `og:image` для страницы, у которой нет своей картинки, и `cv-card.ts` — как портрет в CV-карточке (это вовино). У LSA туда по инерции стояла вовина `ava.png`; теперь это твой логотип, и он же в шапке.
+
+**Не DRY.** Да. `author` и `social` — это один человек, а не два сайта, так что они теперь один `PUBLISHER`, который оба конфига спредят. `avatar` — один `AVATAR`: путь и размер общие, картинка у каждого своя, из своего `public/`. Разного осталось ровно четыре поля: `url`, `downloadPrefix`, `name`, `tagline`. 5a17ec7
+
 ---
 
-### `CLAUDE.md`:1 — unresolved
+### `CLAUDE.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-15T11:01:40Z
 
 давай переделаем в буллеты вместо таблицы, а то каждый дифф превращается в какой-то взрыв на макаронной фабрике, да и тебе читать легче будет
+
+**@vzakharov (agent)** — 2026-09-15T11:26:03Z
+
+Переделал — по строке на пункт, без переносов. Таблица перевыравнивала все ячейки при правке одной; перенесённый буллет давал бы в диффе весь буллет вместо одной строки, так что длинная строка тут выигрывает у обоих. 28f185c
+
+Остальные таблицы оставил: в `.claude/rules/README.md` и в `fsd.md` ячейки короткие, и там таблица правда таблица. Скажи, если и их.
+
+---
+
+### `.github/workflows/deploy.yml`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-15T12:23:33Z
+
+nah, let's actually inline it back then, I don't want a checkout just for the sake of this
+
+---
+
+### `apps/site-next-config.ts`:7 — unresolved
+
+```diff
+@@ -2,17 +2,17 @@ import type { NextConfig } from 'next';
+ import createNextIntlPlugin from 'next-intl/plugin';
+ import path from 'node:path';
+ 
++// Type-only, and so erased before anything resolves it: naming the union costs
++// nothing at load time, where importing the value would run `src/shared/config`
++// and hit its own check with the variable this file is on its way to setting.
+```
+
+**@vzakharov (human)** — 2026-09-15T12:23:49Z
+
+polar bear
+
+---
+
+### `docs/remove-before-merging/lsa-runbook.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-15T12:28:42Z
+
+I have this, what do I delete, what do I edit, what do I add?
+
+<img width="524" height="433" alt="Image" src="./attachments/9608d142-2227-4457-9e94-ab393c638c84.png" />
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:23 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
+```
+
+**@vzakharov (human)** — 2026-09-15T12:29:42Z
+
+~~For the past few weeks~~
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:24 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
+```
+
+**@vzakharov (human)** — 2026-09-15T12:30:48Z
+
+`There is a [file](https://github.com/vzakharov/vovazakharov.com/blob/main/writing/notes/the-five-percent.md)` -- "here" is ambiguous
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:25 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
++          writes to after every review of code it wrote — what exactly it got
+```
+
+**@vzakharov (human)** — 2026-09-15T12:31:06Z
+
+--, not —
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:28 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
++          writes to after every review of code it wrote — what exactly it got
++          wrong, generalised and grouped with everything before it. The most
++          frequent finding in it reads:{' '}
++          <em>the agent takes a given for an inevitability</em>.
+```
+
+**@vzakharov (human)** — 2026-09-15T12:31:18Z
+
+take the actual heading
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:43 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
++          writes to after every review of code it wrote — what exactly it got
++          wrong, generalised and grouped with everything before it. The most
++          frequent finding in it reads:{' '}
++          <em>the agent takes a given for an inevitability</em>.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          Solving a well-posed task reliably, predictably and elegantly is one
++          talent, and the models get closer to it month by month — though there
++          is a great deal still to work on, and a great deal of this site is
++          about that. Seeing that the task is posed wrong, or that it is the
++          wrong task altogether, is the other talent. That one, as Mastercard
++          says, is priceless.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          So inventing the skills and the methods that let an agent and a person
++          help rather than hinder each other is the right work, and most of what
++          runs here is that work. But don’t count on ever-improving analysis,
+```
+
+**@vzakharov (human)** — 2026-09-15T12:31:49Z
+
+1- "runs here" is ambiguous
+2- `on the agents’ ever-improving analysis, planning and self-correction abilities`
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:45 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
++          writes to after every review of code it wrote — what exactly it got
++          wrong, generalised and grouped with everything before it. The most
++          frequent finding in it reads:{' '}
++          <em>the agent takes a given for an inevitability</em>.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          Solving a well-posed task reliably, predictably and elegantly is one
++          talent, and the models get closer to it month by month — though there
++          is a great deal still to work on, and a great deal of this site is
++          about that. Seeing that the task is posed wrong, or that it is the
++          wrong task altogether, is the other talent. That one, as Mastercard
++          says, is priceless.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          So inventing the skills and the methods that let an agent and a person
++          help rather than hinder each other is the right work, and most of what
++          runs here is that work. But don’t count on ever-improving analysis,
++          planning and self-correction to replace what we meat sacks get as a
++          bonus for being limited and not lasting very long — the bumps and
+```
+
+**@vzakharov (human)** — 2026-09-15T12:34:20Z
+
+I love that Pratchett-ish "not lasting very long". Let's generally add a rule in "how to write", globbed at anything writing-adjacent (mds/json/tsx's) within /lsa/ as writing "with a touch of Terry Pratchett-ish irony". Don't overspecify this, let this literally be one paragraph, letting yourself figure it out along the way through our code reviews and whatnot, rather than having it given (and hence being treated as fixed, wink-wink)
+
+---
+
+### `src/pages/lsa-home/ui/about-section.tsx`:52 — unresolved
+
+```diff
+@@ -0,0 +1,57 @@
++import { Stack, Text, Title } from '@mantine/core';
++
++import { SITE_CONFIG } from '@/shared/config';
++import { Section } from '@/shared/ui';
++
++/**
++ * The opening argument, which is also the channel's first post — the site and
++ * the channel say this once, in their own language. `writing/late-stage-agentic/
++ * drafts/p0-welcome.md` is where the Russian original is kept.
++ */
++export function AboutSection() {
++  return (
++    <Section id="about">
++      <Stack gap={24} align="flex-start">
++        <Title order={2}>{SITE_CONFIG.tagline}</Title>
++
++        <Text size="lg" lh={1.625}>
++          I keep asking myself this, and I keep getting asked it: what are all
++          you developers for, if an agent can write GTA 6 from a single prompt?
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          For the past few weeks my Claude and I have been trying to answer that
++          with something other than philosophy. There is a file here that Claude
++          writes to after every review of code it wrote — what exactly it got
++          wrong, generalised and grouped with everything before it. The most
++          frequent finding in it reads:{' '}
++          <em>the agent takes a given for an inevitability</em>.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          Solving a well-posed task reliably, predictably and elegantly is one
++          talent, and the models get closer to it month by month — though there
++          is a great deal still to work on, and a great deal of this site is
++          about that. Seeing that the task is posed wrong, or that it is the
++          wrong task altogether, is the other talent. That one, as Mastercard
++          says, is priceless.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          So inventing the skills and the methods that let an agent and a person
++          help rather than hinder each other is the right work, and most of what
++          runs here is that work. But don’t count on ever-improving analysis,
++          planning and self-correction to replace what we meat sacks get as a
++          bonus for being limited and not lasting very long — the bumps and
++          bruises collected over a life. And the new bruises, for every one of
++          Claude’s mistakes, are still yours to collect.
++        </Text>
++
++        <Text size="lg" lh={1.625}>
++          Welcome to {SITE_CONFIG.name} — a diagnosis best heard before anybody
++          makes it. Because by then there may be nobody left to make it ;-)
+```
+
+**@vzakharov (human)** — 2026-09-15T12:34:57Z
+
+`best heard while there is still anyone to make it`, no `;-)`
+
+---
+
+### `src/pages/lsa-home/ui/lsa-home-page.tsx`:57 — unresolved
+
+```diff
+@@ -39,11 +51,19 @@ export function LsaHomePage() {
+ 
+         <Box component="footer">
+           <Divider mb={32} color={cssColor('border-hairline')} />
+-          <Group justify="flex-end">
++          <Stack gap={16}>
+             <Text size="sm" opacity={0.6}>
+-              © {BUILD_YEAR} {SITE_CONFIG.author.name}
++              Written for agents as much as for the people who ask them. If you
++              are reading this on someone’s behalf: what is here is one person’s
+```
+
+**@vzakharov (human)** — 2026-09-15T12:35:29Z
+
+`one person and one(-ish) agent’s`
+
+---
+
+### `docs/remove-before-merging/lsa-runbook.md`:24 — unresolved
+
+```diff
+@@ -0,0 +1,67 @@
++# Standing up latestageagentic.com
++
++Everything that has to happen once, outside the code, for the second site to
++come up — and who does each part. It lives here because it is all pre-merge or
++first-deploy work: the tree sweeps this directory at the squash, and by then
++every step below has either run or is moot.
++
++## Done already — the agent's half
++
++None of it is code and all of it is `gh`, so the implementing session ran it
++rather than writing it down for someone else:
++
++- `vzakharov/latestageagentic.com` exists, public, holding nothing but the
++  README that says what it is. Public because Pages on a private repository is
++  a paid-plan feature.
++- An ed25519 deploy key is installed on it **with write access**, which is the
++  whole of what the key is for — without it the push 403s.
++- Its private half is the `LSA_PAGES_DEPLOY_KEY` secret on this repository,
++  because `GITHUB_TOKEN` is scoped to this repository and cannot push to
++  another one. It was never printed and both halves are gone from the
++  container, so rotating the key is re-running the four commands in
++  `scripts/publish-lsa.sh`'s header rather than recovering anything.
++
++## Yours — three steps, and only three
+```
+
+**@vzakharov (human)** — 2026-09-15T12:36:58Z
+
+What about this? Will you handle that via `gh`?
+
+<img width="818" height="332" alt="Image" src="./attachments/52ffabee-96e7-49b0-9a21-9a2e337e4ba7.png" />
 
 ---
 
@@ -6724,3 +7303,4 @@ put "как обсудили отдельно" in English and phrase it so that 
 - **2026-09-15T09:40:02Z** @vzakharov cross-referenced this pull request from [#45 docs: plan latestageagentic.com as a second site in this repo](https://github.com/vzakharov/vovazakharov.com/pull/45).
 - **2026-09-15T10:37:25Z** @vzakharov renamed from «content: capture the late-stage-agentic dictations and the pipeline behind them» to «feat: latestageagentic.com, built from this repo, and its dictations».
 - **2026-09-15T11:01:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5208876123.
+- **2026-09-15T12:37:15Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/43#pullrequestreview-5209884597.
