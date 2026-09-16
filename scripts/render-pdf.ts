@@ -51,6 +51,7 @@ import {
   REPO_ROOT,
 } from './lib/content-tree.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
+import { sameRender } from './lib/same-render.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
 type Printable = Renderable & Routed;
@@ -289,27 +290,6 @@ async function withDevServer(
       process.kill(-server.pid, 'SIGTERM');
     }
   }
-}
-
-/**
- * The two fields a re-render moves on a page that did not change. Fixed-width,
- * so stripping them shifts no byte offset and each normalized file's xref table
- * still describes it.
- */
-const RENDER_CLOCK = /\/(?:Creation|Mod)Date \(D:[^)]*\)/g;
-
-/**
- * Only the clock is discounted, so this settles a same-browser re-render and
- * claims nothing about reproducing one elsewhere — which is why
- * `render-manifest.ts` still decides staleness by hashing sources.
- *
- * `latin1` round-trips arbitrary bytes one-to-one, where `utf8` would not.
- */
-function sameRender(before: Buffer, after: Buffer): boolean {
-  const spoken = (pdf: Buffer): string =>
-    pdf.toString('latin1').replaceAll(RENDER_CLOCK, '');
-
-  return spoken(before) === spoken(after);
 }
 
 /**
