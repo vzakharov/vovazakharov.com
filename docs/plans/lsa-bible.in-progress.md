@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # The Bible: latestageagentic.com's article collection
 
 Stand up the wiki `writing/late-stage-agentic/plan.md` calls «Библия» as a real
@@ -184,6 +182,29 @@ between the channel and the site. Concretely, per article:
   which is the bar plan.md sets. The ending keeps its speaker — the insight on
   the way is the best part of building anything, and handing it over leaves you
   posing tasks and signing off results.
+
+### The Bible's own front page
+
+Added at the go-ahead: `/bible` opens on prose of its own rather than dropping
+the reader straight into a list of three cards. The index page already takes a
+one-line description — the case studies' is "Long-form write-ups of work I have
+shipped" — which serves as both the meta description and the page's lede; the
+Bible needs more than a line, because the name is a joke that has to land before
+the first categorical article does.
+
+So the index gains an optional second element beside that line: a short
+introduction, rendered under the lede and above the cards, written per
+collection. The case studies keep none. The Bible's says what the collection is
+(a position per article, stated flatly), why it is called what it is (the
+self-irony is what keeps a categorical piece from reading as a manifesto), and
+what «as of writing» means for a page about a technology that moves. That is
+`writing/late-stage-agentic/plan.md` § "Not balanced" in the register of a page
+rather than of a plan.
+
+Where the copy lives: a record in the page slice keyed by collection, not a
+field in `shared/content`'s registry. The registry shapes routes and runs under
+bare Node in the render scripts; a paragraph of site copy is page composition,
+and the layer that renders it is the layer that should hold it.
 
 Cross-links are sibling `.md` links (`./given-for-inevitable.md`), which the
 pipeline rewrites to the sibling's route and which resolve unchanged when the
