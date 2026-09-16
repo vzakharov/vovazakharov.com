@@ -1,12 +1,12 @@
 ---
-description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [verbatim|prose]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
+description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [verbatim|retake|prose]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
 recording as readable text in the speaker's own words — framed by a summary they
-can recognise it from and your own reading of what they said — the whole Deepgram
-response is kept beside the media, and every place the recognizer was guessing
-is listed in the file for them to correct.
+can recognise it from and your own reading of what they said — the media and the
+timecoded transcript are kept on the branch, and every place the recognizer was
+guessing is listed in the file for them to correct.
 
 ## The split
 
@@ -24,28 +24,68 @@ python3 scripts/transcribe.py <media> --slug <slug> \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```
 
-It writes `<slug>.deepgram.json` and `<slug>.transcript.md` under
-`docs/remove-before-merging/deepgram/`.
+It writes `<slug>.transcript.md` under `docs/remove-before-merging/deepgram/`,
+which is committed, and the whole response as `<slug>.deepgram.json` under
+gitignored `tmp/deepgram/`, which is not: the timecoded transcript answers
+ninety-nine questions in a hundred, and the hundredth costs one API call rather
+than megabytes of JSON carried in the tree forever.
 
-## The two modes
+## The three modes
 
-A recording is either headed for publication or not, and that decides how much
-of it is the speaker's own wording:
+What the recording is for decides how much of the file is the speaker's own
+wording:
 
-| Mode         | What it is                                                                | What the body is                                              |
-| ------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| **verbatim** | a recording that will be posted — the words go on screen as subtitles     | the speaker's words in the speaker's order, under Step 3      |
-| **prose**    | a read-aloud that exists to give the repo context, and is never published | the same content as connected text, loose sentences tightened |
+| Mode         | What it is                                                                   | What the body is                                                         |
+| ------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **verbatim** | a recording that ships as recorded — the words go on screen as subtitles     | the speaker's words in the speaker's order, under Step 3                 |
+| **retake**   | a recording that will be said again, better — this file is what is read from | the same talk with the stumbles out: their phrasing, without the tangles |
+| **prose**    | a read-aloud that exists to give the repo context, and is never published    | the same content as connected text, loose sentences tightened            |
 
-**Ask which one when the invocation doesn't say.** Neither is the default: a
-default is what makes the question skippable, and the cost of guessing runs both
-ways — a published recording rewritten is a subtitle track in nobody's voice, a
-context recording left verbatim is four screens of talk where a page of prose
-was wanted. The mode goes in the file's header line, since a reader of the file
-otherwise cannot tell which rule it was held to.
+**Ask which one when the invocation doesn't say.** None is the default: a
+default is what makes the question skippable, and every guess costs something
+different — a shipping recording rewritten is a subtitle track in nobody's
+voice, a context recording left verbatim is four screens of talk where a page of
+prose was wanted, and a recording meant to be said again, left verbatim, hands
+the speaker back his own stumbles to read out loud. The mode goes in the file's
+header line, since a reader of the file otherwise cannot tell which rule it was
+held to.
 
-Everything below holds in both modes except Step 3's word test, which is
-verbatim's alone.
+Everything below holds in all three modes except Step 3's word test, which is
+verbatim's alone, and the § "Retake mode" rules, which are retake's.
+
+## Retake mode
+
+The file is a script. The speaker read his own transcript, found the places he
+stumbled or said it clumsily, and wants the version he can record cleanly off
+the screen — so the test is not "are these his words" but **would he say this,
+and would he be glad he did**.
+
+What that keeps, and what it takes out:
+
+| Keep                                                          | Take out                                                            |
+| ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| His turns of phrase, his register, his asides to the listener | False starts, tautologies, the third restatement of the same clause |
+| The order the thought arrives in                              | A metaphor he withdrew mid-sentence — replace it or drop it         |
+| A digression that earns its place                             | A digression that goes nowhere and comes back changing nothing      |
+| The looseness of speech                                       | The tangle of speech                                                |
+
+**Under-edit rather than over-edit.** A well-placed digression often does more
+than the line it hangs off, and a text tightened until every sentence pulls its
+weight is a text nobody talks like — the speaker then fights it at the
+microphone, which is the one thing this mode exists to prevent. Where a passage
+is merely loose, leave it loose.
+
+**Two grades of edit, and the second one gets listed.** A word, a repetition, a
+tangled clause straightened — silent. Anything that changes what a passage
+_says_ — a replaced image, a merged or dropped digression, a sentence supplied
+where the speech broke off, a heading structure that regroups his points — goes
+in `## Что поправлено` at the foot of the body, one row each, so he can check
+the salt did not go out with the water. When in doubt, list it: a row he skims
+past costs him two seconds, and a silent edit that took the point costs him the
+take.
+
+**Where the speaker already ruled on a passage in review, that ruling is text he
+supplied** — set it down as he worded it, and do not improve it on the way in.
 
 ## Step 1 — Get the media into the repo
 
@@ -91,9 +131,14 @@ recording:
 | -------------------------------------------------------- | ----------- |
 | A header line — when, where, what was recorded, the mode | yours       |
 | The lede (Step 5)                                        | yours       |
-| **The recording**, under one `## Расшифровка`            | **theirs**  |
+| **The recording**, under one `##`                        | **theirs**  |
 | The table of what you guessed (Step 4)                   | yours       |
+| In retake mode, `## Что поправлено`                      | yours       |
 | The afterword (Step 5)                                   | yours       |
+
+**The body's heading names what the file is**, so it follows the mode:
+`## Расшифровка` in verbatim and prose, `## Текст для начитки` in retake, where
+the point of the section is that it gets read off the screen.
 
 **One `##` for the recording, `###` for the headings inside it.** The parts
 around it are `##` too, so a heading of the speaker's material at the same level
@@ -163,10 +208,21 @@ prevent.
 Where you could not make out a reading at all, leave `[?]` in the text and say
 so in the table. An honest gap beats a plausible invention.
 
+**Every mark in the text carries the timecode it sits at** — `[?04:12]`,
+`[база 06:31]` — taken from the transcript's sentence lines. The operator finds
+these places by scrubbing the recording, and a mark without a timecode makes him
+hunt through six minutes of talk for a word he cannot search for.
+
 **The table is transient and shrinks to nothing.** It carries the rows that are
 still open questions, so a reading the operator has ruled on has done its work
 and comes out — and when the last row goes, the heading goes with it. A finished
 dictation file has no table: what it would have said is in the text.
+
+**Silence on a marked spot is a ruling too.** The operator reads the file with
+the marks in it; a mark he passes over without comment was read correctly, so
+that row comes out on the same pass as the ones he answered. He does not
+confirm the ones that were right, and waiting for him to is how a table stops
+shrinking.
 
 ## Step 5 — The lede and the afterword
 
@@ -189,6 +245,20 @@ Keep the lede's heading as it is across recordings — the operator reads the fi
 against each other, and a file that invents its own name for it costs them the
 comparison.
 
+## Every promise in the recording gets a link
+
+A dictation is full of "об этом мы поговорим позже" and "как я говорил раньше".
+Spoken, they cost nothing; written down, each one is a thread that goes slack
+the moment the piece it points at is written by someone who never heard this
+recording. So each gets a Markdown link, right where it is said, to a file under
+`writing/<project>/ideas/` — `@.claude/rules/writing.md` § "Ideas and the
+threads between them" owns the folder and the one-paragraph form.
+
+Forward and backward alike: a promise links to the idea file, a callback links
+to the piece that already exists. Which file exactly matters less than that the
+connection survives — when the promised piece is eventually written, its own
+backlinks are a grep for its filename rather than a memory.
+
 ## What happens after
 
 Burning the words onto the video is `@.claude/skills/subtitles/SKILL.md`, and it
@@ -200,7 +270,9 @@ and neither starts until the operator has agreed the transcript.
 ## Do NOT
 
 - Re-run the script over a recording already transcribed to get a "better" pass.
-  The response is saved; read it.
+  The transcript is committed; read it. (A re-run is legitimate for one thing
+  only: fetching per-word timings that `tmp/` no longer has, for a subtitle
+  pass. `--force` and the same model, or the two responses are incomparable.)
 - Edit the operator's own corrections to a dictation file. Text they supplied is
   verbatim; something in it that looks like a typo gets raised, not fixed.
 - Leave the source media only in the container. It dies with the session.
