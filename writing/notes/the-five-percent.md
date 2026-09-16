@@ -269,7 +269,7 @@ that proves the opposite.** Handed House for the recording's close, the agent
 wrote a tray of instruments rather than look one up: _погугли, чтобы не
 хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
 a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
-the scene deduces. That an example exists is not that it fits the citation.
+it is deduction, not epiphany. That an example exists is not that it fits.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об
 этом позже» in the recordings got a paragraph under `ideas/`, and three of four

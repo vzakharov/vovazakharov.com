@@ -123,11 +123,10 @@ invented for it.
   paraphrases is a neighbouring sentence, not its own first half. «Машина не
   просто занята, она ещё и держит вас за столом» followed «крышку не закроешь,
   а то агенты остановятся» and said it over again, in words different enough to
-  pass for a second fact. So read such a sentence against the ones around it:
-  the cadence promises a turn and delivers what the reader was told a line ago.
-  Its twin cadence, «не X, а Y», hides the same repeat. Either the second half
-  brings something of its own, or the plain line that said it first is the one
-  to keep.
+  pass for a second fact — which is why the sentence has to be read against the
+  ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
+  the second half brings something of its own, or the plain line that said it
+  first is the one to keep.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work
