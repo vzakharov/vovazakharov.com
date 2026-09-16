@@ -3,7 +3,7 @@ import { Anchor, Group, Text } from '@mantine/core';
 import { BUILD_YEAR, printedUrl, SITE_CONFIG } from '@/shared/config';
 import type { Routed } from '@/shared/content';
 
-import classes from './case-studies.module.scss';
+import classes from './documents.module.scss';
 
 /**
  * The line at the foot of every printed page: where the document lives, and

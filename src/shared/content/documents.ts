@@ -4,14 +4,14 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { pageFile } from '@/shared/config';
+import { pageFile, type SiteId } from '@/shared/config';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
-  COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
+  collectionsForSite,
   documentName,
   type DocumentRef,
   documentRoute,
@@ -160,6 +160,9 @@ export function siblingVariants(
   );
 }
 
-export function listAllDocuments(): ContentDocument[] {
-  return COLLECTION_IDS.flatMap((collection) => listDocuments(collection));
+/** Every document the given site serves. Another site's collections have no directory here. */
+export function listAllDocuments(site: SiteId): ContentDocument[] {
+  return collectionsForSite(site).flatMap((collection) =>
+    listDocuments(collection),
+  );
 }

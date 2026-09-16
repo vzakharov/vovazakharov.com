@@ -6,6 +6,7 @@ export {
   pageFile,
   printedUrl,
   SITE_CONFIG,
-  type SiteId,
+  SITE_ID,
 } from './site-config';
+export { type SiteId, SITE_IDS, type WithSiteId } from './site-ids';
 export { TECH_STACKS } from './tech-stacks';

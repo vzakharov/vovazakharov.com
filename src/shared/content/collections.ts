@@ -5,14 +5,24 @@
 
 import path from 'node:path';
 
+// Type-only, and it has to stay that way: bare Node strips the statement
+// without resolving it, which is what lets this module keep the `@/` alias it
+// could not otherwise reach. A value import here would also reach
+// `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
+import type { SiteId, WithSiteId } from '@/shared/config';
+
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies'] as const;
+export const COLLECTION_IDS = ['case-studies', 'bible'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
 /**
  * The one place a content URL shape is decided. Routes, the sitemap and the
  * index cards all derive from it, so a new collection is an entry here.
+ *
+ * A collection belongs to one site, and every walk over the registry filters by
+ * that: `public/` is per app, so the other site's build would otherwise read a
+ * directory that is not there.
  */
 export const COLLECTIONS = {
   'case-studies': {
@@ -20,8 +30,22 @@ export const COLLECTIONS = {
      * is what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
+    site: 'vova',
   },
-} as const satisfies Record<CollectionId, { base: string; label: string }>;
+  bible: {
+    base: 'bible',
+    label: 'The Bible',
+    site: 'lsa',
+  },
+} as const satisfies Record<
+  CollectionId,
+  WithSiteId & { base: string; label: string }
+>;
+
+/** The collections one site serves — every registry walk starts here. */
+export function collectionsForSite(site: SiteId): CollectionId[] {
+  return COLLECTION_IDS.filter((id) => COLLECTIONS[id].site === site);
+}
 
 /** The document the home page and the CV both cross-link. */
 export const FEATURED_CASE_STUDY = 'playgram';

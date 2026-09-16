@@ -10,7 +10,7 @@ import {
 } from '@/shared/content';
 import { type Chip, ChipNav, FileLink } from '@/shared/ui';
 
-import classes from './case-studies.module.scss';
+import classes from './documents.module.scss';
 import { DocumentMeta } from './document-meta';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */

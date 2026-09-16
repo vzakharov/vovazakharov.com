@@ -6,6 +6,8 @@ import type {
   WithText,
 } from '@/shared/typings';
 
+import { type SiteId, SITE_IDS } from './site-ids';
+
 /**
  * A static export renders once per deploy, so a copyright year is the build's.
  * Shared so the page footer and the printed one cannot disagree.
@@ -21,11 +23,6 @@ export const PAGE_ROUTES = {
   writing: '/writing',
   music: '/music',
 } as const;
-
-/** The ids are the source of truth: each names a directory under `apps/`. */
-const SITE_IDS = ['vova', 'lsa'] as const;
-
-export type SiteId = (typeof SITE_IDS)[number];
 
 /**
  * Which site this build is. Each app pins it in its `next.config.ts` and each
@@ -118,6 +115,9 @@ const SITE_CONFIGS = {
     ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;
+
+/** Which site is being built, for the consumers that branch on it rather than read its config. */
+export const SITE_ID = siteId;
 
 export const SITE_CONFIG = SITE_CONFIGS[siteId];
 

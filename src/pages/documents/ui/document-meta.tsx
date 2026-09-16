@@ -4,7 +4,7 @@ import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 
-import classes from './case-studies.module.scss';
+import classes from './documents.module.scss';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',

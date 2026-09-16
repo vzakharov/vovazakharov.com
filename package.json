@@ -17,9 +17,10 @@
     "lint:fsd": "steiger src",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "content:mermaid": "cd apps/vova && node ../../scripts/render-mermaid.ts",
+    "content:mermaid": "cd apps/vova && NEXT_PUBLIC_SITE=vova node ../../scripts/render-mermaid.ts",
     "content:og": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-og.ts",
-    "content:pdf": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-pdf.ts",
+    "content:pdf:vova": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-pdf.ts",
+    "content:pdf:lsa": "cd apps/lsa && NEXT_PUBLIC_SITE=lsa tsx ../../scripts/render-pdf.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {
