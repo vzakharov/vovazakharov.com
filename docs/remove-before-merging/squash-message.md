@@ -1,31 +1,32 @@
 Proposed squash title/body:
 
 ```
-content: three dictations, and a retake mode to hold them (pr #50)
+content: scripts to re-record from, and the mode that makes them (pr #50)
 ```
 
 ```
 Three recordings talked into a phone, and the mode they turned out to
-need. Verbatim hands the speaker back his own stumbles to read out loud;
-prose is written for a reader rather than a microphone. Retake is the
-third: it keeps his phrasing, his register and the order the thought
-arrives in, and takes out the false starts, the tautologies and the
-metaphors he withdrew mid-sentence. Under-editing is the rule, because a
-text tightened until every sentence pulls its weight is one its author
-has to fight at the microphone.
+need. Verbatim hands the speaker back their own stumbles to read out
+loud; prose is written for a reader rather than a microphone. Retake is
+the third: it keeps their phrasing, their register and the order the
+thought arrives in, and takes out the false starts, the tautologies and
+the metaphors they withdrew mid-sentence. Under-editing is the rule,
+because a text tightened until every sentence pulls its weight is one
+its author has to fight at the microphone.
 
-Edits that change what a passage says are listed at the foot of each
-file rather than made silently, so the salt can be checked; the rest is
-quiet. The recordings cover why to drive agents through the web client
-rather than the local console, the four TEND lenses /tend-prose runs,
-and what "the agent takes a given for an inevitability" means.
+Edits that change what a passage says carry a footnote at the place they
+changed it, so the salt can be checked against the recording without
+holding a table in your head; the rest is quiet. The recordings cover
+why to drive agents through the web client rather than the local
+console, the four TEND lenses /tend-prose runs, and what "the agent
+takes a given for an inevitability" means.
 
 Every promise a recording makes now links to a paragraph under
 writing/late-stage-agentic/ideas/, so "about this later" has somewhere
 to point before the piece that keeps it exists. The Deepgram responses
-stop being tracked: the timecoded transcript answers what anyone asks,
-and a subtitle pass wanting per-word timings re-runs the script over the
-media on the branch for one API call.
+stay in the tree gzipped: a re-run is a fresh transcription whose words
+no longer line up with the corrections made against the old one, and
+30 KB beside 3.7 MB of audio is not a cost worth that.
 
 Review left one rule behind in .claude/rules/writing.md: "not just X --
 it's also Y" is a paraphrase in the cadence of a reveal, and it goes.

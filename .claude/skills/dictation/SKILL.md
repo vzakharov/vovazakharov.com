@@ -24,9 +24,12 @@ python3 scripts/transcribe.py <media> --slug <slug> \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```
 
-It writes `<slug>.transcript.md` under `docs/remove-before-merging/deepgram/`,
-which is committed, and the whole response under gitignored `tmp/deepgram/`,
-which is not — the script's header says why.
+It writes `<slug>.transcript.md` and the gzipped whole response,
+`<slug>.deepgram.json.gz`, side by side under
+`docs/remove-before-merging/deepgram/`. Both are committed and both are swept
+before the merge; the response is kept because a re-run returns a different one,
+and gzipped because 300 KB of JSON otherwise opens as text everywhere the branch
+is previewed.
 
 ## The three modes
 
@@ -44,7 +47,7 @@ default is what makes the question skippable, and every guess costs something
 different — a shipping recording rewritten is a subtitle track in nobody's
 voice, a context recording left verbatim is four screens of talk where a page of
 prose was wanted, and a recording meant to be said again, left verbatim, hands
-the speaker back his own stumbles to read out loud. The mode goes in the file's
+the speaker back their own stumbles to read out loud. The mode goes in the file's
 header line, since a reader of the file otherwise cannot tell which rule it was
 held to.
 
@@ -53,19 +56,19 @@ verbatim's alone, and the § "Retake mode" rules, which are retake's.
 
 ## Retake mode
 
-The file is a script. The speaker read his own transcript, found the places he
-stumbled or said it clumsily, and wants the version he can record cleanly off
-the screen — so the test is not "are these his words" but **would he say this,
-and would he be glad he did**.
+The file is a script. The speaker read their own transcript, found the places
+they stumbled or said it clumsily, and wants the version they can record cleanly
+off the screen — so the test is not "are these their words" but **would they say
+this, and would they be glad they did**.
 
 What that keeps, and what it takes out:
 
-| Keep                                                          | Take out                                                            |
-| ------------------------------------------------------------- | ------------------------------------------------------------------- |
-| His turns of phrase, his register, his asides to the listener | False starts, tautologies, the third restatement of the same clause |
-| The order the thought arrives in                              | A metaphor he withdrew mid-sentence — replace it or drop it         |
-| A digression that earns its place                             | A digression that goes nowhere and comes back changing nothing      |
-| The looseness of speech                                       | The tangle of speech                                                |
+| Keep                                                                | Take out                                                            |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Their turns of phrase, their register, their asides to the listener | False starts, tautologies, the third restatement of the same clause |
+| The order the thought arrives in                                    | A metaphor they withdrew mid-sentence — replace it or drop it       |
+| A digression that earns its place                                   | A digression that goes nowhere and comes back changing nothing      |
+| The looseness of speech                                             | The tangle of speech                                                |
 
 **Under-edit rather than over-edit.** A text tightened until every sentence
 pulls its weight is a text nobody talks like, and the speaker then fights it at
@@ -76,13 +79,21 @@ line it hangs off.
 **Two grades of edit, and the second one gets listed.** A word, a repetition, a
 tangled clause straightened — silent. Anything that changes what a passage
 _says_ — a replaced image, a merged or dropped digression, a sentence supplied
-where the speech broke off, a heading structure that regroups his points — goes
-in `## Что поправлено` at the foot of the body, one row each. When in doubt,
-list it: a row he skims past costs him two seconds, and a silent edit that took
-the point costs him the take.
+where the speech broke off, a heading structure that regroups their points —
+gets a **footnote marker at the place it changed**, with the note itself under
+`## Что поправлено` at the foot of the body. When in doubt, mark it: a note they
+skim past costs them two seconds, and a silent edit that took the point costs
+them the take.
 
-**Where the speaker already ruled on a passage in review, that ruling is text he
-supplied** — set it down as he worded it, and do not improve it on the way in.
+**A footnote, not a table.** A table of edits is read against the file rather
+than in it, so the reader holds a quotation in their head while hunting for the
+line it replaced; a marker sits where the change is and the eye goes down and
+back. The note says what the recording had and why it is not that any more, and
+a proposal rather than a correction says so in its first words.
+
+**Where the speaker already ruled on a passage in review, that ruling is text
+they supplied** — set it down as they worded it, and do not improve it on the
+way in.
 
 ## Step 1 — Get the media into the repo
 
@@ -130,7 +141,7 @@ recording:
 | The lede (Step 5)                                        | yours       |
 | **The recording**, under one `##`                        | **theirs**  |
 | The table of what you guessed (Step 4)                   | yours       |
-| In retake mode, `## Что поправлено`                      | yours       |
+| In retake mode, the `## Что поправлено` footnotes        | yours       |
 | The afterword (Step 5)                                   | yours       |
 
 **The body's heading names what the file is**, so it follows the mode:
@@ -187,7 +198,7 @@ what let the operator see the seam and take it back out.
 sentence that reads as a non-sequitur is usually one mis-heard word, and the
 guess that makes it read well is the guess that hides it. What that costs, on
 the recording this skill was written from: the speaker was describing the code
-he had been writing — «потом ты смотришь на код, он красивый, почти как
+they had been writing — «потом ты смотришь на код, он красивый, почти как
 предзакатное солнце» — and the recognizer heard «на кофе». A coffee had been
 sitting on a rock two sentences earlier, so the line parsed, read well, and drew
 no attention; the rung the recording's whole payoff called back to was simply
@@ -207,8 +218,8 @@ so in the table. An honest gap beats a plausible invention.
 
 **Every mark in the text carries the timecode it sits at** — `[?04:12]`,
 `[база 06:31]` — taken from the transcript's sentence lines. The operator finds
-these places by scrubbing the recording, and a mark without a timecode makes him
-hunt through six minutes of talk for a word he cannot search for.
+these places by scrubbing the recording, and a mark without a timecode makes them
+hunt through six minutes of talk for a word they cannot search for.
 
 **The table is transient and shrinks to nothing.** It carries the rows that are
 still open questions, so a reading the operator has ruled on has done its work
@@ -216,9 +227,9 @@ and comes out — and when the last row goes, the heading goes with it. A finish
 dictation file has no table: what it would have said is in the text.
 
 **Silence on a marked spot is a ruling too.** The operator reads the file with
-the marks in it; a mark he passes over without comment was read correctly, so
-that row comes out on the same pass as the ones he answered. He does not
-confirm the ones that were right, and waiting for him to is how a table stops
+the marks in it; a mark they pass over without comment was read correctly, so
+that row comes out on the same pass as the ones they answered. They do not
+confirm the ones that were right, and waiting for that is how a table stops
 shrinking.
 
 ## Step 5 — The lede and the afterword

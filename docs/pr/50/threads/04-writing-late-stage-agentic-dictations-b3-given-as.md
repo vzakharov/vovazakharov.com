@@ -262,7 +262,7 @@
 
 <a id="t52"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:95 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:95 — resolved
 
 ```diff
 @@ -0,0 +1,161 @@
@@ -366,7 +366,7 @@
 
 <a id="t56"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:115 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:115 — resolved
 
 ```diff
 @@ -0,0 +1,161 @@

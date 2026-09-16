@@ -25,7 +25,7 @@
 
 <a id="t22"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:35 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:35 — resolved
 
 ```diff
 @@ -0,0 +1,198 @@
@@ -266,7 +266,7 @@
 
 <a id="t32"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:93 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:93 — resolved
 
 ```diff
 @@ -0,0 +1,198 @@
@@ -302,7 +302,7 @@
 
 <a id="t33"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:126 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:126 — resolved
 
 ```diff
 @@ -0,0 +1,198 @@

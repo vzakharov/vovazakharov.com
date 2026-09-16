@@ -21,10 +21,11 @@ Two inputs, both already in the branch:
   in. Verbatim mode only — a retake file is the script for a recording that has
   not been made yet, so there is nothing to lay it over.
 - **The per-word timings**, which are in the Deepgram response and nowhere else.
-  That response lives in gitignored `tmp/deepgram/` and does not survive the
-  session, so a subtitle pass starting cold re-runs `scripts/transcribe.py` over
-  the media on the branch — same model, `--force`, or the two responses are
-  incomparable.
+  That response is on the branch as
+  `docs/remove-before-merging/deepgram/<slug>.deepgram.json.gz`, so a subtitle
+  pass starting cold reads it (`gzip -dc`) rather than re-running the
+  recognizer: a re-run is a fresh transcription, and its words no longer line up
+  with the corrections made against the old one.
 
 So the first piece of work is a **join**: each corrected word onto the time its
 mis-heard counterpart occupied.
