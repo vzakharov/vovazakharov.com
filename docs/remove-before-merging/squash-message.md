@@ -9,20 +9,17 @@ All four committed CV PDFs pointed at the machine that printed
 them: `http://localhost:41593/` for the name in the header, and
 the same port for the case-study address. The printed link's text
 was absolutized and its href was not, so Chromium resolved the
-href against the dev server the render ran on. Most viewers hid
-half of it by auto-detecting the URL-shaped text lying over the
-case-study annotation; the header's name link had no such text to
-be rescued by.
+href against the dev server the render ran on.
 
-Both printing anchors now take `printedUrl()`, which already
-returns the absolute href beside the scheme-less display text for
-the case studies' own printed footers. Every link annotation keeps
-its exact rectangle, so the printed page is unchanged and only the
-targets moved. The sheet's other relative link needed nothing: it
-sits in a print-hidden footer and never reached a PDF, which is
-what leaves a client-side route home on screen. The catalogue's
-`cv.website` goes too — the case-study line was its second
-consumer, and it spelled the domain a third time beside
+Each of the two printing links now exists once per medium: a
+`print-hidden` anchor on the relative href `next/link` needs for a
+client-side route, and a print-only one on `printedUrl()`, which
+already returns the absolute href beside its scheme-less display
+text for the case studies' own footers. Every annotation keeps its
+exact rectangle and all four files re-render byte-identical, so
+the printed page is unchanged and only the targets moved. The
+catalogue's `cv.website` goes too — the case-study line was its
+second consumer, and it spelled the domain a third time beside
 `SITE_CONFIG.url`.
 
 Separately, `render-pdf.ts` keeps the committed bytes when a fresh
