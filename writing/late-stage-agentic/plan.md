@@ -141,7 +141,17 @@ draft so the operator can put it back.
   are known and what needs catching is where the speaker left the script;
   `/subtitles`, whose correction pass would have nothing to correct; and what
   verbatim mode is protecting, the words being on screen before the camera runs.
-  None of those skills changes until the plan exists.
+  `/dictation`'s retake mode is half a step down this road already — it turns a
+  first take into the script for a second — so the open question narrows to
+  whether the first take is worth making at all, or whether the thinking should
+  start on the page.
+- **Two backlogs for one body of knowledge.** `ideas/` here holds a paragraph
+  per unwritten piece, seeded from the promises the recordings make; the rows in
+  `writing/linkedin/plan.md` are the same substance pointed at a different
+  channel, since what runs on LinkedIn is «библия» material in English. Whether
+  they merge into one list with a channel column, or the LinkedIn plan becomes a
+  scheduling view over `ideas/`, is undecided — and until it is, an idea filed
+  in one is invisible to whoever reads the other.
 - **Where the project lives on GitHub.** An organisation of its own with
   `vzakharov/muthur` moved into it, or the repositories staying where they are
   under one name. Undecided.
