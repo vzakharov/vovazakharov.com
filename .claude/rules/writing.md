@@ -23,8 +23,12 @@ writing/
     <slug>.md          # evidence gathered for a post not yet drafted
   <channel>/
     plan.md            # the backlog for that channel
+    ideas/
+      <slug>.md        # one paragraph on a piece not yet started
     drafts/
       <slug>.md        # one file per post
+    dictations/
+      <slug>.md        # a recording, transcribed
 ```
 
 `notes/` is for a claim that needs specimens rather than argument: the file
@@ -32,6 +36,24 @@ collects them as they occur, so the post is written from a record instead of
 from memory. A backlog row whose objection is "this needs evidence" points at
 its notes file, and the file retires with the post it fed — a notes file is
 scaffolding for one draft, not a document the repo keeps.
+
+## Ideas and the threads between them
+
+`ideas/<slug>.md` is **one paragraph** on a piece that does not exist yet: what
+the idea is, and where it came from. A paragraph, because the file's job is to
+be a destination, and a destination that takes ten minutes to write is one
+nobody creates in the middle of doing something else.
+
+**Every "about this later" and "as I said before" carries a Markdown link** —
+to the idea file for a promise, to the piece itself for a callback — put in as
+the text is written, not afterwards. Which file exactly matters less than that
+the link is there: when the promised piece is finally drafted, everywhere that
+promised it is `grep <slug>` rather than recollection, and the backlinks go into
+the published copy from a list.
+
+An idea graduating into a draft leaves its file behind as the redirect — a line
+saying which draft it became — until the draft is posted, at which point both
+retire and the links repoint at the published piece.
 
 | Key      | Meaning                                    |
 | -------- | ------------------------------------------ |
@@ -97,6 +119,14 @@ invented for it.
   voice: "Once done, I thought, why not write a case study about it" survives
   edits that would compress it. A draft that reads as efficient reads as edited
   by a machine, which is the thing being avoided.
+- **"Not just X — it's also Y" is a paraphrase wearing a reveal**, and what it
+  paraphrases is a neighbouring sentence, not its own first half. «Машина не
+  просто занята, она ещё и держит вас за столом» followed «крышку не закроешь,
+  а то агенты остановятся» and said it over again, in words different enough to
+  pass for a second fact — which is why the sentence has to be read against the
+  ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
+  the second half brings something of its own, or the plain line that said it
+  first is the one to keep.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work
