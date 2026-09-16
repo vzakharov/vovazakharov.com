@@ -171,17 +171,6 @@
   }
 }
 
-// The printed half of a link that exists twice, once per medium. It sits next
-// to the global `.print-only` rather than reusing it because both halves are
-// inline, and that one prints as a block.
-.printLink {
-  display: none;
-
-  @media print {
-    display: inline;
-  }
-}
-
 // Tech-stack lines and asides.
 %aside {
   font-size: 14px;

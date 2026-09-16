@@ -13,7 +13,7 @@ import { useLocale, useMessages, useTranslations } from 'next-intl';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import { Card, FileLink, InternalLink } from '@/shared/ui';
+import { Card, FileLink, InternalLink, PrintableLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import { cvPdfFile } from '../lib/cv-urls';
@@ -48,8 +48,6 @@ function WebsiteLink() {
   );
 }
 
-const PRINTED_HOME = printedUrl('/').href;
-
 /** Order is a presentation decision, as with the experience entries. */
 const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
@@ -72,25 +70,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                {/* One anchor per medium: a client-side route needs the relative
-                    href `next/link` renders, and a relative href in a PDF
-                    resolves against whatever host printed the file. */}
-                <InternalLink
-                  href="/"
-                  className="print-hidden"
-                  underline="never"
-                  inherit
-                >
+                <PrintableLink href="/" underline="never" inherit>
                   {t('header.name')}
-                </InternalLink>
-                <Anchor
-                  href={PRINTED_HOME}
-                  className={classes['printLink']}
-                  underline="never"
-                  inherit
-                >
-                  {t('header.name')}
-                </Anchor>
+                </PrintableLink>
               </Title>
               <Text className={cx(classes['tagline'], classes['dim80'])}>
                 {t('header.tagline')}
