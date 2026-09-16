@@ -197,26 +197,23 @@ claim four lines above the mechanism contradicting it. _нужно сделат�
 settled against a Russian draft and applied to that file alone; the English copy
 written the next day came out in em dashes, the preference never asked about.
 
-## An account that explains the code stands in for running it (×6)
+## An account that explains the code stands in for running it (×7)
 
 The sibling of "It checks the render against its intent" below, and the worse
-half: there the agent looked and asked the wrong question, here it never looked,
-because the reasoning closed. Completeness is what removes the prompt to measure,
-and nothing inside an account can report that it was never checked.
+half: there the agent looked and asked the wrong question, here the reasoning
+closed before it looked. Nothing inside an account reports that it was never run.
 
 **8 September — a redirect nobody had opened.** Asked why the unlocalized `/cv`
 route needs a hand-written redirect file, the agent gave the right reason:
 next-intl redirects in middleware, a static export has none. That closed the
-question, so nobody asked what the file does. _how do we do "redirect" if it's
-not supposed to work in a static export at all?_ The hop is React's: `/cv` is
-blank to anything without JS.
+question, so nobody asked what the file does — _how do we do "redirect" if it's
+not supposed to work at all?_ The hop is React's: `/cv` is blank without JS.
 
 **8 September — the schema it never wrote.** Told route params would be better
-parsed with a zod schema, the agent declined; what survived two rounds was that
-a schema would restate the variant ids — which `z.enum(CV_VARIANTS)` does from
-the same const. _Am I missing smth?_ The account displaced a measurement nobody
-had: zod in a module a client component reaches costs the CV's bundle 89 kB
-gzipped, deciding where the schema lives, not whether it exists.
+parsed with a zod schema, the agent declined over two rounds: a schema would
+restate the variant ids, which `z.enum(CV_VARIANTS)` does from the same const.
+_Am I missing smth?_ The measurement nobody had — zod in a module a client
+component reaches costs the CV's bundle 89 kB gzipped — decides where it lives.
 
 **9 September — four homes, three of them checked.** Cutting a maintenance
 paragraph from a commit body, the agent justified it: each item already sits
@@ -225,9 +222,8 @@ nobody ran it — the fourth item was named nowhere but in the deleted paragraph
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
 Asked where source recordings live, the agent argued nothing sits between `main`
-and nowhere: a video kept only on a branch is garbage-collected with it. Every
-step true, the premise never checked — `git ls-remote --heads origin` lists
-twenty-eight merged `claude/*` branches: _я не удаляю ветки_.
+and nowhere: a branch-only video is collected with its branch. Every step true,
+the premise unchecked — `git ls-remote` lists twenty-eight: _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against drifting into prose: every sentence written
@@ -239,6 +235,12 @@ transcripts beside it, where «научный не обязательность�
 stayed a bare string in `siteNextConfig`, its docstring giving the reason:
 importing it runs `shared/config`'s check before anything sets the variable.
 True of a value import. _разве оно относится к `import type`?_ One build away.
+
+**16 September — a cost priced without rendering it.** The header's name went
+absolute in both media, the plan ruling out the split its sibling already uses as
+"the name in the DOM twice to buy back one soft navigation". _но тогда и в
+экранной версии это будет внешняя ссылка?_ Under `print-hidden` the copy weighs
+nothing, which one re-render says: all four PDFs came back byte-identical.
 
 ## It writes its reasoning into the artifact (×5)
 
@@ -263,10 +265,9 @@ which is how a cap gets walked past one push at a time.
 **14 September — two denials of what the file used to be part of.** The new
 afterword skill carried "it applies to anything the operator wrote" and "it is
 not the lede", both answering a question only someone who had watched it leave
-`/dictation` would ask. `CLAUDE.md` names the defect and `/tend-prose negation`
-ran over the file. _polar bear_, twice — then a third the next day, the voice
-rule closing on a paragraph ruling `--` out of site copy nothing had ever asked
-for, written minutes after the lens ran over it.
+`/dictation` would ask. _polar bear_, twice — then a third the next day, the
+voice rule closing on a paragraph ruling `--` out of site copy nothing had asked
+for, minutes after `/tend-prose negation` ran over it.
 
 ## Given a form, it fills the form (×5)
 
@@ -319,10 +320,9 @@ itself: the card can no longer say what the page stopped saying. The same image
 showed a plate two thirds empty — _the prose itself says nothing_, add the socials.
 
 **16 September — nine link targets dumped, one question asked of them.** Read for
-what the issue named — `localhost`, twice — the dump also said seven were fine and
-named what the two bad ones sit on: the case-study address, and the person's own
-name, drawn `underline="never"`. _все линки открываются норм_ went two rounds
-answered by an untestable theory about viewers, when the dump had answered it.
+what the issue named — `localhost`, twice — the dump also said which seven were
+fine and what the two bad ones sit on. _все линки открываются норм_ got two rounds
+of untestable theory about viewers, when the dump had answered it.
 
 ## It settles a constraint in prose where a mechanism was available (×2)
 
