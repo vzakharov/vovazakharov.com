@@ -48,7 +48,6 @@ function WebsiteLink() {
   );
 }
 
-/** The site root as paper needs it, the header's name being a link home. */
 const PRINTED_HOME = printedUrl('/').href;
 
 /** Order is a presentation decision, as with the experience entries. */
