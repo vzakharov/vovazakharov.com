@@ -198,7 +198,7 @@ claim four lines above the mechanism contradicting it. _нужно сделат�
 settled against a Russian draft and applied to that file alone; the English copy
 written the next day came out in em dashes, the preference never asked about.
 
-## An account that explains the code stands in for running it (×7)
+## An account that explains the code stands in for running it (×8)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here the reasoning
@@ -243,6 +243,12 @@ absolute in both media, the plan ruling out the split its sibling already uses a
 экранной версии это будет внешняя ссылка?_ Under `print-hidden` the copy weighs
 nothing, which one re-render says: all four PDFs came back byte-identical.
 
+**16 September — the config line it blamed, never varied.** Ruling a flat
+`shared/lib/collections.ts` illegal, the agent named the element pattern
+`src/shared/lib/(*)/**` as the cause, off the config's text. _а у меня из
+playgramapp такие живут спокойно._ Delete that line: same error, from the generic
+`src/shared/(*)/**` — and the line blamed is what keeps `class-names` legal.
+
 ## It writes its reasoning into the artifact (×5)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
@@ -254,14 +260,12 @@ carried a passage on its own calibration, arguing why its register was pitched
 where it was. The human deleted it: a reader came for the post, not its defence.
 
 **7 September — the commit body that documented the deploy gate.** The squash
-message explained the new prefix and its place in the gate, plus two notes
-recording the call and offering the veto — all true, all cut. A ride-along given
-a paragraph in a body read by someone scanning the log reads as the point of it.
+message explained the new prefix, its place in the gate, and the call behind it
+— all true, all cut. A ride-along given a paragraph reads as the point of it.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here" — every item true, every one
-belonging in a rules file or a docstring. The body had accreted across refreshes,
-which is how a cap gets walked past one push at a time.
+belonging in a rules file. Bodies accrete across refreshes, one push at a time.
 
 **14 September — two denials of what the file used to be part of.** The new
 afterword skill carried "it applies to anything the operator wrote" and "it is
@@ -277,31 +281,27 @@ seems to want. Rules are cheap to write and expensive to be wrong about, and the
 option the format hides is silence.
 
 **6 September — a rule for a question nobody had asked.** The conventions file
-came back carrying _English only. The site is bilingual; this isn't._ Nothing had
-prompted it. The reply: sometimes I want to write in Russian, and this doesn't
-need saying at all — we'll see case by case.
+came back carrying _English only. The site is bilingual; this isn't._ Nothing
+prompted it, and the reply: sometimes I want Russian — we'll see case by case.
 
 **8 September — three glosses invented to fill three slots.** The home page got a
 one-line gloss beside each of three old side projects. Two came back corrected to
 things no reading of the repos would produce — _a BYOK AI-first text processor_,
-_chatgpt before chatgpt_ — and a fourth card listed TypeScript and FSD for a
-boilerplate with neither. Every gloss was a confident sentence about the
-operator's own work, and the slot never offered a blank.
+_chatgpt before chatgpt_ — and a fourth listed TypeScript and FSD for a
+boilerplate with neither. The slot never offered a blank.
 
 **14 September — a default under a rule that says to ask.** Asked for a flag
-choosing whether a dictation is transcribed verbatim or rendered as prose, the
-agent wrote "ask which one when the invocation doesn't say" and marked one mode
-`(default)` two lines above it, because a table of modes has a default column.
-The default is what makes the question skippable: _не должно быть дефолта_.
+choosing verbatim or prose for a dictation, the agent wrote "ask which one when
+the invocation doesn't say" and marked one mode `(default)` two lines above,
+because a table of modes has a default column: _не должно быть дефолта_.
 
 **15 September — a record with a row per site, filled cell by cell.**
-`SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site
-arrived as the first with four fields changed and `author`, `social` and
-`avatar` retyped. The type went green: every cell had a value. _не DRY._
+`SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site arrived
+as the first with four fields changed and three retyped. The type went green:
+every cell had a value. _не DRY._
 
 **15 September — the definition inside the rule against defining it.** The brief
-was one paragraph on the voice, explicitly left to be found in review rather
-than handed over complete. The paragraph came back defining the irony in three
+left the voice to be found in review; it came back defining the irony in three
 clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
 
 ## It checks the render against its intent, not against the page (×3)
