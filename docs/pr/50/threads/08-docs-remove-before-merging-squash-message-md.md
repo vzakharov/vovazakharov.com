@@ -7,10 +7,12 @@
 ```diff
 @@ -1,31 +1,34 @@
 … 1 line elided …
- 
- ```
+
+```
+
 -content: three dictations for the late-stage-agentic wiki (pr #50)
 +content: three dictations, and a retake mode to hold them (pr #50)
+
 ```
 
 **@vzakharov (human)** — 2026-09-16T15:40:42Z
@@ -25,4 +27,9 @@
 
 хм? под "сутью" я имел в виду то, о чём собственно три начитки. скрипты -- это сопутствующая механика, а не суть пиара
 
+**@vzakharov (agent)** — 2026-09-16T18:49:24Z
+
+Понял неправильно, извини: под «сутью» я прочитал «что получилось в ветке», а речь была про то, о чём записи. Новый заголовок: `content: work in the web, prune the prose, question the given` — три темы по порядку, механика ушла в тело. 129ccdd
+
 ---
+```
