@@ -43,8 +43,9 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
 ## What it was handed, it treats as fixed (×16)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
-already in the tree — the agent reasons _inside_ rather than _about_. The failure
-is invisible because the reasoning inside the frame is sound: a second agent
+already in the tree — the agent reasons _inside_ rather than _about_: it takes a
+given for an inevitability, aka the **inevitability fallacy**. The failure is
+invisible because the reasoning inside the frame is sound — a second agent
 checking it would pass. The human's move is to change the given.
 
 **6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
@@ -83,22 +84,19 @@ change, and declined. _if "boundaries don't allow" is the only argument, let's
 rewrite the boundaries_ — `eslint.config.ts` is ours.
 
 **9 September — a note on the site's controls, read as a rule about everything
-clickable.** Moving the theme toggle into the header's corner, the agent kept
-`variant="default"` — `theme.ts` calls it "the site's only control skin" — so a
-hairline box fenced off empty space. _let's remove the borders_. The agent had
-just argued the toggle is furniture, never carrying that to how it looks.
+clickable.** The theme toggle kept `variant="default"` (`theme.ts`: "the site's
+only control skin"), so a hairline box fenced off empty space — around a thing
+the agent had just called furniture. _let's remove the borders_.
 
 **9 September — a global class read off the globals beside it.** A hover dim
-claimed by two slices went into `globals.scss`, reason written in: "as the print
-utilities are". Those are global for a reason that does not transfer — the
-content pipeline emits `print-hidden` into HTML strings, where a hashed module
-class is unreachable. _why are we bypassing modules here?_
+claimed by two slices went into `globals.scss`, "as the print utilities are".
+They are global because the pipeline emits `print-hidden` into HTML strings,
+where a hashed module class is unreachable. _why are we bypassing modules here?_
 
 **11 September — its own spelling, then the operator's typo, both taken as
-given.** The sync skill was `/sync-agent-infra`, named so by the agent at the
-previous sync. Told the source had renamed its copy `/update-muthur`, it proved
-the rename need not travel and read that freedom as a reason to keep its own.
-Two one-word comments took both names, and the agent defended the typo.
+given.** The agent had named the sync skill `/sync-agent-infra`. Told the source
+renamed its copy `/update-muthur`, it proved the rename need not travel and read
+that as licence to keep its own. Two comments took both; it defended the typo.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
@@ -230,10 +228,9 @@ importing it runs `shared/config`'s check before anything sets the variable.
 True of a value import. _разве оно относится к `import type`?_ One build away.
 
 **16 September — two objections in one afterword, neither tried.** The megapixel
-analogy was faulted for a mechanism it supposedly lacks — _внимание и есть та
-самая фиксированная площадь_, which the recording says a paragraph above. The
-polar-bear lens was proposed widened to prose outliving its subject, a
-`git log --grep='polish:'` away: _я не помню такого коммита_.
+analogy was faulted for a mechanism the recording states a paragraph above:
+_внимание и есть та фиксированная площадь_. The polar-bear widening rested on a
+commit that one `git log` shows is a different failure: _я не помню такого_.
 
 ## It writes its reasoning into the artifact (×5)
 
@@ -297,6 +294,26 @@ was one paragraph on the voice, explicitly left to be found in review rather
 than handed over complete. The paragraph came back defining the irony in three
 clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
 
+## Asked to quote a source, it writes its own version (×3)
+
+Holding the file open, the agent still writes its own version. The paraphrase
+improves something, so nothing stops it; what goes is that a reader can check.
+
+**15 September — the finding, paraphrased.** The site copy quotes this file's
+most frequent heading, and the agent wrote its own gloss — hours after appending
+four bumps to the section it was naming. _take the actual heading._
+
+**16 September — a rule cited to a document that never stated it.** An afterword
+grounded its objection in «по "библии" проверяемое важнее красивого». Nothing
+says that: the phrase was written a line earlier and cited as settled the next.
+_это откуда, мы где-то так уже заявили?:)_ An invented rule argues better than a
+real one, having nothing behind it to contradict.
+
+**16 September — a scene credited to a show that has no such scene.** The
+recording's close was handed to House, and the agent wrote a tray of instruments
+rather than look one up: _погугли, чтобы не хендвейвить поднос_. The real scene
+— a blind pigeon, a rooftop cistern — was one search away, and better.
+
 ## It settles a constraint in prose where a mechanism was available (×2)
 
 A constraint the agent can't see how to enforce, it writes down. The note is
@@ -353,26 +370,10 @@ flag came unprompted, with no question attached: _they look a bit too much to
 me_. That makes it the stronger of the two — it is the difference between reading
 a number and remembering making one.
 
-## Asked to quote a source, it writes its own version (×2)
-
-Holding the file open, the agent still writes its own version. The paraphrase
-improves something, so nothing stops it; what goes is that a reader can check.
-
-**15 September — the finding, paraphrased.** The site copy quotes this file's
-most frequent heading, and the agent wrote its own gloss — hours after appending
-four bumps to the section it was naming. _take the actual heading._
-
-**16 September — a rule cited to a document that never stated it.** An afterword
-grounded its objection in «по "библии" проверяемое важнее красивого». Nothing
-says that: the phrase was written a line earlier and cited as settled the next.
-_это откуда, мы где-то так уже заявили?:)_ An invented rule argues better than a
-real one, having nothing behind it to contradict.
-
 ## Not bumps
 
-The agent flagged rather than silently fixed two words missing from text supplied
-verbatim — a rule in `.claude/rules/writing.md` doing its job, recorded so it
-isn't miscounted as judgement: every learning above is one no rule anticipated.
+Flagging two words missing from verbatim text is `.claude/rules/writing.md`
+doing its job, not judgement: every learning above is one no rule caught.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
 recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
@@ -390,11 +391,10 @@ stayed a bump. An entry removed this way takes its count with it.
 
 Nine learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the published chart, the checker
-whose coverage read as the rule, our own `eslint.config.ts`.
-
-The other is the more interesting half of the post, being the opposite of a
-mistake: the output was well-formed, justified and efficient, and every one of
-those properties is what made it wrong. An edit minimal where it was made left
-one fact spelled three ways; an account sound at every step stopped anyone
-opening the file it described. No "be more careful" catches these — they need a
-person, and not always one who knows more.
+whose coverage read as the rule, our own `eslint.config.ts`. The other is the
+more interesting half of the post, being the opposite of a mistake: the output
+was well-formed, justified and efficient, and every one of those properties is
+what made it wrong. An edit minimal where it was made left one fact spelled three
+ways; an account sound at every step stopped anyone opening the file it
+described. No "be more careful" catches these — they need a person, and not
+always one who knows more.
