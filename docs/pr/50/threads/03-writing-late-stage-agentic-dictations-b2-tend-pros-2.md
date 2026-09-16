@@ -41,7 +41,7 @@
 
 **@vzakharov (human)** — 2026-09-16T10:20:00Z
 
-я бы так не сказал.. из моего опыта, разделы об убранных этапах агенты замечают как раз нормально (хотя есть и исключения, см. 7e8c401), но вот вместо того чтобы просто убирать эти разделы (не огульно, конечно, а когда обратное является нормой), они их "отрицают".
+я бы так не сказал.. из моего опыта, разделы об убранных этапах агенты замечают как раз нормально (хотя есть и исключения, см. 7e8c401), но вот вместо того чтобы просто убирать эти разделы (не огульно, конечно, а когда обратное является нормой), они их "отрицают". 
 
 в общем, я не помню коммита `polish:`, в котором было бы "забыли убрать этот раздел", это немного про другое
 
@@ -87,7 +87,7 @@
 
 <a id="t82"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:34 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:34 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -111,13 +111,13 @@
 
 <a id="t83"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:46 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:46 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
 … 67 lines elided …
 +обернуть в какую-нибудь аббревиатуру. Ну, тут она помогает запомнить.)
-
+ 
 -### T — tightness
 +У нас есть скилл, который так и называется, `tend-prose`, и у него четыре этапа
 +— по одному на линзу. Агент проходится по всему, что он добавил с последнего
@@ -137,7 +137,7 @@
 
 <a id="t84"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:81 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:81 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -163,7 +163,7 @@
 
 <a id="t85"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:76 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:76 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -190,7 +190,7 @@
 
 <a id="t86"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:104 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:104 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -213,7 +213,7 @@
 
 <a id="t87"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:116 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:116 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -237,7 +237,7 @@
 
 <a id="t88"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:121 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:121 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
@@ -260,12 +260,12 @@
 
 <a id="t89"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:125 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:125 — resolved
 
 ```diff
 @@ -1,135 +1,134 @@
 … 207 lines elided …
-
+ 
 -Это всё хорошие вещи, но это вещи, которые принадлежат истории, которые
 -принадлежат каким-то артефактам типа pull request, которые остаются в GitHub и
 +Это всё важные вещи, но это вещи, которые принадлежат истории коммитов,
@@ -283,7 +283,7 @@
 
 <a id="t90"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:174 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:174 — resolved
 
 ```diff
 @@ -142,57 +141,66 @@ T — это [tightness]. Это самая простая из всех, кот
@@ -307,7 +307,7 @@
 
 <a id="t91"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:191 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:191 — resolved
 
 ```diff
 @@ -142,57 +141,66 @@ T — это [tightness]. Это самая простая из всех, кот
@@ -331,7 +331,7 @@
 
 <a id="t92"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:196 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:196 — resolved
 
 ```diff
 @@ -142,57 +141,66 @@ T — это [tightness]. Это самая простая из всех, кот
@@ -355,7 +355,7 @@
 
 <a id="t93"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:206 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:206 — resolved
 
 ```diff
 @@ -142,57 +141,66 @@ T — это [tightness]. Это самая простая из всех, кот

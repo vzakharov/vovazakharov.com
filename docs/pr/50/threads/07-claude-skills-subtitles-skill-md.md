@@ -2,7 +2,7 @@
 
 <a id="t65"></a>
 
-### `.claude/skills/subtitles/SKILL.md`:27 — unresolved
+### `.claude/skills/subtitles/SKILL.md`:27 — resolved
 
 ```diff
 @@ -15,12 +15,16 @@ there.

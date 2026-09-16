@@ -2,7 +2,7 @@
 
 <a id="t102"></a>
 
-### `writing/late-stage-agentic/ideas/prose-spacetime.md`:1 — unresolved
+### `writing/late-stage-agentic/ideas/prose-spacetime.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-16T17:07:47Z
 

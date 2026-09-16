@@ -120,7 +120,7 @@
 
 <a id="t67"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:46 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:46 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -133,7 +133,7 @@
 
 **@vzakharov (human)** — 2026-09-16T15:44:27Z
 
-Тут на самом деле логика распадалась. В вебе тоже можно следить ведь. Пытаюсь понять _что_ именно я пытаюсь сказать.
+Тут на самом деле логика распадалась. В вебе тоже можно следить ведь. Пытаюсь понять *что* именно я пытаюсь сказать.
 
 Что-то типа: в вебе чувствуешь себя не крутым хацкером, а каким-то простым юзером сааса. Что-то где-то запустил, оно где-то там в облаки выполняется, а ты как будто и ни при чём. А ещё -- каждый в своей ветке, и сразу начинаешь думать, как эти потом ветки будут совмещаться. В общем, ощущение какой-то искусственности и не-здесь-и-сейчас-ности.
 
@@ -147,13 +147,13 @@
 
 <a id="t68"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:48 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:48 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
 … 73 lines elided …
 +делается это где-то в облачной машине, а не у тебя на компьютере.
-
+ 
 -Но, перейдя на веб, я больше назад не смотрел. И здесь есть несколько причин.
 +Но, перейдя на веб, я больше назад не смотрел. Причин три.
 ```
@@ -172,7 +172,7 @@
 
 <a id="t69"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:54 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:54 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -195,7 +195,7 @@
 
 <a id="t70"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:62 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:62 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -218,7 +218,7 @@
 
 <a id="t71"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:64 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:64 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -241,7 +241,7 @@
 
 <a id="t72"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:68 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:68 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -264,7 +264,7 @@
 
 <a id="t73"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:67 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:67 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -277,7 +277,7 @@
 
 **@vzakharov (human)** — 2026-09-16T15:49:55Z
 
-Так, кажется, этот абзац надо засунуть _перед_ тем который "вы можете запускат хоть десять, хоть пятнадцать", так как это уже про следующий раздел -- конвейер
+Так, кажется, этот абзац надо засунуть *перед* тем который "вы можете запускат хоть десять, хоть пятнадцать", так как это уже про следующий раздел -- конвейер
 
 **@vzakharov (agent)** — 2026-09-16T17:41:01Z
 
@@ -287,7 +287,7 @@
 
 <a id="t74"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:75 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:75 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -311,7 +311,7 @@
 
 <a id="t75"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:82 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:82 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -334,7 +334,7 @@
 
 <a id="t76"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:90 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:90 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -357,7 +357,7 @@
 
 <a id="t77"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:106 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:106 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@
@@ -380,7 +380,7 @@
 
 <a id="t78"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:107 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:107 — resolved
 
 ```diff
 @@ -1,198 +1,187 @@

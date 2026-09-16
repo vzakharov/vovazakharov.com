@@ -2,7 +2,7 @@
 
 <a id="t64"></a>
 
-### `.claude/skills/dictation/SKILL.md`:65 — unresolved
+### `.claude/skills/dictation/SKILL.md`:65 — resolved
 
 ```diff
 @@ -24,28 +24,65 @@ python3 scripts/transcribe.py <media> --slug <slug> \

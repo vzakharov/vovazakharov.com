@@ -26,7 +26,7 @@
 
 <a id="t58"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:142 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:142 — resolved
 
 ```diff
 @@ -0,0 +1,161 @@
@@ -98,7 +98,7 @@
 
 <a id="t60"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:156 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:156 — resolved
 
 ```diff
 @@ -0,0 +1,161 @@
@@ -183,7 +183,7 @@
 
 <a id="t94"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:19 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:19 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
@@ -208,7 +208,7 @@
 
 <a id="t95"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:40 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:40 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
@@ -231,7 +231,7 @@
 
 <a id="t96"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:64 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:64 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
@@ -254,7 +254,7 @@
 
 <a id="t97"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:77 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:77 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
@@ -279,12 +279,12 @@
 
 <a id="t98"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:79 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:79 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
 … 131 lines elided …
-
+ 
 -### В человеке это происходит по-другому
 -
  В человеке всё-таки это происходит по-другому. Если вы смотрели «Доктора Хауса»,
@@ -302,7 +302,7 @@
 
 <a id="t99"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:98 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:98 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@
@@ -329,7 +329,7 @@
 
 <a id="t100"></a>
 
-### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:116 — unresolved
+### `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:116 — resolved
 
 ```diff
 @@ -1,161 +1,166 @@

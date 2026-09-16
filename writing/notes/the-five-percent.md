@@ -47,16 +47,14 @@ given for an inevitability, aka the **inevitability fallacy**. The failure is
 invisible because the reasoning inside the frame is sound — a second agent
 checking it would pass. The human's move is to change the given.
 
-**6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
-`docs:` for a change that documents nothing. The agent weighed three candidates
-from the list and never looked outside it, the list arriving as a standard would.
-_Let's introduce "content:"_ — the list is ours, and a word costs one commit.
+**6 September — a word the vocabulary didn't have.** `docs:` for a change that
+documents nothing: the agent weighed three candidates from the list and never
+looked outside it. _Let's introduce "content:"_ — the list is ours.
 
 **7 September — a word one day old, already treated as given.** Having added
 `content:`, the agent framed whether it trips the deploy gate as a trade with no
-clean answer: the prefix covers published material and drafts alike. The reply
-dissolved it — `content:` is _specifically_ for what isn't published yet, and a
-piece going live arrives as the page serving it.
+clean answer. The reply dissolved it: `content:` is _specifically_ for what isn't
+published yet, and a piece going live arrives as the page serving it.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
 files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
@@ -70,16 +68,14 @@ import directionality, suggest introducing a case study entity_ — the gate has
 opinion on which layer a shared base belongs to, so green was the whole evidence.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the
-two CV route files could not collapse into one catch-all, the agent reported one
-cost: the bare `/en/cv` would inherit `og:url: /en/cv/cto` — a cost only if
-`/en/cv` is the indexed address, which the agent itself had decided hours
-earlier. _I'd likely actually prefer the latter being canonical._
+two CV routes could not collapse into one catch-all, the agent priced `/en/cv`
+inheriting `og:url: /en/cv/cto` — a cost only if `/en/cv` is the indexed address,
+which the agent itself had decided hours earlier. _I'd likely prefer the latter._
 
 **9 September — our own lint config, read as a specification.** Asked whether a
-`server-only` barrel would better home a schema, the agent built it, found
-`boundaries/dependencies` failing, priced widening `PUBLIC_API` as a repo-wide
-change, and declined. _if "boundaries don't allow" is the only argument, let's
-rewrite the boundaries_ — `eslint.config.ts` is ours.
+`server-only` barrel would better home a schema, the agent built it, hit
+`boundaries/dependencies`, priced widening `PUBLIC_API` repo-wide and declined.
+_if "boundaries don't allow" is the only argument, let's rewrite the boundaries._
 
 **9 September — a note on the site's controls, read as a rule about everything
 clickable.** The theme toggle kept `variant="default"` (`theme.ts`: "the site's
@@ -103,9 +99,8 @@ recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
-a name recommendation resting on it. Told the sense was the other one, the agent
-filed that as _the grammar allows only that one_ — also false: it takes both.
-Each parse arrived ahead of the argument wanting it.
+a name recommendation resting on it; told the sense was the other, the agent
+filed _the grammar allows only that one_ — also false. Each parse arrived first.
 
 **14 September — the one caller's shape, written into a general skill.** The
 afterword skill kept what its extraction from `/dictation` had held: the Russian
@@ -134,9 +129,8 @@ that adopted it leaves the source carrying the cause. Nothing catches the split 
 every site reads correctly alone, and the divergence exists only between them.
 
 **8 September — one stack, three spellings.** Playgram's tech line renders in
-three places, all the agent's own work hours earlier in the same branch. Told to
-add Supabase and Railway, it edited one. _the tech stack lines should be the same
-(and DRY)_ — a defect no screenshot could show, because each page was right.
+three places, all the agent's own work in the same branch; told to add Supabase
+and Railway, it edited one. No screenshot shows it: each page was right alone.
 
 **9 September — the rule fixed in the copy, not in the source.** Told a squash
 body has no business carrying a "things to know when editing here" paragraph, the
@@ -148,10 +142,9 @@ round added the test above — a bump is something the agent could have seen and
 didn't — then ran it against the entry under discussion alone. _Do the other
 learnings de-qualify per this lens?_ One did.
 
-**9 September — the tagline in the catalogue, the tagline in the pixels.** The CV
-repositioning gave each framing a tagline in `cv-metadata.ts` and left the
-developer one baked into `ogImage: '/cv_card.png'` two lines below, so `/cv`
-unfurled the CTO description beside a card reading DEVELOPER 🙈.
+**9 September — the tagline in the catalogue, the tagline in the pixels.** Each
+framing got a tagline in `cv-metadata.ts`, the developer one stayed baked into
+`ogImage: '/cv_card.png'` below it: `/cv` unfurled CTO beside a DEVELOPER card 🙈.
 
 **9 September — a rename that took its own inventory on trust.** Told the double
 `l` in `Labelled` hurt, the agent renamed the type and called the two remaining
@@ -174,8 +167,7 @@ router under `apps/`, the agent rewrote the content rule's description to
 claim four lines above the mechanism contradicting it. _нужно сделать sweep._
 
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
-settled against a Russian draft and applied to that file alone; the English copy
-written the next day came out in em dashes, the preference never asked about.
+settled against a Russian draft, so the English copy next day came out in them.
 
 ## An account that explains the code stands in for running it (×7)
 
@@ -184,25 +176,21 @@ half: there the agent looked and asked the wrong question, here it never looked,
 because the reasoning closed. Nothing inside an account reports it was unchecked.
 
 **8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
-a hand-written redirect file, the agent gave the right reason: a static export has
-no middleware to redirect in. That closed the question, so nobody asked what the
-file does. _how do we do "redirect" if it's not supposed to work at all?_
+a hand-written redirect file, the agent gave the right reason — no middleware in a
+static export — which closed the question before anyone opened the file.
 
 **8 September — the schema it never wrote.** Told route params would parse better
 through zod, the agent declined twice: a schema would restate the variant ids —
-which `z.enum(CV_VARIANTS)` does from the same const. _Am I missing smth?_ The
-account displaced a measurement nobody had: zod from a client component costs the
-CV 89 kB gzipped.
+which `z.enum(CV_VARIANTS)` does from the same const. _Am I missing smth?_ Nobody
+had the measurement it displaced: zod costs the CV 89 kB gzipped.
 
 **9 September — four homes, three of them checked.** Cutting a maintenance
-paragraph from a commit body, the agent justified it: each item already sits where
-whoever is about to break it would look. The right test, which is why nobody ran
-it — the fourth item was named nowhere but in the deleted paragraph.
+paragraph from a commit body, the agent argued each item already sits where it
+would be looked for. The right test, unrun: the fourth sat nowhere else.
 
 **14 September — no middle option, in a repo holding twenty-eight of them.**
-Asked where source recordings live, the agent argued nothing sits between `main`
-and nowhere: a branch-only video is collected with the branch. The premise never
-checked — `git ls-remote` lists twenty-eight merged branches: _я не удаляю ветки_.
+Asked where source recordings live, the agent argued a branch-only video is
+collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
 dictation skill got a rule against drifting into prose: every sentence should be
@@ -219,7 +207,7 @@ analogy was faulted for a mechanism the recording states a paragraph above:
 _внимание и есть та фиксированная площадь_. The polar-bear widening rested on a
 commit that one `git log` shows is a different failure: _я не помню такого_.
 
-## It writes its reasoning into the artifact (×6)
+## It writes its reasoning into the artifact (×7)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -253,6 +241,48 @@ reader never saw. _давай conversational соображения оставл
 комментариях_. The thought is durable; the conversation belongs in the thread
 that held it.
 
+**16 September — the footnotes that outlived the pass that needed them.** Every
+edit to the three scripts carried a note on what the recording had instead, kept
+through three review rounds: a diff against the tape, inside the thing to be read
+aloud from. _держать постоянный журнал разницы vs запись запроса нет._ A note
+earns its place on the first pass and expires with the round that settles it.
+
+## Asked to quote a source, it writes its own version (×6)
+
+Holding the file open, the agent still writes its own version. The paraphrase
+improves something, so nothing stops it; what goes is that a reader can check.
+
+**15 September — the finding, paraphrased.** The site copy quotes this file's
+most frequent heading, and the agent wrote its own gloss — hours after appending
+four bumps to the section it was naming. _take the actual heading._
+
+**16 September — a rule cited to a document that never stated it.** An afterword
+grounded its objection in «по "библии" проверяемое важнее красивого». Nothing says
+that: the phrase was written a line earlier and cited as settled the next. _это
+откуда, мы где-то так уже заявили?:)_ An invented rule argues better, having
+nothing behind it to contradict.
+
+**16 September — a scene credited to a show that has no such scene, then one
+that proves the opposite.** The recording's close was handed to House and the
+agent wrote a tray of instruments rather than look one up: _погугли, чтобы не
+хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
+a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
+the scene is deduction, not epiphany. That an example exists is not that it
+shows what it is cited for.
+
+**16 September — four idea files, each holding the agent's idea.** Every «об
+этом позже» in the recordings got a paragraph under `ideas/`, and three of four
+came back corrected: one argued from a reason he does not hold, one made an
+article out of an aside meant as a proto-idea, one hung its piece on the
+argument it happened to be mentioned next to. A destination written off one
+remark fills with whoever wrote it.
+
+**16 September — a specimen of agent prose no agent would write.** Told the
+rule's example needed no context, the agent supplied «Лифт не просто сломан — на
+нём ещё и не подняться», which demonstrates the tautology by being one: _так
+всё-таки и агент не напишет :)_. A defect staged past where it occurs stops
+being evidence that it occurs.
+
 ## Given a form, it fills the form (×5)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
@@ -285,36 +315,6 @@ arrived as the first with four fields changed and `author`, `social` and
 was one paragraph on the voice, explicitly left to be found in review rather
 than handed over complete. The paragraph came back defining the irony in three
 clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
-
-## Asked to quote a source, it writes its own version (×5)
-
-Holding the file open, the agent still writes its own version. The paraphrase
-improves something, so nothing stops it; what goes is that a reader can check.
-
-**15 September — the finding, paraphrased.** The site copy quotes this file's
-most frequent heading, and the agent wrote its own gloss — hours after appending
-four bumps to the section it was naming. _take the actual heading._
-
-**16 September — a rule cited to a document that never stated it.** An afterword
-grounded its objection in «по "библии" проверяемое важнее красивого». Nothing says
-that: the phrase was written a line earlier and cited as settled the next. _это
-откуда, мы где-то так уже заявили?:)_ An invented rule argues better, having
-nothing behind it to contradict.
-
-**16 September — a scene credited to a show that has no such scene, then one
-that proves the opposite.** The recording's close was handed to House and the
-agent wrote a tray of instruments rather than look one up: _погугли, чтобы не
-хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
-a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
-the scene is deduction, not epiphany. That an example exists is not that it
-shows what it is cited for.
-
-**16 September — four idea files, each holding the agent's idea.** Every «об
-этом позже» in the recordings got a paragraph under `ideas/`, and three of four
-came back corrected: one argued from a reason he does not hold, one made an
-article out of an aside meant as a proto-idea, one hung its piece on the
-argument it happened to be mentioned next to. A destination written off one
-remark fills with whoever wrote it.
 
 ## It settles a constraint in prose where a mechanism was available (×2)
 

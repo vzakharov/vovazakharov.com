@@ -2,7 +2,7 @@
 
 <a id="t103"></a>
 
-### `writing/late-stage-agentic/ideas/task-size.md`:7 — unresolved
+### `writing/late-stage-agentic/ideas/task-size.md`:7 — resolved
 
 ```diff
 @@ -0,0 +1,10 @@

@@ -357,7 +357,7 @@
 
 <a id="t36"></a>
 
-### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:176 — unresolved
+### `writing/late-stage-agentic/dictations/b2-tend-prose.md`:176 — resolved
 
 ```diff
 @@ -0,0 +1,198 @@

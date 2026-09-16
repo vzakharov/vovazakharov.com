@@ -90,6 +90,14 @@ line it replaced; a marker sits where the change is and the eye goes down and
 back. The note says what the recording had and why it is not that any more, and
 a proposal rather than a correction says so in its first words.
 
+**The footnotes are the first pass's device, and they come out with it.** They
+exist so the speaker can see what the text does that the recording didn't; a
+change they themselves asked for in review is already theirs, and a marker on it
+tells them what they know. So a review round adds no footnotes, and takes out
+the ones whose passages it settled — the section goes when the last one does,
+exactly as the table of guesses in Step 4 does. The file is a script to record
+from, not a running diff against the recording.
+
 **Where the speaker already ruled on a passage in review, that ruling is text
 they supplied** — set it down as they worded it, and do not improve it on the
 way in.
@@ -138,6 +146,7 @@ recording:
 | -------------------------------------------------------- | ----------- |
 | A header line — when, where, what was recorded, the mode | yours       |
 | The lede (Step 5)                                        | yours       |
+| In retake mode, the beat sheet (Step 5)                  | yours       |
 | **The recording**, under one `##`                        | **theirs**  |
 | The table of what you guessed (Step 4)                   | yours       |
 | In retake mode, the `## Что поправлено` footnotes        | yours       |
@@ -231,26 +240,34 @@ that row comes out on the same pass as the ones they answered. They do not
 confirm the ones that were right, and waiting for that is how a table stops
 shrinking.
 
-## Step 5 — The lede and the afterword
+## Step 5 — The lede, the beat sheet and the afterword
 
 Six minutes of talking is four screens of text, and a transcript on its own is a
 poor thing to come back to: the operator opening it a month later wants to know
 what is in it before deciding to read it, and then wants somebody to have
 thought about it. So the file opens with a summary and closes with your reading
-of it. Both are in the recording's language, not this file's.
+of it, and in retake mode carries a beat sheet for the take itself. All three
+are in the recording's language, not this file's.
 
 - **The lede** — `## О чём это`, above the recording. Three or four sentences
   on what it says, in the operator's own vocabulary, so that they recognise it
   rather than decode it. It reports and does not evaluate — that is the
   afterword's job, and a lede that starts judging stops being a way back in.
+- **The beat sheet** — `## Рыба`, between the lede and the recording, in retake
+  mode only. The points, the turns and the transitions as a bulleted list, in
+  the order the recording takes them: what the speaker glances at before the
+  camera goes on and while it is running, to stay on the thread without reading
+  the script aloud. It names each beat and the words that land it — a phrase
+  they coined, the joke, the number — and does not explain them, because a beat
+  sheet you have to read is one more thing to lose your place in.
 - **The afterword** — `## Заметки агента`, at the foot, owned by
   `@.claude/skills/afterword/SKILL.md`. Load it and follow it: the section is not
   specific to recordings, and its rules — what the block has to do to earn its
   place, and the narration it must not become — are that skill's.
 
-Keep the lede's heading as it is across recordings — the operator reads the files
-against each other, and a file that invents its own name for it costs them the
-comparison.
+Keep these headings as they are across recordings — the operator reads the files
+against each other, and a file that invents its own name for a section costs
+them the comparison.
 
 ## Every promise in the recording gets a link
 

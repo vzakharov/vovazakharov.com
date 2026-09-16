@@ -1,25 +1,29 @@
 Proposed squash title/body:
 
 ```
-content: scripts to re-record from, and the mode that makes them (pr #50)
+content: work in the web, prune the prose, question the given (pr #50)
 ```
 
 ```
-Three recordings talked into a phone, and the mode they turned out to
-need. Verbatim hands the speaker back their own stumbles to read out
-loud; prose is written for a reader rather than a microphone. Retake is
-the third: it keeps their phrasing, their register and the order the
-thought arrives in, and takes out the false starts, the tautologies and
-the metaphors they withdrew mid-sentence. Under-editing is the rule,
-because a text tightened until every sentence pulls its weight is one
-its author has to fight at the microphone.
+Three recordings talked into a phone: why to drive agents through the
+web client rather than the local console, the four TEND lenses
+/tend-prose runs, and what "the agent takes a given for an
+inevitability" means. Each is a script to record from, not a transcript
+to read.
 
-Edits that change what a passage says carry a footnote at the place they
-changed it, so the salt can be checked against the recording without
-holding a table in your head; the rest is quiet. The recordings cover
-why to drive agents through the web client rather than the local
-console, the four TEND lenses /tend-prose runs, and what "the agent
-takes a given for an inevitability" means.
+That is what needed a mode. Verbatim hands the speaker back their own
+stumbles to read out loud; prose is written for a reader rather than a
+microphone. Retake is the third: it keeps their phrasing, their register
+and the order the thought arrives in, and takes out the false starts,
+the tautologies and the metaphors they withdrew mid-sentence.
+Under-editing is the rule, because a text tightened until every sentence
+pulls its weight is one its author has to fight at the microphone.
+
+A retake file opens with a summary and a beat sheet -- the points, the
+turns and the transitions in the order the take goes through them -- so
+the speaker holds the thread without reading the script aloud. An edit
+that changes what a passage says carries a footnote until they have read
+it, and the footnotes go out with the pass that raised them.
 
 Every promise a recording makes now links to a paragraph under
 writing/late-stage-agentic/ideas/, so "about this later" has somewhere

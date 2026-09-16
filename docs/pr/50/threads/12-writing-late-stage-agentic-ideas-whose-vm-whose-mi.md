@@ -2,7 +2,7 @@
 
 <a id="t104"></a>
 
-### `writing/late-stage-agentic/ideas/whose-vm-whose-minutes.md`:3 — unresolved
+### `writing/late-stage-agentic/ideas/whose-vm-whose-minutes.md`:3 — resolved
 
 ```diff
 @@ -0,0 +1,8 @@
@@ -18,5 +18,15 @@
 **@vzakharov (agent)** — 2026-09-16T17:53:53Z
 
 Переписал: статья-лайфхак про CI на VM Клода, без привязки к записи. Крючок в самой записи остался про гитхабовские минуты, он к этому и ведёт. 22f707d
+
+---
+
+<a id="t111"></a>
+
+### `writing/late-stage-agentic/ideas/whose-vm-whose-minutes.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-16T18:36:18Z
+
+наверное, слаг можно поменять
 
 ---

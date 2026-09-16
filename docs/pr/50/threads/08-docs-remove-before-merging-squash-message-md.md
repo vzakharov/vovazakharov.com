@@ -7,12 +7,10 @@
 ```diff
 @@ -1,31 +1,34 @@
 … 1 line elided …
-
-```
-
+ 
+ ```
 -content: three dictations for the late-stage-agentic wiki (pr #50)
 +content: three dictations, and a retake mode to hold them (pr #50)
-
 ```
 
 **@vzakharov (human)** — 2026-09-16T15:40:42Z
@@ -23,5 +21,8 @@
 
 Новый заголовок: `content: scripts to re-record from, and the mode that makes them`. Суть в том, что получилось, а не в том, сколько записей. 22f707d
 
+**@vzakharov (human)** — 2026-09-16T18:07:41Z
+
+хм? под "сутью" я имел в виду то, о чём собственно три начитки. скрипты -- это сопутствующая механика, а не суть пиара
+
 ---
-```
