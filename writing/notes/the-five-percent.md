@@ -302,44 +302,44 @@ was one paragraph on the voice, explicitly left to be found in review rather
 than handed over complete. The paragraph came back defining the irony in three
 clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
 
+## It checks the render against its intent, not against the page (×3)
+
+Told to look at the artifact rather than reason about it, the agent looks, and
+verifies the thing it set out to do. Whether the result is right is a different
+question from whether it happened — and the same artifact usually answers both.
+
+**8 September — the logos it had already looked at.** Screenshotting three new
+organisation marks in both schemes, the agent reported them legible and aligned.
+_the logos are slightly mis-aligned_: one filled its canvas edge to edge, another
+was inset a fifth. The image had shown that; it was asked "are the logos there".
+
+**9 September — the card it had just fixed, looked at and passed.** Rendering one
+card per framing off the catalogue, the agent confirmed the property it had set
+itself: the card can no longer say what the page stopped saying. The same image
+showed a plate two thirds empty — _the prose itself says nothing_, add the socials.
+
+**16 September — nine link targets dumped, one question asked of them.** Read for
+what the issue named — `localhost`, twice — the dump also said seven were fine and
+named what the two bad ones sit on: the case-study address, and the person's own
+name, drawn `underline="never"`. _все линки открываются норм_ went two rounds
+answered by an untestable theory about viewers, when the dump had answered it.
+
 ## It settles a constraint in prose where a mechanism was available (×2)
 
 A constraint the agent can't see how to enforce, it writes down. The note is
-accurate, sits on the right module, and is invisible to the edit that violates it
-— nothing reads a docstring on its way to moving a file. Prose gets reached for
-because it is always available; whether a mechanism also was never gets asked.
+accurate, sits on the right module, and is invisible to the edit that violates it.
+Prose is always available; whether a mechanism also was never gets asked.
 
 **9 September — "keep them out of `shared/i18n`".** Having measured that a zod
 schema in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent
-filed it elsewhere and wrote the finding into a docstring telling the next
-person not to move it. What the round produced instead was `import 'server-only'`
-at the top of the module, which turns the same mistake into a build error — the
-pattern every module under `shared/content` already uses.
+filed it elsewhere and wrote the finding into a docstring telling the next person
+not to move it. The round produced `import 'server-only'` instead, which turns the
+same mistake into a build error — as every module under `shared/content` already does.
 
 **9 September — the ceiling this file states, walked past by the append that
-states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above. The agent added a section and pushed the file to 447 lines, having
-read the bullet on the way in. _let's put a vet.sh-controlled check_: prose in
-the file it governs is still only prose.
-
-## It checks the render against its intent, not against the page (×2)
-
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, and only the second one is
-answerable from the intent.
-
-**8 September — the logos it had already looked at.** The agent screenshotted
-three new organisation marks in both schemes and reported them legible and
-aligned. _the logos are slightly mis-aligned_: one filled its canvas
-edge-to-edge, another was inset a fifth and off-centre. The screenshot had shown
-that; the question asked of it was "are the logos there".
-
-**9 September — the card it had just fixed, looked at and passed.** Rendering
-one card per framing off the catalogue, the agent checked the property it had set
-itself — the card can no longer say what the page stopped saying — and confirmed
-it held. The same image showed a plate two thirds empty with no way to reach the
-person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
+states it.** "Past ~400 lines, squeeze instead of growing" is a bullet above. The
+agent pushed the file to 447, having read it on the way in. _let's put a
+vet.sh-controlled check_: prose in the file it governs is still only prose.
 
 ## A published number is not a verified number (×2)
 

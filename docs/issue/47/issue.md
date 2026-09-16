@@ -86,8 +86,8 @@ difference.
 [https://github.com/vzakharov/vovazakharov.com/issues/47#issuecomment-5685599003](https://github.com/vzakharov/vovazakharov.com/issues/47#issuecomment-5685599003)
 
 > The port is whatever the render's dev server happened to get, so the links are
-dead for every reader. The case studies' own PDFs are clean — this is the CV's
-alone.
+> dead for every reader. The case studies' own PDFs are clean — this is the CV's
+> alone.
 
 хм, скачал с vovazakharov.com PDF, прошёл по ссылке на playgram case study, всё ок
 

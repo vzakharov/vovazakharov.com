@@ -22,7 +22,7 @@ below.
 **On the operator's comment (C01).** The link does work when clicked in most
 viewers, and the annotation is still wrong. Chrome's PDF viewer — and Preview,
 and Acrobat with URL auto-detection on — synthesizes a link from text that
-*looks* like a URL, and the visible text here reads `vovazakharov.com/case-studies/playgram`.
+_looks_ like a URL, and the visible text here reads `vovazakharov.com/case-studies/playgram`.
 That synthesized link is what a reader lands on; the embedded annotation
 underneath it points at a port on a machine that no longer exists. A viewer
 without auto-detection, or one that prefers the real annotation, gets the dead
@@ -122,5 +122,5 @@ above.
 an unrelated export in either re-flags all seven PDFs. That is the manifest
 working as designed — it hashes inputs, and casting the net wide is what keeps a
 print-affecting change from shipping behind a stale file. Fix 2 removes the
-*cost* of those false positives rather than the positives themselves, which is
+_cost_ of those false positives rather than the positives themselves, which is
 the cheaper half and the one that does not risk a missed render.
