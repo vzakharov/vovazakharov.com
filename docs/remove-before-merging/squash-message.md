@@ -11,12 +11,14 @@ the same port for the case-study address. The printed link's text
 was absolutized and its href was not, so Chromium resolved the
 href against the dev server the render ran on.
 
-Both printing links now go through one `PrintableLink`: a
+`InternalLink` now renders a link once per medium: a
 `print-hidden` anchor on the relative href `next/link` needs for a
 client-side route, and a print-only one on `printedUrl()`, which
 already returns the absolute href beside its scheme-less display
-text. A call site names the address once and says only whether
-paper also spells it out. Every annotation keeps its exact
+text. Every internal link gets the pair, since every one carries
+that relative href and any page can be printed; an external link
+needs none. A call site names the address once and says only
+whether paper also spells it out. Every annotation keeps its exact
 rectangle and all four files re-render byte-identical, so the
 printed page is unchanged and only the targets moved. The
 catalogue's `cv.website` goes too — the case-study line was its

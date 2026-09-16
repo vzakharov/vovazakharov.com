@@ -2,7 +2,7 @@ import { Text } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
 import type { Linked } from '@/shared/typings';
-import { PrintableLink } from '@/shared/ui';
+import { InternalLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
 
@@ -19,9 +19,9 @@ export function CaseStudyLink({ href }: Linked) {
 
   return (
     <Text className={classes['caseStudyLine']}>
-      <PrintableLink {...{ href }} withAddress inherit>
+      <InternalLink {...{ href }} withAddress inherit>
         {label}
-      </PrintableLink>
+      </InternalLink>
     </Text>
   );
 }

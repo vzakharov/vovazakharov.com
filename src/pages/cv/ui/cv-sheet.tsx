@@ -13,7 +13,7 @@ import { useLocale, useMessages, useTranslations } from 'next-intl';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import { Card, FileLink, InternalLink, PrintableLink } from '@/shared/ui';
+import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
 import { cvPdfFile } from '../lib/cv-urls';
@@ -70,9 +70,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <PrintableLink href="/" underline="never" inherit>
+                <InternalLink href="/" underline="never" inherit>
                   {t('header.name')}
-                </PrintableLink>
+                </InternalLink>
               </Title>
               <Text className={cx(classes['tagline'], classes['dim80'])}>
                 {t('header.tagline')}

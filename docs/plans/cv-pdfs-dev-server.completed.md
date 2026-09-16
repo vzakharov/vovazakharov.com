@@ -34,18 +34,24 @@ one. The header's name link has no URL-shaped text to rescue it at all.
 `href` alongside the scheme-less display text, and already serves
 `rehype-media-embeds.ts` and `printed-from.tsx`. The CV never reaches it.
 
-- **Both printing links go through one component**, `shared/ui/printable-link`:
-  a `print-hidden` `InternalLink` on the relative href a client-side route
-  needs, and a print-only `Anchor` on what `printedUrl()` returns. A call site
-  names the address once and says only whether paper also spells it out — the
-  case-study line does, the header's name does not, the address being printed
-  directly below it. The inline print class moves there from `cv.module.scss`.
+- **`InternalLink` itself renders both media**: a `print-hidden` anchor on the
+  relative href a client-side route needs, and a print-only `Anchor` on what
+  `printedUrl()` returns. Every internal link gets the pair, because every one
+  of them carries the relative href and any page can be printed; an external
+  link needs none, being absolute already. A call site names the address once
+  and says only whether paper also spells it out — the case-study line does, the
+  header's name does not, the address being printed directly below it. The
+  inline print class moves to `internal-link.module.scss` from `cv.module.scss`.
 
-  This plan got that twice wrong, in opposite directions. It first proposed one
-  absolute anchor for both media in `cv-sheet.tsx`, accepting a full navigation
-  on screen; review rejected it, since the issue asks for the print path alone
-  and `print-hidden` makes the second anchor free. It then argued against a
-  shared component — see the DRY note below — and review rejected that too.
+  This plan got that three times wrong. It first proposed one absolute anchor
+  for both media in `cv-sheet.tsx`, accepting a full navigation on screen;
+  review rejected it, since the issue asks for the print path alone and
+  `print-hidden` makes the second anchor free. It then argued against a shared
+  component — see the DRY note below — and review rejected that too. The
+  component it then grew, `PrintableLink`, stood beside `InternalLink` as though
+  printing were an opt-in; review asked which links are _not_ printable, and the
+  answer is none, so the fork went inside `InternalLink` and the second
+  component went away.
 
 **Verify:** after re-rendering, `strings apps/vova/public/cv/cto/en.pdf | grep -o '/URI ([^)]*)'`
 shows no `localhost`, and the rendered line still reads
@@ -101,16 +107,22 @@ above.
 - **`printedUrl()` is reuse, not extraction.** The helper exists, its docstring
   already states why href and text differ, and two other call sites use it. Fix 1
   is three lines of reaching for it.
-- **One shared `PrintableLink`, overturned in review from the opposite call.**
-  This plan argued the two call sites wanted different things — `case-study-link`
-  both `href` and `text`, the header only `href` under a name that is not a URL —
-  and that a wrapper covering both would be the two sites spelled out again with
-  a boolean between them. _WET и вообще некрасиво._ The flag is real and is one
-  word at the call site; what it buys is both sites losing their fork, the class
-  leaving the CV slice, and the next printing link having somewhere to be.
-- **`pick()` joins `shared/lib` beside `cx()`.** `vova/no-redundant-property-copy`
-  names it as the remedy for `href={printed.href}` and nothing here provided one,
-  so the rule's message pointed at a helper that did not exist.
+- **The fork belongs to `InternalLink`, overturned in review twice.** This plan
+  argued the two call sites wanted different things — `case-study-link` both
+  `href` and `text`, the header only `href` under a name that is not a URL — and
+  that a wrapper covering both would be the two sites spelled out again with a
+  boolean between them. _WET и вообще некрасиво._ The flag is real and is one
+  word at the call site. It then made that wrapper a component of its own, which
+  reads as though some internal links are printable and others are not; the set
+  that needs the pair is every link `next/link` renders, so the name for it was
+  taken.
+- **`pick()` joins `shared/lib/collections`, beside `class-names`.**
+  `vova/no-redundant-property-copy` names it as the remedy for
+  `href={printed.href}` and nothing here provided one, so the rule's message
+  pointed at a helper that did not exist. The sub-library is named for the
+  family rather than the one member, after the Playgram app's
+  `shared/collections` this is copied from, so `omit` and `mapValues` need no
+  home of their own when they follow.
 - **`cv.website` duplicates `SITE_CONFIG.url` and goes.** The catalogue's
   `cv.website` is `vovazakharov.com` in both locales — the same string
   `printedUrl` derives by stripping the scheme. Fix 1 removes the copy at the one

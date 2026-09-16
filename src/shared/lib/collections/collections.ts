@@ -5,7 +5,8 @@
  *
  * Taken verbatim from the Playgram app's `shared/collections`, which is the
  * home of this family — so a fix to it is made there and copied here, not the
- * other way round.
+ * other way round, and its siblings (`omit`, `mapValues`, `getKeys`) land in
+ * this file under that name rather than each opening one of its own.
  */
 export function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
   // @ts-expect-error - we know the end result is a Pick<T, K>

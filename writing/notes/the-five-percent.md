@@ -44,7 +44,7 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   one bump is a coincidence with a paragraph attached. A learning cut for
   thinness comes back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×17)
+## What it was handed, it treats as fixed (×18)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. The failure
@@ -72,11 +72,10 @@ agent put the base for `caseStudyHref?`, declared by two sibling slices, in
 domain-less; if it's a question of import directionality, suggest introducing a
 case study entity_ — the gate has no opinion on layers, so green was the evidence.
 
-**8 September — a cost measured against its own earlier choice.** Asked why the
-two CV route files could not collapse into one optional catch-all, the agent
-reported one cost: the bare `/en/cv` would inherit `og:url: /en/cv/cto`. Only a
-cost if `/en/cv` ought to be the indexed address — which the agent had decided
-itself, hours earlier. _I'd likely actually prefer the latter being canonical._
+**8 September — a cost measured against its own earlier choice.** Asked why the two
+CV route files could not collapse into one catch-all, the agent reported one cost:
+the bare `/en/cv` would inherit `og:url: /en/cv/cto` — a cost only if `/en/cv` ought
+to be the indexed address, which the agent had decided itself. _I'd prefer the latter._
 
 **9 September — our own lint config, read as a specification.** Asked whether a
 `server-only` barrel would better home a schema, the agent built it, found
@@ -90,23 +89,20 @@ clickable.** Moving the theme toggle into the header's corner, the agent kept
 hairline box fenced off empty space. _let's remove the borders_. The agent had
 just argued the toggle is furniture, never carrying that to how it looks.
 
-**9 September — a global class read off the globals beside it.** A hover dim
-claimed by two slices went into `globals.scss`, reason written in: "as the print
-utilities are". Those are global for a reason that does not transfer — the content
-pipeline emits `print-hidden` into HTML strings, out of a hashed class's reach —
-and what made the neighbours global never got asked. _why are we bypassing modules?_
+**9 September — a global class read off the globals beside it.** A hover dim claimed
+by two slices went into `globals.scss`, "as the print utilities are". Those are
+global for a reason that does not transfer — the content pipeline emits
+`print-hidden` into HTML strings — and that reason never got asked. _why bypass modules?_
 
 **11 September — its own spelling, then the operator's typo, both taken as given.**
-The sync skill was `/sync-agent-infra`, the agent's own name from the previous
-sync. Told the source had renamed its copy `/update-muthur`, it proved the rename
-need not travel and read that freedom as a reason to keep its own. Two one-word
-comments took both names — one a typo matching nothing upstream — and it defended it.
+`/sync-agent-infra` was the agent's own name from the previous sync. Told the source
+had renamed its copy `/update-muthur`, it proved the rename need not travel and read
+that freedom as a reason to keep its own, then defended both names taken from it.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
-Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
-it parses, and a coffee on a rock had just been described. The word was «код»,
-the rung the recording's payoff calls back to. The low-confidence list flags what
-the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
+Deepgram heard «ты смотришь на кофе… почти как предзакатное солнце»: it parses, and
+a coffee on a rock had just been described. The word was «код», the rung the payoff
+calls back to. The low-confidence list cannot flag a mis-hearing that makes sense.
 
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
@@ -124,11 +120,10 @@ by-hand steps for standing the second site up went into the plan file, whose
 whole tree `CLAUDE.md` says is swept before the squash. _смотреть в .completed
 кажется концептуально неверно_ — never which document, only which section.
 
-**15 September — findings filed where the path says they get deleted.** The
-runbook for the second site carried GitHub's Pages addresses, the 409 a
-self-enabling `gh-pages` answers and the form that reads its inputs off the
-default branch — under `docs/remove-before-merging/`. _давай экстрагируем это в
-скилл._
+**15 September — findings filed where the path says they get deleted.** The second
+site's runbook — GitHub's Pages addresses, the 409 a self-enabling `gh-pages`
+answers, the form reading its inputs off the default branch — went under
+`docs/remove-before-merging/`. _давай экстрагируем это в скилл._
 
 **15 September — a vet line inherited, and its bucket never questioned.** The sync
 added `test_export_split.py` beside the `test_authorship.py` already in the fan-out,
@@ -141,6 +136,12 @@ second time and cited the match with `case-study-link.tsx` as the fix. _WET и
 вообще некрасиво… может стоит сделать единый компонент с вилкой._ The same round:
 `vova/no-redundant-property-copy` names a `pick` this repo never had, read as one
 of two options rather than the half of its own rule that was missing.
+
+**16 September — the call sites it was handed, drawn round as the set.** Made to
+build the one component, the agent stood it _beside_ `InternalLink` as
+`PrintableLink` — printability reading as a property some links have. _бывают ли у
+нас другие link вообще?_ Every internal link carries the relative href `next/link`
+writes. Same round, `lib/pick` named for its one member: _потом точно забудем_.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
@@ -330,11 +331,10 @@ A constraint the agent can't see how to enforce, it writes down. The note is
 accurate, sits on the right module, and is invisible to the edit that violates it.
 Prose is always available; whether a mechanism also was never gets asked.
 
-**9 September — "keep them out of `shared/i18n`".** Having measured that a zod
-schema in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent
-filed it elsewhere and wrote the finding into a docstring telling the next person
-not to move it. The round produced `import 'server-only'` instead, which turns the
-same mistake into a build error — as every module under `shared/content` already does.
+**9 September — "keep them out of `shared/i18n`".** Having measured that a zod schema
+in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent filed it
+elsewhere and wrote a docstring telling the next person not to move it. The round
+produced `import 'server-only'`, which turns the same mistake into a build error.
 
 **9 September — the ceiling this file states, walked past by the append that
 states it.** "Past ~400 lines, squeeze instead of growing" is a bullet above. The
