@@ -74,12 +74,21 @@ export function ArticleHeader({
 
         <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
+        {/*
+          A document with no cuts gets no switcher: one chip reading "Full"
+          offers the page the reader is on and nothing else. The file links
+          stay right-aligned either way.
+        */}
         <Group justify="space-between" gap={16} wrap="wrap">
-          <CutSwitcher
-            {...{ collection, slug }}
-            current={variant}
-            available={availableVariants}
-          />
+          {availableVariants.length > 0 ? (
+            <CutSwitcher
+              {...{ collection, slug }}
+              current={variant}
+              available={availableVariants}
+            />
+          ) : (
+            <span />
+          )}
 
           <Group gap={16} wrap="wrap">
             <FileLink {...markdown}>.md</FileLink>
