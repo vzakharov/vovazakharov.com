@@ -15,17 +15,16 @@ what it finds for what must be. Each was recorded first as a script
 for the Russian channel and is rewritten here in the register the
 site is for: the position first, then what earns it.
 
-The content pipeline assumed one site, and each of its four
-assumptions broke on a collection the other site owns. A collection
-now names the site that serves it and whether it is printable, and
-the sitemap, the document walk and the render scripts read that
-rather than every collection there is. The page slice was written
-generically and then pinned to case studies by two constants; it
-is src/pages/documents now, bound to a collection by the router
-that mounts it. A Bible article offers its markdown and no PDF --
-a printed wiki page is worth less than a second site's render lane
-costs -- and .md is the link the agent readers this site courts
-would follow anyway.
+An article is built through the case study's own pipeline rather
+than beside it, and that pipeline assumed one site in four places.
+A collection now names the site that serves it, and the sitemap,
+the document walk and the render scripts read that rather than
+every collection there is. The page slice was written generically
+and then pinned to case studies by two constants; it is
+src/pages/documents now, bound to a collection by the router that
+mounts it. The print lane learns which site it is rendering, so a
+Bible article carries its committed PDF on the same machinery, and
+vet checks both sites' renders where it checked one.
 
 What the recordings promise but do not yet redeem stays plain text:
 the ideas/ files they link are a repo convention, and a published
