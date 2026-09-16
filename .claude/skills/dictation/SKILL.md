@@ -27,9 +27,8 @@ python3 scripts/transcribe.py <media> --slug <slug> \
 It writes `<slug>.transcript.md` and the gzipped whole response,
 `<slug>.deepgram.json.gz`, side by side under
 `docs/remove-before-merging/deepgram/`. Both are committed and both are swept
-before the merge; the response is kept because a re-run returns a different one,
-and gzipped because 300 KB of JSON otherwise opens as text everywhere the branch
-is previewed.
+before the merge — the script's header says why the response is kept and why
+gzipped.
 
 ## The three modes
 

@@ -23,13 +23,11 @@ committed — that directory is swept before the merge, so neither reaches main:
                           timecode, plus the words Deepgram was least sure of.
                           This is the file a person or an agent reads.
   <slug>.deepgram.json.gz under `--json-dir` — the whole response, with the
-                          per-word timings a subtitle track would need, gzipped.
-                          Compressed it is ~30 KB against the megabytes of audio
-                          beside it, and a re-run costs an API call and returns
-                          a response the old one can no longer be compared to.
-                          Gzipped rather than plain for the second reason too:
-                          a 300 KB JSON opens as text in every preview and diff
-                          that walks the branch.
+                          per-word timings a subtitle track would need. Kept
+                          because a re-run is a different transcription, which
+                          corrections made against this one no longer fit;
+                          gzipped because 300 KB of JSON otherwise opens as
+                          text in every preview that walks the branch.
 
 This script makes no decision a re-run could make differently; the judgement is
 `@.claude/skills/dictation/SKILL.md`'s.
