@@ -119,13 +119,15 @@ invented for it.
   voice: "Once done, I thought, why not write a case study about it" survives
   edits that would compress it. A draft that reads as efficient reads as edited
   by a machine, which is the thing being avoided.
-- **"Not just X — it's also Y" is a paraphrase wearing a reveal.** «Кэш не
-  просто устарел — в нём ещё и лежат старые данные»: the cadence promises a turn
-  and delivers the same fact again, since holding stale data is what stale
-  means. What gets written is a near-miss like that one, its halves worded
-  differently enough to pass for two facts. Its twin is "it's not X, it's Y"
-  with the same X on both sides. A second half with something of its own says it
-  without the first.
+- **"Not just X — it's also Y" is a paraphrase wearing a reveal**, and what it
+  paraphrases is a neighbouring sentence, not its own first half. «Машина не
+  просто занята, она ещё и держит вас за столом» followed «крышку не закроешь,
+  а то агенты остановятся» and said it over again, in words different enough to
+  pass for a second fact. So read such a sentence against the ones around it:
+  the cadence promises a turn and delivers what the reader was told a line ago.
+  Its twin cadence, «не X, а Y», hides the same repeat. Either the second half
+  brings something of its own, or the plain line that said it first is the one
+  to keep.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work

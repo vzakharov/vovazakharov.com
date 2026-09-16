@@ -2,7 +2,7 @@
 
 <a id="t111"></a>
 
-### `writing/late-stage-agentic/ideas/ci-on-the-agents-vm.md`:1 — unresolved
+### `writing/late-stage-agentic/ideas/ci-on-the-agents-vm.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-16T18:36:18Z
 

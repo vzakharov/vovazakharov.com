@@ -84,12 +84,12 @@
 
 <a id="t105"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:72 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:72 — resolved
 
 ```diff
 @@ -41,75 +41,76 @@ Codex или Cursor. Каждый из них умеет завести в об
 … 46 lines elided …
-
+ 
  Из этого получается второй пункт: вы работаете конвейерно, а не в режиме
 -ожидания.
 +ожидания[^5]. Вы можете запускать хоть десять, хоть пятнадцать сессий
@@ -110,7 +110,7 @@
 
 <a id="t106"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:73 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:73 — resolved
 
 ```diff
 @@ -41,75 +41,76 @@ Codex или Cursor. Каждый из них умеет завести в об
@@ -133,7 +133,7 @@
 
 <a id="t107"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:98 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:98 — resolved
 
 ```diff
 @@ -41,75 +41,76 @@ Codex или Cursor. Каждый из них умеет завести в об
@@ -158,7 +158,7 @@
 
 <a id="t108"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:156 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:156 — resolved
 
 ```diff
 @@ -144,20 +144,57 @@ claude.ai/code или какие там другие адреса у Cursor'ов
@@ -183,7 +183,7 @@
 
 <a id="t109"></a>
 
-### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:1 — unresolved
+### `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-16T18:34:46Z
 

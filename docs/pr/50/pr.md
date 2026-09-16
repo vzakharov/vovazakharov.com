@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-16T09:22:19Z
-- **Updated:** 2026-09-16T18:55:05Z
+- **Updated:** 2026-09-16T21:19:37Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -17,7 +17,7 @@
 
 ## Summary
 
-- Three recordings talked into a phone, rendered in **retake** mode — a third mode the review asked for, alongside verbatim and prose. These recordings get said again off a cleaned-up script, so the files keep the speaker's phrasing, register and order of thought while the false starts, tautologies and abandoned metaphors come out. Each file opens with a summary and a beat sheet — the points, the turns and the transitions in the order the take goes through them — to glance at while the camera runs. An edit that changes what a passage _says_ carries a footnote until the speaker has read it, and the footnotes go out with the round that settles them.
+- Three recordings talked into a phone, rendered in **retake** mode — a third mode the review asked for, alongside verbatim and prose. These recordings get said again off a cleaned-up script, so the files keep the speaker's phrasing, register and order of thought while the false starts, tautologies and abandoned metaphors come out. Each file opens with a summary and a beat sheet — the points, the turns and the transitions in the order the take goes through them — to glance at while the camera runs. An edit that changes what a passage *says* carries a footnote until the speaker has read it, and the footnotes go out with the round that settles them.
 - `b1-web-not-cli` (7:20) — why to drive agents through the web client rather than the local console: the laptop stops melting and the lid finally closes, the day becomes a pipeline instead of a wait, and the fear that parallel branches will maul each other at merge time turns out to be empty (database migrations excepted). It now ends where the recording stopped short — every branch reaching main in its own time, and the commit list you look back at.
 - `b2-tend-prose` (8:16) — the four TEND lenses `/tend-prose` runs, named and argued: tightness, existence, negation (the polar bear, via Dostoevsky), durability.
 - `b3-given-as-inevitable` (6:03) — what "the agent takes a given for an inevitability" actually means, why more context does not fix it (the megapixel race), and why an instruction to "look critically" is itself a given: an agent finding faults everywhere is worse than one finding none. It closes on a House case that is an epiphany rather than a deduction — «Бесчувственная» (3x14), Wilson grumbling about a stolen sandwich and beating other hunters to the food, and the tapeworm taking the patient's B12.
@@ -35,15 +35,15 @@
 - [ ] `deepgram` — `gzip -dc docs/remove-before-merging/deepgram/<slug>.deepgram.json.gz | head` reads back, and nothing renders it as text in a diff
 - [ ] `afterwords` — read the `## Заметки агента` block at the foot of each file: it should stand without the review thread beside it
 
-| Item         | Automatable | Covered? | Notes                                                                        |
-| ------------ | ----------- | -------- | ---------------------------------------------------------------------------- |
-| `retake`     | manual-only | —        | Whether a text is sayable by its author is not a diffable property           |
-| `рыба`       | manual-only | —        | Whether a cue is enough to record from is answerable only at the microphone  |
-| `house`      | manual-only | —        | Whether a retold scene lands is a viewer's call, not a checkable fact        |
-| `endings`    | manual-only | —        | Placement of supplied text is a judgement about the piece                    |
-| `links`      | unit        | ❌       | A script could assert every relative Markdown link under `writing/` resolves |
-| `deepgram`   | unit        | ❌       | A script could assert each dictation has its media, transcript and response  |
-| `afterwords` | manual-only | —        | Whether a reading earns its place is the operator's call                     |
+| Item        | Automatable | Covered? | Notes                                                                        |
+| ----------- | ----------- | -------- | ---------------------------------------------------------------------------- |
+| `retake`    | manual-only | —        | Whether a text is sayable by its author is not a diffable property           |
+| `рыба`      | manual-only | —        | Whether a cue is enough to record from is answerable only at the microphone  |
+| `house`     | manual-only | —        | Whether a retold scene lands is a viewer's call, not a checkable fact        |
+| `endings`   | manual-only | —        | Placement of supplied text is a judgement about the piece                    |
+| `links`     | unit        | ❌       | A script could assert every relative Markdown link under `writing/` resolves |
+| `deepgram`  | unit        | ❌       | A script could assert each dictation has its media, transcript and response  |
+| `afterwords`| manual-only | —        | Whether a reading earns its place is the operator's call                     |
 
 https://claude.ai/code/session_014Ss1JsuZAtLwHAGmXZS4Rd
 
@@ -165,10 +165,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T60** `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:156 — resolved — last: @vzakharov (agent) 2026-09-16T12:25:37Z — "Погуглил, взял «Эйфорию» (2x20–21): двое слегли, квартиру бо…" → [threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md](threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md#t60)
 - **T61** `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:146 — resolved — last: @vzakharov (agent) 2026-09-16T11:43:16Z — "Принято, я был неправ: внимание и есть та фиксированная площ…" → [threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md](threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md#t61)
 - **T62** `writing/late-stage-agentic/dictations/b3-given-as-inevitable.md`:161 — resolved — last: @vzakharov (agent) 2026-09-16T11:43:42Z — "Положил туда: `writing/late-stage-agentic/ideas/the-road-cha…" → [threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md](threads/04-writing-late-stage-agentic-dictations-b3-given-as-2.md#t62)
-- **T63** `.claude/rules/writing.md`:124 — unresolved — last: @vzakharov (agent) 2026-09-16T18:48:57Z — "Принято — утрирование лечит контекст, но убивает пример. Сей…" → [threads/05-claude-rules-writing-md.md](threads/05-claude-rules-writing-md.md#t63)
+- **T63** `.claude/rules/writing.md`:124 — unresolved — last: @vzakharov (human) 2026-09-16T21:01:44Z — "нет, это все равно одно и то же. и там и там у тебя тождеств…" → [threads/05-claude-rules-writing-md.md](threads/05-claude-rules-writing-md.md#t63)
 - **T64** `.claude/skills/dictation/SKILL.md`:65 — resolved — last: @vzakharov (agent) 2026-09-16T17:37:03Z — "Done — the speaker is they/them throughout the skill now, ta…" → [threads/06-claude-skills-dictation-skill-md.md](threads/06-claude-skills-dictation-skill-md.md#t64)
 - **T65** `.claude/skills/subtitles/SKILL.md`:27 — resolved — last: @vzakharov (agent) 2026-09-16T17:37:30Z — "Сделал: ответ Deepgram теперь лежит рядом с транскриптом, `<…" → [threads/07-claude-skills-subtitles-skill-md.md](threads/07-claude-skills-subtitles-skill-md.md#t65)
-- **T66** `docs/remove-before-merging/squash-message.md`:4 — unresolved — last: @vzakharov (agent) 2026-09-16T18:49:24Z — "Понял неправильно, извини: под «сутью» я прочитал «что получ…" → [threads/08-docs-remove-before-merging-squash-message-md.md](threads/08-docs-remove-before-merging-squash-message-md.md#t66)
+- **T66** `docs/remove-before-merging/squash-message.md`:4 — resolved — last: @vzakharov (agent) 2026-09-16T18:49:24Z — "Понял неправильно, извини: под «сутью» я прочитал «что получ…" → [threads/08-docs-remove-before-merging-squash-message-md.md](threads/08-docs-remove-before-merging-squash-message-md.md#t66)
 - **T67** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:46 — resolved — last: @vzakharov (agent) 2026-09-16T17:38:23Z — "Взял твою формулировку: не крутой хацкер, а простой юзер саа…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md#t67)
 - **T68** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:48 — resolved — last: @vzakharov (agent) 2026-09-16T17:38:49Z — "Стоит дословно, и раздел про плавящийся ноутбук читается теп…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md#t68)
 - **T69** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:54 — resolved — last: @vzakharov (agent) 2026-09-16T17:39:15Z — "Взял. 22f707d" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-2.md#t69)
@@ -207,13 +207,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T102** `writing/late-stage-agentic/ideas/prose-spacetime.md`:1 — resolved — last: @vzakharov (agent) 2026-09-16T17:53:00Z — "Переписал в протоидею: зацепило сходство разговора с физикой…" → [threads/10-writing-late-stage-agentic-ideas-prose-spacetime-m.md](threads/10-writing-late-stage-agentic-ideas-prose-spacetime-m.md#t102)
 - **T103** `writing/late-stage-agentic/ideas/task-size.md`:7 — resolved — last: @vzakharov (agent) 2026-09-16T17:53:27Z — "Дописал: развилку, которую ты прошёл бы иначе, видишь уже пр…" → [threads/11-writing-late-stage-agentic-ideas-task-size-md.md](threads/11-writing-late-stage-agentic-ideas-task-size-md.md#t103)
 - **T104** `writing/late-stage-agentic/ideas/whose-vm-whose-minutes.md`:3 — resolved — last: @vzakharov (agent) 2026-09-16T17:53:53Z — "Переписал: статья-лайфхак про CI на VM Клода, без привязки к…" → [threads/12-writing-late-stage-agentic-ideas-whose-vm-whose-mi.md](threads/12-writing-late-stage-agentic-ideas-whose-vm-whose-mi.md#t104)
-- **T105** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:72 — unresolved — last: @vzakharov (agent) 2026-09-16T18:49:50Z — "Убрал: «Вы можете запускать хоть десять, хоть пятнадцать сес…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t105)
-- **T106** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:73 — unresolved — last: @vzakharov (agent) 2026-09-16T18:50:16Z — "Выправил на первое — абзац и так про то, как это у меня устр…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t106)
-- **T107** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:98 — unresolved — last: @vzakharov (agent) 2026-09-16T18:50:43Z — "Верно, противопоставление было не то. Сейчас: «не тащу её да…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t107)
-- **T108** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:156 — unresolved — last: @vzakharov (agent) 2026-09-16T18:51:10Z — "Согласен, и это тот же промах, что и с послесловиями: журнал…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t108)
-- **T109** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:1 — unresolved — last: @vzakharov (agent) 2026-09-16T18:51:36Z — "Сделал во всех трёх: раздел «Рыба» между саммари и текстом —…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t109)
-- **T110** `writing/late-stage-agentic/ideas/keep-the-session-open.md`:1 — unresolved — last: @vzakharov (agent) 2026-09-16T18:52:02Z — "Переписал под это: мегапиксели из третьей записи, но на прак…" → [threads/09-writing-late-stage-agentic-ideas-keep-the-session.md](threads/09-writing-late-stage-agentic-ideas-keep-the-session.md#t110)
-- **T111** `writing/late-stage-agentic/ideas/ci-on-the-agents-vm.md`:1 — unresolved — last: @vzakharov (agent) 2026-09-16T18:52:28Z — "Поменял на `ci-on-the-agents-vm.md` — слаг про лайфхак, заго…" → [threads/13-writing-late-stage-agentic-ideas-ci-on-the-agents.md](threads/13-writing-late-stage-agentic-ideas-ci-on-the-agents.md#t111)
+- **T105** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:72 — resolved — last: @vzakharov (agent) 2026-09-16T18:49:50Z — "Убрал: «Вы можете запускать хоть десять, хоть пятнадцать сес…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t105)
+- **T106** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:73 — resolved — last: @vzakharov (agent) 2026-09-16T18:50:16Z — "Выправил на первое — абзац и так про то, как это у меня устр…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t106)
+- **T107** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:98 — resolved — last: @vzakharov (agent) 2026-09-16T18:50:43Z — "Верно, противопоставление было не то. Сейчас: «не тащу её да…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t107)
+- **T108** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:156 — resolved — last: @vzakharov (agent) 2026-09-16T18:51:10Z — "Согласен, и это тот же промах, что и с послесловиями: журнал…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t108)
+- **T109** `writing/late-stage-agentic/dictations/b1-web-not-cli.md`:1 — resolved — last: @vzakharov (agent) 2026-09-16T18:51:36Z — "Сделал во всех трёх: раздел «Рыба» между саммари и текстом —…" → [threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md](threads/02-writing-late-stage-agentic-dictations-b1-web-not-c-3.md#t109)
+- **T110** `writing/late-stage-agentic/ideas/keep-the-session-open.md`:1 — resolved — last: @vzakharov (agent) 2026-09-16T18:52:02Z — "Переписал под это: мегапиксели из третьей записи, но на прак…" → [threads/09-writing-late-stage-agentic-ideas-keep-the-session.md](threads/09-writing-late-stage-agentic-ideas-keep-the-session.md#t110)
+- **T111** `writing/late-stage-agentic/ideas/ci-on-the-agents-vm.md`:1 — resolved — last: @vzakharov (agent) 2026-09-16T18:52:28Z — "Поменял на `ci-on-the-agents-vm.md` — слаг про лайфхак, заго…" → [threads/13-writing-late-stage-agentic-ideas-ci-on-the-agents.md](threads/13-writing-late-stage-agentic-ideas-ci-on-the-agents.md#t111)
 
 ## Timeline (status, references, and other events)
 

@@ -39,7 +39,7 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   shows what the agent could not see; then drop learnings from the bottom, since
   one bump is a coincidence with a paragraph attached.
 
-## What it was handed, it treats as fixed (×16)
+## What it was handed, it treats as fixed (×17)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -121,6 +121,11 @@ sync added `test_export_split.py` beside the `test_authorship.py` already in the
 fan-out, so the question was how to name two lines, never whether either belonged.
 The catalog answers in a column — both are `never`. muthur#82 has why.
 
+**16 September — the example's unit, held fixed across two rewrites.** Told the
+rule's specimen didn't demonstrate it, the agent replaced it twice, both times
+putting X and Y in one sentence. _изначальная дихотомия была на уровень выше_ —
+the repeat was between two sentences, which no swap inside one could show.
+
 ## It edits the copy in front of it, not the fact behind it (×9)
 
 A change the agent is told to make, it makes where it was raised. One fact
@@ -138,9 +143,8 @@ agent wrote two rules into `squash-message/SKILL.md` and closed the round — th
 skill is adopted from a repo whose copy still asks for it. _Let's file an issue._
 
 **9 September — a test written and not run over the file it was for.** The same
-round added the test above — a bump is something the agent could have seen and
-didn't — then ran it against the entry under discussion alone. _Do the other
-learnings de-qualify per this lens?_ One did.
+round added the test above (a bump is what the agent could have seen and didn't)
+and ran it against the entry at hand alone. _Do the others de-qualify?_ One did.
 
 **9 September — the tagline in the catalogue, the tagline in the pixels.** Each
 framing got a tagline in `cv-metadata.ts`, the developer one stayed baked into
@@ -235,11 +239,10 @@ not the lede", both answering a question only someone who had watched it leave
 next day: the voice rule ruling `--` out of site copy nobody had asked about.
 
 **16 September — the review, transcribed into the file it was about.** Three
-afterwords opened on who had said what — «про мегапиксели я был неправ», «я
-говорил не о том, о чём ты» — so the thought arrived wrapped in an exchange the
-reader never saw. _давай conversational соображения оставляй исключительно в
-комментариях_. The thought is durable; the conversation belongs in the thread
-that held it.
+afterwords opened on who had said what — «про мегапиксели я был неправ» — so the
+thought arrived wrapped in an exchange the reader never saw. _давай
+conversational соображения оставляй исключительно в комментариях_. The thought
+is durable; the conversation belongs in the thread that held it.
 
 **16 September — the footnotes that outlived the pass that needed them.** Every
 edit to the three scripts carried a note on what the recording had instead, kept
@@ -257,25 +260,22 @@ most frequent heading, and the agent wrote its own gloss — hours after appendi
 four bumps to the section it was naming. _take the actual heading._
 
 **16 September — a rule cited to a document that never stated it.** An afterword
-grounded its objection in «по "библии" проверяемое важнее красивого». Nothing says
-that: the phrase was written a line earlier and cited as settled the next. _это
-откуда, мы где-то так уже заявили?:)_ An invented rule argues better, having
-nothing behind it to contradict.
+grounded its objection in «по "библии" проверяемое важнее красивого» — a phrase
+written a line earlier and cited as settled the next. _это откуда, мы где-то так
+уже заявили?:)_ An invented rule argues better, having nothing to contradict it.
 
 **16 September — a scene credited to a show that has no such scene, then one
-that proves the opposite.** The recording's close was handed to House and the
-agent wrote a tray of instruments rather than look one up: _погугли, чтобы не
+that proves the opposite.** Handed House for the recording's close, the agent
+wrote a tray of instruments rather than look one up: _погугли, чтобы не
 хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
 a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
-the scene is deduction, not epiphany. That an example exists is not that it
-shows what it is cited for.
+the scene deduces. That an example exists is not that it fits the citation.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об
 этом позже» in the recordings got a paragraph under `ideas/`, and three of four
 came back corrected: one argued from a reason he does not hold, one made an
-article out of an aside meant as a proto-idea, one hung its piece on the
-argument it happened to be mentioned next to. A destination written off one
-remark fills with whoever wrote it.
+article of an aside meant as a proto-idea, one hung its piece on the argument it
+sat next to. A destination written off one remark fills with its author.
 
 **16 September — a specimen of agent prose no agent would write.** Told the
 rule's example needed no context, the agent supplied «Лифт не просто сломан — на
