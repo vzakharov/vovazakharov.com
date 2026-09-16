@@ -3,14 +3,15 @@
  * `vova/no-redundant-property-copy` asks for where `href={printed.href}`
  * spells the key on both sides.
  *
- * The implementation signature is the untyped half of the overload on purpose:
- * no object literal is assignable to a generic `Pick<T, K>`, so the alternative
- * is an assertion that narrows.
+ * Taken verbatim from the Playgram app's `shared/collections`, which is the
+ * home of this family — so a fix to it is made there and copied here, not the
+ * other way round.
  */
-export function pick<T extends object, K extends keyof T>(
-  source: T,
-  ...keys: K[]
-): Pick<T, K>;
-export function pick(source: Record<string, unknown>, ...keys: string[]) {
-  return Object.fromEntries(keys.map((key) => [key, source[key]]));
+export function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
+  // @ts-expect-error - we know the end result is a Pick<T, K>
+  const result: Pick<T, K> = {};
+  for (const key of keys) {
+    result[key] = obj[key];
+  }
+  return result;
 }

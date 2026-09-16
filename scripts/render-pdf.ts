@@ -61,7 +61,8 @@ const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
  * What shapes any printed page: the print sheet, the theme it is drawn with,
- * the presentation components, and the site identity the footer prints.
+ * the presentation components and the helpers they are built from, and the site
+ * identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
  * of casting it wide is that a tweak to any of it re-flags every PDF, and that
  * costs one `pnpm content:pdf` run.
@@ -71,6 +72,7 @@ const PRINT_SOURCES = [
   'src/app/styles/theme.ts',
   'src/app/styles/theme.module.scss',
   'src/shared/config',
+  'src/shared/lib',
   'src/shared/ui',
 ];
 
