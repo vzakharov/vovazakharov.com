@@ -1,4 +1,4 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
+> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
 
 # The Bible: latestageagentic.com's article collection
 
@@ -17,15 +17,15 @@ half is what stops the first article from being a copy of the machinery.
 
 ## Decisions in force
 
-Each of these is a fork the operator can reverse; the plan is written with the
-recommendation already in place.
-
+- **A Bible article is built exactly like the Playgram case study**, through the
+  same pipeline and offering the same artifacts: markdown at its own route, a
+  committed PDF beside it, the same header, heading outline and index card. Not
+  a second implementation that resembles the first — the same one, taught which
+  site it is serving. Every structural decision below follows from that.
 - **The collection is `bible`, served at `/bible`.** It is the only candidate
   name with a reason behind it (plan.md, "Not balanced": the self-irony is what
   keeps a categorical article from reading as a manifesto), and the label in the
-  registry reads "The Bible". A URL is the one thing here that is expensive to
-  change once a page has been linked from anywhere, which is why it is the first
-  question below.
+  registry reads "The Bible".
 - **The articles are English.** The site is the English channel; the recordings
   are scripts for the Russian one. The `<slug>.<locale>.md` seam that
   `.claude/rules/content.md` names stays deliberately unbuilt.
@@ -35,12 +35,6 @@ recommendation already in place.
   strengthens the position, it is folded into the article's own argument
   unattributed; where it is a reading of the recording as a performance, it is
   left in `writing/`.
-- **The Bible is not printable.** Case studies offer `.md` and `.pdf`; a Bible
-  article offers `.md` only. A PDF is a committed binary produced by a
-  by-hand headless-Chromium run, and the whole render pipeline is currently
-  pinned to `apps/vova`; wiring a second site's PDF lane costs more than a
-  printed wiki article is worth. `.md` is the link that matters for the reader
-  this site courts anyway.
 - **Promise links are dropped, not published.** The recordings link every "about
   this later" to a file under `writing/late-stage-agentic/ideas/`, which is a
   repo convention (`.claude/rules/writing.md`) and not a published tree. In an
@@ -102,7 +96,7 @@ collection exists on the other site:
   now covers two collections as well as two page kinds.
 - Replace the two hardcoded `COLLECTION` constants with factories the routers
   bind: `articleRoute(collection)` returning `{ Page, generateMetadata,
-  generateStaticParams }` and `collectionIndexRoute(collection)` returning
+generateStaticParams }` and `collectionIndexRoute(collection)` returning
   `{ Page, metadata }`.
 - Each app's route file binds one collection — three lines rather than the
   current one-line re-export, because Next reads `default`, `generateMetadata`
@@ -113,34 +107,52 @@ collection exists on the other site:
   `apps/lsa/app/bible/[...slug]/page.tsx`.
 - The index page's title comes from `SITE_CONFIG.name`, not a literal.
 
-### A4. A collection says whether it is printable
+### A4. The PDF lane serves both sites
 
-- `printable: boolean` on the collection entry; `case-studies` true, `bible`
-  false.
-- `ContentDocument.pdf` becomes optional, set only for a printable collection,
-  and `ArticleHeader` offers the `.pdf` link only when it is there.
-- `render-pdf.ts` walks its site's printable collections. Its
-  `DOCUMENT_SOURCES` entry `src/pages/case-studies/ui` follows the slice rename
-  — which re-flags every committed PDF, so **`pnpm content:pdf` is re-run and
-  the case studies' PDFs are re-committed in this PR**. That is the one
-  by-hand render step here, and `vet.sh`'s `content:pdf --check` is what fails
-  if it is skipped.
+`render-pdf.ts` already spawns `next dev` in the working directory, which is the
+app directory the run was entered in — so the lane is site-agnostic where it
+matters, and pinned to `vova` in four places:
+
+- `cvPrintables()` and the `CV_DIR` manifest root are unconditional, and the CV
+  is `vova`'s page. Both become conditional on the site being rendered.
+- `CONTENT_DIRS`, which A2 has already made site-aware.
+- The dev-server error message names `pnpm dev:vova` in prose; it names the
+  running site's script instead.
+
+The package scripts split into `content:pdf:vova` and `content:pdf:lsa`, each
+entered in its own app directory with its own `NEXT_PUBLIC_SITE`. `vet.sh` runs
+both as separate entries in its fan-out rather than one combined script: a
+combined `a && b` appends `--check` to the second command only, which would
+leave one site rendering for real inside a vet run. The two `--check` passes
+only hash files, so they overlap as safely as the single one does today.
+
+`content:og` stays `vova`-only until the first authored card exists on the other
+site; A2's filtering is what keeps it from walking a directory that is not
+there.
+
+**Two by-hand render runs land in this PR.** `pnpm content:pdf:lsa` produces the
+three articles' PDFs and `apps/lsa/public/bible/pdf-renders.json`; `pnpm
+content:pdf:vova` re-renders every case-study PDF, because `DOCUMENT_SOURCES`
+names `src/pages/case-studies/ui` and A3 renames that directory. Both sets are
+committed, and `vet.sh`'s two `--check` passes are what fail if either is
+skipped.
 
 ## Part B — The three articles
 
 `apps/lsa/public/bible/` gains three documents, each frontmatter (`description`,
 `date: 2026-09-16`) plus a leading `# ` heading the pipeline lifts into the page
-header. No `ogImage`: `constructMetadata` falls back to the site avatar, which
-is a correct card for a site this young and costs no authored SVG.
+header — the same two-field frontmatter the case study carries, minus the
+`ogImage` it points at a chart. `constructMetadata` falls back to the site
+avatar, which is a correct card until a card is drawn.
 
 Reading order is the order they are written in, because the second leans on the
 third and the first stands alone:
 
-| Slug                     | From | Position |
-| ------------------------ | ---- | -------- |
-| `web-not-console.md`     | b1   | Drive agents through the web client, not the local console |
-| `tend-prose.md`          | b2   | Agent-written prose fails in four ways, and they have names |
-| `given-for-inevitable.md`| b3   | An agent treats what it finds as what must be, and more context does not fix it |
+| Slug                      | From | Position                                                                        |
+| ------------------------- | ---- | ------------------------------------------------------------------------------- |
+| `web-not-console.md`      | b1   | Drive agents through the web client, not the local console                      |
+| `tend-prose.md`           | b2   | Agent-written prose fails in four ways, and they have names                     |
+| `given-for-inevitable.md` | b3   | An agent treats what it finds as what must be, and more context does not fix it |
 
 **What the rewrite actually is.** Each recording is a script: it opens on why
 the speaker resisted, arrives at the position, and closes on an exhortation.
@@ -216,6 +228,11 @@ published case study uses ordinary typography and so do these.
   cards (the same call the index page makes), `SummaryCard`, `constructMetadata`,
   `pageFile`, `documentRoute`. The lsa home page gains no rendering code of its
   own.
+- **One print lane, not two.** The PDF script learns which site it is rendering;
+  it does not grow a second enumeration for the second site. The print sheet,
+  the stylesheet, the manifest format and the staleness check are the ones the
+  case studies already use, which is why a Bible PDF needs no new print code at
+  all — only a collection that exists and a script entered in the right app.
 - **Duplicated on purpose:** each app's route files. They are three-line
   bindings per route, and the alternative — a shared router factory reaching
   into `apps/` — would put the FSD layer graph in a directory Next owns.
@@ -230,8 +247,11 @@ published case study uses ordinary typography and so do these.
 
 ## Out of scope
 
-- Per-article Open Graph cards (the avatar fallback is correct for now).
-- PDFs for the Bible (see A4) and the `<slug>.<locale>.md` seam.
+- Per-article Open Graph cards. The case study's card is an authored chart of
+  its own data; these articles have no chart, and a card generated from a
+  template is the CV's pattern rather than a document's. The avatar fallback is
+  correct until one is drawn.
+- The `<slug>.<locale>.md` seam.
 - The Russian channel: nothing here posts to Telegram.
 - The remaining `ideas/` backlog — eight paragraphs that are not articles yet.
 - The footer's direct address to the agent reader, which plan.md calls for on
@@ -240,10 +260,14 @@ published case study uses ordinary typography and so do these.
 
 ## Verification
 
-1. `./scripts/vet.sh` — both builds, both sitemaps, and the `content:pdf --check`
-   that catches the re-render A4 forces.
-2. `/preview` on the lsa site: the home page's Writing section, `/bible`, and one
+1. `pnpm content:pdf:lsa` and `pnpm content:pdf:vova`, run by hand, with both
+   sets of PDFs committed (A4).
+2. `./scripts/vet.sh` — both builds, both sitemaps, and the two
+   `content:pdf --check` passes that catch a missed render.
+3. `/preview` on the lsa site: the home page's Writing section, `/bible`, and one
    article in both themes. A green vet says the pages build, not that they read.
-3. Read the three articles end to end against the recordings they came from —
+   Open one of the new PDFs too — the print footer prints the site's own URL,
+   and `latestageagentic.com` has never been through that path.
+4. Read the three articles end to end against the recordings they came from —
    the check is that each states its position before it argues it, and that no
    promise link points at a file the site does not serve.
