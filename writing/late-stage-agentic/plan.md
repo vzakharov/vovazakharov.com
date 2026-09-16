@@ -160,11 +160,11 @@ draft so the operator can put it back.
 - **Where the project lives on GitHub.** An organisation of its own with
   `vzakharov/muthur` moved into it, or the repositories staying where they are
   under one name. Undecided.
-- **Whether a piece is ever written as an article first.** The first three
-  articles were recorded as column scripts and rewritten for the site, which is
-  the first of the two routes this question used to name — and it works: the
-  recording does the thinking, the article states the position and spends
-  itself earning it. What stays open is the other route, a piece written for
-  the wiki and never recorded at all, which nothing has yet called for.
+- **Whether a piece is ever written as an article first.** Recording a column
+  script and rewriting it for the site works — the recording does the thinking,
+  the article states the position and spends itself earning it — and it is how
+  the first three articles were made. The open half is the other route: a piece
+  written for the wiki and never recorded at all, which nothing has yet called
+  for.
 - **The English video.** The LinkedIn post is English and the video is Russian.
   Re-record it, subtitle it, or let the post stand alone — undecided.

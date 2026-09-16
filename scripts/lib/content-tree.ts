@@ -7,31 +7,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { SITE_IDS } from '../../src/shared/config/site-ids.ts';
+import { resolveSiteId } from '../../src/shared/config/site-ids.ts';
 import {
   collectionDir,
   collectionsForSite,
 } from '../../src/shared/content/collections.ts';
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
-
-/**
- * Which site's content this run walks. A render script is entered in one app's
- * directory, so `public/` already resolves to that site — an unset variable
- * would silently walk the collections of whichever site the registry listed
- * first against the other one's `public/`, hence the throw.
- */
-function resolveSite() {
-  const site = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
-
-  if (site === undefined) {
-    throw new Error(
-      `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
-    );
-  }
-
-  return site;
-}
 
 /** Every file under `target`, recursively — or `target` itself when it is a file. */
 export function filesUnder(target: string): string[] {
@@ -42,7 +24,8 @@ export function filesUnder(target: string): string[] {
     : [target];
 }
 
-export const RENDERED_SITE = resolveSite();
+/** Which site's content this run walks — the same variable its app's build reads. */
+export const RENDERED_SITE = resolveSiteId();
 
 /** The directories under `public/` of the collections this site serves — the content tree's roots. */
 export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>

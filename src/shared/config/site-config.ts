@@ -6,7 +6,7 @@ import type {
   WithText,
 } from '@/shared/typings';
 
-import { SITE_IDS, type SiteId } from './site-ids';
+import { resolveSiteId, type SiteId } from './site-ids';
 
 /**
  * A static export renders once per deploy, so a copyright year is the build's.
@@ -24,23 +24,7 @@ export const PAGE_ROUTES = {
   music: '/music',
 } as const;
 
-/**
- * Which site this build is. Each app pins it in its `next.config.ts` and each
- * render script in its `package.json` entry, so an unset value means nobody
- * said — which would otherwise publish one site's copy under the other's
- * domain, hence the throw.
- *
- * Matched rather than parsed by a schema: client components reach this module
- * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
- * ~90 kB `shared/i18n` keeps behind its server-only barrel.
- */
-const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
-
-if (siteId === undefined) {
-  throw new Error(
-    `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
-  );
-}
+const siteId = resolveSiteId();
 
 /**
  * The tagline is the offer in one line, as the home page's offer section is

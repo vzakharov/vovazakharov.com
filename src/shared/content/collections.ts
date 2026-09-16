@@ -5,10 +5,9 @@
 
 import path from 'node:path';
 
-// Type-only, and it has to stay that way: bare Node strips the statement
-// without resolving it, which is what lets this module keep the `@/` alias it
-// could not otherwise reach. A value import here would also reach
-// `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
+// Type-only, and it has to stay that way: bare Node erases the statement
+// rather than resolving an `@/` alias it cannot follow, and a value import
+// would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
 import type { SiteId, WithSiteId } from '@/shared/config';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */

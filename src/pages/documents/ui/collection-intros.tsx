@@ -5,13 +5,10 @@ import type { CollectionId } from '@/shared/content';
 import type { Described } from '@/shared/typings';
 
 /**
- * What a collection's index page says for itself: the line that serves as both
- * the meta description and the page's lede, and — where one line is not enough
- * — the prose that runs under it.
- *
- * Here rather than in `shared/content`'s registry because it is page
- * composition: that registry shapes routes and runs under bare Node in the
- * render scripts, where a paragraph of site copy has no business being.
+ * What a collection's index says for itself: the line that is both its meta
+ * description and its lede, and the prose under it where one line is not
+ * enough. Here rather than in the content registry, which shapes routes and
+ * runs under bare Node in the render scripts.
  */
 export const COLLECTION_INTROS: Record<
   CollectionId,
