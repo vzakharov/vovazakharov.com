@@ -31,8 +31,7 @@ export type InternalLinkProps = Anchored &
  * Another page of this site, linked once per medium — every internal link,
  * because any page can be printed and `next/link` writes a **relative** href.
  * That is what a client-side route needs and what a PDF resolves against
- * whatever host printed the file, so no single anchor serves both: the screen
- * half keeps the relative href, the printed half takes the absolute one.
+ * whatever host printed the file, so no single anchor serves both.
  *
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.

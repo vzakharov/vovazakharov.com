@@ -20,12 +20,16 @@ const DATED = (stamp: string): string =>
 
 const CONTENT = 'BT /F1 12 Tf 72 720 Td (Playgram) Tj ET';
 
+/** The eight-digit form Chromium gives a structure-tree node its name in. */
+const node = (counter: number): string =>
+  `node${String(counter).padStart(8, '0')}`;
+
 /** A structure tree where one cell cites the other's node as its header. */
 const TREE = (first: number, second: number): string =>
   [
-    `/ID (node${String(first).padStart(8, '0')})`,
-    `/Headers [(node${String(first).padStart(8, '0')})]`,
-    `/ID (node${String(second).padStart(8, '0')})`,
+    `/ID (${node(first)})`,
+    `/Headers [(${node(first)})]`,
+    `/ID (${node(second)})`,
   ].join('\n');
 
 describe('sameRender', () => {
@@ -51,13 +55,13 @@ describe('sameRender', () => {
 
   it('keeps the aliases those names carry', () => {
     const cited = pdf(
-      '/ID (node00000140)',
-      '/Headers [(node00000140)]',
+      `/ID (${node(140)})`,
+      `/Headers [(${node(140)})]`,
       CONTENT,
     );
     const citingAnother = pdf(
-      '/ID (node00000140)',
-      '/Headers [(node00000141)]',
+      `/ID (${node(140)})`,
+      `/Headers [(${node(141)})]`,
       CONTENT,
     );
 

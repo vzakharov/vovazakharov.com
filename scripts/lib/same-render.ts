@@ -3,8 +3,8 @@
  * `render-pdf.ts` keep the committed bytes instead of writing a file that
  * differs only in what the renderer never settles.
  *
- * It lives apart from that script so it can be tested without a browser: the
- * script renders on import, and this is a pure function of two buffers.
+ * It lives apart from that script so it can be tested without a browser — the
+ * script renders on import.
  */
 
 /**

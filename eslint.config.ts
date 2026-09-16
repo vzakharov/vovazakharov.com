@@ -132,8 +132,10 @@ const boundariesConfig: Config = {
             from: { element: { type: 'app' } },
             allow: { to: { element: { type: 'app' } } },
           },
+          // Entering `shared/lib` does not vary by the layer doing it, so one
+          // policy grants it to every layer above shared.
           {
-            from: { element: { type: 'app' } },
+            from: { element: { types: { anyOf: ['app', ...FSD_LAYERS] } } },
             allow: { to: { element: SHARED_LIB_ENTRY } },
           },
           ...FSD_LAYERS.flatMap((layer, index) => [
@@ -162,10 +164,6 @@ const boundariesConfig: Config = {
                   },
                 },
               },
-            },
-            {
-              from: { element: { type: layer } },
-              allow: { to: { element: SHARED_LIB_ENTRY } },
             },
           ]),
           // Shared is a layer and a slice at once — FSD's own exception, which
