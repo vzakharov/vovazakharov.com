@@ -17,7 +17,7 @@ export const CASE_STUDY_KEY = 'playgram';
 export function CaseStudyLink({ href }: Linked) {
   const { cv } = useMessages();
   const label = cv.caseStudies[CASE_STUDY_KEY].link;
-  const printed = printedUrl(href);
+  const { href: printedHref, text: printedText } = printedUrl(href);
 
   return (
     <Text className={classes['caseStudyLine']}>
@@ -31,8 +31,8 @@ export function CaseStudyLink({ href }: Linked) {
         {': '}
         {/* One text node, not two: a PDF gets a link annotation per node, and
             the first is placed over whatever precedes the anchor. */}
-        <Anchor href={printed.href} inherit>
-          {printed.text}
+        <Anchor href={printedHref} inherit>
+          {printedText}
         </Anchor>
       </span>
     </Text>

@@ -40,17 +40,16 @@ one. The header's name link has no URL-shaped text to rescue it at all.
   produces, so the visible line is unchanged. The `print-hidden` anchor above it
   stays relative.
 - **`src/pages/cv/ui/cv-sheet.tsx:72`** — the name in the header, which prints
-  and is also on screen. Take `printedUrl('/').href` and keep the name as the
-  link text.
+  and is also on screen. Split it the way `case-study-link.tsx` splits its own:
+  a `print-hidden` `InternalLink` keeping the relative href a client-side route
+  needs, and a print-only `Anchor` on `printedUrl('/').href`.
 
-  The screen cost is that clicking one's own name is a full navigation rather
-  than a client-side transition. Accept it: the sheet already does exactly this
-  one line below (`WebsiteLink` has been absolute on screen all along), and the
-  footer's relative `backLink` is the client-side route home.
-
-  The alternative — splitting into a `print-hidden` relative anchor plus a
-  `print-only` absolute one, the shape `case-study-link.tsx` uses — puts the name
-  in the DOM twice to buy back one soft navigation on a leaf page. Not worth it.
+  This plan first proposed one absolute anchor for both media, accepting a full
+  navigation on screen because the footer's `backLink` is a soft route home
+  anyway. Review rejected it: the issue asks for the print path alone, the
+  two-anchor shape is already in the slice, and the name in the DOM twice is
+  what `print-hidden` exists to cost nothing for. Both PDFs' bytes come back
+  unchanged, so the split is invisible on paper.
 
 **Verify:** after re-rendering, `strings apps/vova/public/cv/cto/en.pdf | grep -o '/URI ([^)]*)'`
 shows no `localhost`, and the rendered line still reads
@@ -102,13 +101,13 @@ above.
   `cv-sheet`'s header wants the `href` under a name that is not a URL. A wrapper
   covering both takes a "use my text or the helper's" flag, which is the two call
   sites spelled out again with a boolean between them.
-- **`cv.website` duplicates `SITE_CONFIG.url` and stays.** The catalogue's
+- **`cv.website` duplicates `SITE_CONFIG.url` and goes.** The catalogue's
   `cv.website` is `vovazakharov.com` in both locales — the same string
   `printedUrl` derives by stripping the scheme. Fix 1 removes the copy at the one
-  print call site that concatenates it. It does **not** touch `WebsiteLink`
-  (`cv-sheet.tsx:40`): `printedUrl('/')` renders `vovazakharov.com/` with a
-  trailing slash the header line does not want, so folding it in would change
-  visible copy for a duplication that is one catalogue string. Flagged, not fixed.
+  print call site that concatenates it; `WebsiteLink` (`cv-sheet.tsx:40`) reads
+  `printedUrl(SITE_CONFIG.url)`, whose text carries no trailing slash, so the
+  visible copy is unchanged and the key has no consumer left. Planned as flagged,
+  not fixed — the `/dry` pass found the slash-free spelling and removed it.
 - **The byte guard lives in `render-pdf.ts`, not `render-manifest.ts`.** Its
   normalization knows the PDF's Info dictionary, which the shared module is
   deliberately blind to — that module's own docstring argues for hashing sources

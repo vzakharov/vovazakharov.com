@@ -48,6 +48,9 @@ function WebsiteLink() {
   );
 }
 
+/** The site root as paper needs it, the header's name being a link home. */
+const PRINTED_HOME = printedUrl('/').href;
+
 /** Order is a presentation decision, as with the experience entries. */
 const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
@@ -70,10 +73,23 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                {/* Absolute because the header prints: a relative href resolves
-                    against whatever host rendered the PDF. The screen cost is a
-                    full navigation, which the footer's back-link already covers. */}
-                <Anchor href={printedUrl('/').href} underline="never" inherit>
+                {/* One anchor per medium: a client-side route needs the relative
+                    href `next/link` renders, and a relative href in a PDF
+                    resolves against whatever host printed the file. */}
+                <InternalLink
+                  href="/"
+                  className="print-hidden"
+                  underline="never"
+                  inherit
+                >
+                  {t('header.name')}
+                </InternalLink>
+                <Anchor
+                  href={PRINTED_HOME}
+                  className={classes['printLink']}
+                  underline="never"
+                  inherit
+                >
                   {t('header.name')}
                 </Anchor>
               </Title>
