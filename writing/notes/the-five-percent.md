@@ -44,7 +44,7 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   one bump is a coincidence with a paragraph attached. A learning cut for
   thinness comes back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×18)
+## What it was handed, it treats as fixed (×19)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. The failure
@@ -68,9 +68,8 @@ scans type aliases only, known from the README and read as the rule's boundary.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule, the
 agent put the base for `caseStudyHref?`, declared by two sibling slices, in
-`shared/typings` as the lowest home that existed, and the gate went green. _not
-domain-less; if it's a question of import directionality, suggest introducing a
-case study entity_ — the gate has no opinion on layers, so green was the evidence.
+`shared/typings`, and the gate went green. _suggest introducing a case study
+entity_ — the gate has no opinion on layers, so green was the evidence.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the two
 CV route files could not collapse into one catch-all, the agent reported one cost:
@@ -85,9 +84,8 @@ the only argument, let's rewrite the boundaries_ — `eslint.config.ts` is ours.
 
 **9 September — a note on the site's controls, read as a rule about everything
 clickable.** Moving the theme toggle into the header's corner, the agent kept
-`variant="default"` — `theme.ts` calls it "the site's only control skin" — so a
-hairline box fenced off empty space. _let's remove the borders_. The agent had
-just argued the toggle is furniture, never carrying that to how it looks.
+`variant="default"` — "the site's only control skin" — so a hairline box fenced
+off empty space. _let's remove the borders_, having just called it furniture.
 
 **9 September — a global class read off the globals beside it.** A hover dim claimed
 by two slices went into `globals.scss`, "as the print utilities are". Those are
@@ -95,9 +93,8 @@ global for a reason that does not transfer — the content pipeline emits
 `print-hidden` into HTML strings — and that reason never got asked. _why bypass modules?_
 
 **11 September — its own spelling, then the operator's typo, both taken as given.**
-`/sync-agent-infra` was the agent's own name from the previous sync. Told the source
-had renamed its copy `/update-muthur`, it proved the rename need not travel and read
-that freedom as a reason to keep its own, then defended both names taken from it.
+`/sync-agent-infra` was the agent's own name. Told the source had renamed its copy
+`/update-muthur`, it read the rename's optionality as a reason to keep its own.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… почти как предзакатное солнце»: it parses, and
@@ -107,13 +104,11 @@ calls back to. The low-confidence list cannot flag a mis-hearing that makes sens
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
 and a name recommendation rested on it. Corrected, the agent filed the other sense
-as _the grammar allows only that one_ — also false. Each parse arrived ahead of the
-argument wanting it, the second the first with its sign flipped.
+as _the grammar allows only that one_ — also false, the first with its sign flipped.
 
 **14 September — the one caller's shape, written into a general skill.** The
-afterword skill, extracted from `/dictation`, kept what the extraction had held: the
-Russian heading as _the_ heading, a purpose reaching no further than a two-voice
-post. _let's make language a parameter_, _it's wider than that_.
+afterword skill, extracted from `/dictation`, kept the Russian heading as _the_
+heading and a purpose reaching no further. _let's make language a parameter_.
 
 **15 September — the plan, read as where a change gets written down.** The
 by-hand steps for standing the second site up went into the plan file, whose
@@ -142,6 +137,11 @@ build the one component, the agent stood it _beside_ `InternalLink` as
 `PrintableLink` — printability reading as a property some links have. _бывают ли у
 нас другие link вообще?_ Every internal link carries the relative href `next/link`
 writes. Same round, `lib/pick` named for its one member: _потом точно забудем_.
+
+**16 September — the same config, read as a specification a second time.** Asked
+why `shared/ui` cannot reach `shared/seo` directly, the agent read our own
+`boundaries` policy back as a stricter FSD. _именно так shared и должен
+работать._ The spec exempts the layer in one line; 9 September says whose file it is.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 

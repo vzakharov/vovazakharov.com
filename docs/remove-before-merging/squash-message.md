@@ -35,6 +35,12 @@ re-flags all seven PDFs whether or not a printed page moved; the
 run's output is now always safe to commit, instead of needing a
 byte diff read by hand to decide whether to keep the old files.
 
+Riding along, `boundaries` stops enforcing a public API between
+`shared`'s own segments, which FSD exempts: Shared is a slice as well
+as a layer, so its files import each other freely. `shared/lib` holds
+one file per sub-library instead of a directory and a one-line barrel,
+and a layer above enters segment `lib` at any top-level `*.ts`.
+
 Fixes #47
 
 Co-authored-by: Claude <noreply@anthropic.com>

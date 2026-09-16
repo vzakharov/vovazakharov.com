@@ -103,14 +103,14 @@ test, the script around it rendering on import.
 - [ ] `render-change` — make a real printed-page change, run `pnpm content:pdf`,
       and confirm it logs `rendered …` and the PDF actually changes.
 
-| Item                 | Automatable | Covered? | Notes                                                                                                                                      |
-| -------------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Item                 | Automatable | Covered? | Notes                                                                                                                                       |
+| -------------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pdf-links`          | integration | ❌       | Assert no `/URI (http://localhost` survives in any committed PDF — a grep over `apps/*/public/**/*.pdf`, cheap enough to sit in `pnpm test` |
 | `pdf-text`           | manual-only | —        | The rendered glyphs are in a subsetted font; the annotation `/Rect`s being unchanged is the machine-checkable half and was verified         |
-| `screen-cv`          | e2e         | ❌       | Needs a browser against the built export; no e2e layer exists in this repo yet                                                             |
-| `ru-cv`              | e2e         | ❌       | Same                                                                                                                                       |
+| `screen-cv`          | e2e         | ❌       | Needs a browser against the built export; no e2e layer exists in this repo yet                                                              |
+| `ru-cv`              | e2e         | ❌       | Same                                                                                                                                        |
 | `render-idempotence` | integration | ✅       | `scripts/lib/same-render.test.ts` covers the comparator over fixture pairs — the clock, the node base, and the changes it must not forgive  |
-| `render-change`      | manual-only | —        | Needs a real Chromium render to be meaningful end to end; the comparator's half is the test above                                          |
+| `render-change`      | manual-only | —        | Needs a real Chromium render to be meaningful end to end; the comparator's half is the test above                                           |
 
 Fixes #47
 
