@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "61715d03340c749f9133d1d0b265a0edce4b1b06",
-  "lastSyncedAt": "2026-09-15",
+  "lastSyncedSha": "69c19085463a8aec39d0e88138a65f42400218ff",
+  "lastSyncedAt": "2026-09-16",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
@@ -21,7 +21,9 @@
     ".claude/skills/from-branch/",
     ".claude/skills/go/",
     ".claude/skills/handle/",
-    ".claude/skills/take-issue/",
+    {
+      ".claude/skills/take-issue/": "taken with two paragraphs this repo wrote itself: the two accommodations that make a `user-attachments` download work here — S3 rejecting a second auth mechanism, and the egress proxy refusing the path — and, in `video-frames.md`, that the `apt-get update` before installing ffmpeg is load-bearing. Neither is in the source, so a verbatim re-copy would drop both."
+    },
     {
       ".claude/skills/issue/": "the redirect left behind when `/issue` split into transport (`/take-issue`) and the skills that decide. Taken because `/issue` was the shipped name here, which is the catalog's own condition for the row. Rewritten on one point: the source's no-number branch names `/propose-issue`, declined here, so this copy names `/task` and says filing is done by hand."
     },
