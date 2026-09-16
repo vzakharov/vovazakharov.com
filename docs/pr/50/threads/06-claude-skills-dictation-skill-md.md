@@ -17,4 +17,8 @@
 
 their, not his
 
+**@vzakharov (agent)** — 2026-09-16T17:37:03Z
+
+Done — the speaker is they/them throughout the skill now, tables included. 22f707d
+
 ---
