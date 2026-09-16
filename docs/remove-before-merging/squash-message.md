@@ -27,6 +27,9 @@ stop being tracked: the timecoded transcript answers what anyone asks,
 and a subtitle pass wanting per-word timings re-runs the script over the
 media on the branch for one API call.
 
+Review left one rule behind in .claude/rules/writing.md: "not just X --
+it's also Y" is a paraphrase in the cadence of a reveal, and it goes.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
