@@ -63,8 +63,8 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * What shapes any printed page: the print sheet, the theme it is drawn with,
  * the presentation components, and the site identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
- * of casting it wide is that a tweak to any of it re-flags every PDF, and that
- * costs one `pnpm content:pdf` run.
+ * of casting it wide is that a tweak to any of it re-flags every PDF on every
+ * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
   'src/app/styles/print.scss',

@@ -42,14 +42,18 @@ export async function LsaHomePage() {
         <Section id="writing">
           <Title order={2}>Writing</Title>
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
-            {cards.map(({ document, rendered }) => (
-              <SummaryCard
-                key={document.slug}
-                title={rendered.title}
-                description={document.frontmatter.description}
-                href={document.route}
-              />
-            ))}
+            {cards.map(({ document, rendered: { title } }) => {
+              const { slug, route, frontmatter } = document;
+              const { description } = frontmatter;
+
+              return (
+                <SummaryCard
+                  key={slug}
+                  {...{ title, description }}
+                  href={route}
+                />
+              );
+            })}
           </SimpleGrid>
           <Text>
             <InternalLink href={collectionRoute(COLLECTION)}>

@@ -8,7 +8,8 @@ import classes from './documents.module.scss';
 /**
  * The line at the foot of every printed page: where the document lives, and
  * whose it is. Chrome's own footer would name the host that printed it —
- * `localhost` for `pnpm content:pdf` — and the CLI cannot override its text,
+ * `localhost`, since the render prints from a dev server — and the CLI cannot
+ * override its text,
  * so the page prints its own, which survives the re-sharing that strips a file
  * of its name.
  */

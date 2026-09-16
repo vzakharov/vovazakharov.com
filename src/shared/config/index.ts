@@ -8,5 +8,5 @@ export {
   SITE_CONFIG,
   SITE_ID,
 } from './site-config';
-export { type SiteId, SITE_IDS, type WithSiteId } from './site-ids';
+export { SITE_IDS, type SiteId, type WithSiteId } from './site-ids';
 export { TECH_STACKS } from './tech-stacks';

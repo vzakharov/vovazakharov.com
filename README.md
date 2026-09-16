@@ -50,13 +50,14 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 │   │   ├── app/                # App Router — routing only, one-line re-exports
 │   │   │   ├── page.tsx        # → src/pages/home
 │   │   │   ├── cv/             # → src/pages/cv
-│   │   │   ├── case-studies/   # → src/pages/case-studies
+│   │   │   ├── case-studies/   # → src/pages/documents
 │   │   │   ├── music/, writing/
 │   │   │   └── sitemap.ts
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
 │   └── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
+│       └── app/bible/          # → src/pages/documents, bound to the other collection
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/dark toggle over a stored system default

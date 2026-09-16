@@ -2,9 +2,10 @@
 description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
   - apps/*/public/case-studies/**
+  - apps/*/public/bible/**
   - apps/*/public/generated/**
   - src/shared/content/**
-  - src/pages/case-studies/**
+  - src/pages/documents/**
   - src/pages/cv/**
   - apps/*/app/case-studies/**
   - scripts/render-mermaid.ts
@@ -16,14 +17,16 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` is the only collection so far — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
+
+**A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `content:pdf` is therefore one script per site, and `content:og` and `content:mermaid` are `vova`'s until the other site authors a card or a diagram.
 
 ```
 public/case-studies/          # one directory per collection, named by its route
   <slug>.md                   # the full document
   <slug>.mini.md              # optional shorter cuts
   <slug>.nano.md
-  <slug>[.<variant>].pdf      # committed, produced by `pnpm content:pdf`
+  <slug>[.<variant>].pdf      # committed, produced by `pnpm content:pdf:<site>`
   pdf-renders.json            # each PDF's source-set hash
   assets/                     # images, data, video
     <name>.og.png             # committed, produced by `pnpm content:og`
@@ -34,7 +37,7 @@ public/generated/
 public/cv/
   <variant>.og.png            # the CV's social cards, produced by `pnpm content:og`
   og-renders.json
-  <variant>/<locale>.pdf      # committed, produced by `pnpm content:pdf`
+  <variant>/<locale>.pdf      # committed, produced by `pnpm content:pdf:vova`
   <variant>/pdf-renders.json
 ```
 
@@ -69,15 +72,15 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
-2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts`, and its directory under the site that serves it.
+2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts` — naming the site that serves it — its directory under that site's `public/`, and a router per page binding `collectionIndexRoute`/`articleRoute` to it.
 
 ## Traps worth knowing
 
 - **A document's route reserves `.html` and `.txt`, and takes them without a word.** Those are the page and the RSC payload Next emits beside it, and a file in `public/` that collides with either is silently overwritten by the route's output — `next build` exits 0 and reports nothing. Every other extension is free, which is what makes `.md` and `.pdf` safe and leaves room for a third.
-- **A print-affecting change needs `pnpm content:pdf` re-run and the PDFs committed.** A PDF's sources are more than the page's own text: the print stylesheet, the theme it is drawn with, the presentation components, and `shared/config`, whose name and URL the footer prints. `PRINT_SOURCES` in `scripts/render-pdf.ts` names what shapes any printed page; `DOCUMENT_SOURCES` and `CV_SOURCES` name what each kind adds — so a tweak to the shared part re-flags every PDF, while a CV printable, hashing only its own locale's catalogue, leaves the other language alone. `--check` — wired into `vet.sh` — is what catches the omission; the cost of the false positives is one run. **Anything that shapes the printed page belongs in one of those lists**, or a change to it ships behind a PDF the check calls fresh.
+- **A print-affecting change needs `pnpm content:pdf:<site>` re-run — for _every_ site, one run each — and the PDFs committed.** A PDF's sources are more than the page's own text: the print stylesheet, the theme it is drawn with, the presentation components, and `shared/config`, whose name and URL the footer prints. `PRINT_SOURCES` in `scripts/render-pdf.ts` names what shapes any printed page; `DOCUMENT_SOURCES` and `CV_SOURCES` name what each kind adds — so a tweak to the shared part re-flags every PDF, while a CV printable, hashing only its own locale's catalogue, leaves the other language alone. `--check` — wired into `vet.sh` — is what catches the omission; the cost of the false positives is one run. **Anything that shapes the printed page belongs in one of those lists**, or a change to it ships behind a PDF the check calls fresh.
 - **The printed footer repeats because it is a real `<tfoot>`.** `PrintSheet` wraps the article in a presentational table so the footer — the document's own URL, scheme dropped, opposite the site's copyright — lands at the foot of every page. That markup is load-bearing: `position: fixed` repeats but lets the text run underneath it, and `display: table-footer-group` on a plain element prints once, at the end; only a `<tfoot>` both repeats and keeps the flow clear of its height. The table is `table-layout: fixed` in print for the same reason — an auto table widens to its widest child and everything past the paper's edge is silently cut off, the footer's right half included. On screen the whole thing lays out as the blocks it wraps.
 - **A video prints as the line that replaces it.** A player is a blank rectangle on paper, so `rehypeMediaEmbeds` emits a print-only "See video at …" note beside it. Which means **a video URL is read off paper and typed** — an opaque CDN id is unusable there, so a video worth printing wants a URL a human can transcribe.
-- **Every asset a document points at lives under `assets/`, never off-site.** A `github.com/user-attachments/…` URL is what a drag-and-drop into an issue leaves behind, and it holds up in a browser — but `pnpm content:pdf` prints through a headless Chromium that may have no route to that host, and a fetch it loses becomes a broken-image icon in a PDF the run still exits 0 on. Self-hosting also buys the typable URL the trap above wants. `scripts/export-github-item.py`'s fetch ladder downloads an attachment the agent proxy refuses, by falling back to a direct connection.
+- **Every asset a document points at lives under `assets/`, never off-site.** A `github.com/user-attachments/…` URL is what a drag-and-drop into an issue leaves behind, and it holds up in a browser — but the PDF run prints through a headless Chromium that may have no route to that host, and a fetch it loses becomes a broken-image icon in a PDF the run still exits 0 on. Self-hosting also buys the typable URL the trap above wants. `scripts/export-github-item.py`'s fetch ladder downloads an attachment the agent proxy refuses, by falling back to a direct connection.
 - **A tall image is capped in print.** Scaled to the column, a portrait screenshot outgrows the page box, and a replaced element does not paginate — so uncapped it prints straight through the footer's band and off the sheet. `prose.scss` bounds `img`/`video` to the A4 content height in `@media print`; a change to `@page` has to move that number with it.
 - **A `mermaid` fence needs a committed render, and an `accDescr`.** `pnpm content:mermaid` renders each fence to a light and a dark SVG named by a hash of the fence text, and prunes renders nothing refers to any more; `--check` reports staleness without writing. Run it by hand when a diagram changes and commit the SVGs — `next build` never invokes it, so CI stays free of puppeteer, and instead **fails loudly** on a fence whose render is missing. The `accDescr` block becomes the diagram's `alt`, followed by the URL of the markdown it was drawn from: an `<img>` hides the SVG's own description, so `alt` is the only place a reader who cannot see the image — an agent reading the HTML included — learns what the diagram says and where its source is.
 - **An Open Graph card is a PNG rendered from an SVG, and both are committed.** No major consumer renders an SVG `og:image` — X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to nothing. So `ogImage` names `./assets/<name>.og.png`, `pnpm content:og` rasterizes it from `./assets/<name>.svg`, and `--check` — wired into `vet.sh` — fails when a source's hash no longer matches `og-renders.json`. Run it by hand after editing a card's SVG and commit the PNG with it. The card's dimensions are read from the PNG and published alongside the URL, which several consumers need to render it at all.

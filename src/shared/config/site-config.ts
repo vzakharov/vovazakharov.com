@@ -6,7 +6,7 @@ import type {
   WithText,
 } from '@/shared/typings';
 
-import { type SiteId, SITE_IDS } from './site-ids';
+import { SITE_IDS, type SiteId } from './site-ids';
 
 /**
  * A static export renders once per deploy, so a copyright year is the build's.

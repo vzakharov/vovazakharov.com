@@ -45,7 +45,7 @@ You now have a line describing a situation nobody would ever have imagined, foll
 
 So the rule: if you have flipped a yes to a no, and the no is simply what everyone does by default, delete the line rather than negating it.
 
-Why agents reach for negation over deletion is not mysterious, and it is worth saying out loud, because it is also why *you* will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent's instinct is not to take it away but to stand a second sign beside it reading "this floor is not slippery".
+Why agents reach for negation over deletion is not mysterious, and it is worth saying out loud, because it is also why _you_ will hesitate the first few times. Deleting looks like losing information; negating looks like keeping it. What is being kept is a wet-floor sign on a floor that dried an hour ago — and the agent's instinct is not to take it away but to stand a second sign beside it reading "this floor is not slippery".
 
 ## D — durability
 

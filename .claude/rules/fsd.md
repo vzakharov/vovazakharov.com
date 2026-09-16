@@ -23,7 +23,7 @@ Lowest (most generic) first — an import may only point downward:
 | `entities/` | _(none yet)_ business nouns                                                                              |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
-| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `case-studies`                                              |
+| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `documents`                                                 |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
 `entities/` and `widgets/` are absent because nothing earns them yet, not as an
@@ -47,9 +47,17 @@ Every layer lives under `src/`, the app layer with them. A layer parked beside
 the routers would be the single exception to that, and the consistency is worth
 more than what the exception saves — the more so with two routers, which would
 have to share it. An app's `app/` holds routing and nothing else: `layout.tsx`
-and each `page.tsx` are one-line re-exports of what they render, and
-`sitemap.ts` re-exports `@/app/lib` behind the route-segment config Next reads
-off the route module itself.
+and each `page.tsx` re-export what they render, and `sitemap.ts` re-exports
+`@/app/lib` behind the route-segment config Next reads off the route module
+itself.
+
+**A page the router has to parameterize costs three lines rather than one.**
+The document pages serve a collection the router picks, so they are factories:
+the file calls `articleRoute('bible')`, destructures, and re-exports. Next reads
+`default`, `generateMetadata` and `generateStaticParams` as separate named
+exports off the module, so there is no single binding to forward — which is the
+whole of what the extra two lines buy, and the router still decides nothing but
+which slice with which argument.
 
 **That is what lets two sites share one `src/`.** Both sites' page slices sit in
 `src/pages/` side by side, which FSD already permits: slices may not import each
@@ -76,4 +84,4 @@ slices, its own segments reach each other directly.
 - **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of its reach. Run a build from the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
 - **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
-- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/case-studies` slice, because two slices could not share `back-to-home` or `document-meta` sideways.
+- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice, because two slices could not share `back-to-home` or `document-meta` sideways, and the same slice serves every collection on either site.

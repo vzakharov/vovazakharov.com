@@ -2,4 +2,5 @@ import { collectionIndexRoute } from '@/pages/documents';
 
 const { Page, metadata } = collectionIndexRoute('case-studies');
 
-export { metadata, Page as default };
+export { metadata };
+export default Page;

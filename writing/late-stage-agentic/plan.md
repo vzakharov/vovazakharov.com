@@ -42,7 +42,10 @@ Three things "wiki" does **not** mean here:
   default — every approach has its pros and cons, weigh them for your context —
   and avoiding it is most of the point. Hence «Библия» as a working name: the
   self-irony is what keeps a categorical article from reading as a manifesto,
-  and categorical means _as of writing_, not correct in perpetuity. An article
+  and categorical means _as of writing_, not correct in perpetuity. **That is
+  the name**, settled: the collection is `bible` and it is served at
+  [/bible](https://latestageagentic.com/bible), whose index page says the same
+  thing in the register of a page rather than of a plan. An article
   that turns out wrong gets rewritten. The skills this repo runs on are the same
   shape — every one of them a work in progress, none of them ending in «аминь» —
   so stating flatly what to do today claims nothing about having finished the
@@ -74,8 +77,10 @@ this is a task and not a hope. Two halves:
 ## Post format: the human half and the agent's answer
 
 **A column format**, which is the dated and personal half of the project rather
-than the whole of it. What a wiki article does instead is one of the open
-questions at the foot.
+than the whole of it. A wiki article carries one voice and no afterword: where
+the agent's reading of a recording strengthens the position, it is written into
+the argument unattributed, and where it is a reading of the recording as a
+performance it stays in `writing/`.
 
 A post can run in two voices — what the human said, then the agent's response to
 it, which the human reads aloud on video. The dictations already have the shape:
@@ -155,14 +160,11 @@ draft so the operator can put it back.
 - **Where the project lives on GitHub.** An organisation of its own with
   `vzakharov/muthur` moved into it, or the repositories staying where they are
   under one name. Undecided.
-- **What the wiki is called.** «Библия» is the working name, for the reason set
-  out under "Not balanced" above, and the only candidate that has one; nothing
-  is decided.
-- **Where the column ends and the wiki begins.** Two kinds of piece are visible
-  now: the column piece, dated and two-voiced, which is where the thinking is
-  done in the open; and the wiki article, which states a position and is what
-  you send someone a year later. How they get separated in practice — one written and
-  then rewritten as the other, or the two written apart — is undecided, and the
-  rules above are the column's until it is.
+- **Whether a piece is ever written as an article first.** The first three
+  articles were recorded as column scripts and rewritten for the site, which is
+  the first of the two routes this question used to name — and it works: the
+  recording does the thinking, the article states the position and spends
+  itself earning it. What stays open is the other route, a piece written for
+  the wiki and never recorded at all, which nothing has yet called for.
 - **The English video.** The LinkedIn post is English and the video is Russian.
   Re-record it, subtitle it, or let the post stand alone — undecided.

@@ -64,72 +64,72 @@ export function articleRoute(collection: CollectionId) {
     return { document, rendered: await renderDocument(document) };
   }
 
-  return {
-    /**
-     * One catch-all covers the full document and each of its cuts, so a new
-     * markdown file in the collection is a new page with no route work.
-     */
-    generateStaticParams() {
-      return listDocuments(collection).map(({ slug, variant }) => ({
-        slug: [documentName(slug, variant)],
-      }));
-    },
+  /**
+   * One catch-all covers the full document and each of its cuts, so a new
+   * markdown file in the collection is a new page with no route work.
+   */
+  function generateStaticParams() {
+    return listDocuments(collection).map(({ slug, variant }) => ({
+      slug: [documentName(slug, variant)],
+    }));
+  }
 
-    async generateMetadata({ params }: Props) {
-      const { document, rendered } = await resolve(params);
+  async function generateMetadata({ params }: Props) {
+    const { document, rendered } = await resolve(params);
 
-      return constructArticleMetadata(document, rendered.title);
-    },
+    return constructArticleMetadata(document, rendered.title);
+  }
 
-    async Page({ params }: Props) {
-      const { document, rendered } = await resolve(params);
-      const { route, slug } = document;
-      const { title, readingMinutes, headings, html } = rendered;
+  async function Page({ params }: Props) {
+    const { document, rendered } = await resolve(params);
+    const { route, slug } = document;
+    const { title, readingMinutes, headings, html } = rendered;
 
-      return (
-        <Box className={classes['articlePage']}>
-          <Container size={1152} px={0}>
-            <Stack gap={32}>
-              <Group component="nav" className="print-hidden">
-                <InternalLink
-                  href={collectionRoute(collection)}
-                  size="sm"
-                  className={hoverDim}
-                >
-                  ← {COLLECTIONS[collection].label}
-                </InternalLink>
-              </Group>
+    return (
+      <Box className={classes['articlePage']}>
+        <Container size={1152} px={0}>
+          <Stack gap={32}>
+            <Group component="nav" className="print-hidden">
+              <InternalLink
+                href={collectionRoute(collection)}
+                size="sm"
+                className={hoverDim}
+              >
+                ← {COLLECTIONS[collection].label}
+              </InternalLink>
+            </Group>
 
-              <PrintSheet {...{ route }}>
-                {/*
-                  Three grid children rather than an article and a rail, so one
-                  DOM order serves both layouts: stacked, the reader gets the
-                  title, then the outline, then the prose; on a wide viewport the
-                  outline moves into its own column beside both.
-                */}
-                <Box component="article" className={classes['articleLayout']}>
-                  <Box className={classes['articleIntro']}>
-                    <ArticleHeader
-                      {...{ document, title, readingMinutes }}
-                      availableVariants={siblingVariants(collection, slug)}
-                    />
-                  </Box>
-
-                  <Box component="aside" className={classes['articleAside']}>
-                    <TableOfContents {...{ headings }} />
-                  </Box>
-
-                  <Box className={classes['articleBody']}>
-                    <ArticleBody {...{ html }} />
-                  </Box>
+            <PrintSheet {...{ route }}>
+              {/*
+                Three grid children rather than an article and a rail, so one
+                DOM order serves both layouts: stacked, the reader gets the
+                title, then the outline, then the prose; on a wide viewport the
+                outline moves into its own column beside both.
+              */}
+              <Box component="article" className={classes['articleLayout']}>
+                <Box className={classes['articleIntro']}>
+                  <ArticleHeader
+                    {...{ document, title, readingMinutes }}
+                    availableVariants={siblingVariants(collection, slug)}
+                  />
                 </Box>
-              </PrintSheet>
 
-              <BackToHome />
-            </Stack>
-          </Container>
-        </Box>
-      );
-    },
-  };
+                <Box component="aside" className={classes['articleAside']}>
+                  <TableOfContents {...{ headings }} />
+                </Box>
+
+                <Box className={classes['articleBody']}>
+                  <ArticleBody {...{ html }} />
+                </Box>
+              </Box>
+            </PrintSheet>
+
+            <BackToHome />
+          </Stack>
+        </Container>
+      </Box>
+    );
+  }
+
+  return { generateStaticParams, generateMetadata, Page };
 }
