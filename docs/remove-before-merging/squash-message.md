@@ -32,8 +32,10 @@ stay in the tree gzipped: a re-run is a fresh transcription whose words
 no longer line up with the corrections made against the old one, and
 30 KB beside 3.7 MB of audio is not a cost worth that.
 
-Review left one rule behind in .claude/rules/writing.md: "not just X --
-it's also Y" is a paraphrase in the cadence of a reveal, and it goes.
+Review left one rule behind in .claude/rules/writing.md: a sentence
+in the "not just X -- it's also Y" cadence paraphrases its neighbour
+rather than adding to it, so it is read against the lines around it
+and not against its own halves.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
