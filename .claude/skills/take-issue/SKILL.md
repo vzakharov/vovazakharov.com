@@ -44,18 +44,9 @@ If the export fails, **stop and report** — do not start solving the task from 
 
 Attachments on `github.com/user-attachments/…` reach that state through two accommodations in the exporter, worth knowing if one ever regresses. GitHub redirects those URLs to a pre-signed S3 URL, and S3 rejects a request that also carries an `Authorization` header (`400 InvalidArgument: Only one auth mechanism allowed`) — so the script drops that header whenever a redirect changes host. The remote-session egress proxy separately refuses the path outright, with a `403` whose JSON `message` names repository-scoped endpoints (the tell that it is the proxy and not GitHub), so a download that fails retries on a direct connection — the same accommodation `.claude/hooks/gh-shim.sh` makes for `gh`. A `Failed to download` line therefore means **both** attempts failed: report it rather than planning as though you had seen the pixels.
 
-### Video attachments (screen recordings)
+### Attachments with no extension
 
-Exported attachments may have no extension (the filename stem is the asset id), so `file docs/issue/<n>/attachments/<asset-id>` to spot videos (e.g. `ISO Media, Apple QuickTime movie`). You can read **images** but not play **videos**. Extract frames with `ffmpeg` and read the frames as images. It is not preinstalled in this project's remote sessions; `apt-get update && apt-get install -y --no-install-recommends ffmpeg` gets it (the update is load-bearing — a stale index 404s on some dependencies):
-
-```bash
-mkdir -p tmp/frames   # tmp/ is gitignored — never commit frames
-ffmpeg -y -i docs/issue/<n>/attachments/<asset-id> -vf fps=2 -q:v 3 tmp/frames/frame_%03d.jpg
-```
-
-- `fps=2` (two frames/sec) suits a short clip; lower to `fps=1` for long videos, raise to `fps=4` to catch a fast transient (a toast, a flashed error). Check length first with `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 <path>`.
-- Read first/middle/last frames, then bisect toward the moment of interest. Frame `N` ≈ `N / fps` seconds, so you can map a frame back to a timestamp and correlate it with logs.
-- Recovers visuals only (no audio) — usually enough for a UI/repro bug.
+The filename stem is the asset id, so an attachment's type is not readable off its name — `file docs/issue/<n>/attachments/*` before deciding what to open. An image you read directly. **A video** (e.g. `ISO Media, Apple QuickTime movie`) you cannot play: load `@.claude/skills/take-issue/video-frames.md`, which extracts frames you can read as images.
 
 ## Step 2 — Commit the export
 
