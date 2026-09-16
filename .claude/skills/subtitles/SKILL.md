@@ -23,9 +23,8 @@ Two inputs, both already in the branch:
 - **The per-word timings**, which are in the Deepgram response and nowhere else.
   That response lives in gitignored `tmp/deepgram/` and does not survive the
   session, so a subtitle pass starting cold re-runs `scripts/transcribe.py` over
-  the media on the branch — same model, `--force`. One API call, and the reason
-  the JSON is not carried in the tree for every recording that never gets
-  subtitles.
+  the media on the branch — same model, `--force`, or the two responses are
+  incomparable.
 
 So the first piece of work is a **join**: each corrected word onto the time its
 mis-heard counterpart occupied.

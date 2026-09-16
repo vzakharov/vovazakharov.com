@@ -25,10 +25,8 @@ python3 scripts/transcribe.py <media> --slug <slug> \
 ```
 
 It writes `<slug>.transcript.md` under `docs/remove-before-merging/deepgram/`,
-which is committed, and the whole response as `<slug>.deepgram.json` under
-gitignored `tmp/deepgram/`, which is not: the timecoded transcript answers
-ninety-nine questions in a hundred, and the hundredth costs one API call rather
-than megabytes of JSON carried in the tree forever.
+which is committed, and the whole response under gitignored `tmp/deepgram/`,
+which is not — the script's header says why.
 
 ## The three modes
 
@@ -270,9 +268,9 @@ and neither starts until the operator has agreed the transcript.
 ## Do NOT
 
 - Re-run the script over a recording already transcribed to get a "better" pass.
-  The transcript is committed; read it. (A re-run is legitimate for one thing
-  only: fetching per-word timings that `tmp/` no longer has, for a subtitle
-  pass. `--force` and the same model, or the two responses are incomparable.)
+  The transcript is committed; read it. A re-run is legitimate for one thing
+  only, which `@.claude/skills/subtitles/SKILL.md` owns: fetching per-word
+  timings that `tmp/` no longer has.
 - Edit the operator's own corrections to a dictation file. Text they supplied is
   verbatim; something in it that looks like a typo gets raised, not fixed.
 - Leave the source media only in the container. It dies with the session.
