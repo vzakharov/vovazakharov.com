@@ -34,28 +34,24 @@ one. The header's name link has no URL-shaped text to rescue it at all.
 `href` alongside the scheme-less display text, and already serves
 `rehype-media-embeds.ts` and `printed-from.tsx`. The CV never reaches it.
 
-- **`src/pages/cv/ui/case-study-link.tsx`** — the `printLink` anchor takes
-  `printedUrl(href)` for both halves. Its text is currently
-  `` `${cv.website}${href}` ``, which resolves to the same string the helper
-  produces, so the visible line is unchanged. The `print-hidden` anchor above it
-  stays relative.
-- **`src/pages/cv/ui/cv-sheet.tsx:72`** — the name in the header, which prints
-  and is also on screen. Split it the way `case-study-link.tsx` splits its own:
-  a `print-hidden` `InternalLink` keeping the relative href a client-side route
-  needs, and a print-only `Anchor` on `printedUrl('/').href`.
+- **Both printing links go through one component**, `shared/ui/printable-link`:
+  a `print-hidden` `InternalLink` on the relative href a client-side route
+  needs, and a print-only `Anchor` on what `printedUrl()` returns. A call site
+  names the address once and says only whether paper also spells it out — the
+  case-study line does, the header's name does not, the address being printed
+  directly below it. The inline print class moves there from `cv.module.scss`.
 
-  This plan first proposed one absolute anchor for both media, accepting a full
-  navigation on screen because the footer's `backLink` is a soft route home
-  anyway. Review rejected it: the issue asks for the print path alone, the
-  two-anchor shape is already in the slice, and the name in the DOM twice is
-  what `print-hidden` exists to cost nothing for. Both PDFs' bytes come back
-  unchanged, so the split is invisible on paper.
+  This plan got that twice wrong, in opposite directions. It first proposed one
+  absolute anchor for both media in `cv-sheet.tsx`, accepting a full navigation
+  on screen; review rejected it, since the issue asks for the print path alone
+  and `print-hidden` makes the second anchor free. It then argued against a
+  shared component — see the DRY note below — and review rejected that too.
 
 **Verify:** after re-rendering, `strings apps/vova/public/cv/cto/en.pdf | grep -o '/URI ([^)]*)'`
 shows no `localhost`, and the rendered line still reads
 `vovazakharov.com/case-studies/playgram`.
 
-## 2. Keep the committed bytes when only the clock moved
+## 2. Keep the committed bytes when only the render's noise moved
 
 `scripts/render-pdf.ts`'s `printRoute` hands Chromium the output path directly,
 so every render overwrites the committed file whether or not the page changed.
@@ -75,6 +71,15 @@ So: in `printRoute`, read the existing file's bytes before printing, and after
 Chromium writes, compare the two with both date values stripped. On a match,
 write the old bytes back. `pnpm content:pdf` then writes only the manifest for a
 page that did not move, and its output is always safe to commit as-is.
+
+The clock is not the only thing a re-render moves. A tagged PDF also carries
+Chromium's structure tree, whose node names come off a counter that does not
+settle between runs — the same unchanged case study prints `node00000140` on one
+render and `node00000141` on the next. So the comparison renames each node by
+the order it first appears, which drops the counter and keeps every alias: a
+cell citing a different header than it did still reads as a changed document.
+That normalization is `scripts/lib/same-render.ts`, apart from the script so it
+can be tested without a browser.
 
 This is deliberately narrower than it could be. It does **not** make the render
 reproducible across machines — Chromium versions still differ, which is why
@@ -96,11 +101,16 @@ above.
 - **`printedUrl()` is reuse, not extraction.** The helper exists, its docstring
   already states why href and text differ, and two other call sites use it. Fix 1
   is three lines of reaching for it.
-- **No shared "printed link" component.** The two call sites want different
-  things from the helper: `case-study-link` wants both `href` and `text`,
-  `cv-sheet`'s header wants the `href` under a name that is not a URL. A wrapper
-  covering both takes a "use my text or the helper's" flag, which is the two call
-  sites spelled out again with a boolean between them.
+- **One shared `PrintableLink`, overturned in review from the opposite call.**
+  This plan argued the two call sites wanted different things — `case-study-link`
+  both `href` and `text`, the header only `href` under a name that is not a URL —
+  and that a wrapper covering both would be the two sites spelled out again with
+  a boolean between them. _WET и вообще некрасиво._ The flag is real and is one
+  word at the call site; what it buys is both sites losing their fork, the class
+  leaving the CV slice, and the next printing link having somewhere to be.
+- **`pick()` joins `shared/lib` beside `cx()`.** `vova/no-redundant-property-copy`
+  names it as the remedy for `href={printed.href}` and nothing here provided one,
+  so the rule's message pointed at a helper that did not exist.
 - **`cv.website` duplicates `SITE_CONFIG.url` and goes.** The catalogue's
   `cv.website` is `vovazakharov.com` in both locales — the same string
   `printedUrl` derives by stripping the scheme. Fix 1 removes the copy at the one

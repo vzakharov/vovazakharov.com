@@ -11,24 +11,27 @@ the same port for the case-study address. The printed link's text
 was absolutized and its href was not, so Chromium resolved the
 href against the dev server the render ran on.
 
-Each of the two printing links now exists once per medium: a
+Both printing links now go through one `PrintableLink`: a
 `print-hidden` anchor on the relative href `next/link` needs for a
 client-side route, and a print-only one on `printedUrl()`, which
 already returns the absolute href beside its scheme-less display
-text for the case studies' own footers. Every annotation keeps its
-exact rectangle and all four files re-render byte-identical, so
-the printed page is unchanged and only the targets moved. The
+text. A call site names the address once and says only whether
+paper also spells it out. Every annotation keeps its exact
+rectangle and all four files re-render byte-identical, so the
+printed page is unchanged and only the targets moved. The
 catalogue's `cv.website` goes too — the case-study line was its
 second consumer, and it spelled the domain a third time beside
 `SITE_CONFIG.url`.
 
 Separately, `render-pdf.ts` keeps the committed bytes when a fresh
-render differs from them only in `/CreationDate` and `/ModDate`.
-Staleness is decided by hashing sources, so an edit anywhere under
-`src/shared/config` or `src/shared/ui` re-flags all seven PDFs
-whether or not a printed page moved; the run's output is now
-always safe to commit, instead of needing a byte diff read by hand
-to decide whether to keep the old files.
+render differs from them only in what the renderer never settles:
+`/CreationDate` and `/ModDate`, and the names Chromium gives a
+tagged PDF's structure-tree nodes, which come off a counter that
+moves between runs. Staleness is still decided by hashing sources,
+so an edit anywhere under `src/shared/config` or `src/shared/ui`
+re-flags all seven PDFs whether or not a printed page moved; the
+run's output is now always safe to commit, instead of needing a
+byte diff read by hand to decide whether to keep the old files.
 
 Fixes #47
 

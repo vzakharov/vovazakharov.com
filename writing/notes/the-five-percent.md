@@ -44,12 +44,11 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   one bump is a coincidence with a paragraph attached. A learning cut for
   thinness comes back if something bumps into it again.
 
-## What it was handed, it treats as fixed (×16)
+## What it was handed, it treats as fixed (×17)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_. The failure
-is invisible because the reasoning inside the frame is sound: a second agent
-checking it would pass. The human's move is to change the given.
+is invisible: the reasoning inside the frame is sound. The human changes the given.
 
 **6 September — a word the vocabulary didn't have.** The commit prefix was wrong:
 `docs:` for a change that documents nothing. The agent weighed three candidates
@@ -67,12 +66,11 @@ files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
 the agent stopped. _type-overlap doesn't cover this, but consider it covered_: it
 scans type aliases only, known from the README and read as the rule's boundary.
 
-**8 September — the same hole, opened by the fix for it.** Applying that rule,
-the agent found `caseStudyHref?` declared by cards in two sibling slices, put the
-base in `shared/typings` as the lowest home that already existed, and the gate
-went green. The reply: _not domain-less; if it's a question of import
-directionality, suggest introducing a case study entity_. The gate has no opinion
-on which layer a shared base belongs to, so green was again the whole evidence.
+**8 September — the same hole, opened by the fix for it.** Applying that rule, the
+agent put the base for `caseStudyHref?`, declared by two sibling slices, in
+`shared/typings` as the lowest home that existed, and the gate went green. _not
+domain-less; if it's a question of import directionality, suggest introducing a
+case study entity_ — the gate has no opinion on layers, so green was the evidence.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the
 two CV route files could not collapse into one optional catch-all, the agent
@@ -94,17 +92,15 @@ just argued the toggle is furniture, never carrying that to how it looks.
 
 **9 September — a global class read off the globals beside it.** A hover dim
 claimed by two slices went into `globals.scss`, reason written in: "as the print
-utilities are". Those are global for a reason that does not transfer — the
-content pipeline emits `print-hidden` into HTML strings, where a hashed module
-class is unreachable — and what made the neighbours global never got asked,
-because they were there. _why are we bypassing modules here?_
+utilities are". Those are global for a reason that does not transfer — the content
+pipeline emits `print-hidden` into HTML strings, out of a hashed class's reach —
+and what made the neighbours global never got asked. _why are we bypassing modules?_
 
-**11 September — its own spelling, then the operator's typo, both taken as
-given.** The sync skill was `/sync-agent-infra`, named so by the agent at the
-previous sync. Told the source had renamed its copy `/update-muthur`, it proved
-the rename need not travel and read that freedom as a reason to keep its own. Two
-one-word comments took both names, one a typo matching no spelling the source
-ever used, and the agent defended it.
+**11 September — its own spelling, then the operator's typo, both taken as given.**
+The sync skill was `/sync-agent-infra`, the agent's own name from the previous
+sync. Told the source had renamed its copy `/update-muthur`, it proved the rename
+need not travel and read that freedom as a reason to keep its own. Two one-word
+comments took both names — one a typo matching nothing upstream — and it defended it.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
@@ -114,16 +110,14 @@ the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
-and a name recommendation rested on it. Told the sense was the other one, the
-agent filed that as _the grammar allows only that one_ — also false: the sentence
-takes both, which is why the «нам» was added. Each parse arrived ahead of the
+and a name recommendation rested on it. Corrected, the agent filed the other sense
+as _the grammar allows only that one_ — also false. Each parse arrived ahead of the
 argument wanting it, the second the first with its sign flipped.
 
 **14 September — the one caller's shape, written into a general skill.** The
-afterword skill, extracted from `/dictation`, kept what the extraction had held:
-the Russian heading as _the_ heading, three examples as the sections, a purpose
-reaching no further than a two-voice post. _let's make language a parameter_,
-_it's wider than that — wherever I want feedback more durable than a thread_.
+afterword skill, extracted from `/dictation`, kept what the extraction had held: the
+Russian heading as _the_ heading, a purpose reaching no further than a two-voice
+post. _let's make language a parameter_, _it's wider than that_.
 
 **15 September — the plan, read as where a change gets written down.** The
 by-hand steps for standing the second site up went into the plan file, whose
@@ -136,11 +130,17 @@ self-enabling `gh-pages` answers and the form that reads its inputs off the
 default branch — under `docs/remove-before-merging/`. _давай экстрагируем это в
 скилл._
 
-**15 September — a vet line inherited, and its bucket never questioned.** The
-sync added `test_export_split.py` beside the `test_authorship.py` already in the
-fan-out, so the question was how to name two lines, never whether either belonged.
-The catalog answers in a column — both are `never` — and `check-muthur.sh` exits
-0 downstream saying so, read instead as it certifying nothing. muthur#82 has why.
+**15 September — a vet line inherited, and its bucket never questioned.** The sync
+added `test_export_split.py` beside the `test_authorship.py` already in the fan-out,
+so the question was how to name two lines, never whether either belonged. The
+catalog answers in a column — both `never` — and muthur#82 has why.
+
+**16 September — the sibling's shape, copied and called consistency.** Told the
+header's home link had regressed, the agent spelled the two-anchor fork out a
+second time and cited the match with `case-study-link.tsx` as the fix. _WET и
+вообще некрасиво… может стоит сделать единый компонент с вилкой._ The same round:
+`vova/no-redundant-property-copy` names a `pick` this repo never had, read as one
+of two options rather than the half of its own rule that was missing.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
