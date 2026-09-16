@@ -92,11 +92,10 @@ a proposal rather than a correction says so in its first words.
 
 **The footnotes are the first pass's device, and they come out with it.** They
 exist so the speaker can see what the text does that the recording didn't; a
-change they themselves asked for in review is already theirs, and a marker on it
-tells them what they know. So a review round adds no footnotes, and takes out
-the ones whose passages it settled — the section goes when the last one does,
-exactly as the table of guesses in Step 4 does. The file is a script to record
-from, not a running diff against the recording.
+change they asked for in review is already theirs. So a review round adds no
+footnotes and takes out the ones whose passages it settled, and the section goes
+with the last of them, as the table of guesses does. The file is a script to
+record from, not a running diff against the tape.
 
 **Where the speaker already ruled on a passage in review, that ruling is text
 they supplied** — set it down as they worded it, and do not improve it on the

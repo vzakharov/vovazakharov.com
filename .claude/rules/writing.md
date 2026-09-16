@@ -122,10 +122,10 @@ invented for it.
 - **"Not just X — it's also Y" is a paraphrase wearing a reveal.** «Кэш не
   просто устарел — в нём ещё и лежат старые данные»: the cadence promises a turn
   and delivers the same fact again, since holding stale data is what stale
-  means. It is the near-misses that get written, not the absurd ones — the two
-  halves differ enough in wording to feel like two facts. Its twin is "it's not
-  X, it's Y" with the same X on both sides. A second half with something of its
-  own says it without the first.
+  means. What gets written is a near-miss like that one, its halves worded
+  differently enough to pass for two facts. Its twin is "it's not X, it's Y"
+  with the same X on both sides. A second half with something of its own says it
+  without the first.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work
