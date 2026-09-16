@@ -40,20 +40,16 @@ scaffolding for one draft, not a document the repo keeps.
 ## Ideas and the threads between them
 
 `ideas/<slug>.md` is **one paragraph** on a piece that does not exist yet: what
-the idea is, and where it came from. Not an outline, not a brief — a paragraph,
-because the file's job is to be a destination, and a destination that takes ten
-minutes to write is one nobody creates in the middle of doing something else.
+the idea is, and where it came from. A paragraph, because the file's job is to
+be a destination, and a destination that takes ten minutes to write is one
+nobody creates in the middle of doing something else.
 
-**It exists so that a reference has somewhere to point.** Drafts and dictations
-are full of "about this later" and "as I said before"; spoken, those cost
-nothing, and written down each is a thread that goes slack the moment the piece
-it points at gets written by someone who never read this one. So every such
-promise carries a Markdown link to the idea file, right where it is made, and
-every callback links to the piece that already exists. Which file exactly
-matters less than that the link is there: when the promised piece is finally
-drafted, everywhere that promised it is `grep <slug>` rather than memory, and
-the backlinks go into the published copy from a list instead of from a
-recollection.
+**Every "about this later" and "as I said before" carries a Markdown link** —
+to the idea file for a promise, to the piece itself for a callback — put in as
+the text is written, not afterwards. Which file exactly matters less than that
+the link is there: when the promised piece is finally drafted, everywhere that
+promised it is `grep <slug>` rather than recollection, and the backlinks go into
+the published copy from a list.
 
 An idea graduating into a draft leaves its file behind as the redirect — a line
 saying which draft it became — until the draft is posted, at which point both

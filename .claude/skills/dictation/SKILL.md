@@ -67,20 +67,19 @@ What that keeps, and what it takes out:
 | A digression that earns its place                             | A digression that goes nowhere and comes back changing nothing      |
 | The looseness of speech                                       | The tangle of speech                                                |
 
-**Under-edit rather than over-edit.** A well-placed digression often does more
-than the line it hangs off, and a text tightened until every sentence pulls its
-weight is a text nobody talks like — the speaker then fights it at the
-microphone, which is the one thing this mode exists to prevent. Where a passage
-is merely loose, leave it loose.
+**Under-edit rather than over-edit.** A text tightened until every sentence
+pulls its weight is a text nobody talks like, and the speaker then fights it at
+the microphone — the one thing this mode exists to prevent. Where a passage is
+merely loose, leave it loose; a well-placed digression often does more than the
+line it hangs off.
 
 **Two grades of edit, and the second one gets listed.** A word, a repetition, a
 tangled clause straightened — silent. Anything that changes what a passage
 _says_ — a replaced image, a merged or dropped digression, a sentence supplied
 where the speech broke off, a heading structure that regroups his points — goes
-in `## Что поправлено` at the foot of the body, one row each, so he can check
-the salt did not go out with the water. When in doubt, list it: a row he skims
-past costs him two seconds, and a silent edit that took the point costs him the
-take.
+in `## Что поправлено` at the foot of the body, one row each. When in doubt,
+list it: a row he skims past costs him two seconds, and a silent edit that took
+the point costs him the take.
 
 **Where the speaker already ruled on a passage in review, that ruling is text he
 supplied** — set it down as he worded it, and do not improve it on the way in.
@@ -245,17 +244,11 @@ comparison.
 
 ## Every promise in the recording gets a link
 
-A dictation is full of "об этом мы поговорим позже" and "как я говорил раньше".
-Spoken, they cost nothing; written down, each one is a thread that goes slack
-the moment the piece it points at is written by someone who never heard this
-recording. So each gets a Markdown link, right where it is said, to a file under
-`writing/<project>/ideas/` — `@.claude/rules/writing.md` § "Ideas and the
-threads between them" owns the folder and the one-paragraph form.
-
-Forward and backward alike: a promise links to the idea file, a callback links
-to the piece that already exists. Which file exactly matters less than that the
-connection survives — when the promised piece is eventually written, its own
-backlinks are a grep for its filename rather than a memory.
+A dictation is dense with "об этом мы поговорим позже" and "как я говорил
+раньше" — a recording makes more of these per minute than a draft does, because
+nothing on the way out of a mouth stops to check that the promise is keepable.
+Each one gets its link as the file is written, under the rule
+`@.claude/rules/writing.md` § "Ideas and the threads between them" states.
 
 ## What happens after
 
