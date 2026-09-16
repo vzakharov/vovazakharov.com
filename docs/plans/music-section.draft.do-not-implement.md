@@ -16,34 +16,47 @@ from Suno, not something mastered. So the catalogue is the FLAC-bearing repos,
 and nothing else needs deciding about what counts as finished.
 
 Of the 238 repositories in [vovas-music](https://github.com/vovas-music), 147
-carry a root FLAC. The ten most recent of those, each with exactly one master,
-are the first batch:
+carry a root FLAC. Nine of the ten most recent of those, each with exactly one
+master, plus `reka-2`, which the author named in place of `utro`:
 
-| Repo         | Master             | Size    | Length | Notes                       |
-| ------------ | ------------------ | ------- | ------ | --------------------------- |
-| `slime`      | `Слизь.flac`       | 25.7 MB | 3:51   |                             |
-| `first`      | `Двадцать.flac`    | 21.3 MB | 3:38   | isolated vocal stem         |
-| `birdie`     | `🅴 Птичка.flac`    | 23.4 MB | 3:27   | explicit; has a music video |
-| `sashas`     | `Папа.flac`        | 17.6 MB | 2:53   |                             |
-| `rak`        | `Не смотри.flac`   | 24.9 MB | 3:39   |                             |
-| `utro`       | `Доброе утро.flac` | 25.4 MB | 3:48   |                             |
-| `wereback`   | `wereback.flac`    | 22.4 MB | 3:11   | isolated stems              |
-| `crossroads` | `crossroads.flac`  | 23.6 MB | 3:14   | isolated stems              |
-| `june`       | `breathe.flac`     | 27.9 MB | 4:53   |                             |
-| `letim`      | `letim.flac`       | 22.7 MB | 3:28   |                             |
+| Repo         | Master            | Size    | Length | Notes                       |
+| ------------ | ----------------- | ------- | ------ | --------------------------- |
+| `slime`      | `Слизь.flac`      | 25.7 MB | 3:51   |                             |
+| `first`      | `Двадцать.flac`   | 21.3 MB | 3:38   | isolated vocal stem         |
+| `birdie`     | `🅴 Птичка.flac`   | 23.4 MB | 3:27   | explicit; has a music video |
+| `sashas`     | `Папа.flac`       | 17.6 MB | 2:53   |                             |
+| `rak`        | `Не смотри.flac`  | 24.9 MB | 3:39   |                             |
+| `reka-2`     | `reka2.flac`      | 33.4 MB | 5:39   | longest in the batch        |
+| `wereback`   | `wereback.flac`   | 22.4 MB | 3:11   | isolated stems              |
+| `crossroads` | `crossroads.flac` | 23.6 MB | 3:14   | isolated stems              |
+| `june`       | `breathe.flac`    | 27.9 MB | 4:53   |                             |
+| `letim`      | `letim.flac`      | 22.7 MB | 3:28   |                             |
 
 Those lengths were read the way § 6 describes — ten 128 KB range requests,
 about 1 MB in total against 250 MB of masters — so the mechanism the scaffolder
 depends on is proven rather than assumed.
 
-Two things the repositories cannot tell us, both of which the author fills in:
+**The date comes from the first commit, not from the repository's age.** Six of
+the ten repositories were created on GitHub on 2026-03-24, when the organization
+was bulk-pushed — but the push carried each project's existing local history
+with it, so the first commit predates the upload by up to fifteen months and is
+a real date:
 
-- **The date.** Seven of the ten share a first-commit date of 2026-03-24, which
-  is when the whole organization was bulk-pushed, not when the songs were
-  written. The scaffolder writes that date with a marker saying it is the sync
-  date; every one of them needs correcting by hand.
-- **The project.** Nothing in a repository says whether a song is GENERATED,
-  Полуживые or Downtemple. The field is left empty rather than guessed.
+| Repo     | First commit | Repo         | First commit |
+| -------- | ------------ | ------------ | ------------ |
+| `slime`  | 2026-08-23   | `reka-2`     | 2024-07-23   |
+| `first`  | 2026-04-19   | `wereback`   | 2024-12-26   |
+| `birdie` | 2026-04-04   | `crossroads` | 2024-12-27   |
+| `rak`    | 2026-02-19   | `letim`      | 2024-12-27   |
+| `sashas` | 2025-11-09   | `june`       | 2024-11-18   |
+
+That dates a song to when its Reaper project was first committed, which is close
+to when it was made but not identical to it — so the scaffolder writes it and
+the author corrects the ones that are off, rather than filling in ten blanks.
+
+**The project is the one thing the repositories cannot tell us.** Nothing in a
+repository says whether a song is GENERATED, Полуживые or Downtemple, so the
+field is left empty rather than guessed.
 
 Nothing else is missing: the master's filename is the song's name where it was
 titled (`Слизь`, `Двадцать`, `Папа`), and the FLAC's own STREAMINFO header
@@ -139,8 +152,10 @@ how the case-study collection works:
   as the collection rule. A song's name is not a heading — it is what the player
   bar shows as `Name — Project`, what the track list sorts and what an embed
   titles — so deriving it would mean parsing prose to render a control. A song
-  body therefore **starts without a `# `**, and the page header renders `name`.
-  That rule file gets the one line saying the collections differ here and why.
+  body therefore **starts without a `# `**, and the page renders `name` as the
+  `<h1>`, in the same header slot a case study's leading heading fills — the two
+  collections read identically on the page and differ only in where the title
+  came from. That rule file gets the one line saying so.
 - **There is one audio field, not two.** Every song in the catalogue is a master
   by the definition above, so the lossless file _is_ the playback file and a
   second field would be the same URL twice.
@@ -156,9 +171,45 @@ how the case-study collection works:
 here. The field earns itself the moment an unfinished song joins, which is why
 it exists now rather than later.
 
-### 3. The player lives in `pages/music`, not in `features/`
+### 3. The player: `<audio>` itself, living in `pages/music`
 
-Steiger's `insignificant-slice` rule rejects a slice with one upward consumer,
+**No player library.** Every browser in scope decodes FLAC natively — Safari since 11, Chrome since 56,
+Firefox since 51 — so no library adds playback here; one would only add
+controls. The controls are not the work. The queue is: shuffle order that is
+stable backwards, previous meaning _restart_ before it means _back_,
+`ended → next`, and a track that keeps playing across a navigation. No player
+library does any of that, because it is this catalogue's logic rather than any
+player's.
+
+What that navigation requirement costs is precisely what a library charges for:
+the element must mount in a layout **we** control and never unmount, and a
+component that owns its own `<audio>` inside its own subtree fights that rather
+than helping. The three candidates each fail for a second reason too:
+`react-h5-audio-player` ships a stylesheet to override and still leaves the
+queue to us; `howler` is built for Web Audio sprites, and a 25 MB streaming
+master wants the HTML5 path it falls back to anyway; `wavesurfer` decodes the
+whole file to draw its waveform, which at this size is not an option without
+peaks precomputed elsewhere. Against 10–15 kB of any of them, the surface this
+player actually touches is `play()`, `pause()`, `currentTime`, `duration`,
+`volume` and three events.
+
+The decisive one is the repo's own grain: a content page costs zero client JS
+today, and this player is the first thing on the site to ship any. It should
+ship the small thing.
+
+**Going native also buys the Media Session API for about fifteen lines** —
+`navigator.mediaSession.metadata` puts `Name — Project` on the phone's lock
+screen and wires the OS media keys, headphone buttons and car controls to the
+same queue. That is most of what makes a player feel finished on a phone, and no
+library is needed to get it.
+
+Worth reconsidering only for a concrete feature, not on aesthetics: a waveform
+scrubber would mean `wavesurfer` with peaks generated at scaffold time, and
+gapless or crossfaded playback would mean Web Audio and therefore `howler`.
+Neither is asked for.
+
+**It is a slice of `pages/music`, not a feature.** Steiger's
+`insignificant-slice` rule rejects a slice with one upward consumer,
 and the player has exactly one: the music pages. Both the index and the song
 page are one slice — the same shape `pages/case-studies` already has for its
 index and its article. So:
@@ -192,7 +243,9 @@ never fetches an index, and ships no part of the content pipeline.
 **Controls**: play/pause, previous, next, shuffle, a seek bar with elapsed and
 total time, and the current track shown as `Name — Project`, linking to its
 page. Keyboard: space toggles, `←`/`→` seek 5 s, `shift`+`←`/`→` change track —
-bound on the provider, skipped while focus is in a text field. Previous behaves
+bound on the provider, skipped while focus is in a text field. The same handlers
+back the Media Session actions, so the OS media keys and the lock screen drive
+one queue rather than a second copy of the logic. Previous behaves
 the way a music player should: restart the current track if past ~3 s, otherwise
 go back one.
 
@@ -232,8 +285,8 @@ committed. Against a `vovas-music` repository it writes
   emoji;
 - `seconds`, parsed from the FLAC's STREAMINFO block via a **range request for
   the first 128 KB**, so a ten-song scaffold moves about 1 MB rather than 250;
-- `repo`, and `date` as the first-commit date with a `# sync date, fix me`
-  comment beside it;
+- `repo`, and `date` as the repository's first-commit date — the real one, per
+  the table above, so it is a value to sanity-check rather than a placeholder;
 - `status: done`, `project` left empty.
 
 It **never overwrites** an existing file, so a re-run after the author's edits
@@ -303,6 +356,9 @@ player is still being built.
   shared base schema rather than being restated in the song schema, which is the
   same rule `shared/typings` enforces for type members — and `pnpm type-overlap`
   would fail the run if the two derived types each declared them.
+- **`HTMLAudioElement` and the Media Session API**, in place of a player
+  dependency (§ 3). The branch adds no package, and the reuse is of the platform
+  rather than of anything in the tree.
 
 **Deliberately duplicated:**
 
@@ -340,4 +396,6 @@ A separate `lossless` field beside `audio` — the same URL twice, since every
 song here is a master. Committed Opus transcodes instead of hotlinking, which
 would need `ffmpeg` added to the environment setup script and is not worth it
 while the `audio` field makes re-hosting a markdown edit. jsDelivr as the CDN:
-it answers `403` at this file size.
+it answers `403` at this file size. A player library — `react-h5-audio-player`,
+`howler`, `wavesurfer` — each costing more than the `<audio>` surface this needs
+and none of them owning the queue, which is where the work is (§ 3).

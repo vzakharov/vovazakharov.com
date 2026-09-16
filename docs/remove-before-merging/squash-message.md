@@ -14,17 +14,17 @@ so the catalogue starts by writing it down.
 Songs become a content collection: one markdown file per song under
 apps/vova/public/music/, compiled to its own page at build time by the
 pipeline that already serves case studies, and served raw at the same
-route plus .md. Frontmatter turns per-collection to carry what a song
-has and a case study must not accept, over a shared base holding the
-fields both kinds declare. A song names itself in frontmatter rather
-than in a leading heading, because the name is what a player control
-shows, not prose; its duration rides along, read off the master's own
-FLAC header so the track list renders complete rather than waiting on
-the browser. The route /music is spelled once, by the collection
-registry, so PAGE_ROUTES no longer holds a second copy of it.
+route plus .md. Frontmatter turns per-collection over a shared base,
+so a song carries what a case study must not accept. A song names
+itself in frontmatter rather than in a leading heading, because the
+name is what a player control shows, not prose; its duration rides
+along, read off the master's own FLAC header so the track list renders
+complete rather than waiting on the browser. The route /music is
+spelled once, by the collection registry, so PAGE_ROUTES no longer
+holds a second copy of it.
 
 Which songs are in is not a judgement: a root FLAC is a master, and a
-master is a finished song. That selects the first ten out of the 147
+master is a finished song. That picks the first batch out of the 147
 repositories that have one, and leaves working mixes and Suno-sourced
 wavs out without anyone ranking them. Lyrics are transcribed from the
 masters and corrected by hand, the same split the dictation flow
@@ -34,12 +34,14 @@ decides was actually sung.
 A player rides in the music route's layout, which is what lets a track
 keep playing across a navigation from the index into a song and back:
 play/pause, previous, next, shuffle as a seeded permutation so the
-queue is stable in both directions, seeking, and keyboard control. Its
-queue is resolved at build time and handed to the client as props, so
-no part of the content pipeline reaches the browser. Audio is
-hotlinked from the source repositories, which serve byte ranges and
-therefore seek; the frontmatter field is a plain URL, so re-hosting
-later is an edit to the markdown and to no code.
+queue is stable in both directions, seeking, keyboard control and the
+OS media keys through the Media Session API. It is the audio element
+itself and no dependency — a player library supplies controls, and the
+work here is the queue. That queue is resolved at build time and
+handed to the client as props, so no part of the content pipeline
+reaches the browser. Audio is hotlinked from the source repositories,
+which serve byte ranges and therefore seek; the frontmatter field is a
+plain URL, so re-hosting later is an edit to the markdown and no code.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
