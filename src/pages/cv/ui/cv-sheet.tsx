@@ -70,10 +70,9 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                {/* Absolute, because the header prints: a relative href would
-                    resolve against whatever host rendered the PDF. The screen
-                    cost is a full navigation, which the footer's own relative
-                    back-link already covers. */}
+                {/* Absolute because the header prints: a relative href resolves
+                    against whatever host rendered the PDF. The screen cost is a
+                    full navigation, which the footer's back-link already covers. */}
                 <Anchor href={printedUrl('/').href} underline="never" inherit>
                   {t('header.name')}
                 </Anchor>
