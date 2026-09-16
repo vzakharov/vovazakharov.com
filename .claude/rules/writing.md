@@ -121,11 +121,9 @@ invented for it.
   by a machine, which is the thing being avoided.
 - **"Not just X — it's also Y" is a paraphrase wearing a reveal.** «Машина не
   просто занята, она ещё и держит вас за столом» adds nothing to «крышку не
-  закроешь, а то агенты остановятся» — the same fact, re-announced in a cadence
-  that promises a turn. Its twin is "it's not X, it's Y" with the same X on both
-  sides. Both read as advertising copy, which is the tell: the second half is
-  there for the rhythm rather than for what it says, and where it does have
-  something of its own, it says it without the first.
+  закроешь, а то агенты остановятся»: the cadence promises a turn and delivers
+  the same fact again. Its twin is "it's not X, it's Y" with the same X on both
+  sides. A second half with something of its own says it without the first.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work
