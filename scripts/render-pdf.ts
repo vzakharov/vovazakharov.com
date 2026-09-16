@@ -15,6 +15,12 @@
  * honest: it hashes each PDF's whole source set against the manifest, needing
  * no browser, which is why `vet.sh` can run it beside every other check.
  *
+ * Because that check hashes sources rather than output, an edit anywhere under
+ * `src/shared/config` or `src/shared/ui` calls every PDF stale whether or not a
+ * printed page moved. A render that says the same thing as the committed file
+ * therefore keeps that file's bytes, so the run's output is always safe to
+ * commit as-is rather than needing a byte diff read by hand.
+ *
  *   pnpm content:pdf            # render what changed, prune what is gone
  *   pnpm content:pdf --check    # report staleness, write nothing
  *
@@ -289,6 +295,28 @@ async function withDevServer(
 }
 
 /**
+ * The two fields a re-render moves on a page that did not change. Both are
+ * fixed-width, so replacing them shifts no byte offset and the xref table two
+ * normalized files carry still describes each of them.
+ */
+const RENDER_CLOCK = /\/(?:Creation|Mod)Date \(D:[^)]*\)/g;
+
+/**
+ * Whether a fresh render says the same thing as the committed file. Only the
+ * clock is discounted: this makes a same-browser re-render leave the tree
+ * alone, and claims nothing about reproducing a render elsewhere — which is
+ * why `render-manifest.ts` still decides staleness by hashing sources.
+ *
+ * `latin1` round-trips arbitrary bytes one-to-one, which `utf8` does not.
+ */
+function sameRender(before: Buffer, after: Buffer): boolean {
+  const spoken = (pdf: Buffer): string =>
+    pdf.toString('latin1').replaceAll(RENDER_CLOCK, '');
+
+  return spoken(before) === spoken(after);
+}
+
+/**
  * `--no-pdf-header-footer` is deliberate. Chrome's default footer prints the
  * URL it fetched — the dev server's `localhost` — and the CLI cannot override
  * it, since `footerTemplate` belongs to the DevTools protocol rather than the
@@ -301,6 +329,10 @@ function printRoute(
   chromium: string,
 ): void {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
+  const committed = fs.existsSync(outputPath)
+    ? fs.readFileSync(outputPath)
+    : undefined;
 
   execFileSync(
     chromium,
@@ -318,9 +350,20 @@ function printRoute(
     { stdio: 'inherit', timeout: PRINT_TIMEOUT_MS },
   );
 
-  console.log(
-    `  rendered ${path.relative(REPO_ROOT, outputPath)} from ${route}`,
-  );
+  const relative = path.relative(REPO_ROOT, outputPath);
+
+  if (
+    committed !== undefined &&
+    sameRender(committed, fs.readFileSync(outputPath))
+  ) {
+    // The manifest still gets the new source hash; the bytes stay as committed,
+    // so a stale-source run that moved nothing printed leaves no diff to judge.
+    fs.writeFileSync(outputPath, committed);
+    console.log(`  kept ${relative} — the render is unchanged`);
+    return;
+  }
+
+  console.log(`  rendered ${relative} from ${route}`);
 }
 
 async function printAll(stale: Printable[]): Promise<void> {

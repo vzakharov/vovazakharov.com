@@ -1,6 +1,7 @@
-import { Text } from '@mantine/core';
+import { Anchor, Text } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
+import { printedUrl } from '@/shared/config';
 import type { Linked } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
@@ -16,6 +17,7 @@ export const CASE_STUDY_KEY = 'playgram';
 export function CaseStudyLink({ href }: Linked) {
   const { cv } = useMessages();
   const label = cv.caseStudies[CASE_STUDY_KEY].link;
+  const printed = printedUrl(href);
 
   return (
     <Text className={classes['caseStudyLine']}>
@@ -29,9 +31,9 @@ export function CaseStudyLink({ href }: Linked) {
         {': '}
         {/* One text node, not two: a PDF gets a link annotation per node, and
             the first is placed over whatever precedes the anchor. */}
-        <InternalLink {...{ href }} inherit>
-          {`${cv.website}${href}`}
-        </InternalLink>
+        <Anchor href={printed.href} inherit>
+          {printed.text}
+        </Anchor>
       </span>
     </Text>
   );

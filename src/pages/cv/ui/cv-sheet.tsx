@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useLocale, useMessages, useTranslations } from 'next-intl';
 
+import { printedUrl } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
@@ -69,9 +70,13 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink href="/" underline="never" inherit>
+                {/* Absolute, because the header prints: a relative href would
+                    resolve against whatever host rendered the PDF. The screen
+                    cost is a full navigation, which the footer's own relative
+                    back-link already covers. */}
+                <Anchor href={printedUrl('/').href} underline="never" inherit>
                   {t('header.name')}
-                </InternalLink>
+                </Anchor>
               </Title>
               <Text className={cx(classes['tagline'], classes['dim80'])}>
                 {t('header.tagline')}
