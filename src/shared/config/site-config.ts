@@ -1,9 +1,8 @@
 /**
  * Both sites' configuration as data, with nothing bound to the site this
  * process happens to be — that binding is `resolved-site.ts`, which is
- * `server-only`. Keeping the two apart is what lets a client component and a
- * render script each read what they need without dragging the environment read
- * and its schema along.
+ * `server-only`. The split is what lets a client component and a render script
+ * each read what they need without the environment read coming along.
  */
 
 import type { Billed, Named } from '@/shared/typings';
@@ -94,11 +93,7 @@ const SITE_CONFIGS = {
   },
 } as const satisfies Record<SiteId, SiteConfig>;
 
-/**
- * One site's configuration by id, for a caller that knows its site without the
- * environment telling it — the render scripts, which resolved theirs once at
- * the top of the run.
- */
+/** One site's configuration by id, for the render scripts, which resolved theirs at the top of the run. */
 export function siteConfig(site: SiteId) {
   return SITE_CONFIGS[site];
 }

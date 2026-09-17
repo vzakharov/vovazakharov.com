@@ -1,6 +1,7 @@
 import { Center } from '@mantine/core';
 import Image from 'next/image';
 
+import type { SiteConfig } from '@/shared/config';
 import type { Named } from '@/shared/typings';
 
 /**
@@ -8,16 +9,18 @@ import type { Named } from '@/shared/typings';
  * square and its Open Graph card reads the same bytes. `priority` because the
  * mark is above the fold wherever it renders.
  *
- * Takes the site's name and image rather than reading them: `@/shared/ui` is a
- * barrel client components import, so a module inside it that reads
- * `@/shared/config/index.server-only` would put the whole resolved
- * configuration in the browser.
+ * Takes the site rather than reading it: `@/shared/ui` is a barrel client
+ * components import, so reaching `@/shared/config/index.server-only` from
+ * inside it would put the resolved configuration in the browser.
  */
-export function SiteAvatar({ name, src }: Named & { src: string }) {
+export function SiteAvatar({
+  name,
+  avatar,
+}: Named & Pick<SiteConfig, 'avatar'>) {
   return (
     <Center>
       <Image
-        {...{ src }}
+        src={avatar.path}
         alt={name}
         width={150}
         height={150}

@@ -1,9 +1,9 @@
 /**
- * Data only, and deliberately so: this module is the one part of the site
- * configuration every bundle may hold. `shared/content/collections.ts` and the
- * render scripts under it read it from bare Node, and client components reach
- * it through `@/shared/config`, so anything here costs every one of them —
- * which is why the environment read and its schema sit in `resolve-site-id.ts`.
+ * Data only, and deliberately so: this is the part of the site configuration
+ * every bundle holds — bare Node reads it through
+ * `shared/content/collections.ts`, client components through `@/shared/config`
+ * — so anything added here costs all of them. The environment read and its
+ * schema sit in `resolve-site-id.ts` for that reason.
  */
 
 /** The ids are the source of truth: each names a directory under `apps/`. */

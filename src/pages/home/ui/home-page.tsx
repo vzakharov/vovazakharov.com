@@ -12,13 +12,13 @@ import { WorkSection } from './work-section';
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {
-  const { name, author, avatar } = SITE_CONFIG;
+  const { name, author } = SITE_CONFIG;
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar {...{ name }} src={avatar.path} />
+          <SiteAvatar {...SITE_CONFIG} />
           <Box>
             <Title order={1} mb={12}>
               {name}

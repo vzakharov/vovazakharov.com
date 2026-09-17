@@ -27,14 +27,14 @@ import { AboutSection } from './about-section';
 const COLLECTION = 'bible';
 
 export async function LsaHomePage() {
-  const { name, author, avatar } = SITE_CONFIG;
+  const { name, author } = SITE_CONFIG;
   const cards = await renderPrimaryDocuments(COLLECTION);
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar {...{ name }} src={avatar.path} />
+          <SiteAvatar {...SITE_CONFIG} />
           <Title order={1}>{name}</Title>
         </Stack>
 

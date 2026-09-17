@@ -1,11 +1,10 @@
 /**
- * Apart from `site-ids.ts` because it carries zod, and apart from
- * `resolved-site.ts` because it carries no `server-only`: the render scripts
- * import it by path, from bare Node and from `tsx`, neither of which is a React
- * server bundle. Nothing a client bundle reaches imports it, which is what
- * makes the parse affordable — inlined into `site-ids.ts` it put zod in the
- * browser through `site-config` and the CV sheet, measured at +377 kB. Bare
- * Node is also why the sibling import spells its extension.
+ * Apart from `site-ids.ts` because zod rides along, and that module is in every
+ * bundle: inlined there the parse reached the browser through `site-config` and
+ * the CV sheet, at a measured +377 kB. Apart from `resolved-site.ts` because it
+ * carries no `server-only` — the render scripts import it by path, from bare
+ * Node and from `tsx`, neither of which is a React server bundle, and bare Node
+ * is why the sibling import spells its extension.
  */
 
 import { z } from 'zod';
