@@ -1,4 +1,6 @@
-# Mushroom toy, from Syama's drawing
+> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
+
+# Mushroom game, from Syama's drawing
 
 A page on vovazakharov.com that does what a child's ballpoint drawing and two
 voice notes describe: fly agarics you add and take away, a mouse house in each
@@ -38,7 +40,7 @@ drawing:
 **Route.** `/mushrooms`, `/mushrooms/en`, `/mushrooms/ru` — an optional
 catch-all `apps/vova/app/mushrooms/[[...locale]]/page.tsx`, the CV's shape with
 the variant segment dropped. The bare address serves the default locale in
-place; the locale forms are canonical and carry `hreflang` alternates. The toy
+place; the locale forms are canonical and carry `hreflang` alternates. The game
 is for a Russian-reading child, so `ru` is not optional, and the site's one
 existing localized page already settles how a locale rides a URL here.
 
@@ -51,18 +53,18 @@ src/pages/mushrooms/
     mushrooms-urls.ts          mushroomsPath(locale?) — the one place the URL shape is decided
     mushrooms-route-params.ts  server-only: the zod schema for the catch-all, generateStaticParams' list, defaults
     mushrooms-metadata.ts      generateMushroomsMetadata(locale, path) — title/description from the catalogue, canonical + hreflang
-    toy.ts                     the state model: types, the reducer, the limits
-    toy.test.ts                node:test over the reducer
+    game.ts                    the state model: types, the reducer, the limits
+    game.test.ts               node:test over the reducer
   ui/
-    mushrooms-page.tsx         server: NextIntlClientProvider(locale) → PageShell → title, toy, locale nav, BackToHome
-    mushroom-toy.tsx           'use client': useReducer over `toy.ts`; the scene and the controls
+    mushrooms-page.tsx         server: NextIntlClientProvider(locale) → PageShell → title, game, locale nav, BackToHome
+    mushroom-game.tsx          'use client': useReducer over `game.ts`; the scene and the controls
     mushroom.tsx               one fly agaric as inline SVG: cap variant, windows on the cap, door on the stem
     insect.tsx                 the three sprites as inline SVG, one component keyed by kind
     cap-picker.tsx             the four caps shown when a mushroom is being added
-    mushroom-toy.module.scss   scene layout, insect placement, the flutter/landing animation
+    mushroom-game.module.scss  scene layout, insect placement, the flutter/landing animation
 ```
 
-**State model (`lib/toy.ts`)** — pure, so it is what the tests cover:
+**State model (`lib/game.ts`)** — pure, so it is what the tests cover:
 
 - `CAPS = ['spotted', 'plain', 'dark-top', 'dark-bottom']`, `INSECTS = ['butterfly', 'fly', 'bee']`, `OPENINGS = ['round-window', 'square-window', 'door']` as `const` arrays; every type and dispatch map derives from them.
 - A `Mushroom` is `WithId & { cap, openings: Opening[] }`. An `Insect` is `WithId & { kind, mushroomId, perch: { x, y } }` — where on the cap it sits, in cap-local unit coordinates.
@@ -74,7 +76,7 @@ src/pages/mushrooms/
 
 **Drawing.** Everything is inline SVG in `currentColor`, hatched fills and no
 colour literals: the site's tokens are black and white, the source is one blue
-pen, and an ink-drawing toy in the site's foreground colour is both faithful
+pen, and an ink-drawing game in the site's foreground colour is both faithful
 and free — no new token, both themes for nothing. The four caps differ in fill
 pattern (hatch + dots / dots / solid / solid lower half), which is exactly how
 the drawing distinguishes them. Insects land with a short CSS transition from
@@ -103,11 +105,11 @@ means the recommendation stands:
 1. **Colour.** (a, recommended) one-colour ink drawing in the foreground token,
    as drawn; (b) colour — red caps, white spots, a yellow bee — which means new
    colour tokens for both schemes and a second design pass.
-2. **Credit line.** (a, recommended) "Придумал и нарисовал Сяма" under the toy;
+2. **Credit line.** (a, recommended) "Придумал и нарисовал Сяма" under the game;
    (b) no name on the page.
 3. **The original drawing on the page.** (a, recommended) not shown — it is a
-   phone photo of a notebook, and the toy is its rendering; (b) shown under the
-   toy as "the original", which moves the file into `apps/vova/public/` for
+   phone photo of a notebook, and the game is its rendering; (b) shown under the
+   game as "the original", which moves the file into `apps/vova/public/` for
    good.
 4. **Home-page link.** (a, recommended) none, per "Not built"; (b) add
    `/mushrooms` to the footer's `SEE_ALSO`.
@@ -122,10 +124,10 @@ No sound, no score.
 
 1. `WithLocale` base type in `shared/i18n` (see DRY notes), `CvPageProps` rewritten onto it.
 2. `LocaleNav` in `shared/ui` taking `hrefFor(locale)`; the CV's `LocalePicker` becomes a call to it.
-3. `lib/toy.ts` and `lib/toy.test.ts` — the reducer first, red-green, before any pixel.
+3. `lib/game.ts` and `lib/game.test.ts` — the reducer first, red-green, before any pixel.
 4. `lib/mushrooms-urls.ts`, `lib/mushrooms-route-params.ts`, `lib/mushrooms-metadata.ts`, the catalogue block in both languages.
 5. `ui/mushroom.tsx`, `ui/insect.tsx`, `ui/cap-picker.tsx` — the SVGs, checked in `/preview` in both themes before wiring.
-6. `ui/mushroom-toy.tsx` + module, `ui/mushrooms-page.tsx`, `index.ts`, the route file, the sitemap entries.
+6. `ui/mushroom-game.tsx` + module, `ui/mushrooms-page.tsx`, `index.ts`, the route file, the sitemap entries.
 7. `/preview` of `/mushrooms/ru` at phone and desktop widths, both themes; fix what the screenshots show.
 8. `/polish`, then hand the PR to `/pr`.
 
@@ -133,7 +135,7 @@ No sound, no score.
 
 - **`WithLocale = { locale: Locale }` is shared, not duplicated.** `CvPageProps` already declares `locale`, and the new page's props would declare it again — which `pnpm type-overlap` fails at floor 1. Its home is `shared/i18n` beside `Locale` (exported from the ordinary barrel; it is a type, so it costs the client bundle nothing), and both pages intersect it.
 - **`LocaleNav` is lifted to `shared/ui`; the CV's `LocalePicker` is its first caller rewritten.** Today that component maps `routing.locales` to `Chip`s with `cvPath` baked in. The new page needs the identical row with `mushroomsPath` baked in — the second consumer that makes the abstraction real. The lifted component takes `hrefFor: (locale: Locale) => string`; `pages/cv` keeps a one-line `LocalePicker` only if the variant binding reads better there, else calls `LocaleNav` directly.
-- **The route-params schema is written again, not extracted.** The CV's is `[] | [variant] | [variant, locale]`, the toy's `[] | [locale]`. A generic "optional trailing locale" builder would have to take the CV's variant tuple as a parameter, and the two schemas together are under twenty lines; forcing one abstraction over two shapes hides which segments each route actually answers. `localeSchema` and `routing` are the shared parts, and both are reused.
+- **The route-params schema is written again, not extracted.** The CV's is `[] | [variant] | [variant, locale]`, the game's `[] | [locale]`. A generic "optional trailing locale" builder would have to take the CV's variant tuple as a parameter, and the two schemas together are under twenty lines; forcing one abstraction over two shapes hides which segments each route actually answers. `localeSchema` and `routing` are the shared parts, and both are reused.
 - **`mushroomsPath` mirrors `cvPath` in shape and stays separate.** Both are `[BASE, ...address].join('/')`. A shared `joinAddress(base)` would save one line per file and cost each URL module its one-glance readability; not worth it at two.
 - **`generateMushroomsMetadata` reuses `constructMetadata` wholesale**, as the CV's does — `canonical`, `languages` and `path` are already its parameters. What is not reused is the CV's `hreflang` map construction (six lines); a helper `localeAlternates(pathFor)` in `shared/seo` would serve both, and is taken **if** the two come out byte-identical at implementation time, else left.
 - **SVG primitives are not shared with anything** — nothing else on the site draws. The hatch pattern is one `<pattern>` defined once in `mushroom.tsx` and referenced by id by the caps that use it; the insects carry their own paths.
