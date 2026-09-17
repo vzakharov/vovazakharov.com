@@ -12,7 +12,7 @@ Run four lenses over every piece of prose an agent produces, every time it produ
 
 ## Why there is so much of it
 
-Agents write a lot. That on its own would be manageable. What makes it compound is that an agent which opens a repository and finds a great deal of prose already there concludes that this is a place where one writes a great deal of prose, and obliges — something we call [the inevitability fallacy](./inevitability-fallacy.md).
+Agents write a lot. That on its own would be manageable. What makes it compound is that an agent which opens a repository and finds a great deal of prose already there concludes that this is a place where one writes a great deal of prose, and obliges — something we call [the precedent fallacy](./precedent-fallacy.md).
 
 :::pull-quote
 An agent that finds a great deal of prose concludes that this is a place where one writes a great deal of prose, and obliges.

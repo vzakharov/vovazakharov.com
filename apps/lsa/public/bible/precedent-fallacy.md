@@ -6,7 +6,7 @@ order: 1
 
 # An agent takes a given for an inevitability
 
-Show an agent an approach in your code, a document describing that approach, or a rule saying to follow it, and it will follow it — and, more than that, conclude that this is how things are supposed to be. It almost never steps back to ask whether the whole arrangement might be wrong and the bigger picture might want revisiting. Call it the inevitability fallacy: a given, read as a necessity.
+Show an agent an approach in your code, a document describing that approach, or a rule saying to follow it, and it will follow it — and, more than that, conclude that this is how things are supposed to be. It almost never steps back to ask whether the whole arrangement might be wrong and the bigger picture might want revisiting. Call it the precedent fallacy: a given, read as a rule.
 
 The material it is deferring to was, very often, written by earlier agents, which means it is argued well: coherent, reasoned, confident. It reads exactly like a decision somebody made on purpose. Sometimes it was. Sometimes it is a thing that happened once and then hardened, and the agent cannot tell the difference, because from inside the repository there is no difference to see.
 
@@ -18,9 +18,9 @@ Context is not elastic. The more you put in, the less each individual part of it
 
 The analogy I keep coming back to is the megapixel race of the 2000s. Cameras arrived with three megapixels, then five, then ten, then fifteen, and at some point buyers started reading the number as a measure of quality. Manufacturers duly chased the number, and chasing it was easy: make each sensor site smaller, accept that each one is slightly worse, and forty megapixels appear where ten used to be. The photographs got noisier, because they were gathering the same light through more and worse cells.
 
-The same happens with LLM context: attention is the fixed area, and every token you add is one more claim on it. When I started, a context window was a thousand tokens. Then sixteen thousand, which felt like an impossible ceiling. Then two hundred thousand. Now a million, and someone will make it a trillion. Do not expect that an agent handed a trillion tokens will remember all of it and apply it as reliably as it applies ten thousand.
-
 ![A robot preaching from a rock to a seated crowd: “And lo, there were enough tokens for everyone.”](./assets/enough-tokens.jpg 'aside')
+
+The same happens with LLM context: attention is the fixed area, and every token you add is one more claim on it. When I started, a context window was a thousand tokens. Then sixteen thousand, which felt like an impossible ceiling. Then two hundred thousand. Now a million, and someone will make it a trillion. Do not expect that an agent handed a trillion tokens will remember all of it and apply it as reliably as it applies ten thousand.
 
 You can watch this directly, incidentally. Past roughly two hundred to two hundred and fifty thousand tokens in a single conversation, an agent starts to get tired, in ways that have a handful of recognizable symptoms — a subject for its own article.
 
