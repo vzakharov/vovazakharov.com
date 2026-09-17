@@ -64,8 +64,7 @@ could not collapse because `/en/cv` would inherit a sibling's `og:url` — a cos
 only under an indexing choice the agent had itself made.
 
 **9 September — our own lint config, read as a specification.** A `server-only`
-barrel was built, hit `boundaries` and withdrawn. _let's rewrite the
-boundaries._
+barrel was built, hit `boundaries`, withdrawn. _let's rewrite the boundaries._
 
 **9 September — a note on the site's controls, read as a rule about everything
 clickable.** `theme.ts` calls `variant="default"` "the site's only control
@@ -132,7 +131,7 @@ PR body and the squash message both. _измени правило чтобы н�
 three comments with a mechanism, the agent scoped it by a glob naming the CV's
 slice. _мы не хотим их все перечислять вручную._
 
-## An account that explains the code stands in for running it (×10)
+## An account that explains the code stands in for running it (×11)
 
 The worse half of "It checks the render against its intent" below: there the
 agent looked and asked the wrong question, here it never looked. Nothing inside
@@ -180,6 +179,10 @@ legal. _а у меня из playgramapp такие живут спокойно._
 **17 September — a boundary explained, not read.** The CV translates in the
 browser so the reader switches without navigating; the picker is `<a href>`.
 
+**17 September — nine export paths counted, the re-export not followed.** _No
+standalone translator exists_ — said of a library whose bare entry re-exports
+`use-intl/core`, where `createTranslator` is. Six strings render identically.
+
 ## It edits the copy in front of it, not the fact behind it (×10)
 
 A change the agent is told to make, it makes where it was raised: one fact in
@@ -212,10 +215,9 @@ were four, one a shell variable the vet run executes. It had searched its diff.
 re-verifying for that session and left the sentence standing in the skill, where
 the next run reads it. A comment on a rule is about the rule.
 
-**14 September — the correction landed on the line it was raised on.** _читатель
-получит понимание как не надо делать агентский кодинг_, raised on the first
-dictation and written into that file alone — the project plan, written the same
-hour, opened otherwise.
+**14 September — the correction landed where it was raised.** _читатель получит
+понимание как не надо делать агентский кодинг_, raised on the first dictation,
+written into that file alone; the project plan of that hour opened otherwise.
 
 **15 September — the description widened, the globs left behind.** Moving the
 router under `apps/`, the agent rewrote the rule's description to
@@ -369,10 +371,9 @@ A figure already in print reads as settled, so the agent stops at it; which
 window, which denominator, what was excluded is not recoverable from it.
 
 **6 September — 6.2 → 8.2 units of work per day**, lifted from the case study
-into a backlog row as a post's headline: both windows drawn wrong, days off left
-in the denominator. **`src/` 98,000 → 223,000 lines**, same day, same move —
-_they look a bit too much to me_, the difference between reading a number and
-remembering making one.
+into a backlog row as a headline: both windows drawn wrong, days off in the
+denominator. **`src/` 98,000 → 223,000 lines**, same move — _they look a bit
+too much to me_: reading a number is not making one.
 
 ## Not bumps
 
@@ -391,10 +392,9 @@ way takes its count with it.
 
 ## The two families
 
-Nine learnings fall in two groups. One is failures to notice the frame was
-ours — the prefix list, the published chart, the checker
-whose coverage read as the rule, our own `eslint.config.ts`. The other is the
-post's more interesting half: the output was well-formed, justified and
-efficient, and those properties are what made it wrong — an edit minimal where
-it was made left one fact spelled three ways. No "be more careful" catches
-these; they need a person, and not always one who knows more.
+Nine learnings fall in two groups. One is failures to notice the frame was ours
+— the prefix list, the published chart, the checker read as the rule, our own
+`eslint.config.ts`. The other is the post's more interesting half: the output
+was well-formed, justified and efficient, and those properties made it wrong —
+an edit minimal where it was made left one fact spelled three ways. No "be more
+careful" catches these; they need a person, not always one who knows more.

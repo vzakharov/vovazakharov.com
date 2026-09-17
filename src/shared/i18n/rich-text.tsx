@@ -11,10 +11,12 @@ const ANY_TAG = /<[^>]+>/;
  * and `<strong>` is the whole of what a message may carry: any other tag throws
  * rather than reaching a reader as literal `<em>`.
  *
- * Not the markdown pipeline `src/shared/content/` already runs, because the
- * closed set is the point. A markdown renderer accepts links, images and
- * headings, so it would widen what a message is allowed to do without anyone
- * deciding to, and it returns blocks where these are fragments inside a `Text`.
+ * Hand-rolled because next-intl's own `createTranslator(…).rich()` does exactly
+ * this, and is re-exported from the specifier `.claude/rules/i18n.md` bans — so
+ * reaching it needs a module the ban excepts, which is #66. Not the markdown
+ * pipeline `src/shared/content/` runs either: a markdown renderer accepts links,
+ * images and headings, widening what a message may do with nobody deciding to,
+ * and it returns blocks where these are fragments inside a `Text`.
  */
 export function richText(copy: string): ReactNode[] {
   const nodes: ReactNode[] = [];
