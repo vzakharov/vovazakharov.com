@@ -9,9 +9,8 @@ import classes from './theme-corner.module.scss';
  * page renders nothing for it. It sits out of the flow in the top-right
  * corner, which a page's own first line has to clear.
  *
- * It is also the site shell's whole boundary with next-intl: translating here
- * rather than inside the toggle is what keeps the library's client runtime off
- * every page that isn't the CV.
+ * Async because it translates the toggle's label, which the toggle itself must
+ * not do — `ThemeToggle`'s own docstring says why.
  */
 export async function ThemeCorner() {
   const t = await getTranslations('ui');

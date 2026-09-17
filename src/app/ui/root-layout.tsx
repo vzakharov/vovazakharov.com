@@ -53,10 +53,9 @@ export function RootLayout({
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       {/*
-        No `NextIntlClientProvider` here: the shell has no client component that
-        translates, so wrapping the site in one would ship next-intl's client
-        runtime to every page to serve the CV alone. `CvPage` provides for its
-        own subtree, with the messages that subtree needs.
+        A subtree that translates at runtime provides for itself — `CvPage` does,
+        with the messages it needs. A provider here would instead put next-intl's
+        client runtime in every page's bundle, to serve the CV alone.
       */}
       <body>
         <ThemeProvider>

@@ -6,28 +6,15 @@
  *
  *   pnpm check:mantine-styles
  *
- * Mantine ships `styles.layer.css` — every one of its ~200 component
- * stylesheets concatenated — beside one file per component. Naming the files
- * one at a time is worth ~25 kB gzipped here, and costs a list that has to
- * track the components in use. That list is what this script holds, in both
- * directions:
+ * Why that list needs holding is `.claude/rules/styling.md` § Styling; this is
+ * the half that measures it, in both directions — a class rendered with no rule
+ * behind it, and a sheet whose classes nothing renders.
  *
- * - **A class rendered with no rule behind it** is the failure that has to be
- *   caught. Adding a `<Badge>` compiles, type-checks, lints and builds; it just
- *   renders unstyled, which only a pair of eyes on the page would notice.
- * - **A sheet whose classes nothing renders** is dead weight that would
- *   otherwise accumulate silently, since nothing else reports an import that
- *   stopped mattering.
- *
- * It reads the **built HTML and CSS** rather than the import list, so the
- * answer covers what Mantine composes internally — `Button` renders
- * `UnstyledButton`'s class, which no import in the tree names. That is also the
- * limit: a component rendered only after an interaction never reaches a static
- * export, so it is invisible here. Nothing on this site has that shape today,
- * and a component that grows one needs its sheet confirmed by eye.
- *
- * Both sites are measured together against one import list, because the list
- * lives in the shared `src/app` layer and serves both.
+ * It reads the **built HTML and CSS** rather than the import list, so the answer
+ * covers what Mantine composes internally: `Button` renders `UnstyledButton`'s
+ * class, which no import in the tree names. That is also the limit — a component
+ * rendered only after an interaction never reaches a static export, so one that
+ * grows that shape needs its sheet confirmed by eye.
  *
  * Bare Node runs this file, relying on its type stripping: it reads the build
  * output and `node_modules`, and imports nothing from the app.
@@ -48,6 +35,15 @@ const MANTINE_STYLES = path.join(
 
 /** Mantine's own class names, hashed at publish time and unique to it. */
 const MANTINE_CLASS = /m_[\da-f]{7,8}/g;
+
+/** The same names as CSS selectors, so the hash shape is stated once. */
+const MANTINE_SELECTOR = new RegExp(String.raw`\.${MANTINE_CLASS.source}`, 'g');
+
+/** The layered half of each stylesheet — the half `theme-provider.tsx` imports. */
+const SHEET_SUFFIX = '.layer.css';
+
+const importLine = (sheet: string) =>
+  `  import '@mantine/core/styles/${sheet}${SHEET_SUFFIX}';`;
 
 /**
  * The three files that carry no component of their own — the reset, the
@@ -81,13 +77,13 @@ function sheetsByClass(): Map<string, string> {
   const byClass = new Map<string, string>();
 
   for (const file of fs.readdirSync(MANTINE_STYLES)) {
-    if (!file.endsWith('.layer.css')) continue;
+    if (!file.endsWith(SHEET_SUFFIX)) continue;
 
-    const sheet = file.slice(0, -'.layer.css'.length);
+    const sheet = file.slice(0, -SHEET_SUFFIX.length);
     const declared =
       fs
         .readFileSync(path.join(MANTINE_STYLES, file), 'utf8')
-        .match(/\.m_[\da-f]{7,8}/g) ?? [];
+        .match(MANTINE_SELECTOR) ?? [];
 
     for (const selector of declared) byClass.set(selector.slice(1), sheet);
   }
@@ -165,7 +161,7 @@ if (missing.size > 0) {
     alphabetical(a, b),
   )) {
     console.error(
-      `  import '@mantine/core/styles/${sheet}.layer.css';  (${classNames.toSorted(alphabetical).join(', ')})`,
+      `${importLine(sheet)}  (${classNames.toSorted(alphabetical).join(', ')})`,
     );
   }
 }
@@ -175,7 +171,7 @@ if (unused.length > 0) {
     `${missing.size > 0 ? '\n' : ''}Imported but never rendered — drop from theme-provider.tsx:`,
   );
   for (const sheet of unused) {
-    console.error(`  import '@mantine/core/styles/${sheet}.layer.css';`);
+    console.error(importLine(sheet));
   }
 }
 

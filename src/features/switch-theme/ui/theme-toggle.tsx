@@ -30,10 +30,9 @@ function systemColorScheme(): PickedColorScheme {
 /**
  * Two visible states over a three-value store; the rule is in `../lib`.
  *
- * The label arrives as a prop because this is the site's only client component
- * outside the CV, and reading it with `useTranslations` would put next-intl's
- * client runtime — ~48 kB, 14 kB gzipped — into every page for one string.
- * A server caller translates it and hands it over.
+ * The label is a prop, not a `useTranslations` call: this is the site's only
+ * client component outside the CV, so reading it here would put next-intl's
+ * client runtime into every page's bundle for one string.
  */
 export function ThemeToggle({ label }: Labeled) {
   const { colorScheme, setColorScheme, clearColorScheme } =

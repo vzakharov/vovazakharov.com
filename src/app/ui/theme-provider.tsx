@@ -1,11 +1,8 @@
 'use client';
 
-// Mantine ships one stylesheet per component beside the aggregate, and the
-// aggregate carries all 204 of them — the ~190 this site never renders included.
-// So the sheets are named one at a time, core first. `pnpm check:mantine-styles`
-// holds the list to what the built HTML actually uses, in both directions:
-// a component rendered without its sheet is invisible breakage, and a sheet
-// whose component has gone is dead weight nothing else would report.
+// Core sheets first, then one per component in use — a component rendered
+// without its sheet is invisible breakage, and `pnpm check:mantine-styles` is
+// what catches it. `.claude/rules/styling.md` § Styling carries the rest.
 import '@mantine/core/styles/baseline.layer.css';
 import '@mantine/core/styles/default-css-variables.layer.css';
 import '@mantine/core/styles/global.layer.css';
