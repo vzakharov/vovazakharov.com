@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: a mushroom game from Syama's drawing, at /mushrooms (pr #57)
+feat(vova): a meadow with two mushrooms at /mushrooms — stage one of #65
 ```
 
 ```
@@ -9,26 +9,21 @@ A child drew a game on squared paper and explained it in two voice
 notes: fly agarics with a mouse house in each, buttons that send a
 butterfly, a fly or a bee to land on them, a plus and a minus for the
 mushrooms, and a choice of four caps whenever one is added. There is
-no goal — the point is to watch the insects. This is that page, at
-/mushrooms with an en and a ru form, since the author reads Russian.
+no goal — the point is to watch the insects. Issue #65 holds the spec
+and the list of what follows; this is the first piece.
 
-It is a game, not a form: a full-screen meadow in Phaser 4, loaded on
-this route alone, with painted sprites, tweened motion and synthesized
-sound, laid out from the screen size so a phone and a tablet both fill.
-A pure reducer under pages/mushrooms/model decides the state and the
-scene reconciles to it by id — a mushroom that appears pops out of the
-ground, an insect that appears flies in to its perch. Randomness stays
-in the scene, so the reducer is deterministic and the one thing under
-test. The game's palette is the one file on the site holding colour
-literals: a canvas is out of the tokens' reach, and the styling rule
-says so.
+The piece is a full-screen meadow with two motionless fly agarics,
+drawn by Phaser 4 into a canvas that React mounts and lays out from
+the screen size, so a phone held upright and a tablet held sideways
+both fill. It proves the engine inside this static export and puts
+the route, the page slice and the drawing conventions in place: SVG
+sprites rasterised at device resolution, a layout module that owns
+every position, and a palette that is the one file on the site with
+colour literals — a canvas is out of the CSS tokens' reach, and the
+styling rule now says so.
 
-Localization follows the CV: a trailing locale segment parsed by a
-server-only schema, canonical and hreflang alternates, and the page
-wrapped in its own NextIntlClientProvider. Two pieces the CV owned
-alone are shared now that a second page needs them — a WithLocale base
-type in shared/i18n, and a LocaleNav in shared/ui that the CV's locale
-picker calls with its own path function.
+The game has no text anywhere, so a child of any age can play; with
+that, no locales — one route, metadata in English like the rest.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
