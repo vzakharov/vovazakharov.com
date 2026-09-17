@@ -31,10 +31,10 @@ Merging to `main` triggers `.github/workflows/deploy.yml`, which builds both sit
 
 **The two sites leave by different doors, because a repository gets one Pages site.** `vovazakharov.com` is this repository's own, deployed from `apps/vova/out` by `actions/deploy-pages`. `latestageagentic.com` is built here and force-pushed by `scripts/publish-lsa.sh` to the `gh-pages` branch of `vzakharov/latestageagentic.com`, which holds no source and runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key, whose contract the script's own header carries.
 
-**Only a `feat:` or `fix:` squash subject publishes, and its scope picks the site.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Four things follow:
+**Only a `feat:`, `fix:` or `perf:` squash subject publishes, and its scope picks the site.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Four things follow:
 
 - **The squash subject is the deploy switch**, so it is a production decision, not just a log entry — `@.claude/skills/squash-message/SKILL.md` picks it, and a mixed branch should carry the prefix of what it actually ships.
-- **A non-`feat:`/`fix:` merge that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case. A manual run has no subject to read a scope off, so it takes a **site** picker instead, defaulting to both; naming one is what lets an unmerged branch publish that site alone.
+- **A merge carrying none of those three prefixes that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case. A manual run has no subject to read a scope off, so it takes a **site** picker instead, defaulting to both; naming one is what lets an unmerged branch publish that site alone.
 - **The gate matches subjects only**, in either scoped or breaking form (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies — so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
 - **`feat(lsa):` publishes `latestageagentic.com` alone and `feat(vova):` publishes `vovazakharov.com` alone.** Every other scope, and an unscoped subject, publishes both — a change to the shared `src/` is both sites' change, so that is the safe default and naming a site is the narrowing.
 
@@ -194,7 +194,7 @@ Use semantic commit prefixes:
 - `style:` — formatting, whitespace (no code change)
 - `test:` — adding or updating tests
 - `ci:` — CI/CD changes
-- `perf:` — performance improvements
+- `perf:` — performance improvements. **Publishes**, alongside `feat:` and `fix:`: on a site that is files on a CDN, making a page cheaper to load changes the files, so a `perf:` merge nobody deployed leaves the improvement unserved
 - `polish:` — a `/polish` run's own edits (see below)
 
 **`polish:` is a branch-local type**, outside the standard set on purpose. `@.claude/skills/polish/SKILL.md` finds where it last ran by that subject line, and nothing else would carry the mark: the run's edits are `refactor:` or `docs:` by nature, which says nothing about who made them or why. It reaches no trunk — the squash gives the branch one subject of its own, written by hand — so the extension costs a reader of `main` nothing and a reader of the branch a legible `git log --oneline`. That skill owns the form the subject takes.
