@@ -2,6 +2,7 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
 import { pageFile } from '@/shared/config';
 import {
+  type CaseStudyFrontmatter,
   type DocumentRef,
   documentRoute,
   type Headlined,
@@ -48,7 +49,7 @@ function CutSwitcher({
   return <ChipNav {...{ chips }} />;
 }
 
-export type ArticleHeaderProps = WithContentDocument<'case-studies'> &
+export type ArticleHeaderProps = WithContentDocument<CaseStudyFrontmatter> &
   Headlined & {
     availableVariants: Variant[];
   };

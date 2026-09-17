@@ -6,6 +6,7 @@ export { FileLink } from './file-link';
 export { hoverDim } from './hover-dim';
 export { InternalButton, InternalLink } from './internal-link';
 export { PageShell } from './page-shell';
+export { ProseContent } from './prose-content';
 export { Section, Subheading, SUBHEADING_GAP } from './section';
 export { SiteAvatar } from './site-avatar';
 export { SummaryCard } from './summary-card';

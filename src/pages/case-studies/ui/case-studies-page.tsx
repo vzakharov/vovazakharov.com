@@ -1,6 +1,7 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
 import {
+  CASE_STUDIES,
   collectionRoute,
   COLLECTIONS,
   documentRoute,
@@ -24,7 +25,7 @@ export const caseStudiesMetadata = constructMetadata({
 });
 
 export async function CaseStudiesPage() {
-  const cards = await renderPrimaryDocuments(COLLECTION);
+  const cards = await renderPrimaryDocuments(CASE_STUDIES);
 
   return (
     <PageShell>

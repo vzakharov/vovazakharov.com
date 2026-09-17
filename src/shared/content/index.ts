@@ -10,6 +10,7 @@ export {
   FEATURED_CASE_STUDY,
   FEATURED_CASE_STUDY_ROUTE,
   type Routed,
+  type Slugged,
   type Variant,
   VARIANTS,
 } from './collections';
@@ -23,12 +24,14 @@ export {
   type WithContentDocument,
 } from './documents';
 export {
+  type BaseFrontmatter,
+  CASE_STUDIES,
   type CaseStudyFrontmatter,
-  type Frontmatter,
-  type FrontmatterOf,
+  type Collection,
   SONG_LANGUAGES,
   SONG_STATUSES,
   type SongFrontmatter,
+  SONGS,
   type WithFrontmatter,
 } from './frontmatter';
 export {

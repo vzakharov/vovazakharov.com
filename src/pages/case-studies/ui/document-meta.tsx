@@ -1,6 +1,10 @@
 import { Group } from '@mantine/core';
 
-import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
+import type {
+  CaseStudyFrontmatter,
+  WithFrontmatter,
+  WithReadingMinutes,
+} from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 
@@ -15,7 +19,7 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'UTC',
 });
 
-export type DocumentMetaProps = WithFrontmatter<'case-studies'> &
+export type DocumentMetaProps = WithFrontmatter<CaseStudyFrontmatter> &
   WithReadingMinutes &
   WithOptionalClassName;
 

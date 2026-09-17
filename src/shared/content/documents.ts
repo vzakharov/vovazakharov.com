@@ -8,7 +8,6 @@ import { pageFile } from '@/shared/config';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
-  COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
@@ -20,8 +19,9 @@ import {
   VARIANTS,
 } from './collections';
 import {
-  FRONTMATTER_SCHEMAS,
-  type FrontmatterOf,
+  type BaseFrontmatter,
+  type Collection,
+  COLLECTION_SCHEMAS,
   type WithFrontmatter,
 } from './frontmatter';
 import {
@@ -29,32 +29,30 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
-/** Where `public/` serves the card, and how big it is — resolved together so they cannot disagree. */
+/** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
 type ResolvedOgImage = WithOptionalOgImageSize & {
   /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
   ogImageUrl?: string;
 };
 
-type DocumentOf<Id extends CollectionId> = DocumentRef<Id> &
-  Routed &
-  WithFrontmatter<Id> &
-  ResolvedOgImage & {
-    /** Absent on the full document; set on each shorter cut. */
-    variant?: Variant;
-    /** The markdown body with the frontmatter block removed. */
-    body: string;
-    fileName: string;
-    /** The authored markdown, as served. */
-    markdown: DocumentFile;
-  };
-
 /**
- * Distributive, so the unparameterized form is a union discriminated by
- * `collection` rather than a shape with every collection's fields merged: a
- * song page reads `frontmatter.audio` and a case-study page cannot.
+ * Generic over frontmatter rather than over the collection id, so a song page
+ * reads `frontmatter.audio` while everything that works across collections —
+ * the sitemap, the metadata builder — holds documents at the base shape.
  */
-export type ContentDocument<Id extends CollectionId = CollectionId> =
-  Id extends CollectionId ? DocumentOf<Id> : never;
+export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
+  DocumentRef &
+    Routed &
+    WithFrontmatter<F> &
+    ResolvedOgImage & {
+      /** Absent on the full document; set on each shorter cut. */
+      variant?: Variant;
+      /** The markdown body with the frontmatter block removed. */
+      body: string;
+      fileName: string;
+      /** The authored markdown, as served. */
+      markdown: DocumentFile;
+    };
 
 /** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
@@ -71,8 +69,8 @@ function resolveOgImage(
   return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
 }
 
-export type WithContentDocument<Id extends CollectionId = CollectionId> = {
-  document: ContentDocument<Id>;
+export type WithContentDocument<F extends BaseFrontmatter = BaseFrontmatter> = {
+  document: ContentDocument<F>;
 };
 
 /**
@@ -89,11 +87,11 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
-function readDocument<Id extends CollectionId>(
-  collection: Id,
+function readDocument<F extends BaseFrontmatter>(
+  { id, schema }: Collection<F>,
   fileName: string,
-): ContentDocument<Id> {
-  const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
+): ContentDocument<F> {
+  const raw = fs.readFileSync(path.join(collectionDir(id), fileName), {
     encoding: 'utf8',
   });
   const { slug, variant } = parseFileName(fileName);
@@ -101,18 +99,11 @@ function readDocument<Id extends CollectionId>(
   // Naming the file is the whole point of the rethrow: a build failure has to
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
-  //
-  // The two assertions in this function hide no shape: the `parse` above is the
-  // validation, and each only restates a correlation the checker cannot follow
-  // — that indexing the schema table by `Id` yields the schema for `Id`, and
-  // that a `DocumentOf<Id>` satisfies a conditional type still deferred on it.
-  let frontmatter: FrontmatterOf<Id>;
+  let frontmatter: F;
   let content: string;
   try {
     const parsed = matter(raw);
-    frontmatter = FRONTMATTER_SCHEMAS[collection].parse(
-      parsed.data,
-    ) as FrontmatterOf<Id>;
+    frontmatter = schema.parse(parsed.data);
     content = parsed.content;
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
@@ -120,10 +111,10 @@ function readDocument<Id extends CollectionId>(
     });
   }
 
-  const route = documentRoute(collection, slug, variant);
+  const route = documentRoute(id, slug, variant);
 
   return {
-    collection,
+    collection: id,
     slug,
     variant,
     frontmatter,
@@ -131,16 +122,16 @@ function readDocument<Id extends CollectionId>(
     fileName,
     markdown: pageFile(route, 'md'),
     route,
-    ...resolveOgImage(collection, frontmatter.ogImage),
-  } as ContentDocument<Id>;
+    ...resolveOgImage(id, frontmatter.ogImage),
+  };
 }
 
 /** Every document in a collection, variants included, newest first. */
-export function listDocuments<Id extends CollectionId>(
-  collection: Id,
-): ContentDocument<Id>[] {
+export function listDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Array<ContentDocument<F>> {
   return fs
-    .readdirSync(collectionDir(collection))
+    .readdirSync(collectionDir(collection.id))
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => readDocument(collection, fileName))
     .toSorted(
@@ -149,19 +140,19 @@ export function listDocuments<Id extends CollectionId>(
 }
 
 /** The full documents only, without the shorter cuts. */
-export function listPrimaryDocuments<Id extends CollectionId>(
-  collection: Id,
-): ContentDocument<Id>[] {
+export function listPrimaryDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Array<ContentDocument<F>> {
   return listDocuments(collection).filter((doc) => !doc.variant);
 }
 
-export function loadDocument<Id extends CollectionId>(
-  collection: Id,
+export function loadDocument<F extends BaseFrontmatter>(
+  collection: Collection<F>,
   slug: string,
   variant?: Variant,
-): ContentDocument<Id> | undefined {
+): ContentDocument<F> | undefined {
   const fileName = `${documentName(slug, variant)}.md`;
-  const filePath = path.join(collectionDir(collection), fileName);
+  const filePath = path.join(collectionDir(collection.id), fileName);
 
   return fs.existsSync(filePath)
     ? readDocument(collection, fileName)
@@ -181,5 +172,7 @@ export function siblingVariants(
 }
 
 export function listAllDocuments(): ContentDocument[] {
-  return COLLECTION_IDS.flatMap((collection) => listDocuments(collection));
+  return Object.values(COLLECTION_SCHEMAS).flatMap((collection) =>
+    listDocuments(collection),
+  );
 }

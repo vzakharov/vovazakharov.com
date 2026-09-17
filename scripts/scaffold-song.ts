@@ -24,8 +24,10 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { z } from 'zod';
 
 import { collectionDir } from '@/shared/content/collections';
+import type { Named } from '@/shared/typings';
 
 const ORGANIZATION = 'vovas-music';
 
@@ -35,10 +37,12 @@ const HEADER_BYTES = 128 * 1024;
 /** How the explicit-content marker appears in a master's filename. */
 const EXPLICIT_MARKER = '🅴';
 
+/** The single root FLAC that makes a repository a song. */
 type Master = {
-  fileName: string;
+  /** Its name in the repository, which is where the song's own name comes from. */
+  flac: string;
   /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
-  url: string;
+  audio: string;
   explicit: boolean;
 };
 
@@ -50,28 +54,40 @@ type StreamInfo = {
   totalSamples: number;
 };
 
-function api(url: string, init: RequestInit = {}): Promise<Response> {
+/** The API's shapes are parsed rather than trusted, this being someone else's JSON. */
+const repositorySchema = z.object({ default_branch: z.string().min(1) });
+
+const rootListingSchema = z.array(z.object({ name: z.string() }));
+
+const commitsSchema = z.array(
+  z.object({ commit: z.object({ author: z.object({ date: z.string() }) }) }),
+);
+
+async function api(url: string): Promise<Response> {
   const token = process.env['GH_TOKEN'] ?? process.env['GITHUB_TOKEN'];
 
   return fetch(url, {
-    ...init,
     headers: {
       accept: 'application/vnd.github+json',
       'user-agent': 'vovazakharov.com-scaffold-song',
       ...(token === undefined ? {} : { authorization: `Bearer ${token}` }),
-      ...init.headers,
     },
   });
 }
 
-async function json(url: string): Promise<unknown> {
+async function json<T>(url: string, schema: z.ZodType<T>): Promise<T> {
   const response = await api(url);
 
   if (!response.ok) {
     throw new Error(`GET ${url} answered ${response.status}`);
   }
 
-  return response.json();
+  return schema.parse(await response.json());
+}
+
+/** Everything this script prints is its result, so it goes to stdout directly. */
+function report(line: string): void {
+  process.stdout.write(`${line}\n`);
 }
 
 /**
@@ -133,18 +149,11 @@ async function fetchStreamInfo(url: string): Promise<StreamInfo> {
 async function findMaster(repo: string, branch: string): Promise<Master> {
   const entries = await json(
     `https://api.github.com/repos/${ORGANIZATION}/${repo}/contents/`,
+    rootListingSchema,
   );
 
-  if (!Array.isArray(entries)) {
-    throw new Error(`${repo} has no readable root listing`);
-  }
-
   const masters = entries
-    .map((entry: unknown) =>
-      entry !== null && typeof entry === 'object' && 'name' in entry
-        ? String(entry.name)
-        : '',
-    )
+    .map(({ name }) => name)
     .filter((name) => name.toLowerCase().endsWith('.flac'));
 
   const [fileName] = masters;
@@ -157,8 +166,8 @@ async function findMaster(repo: string, branch: string): Promise<Master> {
   }
 
   return {
-    fileName,
-    url: `https://raw.githubusercontent.com/${ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(fileName)}`,
+    flac: fileName,
+    audio: `https://raw.githubusercontent.com/${ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(fileName)}`,
     explicit: fileName.includes(EXPLICIT_MARKER),
   };
 }
@@ -173,19 +182,28 @@ async function findMaster(repo: string, branch: string): Promise<Master> {
 async function firstCommitDate(repo: string): Promise<string> {
   const commits = `https://api.github.com/repos/${ORGANIZATION}/${repo}/commits`;
   const probe = await api(`${commits}?per_page=1`);
-  const last = /<[^>]*[?&]page=(\d+)>; rel="last"/.exec(
+  const last = /<[^>]*[&?]page=(\d+)>; rel="last"/.exec(
     probe.headers.get('link') ?? '',
   );
-  const oldest = await json(`${commits}?per_page=1&page=${last?.[1] ?? '1'}`);
-  const [commit] = Array.isArray(oldest) ? oldest : [];
-  const date: unknown = commit?.commit?.author?.date;
+  const [oldest] = await json(
+    `${commits}?per_page=1&page=${last?.[1] ?? '1'}`,
+    commitsSchema,
+  );
 
-  if (typeof date !== 'string') {
-    throw new Error(`${repo} has no readable first commit`);
+  if (oldest === undefined) {
+    throw new Error(`${repo} has no commits to date it by`);
   }
 
-  return date.slice(0, 10);
+  return oldest.commit.author.date.slice(0, 10);
 }
+
+type DocumentFields = Named & {
+  date: string;
+  repo: string;
+  seconds: number;
+  master: Master;
+  streamInfo: StreamInfo;
+};
 
 /**
  * The frontmatter this script can fill, plus a body that says what is left. The
@@ -193,16 +211,8 @@ async function firstCommitDate(repo: string): Promise<string> {
  * empty one parses as null and the schema rejects it, which is the loud
  * failure a placeholder string would not be.
  */
-function document(fields: {
-  name: string;
-  date: string;
-  repo: string;
-  audio: string;
-  seconds: number;
-  master: Master;
-  streamInfo: StreamInfo;
-}): string {
-  const { name, date, repo, audio, seconds, master, streamInfo } = fields;
+function document(fields: DocumentFields): string {
+  const { name, date, repo, seconds, master, streamInfo } = fields;
   const { sampleRate, bitsPerSample, channels } = streamInfo;
 
   return `---
@@ -213,11 +223,11 @@ status: done
 language: ru
 # project: one of GENERATED, Полуживые, Downtemple
 repo: ${repo}
-audio: ${audio}
+audio: ${master.audio}
 seconds: ${seconds}
 ---
 
-<!-- Scaffolded from https://github.com/${ORGANIZATION}/${repo} — ${master.fileName},
+<!-- Scaffolded from https://github.com/${ORGANIZATION}/${repo} — ${master.flac},
      ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.${
        master.explicit ? '\n     The master is marked explicit.' : ''
      }
@@ -231,26 +241,23 @@ async function scaffold(repo: string, directory: string): Promise<string> {
 
   if (fs.existsSync(filePath)) return `${repo}: already written, left alone`;
 
-  const repository = await json(
+  const { default_branch: branch } = await json(
     `https://api.github.com/repos/${ORGANIZATION}/${repo}`,
-  );
-  const branch = String(
-    (repository as { default_branch?: unknown }).default_branch ?? 'main',
+    repositorySchema,
   );
   const master = await findMaster(repo, branch);
-  const streamInfo = await fetchStreamInfo(master.url);
+  const streamInfo = await fetchStreamInfo(master.audio);
   const seconds = Math.round(streamInfo.totalSamples / streamInfo.sampleRate);
 
   fs.writeFileSync(
     filePath,
     document({
-      name: master.fileName
+      name: master.flac
         .replace(/\.flac$/i, '')
         .replace(EXPLICIT_MARKER, '')
         .trim(),
       date: await firstCommitDate(repo),
       repo,
-      audio: master.url,
       seconds,
       master,
       streamInfo,
@@ -259,7 +266,7 @@ async function scaffold(repo: string, directory: string): Promise<string> {
 
   const minutes = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 
-  return `${repo}: ${master.fileName} — ${minutes}`;
+  return `${repo}: ${master.flac} — ${minutes}`;
 }
 
 const repos = process.argv.slice(2);
@@ -272,10 +279,12 @@ const directory = collectionDir('music');
 
 fs.mkdirSync(directory, { recursive: true });
 
-for (const repo of repos) {
-  console.log(await scaffold(repo, directory));
+for (const line of await Promise.all(
+  repos.map(async (repo) => scaffold(repo, directory)),
+)) {
+  report(line);
 }
 
-console.log(
+report(
   `\nWritten to ${directory}. Each still needs a description, its language checked, a project and a body.`,
 );

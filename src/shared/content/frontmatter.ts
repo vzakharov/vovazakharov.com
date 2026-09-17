@@ -20,7 +20,10 @@ const baseFrontmatterSchema = z.object({
   ogImage: z.string().min(1).optional(),
 });
 
-export const caseStudyFrontmatterSchema = baseFrontmatterSchema.extend({
+/** What every collection states, and all that anything reading documents at large can rely on. */
+export type BaseFrontmatter = z.infer<typeof baseFrontmatterSchema>;
+
+const caseStudyFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Free-text series marker, e.g. `I of II`. */
   part: z.string().min(1).optional(),
 });
@@ -31,7 +34,7 @@ export const SONG_STATUSES = ['done', 'wip'] as const;
 /** What the vocal is in — `instrumental` where there is none. */
 export const SONG_LANGUAGES = ['ru', 'en', 'instrumental'] as const;
 
-export const songFrontmatterSchema = baseFrontmatterSchema.extend({
+const songFrontmatterSchema = baseFrontmatterSchema.extend({
   /**
    * The track name. A field rather than the body's leading `# `, unlike a case
    * study's title: the player bar shows it as `Name — Project`, so deriving it
@@ -59,33 +62,48 @@ export const songFrontmatterSchema = baseFrontmatterSchema.extend({
   spotify: z.string().min(1).optional(),
 });
 
-/**
- * Which schema reads which collection. A song carries fields a case study must
- * not silently accept, so the two are validated apart.
- */
-export const FRONTMATTER_SCHEMAS = {
-  'case-studies': caseStudyFrontmatterSchema,
-  music: songFrontmatterSchema,
-} as const satisfies Record<CollectionId, ZodType>;
+export type CaseStudyFrontmatter = z.infer<typeof caseStudyFrontmatterSchema>;
+export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
-export type FrontmatterOf<Id extends CollectionId> = z.infer<
-  (typeof FRONTMATTER_SCHEMAS)[Id]
->;
-
-/** Any collection's frontmatter — a union, discriminated by the fields each declares. */
-export type Frontmatter = FrontmatterOf<CollectionId>;
-
-export type CaseStudyFrontmatter = FrontmatterOf<'case-studies'>;
-export type SongFrontmatter = FrontmatterOf<'music'>;
-
-export type WithFrontmatter<Id extends CollectionId = CollectionId> = {
-  frontmatter: FrontmatterOf<Id>;
+export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
+  frontmatter: F;
 };
+
+/**
+ * A collection and the schema that reads it, as one value. A song carries
+ * fields a case study must not silently accept, so the two are validated apart
+ * — and pairing the id with its schema is what keeps a reader from being handed
+ * one collection's documents under another's shape.
+ */
+export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
+  id: CollectionId;
+  schema: ZodType<F>;
+};
+
+export const CASE_STUDIES: Collection<CaseStudyFrontmatter> = {
+  id: 'case-studies',
+  schema: caseStudyFrontmatterSchema,
+};
+
+export const SONGS: Collection<SongFrontmatter> = {
+  id: 'music',
+  schema: songFrontmatterSchema,
+};
+
+/** Keyed so a collection without a schema fails to compile rather than at read time. */
+export const COLLECTION_SCHEMAS = {
+  'case-studies': CASE_STUDIES,
+  music: SONGS,
+} as const satisfies Record<CollectionId, Collection>;
 
 /**
  * The title a collection states outright, where it has one. A case study's is
  * its body's leading heading instead, so this is `undefined` for one.
  */
-export function frontmatterTitle(frontmatter: Frontmatter): string | undefined {
-  return 'name' in frontmatter ? frontmatter.name : undefined;
+export function frontmatterTitle(
+  frontmatter: BaseFrontmatter,
+): string | undefined {
+  return 'name' in frontmatter && typeof frontmatter.name === 'string'
+    ? frontmatter.name
+    : undefined;
 }
