@@ -1,18 +1,14 @@
-import type {
-  Billed,
-  DocumentFile,
-  Linked,
-  Named,
-  WithText,
-} from '@/shared/typings';
-
-import { resolveSiteId, type SiteId } from './site-ids';
-
 /**
- * A static export renders once per deploy, so a copyright year is the build's.
- * Shared so the page footer and the printed one cannot disagree.
+ * Both sites' configuration as data, with nothing bound to the site this
+ * process happens to be — that binding is `resolved-site.ts`, which is
+ * `server-only`. Keeping the two apart is what lets a client component and a
+ * render script each read what they need without dragging the environment read
+ * and its schema along.
  */
-export const BUILD_YEAR = new Date().getFullYear();
+
+import type { Billed, Named } from '@/shared/typings';
+
+import type { SiteId } from './site-ids';
 
 /**
  * The unlocalized standalone pages. Below `pages/` because the footer that
@@ -24,15 +20,13 @@ export const PAGE_ROUTES = {
   music: '/music',
 } as const;
 
-const siteId = resolveSiteId();
-
 /**
  * The tagline is the offer in one line, as the home page's offer section is
  * headed and as every page that states no description of its own unfurls. The
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-type SiteConfig = Billed & {
+export type SiteConfig = Billed & {
   url: string;
   /**
    * Leads the name a downloaded document is saved under, standing in for the
@@ -100,10 +94,14 @@ const SITE_CONFIGS = {
   },
 } as const satisfies Record<SiteId, SiteConfig>;
 
-/** Which site is being built, for the consumers that branch on it rather than read its config. */
-export const SITE_ID = siteId;
-
-export const SITE_CONFIG = SITE_CONFIGS[siteId];
+/**
+ * One site's configuration by id, for a caller that knows its site without the
+ * environment telling it — the render scripts, which resolved theirs once at
+ * the top of the run.
+ */
+export function siteConfig(site: SiteId) {
+  return SITE_CONFIGS[site];
+}
 
 /**
  * The author's own site, which every other site's byline links to. Read off
@@ -111,22 +109,5 @@ export const SITE_CONFIG = SITE_CONFIGS[siteId];
  */
 export const AUTHOR_URL = SITE_CONFIGS.vova.url;
 
-// Helper to get absolute URL
-export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
-
-/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
-export const pageFile = (route: string, extension: string): DocumentFile => ({
-  href: `${route}.${extension}`,
-  download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
-});
-
-/**
- * How print spells a URL: absolute, because the page leaves the browser that
- * resolved it, and shown without the scheme, which tells a reader holding paper
- * nothing. The two differ, so a printed link can navigate and still read well.
- */
-export const printedUrl = (url: string): Linked & WithText => {
-  const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
-
-  return { href, text: href.replace(/^https?:\/\//, '') };
-};
+/** How a URL reads off paper, where a scheme tells the holder nothing. */
+export const withoutScheme = (url: string) => url.replace(/^https?:\/\//, '');

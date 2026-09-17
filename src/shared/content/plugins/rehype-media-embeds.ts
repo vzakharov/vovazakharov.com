@@ -4,7 +4,7 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 
-import { printedUrl } from '@/shared/config';
+import { printedUrl } from '@/shared/config/index.server-only';
 
 import { hastText } from '../hast-text';
 

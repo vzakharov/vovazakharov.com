@@ -1,6 +1,7 @@
 import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 
-import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { PAGE_ROUTES } from '@/shared/config';
+import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config/index.server-only';
 import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
@@ -11,13 +12,13 @@ import { WorkSection } from './work-section';
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {
-  const { name, author } = SITE_CONFIG;
+  const { name, author, avatar } = SITE_CONFIG;
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar />
+          <SiteAvatar {...{ name }} src={avatar.path} />
           <Box>
             <Title order={1} mb={12}>
               {name}

@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { resolveSiteId } from '../../src/shared/config/site-ids.ts';
+import { resolveSiteId } from '../../src/shared/config/resolve-site-id.ts';
 import {
   collectionDir,
   collectionsForSite,

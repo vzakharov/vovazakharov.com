@@ -4,7 +4,7 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl } from '@/shared/config/index.server-only';
 
 import {
   collectionAssetUrl,

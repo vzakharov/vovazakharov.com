@@ -13,7 +13,7 @@ import {
   type Variant,
   VARIANTS,
 } from '@/shared/content';
-import { constructArticleMetadata } from '@/shared/seo';
+import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 

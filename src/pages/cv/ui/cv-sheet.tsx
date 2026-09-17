@@ -9,13 +9,13 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useLocale, useMessages, useTranslations } from 'next-intl';
+import { useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
+import type { DocumentFile } from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
-import { cvPdfFile } from '../lib/cv-urls';
 import type { WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
@@ -55,12 +55,13 @@ const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
+  /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
+  pdfFile: DocumentFile;
 };
 
-export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
+export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
-  const locale = useLocale();
 
   return (
     <Box className={classes['page']}>
@@ -92,7 +93,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             className={cx('print-hidden', classes['toolbar'])}
           >
             <LocalePicker {...{ variant }} />
-            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+            <FileLink {...pdfFile}>.pdf</FileLink>
           </Group>
 
           <CvSection title={t('profile.title')}>

@@ -1,6 +1,6 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config/index.server-only';
 import {
   type CollectionId,
   collectionRoute,
@@ -8,7 +8,7 @@ import {
   documentRoute,
   renderPrimaryDocuments,
 } from '@/shared/content';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata } from '@/shared/seo/index.server-only';
 import { BackToHome, Card, InternalLink, PageShell } from '@/shared/ui';
 
 import { COLLECTION_INTROS } from './collection-intros';

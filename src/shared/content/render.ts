@@ -15,7 +15,7 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl } from '@/shared/config/index.server-only';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
 import type { CollectionId, Variant } from './collections';

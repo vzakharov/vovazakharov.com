@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/shared/config';
+import { PAGE_ROUTES } from '@/shared/config';
+import { getAbsoluteUrl, SITE_ID } from '@/shared/config/index.server-only';
 import {
   collectionRoute,
   collectionsForSite,

@@ -1,7 +1,7 @@
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config/index.server-only';
 import { intrinsicDimensions } from '@/shared/content';
 import { type Locale, routing } from '@/shared/i18n';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { cvMessages } from './cv-messages';
 import { cvCardPath, cvPath } from './cv-urls';

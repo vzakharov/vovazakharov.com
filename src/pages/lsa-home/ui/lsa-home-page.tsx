@@ -9,7 +9,8 @@ import {
   Title,
 } from '@mantine/core';
 
-import { AUTHOR_URL, BUILD_YEAR, SITE_CONFIG } from '@/shared/config';
+import { AUTHOR_URL } from '@/shared/config';
+import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config/index.server-only';
 import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 import {
   cssColor,
@@ -26,14 +27,14 @@ import { AboutSection } from './about-section';
 const COLLECTION = 'bible';
 
 export async function LsaHomePage() {
-  const { name, author } = SITE_CONFIG;
+  const { name, author, avatar } = SITE_CONFIG;
   const cards = await renderPrimaryDocuments(COLLECTION);
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar />
+          <SiteAvatar {...{ name }} src={avatar.path} />
           <Title order={1}>{name}</Title>
         </Stack>
 
