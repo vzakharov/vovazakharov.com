@@ -44,7 +44,11 @@ export function HomePage() {
               {SEE_ALSO.map((href, index) => (
                 <span key={href}>
                   {index > 0 && ' · '}
-                  <InternalLink {...{ href }} printed={printedUrl(href)} inherit>
+                  <InternalLink
+                    {...{ href }}
+                    printed={printedUrl(href)}
+                    inherit
+                  >
                     {href}
                   </InternalLink>
                 </span>
