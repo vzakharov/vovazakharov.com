@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×22)
+## What it was handed, it treats as fixed (×21)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -89,11 +89,6 @@ calls back to — and a mis-hearing that makes sense is the kind nothing flags.
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
 a name recommendation resting on it; told the sense was the other, the agent filed
 _the grammar allows only that one_ — also false. Each parse arrived first.
-
-**15 September — filed twice where the path says it gets deleted.** The by-hand
-steps for standing the second site up went into the plan file, whose whole tree is
-swept before the squash — _смотреть в .completed кажется неверно_ — and the
-runbook that survived it went under `docs/remove-before-merging/`.
 
 **16 September — the sibling's shape, copied and called consistency.** Told the
 header's home link had regressed, the agent spelled the two-anchor fork out a
@@ -182,11 +177,12 @@ Under `print-hidden` the copy weighs nothing: all four PDFs came back identical.
 off the config's text. _а у меня из playgramapp такие живут спокойно._ Same
 error without it — and that line keeps `class-names` legal.
 
-## It writes its reasoning into the artifact (×7)
+## It writes its reasoning into the artifact (×8)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
-decides what belongs in it, and that is never the record of how it was chosen.
+decides what belongs in it — never the record of how it was chosen, and never
+content outliving the file it was put in.
 
 **6 September — the paragraph explaining the paragraph.** The announcement draft
 carried a passage on its own calibration, arguing why its register was pitched
@@ -203,6 +199,11 @@ not the lede", both answering a question only someone who had watched it leave
 `/dictation` would ask — with `CLAUDE.md` naming the defect and
 `/tend-prose negation` having run over the file. _polar bear_, twice.
 
+**15 September — filed twice where the path says it gets deleted.** The by-hand
+steps for standing the second site up went into the plan file, whose whole tree is
+swept before the squash — _смотреть в .completed кажется неверно_ — and the
+runbook that survived it went under `docs/remove-before-merging/`.
+
 **16 September — the review, transcribed into the file it was about.** Three
 afterwords opened on who had said what — «про мегапиксели я был неправ» — so the
 thought arrived wrapped in an exchange the reader never saw. _conversational
@@ -213,10 +214,11 @@ edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
 
-## Asked to quote a source, it writes its own version (×7)
+## Asked for a source, it supplies its own version (×7)
 
-Holding the file open, the agent still writes its own version. The paraphrase
-improves something, so nothing stops it; what goes is that a reader can check.
+The version that argues better is the one that gets written, and whether a source
+exists barely moves the odds: with the file open the agent paraphrases it, with
+no source at all it supplies one. What goes either way is that a reader can check.
 
 **15 September — the finding, paraphrased.** The site copy quotes this file's
 most frequent heading, and the agent wrote its own gloss — hours after appending
