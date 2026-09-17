@@ -1,5 +1,5 @@
 import { pageFile } from '@/shared/config';
-import type { Locale } from '@/shared/i18n';
+import type { Locale, LocaleTail } from '@/shared/i18n';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
 import type { DocumentFile } from '@/shared/typings';
 
@@ -12,7 +12,7 @@ const CV_BASE = '/cv';
  * Every address the CV answers. A segment left off means "unspecified", so the
  * shorter forms are aliases the full one is canonical for, not pages of their own.
  */
-export type CvAddress = [] | [CvVariant] | [CvVariant, Locale];
+export type CvAddress = LocaleTail<CvVariant>;
 
 export function cvPath(...address: CvAddress): string {
   return [CV_BASE, ...address].join('/');

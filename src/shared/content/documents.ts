@@ -5,10 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { pageFile } from '@/shared/config';
+import type { Locale } from '@/shared/i18n';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
-  COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
@@ -20,8 +20,9 @@ import {
   VARIANTS,
 } from './collections';
 import {
-  type Frontmatter,
-  frontmatterSchema,
+  type BaseFrontmatter,
+  type Collection,
+  COLLECTION_SCHEMAS,
   type WithFrontmatter,
 } from './frontmatter';
 import {
@@ -29,28 +30,42 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
-export type ContentDocument = DocumentRef &
-  Routed &
-  WithFrontmatter &
-  WithOptionalOgImageSize & {
-    /** Absent on the full document; set on each shorter cut. */
-    variant?: Variant;
-    /** The markdown body with the frontmatter block removed. */
-    body: string;
-    fileName: string;
-    /** The authored markdown, as served. */
-    markdown: DocumentFile;
-    /** The prebuilt PDF, produced by `pnpm content:pdf`. */
-    pdf: DocumentFile;
-    /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
-    ogImageUrl?: string;
-  };
+/** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
+type ResolvedOgImage = WithOptionalOgImageSize & {
+  /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
+  ogImageUrl?: string;
+};
+
+/**
+ * Generic over frontmatter rather than over the collection id, so a song page
+ * reads `frontmatter.audio` while everything that works across collections —
+ * the sitemap, the metadata builder — holds documents at the base shape.
+ */
+export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
+  DocumentRef &
+    Routed &
+    WithFrontmatter<F> &
+    ResolvedOgImage & {
+      /** Absent on the full document; set on each shorter cut. */
+      variant?: Variant;
+      /**
+       * Which language this reading of the document is in. Absent on the file
+       * as authored — a localized collection carries both languages in one
+       * file, and which one a page shows is the route's to decide.
+       */
+      locale?: Locale;
+      /** The markdown body with the frontmatter block removed. */
+      body: string;
+      fileName: string;
+      /** The authored markdown, as served. */
+      markdown: DocumentFile;
+    };
 
 /** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
-): Pick<ContentDocument, 'ogImageUrl' | 'ogImageSize'> {
+): ResolvedOgImage {
   if (ogImage === undefined) return {};
 
   const ogImageUrl = collectionAssetUrl(
@@ -61,7 +76,9 @@ function resolveOgImage(
   return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
 }
 
-export type WithContentDocument = { document: ContentDocument };
+export type WithContentDocument<F extends BaseFrontmatter = BaseFrontmatter> = {
+  document: ContentDocument<F>;
+};
 
 /**
  * Splits `<slug>[.<variant>].md` into its parts. A trailing segment that is not
@@ -77,11 +94,11 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
-function readDocument(
-  collection: CollectionId,
+function readDocument<F extends BaseFrontmatter>(
+  { id, schema }: Collection<F>,
   fileName: string,
-): ContentDocument {
-  const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
+): ContentDocument<F> {
+  const raw = fs.readFileSync(path.join(collectionDir(id), fileName), {
     encoding: 'utf8',
   });
   const { slug, variant } = parseFileName(fileName);
@@ -89,11 +106,11 @@ function readDocument(
   // Naming the file is the whole point of the rethrow: a build failure has to
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
-  let frontmatter: Frontmatter;
+  let frontmatter: F;
   let content: string;
   try {
     const parsed = matter(raw);
-    frontmatter = frontmatterSchema.parse(parsed.data);
+    frontmatter = schema.parse(parsed.data);
     content = parsed.content;
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
@@ -101,26 +118,27 @@ function readDocument(
     });
   }
 
-  const route = documentRoute(collection, slug, variant);
+  const route = documentRoute(id, slug, variant);
 
   return {
-    collection,
+    collection: id,
     slug,
     variant,
     frontmatter,
     body: content,
     fileName,
     markdown: pageFile(route, 'md'),
-    pdf: pageFile(route, 'pdf'),
     route,
-    ...resolveOgImage(collection, frontmatter.ogImage),
+    ...resolveOgImage(id, frontmatter.ogImage),
   };
 }
 
 /** Every document in a collection, variants included, newest first. */
-export function listDocuments(collection: CollectionId): ContentDocument[] {
+export function listDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Array<ContentDocument<F>> {
   return fs
-    .readdirSync(collectionDir(collection))
+    .readdirSync(collectionDir(collection.id))
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => readDocument(collection, fileName))
     .toSorted(
@@ -129,19 +147,19 @@ export function listDocuments(collection: CollectionId): ContentDocument[] {
 }
 
 /** The full documents only, without the shorter cuts. */
-export function listPrimaryDocuments(
-  collection: CollectionId,
-): ContentDocument[] {
+export function listPrimaryDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Array<ContentDocument<F>> {
   return listDocuments(collection).filter((doc) => !doc.variant);
 }
 
-export function loadDocument(
-  collection: CollectionId,
+export function loadDocument<F extends BaseFrontmatter>(
+  collection: Collection<F>,
   slug: string,
   variant?: Variant,
-): ContentDocument | undefined {
+): ContentDocument<F> | undefined {
   const fileName = `${documentName(slug, variant)}.md`;
-  const filePath = path.join(collectionDir(collection), fileName);
+  const filePath = path.join(collectionDir(collection.id), fileName);
 
   return fs.existsSync(filePath)
     ? readDocument(collection, fileName)
@@ -161,5 +179,11 @@ export function siblingVariants(
 }
 
 export function listAllDocuments(): ContentDocument[] {
-  return COLLECTION_IDS.flatMap((collection) => listDocuments(collection));
+  // Annotated rather than inferred: the registry's values are a union of
+  // per-collection handles, and a union is what one inferred frontmatter type
+  // cannot be. Widening to the base shape is all a caller across collections
+  // wants from them anyway.
+  const collections: Collection[] = Object.values(COLLECTION_SCHEMAS);
+
+  return collections.flatMap((collection) => listDocuments(collection));
 }

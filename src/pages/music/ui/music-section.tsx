@@ -1,53 +1,55 @@
 import { Anchor, Box, Stack, Text, Title } from '@mantine/core';
 
+import {
+  MUSIC_ORGANIZATION,
+  MUSIC_ORGANIZATION_URL,
+  MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECTS,
+} from '@/shared/config';
+import { loadMessages } from '@/shared/i18n';
 import { Card, Section, Subheading } from '@/shared/ui';
 
-export function MusicSection() {
+import type { WithLocale } from '../lib/music-locale';
+
+export function MusicSection({ locale }: WithLocale) {
+  const { intro, projects, alsoOn, and, openSource } =
+    loadMessages(locale).music;
+
   return (
     <Section id="music" standalone>
       <Box>
         <Text size="lg" lh={1.625} fs="italic" mb={16}>
-          “AI as collaborator, not tool or replacement”
+          {intro.quote}
         </Text>
         <Text size="lg" lh={1.625}>
-          Been writing music since preteens, recently focused on AI music (since
-          way before Suno — think OpenAI Jukebox). I view AI not as a
-          replacement for my creativity, neither as a tool, but as a brilliant
-          musician who can bring my ideas to life in ways I often wouldn’t have
-          imagined. To be clear, I write most of my AI music starting from my
-          own humming/piano playing/MIDIs, so it’s “mine” in most copyright
-          senses.
+          {intro.body}
         </Text>
       </Box>
 
-      <Subheading>Active Projects</Subheading>
+      <Subheading>{projects}</Subheading>
 
       <Stack gap={24}>
-        <Card>
-          <Title order={4} mb={12}>
-            GENERATED
-          </Title>
-          <SpotifyEmbed artist="GENERATED" artistId="3tnTz9WCaghp3PJPSsTxQW" />
-        </Card>
+        {MUSIC_PROJECT_NAMES.map((artist) => {
+          const { label, artistId } = MUSIC_PROJECTS[artist];
 
-        <Card>
-          <Title order={4} mb={12}>
-            Полуживые (ru. for “Half-Alive”)
-          </Title>
-          <SpotifyEmbed artist="Полуживые" artistId="2rdnjZV6ahlz4pKeh9a8B3" />
-        </Card>
+          // A project with nothing on Spotify has nothing to embed; the songs
+          // themselves are what say it exists.
+          if (artistId === undefined) return null;
 
-        <Card>
-          <Title order={4} mb={12}>
-            Downtemple
-          </Title>
-          <SpotifyEmbed artist="Downtemple" artistId="2vN8JKg3rQLxleZ9xsafy6" />
-        </Card>
+          return (
+            <Card key={artist}>
+              <Title order={4} mb={12}>
+                {label}
+              </Title>
+              <SpotifyEmbed {...{ artist, artistId }} />
+            </Card>
+          );
+        })}
       </Stack>
 
       <Stack gap={8}>
         <Text size="sm" opacity={0.7}>
-          Also on{' '}
+          {alsoOn}{' '}
           <Anchor
             href="https://soundcloud.com/vzkrv"
             target="_blank"
@@ -56,7 +58,7 @@ export function MusicSection() {
           >
             SoundCloud
           </Anchor>{' '}
-          and{' '}
+          {and}{' '}
           <Anchor
             href="https://suno.com/@vova"
             target="_blank"
@@ -67,14 +69,14 @@ export function MusicSection() {
           </Anchor>
         </Text>
         <Text size="sm" opacity={0.7}>
-          All my music is open-source:{' '}
+          {openSource}{' '}
           <Anchor
-            href="https://vzakharov.github.io/vovas-music"
+            href={MUSIC_ORGANIZATION_URL}
             target="_blank"
             rel="noopener noreferrer"
             inherit
           >
-            vzakharov.github.io/vovas-music
+            github.com/{MUSIC_ORGANIZATION}
           </Anchor>
         </Text>
       </Stack>

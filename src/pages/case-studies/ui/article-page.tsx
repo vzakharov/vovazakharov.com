@@ -2,6 +2,7 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import {
+  CASE_STUDIES,
   collectionRoute,
   COLLECTIONS,
   documentName,
@@ -14,9 +15,8 @@ import {
 } from '@/shared/content';
 import { constructArticleMetadata } from '@/shared/seo';
 import type { WithParams } from '@/shared/typings';
-import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
+import { BackToHome, hoverDim, InternalLink, ProseContent } from '@/shared/ui';
 
-import { ArticleBody } from './article-body';
 import { ArticleHeader } from './article-header';
 import classes from './case-studies.module.scss';
 import { PrintSheet } from './print-sheet';
@@ -34,7 +34,7 @@ type Props = WithParams<WithSlugSegments>;
  * markdown file in the collection is a new page with no route work.
  */
 export function generateArticleParams() {
-  return listDocuments(COLLECTION).map(({ slug, variant }) => ({
+  return listDocuments(CASE_STUDIES).map(({ slug, variant }) => ({
     slug: [documentName(slug, variant)],
   }));
 }
@@ -61,7 +61,7 @@ function parseSegments(
 async function resolve(params: Props['params']) {
   const parsed = parseSegments((await params).slug);
   const document =
-    parsed && loadDocument(COLLECTION, parsed.slug, parsed.variant);
+    parsed && loadDocument(CASE_STUDIES, parsed.slug, parsed.variant);
 
   if (!document) notFound();
 
@@ -113,7 +113,7 @@ export async function ArticlePage({ params }: Props) {
               </Box>
 
               <Box className={classes['articleBody']}>
-                <ArticleBody {...{ html }} />
+                <ProseContent {...{ html }} />
               </Box>
             </Box>
           </PrintSheet>

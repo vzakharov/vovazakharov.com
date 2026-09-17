@@ -1,0 +1,117 @@
+@use '../../../../styles/mantine' as mantine;
+
+// Pinned rather than in flow: the bar is the one control that has to stay
+// reachable while the reader is anywhere in a song's prose.
+.playerBar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-areas:
+    'track track'
+    'controls seek';
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-surface-strong);
+  border-top: 1px solid var(--color-border-hairline);
+  backdrop-filter: blur(8px);
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-areas: 'controls track seek';
+    grid-template-columns: auto minmax(0, 14rem) minmax(0, 1fr);
+    padding: 12px 24px;
+  }
+}
+
+.playerControls {
+  grid-area: controls;
+}
+
+.playerTrack {
+  grid-area: track;
+  min-width: 0;
+}
+
+.playerSeek {
+  grid-area: seek;
+  min-width: 0;
+}
+
+// Tabular so the elapsed time does not shove the seek bar sideways every second.
+.playerTime {
+  font-variant-numeric: tabular-nums;
+}
+
+.seekBar {
+  flex: 1;
+  min-width: 0;
+  height: 4px;
+  cursor: pointer;
+  background: var(--color-border-hairline-strong);
+  border-radius: 2px;
+  appearance: none;
+
+  &::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--color-foreground);
+    border-radius: 50%;
+    appearance: none;
+  }
+
+  &::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--color-foreground);
+    border: 0;
+    border-radius: 50%;
+  }
+}
+
+.trackText {
+  flex: 1;
+  min-width: 0;
+}
+
+// The bar is out of flow, so it would otherwise cover whatever a page ends
+// with. Clearance is the bar's own concern, which is why the provider renders
+// this rather than every page under `/music` knowing the bar's height.
+.playerClearance {
+  height: 96px;
+}
+
+// Mantine emits a variant's colours as inline `--ai-*` vars, which no class can
+// reach — so an engaged control states the two properties itself. Unlayered, so
+// it outranks `@layer mantine` without needing specificity.
+.controlOn {
+  color: var(--color-background);
+  background: var(--color-foreground);
+}
+
+// One element per line, laid out as a block: a line break in verse is the
+// author's, and asking for two invisible spaces at the end of every line is
+// how a page silently loses one.
+.lyricLine {
+  display: block;
+}
+
+.lyricsColumns {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// Side by side only where there is room for two columns of verse; stacked
+// below that, where a stanza and its crib still read in the right order.
+.lyricsPair {
+  display: grid;
+  gap: 8px 32px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -6,7 +6,7 @@
 import path from 'node:path';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies'] as const;
+export const COLLECTION_IDS = ['case-studies', 'music'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -20,8 +20,21 @@ export const COLLECTIONS = {
      * is what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
+    printable: true,
+    /** English only, and the body is where its title comes from. */
+    localized: false,
   },
-} as const satisfies Record<CollectionId, { base: string; label: string }>;
+  music: {
+    base: 'music',
+    label: 'Songs',
+    /** A song is a recording with prose around it; there is nothing to print. */
+    printable: false,
+    localized: true,
+  },
+} as const satisfies Record<
+  CollectionId,
+  { base: string; label: string; printable: boolean; localized: boolean }
+>;
 
 /** The document the home page and the CV both cross-link. */
 export const FEATURED_CASE_STUDY = 'playgram';
@@ -79,6 +92,15 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
   'case-studies',
   FEATURED_CASE_STUDY,
 );
+
+/**
+ * A locale as a trailing segment, which is where a localized collection's pages
+ * differ from one another. A cut is a dotted suffix on the slug instead, so the
+ * two positions cannot collide however they are combined.
+ */
+export function localizedRoute(route: string, locale: string): string {
+  return `${route}/${locale}`;
+}
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */
 export function documentName(slug: string, variant?: Variant): string {

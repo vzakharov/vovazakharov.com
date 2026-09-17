@@ -1,0 +1,62 @@
+import { billing } from '@/shared/config';
+import {
+  listPrimaryDocuments,
+  localizeSong,
+  type SongDocument,
+  SONGS,
+} from '@/shared/content';
+import { byLocale, isLocale } from '@/shared/i18n';
+
+import type { PlayerTrack } from './player-state';
+import { songPath } from './music-urls';
+
+/**
+ * The catalogue, newest first. A slug that reads as a language is rejected
+ * here, where every list of songs passes: `/music/ru` is the index in Russian,
+ * so such a song would have a file, a row on the index and no page of its own.
+ */
+export function listSongDocuments(): SongDocument[] {
+  const documents = listPrimaryDocuments(SONGS);
+  const unreachable = documents.find(({ slug }) => isLocale(slug));
+
+  if (unreachable) {
+    throw new Error(
+      `${unreachable.fileName} is named after a locale, and /music/${unreachable.slug} is the index in that language.`,
+    );
+  }
+
+  return documents;
+}
+
+/**
+ * The queue, reduced to what the player needs. Resolved at build time and
+ * handed down as props, which is what keeps `shared/content` — and with it
+ * `gray-matter`, `zod` and the whole remark stack — out of the browser while
+ * the player still has a queue to work from.
+ *
+ * Both languages travel with every track because the bar is mounted by the
+ * layout, above the segment that names one, and it outlives navigation between
+ * them by design — a queue that stopped at the language boundary would stop
+ * the music with it.
+ */
+export function listSongs(): PlayerTrack[] {
+  return listSongDocuments().map((document) => {
+    const { slug, frontmatter } = document;
+    const { audio, seconds, explicit, project } = frontmatter;
+
+    return {
+      slug,
+      audio,
+      seconds,
+      explicit,
+      billing: billing(project),
+      titles: byLocale((locale) => localizeSong(document, locale).frontmatter.title),
+      routes: byLocale((locale) => songPath(slug, locale)),
+    };
+  });
+}
+
+/** Where a song sits in the queue — the position its play button drives. */
+export function songQueueIndex(slug: string): number {
+  return listSongDocuments().findIndex((document) => document.slug === slug);
+}

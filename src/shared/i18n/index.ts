@@ -1,3 +1,10 @@
 export { loadMessages, type Messages } from './load-messages';
-export type { Locale } from './routing';
+export {
+  byLocale,
+  DEFAULT_LOCALE,
+  isLocale,
+  type Locale,
+  type LocaleTail,
+  LOCALES,
+} from './locales';
 export { routing } from './routing';
