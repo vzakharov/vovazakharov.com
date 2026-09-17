@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×22)
+## What it was handed, it treats as fixed (×23)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -122,7 +122,16 @@ occur; `pip install --target tmp/pdfium pypdfium2` worked first try and the
 defect was on page one. A tool's refusal is the environment's edge for exactly as
 long as nobody tries a second tool.
 
-## It edits the copy in front of it, not the fact behind it (×9)
+**17 September — the drawing the article already used, read as the article's
+drawing.** The collection's index wanted one illustration per entry and the
+operator named them one by one, «терминатор для precedent» among them; that entry
+got the robot preaching from a rock, which is what the article floats beside its
+opening text and already carries as its `cardImage`. _для inevitability я просил
+терминатора, он повеселее._ The Terminator sat further down the same file, "A
+Terminator" opening its alt text — the arrangement in the article answered which
+drawing before the instruction naming one was applied.
+
+## It edits the copy in front of it, not the fact behind it (×10)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -151,6 +160,12 @@ the vet run executes. It had searched its own diff.
 ничего перепроверять_, posted on a line of the dictation skill: the agent stopped
 re-verifying for that session and left the sentence standing in the skill, where
 the next run reads it. A comment on a rule is about the rule.
+
+**17 September — renamed everywhere the name was a path.** `web-not-console`
+became `web-not-cli` through the filename, every cross-link and both committed
+PDFs; the article's own heading still ended "not from your console". _"...web,
+not CLI"_ came back as the fix. The heading is the one place the name is a
+sentence, which is the one place a grep for the old slug does not reach.
 
 ## An account that explains the code stands in for running it (×9)
 
