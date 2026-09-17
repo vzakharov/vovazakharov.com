@@ -99,12 +99,6 @@
   display: block;
 }
 
-.lyricsColumns {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
 // Side by side only where there is room for two columns of verse; stacked
 // below that, where a stanza and its crib still read in the right order.
 .lyricsPair {

@@ -19,29 +19,31 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
   const { lyrics: labels } = loadMessages(locale).music;
 
   return (
-    <Box component="section">
-      <Subheading>{labels.title}</Subheading>
+    <Stack component="section" gap={24}>
+      <Box>
+        <Subheading>{labels.title}</Subheading>
+        {translation !== undefined && (
+          <Text size="sm" opacity={0.6} mt={8}>
+            {labels.crib}
+          </Text>
+        )}
+      </Box>
 
       {translation === undefined ? (
         <StanzaColumn {...{ stanzas }} />
       ) : (
         <Stack gap={24}>
-          <Text size="sm" opacity={0.6}>
-            {labels.crib}
-          </Text>
-          <Box className={classes['lyricsColumns']}>
-            {stanzas.map((stanza, index) => (
-              // Stanzas have no identity of their own, and a repeated chorus is
-              // a repeated string — the index is what distinguishes them.
-              <Box key={index} className={classes['lyricsPair']}>
-                <Stanza lines={stanza} />
-                <Stanza lines={translation[index] ?? []} muted />
-              </Box>
-            ))}
-          </Box>
+          {stanzas.map((stanza, index) => (
+            // Stanzas have no identity of their own, and a repeated chorus is
+            // a repeated string — the index is what distinguishes them.
+            <Box key={index} className={classes['lyricsPair']}>
+              <Stanza lines={stanza} />
+              <Stanza lines={translation[index] ?? []} muted />
+            </Box>
+          ))}
         </Stack>
       )}
-    </Box>
+    </Stack>
   );
 }
 
@@ -55,7 +57,11 @@ function StanzaColumn({ stanzas }: WithStanzas) {
   );
 }
 
-type StanzaProps = { lines: string[]; muted?: boolean };
+type StanzaProps = {
+  lines: string[];
+  /** The crib column, held back so the sung words read first. */
+  muted?: boolean;
+};
 
 /**
  * A stanza as it was written: one element per line, so a line break needs

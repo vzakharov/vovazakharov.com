@@ -20,6 +20,7 @@ import {
   SONGS,
 } from '@/shared/content';
 import {
+  byLocale,
   loadMessages,
   type Locale,
   LOCALES,
@@ -39,6 +40,7 @@ import {
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
 import { songQueueIndex } from '../lib/songs';
+import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
 import { TrackButton } from './track-button';
 
@@ -111,10 +113,14 @@ export async function SongPage({ slug, locale }: SongPageProps) {
   return (
     <PageShell>
       <Stack gap={48}>
-        <Group component="nav">
+        <Group component="nav" justify="space-between">
           <InternalLink href={musicPath(locale)} size="sm" className={hoverDim}>
             ← {messages.back}
           </InternalLink>
+          <LocaleChips
+            hrefs={byLocale((alternate) => songPath(slug, alternate))}
+            {...{ locale }}
+          />
         </Group>
 
         <Box component="header">
