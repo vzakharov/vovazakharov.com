@@ -9,11 +9,13 @@
 #      scope is the directory.
 #   2. Every `.claude/skills/*/` directory has exactly one row in
 #      `.claude/skills/update-muthur/catalog.md`.
-#   3. Every path named in a catalog row's first column exists — for a row
-#      naming a whole tree, its parent, since a swept working-artifact tree is
-#      absent by design.
+#   3. Every path named in a catalog row's first column exists; a row naming a
+#      glob names a set rather than a path, and is skipped.
 #   4. A skill's two stub markers agree, and no unhydrated stub is present
 #      downstream.
+#   5. Every `.md` beside a `SKILL.md` is reachable — something other than the
+#      page itself names its path. The reverse of 1: that one catches a pointer
+#      to nothing, this one a page nothing points at.
 #
 # Assertions 2-3 skip when the catalog is absent — the normal downstream
 # case, since the catalog describes the source repo and is never vendored. So the
@@ -104,23 +106,10 @@ else
 
   echo "3. Every path in a catalog row exists"
   for item in "${row_items[@]}"; do
-    # A glob row stands for a whole tree whose presence is not guaranteed: the
-    # working-artifact trees are listed precisely because `/finalize` sweeps
-    # them, so on a trunk they are absent and the row still holds. Assert the
-    # tree's *parent* instead, which is stable — a weaker claim that catches a
-    # row stranded under a directory that no longer exists, while letting a
-    # swept tree be missing.
     case "$item" in
-      */\*)
-        tree=${item%/\*}
-        parent=${tree%/*}
-        # A top-level tree has no parent to stand in for it — nothing to assert.
-        [ "$parent" != "$tree" ] || continue
-        item=$parent
-        ;;
+      # A glob row (`scripts/test_*.py`) names a set, not a path, so there is
+      # nothing single to stat.
       *\**) continue ;;
-    esac
-    case "$item" in
       /*) path=".claude/skills/${item#/}" ;;  # `/skill-name`
       *) path="$item" ;;
     esac
@@ -183,6 +172,37 @@ else
     fail "/$name is still an unhydrated stub — hydrate it or delete the skill"
   done
 fi
+
+# --- Assertion 5: no orphaned colocated page -------------------------------
+#
+# A page beside a `SKILL.md` that nothing points at is prose no session loads,
+# and it fails the way assertion 1's dangling pointer does: the agent follows the
+# surviving skill body and never learns the page is there. The page and its
+# pointer are separate edits, so assertion 1 catches losing the page and this one
+# catches losing the pointer.
+#
+# The catalog does not count as a reference. It names a page in its skill's row
+# — "Carries `carving.md`" — and that is an inventory entry, not a load path, so
+# a page the catalog is alone in naming is still one no session can reach.
+
+echo "5. Every colocated skill page is referenced"
+
+for page in .claude/skills/*/*.md; do
+  [ -f "$page" ] || continue
+  [ "$(basename "$page")" != "SKILL.md" ] || continue
+
+  referenced=0
+  while IFS= read -r hit; do
+    [ "$hit" = "$page" ] && continue
+    [ "$hit" = "$CATALOG" ] && continue
+    referenced=1
+    break
+  done < <(grep -lF "$page" "${sources[@]}" 2>/dev/null)
+
+  if [ "$referenced" -eq 0 ]; then
+    fail "$page is referenced by nothing — no session can reach it"
+  fi
+done
 
 # --- Report ---------------------------------------------------------------
 
