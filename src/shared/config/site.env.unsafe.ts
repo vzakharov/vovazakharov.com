@@ -1,12 +1,7 @@
 /**
- * `unsafe` in the sibling repo's sense: the raw environment read, carrying no
- * `server-only` of its own, so nothing stops a client chain importing it — and
- * zod rides along, at a measured +377 kB when it reached the browser through
- * `site-config` and the CV sheet. Reach it through a barrel that states which
- * side it is for: `resolved-site.ts` behind `index.server-only.ts` for the app,
- * `index.node-safe.ts` for the render scripts, which run under bare Node and
- * `tsx` where `import 'server-only'` throws. Bare Node is also why the sibling
- * import spells its extension.
+ * `.unsafe.`: the raw environment read, with no `server-only` to stop a client
+ * chain importing it and paying for zod. Reach it through a barrel — and bare
+ * Node behind `index.node-safe.ts` is why the sibling import spells its extension.
  */
 
 import { z } from 'zod';
