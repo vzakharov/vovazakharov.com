@@ -38,7 +38,9 @@ export function sitemap(): MetadataRoute.Sitemap {
     ...routing.locales.flatMap((locale) =>
       CV_VARIANTS.map((variant) => cvPath(variant, locale)),
     ),
-    ...COLLECTION_IDS.flatMap((id) => documentAddresses(collectionRoute(id), id)),
+    ...COLLECTION_IDS.flatMap((id) =>
+      documentAddresses(collectionRoute(id), id),
+    ),
   ];
 
   return [

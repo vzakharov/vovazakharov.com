@@ -1,13 +1,13 @@
 import { NextIntlClientProvider } from 'next-intl';
 
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+import type { WithLocale } from '@/shared/i18n';
 
 import { cvMessages } from '../lib/cv-messages';
 import type { WithCvVariant } from '../lib/cv-variants';
 import { CvSheet } from './cv-sheet';
 
-export type CvPageProps = WithCvVariant & { locale: Locale };
+export type CvPageProps = WithCvVariant & WithLocale;
 
 export function CvPage({ locale, variant }: CvPageProps) {
   return (

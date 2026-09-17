@@ -3,8 +3,8 @@ import type { WithParams } from '@/shared/typings';
 import {
   generateMusicMetadata,
   generateSongMetadata,
-  MusicPage,
   musicAddressDefaults,
+  MusicPage,
   musicSegmentParams,
   musicSegmentsSchema,
   SongPage,

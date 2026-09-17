@@ -14,11 +14,18 @@ import {
   loadDocument,
   localizeSong,
   renderDocument,
+  type Slugged,
   type SongDocument,
-  SONGS,
   songLyrics,
+  SONGS,
 } from '@/shared/content';
-import { type Locale, loadMessages, LOCALES, routing } from '@/shared/i18n';
+import {
+  loadMessages,
+  type Locale,
+  LOCALES,
+  routing,
+  type WithLocale,
+} from '@/shared/i18n';
 import { constructMetadata } from '@/shared/seo';
 import {
   BackToHome,
@@ -30,13 +37,12 @@ import {
 } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
-import type { WithLocale } from '../lib/music-locale';
 import { musicPath, songPath } from '../lib/music-urls';
 import { songQueueIndex } from '../lib/songs';
 import { Lyrics } from './lyrics';
 import { TrackButton } from './track-button';
 
-export type SongPageProps = WithLocale & { slug: string };
+export type SongPageProps = WithLocale & Slugged;
 
 function resolve(slug: string): SongDocument {
   const document = loadDocument(SONGS, slug);
@@ -53,7 +59,10 @@ function resolve(slug: string): SongDocument {
  * the URL names the language.
  */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const { title, description } = localizeSong(resolve(slug), locale).frontmatter;
+  const { title, description } = localizeSong(
+    resolve(slug),
+    locale,
+  ).frontmatter;
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,

@@ -3,7 +3,12 @@ import 'server-only';
 import { z } from 'zod';
 
 import { localeSchema } from './locale-schema';
-import { type Locale, type LocaleTail, LOCALES, DEFAULT_LOCALE } from './locales';
+import {
+  DEFAULT_LOCALE,
+  type Locale,
+  LOCALES,
+  type LocaleTail,
+} from './locales';
 
 /**
  * The segments of a locale-last address, as a route hands them over. A parse
@@ -14,21 +19,14 @@ import { type Locale, type LocaleTail, LOCALES, DEFAULT_LOCALE } from './locales
 export function localeTailSchema<Head extends string>(
   head: z.ZodType<Head>,
 ): z.ZodType<LocaleTail<Head>> {
-  return z.union([
-    z.tuple([]),
-    z.tuple([head]),
-    z.tuple([head, localeSchema]),
-  ]);
+  return z.union([z.tuple([]), z.tuple([head]), z.tuple([head, localeSchema])]);
 }
 
 /** Every address one head value answers: itself, and one per locale. */
 export function localeTailAddresses<Head extends string>(
   head: Head,
 ): Array<LocaleTail<Head>> {
-  return [
-    [head],
-    ...LOCALES.map<LocaleTail<Head>>((locale) => [head, locale]),
-  ];
+  return [[head], ...LOCALES.map<LocaleTail<Head>>((locale) => [head, locale])];
 }
 
 /** Which page a locale-last address resolves to, an omitted locale falling back. */

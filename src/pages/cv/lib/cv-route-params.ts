@@ -28,7 +28,10 @@ export function cvAddressDefaults(address: CvAddress) {
 
 /** Every address the CV answers, as the catch-all spells them. */
 export function cvSegmentParams(): WithOptionalCvSegments[] {
-  const addresses: CvAddress[] = [[], ...CV_VARIANTS.flatMap(localeTailAddresses)];
+  const addresses: CvAddress[] = [
+    [],
+    ...CV_VARIANTS.flatMap((variant) => localeTailAddresses(variant)),
+  ];
 
   return addresses.map((variantAndLocale) => ({ variantAndLocale }));
 }

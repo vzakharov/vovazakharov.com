@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import {
   createContext,
   use,
@@ -10,13 +11,10 @@ import {
   useState,
 } from 'react';
 
-import { usePathname } from 'next/navigation';
-
-import type { Locale, Messages } from '@/shared/i18n';
+import type { Locale, Messages, WithLocale } from '@/shared/i18n';
 import type { WithChildren } from '@/shared/typings';
 
 import { pathLocale } from '../lib/music-locale';
-
 import {
   currentTrack,
   initialPlayerState,
@@ -49,9 +47,9 @@ export type PlayerControls = {
 export type PlayerLabels = Messages['music']['player'];
 
 export type PlayerContextValue = PlayerControls &
-  WithTracks & {
-    /** The language of the page the bar is currently sitting under. */
-    locale: Locale;
+  WithTracks &
+  /** The language of the page the bar is currently sitting under. */
+  WithLocale & {
     labels: PlayerLabels;
     state: PlayerState;
     current?: PlayerTrack;

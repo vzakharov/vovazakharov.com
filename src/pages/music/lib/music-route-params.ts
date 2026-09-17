@@ -2,7 +2,7 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { isLocale, type Locale, LOCALES, DEFAULT_LOCALE } from '@/shared/i18n';
+import { DEFAULT_LOCALE, isLocale, type Locale, LOCALES } from '@/shared/i18n';
 import {
   localeSchema,
   localeTailAddresses,

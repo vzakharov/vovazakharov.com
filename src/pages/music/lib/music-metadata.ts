@@ -1,5 +1,5 @@
 import { SITE_CONFIG } from '@/shared/config';
-import { type Locale, loadMessages, LOCALES, routing } from '@/shared/i18n';
+import { loadMessages, type Locale, LOCALES, routing } from '@/shared/i18n';
 import { constructMetadata } from '@/shared/seo';
 
 import { musicPath } from './music-urls';

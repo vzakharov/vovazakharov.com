@@ -16,8 +16,15 @@ export const DEFAULT_LOCALE: Locale = 'en';
  * document from being named after a language and made unreachable.
  */
 export function isLocale(segment: string): segment is Locale {
-  return LOCALES.some((locale) => locale === segment);
+  // Widened first: `includes` on the tuple itself would only accept a value
+  // already known to be a locale, which is the question being asked.
+  const locales: readonly string[] = LOCALES;
+
+  return locales.includes(segment);
 }
+
+/** What language a page is being rendered in — its route's last segment, usually. */
+export type WithLocale = { locale: Locale };
 
 /** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/slime/ru`. */
 export type LocaleTail<Head extends string> = [] | [Head] | [Head, Locale];

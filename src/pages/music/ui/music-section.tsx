@@ -6,10 +6,8 @@ import {
   MUSIC_PROJECT_NAMES,
   MUSIC_PROJECTS,
 } from '@/shared/config';
-import { loadMessages } from '@/shared/i18n';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Card, Section, Subheading } from '@/shared/ui';
-
-import type { WithLocale } from '../lib/music-locale';
 
 export function MusicSection({ locale }: WithLocale) {
   const { intro, projects, alsoOn, and, openSource } =

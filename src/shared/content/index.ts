@@ -58,10 +58,10 @@ export {
   type WithHtml,
   type WithReadingMinutes,
 } from './render';
-export { type Stanzas } from './sections';
+export { type Stanzas, type WithStanzas } from './sections';
 export {
-  localizeSong,
   type LocalizedSongDocument,
+  localizeSong,
   type SongDocument,
   type SongLyrics,
   songLyrics,

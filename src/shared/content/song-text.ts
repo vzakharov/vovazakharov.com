@@ -1,10 +1,16 @@
 import 'server-only';
 
-import { type Locale, isLocale } from '@/shared/i18n';
+import { isLocale, type Locale } from '@/shared/i18n';
 
 import type { ContentDocument } from './documents';
 import type { LocalizedText, SongFrontmatter } from './frontmatter';
-import { PREAMBLE, splitSections, splitStanzas, type Stanzas } from './sections';
+import {
+  PREAMBLE,
+  splitSections,
+  splitStanzas,
+  type Stanzas,
+  type WithStanzas,
+} from './sections';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
 
@@ -21,10 +27,9 @@ export type LocalizedSongDocument = ContentDocument<
  * Nothing is shown line for line: a stanza is the unit that survives being read
  * in parallel.
  */
-export type SongLyrics = {
+export type SongLyrics = WithStanzas & {
   /** What the vocal is in, which is the column the author wrote. */
   language: Locale;
-  stanzas: Stanzas;
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
 };

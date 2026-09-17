@@ -52,6 +52,8 @@ export function splitSections(body: string): ReadonlyMap<string, string> {
  */
 export type Stanzas = string[][];
 
+export type WithStanzas = { stanzas: Stanzas };
+
 export function splitStanzas(text: string): Stanzas {
   return text
     .split(/\n\s*\n/)

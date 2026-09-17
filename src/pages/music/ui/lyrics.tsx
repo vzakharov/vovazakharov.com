@@ -1,10 +1,9 @@
 import { Box, Stack, Text } from '@mantine/core';
 
-import type { SongLyrics, Stanzas } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
+import type { SongLyrics, WithStanzas } from '@/shared/content';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Subheading } from '@/shared/ui';
 
-import type { WithLocale } from '../lib/music-locale';
 import classes from './music.module.scss';
 
 export type LyricsProps = WithLocale & { lyrics: SongLyrics };
@@ -24,7 +23,7 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
       <Subheading>{labels.title}</Subheading>
 
       {translation === undefined ? (
-        <StanzaColumn stanzas={stanzas} />
+        <StanzaColumn {...{ stanzas }} />
       ) : (
         <Stack gap={24}>
           <Text size="sm" opacity={0.6}>
@@ -46,7 +45,7 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
   );
 }
 
-function StanzaColumn({ stanzas }: { stanzas: Stanzas }) {
+function StanzaColumn({ stanzas }: WithStanzas) {
   return (
     <Stack gap={24}>
       {stanzas.map((lines, index) => (

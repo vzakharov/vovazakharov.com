@@ -30,7 +30,11 @@ export function PlayerBar() {
   const { titles, routes, billing, seconds } = current;
 
   return (
-    <Box component="aside" className={classes['playerBar']} aria-label={labels.label}>
+    <Box
+      component="aside"
+      className={classes['playerBar']}
+      aria-label={labels.label}
+    >
       <Group gap={12} wrap="nowrap" className={classes['playerControls']}>
         <ActionIcon
           variant="default"

@@ -7,10 +7,7 @@ import { DEFAULT_LOCALE, isLocale, type Locale } from '@/shared/i18n';
  * the last segment of every song and index page.
  */
 export function pathLocale(pathname: string): Locale {
-  const last = pathname.split('/').filter(Boolean).at(-1) ?? '';
+  const last = pathname.split('/').findLast(Boolean) ?? '';
 
   return isLocale(last) ? last : DEFAULT_LOCALE;
 }
-
-/** The language a music page renders in, which its route names. */
-export type WithLocale = { locale: Locale };

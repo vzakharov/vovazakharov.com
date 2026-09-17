@@ -4,7 +4,8 @@ export {
   DEFAULT_LOCALE,
   isLocale,
   type Locale,
-  type LocaleTail,
   LOCALES,
+  type LocaleTail,
+  type WithLocale,
 } from './locales';
 export { routing } from './routing';

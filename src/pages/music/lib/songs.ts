@@ -7,8 +7,8 @@ import {
 } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
-import type { PlayerTrack } from './player-state';
 import { songPath } from './music-urls';
+import type { PlayerTrack } from './player-state';
 
 /**
  * The catalogue, newest first. A slug that reads as a language is rejected
@@ -50,7 +50,9 @@ export function listSongs(): PlayerTrack[] {
       seconds,
       explicit,
       billing: billing(project),
-      titles: byLocale((locale) => localizeSong(document, locale).frontmatter.title),
+      titles: byLocale(
+        (locale) => localizeSong(document, locale).frontmatter.title,
+      ),
       routes: byLocale((locale) => songPath(slug, locale)),
     };
   });

@@ -1,9 +1,8 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
-import { loadMessages } from '@/shared/i18n';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { Card, InternalLink, Subheading } from '@/shared/ui';
 
-import type { WithLocale } from '../lib/music-locale';
 import { formatDuration } from '../lib/duration';
 import { listSongs } from '../lib/songs';
 import classes from './music.module.scss';
@@ -24,34 +23,48 @@ export function SongList({ locale }: WithLocale) {
       <Subheading>{title}</Subheading>
 
       <Stack gap={12}>
-        {songs.map(({ slug, titles, routes, billing, seconds, explicit: marked }, track) => (
-          <Card key={slug}>
-            <Group gap={16} wrap="nowrap">
-              <TrackButton title={titles[locale]} {...{ track }} />
+        {songs.map(
+          (
+            { slug, titles, routes, billing, seconds, explicit: marked },
+            track,
+          ) => (
+            <Card key={slug}>
+              <Group gap={16} wrap="nowrap">
+                <TrackButton title={titles[locale]} {...{ track }} />
 
-              <Box className={classes['trackText']}>
-                <Text fw={500} truncate>
-                  <InternalLink href={routes[locale]} underline="hover" inherit>
-                    {titles[locale]}
-                  </InternalLink>
-                  {marked && (
-                    <Text component="span" inherit opacity={0.6} title={explicit}>
-                      {' '}
-                      🅴
-                    </Text>
-                  )}
-                </Text>
-                <Text size="sm" opacity={0.6} truncate>
-                  {billing}
-                </Text>
-              </Box>
+                <Box className={classes['trackText']}>
+                  <Text fw={500} truncate>
+                    <InternalLink
+                      href={routes[locale]}
+                      underline="hover"
+                      inherit
+                    >
+                      {titles[locale]}
+                    </InternalLink>
+                    {marked && (
+                      <Text
+                        component="span"
+                        inherit
+                        opacity={0.6}
+                        title={explicit}
+                      >
+                        {' '}
+                        🅴
+                      </Text>
+                    )}
+                  </Text>
+                  <Text size="sm" opacity={0.6} truncate>
+                    {billing}
+                  </Text>
+                </Box>
 
-              <Text size="sm" opacity={0.6} ff="monospace">
-                {formatDuration(seconds)}
-              </Text>
-            </Group>
-          </Card>
-        ))}
+                <Text size="sm" opacity={0.6} ff="monospace">
+                  {formatDuration(seconds)}
+                </Text>
+              </Group>
+            </Card>
+          ),
+        )}
       </Stack>
     </Box>
   );
