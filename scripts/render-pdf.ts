@@ -15,6 +15,9 @@
  * honest: it hashes each PDF's whole source set against the manifest, needing
  * no browser, which is why `vet.sh` can run it beside every other check.
  *
+ * A render that says the same thing as the committed file keeps that file's
+ * bytes, so the run's output is always safe to commit as-is.
+ *
  *   pnpm content:pdf            # render what changed, prune what is gone
  *   pnpm content:pdf --check    # report staleness, write nothing
  *
@@ -48,6 +51,7 @@ import {
   REPO_ROOT,
 } from './lib/content-tree.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
+import { sameRender } from './lib/same-render.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
 type Printable = Renderable & Routed;
@@ -57,7 +61,8 @@ const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
  * What shapes any printed page: the print sheet, the theme it is drawn with,
- * the presentation components, and the site identity the footer prints.
+ * the presentation components and the helpers they are built from, and the site
+ * identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
  * of casting it wide is that a tweak to any of it re-flags every PDF, and that
  * costs one `pnpm content:pdf` run.
@@ -67,6 +72,7 @@ const PRINT_SOURCES = [
   'src/app/styles/theme.ts',
   'src/app/styles/theme.module.scss',
   'src/shared/config',
+  'src/shared/lib',
   'src/shared/ui',
 ];
 
@@ -302,6 +308,10 @@ function printRoute(
 ): void {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
+  const committed = fs.existsSync(outputPath)
+    ? fs.readFileSync(outputPath)
+    : undefined;
+
   execFileSync(
     chromium,
     [
@@ -318,9 +328,20 @@ function printRoute(
     { stdio: 'inherit', timeout: PRINT_TIMEOUT_MS },
   );
 
-  console.log(
-    `  rendered ${path.relative(REPO_ROOT, outputPath)} from ${route}`,
-  );
+  const relative = path.relative(REPO_ROOT, outputPath);
+
+  if (
+    committed !== undefined &&
+    sameRender(committed, fs.readFileSync(outputPath))
+  ) {
+    // Returning early skips the write, not the bookkeeping: `runRenderJob`
+    // records the new source hash either way.
+    fs.writeFileSync(outputPath, committed);
+    console.log(`  kept ${relative} — the render is unchanged`);
+    return;
+  }
+
+  console.log(`  rendered ${relative} from ${route}`);
 }
 
 async function printAll(stale: Printable[]): Promise<void> {
