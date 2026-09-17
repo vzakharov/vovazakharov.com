@@ -11,9 +11,8 @@ import {
 } from '@mantine/core';
 import { useMessages, useTranslations } from 'next-intl';
 
-import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import type { DocumentFile } from '@/shared/typings';
+import type { DocumentFile, PrintedLink } from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
@@ -38,9 +37,7 @@ function EmailLink() {
   );
 }
 
-function WebsiteLink() {
-  const { href, text } = printedUrl(SITE_CONFIG.url);
-
+function WebsiteLink({ href, text }: PrintedLink) {
   return (
     <Anchor {...{ href }} inherit>
       {text}
@@ -56,11 +53,21 @@ const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
+  /** Paper's copy of the above, resolved by the page for the same reason. */
+  printedCaseStudy: PrintedLink;
+  /** The sheet's own site, which the header links to and the footer spells out. */
+  printedSite: PrintedLink;
   /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
   pdfFile: DocumentFile;
 };
 
-export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
+export function CvSheet({
+  variant,
+  caseStudyHref,
+  printedCaseStudy,
+  printedSite,
+  pdfFile,
+}: CvSheetProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
 
@@ -71,7 +78,12 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink href="/" underline="never" inherit>
+                <InternalLink
+                  href="/"
+                  printed={printedSite}
+                  underline="never"
+                  inherit
+                >
                   {t('header.name')}
                 </InternalLink>
               </Title>
@@ -81,7 +93,7 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
               <Text className={cx(classes['printSmall'], classes['dim70'])}>
                 <EmailLink />
                 {' · '}
-                <WebsiteLink />
+                <WebsiteLink {...printedSite} />
               </Text>
             </Stack>
           </Box>
@@ -129,7 +141,7 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink href={caseStudyHref} />
+                    <CaseStudyLink href={caseStudyHref} printed={null} />
                   </Box>
                 )}
               </Stack>
@@ -142,8 +154,10 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
                 <ExperienceCard
                   key={entryKey}
                   {...{ entryKey }}
-                  caseStudyHref={
-                    entryKey === CASE_STUDY_KEY ? caseStudyHref : undefined
+                  caseStudy={
+                    entryKey === CASE_STUDY_KEY
+                      ? { href: caseStudyHref, printed: printedCaseStudy }
+                      : undefined
                   }
                 />
               ))}
@@ -222,7 +236,7 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/" inherit>
+              <InternalLink href="/" printed={null} inherit>
                 {t('footer.backLink')}
               </InternalLink>
             </Text>
@@ -236,7 +250,7 @@ export function CvSheet({ variant, caseStudyHref, pdfFile }: CvSheetProps) {
           >
             <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
-              <WebsiteLink />
+              <WebsiteLink {...printedSite} />
             </Text>
           </Box>
         </Stack>

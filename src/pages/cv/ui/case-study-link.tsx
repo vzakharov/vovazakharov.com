@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
-import type { Linked } from '@/shared/typings';
+import type { Linked, WithPrinted } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
@@ -13,13 +13,16 @@ import classes from './cv.module.scss';
  */
 export const CASE_STUDY_KEY = 'playgram';
 
-export function CaseStudyLink({ href }: Linked) {
+/** Where the link points, and paper's copy of it — the two travel together. */
+export type CaseStudyLinkProps = Linked & WithPrinted;
+
+export function CaseStudyLink({ href, printed }: CaseStudyLinkProps) {
   const { cv } = useMessages();
   const label = cv.caseStudies[CASE_STUDY_KEY].link;
 
   return (
     <Text className={classes['caseStudyLine']}>
-      <InternalLink {...{ href }} withAddress inherit>
+      <InternalLink {...{ href, printed }} withAddress inherit>
         {label}
       </InternalLink>
     </Text>

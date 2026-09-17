@@ -92,6 +92,7 @@ export function articleRoute(collection: CollectionId) {
             <Group component="nav" className="print-hidden">
               <InternalLink
                 href={collectionRoute(collection)}
+                printed={null}
                 size="sm"
                 className={hoverDim}
               >

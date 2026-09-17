@@ -9,16 +9,20 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 
-import { printedUrl } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
-import type { Anchored, WithOptionalClassName } from '@/shared/typings';
+import type {
+  Anchored,
+  WithOptionalClassName,
+  WithPrinted,
+} from '@/shared/typings';
 
 import classes from './internal-link.module.scss';
 
 export type InternalLinkProps = Anchored &
   AnchorProps &
   WithOptionalClassName &
+  WithPrinted &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
      * Paper also spells the address after the text, for a link whose own words
@@ -36,6 +40,10 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
+ * `printed` has no default, so every call site says whether its link reaches
+ * paper; inside a `print-hidden` container it does not, and `null` is the
+ * answer there.
+ *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server
  * component. The pairing lives behind this client boundary instead.
@@ -47,12 +55,11 @@ export type InternalLinkProps = Anchored &
 export function InternalLink({
   href,
   children,
+  printed,
   withAddress = false,
   className,
   ...props
 }: InternalLinkProps) {
-  const printed = printedUrl(href);
-
   return (
     <>
       <Anchor
@@ -63,19 +70,21 @@ export function InternalLink({
       >
         {children}
       </Anchor>
-      <span className={cx(classes['printed'], className)}>
-        {withAddress && (
-          <>
-            {children}
-            {': '}
-          </>
-        )}
-        {/* One text node, not two: a PDF gets a link annotation per node, and
-            the first is placed over whatever precedes the anchor. */}
-        <Anchor {...pick(printed, 'href')} {...props}>
-          {withAddress ? printed.text : children}
-        </Anchor>
-      </span>
+      {printed && (
+        <span className={cx(classes['printed'], className)}>
+          {withAddress && (
+            <>
+              {children}
+              {': '}
+            </>
+          )}
+          {/* One text node, not two: a PDF gets a link annotation per node, and
+              the first is placed over whatever precedes the anchor. */}
+          <Anchor {...pick(printed, 'href')} {...props}>
+            {withAddress ? printed.text : children}
+          </Anchor>
+        </span>
+      )}
     </>
   );
 }

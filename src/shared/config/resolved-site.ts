@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { DocumentFile, Linked, WithText } from '@/shared/typings';
+import type { DocumentFile, PrintedLink } from '@/shared/typings';
 
 import { resolveSiteId } from './site.env.unsafe';
 import { siteConfig, withoutScheme } from './site-config';
@@ -26,11 +26,10 @@ export const pageFile = (route: string, extension: string): DocumentFile => ({
 });
 
 /**
- * How print spells a URL: absolute, because the page leaves the browser that
- * resolved it, and shown without the scheme, which tells a reader holding paper
- * nothing. The two differ, so a printed link can navigate and still read well.
+ * A URL as paper carries it. The href and the text differ, so a printed link
+ * can navigate and still read well.
  */
-export const printedUrl = (url: string): Linked & WithText => {
+export const printedUrl = (url: string): PrintedLink => {
   const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
 
   return { href, text: withoutScheme(href) };

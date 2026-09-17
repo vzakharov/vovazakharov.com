@@ -56,6 +56,20 @@ export type Linked = { href: string };
  */
 export type DocumentFile = Linked & { download: string };
 
+/**
+ * Paper's copy of a link: absolute, because the page leaves the browser that
+ * resolved it, and spelled without the scheme, which tells a reader holding
+ * paper nothing. `printedUrl` builds one; a component takes one to render.
+ */
+export type PrintedLink = Linked & WithText;
+
+/**
+ * A component that renders a link on both media takes paper's copy rather than
+ * deriving it: deriving needs the site this build is, and reading that costs a
+ * client bundle zod's weight. `null` says the link reaches no paper.
+ */
+export type WithPrinted = { printed: PrintedLink | null };
+
 /** What a Next route hands the page it resolves to, its segments still raw. */
 export type WithParams<Params> = { params: Promise<Params> };
 
