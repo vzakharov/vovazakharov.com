@@ -258,11 +258,10 @@ grounded its objection in «по "библии" проверяемое важн�
 written a line earlier and cited as settled the next. _это откуда, мы где-то так
 уже заявили?:)_ An invented rule argues better, having nothing to contradict it.
 
-**16 September — a scene credited to a show that has no such scene, then one
-that proves the opposite.** Handed House, the agent invented a tray of
-instruments — _погугли, чтобы не хендвейвить поднос_ — and its researched
-replacement, a blind pigeon, was real and still wrong: blind like the patient,
-so deduction rather than epiphany. That an example exists is not that it fits.
+**16 September — a scene credited to a show that has no such scene, then one that proves
+the opposite.** Handed House, the agent invented a tray of instruments — _погугли, чтобы
+не хендвейвить поднос_ — and its replacement, a blind pigeon, was real and still wrong:
+blind like the patient, so deduction rather than epiphany. An example is not a fit.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об
 этом позже» in the recordings got a paragraph under `ideas/`, and three of four
@@ -316,23 +315,26 @@ was one paragraph on the voice, explicitly left to be found in review rather
 than handed over complete. The paragraph came back defining the irony in three
 clauses. _and here you are, explaining what "Terry Pratchett-ish irony" means :)_
 
-## It settles a constraint in prose where a mechanism was available (×2)
+## It settles a constraint in prose where a mechanism was available (×3)
 
-A constraint the agent can't see how to enforce, it writes down. The note is
-accurate, sits on the right module, and is invisible to the edit that violates it
-— nothing reads a docstring on its way to moving a file. Prose is always
-available; whether a mechanism also was never gets asked.
+A constraint the agent can't see how to enforce, it writes down. The note is accurate,
+on the right module, and invisible to the edit that violates it — nothing reads a
+docstring on its way to moving a file. Prose is always available; whether a mechanism also was.
 
-**9 September — "keep them out of `shared/i18n`".** Having measured that a zod
-schema in the i18n barrel costs the CV's client bundle 89 kB gzipped, the agent
-filed it elsewhere and wrote the finding into a docstring telling the next person
-not to move it. The round produced `import 'server-only'` instead, which turns the
-same mistake into a build error — as every module under `shared/content` does.
+**9 September — "keep them out of `shared/i18n`".** Having measured that a zod schema in
+the i18n barrel costs the CV 89 kB gzipped, the agent filed it elsewhere and wrote the
+finding into a docstring telling the next person not to move it. The round produced
+`import 'server-only'` instead, which turns the same mistake into a build error.
 
-**9 September — the ceiling this file states, walked past by the append that
-states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above; the agent added a section and pushed the file to 447 lines, having
-read the bullet on the way in. _let's put a vet.sh-controlled check_.
+**9 September — the ceiling this file states, walked past by the append that states it.**
+The bullet sits in the section above; the agent added a section and pushed the file to 447
+lines, having read it on the way in. _let's put a vet.sh-controlled check_.
+
+**17 September — the same finding one segment over, with the mechanism already built for
+it.** Asked why `NEXT_PUBLIC_SITE` is matched rather than parsed, the agent measured zod's
+cost through the client chain at +377 kB and wrote the number into `site-ids.ts` so nobody
+would revisit it on intuition. _нам нужно сделать .server-only. модуль или бочку._ That
+barrel exists because of the bump above it.
 
 ## It checks the render against its intent, not against the page (×2)
 
@@ -389,12 +391,10 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Nine learnings is not a pattern, but they fall in two groups. One is failures to
-notice the frame was ours — the prefix list, the published chart, the checker
-whose coverage read as the rule, our own `eslint.config.ts`. The other is the
-post's more interesting half, being the opposite of a mistake: the output was
-well-formed, justified and efficient, and every one of those properties is what
-made it wrong. An edit minimal where it was made left one fact spelled three
-ways; an account sound at every step stopped anyone opening the file it
-described. No "be more careful" catches these — they need a person, and not
-always one who knows more.
+Nine learnings is not a pattern, but they fall in two groups. One is failures to notice
+the frame was ours — the prefix list, the published chart, the checker whose coverage read
+as the rule, our own `eslint.config.ts`. The other is the post's more interesting half,
+being the opposite of a mistake: the output was well-formed, justified and efficient, and
+that is what made it wrong. An edit minimal where it was made left one fact spelled three
+ways; an account sound at every step stopped anyone opening the file it described. No "be
+more careful" catches these — they need a person, and not always one who knows more.
