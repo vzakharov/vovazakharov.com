@@ -1,9 +1,8 @@
 # The five percent
 
-For most of what an agent does, it knows better. The residual — the part that
-still needs a knowledgeable human — is the whole argument for reviewing agents
-at all, and nobody who makes the claim can say what it consists of. Naming it
-needs specimens, not argument.
+For most of what an agent does, it knows better. The residual — the part still
+needing a knowledgeable human — is the whole argument for reviewing agents, and
+nobody making the claim can say what it consists of. Naming it needs specimens.
 
 So this file collects them, abstracted: every section is one learning, and under
 it the times a review bumped into it. One learning bumped three times is worth
@@ -37,7 +36,7 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   prose; cut archaeology, a bump needing the shortest account that still shows
   what the agent could not see; then drop learnings from the bottom.
 
-## What it was handed, it treats as fixed (×22)
+## What it was handed, it treats as fixed (×23)
 
 Whatever arrives as context — a list, a vocabulary, a figure, a pattern already
 in the tree — the agent reasons _inside_ rather than _about_: a given taken for
@@ -130,6 +129,10 @@ PR body and the squash message both. _измени правило чтобы н�
 **17 September — "the one localized route", read as a closed set.** Replacing
 three comments with a mechanism, the agent scoped it by a glob naming the CV's
 slice. _мы не хотим их все перечислять вручную._
+
+**17 September — three renderers weighed, the format they read not.** Which
+parser should render `<strong>` was the whole question asked; that a catalogue
+held tags at all was not, and `<meta>` reads it too. _это не минус, а плюс._
 
 ## An account that explains the code stands in for running it (×11)
 
@@ -263,9 +266,8 @@ left where `NextIntlClientProvider` had been explained why one does not belong
 there. _медведь._ `/tend-prose` had run over the file, negation lens and all.
 
 **16 September — the footnotes that outlived the pass that needed them.** Every
-edit to the three scripts carried a note on what the recording had instead, kept
-through three review rounds — a diff against the tape, inside the thing to be
-read aloud from. _держать постоянный журнал разницы нет._
+edit to the three scripts carried a note on what the recording had instead,
+kept through three review rounds. _держать постоянный журнал разницы нет._
 
 **17 September — the check, and its own case.** `check:i18n-payload` entered the
 vet list restating the script's header. _сократить буквально до предложения._
@@ -284,10 +286,9 @@ grounded its objection in «по "библии" проверяемое важн�
 written a line earlier and cited as settled the next. _это откуда, мы где-то так
 уже заявили?:)_ An invented rule argues better, having nothing to contradict it.
 
-**16 September — a scene credited to a show that has none, then one proving the
-opposite.** Handed House for the close, the agent wrote a tray of instruments
-rather than look one up: _погугли, чтобы не хендвейвить поднос_. The replacement
-was real — a blind pigeon — and still wrong: deduction, not epiphany.
+**16 September — a scene credited to a show that has none.** Handed House, the
+agent wrote a tray of instruments rather than look one up: _погугли, чтобы не
+хендвейвить поднос_. The replacement was real and still wrong.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об этом
 позже» got a paragraph under `ideas/`, and three of four came back corrected: one
@@ -309,8 +310,7 @@ had prompted it — and it does not need saying at all.
 
 **8 September — three glosses invented to fill three slots.** Two home-page
 glosses on old side projects came back corrected to things no reading of the
-repos would produce — _chatgpt before chatgpt_ — and a fourth card listed
-TypeScript and FSD for a boilerplate with neither.
+repos would produce — _chatgpt before chatgpt_.
 
 **14 September — a default under a rule that says to ask.** Asked for a flag
 choosing whether a dictation is transcribed verbatim or rendered as prose, the

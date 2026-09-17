@@ -7,9 +7,10 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import Markdown from 'react-markdown';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
-import { type Messages, richText } from '@/shared/i18n';
+import { MESSAGE_MARKDOWN, type Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
@@ -128,7 +129,7 @@ export function CvSheet({
               <Stack className={classes['section']}>
                 {PROFILE_PARAGRAPHS.map((key) => (
                   <Text key={key} lh={1.625}>
-                    {richText(cv.profile[key])}
+                    <Markdown {...MESSAGE_MARKDOWN}>{cv.profile[key]}</Markdown>
                   </Text>
                 ))}
               </Stack>

@@ -18,14 +18,14 @@ component in use rather than the aggregate `styles.layer.css`, and
 passes it down.
 
 The CV needed no client at all. Each locale is already a page of its own
-in the export — `/cv/cto/ru` carries its own text, and the language
-chips are plain anchors — so the runtime was paying to hydrate text that
-never changes. The sheet and its leaves render on the server and read
-`cvMessages(locale, variant)` as the typed object it already was, every
-key checked by `tsc` rather than by a message-key string; `richText`
-renders the one markup a catalogue string carries, `<strong>`, and
-throws on any other tag. The rendered markup is byte for byte what it
-was.
+in the export — `/cv/cto/ru` carries its own text and the language chips
+are plain anchors — so the runtime was paying to hydrate text that never
+changes. The sheet renders on the server and reads `cvMessages(locale,
+variant)` as the typed object it already was, every key checked by `tsc`
+rather than a message-key string. The strings carrying emphasis hold
+`**` rather than tags, since two other readers of the catalogue
+interpret neither, and `react-markdown` renders them under a closed tag
+set. The markup is byte for byte what it was.
 
 That leaves the constraint as "no page ships the runtime", which a lint
 rule can hold with no exemptions: `no-restricted-imports` rejects the
