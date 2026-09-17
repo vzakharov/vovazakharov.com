@@ -2,6 +2,7 @@
 description: An agent that finds an approach, a document or a rule in your codebase concludes that this is how things must be. The two obvious remedies — more context, and an instruction to be critical — both fail, and they fail with consequences that will keep humans useful for some time yet.
 date: 2026-09-16
 order: 1
+cardImage: ./assets/enough-tokens.jpg
 ---
 
 # An agent takes a given for an inevitability

@@ -90,6 +90,41 @@ h1[data-order='1'].articleTitle {
   margin-bottom: 12px;
 }
 
+// Each entry carries its own drawing, and the side it sits on alternates down
+// the list so a stack of them does not read as a form. Narrow, the column is
+// the only arrangement left, and the drawing leads.
+.cardLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}
+
+.cardLayoutFlipped {
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    flex-direction: row-reverse;
+  }
+}
+
+// `height: auto` against the attributes: they state the intrinsic ratio so the
+// row reserves the space before the file lands, and the width here is what the
+// layout actually wants.
+.cardImage {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    flex: none;
+    width: 200px;
+  }
+}
+
 // A cut sits below the full document it belongs to, and comes back up on hover.
 .variantLink {
   opacity: 0.7;

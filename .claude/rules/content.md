@@ -66,6 +66,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
    order: 1 # optional; lower first, ahead of everything without one
    part: I of II # optional free-text series marker
    ogImage: ... # optional, relative to the document
+   cardImage: ... # optional, the drawing the collection index shows
    ---
    ```
 
@@ -76,6 +77,11 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
    studies are.
 
    **`ogImage` names a PNG, never the SVG it came from** — see the traps below.
+
+   **`cardImage` is authored rather than taken from the body.** Which drawing
+   stands for an article on a list of them is a choice, and an article may open
+   on one that does not. It is the one frontmatter image that throws when its
+   size cannot be read, the index reserving the row before the file lands.
 
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 

@@ -1,4 +1,5 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
+import Image from 'next/image';
 
 import { SITE_CONFIG } from '@/shared/config/index.server-only';
 import {
@@ -8,6 +9,7 @@ import {
   documentRoute,
   renderPrimaryDocuments,
 } from '@/shared/content';
+import { cx } from '@/shared/lib/class-names';
 import { constructMetadata } from '@/shared/seo/index.server-only';
 import { BackToHome, Card, InternalLink, PageShell } from '@/shared/ui';
 
@@ -46,39 +48,56 @@ export function collectionIndexRoute(collection: CollectionId) {
           </Box>
 
           <Stack gap={24}>
-            {cards.map(({ document, rendered, variants }) => {
-              const { frontmatter, slug, route } = document;
+            {cards.map(({ document, rendered, variants }, index) => {
+              const { frontmatter, slug, route, cardImage } = document;
               const { title, readingMinutes } = rendered;
 
               return (
                 <Card key={slug}>
-                  <Title order={2} size="h3" mb={8}>
-                    <InternalLink href={route} underline="hover" inherit>
-                      {title}
-                    </InternalLink>
-                  </Title>
-                  <DocumentMeta
-                    {...{ frontmatter, readingMinutes }}
-                    className={classes['cardMeta']}
-                  />
-                  <Text lh={1.625} mb={16}>
-                    {frontmatter.description}
-                  </Text>
-                  <Group component="p" gap={12} wrap="wrap" fz="sm">
-                    <InternalLink href={route} inherit>
-                      Read
-                    </InternalLink>
-                    {variants.map((variant) => (
-                      <InternalLink
-                        key={variant}
-                        href={documentRoute(collection, slug, variant)}
-                        className={classes['variantLink']}
-                        inherit
-                      >
-                        {variant} version
-                      </InternalLink>
-                    ))}
-                  </Group>
+                  <div
+                    className={cx(
+                      classes['cardLayout'],
+                      index % 2 === 1 && classes['cardLayoutFlipped'],
+                    )}
+                  >
+                    {cardImage && (
+                      <Image
+                        {...cardImage}
+                        alt=""
+                        aria-hidden
+                        className={classes['cardImage']}
+                      />
+                    )}
+                    <div>
+                      <Title order={2} size="h3" mb={8}>
+                        <InternalLink href={route} underline="hover" inherit>
+                          {title}
+                        </InternalLink>
+                      </Title>
+                      <DocumentMeta
+                        {...{ frontmatter, readingMinutes }}
+                        className={classes['cardMeta']}
+                      />
+                      <Text lh={1.625} mb={16}>
+                        {frontmatter.description}
+                      </Text>
+                      <Group component="p" gap={12} wrap="wrap" fz="sm">
+                        <InternalLink href={route} inherit>
+                          Read
+                        </InternalLink>
+                        {variants.map((variant) => (
+                          <InternalLink
+                            key={variant}
+                            href={documentRoute(collection, slug, variant)}
+                            className={classes['variantLink']}
+                            inherit
+                          >
+                            {variant} version
+                          </InternalLink>
+                        ))}
+                      </Group>
+                    </div>
+                  </div>
                 </Card>
               );
             })}

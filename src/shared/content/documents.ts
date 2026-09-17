@@ -27,6 +27,7 @@ import {
 } from './frontmatter';
 import {
   intrinsicDimensions,
+  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
@@ -45,7 +46,24 @@ export type ContentDocument = DocumentRef &
     pdf: DocumentFile;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
+    /** The frontmatter's `cardImage`, resolved the same way. */
+    cardImage?: ResolvedImage;
   };
+
+/** A frontmatter image path, resolved to what an `<img>` needs of it. */
+export type ResolvedImage = Sized & { src: string };
+
+/**
+ * A frontmatter image is authored relative to its document; `public/` serves
+ * the collection's assets at one path. The size comes back with the URL so the
+ * two cannot disagree — and an unreadable one throws, because the field is
+ * opt-in and a card with no dimensions lays the page out twice.
+ */
+function resolveImage(collection: CollectionId, authored: string) {
+  const url = collectionAssetUrl(collection, authored.replace(/^\.\//, ''));
+
+  return { url, size: intrinsicDimensions(url) };
+}
 
 /** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
@@ -54,12 +72,24 @@ function resolveOgImage(
 ): Pick<ContentDocument, 'ogImageUrl' | 'ogImageSize'> {
   if (ogImage === undefined) return {};
 
-  const ogImageUrl = collectionAssetUrl(
-    collection,
-    ogImage.replace(/^\.\//, ''),
-  );
+  const { url, size } = resolveImage(collection, ogImage);
 
-  return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
+  return { ogImageUrl: url, ogImageSize: size };
+}
+
+function resolveCardImage(
+  collection: CollectionId,
+  cardImage: string | undefined,
+): Pick<ContentDocument, 'cardImage'> {
+  if (cardImage === undefined) return {};
+
+  const { url, size } = resolveImage(collection, cardImage);
+
+  if (!size) {
+    throw new Error(`No intrinsic dimensions in card image ${url}`);
+  }
+
+  return { cardImage: { src: url, ...size } };
 }
 
 export type WithContentDocument = { document: ContentDocument };
@@ -115,6 +145,7 @@ function readDocument(
     pdf: pageFile(route, 'pdf'),
     route,
     ...resolveOgImage(collection, frontmatter.ogImage),
+    ...resolveCardImage(collection, frontmatter.cardImage),
   };
 }
 
