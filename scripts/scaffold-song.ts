@@ -85,6 +85,16 @@ async function json<T>(url: string, schema: z.ZodType<T>): Promise<T> {
   return schema.parse(await response.json());
 }
 
+/**
+ * A YAML double-quoted scalar, which JSON's string form already is. Every
+ * authored value goes through it: a title or a blurb holding `: ` parses as a
+ * mapping unquoted, and the document is then rejected at build time rather than
+ * where it was written.
+ */
+function yaml(value: string): string {
+  return JSON.stringify(value);
+}
+
 /** Everything this script prints is its result, so it goes to stdout directly. */
 function report(line: string): void {
   process.stdout.write(`${line}\n`);
@@ -216,13 +226,13 @@ function document(fields: DocumentFields): string {
   const { sampleRate, bitsPerSample, channels } = streamInfo;
 
   return `---
-name: ${name}
-description: TODO
+name: ${yaml(name)}
+description: ${yaml('TODO')}
 date: ${date}
 status: done
 language: ru
 # project: one of GENERATED, Полуживые, Downtemple
-repo: ${repo}
+repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
 ---
