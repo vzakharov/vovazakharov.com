@@ -10,7 +10,7 @@ it the times a review bumped into it. One learning bumped three times is worth
 more of the eventual post than three bumped once, which is why the count is in
 the heading and the file is sorted by it. It feeds backlog row 18 in
 `writing/linkedin/plan.md`. A collection that only vindicates the reviewer is
-worth as much as one that only flatters, so bumps stay in whatever they show.
+worth as much as one that flatters, so bumps stay in whatever they show.
 
 **Adding to it is mandatory after a review session** that changed something the
 agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule, and why
@@ -39,11 +39,10 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
 
 ## What it was handed, it treats as fixed (×22)
 
-Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
-already in the tree — the agent reasons _inside_ rather than _about_: it takes a
-given for an inevitability, aka the **inevitability fallacy**. The failure is
-invisible because the reasoning inside the frame is sound — a second agent
-checking it would pass. The human's move is to change the given.
+Whatever arrives as context — a list, a vocabulary, a figure, a pattern already
+in the tree — the agent reasons _inside_ rather than _about_: a given taken for
+an inevitability, the **inevitability fallacy**. The reasoning inside the frame
+is sound, so a second agent passes it; the human's move is to change the given.
 
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that
 documents nothing, three candidates weighed and none from outside the list.
@@ -111,10 +110,9 @@ rule's specimen didn't demonstrate it, the agent replaced it twice, both times
 putting X and Y in one sentence. _дихотомия была на уровень выше_.
 
 **16 September — the sibling's shape, copied and called consistency.** Told the
-header's home link had regressed, the agent spelled the two-anchor fork out
-again and cited the match with `case-study-link.tsx` as the fix. _может стоит
-сделать единый компонент с вилкой._ Same round: `no-redundant-property-copy`
-names a `pick` this repo never had, read as an option, not a missing half.
+home link had regressed, the agent cited its match with `case-study-link.tsx`.
+_единый компонент с вилкой._ Same round: `no-redundant-property-copy` names a
+`pick` this repo never had, read as an option, not a missing half.
 
 **16 September — the call sites it was handed, drawn round as the set.** Made to
 build the component, the agent stood it _beside_ `InternalLink` as
@@ -134,6 +132,55 @@ PR body and the squash message both. _измени правило чтобы н�
 three comments with a mechanism, the agent scoped it by a glob naming the CV's
 slice — the fix for the last entry below, built on the same reflex. _мы не хотим
 их все перечислять вручную._
+
+## An account that explains the code stands in for running it (×10)
+
+The worse half of "It checks the render against its intent" below: there the
+agent looked and asked the wrong question, here it never looked, the reasoning
+having closed. Nothing inside an account reports it was unchecked.
+
+**8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
+a hand-written redirect file, the agent gave the right reason — no middleware in a
+static export — which closed the question before anyone opened the file.
+
+**8 September — the schema it never wrote.** Told route params would parse better
+through zod, the agent declined twice: a schema would restate the variant ids —
+which `z.enum(CV_VARIANTS)` does from the same const. _Am I missing smth?_
+
+**9 September — four homes, three of them checked.** Cutting a maintenance
+paragraph from a commit body, the agent argued each item already sits where it
+would be looked for. Unrun, the fourth sat nowhere else.
+
+**14 September — no middle option, in a repo holding twenty-eight of them.**
+Asked where source recordings live, the agent argued a branch-only video is
+collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
+
+**14 September — a test whose counterexample sat in the diff proposing it.** The
+dictation skill got a rule against drifting into prose: every sentence should be
+findable in the recognizer's output. Never run against the transcripts beside it.
+
+**15 September — an objection never tried against `import type`.** The site id
+stayed a bare string in `siteNextConfig`, its docstring giving the reason:
+importing it runs `shared/config`'s check first. True of a value import. _разве
+оно относится к `import type`?_
+
+**16 September — two objections in one afterword, neither tried.** The megapixel
+analogy was faulted for a mechanism the recording states a paragraph above:
+_внимание и есть та фиксированная площадь_; the polar-bear widening, on a commit
+`git log` shows is a different failure.
+
+**16 September — a cost priced without rendering it.** The header's name went
+absolute in both media, the plan ruling out its sibling's split as "the name in
+the DOM twice". Under `print-hidden` the copy weighs nothing: all four PDFs came
+back identical. _но тогда и в экранной версии это будет внешняя ссылка?_
+
+**16 September — the config line it blamed, never varied.** Ruling a flat
+`shared/lib/collections.ts` illegal, the agent blamed `src/shared/lib/(*)/**` off
+the config's text. Same error without it — and that line keeps `class-names`
+legal. _а у меня из playgramapp такие живут спокойно._
+
+**17 September — a boundary explained, not read.** The CV translates in the
+browser so the reader switches without navigating; the picker is `<a href>`.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
@@ -180,52 +227,6 @@ router under `apps/`, the agent rewrote the content rule's description to
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
 settled against a Russian draft, so the English copy next day came out in them.
 
-## An account that explains the code stands in for running it (×9)
-
-The sibling of "It checks the render against its intent" below, and the worse
-half: there the agent looked and asked the wrong question, here it never looked,
-because the reasoning closed. Nothing inside an account reports it was unchecked.
-
-**8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
-a hand-written redirect file, the agent gave the right reason — no middleware in a
-static export — which closed the question before anyone opened the file.
-
-**8 September — the schema it never wrote.** Told route params would parse better
-through zod, the agent declined twice: a schema would restate the variant ids —
-which `z.enum(CV_VARIANTS)` does from the same const. _Am I missing smth?_
-
-**9 September — four homes, three of them checked.** Cutting a maintenance
-paragraph from a commit body, the agent argued each item already sits where it
-would be looked for. Unrun, the fourth sat nowhere else.
-
-**14 September — no middle option, in a repo holding twenty-eight of them.**
-Asked where source recordings live, the agent argued a branch-only video is
-collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
-
-**14 September — a test whose counterexample sat in the diff proposing it.** The
-dictation skill got a rule against drifting into prose: every sentence should be
-findable in the recognizer's output. Never run against the transcripts beside it.
-
-**15 September — an objection never tried against `import type`.** The site id
-stayed a bare string in `siteNextConfig`, its docstring giving the reason:
-importing it runs `shared/config`'s check first. True of a value import. _разве
-оно относится к `import type`?_
-
-**16 September — two objections in one afterword, neither tried.** The megapixel
-analogy was faulted for a mechanism the recording states a paragraph above:
-_внимание и есть та фиксированная площадь_. The polar-bear widening rested on a
-commit `git log` shows is a different failure.
-
-**16 September — a cost priced without rendering it.** The header's name went
-absolute in both media, the plan ruling out its sibling's split as "the name in
-the DOM twice". Under `print-hidden` the copy weighs nothing: all four PDFs came
-back identical. _но тогда и в экранной версии это будет внешняя ссылка?_
-
-**16 September — the config line it blamed, never varied.** Ruling a flat
-`shared/lib/collections.ts` illegal, the agent blamed `src/shared/lib/(*)/**` off
-the config's text. Same error without it — and that line keeps `class-names`
-legal. _а у меня из playgramapp такие живут спокойно._
-
 ## It writes its reasoning into the artifact (×8)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
@@ -246,11 +247,10 @@ ended on "Four things to know when editing here" — every item true, every one
 belonging in a rules file. The body had accreted across refreshes, which is how a
 cap gets walked past one push at a time.
 
-**14 September — two denials of what the file used to be part of.** The new
+**14 September — two denials of what the file used to be part of.** The
 afterword skill carried "it applies to anything the operator wrote" and "it is
 not the lede", both answering a question only someone who had watched it leave
-`/dictation` would ask — with `CLAUDE.md` naming the defect and
-`/tend-prose negation` having run over the file. _polar bear_, twice.
+`/dictation` would ask. _polar bear_, twice.
 
 **16 September — the review, transcribed into the file it was about.** Three
 afterwords opened on who had said what — «про мегапиксели я был неправ» — so the

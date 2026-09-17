@@ -1,40 +1,48 @@
 Proposed squash title/body:
 
 ```
-perf: ship only the CSS and i18n runtime each page uses (pr #56)
+perf: ship only the CSS and JS each page uses (pr #56)
 ```
 
 ```
 Every page carried Mantine's entire stylesheet and next-intl's client
 runtime for a fraction of either: 14 of ~200 component stylesheets are
-rendered anywhere on the site, and the only client component outside the
-CV read a single aria-label. Per page, gzipped, that was 210.9 kB on the
-homepage against 169.8 kB now, and 221.5 kB against 195.2 kB on the CV.
+rendered anywhere on the site, and nothing on it translates in the
+browser at all. Per page, gzipped, over everything the page references:
+255.3 kB on the homepage against 213.1 kB now, and 266.2 kB against
+212.3 kB on the CV.
 
 `theme-provider.tsx` names Mantine's three core stylesheets and one per
 component in use rather than the aggregate `styles.layer.css`, and
 `ThemeCorner` translates the toggle's label with `getTranslations` and
-passes it down, which takes `NextIntlClientProvider` out of the root
-layout. The CV keeps its own provider and its own messages, that subtree
-being where translation at runtime is earned; the shell's provider
-carried no locale of its own, so the label resolves exactly as before.
+passes it down.
 
-Both savings go wrong silently, so a check holds each, and both read the
-built output rather than the import graph: what a page costs is not a
-property of the file an import sits in. A missing stylesheet compiles,
-type-checks, builds and renders unstyled, so `check-mantine-styles.ts`
-answers each site's rendered classes from that site's own CSS.
-`useTranslations` in a client component is worse than broken — it works,
-and bills that page 14 kB — so `check-i18n-payload.ts` reads the chunks
-each page references and permits the runtime only where a locale from
-`routing.locales` addresses the page. That set is derived, so localizing
-a page permits it by existing at its locales, with no allowlist to
-extend. `.claude/rules/i18n.md` is the reasoning's one home.
+The CV needed no client at all. Each locale is already a page of its own
+in the export — `/cv/cto/ru` carries its own text, and the language
+chips are plain anchors — so the runtime was paying to hydrate text that
+never changes. The sheet and its leaves render on the server and read
+`cvMessages(locale, variant)` as the typed object it already was, every
+key checked by `tsc` rather than by a message-key string; `richText`
+renders the one markup a catalogue string carries, `<strong>`, and
+throws on any other tag. The rendered markup is byte for byte what it
+was.
+
+That leaves the constraint as "no page ships the runtime", which a lint
+rule can hold with no exemptions: `no-restricted-imports` rejects the
+bare `next-intl` specifier, type imports aside.
+`check-i18n-payload.ts` is the second guard, for the transitive path a
+lint rule cannot see, and it asserts its own markers still appear in the
+installed next-intl before trusting them. `check-mantine-styles.ts`
+holds the stylesheet list the same way, from the built output, because a
+missing sheet renders unstyled in silence.
+
+The committed CV PDFs move with it. They are printed from a dev server,
+where the client-rendered sheet drew eight link underlines the export
+does not; all four now match what the built site prints.
 
 `deploy.yml` publishes on `perf:` as well as `feat:` and `fix:`: on a
-static export a change that makes a page cheaper to load changes the
-files the CDN serves, so the gate skipping it left an improvement merged
-and unserved.
+static export, a change that makes a page cheaper to load changes the
+files the CDN serves.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
