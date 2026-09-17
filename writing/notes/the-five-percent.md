@@ -31,7 +31,9 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A bump is something the agent could have seen and didn't.** Where the review
   supplied a decision that was the human's to take — a positioning call, a change
   of scope — it goes under "Not bumps" or nowhere: a file that counts every
-  correction reads as an agent grading its own obedience.
+  correction reads as an agent grading its own obedience. **And a human has to be
+  in it**: a mistake the agent caught by itself clears that line and still
+  demonstrates the opposite of what the file claims.
 - **Past 400 lines, squeeze to 300 or under** — `scripts/check-notes-length.sh`
   fails the vet run at the ceiling and asks for the floor. Landing at 399 buys
   one session; the next append trips it again. In order: tighten the prose; cut
@@ -43,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×20)
+## What it was handed, it treats as fixed (×22)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -103,6 +105,19 @@ names a `pick` this repo never had — an option, not a missing half.
 build the component, the agent stood it _beside_ `InternalLink` as
 `PrintableLink` — printability read as a property some links have. _бывают ли у
 нас другие link вообще?_ Every internal link carries a relative href.
+
+**17 September — this section, not applied to the file that holds it.** Having
+settled that delegating edits here is about session cost and defended it twice,
+the agent missed the reason the operator then supplied: an agent that reads the
+taxonomy before naming its own failure names it in the headings it just read, so
+the count that grows is the one easiest to file under. The frame it reasoned
+inside was the frame this section is about.
+
+**17 September — the criterion's wording, read as the file's purpose.** An error
+the agent caught in its own report, nobody else having seen it, was handed over
+as a bump on the strength of fitting "could have seen and didn't" exactly. The
+operator struck it: the claim this file makes is that the human is necessary, and
+the opening paragraph says so, two screens above the line being applied.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
@@ -198,7 +213,7 @@ edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
 
-## Asked to quote a source, it writes its own version (×6)
+## Asked to quote a source, it writes its own version (×7)
 
 Holding the file open, the agent still writes its own version. The paraphrase
 improves something, so nothing stops it; what goes is that a reader can check.
@@ -222,6 +237,12 @@ the pigeon was blind like the patient, so it is deduction, not epiphany.
 rule's example needed no context, the agent supplied «Лифт не просто сломан — на
 нём ещё и не подняться», which demonstrates the tautology by being one: _так
 всё-таки и агент не напишет :)_
+
+**17 September — the cause given, replaced by the cause visible.** The request
+for the rule delegating edits here named its cost — «бесконечные раунд-трипы с
+вырезанием по крошке» — and the committed rule gave the cost as the 296-line
+read. _ну вообще нет, большая часть -- это бесконечные раунд-трипы._ A cause the
+agent can point at outranks the one it was handed, and the prompt was still open.
 
 ## Given a form, it fills the form (×5)
 
