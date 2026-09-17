@@ -42,11 +42,11 @@ export type WithChildren = { children: ReactNode };
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 
-/** The case study a card cross-links. */
-export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
-
 /** Where an anchor points. */
 export type Linked = { href: string };
+
+/** An anchor whose label is a string rather than markup. */
+export type LabeledLink = Labeled & Linked;
 
 /**
  * One of a page's own files: where `public/` serves it, and what a saved copy

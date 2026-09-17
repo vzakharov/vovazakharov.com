@@ -29,7 +29,7 @@ jobs:
       vova: ${{ steps.subjects.outputs.vova }}
       lsa: ${{ steps.subjects.outputs.lsa }}
     steps:
-      - name: 'Scan the pushed subjects for feat:/fix:'
+      - name: 'Scan the pushed subjects for a publishing prefix'
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
@@ -40,6 +40,10 @@ jobs:
           vova=false
           lsa=false
           subjects=''
+
+          # Which prefixes publish is CLAUDE.md § Deployment. One variable
+          # because the match and the scope extraction below both read it.
+          publishing='(feat|fix|perf)'
 
           # A site name selects that site; anything else — an unscoped subject,
           # a scope naming neither — selects both.
@@ -62,8 +66,8 @@ jobs:
             while IFS= read -r subject; do
               [ -n "$subject" ] || continue
 
-              grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
-              scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
+              grep -qE "^$publishing(\([^)]+\))?!?:" <<< "$subject" || continue
+              scope=$(sed -nE "s/^$publishing(\(([^)]+)\))?!?:.*/\3/p" <<< "$subject")
 
               select_site "$scope"
             done <<< "$subjects"
@@ -71,7 +75,7 @@ jobs:
             if [ "$vova" = true ] || [ "$lsa" = true ]; then
               verdict="Deploying — vovazakharov.com: $vova, latestageagentic.com: $lsa."
             else
-              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
+              verdict="Skipping the deploy — no $publishing subject in this push."
             fi
           fi
 

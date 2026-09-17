@@ -127,6 +127,27 @@ export const typescriptRules = {
     'error',
     { functions: false, classes: true, variables: true },
   ],
+  // Replaces the core rule (core copy is turned 'off' in core.ts).
+  '@typescript-eslint/no-restricted-imports': [
+    'error',
+    {
+      paths: [
+        {
+          name: 'next-intl',
+          allowTypeImports: true,
+          message:
+            "next-intl's bare entry is its client runtime, and a page whose " +
+            'graph reaches it ships 14 kB gzipped of it. Every locale is its ' +
+            'own pre-rendered page here, so translate on the server — ' +
+            '`getTranslations` from `next-intl/server`, or the catalogue ' +
+            'itself through `@/shared/i18n` — and pass the strings down. ' +
+            'Reaching for a hook means a page that switches language in ' +
+            'place, which is the decision `.claude/rules/i18n.md` records; ' +
+            'change it there first.',
+        },
+      ],
+    },
+  ],
   '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
   '@typescript-eslint/class-literal-property-style': ['error', 'fields'],
   '@typescript-eslint/consistent-generic-constructors': [

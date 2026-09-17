@@ -265,8 +265,14 @@ async function awaitServer(
 }
 
 /**
- * A dev server rather than `next build` plus a static host: the printed page is
- * the same either way, and this is one process to start and stop.
+ * A dev server rather than `next build` plus a static host: one process to
+ * start and stop, and it prints what the export prints — but that holds only
+ * while nothing hydrates visible text, which is what `.claude/rules/i18n.md`
+ * keeps true. A subtree rendered on the client prints decoration the export
+ * does not draw, link underlines included, and a PDF committed from it is
+ * wrong in a way no check here can see. So a change that moves a subtree
+ * across the client boundary wants one page printed off a static server and
+ * compared before its PDFs are trusted.
  *
  * Next is spawned directly and into a process group of its own, so the whole
  * server goes down with the run. Through `pnpm` the kill would reach only the

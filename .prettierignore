@@ -39,6 +39,13 @@ next-env.d.ts
 # hash of their source, so reformatting them would only churn the diff.
 apps/*/public/generated
 
+# GitHub item exports — `scripts/export-github-item.py` renders a thread
+# verbatim, and the vet run reads the tree before `/finalize` sweeps these, so
+# without this every branch carrying one fails `format:check` on a file whose
+# formatting is the exporter's to decide.
+docs/issue
+docs/pr
+
 # Lock files
 pnpm-lock.yaml
 package-lock.json
