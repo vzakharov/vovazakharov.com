@@ -42,7 +42,7 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   shows what the agent could not see; then drop learnings from the bottom, since
   one bump is a coincidence with a paragraph attached.
 
-## What it was handed, it treats as fixed (×17)
+## What it was handed, it treats as fixed (×18)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -53,6 +53,11 @@ checking it would pass. The human's move is to change the given.
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that
 documents nothing: the agent weighed three candidates from the list and never
 looked outside it. _Let's introduce "content:"_ — the list is ours.
+
+**17 September — a mechanism for a glitch about to stop happening.** Markdown
+drops a hand-typed hard break, so the agent built a directive making line breaks
+structural. _кажется, ты перемудрил_ — the words come pasted into comments now,
+and the hand-editing behind the glitch was itself the given.
 
 **7 September — a word one day old, already treated as given.** Having added
 `content:`, the agent framed whether it trips the deploy gate as a trade with no
@@ -131,10 +136,10 @@ the repeat was between two sentences, which no swap inside one could show.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
-A change the agent is told to make, it makes where it was raised. One fact
-rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source carrying the cause. Nothing catches the split —
-every site reads correctly alone, and the divergence exists only between them.
+A change the agent is told to make, it makes where it was raised. One fact in
+three places gets one updated; a rule fixed in the repo that adopted it leaves
+the source carrying the cause. Nothing catches the split — every site reads
+correctly alone, and the divergence exists only between them.
 
 **8 September — one stack, three spellings.** Playgram's tech line renders in
 three places, all the agent's own work in the same branch; told to add Supabase
@@ -174,13 +179,13 @@ router under `apps/`, the agent rewrote the content rule's description to
 claim four lines above the mechanism contradicting it. _нужно сделать sweep._
 
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
-settled against a Russian draft, so the English copy next day came out in them.
+settled against a Russian draft; the English copy came out in them next day.
 
 ## An account that explains the code stands in for running it (×7)
 
 The sibling of "It checks the render against its intent" below, and the worse
-half: there the agent looked and asked the wrong question, here it never looked,
-because the reasoning closed. Nothing inside an account reports it was unchecked.
+half: there the agent looked and asked the wrong question, here it never looked
+at all, the reasoning having closed. Nothing in an account says it was unchecked.
 
 **8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
 a hand-written redirect file, the agent gave the right reason — no middleware in a
@@ -235,23 +240,22 @@ belonging in a rules file or a docstring. The body had accreted across refreshes
 which is how a cap gets walked past one push at a time.
 
 **14 September — two denials of what the file used to be part of.** The new
-afterword skill carried "it applies to anything the operator wrote" and "it is
-not the lede", both answering a question only someone who had watched it leave
+afterword skill answered, twice, a question only someone who had watched it leave
 `/dictation` would ask — with `CLAUDE.md` naming the defect and
 `/tend-prose negation` having run over the file. _polar bear_, twice, then a third
 next day: the voice rule ruling `--` out of site copy nobody had asked about.
 
 **16 September — the review, transcribed into the file it was about.** Three
 afterwords opened on who had said what — «про мегапиксели я был неправ» — so the
-thought arrived wrapped in an exchange the reader never saw. _давай
-conversational соображения оставляй исключительно в комментариях_. The thought
-is durable; the conversation belongs in the thread that held it.
+thought arrived wrapped in an exchange the reader never saw. _давай conversational
+соображения оставляй исключительно в комментариях_. The thought is durable; the
+conversation belongs in the thread that held it.
 
 **16 September — the footnotes that outlived the pass that needed them.** Every
 edit to the three scripts carried a note on what the recording had instead, kept
-through three review rounds: a diff against the tape, inside the thing to be read
-aloud from. _держать постоянный журнал разницы vs запись запроса нет._ A note
-earns its place on the first pass and expires with the round that settles it.
+through three rounds: a diff against the tape, inside the thing to be read aloud
+from. _держать журнал разницы vs запись нет._ A note expires with the round that
+settles it.
 
 ## Asked to quote a source, it writes its own version (×6)
 
@@ -270,9 +274,9 @@ written a line earlier and cited as settled the next. _это откуда, мы
 **16 September — a scene credited to a show that has no such scene, then one
 that proves the opposite.** Handed House for the recording's close, the agent
 wrote a tray of instruments rather than look one up: _погугли, чтобы не
-хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
-a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
-it is deduction, not epiphany. That an example exists is not that it fits.
+хендвейвить поднос_. The replacement was real — a blind pigeon, a rooftop cistern
+— and still wrong: the pigeon was blind like the patient, so it is deduction, not
+epiphany. That an example exists is not that it fits.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об
 этом позже» in the recordings got a paragraph under `ideas/`, and three of four
@@ -344,28 +348,27 @@ and then verifies the thing it set out to do. Whether the result is right is a
 different question from whether it happened, and only the second one is
 answerable from the intent.
 
-**8 September — the logos it had already looked at.** The agent screenshotted
-three new organisation marks in both schemes and reported them legible and
-aligned. _the logos are slightly mis-aligned_: one filled its canvas edge-to-edge,
-another was inset a fifth. The question asked of the screenshot was "are they
-there".
+**8 September — the logos it had already looked at.** Three new organisation
+marks, screenshotted in both schemes and reported legible and aligned. _the logos
+are slightly mis-aligned_: one filled its canvas edge-to-edge, another was inset a
+fifth. The question asked of the screenshot was "are they there".
 
-**9 September — the card it had just fixed, looked at and passed.** Rendering
-one card per framing off the catalogue, the agent checked the property it had set
-itself — the card can no longer say what the page stopped saying — and confirmed
-it held. The same image showed a plate two thirds empty with no way to reach the
-person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
+**9 September — the card it had just fixed, looked at and passed.** Rendering one
+card per framing off the catalogue, the agent checked the property it had set
+itself — the card cannot say what the page stopped saying — and confirmed it held.
+The same image showed a plate two thirds empty with no way to reach the person on
+it: _the prose itself says nothing_, add GitHub and LinkedIn.
 
 ## A published number is not a verified number (×2)
 
 A figure already in print reads as settled, so the agent stops at it. Whoever
-made it remembers what went in — which window, which denominator, what was
-excluded — and none of that is recoverable from the number itself.
+made it remembers what went in — which window, which denominator — and none of
+that is recoverable from the number itself.
 
 **6 September — 6.2 → 8.2 units of work per day.** Lifted from the case study
-into a backlog row as a post's headline. Both windows are drawn wrong: one
-starts inside a stretch of docs-only work, the other runs past where the job
-changed from shipping the app to fixing it, and days off stay in the denominator.
+into a backlog row as a post's headline. Both windows are drawn wrong: one starts
+inside a stretch of docs-only work, the other runs past where the job changed
+from shipping to fixing, and days off stay in the denominator.
 
 **6 September — `src/` went from 98,000 to 223,000 lines.** Same move, and the
 flag came unprompted, with no question attached: _they look a bit too much to
@@ -374,8 +377,8 @@ a number and remembering making one.
 
 ## Not bumps
 
-Flagging two words missing from verbatim text is `.claude/rules/writing.md`
-doing its job, not judgement: every learning above is one no rule caught.
+Flagging two words missing from verbatim text is `.claude/rules/writing.md` doing
+its job, not judgement: every learning above is one no rule caught.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
 recording was _не про то и не то_, the agent wrote itself up for repairing its
@@ -385,16 +388,13 @@ you) delivering the wrong, foggy message_. Nobody else holds that original.
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
-stayed a bump; an entry removed this way takes its count with it.
+stayed; an entry removed this way takes its count with it.
 
 ## The two families
 
 Nine learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the published chart, the checker
 whose coverage read as the rule, our own `eslint.config.ts`. The other is the
-post's more interesting half, being the opposite of a mistake: the output was
-well-formed, justified and efficient, and every one of those properties is what
-made it wrong. An edit minimal where it was made left one fact spelled three
-ways; an account sound at every step stopped anyone opening the file it
-described. No "be more careful" catches these — they need a person, and not
-always one who knows more.
+opposite of a mistake: the output was well-formed, justified and efficient, and
+every one of those properties is what made it wrong. No "be more careful"
+catches these — they need a person, and not always one who knows more.
