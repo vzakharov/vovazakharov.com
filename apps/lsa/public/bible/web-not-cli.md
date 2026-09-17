@@ -1,5 +1,5 @@
 ---
-description: The fear that keeps most people in a local terminal is that parallel branches will fight at merge time. They don't — and once you stop believing they will, your laptop stops being a stove and your day stops being a queue.
+description: Most people stay in a local terminal because a terminal is where serious work happens and a browser tab is where it doesn't. That is a feeling, not an argument, and the three things you get for giving it up are not small ones.
 date: 2026-09-16
 order: 3
 ---
@@ -8,7 +8,9 @@ order: 3
 
 Every serious agent now has a web client, and the web client is not really a client. It is a machine: it checks your repositories out into a VM somewhere, works in them, and hands you a pull request when it is done. Claude, Codex, Cursor — the shape is the same. The alternative, which is where most people start and where a great many stay, is to run the same agent on your own laptop and watch it think in real time.
 
-Stop doing that. Three reasons, and I am going to put them in the order of how badly I had them weighted before I tried, which means starting with the one that was keeping me in the terminal in the first place.
+Stop doing that.
+
+Mostly people stay for a reason nobody says out loud: a terminal is where serious work happens and a browser tab is where a person waits for a delivery. I will come back to that at the end, because it is truer than the arguments and it is not an argument. The argument I actually had was about merges — so that is where I will start, three reasons, in the order of how badly I had them weighted before I tried.
 
 ## The branches do not fight
 
@@ -40,7 +42,7 @@ And you can close the lid.
 
 Which gets us to the third reason, and the one that actually changed how the work feels. You stop waiting.
 
-Ten sessions, fifteen, however many the work divides into. You hand out the tasks and they all start thinking at once. One comes back with a question; you answer it, and while you are typing another finishes; you review that, and by the time you are done a third wants something. The day is a steady loop of handing out work, answering questions, and accepting results, and at no point in it are you waiting on anybody.
+Ten sessions, fifteen, however many the work divides into. You hand out the tasks and they all start thinking at once. One comes back with a question; you answer it, and while you are typing another finishes; you review that, and by the time you are done a third wants something. The day is a steady loop of handing out work, answering questions, and accepting results, and at no point in it are you watching tokens crawl up a screen with the expression of a man following them closely.
 
 And, let us be honest about the local alternative: sooner or later you will drift. You start an agent, you read along, there is nothing for you to do, so after a while you get bored and open Netflix. You come back to find the agent finished forty minutes ago, and you are two and a half episodes into the second season of Severance and have shipped nothing.
 

@@ -135,6 +135,13 @@ invented for it.
   the sentence nothing. This is the one voice rule that survives "don't tighten
   the sentences" above: that rule protects a talked-out human line, and these
   are not one.
+- **A list of examples where one would do reads as a machine's.** "…to the point
+  of parody — the shower, the offhand remark, the run down the corridor" spends
+  three specimens on a point the reader already has. Enumerating is not wrong in
+  itself: a list that _is_ the point — three shapes, three reasons — earns its
+  items. The tell is a list hanging off a **detour**, a sentence already a step
+  away from the subject, where three beats go on ground the piece is leaving.
+  Cut to the claim, and keep one example only where the claim is thin without it.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work

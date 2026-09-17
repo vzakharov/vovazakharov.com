@@ -20,7 +20,7 @@ The analogy I keep coming back to is the megapixel race of the 2000s. Cameras ar
 
 The same happens with LLM context: attention is the fixed area, and every token you add is one more claim on it. When I started, a context window was a thousand tokens. Then sixteen thousand, which felt like an impossible ceiling. Then two hundred thousand. Now a million, and someone will make it a trillion. Do not expect that an agent handed a trillion tokens will remember all of it and apply it as reliably as it applies ten thousand.
 
-![A robot preaching from a rock to a seated crowd: “And lo, there were enough tokens for everyone.”](./assets/enough-tokens.jpg)
+![A robot preaching from a rock to a seated crowd: “And lo, there were enough tokens for everyone.”](./assets/enough-tokens.jpg 'aside')
 
 You can watch this directly, incidentally. Past roughly two hundred to two hundred and fifty thousand tokens in a single conversation, an agent starts to get tired, in ways that have a handful of recognizable symptoms — a subject for its own article.
 
@@ -42,7 +42,7 @@ In people it works differently, and the difference is not that we are more dilig
 
 Remember House? Every episode, the epiphany arrives from something entirely unrelated. Somebody makes an offhand remark, he sees an event with no bearing on the case, and he understands what is wrong with the patient. There is an episode with a girl who cannot feel pain — congenital — and the team cannot work out why she is deteriorating. Meanwhile House takes half of Wilson's sandwich, and Wilson grumbles that he just likes getting there ahead of the other hunters. That is the word House runs out of the room on: there is a tapeworm inside the girl getting ahead of _her_, intercepting her B12, and the anaesthetic she is about to be given will finish off what is left. Wilson's sandwich is not in the patient history. It has nothing to do with her.
 
-Television overuses that trope to the point of parody — the shower, the offhand remark, the run down the corridor. But the mechanism under it is real, and decisions about code genuinely do arrive from places with no connection to code.
+Television overuses that trope to the point of parody. But the mechanism under it is real, and decisions about code genuinely do arrive from places with no connection to code.
 
 An agent has experience of that kind too — its training data contains everything, most of it nothing to do with programming. But you are not going to say, at each step: now go and take a sandwich off somebody and work out what it tells you about this bug. A planned epiphany is treasure you buried yourself the day before.
 
