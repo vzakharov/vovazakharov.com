@@ -102,12 +102,10 @@ h1[data-order='1'].articleTitle {
     flex-direction: row;
     align-items: flex-start;
     gap: 24px;
-  }
-}
 
-.cardLayoutFlipped {
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row-reverse;
+    &.cardLayoutFlipped {
+      flex-direction: row-reverse;
+    }
   }
 }
 

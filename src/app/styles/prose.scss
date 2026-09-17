@@ -369,13 +369,10 @@
 
 // Below the breakpoint the column is too narrow to divide — what would be left
 // of each line is not a line — so an aside falls back to a full-width block.
-//
-// Paper is the same fallback for a different reason: a float is laid out where
-// it fits, and when the page breaks before it, the text meant to wrap it has
-// already been set on the sheet before. The float then opens the next page
-// beside whatever line is left over, and the `clear` on the following heading
-// holds the rest of that column empty. Nothing in CSS ties a float to the
-// paragraphs it floats against, so print gets an ordinary centred image.
+// Paper falls back for its own reason: nothing ties a float to the paragraphs
+// it floats against, so a page break between them leaves the float opening the
+// next sheet beside one leftover line, with the following heading's `clear`
+// holding the rest of that column empty.
 .content-image-aside {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
     float: inline-end;

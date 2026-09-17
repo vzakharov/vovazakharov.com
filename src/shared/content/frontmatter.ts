@@ -18,12 +18,7 @@ export const frontmatterSchema = z.object({
   part: z.string().min(1).optional(),
   /** Open Graph image, relative to the document. */
   ogImage: z.string().min(1).optional(),
-  /**
-   * The illustration the collection index shows beside this document's blurb,
-   * relative to the document. Authored rather than taken from the body's first
-   * image: which picture stands for an article on a list of them is a choice,
-   * and an article may open on one that does not.
-   */
+  /** The drawing the index shows beside the blurb, relative to the document. */
   cardImage: z.string().min(1).optional(),
 });
 

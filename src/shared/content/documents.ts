@@ -55,9 +55,8 @@ export type ResolvedImage = Sized & { src: string };
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves
- * the collection's assets at one path. The size comes back with the URL so the
- * two cannot disagree — and an unreadable one throws, because the field is
- * opt-in and a card with no dimensions lays the page out twice.
+ * the collection's assets at one path. One function returns both, so the URL
+ * and the size cannot disagree.
  */
 function resolveImage(collection: CollectionId, authored: string) {
   const url = collectionAssetUrl(collection, authored.replace(/^\.\//, ''));
@@ -65,7 +64,6 @@ function resolveImage(collection: CollectionId, authored: string) {
   return { url, size: intrinsicDimensions(url) };
 }
 
-/** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
@@ -77,6 +75,11 @@ function resolveOgImage(
   return { ogImageUrl: url, ogImageSize: size };
 }
 
+/**
+ * Unlike the Open Graph card, a size that cannot be read throws: the field is
+ * opt-in, and an index row that does not reserve its drawing's space lays out
+ * twice.
+ */
 function resolveCardImage(
   collection: CollectionId,
   cardImage: string | undefined,
