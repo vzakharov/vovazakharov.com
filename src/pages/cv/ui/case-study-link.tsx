@@ -19,20 +19,9 @@ export function CaseStudyLink({ href }: Linked) {
 
   return (
     <Text className={classes['caseStudyLine']}>
-      <InternalLink {...{ href }} className="print-hidden" inherit>
+      <InternalLink {...{ href }} withAddress inherit>
         {label}
       </InternalLink>
-      {/* A printed page can only be followed by hand, so paper puts the link
-          on the address the reader has to type. */}
-      <span className={classes['printLink']}>
-        {label}
-        {': '}
-        {/* One text node, not two: a PDF gets a link annotation per node, and
-            the first is placed over whatever precedes the anchor. */}
-        <InternalLink {...{ href }} inherit>
-          {`${cv.website}${href}`}
-        </InternalLink>
-      </span>
     </Text>
   );
 }

@@ -171,17 +171,6 @@
   }
 }
 
-// Paper's counterpart to a link, carrying its address inline after the label —
-// which is why this exists next to the global `.print-only`, whose print
-// display is block.
-.printLink {
-  display: none;
-
-  @media print {
-    display: inline;
-  }
-}
-
 // Tech-stack lines and asides.
 %aside {
   font-size: 14px;

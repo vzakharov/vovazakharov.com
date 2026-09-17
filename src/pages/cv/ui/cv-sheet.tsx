@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useLocale, useMessages, useTranslations } from 'next-intl';
 
+import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
@@ -38,11 +39,11 @@ function EmailLink() {
 }
 
 function WebsiteLink() {
-  const t = useTranslations('cv');
+  const { href, text } = printedUrl(SITE_CONFIG.url);
 
   return (
-    <Anchor href={`https://${t('website')}`} inherit>
-      {t('website')}
+    <Anchor {...{ href }} inherit>
+      {text}
     </Anchor>
   );
 }
