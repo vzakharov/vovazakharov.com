@@ -4,14 +4,15 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { pageFile } from '@/shared/config';
+import type { SiteId } from '@/shared/config';
+import { pageFile } from '@/shared/config/index.server-only';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
-  COLLECTION_IDS,
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
+  collectionsForSite,
   documentName,
   type DocumentRef,
   documentRoute,
@@ -26,6 +27,7 @@ import {
 } from './frontmatter';
 import {
   intrinsicDimensions,
+  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
@@ -40,25 +42,57 @@ export type ContentDocument = DocumentRef &
     fileName: string;
     /** The authored markdown, as served. */
     markdown: DocumentFile;
-    /** The prebuilt PDF, produced by `pnpm content:pdf`. */
+    /** The prebuilt PDF, produced by `pnpm content:pdf:<site>`. */
     pdf: DocumentFile;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
+    /** The frontmatter's `cardImage`, resolved the same way. */
+    cardImage?: ResolvedImage;
   };
 
-/** One function returns both, so the URL and the size cannot disagree. */
+/** A frontmatter image path, resolved to what an `<img>` needs of it. */
+export type ResolvedImage = Sized & { src: string };
+
+/**
+ * A frontmatter image is authored relative to its document; `public/` serves
+ * the collection's assets at one path. One function returns both, so the URL
+ * and the size cannot disagree.
+ */
+function resolveImage(collection: CollectionId, authored: string) {
+  const url = collectionAssetUrl(collection, authored.replace(/^\.\//, ''));
+
+  return { url, size: intrinsicDimensions(url) };
+}
+
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
 ): Pick<ContentDocument, 'ogImageUrl' | 'ogImageSize'> {
   if (ogImage === undefined) return {};
 
-  const ogImageUrl = collectionAssetUrl(
-    collection,
-    ogImage.replace(/^\.\//, ''),
-  );
+  const { url, size } = resolveImage(collection, ogImage);
 
-  return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
+  return { ogImageUrl: url, ogImageSize: size };
+}
+
+/**
+ * Unlike the Open Graph card, a size that cannot be read throws: the field is
+ * opt-in, and an index row that does not reserve its drawing's space lays out
+ * twice.
+ */
+function resolveCardImage(
+  collection: CollectionId,
+  cardImage: string | undefined,
+): Pick<ContentDocument, 'cardImage'> {
+  if (cardImage === undefined) return {};
+
+  const { url, size } = resolveImage(collection, cardImage);
+
+  if (!size) {
+    throw new Error(`No intrinsic dimensions in card image ${url}`);
+  }
+
+  return { cardImage: { src: url, ...size } };
 }
 
 export type WithContentDocument = { document: ContentDocument };
@@ -114,18 +148,30 @@ function readDocument(
     pdf: pageFile(route, 'pdf'),
     route,
     ...resolveOgImage(collection, frontmatter.ogImage),
+    ...resolveCardImage(collection, frontmatter.cardImage),
   };
 }
 
-/** Every document in a collection, variants included, newest first. */
+/**
+ * The authored `order` first, then date, newest first. `MAX_SAFE_INTEGER`
+ * rather than `Infinity` for the documents with none: subtracting two
+ * infinities is `NaN`, which a sort reads as "leave them where they are".
+ */
+function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
+  const ordered =
+    (a.frontmatter.order ?? Number.MAX_SAFE_INTEGER) -
+    (b.frontmatter.order ?? Number.MAX_SAFE_INTEGER);
+
+  return ordered || b.frontmatter.date.getTime() - a.frontmatter.date.getTime();
+}
+
+/** Every document in a collection, variants included, in reading order. */
 export function listDocuments(collection: CollectionId): ContentDocument[] {
   return fs
     .readdirSync(collectionDir(collection))
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => readDocument(collection, fileName))
-    .toSorted(
-      (a, b) => b.frontmatter.date.getTime() - a.frontmatter.date.getTime(),
-    );
+    .toSorted(byReadingOrder);
 }
 
 /** The full documents only, without the shorter cuts. */
@@ -160,6 +206,9 @@ export function siblingVariants(
   );
 }
 
-export function listAllDocuments(): ContentDocument[] {
-  return COLLECTION_IDS.flatMap((collection) => listDocuments(collection));
+/** Every document the given site serves. Another site's collections have no directory here. */
+export function listAllDocuments(site: SiteId): ContentDocument[] {
+  return collectionsForSite(site).flatMap((collection) =>
+    listDocuments(collection),
+  );
 }

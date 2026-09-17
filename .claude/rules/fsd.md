@@ -23,7 +23,7 @@ Lowest (most generic) first — an import may only point downward:
 | `entities/` | _(none yet)_ business nouns                                                                              |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
-| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `case-studies`                                              |
+| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `documents`                                                 |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
 `entities/` and `widgets/` are absent because nothing earns them yet, not as an
@@ -35,7 +35,10 @@ oversight. Layers are optional; **inventing one costs more than leaving it out**
 - **Import direction is one-way**: `app → pages → widgets → features → entities → shared`. Never upward, never sideways between slices on the same layer.
 - **Public API per slice and per shared segment.** Cross-slice imports go through the target's `index.ts`; reaching into its internals is an error from both checkers. Within a slice, use relative imports.
 - **`shared` is a slice as well as a layer**, which is FSD's own exception to the rule above: every file in it reaches every other directly, exactly as the app layer's segments do. A segment's `index.ts` is what the layers _above_ enter by, not a wall between `shared/ui` and `shared/seo`.
-- **`index.server-only.ts` is the one other legal entry point**, for what a client bundle must not reach; every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. The list is closed at those two names (`PUBLIC_API` in `eslint.config.ts`). `shared/i18n` is the case: client components need `routing`, so it stays in the ordinary barrel, while `localeSchema` would drag zod's ~90 kB into every chunk that touched it.
+- **Two suffixed barrels join `index.ts` as legal entry points**, on two axes, and the list is closed at those three names (`PUBLIC_API` in `eslint.config.ts`). `index.ts` keeps the majority surface either way, so a consumer needing neither suffix never learns they exist.
+  - **`index.server-only.ts`** is the client-bundle axis: what a browser must not hold. Every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. Three segments are split this way, each on what a client bundle may hold rather than on what a module happens to do: `shared/i18n` keeps `routing` in the ordinary barrel and puts `localeSchema` behind the other, zod being ~90 kB in every chunk that touches it; `shared/seo` keeps `OG_CARD_SUFFIX` and puts `constructMetadata` behind it; `shared/config` keeps the ids and both sites' data, and puts everything bound to the site this process is behind it.
+  - **`index.node-safe.ts`** is the bundler axis: what resolves under `scripts/`, which runs with none — so the graph behind it spells its extensions, holds no CSS, JSX or asset import, and carries no `server-only`, which throws outside a React server bundle. `shared/config` is the one segment with one, over `resolveSiteId`. A script reaching past a public API into a leaf is the smell that this barrel is missing.
+- **A module whose direct import is the hazard says so in its name.** `shared/config/site.env.unsafe.ts` parses `NEXT_PUBLIC_SITE`, and carries no `server-only` of its own because both barrels above consume it — so nothing but the name stops a client chain importing it and paying zod's ~90 kB. The suffix is `Playgramai/playgramapp`'s, whose barrel conventions this split follows.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time (`@/shared/lib/class-names`), each **a single file** and its own public API — nothing sits beside it to hide, so `boundaries` lets the layers above enter segment `lib` at any top-level `*.ts`. That entry does not cross a slash: a sub-library that grows a directory is internals again, and moving it back out is the price of the address. It is the holding area, not the destination: a sub-library becomes a top-level segment (`shared/content`) once it has several consumers and a purpose identity of its own, and only a helper too small to name one — `class-names` is a single function — stays under `lib`.
 - **Segments are named by purpose, not by essence** — `shared/seo` and `shared/content` name the concern they serve, not `shared/utils` or `shared/markdown`; `shared/lib/class-names`, not `shared/utils`. Steiger's `segments-by-purpose` rejects the second form. `shared/typings` is the one segment named for what it holds, because what it holds is the point: the repo-wide base types that give every member two named types share a single home, which `pnpm type-overlap` enforces. A base whose declarers sit in one module belongs in that module, so the segment only ever holds what genuinely crosses slices.
 - **No insignificant slices.** A slice with a single upward consumer belongs _inside_ that consumer, and Steiger says so (`insignificant-slice`). This is why the CV locale picker lives in `pages/cv/ui/` and the home page's project and article cards live in `pages/home/ui/`, rather than each becoming a feature.
@@ -48,9 +51,17 @@ Every layer lives under `src/`, the app layer with them. A layer parked beside
 the routers would be the single exception to that, and the consistency is worth
 more than what the exception saves — the more so with two routers, which would
 have to share it. An app's `app/` holds routing and nothing else: `layout.tsx`
-and each `page.tsx` are one-line re-exports of what they render, and
-`sitemap.ts` re-exports `@/app/lib` behind the route-segment config Next reads
-off the route module itself.
+and each `page.tsx` re-export what they render, and `sitemap.ts` re-exports
+`@/app/lib` behind the route-segment config Next reads off the route module
+itself.
+
+**A page the router has to parameterize costs three lines rather than one.**
+The document pages serve a collection the router picks, so they are factories:
+the file calls `articleRoute('bible')`, destructures, and re-exports. Next reads
+`default`, `generateMetadata` and `generateStaticParams` as separate named
+exports off the module, so there is no single binding to forward — which is the
+whole of what the extra two lines buy, and the router still decides nothing but
+which slice with which argument.
 
 **That is what lets two sites share one `src/`.** Both sites' page slices sit in
 `src/pages/` side by side, which FSD already permits: slices may not import each
@@ -77,4 +88,4 @@ slices, its own segments reach each other directly.
 - **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of its reach. Run a build from the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
 - **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
-- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/case-studies` slice, because two slices could not share `back-to-home` or `document-meta` sideways.
+- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice, because two slices could not share `back-to-home` or `document-meta` sideways, and the same slice serves every collection on either site.

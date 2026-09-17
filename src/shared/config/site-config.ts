@@ -1,16 +1,13 @@
-import type {
-  Billed,
-  DocumentFile,
-  Linked,
-  Named,
-  WithText,
-} from '@/shared/typings';
-
 /**
- * A static export renders once per deploy, so a copyright year is the build's.
- * Shared so the page footer and the printed one cannot disagree.
+ * Both sites' configuration as data, with nothing bound to the site this
+ * process happens to be — that binding is `resolved-site.ts`, which is
+ * `server-only`. The split is what lets a client component and a render script
+ * each read what they need without the environment read coming along.
  */
-export const BUILD_YEAR = new Date().getFullYear();
+
+import type { Billed, Named } from '@/shared/typings';
+
+import type { SiteId } from './site-ids';
 
 /**
  * The unlocalized standalone pages. Below `pages/` because the footer that
@@ -22,36 +19,13 @@ export const PAGE_ROUTES = {
   music: '/music',
 } as const;
 
-/** The ids are the source of truth: each names a directory under `apps/`. */
-const SITE_IDS = ['vova', 'lsa'] as const;
-
-export type SiteId = (typeof SITE_IDS)[number];
-
-/**
- * Which site this build is. Each app pins it in its `next.config.ts` and each
- * render script in its `package.json` entry, so an unset value means nobody
- * said — which would otherwise publish one site's copy under the other's
- * domain, hence the throw.
- *
- * Matched rather than parsed by a schema: client components reach this module
- * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
- * ~90 kB `shared/i18n` keeps behind its server-only barrel.
- */
-const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
-
-if (siteId === undefined) {
-  throw new Error(
-    `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
-  );
-}
-
 /**
  * The tagline is the offer in one line, as the home page's offer section is
  * headed and as every page that states no description of its own unfurls. The
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-type SiteConfig = Billed & {
+export type SiteConfig = Billed & {
   url: string;
   /**
    * Leads the name a downloaded document is saved under, standing in for the
@@ -119,7 +93,10 @@ const SITE_CONFIGS = {
   },
 } as const satisfies Record<SiteId, SiteConfig>;
 
-export const SITE_CONFIG = SITE_CONFIGS[siteId];
+/** One site's configuration by id, for the render scripts, which resolved theirs at the top of the run. */
+export function siteConfig(site: SiteId) {
+  return SITE_CONFIGS[site];
+}
 
 /**
  * The author's own site, which every other site's byline links to. Read off
@@ -127,22 +104,5 @@ export const SITE_CONFIG = SITE_CONFIGS[siteId];
  */
 export const AUTHOR_URL = SITE_CONFIGS.vova.url;
 
-// Helper to get absolute URL
-export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
-
-/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
-export const pageFile = (route: string, extension: string): DocumentFile => ({
-  href: `${route}.${extension}`,
-  download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
-});
-
-/**
- * How print spells a URL: absolute, because the page leaves the browser that
- * resolved it, and shown without the scheme, which tells a reader holding paper
- * nothing. The two differ, so a printed link can navigate and still read well.
- */
-export const printedUrl = (url: string): Linked & WithText => {
-  const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
-
-  return { href, text: href.replace(/^https?:\/\//, '') };
-};
+/** How a URL reads off paper, where a scheme tells the holder nothing. */
+export const withoutScheme = (url: string) => url.replace(/^https?:\/\//, '');

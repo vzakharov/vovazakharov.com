@@ -4,6 +4,7 @@ export {
   type CollectionId,
   collectionRoute,
   COLLECTIONS,
+  collectionsForSite,
   documentName,
   type DocumentRef,
   documentRoute,

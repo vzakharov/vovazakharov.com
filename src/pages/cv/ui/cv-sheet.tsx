@@ -9,14 +9,18 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useLocale, useMessages, useTranslations } from 'next-intl';
+import { useMessages, useTranslations } from 'next-intl';
 
-import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
+import { pick } from '@/shared/lib/collections';
+import type {
+  DocumentFile,
+  LinkedPerMedium,
+  PrintedLink,
+} from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
-import { cvPdfFile } from '../lib/cv-urls';
 import type { WithCvVariant } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
@@ -38,9 +42,7 @@ function EmailLink() {
   );
 }
 
-function WebsiteLink() {
-  const { href, text } = printedUrl(SITE_CONFIG.url);
-
+function WebsiteLink({ href, text }: PrintedLink) {
   return (
     <Anchor {...{ href }} inherit>
       {text}
@@ -55,13 +57,21 @@ const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
-  caseStudyHref: string;
+  caseStudy: LinkedPerMedium;
+  /** The sheet's own site, which the header links to and the footer spells out. */
+  printedSite: PrintedLink;
+  /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
+  pdfFile: DocumentFile;
 };
 
-export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
+export function CvSheet({
+  variant,
+  caseStudy,
+  printedSite,
+  pdfFile,
+}: CvSheetProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
-  const locale = useLocale();
 
   return (
     <Box className={classes['page']}>
@@ -70,7 +80,12 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink href="/" underline="never" inherit>
+                <InternalLink
+                  href="/"
+                  printed={printedSite}
+                  underline="never"
+                  inherit
+                >
                   {t('header.name')}
                 </InternalLink>
               </Title>
@@ -80,7 +95,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
               <Text className={cx(classes['printSmall'], classes['dim70'])}>
                 <EmailLink />
                 {' · '}
-                <WebsiteLink />
+                <WebsiteLink {...printedSite} />
               </Text>
             </Stack>
           </Box>
@@ -93,7 +108,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             className={cx('print-hidden', classes['toolbar'])}
           >
             <LocalePicker {...{ variant }} />
-            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+            <FileLink {...pdfFile}>.pdf</FileLink>
           </Group>
 
           <CvSection title={t('profile.title')}>
@@ -128,7 +143,10 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink href={caseStudyHref} />
+                    <CaseStudyLink
+                      {...pick(caseStudy, 'href')}
+                      printed={null}
+                    />
                   </Box>
                 )}
               </Stack>
@@ -141,8 +159,8 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
                 <ExperienceCard
                   key={entryKey}
                   {...{ entryKey }}
-                  caseStudyHref={
-                    entryKey === CASE_STUDY_KEY ? caseStudyHref : undefined
+                  caseStudy={
+                    entryKey === CASE_STUDY_KEY ? caseStudy : undefined
                   }
                 />
               ))}
@@ -221,7 +239,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/" inherit>
+              <InternalLink href="/" printed={null} inherit>
                 {t('footer.backLink')}
               </InternalLink>
             </Text>
@@ -235,7 +253,7 @@ export function CvSheet({ variant, caseStudyHref }: CvSheetProps) {
           >
             <Text className={classes['small']}>
               {t('footer.printFooter')}&nbsp;
-              <WebsiteLink />
+              <WebsiteLink {...printedSite} />
             </Text>
           </Box>
         </Stack>

@@ -45,11 +45,11 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×21)
+## What it was handed, it treats as fixed (×23)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
-already in the tree — the agent reasons _inside_ rather than _about_: it takes a
-given for an inevitability, aka the **inevitability fallacy**. The failure is
+already in the tree — the agent reasons _inside_ rather than _about_: it reads a
+given as a rule, aka the **precedent fallacy**. The failure is
 invisible because the reasoning inside the frame is sound — a second agent
 checking it would pass. The human's move is to change the given.
 
@@ -113,7 +113,25 @@ as a bump on the strength of fitting "could have seen and didn't" exactly. The
 operator struck it: the claim this file makes is that the human is necessary, and
 the opening paragraph says so, two screens above the line being applied.
 
-## It edits the copy in front of it, not the fact behind it (×9)
+**17 September — two stated incapacities, neither retried.** `add_repo` answered
+"cross-tier adds are not supported" and the sibling repo went into the report as
+out of reach. _перепроверь_ — `gh` read it in the same shell, first try. The same
+afternoon an issue asserted the container cannot rasterize a PDF, so a print fix
+was verified against the screen rendering, where the reported defect does not
+occur; `pip install --target tmp/pdfium pypdfium2` worked first try and the
+defect was on page one. A tool's refusal is the environment's edge for exactly as
+long as nobody tries a second tool.
+
+**17 September — the drawing the article already used, read as the article's
+drawing.** The collection's index wanted one illustration per entry and the
+operator named them one by one, «терминатор для precedent» among them; that entry
+got the robot preaching from a rock, which is what the article floats beside its
+opening text and already carries as its `cardImage`. _для inevitability я просил
+терминатора, он повеселее._ The Terminator sat further down the same file, "A
+Terminator" opening its alt text — the arrangement in the article answered which
+drawing before the instruction naming one was applied.
+
+## It edits the copy in front of it, not the fact behind it (×10)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -142,6 +160,12 @@ the vet run executes. It had searched its own diff.
 ничего перепроверять_, posted on a line of the dictation skill: the agent stopped
 re-verifying for that session and left the sentence standing in the skill, where
 the next run reads it. A comment on a rule is about the rule.
+
+**17 September — renamed everywhere the name was a path.** `web-not-console`
+became `web-not-cli` through the filename, every cross-link and both committed
+PDFs; the article's own heading still ended "not from your console". _"...web,
+not CLI"_ came back as the fix. The heading is the one place the name is a
+sentence, which is the one place a grep for the old slug does not reach.
 
 ## An account that explains the code stands in for running it (×9)
 
@@ -213,7 +237,7 @@ edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
 
-## Asked for a source, it supplies its own version (×7)
+## Asked for a source, it supplies its own version (×8)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -245,6 +269,13 @@ for the rule delegating edits here named its cost — «бесконечные �
 read. _ну вообще нет, большая часть -- это бесконечные раунд-трипы._ A cause the
 agent can point at outranks the one it was handed, and the prompt was still open.
 
+**17 September — the reason the recording never gave.** The tape says only that
+database migrations are the exception and that the subject is niche. The idea
+file written from it supplied the why — two individually correct migrations
+composing into nonsense — and the article written later inherited that as the
+speaker's. _проблема не в этом … обе напишут миграцию 0080._ Nothing downstream
+of the idea file can tell a supplied reason from a heard one.
+
 ## Given a form, it fills the form (×5)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
@@ -269,7 +300,7 @@ arrived as the first with four fields changed and `author`, `social` and
 was one paragraph on the voice, explicitly left to be found in review. It came
 back defining the irony in three clauses. _and here you are, explaining it :)_
 
-## It checks the render against its intent, not against the page (×3)
+## It checks the render against its intent, not against the page (×4)
 
 Told to look at a visual change rather than reason about it, the agent looks —
 and then verifies the thing it set out to do. Whether the result is right is a
@@ -290,6 +321,28 @@ with no way to reach the person on it: _the prose itself says nothing_.
 what the issue named — `localhost`, twice — the dump also said which seven were
 fine. _все линки открываются норм_ got two rounds of theory it had already answered.
 
+**17 September — the float fixed, the page passed.** Told to run a drawing beside
+the text, the agent floated it, caught unprompted that the float squeezed the
+following heading into the margin, fixed that generally, screenshotted and called
+the change good. _выноска стала лучше, изображение -- хуже_ — against one short
+paragraph the image outran its own section. The catch and the miss were the same
+act of looking: one defect was the thing being fixed, the other only on the page.
+
+## It warns where the repo could refuse (×1)
+
+A decision the agent wants to survive, it secures by explaining it — a docstring,
+a comment, a rule — carrying the evidence that justifies it. The explanation is
+correct, durable and unenforced: it asks a future reader to read it at the moment
+they are about to do the thing. A structure that makes the wrong move fail to
+build asks nothing of anyone's attention, and the agent reaches for it when told.
+
+**17 September — +377 kB, written into a docstring.** Asked why
+`NEXT_PUBLIC_SITE` is matched against a list of ids rather than parsed with a
+schema, the agent measured zod through the client chain and put the number in
+`src/shared/config/site-ids.ts`, so nobody would revisit the decision on
+intuition. _нам нужно сделать .server-only. модуль или бочку._ The barrel makes
+the same mistake a build error.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -308,7 +361,7 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Seven learnings is not a pattern, but they fall in two groups. One is failures to
+Eight learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the checker whose coverage read as
 the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and

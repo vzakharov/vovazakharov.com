@@ -3,7 +3,7 @@ import { useMessages } from 'next-intl';
 
 import { TECH_STACKS } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import type { WithOptionalCaseStudyHref } from '@/shared/typings';
+import type { LinkedPerMedium } from '@/shared/typings';
 import { Card } from '@/shared/ui';
 
 import { CaseStudyLink } from './case-study-link';
@@ -29,14 +29,13 @@ export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
  *  registry's keys to ones the CV renders. */
 const ENTRY_TECH_STACKS: Partial<Record<ExperienceKey, string>> = TECH_STACKS;
 
-type ExperienceCardProps = WithOptionalCaseStudyHref & {
+type ExperienceCardProps = {
   entryKey: ExperienceKey;
+  /** The one entry with a case study behind it; the page resolves both halves. */
+  caseStudy?: LinkedPerMedium;
 };
 
-export function ExperienceCard({
-  entryKey,
-  caseStudyHref,
-}: ExperienceCardProps) {
+export function ExperienceCard({ entryKey, caseStudy }: ExperienceCardProps) {
   // Read the entry off the typed catalog: its fields vary per entry, so a
   // computed `t('<key>.title')` resolves to no known message key.
   const { cv } = useMessages();
@@ -57,7 +56,7 @@ export function ExperienceCard({
       >
         {entry.period}
       </Title>
-      {caseStudyHref !== undefined && <CaseStudyLink href={caseStudyHref} />}
+      {caseStudy !== undefined && <CaseStudyLink {...caseStudy} />}
       {'description' in entry && (
         <Text className={classes['tight']}>{entry.description}</Text>
       )}

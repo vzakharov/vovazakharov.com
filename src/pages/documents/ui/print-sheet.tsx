@@ -1,7 +1,7 @@
 import type { Routed } from '@/shared/content';
 import type { WithChildren } from '@/shared/typings';
 
-import classes from './case-studies.module.scss';
+import classes from './documents.module.scss';
 import { PrintedFrom } from './printed-from';
 
 /**

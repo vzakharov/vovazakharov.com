@@ -18,8 +18,11 @@
  * A render that says the same thing as the committed file keeps that file's
  * bytes, so the run's output is always safe to commit as-is.
  *
- *   pnpm content:pdf            # render what changed, prune what is gone
- *   pnpm content:pdf --check    # report staleness, write nothing
+ *   pnpm content:pdf:<site>          # render what changed, prune what is gone
+ *   pnpm content:pdf:<site> --check  # report staleness, write nothing
+ *
+ * One run serves one site, because it is entered in that app's directory — which
+ * is what `public/` and the dev server it spawns both resolve against.
  *
  * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
  * the `i18n` barrel behind them is a JSON import bare Node cannot take without
@@ -48,6 +51,7 @@ import {
   CONTENT_DIRS,
   contentFiles,
   filesUnder,
+  RENDERED_SITE,
   REPO_ROOT,
 } from './lib/content-tree.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
@@ -64,8 +68,8 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * the presentation components and the helpers they are built from, and the site
  * identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
- * of casting it wide is that a tweak to any of it re-flags every PDF, and that
- * costs one `pnpm content:pdf` run.
+ * of casting it wide is that a tweak to any of it re-flags every PDF on every
+ * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
   'src/app/styles/print.scss',
@@ -79,12 +83,15 @@ const PRINT_SOURCES = [
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
-  'src/pages/case-studies/ui',
+  'src/pages/documents/ui',
   'src/shared/content',
 ];
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
+
+/** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
+const PRINTS_CV = RENDERED_SITE === 'vova';
 
 const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 
@@ -181,6 +188,8 @@ function documentPrintables(): Printable[] {
  * English leaves the Russian print alone.
  */
 function cvPrintables(): Printable[] {
+  if (!PRINTS_CV) return [];
+
   const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);
 
   return CV_VARIANTS.flatMap((variant) =>
@@ -251,7 +260,7 @@ async function awaitServer(
   if (server.exitCode !== null) {
     throw new Error(
       `The dev server exited with ${server.exitCode} before answering on ` +
-        `${origin}. Run \`pnpm dev:vova\` to see why.`,
+        `${origin}. Run \`pnpm dev:${RENDERED_SITE}\` to see why.`,
     );
   }
 
@@ -361,7 +370,7 @@ await runRenderJob(
     isOutput: (name) => name.endsWith('.pdf'),
     // The CV's renders sit outside the content tree, so its root is walked too
     // — otherwise a pruned render's manifest is never found.
-    manifestDirs: [...CONTENT_DIRS, CV_DIR],
+    manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
     entries: [...documentPrintables(), ...cvPrintables()],
     render: printAll,
   },

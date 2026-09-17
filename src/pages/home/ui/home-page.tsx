@@ -1,6 +1,11 @@
 import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 
-import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { PAGE_ROUTES } from '@/shared/config';
+import {
+  BUILD_YEAR,
+  linkTo,
+  SITE_CONFIG,
+} from '@/shared/config/index.server-only';
 import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
@@ -17,7 +22,7 @@ export function HomePage() {
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar />
+          <SiteAvatar {...SITE_CONFIG} />
           <Box>
             <Title order={1} mb={12}>
               {name}
@@ -39,7 +44,7 @@ export function HomePage() {
               {SEE_ALSO.map((href, index) => (
                 <span key={href}>
                   {index > 0 && ' · '}
-                  <InternalLink {...{ href }} inherit>
+                  <InternalLink {...linkTo(href)} inherit>
                     {href}
                   </InternalLink>
                 </span>

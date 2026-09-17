@@ -9,26 +9,36 @@ import {
   Title,
 } from '@mantine/core';
 
-import { AUTHOR_URL, BUILD_YEAR, SITE_CONFIG } from '@/shared/config';
+import { AUTHOR_URL } from '@/shared/config';
+import {
+  BUILD_YEAR,
+  linkTo,
+  SITE_CONFIG,
+} from '@/shared/config/index.server-only';
+import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 import {
   cssColor,
+  InternalLink,
   PageShell,
   Section,
   SiteAvatar,
   SummaryCard,
 } from '@/shared/ui';
 
-import { ENTRIES } from '../lib/entries';
 import { AboutSection } from './about-section';
 
-export function LsaHomePage() {
+/** The collection the home page fronts; the site serves no other. */
+const COLLECTION = 'bible';
+
+export async function LsaHomePage() {
   const { name, author } = SITE_CONFIG;
+  const cards = await renderPrimaryDocuments(COLLECTION);
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Stack component="header" gap={24} ta="center">
-          <SiteAvatar />
+          <SiteAvatar {...SITE_CONFIG} />
           <Title order={1}>{name}</Title>
         </Stack>
 
@@ -36,18 +46,25 @@ export function LsaHomePage() {
 
         <Section id="writing">
           <Title order={2}>Writing</Title>
-          {ENTRIES.length > 0 ? (
-            <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
-              {ENTRIES.map((entry) => (
-                <SummaryCard key={entry.href} {...entry} />
-              ))}
-            </SimpleGrid>
-          ) : (
-            <Text opacity={0.7}>
-              Nothing published yet. The first pieces are being written and
-              recorded; they land here as they run.
-            </Text>
-          )}
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
+            {cards.map(({ document, rendered: { title } }) => {
+              const { slug, route, frontmatter } = document;
+              const { description } = frontmatter;
+
+              return (
+                <SummaryCard
+                  key={slug}
+                  {...{ title, description }}
+                  href={route}
+                />
+              );
+            })}
+          </SimpleGrid>
+          <Text>
+            <InternalLink {...linkTo(collectionRoute(COLLECTION))}>
+              All of it, in one place →
+            </InternalLink>
+          </Text>
         </Section>
 
         <Box component="footer">

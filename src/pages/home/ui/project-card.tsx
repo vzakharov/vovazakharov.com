@@ -1,5 +1,6 @@
 import { Group, Text, Title } from '@mantine/core';
 
+import { linkTo } from '@/shared/config/index.server-only';
 import type { WithOptionalCaseStudyHref } from '@/shared/typings';
 import { Card, CardLink, InternalLink, type Summarized } from '@/shared/ui';
 
@@ -36,7 +37,7 @@ export function ProjectCard({
       </Group>
       {caseStudyHref !== undefined && (
         <Text size="sm" mb={12} className={classes['aboveCardLink']}>
-          <InternalLink href={caseStudyHref} inherit>
+          <InternalLink {...linkTo(caseStudyHref)} inherit>
             Read the case study →
           </InternalLink>
         </Text>

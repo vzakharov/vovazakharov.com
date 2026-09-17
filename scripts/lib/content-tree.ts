@@ -7,9 +7,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { resolveSiteId } from '../../src/shared/config/index.node-safe.ts';
 import {
-  COLLECTION_IDS,
   collectionDir,
+  collectionsForSite,
 } from '../../src/shared/content/collections.ts';
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
@@ -23,8 +24,13 @@ export function filesUnder(target: string): string[] {
     : [target];
 }
 
-/** The collections' directories under `public/` — the content tree's roots. */
-export const CONTENT_DIRS = COLLECTION_IDS.map((id) => collectionDir(id));
+/** Which site's content this run walks — the same variable its app's build reads. */
+export const RENDERED_SITE = resolveSiteId();
+
+/** The directories under `public/` of the collections this site serves — the content tree's roots. */
+export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
+  collectionDir(id),
+);
 
 /**
  * Every file in every collection whose name satisfies `matches`. The renders the

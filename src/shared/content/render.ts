@@ -7,6 +7,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
+import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -14,7 +15,7 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl } from '@/shared/config/index.server-only';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
 import type { CollectionId, Variant } from './collections';
@@ -27,9 +28,11 @@ import {
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
+import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
 import { rehypeMermaid } from './plugins/rehype-mermaid';
 import { rehypeTableScroll } from './plugins/rehype-table-scroll';
+import { remarkContentDirectives } from './plugins/remark-content-directives';
 
 /** Words per minute, for the reading-time estimate. */
 const READING_SPEED = 220;
@@ -94,10 +97,15 @@ function extractTitleAndCount(collected: ExtractTitleAndCountCollected) {
       collected.title = words.join('').trim();
     }
 
-    // Fenced code and raw HTML are not prose, so they do not count toward
-    // reading time.
+    // Fenced code and raw HTML are not prose, and a pull quote is prose the
+    // reader meets twice, so none of the three counts toward reading time.
     visit(tree, (node) => {
-      if (node.type === 'code' || node.type === 'html') return SKIP;
+      if (
+        node.type === 'code' ||
+        node.type === 'html' ||
+        node.type === 'containerDirective'
+      )
+        return SKIP;
       if (node.type === 'text' || node.type === 'inlineCode') {
         collected.wordCount += node.value.split(/\s+/).filter(Boolean).length;
       }
@@ -132,7 +140,11 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkDirective)
+    // Before the conversion, so the directive nodes are still themselves when
+    // the count decides to skip them.
     .use(extractTitleAndCount(collected))
+    .use(remarkContentDirectives, fileName)
     .use(remarkRehype, { allowDangerousHtml: true })
     // First-party content, authored in this repo and reviewed alongside the
     // code, so raw HTML passes through unsanitized — nothing here is
@@ -147,6 +159,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     // other image and do not collapse the page until their SVG loads.
     .use(rehypeMermaid, { sourceUrl: getAbsoluteUrl(markdown.href) })
     .use(rehypeImageDimensions)
+    .use(rehypeImageLayout)
     .use(rehypeTableScroll)
     .use(rehypeShiki, {
       themes: { light: 'github-light', dark: 'github-dark' },

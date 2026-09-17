@@ -10,8 +10,8 @@ import {
 } from '@/shared/content';
 import { type Chip, ChipNav, FileLink } from '@/shared/ui';
 
-import classes from './case-studies.module.scss';
 import { DocumentMeta } from './document-meta';
+import classes from './documents.module.scss';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */
 const CUT_LABELS: Record<Variant | 'full', string> = {
@@ -74,12 +74,21 @@ export function ArticleHeader({
 
         <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
+        {/*
+          With no cuts the switcher would be one chip reading "Full", offering
+          the page the reader is already on. The empty span holds its place so
+          the file links stay right-aligned.
+        */}
         <Group justify="space-between" gap={16} wrap="wrap">
-          <CutSwitcher
-            {...{ collection, slug }}
-            current={variant}
-            available={availableVariants}
-          />
+          {availableVariants.length > 0 ? (
+            <CutSwitcher
+              {...{ collection, slug }}
+              current={variant}
+              available={availableVariants}
+            />
+          ) : (
+            <span />
+          )}
 
           <Group gap={16} wrap="wrap">
             <FileLink {...markdown}>.md</FileLink>
