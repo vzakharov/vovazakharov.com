@@ -5,8 +5,8 @@ import { cvPath } from '../lib/cv-urls';
 import type { CvEdition } from '../lib/cv-variants';
 
 /**
- * Each language as its own address: every locale is a page of its own, already
- * rendered, so switching is a navigation rather than a re-render.
+ * Links rather than a control: each locale is a page of its own in the export,
+ * so switching languages is a navigation (`.claude/rules/i18n.md`).
  */
 export function LocalePicker({ variant, locale }: CvEdition) {
   const chips = routing.locales.map(

@@ -47,6 +47,25 @@ function WebsiteLink() {
   );
 }
 
+type ProfileLinkProps = { profile: string };
+
+/**
+ * A profile elsewhere, as the catalogue spells it: scheme-less, so it reads the
+ * same in print as on screen, and linked with the scheme added back.
+ */
+function ProfileLink({ profile }: ProfileLinkProps) {
+  return (
+    <Anchor
+      href={`https://${profile}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      inherit
+    >
+      {profile}
+    </Anchor>
+  );
+}
+
 /** Order is a presentation decision, as with the experience entries. */
 const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
@@ -192,32 +211,11 @@ export function CvSheet({
                 wrap="wrap"
               >
                 <EmailLink {...pick(cv.header, 'email')} />·
-                <Anchor
-                  href={`https://${cv.contact.github}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {cv.contact.github}
-                </Anchor>
+                <ProfileLink profile={cv.contact.github} />
                 ·
-                <Anchor
-                  href={`https://${cv.contact.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {cv.contact.linkedin}
-                </Anchor>
+                <ProfileLink profile={cv.contact.linkedin} />
                 ·
-                <Anchor
-                  href={`https://${cv.contact.x}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {cv.contact.x}
-                </Anchor>
+                <ProfileLink profile={cv.contact.x} />
               </Group>
             </Card>
           </CvSection>
