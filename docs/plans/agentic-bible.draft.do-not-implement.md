@@ -51,7 +51,7 @@ load-bearing, and `public/` serves a file at the path it sits at.
 
 **One PR, not two.** The deploy plumbing is Phase 1 here rather than a `ci:` PR
 merged ahead of it, the content being ready to move today. What that costs is
-named in Phase 4: GitHub reads a `workflow_dispatch` input list off the
+named in Phase 6: GitHub reads a `workflow_dispatch` input list off the
 **default branch**, so `-f site=bible` is rejected until `main` knows the option
 exists, and the pre-merge publish therefore dispatches `site=both` — which the
 branch's own gate expands to all three sites.
@@ -83,7 +83,7 @@ one-off script stops being one.
   rather than filtered by a job-level `if` because `matrix` is not in scope in
   job-level `if` — it expands after the condition is read.
 - **The `site` picker** gains `bible`, usable from the run after this branch
-  merges — see Phase 4 for what the pre-merge dispatch names instead.
+  merges — see Phase 6 for what the pre-merge dispatch names instead.
 
 ## Phase 2 — The third site
 
