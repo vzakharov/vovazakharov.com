@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T01:44:43Z
-- **Updated:** 2026-09-17T11:49:14Z
+- **Updated:** 2026-09-17T16:52:14Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -26,7 +26,9 @@
 
 **The committed CV PDFs move with this, and the reason is worth knowing.** They are printed from a dev server, where the client-rendered sheet drew eight link underlines the export does not — so they said something the served page never did. All four were re-rendered and each now matches, byte for byte under `sameRender`, what the built site prints over a static host. `render-pdf.ts`'s docstring carried the claim that dev and export print the same page; it now carries the condition under which that is true.
 
-Three comments that had been guarding the i18n invariant are gone — the machinery carries it, and `.claude/rules/i18n.md` carries the reasoning. One of the three was a polar bear: it denied the provider the same commit had just removed.
+Three comments that had been guarding the i18n invariant are gone — the machinery carries it, and `.claude/rules/i18n.md` carries the reasoning. One of the three was a polar bear: it denied the provider the same commit had just removed. That rule is scoped to the translation machinery — `src/shared/i18n/**` and the payload check — rather than to `src/pages/cv/**`, which would have read today's one localized page as the permanent set, the same defect as the path glob this PR replaced.
+
+**The prose the machinery replaced is cut rather than kept alongside it.** `check:i18n-payload`'s entry in CLAUDE.md § "Vetting" is one sentence: everything else it said sits in the script's own header, and the always-resident file earns only what holds of the vet list — here, that reading the finished build is what lets the check overlap the others. #59 owes the same pass to the other checks whose scripts explain themselves.
 
 Also here, found by running the checks rather than by design: Prettier ignores `docs/issue` and `docs/pr`. `/finalize` vets at step 1 and sweeps the exports at step 3, so a committed PR export failed `format:check` on any branch carrying one — and since `/handle` commits one every turn, this was the first branch to reach it.
 
@@ -118,11 +120,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T01** `docs/remove-before-merging/squash-message.md`:32 — resolved — last: @vzakharov (agent) 2026-09-17T10:06:26Z — "Сделано: гейт публикует на `feat|fix|perf`, набор префиксов…" → [↓](#t01)
 - **T02** `src/app/ui/root-layout.tsx`:59 — resolved — last: @vzakharov (agent) 2026-09-17T10:06:27Z — "Медведь, согласен — комментарий отрицал провайдер, который э…" → [↓](#t02)
 - **T03** `src/app/ui/theme-corner.tsx`:13 — resolved — last: @vzakharov (agent) 2026-09-17T11:26:08Z — "Поправка к моему предыдущему ответу в этом треде: он был нев…" → [↓](#t03)
-- **T04** `src/app/ui/theme-provider.tsx`:22 — unresolved — last: @vzakharov (agent) 2026-09-17T10:06:29Z — "Да, обе стороны — `pnpm check:mantine-styles` в развёртке ve…" → [↓](#t04)
-- **T05** `.claude/rules/i18n.md`:5 — unresolved — last: @vzakharov (human) 2026-09-17T11:43:30Z — "не понимаю, зачем выделять /cv/, а вот к i18n-шным .json-ам…" → [↓](#t05)
-- **T06** `eslint/rule-groups/typescript.ts`:131 — unresolved — last: @vzakharov (human) 2026-09-17T11:45:09Z — "не понимаю, а где здесь написано что нельзя именно в клиентс…" → [↓](#t06)
-- **T07** `src/shared/i18n/rich-text.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-17T11:48:05Z — "что это, где это, зачем это? почему не маркдаун?" → [↓](#t07)
-- **T08** `CLAUDE.md`:78 — unresolved — last: @vzakharov (human) 2026-09-17T11:49:09Z — "не понимаю зачем это здесь, если чек все равно выполняется.…" → [↓](#t08)
+- **T04** `src/app/ui/theme-provider.tsx`:22 — resolved — last: @vzakharov (agent) 2026-09-17T10:06:29Z — "Да, обе стороны — `pnpm check:mantine-styles` в развёртке ve…" → [↓](#t04)
+- **T05** `.claude/rules/i18n.md`:5 — resolved — last: @vzakharov (agent) 2026-09-17T12:07:17Z — "Прав по обоим пунктам, но по-разному. `.json`-ы уже привязан…" → [↓](#t05)
+- **T06** `eslint/rule-groups/typescript.ts`:134 — unresolved — last: @vzakharov (human) 2026-09-17T16:17:34Z — "посмотри через gh (НЕ add_repo) playgramai/playgramapp и его…" → [↓](#t06)
+- **T07** `src/shared/i18n/rich-text.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-17T16:51:32Z — "бррр, я тотально запутался. Что у нас за пляски с бубнами, ч…" → [↓](#t07)
+- **T08** `CLAUDE.md`:78 — resolved — last: @vzakharov (agent) 2026-09-17T12:08:11Z — "Сокращено до предложения, тикет заведён: #59. Абзац был вдво…" → [↓](#t08)
 
 <a id="t01"></a>
 
@@ -245,7 +247,7 @@ CV рендерится на сервере целиком, разметка б�
 
 <a id="t04"></a>
 
-### `src/app/ui/theme-provider.tsx`:22 — unresolved
+### `src/app/ui/theme-provider.tsx`:22 — resolved
 
 ```diff
 @@ -1,6 +1,25 @@
@@ -294,7 +296,7 @@ CV рендерится на сервере целиком, разметка б�
 
 <a id="t05"></a>
 
-### `.claude/rules/i18n.md`:5 — unresolved
+### `.claude/rules/i18n.md`:5 — resolved
 
 ```diff
 @@ -0,0 +1,64 @@
@@ -309,11 +311,21 @@ CV рендерится на сервере целиком, разметка б�
 
 не понимаю, зачем выделять /cv/, а вот к i18n-шным .json-ам я бы таки привязал, нет?
 
+**@vzakharov (agent)** — 2026-09-17T12:07:17Z
+
+Прав по обоим пунктам, но по-разному.
+
+`.json`-ы уже привязаны: каталоги лежат в `src/shared/i18n/messages/`, то есть внутри первого глоба.
+
+А `src/pages/cv/**` — тот же дефект, что ты только что заставил меня убрать из линтера: он читает единственную сегодня локализованную страницу как постоянный набор. Убрал. Правило теперь привязано к своей же машинерии — `src/shared/i18n/**` и `scripts/check-i18n-payload.ts`: тот, кто редактирует чек, держит в руках решение, которое чек охраняет, и должен его видеть. CV ничего не теряет: обе ошибки, от которых правило предостерегает, ловятся машинно — импорт линтером, `'use client'` на листе — чеком payload'а.
+
+549aeef
+
 ---
 
 <a id="t06"></a>
 
-### `eslint/rule-groups/typescript.ts`:131 — unresolved
+### `eslint/rule-groups/typescript.ts`:134 — unresolved
 
 ```diff
 @@ -127,6 +127,27 @@ export const typescriptRules = {
@@ -330,6 +342,20 @@ CV рендерится на сервере целиком, разметка б�
 
 Edit: Аа, или на сервере импортится из другого пакета, `'next-intl/server'`?
 
+**@vzakharov (agent)** — 2026-09-17T12:07:33Z
+
+Твой edit — ровно так. Запрет не про клиентские модули, он на голый специфаер целиком, откуда угодно; серверный перевод идёт из `next-intl/server`, который не ограничен.
+
+Причина, почему запрет тотальный, а не «только в клиентских»: у голого входа условие экспорта `react-server`, так что из серверного модуля он резолвится в серверную реализацию и ничего не весит. Но линтер типов модуля не знает — `'use client'` стоит в другом файле, и модуль без директивы попадает в клиентский бандл просто потому, что его кто-то оттуда импортировал. То есть «можно ли здесь» — свойство графа, а не файла, и локальное правило его прочитать не может. Тотальный запрет читается, а `next-intl/server` оставляет ровно одну дверь.
+
+Из конфига этого не было видно — там стоял только комментарий про то, какое core-правило заменяется. Дописал.
+
+549aeef
+
+**@vzakharov (human)** — 2026-09-17T16:17:34Z
+
+посмотри через gh (НЕ add_repo) playgramai/playgramapp и его решение с кастомными бочками (.server-only., .client-safe. итп)
+
 ---
 
 <a id="t07"></a>
@@ -340,11 +366,29 @@ Edit: Аа, или на сервере импортится из другого 
 
 что это, где это, зачем это?  почему не маркдаун?
 
+**@vzakharov (agent)** — 2026-09-17T12:07:54Z
+
+Справедливо — файл открывался комментарием про регулярку, а сама функция стояла без объяснений. Перенёс докстринг на `richText` и дописал ответ про маркдаун.
+
+**Что это и где.** Один вызов: `cv-sheet.tsx:112`, абзацы профиля. В каталогах ровно три строки на локаль несут `<strong>` — это единственное место, где выделение падает посреди фразы; у буллетов жирный лид лежит структурным полем (`lead`, `label`), а не разметкой.
+
+**Зачем вообще.** Это замена `t.rich`, который ушёл вместе с рантаймом. Сервер отдать смерженный каталог next-intl'у не может: `createTranslator` в 4.5.4 не экспортируется ни из одной из девяти точек входа, так что автономного переводчика у библиотеки просто нет — только провайдер, то есть клиент.
+
+**Почему не маркдаун.** Пайплайн в `src/shared/content/` для этого есть, и не подошёл по двум причинам. Он документный: remark → rehype → блоки, то есть обёртки `<p>` там, где это фрагмент внутри `<Text>`. И, что важнее, маркдаун-рендерер принимает всё — ссылки, картинки, заголовки, — то есть расширяет то, что сообщению позволено, без чьего-либо решения. Здесь ценность именно в закрытом множестве: `<strong>` рендерится, любой другой тег бросает. Тесты (`rich-text.test.ts`) половину прогонов тратят именно на «что оно отказывается делать».
+
+Если захочется маркдауна осознанно — это переписывание каталогов с `<strong>` на `**` плюс явный allow-list плагинов, и тогда решение стоит записать там же, где ban.
+
+549aeef
+
+**@vzakharov (human)** — 2026-09-17T16:51:32Z
+
+бррр, я тотально запутался. Что у нас за пляски с бубнами, чтобы просто в реакте отобразить несколько форматированных абзацев? Попробуй /plainly пжст
+
 ---
 
 <a id="t08"></a>
 
-### `CLAUDE.md`:78 — unresolved
+### `CLAUDE.md`:78 — resolved
 
 ```diff
 @@ -64,18 +65,20 @@ scripts/check-notes-length.sh    # writing/notes/ ceiling │
@@ -359,6 +403,18 @@ Edit: Аа, или на сервере импортится из другого 
 
 не понимаю зачем это здесь, если чек все равно выполняется. как минимум, сократить буквально до предложения, и по остальным чекам которые сами себя объясняют завести тикет сделать так же.
 
+**@vzakharov (agent)** — 2026-09-17T12:08:11Z
+
+Сокращено до предложения, тикет заведён: #59.
+
+Абзац был вдвойне лишним. Всё, что он говорил, лежит в шапке самого скрипта — то есть одна и та же вещь в двух домах, а один из них резидентен в каждой сессии. И правило, которое я этим нарушил, написано в том же файле: § «Writing things down» → «if you find the same constraint stated in two places, that is the finding».
+
+Осталось то, что верно про **список**, а не про скрипт: чек читает готовую сборку под `apps/*/out/`, и именно поэтому он безопасно идёт в общем fan-out'е. Плюс ссылка на `.claude/rules/i18n.md`.
+
+#59 — тот же проход по остальным: `check:mantine-styles`, `styles:codegen`, `type-overlap`, два render-чека, три shell-чека, `lint:css`. Критерий в тикете сформулирован так, чтобы проход не превратился в вырезание всего подряд: бюллет зарабатывает то, что нельзя восстановить из скрипта — что он держит, и почему он не конфликтует с соседями по fan-out'у. Три бюллета в тикет не попали: они не про чеки, а про форму прогона.
+
+549aeef
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -367,3 +423,5 @@ Edit: Аа, или на сервере импортится из другого 
 - **2026-09-17T10:04:41Z** @vzakharov renamed from «perf: trim the client payload by 41 kB gzipped per page» to «perf: trim the client payload, and hold both cuts with a check».
 - **2026-09-17T10:22:42Z** @vzakharov renamed from «perf: trim the client payload, and hold both cuts with a check» to «perf: trim the client payload, and hold both cuts by the build».
 - **2026-09-17T11:49:14Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/56#pullrequestreview-5235132127.
+- **2026-09-17T11:55:11Z** @vzakharov cross-referenced this pull request from [#59 Cut the vetting bullets whose script already explains itself](https://github.com/vzakharov/vovazakharov.com/issues/59).
+- **2026-09-17T15:39:54Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/2c86baf964514de3b8753f861a20241f27bc1fb5.
