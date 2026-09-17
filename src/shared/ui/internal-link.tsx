@@ -43,6 +43,10 @@ export type InternalLinkProps = Anchored &
  * `ElementProps` omits what `AnchorProps` claims, so an anchor attribute with no
  * Mantine counterpart — `hrefLang`, `target` — reaches the `<a>` without the two
  * types shadowing each other.
+ *
+ * `className` dresses both anchors and never the wrapper, which carries the
+ * medium switch alone: a caller's class stating `display` ties with it on
+ * specificity and wins on order, putting the printed half on screen.
  */
 export function InternalLink({
   href,
@@ -63,7 +67,7 @@ export function InternalLink({
       >
         {children}
       </Anchor>
-      <span className={cx(classes['printed'], className)}>
+      <span className={classes['printed']}>
         {withAddress && (
           <>
             {children}
@@ -72,7 +76,7 @@ export function InternalLink({
         )}
         {/* One text node, not two: a PDF gets a link annotation per node, and
             the first is placed over whatever precedes the anchor. */}
-        <Anchor {...pick(printed, 'href')} {...props}>
+        <Anchor {...pick(printed, 'href')} {...props} {...{ className }}>
           {withAddress ? printed.text : children}
         </Anchor>
       </span>
