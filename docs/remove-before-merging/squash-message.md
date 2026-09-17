@@ -12,13 +12,16 @@ mushrooms, and a choice of four caps whenever one is added. There is
 no goal — the point is to watch the insects. This is that page, at
 /mushrooms with an en and a ru form, since the author reads Russian.
 
-The game is a pure reducer under pages/mushrooms/lib with the scene
-rendered off its state: mushrooms with a picked cap, windows on the
-cap and a door on the stem of the selected one, insects perched where
-the action that landed them said. Randomness stays in the component,
-so the reducer is deterministic and is the one thing under test. The
-drawing is one-colour inline SVG in the foreground token — faithful to
-the one-pen original and needing no new colour token in either scheme.
+It is a game, not a form: a full-screen meadow in Phaser 4, loaded on
+this route alone, with painted sprites, tweened motion and synthesized
+sound, laid out from the screen size so a phone and a tablet both fill.
+A pure reducer under pages/mushrooms/model decides the state and the
+scene reconciles to it by id — a mushroom that appears pops out of the
+ground, an insect that appears flies in to its perch. Randomness stays
+in the scene, so the reducer is deterministic and the one thing under
+test. The game's palette is the one file on the site holding colour
+literals: a canvas is out of the tokens' reach, and the styling rule
+says so.
 
 Localization follows the CV: a trailing locale segment parsed by a
 server-only schema, canonical and hreflang alternates, and the page
