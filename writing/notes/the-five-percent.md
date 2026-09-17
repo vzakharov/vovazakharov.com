@@ -15,8 +15,8 @@ measurement that only flatters, so bumps stay in whatever they show.
 
 **Adding to it is mandatory after a review session** that changed something the
 agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule, and why
-the entry is written before the session forgets what it worked from. **And the
-file has an end:** once row 18 is posted, it retires with that rule. Everything
+the entry is written before the session forgets what it worked from. **The file
+has an end:** once row 18 is posted, it retires with that rule. Everything
 durable belongs where the code can see it — a rule under `.claude/rules/`, a
 line in `CLAUDE.md` — whether or not it lands here.
 
@@ -33,18 +33,15 @@ line in `CLAUDE.md` — whether or not it lands here.
   of scope — it goes under "Not bumps" or nowhere: a file that counts every
   correction reads as an agent grading its own obedience.
 - **Past 400 lines, squeeze to 300 or under** — `scripts/check-notes-length.sh`
-  fails the vet run at the ceiling and asks for the floor. Two numbers because
-  one buys nothing: a file trimmed back to 399 trips again on the next append,
-  so every session pays a crumb cut, and the hundred lines between them is what
-  makes a squeeze last. In order: tighten the prose; cut archaeology, a bump
-  needing the shortest account that still shows what the agent could not see;
-  merge the near-twins and thin whatever is over-evidenced, a count of twenty
-  being believed on a dozen lines and the heading keeping the count either way;
-  and only then drop learnings from the bottom, one bump being a coincidence
-  with a paragraph attached.
-- **A dropped bump is in the history, not gone.**
-  `git log -p writing/notes/the-five-percent.md` is where a squeeze put it, and
-  one worth reviving comes back as a line under whatever learning it fits.
+  fails the vet run at the ceiling and asks for the floor. Landing at 399 buys
+  one session; the next append trips it again. In order: tighten the prose; cut
+  archaeology, a bump needing the shortest account that still shows what the
+  agent could not see; merge the near-twins and thin whatever is over-evidenced,
+  a count of twenty being believed on a dozen lines and the heading keeping the
+  count either way; and only then drop learnings from the bottom, one bump being
+  a coincidence with a paragraph attached.
+- **A dropped bump is recoverable** — `git log -p` over this file. One worth
+  reviving comes back as a line under whatever learning it now fits.
 
 ## What it was handed, it treats as fixed (×20)
 

@@ -5,9 +5,9 @@
 # reads a paragraph on its way to adding a section.
 #
 # Two numbers, not one: the check fails past MAX_LINES and the failure asks for
-# TARGET_LINES. A file trimmed back to one line under the ceiling trips again on
-# the next append, so a single number buys a crumb cut every session; the gap
-# between these two buys one editorial pass per hundred lines.
+# TARGET_LINES. Squeezing back to one line under the ceiling buys one session,
+# so a single number is a crumb cut every time; the gap between these two is
+# one editorial pass per hundred lines.
 #
 # Failing is the whole point, and failing is all it does: which of the squeezes
 # the file itself names applies is a judgement, so nothing here trims. The
