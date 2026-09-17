@@ -64,6 +64,13 @@
 
   // Headings
 
+  // A section starts on its own line: an aside image near the foot of one
+  // otherwise floats past the rule and squeezes the next heading into the
+  // margin beside it.
+  :where(h1, h2, h3, h4) {
+    clear: both;
+  }
+
   :where(h1) {
     margin: 0 0 0.8889em;
     font-size: 2.25em;
