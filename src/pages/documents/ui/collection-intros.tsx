@@ -28,21 +28,13 @@ export const COLLECTION_INTROS: Record<
           weighing, but the position, stated flat out, with whatever is under it
           shown. The alternative is what a language model writes when nobody
           stops it: every approach has its pros and its cons, weigh them against
-          your context, best of luck. Nobody has ever changed how they work on a
-          Tuesday because of a paragraph like that.
+          your context, best of luck.
         </Text>
         <Text lh={1.625}>
           Hence the name, which is a joke, and which is doing actual work.
           Calling it the Bible is what keeps a categorical article from reading
           as a manifesto: nothing here ends in amen, and an article that turns
           out to be wrong gets rewritten rather than defended.
-        </Text>
-        <Text lh={1.625}>
-          Categorical means as of writing. The ground moves — the models get
-          better every month at the things that were hard last quarter — so a
-          piece goes stale when the technology under it moves, not when the week
-          turns. Each of these says what to do today and why, which is the most
-          anyone can honestly offer about a subject this young.
         </Text>
       </>
     ),
