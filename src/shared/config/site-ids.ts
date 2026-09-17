@@ -3,7 +3,7 @@
  * every bundle holds — bare Node reads it through
  * `shared/content/collections.ts`, client components through `@/shared/config`
  * — so anything added here costs all of them. The environment read and its
- * schema sit in `resolve-site-id.ts` for that reason.
+ * schema sit in `site.env.unsafe.ts` for that reason.
  */
 
 /** The ids are the source of truth: each names a directory under `apps/`. */

@@ -2,7 +2,7 @@ import 'server-only';
 
 import type { DocumentFile, Linked, WithText } from '@/shared/typings';
 
-import { resolveSiteId } from './resolve-site-id';
+import { resolveSiteId } from './site.env.unsafe';
 import { siteConfig, withoutScheme } from './site-config';
 
 /**

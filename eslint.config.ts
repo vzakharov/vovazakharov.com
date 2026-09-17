@@ -61,7 +61,7 @@ const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 // See .claude/rules/fsd.md.
-const PUBLIC_API = ['index.ts', 'index.server-only.ts'];
+const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
 
 // Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
 // discipline at CLI time; boundaries restates them as inline editor feedback,

@@ -1,4 +1,3 @@
-export { resolveSiteId } from './resolve-site-id';
 export {
   BUILD_YEAR,
   getAbsoluteUrl,
