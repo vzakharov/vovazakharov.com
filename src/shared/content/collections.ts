@@ -96,10 +96,11 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
 /**
  * A locale as a trailing segment, which is where a localized collection's pages
  * differ from one another. A cut is a dotted suffix on the slug instead, so the
- * two positions cannot collide however they are combined.
+ * two positions cannot collide however they are combined. No locale is the
+ * alias — the same page, at the address that does not name a language.
  */
-export function localizedRoute(route: string, locale: string): string {
-  return `${route}/${locale}`;
+export function localizedRoute(route: string, locale?: string): string {
+  return locale === undefined ? route : `${route}/${locale}`;
 }
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */

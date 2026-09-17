@@ -6,6 +6,7 @@ import type {
   ContentDocument,
   WithOptionalOgImageSize,
 } from '@/shared/content';
+import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
 import type { Described, MaybeTitled } from '@/shared/typings';
 
 export type ConstructMetadataParams = MaybeTitled &
@@ -27,6 +28,28 @@ export type ConstructMetadataParams = MaybeTitled &
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path; the avatar when absent
   };
+
+/**
+ * The canonical address and every language's, for a page whose locale is a
+ * segment of its own URL. Spelled once because the `x-default` and the
+ * self-reference are easy to get subtly wrong in a second copy — and with the
+ * locale in a trailing segment, the alternates are what tells a crawler the two
+ * addresses are one page rather than two.
+ */
+export function localizedAddresses(
+  address: (locale: Locale) => string,
+  locale: Locale,
+): Pick<ConstructMetadataParams, 'canonical' | 'languages'> {
+  return {
+    canonical: address(locale),
+    languages: {
+      ...Object.fromEntries(
+        LOCALES.map((alternate) => [alternate, address(alternate)]),
+      ),
+      'x-default': address(DEFAULT_LOCALE),
+    },
+  };
+}
 
 export function constructMetadata({
   title,

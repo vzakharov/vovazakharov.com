@@ -23,11 +23,9 @@ import {
   byLocale,
   loadMessages,
   type Locale,
-  LOCALES,
-  routing,
   type WithLocale,
 } from '@/shared/i18n';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata, localizedAddresses } from '@/shared/seo';
 import {
   BackToHome,
   FileLink,
@@ -70,13 +68,7 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     title: `${title} - ${SITE_CONFIG.name}`,
     description,
     path: songPath(slug, locale),
-    canonical: songPath(slug, locale),
-    languages: {
-      ...Object.fromEntries(
-        LOCALES.map((alternate) => [alternate, songPath(slug, alternate)]),
-      ),
-      'x-default': songPath(slug, routing.defaultLocale),
-    },
+    ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
   });
 }
