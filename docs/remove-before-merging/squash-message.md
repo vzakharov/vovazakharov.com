@@ -8,28 +8,33 @@ perf: ship only the CSS and i18n runtime each page uses (pr #56)
 Every page carried Mantine's entire stylesheet and next-intl's client
 runtime for a fraction of either: 14 of ~200 component stylesheets are
 rendered anywhere on the site, and the only client component outside the
-CV read a single aria-label.
+CV read a single aria-label. Per page, gzipped, that was 210.9 kB on the
+homepage against 169.8 kB now, and 221.5 kB against 195.2 kB on the CV.
 
-`theme-provider.tsx` now names Mantine's three core stylesheets and one
-per component in use, rather than the aggregate `styles.layer.css`. That
-list can go wrong silently — a component whose sheet is missing
-compiles, type-checks, builds and renders unstyled — so
-`pnpm check:mantine-styles` joins the vet fan-out, comparing the classes
-in each site's built HTML against the rules in that site's built CSS.
-Reading the build output rather than the import list is what lets it
-cover a sheet Mantine composes in internally, and each site is answered
-by its own CSS so that a stale export cannot pass on its neighbour's.
+`theme-provider.tsx` names Mantine's three core stylesheets and one per
+component in use rather than the aggregate `styles.layer.css`, and
+`ThemeCorner` translates the toggle's label with `getTranslations` and
+passes it down, which takes `NextIntlClientProvider` out of the root
+layout. The CV keeps its own provider and its own messages, that subtree
+being where translation at runtime is earned; the shell's provider
+carried no locale of its own, so the label resolves exactly as before.
 
-The label the site shell translated is now translated by `ThemeCorner`
-with `getTranslations` and passed to `ThemeToggle` as a prop, which
-takes `NextIntlClientProvider` out of the root layout. The CV keeps its
-own provider and its own messages, that subtree being where translation
-at runtime is earned. The shell's provider carried no locale of its own,
-so the label resolves exactly as before.
+Both savings go wrong silently, so a check holds each rather than a
+comment. A missing stylesheet compiles, type-checks, builds and renders
+unstyled, so `pnpm check:mantine-styles` compares the classes in each
+site's built HTML against the rules in that site's built CSS: reading
+the build output covers a sheet Mantine composes in internally, and
+answering each site from its own CSS stops a stale export passing on its
+neighbour's. `useTranslations` in a client component is worse than
+broken — it works, and bills that page 14 kB — so
+`@typescript-eslint/no-restricted-imports` blocks the bare `next-intl`
+specifier outside the CV and names the server-side route in its message.
+`.claude/rules/i18n.md` is the reasoning's one home.
 
-Per page, gzipped: 210.9 kB to 169.8 kB on the homepage, and 221.5 kB to
-195.2 kB on the CV. `deploy.yml` publishes on `feat:` and `fix:` alone,
-so this one needs a `workflow_dispatch` run after merge.
+`deploy.yml` publishes on `perf:` as well as `feat:` and `fix:`: on a
+static export a change that makes a page cheaper to load changes the
+files the CDN serves, so the gate skipping it left an improvement merged
+and unserved.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
