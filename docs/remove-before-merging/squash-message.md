@@ -15,23 +15,30 @@ could be added, session after session.
 past 400 and the failure asks for 300, and the hundred lines between
 them are what makes a squeeze last. The target is asked for rather than
 enforced, for the reason nothing in the script trims -- where to stop is
-a judgement, and only the ceiling is a rule.
+a judgement, and only the ceiling is a rule. The file then takes the
+squeeze the rule demands, 406 lines to 296: near-twins merged, the
+over-evidenced sections thinned and the two bottom learnings dropped
+whole, with the seven survivors' counts unchanged -- a count is the
+claim, and the lines under it only how many of the times got written
+down. The squeeze order gained two steps in the same pass, having gone
+straight from tightening to dropping on the assumption that the bottom
+of the file was coincidences with a paragraph attached.
 
-The file then takes the squeeze the rule demands, 406 lines to 296:
-near-twins merged, the over-evidenced sections thinned -- the top
-learning ran to fourteen specimens for a claim its heading already makes
-at twenty -- and the two bottom learnings dropped whole. Seven learnings
-survive with their counts unchanged, a count being the claim and the
-lines under it only how many of the times got written down. The squeeze
-order gained two steps in the same pass: it used to go straight from
-tightening to dropping, which assumed the bottom of the file was still
-coincidences with a paragraph attached.
+The editing itself is a subagent's now, stated in `CLAUDE.md` where the
+entry is mandated. Cost is the lesser reason -- the round-trip loop
+rather than the one edit, cut and re-measure and cut again. The reason
+is bias: an agent that reads the taxonomy before naming its own failure
+names it in the headings it just read, so the count that grows is the
+one easiest to file under and the measurement is what the file is for.
+The session hands over the learning in its own words, written before
+the file is opened, and takes back one line saying where it landed.
 
-What remains is the editing itself, which CLAUDE.md now hands to a
-subagent: the session states the learning, and placing it, squeezing if
-the check trips and returning when it passes are the subagent's. The
-clauses on how to place an entry go with it -- the notes file's own "How
-this file is kept" is the brief, so the prompt restates none of it.
+What counts as a bump gained the line it was missing -- a human has to
+be in it, a mistake the agent caught by itself demonstrating the
+opposite of the file's claim. A pass over where the existing bumps sit
+re-homes one under the learning about reasoning written into the
+artifact, and widens the quote-a-source heading to cover the half of
+its evidence that never had a source open.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
