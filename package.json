@@ -20,6 +20,7 @@
     "content:mermaid": "cd apps/vova && node ../../scripts/render-mermaid.ts",
     "content:og": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-og.ts",
     "content:pdf": "cd apps/vova && NEXT_PUBLIC_SITE=vova tsx ../../scripts/render-pdf.ts",
+    "music:scaffold": "cd apps/vova && tsx ../../scripts/scaffold-song.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {
