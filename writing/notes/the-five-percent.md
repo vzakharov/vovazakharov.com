@@ -33,11 +33,17 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   supplied a decision that was the human's to take — a positioning call, a change
   of scope — it goes under "Not bumps" or nowhere: a file that counts every
   correction reads as an agent grading its own obedience.
-- **Past 400 lines, squeeze instead of growing**, which
-  `scripts/check-notes-length.sh` fails the vet run over. In order: tighten the
-  prose; then cut archaeology, a bump needing the shortest account that still
-  shows what the agent could not see; then drop learnings from the bottom, since
-  one bump is a coincidence with a paragraph attached.
+- **Past 400 lines, squeeze to 300 or under** — `scripts/check-notes-length.sh`
+  fails the vet run at the ceiling and asks for the floor. Two numbers because
+  one buys nothing: a file trimmed back to 399 trips on the next append, so
+  every session pays a crumb cut, and the hundred lines between them is what
+  makes a squeeze last. In order: tighten the prose; then cut archaeology, a
+  bump needing the shortest account that still shows what the agent could not
+  see; then drop learnings from the bottom, since one bump is a coincidence with
+  a paragraph attached.
+- **A dropped learning is in the history, not gone.**
+  `git log -p writing/notes/the-five-percent.md` is where a squeeze put it, and
+  a bump worth reviving comes back as a line under whatever learning it fits.
 
 ## What it was handed, it treats as fixed (×20)
 
