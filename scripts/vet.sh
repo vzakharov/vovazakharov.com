@@ -43,7 +43,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these thirteen writes anything another one reads, so they overlap
+# None of these fourteen writes anything another one reads, so they overlap
 # freely.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
@@ -53,6 +53,8 @@ fi
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
+# The Mantine check only reads what the build above already finished writing
+# under `apps/*/out/`, which nothing here writes to.
 # The last reads the agent infrastructure itself and nothing else here touches
 # it.
 scripts/run-parallel.sh \
@@ -62,6 +64,7 @@ scripts/run-parallel.sh \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
+  mantine-styles='pnpm check:mantine-styles' \
   og='pnpm content:og --check' \
   pdf='pnpm content:pdf --check' \
   test='pnpm test' \

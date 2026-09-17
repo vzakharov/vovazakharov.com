@@ -1,6 +1,28 @@
 'use client';
 
-import '@mantine/core/styles.layer.css';
+// Mantine ships one stylesheet per component beside the aggregate, and the
+// aggregate carries all 204 of them — the ~190 this site never renders included.
+// So the sheets are named one at a time, core first. `pnpm check:mantine-styles`
+// holds the list to what the built HTML actually uses, in both directions:
+// a component rendered without its sheet is invisible breakage, and a sheet
+// whose component has gone is dead weight nothing else would report.
+import '@mantine/core/styles/baseline.layer.css';
+import '@mantine/core/styles/default-css-variables.layer.css';
+import '@mantine/core/styles/global.layer.css';
+import '@mantine/core/styles/ActionIcon.layer.css';
+import '@mantine/core/styles/Anchor.layer.css';
+import '@mantine/core/styles/Button.layer.css';
+import '@mantine/core/styles/Center.layer.css';
+import '@mantine/core/styles/Container.layer.css';
+import '@mantine/core/styles/Divider.layer.css';
+import '@mantine/core/styles/Group.layer.css';
+import '@mantine/core/styles/List.layer.css';
+import '@mantine/core/styles/Paper.layer.css';
+import '@mantine/core/styles/SimpleGrid.layer.css';
+import '@mantine/core/styles/Stack.layer.css';
+import '@mantine/core/styles/Text.layer.css';
+import '@mantine/core/styles/Title.layer.css';
+import '@mantine/core/styles/UnstyledButton.layer.css';
 
 import { type CSSVariablesResolver, MantineProvider } from '@mantine/core';
 

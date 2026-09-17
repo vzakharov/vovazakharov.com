@@ -10,11 +10,22 @@ paths:
 
 # Styling
 
-Mantine is imported as `@mantine/core/styles.layer.css`, so everything it ships
-lives in `@layer mantine`. **Any unlayered rule beats it, whatever the
+Mantine is imported as the `.layer.css` half of each stylesheet, so everything
+it ships lives in `@layer mantine`. **Any unlayered rule beats it, whatever the
 specificity** — `globals.scss`, `print.scss` and every `.module.scss` are
 unlayered, so none of them needs `!important` — stylelint's
 `declaration-no-important` holds that line.
+
+**Which sheets those are is a list, not the aggregate.** `theme-provider.tsx`
+names Mantine's three core files and one file per component in use, rather than
+`styles.layer.css` — which carries all ~200 of them, ~25 kB gzipped more than
+this site renders. A component used for the first time therefore needs its sheet
+added there, and **nothing about the omission is visible in a build**: it
+compiles, type-checks and renders, unstyled. `pnpm check:mantine-styles` is what
+catches it, comparing the classes in each site's built HTML against the rules in
+its built CSS, so a sheet Mantine composes in internally (`Button` renders
+`UnstyledButton`'s class) counts without being named. It reports the unused
+direction too, and prints the exact import line to add or drop.
 
 ## What a stylesheet cannot reach
 
