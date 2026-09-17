@@ -4,7 +4,6 @@ import '../styles/print.scss';
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
 
 import { SITE_CONFIG } from '@/shared/config';
 import { constructMetadata } from '@/shared/seo';
@@ -53,13 +52,17 @@ export function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
+      {/*
+        No `NextIntlClientProvider` here: the shell has no client component that
+        translates, so wrapping the site in one would ship next-intl's client
+        runtime to every page to serve the CV alone. `CvPage` provides for its
+        own subtree, with the messages that subtree needs.
+      */}
       <body>
-        <NextIntlClientProvider>
-          <ThemeProvider>
-            <ThemeCorner />
-            {children}
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider>
+          <ThemeCorner />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

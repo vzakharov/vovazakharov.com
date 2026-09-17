@@ -2,9 +2,9 @@
 
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { Moon, Sun } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
+import type { Labeled } from '@/shared/typings';
 
 import {
   type PickedColorScheme,
@@ -27,11 +27,17 @@ function systemColorScheme(): PickedColorScheme {
     : 'light';
 }
 
-/** Two visible states over a three-value store; the rule is in `../lib`. */
-export function ThemeToggle() {
+/**
+ * Two visible states over a three-value store; the rule is in `../lib`.
+ *
+ * The label arrives as a prop because this is the site's only client component
+ * outside the CV, and reading it with `useTranslations` would put next-intl's
+ * client runtime — ~48 kB, 14 kB gzipped — into every page for one string.
+ * A server caller translates it and hands it over.
+ */
+export function ThemeToggle({ label }: Labeled) {
   const { colorScheme, setColorScheme, clearColorScheme } =
     useMantineColorScheme();
-  const t = useTranslations('ui');
 
   function switchScheme() {
     const system = systemColorScheme();
@@ -50,7 +56,7 @@ export function ThemeToggle() {
       variant="transparent"
       size={SIZE}
       onClick={switchScheme}
-      aria-label={t('toggleTheme')}
+      aria-label={label}
       className={cx(classes['toggle'], 'print-hidden')}
     >
       {/* The icon names the scheme a click gets you, not the one you are in. */}
