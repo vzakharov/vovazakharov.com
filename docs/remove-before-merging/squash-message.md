@@ -15,12 +15,12 @@ and the list of what follows; this is the first piece.
 The piece is a full-screen meadow with two motionless fly agarics,
 drawn by Phaser 4 into a canvas that React mounts and lays out from
 the screen size, so a phone held upright and a tablet held sideways
-both fill. It proves the engine inside this static export and puts
-the route, the page slice and the drawing conventions in place: SVG
-sprites rasterised at device resolution, a layout module that owns
-every position, and a palette that is the one file on the site with
-colour literals — a canvas is out of the CSS tokens' reach, and the
-styling rule now says so.
+both fill. No sprites: each mushroom is grown by a pure, seeded
+generator — proportions, lean, spots, a hue nudge — and painted from
+those genes with vector primitives, so no two are alike and a forest
+costs nothing per tree. The generator is the one thing under test.
+The palette is the one file on the site with colour literals — a
+canvas is out of the CSS tokens' reach, and the styling rule says so.
 
 The game has no text anywhere, so a child of any age can play; with
 that, no locales — one route, metadata in English like the rest.
