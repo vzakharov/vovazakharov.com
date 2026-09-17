@@ -12,6 +12,7 @@ import {
 import { useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
+import { pick } from '@/shared/lib/collections';
 import type {
   DocumentFile,
   LinkedPerMedium,
@@ -142,7 +143,10 @@ export function CvSheet({
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink href={caseStudy.href} printed={null} />
+                    <CaseStudyLink
+                      {...pick(caseStudy, 'href')}
+                      printed={null}
+                    />
                   </Box>
                 )}
               </Stack>
