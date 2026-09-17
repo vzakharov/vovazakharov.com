@@ -14,6 +14,7 @@ export {
   type Variant,
   VARIANTS,
 } from './collections';
+export { documentDateTime, formatDocumentDate } from './document-date';
 export {
   type ContentDocument,
   listAllDocuments,

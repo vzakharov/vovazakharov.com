@@ -26,10 +26,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import { MUSIC_ORGANIZATION } from '@/shared/config/music-projects';
 import { collectionDir } from '@/shared/content/collections';
 import type { Named } from '@/shared/typings';
-
-const ORGANIZATION = 'vovas-music';
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
@@ -158,7 +157,7 @@ async function fetchStreamInfo(url: string): Promise<StreamInfo> {
 /** A song is a master, and a master is the single root `.flac`. */
 async function findMaster(repo: string, branch: string): Promise<Master> {
   const entries = await json(
-    `https://api.github.com/repos/${ORGANIZATION}/${repo}/contents/`,
+    `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}/contents/`,
     rootListingSchema,
   );
 
@@ -177,7 +176,7 @@ async function findMaster(repo: string, branch: string): Promise<Master> {
 
   return {
     flac: fileName,
-    audio: `https://raw.githubusercontent.com/${ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(fileName)}`,
+    audio: `https://raw.githubusercontent.com/${MUSIC_ORGANIZATION}/${repo}/${branch}/${encodeURIComponent(fileName)}`,
     explicit: fileName.includes(EXPLICIT_MARKER),
   };
 }
@@ -190,7 +189,7 @@ async function findMaster(repo: string, branch: string): Promise<Master> {
  * history with it.
  */
 async function firstCommitDate(repo: string): Promise<string> {
-  const commits = `https://api.github.com/repos/${ORGANIZATION}/${repo}/commits`;
+  const commits = `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}/commits`;
   const probe = await api(`${commits}?per_page=1`);
   const last = /<[^>]*[&?]page=(\d+)>; rel="last"/.exec(
     probe.headers.get('link') ?? '',
@@ -237,7 +236,7 @@ audio: ${master.audio}
 seconds: ${seconds}
 ---
 
-<!-- Scaffolded from https://github.com/${ORGANIZATION}/${repo} — ${master.flac},
+<!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},
      ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.${
        master.explicit ? '\n     The master is marked explicit.' : ''
      }
@@ -252,7 +251,7 @@ async function scaffold(repo: string, directory: string): Promise<string> {
   if (fs.existsSync(filePath)) return `${repo}: already written, left alone`;
 
   const { default_branch: branch } = await json(
-    `https://api.github.com/repos/${ORGANIZATION}/${repo}`,
+    `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}`,
     repositorySchema,
   );
   const master = await findMaster(repo, branch);

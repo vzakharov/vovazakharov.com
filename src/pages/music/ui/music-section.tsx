@@ -1,6 +1,11 @@
 import { Anchor, Box, Stack, Text, Title } from '@mantine/core';
 
-import { MUSIC_PROJECT_NAMES, MUSIC_PROJECTS } from '@/shared/config';
+import {
+  MUSIC_ORGANIZATION,
+  MUSIC_ORGANIZATION_URL,
+  MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECTS,
+} from '@/shared/config';
 import { Card, Section, Subheading } from '@/shared/ui';
 
 export function MusicSection() {
@@ -62,12 +67,12 @@ export function MusicSection() {
         <Text size="sm" opacity={0.7}>
           All my music is open-source:{' '}
           <Anchor
-            href="https://github.com/vovas-music"
+            href={MUSIC_ORGANIZATION_URL}
             target="_blank"
             rel="noopener noreferrer"
             inherit
           >
-            github.com/vovas-music
+            github.com/{MUSIC_ORGANIZATION}
           </Anchor>
         </Text>
       </Stack>

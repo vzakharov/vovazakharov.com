@@ -6,6 +6,16 @@
  * live in the slice that renders it.
  */
 
+/** The GitHub organization every song's repository and master is served from. */
+export const MUSIC_ORGANIZATION = 'vovas-music';
+
+export const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
+
+/** The repository a song was made in, where its Reaper project and stems live. */
+export function songRepositoryUrl(repo: string): string {
+  return `${MUSIC_ORGANIZATION_URL}/${repo}`;
+}
+
 /** The source of truth, in release order: the schema's enum and the page's embeds both derive from it. */
 export const MUSIC_PROJECT_NAMES = [
   'GENERATED',

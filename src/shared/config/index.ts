@@ -1,7 +1,10 @@
 export {
+  MUSIC_ORGANIZATION,
+  MUSIC_ORGANIZATION_URL,
   MUSIC_PROJECT_NAMES,
   MUSIC_PROJECTS,
   type MusicProject,
+  songRepositoryUrl,
 } from './music-projects';
 export {
   AUTHOR_URL,

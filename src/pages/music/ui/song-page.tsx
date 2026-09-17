@@ -1,9 +1,12 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
+import { songRepositoryUrl } from '@/shared/config';
 import {
   collectionRoute,
   COLLECTIONS,
+  documentDateTime,
+  formatDocumentDate,
   listDocuments,
   loadDocument,
   renderDocument,
@@ -24,17 +27,6 @@ import {
 import { formatDuration } from '../lib/duration';
 import { listSongs } from '../lib/songs';
 import { TrackButton } from './track-button';
-
-const COLLECTION = 'music';
-
-const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  // A date-only frontmatter value parses as UTC midnight; formatting it in the
-  // build machine's zone would shift it a day.
-  timeZone: 'UTC',
-});
 
 const LANGUAGE_LABELS: Record<SongFrontmatter['language'], string> = {
   ru: 'Russian',
@@ -78,11 +70,11 @@ export async function SongPage({ params }: Props) {
       <Stack gap={48}>
         <Group component="nav">
           <InternalLink
-            href={collectionRoute(COLLECTION)}
+            href={collectionRoute(SONGS.id)}
             size="sm"
             className={hoverDim}
           >
-            ← {COLLECTIONS[COLLECTION].label}
+            ← {COLLECTIONS[SONGS.id].label}
           </InternalLink>
         </Group>
 
@@ -98,8 +90,8 @@ export async function SongPage({ params }: Props) {
             </Text>
 
             <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
-              <time dateTime={date.toISOString().slice(0, 10)}>
-                {DATE_FORMAT.format(date)}
+              <time dateTime={documentDateTime(date)}>
+                {formatDocumentDate(date)}
               </time>
               {project !== undefined && (
                 <>
@@ -116,7 +108,7 @@ export async function SongPage({ params }: Props) {
             <Group gap={16} wrap="wrap">
               <FileLink {...markdown}>.md</FileLink>
               <Anchor
-                href={`https://github.com/vovas-music/${repo}`}
+                href={songRepositoryUrl(repo)}
                 target="_blank"
                 rel="noopener noreferrer"
                 size="sm"

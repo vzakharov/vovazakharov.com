@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { z, type ZodType } from 'zod';
+import { z } from 'zod';
 
 import { MUSIC_PROJECT_NAMES } from '@/shared/config';
 
@@ -77,7 +77,13 @@ export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
  */
 export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
   id: CollectionId;
-  schema: ZodType<F>;
+  /**
+   * Narrowed to the one method a reader calls. `ZodType<F>` mentions `F` on
+   * both sides and is therefore invariant, which would stop a list of every
+   * collection reading as a list of collections at the base shape — and that
+   * list is what the sitemap walks.
+   */
+  schema: { parse: (data: unknown) => F };
 };
 
 export const CASE_STUDIES: Collection<CaseStudyFrontmatter> = {
