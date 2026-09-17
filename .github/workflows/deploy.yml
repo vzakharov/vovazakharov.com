@@ -41,8 +41,8 @@ jobs:
           lsa=false
           subjects=''
 
-          # Which prefixes publish is CLAUDE.md § Deployment; written once here
-          # because both the match and the scope extraction below read it.
+          # Which prefixes publish is CLAUDE.md § Deployment. One variable
+          # because the match and the scope extraction below both read it.
           publishing='(feat|fix|perf)'
 
           # A site name selects that site; anything else — an unscoped subject,

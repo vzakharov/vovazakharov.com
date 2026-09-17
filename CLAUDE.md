@@ -194,7 +194,7 @@ Use semantic commit prefixes:
 - `style:` — formatting, whitespace (no code change)
 - `test:` — adding or updating tests
 - `ci:` — CI/CD changes
-- `perf:` — performance improvements. **Publishes**, alongside `feat:` and `fix:`: on a site that is files on a CDN, making a page cheaper to load changes the files, so a `perf:` merge nobody deployed leaves the improvement unserved
+- `perf:` — performance improvements. **Publishes**, alongside `feat:` and `fix:`: on a static export, making a page cheaper to load changes the files served
 - `polish:` — a `/polish` run's own edits (see below)
 
 **`polish:` is a branch-local type**, outside the standard set on purpose. `@.claude/skills/polish/SKILL.md` finds where it last ran by that subject line, and nothing else would carry the mark: the run's edits are `refactor:` or `docs:` by nature, which says nothing about who made them or why. It reaches no trunk — the squash gives the branch one subject of its own, written by hand — so the extension costs a reader of `main` nothing and a reader of the branch a legible `git log --oneline`. That skill owns the form the subject takes.

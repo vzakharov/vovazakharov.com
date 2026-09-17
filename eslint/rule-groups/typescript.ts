@@ -158,12 +158,10 @@ export const typescriptRules = {
       allowConstantLoopConditions: true,
     },
   ],
-  // The bare `next-intl` specifier is the library's client entry, and reaching
-  // it from anywhere in a page's graph ships its runtime — some 14 kB gzipped —
-  // to that page. `.claude/rules/i18n.md` carries which subtree has earned that
-  // and how a server component translates instead. `allowTypeImports` because a
-  // type import costs nothing at runtime, which is the whole of the objection;
-  // `next-intl/server`, `/routing` and `/plugin` are separate paths and free.
+  // Only `next-intl` itself is listed because only it is the client entry —
+  // `next-intl/server`, `/routing` and `/plugin` cost a page nothing. Type
+  // imports are allowed for the same reason. Which subtree is exempt, and how
+  // everything else translates, is .claude/rules/i18n.md.
   '@typescript-eslint/no-restricted-imports': [
     'error',
     {
