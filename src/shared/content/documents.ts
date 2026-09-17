@@ -50,8 +50,7 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
       variant?: Variant;
       /**
        * Which language this reading of the document is in. Absent on the file
-       * as authored — a localized collection carries both languages in one
-       * file, and which one a page shows is the route's to decide.
+       * as authored, which carries both.
        */
       locale?: Locale;
       /** The markdown body with the frontmatter block removed. */

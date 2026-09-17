@@ -14,11 +14,7 @@ import { listSongDocuments } from './songs';
 /** The catch-all's segments as a route hands them over, before the schema narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
 
-/**
- * A slug that cannot be read as a language. `/music/ru` is the index in
- * Russian, so a song from a repository called `ru` would have no address — and
- * this is what turns that into a build failure rather than a missing page.
- */
+/** A slug that cannot be read as a language — `/music/ru` is the index in Russian. */
 const songSlugSchema = z
   .string()
   .min(1)

@@ -92,9 +92,6 @@
   background: var(--color-foreground);
 }
 
-// One element per line, laid out as a block: a line break in verse is the
-// author's, and asking for two invisible spaces at the end of every line is
-// how a page silently loses one.
 .lyricLine {
   display: block;
 }

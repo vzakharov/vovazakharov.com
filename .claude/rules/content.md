@@ -98,7 +98,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
 ## The locale seam, and where it was settled
 
-**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. That is the whole of the collision this file used to leave open, and the songs are what settled it: a document's own file stays locale-less, because one file carries both languages, and `/music/slime.md` therefore serves the same bytes whichever page sent the reader there.
+**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. A document's own file stays locale-less, one file carrying both languages, so `/music/slime.md` serves the same bytes whichever page sent the reader there.
 
 A collection says whether its pages are localized (`COLLECTIONS[id].localized`), which is what the sitemap reads to advertise one address per language instead of the alias. Case studies are unlocalized: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one.
 

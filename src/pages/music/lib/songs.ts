@@ -32,12 +32,8 @@ export function listSongDocuments(): SongDocument[] {
  * The queue, reduced to what the player needs. Resolved at build time and
  * handed down as props, which is what keeps `shared/content` — and with it
  * `gray-matter`, `zod` and the whole remark stack — out of the browser while
- * the player still has a queue to work from.
- *
- * Both languages travel with every track because the bar is mounted by the
- * layout, above the segment that names one, and it outlives navigation between
- * them by design — a queue that stopped at the language boundary would stop
- * the music with it.
+ * the player still has a queue to work from. Both languages travel with every
+ * track: a queue that stopped at the language boundary would stop the music.
  */
 export function listSongs(): PlayerTrack[] {
   return listSongDocuments().map((document) => {

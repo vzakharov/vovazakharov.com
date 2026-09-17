@@ -52,12 +52,7 @@ function resolve(slug: string): SongDocument {
   return document;
 }
 
-/**
- * The fully-specified address is canonical, so the locale-less alias defers to
- * it rather than competing. The `hreflang` alternates are load-bearing rather
- * than belt-and-braces: with the locale in a trailing segment, nothing else in
- * the URL names the language.
- */
+/** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
   const { title, description } = localizeSong(
     resolve(slug),

@@ -31,10 +31,9 @@ export type ConstructMetadataParams = MaybeTitled &
 
 /**
  * The canonical address and every language's, for a page whose locale is a
- * segment of its own URL. Spelled once because the `x-default` and the
- * self-reference are easy to get subtly wrong in a second copy — and with the
- * locale in a trailing segment, the alternates are what tells a crawler the two
- * addresses are one page rather than two.
+ * segment of its own URL. The alternates are load-bearing rather than
+ * belt-and-braces: with the locale in a trailing segment, nothing else in the
+ * URL says what language the page is in.
  */
 export function localizedAddresses(
   address: (locale: Locale) => string,
