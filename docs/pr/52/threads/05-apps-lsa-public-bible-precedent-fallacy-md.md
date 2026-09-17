@@ -1,8 +1,8 @@
-# `apps/lsa/public/bible/inevitability-fallacy.md`
+# `apps/lsa/public/bible/precedent-fallacy.md`
 
 <a id="t06"></a>
 
-### `apps/lsa/public/bible/inevitability-fallacy.md`:1 — resolved
+### `apps/lsa/public/bible/precedent-fallacy.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-16T23:28:23Z
 
@@ -16,7 +16,7 @@
 
 <a id="t18"></a>
 
-### `apps/lsa/public/bible/inevitability-fallacy.md`:3 — resolved
+### `apps/lsa/public/bible/precedent-fallacy.md`:3 — resolved
 
 ```diff
 @@ -0,0 +1,52 @@
@@ -47,7 +47,7 @@
 
 <a id="t26"></a>
 
-### `apps/lsa/public/bible/inevitability-fallacy.md`:47 — resolved
+### `apps/lsa/public/bible/precedent-fallacy.md`:47 — resolved
 
 ```diff
 @@ -0,0 +1,52 @@
@@ -74,7 +74,7 @@ And a pull quote for the last sentence. Also, we have to figure out how to put b
 
 <a id="t41"></a>
 
-### `apps/lsa/public/bible/inevitability-fallacy.md`:35 — unresolved
+### `apps/lsa/public/bible/precedent-fallacy.md`:35 — unresolved
 
 ```diff
 @@ -17,17 +18,21 @@ Context is not elastic. The more you put in, the less each individual part of it
@@ -111,19 +111,35 @@ cde7b6f, aaba306
 
 **@vzakharov (human)** — 2026-09-17T11:56:28Z
 
-<img width="439" height="583" alt="Screenshot 2026-09-17 at 13 55 12" src="https://github.com/user-attachments/as
+<img width="439" height="583" alt="Screenshot 2026-09-17 at 13 55 12" src="./attachments/851e7d79-609f-4751-a58c-b1d347283891.png" />
+
 <img width="613" height="413" alt="Screenshot 2026-09-17 at 13 54 56" src="./attachments/fadfeca7-fdd8-41d6-96ec-b725d0b40c65.png" />
-sets/851e7d79-609f-4751-a58c-b1d347283891" />
 
 выноска стала лучше, изображение -- хуже, как на принте так и на экране. Кажется, сейчас aside идёт относительно одного абзаца ("You can watch..."), надо попробовать на двух ("The same happens...")
 
 про растерайзер -- давай заведём тикет, это будет нужно going forward
 
+**@vzakharov (agent)** — 2026-09-17T12:16:06Z
+
+Диагноз твой: картинка обтекала один абзац, и не тот. «You can watch this directly» — три строки, картинка — заметно выше, так что она вылезала за конец секции, и обтекать её было нечем. Поднял её на абзац выше, перед «The same happens with LLM context»: теперь у неё колонка на два абзаца, и низ картинки попадает примерно в конец второго.
+
+Посмотрел на экране — на этот раз именно на картинку, а не на то, чинится ли заголовок под ней. PDF обоих сайтов перерендерены.
+
+Про растеризатор — завёл: #61. Там же список того, чего в контейнере нет (`pdftoppm`, `pypdfium2`, `pymupdf`, гострипт под ImageMagick), и отдельно ловушка, из-за которой я в прошлый раз чуть не отчитался ложно: headless Chromium на `file://…pdf` рисует _вьюер_, выходит с кодом 0 и пишет правдоподобный пустой PNG. Часть решения — pip-колесо `pypdfium2`, и поставить его может только скрипт настройки окружения, не репозиторий; это в тикете написано.
+
+b12b77d
+
+**@vzakharov (human)** — 2026-09-17T15:20:20Z
+
+Хм, на экране лучше стало, в пдфе нет -- фактически идентичный вид прошлом, при этом по слагу видно, что пдф перерендерен (precedent-fallacy):
+
+<img width="642" height="522" alt="Screenshot 2026-09-17 at 17 19 19" src="./attachments/0640fda8-2f45-4b2d-b08c-0813d0c3e8b8.png" />
+
 ---
 
 <a id="t42"></a>
 
-### `apps/lsa/public/bible/inevitability-fallacy.md`:1 — unresolved
+### `apps/lsa/public/bible/precedent-fallacy.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-17T01:27:40Z
 
@@ -151,5 +167,25 @@ Renaming is cheap and wide: the markdown, the PDF, its manifest entry, and two c
 **@vzakharov (human)** — 2026-09-17T11:53:48Z
 
 да, хорошо. Полная формулировка ("... it treats as fixed") должна остаться прежней при этом (то есть однословесное название -- это выжимка смыслаm фразы, а не просто экстракция одного слова из фразы)
+
+**@vzakharov (agent)** — 2026-09-17T12:16:36Z
+
+Сделал: **precedent fallacy**. Формулировку не трогал — ни заголовок статьи («An agent takes a given for an inevitability»), ни секцию в файле пяти процентов («What it was handed, it treats as fixed»). Название теперь именно выжимка смысла, а не слово, вынутое из фразы: прецедент — это то, что один раз случилось и с тех пор связывает, и статья это уже говорит своими словами («a thing that happened once and then hardened», «it reads exactly like a decision somebody made on purpose»).
+
+Сама чеканка в первом абзаце поехала за названием, сохранив ритм: «Call it the precedent fallacy: a given, read as a rule» — было «…as a necessity», но необходимость теперь живёт в заголовке, а правило — в имени.
+
+Переехало: `precedent-fallacy.md`, `precedent-fallacy.pdf`, ключ в `pdf-renders.json`, две перекрёстные ссылки (`tend-prose.md` — «the precedent fallacy», `web-not-cli.md` — «another article here») и жирный термин в файле пяти процентов. Гитхаб перенос отследил — эти треды сами переехали на новый путь.
+
+b12b77d
+
+---
+
+<a id="t43"></a>
+
+### `apps/lsa/public/bible/precedent-fallacy.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-17T15:23:54Z
+
+пока не забыл: давай на странице индекса сделаем каждую карточку со своей картинкой. терминатор для precedent, медведя для tend, веток для web-not-cli. При этом карточки, наверное, нужно стековать а не в грид. И картинки попробовать либо всегда с одной стороны, либо чередовать слева-справа.
 
 ---
