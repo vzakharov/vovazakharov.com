@@ -75,9 +75,9 @@ export function ArticleHeader({
         <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
         {/*
-          A document with no cuts gets no switcher: one chip reading "Full"
-          offers the page the reader is on and nothing else. The file links
-          stay right-aligned either way.
+          With no cuts the switcher would be one chip reading "Full", offering
+          the page the reader is already on. The empty span holds its place so
+          the file links stay right-aligned.
         */}
         <Group justify="space-between" gap={16} wrap="wrap">
           {availableVariants.length > 0 ? (

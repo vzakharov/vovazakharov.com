@@ -324,13 +324,9 @@
   }
 
   // A square or portrait image at the column's full width is a screenful of one
-  // picture, and everything the article says next is below it. Bounded by
-  // height for the same reason the print rule above bounds it — a wide
-  // screenshot is untouched, and only the shapes that would run off the edge
-  // are brought back inside it. `width` is stated because the attribute sets
-  // one as a presentational hint, and the inline margin comes after the rule
-  // above rather than inside it: an image the cap has narrowed is centred in
-  // the column, and a video or a figure is not.
+  // picture. `width` is stated because the attribute sets one as a
+  // presentational hint; the block sits below the margin rule above rather than
+  // inside it, or `margin-inline` loses to it on source order at equal weight.
   :where(img) {
     width: auto;
     max-height: 32rem;
@@ -364,23 +360,18 @@
   }
 }
 
-// An image the author set beside the text rather than across it. Below the
-// breakpoint the column is too narrow to divide — what would be left of each
-// line is not a line — so it falls back to the full-width block every other
-// image is.
+// Below the breakpoint the column is too narrow to divide — what would be left
+// of each line is not a line — so an aside falls back to a full-width block.
 .content-image-aside {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
     float: inline-end;
     width: 42%;
     margin: 0.4em 0 1.25em 1.75em;
-    shape-margin: 1.75em;
   }
 }
 
-// A sentence from the body, set again in display type. It spans the column and
-// clears whatever is floated beside it: a pull quote and an aside image are
-// both bids for the same margin, and the one that loses gets squeezed into a
-// gutter two words wide.
+// `clear` is what keeps a pull quote and an aside image off the same margin:
+// the one that loses gets squeezed into a gutter two words wide.
 .content-pull-quote {
   clear: both;
   margin: 2.25em 0;

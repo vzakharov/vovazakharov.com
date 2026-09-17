@@ -1,9 +1,9 @@
 #!/bin/sh
 # Runs a command as one of the sites: from that app's directory under `apps/`,
-# with `NEXT_PUBLIC_SITE` set to the same id. Those two go together everywhere —
-# the working directory is what `PUBLIC_DIR` and every build resolve against,
-# the variable is what picks the config and the collections — and spelling them
-# out per script is how they drift apart.
+# with `NEXT_PUBLIC_SITE` set to the same id. The directory is what `PUBLIC_DIR`
+# and every build resolve against; the variable is what `shared/config` reads,
+# and the render scripts are its only consumer here — a `next` command gets it
+# from `siteNextConfig` whatever the environment says.
 #
 #   scripts/in-site.sh <site> <command> [args...]
 #   scripts/in-site.sh lsa tsx scripts/render-pdf.ts --check

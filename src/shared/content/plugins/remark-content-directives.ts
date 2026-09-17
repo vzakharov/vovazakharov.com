@@ -8,18 +8,10 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 /**
- * The block components a document may author, as `remark-directive` fences:
- *
- * ```markdown
- * :::pull-quote
- * The sentence, lifted out of the paragraph above it.
- * :::
- * ```
- *
- * A pull quote repeats a sentence the reader is about to meet, or has just
- * met, in display type — so it is `aria-hidden`, a screen reader having no use
- * for the same sentence twice, and `render.ts` keeps its words out of the
- * reading estimate for the same reason.
+ * The block components a document may author, as `remark-directive` fences. A
+ * pull quote repeats a sentence the reader is about to meet or has just met,
+ * so it is `aria-hidden` and `render.ts` keeps its words out of the reading
+ * estimate.
  */
 const BLOCK_DIRECTIVES = {
   'pull-quote': 'content-pull-quote',
@@ -44,11 +36,10 @@ function convert(node: ContainerDirective, name: BlockDirective) {
 }
 
 /**
- * A directive the list above does not name is an authoring mistake, and a
- * silent one: `remark-directive` parses `:::pull-quotes` happily and hands on a
- * node nothing converts, which reaches the page as its own text. Naming the
- * file is what makes the throw actionable — the tree has no idea where it came
- * from.
+ * A directive the list above does not name is a silent authoring mistake:
+ * `remark-directive` parses `:::pull-quotes` happily and nothing converts it,
+ * so it reaches the page as its own text. The file name is what makes the
+ * throw actionable — the tree has no idea where it came from.
  */
 function convertDirectives(fileName: string) {
   return (tree: Root) => {

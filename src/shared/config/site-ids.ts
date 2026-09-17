@@ -20,11 +20,8 @@ export type WithSiteId = { site: SiteId };
  *
  * Matched against the ids rather than parsed by a `z.enum`, which is what the
  * repo asks for at a boundary. Client components reach this through
- * `site-config` (the CV sheet, through `cv-urls`), so zod called here is zod in
- * the browser: swapping the match for a parse measured at +377 kB of client
- * JavaScript, half again the whole bundle. The match still reads the ids as its
- * source of truth and still throws, so what the parse would add is the
- * dependency and nothing else.
+ * `site-config` (the CV sheet, through `cv-urls`), so a parse here is zod in
+ * the browser: measured at +377 kB, half again the whole client bundle.
  */
 export function resolveSiteId(): SiteId {
   const site = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);

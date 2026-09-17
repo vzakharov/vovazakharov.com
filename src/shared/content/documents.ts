@@ -118,10 +118,9 @@ function readDocument(
 }
 
 /**
- * Reading order: the authored `order` decides it where there is one, and the
- * date decides the rest, newest first. `MAX_SAFE_INTEGER` rather than
- * `Infinity` because subtracting two infinities is `NaN`, which a sort reads as
- * "leave them where they are".
+ * The authored `order` first, then date, newest first. `MAX_SAFE_INTEGER`
+ * rather than `Infinity` for the documents with none: subtracting two
+ * infinities is `NaN`, which a sort reads as "leave them where they are".
  */
 function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
   const ordered =
