@@ -26,6 +26,12 @@ take a position and show the grounds under it.` — the sentence
 `COLLECTION_INTROS.bible.description` carries today, promoted to the site's own
 because the site is now the collection.
 
+**The Bible gets a home page, not a re-dressed index.** `agentic.bible/` opens
+on copy written to introduce a site — the collection's existing intro is the
+seed of it and not the whole, because it argues for how the articles are
+written before saying what the place is. The article list sits under that copy,
+rendered by the same cards the case-studies index uses.
+
 **What stays on LSA.** The header, the opening argument (`AboutSection`), and
 the footer. What was the `Writing` section becomes a three-card grid.
 
@@ -34,52 +40,27 @@ the footer. What was the `Writing` section becomes a three-card grid.
 after the move, and that is accepted rather than papered over with meta-refresh
 stubs no reader will meet.
 
-## Open questions
+## What was settled, and what it ruled out
 
-Each carries a recommendation, and the plan below is written with the
-recommendation already in force — so an unanswered question means the
-recommendation stands, and the work is implementable as written.
+**Rooted routes.** `/bible/<slug>` and `/articles/<slug>` were the alternatives;
+both keep the collection's directory and the render walk's structural invariant,
+and neither is the URL the domain was bought for. Routing the page at
+`/tend-prose` while the markdown stays at `/bible/tend-prose.md` was never an
+option — `.claude/rules/content.md`'s file-is-route-plus-extension rule is
+load-bearing, and `public/` serves a file at the path it sits at.
 
-1. **The Bible's route shape on `agentic.bible`.**
-   **(a) Rooted — `agentic.bible/tend-prose` (recommended).** The memorable
-   URL, and the point of the domain. Costs: the collection's directory becomes
-   the site's whole `public/`, which breaks the invariant stated in
-   `scripts/lib/content-tree.ts` — that a render walk cannot hand a script its
-   own output — so that walk gains an explicit skip of `generated/`. And
-   `app/[...slug]/page.tsx` sits at the app root, so a future top-level page is
-   an explicit route beside a catch-all.
-   (b) `agentic.bible/bible/tend-prose` — zero structural change, and it
-   stutters.
-   (c) `agentic.bible/articles/tend-prose` — keeps the directory and the
-   invariant, loses the short URL.
+**One PR, not two.** The deploy plumbing is Phase 1 here rather than a `ci:` PR
+merged ahead of it, the content being ready to move today. What that costs is
+named in Phase 4: GitHub reads a `workflow_dispatch` input list off the
+**default branch**, so `-f site=bible` is rejected until `main` knows the option
+exists, and the pre-merge publish therefore dispatches `site=both` — which the
+branch's own gate expands to all three sites.
 
-   Note: routing the page at `/tend-prose` while the markdown stays at
-   `/bible/tend-prose.md` is **not** an option — `.claude/rules/content.md`'s
-   file-is-route-plus-extension rule is load-bearing, and `public/` serves a
-   file at the path it sits at.
+**The opening argument stays on latestageagentic.com**, above the three cards.
+Unanswered rather than argued, so the recommendation stood: cards with no
+argument over them are a link farm.
 
-2. **The opening argument on the LSA front page.**
-   **(a) Keep it, with the three cards under it (recommended).** It is the
-   site's position and it shipped this week; cards with no argument over them
-   are a link farm.
-   (b) Cards only — the hub, and nothing else.
-
-3. **The Bible site's avatar.**
-   **(a) Copy `apps/lsa/public/ava.png` for now (recommended)** — every site
-   commits its own square, and an identical one is a placeholder that ships.
-   (b) Wait for an image only you can make, and the site's header is unfinished
-   until it lands.
-
-4. **Whether the deploy plumbing lands as its own PR first.**
-   **(a) Yes — a small `ci:` PR, merged before this one (recommended).**
-   GitHub reads a `workflow_dispatch` input list off the **default branch**, so
-   `-f site=bible` is rejected until `main` knows the option exists — which is
-   what a pre-merge publish of the new site needs. Landing the workflow first
-   buys that, and the plumbing is deploy-neutral until a site uses it.
-   (b) One PR, and `agentic.bible` first serves on the merge — no pre-merge
-   proof, and a failed publish is fixed by another merge.
-
-## Phase 0 — Teach the deploy a third receiving site (its own PR)
+## Phase 1 — Teach the deploy a third receiving site
 
 A repository gets one Pages site, so `vova` keeps it and every other site is
 force-pushed to a receiver. That makes two receivers, which is where the
@@ -101,13 +82,10 @@ one-off script stops being one.
   `if: needs.gate.outputs.receivers != '[]'`. The matrix is built from an output
   rather than filtered by a job-level `if` because `matrix` is not in scope in
   job-level `if` — it expands after the condition is read.
-- **The `site` picker** gains `bible`, which is the option this phase exists to
-  put on `main`.
+- **The `site` picker** gains `bible`, usable from the run after this branch
+  merges — see Phase 4 for what the pre-merge dispatch names instead.
 
-Squash subject: `ci: one publish path for every receiving site`. Deploy-neutral
-by its prefix, which is correct — nothing it touches changes either built site.
-
-## Phase 1 — The third site
+## Phase 2 — The third site
 
 **`src/shared/config/site-ids.ts`** — `SITE_IDS` gains `'bible'`.
 
@@ -145,11 +123,12 @@ apps/bible/
   tsconfig.json           copy of apps/lsa/tsconfig.json
   app/layout.tsx          the shared root layout
   app/sitemap.ts          force-static + the shared sitemap
-  app/page.tsx            collectionIndexRoute('bible') — the home page
+  app/page.tsx            BibleHomePage — Phase 3
+  app/icon.png            the mark, as the favicon
   app/[...slug]/page.tsx  articleRoute('bible')
   public/CNAME            agentic.bible
   public/.nojekyll
-  public/ava.png          copied from apps/lsa/public/
+  public/ava.png          the mark — Phase 3
   public/*.md             git mv from apps/lsa/public/bible/
   public/assets/          git mv from apps/lsa/public/bible/assets/
   public/pdf-renders.json git mv
@@ -158,12 +137,14 @@ apps/bible/
 **`apps/lsa/app/bible/` is deleted**, and with it LSA's last collection:
 `collectionsForSite('lsa')` returns `[]`, its sitemap is `/` alone.
 
-**The index page becomes a home page.** `collection-index-page.tsx` today opens
-on `<Title order={1}>{collectionRoute(collection)}</Title>` — `/bible` as its
-own heading, which rooted would render as `/`. It takes the site header
-instead when the collection is rooted: `SiteAvatar`, the site name, the tagline,
-then the intro prose. `BackToHome` at its foot is dropped on the same condition
-— it is already home. The case-studies index is unaffected on both counts.
+**The article cards come out of the index page.** `collection-index-page.tsx`
+holds the list markup — the alternating image layout, the meta line, the
+variant links — and the Bible's home page renders the same list under different
+copy. It moves to `src/pages/documents/ui/document-cards.tsx`, taking the
+rendered documents; the case-studies index keeps its heading and intro above it
+and loses nothing. `collectionIndexRoute` stays as the case-studies index, which
+is now its only caller — its `<Title order={1}>{collectionRoute(collection)}</Title>`
+heading reads `/case-studies`, which is what it always rendered there.
 
 **`package.json`** — `dev:bible` and `build:bible` entries, `build` runs three;
 `content:pdf:lsa` is replaced by `content:pdf:bible`, LSA having nothing left to
@@ -171,7 +152,46 @@ print.
 
 **`scripts/vet.sh`** — the `pdf-lsa` line becomes `pdf-bible`.
 
-## Phase 2 — The LSA front page
+## Phase 3 — The Bible's home page and its mark
+
+**The home page is `src/pages/bible-home/`**, a slice of its own beside
+`lsa-home` rather than a flag on the collection index: what differs is the copy
+above the list, which is the page's whole substance. It renders the site header
+(`SiteAvatar`, the site name, the tagline), the opener copy, then
+`DocumentCards` over `renderPrimaryDocuments('bible')`, then the footer carrying
+the address to agent readers.
+
+**The opener copy is written for a site, not for a collection.** What
+`COLLECTION_INTROS.bible.intro` says today argues for _how_ the articles are
+written before saying _what the place is_ — correct as an index's intro,
+back-to-front as a first paragraph. The order inverts: what this is, then the
+position, then the name. A draft to edit rather than a specification:
+
+> Everything here is written while the work is being done — by one person and
+> one agent, both of whom keep being wrong in ways worth writing down.
+>
+> Every article takes a position. Not one of several worth weighing: the
+> position, stated flat out, with whatever is under it shown. The alternative is
+> what a language model writes when nobody stops it — every approach has its
+> pros and its cons, weigh them against your context, best of luck.
+>
+> Hence the name, which is a joke, and which is doing actual work. Calling it
+> the Bible is what keeps a categorical article from reading as a manifesto:
+> nothing here ends in amen, and an article that turns out to be wrong gets
+> rewritten rather than defended.
+
+`COLLECTION_INTROS.bible` is deleted with the index route it fed, its
+`description` having become the site's tagline and its `intro` this copy.
+
+**The mark** is generated outside this repository, from the concept agreed in
+the session — inked line, cream ground, terracotta, the register
+`apps/lsa/public/ava.png` already sets. It lands as `apps/bible/public/ava.png`
+(1024×1024, matching `AVATAR`) and `apps/bible/app/icon.png`. Until it does, LSA's
+square rides as the placeholder so the branch is never blocked on an image —
+swapping it is a one-file commit, and shipping the placeholder to a live domain
+is not, so the swap happens before the merge.
+
+## Phase 4 — The LSA front page
 
 Three cards under the opening argument, replacing the `Writing` section:
 
@@ -194,7 +214,7 @@ Three cards under the opening argument, replacing the `Writing` section:
   children — see DRY notes. The address to agent readers travels with the
   articles to `agentic.bible`; LSA's footer keeps the copyright line alone.
 
-## Phase 3 — Documents, PDFs and prose
+## Phase 5 — Documents, PDFs and prose
 
 - **Re-render the Bible's PDFs** (`pnpm content:pdf:bible`) and commit them. The
   printed footer carries the document's own URL and the site's name, both of
@@ -213,7 +233,7 @@ Three cards under the opening argument, replacing the `Writing` section:
 - **`.claude/skills/stand-up-site/SKILL.md`** — `scripts/publish-lsa.sh` is no
   longer "the one that exists".
 
-## Phase 4 — Standing the domain up
+## Phase 6 — Standing the domain up
 
 `@.claude/skills/stand-up-site/SKILL.md` owns this; what follows is what this
 task hands it.
@@ -224,9 +244,14 @@ task hands it.
    it serves and where the content comes from.
 2. An ed25519 deploy key on that repository, its private half into
    `BIBLE_PAGES_DEPLOY_KEY` on this one. Nothing printed, nothing kept.
-3. After Phase 0 is on `main`: `gh workflow run deploy.yml --ref <branch> -f
-site=bible`, confirming in the run's job list that `vova` and `lsa` were
-   **skipped** rather than merely green.
+3. `gh workflow run deploy.yml --ref <branch> -f site=both`. **`both`, not
+   `bible`**: GitHub validates a dispatch input against the form on the
+   **default branch**, which does not know `bible` until this branch merges,
+   while the workflow that _runs_ is the branch's — whose gate expands `both`
+   into all three sites. So the run publishes the two live sites from the
+   unmerged branch as well, which is the cost of proving the new one before the
+   merge. Acceptable because the branch is what is about to merge; if you would
+   rather not, skip this step and the site first serves on the merge.
 4. Pages settled on the receiver (`source[branch]=gh-pages`, `https_enforced`),
    then verification against the live URL — the served HTML carrying **this**
    site's title and card, `www` and plain HTTP redirecting onto it, and both
@@ -264,8 +289,14 @@ The agent reads the zone and names the conflicts before you touch it.
   path, and a rooted collection breaks all three identically. One joiner is the
   fix; three `filter(Boolean)` calls would be the duplication.
 - **`SiteFooter`.** Two page footers today (`home`, `lsa-home`), each `Divider`
-  + note + copyright with only the note differing; a third makes the pattern.
-  The note goes in as children, which is what keeps the per-site prose per-site.
+  - note + copyright with only the note differing; a third makes the pattern.
+    The note goes in as children, which is what keeps the per-site prose per-site.
+- **`DocumentCards`.** The article list — the alternating image layout, the meta
+  line, the variant links — is forty lines of JSX that the case-studies index and
+  the Bible's home page both render, differing only in the copy above it. It
+  comes out of `collection-index-page.tsx` rather than being copied into the new
+  slice, which is the alternative and the reason the extraction is in the plan
+  rather than discovered in review.
 
 **Duplicated on purpose:**
 
@@ -288,11 +319,15 @@ The agent reads the zone and names the conflicts before you touch it.
   in the page, not read from a registry. Two of the three point off-site at
   things this repo does not own, and a registry of three hand-written entries
   with one consumer is a lookup, not an abstraction.
+- **`bible-home` is its own slice, not a flag on the collection index.** The two
+  pages share the card list, which is why `DocumentCards` comes out; what is left
+  in each is the copy above it, and a `rooted?` branch through one component
+  would be two pages wearing one file. `lsa-home` is already the precedent.
 
 **Deliberately _not_ deduplicated yet:** the site header (`SiteAvatar` + name)
-now opens both `lsa-home` and the Bible's index. Two occurrences of four lines
-of JSX, differing in what follows them — revisit when a third appears, which is
-the same bar `SiteFooter` clears here and this does not.
+now opens both `lsa-home` and `bible-home`. Two occurrences of four lines of
+JSX, differing in what follows them — revisit when a third appears, which is the
+same bar `SiteFooter` clears here and this does not.
 
 ## Verification
 
@@ -302,10 +337,12 @@ FSD boundaries, the type-overlap floors. What it cannot see:
 - The Bible's articles render at `agentic.bible/<slug>` with their assets, their
   cross-links resolving between articles, and their `.md`/`.pdf` siblings
   reachable at the route plus an extension.
+- The Bible's home page reads as an opener: the mark, the copy, the article
+  list, in that order and at that weight.
 - The LSA front page's three cards, the third one visibly not a link.
 - Both existing sites unchanged where the branch did not mean to touch them.
 
-`/preview` is how the first two are looked at rather than inferred; Phase 4's
+`/preview` is how the first three are looked at rather than inferred; Phase 6's
 step 4 is how they are checked against what is actually served.
 
 ## Out of scope
