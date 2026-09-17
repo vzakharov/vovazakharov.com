@@ -1,48 +1,48 @@
 Proposed squash title/body:
 
 ```
-feat: build the music catalogue from markdown, with a player (pr #53)
+feat: build the music catalogue from markdown, in two languages (pr #53)
 ```
 
 ```
 The music page was three Spotify embeds and a paragraph, while the
 songs sat in 238 Reaper repositories under the vovas-music
 organization with no description, topic or README between them —
-nothing a site could read. So the catalogue starts by writing it down.
+nothing a site could read. So the catalogue starts by writing it down,
+and it is written in both of the languages the songs are sung and
+talked about in.
 
 Songs become a content collection: one markdown file per song under
 apps/vova/public/music/, compiled to its own page at build time by the
 pipeline that already serves case studies, and served raw at the same
-route plus .md. A collection is a handle pairing its id with its
-schema, so a song carries what a case study must not accept and
-neither can be read under the other's shape. A song names itself in
-frontmatter rather than in a leading heading, because the name is what
-a player control shows, not prose; its duration rides along, read off
-the master's own FLAC header so the track list renders complete.
+route plus .md. One file carries both languages — the date, the
+master, the projects, the credits and the words are the same in
+either, so only the title, the blurb and the story are stated per
+locale, and the body is cut on HTML-comment markers that disappear
+wherever the file is read raw. A song's mechanical fields are read
+rather than typed: the duration off the master's FLAC header through a
+128 KB range request, the explicit marker off its file name, the date
+off the repository's first commit. Which songs are in is not a
+judgement — a root FLAC is a master, and a master is a finished song.
 
-Which songs are in is not a judgement: a root FLAC is a master, and a
-master is a finished song. That picks the first batch out of the 147
-repositories that have one, leaving working mixes and Suno-sourced
-wavs out without anyone ranking them. A scaffolder reads each song's
-mechanical fields rather than asking for them: the name off the
-master's filename, the duration off its FLAC header through a 128 KB
-range request, the date off the repository's first commit. Lyrics are
-transcribed — from an isolated vocal stem where one exists — and
-corrected by hand, the same split the dictation flow already draws
-between what a recognizer proposes and what a person decides was sung.
+The pages put the locale last, as the CV already does: /music/<slug>,
+/music/<slug>/<locale>, and the short forms as aliases of the
+addressed language. That settles the collision the content rule left
+open, a cut being a dotted suffix and a locale a trailing segment, and
+the union that parses "a head, optionally a locale" moves to
+shared/i18n where both callers spell only what differs. A slug that
+reads as a language fails the build, since /music/ru is the index in
+Russian. Where the words are not in the reader's language a crib runs
+beside them stanza for stanza, and a stanza count that disagrees fails
+the build too: a parallel text out by one is worse than none.
 
 A player rides in the music route's layout, which is what lets a track
-keep playing across a navigation from the index into a song and back:
-play/pause, previous, next, shuffle as a seeded permutation so the
-queue is stable in both directions, seeking, keyboard control and the
-OS media keys through the Media Session API. It is the audio element
-itself and no dependency — a library supplies controls, and the work
-here is the queue, which a pure reducer holds and a test covers. That
-queue is resolved at build time and handed over as props, so no part
-of the content pipeline reaches the browser. Audio is hotlinked from
-the source repositories, which serve byte ranges and therefore seek;
-the frontmatter field is a plain URL, so re-hosting is a markdown edit
-and no code.
+keep playing across a navigation — from the index into a song, and
+between a song's two languages, the layout sitting above the segment
+that names one. It is the audio element itself and no dependency: the
+work is the queue, which a pure reducer holds and a test covers,
+resolved at build time and handed over as props so no part of the
+content pipeline reaches the browser.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
