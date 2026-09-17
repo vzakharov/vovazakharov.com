@@ -1,23 +1,21 @@
 Proposed squash title/body:
 
 ```
-docs: a floor under the notes ceiling, and the squeeze it asks for (pr #55)
+docs: the notes file stops taxing every session that touches it (pr #55)
 ```
 
 ```
-`writing/notes/the-five-percent.md` lived at its own 400-line ceiling,
-and the check enforcing it named that one number only. So every squeeze
-stopped a line under it, the next append tripped the check again, and
-each session that touched the file paid a crumb cut before it could add
-anything.
+`writing/notes/the-five-percent.md` charged every session that touched
+it. It lived at its own 400-line ceiling and the check enforcing it
+named that one number, so each squeeze stopped a line under it and the
+next append tripped the check again -- a crumb cut before anything
+could be added, session after session.
 
 `scripts/check-notes-length.sh` now carries a floor as well: it fails
 past 400 and the failure asks for 300, and the hundred lines between
 them are what makes a squeeze last. The target is asked for rather than
 enforced, for the reason nothing in the script trims -- where to stop is
-a judgement, and only the ceiling is a rule. The notes file states the
-same rule in its own "How this file is kept", which is where an agent
-appending to it reads.
+a judgement, and only the ceiling is a rule.
 
 The file then takes the squeeze the rule demands, 406 lines to 296:
 near-twins merged, the over-evidenced sections thinned -- the top
@@ -25,9 +23,15 @@ learning ran to fourteen specimens for a claim its heading already makes
 at twenty -- and the two bottom learnings dropped whole. Seven learnings
 survive with their counts unchanged, a count being the claim and the
 lines under it only how many of the times got written down. The squeeze
-order gained those two steps in the same pass: it used to go straight
-from tightening to dropping, which assumed the bottom of the file was
-still coincidences with a paragraph attached.
+order gained two steps in the same pass: it used to go straight from
+tightening to dropping, which assumed the bottom of the file was still
+coincidences with a paragraph attached.
+
+What remains is the editing itself, which CLAUDE.md now hands to a
+subagent: the session states the learning, and placing it, squeezing if
+the check trips and returning when it passes are the subagent's. The
+clauses on how to place an entry go with it -- the notes file's own "How
+this file is kept" is the brief, so the prompt restates none of it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
