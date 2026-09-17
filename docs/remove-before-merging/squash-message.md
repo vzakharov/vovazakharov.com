@@ -32,17 +32,17 @@ matched: through the CV sheet the parse had been putting zod in the
 browser, at half the client bundle again. A third barrel answers the
 question that is not about the client at all -- index.node-safe.ts is
 what resolves with no bundler, which is what scripts/ run under -- and
-the environment read both of them consume says so in its own name,
+the environment read both consume says so in its own name,
 site.env.unsafe.ts. Both conventions are playgramapp's.
 
-The articles asked the pipeline for four things: a :::pull-quote
-fence, centred and outside the reading estimate because the reader
-meets the sentence twice; an 'aside' link title floating an image
-beside the text; an order, three articles written one afternoon
-having dates that place them arbitrarily; and a height bound on
-screen, as images had on paper. They surfaced three defects too: a
-switcher offering the page the reader was on, an aside squeezing the
-next heading into the margin, and links at ideas/ files nothing serves.
+The articles asked the pipeline for five things: a :::pull-quote
+fence, centred and outside the reading estimate; an image floated
+beside the text on an 'aside' link title, and one per index entry,
+alternating sides; an order, dates alone placing three articles of one
+afternoon arbitrarily; and a height bound on screen, as images had on
+paper. Four defects surfaced: a switcher offering the page the reader
+was on, an aside squeezing the next heading and then orphaning itself
+where paper breaks, and links at ideas/ files nothing serves.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
