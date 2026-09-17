@@ -105,8 +105,7 @@ build the component, the agent stood it _beside_ `InternalLink` as
 settled that delegating edits here is about session cost and defended it twice,
 the agent missed the reason the operator then supplied: an agent that reads the
 taxonomy before naming its own failure names it in the headings it just read, so
-the count that grows is the one easiest to file under. The frame it reasoned
-inside was the frame this section is about.
+the count that grows is the one easiest to file under.
 
 **17 September — the criterion's wording, read as the file's purpose.** An error
 the agent caught in its own report, nobody else having seen it, was handed over
