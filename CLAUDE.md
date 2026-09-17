@@ -155,7 +155,7 @@ Never hand-write a type or schema whose shape tracks another declaration — der
 
 `pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`) over every `**/*.test.ts`. There is no test framework and no config file: a test imports `node:test` and `node:assert/strict` directly, sits beside the module it covers, and is picked up by the glob. Keep it that way unless something genuinely needs a framework — the runner ships with the Node the project already requires.
 
-**The suite covers `scripts/type-overlap-check.ts` and nothing else so far.** For the app itself `pnpm build` is still the stand-in: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
+**The suite covers what is a pure function of its input** — `scripts/type-overlap-check.ts`, the colour-scheme resolution behind the theme toggle, and the music player's queue reducer. For the app itself `pnpm build` is still the stand-in: it type-checks every page, resolves every import and renders every route to static HTML, so it catches breakage that would otherwise reach production — but it says nothing about whether a page is _correct_, only that it builds. Treat a green vet accordingly, and use `/preview` to actually look at visual changes.
 
 The obvious next candidates are `src/shared/seo/` and the message catalogues under `src/shared/i18n/`. Anything whose behavior is a pure function of its input belongs here rather than in a QA checklist row.
 

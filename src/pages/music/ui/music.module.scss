@@ -83,3 +83,11 @@
 .playerClearance {
   height: 96px;
 }
+
+// Mantine emits a variant's colours as inline `--ai-*` vars, which no class can
+// reach — so an engaged control states the two properties itself. Unlayered, so
+// it outranks `@layer mantine` without needing specificity.
+.controlOn {
+  color: var(--color-background);
+  background: var(--color-foreground);
+}

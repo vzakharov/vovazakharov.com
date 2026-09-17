@@ -1,5 +1,6 @@
 import { Anchor, Box, Stack, Text, Title } from '@mantine/core';
 
+import { MUSIC_PROJECT_NAMES, MUSIC_PROJECTS } from '@/shared/config';
 import { Card, Section, Subheading } from '@/shared/ui';
 
 export function MusicSection() {
@@ -23,26 +24,18 @@ export function MusicSection() {
       <Subheading>Active Projects</Subheading>
 
       <Stack gap={24}>
-        <Card>
-          <Title order={4} mb={12}>
-            GENERATED
-          </Title>
-          <SpotifyEmbed artist="GENERATED" artistId="3tnTz9WCaghp3PJPSsTxQW" />
-        </Card>
+        {MUSIC_PROJECT_NAMES.map((artist) => {
+          const { label, artistId } = MUSIC_PROJECTS[artist];
 
-        <Card>
-          <Title order={4} mb={12}>
-            Полуживые (ru. for “Half-Alive”)
-          </Title>
-          <SpotifyEmbed artist="Полуживые" artistId="2rdnjZV6ahlz4pKeh9a8B3" />
-        </Card>
-
-        <Card>
-          <Title order={4} mb={12}>
-            Downtemple
-          </Title>
-          <SpotifyEmbed artist="Downtemple" artistId="2vN8JKg3rQLxleZ9xsafy6" />
-        </Card>
+          return (
+            <Card key={artist}>
+              <Title order={4} mb={12}>
+                {label}
+              </Title>
+              <SpotifyEmbed {...{ artist, artistId }} />
+            </Card>
+          );
+        })}
       </Stack>
 
       <Stack gap={8}>
@@ -69,12 +62,12 @@ export function MusicSection() {
         <Text size="sm" opacity={0.7}>
           All my music is open-source:{' '}
           <Anchor
-            href="https://vzakharov.github.io/vovas-music"
+            href="https://github.com/vovas-music"
             target="_blank"
             rel="noopener noreferrer"
             inherit
           >
-            vzakharov.github.io/vovas-music
+            github.com/vovas-music
           </Anchor>
         </Text>
       </Stack>

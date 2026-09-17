@@ -3,6 +3,7 @@
 import { ActionIcon, Box, Group, Text } from '@mantine/core';
 import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 
+import { cx } from '@/shared/lib/class-names';
 import { InternalLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
@@ -22,8 +23,9 @@ export function PlayerBar() {
     <Box component="aside" className={classes['playerBar']} aria-label="Player">
       <Group gap={12} wrap="nowrap" className={classes['playerControls']}>
         <ActionIcon
-          variant="subtle"
+          variant="default"
           size="lg"
+          radius="xl"
           onClick={previous}
           aria-label="Previous track"
         >
@@ -31,8 +33,10 @@ export function PlayerBar() {
         </ActionIcon>
 
         <ActionIcon
-          variant="filled"
+          variant="default"
           size="lg"
+          radius="xl"
+          className={classes['controlOn']}
           onClick={toggle}
           aria-label={state.playing ? 'Pause' : 'Play'}
         >
@@ -40,8 +44,9 @@ export function PlayerBar() {
         </ActionIcon>
 
         <ActionIcon
-          variant="subtle"
+          variant="default"
           size="lg"
+          radius="xl"
           onClick={next}
           aria-label="Next track"
         >
@@ -49,8 +54,10 @@ export function PlayerBar() {
         </ActionIcon>
 
         <ActionIcon
-          variant={state.shuffled ? 'light' : 'subtle'}
+          variant="default"
           size="lg"
+          radius="xl"
+          className={cx(state.shuffled && classes['controlOn'])}
           onClick={shuffle}
           aria-label="Shuffle"
           aria-pressed={state.shuffled}
