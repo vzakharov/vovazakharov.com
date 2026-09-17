@@ -15,11 +15,10 @@ measurement that only flatters, so bumps stay in whatever they show.
 
 **Adding to it is mandatory after a review session** that changed something the
 agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule, and why
-the entry is written before the session forgets what it worked from.
-
-**This file has an end.** Once row 18 is drafted and posted, it retires with the
-rule that feeds it. Everything durable belongs where the code can see it — a
-rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands here.
+the entry is written before the session forgets what it worked from. **And the
+file has an end:** once row 18 is posted, it retires with that rule. Everything
+durable belongs where the code can see it — a rule under `.claude/rules/`, a
+line in `CLAUDE.md` — whether or not it lands here.
 
 ## How this file is kept
 
@@ -35,15 +34,17 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   correction reads as an agent grading its own obedience.
 - **Past 400 lines, squeeze to 300 or under** — `scripts/check-notes-length.sh`
   fails the vet run at the ceiling and asks for the floor. Two numbers because
-  one buys nothing: a file trimmed back to 399 trips on the next append, so
-  every session pays a crumb cut, and the hundred lines between them is what
-  makes a squeeze last. In order: tighten the prose; then cut archaeology, a
-  bump needing the shortest account that still shows what the agent could not
-  see; then drop learnings from the bottom, since one bump is a coincidence with
-  a paragraph attached.
-- **A dropped learning is in the history, not gone.**
+  one buys nothing: a file trimmed back to 399 trips again on the next append,
+  so every session pays a crumb cut, and the hundred lines between them is what
+  makes a squeeze last. In order: tighten the prose; cut archaeology, a bump
+  needing the shortest account that still shows what the agent could not see;
+  merge the near-twins and thin whatever is over-evidenced, a count of twenty
+  being believed on a dozen lines and the heading keeping the count either way;
+  and only then drop learnings from the bottom, one bump being a coincidence
+  with a paragraph attached.
+- **A dropped bump is in the history, not gone.**
   `git log -p writing/notes/the-five-percent.md` is where a squeeze put it, and
-  a bump worth reviving comes back as a line under whatever learning it fits.
+  one worth reviving comes back as a line under whatever learning it fits.
 
 ## What it was handed, it treats as fixed (×20)
 
@@ -55,20 +56,15 @@ checking it would pass. The human's move is to change the given.
 
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that
 documents nothing: the agent weighed three candidates from the list and never
-looked outside it. _Let's introduce "content:"_ — the list is ours.
-
-**7 September — a word one day old, already treated as given.** Having added
-`content:`, the agent framed tripping the deploy gate as a trade with no clean
-answer. _It is specifically for what isn't published yet._
+looked outside it. _Let's introduce "content:"_ — the list is ours. A day later,
+having added it, the agent framed tripping the deploy gate as a trade with no
+clean answer: the word was one day old and already a given.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
 files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
-the agent stopped. _consider it covered_ — it scans type aliases only.
-
-**8 September — the same hole, opened by the fix for it.** Applying that rule,
-the agent found `caseStudyHref?` declared by cards in two sibling slices, put the
-base in `shared/typings` and went green. _suggest introducing a case study
-entity_ — the gate has no opinion on which layer a base belongs to.
+the agent stopped. _consider it covered_ — it scans type aliases only. Applying
+the rule by hand next, it put two slices' shared `caseStudyHref?` in
+`shared/typings` and went green: the gate has no opinion on layers either.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the
 two CV routes could not collapse, the agent priced `/en/cv` inheriting a sibling's
@@ -76,19 +72,14 @@ two CV routes could not collapse, the agent priced `/en/cv` inheriting a sibling
 
 **9 September — our own lint config, read as a specification.** Asked whether a
 `server-only` barrel would better home a schema, the agent built it, hit
-`boundaries/dependencies` and declined. _let's rewrite the boundaries._
-
-**9 September — a note on the site's controls, read as a rule about everything
-clickable.** `theme.ts` calls `variant="default"` "the site's only control skin",
-so a hairline box fenced off empty space. _let's remove the borders_.
+`boundaries/dependencies` and declined. _let's rewrite the boundaries._ A week on,
+asked why `shared/ui` cannot reach `shared/seo`, it read the same policy back as
+a stricter FSD — _именно так shared и должен работать._ The spec exempts the
+layer in one line.
 
 **9 September — a global class read off the globals beside it.** A hover dim went
 into `globals.scss` "as the print utilities are" — which are global only because
 the pipeline emits them into HTML strings. _why are we bypassing modules?_
-
-**11 September — its own spelling, then the operator's typo, both taken as
-given.** Told the source renamed `/sync-agent-infra` to `/update-muthur`, the
-agent proved the rename need not travel — then defended the operator's typo too.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… почти как предзакатное солнце»: it parses,
@@ -100,41 +91,21 @@ calls back to — and a mis-hearing that makes sense is the kind nothing flags.
 a name recommendation resting on it; told the sense was the other, the agent filed
 _the grammar allows only that one_ — also false. Each parse arrived first.
 
-**14 September — the one caller's shape, written into a general skill.** The
-afterword skill kept what its extraction from `/dictation` had held: the Russian
-heading as _the_ heading, a purpose no wider than a two-voice post.
-
-**15 September — the plan, read as where a change gets written down.** The
-by-hand steps for standing the second site up went into the plan file, whose whole
-tree is swept before the squash. _смотреть в .completed кажется неверно_.
-
-**15 September — findings filed where the path says they get deleted.** The
-runbook for the second site — Pages addresses, the 409, the form reading its
-inputs off the default branch — went under `docs/remove-before-merging/`.
-
-**15 September — a vet line inherited, and its bucket never questioned.** The
-sync added `test_export_split.py` beside the `test_authorship.py` already in the
-fan-out: how to name two lines, never whether either belonged. muthur#82 has why.
-
-**16 September — the example's unit, held fixed across two rewrites.** Told the
-rule's specimen didn't demonstrate it, the agent replaced it twice, both times
-putting X and Y in one sentence. _дихотомия была на уровень выше_.
+**15 September — filed twice where the path says it gets deleted.** The by-hand
+steps for standing the second site up went into the plan file, whose whole tree is
+swept before the squash — _смотреть в .completed кажется неверно_ — and the
+runbook that survived it went under `docs/remove-before-merging/`.
 
 **16 September — the sibling's shape, copied and called consistency.** Told the
 header's home link had regressed, the agent spelled the two-anchor fork out a
 second time and cited the match with `case-study-link.tsx` as the fix. _может
 стоит сделать единый компонент с вилкой._ Same round: `no-redundant-property-copy`
-names a `pick` this repo never had, read as an option rather than a missing half.
+names a `pick` this repo never had — an option, not a missing half.
 
 **16 September — the call sites it was handed, drawn round as the set.** Made to
 build the component, the agent stood it _beside_ `InternalLink` as
 `PrintableLink` — printability read as a property some links have. _бывают ли у
 нас другие link вообще?_ Every internal link carries a relative href.
-
-**16 September — the same config, read as a specification a second time.** Asked
-why `shared/ui` cannot reach `shared/seo` directly, the agent read our own
-`boundaries` policy back as a stricter FSD. _именно так shared и должен
-работать._ The spec exempts the layer in one line; 9 September says whose file it is.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
@@ -152,10 +123,6 @@ body has no business carrying a "things to know when editing here" paragraph, th
 agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
 skill adopted from a repo whose copy still asks for it. _Let's file an issue._
 
-**9 September — a test written and not run over the file it was for.** The same
-round added the test above (a bump is what the agent could have seen and didn't)
-and ran it against the entry at hand alone. _Do the others de-qualify?_ One did.
-
 **9 September — the tagline in the catalogue, the tagline in the pixels.** Each
 framing got a tagline in `cv-metadata.ts`, the developer one stayed baked into
 `ogImage: '/cv_card.png'` below it: `/cv` unfurled CTO beside a DEVELOPER card 🙈.
@@ -169,19 +136,6 @@ the vet run executes. It had searched its own diff.
 ничего перепроверять_, posted on a line of the dictation skill: the agent stopped
 re-verifying for that session and left the sentence standing in the skill, where
 the next run reads it. A comment on a rule is about the rule.
-
-**14 September — the correction landed on the line it was raised on.** _читатель
-получит понимание как не надо делать агентский кодинг_, raised on the first
-dictation and written into that file alone — the project plan, written the same
-hour, opened otherwise.
-
-**15 September — the description widened, the globs left behind.** Moving the
-router under `apps/`, the agent rewrote the content rule's description to
-`apps/<site>/public/` and left its `paths:` matching `apps/vova/` only. _нужно
-сделать sweep._
-
-**15 September — em dashes, a day after being told.** _нет, все равно --_ was
-settled against a Russian draft, so the English copy next day came out in them.
 
 ## An account that explains the code stands in for running it (×9)
 
@@ -197,22 +151,9 @@ static export — which closed the question before anyone opened the file.
 through zod, the agent declined twice: a schema would restate the variant ids —
 which `z.enum(CV_VARIANTS)` does from the same const. _Am I missing smth?_
 
-**9 September — four homes, three of them checked.** Cutting a maintenance
-paragraph from a commit body, the agent argued each item already sits where it
-would be looked for. The right test, unrun: the fourth sat nowhere else.
-
 **14 September — no middle option, in a repo holding twenty-eight of them.**
 Asked where source recordings live, the agent argued a branch-only video is
 collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
-
-**14 September — a test whose counterexample sat in the diff proposing it.** The
-dictation skill got a rule against drifting into prose: every sentence should be
-findable in the recognizer's output. Never run against the transcripts beside it.
-
-**15 September — an objection never tried against `import type`.** The site id
-stayed a bare string in `siteNextConfig`, its docstring giving the reason:
-importing it runs `shared/config`'s check first. True of a value import. _разве
-оно относится к `import type`?_
 
 **16 September — two objections in one afterword, neither tried.** The megapixel
 analogy was faulted for a mechanism the recording states a paragraph above:
@@ -238,11 +179,6 @@ decides what belongs in it, and that is never the record of how it was chosen.
 **6 September — the paragraph explaining the paragraph.** The announcement draft
 carried a passage on its own calibration, arguing why its register was pitched
 where it was. The human deleted it: a reader came for the post, not its defence.
-
-**7 September — the commit body that documented the deploy gate.** The squash
-message explained the new prefix and its place in the gate, plus two notes
-recording the call and offering the veto — all true, all cut. A ride-along given a
-paragraph reads as the point of the commit.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here" — every item true, every one
@@ -285,11 +221,6 @@ of instruments rather than look one up: _погугли, чтобы не хен�
 The replacement was real — a blind pigeon, a rooftop cistern — and still wrong:
 the pigeon was blind like the patient, so it is deduction, not epiphany.
 
-**16 September — four idea files, each holding the agent's idea.** Every «об
-этом позже» in the recordings got a paragraph under `ideas/`, and three of four
-came back corrected: one argued from a reason he does not hold, one made an
-article of an aside, one hung its piece on the argument beside it.
-
 **16 September — a specimen of agent prose no agent would write.** Told the
 rule's example needed no context, the agent supplied «Лифт не просто сломан — на
 нём ещё и не подняться», which demonstrates the tautology by being one: _так
@@ -309,11 +240,6 @@ had prompted it — and it does not need saying at all.
 page's glosses on old side projects came back corrected to things no reading of
 the repos would produce — _chatgpt before chatgpt_ — and a fourth card listed
 TypeScript and FSD for a boilerplate with neither.
-
-**14 September — a default under a rule that says to ask.** Asked for a flag
-choosing whether a dictation is transcribed verbatim or rendered as prose, the
-agent wrote "ask which one when the invocation doesn't say" and marked one mode
-`(default)` two lines above it. _не должно быть дефолта_.
 
 **15 September — a record with a row per site, filled cell by cell.**
 `SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site
@@ -345,38 +271,6 @@ with no way to reach the person on it: _the prose itself says nothing_.
 what the issue named — `localhost`, twice — the dump also said which seven were
 fine. _все линки открываются норм_ got two rounds of theory it had already answered.
 
-## It settles a constraint in prose where a mechanism was available (×2)
-
-A constraint the agent can't see how to enforce, it writes down. The note is
-accurate, sits on the right module, and is invisible to the edit that violates it
-— nothing reads a docstring on its way to moving a file. Prose is always
-available; whether a mechanism also was never gets asked.
-
-**9 September — "keep them out of `shared/i18n`".** Having measured that a zod
-schema in the i18n barrel costs the CV 89 kB gzipped, the agent filed it
-elsewhere and wrote the finding into a docstring telling the next person not to
-move it. `import 'server-only'` turns the same mistake into a build error.
-
-**9 September — the ceiling this file states, walked past by the append that
-states it.** "Past ~400 lines, squeeze instead of growing" is a bullet in the
-section above; the agent added a section and pushed the file to 447 lines, having
-read the bullet on the way in. _let's put a vet.sh-controlled check_.
-
-## A published number is not a verified number (×2)
-
-A figure already in print reads as settled, so the agent stops at it. The person
-who made the figure remembers what went into it — which window, which
-denominator, what was excluded — and none of that is recoverable from the number
-itself.
-
-**6 September — 6.2 → 8.2 units of work per day.** Lifted from the case study
-into a backlog row as a post's headline. Both windows are drawn wrong, and days
-off stay in the denominator.
-
-**6 September — `src/` went from 98,000 to 223,000 lines.** Same move, and the
-flag came unprompted, with no question attached: _they look a bit too much to
-me_ — the difference between reading a number and remembering making one.
-
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -395,12 +289,11 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Nine learnings is not a pattern, but they fall in two groups. One is failures to
-notice the frame was ours — the prefix list, the published chart, the checker
-whose coverage read as the rule, our own `eslint.config.ts`. The other is the
-post's more interesting half, being the opposite of a mistake: the output was
-well-formed, justified and efficient, and every one of those properties is what
-made it wrong. An edit minimal where it was made left one fact spelled three
-ways; an account sound at every step stopped anyone opening the file it
-described. No "be more careful" catches these — they need a person, and not
-always one who knows more.
+Seven learnings is not a pattern, but they fall in two groups. One is failures to
+notice the frame was ours — the prefix list, the checker whose coverage read as
+the rule, our own `eslint.config.ts`. The other is the post's more interesting
+half, being the opposite of a mistake: the output was well-formed, justified and
+efficient, and every one of those properties is what made it wrong. An edit
+minimal where it was made left one fact spelled three ways; an account sound at
+every step stopped anyone opening the file it described. No "be more careful"
+catches these — they need a person, and not always one who knows more.
