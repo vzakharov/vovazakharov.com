@@ -64,8 +64,8 @@ could not collapse because `/en/cv` would inherit a sibling's `og:url` — a cos
 only under an indexing choice the agent had itself made.
 
 **9 September — our own lint config, read as a specification.** A `server-only`
-barrel was built, hit `boundaries/dependencies` and withdrawn. _let's rewrite
-the boundaries._
+barrel was built, hit `boundaries` and withdrawn. _let's rewrite the
+boundaries._
 
 **9 September — a note on the site's controls, read as a rule about everything
 clickable.** `theme.ts` calls `variant="default"` "the site's only control
@@ -81,8 +81,8 @@ agent proved the rename need not travel — then defended the operator's typo to
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
 Deepgram heard «ты смотришь на кофе… почти как предзакатное солнце»: it parses,
-and a coffee had just been described. The word was «код», the rung the payoff
-calls back to — a mis-hearing that makes sense is what nothing flags.
+and a coffee had just been described. The word was «код» — a mis-hearing that
+makes sense is what nothing flags.
 
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам… будет уже некому» was read as _we will not be here_, a naming
@@ -130,14 +130,13 @@ PR body and the squash message both. _измени правило чтобы н�
 
 **17 September — "the one localized route", read as a closed set.** Replacing
 three comments with a mechanism, the agent scoped it by a glob naming the CV's
-slice — the fix for the last entry below, built on the same reflex. _мы не хотим
-их все перечислять вручную._
+slice. _мы не хотим их все перечислять вручную._
 
 ## An account that explains the code stands in for running it (×10)
 
 The worse half of "It checks the render against its intent" below: there the
-agent looked and asked the wrong question, here it never looked, the reasoning
-having closed. Nothing inside an account reports it was unchecked.
+agent looked and asked the wrong question, here it never looked. Nothing inside
+an account reports it was unchecked.
 
 **8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
 a hand-written redirect file, the agent gave the right reason — no middleware in a
@@ -166,8 +165,7 @@ importing it runs `shared/config`'s check first. True of a value import. _раз
 
 **16 September — two objections in one afterword, neither tried.** The megapixel
 analogy was faulted for a mechanism the recording states a paragraph above:
-_внимание и есть та фиксированная площадь_; the polar-bear widening, on a commit
-`git log` shows is a different failure.
+_внимание и есть та фиксированная площадь_; the widening, on the wrong commit.
 
 **16 September — a cost priced without rendering it.** The header's name went
 absolute in both media, the plan ruling out its sibling's split as "the name in
@@ -182,11 +180,11 @@ legal. _а у меня из playgramapp такие живут спокойно._
 **17 September — a boundary explained, not read.** The CV translates in the
 browser so the reader switches without navigating; the picker is `<a href>`.
 
-## It edits the copy in front of it, not the fact behind it (×9)
+## It edits the copy in front of it, not the fact behind it (×10)
 
-A change the agent is told to make, it makes where it was raised: one fact
-rendered in three places gets one rendering updated. Nothing catches the split —
-every site reads correctly alone, and the divergence exists only between them.
+A change the agent is told to make, it makes where it was raised: one fact in
+three places gets one rendering updated. Nothing catches the split — every site
+reads correctly alone, the divergence existing only between them.
 
 **8 September — one stack, three spellings.** Playgram's tech line renders in
 three places, all the agent's own work in the same branch; told to add Supabase
@@ -220,14 +218,16 @@ dictation and written into that file alone — the project plan, written the sam
 hour, opened otherwise.
 
 **15 September — the description widened, the globs left behind.** Moving the
-router under `apps/`, the agent rewrote the content rule's description to
-`apps/<site>/public/` and left its `paths:` matching `apps/vova/` only. _нужно
-сделать sweep._
+router under `apps/`, the agent rewrote the rule's description to
+`apps/<site>/public/`, its `paths:` left on `apps/vova/`. _нужно сделать sweep._
 
 **15 September — em dashes, a day after being told.** _нет, все равно --_ was
 settled against a Russian draft, so the English copy next day came out in them.
 
-## It writes its reasoning into the artifact (×8)
+**17 September — the glob retired, then rewritten one file over.** The lint glob
+went; the rule written the same hour scoped itself to `/cv/**`.
+
+## It writes its reasoning into the artifact (×9)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -244,8 +244,7 @@ paragraph reads as the point of the commit.
 
 **9 September — the maintenance manual in the commit body.** The squash proposal
 ended on "Four things to know when editing here" — every item true, every one
-belonging in a rules file. The body had accreted across refreshes, which is how a
-cap gets walked past one push at a time.
+belonging in a rules file, accreted across refreshes one push at a time.
 
 **14 September — two denials of what the file used to be part of.** The
 afterword skill carried "it applies to anything the operator wrote" and "it is
@@ -265,6 +264,9 @@ there. _медведь._ `/tend-prose` had run over the file, negation lens and 
 edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
+
+**17 September — the check, and its own case.** `check:i18n-payload` entered the
+vet list restating the script's header. _сократить буквально до предложения._
 
 ## Asked to quote a source, it writes its own version (×6)
 
@@ -329,9 +331,8 @@ and then verifies the thing it set out to do. Whether the result is right is a
 different question from whether it happened, and only the second is answerable.
 
 **8 September — the logos it had already looked at.** The agent screenshotted
-three new organisation marks in both schemes and reported them legible and
-aligned. _the logos are slightly mis-aligned_: one filled its canvas
-edge-to-edge, another was inset a fifth.
+three new marks in both schemes and passed them. _the logos are slightly
+mis-aligned_: one filled its canvas edge-to-edge, another was inset a fifth.
 
 **9 September — the card it had just fixed, looked at and passed.** Rendering
 one card per framing off the catalogue, the agent checked the property it had
@@ -364,15 +365,14 @@ read the bullet on the way in. _let's put a vet.sh-controlled check_.
 
 ## A published number is not a verified number (×2)
 
-A figure already in print reads as settled, so the agent stops at it; what went
-into it — which window, which denominator, what was excluded — is not
-recoverable from the number.
+A figure already in print reads as settled, so the agent stops at it; which
+window, which denominator, what was excluded is not recoverable from it.
 
 **6 September — 6.2 → 8.2 units of work per day**, lifted from the case study
-into a backlog row as a post's headline. Both windows are drawn wrong and days
-off stay in the denominator. **`src/` 98,000 → 223,000 lines**, same day, same
-move: _they look a bit too much to me_ — the difference between reading a number
-and remembering making one.
+into a backlog row as a post's headline: both windows drawn wrong, days off left
+in the denominator. **`src/` 98,000 → 223,000 lines**, same day, same move —
+_they look a bit too much to me_, the difference between reading a number and
+remembering making one.
 
 ## Not bumps
 
@@ -385,14 +385,14 @@ itself up for repairing its defects rather than asking whether this was the piec
 at all. Whether a piece says what its author meant is his alone to judge.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
-taken back out: the CV's locale segment, the hook a post leads with, and where
-the theme toggle sits. Only the toggle's _skin_ stayed a bump; an entry removed
-this way takes its count with it.
+taken back out: the CV's locale segment, the hook a post leads with, where the
+theme toggle sits. Only the toggle's _skin_ stayed a bump; an entry removed this
+way takes its count with it.
 
 ## The two families
 
-Nine learnings is not a pattern, but they fall in two groups. One is failures to
-notice the frame was ours — the prefix list, the published chart, the checker
+Nine learnings fall in two groups. One is failures to notice the frame was
+ours — the prefix list, the published chart, the checker
 whose coverage read as the rule, our own `eslint.config.ts`. The other is the
 post's more interesting half: the output was well-formed, justified and
 efficient, and those properties are what made it wrong — an edit minimal where
