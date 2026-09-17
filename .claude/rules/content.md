@@ -2,6 +2,9 @@
 description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
   - apps/*/public/case-studies/**
+  - apps/*/public/music/**
+  - src/pages/music/**
+  - apps/*/app/music/**
   - apps/*/public/generated/**
   - src/shared/content/**
   - src/pages/case-studies/**
@@ -16,7 +19,7 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` is the only collection so far — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `case-studies/` and `music/` — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
 
 ```
 public/case-studies/          # one directory per collection, named by its route
@@ -67,9 +70,13 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
    **`ogImage` names a PNG, never the SVG it came from** — see the traps below.
 
-   **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
+   **A case study has no `title` field** — its title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
-   **A song is the exception, and states its `name`.** A song's title is what the player bar shows as `Name — Project` and what the track list sorts, so deriving it would mean parsing prose to render a control. A song body therefore opens without a `# `, and the page puts `name` in the `<h1>` — the same header slot a case study's lifted heading fills, so the two collections read alike and differ only in where the title came from.
+   **A song states its title, once per language.** Two things make it a field rather than a heading: the player bar shows it as `Title — Artist`, so deriving it would mean parsing prose to render a control, and one song can have two names — `june` is _Breathe_ in English and _Повелитель ветра_ in Russian, and a leading `# ` can only be one of them. A song body therefore opens without a `# `, and the page puts the locale's `title` in the `<h1>` — the same header slot a case study's lifted heading fills. Moving the case studies to the same shape is [#62](https://github.com/vzakharov/vovazakharov.com/issues/62); their titles feed `content:og` and `content:pdf`, which hash their sources, so the move costs a re-render of every card and PDF.
+
+   A song's frontmatter carries what the markdown cannot: the master's URL and duration (both read by the scaffolder), `status`, `language` — what the vocal is in, independent of what the page is rendered in — `project` as a list with the artist first and features after, `explicit`, `album`, and `credits.lyrics` / `credits.music` as lists of people in contribution order, absent meaning the author alone. The projects and albums are registries in `shared/config`, so a typo fails the build rather than quietly rendering an artist nobody has.
+
+   **A song's body is cut on markers, not headings.** `<!-- lang:en -->` and `<!-- lang:ru -->` open the story in each language; `<!-- lyrics:ru -->` and `<!-- lyrics:en -->` hold the words, the key being the language they are in rather than the page's. Anything before the first marker belongs to every locale. The marker is an HTML comment because the authored file is read raw — on GitHub, and at its own `.md` URL — and anything else would be markup the reader has to look past. The lyrics are rendered by the page rather than by the markdown pipeline, one element per line, so a line break is a line break and needs no two invisible spaces at the end of it.
 
 2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts`, and its directory under the site that serves it.
 
@@ -89,8 +96,19 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
 - **Raw HTML in a document passes through unsanitized.** First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
 
-## The locale seam
+## The locale seam, and where it was settled
 
-Content pages are unlocalized, alongside `/` rather than under `[locale]`: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one. The seam for later is a `<slug>.<locale>.md` filename convention — noted here, deliberately not built. The CV's social cards sit on the same seam from the other side: the page is localized and the card is not, and a `ru` card would be `<variant>.<locale>.og.png` in the same directory by the same rule.
+**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. That is the whole of the collision this file used to leave open, and the songs are what settled it: a document's own file stays locale-less, because one file carries both languages, and `/music/slime.md` therefore serves the same bytes whichever page sent the reader there.
 
-**That seam collides with the cut's route form.** A cut is `<slug>.<variant>` in both the file name and the route, so `<slug>.<locale>` is a second meaning for the same dotted suffix, and a locale sharing a name with a variant is unresolvable. Whoever builds the localized route decides how the two coexist — an order (`<slug>.<variant>.<locale>`), a separate namespace, or a locale segment after all. Only the collision is settled here.
+A collection says whether its pages are localized (`COLLECTIONS[id].localized`), which is what the sitemap reads to advertise one address per language instead of the alias. Case studies are unlocalized: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one.
+
+The CV's social cards sit on the same seam from the other side: the page is localized and the card is not, and a `ru` card would be `<variant>.<locale>.og.png` in the same directory by the same rule.
+
+## Material whose author is in the room
+
+A song's story and its words are the author's, not the pipeline's, and that changes how a draft of one is written and what a review of it means.
+
+- **A draft written without the author is a proposal, not a record.** What a repository holds and what a recogniser heard are the only inputs an agent has; a channel post, an old thread or a listing is the same kind of input. None of it establishes what a song is about or where it came from, so a draft says what it was built from and is replaced wholesale when the author answers. **This is not an error being corrected** — a draft is the best reading available without the facts, and calling it a mistake afterwards mislabels the one thing it was for. Say what changed, not what was wrong.
+- **The author's comment is the body, verbatim.** Text in a review comment is how he wants the page to read, save for slips, formatting and paragraphing, unless he says otherwise; a `---` after it separates the verbatim part from instructions about it. Translating into the other language is the agent's, and so is the blurb; retelling the story in better words is not. It is too personal to come from anywhere but him.
+- **Nothing is explained on his behalf.** He writes for people who already know him, so a fact he left out was left out. Adding the line of context a stranger would want takes the piece away from the reader it was written for.
+- **The words are set as verse.** His lines and stanzas, every line capitalized, his punctuation kept, the repeats he sings and the drafts elided; Suno's control markers (`[Chorus]`, vocal directions) and its stress marks are instructions to a singer, not part of the song, and do not travel. Where he masks a word, the mask is his and stays; where he writes it out, it is written out.

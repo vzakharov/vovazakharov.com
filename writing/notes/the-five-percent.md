@@ -33,6 +33,9 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   supplied a decision that was the human's to take — a positioning call, a change
   of scope — it goes under "Not bumps" or nowhere: a file that counts every
   correction reads as an agent grading its own obedience.
+- **Someone's own material is not a review surface.** Where the only thing the
+  agent could have known was in the author's head, a correction is him supplying
+  facts, not a miss, and it goes nowhere. "Not bumps" holds the case it came from.
 - **Past 400 lines, squeeze instead of growing**, which
   `scripts/check-notes-length.sh` fails the vet run over. In order: tighten the
   prose; then cut archaeology, a bump needing the shortest account that still
@@ -355,10 +358,9 @@ person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
 
 ## A published number is not a verified number (×2)
 
-A figure already in print reads as settled, so the agent stops at it. The person
-who made the figure remembers what went into it — which window, which
-denominator, what was excluded — and none of that is recoverable from the number
-itself.
+A figure already in print reads as settled, so the agent stops at it. Whoever
+made it remembers what went in — which window, which denominator, what was
+excluded — and none of that is recoverable from the number itself.
 
 **6 September — 6.2 → 8.2 units of work per day.** Lifted from the case study
 into a backlog row as a post's headline. Both windows are drawn wrong: one
@@ -376,11 +378,9 @@ Flagging two words missing from verbatim text is `.claude/rules/writing.md`
 doing its job, not judgement: every learning above is one no rule caught.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
-recording was _не про то и не то — мямлим, рассусоливаем, нудим_, the agent wrote
-itself up for repairing that recording's defects instead of asking whether this
-was the piece at all. _it was about me (not you) delivering the wrong, foggy
-message_. Whether a piece says what its author meant is the one judgement nobody
-else holds the original of.
+recording was _не про то и не то_, the agent wrote itself up for repairing its
+defects rather than asking whether this was the piece — _it was about me (not
+you) delivering the wrong, foggy message_. Nobody else holds that original.
 
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the

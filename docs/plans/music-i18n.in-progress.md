@@ -115,43 +115,28 @@ Two things the shape needs guarding:
 Both locales' pages are emitted by `generateStaticParams`, so nothing resolves a
 locale at request time — there is no request time.
 
-## 3. Lyrics: their own block, and it must not look like code
+## 3. Lyrics: their own block, marked the way the story is
 
-**The glitch the review asked me to look for is real, and it is in the birdie
-commit** (ec2f556). Markdown needs two trailing spaces to make a line break, and
-the lines added by hand do not have them. `apps/vova/public/music/birdie.md`
-lines 28–31, 40–41, 46–49, 51–53, 59–68 and 73–81 render as run-on paragraphs:
+**A lyric block is a marked body section, not a new syntax.** The body is
+already cut on `<!-- lang:<locale> -->`; the words are cut on
+`<!-- lyrics:<language> -->`, keyed by what they are sung in rather than by the
+page. One splitter, two kinds of key, no parser and no dependency added — and
+the page renders the section itself, one element per line, so a line break is a
+line break.
 
-```
-Птичка! Флай, с**а, флай! Птичка! Хай ин зэ скай, на!
-```
+The first pass reached for a `remark-directive` container, and the review's
+answer was that this was over-thought: the hard-break glitch it was built to
+prevent (two invisible trailing spaces, missing from the lines added by hand in
+ec2f556) is a one-off, because the author pastes the words into review comments
+from here on rather than editing the file. The glitch is still real and the
+rendering still fixes it — a line is a line however the file was typed — but it
+is a consequence of the design, not the reason for it. The reason is the
+parallel reading below, which needs the words identified and the story left
+alone.
 
-That will happen again on every hand-edit, because the fix is invisible
-whitespace at the end of a line nobody can see.
-
-So lyrics stop being prose — **but not by becoming a fenced code block**, which
-is what a first pass reaches for and which renders as `<pre><code>` in the one
-place the raw file is read most, GitHub. A container directive instead:
-
-```markdown
-:::lyrics{lang=ru}
-Опять рассвет стучится в окно,
-Он светит в глаз, но там ему темно.
-
-Ты видишь цель, она тебя,
-Ты убиваешь её, любя.
-:::
-```
-
-`remark-directive` parses it; the handler takes the block's **raw source lines**
-(via the node's position, not its parsed children) and emits a
-`<div class="lyrics">` rendered with `white-space: pre-line` in the prose
-typeface. A newline is a line, a blank line is a stanza, nothing depends on
-trailing whitespace, and nothing about it is monospace.
-
-**Parallel reading is stanza-for-stanza.** A `:::lyrics{lang=en}` block beside a
-Russian one is the translation; both split on blank lines and zip by index into
-a two-column layout when the page's locale is not the sung language. **Unequal
+**Parallel reading is stanza-for-stanza.** A `lyrics:` section in the page's own
+language is the crib beside the original; both split on blank lines and zip by
+index into two columns when the page's locale is not the sung one. **Unequal
 stanza counts fail the build** — a misaligned parallel text is worse than none,
 and it is the one defect here that would be invisible on the page.
 
@@ -160,21 +145,22 @@ vocal and gets no block at all.
 
 ### How the words get formatted
 
-The recognized lyrics already have a format, and it is the one that stays. The
-words come from the review; the presentation does not:
+The words come from the review; the presentation does not:
 
 - **The author's corrections are the text.** Every line the review supplied
   replaces what the recognizer proposed — including whole stanzas and repeated
   choruses the drafts had elided.
-- **Punctuation stays.** The review's raw dumps are mostly unpunctuated because
-  they were typed for a recognizer to be corrected against, not for a page.
+- **Punctuation stays.** Nothing the author typed is deleted, and nothing is
+  added to lines he typed bare.
 - **Every line starts with a capital**, as verse is set. The drafts lower-cased
   continuation lines, treating a stanza as a sentence; they stop.
 - **Suno control markers go.** `[Chorus]`, `[Acoustic guitar intro]`, vocal
-  descriptions — none of it is the song. `sashas`'s `[Instrumental waltz outro]`
-  moves into the prose, where it says something about the arrangement.
-- **Stress marks stay only where they carry sense**, not where they told Suno
-  how to sing: `за́руку` in `letim` stays, `слО́й-мО́ря` and `безмо́лвные` go.
+  descriptions — none of it is the song.
+- **Stress marks go, everywhere.** They are instructions to a singer. (An
+  earlier round kept the ones that "carry sense"; the review removed the
+  exception, `за руку` being two words and unable to carry one at all.)
+- **A masked word stays masked only where the author masked it.** Where he
+  writes it out, it is written out — which, after the review, is everywhere.
 
 ## 4. `name` becomes `title`
 
@@ -283,9 +269,9 @@ what lets the player seek — and costs this repository nothing.
 The real problem is not where the files live but what they weigh: a listener on
 a phone pays 25–30 MB for one song. That is the argument for an **optional**
 streaming transcode at 128–192 kbps beside the lossless master, the player
-preferring it and the page linking the master. Out of scope here, and the first
-thing to do if the catalogue is ever aimed at a stranger rather than a reader
-who came for the writing.
+preferring it and the page linking the master — filed as
+[#64](https://github.com/vzakharov/vovazakharov.com/issues/64), with the three
+things that have to be decided before any of it is written.
 
 ## DRY notes
 
@@ -301,10 +287,11 @@ who came for the writing.
   lives in `shared/content/frontmatter.ts` beside the base frontmatter and the
   song schema composes it. The case-study schema does not take it yet
   ([#62](https://github.com/vzakharov/vovazakharov.com/issues/62)).
-- **The locale token and the stanza split are one parser used twice.** Both cut
-  a body into labelled parts on a marker. One function taking the marker, in
-  `shared/content/`, not two near-copies; the callers differ — one keys by
-  locale, one zips by index — which is where the difference belongs.
+- **The story marker and the lyric marker are one parser.** Both label a section
+  of the same body, so `splitSections` reads either and the callers differ in
+  what they ask for — one by locale, one by sung language. The stanza split is a
+  second, smaller function rather than a mode of the first: it cuts text on
+  blank lines and knows nothing about markers.
 - **`project` and `album` are one registry pattern**, both a slug resolving to a
   record in `shared/config` with a display name and a link. Deliberately not
   unified into one "entity" type: an album has a cover and a track order, a
@@ -335,6 +322,18 @@ Answers from the review, recorded so a later reader does not re-open them:
    not forgotten.
 7. **The recognized lyrics' format stays** — punctuation kept, every line
    capitalized, the words replaced by the author's.
+
+A second round of review, after this plan was written, settled five more:
+
+8. **The lyric block is a marked section, not a directive** — "кажется, ты
+   перемудрил", the hard-break glitch being a one-off.
+9. **No stress marks anywhere.**
+10. **Masked words are written out** wherever the author masked them himself.
+11. **A story is the author's words**, verbatim, translated but not retold, and
+    nothing is explained on his behalf.
+12. **A draft written without the author is not an error** when he replaces it —
+    `.claude/rules/content.md` § "Material whose author is in the room" carries
+    this, and `writing/notes/the-five-percent.md` stops counting such rounds.
 
 ## The order of work
 
