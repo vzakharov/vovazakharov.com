@@ -1,8 +1,8 @@
 export {
   AUTHOR_URL,
   PAGE_ROUTES,
-  siteConfig,
   type SiteConfig,
+  siteConfig,
   withoutScheme,
 } from './site-config';
 export { SITE_IDS, type SiteId, type WithSiteId } from './site-ids';

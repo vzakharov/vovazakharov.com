@@ -31,13 +31,13 @@
 - [ ] `vova-untouched` — `/case-studies` and its article still render as before; the slice rename and the router change are behaviour-free there
 - [ ] `render-checks` — `pnpm content:pdf:vova --check` and `pnpm content:pdf:lsa --check` both report nothing to render
 
-| Item | Automatable | Covered? | Notes |
-|------|-------------|----------|-------|
-| `index-copy` | No | No | A judgement about copy; `/preview` captures are in the session |
-| `articles` | No | No | Prose against its source recording |
-| `pdf` | Partly | No | The hash check proves freshness, not that the page prints well |
-| `vova-untouched` | Partly | Yes | `pnpm build` renders every route; the eye check is the layout |
-| `render-checks` | Yes | Yes | Both run clean; `vet.sh` runs them as separate entries |
+| Item             | Automatable | Covered? | Notes                                                          |
+| ---------------- | ----------- | -------- | -------------------------------------------------------------- |
+| `index-copy`     | No          | No       | A judgement about copy; `/preview` captures are in the session |
+| `articles`       | No          | No       | Prose against its source recording                             |
+| `pdf`            | Partly      | No       | The hash check proves freshness, not that the page prints well |
+| `vova-untouched` | Partly      | Yes      | `pnpm build` renders every route; the eye check is the layout  |
+| `render-checks`  | Yes         | Yes      | Both run clean; `vet.sh` runs them as separate entries         |
 
 https://claude.ai/code/session_01S4mmZqcrrkTkFp51PuYJ3s
 
@@ -275,7 +275,7 @@ z.enum & parse?
 
 **@vzakharov (human)** — 2026-09-16T23:24:24Z
 
-let's create a helper script  for "use this website" that does the cd & NEXT_PUBLIC_SITE assignment
+let's create a helper script for "use this website" that does the cd & NEXT_PUBLIC_SITE assignment
 
 **@vzakharov (agent)** — 2026-09-17T00:51:06Z
 
@@ -571,7 +571,7 @@ let's find some more concrete example for "we do it this way (#412)", exemplifyi
 
 **@vzakharov (human)** — 2026-09-16T23:42:49Z
 
--, I understand the interest but I don't think its value deserves being in *this* article
+-, I understand the interest but I don't think its value deserves being in _this_ article
 
 **@vzakharov (agent)** — 2026-09-17T00:51:21Z
 
@@ -643,7 +643,7 @@ and they fail with consequences that will make humans useful for some more time 
 
 **@vzakharov (human)** — 2026-09-16T23:52:48Z
 
-picture: 
+picture:
 
 <img width="1024" height="1024" alt="Image" src="./attachments/14bac7d9-2961-4f1c-b577-b8deccae3ce0.jpg" />
 
@@ -1155,7 +1155,7 @@ move before "## So"
 @@ -17,17 +18,21 @@ Context is not elastic. The more you put in, the less each individual part of it
 … 15 lines elided …
 +Any instruction you add in order to overturn the previous instructions is itself just another given. Tell an agent to look critically at every decision before acting on it, and it will look criticall…
- 
+
 -What you have bought is not a habit of scepticism. It is a ritual of disagreement, and a ritual of disagreement is more expensive than a ritual of agreement, because it is noise in exactly the channe…
 +:::pull-quote
 +What you have bought is not a habit of scepticism — it is a ritual of disagreement.
