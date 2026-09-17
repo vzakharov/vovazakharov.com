@@ -117,15 +117,27 @@ function readDocument(
   };
 }
 
-/** Every document in a collection, variants included, newest first. */
+/**
+ * Reading order: the authored `order` decides it where there is one, and the
+ * date decides the rest, newest first. `MAX_SAFE_INTEGER` rather than
+ * `Infinity` because subtracting two infinities is `NaN`, which a sort reads as
+ * "leave them where they are".
+ */
+function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
+  const ordered =
+    (a.frontmatter.order ?? Number.MAX_SAFE_INTEGER) -
+    (b.frontmatter.order ?? Number.MAX_SAFE_INTEGER);
+
+  return ordered || b.frontmatter.date.getTime() - a.frontmatter.date.getTime();
+}
+
+/** Every document in a collection, variants included, in reading order. */
 export function listDocuments(collection: CollectionId): ContentDocument[] {
   return fs
     .readdirSync(collectionDir(collection))
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => readDocument(collection, fileName))
-    .toSorted(
-      (a, b) => b.frontmatter.date.getTime() - a.frontmatter.date.getTime(),
-    );
+    .toSorted(byReadingOrder);
 }
 
 /** The full documents only, without the shorter cuts. */

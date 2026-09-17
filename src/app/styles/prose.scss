@@ -323,6 +323,20 @@
     margin: 2em 0;
   }
 
+  // A square or portrait image at the column's full width is a screenful of one
+  // picture, and everything the article says next is below it. Bounded by
+  // height for the same reason the print rule above bounds it — a wide
+  // screenshot is untouched, and only the shapes that would run off the edge
+  // are brought back inside it. `width` is stated because the attribute sets
+  // one as a presentational hint, and the inline margin comes after the rule
+  // above rather than inside it: an image the cap has narrowed is centred in
+  // the column, and a video or a figure is not.
+  :where(img) {
+    width: auto;
+    max-height: 32rem;
+    margin-inline: auto;
+  }
+
   :where(figure > *) {
     margin: 0;
   }
@@ -350,6 +364,39 @@
   }
 }
 
+// An image the author set beside the text rather than across it. Below the
+// breakpoint the column is too narrow to divide — what would be left of each
+// line is not a line — so it falls back to the full-width block every other
+// image is.
+.content-image-aside {
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    float: inline-end;
+    width: 42%;
+    margin: 0.4em 0 1.25em 1.75em;
+    shape-margin: 1.75em;
+  }
+}
+
+// A sentence from the body, set again in display type. It spans the column and
+// clears whatever is floated beside it: a pull quote and an aside image are
+// both bids for the same margin, and the one that loses gets squeezed into a
+// gutter two words wide.
+.content-pull-quote {
+  clear: both;
+  margin: 2.25em 0;
+  padding: 0.75em 0;
+  border-top: 1px solid var(--color-border-hairline);
+  border-bottom: 1px solid var(--color-border-hairline);
+  font-size: 1.375em;
+  font-weight: 500;
+  line-height: 1.4;
+  text-wrap: balance;
+
+  > p {
+    margin: 0;
+  }
+}
+
 .content-video {
   display: block;
   width: 100%;
@@ -364,8 +411,11 @@
   margin: 1.5em 0;
   text-align: center;
 
+  // Out of the height cap above: a diagram shrunk to fit keeps its shape and
+  // loses its labels, which is the one thing it was drawn to carry.
   > img {
     display: inline-block;
+    max-height: none;
   }
 
   // Picking between the pair is a screen-only concern. `print.scss` forces the
