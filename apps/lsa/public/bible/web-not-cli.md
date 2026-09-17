@@ -5,7 +5,7 @@ order: 3
 cardImage: ./assets/trunk.jpg
 ---
 
-# Drive your agents from the web, not from your console
+# Drive your agents from the web, not from the CLI
 
 Every serious agent now has a web client, and the web client is not really a client. It is a machine: it checks your repositories out into a VM somewhere, works in them, and hands you a pull request when it is done. Claude, Codex, Cursor — the shape is the same. The alternative, which is where most people start and where a great many stay, is to run the same agent on your own laptop and watch it think in real time.
 
