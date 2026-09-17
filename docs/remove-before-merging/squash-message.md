@@ -19,17 +19,17 @@ layout. The CV keeps its own provider and its own messages, that subtree
 being where translation at runtime is earned; the shell's provider
 carried no locale of its own, so the label resolves exactly as before.
 
-Both savings go wrong silently, so a check holds each rather than a
-comment. A missing stylesheet compiles, type-checks, builds and renders
-unstyled, so `pnpm check:mantine-styles` compares the classes in each
-site's built HTML against the rules in that site's built CSS: reading
-the build output covers a sheet Mantine composes in internally, and
-answering each site from its own CSS stops a stale export passing on its
-neighbour's. `useTranslations` in a client component is worse than
-broken — it works, and bills that page 14 kB — so
-`@typescript-eslint/no-restricted-imports` blocks the bare `next-intl`
-specifier outside the CV and names the server-side route in its message.
-`.claude/rules/i18n.md` is the reasoning's one home.
+Both savings go wrong silently, so a check holds each, and both read the
+built output rather than the import graph: what a page costs is not a
+property of the file an import sits in. A missing stylesheet compiles,
+type-checks, builds and renders unstyled, so `check-mantine-styles.ts`
+answers each site's rendered classes from that site's own CSS.
+`useTranslations` in a client component is worse than broken — it works,
+and bills that page 14 kB — so `check-i18n-payload.ts` reads the chunks
+each page references and permits the runtime only where a locale from
+`routing.locales` addresses the page. That set is derived, so localizing
+a page permits it by existing at its locales, with no allowlist to
+extend. `.claude/rules/i18n.md` is the reasoning's one home.
 
 `deploy.yml` publishes on `perf:` as well as `feat:` and `fix:`: on a
 static export a change that makes a page cheaper to load changes the
