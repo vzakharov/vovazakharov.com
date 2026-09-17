@@ -12,9 +12,9 @@ default -- now exists at /bible, seeded with three articles: that an
 agent takes what it finds for what must be, the four lenses
 /tend-prose runs, and why to drive agents from the web client rather
 than the console. Each was recorded as a script for the Russian
-channel and rewritten here in the register the site is for: the
-position first, then what earns it. The index opens on prose of its
-own, the name being a joke that has to land before the articles do.
+channel and rewritten in the register the site is for: the position
+first, then what earns it. The index opens on prose of its own, the
+name being a joke that has to land before the articles do.
 
 An article is built through the case study's own pipeline rather than
 beside it, and that pipeline assumed one site in four places. A
@@ -22,26 +22,27 @@ collection now names the site that serves it, and the sitemap, the
 document walk and the render scripts read that rather than every
 collection there is. The page slice, pinned to case studies by two
 constants, is src/pages/documents, bound to a collection by the
-router that mounts it. The print lane learns which site it renders,
-so a Bible article carries its PDF on the same machinery.
+router that mounts it, and the print lane learns which site it
+renders, so a Bible article carries its PDF on the same machinery.
 
 Two sites out of one src also made a boundary load-bearing that was
-not: shared/config and shared/seo split by what a client bundle may
-hold. Both sites' data stays in the ordinary barrel, everything bound
-to the site a process is sits behind index.server-only.ts, and the
-environment read resolving which sits where bare Node can import it,
-since the render scripts do. That is what lets NEXT_PUBLIC_SITE be
-parsed rather than matched: through the CV sheet the parse had been
-putting zod in the browser, at half the client bundle again.
+not. shared/config and shared/seo split by what a client bundle may
+hold, which is what lets NEXT_PUBLIC_SITE be parsed rather than
+matched: through the CV sheet the parse had been putting zod in the
+browser, at half the client bundle again. A third barrel answers the
+question that is not about the client at all -- index.node-safe.ts is
+what resolves with no bundler, which is what scripts/ run under -- and
+the environment read both of them consume says so in its own name,
+site.env.unsafe.ts. Both conventions are playgramapp's.
 
-The articles asked the pipeline for a :::pull-quote fence, set
-centred and outside the reading estimate because the reader meets the
-sentence twice; an 'aside' link title floating an image beside the
-text; an `order`, three articles written one afternoon having dates
-that place them arbitrarily; and a height bound on screen, as images
-had on paper. They surfaced three defects -- a one-chip cut switcher
-offering the page the reader was on, an aside squeezing the next
-heading into the margin, and links at ideas/ files nothing serves.
+The articles asked the pipeline for four things: a :::pull-quote
+fence, centred and outside the reading estimate because the reader
+meets the sentence twice; an 'aside' link title floating an image
+beside the text; an order, three articles written one afternoon
+having dates that place them arbitrarily; and a height bound on
+screen, as images had on paper. They surfaced three defects too: a
+switcher offering the page the reader was on, an aside squeezing the
+next heading into the margin, and links at ideas/ files nothing serves.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
