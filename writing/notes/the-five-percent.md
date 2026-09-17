@@ -39,90 +39,85 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   shows what the agent could not see; then drop learnings from the bottom, since
   one bump is a coincidence with a paragraph attached.
 
-## What it was handed, it treats as fixed (×17)
+## What it was handed, it treats as fixed (×18)
 
-Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
-already in the tree — the agent reasons _inside_ rather than _about_: it takes a
-given for an inevitability, aka the **inevitability fallacy**. The failure is
-invisible because the reasoning inside the frame is sound — a second agent
-checking it would pass. The human's move is to change the given.
+Whatever arrives as context — a vocabulary, a published figure, a pattern already in the tree —
+the agent reasons _inside_ rather than _about_: it takes a given for an inevitability, aka the
+**precedent fallacy**. The failure is invisible because the reasoning inside the frame is
+sound; a second agent checking it would pass. The human's move is to change the given.
 
-**6 September — a word the vocabulary didn't have.** `docs:` for a change that
-documents nothing: the agent weighed three candidates from the list and never
-looked outside it. _Let's introduce "content:"_ — the list is ours.
+**17 September — a tool's refusal, read as the world's.** Told to compare this split against a
+sibling repo's, the agent called `add_repo`, got _cross-tier adds are not supported_, and
+reported the repo out of reach. _у тебя есть шимнутый gh, перепроверь_ — `gh` sat in the same
+shell and read it first try.
 
-**7 September — a word one day old, already treated as given.** Having added
-`content:`, the agent framed whether it trips the deploy gate as a trade with no
-clean answer. The reply dissolved it: `content:` is _specifically_ for what isn't
-published yet, and a piece going live arrives as the page serving it.
+**6 September — a word the vocabulary didn't have.** `docs:` for a change that documents
+nothing: the agent weighed three candidates from the list and never looked outside it. _Let's
+introduce "content:"_ — the list is ours.
 
-**8 September — the gate's coverage read as the rule's extent.** The CV's route
-files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
-the agent stopped. _type-overlap doesn't cover this, but consider it covered_: it
-scans type aliases only, known from the README and read as the rule's boundary.
+**7 September — a word one day old, already treated as given.** Having added `content:`, the
+agent framed whether it trips the deploy gate as a trade with no clean answer. The reply
+dissolved it: `content:` is _specifically_ for what isn't published yet.
 
-**8 September — the same hole, opened by the fix for it.** Applying that rule,
-the agent put a base two sibling slices both declared into `shared/typings` and
-went green. _not domain-less; suggest introducing a case study entity_ — the
-gate has no opinion on which layer a base belongs to, so green was the evidence.
+**8 September — the gate's coverage read as the rule's extent.** The CV's route files inlined
+their params inside a generic, `pnpm type-overlap` ran clean, and the agent stopped. _consider
+it covered_: it scans type aliases only, read from the README as the rule's boundary.
 
-**8 September — a cost measured against its own earlier choice.** Asked why the
-two CV routes could not collapse into one catch-all, the agent priced `/en/cv`
-inheriting `og:url: /en/cv/cto` — a cost only if `/en/cv` is the indexed address,
-which the agent itself had decided hours earlier. _I'd likely prefer the latter._
+**8 September — the same hole, opened by the fix for it.** Applying that rule, the agent put a
+base two sibling slices both declared into `shared/typings` and went green. _suggest introducing
+a case study entity_ — the gate has no opinion on which layer a base belongs to.
 
-**9 September — our own lint config, read as a specification.** Asked whether a
-`server-only` barrel would better home a schema, the agent built it, hit
-`boundaries/dependencies`, priced widening `PUBLIC_API` repo-wide and declined.
-_if "boundaries don't allow" is the only argument, let's rewrite the boundaries._
+**8 September — a cost measured against its own earlier choice.** Asked why the two CV routes
+could not collapse into one catch-all, the agent priced `/en/cv` inheriting `og:url: /en/cv/cto`
+— a cost only if `/en/cv` is the indexed address, which it had itself decided hours earlier.
 
-**9 September — a note on the site's controls, read as a rule about everything
-clickable.** The theme toggle kept `variant="default"` (`theme.ts`: "the site's
-only control skin"), so a hairline box fenced off empty space — around a thing
-the agent had just called furniture. _let's remove the borders_.
+**9 September — our own lint config, read as a specification.** Asked whether a `server-only`
+barrel would better home a schema, the agent built it, hit `boundaries/dependencies`, priced
+widening `PUBLIC_API` repo-wide and declined. _let's rewrite the boundaries._
 
-**9 September — a global class read off the globals beside it.** A hover dim went
-into `globals.scss` "as the print utilities are" — which are global only because
-the pipeline emits them into HTML strings. _why are we bypassing modules?_
+**9 September — a note on the site's controls, read as a rule about everything clickable.** The
+theme toggle kept `variant="default"` (`theme.ts`: "the site's only control skin"), so a hairline
+box fenced off empty space — around a thing the agent had just called furniture.
 
-**11 September — its own spelling, then the operator's typo, both taken as
-given.** The agent had named the sync skill `/sync-agent-infra`. Told the source
-renamed its copy `/update-muthur`, it proved the rename need not travel and read
-that as licence to keep its own; then it defended the operator's typo too.
+**9 September — a global class read off the globals beside it.** A hover dim went into
+`globals.scss` "as the print utilities are" — which are global only because the pipeline emits
+them into HTML strings. _why are we bypassing modules?_
 
-**14 September — a sentence that scanned, so the word in it went unquestioned.**
-Deepgram heard «ты смотришь на кофе… он красивый»: it parses, and a coffee on a
-rock had just been described. The word was «код». The low-confidence list flags
-what the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
+**11 September — its own spelling, then the operator's typo, both taken as given.** The agent
+had named the sync skill `/sync-agent-infra`. Told the source renamed its copy `/update-muthur`,
+it proved the rename need not travel, read that as licence to keep its own, then defended the
+operator's typo too.
 
-**14 September — the reading that fit the argument went unchecked, twice.**
-«Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
-a name recommendation resting on it; told the sense was the other, the agent
-filed _the grammar allows only that one_ — also false. Each parse arrived first.
+**14 September — a sentence that scanned, so the word in it went unquestioned.** Deepgram heard
+«ты смотришь на кофе… он красивый»: it parses, and a coffee on a rock had just been described.
+The word was «код» — a mis-hearing that makes sense is the kind no confidence score flags.
 
-**14 September — the one caller's shape, written into a general skill.** The
-afterword skill kept what its extraction from `/dictation` had held: the Russian
-heading as _the_ heading, a purpose no wider than a two-voice post.
+**14 September — the reading that fit the argument went unchecked, twice.** «Ставить его нам,
+возможно, будет уже некому» was read as _we will not be here_, a name recommendation resting on
+it; told the sense was the other, the agent filed _the grammar allows only that one_ — also false.
 
-**15 September — the plan, read as where a change gets written down.** The
-by-hand steps for standing the second site up went into the plan file, whose
-whole tree `CLAUDE.md` says is swept before the squash. _смотреть в .completed
-кажется концептуально неверно_ — never which document, only which section.
+**14 September — the one caller's shape, written into a general skill.** The afterword skill
+kept what its extraction from `/dictation` had held: the Russian heading as _the_ heading, a
+purpose no wider than a two-voice post.
 
-**15 September — findings filed where the path says they get deleted.** The
-second site's runbook carried GitHub's Pages addresses, the 409 a self-enabling
-`gh-pages` answers and the form reading its inputs off the default branch — all
-under `docs/remove-before-merging/`. _давай экстрагируем._
+**15 September — the plan, read as where a change gets written down.** The by-hand steps for
+standing the second site up went into the plan file, whose whole tree `CLAUDE.md` says is swept
+before the squash. _смотреть в .completed кажется концептуально неверно_ — never which document.
 
-**15 September — a vet line inherited, and its bucket never questioned.** The
-sync added `test_export_split.py` beside the `test_authorship.py` already in the
-fan-out, so the question was how to name two lines, never whether either belonged.
-The catalog answers in a column — both are `never`. muthur#82 has why.
+**15 September — findings filed where the path says they get deleted.** The second site's
+runbook carried GitHub's Pages addresses, the 409 a self-enabling `gh-pages` answers and the
+form reading its inputs off the default branch — all under `docs/remove-before-merging/`.
+_давай экстрагируем._
 
-**16 September — the example's unit, held fixed across two rewrites.** Told the
-rule's specimen didn't demonstrate it, the agent replaced it twice, both times
-putting X and Y in one sentence. _изначальная дихотомия была на уровень выше_ —
-the repeat was between two sentences, which no swap inside one could show.
+**15 September — a vet line inherited, and its bucket never questioned.** The sync added
+`test_export_split.py` beside the `test_authorship.py` already in the fan-out, so the question
+was how to name two lines, never whether either belonged. The catalog answers in a column —
+both are `never`. muthur#82 has why.
+
+**16 September — the example's unit, held fixed across two rewrites.** Told the rule's specimen
+didn't demonstrate it, the agent replaced it twice, both times putting X and Y in one sentence.
+_изначальная дихотомия была на уровень выше_ — the repeat was between two sentences, which no
+swap inside one could show.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 
@@ -336,7 +331,7 @@ cost through the client chain at +377 kB and wrote the number into `site-ids.ts`
 would revisit it on intuition. _нам нужно сделать .server-only. модуль или бочку._ That
 barrel exists because of the bump above it.
 
-## It checks the render against its intent, not against the page (×2)
+## It checks the render against its intent, not against the page (×3)
 
 Told to look at a visual change rather than reason about it, the agent looks —
 and then verifies the thing it set out to do. Whether the result is right is a
@@ -354,6 +349,11 @@ one card per framing off the catalogue, the agent checked the property it had se
 itself — the card can no longer say what the page stopped saying — and confirmed
 it held. The same image showed a plate two thirds empty with no way to reach the
 person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
+
+**17 September — the defect gone, the picture worse.** Asked to float the tokens drawing
+beside the text, the agent floated it, caught the heading it squeezed into the margin, fixed
+that generally and screenshotted the fix. _выноска стала лучше, изображение -- хуже_: against
+one short paragraph the image outran its own section. Asked of the shot was "is the bug gone".
 
 ## A published number is not a verified number (×2)
 
