@@ -1,18 +1,21 @@
 import type { ReactNode } from 'react';
 
-/**
- * The emphasis a catalogue string may carry, as the nodes that render it.
- *
- * `<strong>` is the whole of the markup the catalogues are allowed — bullets
- * carry their bold lead as structured fields instead, so this covers the running
- * prose where emphasis falls mid-sentence. Any other tag throws: a catalogue is
- * rendered, never sanitized, and silently printing `<em>` as text would put
- * markup in front of a reader.
- */
 const EMPHASIS = /<strong>([\S\s]*?)<\/strong>/g;
 
 const ANY_TAG = /<[^>]+>/;
 
+/**
+ * A message with its `<strong>` spans as nodes — the CV's profile paragraphs,
+ * where emphasis falls mid-sentence. Bullets carry their bold lead as
+ * structured fields instead, so this is the only place inline markup appears,
+ * and `<strong>` is the whole of what a message may carry: any other tag throws
+ * rather than reaching a reader as literal `<em>`.
+ *
+ * Not the markdown pipeline `src/shared/content/` already runs, because the
+ * closed set is the point. A markdown renderer accepts links, images and
+ * headings, so it would widen what a message is allowed to do without anyone
+ * deciding to, and it returns blocks where these are fragments inside a `Text`.
+ */
 export function richText(copy: string): ReactNode[] {
   const nodes: ReactNode[] = [];
   const plain: string[] = [];

@@ -127,7 +127,10 @@ export const typescriptRules = {
     'error',
     { functions: false, classes: true, variables: true },
   ],
-  // Replaces the core rule (core copy is turned 'off' in core.ts).
+  // Replaces the core rule (core copy is turned 'off' in core.ts). What is
+  // banned is the bare specifier alone, from anywhere: that entry is the client
+  // runtime, so a module reaching it is what makes a page ship it. Translating
+  // on the server goes through `next-intl/server`, which is unrestricted.
   '@typescript-eslint/no-restricted-imports': [
     'error',
     {
