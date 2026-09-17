@@ -1,31 +1,27 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 /**
- * Holds next-intl's client runtime to the pages that render in more than one
- * language:
+ * Holds next-intl's client runtime out of every built page:
  *
  *   pnpm check:i18n-payload
  *
- * Reaching the bare `next-intl` specifier from a page's graph ships that
- * runtime — 14 kB gzipped — to that page, and the mistake is invisible:
- * `useTranslations` in a client component compiles, builds and translates
- * correctly. `.claude/rules/i18n.md` carries what earns it.
+ * Reaching the bare `next-intl` specifier from a client component ships that
+ * runtime — 14 kB gzipped — to every page that renders it, and no page here
+ * earns it: each locale is a pre-rendered page of its own, so the language
+ * chips are links and the copy is translated on the server.
+ * `.claude/rules/i18n.md` carries the reasoning.
  *
- * **Which pages are allowed is derived, never listed.** A page qualifies when a
- * locale from `routing.locales` appears in its own route or under it, so a new
- * localized page is permitted by existing at its locales — there is no
- * allowlist here or in `eslint.config.ts` to remember to extend. That is the
- * whole reason this reads the build rather than the import graph: a lint rule
- * can only ask which file an import sits in, and every legitimate caller is a
- * client component inside a localized page, indistinguishable by path from an
- * illegitimate one.
+ * `@typescript-eslint/no-restricted-imports` is the first guard and catches the
+ * import where it is written. This is the second, and it covers what a lint rule
+ * cannot see: a dependency that pulls the runtime in transitively, or a
+ * component that reaches it under a specifier nobody thought to restrict. What
+ * a page costs is not a property of the file an import sits in, so this reads
+ * the build.
  *
- * The fingerprint below cannot rot silently: a localized page that does **not**
- * ship the runtime fails too, so markers that stop matching a future next-intl
- * surface as a failure rather than as a check that passes on everything.
- *
- * Runs under `tsx` rather than bare Node, to read the locale list from the app
- * itself instead of restating it.
+ * The marker list below cannot rot silently: the run first asserts that every
+ * marker still appears in the installed next-intl, so a future release that
+ * renames them fails here rather than turning this into a check that passes on
+ * everything.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: which page
@@ -34,8 +30,6 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-
-import { routing } from '@/shared/i18n';
 
 const REPO_ROOT = path.join(import.meta.dirname, '..');
 
@@ -47,16 +41,6 @@ const REPO_ROOT = path.join(import.meta.dirname, '..');
 const RUNTIME_MARKERS = ['MISSING_MESSAGE', '@formatjs', 'IntlProvider'];
 
 const SCRIPT_SRC = /src="(\/_next\/[^"]+\.js)"/g;
-
-const LOCALES = new Set<string>(routing.locales);
-
-/** A page's route, as the path that addresses it — `cv/cto/en`, or `''`. */
-function routeOf(page: string, out: string): string {
-  return path
-    .relative(out, page)
-    .replace(/\.html$/, '')
-    .replace(/^index$/, '');
-}
 
 function walk(dir: string, extension: string): string[] {
   if (!fs.existsSync(dir)) return [];
@@ -70,23 +54,45 @@ function walk(dir: string, extension: string): string[] {
   });
 }
 
-const hasLocale = (route: string) =>
-  route.split('/').some((segment) => LOCALES.has(segment));
-
 /**
- * Whether a locale addresses this route or something under it. The second half
- * is what covers the defaulted forms of a localized route — `/cv` and `/cv/cto`
- * render the same page as `/cv/cto/en`, and carry no locale segment of their
- * own. An empty route prefixes every page, so the site root never qualifies
- * this way.
+ * The runtime's own sources, as installed. `use-intl` is next-intl's core and
+ * where the markers actually live, so it is found beside the copy next-intl
+ * itself resolves rather than at the tree's root, which under pnpm holds only
+ * what `package.json` names.
  */
-function isLocalized(route: string, routes: string[]): boolean {
-  if (hasLocale(route)) return true;
-  if (route === '') return false;
-
-  return routes.some(
-    (other) => other.startsWith(`${route}/`) && hasLocale(other),
+function runtimeSources(): string {
+  const installed = fs.realpathSync(
+    path.join(REPO_ROOT, 'node_modules', 'next-intl'),
   );
+
+  return path.join(installed, '..', 'use-intl', 'dist', 'esm', 'production');
+}
+
+/** Fails the run when a marker no longer appears in the runtime it fingerprints. */
+function verifyMarkers() {
+  const sources = runtimeSources();
+  const files = walk(sources, '.js');
+
+  if (files.length === 0) {
+    console.error(
+      `Cannot read next-intl's own sources at ${sources} — this check cannot\n` +
+        'verify its fingerprint, so it refuses to pass. Run `pnpm install` first.',
+    );
+    process.exit(1);
+  }
+
+  const blob = files.map((file) => fs.readFileSync(file, 'utf8')).join('');
+  const stale = RUNTIME_MARKERS.filter((marker) => !blob.includes(marker));
+
+  if (stale.length === 0) return;
+
+  console.error(
+    `Markers that no longer appear in the installed next-intl: ${stale.join(', ')}\n\n` +
+      'They are how this check recognizes the runtime inside a minified chunk,\n' +
+      'so a marker that stopped matching leaves it blind. Re-fingerprint against\n' +
+      `${sources}\nand update RUNTIME_MARKERS in this file.`,
+  );
+  process.exit(1);
 }
 
 function shipsRuntime(html: string, out: string, cache: Map<string, boolean>) {
@@ -122,6 +128,8 @@ function outDirs(): string[] {
     .filter((dir) => fs.existsSync(dir));
 }
 
+verifyMarkers();
+
 const built = outDirs();
 
 if (built.length === 0) {
@@ -132,67 +140,39 @@ if (built.length === 0) {
   process.exit(1);
 }
 
-const alphabetical = (a: string, b: string) => a.localeCompare(b);
-
-const unearned: string[] = [];
-const missing: string[] = [];
-let localizedPages = 0;
+const carrying: string[] = [];
 let checkedPages = 0;
 
 for (const out of built) {
   const site = path.basename(path.dirname(out));
-  const pages = walk(out, '.html');
-  const routes = pages.map((page) => routeOf(page, out));
   const cache = new Map<string, boolean>();
 
-  for (const page of pages) {
-    const route = routeOf(page, out);
+  for (const page of walk(out, '.html')) {
     const chunks = shipsRuntime(page, out, cache);
-    const localized = isLocalized(route, routes);
-    const address = `${site}:/${route}`;
+    const route = path.relative(out, page).replace(/\.html$/, '');
 
     checkedPages += 1;
-    if (localized) localizedPages += 1;
 
-    if (localized && chunks.length === 0) missing.push(address);
-    if (!localized && chunks.length > 0) {
-      unearned.push(`${address}  (${chunks.join(', ')})`);
+    if (chunks.length > 0) {
+      carrying.push(`${site}:/${route}  (${chunks.join(', ')})`);
     }
   }
 }
 
-if (unearned.length > 0) {
-  console.error(
-    "Pages rendering in one language that ship next-intl's client runtime:",
-  );
-  for (const page of unearned.toSorted(alphabetical)) {
+if (carrying.length > 0) {
+  console.error("Pages shipping next-intl's client runtime:");
+  for (const page of carrying.toSorted((a, b) => a.localeCompare(b))) {
     console.error(`  ${page}`);
   }
   console.error(
-    '\nTranslate on the server with `getTranslations` and pass the string down.\n' +
-      'See .claude/rules/i18n.md.',
+    '\nEvery locale is its own pre-rendered page, so nothing here needs to\n' +
+      'translate in the browser. Translate on the server — `getTranslations`\n' +
+      'from `next-intl/server`, or the catalogue through `@/shared/i18n` — and\n' +
+      'pass the strings down. See .claude/rules/i18n.md.',
   );
+  process.exit(1);
 }
-
-// A localized page that does not ship the runtime means the fingerprint above
-// no longer matches next-intl — the failure that would otherwise turn this
-// check into one that passes on everything.
-if (missing.length > 0) {
-  console.error(
-    `${unearned.length > 0 ? '\n' : ''}Localized pages with no next-intl runtime — the marker list is stale:`,
-  );
-  for (const page of missing.toSorted(alphabetical)) {
-    console.error(`  ${page}`);
-  }
-  console.error(
-    `\nMarkers tried: ${RUNTIME_MARKERS.join(', ')}. Re-fingerprint the runtime\n` +
-      'against the built chunks and update RUNTIME_MARKERS in this file.',
-  );
-}
-
-if (unearned.length > 0 || missing.length > 0) process.exit(1);
 
 console.log(
-  `i18n payload OK — ${localizedPages} of ${checkedPages} pages are localized ` +
-    'and carry the runtime; the rest ship none of it',
+  `i18n payload OK — none of ${checkedPages} pages ship next-intl's client runtime`,
 );

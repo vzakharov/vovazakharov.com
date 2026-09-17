@@ -1,22 +1,20 @@
-'use client';
-
-import { useLocale } from 'next-intl';
-
 import { routing } from '@/shared/i18n';
 import { type Chip, ChipNav } from '@/shared/ui';
 
 import { cvPath } from '../lib/cv-urls';
-import type { WithCvVariant } from '../lib/cv-variants';
+import type { CvEdition } from '../lib/cv-variants';
 
-export function LocalePicker({ variant }: WithCvVariant) {
-  const current = useLocale();
-
+/**
+ * Each language as its own address: every locale is a page of its own, already
+ * rendered, so switching is a navigation rather than a re-render.
+ */
+export function LocalePicker({ variant, locale }: CvEdition) {
   const chips = routing.locales.map(
-    (locale): Chip => ({
-      label: locale.toUpperCase(),
-      href: cvPath(variant, locale),
-      hrefLang: locale,
-      current: locale === current,
+    (each): Chip => ({
+      label: each.toUpperCase(),
+      href: cvPath(variant, each),
+      hrefLang: each,
+      current: each === locale,
     }),
   );
 

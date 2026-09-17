@@ -13,7 +13,7 @@
     "test": "node --import tsx --test \"**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
     "check:mantine-styles": "node scripts/check-mantine-styles.ts",
-    "check:i18n-payload": "tsx scripts/check-i18n-payload.ts",
+    "check:i18n-payload": "node scripts/check-i18n-payload.ts",
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "steiger src",
