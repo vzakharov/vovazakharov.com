@@ -1,6 +1,10 @@
 import 'server-only';
 
-import type { DocumentFile, PrintedLink } from '@/shared/typings';
+import type {
+  DocumentFile,
+  LinkedPerMedium,
+  PrintedLink,
+} from '@/shared/typings';
 
 import { resolveSiteId } from './site.env.unsafe';
 import { siteConfig, withoutScheme } from './site-config';
@@ -34,3 +38,13 @@ export const printedUrl = (url: string): PrintedLink => {
 
   return { href, text: withoutScheme(href) };
 };
+
+/**
+ * Everything `InternalLink` needs of a route, from the route alone. Spelling it
+ * twice at a call site is what lets the screen anchor and the printed one point
+ * at different pages.
+ */
+export const linkTo = (route: string): LinkedPerMedium => ({
+  href: route,
+  printed: printedUrl(route),
+});

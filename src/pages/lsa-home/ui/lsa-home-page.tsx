@@ -12,7 +12,7 @@ import {
 import { AUTHOR_URL } from '@/shared/config';
 import {
   BUILD_YEAR,
-  printedUrl,
+  linkTo,
   SITE_CONFIG,
 } from '@/shared/config/index.server-only';
 import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
@@ -61,10 +61,7 @@ export async function LsaHomePage() {
             })}
           </SimpleGrid>
           <Text>
-            <InternalLink
-              href={collectionRoute(COLLECTION)}
-              printed={printedUrl(collectionRoute(COLLECTION))}
-            >
+            <InternalLink {...linkTo(collectionRoute(COLLECTION))}>
               All of it, in one place →
             </InternalLink>
           </Text>

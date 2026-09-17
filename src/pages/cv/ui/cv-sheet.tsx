@@ -12,7 +12,11 @@ import {
 import { useMessages, useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
-import type { DocumentFile, PrintedLink } from '@/shared/typings';
+import type {
+  DocumentFile,
+  LinkedPerMedium,
+  PrintedLink,
+} from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
@@ -52,9 +56,7 @@ const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
-  caseStudyHref: string;
-  /** Paper's copy of the above, resolved by the page for the same reason. */
-  printedCaseStudy: PrintedLink;
+  caseStudy: LinkedPerMedium;
   /** The sheet's own site, which the header links to and the footer spells out. */
   printedSite: PrintedLink;
   /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
@@ -63,8 +65,7 @@ export type CvSheetProps = WithCvVariant & {
 
 export function CvSheet({
   variant,
-  caseStudyHref,
-  printedCaseStudy,
+  caseStudy,
   printedSite,
   pdfFile,
 }: CvSheetProps) {
@@ -141,7 +142,7 @@ export function CvSheet({
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink href={caseStudyHref} printed={null} />
+                    <CaseStudyLink href={caseStudy.href} printed={null} />
                   </Box>
                 )}
               </Stack>
@@ -155,9 +156,7 @@ export function CvSheet({
                   key={entryKey}
                   {...{ entryKey }}
                   caseStudy={
-                    entryKey === CASE_STUDY_KEY
-                      ? { href: caseStudyHref, printed: printedCaseStudy }
-                      : undefined
+                    entryKey === CASE_STUDY_KEY ? caseStudy : undefined
                   }
                 />
               ))}

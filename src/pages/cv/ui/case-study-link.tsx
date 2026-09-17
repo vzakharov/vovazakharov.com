@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
-import type { Linked, WithPrinted } from '@/shared/typings';
+import type { LinkedPerMedium } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
@@ -13,10 +13,7 @@ import classes from './cv.module.scss';
  */
 export const CASE_STUDY_KEY = 'playgram';
 
-/** Where the link points, and paper's copy of it — the two travel together. */
-export type CaseStudyLinkProps = Linked & WithPrinted;
-
-export function CaseStudyLink({ href, printed }: CaseStudyLinkProps) {
+export function CaseStudyLink({ href, printed }: LinkedPerMedium) {
   const { cv } = useMessages();
   const label = cv.caseStudies[CASE_STUDY_KEY].link;
 

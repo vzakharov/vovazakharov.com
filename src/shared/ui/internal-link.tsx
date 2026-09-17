@@ -40,9 +40,8 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
- * `printed` has no default, so every call site says whether its link reaches
- * paper; inside a `print-hidden` container it does not, and `null` is the
- * answer there.
+ * `printed` has no default: a call site passes the pair, or `null` where the
+ * link reaches no paper — which is any link inside a `print-hidden` container.
  *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server
