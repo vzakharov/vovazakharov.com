@@ -39,17 +39,19 @@ rule under `.claude/rules/`, a line in `CLAUDE.md` — whether or not it lands h
   shows what the agent could not see; then drop learnings from the bottom, since
   one bump is a coincidence with a paragraph attached.
 
-## What it was handed, it treats as fixed (×18)
+## What it was handed, it treats as fixed (×19)
 
 Whatever arrives as context — a vocabulary, a published figure, a pattern already in the tree —
 the agent reasons _inside_ rather than _about_: it takes a given for an inevitability, aka the
 **precedent fallacy**. The failure is invisible because the reasoning inside the frame is
 sound; a second agent checking it would pass. The human's move is to change the given.
 
-**17 September — a tool's refusal, read as the world's.** Told to compare this split against a
-sibling repo's, the agent called `add_repo`, got _cross-tier adds are not supported_, and
-reported the repo out of reach. _у тебя есть шимнутый gh, перепроверь_ — `gh` sat in the same
-shell and read it first try.
+**17 September — a tool's refusal, twice read as the world's.** Told to compare this split
+against a sibling repo's, the agent called `add_repo`, got _cross-tier adds are not supported_,
+and reported the repo out of reach; _перепроверь_ — `gh` sat in the same shell and read it
+first try. Hours later it filed an issue saying the container cannot rasterize a PDF, and so
+checked a print fix on screen, where the reported defect does not exist. `pip install
+pypdfium2` also worked first try, and the page showed it at once.
 
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that documents
 nothing: the agent weighed three candidates from the list and never looked outside it. _Let's
@@ -338,17 +340,14 @@ and then verifies the thing it set out to do. Whether the result is right is a
 different question from whether it happened, and only the second one is
 answerable from the intent.
 
-**8 September — the logos it had already looked at.** The agent screenshotted
-three new organisation marks in both schemes and reported them legible and
-aligned. _the logos are slightly mis-aligned_: one filled its canvas edge-to-edge,
-another was inset a fifth. The question asked of the screenshot was "are they
-there".
+**8 September — the logos it had already looked at.** The agent screenshotted three new marks
+in both schemes and called them legible and aligned. _the logos are slightly mis-aligned_: one
+filled its canvas edge-to-edge, another was inset a fifth. Asked was "are they there".
 
-**9 September — the card it had just fixed, looked at and passed.** Rendering
-one card per framing off the catalogue, the agent checked the property it had set
-itself — the card can no longer say what the page stopped saying — and confirmed
-it held. The same image showed a plate two thirds empty with no way to reach the
-person on it: _the prose itself says nothing_, add GitHub and LinkedIn.
+**9 September — the card it had just fixed, looked at and passed.** Rendering one card per
+framing, the agent checked the property it had set itself — the card can no longer say what the
+page stopped saying — and confirmed it held. The same image showed a plate two thirds empty
+with no way to reach the person on it: _the prose itself says nothing_.
 
 **17 September — the defect gone, the picture worse.** Asked to float the tokens drawing
 beside the text, the agent floated it, caught the heading it squeezed into the margin, fixed
