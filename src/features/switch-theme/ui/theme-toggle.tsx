@@ -27,13 +27,7 @@ function systemColorScheme(): PickedColorScheme {
     : 'light';
 }
 
-/**
- * Two visible states over a three-value store; the rule is in `../lib`.
- *
- * The label is a prop, not a `useTranslations` call: this is the site's only
- * client component outside the CV, so reading it here would put next-intl's
- * client runtime into every page's bundle for one string.
- */
+/** Two visible states over a three-value store; the rule is in `../lib`. */
 export function ThemeToggle({ label }: Labeled) {
   const { colorScheme, setColorScheme, clearColorScheme } =
     useMantineColorScheme();

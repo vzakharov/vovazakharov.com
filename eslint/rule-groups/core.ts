@@ -138,6 +138,7 @@ export const coreRules = {
     'no-extra-boolean-cast', // conflicts with @typescript-eslint/strict-boolean-expressions
     'no-loop-func', // superseded by @typescript-eslint/no-loop-func
     'no-loss-of-precision', // superseded by @typescript-eslint/no-loss-of-precision
+    'no-restricted-imports', // superseded by @typescript-eslint/no-restricted-imports, which can exempt type-only imports
     'no-throw-literal', // superseded by @typescript-eslint/only-throw-error
     'no-unused-private-class-members', // superseded by @typescript-eslint/no-unused-private-class-members
     'require-await', // superseded by @typescript-eslint/require-await

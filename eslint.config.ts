@@ -260,6 +260,19 @@ const eslintConfig = defineConfig([
     files: ['src/pages/{home,writing,music}/ui/**/*.tsx'],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },
+  // The CV is the one route that renders in two languages and lets the reader
+  // switch between them, so it is the one subtree that has earned next-intl's
+  // client runtime — it provides for itself, with its own messages. Everywhere
+  // else translates on the server and passes the string down, which is what
+  // keeps that runtime off every other page's bundle. `.claude/rules/i18n.md`
+  // carries the reasoning; the exemption spans the slice because the provider
+  // and the components reading through it are one unit. A second restricted
+  // path added to the rule would be exempted here too — split this into a
+  // re-statement naming only `next-intl` if that ever stops being wanted.
+  {
+    files: ['src/pages/cv/ui/**/*.tsx'],
+    rules: { '@typescript-eslint/no-restricted-imports': 'off' },
+  },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.
   // Relax only the patterns intrinsic to AST-walking rule code; everything else is linted.
   {

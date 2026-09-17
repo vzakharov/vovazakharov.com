@@ -52,11 +52,6 @@ export function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
-      {/*
-        A subtree that translates at runtime provides for itself — `CvPage` does,
-        with the messages it needs. A provider here would instead put next-intl's
-        client runtime in every page's bundle, to serve the CV alone.
-      */}
       <body>
         <ThemeProvider>
           <ThemeCorner />
