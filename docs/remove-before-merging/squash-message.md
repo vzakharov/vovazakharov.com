@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: a mushroom toy from Syama's drawing, at /mushrooms (pr #57)
+feat: a mushroom game from Syama's drawing, at /mushrooms (pr #57)
 ```
 
 ```
@@ -12,7 +12,7 @@ mushrooms, and a choice of four caps whenever one is added. There is
 no goal — the point is to watch the insects. This is that page, at
 /mushrooms with an en and a ru form, since the author reads Russian.
 
-The toy is a pure reducer under pages/mushrooms/lib with the scene
+The game is a pure reducer under pages/mushrooms/lib with the scene
 rendered off its state: mushrooms with a picked cap, windows on the
 cap and a door on the stem of the selected one, insects perched where
 the action that landed them said. Randomness stays in the component,
