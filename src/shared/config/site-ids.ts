@@ -18,9 +18,13 @@ export type WithSiteId = { site: SiteId };
  * said — which would publish one site's copy under the other's domain, or walk
  * one site's collections against the other's `public/`, hence the throw.
  *
- * Matched rather than parsed by a schema: client components reach this through
- * `site-config` (the CV sheet, through `cv-urls`), where zod would land in the
- * chunk — the ~90 kB `shared/i18n` keeps behind its server-only barrel.
+ * Matched against the ids rather than parsed by a `z.enum`, which is what the
+ * repo asks for at a boundary. Client components reach this through
+ * `site-config` (the CV sheet, through `cv-urls`), so zod called here is zod in
+ * the browser: swapping the match for a parse measured at +377 kB of client
+ * JavaScript, half again the whole bundle. The match still reads the ids as its
+ * source of truth and still throws, so what the parse would add is the
+ * dependency and nothing else.
  */
 export function resolveSiteId(): SiteId {
   const site = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
