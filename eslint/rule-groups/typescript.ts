@@ -158,23 +158,6 @@ export const typescriptRules = {
       allowConstantLoopConditions: true,
     },
   ],
-  // Only `next-intl` itself is listed because only it is the client entry —
-  // `next-intl/server`, `/routing` and `/plugin` cost a page nothing. Type
-  // imports are allowed for the same reason. Which subtree is exempt, and how
-  // everything else translates, is .claude/rules/i18n.md.
-  '@typescript-eslint/no-restricted-imports': [
-    'error',
-    {
-      paths: [
-        {
-          name: 'next-intl',
-          message:
-            "next-intl's client runtime ships to every page that reaches this. Translate on the server with `getTranslations` from 'next-intl/server' and pass the string down as a prop. See .claude/rules/i18n.md.",
-          allowTypeImports: true,
-        },
-      ],
-    },
-  ],
 
   ...withSeverity('off', [
     // Superseded by tsconfig or another rule:
