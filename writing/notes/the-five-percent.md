@@ -62,10 +62,9 @@ the agent stopped. _type-overlap doesn't cover this, but consider it covered_: i
 scans type aliases only, known from the README and read as the rule's boundary.
 
 **8 September — the same hole, opened by the fix for it.** Applying that rule,
-the agent found `caseStudyHref?` declared by cards in two sibling slices, put the
-base in `shared/typings` and went green. _not domain-less; if it's a question of
-import directionality, suggest introducing a case study entity_ — the gate has no
-opinion on which layer a shared base belongs to, so green was the whole evidence.
+the agent put a base two sibling slices both declared into `shared/typings` and
+went green. _not domain-less; suggest introducing a case study entity_ — the
+gate has no opinion on which layer a base belongs to, so green was the evidence.
 
 **8 September — a cost measured against its own earlier choice.** Asked why the
 two CV routes could not collapse into one catch-all, the agent priced `/en/cv`
@@ -92,10 +91,9 @@ renamed its copy `/update-muthur`, it proved the rename need not travel and read
 that as licence to keep its own; then it defended the operator's typo too.
 
 **14 September — a sentence that scanned, so the word in it went unquestioned.**
-Deepgram heard «ты смотришь на кофе… он красивый, почти как предзакатное солнце»:
-it parses, and a coffee on a rock had just been described. The word was «код»,
-the rung the payoff calls back to. The low-confidence list flags what the
-recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
+Deepgram heard «ты смотришь на кофе… он красивый»: it parses, and a coffee on a
+rock had just been described. The word was «код». The low-confidence list flags
+what the recognizer doubted; a mis-hearing that makes sense is the kind it cannot.
 
 **14 September — the reading that fit the argument went unchecked, twice.**
 «Ставить его нам, возможно, будет уже некому» was read as _we will not be here_,
@@ -112,9 +110,9 @@ whole tree `CLAUDE.md` says is swept before the squash. _смотреть в .co
 кажется концептуально неверно_ — never which document, only which section.
 
 **15 September — findings filed where the path says they get deleted.** The
-runbook for the second site carried GitHub's Pages addresses, the 409 a
-self-enabling `gh-pages` answers and the form reading its inputs off the default
-branch — all under `docs/remove-before-merging/`. _давай экстрагируем._
+second site's runbook carried GitHub's Pages addresses, the 409 a self-enabling
+`gh-pages` answers and the form reading its inputs off the default branch — all
+under `docs/remove-before-merging/`. _давай экстрагируем._
 
 **15 September — a vet line inherited, and its bucket never questioned.** The
 sync added `test_export_split.py` beside the `test_authorship.py` already in the
@@ -179,9 +177,9 @@ The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
 because the reasoning closed. Nothing inside an account reports it was unchecked.
 
-**8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
-a hand-written redirect file, the agent gave the right reason — no middleware in a
-static export — which closed the question before anyone opened the file.
+**8 September — a redirect nobody had opened.** Asked why unlocalized `/cv`
+needs a hand-written redirect file, the agent gave the right reason — no
+middleware in a static export — which closed the question before anyone looked.
 
 **8 September — the schema it never wrote.** Told route params would parse better
 through zod, the agent declined twice: a schema would restate the variant ids —
@@ -197,9 +195,9 @@ Asked where source recordings live, the agent argued a branch-only video is
 collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
 
 **14 September — a test whose counterexample sat in the diff proposing it.** The
-dictation skill got a rule against drifting into prose: every sentence should be
-findable in the recognizer's output. Never run against the transcripts beside
-it, where «научный не обязательностью» had become «наученный необязательностью».
+dictation skill got a rule that every sentence be findable in the recognizer's
+output — never run against the transcripts beside it, where «научный не
+обязательностью» had become «наученный необязательностью».
 
 **15 September — an objection never tried against `import type`.** The site id
 stayed a bare string in `siteNextConfig`, its docstring giving the reason:
@@ -232,25 +230,21 @@ belonging in a rules file or a docstring. The body had accreted across refreshes
 which is how a cap gets walked past one push at a time.
 
 **14 September — two denials of what the file used to be part of.** The new
-afterword skill carried "it applies to anything the operator wrote" and "it is
-not the lede", both answering a question only someone who had watched it leave
+afterword skill answered questions only someone who had watched it leave
 `/dictation` would ask — with `CLAUDE.md` naming the defect and
-`/tend-prose negation` having run over the file. _polar bear_, twice, then a third
-next day: the voice rule ruling `--` out of site copy nobody had asked about.
+`/tend-prose negation` having run over the file. _polar bear_, twice.
 
 **16 September — the review, transcribed into the file it was about.** Three
 afterwords opened on who had said what — «про мегапиксели я был неправ» — so the
 thought arrived wrapped in an exchange the reader never saw. _давай
-conversational соображения оставляй исключительно в комментариях_. The thought
-is durable; the conversation belongs in the thread that held it.
+conversational соображения оставляй исключительно в комментариях_.
 
 **16 September — the footnotes that outlived the pass that needed them.** Every
 edit to the three scripts carried a note on what the recording had instead, kept
-through three review rounds: a diff against the tape, inside the thing to be read
-aloud from. _держать постоянный журнал разницы vs запись запроса нет._ A note
-earns its place on the first pass and expires with the round that settles it.
+through three rounds: a diff against the tape, inside the thing to be read aloud
+from. _держать постоянный журнал разницы vs запись запроса нет._
 
-## Asked to quote a source, it writes its own version (×6)
+## Asked to quote a source, it writes its own version (×7)
 
 Holding the file open, the agent still writes its own version. The paraphrase
 improves something, so nothing stops it; what goes is that a reader can check.
@@ -265,23 +259,29 @@ written a line earlier and cited as settled the next. _это откуда, мы
 уже заявили?:)_ An invented rule argues better, having nothing to contradict it.
 
 **16 September — a scene credited to a show that has no such scene, then one
-that proves the opposite.** Handed House for the recording's close, the agent
-wrote a tray of instruments rather than look one up: _погугли, чтобы не
-хендвейвить поднос_. The replacement was searched for and real — a blind pigeon,
-a rooftop cistern — and still wrong: the pigeon was blind like the patient, so
-it is deduction, not epiphany. That an example exists is not that it fits.
+that proves the opposite.** Handed House, the agent invented a tray of
+instruments — _погугли, чтобы не хендвейвить поднос_ — and its researched
+replacement, a blind pigeon, was real and still wrong: blind like the patient,
+so deduction rather than epiphany. That an example exists is not that it fits.
 
 **16 September — four idea files, each holding the agent's idea.** Every «об
 этом позже» in the recordings got a paragraph under `ideas/`, and three of four
 came back corrected: one argued from a reason he does not hold, one made an
-article of an aside meant as a proto-idea, one hung its piece on the argument it
-sat next to. A destination written off one remark fills with its author.
+article of a proto-idea, one hung its piece on its neighbour's argument. A
+destination written off one remark fills with its author.
 
 **16 September — a specimen of agent prose no agent would write.** Told the
 rule's example needed no context, the agent supplied «Лифт не просто сломан — на
-нём ещё и не подняться», which demonstrates the tautology by being one: _так
-всё-таки и агент не напишет :)_. A defect staged past where it occurs stops
-being evidence that it occurs.
+нём ещё и не подняться», demonstrating the tautology by being one: _так всё-таки
+и агент не напишет :)_. A defect staged past where it occurs stops being
+evidence that it occurs.
+
+**17 September — an exception elaborated into a claim the source never made.**
+The recording says only that migrations are the exception and the subject niche.
+The idea file written off it supplied the why — two correct migrations that
+together make nonsense — and the article inherited it. _проблема не в этом …
+обе напишут миграцию 0080._ A gap the source left fills with the agent's own
+theory, and it arrives argued.
 
 ## Given a form, it fills the form (×5)
 

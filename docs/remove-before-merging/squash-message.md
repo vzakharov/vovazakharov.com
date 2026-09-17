@@ -8,33 +8,41 @@ feat: the Bible, latestageagentic.com's article collection (pr #52)
 latestageagentic.com served one page and an empty Writing section.
 The wiki behind it -- «Библия», categorical by design, because an
 article that weighs both sides is the cardboard a model writes by
-default -- now exists at /bible, seeded with three articles: why to
-drive agents through the web client rather than the console, the four
-lenses /tend-prose runs, and what it means that an agent takes what
-it finds for what must be. Each was recorded first as a script for
-the Russian channel and is rewritten here in the register the site is
-for: the position first, then what earns it. The index opens on prose
-of its own, because the name is a joke that has to land before the
-first categorical article does.
+default -- now exists at /bible, seeded with three articles: that an
+agent takes what it finds for what must be, the four lenses
+/tend-prose runs, and why to drive agents from the web client rather
+than the console. Each was recorded as a script for the Russian
+channel and rewritten here in the register the site is for: the
+position first, then what earns it. The index opens on prose of its
+own, the name being a joke that has to land before the articles do.
 
 An article is built through the case study's own pipeline rather than
 beside it, and that pipeline assumed one site in four places. A
 collection now names the site that serves it, and the sitemap, the
 document walk and the render scripts read that rather than every
-collection there is. The page slice was written generically and then
-pinned to case studies by two constants; it is src/pages/documents
-now, bound to a collection by the router that mounts it. The print
-lane learns which site it is rendering, so a Bible article carries
-its committed PDF on the same machinery, and vet checks both sites'
-renders where it checked one.
+collection there is. The page slice, written generically and then
+pinned to case studies by two constants, is src/pages/documents now,
+bound to a collection by the router that mounts it. The print lane
+learns which site it renders, so a Bible article carries its PDF on
+the same machinery; scripts/in-site.sh is the one place the app
+directory and NEXT_PUBLIC_SITE are paired.
 
-Two things the Bible was the first to ask for: a document with no
-shorter cuts no longer offers a one-chip switcher reading "Full", and
-what the recordings promise but do not yet redeem stays plain text,
-since the ideas/ files they link are a repo convention rather than
-published pages. Two of the project plan's open questions close with
-this -- what the wiki is called, and that a piece is recorded as a
-column script and rewritten as an article.
+Three things the articles asked the pipeline for. A pull quote is a
+:::pull-quote fence holding a sentence the body already carries,
+aria-hidden and outside the reading estimate because the reader meets
+it twice. An image sits beside the text on an 'aside' link title and
+floats, while a pull quote spans the column and clears floats, so
+neither bids for the other's margin. An `order` in the frontmatter
+decides a collection's sequence, three articles written the same
+afternoon having dates that place them arbitrarily. Images are also
+bounded by height on screen now, as they already were on paper.
+
+Two defects the Bible surfaced first: a document with no shorter cuts
+no longer offers a one-chip switcher reading "Full", and what the
+recordings promise but do not yet redeem stays plain text, the ideas/
+files they link being a repo convention rather than published pages.
+Two of the project plan's open questions close with this -- what the
+wiki is called, and that a piece is recorded and then rewritten.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
