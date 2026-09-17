@@ -1,5 +1,6 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
+import { pageFile } from '@/shared/config';
 import {
   type DocumentRef,
   documentRoute,
@@ -47,7 +48,7 @@ function CutSwitcher({
   return <ChipNav {...{ chips }} />;
 }
 
-export type ArticleHeaderProps = WithContentDocument &
+export type ArticleHeaderProps = WithContentDocument<'case-studies'> &
   Headlined & {
     availableVariants: Variant[];
   };
@@ -58,7 +59,7 @@ export function ArticleHeader({
   readingMinutes,
   availableVariants,
 }: ArticleHeaderProps) {
-  const { frontmatter, collection, slug, variant, markdown, pdf } = document;
+  const { frontmatter, collection, slug, variant, markdown, route } = document;
 
   return (
     <Box component="header" className={classes['articleHeader']}>
@@ -83,7 +84,7 @@ export function ArticleHeader({
 
           <Group gap={16} wrap="wrap">
             <FileLink {...markdown}>.md</FileLink>
-            <FileLink {...pdf}>.pdf</FileLink>
+            <FileLink {...pageFile(route, 'pdf')}>.pdf</FileLink>
           </Group>
         </Group>
       </Stack>

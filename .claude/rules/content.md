@@ -69,6 +69,8 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
+   **A song is the exception, and states its `name`.** A song's title is what the player bar shows as `Name — Project` and what the track list sorts, so deriving it would mean parsing prose to render a control. A song body therefore opens without a `# `, and the page puts `name` in the `<h1>` — the same header slot a case study's lifted heading fills, so the two collections read alike and differ only in where the title came from.
+
 2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts`, and its directory under the site that serves it.
 
 ## Traps worth knowing

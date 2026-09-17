@@ -15,7 +15,7 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'UTC',
 });
 
-export type DocumentMetaProps = WithFrontmatter &
+export type DocumentMetaProps = WithFrontmatter<'case-studies'> &
   WithReadingMinutes &
   WithOptionalClassName;
 

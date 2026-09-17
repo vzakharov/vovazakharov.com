@@ -17,11 +17,20 @@ export {
   type ContentDocument,
   listAllDocuments,
   listDocuments,
+  listPrimaryDocuments,
   loadDocument,
   siblingVariants,
   type WithContentDocument,
 } from './documents';
-export type { Frontmatter, WithFrontmatter } from './frontmatter';
+export {
+  type CaseStudyFrontmatter,
+  type Frontmatter,
+  type FrontmatterOf,
+  SONG_LANGUAGES,
+  SONG_STATUSES,
+  type SongFrontmatter,
+  type WithFrontmatter,
+} from './frontmatter';
 export {
   intrinsicDimensions,
   type Sized,

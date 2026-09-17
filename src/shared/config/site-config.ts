@@ -19,7 +19,6 @@ export const BUILD_YEAR = new Date().getFullYear();
  */
 export const PAGE_ROUTES = {
   writing: '/writing',
-  music: '/music',
 } as const;
 
 /** The ids are the source of truth: each names a directory under `apps/`. */

@@ -8,4 +8,9 @@ export {
   SITE_CONFIG,
   type SiteId,
 } from './site-config';
+export {
+  type MusicProject,
+  MUSIC_PROJECT_NAMES,
+  MUSIC_PROJECTS,
+} from './music-projects';
 export { TECH_STACKS } from './tech-stacks';

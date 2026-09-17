@@ -6,7 +6,7 @@
 import path from 'node:path';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies'] as const;
+export const COLLECTION_IDS = ['case-studies', 'music'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -20,8 +20,18 @@ export const COLLECTIONS = {
      * is what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
+    printable: true,
   },
-} as const satisfies Record<CollectionId, { base: string; label: string }>;
+  music: {
+    base: 'music',
+    label: 'Songs',
+    /** A song is a recording with prose around it; there is nothing to print. */
+    printable: false,
+  },
+} as const satisfies Record<
+  CollectionId,
+  { base: string; label: string; printable: boolean }
+>;
 
 /** The document the home page and the CV both cross-link. */
 export const FEATURED_CASE_STUDY = 'playgram';
@@ -31,14 +41,21 @@ export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
-export type WithCollectionId = { collection: CollectionId };
+/**
+ * Generic so a document can carry the collection it was read from, which is
+ * what lets a page reach frontmatter fields only its own collection declares.
+ */
+export type WithCollectionId<Id extends CollectionId = CollectionId> = {
+  collection: Id;
+};
 export type Slugged = { slug: string };
 
 /** Carries a site-root path, as `documentRoute` and `collectionRoute` shape one. */
 export type Routed = { route: string };
 
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
-export type DocumentRef = WithCollectionId & Slugged;
+export type DocumentRef<Id extends CollectionId = CollectionId> =
+  WithCollectionId<Id> & Slugged;
 
 /**
  * The site's static assets, resolved against the working directory — which is

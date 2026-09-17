@@ -20,8 +20,8 @@ import {
   VARIANTS,
 } from './collections';
 import {
-  type Frontmatter,
-  frontmatterSchema,
+  FRONTMATTER_SCHEMAS,
+  type FrontmatterOf,
   type WithFrontmatter,
 } from './frontmatter';
 import {
@@ -29,10 +29,16 @@ import {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 
-export type ContentDocument = DocumentRef &
+/** Where `public/` serves the card, and how big it is — resolved together so they cannot disagree. */
+type ResolvedOgImage = WithOptionalOgImageSize & {
+  /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
+  ogImageUrl?: string;
+};
+
+type DocumentOf<Id extends CollectionId> = DocumentRef<Id> &
   Routed &
-  WithFrontmatter &
-  WithOptionalOgImageSize & {
+  WithFrontmatter<Id> &
+  ResolvedOgImage & {
     /** Absent on the full document; set on each shorter cut. */
     variant?: Variant;
     /** The markdown body with the frontmatter block removed. */
@@ -40,17 +46,21 @@ export type ContentDocument = DocumentRef &
     fileName: string;
     /** The authored markdown, as served. */
     markdown: DocumentFile;
-    /** The prebuilt PDF, produced by `pnpm content:pdf`. */
-    pdf: DocumentFile;
-    /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
-    ogImageUrl?: string;
   };
+
+/**
+ * Distributive, so the unparameterized form is a union discriminated by
+ * `collection` rather than a shape with every collection's fields merged: a
+ * song page reads `frontmatter.audio` and a case-study page cannot.
+ */
+export type ContentDocument<Id extends CollectionId = CollectionId> =
+  Id extends CollectionId ? DocumentOf<Id> : never;
 
 /** One function returns both, so the URL and the size cannot disagree. */
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
-): Pick<ContentDocument, 'ogImageUrl' | 'ogImageSize'> {
+): ResolvedOgImage {
   if (ogImage === undefined) return {};
 
   const ogImageUrl = collectionAssetUrl(
@@ -61,7 +71,9 @@ function resolveOgImage(
   return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
 }
 
-export type WithContentDocument = { document: ContentDocument };
+export type WithContentDocument<Id extends CollectionId = CollectionId> = {
+  document: ContentDocument<Id>;
+};
 
 /**
  * Splits `<slug>[.<variant>].md` into its parts. A trailing segment that is not
@@ -77,10 +89,10 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
-function readDocument(
-  collection: CollectionId,
+function readDocument<Id extends CollectionId>(
+  collection: Id,
   fileName: string,
-): ContentDocument {
+): ContentDocument<Id> {
   const raw = fs.readFileSync(path.join(collectionDir(collection), fileName), {
     encoding: 'utf8',
   });
@@ -89,11 +101,18 @@ function readDocument(
   // Naming the file is the whole point of the rethrow: a build failure has to
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
-  let frontmatter: Frontmatter;
+  //
+  // The two assertions in this function hide no shape: the `parse` above is the
+  // validation, and each only restates a correlation the checker cannot follow
+  // — that indexing the schema table by `Id` yields the schema for `Id`, and
+  // that a `DocumentOf<Id>` satisfies a conditional type still deferred on it.
+  let frontmatter: FrontmatterOf<Id>;
   let content: string;
   try {
     const parsed = matter(raw);
-    frontmatter = frontmatterSchema.parse(parsed.data);
+    frontmatter = FRONTMATTER_SCHEMAS[collection].parse(
+      parsed.data,
+    ) as FrontmatterOf<Id>;
     content = parsed.content;
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
@@ -111,14 +130,15 @@ function readDocument(
     body: content,
     fileName,
     markdown: pageFile(route, 'md'),
-    pdf: pageFile(route, 'pdf'),
     route,
     ...resolveOgImage(collection, frontmatter.ogImage),
-  };
+  } as ContentDocument<Id>;
 }
 
 /** Every document in a collection, variants included, newest first. */
-export function listDocuments(collection: CollectionId): ContentDocument[] {
+export function listDocuments<Id extends CollectionId>(
+  collection: Id,
+): ContentDocument<Id>[] {
   return fs
     .readdirSync(collectionDir(collection))
     .filter((fileName) => fileName.endsWith('.md'))
@@ -129,17 +149,17 @@ export function listDocuments(collection: CollectionId): ContentDocument[] {
 }
 
 /** The full documents only, without the shorter cuts. */
-export function listPrimaryDocuments(
-  collection: CollectionId,
-): ContentDocument[] {
+export function listPrimaryDocuments<Id extends CollectionId>(
+  collection: Id,
+): ContentDocument<Id>[] {
   return listDocuments(collection).filter((doc) => !doc.variant);
 }
 
-export function loadDocument(
-  collection: CollectionId,
+export function loadDocument<Id extends CollectionId>(
+  collection: Id,
   slug: string,
   variant?: Variant,
-): ContentDocument | undefined {
+): ContentDocument<Id> | undefined {
   const fileName = `${documentName(slug, variant)}.md`;
   const filePath = path.join(collectionDir(collection), fileName);
 

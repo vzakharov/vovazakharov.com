@@ -1,6 +1,7 @@
 import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 
 import { BUILD_YEAR, PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { collectionRoute } from '@/shared/content';
 import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
@@ -8,7 +9,7 @@ import { OfferSection } from './offer-section';
 import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
-const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
+const SEE_ALSO = [PAGE_ROUTES.writing, collectionRoute('music')];
 
 export function HomePage() {
   const { name, author } = SITE_CONFIG;

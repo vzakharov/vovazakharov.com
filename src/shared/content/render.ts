@@ -24,6 +24,7 @@ import {
   siblingVariants,
   type WithContentDocument,
 } from './documents';
+import { frontmatterTitle } from './frontmatter';
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
@@ -158,7 +159,10 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(body);
 
-  const { title, headings, wordCount } = collected;
+  // A collection that names its documents in frontmatter is titled from there;
+  // everywhere else the body's leading heading is the one copy of the title.
+  const title = collected.title ?? frontmatterTitle(document.frontmatter);
+  const { headings, wordCount } = collected;
 
   if (title === undefined || title.length === 0) {
     throw new Error(
@@ -189,19 +193,20 @@ export async function renderDocument(
   return pending;
 }
 
-export type DocumentCard = WithContentDocument & {
-  rendered: RenderedDocument;
-  /** The shorter cuts that exist beside it, in `VARIANTS` order. */
-  variants: Variant[];
-};
+export type DocumentCard<Id extends CollectionId = CollectionId> =
+  WithContentDocument<Id> & {
+    rendered: RenderedDocument;
+    /** The shorter cuts that exist beside it, in `VARIANTS` order. */
+    variants: Variant[];
+  };
 
 /**
  * The full documents of a collection, rendered — what a list of cards needs.
  * Rendering just to read a title is free: `renderDocument` memoizes.
  */
-export async function renderPrimaryDocuments(
-  collection: CollectionId,
-): Promise<DocumentCard[]> {
+export async function renderPrimaryDocuments<Id extends CollectionId>(
+  collection: Id,
+): Promise<DocumentCard<Id>[]> {
   return Promise.all(
     listPrimaryDocuments(collection).map(async (document) => ({
       document,
