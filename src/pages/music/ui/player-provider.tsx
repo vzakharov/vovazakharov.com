@@ -126,11 +126,10 @@ export function PlayerProvider({ children, tracks }: PlayerProviderProps) {
     [track],
   );
 
-  // The element is an audio engine, not page content: it renders nothing, it
-  // holds no caption track a master could have, and the bar is what the reader
-  // operates. So it is constructed rather than rendered, and never enters the
-  // document. Declared before the effects that drive it, which is what puts the
-  // ref in place before any of them runs.
+  // The element is an audio engine rather than page content — the bar is what
+  // a reader operates — so it is constructed and never enters the document.
+  // This effect comes before the ones that drive it, which is what puts the ref
+  // in place ahead of them.
   useEffect(() => {
     const audio = new Audio();
 

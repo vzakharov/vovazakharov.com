@@ -78,9 +78,9 @@ export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
 export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
   id: CollectionId;
   /**
-   * Narrowed to the one method a reader calls. `ZodType<F>` mentions `F` on
-   * both sides and is therefore invariant, which would stop a list of every
-   * collection reading as a list of collections at the base shape — and that
+   * The one method a reader calls, rather than the whole `ZodType<F>`: that
+   * mentions `F` on both sides and is therefore invariant, which would stop a
+   * list of every collection reading as a list at the base shape — and that
    * list is what the sitemap walks.
    */
   schema: { parse: (data: unknown) => F };

@@ -41,21 +41,14 @@ export const VARIANTS = ['mini', 'nano'] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
-/**
- * Generic so a document can carry the collection it was read from, which is
- * what lets a page reach frontmatter fields only its own collection declares.
- */
-export type WithCollectionId<Id extends CollectionId = CollectionId> = {
-  collection: Id;
-};
+export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
 
 /** Carries a site-root path, as `documentRoute` and `collectionRoute` shape one. */
 export type Routed = { route: string };
 
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
-export type DocumentRef<Id extends CollectionId = CollectionId> =
-  WithCollectionId<Id> & Slugged;
+export type DocumentRef = WithCollectionId & Slugged;
 
 /**
  * The site's static assets, resolved against the working directory — which is

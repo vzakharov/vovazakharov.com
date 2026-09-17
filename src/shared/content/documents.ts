@@ -172,7 +172,11 @@ export function siblingVariants(
 }
 
 export function listAllDocuments(): ContentDocument[] {
-  return Object.values(COLLECTION_SCHEMAS).flatMap((collection) =>
-    listDocuments(collection),
-  );
+  // Annotated rather than inferred: the registry's values are a union of
+  // per-collection handles, and a union is what one inferred frontmatter type
+  // cannot be. Widening to the base shape is all a caller across collections
+  // wants from them anyway.
+  const collections: Collection[] = Object.values(COLLECTION_SCHEMAS);
+
+  return collections.flatMap((collection) => listDocuments(collection));
 }
