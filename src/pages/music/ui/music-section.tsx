@@ -6,31 +6,35 @@ import {
   MUSIC_PROJECT_NAMES,
   MUSIC_PROJECTS,
 } from '@/shared/config';
+import { loadMessages } from '@/shared/i18n';
 import { Card, Section, Subheading } from '@/shared/ui';
 
-export function MusicSection() {
+import type { WithLocale } from '../lib/music-locale';
+
+export function MusicSection({ locale }: WithLocale) {
+  const { intro, projects, alsoOn, and, openSource } =
+    loadMessages(locale).music;
+
   return (
     <Section id="music" standalone>
       <Box>
         <Text size="lg" lh={1.625} fs="italic" mb={16}>
-          “AI as collaborator, not tool or replacement”
+          {intro.quote}
         </Text>
         <Text size="lg" lh={1.625}>
-          Been writing music since preteens, recently focused on AI music (since
-          way before Suno — think OpenAI Jukebox). I view AI not as a
-          replacement for my creativity, neither as a tool, but as a brilliant
-          musician who can bring my ideas to life in ways I often wouldn’t have
-          imagined. To be clear, I write most of my AI music starting from my
-          own humming/piano playing/MIDIs, so it’s “mine” in most copyright
-          senses.
+          {intro.body}
         </Text>
       </Box>
 
-      <Subheading>Active Projects</Subheading>
+      <Subheading>{projects}</Subheading>
 
       <Stack gap={24}>
         {MUSIC_PROJECT_NAMES.map((artist) => {
           const { label, artistId } = MUSIC_PROJECTS[artist];
+
+          // A project with nothing on Spotify has nothing to embed; the songs
+          // themselves are what say it exists.
+          if (artistId === undefined) return null;
 
           return (
             <Card key={artist}>
@@ -45,7 +49,7 @@ export function MusicSection() {
 
       <Stack gap={8}>
         <Text size="sm" opacity={0.7}>
-          Also on{' '}
+          {alsoOn}{' '}
           <Anchor
             href="https://soundcloud.com/vzkrv"
             target="_blank"
@@ -54,7 +58,7 @@ export function MusicSection() {
           >
             SoundCloud
           </Anchor>{' '}
-          and{' '}
+          {and}{' '}
           <Anchor
             href="https://suno.com/@vova"
             target="_blank"
@@ -65,7 +69,7 @@ export function MusicSection() {
           </Anchor>
         </Text>
         <Text size="sm" opacity={0.7}>
-          All my music is open-source:{' '}
+          {openSource}{' '}
           <Anchor
             href={MUSIC_ORGANIZATION_URL}
             target="_blank"

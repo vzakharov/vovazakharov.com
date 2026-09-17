@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 
 import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import type {
+  BaseFrontmatter,
   ContentDocument,
   WithOptionalOgImageSize,
 } from '@/shared/content';
-import type { MaybeTitled } from '@/shared/typings';
+import type { Described, MaybeTitled } from '@/shared/typings';
 
 export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize & {
@@ -95,7 +96,7 @@ export function constructMetadata({
  * leading heading is the one copy of it.
  */
 export function constructArticleMetadata(
-  document: ContentDocument,
+  document: ContentDocument<BaseFrontmatter & Described>,
   title: string,
 ): Metadata {
   const { frontmatter, route, ogImageUrl, ogImageSize } = document;

@@ -1,6 +1,6 @@
 import en from './messages/en.json';
 import ru from './messages/ru.json';
-import type { Locale } from './routing';
+import type { Locale } from './locales';
 
 export type Messages = typeof en;
 

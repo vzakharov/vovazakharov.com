@@ -7,7 +7,7 @@
  * A song's mechanical fields all live outside this repo — in the master's
  * filename, in its FLAC header and in the source repository's own history — so
  * they are read rather than typed. What is left for the author is the prose:
- * `description`, `language`, `project` and the body.
+ * the per-locale titles and blurbs, `language`, `project` and the body.
  *
  * The duration comes out of the master's STREAMINFO block, fetched as the
  * first 128 KB of the file rather than the whole of it: a ten-song scaffold
@@ -26,7 +26,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { MUSIC_ORGANIZATION } from '@/shared/config/music-projects';
+import {
+  MUSIC_ORGANIZATION,
+  MUSIC_PROJECT_NAMES,
+} from '@/shared/config/music-projects';
 import { collectionDir } from '@/shared/content/collections';
 import type { Named } from '@/shared/typings';
 
@@ -225,23 +228,27 @@ function document(fields: DocumentFields): string {
   const { sampleRate, bitsPerSample, channels } = streamInfo;
 
   return `---
-name: ${yaml(name)}
-description: ${yaml('TODO')}
 date: ${date}
 status: done
 language: ru
-# project: one of GENERATED, Полуживые, Downtemple
+# project: [<artist>, <features...>] — one of ${MUSIC_PROJECT_NAMES.join(', ')}
 repo: ${yaml(repo)}
 audio: ${master.audio}
 seconds: ${seconds}
+explicit: ${String(master.explicit)}
+en:
+  title: ${yaml(name)}
+  description: ${yaml('TODO')}
+ru:
+  title: ${yaml(name)}
+  description: ${yaml('TODO')}
 ---
 
 <!-- Scaffolded from https://github.com/${MUSIC_ORGANIZATION}/${repo} — ${master.flac},
-     ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.${
-       master.explicit ? '\n     The master is marked explicit.' : ''
-     }
-     Replace this with what the song is and how it came about, and add the
-     lyrics under a "## Текст" heading. -->
+     ${sampleRate / 1000} kHz / ${bitsPerSample}-bit / ${channels === 2 ? 'stereo' : `${channels} ch`}.
+     Replace this with the story, told once per language under a "lang:en" and
+     a "lang:ru" marker, and put the words under "lyrics:" plus the language
+     they are sung in. Each marker is an HTML comment, like this note. -->
 `;
 }
 
@@ -295,5 +302,5 @@ for (const line of await Promise.all(
 }
 
 report(
-  `\nWritten to ${directory}. Each still needs a description, its language checked, a project and a body.`,
+  `\nWritten to ${directory}. Each still needs its titles and blurbs in both languages, its language checked, a project and a body.`,
 );

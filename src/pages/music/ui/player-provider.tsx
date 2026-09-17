@@ -10,7 +10,12 @@ import {
   useState,
 } from 'react';
 
+import { usePathname } from 'next/navigation';
+
+import type { Locale, Messages } from '@/shared/i18n';
 import type { WithChildren } from '@/shared/typings';
+
+import { pathLocale } from '../lib/music-locale';
 
 import {
   currentTrack,
@@ -40,8 +45,14 @@ export type PlayerControls = {
   seekBy: (seconds: number) => void;
 };
 
+/** The bar's own words, in one language, as the catalogue spells them. */
+export type PlayerLabels = Messages['music']['player'];
+
 export type PlayerContextValue = PlayerControls &
   WithTracks & {
+    /** The language of the page the bar is currently sitting under. */
+    locale: Locale;
+    labels: PlayerLabels;
     state: PlayerState;
     current?: PlayerTrack;
     /** Where playback sits, in seconds — the seek bar's value. */
@@ -60,7 +71,11 @@ export function usePlayer(): PlayerContextValue {
   return value;
 }
 
-export type PlayerProviderProps = WithChildren & WithTracks;
+export type PlayerProviderProps = WithChildren &
+  WithTracks & {
+    /** Every language's labels, the layout being above the segment that picks one. */
+    labels: Record<Locale, PlayerLabels>;
+  };
 
 /**
  * Owns the one `<audio>` element on the site. It is mounted by the music
@@ -68,7 +83,12 @@ export type PlayerProviderProps = WithChildren & WithTracks;
  * component a page drops in: React preserves a layout's subtree across a
  * navigation into and out of `/music/<slug>`, so a track keeps playing.
  */
-export function PlayerProvider({ children, tracks }: PlayerProviderProps) {
+export function PlayerProvider({
+  children,
+  tracks,
+  labels,
+}: PlayerProviderProps) {
+  const locale = pathLocale(usePathname());
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [state, dispatch] = useReducer(
     playerReducer,
@@ -208,8 +228,8 @@ export function PlayerProvider({ children, tracks }: PlayerProviderProps) {
     if (session === undefined || current === undefined) return;
 
     session.metadata = new MediaMetadata({
-      title: current.name,
-      artist: current.project ?? 'Vova Zakharov',
+      title: current.titles[locale],
+      artist: current.billing,
       album: 'vovazakharov.com/music',
     });
     session.playbackState = state.playing ? 'playing' : 'paused';
@@ -228,7 +248,7 @@ export function PlayerProvider({ children, tracks }: PlayerProviderProps) {
     return () => {
       for (const [action] of actions) session.setActionHandler(action, null);
     };
-  }, [current, state.playing, controls]);
+  }, [current, state.playing, controls, locale]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -273,10 +293,12 @@ export function PlayerProvider({ children, tracks }: PlayerProviderProps) {
       tracks,
       state,
       elapsed,
+      locale,
+      labels: labels[locale],
       ...controls,
       ...(current && { current }),
     }),
-    [tracks, state, elapsed, controls, current],
+    [tracks, state, elapsed, controls, current, locale, labels],
   );
 
   return (

@@ -12,22 +12,32 @@ import { usePlayer } from './player-provider';
 
 /** The control strip, pinned to the foot of every page under `/music`. */
 export function PlayerBar() {
-  const { state, current, elapsed, toggle, next, previous, shuffle, seek } =
-    usePlayer();
+  const {
+    state,
+    current,
+    elapsed,
+    locale,
+    labels,
+    toggle,
+    next,
+    previous,
+    shuffle,
+    seek,
+  } = usePlayer();
 
   if (current === undefined) return null;
 
-  const { name, project, route, seconds } = current;
+  const { titles, routes, billing, seconds } = current;
 
   return (
-    <Box component="aside" className={classes['playerBar']} aria-label="Player">
+    <Box component="aside" className={classes['playerBar']} aria-label={labels.label}>
       <Group gap={12} wrap="nowrap" className={classes['playerControls']}>
         <ActionIcon
           variant="default"
           size="lg"
           radius="xl"
           onClick={previous}
-          aria-label="Previous track"
+          aria-label={labels.previous}
         >
           <SkipBack size={18} />
         </ActionIcon>
@@ -38,7 +48,7 @@ export function PlayerBar() {
           radius="xl"
           className={classes['controlOn']}
           onClick={toggle}
-          aria-label={state.playing ? 'Pause' : 'Play'}
+          aria-label={state.playing ? labels.pause : labels.play}
         >
           {state.playing ? <Pause size={18} /> : <Play size={18} />}
         </ActionIcon>
@@ -48,7 +58,7 @@ export function PlayerBar() {
           size="lg"
           radius="xl"
           onClick={next}
-          aria-label="Next track"
+          aria-label={labels.next}
         >
           <SkipForward size={18} />
         </ActionIcon>
@@ -59,7 +69,7 @@ export function PlayerBar() {
           radius="xl"
           className={cx(state.shuffled && classes['controlOn'])}
           onClick={shuffle}
-          aria-label="Shuffle"
+          aria-label={labels.shuffle}
           aria-pressed={state.shuffled}
         >
           <Shuffle size={18} />
@@ -68,15 +78,13 @@ export function PlayerBar() {
 
       <Box className={classes['playerTrack']}>
         <Text size="sm" truncate>
-          <InternalLink href={route} underline="hover" inherit>
-            {name}
+          <InternalLink href={routes[locale]} underline="hover" inherit>
+            {titles[locale]}
           </InternalLink>
-          {project !== undefined && (
-            <Text component="span" inherit opacity={0.6}>
-              {' — '}
-              {project}
-            </Text>
-          )}
+          <Text component="span" inherit opacity={0.6}>
+            {' — '}
+            {billing}
+          </Text>
         </Text>
       </Box>
 
@@ -94,7 +102,7 @@ export function PlayerBar() {
           onChange={(event) => {
             seek(Number(event.currentTarget.value));
           }}
-          aria-label="Seek"
+          aria-label={labels.seek}
         />
         <Text size="xs" opacity={0.6} className={classes['playerTime']}>
           {formatDuration(seconds)}

@@ -163,7 +163,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(body);
 
-  // A collection that names its documents in frontmatter is titled from there;
+  // A collection that titles its documents in frontmatter is titled from there;
   // everywhere else the body's leading heading is the one copy of the title.
   const title = collected.title ?? frontmatterTitle(frontmatter);
   const { headings, wordCount } = collected;
@@ -189,7 +189,7 @@ const cache = new Map<string, Promise<RenderedDocument>>();
 export async function renderDocument(
   document: ContentDocument,
 ): Promise<RenderedDocument> {
-  const key = `${document.collection}:${document.fileName}`;
+  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}`;
   const pending = cache.get(key) ?? render(document);
 
   cache.set(key, pending);

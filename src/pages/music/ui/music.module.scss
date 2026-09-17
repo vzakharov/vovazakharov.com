@@ -91,3 +91,27 @@
   color: var(--color-background);
   background: var(--color-foreground);
 }
+
+// One element per line, laid out as a block: a line break in verse is the
+// author's, and asking for two invisible spaces at the end of every line is
+// how a page silently loses one.
+.lyricLine {
+  display: block;
+}
+
+.lyricsColumns {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// Side by side only where there is room for two columns of verse; stacked
+// below that, where a stanza and its crib still read in the right order.
+.lyricsPair {
+  display: grid;
+  gap: 8px 32px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

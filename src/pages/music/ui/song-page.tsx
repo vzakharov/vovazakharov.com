@@ -1,20 +1,25 @@
 import { Anchor, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
+import { Fragment } from 'react';
 
-import { songRepositoryUrl } from '@/shared/config';
 import {
-  collectionRoute,
-  COLLECTIONS,
-  documentDateTime,
-  formatDocumentDate,
-  listDocuments,
+  billing,
+  MUSIC_ALBUMS,
+  SITE_CONFIG,
+  songRepositoryUrl,
+} from '@/shared/config';
+import {
+  documentMonth,
+  formatDocumentMonth,
   loadDocument,
+  localizeSong,
   renderDocument,
-  type SongFrontmatter,
+  type SongDocument,
   SONGS,
+  songLyrics,
 } from '@/shared/content';
-import { constructArticleMetadata } from '@/shared/seo';
-import type { WithParams } from '@/shared/typings';
+import { type Locale, loadMessages, LOCALES, routing } from '@/shared/i18n';
+import { constructMetadata } from '@/shared/seo';
 import {
   BackToHome,
   FileLink,
@@ -25,64 +30,104 @@ import {
 } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
-import { listSongs } from '../lib/songs';
+import type { WithLocale } from '../lib/music-locale';
+import { musicPath, songPath } from '../lib/music-urls';
+import { songQueueIndex } from '../lib/songs';
+import { Lyrics } from './lyrics';
 import { TrackButton } from './track-button';
 
-const LANGUAGE_LABELS: Record<SongFrontmatter['language'], string> = {
-  ru: 'Russian',
-  en: 'English',
-  instrumental: 'Instrumental',
-};
+export type SongPageProps = WithLocale & { slug: string };
 
-type Props = WithParams<{ slug: string }>;
-
-export function generateSongParams() {
-  return listDocuments(SONGS).map(({ slug }) => ({ slug }));
-}
-
-async function resolve(params: Props['params']) {
-  const document = loadDocument(SONGS, (await params).slug);
+function resolve(slug: string): SongDocument {
+  const document = loadDocument(SONGS, slug);
 
   if (!document) notFound();
 
-  return { document, rendered: await renderDocument(document) };
+  return document;
 }
 
-export async function generateSongMetadata({ params }: Props) {
-  const { document, rendered } = await resolve(params);
+/**
+ * The fully-specified address is canonical, so the locale-less alias defers to
+ * it rather than competing. The `hreflang` alternates are load-bearing rather
+ * than belt-and-braces: with the locale in a trailing segment, nothing else in
+ * the URL names the language.
+ */
+export function generateSongMetadata({ slug, locale }: SongPageProps) {
+  const { title, description } = localizeSong(resolve(slug), locale).frontmatter;
 
-  return constructArticleMetadata(document, rendered.title);
+  return constructMetadata({
+    title: `${title} - ${SITE_CONFIG.name}`,
+    description,
+    path: songPath(slug, locale),
+    canonical: songPath(slug, locale),
+    languages: {
+      ...Object.fromEntries(
+        LOCALES.map((alternate) => [alternate, songPath(slug, alternate)]),
+      ),
+      'x-default': songPath(slug, routing.defaultLocale),
+    },
+    ogType: 'article',
+  });
 }
 
-export async function SongPage({ params }: Props) {
-  const { document, rendered } = await resolve(params);
-  const { frontmatter, markdown, slug } = document;
-  const { html } = rendered;
-  const { name, project, language, date, description, seconds, repo } =
-    frontmatter;
+/**
+ * The line under the title: what a listener would want to know about the
+ * recording before playing it, in the order they would ask. Empty entries drop
+ * out, so a song with no album and no co-author shows neither.
+ */
+function songFacts(document: SongDocument, locale: Locale): string[] {
+  const { language, album, credits, project, seconds } = document.frontmatter;
+  const messages = loadMessages(locale).music;
 
-  // The queue's own index, so the header's play button and the index page's
-  // rows drive one list rather than each addressing the song its own way.
-  const track = listSongs().findIndex((song) => song.slug === slug);
+  return [
+    billing(project),
+    messages.language[language],
+    album &&
+      messages.album.replace('{album}', MUSIC_ALBUMS[album].title[locale]),
+    credits?.lyrics &&
+      `${messages.credits.lyrics}: ${credits.lyrics.join(', ')}`,
+    credits?.music && `${messages.credits.music}: ${credits.music.join(', ')}`,
+    formatDuration(seconds),
+  ].flatMap((fact) => fact ?? []);
+}
+
+export async function SongPage({ slug, locale }: SongPageProps) {
+  const document = resolve(slug);
+  const localized = localizeSong(document, locale);
+  const { html } = await renderDocument(localized);
+  const { title, description, date, repo, explicit } = localized.frontmatter;
+  const messages = loadMessages(locale).music;
+  const lyrics = songLyrics(document, locale);
 
   return (
     <PageShell>
       <Stack gap={48}>
         <Group component="nav">
-          <InternalLink
-            href={collectionRoute(SONGS.id)}
-            size="sm"
-            className={hoverDim}
-          >
-            ← {COLLECTIONS[SONGS.id].label}
+          <InternalLink href={musicPath(locale)} size="sm" className={hoverDim}>
+            ← {messages.back}
           </InternalLink>
         </Group>
 
         <Box component="header">
           <Stack gap={24}>
             <Group gap={16} wrap="nowrap" align="center">
-              <TrackButton {...{ track, name }} />
-              <Title order={1}>{name}</Title>
+              {/* The queue's own index, so the header's play button and the
+                  index page's rows drive one list. */}
+              <TrackButton track={songQueueIndex(slug)} {...{ title }} />
+              <Title order={1}>
+                {title}
+                {explicit && (
+                  <Text
+                    component="span"
+                    inherit
+                    opacity={0.6}
+                    title={messages.explicit}
+                  >
+                    {' '}
+                    🅴
+                  </Text>
+                )}
+              </Title>
             </Group>
 
             <Text size="lg" lh={1.625} opacity={0.8}>
@@ -90,23 +135,19 @@ export async function SongPage({ params }: Props) {
             </Text>
 
             <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
-              <time dateTime={documentDateTime(date)}>
-                {formatDocumentDate(date)}
+              <time dateTime={documentMonth(date)}>
+                {formatDocumentMonth(date, locale)}
               </time>
-              {project !== undefined && (
-                <>
+              {songFacts(document, locale).map((fact) => (
+                <Fragment key={fact}>
                   <span aria-hidden>·</span>
-                  <span>{project}</span>
-                </>
-              )}
-              <span aria-hidden>·</span>
-              <span>{LANGUAGE_LABELS[language]}</span>
-              <span aria-hidden>·</span>
-              <span>{formatDuration(seconds)}</span>
+                  <span>{fact}</span>
+                </Fragment>
+              ))}
             </Group>
 
             <Group gap={16} wrap="wrap">
-              <FileLink {...markdown}>.md</FileLink>
+              <FileLink {...localized.markdown}>.md</FileLink>
               <Anchor
                 href={songRepositoryUrl(repo)}
                 target="_blank"
@@ -114,7 +155,7 @@ export async function SongPage({ params }: Props) {
                 size="sm"
                 className={hoverDim}
               >
-                source
+                {messages.source}
               </Anchor>
             </Group>
           </Stack>
@@ -122,7 +163,9 @@ export async function SongPage({ params }: Props) {
 
         <ProseContent {...{ html }} />
 
-        <BackToHome />
+        {lyrics && <Lyrics {...{ lyrics, locale }} />}
+
+        <BackToHome label={messages.backToHome} />
       </Stack>
     </PageShell>
   );

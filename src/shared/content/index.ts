@@ -9,12 +9,18 @@ export {
   documentRoute,
   FEATURED_CASE_STUDY,
   FEATURED_CASE_STUDY_ROUTE,
+  localizedRoute,
   type Routed,
   type Slugged,
   type Variant,
   VARIANTS,
 } from './collections';
-export { documentDateTime, formatDocumentDate } from './document-date';
+export {
+  documentDateTime,
+  documentMonth,
+  formatDocumentDate,
+  formatDocumentMonth,
+} from './document-date';
 export {
   type ContentDocument,
   listAllDocuments,
@@ -29,6 +35,7 @@ export {
   CASE_STUDIES,
   type CaseStudyFrontmatter,
   type Collection,
+  type LocalizedText,
   SONG_LANGUAGES,
   SONG_STATUSES,
   type SongFrontmatter,
@@ -51,3 +58,11 @@ export {
   type WithHtml,
   type WithReadingMinutes,
 } from './render';
+export { type Stanzas } from './sections';
+export {
+  localizeSong,
+  type LocalizedSongDocument,
+  type SongDocument,
+  type SongLyrics,
+  songLyrics,
+} from './song-text';

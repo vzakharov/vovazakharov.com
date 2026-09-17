@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { pageFile } from '@/shared/config';
+import type { Locale } from '@/shared/i18n';
 import type { DocumentFile } from '@/shared/typings';
 
 import {
@@ -47,6 +48,12 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
     ResolvedOgImage & {
       /** Absent on the full document; set on each shorter cut. */
       variant?: Variant;
+      /**
+       * Which language this reading of the document is in. Absent on the file
+       * as authored — a localized collection carries both languages in one
+       * file, and which one a page shows is the route's to decide.
+       */
+      locale?: Locale;
       /** The markdown body with the frontmatter block removed. */
       body: string;
       fileName: string;

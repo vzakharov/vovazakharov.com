@@ -1,10 +1,23 @@
 import { SITE_CONFIG } from '@/shared/config';
-import { collectionRoute } from '@/shared/content';
+import { type Locale, loadMessages, LOCALES, routing } from '@/shared/i18n';
 import { constructMetadata } from '@/shared/seo';
 
-export const musicMetadata = constructMetadata({
-  title: `Music - ${SITE_CONFIG.name}`,
-  description:
-    'AI music from before there was a product for it — a catalogue of masters you can play right here, three projects on Spotify, all of it open-source.',
-  path: collectionRoute('music'),
-});
+import { musicPath } from './music-urls';
+
+/** The index, in one language, deferring to the addressed one as the CV's rungs do. */
+export function generateMusicMetadata(locale: Locale) {
+  const { metaTitle, metaDescription } = loadMessages(locale).music;
+
+  return constructMetadata({
+    title: `${metaTitle} - ${SITE_CONFIG.name}`,
+    description: metaDescription,
+    path: musicPath(locale),
+    canonical: musicPath(locale),
+    languages: {
+      ...Object.fromEntries(
+        LOCALES.map((alternate) => [alternate, musicPath(alternate)]),
+      ),
+      'x-default': musicPath(routing.defaultLocale),
+    },
+  });
+}

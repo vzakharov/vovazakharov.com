@@ -1,4 +1,5 @@
-import type { Routed, Slugged, SongFrontmatter } from '@/shared/content';
+import type { Slugged, SongFrontmatter } from '@/shared/content';
+import type { Locale } from '@/shared/i18n';
 
 /**
  * A song as the player needs it: resolved at build time from the collection and
@@ -6,8 +7,13 @@ import type { Routed, Slugged, SongFrontmatter } from '@/shared/content';
  * Picked from the frontmatter rather than restated, so the two cannot drift.
  */
 export type PlayerTrack = Slugged &
-  Routed &
-  Pick<SongFrontmatter, 'name' | 'project' | 'audio' | 'seconds'>;
+  Pick<SongFrontmatter, 'audio' | 'seconds' | 'explicit'> & {
+    /** What the song is called in each language, and where each is served. */
+    titles: Record<Locale, string>;
+    routes: Record<Locale, string>;
+    /** How it is billed — the artist and its features, the same in both languages. */
+    billing: string;
+  };
 
 /** The whole catalogue, in the order the collection lists it. */
 export type WithTracks = { tracks: PlayerTrack[] };
