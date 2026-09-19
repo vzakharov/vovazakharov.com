@@ -83,7 +83,7 @@ export function articleRoute(collection: CollectionId) {
   async function Page({ params }: Props) {
     const { document, rendered } = await resolve(params);
     const { route, slug } = document;
-    const { title, readingMinutes, headings, html } = rendered;
+    const { title, readingMinutes, headings, tree } = rendered;
 
     return (
       <Box className={classes['articlePage']}>
@@ -120,7 +120,7 @@ export function articleRoute(collection: CollectionId) {
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ArticleBody {...{ html }} />
+                  <ArticleBody {...{ tree }} />
                 </Box>
               </Box>
             </PrintSheet>

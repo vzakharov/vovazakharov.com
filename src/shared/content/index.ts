@@ -28,6 +28,7 @@ export {
   type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
+export { CONTENT_VIDEO } from './markers';
 export {
   type DocumentCard,
   type Heading,
@@ -35,7 +36,7 @@ export {
   renderDocument,
   type RenderedDocument,
   renderPrimaryDocuments,
+  type WithContentTree,
   type WithHeadings,
-  type WithHtml,
   type WithReadingMinutes,
 } from './render';

@@ -6,7 +6,6 @@ import type { Root as MdastRoot } from 'mdast';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
-import rehypeStringify from 'rehype-stringify';
 import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
@@ -59,8 +58,11 @@ export type Heading = WithId &
 
 export type WithHeadings = { headings: Heading[] };
 
-/** Compiled from first-party markdown at build time, so it is safe to inject raw. */
-export type WithHtml = { html: string };
+/**
+ * Through `rehype-raw`, so it holds no `raw` nodes — `toJsxRuntime` throws on
+ * one — and it may hold `markers.ts`'s tags, which only a component map renders.
+ */
+export type WithContentTree = { tree: HastRoot };
 
 export type WithReadingMinutes = { readingMinutes: number };
 
@@ -72,7 +74,7 @@ export type WithWordCount = { wordCount: number };
  */
 export type Headlined = Titled & WithReadingMinutes;
 
-export type RenderedDocument = WithHtml &
+export type RenderedDocument = WithContentTree &
   Headlined &
   WithHeadings &
   WithWordCount;
@@ -137,7 +139,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     headings: [] as Heading[],
   };
 
-  const file = await unified()
+  const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkDirective)
@@ -167,9 +169,11 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
       defaultColor: false,
       fallbackLanguage: 'text',
       langs: CODE_LANGUAGES,
-    })
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(body);
+    });
+
+  // `run` rather than `process`: the pipeline has no compiler, the tree itself
+  // being what the page renders.
+  const tree = await processor.run(processor.parse(body), body);
 
   const { title, headings, wordCount } = collected;
 
@@ -180,7 +184,7 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
   }
 
   return {
-    html: String(file),
+    tree,
     title,
     headings,
     wordCount,
