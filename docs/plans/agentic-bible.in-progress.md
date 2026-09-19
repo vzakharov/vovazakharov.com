@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # The Bible moves to agentic.bible, and Late Stage Agentic becomes a hub
 
 The Bible is an article collection on a domain that is not named after it, and
