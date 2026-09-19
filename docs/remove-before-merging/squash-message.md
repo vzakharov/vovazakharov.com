@@ -21,11 +21,14 @@ it emits a marker node, and a ContentVideo component draws the player
 and its print-only note in place of the markup the plugin used to
 build by hand.
 
-Rendering a tree rather than a string costs about 1.2 kB gzip on the
-longest article, measured against the build; GitHub Pages serves gzip
-and not brotli, so that is the figure that ships. Every document PDF
-is re-rendered, the pipeline being part of what render-pdf.ts hashes
-into their manifests.
+Rendering a tree rather than a string costs 4.3 kB gzip on the longest
+article and 3.1% across both sites, measured by building each way
+rather than modelling it. The added bytes land almost entirely in the
+inlined RSC flight copy, where they compress at about 15% rather than
+the 4% an estimate from the body alone predicted; GitHub Pages serves
+gzip and not brotli, so that is the figure that ships. Every document
+PDF re-renders byte-identical, the pipeline being part of what
+render-pdf.ts hashes into their manifests, so only the manifests move.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
