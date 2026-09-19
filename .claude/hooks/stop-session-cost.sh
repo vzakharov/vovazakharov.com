@@ -24,8 +24,8 @@ run_ledger() {
   command -v node >/dev/null || return 0
 
   local transcript root branch row
-  transcript="$(jq -r '.transcript_path // empty' <<<"$payload")"
-  root="${CLAUDE_PROJECT_DIR:-$(jq -r '.cwd // empty' <<<"$payload")}"
+  transcript="$(field transcript_path)"
+  root="${CLAUDE_PROJECT_DIR:-$(field cwd)}"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
   [ -n "$root" ] && [ -f "$root/costs/prices.json" ] || return 0
 
@@ -37,7 +37,7 @@ run_ledger() {
 
   row="$(node "$root/scripts/session-cost.ts" \
     --transcript "$transcript" \
-    --session-id "$(jq -r '.session_id // empty' <<<"$payload")" \
+    --session-id "$(field session_id)" \
     --row-path)" || { say "pricing failed; row not written"; return 0; }
 
   git -C "$root" diff --quiet HEAD -- "$row" 2>/dev/null && return 0

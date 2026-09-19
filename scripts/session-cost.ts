@@ -15,18 +15,12 @@
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { flag, given } from './lib/argv.ts';
 import {
   parsePrices,
   type SessionCost,
   summariseTranscript,
 } from './lib/session-cost.ts';
-
-const flag = (name: string): string | undefined => {
-  const at = process.argv.indexOf(`--${name}`);
-  return at === -1 ? undefined : process.argv[at + 1];
-};
-
-const given = (name: string): boolean => process.argv.includes(`--${name}`);
 
 const root = process.env['CLAUDE_PROJECT_DIR'] ?? process.cwd();
 

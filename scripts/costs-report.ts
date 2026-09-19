@@ -14,12 +14,12 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { flag } from './lib/argv.ts';
 import { parseSessionCost, type SessionCost } from './lib/session-cost.ts';
 
 const root = process.env['CLAUDE_PROJECT_DIR'] ?? process.cwd();
 const sessionsDir = path.join(root, 'costs/sessions');
-const at = process.argv.indexOf('--month');
-const wanted = at === -1 ? undefined : process.argv[at + 1];
+const wanted = flag('month');
 
 const months = (() => {
   try {
