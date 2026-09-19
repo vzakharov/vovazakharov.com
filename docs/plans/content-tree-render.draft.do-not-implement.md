@@ -111,6 +111,14 @@ prints (it is the one piece of print markup moving into a component).
   pipeline's output being injected raw is what changes.
 - `CLAUDE.md` needs nothing.
 
+### 7. The merge needs a hand-run deploy
+
+Nothing a reader sees changes, so the squash subject is `refactor:` — and the
+workflow's `gate` job only builds on `feat:`/`fix:`. The built output does move
+(the flight payload, and every document PDF), so this is CLAUDE.md § "Deployment"'s
+named case: run the workflow from the Actions tab after the merge, with the site
+picker left on both.
+
 ## Risks
 
 - **Shiki's `style` attribute.** `rehypeShiki` emits `--shiki-light`/`--shiki-dark`
