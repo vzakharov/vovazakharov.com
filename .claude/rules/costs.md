@@ -52,23 +52,26 @@ through `--settings`, which is read once at startup and never re-read, and the
 launcher rewrites that file at every start and resume — so a patch applied from
 a `SessionStart` hook is a session late every session, not just the first.
 
-The race resolves three ways, and the hook's closing verdict exists for the two
-that are not silent:
+**So the hook waits the check out instead.** That check leaves nothing on disk —
+it reads the tree and writes to stderr — so its process is the only thing there
+is to wait on, and `stop-session-cost.sh` polls for it by name at the last
+moment before anything it does can touch the working tree. Two things make that
+wait safe rather than a new way to hang a turn:
 
-- **The check reads before the row is written**, which is the usual case — the
-  node run costs more than the check's two `git` calls — and it sees whatever
-  the agent left. The row is committed and pushed behind a check that already
-  passed.
-- **The check reads mid-write** and refuses the turn over a row that is, by the
-  time the agent reads the complaint, committed and pushed.
-- **The push fails**, leaving a commit the check will refuse on the _next_ turn,
-  attributed to nobody.
+- **A match that is an ancestor of this hook is not the check.** The check is a
+  sibling; an ancestor carrying the name is a shell that merely mentions it, and
+  waiting on one would outlast the turn.
+- **Every way the wait can fail falls back to racing**, which is what the rest of
+  this section covers: no `pgrep`, a renamed check, a look that lands before the
+  process exists, or a check still running after five seconds.
 
-So the hook re-reads the same two conditions after its own work and, when they
-hold, exits 2 with one line naming the row — the only channel a `Stop` hook has
-to the agent, spent solely where a block is already happening. It bails on a
-re-fired `Stop` (`stop_hook_active`) exactly as the harness's check does: two
-hooks that can both block and neither bail would hold the turn open forever.
+What survives the wait is the push. A push that fails leaves a commit the check
+will refuse on the _next_ turn, attributed to nobody. So the hook re-reads the
+same two conditions after its own work and, when they hold, exits 2 with one
+line naming the row — the only channel a `Stop` hook has to the agent, spent
+solely where a block is already happening. It bails on a re-fired `Stop`
+(`stop_hook_active`) exactly as the harness's check does: two hooks that can both
+block and neither bail would hold the turn open forever.
 
 ## What the totals do not cover
 

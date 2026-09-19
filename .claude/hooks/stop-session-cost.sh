@@ -23,6 +23,61 @@ root="$(project_root)"
 branch="$(git -C "$root" branch --show-current 2>/dev/null)"
 case "$branch" in '' | main | master) exit 0 ;; esac
 
+# The harness's check leaves nothing on disk — it reads the tree and writes to
+# stderr — so the only way to let it finish first is to watch for its process.
+# Its script is the other thing it leaves: absent, there is no check to wait for
+# and this is an ordinary local session. Every way this can fail (no `pgrep`, a
+# renamed script, a look that lands before the process is spawned, a check that
+# hangs) falls back to racing it, which is what the closing verdict covers.
+harness_check="${HOME}/.claude/stop-hook-git-check.sh"
+
+# The processes this hook runs under. The check is a sibling of this hook, never
+# an ancestor, so an ancestor carrying its name in a command line is something
+# that merely mentions it — a shell invoking it, a test driving it — and waiting
+# on one would outlast the turn.
+ancestry() {
+  local pid=$$
+  while [ "${pid:-0}" -gt 1 ]; do
+    printf ' %s' "$pid"
+    pid="$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d '[:space:]')"
+  done
+  printf ' '
+}
+
+ancestors=''
+
+harness_check_running() {
+  local hit
+  for hit in $(pgrep -f stop-hook-git-check 2>/dev/null); do
+    case "$ancestors" in *" $hit "*) ;; *) return 0 ;; esac
+  done
+  return 1
+}
+
+wait_out_harness_check() {
+  [ -f "$harness_check" ] || return 0
+  command -v pgrep >/dev/null && command -v ps >/dev/null || return 0
+
+  local waited=0 seen=no
+  ancestors="$(ancestry)"
+  while harness_check_running; do
+    seen=yes
+    sleep 0.05
+    waited=$((waited + 1))
+    [ "$waited" -lt 100 ] || {
+      say "the harness's Stop check has run for 5s; writing the row without waiting for it"
+      return 0
+    }
+  done
+
+  # TEMPORARY — remove once it has answered whether the look lands while the
+  # check is still running, which is the whole of whether this wait does
+  # anything. `seen=no` on every turn means it does not.
+  mkdir -p "$root/tmp" &&
+    printf '%s seen=%s waited=%sms\n' "$(date -u +%FT%TZ)" "$seen" \
+      "$((waited * 50))" >>"$root/tmp/harness-check-wait.log"
+}
+
 # What the run did, which decides whether this hook has anything to say at the
 # end. Only the states that touch git can be mistaken for the agent's own work.
 state=none
@@ -31,6 +86,11 @@ run_ledger() {
   local transcript row
   transcript="$(field transcript_path)"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
+
+  # Nothing above this line touches the working tree, so this is the last moment
+  # the check can be let past — and the latest one, which is what makes the look
+  # for its process land after that process exists.
+  wait_out_harness_check
 
   row="$(node "$root/scripts/session-cost.ts" \
     --transcript "$transcript" \
