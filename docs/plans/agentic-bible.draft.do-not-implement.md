@@ -246,6 +246,21 @@ existing pattern exactly — an authored `.svg` beside a committed `.og.png` tha
 on-page use is the vector, letters included, because the trace made them paths:
 there is no web font for an SVG behind an `<img>` to fail to load.
 
+**The seal in the home page header carries a `title`**, and the joke in it is
+the one `@.claude/skills/tend-prose/SKILL.md` names as a defect:
+
+> Please don't see an anus in this. Ah. Too late.
+
+A polar bear, deliberately — a sentence that exists only to deny something no
+reader would otherwise have considered, and which plants it by saying so. The
+skill's lens finds them to cut them; this one is the exception that proves the
+lens reads the world correctly, so `/tend-prose negation` leaves it alone.
+Three things it needs: the `title` goes on the header's `<img>` and nowhere
+else (the end-mark repeats on every article, and a joke told twice per page is
+not one); `SiteAvatar` takes it as a prop rather than reading config, being a
+client barrel; and it is invisible on touch, where nothing hovers, which is the
+right amount of reach for an easter egg.
+
 **The blank seal closes an article in place of an amen.** It follows the last
 paragraph's final punctuation, inline at `1.9em` with `vertical-align: -0.55em`
 — the end-mark a magazine sets after its closing sentence. The size is measured
