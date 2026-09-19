@@ -18,8 +18,7 @@ const PROSE_TAGS = new Set(['p', 'blockquote']);
  */
 function endsInProse(element: Element): boolean {
   return (
-    PROSE_TAGS.has(element.tagName) &&
-    element.children.at(-1)?.type === 'text'
+    PROSE_TAGS.has(element.tagName) && element.children.at(-1)?.type === 'text'
   );
 }
 

@@ -22,8 +22,7 @@ export function SiteFooter({ children }: WithOptionalChildren) {
           {children}
         </Text>
         <Text size="sm" opacity={0.6}>
-          © {BUILD_YEAR}{' '}
-          {/* The author's own site does not link to itself. */}
+          © {BUILD_YEAR} {/* The author's own site does not link to itself. */}
           {url === AUTHOR_URL ? (
             author.name
           ) : (

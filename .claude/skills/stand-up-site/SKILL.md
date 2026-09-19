@@ -43,7 +43,7 @@ rm tmp/deploy-key tmp/deploy-key.pub
 
 Print nothing and keep nothing: once the private half is in the secret, rotation
 is the only way back, and the publish script's own header carries that contract
-(`scripts/publish-lsa.sh` is the one that exists).
+(`scripts/publish-site.sh` takes the site id and maps it to its receiver).
 
 Give the receiving repository a README saying what it is and where its content
 comes from. It is the only thing a person landing on a source-less repository

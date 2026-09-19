@@ -22,13 +22,22 @@ Lowest (most generic) first — an import may only point downward:
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
 | `entities/` | _(none yet)_ business nouns                                                                              |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
-| `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
-| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `documents`                                                 |
+| `widgets/`  | Composite blocks two page slices share — `document-cards`, `site-footer`                                 |
+| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `cv`, `documents`                                   |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
-`entities/` and `widgets/` are absent because nothing earns them yet, not as an
-oversight. Layers are optional; **inventing one costs more than leaving it out**
-(see "insignificant slices" below).
+`entities/` is absent because nothing earns it yet, not as an oversight. Layers
+are optional; **inventing one costs more than leaving it out** (see
+"insignificant slices" below).
+
+**What earned `widgets/` is the pair that reads the resolved site.** A block two
+page slices both render cannot sit in either of them — slices may not reach each
+other sideways — and `shared/ui` is the barrel client components import, so
+anything in it that touched `@/shared/config/index.server-only` would put the
+resolved configuration in the browser. `DocumentCards` needs `linkTo` and
+`SiteFooter` needs `BUILD_YEAR`, so both belong on the one layer that is above
+`shared` and below `pages`. A block needing none of that stays in `shared/ui`,
+which is where `SummaryCard` and the document byline are.
 
 ## Rules
 
@@ -36,7 +45,7 @@ oversight. Layers are optional; **inventing one costs more than leaving it out**
 - **Public API per slice and per shared segment.** Cross-slice imports go through the target's `index.ts`; reaching into its internals is an error from both checkers. Within a slice, use relative imports.
 - **`shared` is a slice as well as a layer**, which is FSD's own exception to the rule above: every file in it reaches every other directly, exactly as the app layer's segments do. A segment's `index.ts` is what the layers _above_ enter by, not a wall between `shared/ui` and `shared/seo`.
 - **Two suffixed barrels join `index.ts` as legal entry points**, on two axes, and the list is closed at those three names (`PUBLIC_API` in `eslint.config.ts`). `index.ts` keeps the majority surface either way, so a consumer needing neither suffix never learns they exist.
-  - **`index.server-only.ts`** is the client-bundle axis: what a browser must not hold. Every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. Three segments are split this way, each on what a client bundle may hold rather than on what a module happens to do: `shared/i18n` keeps `routing` in the ordinary barrel and puts `localeSchema` behind the other, zod being ~90 kB in every chunk that touches it; `shared/seo` keeps `OG_CARD_SUFFIX` and puts `constructMetadata` behind it; `shared/config` keeps the ids and both sites' data, and puts everything bound to the site this process is behind it.
+  - **`index.server-only.ts`** is the client-bundle axis: what a browser must not hold. Every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. Three segments are split this way, each on what a client bundle may hold rather than on what a module happens to do: `shared/i18n` keeps `routing` in the ordinary barrel and puts `localeSchema` behind the other, zod being ~90 kB in every chunk that touches it; `shared/seo` keeps `OG_CARD_SUFFIX` and puts `constructMetadata` behind it; `shared/config` keeps the ids and every site's data, and puts everything bound to the site this process is behind it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under `scripts/`, which runs with none — so the graph behind it spells its extensions, holds no CSS, JSX or asset import, and carries no `server-only`, which throws outside a React server bundle. `shared/config` is the one segment with one, over `resolveSiteId`. A script reaching past a public API into a leaf is the smell that this barrel is missing.
 - **A module whose direct import is the hazard says so in its name.** `shared/config/site.env.unsafe.ts` parses `NEXT_PUBLIC_SITE`, and carries no `server-only` of its own because both barrels above consume it — so nothing but the name stops a client chain importing it and paying zod's ~90 kB. The suffix is `Playgramai/playgramapp`'s, whose barrel conventions this split follows.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time (`@/shared/lib/class-names`), each **a single file** and its own public API — nothing sits beside it to hide, so `boundaries` lets the layers above enter segment `lib` at any top-level `*.ts`. That entry does not cross a slash: a sub-library that grows a directory is internals again, and moving it back out is the price of the address. It is the holding area, not the destination: a sub-library becomes a top-level segment (`shared/content`) once it has several consumers and a purpose identity of its own, and only a helper too small to name one — `class-names` is a single function — stays under `lib`.
@@ -63,7 +72,7 @@ exports off the module, so there is no single binding to forward — which is th
 whole of what the extra two lines buy, and the router still decides nothing but
 which slice with which argument.
 
-**That is what lets two sites share one `src/`.** Both sites' page slices sit in
+**That is what lets the sites share one `src/`.** Every site's page slices sit in
 `src/pages/` side by side, which FSD already permits: slices may not import each
 other sideways, and two sites' pages are exactly that relationship. Each app's
 router picks the slices its site serves.
