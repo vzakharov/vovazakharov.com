@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import { useMessages } from 'next-intl';
 
-import type { LinkedPerMedium } from '@/shared/typings';
+import type { Linked, PerMedium } from '@/shared/typings';
 import { InternalLink } from '@/shared/ui';
 
 import classes from './cv.module.scss';
@@ -13,13 +13,13 @@ import classes from './cv.module.scss';
  */
 export const CASE_STUDY_KEY = 'playgram';
 
-export function CaseStudyLink({ href, printed }: LinkedPerMedium) {
+export function CaseStudyLink(props: Linked & PerMedium) {
   const { cv } = useMessages();
   const label = cv.caseStudies[CASE_STUDY_KEY].link;
 
   return (
     <Text className={classes['caseStudyLine']}>
-      <InternalLink {...{ href, printed }} withAddress inherit>
+      <InternalLink {...props} withAddress inherit>
         {label}
       </InternalLink>
     </Text>

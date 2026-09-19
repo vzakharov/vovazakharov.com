@@ -143,10 +143,7 @@ export function CvSheet({
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink
-                      {...pick(caseStudy, 'href')}
-                      printed={null}
-                    />
+                    <CaseStudyLink {...pick(caseStudy, 'href')} noPrintedCopy />
                   </Box>
                 )}
               </Stack>
@@ -239,7 +236,7 @@ export function CvSheet({
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/" printed={null} inherit>
+              <InternalLink href="/" noPrintedCopy inherit>
                 {t('footer.backLink')}
               </InternalLink>
             </Text>

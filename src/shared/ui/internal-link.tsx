@@ -13,8 +13,8 @@ import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 import type {
   Anchored,
+  PerMedium,
   WithOptionalClassName,
-  WithPrinted,
 } from '@/shared/typings';
 
 import classes from './internal-link.module.scss';
@@ -22,7 +22,7 @@ import classes from './internal-link.module.scss';
 export type InternalLinkProps = Anchored &
   AnchorProps &
   WithOptionalClassName &
-  WithPrinted &
+  PerMedium &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
      * Paper also spells the address after the text, for a link whose own words
@@ -40,8 +40,11 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
- * `printed` has no default: a call site passes the pair, or `null` where the
- * link reaches no paper — which is any link inside a `print-hidden` container.
+ * Which medium a link reaches is the call site's to state, because only it
+ * knows what it sits inside: `printed` carries paper's copy, `noPrintedCopy`
+ * says the link reaches no paper. Neither is a default, and the two are
+ * mutually exclusive, so the one link that prints nothing by omission is a
+ * type error rather than a hole in a printed sentence.
  *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server
@@ -59,6 +62,9 @@ export function InternalLink({
   href,
   children,
   printed,
+  // Destructured to keep it off the `<a>`, never read: `printed` being absent
+  // is itself the answer.
+  noPrintedCopy,
   withAddress = false,
   className,
   ...props
