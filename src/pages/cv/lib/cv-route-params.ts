@@ -1,33 +1,39 @@
 import 'server-only';
 
-import { z } from 'zod';
-
 import { routing } from '@/shared/i18n';
-import { localeSchema } from '@/shared/i18n/index.server-only';
+import { oneOf } from '@/shared/lib/one-of';
 
 import type { CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 
-/** The catch-all's segments as a route hands them over, before the schema narrows them. */
+/** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalCvSegments = { variantAndLocale?: string[] };
-
-const variantSegment = z.enum(CV_VARIANTS);
 
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
- * which under `output: 'export'` is the only thing that ever runs this — hence
- * `server-only` above, since zod is ~90 kB gzipped and nothing on the CDN
- * re-validates a segment `generateStaticParams` already enumerated.
+ * which under `output: 'export'` is the only thing that ever runs this — nothing
+ * on the CDN re-validates a segment `generateStaticParams` already enumerated,
+ * which is what `server-only` above keeps true.
  */
-export const cvSegmentsSchema = z.object({
-  variantAndLocale: z
-    .union([
-      z.tuple([]),
-      z.tuple([variantSegment]),
-      z.tuple([variantSegment, localeSchema]),
-    ])
-    .default([]),
-});
+export function parseCvSegments({
+  variantAndLocale = [],
+}: WithOptionalCvSegments): CvAddress {
+  const [variant, locale, ...rest] = variantAndLocale;
+
+  if (rest.length > 0) {
+    throw new Error(
+      `The CV route takes a variant and a locale at most, not /${variantAndLocale.join('/')}`,
+    );
+  }
+
+  if (variant === undefined) return [];
+
+  const parsed = oneOf(CV_VARIANTS, variant, 'The CV variant segment');
+
+  return locale === undefined
+    ? [parsed]
+    : [parsed, oneOf(routing.locales, locale, 'The CV locale segment')];
+}
 
 /** Which page an address resolves to, each segment it omits falling back. */
 export function cvAddressDefaults(address: CvAddress) {

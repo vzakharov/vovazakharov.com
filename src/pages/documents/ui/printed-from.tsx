@@ -1,10 +1,7 @@
 import { Anchor, Group, Text } from '@mantine/core';
 
-import {
-  BUILD_YEAR,
-  printedUrl,
-  SITE_CONFIG,
-} from '@/shared/config/index.server-only';
+import { printedUrl, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { Routed } from '@/shared/content';
 
 import classes from './documents.module.scss';

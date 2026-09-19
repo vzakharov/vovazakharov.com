@@ -5,8 +5,8 @@ import {
   CvPage,
   cvPath,
   cvSegmentParams,
-  cvSegmentsSchema,
   generateCvMetadata,
+  parseCvSegments,
   type WithOptionalCvSegments,
 } from '@/pages/cv';
 
@@ -17,14 +17,12 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { variantAndLocale } = cvSegmentsSchema.parse(await params);
-  const { variant, locale } = cvAddressDefaults(variantAndLocale);
+  const address = parseCvSegments(await params);
+  const { variant, locale } = cvAddressDefaults(address);
 
-  return generateCvMetadata(locale, variant, cvPath(...variantAndLocale));
+  return generateCvMetadata(locale, variant, cvPath(...address));
 }
 
 export default async function Page({ params }: Props) {
-  const { variantAndLocale } = cvSegmentsSchema.parse(await params);
-
-  return <CvPage {...cvAddressDefaults(variantAndLocale)} />;
+  return <CvPage {...cvAddressDefaults(parseCvSegments(await params))} />;
 }
