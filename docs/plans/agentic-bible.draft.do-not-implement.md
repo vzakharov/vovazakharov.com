@@ -246,20 +246,37 @@ existing pattern exactly — an authored `.svg` beside a committed `.og.png` tha
 on-page use is the vector, letters included, because the trace made them paths:
 there is no web font for an SVG behind an `<img>` to fail to load.
 
-**The seal in the home page header carries a `title`**, and the joke in it is
-the one `@.claude/skills/tend-prose/SKILL.md` names as a defect:
+**Hold the home page's seal for three seconds and it takes its lettering off.**
+The `AGENTIC BIBLE` ring fades out, and this appears beside the wax:
 
 > Please don't see an anus in this. Ah. Too late.
 
-A polar bear, deliberately — a sentence that exists only to deny something no
-reader would otherwise have considered, and which plants it by saying so. The
-skill's lens finds them to cut them; this one is the exception that proves the
-lens reads the world correctly, so `/tend-prose negation` leaves it alone.
-Three things it needs: the `title` goes on the header's `<img>` and nowhere
-else (the end-mark repeats on every article, and a joke told twice per page is
-not one); `SiteAvatar` takes it as a prop rather than reading config, being a
-client barrel; and it is invisible on touch, where nothing hovers, which is the
-right amount of reach for an easter egg.
+A polar bear, deliberately — the defect `@.claude/skills/tend-prose/SKILL.md`
+names: a sentence existing only to deny what no reader would otherwise have
+considered, planting it by saying so. The negation lens hunts these to cut
+them, so the plan says this one stands; without it, the next prose pass finds
+a perfect specimen and tidies it away.
+
+`SealMark` in `src/pages/bible-home/ui/` owns it, and **it is a server
+component with no JavaScript at all**:
+
+- **The two cuts stack**, lettered over blank in a box the seal's size, both
+  absolute. Fading the top one to zero reveals the bottom one, which is the
+  same seal minus one path — so the lettering comes off rather than crossing
+  into a different drawing.
+- **Three seconds is `transition-delay`, not a timer.** `:hover` carries
+  `transition: opacity .6s 3s`, so the fade starts only after three unbroken
+  seconds; leaving earlier never starts it. The non-hover rule sets the delay
+  to `0s`, which is what snaps it back the moment the pointer goes.
+- **The caption is out of flow**, absolutely placed against a wrapper the size
+  of the seal — `left: 100%`, vertically centred. That is what keeps the wax
+  itself centred on the page: in flow, the two would centre as a pair and the
+  seal would sit off to the left, which is precisely the thing being avoided.
+  Below the `sm` breakpoint it goes under the seal instead, still absolute,
+  still leaving the seal where it was.
+- **`aria-hidden`, and invisible to touch**, where nothing hovers. An easter
+  egg that announces itself to a screen reader out of nowhere is not one, and
+  the seal's `alt` already says what the image is.
 
 **The blank seal closes an article in place of an amen.** It follows the last
 paragraph's final punctuation, inline at `1.9em` with `vertical-align: -0.55em`
