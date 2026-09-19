@@ -1,13 +1,10 @@
 #!/bin/bash
 # `Stop` hook: price the session and commit its cost row to the branch.
 #
-# It runs beside the harness's own `Stop` check — the one that refuses to end a
-# turn on an unclean or unpushed tree — rather than around it, because the CLI
-# reads the launcher's settings once at startup and never again, so a hook
-# registered from this repo cannot displace one the launcher registered.
-# Running beside it means racing it for the working tree, which is survivable
-# and is what the closing verdict here is for. `.claude/rules/costs.md` carries
-# the shape of that race and what it costs.
+# It shares the event with the harness's own `Stop` check, which refuses to end a
+# turn on an unclean or unpushed tree. `.claude/rules/costs.md` carries why
+# wrapping that check is not available, how the wait below narrows the race for
+# the working tree, and what the closing verdict covers when it does not.
 
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
 read_payload
@@ -17,13 +14,10 @@ need_command node "the session's cost row was not written"
 root="$(project_root)"
 [ -n "$root" ] && [ -f "$root/costs/prices.json" ] || exit 0
 
-# Every git call here is against the project root rather than whichever
-# directory the hook was spawned in.
 repo() { git -C "$root" "$@"; }
 
 # `status --porcelain`, not `diff HEAD`: a session's first row is an untracked
-# file, which a diff against HEAD reports as no change at all. Bare, it asks the
-# same of the whole tree.
+# file, which a diff against HEAD reports as no change at all.
 dirty() { [ -n "$(repo status --porcelain -- "$@" 2>/dev/null)" ]; }
 
 # A row is a branch's to carry. On the trunk there is no branch to carry it, and
@@ -33,18 +27,14 @@ branch="$(repo branch --show-current 2>/dev/null)"
 case "$branch" in '' | main | master) exit 0 ;; esac
 upstream="origin/$branch"
 
-# The harness's check leaves nothing on disk — it reads the tree and writes to
-# stderr — so the only way to let it finish first is to watch for its process.
-# Its script is the other thing it leaves: absent, there is no check to wait for
-# and this is an ordinary local session. Every way this can fail (no `pgrep`, a
-# renamed script, a look that lands before the process is spawned, a check that
-# hangs) falls back to racing it, which is what the closing verdict covers.
+# The check leaves nothing on disk, so its process is the only thing there is to
+# wait on. Its script is the one thing it does leave, and no script means no
+# check to wait for.
 harness_check="${HOME}/.claude/stop-hook-git-check.sh"
 
-# The processes this hook runs under. The check is a sibling of this hook, never
-# an ancestor, so an ancestor carrying its name in a command line is something
-# that merely mentions it — a shell invoking it, a test driving it — and waiting
-# on one would outlast the turn.
+# The processes this hook runs under. The check is a sibling, never an ancestor,
+# so an ancestor carrying its name merely mentions it — a shell invoking it, a
+# test driving it — and waiting on one would outlast the turn.
 ancestry() {
   local pid=$$
   while [ "${pid:-0}" -gt 1 ]; do
@@ -80,16 +70,15 @@ wait_out_harness_check() {
     }
   done
 
-  # TEMPORARY — remove once it has answered whether the look lands while the
-  # check is still running, which is the whole of whether this wait does
-  # anything. `seen=no` on every turn means it does not.
+  # TEMPORARY — remove once it has answered whether the look ever lands while
+  # the check is running, which is the whole of whether this wait does anything.
   mkdir -p "$root/tmp" &&
     printf '%s seen=%s waited=%sms\n' "$(date -u +%FT%TZ)" "$seen" \
       "$((waited * 50))" >>"$root/tmp/harness-check-wait.log"
 }
 
-# What the run did, which decides whether this hook has anything to say at the
-# end. Only the states that touch git can be mistaken for the agent's own work.
+# Only the states that touch git can be mistaken for the agent's own work, which
+# is what the verdict at the foot reads this for.
 state=none
 
 run_ledger() {
@@ -97,9 +86,8 @@ run_ledger() {
   transcript="$(field transcript_path)"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
 
-  # Nothing above this line touches the working tree, so this is the last moment
-  # the check can be let past — and the latest one, which is what makes the look
-  # for its process land after that process exists.
+  # The last moment before anything here touches the tree, and so the latest —
+  # which is what gives the look for the check's process time to find it.
   wait_out_harness_check
 
   row="$(node "$root/scripts/session-cost.ts" \
@@ -121,9 +109,8 @@ run_ledger() {
 
 run_ledger
 
-# True when the harness's check would refuse this turn: its two conditions, read
-# after the row is in. Reading it later than that check did is the point — it
-# may have looked while the row was still a working-tree change.
+# The harness check's two conditions, re-read once the row is in: a push that
+# failed leaves a commit it would refuse on the next turn, blamed on nobody.
 outstanding() {
   dirty && return 0
   repo rev-parse -q --verify "$upstream" >/dev/null 2>&1 || return 1
@@ -131,10 +118,9 @@ outstanding() {
 }
 
 case "$state" in
-  # Blocking is how a `Stop` hook reaches the agent at all, so it is spent only
-  # where a block is already happening — and never on a re-fired `Stop`, which
-  # the harness's check bails out of and a hook that can block must bail with,
-  # or the two would hold the turn open forever.
+  # The only channel a `Stop` hook has to the agent, spent only where a block is
+  # already happening — and never on a re-fired `Stop`, which the harness's check
+  # bails out of and this must bail with or the turn never ends.
   committed | uncommitted | pushed)
     if [ "$(field stop_hook_active)" != "true" ] && outstanding; then
       case "$state" in

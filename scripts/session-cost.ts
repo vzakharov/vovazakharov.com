@@ -50,10 +50,9 @@ const out = path.join(
   `${cost.sessionId}.json`,
 );
 mkdirSync(path.dirname(out), { recursive: true });
-// Written through a rename so the row is never half-there: the harness's own
-// `Stop` hook reads the working tree in parallel with this, and it counts a
-// partial write and a stray staging file alike. Staging under gitignored
-// `tmp/` keeps the second out of its sight; the rename makes the first atomic.
+// Staged under gitignored `tmp/` and renamed into place: the harness's `Stop`
+// check reads the tree in parallel with this, and counts a half-written row and
+// a stray staging file alike.
 const staged = path.join(root, 'tmp', `${cost.sessionId}.json.staged`);
 mkdirSync(path.dirname(staged), { recursive: true });
 writeFileSync(staged, `${JSON.stringify(cost, null, 2)}\n`);

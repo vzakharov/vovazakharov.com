@@ -1,12 +1,11 @@
 ---
-description: The API-rate cost ledger — how a session's spend is priced, why its Stop hook wraps the harness's own, and what the totals do not cover
+description: The API-rate cost ledger — how a session's spend is priced, how its Stop hook shares the event with the harness's own, and what the totals do not cover
 paths:
   - costs/**
   - scripts/session-cost.ts
   - scripts/costs-report.ts
   - scripts/lib/session-cost.ts
   - .claude/hooks/stop-session-cost.sh
-  - .claude/hooks/patch-launcher-hooks.sh
 ---
 
 # The API-rate cost ledger
@@ -39,39 +38,35 @@ makes every total downstream a lie, and the failure is loud precisely because
 `costs/prices.json` is hand-maintained: no machine-readable source of Anthropic's
 prices exists, so the table goes stale by sitting still.
 
-## The Stop hook races another one
+## Running beside the harness's Stop check
 
 The harness registers its own `Stop` hook in `~/.claude/launcher-settings.json` —
 `stop-hook-git-check.sh`, which ends a turn with exit 2 on a tree that is
 unclean, holds untracked files, or is ahead of its remote. **Hooks for one event
-run in parallel**, so `stop-session-cost.sh` writes and commits the row while
-that check may be reading the tree.
+run in parallel**, so writing and committing the row is work done while that
+check may be reading the tree.
 
-**Wrapping it instead is not available.** The launcher's config reaches the CLI
-through `--settings`, which is read once at startup and never re-read, and the
-launcher rewrites that file at every start and resume — so a patch applied from
-a `SessionStart` hook is a session late every session, not just the first.
+**Wrapping it is not available.** The launcher's config reaches the CLI through
+`--settings`, read once at startup and never re-read, and the launcher rewrites
+that file at every start and resume — so a patch applied from a `SessionStart`
+hook is a session late every session, not just the first.
 
-**So the hook waits the check out instead.** That check leaves nothing on disk —
-it reads the tree and writes to stderr — so its process is the only thing there
-is to wait on, and `stop-session-cost.sh` polls for it by name at the last
-moment before anything it does can touch the working tree. Two things make that
-wait safe rather than a new way to hang a turn:
+**So the hook waits the check out.** That check leaves nothing on disk — it
+reads the tree and writes to stderr — so its process is the only thing there is
+to wait on, and the hook polls for it by name at the last moment before anything
+it does can touch the tree. A match that is an **ancestor** of the hook is not
+the check: the check is a sibling, and an ancestor carrying the name is a shell
+that merely mentions it, so waiting on one would outlast the turn.
 
-- **A match that is an ancestor of this hook is not the check.** The check is a
-  sibling; an ancestor carrying the name is a shell that merely mentions it, and
-  waiting on one would outlast the turn.
-- **Every way the wait can fail falls back to racing**, which is what the rest of
-  this section covers: no `pgrep`, a renamed check, a look that lands before the
-  process exists, or a check still running after five seconds.
-
-What survives the wait is the push. A push that fails leaves a commit the check
-will refuse on the _next_ turn, attributed to nobody. So the hook re-reads the
-same two conditions after its own work and, when they hold, exits 2 with one
-line naming the row — the only channel a `Stop` hook has to the agent, spent
-solely where a block is already happening. It bails on a re-fired `Stop`
-(`stop_hook_active`) exactly as the harness's check does: two hooks that can both
-block and neither bail would hold the turn open forever.
+Every way the wait can fail — no `pgrep`, a renamed check, a look that lands
+before the process exists, a check still running after five seconds — falls back
+to racing, and so does a failed push, which leaves a commit the check will refuse
+on the _next_ turn, attributed to nobody. So the hook re-reads the same two
+conditions after its own work and, when they hold, exits 2 with one line naming
+the row — the only channel a `Stop` hook has to the agent, spent solely where a
+block is already happening. It bails on a re-fired `Stop` (`stop_hook_active`)
+exactly as the harness's check does: two hooks that can both block and neither
+bail would hold the turn open forever.
 
 ## What the totals do not cover
 
