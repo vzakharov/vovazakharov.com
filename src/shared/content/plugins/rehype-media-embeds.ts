@@ -4,9 +4,8 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 
-import { printedUrl } from '@/shared/config/index.server-only';
-
 import { hastText } from '../hast-text';
+import { CONTENT_VIDEO } from '../markers';
 
 const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.mov', '.m4v'] as const;
 
@@ -43,77 +42,10 @@ function soleElementChild(node: Element): Element | undefined {
 }
 
 /**
- * What the player leaves behind on paper. A printed video is a blank rectangle,
- * so the page prints where to watch it instead — which is only useful if the
- * URL can be typed off the page.
- */
-function printedVideoNote(src: string): Element {
-  const { href, text } = printedUrl(src);
-
-  return {
-    type: 'element',
-    tagName: 'p',
-    properties: { className: ['print-only', 'content-video-note'] },
-    children: [
-      {
-        type: 'element',
-        tagName: 'em',
-        properties: {},
-        children: [
-          // TODO: localize, along with the player's fallback text below. Both
-          // are English because content pages are; they need the document's
-          // locale once the `<slug>.<locale>.md` seam is built.
-          { type: 'text', value: 'See video at ' },
-          {
-            type: 'element',
-            tagName: 'a',
-            properties: { href },
-            children: [{ type: 'text', value: text }],
-          },
-        ],
-      },
-    ],
-  };
-}
-
-function videoElement(href: string, label: string): Element {
-  return {
-    type: 'element',
-    tagName: 'video',
-    properties: {
-      src: href,
-      controls: true,
-      preload: 'metadata',
-      playsInline: true,
-      className: ['content-video', 'print-hidden'],
-      'aria-label': label,
-    },
-    children: [
-      {
-        type: 'element',
-        tagName: 'p',
-        properties: {},
-        children: [
-          { type: 'text', value: 'Your browser can’t play this video — ' },
-          {
-            type: 'element',
-            tagName: 'a',
-            properties: { href, download: true },
-            children: [{ type: 'text', value: 'download it' }],
-          },
-          { type: 'text', value: ' instead.' },
-        ],
-      },
-    ],
-  };
-}
-
-/**
- * Turns a paragraph that holds nothing but a link to a video into a player, so
- * a document reads as a link on GitHub and plays inline on the site. The link
- * text becomes the player's accessible label, and the fallback inside it keeps
- * the video reachable in a browser that cannot play the format. A printed copy
- * gets the note beside it instead, since the player prints as nothing.
+ * Turns a paragraph that holds nothing but a link to a video into the marker
+ * `ContentVideo` renders, so a document reads as a link on GitHub and plays
+ * inline on the site. The link text becomes the player's accessible label; how
+ * the video is drawn on screen and on paper is the component's to decide.
  */
 function embedVideos(tree: Root) {
   visit(tree, 'element', (node: Element, index, parent) => {
@@ -125,14 +57,14 @@ function embedVideos(tree: Root) {
     const href = link.properties.href;
     if (typeof href !== 'string') return;
 
-    parent.children.splice(
-      index,
-      1,
-      videoElement(href, hastText(link).trim()),
-      printedVideoNote(href),
-    );
+    parent.children.splice(index, 1, {
+      type: 'element',
+      tagName: CONTENT_VIDEO,
+      properties: { src: href, label: hastText(link).trim() },
+      children: [],
+    });
 
-    return [SKIP, index + 2];
+    return [SKIP, index + 1];
   });
 }
 

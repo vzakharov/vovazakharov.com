@@ -17,7 +17,7 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` renders it once per deploy. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`, rather than stringifying it; `ArticleBody` is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` is therefore one script per site, and `content:og` and `content:mermaid` are `vova`'s until the other site authors a card or a diagram.
 
@@ -107,7 +107,9 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **Angle brackets are markup inside an SVG's `<style>`.** An SVG document is parsed as XML, where a CSS comment mentioning a tag name makes the file not well-formed — and a malformed SVG behind an `<img>` fails silently, showing nothing. Nothing in the build catches it.
 - **A video link needs an extension or a `video` title.** A paragraph holding nothing but a link to a video becomes a player. Detection is by file extension; for a URL that has none, mark it explicitly: `[label](url 'video')`.
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
-- **Raw HTML in a document passes through unsanitized.** First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
+- **Raw HTML in a document passes through unsanitized.** `rehypeRaw` parses it into real elements, so an author's markup reaches the page as itself. First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
+- **A marker tag nothing maps renders as an empty custom element, silently.** A plugin may emit one of `markers.ts`'s tag names in place of markup, and `CONTENT_COMPONENTS` in `article-body.tsx` is what turns it into a component — the two agree by importing the same constant. Miss the map entry and the build still exits 0, leaving the tag in the page with its content gone. A plugin emitting plain HTML elements is unaffected, which is why only `rehype-media-embeds` works this way.
+- **A component a document can reach lives in `pages/documents/ui/`, never in `shared/content/`.** The latter is `server-only` by construction, so a client island could not live there — the marker names are the pipeline's, the components that render them are page composition.
 
 ## The locale seam
 
