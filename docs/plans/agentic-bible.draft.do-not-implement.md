@@ -190,29 +190,46 @@ position, then the name. A draft to edit rather than a specification:
 
 **The mark is a wax seal, in two cuts** — lettered `AGENTIC BIBLE` around a
 twelve-spoke star, and the same seal blank. Both are **one re-trace of the
-generated image**, cleaned: 18.4 KB lettered, 13.4 KB blank, letterforms and
-wax edge exactly the render's. They exist, and the work of arriving at them is
-done; Phase 3 owes the code around them.
+generated image**: 39 KB lettered, 32 KB blank, letterforms and wax edge the
+render's own. They exist and match; Phase 3 owes the code around them.
 
-How they were made, because an off-the-shelf trace of the same image is not
-this — it is eight megabytes of posterised speckle whose largest path is 168k
-points in 10,181 disconnected fragments, holding no letter and no edge as a
-shape anyone can reuse. What produced something usable, in `potrace`:
+An off-the-shelf trace of the same image is eight megabytes and visibly
+grainier than its source, because it followed the JPEG's noise at full
+precision — and it carries no layer the letters could be dropped from, which
+is the other half of what this mark has to do. Five semantic layers, each
+traced with `potrace` and stacked lightest first:
 
-- **Posterise into semantic layers, not colour bands.** The silhouette from a
-  flood fill of the near-white background; the letters as the high-luminance,
-  low-saturation pixels inside it; the wax as everything else, cut at the 6th
-  and 34th luminance percentiles. Four layers, painted lightest first so the
-  small dark shapes — the star, the struck ring — land on top.
-- **Read the bands off a smoothed copy** (median 7, Gaussian 1.6). JPEG speckle
-  is exactly what turned the off-the-shelf trace into confetti.
-- **Dilate the letters out of every wax band** by 11px before cutting. Their
-  anti-aliased rims are dark, so a band that keeps them leaves letter-shaped
-  ghosts behind when the text layer is dropped — which is the whole mechanism
-  by which the blank cut is the lettered one minus its last path.
-- **Gate the mid tone to the outer 26% of the radius.** It is the wax lip and
-  the ring struck inside it; the same luminance recurs as a gloss patch across
-  the face, which is a gradient in the source and a hard-edged smudge traced.
+| Layer   | Mask                                                       |
+| ------- | ---------------------------------------------------------- |
+| body    | the silhouette, flood-filled in from the near-white border |
+| gloss   | the wax lip's shine, above the 90th luminance percentile   |
+| lip     | below the 34th percentile, outer 26% of the radius only    |
+| relief  | the star and the struck ring                               |
+| letters | high luminance, low saturation, inside the silhouette      |
+
+Four things in that are load-bearing, each of them a defect first:
+
+- **The relief is cut at the histogram's valley, not at a percentile.** The
+  star's petals vary slightly in tone, so a fixed percentile runs through some
+  of them and the trace eats half the star; Otsu's threshold sits below all of
+  them. It is read from the face alone — inside 62% of the radius — so the
+  lip's own shadow cannot pull the valley outwards.
+- **The bands are read off a smoothed copy** (median 5, Gaussian 0.9), which is
+  what separates a posterised band from speckle.
+- **The letters are dilated out of every wax layer** before cutting — 11px for
+  the bands, 33px for the gloss, whose halo reaches further. Their anti-aliased
+  rims are bright and dark in turn, so a layer that keeps them prints their
+  ghost on the blank cut; excluding them is the whole mechanism by which the
+  blank cut is the lettered one minus its last path.
+- **The lip band is gated by radius.** The same luminance recurs as a gloss
+  patch across the face, which is a gradient in the source and a hard-edged
+  smudge traced.
+
+Suppression and smoothing are what ruined the first attempt at this: chasing a
+small file, `-t 700 -O 0.9` bit the star's petals into fragments and lumped the
+wax edge. The settings that hold the shape are `-t 20` for the silhouette,
+`-t 120` for the bands, `-t 8` for the letters, at `-a 1.2 -O 0.2 -u 10`. Forty
+kilobytes is the right size for this; eighteen was the wrong target.
 
 | File                                  | Cut      | Where it renders                   |
 | ------------------------------------- | -------- | ---------------------------------- |
