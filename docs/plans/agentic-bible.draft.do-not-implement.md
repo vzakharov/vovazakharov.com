@@ -128,11 +128,12 @@ apps/bible/
   app/layout.tsx          the shared root layout
   app/sitemap.ts          force-static + the shared sitemap
   app/page.tsx            BibleHomePage — Phase 3
-  app/icon.png            the mark, as the favicon
+  app/icon.svg            the blank seal, as the favicon — Phase 3
   app/[...slug]/page.tsx  articleRoute('bible')
   public/CNAME            agentic.bible
   public/.nojekyll
-  public/ava.png          the mark — Phase 3
+  public/seal*.svg        the mark, both cuts — Phase 3
+  public/ava.png          the lettered cut, rasterised — Phase 3
   public/*.md             git mv from apps/lsa/public/bible/
   public/assets/          git mv from apps/lsa/public/bible/assets/
   public/pdf-renders.json git mv
@@ -187,20 +188,44 @@ position, then the name. A draft to edit rather than a specification:
 `COLLECTION_INTROS.bible` is deleted with the index route it fed, its
 `description` having become the site's tagline and its `intro` this copy.
 
-**The mark is a wax seal, in two cuts.** Lettered `AGENTIC BIBLE` around a
-starburst, and the same seal blank. Both are generated outside this repository
-and land as transparent PNGs at 1024×1024:
+**The mark is a wax seal, in two cuts** — lettered `AGENTIC BIBLE` around a
+twelve-spoke star, and the same seal blank — **drawn as SVG rather than traced
+from the render.** An auto-trace of the generated image is eight megabytes of
+posterised noise and vectorises the transparency checkerboard as content; the
+seal is four shapes and a circle, so it is cheaper to draw than to clean.
 
-| File                         | Cut      | Where it renders                                |
-| ---------------------------- | -------- | ----------------------------------------------- |
-| `apps/bible/public/ava.png`  | lettered | the home page header, and the site's card image |
-| `apps/bible/public/seal.png` | blank    | the foot of every article                       |
-| `apps/bible/app/icon.png`    | blank    | the favicon, downscaled to 256×256              |
+The shape, so it is re-derivable rather than frozen in a path nobody can read:
+a 1024 canvas, wax radius 418 with three harmonics on it
+(`0.030·sin(11θ+0.7) + 0.016·sin(7θ+2.1) + 0.012·sin(3θ+4)`, sampled 96 times
+and smoothed Catmull-Rom); the same outline twice more, offset `(+11,+13)` in
+`#8f4130` and `(-10,-12)` in `#c9765d`, under the `#b2563f` body, which is what
+makes the wax read as wax; an engraved ring at 372; and twelve round-capped
+spokes in `#7f3822` from radius 14 outward, lengths varying `±7%`, at width 46
+and radius 212 blank, 32 and 150 lettered. The lettered cut sets Georgia on two
+arcs, baselines at 278 and 355.
+
+| File                                  | Cut      | Where it renders                                |
+| ------------------------------------- | -------- | ----------------------------------------------- |
+| `apps/bible/public/seal.svg`          | blank    | the foot of every article                       |
+| `apps/bible/public/seal-lettered.svg` | lettered | source only — it is never served                |
+| `apps/bible/public/ava.png`           | lettered | the home page header, and the site's card image |
+| `apps/bible/app/icon.svg`             | blank    | the favicon                                     |
+| `apps/bible/app/apple-icon.png`       | blank    | the iOS home screen, 180×180                    |
+
+**The lettered cut ships as a raster and the blank one does not**, because only
+the lettered cut has text in it: an SVG loaded through `<img>` cannot reach a
+web font and sets its text in whatever the reader's machine calls Georgia, so
+glyph positions along the arc shift per visitor. Rasterising it once freezes
+them. Headless Chromium does it — `--default-background-color=00000000` over a
+page holding the SVG at 1024×1024 — which is the same browser `pnpm content:og`
+already drives, so the seal's PNGs belong in that script rather than in a
+recipe someone runs by hand.
 
 **The blank seal closes an article in place of an amen.** It follows the last
-paragraph's final punctuation, inline, at about `1.5em` — the end-mark a
-magazine sets after its closing sentence, which is the form that reads as
-_stamped and witnessed_ rather than as a stray picture. Three consequences:
+paragraph's final punctuation, inline at `1.9em` with `vertical-align: -0.55em`
+— the end-mark a magazine sets after its closing sentence. The size is measured
+rather than chosen: below about `1.5em` the star closes up and the mark reads as
+a bullet. Three consequences:
 
 - **It is a rehype plugin**, `src/shared/content/plugins/rehype-end-mark.ts`,
   because inline means inside the compiled HTML: it appends the `<img>` to the
@@ -216,10 +241,9 @@ _stamped and witnessed_ rather than as a stray picture. Three consequences:
   (`SiteImage`, a path and its intrinsic size); two anonymous copies of
   `{ path, width, height }` is exactly what `pnpm type-overlap`'s floor 1 fails.
 
-Until the PNGs land, LSA's square rides as the placeholder avatar and the seal
-does not render at all — `seal` being optional is what makes its absence a state
-rather than a hole. Shipping a placeholder to a live domain is not acceptable,
-so both files land before the merge.
+The two cuts were drawn and looked at in this session — on both themes, at
+favicon sizes, and inline at the foot of a paragraph — so what Phase 3 owes is
+the code around them, not the decision.
 
 ## Phase 4 — The LSA front page
 
@@ -382,10 +406,11 @@ step 4 is how they are checked against what is actually served.
 
 - **Redirects for `latestageagentic.com/bible/*`** — see above; the URLs are
   hours old.
-- **The Bible's own Open Graph cards.** `content:og` is `vova`'s today, and the
-  articles author none. The lettered seal is the site's card image through
-  `SITE_CONFIG.avatar`, which is what every page unfurls as; a composed card
-  per article is a separate piece of work.
+- **The Bible's own Open Graph cards.** The lettered seal is the site's card
+  image through `SITE_CONFIG.avatar`, which is what every page unfurls as; a
+  card composed per article is a separate piece of work. What Phase 3 does put
+  on `content:og` is the seal's own SVG→PNG rasterisation, which is that
+  script's existing job.
 - **The courses themselves.** The third card says coming soon, and that is the
   whole of what this change knows about them.
 - **Where the project lives on GitHub** — `writing/late-stage-agentic/plan.md`
