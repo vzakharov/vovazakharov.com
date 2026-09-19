@@ -133,7 +133,7 @@ apps/bible/
   public/CNAME            agentic.bible
   public/.nojekyll
   public/seal*.svg        the mark, both cuts — Phase 3
-  public/ava.png          the lettered cut, rasterised — Phase 3
+  public/ava.og.png       the social card, rasterised from it — Phase 3
   public/*.md             git mv from apps/lsa/public/bible/
   public/assets/          git mv from apps/lsa/public/bible/assets/
   public/pdf-renders.json git mv
@@ -189,37 +189,45 @@ position, then the name. A draft to edit rather than a specification:
 `description` having become the site's tagline and its `intro` this copy.
 
 **The mark is a wax seal, in two cuts** — lettered `AGENTIC BIBLE` around a
-twelve-spoke star, and the same seal blank — **drawn as SVG rather than traced
-from the render.** An auto-trace of the generated image is eight megabytes of
-posterised noise and vectorises the transparency checkerboard as content; the
-seal is four shapes and a circle, so it is cheaper to draw than to clean.
+twelve-spoke star, and the same seal blank. Both are **one re-trace of the
+generated image**, cleaned: 18.4 KB lettered, 13.4 KB blank, letterforms and
+wax edge exactly the render's. They exist, and the work of arriving at them is
+done; Phase 3 owes the code around them.
 
-The shape, so it is re-derivable rather than frozen in a path nobody can read:
-a 1024 canvas, wax radius 418 with three harmonics on it
-(`0.030·sin(11θ+0.7) + 0.016·sin(7θ+2.1) + 0.012·sin(3θ+4)`, sampled 96 times
-and smoothed Catmull-Rom); the same outline twice more, offset `(+11,+13)` in
-`#8f4130` and `(-10,-12)` in `#c9765d`, under the `#b2563f` body, which is what
-makes the wax read as wax; an engraved ring at 372; and twelve round-capped
-spokes in `#7f3822` from radius 14 outward, lengths varying `±7%`, at width 46
-and radius 212 blank, 32 and 150 lettered. The lettered cut sets Georgia on two
-arcs, baselines at 278 and 355.
+How they were made, because an off-the-shelf trace of the same image is not
+this — it is eight megabytes of posterised speckle whose largest path is 168k
+points in 10,181 disconnected fragments, holding no letter and no edge as a
+shape anyone can reuse. What produced something usable, in `potrace`:
 
-| File                                  | Cut      | Where it renders                                |
-| ------------------------------------- | -------- | ----------------------------------------------- |
-| `apps/bible/public/seal.svg`          | blank    | the foot of every article                       |
-| `apps/bible/public/seal-lettered.svg` | lettered | source only — it is never served                |
-| `apps/bible/public/ava.png`           | lettered | the home page header, and the site's card image |
-| `apps/bible/app/icon.svg`             | blank    | the favicon                                     |
-| `apps/bible/app/apple-icon.png`       | blank    | the iOS home screen, 180×180                    |
+- **Posterise into semantic layers, not colour bands.** The silhouette from a
+  flood fill of the near-white background; the letters as the high-luminance,
+  low-saturation pixels inside it; the wax as everything else, cut at the 6th
+  and 34th luminance percentiles. Four layers, painted lightest first so the
+  small dark shapes — the star, the struck ring — land on top.
+- **Read the bands off a smoothed copy** (median 7, Gaussian 1.6). JPEG speckle
+  is exactly what turned the off-the-shelf trace into confetti.
+- **Dilate the letters out of every wax band** by 11px before cutting. Their
+  anti-aliased rims are dark, so a band that keeps them leaves letter-shaped
+  ghosts behind when the text layer is dropped — which is the whole mechanism
+  by which the blank cut is the lettered one minus its last path.
+- **Gate the mid tone to the outer 26% of the radius.** It is the wax lip and
+  the ring struck inside it; the same luminance recurs as a gloss patch across
+  the face, which is a gradient in the source and a hard-edged smudge traced.
 
-**The lettered cut ships as a raster and the blank one does not**, because only
-the lettered cut has text in it: an SVG loaded through `<img>` cannot reach a
-web font and sets its text in whatever the reader's machine calls Georgia, so
-glyph positions along the arc shift per visitor. Rasterising it once freezes
-them. Headless Chromium does it — `--default-background-color=00000000` over a
-page holding the SVG at 1024×1024 — which is the same browser `pnpm content:og`
-already drives, so the seal's PNGs belong in that script rather than in a
-recipe someone runs by hand.
+| File                                  | Cut      | Where it renders                   |
+| ------------------------------------- | -------- | ---------------------------------- |
+| `apps/bible/public/seal.svg`          | blank    | the foot of every article          |
+| `apps/bible/public/seal-lettered.svg` | lettered | the home page header               |
+| `apps/bible/public/ava.og.png`        | lettered | the social card only, from the SVG |
+| `apps/bible/app/icon.svg`             | blank    | the favicon                        |
+| `apps/bible/app/apple-icon.png`       | blank    | the iOS home screen, 180×180       |
+
+**Only the social card is a raster**, and for the reason `.claude/rules/content.md`
+already states: no major consumer renders an SVG `og:image`. So it is the
+existing pattern exactly — an authored `.svg` beside a committed `.og.png` that
+`pnpm content:og` rasterises and `--check` guards — rather than a new one. Every
+on-page use is the vector, letters included, because the trace made them paths:
+there is no web font for an SVG behind an `<img>` to fail to load.
 
 **The blank seal closes an article in place of an amen.** It follows the last
 paragraph's final punctuation, inline at `1.9em` with `vertical-align: -0.55em`
@@ -406,11 +414,12 @@ step 4 is how they are checked against what is actually served.
 
 - **Redirects for `latestageagentic.com/bible/*`** — see above; the URLs are
   hours old.
-- **The Bible's own Open Graph cards.** The lettered seal is the site's card
-  image through `SITE_CONFIG.avatar`, which is what every page unfurls as; a
-  card composed per article is a separate piece of work. What Phase 3 does put
-  on `content:og` is the seal's own SVG→PNG rasterisation, which is that
-  script's existing job.
+- **A card composed per article.** The lettered seal is the site's card image
+  through `SITE_CONFIG.avatar`, which is what every page unfurls as; a card
+  drawn per document is separate work. What Phase 3 does add is the seal's own
+  SVG→PNG rasterisation, which is `content:og`'s existing job — and, with it,
+  an optional `vector` on `SiteImage`: the page header takes the SVG and the
+  card takes the PNG, so one field cannot serve both.
 - **The courses themselves.** The third card says coming soon, and that is the
   whole of what this change knows about them.
 - **Where the project lives on GitHub** — `writing/late-stage-agentic/plan.md`
