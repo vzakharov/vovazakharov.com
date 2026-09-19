@@ -14,13 +14,13 @@ publication and starts being an index.
 
 ## Where this stands
 
-Phases 1–5 are done and on `claude/agentic-bible-bw6dre`, vetted, in PR #69 as a
-draft. **Phase 6 is what is left**, and it is rewritten below against what is
-now true: the records the plan handed to the operator are the agent's to write,
-Porkbun having an API and its keys being in the environment. Two deviations from
-the plan as written are recorded in the PR body — the seal is redrawn from the
-geometry this plan's own history carries rather than from the traced SVGs that
-died with the planning session's container, and `apple-icon.png` is not shipped.
+**Every phase is done**, on `claude/agentic-bible-bw6dre` in PR #69, and
+`agentic.bible` is live. Two deviations from the plan as written are recorded in
+the PR body — the seal is redrawn from the geometry this plan's own history
+carries rather than from the traced SVGs that died with the planning session's
+container, and `apple-icon.png` is not shipped. What is left is land prep:
+`/finalize` has not run, so the branch is unvetted since Phase 5, the base is
+unmerged and the PR is still a draft.
 
 ## The shape, before the steps
 
@@ -372,25 +372,24 @@ task hands it, and all that is left of this plan.
    than the two `A` rows this plan predicted — the same slot, one record. Both
    names resolve to GitHub from here.
 
-**Left to do:**
+4. **The pre-merge publish ran**, on the operator's go-ahead, as
+   `-f site=both` — `bible` being absent from the form the default branch
+   carries, while the gate that runs is this branch's and expands `both`. Both
+   receivers published. `deploy-vova` failed, and correctly: the `github-pages`
+   environment admits the default branch alone, so the site served from this
+   repository's own Pages is out of a branch dispatch's range entirely. What a
+   pre-merge publish can disturb is the receivers, which here meant
+   latestageagentic.com going to its hub front page ahead of the merge.
+5. **Pages is settled and the site is verified.** The receiver self-enabled on
+   the pushed `gh-pages`, so enabling answered 409 and only `https_enforced`
+   was needed; the certificate reads `approved`. Live: the apex 200s, `www` and
+   plain HTTP 301 onto it, all three articles serve with their `.md` and `.pdf`
+   siblings, the sitemap carries the rooted routes, the blank seal closes an
+   article once and the lettered one stacks on the home page. Each of the three
+   domains serves its own title, description and card — the failure a shared
+   `src/` makes possible did not happen.
 
-4. **The pre-merge publish is the operator's call, and the default is to skip
-   it.** `gh workflow run deploy.yml --ref <branch> -f site=both` — **`both`,
-   not `bible`**: GitHub validates a dispatch input against the form on the
-   **default branch**, which does not know `bible` until this branch merges,
-   while the workflow that _runs_ is the branch's, whose gate expands `both`
-   into all three sites. So it republishes the two live sites from an unmerged
-   branch, and what it buys is seeing the new one before the merge rather than
-   after it. Ask; do not assume.
-
-5. **Settle Pages on the receiver** (`source[branch]=gh-pages`,
-   `https_enforced`), then verify against the live URL: the served HTML carries
-   **this** site's title and card, `www` and plain HTTP redirect onto it, and
-   both existing sites still serve their own content. Blocked on step 4 or the
-   merge: `vzakharov/agentic.bible` holds `main` alone, so there is nothing on
-   `gh-pages` to settle until one of them has pushed.
-
-Then the plan is complete and `/finalize` takes the branch.
+`/finalize` takes the branch from here.
 
 ## DRY notes
 

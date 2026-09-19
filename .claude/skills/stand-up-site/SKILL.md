@@ -152,6 +152,15 @@ Confirm in the run's own job list that the other sites' jobs were **skipped**,
 not merely green. That is the assertion — the picker held — and it is the one
 thing a failed reading of it costs a live site.
 
+**Only receivers are in range of a branch dispatch.** The Pages-native site
+deploys through the `github-pages` environment, whose protection rules admit
+the default branch alone, so its deploy job **fails** on any other ref — after
+its build has passed — with "not allowed to deploy to github-pages due to
+environment protection rules". That is the guard rail holding, not a failure to
+chase, and it caps what a pre-merge publish can disturb: a picker naming
+everything still cannot touch the site served from this repository's own Pages.
+Weigh a dispatch against the receivers alone.
+
 ## Step 4 — Settle Pages on the receiving repository
 
 **The push usually does this by itself.** GitHub takes a pushed `gh-pages` as the
