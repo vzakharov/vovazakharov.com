@@ -17,11 +17,21 @@ need_command node "the session's cost row was not written"
 root="$(project_root)"
 [ -n "$root" ] && [ -f "$root/costs/prices.json" ] || exit 0
 
+# Every git call here is against the project root rather than whichever
+# directory the hook was spawned in.
+repo() { git -C "$root" "$@"; }
+
+# `status --porcelain`, not `diff HEAD`: a session's first row is an untracked
+# file, which a diff against HEAD reports as no change at all. Bare, it asks the
+# same of the whole tree.
+dirty() { [ -n "$(repo status --porcelain -- "$@" 2>/dev/null)" ]; }
+
 # A row is a branch's to carry. On the trunk there is no branch to carry it, and
 # a hook that commits to `main` behind the operator's back is worse than a
 # missing row.
-branch="$(git -C "$root" branch --show-current 2>/dev/null)"
+branch="$(repo branch --show-current 2>/dev/null)"
 case "$branch" in '' | main | master) exit 0 ;; esac
+upstream="origin/$branch"
 
 # The harness's check leaves nothing on disk — it reads the tree and writes to
 # stderr — so the only way to let it finish first is to watch for its process.
@@ -97,18 +107,16 @@ run_ledger() {
     --session-id "$(field session_id)" \
     --row-path)" || { state=unpriced; return 0; }
 
-  # `status --porcelain`, not `diff HEAD`: the first row of a session is an
-  # untracked file, which a diff against HEAD reports as no change at all.
-  [ -n "$(git -C "$root" status --porcelain -- "$row" 2>/dev/null)" ] || return 0
+  dirty "$row" || return 0
 
   # `commit -- <path>` stages nothing else, so work the agent has in flight
   # stays where it is.
-  git -C "$root" add -- "$row" &&
-    git -C "$root" commit -q -m "chore: session cost row" -- "$row" ||
+  repo add -- "$row" &&
+    repo commit -q -m "chore: session cost row" -- "$row" ||
     { state=uncommitted; return 0; }
 
   state=committed
-  git -C "$root" push -q origin "$branch" 2>/dev/null && state=pushed
+  repo push -q origin "$branch" 2>/dev/null && state=pushed
 }
 
 run_ledger
@@ -117,9 +125,9 @@ run_ledger
 # after the row is in. Reading it later than that check did is the point — it
 # may have looked while the row was still a working-tree change.
 outstanding() {
-  [ -n "$(git -C "$root" status --porcelain 2>/dev/null)" ] && return 0
-  git -C "$root" rev-parse -q --verify "origin/$branch" >/dev/null 2>&1 || return 1
-  [ "$(git -C "$root" rev-list "origin/$branch..HEAD" --count 2>/dev/null || echo 0)" -gt 0 ]
+  dirty && return 0
+  repo rev-parse -q --verify "$upstream" >/dev/null 2>&1 || return 1
+  [ "$(repo rev-list "$upstream..HEAD" --count 2>/dev/null || echo 0)" -gt 0 ]
 }
 
 case "$state" in
