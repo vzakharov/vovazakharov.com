@@ -59,10 +59,8 @@ export type Heading = WithId &
 export type WithHeadings = { headings: Heading[] };
 
 /**
- * The pipeline's output, one step short of markup: the hast tree React renders
- * through `hast-util-to-jsx-runtime`. It has been through `rehype-raw`, so it
- * holds no `raw` nodes — `toJsxRuntime` throws on one — and it may hold the
- * marker tags in `markers.ts`, which only a component map can render.
+ * Through `rehype-raw`, so it holds no `raw` nodes — `toJsxRuntime` throws on
+ * one — and it may hold `markers.ts`'s tags, which only a component map renders.
  */
 export type WithContentTree = { tree: HastRoot };
 

@@ -21,11 +21,11 @@ because it takes a markdown string rather than a tree.
 Numbers from the current `main` build, so the trade is argued from the artifact
 rather than from intuition:
 
-| | raw | gzip |
-| --- | --- | --- |
-| `out/case-studies/playgram.html` | 251.9 kB | 69.7 kB |
-| …of which inlined RSC flight | 142.8 kB (57%) | — |
-| article body as an HTML string | 87.2 kB | 27.5 kB |
+|                                        | raw             | gzip            |
+| -------------------------------------- | --------------- | --------------- |
+| `out/case-studies/playgram.html`       | 251.9 kB        | 69.7 kB         |
+| …of which inlined RSC flight           | 142.8 kB (57%)  | —               |
+| article body as an HTML string         | 87.2 kB         | 27.5 kB         |
 | the same body as a flight element tree | 115.7 kB (+33%) | 28.7 kB (+4.5%) |
 
 **GitHub Pages serves gzip and not brotli** — `curl -H 'Accept-Encoding: br'`

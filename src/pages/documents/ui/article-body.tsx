@@ -5,11 +5,7 @@ import { CONTENT_VIDEO, type WithContentTree } from '@/shared/content';
 
 import { ContentVideo } from './content-video';
 
-/**
- * What each of the pipeline's marker tags renders as. Every other tag in the
- * tree is the element it names, so a document only reaches this map where a
- * plugin put a marker there on purpose.
- */
+/** What each of the pipeline's marker tags renders as. */
 const CONTENT_COMPONENTS: Partial<Components> = {
   [CONTENT_VIDEO]: ContentVideo,
 };
