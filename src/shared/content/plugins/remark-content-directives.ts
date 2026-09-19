@@ -21,7 +21,6 @@ type BlockDirective = (typeof BLOCK_DIRECTIVES)[number];
 
 const isKnown = isOneOf(BLOCK_DIRECTIVES);
 
-/** The element each fence becomes — keyed, so a directive added above needs one here. */
 const DIRECTIVE_CLASSES = {
   'pull-quote': 'content-pull-quote',
 } satisfies Record<BlockDirective, string>;

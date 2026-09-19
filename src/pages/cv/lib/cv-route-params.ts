@@ -18,27 +18,21 @@ export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 export function parseCvSegments({
   variantAndLocale = [],
 }: WithOptionalCvSegments): CvAddress {
-  const [variant, locale] = variantAndLocale;
+  const [variant, locale, ...rest] = variantAndLocale;
 
-  switch (variantAndLocale.length) {
-    case 0: {
-      return [];
-    }
-    case 1: {
-      return [oneOf(CV_VARIANTS, variant, 'The CV variant segment')];
-    }
-    case 2: {
-      return [
-        oneOf(CV_VARIANTS, variant, 'The CV variant segment'),
-        oneOf(routing.locales, locale, 'The CV locale segment'),
-      ];
-    }
-    default: {
-      throw new Error(
-        `The CV route takes a variant and a locale at most, not /${variantAndLocale.join('/')}`,
-      );
-    }
+  if (rest.length > 0) {
+    throw new Error(
+      `The CV route takes a variant and a locale at most, not /${variantAndLocale.join('/')}`,
+    );
   }
+
+  if (variant === undefined) return [];
+
+  const parsed = oneOf(CV_VARIANTS, variant, 'The CV variant segment');
+
+  return locale === undefined
+    ? [parsed]
+    : [parsed, oneOf(routing.locales, locale, 'The CV locale segment')];
 }
 
 /** Which page an address resolves to, each segment it omits falling back. */

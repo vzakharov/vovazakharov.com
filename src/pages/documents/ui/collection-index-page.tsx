@@ -70,11 +70,7 @@ export function collectionIndexRoute(collection: CollectionId) {
                     )}
                     <div>
                       <Title order={2} size="h3" mb={8}>
-                        <InternalLink
-                          href={route}
-                          underline="hover"
-                          inherit
-                        >
+                        <InternalLink href={route} underline="hover" inherit>
                           {title}
                         </InternalLink>
                       </Title>

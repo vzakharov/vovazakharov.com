@@ -36,9 +36,9 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
- * Paper's copy is derived from the same `href`, so a link reaching no paper is
- * a container's `print-hidden` rather than a prop: the medium a link reaches is
- * a fact about where it sits, and the container is what already holds it.
+ * Paper's copy is derived from the same `href`, so a link that reaches no
+ * paper is one sitting inside a `print-hidden` container — the medium is a fact
+ * about where a link is, and the container already holds it.
  *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server

@@ -1,8 +1,7 @@
 /**
- * Whether a value is one of the listed literals. The list is widened to
- * `readonly string[]` before `.includes()` because a literal tuple's own
- * `includes` accepts only a member, which is the one thing a caller cannot
- * promise.
+ * The list is widened to `readonly string[]` before `.includes()`: a literal
+ * tuple types its own `includes` as accepting a member, which is the one thing
+ * an unchecked value cannot promise.
  */
 export const isOneOf =
   <const T extends readonly string[]>(values: T) =>
