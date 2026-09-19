@@ -16,6 +16,12 @@ export type WithId = { id: string };
 
 export type Titled = { title: string };
 
+/** An image's intrinsic pixel size — what reserves its box before it loads. */
+export type Sized = {
+  width: number;
+  height: number;
+};
+
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
 

@@ -8,9 +8,8 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
-import { type Chip, ChipNav, FileLink } from '@/shared/ui';
+import { type Chip, ChipNav, DocumentMeta, FileLink } from '@/shared/ui';
 
-import { DocumentMeta } from './document-meta';
 import classes from './documents.module.scss';
 
 /** How each cut is offered to the reader. `undefined` is the full document. */

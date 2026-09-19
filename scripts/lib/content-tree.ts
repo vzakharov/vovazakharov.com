@@ -15,11 +15,20 @@ import {
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
-/** Every file under `target`, recursively — or `target` itself when it is a file. */
+/** Where a site's whole-site renders land, which no walk may read back as a source. */
+const GENERATED_DIR = 'generated';
+
+/**
+ * Every file under `target`, recursively — or `target` itself when it is a
+ * file. `generated/` is skipped, which is what keeps the walk off the
+ * pipeline's own output: a rooted collection's directory is the site's whole
+ * `public/`, so that separation is maintained here rather than structural.
+ */
 export function filesUnder(target: string): string[] {
   return fs.statSync(target).isDirectory()
     ? fs
         .readdirSync(target)
+        .filter((name) => name !== GENERATED_DIR)
         .flatMap((name) => filesUnder(path.join(target, name)))
     : [target];
 }
@@ -33,9 +42,9 @@ export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
 );
 
 /**
- * Every file in every collection whose name satisfies `matches`. The renders the
- * pipeline produces for a whole site — the mermaid SVGs — sit outside the
- * collections entirely, so this walk cannot hand a script its own output as a
+ * Every file in every collection whose name satisfies `matches`. The renders
+ * the pipeline produces for a whole site — the mermaid SVGs — are what
+ * `filesUnder` skips, so this walk cannot hand a script its own output as a
  * source.
  */
 export function contentFiles(matches: (name: string) => boolean): string[] {

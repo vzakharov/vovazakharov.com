@@ -25,11 +25,7 @@ import {
   frontmatterSchema,
   type WithFrontmatter,
 } from './frontmatter';
-import {
-  intrinsicDimensions,
-  type Sized,
-  type WithOptionalOgImageSize,
-} from './image-dimensions';
+import { intrinsicDimensions, type WithOptionalOgImageSize } from './image-dimensions';
 
 export type ContentDocument = DocumentRef &
   Routed &

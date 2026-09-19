@@ -25,7 +25,6 @@ export {
 export type { Frontmatter, WithFrontmatter } from './frontmatter';
 export {
   intrinsicDimensions,
-  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 export {

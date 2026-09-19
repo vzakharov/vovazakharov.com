@@ -32,9 +32,11 @@ export const COLLECTIONS = {
     site: 'vova',
   },
   bible: {
-    base: 'bible',
+    /** Rooted: the domain is named for the collection, so the route does not
+     * say so a second time. An empty base is what `collectionPath` drops. */
+    base: '',
     label: 'The Bible',
-    site: 'lsa',
+    site: 'bible',
   },
 } as const satisfies Record<
   CollectionId,
@@ -74,14 +76,22 @@ export function collectionDir(id: CollectionId): string {
   return path.join(PUBLIC_DIR, COLLECTIONS[id].base);
 }
 
-/** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
-export function collectionAssetUrl(id: CollectionId, fileName: string): string {
-  return `/${COLLECTIONS[id].base}/${fileName}`;
+/**
+ * A site-root path inside a collection — the empty base of a rooted collection
+ * dropping out rather than doubling the separator.
+ */
+function collectionPath(id: CollectionId, ...segments: string[]): string {
+  return `/${[COLLECTIONS[id].base, ...segments].filter(Boolean).join('/')}`;
 }
 
-/** The route base of a collection — its index page. */
+/** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
+export function collectionAssetUrl(id: CollectionId, fileName: string): string {
+  return collectionPath(id, fileName);
+}
+
+/** The route base of a collection — its index page, or the site's home where it is rooted. */
 export function collectionRoute(id: CollectionId): string {
-  return `/${COLLECTIONS[id].base}`;
+  return collectionPath(id);
 }
 
 /**
@@ -94,7 +104,7 @@ export function documentRoute(
   slug: string,
   variant?: Variant,
 ): string {
-  return `${collectionRoute(id)}/${documentName(slug, variant)}`;
+  return collectionPath(id, documentName(slug, variant));
 }
 
 /** The route of the case study the home page and the CV cross-link. */

@@ -7,7 +7,7 @@
  */
 
 /** The ids are the source of truth: each names a directory under `apps/`. */
-export const SITE_IDS = ['vova', 'lsa'] as const;
+export const SITE_IDS = ['vova', 'lsa', 'bible'] as const;
 
 export type SiteId = (typeof SITE_IDS)[number];
 
