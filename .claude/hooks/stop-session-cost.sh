@@ -28,10 +28,9 @@ case "$branch" in '' | main | master) exit 0 ;; esac
 upstream="origin/$branch"
 
 # The check leaves nothing on disk, so its process is the only thing there is to
-# wait on. What says it will run is the launcher's own config, which is read
-# rather than the script's presence: a check renamed or dropped leaves its file
-# lying there and takes its entry away, and that is the arrangement this hook is
-# built on changing under it.
+# wait on, and the launcher's config is what says it will run at all — read in
+# place of the script's presence, since a rename or a removal leaves the file
+# lying there and takes the entry away.
 launcher_settings="${HOME}/.claude/launcher-settings.json"
 harness_check=stop-hook-git-check
 

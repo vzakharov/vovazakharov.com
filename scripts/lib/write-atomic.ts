@@ -1,7 +1,7 @@
-// Writing a file the harness's `Stop` check may be reading. That check runs in
-// parallel with the hook that writes these, and counts a half-written file and
-// a stray staging file alike — so the write lands under gitignored `tmp/` and
-// arrives at its path by rename, which is atomic within a filesystem.
+// Writing a file the harness's `Stop` check may be reading. It runs in parallel
+// with the hook and counts a half-written file and a stray staging file alike,
+// so a write is staged and renamed into place — under the repo's own gitignored
+// `tmp/`, rename being atomic only within one filesystem.
 
 import { mkdirSync, renameSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

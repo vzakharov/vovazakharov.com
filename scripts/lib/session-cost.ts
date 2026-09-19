@@ -74,8 +74,8 @@ const SessionCostSchema = z.object({
   sessionId: z.string(),
   branch: z.string().nullable(),
   cwd: z.string().nullable(),
-  // What a person recognises a session by. Both default rather than being
-  // required, so a row written before they existed still reads back.
+  // What a person recognises a session by. Both carry a default, so a row
+  // written without them still parses.
   openingPrompt: z.string().nullable().default(null),
   prs: z.array(z.number()).default([]),
   firstResponseAt: z.string().nullable(),
@@ -177,9 +177,9 @@ const typeOf = (record: unknown): string | undefined =>
     ? record.type
     : undefined;
 
-// The harness writes no session title, so the opening prompt stands in for one.
-// A slash command reaches the transcript as the envelope the client wrapped it
-// in, and `/handle <branch>` is what a person would call that session.
+// The harness writes no session title, so the opening prompt stands in for one,
+// unwrapped from the envelope a slash command arrives in: `/handle <branch>` is
+// what a person would call that session.
 const PromptRecordSchema = z.object({
   isMeta: z.boolean().nullable().optional(),
   isSidechain: z.boolean().optional(),

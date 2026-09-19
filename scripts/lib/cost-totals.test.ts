@@ -11,6 +11,19 @@ import { describe, it } from 'node:test';
 import { isoWeek, totalsOf } from './cost-totals.ts';
 import { parseSessionCost, type SessionCost } from './session-cost.ts';
 
+// Only the two fields the totals read carry a value; the token counts are
+// present because a row is parsed rather than trusted.
+const tally = (responses: number, costUsd: number) => ({
+  inputTokens: 0,
+  cacheWrite5mTokens: 0,
+  cacheWrite1hTokens: 0,
+  cacheReadTokens: 0,
+  outputTokens: 0,
+  thinkingTokens: 0,
+  responses,
+  costUsd,
+});
+
 const row = (startedAt: string | null, costUsd: number): SessionCost =>
   parseSessionCost(
     JSON.stringify({
@@ -20,36 +33,9 @@ const row = (startedAt: string | null, costUsd: number): SessionCost =>
       firstResponseAt: startedAt,
       lastResponseAt: startedAt,
       pricesAsOf: '2026-01-01',
-      total: {
-        inputTokens: 0,
-        cacheWrite5mTokens: 0,
-        cacheWrite1hTokens: 0,
-        cacheReadTokens: 0,
-        outputTokens: 0,
-        thinkingTokens: 0,
-        responses: 1,
-        costUsd,
-      },
-      ownTurns: {
-        inputTokens: 0,
-        cacheWrite5mTokens: 0,
-        cacheWrite1hTokens: 0,
-        cacheReadTokens: 0,
-        outputTokens: 0,
-        thinkingTokens: 0,
-        responses: 1,
-        costUsd,
-      },
-      subagents: {
-        inputTokens: 0,
-        cacheWrite5mTokens: 0,
-        cacheWrite1hTokens: 0,
-        cacheReadTokens: 0,
-        outputTokens: 0,
-        thinkingTokens: 0,
-        responses: 0,
-        costUsd: 0,
-      },
+      total: tally(1, costUsd),
+      ownTurns: tally(1, costUsd),
+      subagents: tally(0, 0),
       byRate: {},
       warnings: [],
     }),

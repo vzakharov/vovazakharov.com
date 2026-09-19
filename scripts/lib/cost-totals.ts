@@ -23,8 +23,7 @@ export const parseTotals = (json: string): Totals =>
 /**
  * The ISO-8601 week a UTC day falls in, `<year>-W<nn>`. The year is the one
  * owning that week's Thursday, so the last days of December can read as week 01
- * of the next year — which is the point of the scheme rather than a rounding
- * error.
+ * of the next year — the scheme working, not a rounding error.
  */
 export const isoWeek = (day: Date): string => {
   const thursday = new Date(
@@ -38,6 +37,8 @@ export const isoWeek = (day: Date): string => {
   return `${thursday.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
 };
 
+const emptyBucket = (): Bucket => ({ sessions: 0, responses: 0, costUsd: 0 });
+
 const addInto = (bucket: Bucket, row: SessionCost): void => {
   bucket.sessions += 1;
   bucket.responses += row.total.responses;
@@ -49,7 +50,7 @@ const into = (
   key: string,
   row: SessionCost,
 ): void => {
-  addInto((buckets[key] ??= { sessions: 0, responses: 0, costUsd: 0 }), row);
+  addInto((buckets[key] ??= emptyBucket()), row);
 };
 
 // Rounded where it is written rather than where it is read: a sum of floats
@@ -69,17 +70,15 @@ const roundedAll = (buckets: Record<string, Bucket>): Record<string, Bucket> =>
   );
 
 /**
- * A session is filed under where it **started**, the same rule that picks its
- * row's month — so one that runs past midnight stays whole rather than being
- * split across two days by an arithmetic nobody can check by hand. A row with
- * no priced response has no day to file under and lands in the grand total
- * alone.
+ * A session is filed under where it **started**, the rule that already picks its
+ * row's month, so one running past midnight stays whole. A row with no priced
+ * response has no day to file under and lands in the grand total alone.
  */
 export const totalsOf = (rows: readonly SessionCost[]): Totals => {
   const byMonth: Record<string, Bucket> = {};
   const byWeek: Record<string, Bucket> = {};
   const byDay: Record<string, Bucket> = {};
-  const grand: Bucket = { sessions: 0, responses: 0, costUsd: 0 };
+  const grand = emptyBucket();
 
   for (const row of rows) {
     addInto(grand, row);

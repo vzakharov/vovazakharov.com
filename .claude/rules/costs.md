@@ -32,12 +32,11 @@ the totals are confidently incorrect rather than absent.
   the input rate, against ×0.1 for reads.
 - **Thinking tokens are already inside `output_tokens`.** They are reported for
   interest and billed once.
-- **Nothing in the file names the session.** The title the client shows is not
+- **Nothing in the file names the session.** The client's own title is not
   written there, so the row carries the **opening prompt** in its place —
-  unwrapped from the `<command-name>`/`<command-args>` envelope a slash command
-  arrives in, so `/handle <branch>` reads as a person would say it — and the PR
-  numbers off the `pr-link` records, which is what groups the several sessions
-  one pull request takes.
+  unwrapped from the envelope a slash command arrives in, so it reads
+  `/handle <branch>` — and the PR numbers off the `pr-link` records, which is
+  what groups the several sessions one pull request takes.
 
 An unpriced `(model, speed)` **throws**. A response silently counted as free
 makes every total downstream a lie, and the failure is loud precisely because
@@ -72,50 +71,47 @@ bail would hold the turn open forever.
 **The arrangement is read from the launcher's config, not assumed.** All of the
 above holds only while `~/.claude/launcher-settings.json` registers that check;
 a harness that renames or drops it leaves this hook waiting on a process that
-will never run, and the section above describing a race that no longer exists.
-So the hook reads the registration each turn and says so on stderr when the
-entry is gone — the one thing it cannot do is notice silently.
+never runs, and every paragraph here describing a race that is over. So the hook
+reads that registration each turn and writes to stderr when the entry is gone:
+adjusting quietly is what would leave the rest of this section false.
 
 ## The totals file
 
-`costs/totals.json` is the rows summed — the grand total, and the same figures
-by month, by ISO week and by day. Each session lands in the buckets its **start**
-falls in, the rule that already picks its row's month, so a session running past
-midnight stays whole rather than being split by an arithmetic nobody can check
-by hand.
+`costs/totals.json` is the rows summed — the grand total, and the same by month,
+by ISO week and by day. A session lands in the buckets its **start** falls in,
+the rule that already picks its row's month, so one running past midnight stays
+whole.
 
-**It is derived, so a conflict on it is regenerated rather than merged.** The
-rows are the source of truth and never collide — one file per session id — while
-two branches that both ran sessions will both have rewritten the summary. Taking
-either side and running `pnpm costs --write` produces the correct file for the
-merged tree; hand-summing the two sides double-counts every session both of them
-saw. The file holds no timestamp of its own for the same reason: regenerating it
-over unchanged rows must be a no-op, or every turn commits a diff that says
-nothing.
+**It is derived, so a conflict on it is regenerated, never merged.** The rows are
+the source of truth and never collide — one file per session id — while two
+branches that both ran sessions have both rewritten the summary. Take either side
+and run `pnpm costs --write`; hand-summing the two double-counts every session
+both of them saw. The file carries no timestamp of its own for the same reason:
+regenerating over unchanged rows has to be a no-op, or every turn commits a diff
+that says nothing.
 
-The `Stop` hook regenerates it in the same commit as the row it just wrote,
-which it can afford because the sum is a read of a few hundred small files —
-a tenth of a second against the pricing pass already in that turn.
+The `Stop` hook regenerates it in the same commit as the row, a tenth of a second
+against the pricing pass already in that turn.
 
 ## What the totals do not cover
 
 - **The last turn of a session.** The transcript is written asynchronously and
   lags the live conversation, so each run rewrites the row from the whole file
   and picks up what the previous run was too early to see. The final turn has no
-  successor to correct it. **Nothing inside the session can close this**: a step
-  in `/finalize` runs in the same session and is followed by the turns that
-  invoked it, so it moves the blind spot rather than removing it. The only thing
-  that would is a **later** session re-pricing the transcript — which holds where
-  transcripts outlive their session, and not in a remote session, whose container
-  is discarded with `~/.claude/projects/` inside it. So the undercount is one
-  turn per session wherever this repo's sessions actually run.
+  successor to correct it, and **nothing inside the session can close that**: a
+  step in `/finalize` runs in the same session and is followed by the turns that
+  invoked it, so it moves the blind spot rather than removing it. Only a
+  **later** session re-pricing the transcript would, which holds where
+  transcripts outlive their session and not in a remote one, whose container is
+  discarded with `~/.claude/projects/` inside it. So the undercount is one turn
+  per session wherever this repo's sessions actually run.
 - **A rate that changed after a row was written.** Each row records the
   `pricesAsOf` it was priced under and is never re-priced — its transcript is
-  usually gone by then anyway — so a table update applies forward only. Nothing
+  usually gone by then — so a table update applies forward only. Nothing
   validates `costs/prices.json` against Anthropic's published prices either: the
   unpriced-pair throw catches a **new** `(model, speed)` pair and is blind to a
-  changed number, which is why `pnpm costs` prints the table's age and how many
-  rows were priced under an older one.
+  number that changed, which is why `pnpm costs` prints the table's age and how
+  many rows were priced under an older one.
 - **Abandoned branches.** Rows reach `main` by merge, so work that is thrown
   away is thrown out of the ledger too — an undercount biased toward exactly the
   sessions that spent without delivering.

@@ -48,6 +48,7 @@ const rowsIn = (month: string): SessionCost[] => {
 };
 
 const byMonth = new Map(months.map((month) => [month, rowsIn(month)]));
+const everyRow = [...byMonth.values()].flat();
 
 // The totals file covers every row, so it is written before the `--month`
 // filter narrows what gets printed.
@@ -55,7 +56,7 @@ if (given('write'))
   writeAtomic(
     root,
     path.join(root, 'costs/totals.json'),
-    `${JSON.stringify(totalsOf([...byMonth.values()].flat()), null, 2)}\n`,
+    `${JSON.stringify(totalsOf(everyRow), null, 2)}\n`,
   );
 
 const shown = months.filter((month) => wanted === undefined || month === wanted);
@@ -96,9 +97,8 @@ if (shown.length > 1)
     `${'total'.padEnd(7)} ${pad(usd(grand), 10)}  ${pad(count(grandSessions, 'session'), 13)}`,
   );
 
-// The rate table is hand-kept and nothing validates it against Anthropic's
-// published prices, so the report says how old it is rather than leaving a
-// reader to assume it is current.
+// Nothing validates the hand-kept rate table against Anthropic's published
+// prices, so the report states its age rather than letting a reader assume.
 const prices = parsePrices(
   readFileSync(path.join(root, 'costs/prices.json'), 'utf8'),
 );
@@ -109,9 +109,9 @@ console.log(
   `\nrates as of ${prices.as_of} (${count(days, 'day')} ago), hand-kept in costs/prices.json`,
 );
 
-const stale = [...byMonth.values()]
-  .flat()
-  .filter((row) => row.pricesAsOf !== prices.as_of).length;
+const stale = everyRow.filter(
+  (row) => row.pricesAsOf !== prices.as_of,
+).length;
 if (stale > 0)
   console.log(
     `${count(stale, 'row')} priced under an older table; their transcripts are gone, so the figures stand as billed at the time`,
