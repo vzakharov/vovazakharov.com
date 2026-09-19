@@ -17,18 +17,10 @@ publication and starts being an index.
 Phases 1–5 are done and on `claude/agentic-bible-bw6dre`, vetted, in PR #69 as a
 draft. **Phase 6 is what is left**, and it is rewritten below against what is
 now true: the records the plan handed to the operator are the agent's to write,
-Porkbun having an API. Two deviations from the plan as written are recorded in
-the PR body — the seal is redrawn from the geometry this plan's own history
-carries rather than from the traced SVGs that died with the planning session's
-container, and `apple-icon.png` is not shipped.
-
-**Neither Porkbun key is in the environment as of 2026-09-19**, which is what
-step 3 waits on. The container that checked had been up thirteen minutes and
-carried every other variable the operator sets there (`DEEPGRAM_API_KEY`,
-`SERPAPI_API_KEY`, `TRAVELPAYOUTS_API_TOKEN`), so this is the environment's
-contents and not a session that booted too early — and the environment is the
-one named `Default`, there being three. Start by checking again; a container
-that has them needs nothing else from the operator.
+Porkbun having an API and its keys being in the environment. Two deviations from
+the plan as written are recorded in the PR body — the seal is redrawn from the
+geometry this plan's own history carries rather than from the traced SVGs that
+died with the planning session's container, and `apple-icon.png` is not shipped.
 
 ## The shape, before the steps
 
@@ -375,12 +367,11 @@ task hands it, and all that is left of this plan.
 
 **Left to do:**
 
-3. **Write the DNS.** Porkbun holds the domain, so the records are the agent's
-   to write once `PORKBUN_API_KEY` and `PORKBUN_SECRET_API_KEY` reach the
-   environment — the skill's Step 2 carries the call shape and the traps. Two
-   preconditions, in this order: **both** variables present (see above), and API
-   access switched on for `agentic.bible` itself, the keys being account-wide
-   where that toggle is not.
+3. **Write the DNS.** Porkbun holds the domain, and `PORKBUN_API_KEY` /
+   `PORKBUN_SECRET_API_KEY` are in the environment, so the records are the
+   agent's to write — the skill's Step 2 carries the call shape and the traps.
+   Confirm first that API access is switched on for `agentic.bible` itself; the
+   keys are account-wide and that toggle is not.
 
    | Type  | Host  | Value                                                                                   |
    | ----- | ----- | --------------------------------------------------------------------------------------- |
