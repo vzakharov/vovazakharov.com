@@ -15,6 +15,11 @@
 wrapped="$*"
 payload="$(cat)"
 
+# TEMPORARY PROBE — remove once it has answered whether the launcher's patched
+# `Stop` command is reached at all. Writes before any condition can skip it.
+mkdir -p /home/user/vovazakharov.com/tmp &&
+  date -u +%FT%TZ >>/home/user/vovazakharov.com/tmp/stop-hook-probe.log
+
 run_ledger() {
   . "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || return 0
   command -v jq >/dev/null || return 0
