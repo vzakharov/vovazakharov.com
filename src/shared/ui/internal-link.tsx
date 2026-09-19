@@ -9,20 +9,16 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 
+import { printedUrl } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
-import type {
-  Anchored,
-  PerMedium,
-  WithOptionalClassName,
-} from '@/shared/typings';
+import type { Anchored, WithOptionalClassName } from '@/shared/typings';
 
 import classes from './internal-link.module.scss';
 
 export type InternalLinkProps = Anchored &
   AnchorProps &
   WithOptionalClassName &
-  PerMedium &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
      * Paper also spells the address after the text, for a link whose own words
@@ -40,11 +36,9 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
- * Which medium a link reaches is the call site's to state, because only it
- * knows what it sits inside: `printed` carries paper's copy, `noPrintedCopy`
- * says the link reaches no paper. Neither is a default, and the two are
- * mutually exclusive, so the one link that prints nothing by omission is a
- * type error rather than a hole in a printed sentence.
+ * Paper's copy is derived from the same `href`, so a link reaching no paper is
+ * a container's `print-hidden` rather than a prop: the medium a link reaches is
+ * a fact about where it sits, and the container is what already holds it.
  *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server
@@ -61,14 +55,12 @@ export type InternalLinkProps = Anchored &
 export function InternalLink({
   href,
   children,
-  printed,
-  // Destructured to keep it off the `<a>`, never read: `printed` being absent
-  // is itself the answer.
-  noPrintedCopy,
   withAddress = false,
   className,
   ...props
 }: InternalLinkProps) {
+  const printed = printedUrl(href);
+
   return (
     <>
       <Anchor
@@ -79,21 +71,19 @@ export function InternalLink({
       >
         {children}
       </Anchor>
-      {printed && (
-        <span className={classes['printed']}>
-          {withAddress && (
-            <>
-              {children}
-              {': '}
-            </>
-          )}
-          {/* One text node, not two: a PDF gets a link annotation per node, and
-              the first is placed over whatever precedes the anchor. */}
-          <Anchor {...pick(printed, 'href')} {...props} {...{ className }}>
-            {withAddress ? printed.text : children}
-          </Anchor>
-        </span>
-      )}
+      <span className={classes['printed']}>
+        {withAddress && (
+          <>
+            {children}
+            {': '}
+          </>
+        )}
+        {/* One text node, not two: a PDF gets a link annotation per node, and
+            the first is placed over whatever precedes the anchor. */}
+        <Anchor {...pick(printed, 'href')} {...props} {...{ className }}>
+          {withAddress ? printed.text : children}
+        </Anchor>
+      </span>
     </>
   );
 }

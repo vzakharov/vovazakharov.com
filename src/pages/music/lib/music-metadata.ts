@@ -1,5 +1,4 @@
-import { PAGE_ROUTES } from '@/shared/config';
-import { SITE_CONFIG } from '@/shared/config/index.server-only';
+import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
 import { constructMetadata } from '@/shared/seo/index.server-only';
 
 export const musicMetadata = constructMetadata({

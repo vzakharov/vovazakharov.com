@@ -2,7 +2,7 @@ import 'server-only';
 
 import type { Metadata } from 'next';
 
-import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import type {
   ContentDocument,
   WithOptionalOgImageSize,

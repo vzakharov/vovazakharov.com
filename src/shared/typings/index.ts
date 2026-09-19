@@ -10,21 +10,6 @@
 
 import type { ReactNode } from 'react';
 
-type AllNever<T> = {
-  [K in keyof T]?: never;
-};
-
-/**
- * One shape or the other, never both and never neither — each member carrying
- * the other's keys as optional `never`, which is what lets a call site be
- * checked and a component still destructure every key in one signature.
- *
- * Taken verbatim from the Playgram app's `shared/typings`, which is the home of
- * this helper — so a fix to it is made there and copied here, not the other way
- * round.
- */
-export type EitherOr<T, U> = (T & AllNever<U>) | (U & AllNever<T>);
-
 export type Named = { name: string };
 
 export type WithId = { id: string };
@@ -77,28 +62,6 @@ export type DocumentFile = Linked & { download: string };
  * paper nothing. `printedUrl` builds one; a component takes one to render.
  */
 export type PrintedLink = Linked & WithText;
-
-/**
- * Paper's copy of a link is handed to a component rather than derived inside
- * it: deriving needs the site this build is, and reading that costs a client
- * bundle zod's weight. `linkTo` makes both halves out of one route.
- */
-export type WithPrinted = { printed: PrintedLink };
-
-/**
- * A link that reaches no paper — one inside a `print-hidden` container, which
- * is the only place the absence is correct. Stated rather than left out: the
- * screen anchor is itself `print-hidden`, so a missing paper copy takes the
- * link's own words off the page with it, and nothing but a PDF read by eye
- * would show it.
- */
-export type NoPrintedCopy = { noPrintedCopy: true };
-
-/** What every internal link answers: paper's copy of it, or that there is none. */
-export type PerMedium = EitherOr<WithPrinted, NoPrintedCopy>;
-
-/** Both halves of an internal link: where it points, and paper's copy of it. */
-export type LinkedPerMedium = Linked & WithPrinted;
 
 /** What a Next route hands the page it resolves to, its segments still raw. */
 export type WithParams<Params> = { params: Promise<Params> };

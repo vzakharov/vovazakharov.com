@@ -1,6 +1,6 @@
 import { Anchor, Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
 import { Section } from '@/shared/ui';
 
 /**

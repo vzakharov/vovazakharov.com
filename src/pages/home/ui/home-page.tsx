@@ -1,11 +1,7 @@
 import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 
-import { PAGE_ROUTES } from '@/shared/config';
-import {
-  BUILD_YEAR,
-  linkTo,
-  SITE_CONFIG,
-} from '@/shared/config/index.server-only';
+import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { ContactSection } from './contact-section';
@@ -44,7 +40,7 @@ export function HomePage() {
               {SEE_ALSO.map((href, index) => (
                 <span key={href}>
                   {index > 0 && ' · '}
-                  <InternalLink {...linkTo(href)} inherit>
+                  <InternalLink {...{ href }} inherit>
                     {href}
                   </InternalLink>
                 </span>
