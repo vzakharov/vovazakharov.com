@@ -10,9 +10,9 @@ this repository still serves its own content.
 to a **receiving repository** of its own — CLAUDE.md § "Deployment" carries the
 arrangement that follows, and what this skill stands up is its receiving end.
 
-**The domain is bought by the operator; its records are whoever can reach the
-registrar.** Step 2 splits on that, and either way the site is dark until they
-land, whatever CI reports.
+**The domain is bought by the operator; its records are written by whoever can
+reach the registrar.** Step 2 splits on that, and either way the site is dark
+until they land, whatever CI reports.
 
 The code half — the app directory, its `next.config.ts`, the site's entry in the
 shared config — is ordinary work on the branch and is not this skill's; CLAUDE.md
@@ -111,9 +111,10 @@ says whether the call worked.
 Hand the table over and say which records to delete. The operator does it at the
 registrar, and nothing else in this skill proceeds until they report back.
 
-Verify from here before going further, on either route. **There is no `dig` or `nslookup` in the
-container**, and `dig +short` missing returns empty rather than failing, which
-reads exactly like "DNS not set":
+### Verify from here, on either route
+
+**There is no `dig` or `nslookup` in the container**, and `dig +short` missing
+returns empty rather than failing, which reads exactly like "DNS not set":
 
 ```bash
 python3 - <<'PY'
@@ -123,7 +124,12 @@ for host in ('<domain>', 'www.<domain>'):
 PY
 ```
 
-The apex should answer with all eight GitHub addresses.
+The apex should answer with all eight GitHub addresses. **`www` lags behind it
+by the wildcard's TTL**, because the wildcard was already answering for that
+name and the new `CNAME` cannot invalidate what resolvers have cached — so the
+first read-back shows the apex moved and `www` still on the parking page. That
+is the expected shape, not a failed record; wait the TTL out and read again
+rather than rewriting records that are already correct.
 
 ## Step 3 — Publish before the merge
 
