@@ -6,9 +6,11 @@
   "scripts": {
     "dev:vova": "scripts/in-site.sh vova next dev",
     "dev:lsa": "scripts/in-site.sh lsa next dev",
-    "build": "pnpm build:vova && pnpm build:lsa",
+    "dev:bible": "scripts/in-site.sh bible next dev",
+    "build": "pnpm build:vova && pnpm build:lsa && pnpm build:bible",
     "build:vova": "scripts/in-site.sh vova next build",
     "build:lsa": "scripts/in-site.sh lsa next build",
+    "build:bible": "scripts/in-site.sh bible next build",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test \"**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
@@ -18,9 +20,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "scripts/in-site.sh vova node scripts/render-mermaid.ts",
-    "content:og": "scripts/in-site.sh vova tsx scripts/render-og.ts",
+    "content:og:vova": "scripts/in-site.sh vova tsx scripts/render-og.ts",
+    "content:og:bible": "scripts/in-site.sh bible tsx scripts/render-og.ts",
     "content:pdf:vova": "scripts/in-site.sh vova tsx scripts/render-pdf.ts",
-    "content:pdf:lsa": "scripts/in-site.sh lsa tsx scripts/render-pdf.ts",
+    "content:pdf:bible": "scripts/in-site.sh bible tsx scripts/render-pdf.ts",
     "styles:codegen": "node scripts/generate-styles.ts"
   },
   "dependencies": {

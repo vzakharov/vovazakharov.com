@@ -2,12 +2,13 @@
 description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
   - apps/*/public/case-studies/**
-  - apps/*/public/bible/**
+  - apps/bible/public/**
   - apps/*/public/generated/**
   - src/shared/content/**
   - src/pages/documents/**
   - src/pages/cv/**
   - apps/*/app/case-studies/**
+  - apps/bible/app/**
   - scripts/render-mermaid.ts
   - scripts/render-og.ts
   - scripts/render-pdf.ts
@@ -17,9 +18,9 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` compiles it to HTML once per deploy. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` — and `next build` compiles it to HTML once per deploy. **A collection whose site is named for it is rooted instead**, its base empty and its directory that site's whole `public/`: the Bible is `apps/bible/public/`, and an article is `agentic.bible/<slug>` rather than repeating the collection's name after a domain that already says it. The paths below are written from the app directory, which is where every build and every render script is entered.
 
-**A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` is therefore one script per site, and `content:og` and `content:mermaid` are `vova`'s until the other site authors a card or a diagram.
+**A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` and `content:og` are therefore one script per site, while `content:mermaid` is `vova`'s until another site authors a diagram.
 
 ```
 public/case-studies/          # one directory per collection, named by its route
@@ -29,13 +30,13 @@ public/case-studies/          # one directory per collection, named by its route
   <slug>[.<variant>].pdf      # committed, produced by `pnpm content:pdf:<site>`
   pdf-renders.json            # each PDF's source-set hash
   assets/                     # images, data, video
-    <name>.og.png             # committed, produced by `pnpm content:og`
+    <name>.og.png             # committed, produced by `pnpm content:og:<site>`
     og-renders.json           # each card's source hash
 public/generated/
   mermaid/<hash>.light.svg    # committed, produced by `pnpm content:mermaid`
   mermaid/<hash>.dark.svg
 public/cv/
-  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og`
+  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og:vova`
   og-renders.json
   <variant>/<locale>.pdf      # committed, produced by `pnpm content:pdf:vova`
   <variant>/pdf-renders.json
@@ -85,7 +86,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 
    **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
-2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts` — naming the site that serves it — its directory under that site's `public/`, and a router per page binding `collectionIndexRoute`/`articleRoute` to it.
+2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts` — naming the site that serves it — its directory under that site's `public/`, and a router per page binding `collectionIndexRoute`/`articleRoute` to it. A **rooted** collection writes an empty `base` and gets no index router: its site's home page is its index, written as a page slice of its own because the copy above the list is that page's whole substance.
 
 ## The two things a document can author beyond markdown
 
@@ -102,8 +103,10 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **Every asset a document points at lives under `assets/`, never off-site.** A `github.com/user-attachments/…` URL is what a drag-and-drop into an issue leaves behind, and it holds up in a browser — but the PDF run prints through a headless Chromium that may have no route to that host, and a fetch it loses becomes a broken-image icon in a PDF the run still exits 0 on. Self-hosting also buys the typable URL the trap above wants. `scripts/export-github-item.py`'s fetch ladder downloads an attachment the agent proxy refuses, by falling back to a direct connection.
 - **A tall image is capped twice, and for the same reason each time.** Scaled to the column, a portrait screenshot outgrows the page box, and a replaced element does not paginate — so uncapped it prints straight through the footer's band and off the sheet. `prose.scss` bounds `img`/`video` to the A4 content height in `@media print`; a change to `@page` has to move that number with it. On screen the bound is `32rem`, which a wide screenshot never reaches and a square or portrait one does — at the column's full width either is a screenful of one picture. An image the cap narrows is centred. Mermaid renders are exempt: a diagram shrunk to fit keeps its shape and loses its labels.
 - **A `mermaid` fence needs a committed render, and an `accDescr`.** `pnpm content:mermaid` renders each fence to a light and a dark SVG named by a hash of the fence text, and prunes renders nothing refers to any more; `--check` reports staleness without writing. Run it by hand when a diagram changes and commit the SVGs — `next build` never invokes it, so CI stays free of puppeteer, and instead **fails loudly** on a fence whose render is missing. The `accDescr` block becomes the diagram's `alt`, followed by the URL of the markdown it was drawn from: an `<img>` hides the SVG's own description, so `alt` is the only place a reader who cannot see the image — an agent reading the HTML included — learns what the diagram says and where its source is.
-- **An Open Graph card is a PNG rendered from an SVG, and both are committed.** No major consumer renders an SVG `og:image` — X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to nothing. So `ogImage` names `./assets/<name>.og.png`, `pnpm content:og` rasterizes it from `./assets/<name>.svg`, and `--check` — wired into `vet.sh` — fails when a source's hash no longer matches `og-renders.json`. Run it by hand after editing a card's SVG and commit the PNG with it. The card's dimensions are read from the PNG and published alongside the URL, which several consumers need to render it at all.
-  - **The CV's cards have no authored source.** `apps/vova/public/cv/<variant>.og.png` is rendered from a page `scripts/lib/cv-card.ts` generates off the message catalogue and the portrait, and the manifest hashes that page and the portrait's bytes — so editing the template, `ava.png`, or any catalogue slice the page reads — `cv.header`, `cv.contact`, and the offer block heading that framing's `OFFER_BLOCKS` list — re-flags both cards, and the same `pnpm content:og` renders them. English only: a `ru` card would double the committed weight for the secondary surface, and the localized `og:description` already says which language the reader got.
+- **A site whose mark is a vector carries both halves of it.** `SITE_CONFIG.avatar.vector` names the SVG every page renders, `avatar.path` the PNG the card unfurls as, and `content:og:<site>` rasterizes the second from the first — the same SVG→PNG step the chart cards take, paired by the config rather than by a shared stem, the two cuts of the Bible's seal having none. A site that states no `vector` renders its `path` everywhere and the job skips it.
+- **A site with a `seal` closes every article with it.** `rehypeEndMark` appends the mark inside the compiled HTML — to the last element where that element ends in text, and to a paragraph of its own where the article ends in a list, a table, a fence or a picture, none of which is a sentence for a mark to follow. It prints, so the seal's own file is hashed into every document's PDF source set; editing it re-flags all of them.
+- **An Open Graph card is a PNG rendered from an SVG, and both are committed.** No major consumer renders an SVG `og:image` — X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to nothing. So `ogImage` names `./assets/<name>.og.png`, `pnpm content:og:<site>` rasterizes it from `./assets/<name>.svg`, and `--check` — wired into `vet.sh` — fails when a source's hash no longer matches `og-renders.json`. Run it by hand after editing a card's SVG and commit the PNG with it. The card's dimensions are read from the PNG and published alongside the URL, which several consumers need to render it at all.
+  - **The CV's cards have no authored source.** `apps/vova/public/cv/<variant>.og.png` is rendered from a page `scripts/lib/cv-card.ts` generates off the message catalogue and the portrait, and the manifest hashes that page and the portrait's bytes — so editing the template, `ava.png`, or any catalogue slice the page reads — `cv.header`, `cv.contact`, and the offer block heading that framing's `OFFER_BLOCKS` list — re-flags both cards, and the same `pnpm content:og:vova` renders them. English only: a `ru` card would double the committed weight for the secondary surface, and the localized `og:description` already says which language the reader got.
 - **Angle brackets are markup inside an SVG's `<style>`.** An SVG document is parsed as XML, where a CSS comment mentioning a tag name makes the file not well-formed — and a malformed SVG behind an `<img>` fails silently, showing nothing. Nothing in the build catches it.
 - **A video link needs an extension or a `video` title.** A paragraph holding nothing but a link to a video becomes a player. Detection is by file extension; for a URL that has none, mark it explicitly: `[label](url 'video')`.
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.

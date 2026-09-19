@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import type { Sized } from '../../src/shared/content/image-dimensions.ts';
+import type { Sized } from '../../src/shared/typings/index.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 

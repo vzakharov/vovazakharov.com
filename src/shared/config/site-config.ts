@@ -1,11 +1,11 @@
 /**
- * Both sites' configuration as data, with nothing bound to the site this
+ * Every site's configuration as data, with nothing bound to the site this
  * process happens to be — that binding is `resolved-site.ts`, which is
  * `server-only`. The split is what lets a client component and a render script
  * each read what they need without the environment read coming along.
  */
 
-import type { Billed, Named } from '@/shared/typings';
+import type { Billed, Named, Sized } from '@/shared/typings';
 
 import type { SiteId } from './site-ids';
 
@@ -18,6 +18,17 @@ export const PAGE_ROUTES = {
   writing: '/writing',
   music: '/music',
 } as const;
+
+/**
+ * One of a site's own marks. `path` is what the metadata publishes and what a
+ * raster consumer gets; `vector` is the same drawing as SVG, which a page
+ * renders in its place where one exists — an Open Graph card cannot be one, so
+ * a single field could not serve both.
+ */
+export type SiteImage = Sized & {
+  path: string;
+  vector: string | undefined;
+};
 
 /**
  * The tagline is the offer in one line, as the home page's offer section is
@@ -41,14 +52,17 @@ export type SiteConfig = Billed & {
     linkedin: string;
   };
   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
-  avatar: {
-    path: string;
-    width: number;
-    height: number;
-  };
+  avatar: SiteImage;
+  /**
+   * The mark an article closes on, in place of an amen. `undefined` on a site
+   * whose documents end where their prose does. Spelled rather than left
+   * optional — an omitted key is silently absent, and a new site should have
+   * to answer this one.
+   */
+  seal: SiteImage | undefined;
 };
 
-/** One person publishes both sites, so neither of them owns the byline. */
+/** One person publishes every site, so none of them owns the byline. */
 const PUBLISHER = {
   author: {
     name: 'Vova Zakharov',
@@ -61,17 +75,21 @@ const PUBLISHER = {
   },
 } as const;
 
-/** One path and one size for both sites, a different image behind each. */
+/** One path and one size for the two portrait sites, a different image behind each. */
 const AVATAR = {
   path: '/ava.png',
+  vector: undefined,
   width: 1024,
   height: 1024,
 } as const;
 
+/** Both cuts of the seal are one drawing, so one square covers them. */
+const SEAL_SIZE = { width: 1024, height: 1024 } as const;
+
 /**
- * Both sites under one shape, so a field added for either is a type error at
- * the other until it is answered. `satisfies` rather than an annotation keeps
- * the literal types every call site reads.
+ * Every site under one shape, so a field added for one is a type error at the
+ * rest until it is answered. `satisfies` rather than an annotation keeps the
+ * literal types every call site reads.
  */
 const SITE_CONFIGS = {
   vova: {
@@ -81,6 +99,7 @@ const SITE_CONFIGS = {
     tagline:
       'Fractional CTO for teams that don’t want to YOLO into the agent era.',
     avatar: AVATAR,
+    seal: undefined,
     ...PUBLISHER,
   },
   lsa: {
@@ -89,6 +108,23 @@ const SITE_CONFIGS = {
     name: 'Late Stage Agentic',
     tagline: 'How not to make a mess of agentic coding.',
     avatar: AVATAR,
+    seal: undefined,
+    ...PUBLISHER,
+  },
+  bible: {
+    url: 'https://agentic.bible',
+    downloadPrefix: 'bible',
+    name: 'The Agentic Bible',
+    tagline:
+      'Articles on agentic coding that take a position and show the grounds under it.',
+    // The lettered cut, whose card is rasterised from the vector beside it by
+    // `pnpm content:og:bible` — no Open Graph consumer renders an SVG.
+    avatar: {
+      path: '/ava.og.png',
+      vector: '/seal-lettered.svg',
+      ...SEAL_SIZE,
+    },
+    seal: { path: '/seal.svg', vector: undefined, ...SEAL_SIZE },
     ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;

@@ -1,12 +1,10 @@
-import { Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
+import { Box, Stack, Text, Title } from '@mantine/core';
 
 import { PAGE_ROUTES } from '@/shared/config';
-import {
-  BUILD_YEAR,
-  linkTo,
-  SITE_CONFIG,
-} from '@/shared/config/index.server-only';
-import { cssColor, InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
+import { linkTo, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
+
+import { SiteFooter } from '@/widgets/site-footer';
 
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';
@@ -16,7 +14,7 @@ import { WorkSection } from './work-section';
 const SEE_ALSO = [PAGE_ROUTES.writing, PAGE_ROUTES.music];
 
 export function HomePage() {
-  const { name, author } = SITE_CONFIG;
+  const { name } = SITE_CONFIG;
 
   return (
     <PageShell>
@@ -37,24 +35,16 @@ export function HomePage() {
         <WorkSection />
         <ContactSection />
 
-        <Box component="footer">
-          <Divider mb={32} color={cssColor('border-hairline')} />
-          <Group justify="space-between" gap={8}>
-            <Text size="sm" opacity={0.6}>
-              {SEE_ALSO.map((href, index) => (
-                <span key={href}>
-                  {index > 0 && ' · '}
-                  <InternalLink {...linkTo(href)} inherit>
-                    {href}
-                  </InternalLink>
-                </span>
-              ))}
-            </Text>
-            <Text size="sm" opacity={0.6}>
-              © {BUILD_YEAR} {author.name}
-            </Text>
-          </Group>
-        </Box>
+        <SiteFooter>
+          {SEE_ALSO.map((href, index) => (
+            <span key={href}>
+              {index > 0 && ' · '}
+              <InternalLink {...linkTo(href)} inherit>
+                {href}
+              </InternalLink>
+            </span>
+          ))}
+        </SiteFooter>
       </Stack>
     </PageShell>
   );

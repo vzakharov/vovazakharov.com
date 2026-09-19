@@ -16,6 +16,12 @@ export type WithId = { id: string };
 
 export type Titled = { title: string };
 
+/** An image's intrinsic pixel size — what reserves its box before it loads. */
+export type Sized = {
+  width: number;
+  height: number;
+};
+
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
 
@@ -39,6 +45,9 @@ export type WithOptionalClassName = { className?: string };
 /** What a wrapper component renders inside itself. */
 export type WithChildren = { children: ReactNode };
 
+/** The same, for a wrapper that stands on its own when nothing is put in it. */
+export type WithOptionalChildren = { children?: ReactNode };
+
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 
@@ -47,6 +56,12 @@ export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
 
 /** Where an anchor points. */
 export type Linked = { href: string };
+
+/** Where an anchor points, when there is anywhere — a card that is only a card states no `href`. */
+export type WithOptionalLink = { href?: string };
+
+/** The muted line above a title, saying what the thing under it is before it is read. */
+export type WithOptionalEyebrow = { eyebrow?: string };
 
 /**
  * One of a page's own files: where `public/` serves it, and what a saved copy

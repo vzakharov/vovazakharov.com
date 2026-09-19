@@ -1,42 +1,36 @@
-import { Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 
 import type { CollectionId } from '@/shared/content';
 import type { Described } from '@/shared/typings';
 
+/** The line that is both a collection index's meta description and its lede, and the prose under it where one line is not enough. */
+type CollectionIntro = Described & { intro?: ReactNode };
+
 /**
- * What a collection's index says for itself: the line that is both its meta
- * description and its lede, and the prose under it where one line is not
- * enough. Here rather than in the content registry, which shapes routes and
- * runs under bare Node in the render scripts.
+ * Narrows the keys while widening the values: `satisfies` would keep each
+ * entry's own literal shape, so an entry that writes no `intro` would have no
+ * such property to read.
  */
-export const COLLECTION_INTROS: Record<
-  CollectionId,
-  Described & { intro?: ReactNode }
-> = {
+function introRegistry<Id extends CollectionId>(
+  entries: Record<Id, CollectionIntro>,
+): Record<Id, CollectionIntro> {
+  return entries;
+}
+
+/**
+ * What a collection's index says for itself. Here rather than in the content
+ * registry, which shapes routes and runs under bare Node in the render
+ * scripts.
+ *
+ * A rooted collection is absent: its site's home page is its index, so there
+ * is no index route here to feed.
+ */
+export const COLLECTION_INTROS = introRegistry({
   'case-studies': {
     description:
       'Long-form write-ups of work I have shipped, with the numbers behind them.',
   },
-  bible: {
-    description:
-      'Articles on agentic coding that take a position and show the grounds under it.',
-    intro: (
-      <>
-        <Text lh={1.625}>
-          Every article here takes a position — not one of several worth
-          weighing, but the position, stated flat out, with whatever is under it
-          shown. The alternative is what a language model writes when nobody
-          stops it: every approach has its pros and its cons, weigh them against
-          your context, best of luck.
-        </Text>
-        <Text lh={1.625}>
-          Hence the name, which is a joke, and which is doing actual work.
-          Calling it the Bible is what keeps a categorical article from reading
-          as a manifesto: nothing here ends in amen, and an article that turns
-          out to be wrong gets rewritten rather than defended.
-        </Text>
-      </>
-    ),
-  },
-};
+});
+
+/** A collection with an index page of its own — the registry's keys, so the two cannot drift. */
+export type IndexedCollectionId = keyof typeof COLLECTION_INTROS;

@@ -15,7 +15,7 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config/index.server-only';
+import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config/index.server-only';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
 import type { CollectionId, Variant } from './collections';
@@ -27,6 +27,7 @@ import {
 } from './documents';
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
+import { rehypeEndMark } from './plugins/rehype-end-mark';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
 import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
@@ -137,7 +138,9 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     headings: [] as Heading[],
   };
 
-  const file = await unified()
+  const { seal } = SITE_CONFIG;
+
+  const pipeline = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkDirective)
@@ -167,7 +170,13 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
       defaultColor: false,
       fallbackLanguage: 'text',
       langs: CODE_LANGUAGES,
-    })
+    });
+
+  // After every pass that can change which element ends the document — the
+  // table wrapper, the highlighter — so the mark lands on the real last one.
+  if (seal !== undefined) pipeline.use(rehypeEndMark, { seal });
+
+  const file = await pipeline
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(body);
 
