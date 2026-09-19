@@ -11,7 +11,7 @@
    path for the hook that calls it, a one-line summary for a person running it
    by hand. */
 
-import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { flag, given } from './lib/argv.ts';
@@ -20,6 +20,7 @@ import {
   type SessionCost,
   summariseTranscript,
 } from './lib/session-cost.ts';
+import { writeAtomic } from './lib/write-atomic.ts';
 
 const root = process.env['CLAUDE_PROJECT_DIR'] ?? process.cwd();
 
@@ -49,14 +50,7 @@ const out = path.join(
   monthOf(cost),
   `${cost.sessionId}.json`,
 );
-mkdirSync(path.dirname(out), { recursive: true });
-// Staged under gitignored `tmp/` and renamed into place: the harness's `Stop`
-// check reads the tree in parallel with this, and counts a half-written row and
-// a stray staging file alike.
-const staged = path.join(root, 'tmp', `${cost.sessionId}.json.staged`);
-mkdirSync(path.dirname(staged), { recursive: true });
-writeFileSync(staged, `${JSON.stringify(cost, null, 2)}\n`);
-renameSync(staged, out);
+writeAtomic(root, out, `${JSON.stringify(cost, null, 2)}\n`);
 
 console.log(
   given('row-path')

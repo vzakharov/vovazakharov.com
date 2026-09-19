@@ -2,9 +2,9 @@
 # `Stop` hook: price the session and commit its cost row to the branch.
 #
 # It shares the event with the harness's own `Stop` check, which refuses to end a
-# turn on an unclean or unpushed tree. `.claude/rules/costs.md` carries why
-# wrapping that check is not available, how the wait below narrows the race for
-# the working tree, and what the closing verdict covers when it does not.
+# turn on an unclean or unpushed tree. `.claude/rules/costs.md` carries how the
+# wait below narrows the race for the working tree, and what the closing verdict
+# covers when it does not.
 
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
 read_payload
@@ -28,9 +28,18 @@ case "$branch" in '' | main | master) exit 0 ;; esac
 upstream="origin/$branch"
 
 # The check leaves nothing on disk, so its process is the only thing there is to
-# wait on. Its script is the one thing it does leave, and no script means no
-# check to wait for.
-harness_check="${HOME}/.claude/stop-hook-git-check.sh"
+# wait on. What says it will run is the launcher's own config, which is read
+# rather than the script's presence: a check renamed or dropped leaves its file
+# lying there and takes its entry away, and that is the arrangement this hook is
+# built on changing under it.
+launcher_settings="${HOME}/.claude/launcher-settings.json"
+harness_check=stop-hook-git-check
+
+harness_check_registered() {
+  jq -e --arg name "$harness_check" \
+    '[.hooks.Stop[]?.hooks[]?.command] | any(contains($name))' \
+    "$launcher_settings" >/dev/null 2>&1
+}
 
 # The processes this hook runs under. The check is a sibling, never an ancestor,
 # so an ancestor carrying its name merely mentions it — a shell invoking it, a
@@ -55,7 +64,13 @@ harness_check_running() {
 }
 
 wait_out_harness_check() {
-  [ -f "$harness_check" ] || return 0
+  # No launcher config at all is a session running outside the harness, where
+  # there was never a check to race.
+  [ -f "$launcher_settings" ] || return 0
+  harness_check_registered || {
+    say "the harness no longer registers a \`${harness_check}\` Stop hook. The race this hook waits out may be gone, or the check may have been renamed — either way \`.claude/rules/costs.md\` § \"Running beside the harness's Stop check\" is written on an arrangement that has changed, and wants revisiting."
+    return 0
+  }
   command -v pgrep >/dev/null && command -v ps >/dev/null || return 0
 
   local waited=0 seen=no
@@ -95,12 +110,21 @@ run_ledger() {
     --session-id "$(field session_id)" \
     --row-path)" || { state=unpriced; return 0; }
 
-  dirty "$row" || return 0
+  # The totals are the rows summed, so they are regenerated from all of them
+  # rather than added to — which is also how a conflict on the file is settled.
+  local totals="$root/costs/totals.json"
+  node "$root/scripts/costs-report.ts" --write >/dev/null ||
+    say "the cost row was written but the totals were not: \`pnpm costs --write\` rebuilds them"
+
+  local paths=("$row")
+  [ -f "$totals" ] && paths+=("$totals")
+
+  dirty "${paths[@]}" || return 0
 
   # `commit -- <path>` stages nothing else, so work the agent has in flight
   # stays where it is.
-  repo add -- "$row" &&
-    repo commit -q -m "chore: session cost row" -- "$row" ||
+  repo add -- "${paths[@]}" &&
+    repo commit -q -m "chore: session cost row" -- "${paths[@]}" ||
     { state=uncommitted; return 0; }
 
   state=committed

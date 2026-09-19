@@ -59,7 +59,7 @@ const TokenTallySchema = z.object({
   thinkingTokens: z.number(),
 });
 
-const BilledSchema = z.object({
+export const BilledSchema = z.object({
   responses: z.number(),
   costUsd: z.number(),
 });
@@ -74,6 +74,10 @@ const SessionCostSchema = z.object({
   sessionId: z.string(),
   branch: z.string().nullable(),
   cwd: z.string().nullable(),
+  // What a person recognises a session by. Both default rather than being
+  // required, so a row written before they existed still reads back.
+  openingPrompt: z.string().nullable().default(null),
+  prs: z.array(z.number()).default([]),
   firstResponseAt: z.string().nullable(),
   lastResponseAt: z.string().nullable(),
   pricesAsOf: z.string(),
@@ -165,6 +169,63 @@ const tokensOf = (response: Response, warnings: string[]): TokenTally => {
   };
 };
 
+const typeOf = (record: unknown): string | undefined =>
+  typeof record === 'object' &&
+  record !== null &&
+  'type' in record &&
+  typeof record.type === 'string'
+    ? record.type
+    : undefined;
+
+// The harness writes no session title, so the opening prompt stands in for one.
+// A slash command reaches the transcript as the envelope the client wrapped it
+// in, and `/handle <branch>` is what a person would call that session.
+const PromptRecordSchema = z.object({
+  isMeta: z.boolean().nullable().optional(),
+  isSidechain: z.boolean().optional(),
+  message: z.object({
+    content: z.union([
+      z.string(),
+      z.array(z.object({ type: z.string(), text: z.string().optional() })),
+    ]),
+  }),
+});
+
+const COMMAND_ENVELOPE =
+  /<command-name>([^<]*)<\/command-name>(?:\s*<command-args>([^<]*)<\/command-args>)?/;
+
+const OPENING_PROMPT_LIMIT = 160;
+
+const promptTextOf = (record: unknown): string | undefined => {
+  const parsed = PromptRecordSchema.safeParse(record);
+  if (!parsed.success) return undefined;
+  const { isMeta, isSidechain, message } = parsed.data;
+  if (isMeta === true || isSidechain === true) return undefined;
+  const raw =
+    typeof message.content === 'string'
+      ? message.content
+      : // A tool result is a `user` record too, and carries no text block.
+        message.content.find((block) => block.type === 'text')?.text;
+  if (raw === undefined) return undefined;
+
+  const envelope = COMMAND_ENVELOPE.exec(raw);
+  const text = (
+    envelope === null
+      ? raw
+      : `${envelope[1] ?? ''} ${envelope[2] ?? ''}`.trimEnd()
+  )
+    .replaceAll(/\s+/g, ' ')
+    .trim();
+  if (text === '') return undefined;
+  return text.length > OPENING_PROMPT_LIMIT
+    ? `${text.slice(0, OPENING_PROMPT_LIMIT)}…`
+    : text;
+};
+
+// The client records every PR it opens or refreshes, which is what groups the
+// several sessions one PR takes.
+const PrLinkSchema = z.object({ prNumber: z.number() });
+
 // Prompts, attachments and tool results share the file and carry no usage, so
 // only a record that looks like a billed response is held to the schema.
 const isResponseRecord = (record: unknown): boolean =>
@@ -193,13 +254,27 @@ export const summariseTranscript = (
   const subagents = emptyTally();
   const unpriced = new Set<string>();
   const timestamps: string[] = [];
+  const prs = new Set<number>();
   let sessionId: string | undefined;
   let branch: string | undefined;
   let cwd: string | undefined;
+  let openingPrompt: string | undefined;
 
   for (const line of jsonl.split('\n')) {
     if (line.trim() === '') continue;
     const record: unknown = JSON.parse(line);
+
+    const kind = typeOf(record);
+    if (kind === 'pr-link') {
+      const link = PrLinkSchema.safeParse(record);
+      if (link.success) prs.add(link.data.prNumber);
+      continue;
+    }
+    if (kind === 'user') {
+      openingPrompt ??= promptTextOf(record);
+      continue;
+    }
+
     if (!isResponseRecord(record)) continue;
     const response = ResponseRecordSchema.parse(record);
     // One API response is written as one record per content block, each
@@ -242,6 +317,8 @@ export const summariseTranscript = (
     sessionId: sessionId ?? fallbackSessionId,
     branch: branch ?? null,
     cwd: cwd ?? null,
+    openingPrompt: openingPrompt ?? null,
+    prs: [...prs].toSorted((a, b) => a - b),
     firstResponseAt: inOrder.at(0) ?? null,
     lastResponseAt: inOrder.at(-1) ?? null,
     pricesAsOf: prices.as_of,

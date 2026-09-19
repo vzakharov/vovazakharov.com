@@ -1,0 +1,26 @@
+{
+  "sessions": 2,
+  "responses": 255,
+  "costUsd": 43.8055,
+  "byMonth": {
+    "2026-09": {
+      "sessions": 2,
+      "responses": 255,
+      "costUsd": 43.8055
+    }
+  },
+  "byWeek": {
+    "2026-W38": {
+      "sessions": 2,
+      "responses": 255,
+      "costUsd": 43.8055
+    }
+  },
+  "byDay": {
+    "2026-09-19": {
+      "sessions": 2,
+      "responses": 255,
+      "costUsd": 43.8055
+    }
+  }
+}

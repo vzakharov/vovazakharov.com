@@ -167,3 +167,50 @@ describe('session-cost: what it refuses to guess', () => {
     assert.ok(cost.warnings.join('').includes('does not account for 1000000'));
   });
 });
+
+describe('session-cost: what names a session', () => {
+  const prompt = (content: unknown, extra: object = {}): string =>
+    JSON.stringify({ type: 'user', message: { content }, ...extra });
+
+  it('takes the opening prompt as the session name, unwrapping a slash command', () => {
+    const cost = summarise([
+      prompt(
+        '<command-message>handle</command-message>\n<command-name>/handle</command-name>\n<command-args>claude/a-branch</command-args>',
+      ),
+      prompt('a later thing'),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.openingPrompt, '/handle claude/a-branch');
+  });
+
+  it('skips the records that are not the operator talking', () => {
+    const cost = summarise([
+      prompt('skill boilerplate', { isMeta: true }),
+      prompt([{ type: 'tool_result', content: 'ok' }]),
+      prompt([{ type: 'text', text: 'a subagent brief' }], {
+        isSidechain: true,
+      }),
+      prompt([{ type: 'text', text: 'the real prompt' }]),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.openingPrompt, 'the real prompt');
+  });
+
+  it('collects the PRs the session touched, deduplicated', () => {
+    const link = (prNumber: number): string =>
+      JSON.stringify({ type: 'pr-link', prNumber });
+    const cost = summarise([
+      link(71),
+      response({ output: 1 }),
+      link(71),
+      link(70),
+    ]);
+    assert.deepEqual(cost.prs, [70, 71]);
+  });
+
+  it('leaves both empty when the transcript says nothing about either', () => {
+    const cost = summarise([response({ output: 1 })]);
+    assert.equal(cost.openingPrompt, null);
+    assert.deepEqual(cost.prs, []);
+  });
+});
