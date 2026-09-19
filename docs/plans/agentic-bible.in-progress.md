@@ -364,26 +364,15 @@ task hands it, and all that is left of this plan.
 2. An ed25519 deploy key on it with write access, its private half in
    `BIBLE_PAGES_DEPLOY_KEY` on this repository. Nothing was printed and nothing
    kept, so rotation is the only way back.
+3. **The DNS is written**, over Porkbun's API with the keys this container
+   carries. The apex holds the four `A` and four `AAAA` rows and `www` is a
+   `CNAME` to `vzakharov.github.io`; the wildcard `CNAME` to `pixie.porkbun.com`
+   stays, outranked at `www` by specificity, and the four `NS` rows are
+   untouched. What went was a single apex `ALIAS` to the parking page rather
+   than the two `A` rows this plan predicted — the same slot, one record. Both
+   names resolve to GitHub from here.
 
 **Left to do:**
-
-3. **Write the DNS.** Porkbun holds the domain, and `PORKBUN_API_KEY` /
-   `PORKBUN_SECRET_API_KEY` are in the environment, so the records are the
-   agent's to write — the skill's Step 2 carries the call shape and the traps.
-   Confirm first that API access is switched on for `agentic.bible` itself; the
-   keys are account-wide and that toggle is not.
-
-   | Type  | Host  | Value                                                                                   |
-   | ----- | ----- | --------------------------------------------------------------------------------------- |
-   | A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
-   | AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
-   | CNAME | `www` | `vzakharov.github.io`                                                                   |
-
-   Read the zone back before touching it and report what is there. As of this
-   writing it holds two apex `A` records to Porkbun's parking page
-   (`207.207.210.229`, `207.207.210.107`) — those are the slot the four `A` rows
-   need and go — and a wildcard `CNAME` to `pixie.porkbun.com`, which an exact
-   `www` record outranks, so it stays. No `MX` or `TXT` rows exist to preserve.
 
 4. **The pre-merge publish is the operator's call, and the default is to skip
    it.** `gh workflow run deploy.yml --ref <branch> -f site=both` — **`both`,
@@ -397,9 +386,9 @@ task hands it, and all that is left of this plan.
 5. **Settle Pages on the receiver** (`source[branch]=gh-pages`,
    `https_enforced`), then verify against the live URL: the served HTML carries
    **this** site's title and card, `www` and plain HTTP redirect onto it, and
-   both existing sites still serve their own content. Blocked on step 3, and on
-   step 4 or the merge — there is nothing on `gh-pages` to settle until one of
-   them has pushed.
+   both existing sites still serve their own content. Blocked on step 4 or the
+   merge: `vzakharov/agentic.bible` holds `main` alone, so there is nothing on
+   `gh-pages` to settle until one of them has pushed.
 
 Then the plan is complete and `/finalize` takes the branch.
 
