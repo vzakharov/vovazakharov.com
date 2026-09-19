@@ -72,6 +72,14 @@ export type DocumentRef = WithCollectionId & Slugged;
  */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
+/**
+ * Where the pipeline's whole-site renders land under `public/`, and the one
+ * directory a walk for sources skips — a rooted collection's directory is the
+ * site's whole `public/`, so that separation is maintained rather than
+ * structural.
+ */
+export const GENERATED_DIR = 'generated';
+
 export function collectionDir(id: CollectionId): string {
   return path.join(PUBLIC_DIR, COLLECTIONS[id].base);
 }

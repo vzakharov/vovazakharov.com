@@ -146,7 +146,20 @@ function svgPage(svgName: string): string {
 `;
 }
 
-/** One card per distinct PNG the frontmatter asks for, its source the SVG. */
+/** One card rasterized from one authored SVG — the whole of what the drawn cards are. */
+function svgCard(svgPath: string, pngPath: string): Card {
+  const svgName = path.basename(svgPath);
+  const svg = readSvg(svgPath, pngPath);
+
+  return {
+    outputPath: pngPath,
+    sourceHash: contentHash(svg),
+    page: svgPage(svgName),
+    files: { [svgName]: svg },
+  };
+}
+
+/** One card per distinct PNG the frontmatter asks for, its source the SVG of the same stem. */
 function chartCards(): Card[] {
   const pngPaths = [
     ...new Set(
@@ -154,44 +167,28 @@ function chartCards(): Card[] {
     ),
   ];
 
-  return pngPaths.map((pngPath) => {
-    const svgPath = `${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`;
-    const svgName = path.basename(svgPath);
-    const svg = readSvg(svgPath, pngPath);
-
-    return {
-      outputPath: pngPath,
-      sourceHash: contentHash(svg),
-      page: svgPage(svgName),
-      files: { [svgName]: svg },
-    };
-  });
+  return pngPaths.map((pngPath) =>
+    svgCard(`${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`, pngPath),
+  );
 }
 
 /**
  * The card a site whose mark is a vector unfurls as. The drawing is authored
  * as SVG and every page renders it that way; this is the one place it has to
- * be a raster, so the pair is `avatar.vector` beside `avatar.path` rather than
- * the stem convention the chart cards use — the two cuts share no stem.
+ * be a raster, so the pair is `avatar.vector` beside `avatar.path` — the two
+ * cuts of a seal share no stem for the convention above to pair them by.
  */
 function siteCards(): Card[] {
   const { avatar } = siteConfig(RENDERED_SITE);
 
-  if (avatar.vector === undefined) return [];
-
-  const svgPath = path.join(PUBLIC_DIR, avatar.vector);
-  const pngPath = path.join(PUBLIC_DIR, avatar.path);
-  const svgName = path.basename(svgPath);
-  const svg = readSvg(svgPath, pngPath);
-
-  return [
-    {
-      outputPath: pngPath,
-      sourceHash: contentHash(svg),
-      page: svgPage(svgName),
-      files: { [svgName]: svg },
-    },
-  ];
+  return avatar.vector === undefined
+    ? []
+    : [
+        svgCard(
+          path.join(PUBLIC_DIR, avatar.vector),
+          path.join(PUBLIC_DIR, avatar.path),
+        ),
+      ];
 }
 
 /**

@@ -11,18 +11,15 @@ import { resolveSiteId } from '../../src/shared/config/index.node-safe.ts';
 import {
   collectionDir,
   collectionsForSite,
+  GENERATED_DIR,
 } from '../../src/shared/content/collections.ts';
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
-/** Where a site's whole-site renders land, which no walk may read back as a source. */
-const GENERATED_DIR = 'generated';
-
 /**
  * Every file under `target`, recursively — or `target` itself when it is a
- * file. `generated/` is skipped, which is what keeps the walk off the
- * pipeline's own output: a rooted collection's directory is the site's whole
- * `public/`, so that separation is maintained here rather than structural.
+ * file. {@link GENERATED_DIR} is skipped, which is what keeps the walk off the
+ * pipeline's own output.
  */
 export function filesUnder(target: string): string[] {
   return fs.statSync(target).isDirectory()
