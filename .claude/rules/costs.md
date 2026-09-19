@@ -39,35 +39,36 @@ makes every total downstream a lie, and the failure is loud precisely because
 `costs/prices.json` is hand-maintained: no machine-readable source of Anthropic's
 prices exists, so the table goes stale by sitting still.
 
-## Why the Stop hook wraps another one
+## The Stop hook races another one
 
 The harness registers its own `Stop` hook in `~/.claude/launcher-settings.json` —
-`stop-hook-git-check.sh`, which ends a turn with exit 2 on an unclean or unpushed
-tree. **Hooks for one event run in parallel**, so a second `Stop` hook writing a
-row would race that check for the working tree and lose on the turns where the
-check reads mid-write.
+`stop-hook-git-check.sh`, which ends a turn with exit 2 on a tree that is
+unclean, holds untracked files, or is ahead of its remote. **Hooks for one event
+run in parallel**, so `stop-session-cost.sh` writes and commits the row while
+that check may be reading the tree.
 
-So `stop-session-cost.sh` does not run beside it: `patch-launcher-hooks.sh`
-repoints the launcher's `Stop` command at the wrapper, which prices the session,
-commits and pushes the row, and only then runs the command it displaced. Two
-contracts make that borrowing safe:
+**Wrapping it instead is not available.** The launcher's config reaches the CLI
+through `--settings`, which is read once at startup and never re-read, and the
+launcher rewrites that file at every start and resume — so a patch applied from
+a `SessionStart` hook is a session late every session, not just the first.
 
-- **The displaced command runs even when everything above it failed.** It is a
-  safety check this repo borrowed, not one it owns.
-- **Its exit status and stderr reach the harness unaltered**, that being how it
-  ends a turn.
+The race resolves three ways, and the hook's closing verdict exists for the two
+that are not silent:
 
-The launcher rewrites its own files at every start and resume, so the patch is
-re-applied from here each session rather than installed once. A launcher config
-whose `Stop` entry is not the single-command shape the patcher knows is left
-untouched and reported into session context: a silent no-op there looks exactly
-like a working ledger until the month's total comes out wrong.
+- **The check reads before the row is written**, which is the usual case — the
+  node run costs more than the check's two `git` calls — and it sees whatever
+  the agent left. The row is committed and pushed behind a check that already
+  passed.
+- **The check reads mid-write** and refuses the turn over a row that is, by the
+  time the agent reads the complaint, committed and pushed.
+- **The push fails**, leaving a commit the check will refuse on the _next_ turn,
+  attributed to nobody.
 
-**The patcher is the only thing here that writes outside the repository**, and
-an agent cannot run it as a tool call — a harness classifier refuses to let one
-rewrite the hook configuration it is itself running under. It installs when the
-harness runs it as a `SessionStart` hook, which is also the only way it is meant
-to run.
+So the hook re-reads the same two conditions after its own work and, when they
+hold, exits 2 with one line naming the row — the only channel a `Stop` hook has
+to the agent, spent solely where a block is already happening. It bails on a
+re-fired `Stop` (`stop_hook_active`) exactly as the harness's check does: two
+hooks that can both block and neither bail would hold the turn open forever.
 
 ## What the totals do not cover
 

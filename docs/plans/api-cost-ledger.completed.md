@@ -68,19 +68,15 @@ guarded, the harness call is unconditional.
 3. **`scripts/session-cost.test.ts`** — the pricer is a pure function of its
    input, which is exactly what this repo's suite is for: deduplication, the TTL
    split, the fast-mode rate, sidechain separation, and the loud failure.
-4. **`.claude/hooks/stop-session-cost.sh`** — the wrapper: read the payload once
-   (stdin is a pipe), run the ledger guarded, commit and push the row, then hand
-   the same payload to the harness script and exit with its status.
-5. **`.claude/hooks/patch-launcher-hooks.sh`** — the `SessionStart` patcher.
-   Silent when there is no launcher file (a local CLI session, where there is
-   nothing to patch); loud into session context when the file is there but its
-   `Stop` entry is not the shape this patch knows, and it leaves it untouched.
-   Idempotent: a launcher already pointing at the wrapper is a no-op.
-6. **Registration and prose** — the patcher into `.claude/settings.json`, one
+4. **`.claude/hooks/stop-session-cost.sh`** — a `Stop` hook beside the harness's
+   own: read the payload once (stdin is a pipe), run the ledger guarded, commit
+   and push the row, then re-read the two conditions that check refuses a turn
+   over and say one line about the row when they hold.
+5. **Registration and prose** — the hook into `.claude/settings.json`, one
    line for `costs/` in CLAUDE.md § "Repository layout", and
    `.claude/rules/costs.md` for the mechanism, which is load-bearing and
    entirely non-obvious from the files themselves.
-7. **`pnpm costs`** — the monthly rollup over `costs/sessions/**`, which is what
+6. **`pnpm costs`** — the monthly rollup over `costs/sessions/**`, which is what
    the whole thing is for.
 
 ## DRY notes
@@ -89,14 +85,10 @@ guarded, the harness call is unconditional.
   the `Stop` hook prices one session, the rollup prices many, and a second copy
   of the TTL arithmetic is exactly the drift this repo's type-overlap gate exists
   to catch in types.
-- **The two new shell hooks reuse `.claude/hooks/lib.sh`** (`read_payload`,
-  `field`, `say`, `need_command`) rather than re-rolling the payload read. Its
-  `emit_context` is `UserPromptSubmit`-shaped and does not fit `SessionStart`,
-  so the patcher reports through `say` instead of growing a second emitter for
-  one caller.
-- **No shared abstraction over the two hooks.** They share `jq -r` and nothing
-  else — one wraps a foreign script, the other rewrites a foreign config. A
-  common "hook base" would name a similarity that is not there.
+- **The new hook reuses `.claude/hooks/lib.sh`** (`read_payload`, `field`,
+  `say`, `need_command`) rather than re-rolling the payload read. Its
+  `emit_context` is `UserPromptSubmit`-shaped, so the `Stop` hook reports
+  through `say` instead of growing a second emitter for one caller.
 - **The price table is not derived from anything**, which looks like a violation
   of "derive types from the source of truth" and is not: there is no source of
   truth to derive from. The TypeScript type for a rate set _is_ derived from the
@@ -125,8 +117,8 @@ guarded, the harness call is unconditional.
 
 ## Dogfooding
 
-The `Stop` wrapper takes effect in the session that installs it — the CLI is
-launched with `--settings` pointing at the launcher file and reloads hook edits
-live. The `SessionStart` patcher cannot fire in that session, so it is run by
-hand once, and the claim that it re-applies itself automatically stays unproven
-until the next resume. It is checked then, by eye, rather than assumed.
+The hook is registered in this repo's own `.claude/settings.json`, which the CLI
+does watch, so it takes effect in the session that adds it. What proved that it
+had to be registered there was a probe: a timestamp written at the top of the
+wrapper, before any condition could skip it, and an empty file after the turn.
+Displacing the launcher's `Stop` command leaves a patched file nobody reads.
