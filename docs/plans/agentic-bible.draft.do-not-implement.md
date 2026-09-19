@@ -21,6 +21,10 @@ publication and starts being an index.
 already says which collection this is; saying it twice is the whole reason not
 to. The collection's home page _is_ its index.
 
+**Mark.** A terracotta wax seal, lettered `AGENTIC BIBLE` where it stands for
+the site and blank where it stands for itself — at the foot of every article,
+in place of an amen.
+
 **Site name.** `The Agentic Bible`, tagline `Articles on agentic coding that
 take a position and show the grounds under it.` — the sentence
 `COLLECTION_INTROS.bible.description` carries today, promoted to the site's own
@@ -183,13 +187,39 @@ position, then the name. A draft to edit rather than a specification:
 `COLLECTION_INTROS.bible` is deleted with the index route it fed, its
 `description` having become the site's tagline and its `intro` this copy.
 
-**The mark** is generated outside this repository, from the concept agreed in
-the session — inked line, cream ground, terracotta, the register
-`apps/lsa/public/ava.png` already sets. It lands as `apps/bible/public/ava.png`
-(1024×1024, matching `AVATAR`) and `apps/bible/app/icon.png`. Until it does, LSA's
-square rides as the placeholder so the branch is never blocked on an image —
-swapping it is a one-file commit, and shipping the placeholder to a live domain
-is not, so the swap happens before the merge.
+**The mark is a wax seal, in two cuts.** Lettered `AGENTIC BIBLE` around a
+starburst, and the same seal blank. Both are generated outside this repository
+and land as transparent PNGs at 1024×1024:
+
+| File                         | Cut      | Where it renders                                |
+| ---------------------------- | -------- | ----------------------------------------------- |
+| `apps/bible/public/ava.png`  | lettered | the home page header, and the site's card image |
+| `apps/bible/public/seal.png` | blank    | the foot of every article                       |
+| `apps/bible/app/icon.png`    | blank    | the favicon, downscaled to 256×256              |
+
+**The blank seal closes an article in place of an amen.** It follows the last
+paragraph's final punctuation, inline, at about `1.5em` — the end-mark a
+magazine sets after its closing sentence, which is the form that reads as
+_stamped and witnessed_ rather than as a stray picture. Three consequences:
+
+- **It is a rehype plugin**, `src/shared/content/plugins/rehype-end-mark.ts`,
+  because inline means inside the compiled HTML: it appends the `<img>` to the
+  document's last element when that element is a paragraph, and to a paragraph
+  of its own when it is a list, a table or a fence. Appending it in
+  `article-body.tsx` instead would only ever reach its own line.
+- **It prints**, which is the best thing about it: a wax seal at the foot of the
+  PDF. So the plugin joins `DOCUMENT_SOURCES` in `scripts/render-pdf.ts`, or
+  every document's PDF goes stale behind a change the manifest cannot see.
+- **The seal is the site's, not the collection's**, so it hangs off
+  `SiteConfig` as an optional `seal` beside `avatar` — `vova` declares none and
+  the case studies close as they always have. Both fields are one named type
+  (`SiteImage`, a path and its intrinsic size); two anonymous copies of
+  `{ path, width, height }` is exactly what `pnpm type-overlap`'s floor 1 fails.
+
+Until the PNGs land, LSA's square rides as the placeholder avatar and the seal
+does not render at all — `seal` being optional is what makes its absence a state
+rather than a hole. Shipping a placeholder to a live domain is not acceptable,
+so both files land before the merge.
 
 ## Phase 4 — The LSA front page
 
@@ -339,6 +369,9 @@ FSD boundaries, the type-overlap floors. What it cannot see:
   reachable at the route plus an extension.
 - The Bible's home page reads as an opener: the mark, the copy, the article
   list, in that order and at that weight.
+- The seal closes an article at the right size and on the right line — inline
+  after the final punctuation, and on its own line where the article ends in a
+  list or a table. On screen, in print, and against both themes.
 - The LSA front page's three cards, the third one visibly not a link.
 - Both existing sites unchanged where the branch did not mean to touch them.
 
@@ -350,8 +383,9 @@ step 4 is how they are checked against what is actually served.
 - **Redirects for `latestageagentic.com/bible/*`** — see above; the URLs are
   hours old.
 - **The Bible's own Open Graph cards.** `content:og` is `vova`'s today, and the
-  articles author none. A card for the new site's home page is a separate piece
-  of work.
+  articles author none. The lettered seal is the site's card image through
+  `SITE_CONFIG.avatar`, which is what every page unfurls as; a composed card
+  per article is a separate piece of work.
 - **The courses themselves.** The third card says coming soon, and that is the
   whole of what this change knows about them.
 - **Where the project lives on GitHub** — `writing/late-stage-agentic/plan.md`
