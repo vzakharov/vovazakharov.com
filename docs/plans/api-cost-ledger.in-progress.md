@@ -13,7 +13,7 @@ The transcript at `~/.claude/projects/<cwd-slug>/<session-id>.jsonl` carries a
 everything below, all verified against this repo's own transcript:
 
 - **One API response writes several records** — one per content block (a
-  thinking block, each tool call), each carrying that response's *whole* usage.
+  thinking block, each tool call), each carrying that response's _whole_ usage.
   Summing records triple-counts a turn that thought and called two tools.
   `message.id` is the key to deduplicate on.
 - **Price keys on `(model, speed)`.** `usage.speed` is `standard` or `fast`, and
@@ -43,7 +43,7 @@ Two facts make the naive version wrong:
   races that check for the working tree, and loses on the turns where the check
   reads mid-write.
 
-So our work does not run *beside* the harness check; it runs *before* it, in the
+So our work does not run _beside_ the harness check; it runs _before_ it, in the
 same process. A wrapper in this repo replaces the launcher's `Stop` command,
 does the ledger, then calls the harness script and propagates its exit code and
 stderr unchanged. The launcher rewrites its own files at every start and resume
@@ -99,7 +99,7 @@ guarded, the harness call is unconditional.
   common "hook base" would name a similarity that is not there.
 - **The price table is not derived from anything**, which looks like a violation
   of "derive types from the source of truth" and is not: there is no source of
-  truth to derive from. The TypeScript type for a rate set *is* derived from the
+  truth to derive from. The TypeScript type for a rate set _is_ derived from the
   parsed table, so the two cannot drift.
 
 ## Accepted costs, and one hole
