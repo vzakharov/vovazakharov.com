@@ -12,7 +12,9 @@ same `src/`, force-pushed to a receiving repository whose Pages serves
 the domain, exactly as `lsa` leaves by that door. Two receivers is where
 the one-off publish script stops being one: it takes a site id, reads a
 fixed deploy-key variable the workflow maps each receiver's own secret
-into, and the publish jobs collapse onto a matrix the gate emits.
+into, and the publish jobs collapse onto a matrix the gate emits. The
+domain's own records are writable from here too, Porkbun having an API
+the agent drives where its keys reach the domain.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
