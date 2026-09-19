@@ -2,16 +2,16 @@ import { Anchor, Box, Divider, Group, Text } from '@mantine/core';
 
 import { AUTHOR_URL } from '@/shared/config';
 import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config/index.server-only';
-import type { WithChildren } from '@/shared/typings';
+import type { WithOptionalChildren } from '@/shared/typings';
 import { cssColor } from '@/shared/ui';
 
 /**
- * Every site's foot: the note this one has for its readers, opposite the
- * byline. A widget rather than a shared component because it reads the
+ * Every site's foot: the note this one has for its readers, where it has one,
+ * opposite the byline. A widget rather than a shared component because it reads the
  * resolved site, which `@/shared/ui` may not — that barrel is one client
  * components import.
  */
-export function SiteFooter({ children }: WithChildren) {
+export function SiteFooter({ children }: WithOptionalChildren) {
   const { author, url } = SITE_CONFIG;
 
   return (

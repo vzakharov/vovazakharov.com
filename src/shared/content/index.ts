@@ -13,6 +13,7 @@ export {
   type Routed,
   type Variant,
   VARIANTS,
+  type WithCollectionId,
 } from './collections';
 export {
   type ContentDocument,

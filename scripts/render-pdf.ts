@@ -39,6 +39,7 @@ import net from 'node:net';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
+import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
@@ -86,6 +87,19 @@ const DOCUMENT_SOURCES = [
   'src/pages/documents/ui',
   'src/shared/content',
 ];
+
+/**
+ * The mark the pipeline closes an article with, where the site has one. It
+ * prints, so it shapes the page as surely as the stylesheet does — and it sits
+ * under `public/`, which nothing else in these lists reaches.
+ */
+const SEAL_SOURCES = (() => {
+  const { seal } = siteConfig(RENDERED_SITE);
+
+  return seal === undefined
+    ? []
+    : [path.relative(REPO_ROOT, path.join(PUBLIC_DIR, seal.path))];
+})();
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
@@ -165,7 +179,7 @@ function sourceFiles(...sources: string[][]): string[] {
  * pipeline rests on.
  */
 function documentPrintables(): Printable[] {
-  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES);
+  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
   return contentFiles((name) => name.endsWith('.md')).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');

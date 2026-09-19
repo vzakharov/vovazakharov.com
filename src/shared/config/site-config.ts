@@ -27,7 +27,7 @@ export const PAGE_ROUTES = {
  */
 export type SiteImage = Sized & {
   path: string;
-  vector?: string;
+  vector: string | undefined;
 };
 
 /**
@@ -54,10 +54,12 @@ export type SiteConfig = Billed & {
   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
   avatar: SiteImage;
   /**
-   * The mark an article closes on, in place of an amen. Absent on a site whose
-   * documents end where their prose does, which is every site but the Bible.
+   * The mark an article closes on, in place of an amen. `undefined` on a site
+   * whose documents end where their prose does. Spelled rather than left
+   * optional — an omitted key is silently absent, and a new site should have
+   * to answer this one.
    */
-  seal?: SiteImage;
+  seal: SiteImage | undefined;
 };
 
 /** One person publishes every site, so none of them owns the byline. */
@@ -76,6 +78,7 @@ const PUBLISHER = {
 /** One path and one size for the two portrait sites, a different image behind each. */
 const AVATAR = {
   path: '/ava.png',
+  vector: undefined,
   width: 1024,
   height: 1024,
 } as const;
@@ -96,6 +99,7 @@ const SITE_CONFIGS = {
     tagline:
       'Fractional CTO for teams that don’t want to YOLO into the agent era.',
     avatar: AVATAR,
+    seal: undefined,
     ...PUBLISHER,
   },
   lsa: {
@@ -104,6 +108,7 @@ const SITE_CONFIGS = {
     name: 'Late Stage Agentic',
     tagline: 'How not to make a mess of agentic coding.',
     avatar: AVATAR,
+    seal: undefined,
     ...PUBLISHER,
   },
   bible: {
@@ -119,7 +124,7 @@ const SITE_CONFIGS = {
       vector: '/seal-lettered.svg',
       ...SEAL_SIZE,
     },
-    seal: { path: '/seal.svg', ...SEAL_SIZE },
+    seal: { path: '/seal.svg', vector: undefined, ...SEAL_SIZE },
     ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;

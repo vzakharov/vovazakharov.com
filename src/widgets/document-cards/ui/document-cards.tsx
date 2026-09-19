@@ -3,17 +3,16 @@ import Image from 'next/image';
 
 import { linkTo } from '@/shared/config/index.server-only';
 import {
-  type CollectionId,
   type DocumentCard,
   documentRoute,
+  type WithCollectionId,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import { Card, DocumentMeta, InternalLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
 
-type DocumentCardsProps = {
-  collection: CollectionId;
+type DocumentCardsProps = WithCollectionId & {
   cards: DocumentCard[];
 };
 

@@ -6,7 +6,7 @@ import path from 'node:path';
 
 import type { SiteId } from '@/shared/config';
 import { pageFile } from '@/shared/config/index.server-only';
-import type { DocumentFile } from '@/shared/typings';
+import type { DocumentFile, Sized } from '@/shared/typings';
 
 import {
   collectionAssetUrl,
@@ -25,7 +25,10 @@ import {
   frontmatterSchema,
   type WithFrontmatter,
 } from './frontmatter';
-import { intrinsicDimensions, type WithOptionalOgImageSize } from './image-dimensions';
+import {
+  intrinsicDimensions,
+  type WithOptionalOgImageSize,
+} from './image-dimensions';
 
 export type ContentDocument = DocumentRef &
   Routed &
