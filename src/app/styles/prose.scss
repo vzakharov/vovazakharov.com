@@ -454,12 +454,9 @@
   }
 }
 
-// The seal closes an article in place of an amen, so it rides the last line
-// rather than opening one of its own — the end mark a magazine sets after its
-// closing sentence. The size is measured rather than chosen: below about
-// 1.5em the star closes up and the mark reads as a bullet. `max-height` is
-// restated because the base rule's is in `rem`, which an `em` size cannot
-// outrank by cascade alone.
+// The size is measured rather than chosen: below about 1.5em the star closes
+// up and the mark reads as a bullet. `max-height` is restated because the base
+// rule's is in `rem`, which an `em` size cannot outrank by cascade alone.
 .content-end-mark {
   display: inline;
   width: 1.9em;

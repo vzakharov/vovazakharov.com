@@ -25,9 +25,6 @@ type SealMarkProps = Named & {
  * lettered cut's `transition-delay` under `:hover` is the whole timer, so a
  * pointer resting three unbroken seconds fades the ring off and one that
  * leaves early never starts it.
- *
- * Takes the images rather than reading the site, as `SiteAvatar` does — the
- * page above it resolves them.
  */
 export function SealMark({ name, blank, lettered }: SealMarkProps) {
   const { path, width, height } = blank;

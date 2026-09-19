@@ -38,12 +38,7 @@ export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
   collectionDir(id),
 );
 
-/**
- * Every file in every collection whose name satisfies `matches`. The renders
- * the pipeline produces for a whole site — the mermaid SVGs — are what
- * `filesUnder` skips, so this walk cannot hand a script its own output as a
- * source.
- */
+/** Every file in every collection whose name satisfies `matches`. */
 export function contentFiles(matches: (name: string) => boolean): string[] {
   return CONTENT_DIRS.flatMap((dir) => filesUnder(dir)).filter((file) =>
     matches(path.basename(file)),

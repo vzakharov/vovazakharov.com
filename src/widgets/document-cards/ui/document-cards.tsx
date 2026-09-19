@@ -18,10 +18,8 @@ type DocumentCardsProps = WithCollectionId & {
 
 /**
  * A collection's documents as a list of cards — the drawing, the byline, the
- * blurb and the links to every cut. A widget rather than a page component
- * because the collection's index and the Bible's home page both render it,
- * differing only in the copy above it, and two page slices may not reach each
- * other sideways.
+ * blurb and the links to every cut. The collection's index and the Bible's
+ * home page both render it, differing only in the copy above it.
  */
 export function DocumentCards({ collection, cards }: DocumentCardsProps) {
   return (

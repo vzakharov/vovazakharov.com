@@ -8,10 +8,8 @@ import { SiteFooter } from '@/widgets/site-footer';
 import { AboutSection } from './about-section';
 
 /**
- * What the project offers, written here rather than read from a registry: two
- * of the three point off-site at things this repository does not own, and
- * three hand-written entries with one consumer is a lookup, not an
- * abstraction.
+ * Written here rather than read from a registry: two of the three point
+ * off-site at things this repository does not own.
  */
 const WORK = [
   {

@@ -38,7 +38,6 @@ function markElement({ path, width, height }: SiteImage): Element {
   };
 }
 
-/** The document's last element, which is what the mark either joins or follows. */
 function lastElement(tree: Root): Element | undefined {
   const last = tree.children.findLast(
     (node: RootContent) => node.type === 'element',

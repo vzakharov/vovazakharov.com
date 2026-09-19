@@ -22,8 +22,8 @@ function introRegistry<Id extends CollectionId>(
  * registry, which shapes routes and runs under bare Node in the render
  * scripts.
  *
- * A rooted collection is absent: it has no index route to feed, its site's
- * home page being its index and writing its own copy.
+ * A rooted collection is absent: its site's home page is its index, so there
+ * is no index route here to feed.
  */
 export const COLLECTION_INTROS = introRegistry({
   'case-studies': {
