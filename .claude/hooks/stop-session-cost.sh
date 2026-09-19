@@ -69,7 +69,12 @@ case "$state" in
   # or the two would hold the turn open forever.
   committed | uncommitted | pushed)
     if [ "$(field stop_hook_active)" != "true" ] && outstanding; then
-      say "the session's cost row is ${state}. A git check complaining above may be counting it rather than your work: read \`git status\` before acting, push whatever is outstanding, and then just stop — the check passes on the next try and nothing here needs redoing."
+      case "$state" in
+        pushed) did="committed and pushed" ;;
+        committed) did="committed but not pushed" ;;
+        *) did="written but not committed" ;;
+      esac
+      say "this session's cost row is ${did}. A git check complaining above may be counting it rather than your work: read \`git status\` before acting, push whatever is outstanding, and then just stop — the check passes on the next try and nothing here needs redoing."
       exit 2
     fi
     ;;
