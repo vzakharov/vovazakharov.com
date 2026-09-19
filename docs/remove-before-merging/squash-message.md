@@ -1,32 +1,43 @@
 Proposed squash title/body:
 
 ```
-refactor: an internal link states its medium in its type (pr #73)
+refactor: a zod-free enum parse, and the apparatus it un-builds (pr #73)
 ```
 
 ```
-An internal link renders once per medium, and `printed: PrintedLink |
-null` let a call site decline the paper half only as the absence of
-data. The absence is correct exactly inside a `print-hidden` container,
-which every such call site was -- so the fact was stated twice, once in
-CSS on the ancestor and once in props on the child, with nothing tying
-the two; and six of the seven said nothing about why they were null.
+Three of the five zod uses in the tree parsed nothing: each checked one
+string against a closed list of literals. What the dependency cost was
+not bytes but architecture -- zod is ~90 kB gzipped in any chunk that
+touches it, so the check was fenced behind `server-only`, and
+`resolveSiteId` being unreachable from a client component is why
+`shared/config` split three ways, why `SITE_ID` was server-only, and,
+through that, why `InternalLink` was handed paper's copy of its own
+href rather than deriving it.
 
-The prop is now a discriminated union: `printed` carries paper's copy,
-`noPrintedCopy` states that the link reaches none. Both are required
-and mutually exclusive, so omitting the question and answering it twice
-are each a type error. That matters because the screen anchor is itself
-`print-hidden`: a missing paper copy takes the link's own words off the
-page, and nothing short of reading a committed PDF by eye would show
-it.
+`oneOf` and `isOneOf` under `shared/lib` do the check with a type
+predicate, deriving the union from the `const` array the ids already
+live in. With the weight gone the fences have nothing to hold back:
+`shared/i18n`'s schema module and its server-only barrel are deleted,
+the `.unsafe.` suffix goes with the warning it carried, the CV
+catch-all hand-writes its tuple parse, and `shared/config`'s
+server-only barrel is down to `BUILD_YEAR` -- the one export there
+fenced for a reason zod never supplied, the module otherwise running
+again at hydration and printing the reader's year for the build's.
 
-`EitherOr` is what keeps the union free of ceremony. Each member
-carries the other's keys as optional `never`, so every key exists on
-every member and the component destructures them in one signature --
-a bare union cannot be destructured at all, which is the usual reason
-this shape is passed over. It comes verbatim from the Playgram app's
-`shared/typings`, which stays its home, alongside `pick` from the same
-family.
+That un-builds what the fence was propping up. `InternalLink` derives
+paper's copy from the same `href` again, so the `printed` and
+`noPrintedCopy` props go, and with them `linkTo` and the `PerMedium`,
+`WithPrinted`, `NoPrintedCopy`, `LinkedPerMedium` and `EitherOr` types.
+A link that reaches no paper is one inside a `print-hidden` container,
+which is what kept it off paper all along; the fact had been spelled
+twice, once in CSS and once in props.
+
+Measured rather than assumed, the ~90 kB is not a saving: the fences
+worked, so zod was absent from every client chunk before this and is
+absent after. Both sites grow by about a kilobyte gzipped, the client
+graph gaining the resolved site config and the HTML gaining a printed
+span per link that used to decline one. What this buys is the smaller
+API, not the bytes.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
