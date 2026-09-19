@@ -12,6 +12,16 @@ yet.
 Two sites become three, and the site that keeps its name stops being a
 publication and starts being an index.
 
+## Where this stands
+
+Phases 1–5 are done and on `claude/agentic-bible-bw6dre`, vetted, in PR #69 as a
+draft. **Phase 6 is what is left**, and it is rewritten below against what is
+now true: the records the plan handed to the operator are the agent's to write,
+Porkbun having an API and its keys being in the environment. Two deviations from
+the plan as written are recorded in the PR body — the seal is redrawn from the
+geometry this plan's own history carries rather than from the traced SVGs that
+died with the planning session's container, and `apple-icon.png` is not shipped.
+
 ## The shape, before the steps
 
 **Route.** On `agentic.bible` the collection is served at the **site root** —
@@ -345,42 +355,53 @@ Three cards under the opening argument, replacing the `Writing` section:
 ## Phase 6 — Standing the domain up
 
 `@.claude/skills/stand-up-site/SKILL.md` owns this; what follows is what this
-task hands it.
+task hands it, and all that is left of this plan.
 
-**The agent runs:**
+**Done already:**
 
-1. `gh repo create vzakharov/agentic.bible --public` with a README saying what
-   it serves and where the content comes from.
-2. An ed25519 deploy key on that repository, its private half into
-   `BIBLE_PAGES_DEPLOY_KEY` on this one. Nothing printed, nothing kept.
-3. `gh workflow run deploy.yml --ref <branch> -f site=both`. **`both`, not
-   `bible`**: GitHub validates a dispatch input against the form on the
+1. `vzakharov/agentic.bible` exists, public, with a README saying what it serves
+   and where the content comes from.
+2. An ed25519 deploy key on it with write access, its private half in
+   `BIBLE_PAGES_DEPLOY_KEY` on this repository. Nothing was printed and nothing
+   kept, so rotation is the only way back.
+
+**Left to do:**
+
+3. **Write the DNS.** Porkbun holds the domain, and `PORKBUN_API_KEY` /
+   `PORKBUN_SECRET_API_KEY` are in the environment, so the records are the
+   agent's to write — the skill's Step 2 carries the call shape and the traps.
+   Confirm first that API access is switched on for `agentic.bible` itself; the
+   keys are account-wide and that toggle is not.
+
+   | Type  | Host  | Value                                                                                   |
+   | ----- | ----- | --------------------------------------------------------------------------------------- |
+   | A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
+   | AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
+   | CNAME | `www` | `vzakharov.github.io`                                                                   |
+
+   Read the zone back before touching it and report what is there. As of this
+   writing it holds two apex `A` records to Porkbun's parking page
+   (`207.207.210.229`, `207.207.210.107`) — those are the slot the four `A` rows
+   need and go — and a wildcard `CNAME` to `pixie.porkbun.com`, which an exact
+   `www` record outranks, so it stays. No `MX` or `TXT` rows exist to preserve.
+
+4. **The pre-merge publish is the operator's call, and the default is to skip
+   it.** `gh workflow run deploy.yml --ref <branch> -f site=both` — **`both`,
+   not `bible`**: GitHub validates a dispatch input against the form on the
    **default branch**, which does not know `bible` until this branch merges,
-   while the workflow that _runs_ is the branch's — whose gate expands `both`
-   into all three sites. So the run publishes the two live sites from the
-   unmerged branch as well, which is the cost of proving the new one before the
-   merge. Acceptable because the branch is what is about to merge; if you would
-   rather not, skip this step and the site first serves on the merge.
-4. Pages settled on the receiver (`source[branch]=gh-pages`, `https_enforced`),
-   then verification against the live URL — the served HTML carrying **this**
-   site's title and card, `www` and plain HTTP redirecting onto it, and both
-   existing sites still serving their own content.
+   while the workflow that _runs_ is the branch's, whose gate expands `both`
+   into all three sites. So it republishes the two live sites from an unmerged
+   branch, and what it buys is seeing the new one before the merge rather than
+   after it. Ask; do not assume.
 
-**You run** (no token here reaches a registrar — the site is dark until these
-land, whatever CI reports):
+5. **Settle Pages on the receiver** (`source[branch]=gh-pages`,
+   `https_enforced`), then verify against the live URL: the served HTML carries
+   **this** site's title and card, `www` and plain HTTP redirect onto it, and
+   both existing sites still serve their own content. Blocked on step 3, and on
+   step 4 or the merge — there is nothing on `gh-pages` to settle until one of
+   them has pushed.
 
-| Type  | Host  | Value                                                                                   |
-| ----- | ----- | --------------------------------------------------------------------------------------- |
-| A     | `@`   | `185.199.108.153` `185.199.109.153` `185.199.110.153` `185.199.111.153`                 |
-| AAAA  | `@`   | `2606:50c0:8000::153` `2606:50c0:8001::153` `2606:50c0:8002::153` `2606:50c0:8003::153` |
-| CNAME | `www` | `vzakharov.github.io`                                                                   |
-
-One record per value. The two that bite are a registrar's parking page: an
-`ALIAS`/`ANAME` on the apex, which is the slot the A records need, and a
-wildcard `CNAME`, which would answer for `www` too. Mail and `_acme-challenge`
-rows never enter a web request — leave them.
-
-The agent reads the zone and names the conflicts before you touch it.
+Then the plan is complete and `/finalize` takes the branch.
 
 ## DRY notes
 
@@ -455,7 +476,7 @@ FSD boundaries, the type-overlap floors. What it cannot see:
 - Both existing sites unchanged where the branch did not mean to touch them.
 
 `/preview` is how the first three are looked at rather than inferred; Phase 6's
-step 4 is how they are checked against what is actually served.
+step 5 is how they are checked against what is actually served.
 
 ## Out of scope
 

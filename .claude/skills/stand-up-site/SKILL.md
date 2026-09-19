@@ -1,5 +1,5 @@
 ---
-description: 'Stand a site up on its own custom domain, from a repository that already serves one: the receiving repository and its deploy key, the DNS the operator adds, the publish that proves it works before the merge, and settling GitHub Pages afterwards. Invoke as `/stand-up-site <domain>`. Use when a second site joins the repo, or when a site moves to a new domain.'
+description: 'Stand a site up on its own custom domain, from a repository that already serves one: the receiving repository and its deploy key, the DNS records, the publish that proves it works before the merge, and settling GitHub Pages afterwards. Invoke as `/stand-up-site <domain>`. Use when a second site joins the repo, or when a site moves to a new domain.'
 ---
 
 End state: `https://<domain>` serves the new site over an approved certificate,
@@ -10,9 +10,9 @@ this repository still serves its own content.
 to a **receiving repository** of its own — CLAUDE.md § "Deployment" carries the
 arrangement that follows, and what this skill stands up is its receiving end.
 
-**The domain and its DNS are the operator's**, since no token here reaches a
-registrar. Those steps are handed over rather than run, and the site is dark
-until they land whatever CI reports.
+**The domain is bought by the operator; its records are whoever can reach the
+registrar.** Step 2 splits on that, and either way the site is dark until they
+land, whatever CI reports.
 
 The code half — the app directory, its `next.config.ts`, the site's entry in the
 shared config — is ordinary work on the branch and is not this skill's; CLAUDE.md
@@ -49,10 +49,10 @@ Give the receiving repository a README saying what it is and where its content
 comes from. It is the only thing a person landing on a source-less repository
 has to read.
 
-## Step 2 — Hand the DNS over
+## Step 2 — The DNS records
 
-The operator does this at their registrar. GitHub's Pages addresses are the same
-for every site, so the table is the same every time:
+GitHub's Pages addresses are the same for every site, so the table is the same
+every time, whoever writes it:
 
 | Type  | Host  | Value                                                                                   |
 | ----- | ----- | --------------------------------------------------------------------------------------- |
@@ -64,15 +64,54 @@ One record per value — four A rows and four AAAA rows, not one row holding fou
 addresses. Which repository answers is decided by the `CNAME` file inside each
 published branch, which is why that file is part of the build.
 
-**Read the zone before writing the instructions, and say which existing records
-conflict.** The two that bite are a registrar's parking page: an `ALIAS` or
-`ANAME` on the apex, which is the slot the A records need, and a wildcard
-`CNAME`, which answers for `www` as well and would send it to the parking page.
-Mail (`MX`, `v=spf1` `TXT`) and the registrar's own `_acme-challenge` rows never
-enter a web request — say so explicitly, so the operator deletes two records
-rather than clearing the zone.
+**Read the zone first and name the records that conflict.** The two that bite
+are a registrar's parking page: an `ALIAS`, `ANAME` or `A` on the apex, which is
+the slot the A records need, and a wildcard `CNAME`, which answers for `www` as
+well and would send it to the parking page. Mail (`MX`, `v=spf1` `TXT`) and the
+registrar's own `_acme-challenge` rows never enter a web request. Say all of
+that explicitly, so what happens is two deletions rather than a cleared zone —
+and note that an exact `www` record beats a wildcard by specificity, so a
+wildcard survives the change untouched.
 
-Verify from here before going further. **There is no `dig` or `nslookup` in the
+### Where the registrar has an API
+
+These domains are registered at **Porkbun**, whose API the agent drives given
+two things: `PORKBUN_API_KEY` and `PORKBUN_SECRET_API_KEY` in the environment,
+and **API access switched on for that domain** in Porkbun's own domain list. The
+keys are account-wide but the toggle is per domain, which is both the trap — a
+call against a domain without it fails on the domain, not on the key, so the
+keys look wrong — and the safety rail: only the domains the operator has
+switched on are reachable from here.
+
+Both halves ride in the JSON body of every request; the API has no header auth.
+That is why nothing here echoes a request body — no `curl -v`, no `set -x`,
+since either writes the secret into the session log.
+
+```bash
+porkbun() { # <endpoint path> [<extra JSON object>]
+  jq -cn --arg k "$PORKBUN_API_KEY" --arg s "$PORKBUN_SECRET_API_KEY" \
+    --argjson extra "${2:-null}" '{ apikey: $k, secretapikey: $s } + ($extra // {})' |
+    curl -sS -X POST "https://api.porkbun.com/api/json/v3/$1" \
+      -H 'Content-Type: application/json' -d @-
+}
+
+porkbun "dns/retrieve/<domain>" | jq '.records[] | { id, type, name, content }'
+porkbun "dns/delete/<domain>/<record id>"
+porkbun "dns/create/<domain>" \
+  '{ "type": "A", "name": "", "content": "185.199.108.153", "ttl": "600" }'
+```
+
+An empty `name` is the apex; `www` is the host alone, never the full domain.
+Every response carries `"status": "SUCCESS"` or `"ERROR"` with a `message` and a
+`code`. An error is an HTTP 400 that `curl -sS` exits 0 on, so the body is what
+says whether the call worked.
+
+### Where it does not
+
+Hand the table over and say which records to delete. The operator does it at the
+registrar, and nothing else in this skill proceeds until they report back.
+
+Verify from here before going further, on either route. **There is no `dig` or `nslookup` in the
 container**, and `dig +short` missing returns empty rather than failing, which
 reads exactly like "DNS not set":
 
