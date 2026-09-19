@@ -167,7 +167,7 @@ PDFs; the article's own heading still ended "not from your console". _"...web,
 not CLI"_ came back as the fix. The heading is the one place the name is a
 sentence, which is the one place a grep for the old slug does not reach.
 
-## An account that explains the code stands in for running it (×9)
+## An account that explains the code stands in for running it (×10)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -200,7 +200,15 @@ Under `print-hidden` the copy weighs nothing: all four PDFs came back identical.
 off the config's text. _а у меня из playgramapp такие живут спокойно._ Same
 error without it — and that line keeps `class-names` legal.
 
-## It writes its reasoning into the artifact (×8)
+**19 September — a limitation written down instead of tested, twice in one
+review.** The costs rule listed "the last turn of a session is never priced"
+among what the totals miss. _что может этому помочь? или это мюнхгаузен?_ —
+`ls ~/.claude/projects/` answers it, the container holding only the live
+session's transcript. Same round, same shape: _is prices.json verified by
+anything?_ was one read from "essentially no", which nothing in the file said.
+Naming a gap had stood in for finding out whether it was one.
+
+## It writes its reasoning into the artifact (×9)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -236,6 +244,13 @@ thought arrived wrapped in an exchange the reader never saw. _conversational
 edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
+
+**19 September — the defence of a design nobody was proposing.** The costs rule
+argued at length why wrapping the harness's Stop hook "is not available"; the
+branch had abandoned wrapping for something else entirely, leaving the argument
+as its own denial — and the PR body still described the abandoned shape, so one
+dropped approach left residue in two places. _медведь_. `/tend-prose` lens 4 is
+for exactly this, and the agent that dropped the approach did not sweep.
 
 ## Asked for a source, it supplies its own version (×8)
 
