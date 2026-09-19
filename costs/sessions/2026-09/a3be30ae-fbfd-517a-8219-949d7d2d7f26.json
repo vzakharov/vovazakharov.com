@@ -3,27 +3,27 @@
   "branch": "claude/api-cost-ledger-0cm1tl",
   "cwd": "/home/user/vovazakharov.com",
   "firstResponseAt": "2026-09-19T06:22:45.434Z",
-  "lastResponseAt": "2026-09-19T08:46:26.783Z",
+  "lastResponseAt": "2026-09-19T08:50:48.950Z",
   "pricesAsOf": "2026-09-19",
   "total": {
-    "inputTokens": 212,
+    "inputTokens": 236,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 308122,
-    "cacheReadTokens": 26990055,
-    "outputTokens": 102193,
-    "thinkingTokens": 45934,
-    "responses": 106,
-    "costUsd": 19.132132500000004
+    "cacheWrite1hTokens": 320295,
+    "cacheReadTokens": 31248423,
+    "outputTokens": 108010,
+    "thinkingTokens": 48382,
+    "responses": 118,
+    "costUsd": 21.528591500000005
   },
   "ownTurns": {
-    "inputTokens": 212,
+    "inputTokens": 236,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 308122,
-    "cacheReadTokens": 26990055,
-    "outputTokens": 102193,
-    "thinkingTokens": 45934,
-    "responses": 106,
-    "costUsd": 19.132132500000004
+    "cacheWrite1hTokens": 320295,
+    "cacheReadTokens": 31248423,
+    "outputTokens": 108010,
+    "thinkingTokens": 48382,
+    "responses": 118,
+    "costUsd": 21.528591500000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -37,14 +37,14 @@
   },
   "byRate": {
     "claude-opus-5/standard": {
-      "inputTokens": 212,
+      "inputTokens": 236,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 308122,
-      "cacheReadTokens": 26990055,
-      "outputTokens": 102193,
-      "thinkingTokens": 45934,
-      "responses": 106,
-      "costUsd": 19.132132500000004
+      "cacheWrite1hTokens": 320295,
+      "cacheReadTokens": 31248423,
+      "outputTokens": 108010,
+      "thinkingTokens": 48382,
+      "responses": 118,
+      "costUsd": 21.528591500000005
     }
   },
   "warnings": []
