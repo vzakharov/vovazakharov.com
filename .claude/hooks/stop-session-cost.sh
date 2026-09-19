@@ -3,11 +3,8 @@
 # Prices the session and commits the row, then runs the command it displaced —
 # passed as its arguments — and exits with its status.
 #
-# Wrapping rather than sitting beside it is the whole point: hooks for one event
-# run in parallel, so a second `Stop` hook writing to the working tree races the
-# harness's own check of that tree. In here the two are sequential.
-#
-# Two contracts hold whatever else changes:
+# `.claude/rules/costs.md` carries why this wraps that command instead of
+# running beside it. Two contracts hold whatever else changes:
 #   - the wrapped command runs even when everything above it failed, because it
 #     is a safety check this repo borrowed rather than owns;
 #   - its exit status and stderr reach the harness unaltered, because that is

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 // Prices one session's transcript and writes its row under `costs/sessions/`.
-// Run from the `Stop` hook on every turn, so the row is rewritten from the
-// whole transcript rather than appended to: the transcript is written
-// asynchronously and lags the live conversation, so each run also picks up
-// whatever the previous run was too early to see.
+// The row is rewritten from the whole file each run rather than appended to,
+// which is what lets a run pick up what the previous one was too early to see —
+// the transcript lags the live conversation.
 //
 //   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path]
 
@@ -57,8 +56,6 @@ const staged = `${out}.staged`;
 writeFileSync(staged, `${JSON.stringify(cost, null, 2)}\n`);
 renameSync(staged, out);
 
-// `--row-path` prints the file and nothing else, so a caller can act on the row
-// without parsing prose; the default line is for a person running this by hand.
 console.log(
   given('row-path')
     ? out

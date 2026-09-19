@@ -30,8 +30,7 @@ the totals are confidently incorrect rather than absent.
   doubles Opus-tier rates, so `usage.speed` is read rather than assumed.
 - **Cache writes are billed by TTL.** `usage.cache_creation` splits into
   `ephemeral_5m_input_tokens` and `ephemeral_1h_input_tokens` — ×1.25 and ×2 of
-  the input rate against ×0.1 for reads, which is why a session's largest line
-  is usually its first write rather than anything it generated.
+  the input rate, against ×0.1 for reads.
 - **Thinking tokens are already inside `output_tokens`.** They are reported for
   interest and billed once.
 
@@ -51,7 +50,7 @@ check reads mid-write.
 So `stop-session-cost.sh` does not run beside it: `patch-launcher-hooks.sh`
 repoints the launcher's `Stop` command at the wrapper, which prices the session,
 commits and pushes the row, and only then runs the command it displaced. Two
-contracts make that borrowing safe, and both are tested by the shapes they guard:
+contracts make that borrowing safe:
 
 - **The displaced command runs even when everything above it failed.** It is a
   safety check this repo borrowed, not one it owns.

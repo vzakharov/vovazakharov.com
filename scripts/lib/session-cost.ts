@@ -1,12 +1,7 @@
-// Prices a Claude Code transcript at Claude API rates. Shared by the `Stop`
-// hook, which prices one session, and `scripts/costs-report.ts`, which sums
-// the rows those runs leave behind.
-//
-// Two properties of the transcript decide the shape of everything here:
-// one API response is written as several records — one per content block —
-// each carrying that response's whole `usage`, so records are deduplicated by
-// `message.id`; and a response is billed at the rates for its `(model, speed)`
-// pair, with cache writes billed by TTL.
+// Prices a Claude Code transcript at Claude API rates, for the `Stop` hook that
+// writes one session's row and the report that sums many.
+// `.claude/rules/costs.md` carries the transcript's shape and what the totals
+// leave out.
 
 import { z } from 'zod';
 
@@ -95,9 +90,8 @@ export type SessionCost = z.infer<typeof SessionCostSchema>;
 export const parseSessionCost = (json: string): SessionCost =>
   SessionCostSchema.parse(JSON.parse(json));
 
-// Thinking tokens are billed nowhere here: the model already counts them inside
-// its output, so a second line for them would charge every turn that thought
-// twice.
+// Thinking tokens are absent: they sit inside `output_tokens` already, so a
+// line of their own would charge every turn that thought twice.
 const BILLED_FIELDS = [
   'inputTokens',
   'cacheWrite5mTokens',
@@ -154,10 +148,8 @@ const tokensOf = (response: Response, warnings: string[]): TokenTally => {
   const written = usage.cache_creation_input_tokens ?? 0;
   const split5m = usage.cache_creation?.ephemeral_5m_input_tokens ?? 0;
   const split1h = usage.cache_creation?.ephemeral_1h_input_tokens ?? 0;
-  // The per-TTL split is authoritative where it accounts for the whole write.
-  // Where it does not — an older record, or a shape this does not know — the
-  // write bills at the 5-minute rate, which is the API's own default TTL, and
-  // the discrepancy is recorded rather than rounded away.
+  // A split that does not account for the whole write leaves the rest at the
+  // API's own default TTL, and says so rather than rounding it away.
   const trustSplit = split5m + split1h === written;
   if (!trustSplit && written > 0)
     warnings.push(
@@ -173,9 +165,8 @@ const tokensOf = (response: Response, warnings: string[]): TokenTally => {
   };
 };
 
-// Records the transcript writes for other purposes — prompts, attachments, tool
-// results — carry no usage and are not this module's business. Only a record
-// that looks like a billed response is held to the schema.
+// Prompts, attachments and tool results share the file and carry no usage, so
+// only a record that looks like a billed response is held to the schema.
 const isResponseRecord = (record: unknown): boolean =>
   typeof record === 'object' &&
   record !== null &&
@@ -211,6 +202,8 @@ export const summariseTranscript = (
     const record: unknown = JSON.parse(line);
     if (!isResponseRecord(record)) continue;
     const response = ResponseRecordSchema.parse(record);
+    // One API response is written as one record per content block, each
+    // carrying the whole response's usage, so the id is what counts it once.
     if (seen.has(response.message.id)) continue;
     seen.add(response.message.id);
 
@@ -244,8 +237,6 @@ export const summariseTranscript = (
       `No rates for ${[...unpriced].toSorted().join(', ')} in the price table (as of ${prices.as_of}). Add them to costs/prices.json — a response counted as free is worse than no ledger at all.`,
     );
 
-  // Records arrive in write order, which a resumed session interleaves; the
-  // window a row reports is the earliest and latest response in it.
   const inOrder = timestamps.toSorted();
   return {
     sessionId: sessionId ?? fallbackSessionId,

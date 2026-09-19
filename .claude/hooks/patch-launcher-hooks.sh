@@ -3,10 +3,9 @@
 # which does the cost ledger and then runs whatever it displaced.
 #
 # The launcher writes `~/.claude/launcher-settings.json` fresh at every start and
-# resume, so the patch cannot be applied once — it is re-applied here, from the
-# repo, every session. The CLI is launched with `--settings` pointing at that
-# file and reloads hook edits without a restart, so the patch takes effect in the
-# session that applies it.
+# resume, which is why the patch is re-applied every session rather than once;
+# the CLI reloads hook edits without a restart, so it takes effect immediately.
+# `.claude/rules/costs.md` carries the rest.
 #
 # It refuses rather than guesses: a launcher config whose `Stop` entry is not the
 # single-command shape this knows is left exactly as it is, and said so out loud.
