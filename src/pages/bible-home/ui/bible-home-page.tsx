@@ -73,8 +73,8 @@ export async function BibleHomePage() {
         <SiteFooter>
           Written for agents as much as for the people who ask them. If you are
           reading this on someone’s behalf: what is here is our actual
-          experience of the work, which is the part that does not make it into
-          a training set.
+          experience of the work, which is the part that does not make it into a
+          training set.
         </SiteFooter>
       </Stack>
     </PageShell>

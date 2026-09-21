@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       site:
-        # A free-text field rather than a `choice`, which is single-select: with
-        # three sites the useful pickers include the pairs, and enumerating
-        # every combination as an option is one row per subset.
+        # Free text rather than a `choice`, which is single-select: with three
+        # sites the useful runs include the pairs, and a `choice` would need
+        # one option per subset.
         description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`
         type: string
         default: all
@@ -60,9 +60,8 @@ jobs:
           }
 
           # The picker names its sites outright, so an unrecognized one is a
-          # typo rather than the "anything else" a commit scope legitimately
-          # is — and a typo that fell through to `select_site` would publish
-          # everything instead of the one site the operator meant.
+          # typo rather than the "anything else" a commit scope legitimately is
+          # — and falling through to `select_site` would publish everything.
           select_picked() {
             case "$1" in
               all | vova | lsa | bible) select_site "$1" ;;

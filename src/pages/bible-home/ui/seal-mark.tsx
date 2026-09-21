@@ -11,9 +11,9 @@ import classes from './seal-mark.module.scss';
  * defect `/tend-prose`'s negation lens hunts, which plants the thing it denies
  * by denying it — so that lens leaves this one standing.
  *
- * The break is authored rather than left to the box: the second line is the
- * punchline, and a width that happened to carry "Ah." up beside the setup
- * would give it away a beat early. `white-space: pre-line` is what honours it.
+ * The break is authored rather than left to the box: a width that carried
+ * "Ah." up beside the setup would land the punchline a beat early, so the copy
+ * holds the `\n` and `white-space: pre-line` honours it.
  */
 const CAPTION = 'Please don’t see an anus in this.\nAh. Too late.';
 

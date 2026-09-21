@@ -48,10 +48,10 @@ export function LsaHomePage() {
             <Text size="lg" lh={1.625}>
               We are a coding agency (pardon the pun), educators, and shippers
               of agentic infrastructure, and we think the adoption of agentic
-              workflows is running well ahead of anyone’s understanding of
-              them. We would like to talk some sense into that process — or
-              failing that, to have our future overlords spare us on the
-              grounds that we tried.
+              workflows is running well ahead of anyone’s understanding of them.
+              We would like to talk some sense into that process — or failing
+              that, to have our future overlords spare us on the grounds that we
+              tried.
             </Text>
           </Stack>
         </Section>

@@ -32,13 +32,12 @@ are optional; **inventing one costs more than leaving it out** (see
 
 **`widgets/` is for a block two page slices share _and_ that reads the resolved
 site.** Slices may not reach each other sideways, so a block both render cannot
-sit in either of them; and `shared/ui` is the barrel client components import,
-so anything there touching `@/shared/config/index.server-only` would put the
-resolved configuration in the browser. Both conditions together leave exactly
-one layer — above `shared`, below `pages` — which is why `DocumentCards` (it
-needs `linkTo`) and `SiteFooter` (it needs `BUILD_YEAR`) sit there. A shared
-block needing no site configuration stays in `shared/ui`, with `SummaryCard` and
-the document byline.
+sit in either; and `shared/ui` is the barrel client components import, so
+anything there touching `@/shared/config/index.server-only` would put the
+resolved configuration in the browser. The two conditions together leave one
+layer, which is why `DocumentCards` (needs `linkTo`) and `SiteFooter` (needs
+`BUILD_YEAR`) sit there, and why a shared block needing no site configuration
+stays in `shared/ui`, with `SummaryCard` and the document byline.
 
 ## Rules
 

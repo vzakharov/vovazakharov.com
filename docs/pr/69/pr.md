@@ -44,16 +44,16 @@
 
 **Everything above is checkable in a browser now, not only locally** — `agentic.bible` and `latestageagentic.com` are both serving this branch.
 
-| Item | Automatable | Covered? | Notes |
-|------|-------------|----------|-------|
-| `bible-routes` | Partly | Yes | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes |
-| `bible-home` | No | No | Editorial — looked at in this session on both themes |
-| `seal-hover` | Partly | No | Needs a driven pointer and a 3s wait; verified once over CDP in this session |
-| `end-mark` | Partly | Partly | The plugin's placement is deterministic and the PDFs are hash-checked; how it sits on the line is not |
-| `lsa-hub` | Partly | Partly | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; weight and layout are editorial |
-| `vova-untouched` | Yes | Yes | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref |
-| `dns` | Partly | Yes | Written and read back over Porkbun's API in this session; a resolver check is the whole of it |
-| `sites-own-content` | Partly | Yes | Title, description and `og:image` read off all three live domains; none carries another's |
+| Item                | Automatable | Covered? | Notes                                                                                                                                            |
+| ------------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `bible-routes`      | Partly      | Yes      | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes |
+| `bible-home`        | No          | No       | Editorial — looked at in this session on both themes                                                                                             |
+| `seal-hover`        | Partly      | No       | Needs a driven pointer and a 3s wait; verified once over CDP in this session                                                                     |
+| `end-mark`          | Partly      | Partly   | The plugin's placement is deterministic and the PDFs are hash-checked; how it sits on the line is not                                            |
+| `lsa-hub`           | Partly      | Partly   | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; weight and layout are editorial        |
+| `vova-untouched`    | Yes         | Yes      | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref                                              |
+| `dns`               | Partly      | Yes      | Written and read back over Porkbun's API in this session; a resolver check is the whole of it                                                    |
+| `sites-own-content` | Partly      | Yes      | Title, description and `og:image` read off all three live domains; none carries another's                                                        |
 
 https://claude.ai/code/session_01BUGrCNoZ7V6EoR7jUuUZGG
 https://claude.ai/code/session_0134HKDezVfYQL6DsjYEpwiG
@@ -321,7 +321,7 @@ Preferred: left-aligned, breaks after "this."
 
 ```diff
 @@ -44,46 +45,17 @@ export async function LsaHomePage() {
- 
+
          <AboutSection />
 ```
 
@@ -430,7 +430,7 @@ seal это то что в конце текстов или то что на з�
 
 правильно ли называть это по текущему содержимому ("здесь лежит то-то"), а не по смыслу ("здесь лежит то, что мы не хотим авто-преобразовывать в пдфки") (если я правильно понимаю замысел)?
 
-Что если мы что-то ещё туда захотим класть, что *не* является автосгенерированным?
+Что если мы что-то ещё туда захотим класть, что _не_ является автосгенерированным?
 
 Или может я неправильно понимаю о чём это?
 

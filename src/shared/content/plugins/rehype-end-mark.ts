@@ -25,10 +25,9 @@ function markElement({ path, width, height }: SiteImage): Element {
 
 /**
  * Closes an article with the site's seal, in place of an amen — a centred line
- * of its own below the last block. A plugin rather than markup in the article
- * component because the mark belongs to the compiled HTML: `ArticleBody` takes
- * that HTML and nothing else, and the seal is the resolved site's, which is a
- * thing the pipeline already holds and that slice does not.
+ * of its own below the last block. A plugin rather than markup in `ArticleBody`,
+ * which takes the compiled HTML and nothing else: the seal is the resolved
+ * site's, and the pipeline is what already holds it.
  */
 export const rehypeEndMark: Plugin<[EndMarkOptions], Root> =
   ({ seal }) =>

@@ -20,18 +20,14 @@ export const PAGE_ROUTES = {
 } as const;
 
 /**
- * One of a site's own marks, as up to two files.
+ * One of a site's own marks, as up to two files. `path` is the canonical one —
+ * what the metadata publishes, and what a page renders unless `vector` says
+ * otherwise; `vector` is the same drawing as SVG, and exists only where `path`
+ * had to be a raster, no Open Graph consumer rendering one.
  *
- * `path` is the canonical one — what the metadata publishes, and what a page
- * renders unless `vector` says otherwise. `vector` is the same drawing as SVG,
- * which a page prefers where it exists, and it exists only where `path` had to
- * be a raster: no Open Graph consumer renders an SVG, so a mark that is also a
- * card cannot be served by one field.
- *
- * Which is why a mark no card ever unfurls states its SVG as `path` and leaves
- * `vector` undefined, rather than the other way round — the seal is that case,
- * and `pnpm content:og:<site>` is what rasterises `path` from `vector` for the
- * marks that are both.
+ * So a mark no card ever unfurls states its SVG as `path` and leaves `vector`
+ * undefined, rather than the other way round. `pnpm content:og:<site>`
+ * rasterises `path` from `vector` for the marks that are both.
  */
 export type SiteImage = Sized & {
   path: string;
@@ -63,11 +59,10 @@ export type SiteConfig = Billed & {
   avatar: SiteImage;
   /**
    * The site's unlettered mark: what an article closes on in place of an amen,
-   * and what the home page's seal is left showing once a held pointer has
-   * faded `avatar.vector`'s lettering off it. `undefined` on a site whose
-   * documents end where their prose does. Spelled rather than left optional —
-   * an omitted key is silently absent, and a new site should have to answer
-   * this one.
+   * and what the home page's seal is left showing once a held pointer fades
+   * `avatar.vector`'s lettering off it. Spelled rather than left optional — an
+   * omitted key is silently absent, and a new site should have to answer this
+   * one.
    */
   seal: SiteImage | undefined;
 };
