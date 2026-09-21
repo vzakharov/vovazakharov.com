@@ -1,16 +1,25 @@
 import 'server-only';
 
 import type { Element, ElementContent, Root } from 'hast';
-import { SKIP, visit } from 'unist-util-visit';
+import { SKIP, visit, type VisitorResult } from 'unist-util-visit';
 
-/** Every `tagName` element in the tree, for a pass that edits them in place. */
+/**
+ * Every `tagName` element in the tree. The visitor receives the node's `index`
+ * and `parent` and may return a traversal action, so a pass that only edits in
+ * place ignores both and a pass that rewrites the tree — `replaceElements` — is
+ * built on this rather than restating the element walk.
+ */
 export function visitElements(
   tree: Root,
   tagName: string,
-  visitor: (node: Element) => void,
+  visitor: (
+    node: Element,
+    index: number | undefined,
+    parent: Root | Element | undefined,
+  ) => VisitorResult,
 ): void {
-  visit(tree, 'element', (node: Element) => {
-    if (node.tagName === tagName) visitor(node);
+  visit(tree, 'element', (node: Element, index, parent) => {
+    if (node.tagName === tagName) return visitor(node, index, parent);
   });
 }
 
@@ -25,8 +34,8 @@ export function replaceElements(
   tagName: string,
   replace: (node: Element) => ElementContent | undefined,
 ): void {
-  visit(tree, 'element', (node: Element, index, parent) => {
-    if (node.tagName !== tagName || index === undefined || !parent) return;
+  visitElements(tree, tagName, (node, index, parent) => {
+    if (index === undefined || !parent) return;
 
     const replacement = replace(node);
 
