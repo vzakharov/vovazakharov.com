@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-19T08:27:47Z
-- **Updated:** 2026-09-21T12:21:35Z
+- **Updated:** 2026-09-21T13:00:38Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -20,10 +20,10 @@
 - Records, per session and in the branch, what the work would have cost at Claude API rates — the number a subscription price hides. `pnpm costs` sums the rows on demand; the long aim is knowing the size of that bill before subscription pricing stops being a bargain.
 - Prices come from the transcript's own `message.usage`, read carefully enough to be worth something: one API response is written as one record per content block, each carrying the whole response's usage, so records are deduplicated by `message.id`; a response bills at the rates for its `(model, speed)` pair; and cache writes bill by TTL. An unpriced pair throws rather than counting as free, `.claude/costs/prices.json` being hand-kept for want of any machine-readable source of prices.
 - **A subagent's spend is in a different file** — `<session-id>/subagents/*.jsonl`, beside the transcript — and it is the spawning session's to carry. Reading the transcript alone therefore priced every delegating session short, and short invisibly: the result is indistinguishable from a session that delegated nothing. On the session this was caught in it was 7% of the bill.
-- **The arithmetic now has a second opinion, and it is in the transcript already.** The client writes its own running cost there as `cost-state` records; the row keeps the last one and `pnpm costs` compares. The comparison runs one way only, which is what makes it sound: both figures count the same session upward and the client's was written at or before the row, so a row coming out *under* it has missed a source, while coming out over it means only that the session kept going. Applied to the client's own token counts the rate table reproduces the client's own cost to the last digit — so a divergence is a gap in what a row read, never in what it charged.
+- **The arithmetic now has a second opinion, and it is in the transcript already.** Claude Code writes its own running cost there as `cost-state` records; the row keeps the last one as `claudeCodeTotalUsd` and `pnpm costs` compares. The comparison runs one way only, which is what makes it sound: both figures count the same session upward and Claude Code's was written at or before the row, so a row coming out *under* it has missed a source, while coming out over it means only that the session kept going. Applied to Claude Code's own token counts the rate table reproduces its cost to the last digit — so a divergence is a gap in what a row read, never in what it charged. The usage panel is deliberately not the thing checked against: it prints two costs for one session that disagree fourfold, so at most one of its figures can be the tokens the transcript records.
 - A row also carries what a person recognises a session by: the **opening prompt** unwrapped from its slash-command envelope, the **PR numbers** off the `pr-link` records, the session's **web URL** (a different id from the transcript's, and reachable only through the attribution reminder), and a **name** the agent writes — the one thing no reading of a transcript can recover. A new row leaves it null and a `UserPromptSubmit` hook asks once.
 - Collection runs from a `Stop` hook that **shares** the event with the harness's own `stop-hook-git-check.sh`: hooks for one event run in parallel, so the ledger's write races that check for the working tree. The hook waits the check's process out at the last moment before it touches the tree, re-reads the check's own two conditions afterwards, and spends its one channel to the agent — exit 2 with a line naming the row — only where a block is already happening. It reads whether that check will run at all from the launcher's registration rather than from the script on disk, and says on stderr when the entry is gone: a rename or a removal is the whole arrangement changing, and it should not pass unnoticed.
-- **Nothing derived is committed.** An earlier `costs/totals.json` is gone: a summary file sitting beside the rows it is summed from is a merge conflict on every branch that ran a session, and settling one by adding the two sides double-counts every session both of them saw. The report groups by month, ISO week or day, and by the branch that spent it with its PR numbers beside it.
+- **Nothing derived is committed.** An earlier `costs/totals.json` is gone: a summary file sitting beside the rows it is summed from is a merge conflict on every branch that ran a session, and settling one by adding the two sides double-counts every session both of them saw. The report groups four ways every run — month, ISO week, day, and the branch that spent it with its PR numbers beside it.
 
 `.claude/rules/costs.md` is the home for how a transcript is priced, what checks the arithmetic, how the two `Stop` hooks share the event, and what the totals leave out — the last turn of a session, abandoned branches, other repositories, `main` itself, and a rate that changed after a row was written.
 
@@ -32,11 +32,11 @@
 - [ ] `ledger-row` — after a turn, `.claude/costs/sessions/<YYYY-MM>/<session-id>.json` exists and its totals match a hand count over the transcript
 - [ ] `dedup` — a turn that thought and called two tools contributes its usage once, not three times
 - [ ] `subagents` — a session that spawned an agent shows its spend under `subagents`, and the session total grows by it
-- [ ] `client-check` — a row priced short of the client's own `cost-state` total is named by `pnpm costs`; a row above it is not
+- [ ] `cross-check` — a row priced short of Claude Code's own `cost-state` total is named by `pnpm costs`; a row above it is not
 - [ ] `unknown-model` — an unpriced `(model, speed)` fails the run with a message naming it, while a `<synthetic>` record is skipped silently
 - [ ] `session-name` — `openingPrompt` reads as the operator typed it, `prs` lists the PR, `url` is this session's own rather than one quoted in it, and `name` survives the next rewrite of the row
 - [ ] `name-prompt` — with `name` null the next prompt carries the ask; once set, it stops
-- [ ] `report` — `pnpm costs`, `--month`, `--by week|day` and `--json` all read the committed rows, and the report states the rate table's age
+- [ ] `report` — `pnpm costs` prints month, week, day and branch every run; `--month` and `--json` read the same committed rows, and the report states the rate table's age
 - [ ] `check-gone` — with the launcher no longer registering `stop-hook-git-check`, the hook says so on stderr and still writes its row
 - [ ] `race` — with an unpushed commit, the turn is still blocked by the harness's check, and the hook's own line names the row rather than leaving the block unexplained
 
@@ -45,7 +45,7 @@
 | `ledger-row` | partly | `pnpm test` for the pricer | the hook wiring was observed, not asserted |
 | `dedup` | yes | `pnpm test` | a response written as three records |
 | `subagents` | yes | `pnpm test` | a subagent's own file, billed to the session whether or not its records carry the flag |
-| `client-check` | partly | `pnpm test` for the field | the one-directional comparison itself was read off a real run |
+| `cross-check` | partly | `pnpm test` for the field | the one-directional comparison itself was read off a real run |
 | `unknown-model` | yes | `pnpm test` | asserts the throw names the pair |
 | `session-name` | yes | `pnpm test` | envelope unwrapping, skipped record kinds, PR dedup, and a URL quoted elsewhere in the file not being taken |
 | `name-prompt` | no | — | a hook's effect on the next turn's context; observed on this session, which named itself through it |
@@ -53,11 +53,13 @@
 | `check-gone` | partly | by hand, end to end | the hook run against a throwaway tree with `HOME` pointed at a stand-in launcher config |
 | `race` | no | — | observed by hand: the block lands, the line names the row, exit 2 propagates |
 
-**What this branch proved by measurement.** The pricing was checked against the client's own accounting, not only against itself. For this session the client's `cost-state` reads `$14.028509250000003`; the rate table applied to the client's own token counts gives `14.02850925`. The subagent shortfall it caught was `$0.88` of `$14.03`, matching the 7% the client's usage panel attributes to the subagent independently.
+**What this branch proved by measurement.** The pricing was checked against Claude Code's own accounting, not only against itself. For this session its `cost-state` reads `$14.028509250000003`; the rate table applied to its own token counts gives `14.02850925`. The subagent shortfall it caught was `$0.88` of `$14.03`, matching the 7% the usage panel attributes to the subagent independently.
 
 **What it could not.** `check-gone` was run against a stand-in launcher config rather than the live one — rewriting the hook configuration the agent is running under is a tool call a harness classifier refuses as self-modification. Three shapes were exercised end to end, with the hook itself and `HOME` pointed at a throwaway tree: the entry present (silent), the entry renamed away (warns), and no launcher config at all, which is a local CLI session where there was never a check to race (silent). What is left unproven is only that the live harness's file looks like the copy, which it did when this branch read it.
 
-Separately unresolved and not this branch's to settle: the client's usage panel showed `$110.52` for the first session, where that session's own transcript — including the `cost-state` records the client wrote after the screenshot — tops out at `$40.86`. Re-pricing the committed transcript gives `$44.47`. The panel is not visible from inside the repository, and the gap is recorded rather than explained away.
+**The usage panel is not a source this ledger can reconcile to, and that is now established rather than suspected.** On one card it prints `Cost $198.49` above its own Breakdown totalling `$47.04`; across a compact its four token rows stood unchanged while `Cost` moved `$51.71` to `$89.94`; and its Breakdown's token counts do not produce its Breakdown's own cost either — `130 / 424 / 12.6M / 505.6k` comes to about `$12` at these rates, against the `$42.82` printed beside it. No two of the three agree, so there was never one panel figure to match. `cost-state` is the figure that reconciles, and the rule says so, so the next session does not spend a day on it.
+
+Left uncovered by measurement rather than by argument: **each compact**. Compaction's own API call reaches the transcript without `usage` — the boundary record carries only `preTokens`, the summary arrives as a `user` record — so it is bounded rather than priced. This session's two compacts read 526k tokens between them, about `$0.30` at the cache-read rate a warm prefix gets.
 
 https://claude.ai/code/session_01DULipXqWkbvu9ArhP928Sj
 https://claude.ai/code/session_01WRCLLgqSrAMpoQYaRdN2qZ
@@ -101,14 +103,15 @@ A subagent's responses are written to a file of their own and are the
 spending session's to carry, so the reading takes in that directory
 too: the session measured here delegated seven percent of its spend,
 and reading the main transcript alone lost exactly that. What catches
-the next such gap is the client's own running total, which the
+the next such gap is Claude Code's own running total, which the
 transcript records: the row keeps it, and `pnpm costs` reports a row
-that came out under it.
+that came out under it. The usage panel is no second opinion: it
+prints two costs for one session that disagree fourfold.
 
-`pnpm costs` sums the rows on demand — by month, week or day, and by
-the branch that spent it with its PR numbers beside it — and writes
-nothing, a derived file beside its own sources being a merge conflict
-for every branch that ran a session.
+`pnpm costs` sums the rows on demand — by month, week and day every
+run, and by the branch that spent it with its PR numbers beside it —
+and writes nothing, a derived file beside its own sources being a merge
+conflict for every branch that ran a session.
 
 Collection runs from a `Stop` hook sharing the event with the harness's
 own git check, which hooks running in parallel makes a race for the
@@ -126,25 +129,25 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `.claude/rules/costs.md`:97 — resolved — last: @vzakharov (agent) 2026-09-19T12:05:12Z — "Сделано в de280df. Хук теперь читает не файл на диске, а рег…" → [↓](#t01)
+- **T01** `.claude/rules/costs.md`:104 — resolved — last: @vzakharov (agent) 2026-09-19T12:05:12Z — "Сделано в de280df. Хук теперь читает не файл на диске, а рег…" → [↓](#t01)
 - **T02** `.claude/rules/costs.md`:52 — resolved — last: @vzakharov (agent) 2026-09-19T12:05:13Z — "Медведь, согласен — абзац отрицал подход, которого в ветке б…" → [↓](#t02)
 - **T03** `.claude/hooks/stop-session-cost.sh`:145 — resolved — last: @vzakharov (agent) 2026-09-19T12:05:15Z — "`say` — это наша же однострочная функция из `.claude/hooks/l…" → [↓](#t03)
-- **T04** `.claude/rules/costs.md`:76 — unresolved — last: @vzakharov (agent) 2026-09-21T11:25:48Z — "Пример, как просил — на настоящих числах, а не на воображаем…" → [↓](#t04)
-- **T05** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:13:21Z — "хорошо, но пусть и --by-week и --by-day пишутся всегда, а не…" → [↓](#t05)
+- **T04** `.claude/rules/costs.md`:76 — unresolved — last: @vzakharov (human) 2026-09-21T12:55:20Z — "про вотчер, но контейнер не умирает после каждого Stop-а. Он…" → [↓](#t04)
+- **T05** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — resolved — last: @vzakharov (agent) 2026-09-21T12:42:00Z — "Сделано, `--by` больше нет вообще: месяц, неделя, день и вет…" → [↓](#t05)
 - **T06** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:2 — resolved — last: @vzakharov (agent) 2026-09-21T11:25:51Z — "Сделано ровно так, как ты описал. b9da82a. Новая строка пише…" → [↓](#t06)
 - **T07** `.claude/costs/prices.json`:1 — resolved — last: @vzakharov (agent) 2026-09-21T11:25:52Z — "Убедил — переехало: `.claude/costs/`. b9da82a. Твой контрарг…" → [↓](#t07)
-- **T08** `.claude/costs/prices.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:16:49Z — "поясни ещё раз: правильно ли я понял, что в транскриптах *уж…" → [↓](#t08)
+- **T08** `.claude/costs/prices.json`:1 — resolved — last: @vzakharov (agent) 2026-09-21T12:42:01Z — "Да, поле есть, и мы его уже берём — это `claudeCodeTotalUsd`…" → [↓](#t08)
 - **T09** `scripts/costs-report.ts`:1 — resolved — last: @vzakharov (agent) 2026-09-19T12:05:25Z — "Замерил: **150 мс** на голом node (через `pnpm` ~850 мс, но…" → [↓](#t09)
 - **T10** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — resolved — last: @vzakharov (agent) 2026-09-21T11:25:55Z — "Да, речь не про finalize — ответ про файловый вотчер и про т…" → [↓](#t10)
 - **T11** `docs/remove-before-merging/squash-message.md`:4 — resolved — last: @vzakharov (agent) 2026-09-21T11:26:04Z — "Согласен, и аргумент сильнее, чем «не то слово»: у нас префи…" → [↓](#t11)
 - **T12** `scripts/lib/session-cost.ts`:178 — resolved — last: @vzakharov (agent) 2026-09-21T11:26:05Z — "Незачем, ты прав — в зод и засунул: b9da82a. ```ts const Kin…" → [↓](#t12)
-- **T13** `costs/sessions/2026-09/ab2c1a57-d737-5caf-8c1d-552df83e4968.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:18:59Z — "прежде всего: ты уже много раз тут используешь определение "…" → [↓](#t13)
-- **T14** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:21:34Z — "панель, к слову, обновилась -- и наверное, она более актуаль…" → [↓](#t14)
+- **T13** `costs/sessions/2026-09/ab2c1a57-d737-5caf-8c1d-552df83e4968.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:58:00Z — "так что за прибавившиеся $38 тогда за единственный шаг компа…" → [↓](#t13)
+- **T14** `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — unresolved — last: @vzakharov (human) 2026-09-21T13:00:37Z — "то есть, TLDR всего ответа -- клодкод что-то не так считает…" → [↓](#t14)
 - **T15** `costs/sessions/2026-09/ab2c1a57-d737-5caf-8c1d-552df83e4968.json`:1 — unresolved — last: @vzakharov (agent) 2026-09-21T11:26:09Z — "Есть, и теперь в строке. Поле `url`: ```json "url": "https:/…" → [↓](#t15)
 
 <a id="t01"></a>
 
-### `.claude/rules/costs.md`:97 — resolved
+### `.claude/rules/costs.md`:104 — resolved
 
 ```diff
 @@ -0,0 +1,84 @@
@@ -282,11 +285,15 @@ say() { echo "$(basename "$0" .sh): $*" >&2; }
 
 Отложенный запуск, про который ты писал в соседней ветке, — это та же коса: он всё ещё внутри сессии, просто позже.
 
+**@vzakharov (human)** — 2026-09-21T12:55:20Z
+
+про вотчер, но контейнер не умирает после каждого Stop-а. Он умирает через какое-то время, но мы-то бы запускали его сразу после изменения файла. Или я что-то не так понял?
+
 ---
 
 <a id="t05"></a>
 
-### `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — unresolved
+### `costs/sessions/2026-09/a3be30ae-fbfd-517a-8219-949d7d2d7f26.json`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-19T11:41:36Z
 
@@ -331,6 +338,28 @@ branch
 **@vzakharov (human)** — 2026-09-21T12:13:21Z
 
 хорошо, но пусть и --by-week и --by-day пишутся всегда, а не только когда попросишь (т.е. все три уровня временных группировок включаются всегда)
+
+**@vzakharov (agent)** — 2026-09-21T12:42:00Z
+
+Сделано, `--by` больше нет вообще: месяц, неделя, день и ветка печатаются каждый запуск. d60de5c
+
+```
+month
+  2026-09      $83.24    2 sessions    511 responses
+
+week
+  2026-W38      $83.24    2 sessions    511 responses
+
+day
+  2026-09-19      $83.24    2 sessions    511 responses
+
+branch
+  claude/api-cost-ledger-0cm1tl #71      $83.24    2 sessions    511 responses
+
+total $83.24 over 2 sessions, $2.60 of it subagents
+```
+
+Ты прав был по сути, а не только по удобству: флаг предполагает, что читатель заранее знает, какая разбивка ему нужна. Он её как раз и не знает — он смотрит месяц, видит цифру и хочет понять, один это день или тридцать.
 
 ---
 
@@ -415,7 +444,7 @@ node scripts/session-cost.ts --transcript '<path>' --name '<a few words>'
 
 <a id="t08"></a>
 
-### `.claude/costs/prices.json`:1 — unresolved
+### `.claude/costs/prices.json`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-19T11:42:59Z
 
@@ -448,6 +477,19 @@ b9da82a.
 **@vzakharov (human)** — 2026-09-21T12:16:49Z
 
 поясни ещё раз: правильно ли я понял, что в транскриптах *уже* есть поле для api costs? если да, почему просто не брать его целиком, и не считать ничего самим.
+
+**@vzakharov (agent)** — 2026-09-21T12:42:01Z
+
+Да, поле есть, и мы его уже берём — это `claudeCodeTotalUsd` в строке (переименовал из `clientTotalUsd`, см. соседнюю ветку про терминологию). Вопрос правильный: почему не только его.
+
+**Если бы нужна была одна цифра в месяц — ты был бы прав, и скрипт был бы строк на десять.** Четыре причины, почему всё же не только он:
+
+1. **Это одно число, и оно не говорит, куда ушли деньги.** Наша строка раскладывается по модели, по TTL кэша, по «свои ходы / субагенты». Именно эта раскладка и поймала субагентов: тотал сошёлся бы и так, только мы бы никогда не узнали, что 7% уходит на делегирование.
+2. **Оно посчитано по тем ставкам, которые знал Claude Code.** Наша цифра пересчитывается при смене таблицы, его — нет.
+3. **Это недокументированное поле приватного формата.** Пропадёт в обновлении — леджер потухнет молча. `message.usage` — это поле самого API, оно никуда не денется.
+4. **И главное, выяснившееся буквально сегодня: «цифра от Claude Code» — не одна цифра.** На карточке из соседней ветки панель печатает `Cost $198.49`, а прямо под ним свой же `Breakdown` с итогом `$47.04`. За той же сессией. То есть «просто брать готовое» требует сначала выбрать, какое из готовых, — а выбрать можно только сверив с чем-то посчитанным.
+
+Так что: считаем сами ради раскладки и устойчивости, а `cost-state` держим как проверку — ту самую, про которую я в этой же ветке написал, что её «взять неоткуда». Она всё это время лежала в файле, который скрипт и так разбирает построчно.
 
 ---
 
@@ -628,6 +670,72 @@ export const kindOf = (record: unknown): string | undefined =>
 
 Посмотри, может ли быть такое, что ты и панель *разные* вещи понимаете под "output" (например панель учитывает только то что выдаётся оператору, а не в тулы). Хотя если ты говоришь что косты матчатся именно с твоим определением, то может и б-г с ним.
 
+**@vzakharov (agent)** — 2026-09-21T12:42:08Z
+
+**Про «клиентский» — моя вина, и слово убрано.** Я имел в виду «клиент Claude Code» (программу), а по-русски это читается как «клиентский» в смысле «заказчика». Поле называется `claudeCodeTotalUsd`, в прозе везде «Claude Code». d60de5c
+
+Спасибо, что споткнулся вслух: имя поля лежит в JSON, который коммитится в репу и который читаешь ты, а я его выбрал из словаря, понятного изнутри кода.
+
+**Про output — да, но хуже, чем расхождение определений: панель не сходится сама с собой.** Твои же два скриншота это и показывают. Сравни строки `Breakdown`:
+
+| | до компакта | после |
+|---|---|---|
+| Input | 226 | 226 |
+| Output | 1.2k | 1.2k |
+| Cache read | 26.1M | 26.1M |
+| Cache write | 129.8k | 129.8k |
+| **Cost** | **$51.71** | **$89.94** |
+
+Все четыре строки токенов не сдвинулись, а Cost вырос на $38.23. Из одного и того же набора токенов не получается двух разных стоимостей — значит `Cost` считается не из того, что нарисовано над ним. А на карточке из соседней ветки панель и вовсе печатает `Cost $198.49` и свой же `Breakdown → Total $47.04` рядом.
+
+Так что сверять наши определения не с чем: у панели их как минимум два, и они несовместимы между собой. Сверяемся с `cost-state` — он единственный, что сходится с чем-либо, и сходится с нами до последнего знака.
+
+**И отдельно: я это сам должен был заметить раньше.** Я всё расследование провёл внутри рамки «наша цифра против цифры панели» и ни разу не спросил, согласна ли панель сама с собой. Ровно тот случай, про который в CLAUDE.md написано «расширяй рамку, а не углубляй» — и я в тот же день применил это к своему коду и не применил к источнику, с которым сверялся. Записано в `the-five-percent`.
+
+**Про «компакт стоит 30 баксов» — нет, и вот сколько он стоит.** В этой сессии два компакта, и транскрипт пишет их размер: `preTokens` 237 244 и 288 792, вместе 526k прочитанных токенов. По ставке чтения кэша это **$0.26**, плюс выдача двух саммари. Даже если бы префикс остыл и всё пошло по полной входной ставке — $2.6.
+
+Но при этом нашёлся настоящий пробел: **сам вызов компакции в транскрипте не записан как ответ**. Граничная запись несёт только `preTokens`, а саммари приходит `user`-записью — `usage` нет ни у одной, считать нечего. Добавил в правило к списку того, чего строка не видит, с этой же оценкой сверху.
+
+**@vzakharov (human)** — 2026-09-21T12:58:00Z
+
+так что за прибавившиеся $38 тогда за единственный шаг компакшна?
+
+Пробую ещё раз: 
+
+до компакта (с твоим текущим прогоном), нашёл что там есть кнопочка текстового копирования кстати:
+
+```
+Claude Code usage report (2026-09-21T12:58:32.481Z)
+Client: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+
+Plan limits:
+- session-0: 58% (resets 2026-09-21T15:00:00.324427+00:00)
+- weekly_all-1: 12% (resets 2026-09-28T02:00:00.324450+00:00)
+- weekly_scoped-2: 0% (resets 2026-09-28T02:00:00+00:00)
+
+Session:
+- Opus 5: 52 in / 241 out / 5.4M cache read / 44.4k cache write
+- Cost: $100.06 | API 73m | Wall 16m
+```
+
+после компакта:
+
+```
+Claude Code usage report (2026-09-21T13:01:59.850Z)
+Client: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+
+Plan limits:
+- session-0: 59% (resets 2026-09-21T15:00:00.240189+00:00)
+- weekly_all-1: 12% (resets 2026-09-28T02:00:00.240211+00:00)
+- weekly_scoped-2: 0% (resets 2026-09-28T02:00:00+00:00)
+
+Session:
+- Opus 5: 52 in / 241 out / 5.4M cache read / 44.4k cache write
+- Cost: $148.97 | API 0m | Wall 2m
+```
+
++48 на этот раз :)
+
 ---
 
 <a id="t14"></a>
@@ -679,6 +787,24 @@ $2.67 → $3.17 → $4.97 → $26.60 → $34.48 → $38.63 → $38.63 → $40.86
 <img width="738" height="480" alt="Screenshot 2026-09-21 at 14 20 56" src="./attachments/f58bd8e2-ef8f-4548-9a96-440eb05a612f.png" />
 
 возможно это тоже тебе поможет как диагностический фактор (обрати внимание, тотал теперь ужене 110 а 198 пишет, что непохоже на "просто глюк")
+
+**@vzakharov (agent)** — 2026-09-21T12:42:09Z
+
+**Новый скриншот сводит это — тем, что панель на нём противоречит сама себе.** `Cost $198.49` вверху, и её же `Breakdown` тут же печатает собственную строку `Cost`: `$42.82 + $4.22 = $47.04`. Одна карточка, одна сессия, две цифры, разница вчетверо.
+
+Так что $110.52 (и $198.49) — это не стоимость сессии, которую мы не смогли найти. Это значение поля, которое ничему в транскрипте не обязано соответствовать, и второй скриншот в соседней ветке добивает: там строки токенов не шелохнулись, а `Cost` вырос на $38.
+
+Проверил и в третью сторону — раскладка тоже не порождает свою же стоимость. Её токены Opus 5 (130 / 424 / 12.6M / 505.6k) по нашим ставкам дают около **$12**, а не $42.82. То есть на карточке три величины и никакие две из них не согласованы. Сверяться с ней бессмысленно, и я перестал — это записано в правиле, чтобы следующая сессия не потратила на то же самое полдня.
+
+**Что сходится.** Наш перепосчёт по твоему 1935d35 — **$44.47**; единственная внутренне непротиворечивая цифра клиента, `cost-state`, — **$40.86**, и разница ровно объяснимая: после последней такой записи сессию возобновили, и пять ответов пришли уже от Opus 4.8.
+
+**Спасибо за второй скриншот — он закрыл вопрос, откуда взялась Opus 4.8.** Не переключение ради цены и не фоллбэк: сработал safeguard на запросе (`reasoning_extraction`), и ты сменил модель руками, чтобы повторить просьбу. Это объясняет, почему у сессии в строке две пары ставок, а не одна. Заодно — «Opus 5 flagged this message» на просьбу закоммитить транскрипты в свою же репу: если оно ещё повторится, я бы сохранил Request ID, это единственное, по чему такое разбирается.
+
+И да, предыдущий ответ был неполный не потому, что данных не хватало, а потому что я искал не там: см. соседнюю ветку.
+
+**@vzakharov (human)** — 2026-09-21T13:00:37Z
+
+то есть, TLDR всего ответа -- клодкод что-то не так считает в панели? Давай заведём у них issue тогда, то ли на разъяснение, то ли на исправление бага
 
 ---
 
