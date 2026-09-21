@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { Element, ElementContent, Root } from 'hast';
+import type { Parent } from 'unist';
 import { SKIP, visit, type VisitorResult } from 'unist-util-visit';
 
 /**
@@ -15,7 +16,7 @@ export function visitElements(
   visitor: (
     node: Element,
     index: number | undefined,
-    parent: Root | Element | undefined,
+    parent: Parent | undefined,
   ) => VisitorResult,
 ): void {
   visit(tree, 'element', (node: Element, index, parent) => {
