@@ -7,42 +7,42 @@ feat: the Bible on agentic.bible, and Late Stage Agentic as its hub (pr #69)
 ```
 The Bible was an article collection served from a domain named for
 something else. `agentic.bible` is named for it, so the collection
-becomes the repository's third site — `apps/bible/` building from the
-same `src/`, force-pushed to a receiving repository whose Pages serves
-the domain, exactly as `lsa` leaves by that door. Two receivers is where
-the one-off publish script stops being one: it takes a site id, reads a
-fixed deploy-key variable the workflow maps each receiver's own secret
-into, and the publish jobs collapse onto a matrix the gate emits. The
-domain's own records are writable from here too, Porkbun having an API
-the agent drives where its keys reach the domain.
+becomes the repository's third site: `apps/bible/` builds from the same
+`src/` and is force-pushed to a receiving repository whose Pages serves
+the domain, the door `lsa` already leaves by. Two receivers is where the
+one-off publish script stops being one — it takes a site id and a fixed
+deploy-key variable the workflow maps each receiver's secret into, the
+publish jobs collapsing onto a matrix the gate emits. Three sites is
+where the manual picker stops being a single-select `choice`: it takes
+`all` or a list, and an unknown id fails the run. Porkbun has an API, so
+the domain's records are written from here too.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
-has an empty `base`, which the three path functions that interpolate it
-now reach through one joiner, and its directory is the site's whole
+has an empty `base`, which the three path functions interpolating it now
+reach through one joiner, and its directory is the site's whole
 `public/` — so the render walk's guarantee that it cannot hand a script
-its own output becomes an explicit skip of `generated/` rather than a
-property of where the directories sit. Its home page is a slice of its
-own, written to say what the place is before it argues how the articles
-are written; the card list it shares with the collection index moves to
-a first `widgets/` slice, that being the one layer where a block two
-page slices render may also read the resolved site.
+its own output becomes an explicit skip of `generated/`. Its home page
+is a slice of its own, and the card list it shares with the collection
+index moves to a first `widgets/` slice — the one layer where a block
+two page slices render may also read the resolved site.
 
 The mark is a wax seal in two cuts, lettered for the site and blank for
-itself — one drawing, the lettered cut being the blank one plus a final
-letters path, which is what lets the home page fade the lettering off
-under a held pointer rather than cross into a different image. The blank
-cut closes every article in place of an amen: a rehype plugin rather
-than markup in the article component, because inline means inside the
-compiled HTML. It prints, so the seal joins every document's PDF source
-set.
+itself — one drawing, the lettered cut being the blank one plus a
+letters path, which lets the home page fade the lettering off under a
+held pointer rather than cross into a different image. The blank cut
+closes every article in place of an amen, on a centred line of its own
+below the last block: a rehype plugin rather than markup in
+`ArticleBody`, which takes the compiled HTML and nothing else, and it
+prints into every document's PDF source set.
 
 What that leaves behind on latestageagentic.com is a front page with no
 collection under it, so it becomes the index the project needed anyway:
-the opening argument, then three cards — the Bible, MUTHUR, and agentic
-coding courses that do not exist yet. `SummaryCard` takes an optional
-`href` so the third is a card rather than a dead link, and the footer's
-address to agent readers travels to the site that holds the articles.
+one paragraph saying what the agency is, over three cards — the Bible,
+MUTHUR, and courses that do not exist yet, whose `SummaryCard` takes an
+optional `href` so it is a card rather than a dead link. `/dictation`
+gains an `auto` mode on the way through, reading the mode off the
+transcript rather than asking before there is one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
