@@ -95,10 +95,8 @@ charged.
 **The usage panel is not a third opinion, and reconciling against it is wasted
 work.** Its "Cost" and its own Breakdown's cost row disagree — $198.49 against
 $47.04 on one card — and across a compact its four token rows stood unchanged
-while the Cost field moved $51.71 to $89.94. Two numbers computed from one set
-of tokens cannot both be that set's cost, so the panel carries at least one
-figure nothing in the transcript is expected to match. `cost-state` is the
-figure that reconciles, and it is the one this ledger checks against.
+while the Cost field moved $51.71 to $89.94. Whatever it is counting, at least
+one of its figures is not the tokens the transcript records.
 
 ## Running beside the harness's Stop check
 
@@ -157,13 +155,11 @@ one file per session id.
   outlive the session — true locally, false in a remote container, which is
   discarded with `~/.claude/projects/` inside it unless something committed a
   copy first.
-- **Each compact.** Compaction is an API call like any other — it reads the
-  conversation and writes the summary — and it is the one call the transcript
-  records without its `usage`: the boundary record carries `preTokens` and the
-  summary arrives as a `user` record, so there is nothing to price. The size is
-  bounded rather than unknown: the two compacts of the session measured read
-  526k tokens between them, about $0.30 at the cache-read rate a warm prefix
-  gets, and ten times that only if it had gone cold.
+- **Each compact.** The transcript records the compaction call without its
+  `usage` — the boundary record carries `preTokens`, the summary arrives as a
+  `user` record — so there is nothing to price. Bounded rather than unknown: the
+  two compacts of the session measured read 526k tokens between them, about
+  $0.30 at the cache-read rate a warm prefix gets.
 - **A rate that changed after a row was written.** Each row records the
   `pricesAsOf` it was priced under and is never re-priced — its transcript is
   usually gone by then — so a table update applies forward only, and `pnpm costs`

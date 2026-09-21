@@ -82,9 +82,8 @@ const table = (title: string, buckets: Record<string, Bucket>): void => {
     );
 };
 
-// All three time grains print every run. Each answers a question the others
-// cannot — the month is the bill, the week is the trend, the day is which
-// session did it — and a grain behind a flag is a grain nobody asks for.
+// Every grain prints: the month is the bill, the week the trend, the day which
+// session did it.
 table('month', totals.byMonth);
 table('week', totals.byWeek);
 table('day', totals.byDay);
