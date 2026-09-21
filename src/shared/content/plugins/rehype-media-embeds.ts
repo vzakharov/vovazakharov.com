@@ -2,8 +2,8 @@ import 'server-only';
 
 import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
-import { SKIP, visit } from 'unist-util-visit';
 
+import { replaceElements } from '../hast-elements';
 import { hastText } from '../hast-text';
 
 const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.mov', '.m4v'] as const;
@@ -47,23 +47,19 @@ function soleElementChild(node: Element): Element | undefined {
  * the player.
  */
 function embedVideos(tree: Root) {
-  visit(tree, 'element', (node: Element, index, parent) => {
-    if (node.tagName !== 'p' || index === undefined || !parent) return;
-
+  replaceElements(tree, 'p', (node) => {
     const link = soleElementChild(node);
     if (link?.tagName !== 'a') return;
 
     const href = videoHref(link);
     if (href === undefined) return;
 
-    parent.children.splice(index, 1, {
+    return {
       type: 'element',
       tagName: 'video',
       properties: { src: href, ariaLabel: hastText(link).trim() },
       children: [],
-    });
-
-    return [SKIP, index + 1];
+    };
   });
 }
 
