@@ -254,27 +254,33 @@ tag-name test — the exact repetition just hunted out of the plugins, standing
 twice inside the module built to end it. `replaceElements` now rides on
 `visitElements`.
 
-## The reason it reaches for is not the reason that holds (×1)
+## A constraint a checker enforces earns no prose (×1)
 
-Asked why a thing sits where it does, the agent gives the reason that argues
-best — an impossibility overstated into a wall, an appeal to needs that don't
-exist yet — and skips the one that already decides it: present, structural, and
-enforced by a checker in plain view. The dramatic justification is the one worth
-writing; the plain true one is passed over for being plain.
+Asked why a thing sits where it does, the agent writes to defend the placement —
+a rules bullet, a docstring — when where it may sit is both obvious from
+conventions already written down and enforced by a checker in plain view. No
+prose is owed: the checker fails the wrong move unread, and the convention
+decides the case unrestated. The trap has two floors. The first is reaching for
+a dramatic justification — a wall, needs that don't exist yet — over the plain
+one. The second, under it, is that the plain reason was not owed either:
+supplying a better sentence is not the repair. Deletion is, because the sentence
+should not have been written.
 
-**21 September — a placement defended by a wall that wasn't there.** On PR #72,
-asked why `ContentVideo` (a mapped content component) lives in
+**21 September — a rule written to defend a placement nothing needed defending.**
+On PR #72, asked why `ContentVideo` (a mapped content component) lives in
 `pages/documents/ui/` rather than beside the plugin emitting its `<video>` in
 `shared/content`, the bullet on `content.md` gave two reasons: `shared/content`
 is `server-only`, so a client island "could never" be imported from it, and
-future islands — a copy button, a lightbox — justify the home. Both fell. The
-server-only split is bridgeable by a client-safe barrel (the repo's own
-suffixed-barrel pattern), so the wall wasn't solid; and `ContentVideo` has no
-`use client` today, so tomorrow's islands were over-justification of where it
-lives now. The reviewer took both apart, and the plain reason sat in view the
-whole time — FSD import direction: the component is `pages` composition,
-`shared/content` is below it, one-way imports forbid reaching up, and Steiger and
-`boundaries` enforce it whether the component is client or server.
+future islands — a copy button, a lightbox — justified the home. Both fell — the
+server-only split is bridgeable by a client-safe barrel, and `ContentVideo` has
+no `use client` today — so the agent rewrote the bullet around the plain reason,
+FSD import direction. _the bullet is a polar bear_: where a component may live
+follows from ordinary FSD reasoning in `fsd.md`, and Steiger flags any real
+violation, so spelling it out duplicates the checker and documents the obvious.
+The fix was to delete the bullet (3ccbff8), not to reword it. The plain reason
+had not even held cleanly — Steiger does not forbid the component from
+`shared` — which is what inventing a justification for a rule that shouldn't
+exist gets you.
 
 ## Not bumps
 
