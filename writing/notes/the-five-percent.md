@@ -98,36 +98,7 @@ requires an entity to have a model._ The two-condition `widgets/` rule written a
 hour earlier rests on the same truncation, and the sentence granting the absent
 layer — "nothing earns it yet" — is the agent's own, in that same file.
 
-## It edits the copy in front of it, not the fact behind it (×11)
-
-A change the agent is told to make, it makes where it was raised. One fact
-rendered in three places gets one rendering updated; a rule fixed in the repo
-that adopted it leaves the source carrying the cause. Nothing catches the split —
-every site reads correctly alone, and the divergence exists only between them.
-
-**8 September — one stack, three spellings.** Playgram's tech line renders in
-three places, all the agent's own work in the same branch; told to add Supabase
-and Railway, it edited one. No screenshot shows it: each page was right alone.
-
-**9 September — the rule fixed in the copy, not in the source.** Told a squash
-body has no business carrying a "things to know when editing here" paragraph, the
-agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
-skill adopted from a repo whose copy still asks for it. _Let's file an issue._
-
-**17 September — renamed everywhere the name was a path.** `web-not-console`
-became `web-not-cli` through the filename, every cross-link and both committed
-PDFs; the article's own heading still ended "not from your console". _"...web,
-not CLI"_ came back as the fix. The heading is the one place the name is a
-sentence, which is the one place a grep for the old slug does not reach.
-
-**21 September — the argument left standing when its reason moved out.** The
-Bible's articles moved to a site of their own and latestageagentic.com's long
-opening argument stayed as written: nothing in the diff made a sentence of it
-false. _far too much now that the articles are elsewhere._ What earned the length
-had left with them — the change was checked for what it broke, never for what it
-stranded.
-
-## An account that explains the code stands in for running it (×11)
+## An account that explains the code stands in for running it (×12)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -165,7 +136,44 @@ and freshness had been allowed to stand for the page being right — the same
 round having also reported both sites green without re-running a check a
 docstring edit under `PRINT_SOURCES` had already turned red.
 
-## It writes its reasoning into the artifact (×8)
+**21 September — the footer credit, rendered and not opened.** A per-site
+copyright credit added to the printed footer re-flagged the PDFs; the agent
+rendered both, watched the check pass and committed. _ссылка подчёркнута, шрифт
+поехал_ — the credit's `<Anchor>`, nested inside the © line's `<Text>`, sat
+outside the footer's `.printedFrom > *` rule (direct children only) and kept
+Mantine's default underline and a size larger than the notice around it. It was
+there in the very PDF just rendered and committed.
+
+## It edits the copy in front of it, not the fact behind it (×11)
+
+A change the agent is told to make, it makes where it was raised. One fact
+rendered in three places gets one rendering updated; a rule fixed in the repo
+that adopted it leaves the source carrying the cause. Nothing catches the split —
+every site reads correctly alone, and the divergence exists only between them.
+
+**8 September — one stack, three spellings.** Playgram's tech line renders in
+three places, all the agent's own work in the same branch; told to add Supabase
+and Railway, it edited one. No screenshot shows it: each page was right alone.
+
+**9 September — the rule fixed in the copy, not in the source.** Told a squash
+body has no business carrying a "things to know when editing here" paragraph, the
+agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
+skill adopted from a repo whose copy still asks for it. _Let's file an issue._
+
+**17 September — renamed everywhere the name was a path.** `web-not-console`
+became `web-not-cli` through the filename, every cross-link and both committed
+PDFs; the article's own heading still ended "not from your console". _"...web,
+not CLI"_ came back as the fix. The heading is the one place the name is a
+sentence, which is the one place a grep for the old slug does not reach.
+
+**21 September — the argument left standing when its reason moved out.** The
+Bible's articles moved to a site of their own and latestageagentic.com's long
+opening argument stayed as written: nothing in the diff made a sentence of it
+false. _far too much now that the articles are elsewhere._ What earned the length
+had left with them — the change was checked for what it broke, never for what it
+stranded.
+
+## It writes its reasoning into the artifact (×9)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -191,6 +199,13 @@ not the lede", both answering a question only someone who had watched it leave
 afterwords opened on who had said what — «про мегапиксели я был неправ» — so the
 thought arrived wrapped in an exchange the reader never saw. _conversational
 соображения оставляй исключительно в комментариях_.
+
+**21 September — a clause denying the arrangement the move had ended.** Moving
+`DocumentMeta` into `entities/document`, the byline docstring closed on "both
+reach down to it rather than sharing it sideways" — the sideways-sharing being the
+pre-move state, which no reader of the current tree would reach for. _медведь?_
+The negation was authored in the same commit that made it one, `CLAUDE.md` naming
+the defect and the docstring freshly written.
 
 ## Asked for a source, it supplies its own version (×8)
 
@@ -298,6 +313,23 @@ without why both exist, and the first move on _what's the difference_ was to
 rename `path` to `raster` — one site keeps an SVG there. `seal`'s omitted that
 the same file underlays the home page.
 
+## A required change launders the unrequired one beside it (×1)
+
+One part of an edit is forced — a type that won't otherwise hold, a rename the
+compiler demands — and the agent lets it stand for the whole. The necessary part
+is defended and the rest rides in unexamined: the justification is scoped to what
+was under question, and an edit that survives it reads as minimal. Whether a form
+that changed less met the same requirement is never asked.
+
+**21 September — the annotation bought with the destructuring.** `SiteImage`'s
+widening genuinely needs the annotation — `SITE_CONFIGS` is `as const satisfies`,
+so a vector-less site has no `vector` key — so the agent rewrote
+`const { avatar } = siteConfig(RENDERED_SITE)` as
+`const avatar: SiteImage = siteConfig(RENDERED_SITE).avatar` and justified the
+annotation in the commit body. _why abandon the destructuring at all?_ —
+`const { avatar }: SiteConfig = siteConfig(RENDERED_SITE)` widens the same and
+keeps it. The half under question was defended; the whole edit read as settled.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -316,7 +348,7 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Nine learnings is not a pattern, but they fall in two groups. One is failures to
+Ten learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the checker whose coverage read as
 the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
