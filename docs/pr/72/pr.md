@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-19T09:45:02Z
-- **Updated:** 2026-09-21T12:50:48Z
+- **Updated:** 2026-09-21T13:10:14Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -142,9 +142,9 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T04** `src/shared/content/plugins/rehype-media-embeds.ts`:64 — resolved — last: @vzakharov (agent) 2026-09-21T11:09:25Z — "Ты прав, и причины не было. `toJsxRuntime` ищет компонент по…" → [↓](#t04)
 - **T05** `src/shared/content/markers.ts`:5 — resolved — last: @vzakharov (agent) 2026-09-21T11:09:26Z — "Избавило целиком — файла больше нет. Оговорка была диагнозом…" → [↓](#t05)
 - **T06** `src/shared/content/plugins/rehype-media-embeds.ts`:1 — resolved — last: @vzakharov (agent) 2026-09-21T11:09:27Z — "Посмотрел — видишь верно. Каждый rehype-плагин начинался с о…" → [↓](#t06)
-- **T07** `.claude/rules/content.md`:112 — unresolved — last: @vzakharov (human) 2026-09-21T12:46:29Z — "поясни пжст это (строка 112)" → [↓](#t07)
-- **T08** `src/shared/content/plugins/rehype-table-scroll.ts`:20 — unresolved — last: @vzakharov (human) 2026-09-21T12:48:30Z — "скорее для моего ликбеза чем исправления (хотя кто знает), н…" → [↓](#t08)
-- **T09** `src/shared/content/hast-elements.ts`:28 — unresolved — last: @vzakharov (human) 2026-09-21T12:49:42Z — "это нельзя ли перевыразить через `visitElements` (добавив то…" → [↓](#t09)
+- **T07** `.claude/rules/content.md`:112 — unresolved — last: @vzakharov (human) 2026-09-21T13:10:14Z — "хмммм ну во-первых у нас есть `.client-safe.`/`.server-only.…" → [↓](#t07)
+- **T08** `src/shared/content/plugins/rehype-table-scroll.ts`:20 — resolved — last: @vzakharov (agent) 2026-09-21T12:56:55Z — "Потому что здесь мы ещё в дереве, а не в React. Плагин прави…" → [↓](#t08)
+- **T09** `src/shared/content/hast-elements.ts`:28 — resolved — last: @vzakharov (agent) 2026-09-21T12:56:56Z — "Можно и нужно — сделано в 91903bb. `visitElements` теперь от…" → [↓](#t09)
 
 <a id="t01"></a>
 
@@ -315,21 +315,45 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 поясни пжст это (строка 112)
 
+**@vzakharov (agent)** — 2026-09-21T12:56:54Z
+
+Строчка про то, где физически живёт компонент, рендерящий тег из карты, — и почему не там, где рука тянется его положить.
+
+Пишешь плагин (скажем, `rehype-media-embeds`, испускающий `<video>`) — и хочется положить `ContentVideo` рядом, в `shared/content`, к плагину, который его порождает. Нельзя: `shared/content` весь `server-only` (каждый модуль открывается `import 'server-only'`). А ради чего мы вообще везём до React дерево, а не строку, — ради клиентских островов: кнопка «скопировать» на код-фенсе, лайтбокс на картинке, то есть `'use client'`-компоненты. Импортируй такой в `server-only`-модуль — сборка падает.
+
+Поэтому компонент живёт рядом с картой (`CONTENT_COMPONENTS` в `article-body.tsx`, слой `pages/documents/ui/`) — это композиция страницы, ей острова держать можно. Плагин в `shared/content` только называет тег; карта в `pages` привязывает тег к компоненту. Правило — напоминание не поддаться и не перетащить компонент «поближе к плагину».
+
+Если сама строчка читается тяжело — могу переписать её в этом духе, скажи.
+
+**@vzakharov (human)** — 2026-09-21T13:10:14Z
+
+хмммм ну во-первых у нас есть `.client-safe.`/`.server-only.`-бочки (если ещё нет, посмотри playgramai/playgramapp как это реализовано), соответственно тянуть только-клиентское можно через только-клиентскую бочку. Во-вторых, если ContentVideo *сам по себе* не клиентский -- без кнопок копирования, лайтбоксов и прочего -- то (а) незачем его располагать в 'use client' (кажется мы этого и не делаем) и (б) незачем оправдывать какими-то будущими компонентами расположение текущего, уже реализованного.
+
+В общем-то я не против его держать и там, где ты сказал, но мотивация, кажется, не та.
+
+Или я что-то не так понял?
+
 ---
 
 <a id="t08"></a>
 
-### `src/shared/content/plugins/rehype-table-scroll.ts`:20 — unresolved
+### `src/shared/content/plugins/rehype-table-scroll.ts`:20 — resolved
 
 **@vzakharov (human)** — 2026-09-21T12:48:30Z
 
 скорее для моего ликбеза чем исправления (хотя кто знает), но: почему мы здесь возвращаем объект, а не готовый tsx, типа `<div ...>`?
 
+**@vzakharov (agent)** — 2026-09-21T12:56:55Z
+
+Потому что здесь мы ещё в дереве, а не в React. Плагин правит hast, а `<div ...>` в TSX скомпилировался бы в `React.createElement`, то есть в React-элемент — а `replaceElements` ждёт hast-узел (`ElementContent`), не его. Даже синтаксически: файл `.ts`, а не `.tsx`, JSX тут не включён.
+
+Дерево превращается в JSX ровно один раз и в самом конце — `hast-util-to-jsx-runtime` в `ArticleBody`; до этого весь пайплайн (`server-only`, ноль клиентского JS) говорит на hast. Так что объектный литерал — это не «сырая» форма готового `<div>`, а собственно данные, которые React потом и прочитает. Отсюда же, кстати, `className: ['content-table-scroll']` массивом, а не строкой: это hast-свойство, не JSX-проп.
+
 ---
 
 <a id="t09"></a>
 
-### `src/shared/content/hast-elements.ts`:28 — unresolved
+### `src/shared/content/hast-elements.ts`:28 — resolved
 
 ```diff
 @@ -0,0 +1,39 @@
@@ -348,6 +372,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 **@vzakharov (human)** — 2026-09-21T12:49:42Z
 
 это нельзя ли перевыразить через `visitElements` (добавив тому в `visitor` index и parent)?
+
+**@vzakharov (agent)** — 2026-09-21T12:56:56Z
+
+Можно и нужно — сделано в 91903bb. `visitElements` теперь отдаёт визитору `index` и `parent` и возвращает его `VisitorResult`, а `replaceElements` построен поверх него: остаётся только «подменить узел в родителе», обход дерева больше не выписывается второй раз. Оба вызова по месту (`rehype-image-dimensions`, `rehype-image-layout`) не тронуты — их `(node) => void` по-прежнему присваивается к более широкой сигнатуре, так что расширился контракт, а не список правок.
+
+Единственное, что теперь стало можно из визитора `visitElements`, — вернуть команду обхода (`SKIP` и т.п.); для правки по месту это невидимо, ей достаточно вернуть `void`.
 
 ---
 
