@@ -14,13 +14,15 @@ touches it, so the check was fenced behind `server-only`, and
 through that, why `InternalLink` was handed paper's copy of its own
 href rather than deriving it.
 
-`oneOf` and `isOneOf` under `shared/lib` do the check with a type
-predicate, deriving the union from the `const` array the ids already
-live in. With the weight gone the fences have nothing to hold back:
-`shared/i18n`'s schema module and its server-only barrel are deleted,
-the `.unsafe.` suffix goes with the warning it carried, the CV
-catch-all hand-writes its tuple parse, and `shared/config`'s
-server-only barrel is down to `BUILD_YEAR` -- the one export there
+`isOneOf`, `oneOf` and `oneOfEach` join `pick` in `shared/lib`'s
+collections, checking with a type predicate over the `const` array the
+ids already live in -- the last along a sequence of such arrays,
+returning the prefix tuple a catch-all route's segments make, so the
+CV's address type derives from the lists it is parsed against instead
+of restating them. With the weight gone the fences have nothing to
+hold back: `shared/i18n`'s schema module and its server-only barrel
+are deleted, the `.unsafe.` suffix goes with the warning it carried,
+and `shared/config`'s server-only barrel is down to `BUILD_YEAR` --
 fenced for a reason zod never supplied, the module otherwise running
 again at hydration and printing the reader's year for the build's.
 
