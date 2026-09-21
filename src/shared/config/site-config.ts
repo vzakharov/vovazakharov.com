@@ -20,10 +20,18 @@ export const PAGE_ROUTES = {
 } as const;
 
 /**
- * One of a site's own marks. `path` is what the metadata publishes and what a
- * raster consumer gets; `vector` is the same drawing as SVG, which a page
- * renders in its place where one exists — an Open Graph card cannot be one, so
- * a single field could not serve both.
+ * One of a site's own marks, as up to two files.
+ *
+ * `path` is the canonical one — what the metadata publishes, and what a page
+ * renders unless `vector` says otherwise. `vector` is the same drawing as SVG,
+ * which a page prefers where it exists, and it exists only where `path` had to
+ * be a raster: no Open Graph consumer renders an SVG, so a mark that is also a
+ * card cannot be served by one field.
+ *
+ * Which is why a mark no card ever unfurls states its SVG as `path` and leaves
+ * `vector` undefined, rather than the other way round — the seal is that case,
+ * and `pnpm content:og:<site>` is what rasterises `path` from `vector` for the
+ * marks that are both.
  */
 export type SiteImage = Sized & {
   path: string;

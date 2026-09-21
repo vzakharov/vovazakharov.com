@@ -5,9 +5,12 @@
       "@/*": ["../../src/*"]
     }
   },
-  // The reach back into the repository root is for the ambient declarations —
-  // stylesheet modules, the next-intl catalogue — which nothing imports, so a
-  // check that only follows this directory's imports never sees them.
+  // The two `../../` entries: `include` seeds the file set and imports extend
+  // it, so an ambient declaration — the stylesheet modules, the
+  // `NEXT_PUBLIC_SITE` augmentation, the next-intl catalogue — is in the set
+  // only because it is named here. Nothing imports one, so nothing pulls one
+  // in. Spelled per app because each app is its own `tsc` project, and
+  // `include` resolves against the file that states it.
   "include": [
     "next-env.d.ts",
     "**/*.ts",
