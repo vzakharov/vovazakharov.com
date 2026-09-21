@@ -454,20 +454,20 @@
   }
 }
 
-// The size is measured rather than chosen: below about 1.5em the star closes
-// up and the mark reads as a bullet. `max-height` is restated because the base
-// rule's is in `rem`, which an `em` size cannot outrank by cascade alone.
+// The size is measured rather than chosen: below about 1.5em the seal's ring
+// closes up and the mark reads as a bullet. `max-height` is restated because
+// the base rule's is in `rem`, which an `em` size cannot outrank by cascade
+// alone.
 .content-end-mark {
-  display: inline;
-  width: 1.9em;
-  height: 1.9em;
+  display: block;
+  width: 2.5em;
+  height: 2.5em;
   max-height: none;
-  margin: 0 0 0 0.3em;
-  vertical-align: -0.55em;
+  margin-inline: auto;
 }
 
-// An article ending in a list, a table or a fence has no sentence for the mark
-// to follow, so it gets a line of its own.
+// The mark closes the document on a line of its own, whatever the last block
+// was.
 .content-end-mark-line {
-  margin-top: 1.25em;
+  margin-top: 1.75em;
 }

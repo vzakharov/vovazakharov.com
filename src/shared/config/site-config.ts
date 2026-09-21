@@ -54,10 +54,12 @@ export type SiteConfig = Billed & {
   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
   avatar: SiteImage;
   /**
-   * The mark an article closes on, in place of an amen. `undefined` on a site
-   * whose documents end where their prose does. Spelled rather than left
-   * optional — an omitted key is silently absent, and a new site should have
-   * to answer this one.
+   * The site's unlettered mark: what an article closes on in place of an amen,
+   * and what the home page's seal is left showing once a held pointer has
+   * faded `avatar.vector`'s lettering off it. `undefined` on a site whose
+   * documents end where their prose does. Spelled rather than left optional —
+   * an omitted key is silently absent, and a new site should have to answer
+   * this one.
    */
   seal: SiteImage | undefined;
 };

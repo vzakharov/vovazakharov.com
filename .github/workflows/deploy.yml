@@ -6,10 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       site:
-        description: Which site this run publishes
-        type: choice
-        options: [both, vova, lsa, bible]
-        default: both
+        # A free-text field rather than a `choice`, which is single-select: with
+        # three sites the useful pickers include the pairs, and enumerating
+        # every combination as an option is one row per subset.
+        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`
+        type: string
+        default: all
 
 permissions:
   contents: read
@@ -42,7 +44,8 @@ jobs:
           subjects=''
 
           # A site name selects that site; anything else — an unscoped subject,
-          # a scope naming none of them — selects all of them. `vova` is tracked
+          # a scope naming none of them, the picker's own `all` — selects all of
+          # them. `vova` is tracked
           # apart from the rest because it leaves by a different door: it is this
           # repository's own Pages site, and the others are force-pushed.
           select_site() {
@@ -56,9 +59,27 @@ jobs:
             esac
           }
 
+          # The picker names its sites outright, so an unrecognized one is a
+          # typo rather than the "anything else" a commit scope legitimately
+          # is — and a typo that fell through to `select_site` would publish
+          # everything instead of the one site the operator meant.
+          select_picked() {
+            case "$1" in
+              all | vova | lsa | bible) select_site "$1" ;;
+              *)
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`." >&2
+                exit 1
+                ;;
+            esac
+          }
+
           if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
             # No subject to read a scope off, so the picker stands in for one.
-            select_site "${SITE:-both}"
+            # Unquoted on purpose: the field is a list, split on either
+            # separator a person writing one reaches for.
+            for picked in $(tr ',' ' ' <<< "${SITE:-all}"); do
+              select_picked "$picked"
+            done
             verdict="Manual run — vovazakharov.com: $vova, receivers:$receivers."
           else
             # Subject lines only: a body that happens to mention "fix:" is not a fix.

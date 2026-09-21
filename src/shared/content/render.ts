@@ -172,8 +172,6 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
       langs: CODE_LANGUAGES,
     });
 
-  // After every pass that can change which element ends the document — the
-  // table wrapper, the highlighter — so the mark lands on the real last one.
   if (seal !== undefined) pipeline.use(rehypeEndMark, { seal });
 
   const file = await pipeline

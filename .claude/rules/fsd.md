@@ -30,14 +30,15 @@ Lowest (most generic) first — an import may only point downward:
 are optional; **inventing one costs more than leaving it out** (see
 "insignificant slices" below).
 
-**What earned `widgets/` is the pair that reads the resolved site.** A block two
-page slices both render cannot sit in either of them — slices may not reach each
-other sideways — and `shared/ui` is the barrel client components import, so
-anything in it that touched `@/shared/config/index.server-only` would put the
-resolved configuration in the browser. `DocumentCards` needs `linkTo` and
-`SiteFooter` needs `BUILD_YEAR`, so both belong on the one layer that is above
-`shared` and below `pages`. A block needing none of that stays in `shared/ui`,
-which is where `SummaryCard` and the document byline are.
+**`widgets/` is for a block two page slices share _and_ that reads the resolved
+site.** Slices may not reach each other sideways, so a block both render cannot
+sit in either of them; and `shared/ui` is the barrel client components import,
+so anything there touching `@/shared/config/index.server-only` would put the
+resolved configuration in the browser. Both conditions together leave exactly
+one layer — above `shared`, below `pages` — which is why `DocumentCards` (it
+needs `linkTo`) and `SiteFooter` (it needs `BUILD_YEAR`) sit there. A shared
+block needing no site configuration stays in `shared/ui`, with `SummaryCard` and
+the document byline.
 
 ## Rules
 

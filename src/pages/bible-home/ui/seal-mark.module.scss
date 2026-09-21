@@ -24,12 +24,16 @@
   inset-inline-start: 100%;
   top: 50%;
   width: max-content;
-  max-width: 13em;
+  max-width: 16em;
   margin-inline-start: 16px;
   transform: translateY(-50%);
   font-size: 14px;
   font-style: italic;
   line-height: 1.4;
+  // Against the centred header it sits in, and honouring the break the copy
+  // itself authors.
+  text-align: start;
+  white-space: pre-line;
   opacity: 0;
   pointer-events: none;
 
@@ -38,7 +42,6 @@
     top: 100%;
     margin: 12px 0 0;
     transform: translateX(-50%);
-    text-align: center;
   }
 }
 

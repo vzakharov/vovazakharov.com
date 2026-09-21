@@ -32,9 +32,7 @@ function vovaRoutes(): string[] {
  * a new document appears here without touching this file.
  */
 export function sitemap(): MetadataRoute.Sitemap {
-  // Deduplicated because a rooted collection's index *is* the home page, and
-  // a crawler asked twice for one URL is a crawler asked to resolve a
-  // duplicate the canonical link already resolved.
+  // Deduplicated because a rooted collection's index *is* the home page.
   const staticRoutes = [
     ...new Set([
       '/',

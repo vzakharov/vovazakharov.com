@@ -74,9 +74,14 @@ export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
 /**
  * Where the pipeline's whole-site renders land under `public/`, and the one
- * directory a walk for sources skips — a rooted collection's directory is the
- * site's whole `public/`, so that separation is maintained rather than
- * structural.
+ * directory a walk for sources skips: an output read back as an input never
+ * settles, a render's own product hashing into the source set that decides
+ * whether it is stale. So the name is the contract — a run writes here and
+ * never reads here — and a file that is nothing's output does not belong in
+ * it.
+ *
+ * A rooted collection's directory is the site's whole `public/`, which is what
+ * makes that separation this constant rather than where the directories sit.
  */
 export const GENERATED_DIR = 'generated';
 
