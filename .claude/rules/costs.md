@@ -95,8 +95,11 @@ charged.
 **The usage panel is not a third opinion, and reconciling against it is wasted
 work.** Its "Cost" and its own Breakdown's cost row disagree — $198.49 against
 $47.04 on one card — and across a compact its four token rows stood unchanged
-while the Cost field moved $51.71 to $89.94. Whatever it is counting, at least
-one of its figures is not the tokens the transcript records.
+while the Cost field moved $51.71 to $89.94. Pricing its own token rows at this
+table's rates misses its own Cost by ≈4× on one card and ≈33× on another, so
+the gap is not a unit or a stale rate either — those would miss by one factor
+in both. Whatever it is counting, it is not the tokens printed above it;
+anthropics/claude-code#95837 asks them which of the figures is authoritative.
 
 ## Running beside the harness's Stop check
 
