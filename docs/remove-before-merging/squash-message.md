@@ -9,13 +9,12 @@ The Bible was an article collection served from a domain named for
 something else. `agentic.bible` is named for it, so the collection
 becomes the repository's third site: `apps/bible/` builds from the same
 `src/` and is force-pushed to a receiving repository whose Pages serves
-the domain, the door `lsa` already leaves by. Two receivers is where the
-one-off publish script stops being one — it takes a site id and a fixed
-deploy-key variable the workflow maps each receiver's secret into, the
-publish jobs collapsing onto a matrix the gate emits. Three sites is
-where the manual picker stops being a single-select `choice`: it takes
-`all` or a list, and an unknown id fails the run. Porkbun has an API, so
-the domain's records are written from here too.
+the domain. Two receivers is where the one-off publish script stops
+being one — a site id and a fixed deploy-key variable the workflow maps
+each receiver's secret into, the publish jobs collapsing onto a matrix
+the gate emits. Three sites is where the manual picker stops being a
+single-select `choice`: `all` or a list, an unknown id failing the run.
+Porkbun has an API, so the domain's records are written from here too.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
@@ -24,17 +23,18 @@ reach through one joiner, and its directory is the site's whole
 `public/` — so the render walk's guarantee that it cannot hand a script
 its own output becomes an explicit skip of `generated/`. Its home page
 is a slice of its own, and the card list it shares with the collection
-index moves to a first `widgets/` slice — the one layer where a block
-two page slices render may also read the resolved site.
+index moves to a first `widgets/` slice.
 
 The mark is a wax seal in two cuts, lettered for the site and blank for
 itself — one drawing, the lettered cut being the blank one plus a
 letters path, which lets the home page fade the lettering off under a
 held pointer rather than cross into a different image. The blank cut
 closes every article in place of an amen, on a centred line of its own
-below the last block: a rehype plugin rather than markup in
-`ArticleBody`, which takes the compiled HTML and nothing else, and it
-prints into every document's PDF source set.
+below the last block, emitted by a rehype plugin rather than by
+`ArticleBody`, which takes the compiled HTML and nothing else. On paper
+that exposed the footer under it: a `<tfoot>` repeats per page but sits
+beneath the prose on the last one, so the address line now reserves its
+band there and is painted into it out of flow, at the foot of a sheet.
 
 What that leaves behind on latestageagentic.com is a front page with no
 collection under it, so it becomes the index the project needed anyway:
