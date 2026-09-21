@@ -114,7 +114,7 @@ versus the panel's", and the widen-the-frame principle went that session to the
 agent's own code and not to the source it was being measured against — an honest
 "I cannot explain this" reached without testing the one assumption that was wrong.
 
-## An account that explains the code stands in for running it (×11)
+## An account that explains the code stands in for running it (×12)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -147,6 +147,20 @@ transcript never carries. _something's off_ came from the operator comparing the
 total against the client's own usage panel: 7% short. The same transcripts carry
 `cost-state` records, the client's own running cost, in the lines the agent had
 been reading one by one and had written up as unverifiable.
+
+**21 September — one word for two deaths.** Asked whether a filesystem watcher
+could close the ledger's last-turn blind spot, the agent refused: a watcher dies
+with the container exactly as the session does. _контейнер не умирает после
+каждого Stop-а … мы-то бы запускали его сразу после изменения файла_ — the turn
+ends at once, the container is reclaimed tens of minutes later, and the gap the
+one word erased is the blind spot itself. The reason came from a deferred step
+inside `/finalize`, correctly ruled
+out because it is still a turn, and reused without rechecking that it transferred;
+a watcher is not a turn, which is the whole difference. The verdict moved with the
+reason: the watcher is a real option, whose cost is something else entirely — a
+write outside the `Stop` event the race with the harness is serialised around. A
+"no" defended by a reason that does not hold reads as settled, and is harder to
+reopen than an honest "I don't know".
 
 ## It edits the copy in front of it, not the fact behind it (×10)
 
