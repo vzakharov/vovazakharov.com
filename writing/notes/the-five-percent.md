@@ -55,9 +55,9 @@ checking it would pass. The human's move is to change the given.
 
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that
 documents nothing: the agent weighed three candidates from the list and never
-looked outside it. _Let's introduce "content:"_ — the list is ours. A day later,
-having added it, the agent framed tripping the deploy gate as a trade with no
-clean answer: the word was one day old and already a given.
+looked outside it. _Let's introduce "content:"_ — the list is ours. A day later
+the new word was itself a given, tripping the deploy gate framed as a trade with
+no clean answer.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
 files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
@@ -76,11 +76,6 @@ layer in one line.
 Deepgram heard «ты смотришь на кофе… почти как предзакатное солнце»: it parses,
 and a coffee had just been described. The word was «код», the rung the payoff
 calls back to — and a mis-hearing that makes sense is the kind nothing flags.
-
-**16 September — the call sites it was handed, drawn round as the set.** Made to
-build the component, the agent stood it _beside_ `InternalLink` as
-`PrintableLink` — printability read as a property some links have. _бывают ли у
-нас другие link вообще?_ Every internal link carries a relative href.
 
 **17 September — two stated incapacities, neither retried.** `add_repo` answered
 "cross-tier adds are not supported" and the sibling repo went into the report as
@@ -111,11 +106,6 @@ body has no business carrying a "things to know when editing here" paragraph, th
 agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
 skill adopted from a repo whose copy still asks for it. _Let's file an issue._
 
-**9 September — a rename that took its own inventory on trust.** Told the double
-`l` in `Labelled` hurt, the agent renamed the type and called the two remaining
-mentions "authored prose": there were four, in three files, one a shell variable
-the vet run executes. It had searched its own diff.
-
 **17 September — renamed everywhere the name was a path.** `web-not-console`
 became `web-not-cli` through the filename, every cross-link and both committed
 PDFs; the article's own heading still ended "not from your console". _"...web,
@@ -138,10 +128,6 @@ because the reasoning closed. Nothing inside an account reports it was unchecked
 **8 September — a redirect nobody had opened.** Asked why unlocalized `/cv` needs
 a hand-written redirect file, the agent gave the right reason — no middleware in a
 static export — which closed the question before anyone opened the file.
-
-**14 September — no middle option, in a repo holding twenty-eight of them.**
-Asked where source recordings live, the agent argued a branch-only video is
-collected with the branch. `git ls-remote`: twenty-eight. _я не удаляю ветки_.
 
 **16 September — two objections in one afterword, neither tried.** The megapixel
 analogy was faulted for a mechanism the recording states a paragraph above:
@@ -188,11 +174,6 @@ afterwords opened on who had said what — «про мегапиксели я б
 thought arrived wrapped in an exchange the reader never saw. _conversational
 соображения оставляй исключительно в комментариях_.
 
-**16 September — the footnotes that outlived the pass that needed them.** Every
-edit to the three scripts carried a note on what the recording had instead, kept
-through three review rounds — a diff against the tape, inside the thing to be
-read aloud from. _держать постоянный журнал разницы нет._
-
 ## Asked for a source, it supplies its own version (×8)
 
 The version that argues better is the one that gets written, and whether a source
@@ -214,12 +195,6 @@ of instruments rather than look one up: _погугли, чтобы не хен�
 The replacement was real — a blind pigeon, a rooftop cistern — and still wrong:
 the pigeon was blind like the patient, so it is deduction, not epiphany.
 
-**17 September — the cause given, replaced by the cause visible.** The request
-for the rule delegating edits here named its cost — «бесконечные раунд-трипы с
-вырезанием по крошке» — and the committed rule gave the cost as the 296-line
-read. _ну вообще нет, большая часть -- это бесконечные раунд-трипы._ A cause the
-agent can point at outranks the one it was handed, and the prompt was still open.
-
 **17 September — the reason the recording never gave.** The tape says only that
 database migrations are the exception and that the subject is niche. The idea
 file written from it supplied the why — two individually correct migrations
@@ -237,11 +212,6 @@ option the format hides is silence.
 came back carrying _English only. The site is bilingual; this isn't._ Nothing
 had prompted it — and it does not need saying at all.
 
-**8 September — three glosses invented to fill three slots.** Two of the home
-page's glosses on old side projects came back corrected to things no reading of
-the repos would produce — _chatgpt before chatgpt_ — and a fourth card listed
-TypeScript and FSD for a boilerplate with neither.
-
 **15 September — a record with a row per site, filled cell by cell.**
 `SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site
 arrived as the first with four fields changed and `author`, `social` and
@@ -258,19 +228,10 @@ and then verifies the thing it set out to do. Whether the result is right is a
 different question from whether it happened, and only the second one is
 answerable from the intent.
 
-**8 September — the logos it had already looked at.** The agent screenshotted
-three new organisation marks in both schemes and reported them legible and
-aligned. _the logos are slightly mis-aligned_: one filled its canvas
-edge-to-edge, another was inset a fifth.
-
 **9 September — the card it had just fixed, looked at and passed.** Rendering
 one card per framing off the catalogue, the agent checked the property it had
 set itself and confirmed it held. The same image showed a plate two thirds empty
 with no way to reach the person on it: _the prose itself says nothing_.
-
-**16 September — nine link targets dumped, one question asked of them.** Read for
-what the issue named — `localhost`, twice — the dump also said which seven were
-fine. _все линки открываются норм_ got two rounds of theory it had already answered.
 
 **17 September — the float fixed, the page passed.** Told to run a drawing beside
 the text, the agent floated it, caught unprompted that the float squeezed the
