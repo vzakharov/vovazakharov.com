@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T18:56:30Z
-- **Updated:** 2026-09-21T12:39:32Z
+- **Updated:** 2026-09-21T13:55:21Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -33,7 +33,9 @@
 
 **The review round is in the branch, and it moved three things worth naming here.** The end mark came off the final sentence and onto its own centred line, which deleted the plugin's whole prose-versus-block branch and re-flagged every PDF; latestageagentic.com's front page lost the argument above; and `/dictation` gained an `auto` mode, asked for inside the recording attached to one of the comments. That recording also carried the copy for a page that does not exist yet, which is now #76. What is deliberately **not** here is #51 — it says of itself that a skill rename touching four files is its own change, and this branch is the Bible's.
 
-**The second round moved the printed page.** A `<tfoot>` repeats per printed page but sits directly under the prose on the last one, so an article ending early printed its footer into the middle of the sheet, with the new end mark crammed against it. The `<tfoot>` now reserves the band and the footer itself is `position: fixed`, which both repeats it and pins it to the page box; the band's height is the one number that costs. That re-rendered both sites' PDFs — and turned up four of vovazakharov.com's that had been stale since a docstring edit in `src/shared/config`, which is a `PRINT_SOURCES` entry, so `content:pdf:vova --check` was already red going in. Left open on the same round, answered in the thread and deliberately not acted on: whether `DocumentCards` and the byline belong in an `entities/document` slice rather than in `widgets/` and `shared/ui`.
+**The second round moved the printed page.** A `<tfoot>` repeats per printed page but sits directly under the prose on the last one, so an article ending early printed its footer into the middle of the sheet, with the new end mark crammed against it. The `<tfoot>` now reserves the band and the footer itself is `position: fixed`, which both repeats it and pins it to the page box; the band's height is the one number that costs. That re-rendered both sites' PDFs — and turned up four of vovazakharov.com's that had been stale since a docstring edit in `src/shared/config`, which is a `PRINT_SOURCES` entry, so `content:pdf:vova --check` was already red going in. Left open on the same round: whether `DocumentCards` and the byline belong in an `entities/document` slice rather than in `widgets/` and `shared/ui`.
+
+**The third round decided that slice, tightened a type, and gave the Bible's materials their own copyright.** `DocumentCards` and `DocumentMeta` are the document's own UI, so they moved to a new `entities/document` slice and `fsd.md`'s `widgets/` rule was rewritten as a three-way `shared/ui` / `widgets/` / `entities/` choice; `SiteFooter` stays a widget. `SiteImage`'s `vector` stopped being a `string | undefined` slot and became a discriminated `{ vector: string } | { vector?: never }` — present as a string or absent outright. And a printed Bible article now closes with `© Late Stage Agentic` linking to `latestageagentic.com` rather than the site's own name: the article is the top of the funnel into the agency, so `SiteConfig` gained a per-site `credit` and only the Bible names one. That last change re-rendered the Bible's three PDFs and re-flagged vova's, whose footer text is unchanged.
 
 ## QA Checklist
 
@@ -43,6 +45,7 @@
 - [ ] `end-mark` — the seal closes every article on a centred line of its own, the same way whether the article ends in a sentence (`precedent-fallacy`) or a picture (`tend-prose`); on screen, in print, and against both themes
 - [ ] `lsa-hub` — one paragraph, then three cards across from `lg` and stacked below it, the third visibly not a link
 - [ ] `print-footer` — a printed article carries its footer at the foot of every sheet, the last one included, and a page filled to the bottom shows no overlap between the prose and it
+- [ ] `bible-credit` — a printed Bible article's footer reads `© Late Stage Agentic`, links to `latestageagentic.com`, and reflows the URL half beside it; vova's case-study PDFs still read `© Vova Zakharov`
 - [ ] `vova-untouched` — vovazakharov.com serves what it did; its footer is the shared one now
 - [ ] `dns` — `agentic.bible` and `www.agentic.bible` both resolve to GitHub's Pages addresses, and the zone's `NS` and wildcard rows came through untouched
 - [ ] `sites-own-content` — each of the three domains serves its own title, description and card, which is the failure a shared `src/` makes possible
@@ -57,6 +60,7 @@
 | `end-mark` | Partly | Partly | One code path now, so the served HTML is checkable and the PDFs are hash-checked and re-rendered; how the mark sits on the page is editorial, and was looked at this session |
 | `lsa-hub` | Partly | Partly | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; the column count was rendered at 1024, 900 and 768, which is what moved it off `md`, and the copy's weight is editorial |
 | `print-footer` | Partly | Yes | The PDFs are hash-checked and re-rendered; the last page of all three Bible articles and of `playgram.nano`, plus a page filled to the bottom, were looked at as images this round |
+| `bible-credit` | Partly | Yes | The credit is set per-site in `SiteConfig` and the Bible's three PDFs re-rendered with it; the rendered footer text is editorial, checkable in the committed PDFs and after a publish |
 | `vova-untouched` | Yes | Yes | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref |
 | `dns` | Partly | Yes | Written and read back over Porkbun's API in this session; a resolver check is the whole of it |
 | `sites-own-content` | Partly | Yes | Title, description and `og:image` read off all three live domains; none carries another's |
@@ -64,6 +68,7 @@
 https://claude.ai/code/session_01BUGrCNoZ7V6EoR7jUuUZGG
 https://claude.ai/code/session_0134HKDezVfYQL6DsjYEpwiG
 https://claude.ai/code/session_01TZ516ksPckE7viTYSBtG5J
+https://claude.ai/code/session_014u2WMuX98BB9EjTqMv2v3T
 
 ---
 
@@ -88,21 +93,20 @@ The Bible was an article collection served from a domain named for
 something else. `agentic.bible` is named for it, so the collection
 becomes the repository's third site: `apps/bible/` builds from the same
 `src/` and is force-pushed to a receiving repository whose Pages serves
-the domain. Two receivers is where the one-off publish script stops
-being one — a site id and a fixed deploy-key variable the workflow maps
-each receiver's secret into, the publish jobs collapsing onto a matrix
-the gate emits. Three sites is where the manual picker stops being a
-single-select `choice`: `all` or a list, an unknown id failing the run.
+the domain. Two receivers turn the one-off publish script into
+`publish-site.sh <site>`, its jobs a matrix the gate emits and each
+receiver's secret mapped into one fixed deploy-key variable. Three sites
+turn the manual picker from a single-select `choice` into `all` or a
+list, an unknown id failing the run.
 Porkbun has an API, so the domain's records are written from here too.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
-has an empty `base`, which the three path functions interpolating it now
-reach through one joiner, and its directory is the site's whole
-`public/` — so the render walk's guarantee that it cannot hand a script
-its own output becomes an explicit skip of `generated/`. Its home page
-is a slice of its own, and the card list it shares with the collection
-index moves to a first `widgets/` slice.
+has an empty `base` and its directory is the site's whole `public/`,
+which the path functions and the render walk now special-case. Its home
+page is a slice of its own, and the byline and cards it shares with the
+collection index are the document's own UI — the first `entities/`
+slice, leaving `widgets/` with the footer alone.
 
 The mark is a wax seal in two cuts, lettered for the site and blank for
 itself — one drawing, the lettered cut being the blank one plus a
@@ -117,11 +121,12 @@ band there and is painted into it out of flow, at the foot of a sheet.
 
 What that leaves behind on latestageagentic.com is a front page with no
 collection under it, so it becomes the index the project needed anyway:
-one paragraph saying what the agency is, over three cards — the Bible,
-MUTHUR, and courses that do not exist yet, whose `SummaryCard` takes an
-optional `href` so it is a card rather than a dead link. `/dictation`
-gains an `auto` mode on the way through, reading the mode off the
-transcript rather than asking before there is one.
+one paragraph on what the agency is, over three cards — the Bible,
+MUTHUR, and courses that do not exist yet, the last a card without a
+link. A printed Bible article now credits Late Stage Agentic and links
+to it, the top of that funnel, so `SiteConfig` carries a per-site credit
+only the Bible names. `/dictation` gains an `auto` mode, reading it off
+the transcript rather than asking before there is one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -133,18 +138,21 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T01** `.claude/rules/fsd.md`:40 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:14Z — "Она, да — описывала, как `widgets/` до этого слоя дошёл, а н…" → [↓](#t01)
 - **T02** `.github/workflows/deploy.yml`:11 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:15Z — "Сделал `all`, и поле стало свободным текстом вместо `choice`…" → [↓](#t02)
 - **T03** `apps/bible/tsconfig.json`:10 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:36Z — "Механика такая: `tsc` набирает список файлов из `include`, а…" → [↓](#t03)
-- **T04** `scripts/render-og.ts`:189 — unresolved — last: @vzakharov (human) 2026-09-21T12:34:41Z — "если честно все равно апи выглядит путающим, я бы сделал хот…" → [↓](#t04)
+- **T04** `scripts/render-og.ts`:189 — resolved — last: @vzakharov (agent) 2026-09-21T13:20:25Z — "Сделал ровно так: `SiteImage` теперь `Sized & { path } & ({…" → [↓](#t04)
 - **T05** `src/app/lib/sitemap.ts`:37 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:16Z — "Согласен, остальное следует. Оставил первую часть. 73da966" → [↓](#t05)
 - **T06** `src/app/styles/prose.scss`:461 — resolved — last: @vzakharov (agent) 2026-09-21T12:17:32Z — "Поправил — оказалось с первого насеста. **Причина именно та,…" → [↓](#t06)
-- **T07** `src/pages/bible-home/ui/bible-home-page.tsx`:45 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:01Z — "Взял твой текст. Два места, где подредактировал: - «but whic…" → [↓](#t07)
+- **T07** `src/pages/bible-home/ui/bible-home-page.tsx`:48 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:01Z — "Взял твой текст. Два места, где подредактировал: - «but whic…" → [↓](#t07)
 - **T08** `src/pages/bible-home/ui/seal-mark.tsx`:14 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:02Z — "Сделано: `text-align: start` (он наследовал центрирование от…" → [↓](#t08)
 - **T09** `src/pages/lsa-home/ui/lsa-home-page.tsx`:46 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:15Z — "Заменил на твой абзац по-английски: > We are a coding agency…" → [↓](#t09)
 - **T10** `src/pages/lsa-home/ui/lsa-home-page.tsx`:50 — resolved — last: @vzakharov (agent) 2026-09-21T11:19:35Z — "Поправка к предыдущему ответу: `md`, а не `lg`, было рано. У…" → [↓](#t10)
 - **T11** `src/pages/lsa-home/ui/lsa-home-page.tsx`:28 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:37Z — "Тикет: #76. Расшифровал запись, ужал под hero, отзывы перевё…" → [↓](#t11)
-- **T12** `src/shared/config/site-config.ts`:107 — resolved — last: @vzakharov (agent) 2026-09-21T11:08:07Z — "Три ответа по порядку. **Что такое `seal`** — это ненадписан…" → [↓](#t12)
+- **T12** `src/shared/config/site-config.ts`:132 — resolved — last: @vzakharov (agent) 2026-09-21T11:08:07Z — "Три ответа по порядку. **Что такое `seal`** — это ненадписан…" → [↓](#t12)
 - **T13** `src/shared/content/collections.ts`:85 — resolved — last: @vzakharov (agent) 2026-09-21T11:08:20Z — "Ты понимаешь правильно, но смысл чуть другой, чем «то, что н…" → [↓](#t13)
-- **T14** `src/shared/ui/document-meta.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:36:43Z — "трогай :)" → [↓](#t14)
-- **T15** `apps/bible/public/precedent-fallacy.pdf`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:38:36Z — "пока не забыл: подписи для "библейских" материалов должны им…" → [↓](#t15)
+- **T14** `src/entities/document/ui/document-meta.tsx`:1 — resolved — last: @vzakharov (agent) 2026-09-21T13:20:26Z — "Тронул :) `DocumentCards` и `DocumentMeta` переехали в новый…" → [↓](#t14)
+- **T15** `apps/bible/public/precedent-fallacy.pdf`:1 — unresolved — last: @vzakharov (human) 2026-09-21T13:27:56Z — "спасибо! здесь не надо, но issue заведи. Суть -- что футер д…" → [↓](#t15)
+- **T16** `src/entities/document/ui/document-meta.tsx`:27 — unresolved — last: @vzakharov (human) 2026-09-21T13:46:03Z — "медведь?" → [↓](#t16)
+- **T17** `src/shared/config/site-config.ts`:35 — unresolved — last: @vzakharov (human) 2026-09-21T13:50:39Z — "давай выведем в отдельный `shared/typings` а ля ...`<'vector…" → [↓](#t17)
+- **T18** `scripts/render-og.ts`:182 — unresolved — last: @vzakharov (human) 2026-09-21T13:52:07Z — "~~не понял, почему не оставить просто деструктуризацию? поня…" → [↓](#t18)
 
 <a id="t01"></a>
 
@@ -234,7 +242,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t04"></a>
 
-### `scripts/render-og.ts`:189 — unresolved
+### `scripts/render-og.ts`:189 — resolved
 
 ```diff
 @@ -134,26 +146,49 @@ function svgPage(svgName: string): string {
@@ -261,6 +269,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 **@vzakharov (human)** — 2026-09-21T12:34:41Z
 
 если честно все равно апи выглядит путающим, я бы сделал хотя бы тогда а ля `{ path : string } & ({ vector: string } | { vector?: never })`, то есть вектор или есть и он строка, или его просто нет
+
+**@vzakharov (agent)** — 2026-09-21T13:20:25Z
+
+Сделал ровно так: `SiteImage` теперь `Sized & { path } & ({ vector: string } | { vector?: never })` — вектор либо строка, либо его просто нет, без промежуточного `string | undefined`-слота. 37743b1; общий `path` вынес из веток в 6ecd667. Два места, что читают `.vector` (`render-og`, `bible-home`), смотрят на конфиг как на `SiteImage`, чтобы дотянуться до опционального поля через юнион.
 
 ---
 
@@ -337,7 +349,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t07"></a>
 
-### `src/pages/bible-home/ui/bible-home-page.tsx`:45 — resolved
+### `src/pages/bible-home/ui/bible-home-page.tsx`:48 — resolved
 
 ```diff
 @@ -0,0 +1,72 @@
@@ -518,7 +530,7 @@ Preferred: left-aligned, breaks after "this."
 
 <a id="t12"></a>
 
-### `src/shared/config/site-config.ts`:107 — resolved
+### `src/shared/config/site-config.ts`:132 — resolved
 
 ```diff
 @@ -81,6 +99,7 @@ const SITE_CONFIGS = {
@@ -589,7 +601,7 @@ seal это то что в конце текстов или то что на з�
 
 <a id="t14"></a>
 
-### `src/shared/ui/document-meta.tsx`:1 — unresolved
+### `src/entities/document/ui/document-meta.tsx`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-19T13:57:43Z
 
@@ -647,6 +659,10 @@ seal это то что в конце текстов или то что на з�
 
 трогай :)
 
+**@vzakharov (agent)** — 2026-09-21T13:20:26Z
+
+Тронул :) `DocumentCards` и `DocumentMeta` переехали в новый слайс `entities/document`; `SiteFooter` остался виджетом (он комбинирует и он про сайт, а не про документ). Правило в `fsd.md` переписал под трёхсторонний выбор `shared/ui` / `widgets` / `entities`. Слайс родился ui-only: модель остаётся в `shared/content` (build-time, `server-only`), бочка — обычный `index.ts`, а раздвоится в `index.server-only.ts` только когда за байлайном придёт клиентский компонент. 0cc1c3a
+
 ---
 
 <a id="t15"></a>
@@ -659,6 +675,91 @@ seal это то что в конце текстов или то что на з�
 
 Почему: воронка должна быть примерно такая: из библейских статей узнают про "агентство", агентство либо нанимают напрямую, либо узнают обо мне как о potential employee (fractional CTO)
 
+**@vzakharov (agent)** — 2026-09-21T13:20:28Z
+
+Сделал на печатной подписи материалов — там, где стояло «© The Agentic Bible», теперь «© Late Stage Agentic» со ссылкой на latestageagentic.com. Ввёл в конфиг сайта `credit` (имя + ссылка), `undefined` там, где сайт подписывает сам себя; наружу ведёт только у Библии. PDF перерендерил. 969a094, 7985906
+
+Уточнение по трактовке: на экране у статьи отдельной подписи нет — низ статьи это печать, — так что копирайт живёт в печатном футере. Если хочешь видеть его ещё и на экранной странице статьи, скажи, добавлю.
+
+**@vzakharov (human)** — 2026-09-21T13:27:56Z
+
+спасибо! здесь не надо, но issue заведи. Суть -- что футер должен быть с копирайтом везде, а не только на заглавной странице соответствующих сайтов (при этом у latestageagentic копирайт должен вести на vova zakharov)
+
+по текущему: не нужно подчёркивания, и поехал (увеличился без причины) шрифт, сравни было:
+
+<img width="890" height="444" alt="Screenshot 2026-09-21 at 15 47 14" src="./attachments/2317b98d-34b7-409d-ab76-7758d922a74c.png" />
+
+vs стало:
+
+<img width="895" height="424" alt="Screenshot 2026-09-21 at 15 46 48" src="./attachments/6d6b1b98-08bd-48fd-abee-5e61b09dd49a.png" />
+
+---
+
+<a id="t16"></a>
+
+### `src/entities/document/ui/document-meta.tsx`:27 — unresolved
+
+```diff
+@@ -21,9 +21,9 @@ export type DocumentMetaProps = WithFrontmatter &
+ 
+ /**
+  * A document's byline — the same one on an index card and above the article.
+- * Here rather than in a page slice because the card that carries it and the
+- * article header that repeats it sit in different slices, which may not reach
+- * each other sideways.
++ * It is the document entity's own UI, which is why the card beside it and the
++ * article header a page slice up both reach down to it rather than sharing it
++ * sideways.
+  */
+```
+
+**@vzakharov (human)** — 2026-09-21T13:46:03Z
+
+медведь?
+
+---
+
+<a id="t17"></a>
+
+### `src/shared/config/site-config.ts`:35 — unresolved
+
+```diff
+@@ -25,14 +25,23 @@ export const PAGE_ROUTES = {
+… 13 lines elided …
+-  vector: string | undefined;
+-};
++export type SiteImage = Sized & { path: string } & (
++    | { vector: string }
++    | { vector?: never }
+```
+
+**@vzakharov (human)** — 2026-09-21T13:50:39Z
+
+давай выведем в отдельный `shared/typings` а ля ...`<'vector', string>` (название лучше придумай ты), т.е. у нас будет `Sized & { path : string } & ...<'vector', string>`
+
+---
+
+<a id="t18"></a>
+
+### `scripts/render-og.ts`:182 — unresolved
+
+```diff
+@@ -179,7 +179,7 @@ function chartCards(): Card[] {
+… 1 line elided …
+  */
+ function siteCards(): Card[] {
+-  const { avatar } = siteConfig(RENDERED_SITE);
++  const avatar: SiteImage = siteConfig(RENDERED_SITE).avatar;
+```
+
+**@vzakharov (human)** — 2026-09-21T13:52:07Z
+
+~~не понял, почему не оставить просто деструктуризацию? понятно, что у нас коллапснется до `| undefined` -- но в момент использования нас это и не смущает (смущает только в момент задания -- откуда и вся эта `?: never` механика). К другим аналогичным местам тоже относится.~~
+
+Хотя тут кажется всё ещё проще: siteConfig.avatar это у нас и есть `SiteImage`, то есть даже моё оригинальное предположение о том, чем тебе помешала деструктуризация, разваливается.
+
+Что я не так понимаю?
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -668,3 +769,4 @@ seal это то что в конце текстов или то что на з�
 - **2026-09-19T14:01:13Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/69#pullrequestreview-5255777705.
 - **2026-09-21T10:58:03Z** @vzakharov cross-referenced this pull request from [#76 The agentic coding courses page on latestageagentic.com](https://github.com/vzakharov/vovazakharov.com/issues/76).
 - **2026-09-21T12:39:32Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/69#pullrequestreview-5266675501.
+- **2026-09-21T13:55:20Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/69#pullrequestreview-5267357449.
