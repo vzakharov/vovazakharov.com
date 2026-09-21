@@ -6,7 +6,8 @@ import { SITE_CONFIG } from '@/shared/config/index.server-only';
 import { renderPrimaryDocuments } from '@/shared/content';
 import { PageShell, Section } from '@/shared/ui';
 
-import { DocumentCards } from '@/widgets/document-cards';
+import { DocumentCards } from '@/entities/document';
+
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { SealMark } from './seal-mark';

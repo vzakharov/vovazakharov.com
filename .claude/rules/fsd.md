@@ -20,24 +20,42 @@ Lowest (most generic) first — an import may only point downward:
 | Layer       | Holds                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | _(none yet)_ business nouns                                                                              |
+| `entities/` | Business nouns — `document` (its byline and its cards)                                                   |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
-| `widgets/`  | Composite blocks two page slices share — `document-cards`, `site-footer`                                 |
+| `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
 | `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `cv`, `documents`                                   |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
-`entities/` is absent because nothing earns it yet, not as an oversight. Layers
-are optional; **inventing one costs more than leaving it out** (see
-"insignificant slices" below).
+An entity is earned once a block is a business noun's own UI: `document` holds
+the byline and the collection's cards, both about a document and nothing else.
+A layer is still optional and **inventing one costs more than leaving it out**
+(see "insignificant slices" below), so an entity waits for that — a noun with UI
+worth naming, not the mere idea of one.
 
-**`widgets/` is for a block two page slices share _and_ that reads the resolved
-site.** Slices may not reach each other sideways, so a block both render cannot
-sit in either; and `shared/ui` is the barrel client components import, so
-anything there touching `@/shared/config/index.server-only` would put the
-resolved configuration in the browser. The two conditions together leave one
-layer, which is why `DocumentCards` (needs `linkTo`) and `SiteFooter` (needs
-`BUILD_YEAR`) sit there, and why a shared block needing no site configuration
-stays in `shared/ui`, with `SummaryCard` and the document byline.
+**A block two page slices share cannot sit in either of them** — slices may not
+reach each other sideways — so it drops to a lower layer, and which of the three
+below `pages/` takes it turns on what the block _is_, not on the fact that it is
+shared:
+
+- **`entities/`** — the block is one business noun's UI. `DocumentCards` (needs
+  `linkTo`) and `DocumentMeta` are about a document and nothing else, so they are
+  `entities/document/ui`; a list of one entity's cards is that entity's UI, not a
+  widget. FSD asks no model of an entity, so a ui-only one is a legal form.
+- **`widgets/`** — the block _combines_ rather than belonging to one noun, and
+  reads the resolved site. `SiteFooter` (needs `BUILD_YEAR`) is the site's foot,
+  not a document's, so it stays a widget.
+- **`shared/ui`** — the block needs no site configuration at all. It is the
+  barrel client components import, so anything there touching
+  `@/shared/config/index.server-only` would put the resolved configuration in the
+  browser; `SummaryCard` sits here because it reads none.
+
+`entities/document` is born ui-only: its model stays in `shared/content`, which
+is build-time and `server-only`, so a content page costs zero client JS — the
+model would move only if content ever stopped being build-time. Its barrel pulls
+`server-only` today (`DocumentCards` needs `linkTo`), but no client chain enters
+it, so a plain `index.ts` holds; a client component reaching for the byline is
+what would split it into `index.ts` + `index.server-only.ts`, exactly as
+`shared/config` is.
 
 ## Rules
 
@@ -97,4 +115,4 @@ slices, its own segments reach each other directly.
 - **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of its reach. Run a build from the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
 - **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
-- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice, because two slices could not share `back-to-home` or `document-meta` sideways, and the same slice serves every collection on either site.
+- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice: split per collection or into index-versus-article, sibling slices could share neither `back-to-home` nor the document byline sideways, so the same one slice serves every collection on every site. (The byline, `DocumentMeta`, found its own home meanwhile — it is the document entity's, per the `widgets/`-versus-`entities/` note above.)

@@ -9,7 +9,7 @@ import {
 import { constructMetadata } from '@/shared/seo/index.server-only';
 import { BackToHome, PageShell } from '@/shared/ui';
 
-import { DocumentCards } from '@/widgets/document-cards';
+import { DocumentCards } from '@/entities/document';
 
 import {
   COLLECTION_INTROS,

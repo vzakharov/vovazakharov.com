@@ -8,7 +8,9 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
-import { type Chip, ChipNav, DocumentMeta, FileLink } from '@/shared/ui';
+import { type Chip, ChipNav, FileLink } from '@/shared/ui';
+
+import { DocumentMeta } from '@/entities/document';
 
 import classes from './documents.module.scss';
 

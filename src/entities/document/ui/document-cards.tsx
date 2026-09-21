@@ -8,9 +8,10 @@ import {
   type WithCollectionId,
 } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
-import { Card, DocumentMeta, InternalLink } from '@/shared/ui';
+import { Card, InternalLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
+import { DocumentMeta } from './document-meta';
 
 type DocumentCardsProps = WithCollectionId & {
   cards: DocumentCard[];

@@ -28,7 +28,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { type SiteImage, siteConfig } from '@/shared/config/site-config';
+import { siteConfig, type SiteImage } from '@/shared/config/site-config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
