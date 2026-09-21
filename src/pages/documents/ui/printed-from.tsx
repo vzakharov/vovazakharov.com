@@ -37,7 +37,7 @@ export function PrintedFrom({ route }: Routed) {
       <Text>
         ©{' '}
         {credit ? (
-          <Anchor {...pick(credit, 'href')} c="inherit">
+          <Anchor {...pick(credit, 'href')} c="inherit" underline="never">
             {credit.name}
           </Anchor>
         ) : (
