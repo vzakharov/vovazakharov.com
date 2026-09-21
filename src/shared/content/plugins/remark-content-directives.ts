@@ -7,7 +7,7 @@ import type { ContainerDirective } from 'mdast-util-directive';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { isOneOf } from '@/shared/lib/one-of';
+import { isOneOf } from '@/shared/lib/collections';
 
 /**
  * The block components a document may author, as `remark-directive` fences. A

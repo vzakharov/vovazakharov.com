@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { routing } from '@/shared/i18n';
-import { oneOf } from '@/shared/lib/one-of';
+import { oneOfEach } from '@/shared/lib/collections';
 
 import type { CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
@@ -18,21 +18,7 @@ export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 export function parseCvSegments({
   variantAndLocale = [],
 }: WithOptionalCvSegments): CvAddress {
-  const [variant, locale, ...rest] = variantAndLocale;
-
-  if (rest.length > 0) {
-    throw new Error(
-      `The CV route takes a variant and a locale at most, not /${variantAndLocale.join('/')}`,
-    );
-  }
-
-  if (variant === undefined) return [];
-
-  const parsed = oneOf(CV_VARIANTS, variant, 'The CV variant segment');
-
-  return locale === undefined
-    ? [parsed]
-    : [parsed, oneOf(routing.locales, locale, 'The CV locale segment')];
+  return oneOfEach([CV_VARIANTS, routing.locales], variantAndLocale);
 }
 
 /** Which page an address resolves to, each segment it omits falling back. */

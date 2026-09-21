@@ -3,7 +3,6 @@ import type { WithParams } from '@/shared/typings';
 import {
   cvAddressDefaults,
   CvPage,
-  cvPath,
   cvSegmentParams,
   generateCvMetadata,
   parseCvSegments,
@@ -17,10 +16,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const address = parseCvSegments(await params);
-  const { variant, locale } = cvAddressDefaults(address);
-
-  return generateCvMetadata(locale, variant, cvPath(...address));
+  return generateCvMetadata(parseCvSegments(await params));
 }
 
 export default async function Page({ params }: Props) {
