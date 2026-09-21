@@ -93,3 +93,13 @@ export type WithParams<Params> = { params: Promise<Params> };
 
 /** An anchor whose content is its own label — markup rather than a string. */
 export type Anchored = Linked & WithChildren;
+
+/**
+ * A key that is either present with a value or wholly absent — the value is
+ * there in full where the key is, and the key is gone where it is not. Unlike a
+ * plain `{ key?: Value }`, there is no present-but-`undefined` middle state to
+ * misread; a reader tests the key's presence, never a nullable slot.
+ */
+export type PresentOrAbsent<Key extends string, Value> =
+  | { [K in Key]: Value }
+  | { [K in Key]?: never };

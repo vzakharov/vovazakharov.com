@@ -5,7 +5,13 @@
  * each read what they need without the environment read coming along.
  */
 
-import type { Billed, Linked, Named, Sized } from '@/shared/typings';
+import type {
+  Billed,
+  Linked,
+  Named,
+  PresentOrAbsent,
+  Sized,
+} from '@/shared/typings';
 
 import type { SiteId } from './site-ids';
 
@@ -30,10 +36,10 @@ export const PAGE_ROUTES = {
  * there and absent where it is not, never a nullable slot. `pnpm
  * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized & { path: string } & (
-    | { vector: string }
-    | { vector?: never }
-  );
+export type SiteImage = Sized & { path: string } & PresentOrAbsent<
+    'vector',
+    string
+  >;
 
 /**
  * Whom a site's materials are credited to, and where that credit links. Named
