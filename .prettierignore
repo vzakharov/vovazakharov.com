@@ -39,6 +39,10 @@ next-env.d.ts
 # hash of their source, so reformatting them would only churn the diff.
 apps/*/public/generated
 
+# Session cost rows — rewritten wholesale by `scripts/session-cost.ts` on every
+# turn, so a formatting pass over them is undone by the next one.
+.claude/costs/sessions
+
 # GitHub exports — `scripts/export-github-item.py` writes what the thread holds,
 # and a snapshot reformatted is no longer the thing it is a snapshot of.
 docs/issue
