@@ -343,6 +343,26 @@ schema, the agent measured zod through the client chain and put the number in
 intuition. _нам нужно сделать .server-only. модуль или бочку._ The barrel makes
 the same mistake a build error.
 
+## What it defends in writing, it stops asking about (×1)
+
+A choice made, then written up, then pinned by a test has three artifacts
+standing in front of it by the time anyone looks. Each is honest about the
+choice being deliberate and silent on its being right, so the diligence reads as
+an answer to a question nobody asked. The sibling of the section above: there
+the explanation asks a future reader for attention at the one moment it will not
+get; here it buys the choice immunity from the agent's own.
+
+**21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
+took a third argument, `subject`, so a failed check could name what was being
+read; a docstring justified it and a test asserted it reached the message. _drop
+it_ — `vova, lsa` identifies the site variable as plainly as its name does. Two
+more the same round: the helper went into a new `one-of.ts` on the FSD rule
+permitting a sub-library — whether a file was allowed, never whether
+`collections.ts` already covered it — and the plan's DRY notes ruled out an
+abstract segment parser on call-site count, never asking what it would make
+derivable. It came to ten lines, and let the route's address type be derived
+from the segment lists instead of hand-written beside them.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -361,7 +381,7 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Eight learnings is not a pattern, but they fall in two groups. One is failures to
+Nine learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the checker whose coverage read as
 the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
