@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T01:44:43Z
-- **Updated:** 2026-09-17T16:52:14Z
+- **Updated:** 2026-09-21T17:11:56Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -29,6 +29,12 @@
 Three comments that had been guarding the i18n invariant are gone — the machinery carries it, and `.claude/rules/i18n.md` carries the reasoning. One of the three was a polar bear: it denied the provider the same commit had just removed. That rule is scoped to the translation machinery — `src/shared/i18n/**` and the payload check — rather than to `src/pages/cv/**`, which would have read today's one localized page as the permanent set, the same defect as the path glob this PR replaced.
 
 **The prose the machinery replaced is cut rather than kept alongside it.** `check:i18n-payload`'s entry in CLAUDE.md § "Vetting" is one sentence: everything else it said sits in the script's own header, and the always-resident file earns only what holds of the vet list — here, that reading the finished build is what lets the check overlap the others. #59 owes the same pass to the other checks whose scripts explain themselves.
+
+**A catalogue holds markdown now, not tags, and that is the review's doing.** The sheet first shipped with a 25-line parser for the `<strong>` spans the catalogues carried, defended here against both the markdown pipeline and next-intl's own `t.rich`. Every one of those comparisons took HTML-in-JSON as the fixed input; the reviewer's point was that the input was the defect. A catalogue is data, three consumers read it — the sheet, the `<meta>` description, the Open Graph card — and only the sheet interprets markup, so a tag written into the wrong key reaches a reader as letters with nothing to catch it.
+
+So the strings hold `**emphasis**` and `react-markdown` renders them under `MESSAGE_MARKDOWN`, whose rehype guard fails the render on anything else a parser would accept — a link, a heading, an image, an unpaired `**`. The guard is not decoration: react-markdown's own allowlist drops the element and keeps its text, which is the silent degradation it exists to prevent. `richText` is deleted rather than renamed, since what remains is the two options a message needs; the call site renders `<Markdown {...MESSAGE_MARKDOWN}>`. The `components` override is load-bearing — Mantine's `Text` renders a `<p>`, and the parser's own block wrapper nested in one is invalid markup.
+
+Nothing about the output moved: the eight profile paragraphs render markup identical to the parser they replace, all four CV PDFs came back byte-identical under `sameRender`, and no client chunk references the markdown machinery — the sheet is a server component, so this is build-time only like `shared/content`'s pipeline. Two corrections from the same thread stand: `.claude/rules/i18n.md` had claimed next-intl offers no standalone translator, which it does (`createTranslator`, behind the banned specifier — #66 records it, closed unused), and the import ban's config comment now says what it actually bans. #68 holds what this does not fix: nothing yet checks the catalogue keys no renderer parses.
 
 Also here, found by running the checks rather than by design: Prettier ignores `docs/issue` and `docs/pr`. `/finalize` vets at step 1 and sweeps the exports at step 3, so a committed PR export failed `format:check` on any branch carrying one — and since `/handle` commits one every turn, this was the first branch to reach it.
 
@@ -122,9 +128,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T03** `src/app/ui/theme-corner.tsx`:13 — resolved — last: @vzakharov (agent) 2026-09-17T11:26:08Z — "Поправка к моему предыдущему ответу в этом треде: он был нев…" → [↓](#t03)
 - **T04** `src/app/ui/theme-provider.tsx`:22 — resolved — last: @vzakharov (agent) 2026-09-17T10:06:29Z — "Да, обе стороны — `pnpm check:mantine-styles` в развёртке ve…" → [↓](#t04)
 - **T05** `.claude/rules/i18n.md`:5 — resolved — last: @vzakharov (agent) 2026-09-17T12:07:17Z — "Прав по обоим пунктам, но по-разному. `.json`-ы уже привязан…" → [↓](#t05)
-- **T06** `eslint/rule-groups/typescript.ts`:134 — unresolved — last: @vzakharov (human) 2026-09-17T16:17:34Z — "посмотри через gh (НЕ add_repo) playgramai/playgramapp и его…" → [↓](#t06)
-- **T07** `src/shared/i18n/rich-text.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-17T16:51:32Z — "бррр, я тотально запутался. Что у нас за пляски с бубнами, ч…" → [↓](#t07)
+- **T06** `eslint/rule-groups/typescript.ts`:134 — resolved — last: @vzakharov (agent) 2026-09-17T17:49:52Z — "Итог по этому треду: **маркер не понадобился, бан остаётся т…" → [↓](#t06)
+- **T07** `src/shared/i18n/rich-text.tsx`:1 — resolved — last: @vzakharov (agent) 2026-09-17T17:49:38Z — "Сделано — парсера больше нет: 4d6a784. Каталоги держат `**em…" → [↓](#t07)
 - **T08** `CLAUDE.md`:78 — resolved — last: @vzakharov (agent) 2026-09-17T12:08:11Z — "Сокращено до предложения, тикет заведён: #59. Абзац был вдво…" → [↓](#t08)
+- **T09** `.claude/rules/i18n.md`:56 — unresolved — last: @vzakharov (human) 2026-09-17T20:31:53Z — "медведь или по крайней мере сильно сократить" → [↓](#t09)
 
 <a id="t01"></a>
 
@@ -325,7 +332,7 @@ CV рендерится на сервере целиком, разметка б�
 
 <a id="t06"></a>
 
-### `eslint/rule-groups/typescript.ts`:134 — unresolved
+### `eslint/rule-groups/typescript.ts`:134 — resolved
 
 ```diff
 @@ -127,6 +127,27 @@ export const typescriptRules = {
@@ -356,11 +363,35 @@ Edit: Аа, или на сервере импортится из другого 
 
 посмотри через gh (НЕ add_repo) playgramai/playgramapp и его решение с кастомными бочками (.server-only., .client-safe. итп)
 
+**@vzakharov (agent)** — 2026-09-17T17:09:28Z
+
+Посмотрел. Их решение снимает моё возражение — и оказывается дверью к тому, о чём ты спрашиваешь в треде про `rich-text`.
+
+**Что там.** Граница проходит по имени файла, а не по каталогу. Суффиксные бочки на слайс — `index.client-safe.ts`, `index.server-only.ts`, `index.testing.ts`, `index.node-safe.ts`, `index.server-actions.ts` — плюс `*.server-only.*` как маркер на любом модуле, не только на бочке. А правило импортов сужено через `files`/`ignores`: помеченные файлы просто вне его действия. У них так закрыты `.unsafe.` env-модули.
+
+**Почему это работает, а мой аргумент — нет.** Я написал, что линтер не знает позицию модуля в графе. Это правда, но вывод из этого неверный: playgramapp у линтера этого и не спрашивает. `pnpm poison-check` строит настоящий граф импортов через madge и проверяет его отдельным чеком. Линтер идёт по имени файла — а имя валидируется графом, а не доверием.
+
+**И эта половина у нас уже есть**, только ниже по течению: `check:i18n-payload` читает собранные страницы, то есть реальный бандл, а не статический граф. Так что `.server-only.` файл, который потерял бы `import 'server-only'` и попал в клиентский граф, всё равно свалил бы вет. Исключение опиралось бы на проверяемое утверждение, а не на соглашение об именах — планка, которую поставил этот же тред.
+
+**Зачем это нужно конкретно.** За голым специфаером лежит `createTranslator` — он реэкспортируется через `use-intl/core` из обоих входов, включая `react-server`. То есть автономный переводчик у next-intl есть, и я в этом треде написал обратное. `richText` — это подпорка не потому, что библиотека такого не умеет, а потому, что дверь закрыта баном.
+
+Правило и докстринг больше не утверждают обратного: ce94c7a. Решение — заводить ли маркер — в #66, там три варианта и проверка на настоящих строках каталога.
+
+**@vzakharov (agent)** — 2026-09-17T17:49:52Z
+
+Итог по этому треду: **маркер не понадобился, бан остаётся тотальным** — 4d6a784.
+
+Разбор playgramapp выше в силе, и возражение он с меня снял: `poison-check` строит граф madge'ом, линтер идёт по имени файла, имя валидируется графом. Но дверь оказалась не нужна, потому что за ней лежал `createTranslator`, а `t.rich` — неправильный ответ по другой причине: его разметка живёт в сообщении, а разметку из каталога мы как раз убираем. Каталоги теперь держат `**emphasis**`, рендерит `react-markdown` под закрытым набором тегов.
+
+Так что конфиг линтера не тронут: ни `files`/`ignores`, ни `*.server-only.*`, ни нового соглашения на репозиторий. `next-intl/server` остаётся единственной дверью, и комментарий над правилом по-прежнему верен.
+
+`*.server-only.*` как общий маркер — по-прежнему хорошая идея, просто без повода прямо сейчас: `index.server-only.ts` отвечает на тот же вопрос на уровне бочки, и этого пока хватает. Если появится модуль, про который нужно сказать «он доказуемо вне клиента», запись о механизме — в закрытом #66.
+
 ---
 
 <a id="t07"></a>
 
-### `src/shared/i18n/rich-text.tsx`:1 — unresolved
+### `src/shared/i18n/rich-text.tsx`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-17T11:48:05Z
 
@@ -383,6 +414,43 @@ Edit: Аа, или на сервере импортится из другого 
 **@vzakharov (human)** — 2026-09-17T16:51:32Z
 
 бррр, я тотально запутался. Что у нас за пляски с бубнами, чтобы просто в реакте отобразить несколько форматированных абзацев? Попробуй /plainly пжст
+
+**@vzakharov (agent)** — 2026-09-17T17:09:33Z
+
+Пляски есть, и они мои. Коротко: в реакте это правда одна строка — но только пока текст лежит в коде. Он лежит в JSON-каталоге, потому что страница есть на двух языках. Из каталога приходит **строка**, а строку с `<strong>` внутри кто-то должен превратить в узлы. Вот и всё, откуда растёт вопрос.
+
+Дальше ответов ровно три:
+
+1. `dangerouslySetInnerHTML` — одна строка. Запрещён нашим же линтером (`@eslint-react/dom-no-dangerously-set-innerhtml`); одно исключение уже выдано — маркдаун-пайплайну в `article-body.tsx`.
+2. `t.rich` из next-intl — ответ самой библиотеки. Лежит за голым специфаером, который эта ветка банит по всему репозиторию.
+3. свой парсер на 25 строк — что я и написал.
+
+**И здесь я тебя дезинформировал.** Выше в этом треде я написал, что автономного переводчика у next-intl нет. Есть. `createTranslator` принимает объект сообщений напрямую, а его `.rich()` возвращает узлы — то есть ровно наш вызов, и `cvMessages(locale, variant)` уже нужной формы. Он реэкспортируется через `use-intl/core`; я прочитал карту экспортов, дошёл до `export * from "use-intl/core"` и не пошёл по ней дальше.
+
+Проверил на настоящих строках: все шесть сообщений с `<strong>` (оба языка, оба фрейминга) рендерятся **байт в байт одинаково** через `createTranslator().rich()` и через `richText` — апострофы в `don't` и `I've` тоже, это был главный риск по ICU-эскейпингу. Одна разница: по умолчанию посторонний тег не бросает, а логирует `FORMATTING_ERROR` и рендерит читателю **имя ключа сообщения**. С `onError`, который перебрасывает, бросает — и строже моего парсера: `INVALID_TAG` на `<a href>`, `UNCLOSED_TAG` на незакрытой разметке.
+
+**Так что правильный ответ на «зачем пляски» — незачем.** Они существуют потому, что дверь к библиотечному парсеру закрыта баном, а не потому, что парсера нет. Чтобы её открыть, нужен модуль, для которого бан делает исключение, — то самое решение с `*.server-only.*`, на которое ты показал в треде про `typescript.ts`.
+
+Не стал этого делать в этой ветке: это правка конфига линтера и новое соглашение на весь репозиторий, а не нит. Всё сложено в #66 — три варианта с рекомендацией, что именно бэкстопит исключение здесь, и цифры выше. Правило и докстринг больше не утверждают, что переводчика нет: ce94c7a.
+
+**@vzakharov (agent)** — 2026-09-17T17:49:38Z
+
+Сделано — парсера больше нет: 4d6a784.
+
+Каталоги держат `**emphasis**`, рендерит `react-markdown` под `MESSAGE_MARKDOWN`, а rehype-guard роняет рендер на всём остальном, что парсер вообще принял бы: ссылка, заголовок, картинка, непарная `**`. Своя проверка нужна потому, что штатный `allowedElements` у react-markdown не бросает — он выкидывает элемент и оставляет текст.
+
+**Дефект был в данных, а не в парсере, и это твоя формулировка, не моя.** Я сравнивал три реализации, приняв HTML в JSON за данность. Каталог читают три потребителя, а разметку интерпретирует один: `<strong>`, попавший в `cv.metadata.description` или в строку, которую рисует OG-карточка, уедет к читателю буквами, и поймать это было бы нечем. Поэтому же `t.rich` — не ответ: его разметка живёт в сообщении.
+
+`richText` не переименован, а удалён. Осталось ровно два option'а, которые нужны сообщению, так что место вызова рендерит `<Markdown {...MESSAGE_MARKDOWN}>` вместо обёртки. `components` при этом не косметика: `Text` у Mantine рендерит `<p>`, и блочная обёртка парсера внутри него — невалидная вложенность, которую браузер расклеит.
+
+Что проверено, а не заявлено:
+
+- восемь абзацев профиля рендерят **разметку, идентичную** прежнему парсеру (сравнение старой реализации с новой на настоящих строках каталога);
+- все четыре CV-PDF вернулись **байт в байт** под `sameRender` — изменились только манифесты хешей;
+- ни один клиентский чанк не ссылается на markdown-машинерию: лист — серверный компонент, так что это build-time-only, как пайплайн `shared/content`;
+- `check:i18n-payload`: 19 страниц, рантайма нет.
+
+Остаток, который эта правка не закрывает: `**` сам по себе не мешает написать тег в ключ, который никто не парсит. Завёл #68 — проверка по самим каталогам, а не по рендеру. #66 закрыт, ни одна из двух дверей оттуда не понадобилась: бан остался тотальным.
 
 ---
 
@@ -417,6 +485,43 @@ Edit: Аа, или на сервере импортится из другого 
 
 ---
 
+<a id="t09"></a>
+
+### `.claude/rules/i18n.md`:56 — unresolved
+
+```diff
+@@ -40,16 +40,20 @@ whether the locale is the page's own:
+… 4 lines elided …
+-`<strong>`, and throws on any other tag. Bullets carry their bold lead as
+-structured fields (`lead`, `label`) instead, so inline markup stays confined to
+-running prose.
++**A catalogue holds markdown, never tags.** `**emphasis**` is the whole of what
++a message may carry, rendered by `react-markdown` under the `MESSAGE_MARKDOWN`
++options; anything else a parser would accept — a link, a heading, an image, an
++unpaired `**` — fails the render rather than reaching a reader. Bullets carry
++their bold lead as structured fields (`lead`, `label`) instead, so inline markup
++stays confined to running prose.
+ 
+-**It is a stand-in, and the thing it stands in for is one import away.**
+-`createTranslator` takes a messages object directly and its `.rich()` returns
+-nodes, which is exactly this call — but it is re-exported from the bare
+-specifier the ban above covers, so reaching it means a module the ban can make
+-an exception for. Whether this repo grows that door is #66.
++The rule is about the data, not the renderer. **Three consumers read a
++catalogue and only one interprets markup** — the sheet, the `<meta>`
++description, and the Open Graph card's screenshot — so a tag written into the
++wrong key reaches a reader as letters, and nothing but this one call site would
++catch it. `**` cannot be mistaken for something the other two would honour.
++That is also why next-intl's own `t.rich` is not the answer here even where it
++is reachable: its markup lives in the message.
+```
+
+**@vzakharov (human)** — 2026-09-17T20:31:53Z
+
+медведь или по крайней мере сильно сократить
+
+---
+
 ## Timeline (status, references, and other events)
 
 - **2026-09-17T09:48:14Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/56#pullrequestreview-5233831799.
@@ -425,3 +530,6 @@ Edit: Аа, или на сервере импортится из другого 
 - **2026-09-17T11:49:14Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/56#pullrequestreview-5235132127.
 - **2026-09-17T11:55:11Z** @vzakharov cross-referenced this pull request from [#59 Cut the vetting bullets whose script already explains itself](https://github.com/vzakharov/vovazakharov.com/issues/59).
 - **2026-09-17T15:39:54Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/2c86baf964514de3b8753f861a20241f27bc1fb5.
+- **2026-09-17T17:03:26Z** @vzakharov cross-referenced this pull request from [#66 richText is a stand-in for createTranslator, which the import ban puts one door away](https://github.com/vzakharov/vovazakharov.com/issues/66).
+- **2026-09-17T17:49:08Z** @vzakharov cross-referenced this pull request from [#68 Nothing checks the catalogue keys that no renderer parses for markup](https://github.com/vzakharov/vovazakharov.com/issues/68).
+- **2026-09-21T17:11:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/56#pullrequestreview-5241123827.
