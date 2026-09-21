@@ -1,26 +1,33 @@
 ---
-description: The API-rate cost ledger — how a session's spend is priced, how its Stop hook shares the event with the harness's own, and what the totals do not cover
+description: The API-rate cost ledger — how a session's spend is priced, what checks the arithmetic, how its Stop hook shares the event with the harness's own, and what the totals do not cover
 paths:
-  - costs/**
+  - .claude/costs/**
   - scripts/session-cost.ts
   - scripts/costs-report.ts
   - scripts/lib/session-cost.ts
+  - scripts/lib/cost-totals.ts
   - .claude/hooks/stop-session-cost.sh
+  - .claude/hooks/prompt-session-name.sh
 ---
 
 # The API-rate cost ledger
 
-`costs/sessions/<YYYY-MM>/<session-id>.json` records what a session would have
-cost at Claude API rates. The subscription price hides that number, and the
+`.claude/costs/sessions/<YYYY-MM>/<session-id>.json` records what a session would
+have cost at Claude API rates. The subscription price hides that number, and the
 point of having it is to know the size of the bill before subscription pricing
 stops being a bargain.
 
 ## Reading a transcript
 
-Four properties of `~/.claude/projects/<cwd-slug>/<session-id>.jsonl` decide how
+Properties of `~/.claude/projects/<cwd-slug>/<session-id>.jsonl` that decide how
 `scripts/lib/session-cost.ts` reads it. Each is load-bearing: get one wrong and
 the totals are confidently incorrect rather than absent.
 
+- **A subagent's spend is in a different file.** `<session-id>/subagents/*.jsonl`
+  beside the transcript, one per agent — and it is the session's spend, billed to
+  whoever spawned it. A reading that opens the main file alone therefore prices
+  every delegating session short, and short in the one way nothing shows: the
+  result looks exactly like a session that delegated nothing.
 - **One API response is written as several records** — one per content block, so
   a turn that thought and called two tools writes three — and each carries that
   response's _whole_ `usage`. Records are deduplicated by `message.id`; summing
@@ -32,16 +39,57 @@ the totals are confidently incorrect rather than absent.
   the input rate, against ×0.1 for reads.
 - **Thinking tokens are already inside `output_tokens`.** They are reported for
   interest and billed once.
-- **Nothing in the file names the session.** The client's own title is not
-  written there, so the row carries the **opening prompt** in its place —
-  unwrapped from the envelope a slash command arrives in, so it reads
-  `/handle <branch>` — and the PR numbers off the `pr-link` records, which is
-  what groups the several sessions one pull request takes.
+- **An absent field may arrive as an explicit `null`.** The optional halves of
+  `usage` are read as nullish for that reason, and a `<synthetic>` model — the
+  client's placeholder for a turn no model served — is skipped rather than
+  offered to the price table.
 
 An unpriced `(model, speed)` **throws**. A response silently counted as free
 makes every total downstream a lie, and the failure is loud precisely because
-`costs/prices.json` is hand-maintained: no machine-readable source of Anthropic's
-prices exists, so the table goes stale by sitting still.
+`.claude/costs/prices.json` is hand-maintained: no machine-readable source of
+Anthropic's prices exists, so the table goes stale by sitting still.
+
+## What names a session
+
+Nothing in the transcript is the title the client shows. Four fields stand in
+for one, and only the last is not read out of the file:
+
+- **`openingPrompt`** — the session's first prompt, unwrapped from the envelope a
+  slash command arrives in, so it reads `/handle <branch>`.
+- **`prs`** — the numbers off the `pr-link` records, which is what groups the
+  several sessions one pull request takes.
+- **`url`** — the address a person opens the session at. Its id is a different
+  one from the transcript's, and reaches the file only as prose, inside the
+  attribution reminder the harness re-sends on a remote session change. That one
+  record is what is matched: a commit trailer quoted anywhere in a transcript
+  carries a session URL too, usually another session's.
+- **`name`** — a few words from the agent whose session it is, which is the only
+  thing here that knows what the session turned out to be about. A row is written
+  with it null and `.claude/hooks/prompt-session-name.sh` asks for it on the next
+  prompt until it is set; each rewrite carries the existing name forward, since
+  re-reading the transcript could never produce one.
+
+## Checking the arithmetic
+
+The table has no published source to check itself against, but the transcript
+carries a second opinion: `cost-state` records, where the client writes its own
+running total for the session. The last one lands in the row as
+`clientTotalUsd`, and `pnpm costs` compares.
+
+**The comparison runs one way only, and that is what makes it sound.** Both
+figures count the same session upward, and the client's is read out of the very
+file the row was priced from — so it was written at or before the moment the row
+was. A row coming out **under** it has missed a source. A row coming out over it
+means only that the session kept going, which every row's last turn does.
+
+A couple of percent of slack covers what the client counts and no row can: the
+background Haiku calls never appear in the transcript as responses. That is a
+fraction of a percent; reading a subagent's file short of its spend was seven,
+which is the failure this check exists to catch.
+
+Applied to the client's own token counts, the table reproduces the client's own
+cost to the last digit — so a divergence is a gap in what a row **read**, never
+in what it charged.
 
 ## Running beside the harness's Stop check
 
@@ -75,23 +123,18 @@ never runs, and every paragraph here describing a race that is over. So the hook
 reads that registration each turn and writes to stderr when the entry is gone:
 adjusting quietly is what would leave the rest of this section false.
 
-## The totals file
+## The report
 
-`costs/totals.json` is the rows summed — the grand total, and the same by month,
-by ISO week and by day. A session lands in the buckets its **start** falls in,
-the rule that already picks its row's month, so one running past midnight stays
-whole.
+`pnpm costs` sums the rows — by month, and by the branch that spent it with the
+pull requests it touched named beside it; `--by week|day` regroups, `--json`
+prints the lot. The spend is the branch's rather than each PR's, since a session
+that touched two would otherwise be counted twice.
 
-**It is derived, so a conflict on it is regenerated, never merged.** The rows are
-the source of truth and never collide — one file per session id — while two
-branches that both ran sessions have both rewritten the summary. Take either side
-and run `pnpm costs --write`; hand-summing the two double-counts every session
-both of them saw. The file carries no timestamp of its own for the same reason:
-regenerating over unchanged rows has to be a no-op, or every turn commits a diff
-that says nothing.
-
-The `Stop` hook regenerates it in the same commit as the row, a tenth of a second
-against the pricing pass already in that turn.
+**Nothing is written to disk.** The totals are wholly derived from the rows, so a
+file of them committed beside its own sources would be a merge conflict on every
+branch that ran a session — and settling one by summing the two sides
+double-counts every session both of them saw. The rows themselves never collide:
+one file per session id.
 
 ## What the totals do not cover
 
@@ -101,17 +144,16 @@ against the pricing pass already in that turn.
   successor to correct it, and **nothing inside the session can close that**: a
   step in `/finalize` runs in the same session and is followed by the turns that
   invoked it, so it moves the blind spot rather than removing it. Only a
-  **later** session re-pricing the transcript would, which holds where
-  transcripts outlive their session and not in a remote one, whose container is
-  discarded with `~/.claude/projects/` inside it. So the undercount is one turn
-  per session wherever this repo's sessions actually run.
+  **later** reading of the transcript closes it, which needs the transcript to
+  outlive the session — true locally, false in a remote container, which is
+  discarded with `~/.claude/projects/` inside it unless something committed a
+  copy first.
 - **A rate that changed after a row was written.** Each row records the
   `pricesAsOf` it was priced under and is never re-priced — its transcript is
-  usually gone by then — so a table update applies forward only. Nothing
-  validates `costs/prices.json` against Anthropic's published prices either: the
+  usually gone by then — so a table update applies forward only, and `pnpm costs`
+  prints the table's age and how many rows were priced under an older one. The
   unpriced-pair throw catches a **new** `(model, speed)` pair and is blind to a
-  number that changed, which is why `pnpm costs` prints the table's age and how
-  many rows were priced under an older one.
+  number that changed; the `cost-state` comparison above is what covers that.
 - **Abandoned branches.** Rows reach `main` by merge, so work that is thrown
   away is thrown out of the ledger too — an undercount biased toward exactly the
   sessions that spent without delivering.

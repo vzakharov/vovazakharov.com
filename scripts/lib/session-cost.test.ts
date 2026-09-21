@@ -77,8 +77,12 @@ const response = (overrides: ResponseOverrides = {}): string =>
     },
   });
 
-const summarise = (lines: string[]) =>
-  summariseTranscript(lines.join('\n'), prices, 'fallback');
+const summarise = (lines: string[], subagents: string[][] = []) =>
+  summariseTranscript(
+    { main: lines.join('\n'), subagents: subagents.map((s) => s.join('\n')) },
+    prices,
+    'fallback',
+  );
 
 describe('session-cost: what a response costs', () => {
   it('counts one response written as several records once', () => {
@@ -132,6 +136,28 @@ describe('session-cost: what a row records', () => {
     assert.equal(cost.subagents.costUsd, 10);
   });
 
+  it('bills a subagent to the session that spawned it, from the subagent’s own file', () => {
+    // The transcript that would have been read alone says nothing about the
+    // delegated work, which is what made the shortfall invisible.
+    const cost = summarise(
+      [response({ id: 'msg_1', output: 1_000_000 })],
+      [[response({ id: 'msg_2', output: 1_000_000, sidechain: true })]],
+    );
+    assert.equal(cost.total.costUsd, 20);
+    assert.equal(cost.ownTurns.costUsd, 10);
+    assert.equal(cost.subagents.costUsd, 10);
+    assert.equal(cost.total.responses, 2);
+  });
+
+  it('files a subagent’s responses as delegated however its records are flagged', () => {
+    const cost = summarise(
+      [response({ id: 'msg_1', output: 1_000_000 })],
+      [[response({ id: 'msg_2', output: 1_000_000, sidechain: false })]],
+    );
+    assert.equal(cost.subagents.costUsd, 10);
+    assert.equal(cost.ownTurns.costUsd, 10);
+  });
+
   it('records the branch the session ended on', () => {
     const cost = summarise([
       response({ id: 'msg_1', branch: 'before-the-rename' }),
@@ -168,10 +194,16 @@ describe('session-cost: what it refuses to guess', () => {
   });
 });
 
-describe('session-cost: what names a session', () => {
-  const prompt = (content: unknown, extra: object = {}): string =>
-    JSON.stringify({ type: 'user', message: { content }, ...extra });
+const prompt = (content: unknown, extra: object = {}): string =>
+  JSON.stringify({ type: 'user', message: { content }, ...extra });
 
+const link = (prNumber: number): string =>
+  JSON.stringify({ type: 'pr-link', prNumber });
+
+const costState = (totalCostUSD: number): string =>
+  JSON.stringify({ type: 'cost-state', totalCostUSD });
+
+describe('session-cost: what names a session', () => {
   it('takes the opening prompt as the session name, unwrapping a slash command', () => {
     const cost = summarise([
       prompt(
@@ -197,8 +229,6 @@ describe('session-cost: what names a session', () => {
   });
 
   it('collects the PRs the session touched, deduplicated', () => {
-    const link = (prNumber: number): string =>
-      JSON.stringify({ type: 'pr-link', prNumber });
     const cost = summarise([
       link(71),
       response({ output: 1 }),
@@ -212,5 +242,27 @@ describe('session-cost: what names a session', () => {
     const cost = summarise([response({ output: 1 })]);
     assert.equal(cost.openingPrompt, null);
     assert.deepEqual(cost.prs, []);
+  });
+
+  it('takes the session URL from the attribution reminder, not from prose quoting another', () => {
+    const cost = summarise([
+      prompt('see https://claude.ai/code/session_01QUOTEDinACOMMENT'),
+      JSON.stringify({
+        type: 'attachment',
+        attachment: { type: 'remote_session_change' },
+        rendered: 'Claude-Session: https://claude.ai/code/session_01REALone',
+      }),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.url, 'https://claude.ai/code/session_01REALone');
+  });
+
+  it('keeps the client’s own last word on what the session cost', () => {
+    const cost = summarise([
+      costState(1.5),
+      response({ output: 1 }),
+      costState(2.25),
+    ]);
+    assert.equal(cost.clientTotalUsd, 2.25);
   });
 });

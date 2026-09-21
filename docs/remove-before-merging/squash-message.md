@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat: price each session at Claude API rates (pr #71)
+chore: price each session at Claude API rates (pr #71)
 ```
 
 ```
@@ -21,11 +21,18 @@ machine-readable source of prices. Since nothing in a transcript names
 the session, a row also carries what a person recognises one by: the
 opening prompt, and the PR numbers the transcript records.
 
-`costs/totals.json` is those rows summed, by month, ISO week and day.
-It is wholly derived, so a conflict on it is regenerated rather than
-merged — hand-summing two sides double-counts every session both of
-them saw — and it holds no generation timestamp, so rewriting it over
-unchanged rows is a no-op rather than a daily empty diff.
+A subagent's responses are written to a file of their own and are the
+spending session's to carry, so the reading takes in that directory
+too: the session measured here delegated seven percent of its spend,
+and reading the main transcript alone lost exactly that. What catches
+the next such gap is the client's own running total, which the
+transcript records: the row keeps it, and `pnpm costs` reports a row
+that came out under it.
+
+`pnpm costs` sums the rows on demand — by month, week or day, and by
+the branch that spent it with its PR numbers beside it — and writes
+nothing, a derived file beside its own sources being a merge conflict
+for every branch that ran a session.
 
 Collection runs from a `Stop` hook sharing the event with the harness's
 own git check, which hooks running in parallel makes a race for the
@@ -33,9 +40,8 @@ working tree. The hook waits that check's process out at the last
 moment before it touches the tree, re-reads the check's two conditions
 afterwards, and spends its one channel to the agent only where a block
 is already happening. Whether that check runs at all is read from the
-launcher's registration rather than from the script on disk, and a
-missing entry is reported: the arrangement the design rests on would
-otherwise change in silence.
+launcher's registration rather than the script on disk: a rename would
+otherwise retire the whole arrangement in silence.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

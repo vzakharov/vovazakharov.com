@@ -1,22 +1,24 @@
 #!/usr/bin/env node
 
-// Prices one session's transcript and writes its row under `costs/sessions/`.
-// The row is rewritten from the whole file each run rather than appended to,
-// which is what lets a run pick up what the previous one was too early to see —
-// the transcript lags the live conversation.
+// Prices one session's transcript and writes its row under
+// `.claude/costs/sessions/`. The row is rewritten from the whole file each run
+// rather than appended to, which is what lets a run pick up what the previous
+// one was too early to see — the transcript lags the live conversation.
 //
 //   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path]
+//   node scripts/session-cost.ts --transcript <path> --name '<short label>'
 
 /* eslint-disable no-console -- stdout is this script's interface: the row's
    path for the hook that calls it, a one-line summary for a person running it
    by hand. */
 
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { flag, given } from './lib/argv.ts';
 import {
   parsePrices,
+  parseSessionCost,
   type SessionCost,
   summariseTranscript,
 } from './lib/session-cost.ts';
@@ -35,25 +37,58 @@ if (transcript === undefined) {
 const monthOf = (cost: SessionCost): string =>
   (cost.firstResponseAt ?? new Date().toISOString()).slice(0, 7);
 
+// A subagent's responses are billed to this session and written to their own
+// file under `<transcript>/subagents/`, so the directory is read rather than
+// assumed empty. A session that spawned none has no directory at all.
+const subagentsOf = (main: string): string[] => {
+  const dir = path.join(
+    path.dirname(main),
+    path.basename(main, '.jsonl'),
+    'subagents',
+  );
+  try {
+    return readdirSync(dir)
+      .filter((name) => name.endsWith('.jsonl'))
+      .map((name) => readFileSync(path.join(dir, name), 'utf8'));
+  } catch {
+    return [];
+  }
+};
+
+// The name is the one field no run can recompute, so a rewrite reads back what
+// the last one wrote. An unreadable row is treated as no row: the point is to
+// keep a name, never to fail a write over one.
+const nameOn = (row: string): string | null => {
+  try {
+    return parseSessionCost(readFileSync(row, 'utf8')).name;
+  } catch {
+    return null;
+  }
+};
+
 const prices = parsePrices(
-  readFileSync(path.join(root, 'costs/prices.json'), 'utf8'),
+  readFileSync(path.join(root, '.claude/costs/prices.json'), 'utf8'),
 );
 const cost = summariseTranscript(
-  readFileSync(transcript, 'utf8'),
+  {
+    main: readFileSync(transcript, 'utf8'),
+    subagents: subagentsOf(transcript),
+  },
   prices,
   flag('session-id') ?? path.basename(transcript, '.jsonl'),
 );
 
 const out = path.join(
   root,
-  'costs/sessions',
+  '.claude/costs/sessions',
   monthOf(cost),
   `${cost.sessionId}.json`,
 );
-writeAtomic(root, out, `${JSON.stringify(cost, null, 2)}\n`);
+const named: SessionCost = { ...cost, name: flag('name') ?? nameOn(out) };
+writeAtomic(root, out, `${JSON.stringify(named, null, 2)}\n`);
 
 console.log(
   given('row-path')
     ? out
-    : `session-cost: ${cost.total.responses} responses, $${cost.total.costUsd.toFixed(4)} → ${out}`,
+    : `session-cost: ${named.total.responses} responses, $${named.total.costUsd.toFixed(4)} → ${out}`,
 );

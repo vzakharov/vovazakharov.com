@@ -24,21 +24,24 @@ export type PriceTable = z.infer<typeof PriceTableSchema>;
 export const parsePrices = (json: string): PriceTable =>
   PriceTableSchema.parse(JSON.parse(json));
 
+// Every field but the two token counts is `nullish`: the client writes some of
+// these as an explicit `null` rather than leaving them out, and an absent field
+// and a null one mean the same thing here — nothing to read.
 const UsageSchema = z.object({
   input_tokens: z.number(),
   output_tokens: z.number(),
-  cache_creation_input_tokens: z.number().optional(),
-  cache_read_input_tokens: z.number().optional(),
-  speed: z.string().optional(),
+  cache_creation_input_tokens: z.number().nullish(),
+  cache_read_input_tokens: z.number().nullish(),
+  speed: z.string().nullish(),
   output_tokens_details: z
-    .object({ thinking_tokens: z.number().optional() })
-    .optional(),
+    .object({ thinking_tokens: z.number().nullish() })
+    .nullish(),
   cache_creation: z
     .object({
-      ephemeral_5m_input_tokens: z.number().optional(),
-      ephemeral_1h_input_tokens: z.number().optional(),
+      ephemeral_5m_input_tokens: z.number().nullish(),
+      ephemeral_1h_input_tokens: z.number().nullish(),
     })
-    .optional(),
+    .nullish(),
 });
 
 const ResponseRecordSchema = z.object({
@@ -74,13 +77,28 @@ const SessionCostSchema = z.object({
   sessionId: z.string(),
   branch: z.string().nullable(),
   cwd: z.string().nullable(),
-  // What a person recognises a session by. Both carry a default, so a row
-  // written without them still parses.
+  // What a person recognises a session by. Each carries a default, so a row
+  // written before the field existed still parses.
+  //
+  // `name` is the agent's own short label, and the one field here the transcript
+  // cannot supply: it stays null until a turn fills it in, which is what
+  // `.claude/hooks/prompt-session-name.sh` asks for. Writing a row therefore
+  // carries the existing name forward rather than recomputing it.
+  name: z.string().nullable().default(null),
   openingPrompt: z.string().nullable().default(null),
   prs: z.array(z.number()).default([]),
+  // The URL a person opens the session at, which is a different id from the
+  // transcript's own and appears only in a remote session.
+  url: z.string().nullable().default(null),
   firstResponseAt: z.string().nullable(),
   lastResponseAt: z.string().nullable(),
   pricesAsOf: z.string(),
+  // What the client itself had counted the session at, read off its own
+  // `cost-state` record. It is the one figure here that does not come from this
+  // repo's arithmetic, which is what makes it worth keeping — and because it is
+  // written into the same file partway through, it is a floor rather than a
+  // rival total: `pnpm costs` reports a row that came out *under* it.
+  clientTotalUsd: z.number().nullable().default(null),
   total: TallySchema,
   ownTurns: TallySchema,
   subagents: TallySchema,
@@ -142,8 +160,16 @@ export const costOf = (tokens: TokenTally, rates: Rates): number => {
 };
 
 /** `<model>/<speed>`, the pair a response is billed under. */
-export const rateKey = (model: string, speed: string | undefined): string =>
-  `${model}/${speed ?? 'standard'}`;
+export const rateKey = (
+  model: string,
+  speed: string | null | undefined,
+): string => `${model}/${speed ?? 'standard'}`;
+
+// The client's own placeholder for a turn no model served — a cancellation, an
+// interrupted request. It is not a model, so the unpriced-pair throw would be
+// reporting the wrong thing; a warning covers the case where one ever arrives
+// carrying tokens.
+const SYNTHETIC_MODEL = '<synthetic>';
 
 type Response = z.infer<typeof ResponseRecordSchema>;
 
@@ -169,13 +195,29 @@ const tokensOf = (response: Response, warnings: string[]): TokenTally => {
   };
 };
 
-const typeOf = (record: unknown): string | undefined =>
-  typeof record === 'object' &&
-  record !== null &&
-  'type' in record &&
-  typeof record.type === 'string'
-    ? record.type
-    : undefined;
+// Every record in the file carries a `type`, and a handful of kinds are read
+// for something other than their usage. Parsing for it rather than narrowing by
+// hand keeps one shape declared in one place, as every other record shape here
+// is.
+const KindSchema = z.object({ type: z.string() });
+
+const kindOf = (record: unknown): string | undefined =>
+  KindSchema.safeParse(record).data?.type;
+
+// The client's own running cost for the session, rewritten as the session goes.
+// The last one in the file is the client's final word on it.
+const CostStateSchema = z.object({ totalCostUSD: z.number() });
+
+// The session's web URL reaches the transcript only as prose, inside the
+// attribution reminder the harness re-sends whenever the remote session
+// changes. Matching that one record's text is narrower than scanning the file,
+// where any quoted commit trailer carries a session URL too — usually another
+// session's.
+const AttachmentKindSchema = z.object({
+  attachment: z.object({ type: z.string() }),
+});
+
+const SESSION_URL = /https:\/\/claude\.ai\/code\/session_[\dA-Za-z]+/;
 
 // The harness writes no session title, so the opening prompt stands in for one,
 // unwrapped from the envelope a slash command arrives in: `/handle <branch>` is
@@ -237,12 +279,26 @@ const isResponseRecord = (record: unknown): boolean =>
   'usage' in record.message;
 
 /**
+ * A session's transcripts: the main file, and one per subagent it spawned.
+ *
+ * A subagent's responses are billed to the session that spawned it and are
+ * written to a **separate file** rather than into the main one, so a reading
+ * that opens only the main transcript prices the session short by however much
+ * it delegated — silently, since the shortfall looks exactly like a session that
+ * delegated nothing.
+ */
+export type TranscriptSources = {
+  main: string;
+  subagents: readonly string[];
+};
+
+/**
  * Throws when a transcript names a `(model, speed)` pair the table cannot
  * price, or an assistant record does not parse: an unpriced response silently
  * counted as free is the one failure that makes the whole ledger a lie.
  */
 export const summariseTranscript = (
-  jsonl: string,
+  sources: TranscriptSources,
   prices: PriceTable,
   fallbackSessionId: string,
 ): SessionCost => {
@@ -259,57 +315,101 @@ export const summariseTranscript = (
   let branch: string | undefined;
   let cwd: string | undefined;
   let openingPrompt: string | undefined;
+  let url: string | undefined;
+  let clientTotalUsd: number | undefined;
 
-  for (const line of jsonl.split('\n')) {
-    if (line.trim() === '') continue;
-    const record: unknown = JSON.parse(line);
+  // `delegated` forces the bucket for a subagent's own file. Its records carry
+  // `isSidechain` too, but the file they are in is the fact that does not depend
+  // on the client having set a flag.
+  const scan = (jsonl: string, delegated: boolean): void => {
+    for (const line of jsonl.split('\n')) {
+      if (line.trim() === '') continue;
+      const record: unknown = JSON.parse(line);
 
-    const kind = typeOf(record);
-    if (kind === 'pr-link') {
-      const link = PrLinkSchema.safeParse(record);
-      if (link.success) prs.add(link.data.prNumber);
-      continue;
+      const kind = kindOf(record);
+      // Everything below is the session's own identity, which a subagent's file
+      // describes only in that it belongs to the same session.
+      if (!delegated) {
+        if (kind === 'pr-link') {
+          const link = PrLinkSchema.safeParse(record);
+          if (link.success) prs.add(link.data.prNumber);
+          continue;
+        }
+        if (kind === 'user') {
+          openingPrompt ??= promptTextOf(record);
+          continue;
+        }
+        if (kind === 'cost-state') {
+          const state = CostStateSchema.safeParse(record);
+          // Last write wins: the client rewrites this as the session goes.
+          if (state.success) clientTotalUsd = state.data.totalCostUSD;
+          continue;
+        }
+        if (kind === 'attachment') {
+          const attachment = AttachmentKindSchema.safeParse(record);
+          if (attachment.data?.attachment.type === 'remote_session_change')
+            url ??= SESSION_URL.exec(line)?.[0];
+          continue;
+        }
+      }
+
+      if (!isResponseRecord(record)) continue;
+      const response = ResponseRecordSchema.parse(record);
+      // One API response is written as one record per content block, each
+      // carrying the whole response's usage, so the id is what counts it once.
+      if (seen.has(response.message.id)) continue;
+      seen.add(response.message.id);
+
+      if (!delegated) {
+        sessionId ??= response.sessionId;
+        // Last write wins: a session that renames its branch mid-flight should
+        // be filed under where its work ended up, not where it started.
+        branch = response.gitBranch ?? branch;
+        cwd = response.cwd ?? cwd;
+      }
+      if (response.timestamp !== undefined) timestamps.push(response.timestamp);
+
+      const tokens = tokensOf(response, warnings);
+
+      if (response.message.model === SYNTHETIC_MODEL) {
+        const billable = BILLED_FIELDS.reduce(
+          (sum, field) => sum + tokens[field],
+          0,
+        );
+        if (billable > 0)
+          warnings.push(
+            `${response.message.id}: a ${SYNTHETIC_MODEL} record carries ${billable} billable tokens and was not priced`,
+          );
+        continue;
+      }
+
+      const key = rateKey(response.message.model, response.message.usage.speed);
+      const rates = prices.rates[key];
+      if (rates === undefined) {
+        unpriced.add(key);
+        continue;
+      }
+
+      const tally: Tally = {
+        ...tokens,
+        responses: 1,
+        costUsd: costOf(tokens, rates),
+      };
+      addInto((byRate[key] ??= emptyTally()), tally);
+      addInto(total, tally);
+      addInto(
+        delegated || response.isSidechain === true ? subagents : ownTurns,
+        tally,
+      );
     }
-    if (kind === 'user') {
-      openingPrompt ??= promptTextOf(record);
-      continue;
-    }
+  };
 
-    if (!isResponseRecord(record)) continue;
-    const response = ResponseRecordSchema.parse(record);
-    // One API response is written as one record per content block, each
-    // carrying the whole response's usage, so the id is what counts it once.
-    if (seen.has(response.message.id)) continue;
-    seen.add(response.message.id);
-
-    sessionId ??= response.sessionId;
-    // Last write wins: a session that renames its branch mid-flight should be
-    // filed under where its work ended up, not where it started.
-    branch = response.gitBranch ?? branch;
-    cwd = response.cwd ?? cwd;
-    if (response.timestamp !== undefined) timestamps.push(response.timestamp);
-
-    const key = rateKey(response.message.model, response.message.usage.speed);
-    const rates = prices.rates[key];
-    if (rates === undefined) {
-      unpriced.add(key);
-      continue;
-    }
-
-    const tokens = tokensOf(response, warnings);
-    const tally: Tally = {
-      ...tokens,
-      responses: 1,
-      costUsd: costOf(tokens, rates),
-    };
-    addInto((byRate[key] ??= emptyTally()), tally);
-    addInto(total, tally);
-    addInto(response.isSidechain === true ? subagents : ownTurns, tally);
-  }
+  scan(sources.main, false);
+  for (const delegated of sources.subagents) scan(delegated, true);
 
   if (unpriced.size > 0)
     throw new Error(
-      `No rates for ${[...unpriced].toSorted().join(', ')} in the price table (as of ${prices.as_of}). Add them to costs/prices.json — a response counted as free is worse than no ledger at all.`,
+      `No rates for ${[...unpriced].toSorted().join(', ')} in the price table (as of ${prices.as_of}). Add them to .claude/costs/prices.json — a response counted as free is worse than no ledger at all.`,
     );
 
   const inOrder = timestamps.toSorted();
@@ -317,11 +417,14 @@ export const summariseTranscript = (
     sessionId: sessionId ?? fallbackSessionId,
     branch: branch ?? null,
     cwd: cwd ?? null,
+    name: null,
     openingPrompt: openingPrompt ?? null,
     prs: [...prs].toSorted((a, b) => a - b),
+    url: url ?? null,
     firstResponseAt: inOrder.at(0) ?? null,
     lastResponseAt: inOrder.at(-1) ?? null,
     pricesAsOf: prices.as_of,
+    clientTotalUsd: clientTotalUsd ?? null,
     total,
     ownTurns,
     subagents,

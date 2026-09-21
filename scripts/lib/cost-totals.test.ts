@@ -1,93 +1,103 @@
 /**
- * The totals are a pure function of the rows, so each case here states a
- * property the summary file depends on — above all that regenerating it is what
- * settles a conflict, which only holds while the output is a function of the
- * input alone.
+ * The rollup is a pure function of the rows, so each case is the rows written
+ * out. What it protects is the bucketing rule — a session counted where it
+ * started — and the branch label the report groups on.
  */
 
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { isoWeek, totalsOf } from './cost-totals.ts';
-import { parseSessionCost, type SessionCost } from './session-cost.ts';
+import { branchLabel, isoWeek, totalsOf } from './cost-totals.ts';
+import type { SessionCost } from './session-cost.ts';
 
-// Only the two fields the totals read carry a value; the token counts are
-// present because a row is parsed rather than trusted.
-const tally = (responses: number, costUsd: number) => ({
+const tally = (costUsd: number) => ({
   inputTokens: 0,
   cacheWrite5mTokens: 0,
   cacheWrite1hTokens: 0,
   cacheReadTokens: 0,
   outputTokens: 0,
   thinkingTokens: 0,
-  responses,
+  responses: 1,
   costUsd,
 });
 
-const row = (startedAt: string | null, costUsd: number): SessionCost =>
-  parseSessionCost(
-    JSON.stringify({
-      sessionId: `s-${startedAt ?? 'none'}-${costUsd}`,
-      branch: 'a-branch',
-      cwd: '/repo',
-      firstResponseAt: startedAt,
-      lastResponseAt: startedAt,
-      pricesAsOf: '2026-01-01',
-      total: tally(1, costUsd),
-      ownTurns: tally(1, costUsd),
-      subagents: tally(0, 0),
-      byRate: {},
-      warnings: [],
-    }),
-  );
+const row = (overrides: Partial<SessionCost> = {}): SessionCost => ({
+  sessionId: 'sess',
+  branch: 'a-branch',
+  cwd: null,
+  name: null,
+  openingPrompt: null,
+  prs: [],
+  url: null,
+  firstResponseAt: '2026-03-04T05:06:07.000Z',
+  lastResponseAt: '2026-03-04T06:06:07.000Z',
+  pricesAsOf: '2026-01-01',
+  total: tally(1),
+  ownTurns: tally(1),
+  subagents: tally(0),
+  byRate: {},
+  warnings: [],
+  clientTotalUsd: null,
+  ...overrides,
+});
 
-describe('cost-totals: the breakdowns', () => {
-  it('buckets a session by where it started, whole', () => {
-    // Started on the 30th, ran past midnight: one day, not two halves.
-    const totals = totalsOf([row('2026-09-30T23:50:00.000Z', 3)]);
-    assert.deepEqual(totals.byDay, {
-      '2026-09-30': { sessions: 1, responses: 1, costUsd: 3 },
-    });
-    assert.deepEqual(Object.keys(totals.byMonth), ['2026-09']);
+describe('cost-totals: where a session is counted', () => {
+  it('files a session under the day, week and month it started in', () => {
+    const totals = totalsOf([row()]);
+    assert.equal(totals.byDay['2026-03-04']?.costUsd, 1);
+    assert.equal(totals.byMonth['2026-03']?.costUsd, 1);
+    assert.equal(totals.byWeek['2026-W10']?.costUsd, 1);
   });
 
-  it('sums sessions sharing a bucket and keeps the grand total over all of them', () => {
+  it('keeps a session that ran past midnight whole, in the day it began', () => {
     const totals = totalsOf([
-      row('2026-09-01T00:00:00.000Z', 1.5),
-      row('2026-09-01T12:00:00.000Z', 2.25),
-      row('2026-10-01T00:00:00.000Z', 4),
+      row({
+        firstResponseAt: '2026-03-04T23:50:00.000Z',
+        lastResponseAt: '2026-03-05T00:30:00.000Z',
+      }),
     ]);
-    assert.deepEqual(totals.byDay['2026-09-01'], {
-      sessions: 2,
-      responses: 2,
-      costUsd: 3.75,
-    });
-    assert.equal(totals.sessions, 3);
-    assert.equal(totals.costUsd, 7.75);
+    assert.equal(totals.byDay['2026-03-04']?.sessions, 1);
+    assert.equal(totals.byDay['2026-03-05'], undefined);
   });
 
-  it('counts a row with no priced response in the grand total and no bucket', () => {
-    const totals = totalsOf([row(null, 0)]);
+  it('counts a row with no priced response in the grand total and its branch alone', () => {
+    const totals = totalsOf([row({ firstResponseAt: null, total: tally(0) })]);
     assert.equal(totals.sessions, 1);
+    assert.equal(totals.byBranch['a-branch']?.sessions, 1);
     assert.deepEqual(totals.byMonth, {});
   });
 
-  it('is a function of the rows alone, so regenerating settles a conflict', () => {
-    const rows = [row('2026-09-01T00:00:00.000Z', 1)];
-    assert.deepEqual(totalsOf(rows), totalsOf(rows));
+  it('sums sessions that share a bucket', () => {
+    const totals = totalsOf([row(), row({ total: tally(2.5) })]);
+    assert.equal(totals.costUsd, 3.5);
+    assert.equal(totals.byMonth['2026-03']?.sessions, 2);
+  });
+});
+
+describe('cost-totals: how a branch is labelled', () => {
+  it('names the PRs beside the branch, for a reader to click through', () => {
+    assert.equal(branchLabel(row({ prs: [70, 71] })), 'a-branch #70 #71');
   });
 
-  it('rounds to a figure a price could produce', () => {
-    const totals = totalsOf([row('2026-09-01T00:00:00.000Z', 0.1 + 0.2)]);
-    assert.equal(totals.costUsd, 0.3);
+  it('counts a session touching two PRs once, under its branch', () => {
+    const totals = totalsOf([row({ prs: [70, 71] })]);
+    assert.equal(totals.byBranch['a-branch #70 #71']?.sessions, 1);
+    assert.equal(totals.costUsd, 1);
+  });
+
+  it('says so rather than dropping a row whose branch went unrecorded', () => {
+    assert.equal(branchLabel(row({ branch: null })), '(no branch)');
   });
 });
 
 describe('cost-totals: ISO weeks', () => {
-  it('files a day under the week owning its Thursday', () => {
-    // 2026-01-01 is a Thursday, so its week is 2026-W01 …
-    assert.equal(isoWeek(new Date('2026-01-01T00:00:00.000Z')), '2026-W01');
-    // … and the Monday before it belongs to that same week, not to 2025.
+  it('gives a late-December day the next year’s week when that week’s Thursday is', () => {
+    // 2025-12-29 is a Monday whose Thursday falls on 2026-01-01.
     assert.equal(isoWeek(new Date('2025-12-29T00:00:00.000Z')), '2026-W01');
+  });
+
+  it('gives an early-January day the previous year’s last week by the same rule', () => {
+    // 2027-01-01 is a Friday whose Thursday fell on 2026-12-31.
+    assert.equal(isoWeek(new Date('2027-01-01T00:00:00.000Z')), '2026-W53');
   });
 });

@@ -12,7 +12,7 @@ need_command jq "the session's cost row was not written"
 need_command node "the session's cost row was not written"
 
 root="$(project_root)"
-[ -n "$root" ] && [ -f "$root/costs/prices.json" ] || exit 0
+[ -n "$root" ] && [ -f "$root/.claude/costs/prices.json" ] || exit 0
 
 repo() { git -C "$root" "$@"; }
 
@@ -109,21 +109,12 @@ run_ledger() {
     --session-id "$(field session_id)" \
     --row-path)" || { state=unpriced; return 0; }
 
-  # The totals are the rows summed, so they are regenerated from all of them
-  # rather than added to — which is also how a conflict on the file is settled.
-  local totals="$root/costs/totals.json"
-  node "$root/scripts/costs-report.ts" --write >/dev/null ||
-    say "the cost row was written but the totals were not: \`pnpm costs --write\` rebuilds them"
-
-  local paths=("$row")
-  [ -f "$totals" ] && paths+=("$totals")
-
-  dirty "${paths[@]}" || return 0
+  dirty "$row" || return 0
 
   # `commit -- <path>` stages nothing else, so work the agent has in flight
   # stays where it is.
-  repo add -- "${paths[@]}" &&
-    repo commit -q -m "chore: session cost row" -- "${paths[@]}" ||
+  repo add -- "$row" &&
+    repo commit -q -m "chore: session cost row" -- "$row" ||
     { state=uncommitted; return 0; }
 
   state=committed

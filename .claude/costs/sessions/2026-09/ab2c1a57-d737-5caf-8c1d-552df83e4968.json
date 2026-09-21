@@ -1,0 +1,58 @@
+{
+  "sessionId": "ab2c1a57-d737-5caf-8c1d-552df83e4968",
+  "branch": "claude/api-cost-ledger-0cm1tl",
+  "cwd": "/home/user/vovazakharov.com",
+  "name": "the #71 review: subagents, totals, the .claude move",
+  "openingPrompt": "/handle claude/api-cost-ledger-0cm1tl",
+  "prs": [
+    71
+  ],
+  "url": "https://claude.ai/code/session_01WRCLLgqSrAMpoQYaRdN2qZ",
+  "firstResponseAt": "2026-09-19T11:47:02.906Z",
+  "lastResponseAt": "2026-09-21T11:10:25.927Z",
+  "pricesAsOf": "2026-09-19",
+  "clientTotalUsd": 14.028509250000003,
+  "total": {
+    "inputTokens": 352,
+    "cacheWrite5mTokens": 87127,
+    "cacheWrite1hTokens": 372022,
+    "cacheReadTokens": 29648344,
+    "outputTokens": 125130,
+    "thinkingTokens": 57814,
+    "responses": 176,
+    "costUsd": 22.21894575000001
+  },
+  "ownTurns": {
+    "inputTokens": 334,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 372022,
+    "cacheReadTokens": 28987531,
+    "outputTokens": 125037,
+    "thinkingTokens": 57814,
+    "responses": 167,
+    "costUsd": 21.341580500000006
+  },
+  "subagents": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 87127,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 660813,
+    "outputTokens": 93,
+    "thinkingTokens": 0,
+    "responses": 9,
+    "costUsd": 0.87736525
+  },
+  "byRate": {
+    "claude-opus-5/standard": {
+      "inputTokens": 352,
+      "cacheWrite5mTokens": 87127,
+      "cacheWrite1hTokens": 372022,
+      "cacheReadTokens": 29648344,
+      "outputTokens": 125130,
+      "thinkingTokens": 57814,
+      "responses": 176,
+      "costUsd": 22.21894575000001
+    }
+  },
+  "warnings": []
+}

@@ -1,0 +1,68 @@
+{
+  "sessionId": "a3be30ae-fbfd-517a-8219-949d7d2d7f26",
+  "branch": "claude/api-cost-ledger-0cm1tl",
+  "cwd": "/home/user/vovazakharov.com",
+  "name": "building the cost ledger",
+  "openingPrompt": "слушай, а у тебя где-то в данных по сессии (они же куда-то пишутся автоматом) есть инфа про input/cached/output tokens?",
+  "prs": [
+    71
+  ],
+  "url": "https://claude.ai/code/session_01DULipXqWkbvu9ArhP928Sj",
+  "firstResponseAt": "2026-09-19T06:22:45.434Z",
+  "lastResponseAt": "2026-09-21T10:42:27.230Z",
+  "pricesAsOf": "2026-09-19",
+  "clientTotalUsd": 40.861202000000006,
+  "total": {
+    "inputTokens": 428,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 1231951,
+    "cacheReadTokens": 53787559,
+    "outputTokens": 210116,
+    "thinkingTokens": 102638,
+    "responses": 214,
+    "costUsd": 44.4683295
+  },
+  "ownTurns": {
+    "inputTokens": 428,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 1231951,
+    "cacheReadTokens": 53787559,
+    "outputTokens": 210116,
+    "thinkingTokens": 102638,
+    "responses": 214,
+    "costUsd": 44.4683295
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0
+  },
+  "byRate": {
+    "claude-opus-5/standard": {
+      "inputTokens": 418,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 1037194,
+      "cacheReadTokens": 53018218,
+      "outputTokens": 207179,
+      "thinkingTokens": 101031,
+      "responses": 209,
+      "costUsd": 42.062614
+    },
+    "claude-opus-4-8/standard": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 194757,
+      "cacheReadTokens": 769341,
+      "outputTokens": 2937,
+      "thinkingTokens": 1607,
+      "responses": 5,
+      "costUsd": 2.4057155
+    }
+  },
+  "warnings": []
+}
