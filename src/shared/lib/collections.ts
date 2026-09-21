@@ -50,20 +50,26 @@ type Prefixes<T extends readonly unknown[]> = T extends readonly [
   : [];
 
 /**
- * The same parse along a sequence — each value against the list at its
- * position — for a sequence that may stop anywhere but not run long, which is
- * what an optional-catch-all route hands over. The length comes back in the
- * type, so a caller reads the result positionally without re-checking it.
+ * Exported so whoever owns the lists names the shape once: the parse below then
+ * agrees with that name by construction.
+ */
+export type OneOfEach<T extends ReadonlyArray<readonly string[]>> = Prefixes<{
+  [K in keyof T]: T[K][number];
+}>;
+
+/**
+ * The same parse along a sequence — each value against the list at its position
+ * — which may stop short but not run long, as a catch-all route's segments do.
+ * The length comes back in the type, so a caller reads the result positionally.
  */
 export function oneOfEach<const T extends ReadonlyArray<readonly string[]>>(
   lists: T,
   values: readonly unknown[],
-): Prefixes<{ [K in keyof T]: T[K][number] }>;
+): OneOfEach<T>;
 
-// The body knows only that it returns members of the lists it was handed; which
-// list each one came from is positional, and no signature over a mapped array
-// says that. So the narrow type is the overload's and the wide one is here,
-// where a reader of the loop can check it against the loop.
+// Which list each element came from is positional, and no signature over a
+// mapped array says that — so the narrow return is the overload's, and the body
+// declares only what it can check.
 export function oneOfEach(
   lists: ReadonlyArray<readonly string[]>,
   values: readonly unknown[],

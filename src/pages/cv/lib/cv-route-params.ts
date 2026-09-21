@@ -3,7 +3,7 @@ import 'server-only';
 import { routing } from '@/shared/i18n';
 import { oneOfEach } from '@/shared/lib/collections';
 
-import type { CvAddress } from './cv-urls';
+import { CV_ADDRESS_SEGMENTS, type CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
@@ -18,7 +18,7 @@ export type WithOptionalCvSegments = { variantAndLocale?: string[] };
 export function parseCvSegments({
   variantAndLocale = [],
 }: WithOptionalCvSegments): CvAddress {
-  return oneOfEach([CV_VARIANTS, routing.locales], variantAndLocale);
+  return oneOfEach(CV_ADDRESS_SEGMENTS, variantAndLocale);
 }
 
 /** Which page an address resolves to, each segment it omits falling back. */
