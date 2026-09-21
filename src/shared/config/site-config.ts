@@ -124,10 +124,9 @@ const LSA_CREDIT = {
 
 /**
  * Every site under one shape, so a field added for one is a type error at the
- * rest until it is answered. `satisfies` rather than an annotation keeps the
- * literal types every call site reads.
+ * rest until it is answered.
  */
-const SITE_CONFIGS = {
+const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
   vova: {
     url: 'https://vovazakharov.com',
     downloadPrefix: 'vova',
@@ -166,7 +165,7 @@ const SITE_CONFIGS = {
     credit: LSA_CREDIT,
     ...PUBLISHER,
   },
-} as const satisfies Record<SiteId, SiteConfig>;
+};
 
 /** One site's configuration by id, for the render scripts, which resolved theirs at the top of the run. */
 export function siteConfig(site: SiteId) {
