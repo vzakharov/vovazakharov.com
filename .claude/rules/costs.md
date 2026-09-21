@@ -92,14 +92,16 @@ Applied to Claude Code's own token counts, the table reproduces its cost to the
 last digit — so a divergence is a gap in what a row **read**, never in what it
 charged.
 
-**The usage panel is not a third opinion, and reconciling against it is wasted
-work.** Its "Cost" and its own Breakdown's cost row disagree — $198.49 against
-$47.04 on one card — and across a compact its four token rows stood unchanged
-while the Cost field moved $51.71 to $89.94. Pricing its own token rows at this
-table's rates misses its own Cost by ≈4× on one card and ≈33× on another, so
-the gap is not a unit or a stale rate either — those would miss by one factor
-in both. Whatever it is counting, it is not the tokens printed above it;
-anthropics/claude-code#95837 asks them which of the figures is authoritative.
+**The usage panel is not a third opinion, and what breaks it is compaction.**
+Against a session that has never compacted it agrees to within 1% — $14.03 to
+this table's $13.90 — and one compaction later it is out by tens of dollars,
+each subsequent one adding tens more across a window in which the transcript
+gains no responses at all. Its "Cost" also disagrees with its own Breakdown's
+cost row, $198.49 against $47.04 on one card, and pricing its own token rows at
+these rates misses that Cost by ≈4× on one card and ≈33× on another — so the
+gap is not a unit or a stale rate, which would miss by one factor in both.
+anthropics/claude-code#95837 carries the measurements and asks which figure is
+authoritative.
 
 ## Running beside the harness's Stop check
 
