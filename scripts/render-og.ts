@@ -180,8 +180,8 @@ function chartCards(): Card[] {
  */
 function siteCards(): Card[] {
   // Annotated so `avatar` widens to `SiteImage`: `SITE_CONFIGS` is `as const
-  // satisfies`, which keeps each site's literal shape, and a site with no
-  // vector has no `vector` key at all for `.vector` below to read.
+  // satisfies`, keeping each site's literal shape, so a site with no vector has
+  // no `vector` key for `.vector` to read.
   const { avatar }: SiteConfig = siteConfig(RENDERED_SITE);
 
   return avatar.vector === undefined

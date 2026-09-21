@@ -95,10 +95,9 @@ export type WithParams<Params> = { params: Promise<Params> };
 export type Anchored = Linked & WithChildren;
 
 /**
- * A key that is either present with a value or wholly absent — the value is
- * there in full where the key is, and the key is gone where it is not. Unlike a
- * plain `{ key?: Value }`, there is no present-but-`undefined` middle state to
- * misread; a reader tests the key's presence, never a nullable slot.
+ * A key either present with a value or wholly absent. Unlike a plain
+ * `{ key?: Value }`, there is no present-but-`undefined` middle state — a reader
+ * tests the key's presence, never a nullable slot.
  */
 export type PresentOrAbsent<Key extends string, Value> =
   | { [K in Key]: Value }

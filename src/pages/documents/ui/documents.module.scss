@@ -198,9 +198,8 @@ h1[data-order='1'].articleTitle {
   // draws on the ascender band — 0.86em against the caps' 0.75em, so it rides
   // visibly above the name beside it. The mono face draws it on the cap band.
   // Stated on every descendant, not this element: `print.scss` sizes `p` by
-  // element name and Mantine sizes its own `Anchor`, so a size here is only
-  // inherited and loses to both directly-matching rules — the credit link
-  // nested in the © line among them.
+  // name and Mantine sizes its own `Anchor`, so a size here is only inherited
+  // and loses to both — the credit link nested in the © line included.
   * {
     font-family: var(--mantine-font-family-monospace);
     font-size: 11.5px;
