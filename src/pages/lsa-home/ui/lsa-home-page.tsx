@@ -58,7 +58,9 @@ export function LsaHomePage() {
 
         <Section id="work">
           <Title order={2}>Where it goes</Title>
-          <SimpleGrid cols={{ base: 1, md: 3 }} spacing={16}>
+          {/* Three across only from `lg`: this scale's `md` is 48em, where
+              three of these cards wrap their titles onto three lines. */}
+          <SimpleGrid cols={{ base: 1, lg: 3 }} spacing={16}>
             {WORK.map((card) => (
               <SummaryCard key={card.title} {...card} />
             ))}
