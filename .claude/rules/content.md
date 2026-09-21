@@ -109,7 +109,7 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
 - **Raw HTML in a document passes through unsanitized.** `rehypeRaw` parses it into real elements, so an author's markup reaches the page as itself. First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
 - **A tag in `CONTENT_COMPONENTS` is that component everywhere in every document.** `article-body.tsx` (`pages/documents/ui/`) maps `video` to `ContentVideo`, so the print note above reaches a player the pipeline built and one an author typed as raw HTML alike — the map keys off the tag, not off who emitted it. That reach is the point of the map and the whole of its hazard.
-- **A mapped component lives beside the map, not beside the plugin that emits its tag.** `shared/content` is `server-only` by construction, so a client island — the copy button, the lightbox, the reason the tree reaches React at all — could not be imported from there.
+- **A mapped component lives beside the map, not beside the plugin that emits its tag.** The component renders page composition — `ContentVideo` is a document's own UI — so it and the map belong in the `pages` layer (`pages/documents/ui/`); `shared/content` sits below that layer, and the one-way import direction means the plugin there could not reach up into `pages` to co-locate with the component even if it wanted to. The plugin names the tag; the map, one layer up, binds it to the component.
 
 ## The locale seam
 
