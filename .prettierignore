@@ -43,9 +43,8 @@ apps/*/public/generated
 # turn, so a formatting pass over them is undone by the next one.
 .claude/costs/sessions
 
-# Exported GitHub threads — `scripts/export-github-item.py` writes them verbatim
-# from the API, down to the line endings a comment was typed with, and the point
-# of re-exporting is a diff against what the last turn read.
+# GitHub exports — `scripts/export-github-item.py` writes what the thread holds,
+# and a snapshot reformatted is no longer the thing it is a snapshot of.
 docs/issue
 docs/pr
 

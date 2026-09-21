@@ -3,7 +3,7 @@ import { useMessages } from 'next-intl';
 
 import { TECH_STACKS } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import type { LinkedPerMedium } from '@/shared/typings';
+import type { Linked } from '@/shared/typings';
 import { Card } from '@/shared/ui';
 
 import { CaseStudyLink } from './case-study-link';
@@ -31,8 +31,8 @@ const ENTRY_TECH_STACKS: Partial<Record<ExperienceKey, string>> = TECH_STACKS;
 
 type ExperienceCardProps = {
   entryKey: ExperienceKey;
-  /** The one entry with a case study behind it; the page resolves both halves. */
-  caseStudy?: LinkedPerMedium;
+  /** The one entry with a case study behind it; the page resolves its route. */
+  caseStudy?: Linked;
 };
 
 export function ExperienceCard({ entryKey, caseStudy }: ExperienceCardProps) {

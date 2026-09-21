@@ -1,10 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
 
-import {
-  linkTo,
-  printedUrl,
-  SITE_CONFIG,
-} from '@/shared/config/index.server-only';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 
@@ -23,8 +18,7 @@ export function CvPage({ locale, variant }: CvPageProps) {
     >
       <CvSheet
         {...{ variant }}
-        caseStudy={linkTo(FEATURED_CASE_STUDY_ROUTE)}
-        printedSite={printedUrl(SITE_CONFIG.url)}
+        caseStudy={{ href: FEATURED_CASE_STUDY_ROUTE }}
         pdfFile={cvPdfFile(variant, locale)}
       />
     </NextIntlClientProvider>

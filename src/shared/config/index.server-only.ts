@@ -1,9 +1,6 @@
-export {
-  BUILD_YEAR,
-  getAbsoluteUrl,
-  linkTo,
-  pageFile,
-  printedUrl,
-  SITE_CONFIG,
-  SITE_ID,
-} from './resolved-site';
+/**
+ * One export, and still the right shape: the axis this barrel names is the
+ * client bundle, not the count.
+ */
+
+export { BUILD_YEAR } from './build-year';
