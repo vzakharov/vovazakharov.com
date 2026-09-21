@@ -60,7 +60,7 @@ export type WithHeadings = { headings: Heading[] };
 
 /**
  * Through `rehype-raw`, so it holds no `raw` nodes — `toJsxRuntime` throws on
- * one — and it may hold `markers.ts`'s tags, which only a component map renders.
+ * one.
  */
 export type WithContentTree = { tree: HastRoot };
 

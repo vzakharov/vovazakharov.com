@@ -1,13 +1,13 @@
 import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
-import { CONTENT_VIDEO, type WithContentTree } from '@/shared/content';
+import type { WithContentTree } from '@/shared/content';
 
 import { ContentVideo } from './content-video';
 
-/** What each of the pipeline's marker tags renders as. */
+/** The tags a component renders instead of the browser's own element. */
 const CONTENT_COMPONENTS: Partial<Components> = {
-  [CONTENT_VIDEO]: ContentVideo,
+  video: ContentVideo,
 };
 
 export function ArticleBody({ tree }: WithContentTree) {

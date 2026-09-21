@@ -1,43 +1,55 @@
-import { printedUrl } from '@/shared/config/index.server-only';
+import type { ComponentProps } from 'react';
 
-type Props = {
-  src: string;
-  /** The link text the document gave the video, which labels the player. */
-  label: string;
-};
+import { printedUrl } from '@/shared/config/index.server-only';
+import { cx } from '@/shared/lib/class-names';
+import { pick } from '@/shared/lib/collections';
 
 /**
- * A player on screen, and on paper the URL it would print as a blank rectangle.
+ * Every `<video>` a document holds — the one `rehypeMediaEmbeds` makes out of a
+ * link, and one an author wrote as raw HTML alike: a player on screen, and on
+ * paper the URL it would otherwise print as a blank rectangle.
  */
-export function ContentVideo({ src, label }: Props) {
-  const { href, text } = printedUrl(src);
+export function ContentVideo({
+  src,
+  className,
+  children,
+  ...props
+}: ComponentProps<'video'>) {
+  // React also takes a `Blob` or a stream as a `src`, neither of which a
+  // statically rendered page has — so only a URL has a printed form to offer.
+  const url = typeof src === 'string' ? src : undefined;
+  const printed = url === undefined ? undefined : printedUrl(url);
 
   return (
     <>
       <video
-        {...{ src }}
         controls
         preload="metadata"
         playsInline
-        className="content-video print-hidden"
-        aria-label={label}
+        {...props}
+        {...{ src }}
+        className={cx('content-video print-hidden', className)}
       >
-        <p>
-          {/* TODO: localize, with the printed note below, once the
-              `<slug>.<locale>.md` seam gives a document its locale. */}
-          Your browser can’t play this video —{' '}
-          <a href={src} download>
-            download it
-          </a>{' '}
-          instead.
-        </p>
+        {children ?? (
+          <p>
+            {/* TODO: localize, with the printed note below, once the
+                `<slug>.<locale>.md` seam gives a document its locale. */}
+            Your browser can’t play this video —{' '}
+            <a href={url} download>
+              download it
+            </a>{' '}
+            instead.
+          </p>
+        )}
       </video>
 
-      <p className="print-only content-video-note">
-        <em>
-          See video at <a {...{ href }}>{text}</a>
-        </em>
-      </p>
+      {printed && (
+        <p className="print-only content-video-note">
+          <em>
+            See video at <a {...pick(printed, 'href')}>{printed.text}</a>
+          </em>
+        </p>
+      )}
     </>
   );
 }

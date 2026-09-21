@@ -5,7 +5,6 @@ import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 
 import { hastText } from '../hast-text';
-import { CONTENT_VIDEO } from '../markers';
 
 const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.mov', '.m4v'] as const;
 
@@ -42,9 +41,10 @@ function soleElementChild(node: Element): Element | undefined {
 }
 
 /**
- * Turns a paragraph holding nothing but a link to a video into the marker
- * `ContentVideo` renders, so a document reads as a link on GitHub and plays
- * inline on the site.
+ * Turns a paragraph holding nothing but a link to a video into a `<video>`, so
+ * a document reads as a link on GitHub and plays inline on the site. The link's
+ * text is the only thing the document says about the recording, so it labels
+ * the player.
  */
 function embedVideos(tree: Root) {
   visit(tree, 'element', (node: Element, index, parent) => {
@@ -58,8 +58,8 @@ function embedVideos(tree: Root) {
 
     parent.children.splice(index, 1, {
       type: 'element',
-      tagName: CONTENT_VIDEO,
-      properties: { src: href, label: hastText(link).trim() },
+      tagName: 'video',
+      properties: { src: href, ariaLabel: hastText(link).trim() },
       children: [],
     });
 

@@ -17,7 +17,7 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` renders it once per deploy. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`, rather than stringifying it; `ArticleBody` is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` renders it once per deploy. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`; `ArticleBody` is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` is therefore one script per site, and `content:og` and `content:mermaid` are `vova`'s until the other site authors a card or a diagram.
 
@@ -108,8 +108,8 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **A video link needs an extension or a `video` title.** A paragraph holding nothing but a link to a video becomes a player. Detection is by file extension; for a URL that has none, mark it explicitly: `[label](url 'video')`.
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
 - **Raw HTML in a document passes through unsanitized.** `rehypeRaw` parses it into real elements, so an author's markup reaches the page as itself. First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
-- **A marker tag nothing maps renders as an empty custom element, and the build still exits 0.** A plugin emitting one of `markers.ts`'s tag names needs the matching entry in `CONTENT_COMPONENTS` (`article-body.tsx`); without it the tag reaches the page with its content gone.
-- **The component a marker renders lives in `pages/documents/ui/`.** `shared/content` is `server-only` by construction, so a client island could never live there — the marker names are the pipeline's, the components page composition.
+- **A tag `CONTENT_COMPONENTS` names is a React component, not the element it looks like.** `article-body.tsx` maps `video` to `ContentVideo`, which is how the print note above reaches a player the pipeline built — and, the map keying off the tag rather than off who emitted it, a `<video>` an author writes by hand gets the same treatment. A component added there takes over that tag everywhere in every document, which is the point and also the whole of the hazard.
+- **A mapped component lives in `pages/documents/ui/`, never in `shared/content/`.** The pipeline is `server-only` by construction, so a client island — the copy button, the lightbox, the reason the tree reaches React at all — could not be imported from there. The tree is the pipeline's; what renders it is page composition.
 
 ## The locale seam
 

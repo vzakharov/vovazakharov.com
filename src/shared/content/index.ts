@@ -28,7 +28,6 @@ export {
   type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
-export { CONTENT_VIDEO } from './markers';
 export {
   type DocumentCard,
   type Heading,
