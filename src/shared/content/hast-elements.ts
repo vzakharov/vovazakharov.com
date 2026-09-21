@@ -4,10 +4,10 @@ import type { Element, ElementContent, Root } from 'hast';
 import { SKIP, visit, type VisitorResult } from 'unist-util-visit';
 
 /**
- * Every `tagName` element in the tree. The visitor receives the node's `index`
- * and `parent` and may return a traversal action, so a pass that only edits in
- * place ignores both and a pass that rewrites the tree — `replaceElements` — is
- * built on this rather than restating the element walk.
+ * Runs `visitor` on every `tagName` element in the tree. A pass that edits nodes
+ * in place ignores `index` and `parent` and returns nothing; a pass that
+ * rewrites the tree returns a traversal action, which `replaceElements` uses to
+ * resume past a node it has just swapped.
  */
 export function visitElements(
   tree: Root,
