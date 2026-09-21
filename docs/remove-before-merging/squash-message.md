@@ -9,21 +9,20 @@ The Bible was an article collection served from a domain named for
 something else. `agentic.bible` is named for it, so the collection
 becomes the repository's third site: `apps/bible/` builds from the same
 `src/` and is force-pushed to a receiving repository whose Pages serves
-the domain. Two receivers is where the one-off publish script stops
-being one — a site id and a fixed deploy-key variable the workflow maps
-each receiver's secret into, the publish jobs collapsing onto a matrix
-the gate emits. Three sites is where the manual picker stops being a
-single-select `choice`: `all` or a list, an unknown id failing the run.
+the domain. Two receivers turn the one-off publish script into
+`publish-site.sh <site>`, its jobs a matrix the gate emits and each
+receiver's secret mapped into one fixed deploy-key variable. Three sites
+turn the manual picker from a single-select `choice` into `all` or a
+list, an unknown id failing the run.
 Porkbun has an API, so the domain's records are written from here too.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
-has an empty `base`, which the three path functions interpolating it now
-reach through one joiner, and its directory is the site's whole
-`public/` — so the render walk's guarantee that it cannot hand a script
-its own output becomes an explicit skip of `generated/`. Its home page
-is a slice of its own, and the card list it shares with the collection
-index moves to a first `widgets/` slice.
+has an empty `base` and its directory is the site's whole `public/`,
+which the path functions and the render walk now special-case. Its home
+page is a slice of its own, and the byline and cards it shares with the
+collection index are the document's own UI — the first `entities/`
+slice, leaving `widgets/` with the footer alone.
 
 The mark is a wax seal in two cuts, lettered for the site and blank for
 itself — one drawing, the lettered cut being the blank one plus a
@@ -38,11 +37,12 @@ band there and is painted into it out of flow, at the foot of a sheet.
 
 What that leaves behind on latestageagentic.com is a front page with no
 collection under it, so it becomes the index the project needed anyway:
-one paragraph saying what the agency is, over three cards — the Bible,
-MUTHUR, and courses that do not exist yet, whose `SummaryCard` takes an
-optional `href` so it is a card rather than a dead link. `/dictation`
-gains an `auto` mode on the way through, reading the mode off the
-transcript rather than asking before there is one.
+one paragraph on what the agency is, over three cards — the Bible,
+MUTHUR, and courses that do not exist yet, the last a card without a
+link. A printed Bible article now credits Late Stage Agentic and links
+to it, the top of that funnel, so `SiteConfig` carries a per-site credit
+only the Bible names. `/dictation` gains an `auto` mode, reading it off
+the transcript rather than asking before there is one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
