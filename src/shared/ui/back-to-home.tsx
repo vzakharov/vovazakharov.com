@@ -13,7 +13,7 @@ export function BackToHome() {
       className={cx('print-hidden', classes['pageFooter'])}
     >
       <Text size="sm" opacity={0.6}>
-        <InternalLink href="/" printed={null} inherit>
+        <InternalLink href="/" inherit>
           ← Back to the home page
         </InternalLink>
       </Text>

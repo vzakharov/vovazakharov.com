@@ -28,7 +28,7 @@ export function OtherVariantLink({ variant }: WithCvVariant) {
 
   return (
     <Text size="sm" className={classes['dim60']}>
-      <InternalLink href={cvPath(other, locale)} printed={null} inherit>
+      <InternalLink href={cvPath(other, locale)} inherit>
         {t(`cvVariants.${other}`)}
       </InternalLink>
     </Text>

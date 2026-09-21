@@ -1,33 +1,25 @@
 import 'server-only';
 
-import { z } from 'zod';
-
 import { routing } from '@/shared/i18n';
-import { localeSchema } from '@/shared/i18n/index.server-only';
+import { oneOfEach } from '@/shared/lib/collections';
 
-import type { CvAddress } from './cv-urls';
+import { CV_ADDRESS_SEGMENTS, type CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
 
-/** The catch-all's segments as a route hands them over, before the schema narrows them. */
+/** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalCvSegments = { variantAndLocale?: string[] };
-
-const variantSegment = z.enum(CV_VARIANTS);
 
 /**
  * A parse rather than a cast: a segment neither list covers fails `next build`,
- * which under `output: 'export'` is the only thing that ever runs this — hence
- * `server-only` above, since zod is ~90 kB gzipped and nothing on the CDN
- * re-validates a segment `generateStaticParams` already enumerated.
+ * which under `output: 'export'` is the only thing that ever runs this — nothing
+ * on the CDN re-validates a segment `generateStaticParams` already enumerated,
+ * which is what `server-only` above keeps true.
  */
-export const cvSegmentsSchema = z.object({
-  variantAndLocale: z
-    .union([
-      z.tuple([]),
-      z.tuple([variantSegment]),
-      z.tuple([variantSegment, localeSchema]),
-    ])
-    .default([]),
-});
+export function parseCvSegments({
+  variantAndLocale = [],
+}: WithOptionalCvSegments): CvAddress {
+  return oneOfEach(CV_ADDRESS_SEGMENTS, variantAndLocale);
+}
 
 /** Which page an address resolves to, each segment it omits falling back. */
 export function cvAddressDefaults(address: CvAddress) {

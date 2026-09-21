@@ -1,7 +1,7 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { linkTo, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -70,11 +70,7 @@ export function collectionIndexRoute(collection: CollectionId) {
                     )}
                     <div>
                       <Title order={2} size="h3" mb={8}>
-                        <InternalLink
-                          {...linkTo(route)}
-                          underline="hover"
-                          inherit
-                        >
+                        <InternalLink href={route} underline="hover" inherit>
                           {title}
                         </InternalLink>
                       </Title>
@@ -86,15 +82,13 @@ export function collectionIndexRoute(collection: CollectionId) {
                         {frontmatter.description}
                       </Text>
                       <Group component="p" gap={12} wrap="wrap" fz="sm">
-                        <InternalLink {...linkTo(route)} inherit>
+                        <InternalLink href={route} inherit>
                           Read
                         </InternalLink>
                         {variants.map((variant) => (
                           <InternalLink
                             key={variant}
-                            {...linkTo(
-                              documentRoute(collection, slug, variant),
-                            )}
+                            href={documentRoute(collection, slug, variant)}
                             className={classes['variantLink']}
                             inherit
                           >
