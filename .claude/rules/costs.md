@@ -148,13 +148,16 @@ one file per session id.
 - **The last turn of a session.** The transcript is written asynchronously and
   lags the live conversation, so each run rewrites the row from the whole file
   and picks up what the previous run was too early to see. The final turn has no
-  successor to correct it, and **nothing inside the session can close that**: a
-  step in `/finalize` runs in the same session and is followed by the turns that
-  invoked it, so it moves the blind spot rather than removing it. Only a
-  **later** reading of the transcript closes it, which needs the transcript to
-  outlive the session — true locally, false in a remote container, which is
-  discarded with `~/.claude/projects/` inside it unless something committed a
-  copy first.
+  successor to correct it, and **no turn can close that**: a step in `/finalize`
+  runs in the same session and is followed by the turns that invoked it, so it
+  moves the blind spot rather than removing it. What closes it is a read that is
+  not a turn, and there are two. A **later session** re-prices the file, which
+  needs the transcript to outlive this one — true locally, false in a remote
+  container, discarded with `~/.claude/projects/` inside it unless something
+  committed a copy first. A **watcher on the transcript** would see the trailing
+  appends, the container outliving them by a wide margin; what it costs is the
+  single point of serialisation § "Running beside the harness's Stop check" is
+  built on, since it would write and commit with no turn in progress.
 - **Each compact.** The transcript records the compaction call without its
   `usage` — the boundary record carries `preTokens`, the summary arrives as a
   `user` record — so there is nothing to price. Bounded rather than unknown: the
