@@ -84,6 +84,7 @@ const PRINT_SOURCES = [
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
+  'src/entities/document',
   'src/pages/documents/ui',
   'src/shared/content',
 ];

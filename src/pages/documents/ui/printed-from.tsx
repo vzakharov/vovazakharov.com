@@ -6,6 +6,7 @@ import {
   SITE_CONFIG,
 } from '@/shared/config/index.server-only';
 import type { Routed } from '@/shared/content';
+import { pick } from '@/shared/lib/collections';
 
 import classes from './documents.module.scss';
 
@@ -19,6 +20,7 @@ import classes from './documents.module.scss';
  */
 export function PrintedFrom({ route }: Routed) {
   const { href, text } = printedUrl(route);
+  const { credit, name } = SITE_CONFIG;
 
   return (
     <Group
@@ -33,7 +35,15 @@ export function PrintedFrom({ route }: Routed) {
         {text}
       </Anchor>
       <Text>
-        © {SITE_CONFIG.name}, {BUILD_YEAR}
+        ©{' '}
+        {credit ? (
+          <Anchor {...pick(credit, 'href')} c="inherit">
+            {credit.name}
+          </Anchor>
+        ) : (
+          name
+        )}
+        , {BUILD_YEAR}
       </Text>
     </Group>
   );

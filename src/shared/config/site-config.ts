@@ -5,7 +5,7 @@
  * each read what they need without the environment read coming along.
  */
 
-import type { Billed, Named, Sized } from '@/shared/typings';
+import type { Billed, Linked, Named, Sized } from '@/shared/typings';
 
 import type { SiteId } from './site-ids';
 
@@ -33,6 +33,14 @@ export const PAGE_ROUTES = {
  */
 export type SiteImage = Sized &
   ({ path: string; vector: string } | { path: string; vector?: never });
+
+/**
+ * Whom a site's materials are credited to, and where that credit links. Named
+ * only where the materials are published under something other than the site
+ * itself — the Bible's are the agency's — so the credit points a reader of an
+ * article at the agency rather than at the author's own page.
+ */
+type SiteCredit = Named & Linked;
 
 /**
  * The tagline is the offer in one line, as the home page's offer section is
@@ -65,6 +73,13 @@ export type SiteConfig = Billed & {
    * one.
    */
   seal: SiteImage | undefined;
+  /**
+   * The copyright on this site's materials, and where it links — `undefined`
+   * where the site credits itself and its own name stands unlinked. Spelled by
+   * every site for the same reason `seal` is: a new one should have to answer
+   * whether its work is its own or published under another name.
+   */
+  credit: SiteCredit | undefined;
 };
 
 /** One person publishes every site, so none of them owns the byline. */
@@ -91,6 +106,16 @@ const AVATAR = {
 const SEAL_SIZE = { width: 1024, height: 1024 } as const;
 
 /**
+ * The Bible's materials are the agency's, so they credit it and link to its
+ * hub — an article is the top of the funnel into Late Stage Agentic, not a
+ * page of the author's.
+ */
+const LSA_CREDIT = {
+  name: 'Late Stage Agentic',
+  href: 'https://latestageagentic.com',
+} as const;
+
+/**
  * Every site under one shape, so a field added for one is a type error at the
  * rest until it is answered. `satisfies` rather than an annotation keeps the
  * literal types every call site reads.
@@ -104,6 +129,7 @@ const SITE_CONFIGS = {
       'Fractional CTO for teams that don’t want to YOLO into the agent era.',
     avatar: AVATAR,
     seal: undefined,
+    credit: undefined,
     ...PUBLISHER,
   },
   lsa: {
@@ -113,6 +139,7 @@ const SITE_CONFIGS = {
     tagline: 'How not to make a mess of agentic coding.',
     avatar: AVATAR,
     seal: undefined,
+    credit: undefined,
     ...PUBLISHER,
   },
   bible: {
@@ -129,6 +156,7 @@ const SITE_CONFIGS = {
       ...SEAL_SIZE,
     },
     seal: { path: '/seal.svg', ...SEAL_SIZE },
+    credit: LSA_CREDIT,
     ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;
