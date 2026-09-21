@@ -12,8 +12,7 @@ the heading and the file is sorted by it. It feeds backlog row 18 in
 worth as much as one that flatters, so bumps stay in whatever they show.
 
 **Adding to it is mandatory after a review session** that changed something the
-agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule, and why
-the entry is written before the session forgets what it worked from.
+agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule and when.
 
 **This file has an end.** Once row 18 is drafted and posted, it retires with the
 rule that feeds it. Everything durable belongs where the code can see it — a
@@ -119,8 +118,8 @@ build the component, the agent stood it _beside_ `InternalLink` as
 
 **16 September — the same config, read as a specification a second time.** Asked
 why `shared/ui` cannot reach `shared/seo` directly, the agent read our own
-`boundaries` policy back as a stricter FSD. _именно так shared и должен
-работать._ The spec exempts the layer in one line; 9 September says whose file it is.
+`boundaries` policy back as a stricter FSD, which exempts the layer in one line.
+_именно так shared и должен работать._ 9 September says whose file it is.
 
 **17 September — the deploy gate's prefix set, taken as given a third time.** A
 `perf:` branch priced the gate skipping it as an accepted cost, written into the
@@ -176,8 +175,7 @@ back identical. _но тогда и в экранной версии это бу
 
 **16 September — the config line it blamed, never varied.** Ruling a flat
 `shared/lib/collections.ts` illegal, the agent blamed `src/shared/lib/(*)/**` off
-the config's text. Same error without it — and that line keeps `class-names`
-legal. _а у меня из playgramapp такие живут спокойно._
+its text. Same error without it. _а у меня из playgramapp такие живут спокойно._
 
 **17 September — a boundary explained, not read.** The CV translates in the
 browser so the reader switches without navigating; the picker is `<a href>`.
@@ -232,7 +230,7 @@ settled against a Russian draft, so the English copy next day came out in them.
 **17 September — the glob retired, then rewritten one file over.** The lint glob
 went; the rule written the same hour scoped itself to `/cv/**`.
 
-## It writes its reasoning into the artifact (×9)
+## It writes its reasoning into the artifact (×10)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -271,6 +269,11 @@ kept through three review rounds. _держать постоянный журн�
 
 **17 September — the check, and its own case.** `check:i18n-payload` entered the
 vet list restating the script's header. _сократить буквально до предложения._
+
+**17 September — the lesson just learned, written down twice.** The i18n rule's
+new paragraph — the constraint is about the data, not the renderer — restated the
+`MESSAGE_MARKDOWN` docstring in the same change, then denied an alternative the
+constraint above it closes. _медведь или по крайней мере сильно сократить._
 
 ## Asked to quote a source, it writes its own version (×6)
 
@@ -317,10 +320,9 @@ choosing whether a dictation is transcribed verbatim or rendered as prose, the
 agent wrote "ask which one when the invocation doesn't say" and marked one mode
 `(default)` two lines above it. _не должно быть дефолта_.
 
-**15 September — a record with a row per site, filled cell by cell.**
-`SITE_CONFIGS` satisfies `Record<SiteId, SiteConfig>`, so the second site arrived
-as the first with four fields changed and `author`, `social` and `avatar`
-retyped. The type went green: every cell had a value. _не DRY._
+**15 September — a row per site, filled cell by cell.** `SITE_CONFIGS` satisfies
+`Record<SiteId, SiteConfig>`, so the second site arrived as the first with four
+fields changed and three retyped. Every cell had a value. _не DRY._
 
 **15 September — the definition inside the rule against defining it.** The brief
 was one paragraph on the voice, explicitly left to be found in review. It came
@@ -385,16 +387,14 @@ recording was _не про то и не то — мямлим, рассусол�
 itself up for repairing its defects rather than asking whether this was the piece
 at all. Whether a piece says what its author meant is his alone to judge.
 
-**Decisions that were the operator's to make.** Four rounds were filed here and
-taken back out: the CV's locale segment, the hook a post leads with, where the
-theme toggle sits. Only the toggle's _skin_ stayed a bump; an entry removed this
-way takes its count with it.
+**Decisions that were the operator's to make.** Four rounds were filed and taken
+back out: the CV's locale segment, a post's hook, where the theme toggle sits.
+Only the toggle's _skin_ stayed a bump; a removed entry takes its count with it.
 
 ## The two families
 
-Nine learnings fall in two groups. One is failures to notice the frame was ours
-— the prefix list, the published chart, the checker read as the rule, our own
-`eslint.config.ts`. The other is the post's more interesting half: the output
-was well-formed, justified and efficient, and those properties made it wrong —
-an edit minimal where it was made left one fact spelled three ways. No "be more
-careful" catches these; they need a person, not always one who knows more.
+The learnings fall in two groups. One is failures to notice the frame was ours —
+the prefix list, the published chart, our own `eslint.config.ts`. The other is
+the post's more interesting half: the output was well-formed, justified and
+efficient, and those properties made it wrong. No "be more careful" catches
+these; they need a person, not always one who knows more.
