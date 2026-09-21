@@ -254,6 +254,28 @@ tag-name test — the exact repetition just hunted out of the plugins, standing
 twice inside the module built to end it. `replaceElements` now rides on
 `visitElements`.
 
+## The reason it reaches for is not the reason that holds (×1)
+
+Asked why a thing sits where it does, the agent gives the reason that argues
+best — an impossibility overstated into a wall, an appeal to needs that don't
+exist yet — and skips the one that already decides it: present, structural, and
+enforced by a checker in plain view. The dramatic justification is the one worth
+writing; the plain true one is passed over for being plain.
+
+**21 September — a placement defended by a wall that wasn't there.** On PR #72,
+asked why `ContentVideo` (a mapped content component) lives in
+`pages/documents/ui/` rather than beside the plugin emitting its `<video>` in
+`shared/content`, the bullet on `content.md` gave two reasons: `shared/content`
+is `server-only`, so a client island "could never" be imported from it, and
+future islands — a copy button, a lightbox — justify the home. Both fell. The
+server-only split is bridgeable by a client-safe barrel (the repo's own
+suffixed-barrel pattern), so the wall wasn't solid; and `ContentVideo` has no
+`use client` today, so tomorrow's islands were over-justification of where it
+lives now. The reviewer took both apart, and the plain reason sat in view the
+whole time — FSD import direction: the component is `pages` composition,
+`shared/content` is below it, one-way imports forbid reaching up, and Steiger and
+`boundaries` enforce it whether the component is client or server.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
