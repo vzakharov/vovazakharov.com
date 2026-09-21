@@ -100,5 +100,5 @@ export type Anchored = Linked & WithChildren;
  * tests the key's presence, never a nullable slot.
  */
 export type PresentOrAbsent<Key extends string, Value> =
-  | { [K in Key]: Value }
-  | { [K in Key]?: never };
+  | Record<Key, Value>
+  | Partial<Record<Key, never>>;
