@@ -6,7 +6,7 @@ import { pick } from '@/shared/lib/collections';
 
 /**
  * Every `<video>` a document holds — the one `rehypeMediaEmbeds` makes out of a
- * link, and one an author wrote as raw HTML alike: a player on screen, and on
+ * link and one an author typed as raw HTML alike: a player on screen, and on
  * paper the URL it would otherwise print as a blank rectangle.
  */
 export function ContentVideo({

@@ -16,9 +16,9 @@ export function visitElements(
 
 /**
  * Every `tagName` element that sits in a parent, swapped for whatever `replace`
- * returns — `undefined` leaves it where it is. Traversal resumes after the
- * replacement rather than inside it, so a plugin that wraps a node never meets
- * that node again and wraps it twice.
+ * returns — `undefined` leaves it where it is. Traversal resumes past the
+ * replacement, so a plugin that wraps a node never meets it again and wraps it
+ * twice.
  */
 export function replaceElements(
   tree: Root,

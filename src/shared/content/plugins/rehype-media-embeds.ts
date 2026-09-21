@@ -42,9 +42,7 @@ function soleElementChild(node: Element): Element | undefined {
 
 /**
  * Turns a paragraph holding nothing but a link to a video into a `<video>`, so
- * a document reads as a link on GitHub and plays inline on the site. The link's
- * text is the only thing the document says about the recording, so it labels
- * the player.
+ * a document reads as a link on GitHub and plays inline on the site.
  */
 function embedVideos(tree: Root) {
   replaceElements(tree, 'p', (node) => {

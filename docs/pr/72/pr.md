@@ -26,12 +26,12 @@
 
 The plan budgeted **~1.2 kB gzip** on the largest article and asked for that to be checked against a real build rather than the estimate. Built both ways on this branch:
 
-| | before | after | delta |
-| --- | --- | --- | --- |
-| `case-studies/playgram.html`, gzip | 68,243 | 72,587 | **+4,344 (+6.4%)** |
-| …its inlined RSC flight, gzip | 36,948 | 40,948 | +4,000 |
-| …its body markup, gzip | 28,013 | 28,217 | +204 |
-| both sites, all `.html` + `.txt`, gzip | 1,072,505 | 1,105,881 | +33,376 (+3.1%) |
+|                                        | before    | after     | delta              |
+| -------------------------------------- | --------- | --------- | ------------------ |
+| `case-studies/playgram.html`, gzip     | 68,243    | 72,587    | **+4,344 (+6.4%)** |
+| …its inlined RSC flight, gzip          | 36,948    | 40,948    | +4,000             |
+| …its body markup, gzip                 | 28,013    | 28,217    | +204               |
+| both sites, all `.html` + `.txt`, gzip | 1,072,505 | 1,105,881 | +33,376 (+3.1%)    |
 
 **The miss is in the compression rate, not the byte count.** The plan predicted the body's raw growth almost exactly (+28.5 kB forecast, +30.2 kB measured) but assumed those added bytes would compress at ~4%; they compress at ~15%. The growth lands on the flight payload — 92% of it — because that is where the body-as-a-string became a body-as-a-tree, and a tree's extra bytes are repetitive but not free.
 
@@ -58,15 +58,15 @@ Mechanical checks already run on this branch are noted in the table; the items b
 - [ ] `payload` — decide whether +4.4 kB gzip on the largest article is acceptable, per the table above
 - [ ] `caption-rule` — pick route 1 or 2 above so the branch can pass lint
 
-| Item | Automatable | Covered? | Notes |
-|------|-------------|----------|-------|
-| `article-render` | manual-only | — | Only a human eye settles "looks right"; the tag skeleton is verified identical (2,172 tags) |
-| `code-theme` | e2e | ❌ | Assert both `--shiki-light` and `--shiki-dark` survive on a token span; 370 are present in the build |
-| `toc-anchors` | e2e | ❌ | Walk every in-page `href="#…"` and assert the id exists — 79/79 resolve across 6 article pages today |
-| `video-embed` | e2e | ❌ | Assert the player element and the print-only note both exist; both verified present in the built HTML |
-| `raw-html` | integration | ❌ | A build over a fixture document authoring raw HTML is the whole test; playgram already is one |
-| `payload` | unit | ❌ | A size budget over `out/` would catch a regression no other check sees — and would have caught this one |
-| `caption-rule` | — | — | A decision, not a test |
+| Item             | Automatable | Covered? | Notes                                                                                                   |
+| ---------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| `article-render` | manual-only | —        | Only a human eye settles "looks right"; the tag skeleton is verified identical (2,172 tags)             |
+| `code-theme`     | e2e         | ❌       | Assert both `--shiki-light` and `--shiki-dark` survive on a token span; 370 are present in the build    |
+| `toc-anchors`    | e2e         | ❌       | Walk every in-page `href="#…"` and assert the id exists — 79/79 resolve across 6 article pages today    |
+| `video-embed`    | e2e         | ❌       | Assert the player element and the print-only note both exist; both verified present in the built HTML   |
+| `raw-html`       | integration | ❌       | A build over a fixture document authoring raw HTML is the whole test; playgram already is one           |
+| `payload`        | unit        | ❌       | A size budget over `out/` would catch a regression no other check sees — and would have caught this one |
+| `caption-rule`   | —           | —        | A decision, not a test                                                                                  |
 
 `pnpm build` is this repo's stand-in for app tests (CLAUDE.md § "Testing"), so every ❌ above is a genuine gap rather than a missing run. `payload` is the one worth filing: the budget it would enforce is exactly the number this PR overshot.
 
@@ -140,14 +140,14 @@ Co-authored-by: Claude <noreply@anthropic.com>
 @@ -17,7 +17,7 @@ paths:
 … 1 line elided …
  # Content
- 
+
 -Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` compiles it to HTML once per deploy. The p…
 +Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/lsa/public/bible/` — and `next build` renders it once per deploy. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`, rather than stringifying it; `ArticleBody` is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
 ```
 
 **@vzakharov (human)** — 2026-09-19T11:57:31Z
 
->  rather than stringifying it
+> rather than stringifying it
 
 медведь
 
