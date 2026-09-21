@@ -48,9 +48,7 @@ const INLINE: Components = { p: ({ children }) => <>{children}</> };
 
 /**
  * How a message with `**emphasis**` in it renders — the CV's profile
- * paragraphs, where emphasis falls mid-sentence. Bullets carry their bold lead
- * as structured fields instead, so this is the only place a message needs
- * inline markup at all.
+ * paragraphs, the one place a message carries inline markup at all.
  *
  * Markdown rather than tags because a catalogue is data, and three renderers
  * read it where only this one interprets markup: the sheet, the `<meta>`
