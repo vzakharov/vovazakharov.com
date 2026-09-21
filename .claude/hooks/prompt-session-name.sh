@@ -1,7 +1,7 @@
 #!/bin/bash
 # `UserPromptSubmit` hook: ask the agent to name this session, once.
 #
-# The transcript holds no title the client generated, and the opening prompt the
+# The transcript holds no title Claude Code generated, and the opening prompt the
 # row falls back to is the launch command rather than what the session turned out
 # to be about. Only the agent knows that, and only after a turn or two — so the
 # row leaves `name` null and this asks for it on the next prompt, going quiet the

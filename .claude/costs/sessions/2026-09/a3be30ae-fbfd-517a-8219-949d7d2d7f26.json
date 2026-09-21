@@ -11,7 +11,7 @@
   "firstResponseAt": "2026-09-19T06:22:45.434Z",
   "lastResponseAt": "2026-09-21T10:42:27.230Z",
   "pricesAsOf": "2026-09-19",
-  "clientTotalUsd": 40.861202000000006,
+  "claudeCodeTotalUsd": 40.861202000000006,
   "total": {
     "inputTokens": 428,
     "cacheWrite5mTokens": 0,

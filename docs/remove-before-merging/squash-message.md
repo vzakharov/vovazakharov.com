@@ -25,14 +25,15 @@ A subagent's responses are written to a file of their own and are the
 spending session's to carry, so the reading takes in that directory
 too: the session measured here delegated seven percent of its spend,
 and reading the main transcript alone lost exactly that. What catches
-the next such gap is the client's own running total, which the
+the next such gap is Claude Code's own running total, which the
 transcript records: the row keeps it, and `pnpm costs` reports a row
-that came out under it.
+that came out under it. The usage panel is no second opinion: it
+prints two costs for one session that disagree fourfold.
 
-`pnpm costs` sums the rows on demand — by month, week or day, and by
-the branch that spent it with its PR numbers beside it — and writes
-nothing, a derived file beside its own sources being a merge conflict
-for every branch that ran a session.
+`pnpm costs` sums the rows on demand — by month, week and day every
+run, and by the branch that spent it with its PR numbers beside it —
+and writes nothing, a derived file beside its own sources being a merge
+conflict for every branch that ran a session.
 
 Collection runs from a `Stop` hook sharing the event with the harness's
 own git check, which hooks running in parallel makes a race for the

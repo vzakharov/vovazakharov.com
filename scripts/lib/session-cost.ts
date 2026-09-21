@@ -32,9 +32,9 @@ export type PriceTable = z.infer<typeof PriceTableSchema>;
 export const parsePrices = (json: string): PriceTable =>
   PriceTableSchema.parse(JSON.parse(json));
 
-// Every field but the two token counts is `nullish`: the client writes some of
-// these as an explicit `null` rather than leaving them out, and an absent field
-// and a null one mean the same thing here — nothing to read.
+// Every field but the two token counts is `nullish`: some arrive as an explicit
+// `null` rather than being left out, and an absent field and a null one mean the
+// same thing here — nothing to read.
 const UsageSchema = z.object({
   input_tokens: z.number(),
   output_tokens: z.number(),
@@ -101,12 +101,13 @@ const SessionCostSchema = z.object({
   firstResponseAt: z.string().nullable(),
   lastResponseAt: z.string().nullable(),
   pricesAsOf: z.string(),
-  // What the client itself had counted the session at, read off its own
-  // `cost-state` record. It is the one figure here that does not come from this
-  // repo's arithmetic, which is what makes it worth keeping — and because it is
-  // written into the same file partway through, it is a floor rather than a
-  // rival total: `pnpm costs` reports a row that came out *under* it.
-  clientTotalUsd: z.number().nullable().default(null),
+  // What Claude Code itself had counted the session at, read off the
+  // `cost-state` records it writes into the transcript. It is the one figure
+  // here that does not come from this repo's arithmetic, which is what makes it
+  // worth keeping — and because it is written into the same file partway
+  // through, it is a floor rather than a rival total: `pnpm costs` reports a row
+  // that came out *under* it.
+  claudeCodeTotalUsd: z.number().nullable().default(null),
   total: TallySchema,
   ownTurns: TallySchema,
   subagents: TallySchema,
@@ -173,7 +174,7 @@ export const rateKey = (
   speed: string | null | undefined,
 ): string => `${model}/${speed ?? 'standard'}`;
 
-// The client's own placeholder for a turn no model served — a cancellation, an
+// Claude Code's placeholder for a turn no model served — a cancellation, an
 // interrupted request. It is not a model, so the unpriced-pair throw would be
 // reporting the wrong thing; a warning covers the case where one ever arrives
 // carrying tokens.
@@ -251,11 +252,11 @@ export const summariseTranscript = (
   let cwd: string | undefined;
   let openingPrompt: string | undefined;
   let url: string | undefined;
-  let clientTotalUsd: number | undefined;
+  let claudeCodeTotalUsd: number | undefined;
 
   // `delegated` forces the bucket for a subagent's own file. Its records carry
   // `isSidechain` too, but the file they are in is the fact that does not depend
-  // on the client having set a flag.
+  // on a flag having been set.
   const scan = (jsonl: string, delegated: boolean): void => {
     for (const line of jsonl.split('\n')) {
       if (line.trim() === '') continue;
@@ -274,8 +275,8 @@ export const summariseTranscript = (
           continue;
         }
         if (kind === 'cost-state') {
-          // Last write wins: the client rewrites this as the session goes.
-          clientTotalUsd = costStateOf(record) ?? clientTotalUsd;
+          // Last write wins: Claude Code rewrites this as the session goes.
+          claudeCodeTotalUsd = costStateOf(record) ?? claudeCodeTotalUsd;
           continue;
         }
         if (kind === 'attachment') {
@@ -355,7 +356,7 @@ export const summariseTranscript = (
     firstResponseAt: inOrder.at(0) ?? null,
     lastResponseAt: inOrder.at(-1) ?? null,
     pricesAsOf: prices.as_of,
-    clientTotalUsd: clientTotalUsd ?? null,
+    claudeCodeTotalUsd: claudeCodeTotalUsd ?? null,
     total,
     ownTurns,
     subagents,

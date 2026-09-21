@@ -41,7 +41,7 @@ the totals are confidently incorrect rather than absent.
   interest and billed once.
 - **An absent field may arrive as an explicit `null`.** The optional halves of
   `usage` are read as nullish for that reason, and a `<synthetic>` model — the
-  client's placeholder for a turn no model served — is skipped rather than
+  placeholder Claude Code writes for a turn no model served — is skipped rather than
   offered to the price table.
 
 An unpriced `(model, speed)` **throws**. A response silently counted as free
@@ -51,7 +51,7 @@ Anthropic's prices exists, so the table goes stale by sitting still.
 
 ## What names a session
 
-Nothing in the transcript is the title the client shows. Four fields stand in
+Nothing in the transcript is the title Claude Code shows. Four fields stand in
 for one, and only the last is not read out of the file:
 
 - **`openingPrompt`** — the session's first prompt, unwrapped from the envelope a
@@ -72,24 +72,33 @@ for one, and only the last is not read out of the file:
 ## Checking the arithmetic
 
 The table has no published source to check itself against, but the transcript
-carries a second opinion: `cost-state` records, where the client writes its own
+carries a second opinion: `cost-state` records, where Claude Code writes its own
 running total for the session. The last one lands in the row as
-`clientTotalUsd`, and `pnpm costs` compares.
+`claudeCodeTotalUsd`, and `pnpm costs` compares.
 
 **The comparison runs one way only, and that is what makes it sound.** Both
-figures count the same session upward, and the client's is read out of the very
+figures count the same session upward, and Claude Code's is read out of the very
 file the row was priced from — so it was written at or before the moment the row
 was. A row coming out **under** it has missed a source. A row coming out over it
 means only that the session kept going, which every row's last turn does.
 
-A couple of percent of slack covers what the client counts and no row can: the
-background Haiku calls never appear in the transcript as responses. That is a
-fraction of a percent; reading a subagent's file short of its spend was seven,
-which is the failure this check exists to catch.
+A couple of percent of slack covers what Claude Code counts and no row can: the
+background Haiku calls and each compact's own request, neither of which appears
+in the transcript as a response. Together they are a fraction of a percent;
+reading a subagent's file short of its spend was seven, which is the failure
+this check exists to catch.
 
-Applied to the client's own token counts, the table reproduces the client's own
-cost to the last digit — so a divergence is a gap in what a row **read**, never
-in what it charged.
+Applied to Claude Code's own token counts, the table reproduces its cost to the
+last digit — so a divergence is a gap in what a row **read**, never in what it
+charged.
+
+**The usage panel is not a third opinion, and reconciling against it is wasted
+work.** Its "Cost" and its own Breakdown's cost row disagree — $198.49 against
+$47.04 on one card — and across a compact its four token rows stood unchanged
+while the Cost field moved $51.71 to $89.94. Two numbers computed from one set
+of tokens cannot both be that set's cost, so the panel carries at least one
+figure nothing in the transcript is expected to match. `cost-state` is the
+figure that reconciles, and it is the one this ledger checks against.
 
 ## Running beside the harness's Stop check
 
@@ -125,10 +134,10 @@ adjusting quietly is what would leave the rest of this section false.
 
 ## The report
 
-`pnpm costs` sums the rows — by month, and by the branch that spent it with the
-pull requests it touched named beside it; `--by week|day` regroups, `--json`
-prints the lot. The spend is the branch's rather than each PR's, since a session
-that touched two would otherwise be counted twice.
+`pnpm costs` sums the rows four ways every run — by month, week and day, and by
+the branch that spent it with the pull requests it touched named beside it;
+`--json` prints the lot. The spend is the branch's rather than each PR's, since
+a session that touched two would otherwise be counted twice.
 
 **Nothing is written to disk.** The totals are wholly derived from the rows, so a
 file of them committed beside its own sources would be a merge conflict on every
@@ -148,6 +157,13 @@ one file per session id.
   outlive the session — true locally, false in a remote container, which is
   discarded with `~/.claude/projects/` inside it unless something committed a
   copy first.
+- **Each compact.** Compaction is an API call like any other — it reads the
+  conversation and writes the summary — and it is the one call the transcript
+  records without its `usage`: the boundary record carries `preTokens` and the
+  summary arrives as a `user` record, so there is nothing to price. The size is
+  bounded rather than unknown: the two compacts of the session measured read
+  526k tokens between them, about $0.30 at the cache-read rate a warm prefix
+  gets, and ten times that only if it had gone cold.
 - **A rate that changed after a row was written.** Each row records the
   `pricesAsOf` it was priced under and is never re-priced — its transcript is
   usually gone by then — so a table update applies forward only, and `pnpm costs`

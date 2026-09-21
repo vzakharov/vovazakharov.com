@@ -257,12 +257,12 @@ describe('session-cost: what names a session', () => {
     assert.equal(cost.url, 'https://claude.ai/code/session_01REALone');
   });
 
-  it('keeps the client’s own last word on what the session cost', () => {
+  it('keeps Claude Code’s own last word on what the session cost', () => {
     const cost = summarise([
       costState(1.5),
       response({ output: 1 }),
       costState(2.25),
     ]);
-    assert.equal(cost.clientTotalUsd, 2.25);
+    assert.equal(cost.claudeCodeTotalUsd, 2.25);
   });
 });

@@ -1,7 +1,7 @@
 // What a person recognises a session by, read out of its transcript. Separate
 // from the pricing beside it because none of it is arithmetic: these are the
 // records the file happens to carry that answer "which session was that", and
-// they change with the client rather than with the rate table.
+// they change with the Claude Code version rather than with the rate table.
 //
 // `.claude/rules/costs.md` § "What names a session" carries why a session needs
 // standing in for at all.
@@ -17,14 +17,14 @@ const KindSchema = z.object({ type: z.string() });
 export const kindOf = (record: unknown): string | undefined =>
   KindSchema.safeParse(record).data?.type;
 
-// The client's own running cost for the session, rewritten as the session goes.
-// The last one in the file is the client's final word on it.
+// Claude Code's own running cost for the session, rewritten as the session
+// goes. The last one in the file is its final word on it.
 const CostStateSchema = z.object({ totalCostUSD: z.number() });
 
 export const costStateOf = (record: unknown): number | undefined =>
   CostStateSchema.safeParse(record).data?.totalCostUSD;
 
-// The client records every PR it opens or refreshes, which is what groups the
+// Claude Code records every PR it opens or refreshes, which is what groups the
 // several sessions one PR takes.
 const PrLinkSchema = z.object({ prNumber: z.number() });
 

@@ -3,7 +3,7 @@
 // Totals the rows under `.claude/costs/sessions/` — what the work in this
 // repository would have cost at Claude API rates.
 //
-//   node scripts/costs-report.ts [--month YYYY-MM] [--by month|week|day] [--json]
+//   node scripts/costs-report.ts [--month YYYY-MM] [--json]
 //
 // Nothing is written: the totals are derived from the rows, so the report is
 // run when a number is wanted rather than kept on disk going stale. `--json`
@@ -82,18 +82,12 @@ const table = (title: string, buckets: Record<string, Bucket>): void => {
     );
 };
 
-const BY = { month: 'byMonth', week: 'byWeek', day: 'byDay' } as const;
-
-const grouping = (name: string): keyof typeof BY | undefined =>
-  name === 'month' || name === 'week' || name === 'day' ? name : undefined;
-
-const by = grouping(flag('by') ?? 'month');
-if (by === undefined) {
-  console.error(`costs: --by takes ${Object.keys(BY).join(', ')}`);
-  process.exit(2);
-}
-
-table(by, totals[BY[by]]);
+// All three time grains print every run. Each answers a question the others
+// cannot — the month is the bill, the week is the trend, the day is which
+// session did it — and a grain behind a flag is a grain nobody asks for.
+table('month', totals.byMonth);
+table('week', totals.byWeek);
+table('day', totals.byDay);
 table('branch', totals.byBranch);
 
 const subagents = rows.reduce((sum, row) => sum + row.subagents.costUsd, 0);
@@ -103,8 +97,8 @@ console.log(
 
 // The hand-kept rate table has no published source to check itself against, so
 // the report states its age, and checks the arithmetic against the only second
-// opinion there is: what the client billed the session at, recorded in the
-// transcript the row was priced from.
+// opinion there is: what Claude Code itself counted the session at, recorded in
+// the transcript the row was priced from.
 const prices = parsePrices(
   readFileSync(path.join(root, '.claude/costs/prices.json'), 'utf8'),
 );
@@ -120,31 +114,32 @@ if (stale > 0)
   );
 
 // The check runs one way only, and that is what makes it sound. Both figures
-// count the same session upward, and the client's is read out of the transcript
+// count the same session upward, and Claude Code's is read out of the transcript
 // the row was priced from — so it was written at or before the moment the row
 // was, and coming out *higher* than the row means the row missed something.
 // Coming out lower means only that the session kept going, which every row's
 // last turn does.
 //
-// The tolerance is for what the client counts and no row can: the background
-// Haiku calls never reach the transcript as responses, and ran to a fraction of
-// a percent on every session measured. Reading a subagent's file short of its
-// spend, the failure this check was added for, ran to seven.
+// The tolerance is for what Claude Code counts and no row can — the background
+// Haiku calls and each compact's own request, neither of which reaches the
+// transcript as a response. Both ran to a fraction of a percent on every session
+// measured. Reading a subagent's file short of its spend, the failure this check
+// was added for, ran to seven.
 const SHORTFALL = 0.02;
 
 const short = rows.filter(
   (row) =>
-    row.clientTotalUsd !== null &&
-    row.total.costUsd < row.clientTotalUsd * (1 - SHORTFALL),
+    row.claudeCodeTotalUsd !== null &&
+    row.total.costUsd < row.claudeCodeTotalUsd * (1 - SHORTFALL),
 );
 
 for (const row of short)
   console.log(
-    `${row.sessionId}: priced at ${usd(row.total.costUsd)}, but the client had already counted ${usd(row.clientTotalUsd ?? 0)} — the row is missing a source`,
+    `${row.sessionId}: priced at ${usd(row.total.costUsd)}, but Claude Code had already counted ${usd(row.claudeCodeTotalUsd ?? 0)} — the row is missing a source`,
   );
 
-const unchecked = rows.filter((row) => row.clientTotalUsd === null).length;
+const unchecked = rows.filter((row) => row.claudeCodeTotalUsd === null).length;
 if (unchecked > 0)
   console.log(
-    `${count(unchecked, 'row')} with no client total to check against`,
+    `${count(unchecked, 'row')} with no Claude Code total to check against`,
   );

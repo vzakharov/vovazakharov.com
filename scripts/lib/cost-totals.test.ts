@@ -37,7 +37,7 @@ const row = (overrides: Partial<SessionCost> = {}): SessionCost => ({
   subagents: tally(0),
   byRate: {},
   warnings: [],
-  clientTotalUsd: null,
+  claudeCodeTotalUsd: null,
   ...overrides,
 });
 
