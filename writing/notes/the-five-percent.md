@@ -258,7 +258,7 @@ the change good. _выноска стала лучше, изображение -
 paragraph the image outran its own section. The catch and the miss were the same
 act of looking: one defect was the thing being fixed, the other only on the page.
 
-## It warns where the repo could refuse (×1)
+## It warns where the repo could refuse (×2)
 
 A decision the agent wants to survive, it secures by explaining it — a docstring,
 a comment, a rule — carrying the evidence that justifies it. The explanation is
@@ -272,6 +272,16 @@ schema, the agent measured zod through the client chain and put the number in
 `src/shared/config/site-ids.ts`, so nobody would revisit the decision on
 intuition. _нам нужно сделать .server-only. модуль или бочку._ The barrel makes
 the same mistake a build error.
+
+**21 September — the confusing field, documented rather than made impossible.**
+Asked a second time what tells `SiteImage`'s `path` from its `vector`, the agent
+had answered the first ask by writing the distinction into the type's docstring —
+print's seal legitimately puts an SVG in `path` — and treated the having-to-ask
+as the finding the note discharged. _the API still looks confusing._ The shape
+was the fix: `{ path } & ({ vector: string } | { vector?: never })`, vector a
+string or simply absent and no state left for prose to disambiguate. An accurate
+docstring made a bad shape read as settled — it answers the reader who had to
+ask, where a shape that cannot be built wrong never lets the question form.
 
 ## Its prose answers the question it had, not the reader's (×1)
 
