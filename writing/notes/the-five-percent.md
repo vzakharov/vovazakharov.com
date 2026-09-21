@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×23)
+## What it was handed, it treats as fixed (×24)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -90,6 +90,14 @@ from a rock — what the article floats beside its opening text. _для inevita
 я просил терминатора._ The Terminator sat further down the same file: the
 arrangement answered which drawing before the instruction naming one was applied.
 
+**21 September — the layer this tree doesn't have, left out of the candidates.**
+Asked whether `DocumentMeta` is shared or an entity, the agent argued it stays by
+eliminating over `{shared/ui, widgets}` — the set the tree offers, `entities/`
+being empty — and presented the result as the whole space searched. _FSD nowhere
+requires an entity to have a model._ The two-condition `widgets/` rule written an
+hour earlier rests on the same truncation, and the sentence granting the absent
+layer — "nothing earns it yet" — is the agent's own, in that same file.
+
 ## It edits the copy in front of it, not the fact behind it (×11)
 
 A change the agent is told to make, it makes where it was raised. One fact
@@ -119,7 +127,7 @@ false. _far too much now that the articles are elsewhere._ What earned the lengt
 had left with them — the change was checked for what it broke, never for what it
 stranded.
 
-## An account that explains the code stands in for running it (×10)
+## An account that explains the code stands in for running it (×11)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -146,6 +154,16 @@ fall back to its own line after a list or a figure. _on its own line, centred �
 clumsy in the text_ deleted all of it, the measured baseline offset included. The
 case was argued from what inline means in compiled HTML, `/preview` unrun, and
 the two-branch special case was the tell, read as thoroughness.
+
+**21 September — the PDFs it had just rendered, never opened.** Moving the end
+mark to its own line re-flagged every document, so the agent re-rendered both
+sites, watched `content:pdf:<site> --check` go green and reported the round done.
+A screenshot came back of the last page of one: the footer sits under the prose
+rather than at the foot of the sheet, stranding URL, copyright and the new mark
+together mid-page. The manifest answers whether the committed file is current,
+and freshness had been allowed to stand for the page being right — the same
+round having also reported both sites green without re-running a check a
+docstring edit under `PRINT_SOURCES` had already turned red.
 
 ## It writes its reasoning into the artifact (×8)
 
