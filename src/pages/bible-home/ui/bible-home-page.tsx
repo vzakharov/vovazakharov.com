@@ -1,6 +1,7 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
+import type { SiteImage } from '@/shared/config';
 import { SITE_CONFIG } from '@/shared/config/index.server-only';
 import { renderPrimaryDocuments } from '@/shared/content';
 import { PageShell, Section } from '@/shared/ui';
@@ -17,7 +18,8 @@ const COLLECTION = 'bible';
 const SPECIMEN_SIZE = 40;
 
 export async function BibleHomePage() {
-  const { name, tagline, avatar, seal } = SITE_CONFIG;
+  const { name, tagline, seal } = SITE_CONFIG;
+  const avatar: SiteImage = SITE_CONFIG.avatar;
   const lettered = avatar.vector;
 
   if (seal === undefined || lettered === undefined) {

@@ -28,7 +28,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { siteConfig } from '@/shared/config/site-config';
+import { type SiteImage, siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
@@ -179,7 +179,7 @@ function chartCards(): Card[] {
  * cuts of a seal share no stem for the convention above to pair them by.
  */
 function siteCards(): Card[] {
-  const { avatar } = siteConfig(RENDERED_SITE);
+  const avatar: SiteImage = siteConfig(RENDERED_SITE).avatar;
 
   return avatar.vector === undefined
     ? []

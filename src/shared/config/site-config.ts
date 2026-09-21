@@ -25,14 +25,14 @@ export const PAGE_ROUTES = {
  * otherwise; `vector` is the same drawing as SVG, and exists only where `path`
  * had to be a raster, no Open Graph consumer rendering one.
  *
- * So a mark no card ever unfurls states its SVG as `path` and leaves `vector`
- * undefined, rather than the other way round. `pnpm content:og:<site>`
- * rasterises `path` from `vector` for the marks that are both.
+ * So a mark no card ever unfurls states its SVG as `path` and carries no
+ * `vector`, rather than the other way round. `vector` is thus present as a
+ * string or absent outright — never a `string | undefined` slot that reads as
+ * two files and holds one. `pnpm content:og:<site>` rasterises `path` from
+ * `vector` for the marks that are both.
  */
-export type SiteImage = Sized & {
-  path: string;
-  vector: string | undefined;
-};
+export type SiteImage = Sized &
+  ({ path: string; vector: string } | { path: string; vector?: never });
 
 /**
  * The tagline is the offer in one line, as the home page's offer section is
@@ -83,7 +83,6 @@ const PUBLISHER = {
 /** One path and one size for the two portrait sites, a different image behind each. */
 const AVATAR = {
   path: '/ava.png',
-  vector: undefined,
   width: 1024,
   height: 1024,
 } as const;
@@ -129,7 +128,7 @@ const SITE_CONFIGS = {
       vector: '/seal-lettered.svg',
       ...SEAL_SIZE,
     },
-    seal: { path: '/seal.svg', vector: undefined, ...SEAL_SIZE },
+    seal: { path: '/seal.svg', ...SEAL_SIZE },
     ...PUBLISHER,
   },
 } as const satisfies Record<SiteId, SiteConfig>;
