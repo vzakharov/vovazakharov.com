@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×24)
+## What it was handed, it treats as fixed (×25)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -97,6 +97,17 @@ being empty — and presented the result as the whole space searched. _FSD nowhe
 requires an entity to have a model._ The two-condition `widgets/` rule written an
 hour earlier rests on the same truncation, and the sentence granting the absent
 layer — "nothing earns it yet" — is the agent's own, in that same file.
+
+**21 September — a rationale in a docstring, read back as a requirement.**
+`SITE_CONFIGS` is `as const satisfies Record<SiteId, SiteConfig>` and its
+docstring says why: `satisfies` keeps the literal types every call site reads. So
+a vector-less site has no `vector` key and `render-og.ts` cannot destructure
+`avatar` without widening it — argued twice, minimal repro included, each round
+spent on which widening. _ну тогда пусть у нас
+`const SITE_CONFIGS: Record<SiteId, SiteConfig>` будет?_ Nothing reads a literal,
+the annotation type-checks repo-wide, both guards survive, and the call site goes
+back to bare destructuring. The premise both rounds reasoned _from_ was the
+agent's own earlier sentence, which is what made it read as a finding.
 
 ## An account that explains the code stands in for running it (×12)
 
