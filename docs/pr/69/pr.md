@@ -54,18 +54,18 @@
 
 **The live sites are one publish behind the review round.** `agentic.bible` and `latestageagentic.com` are serving this branch as of the pre-merge publish, so the rows above are checkable there for everything up to it — but the end mark, the Bible's copy and the LSA front page all changed after it, and read correctly only locally or after another publish.
 
-| Item | Automatable | Covered? | Notes |
-|------|-------------|----------|-------|
-| `bible-routes` | Partly | Yes | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes |
-| `bible-home` | No | No | Editorial — looked at in this session on both themes |
-| `seal-hover` | Partly | No | Needs a driven pointer and a 3s wait; driven over CDP this session — opacity, alignment and the two-line break all read back as intended |
-| `end-mark` | Partly | Partly | One code path now, so the served HTML is checkable and the PDFs are hash-checked and re-rendered; how the mark sits on the page is editorial, and was looked at this session |
-| `lsa-hub` | Partly | Partly | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; the column count was rendered at 1024, 900 and 768, which is what moved it off `md`, and the copy's weight is editorial |
-| `print-footer` | Partly | Yes | The PDFs are hash-checked and re-rendered; the last page of all three Bible articles and of `playgram.nano`, plus a page filled to the bottom, were looked at as images this round |
-| `bible-credit` | Partly | Yes | The credit is set per-site in `SiteConfig` and the Bible's three PDFs re-rendered with it; the last page's footer was looked at as an image this round — unlinked and at the body's mono size. The rendered text is editorial, checkable in the committed PDFs and after a publish |
-| `vova-untouched` | Yes | Yes | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref |
-| `dns` | Partly | Yes | Written and read back over Porkbun's API in this session; a resolver check is the whole of it |
-| `sites-own-content` | Partly | Yes | Title, description and `og:image` read off all three live domains; none carries another's |
+| Item                | Automatable | Covered? | Notes                                                                                                                                                                                                                                                                              |
+| ------------------- | ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bible-routes`      | Partly      | Yes      | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes                                                                                                                                   |
+| `bible-home`        | No          | No       | Editorial — looked at in this session on both themes                                                                                                                                                                                                                               |
+| `seal-hover`        | Partly      | No       | Needs a driven pointer and a 3s wait; driven over CDP this session — opacity, alignment and the two-line break all read back as intended                                                                                                                                           |
+| `end-mark`          | Partly      | Partly   | One code path now, so the served HTML is checkable and the PDFs are hash-checked and re-rendered; how the mark sits on the page is editorial, and was looked at this session                                                                                                       |
+| `lsa-hub`           | Partly      | Partly   | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; the column count was rendered at 1024, 900 and 768, which is what moved it off `md`, and the copy's weight is editorial                                                  |
+| `print-footer`      | Partly      | Yes      | The PDFs are hash-checked and re-rendered; the last page of all three Bible articles and of `playgram.nano`, plus a page filled to the bottom, were looked at as images this round                                                                                                 |
+| `bible-credit`      | Partly      | Yes      | The credit is set per-site in `SiteConfig` and the Bible's three PDFs re-rendered with it; the last page's footer was looked at as an image this round — unlinked and at the body's mono size. The rendered text is editorial, checkable in the committed PDFs and after a publish |
+| `vova-untouched`    | Yes         | Yes      | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref                                                                                                                                                                                |
+| `dns`               | Partly      | Yes      | Written and read back over Porkbun's API in this session; a resolver check is the whole of it                                                                                                                                                                                      |
+| `sites-own-content` | Partly      | Yes      | Title, description and `og:image` read off all three live domains; none carries another's                                                                                                                                                                                          |
 
 https://claude.ai/code/session_01BUGrCNoZ7V6EoR7jUuUZGG
 https://claude.ai/code/session_0134HKDezVfYQL6DsjYEpwiG
@@ -143,7 +143,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T03** `apps/bible/tsconfig.json`:10 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:36Z — "Механика такая: `tsc` набирает список файлов из `include`, а…" → [↓](#t03)
 - **T04** `scripts/render-og.ts`:192 — resolved — last: @vzakharov (agent) 2026-09-21T13:20:25Z — "Сделал ровно так: `SiteImage` теперь `Sized & { path } & ({…" → [↓](#t04)
 - **T05** `src/app/lib/sitemap.ts`:37 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:16Z — "Согласен, остальное следует. Оставил первую часть. 73da966" → [↓](#t05)
-- **T06** `src/app/styles/prose.scss`:461 — resolved — last: @vzakharov (agent) 2026-09-21T12:17:32Z — "Поправил — оказалось с первого насеста. **Причина именно та,…" → [↓](#t06)
+- **T06** `src/app/styles/prose.scss`:461 — resolved — last: @vzakharov (agent) 2026-09-21T12:17:32Z — "Поправил — оказалось с первого насеста. \*\*Причина именно та,…" → [↓](#t06)
 - **T07** `src/pages/bible-home/ui/bible-home-page.tsx`:48 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:01Z — "Взял твой текст. Два места, где подредактировал: - «but whic…" → [↓](#t07)
 - **T08** `src/pages/bible-home/ui/seal-mark.tsx`:14 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:02Z — "Сделано: `text-align: start` (он наследовал центрирование от…" → [↓](#t08)
 - **T09** `src/pages/lsa-home/ui/lsa-home-page.tsx`:46 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:15Z — "Заменил на твой абзац по-английски: > We are a coding agency…" → [↓](#t09)
@@ -426,7 +426,7 @@ Preferred: left-aligned, breaks after "this."
 
 ```diff
 @@ -44,46 +45,17 @@ export async function LsaHomePage() {
- 
+
          <AboutSection />
 ```
 
@@ -585,7 +585,7 @@ seal это то что в конце текстов или то что на з�
 
 правильно ли называть это по текущему содержимому ("здесь лежит то-то"), а не по смыслу ("здесь лежит то, что мы не хотим авто-преобразовывать в пдфки") (если я правильно понимаю замысел)?
 
-Что если мы что-то ещё туда захотим класть, что *не* является автосгенерированным?
+Что если мы что-то ещё туда захотим класть, что _не_ является автосгенерированным?
 
 Или может я неправильно понимаю о чём это?
 
@@ -640,7 +640,7 @@ seal это то что в конце текстов или то что на з�
 
 **«Без модели это была бы сущность из одного компонента» — там две ошибки.** Во-первых, компонентов два: `DocumentMeta` и `DocumentCards`, оба про документ и ни про что больше. Во-вторых, `insignificant-slice` считает не сегменты, а потребителей сверху, и их тоже два — `pages/documents` (article-header берёт байлайн, collection-index берёт карточки) и `pages/bible-home` (карточки). FSD нигде не требует, чтобы у сущности была модель; `entities/x/ui` без `model` — законная форма, я её приписал к запрету, которого нет.
 
-**И про виджет ты цитируешь ровно то, что написано в доктрине.** Виджет — самодостаточный блок, который *сочетает*; список карточек одной сущности — это ui этой сущности. `SiteFooter` виджетом остаётся честно: он не про документ.
+**И про виджет ты цитируешь ровно то, что написано в доктрине.** Виджет — самодостаточный блок, который _сочетает_; список карточек одной сущности — это ui этой сущности. `SiteFooter` виджетом остаётся честно: он не про документ.
 
 **Чего не хватало моему правилу: оно разбирало выбор из двух.** «Блок, который делят две страницы **и** который читает разрезолвленный сайт» — это вывод методом исключения из `{shared/ui, widgets}`, и `entities/` в переборе не участвовал, потому что слоя нет. Твой вопрос нашёл дыру: выбор трёхсторонний, и для блока про одну сущность третья сторона выигрывает.
 
@@ -709,7 +709,7 @@ vs стало:
 
 ```diff
 @@ -21,9 +21,9 @@ export type DocumentMetaProps = WithFrontmatter &
- 
+
  /**
   * A document's byline — the same one on an index card and above the article.
 - * Here rather than in a page slice because the card that carries it and the
