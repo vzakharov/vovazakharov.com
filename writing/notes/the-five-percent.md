@@ -44,7 +44,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×24)
+## What it was handed, it treats as fixed (×26)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -93,6 +93,26 @@ length: `.claude/` is the tree that travels between repos. Two sentences back �
 triage already looks deeper than the top-level name, and `operators/` has sat in
 `.claude/` throughout, being neither hook nor skill. The counter-example was in
 the directory under argument.
+
+**21 September — the tool's own word for itself, in a row a person reads.** The
+ledger's cross-check field holds the figure Claude Code records for a session, so
+the agent named it `clientTotalUsd` and wrote "the client" through the prose
+around it — exact inside a codebase with one client. The operator, reading his own
+committed rows, asked what _«клиентский»_ meant: in Russian it is the customer's.
+The name was settled without once being tried on the reader it was committed for.
+
+**21 September — a disagreeing figure, never asked whether it was one figure.**
+The usage panel showed $110.52 for a session whose transcript topped out at
+$40.86. The agent chased it hard — re-priced the transcript, proved the rate table
+exact against a second figure — then reported honestly that it could not reconcile
+the gap and named what would settle it. What settled it was the next screenshot,
+in which the panel disagreed with _itself_: "Cost $198.49" on the same card as its
+own breakdown's "Total $47.04", and a second pair showing four token rows
+unchanged across a compact while the cost field moved $51.71 to $89.94. There was
+never one number to reconcile against. The whole investigation ran inside "ours
+versus the panel's", and the widen-the-frame principle went that session to the
+agent's own code and not to the source it was being measured against — an honest
+"I cannot explain this" reached without testing the one assumption that was wrong.
 
 ## An account that explains the code stands in for running it (×11)
 
@@ -286,7 +306,10 @@ message_. Whether a piece says what its author meant is his alone to make.
 **Decisions that were the operator's to make.** Four rounds were filed here and
 taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
-stayed a bump; an entry removed this way takes its count with it.
+stayed a bump; an entry removed this way takes its count with it. A fifth never
+reached the list: the cost report's default grain, settled as month with
+`--by week|day` on request and wanted as all three every run — a taste in output
+with nothing in the tree to read it off.
 
 ## The two families
 
