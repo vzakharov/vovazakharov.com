@@ -5,6 +5,14 @@
 
 import { z } from 'zod';
 
+import {
+  costStateOf,
+  kindOf,
+  prNumberOf,
+  promptTextOf,
+  sessionUrlIn,
+} from './session-identity.ts';
+
 const RateSet = z.object({
   input: z.number(),
   output: z.number(),
@@ -195,79 +203,6 @@ const tokensOf = (response: Response, warnings: string[]): TokenTally => {
   };
 };
 
-// Every record in the file carries a `type`, and a handful of kinds are read
-// for something other than their usage. Parsing for it rather than narrowing by
-// hand keeps one shape declared in one place, as every other record shape here
-// is.
-const KindSchema = z.object({ type: z.string() });
-
-const kindOf = (record: unknown): string | undefined =>
-  KindSchema.safeParse(record).data?.type;
-
-// The client's own running cost for the session, rewritten as the session goes.
-// The last one in the file is the client's final word on it.
-const CostStateSchema = z.object({ totalCostUSD: z.number() });
-
-// The session's web URL reaches the transcript only as prose, inside the
-// attribution reminder the harness re-sends whenever the remote session
-// changes. Matching that one record's text is narrower than scanning the file,
-// where any quoted commit trailer carries a session URL too — usually another
-// session's.
-const AttachmentKindSchema = z.object({
-  attachment: z.object({ type: z.string() }),
-});
-
-const SESSION_URL = /https:\/\/claude\.ai\/code\/session_[\dA-Za-z]+/;
-
-// The harness writes no session title, so the opening prompt stands in for one,
-// unwrapped from the envelope a slash command arrives in: `/handle <branch>` is
-// what a person would call that session.
-const PromptRecordSchema = z.object({
-  isMeta: z.boolean().nullable().optional(),
-  isSidechain: z.boolean().optional(),
-  message: z.object({
-    content: z.union([
-      z.string(),
-      z.array(z.object({ type: z.string(), text: z.string().optional() })),
-    ]),
-  }),
-});
-
-const COMMAND_ENVELOPE =
-  /<command-name>([^<]*)<\/command-name>(?:\s*<command-args>([^<]*)<\/command-args>)?/;
-
-const OPENING_PROMPT_LIMIT = 160;
-
-const promptTextOf = (record: unknown): string | undefined => {
-  const parsed = PromptRecordSchema.safeParse(record);
-  if (!parsed.success) return undefined;
-  const { isMeta, isSidechain, message } = parsed.data;
-  if (isMeta === true || isSidechain === true) return undefined;
-  const raw =
-    typeof message.content === 'string'
-      ? message.content
-      : // A tool result is a `user` record too, and carries no text block.
-        message.content.find((block) => block.type === 'text')?.text;
-  if (raw === undefined) return undefined;
-
-  const envelope = COMMAND_ENVELOPE.exec(raw);
-  const text = (
-    envelope === null
-      ? raw
-      : `${envelope[1] ?? ''} ${envelope[2] ?? ''}`.trimEnd()
-  )
-    .replaceAll(/\s+/g, ' ')
-    .trim();
-  if (text === '') return undefined;
-  return text.length > OPENING_PROMPT_LIMIT
-    ? `${text.slice(0, OPENING_PROMPT_LIMIT)}…`
-    : text;
-};
-
-// The client records every PR it opens or refreshes, which is what groups the
-// several sessions one PR takes.
-const PrLinkSchema = z.object({ prNumber: z.number() });
-
 // Prompts, attachments and tool results share the file and carry no usage, so
 // only a record that looks like a billed response is held to the schema.
 const isResponseRecord = (record: unknown): boolean =>
@@ -327,12 +262,11 @@ export const summariseTranscript = (
       const record: unknown = JSON.parse(line);
 
       const kind = kindOf(record);
-      // Everything below is the session's own identity, which a subagent's file
-      // describes only in that it belongs to the same session.
+      // The session's own identity, which only its own file describes.
       if (!delegated) {
         if (kind === 'pr-link') {
-          const link = PrLinkSchema.safeParse(record);
-          if (link.success) prs.add(link.data.prNumber);
+          const pr = prNumberOf(record);
+          if (pr !== undefined) prs.add(pr);
           continue;
         }
         if (kind === 'user') {
@@ -340,15 +274,12 @@ export const summariseTranscript = (
           continue;
         }
         if (kind === 'cost-state') {
-          const state = CostStateSchema.safeParse(record);
           // Last write wins: the client rewrites this as the session goes.
-          if (state.success) clientTotalUsd = state.data.totalCostUSD;
+          clientTotalUsd = costStateOf(record) ?? clientTotalUsd;
           continue;
         }
         if (kind === 'attachment') {
-          const attachment = AttachmentKindSchema.safeParse(record);
-          if (attachment.data?.attachment.type === 'remote_session_change')
-            url ??= SESSION_URL.exec(line)?.[0];
+          url ??= sessionUrlIn(record, line);
           continue;
         }
       }
