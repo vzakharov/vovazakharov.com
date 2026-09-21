@@ -13,13 +13,19 @@ fence, a lightbox on an image, a diagram worth zooming were all out of
 reach however the pipeline was extended.
 
 The pipeline now stops one step earlier and hands its hast tree to
-React through hast-util-to-jsx-runtime, under a component map.
-Everything ahead of that step is unchanged: the same plugins in the
-same order, and the same pass collecting the title, the outline and
-the reading estimate. rehype-media-embeds is the map's first user —
-it emits a marker node, and a ContentVideo component draws the player
-and its print-only note in place of the markup the plugin used to
-build by hand.
+React through hast-util-to-jsx-runtime, under a component map keyed by
+tag name. Everything ahead of that step is unchanged: the same plugins
+in the same order, and the same pass collecting the title, the outline
+and the reading estimate. rehype-media-embeds is the map's first user —
+it emits a plain <video>, and ContentVideo draws the player and its
+print-only note in place of the markup the plugin used to build by
+hand. The map keying on the tag rather than on who emitted it, a
+<video> an author types as raw HTML gets the same treatment.
+
+The plugins themselves stop restating unified's calling convention.
+hast-elements.ts holds the element walk and the replace-in-parent
+mechanics that five of them spelled out, so a plugin that swaps a node
+says only what it builds and never handles an index.
 
 Rendering a tree rather than a string costs 4.3 kB gzip on the longest
 article and 3.1% across both sites, measured by building each way
