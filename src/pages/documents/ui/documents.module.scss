@@ -179,10 +179,8 @@ h1[data-order='1'].articleTitle {
       display: table-cell;
     }
 
-    // The band the footer is painted into. It is stated rather than left to
-    // the footer's own height, which is out of flow and so reserves nothing:
-    // the rule and the line it sits over, plus slack, and a change to that
-    // type size moves this with it.
+    // The band `.printedFrom` is painted into. Stated because that footer is
+    // out of flow and reserves nothing; its type size is what moves this.
     > tfoot > tr > td {
       height: 1cm;
     }
@@ -207,10 +205,8 @@ h1[data-order='1'].articleTitle {
   }
 
   @media print {
-    // Pinned to the foot of the sheet rather than left in the `<tfoot>`'s own
-    // flow: a table footer group repeats per page but lands directly under the
-    // last page's prose, which on a page that ends early is the middle of it.
-    // Fixed, it paints at the page box's bottom edge on every page alike.
+    // Pinned to the page box rather than left in the `<tfoot>`'s own flow,
+    // which on the last page puts this under the prose instead of at the foot.
     position: fixed;
     inset: auto 0 0;
 

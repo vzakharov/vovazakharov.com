@@ -5,12 +5,10 @@ import classes from './documents.module.scss';
 import { PrintedFrom } from './printed-from';
 
 /**
- * Wraps the article so the prose clears the footer's band on every printed
- * page. The table markup is load-bearing for that reservation alone: a plain
- * element set to `display: table-footer-group` prints once, at the end, and
- * nothing out of flow holds a band open at all. Where the footer is painted is
- * `documents.module.scss`'s, which pins it to the page box rather than leaving
- * it under the prose it happens to follow.
+ * Wraps the article in the presentational table whose `<tfoot>` reserves the
+ * footer's band on every printed page. Only a real `<tfoot>` does: a plain
+ * element set to `display: table-footer-group` prints once, at the end. The
+ * footer is painted into that band out of flow, by `documents.module.scss`.
  */
 export function PrintSheet({ route, children }: Routed & WithChildren) {
   return (
