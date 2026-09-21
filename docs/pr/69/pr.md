@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T18:56:30Z
-- **Updated:** 2026-09-21T11:55:06Z
+- **Updated:** 2026-09-21T12:39:32Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -33,29 +33,33 @@
 
 **The review round is in the branch, and it moved three things worth naming here.** The end mark came off the final sentence and onto its own centred line, which deleted the plugin's whole prose-versus-block branch and re-flagged every PDF; latestageagentic.com's front page lost the argument above; and `/dictation` gained an `auto` mode, asked for inside the recording attached to one of the comments. That recording also carried the copy for a page that does not exist yet, which is now #76. What is deliberately **not** here is #51 — it says of itself that a skill rename touching four files is its own change, and this branch is the Bible's.
 
+**The second round moved the printed page.** A `<tfoot>` repeats per printed page but sits directly under the prose on the last one, so an article ending early printed its footer into the middle of the sheet, with the new end mark crammed against it. The `<tfoot>` now reserves the band and the footer itself is `position: fixed`, which both repeats it and pins it to the page box; the band's height is the one number that costs. That re-rendered both sites' PDFs — and turned up four of vovazakharov.com's that had been stale since a docstring edit in `src/shared/config`, which is a `PRINT_SOURCES` entry, so `content:pdf:vova --check` was already red going in. Left open on the same round, answered in the thread and deliberately not acted on: whether `DocumentCards` and the byline belong in an `entities/document` slice rather than in `widgets/` and `shared/ui`.
+
 ## QA Checklist
 
 - [ ] `bible-routes` — `agentic.bible/tend-prose`, `/precedent-fallacy` and `/web-not-cli` each render with their assets, their cross-links resolving between articles, and their `.md`/`.pdf` siblings reachable at the route plus an extension
 - [ ] `bible-home` — the home page reads as an opener: the seal, the copy, the article list, in that order and at that weight
 - [ ] `seal-hover` — holding the home page's seal for three unbroken seconds fades the `AGENTIC BIBLE` ring away and sets the caption beside the wax, left-aligned and breaking after “this.”; a pointer that leaves earlier never starts it, and nothing happens on touch
 - [ ] `end-mark` — the seal closes every article on a centred line of its own, the same way whether the article ends in a sentence (`precedent-fallacy`) or a picture (`tend-prose`); on screen, in print, and against both themes
-- [ ] `lsa-hub` — one paragraph, then three cards across three columns above `md` and stacked below it, the third visibly not a link
+- [ ] `lsa-hub` — one paragraph, then three cards across from `lg` and stacked below it, the third visibly not a link
+- [ ] `print-footer` — a printed article carries its footer at the foot of every sheet, the last one included, and a page filled to the bottom shows no overlap between the prose and it
 - [ ] `vova-untouched` — vovazakharov.com serves what it did; its footer is the shared one now
 - [ ] `dns` — `agentic.bible` and `www.agentic.bible` both resolve to GitHub's Pages addresses, and the zone's `NS` and wildcard rows came through untouched
 - [ ] `sites-own-content` — each of the three domains serves its own title, description and card, which is the failure a shared `src/` makes possible
 
 **The live sites are one publish behind the review round.** `agentic.bible` and `latestageagentic.com` are serving this branch as of the pre-merge publish, so the rows above are checkable there for everything up to it — but the end mark, the Bible's copy and the LSA front page all changed after it, and read correctly only locally or after another publish.
 
-| Item                | Automatable | Covered? | Notes                                                                                                                                                                                             |
-| ------------------- | ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `bible-routes`      | Partly      | Yes      | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes                                                  |
-| `bible-home`        | No          | No       | Editorial — looked at in this session on both themes                                                                                                                                              |
-| `seal-hover`        | Partly      | No       | Needs a driven pointer and a 3s wait; driven over CDP this session — opacity, alignment and the two-line break all read back as intended                                                          |
-| `end-mark`          | Partly      | Partly   | One code path now, so the served HTML is checkable and the PDFs are hash-checked and re-rendered; how the mark sits on the page is editorial, and was looked at this session                      |
-| `lsa-hub`           | Partly      | Partly   | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; the column count was looked at at 1280 this session, and the copy's weight is editorial |
-| `vova-untouched`    | Yes         | Yes      | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref                                                                                               |
-| `dns`               | Partly      | Yes      | Written and read back over Porkbun's API in this session; a resolver check is the whole of it                                                                                                     |
-| `sites-own-content` | Partly      | Yes      | Title, description and `og:image` read off all three live domains; none carries another's                                                                                                         |
+| Item | Automatable | Covered? | Notes |
+|------|-------------|----------|-------|
+| `bible-routes` | Partly | Yes | All three articles, their `.md`/`.pdf` siblings, the seal, the card and a 404 answered from the live site; the sitemap carries the rooted routes |
+| `bible-home` | No | No | Editorial — looked at in this session on both themes |
+| `seal-hover` | Partly | No | Needs a driven pointer and a 3s wait; driven over CDP this session — opacity, alignment and the two-line break all read back as intended |
+| `end-mark` | Partly | Partly | One code path now, so the served HTML is checkable and the PDFs are hash-checked and re-rendered; how the mark sits on the page is editorial, and was looked at this session |
+| `lsa-hub` | Partly | Partly | The three cards' links and the coming-soon eyebrow are in the served HTML, with no stale `/bible/` hrefs; the column count was rendered at 1024, 900 and 768, which is what moved it off `md`, and the copy's weight is editorial |
+| `print-footer` | Partly | Yes | The PDFs are hash-checked and re-rendered; the last page of all three Bible articles and of `playgram.nano`, plus a page filled to the bottom, were looked at as images this round |
+| `vova-untouched` | Yes | Yes | Not merely unchanged — never redeployed: the environment rule blocked `deploy-vova` on a branch ref |
+| `dns` | Partly | Yes | Written and read back over Porkbun's API in this session; a resolver check is the whole of it |
+| `sites-own-content` | Partly | Yes | Title, description and `og:image` read off all three live domains; none carries another's |
 
 https://claude.ai/code/session_01BUGrCNoZ7V6EoR7jUuUZGG
 https://claude.ai/code/session_0134HKDezVfYQL6DsjYEpwiG
@@ -84,13 +88,12 @@ The Bible was an article collection served from a domain named for
 something else. `agentic.bible` is named for it, so the collection
 becomes the repository's third site: `apps/bible/` builds from the same
 `src/` and is force-pushed to a receiving repository whose Pages serves
-the domain, the door `lsa` already leaves by. Two receivers is where the
-one-off publish script stops being one — it takes a site id and a fixed
-deploy-key variable the workflow maps each receiver's secret into, the
-publish jobs collapsing onto a matrix the gate emits. Three sites is
-where the manual picker stops being a single-select `choice`: it takes
-`all` or a list, and an unknown id fails the run. Porkbun has an API, so
-the domain's records are written from here too.
+the domain. Two receivers is where the one-off publish script stops
+being one — a site id and a fixed deploy-key variable the workflow maps
+each receiver's secret into, the publish jobs collapsing onto a matrix
+the gate emits. Three sites is where the manual picker stops being a
+single-select `choice`: `all` or a list, an unknown id failing the run.
+Porkbun has an API, so the domain's records are written from here too.
 
 It is rooted at the site root: an article is `agentic.bible/tend-prose`,
 the domain already saying which collection this is. A rooted collection
@@ -99,17 +102,18 @@ reach through one joiner, and its directory is the site's whole
 `public/` — so the render walk's guarantee that it cannot hand a script
 its own output becomes an explicit skip of `generated/`. Its home page
 is a slice of its own, and the card list it shares with the collection
-index moves to a first `widgets/` slice — the one layer where a block
-two page slices render may also read the resolved site.
+index moves to a first `widgets/` slice.
 
 The mark is a wax seal in two cuts, lettered for the site and blank for
 itself — one drawing, the lettered cut being the blank one plus a
 letters path, which lets the home page fade the lettering off under a
 held pointer rather than cross into a different image. The blank cut
 closes every article in place of an amen, on a centred line of its own
-below the last block: a rehype plugin rather than markup in
-`ArticleBody`, which takes the compiled HTML and nothing else, and it
-prints into every document's PDF source set.
+below the last block, emitted by a rehype plugin rather than by
+`ArticleBody`, which takes the compiled HTML and nothing else. On paper
+that exposed the footer under it: a `<tfoot>` repeats per page but sits
+beneath the prose on the last one, so the address line now reserves its
+band there and is painted into it out of flow, at the foot of a sheet.
 
 What that leaves behind on latestageagentic.com is a front page with no
 collection under it, so it becomes the index the project needed anyway:
@@ -128,10 +132,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 - **T01** `.claude/rules/fsd.md`:40 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:14Z — "Она, да — описывала, как `widgets/` до этого слоя дошёл, а н…" → [↓](#t01)
 - **T02** `.github/workflows/deploy.yml`:11 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:15Z — "Сделал `all`, и поле стало свободным текстом вместо `choice`…" → [↓](#t02)
-- **T03** `apps/bible/tsconfig.json`:10 — unresolved — last: @vzakharov (agent) 2026-09-21T11:06:36Z — "Механика такая: `tsc` набирает список файлов из `include`, а…" → [↓](#t03)
-- **T04** `scripts/render-og.ts`:189 — unresolved — last: @vzakharov (agent) 2026-09-21T11:06:37Z — "`path` — канонический файл: то, что публикует мета и что рен…" → [↓](#t04)
+- **T03** `apps/bible/tsconfig.json`:10 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:36Z — "Механика такая: `tsc` набирает список файлов из `include`, а…" → [↓](#t03)
+- **T04** `scripts/render-og.ts`:189 — unresolved — last: @vzakharov (human) 2026-09-21T12:34:41Z — "если честно все равно апи выглядит путающим, я бы сделал хот…" → [↓](#t04)
 - **T05** `src/app/lib/sitemap.ts`:37 — resolved — last: @vzakharov (agent) 2026-09-21T11:06:16Z — "Согласен, остальное следует. Оставил первую часть. 73da966" → [↓](#t05)
-- **T06** `src/app/styles/prose.scss`:461 — unresolved — last: @vzakharov (human) 2026-09-21T11:47:31Z — "выглядит не очень: <img width="974" height="452" alt="Screen…" → [↓](#t06)
+- **T06** `src/app/styles/prose.scss`:461 — resolved — last: @vzakharov (agent) 2026-09-21T12:17:32Z — "Поправил — оказалось с первого насеста. **Причина именно та,…" → [↓](#t06)
 - **T07** `src/pages/bible-home/ui/bible-home-page.tsx`:45 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:01Z — "Взял твой текст. Два места, где подредактировал: - «but whic…" → [↓](#t07)
 - **T08** `src/pages/bible-home/ui/seal-mark.tsx`:14 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:02Z — "Сделано: `text-align: start` (он наследовал центрирование от…" → [↓](#t08)
 - **T09** `src/pages/lsa-home/ui/lsa-home-page.tsx`:46 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:15Z — "Заменил на твой абзац по-английски: > We are a coding agency…" → [↓](#t09)
@@ -139,7 +143,8 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T11** `src/pages/lsa-home/ui/lsa-home-page.tsx`:28 — resolved — last: @vzakharov (agent) 2026-09-21T11:07:37Z — "Тикет: #76. Расшифровал запись, ужал под hero, отзывы перевё…" → [↓](#t11)
 - **T12** `src/shared/config/site-config.ts`:107 — resolved — last: @vzakharov (agent) 2026-09-21T11:08:07Z — "Три ответа по порядку. **Что такое `seal`** — это ненадписан…" → [↓](#t12)
 - **T13** `src/shared/content/collections.ts`:85 — resolved — last: @vzakharov (agent) 2026-09-21T11:08:20Z — "Ты понимаешь правильно, но смысл чуть другой, чем «то, что н…" → [↓](#t13)
-- **T14** `src/shared/ui/document-meta.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-21T11:55:06Z — "если я правильно понимаю, ты говоришь: у нас есть widget (do…" → [↓](#t14)
+- **T14** `src/shared/ui/document-meta.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:36:43Z — "трогай :)" → [↓](#t14)
+- **T15** `apps/bible/public/precedent-fallacy.pdf`:1 — unresolved — last: @vzakharov (human) 2026-09-21T12:38:36Z — "пока не забыл: подписи для "библейских" материалов должны им…" → [↓](#t15)
 
 <a id="t01"></a>
 
@@ -200,7 +205,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t03"></a>
 
-### `apps/bible/tsconfig.json`:10 — unresolved
+### `apps/bible/tsconfig.json`:10 — resolved
 
 ```diff
 @@ -0,0 +1,21 @@
@@ -253,6 +258,10 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 То, что пришлось спрашивать — это и есть находка; вписал всё вышесказанное в докстринг `SiteImage`, включая почему случай печати выглядит перевёрнутым. 13e65e0
 
+**@vzakharov (human)** — 2026-09-21T12:34:41Z
+
+если честно все равно апи выглядит путающим, я бы сделал хотя бы тогда а ля `{ path : string } & ({ vector: string } | { vector?: never })`, то есть вектор или есть и он строка, или его просто нет
+
 ---
 
 <a id="t05"></a>
@@ -281,7 +290,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 <a id="t06"></a>
 
-### `src/app/styles/prose.scss`:461 — unresolved
+### `src/app/styles/prose.scss`:461 — resolved
 
 ```diff
 @@ -453,3 +453,21 @@
@@ -309,6 +318,20 @@ Co-authored-by: Claude <noreply@anthropic.com>
 <img width="974" height="452" alt="Screenshot 2026-09-21 at 13 46 46" src="./attachments/467e31f0-e051-4b90-9387-aad9ebeef9bc.png" />
 
 вообще проблема с тем что на последней странице футер оказывается не внизу старницы а просто под текстом -- pre-existing; но если это легко поправить, давай поправим сейчас. Если окажется сложнее чем с первого насеста -- внести в отдельный issue
+
+**@vzakharov (agent)** — 2026-09-21T12:17:32Z
+
+Поправил — оказалось с первого насеста.
+
+**Причина именно та, что ты назвал.** Футер — это `<tfoot>` с `display: table-footer-group`: он повторяется на каждой странице, но на последней встаёт сразу под текстом, потому что это его место в потоке. Если статья кончается на трети страницы, подпись оказывается посередине листа, а марка — прижатой к ней.
+
+**Работу теперь делят два механизма, потому что ни один не тянет обе половины.** `<tfoot>` остаётся, но держит только полосу — ячейка получила высоту, и проза на каждой странице до неё не доходит. Сама подпись стала `position: fixed`: это и повторяет её на каждой странице, и прибивает к низу page box, а не к концу потока. Раньше `fixed` отвергался ровно потому, что текст подтекает снизу, — но это возражение снимается тем, что полосу резервирует `<tfoot>`.
+
+Цена — одно число: высоту полосы приходится указать руками (1 cm), потому что элемент вне потока ничего не резервирует. Правило рядом говорит, что её двигает.
+
+Смотрел рендеры, а не код: последние страницы всех трёх статей Библии и `playgram.nano` — подпись внизу, марка стоит сама по себе; вторая страница `precedent-fallacy`, где текст идёт до упора, — наложения нет.
+
+Заодно вылезло соседнее: PDF-ки vovazakharov.com были просрочены с a648c10 — там переписан докстринг в `src/shared/config`, а это `PRINT_SOURCES`, так что `content:pdf:vova --check` был уже красный до этой правки. Перерендерил оба сайта: три статьи Библии и три нарезки кейса поменялись на бумаге, четыре CV-шки — байт в байт. 69ab404
 
 ---
 
@@ -389,7 +412,7 @@ Preferred: left-aligned, breaks after "this."
 
 ```diff
 @@ -44,46 +45,17 @@ export async function LsaHomePage() {
-
+ 
          <AboutSection />
 ```
 
@@ -548,7 +571,7 @@ seal это то что в конце текстов или то что на з�
 
 правильно ли называть это по текущему содержимому ("здесь лежит то-то"), а не по смыслу ("здесь лежит то, что мы не хотим авто-преобразовывать в пдфки") (если я правильно понимаю замысел)?
 
-Что если мы что-то ещё туда захотим класть, что _не_ является автосгенерированным?
+Что если мы что-то ещё туда захотим класть, что *не* является автосгенерированным?
 
 Или может я неправильно понимаю о чём это?
 
@@ -597,6 +620,45 @@ seal это то что в конце текстов или то что на з�
 
 Или я неправлиьно понимаю проблему?
 
+**@vzakharov (agent)** — 2026-09-21T12:17:34Z
+
+Понимаешь правильно, и прав — мой второй аргумент был неверным.
+
+**«Без модели это была бы сущность из одного компонента» — там две ошибки.** Во-первых, компонентов два: `DocumentMeta` и `DocumentCards`, оба про документ и ни про что больше. Во-вторых, `insignificant-slice` считает не сегменты, а потребителей сверху, и их тоже два — `pages/documents` (article-header берёт байлайн, collection-index берёт карточки) и `pages/bible-home` (карточки). FSD нигде не требует, чтобы у сущности была модель; `entities/x/ui` без `model` — законная форма, я её приписал к запрету, которого нет.
+
+**И про виджет ты цитируешь ровно то, что написано в доктрине.** Виджет — самодостаточный блок, который *сочетает*; список карточек одной сущности — это ui этой сущности. `SiteFooter` виджетом остаётся честно: он не про документ.
+
+**Чего не хватало моему правилу: оно разбирало выбор из двух.** «Блок, который делят две страницы **и** который читает разрезолвленный сайт» — это вывод методом исключения из `{shared/ui, widgets}`, и `entities/` в переборе не участвовал, потому что слоя нет. Твой вопрос нашёл дыру: выбор трёхсторонний, и для блока про одну сущность третья сторона выигрывает.
+
+**Что конкретно переезжает,** если делать:
+
+- `widgets/document-cards/ui/document-cards.tsx` → `entities/document/ui/`, `shared/ui/document-meta.tsx` → туда же, со своими `.module.scss`;
+- импорт `DocumentMeta` внутри карточек перестаёт ходить через `@/shared/ui` и становится относительным — то есть меньше пересечений слоёв, а не больше;
+- `shared/ui/index.ts` теряет один экспорт, `widgets/` остаётся с одним `site-footer`;
+- конфиг не трогается вообще: `entities` уже в `FSD_LAYERS` в `eslint.config.ts` и в группах `import-sort`.
+
+**Что из моего прошлого ответа остаётся в силе — но как форма, а не как возражение.** Модель остаётся в `shared/content`: она build-time, каждый модуль под `server-only`, и это то, из-за чего контентная страница стоит ноль байт клиентского JS. Значит `entities/document` рождается ui-only, а модель приезжает, если контент когда-нибудь перестанет быть только build-time.
+
+**Одно реальное следствие, которое стоит знать заранее:** бочка сущности потянет `server-only` — `DocumentCards` нужен `linkTo`. Сегодня из клиентской цепочки в неё никто не ходит, так что обычного `index.ts` хватает. Если завтра клиентскому компоненту понадобится байлайн — это раздвоенная бочка (`index.ts` + `index.server-only.ts`), ровно как у `shared/config`. Сейчас `DocumentMeta` этой проблемы не имеет именно потому, что лежит в `shared/ui`; переезд её создаёт, отложенной.
+
+Не трогал, как договаривались. Скажи — сделаю переезд и перепишу абзац про `widgets/` в `fsd.md` под трёхсторонний выбор.
+
+**@vzakharov (human)** — 2026-09-21T12:36:43Z
+
+трогай :)
+
+---
+
+<a id="t15"></a>
+
+### `apps/bible/public/precedent-fallacy.pdf`:1 — unresolved
+
+**@vzakharov (human)** — 2026-09-21T12:38:36Z
+
+пока не забыл: подписи для "библейских" материалов должны иметь копирайт Late Stage Agentic, который ведёт на latestageagentic.com
+
+Почему: воронка должна быть примерно такая: из библейских статей узнают про "агентство", агентство либо нанимают напрямую, либо узнают обо мне как о potential employee (fractional CTO)
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -605,3 +667,4 @@ seal это то что в конце текстов или то что на з�
 - **2026-09-19T12:45:12Z** @vzakharov — _deployed_
 - **2026-09-19T14:01:13Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/69#pullrequestreview-5255777705.
 - **2026-09-21T10:58:03Z** @vzakharov cross-referenced this pull request from [#76 The agentic coding courses page on latestageagentic.com](https://github.com/vzakharov/vovazakharov.com/issues/76).
+- **2026-09-21T12:39:32Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/69#pullrequestreview-5266675501.
