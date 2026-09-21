@@ -5,10 +5,12 @@ import classes from './documents.module.scss';
 import { PrintedFrom } from './printed-from';
 
 /**
- * Wraps the article so its footer repeats at the foot of every printed page.
- * The table markup is load-bearing: only a real `<tfoot>` both repeats per page
- * and keeps the flow clear of its height — `position: fixed` lets the text run
- * underneath, and `display: table-footer-group` on a plain element prints once.
+ * Wraps the article so the prose clears the footer's band on every printed
+ * page. The table markup is load-bearing for that reservation alone: a plain
+ * element set to `display: table-footer-group` prints once, at the end, and
+ * nothing out of flow holds a band open at all. Where the footer is painted is
+ * `documents.module.scss`'s, which pins it to the page box rather than leaving
+ * it under the prose it happens to follow.
  */
 export function PrintSheet({ route, children }: Routed & WithChildren) {
   return (
