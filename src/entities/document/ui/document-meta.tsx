@@ -21,9 +21,8 @@ export type DocumentMetaProps = WithFrontmatter &
 
 /**
  * A document's byline — the same one on an index card and above the article.
- * It is the document entity's own UI, which is why the card beside it and the
- * article header a page slice up both reach down to it rather than sharing it
- * sideways.
+ * It is the document entity's own UI, which the card beside it and the article
+ * header a page slice up both reach down to.
  */
 export function DocumentMeta({
   frontmatter,
