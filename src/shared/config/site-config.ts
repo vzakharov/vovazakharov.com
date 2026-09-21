@@ -26,13 +26,14 @@ export const PAGE_ROUTES = {
  * had to be a raster, no Open Graph consumer rendering one.
  *
  * So a mark no card ever unfurls states its SVG as `path` and carries no
- * `vector`, rather than the other way round. `vector` is thus present as a
- * string or absent outright — never a `string | undefined` slot that reads as
- * two files and holds one. `pnpm content:og:<site>` rasterises `path` from
- * `vector` for the marks that are both.
+ * `vector`, rather than the other way round; `vector` is a string where it is
+ * there and absent where it is not, never a nullable slot. `pnpm
+ * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized &
-  ({ path: string; vector: string } | { path: string; vector?: never });
+export type SiteImage = Sized & { path: string } & (
+    | { vector: string }
+    | { vector?: never }
+  );
 
 /**
  * Whom a site's materials are credited to, and where that credit links. Named
