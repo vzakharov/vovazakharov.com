@@ -343,6 +343,23 @@ schema, the agent measured zod through the client chain and put the number in
 intuition. _нам нужно сделать .server-only. модуль или бочку._ The barrel makes
 the same mistake a build error.
 
+## A caveat it writes for its own design is the verdict on it (×1)
+
+The discomfort and the justification for it arrive together, and the agent
+writes the second: a docstring conceding the defect, a rules file documenting
+the hazards of its own invention. The concession is accurate, which is what lets
+it be filed as an accepted cost — and it is the sentence a reviewer reads as the
+case for deleting the thing.
+
+**21 September — a tag invented for a word the platform had.** The content
+pipeline emitted `content-video-embed`, exported as one constant so the plugin
+and the component map agreed by import: the design's centrepiece, carrying two
+new traps in `.claude/rules/content.md` and a docstring granting that the
+invented tags "make the tree invalid HTML, which is safe only because nothing
+stringifies it". _другой набор аттрибутов, или что?_ — `toJsxRuntime` keys off
+the tag name, so `video` reaches the same component, and now a `<video>` typed
+as raw HTML is covered too. The caveat had been the finding, filed as a cost.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -361,7 +378,7 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Eight learnings is not a pattern, but they fall in two groups. One is failures to
+Nine learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the checker whose coverage read as
 the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
