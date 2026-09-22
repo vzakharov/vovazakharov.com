@@ -15,10 +15,10 @@ export type Stanzas = LyricLine[][];
 export type WithStanzas = { stanzas: Stanzas };
 
 /** `[^label]` on a line: the note that line carries. */
-const NOTE_MARKER = /\[\^([^\]\s]+)\]/g;
+const NOTE_MARKER = /\[\^([^\s\]]+)]/g;
 
 /** `[^label]: text` on a line of its own: what the note says. */
-const NOTE_DEFINITION = /^\[\^([^\]\s]+)\]:\s*(\S.*)$/;
+const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
 
 /**
  * Footnotes rather than a syntax of the site's own, because the file is read

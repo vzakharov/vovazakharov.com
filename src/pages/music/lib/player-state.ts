@@ -1,13 +1,12 @@
-import type { Slugged, SongFrontmatter } from '@/shared/content';
+import type { Playable, Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 
 /**
  * A song as the player needs it: resolved at build time from the collection and
  * handed to the client as props, so no part of the content pipeline is shipped.
- * Picked from the frontmatter rather than restated, so the two cannot drift.
  */
 export type PlayerTrack = Slugged &
-  Pick<SongFrontmatter, 'audio' | 'seconds' | 'explicit'> & {
+  Playable & {
     /** What the song is called in each language, and where each is served. */
     titles: Record<Locale, string>;
     routes: Record<Locale, string>;

@@ -67,6 +67,19 @@ type StanzaProps = {
 };
 
 /**
+ * A note is one line of markdown, so the paragraph the parser wraps it in is
+ * dropped, and a link opens beside the song rather than over it.
+ */
+const NOTE_COMPONENTS: Components = {
+  p: ({ children }) => <>{children}</>,
+  a: ({ href, children }) => (
+    <Anchor {...{ href }} target="_blank" rel="noopener noreferrer" inherit>
+      {children}
+    </Anchor>
+  ),
+};
+
+/**
  * A stanza as it was written: one element per line, so a line break needs
  * nothing invisible at the end of a line to survive. The dimming is per line
  * rather than on the stanza, which would dim a note's popover with it.
@@ -90,16 +103,3 @@ function Stanza({ lines, muted = false }: StanzaProps) {
     </Text>
   );
 }
-
-/**
- * A note is one line of markdown, so the paragraph the parser wraps it in is
- * dropped, and a link opens beside the song rather than over it.
- */
-const NOTE_COMPONENTS: Components = {
-  p: ({ children }) => <>{children}</>,
-  a: ({ href, children }) => (
-    <Anchor {...{ href }} target="_blank" rel="noopener noreferrer" inherit>
-      {children}
-    </Anchor>
-  ),
-};

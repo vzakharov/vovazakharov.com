@@ -7,8 +7,8 @@ import type { LocalizedText, SongFrontmatter } from './frontmatter';
 import {
   readVerse,
   type Stanzas,
-  type WithStanzas,
   withoutNotes,
+  type WithStanzas,
 } from './lyric-notes';
 import { PREAMBLE, splitSections } from './sections';
 

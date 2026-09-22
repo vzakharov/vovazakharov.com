@@ -1,17 +1,11 @@
-import { Anchor, Box, Stack, Text, Title } from '@mantine/core';
+import { Anchor, Box, Stack, Text } from '@mantine/core';
 
-import {
-  MUSIC_ORGANIZATION,
-  MUSIC_ORGANIZATION_URL,
-  MUSIC_PROJECT_NAMES,
-  MUSIC_PROJECTS,
-} from '@/shared/config';
+import { MUSIC_ORGANIZATION, MUSIC_ORGANIZATION_URL } from '@/shared/config';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { Card, Section, Subheading } from '@/shared/ui';
+import { Section } from '@/shared/ui';
 
 export function MusicSection({ locale }: WithLocale) {
-  const { intro, projects, alsoOn, and, openSource } =
-    loadMessages(locale).music;
+  const { intro, alsoOn, and, openSource } = loadMessages(locale).music;
 
   return (
     <Section id="music" standalone>
@@ -23,27 +17,6 @@ export function MusicSection({ locale }: WithLocale) {
           {intro.body}
         </Text>
       </Box>
-
-      <Subheading>{projects}</Subheading>
-
-      <Stack gap={24}>
-        {MUSIC_PROJECT_NAMES.map((artist) => {
-          const { label, artistId } = MUSIC_PROJECTS[artist];
-
-          // A project with nothing on Spotify has nothing to embed; the songs
-          // themselves are what say it exists.
-          if (artistId === undefined) return null;
-
-          return (
-            <Card key={artist}>
-              <Title order={4} mb={12}>
-                {label}
-              </Title>
-              <SpotifyEmbed {...{ artist, artistId }} />
-            </Card>
-          );
-        })}
-      </Stack>
 
       <Stack gap={8}>
         <Text size="sm" opacity={0.7}>
@@ -79,28 +52,5 @@ export function MusicSection({ locale }: WithLocale) {
         </Text>
       </Stack>
     </Section>
-  );
-}
-
-type SpotifyEmbedProps = {
-  artist: string;
-  artistId: string;
-};
-
-function SpotifyEmbed({ artist, artistId }: SpotifyEmbedProps) {
-  return (
-    <iframe
-      title={`${artist} on Spotify`}
-      // Replaced elements are inline by default, which would leave a
-      // descender-sized gap under each embed inside its card.
-      style={{ display: 'block', borderRadius: '12px' }}
-      src={`https://open.spotify.com/embed/artist/${artistId}?utm_source=generator`}
-      width="100%"
-      height="152"
-      frameBorder="0"
-      allowFullScreen
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-    />
   );
 }

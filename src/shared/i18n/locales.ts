@@ -40,3 +40,16 @@ export function localeTailAddresses<Head extends string>(
 export function byLocale<T>(pick: (locale: Locale) => T): Record<Locale, T> {
   return { en: pick('en'), ru: pick('ru') };
 }
+
+/**
+ * A string stated once where the languages agree and once per locale where they
+ * do not — the common case being the first, a name that is not translated.
+ */
+export type Localizable<T extends string = string> = T | Record<Locale, T>;
+
+export function inLocale<T extends string>(
+  value: Localizable<T>,
+  locale: Locale,
+): T {
+  return typeof value === 'string' ? value : value[locale];
+}

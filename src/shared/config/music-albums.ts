@@ -4,7 +4,7 @@
  * song page can say where a song came from without an album page existing.
  */
 
-import type { Locale } from '@/shared/i18n';
+import type { Localizable } from '@/shared/i18n';
 
 import type { MusicProject } from './music-projects';
 
@@ -14,19 +14,19 @@ export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
 
 export type MusicAlbumRecord = {
   /**
-   * What the release is called in each language. Both are the same release —
-   * `Vagabond` went to the Western services and `Скиталец: по следам Конюхова`
-   * to the Russian ones, under different artist names.
+   * What the release is called — once, or per language where one release went
+   * out under two names: `Vagabond` to the Western services and
+   * `Скиталец: по следам Конюхова` to the Russian ones.
    */
-  title: Record<Locale, string>;
+  title: Localizable;
   /** Whose release it is, which can differ from the song's own billing. */
-  artist: Record<Locale, MusicProject>;
+  artist: Localizable<MusicProject>;
 };
 
 export const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
   ctfu: {
-    title: { en: 'Cheer The Fuck Up', ru: 'Cheer The Fuck Up' },
-    artist: { en: 'GENERATED', ru: 'GENERATED' },
+    title: 'Cheer The Fuck Up',
+    artist: 'GENERATED',
   },
   vagabond: {
     title: { en: 'Vagabond', ru: 'Скиталец: по следам Конюхова' },

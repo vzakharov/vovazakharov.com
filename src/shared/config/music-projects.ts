@@ -1,6 +1,6 @@
 /**
  * The projects the songs are released under. Below `pages/` because the song
- * frontmatter schema validates against the same names the music page embeds —
+ * frontmatter schema validates against the same names the music page bills —
  * `shared/content` and `pages/music` sit on either side of the layer boundary,
  * so the list cannot live in the slice that renders it.
  */
@@ -17,7 +17,7 @@ export function songRepositoryUrl(repo: string): string {
   return `${MUSIC_ORGANIZATION_URL}/${repo}`;
 }
 
-/** The source of truth: the schema's enum and the page's embeds both derive from it. */
+/** The source of truth: the schema's enum and the registry below both derive from it. */
 export const MUSIC_PROJECT_NAMES = [
   'GENERATED',
   'Полуживые',
@@ -30,30 +30,24 @@ export const MUSIC_PROJECT_NAMES = [
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
 
 /**
- * What a project is billed as, and where it can be followed. Both links are
- * optional and mean different things by their absence: no `artistId` is a
- * project with nothing released on Spotify, no `channel` one with nothing to
- * read. A guest artist is a project with neither, which is what makes the
- * feature list and the release list one roster rather than two.
+ * What a project is billed as, and where it can be followed — no `channel` being
+ * a project with nothing to read. A guest artist is a project with none, which
+ * is what makes the feature list and the release list one roster rather than two.
  */
 export type MusicProjectRecord = Labeled & {
-  artistId?: string;
   channel?: string;
 };
 
 export const MUSIC_PROJECTS: Record<MusicProject, MusicProjectRecord> = {
   GENERATED: {
     label: 'GENERATED',
-    artistId: '3tnTz9WCaghp3PJPSsTxQW',
   },
   Полуживые: {
     label: 'Полуживые (ru. for “Half-Alive”)',
-    artistId: '2rdnjZV6ahlz4pKeh9a8B3',
     channel: 'https://t.me/papareka',
   },
   Downtemple: {
     label: 'Downtemple',
-    artistId: '2vN8JKg3rQLxleZ9xsafy6',
   },
   'Грёбаный бал': {
     label: 'Грёбаный бал',

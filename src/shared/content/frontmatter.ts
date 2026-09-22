@@ -3,7 +3,7 @@ import 'server-only';
 import { z } from 'zod';
 
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from '@/shared/config';
-import { LOCALES } from '@/shared/i18n';
+import { byLocale } from '@/shared/i18n';
 
 import type { CollectionId } from './collections';
 
@@ -46,13 +46,6 @@ const localizedTextSchema = z.object({
 
 export type LocalizedText = z.infer<typeof localizedTextSchema>;
 
-/**
- * Keyed by the locale enum rather than by a string, which is what makes it
- * exhaustive: a document carrying `en` and no `ru` fails the build instead of
- * publishing a half-translated catalogue quietly.
- */
-const localizedTextsSchema = z.record(z.enum(LOCALES), localizedTextSchema);
-
 /** Whether the song is released or still being worked on. */
 export const SONG_STATUSES = ['done', 'wip'] as const;
 
@@ -68,16 +61,8 @@ const creditsSchema = z.object({
   music: z.array(z.string().min(1)).min(1).optional(),
 });
 
-const songFieldsSchema = baseFrontmatterSchema.extend({
-  status: z.enum(SONG_STATUSES),
-  language: z.enum(SONG_LANGUAGES),
-  /**
-   * The artist first, whoever is featured after it — a feature meaning the song
-   * can be shown to the people the other project is shown to.
-   */
-  project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
-  /** Its repository under the `vovas-music` organization. */
-  repo: z.string().min(1),
+/** What the player needs of a song, and all it needs. */
+const playableSchema = z.object({
   /**
    * The master, played as-is. One field, not a lossless/lossy pair: every song
    * in the catalogue is a FLAC master, so a second would be the same URL twice.
@@ -91,19 +76,39 @@ const songFieldsSchema = baseFrontmatterSchema.extend({
   seconds: z.number().int().positive(),
   /** Read off the 🅴 in the master's file name by the scaffolder. */
   explicit: z.boolean().default(false),
-  /** The release it came out on, where it came out on one. */
-  album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
-  credits: creditsSchema.optional(),
-  /** Track id, where the song is also on Spotify. */
-  spotify: z.string().min(1).optional(),
 });
+
+export type Playable = z.infer<typeof playableSchema>;
+
+const songFieldsSchema = baseFrontmatterSchema
+  .extend(playableSchema.shape)
+  .extend({
+    status: z.enum(SONG_STATUSES),
+    language: z.enum(SONG_LANGUAGES),
+    /**
+     * The artist first, whoever is featured after it — a feature meaning the song
+     * can be shown to the people the other project is shown to.
+     */
+    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
+    /** Its repository under the `vovas-music` organization. */
+    repo: z.string().min(1),
+    /** The release it came out on, where it came out on one. */
+    album: z.enum(MUSIC_ALBUM_SLUGS).optional(),
+    credits: creditsSchema.optional(),
+    /** Track id, where the song is also on Spotify. */
+    spotify: z.string().min(1).optional(),
+  });
 
 /**
  * One file per song, both languages in it: the language-agnostic half — dates,
  * masters, credits, the words — is the bigger half, so a file per locale would
- * duplicate most of it.
+ * duplicate most of it. A key per locale, each required, which is what makes it
+ * exhaustive: a document carrying `en` and no `ru` fails the build instead of
+ * publishing a half-translated catalogue quietly.
  */
-const songFrontmatterSchema = songFieldsSchema.and(localizedTextsSchema);
+const songFrontmatterSchema = songFieldsSchema.extend(
+  byLocale(() => localizedTextSchema),
+);
 
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;

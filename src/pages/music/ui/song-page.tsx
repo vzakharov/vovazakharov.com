@@ -21,6 +21,7 @@ import {
 } from '@/shared/content';
 import {
   byLocale,
+  inLocale,
   loadMessages,
   type Locale,
   type WithLocale,
@@ -85,7 +86,10 @@ function songFacts(document: SongDocument, locale: Locale): string[] {
     billing(project),
     messages.language[language],
     album &&
-      messages.album.replace('{album}', MUSIC_ALBUMS[album].title[locale]),
+      messages.album.replace(
+        '{album}',
+        inLocale(MUSIC_ALBUMS[album].title, locale),
+      ),
     credits?.lyrics &&
       `${messages.credits.lyrics}: ${credits.lyrics.join(', ')}`,
     credits?.music && `${messages.credits.music}: ${credits.music.join(', ')}`,

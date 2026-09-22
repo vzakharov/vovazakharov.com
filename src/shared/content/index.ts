@@ -39,6 +39,7 @@ export {
   type BaseFrontmatter,
   type Collection,
   type LocalizedText,
+  type Playable,
   SONG_LANGUAGES,
   SONG_STATUSES,
   type SongFrontmatter,
