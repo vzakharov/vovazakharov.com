@@ -25,11 +25,11 @@ I still don't fully — the slime is probably a different one for everybody.
 
 <!-- lang:ru -->
 
-Песня -- кавер [Сашиной песни в Суно](https://suno.com/s/ygS73i5KfVDegC62),
-которая называется Slime Rolls, и в которой, можно сказать, противоположный -- по
-крайней мере по настроению -- смысл. Когда я же начал писать про «слизь» --
-хотелось оставить название -- полезло что-то совсем не оптимистичное. Причём
-долгое время я сам не понимал, о чём пишу, да и сейчас до конца не осознал --
+Песня — кавер [Сашиной песни в Суно](https://suno.com/s/ygS73i5KfVDegC62),
+которая называется Slime Rolls, и в которой, можно сказать, противоположный — по
+крайней мере по настроению — смысл. Когда я же начал писать про «слизь» —
+хотелось оставить название — полезло что-то совсем не оптимистичное. Причём
+долгое время я сам не понимал, о чём пишу, да и сейчас до конца не осознал —
 наверное, «слизь» для каждого своя.
 
 <!-- lyrics:ru -->
@@ -89,7 +89,7 @@ You, the one who could reach the moon,
 Go for the glitter, go to the bottom
 
 This is not light, this is not life
-There is no hope, but hold on
+There's no hope, but you hang in there
 
 You see the target, it sees you
 You kill it, lovingly

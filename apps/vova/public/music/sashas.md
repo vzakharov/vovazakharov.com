@@ -30,9 +30,9 @@ Is this why people invented angels?
 <!-- lang:ru -->
 
 Клод, когда готовил «рыбу» для этой песни, назвал её «companion piece to
-[Двадцать](./first.md)», что достаточно метко. Что он не знал -- это что эта
+[Двадцать](./first.md)», что достаточно метко. Что он не знал — это что эта
 песня, точнее стихи, авторства моей сестры, Саши. Кроме последнего, «папиного»
-куплета -- его написал я, исходя из её парафраза об обсуждении этих самых стихов
+куплета — его написал я, исходя из её парафраза об обсуждении этих самых стихов
 с её chatgpt. Такой вот межгенерационный и межвидовой коллаб живых и умерших,
 машины и человека.
 
@@ -40,9 +40,9 @@ Is this why people invented angels?
 
 <!-- lyrics:ru -->
 
-Папа... почему облака...
+Папа, почему облака
 Так часто похожи на крылья?
-Это поэтому... люди придумали ангелов?
+Это поэтому люди придумали ангелов?
 
 Почему под водой тёплый слой моря
 Как будто мыльный,
@@ -58,12 +58,12 @@ Is this why people invented angels?
 Иногда в этом гуле мне кажется,
 Это ты сейчас что-то ответишь мне.
 
-Дочка... небо тоже скучает...
+Дочка, небо тоже скучает
 И шлёт письма безмолвные
 А вода носит смех наш по волнам
 И, конечно, всё помнит
 
-Дочка... ты всегда замечала,
+Дочка, ты всегда замечала,
 Что другим ускользает
 И сейчас слышишь глубже, оттуда,
 Где нет слов...
@@ -71,9 +71,9 @@ Is this why people invented angels?
 
 <!-- lyrics:en -->
 
-Dad... why do the clouds...
+Dad, why do the clouds
 So often look like wings?
-Is that why... people invented angels?
+Is that why people invented angels?
 
 Why is the warm layer of the sea, underwater,
 Somehow soapy,
@@ -89,12 +89,12 @@ Though I know there is nothing nearby to hum.
 Sometimes, in that hum, it seems to me
 That you are about to answer something.
 
-Daughter... the sky misses you too...
+Daughter, the sky misses you too
 And sends its wordless letters
 And the water carries our laughter over the waves
 And remembers everything, of course
 
-Daughter... you always noticed
+Daughter, you always noticed
 What slips past everyone else
 And now you hear deeper, from where
 There are no words...

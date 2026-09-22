@@ -120,7 +120,7 @@ The sound of the blows died down, and never quite picked up again.
 Suddenly there was no time for scraps, for shakedowns, for football,
 Like some swot I'd race to school just to see you again.
 And when a lad from the ninth year called you a slut,
-The whole ninth year had their teeth collected from the corners of the gym.
+The whole ninth year were collecting his teeth from the corners of the gym.
 
 You stood off to one side, not saying a word,
 Then sighed, took wing and flew off again.
