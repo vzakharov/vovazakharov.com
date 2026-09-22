@@ -10,10 +10,10 @@
  * produced ahead of the request is no PDF at all. It is each page's existing
  * print stylesheet that is printed, not a layout of its own.
  *
- * **The PDFs are build artifacts, not committed files.** The deploy runs this
- * after `next build` with `--from-out` and copies what it produces into `out/`,
- * so the `.pdf` link a page always emits answers 404 in a tree where this has
- * not run — `.claude/rules/content.md` carries the whole contract.
+ * **The PDFs are build artifacts.** The deploy runs this after `next build`
+ * with `--from-out` and copies what it produces into `out/`, so the `.pdf` link
+ * a page always emits answers 404 in a tree where this has not run —
+ * `.claude/rules/content.md` carries the whole contract.
  *
  * A render that says the same thing as the file already there keeps that file's
  * bytes, which is what lets a restored cache stay a cache rather than churn.

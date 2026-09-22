@@ -48,8 +48,9 @@ fi
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
 # `a && b` would leave the first site rendering for real inside a vet run.
-# There is no PDF entry: those renders are build artifacts the repository does
-# not store, and nothing that is not stored can go stale.
+# There is no PDF entry: each publishing lane prints that site's PDFs fresh
+# after its own build, and the manifest deciding what to reprint lives in that
+# lane's cache rather than in the tree.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap reads source text only — no generated types, nothing another

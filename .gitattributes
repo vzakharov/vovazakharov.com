@@ -1,11 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# The renders that stay committed, marked so GitHub collapses them in a pull
-# request's diff and leaves them out of its "Viewed" count. Reviewing one means
-# reading the source it was made from and the script that made it — a diff of
-# rasterized bytes or of a hash table says nothing anyone can act on, and a
-# shared edit re-renders every one of them at once.
+# The Open Graph cards, the mermaid diagrams, and the manifests hashing what
+# each card was rendered from — generated files the repository serves, so
+# marked for GitHub to collapse in a pull request's diff and leave out of its
+# "Viewed" count. Reviewing one means reading the source it was made from and
+# the script that made it: a diff of rasterized bytes or of a hash table says
+# nothing anyone can act on, and a shared edit re-renders every one of them at
+# once.
 *.og.png                              linguist-generated=true
 *-renders.json                        linguist-generated=true
 apps/*/public/generated/mermaid/*.svg linguist-generated=true
