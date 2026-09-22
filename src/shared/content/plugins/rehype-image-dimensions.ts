@@ -1,9 +1,9 @@
 import 'server-only';
 
-import type { Element, Root } from 'hast';
+import type { Root } from 'hast';
 import type { Plugin } from 'unified';
-import { visit } from 'unist-util-visit';
 
+import { visitElements } from '../hast-elements';
 import { intrinsicDimensions } from '../image-dimensions';
 
 /**
@@ -12,9 +12,7 @@ import { intrinsicDimensions } from '../image-dimensions';
  * read at build time — and never overwrites dimensions the author set by hand.
  */
 function sizeImages(tree: Root) {
-  visit(tree, 'element', (node: Element) => {
-    if (node.tagName !== 'img') return;
-
+  visitElements(tree, 'img', (node) => {
     node.properties.loading ??= 'lazy';
     node.properties.decoding ??= 'async';
 

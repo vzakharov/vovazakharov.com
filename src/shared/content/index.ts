@@ -35,7 +35,7 @@ export {
   renderDocument,
   type RenderedDocument,
   renderPrimaryDocuments,
+  type WithContentTree,
   type WithHeadings,
-  type WithHtml,
   type WithReadingMinutes,
 } from './render';

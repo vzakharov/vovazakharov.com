@@ -3,10 +3,10 @@ description: Turn a dictation — a video shot on camera or audio talked into a 
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
-recording as readable text in the speaker's own words — framed by a summary they
-can recognise it from and your own reading of what they said — the media and the
-timecoded transcript are kept on the branch, and every place the recognizer was
-guessing is listed in the file for them to correct.
+recording as readable text in the speaker's own words, framed by a summary they
+can recognise it from, the media and the timecoded transcript are kept on the
+branch, and every place the recognizer was guessing is listed in the file for
+them to correct.
 
 ## The split
 
@@ -154,8 +154,7 @@ three of the seven places the text needed a correction.
 `writing/<project>/dictations/<slug>.md`, no frontmatter — the keys in
 `@.claude/rules/writing.md` describe post drafts, and this is not one.
 
-Five parts, in this order, and the middle one is the only one that is the
-recording:
+Four parts, in this order, and only one of them is the recording:
 
 | Part                                                     | Whose words |
 | -------------------------------------------------------- | ----------- |
@@ -165,7 +164,6 @@ recording:
 | **The recording**, under one `##`                        | **theirs**  |
 | The table of what you guessed (Step 4)                   | yours       |
 | In retake mode, the `## Что поправлено` footnotes        | yours       |
-| The afterword (Step 5)                                   | yours       |
 
 **The body's heading names what the file is**, so it follows the mode:
 `## Расшифровка` in verbatim and prose, `## Текст для начитки` in retake, where
@@ -255,19 +253,17 @@ that row comes out on the same pass as the ones they answered. They do not
 confirm the ones that were right, and waiting for that is how a table stops
 shrinking.
 
-## Step 5 — The lede, the beat sheet and the afterword
+## Step 5 — The lede and the beat sheet
 
 Six minutes of talking is four screens of text, and a transcript on its own is a
 poor thing to come back to: the operator opening it a month later wants to know
-what is in it before deciding to read it, and then wants somebody to have
-thought about it. So the file opens with a summary and closes with your reading
-of it, and in retake mode carries a beat sheet for the take itself. All three
-are in the recording's language, not this file's.
+what is in it before deciding to read it. So the file opens with a summary, and
+in retake mode carries a beat sheet for the take itself. Both are in the
+recording's language, not this file's.
 
 - **The lede** — `## О чём это`, above the recording. Three or four sentences
   on what it says, in the operator's own vocabulary, so that they recognise it
-  rather than decode it. It reports and does not evaluate — that is the
-  afterword's job, and a lede that starts judging stops being a way back in.
+  rather than decode it.
 - **The beat sheet** — `## Рыба`, between the lede and the recording, in retake
   mode only. The points, the turns and the transitions as a bulleted list, in
   the order the recording takes them: what the speaker glances at before the
@@ -275,10 +271,6 @@ are in the recording's language, not this file's.
   the script aloud. It names each beat and the words that land it — a phrase
   they coined, the joke, the number — and does not explain them, because a beat
   sheet you have to read is one more thing to lose your place in.
-- **The afterword** — `## Заметки агента`, at the foot, owned by
-  `@.claude/skills/afterword/SKILL.md`. Load it and follow it: the section is not
-  specific to recordings, and its rules — what the block has to do to earn its
-  place, and the narration it must not become — are that skill's.
 
 Keep these headings as they are across recordings — the operator reads the files
 against each other, and a file that invents its own name for a section costs

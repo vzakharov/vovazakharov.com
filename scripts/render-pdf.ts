@@ -80,6 +80,9 @@ const PRINT_SOURCES = [
   'src/app/styles/print.scss',
   'src/app/styles/theme.ts',
   'src/app/styles/theme.module.scss',
+  // Names Mantine's sheets and their order, which decide what a rule on the
+  // page resolves to.
+  'src/app/ui/theme-provider.tsx',
   'src/shared/config',
   'src/shared/lib',
   'src/shared/ui',
