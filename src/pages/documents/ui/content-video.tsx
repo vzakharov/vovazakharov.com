@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { printedUrl } from '@/shared/config/index.server-only';
+import { printedUrl } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
 
@@ -24,6 +24,7 @@ export function ContentVideo({
     <>
       <video
         controls
+        muted
         preload="metadata"
         playsInline
         {...props}

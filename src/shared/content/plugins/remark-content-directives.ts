@@ -7,21 +7,23 @@ import type { ContainerDirective } from 'mdast-util-directive';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { isOneOf } from '@/shared/lib/collections';
+
 /**
  * The block components a document may author, as `remark-directive` fences. A
  * pull quote repeats a sentence the reader is about to meet or has just met,
  * so it is `aria-hidden` and `render.ts` keeps its words out of the reading
  * estimate.
  */
-const BLOCK_DIRECTIVES = {
+const BLOCK_DIRECTIVES = ['pull-quote'] as const;
+
+type BlockDirective = (typeof BLOCK_DIRECTIVES)[number];
+
+const isKnown = isOneOf(BLOCK_DIRECTIVES);
+
+const DIRECTIVE_CLASSES = {
   'pull-quote': 'content-pull-quote',
-} as const;
-
-type BlockDirective = keyof typeof BLOCK_DIRECTIVES;
-
-function isKnown(name: string): name is BlockDirective {
-  return name in BLOCK_DIRECTIVES;
-}
+} satisfies Record<BlockDirective, string>;
 
 /** Where the directive turns into the element `prose.scss` styles. */
 function convert(node: ContainerDirective, name: BlockDirective) {
@@ -29,7 +31,7 @@ function convert(node: ContainerDirective, name: BlockDirective) {
     ...node.data,
     hName: 'aside',
     hProperties: {
-      className: [BLOCK_DIRECTIVES[name]],
+      className: [DIRECTIVE_CLASSES[name]],
       'aria-hidden': 'true',
     },
   };
@@ -55,7 +57,7 @@ function convertDirectives(fileName: string) {
         node.type === 'textDirective'
       ) {
         throw new Error(
-          `${fileName} uses an unknown directive \`${node.name}\`. The block directives are: ${Object.keys(BLOCK_DIRECTIVES).join(', ')}.`,
+          `${fileName} uses an unknown directive \`${node.name}\`. The block directives are: ${BLOCK_DIRECTIVES.join(', ')}.`,
         );
       }
     });

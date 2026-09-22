@@ -1,4 +1,4 @@
-import { pageFile } from '@/shared/config/index.server-only';
+import { pageFile } from '@/shared/config';
 import type { Locale } from '@/shared/i18n';
 import type { DocumentFile } from '@/shared/typings';
 

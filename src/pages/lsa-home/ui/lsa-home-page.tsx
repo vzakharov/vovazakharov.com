@@ -9,12 +9,8 @@ import {
   Title,
 } from '@mantine/core';
 
-import { AUTHOR_URL } from '@/shared/config';
-import {
-  BUILD_YEAR,
-  linkTo,
-  SITE_CONFIG,
-} from '@/shared/config/index.server-only';
+import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
 import {
   cssColor,
@@ -61,7 +57,7 @@ export async function LsaHomePage() {
             })}
           </SimpleGrid>
           <Text>
-            <InternalLink {...linkTo(collectionRoute(COLLECTION))}>
+            <InternalLink href={collectionRoute(COLLECTION)}>
               All of it, in one place →
             </InternalLink>
           </Text>

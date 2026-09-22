@@ -3,4 +3,4 @@
  * this barrel spells its extension and reaches no CSS, JSX or `server-only`.
  */
 
-export { resolveSiteId } from './site.env.unsafe.ts';
+export { resolveSiteId } from './site-env.ts';

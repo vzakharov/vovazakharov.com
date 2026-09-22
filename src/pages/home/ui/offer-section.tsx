@@ -1,6 +1,6 @@
 import { List, ListItem, Stack, Text, Title } from '@mantine/core';
 
-import { linkTo, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
 import { loadMessages } from '@/shared/i18n';
 import { InternalLink, Section } from '@/shared/ui';
@@ -24,7 +24,7 @@ export function OfferSection() {
           draw the architecture, set up the pipeline the agents ship through on
           your codebase, and sit in the pull requests rather than in the org
           chart.{' '}
-          <InternalLink {...linkTo(FEATURED_CASE_STUDY_ROUTE)} inherit>
+          <InternalLink href={FEATURED_CASE_STUDY_ROUTE} inherit>
             Last time round
           </InternalLink>{' '}
           that took a live product from a no-code builder to 250,000 lines of
