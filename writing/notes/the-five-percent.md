@@ -277,6 +277,26 @@ in the commit body. _why abandon the destructuring at all?_ —
 `const { avatar }: SiteConfig = siteConfig(RENDERED_SITE)` widens the same and
 keeps it. The half under question was defended; the whole edit read as settled.
 
+## The defect its own change seeds is the one its pass runs thin on (×1)
+
+A change has a shape, and it seeds defects of that shape — a removal seeds
+denials of what was removed. The pass that would catch them runs in the session
+that made the change, where the old state is still vivid, so a sentence denying
+it reads as informative rather than as a leftover. Every other lens fires
+normally, which is what the run reports; no pass says which of its lenses ran
+thin.
+
+**22 September — the negation lens, on a branch whose whole point is removal.**
+Page PDFs stopped being committed files, and `/tend-prose` ran unfocused over
+the diff minutes after the prose was written, cutting the narration bears and
+reporting them as the pass's yield. _re-check for polar bears_ returned three it
+had read past — "The PDFs are build artifacts, not committed files", "Nothing is
+committed and nothing is vetted", and "nothing that is not stored can go stale",
+that last written twice in the same session as the pass meant to catch it. A
+fourth comment caught it in another coat: `.gitattributes` opened on "The
+renders that stay committed", defining a set against the one that had just left
+and naming none of its members.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -297,7 +317,7 @@ all three grains every run — a taste in output with nothing to read it off.
 
 ## The two families
 
-Eleven learnings is not a pattern, but they fall in two groups. One is failures
+Twelve learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
