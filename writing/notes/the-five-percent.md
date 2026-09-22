@@ -41,7 +41,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×31)
+## What it was handed, it treats as fixed (×32)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -75,6 +75,12 @@ screenshot had the panel disagreeing with _itself_ — "Cost $198.49" beside
 filed `/tend-prose` reading past three denials as attention running thin; the
 next comment asked for a grep over negators. The lens searches a removed-noun
 list and this change removed a property: the search was empty by construction.
+
+**22 September — the publishing prefixes, argued against in its own message.**
+Renaming #78 from `refactor:` to `ci:`, the agent called its not deploying right,
+and in the same reply flagged that the vova lane had never run in CI, offering a
+manual dispatch. The operator's answer was that `ci:` belongs on the list: where
+CI _is_ the deploy, the untested lane it had named was the case against the list.
 
 ## An account that explains the code stands in for running it (×15)
 
