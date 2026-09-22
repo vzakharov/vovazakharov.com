@@ -43,8 +43,13 @@ jobs:
           receivers=''
           subjects=''
 
-          # Which prefixes publish is CLAUDE.md § Deployment. One variable
-          # because the match and the scope extraction below both read it.
+          # The commit types whose merge publishes, and the one place that set
+          # is stated. A type belongs when a merge of it changes what the sites
+          # serve or how they get served: `feat` and `fix` by definition,
+          # `perf` because on a static export a cheaper page is different
+          # files, `ci` because here CI is the deploy and a run of it is the
+          # only test a change to it gets. One variable because the match and
+          # the scope extraction below both read it.
           publishing='(feat|fix|perf|ci)'
 
           # A site name selects that site; anything else — an unscoped subject,

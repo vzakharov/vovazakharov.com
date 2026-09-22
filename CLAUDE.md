@@ -32,10 +32,10 @@ Merging to `main` triggers `.github/workflows/deploy.yml`, which builds every si
 
 **The sites leave by two different doors, because a repository gets one Pages site.** `vovazakharov.com` holds this repository's own, deployed from `apps/vova/out` by `actions/deploy-pages`. Every other site is built here and force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a receiving repository — `vzakharov/latestageagentic.com`, `vzakharov/agentic.bible` — which holds no source and runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key per receiver, whose contract the script's own header carries. The workflow maps each receiver's secret into the one fixed variable the script reads, so a new site is a `case` arm and a matrix entry, never a change to how the key is handled.
 
-**Only a `feat:`, `fix:`, `perf:` or `ci:` squash subject publishes, and its scope picks the site.** The workflow's `gate` job reads the pushed commits' subject lines and skips the build for every other prefix in "Git conventions" below, so a `docs:` or `refactor:` merge lands on `main` without spending a deploy. Four things follow:
+**Only a squash subject of a publishing type publishes, and its scope picks the site.** Which types those are is the `publishing` variable in the workflow's `gate` job — the one place the set is stated, beside the reason each type is in it. The gate reads the pushed commits' subject lines and skips the build for every other type in "Git conventions" below, so a merge of one lands on `main` without spending a deploy. Four things follow:
 
 - **The squash subject is the deploy switch**, so it is a production decision, not just a log entry — `@.claude/skills/squash-message/SKILL.md` picks it, and a mixed branch should carry the prefix of what it actually ships.
-- **A merge carrying none of those four prefixes that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case. A manual run has no subject to read a scope off, so it takes a **site** field instead — `all`, or a list of site ids, defaulting to `all`; naming one is what lets an unmerged branch publish that site alone, and an id the field does not know fails the run rather than falling through to every site.
+- **A merge carrying no publishing type that does change the built site is deployed by hand** — run the workflow from the Actions tab (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that alters output is the usual case. A manual run has no subject to read a scope off, so it takes a **site** field instead — `all`, or a list of site ids, defaulting to `all`; naming one is what lets an unmerged branch publish that site alone, and an id the field does not know fails the run rather than falling through to every site.
 - **The gate matches subjects only**, in either scoped or breaking form (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies — so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
 - **A scope that names a site publishes that site alone** — `feat(vova):`, `feat(lsa):`, `feat(bible):`. Every other scope, and an unscoped subject, publishes all of them: a change to the shared `src/` is every site's change, so that is the safe default and naming a site is the narrowing.
 
@@ -194,19 +194,19 @@ Use semantic commit prefixes:
 
 - `feat:` — new feature
 - `fix:` — bug fix
-- `content:` — written material the site does not yet serve: a draft, a channel plan, the conventions for writing them. Deploy-free by definition — the moment a piece goes live it arrives as the page that serves it, `.md` and `.pdf` variants included, and that is a `feat:`
+- `content:` — written material the site does not yet serve: a draft, a channel plan, the conventions for writing them. The moment a piece goes live it arrives as the page that serves it, `.md` and `.pdf` variants included, and that is a `feat:`
 - `docs:` — documentation changes
 - `chore:` — maintenance, config, dependencies
 - `refactor:` — code restructuring without behavior change
 - `style:` — formatting, whitespace (no code change)
 - `test:` — adding or updating tests
-- `ci:` — CI/CD changes. **Publishes**: here CI is the deploy, and a run of it is the only test a change to it gets — one left for the next `feat:` is first exercised inside someone else's release
-- `perf:` — performance improvements. **Publishes**, alongside `feat:`, `fix:` and `ci:`: on a static export, making a page cheaper to load changes the files served
+- `ci:` — CI/CD changes
+- `perf:` — performance improvements
 - `polish:` — a `/polish` run's own edits (see below)
 
 **`polish:` is a branch-local type**, outside the standard set on purpose. `@.claude/skills/polish/SKILL.md` finds where it last ran by that subject line, and nothing else would carry the mark: the run's edits are `refactor:` or `docs:` by nature, which says nothing about who made them or why. It reaches no trunk — the squash gives the branch one subject of its own, written by hand — so the extension costs a reader of `main` nothing and a reader of the branch a legible `git log --oneline`. That skill owns the form the subject takes.
 
-**This list is local and extensible**, not the conventional-commits spec. `content:` was added because the closest standard prefix (`feat:`) misdescribed what the change was. When a change genuinely doesn't fit any row above, proposing a new row is a legitimate move — better than filing it under the nearest wrong one — provided the addition names a kind of change that recurs and says whether it publishes.
+**This list is local and extensible**, not the conventional-commits spec. `content:` was added because the closest standard prefix (`feat:`) misdescribed what the change was. When a change genuinely doesn't fit any row above, proposing a new row is a legitimate move — better than filing it under the nearest wrong one — provided the addition names a kind of change that recurs, and joins the gate's `publishing` set in the same change when a merge of it alters what the sites serve or how they get served (§ "Deployment").
 
 Write descriptive commit messages: the subject line summarizes the change, and the body explains what was changed and why in enough detail that someone reading the log understands the commit without looking at the diff.
 
