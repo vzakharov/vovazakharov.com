@@ -1,5 +1,5 @@
 import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata } from '@/shared/seo/index.server-only';
 
 export const writingMetadata = constructMetadata({
   title: `Writing - ${SITE_CONFIG.name}`,

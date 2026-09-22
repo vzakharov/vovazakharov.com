@@ -43,8 +43,11 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these fifteen writes anything another one reads, so they overlap
+# None of these sixteen writes anything another one reads, so they overlap
 # freely.
+# The PDF check is one entry per site, not one script running both: pnpm appends
+# a passed `--check` to the end of the command line, so a combined `a && b`
+# would leave the first site rendering for real inside a vet run.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap reads source text only — no generated types, nothing another
@@ -66,8 +69,10 @@ scripts/run-parallel.sh \
   type-overlap='pnpm type-overlap' \
   mantine-styles='pnpm check:mantine-styles' \
   i18n-payload='pnpm check:i18n-payload' \
-  og='pnpm content:og --check' \
-  pdf='pnpm content:pdf --check' \
+  og-vova='pnpm content:og:vova --check' \
+  og-bible='pnpm content:og:bible --check' \
+  pdf-vova='pnpm content:pdf:vova --check' \
+  pdf-bible='pnpm content:pdf:bible --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \

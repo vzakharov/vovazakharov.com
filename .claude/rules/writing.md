@@ -127,6 +127,20 @@ invented for it.
   ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
   the second half brings something of its own, or the plain line that said it
   first is the one to keep.
+- **Cut the sentence that announces the next one.** "And it is worth saying out
+  loud", "here is the thing", "make no mistake" — an agent writes these to mark
+  that something important is coming, which a reader learns by reading the
+  important thing. They are the cadence of a model filling the space before a
+  point rather than making it, and the tell is that deleting the clause costs
+  the sentence nothing. This is the one voice rule that survives "don't tighten
+  the sentences" above: that rule protects a talked-out human line, and these
+  are not one.
+- **A list of examples where one would do reads as a machine's.** "…to the point
+  of parody — the shower, the offhand remark, the run down the corridor" spends
+  three specimens on a point the reader already has. A list that _is_ the point
+  — three shapes, three reasons — earns its items; the tell is one hanging off a
+  **detour**, where three beats go on ground the piece is already leaving. Cut to
+  the claim, keeping one example only where the claim is thin without it.
 - **The hook is the operator's call, not the agent's.** Given a choice of what to
   lead with, an agent reaches for the technically impressive detail and a reader
   wants the legible one — a number they can react to, a change in how the work

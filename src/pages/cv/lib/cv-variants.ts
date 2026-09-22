@@ -1,6 +1,6 @@
 import type { Locale } from '@/shared/i18n';
 
-/** The ids are the source of truth; `CvVariant` and the route schema derive from them. */
+/** The ids are the source of truth; `CvVariant` and `CvAddress` derive from them. */
 export const CV_VARIANTS = ['cto', 'dev'] as const;
 
 export type CvVariant = (typeof CV_VARIANTS)[number];

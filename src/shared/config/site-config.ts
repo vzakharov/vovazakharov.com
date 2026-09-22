@@ -1,16 +1,19 @@
+/**
+ * Every site's configuration as data, with nothing bound to the site this
+ * process happens to be — that binding is `resolved-site.ts`, which is
+ * `server-only`. The split is what lets a client component and a render script
+ * each read what they need without the environment read coming along.
+ */
+
 import type {
   Billed,
-  DocumentFile,
   Linked,
   Named,
-  WithText,
+  PresentOrAbsent,
+  Sized,
 } from '@/shared/typings';
 
-/**
- * A static export renders once per deploy, so a copyright year is the build's.
- * Shared so the page footer and the printed one cannot disagree.
- */
-export const BUILD_YEAR = new Date().getFullYear();
+import type { SiteId } from './site-ids';
 
 /**
  * The unlocalized standalone pages. Below `pages/` because the footer that
@@ -22,28 +25,29 @@ export const PAGE_ROUTES = {
   music: '/music',
 } as const;
 
-/** The ids are the source of truth: each names a directory under `apps/`. */
-const SITE_IDS = ['vova', 'lsa'] as const;
-
-export type SiteId = (typeof SITE_IDS)[number];
+/**
+ * One of a site's own marks, as up to two files. `path` is the canonical one —
+ * what the metadata publishes, and what a page renders unless `vector` says
+ * otherwise; `vector` is the same drawing as SVG, and exists only where `path`
+ * had to be a raster, no Open Graph consumer rendering one.
+ *
+ * So a mark no card ever unfurls states its SVG as `path` and carries no
+ * `vector`, rather than the other way round; `vector` is a string where it is
+ * there and absent where it is not, never a nullable slot. `pnpm
+ * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
+ */
+export type SiteImage = Sized & { path: string } & PresentOrAbsent<
+    'vector',
+    string
+  >;
 
 /**
- * Which site this build is. Each app pins it in its `next.config.ts` and each
- * render script in its `package.json` entry, so an unset value means nobody
- * said — which would otherwise publish one site's copy under the other's
- * domain, hence the throw.
- *
- * Matched rather than parsed by a schema: client components reach this module
- * (the CV sheet through `cv-urls`), where zod would land in the chunk — the
- * ~90 kB `shared/i18n` keeps behind its server-only barrel.
+ * Whom a site's materials are credited to, and where that credit links. Named
+ * only where the materials are published under something other than the site
+ * itself — the Bible's are the agency's — so the credit points a reader of an
+ * article at the agency rather than at the author's own page.
  */
-const siteId = SITE_IDS.find((id) => id === process.env.NEXT_PUBLIC_SITE);
-
-if (siteId === undefined) {
-  throw new Error(
-    `NEXT_PUBLIC_SITE must be one of ${SITE_IDS.join(', ')}, not ${String(process.env.NEXT_PUBLIC_SITE)}`,
-  );
-}
+type SiteCredit = Named & Linked;
 
 /**
  * The tagline is the offer in one line, as the home page's offer section is
@@ -51,7 +55,7 @@ if (siteId === undefined) {
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-type SiteConfig = Billed & {
+export type SiteConfig = Billed & {
   url: string;
   /**
    * Leads the name a downloaded document is saved under, standing in for the
@@ -67,14 +71,25 @@ type SiteConfig = Billed & {
     linkedin: string;
   };
   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
-  avatar: {
-    path: string;
-    width: number;
-    height: number;
-  };
+  avatar: SiteImage;
+  /**
+   * The site's unlettered mark: what an article closes on in place of an amen,
+   * and what the home page's seal is left showing once a held pointer fades
+   * `avatar.vector`'s lettering off it. Spelled rather than left optional — an
+   * omitted key is silently absent, and a new site should have to answer this
+   * one.
+   */
+  seal: SiteImage | undefined;
+  /**
+   * The copyright on this site's materials, and where it links — `undefined`
+   * where the site credits itself and its own name stands unlinked. Spelled by
+   * every site for the same reason `seal` is: a new one should have to answer
+   * whether its work is its own or published under another name.
+   */
+  credit: SiteCredit | undefined;
 };
 
-/** One person publishes both sites, so neither of them owns the byline. */
+/** One person publishes every site, so none of them owns the byline. */
 const PUBLISHER = {
   author: {
     name: 'Vova Zakharov',
@@ -87,19 +102,31 @@ const PUBLISHER = {
   },
 } as const;
 
-/** One path and one size for both sites, a different image behind each. */
+/** One path and one size for the two portrait sites, a different image behind each. */
 const AVATAR = {
   path: '/ava.png',
   width: 1024,
   height: 1024,
 } as const;
 
+/** Both cuts of the seal are one drawing, so one square covers them. */
+const SEAL_SIZE = { width: 1024, height: 1024 } as const;
+
 /**
- * Both sites under one shape, so a field added for either is a type error at
- * the other until it is answered. `satisfies` rather than an annotation keeps
- * the literal types every call site reads.
+ * The Bible's materials are the agency's, so they credit it and link to its
+ * hub — an article is the top of the funnel into Late Stage Agentic, not a
+ * page of the author's.
  */
-const SITE_CONFIGS = {
+const LSA_CREDIT = {
+  name: 'Late Stage Agentic',
+  href: 'https://latestageagentic.com',
+} as const;
+
+/**
+ * Every site under one shape, so a field added for one is a type error at the
+ * rest until it is answered.
+ */
+const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
   vova: {
     url: 'https://vovazakharov.com',
     downloadPrefix: 'vova',
@@ -107,6 +134,8 @@ const SITE_CONFIGS = {
     tagline:
       'Fractional CTO for teams that don’t want to YOLO into the agent era.',
     avatar: AVATAR,
+    seal: undefined,
+    credit: undefined,
     ...PUBLISHER,
   },
   lsa: {
@@ -115,11 +144,33 @@ const SITE_CONFIGS = {
     name: 'Late Stage Agentic',
     tagline: 'How not to make a mess of agentic coding.',
     avatar: AVATAR,
+    seal: undefined,
+    credit: undefined,
     ...PUBLISHER,
   },
-} as const satisfies Record<SiteId, SiteConfig>;
+  bible: {
+    url: 'https://agentic.bible',
+    downloadPrefix: 'bible',
+    name: 'The Agentic Bible',
+    tagline:
+      'Articles on agentic coding that take a position and show the grounds under it.',
+    // The lettered cut, whose card is rasterised from the vector beside it by
+    // `pnpm content:og:bible` — no Open Graph consumer renders an SVG.
+    avatar: {
+      path: '/ava.og.png',
+      vector: '/seal-lettered.svg',
+      ...SEAL_SIZE,
+    },
+    seal: { path: '/seal.svg', ...SEAL_SIZE },
+    credit: LSA_CREDIT,
+    ...PUBLISHER,
+  },
+};
 
-export const SITE_CONFIG = SITE_CONFIGS[siteId];
+/** One site's configuration by id, for the render scripts, which resolved theirs at the top of the run. */
+export function siteConfig(site: SiteId) {
+  return SITE_CONFIGS[site];
+}
 
 /**
  * The author's own site, which every other site's byline links to. Read off
@@ -127,22 +178,5 @@ export const SITE_CONFIG = SITE_CONFIGS[siteId];
  */
 export const AUTHOR_URL = SITE_CONFIGS.vova.url;
 
-// Helper to get absolute URL
-export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
-
-/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
-export const pageFile = (route: string, extension: string): DocumentFile => ({
-  href: `${route}.${extension}`,
-  download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
-});
-
-/**
- * How print spells a URL: absolute, because the page leaves the browser that
- * resolved it, and shown without the scheme, which tells a reader holding paper
- * nothing. The two differ, so a printed link can navigate and still read well.
- */
-export const printedUrl = (url: string): Linked & WithText => {
-  const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
-
-  return { href, text: href.replace(/^https?:\/\//, '') };
-};
+/** How a URL reads off paper, where a scheme tells the holder nothing. */
+export const withoutScheme = (url: string) => url.replace(/^https?:\/\//, '');

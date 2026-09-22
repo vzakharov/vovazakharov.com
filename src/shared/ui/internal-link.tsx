@@ -36,6 +36,10 @@ export type InternalLinkProps = Anchored &
  * External links need no such pair, being absolute already — which is why the
  * fork belongs to this component rather than to a second one beside it.
  *
+ * Paper's copy is derived from the same `href`, so a link that reaches no
+ * paper is one sitting inside a `print-hidden` container — the medium is a fact
+ * about where a link is, and the container already holds it.
+ *
  * React refuses to serialise `next/link` across the server boundary, so
  * Mantine's polymorphic `component` prop cannot take it from a server
  * component. The pairing lives behind this client boundary instead.
@@ -43,6 +47,10 @@ export type InternalLinkProps = Anchored &
  * `ElementProps` omits what `AnchorProps` claims, so an anchor attribute with no
  * Mantine counterpart — `hrefLang`, `target` — reaches the `<a>` without the two
  * types shadowing each other.
+ *
+ * `className` dresses both anchors and never the wrapper, which carries the
+ * medium switch alone: a caller's class stating `display` ties with it on
+ * specificity and wins on order, putting the printed half on screen.
  */
 export function InternalLink({
   href,
@@ -63,7 +71,7 @@ export function InternalLink({
       >
         {children}
       </Anchor>
-      <span className={cx(classes['printed'], className)}>
+      <span className={classes['printed']}>
         {withAddress && (
           <>
             {children}
@@ -72,7 +80,7 @@ export function InternalLink({
         )}
         {/* One text node, not two: a PDF gets a link annotation per node, and
             the first is placed over whatever precedes the anchor. */}
-        <Anchor {...pick(printed, 'href')} {...props}>
+        <Anchor {...pick(printed, 'href')} {...props} {...{ className }}>
           {withAddress ? printed.text : children}
         </Anchor>
       </span>

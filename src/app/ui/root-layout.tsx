@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
 
 import { SITE_CONFIG } from '@/shared/config';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { ThemeCorner } from './theme-corner';
 import { ThemeProvider } from './theme-provider';

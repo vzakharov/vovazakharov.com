@@ -108,6 +108,30 @@ All three come from the DevTools Protocol, and Node's built-in `WebSocket` speak
 
 Write these as throwaway scripts under `tmp/preview/`; nothing here belongs in `package.json`.
 
+## A printed page is looked at the same way
+
+A change to `print.scss` or `prose.scss`'s print rules is visible only on paper,
+and paper paginates — where a screen does not, so the screen capture that passes
+says nothing about the page that fails. Rasterize the committed PDF and read it
+back:
+
+```bash
+python3 -m pip install --target tmp/pdfium pypdfium2 pillow
+PYTHONPATH=tmp/pdfium python3 -c "
+import pypdfium2 as p
+d = p.PdfDocument('<path>.pdf')
+for i in range(len(d)):
+    d[i].render(scale=1.4).to_pil().save(f'tmp/preview/page{i+1}.png')
+"
+```
+
+The install is per session, nothing here having a place to put it; the target
+directory is gitignored with the rest of `tmp/`.
+
+**Never rasterize by pointing Chromium at a `file://…pdf`.** It renders the
+built-in _viewer_ rather than the document, exits 0, and writes a plausible
+blank PNG — a capture that reads as a page with nothing on it.
+
 ## Artifacts
 
 `tmp/preview/` — gitignored. Use `docs/remove-before-merging/` instead when the images must ride the branch for the operator to review; `/finalize` sweeps that tree before the PR goes ready. Never leave image files to land on the trunk.

@@ -1,4 +1,6 @@
-export {
-  CaseStudiesPage as default,
-  caseStudiesMetadata as metadata,
-} from '@/pages/case-studies';
+import { collectionIndexRoute } from '@/pages/documents';
+
+const { Page, metadata } = collectionIndexRoute('case-studies');
+
+export { metadata };
+export default Page;

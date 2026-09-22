@@ -13,10 +13,10 @@ import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { MESSAGE_MARKDOWN, type Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { pick } from '@/shared/lib/collections';
+import type { DocumentFile } from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
-import { cvPdfFile } from '../lib/cv-urls';
 import type { CvEdition } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
@@ -77,6 +77,8 @@ export type CvSheetProps = CvEdition & {
   messages: Messages;
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
   caseStudyHref: string;
+  /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
+  pdfFile: DocumentFile;
 };
 
 export function CvSheet({
@@ -84,6 +86,7 @@ export function CvSheet({
   locale,
   messages,
   caseStudyHref,
+  pdfFile,
 }: CvSheetProps) {
   const { cv, ui } = messages;
   const caseStudy = {
@@ -121,7 +124,7 @@ export function CvSheet({
             className={cx('print-hidden', classes['toolbar'])}
           >
             <LocalePicker {...{ variant, locale }} />
-            <FileLink {...cvPdfFile(variant, locale)}>.pdf</FileLink>
+            <FileLink {...pdfFile}>.pdf</FileLink>
           </Group>
 
           <CvSection {...pick(cv.profile, 'title')}>

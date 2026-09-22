@@ -64,6 +64,13 @@
 
   // Headings
 
+  // A section starts on its own line: an aside image near the foot of one
+  // otherwise floats past the rule and squeezes the next heading into the
+  // margin beside it.
+  :where(h1, h2, h3, h4) {
+    clear: both;
+  }
+
   :where(h1) {
     margin: 0 0 0.8889em;
     font-size: 2.25em;
@@ -323,6 +330,16 @@
     margin: 2em 0;
   }
 
+  // A square or portrait image at the column's full width is a screenful of one
+  // picture. `width` is stated because the attribute sets one as a
+  // presentational hint; the block sits below the margin rule above rather than
+  // inside it, or `margin-inline` loses to it on source order at equal weight.
+  :where(img) {
+    width: auto;
+    max-height: 32rem;
+    margin-inline: auto;
+  }
+
   :where(figure > *) {
     margin: 0;
   }
@@ -350,6 +367,45 @@
   }
 }
 
+// Below the breakpoint the column is too narrow to divide — what would be left
+// of each line is not a line — so an aside falls back to a full-width block.
+// Paper falls back for its own reason: nothing ties a float to the paragraphs
+// it floats against, so a page break between them leaves the float opening the
+// next sheet beside one leftover line, with the following heading's `clear`
+// holding the rest of that column empty.
+.content-image-aside {
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    float: inline-end;
+    width: 42%;
+    margin: 0.4em 0 1.25em 1.75em;
+  }
+
+  @media print {
+    float: none;
+    width: auto;
+    margin: 2em auto;
+  }
+}
+
+// `clear` is what keeps a pull quote and an aside image off the same margin:
+// the one that loses gets squeezed into a gutter two words wide.
+.content-pull-quote {
+  clear: both;
+  margin: 2.25em 0;
+  padding: 0.75em 0;
+  border-top: 1px solid var(--color-border-hairline);
+  border-bottom: 1px solid var(--color-border-hairline);
+  font-size: 1.375em;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
+
+  > p {
+    margin: 0;
+  }
+}
+
 .content-video {
   display: block;
   width: 100%;
@@ -364,8 +420,11 @@
   margin: 1.5em 0;
   text-align: center;
 
+  // Out of the height cap above: a diagram shrunk to fit keeps its shape and
+  // loses its labels, which is the one thing it was drawn to carry.
   > img {
     display: inline-block;
+    max-height: none;
   }
 
   // Picking between the pair is a screen-only concern. `print.scss` forces the
@@ -393,4 +452,20 @@
       display: none;
     }
   }
+}
+
+// The size is measured rather than chosen: below about 1.5em the seal's ring
+// closes up and the mark reads as a bullet. `max-height` is restated because
+// the base rule's is in `rem`, which an `em` size cannot outrank by cascade
+// alone.
+.content-end-mark {
+  display: block;
+  width: 2.5em;
+  height: 2.5em;
+  max-height: none;
+  margin-inline: auto;
+}
+
+.content-end-mark-line {
+  margin-top: 1.75em;
 }
