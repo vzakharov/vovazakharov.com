@@ -12,10 +12,14 @@ export const frontmatterSchema = z.object({
   description: z.string().min(1),
   /** Published date. YAML parses an unquoted `2026-08-29` into a Date. */
   date: z.coerce.date(),
+  /** Reading order within the collection — lower first, ahead of anything without one. */
+  order: z.number().int().optional(),
   /** Free-text series marker, e.g. `I of II`. */
   part: z.string().min(1).optional(),
   /** Open Graph image, relative to the document. */
   ogImage: z.string().min(1).optional(),
+  /** The drawing the index shows beside the blurb, relative to the document. */
+  cardImage: z.string().min(1).optional(),
 });
 
 export type Frontmatter = z.infer<typeof frontmatterSchema>;

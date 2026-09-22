@@ -28,8 +28,8 @@ paths:
   them in `files:`.
 
 - **What the permanent case looks like here**: a file that must augment a
-  library type through an `interface`, a page with no locale for an i18n rule
-  to protect. The migration backlog is the temporary one.
+  library type through an `interface`, a CLI whose stdout is its interface and
+  so disables `no-console`. The migration backlog is the temporary one.
 
 - **Rule severities live in `eslint/rule-groups/*.ts`** via
   `withSeverity('error', [...])` / `withSeverity('off', [...])`. That tree sets

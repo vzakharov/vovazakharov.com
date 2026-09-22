@@ -43,8 +43,11 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these thirteen writes anything another one reads, so they overlap
+# None of these sixteen writes anything another one reads, so they overlap
 # freely.
+# The PDF check is one entry per site, not one script running both: pnpm appends
+# a passed `--check` to the end of the command line, so a combined `a && b`
+# would leave the first site rendering for real inside a vet run.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap reads source text only — no generated types, nothing another
@@ -53,6 +56,8 @@ fi
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
+# The Mantine and i18n-payload checks only read what the build above already
+# finished writing under `apps/*/out/`, which nothing here writes to.
 # The last reads the agent infrastructure itself and nothing else here touches
 # it.
 scripts/run-parallel.sh \
@@ -62,8 +67,12 @@ scripts/run-parallel.sh \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
-  og='pnpm content:og --check' \
-  pdf='pnpm content:pdf --check' \
+  mantine-styles='pnpm check:mantine-styles' \
+  i18n-payload='pnpm check:i18n-payload' \
+  og-vova='pnpm content:og:vova --check' \
+  og-bible='pnpm content:og:bible --check' \
+  pdf-vova='pnpm content:pdf:vova --check' \
+  pdf-bible='pnpm content:pdf:bible --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \

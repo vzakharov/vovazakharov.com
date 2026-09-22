@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { printedUrl, SITE_CONFIG } from '@/shared/config';
+import { siteConfig, withoutScheme } from '@/shared/config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import type { Billed, Labeled } from '@/shared/typings';
 
@@ -19,12 +19,16 @@ import { cvMessages } from '@/pages/cv/lib/cv-messages';
 import { OFFER_BLOCKS } from '@/pages/cv/lib/cv-offer';
 import type { CvVariant } from '@/pages/cv/lib/cv-variants';
 
+import { RENDERED_SITE } from './content-tree.ts';
 import {
   CANVAS,
   CANVAS_BACKGROUND,
   SCALE,
   type StagedPage,
 } from './og-render.ts';
+
+/** The site this run renders for, resolved once at the top of it. */
+const SITE_CONFIG = siteConfig(RENDERED_SITE);
 
 /** Staged beside the page under this name, which is the `src` it uses. */
 const PORTRAIT = 'portrait.png';
@@ -149,7 +153,7 @@ export function cvCard(variant: CvVariant): StagedPage {
         typeof item === 'string' ? item : item.label,
       ),
       addresses: [
-        printedUrl(SITE_CONFIG.url).text,
+        withoutScheme(SITE_CONFIG.url),
         contact.github,
         contact.linkedin,
       ],

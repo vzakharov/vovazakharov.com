@@ -11,7 +11,7 @@
     },
     "profile": {
       "title": "Profile",
-      "paragraph1": "Developer with a physics-and-math brain and a knack for building practical tools that turn AI buzz into actual features. Ever since 2020, most of my work revolves around LLMs and image generation, following years of messing with smaller neural networks. This means I <strong>don't buy or sell buzzwords</strong>, I understand things <strong>a level or two deeper than most</strong>, and I've developed an <strong>intuition for what models can and cannot do</strong>.",
+      "paragraph1": "Developer with a physics-and-math brain and a knack for building practical tools that turn AI buzz into actual features. Ever since 2020, most of my work revolves around LLMs and image generation, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**.",
       "paragraph2": "I've built systems from scratch, simplified convoluted integrations, and turned vague ideas into working prototypes — across open-source, startups, and global advertising giants."
     },
     "whatIOffer": {
@@ -270,8 +270,8 @@
           "tagline": "Fractional, hands-on CTO for AI-native delivery"
         },
         "profile": {
-          "paragraph1": "158 days, <strong>250,000 lines of production TypeScript</strong>, none of it hand-written, up to <strong>20 agents working at once</strong>, and <strong>a production deploy every 2.4 days</strong> — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
-          "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I <strong>don't buy or sell buzzwords</strong>, I understand things <strong>a level or two deeper than most</strong>, and I've developed an <strong>intuition for what models can and cannot do</strong>. What I'm not is a compliance function or a headcount manager: this is founder-and-small-team scale, where I run the delivery rather than the org chart."
+          "paragraph1": "158 days, **250,000 lines of production TypeScript**, none of it hand-written, up to **20 agents working at once**, and **a production deploy every 2.4 days** — on a live product that stayed in production for its users the whole way through. The engineering platform I built to get there outlived my involvement: three engineers run it today, and it travels to their new projects as a checked-in boilerplate.",
+          "paragraph2": "Most of my work has revolved around LLMs and image generation ever since 2020, following years of messing with smaller neural networks. This means I **don't buy or sell buzzwords**, I understand things **a level or two deeper than most**, and I've developed an **intuition for what models can and cannot do**. What I'm not is a compliance function or a headcount manager: this is founder-and-small-team scale, where I run the delivery rather than the org chart."
         }
       }
     }

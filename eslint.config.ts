@@ -61,7 +61,7 @@ const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 // See .claude/rules/fsd.md.
-const PUBLIC_API = ['index.ts', 'index.server-only.ts'];
+const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
 
 // `shared/lib` holds one sub-library per file instead of a segment-wide barrel,
 // so a file there is its own public API — there is nothing beside it to hide.

@@ -1,5 +1,7 @@
-export {
-  ArticlePage as default,
-  generateArticleMetadata as generateMetadata,
-  generateArticleParams as generateStaticParams,
-} from '@/pages/case-studies';
+import { articleRoute } from '@/pages/documents';
+
+const { Page, generateMetadata, generateStaticParams } =
+  articleRoute('case-studies');
+
+export { generateMetadata, generateStaticParams };
+export default Page;

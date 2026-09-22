@@ -1,5 +1,5 @@
 ---
-description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [verbatim|retake|prose]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
+description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [auto|verbatim|retake|prose]`, the mode defaulting to `auto`, which reads it off the transcript. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
@@ -41,14 +41,30 @@ wording:
 | **retake**   | a recording that will be said again, better — this file is what is read from | the same talk with the stumbles out: their phrasing, without the tangles |
 | **prose**    | a read-aloud that exists to give the repo context, and is never published    | the same content as connected text, loose sentences tightened            |
 
-**Ask which one when the invocation doesn't say.** None is the default: a
-default is what makes the question skippable, and every guess costs something
-different — a shipping recording rewritten is a subtitle track in nobody's
+**Which of the three applies is `auto`'s to work out, and `auto` is what runs
+when the invocation names no mode.** A recording routinely says what it is for
+in its own first minute, so the mode is settled at the end of Step 2, off the
+transcript, rather than asked before there is one. What the modes trade against
+is unchanged — a shipping recording rewritten is a subtitle track in nobody's
 voice, a context recording left verbatim is four screens of talk where a page of
 prose was wanted, and a recording meant to be said again, left verbatim, hands
-the speaker back their own stumbles to read out loud. The mode goes in the file's
-header line, since a reader of the file otherwise cannot tell which rule it was
-held to.
+the speaker back their own stumbles to read out loud — so **a transcript that
+does not settle it goes back to the operator as a question**, naming the two
+modes it reads between. Auto resolves or asks; it never falls back on one.
+
+A mode named in the invocation skips that, and is what an operator reaches for
+when the recording would read the wrong way.
+
+**A dictation can be addressed to the agent rather than recorded for a reader**,
+in whole or in part — the speaker breaking off mid-copy to say how they want the
+thing handled. Those passages are asks rather than body: they stay in the
+transcript verbatim, and each is named in the handover and routed under the same
+scope rule as any other instruction — in scope, done; out of scope, raised
+rather than folded in.
+
+The mode goes in the file's header line, since a reader of the file otherwise
+cannot tell which rule it was held to; one that `auto` resolved says so —
+`auto → prose` — so the call is visible rather than inferred.
 
 Everything below holds in all three modes except Step 3's word test, which is
 verbatim's alone, and the § "Retake mode" rules, which are retake's.

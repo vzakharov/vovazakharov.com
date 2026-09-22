@@ -1,0 +1,26 @@
+import 'server-only';
+
+import type { Root } from 'hast';
+import type { Plugin } from 'unified';
+
+import { visitElements } from '../hast-elements';
+
+/**
+ * The link title carries the marker for the same reason it does on a video
+ * link — markdown has nowhere else to put one, and a document still renders as
+ * an image on GitHub, where the marker is a tooltip nobody minds.
+ */
+const ASIDE = 'aside';
+
+function layOutImages(tree: Root) {
+  visitElements(tree, 'img', (node) => {
+    if (node.properties.title !== ASIDE) return;
+
+    // Dropped rather than kept: on the site the word is a layout instruction,
+    // and a tooltip reading "aside" is the instruction leaking to the reader.
+    delete node.properties.title;
+    node.properties.className = ['content-image-aside'];
+  });
+}
+
+export const rehypeImageLayout: Plugin<[], Root> = () => layOutImages;

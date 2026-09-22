@@ -39,6 +39,19 @@ next-env.d.ts
 # hash of their source, so reformatting them would only churn the diff.
 apps/*/public/generated
 
+# Session cost rows — rewritten wholesale by `scripts/session-cost.ts` on every
+# turn, so a formatting pass over them is undone by the next one.
+.claude/costs/sessions
+
+# Per-machine Claude Code settings — never committed, written by the harness
+# rather than by hand, so its formatting is nobody's to hold to a standard.
+.claude/settings.local.json
+
+# GitHub exports — `scripts/export-github-item.py` writes what the thread holds,
+# and a snapshot reformatted is no longer the thing it is a snapshot of.
+docs/issue
+docs/pr
+
 # Lock files
 pnpm-lock.yaml
 package-lock.json

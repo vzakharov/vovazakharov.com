@@ -18,8 +18,11 @@
  * A render that says the same thing as the committed file keeps that file's
  * bytes, so the run's output is always safe to commit as-is.
  *
- *   pnpm content:pdf            # render what changed, prune what is gone
- *   pnpm content:pdf --check    # report staleness, write nothing
+ *   pnpm content:pdf:<site>          # render what changed, prune what is gone
+ *   pnpm content:pdf:<site> --check  # report staleness, write nothing
+ *
+ * One run serves one site, because it is entered in that app's directory — which
+ * is what `public/` and the dev server it spawns both resolve against.
  *
  * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
  * the `i18n` barrel behind them is a JSON import bare Node cannot take without
@@ -36,6 +39,7 @@ import net from 'node:net';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
+import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
@@ -48,6 +52,7 @@ import {
   CONTENT_DIRS,
   contentFiles,
   filesUnder,
+  RENDERED_SITE,
   REPO_ROOT,
 } from './lib/content-tree.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
@@ -64,8 +69,8 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * the presentation components and the helpers they are built from, and the site
  * identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
- * of casting it wide is that a tweak to any of it re-flags every PDF, and that
- * costs one `pnpm content:pdf` run.
+ * of casting it wide is that a tweak to any of it re-flags every PDF on every
+ * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
   'src/app/styles/print.scss',
@@ -79,12 +84,29 @@ const PRINT_SOURCES = [
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
-  'src/pages/case-studies/ui',
+  'src/entities/document',
+  'src/pages/documents/ui',
   'src/shared/content',
 ];
 
+/**
+ * The mark the pipeline closes an article with, where the site has one. It
+ * prints, so it shapes the page as surely as the stylesheet does — and it sits
+ * under `public/`, which nothing else in these lists reaches.
+ */
+const SEAL_SOURCES = (() => {
+  const { seal } = siteConfig(RENDERED_SITE);
+
+  return seal === undefined
+    ? []
+    : [path.relative(REPO_ROOT, path.join(PUBLIC_DIR, seal.path))];
+})();
+
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
+
+/** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
+const PRINTS_CV = RENDERED_SITE === 'vova';
 
 const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 
@@ -158,7 +180,7 @@ function sourceFiles(...sources: string[][]): string[] {
  * pipeline rests on.
  */
 function documentPrintables(): Printable[] {
-  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES);
+  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
   return contentFiles((name) => name.endsWith('.md')).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');
@@ -181,6 +203,8 @@ function documentPrintables(): Printable[] {
  * English leaves the Russian print alone.
  */
 function cvPrintables(): Printable[] {
+  if (!PRINTS_CV) return [];
+
   const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);
 
   return CV_VARIANTS.flatMap((variant) =>
@@ -251,7 +275,7 @@ async function awaitServer(
   if (server.exitCode !== null) {
     throw new Error(
       `The dev server exited with ${server.exitCode} before answering on ` +
-        `${origin}. Run \`pnpm dev:vova\` to see why.`,
+        `${origin}. Run \`pnpm dev:${RENDERED_SITE}\` to see why.`,
     );
   }
 
@@ -265,8 +289,13 @@ async function awaitServer(
 }
 
 /**
- * A dev server rather than `next build` plus a static host: the printed page is
- * the same either way, and this is one process to start and stop.
+ * A dev server rather than `next build` plus a static host: one process to
+ * start and stop, and it prints what the export prints — but only while nothing
+ * hydrates visible text, which is the invariant `.claude/rules/i18n.md` holds.
+ * A subtree rendered on the client prints decoration the export never draws,
+ * link underlines included, and no check here can see it. So a change that
+ * moves a subtree across the client boundary wants one page printed off a
+ * static host and compared before its PDFs are trusted.
  *
  * Next is spawned directly and into a process group of its own, so the whole
  * server goes down with the run. Through `pnpm` the kill would reach only the
@@ -361,7 +390,7 @@ await runRenderJob(
     isOutput: (name) => name.endsWith('.pdf'),
     // The CV's renders sit outside the content tree, so its root is walked too
     // — otherwise a pruned render's manifest is never found.
-    manifestDirs: [...CONTENT_DIRS, CV_DIR],
+    manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
     entries: [...documentPrintables(), ...cvPrintables()],
     render: printAll,
   },

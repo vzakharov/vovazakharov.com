@@ -2,9 +2,9 @@
 
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { Moon, Sun } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 
 import { cx } from '@/shared/lib/class-names';
+import type { Labeled } from '@/shared/typings';
 
 import {
   type PickedColorScheme,
@@ -28,10 +28,9 @@ function systemColorScheme(): PickedColorScheme {
 }
 
 /** Two visible states over a three-value store; the rule is in `../lib`. */
-export function ThemeToggle() {
+export function ThemeToggle({ label }: Labeled) {
   const { colorScheme, setColorScheme, clearColorScheme } =
     useMantineColorScheme();
-  const t = useTranslations('ui');
 
   function switchScheme() {
     const system = systemColorScheme();
@@ -50,7 +49,7 @@ export function ThemeToggle() {
       variant="transparent"
       size={SIZE}
       onClick={switchScheme}
-      aria-label={t('toggleTheme')}
+      aria-label={label}
       className={cx(classes['toggle'], 'print-hidden')}
     >
       {/* The icon names the scheme a click gets you, not the one you are in. */}
