@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T12:08:09Z
-- **Updated:** 2026-09-22T13:51:21Z
+- **Updated:** 2026-09-22T16:47:51Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -125,9 +125,9 @@ A reading of `.claude/skills/feedback/SKILL.md` at 2ecfac7 — the skill run aga
 - **T01** `.claude/skills/feedback/SKILL.md`:61 — resolved — last: @vzakharov (agent) 2026-09-22T12:38:01Z — "Fixed in 76d3a7a — the sentence now keeps the half that surv…" → [↓](#t01)
 - **T02** `.claude/skills/feedback/SKILL.md`:38 — resolved — last: @vzakharov (agent) 2026-09-22T12:38:02Z — "Moved in 76d3a7a — it now sits directly under the end state,…" → [↓](#t02)
 - **T03** `.claude/skills/feedback/SKILL.md`:19 — resolved — last: @vzakharov (agent) 2026-09-22T12:38:03Z — "Cut in 76d3a7a. The sentence before it does the separating,…" → [↓](#t03)
-- **T04** `.claude/skills/dictation/SKILL.md`:281 — unresolved — last: @vzakharov (human) 2026-09-22T13:47:33Z — "медведь?" → [↓](#t04)
-- **T05** `.claude/skills/feedback/SKILL.md`:78 — unresolved — last: @vzakharov (human) 2026-09-22T13:50:11Z — "SHA сюда не относятся, агент не делает коммитов" → [↓](#t05)
-- **T06** `.claude/skills/feedback/SKILL.md`:62 — unresolved — last: @vzakharov (human) 2026-09-22T13:50:30Z — "не очень понимаю что эта строчка говорит" → [↓](#t06)
+- **T04** `.claude/skills/dictation/SKILL.md`:281 — unresolved — last: @vzakharov (human) 2026-09-22T16:47:50Z — "Я не про конкретную механику, а в принципе вопрос "ой, а я д…" → [↓](#t04)
+- **T05** `.claude/skills/feedback/SKILL.md`:78 — resolved — last: @vzakharov (agent) 2026-09-22T13:55:45Z — "Верно, убрал в c5817f4. Скилл публикует отклик и ничего не п…" → [↓](#t05)
+- **T06** `.claude/skills/feedback/SKILL.md`:62 — resolved — last: @vzakharov (agent) 2026-09-22T13:55:47Z — "Она говорила две вещи сразу и обе скороговоркой. Переписал в…" → [↓](#t06)
 
 <a id="t01"></a>
 
@@ -227,11 +227,23 @@ Cut in 76d3a7a. The sentence before it does the separating, and the DRY note has
 
 медведь?
 
+**@vzakharov (agent)** — 2026-09-22T13:55:44Z
+
+Он, да — придаточное. Убрал в c5817f4.
+
+Медведь тут именно «which posts it as a review on the PR the transcript arrives on»: из трёх наследников только у `/feedback` был довесок про то, куда он кладёт результат. У `/subtitles` стоит настоящее ограничение (начинается с исправленного текста, не с нового прогона), у `/dictation-to-post` — ничего. А этот довесок говорил ровно «на PR, а не в этот файл» — ответ читателю, который помнит старый формат. Заодно это было дублирование: где `/feedback` публикует отклик, написано в самом `/feedback`.
+
+«None is this skill's work, and none starts until the operator has agreed the transcript» оставил — это граница и порядок, а не отрицание.
+
+**@vzakharov (human)** — 2026-09-22T16:47:50Z
+
+Я не про конкретную механику, а в принципе вопрос "ой, а я должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки" возникнуть не должен. или я ошибаюсь?
+
 ---
 
 <a id="t05"></a>
 
-### `.claude/skills/feedback/SKILL.md`:78 — unresolved
+### `.claude/skills/feedback/SKILL.md`:78 — resolved
 
 ```diff
 @@ -0,0 +1,106 @@
@@ -246,11 +258,17 @@ Cut in 76d3a7a. The sentence before it does the separating, and the DRY note has
 
 SHA сюда не относятся, агент не делает коммитов
 
+**@vzakharov (agent)** — 2026-09-22T13:55:45Z
+
+Верно, убрал в c5817f4.
+
+Скилл публикует отклик и ничего не пушит, так что SHA в его комментариях взяться неоткуда. Ссылка на `CLAUDE.md` § "GitHub comments" осталась ради того, что здесь действительно применимо: подпись под каждым комментарием, тело как текст а не путь, и не резолвить треды.
+
 ---
 
 <a id="t06"></a>
 
-### `.claude/skills/feedback/SKILL.md`:62 — unresolved
+### `.claude/skills/feedback/SKILL.md`:62 — resolved
 
 ```diff
 @@ -0,0 +1,106 @@
@@ -264,6 +282,12 @@ SHA сюда не относятся, агент не делает коммит�
 **@vzakharov (human)** — 2026-09-22T13:50:30Z
 
 не очень понимаю что эта строчка говорит
+
+**@vzakharov (agent)** — 2026-09-22T13:55:47Z
+
+Она говорила две вещи сразу и обе скороговоркой. Переписал в c5817f4.
+
+Смысл был один: постить всё одним ревью, а не отдельными комментариями — каждый отдельный комментарий уведомляет тебя в момент отправки, ревью уведомляет один раз, на сабмите, и отклик приходит целиком. Вторая половина («body is the only part that arrives in the order you wrote it») — про сортировку инлайнов по позиции в файле, и это уже сказано в § "Where each block goes"; здесь она была повтором, так что осталась там.
 
 ---
 
