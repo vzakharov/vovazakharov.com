@@ -453,3 +453,19 @@
     }
   }
 }
+
+// The size is measured rather than chosen: below about 1.5em the seal's ring
+// closes up and the mark reads as a bullet. `max-height` is restated because
+// the base rule's is in `rem`, which an `em` size cannot outrank by cascade
+// alone.
+.content-end-mark {
+  display: block;
+  width: 2.5em;
+  height: 2.5em;
+  max-height: none;
+  margin-inline: auto;
+}
+
+.content-end-mark-line {
+  margin-top: 1.75em;
+}

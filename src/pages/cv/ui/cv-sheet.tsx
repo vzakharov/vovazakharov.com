@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Anchor,
   Box,
@@ -9,15 +7,17 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMessages, useTranslations } from 'next-intl';
+import Markdown from 'react-markdown';
 
 import { printedUrl, SITE_CONFIG } from '@/shared/config';
+import { MESSAGE_MARKDOWN, type Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import type { DocumentFile, Linked, PrintedLink } from '@/shared/typings';
+import { pick } from '@/shared/lib/collections';
+import type { DocumentFile } from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
-import type { WithCvVariant } from '../lib/cv-variants';
+import type { CvEdition } from '../lib/cv-variants';
 import { CASE_STUDY_KEY, CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
@@ -27,21 +27,42 @@ import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
 import { OtherVariantLink } from './other-variant-link';
 
-/** The addresses the sheet renders in more than one place. */
-function EmailLink() {
-  const t = useTranslations('cv');
+type EmailLinkProps = { email: string };
 
+/** The address the sheet renders in more than one place. */
+function EmailLink({ email }: EmailLinkProps) {
   return (
-    <Anchor href={`mailto:${t('header.email')}`} inherit>
-      {t('header.email')}
+    <Anchor href={`mailto:${email}`} inherit>
+      {email}
     </Anchor>
   );
 }
 
-function WebsiteLink({ href, text }: PrintedLink) {
+function WebsiteLink() {
+  const { href, text } = printedUrl(SITE_CONFIG.url);
+
   return (
     <Anchor {...{ href }} inherit>
       {text}
+    </Anchor>
+  );
+}
+
+type ProfileLinkProps = { profile: string };
+
+/**
+ * A profile elsewhere, as the catalogue spells it: scheme-less, so it reads the
+ * same in print as on screen, and linked with the scheme added back.
+ */
+function ProfileLink({ profile }: ProfileLinkProps) {
+  return (
+    <Anchor
+      href={`https://${profile}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      inherit
+    >
+      {profile}
     </Anchor>
   );
 }
@@ -51,17 +72,27 @@ const TECH_STACK_GROUPS = ['backend', 'frontend', 'serverless'] as const;
 
 const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
-export type CvSheetProps = WithCvVariant & {
+export type CvSheetProps = CvEdition & {
+  /** This framing in this language, the variant's overrides already merged in. */
+  messages: Messages;
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
-  caseStudy: Linked;
+  caseStudyHref: string;
   /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
   pdfFile: DocumentFile;
 };
 
-export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
-  const t = useTranslations('cv');
-  const { cv } = useMessages();
-  const printedSite = printedUrl(SITE_CONFIG.url);
+export function CvSheet({
+  variant,
+  locale,
+  messages,
+  caseStudyHref,
+  pdfFile,
+}: CvSheetProps) {
+  const { cv, ui } = messages;
+  const caseStudy = {
+    href: caseStudyHref,
+    label: cv.caseStudies[CASE_STUDY_KEY].link,
+  };
 
   return (
     <Box className={classes['page']}>
@@ -71,16 +102,16 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
                 <InternalLink href="/" underline="never" inherit>
-                  {t('header.name')}
+                  {cv.header.name}
                 </InternalLink>
               </Title>
               <Text className={cx(classes['tagline'], classes['dim80'])}>
-                {t('header.tagline')}
+                {cv.header.tagline}
               </Text>
               <Text className={cx(classes['printSmall'], classes['dim70'])}>
-                <EmailLink />
+                <EmailLink {...pick(cv.header, 'email')} />
                 {' · '}
-                <WebsiteLink {...printedSite} />
+                <WebsiteLink />
               </Text>
             </Stack>
           </Box>
@@ -92,25 +123,23 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             gap={16}
             className={cx('print-hidden', classes['toolbar'])}
           >
-            <LocalePicker {...{ variant }} />
+            <LocalePicker {...{ variant, locale }} />
             <FileLink {...pdfFile}>.pdf</FileLink>
           </Group>
 
-          <CvSection title={t('profile.title')}>
+          <CvSection {...pick(cv.profile, 'title')}>
             <Card>
               <Stack className={classes['section']}>
                 {PROFILE_PARAGRAPHS.map((key) => (
                   <Text key={key} lh={1.625}>
-                    {t.rich(`profile.${key}`, {
-                      strong: (chunks) => <strong>{chunks}</strong>,
-                    })}
+                    <Markdown {...MESSAGE_MARKDOWN}>{cv.profile[key]}</Markdown>
                   </Text>
                 ))}
               </Stack>
             </Card>
           </CvSection>
 
-          <CvSection title={t('whatIOffer.title')}>
+          <CvSection {...pick(cv.whatIOffer, 'title')}>
             <Card>
               <Stack className={classes['section']}>
                 {OFFER_BLOCKS[variant].map((key) => {
@@ -135,12 +164,13 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             </Card>
           </CvSection>
 
-          <CvSection title={t('experience.title')} wide>
+          <CvSection {...pick(cv.experience, 'title')} wide>
             <Stack className={classes['sectionWide']}>
               {EXPERIENCE_KEYS.map((entryKey) => (
                 <ExperienceCard
                   key={entryKey}
                   {...{ entryKey }}
+                  entry={cv.experience[entryKey]}
                   caseStudy={
                     entryKey === CASE_STUDY_KEY ? caseStudy : undefined
                   }
@@ -149,7 +179,7 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             </Stack>
           </CvSection>
 
-          <CvSection title={t('techStack.title')}>
+          <CvSection {...pick(cv.techStack, 'title')}>
             <Card>
               <Stack className={classes['subsections']}>
                 {TECH_STACK_GROUPS.map((group) => {
@@ -165,18 +195,18 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             </Card>
           </CvSection>
 
-          <CvSection title={t('education.title')}>
+          <CvSection {...pick(cv.education, 'title')}>
             <Card>
               <Title order={3} className={classes['subheadingLarge']}>
-                {t('education.school')}
+                {cv.education.school}
               </Title>
               <Text className={cx(classes['printSmall'], classes['dim80'])}>
-                {t('education.degree')}
+                {cv.education.degree}
               </Text>
             </Card>
           </CvSection>
 
-          <CvSection title={t('contact.title')}>
+          <CvSection {...pick(cv.contact, 'title')}>
             <Card>
               <Group
                 gap={8}
@@ -184,33 +214,12 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
                 className={classes['contactLine']}
                 wrap="wrap"
               >
-                <EmailLink />·
-                <Anchor
-                  href={`https://${t('contact.github')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {t('contact.github')}
-                </Anchor>
+                <EmailLink {...pick(cv.header, 'email')} />·
+                <ProfileLink profile={cv.contact.github} />
                 ·
-                <Anchor
-                  href={`https://${t('contact.linkedin')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {t('contact.linkedin')}
-                </Anchor>
+                <ProfileLink profile={cv.contact.linkedin} />
                 ·
-                <Anchor
-                  href={`https://${t('contact.x')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  inherit
-                >
-                  {t('contact.x')}
-                </Anchor>
+                <ProfileLink profile={cv.contact.x} />
               </Group>
             </Card>
           </CvSection>
@@ -222,10 +231,10 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
           >
             <Text size="sm" className={classes['dim60']}>
               <InternalLink href="/" inherit>
-                {t('footer.backLink')}
+                {cv.footer.backLink}
               </InternalLink>
             </Text>
-            <OtherVariantLink {...{ variant }} />
+            <OtherVariantLink {...{ variant, locale }} labels={ui.cvVariants} />
           </Group>
 
           <Box
@@ -234,8 +243,8 @@ export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
             className={cx('print-only', classes['printFooter'])}
           >
             <Text className={classes['small']}>
-              {t('footer.printFooter')}&nbsp;
-              <WebsiteLink {...printedSite} />
+              {cv.footer.printFooter}&nbsp;
+              <WebsiteLink />
             </Text>
           </Box>
         </Stack>

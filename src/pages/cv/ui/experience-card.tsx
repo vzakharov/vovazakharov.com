@@ -1,9 +1,9 @@
 import { Text, Title } from '@mantine/core';
-import { useMessages } from 'next-intl';
 
 import { TECH_STACKS } from '@/shared/config';
+import type { Messages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import type { Linked } from '@/shared/typings';
+import type { LabeledLink } from '@/shared/typings';
 import { Card } from '@/shared/ui';
 
 import { CaseStudyLink } from './case-study-link';
@@ -25,21 +25,25 @@ export const EXPERIENCE_KEYS = [
 
 export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
+/** One entry as the catalogue spells it — the fields vary from entry to entry. */
+type ExperienceEntry = Messages['cv']['experience'][ExperienceKey];
+
 /** Not every entry carries a stack line, and the annotation is what holds the
  *  registry's keys to ones the CV renders. */
 const ENTRY_TECH_STACKS: Partial<Record<ExperienceKey, string>> = TECH_STACKS;
 
 type ExperienceCardProps = {
   entryKey: ExperienceKey;
-  /** The one entry with a case study behind it; the page resolves its route. */
-  caseStudy?: Linked;
+  entry: ExperienceEntry;
+  /** Present on the one entry the CV cross-links. */
+  caseStudy?: LabeledLink;
 };
 
-export function ExperienceCard({ entryKey, caseStudy }: ExperienceCardProps) {
-  // Read the entry off the typed catalog: its fields vary per entry, so a
-  // computed `t('<key>.title')` resolves to no known message key.
-  const { cv } = useMessages();
-  const entry = cv.experience[entryKey];
+export function ExperienceCard({
+  entryKey,
+  entry,
+  caseStudy,
+}: ExperienceCardProps) {
   const items: BulletItem[] = entry.items;
   const tech = ENTRY_TECH_STACKS[entryKey];
   const hasNote = 'demo' in entry;

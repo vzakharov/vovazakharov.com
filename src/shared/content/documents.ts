@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { pageFile, type SiteId } from '@/shared/config';
-import type { DocumentFile } from '@/shared/typings';
+import type { DocumentFile, Sized } from '@/shared/typings';
 
 import {
   collectionAssetUrl,
@@ -26,7 +26,6 @@ import {
 } from './frontmatter';
 import {
   intrinsicDimensions,
-  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 

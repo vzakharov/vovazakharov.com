@@ -16,8 +16,11 @@
  * cannot ship behind a stale social card. It hashes sources only, needing no
  * browser, which is why `vet.sh` can run it beside every other check.
  *
- *   pnpm content:og            # render what changed, prune what is gone
- *   pnpm content:og --check    # report staleness, write nothing
+ *   pnpm content:og:<site>          # render what changed, prune what is gone
+ *   pnpm content:og:<site> --check  # report staleness, write nothing
+ *
+ * One run serves one site, because it is entered in that app's directory —
+ * which is what `public/` resolves against.
  *
  * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias.
  */
@@ -25,6 +28,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { OG_CARD_SUFFIX } from '@/shared/seo';
@@ -33,7 +37,12 @@ import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
 import { findChromium } from './lib/chromium.ts';
-import { CONTENT_DIRS, contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+import {
+  CONTENT_DIRS,
+  contentFiles,
+  RENDERED_SITE,
+  REPO_ROOT,
+} from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import {
   CANVAS_BACKGROUND,
@@ -55,6 +64,9 @@ const MANIFEST_NAME = 'og-renders.json';
 
 /** Where the CV's cards live: its route's own directory under `public/`. */
 const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
+
+/** The CV is one site's page, so the other sites' runs neither card it nor walk its directory. */
+const CARDS_CV = RENDERED_SITE === 'vova';
 
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
@@ -134,7 +146,20 @@ function svgPage(svgName: string): string {
 `;
 }
 
-/** One card per distinct PNG the frontmatter asks for, its source the SVG. */
+/** One card rasterized from one authored SVG — the whole of what the drawn cards are. */
+function svgCard(svgPath: string, pngPath: string): Card {
+  const svgName = path.basename(svgPath);
+  const svg = readSvg(svgPath, pngPath);
+
+  return {
+    outputPath: pngPath,
+    sourceHash: contentHash(svg),
+    page: svgPage(svgName),
+    files: { [svgName]: svg },
+  };
+}
+
+/** One card per distinct PNG the frontmatter asks for, its source the SVG of the same stem. */
 function chartCards(): Card[] {
   const pngPaths = [
     ...new Set(
@@ -142,18 +167,28 @@ function chartCards(): Card[] {
     ),
   ];
 
-  return pngPaths.map((pngPath) => {
-    const svgPath = `${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`;
-    const svgName = path.basename(svgPath);
-    const svg = readSvg(svgPath, pngPath);
+  return pngPaths.map((pngPath) =>
+    svgCard(`${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`, pngPath),
+  );
+}
 
-    return {
-      outputPath: pngPath,
-      sourceHash: contentHash(svg),
-      page: svgPage(svgName),
-      files: { [svgName]: svg },
-    };
-  });
+/**
+ * The card a site whose mark is a vector unfurls as. The drawing is authored
+ * as SVG and every page renders it that way; this is the one place it has to
+ * be a raster, so the pair is `avatar.vector` beside `avatar.path` — the two
+ * cuts of a seal share no stem for the convention above to pair them by.
+ */
+function siteCards(): Card[] {
+  const { avatar } = siteConfig(RENDERED_SITE);
+
+  return avatar.vector === undefined
+    ? []
+    : [
+        svgCard(
+          path.join(PUBLIC_DIR, avatar.vector),
+          path.join(PUBLIC_DIR, avatar.path),
+        ),
+      ];
 }
 
 /**
@@ -162,6 +197,8 @@ function chartCards(): Card[] {
  * are all covered, and editing any of them re-flags the card.
  */
 function cvCards(): Card[] {
+  if (!CARDS_CV) return [];
+
   return CV_VARIANTS.map((variant) => {
     const staged = cvCard(variant);
     const files = Object.entries(staged.files)
@@ -179,13 +216,23 @@ function cvCards(): Card[] {
   });
 }
 
+const siteEntries = siteCards();
+
 await runRenderJob(
   {
     label: 'Open Graph card',
     manifestName: MANIFEST_NAME,
     isOutput: (name) => name.endsWith(OG_CARD_SUFFIX),
-    manifestDirs: [...CONTENT_DIRS, CV_CARD_DIR],
-    entries: [...chartCards(), ...cvCards()],
+    // A site card sits at the root of `public/`, which the collection walk
+    // only reaches where the collection is rooted there.
+    manifestDirs: [
+      ...new Set([
+        ...CONTENT_DIRS,
+        ...(CARDS_CV ? [CV_CARD_DIR] : []),
+        ...(siteEntries.length > 0 ? [PUBLIC_DIR] : []),
+      ]),
+    ],
+    entries: [...chartCards(), ...siteEntries, ...cvCards()],
     render: (stale) => {
       const chromium = findChromium();
       for (const card of stale) renderCard(card, chromium);

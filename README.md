@@ -27,8 +27,9 @@ pnpm install
 # Run one site's development server — http://localhost:3000
 pnpm dev:vova
 pnpm dev:lsa
+pnpm dev:bible
 
-# Build both sites for production (pnpm build:vova / build:lsa for one)
+# Build every site for production (pnpm build:<site> for one)
 pnpm build
 ```
 
@@ -56,12 +57,17 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
-│   └── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
-│       └── app/bible/          # → src/pages/documents, bound to the other collection
+│   ├── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
+│   │   └── app/page.tsx        # → src/pages/lsa-home — the project's index, no collection under it
+│   └── bible/                  # agentic.bible — the Bible, rooted at the site root
+│       ├── app/page.tsx        # → src/pages/bible-home
+│       ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
+│       └── public/             # the articles themselves, plus the seal and public/CNAME
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
 │   ├── features/switch-theme/  # Light/dark toggle over a stored system default
-│   ├── pages/                  # Page composition — home, lsa-home, cv, case-studies, music, writing
+│   ├── widgets/                # Blocks two page slices share — the article cards, the site footer
+│   ├── pages/                  # Page composition — home, lsa-home, bible-home, cv, documents, music, writing
 │   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, generated tokens and breakpoints
 ├── eslint/                     # The lint ruleset eslint.config.ts orchestrates
@@ -76,10 +82,11 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 Merging to `main` is the deploy; there is no separate release step. A `feat:` or
 `fix:` squash subject is what triggers it, and its scope picks the site.
 
-A repository gets one Pages site, so the two leave by different doors:
+A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
-`latestageagentic.com` is force-pushed by `scripts/publish-lsa.sh` to the
-`gh-pages` branch of a source-less repository whose Pages deploys from a branch.
+`latestageagentic.com` and `agentic.bible` are each force-pushed by
+`scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
+whose Pages deploys from a branch.
 `CLAUDE.md` § Deployment carries the rest, and the `/stand-up-site` skill is what
 puts a site on a domain in the first place.
 
@@ -95,7 +102,12 @@ puts a site on a domain in the first place.
 
 **latestageagentic.com**
 
-- **/** — the welcome text and what the project is
+- **/** — the opening argument, and cards for where it goes: the Bible, MUTHUR, courses
+
+**agentic.bible**
+
+- **/** — what the collection is, over the list of articles
+- **/\<slug>** — one article, served as a page with its `.md` and `.pdf` at the same URL
 
 ## License
 
