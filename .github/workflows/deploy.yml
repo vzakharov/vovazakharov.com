@@ -45,7 +45,7 @@ jobs:
 
           # Which prefixes publish is CLAUDE.md § Deployment. One variable
           # because the match and the scope extraction below both read it.
-          publishing='(feat|fix|perf)'
+          publishing='(feat|fix|perf|ci)'
 
           # A site name selects that site; anything else — an unscoped subject,
           # a scope naming none of them, the picker's own `all` — selects all of
