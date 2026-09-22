@@ -11,7 +11,7 @@ import type {
 
 import classes from './music.module.scss';
 
-/** The class is the line's own, the note beside it staying undimmed in a crib. */
+/** The class styles the line alone, so a dimmed crib leaves its note undimmed. */
 export type LineNoteProps = WithText & WithChildren & WithOptionalClassName;
 
 /**

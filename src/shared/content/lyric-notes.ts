@@ -4,10 +4,7 @@ import type { WithText } from '@/shared/typings';
 
 import { splitStanzas } from './sections';
 
-/**
- * A line of verse, and what the author wrote about it where he wrote something
- * — markdown, one line of it, so a note can carry a link.
- */
+/** A line of verse, and its note where it has one — a line of markdown, so it can link. */
 export type LyricLine = WithText & { note?: string };
 
 export type Stanzas = LyricLine[][];
@@ -21,12 +18,9 @@ const NOTE_MARKER = /\[\^([^\s\]]+)]/g;
 const NOTE_DEFINITION = /^\[\^([^\s\]]+)]:\s*(\S.*)$/;
 
 /**
- * Footnotes rather than a syntax of the site's own, because the file is read
- * raw too: GitHub renders a footnote as one, so the served `.md` shows the note
- * where the page shows it on demand. Every marker must resolve, every
- * definition must be used and a line carries one note at most — each of the
- * three fails the build, since a note that is silently dropped is one the
- * author thinks is on the page.
+ * Every marker must resolve, every definition be used, and a line carry one note
+ * at most — each fails the build, a silently dropped note being one the author
+ * thinks is on the page.
  */
 export function readVerse(section: string, fileName: string): Stanzas {
   const notes = new Map<string, string>();

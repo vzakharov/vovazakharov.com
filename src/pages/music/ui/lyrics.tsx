@@ -81,8 +81,9 @@ const NOTE_COMPONENTS: Components = {
 
 /**
  * A stanza as it was written: one element per line, so a line break needs
- * nothing invisible at the end of a line to survive. The dimming is per line
- * rather than on the stanza, which would dim a note's popover with it.
+ * nothing invisible at the end of a line to survive. A `div`, since a note's
+ * popover is a block no `p` can hold, and dimmed per line rather than as a
+ * whole, which would dim the popover with it.
  */
 function Stanza({ lines, muted = false }: StanzaProps) {
   const className = cx(classes['lyricLine'], muted && classes['mutedLine']);
