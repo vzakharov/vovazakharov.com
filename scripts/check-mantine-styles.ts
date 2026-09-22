@@ -11,26 +11,28 @@
  * rule behind it, a sheet whose classes nothing renders, and sheets included
  * out of the order Mantine ships them in.
  *
- * The order is load-bearing because a composite's root carries its base's class
- * as well as its own: `Button` renders `UnstyledButton`'s, `Anchor` renders
- * `Text`'s. Both rules weigh one class and both sit in `@layer mantine`, so the
- * later sheet wins — and a list kept alphabetically puts `UnstyledButton`'s
- * `padding: 0` after the padding `Button` asked for. `styles.layer.css` is the
- * order Mantine's own aggregate ships, so it is the one to keep.
+ * All three turn on the same fact: a composite's root carries its base's class
+ * as well as its own — `Button` renders `UnstyledButton`'s, `Anchor` renders
+ * `Text`'s — and no import in the tree names the base. So the presence halves
+ * read the **built HTML and CSS** rather than the import list, and the order
+ * matters at all because both rules weigh one class and both sit in
+ * `@layer mantine`: the later sheet wins, and a list kept alphabetically puts
+ * `UnstyledButton`'s `padding: 0` after the padding `Button` asked for.
+ * `@mantine/core/styles.layer.css` is the order Mantine's own aggregate ships,
+ * so it is the one to keep.
  *
- * It reads the **built HTML and CSS** rather than the import list, so the answer
- * covers what Mantine composes internally: `Button` renders `UnstyledButton`'s
- * class, which no import in the tree names. That is also the limit — a component
- * rendered only after an interaction never reaches a static export, so one that
- * grows that shape needs its sheet confirmed by eye.
+ * Reading the build is also the limit — a component rendered only after an
+ * interaction never reaches a static export, so one that grows that shape needs
+ * its sheet confirmed by eye.
  *
  * Bare Node runs this file, relying on its type stripping: it reads the build
  * output and `node_modules`, and imports nothing from the app.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: which sheet
-   is missing and which is unused is the whole report the non-zero exit refers
-   to. The rule stays `error` in the app, where a stray log ships to a user. */
+   is missing, unused or out of order is the whole report the non-zero exit
+   refers to. The rule stays `error` in the app, where a stray log ships to a
+   user. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -149,7 +151,7 @@ function canonicalRanks(): Map<string, number> {
   for (const [className, sheet] of owner) {
     const at = aggregate.indexOf(`.${className}`);
 
-    if (at < 0) continue;
+    if (at === -1) continue;
 
     firstRule.set(sheet, Math.min(firstRule.get(sheet) ?? at, at));
   }
@@ -188,6 +190,8 @@ function linkedSequence(html: string, dir: string): string[] {
   const seen = new Set<string>();
 
   return [...html.matchAll(STYLESHEET_HREF)].flatMap(([, href]) => {
+    if (href === undefined) return [];
+
     const file = path.join(dir, href);
 
     if (seen.has(file) || !fs.existsSync(file)) return [];
@@ -199,7 +203,10 @@ function linkedSequence(html: string, dir: string): string[] {
 }
 
 /** Every sheet a page loads after one Mantine's own aggregate puts it before. */
-function inversionsIn(sequence: string[], ranks: Map<string, number>): string[] {
+function inversionsIn(
+  sequence: string[],
+  ranks: Map<string, number>,
+): string[] {
   let furthest = { sheet: '', rank: -1 };
 
   return sequence.flatMap((sheet) => {
