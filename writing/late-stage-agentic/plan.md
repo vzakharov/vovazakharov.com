@@ -78,12 +78,13 @@ than the whole of it. What a wiki article does instead is one of the open
 questions at the foot.
 
 A post can run in two voices — what the human said, then the agent's response to
-it, which the human reads aloud on video. The dictations already have the shape:
-a lede, the recording, and the afterword at the foot.
+it, which the human reads aloud on video. The dictations carry the human half: a
+lede, then the recording.
 
-What the second voice costs is on the agent's side, and the bar is set in
-`@.claude/skills/afterword/SKILL.md` rather than here: an actual reading of the
-piece, not a summary with compliments.
+The second voice is the open one, at the foot of this file. What the agent has
+produced so far is a reading addressed to the operator — `/feedback`, which posts
+it as a review on the PR — and prose written for one reader is wrong for another,
+so nothing about it yet says what the published half would be.
 
 ## Concrete before philosophy
 
@@ -145,6 +146,13 @@ draft so the operator can put it back.
   first take into the script for a second — so the open question narrows to
   whether the first take is worth making at all, or whether the thinking should
   start on the page.
+- **The second voice of a two-voice post.** It is specified as far as "the
+  agent's response, read aloud on video" and no further, because no piece has
+  produced one. Every reading the agent has written is feedback for the operator,
+  and its bar — an actual reading of the piece rather than a summary with
+  compliments — is a bar for that addressee. What a second voice owes a stranger
+  reading the post is a different question, and it gets answered against the
+  first one actually made rather than in advance.
 - **Two backlogs for one body of knowledge.** `ideas/` here holds a paragraph
   per unwritten piece, seeded from the promises the recordings make; the rows in
   `writing/linkedin/plan.md` are the same substance pointed at a different
