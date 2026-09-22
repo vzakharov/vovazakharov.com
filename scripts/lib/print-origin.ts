@@ -1,20 +1,13 @@
 /**
- * Where a print fetches its pages from. Three shapes, because a render run has
- * three occasions: a hand-run render spawns the site's own `next dev`, a render
- * beside a dev server that is already up prints from that one, and the deploy
- * prints from the static export it just built.
+ * Where a print fetches its pages from: a `next dev` of this run's own, one
+ * already up, or the static export served the way its host serves it.
  *
- * Only how a server comes to exist differs. The wait, the free port and the
- * teardown are shared, which is what keeps the choice a flag on one script
- * rather than three scripts.
- *
- * **Only the export shape prints what the deploy publishes.** A dev server
- * agrees with it only while nothing hydrates visible text, which is the
- * invariant `.claude/rules/i18n.md` holds: a subtree rendered on the client
- * prints decoration the export never draws, link underlines included, and
- * nothing here can see the difference. So a PDF that ships comes off the
- * export, and the other two shapes are for looking at a page while working on
- * it.
+ * **Only the export shape prints what a deploy publishes.** A dev server agrees
+ * with it while nothing hydrates visible text, which is the invariant
+ * `.claude/rules/i18n.md` holds — a subtree rendered on the client prints
+ * decoration the export never draws, link underlines included, and nothing here
+ * can see the difference. So a PDF that ships comes off the export, and the
+ * other two shapes are for looking at a page while working on it.
  */
 
 /* eslint-disable no-console -- stdout is the calling script's interface, and

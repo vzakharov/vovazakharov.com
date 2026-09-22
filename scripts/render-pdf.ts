@@ -118,13 +118,12 @@ const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 const PRINT_TIMEOUT_MS = 180_000;
 
 /**
- * How many pages print at once. Each print is a Chromium of its own, so the cap
- * is what keeps a collection of any size from asking the machine — and the one
- * server behind it — for more than they have.
+ * How many pages print at once. Each print is a Chromium of its own, and they
+ * share one server, so a collection of any size stays within this.
  */
 const PRINT_WORKERS = Math.min(4, os.availableParallelism());
 
-/** Chromium's own chatter, well under what a runaway page could log. */
+/** Generous for Chromium's chatter, so a noisy page fails on its content rather than its buffer. */
 const PRINT_OUTPUT_LIMIT = 8 * 1024 * 1024;
 
 /**
@@ -231,14 +230,7 @@ function cvPrintables(): Printable[] {
   );
 }
 
-/**
- * Which server this run prints from. The default is the one a hand-run render
- * wants — a `next dev` of its own — and the two flags are the cases it cannot
- * serve: `--origin` prints from a dev server already up, which is the only way
- * to render while `pnpm dev:<site>` holds `apps/<site>/.next/dev/lock`, and
- * `--from-out` prints from the static export, which is what the deploy does and
- * the only shape that cannot disagree with what it publishes.
- */
+/** The flags that pick a print origin; the default is what a hand-run render wants. */
 function printOrigin(): PrintOrigin {
   if (given('origin')) {
     const url = flag('origin');
@@ -258,9 +250,8 @@ function printOrigin(): PrintOrigin {
 }
 
 /**
- * One worker, taking the next printable whenever it is free. Recursive rather
- * than a loop because awaiting each print in turn is the whole point, and a
- * shared queue rather than a fixed split so a slow page holds back only itself.
+ * One worker, taking the next printable whenever it is free. A shared queue
+ * rather than a fixed split, so a slow page holds back only itself.
  */
 async function drain(
   queue: Printable[],
@@ -275,13 +266,6 @@ async function drain(
   return drain(queue, print);
 }
 
-/**
- * `--no-pdf-header-footer` is deliberate. Chrome's default footer prints the
- * URL it fetched — the dev server's `localhost` — and the CLI cannot override
- * it, since `footerTemplate` belongs to the DevTools protocol rather than the
- * flag surface. That text also carries no `ToUnicode` map, so it is neither
- * selectable nor searchable. The page prints its own canonical URL instead.
- */
 /**
  * One Chromium, run to completion. Its output is buffered rather than
  * inherited: several prints share this stdout, and interleaved chatter names no
@@ -300,16 +284,22 @@ async function headless(chromium: string, args: string[]): Promise<void> {
           return;
         }
 
-        // `ExecFileException` is an `Error` by shape and not by construction —
-        // the types package says as much — so it is rewrapped on the way out,
-        // where everything downstream expects a real one. Its message already
-        // carries the command line and Chromium's stderr.
+        // `ExecFileException` is an `Error` by shape and not by construction,
+        // so it is rewrapped for callers that expect a real one. Its message
+        // already carries the command line and Chromium's stderr.
         reject(new Error(error.message, { cause: error }));
       },
     );
   });
 }
 
+/**
+ * `--no-pdf-header-footer` is deliberate. Chrome's default footer prints the
+ * URL it fetched — the server's `localhost` — and the CLI cannot override it,
+ * since `footerTemplate` belongs to the DevTools protocol rather than the flag
+ * surface. That text also carries no `ToUnicode` map, so it is neither
+ * selectable nor searchable. The page prints its own canonical URL instead.
+ */
 async function printRoute(
   { route, outputPath }: Printable,
   origin: string,
@@ -333,9 +323,8 @@ async function printRoute(
     `${origin}${route}`,
   ]);
 
-  // Chromium reports a page it could not print by exiting non-zero, but not
-  // every one: an unwritten file is the case that would otherwise pass as a
-  // render and ship as a 404.
+  // Chromium does not always exit non-zero on a page it could not print, and
+  // an unwritten file would otherwise pass as a render and ship as a 404.
   if (!fs.existsSync(outputPath)) {
     throw new Error(`Printing ${route} wrote no file at ${outputPath}.`);
   }

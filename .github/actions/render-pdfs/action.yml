@@ -12,11 +12,9 @@ inputs:
 runs:
   using: composite
   steps:
-    # After `next build`, not before it: the build rewrites out/ wholesale, and
-    # a manifest sitting in public/ beforehand would be copied into out/ and
-    # served. It is invoked through in-site.sh rather than a
-    # `content:pdf:<site>` script so one call covers every site, including the
-    # ones that print nothing — those cost an exit, no browser and no server.
+    # The whole action runs after `next build`, never before: the build rewrites
+    # out/ wholesale, and a manifest sitting in public/ beforehand would be
+    # copied into out/ and served.
     - name: Restore the last render
       uses: actions/cache/restore@v4
       with:
@@ -32,10 +30,14 @@ runs:
         key: pdf-${{ inputs.site }}-${{ github.sha }}
         restore-keys: pdf-${{ inputs.site }}-
 
-    # A ceiling on the whole render, which the per-print timeout cannot give: a
-    # cold cache prints the collection entire, and that has to fit the deploy's
-    # budget rather than discover its own. `timeout-minutes` is not available
-    # on a composite action's steps, so it is coreutils' own.
+    # in-site.sh rather than a `content:pdf:<site>` script, so one call covers
+    # every site including the ones that print nothing — those cost an exit, no
+    # browser and no server.
+    #
+    # The ceiling is on the whole render, which the per-print timeout cannot
+    # bound: a cold cache prints the collection entire, and that has to fit the
+    # deploy's budget rather than discover its own. It is coreutils' `timeout`
+    # because `timeout-minutes` is unavailable on a composite action's steps.
     - name: Print what drifted
       shell: bash
       run: timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx scripts/render-pdf.ts --from-out
@@ -68,9 +70,9 @@ runs:
           apps/${{ inputs.site }}/public/**/pdf-renders.json
         key: pdf-${{ inputs.site }}-${{ github.sha }}
 
-    # What a PDF looks like is not readable off the diff any more, so the run
-    # that produced it hands one over. A `workflow_dispatch` naming one site is
-    # therefore also how an unmerged branch's PDFs are looked at.
+    # A PDF is not readable off a pull request's diff, so the run that produced
+    # it hands one over — which makes a `workflow_dispatch` naming one site how
+    # an unmerged branch's PDFs are looked at.
     - name: Upload the rendered PDFs
       if: steps.rendered.outputs.count != '0'
       uses: actions/upload-artifact@v4
