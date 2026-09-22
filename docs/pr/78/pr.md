@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-22T12:16:57Z
-- **Updated:** 2026-09-22T16:59:54Z
+- **Updated:** 2026-09-22T17:16:40Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -31,8 +31,8 @@ The plan's three open questions went unanswered, so the recommendations it was w
 - [x] `ci-order` — full dry run per site with the PDFs deleted first: build emits no PDFs into `out/`, the render writes them into `public/`, the copy step lands seven and three at their served paths.
 - [x] `ignored` — `git check-ignore --no-index` matches every PDF and manifest on both sites, and passes over `assets/**/*.pdf`.
 - [x] `empty-site` — `lsa`, which prints nothing, costs an exit: no browser, no server, no `out/` needed.
-- [ ] `ci-cold-cache` — a `workflow_dispatch` on this branch naming `bible` renders its three inside the budget, and `findChromium()` resolves against whatever the runner ships.
-- [ ] `ci-warm-cache` — the same dispatch run a second time reprints nothing, the restored manifests saying so.
+- [x] `ci-cold-cache` — a `workflow_dispatch` on this branch naming `bible` renders its three inside the budget, and `findChromium()` resolves against whatever the runner ships. Run 35758385625: three printed in 11 s, cache saved, all three served 200 `application/pdf` from `agentic.bible`. A `lsa` dispatch before it (run 35758218494) took the zero-file path: no browser, nothing copied, cache save and upload skipped.
+- [x] `ci-warm-cache` — the same dispatch run a second time reprints nothing, the restored manifests saying so. Run 35758634792, on a later commit so the restore went through the `pdf-bible-` prefix rather than an exact key: "3 page PDF(s) asked for, 0 to render", 0.5 s.
 - [ ] `dev-404` — in a tree where nobody rendered, a `.pdf` link answers 404 rather than something worse.
 
 | Item             | Automatable | Covered?                       | Notes                                                                             |
@@ -42,8 +42,8 @@ The plan's three open questions went unanswered, so the recommendations it was w
 | `ci-order`       | only in CI  | no                             | Run by hand here against the real tree.                                           |
 | `ignored`        | yes         | partly — vet's clean-tree flag | `run-parallel.sh` already reports a tree dirtied by a run.                         |
 | `empty-site`     | yes         | no                             | One assertion on exit code; cheap.                                                |
-| `ci-cold-cache`  | only in CI  | no                             | Runnable before merge: dispatch on this branch. Chromium on the runner is load-bearing now. |
-| `ci-warm-cache`  | only in CI  | no                             | The second dispatch. Branch caches don't reach `main`, so the first post-merge deploy is cold regardless. |
+| `ci-cold-cache`  | only in CI  | yes — dispatched               | Runnable before merge: dispatch on this branch. Chromium on the runner is load-bearing now. |
+| `ci-warm-cache`  | only in CI  | yes — dispatched               | The second dispatch. Branch caches don't reach `main`, so the first post-merge deploy is cold regardless. |
 | `dev-404`        | yes         | no                             | The link is derived from the route and never checks the file — read, not run yet. |
 
 https://claude.ai/code/session_01F8kvcAWsgDqWWiRbWRQQwz
@@ -101,9 +101,9 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `.github/actions/render-pdfs/action.yml`:1 — unresolved — last: @vzakharov (human) 2026-09-22T16:57:20Z — "давай" → [↓](#t01)
+- **T01** `.github/actions/render-pdfs/action.yml`:1 — unresolved — last: @vzakharov (human) 2026-09-22T17:16:04Z — "вроде всё ок, спасибо. а можно, чтобы артефакты выдавались н…" → [↓](#t01)
 - **T02** `.github/actions/render-pdfs/action.yml`:1 — resolved — last: @vzakharov (agent) 2026-09-22T13:59:37Z — "Да, на двух уровнях. **Внутри сайта** — `PRINT_WORKERS = Mat…" → [↓](#t02)
-- **T03** `scripts/render-pdf.ts`:16 — unresolved — last: @vzakharov (human) 2026-09-22T16:59:54Z — "давай-ка заведём issue который к проверке медведей добавляет…" → [↓](#t03)
+- **T03** `scripts/render-pdf.ts`:16 — unresolved — last: @vzakharov (human) 2026-09-22T17:16:40Z — "точно, заведи в muthur, а этот закрой. я там ещё один коммен…" → [↓](#t03)
 - **T04** `.gitattributes`:4 — resolved — last: @vzakharov (agent) 2026-09-22T13:59:41Z — "Справедливо — фраза определяла набор через тот, который из д…" → [↓](#t04)
 
 <a id="t01"></a>
@@ -133,6 +133,22 @@ Co-authored-by: Claude <noreply@anthropic.com>
 **@vzakharov (human)** — 2026-09-22T16:57:20Z
 
 давай
+
+**@vzakharov (agent)** — 2026-09-22T17:08:48Z
+
+Прогнал, все три зелёные.
+
+1. **`lsa`**, run 35758218494: «0 page PDF(s) asked for, 0 to render». Браузер не стартовал, копировать было нечего, сохранение кэша и загрузка артефакта пропущены по `count == 0`. Публикация прошла.
+2. **`bible` на холодном кэше**, run 35758385625: кэша нет ни по ключу, ни по префиксу. `findChromium()` нашёл браузер на раннере, три PDF напечатались за 11 с, кэш сохранён, артефакт выложен. Все три отдаются живьём с `agentic.bible`: 200, `application/pdf`, размеры совпадают с тем, что лежит на `gh-pages`.
+3. **`bible` на тёплом кэше**, run 35758634792. Запустил уже на следующем коммите (99aac3e), а не на том же SHA, чтобы кэш восстановился через префикс `pdf-bible-`, как будет на настоящем следующем деплое, а не точным попаданием в ключ. Вышло «3 page PDF(s) asked for, 0 to render», рендер за 0,5 с.
+
+`vova` не трогал: он публикует основной сайт, и о нём речи не было. Чекбоксы `ci-cold-cache` и `ci-warm-cache` в теле PR отмечены. Оговорка про первый деплой после мёрджа в силе: `main` кэш ветки не видит, так что там один раз будет холодно.
+
+**@vzakharov (human)** — 2026-09-22T17:16:04Z
+
+вроде всё ок, спасибо. а можно, чтобы артефакты выдавались не зипом, а прямо списком пдфок? или это не от нас зависит?
+
+<img width="676" height="205" alt="Screenshot 2026-09-22 at 19 15 53" src="./attachments/eaf47034-989a-4455-be09-8ddcb5037cd9.png" />
 
 ---
 
@@ -202,6 +218,18 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 давай-ка заведём issue который к проверке медведей добавляет греп по всем "не-подобным" словам в диффе (nothing, neither, not, none, etc.) -- в трёх найденных выше (и пропущенных изначально) "медведях" их не было.
 
+**@vzakharov (agent)** — 2026-09-22T17:05:12Z
+
+Завёл: #80.
+
+Одна поправка, и она работает на тебя: как раз в этих трёх такие слова **были**, во всех — «not committed files», «Nothing is committed and nothing is vetted», «nothing that is not stored». Пропустил я их не поэтому. У линзы два признака, и ищется грепом только первый — подлежащее из списка удалённых имён. Эта ветка убрала не имя, а свойство: PDF, манифесты и скрипт на месте, просто больше не коммитятся. Список вышел пустой, греп ничего не нашёл, а второй признак держится на внимании при чтении. Твой греп даёт поиск ровно этому второму признаку. На диффе этой ветки он даёт 52 кандидата на 486 добавленных строк, и все три медведя среди них.
+
+В issue есть ещё два пункта. Скилл вендорный из `vzakharov/muthur`, так что правка по-хорошему делается там и приезжает сюда через `/update-muthur`. И шум в основном от кода (`--no-sandbox`, тексты ошибок), поэтому грепать стоит только комментарии и markdown.
+
+**@vzakharov (human)** — 2026-09-22T17:16:40Z
+
+точно, заведи в muthur, а этот закрой. я там ещё один коммент оставил, учти его в новом
+
 ---
 
 <a id="t04"></a>
@@ -232,3 +260,4 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 - **2026-09-22T12:52:15Z** @vzakharov renamed from «docs: plan moving page PDFs from committed to built artifacts» to «refactor: render page PDFs in CI instead of committing them».
 - **2026-09-22T13:52:22Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/78#pullrequestreview-5278582621.
+- **2026-09-22T17:04:59Z** @vzakharov cross-referenced this pull request from [#80 tend-prose negation: grep the added lines for negators, not only for removed nouns](https://github.com/vzakharov/vovazakharov.com/issues/80).
