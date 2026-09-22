@@ -40,7 +40,7 @@ export type ContentDocument = DocumentRef &
     fileName: string;
     /** The authored markdown, as served. */
     markdown: DocumentFile;
-    /** The prebuilt PDF, produced by `pnpm content:pdf:<site>`. */
+    /** The PDF printed beside the markdown — by the deploy, or locally by `pnpm content:pdf:<site>`. */
     pdf: DocumentFile;
     /** The frontmatter's `ogImage`, resolved to where `public/` serves it. */
     ogImageUrl?: string;
