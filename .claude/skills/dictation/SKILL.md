@@ -247,9 +247,7 @@ recording's language, not this file's.
 
 - **The lede** — `## О чём это`, above the recording. Three or four sentences
   on what it says, in the operator's own vocabulary, so that they recognise it
-  rather than decode it. It reports and does not evaluate — judging it is
-  `@.claude/skills/feedback/SKILL.md`'s job, and a lede that starts judging stops
-  being a way back in.
+  rather than decode it.
 - **The beat sheet** — `## Рыба`, between the lede and the recording, in retake
   mode only. The points, the turns and the transitions as a bulleted list, in
   the order the recording takes them: what the speaker glances at before the
@@ -275,9 +273,8 @@ Each one gets its link as the file is written, under the rule
 Burning the words onto the video is `@.claude/skills/subtitles/SKILL.md`, and it
 begins where this skill ends — on the corrected text and the saved response,
 never on a fresh call. Turning a recording into something written for a reader
-is `@.claude/skills/dictation-to-post/SKILL.md`. Saying what you make of what
-they said is `@.claude/skills/feedback/SKILL.md`. None is this skill's work, and
-none starts until the operator has agreed the transcript.
+is `@.claude/skills/dictation-to-post/SKILL.md`. Neither is this skill's work,
+and neither starts until the operator has agreed the transcript.
 
 ## Do NOT
 

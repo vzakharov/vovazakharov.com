@@ -17,7 +17,6 @@ has no language to read, and there the material's decides.
 A reading goes where it can be answered. The operator replies to a block in the
 thread it hangs off, their answer sits under the block rather than beside it, and
 what the two of you settled is legible as an exchange because that is what it is.
-`@.claude/skills/dictation/SKILL.md` names this skill for its transcripts.
 
 **This is not `/code-review`.** That one hunts defects in a diff; this one reads
 a piece — what it argues under what it says, where the argument is missing a

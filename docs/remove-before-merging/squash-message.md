@@ -26,9 +26,10 @@ were compensating for the one channel. Posting ends the skill — the
 blocks are the operator's to answer, and what they answer comes back
 through `/handle`.
 
-`/dictation` stops carrying the reading as a part of the transcript file
-and names `/feedback` beside `/subtitles` and `/dictation-to-post`, the
-other two things that happen to an agreed transcript later. The
+`/dictation` stops mentioning a reading at all: what the agent thinks of
+a recording is not a question transcribing it ever raises, so neither
+the transcript file nor the skill's list of what follows it names
+`/feedback`. The
 late-stage-agentic plan keeps the human half of the two-voice post
 format and files the second voice as open: every reading so far is
 feedback for the operator, and what a stranger reading the post is owed
