@@ -8,41 +8,37 @@ perf: ship only the CSS and JS each page uses (pr #56)
 Every page carried Mantine's entire stylesheet and next-intl's client
 runtime for a fraction of either: 14 of ~200 component stylesheets are
 rendered anywhere on the site, and nothing on it translates in the
-browser at all. Per page, gzipped, over everything the page references:
-255.3 kB on the homepage against 213.1 kB now, and 266.2 kB against
-212.3 kB on the CV.
+browser at all. Per page, gzipped, over everything the page
+references: 255.3 kB on the homepage against 213.1 kB now, and
+266.2 kB against 212.3 kB on the CV.
 
 `theme-provider.tsx` names Mantine's three core stylesheets and one per
-component in use rather than the aggregate `styles.layer.css`, and
-`ThemeCorner` translates the toggle's label with `getTranslations` and
-passes it down.
+component in use rather than the aggregate, and `ThemeCorner`
+translates the toggle's label with `getTranslations`. The CV needed no
+client at all: each locale is already its own page in the export, so
+the runtime was paying to hydrate text that never changes. The sheet
+renders on the server from `cvMessages(locale, variant)` as the typed
+object it already was — every key checked by `tsc` rather than by a
+message-key string — and the strings carrying emphasis hold `**`
+instead of tags, rendered under a closed tag set, since the two other
+readers of the catalogue interpret neither. The markup is byte for
+byte what it was.
 
-The CV needed no client at all. Each locale is already a page of its own
-in the export — `/cv/cto/ru` carries its own text and the language chips
-are plain anchors — so the runtime was paying to hydrate text that never
-changes. The sheet renders on the server and reads `cvMessages(locale,
-variant)` as the typed object it already was, every key checked by `tsc`
-rather than a message-key string. The strings carrying emphasis hold
-`**` rather than tags, since two other readers of the catalogue
-interpret neither, and `react-markdown` renders them under a closed tag
-set. The markup is byte for byte what it was.
+That leaves the constraint as "no page ships the runtime", which a
+lint rule holds with no exemptions: `no-restricted-imports` rejects
+the bare `next-intl` specifier, type imports aside. Two checks cover
+what a lint rule cannot see, both failures being silent ones.
+`check-i18n-payload.ts` reads the built pages for the transitive path,
+asserting its own markers still appear in the installed next-intl
+before trusting them; `check-mantine-styles.ts` holds the stylesheet
+list against the classes the build rendered, an omitted sheet leaving
+its component unstyled without complaint.
 
-That leaves the constraint as "no page ships the runtime", which a lint
-rule can hold with no exemptions: `no-restricted-imports` rejects the
-bare `next-intl` specifier, type imports aside.
-`check-i18n-payload.ts` is the second guard, for the transitive path a
-lint rule cannot see, and it asserts its own markers still appear in the
-installed next-intl before trusting them. `check-mantine-styles.ts`
-holds the stylesheet list the same way, from the built output, because a
-missing sheet renders unstyled in silence.
-
-The committed CV PDFs move with it. They are printed from a dev server,
-where the client-rendered sheet drew eight link underlines the export
-does not; all four now match what the built site prints.
-
-`deploy.yml` publishes on `perf:` as well as `feat:` and `fix:`: on a
-static export, a change that makes a page cheaper to load changes the
-files the CDN serves.
+The committed CV PDFs move with it. They are printed from a dev
+server, where the client-rendered sheet drew eight link underlines the
+export does not, and all four now match what the built site prints.
+`deploy.yml` publishes on `perf:` alongside `feat:` and `fix:`: on a
+static export, making a page cheaper to load changes the files served.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
