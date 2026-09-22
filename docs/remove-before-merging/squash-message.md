@@ -28,9 +28,9 @@ dev server prints what the export prints only while nothing hydrates
 visible text. A failed print fails its lane, leaving the previous
 deploy served rather than a link that 404s, and each lane uploads what
 it printed for anyone wanting to look before merge. Vet loses its two
---check entries, nothing being able to go stale that is not stored, and
-a .pdf link answers 404 in a tree where pnpm content:pdf:<site> has not
-run.
+--check entries, the manifest they compared against now living in each
+lane's cache, and a .pdf link answers 404 in a tree where
+pnpm content:pdf:<site> has not run.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
