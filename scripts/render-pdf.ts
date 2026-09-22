@@ -39,6 +39,7 @@ import net from 'node:net';
 import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 
+import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
@@ -83,9 +84,23 @@ const PRINT_SOURCES = [
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
+  'src/entities/document',
   'src/pages/documents/ui',
   'src/shared/content',
 ];
+
+/**
+ * The mark the pipeline closes an article with, where the site has one. It
+ * prints, so it shapes the page as surely as the stylesheet does — and it sits
+ * under `public/`, which nothing else in these lists reaches.
+ */
+const SEAL_SOURCES = (() => {
+  const { seal } = siteConfig(RENDERED_SITE);
+
+  return seal === undefined
+    ? []
+    : [path.relative(REPO_ROOT, path.join(PUBLIC_DIR, seal.path))];
+})();
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
@@ -165,7 +180,7 @@ function sourceFiles(...sources: string[][]): string[] {
  * pipeline rests on.
  */
 function documentPrintables(): Printable[] {
-  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES);
+  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
   return contentFiles((name) => name.endsWith('.md')).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');
@@ -274,8 +289,13 @@ async function awaitServer(
 }
 
 /**
- * A dev server rather than `next build` plus a static host: the printed page is
- * the same either way, and this is one process to start and stop.
+ * A dev server rather than `next build` plus a static host: one process to
+ * start and stop, and it prints what the export prints — but only while nothing
+ * hydrates visible text, which is the invariant `.claude/rules/i18n.md` holds.
+ * A subtree rendered on the client prints decoration the export never draws,
+ * link underlines included, and no check here can see it. So a change that
+ * moves a subtree across the client boundary wants one page printed off a
+ * static host and compared before its PDFs are trusted.
  *
  * Next is spawned directly and into a process group of its own, so the whole
  * server goes down with the run. Through `pnpm` the kill would reach only the

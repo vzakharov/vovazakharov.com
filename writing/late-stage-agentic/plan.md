@@ -43,9 +43,10 @@ Three things "wiki" does **not** mean here:
   and avoiding it is most of the point. Hence «Библия» as a working name: the
   self-irony is what keeps a categorical article from reading as a manifesto,
   and categorical means _as of writing_, not correct in perpetuity. **That is
-  the name**, settled: the collection is `bible` and it is served at
-  [/bible](https://latestageagentic.com/bible), whose index page says the same
-  thing in the register of a page rather than of a plan. An article
+  the name**, settled: the collection is `bible` and it has a domain named for
+  it — [agentic.bible](https://agentic.bible), where the site _is_ the
+  collection and the home page says the same thing in the register of a page
+  rather than of a plan. An article
   that turns out wrong gets rewritten. The skills this repo runs on are the same
   shape — every one of them a work in progress, none of them ending in «аминь» —
   so stating flatly what to do today claims nothing about having finished the

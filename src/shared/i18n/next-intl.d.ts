@@ -1,9 +1,9 @@
 import type { Messages } from './load-messages';
 import type { Locale } from './routing';
 
-// Registers the catalogs with next-intl so `useTranslations` keys are checked
-// against `en.json` and `useMessages()` returns the catalog's real shape rather
-// than `any` — which is what lets the CV read its structured lists without a cast.
+// Registers the catalogs with next-intl so `getTranslations` keys are checked
+// against `en.json`. That server call is the only one this types: everything
+// else reads `Messages` directly, where the shape is already the catalog's own.
 
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- declaration
    merging into a library's own type is only expressible as an `interface`, so

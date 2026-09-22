@@ -1,0 +1,72 @@
+@use '../../../../styles/mantine' as mantine;
+
+// The wrapper is the seal's own size, which is what keeps the wax centred on
+// the page: the caption is taken out of flow against it, where in flow the two
+// would centre as a pair and push the seal off to the left.
+.seal {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-inline: auto;
+}
+
+// The two cuts stack, so fading the top one reveals the same seal minus one
+// path — the lettering comes off rather than crossing into another drawing.
+.cut {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.caption {
+  position: absolute;
+  inset-inline-start: 100%;
+  top: 50%;
+  width: max-content;
+  max-width: 16em;
+  margin-inline-start: 16px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.4;
+
+  // Against the centred header it sits in, and honouring the break the copy
+  // itself authors.
+  text-align: start;
+  white-space: pre-line;
+  opacity: 0;
+  pointer-events: none;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    inset-inline-start: 50%;
+    top: 100%;
+    margin: 12px 0 0;
+    transform: translateX(-50%);
+  }
+}
+
+.lettered,
+.caption {
+  // Held for three seconds, not timed: the delay under `:hover` is what makes
+  // the fade start that late, and a pointer that leaves earlier reverts to the
+  // rule below, whose zero delay snaps it back at once.
+  transition: opacity 0.6s ease 0s;
+}
+
+// `(hover: hover)` alone, rather than the shared mixin, which falls back to
+// `:active` where nothing hovers — an easter egg that fires on the first tap
+// has stopped being one.
+@media (hover: hover) {
+  .seal:hover {
+    .lettered {
+      opacity: 0;
+      transition-delay: 3s;
+    }
+
+    .caption {
+      opacity: 0.75;
+      transition-delay: 3s;
+    }
+  }
+}

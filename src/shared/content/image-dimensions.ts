@@ -3,12 +3,9 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from './collections';
+import type { Sized } from '@/shared/typings';
 
-export type Sized = {
-  width: number;
-  height: number;
-};
+import { PUBLIC_DIR } from './collections';
 
 /**
  * Absent wherever the Open Graph card falls back to the site avatar, whose size

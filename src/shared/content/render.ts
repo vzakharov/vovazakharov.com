@@ -14,7 +14,7 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl } from '@/shared/config';
+import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
 import type { CollectionId, Variant } from './collections';
@@ -26,6 +26,7 @@ import {
 } from './documents';
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
+import { rehypeEndMark } from './plugins/rehype-end-mark';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
 import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
@@ -139,6 +140,8 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
     headings: [] as Heading[],
   };
 
+  const { seal } = SITE_CONFIG;
+
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -170,6 +173,8 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
       fallbackLanguage: 'text',
       langs: CODE_LANGUAGES,
     });
+
+  if (seal !== undefined) processor.use(rehypeEndMark, { seal });
 
   // `run` rather than `process`: the pipeline has no compiler, the tree itself
   // being what the page renders.

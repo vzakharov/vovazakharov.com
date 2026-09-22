@@ -81,57 +81,6 @@ h1[data-order='1'].articleTitle {
   }
 }
 
-// A byline that wraps sets its rows closer than the gap between its parts.
-.meta {
-  row-gap: 4px;
-}
-
-.cardMeta {
-  margin-bottom: 12px;
-}
-
-// Each entry carries its own drawing, and the side it sits on alternates down
-// the list so a stack of them does not read as a form. Narrow, the column is
-// the only arrangement left, and the drawing leads.
-.cardLayout {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 24px;
-
-    &.cardLayoutFlipped {
-      flex-direction: row-reverse;
-    }
-  }
-}
-
-// `height: auto` against the attributes: they state the intrinsic ratio so the
-// row reserves the space before the file lands, and the width here is what the
-// layout actually wants.
-.cardImage {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex: none;
-    width: 200px;
-  }
-}
-
-// A cut sits below the full document it belongs to, and comes back up on hover.
-.variantLink {
-  opacity: 0.7;
-
-  @include mantine.hover {
-    opacity: 1;
-  }
-}
-
 .toc {
   font-size: 14px;
 
@@ -229,6 +178,12 @@ h1[data-order='1'].articleTitle {
       padding: 0;
       display: table-cell;
     }
+
+    // The band `.printedFrom` is painted into. Stated because that footer is
+    // out of flow and reserves nothing; its type size is what moves this.
+    > tfoot > tr > td {
+      height: 1cm;
+    }
   }
 }
 
@@ -242,15 +197,21 @@ h1[data-order='1'].articleTitle {
   // and a notice rather than prose. It also settles the ©, which Merriweather
   // draws on the ascender band — 0.86em against the caps' 0.75em, so it rides
   // visibly above the name beside it. The mono face draws it on the cap band.
-  // Stated on the children because `print.scss` sizes `p` by element name, and
-  // a size on this element alone would not outrank it.
-  > * {
+  // Stated on every descendant, not this element: `print.scss` sizes `p` by
+  // name and Mantine sizes its own `Anchor`, so a size here is only inherited
+  // and loses to both — the credit link nested in the © line included.
+  * {
     font-family: var(--mantine-font-family-monospace);
     font-size: 11.5px;
   }
 
   @media print {
-    > * {
+    // Pinned to the page box rather than left in the `<tfoot>`'s own flow,
+    // which on the last page puts this under the prose instead of at the foot.
+    position: fixed;
+    inset: auto 0 0;
+
+    * {
       font-size: 8.5pt;
     }
   }

@@ -9,9 +9,9 @@ import type { Named } from '@/shared/typings';
  * square and its Open Graph card reads the same bytes. `priority` because the
  * mark is above the fold wherever it renders.
  *
- * Takes the site rather than reading it: `@/shared/ui` is a barrel client
- * components import, so reaching `@/shared/config/index.server-only` from
- * inside it would put the resolved configuration in the browser.
+ * Takes the site rather than reading it: `@/shared/ui` is the barrel client
+ * components import, and a component in it that read the resolved site would be
+ * bound to whichever one this process is.
  */
 export function SiteAvatar({
   name,

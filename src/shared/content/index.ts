@@ -13,6 +13,7 @@ export {
   type Routed,
   type Variant,
   VARIANTS,
+  type WithCollectionId,
 } from './collections';
 export {
   type ContentDocument,
@@ -25,7 +26,6 @@ export {
 export type { Frontmatter, WithFrontmatter } from './frontmatter';
 export {
   intrinsicDimensions,
-  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 export {

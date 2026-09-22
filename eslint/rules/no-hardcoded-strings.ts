@@ -5,8 +5,9 @@ import type { JSXAttribute } from 'estree-jsx';
  * Disallow hardcoded string literals on user-facing JSX props.
  *
  * User-facing copy belongs in `messages/en.json` and `messages/ru.json`, read
- * through next-intl's `useTranslations`/`getTranslations`. A literal in JSX is
- * rendered verbatim in both locales, so it silently defeats the `ru` catalog.
+ * on the server — `getTranslations`, or the catalog itself — and passed down as
+ * a prop. A literal in JSX is rendered verbatim in both locales, so it silently
+ * defeats the `ru` catalog.
  */
 const rule: Rule.RuleModule = {
   meta: {
@@ -18,7 +19,7 @@ const rule: Rule.RuleModule = {
     schema: [],
     messages: {
       noHardcodedString:
-        'User-facing string "{{value}}" should come from messages/*.json via useTranslations(), not a hardcoded literal — a literal renders untranslated in every locale.',
+        'User-facing string "{{value}}" should come from messages/*.json, read on the server and passed down, not a hardcoded literal — a literal renders untranslated in every locale.',
     },
   },
 
