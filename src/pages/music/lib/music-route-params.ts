@@ -1,41 +1,39 @@
 import 'server-only';
 
-import { z } from 'zod';
-
-import { DEFAULT_LOCALE, isLocale, type Locale, LOCALES } from '@/shared/i18n';
 import {
-  localeSchema,
+  DEFAULT_LOCALE,
+  isLocale,
+  type Locale,
+  LOCALES,
+  type LocaleTail,
   localeTailAddresses,
-  localeTailSchema,
-} from '@/shared/i18n/index.server-only';
+} from '@/shared/i18n';
+import { oneOfEach } from '@/shared/lib/collections';
 
 import { listSongDocuments } from './songs';
 
-/** The catch-all's segments as a route hands them over, before the schema narrows them. */
+/** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
 
-/** A slug that cannot be read as a language — `/music/ru` is the index in Russian. */
-const songSlugSchema = z
-  .string()
-  .min(1)
-  .refine((slug) => !isLocale(slug), {
-    message: 'a song slug cannot be a locale: /music/<locale> is the index',
-  });
+/** `/music`, `/music/<locale>`, `/music/<slug>` and `/music/<slug>/<locale>`. */
+export type MusicSegments = [Locale] | LocaleTail<string>;
 
 /**
- * `/music`, `/music/<locale>`, `/music/<slug>` and `/music/<slug>/<locale>`, in
- * that order of preference — the index's language is tried first, and the slug
- * schema rejects a locale anyway, so neither reading can steal the other's URL.
+ * A parse rather than a cast, failing `next build` on a segment no reading
+ * covers. The index's language is tried first — `/music/ru` is the index in
+ * Russian — and `listSongDocuments` refuses a slug that is a locale, so neither
+ * reading can steal the other's URL.
  */
-export const musicSegmentsSchema = z.object({
-  slugAndLocale: z
-    .union([z.tuple([localeSchema]), localeTailSchema(songSlugSchema)])
-    .default([]),
-});
+export function parseMusicSegments({
+  slugAndLocale = [],
+}: WithOptionalMusicSegments): MusicSegments {
+  const [head, ...tail] = slugAndLocale;
 
-export type MusicSegments = z.infer<
-  typeof musicSegmentsSchema
->['slugAndLocale'];
+  if (head === undefined) return [];
+  if (isLocale(head)) return oneOfEach([LOCALES], slugAndLocale);
+
+  return [head, ...oneOfEach([LOCALES], tail)];
+}
 
 /** Which page an address resolves to: the index or one song, in one language. */
 export function musicAddressDefaults(address: MusicSegments): {

@@ -6,7 +6,7 @@ import {
   musicAddressDefaults,
   MusicPage,
   musicSegmentParams,
-  musicSegmentsSchema,
+  parseMusicSegments,
   SongPage,
   type WithOptionalMusicSegments,
 } from '@/pages/music';
@@ -18,8 +18,9 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { slugAndLocale } = musicSegmentsSchema.parse(await params);
-  const { slug, locale } = musicAddressDefaults(slugAndLocale);
+  const { slug, locale } = musicAddressDefaults(
+    parseMusicSegments(await params),
+  );
 
   return slug === undefined
     ? generateMusicMetadata(locale)
@@ -27,8 +28,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function Page({ params }: Props) {
-  const { slugAndLocale } = musicSegmentsSchema.parse(await params);
-  const { slug, locale } = musicAddressDefaults(slugAndLocale);
+  const { slug, locale } = musicAddressDefaults(
+    parseMusicSegments(await params),
+  );
 
   return slug === undefined ? (
     <MusicPage {...{ locale }} />

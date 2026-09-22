@@ -5,14 +5,23 @@
 
 import path from 'node:path';
 
+// Type-only, and it has to stay that way: bare Node erases the statement
+// rather than resolving an `@/` alias it cannot follow, and a value import
+// would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
+import type { SiteId, WithSiteId } from '@/shared/config';
+
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies', 'music'] as const;
+export const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
 /**
  * The one place a content URL shape is decided. Routes, the sitemap and the
  * index cards all derive from it, so a new collection is an entry here.
+ *
+ * A collection belongs to one site, and every walk over the registry filters by
+ * that: `public/` is per app, so the other site's build would otherwise read a
+ * directory that is not there.
  */
 export const COLLECTIONS = {
   'case-studies': {
@@ -20,21 +29,42 @@ export const COLLECTIONS = {
      * is what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
+    site: 'vova',
     printable: true,
     /** English only, and the body is where its title comes from. */
+    localized: false,
+  },
+  bible: {
+    /** Rooted: the domain is named for the collection, so the route does not
+     * say so a second time. An empty base is what `collectionPath` drops. */
+    base: '',
+    label: 'The Bible',
+    site: 'bible',
+    printable: true,
     localized: false,
   },
   music: {
     base: 'music',
     label: 'Songs',
+    site: 'vova',
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
     localized: true,
   },
 } as const satisfies Record<
   CollectionId,
-  { base: string; label: string; printable: boolean; localized: boolean }
+  WithSiteId & {
+    base: string;
+    label: string;
+    printable: boolean;
+    localized: boolean;
+  }
 >;
+
+/** The collections one site serves — every registry walk starts here. */
+export function collectionsForSite(site: SiteId): CollectionId[] {
+  return COLLECTION_IDS.filter((id) => COLLECTIONS[id].site === site);
+}
 
 /** The document the home page and the CV both cross-link. */
 export const FEATURED_CASE_STUDY = 'playgram';
@@ -60,18 +90,38 @@ export type DocumentRef = WithCollectionId & Slugged;
  */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
+/**
+ * Where the pipeline's whole-site renders land under `public/`, and the one
+ * directory a walk for sources skips: an output read back as an input never
+ * settles, a render's own product hashing into the source set that decides
+ * whether it is stale. The name is therefore a contract — a run writes here
+ * and never reads here.
+ *
+ * A rooted collection's directory is the site's whole `public/`, which is what
+ * makes that separation this constant rather than where the directories sit.
+ */
+export const GENERATED_DIR = 'generated';
+
 export function collectionDir(id: CollectionId): string {
   return path.join(PUBLIC_DIR, COLLECTIONS[id].base);
 }
 
-/** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
-export function collectionAssetUrl(id: CollectionId, fileName: string): string {
-  return `/${COLLECTIONS[id].base}/${fileName}`;
+/**
+ * A site-root path inside a collection — the empty base of a rooted collection
+ * dropping out rather than doubling the separator.
+ */
+function collectionPath(id: CollectionId, ...segments: string[]): string {
+  return `/${[COLLECTIONS[id].base, ...segments].filter(Boolean).join('/')}`;
 }
 
-/** The route base of a collection — its index page. */
+/** Site-root URL of a file inside a collection, i.e. where `public/` serves it. */
+export function collectionAssetUrl(id: CollectionId, fileName: string): string {
+  return collectionPath(id, fileName);
+}
+
+/** The route base of a collection — its index page, or the site's home where it is rooted. */
 export function collectionRoute(id: CollectionId): string {
-  return `/${COLLECTIONS[id].base}`;
+  return collectionPath(id);
 }
 
 /**
@@ -84,7 +134,7 @@ export function documentRoute(
   slug: string,
   variant?: Variant,
 ): string {
-  return `${collectionRoute(id)}/${documentName(slug, variant)}`;
+  return collectionPath(id, documentName(slug, variant));
 }
 
 /** The route of the case study the home page and the CV cross-link. */

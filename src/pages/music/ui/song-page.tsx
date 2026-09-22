@@ -25,15 +25,19 @@ import {
   type Locale,
   type WithLocale,
 } from '@/shared/i18n';
-import { constructMetadata, localizedAddresses } from '@/shared/seo';
+import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
 import {
   BackToHome,
   FileLink,
   hoverDim,
   InternalLink,
   PageShell,
-  ProseContent,
 } from '@/shared/ui';
+
+import { ProseContent } from '@/entities/document';
 
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
@@ -92,7 +96,7 @@ function songFacts(document: SongDocument, locale: Locale): string[] {
 export async function SongPage({ slug, locale }: SongPageProps) {
   const document = resolve(slug);
   const localized = localizeSong(document, locale);
-  const { html } = await renderDocument(localized);
+  const { tree } = await renderDocument(localized);
   const { title, description, date, repo, explicit } = localized.frontmatter;
   const messages = loadMessages(locale).music;
   const lyrics = songLyrics(document, locale);
@@ -163,7 +167,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
           </Stack>
         </Box>
 
-        <ProseContent {...{ html }} />
+        <ProseContent {...{ tree }} />
 
         {lyrics && <Lyrics {...{ lyrics, locale }} />}
 

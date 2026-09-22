@@ -1,22 +1,31 @@
 #!/usr/bin/env tsx
 
 /**
- * Prints every printable page to a committed PDF at that page's own URL plus an
+ * Prints every printable page to a PDF at that page's own URL plus an
  * extension: each document and its cuts beside the markdown they were authored
  * as (`/case-studies/playgram.mini.pdf`), and the CV once per framing and
  * language (`/cv/cto/en.pdf`).
  *
- * A static export has no request-time renderer, so the alternative to a
- * committed file is no PDF at all. It is each page's existing print stylesheet
- * that is printed, not a layout of its own.
+ * A static export has no request-time renderer, so the alternative to a file
+ * produced ahead of the request is no PDF at all. It is each page's existing
+ * print stylesheet that is printed, not a layout of its own.
  *
- * Run by hand when a printable or anything shaping its printed form changes —
- * never by `next build`, so CI installs no browser. `--check` keeps that
- * honest: it hashes each PDF's whole source set against the manifest, needing
- * no browser, which is why `vet.sh` can run it beside every other check.
+ * **The PDFs are build artifacts.** The deploy runs this after `next build`
+ * with `--from-out` and copies what it produces into `out/`, so the `.pdf` link
+ * a page always emits answers 404 in a tree where this has not run —
+ * `.claude/rules/content.md` carries the whole contract.
  *
- *   pnpm content:pdf            # render what changed, prune what is gone
- *   pnpm content:pdf --check    # report staleness, write nothing
+ * A render that says the same thing as the file already there keeps that file's
+ * bytes, which is what lets a restored cache stay a cache rather than churn.
+ *
+ *   pnpm content:pdf:<site>                 # spawn a dev server and print from it
+ *   pnpm content:pdf:<site> --origin <url>  # print from a server already up
+ *   pnpm content:pdf:<site> --from-out      # print from `out/`, as the deploy does
+ *   pnpm content:pdf:<site> --check         # report staleness, write nothing
+ *
+ * One run serves one site, because it is entered in that app's directory —
+ * which is what `public/`, `out/` and the dev server it spawns all resolve
+ * against.
  *
  * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
  * the `i18n` barrel behind them is a JSON import bare Node cannot take without
@@ -27,12 +36,12 @@
    the `--check` staleness report, and the prune log are what a human runs it
    for. The rule stays `error` in the app, where a stray log ships to a user. */
 
-import { execFileSync, spawn } from 'node:child_process';
+import { execFile } from 'node:child_process';
 import fs from 'node:fs';
-import net from 'node:net';
+import os from 'node:os';
 import path from 'node:path';
-import { setTimeout as sleep } from 'node:timers/promises';
 
+import { siteConfig } from '@/shared/config/site-config';
 import { PUBLIC_DIR, type Routed } from '@/shared/content/collections';
 import { contentHash } from '@/shared/content/content-hash';
 import { routing } from '@/shared/i18n';
@@ -40,15 +49,19 @@ import { routing } from '@/shared/i18n';
 import { cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 
+import { flag, given } from './lib/argv.ts';
 import { findChromium } from './lib/chromium.ts';
 import {
   CONTENT_DIRS,
   contentFiles,
   filesUnder,
   PRINTABLE_CONTENT_DIRS,
+  RENDERED_SITE,
   REPO_ROOT,
 } from './lib/content-tree.ts';
+import { type PrintOrigin, withPrintOrigin } from './lib/print-origin.ts';
 import { type Renderable, runRenderJob } from './lib/render-manifest.ts';
+import { sameRender } from './lib/same-render.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
 type Printable = Renderable & Routed;
@@ -58,39 +71,64 @@ const MANIFEST_NAME = 'pdf-renders.json';
 
 /**
  * What shapes any printed page: the print sheet, the theme it is drawn with,
- * the presentation components, and the site identity the footer prints.
+ * the presentation components and the helpers they are built from, and the site
+ * identity the footer prints.
  * Anything omitted here can ship behind a PDF the check calls fresh; the price
- * of casting it wide is that a tweak to any of it re-flags every PDF, and that
- * costs one `pnpm content:pdf` run.
+ * of casting it wide is that a tweak to any of it re-flags every PDF on every
+ * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
   'src/app/styles/print.scss',
   'src/app/styles/theme.ts',
   'src/app/styles/theme.module.scss',
+  // Names Mantine's sheets and their order, which decide what a rule on the
+  // page resolves to.
+  'src/app/ui/theme-provider.tsx',
   'src/shared/config',
+  'src/shared/lib',
   'src/shared/ui',
 ];
 
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
   'src/app/styles/prose.scss',
-  'src/pages/case-studies/ui',
+  'src/entities/document',
+  'src/pages/documents/ui',
   'src/shared/content',
 ];
+
+/**
+ * The mark the pipeline closes an article with, where the site has one. It
+ * prints, so it shapes the page as surely as the stylesheet does — and it sits
+ * under `public/`, which nothing else in these lists reaches.
+ */
+const SEAL_SOURCES = (() => {
+  const { seal } = siteConfig(RENDERED_SITE);
+
+  return seal === undefined
+    ? []
+    : [path.relative(REPO_ROOT, path.join(PUBLIC_DIR, seal.path))];
+})();
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/pages/cv'];
 
-const CV_DIR = path.join(PUBLIC_DIR, cvPath());
+/** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
+const PRINTS_CV = RENDERED_SITE === 'vova';
 
-/** How long the dev server gets to answer before the run is abandoned. */
-const SERVE_TIMEOUT_MS = 120_000;
+const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** How long one print gets, the route's first compile included. */
 const PRINT_TIMEOUT_MS = 180_000;
 
-/** How often the wait for the dev server retries. */
-const POLL_INTERVAL_MS = 500;
+/**
+ * How many pages print at once. Each print is a Chromium of its own, and they
+ * share one server, so a collection of any size stays within this.
+ */
+const PRINT_WORKERS = Math.min(4, os.availableParallelism());
+
+/** Generous for Chromium's chatter, so a noisy page fails on its content rather than its buffer. */
+const PRINT_OUTPUT_LIMIT = 8 * 1024 * 1024;
 
 /**
  * Hashes a file set by path and content, so a rename counts as a change. The
@@ -153,7 +191,7 @@ function sourceFiles(...sources: string[][]): string[] {
  * pipeline rests on.
  */
 function documentPrintables(): Printable[] {
-  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES);
+  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
   return contentFiles(
     (name) => name.endsWith('.md'),
@@ -179,6 +217,8 @@ function documentPrintables(): Printable[] {
  * English leaves the Russian print alone.
  */
 function cvPrintables(): Printable[] {
+  if (!PRINTS_CV) return [];
+
   const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);
 
   return CV_VARIANTS.flatMap((variant) =>
@@ -197,143 +237,133 @@ function cvPrintables(): Printable[] {
   );
 }
 
-async function freePort(): Promise<number> {
+/** The flags that pick a print origin; the default is what a hand-run render wants. */
+function printOrigin(): PrintOrigin {
+  if (given('origin')) {
+    const url = flag('origin');
+
+    if (url === undefined || url.startsWith('-')) {
+      throw new Error(
+        '`--origin` needs a URL, e.g. `--origin http://localhost:3000`.',
+      );
+    }
+
+    return { serve: 'url', origin: url.replace(/\/+$/, '') };
+  }
+
+  return given('from-out')
+    ? { serve: 'export', dir: path.join(process.cwd(), 'out') }
+    : { serve: 'dev', site: RENDERED_SITE };
+}
+
+/**
+ * One worker, taking the next printable whenever it is free. A shared queue
+ * rather than a fixed split, so a slow page holds back only itself.
+ */
+async function drain(
+  queue: Printable[],
+  print: (printable: Printable) => Promise<void>,
+): Promise<void> {
+  const next = queue.shift();
+
+  if (next === undefined) return;
+
+  await print(next);
+
+  return drain(queue, print);
+}
+
+/**
+ * One Chromium, run to completion. Its output is buffered rather than
+ * inherited: several prints share this stdout, and interleaved chatter names no
+ * route. A failure carries the whole command line, the page's URL included, so
+ * the buffer is worth reading only when there is one.
+ */
+async function headless(chromium: string, args: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
-    const server = net.createServer();
+    execFile(
+      chromium,
+      args,
+      { timeout: PRINT_TIMEOUT_MS, maxBuffer: PRINT_OUTPUT_LIMIT },
+      (error) => {
+        if (error === null) {
+          resolve();
+          return;
+        }
 
-    server.on('error', reject);
-    server.listen(0, () => {
-      const address = server.address();
-
-      if (address === null || typeof address === 'string') {
-        reject(new Error('The OS gave no port to render on.'));
-        return;
-      }
-
-      server.close(() => {
-        resolve(address.port);
-      });
-    });
+        // `ExecFileException` is an `Error` by shape and not by construction,
+        // so it is rewrapped for callers that expect a real one. Its message
+        // already carries the command line and Chromium's stderr.
+        reject(new Error(error.message, { cause: error }));
+      },
+    );
   });
 }
 
 /**
- * A served page, read to the end. Draining the body matters: an unread response
- * leaves the socket half-consumed, and the dev server closes it under the next
- * request — which surfaces as a socket error rather than as a retry.
- */
-async function served(url: string): Promise<boolean> {
-  try {
-    const response = await fetch(url);
-    await response.arrayBuffer();
-
-    return response.ok;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Waits for the server to answer at all — it refuses connections until it is
- * listening, then pays a compile cost, so the wait is a poll. Each route's own
- * first compile needs no such warm-up: it happens inside Chromium's request,
- * which waits for it like any client.
- */
-async function awaitServer(
-  origin: string,
-  server: ReturnType<typeof spawn>,
-  deadline: number = Date.now() + SERVE_TIMEOUT_MS,
-): Promise<void> {
-  if (await served(origin)) return;
-
-  if (server.exitCode !== null) {
-    throw new Error(
-      `The dev server exited with ${server.exitCode} before answering on ` +
-        `${origin}. Run \`pnpm dev:vova\` to see why.`,
-    );
-  }
-
-  if (Date.now() > deadline) {
-    throw new Error(`The dev server did not answer on ${origin}.`);
-  }
-
-  await sleep(POLL_INTERVAL_MS);
-
-  return awaitServer(origin, server, deadline);
-}
-
-/**
- * A dev server rather than `next build` plus a static host: the printed page is
- * the same either way, and this is one process to start and stop.
- *
- * Next is spawned directly and into a process group of its own, so the whole
- * server goes down with the run. Through `pnpm` the kill would reach only the
- * wrapper, and the `next dev` it left behind holds `.next/dev/lock` against
- * every later run.
- */
-async function withDevServer(
-  run: (origin: string, server: ReturnType<typeof spawn>) => Promise<void>,
-): Promise<void> {
-  const port = await freePort();
-  const origin = `http://localhost:${port}`;
-  const server = spawn(
-    path.join(REPO_ROOT, 'node_modules', '.bin', 'next'),
-    ['dev', '--port', String(port)],
-    { stdio: 'ignore', detached: true },
-  );
-
-  try {
-    console.log(`  waiting for the dev server on ${origin} …`);
-    await run(origin, server);
-  } finally {
-    if (server.pid !== undefined && server.exitCode === null) {
-      process.kill(-server.pid, 'SIGTERM');
-    }
-  }
-}
-
-/**
  * `--no-pdf-header-footer` is deliberate. Chrome's default footer prints the
- * URL it fetched — the dev server's `localhost` — and the CLI cannot override
- * it, since `footerTemplate` belongs to the DevTools protocol rather than the
- * flag surface. That text also carries no `ToUnicode` map, so it is neither
+ * URL it fetched — the server's `localhost` — and the CLI cannot override it,
+ * since `footerTemplate` belongs to the DevTools protocol rather than the flag
+ * surface. That text also carries no `ToUnicode` map, so it is neither
  * selectable nor searchable. The page prints its own canonical URL instead.
  */
-function printRoute(
+async function printRoute(
   { route, outputPath }: Printable,
   origin: string,
   chromium: string,
-): void {
+): Promise<void> {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
-  execFileSync(
-    chromium,
-    [
-      '--headless',
-      '--disable-gpu',
-      '--no-sandbox',
-      '--hide-scrollbars',
-      '--no-pdf-header-footer',
-      // Without it the print can fire before the page's images have painted.
-      '--virtual-time-budget=20000',
-      `--print-to-pdf=${outputPath}`,
-      `${origin}${route}`,
-    ],
-    { stdio: 'inherit', timeout: PRINT_TIMEOUT_MS },
-  );
+  const previous = fs.existsSync(outputPath)
+    ? fs.readFileSync(outputPath)
+    : undefined;
 
-  console.log(
-    `  rendered ${path.relative(REPO_ROOT, outputPath)} from ${route}`,
-  );
+  await headless(chromium, [
+    '--headless',
+    '--disable-gpu',
+    '--no-sandbox',
+    '--hide-scrollbars',
+    '--no-pdf-header-footer',
+    // Without it the print can fire before the page's images have painted.
+    '--virtual-time-budget=20000',
+    `--print-to-pdf=${outputPath}`,
+    `${origin}${route}`,
+  ]);
+
+  // Chromium does not always exit non-zero on a page it could not print, and
+  // an unwritten file would otherwise pass as a render and ship as a 404.
+  if (!fs.existsSync(outputPath)) {
+    throw new Error(`Printing ${route} wrote no file at ${outputPath}.`);
+  }
+
+  const relative = path.relative(REPO_ROOT, outputPath);
+
+  if (
+    previous !== undefined &&
+    sameRender(previous, fs.readFileSync(outputPath))
+  ) {
+    // Restoring the previous bytes skips the write, not the bookkeeping:
+    // `runRenderJob` records the new source hash either way.
+    fs.writeFileSync(outputPath, previous);
+    console.log(`  kept ${relative} — the render is unchanged`);
+    return;
+  }
+
+  console.log(`  rendered ${relative} from ${route}`);
 }
 
 async function printAll(stale: Printable[]): Promise<void> {
   const chromium = findChromium();
+  const queue = [...stale];
 
-  await withDevServer(async (origin, server) => {
-    await awaitServer(origin, server);
-
-    for (const printable of stale) printRoute(printable, origin, chromium);
+  await withPrintOrigin(printOrigin(), async (origin) => {
+    await Promise.all(
+      Array.from({ length: Math.min(PRINT_WORKERS, queue.length) }, async () =>
+        drain(queue, async (printable) =>
+          printRoute(printable, origin, chromium),
+        ),
+      ),
+    );
   });
 }
 
@@ -344,7 +374,7 @@ await runRenderJob(
     isOutput: (name) => name.endsWith('.pdf'),
     // The CV's renders sit outside the content tree, so its root is walked too
     // — otherwise a pruned render's manifest is never found.
-    manifestDirs: [...CONTENT_DIRS, CV_DIR],
+    manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
     entries: [...documentPrintables(), ...cvPrintables()],
     render: printAll,
   },

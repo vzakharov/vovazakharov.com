@@ -61,7 +61,17 @@ const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 // See .claude/rules/fsd.md.
-const PUBLIC_API = ['index.ts', 'index.server-only.ts'];
+const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
+
+// `shared/lib` holds one sub-library per file instead of a segment-wide barrel,
+// so a file there is its own public API — there is nothing beside it to hide.
+// Entry stays at the top level: `*.ts` does not cross a slash, so anything a
+// sub-library grows a directory for is internals again. See .claude/rules/fsd.md.
+const SHARED_LIB_ENTRY = {
+  type: 'shared',
+  captured: { segmentName: 'lib' },
+  fileInternalPath: '*.ts',
+};
 
 // Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
 // discipline at CLI time; boundaries restates them as inline editor feedback,
@@ -89,15 +99,6 @@ const boundariesConfig: Config = {
         capture: ['sliceName'],
         partialMatch: false,
       })),
-      // Ordered before the generic shared pattern so it wins the match:
-      // shared/lib is addressed one sub-library at a time, never through a
-      // segment-wide barrel.
-      {
-        type: 'shared',
-        pattern: ['src/shared/lib/(*)/**'],
-        capture: ['segmentName'],
-        partialMatch: false,
-      },
       {
         type: 'shared',
         pattern: ['src/shared/(*)/**'],
@@ -131,6 +132,12 @@ const boundariesConfig: Config = {
             from: { element: { type: 'app' } },
             allow: { to: { element: { type: 'app' } } },
           },
+          // Entering `shared/lib` does not vary by the layer doing it, so one
+          // policy grants it to every layer above shared.
+          {
+            from: { element: { types: { anyOf: ['app', ...FSD_LAYERS] } } },
+            allow: { to: { element: SHARED_LIB_ENTRY } },
+          },
           ...FSD_LAYERS.flatMap((layer, index) => [
             // Downward, and only through the target's public API.
             {
@@ -159,24 +166,13 @@ const boundariesConfig: Config = {
               },
             },
           ]),
+          // Shared is a layer and a slice at once — FSD's own exception, which
+          // is why every file in it reaches every other directly, the way the
+          // app layer's segments do. The public API it exposes is the one the
+          // layers above enter by, not a wall between its own segments.
           {
             from: { element: { type: 'shared' } },
-            allow: {
-              to: {
-                element: { type: 'shared', fileInternalPath: PUBLIC_API },
-              },
-            },
-          },
-          {
-            from: { element: { type: 'shared' } },
-            allow: {
-              to: {
-                element: {
-                  type: 'shared',
-                  captured: { segmentName: '{{ from.captured.segmentName }}' },
-                },
-              },
-            },
+            allow: { to: { element: { type: 'shared' } } },
           },
         ],
       },

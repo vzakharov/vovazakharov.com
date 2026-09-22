@@ -4,6 +4,8 @@
  * the i18n runtime into the browser bundle.
  */
 
+import { isOneOf } from '@/shared/lib/collections';
+
 export const LOCALES = ['en', 'ru'] as const;
 
 export type Locale = (typeof LOCALES)[number];
@@ -11,23 +13,24 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'en';
 
 /**
- * Whether a URL segment names a language — the check a locale-last route needs
- * where the schema cannot go: in the browser, and in the guard that keeps a
- * document from being named after a language and made unreachable.
+ * Whether a URL segment names a language — the check a locale-last route
+ * parses with, and the guard that keeps a document from being named after a
+ * language and made unreachable.
  */
-export function isLocale(segment: string): segment is Locale {
-  // Widened first: `includes` on the tuple itself would only accept a value
-  // already known to be a locale, which is the question being asked.
-  const locales: readonly string[] = LOCALES;
-
-  return locales.includes(segment);
-}
+export const isLocale = isOneOf(LOCALES);
 
 /** What language a page is being rendered in — its route's last segment, usually. */
 export type WithLocale = { locale: Locale };
 
 /** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/slime/ru`. */
 export type LocaleTail<Head extends string> = [] | [Head] | [Head, Locale];
+
+/** Every address one head value answers: itself, and one per locale. */
+export function localeTailAddresses<Head extends string>(
+  head: Head,
+): Array<LocaleTail<Head>> {
+  return [[head], ...LOCALES.map<LocaleTail<Head>>((locale) => [head, locale])];
+}
 
 /**
  * One value per language, built by asking for each. Spelled out rather than

@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl, PAGE_ROUTES } from '@/shared/config';
+import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/shared/config';
 import {
-  COLLECTION_IDS,
   type CollectionId,
   collectionRoute,
   COLLECTIONS,
+  collectionsForSite,
   listAllDocuments,
   localizedRoute,
 } from '@/shared/content';
@@ -27,25 +27,38 @@ function documentAddresses(route: string, collection: CollectionId): string[] {
 }
 
 /**
- * Every page the site advertises. Content entries are derived from the
- * collection registry, so a new document appears here without touching this
- * file, and the CV's shorter addresses are left out for the reason above.
+ * The pages `vova` advertises on top of what every site does, the CV's shorter
+ * addresses left out for the reason above.
  */
-export function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    '/',
+function vovaRoutes(): string[] {
+  return [
     ...Object.values(PAGE_ROUTES),
     ...routing.locales.flatMap((locale) =>
       CV_VARIANTS.map((variant) => cvPath(variant, locale)),
     ),
-    ...COLLECTION_IDS.flatMap((id) =>
-      documentAddresses(collectionRoute(id), id),
-    ),
+  ];
+}
+
+/**
+ * Every page the site advertises. Both the collection indexes and the documents
+ * under them are derived from the registry, filtered to the site being built, so
+ * a new document appears here without touching this file.
+ */
+export function sitemap(): MetadataRoute.Sitemap {
+  // Deduplicated because a rooted collection's index *is* the home page.
+  const staticRoutes = [
+    ...new Set([
+      '/',
+      ...(SITE_ID === 'vova' ? vovaRoutes() : []),
+      ...collectionsForSite(SITE_ID).flatMap((id) =>
+        documentAddresses(collectionRoute(id), id),
+      ),
+    ]),
   ];
 
   return [
     ...staticRoutes.map((route) => ({ url: getAbsoluteUrl(route) })),
-    ...listAllDocuments().flatMap(({ route, collection, frontmatter }) =>
+    ...listAllDocuments(SITE_ID).flatMap(({ route, collection, frontmatter }) =>
       documentAddresses(route, collection).map((address) => ({
         url: getAbsoluteUrl(address),
         lastModified: frontmatter.date,

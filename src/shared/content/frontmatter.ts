@@ -3,7 +3,7 @@ import 'server-only';
 import { z } from 'zod';
 
 import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from '@/shared/config';
-import { localeSchema } from '@/shared/i18n/index.server-only';
+import { LOCALES } from '@/shared/i18n';
 
 import type { CollectionId } from './collections';
 
@@ -15,14 +15,19 @@ import type { CollectionId } from './collections';
 const baseFrontmatterSchema = z.object({
   /** Published date. YAML parses an unquoted `2026-08-29` into a Date. */
   date: z.coerce.date(),
+  /** Reading order within the collection — lower first, ahead of anything without one. */
+  order: z.number().int().optional(),
   /** Open Graph image, relative to the document. */
   ogImage: z.string().min(1).optional(),
+  /** The drawing the index shows beside the blurb, relative to the document. */
+  cardImage: z.string().min(1).optional(),
 });
 
 /** What every collection states, and all that anything reading documents at large can rely on. */
 export type BaseFrontmatter = z.infer<typeof baseFrontmatterSchema>;
 
-const caseStudyFrontmatterSchema = baseFrontmatterSchema.extend({
+/** A case study's shape, and the Bible's: titled by the body, cut and printed. */
+const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
   description: z.string().min(1),
   /** Free-text series marker, e.g. `I of II`. */
@@ -31,7 +36,7 @@ const caseStudyFrontmatterSchema = baseFrontmatterSchema.extend({
 
 /**
  * The strings a localized document states once per language — everything else
- * about it being the same document. A case study does not take one yet
+ * about it being the same document. An article does not take one yet
  * ([#62](https://github.com/vzakharov/vovazakharov.com/issues/62)).
  */
 const localizedTextSchema = z.object({
@@ -46,7 +51,7 @@ export type LocalizedText = z.infer<typeof localizedTextSchema>;
  * exhaustive: a document carrying `en` and no `ru` fails the build instead of
  * publishing a half-translated catalogue quietly.
  */
-const localizedTextsSchema = z.record(localeSchema, localizedTextSchema);
+const localizedTextsSchema = z.record(z.enum(LOCALES), localizedTextSchema);
 
 /** Whether the song is released or still being worked on. */
 export const SONG_STATUSES = ['done', 'wip'] as const;
@@ -100,7 +105,7 @@ const songFieldsSchema = baseFrontmatterSchema.extend({
  */
 const songFrontmatterSchema = songFieldsSchema.and(localizedTextsSchema);
 
-export type CaseStudyFrontmatter = z.infer<typeof caseStudyFrontmatterSchema>;
+export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
 
 export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -109,7 +114,7 @@ export type WithFrontmatter<F extends BaseFrontmatter = BaseFrontmatter> = {
 
 /**
  * A collection and the schema that reads it, as one value. A song carries
- * fields a case study must not silently accept, so the two are validated apart
+ * fields an article must not silently accept, so the two are validated apart
  * — and pairing the id with its schema is what keeps a reader from being handed
  * one collection's documents under another's shape.
  */
@@ -124,10 +129,16 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
   schema: { parse: (data: unknown) => F };
 };
 
-export const CASE_STUDIES: Collection<CaseStudyFrontmatter> = {
-  id: 'case-studies',
-  schema: caseStudyFrontmatterSchema,
-};
+/**
+ * The collections one article page serves. Keyed by id so a router can name
+ * its collection and still be handed the schema that reads it.
+ */
+export const ARTICLE_COLLECTIONS = {
+  'case-studies': { id: 'case-studies', schema: articleFrontmatterSchema },
+  bible: { id: 'bible', schema: articleFrontmatterSchema },
+} as const satisfies Record<string, Collection<ArticleFrontmatter>>;
+
+export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;
 
 export const SONGS: Collection<SongFrontmatter> = {
   id: 'music',
@@ -136,12 +147,12 @@ export const SONGS: Collection<SongFrontmatter> = {
 
 /** Keyed so a collection without a schema fails to compile rather than at read time. */
 export const COLLECTION_SCHEMAS = {
-  'case-studies': CASE_STUDIES,
+  ...ARTICLE_COLLECTIONS,
   music: SONGS,
 } as const satisfies Record<CollectionId, Collection>;
 
 /**
- * The title a collection states outright, where it has one. A case study's is
+ * The title a collection states outright, where it has one. An article's is
  * its body's leading heading instead, so this is `undefined` for one — and a
  * song states it once per language, so this reads the localized document rather
  * than the file.

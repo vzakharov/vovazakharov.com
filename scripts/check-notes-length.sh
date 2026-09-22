@@ -4,8 +4,15 @@
 # the file it governs, which is invisible to the append that breaks it — nothing
 # reads a paragraph on its way to adding a section.
 #
+# Two numbers, not one: the check fails past MAX_LINES and the failure asks for
+# TARGET_LINES. Squeezing back to one line under the ceiling buys one session,
+# so a single number is a crumb cut every time; the gap between these two is
+# one editorial pass per hundred lines.
+#
 # Failing is the whole point, and failing is all it does: which of the squeezes
-# the file itself names applies is a judgement, so nothing here trims.
+# the file itself names applies is a judgement, so nothing here trims. The
+# target is asked for rather than enforced, for the same reason — a squeeze
+# stopping at 340 is a judgement call, and only the ceiling is a rule.
 #
 # Usage:
 #   scripts/check-notes-length.sh [<path>...]
@@ -27,6 +34,7 @@ set -eu
 PROG="check-notes-length"
 
 MAX_LINES=400
+TARGET_LINES=300
 
 NOTES_DIR="writing/notes"
 
@@ -37,7 +45,8 @@ usage() {
   cat >&2 <<EOF
 usage: scripts/check-notes-length.sh [<path>...]
 
-  Measures each notes file against the $MAX_LINES-line ceiling.
+  Measures each notes file against the $MAX_LINES-line ceiling; a file over it
+  is squeezed to $TARGET_LINES lines or under, not back to $MAX_LINES.
   With no argument, measures every $NOTES_DIR/*.md.
 EOF
   exit 1
@@ -69,13 +78,14 @@ for file in "$@"; do
   # `wc -l` counts newlines, so an unterminated last line reads one short —
   # noise against a ceiling this size.
   if [ "$lines" -gt "$MAX_LINES" ]; then
-    failures="${failures}${NL}  $file: $lines lines, ceiling $MAX_LINES — over by $((lines - MAX_LINES))"
+    failures="${failures}${NL}  $file: $lines lines, ceiling $MAX_LINES — cut $((lines - TARGET_LINES)) to reach $TARGET_LINES"
   fi
 done
 
 if [ -n "$failures" ]; then
   printf '%s: FAIL —%s\n' "$PROG" "$failures" >&2
-  printf '%s: squeeze it, do not grow it — the file says how, under "How this file is kept".\n' "$PROG" >&2
+  printf '%s: squeeze to %s or under, not back under %s — a file left at the ceiling trips again on the next append.\n' "$PROG" "$TARGET_LINES" "$MAX_LINES" >&2
+  printf '%s: the file says how, under "How this file is kept".\n' "$PROG" >&2
   exit 1
 fi
 

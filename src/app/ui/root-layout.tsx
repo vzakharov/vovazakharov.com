@@ -4,10 +4,9 @@ import '../styles/print.scss';
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
 
 import { SITE_CONFIG } from '@/shared/config';
-import { constructMetadata } from '@/shared/seo';
+import { constructMetadata } from '@/shared/seo/index.server-only';
 
 import { ThemeCorner } from './theme-corner';
 import { ThemeProvider } from './theme-provider';
@@ -54,12 +53,10 @@ export function RootLayout({
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body>
-        <NextIntlClientProvider>
-          <ThemeProvider>
-            <ThemeCorner />
-            {children}
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider>
+          <ThemeCorner />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

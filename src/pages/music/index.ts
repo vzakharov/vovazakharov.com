@@ -2,7 +2,7 @@ export { generateMusicMetadata } from './lib/music-metadata';
 export {
   musicAddressDefaults,
   musicSegmentParams,
-  musicSegmentsSchema,
+  parseMusicSegments,
   type WithOptionalMusicSegments,
 } from './lib/music-route-params';
 export { musicPath, songPath } from './lib/music-urls';

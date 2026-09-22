@@ -4,14 +4,15 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { pageFile } from '@/shared/config';
+import { pageFile, type SiteId } from '@/shared/config';
 import type { Locale } from '@/shared/i18n';
-import type { DocumentFile } from '@/shared/typings';
+import type { DocumentFile, Sized } from '@/shared/typings';
 
 import {
   collectionAssetUrl,
   collectionDir,
   type CollectionId,
+  collectionsForSite,
   documentName,
   type DocumentRef,
   documentRoute,
@@ -40,6 +41,9 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  * Generic over frontmatter rather than over the collection id, so a song page
  * reads `frontmatter.audio` while everything that works across collections —
  * the sitemap, the metadata builder — holds documents at the base shape.
+ *
+ * No PDF here: a song has none, so the article header, which does, derives the
+ * print's file from the route itself.
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
   DocumentRef &
@@ -58,21 +62,53 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
       fileName: string;
       /** The authored markdown, as served. */
       markdown: DocumentFile;
+      /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
+      cardImage?: ResolvedImage;
     };
 
-/** One function returns both, so the URL and the size cannot disagree. */
+/** A frontmatter image path, resolved to what an `<img>` needs of it. */
+export type ResolvedImage = Sized & { src: string };
+
+/**
+ * A frontmatter image is authored relative to its document; `public/` serves
+ * the collection's assets at one path. One function returns both, so the URL
+ * and the size cannot disagree.
+ */
+function resolveImage(collection: CollectionId, authored: string) {
+  const url = collectionAssetUrl(collection, authored.replace(/^\.\//, ''));
+
+  return { url, size: intrinsicDimensions(url) };
+}
+
 function resolveOgImage(
   collection: CollectionId,
   ogImage: string | undefined,
 ): ResolvedOgImage {
   if (ogImage === undefined) return {};
 
-  const ogImageUrl = collectionAssetUrl(
-    collection,
-    ogImage.replace(/^\.\//, ''),
-  );
+  const { url, size } = resolveImage(collection, ogImage);
 
-  return { ogImageUrl, ogImageSize: intrinsicDimensions(ogImageUrl) };
+  return { ogImageUrl: url, ogImageSize: size };
+}
+
+/**
+ * Unlike the Open Graph card, a size that cannot be read throws: the field is
+ * opt-in, and an index row that does not reserve its drawing's space lays out
+ * twice.
+ */
+function resolveCardImage(
+  collection: CollectionId,
+  cardImage: string | undefined,
+): Pick<ContentDocument, 'cardImage'> {
+  if (cardImage === undefined) return {};
+
+  const { url, size } = resolveImage(collection, cardImage);
+
+  if (!size) {
+    throw new Error(`No intrinsic dimensions in card image ${url}`);
+  }
+
+  return { cardImage: { src: url, ...size } };
 }
 
 export type WithContentDocument<F extends BaseFrontmatter = BaseFrontmatter> = {
@@ -129,10 +165,24 @@ function readDocument<F extends BaseFrontmatter>(
     markdown: pageFile(route, 'md'),
     route,
     ...resolveOgImage(id, frontmatter.ogImage),
+    ...resolveCardImage(id, frontmatter.cardImage),
   };
 }
 
-/** Every document in a collection, variants included, newest first. */
+/**
+ * The authored `order` first, then date, newest first. `MAX_SAFE_INTEGER`
+ * rather than `Infinity` for the documents with none: subtracting two
+ * infinities is `NaN`, which a sort reads as "leave them where they are".
+ */
+function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
+  const ordered =
+    (a.frontmatter.order ?? Number.MAX_SAFE_INTEGER) -
+    (b.frontmatter.order ?? Number.MAX_SAFE_INTEGER);
+
+  return ordered || b.frontmatter.date.getTime() - a.frontmatter.date.getTime();
+}
+
+/** Every document in a collection, variants included, in reading order. */
 export function listDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Array<ContentDocument<F>> {
@@ -140,9 +190,7 @@ export function listDocuments<F extends BaseFrontmatter>(
     .readdirSync(collectionDir(collection.id))
     .filter((fileName) => fileName.endsWith('.md'))
     .map((fileName) => readDocument(collection, fileName))
-    .toSorted(
-      (a, b) => b.frontmatter.date.getTime() - a.frontmatter.date.getTime(),
-    );
+    .toSorted(byReadingOrder);
 }
 
 /** The full documents only, without the shorter cuts. */
@@ -177,12 +225,15 @@ export function siblingVariants(
   );
 }
 
-export function listAllDocuments(): ContentDocument[] {
-  // Annotated rather than inferred: the registry's values are a union of
-  // per-collection handles, and a union is what one inferred frontmatter type
-  // cannot be. Widening to the base shape is all a caller across collections
-  // wants from them anyway.
-  const collections: Collection[] = Object.values(COLLECTION_SCHEMAS);
+/** Every document the given site serves. Another site's collections have no directory here. */
+export function listAllDocuments(site: SiteId): ContentDocument[] {
+  return collectionsForSite(site).flatMap((id) => {
+    // Annotated rather than inferred: the registry's values are a union of
+    // per-collection handles, and a union is what one inferred frontmatter
+    // type cannot be. Widening to the base shape is all a caller across
+    // collections wants from them anyway.
+    const collection: Collection = COLLECTION_SCHEMAS[id];
 
-  return collections.flatMap((collection) => listDocuments(collection));
+    return listDocuments(collection);
+  });
 }

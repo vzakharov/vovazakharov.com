@@ -7,7 +7,7 @@ import { withSeverity } from './rule-severity';
 export const vovaRules = {
   ...withSeverity('error', [
     'vova/no-default-true', // boolean params must default off — invert (enabled=true → disabled=false) instead of defaulting true
-    'vova/no-hardcoded-strings', // user-facing strings must come from messages/*.json via useTranslations(), not inline literals that render untranslated in every locale
+    'vova/no-hardcoded-strings', // user-facing strings must come from messages/*.json, read on the server and passed down, not inline literals that render untranslated in every locale
     'vova/no-inline-object-param-type', // inline object type literals in function params must be extracted to a named type alias
     'vova/no-redundant-defaulted-param-type', // drop a named type annotation on a fully-defaulted destructured param when types prove it redundant (type-aware; inline literals stay with no-inline-object-param-type)
     'vova/no-redundant-property-copy', // prefer destructuring over key: source.key

@@ -1,0 +1,58 @@
+{
+  "sessionId": "55329747-abc7-5777-b294-4ea9d664435e",
+  "branch": "claude/pdfs-at-build-r35sqr",
+  "cwd": "/home/user/vovazakharov.com",
+  "name": "Why PDFs render by hand, not at build",
+  "openingPrompt": "мы сейчас генерим пдфы-прямо на стадии кода -- почему бы не делать это на стадии билда? есть какая-то причина которой я не вижу или просто так исторически сложи…",
+  "prs": [
+    78
+  ],
+  "url": "https://claude.ai/code/session_01F8kvcAWsgDqWWiRbWRQQwz",
+  "firstResponseAt": "2026-09-22T09:07:05.039Z",
+  "lastResponseAt": "2026-09-22T14:02:24.290Z",
+  "pricesAsOf": "2026-09-19",
+  "claudeCodeTotalUsd": 28.30216375,
+  "total": {
+    "inputTokens": 440,
+    "cacheWrite5mTokens": 85975,
+    "cacheWrite1hTokens": 623789,
+    "cacheReadTokens": 40835585,
+    "outputTokens": 188278,
+    "thinkingTokens": 98764,
+    "responses": 220,
+    "costUsd": 31.90217624999999
+  },
+  "ownTurns": {
+    "inputTokens": 424,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 623789,
+    "cacheReadTokens": 40266015,
+    "outputTokens": 188208,
+    "thinkingTokens": 98764,
+    "responses": 212,
+    "costUsd": 31.078217499999987
+  },
+  "subagents": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 85975,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 569570,
+    "outputTokens": 70,
+    "thinkingTokens": 0,
+    "responses": 8,
+    "costUsd": 0.8239587500000001
+  },
+  "byRate": {
+    "claude-opus-5/standard": {
+      "inputTokens": 440,
+      "cacheWrite5mTokens": 85975,
+      "cacheWrite1hTokens": 623789,
+      "cacheReadTokens": 40835585,
+      "outputTokens": 188278,
+      "thinkingTokens": 98764,
+      "responses": 220,
+      "costUsd": 31.90217624999999
+    }
+  },
+  "warnings": []
+}

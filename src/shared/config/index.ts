@@ -15,13 +15,19 @@ export {
   songRepositoryUrl,
 } from './music-projects';
 export {
-  AUTHOR_URL,
-  BUILD_YEAR,
   getAbsoluteUrl,
-  PAGE_ROUTES,
   pageFile,
   printedUrl,
   SITE_CONFIG,
-  type SiteId,
+  SITE_ID,
+} from './resolved-site';
+export {
+  AUTHOR_URL,
+  PAGE_ROUTES,
+  type SiteConfig,
+  siteConfig,
+  type SiteImage,
+  withoutScheme,
 } from './site-config';
+export { SITE_IDS, type SiteId, type WithSiteId } from './site-ids';
 export { TECH_STACKS } from './tech-stacks';

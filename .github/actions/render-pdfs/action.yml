@@ -1,0 +1,81 @@
+name: Render page PDFs
+description: >-
+  Prints a site's printable pages off the static export it has just built, and
+  copies them into that export. Both publishing lanes render through this, so
+  the cache keys they use cannot drift apart.
+
+inputs:
+  site:
+    description: The site id — its directory under apps/, and what NEXT_PUBLIC_SITE is set to.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # The whole action runs after `next build`, never before: the build rewrites
+    # out/ wholesale, and a manifest sitting in public/ beforehand would be
+    # copied into out/ and served.
+    - name: Restore the last render
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          apps/${{ inputs.site }}/public/**/*.pdf
+          apps/${{ inputs.site }}/public/**/pdf-renders.json
+        # The key is a miss by construction. What does the work is the prefix
+        # fallback, which restores whatever this site printed last together
+        # with the manifests describing it — and those are what render-pdf.ts
+        # reads to reprint only what drifted. A key naming the print sources
+        # instead would be a second copy of PRINT_SOURCES, written in YAML and
+        # free to disagree with the one that decides.
+        key: pdf-${{ inputs.site }}-${{ github.sha }}
+        restore-keys: pdf-${{ inputs.site }}-
+
+    # in-site.sh rather than a `content:pdf:<site>` script, so one call covers
+    # every site including the ones that print nothing — those cost an exit, no
+    # browser and no server.
+    #
+    # The ceiling is on the whole render, which the per-print timeout cannot
+    # bound: a cold cache prints the collection entire, and that has to fit the
+    # deploy's budget rather than discover its own. It is coreutils' `timeout`
+    # because `timeout-minutes` is unavailable on a composite action's steps.
+    - name: Print what drifted
+      shell: bash
+      run: timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx scripts/render-pdf.ts --from-out
+
+    # The manifests stay behind: they are the render's bookkeeping, not
+    # published files.
+    - name: Copy the renders into the export
+      id: rendered
+      shell: bash
+      run: |
+        set -euo pipefail
+        public="apps/${{ inputs.site }}/public"
+        out="$PWD/apps/${{ inputs.site }}/out"
+        mapfile -t printed < <(cd "$public" && find . -name '*.pdf')
+        if [ "${#printed[@]}" -gt 0 ]; then
+          # `--parents` from inside public/, so each PDF lands in the export at
+          # the path it is served from.
+          (cd "$public" && cp --parents -t "$out" "${printed[@]}")
+        fi
+        echo "count=${#printed[@]}" >> "$GITHUB_OUTPUT"
+        echo "Rendered ${#printed[@]} PDF(s) into apps/${{ inputs.site }}/out." \
+          >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Keep the render for the next run
+      if: steps.rendered.outputs.count != '0'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          apps/${{ inputs.site }}/public/**/*.pdf
+          apps/${{ inputs.site }}/public/**/pdf-renders.json
+        key: pdf-${{ inputs.site }}-${{ github.sha }}
+
+    # A PDF is not readable off a pull request's diff, so the run that produced
+    # it hands one over — which makes a `workflow_dispatch` naming one site how
+    # an unmerged branch's PDFs are looked at.
+    - name: Upload the rendered PDFs
+      if: steps.rendered.outputs.count != '0'
+      uses: actions/upload-artifact@v4
+      with:
+        name: pdfs-${{ inputs.site }}
+        path: apps/${{ inputs.site }}/public/**/*.pdf

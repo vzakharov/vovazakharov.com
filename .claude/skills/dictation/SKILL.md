@@ -1,12 +1,12 @@
 ---
-description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [verbatim|retake|prose]`. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
+description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [auto|verbatim|retake|prose]`, the mode defaulting to `auto`, which reads it off the transcript. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
-recording as readable text in the speaker's own words — framed by a summary they
-can recognise it from and your own reading of what they said — the media and the
-timecoded transcript are kept on the branch, and every place the recognizer was
-guessing is listed in the file for them to correct.
+recording as readable text in the speaker's own words, framed by a summary they
+can recognise it from, the media and the timecoded transcript are kept on the
+branch, and every place the recognizer was guessing is listed in the file for
+them to correct.
 
 ## The split
 
@@ -41,14 +41,30 @@ wording:
 | **retake**   | a recording that will be said again, better — this file is what is read from | the same talk with the stumbles out: their phrasing, without the tangles |
 | **prose**    | a read-aloud that exists to give the repo context, and is never published    | the same content as connected text, loose sentences tightened            |
 
-**Ask which one when the invocation doesn't say.** None is the default: a
-default is what makes the question skippable, and every guess costs something
-different — a shipping recording rewritten is a subtitle track in nobody's
+**Which of the three applies is `auto`'s to work out, and `auto` is what runs
+when the invocation names no mode.** A recording routinely says what it is for
+in its own first minute, so the mode is settled at the end of Step 2, off the
+transcript, rather than asked before there is one. What the modes trade against
+is unchanged — a shipping recording rewritten is a subtitle track in nobody's
 voice, a context recording left verbatim is four screens of talk where a page of
 prose was wanted, and a recording meant to be said again, left verbatim, hands
-the speaker back their own stumbles to read out loud. The mode goes in the file's
-header line, since a reader of the file otherwise cannot tell which rule it was
-held to.
+the speaker back their own stumbles to read out loud — so **a transcript that
+does not settle it goes back to the operator as a question**, naming the two
+modes it reads between. Auto resolves or asks; it never falls back on one.
+
+A mode named in the invocation skips that, and is what an operator reaches for
+when the recording would read the wrong way.
+
+**A dictation can be addressed to the agent rather than recorded for a reader**,
+in whole or in part — the speaker breaking off mid-copy to say how they want the
+thing handled. Those passages are asks rather than body: they stay in the
+transcript verbatim, and each is named in the handover and routed under the same
+scope rule as any other instruction — in scope, done; out of scope, raised
+rather than folded in.
+
+The mode goes in the file's header line, since a reader of the file otherwise
+cannot tell which rule it was held to; one that `auto` resolved says so —
+`auto → prose` — so the call is visible rather than inferred.
 
 Everything below holds in all three modes except Step 3's word test, which is
 verbatim's alone, and the § "Retake mode" rules, which are retake's.
@@ -138,8 +154,7 @@ three of the seven places the text needed a correction.
 `writing/<project>/dictations/<slug>.md`, no frontmatter — the keys in
 `@.claude/rules/writing.md` describe post drafts, and this is not one.
 
-Five parts, in this order, and the middle one is the only one that is the
-recording:
+Four parts, in this order, and only one of them is the recording:
 
 | Part                                                     | Whose words |
 | -------------------------------------------------------- | ----------- |
@@ -149,7 +164,6 @@ recording:
 | **The recording**, under one `##`                        | **theirs**  |
 | The table of what you guessed (Step 4)                   | yours       |
 | In retake mode, the `## Что поправлено` footnotes        | yours       |
-| The afterword (Step 5)                                   | yours       |
 
 **The body's heading names what the file is**, so it follows the mode:
 `## Расшифровка` in verbatim and prose, `## Текст для начитки` in retake, where
@@ -239,19 +253,17 @@ that row comes out on the same pass as the ones they answered. They do not
 confirm the ones that were right, and waiting for that is how a table stops
 shrinking.
 
-## Step 5 — The lede, the beat sheet and the afterword
+## Step 5 — The lede and the beat sheet
 
 Six minutes of talking is four screens of text, and a transcript on its own is a
 poor thing to come back to: the operator opening it a month later wants to know
-what is in it before deciding to read it, and then wants somebody to have
-thought about it. So the file opens with a summary and closes with your reading
-of it, and in retake mode carries a beat sheet for the take itself. All three
-are in the recording's language, not this file's.
+what is in it before deciding to read it. So the file opens with a summary, and
+in retake mode carries a beat sheet for the take itself. Both are in the
+recording's language, not this file's.
 
 - **The lede** — `## О чём это`, above the recording. Three or four sentences
   on what it says, in the operator's own vocabulary, so that they recognise it
-  rather than decode it. It reports and does not evaluate — that is the
-  afterword's job, and a lede that starts judging stops being a way back in.
+  rather than decode it.
 - **The beat sheet** — `## Рыба`, between the lede and the recording, in retake
   mode only. The points, the turns and the transitions as a bulleted list, in
   the order the recording takes them: what the speaker glances at before the
@@ -259,10 +271,6 @@ are in the recording's language, not this file's.
   the script aloud. It names each beat and the words that land it — a phrase
   they coined, the joke, the number — and does not explain them, because a beat
   sheet you have to read is one more thing to lose your place in.
-- **The afterword** — `## Заметки агента`, at the foot, owned by
-  `@.claude/skills/afterword/SKILL.md`. Load it and follow it: the section is not
-  specific to recordings, and its rules — what the block has to do to earn its
-  place, and the narration it must not become — are that skill's.
 
 Keep these headings as they are across recordings — the operator reads the files
 against each other, and a file that invents its own name for a section costs

@@ -4,6 +4,7 @@ export {
   type CollectionId,
   collectionRoute,
   COLLECTIONS,
+  collectionsForSite,
   documentName,
   type DocumentRef,
   documentRoute,
@@ -14,6 +15,7 @@ export {
   type Slugged,
   type Variant,
   VARIANTS,
+  type WithCollectionId,
 } from './collections';
 export {
   documentDateTime,
@@ -31,9 +33,10 @@ export {
   type WithContentDocument,
 } from './documents';
 export {
+  ARTICLE_COLLECTIONS,
+  type ArticleCollectionId,
+  type ArticleFrontmatter,
   type BaseFrontmatter,
-  CASE_STUDIES,
-  type CaseStudyFrontmatter,
   type Collection,
   type LocalizedText,
   SONG_LANGUAGES,
@@ -44,7 +47,6 @@ export {
 } from './frontmatter';
 export {
   intrinsicDimensions,
-  type Sized,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 export {
@@ -54,8 +56,8 @@ export {
   renderDocument,
   type RenderedDocument,
   renderPrimaryDocuments,
+  type WithContentTree,
   type WithHeadings,
-  type WithHtml,
   type WithReadingMinutes,
 } from './render';
 export { type Stanzas, type WithStanzas } from './sections';

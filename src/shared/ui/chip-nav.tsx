@@ -3,18 +3,17 @@
 import { Box, Group } from '@mantine/core';
 
 import { cx } from '@/shared/lib/class-names';
-import type { Labeled, Linked } from '@/shared/typings';
+import type { LabeledLink } from '@/shared/typings';
 
 import classes from './chip-nav.module.scss';
 import { InternalLink } from './internal-link';
 
 /** One destination in the row; the current one renders inert rather than linked. */
-export type Chip = Labeled &
-  Linked & {
-    current: boolean;
-    /** The language the chip's destination is in, where the row switches one. */
-    hrefLang?: string;
-  };
+export type Chip = LabeledLink & {
+  current: boolean;
+  /** The language the chip's destination is in, where the row switches one. */
+  hrefLang?: string;
+};
 
 export type ChipNavProps = { chips: Chip[] };
 

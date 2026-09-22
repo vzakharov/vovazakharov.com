@@ -10,11 +10,30 @@ paths:
 
 # Styling
 
-Mantine is imported as `@mantine/core/styles.layer.css`, so everything it ships
-lives in `@layer mantine`. **Any unlayered rule beats it, whatever the
+Mantine is imported as the `.layer.css` half of each stylesheet, so everything
+it ships lives in `@layer mantine`. **Any unlayered rule beats it, whatever the
 specificity** — `globals.scss`, `print.scss` and every `.module.scss` are
 unlayered, so none of them needs `!important` — stylelint's
 `declaration-no-important` holds that line.
+
+**Which sheets those are is a list, not the aggregate.** `theme-provider.tsx`
+names Mantine's three core files and one file per component in use; the
+aggregate `styles.layer.css` carries all ~200, some 25 kB gzipped more than this
+site renders. **A component used for the first time needs its sheet added there,
+and the omission is invisible in a build** — it compiles, type-checks and
+renders, unstyled. `pnpm check:mantine-styles` is what catches it, and prints
+the exact import line to add or drop.
+
+**That list is in Mantine's order, not alphabetical, and the difference is
+visible.** A composite renders its base's class alongside its own — `Button`
+carries `UnstyledButton`'s, `Anchor` carries `Text`'s — so two rules of one
+class each, both inside `@layer mantine`, collide and the later sheet wins.
+`UnstyledButton` after `Button` is `padding: 0` and `border: 0` over what the
+button asked for; `Text` after `Anchor` is `text-decoration: none` over the
+underline. The order to keep is the one `@mantine/core/styles.layer.css`
+composes, which the same check holds the built pages to and prints in full when
+they drift. `simple-import-sort` leaves side-effect imports where they are, so
+the hand-kept order survives a lint fix.
 
 ## What a stylesheet cannot reach
 

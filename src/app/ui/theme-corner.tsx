@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { ThemeToggle } from '@/features/switch-theme';
 
 import classes from './theme-corner.module.scss';
@@ -7,10 +9,12 @@ import classes from './theme-corner.module.scss';
  * page renders nothing for it. It sits out of the flow in the top-right
  * corner, which a page's own first line has to clear.
  */
-export function ThemeCorner() {
+export async function ThemeCorner() {
+  const t = await getTranslations('ui');
+
   return (
     <div className={classes['corner']}>
-      <ThemeToggle />
+      <ThemeToggle label={t('toggleTheme')} />
     </div>
   );
 }

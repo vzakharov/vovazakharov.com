@@ -7,37 +7,44 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { resolveSiteId } from '../../src/shared/config/index.node-safe.ts';
 import {
-  COLLECTION_IDS,
   collectionDir,
   COLLECTIONS,
+  collectionsForSite,
+  GENERATED_DIR,
 } from '../../src/shared/content/collections.ts';
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
 
-/** Every file under `target`, recursively — or `target` itself when it is a file. */
+/**
+ * Every file under `target`, recursively — or `target` itself when it is a
+ * file. {@link GENERATED_DIR} is skipped, which is what keeps the walk off the
+ * pipeline's own output.
+ */
 export function filesUnder(target: string): string[] {
   return fs.statSync(target).isDirectory()
     ? fs
         .readdirSync(target)
+        .filter((name) => name !== GENERATED_DIR)
         .flatMap((name) => filesUnder(path.join(target, name)))
     : [target];
 }
 
-/** The collections' directories under `public/` — the content tree's roots. */
-export const CONTENT_DIRS = COLLECTION_IDS.map((id) => collectionDir(id));
+/** Which site's content this run walks — the same variable its app's build reads. */
+export const RENDERED_SITE = resolveSiteId();
+
+/** The directories under `public/` of the collections this site serves — the content tree's roots. */
+export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
+  collectionDir(id),
+);
 
 /** The roots the PDF pipeline walks: a collection whose documents have a printable form. */
-export const PRINTABLE_CONTENT_DIRS = COLLECTION_IDS.filter(
-  (id) => COLLECTIONS[id].printable,
-).map((id) => collectionDir(id));
+export const PRINTABLE_CONTENT_DIRS = collectionsForSite(RENDERED_SITE)
+  .filter((id) => COLLECTIONS[id].printable)
+  .map((id) => collectionDir(id));
 
-/**
- * Every file under `dirs` whose name satisfies `matches`. The renders the
- * pipeline produces for a whole site — the mermaid SVGs — sit outside the
- * collections entirely, so this walk cannot hand a script its own output as a
- * source.
- */
+/** Every file under `dirs` — every collection, by default — whose name satisfies `matches`. */
 export function contentFiles(
   matches: (name: string) => boolean,
   dirs: string[] = CONTENT_DIRS,

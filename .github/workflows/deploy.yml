@@ -6,10 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       site:
-        description: Which site this run publishes
-        type: choice
-        options: [both, vova, lsa]
-        default: both
+        # Free text rather than a `choice`, which is single-select: with three
+        # sites the useful runs include the pairs, and a `choice` would need
+        # one option per subset.
+        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`
+        type: string
+        default: all
 
 permissions:
   contents: read
@@ -27,9 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       vova: ${{ steps.subjects.outputs.vova }}
-      lsa: ${{ steps.subjects.outputs.lsa }}
+      receivers: ${{ steps.subjects.outputs.receivers }}
     steps:
-      - name: 'Scan the pushed subjects for feat:/fix:'
+      - name: 'Scan the pushed subjects for a publishing prefix'
         id: subjects
         env:
           COMMITS: ${{ toJSON(github.event.commits) }}
@@ -38,23 +40,55 @@ jobs:
           set -euo pipefail
 
           vova=false
-          lsa=false
+          receivers=''
           subjects=''
 
+          # The commit types whose merge publishes, and the one place that set
+          # is stated. A type belongs when a merge of it changes what the sites
+          # serve or how they get served: `feat` and `fix` by definition,
+          # `perf` because on a static export a cheaper page is different
+          # files, `ci` because here CI is the deploy and a run of it is the
+          # only test a change to it gets. One variable because the match and
+          # the scope extraction below both read it.
+          publishing='(feat|fix|perf|ci)'
+
           # A site name selects that site; anything else — an unscoped subject,
-          # a scope naming neither — selects both.
+          # a scope naming none of them, the picker's own `all` — selects all of
+          # them. `vova` is tracked
+          # apart from the rest because it leaves by a different door: it is this
+          # repository's own Pages site, and the others are force-pushed.
           select_site() {
             case "$1" in
               vova) vova=true ;;
-              lsa) lsa=true ;;
-              *) vova=true; lsa=true ;;
+              lsa | bible) receivers="$receivers $1" ;;
+              *)
+                vova=true
+                receivers="$receivers lsa bible"
+                ;;
+            esac
+          }
+
+          # The picker names its sites outright, so an unrecognized one is a
+          # typo rather than the "anything else" a commit scope legitimately is
+          # — and falling through to `select_site` would publish everything.
+          select_picked() {
+            case "$1" in
+              all | vova | lsa | bible) select_site "$1" ;;
+              *)
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`." >&2
+                exit 1
+                ;;
             esac
           }
 
           if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
             # No subject to read a scope off, so the picker stands in for one.
-            select_site "${SITE:-both}"
-            verdict="Manual run — vovazakharov.com: $vova, latestageagentic.com: $lsa."
+            # Unquoted on purpose: the field is a list, split on either
+            # separator a person writing one reaches for.
+            for picked in $(tr ',' ' ' <<< "${SITE:-all}"); do
+              select_picked "$picked"
+            done
+            verdict="Manual run — vovazakharov.com: $vova, receivers:$receivers."
           else
             # Subject lines only: a body that happens to mention "fix:" is not a fix.
             subjects=$(jq -r '.[].message | split("\n")[0]' <<< "$COMMITS")
@@ -62,22 +96,37 @@ jobs:
             while IFS= read -r subject; do
               [ -n "$subject" ] || continue
 
-              grep -qE '^(feat|fix)(\([^)]+\))?!?:' <<< "$subject" || continue
-              scope=$(sed -nE 's/^(feat|fix)(\(([^)]+)\))?!?:.*/\3/p' <<< "$subject")
+              grep -qE "^$publishing(\([^)]+\))?!?:" <<< "$subject" || continue
+              scope=$(sed -nE "s/^$publishing(\(([^)]+)\))?!?:.*/\3/p" <<< "$subject")
 
               select_site "$scope"
             done <<< "$subjects"
 
-            if [ "$vova" = true ] || [ "$lsa" = true ]; then
-              verdict="Deploying — vovazakharov.com: $vova, latestageagentic.com: $lsa."
+            if [ "$vova" = true ] || [ -n "$receivers" ]; then
+              verdict="Deploying — vovazakharov.com: $vova, receivers:$receivers."
             else
-              verdict='Skipping the deploy — no feat:/fix: subject in this push.'
+              verdict="Skipping the deploy — no $publishing subject in this push."
             fi
           fi
 
+          # The publish job's matrix, one entry per receiving site: its id, and
+          # the name of the secret holding that receiver's deploy key. Naming
+          # the secret here is what keeps publish-site.sh reading one fixed
+          # variable, so a new receiver is an entry in its `case` and nothing
+          # in its key handling.
+          receivers_json=$(
+            tr ' ' '\n' <<< "$receivers" \
+              | sort -u \
+              | jq -R -s -c '
+                  split("\n")
+                    | map(select(length > 0))
+                    | map({ site: ., secret: (ascii_upcase + "_PAGES_DEPLOY_KEY") })
+                '
+          )
+
           {
             echo "vova=$vova"
-            echo "lsa=$lsa"
+            echo "receivers=$receivers_json"
           } >> "$GITHUB_OUTPUT"
 
           {
@@ -114,6 +163,11 @@ jobs:
       - name: Build
         run: pnpm build:vova
 
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: vova
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -130,13 +184,24 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # The second site has no Pages site of its own here — a repository gets one —
-  # so it is built here and pushed to the repository that serves it.
-  # scripts/publish-lsa.sh carries the credential's contract.
-  publish-lsa:
+  # A repository gets one Pages site, which vova holds, so every other site is
+  # built here and force-pushed to the repository that serves it.
+  # scripts/publish-site.sh carries the credential's contract.
+  #
+  # The matrix is built from the gate's output rather than filtered by a
+  # job-level `if` over a static one: `matrix` is not in scope in a job-level
+  # `if`, which is read before the matrix expands. The job is skipped whole
+  # when nothing is selected, an empty matrix being an error rather than a
+  # no-op. `fail-fast: false` so one receiver's failure leaves the others
+  # published rather than cancelled.
+  publish:
     runs-on: ubuntu-latest
     needs: gate
-    if: needs.gate.outputs.lsa == 'true'
+    if: needs.gate.outputs.receivers != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.gate.outputs.receivers) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -156,9 +221,14 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm build:lsa
+        run: pnpm build:${{ matrix.site }}
+
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: ${{ matrix.site }}
 
       - name: Publish to the receiving repository
         env:
-          LSA_PAGES_DEPLOY_KEY: ${{ secrets.LSA_PAGES_DEPLOY_KEY }}
-        run: ./scripts/publish-lsa.sh
+          PAGES_DEPLOY_KEY: ${{ secrets[matrix.secret] }}
+        run: ./scripts/publish-site.sh ${{ matrix.site }}

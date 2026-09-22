@@ -4,10 +4,10 @@ import type { Element, Root } from 'hast';
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Plugin } from 'unified';
-import { visit } from 'unist-util-visit';
 
 import { PUBLIC_DIR } from '../collections';
 import { contentHash } from '../content-hash.ts';
+import { replaceElements } from '../hast-elements';
 import {
   COLOR_SCHEMES,
   type ColorScheme,
@@ -115,17 +115,12 @@ export const rehypeMermaid: Plugin<[RehypeMermaidOptions], Root> = ({
   sourceUrl,
 }) => {
   return (tree) => {
-    visit(tree, 'element', (node: Element, index, parent) => {
-      if (node.tagName !== 'pre' || index === undefined || !parent) return;
-
+    replaceElements(tree, 'pre', (node) => {
       const source = fenceSource(node);
-      if (source === undefined) return;
 
-      parent.children[index] = diagramElement(
-        contentHash(source),
-        source,
-        sourceUrl,
-      );
+      return source === undefined
+        ? undefined
+        : diagramElement(contentHash(source), source, sourceUrl);
     });
   };
 };
