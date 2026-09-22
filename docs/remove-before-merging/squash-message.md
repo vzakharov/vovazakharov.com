@@ -13,36 +13,28 @@ and it is written in both of the languages the songs are sung and
 talked about in.
 
 Songs become a content collection: one markdown file per song under
-apps/vova/public/music/, compiled to its own page at build time by the
-pipeline that already serves case studies, and served raw at the same
-route plus .md. One file carries both languages — the date, the
-master, the projects, the credits and the words are the same in
-either, so only the title, the blurb and the story are stated per
-locale, and the body is cut on HTML-comment markers that disappear
-wherever the file is read raw. A song's mechanical fields are read
-rather than typed: the duration off the master's FLAC header through a
-128 KB range request, the explicit marker off its file name, the date
-off the repository's first commit. Which songs are in is not a
-judgement — a root FLAC is a master, and a master is a finished song.
+apps/vova/public/music/, compiled to its own page by the pipeline that
+serves case studies and served raw at the same route plus .md. One
+file carries both languages — only the title, the blurb and the story
+are stated per locale, the body cut on HTML-comment markers that
+vanish wherever the file is read raw. The mechanical fields are read,
+not typed: the duration off the master's FLAC header, the explicit
+marker off its file name, the date off the repository's first commit.
 
-The pages put the locale last, as the CV already does: /music/<slug>,
-/music/<slug>/<locale>, and the short forms as aliases of the
-addressed language. That settles the collision the content rule left
-open, a cut being a dotted suffix and a locale a trailing segment, and
-the union that parses "a head, optionally a locale" moves to
-shared/i18n where both callers spell only what differs. A slug that
-reads as a language fails the build, since /music/ru is the index in
-Russian. Where the words are not in the reader's language a crib runs
-beside them stanza for stanza, and a stanza count that disagrees fails
-the build too: a parallel text out by one is worse than none.
+The pages put the locale last, as the CV does — /music/<slug>/<locale>,
+the short forms aliases of the addressed language — which settles the
+collision the content rule left open: a cut is a dotted suffix, a
+locale a trailing segment. Where the words are not in the reader's
+language a crib runs beside them stanza for stanza, a count that
+disagrees failing the build. A line can carry the author's note, a
+markdown footnote in the file that opens on a click on the page, and a
+page shows only the notes in its own language.
 
 A player rides in the music route's layout, which is what lets a track
-keep playing across a navigation — from the index into a song, and
-between a song's two languages, the layout sitting above the segment
-that names one. It is the audio element itself and no dependency: the
-work is the queue, which a pure reducer holds and a test covers,
-resolved at build time and handed over as props so no part of the
-content pipeline reaches the browser.
+keep playing from the index into a song and between its two languages.
+It is the audio element itself and no dependency: the work is the
+queue, a pure reducer a test covers, handed over as build-time props
+so no part of the content pipeline reaches the browser.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
