@@ -87,9 +87,8 @@ satisfies them. An answered block becomes work through
 `@.claude/skills/handle/SKILL.md`, in a session they open for it.
 
 `CLAUDE.md` § "GitHub comments" governs comments the operator **points you at**.
-Your own blocks are not those, and acting on one because you wrote it puts the
-reviewer and the author in the same session — which is the collapse this skill
-exists to prevent, moved up a level from the file to the loop.
+Your own blocks are not those, and acting on one because you wrote it makes one
+session both reviewer and author — the pairing this skill exists to keep apart.
 
 ## It needs a PR
 
