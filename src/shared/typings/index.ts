@@ -78,16 +78,6 @@ export type DocumentFile = Linked & { download: string };
  */
 export type PrintedLink = Linked & WithText;
 
-/**
- * Paper's copy of a link is handed to a component rather than derived inside
- * it: deriving needs the site this build is, and reading that costs a client
- * bundle zod's weight. `linkTo` makes both halves out of one route.
- */
-export type WithPrinted = { printed: PrintedLink | null };
-
-/** Both halves of an internal link: where it points, and paper's copy of it. */
-export type LinkedPerMedium = Linked & WithPrinted;
-
 /** What a Next route hands the page it resolves to, its segments still raw. */
 export type WithParams<Params> = { params: Promise<Params> };
 

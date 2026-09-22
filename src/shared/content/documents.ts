@@ -4,8 +4,7 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { SiteId } from '@/shared/config';
-import { pageFile } from '@/shared/config/index.server-only';
+import { pageFile, type SiteId } from '@/shared/config';
 import type { DocumentFile, Sized } from '@/shared/typings';
 
 import {

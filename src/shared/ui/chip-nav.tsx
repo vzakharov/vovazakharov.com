@@ -39,9 +39,6 @@ export function ChipNav({ chips }: ChipNavProps) {
           <InternalLink
             key={label}
             {...{ href, hrefLang }}
-            // The row itself is `print-hidden`: a switcher offers alternatives
-            // to a reader who can follow one, which paper's reader cannot.
-            printed={null}
             underline="never"
             c="inherit"
             className={cx(classes['chip'], classes['chipLink'])}

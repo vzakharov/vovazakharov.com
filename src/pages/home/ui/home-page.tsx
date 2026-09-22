@@ -1,7 +1,6 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
-import { PAGE_ROUTES } from '@/shared/config';
-import { linkTo, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
 import { InternalLink, PageShell, SiteAvatar } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -39,7 +38,7 @@ export function HomePage() {
           {SEE_ALSO.map((href, index) => (
             <span key={href}>
               {index > 0 && ' · '}
-              <InternalLink {...linkTo(href)} inherit>
+              <InternalLink {...{ href }} inherit>
                 {href}
               </InternalLink>
             </span>

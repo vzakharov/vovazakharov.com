@@ -1,7 +1,7 @@
 import { Anchor, Box, Divider, Group, Text } from '@mantine/core';
 
-import { AUTHOR_URL } from '@/shared/config';
-import { BUILD_YEAR, SITE_CONFIG } from '@/shared/config/index.server-only';
+import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR } from '@/shared/config/index.server-only';
 import type { WithOptionalChildren } from '@/shared/typings';
 import { cssColor } from '@/shared/ui';
 

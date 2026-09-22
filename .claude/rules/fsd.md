@@ -37,17 +37,18 @@ reach each other sideways — so it drops to a lower layer, and which of the thr
 below `pages/` takes it turns on what the block _is_, not on the fact that it is
 shared:
 
-- **`entities/`** — the block is one business noun's UI. `DocumentCards` (needs
-  `linkTo`) and `DocumentMeta` are about a document and nothing else, so they are
-  `entities/document/ui`; a list of one entity's cards is that entity's UI, not a
-  widget. FSD asks no model of an entity, so a ui-only one is a legal form.
+- **`entities/`** — the block is one business noun's UI. `DocumentCards` (reaches
+  `shared/content` for a route) and `DocumentMeta` are about a document and
+  nothing else, so they are `entities/document/ui`; a list of one entity's cards
+  is that entity's UI, not a widget. FSD asks no model of an entity, so a ui-only
+  one is a legal form.
 - **`widgets/`** — the block _combines_ rather than belonging to one noun, and
   reads the resolved site. `SiteFooter` (needs `BUILD_YEAR`) is the site's foot,
   not a document's, so it stays a widget.
 - **`shared/ui`** — the block needs no site configuration at all. It is the
-  barrel client components import, so anything there touching
-  `@/shared/config/index.server-only` would put the resolved configuration in the
-  browser; `SummaryCard` sits here because it reads none.
+  barrel client components import, so a component there takes what it needs as
+  props rather than reading the resolved site; `SummaryCard` sits here because it
+  reads none.
 
 `entities/document` is born ui-only: its model stays in `shared/content`, which
 is build-time and `server-only`, so a content page costs zero client JS — the
@@ -63,9 +64,8 @@ what would split it into `index.ts` + `index.server-only.ts`, exactly as
 - **Public API per slice and per shared segment.** Cross-slice imports go through the target's `index.ts`; reaching into its internals is an error from both checkers. Within a slice, use relative imports.
 - **`shared` is a slice as well as a layer**, which is FSD's own exception to the rule above: every file in it reaches every other directly, exactly as the app layer's segments do. A segment's `index.ts` is what the layers _above_ enter by, not a wall between `shared/ui` and `shared/seo`.
 - **Two suffixed barrels join `index.ts` as legal entry points**, on two axes, and the list is closed at those three names (`PUBLIC_API` in `eslint.config.ts`). `index.ts` keeps the majority surface either way, so a consumer needing neither suffix never learns they exist.
-  - **`index.server-only.ts`** is the client-bundle axis: what a browser must not hold. Every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. Three segments are split this way, each on what a client bundle may hold rather than on what a module happens to do: `shared/i18n` keeps `routing` in the ordinary barrel and puts `localeSchema` behind the other, zod being ~90 kB in every chunk that touches it; `shared/seo` keeps `OG_CARD_SUFFIX` and puts `constructMetadata` behind it; `shared/config` keeps the ids and every site's data, and puts everything bound to the site this process is behind it.
+  - **`index.server-only.ts`** is the client-bundle axis: what a browser must not hold. Every module behind it opens with `import 'server-only'`, which is what enforces the split the barrel only names. Two segments are split this way, each on what a client bundle may hold rather than on what a module happens to do: `shared/seo` keeps `OG_CARD_SUFFIX` in the ordinary barrel and puts `constructMetadata` behind the other, because `pages/cv`'s URL module reads the suffix and a client component reads that; `shared/config` puts `BUILD_YEAR` behind it, which is evaluated once per deploy and would otherwise re-evaluate at hydration. A fence wants a reason of that kind: a dependency's weight is not one, since removing the dependency removes the fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under `scripts/`, which runs with none — so the graph behind it spells its extensions, holds no CSS, JSX or asset import, and carries no `server-only`, which throws outside a React server bundle. `shared/config` is the one segment with one, over `resolveSiteId`. A script reaching past a public API into a leaf is the smell that this barrel is missing.
-- **A module whose direct import is the hazard says so in its name.** `shared/config/site.env.unsafe.ts` parses `NEXT_PUBLIC_SITE`, and carries no `server-only` of its own because both barrels above consume it — so nothing but the name stops a client chain importing it and paying zod's ~90 kB. The suffix is `Playgramai/playgramapp`'s, whose barrel conventions this split follows.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time (`@/shared/lib/class-names`), each **a single file** and its own public API — nothing sits beside it to hide, so `boundaries` lets the layers above enter segment `lib` at any top-level `*.ts`. That entry does not cross a slash: a sub-library that grows a directory is internals again, and moving it back out is the price of the address. It is the holding area, not the destination: a sub-library becomes a top-level segment (`shared/content`) once it has several consumers and a purpose identity of its own, and only a helper too small to name one — `class-names` is a single function — stays under `lib`.
 - **Segments are named by purpose, not by essence** — `shared/seo` and `shared/content` name the concern they serve, not `shared/utils` or `shared/markdown`; `shared/lib/class-names`, not `shared/utils`. Steiger's `segments-by-purpose` rejects the second form. `shared/typings` is the one segment named for what it holds, because what it holds is the point: the repo-wide base types that give every member two named types share a single home, which `pnpm type-overlap` enforces. A base whose declarers sit in one module belongs in that module, so the segment only ever holds what genuinely crosses slices.
 - **No insignificant slices.** A slice with a single upward consumer belongs _inside_ that consumer, and Steiger says so (`insignificant-slice`). This is why the CV locale picker lives in `pages/cv/ui/` and the home page's project and article cards live in `pages/home/ui/`, rather than each becoming a feature.

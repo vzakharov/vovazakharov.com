@@ -1,7 +1,6 @@
 import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { linkTo } from '@/shared/config/index.server-only';
 import {
   type DocumentCard,
   documentRoute,
@@ -47,7 +46,7 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
               )}
               <div>
                 <Title order={2} size="h3" mb={8}>
-                  <InternalLink {...linkTo(route)} underline="hover" inherit>
+                  <InternalLink href={route} underline="hover" inherit>
                     {title}
                   </InternalLink>
                 </Title>
@@ -59,13 +58,13 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
                   {frontmatter.description}
                 </Text>
                 <Group component="p" gap={12} wrap="wrap" fz="sm">
-                  <InternalLink {...linkTo(route)} inherit>
+                  <InternalLink href={route} inherit>
                     Read
                   </InternalLink>
                   {variants.map((variant) => (
                     <InternalLink
                       key={variant}
-                      {...linkTo(documentRoute(collection, slug, variant))}
+                      href={documentRoute(collection, slug, variant)}
                       className={classes['variantLink']}
                       inherit
                     >

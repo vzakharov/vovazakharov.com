@@ -11,13 +11,9 @@ import {
 } from '@mantine/core';
 import { useMessages, useTranslations } from 'next-intl';
 
+import { printedUrl, SITE_CONFIG } from '@/shared/config';
 import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
-import type {
-  DocumentFile,
-  LinkedPerMedium,
-  PrintedLink,
-} from '@/shared/typings';
+import type { DocumentFile, Linked, PrintedLink } from '@/shared/typings';
 import { Card, FileLink, InternalLink } from '@/shared/ui';
 
 import { OFFER_BLOCKS } from '../lib/cv-offer';
@@ -57,21 +53,15 @@ const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
 export type CvSheetProps = WithCvVariant & {
   /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
-  caseStudy: LinkedPerMedium;
-  /** The sheet's own site, which the header links to and the footer spells out. */
-  printedSite: PrintedLink;
+  caseStudy: Linked;
   /** Resolved by the page for the same reason: its saved name carries the site's download prefix. */
   pdfFile: DocumentFile;
 };
 
-export function CvSheet({
-  variant,
-  caseStudy,
-  printedSite,
-  pdfFile,
-}: CvSheetProps) {
+export function CvSheet({ variant, caseStudy, pdfFile }: CvSheetProps) {
   const t = useTranslations('cv');
   const { cv } = useMessages();
+  const printedSite = printedUrl(SITE_CONFIG.url);
 
   return (
     <Box className={classes['page']}>
@@ -80,12 +70,7 @@ export function CvSheet({
           <Box component="header" className={classes['header']}>
             <Stack ta="center" className={classes['section']}>
               <Title order={1}>
-                <InternalLink
-                  href="/"
-                  printed={printedSite}
-                  underline="never"
-                  inherit
-                >
+                <InternalLink href="/" underline="never" inherit>
                   {t('header.name')}
                 </InternalLink>
               </Title>
@@ -143,10 +128,7 @@ export function CvSheet({
                     this address. */}
                 {variant === 'cto' && (
                   <Box className="print-hidden">
-                    <CaseStudyLink
-                      {...pick(caseStudy, 'href')}
-                      printed={null}
-                    />
+                    <CaseStudyLink {...caseStudy} />
                   </Box>
                 )}
               </Stack>
@@ -239,7 +221,7 @@ export function CvSheet({
             className={cx('print-hidden', classes['screenFooter'])}
           >
             <Text size="sm" className={classes['dim60']}>
-              <InternalLink href="/" printed={null} inherit>
+              <InternalLink href="/" inherit>
                 {t('footer.backLink')}
               </InternalLink>
             </Text>

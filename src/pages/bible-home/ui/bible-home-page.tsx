@@ -1,7 +1,7 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { SITE_CONFIG } from '@/shared/config/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
 import { renderPrimaryDocuments } from '@/shared/content';
 import { PageShell, Section } from '@/shared/ui';
 

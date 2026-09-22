@@ -24,7 +24,8 @@
     "content:og:bible": "scripts/in-site.sh bible tsx scripts/render-og.ts",
     "content:pdf:vova": "scripts/in-site.sh vova tsx scripts/render-pdf.ts",
     "content:pdf:bible": "scripts/in-site.sh bible tsx scripts/render-pdf.ts",
-    "styles:codegen": "node scripts/generate-styles.ts"
+    "styles:codegen": "node scripts/generate-styles.ts",
+    "costs": "node scripts/costs-report.ts"
   },
   "dependencies": {
     "@mantine/core": "^9.6.0",

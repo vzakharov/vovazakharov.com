@@ -1,4 +1,11 @@
 export {
+  getAbsoluteUrl,
+  pageFile,
+  printedUrl,
+  SITE_CONFIG,
+  SITE_ID,
+} from './resolved-site';
+export {
   AUTHOR_URL,
   PAGE_ROUTES,
   type SiteConfig,

@@ -1,6 +1,6 @@
 import { SimpleGrid, Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
 import { PageShell, Section, SiteAvatar, SummaryCard } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
