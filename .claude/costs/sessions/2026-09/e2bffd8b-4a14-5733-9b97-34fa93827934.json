@@ -1,0 +1,58 @@
+{
+  "sessionId": "e2bffd8b-4a14-5733-9b97-34fa93827934",
+  "branch": "claude/trim-client-js-npdqn6",
+  "cwd": "/home/user/vovazakharov.com",
+  "name": null,
+  "openingPrompt": "/handle claude/trim-client-js-npdqn6",
+  "prs": [
+    56
+  ],
+  "url": "https://claude.ai/code/session_014vNyXrYzr12NfZnzcBbzu4",
+  "firstResponseAt": "2026-09-21T17:12:32.390Z",
+  "lastResponseAt": "2026-09-22T11:47:51.447Z",
+  "pricesAsOf": "2026-09-19",
+  "claudeCodeTotalUsd": 8.039338250000002,
+  "total": {
+    "inputTokens": 350,
+    "cacheWrite5mTokens": 109317,
+    "cacheWrite1hTokens": 354101,
+    "cacheReadTokens": 28681133,
+    "outputTokens": 89157,
+    "thinkingTokens": 46865,
+    "responses": 175,
+    "costUsd": 20.795482749999998
+  },
+  "ownTurns": {
+    "inputTokens": 314,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 354101,
+    "cacheReadTokens": 27082209,
+    "outputTokens": 89005,
+    "thinkingTokens": 46865,
+    "responses": 157,
+    "costUsd": 19.3088095
+  },
+  "subagents": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 109317,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1598924,
+    "outputTokens": 152,
+    "thinkingTokens": 0,
+    "responses": 18,
+    "costUsd": 1.4866732500000004
+  },
+  "byRate": {
+    "claude-opus-5/standard": {
+      "inputTokens": 350,
+      "cacheWrite5mTokens": 109317,
+      "cacheWrite1hTokens": 354101,
+      "cacheReadTokens": 28681133,
+      "outputTokens": 89157,
+      "thinkingTokens": 46865,
+      "responses": 175,
+      "costUsd": 20.795482749999998
+    }
+  },
+  "warnings": []
+}
