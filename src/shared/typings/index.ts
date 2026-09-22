@@ -51,11 +51,11 @@ export type WithOptionalChildren = { children?: ReactNode };
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 
-/** The case study a card cross-links. */
-export type WithOptionalCaseStudyHref = { caseStudyHref?: string };
-
 /** Where an anchor points. */
 export type Linked = { href: string };
+
+/** An anchor whose label is a string rather than markup. */
+export type LabeledLink = Labeled & Linked;
 
 /** Where an anchor points, when there is anywhere — a card that is only a card states no `href`. */
 export type WithOptionalLink = { href?: string };

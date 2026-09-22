@@ -138,7 +138,7 @@ false. _far too much now that the articles are elsewhere._ What earned the lengt
 had left with them — the change was checked for what it broke, not what it
 stranded.
 
-## It writes its reasoning into the artifact (×10)
+## It writes its reasoning into the artifact (×11)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -158,6 +158,12 @@ belonging in a rules file, accreted across refreshes one push at a time.
 reach down to it rather than sharing it sideways" — the sideways-sharing being the
 pre-move state, which no reader of the current tree would reach for. _медведь?_
 The negation was authored in the same commit that made it one.
+
+**17 September — the lesson written down twice, in one change.** The i18n rule's
+new paragraph argued that the constraint is about the data, not the renderer —
+the reasoning the same commit had already put in the `MESSAGE_MARKDOWN`
+docstring — and then closed by denying an alternative the constraint above it
+rules out. _медведь или по крайней мере сильно сократить._
 
 ## Asked for a source, it supplies its own version (×8)
 

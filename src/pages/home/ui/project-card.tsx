@@ -1,17 +1,17 @@
 import { Group, Text, Title } from '@mantine/core';
 
-import type { WithOptionalCaseStudyHref } from '@/shared/typings';
 import { Card, CardLink, InternalLink, type Summarized } from '@/shared/ui';
 
 import classes from './project-card.module.scss';
 import { TechLine } from './tech-line';
 
-type ProjectCardProps = Summarized &
-  WithOptionalCaseStudyHref & {
-    techStack?: string;
-    stars?: number;
-    url?: string;
-  };
+type ProjectCardProps = Summarized & {
+  /** The case study this project cross-links, where it has one. */
+  caseStudyHref?: string;
+  techStack?: string;
+  stars?: number;
+  url?: string;
+};
 
 export function ProjectCard({
   title,
