@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×33)
+## What it was handed, it treats as fixed (×35)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -89,6 +89,13 @@ Renaming #78 from `refactor:` to `ci:`, the agent called its not deploying right
 and in the same reply flagged that the vova lane had never run in CI, offering a
 manual dispatch. The operator's answer was that `ci:` belongs on the list: where
 CI _is_ the deploy, the untested lane it had named was the case against the list.
+
+**22 September — two rules stopped at the numbers they give.** The player
+provider held ~300 lines of effects, audio wiring and keyboard beside its JSX,
+short of the ~450 where the seams principle speaks, and stayed whole until the
+operator asked for the mechanics in a hook. That round `/dry` passed a thumb
+block spelled for two vendor pseudo-elements and `flex: 1; min-width: 0` twice,
+its examples saying 4+ lines across classes. _is this DRY? I see repeats._
 
 ## An account that explains the code stands in for running it (×15)
 
@@ -190,7 +197,7 @@ migrations are the exception and the subject niche; the idea file supplied the
 why — two correct migrations composing into nonsense — and the article inherited
 it as the speaker's. _проблема не в этом._
 
-## Given a form, it fills the form (×5)
+## Given a form, it fills the form (×6)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -205,24 +212,16 @@ had prompted it — and it does not need saying at all.
 arrived as the first with four fields changed and `author`, `social` and
 `avatar` retyped. The type went green: every cell had a value. _не DRY._
 
-## It checks the render against its intent, not against the page (×4)
+**22 September — `{ en: 'X', ru: 'X' }`, album after album.** The registry's
+fields were per-locale, so every title and artist was spelled twice, identical
+for all but one release. The operator asked for a string or the pair.
 
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, answerable only from the page.
-
-**17 September — the float fixed, the page passed.** Told to run a drawing beside
-the text, the agent floated it, caught unprompted that the float squeezed the
-next heading, fixed that, screenshotted and called it good. _выноска стала
-лучше, изображение -- хуже_ — against one short paragraph the image outran its
-section. The defect being fixed got looked at; the other was only on the page.
-
-## What it defends in writing, it stops asking about (×4)
+## What it defends in writing, it stops asking about (×5)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
-its being right. The section below asks a future reader for attention; this buys
-immunity from the agent's own. A caveat conceding the defect files it as a cost,
+its being right. "It warns where the repo could refuse" asks a future reader for
+attention; this buys immunity from the agent's own. A caveat conceding the defect files it as a cost,
 and a fix the agent just made arrives already wearing the verdict "done".
 
 **21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
@@ -247,6 +246,23 @@ rehype plugins were DRY, the agent pulled their shared walk into `visitElements`
 and `replaceElements` and listed what it had left untouched — not the helpers,
 which were the fix. _can replaceElements go through visitElements?_ Both
 restated `visit(tree, 'element')` and the tag test.
+
+**22 September — `Pick`, defended in the rule's own words.** `PlayerTrack`
+picked three keys out of `SongFrontmatter`, its comment saying so "the two
+cannot drift" — the reason `CLAUDE.md` gives for the one form it names, a base
+both types intersect. _no Pick_: the narrow schema first, the song's extending it.
+
+## It checks the render against its intent, not against the page (×4)
+
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, answerable only from the page.
+
+**17 September — the float fixed, the page passed.** Told to run a drawing beside
+the text, the agent floated it, caught unprompted that the float squeezed the
+next heading, fixed that, screenshotted and called it good. _выноска стала
+лучше, изображение -- хуже_ — against one short paragraph the image outran its
+section. The defect being fixed got looked at; the other was only on the page.
 
 ## It warns where the repo could refuse (×3)
 
@@ -299,7 +315,7 @@ taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
 stayed a bump; an entry removed this way takes its count with it. A fifth never
 reached the list: the cost report's default grain, a taste in output with
-nothing to read it off.
+nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
 
 ## The two families
 
