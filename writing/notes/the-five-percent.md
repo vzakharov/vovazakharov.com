@@ -118,7 +118,7 @@ build the component, the agent stood it _beside_ `InternalLink` as
 
 **16 September — the same config, read as a specification a second time.** Asked
 why `shared/ui` cannot reach `shared/seo` directly, the agent read our own
-`boundaries` policy back as a stricter FSD, which exempts the layer in one line.
+`boundaries` policy back as a stricter FSD; the policy exempts the layer in one line.
 _именно так shared и должен работать._ 9 September says whose file it is.
 
 **17 September — the deploy gate's prefix set, taken as given a third time.** A
@@ -175,7 +175,7 @@ back identical. _но тогда и в экранной версии это бу
 
 **16 September — the config line it blamed, never varied.** Ruling a flat
 `shared/lib/collections.ts` illegal, the agent blamed `src/shared/lib/(*)/**` off
-its text. Same error without it. _а у меня из playgramapp такие живут спокойно._
+the config's text. Same error without it. _а у меня из playgramapp такие живут спокойно._
 
 **17 September — a boundary explained, not read.** The CV translates in the
 browser so the reader switches without navigating; the picker is `<a href>`.
