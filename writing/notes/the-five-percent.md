@@ -43,7 +43,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×27)
+## What it was handed, it treats as fixed (×29)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -82,6 +82,15 @@ reconcile the gap. The next screenshot showed the panel disagreeing with
 _itself_ — "Cost $198.49" beside its own breakdown's "Total $47.04". There was
 never one number to reconcile against, and widen-the-frame went to the agent's
 own code rather than to the source measuring it.
+
+**22 September — a miss blamed on the reading, not on the search.** Page PDFs
+stopped being committed files, and `/tend-prose` read past three denials of it —
+"The PDFs are build artifacts, not committed files" among them — until _re-check
+for polar bears_. The agent filed the miss as attention running thin in the
+session that wrote the prose. The next comment asked for a grep over negators:
+the lens searches for one of its two tells, a subject off the removed-noun list,
+and this change removed a property rather than a noun, so that search came back
+empty by construction. The diagnosis never asked what the pass searched with.
 
 ## An account that explains the code stands in for running it (×15)
 
@@ -277,26 +286,6 @@ in the commit body. _why abandon the destructuring at all?_ —
 `const { avatar }: SiteConfig = siteConfig(RENDERED_SITE)` widens the same and
 keeps it. The half under question was defended; the whole edit read as settled.
 
-## The defect its own change seeds is the one its pass runs thin on (×1)
-
-A change has a shape, and it seeds defects of that shape — a removal seeds
-denials of what was removed. The pass that would catch them runs in the session
-that made the change, where the old state is still vivid, so a sentence denying
-it reads as informative rather than as a leftover. Every other lens fires
-normally, which is what the run reports; no pass says which of its lenses ran
-thin.
-
-**22 September — the negation lens, on a branch whose whole point is removal.**
-Page PDFs stopped being committed files, and `/tend-prose` ran unfocused over
-the diff minutes after the prose was written, cutting the narration bears and
-reporting them as the pass's yield. _re-check for polar bears_ returned three it
-had read past — "The PDFs are build artifacts, not committed files", "Nothing is
-committed and nothing is vetted", and "nothing that is not stored can go stale",
-that last written twice in the same session as the pass meant to catch it. A
-fourth comment caught it in another coat: `.gitattributes` opened on "The
-renders that stay committed", defining a set against the one that had just left
-and naming none of its members.
-
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -317,7 +306,7 @@ all three grains every run — a taste in output with nothing to read it off.
 
 ## The two families
 
-Twelve learnings is not a pattern, but they fall in two groups. One is failures
+Eleven learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
