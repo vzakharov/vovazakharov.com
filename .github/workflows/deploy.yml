@@ -158,6 +158,11 @@ jobs:
       - name: Build
         run: pnpm build:vova
 
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: vova
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -212,6 +217,11 @@ jobs:
 
       - name: Build
         run: pnpm build:${{ matrix.site }}
+
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: ${{ matrix.site }}
 
       - name: Publish to the receiving repository
         env:
