@@ -1,0 +1,58 @@
+{
+  "sessionId": "70be31f5-e892-5b04-bb94-2716f3787933",
+  "branch": "claude/read-full-cv-button-regression-dp7blr",
+  "cwd": "/home/user/vovazakharov.com",
+  "name": null,
+  "openingPrompt": "кнопка (Read full CV) регрессировала (особенно заметно при ховере)",
+  "prs": [
+    79
+  ],
+  "url": "https://claude.ai/code/session_01KHpNeQqPTbi6M6TdT73ieo",
+  "firstResponseAt": "2026-09-22T13:25:59.699Z",
+  "lastResponseAt": "2026-09-22T13:55:38.568Z",
+  "pricesAsOf": "2026-09-19",
+  "claudeCodeTotalUsd": 6.1270064999999985,
+  "total": {
+    "inputTokens": 232,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219692,
+    "cacheReadTokens": 20139391,
+    "outputTokens": 63247,
+    "thinkingTokens": 28433,
+    "responses": 116,
+    "costUsd": 13.8489505
+  },
+  "ownTurns": {
+    "inputTokens": 232,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219692,
+    "cacheReadTokens": 20139391,
+    "outputTokens": 63247,
+    "thinkingTokens": 28433,
+    "responses": 116,
+    "costUsd": 13.8489505
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0
+  },
+  "byRate": {
+    "claude-opus-5/standard": {
+      "inputTokens": 232,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 219692,
+      "cacheReadTokens": 20139391,
+      "outputTokens": 63247,
+      "thinkingTokens": 28433,
+      "responses": 116,
+      "costUsd": 13.8489505
+    }
+  },
+  "warnings": []
+}
