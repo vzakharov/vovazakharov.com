@@ -11,6 +11,10 @@
 # An argument beginning `scripts/` is resolved against the repository root
 # rather than the app directory, so a caller writes the path it would write from
 # the root instead of counting the `../..` back out of `apps/<site>`.
+#
+# The repository's `node_modules/.bin` goes on `PATH`: the app directories are
+# not packages of their own, so nothing there resolves `tsx` or `next` for a
+# caller that is not already a `package.json` script.
 set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
@@ -34,4 +38,6 @@ for _ in "$@"; do
 done
 
 cd "$root/apps/$site"
+PATH="$root/node_modules/.bin:$PATH"
+export PATH
 NEXT_PUBLIC_SITE=$site exec "$@"

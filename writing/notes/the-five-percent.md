@@ -5,19 +5,17 @@ still needs a knowledgeable human — is the whole argument for reviewing agents
 at all, and nobody who makes the claim can say what it consists of. Naming it
 needs specimens, not argument.
 
-So this file collects them, abstracted: every section is one learning, and under
-it the times a review bumped into it. One learning bumped three times is worth
-more of the eventual post than three bumped once, which is why the count is in
-the heading and the file is sorted by it. It feeds backlog row 18 in
-`writing/linkedin/plan.md`, undraftable until the top of this list convinces on
-its own. A collection that only vindicates the reviewer is worth as much as a
-measurement that only flatters, so bumps stay in whatever they show.
+So this file collects them, abstracted: each section is one learning, under it
+the times a review bumped into it. One learning bumped three times is worth more
+of the eventual post than three bumped once, so the count is in the heading and
+the file is sorted by it. It feeds row 18 of `writing/linkedin/plan.md`, not
+draftable until the top of this list convinces alone. Bumps stay in whatever
+they show: a collection that only vindicates the reviewer is an ad.
 
 **Adding to it is mandatory after a review session** that changed something the
 agent had settled — `CLAUDE.md` § "GitHub comments" carries the rule. **The file
-has an end:** once row 18 is posted, it retires with that rule. Everything
-durable belongs where the code can see it — a rule under `.claude/rules/`, a
-line in `CLAUDE.md` — whether or not it lands here.
+has an end:** once row 18 is posted, it retires with that rule. Anything durable
+belongs where the code can see it, whether or not it lands here.
 
 ## How this file is kept
 
@@ -43,7 +41,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×29)
+## What it was handed, it treats as fixed (×32)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -51,10 +49,9 @@ given as a rule, aka the **precedent fallacy**. The reasoning inside the frame i
 sound, so a second agent checking it passes. The human's move is to change it.
 
 **6 September — a word the vocabulary didn't have.** `docs:` for a change that
-documents nothing: the agent weighed three candidates from the list and never
-looked outside it. _Let's introduce "content:"_ — the list is ours. A day later
-the agent framed tripping the deploy gate as a trade with no clean answer: the
-new word was one day old and already a given.
+documents nothing: the agent weighed three prefixes from the list and never
+looked outside it. _Let's introduce "content:"_ — the list is ours. A day later,
+weighing the deploy gate, it treated that one-day-old word as a given.
 
 **8 September — the gate's coverage read as the rule's extent.** The CV's route
 files inlined their params inside a generic, `pnpm type-overlap` ran clean, and
@@ -64,36 +61,26 @@ the rule by hand next, it put two slices' shared `caseStudyHref?` in
 
 **9 September — our own lint config, read as a specification.** Asked whether a
 `server-only` barrel would better home a schema, the agent built it, hit
-`boundaries/dependencies` and declined. _let's rewrite the boundaries._ A week on,
-asked why `shared/ui` cannot reach `shared/seo`, it read the same policy back as
-a stricter FSD — _именно так shared и должен работать._ The spec exempts it.
-
-**21 September — the layer this tree doesn't have, left out of the candidates.**
-Asked whether `DocumentMeta` is shared or an entity, the agent argued it stays by
-eliminating over `{shared/ui, widgets}` — the set the tree offers, `entities/`
-being empty — and presented that as the whole space searched. _FSD nowhere
-requires an entity to have a model._ The sentence granting the absent layer is
-the agent's own, in that same file.
+`boundaries/dependencies` and declined. _let's rewrite the boundaries._ A week
+on it read that policy back as FSD — _именно так shared и должен работать._ The
+spec exempts it.
 
 **21 September — a disagreeing figure, never asked whether it was one figure.**
-The usage panel showed $110.52 for a session whose transcript topped out at
-$40.86; the agent chased it hard and reported honestly that it could not
-reconcile the gap. The next screenshot showed the panel disagreeing with
-_itself_ — "Cost $198.49" beside its own breakdown's "Total $47.04". There was
-never one number to reconcile against, and widen-the-frame went to the agent's
-own code rather than to the source measuring it.
+The usage panel showed $110.52 against a transcript topping out at $40.86, and
+the agent reported honestly that it could not reconcile them. The next
+screenshot had the panel disagreeing with _itself_ — "Cost $198.49" beside
+"Total $47.04": widen-the-frame had gone to the agent's code, not the source.
 
-**22 September — a rule's wording, read as its reach.** Dogfooding `/feedback`,
-the agent posted the review, fixed the three things it found and replied on each
-thread citing § "GitHub comments" — which governs comments the operator points it
-at, not its own. Reviewer and author in one session is the collapse the skill
-exists to undo, and one of the blocks being answered was the finding that nothing
-says who acts on a posted reading.
+**22 September — a miss blamed on the reading, not on the search.** The agent
+filed `/tend-prose` reading past three denials as attention running thin; the
+next comment asked for a grep over negators. The lens searches a removed-noun
+list and this change removed a property: the search was empty by construction.
 
-**22 September — an inherited list, carried whole.** Listing the mechanics
-`/feedback` takes from § "GitHub comments", the agent included the bare-SHA rule.
-`/feedback` makes no commits, so it has no SHA to write: the list arrived as a
-unit and went across as one, with no item checked against the skill.
+**22 September — the publishing prefixes, argued against in its own message.**
+Renaming #78 from `refactor:` to `ci:`, the agent called its not deploying right,
+and in the same reply flagged that the vova lane had never run in CI, offering a
+manual dispatch. The operator's answer was that `ci:` belongs on the list: where
+CI _is_ the deploy, the untested lane it had named was the case against the list.
 
 ## An account that explains the code stands in for running it (×15)
 
@@ -101,31 +88,57 @@ The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
 because the reasoning closed. Nothing inside an account reports it was unchecked.
 
-**19 September — a limitation written down instead of tested, twice in one
-review.** The costs rule listed "the last turn of a session is never priced"
-among what the totals miss; _что может этому помочь?_ — `ls ~/.claude/projects/`
-answers it, the container holding only the live session's transcript. Same round:
-_is prices.json verified by anything?_ was one read from "essentially no".
+**19 September — a limitation written down instead of tested, twice.** The costs
+rule listed "the last turn of a session is never priced" as a gap; _что может
+этому помочь?_ — `ls ~/.claude/projects/` answers it. Same round, _is
+prices.json verified by anything?_ was one read from "essentially no".
 
-**21 September — a green test for a code path production cannot reach.** The
-ledger's `subagents` bucket was structurally always zero — the client writes
-subagent transcripts to a file of their own — and the test passed because the
-agent fed it sidechain records the main transcript never carries. _something's
-off_ came from the operator: 7% short against the client's own usage panel. Those
-transcripts carry the client's running cost, in lines written up as unverifiable.
+**21 September — a green test for a path production cannot reach.** The ledger's
+`subagents` bucket was always zero — the client writes subagent transcripts to
+files of their own — and the test passed on sidechain records the agent fed it.
+_something's off_ came from the operator: 7% short of the client's usage panel.
 
 **21 September — the placement argued from the markup, never rendered.** The end
-seal rode the last sentence's punctuation, and the plugin carried a two-branch
-special case so it could append inside a final paragraph and fall back to its own
-line after a list. _on its own line, centred — clumsy in the text_ deleted all of
-it. The case was argued from what inline means in compiled HTML, `/preview`
-unrun, and the special case was the tell, read as thoroughness.
+seal rode the last sentence's punctuation via a two-branch plugin special case.
+_on its own line, centred — clumsy in the text_ deleted all of it: argued from
+compiled HTML, `/preview` unrun, its special case a tell read as thoroughness.
 
-**21 September — the PDFs it had just rendered, never opened.** Moving the end
-mark to its own line re-flagged every document, so the agent re-rendered both
-sites, watched `content:pdf:<site> --check` go green and called the round done. A
-screenshot came back of a last page: the footer sits under the prose, not at the
+**21 September — the PDFs it had just rendered, never opened.** The agent
+re-rendered both sites, watched `content:pdf:<site> --check` go green and called
+it done. A screenshot came back: the footer sits under the prose, not at the
 foot of the sheet. The manifest says the file is current, not that it is right.
+
+## It writes its reasoning into the artifact (×13)
+
+Asked to produce a thing, the agent produces the thing and its defence. The
+defence is accurate and traceable, and still wrong: what the artifact is _for_
+decides what belongs in it — never the record of how it was chosen, never a
+defence a checker already makes, never content outliving the file it was put in.
+
+**6 September — the paragraph explaining the paragraph.** The announcement draft
+carried a passage on its own calibration, arguing why its register was pitched
+where it was. The human deleted it: a reader came for the post, not its defence.
+
+**9 September — the maintenance manual in the commit body.** The squash proposal
+ended on "Four things to know when editing here" — every item true, every one
+belonging in a rules file, accreted across refreshes one push at a time.
+
+**17 September — the lesson written down twice, in one change.** The i18n rule's
+new paragraph restated the reasoning the same commit had put in the
+`MESSAGE_MARKDOWN` docstring, then denied an alternative the constraint above it
+rules out. _медведь или по крайней мере сильно сократить._
+
+**21–22 September — denials written in the commit that made them denials.**
+Moving `DocumentMeta`, the byline docstring closed on "rather than sharing it
+sideways", the pre-move state; adding `/feedback` after `/dictation`, the rider
+said it posts "on the PR" — not here, where the afterword used to live. Only a
+reader of the old tree asks either. _медведь?_, both times.
+
+**21 September — a rule defending a placement nothing needed defending.** Asked
+why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
+`content.md` bullet — a `server-only` wall, future islands — and, when both
+fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
+`fsd.md` says where a component goes and Steiger fails the wrong move unread.
 
 ## It edits the copy in front of it, not the fact behind it (×12)
 
@@ -144,52 +157,15 @@ agent wrote two rules into `squash-message/SKILL.md` and closed the round — a
 skill adopted from a repo whose copy still asks for it. _Let's file an issue._
 
 **21 September — the argument left standing when its reason moved out.** The
-Bible's articles moved to a site of their own and latestageagentic.com's long
-opening argument stayed as written: nothing in the diff made a sentence of it
-false. _far too much now that the articles are elsewhere._ What earned the length
-had left with them — the change was checked for what it broke, not what it
-stranded.
+Bible's articles moved to their own site and latestageagentic.com's long opening
+stayed, no sentence of it made false. _far too much now that the articles are
+elsewhere_ — the diff was checked for what it broke, not what it stranded.
 
-**22 September — the anchored clause cut, the premise behind it kept.** On the
-_медведь?_ thread, the agent cut the rider and kept `/feedback` among what follows
-an agreed transcript, defending it as "a boundary and an order, not a negation"
-because the plan had settled it. _вопрос "ой, а я должен высказать своё мнение про
-это?" в принципе нигде в процессе "диктовки" возникнуть не должен._ The whole
-link was afterword residue, the lede's "judging it is `/feedback`'s job" included:
-a one-word comment named a premise, and the smallest edit that satisfied its
-anchor kept it.
-
-## It writes its reasoning into the artifact (×12)
-
-Asked to produce a thing, the agent produces the thing and its defence. The
-defence is accurate and traceable, and still wrong: what the artifact is _for_
-decides what belongs in it — never the record of how it was chosen, and never
-content outliving the file it was put in.
-
-**6 September — the paragraph explaining the paragraph.** The announcement draft
-carried a passage on its own calibration, arguing why its register was pitched
-where it was. The human deleted it: a reader came for the post, not its defence.
-
-**9 September — the maintenance manual in the commit body.** The squash proposal
-ended on "Four things to know when editing here" — every item true, every one
-belonging in a rules file, accreted across refreshes one push at a time.
-
-**17 September — the lesson written down twice, in one change.** The i18n rule's
-new paragraph argued that the constraint is about the data, not the renderer —
-the reasoning the same commit had already put in the `MESSAGE_MARKDOWN`
-docstring — and then closed by denying an alternative the constraint above it
-rules out. _медведь или по крайней мере сильно сократить._
-
-**21 September — a clause denying the arrangement the move had ended.** Moving
-`DocumentMeta` into `entities/document`, the byline docstring closed on "both
-reach down to it rather than sharing it sideways" — the sideways-sharing being the
-pre-move state, which no reader of the current tree would reach for. _медведь?_
-The negation was authored in the same commit that made it one.
-
-**22 September — a rider that answered the old format.** Adding `/feedback` to
-what follows `/dictation`, the agent wrote "which posts it as a review on the PR
-the transcript arrives on" — on the PR, that is, not in this file, which only a
-reader who remembers the afterword living here would ask. _медведь?_
+**22 September — the anchored clause cut, the premise behind it kept.** On a
+_медведь?_ thread the agent cut the rider and defended keeping `/feedback` among
+what follows a transcript, since the plan had settled it. _вопрос "ой, а я
+должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
+возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
 
 ## Asked for a source, it supplies its own version (×8)
 
@@ -202,10 +178,9 @@ most frequent heading, and the agent wrote its own gloss — hours after appendi
 four bumps to the section it was naming. _take the actual heading._
 
 **17 September — the reason the recording never gave.** The tape says only that
-database migrations are the exception and that the subject is niche. The idea
-file written from it supplied the why — two correct migrations composing into
-nonsense — and the article inherited that as the speaker's. _проблема не в этом._
-Nothing downstream of the idea file tells a supplied reason from a heard one.
+migrations are the exception and the subject niche; the idea file supplied the
+why — two correct migrations composing into nonsense — and the article inherited
+it as the speaker's. _проблема не в этом._
 
 ## Given a form, it fills the form (×5)
 
@@ -230,10 +205,40 @@ different question from whether it happened, answerable only from the page.
 
 **17 September — the float fixed, the page passed.** Told to run a drawing beside
 the text, the agent floated it, caught unprompted that the float squeezed the
-following heading into the margin, fixed that generally, screenshotted and called
-the change good. _выноска стала лучше, изображение -- хуже_ — against one short
-paragraph the image outran its own section. The catch and the miss were the same
-act of looking: one defect was the thing being fixed, the other only on the page.
+next heading, fixed that, screenshotted and called it good. _выноска стала
+лучше, изображение -- хуже_ — against one short paragraph the image outran its
+section. The defect being fixed got looked at; the other was only on the page.
+
+## What it defends in writing, it stops asking about (×4)
+
+A choice made, written up and pinned by a test has three artifacts in front of
+it by the time anyone looks, each honest that it was deliberate and silent on
+its being right. The section below asks a future reader for attention; this buys
+immunity from the agent's own. A caveat conceding the defect files it as a cost,
+and a fix the agent just made arrives already wearing the verdict "done".
+
+**21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
+took a third argument, `subject`, so a failed check could name what was being
+read; a docstring justified it and a test asserted it reached the message. _drop
+it_ — `vova, lsa` identifies the site variable as plainly as its name does.
+
+**21 September — a rationale in a docstring, read back as a requirement.**
+`SITE_CONFIGS` is `as const satisfies`, its docstring saying `satisfies` keeps
+the literal types call sites read — so the agent argued two rounds over how
+`render-og.ts` should widen `avatar`. _пусть будет
+`const SITE_CONFIGS: Record<SiteId, SiteConfig>`?_ Nothing reads a literal.
+
+**21 September — a tag invented for a word the platform had.** The content
+pipeline emitted `content-video-embed`, with two new traps in `content.md` and a
+docstring granting the tags "make the tree invalid HTML". _другой набор
+аттрибутов, или что?_ — `toJsxRuntime` keys off the tag name, so `video` reaches
+the same component. The caveat had been the finding, filed as a cost.
+
+**21 September — the DRY helper that duplicated itself.** Asked whether the
+rehype plugins were DRY, the agent pulled their shared walk into `visitElements`
+and `replaceElements` and listed what it had left untouched — not the helpers,
+which were the fix. _can replaceElements go through visitElements?_ Both
+restated `visit(tree, 'element')` and the tag test.
 
 ## It warns where the repo could refuse (×3)
 
@@ -243,38 +248,15 @@ future reader for attention at the moment they are about to do the thing. A
 structure that makes the wrong move fail to build asks nothing of anyone's.
 
 **17 September — +377 kB, written into a docstring.** Asked why
-`NEXT_PUBLIC_SITE` is matched against a list of ids rather than parsed with zod,
-the agent measured zod through the client chain and put the number in
-`src/shared/config/site-ids.ts`, so nobody would revisit it on intuition. _нам
-нужно сделать .server-only. модуль или бочку._ The barrel makes it a build error.
+`NEXT_PUBLIC_SITE` is matched against a list rather than parsed with zod, the
+agent measured zod's client cost and wrote it into `site-ids.ts`. _нам нужно
+сделать .server-only. модуль или бочку._ The barrel makes it a build error.
 
 **21 September — the confusing field, documented rather than made impossible.**
 Asked a second time what tells `SiteImage`'s `path` from its `vector`, the agent
-had answered the first ask by writing the distinction into the type's docstring,
-and treated the having-to-ask as the finding that note discharged. _the API still
-looks confusing._ The fix was the shape —
-`{ path } & ({ vector: string } | { vector?: never })` — leaving prose nothing to
-disambiguate.
-
-## What it defends in writing, it stops asking about (×2)
-
-A choice made, then written up, then pinned by a test has three artifacts in
-front of it by the time anyone looks, each honest that the choice was deliberate
-and silent on its being right. The section above asks a future reader for
-attention it will not get; this one buys immunity from the agent's own.
-
-**21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
-took a third argument, `subject`, so a failed check could name what was being
-read; a docstring justified it and a test asserted it reached the message. _drop
-it_ — `vova, lsa` identifies the site variable as plainly as its name does.
-
-**21 September — a rationale in a docstring, read back as a requirement.**
-`SITE_CONFIGS` is `as const satisfies`, its docstring saying why: `satisfies`
-keeps the literal types every call site reads. So a vector-less site has no
-`vector` key and `render-og.ts` cannot destructure `avatar` without widening it —
-argued twice, each round on which widening. _пусть будет
-`const SITE_CONFIGS: Record<SiteId, SiteConfig>`?_ Nothing reads a literal, and
-the premise was the agent's own earlier sentence.
+pointed at the docstring its first answer had written. _the API still looks
+confusing._ The fix was the shape, which leaves prose nothing to disambiguate:
+`{ path } & ({ vector: string } | { vector?: never })`.
 
 ## Its prose answers the question it had, not the reader's (×2)
 
@@ -283,87 +265,15 @@ rewrite is held against the points it was meant to carry — so a line answering
 the wrong question, or too compressed to give its points back, passes every test.
 What a reader stops at that line holding is the thing nothing measures.
 
-**21 September — four comments, four true sentences.** `.claude/rules/fsd.md`
-narrated how `widgets/` came to be earned — _археология?_ — where a rule says
-where a block goes. `GENERATED_DIR`'s docstring gave the directory's contents,
-not the invariant that an output read back as an input never settles. `SiteImage`
+**21 September — four comments, four true sentences.** `fsd.md` narrated how
+`widgets/` was earned — _археология?_ — where a rule says where a block goes;
+`GENERATED_DIR`'s docstring listed contents, not the invariant; `SiteImage`
 named `path` and `vector` without why both exist, and the first move on _what's
-the difference_ was to rename `path` — one site keeps an SVG there.
+the difference_ was renaming `path`, which one site keeps an SVG in.
 
 **22 September — two rationales in one line, neither legible.** The agent rewrote
 the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
 and judged it done. _не очень понимаю что эта строчка говорит._
-
-## A required change launders the unrequired one beside it (×1)
-
-One part of an edit is forced — a type that won't otherwise hold, a rename the
-compiler demands — and the agent lets it stand for the whole. The necessary part
-is defended and the rest rides in unexamined, so an edit that survives the
-question reads as minimal. Whether a form that changed less would do goes unasked.
-
-**21 September — the annotation bought with the destructuring.** `SiteImage`'s
-widening genuinely needs the annotation, so the agent rewrote the destructuring
-as `const avatar: SiteImage = siteConfig(RENDERED_SITE).avatar` and defended it
-in the commit body. _why abandon the destructuring at all?_ —
-`const { avatar }: SiteConfig = siteConfig(RENDERED_SITE)` widens the same and
-keeps it. The half under question was defended; the whole edit read as settled.
-
-## A caveat it writes for its own design is the verdict on it (×1)
-
-The discomfort and its justification arrive together, and the agent writes the
-second: a docstring conceding the defect, a rules file documenting its own
-invention's hazards. The concession is accurate — which is what files it as an
-accepted cost, and what a reviewer reads as the case for deleting the thing.
-
-**21 September — a tag invented for a word the platform had.** The content
-pipeline emitted `content-video-embed`, exported as one constant so the plugin and
-the component map agreed by import — carrying two new traps in
-`.claude/rules/content.md` and a docstring granting that the invented tags "make
-the tree invalid HTML, safe only because nothing stringifies it". _другой набор
-аттрибутов, или что?_ — `toJsxRuntime` keys off the tag name, so `video` reaches
-the same component, and a raw-HTML `<video>` is covered too. The caveat had been
-the finding, filed as a cost.
-
-## The fix it just made is exempt from the check that made it (×1)
-
-The agent runs a lens over the code, produces the fix that lens demanded, and
-then holds the fix above the lens. The output of a check is the one place the
-check does not reach: the newest code is the least suspected, because it arrived
-already wearing the verdict "done."
-
-**21 September — the DRY helper that duplicated itself.** Asked on PR #72 whether
-the rehype plugins were DRY against each other, the agent pulled their shared
-element-walk into `src/shared/content/hast-elements.ts` — `visitElements` for
-edits in place, `replaceElements` for swaps — and listed what it had left
-untouched, the two new helpers not on it: they were the fix, so they were clean.
-_can replaceElements go through visitElements, handing it index and parent?_ Both
-restated `visit(tree, 'element')` and the tag-name test — the repetition just
-hunted out of the plugins, now standing twice inside the module built to end it.
-`replaceElements` now rides on `visitElements`.
-
-## A constraint a checker enforces earns no prose (×1)
-
-Asked why a thing sits where it does, the agent writes to defend the placement —
-a rules bullet, a docstring — when where it may sit is both obvious from
-conventions already written down and enforced by a checker in plain view. No
-prose is owed: the checker fails the wrong move unread. The trap has two floors —
-reaching for a dramatic justification, a wall or needs that don't exist yet, over
-the plain reason; and, under it, that the plain reason was not owed either.
-Deletion is the repair, not a better sentence: it should not have been written.
-
-**21 September — a rule written to defend a placement nothing needed defending.**
-On PR #72, asked why `ContentVideo` (a mapped content component) lives in
-`pages/documents/ui/` rather than beside the plugin emitting its `<video>` in
-`shared/content`, the bullet on `content.md` gave two reasons: `shared/content`
-is `server-only`, so a client island "could never" reach it, and future islands —
-a copy button, a lightbox — justified the home. Both fell: the split is bridgeable
-by a client-safe barrel, and `ContentVideo` has no `use client` today, so the
-agent rewrote the bullet around the plain reason, FSD import direction. _the
-bullet is a polar bear_: where a component may live follows from ordinary `fsd.md`
-reasoning, and Steiger flags any real violation, so the prose just duplicates the
-checker. The fix was to delete the bullet (3ccbff8), not reword it — and the plain
-reason had not even held, since Steiger does not forbid the component from
-`shared`, which is what defending a rule that shouldn't exist gets you.
 
 ## Not bumps
 
@@ -380,12 +290,12 @@ message_. Whether a piece says what its author meant is his alone to make.
 taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
 stayed a bump; an entry removed this way takes its count with it. A fifth never
-reached the list: the cost report's default grain, settled as month and wanted as
-all three grains every run — a taste in output with nothing to read it off.
+reached the list: the cost report's default grain, a taste in output with
+nothing to read it off.
 
 ## The two families
 
-Fourteen learnings is not a pattern, but they fall in two groups. One is failures
+Ten learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and

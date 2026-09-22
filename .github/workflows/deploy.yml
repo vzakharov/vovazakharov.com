@@ -43,9 +43,14 @@ jobs:
           receivers=''
           subjects=''
 
-          # Which prefixes publish is CLAUDE.md § Deployment. One variable
-          # because the match and the scope extraction below both read it.
-          publishing='(feat|fix|perf)'
+          # The commit types whose merge publishes, and the one place that set
+          # is stated. A type belongs when a merge of it changes what the sites
+          # serve or how they get served: `feat` and `fix` by definition,
+          # `perf` because on a static export a cheaper page is different
+          # files, `ci` because here CI is the deploy and a run of it is the
+          # only test a change to it gets. One variable because the match and
+          # the scope extraction below both read it.
+          publishing='(feat|fix|perf|ci)'
 
           # A site name selects that site; anything else — an unscoped subject,
           # a scope naming none of them, the picker's own `all` — selects all of
@@ -158,6 +163,11 @@ jobs:
       - name: Build
         run: pnpm build:vova
 
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: vova
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -212,6 +222,11 @@ jobs:
 
       - name: Build
         run: pnpm build:${{ matrix.site }}
+
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: ${{ matrix.site }}
 
       - name: Publish to the receiving repository
         env:
