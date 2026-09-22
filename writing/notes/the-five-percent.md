@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×22)
+## What it was handed, it treats as fixed (×23)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -120,7 +120,12 @@ at, not its own. Reviewer and author in one session is the collapse the skill
 exists to undo, and one of the blocks being answered was the finding that nothing
 says who acts on a posted reading.
 
-## It edits the copy in front of it, not the fact behind it (×9)
+**22 September — an inherited list, carried whole.** Listing the mechanics
+`/feedback` takes from § "GitHub comments", the agent included the bare-SHA rule.
+`/feedback` makes no commits, so it has no SHA to write: the list arrived as a
+unit and went across as one, with no item checked against the skill.
+
+## It edits the copy in front of it, not the fact behind it (×10)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -149,6 +154,15 @@ the vet run executes. It had searched its own diff.
 ничего перепроверять_, posted on a line of the dictation skill: the agent stopped
 re-verifying for that session and left the sentence standing in the skill, where
 the next run reads it. A comment on a rule is about the rule.
+
+**22 September — the anchored clause cut, the premise behind it kept.** On the
+_медведь?_ thread, the agent cut the rider and kept `/feedback` among what follows
+an agreed transcript, defending it as "a boundary and an order, not a negation"
+because the plan had settled it. _вопрос "ой, а я должен высказать своё мнение про
+это?" в принципе нигде в процессе "диктовки" возникнуть не должен._ The whole
+link was afterword residue, the lede's "judging it is `/feedback`'s job" included:
+a one-word comment named a premise, and the smallest edit that satisfied its
+anchor kept it.
 
 ## An account that explains the code stands in for running it (×9)
 
@@ -183,7 +197,7 @@ Under `print-hidden` the copy weighs nothing: all four PDFs came back identical.
 off the config's text. _а у меня из playgramapp такие живут спокойно._ Same
 error without it — and that line keeps `class-names` legal.
 
-## It writes its reasoning into the artifact (×8)
+## It writes its reasoning into the artifact (×9)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -219,6 +233,11 @@ thought arrived wrapped in an exchange the reader never saw. _conversational
 edit to the three scripts carried a note on what the recording had instead, kept
 through three review rounds — a diff against the tape, inside the thing to be
 read aloud from. _держать постоянный журнал разницы нет._
+
+**22 September — a rider that answered the old format.** Adding `/feedback` to
+what follows `/dictation`, the agent wrote "which posts it as a review on the PR
+the transcript arrives on" — on the PR, that is, not in this file, which only a
+reader who remembers the afterword living here would ask. _медведь?_
 
 ## Asked for a source, it supplies its own version (×7)
 
@@ -297,6 +316,16 @@ with no way to reach the person on it: _the prose itself says nothing_.
 what the issue named — `localhost`, twice — the dump also said which seven were
 fine. _все линки открываются норм_ got two rounds of theory it had already answered.
 
+## It checks a sentence for what went in, not for what comes out (×1)
+
+The prose sibling of the render check above: a rewrite is held against the points
+it was meant to carry, and they are all there. Whether a reader can get them back
+out is a separate test, and the one a compressed sentence fails.
+
+**22 September — two rationales in one line, neither legible.** The agent rewrote
+the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
+and judged it done. _не очень понимаю что эта строчка говорит._
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -315,7 +344,7 @@ stayed a bump; an entry removed this way takes its count with it.
 
 ## The two families
 
-Seven learnings is not a pattern, but they fall in two groups. One is failures to
+Eight learnings is not a pattern, but they fall in two groups. One is failures to
 notice the frame was ours — the prefix list, the checker whose coverage read as
 the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
