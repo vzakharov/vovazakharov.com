@@ -277,6 +277,63 @@ in the commit body. _why abandon the destructuring at all?_ —
 `const { avatar }: SiteConfig = siteConfig(RENDERED_SITE)` widens the same and
 keeps it. The half under question was defended; the whole edit read as settled.
 
+## A caveat it writes for its own design is the verdict on it (×1)
+
+The discomfort and its justification arrive together, and the agent writes the
+second: a docstring conceding the defect, a rules file documenting its own
+invention's hazards. The concession is accurate — which is what files it as an
+accepted cost, and what a reviewer reads as the case for deleting the thing.
+
+**21 September — a tag invented for a word the platform had.** The content
+pipeline emitted `content-video-embed`, exported as one constant so the plugin and
+the component map agreed by import — carrying two new traps in
+`.claude/rules/content.md` and a docstring granting that the invented tags "make
+the tree invalid HTML, safe only because nothing stringifies it". _другой набор
+аттрибутов, или что?_ — `toJsxRuntime` keys off the tag name, so `video` reaches
+the same component, and a raw-HTML `<video>` is covered too. The caveat had been
+the finding, filed as a cost.
+
+## The fix it just made is exempt from the check that made it (×1)
+
+The agent runs a lens over the code, produces the fix that lens demanded, and
+then holds the fix above the lens. The output of a check is the one place the
+check does not reach: the newest code is the least suspected, because it arrived
+already wearing the verdict "done."
+
+**21 September — the DRY helper that duplicated itself.** Asked on PR #72 whether
+the rehype plugins were DRY against each other, the agent pulled their shared
+element-walk into `src/shared/content/hast-elements.ts` — `visitElements` for
+edits in place, `replaceElements` for swaps — and listed what it had left
+untouched, the two new helpers not on it: they were the fix, so they were clean.
+_can replaceElements go through visitElements, handing it index and parent?_ Both
+restated `visit(tree, 'element')` and the tag-name test — the repetition just
+hunted out of the plugins, now standing twice inside the module built to end it.
+`replaceElements` now rides on `visitElements`.
+
+## A constraint a checker enforces earns no prose (×1)
+
+Asked why a thing sits where it does, the agent writes to defend the placement —
+a rules bullet, a docstring — when where it may sit is both obvious from
+conventions already written down and enforced by a checker in plain view. No
+prose is owed: the checker fails the wrong move unread. The trap has two floors —
+reaching for a dramatic justification, a wall or needs that don't exist yet, over
+the plain reason; and, under it, that the plain reason was not owed either.
+Deletion is the repair, not a better sentence: it should not have been written.
+
+**21 September — a rule written to defend a placement nothing needed defending.**
+On PR #72, asked why `ContentVideo` (a mapped content component) lives in
+`pages/documents/ui/` rather than beside the plugin emitting its `<video>` in
+`shared/content`, the bullet on `content.md` gave two reasons: `shared/content`
+is `server-only`, so a client island "could never" reach it, and future islands —
+a copy button, a lightbox — justified the home. Both fell: the split is bridgeable
+by a client-safe barrel, and `ContentVideo` has no `use client` today, so the
+agent rewrote the bullet around the plain reason, FSD import direction. _the
+bullet is a polar bear_: where a component may live follows from ordinary `fsd.md`
+reasoning, and Steiger flags any real violation, so the prose just duplicates the
+checker. The fix was to delete the bullet (3ccbff8), not reword it — and the plain
+reason had not even held, since Steiger does not forbid the component from
+`shared`, which is what defending a rule that shouldn't exist gets you.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `.claude/rules/writing.md`
@@ -297,7 +354,7 @@ all three grains every run — a taste in output with nothing to read it off.
 
 ## The two families
 
-Eleven learnings is not a pattern, but they fall in two groups. One is failures
+Fourteen learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and

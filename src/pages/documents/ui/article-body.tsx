@@ -1,17 +1,26 @@
-import type { WithHtml } from '@/shared/content';
+import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
+import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
-export function ArticleBody({ html }: WithHtml) {
-  // `prose-content` sits on the element holding the markup, so that
+import type { WithContentTree } from '@/shared/content';
+
+import { ContentVideo } from './content-video';
+
+/** The tags a component renders instead of the browser's own element. */
+const CONTENT_COMPONENTS: Partial<Components> = {
+  video: ContentVideo,
+};
+
+export function ArticleBody({ tree }: WithContentTree) {
+  // `prose-content` sits on the element holding the body, so that
   // `prose-content > h1` keys the part dividers off direct children.
   return (
-    <div
-      className="prose-content"
-      // The HTML is the build-time markdown pipeline's own output over
-      // first-party documents in `public/content/`, reviewed in the same PR as
-      // the code — nothing here is user-submitted. Sanitize at the pipeline if
-      // that ever stops being true (`.claude/rules/content.md`).
-      // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <div className="prose-content">
+      {toJsxRuntime(tree, {
+        Fragment,
+        jsx,
+        jsxs,
+        components: CONTENT_COMPONENTS,
+      })}
+    </div>
   );
 }
