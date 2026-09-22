@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-chore: #51 the agent's reading moves onto the PR as a review (pr #60)
+docs: #51 the agent's reading moves onto the PR as a review (pr #60)
 ```
 
 ```
@@ -16,20 +16,22 @@ discussion inside one file has nothing holding it.
 
 So `/afterword` becomes `/feedback` and posts the reading as a review on
 the PR: whole-piece blocks in the review body, inline comments only
-where a block points at a passage. It requires a PR rather than falling
-back to a file section, since two output shapes produced the confusion.
-The bar for what earns a block survives unchanged; what goes is the
-durability argument — answered by the PR exporter, which carries review
-threads with their line anchors — along with the two rules that were
-compensating for the one channel.
+where a block points at a passage. Two properties of the new channel are
+stated with it — inline comments sort by file position, so an argument
+whose order does work belongs in the body, and an anchor needs a line in
+the diff. The bar for what earns a block survives unchanged; what goes
+is the durability argument, answered by the PR exporter that carries
+review threads with their line anchors, along with the two rules that
+were compensating for the one channel.
 
 `/dictation` stops carrying the reading as a part of the transcript file
 and names `/feedback` beside `/subtitles` and `/dictation-to-post`, the
 other two things that happen to an agreed transcript later. The
-late-stage-agentic plan stops citing the skill for the two-voice post
-format's second voice, which no piece has yet produced and whose bar is
-now unsettled. The six `## Заметки агента` sections that merged with #50
-stay as the operator took them.
+late-stage-agentic plan keeps the human half of the two-voice post
+format and files the second voice as open: every reading so far is
+feedback for the operator, and what a stranger reading the post is owed
+is a different question. The six `## Заметки агента` sections that
+merged with #50 stay as the operator took them.
 
 Closes #51
 
