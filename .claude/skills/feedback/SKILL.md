@@ -5,7 +5,12 @@ description: The agent's own reading of a piece — a dictation, a draft, anythi
 End state of this skill: the PR carrying the piece has one review saying what you
 would say if the operator asked what you thought — in the material's language,
 the whole-piece blocks in the review body and the rest anchored to the passages
-they are about. The file is untouched.
+they are about, and short enough that every block in it earns its place. The file
+is untouched.
+
+**Language is a parameter**, `/feedback <file> [<language>]`, defaulting to the
+language the material is written in — the reading answers the piece, so it speaks
+the piece's language rather than this file's.
 
 ## What it is for
 
@@ -16,7 +21,7 @@ what the two of you settled is legible as an exchange because that is what it is
 
 **This is not `/code-review`.** That one hunts defects in a diff; this one reads
 a piece — what it argues under what it says, where the argument is missing a
-step. The two share three API calls and no judgement.
+step.
 
 ## The bar
 
@@ -32,10 +37,6 @@ lands, but a block that only agrees is praise wearing the shape of a response.
 **What would be cut from a post is not what gets cut from the source.** A
 digression carrying a third of a recording is still the recording. Say "in a post
 I would cut this" and leave the text alone.
-
-**Language is a parameter**, `/feedback <file> [<language>]`, defaulting to the
-language the material is written in — the reading answers the piece, so it speaks
-the piece's language rather than this file's.
 
 ## Where each block goes
 
@@ -57,8 +58,9 @@ Two further reasons the body carries the weight:
 
 ## Posting it
 
-One review, not a scatter of comments: the operator gets one notification and
-reads the blocks in order. Three calls, in this order:
+One review, not a scatter of comments — five comments are five notifications,
+and the body is the only part that arrives in the order you wrote it. Three
+calls, in this order:
 
 1. `mcp__github__pull_request_review_write` with `method: "create"` and **no**
    `event` — that opens a pending review rather than submitting an empty one.
