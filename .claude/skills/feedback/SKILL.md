@@ -74,17 +74,15 @@ PR's approval state is not this skill's to move.
 
 **The rest of the mechanics are `CLAUDE.md` § "GitHub comments"** — the
 attribution footer on every comment, bare SHAs rather than backticked ones, a
-body posted as text and not as a path, and, load-bearing here: **never resolve a
-thread.** The blocks are the operator's to close as they answer them, and a
-reading that resolves its own threads takes the list away from the person it was
-written for.
+body posted as text and not as a path, and **never resolving a thread**, which
+is the one an eight-block review puts most temptation in front of.
 
 ## It needs a PR
 
-No PR on the branch, no review. Say so and run `@.claude/skills/pr/SKILL.md`,
-rather than putting the reading somewhere else — a second output shape is what
-this skill had before, and a boundary between "thought" and "discussion" inside
-one file had nothing holding it.
+No PR on the branch, no review. Say so and run `@.claude/skills/pr/SKILL.md`
+rather than putting the reading somewhere else — a reading with two possible
+homes has a boundary running through it that nothing holds, and what leaks
+across it is the exchange the reading came out of.
 
 ## Do NOT
 
