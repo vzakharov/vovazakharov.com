@@ -4,7 +4,7 @@ import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 
-import classes from './documents.module.scss';
+import classes from './document-meta.module.scss';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
@@ -19,7 +19,11 @@ export type DocumentMetaProps = WithFrontmatter &
   WithReadingMinutes &
   WithOptionalClassName;
 
-/** A document's byline — the same one on an index card and above the article. */
+/**
+ * A document's byline — the same one on an index card and above the article.
+ * It is the document entity's own UI, which the card beside it and the article
+ * header a page slice up both reach down to.
+ */
 export function DocumentMeta({
   frontmatter,
   readingMinutes,

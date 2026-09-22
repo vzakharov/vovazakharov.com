@@ -1,8 +1,7 @@
-/**
- * Where the renders live, relative to `public/` — outside every collection, so
- * a walk for a collection's sources never meets the pipeline's own output.
- */
-export const MERMAID_DIR = 'generated/mermaid';
+import { GENERATED_DIR } from './collections';
+
+/** Where the renders live, relative to `public/` — under the directory a source walk skips. */
+export const MERMAID_DIR = `${GENERATED_DIR}/mermaid`;
 
 /** One render per scheme; the page shows whichever the theme calls for. */
 export const COLOR_SCHEMES = ['light', 'dark'] as const;

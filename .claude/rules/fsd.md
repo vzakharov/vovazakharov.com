@@ -20,15 +20,43 @@ Lowest (most generic) first — an import may only point downward:
 | Layer       | Holds                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | _(none yet)_ business nouns                                                                              |
+| `entities/` | Business nouns — `document` (its byline and its cards)                                                   |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
-| `widgets/`  | _(none yet)_ composite blocks assembled from features and entities                                       |
-| `pages/`    | Page composition — `home`, `lsa-home`, `cv`, `documents`                                                 |
+| `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
+| `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `cv`, `documents`                                   |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
-`entities/` and `widgets/` are absent because nothing earns them yet, not as an
-oversight. Layers are optional; **inventing one costs more than leaving it out**
-(see "insignificant slices" below).
+An entity is earned once a block is a business noun's own UI: `document` holds
+the byline and the collection's cards, both about a document and nothing else.
+A layer is still optional and **inventing one costs more than leaving it out**
+(see "insignificant slices" below), so an entity waits for that — a noun with UI
+worth naming, not the mere idea of one.
+
+**A block two page slices share cannot sit in either of them** — slices may not
+reach each other sideways — so it drops to a lower layer, and which of the three
+below `pages/` takes it turns on what the block _is_, not on the fact that it is
+shared:
+
+- **`entities/`** — the block is one business noun's UI. `DocumentCards` (reaches
+  `shared/content` for a route) and `DocumentMeta` are about a document and
+  nothing else, so they are `entities/document/ui`; a list of one entity's cards
+  is that entity's UI, not a widget. FSD asks no model of an entity, so a ui-only
+  one is a legal form.
+- **`widgets/`** — the block _combines_ rather than belonging to one noun, and
+  reads the resolved site. `SiteFooter` (needs `BUILD_YEAR`) is the site's foot,
+  not a document's, so it stays a widget.
+- **`shared/ui`** — the block needs no site configuration at all. It is the
+  barrel client components import, so a component there takes what it needs as
+  props rather than reading the resolved site; `SummaryCard` sits here because it
+  reads none.
+
+`entities/document` is born ui-only: its model stays in `shared/content`, which
+is build-time and `server-only`, so a content page costs zero client JS — the
+model would move only if content ever stopped being build-time. Its barrel pulls
+`server-only` today (`DocumentCards` needs `linkTo`), but no client chain enters
+it, so a plain `index.ts` holds; a client component reaching for the byline is
+what would split it into `index.ts` + `index.server-only.ts`, exactly as
+`shared/config` is.
 
 ## Rules
 
@@ -62,7 +90,7 @@ exports off the module, so there is no single binding to forward — which is th
 whole of what the extra two lines buy, and the router still decides nothing but
 which slice with which argument.
 
-**That is what lets two sites share one `src/`.** Both sites' page slices sit in
+**That is what lets the sites share one `src/`.** Every site's page slices sit in
 `src/pages/` side by side, which FSD already permits: slices may not import each
 other sideways, and two sites' pages are exactly that relationship. Each app's
 router picks the slices its site serves.
@@ -87,4 +115,4 @@ slices, its own segments reach each other directly.
 - **Next looks for a Pages Router inside the project directory only**, which is `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of its reach. Run a build from the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — an app's `public/` and the markdown it serves, root `styles/` and the Sass partial it holds — is reached by URL or relative path, not by alias. `scripts/` is the exception that proves it: a script importing a type from the tree spells the alias out (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare Node.
 - **next-intl's request config is found by path, not by import.** Each app's `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving that file means editing both. The path is relative to the app directory, which the plugin checks against the working directory and hands Turbopack to resolve against the project — the two agree only when a build is entered in its app directory, which is what `pnpm build:<site>` does.
-- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice, because two slices could not share `back-to-home` or `document-meta` sideways, and the same slice serves every collection on either site.
+- **The content pipeline is `shared/content`, not an entity.** It is build-time-only and every module opens with `import 'server-only'`; `@.claude/rules/content.md` owns its contract. Its page composition — the index, the article and the pieces they share — is one `pages/documents` slice serving every collection on every site: a slice per collection would make siblings of pages that share one composition, and sibling slices cannot reach each other. The document's own byline and cards are the exception that proves it — shared by the index and the article both, they sit a layer down in `entities/document`, per the `widgets/`-versus-`entities/` note above.

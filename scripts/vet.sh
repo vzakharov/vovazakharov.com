@@ -65,9 +65,10 @@ scripts/run-parallel.sh \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
-  og='pnpm content:og --check' \
+  og-vova='pnpm content:og:vova --check' \
+  og-bible='pnpm content:og:bible --check' \
   pdf-vova='pnpm content:pdf:vova --check' \
-  pdf-lsa='pnpm content:pdf:lsa --check' \
+  pdf-bible='pnpm content:pdf:bible --check' \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \

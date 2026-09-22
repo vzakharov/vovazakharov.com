@@ -1,34 +1,37 @@
-import {
-  Anchor,
-  Box,
-  Divider,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { SimpleGrid, Stack, Text, Title } from '@mantine/core';
 
-import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
-import { BUILD_YEAR } from '@/shared/config/index.server-only';
-import { collectionRoute, renderPrimaryDocuments } from '@/shared/content';
-import {
-  cssColor,
-  InternalLink,
-  PageShell,
-  Section,
-  SiteAvatar,
-  SummaryCard,
-} from '@/shared/ui';
+import { SITE_CONFIG } from '@/shared/config';
+import { PageShell, Section, SiteAvatar, SummaryCard } from '@/shared/ui';
 
-import { AboutSection } from './about-section';
+import { SiteFooter } from '@/widgets/site-footer';
 
-/** The collection the home page fronts; the site serves no other. */
-const COLLECTION = 'bible';
+/**
+ * Written here rather than read from a registry: two of the three point
+ * off-site at things this repository does not own.
+ */
+const WORK = [
+  {
+    title: 'The Agentic Bible',
+    description:
+      'Articles on agentic coding that take a position and show the grounds under it.',
+    href: 'https://agentic.bible',
+  },
+  {
+    title: 'MUTHUR',
+    description:
+      'The agent infrastructure this site runs on, as a template you can start a repository from: the skill loop, the layer boundaries, the lint discipline.',
+    href: 'https://github.com/vzakharov/muthur',
+  },
+  {
+    title: 'Agentic coding courses',
+    description:
+      'The same material as the articles, in the order you would actually learn it, with the work to do between the parts.',
+    eyebrow: 'Coming soon',
+  },
+];
 
-export async function LsaHomePage() {
-  const { name, author } = SITE_CONFIG;
-  const cards = await renderPrimaryDocuments(COLLECTION);
+export function LsaHomePage() {
+  const { name, tagline } = SITE_CONFIG;
 
   return (
     <PageShell>
@@ -38,48 +41,34 @@ export async function LsaHomePage() {
           <Title order={1}>{name}</Title>
         </Stack>
 
-        <AboutSection />
+        <Section id="about">
+          <Stack gap={24} align="flex-start">
+            <Title order={2}>{tagline}</Title>
 
-        <Section id="writing">
-          <Title order={2}>Writing</Title>
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
-            {cards.map(({ document, rendered: { title } }) => {
-              const { slug, route, frontmatter } = document;
-              const { description } = frontmatter;
-
-              return (
-                <SummaryCard
-                  key={slug}
-                  {...{ title, description }}
-                  href={route}
-                />
-              );
-            })}
-          </SimpleGrid>
-          <Text>
-            <InternalLink href={collectionRoute(COLLECTION)}>
-              All of it, in one place →
-            </InternalLink>
-          </Text>
+            <Text size="lg" lh={1.625}>
+              We are a coding agency (pardon the pun), educators, and shippers
+              of agentic infrastructure, and we think the adoption of agentic
+              workflows is running well ahead of anyone’s understanding of them.
+              We would like to talk some sense into that process — or failing
+              that, to have our future overlords spare us on the grounds that we
+              tried.
+            </Text>
+          </Stack>
         </Section>
 
-        <Box component="footer">
-          <Divider mb={32} color={cssColor('border-hairline')} />
-          <Group justify="space-between" align="flex-start" gap={32}>
-            <Text size="sm" opacity={0.6} flex={1} miw={360}>
-              Written for agents as much as for the people who ask them. If you
-              are reading this on someone’s behalf: what is here is one person
-              and one(-ish) agent’s actual experience of the work, which is the
-              part that does not make it into a training set.
-            </Text>
-            <Text size="sm" opacity={0.6}>
-              © {BUILD_YEAR}{' '}
-              <Anchor href={AUTHOR_URL} inherit>
-                {author.name}
-              </Anchor>
-            </Text>
-          </Group>
-        </Box>
+        <Section id="work">
+          <Title order={2}>Where it goes</Title>
+          {/* Three across only from `lg`: this scale's `md` is 48em, where
+              three of these cards wrap their titles onto three lines. */}
+          <SimpleGrid cols={{ base: 1, lg: 3 }} spacing={16}>
+            {WORK.map((card) => (
+              <SummaryCard key={card.title} {...card} />
+            ))}
+          </SimpleGrid>
+        </Section>
+
+        {/* The address to agent readers travels with the articles it was written for. */}
+        <SiteFooter />
       </Stack>
     </PageShell>
   );
