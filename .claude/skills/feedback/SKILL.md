@@ -58,9 +58,9 @@ Two further reasons the body carries the weight:
 
 ## Posting it
 
-One review, not a scatter of comments — five comments are five notifications,
-and the body is the only part that arrives in the order you wrote it. Three
-calls, in this order:
+One review, not a scatter of comments. A comment posted on its own notifies the
+operator as it lands; a review notifies once, on submission, and the whole
+reading arrives together. Three calls, in this order:
 
 1. `mcp__github__pull_request_review_write` with `method: "create"` and **no**
    `event` — that opens a pending review rather than submitting an empty one.
@@ -75,9 +75,9 @@ calls, in this order:
 PR's approval state is not this skill's to move.
 
 **The rest of the mechanics are `CLAUDE.md` § "GitHub comments"** — the
-attribution footer on every comment, bare SHAs rather than backticked ones, a
-body posted as text and not as a path, and **never resolving a thread**, which
-is the one an eight-block review puts most temptation in front of.
+attribution footer on every comment, a body posted as text and not as a path,
+and **never resolving a thread**, which is the one an eight-block review puts
+most temptation in front of.
 
 ## The reading is posted, not pursued
 

@@ -276,9 +276,8 @@ Burning the words onto the video is `@.claude/skills/subtitles/SKILL.md`, and it
 begins where this skill ends — on the corrected text and the saved response,
 never on a fresh call. Turning a recording into something written for a reader
 is `@.claude/skills/dictation-to-post/SKILL.md`. Saying what you make of what
-they said is `@.claude/skills/feedback/SKILL.md`, which posts it as a review on
-the PR the transcript arrives on. None is this skill's work, and none starts
-until the operator has agreed the transcript.
+they said is `@.claude/skills/feedback/SKILL.md`. None is this skill's work, and
+none starts until the operator has agreed the transcript.
 
 ## Do NOT
 
