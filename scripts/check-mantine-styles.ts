@@ -6,24 +6,16 @@
  *
  *   pnpm check:mantine-styles
  *
- * Why that list needs holding is `.claude/rules/styling.md` § Styling; this is
- * the half that measures it, in three directions — a class rendered with no
- * rule behind it, a sheet whose classes nothing renders, and sheets included
- * out of the order Mantine ships them in.
+ * Why that list needs holding, order included, is `.claude/rules/styling.md`
+ * § Styling; this is the half that measures it, in three directions — a class
+ * rendered with no rule behind it, a sheet whose classes nothing renders, and
+ * sheets loaded out of the order Mantine's own aggregate composes them in.
  *
- * All three turn on the same fact: a composite's root carries its base's class
- * as well as its own — `Button` renders `UnstyledButton`'s, `Anchor` renders
- * `Text`'s — and no import in the tree names the base. So the presence halves
- * read the **built HTML and CSS** rather than the import list, and the order
- * matters at all because both rules weigh one class and both sit in
- * `@layer mantine`: the later sheet wins, and a list kept alphabetically puts
- * `UnstyledButton`'s `padding: 0` after the padding `Button` asked for.
- * `@mantine/core/styles.layer.css` is the order Mantine's own aggregate ships,
- * so it is the one to keep.
- *
- * Reading the build is also the limit — a component rendered only after an
- * interaction never reaches a static export, so one that grows that shape needs
- * its sheet confirmed by eye.
+ * All three read the **built HTML and CSS** rather than the import list, which
+ * is what covers the classes Mantine composes in: `Button` renders
+ * `UnstyledButton`'s, and no import in the tree names it. That is also the
+ * limit — a component rendered only after an interaction never reaches a static
+ * export, so one that grows that shape needs its sheet confirmed by eye.
  *
  * Bare Node runs this file, relying on its type stripping: it reads the build
  * output and `node_modules`, and imports nothing from the app.
@@ -38,16 +30,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const REPO_ROOT = path.join(import.meta.dirname, '..');
-const MANTINE_STYLES = path.join(
-  REPO_ROOT,
-  'node_modules/@mantine/core/styles',
-);
+const MANTINE_CORE = path.join(REPO_ROOT, 'node_modules/@mantine/core');
 
-/** Every sheet in one file, in the order Mantine composes them. */
-const MANTINE_AGGREGATE = path.join(
-  REPO_ROOT,
-  'node_modules/@mantine/core/styles.layer.css',
-);
+/** One stylesheet per component, which is what `theme-provider.tsx` imports. */
+const MANTINE_STYLES = path.join(MANTINE_CORE, 'styles');
+
+/** All of them in one file, in the order Mantine composes them. */
+const MANTINE_AGGREGATE = path.join(MANTINE_CORE, 'styles.layer.css');
 
 /** Mantine's own class names, hashed at publish time and unique to it. */
 const MANTINE_CLASS = /m_[\da-f]{7,8}/g;
@@ -179,10 +168,10 @@ function sheetSequence(css: string): string[] {
 }
 
 /**
- * The stylesheets a page links, in document order — which is the cascade order
- * the browser resolves the collisions above in. Read off the HTML rather than
- * off the directory, since a page links the chunks it needs and nothing says
- * two of them sort the way their filenames do.
+ * The stylesheets a page links, in document order — which is the order the
+ * cascade resolves them in. Read off the HTML rather than off the directory: a
+ * page links the chunks it needs, and nothing says two of them sort the way
+ * their filenames do.
  */
 const STYLESHEET_HREF = /href="([^"]+\.css)"/g;
 
@@ -273,8 +262,19 @@ const unused = [...sheetsFor(styled)]
   .filter((sheet) => !CORE_SHEETS.has(sheet) && !renderedSheets.has(sheet))
   .toSorted(alphabetical);
 
+/**
+ * Opens a finding, blank line between it and the last. The list it grows is
+ * also what the exit code turns on, so "anything to report" has one spelling.
+ */
+const reported: string[] = [];
+
+function report(heading: string): void {
+  console.error(`${reported.length > 0 ? '\n' : ''}${heading}`);
+  reported.push(heading);
+}
+
 if (missing.size > 0) {
-  console.error('Rendered with no rule behind it — add to theme-provider.tsx:');
+  report('Rendered with no rule behind it — add to theme-provider.tsx:');
   for (const [sheet, classNames] of [...missing].toSorted(([a], [b]) =>
     alphabetical(a, b),
   )) {
@@ -285,17 +285,15 @@ if (missing.size > 0) {
 }
 
 if (unused.length > 0) {
-  console.error(
-    `${missing.size > 0 ? '\n' : ''}Imported but never rendered — drop from theme-provider.tsx:`,
-  );
+  report('Imported but never rendered — drop from theme-provider.tsx:');
   for (const sheet of unused) {
     console.error(importLine(sheet));
   }
 }
 
 if (misordered.size > 0) {
-  console.error(
-    `${missing.size > 0 || unused.length > 0 ? '\n' : ''}Loaded out of Mantine's own order — a later sheet overrides the one it composes:`,
+  report(
+    "Loaded out of Mantine's own order — a later sheet overrides the one it composes:",
   );
   for (const [site, pairs] of [...misordered].toSorted(([a], [b]) =>
     alphabetical(a, b),
@@ -312,8 +310,7 @@ if (misordered.size > 0) {
   }
 }
 
-if (missing.size > 0 || unused.length > 0 || misordered.size > 0)
-  process.exit(1);
+if (reported.length > 0) process.exit(1);
 
 console.log(
   `mantine styles OK — ${rendered.size} classes rendered across ${built.length} sites, all styled`,

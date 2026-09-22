@@ -5,10 +5,8 @@
 // what catches it. `.claude/rules/styling.md` § Styling carries the rest.
 //
 // The component sheets are in Mantine's own order, not alphabetical: a
-// composite's root carries its base's class too, both rules weigh one class,
-// and every one of them sits in `@layer mantine` — so the later sheet wins and
-// `UnstyledButton` after `Button` strips the button's padding and border. The
-// same check holds this order against `@mantine/core/styles.layer.css`.
+// composite's root carries its base's class, and the later sheet wins —
+// `UnstyledButton` after `Button` strips the button's padding and border.
 import '@mantine/core/styles/baseline.layer.css';
 import '@mantine/core/styles/default-css-variables.layer.css';
 import '@mantine/core/styles/global.layer.css';
