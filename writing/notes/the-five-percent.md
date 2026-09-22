@@ -43,7 +43,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×27)
+## What it was handed, it treats as fixed (×29)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -83,6 +83,18 @@ _itself_ — "Cost $198.49" beside its own breakdown's "Total $47.04". There was
 never one number to reconcile against, and widen-the-frame went to the agent's
 own code rather than to the source measuring it.
 
+**22 September — a rule's wording, read as its reach.** Dogfooding `/feedback`,
+the agent posted the review, fixed the three things it found and replied on each
+thread citing § "GitHub comments" — which governs comments the operator points it
+at, not its own. Reviewer and author in one session is the collapse the skill
+exists to undo, and one of the blocks being answered was the finding that nothing
+says who acts on a posted reading.
+
+**22 September — an inherited list, carried whole.** Listing the mechanics
+`/feedback` takes from § "GitHub comments", the agent included the bare-SHA rule.
+`/feedback` makes no commits, so it has no SHA to write: the list arrived as a
+unit and went across as one, with no item checked against the skill.
+
 ## An account that explains the code stands in for running it (×15)
 
 The sibling of "It checks the render against its intent" below, and the worse
@@ -115,7 +127,7 @@ sites, watched `content:pdf:<site> --check` go green and called the round done. 
 screenshot came back of a last page: the footer sits under the prose, not at the
 foot of the sheet. The manifest says the file is current, not that it is right.
 
-## It edits the copy in front of it, not the fact behind it (×11)
+## It edits the copy in front of it, not the fact behind it (×12)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -138,7 +150,16 @@ false. _far too much now that the articles are elsewhere._ What earned the lengt
 had left with them — the change was checked for what it broke, not what it
 stranded.
 
-## It writes its reasoning into the artifact (×11)
+**22 September — the anchored clause cut, the premise behind it kept.** On the
+_медведь?_ thread, the agent cut the rider and kept `/feedback` among what follows
+an agreed transcript, defending it as "a boundary and an order, not a negation"
+because the plan had settled it. _вопрос "ой, а я должен высказать своё мнение про
+это?" в принципе нигде в процессе "диктовки" возникнуть не должен._ The whole
+link was afterword residue, the lede's "judging it is `/feedback`'s job" included:
+a one-word comment named a premise, and the smallest edit that satisfied its
+anchor kept it.
+
+## It writes its reasoning into the artifact (×12)
 
 Asked to produce a thing, the agent produces the thing and its defence. The
 defence is accurate and traceable, and still wrong: what the artifact is _for_
@@ -153,17 +174,22 @@ where it was. The human deleted it: a reader came for the post, not its defence.
 ended on "Four things to know when editing here" — every item true, every one
 belonging in a rules file, accreted across refreshes one push at a time.
 
+**17 September — the lesson written down twice, in one change.** The i18n rule's
+new paragraph argued that the constraint is about the data, not the renderer —
+the reasoning the same commit had already put in the `MESSAGE_MARKDOWN`
+docstring — and then closed by denying an alternative the constraint above it
+rules out. _медведь или по крайней мере сильно сократить._
+
 **21 September — a clause denying the arrangement the move had ended.** Moving
 `DocumentMeta` into `entities/document`, the byline docstring closed on "both
 reach down to it rather than sharing it sideways" — the sideways-sharing being the
 pre-move state, which no reader of the current tree would reach for. _медведь?_
 The negation was authored in the same commit that made it one.
 
-**17 September — the lesson written down twice, in one change.** The i18n rule's
-new paragraph argued that the constraint is about the data, not the renderer —
-the reasoning the same commit had already put in the `MESSAGE_MARKDOWN`
-docstring — and then closed by denying an alternative the constraint above it
-rules out. _медведь или по крайней мере сильно сократить._
+**22 September — a rider that answered the old format.** Adding `/feedback` to
+what follows `/dictation`, the agent wrote "which posts it as a review on the PR
+the transcript arrives on" — on the PR, that is, not in this file, which only a
+reader who remembers the afterword living here would ask. _медведь?_
 
 ## Asked for a source, it supplies its own version (×8)
 
@@ -250,11 +276,12 @@ argued twice, each round on which widening. _пусть будет
 `const SITE_CONFIGS: Record<SiteId, SiteConfig>`?_ Nothing reads a literal, and
 the premise was the agent's own earlier sentence.
 
-## Its prose answers the question it had, not the reader's (×1)
+## Its prose answers the question it had, not the reader's (×2)
 
-Accurate, present-tense and short is the whole of what a prose pass asks, so a
-line answering the wrong question passes every one of them. Which question a
-reader stops at that line holding is the thing nothing measures.
+Accurate, present-tense and short is the whole of what a prose pass asks, and a
+rewrite is held against the points it was meant to carry — so a line answering
+the wrong question, or too compressed to give its points back, passes every test.
+What a reader stops at that line holding is the thing nothing measures.
 
 **21 September — four comments, four true sentences.** `.claude/rules/fsd.md`
 narrated how `widgets/` came to be earned — _археология?_ — where a rule says
@@ -262,6 +289,10 @@ where a block goes. `GENERATED_DIR`'s docstring gave the directory's contents,
 not the invariant that an output read back as an input never settles. `SiteImage`
 named `path` and `vector` without why both exist, and the first move on _what's
 the difference_ was to rename `path` — one site keeps an SVG there.
+
+**22 September — two rationales in one line, neither legible.** The agent rewrote
+the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
+and judged it done. _не очень понимаю что эта строчка говорит._
 
 ## A required change launders the unrequired one beside it (×1)
 
