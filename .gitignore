@@ -17,6 +17,18 @@
 .next/
 out/
 
+# Page PDFs are build artifacts: the deploy renders them into out/ after the
+# build, and `pnpm content:pdf:<site>` renders them locally when you want to
+# look at one. Their manifests are the render's cache bookkeeping, so they are
+# ignored alongside what they describe. .claude/rules/content.md carries the
+# contract.
+apps/*/public/**/*.pdf
+apps/*/public/**/pdf-renders.json
+# An authored PDF — something a document links to — lives under assets/ like
+# every other asset, and is not a render. Left ignored it would be missing from
+# the deploy with nothing to report it.
+!apps/*/public/**/assets/**/*.pdf
+
 # production
 /build
 
