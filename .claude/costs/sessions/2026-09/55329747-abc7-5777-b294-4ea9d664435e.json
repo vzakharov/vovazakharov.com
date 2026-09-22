@@ -1,34 +1,36 @@
 {
   "sessionId": "55329747-abc7-5777-b294-4ea9d664435e",
-  "branch": "claude/quirky-ride-r35sqr",
+  "branch": "claude/pdfs-at-build-r35sqr",
   "cwd": "/home/user/vovazakharov.com",
   "name": "Why PDFs render by hand, not at build",
   "openingPrompt": "мы сейчас генерим пдфы-прямо на стадии кода -- почему бы не делать это на стадии билда? есть какая-то причина которой я не вижу или просто так исторически сложи…",
-  "prs": [],
+  "prs": [
+    78
+  ],
   "url": "https://claude.ai/code/session_01F8kvcAWsgDqWWiRbWRQQwz",
   "firstResponseAt": "2026-09-22T09:07:05.039Z",
-  "lastResponseAt": "2026-09-22T11:38:19.155Z",
+  "lastResponseAt": "2026-09-22T12:17:58.462Z",
   "pricesAsOf": "2026-09-19",
-  "claudeCodeTotalUsd": 2.0088,
+  "claudeCodeTotalUsd": 4.466552,
   "total": {
-    "inputTokens": 48,
+    "inputTokens": 102,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 170113,
-    "cacheReadTokens": 2683927,
-    "outputTokens": 30514,
-    "thinkingTokens": 18784,
-    "responses": 24,
-    "costUsd": 3.8061834999999995
+    "cacheWrite1hTokens": 255819,
+    "cacheReadTokens": 7997907,
+    "outputTokens": 65655,
+    "thinkingTokens": 35652,
+    "responses": 51,
+    "costUsd": 8.199028499999999
   },
   "ownTurns": {
-    "inputTokens": 48,
+    "inputTokens": 102,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 170113,
-    "cacheReadTokens": 2683927,
-    "outputTokens": 30514,
-    "thinkingTokens": 18784,
-    "responses": 24,
-    "costUsd": 3.8061834999999995
+    "cacheWrite1hTokens": 255819,
+    "cacheReadTokens": 7997907,
+    "outputTokens": 65655,
+    "thinkingTokens": 35652,
+    "responses": 51,
+    "costUsd": 8.199028499999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -42,14 +44,14 @@
   },
   "byRate": {
     "claude-opus-5/standard": {
-      "inputTokens": 48,
+      "inputTokens": 102,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 170113,
-      "cacheReadTokens": 2683927,
-      "outputTokens": 30514,
-      "thinkingTokens": 18784,
-      "responses": 24,
-      "costUsd": 3.8061834999999995
+      "cacheWrite1hTokens": 255819,
+      "cacheReadTokens": 7997907,
+      "outputTokens": 65655,
+      "thinkingTokens": 35652,
+      "responses": 51,
+      "costUsd": 8.199028499999999
     }
   },
   "warnings": []
