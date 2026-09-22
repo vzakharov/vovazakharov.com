@@ -105,7 +105,7 @@ one day.
 
 <!-- lyrics:en -->
 
-And now, out flies the...
+And now, watch for the...[^birdie-en]
 
 Birdie!
 Fly, bitch, fly!
@@ -161,3 +161,5 @@ Fly bitch fly!
 Birdie!
 Just say goodbye!
 I will survive.
+
+[^birdie-en]: What a Russian photographer says before the shutter: «сейчас вылетит птичка», “a birdie is about to fly out” — the same trick as “watch the birdie”.

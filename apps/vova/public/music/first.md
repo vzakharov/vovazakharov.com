@@ -63,7 +63,7 @@ song.
 Здравствуй, папа; знаешь, я скучаю
 По нашим посиделкам в две гитары
 Я на акустическом басу
-Ты — на своей музиме старой
+Ты — на своей музиме старой[^musima-ru]
 
 Скучаю по твоему запаху
 Такому пряному, уютному
@@ -110,6 +110,8 @@ song.
 Где мы споём
 В две гитары с тобой
 
+[^musima-ru]: Musima Resonata — классическая гитара восточногерманской фабрики Musima из Маркнойкирхена, 1960–70-х. [Подробнее](https://share.google/aimode/IK8kPWbhpdjk8fzUI)
+
 <!-- lyrics:en -->
 
 Snow outside the window
@@ -120,7 +122,7 @@ It didn't want to be rain
 Hello, dad; you know, I miss
 Our sitting up together on two guitars
 Me on the acoustic bass
-You on your old Musima
+You on your old Musima[^musima-en]
 
 I miss the smell of you
 That spiced, comfortable smell
@@ -166,3 +168,5 @@ But I believe that day
 Will come round again
 When we'll sing
 On two guitars, you and I
+
+[^musima-en]: A Musima Resonata — a classical guitar from the East German Musima works in Markneukirchen, made in the 1960s and ’70s. [More](https://share.google/aimode/IK8kPWbhpdjk8fzUI)

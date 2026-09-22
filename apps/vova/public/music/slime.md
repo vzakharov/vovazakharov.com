@@ -44,7 +44,7 @@ I still don't fully — the slime is probably a different one for everybody.
 Идёшь на блеск, идёшь ко дну
 
 Это не свет, это не жизнь
-Надежды нет, но ты держись
+Надежды нет, но ты держись[^medvedev-ru]
 
 Ты видишь цель, она тебя
 Ты убиваешь её любя
@@ -61,9 +61,9 @@ I still don't fully — the slime is probably a different one for everybody.
 Ты вдруг поймёшь, спасенье всё же есть
 
 Собрать костёр, поджечь ладью
-Ну вот и всё, гудбай, адью!
+Ну вот и всё, гудбай, адью![^adieu-ru]
 
-Halt die Klappe, молчанье на вес
+Halt die Klappe, молчанье на вес[^klappe-ru]
 На каждую гайку свой саморез
 О, где боль и блаженство корнями сплелись
 Откройся и прими, священную слизь
@@ -77,6 +77,12 @@ Halt die Klappe, молчанье на вес
 Не, бойся родной, стыд это урок
 Давай не стесняйся, садись на крючок
 
+[^medvedev-ru]: Аллюзия на «Денег нет, но вы держитесь» Медведева.
+
+[^adieu-ru]: Вместе со следующей фразой на немецком — аллюзия на «Adieu, Goodbye, Auf Wiedersehen» (Rammstein — Adieu).
+
+[^klappe-ru]: Нем. «Закрой рот».
+
 <!-- lyrics:en -->
 
 Dawn is knocking at the window again
@@ -89,7 +95,7 @@ You, the one who could reach the moon,
 Go for the glitter, go to the bottom
 
 This is not light, this is not life
-There's no hope, but you hang in there
+There's no hope, but you hang in there[^medvedev-en]
 
 You see the target, it sees you
 You kill it, lovingly
@@ -106,9 +112,9 @@ But maybe, maybe, maybe it's right here
 That you'll suddenly see there is salvation after all
 
 Build a pyre, set the boat alight
-And that's it, goodbye, adieu!
+And that's it, goodbye, adieu![^adieu-en]
 
-Halt die Klappe, silence by the ounce
+Halt die Klappe, silence by the ounce[^klappe-en]
 Every nut gets its own screw
 Oh, where pain and bliss are tangled at the root
 Open up and receive the sacred slime
@@ -121,3 +127,9 @@ To freeze forever and become one thing
 You see the light — this is our bottom
 Don't be afraid, dear, shame is a lesson
 Go on, don't be shy, get on the hook
+
+[^medvedev-en]: An allusion to Medvedev’s “There’s no money, but you hang in there”.
+
+[^adieu-en]: Together with the German that follows, an allusion to “Adieu, Goodbye, Auf Wiedersehen” (Rammstein — Adieu).
+
+[^klappe-en]: German for “shut your mouth”.

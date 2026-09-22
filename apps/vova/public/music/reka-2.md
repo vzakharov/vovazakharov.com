@@ -69,10 +69,14 @@ And the next day he became the drop, and the rain, and the river himself.
 Мы, как капли дождя, на круги расходясь, исчезаем,
 Но река не умрёт никогда.
 
-Открывая окно, наблюдаю я сущность живого.
+Открывая окно, наблюдаю я сущность живого.[^source-ru]
 Жизнь прекрасна, безмерна, полна, глубока.
 И когда удаётся жить мгновеньем мгновенья любого,
-Я и капля, и дождь, и река.
+Я и капля, и дождь, и река.[^dad-ru]
+
+[^source-ru]: Папин перевод гаты Тхить Нят Ханя «Открывая окно» из сборника [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): «Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.»
+
+[^dad-ru]: В папином «переводе» — «Ум мой ясен и чист, как большая река».
 
 <!-- lyrics:en -->
 
@@ -91,7 +95,11 @@ Rush through the waters, the storms and the years.
 Like raindrops we scatter into circles and disappear,
 But the river will never die.
 
-Opening the window, I look at the substance of the living.
+Opening the window, I look at the substance of the living.[^source-en]
 Life is beautiful, immeasurable, full, deep.
 And when you manage to live any given moment as a moment,
-I am the drop, and the rain, and the river.
+I am the drop, and the rain, and the river.[^dad-en]
+
+[^source-en]: My father’s translation of Thích Nhất Hạnh’s gatha “Opening the Window”, from [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): “Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.”
+
+[^dad-en]: In my father’s “translation” the line was «Ум мой ясен и чист, как большая река» — “my mind is clear and pure, like a great river”.

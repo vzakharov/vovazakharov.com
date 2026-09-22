@@ -5,12 +5,12 @@ import { isLocale, type Locale } from '@/shared/i18n';
 import type { ContentDocument } from './documents';
 import type { LocalizedText, SongFrontmatter } from './frontmatter';
 import {
-  PREAMBLE,
-  splitSections,
-  splitStanzas,
+  readVerse,
   type Stanzas,
   type WithStanzas,
-} from './sections';
+  withoutNotes,
+} from './lyric-notes';
+import { PREAMBLE, splitSections } from './sections';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
 
@@ -68,9 +68,10 @@ export function localizeSong(
 }
 
 /**
- * The words as this locale's page shows them. Unequal stanza counts fail the
- * build: a parallel reading that has slipped by one is worse than none, and it
- * is the one defect here that would look right on the page.
+ * The words as this locale's page shows them, with the notes of the column in
+ * the page's language and no other. Unequal stanza counts fail the build: a
+ * parallel reading that has slipped by one is worse than none, and it is the one
+ * defect here that would look right on the page.
  */
 export function songLyrics(
   document: SongDocument,
@@ -86,15 +87,17 @@ export function songLyrics(
 
   if (sung === undefined) return undefined;
 
-  const stanzas = splitStanzas(sung);
+  const stanzas = readVerse(sung, fileName);
 
   if (language === locale) return { language, stanzas };
 
   const translated = sections.get(lyricsKey(locale));
 
-  if (translated === undefined) return { language, stanzas };
+  if (translated === undefined) {
+    return { language, stanzas: withoutNotes(stanzas) };
+  }
 
-  const translation = splitStanzas(translated);
+  const translation = readVerse(translated, fileName);
 
   if (translation.length !== stanzas.length) {
     throw new Error(
@@ -102,5 +105,5 @@ export function songLyrics(
     );
   }
 
-  return { language, stanzas, translation };
+  return { language, stanzas: withoutNotes(stanzas), translation };
 }

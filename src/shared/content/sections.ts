@@ -50,11 +50,7 @@ export function splitSections(body: string): ReadonlyMap<string, string> {
  * Lines grouped into stanzas, which is the unit a translation is read against —
  * verse does not survive being zipped line for line.
  */
-export type Stanzas = string[][];
-
-export type WithStanzas = { stanzas: Stanzas };
-
-export function splitStanzas(text: string): Stanzas {
+export function splitStanzas(text: string): string[][] {
   return text
     .split(/\n\s*\n/)
     .map((stanza) => stanza.split('\n').map((line) => line.trim()))

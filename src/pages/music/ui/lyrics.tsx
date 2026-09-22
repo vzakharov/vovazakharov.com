@@ -1,9 +1,12 @@
-import { Box, Stack, Text } from '@mantine/core';
+import { Anchor, Box, Stack, Text } from '@mantine/core';
+import Markdown, { type Components } from 'react-markdown';
 
-import type { SongLyrics, WithStanzas } from '@/shared/content';
+import type { LyricLine, SongLyrics, WithStanzas } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { cx } from '@/shared/lib/class-names';
 import { Subheading } from '@/shared/ui';
 
+import { LineNote } from './line-note';
 import classes from './music.module.scss';
 
 export type LyricsProps = WithLocale & { lyrics: SongLyrics };
@@ -58,23 +61,45 @@ function StanzaColumn({ stanzas }: WithStanzas) {
 }
 
 type StanzaProps = {
-  lines: string[];
+  lines: LyricLine[];
   /** The crib column, held back so the sung words read first. */
   muted?: boolean;
 };
 
 /**
  * A stanza as it was written: one element per line, so a line break needs
- * nothing invisible at the end of a line to survive.
+ * nothing invisible at the end of a line to survive. The dimming is per line
+ * rather than on the stanza, which would dim a note's popover with it.
  */
 function Stanza({ lines, muted = false }: StanzaProps) {
+  const className = cx(classes['lyricLine'], muted && classes['mutedLine']);
+
   return (
-    <Text component="p" lh={1.75} opacity={muted ? 0.7 : 1}>
-      {lines.map((line, index) => (
-        <span key={index} className={classes['lyricLine']}>
-          {line}
-        </span>
-      ))}
+    <Text component="div" lh={1.75}>
+      {lines.map(({ text, note }, index) =>
+        note === undefined ? (
+          <span key={index} {...{ className }}>
+            {text}
+          </span>
+        ) : (
+          <LineNote key={index} {...{ text, className }}>
+            <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
+          </LineNote>
+        ),
+      )}
     </Text>
   );
 }
+
+/**
+ * A note is one line of markdown, so the paragraph the parser wraps it in is
+ * dropped, and a link opens beside the song rather than over it.
+ */
+const NOTE_COMPONENTS: Components = {
+  p: ({ children }) => <>{children}</>,
+  a: ({ href, children }) => (
+    <Anchor {...{ href }} target="_blank" rel="noopener noreferrer" inherit>
+      {children}
+    </Anchor>
+  ),
+};

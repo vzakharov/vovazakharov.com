@@ -49,6 +49,7 @@ export {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
+export { type LyricLine, type Stanzas, type WithStanzas } from './lyric-notes';
 export {
   type DocumentCard,
   type Heading,
@@ -60,7 +61,6 @@ export {
   type WithHeadings,
   type WithReadingMinutes,
 } from './render';
-export { type Stanzas, type WithStanzas } from './sections';
 export {
   type LocalizedSongDocument,
   localizeSong,
