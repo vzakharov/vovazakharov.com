@@ -45,7 +45,7 @@ line in `CLAUDE.md` — whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×21)
+## What it was handed, it treats as fixed (×22)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it takes a
@@ -112,6 +112,13 @@ the agent caught in its own report, nobody else having seen it, was handed over
 as a bump on the strength of fitting "could have seen and didn't" exactly. The
 operator struck it: the claim this file makes is that the human is necessary, and
 the opening paragraph says so, two screens above the line being applied.
+
+**22 September — a rule's wording, read as its reach.** Dogfooding `/feedback`,
+the agent posted the review, fixed the three things it found and replied on each
+thread citing § "GitHub comments" — which governs comments the operator points it
+at, not its own. Reviewer and author in one session is the collapse the skill
+exists to undo, and one of the blocks being answered was the finding that nothing
+says who acts on a posted reading.
 
 ## It edits the copy in front of it, not the fact behind it (×9)
 

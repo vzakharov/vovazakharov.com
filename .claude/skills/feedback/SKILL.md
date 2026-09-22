@@ -3,14 +3,14 @@ description: The agent's own reading of a piece — a dictation, a draft, anythi
 ---
 
 End state of this skill: the PR carrying the piece has one review saying what you
-would say if the operator asked what you thought — in the material's language,
-the whole-piece blocks in the review body and the rest anchored to the passages
-they are about, and short enough that every block in it earns its place. The file
-is untouched.
+would say if the operator asked what you thought — the whole-piece blocks in the
+review body and the rest anchored to the passages they are about, and short
+enough that every block in it earns its place. The file is untouched.
 
 **Language is a parameter**, `/feedback <file> [<language>]`, defaulting to the
-language the material is written in — the reading answers the piece, so it speaks
-the piece's language rather than this file's.
+language the operator asked in: a review is a PR comment, which `CLAUDE.md`
+§ "Language" files under conversation. A bare `/feedback <file>` is a token and
+has no language to read, and there the material's decides.
 
 ## What it is for
 
@@ -78,6 +78,18 @@ PR's approval state is not this skill's to move.
 attribution footer on every comment, bare SHAs rather than backticked ones, a
 body posted as text and not as a path, and **never resolving a thread**, which
 is the one an eight-block review puts most temptation in front of.
+
+## The reading is posted, not pursued
+
+Submitting the review ends this skill. The blocks belong to the operator from
+that moment: they read them, answer what is worth answering, and resolve what
+satisfies them. An answered block becomes work through
+`@.claude/skills/handle/SKILL.md`, in a session they open for it.
+
+`CLAUDE.md` § "GitHub comments" governs comments the operator **points you at**.
+Your own blocks are not those, and acting on one because you wrote it puts the
+reviewer and the author in the same session — which is the collapse this skill
+exists to prevent, moved up a level from the file to the loop.
 
 ## It needs a PR
 

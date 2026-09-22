@@ -22,7 +22,9 @@ whose order does work belongs in the body, and an anchor needs a line in
 the diff. The bar for what earns a block survives unchanged; what goes
 is the durability argument, answered by the PR exporter that carries
 review threads with their line anchors, along with the two rules that
-were compensating for the one channel.
+were compensating for the one channel. Posting ends the skill — the
+blocks are the operator's to answer, and what they answer comes back
+through `/handle`.
 
 `/dictation` stops carrying the reading as a part of the transcript file
 and names `/feedback` beside `/subtitles` and `/dictation-to-post`, the
