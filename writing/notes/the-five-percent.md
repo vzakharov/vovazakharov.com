@@ -104,7 +104,7 @@ page would fit, trading away the one-language selection the layout existed for.
 The operator asked for hover where it exists, a press elsewhere, and columns
 that scroll sideways like a wide table: the option the agent never listed.
 
-## An account that explains the code stands in for running it (×15)
+## An account that explains the code stands in for running it (×16)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -129,6 +129,12 @@ compiled HTML, `/preview` unrun, its special case a tell read as thoroughness.
 re-rendered both sites, watched `content:pdf:<site> --check` go green and called
 it done. A screenshot came back: the footer sits under the prose, not at the
 foot of the sheet. The manifest says the file is current, not that it is right.
+
+**23 September — a placement argued from the neighbours, its consumers unread.**
+Lyric notes, section markers and per-locale song reading went to
+`shared/content` because the content pipeline lives there. Nothing outside
+`pages/music` imported them; asked why not a higher layer, they moved up with
+no upward import in the way. One grep said so; nobody ran it.
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -162,7 +168,7 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
 
-## It edits the copy in front of it, not the fact behind it (×12)
+## It edits the copy in front of it, not the fact behind it (×13)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -188,6 +194,11 @@ _медведь?_ thread the agent cut the rider and defended keeping `/feedback
 what follows a transcript, since the plan had settled it. _вопрос "ой, а я
 должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
 возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
+
+**23 September — a name clash settled by renaming the side that was right.** The
+song list destructured `explicit` as `marked`, the translated label being
+`explicit` too. The operator asked why the data was renamed: the catalogue was
+the one to yield, as `messages`. The rename landed where the clash surfaced.
 
 ## Asked for a source, it supplies its own version (×9)
 
@@ -269,7 +280,7 @@ picked three keys out of `SongFrontmatter`, its comment saying so "the two
 cannot drift" — the reason `CLAUDE.md` gives for the one form it names, a base
 both types intersect. _no Pick_: the narrow schema first, the song's extending it.
 
-## It checks the render against its intent, not against the page (×4)
+## It checks the render against its intent, not against the page (×5)
 
 Told to look at a visual change rather than reason about it, the agent looks —
 and then verifies the thing it set out to do. Whether the result is right is a
@@ -280,6 +291,12 @@ the text, the agent floated it, caught unprompted that the float squeezed the
 next heading, fixed that, screenshotted and called it good. _выноска стала
 лучше, изображение -- хуже_ — against one short paragraph the image outran its
 section. The defect being fixed got looked at; the other was only on the page.
+
+**23 September — a size judged where it was designed, shipped where it wasn't.**
+The explicit-lyrics badge became a fixed 18px square, "a mark on the heading,
+not a letter of it" — right beside the song page's 48px title. The catalogue
+list sets the same component at 16px, where it stood taller than the capitals
+and read as crooked. It now takes its size from the capitals it follows.
 
 ## It warns where the repo could refuse (×3)
 
@@ -299,7 +316,7 @@ pointed at the docstring its first answer had written. _the API still looks
 confusing._ The fix was the shape, which leaves prose nothing to disambiguate:
 `{ path } & ({ vector: string } | { vector?: never })`.
 
-## Its prose answers the question it had, not the reader's (×2)
+## Its prose answers the question it had, not the reader's (×3)
 
 Accurate, present-tense and short is the whole of what a prose pass asks, and a
 rewrite is held against the points it was meant to carry — so a line answering
@@ -315,6 +332,12 @@ the difference_ was renaming `path`, which one site keeps an SVG in.
 **22 September — two rationales in one line, neither legible.** The agent rewrote
 the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
 and judged it done. _не очень понимаю что эта строчка говорит._
+
+**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
+comment called the dimmed translation column "held back", which the operator
+could not decode; Mantine's `__vars` carried a CSS variable a plain `style`
+would; a comment guarding a real trap read as archaeology until reworded. Each
+was plain to the agent that wrote it.
 
 ## Not bumps
 
@@ -333,6 +356,11 @@ theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
 stayed a bump; an entry removed this way takes its count with it. A fifth never
 reached the list: the cost report's default grain, a taste in output with
 nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
+
+**Comments the tree already answered.** A round on the music section asked
+whether a quote's capitalization was wrong and whether zod reached the browser
+bundle. It was right, and zod provably does not: the reviewer's misses stay
+out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
