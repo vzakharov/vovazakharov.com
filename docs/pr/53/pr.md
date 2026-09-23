@@ -2,12 +2,12 @@
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/53
-- **Author:** @vzakharov (human)
+- **Author:** @vzakharov (agent)
 - **Base ← Head:** main ← claude/music-section-lmf89w
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-16T22:15:57Z
-- **Updated:** 2026-09-22T19:09:56Z
+- **Updated:** 2026-09-23T07:55:59Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -20,11 +20,12 @@
 - **`/music` is a content collection, in two languages.** One markdown file per song under `apps/vova/public/music/`, compiled to its own page at build time by the pipeline that already serves case studies and served raw at the same route plus `.md`. One file carries both languages: the language-agnostic half — date, master, project, credits, the words — stays at the top of the frontmatter, and only `title`, `description` and the story are stated per locale. The body is cut on HTML-comment markers (`lang:<locale>` for the story, `lyrics:<language>` for the words), so the authored file still reads as prose wherever it is read raw.
 - **The locale is the last segment, as the CV spells it.** `/music`, `/music/<locale>`, `/music/<slug>` and `/music/<slug>/<locale>`, the short forms being aliases of the addressed language rather than pages of their own. The union that parses "a head, optionally a locale" now lives in `shared/i18n` and both callers spell only what differs. That also settles the seam `.claude/rules/content.md` left open — a cut is a dotted suffix, a locale is a trailing segment, and the two positions cannot collide. A slug that reads as a language fails the build, `/music/ru` being the index in Russian.
 - **Where the words are not in the reader's language, a crib runs beside them** stanza for stanza; a mismatched stanza count fails the build, a parallel text out by one being worse than none. The words are rendered by the page, one element per line, so a line break survives without two invisible spaces at the end of it.
+- **A line can carry the author's note, genius.com-style.** Authored as a markdown footnote in the lyrics section, so the raw file shows it as one; on the page a dotted underline opens it on a click. A page shows only the notes in its own language, and a marker without a definition, an unused definition or two notes on a line fail the build.
 - **The player keeps both languages in its queue.** It is mounted by the layout — which is what lets a track survive a navigation — and the layout sits above the segment that names a language, so the bar reads the language off the address and switches with the page instead of stopping the music.
-- **The metadata the review asked for lands in the same frontmatter:** `project` as a list with the artist first and features after, validated against a six-project registry; `explicit`, which the scaffolder already read off the master's file name and threw away; `credits.lyrics` and `credits.music` as lists of people in contribution order; and `album` against a registry carrying each release's name in each language. Song dates show to the month — the day a recording carries is the day its project reached git, not the day anything happened.
+- **The metadata the review asked for lands in the same frontmatter:** `project` as a list with the artist first and features after, validated against a six-project registry; `explicit`, which the scaffolder already read off the master's file name and threw away; `credits.lyrics` and `credits.music` as lists of people in contribution order; and `album` against a registry carrying each release's name — once, or per language where it went out under two. Song dates show to the month — the day a recording carries is the day its project reached git, not the day anything happened.
 - **The ten documents are the author's.** Every story and every lyric comes from the review of this PR, verbatim in Russian and translated into English, with the drafts they replace gone. `.claude/rules/content.md` gains the section that says how material with its author in the room is handled, so the next batch does not re-learn it.
 
-Deferred, with tickets: the case studies' title moving into frontmatter is #62 (it feeds two render pipelines that hash their sources); a streaming transcode beside each lossless master is #64.
+Deferred, with tickets: the case studies' title moving into frontmatter is #62 (it feeds two render pipelines that hash their sources); a streaming transcode beside each lossless master is #64; the player bar staying up across the whole site, with a close button, is #82.
 
 ## QA Checklist
 
@@ -33,6 +34,7 @@ Deferred, with tickets: the case studies' title moving into frontmatter is #62 (
 - [ ] `alias` — `/music/slime` renders the English page and its canonical link points at `/music/slime/en`; `/music` does the same for the index.
 - [ ] `lyrics-parallel` — on a page whose language is not the sung one, the words and their crib sit side by side stanza for stanza, and stack in the right order below `sm`.
 - [ ] `lyrics-single` — on a page in the sung language, the words run in one column, every line its own line.
+- [ ] `line-notes` — on `/music/slime/en` the crib's three noted lines are dotted and each opens its English note on a click, closing on a click outside or Escape; `/music/slime/ru` shows the Russian notes on the words instead, and `/music/birdie/ru` shows none.
 - [ ] `switch` — the EN/RU chips move between the same song's two pages, and the current one is inert.
 - [ ] `playback-across-languages` — start a track, switch language, and it keeps playing with its title in the new language.
 - [ ] `queue` — next and previous move through the list and wrap; previous restarts the current track when it is more than 3 s in; shuffle reorders and stepping back through a shuffled queue returns where it came from.
@@ -50,6 +52,7 @@ Deferred, with tickets: the case studies' title moving into frontmatter is #62 (
 | `alias`                     | yes         | build        | `generateStaticParams` emits all 33 addresses; the canonical is in the head  |
 | `lyrics-parallel`           | partly      | build        | the markup builds; the two-column breakpoint was checked by eye              |
 | `lyrics-single`             | yes         | build        | —                                                                            |
+| `line-notes`                | partly      | build        | the notes and their popovers are in the static HTML; opening one checked by eye |
 | `switch`                    | yes         | build        | links are static; `current` is derived from the route                        |
 | `playback-across-languages` | no          | —            | manual-only: no route to the audio host from this machine                    |
 | `queue`                     | yes         | `pnpm test`  | `player-state.test.ts` covers shuffle stability, wrapping, restart threshold |
@@ -68,6 +71,7 @@ https://claude.ai/code/session_01YAo9pnqgf8VyXET1RaWz1G
 
 - **C01** @vzakharov (agent) — 2026-09-16T22:16:17Z — "Proposed squash title/body: ``` feat: build the music catalo…" → [↓](#c01)
 - **C02** @vzakharov (human) — 2026-09-22T19:09:56Z — "наверное, после мерджа из мейн некоторые замечания протухли…" → [↓](#c02)
+- **C03** @vzakharov (agent) — 2026-09-22T20:35:05Z — "Угадал наполовину: протух один — про сокращение `the-five-pe…" → [↓](#c03)
 
 <a id="c01"></a>
 
@@ -90,36 +94,28 @@ and it is written in both of the languages the songs are sung and
 talked about in.
 
 Songs become a content collection: one markdown file per song under
-apps/vova/public/music/, compiled to its own page at build time by the
-pipeline that already serves case studies, and served raw at the same
-route plus .md. One file carries both languages — the date, the
-master, the projects, the credits and the words are the same in
-either, so only the title, the blurb and the story are stated per
-locale, and the body is cut on HTML-comment markers that disappear
-wherever the file is read raw. A song's mechanical fields are read
-rather than typed: the duration off the master's FLAC header through a
-128 KB range request, the explicit marker off its file name, the date
-off the repository's first commit. Which songs are in is not a
-judgement — a root FLAC is a master, and a master is a finished song.
+apps/vova/public/music/, compiled to its own page by the pipeline that
+serves case studies and served raw at the same route plus .md. One
+file carries both languages — only the title, the blurb and the story
+are stated per locale, the body cut on HTML-comment markers that
+vanish wherever the file is read raw. The mechanical fields are read,
+not typed: the duration off the master's FLAC header, the explicit
+marker off its file name, the date off the repository's first commit.
 
-The pages put the locale last, as the CV already does: /music/<slug>,
-/music/<slug>/<locale>, and the short forms as aliases of the
-addressed language. That settles the collision the content rule left
-open, a cut being a dotted suffix and a locale a trailing segment, and
-the union that parses "a head, optionally a locale" moves to
-shared/i18n where both callers spell only what differs. A slug that
-reads as a language fails the build, since /music/ru is the index in
-Russian. Where the words are not in the reader's language a crib runs
-beside them stanza for stanza, and a stanza count that disagrees fails
-the build too: a parallel text out by one is worse than none.
+The pages put the locale last, as the CV does — /music/<slug>/<locale>,
+the short forms aliases of the addressed language — which settles the
+collision the content rule left open: a cut is a dotted suffix, a
+locale a trailing segment. Where the words are not in the reader's
+language a crib runs beside them stanza for stanza, a count that
+disagrees failing the build. A line can carry the author's note, a
+markdown footnote in the file that opens on a click on the page, and a
+page shows only the notes in its own language.
 
 A player rides in the music route's layout, which is what lets a track
-keep playing across a navigation — from the index into a song, and
-between a song's two languages, the layout sitting above the segment
-that names one. It is the audio element itself and no dependency: the
-work is the queue, which a pure reducer holds and a test covers,
-resolved at build time and handed over as props so no part of the
-content pipeline reaches the browser.
+keep playing from the index into a song and between its two languages.
+It is the audio element itself and no dependency: the work is the
+queue, a pure reducer a test covers, handed over as build-time props
+so no part of the content pipeline reaches the browser.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -133,6 +129,24 @@ Co-authored-by: Claude <noreply@anthropic.com>
 [https://github.com/vzakharov/vovazakharov.com/pull/53#issuecomment-5782394544](https://github.com/vzakharov/vovazakharov.com/pull/53#issuecomment-5782394544)
 
 наверное, после мерджа из мейн некоторые замечания протухли -- адаптируйся по ситуации
+
+---
+
+<a id="c03"></a>
+
+### Comment by @vzakharov (agent) on 2026-09-22T20:35:05Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/53#issuecomment-5783724635](https://github.com/vzakharov/vovazakharov.com/pull/53#issuecomment-5783724635)
+
+Угадал наполовину: протух один — про сокращение `the-five-percent.md` субагентом до 300 строк. Main уже принёс ровно этот порядок. Остальные были в силе и отвечены по тредам.
+
+Коротко, что изменилось:
+
+- **Слова:** 9ea9ec8.
+- **Заметки к строкам, «genius»:** 106bcfc.
+- **Рефакторинг плеера и схемы, убранная заглушка со Spotify:** efff142.
+- **Постоянный бар по всему сайту:** вынесен в #82.
+- **Четыре «пока не делай, только ответь»** (лейаут и дети, механика локалей, выделение текста, локаль без пропса) — ответы в тредах, без изменений в коде.
 
 ---
 
@@ -171,30 +185,30 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T31** `apps/vova/public/music/wereback.md`:7 — resolved — last: @vzakharov (agent) 2026-09-17T15:40:52Z — "Как в листинге: `[GENERATED, Yoohie]`. Записано." → [↓](#t31)
 - **T32** `apps/vova/public/music/wereback.md`:25 — resolved — last: @vzakharov (agent) 2026-09-17T15:30:38Z — "Беру целиком — и это история, ради которой стоит завести отд…" → [↓](#t32)
 - **T33** `apps/vova/public/music/wereback.md`:52 — resolved — last: @vzakharov (agent) 2026-09-17T16:47:51Z — "Поменял: в `birdie` теперь полные слова везде, где были звёз…" → [↓](#t33)
-- **T34** `apps/vova/public/music/birdie.md`:123 — unresolved — last: @vzakharov (human) 2026-09-22T13:57:46Z — "Не, не всего девятого класса зубы, а все вместе (всем девяты…" → [↓](#t34)
-- **T35** `apps/vova/public/music/birdie.md`:108 — unresolved — last: @vzakharov (human) 2026-09-22T14:00:08Z — "В английском так говорят (перед фотографией)? Если нет, нужн…" → [↓](#t35)
-- **T36** `apps/vova/public/music/crossroads.md`:122 — unresolved — last: @vzakharov (human) 2026-09-22T14:01:09Z — "echoes of my fears battle in the night -- это единое предлож…" → [↓](#t36)
-- **T37** `apps/vova/public/music/first.md`:123 — unresolved — last: @vzakharov (human) 2026-09-22T14:06:38Z — "А именно Musima Resonata -- добавь пжст короткий однострочни…" → [↓](#t37)
-- **T38** `apps/vova/public/music/june.md`:53 — unresolved — last: @vzakharov (human) 2026-09-22T14:08:47Z — "давай — вместо -- на сайте всё ж таки" → [↓](#t38)
-- **T39** `apps/vova/public/music/reka-2.md`:75 — unresolved — last: @vzakharov (human) 2026-09-22T14:11:44Z — "genius: В папином "переводе" -- "Ум мой ясен и чист, как бол…" → [↓](#t39)
-- **T40** `apps/vova/public/music/sashas.md`:43 — unresolved — last: @vzakharov (human) 2026-09-22T14:14:36Z — "многоточия это тоже указания для Суно, их нужно убирать или…" → [↓](#t40)
-- **T41** `apps/vova/public/music/slime.md`:64 — unresolved — last: @vzakharov (human) 2026-09-22T14:16:13Z — "genius: Вместе с последующей фразой на немецком -- аллюзия н…" → [↓](#t41)
-- **T42** `apps/vova/public/music/slime.md`:92 — unresolved — last: @vzakharov (human) 2026-09-22T14:16:45Z — "кажется, "но ты держись" можно выразить как-то хлёстче на ан…" → [↓](#t42)
-- **T43** `apps/vova/public/music/slime.md`:47 — unresolved — last: @vzakharov (human) 2026-09-22T14:17:21Z — "genius: Аллюзия на "денег нет, но вы держитесь" Медведева" → [↓](#t43)
-- **T44** `apps/vova/public/music/slime.md`:66 — unresolved — last: @vzakharov (human) 2026-09-22T14:18:54Z — "genius: Нем. Shut your mouth" → [↓](#t44)
-- **T45** `apps/vova/public/music/wereback.md`:124 — unresolved — last: @vzakharov (human) 2026-09-22T14:20:18Z — "звучит грубовато, скорее что-то "взбодрись уже нафиг"" → [↓](#t45)
-- **T46** `src/pages/music/lib/music-locale.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-22T18:10:27Z — "чё-то хачный какой-то вариант... пока не меняй, но есть каки…" → [↓](#t46)
-- **T47** `src/pages/music/lib/music-route-params.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-22T18:11:39Z — "общее замечание по пиару: что-то вижу очень много какой-то п…" → [↓](#t47)
-- **T48** `src/pages/music/lib/player-state.ts`:10 — unresolved — last: @vzakharov (human) 2026-09-22T18:12:09Z — "нет, Pick мы не делаем. Определяем сначала узкий тип, потом…" → [↓](#t48)
-- **T49** `src/pages/music/ui/music-section.tsx`:27 — unresolved — last: @vzakharov (human) 2026-09-22T18:18:31Z — "этот раздел убрать, он был "заглушкой", пока не было чего-то…" → [↓](#t49)
-- **T50** `src/pages/music/ui/music.module.scss`:1 — unresolved — last: @vzakharov (human) 2026-09-22T18:19:03Z — "это DRY? вижу повторы" → [↓](#t50)
-- **T51** `src/pages/music/ui/player-bar.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-22T18:19:54Z — "если это можно просто реализовать, то бар, единожды запустив…" → [↓](#t51)
-- **T52** `src/pages/music/ui/player-provider.tsx`:84 — unresolved — last: @vzakharov (human) 2026-09-22T18:22:07Z — "давай механику вынесем в новый хук, оставив здесь только tsx…" → [↓](#t52)
-- **T53** `src/shared/config/music-albums.ts`:34 — unresolved — last: @vzakharov (human) 2026-09-22T18:25:36Z — "в подавляющем большинстве случаев en=ru, т.е. vagabond -- ед…" → [↓](#t53)
-- **T54** `src/shared/content/frontmatter.ts`:106 — unresolved — last: @vzakharov (human) 2026-09-22T18:36:09Z — "А, поэтому мы там выше делали `Pick`? Ну, мы всегда можем за…" → [↓](#t54)
-- **T55** `src/shared/content/sections.ts`:62 — unresolved — last: @vzakharov (human) 2026-09-22T18:39:11Z — "знаешь, что понял? в таком режиме не получится выделить текс…" → [↓](#t55)
-- **T56** `src/shared/ui/back-to-home.tsx`:14 — unresolved — last: @vzakharov (human) 2026-09-22T18:41:22Z — "а рандомный компонент не может знать про то, в какой мы лока…" → [↓](#t56)
-- **T57** `writing/notes/the-five-percent.md`:1 — unresolved — last: @vzakharov (human) 2026-09-22T18:42:41Z — "при следующем сокращении, сделай через субагента, НЕ читая ф…" → [↓](#t57)
+- **T34** `apps/vova/public/music/birdie.md`:123 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:25Z — "Поправил: «The whole ninth year were collecting his teeth fr…" → [↓](#t34)
+- **T35** `apps/vova/public/music/birdie.md`:108 — unresolved — last: @vzakharov (human) 2026-09-23T07:50:14Z — "Если говорят, то не надо подсказки, просто в переводе сделат…" → [↓](#t35)
+- **T36** `apps/vova/public/music/crossroads.md`:122 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:27Z — "Ага, одно предложение: теперь «Эхо моих страхов / Бьётся в н…" → [↓](#t36)
+- **T37** `apps/vova/public/music/first.md`:123 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:28Z — "Добавил на обоих языках, со ссылкой: «Musima Resonata — клас…" → [↓](#t37)
+- **T38** `apps/vova/public/music/june.md`:53 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:30Z — "Заменил во всех песнях, это 20 мест. 9ea9ec8" → [↓](#t38)
+- **T39** `apps/vova/public/music/reka-2.md`:75 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:31Z — "Нашёл: это гата Тхить Нят Ханя «Opening the Window» из сборн…" → [↓](#t39)
+- **T40** `apps/vova/public/music/sashas.md`:43 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:32Z — "Убрал суновские: «Папа, почему облака», «Это поэтому люди пр…" → [↓](#t40)
+- **T41** `apps/vova/public/music/slime.md`:64 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:34Z — "Добавил на обоих языках: «Вместе со следующей фразой на неме…" → [↓](#t41)
+- **T42** `apps/vova/public/music/slime.md`:92 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:35Z — "«There's no hope, but you hang in there»: «you» даёт ту же с…" → [↓](#t42)
+- **T43** `apps/vova/public/music/slime.md`:47 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:36Z — "Добавил: «Аллюзия на «Денег нет, но вы держитесь» Медведева»…" → [↓](#t43)
+- **T44** `apps/vova/public/music/slime.md`:66 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:37Z — "Добавил: «Нем. «Закрой рот»» / «German for “shut your mouth”…" → [↓](#t44)
+- **T45** `apps/vova/public/music/wereback.md`:124 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:39Z — "«Танцуй и взбодрись уже нафиг!» — и так же в четырёх «Взбодр…" → [↓](#t45)
+- **T46** `src/pages/music/lib/music-locale.ts`:1 — unresolved — last: @vzakharov (agent) 2026-09-22T20:34:40Z — "Прямого канала «дети → лейаут» в App Router нет: данные теку…" → [↓](#t46)
+- **T47** `src/pages/music/lib/music-route-params.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-23T07:52:34Z — "Не, локаль первым сегментом это какая-то хрень вообще изнача…" → [↓](#t47)
+- **T48** `src/pages/music/lib/player-state.ts`:10 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:42Z — "Убрал `Pick`: теперь есть узкая схема `playableSchema` (`aud…" → [↓](#t48)
+- **T49** `src/pages/music/ui/music-section.tsx`:27 — unresolved — last: @vzakharov (human) 2026-09-23T07:53:05Z — "Пусть. Going forward мы сделаем ссылки на платформы для прое…" → [↓](#t49)
+- **T50** `src/pages/music/ui/music.module.scss`:1 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:44Z — "Не был. Вынес два повтора: миксин `thumb` для ползунка (два…" → [↓](#t50)
+- **T51** `src/pages/music/ui/player-bar.tsx`:1 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:46Z — "Не «просто», завёл #82. Бар живёт в лейауте `/music`; чтобы…" → [↓](#t51)
+- **T52** `src/pages/music/ui/player-provider.tsx`:53 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:47Z — "Вынес в `useAudioPlayer` (`lib/use-audio-player.ts`): редьюс…" → [↓](#t52)
+- **T53** `src/shared/config/music-albums.ts`:34 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:48Z — "Сделал `Localizable<T> = T | Record<Locale, T>` и `inLocale(…" → [↓](#t53)
+- **T54** `src/shared/content/frontmatter.ts`:101 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:49Z — "Не совсем: `Pick` был просто неудачным выбором. `.and` там с…" → [↓](#t54)
+- **T55** `src/shared/content/sections.ts`:62 — unresolved — last: @vzakharov (human) 2026-09-23T07:54:37Z — "Ну да, кажется ок. Единственное, я НЕ хочу, чтобы на узких э…" → [↓](#t55)
+- **T56** `src/shared/ui/back-to-home.tsx`:14 — unresolved — last: @vzakharov (human) 2026-09-23T07:55:59Z — "А можно ли сделать, чтобы лейаут знал про локаль -- по той с…" → [↓](#t56)
+- **T57** `writing/notes/the-five-percent.md`:1 — resolved — last: @vzakharov (agent) 2026-09-22T20:34:53Z — "После мерджа main это уже так: CLAUDE.md отдаёт правку файла…" → [↓](#t57)
 
 <a id="t01"></a>
 
@@ -2099,7 +2113,7 @@ Dance and cheer the fuck up!
 
 <a id="t34"></a>
 
-### `apps/vova/public/music/birdie.md`:123 — unresolved
+### `apps/vova/public/music/birdie.md`:123 — resolved
 
 ```diff
 @@ -1,81 +1,163 @@
@@ -2113,6 +2127,10 @@ Dance and cheer the fuck up!
 **@vzakharov (human)** — 2026-09-22T13:57:46Z
 
 Не, не всего девятого класса зубы, а все вместе (всем девятым классом) собирали
+
+**@vzakharov (agent)** — 2026-09-22T20:34:25Z
+
+Поправил: «The whole ninth year were collecting his teeth from the corners of the gym» — собирает весь класс, зубы его. 9ea9ec8
 
 ---
 
@@ -2137,11 +2155,29 @@ Dance and cheer the fuck up!
 
 Далее в комментах я буду обозначать как genius, но название должно быть более по делу.
 
+**@vzakharov (agent)** — 2026-09-22T20:34:26Z
+
+Говорят — «watch the birdie», и почти про то же. Сделал оба: в шпаргалке теперь «And now, watch for the...» (как в описании и истории), а на строке — английская заметка, что русский фотограф говорит «сейчас вылетит птичка», то есть «a birdie is about to fly out». На русской странице её нет.
+
+Как устроены заметки: в файле это обычная сноска markdown — `[^label]` в конце строки, `[^label]: …` под куплетами, — так что на GitHub и в сыром `.md` она и выглядит сноской. На странице строка с заметкой подчёркнута пунктиром и открывает её по клику: не по наведению, потому что на телефоне наведения нет, а в заметке бывает ссылка. Показываются только заметки на языке страницы. Битая сноска, лишнее определение или две заметки на одной строке валят сборку. В коде это «notes» / `LineNote`. 106bcfc
+
+**@vzakharov (human)** — 2026-09-23T07:50:14Z
+
+Если говорят, то не надо подсказки, просто в переводе сделать And now, watch the... (без for), отсылка и так будет ясна.
+
+По label: а сделать на конкретном слове/группе слов нельзя? Это было бы в принципе полезно и для обычного текста (подсказки на экране, сноски на печати).
+
+По наведению vs нажатию: хотелось бы, чтобы там где наведение поддерживается, было оно, а где нет -- по нажатию. Возможно?
+
+И riding along, несколько изменений, замеченных пока смотрел "птичку":
+
+<img width="670" height="465" alt="Screenshot 2026-09-23 at 09 45 43" src="./attachments/d583264f-799e-42f0-8050-a223ee63647f.png" />
+
 ---
 
 <a id="t36"></a>
 
-### `apps/vova/public/music/crossroads.md`:122 — unresolved
+### `apps/vova/public/music/crossroads.md`:122 — resolved
 
 ```diff
 @@ -1,47 +1,179 @@
@@ -2157,11 +2193,15 @@ Dance and cheer the fuck up!
 
 echoes of my fears battle in the night -- это единое предложение (разбитое на две строки)
 
+**@vzakharov (agent)** — 2026-09-22T20:34:27Z
+
+Ага, одно предложение: теперь «Эхо моих страхов / Бьётся в ночи». 9ea9ec8
+
 ---
 
 <a id="t37"></a>
 
-### `apps/vova/public/music/first.md`:123 — unresolved
+### `apps/vova/public/music/first.md`:123 — resolved
 
 ```diff
 @@ -1,67 +1,168 @@
@@ -2176,11 +2216,15 @@ echoes of my fears battle in the night -- это единое предложен
 
 А именно Musima Resonata -- добавь пжст короткий однострочник и [ссылку](https://share.google/aimode/IK8kPWbhpdjk8fzUI) (на обоих языках) (в рамках "genius")
 
+**@vzakharov (agent)** — 2026-09-22T20:34:28Z
+
+Добавил на обоих языках, со ссылкой: «Musima Resonata — классическая гитара восточногерманской фабрики Musima из Маркнойкирхена, 1960–70-х. Подробнее» / «A Musima Resonata — a classical guitar from the East German Musima works in Markneukirchen, made in the 1960s and ’70s. More». Факты взяты из описаний этих гитар на продаже (ГДР, 60–70-е, Маркнойкирхен); если папина была другого года, поправлю. 106bcfc
+
 ---
 
 <a id="t38"></a>
 
-### `apps/vova/public/music/june.md`:53 — unresolved
+### `apps/vova/public/music/june.md`:53 — resolved
 
 ```diff
 @@ -1,25 +1,77 @@
@@ -2195,11 +2239,15 @@ echoes of my fears battle in the night -- это единое предложен
 
 давай — вместо -- на сайте всё ж таки
 
+**@vzakharov (agent)** — 2026-09-22T20:34:30Z
+
+Заменил во всех песнях, это 20 мест. 9ea9ec8
+
 ---
 
 <a id="t39"></a>
 
-### `apps/vova/public/music/reka-2.md`:75 — unresolved
+### `apps/vova/public/music/reka-2.md`:75 — resolved
 
 ```diff
 @@ -1,46 +1,97 @@
@@ -2216,11 +2264,15 @@ genius: В папином "переводе" -- "Ум мой ясен и чис�
 
 Кстати, давай попробуем найти и дать источник на этот самый катрен в оригинале
 
+**@vzakharov (agent)** — 2026-09-22T20:34:31Z
+
+Нашёл: это гата Тхить Нят Ханя «Opening the Window» из сборника [Present Moment Wonderful Moment](https://www.parallax.org/product/present-moment-wonderful-moment/): «Opening the window, I look out onto the Dharmakaya. How wondrous is life! Attentive to each moment, my mind is clear like a calm river.» Папина «большая река» — это его «calm river». На строфе теперь по две заметки на каждом языке: на первой строке источник (оригинал и ссылка на книгу), на последней — папина строка. 106bcfc
+
 ---
 
 <a id="t40"></a>
 
-### `apps/vova/public/music/sashas.md`:43 — unresolved
+### `apps/vova/public/music/sashas.md`:43 — resolved
 
 ```diff
 @@ -1,48 +1,101 @@
@@ -2235,11 +2287,15 @@ genius: В папином "переводе" -- "Ум мой ясен и чис�
 
 многоточия это тоже указания для Суно, их нужно убирать или переделывать в нормальные знаки препинания (ну только если там и по смыслу не должно быть многоточие)
 
+**@vzakharov (agent)** — 2026-09-22T20:34:32Z
+
+Убрал суновские: «Папа, почему облака», «Это поэтому люди придумали ангелов?», «Дочка, небо тоже скучает», «Дочка, ты всегда замечала» — и так же в шпаргалке. Одно многоточие оставил, «Где нет слов...»: там слова по смыслу обрываются перед «Но я отвечаю». Скажи, если и его убрать. В «Птичке» по той же причине оставил «А сейчас вылетит...»: это обрыв перед «Птичка!», а не пауза для Суно. 9ea9ec8
+
 ---
 
 <a id="t41"></a>
 
-### `apps/vova/public/music/slime.md`:64 — unresolved
+### `apps/vova/public/music/slime.md`:64 — resolved
 
 ```diff
 @@ -1,57 +1,123 @@
@@ -2254,11 +2310,15 @@ genius: В папином "переводе" -- "Ум мой ясен и чис�
 
 genius: Вместе с последующей фразой на немецком -- аллюзия на Adieu, Goodbye, Auf Wiedersehen (Rammstein - Adieu)
 
+**@vzakharov (agent)** — 2026-09-22T20:34:34Z
+
+Добавил на обоих языках: «Вместе со следующей фразой на немецком — аллюзия на «Adieu, Goodbye, Auf Wiedersehen» (Rammstein — Adieu)». 106bcfc
+
 ---
 
 <a id="t42"></a>
 
-### `apps/vova/public/music/slime.md`:92 — unresolved
+### `apps/vova/public/music/slime.md`:92 — resolved
 
 ```diff
 @@ -1,57 +1,123 @@
@@ -2273,11 +2333,15 @@ genius: Вместе с последующей фразой на немецко�
 
 кажется, "но ты держись" можно выразить как-то хлёстче на английском
 
+**@vzakharov (agent)** — 2026-09-22T20:34:35Z
+
+«There's no hope, but you hang in there»: «you» даёт ту же снисходительность, что в оригинале, и заодно совпадает с тем, как по-английски передают Медведева («There's no money, but you hang in there») — на него теперь ссылается заметка. 9ea9ec8
+
 ---
 
 <a id="t43"></a>
 
-### `apps/vova/public/music/slime.md`:47 — unresolved
+### `apps/vova/public/music/slime.md`:47 — resolved
 
 ```diff
 @@ -1,57 +1,123 @@
@@ -2292,11 +2356,15 @@ genius: Вместе с последующей фразой на немецко�
 
 genius: Аллюзия на "денег нет, но вы держитесь" Медведева
 
+**@vzakharov (agent)** — 2026-09-22T20:34:36Z
+
+Добавил: «Аллюзия на «Денег нет, но вы держитесь» Медведева» / «An allusion to Medvedev’s “There’s no money, but you hang in there”». 106bcfc
+
 ---
 
 <a id="t44"></a>
 
-### `apps/vova/public/music/slime.md`:66 — unresolved
+### `apps/vova/public/music/slime.md`:66 — resolved
 
 ```diff
 @@ -1,57 +1,123 @@
@@ -2311,11 +2379,15 @@ genius: Аллюзия на "денег нет, но вы держитесь" М
 
 genius: Нем. Shut your mouth
 
+**@vzakharov (agent)** — 2026-09-22T20:34:37Z
+
+Добавил: «Нем. «Закрой рот»» / «German for “shut your mouth”». 106bcfc
+
 ---
 
 <a id="t45"></a>
 
-### `apps/vova/public/music/wereback.md`:124 — unresolved
+### `apps/vova/public/music/wereback.md`:124 — resolved
 
 ```diff
 @@ -1,52 +1,158 @@
@@ -2330,6 +2402,10 @@ genius: Нем. Shut your mouth
 
 звучит грубовато, скорее что-то "взбодрись уже нафиг"
 
+**@vzakharov (agent)** — 2026-09-22T20:34:39Z
+
+«Танцуй и взбодрись уже нафиг!» — и так же в четырёх «Взбодрись уже нафиг!» перед последним припевом. 9ea9ec8
+
 ---
 
 <a id="t46"></a>
@@ -2339,6 +2415,16 @@ genius: Нем. Shut your mouth
 **@vzakharov (human)** — 2026-09-22T18:10:27Z
 
 чё-то хачный какой-то вариант... пока не меняй, но есть какие-то опции. может лейаут как-то "говорить" со своими детьми?
+
+**@vzakharov (agent)** — 2026-09-22T20:34:40Z
+
+Прямого канала «дети → лейаут» в App Router нет: данные текут только вниз, а лейаут рендерится независимо от страницы, так что страница не может передать ему пропс. Варианты:
+
+1. **`useSelectedLayoutSegments()`** — официальный хук, которым клиентский компонент в лейауте читает активные сегменты под собой. Это и есть «лейаут спрашивает детей», но разбор остаётся: из catch-all придёт `['slime', 'ru']`. Меньше хака по форме, не по сути.
+2. **Страница говорит сама.** Крошечный клиентский `<PlayerLocale locale="ru" />` на каждой музыкальной странице кладёт локаль в контекст плеера. Страница берёт её из `params`, где она уже разобрана, так что парсинга нет. Цена — эффект, то есть кадр рассинхрона при навигации; в статическом HTML его не видно, бар до выбора трека не рендерится.
+3. **Локаль первым сегментом**, и тогда лейаут `[locale]` получает её из `params`. Подвох: смена языка — это смена сегмента, React пересоздаст всё под ним, и музыка остановится, если плеер не поднять выше `[locale]`. Подробнее — в треде про `music-route-params.ts`.
+
+Я бы взял 2: парсинг уходит, а локаль приходит оттуда же, откуда её берёт сама страница. Пока не трогаю.
 
 ---
 
@@ -2350,11 +2436,31 @@ genius: Нем. Shut your mouth
 
 общее замечание по пиару: что-то вижу очень много какой-то подкапотной механики по рутам-путям-локалям и т.п. Опять же, пока ничего не меняй, но поясни, стандартный ли это подход, если нет, что привело к необходимости вводить такие пляски, и что можно было бы поменять в бОльшей картинке, чтобы они были не нужны?
 
+**@vzakharov (agent)** — 2026-09-22T20:34:41Z
+
+Нет, не стандартный. Стандарт для next-intl — локаль первым сегментом (`app/[locale]/…`) плюс middleware, который редиректит или переписывает адрес без префикса. Наши пляски — от трёх вещей:
+
+1. **Static export.** Middleware нет, как и редиректов с rewrites. Поэтому адрес без локали (`/music/slime`) не может переехать: он обязан быть отдельной страницей-алиасом с canonical на `/en`. Отсюда `LocaleTail`, `localeTailAddresses`, `musicAddressDefaults`.
+2. **Локаль последним сегментом**, как у CV (`/cv/cto/ru`). Раз она в хвосте, каждой секции нужен свой optional catch-all, который сам разбирает «слаг, может быть, локаль», и защита от слага, который читается как локаль (`/music/ru`). Отсюда `parseMusicSegments` и проверка в `listSongDocuments`.
+3. **Лейаут выше сегмента с локалью** и потому её не видит. Отсюда `pathLocale` в плеере, лейблы на обоих языках в лейауте и пропс `label` у `BackToHome`.
+
+Что поменять в большой картине: локаль первым сегментом — `app/[locale]/…`, `generateStaticParams` на этом уровне, `setRequestLocale` в лейауте. Тогда лейаут и любой серверный компонент знают локаль, catch-all'ы становятся обычными `[slug]`, а `pathLocale`, `parseMusicSegments`, `musicAddressDefaults` и `LocaleTail` уходят. Цена:
+
+- меняются адреса CV, а в статике старые сохраняются только страницами с meta-refresh;
+- английский без префикса — либо дублирующее дерево без `[locale]`, либо `/` становится редиректом на `/en`;
+- чтобы музыка не останавливалась при смене языка, плеер живёт выше `[locale]`, в корневом лейауте, и это ровно та работа, что в #82.
+
+Если делать — отдельным тикетом, и лучше вместе с #82: оба трогают один корневой лейаут. Пока ничего не меняю.
+
+**@vzakharov (human)** — 2026-09-23T07:52:34Z
+
+Не, локаль первым сегментом это какая-то хрень вообще изначально. Правильно ли я понимаю, что текущая механика фактически формализует конвенцию "локаль у нас в хвосте", причём работать это будет не только для музыки, а в принципе для любых страниц которые мы уже локализуем или будем локализовать (при условии, что они тоже придерживаются этой конвенции)?
+
 ---
 
 <a id="t48"></a>
 
-### `src/pages/music/lib/player-state.ts`:10 — unresolved
+### `src/pages/music/lib/player-state.ts`:10 — resolved
 
 ```diff
 @@ -1,13 +1,19 @@
@@ -2371,6 +2477,10 @@ genius: Нем. Shut your mouth
 **@vzakharov (human)** — 2026-09-22T18:12:09Z
 
 нет, Pick мы не делаем. Определяем сначала узкий тип, потом расширяем до широкого
+
+**@vzakharov (agent)** — 2026-09-22T20:34:42Z
+
+Убрал `Pick`: теперь есть узкая схема `playableSchema` (`audio`, `seconds`, `explicit`) и её тип `Playable`. Схема песни её расширяет, а `PlayerTrack` пересекается с `Playable`. efff142
 
 ---
 
@@ -2396,50 +2506,71 @@ genius: Нем. Shut your mouth
 
 этот раздел убрать, он был "заглушкой", пока не было чего-то лучше
 
+**@vzakharov (agent)** — 2026-09-22T20:34:43Z
+
+Убрал: эмбеды, `artistId`, которые читали только они, и упоминание Spotify в meta description индекса. Обрати внимание: в `MUSIC_PROJECTS` остались `label` и `channel` (телеграм-каналы), и теперь их ничто не рендерит. Оставил, потому что это данные, которые ты туда клал; скажи, если не нужны, — вынесу. efff142
+
+**@vzakharov (human)** — 2026-09-23T07:53:05Z
+
+Пусть. Going forward мы сделаем ссылки на платформы для проектов и песен -- там, где они есть. Пока создай issue про это чтоб не забыть пжст.
+
 ---
 
 <a id="t50"></a>
 
-### `src/pages/music/ui/music.module.scss`:1 — unresolved
+### `src/pages/music/ui/music.module.scss`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-22T18:19:03Z
 
 это DRY? вижу повторы
 
+**@vzakharov (agent)** — 2026-09-22T20:34:44Z
+
+Не был. Вынес два повтора: миксин `thumb` для ползунка (два вендорных псевдоэлемента нельзя объединить одним селектором — браузер выбросит правило целиком) и миксин `fill` для `flex: 1; min-width: 0`. 106bcfc
+
 ---
 
 <a id="t51"></a>
 
-### `src/pages/music/ui/player-bar.tsx`:1 — unresolved
+### `src/pages/music/ui/player-bar.tsx`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-22T18:19:54Z
 
 если это можно просто реализовать, то бар, единожды запустившись, должен оставаться при навигации на другие секции (и должна быть кнопка закрыть бар). Если сложно, завести новый тикет
 
+**@vzakharov (agent)** — 2026-09-22T20:34:46Z
+
+Не «просто», завёл #82. Бар живёт в лейауте `/music`; чтобы пережить уход в CV, его придётся поднять в корневой лейаут, а он общий у всех трёх сайтов. Каталог и JS плеера тогда поедут на каждую страницу vova, что спорит с #56, и ещё надо решить, на каком языке бар вне `/music`. Кнопка «закрыть» — часть того же тикета.
+
 ---
 
 <a id="t52"></a>
 
-### `src/pages/music/ui/player-provider.tsx`:84 — unresolved
+### `src/pages/music/ui/player-provider.tsx`:53 — resolved
 
 ```diff
 @@ -0,0 +1,313 @@
-… 80 lines elided …
-+ * component a page drops in: React preserves a layout's subtree across a
-+ * navigation into and out of `/music/<slug>`, so a track keeps playing.
-+ */
-+export function PlayerProvider({
+… 49 lines elided …
++  WithTracks &
++  /** The language of the page the bar is currently sitting under. */
++  WithLocale & {
++    labels: PlayerLabels;
+… 31 lines elided …
 ```
 
 **@vzakharov (human)** — 2026-09-22T18:22:07Z
 
 давай механику вынесем в новый хук, оставив здесь только tsx (ну и какие-то мелочи которые хуку не подойдут)
 
+**@vzakharov (agent)** — 2026-09-22T20:34:47Z
+
+Вынес в `useAudioPlayer` (`lib/use-audio-player.ts`): редьюсер, аудиоэлемент и его события, media session, клавиатура. В провайдере остались контекст, локаль из адреса и разметка. Общие поля живут в типе `Playback`, чтобы контекст их не повторял. efff142
+
 ---
 
 <a id="t53"></a>
 
-### `src/shared/config/music-albums.ts`:34 — unresolved
+### `src/shared/config/music-albums.ts`:34 — resolved
 
 ```diff
 @@ -0,0 +1,35 @@
@@ -2461,11 +2592,15 @@ genius: Нем. Shut your mouth
 
 в подавляющем большинстве случаев en=ru, т.е. vagabond -- единственное исключение, поэтому надо как-то упростить здесь, возможно чтобы и title и artist принимали как полокальный объект так и строки
 
+**@vzakharov (agent)** — 2026-09-22T20:34:48Z
+
+Сделал `Localizable<T> = T | Record<Locale, T>` и `inLocale()` в `shared/i18n`: у `ctfu` теперь просто строки, у `vagabond` — пара. efff142
+
 ---
 
 <a id="t54"></a>
 
-### `src/shared/content/frontmatter.ts`:106 — unresolved
+### `src/shared/content/frontmatter.ts`:101 — resolved
 
 ```diff
 @@ -2,22 +2,154 @@ import 'server-only';
@@ -2479,6 +2614,10 @@ genius: Нем. Shut your mouth
 **@vzakharov (human)** — 2026-09-22T18:36:09Z
 
 А, поэтому мы там выше делали `Pick`? Ну, мы всегда можем задать аналогично сначала более узкую схему, потом `.extend` её
+
+**@vzakharov (agent)** — 2026-09-22T20:34:49Z
+
+Не совсем: `Pick` был просто неудачным выбором. `.and` там стоял потому, что локализованная половина была `z.record` по локалям, а рекорд в `.extend` не передашь. Теперь это объект с обязательным ключом на каждую локаль (`byLocale(() => localizedTextSchema)`), и схема песни снова `ZodObject`: `playable` → поля песни → `en`/`ru`, всё через `.extend`. Исчерпываемость та же — без `ru` сборка падает. efff142
 
 ---
 
@@ -2508,6 +2647,20 @@ genius: Нем. Shut your mouth
 
 Есть какие-то другие способы выравнивания, при которых у нас текст на одном языке -- это один объект в доме (без примесей другого языка)? Пока не делай, только ответь
 
+**@vzakharov (agent)** — 2026-09-22T20:34:50Z
+
+Да, это следствие раскладки: каждая пара строф — один грид, в DOM русская и английская строфы чередуются, а выделение идёт по порядку DOM. Способы, при которых каждый язык — один непрерывный узел:
+
+1. **Две колонки-контейнера и `subgrid`.** Внешний грид — две колонки и строка на строфу. Каждая колонка — один элемент на всю высоту (`grid-row: 1 / -1; display: grid; grid-template-rows: subgrid`), строфы — его дети. Строки общие, поэтому строфы слева и справа выравниваются по более высокой, как сейчас. В DOM сначала все русские строфы, потом все английские, и выделение из колонки не выходит. `subgrid` есть во всех актуальных браузерах с 2023-го. На узком экране, чтобы строфа и шпаргалка всё равно чередовались, каждой строфе понадобится `grid-row` по номеру (через CSS-переменную с индексом), и на мобиле выделение опять пойдёт вперемешку — но там его и делают реже.
+2. **Две независимые колонки без выравнивания.** Выделение идеальное, но строфы разъедутся по высоте, и параллельный текст перестанет быть параллельным. Не советую.
+3. **Оставить DOM и лечить выделение**: по `pointerdown` в одной колонке ставить `user-select: none` другой. Работает, но это JS ради того, что вариант 1 даёт средствами CSS.
+
+Я бы взял 1. Пока не трогаю.
+
+**@vzakharov (human)** — 2026-09-23T07:54:37Z
+
+Ну да, кажется ок. Единственное, я НЕ хочу, чтобы на узких экранах что-то где-то начинало чередоваться; просто пусть как иногда делают с таблицами, если экран узкий, то область таблицы становятся скроллящейся влево-вправо, так что юзер может сам свайпнуть туда, куда ему нужно.
+
 ---
 
 <a id="t56"></a>
@@ -2530,15 +2683,33 @@ genius: Нем. Shut your mouth
 
 а рандомный компонент не может знать про то, в какой мы локали (без парсинга урла -- так что это в тему того же обсуждения выше)? какие-нибудь сторы-шморы, цустанды-шмустанды (хотя вроде это всё про client-side, а у нас статика)? Опять же, just asking for now
 
+**@vzakharov (agent)** — 2026-09-22T20:34:52Z
+
+Серверный компонент — может, и next-intl делает именно это через `setRequestLocale` / `getLocale()`: под капотом React `cache()`, хранилище на время одного рендера. На сборке статики оно работает так же, как на сервере. Подвох в том, кто кладёт значение: лейаут и страница рендерятся независимо, так что положить может только тот, кто сам знает локаль из `params`. Сейчас это только страница — при локали в хвосте лейаут её не знает. Значит, для `BackToHome`, который рендерит страница, такое хранилище сработало бы уже сейчас, а для плеера в лейауте нет.
+
+Zustand и прочие клиентские сторы не помогут: HTML собирается при сборке, и стор должен быть наполнен ещё во время пререндера, то есть кто-то выше опять должен знать локаль. На клиенте это свелось бы к тому же контексту, что уже есть.
+
+Итого: пропс у `BackToHome` — следствие локали в хвосте, а не отсутствия механизма. С локалью первым сегментом (тред про `music-route-params.ts`) он уйдёт сам. Пока не трогаю.
+
+**@vzakharov (human)** — 2026-09-23T07:55:59Z
+
+А можно ли сделать, чтобы лейаут знал про локаль -- по той схеме, которую выше обсудили (если в хвосте en или ru -- значит, это локаль)? Или я не ту проблему пытаюсь решить?
+
+(Если ту и изменение makes sense, то реализуй сразу.)
+
 ---
 
 <a id="t57"></a>
 
-### `writing/notes/the-five-percent.md`:1 — unresolved
+### `writing/notes/the-five-percent.md`:1 — resolved
 
 **@vzakharov (human)** — 2026-09-22T18:42:41Z
 
 при следующем сокращении, сделай через субагента, НЕ читая файл и требуя сокращения до 300 строк (т.е. предел -- 400, но при достижении снижаем до 300, что-то вроде гистерезиса). Сейчас это так делается на мейне, но мы туда нескоро доедем.
+
+**@vzakharov (agent)** — 2026-09-22T20:34:53Z
+
+После мерджа main это уже так: CLAUDE.md отдаёт правку файла субагенту, а сама сессия его не открывает, а `scripts/check-notes-length.sh` держит потолок 400 и просит ужать до 300. Запись этого раунда сделана так же.
 
 ---
 
@@ -2550,3 +2721,4 @@ genius: Нем. Shut your mouth
 - **2026-09-17T16:29:26Z** @vzakharov cross-referenced this pull request from [#64 Offer a streaming transcode beside each song's lossless master](https://github.com/vzakharov/vovazakharov.com/issues/64).
 - **2026-09-17T16:44:39Z** @vzakharov renamed from «feat: build the music catalogue from markdown, with a player» to «feat: build the music catalogue from markdown, in two languages, with a player».
 - **2026-09-22T18:43:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/53#pullrequestreview-5279083632.
+- **2026-09-22T20:30:50Z** @vzakharov cross-referenced this pull request from [#82 Keep the player bar up across the whole site, with a close button](https://github.com/vzakharov/vovazakharov.com/issues/82).
