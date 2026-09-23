@@ -13,7 +13,7 @@ Four parts, order-free:
 - **`and merge`** (`@.claude/skills/finalize/SKILL.md`'s flag): read as `and finalize`, and **not forwarded** — a lane produces its diff in this same turn, so the flag was typed before the thing it would merge existed. Land-prep as asked, then report that the merge was held and that `/finalize <branch> and merge` lands it once the operator has looked.
 - **Extra guidance** (optional): any remaining prose. Not a lane of its own — it directs whichever lane runs, and when no lane is discovered it _is_ the work (Step 4).
 
-**Every flag here fires on presence, the reporting included.** What a flag would have done had it been typed is a rule for you to apply, never a finding for the operator to read — it rules on an argument they did not write, in a turn that had no occasion to raise it. So an invocation carrying no `and merge` produces no note about a held merge.
+**Every flag here fires on presence, the reporting included.** What a flag would have done had it been typed is a rule for you to apply, never a finding for the operator to read — it rules on an argument they did not write, in a turn that had no occasion to raise it. So an invocation carrying no `and merge` produces no note about a held merge, and one carrying no `and finalize` no note that land-prep was not run.
 
 ## A `/handle` session is continued work
 
@@ -34,7 +34,7 @@ Two lanes, and which runs is read off the branch:
   - **Unresolved threads whose newest comment is guidance nobody has answered**, from reviews of any age. Unresolved is necessary but not sufficient: an operator who read your reply and moved on routinely never clicks Resolve, so firing on `unresolved` alone re-works threads that are already done. The test runs on the thread's **tail**, not on whether a reply exists anywhere in it — which is also what catches the mirrored case, a thread a prior agent answered and the operator then came back on unsatisfied.
   - **Reviews submitted since the branch's last push**, plus top-level PR comments by the same recency test — they carry no resolved state, so recency is the only handle on them. Compare `reviews[].submittedAt` and `comments[].createdAt` against the head commit's `committedDate` (`gh pr view <n> --repo <owner>/<repo> --json commits,reviews,comments`).
 
-  The realistic case is both at once — a fresh review _plus_ operator follow-ups on older threads — and the lane's input is their union. `python3 scripts/export-github-item.py <n>` writes the PR to `docs/pr/<n>/pr.md`, whose review section opens with **one index row per thread** carrying both halves the tail test needs: the `resolved` / `unresolved` state, and the tail's author label, timestamp and opening words.
+  The realistic case is both at once — a fresh review _plus_ operator follow-ups on older threads — and the lane's input is their union. `python3 scripts/export-github-item.py <n>` writes the PR to `docs/pr/<n>/pr.md`, whose review section carries **one index row per unresolved thread** — resolved threads are dropped by default (`--include-resolved` brings them back), which is the tail test's own input already, so the export never makes you skim a thread the reviewer closed. Each row carries both halves the tail test needs: the `unresolved` / `resolution unknown` state, and the tail's author label, timestamp and opening words.
 
   **Run the export every time, and never read an export you did not just take.** The export is a snapshot of something that moves: `docs/pr/<n>/pr.md` sitting in the tree says what the PR held when some turn took it, and nothing about what it holds now — the comment you are here to answer may have arrived since. `.claude/hooks/prompt-handle-pr-export.sh` normally has the taking done before the turn; run the command yourself where it reported a failure, or where a tree adopted `/handle` without the hook.
 
@@ -74,7 +74,7 @@ With extra guidance in the argument, that guidance is the task → `/go` § "Pla
 
 Load and follow `@.claude/skills/finalize/SKILL.md` with no target token — the branch is already attached — and, where the invocation carried `and merge`, without that flag, per § "Argument shape". It runs only after a lane actually did something, since land-prepping a branch you just declined to touch is exactly the unasked-for finalize the flag exists to prevent. Two turns cancel it: a Step-4 stop, and a plan-review turn, which ends with the plan still awaiting a go-ahead and nothing implemented to land.
 
-Absent the flag, end with a one-line note that land-prep was not requested, so the operator knows the lever is there — the one place a flag nobody typed is named, and it names `/finalize` alone. It is opt-in because `/finalize` is the one lane whose consequences an unaware operator wouldn't want: it ends with the PR reading as merge-ready to anyone who looks at it.
+The flag is opt-in because `/finalize` is the one lane whose consequences an unaware operator wouldn't want: it ends with the PR reading as merge-ready to anyone who looks at it. Absent the flag, the turn ends on the lane's own report (§ "Argument shape").
 
 ## Do NOT
 
