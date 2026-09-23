@@ -9,7 +9,7 @@ seconds: 207
 explicit: true
 en:
   title: Птичка
-  description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch for the birdie” as its prelude.'
+  description: 'Deathcore grown out of an iPhone alarm tone, with the photographer’s “watch the birdie” as its prelude.'
 ru:
   title: Птичка
   description: 'Дэткор, выросший из айфонного будильника, с прелюдией «а сейчас вылетит птичка».'
@@ -19,16 +19,16 @@ ru:
 
 Zoltan found an alarm on his iPhone called «Птичка» — very brisk, and distinctive
 in a way an alarm has no business being. I immediately wanted it to spill over
-into a good solid deathcore, with «а сейчас вылетит птичка» — _watch for the
+into a good solid deathcore, with «а сейчас вылетит птичка» — _watch the
 birdie_ — as the prelude. Which is what got made. The words came after the title
 and the general energy of it; they have nothing to do with my own life (alas,
 nobody much punched my face in as a kid, and I punched nobody's). There is a bit
 of Seryoga in there, I think — «Выходила Маня замуж», «Загубили Лялю» and the
 like.
 
-Fun fact: the one song I can't play to Syoma because of the explicits, even
-though he likes it a lot :( I keep promising myself to make a bleeped version
-one day.
+Fun fact: the one song I can't play to my 5-year-old son Syama because of the
+explicits, even though he likes it a lot :( I keep promising myself to make a
+bleeped version one day.
 
 <!-- lang:ru -->
 
@@ -105,7 +105,7 @@ one day.
 
 <!-- lyrics:en -->
 
-And now, watch for the...[^birdie-en]
+And now, watch the...
 
 Birdie!
 Fly, bitch, fly!
@@ -161,5 +161,3 @@ Fly bitch fly!
 Birdie!
 Just say goodbye!
 I will survive.
-
-[^birdie-en]: What a Russian photographer says before the shutter: «сейчас вылетит птичка», “a birdie is about to fly out” — the same trick as “watch the birdie”.
