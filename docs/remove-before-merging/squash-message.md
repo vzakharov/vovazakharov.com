@@ -13,11 +13,11 @@ instead of accumulating.
 knip.ts tells knip how this repo is entered: the App Router
 conventions under apps/*/app, the scripts package.json reaches
 through in-site.sh, and request.ts, which the next-intl plugin names
-by string. Without it, knip reports every route as unused. Four
-devDependencies nothing imports are exempted there, each with its
-reason: @steiger/toolkit for the steiger plugin's types, and the
-three ESLint plugins eslint-config-next registers, for their version
-floor.
+by string. Without it, knip reports every route as unused. The one
+exemption is @steiger/toolkit, which the steiger plugin's types
+import. The direct entries for the jsx-a11y, react and
+typescript-eslint plugins are gone: eslint-config-next installs and
+registers the same copies.
 
 The first run's findings are cleared rather than grandfathered. Barrel
 re-exports nobody imports are gone, `export` is dropped from names

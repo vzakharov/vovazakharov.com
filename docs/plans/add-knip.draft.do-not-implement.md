@@ -20,7 +20,7 @@ Add [knip](https://knip.dev) as a devDependency, give it a config that knows how
 | Types, dead everywhere        | 11, the same barrels plus `shared/seo`, `shared/ui`                                                                                                                                                        |
 | Types used only in own file   | 13                                                                                                                                                                                                         |
 
-None of the four devDependencies is imported anywhere. `@steiger/toolkit` has its reason in the commit that added it (f00deba): the steiger plugin's shipped declarations import it, so without it every type they carry reads as `any`. The three ESLint plugins arrive anyway as dependencies of `eslint-config-next`, which registers them. The direct entries only hold a version floor, `typescript-eslint` at `^8.69` against config-next's `^8.46`.
+None of the four devDependencies is imported anywhere. `@steiger/toolkit` has its reason in the commit that added it (f00deba): the steiger plugin's shipped declarations import it, so without it every type they carry reads as `any`. The three ESLint plugins are both installed and registered by `eslint-config-next`: `eslint.config.ts` registers only `boundaries` and `simple-import-sort` itself. The lockfile resolves each to a single copy (`typescript-eslint@8.69.0`, `eslint-plugin-react@7.37.5`, `eslint-plugin-jsx-a11y@6.10.2`), which the direct entry and config-next share. So the direct entries change nothing today. They would not rescue the ruleset if config-next dropped a plugin, because nothing here registers it. Their version floor (`^8.69` against config-next's `^8.46`) only matters on a downgrade, and `pnpm update` never makes one.
 
 ## Steps
 
@@ -29,13 +29,14 @@ None of the four devDependencies is imported anywhere. `@steiger/toolkit` has it
    - `entry`: `scripts/*.ts`, `steiger.config.mjs`, `src/shared/i18n/request.ts`, each with its reason: a string reference, or a runner knip has no plugin for.
    - `next.entry`: `apps/*/next.config.ts` and the App Router file conventions under `apps/*/app/**`.
    - `project`: `**/*.{ts,tsx,mjs}`. SCSS stays out. knip follows no `@use`, so including it would only report partials as orphans.
-   - `ignoreDependencies`: `@steiger/toolkit` (types only) and the three ESLint plugins (the version floor for the rules `eslint/rule-groups/` names). Each gets its reason in a comment on the entry, per question 1.
+   - `ignoreDependencies`: `@steiger/toolkit` alone, with its reason (types only) in a comment on the entry.
    - No `ignoreExportsUsedInFile`, per question 2.
-3. **Route the sitemap through its barrel.** The three `apps/*/app/sitemap.ts` import `@/app/lib`, as the layouts already import `@/app/ui`, so `src/app/lib/index.ts` is the entry it claims to be. Deleting the barrel instead would break the rule that the app layer is entered by public API.
-4. **Clear the findings.** Drop dead re-exports from their barrels. Delete a dead declaration outright where nothing reads it. Remove `export` from names only their own file reads. No `@public`/`@internal` JSDoc tags, since those are suppressions in all but name.
-5. **Vet.** Add `knip='pnpm knip'` to the fan-out in `scripts/vet.sh`, where "fourteen" becomes "fifteen". knip reads source and `package.json` only and writes nothing, so it overlaps the rest safely. Script: `"knip": "knip"`, which is check-only by default. `--fix` exists, and vet must never call it, for the same reason vet never calls `pnpm lint`.
-6. **CLAUDE.md § "Vetting".** One line in the command block, and one bullet in the list below it (whose count becomes fifteen). The bullet says what the gate holds, that it reads source only, and that an entry it misses is fixed in `knip.ts` rather than by exempting the file.
-7. **Vet green**, then `/polish`, then hand back to `/pr`.
+3. **Drop the three ESLint plugins from `package.json`** (`pnpm remove -D`), per question 1. `pnpm exec eslint .` passing unchanged is the proof that config-next supplies them.
+4. **Route the sitemap through its barrel.** The three `apps/*/app/sitemap.ts` import `@/app/lib`, as the layouts already import `@/app/ui`, so `src/app/lib/index.ts` is the entry it claims to be. Deleting the barrel instead would break the rule that the app layer is entered by public API.
+5. **Clear the findings.** Drop dead re-exports from their barrels. Delete a dead declaration outright where nothing reads it. Remove `export` from names only their own file reads. No `@public`/`@internal` JSDoc tags, since those are suppressions in all but name.
+6. **Vet.** Add `knip='pnpm knip'` to the fan-out in `scripts/vet.sh`, where "fourteen" becomes "fifteen". knip reads source and `package.json` only and writes nothing, so it overlaps the rest safely. Script: `"knip": "knip"`, which is check-only by default. `--fix` exists, and vet must never call it, for the same reason vet never calls `pnpm lint`.
+7. **CLAUDE.md § "Vetting".** One line in the command block, and one bullet in the list below it (whose count becomes fifteen). The bullet says what the gate holds, that it reads source only, and that an entry it misses is fixed in `knip.ts` rather than by exempting the file.
+8. **Vet green**, then `/polish`, then hand back to `/pr`.
 
 Squash type: `chore:`. Nothing the sites serve changes, so the gate rightly skips the deploy.
 
@@ -43,9 +44,9 @@ Squash type: `chore:`. Nothing the sites serve changes, so the gate rightly skip
 
 Each recommended option is already in force in the steps above. Answer tersely ("1a, 2a"). Silence keeps the recommendations.
 
-1. **The three ESLint plugins knip calls unused.** An `ignoreDependencies` entry is a suppression, and CLAUDE.md wants yours before one lands.
-   - **a) (recommended)** Keep them, and exempt them in `knip.ts` with the version-floor reason. What works stays, and the lockfile is untouched.
-   - b) Remove them from `package.json` and let `eslint-config-next` supply them. That leaves no exemption to maintain, but loses the floor. Today the lockfile pins the same versions, so nothing changes until the next `pnpm update`.
+1. **The three ESLint plugins knip calls unused.**
+   - **a) (recommended)** Remove them from `package.json`. The installed copies stay the same, and no exemption is needed.
+   - b) Keep them, and exempt them in `knip.ts`. That is a suppression, which CLAUDE.md wants your say-so for, and all it protects is a version floor that nothing ever pushes below.
    - `@steiger/toolkit` gets an exemption either way. Its reason is on record, and no code change removes it.
 2. **Exports used only in their own file.**
    - **a) (recommended)** Report them, and drop the `export`. An export is a promise to other modules, and a promise nobody takes up is what knip exists to find.
