@@ -16,7 +16,7 @@ export type FunctionNode = (
 ) &
   Rule.NodeParentExtension;
 
-export const isTypeLiteral = (node: ESTree.Node | undefined): boolean =>
+const isTypeLiteral = (node: ESTree.Node | undefined): boolean =>
   node?.type === tsType('TSTypeLiteral');
 
 /**
@@ -26,7 +26,7 @@ export const isTypeLiteral = (node: ESTree.Node | undefined): boolean =>
  * defaulted). Unwraps `AssignmentPattern` (a defaulted param) to its `.left`,
  * and treats a default value as "optional".
  */
-export function annotationCarrier(param: ESTree.Node): {
+function annotationCarrier(param: ESTree.Node): {
   carrier: AnnotatedNode;
   optional: boolean;
   paramDefault: ESTree.Node | null;

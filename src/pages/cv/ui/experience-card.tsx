@@ -23,7 +23,7 @@ export const EXPERIENCE_KEYS = [
   'voicemod',
 ] as const;
 
-export type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
+type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
 /** One entry as the catalogue spells it — the fields vary from entry to entry. */
 type ExperienceEntry = Messages['cv']['experience'][ExperienceKey];

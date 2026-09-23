@@ -67,7 +67,7 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
     };
 
 /** A frontmatter image path, resolved to what an `<img>` needs of it. */
-export type ResolvedImage = Sized & { src: string };
+type ResolvedImage = Sized & { src: string };
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves

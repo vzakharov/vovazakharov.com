@@ -5,7 +5,7 @@ export const CV_VARIANTS = ['cto', 'dev'] as const;
 
 export type CvVariant = (typeof CV_VARIANTS)[number];
 
-export type WithCvVariant = { variant: CvVariant };
+type WithCvVariant = { variant: CvVariant };
 
 /** One rendered sheet: which framing, in which language. */
 export type CvEdition = WithCvVariant & WithLocale;

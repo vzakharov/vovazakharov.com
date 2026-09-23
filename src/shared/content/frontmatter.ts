@@ -47,10 +47,10 @@ const localizedTextSchema = z.object({
 export type LocalizedText = z.infer<typeof localizedTextSchema>;
 
 /** Whether the song is released or still being worked on. */
-export const SONG_STATUSES = ['done', 'wip'] as const;
+const SONG_STATUSES = ['done', 'wip'] as const;
 
 /** What the vocal is in — `instrumental` where there is none. */
-export const SONG_LANGUAGES = ['ru', 'en', 'instrumental'] as const;
+const SONG_LANGUAGES = ['ru', 'en', 'instrumental'] as const;
 
 /**
  * Who wrote which half, in contribution order rather than billing order. Absent

@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test \"**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
+    "knip": "knip",
     "check:mantine-styles": "node scripts/check-mantine-styles.ts",
     "check:i18n-payload": "node scripts/check-i18n-payload.ts",
     "lint": "eslint . --fix",
@@ -71,12 +72,11 @@
     "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-boundaries": "^7.2.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "eslint-plugin-unicorn": "^63.0.0",
     "jiti": "^2.7.0",
+    "knip": "^6.38.0",
     "mdast-util-directive": "^3.1.0",
     "prettier": "^3.6.2",
     "sass": "^1.103.1",
@@ -84,7 +84,6 @@
     "stylelint": "^17.14.1",
     "stylelint-config-standard-scss": "^17.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^5",
-    "typescript-eslint": "^8.69.0"
+    "typescript": "^5"
   }
 }

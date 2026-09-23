@@ -26,7 +26,7 @@ None of the four devDependencies is imported anywhere. `@steiger/toolkit` has it
 2. **`knip.ts` at the root**, typed with `satisfies KnipConfig` so `tsc` checks it, commented the way `eslint.config.ts` is:
    - `entry`: `scripts/*.ts`, `steiger.config.mjs`, `src/shared/i18n/request.ts`, each with its reason: a string reference, or a runner knip has no plugin for.
    - `next.entry`: `apps/*/next.config.ts` and the App Router file conventions under `apps/*/app/**`.
-   - `project`: `**/*.{ts,tsx,mjs}`. SCSS stays out. knip follows no `@use`, so including it would only report partials as orphans.
+   - `project`: `**/*.{ts,tsx,mjs,scss}`. knip follows `@use`/`@forward`, so SCSS comes into scope: an orphan stylesheet is reported, and the partials are not. (The draft assumed otherwise; a probe orphan settled it.)
    - `ignoreDependencies`: `@steiger/toolkit` alone, with its reason (types only) in a comment on the entry.
    - No `ignoreExportsUsedInFile`, per question 2.
 3. **Drop the three ESLint plugins from `package.json`** (`pnpm remove -D`), per question 1. `pnpm exec eslint .` passing unchanged is the proof that config-next supplies them.

@@ -5,7 +5,7 @@ import type { WithText } from '@/shared/typings';
 import { splitStanzas } from './sections';
 
 /** A stretch of a line, and the note it carries where it has one — a line of markdown, so it can link. */
-export type LyricSpan = WithText & { note?: string };
+type LyricSpan = WithText & { note?: string };
 
 /** A line of verse, cut where its notes begin and end — one plain span where it has none. */
 export type LyricLine = LyricSpan[];

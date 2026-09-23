@@ -34,7 +34,7 @@ export type Labeled = { label: string };
 export type WithText = { text: string };
 
 /** The one line under a name — what is on offer, said once. */
-export type WithTagline = { tagline: string };
+type WithTagline = { tagline: string };
 
 /** A name and the line it is billed under: a site's identity, a card's header. */
 export type Billed = Named & WithTagline;
