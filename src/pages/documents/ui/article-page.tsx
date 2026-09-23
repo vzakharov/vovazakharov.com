@@ -2,7 +2,8 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import {
-  type CollectionId,
+  ARTICLE_COLLECTIONS,
+  type ArticleCollectionId,
   collectionRoute,
   COLLECTIONS,
   documentName,
@@ -17,7 +18,8 @@ import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
 import { BackToHome, hoverDim, InternalLink } from '@/shared/ui';
 
-import { ArticleBody } from './article-body';
+import { ProseContent } from '@/entities/document';
+
 import { ArticleHeader } from './article-header';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
@@ -53,11 +55,13 @@ function parseSegments(
  * articles are this one page — the collection is the only thing that differs,
  * and it arrives from whichever router mounted the page.
  */
-export function articleRoute(collection: CollectionId) {
+export function articleRoute(collection: ArticleCollectionId) {
+  const handle = ARTICLE_COLLECTIONS[collection];
+
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug);
     const document =
-      parsed && loadDocument(collection, parsed.slug, parsed.variant);
+      parsed && loadDocument(handle, parsed.slug, parsed.variant);
 
     if (!document) notFound();
 
@@ -69,7 +73,7 @@ export function articleRoute(collection: CollectionId) {
    * markdown file in the collection is a new page with no route work.
    */
   function generateStaticParams() {
-    return listDocuments(collection).map(({ slug, variant }) => ({
+    return listDocuments(handle).map(({ slug, variant }) => ({
       slug: [documentName(slug, variant)],
     }));
   }
@@ -119,7 +123,7 @@ export function articleRoute(collection: CollectionId) {
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ArticleBody {...{ tree }} />
+                  <ProseContent {...{ tree }} />
                 </Box>
               </Box>
             </PrintSheet>

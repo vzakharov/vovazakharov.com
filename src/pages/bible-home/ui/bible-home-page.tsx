@@ -2,7 +2,7 @@ import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { SITE_CONFIG } from '@/shared/config';
-import { renderPrimaryDocuments } from '@/shared/content';
+import { ARTICLE_COLLECTIONS, renderPrimaryDocuments } from '@/shared/content';
 import { PageShell, Section } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
@@ -27,7 +27,7 @@ export async function BibleHomePage() {
     );
   }
 
-  const cards = await renderPrimaryDocuments(COLLECTION);
+  const cards = await renderPrimaryDocuments(ARTICLE_COLLECTIONS[COLLECTION]);
 
   return (
     <PageShell>

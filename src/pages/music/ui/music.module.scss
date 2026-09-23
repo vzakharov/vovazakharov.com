@@ -1,0 +1,182 @@
+@use '../../../../styles/mantine' as mantine;
+
+// Takes the space its row leaves, and may shrink below its content to do it —
+// a flex or grid item's automatic minimum is otherwise its content's width.
+@mixin fill {
+  flex: 1;
+  min-width: 0;
+}
+
+// Pinned rather than in flow: the bar is the one control that has to stay
+// reachable while the reader is anywhere in a song's prose.
+.playerBar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-areas:
+    'track track'
+    'controls seek';
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-surface-strong);
+  border-top: 1px solid var(--color-border-hairline);
+  backdrop-filter: blur(8px);
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-areas: 'controls track seek';
+    grid-template-columns: auto minmax(0, 14rem) minmax(0, 1fr);
+    padding: 12px 24px;
+  }
+}
+
+.playerControls {
+  grid-area: controls;
+}
+
+.playerTrack {
+  grid-area: track;
+  min-width: 0;
+}
+
+.playerSeek {
+  grid-area: seek;
+  min-width: 0;
+}
+
+// Tabular so the elapsed time does not shove the seek bar sideways every second.
+.playerTime {
+  font-variant-numeric: tabular-nums;
+}
+
+// A mixin rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
+// each browser discards a whole rule naming a pseudo-element it does not know,
+// so a shared selector list would style the thumb in no browser at all.
+@mixin thumb {
+  width: 12px;
+  height: 12px;
+  background: var(--color-foreground);
+  border: 0;
+  border-radius: 50%;
+}
+
+.seekBar {
+  @include fill;
+
+  height: 4px;
+  cursor: pointer;
+  background: var(--color-border-hairline-strong);
+  border-radius: 2px;
+  appearance: none;
+
+  &::-webkit-slider-thumb {
+    @include thumb;
+
+    appearance: none;
+  }
+
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+}
+
+.trackText {
+  @include fill;
+}
+
+// The bar is out of flow, so it would otherwise cover whatever a page ends
+// with. Clearance is the bar's own concern, which is why the provider renders
+// this rather than every page under `/music` knowing the bar's height.
+.playerClearance {
+  height: 96px;
+}
+
+// Mantine emits a variant's colours as inline `--ai-*` vars, which no class can
+// reach — so an engaged control states the two properties itself. Unlayered, so
+// it outranks `@layer mantine` without needing specificity.
+.controlOn {
+  color: var(--color-background);
+  background: var(--color-foreground);
+}
+
+// Dimmed by colour rather than opacity: a note's popover sits inside the
+// column, and no descendant can undo an ancestor's opacity.
+.mutedColumn {
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+}
+
+// Words with a note: marked the way a footnoted phrase is.
+.notedSpan {
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: start;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+
+  @include mantine.hover {
+    text-decoration-style: solid;
+  }
+}
+
+.note {
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.5;
+  color: var(--color-foreground);
+}
+
+// Two columns at every width. Below the width two columns of verse need, the
+// pair scrolls sideways, as a wide table does, rather than interleaving them.
+.lyricsScroll {
+  overflow-x: auto;
+}
+
+// One row per stanza, which the two columns share through a subgrid, so a
+// stanza and its crib start level however much taller either is.
+.lyricsColumns {
+  display: grid;
+  grid-template-rows: repeat(var(--stanzas), auto);
+  grid-template-columns: repeat(2, minmax(16rem, 1fr));
+  gap: 24px 32px;
+}
+
+.lyricsColumn {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+}
+
+// Measured off the capitals of the title it follows, so it sits level with them
+// at any size: as tall as they are up to a cap, and centred on them past it.
+// The box keeps the title's font size for `cap` to mean the title's capitals,
+// which is why the letter is sized on its own element. `overflow: hidden` puts
+// the box's baseline at its bottom edge, where `vertical-align` lifts from.
+.explicitBadge {
+  --badge-size: min(1cap, 1.25rem);
+
+  display: inline-block;
+  width: var(--badge-size);
+  height: var(--badge-size);
+  margin-inline-start: 0.3em;
+  overflow: hidden;
+  color: var(--color-background);
+  text-decoration: none;
+  vertical-align: calc((1cap - var(--badge-size)) / 2);
+  background: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  border-radius: 3px;
+}
+
+// In `font-size`, `cap` reads the parent's font: the badge's, which is the title's.
+.explicitBadgeLetter {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: min(0.7cap, 0.8125rem);
+  font-weight: 700;
+  line-height: 1;
+}

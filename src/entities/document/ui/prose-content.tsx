@@ -10,7 +10,11 @@ const CONTENT_COMPONENTS: Partial<Components> = {
   video: ContentVideo,
 };
 
-export function ArticleBody({ tree }: WithContentTree) {
+/**
+ * Whatever the markdown pipeline compiled, under the class `prose.scss` styles
+ * — an article's body and a song's prose alike.
+ */
+export function ProseContent({ tree }: WithContentTree) {
   // `prose-content` sits on the element holding the body, so that
   // `prose-content > h1` keys the part dividers off direct children.
   return (

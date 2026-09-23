@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { CollectionId } from '@/shared/content';
+import type { ArticleCollectionId } from '@/shared/content';
 import type { Described } from '@/shared/typings';
 
 /** The line that is both a collection index's meta description and its lede, and the prose under it where one line is not enough. */
@@ -11,7 +11,7 @@ type CollectionIntro = Described & { intro?: ReactNode };
  * entry's own literal shape, so an entry that writes no `intro` would have no
  * such property to read.
  */
-function introRegistry<Id extends CollectionId>(
+function introRegistry<Id extends ArticleCollectionId>(
   entries: Record<Id, CollectionIntro>,
 ): Record<Id, CollectionIntro> {
   return entries;

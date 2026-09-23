@@ -2,6 +2,7 @@ import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import {
+  type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
@@ -13,7 +14,7 @@ import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
 
 type DocumentCardsProps = WithCollectionId & {
-  cards: DocumentCard[];
+  cards: Array<DocumentCard<ArticleFrontmatter>>;
 };
 
 /**

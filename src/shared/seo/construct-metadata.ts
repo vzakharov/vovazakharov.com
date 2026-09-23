@@ -4,10 +4,12 @@ import type { Metadata } from 'next';
 
 import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import type {
+  BaseFrontmatter,
   ContentDocument,
   WithOptionalOgImageSize,
 } from '@/shared/content';
-import type { MaybeTitled } from '@/shared/typings';
+import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
+import type { Described, MaybeTitled } from '@/shared/typings';
 
 export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize & {
@@ -28,6 +30,27 @@ export type ConstructMetadataParams = MaybeTitled &
     ogType?: 'website' | 'profile' | 'article';
     ogImage?: string; // Custom Open Graph image path; the avatar when absent
   };
+
+/**
+ * The canonical address and every language's, for a page whose locale is a
+ * segment of its own URL. The alternates are load-bearing rather than
+ * belt-and-braces: with the locale in a trailing segment, nothing else in the
+ * URL says what language the page is in.
+ */
+export function localizedAddresses(
+  address: (locale: Locale) => string,
+  locale: Locale,
+): Pick<ConstructMetadataParams, 'canonical' | 'languages'> {
+  return {
+    canonical: address(locale),
+    languages: {
+      ...Object.fromEntries(
+        LOCALES.map((alternate) => [alternate, address(alternate)]),
+      ),
+      'x-default': address(DEFAULT_LOCALE),
+    },
+  };
+}
 
 export function constructMetadata({
   title,
@@ -97,7 +120,7 @@ export function constructMetadata({
  * leading heading is the one copy of it.
  */
 export function constructArticleMetadata(
-  document: ContentDocument,
+  document: ContentDocument<BaseFrontmatter & Described>,
   title: string,
 ): Metadata {
   const { frontmatter, route, ogImageUrl, ogImageSize } = document;

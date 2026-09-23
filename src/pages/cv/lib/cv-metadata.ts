@@ -1,7 +1,9 @@
 import { SITE_CONFIG } from '@/shared/config';
 import { intrinsicDimensions } from '@/shared/content';
-import { routing } from '@/shared/i18n';
-import { constructMetadata } from '@/shared/seo/index.server-only';
+import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
 
 import { cvMessages } from './cv-messages';
 import { cvAddressDefaults } from './cv-route-params';
@@ -30,16 +32,7 @@ export function generateCvMetadata(address: CvAddress) {
     description,
     ogDescription: `${description} ${ogSuffix}`,
     path: cvPath(...address),
-    canonical: cvPath(variant, locale),
-    languages: {
-      ...Object.fromEntries(
-        routing.locales.map((alternate) => [
-          alternate,
-          cvPath(variant, alternate),
-        ]),
-      ),
-      'x-default': cvPath(variant, routing.defaultLocale),
-    },
+    ...localizedAddresses((alternate) => cvPath(variant, alternate), locale),
     ogType: 'profile',
     ogImage,
     ogImageSize: intrinsicDimensions(ogImage),

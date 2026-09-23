@@ -30,6 +30,9 @@ belongs where the code can see it, whether or not it lands here.
   nowhere: a file that counts every correction reads as an agent grading its own
   obedience. **And a human has to be in it**: a mistake the agent caught by itself
   clears that line and still demonstrates the opposite of what the file claims.
+- **Someone's own material is not a review surface.** Where the only thing the
+  agent could have known was in the author's head, a correction is him supplying
+  facts, not a miss, and it goes nowhere. "Not bumps" holds the case it came from.
 - **Past 400 lines, squeeze to 300 or under** — `scripts/check-notes-length.sh`
   fails the vet run at the ceiling and asks for the floor. Landing at 399 buys
   one session; the next append trips it again. In order: tighten the prose; cut
@@ -41,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×32)
+## What it was handed, it treats as fixed (×37)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -65,6 +68,11 @@ the rule by hand next, it put two slices' shared `caseStudyHref?` in
 on it read that policy back as FSD — _именно так shared и должен работать._ The
 spec exempts it.
 
+**17 September — a mechanism for a glitch about to stop happening.** Markdown
+drops a hand-typed hard break, so the agent built a directive making line breaks
+structural. _кажется, ты перемудрил_ — the words come pasted into comments now,
+and the hand-editing behind the glitch was itself the given.
+
 **21 September — a disagreeing figure, never asked whether it was one figure.**
 The usage panel showed $110.52 against a transcript topping out at $40.86, and
 the agent reported honestly that it could not reconcile them. The next
@@ -82,7 +90,21 @@ and in the same reply flagged that the vova lane had never run in CI, offering a
 manual dispatch. The operator's answer was that `ci:` belongs on the list: where
 CI _is_ the deploy, the untested lane it had named was the case against the list.
 
-## An account that explains the code stands in for running it (×15)
+**22 September — two rules stopped at the numbers they give.** The player
+provider held ~300 lines of effects, audio wiring and keyboard beside its JSX,
+short of the ~450 where the seams principle speaks, and stayed whole until the
+operator asked for the mechanics in a hook. That round `/dry` passed a thumb
+block spelled for two vendor pseudo-elements and `flex: 1; min-width: 0` twice,
+its examples saying 4+ lines across classes. _is this DRY? I see repeats._
+
+**23 September — one device class's limit, set as every device's design.** A
+phone has no hover, so lyric notes opened on a click everywhere — a reason that
+rules out hover-only, not hover. On a phone, stanza and crib interleaved so the
+page would fit, trading away the one-language selection the layout existed for.
+The operator asked for hover where it exists, a press elsewhere, and columns
+that scroll sideways like a wide table: the option the agent never listed.
+
+## An account that explains the code stands in for running it (×16)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -107,6 +129,12 @@ compiled HTML, `/preview` unrun, its special case a tell read as thoroughness.
 re-rendered both sites, watched `content:pdf:<site> --check` go green and called
 it done. A screenshot came back: the footer sits under the prose, not at the
 foot of the sheet. The manifest says the file is current, not that it is right.
+
+**23 September — a placement argued from the neighbours, its consumers unread.**
+Lyric notes, section markers and per-locale song reading went to
+`shared/content` because the content pipeline lives there. Nothing outside
+`pages/music` imported them; asked why not a higher layer, they moved up with
+no upward import in the way. One grep said so; nobody ran it.
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -140,7 +168,7 @@ why `ContentVideo` lives in `pages/documents/ui/`, the agent wrote a
 fell, rewrote it around FSD import direction. _the bullet is a polar bear_:
 `fsd.md` says where a component goes and Steiger fails the wrong move unread.
 
-## It edits the copy in front of it, not the fact behind it (×12)
+## It edits the copy in front of it, not the fact behind it (×13)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -167,7 +195,12 @@ what follows a transcript, since the plan had settled it. _вопрос "ой, �
 должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
 возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
 
-## Asked for a source, it supplies its own version (×8)
+**23 September — a name clash settled by renaming the side that was right.** The
+song list destructured `explicit` as `marked`, the translated label being
+`explicit` too. The operator asked why the data was renamed: the catalogue was
+the one to yield, as `messages`. The rename landed where the clash surfaced.
+
+## Asked for a source, it supplies its own version (×9)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -182,7 +215,12 @@ migrations are the exception and the subject niche; the idea file supplied the
 why — two correct migrations composing into nonsense — and the article inherited
 it as the speaker's. _проблема не в этом._
 
-## Given a form, it fills the form (×5)
+**23 September — the model it cited, simplified.** Lyric notes anchored on a
+whole line, the simplest parse, in a catalogue whose model was genius.com — the
+agent's own citation, and a site that anchors a note on a word or phrase. The
+operator asked for what the citation already said.
+
+## Given a form, it fills the form (×7)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -197,24 +235,21 @@ had prompted it — and it does not need saying at all.
 arrived as the first with four fields changed and `author`, `social` and
 `avatar` retyped. The type went green: every cell had a value. _не DRY._
 
-## It checks the render against its intent, not against the page (×4)
+**22 September — `{ en: 'X', ru: 'X' }`, album after album.** The registry's
+fields were per-locale, so every title and artist was spelled twice, identical
+for all but one release. The operator asked for a string or the pair.
 
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, answerable only from the page.
+**23 September — a note on a line the translation had solved.** The crib gave
+"А сейчас вылетит…" as the photographer's "watch the birdie", then kept a note
+explaining the Russian. Where the idiom exists in English the translation
+carries the reference; the note was there because notes were.
 
-**17 September — the float fixed, the page passed.** Told to run a drawing beside
-the text, the agent floated it, caught unprompted that the float squeezed the
-next heading, fixed that, screenshotted and called it good. _выноска стала
-лучше, изображение -- хуже_ — against one short paragraph the image outran its
-section. The defect being fixed got looked at; the other was only on the page.
-
-## What it defends in writing, it stops asking about (×4)
+## What it defends in writing, it stops asking about (×5)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
-its being right. The section below asks a future reader for attention; this buys
-immunity from the agent's own. A caveat conceding the defect files it as a cost,
+its being right. "It warns where the repo could refuse" asks a future reader for
+attention; this buys immunity from the agent's own. A caveat conceding the defect files it as a cost,
 and a fix the agent just made arrives already wearing the verdict "done".
 
 **21 September — a parameter, its docstring, and the test pinning it.** `oneOf`
@@ -240,6 +275,29 @@ and `replaceElements` and listed what it had left untouched — not the helpers,
 which were the fix. _can replaceElements go through visitElements?_ Both
 restated `visit(tree, 'element')` and the tag test.
 
+**22 September — `Pick`, defended in the rule's own words.** `PlayerTrack`
+picked three keys out of `SongFrontmatter`, its comment saying so "the two
+cannot drift" — the reason `CLAUDE.md` gives for the one form it names, a base
+both types intersect. _no Pick_: the narrow schema first, the song's extending it.
+
+## It checks the render against its intent, not against the page (×5)
+
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, answerable only from the page.
+
+**17 September — the float fixed, the page passed.** Told to run a drawing beside
+the text, the agent floated it, caught unprompted that the float squeezed the
+next heading, fixed that, screenshotted and called it good. _выноска стала
+лучше, изображение -- хуже_ — against one short paragraph the image outran its
+section. The defect being fixed got looked at; the other was only on the page.
+
+**23 September — a size judged where it was designed, shipped where it wasn't.**
+The explicit-lyrics badge became a fixed 18px square, "a mark on the heading,
+not a letter of it" — right beside the song page's 48px title. The catalogue
+list sets the same component at 16px, where it stood taller than the capitals
+and read as crooked. It now takes its size from the capitals it follows.
+
 ## It warns where the repo could refuse (×3)
 
 A decision the agent wants to survive, it secures by explaining it — a docstring,
@@ -258,7 +316,7 @@ pointed at the docstring its first answer had written. _the API still looks
 confusing._ The fix was the shape, which leaves prose nothing to disambiguate:
 `{ path } & ({ vector: string } | { vector?: never })`.
 
-## Its prose answers the question it had, not the reader's (×2)
+## Its prose answers the question it had, not the reader's (×3)
 
 Accurate, present-tense and short is the whole of what a prose pass asks, and a
 rewrite is held against the points it was meant to carry — so a line answering
@@ -274,6 +332,12 @@ the difference_ was renaming `path`, which one site keeps an SVG in.
 **22 September — two rationales in one line, neither legible.** The agent rewrote
 the opener of `/feedback`'s "Posting it", folding two reasons into one sentence,
 and judged it done. _не очень понимаю что эта строчка говорит._
+
+**23 September — a metaphor, a squiggle, a live trap read as history.** A prop
+comment called the dimmed translation column "held back", which the operator
+could not decode; Mantine's `__vars` carried a CSS variable a plain `style`
+would; a comment guarding a real trap read as archaeology until reworded. Each
+was plain to the agent that wrote it.
 
 ## Not bumps
 
@@ -291,7 +355,12 @@ taken back out: the CV's locale segment, the hook a post leads with, where the
 theme toggle sits, and whether it comes from a layout. Only the toggle's _skin_
 stayed a bump; an entry removed this way takes its count with it. A fifth never
 reached the list: the cost report's default grain, a taste in output with
-nothing to read it off.
+nothing to read it off. Nor a sixth: em dashes on the site for a typed `--`.
+
+**Comments the tree already answered.** A round on the music section asked
+whether a quote's capitalization was wrong and whether zod reached the browser
+bundle. It was right, and zod provably does not: the reviewer's misses stay
+out of the count, and in the file, so it is not an ad.
 
 ## The two families
 

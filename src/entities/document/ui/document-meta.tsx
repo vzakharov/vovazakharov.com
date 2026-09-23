@@ -1,21 +1,18 @@
 import { Group } from '@mantine/core';
 
-import type { WithFrontmatter, WithReadingMinutes } from '@/shared/content';
+import {
+  type ArticleFrontmatter,
+  documentDateTime,
+  formatDocumentDate,
+  type WithFrontmatter,
+  type WithReadingMinutes,
+} from '@/shared/content';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 
 import classes from './document-meta.module.scss';
 
-const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  // A date-only frontmatter value parses as UTC midnight; formatting it in the
-  // build machine's zone would shift it a day.
-  timeZone: 'UTC',
-});
-
-export type DocumentMetaProps = WithFrontmatter &
+export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
   WithReadingMinutes &
   WithOptionalClassName;
 
@@ -38,8 +35,8 @@ export function DocumentMeta({
       opacity={0.7}
       className={cx(classes['meta'], className)}
     >
-      <time dateTime={frontmatter.date.toISOString().slice(0, 10)}>
-        {DATE_FORMAT.format(frontmatter.date)}
+      <time dateTime={documentDateTime(frontmatter.date)}>
+        {formatDocumentDate(frontmatter.date)}
       </time>
       <span aria-hidden>·</span>
       <span>{readingMinutes} min read</span>

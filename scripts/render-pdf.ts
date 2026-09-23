@@ -55,6 +55,7 @@ import {
   CONTENT_DIRS,
   contentFiles,
   filesUnder,
+  PRINTABLE_CONTENT_DIRS,
   RENDERED_SITE,
   REPO_ROOT,
 } from './lib/content-tree.ts';
@@ -185,14 +186,17 @@ function sourceFiles(...sources: string[][]): string[] {
 }
 
 /**
- * Every document's PDF. The route is the output path's own place under
- * `public/`, minus the extension — which is the whole of the rule this
+ * Each printable collection's PDFs. The route is the output path's own place
+ * under `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
  */
 function documentPrintables(): Printable[] {
   const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
 
-  return contentFiles((name) => name.endsWith('.md')).map((documentPath) => {
+  return contentFiles(
+    (name) => name.endsWith('.md'),
+    PRINTABLE_CONTENT_DIRS,
+  ).map((documentPath) => {
     const stem = documentPath.replace(/\.md$/, '');
 
     return {

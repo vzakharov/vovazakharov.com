@@ -1,9 +1,20 @@
-import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
-import { constructMetadata } from '@/shared/seo/index.server-only';
+import { SITE_CONFIG } from '@/shared/config';
+import { loadMessages, type Locale } from '@/shared/i18n';
+import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
 
-export const musicMetadata = constructMetadata({
-  title: `Music - ${SITE_CONFIG.name}`,
-  description:
-    'AI music from before there was a product for it — three projects on Spotify, written from my own humming, piano and MIDIs, all of it open-source.',
-  path: PAGE_ROUTES.music,
-});
+import { musicPath } from './music-urls';
+
+/** The index, in one language, deferring to the addressed one as the CV's rungs do. */
+export function generateMusicMetadata(locale: Locale) {
+  const { metaTitle, metaDescription } = loadMessages(locale).music;
+
+  return constructMetadata({
+    title: `${metaTitle} - ${SITE_CONFIG.name}`,
+    description: metaDescription,
+    path: musicPath(locale),
+    ...localizedAddresses(musicPath, locale),
+  });
+}

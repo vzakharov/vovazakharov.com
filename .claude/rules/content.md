@@ -3,6 +3,9 @@ description: How long-form markdown under apps/<site>/public/<collection>/ becom
 paths:
   - apps/*/public/case-studies/**
   - apps/bible/public/**
+  - apps/*/public/music/**
+  - src/pages/music/**
+  - apps/*/app/music/**
   - apps/*/public/generated/**
   - src/shared/content/**
   - src/pages/documents/**
@@ -18,7 +21,7 @@ paths:
 
 # Content
 
-Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` — and `next build` renders it once per deploy. **A collection whose site is named for it is rooted instead**, its base empty and its directory that site's whole `public/`: the Bible is `apps/bible/public/`, and an article is `agentic.bible/<slug>` rather than repeating the collection's name after a domain that already says it. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`; `ArticleBody` is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
+Long-form writing lives as markdown under a site's `public/<collection>/` — `apps/vova/public/case-studies/` and `apps/vova/public/music/` — and `next build` renders it once per deploy. **A collection whose site is named for it is rooted instead**, its base empty and its directory that site's whole `public/`: the Bible is `apps/bible/public/`, and an article is `agentic.bible/<slug>` rather than repeating the collection's name after a domain that already says it. The pipeline stops at the hast tree and hands it to React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`) is where that happens. The paths below are written from the app directory, which is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because `public/` is per app: every walk over the registry goes through `collectionsForSite()`, or the other site's build reads a directory that is not there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so no `package.json` entry spells either out — and `content:pdf` and `content:og` are therefore one script per site, while `content:mermaid` is `vova`'s until another site authors a diagram.
 
@@ -84,9 +87,17 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
    on one that does not. It is the one frontmatter image that throws when its
    size cannot be read, the index reserving the row before the file lands.
 
-   **There is no `title` field** — the title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
+   **An article has no `title` field**, a case study and a Bible article alike: its title is the document's leading `# ` heading, which the pipeline lifts out of the body and into the page header. Word count, reading time and the heading outline are derived the same way. Anything derivable is never restated in frontmatter.
 
-2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts` — naming the site that serves it — its directory under that site's `public/`, and a router per page binding `collectionIndexRoute`/`articleRoute` to it. A **rooted** collection writes an empty `base` and gets no index router: its site's home page is its index, written as a page slice of its own because the copy above the list is that page's whole substance.
+   **A song states its title, once per language.** Two things make it a field rather than a heading: the player bar shows it as `Title — Artist`, so deriving it would mean parsing prose to render a control, and one song can have two names — `june` is _Breathe_ in English and _Повелитель ветра_ in Russian, and a leading `# ` can only be one of them. A song body therefore opens without a `# `, and the page puts the locale's `title` in the `<h1>` — the same header slot a case study's lifted heading fills. Moving the case studies to the same shape is [#62](https://github.com/vzakharov/vovazakharov.com/issues/62); their titles feed `content:og` and `content:pdf`, which hash their sources, so the move costs a re-render of every card and PDF.
+
+   A song's frontmatter carries what the markdown cannot: the master's URL and duration (both read by the scaffolder), `status`, `language` — what the vocal is in, independent of what the page is rendered in — `project` as a list with the artist first and features after, `explicit`, `album`, and `credits.lyrics` / `credits.music` as lists of people in contribution order, absent meaning the author alone. The projects and albums are registries in `shared/config`, so a typo fails the build rather than quietly rendering an artist nobody has.
+
+   **A song's body is cut on markers, not headings.** `<!-- lang:en -->` and `<!-- lang:ru -->` open the story in each language; `<!-- lyrics:ru -->` and `<!-- lyrics:en -->` hold the words, the key being the language they are in rather than the page's. Anything before the first marker belongs to every locale. The marker is an HTML comment because the authored file is read raw — on GitHub, and at its own `.md` URL — and anything else would be markup the reader has to look past. The lyrics are rendered by the page rather than by the markdown pipeline, one element per line, so a line break is a line break and needs no two invisible spaces at the end of it.
+
+   **A note in the lyrics is a footnote in its lyrics section** — `[phrase][^label]` hangs it off that phrase, a bare `[^label]` at the end of a line off the whole line, and `[^label]: …` on a line of its own below the verse says it, in one line of markdown. GitHub renders a footnote as one and leaves the phrase's brackets standing around the words it is about, which is why it is not a syntax of the site's own; labels are unique across the file for the same reason, so the two languages' notes are suffixed `-ru` and `-en`. A note is in the language of the text it hangs off, and the page shows only the notes of the column in its own language — the crib's on a page whose language is not the one sung, the words' own on a page in it. A marker with no definition, a definition nothing carries, and a whole-line note sharing its line with another each fail the build.
+
+2. That's it. `generateStaticParams` and the sitemap both read the collection registry, so the page, its variants and their sitemap entries follow with no route work. A new collection is one entry in `shared/content/collections.ts` — naming the site that serves it — the schema that reads it in `frontmatter.ts`'s `COLLECTION_SCHEMAS` (by way of `ARTICLE_COLLECTIONS` when it is article-shaped, which is what `articleRoute` accepts), its directory under that site's `public/`, and a router per page binding `collectionIndexRoute`/`articleRoute` to it. A **rooted** collection writes an empty `base` and gets no index router: its site's home page is its index, written as a page slice of its own because the copy above the list is that page's whole substance.
 
 ## The two things a document can author beyond markdown
 
@@ -113,10 +124,21 @@ The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and `c
 - **A video link needs an extension or a `video` title.** A paragraph holding nothing but a link to a video becomes a player. Detection is by file extension; for a URL that has none, mark it explicitly: `[label](url 'video')`.
 - **A broken image reference fails the build.** Dimensions are read out of the file's own header, so a `src` that resolves to nothing throws rather than shipping.
 - **Raw HTML in a document passes through unsanitized.** `rehypeRaw` parses it into real elements, so an author's markup reaches the page as itself. First-party content only — reviewed in the same PR as the code. Nothing on this site is user-submitted; if that ever changes, this is the line that has to change with it.
-- **A tag in `CONTENT_COMPONENTS` is that component everywhere in every document.** `article-body.tsx` (`pages/documents/ui/`) maps `video` to `ContentVideo`, so the print note above reaches a player the pipeline built and one an author typed as raw HTML alike — the map keys off the tag, not off who emitted it. That reach is the point of the map and the whole of its hazard.
+- **A tag in `CONTENT_COMPONENTS` is that component everywhere in every document.** `prose-content.tsx` (`entities/document/ui/`) maps `video` to `ContentVideo`, so the print note above reaches a player the pipeline built and one an author typed as raw HTML alike — the map keys off the tag, not off who emitted it. That reach is the point of the map and the whole of its hazard.
 
-## The locale seam
+## The locale seam, and where it was settled
 
-Content pages are unlocalized, alongside `/` rather than under `[locale]`: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one. The seam for later is a `<slug>.<locale>.md` filename convention — noted here, deliberately not built. The CV's social cards sit on the same seam from the other side: the page is localized and the card is not, and a `ru` card would be `<variant>.<locale>.og.png` in the same directory by the same rule.
+**A cut is a dotted suffix; a locale is a trailing segment.** `/case-studies/playgram.mini` and `/music/slime/ru` are different positions in a URL, so the two can be combined in any order without either having to know about the other. A document's own file stays locale-less, one file carrying both languages, so `/music/slime.md` serves the same bytes whichever page sent the reader there.
 
-**That seam collides with the cut's route form.** A cut is `<slug>.<variant>` in both the file name and the route, so `<slug>.<locale>` is a second meaning for the same dotted suffix, and a locale sharing a name with a variant is unresolvable. Whoever builds the localized route decides how the two coexist — an order (`<slug>.<variant>.<locale>`), a separate namespace, or a locale segment after all. Only the collision is settled here.
+A collection says whether its pages are localized (`COLLECTIONS[id].localized`), which is what the sitemap reads to advertise one address per language instead of the alias. Case studies are unlocalized: the documents are English-only, and a `ru` route for a document that does not exist in Russian would only duplicate the English one.
+
+The CV's social cards sit on the same seam from the other side: the page is localized and the card is not, and a `ru` card would be `<variant>.<locale>.og.png` in the same directory by the same rule.
+
+## Material whose author is in the room
+
+A song's story and its words are the author's, not the pipeline's, and that changes how a draft of one is written and what a review of it means.
+
+- **A draft written without the author is a proposal, not a record.** What a repository holds and what a recogniser heard are the only inputs an agent has; a channel post, an old thread or a listing is the same kind of input. None of it establishes what a song is about or where it came from, so a draft says what it was built from and is replaced wholesale when the author answers. **This is not an error being corrected** — a draft is the best reading available without the facts, and calling it a mistake afterwards mislabels the one thing it was for. Say what changed, not what was wrong.
+- **The author's comment is the body, verbatim.** Text in a review comment is how he wants the page to read, save for slips, formatting and paragraphing, unless he says otherwise; a `---` after it separates the verbatim part from instructions about it. Translating into the other language is the agent's, and so is the blurb; retelling the story in better words is not. It is too personal to come from anywhere but him.
+- **Nothing is explained on his behalf.** He writes for people who already know him, so a fact he left out was left out. Adding the line of context a stranger would want takes the piece away from the reader it was written for.
+- **The words are set as verse.** His lines and stanzas, every line capitalized, his punctuation kept, the repeats he sings and the drafts elided; Suno's control markers (`[Chorus]`, vocal directions) and its stress marks are instructions to a singer, not part of the song, and do not travel. Where he masks a word, the mask is his and stays; where he writes it out, it is written out.

@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { routing } from '@/shared/i18n';
+import { localeTailAddresses, routing } from '@/shared/i18n';
 import { oneOfEach } from '@/shared/lib/collections';
 
 import { CV_ADDRESS_SEGMENTS, type CvAddress } from './cv-urls';
@@ -33,10 +33,7 @@ export function cvAddressDefaults(address: CvAddress) {
 export function cvSegmentParams(): WithOptionalCvSegments[] {
   const addresses: CvAddress[] = [
     [],
-    ...CV_VARIANTS.flatMap<CvAddress>((variant) => [
-      [variant],
-      ...routing.locales.map<CvAddress>((locale) => [variant, locale]),
-    ]),
+    ...CV_VARIANTS.flatMap((variant) => localeTailAddresses(variant)),
   ];
 
   return addresses.map((variantAndLocale) => ({ variantAndLocale }));

@@ -20,14 +20,15 @@ Lowest (most generic) first — an import may only point downward:
 | Layer       | Holds                                                                                                    |
 | ----------- | -------------------------------------------------------------------------------------------------------- |
 | `shared/`   | Segments carrying no page composition: `config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`      |
-| `entities/` | Business nouns — `document` (its byline and its cards)                                                   |
+| `entities/` | Business nouns — `document` (its byline, its cards and its body)                                         |
 | `features/` | User-facing capabilities — currently `switch-theme`                                                      |
 | `widgets/`  | Composite blocks two page slices share — `site-footer`                                                   |
 | `pages/`    | Page composition — `home`, `lsa-home`, `bible-home`, `cv`, `documents`                                   |
 | `app/`      | Root layout, Mantine provider, global stylesheets and theme, sitemap — `ui`, `styles` and `lib` segments |
 
 An entity is earned once a block is a business noun's own UI: `document` holds
-the byline and the collection's cards, both about a document and nothing else.
+the byline, the collection's cards and the rendered body, all about a document
+and nothing else.
 A layer is still optional and **inventing one costs more than leaving it out**
 (see "insignificant slices" below), so an entity waits for that — a noun with UI
 worth naming, not the mere idea of one.

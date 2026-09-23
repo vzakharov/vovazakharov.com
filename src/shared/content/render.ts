@@ -17,13 +17,18 @@ import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
-import type { CollectionId, Variant } from './collections';
+import type { Variant } from './collections';
 import {
   type ContentDocument,
   listPrimaryDocuments,
   siblingVariants,
   type WithContentDocument,
 } from './documents';
+import {
+  type BaseFrontmatter,
+  type Collection,
+  frontmatterTitle,
+} from './frontmatter';
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
 import { rehypeEndMark } from './plugins/rehype-end-mark';
@@ -133,7 +138,7 @@ function collectHeadings(collected: WithHeadings) {
 }
 
 async function render(document: ContentDocument): Promise<RenderedDocument> {
-  const { collection, markdown, body, fileName } = document;
+  const { collection, markdown, body, fileName, frontmatter } = document;
   const collected = {
     title: undefined as string | undefined,
     wordCount: 0,
@@ -180,7 +185,10 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
   // being what the page renders.
   const tree = await processor.run(processor.parse(body), body);
 
-  const { title, headings, wordCount } = collected;
+  // A collection that titles its documents in frontmatter is titled from there;
+  // everywhere else the body's leading heading is the one copy of the title.
+  const title = collected.title ?? frontmatterTitle(frontmatter);
+  const { headings, wordCount } = collected;
 
   if (title === undefined || title.length === 0) {
     throw new Error(
@@ -203,7 +211,7 @@ const cache = new Map<string, Promise<RenderedDocument>>();
 export async function renderDocument(
   document: ContentDocument,
 ): Promise<RenderedDocument> {
-  const key = `${document.collection}:${document.fileName}`;
+  const key = `${document.collection}:${document.fileName}:${document.locale ?? ''}`;
   const pending = cache.get(key) ?? render(document);
 
   cache.set(key, pending);
@@ -211,24 +219,25 @@ export async function renderDocument(
   return pending;
 }
 
-export type DocumentCard = WithContentDocument & {
-  rendered: RenderedDocument;
-  /** The shorter cuts that exist beside it, in `VARIANTS` order. */
-  variants: Variant[];
-};
+export type DocumentCard<F extends BaseFrontmatter = BaseFrontmatter> =
+  WithContentDocument<F> & {
+    rendered: RenderedDocument;
+    /** The shorter cuts that exist beside it, in `VARIANTS` order. */
+    variants: Variant[];
+  };
 
 /**
  * The full documents of a collection, rendered — what a list of cards needs.
  * Rendering just to read a title is free: `renderDocument` memoizes.
  */
-export async function renderPrimaryDocuments(
-  collection: CollectionId,
-): Promise<DocumentCard[]> {
+export async function renderPrimaryDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Promise<Array<DocumentCard<F>>> {
   return Promise.all(
     listPrimaryDocuments(collection).map(async (document) => ({
       document,
       rendered: await renderDocument(document),
-      variants: siblingVariants(collection, document.slug),
+      variants: siblingVariants(collection.id, document.slug),
     })),
   );
 }

@@ -10,6 +10,7 @@ import path from 'node:path';
 import { resolveSiteId } from '../../src/shared/config/index.node-safe.ts';
 import {
   collectionDir,
+  COLLECTIONS,
   collectionsForSite,
   GENERATED_DIR,
 } from '../../src/shared/content/collections.ts';
@@ -38,9 +39,17 @@ export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
   collectionDir(id),
 );
 
-/** Every file in every collection whose name satisfies `matches`. */
-export function contentFiles(matches: (name: string) => boolean): string[] {
-  return CONTENT_DIRS.flatMap((dir) => filesUnder(dir)).filter((file) =>
-    matches(path.basename(file)),
-  );
+/** The roots the PDF pipeline walks: a collection whose documents have a printable form. */
+export const PRINTABLE_CONTENT_DIRS = collectionsForSite(RENDERED_SITE)
+  .filter((id) => COLLECTIONS[id].printable)
+  .map((id) => collectionDir(id));
+
+/** Every file under `dirs` — every collection, by default — whose name satisfies `matches`. */
+export function contentFiles(
+  matches: (name: string) => boolean,
+  dirs: string[] = CONTENT_DIRS,
+): string[] {
+  return dirs
+    .flatMap((dir) => filesUnder(dir))
+    .filter((file) => matches(path.basename(file)));
 }

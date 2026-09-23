@@ -11,7 +11,7 @@ import path from 'node:path';
 import type { SiteId, WithSiteId } from '@/shared/config';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies', 'bible'] as const;
+export const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -30,6 +30,9 @@ export const COLLECTIONS = {
     base: 'case-studies',
     label: 'Case studies',
     site: 'vova',
+    printable: true,
+    /** English only, and the body is where its title comes from. */
+    localized: false,
   },
   bible: {
     /** Rooted: the domain is named for the collection, so the route does not
@@ -37,10 +40,25 @@ export const COLLECTIONS = {
     base: '',
     label: 'The Bible',
     site: 'bible',
+    printable: true,
+    localized: false,
+  },
+  music: {
+    base: 'music',
+    label: 'Songs',
+    site: 'vova',
+    /** A song is a recording with prose around it; there is nothing to print. */
+    printable: false,
+    localized: true,
   },
 } as const satisfies Record<
   CollectionId,
-  WithSiteId & { base: string; label: string }
+  WithSiteId & {
+    base: string;
+    label: string;
+    printable: boolean;
+    localized: boolean;
+  }
 >;
 
 /** The collections one site serves — every registry walk starts here. */
@@ -124,6 +142,16 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
   'case-studies',
   FEATURED_CASE_STUDY,
 );
+
+/**
+ * A locale as a trailing segment, which is where a localized collection's pages
+ * differ from one another. A cut is a dotted suffix on the slug instead, so the
+ * two positions cannot collide however they are combined. No locale is the
+ * alias — the same page, at the address that does not name a language.
+ */
+export function localizedRoute(route: string, locale?: string): string {
+  return locale === undefined ? route : `${route}/${locale}`;
+}
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */
 export function documentName(slug: string, variant?: Variant): string {

@@ -1,5 +1,5 @@
 import type { Messages } from './load-messages';
-import type { Locale } from './routing';
+import type { Locale } from './locales';
 
 // Registers the catalogs with next-intl so `getTranslations` keys are checked
 // against `en.json`. That server call is the only one this types: everything

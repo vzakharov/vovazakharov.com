@@ -35,6 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Exported GitHub threads — someone else's text, written out verbatim by
+# `scripts/export-github-item.py`. Reformatting it edits the record, and the
+# next export puts it back.
+docs/issue
+docs/pr
+
 # Generated content renders — produced by `pnpm content:mermaid`, keyed by a
 # hash of their source, so reformatting them would only churn the diff.
 apps/*/public/generated

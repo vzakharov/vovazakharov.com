@@ -22,7 +22,6 @@ import type { SiteId } from './site-ids';
  */
 export const PAGE_ROUTES = {
   writing: '/writing',
-  music: '/music',
 } as const;
 
 /**

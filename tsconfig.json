@@ -55,5 +55,15 @@
     "**/*.mjs",
     "**/*.cjs"
   ],
-  "exclude": ["node_modules", "tmp", "apps/*/out"]
+  // Each app's validator checks its layouts against a global `LayoutProps` its
+  // own `routes.d.ts` declares, so in one program holding every app they read
+  // one app's copy — and a nested layout in one fails against another's routes.
+  // `next build` runs each validator against its own app, which is where it holds.
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "apps/*/out",
+    "apps/*/.next/types/validator.ts",
+    "apps/*/.next/dev/types/validator.ts"
+  ]
 }
