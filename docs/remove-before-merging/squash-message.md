@@ -13,16 +13,18 @@ instead of accumulating.
 knip.ts tells knip how this repo is entered: the App Router
 conventions under apps/*/app, the scripts package.json reaches
 through in-site.sh, and request.ts, which the next-intl plugin names
-by string. Without it, knip reports every route as unused. The one
-exemption is @steiger/toolkit, which the steiger plugin's types
+by string. Without it, knip reports every route as unused. SCSS is in
+scope, since knip follows @use, so an orphan stylesheet fails too. The
+one exemption is @steiger/toolkit, which the steiger plugin's types
 import. The direct entries for the jsx-a11y, react and
 typescript-eslint plugins are gone: eslint-config-next installs and
 registers the same copies.
 
 The first run's findings are cleared rather than grandfathered. Barrel
 re-exports nobody imports are gone, `export` is dropped from names
-only their own module reads, and the three sitemaps enter the app
-layer through its @/app/lib barrel, as the layouts enter @/app/ui.
+only their own module reads, MUSIC_PROJECTS (a project roster nothing
+read) is deleted, and the three sitemaps enter the app layer through
+its @/app/lib barrel, as the layouts enter @/app/ui.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
