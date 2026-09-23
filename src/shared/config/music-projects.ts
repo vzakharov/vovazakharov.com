@@ -5,8 +5,6 @@
  * so the list cannot live in the slice that renders it.
  */
 
-import type { Labeled } from '@/shared/typings';
-
 /** The GitHub organization every song's repository and master is served from. */
 export const MUSIC_ORGANIZATION = 'vovas-music';
 
@@ -28,38 +26,6 @@ export const MUSIC_PROJECT_NAMES = [
 ] as const;
 
 export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
-
-/**
- * What a project is billed as, and where it can be followed — no `channel` being
- * a project with nothing to read. A guest artist is a project with none, which
- * is what makes the feature list and the release list one roster rather than two.
- */
-export type MusicProjectRecord = Labeled & {
-  channel?: string;
-};
-
-export const MUSIC_PROJECTS: Record<MusicProject, MusicProjectRecord> = {
-  GENERATED: {
-    label: 'GENERATED',
-  },
-  Полуживые: {
-    label: 'Полуживые (ru. for “Half-Alive”)',
-    channel: 'https://t.me/papareka',
-  },
-  Downtemple: {
-    label: 'Downtemple',
-  },
-  'Грёбаный бал': {
-    label: 'Грёбаный бал',
-    channel: 'https://t.me/fknball',
-  },
-  'за/обложкой': {
-    label: 'за/обложкой',
-  },
-  Yoohie: {
-    label: 'Yoohie',
-  },
-};
 
 /**
  * How a song is billed: the artist first, whoever is featured after it. One

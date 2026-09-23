@@ -3,4 +3,4 @@
 // itself, which is why it is stated here rather than re-exported.
 export const dynamic = 'force-static';
 
-export { sitemap as default } from '@/app/lib/sitemap';
+export { sitemap as default } from '@/app/lib';

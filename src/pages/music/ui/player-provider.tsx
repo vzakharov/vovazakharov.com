@@ -21,7 +21,7 @@ import classes from './music.module.scss';
 import { PlayerBar } from './player-bar';
 
 /** The bar's own words, in one language, as the catalogue spells them. */
-export type PlayerLabels = Messages['music']['player'];
+type PlayerLabels = Messages['music']['player'];
 
 export type PlayerContextValue = PlayerControls &
   Playback &

@@ -11,7 +11,7 @@ import path from 'node:path';
 import type { SiteId, WithSiteId } from '@/shared/config';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
-export const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
+const COLLECTION_IDS = ['case-studies', 'bible', 'music'] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
 
@@ -67,7 +67,7 @@ export function collectionsForSite(site: SiteId): CollectionId[] {
 }
 
 /** The document the home page and the CV both cross-link. */
-export const FEATURED_CASE_STUDY = 'playgram';
+const FEATURED_CASE_STUDY = 'playgram';
 
 /** Shorter cuts, as `<slug>.<variant>.md` beside the full document. In reading order. */
 export const VARIANTS = ['mini', 'nano'] as const;

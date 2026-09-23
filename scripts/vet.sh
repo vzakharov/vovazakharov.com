@@ -43,7 +43,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these fourteen writes anything another one reads, so they overlap
+# None of these fifteen writes anything another one reads, so they overlap
 # freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
@@ -53,8 +53,9 @@ fi
 # lane's cache rather than in the tree.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
-# type-overlap reads source text only — no generated types, nothing another
-# check writes; the test run adds only writes into the OS temp directory, and
+# type-overlap and knip read source text only — no generated types, nothing
+# another check writes, and knip writes nothing without --fix, which vet never
+# passes; the test run adds only writes into the OS temp directory, and
 # the two `--check` render passes only hash files, needing no browser. The
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
@@ -70,6 +71,7 @@ scripts/run-parallel.sh \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
   type-overlap='pnpm type-overlap' \
+  knip='pnpm knip' \
   mantine-styles='pnpm check:mantine-styles' \
   i18n-payload='pnpm check:i18n-payload' \
   og-vova='pnpm content:og:vova --check' \

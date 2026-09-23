@@ -56,7 +56,7 @@ const CODE_LANGUAGES: BuiltinLanguage[] = [
   'yaml',
 ];
 
-export type Heading = WithId &
+type Heading = WithId &
   WithText & {
     /** 1 for a part divider, 2 for a section inside one. */
     depth: 1 | 2;
@@ -72,7 +72,7 @@ export type WithContentTree = { tree: HastRoot };
 
 export type WithReadingMinutes = { readingMinutes: number };
 
-export type WithWordCount = { wordCount: number };
+type WithWordCount = { wordCount: number };
 
 /**
  * What a reader sees above the body: the document's leading `# ` heading,

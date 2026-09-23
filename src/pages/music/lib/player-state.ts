@@ -47,7 +47,7 @@ export type PlayerAction =
  * rather than _restart_ — the behaviour every other music player has, and the
  * reason a queue is not just a list with two buttons on it.
  */
-export const RESTART_AFTER_SECONDS = 3;
+const RESTART_AFTER_SECONDS = 3;
 
 export function shouldRestart(elapsed: number): boolean {
   return elapsed >= RESTART_AFTER_SECONDS;
