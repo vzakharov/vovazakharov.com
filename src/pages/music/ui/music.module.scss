@@ -102,7 +102,7 @@
   background: var(--color-foreground);
 }
 
-// Held back by colour rather than opacity: a note's popover sits inside the
+// Dimmed by colour rather than opacity: a note's popover sits inside the
 // column, and no descendant can undo an ancestor's opacity.
 .mutedColumn {
   color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
@@ -150,21 +150,32 @@
   grid-row: 1 / -1;
 }
 
-// Centred on the line's x-height by `middle`, which is what sits it level with
-// a title of any size.
+// Measured off the capitals of the title it follows, so it sits level with them
+// at any size: as tall as they are up to a cap, and centred on them past it.
+// The box keeps the title's font size for `cap` to mean the title's capitals,
+// which is why the letter is sized on its own element. `overflow: hidden` puts
+// the box's baseline at its bottom edge, where `vertical-align` lifts from.
 .explicitBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.125rem;
-  height: 1.125rem;
-  margin-inline-start: 0.5rem;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  line-height: 1;
+  --badge-size: min(1cap, 1.25rem);
+
+  display: inline-block;
+  width: var(--badge-size);
+  height: var(--badge-size);
+  margin-inline-start: 0.3em;
+  overflow: hidden;
   color: var(--color-background);
   text-decoration: none;
-  vertical-align: middle;
+  vertical-align: calc((1cap - var(--badge-size)) / 2);
   background: color-mix(in srgb, var(--color-foreground) 55%, transparent);
   border-radius: 3px;
+}
+
+// In `font-size`, `cap` reads the parent's font: the badge's, which is the title's.
+.explicitBadgeLetter {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: min(0.7cap, 0.8125rem);
+  font-weight: 700;
+  line-height: 1;
 }

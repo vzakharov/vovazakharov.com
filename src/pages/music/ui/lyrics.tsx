@@ -43,7 +43,7 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
         <Box className={classes['lyricsScroll']}>
           <Box
             className={classes['lyricsColumns']}
-            __vars={{ '--stanzas': String(stanzas.length) }}
+            style={{ '--stanzas': stanzas.length }}
           >
             <LyricsColumn {...{ stanzas }} lang={language} />
             <LyricsColumn stanzas={translation} lang={locale} muted />
@@ -56,7 +56,7 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
 
 type LyricsColumnProps = WithStanzas & {
   lang: Locale;
-  /** The crib column, held back so the sung words read first. */
+  /** The crib: set dimmer than the words, so they are what reads first. */
   muted?: boolean;
 };
 

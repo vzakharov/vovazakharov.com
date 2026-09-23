@@ -15,20 +15,17 @@ import { TrackButton } from './track-button';
  */
 export function SongList({ locale }: WithLocale) {
   const songs = listSongs();
-  const { title, explicit } = loadMessages(locale).music;
+  const messages = loadMessages(locale).music;
 
   if (songs.length === 0) return null;
 
   return (
     <Box>
-      <Subheading>{title}</Subheading>
+      <Subheading>{messages.title}</Subheading>
 
       <Stack gap={12}>
         {songs.map(
-          (
-            { slug, titles, routes, billing, seconds, explicit: marked },
-            track,
-          ) => (
+          ({ slug, titles, routes, billing, seconds, explicit }, track) => (
             <Card key={slug}>
               <Group gap={16} wrap="nowrap">
                 <TrackButton title={titles[locale]} {...{ track }} />
@@ -42,7 +39,7 @@ export function SongList({ locale }: WithLocale) {
                     >
                       {titles[locale]}
                     </InternalLink>
-                    {marked && <ExplicitBadge label={explicit} />}
+                    {explicit && <ExplicitBadge label={messages.explicit} />}
                   </Text>
                   <Text size="sm" opacity={0.6} truncate>
                     {billing}
