@@ -2,12 +2,12 @@ import { Anchor, Box, Stack, Text } from '@mantine/core';
 import Markdown, { type Components } from 'react-markdown';
 
 import type { LyricLine, SongLyrics, WithStanzas } from '@/shared/content';
-import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Subheading } from '@/shared/ui';
 
-import { LineNote } from './line-note';
 import classes from './music.module.scss';
+import { NotedSpan } from './noted-span';
 
 export type LyricsProps = WithLocale & { lyrics: SongLyrics };
 
@@ -16,9 +16,14 @@ export type LyricsProps = WithLocale & { lyrics: SongLyrics };
  * one they are sung in. Stanza for stanza rather than line for line: the lines
  * of a translated stanza do not correspond, and pretending they do makes a
  * table that is wrong in a way nothing on the page admits.
+ *
+ * Each language is one element holding all of its stanzas, so a selection
+ * started in one column stays in it; a subgrid shares the rows between the
+ * two, which is what keeps a stanza level with its crib. Two columns at every
+ * width — a narrow screen scrolls sideways rather than interleaving them.
  */
 export function Lyrics({ lyrics, locale }: LyricsProps) {
-  const { stanzas, translation } = lyrics;
+  const { stanzas, translation, language } = lyrics;
   const { lyrics: labels } = loadMessages(locale).music;
 
   return (
@@ -33,38 +38,46 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
       </Box>
 
       {translation === undefined ? (
-        <StanzaColumn {...{ stanzas }} />
-      ) : (
-        <Stack gap={24}>
-          {stanzas.map((stanza, index) => (
-            // Stanzas have no identity of their own, and a repeated chorus is
-            // a repeated string — the index is what distinguishes them.
-            <Box key={index} className={classes['lyricsPair']}>
-              <Stanza lines={stanza} />
-              <Stanza lines={translation[index] ?? []} muted />
-            </Box>
-          ))}
+        <Stack gap={24} lang={language}>
+          <StanzaList {...{ stanzas }} />
         </Stack>
+      ) : (
+        <Box className={classes['lyricsScroll']}>
+          <Box
+            className={classes['lyricsColumns']}
+            __vars={{ '--stanzas': String(stanzas.length) }}
+          >
+            <LyricsColumn {...{ stanzas }} lang={language} />
+            <LyricsColumn stanzas={translation} lang={locale} muted />
+          </Box>
+        </Box>
       )}
     </Stack>
   );
 }
 
-function StanzaColumn({ stanzas }: WithStanzas) {
-  return (
-    <Stack gap={24}>
-      {stanzas.map((lines, index) => (
-        <Stanza key={index} {...{ lines }} />
-      ))}
-    </Stack>
-  );
-}
-
-type StanzaProps = {
-  lines: LyricLine[];
+type LyricsColumnProps = WithStanzas & {
+  lang: Locale;
   /** The crib column, held back so the sung words read first. */
   muted?: boolean;
 };
+
+function LyricsColumn({ stanzas, lang, muted = false }: LyricsColumnProps) {
+  return (
+    <Box
+      className={cx(classes['lyricsColumn'], muted && classes['mutedColumn'])}
+      {...{ lang }}
+    >
+      <StanzaList {...{ stanzas }} />
+    </Box>
+  );
+}
+
+function StanzaList({ stanzas }: WithStanzas) {
+  // Stanzas have no identity of their own, and a repeated chorus is a repeated
+  // string — the index is what distinguishes them.
+  return stanzas.map((lines, index) => <Stanza key={index} {...{ lines }} />);
+}
 
 /**
  * A note is one line of markdown, so the paragraph the parser wraps it in is
@@ -79,28 +92,29 @@ const NOTE_COMPONENTS: Components = {
   ),
 };
 
+type StanzaProps = { lines: LyricLine[] };
+
 /**
  * A stanza as it was written: one element per line, so a line break needs
- * nothing invisible at the end of a line to survive. A `div`, since a note's
- * popover is a block no `p` can hold, and dimmed per line rather than as a
- * whole, which would dim the popover with it.
+ * nothing invisible at the end of a line to survive. `div`s throughout, since
+ * a note's popover is a block and sits beside the words it hangs off.
  */
-function Stanza({ lines, muted = false }: StanzaProps) {
-  const className = cx(classes['lyricLine'], muted && classes['mutedLine']);
-
+function Stanza({ lines }: StanzaProps) {
   return (
     <Text component="div" lh={1.75}>
-      {lines.map(({ text, note }, index) =>
-        note === undefined ? (
-          <span key={index} {...{ className }}>
-            {text}
-          </span>
-        ) : (
-          <LineNote key={index} {...{ text, className }}>
-            <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
-          </LineNote>
-        ),
-      )}
+      {lines.map((spans, index) => (
+        <div key={index}>
+          {spans.map(({ text, note }, at) =>
+            note === undefined ? (
+              text
+            ) : (
+              <NotedSpan key={at} {...{ text }}>
+                <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
+              </NotedSpan>
+            ),
+          )}
+        </div>
+      ))}
     </Text>
   );
 }

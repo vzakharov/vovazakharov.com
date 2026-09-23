@@ -102,19 +102,15 @@
   background: var(--color-foreground);
 }
 
-.lyricLine {
-  display: block;
+.mutedColumn {
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
 }
 
-.mutedLine {
-  opacity: 0.7;
-}
-
-// A line with a note: marked the way a footnoted phrase is, and a whole line
-// wide, so the target is the line rather than a glyph at the end of it.
-.notedLine {
+// Words with a note: marked the way a footnoted phrase is.
+.notedSpan {
   font: inherit;
   line-height: inherit;
+  color: inherit;
   text-align: start;
   text-decoration: underline dotted;
   text-underline-offset: 0.25em;
@@ -125,18 +121,50 @@
   }
 }
 
-.lineNote {
+// Undimmed inside a dimmed crib: the crib is held back by its colour rather
+// than its opacity, which no descendant could undo.
+.note {
   font-size: var(--mantine-font-size-sm);
   line-height: 1.5;
+  color: var(--color-foreground);
 }
 
-// Side by side only where there is room for two columns of verse; stacked
-// below that, where a stanza and its crib still read in the right order.
-.lyricsPair {
-  display: grid;
-  gap: 8px 32px;
+// Two columns at every width. Below the width two columns of verse need, the
+// pair scrolls sideways, as a wide table does, rather than interleaving them.
+.lyricsScroll {
+  overflow-x: auto;
+}
 
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+// One row per stanza, which the two columns share through a subgrid, so a
+// stanza and its crib start level however much taller either is.
+.lyricsColumns {
+  display: grid;
+  grid-template-rows: repeat(var(--stanzas), auto);
+  grid-template-columns: repeat(2, minmax(16rem, 1fr));
+  gap: 24px 32px;
+}
+
+.lyricsColumn {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+}
+
+// Centred on the line's x-height by `middle`, which is what sits it level with
+// a title of any size.
+.explicitBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-inline-start: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-background);
+  text-decoration: none;
+  vertical-align: middle;
+  background: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  border-radius: 3px;
 }

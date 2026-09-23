@@ -61,9 +61,9 @@ I still don't fully — the slime is probably a different one for everybody.
 Ты вдруг поймёшь, спасенье всё же есть
 
 Собрать костёр, поджечь ладью
-Ну вот и всё, гудбай, адью![^adieu-ru]
+Ну вот и всё, [гудбай, адью!][^adieu-ru]
 
-Halt die Klappe, молчанье на вес[^klappe-ru]
+[Halt die Klappe][^klappe-ru], молчанье на вес
 На каждую гайку свой саморез
 О, где боль и блаженство корнями сплелись
 Откройся и прими, священную слизь
@@ -112,9 +112,9 @@ But maybe, maybe, maybe it's right here
 That you'll suddenly see there is salvation after all
 
 Build a pyre, set the boat alight
-And that's it, goodbye, adieu![^adieu-en]
+And that's it, [goodbye, adieu!][^adieu-en]
 
-Halt die Klappe, silence by the ounce[^klappe-en]
+[Halt die Klappe][^klappe-en], silence by the ounce
 Every nut gets its own screw
 Oh, where pain and bliss are tangled at the root
 Open up and receive the sacred slime

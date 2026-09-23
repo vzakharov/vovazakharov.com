@@ -50,7 +50,12 @@ export {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
-export { type LyricLine, type Stanzas, type WithStanzas } from './lyric-notes';
+export {
+  type LyricLine,
+  type LyricSpan,
+  type Stanzas,
+  type WithStanzas,
+} from './lyric-notes';
 export {
   type DocumentCard,
   type Heading,

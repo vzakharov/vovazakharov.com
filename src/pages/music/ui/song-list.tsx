@@ -5,6 +5,7 @@ import { Card, InternalLink, Subheading } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { listSongs } from '../lib/songs';
+import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
 import { TrackButton } from './track-button';
 
@@ -41,17 +42,7 @@ export function SongList({ locale }: WithLocale) {
                     >
                       {titles[locale]}
                     </InternalLink>
-                    {marked && (
-                      <Text
-                        component="span"
-                        inherit
-                        opacity={0.6}
-                        title={explicit}
-                      >
-                        {' '}
-                        🅴
-                      </Text>
-                    )}
+                    {marked && <ExplicitBadge label={explicit} />}
                   </Text>
                   <Text size="sm" opacity={0.6} truncate>
                     {billing}

@@ -63,7 +63,7 @@ song.
 Здравствуй, папа; знаешь, я скучаю
 По нашим посиделкам в две гитары
 Я на акустическом басу
-Ты — на своей музиме старой[^musima-ru]
+Ты — на своей [музиме][^musima-ru] старой
 
 Скучаю по твоему запаху
 Такому пряному, уютному
@@ -122,7 +122,7 @@ It didn't want to be rain
 Hello, dad; you know, I miss
 Our sitting up together on two guitars
 Me on the acoustic bass
-You on your old Musima[^musima-en]
+You on your old [Musima][^musima-en]
 
 I miss the smell of you
 That spiced, comfortable smell

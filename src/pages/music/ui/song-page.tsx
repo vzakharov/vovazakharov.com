@@ -43,6 +43,7 @@ import { ProseContent } from '@/entities/document';
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
 import { songQueueIndex } from '../lib/songs';
+import { ExplicitBadge } from './explicit-badge';
 import { LocaleChips } from './locale-chips';
 import { Lyrics } from './lyrics';
 import { TrackButton } from './track-button';
@@ -126,17 +127,7 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               <TrackButton track={songQueueIndex(slug)} {...{ title }} />
               <Title order={1}>
                 {title}
-                {explicit && (
-                  <Text
-                    component="span"
-                    inherit
-                    opacity={0.6}
-                    title={messages.explicit}
-                  >
-                    {' '}
-                    🅴
-                  </Text>
-                )}
+                {explicit && <ExplicitBadge label={messages.explicit} />}
               </Title>
             </Group>
 
@@ -144,29 +135,33 @@ export async function SongPage({ slug, locale }: SongPageProps) {
               {description}
             </Text>
 
-            <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
-              <time dateTime={documentMonth(date)}>
-                {formatDocumentMonth(date, locale)}
-              </time>
-              {songFacts(document, locale).map((fact) => (
-                <Fragment key={fact}>
-                  <span aria-hidden>·</span>
-                  <span>{fact}</span>
-                </Fragment>
-              ))}
-            </Group>
+            {/* The recording's facts, and the files behind it at the far end
+                of the same line. */}
+            <Group justify="space-between" gap="12px 32px" wrap="wrap">
+              <Group component="p" gap={12} wrap="wrap" fz="sm" opacity={0.7}>
+                <time dateTime={documentMonth(date)}>
+                  {formatDocumentMonth(date, locale)}
+                </time>
+                {songFacts(document, locale).map((fact) => (
+                  <Fragment key={fact}>
+                    <span aria-hidden>·</span>
+                    <span>{fact}</span>
+                  </Fragment>
+                ))}
+              </Group>
 
-            <Group gap={16} wrap="wrap">
-              <FileLink {...localized.markdown}>.md</FileLink>
-              <Anchor
-                href={songRepositoryUrl(repo)}
-                target="_blank"
-                rel="noopener noreferrer"
-                size="sm"
-                className={hoverDim}
-              >
-                {messages.source}
-              </Anchor>
+              <Group gap={16} wrap="wrap">
+                <FileLink {...localized.markdown}>.md</FileLink>
+                <Anchor
+                  href={songRepositoryUrl(repo)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="sm"
+                  className={hoverDim}
+                >
+                  {messages.source}
+                </Anchor>
+              </Group>
             </Group>
           </Stack>
         </Box>
