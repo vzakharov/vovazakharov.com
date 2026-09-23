@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-16T22:15:57Z
-- **Updated:** 2026-09-23T09:45:38Z
+- **Updated:** 2026-09-23T10:17:30Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -154,23 +154,14 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_52 resolved threads omitted; re-run with `--include-resolved` to export them._
+_61 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/vova/public/music/crossroads.md`:2 — unresolved — last: @vzakharov (agent) 2026-09-17T15:30:12Z — "Принято, и это чище, чем строка с «feat.» внутри: массив раз…" → [↓](#t01)
 - **T02** `apps/vova/public/music/letim.md`:7 — unresolved — last: @vzakharov (agent) 2026-09-17T16:47:43Z — "Учёл. Альбом заведён как реестр: `album: ctfu` во фронтматте…" → [↓](#t02)
-- **T03** `src/pages/music/lib/music-locale.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-23T08:18:52Z — "тут пропустил коммент -- но я так понимаю это та же дискусси…" → [↓](#t03)
-- **T04** `src/pages/music/lib/music-route-params.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-23T08:17:53Z — "А можно ли это как-то формализовать в общий, typesafe парсер…" → [↓](#t04)
-- **T05** `src/shared/ui/back-to-home.tsx`:14 — unresolved — last: @vzakharov (agent) 2026-09-23T08:12:00Z — "Отчасти ту. Серверная половина лейаута локаль узнать не може…" → [↓](#t05)
-- **T06** `apps/vova/public/music/birdie.md`:94 — unresolved — last: @vzakharov (human) 2026-09-23T08:44:54Z — "тут была ошибка в транскрипции, только заметил, должно быть…" → [↓](#t06)
-- **T07** `apps/vova/public/music/first.md`:113 — unresolved — last: @vzakharov (human) 2026-09-23T09:30:16Z — "Musima Resonata — классическая гитара восточногерманской фаб…" → [↓](#t07)
-- **T08** `apps/vova/public/music/slime.md`:82 — unresolved — last: @vzakharov (human) 2026-09-23T09:34:18Z — "перепроверить капитализацию цитаты, я писал по наитию" → [↓](#t08)
-- **T09** `src/pages/music/ui/explicit-badge.tsx`:1 — unresolved — last: @vzakharov (human) 2026-09-23T09:36:50Z — "А тут его же используем? А то выглядит кривовато (опять же v…" → [↓](#t09)
-- **T10** `src/pages/music/ui/lyrics.tsx`:46 — unresolved — last: @vzakharov (human) 2026-09-23T09:37:18Z — "хммм, а это что за загагулина?" → [↓](#t10)
-- **T11** `src/pages/music/ui/lyrics.tsx`:59 — unresolved — last: @vzakharov (human) 2026-09-23T09:37:48Z — "что значит "held back" тут?" → [↓](#t11)
-- **T12** `src/pages/music/ui/music.module.scss`:57 — unresolved — last: @vzakharov (human) 2026-09-23T09:38:55Z — "археология?" → [↓](#t12)
-- **T13** `src/pages/music/ui/song-list.tsx`:29 — unresolved — last: @vzakharov (human) 2026-09-23T09:40:46Z — "а зачем мы тут переименовываем explicit в marked?" → [↓](#t13)
-- **T14** `src/shared/content/frontmatter.ts`:111 — unresolved — last: @vzakharov (human) 2026-09-23T09:42:58Z — "а поясни пжст, не уезжает ли у нас в результате зод на фронт…" → [↓](#t14)
-- **T15** `src/shared/content/lyric-notes.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-23T09:43:55Z — "что-то у нас в shared/content становится много чисто-музычно…" → [↓](#t15)
+- **T03** `src/pages/music/lib/music-locale.ts`:1 — unresolved — last: @vzakharov (agent) 2026-09-23T09:59:22Z — "Да, та же. `music-locale.ts` больше нет: его `pathLocale` ст…" → [↓](#t03)
+- **T04** `src/pages/music/lib/music-route-params.ts`:1 — unresolved — last: @vzakharov (human) 2026-09-23T10:13:34Z — "ок, давай заведём отдельно" → [↓](#t04)
+- **T05** `src/shared/ui/back-to-home.tsx`:14 — unresolved — last: @vzakharov (human) 2026-09-23T10:14:36Z — "Оставляем как есть, но опиши всё-таки /plainly для моего пон…" → [↓](#t05)
+- **T06** `src/pages/music/ui/lyrics.tsx`:46 — unresolved — last: @vzakharov (human) 2026-09-23T10:17:30Z — "я не против ни того, ни того варианта, так что выбирай какой…" → [↓](#t06)
 
 <a id="t01"></a>
 
@@ -273,6 +264,10 @@ project GENERATED feat. Yoohie
 
 тут пропустил коммент -- но я так понимаю это та же дискуссия что и выше?
 
+**@vzakharov (agent)** — 2026-09-23T09:59:22Z
+
+Да, та же. `music-locale.ts` больше нет: его `pathLocale` стал общим `addressLocale` в `shared/i18n` (20e0006), это ответ в треде про `back-to-home.tsx`. Вариант 2 из списка выше (страница сама кладёт локаль в контекст плеера) не понадобился: плеер читает язык из адреса по общему правилу, так что отдельного канала «страница → лейаут» не появилось.
+
 ---
 
 <a id="t04"></a>
@@ -312,6 +307,22 @@ project GENERATED feat. Yoohie
 **@vzakharov (human)** — 2026-09-23T08:17:53Z
 
 А можно ли это как-то формализовать в общий, typesafe парсер сегментов: функцию с текстовым параметром локатора (music, cv и т.д.), объект с ключами-локаторами и значениями-функциями, или что-то такое, И чтобы был чекер/тест/линт, который убеждается, что настроенные app routes этому соответствуют?
+
+**@vzakharov (agent)** — 2026-09-23T09:59:21Z
+
+Можно, и проверять стоит типами, а не отдельным линтом. Next уже генерирует `PageProps<'/music/[[...slugAndLocale]]'>` из реальных папок в `apps/vova/app/`, а его `validator.ts` на `next build` сверяет каждую `page.tsx` с её маршрутом. Предложение:
+
+1. **Фабрика в `shared/i18n`:** `localeTailRoute({ param, heads, headlessLocales? })` возвращает тройку `parse` / `params` / `defaults`, типизированную по голове. Сейчас эту тройку каждая секция пишет руками: `parseCvSegments` + `cvSegmentParams` + `cvAddressDefaults` и то же для музыки. Секции остаётся одно: перечислить головы (`CV_VARIANTS`, слаги песен) и сказать, бывает ли локаль без головы (`/music/ru`, у CV такого нет).
+2. **Реестр по литералу маршрута** в слое app (`src/app/lib`), потому что он видит и `pages/cv`, и `pages/music`: `{ '/cv/[[...variantAndLocale]]': cvRoute, '/music/[[...slugAndLocale]]': musicRoute }`. Имя параметра выводится из литерала шаблонным типом, так что `param: 'slugAndLocale'` у папки с другим именем не скомпилируется.
+3. **`page.tsx` становится одной строкой:** `localeTailPage('/music/[[...slugAndLocale]]', { index: MusicPage, head: SongPage })`, пропсы берутся из `PageProps` этого литерала. Переименовал папку — typecheck падает на литерале, которого больше нет среди `AppRoutes`. Завёл новую locale-tail папку и не вписал в реестр — её `page.tsx` просто нечем написать.
+
+Это и есть «чекер, что app routes соответствуют», только его роль играет компилятор. Отдельный скрипт остаётся нужен для одного: проверить, что `params()` каждой секции разбирается её же `parse` без броска. Это тест в `node --test`, но `server-only` в этих модулях бросает вне серверного бандла, так что сначала разбор придётся вынести в чистый модуль.
+
+Трогает `pages/cv`, `pages/music` и оба роутера, поэтому я бы сделал это отдельным тикетом, а не в этом PR. Скажи, если хочешь здесь.
+
+**@vzakharov (human)** — 2026-09-23T10:13:34Z
+
+ок, давай заведём отдельно
 
 ---
 
@@ -355,70 +366,13 @@ Zustand и прочие клиентские сторы не помогут: HTM
 
 `BackToHome` оставил с пропсом. Он серверный и рендерится страницей, а страница язык знает. Чтобы он узнавал язык сам, его пришлось бы сделать клиентским и слать в браузер подписи на обоих языках. Это дороже, чем одна строка, переданная сверху.
 
+**@vzakharov (human)** — 2026-09-23T10:14:36Z
+
+Оставляем как есть, но опиши всё-таки /plainly для моего понимания: кто где находится, кто в чём вложен и кто что знает или не знает. Можно code-fenced диаграммой
+
 ---
 
 <a id="t06"></a>
-
-### `apps/vova/public/music/birdie.md`:94 — unresolved
-
-**@vzakharov (human)** — 2026-09-23T08:44:54Z
-
-тут была ошибка в транскрипции, только заметил, должно быть "Но пока, рождённый ползать, я с тобой летаю"
-
-На строке на английском подсказка что это отсылка к "Рожденный ползать — летать не может" из "Песин о Соколе" Горького
-
----
-
-<a id="t07"></a>
-
-### `apps/vova/public/music/first.md`:113 — unresolved
-
-```diff
-@@ -110,6 +110,8 @@ song.
- Где мы споём
- В две гитары с тобой
- 
-+[^musima-ru]: Musima Resonata — классическая гитара восточногерманской фабрики Musima из Маркнойкирхена, 1960–70-х. [Подробнее](https://share.google/aimode/IK8kPWbhpdjk8fzUI)
-```
-
-**@vzakharov (human)** — 2026-09-23T09:30:16Z
-
-Musima Resonata — классическая гитара восточногерманской фабрики Musima, которая была очень популярна в средне-позднем СССР.
-
----
-
-<a id="t08"></a>
-
-### `apps/vova/public/music/slime.md`:82 — unresolved
-
-```diff
-@@ -77,6 +77,12 @@ Halt die Klappe, молчанье на вес
-… 2 lines elided …
- 
-+[^medvedev-ru]: Аллюзия на «Денег нет, но вы держитесь» Медведева.
-+
-+[^adieu-ru]: Вместе со следующей фразой на немецком — аллюзия на «Adieu, Goodbye, Auf Wiedersehen» (Rammstein — Adieu).
-```
-
-**@vzakharov (human)** — 2026-09-23T09:34:18Z
-
-перепроверить капитализацию цитаты, я писал по наитию
-
----
-
-<a id="t09"></a>
-
-### `src/pages/music/ui/explicit-badge.tsx`:1 — unresolved
-
-**@vzakharov (human)** — 2026-09-23T09:36:50Z
-
-А тут его же используем? А то выглядит кривовато (опять же vertical alignment + size)
-
-<img width="160" height="83" alt="Image" src="https://github.com/user-attachments/assets/54bd6de3-1aff-4000-be8a-8ce6923362c1" />
-
----
-
-<a id="t10"></a>
 
 ### `src/pages/music/ui/lyrics.tsx`:46 — unresolved
 
@@ -435,88 +389,13 @@ Musima Resonata — классическая гитара восточногер
 
 хммм, а это что за загагулина?
 
----
+**@vzakharov (agent)** — 2026-09-23T09:59:28Z
 
-<a id="t11"></a>
+`__vars` — пропс Mantine, которым `Box` ставит CSS-переменные. Здесь это `--stanzas`, число строф: сетка колонок объявляет по строке на строфу (`grid-template-rows: repeat(var(--stanzas), auto)`), а обе колонки растягиваются на все её строки через subgrid. Без явного числа `grid-row: 1 / -1` некуда тянуться. Загагулину заменил на обычный `style={{ '--stanzas': stanzas.length }}`. fd27fe4
 
-### `src/pages/music/ui/lyrics.tsx`:59 — unresolved
+**@vzakharov (human)** — 2026-09-23T10:17:30Z
 
-```diff
-@@ -30,50 +36,82 @@ export function Lyrics({ lyrics, locale }: LyricsProps) {
-… 32 lines elided …
--function StanzaColumn({ stanzas }: WithStanzas) {
-+type LyricsColumnProps = WithStanzas & {
-+  lang: Locale;
-+  /** The crib column, held back so the sung words read first. */
-```
-
-**@vzakharov (human)** — 2026-09-23T09:37:48Z
-
-что значит "held back" тут?
-
----
-
-<a id="t12"></a>
-
-### `src/pages/music/ui/music.module.scss`:57 — unresolved
-
-```diff
-@@ -46,35 +53,38 @@
-   font-variant-numeric: tabular-nums;
- }
- 
-+// One mixin for two pseudo-elements that cannot share a selector list: a
-+// browser drops a whole rule over the vendor pseudo it does not know.
-```
-
-**@vzakharov (human)** — 2026-09-23T09:38:55Z
-
-археология?
-
----
-
-<a id="t13"></a>
-
-### `src/pages/music/ui/song-list.tsx`:29 — unresolved
-
-**@vzakharov (human)** — 2026-09-23T09:40:46Z
-
-а зачем мы тут переименовываем explicit в marked?
-
----
-
-<a id="t14"></a>
-
-### `src/shared/content/frontmatter.ts`:111 — unresolved
-
-```diff
-@@ -91,19 +76,39 @@ const songFieldsSchema = baseFrontmatterSchema.extend({
-… 33 lines elided …
-  * masters, credits, the words — is the bigger half, so a file per locale would
-- * duplicate most of it.
-+ * duplicate most of it. A key per locale, each required, which is what makes it
-+ * exhaustive: a document carrying `en` and no `ru` fails the build instead of
-+ * publishing a half-translated catalogue quietly.
-  */
--const songFrontmatterSchema = songFieldsSchema.and(localizedTextsSchema);
-+const songFrontmatterSchema = songFieldsSchema.extend(
-+  byLocale(() => localizedTextSchema),
-+);
-```
-
-**@vzakharov (human)** — 2026-09-23T09:42:58Z
-
-а поясни пжст, не уезжает ли у нас в результате зод на фронт --  то чего мы хотели избежать через 6a945c8?
-
----
-
-<a id="t15"></a>
-
-### `src/shared/content/lyric-notes.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-09-23T09:43:55Z
-
-что-то у нас в shared/content становится много чисто-музычного. Либо давай в shared/music, либо, что наверное надо было спросить раньше: почему не в какой-то вышележащий слой? есть конфликты по восходящим импортам?
+я не против ни того, ни того варианта, так что выбирай какой элегантнее и трушнее. (Ещё непонятно, зачем mantine ввёл такой проп, если всё решается style-ом?)
 
 ---
 
