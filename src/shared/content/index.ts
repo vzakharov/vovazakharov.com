@@ -51,12 +51,6 @@ export {
   type WithOptionalOgImageSize,
 } from './image-dimensions';
 export {
-  type LyricLine,
-  type LyricSpan,
-  type Stanzas,
-  type WithStanzas,
-} from './lyric-notes';
-export {
   type DocumentCard,
   type Heading,
   type Headlined,
@@ -67,10 +61,3 @@ export {
   type WithHeadings,
   type WithReadingMinutes,
 } from './render';
-export {
-  type LocalizedSongDocument,
-  localizeSong,
-  type SongDocument,
-  type SongLyrics,
-  songLyrics,
-} from './song-text';

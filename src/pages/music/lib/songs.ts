@@ -1,14 +1,10 @@
 import { billing } from '@/shared/config';
-import {
-  listPrimaryDocuments,
-  localizeSong,
-  type SongDocument,
-  SONGS,
-} from '@/shared/content';
+import { listPrimaryDocuments, SONGS } from '@/shared/content';
 import { byLocale, isLocale } from '@/shared/i18n';
 
 import { songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
+import { localizeSong, type SongDocument } from './song-text';
 
 /**
  * The catalogue, newest first. A slug that reads as a language is rejected

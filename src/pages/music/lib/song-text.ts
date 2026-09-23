@@ -1,9 +1,12 @@
 import 'server-only';
 
+import type {
+  ContentDocument,
+  LocalizedText,
+  SongFrontmatter,
+} from '@/shared/content';
 import { isLocale, type Locale } from '@/shared/i18n';
 
-import type { ContentDocument } from './documents';
-import type { LocalizedText, SongFrontmatter } from './frontmatter';
 import {
   readVerse,
   type Stanzas,

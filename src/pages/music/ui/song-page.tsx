@@ -12,11 +12,8 @@ import {
   documentMonth,
   formatDocumentMonth,
   loadDocument,
-  localizeSong,
   renderDocument,
   type Slugged,
-  type SongDocument,
-  songLyrics,
   SONGS,
 } from '@/shared/content';
 import {
@@ -42,6 +39,7 @@ import { ProseContent } from '@/entities/document';
 
 import { formatDuration } from '../lib/duration';
 import { musicPath, songPath } from '../lib/music-urls';
+import { localizeSong, type SongDocument, songLyrics } from '../lib/song-text';
 import { songQueueIndex } from '../lib/songs';
 import { ExplicitBadge } from './explicit-badge';
 import { LocaleChips } from './locale-chips';

@@ -1,11 +1,12 @@
 import { Anchor, Box, Stack, Text } from '@mantine/core';
 import Markdown, { type Components } from 'react-markdown';
 
-import type { LyricLine, SongLyrics, WithStanzas } from '@/shared/content';
 import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Subheading } from '@/shared/ui';
 
+import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
+import type { SongLyrics } from '../lib/song-text';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
 
