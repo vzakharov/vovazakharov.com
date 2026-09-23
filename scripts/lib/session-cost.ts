@@ -169,10 +169,8 @@ const costOf = (tokens: TokenTally, rates: Rates): number => {
 };
 
 /** `<model>/<speed>`, the pair a response is billed under. */
-const rateKey = (
-  model: string,
-  speed: string | null | undefined,
-): string => `${model}/${speed ?? 'standard'}`;
+const rateKey = (model: string, speed: string | null | undefined): string =>
+  `${model}/${speed ?? 'standard'}`;
 
 // Claude Code's placeholder for a turn no model served — a cancellation, an
 // interrupted request. It is not a model, so the unpriced-pair throw would be
