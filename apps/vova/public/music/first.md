@@ -110,7 +110,7 @@ song.
 Где мы споём
 В две гитары с тобой
 
-[^musima-ru]: Musima Resonata — классическая гитара восточногерманской фабрики Musima из Маркнойкирхена, 1960–70-х. [Подробнее](https://share.google/aimode/IK8kPWbhpdjk8fzUI)
+[^musima-ru]: Musima Resonata — классическая гитара восточногерманской фабрики Musima, которая была очень популярна в средне-позднем СССР.
 
 <!-- lyrics:en -->
 
@@ -169,4 +169,4 @@ Will come round again
 When we'll sing
 On two guitars, you and I
 
-[^musima-en]: A Musima Resonata — a classical guitar from the East German Musima works in Markneukirchen, made in the 1960s and ’70s. [More](https://share.google/aimode/IK8kPWbhpdjk8fzUI)
+[^musima-en]: A Musima Resonata — a classical guitar from the East German Musima works, very popular in the mid-to-late USSR.

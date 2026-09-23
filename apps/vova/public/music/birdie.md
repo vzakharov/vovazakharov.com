@@ -91,7 +91,7 @@ bleeped version one day.
 Донт сэй гудбай!
 
 Рано или поздно улетишь, я знаю,
-Но, покуда рождён, я с тобой летаю.
+Но пока, рождённый ползать, я с тобой летаю.
 
 Птичка!
 Флай сука флай!
@@ -150,7 +150,7 @@ Birdie!
 Don't say goodbye!
 
 Sooner or later you'll fly off, I know,
-But as long as I'm alive, I'm flying with you.
+But for now, [born to crawl][^gorky-en], I'm flying with you.
 
 Birdie!
 Fly bitch fly!
@@ -161,3 +161,5 @@ Fly bitch fly!
 Birdie!
 Just say goodbye!
 I will survive.
+
+[^gorky-en]: An allusion to “Those born to crawl cannot fly” from Gorky’s “The Song of the Falcon”.
