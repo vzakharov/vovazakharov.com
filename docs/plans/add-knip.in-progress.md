@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
-
 # Add knip
 
 Add [knip](https://knip.dev) as a devDependency, give it a config that knows how this repo is entered, fix what it finds, and make it a vet check — so an unused file, export, type or dependency fails `./scripts/vet.sh` the way an unused local already fails `tsc`.
