@@ -1,5 +1,6 @@
 export { loadMessages, type Messages } from './load-messages';
 export {
+  addressLocale,
   byLocale,
   DEFAULT_LOCALE,
   inLocale,

@@ -22,6 +22,19 @@ export const isLocale = isOneOf(LOCALES);
 /** What language a page is being rendered in — its route's last segment, usually. */
 export type WithLocale = { locale: Locale };
 
+/**
+ * Which language an address is in, by the site's one rule for it: the locale
+ * is the last segment, and an address without one is in the default language.
+ * What a client component above the page reads — a layout sits above the
+ * segment that names the language and is never handed it, but the address it
+ * renders under always says.
+ */
+export function addressLocale(pathname: string): Locale {
+  const last = pathname.split('/').findLast(Boolean) ?? '';
+
+  return isLocale(last) ? last : DEFAULT_LOCALE;
+}
+
 /** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/slime/ru`. */
 export type LocaleTail<Head extends string> = [] | [Head] | [Head, Locale];
 

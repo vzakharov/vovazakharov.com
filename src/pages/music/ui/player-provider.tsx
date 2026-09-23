@@ -3,10 +3,14 @@
 import { usePathname } from 'next/navigation';
 import { createContext, use, useMemo } from 'react';
 
-import type { Locale, Messages, WithLocale } from '@/shared/i18n';
+import {
+  addressLocale,
+  type Locale,
+  type Messages,
+  type WithLocale,
+} from '@/shared/i18n';
 import type { WithChildren } from '@/shared/typings';
 
-import { pathLocale } from '../lib/music-locale';
 import type { WithTracks } from '../lib/player-state';
 import {
   type Playback,
@@ -55,7 +59,7 @@ export function PlayerProvider({
   tracks,
   labels,
 }: PlayerProviderProps) {
-  const locale = pathLocale(usePathname());
+  const locale = addressLocale(usePathname());
   const { state, elapsed, current, controls } = useAudioPlayer(tracks, locale);
 
   const value = useMemo<PlayerContextValue>(
