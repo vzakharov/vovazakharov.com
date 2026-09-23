@@ -28,9 +28,9 @@ const HOVER_GRACE_MS = 150;
  *
  * Mounted while closed and kept out of a portal, so the note is in the static
  * HTML beside its words — which is also what carries the popover's classes into
- * the export `check:mantine-styles` compares against. Positioned `fixed` for
- * the same reason: out of a portal it sits inside the lyrics' scrolling box,
- * which would otherwise clip a note that drops below the last stanza.
+ * the export `check:mantine-styles` compares against. Out of a portal it sits
+ * inside the lyrics' scrolling box, which is why it is positioned `fixed`: that
+ * box would clip a note dropping below the last stanza.
  */
 export function NotedSpan({ text, children }: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();

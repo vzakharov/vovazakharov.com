@@ -18,9 +18,7 @@ export type LyricsProps = WithLocale & { lyrics: SongLyrics };
  * table that is wrong in a way nothing on the page admits.
  *
  * Each language is one element holding all of its stanzas, so a selection
- * started in one column stays in it; a subgrid shares the rows between the
- * two, which is what keeps a stanza level with its crib. Two columns at every
- * width — a narrow screen scrolls sideways rather than interleaving them.
+ * started in one column stays in it.
  */
 export function Lyrics({ lyrics, locale }: LyricsProps) {
   const { stanzas, translation, language } = lyrics;
