@@ -26,9 +26,11 @@ the short forms aliases of the addressed language — which settles the
 collision the content rule left open: a cut is a dotted suffix, a
 locale a trailing segment. Where the words are not in the reader's
 language a crib runs beside them stanza for stanza, a count that
-disagrees failing the build. A line can carry the author's note, a
-markdown footnote in the file that opens on a click on the page, and a
-page shows only the notes in its own language.
+disagrees failing the build; each language is one element, so a
+selection stays in one, and a narrow screen scrolls the pair sideways.
+A phrase or a line can carry the author's note, a markdown footnote in
+the file that opens on hover or press on the page, and a page shows
+only the notes in its own language.
 
 A player rides in the music route's layout, which is what lets a track
 keep playing from the index into a song and between its two languages.
