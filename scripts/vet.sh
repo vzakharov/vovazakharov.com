@@ -54,8 +54,8 @@ fi
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
 # `lint:css` is the check-only stylelint form, for the same reason.
 # type-overlap and knip read source text only — no generated types, nothing
-# another check writes; knip is check-only unless given --fix, which vet never
-# passes for the same reason; the test run adds only writes into the OS temp directory, and
+# another check writes, and knip writes nothing without --fix, which vet never
+# passes; the test run adds only writes into the OS temp directory, and
 # the two `--check` render passes only hash files, needing no browser. The
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of

@@ -1,11 +1,6 @@
-// knip's view of how this repo is entered. What it cannot find from here it reports
-// as unused, so an entry missing from this list shows up as a finding rather than
-// going silent — and the fix for a false "unused file" is an entry here, never an
-// exemption for the file.
-//
-// Its plugins (ESLint, Next.js, Stylelint, Prettier, the Node test runner, among
-// others) find what their configs and `package.json` scripts name.
-// The entries below are what those cannot see.
+// How this repo is entered, beyond what knip's plugins read off their own configs
+// and `package.json` scripts. A false "unused file" is an entry missing here, and
+// is fixed here — never by exempting the file.
 
 import type { KnipConfig } from 'knip';
 
