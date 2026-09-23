@@ -44,7 +44,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×35)
+## What it was handed, it treats as fixed (×37)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -96,6 +96,13 @@ short of the ~450 where the seams principle speaks, and stayed whole until the
 operator asked for the mechanics in a hook. That round `/dry` passed a thumb
 block spelled for two vendor pseudo-elements and `flex: 1; min-width: 0` twice,
 its examples saying 4+ lines across classes. _is this DRY? I see repeats._
+
+**23 September — one device class's limit, set as every device's design.** A
+phone has no hover, so lyric notes opened on a click everywhere — a reason that
+rules out hover-only, not hover. On a phone, stanza and crib interleaved so the
+page would fit, trading away the one-language selection the layout existed for.
+The operator asked for hover where it exists, a press elsewhere, and columns
+that scroll sideways like a wide table: the option the agent never listed.
 
 ## An account that explains the code stands in for running it (×15)
 
@@ -182,7 +189,7 @@ what follows a transcript, since the plan had settled it. _вопрос "ой, �
 должен высказать своё мнение про это?" в принципе нигде в процессе "диктовки"
 возникнуть не должен._ The smallest edit satisfying the anchor kept its premise.
 
-## Asked for a source, it supplies its own version (×8)
+## Asked for a source, it supplies its own version (×9)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -197,7 +204,12 @@ migrations are the exception and the subject niche; the idea file supplied the
 why — two correct migrations composing into nonsense — and the article inherited
 it as the speaker's. _проблема не в этом._
 
-## Given a form, it fills the form (×6)
+**23 September — the model it cited, simplified.** Lyric notes anchored on a
+whole line, the simplest parse, in a catalogue whose model was genius.com — the
+agent's own citation, and a site that anchors a note on a word or phrase. The
+operator asked for what the citation already said.
+
+## Given a form, it fills the form (×7)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -215,6 +227,11 @@ arrived as the first with four fields changed and `author`, `social` and
 **22 September — `{ en: 'X', ru: 'X' }`, album after album.** The registry's
 fields were per-locale, so every title and artist was spelled twice, identical
 for all but one release. The operator asked for a string or the pair.
+
+**23 September — a note on a line the translation had solved.** The crib gave
+"А сейчас вылетит…" as the photographer's "watch the birdie", then kept a note
+explaining the Russian. Where the idiom exists in English the translation
+carries the reference; the note was there because notes were.
 
 ## What it defends in writing, it stops asking about (×5)
 
