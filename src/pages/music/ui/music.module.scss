@@ -53,8 +53,9 @@
   font-variant-numeric: tabular-nums;
 }
 
-// One mixin for two pseudo-elements that cannot share a selector list: a
-// browser drops a whole rule over the vendor pseudo it does not know.
+// A mixin rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
+// each browser discards a whole rule naming a pseudo-element it does not know,
+// so a shared selector list would style the thumb in no browser at all.
 @mixin thumb {
   width: 12px;
   height: 12px;
