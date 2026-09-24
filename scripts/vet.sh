@@ -43,7 +43,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these fifteen writes anything another one reads, so they overlap
+# None of these sixteen writes anything another one reads, so they overlap
 # freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
@@ -62,8 +62,8 @@ fi
 # which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
-# The last reads the agent infrastructure itself and nothing else here touches
-# it.
+# The last two read the agent infrastructure itself and nothing else here
+# touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
@@ -79,7 +79,8 @@ scripts/run-parallel.sh \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
-  skills='scripts/check-skill-catalog.sh' || status=1
+  skills='scripts/check-skill-catalog.sh' \
+  staged='scripts/staged.sh check' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2
