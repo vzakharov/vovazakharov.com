@@ -25,7 +25,7 @@ import {
 import { capFrame, splayed } from '../../model/mushroom-pose';
 import { mulberry32, type Seeded } from '../../model/random';
 import { drawFlower } from './draw-flower';
-import { drawMushroom, toCanvas } from './draw-mushroom';
+import { drawMushroom, drawMushroomShadow, toCanvas } from './draw-mushroom';
 import { growTufts, paintTufts } from './grass';
 import { drawMuteButton } from './hud';
 import {
@@ -50,6 +50,8 @@ const CLOUD_SPEEDS = [7, 4, 5.5];
 const FLOWER_SWAY = 0.09;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
+/** How much wider a shadow spreads per unit of the mushroom's squash. */
+const SHADOW_SPREAD = 0.6;
 
 /** A `Phased` phase read off the seed, so it holds across repaints. */
 function phaseOf({ seed }: Seeded): number {
@@ -78,6 +80,8 @@ type Tapped = Phased & { tappedAt: number };
 type ShownMushroom = Tapped &
   Pick<Footing, 'size'> & {
     graphics: Phaser.GameObjects.Graphics;
+    /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
+    shadow: Phaser.GameObjects.Graphics;
     hit: Phaser.Geom.Rectangle;
     genes: MushroomGenes;
     turn: number;
@@ -160,6 +164,7 @@ export class MeadowScene extends Phaser.Scene {
       shown.graphics
         .setScale(widthFor(stretch), 1 + stretch)
         .setRotation(shown.turn + bounce * WOBBLE_ROCK);
+      shown.shadow.setScale(1 + Math.max(0, -stretch) * SHADOW_SPREAD, 1);
     }
     for (const shown of shownFlowers.values()) {
       const open = bloom(t - shown.tappedAt);
@@ -208,6 +213,12 @@ export class MeadowScene extends Phaser.Scene {
       Object.assign(shown, { genes, turn, size });
       shown.graphics.clear().setPosition(x, y).setDepth(y);
       drawMushroom(shown.graphics, genes, size);
+      // Just behind its own mushroom, and before anything standing behind it.
+      shown.shadow
+        .clear()
+        .setPosition(x, y)
+        .setDepth(y - 0.5);
+      drawMushroomShadow(shown.shadow, genes, size);
       // The box round the stem and the cap, in the mushroom's own frame.
       const cap = capFrame(genes);
       const canvas = toCanvas(size);
@@ -234,6 +245,7 @@ export class MeadowScene extends Phaser.Scene {
     const graphics = this.add.graphics().setInteractive(hit, containsRectangle);
     const shown: ShownMushroom = {
       graphics,
+      shadow: this.add.graphics(),
       hit,
       genes: mushroomGenes(mushroom),
       turn: 0,

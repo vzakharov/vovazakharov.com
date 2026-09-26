@@ -87,8 +87,23 @@ function shadeArc(genes: MushroomGenes): Point[] {
 }
 
 /**
+ * Paints a mushroom's shadow on the ground, centred on the foot. It goes in a
+ * graphics of its own, so the mushroom's squash and rock leave it on the
+ * ground.
+ */
+export function drawMushroomShadow(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: MushroomGenes,
+  size: number,
+): void {
+  graphics.fillStyle(PALETTE.groundShadow, 0.22);
+  graphics.fillEllipse(0, 0, genes.capWidth * size * 0.8, size * 0.07);
+}
+
+/**
  * Paints one mushroom into `graphics`, whose own position is the foot and
- * whose rotation is the lean — so a later tween can squash it from the ground.
+ * whose rotation is the lean — so the scene squashes and rocks it from the
+ * ground.
  */
 export function drawMushroom(
   graphics: Phaser.GameObjects.Graphics,
@@ -101,9 +116,6 @@ export function drawMushroom(
   const toMushroom = (point: Point) => canvas(cap(point));
   const red = nudgeHue(PALETTE.capRed, genes.hueNudge);
   const dark = nudgeHue(PALETTE.capDark, genes.hueNudge);
-
-  graphics.fillStyle(PALETTE.groundShadow, 0.22);
-  graphics.fillEllipse(0, 0, genes.capWidth * size * 0.8, size * 0.07);
 
   const stem = stemOutline(genes).map((point) => canvas(point));
   graphics.fillStyle(PALETTE.stem);
