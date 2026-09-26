@@ -10,7 +10,8 @@ import {
   type WithGraphics,
 } from './hit-areas';
 import { drawCapButton, drawGrowButton, drawMuteButton } from './hud';
-import { type MeadowLayout, tapReach } from './layout';
+import type { MeadowLayout } from './layout';
+import { tapReach } from './sky-layout';
 
 /** How deep a pressed button sinks in, against a mushroom's squash. */
 const PRESS_DEPTH = 0.6;

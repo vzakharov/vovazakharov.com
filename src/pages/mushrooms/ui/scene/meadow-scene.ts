@@ -18,9 +18,10 @@ import { Controls } from './controls';
 import { drawFlower } from './draw-flower';
 import { growTufts, paintTufts } from './grass';
 import { containsCircle, type WithCircleHit } from './hit-areas';
-import { type MeadowLayout, meadowLayout, tapReach } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
+import { tapReach } from './sky-layout';
 import { MeadowSound, readMuted } from './sound';
 
 /** The registry key the host writes the device pixel ratio under. */

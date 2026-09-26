@@ -3,9 +3,10 @@ import type * as Phaser from 'phaser';
 import { type Point, sample } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
 import { mix } from './colour';
-import { type MeadowLayout, SUN_GLOW_REACH } from './layout';
+import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
+import { SUN_GLOW_REACH } from './sky-layout';
 
 const SKY_BANDS = 48;
 const GROUND_BANDS = 12;

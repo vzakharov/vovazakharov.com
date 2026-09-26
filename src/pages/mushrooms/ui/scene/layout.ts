@@ -1,16 +1,24 @@
 /**
  * Where everything in the meadow stands, as a pure function of the viewport in
- * CSS pixels. Every size is proportional, so a phone held upright and a tablet
- * held sideways get the same picture composed for each.
+ * CSS pixels. Every size in the meadow is proportional, but for the floor that
+ * keeps a mushroom a finger's target, so a phone held upright and a tablet
+ * held sideways get the same picture composed for each; `sky-layout.ts` places
+ * the buttons over it.
  */
 
 import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point } from '../../model/geometry';
-import { CAP_KINDS, GENE_RANGES } from '../../model/mushroom-genes';
+import { GENE_RANGES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
+import {
+  type Controls,
+  placeControls,
+  placeSun,
+  TAP_RADIUS,
+} from './sky-layout';
 
 /**
  * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and how
@@ -72,7 +80,7 @@ export const FOOT_CLEARANCE = 0.45;
 const FOREST_SLOTS = {
   landscape: [
     [0.14, 0.8, 0.6],
-    [0.88, 0.62, 0.58],
+    [0.88, 0.7, 0.58],
     [0.22, 0.06, 0.5],
     [0.8, 0.1, 0.5],
   ],
@@ -80,7 +88,7 @@ const FOREST_SLOTS = {
     [0.2, 0.54, 0.5],
     [0.8, 0.58, 0.5],
     [0.22, 0.04, 0.48],
-    [0.78, 0.08, 0.48],
+    [0.52, 0.08, 0.48],
   ],
 } as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
@@ -91,25 +99,6 @@ const FOREST_SPLAY = 0.1;
  */
 const MAX_HAZE = 0.4;
 const HAZE_REACH = 0.35;
-/** The mute button's radius, and how far its edge keeps from the corner. */
-const BUTTON_R = 28;
-const BUTTON_INSET = 18;
-/** The `+` and `−` buttons' radius, and the gap between them. */
-const GROW_R = 36;
-const GROW_GAP = 16;
-/**
- * The picker's buttons at their largest, and their spacing in radii: at the
- * least, which a narrow screen gets, and where there is room.
- */
-const PICK_R = 46;
-const PICK_SPACING = 2.2;
-const PICK_ROOMY_SPACING = 2.7;
-/**
- * The least radius, in CSS pixels, a tap target reaches: 64 across, which a
- * six-year-old's finger finds without aiming.
- */
-export const TAP_RADIUS = 32;
-
 /**
  * The least size a forest mushroom stands at, the clump standing larger: the
  * narrowest cap the genes allow is then `2 × TAP_RADIUS` across, a mushroom's
@@ -117,36 +106,24 @@ export const TAP_RADIUS = 32;
  */
 const FINGER_SIZE = (2 * TAP_RADIUS) / GENE_RANGES.capWidth[0];
 
-/** A tap target's hit radius: what it draws, and never under `TAP_RADIUS`. */
-export function tapReach(r: number): number {
-  return Math.max(r, TAP_RADIUS);
-}
-
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
 /** The opening pair's turn apart, like the V of Syama's two caps. */
 const CLUMP_SPLAY = 0.22;
-/** The sun's glow reaches this many radii out, and must stay on screen. */
-export const SUN_GLOW_REACH = 2.6;
-
-export type MeadowLayout = Sized & {
-  /** Where the far hills meet the sky. */
-  horizon: number;
-  /** The top of the near hills' band. */
-  nearHills: number;
-  /** Where the flat ground the mushrooms stand on begins. */
-  groundTop: number;
-  sun: Circle;
-  clouds: readonly Circle[];
-  /** One per slot, `MUSHROOM_SLOTS` of them: the clump's two, then the forest. */
-  mushrooms: readonly Placement[];
-  flowers: readonly Footing[];
-  mute: Circle;
-  plus: Circle;
-  minus: Circle;
-  /** One per `CAP_KINDS`, in that order. */
-  picker: readonly Circle[];
-};
+export type MeadowLayout = Sized &
+  Controls & {
+    /** Where the far hills meet the sky. */
+    horizon: number;
+    /** The top of the near hills' band. */
+    nearHills: number;
+    /** Where the flat ground the mushrooms stand on begins. */
+    groundTop: number;
+    sun: Circle;
+    clouds: readonly Circle[];
+    /** One per slot, `MUSHROOM_SLOTS` of them: the clump's two, then the forest. */
+    mushrooms: readonly Placement[];
+    flowers: readonly Footing[];
+  };
 
 /** A flower's head reaches this far from its centre, per unit of its size. */
 const HEAD_REACH = FLOWER_RANGES.petalLength[1];
@@ -280,32 +257,6 @@ function placeForest(
 }
 
 /**
- * The `+` and `−` on the right, where Syama drew them, and the picker across
- * the top — pushed below the mute button where a narrow screen would have
- * them meet.
- */
-function placeControls(
-  width: number,
-  height: number,
-  mute: Circle,
-): Pick<MeadowLayout, 'plus' | 'minus' | 'picker'> {
-  const x = width - BUTTON_INSET - GROW_R;
-  const plusY = height * 0.36;
-  const span = width - BUTTON_INSET * 2;
-  const gaps = CAP_KINDS.length - 1;
-  const r = Math.min(PICK_R, span / (PICK_SPACING * gaps + 2));
-  const step = Math.min(r * PICK_ROOMY_SPACING, (span - r * 2) / gaps);
-  const first = width / 2 - (step * gaps) / 2;
-  const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
-  const y = clearOfMute ? BUTTON_INSET + r : mute.y + mute.r + BUTTON_INSET + r;
-  return {
-    plus: { x, y: plusY, r: GROW_R },
-    minus: { x, y: plusY + GROW_R * 2 + GROW_GAP, r: GROW_R },
-    picker: CAP_KINDS.map((_, index) => ({ x: first + step * index, y, r })),
-  };
-}
-
-/**
  * `seed` is the visit's: it places what varies between visits, and a resize
  * that passes the same one keeps it where it was.
  */
@@ -376,25 +327,14 @@ export function meadowLayout(
   // no floor, which scales with the screen exactly, so a resize keeps every
   // flower where it was.
   const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0, 0);
-  const mute = {
-    x: BUTTON_INSET + BUTTON_R,
-    y: BUTTON_INSET + BUTTON_R,
-    r: BUTTON_R,
-  };
-  const sunR = short * 0.075;
+  const controls = placeControls(width, height, groundTop);
   return {
     width,
     height,
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
-    // Pulled in from the corner until its glow fits, which only a phone's
-    // narrow width calls for.
-    sun: {
-      x: Math.min(width * 0.84, width - sunR * SUN_GLOW_REACH),
-      y: Math.max(height * 0.15, sunR * SUN_GLOW_REACH),
-      r: sunR,
-    },
+    sun: placeSun(width, height, short * 0.075, controls.picker),
     clouds: [
       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },
@@ -408,8 +348,7 @@ export function meadowLayout(
       { width, groundTop, ground, unit: flowerUnit, seed },
       unmarginedFeet,
     ),
-    mute,
-    ...placeControls(width, height, mute),
+    ...controls,
     mushrooms,
   };
 }

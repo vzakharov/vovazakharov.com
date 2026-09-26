@@ -28,10 +28,8 @@ import {
   FOOT_CLEARANCE,
   type MeadowLayout,
   meadowLayout,
-  SUN_GLOW_REACH,
-  TAP_RADIUS,
-  tapReach,
 } from './layout';
+import { SUN_GLOW_REACH, TAP_RADIUS, tapReach } from './sky-layout';
 
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
@@ -51,36 +49,75 @@ const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const STEM_TRIES = 20;
 
 /**
- * The opening clump of a visit as the scene stands it, the front-most first:
- * each mushroom's depth, points along its stem, and its outlines as drawn and
- * as tapped, on screen.
+ * A mushroom as the scene stands it in `place`: its depth, points along its
+ * stem, and its outlines as drawn and as tapped, on screen.
  */
+function standingAt(
+  place: MeadowLayout['mushrooms'][number],
+  seeded: Parameters<typeof mushroomGenes>[0],
+) {
+  const { genes, turn } = splayed(mushroomGenes(seeded), place.splay);
+  const canvas = toCanvas(place.size);
+  const placed = (outline: readonly Point[]) =>
+    outline.map((point) => placedAt(place, turn, canvas(point)));
+  const cap = capFrame(genes);
+  return {
+    // Where its foot stands, as the scene sets it.
+    depth: place.y,
+    stem: placed(sample(0.05, 0.95, STEM_TRIES - 1, (t) => stemAt(genes, t))),
+    drawn: [
+      placed(domeBand(genes, 0).map((point) => cap(point))),
+      placed(gillsOutline(genes).map((point) => cap(point))),
+      placed(stemOutline(genes)),
+    ],
+    tapped: Object.values(tapArea(genes)).map((outline) => placed(outline)),
+  };
+}
+
+/** The opening clump of a visit as the scene stands it, the front-most first. */
 function standingClump(seed: number, layout: MeadowLayout) {
   return firstMeadow(mulberry32(seed))
     .mushrooms.map(({ id, slot, ...seeded }) => {
       const place = layout.mushrooms[slot];
       assert.ok(place);
-      const { genes, turn } = splayed(mushroomGenes(seeded), place.splay);
-      const canvas = toCanvas(place.size);
-      const placed = (outline: readonly Point[]) =>
-        outline.map((point) => placedAt(place, turn, canvas(point)));
-      const cap = capFrame(genes);
-      return {
-        id,
-        // Where its foot stands, as the scene sets it.
-        depth: place.y,
-        stem: placed(
-          sample(0.05, 0.95, STEM_TRIES - 1, (t) => stemAt(genes, t)),
-        ),
-        drawn: [
-          placed(domeBand(genes, 0).map((point) => cap(point))),
-          placed(gillsOutline(genes).map((point) => cap(point))),
-          placed(stemOutline(genes)),
-        ],
-        tapped: Object.values(tapArea(genes)).map((outline) => placed(outline)),
-      };
+      return { id, ...standingAt(place, seeded) };
     })
     .toSorted((a, b) => b.depth - a.depth);
+}
+
+/**
+ * Every slot filled with a mushroom fresh-seeded from `seed`, the cap kinds
+ * turned by `turn` so that, over a run of visits, every slot tries each.
+ */
+function standingForest(seed: number, turn: number, layout: MeadowLayout) {
+  const random = mulberry32(seed);
+  return layout.mushrooms.map((place, slot) =>
+    standingAt(place, {
+      seed: nextSeed(random),
+      cap: CAP_KINDS[(turn + slot) % CAP_KINDS.length] ?? 'spotted',
+    }),
+  );
+}
+
+/** How far `point` is from the closed `outline`: 0 inside it. */
+function distanceTo(outline: readonly Point[], point: Point): number {
+  if (containsPoint(outline, point)) return 0;
+  return Math.min(
+    ...outline.map((a, index) => {
+      const b = outline[(index + 1) % outline.length] ?? a;
+      const length = (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
+      const along =
+        length === 0
+          ? 0
+          : ((point.x - a.x) * (b.x - a.x) + (point.y - a.y) * (b.y - a.y)) /
+            length;
+      const t = Math.min(1, Math.max(0, along));
+      return Math.hypot(
+        point.x - (a.x + t * (b.x - a.x)),
+        point.y - (a.y + t * (b.y - a.y)),
+      );
+    }),
+  );
 }
 
 /** The front-most of `clump` whose outlines, as drawn or as tapped, hold `point`. */
@@ -212,6 +249,40 @@ describe('meadowLayout', () => {
         assert.ok(onScreen(control, width, height), `control ${index} off`);
         for (const other of controls.slice(index + 1)) {
           assert.ok(apart(control, other), `control ${index} overlaps`);
+        }
+      }
+    });
+
+    it(`keeps every control off every mushroom and the sun on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      const { sun, mute, plus, minus, picker } = layout;
+      // Each as its hit area, which the HUD's depth puts over the meadow.
+      const controls = Object.entries({
+        mute,
+        plus,
+        minus,
+        ...Object.fromEntries(
+          picker.map((pick, index) => [`pick ${index}`, pick]),
+        ),
+      }).map(([control, circle]) => ({
+        control,
+        ...circle,
+        r: tapReach(circle.r),
+      }));
+      for (const { control, ...circle } of controls) {
+        assert.ok(apart(circle, sun), `${control} on the sun`);
+      }
+      for (const [turn, seed] of VISITS.entries()) {
+        const forest = standingForest(seed, turn, layout);
+        for (const [slot, { tapped }] of forest.entries()) {
+          for (const { control, ...circle } of controls) {
+            for (const outline of tapped) {
+              assert.ok(
+                distanceTo(outline, circle) >= circle.r,
+                `visit ${seed}: ${control} over mushroom-${slot}`,
+              );
+            }
+          }
         }
       }
     });
