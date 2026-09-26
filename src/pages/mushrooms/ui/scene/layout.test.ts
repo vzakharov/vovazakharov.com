@@ -25,7 +25,7 @@ import {
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { capReach, splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed } from '../../model/random';
-import { doorHitArea } from './door-reach';
+import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
 import {
   EDGE_MARGIN,
@@ -240,6 +240,14 @@ describe('meadowLayout', () => {
           for (const point of door.map(onStem(station))) {
             assert.ok(containsPoint(hit, canvas(point)));
           }
+        }
+      }
+    });
+
+    it(`draws every mouse's head big enough to read on a ${name} screen`, () => {
+      for (const { size } of meadowLayout(width, height, 1).mushrooms) {
+        for (const { width: door } of DOOR_TRIES) {
+          assert.ok(mouseHead(door * size) >= MOUSE_HEAD_LEAST - 1e-9);
         }
       }
     });

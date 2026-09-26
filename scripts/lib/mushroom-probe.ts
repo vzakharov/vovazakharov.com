@@ -65,10 +65,14 @@ export const PROBE = `(() => {
       const { house } = scene.bed.shown.get(id);
       return onScreen(house.graphics, house.hit);
     },
-    /** A mushroom's mouse: when a tap on its door called it, and how far out it is. */
+    /** A mushroom's mouse: when a tap on its door called it, how far out it is, and how far across its head is drawn. */
     mouse: (id) => {
       const { house } = scene.bed.shown.get(id);
-      return { tappedAt: finite(house.mouse.tappedAt), out: house.out(scene.clock) };
+      return {
+        tappedAt: finite(house.mouse.tappedAt),
+        out: house.out(scene.clock),
+        head: house.drawnHead,
+      };
     },
     /** The nearest shown flower's head, the one least likely to be covered. */
     flower: () => {
@@ -118,6 +122,8 @@ export const Controls = z.object({
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),
+  /** In CSS px, as painted at the last frame: 0 with no door. */
+  head: z.number(),
 });
 export const Flower = Point.extend({ id: z.string() }).nullable();
 

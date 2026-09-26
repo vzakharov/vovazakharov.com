@@ -13,7 +13,7 @@ import {
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { mix } from './colour';
-import { doorHitArea } from './door-reach';
+import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
 import { containsOutline, type WithGraphics } from './hit-areas';
 import type { Footing, Hazed } from './layout';
@@ -59,6 +59,8 @@ export class HouseView {
   private readonly hit: Point[] = [];
   /** The mouse's peeks, and when a tap on its door called it out. */
   readonly mouse: Tapped;
+  /** How far across its mouse's head was drawn at the last paint, in the graphics' own pixels: 0 with no door. */
+  private shownHead = 0;
   /** How far out the mouse was at the last paint, so a still house is left be. */
   private shownOut = 0;
   private stale = true;
@@ -123,6 +125,11 @@ export class HouseView {
     return this.doorAt !== undefined;
   }
 
+  /** How far across the mouse's head is drawn on screen, as the probe reads it. */
+  get drawnHead(): number {
+    return this.shownHead * this.graphics.scaleX;
+  }
+
   /** Marks the house for a repaint, as a resize or a repaint of its mushroom needs. */
   repaint(): void {
     this.stale = true;
@@ -166,6 +173,7 @@ export class HouseView {
     const house = this.house;
     this.graphics.clear();
     this.hit.length = 0;
+    this.shownHead = 0;
     if (!house) return;
     const brush = {
       ink: Math.max(1.5, size * 0.01),
@@ -187,7 +195,9 @@ export class HouseView {
             shut: blink(t, this.mouse.phase),
           };
     paintHouse(this.graphics, genes, size, windows, door, brush);
-    if (door) this.hit.push(...doorHitArea(door.station, size));
+    if (!door) return;
+    this.hit.push(...doorHitArea(door.station, size));
+    this.shownHead = mouseHead(door.station.width * size * door.popped);
   }
 
   /** A puff of spores from `point`, in the mushroom's frame, where it stands on screen. */
