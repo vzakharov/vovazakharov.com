@@ -312,6 +312,79 @@ Standing rules for every session in the chain:
      without changing the selection, the pickers closing each other. A full
      run takes ~8 minutes: build once, then `--no-build`.
 
+## This bite
+
+5. **The butterfly.** A butterfly button on the left flies one in from off
+   screen along a curve, wings beating; it goes between flowers and caps,
+   drinking at a flower and resting on a cap with a bob, opening and closing
+   its wings slowly while it sits. A tap on one sends it fluttering on with a
+   trill. A butterfly on a mushroom that sinks flies off. Every butterfly is
+   grown from its own seed.
+
+   **Decided:**
+   - **The insect buttons are a column on the left**, as the drawing has
+     them (`БАБОЧКА`, `МУХА`, `ПЧЕЛА`, each with its picture), mirroring
+     `+ − house` on the right. This bite places the first, a disc holding a
+     butterfly pictogram drawn by `drawInsect` over fixed genes, as `hud.ts`
+     draws its mushrooms; bite 6 adds two below it. Each screen's placement
+     goes in `layout.ts` and its sweeps (clear of every slot's tap area, the
+     sun, the mute and the pickers; at least `TAP_RADIUS`); on a 320 px
+     phone the column may sit lower or narrower, never under a finger floor.
+   - **The button always acts.** At `BUTTERFLY_LIMIT` (4) a press still
+     flies a new one in, and the oldest flies away off screen and is gone —
+     the oldest-leaves limit bite 6 reuses — so it never shakes its head.
+   - **The model says where a butterfly wants to be; the scene says where
+     that is.** `model/insect-genes.ts`: `INSECT_KINDS` (`['butterfly']`
+     now), `Insect = Seeded & WithId & { kind }`, `insectGenes` → body
+     length and thickness, fore and hind wing shapes (length, breadth, a
+     round-to-pointed tip), 1–3 concentric eye rings on each wing (the
+     mandala), a pattern hue and a base hue nudged off `palette.ts`'s
+     butterfly hues. `model/flight.ts` (new, pure): a butterfly's `leg` —
+     `to: Perch`, `departs`, `arrives`, `leaves` (ms on the scene's clock)
+     — and `Perch = { kind: 'flower'; pick } | { kind: 'cap'; id } | {
+kind: 'away'; side }`, `pick` in [0, 1) that the scene maps onto
+     whatever flowers the screen has, so a resize never strands a perch.
+     The next leg is a pure function of the insect's seed and its leg count
+     (`nextSeed`), never of a random generator in the action: flowers about
+     three in five, a cap otherwise (flowers only on an empty meadow),
+     never the perch it is leaving; drinking ~3–6 s, resting ~4–9 s,
+     flying ~1.6–2.6 s by distance-free genes.
+   - **`game.ts` gains `insects` on `Meadow` and three actions**:
+     `release` (`{ kind: 'release'; insect; seed; now }`, flying in from
+     `away` on a side its seed picks), `startle` (`WithId & { now }`, a new
+     leg starting now; unknown ids and a butterfly already in the air are
+     left alone), and `tick` (`{ now }`): every insect whose `leaves` has
+     passed takes its next leg, one whose cap is gone takes one now, and one
+     whose `away` leg has arrived is removed. `remove` and the rest leave
+     `insects` alone; `tick` is what notices the missing cap, within a
+     frame. The scene dispatches `tick` every frame and reconciles by id,
+     like the mushrooms.
+   - **Motion is a pure function of the clock**, in `model/insect-motion.ts`
+     (`motion.ts` is already 274 lines): the flight path from the leg's
+     start point to its perch (a cubic curve with a sideways arc and a
+     flutter bob, eased in and out), the wing beat (fast in the air, a slow
+     open-and-close at rest, a bob on landing) and a tilt into the turn.
+     The start point is where the scene last drew it, kept as a fraction of
+     the screen so a resize mid-flight does not jump it.
+   - **Where perches stand:** a flower's perch is its head; a cap's is its
+     top, from `mushroom-pose.ts`, following the breath, the wobble and a
+     sinking cap down. Seen from above with the wings open, as Syama drew
+     it on the clump.
+   - **Drawn as layers so a beat never repaints:** a container per
+     butterfly holding its hind wings, fore wings and body graphics, each
+     pair scaled in x by the beat; outline, flat fill, shade and a shine,
+     as the mushrooms are. `draw-insect.ts` paints, `insect-view.ts` owns
+     the ones on screen (the way `mushroom-bed.ts` owns mushrooms); the
+     scene only orchestrates and stays under ~450 lines.
+   - **Butterflies fly above everything in the meadow and take the tap
+     first**, on a circle no smaller than `TAP_RADIUS`; a butterfly tap
+     changes nothing else (no deselect, no picker closes). `sound.ts` gains
+     a soft rising trill for the release and a startle, synthesized.
+   - `pnpm play:mushrooms` releases five (the fifth sending the first away),
+     checks each reaches a perch, taps one in the air and one at rest, sinks
+     a mushroom one rests on and checks it takes off — on every screen, with
+     page errors failing it.
+
 ## Rest of the elephant
 
 In order; the **MPP** line — every control in the drawing working — is after
@@ -323,13 +396,6 @@ size floor, so a forest mushroom the finger floor grows can stand on a
 flower. Fixing it is a choice between flowers that stay put on a resize and
 flowers that never land on a foot.
 
-5. **The butterfly.** `model/insect-genes.ts` (body, two wing pairs, pattern,
-   colour nudge), `draw-insect.ts`, the button; a press flies one in from
-   off-screen along a curve, wings beating, and it goes between flowers and
-   caps, drinking at a flower and resting on a cap with a bob, opening and
-   closing its wings. Tap one and it flutters on. Insects on a removed
-   mushroom fly off. `model/game.ts` gains `tick`, which carries what each
-   creature wants next.
 6. **The fly and the bee.** The same generator family; fast small flights,
    jitters and hops at rest, a buzz each; an oldest-leaves limit. The fly is
    drawn to the fly agarics. The bee visits flower after flower, a speck of
