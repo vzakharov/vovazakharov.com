@@ -234,7 +234,7 @@ export function doorway(aspect: number): Point[] {
 }
 
 /** A window's frame on a mushroom's cap, `grown` of its size round its slot's middle. */
-export function windowPlace(
+function windowPlace(
   genes: MushroomGenes,
   size: number,
   slot: Point,

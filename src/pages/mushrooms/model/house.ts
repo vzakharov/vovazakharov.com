@@ -11,7 +11,7 @@ import { domeHeight, type MushroomGenes } from './mushroom-genes';
 import { stemAt, type StemStation } from './mushroom-pose';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
-export const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
+const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
 export type WindowKind = (typeof WINDOW_KINDS)[number];
 /** What one pick puts into a house. */
 export type Furnishing = WindowKind | 'door';
