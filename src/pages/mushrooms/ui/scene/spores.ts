@@ -9,8 +9,10 @@ const PUFF_SECONDS = 0.9;
 
 /**
  * A puff of spores from `at`: two rings of dots, the second half a step round
- * from the first, opening to `reach` as they drift up and fade. Each dot is
- * destroyed when its tween ends.
+ * from the first, opening to `reach` as they drift up. They stay opaque and go
+ * by shrinking — a spore fading by alpha takes on whatever is behind it and
+ * reads as a hole in the cap or a bubble in the sky. Each dot is destroyed
+ * when its flight ends.
  */
 export function puffSpores(
   scene: Phaser.Scene,
@@ -31,18 +33,34 @@ export function puffSpores(
         .setStrokeStyle(Math.max(1, reach * 0.012), PALETTE.ink, 0.45)
         .setDepth(depth)
         .setScale(0.6);
+      const duration = PUFF_SECONDS * 1000;
       scene.tweens.add({
         targets: dot,
         x: at.x + Math.cos(angle) * reach * spread,
         // Opening flatter than a circle and drifting up, as a light thing would.
         y: at.y + Math.sin(angle) * reach * spread * 0.6 - reach * 0.35,
-        scale: 1.1,
-        alpha: 0,
-        duration: PUFF_SECONDS * 1000,
+        duration,
         ease: Phaser.Math.Easing.Cubic.Out,
         onComplete: () => {
           dot.destroy();
         },
+      });
+      scene.tweens.chain({
+        targets: dot,
+        tweens: [
+          {
+            scale: 1.1,
+            duration: duration * 0.4,
+            ease: Phaser.Math.Easing.Cubic.Out,
+          },
+          { scale: 1, duration: duration * 0.26 },
+          // The last third, shrunk to nothing.
+          {
+            scale: 0,
+            duration: duration * 0.34,
+            ease: Phaser.Math.Easing.Quadratic.In,
+          },
+        ],
       });
     }
   }
