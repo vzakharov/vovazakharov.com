@@ -158,8 +158,12 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   files, the checks, the commit subject and the reply to post — and
   keeping only their short reports. The skill should brief threads to
   subagents by default, grouped by the files they touch (all of a layout's
-  threads to one), run one after another on the shared tree, never in
-  parallel on one index.
+  threads to one), run one after another on the shared tree. Two groups
+  with disjoint files can run in parallel: bite 4's handling ran the
+  target fix (`game.ts`) beside the door work, each told to `git add` only
+  its own paths, wait out an `index.lock` and merge rather than rebase on a
+  rejected push, and neither collided. Name the other agent's files in each
+  brief as off limits.
 - **A review's open design calls are decided before the brief.** Two
   threads asked the handler to choose. Writing each choice into the plan's
   decisions and committing that first gave the implementing subagent a rule
@@ -349,3 +353,31 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   against the layout computed with the margin at 0. The skill's layout
   checklist should ask which quantities are exactly proportional before
   anything keys stable placement off them.
+- **A fix that retunes a shared constant trades against properties nobody
+  tested.** Bite 4's door fix moved the portrait clump's feet so the back
+  door showed, and in doing so hid up to 96% of the back cap behind the
+  front one. Every test stayed green, because the only cap-over-cap bound
+  skipped the clump pair. The frame agent saw it; a sweep of the back cap
+  against the old and new constants turned it into numbers, and a third
+  tuning met both bounds. The skill should have any handler that moves a
+  layout constant sweep the neighbouring properties (every nearer/farther
+  pair, every tap target, every floor) at the old and new values, and add a
+  test bound for each one the change trades against.
+- **A size floor on an animated thing is checked at its narrowest pose.**
+  The mouse's 28 px floor held at rest and read 27.4 px in the play run,
+  because a tapped mushroom is always selected, and a selected one breathes
+  and beckons. Only reading the drawn size back through the probe caught
+  it. The skill should phrase every floor as "at the narrowest pose the
+  motion model allows", derived from the motion constants, and have the
+  play run read drawn sizes rather than model state.
+- **A subagent's scratch copy of `src/` breaks `pnpm test`.** Copying the
+  mushroom sources to `tmp/clump/` to measure old constants put their
+  `*.test.ts` under the test glob. The brief should say: measure old values
+  by importing the live modules with overrides, or check out the old commit
+  in a `git worktree` outside the repo, never copy test files into the tree.
+- **The operator's questions mid-run are answered, not treated as a stop.**
+  While bite 4's handling ran, the operator asked how to run the game
+  locally and whether ecology and the insects were planned. Answering from
+  the plan in chat, with the subagents still working, cost two short turns
+  and broke nothing. A question is not a contract change, so it goes to the
+  plan only when it changes what is built.
