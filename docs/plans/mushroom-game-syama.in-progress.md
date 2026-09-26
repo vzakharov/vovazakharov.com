@@ -43,6 +43,12 @@ Standing rules for every session in the chain:
   caught ("пятипроцентник зафиксируй и НЕ пополняй, учитывая что все код
   ревью будут НЕ от меня").
 - **Never merge.** `finalize` runs without `and merge`.
+- **`.claude/skills/megabeast/notes.md` is filled at the end of every
+  session, before its relay**: what the session found that would make this
+  loop repeatable and better, toward a future skill ("файлик будущего
+  скилла, который будет это всё автоматизировать (рабочее название
+  megabeast). Не сам скилл, а именно соображения"; "заполнять в конце каждой
+  сессии перед релеем"). It outlives the plan and is not swept.
 - **Stop and ask only for the unrecoverable** — the operator's line is
   "взломать весь интернет, стереть мой локальный диск". Everything else is
   decided, written into this plan as the decision, and carried on.
