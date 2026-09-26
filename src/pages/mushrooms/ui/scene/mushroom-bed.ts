@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Meadow, Planted } from '../../model/game';
-import { type Circle, placedAt } from '../../model/geometry';
+import { placedAt } from '../../model/geometry';
 import { paintedSpots } from '../../model/house';
 import {
   beckon,
@@ -15,7 +15,7 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { mushroomGenes } from '../../model/mushroom-genes';
+import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
@@ -45,16 +45,16 @@ const SHADOW_SPREAD = 0.6;
 /** How much wider the selected mushroom's ring spreads per unit of its squash. */
 const RING_SPREAD = 1.5;
 
+/** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 type Shown = Tapped &
   Lit &
-  Body & {
+  Body &
+  Pick<MushroomGenes, 'spots'> & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
     hit: TapArea;
     /** Its windows and door, which follow it. */
     house: HouseView;
-    /** The spots its house left painted (`paintedSpots`) when it was last drawn. */
-    spots: readonly Circle[];
     plantedAt: number;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
