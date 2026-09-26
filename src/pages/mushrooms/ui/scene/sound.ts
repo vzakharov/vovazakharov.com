@@ -89,6 +89,17 @@ function boing(pitch: number): Voice {
   };
 }
 
+/** A mushroom coming up: a rising bloop, and a pop as the cap opens. */
+const grow: Voice = (context, out) => {
+  tone(context, out, 'sine', [160, 520], 0.4, 0.26);
+  tone(context, out, 'triangle', [640, 900], 0.18, 0.08);
+};
+
+/** A mushroom going back into the ground: a falling slide. */
+const sink: Voice = (context, out) => {
+  tone(context, out, 'sine', [520, 440, 120], 0.45, 0.24);
+};
+
 /** A soft bell on the scale's `step`th note, the same note for the same step. */
 function chime(step: number): Voice {
   const pitch = PENTATONIC[step % PENTATONIC.length] ?? PENTATONIC[0] ?? 440;
@@ -216,6 +227,14 @@ export class MeadowSound {
 
   chime(step: number): void {
     this.play(chime(step));
+  }
+
+  grow(): void {
+    this.play(grow);
+  }
+
+  sink(): void {
+    this.play(sink);
   }
 
   stop(): void {

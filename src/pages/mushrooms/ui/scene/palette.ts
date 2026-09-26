@@ -47,4 +47,9 @@ export const PALETTE = {
   },
   spore: 0xff_f6_d8,
   hud: 0xff_ff_ff,
+  /** The `+` and `−` badges. */
+  grow: 0x4c_b0_4a,
+  shrink: 0xe8_7a_2c,
+  /** The soft light behind a selected mushroom. */
+  glow: 0xff_f2_a0,
 } as const;

@@ -3,7 +3,7 @@ import type * as Phaser from 'phaser';
 import type { Point } from '../../model/geometry';
 import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
-import { nudgeHue } from './colour';
+import { mix, nudgeHue } from './colour';
 import { PALETTE } from './palette';
 import { crescent, fillShape, rounded, sample, strokeShape } from './shapes';
 
@@ -99,24 +99,28 @@ export function drawMushroomShadow(
 /**
  * Paints one mushroom into `graphics`, whose own position is the foot and
  * whose rotation is the lean — so the scene squashes and rocks it from the
- * ground.
+ * ground. `haze`, from 0 to 1, takes every colour toward the sky's, as
+ * distance does.
  */
 export function drawMushroom(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   size: number,
+  haze = 0,
 ): void {
+  const tone = (colour: number) => mix(colour, PALETTE.skyHorizon, haze);
   const ink = Math.max(2, size * 0.014);
+  const inkColour = tone(PALETTE.ink);
   const canvas = toCanvas(size);
   const cap = capFrame(genes);
   const toMushroom = (point: Point) => canvas(cap(point));
-  const red = nudgeHue(PALETTE.capRed, genes.hueNudge);
-  const dark = nudgeHue(PALETTE.capDark, genes.hueNudge);
+  const red = tone(nudgeHue(PALETTE.capRed, genes.hueNudge));
+  const dark = tone(nudgeHue(PALETTE.capDark, genes.hueNudge));
 
   const stem = stemOutline(genes).map((point) => canvas(point));
-  graphics.fillStyle(PALETTE.stem);
+  graphics.fillStyle(tone(PALETTE.stem));
   fillShape(graphics, stem);
-  graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
+  graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA * (1 - haze));
   fillShape(
     graphics,
     crescent(
@@ -125,7 +129,7 @@ export function drawMushroom(
       genes.stemWidth * size * 0.3,
     ),
   );
-  graphics.lineStyle(ink, PALETTE.ink);
+  graphics.lineStyle(ink, inkColour);
   strokeShape(graphics, stem);
 
   const gills = sample(0, Math.PI * 2, CURVE_STEPS, (t) =>
@@ -134,7 +138,7 @@ export function drawMushroom(
       y: Math.sin(t) * genes.capHeight * 0.14,
     }),
   );
-  graphics.fillStyle(PALETTE.gills);
+  graphics.fillStyle(tone(PALETTE.gills));
   fillShape(graphics, gills);
 
   const dome = domeBand(genes, 0).map((point) => toMushroom(point));
@@ -154,7 +158,7 @@ export function drawMushroom(
     );
   }
 
-  graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
+  graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA * (1 - haze));
   fillShape(
     graphics,
     crescent(
@@ -169,9 +173,9 @@ export function drawMushroom(
   for (const spot of genes.spots) {
     const centre = toMushroom(spot);
     const r = spot.r * size;
-    graphics.fillStyle(PALETTE.spot);
+    graphics.fillStyle(tone(PALETTE.spot));
     graphics.fillCircle(centre.x, centre.y, r);
-    graphics.fillStyle(PALETTE.shadeInk, SPOT_SHADE_ALPHA);
+    graphics.fillStyle(PALETTE.shadeInk, SPOT_SHADE_ALPHA * (1 - haze));
     fillShape(
       graphics,
       crescent(
@@ -197,6 +201,6 @@ export function drawMushroom(
     genes.capHeight * size * 0.22,
   );
 
-  graphics.lineStyle(ink, PALETTE.ink);
+  graphics.lineStyle(ink, inkColour);
   strokeShape(graphics, dome);
 }

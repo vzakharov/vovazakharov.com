@@ -3,8 +3,15 @@
  * set every frame from the clock and a resize never interrupts a movement.
  */
 
+import type { Seeded } from './random';
+
 /** A thing's own offset into an idle loop, so no two move in step. */
 export type Phased = { phase: number };
+
+/** A `Phased` phase read off the seed, so it holds across repaints. */
+export function phaseOf({ seed }: Seeded): number {
+  return (seed / 2 ** 32) * Math.PI * 2;
+}
 
 /** How far a mushroom's height swells and settles as it breathes. */
 const BREATH_DEPTH = 0.018;
