@@ -21,8 +21,8 @@ import {
 } from './sky-layout';
 
 /**
- * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and how
- * far toward the sky's haze its colours go, the farthest the palest.
+ * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and
+ * its haze, the farthest slot the palest.
  */
 type Placement = Footing & Hazed & { splay: number };
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */

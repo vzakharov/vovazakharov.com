@@ -39,11 +39,9 @@ function bar(from: Point, angle: number, length: number, width: number): Point[]
 
 /**
  * A mouse's head coming up out of a doorway, in the door's frame (door widths,
- * the sill's middle at the origin, y up), seen only through `opening`: grey,
- * round ears pink inside, a pale snout with a pink nose and whiskers, dark
- * eyes with a shine. Its face turns with `look`, the ears less than the eyes,
- * so the head reads as turning rather than sliding. Every part is clipped to
- * the opening, so the mouse comes from inside rather than over the door.
+ * the sill's middle at the origin, y up). Every part is clipped to `opening`,
+ * so the mouse comes from inside rather than over the door; the ears turn with
+ * `look` less than the eyes, so the head reads as turning rather than sliding.
  */
 export function paintMouse(
   graphics: Phaser.GameObjects.Graphics,

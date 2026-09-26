@@ -73,10 +73,11 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
 - **A relay chain is capped at eight sessions deep.** Bite 3's review
   session (the eighth in the chain) got
   `caller session is at lineage depth 8 (limit 8)` from `create_session`, so
-  the chain stopped and waited on the operator. At two or three sessions a bite, ten bites cannot run as one
-  chain. The skill should count the depth (each relay summary can carry it)
-  and plan for it: fold review handling into the next bite's session, take
-  more than one bite per session where context allows, or, as the last hop
+  the chain stopped and waited on the operator. At two or three sessions a
+  bite, ten bites cannot run as one chain. The skill should count the depth
+  (each relay summary can carry it) and plan for it: fold review handling
+  into the next bite's session, take more than one bite per session where
+  context allows, or, as the last hop
   before the cap, hand over one line for the operator to paste into a fresh
   session. Where Routines are available, a fresh-session Routine may start a
   new lineage; that is worth trying before depth 7.
@@ -146,7 +147,7 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   17 lint errors and failures in four gates (type overlap, knip, Steiger's
   segment names, the skill catalogue) — each a quick fix while the bite was
   still loaded in context, and each a review comment otherwise.
-- **Looking at a canvas page needs its own recipe, and now has one.**
+- **Looking at a canvas page needs its own recipe, committed as a script.**
   `pnpm play:mushrooms` (`scripts/play-mushrooms.ts`, `scripts/lib/cdp.ts`)
   builds a probe export, serves it, drives Chromium over the DevTools
   protocol with Node's own `WebSocket` — no Playwright, as `/preview` keeps

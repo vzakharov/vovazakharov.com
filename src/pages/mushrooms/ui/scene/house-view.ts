@@ -34,12 +34,9 @@ export type Body = WithGraphics &
 
 /**
  * One mushroom's windows and door, in a graphics of their own that takes the
- * mushroom's own pose every frame — position, squash and rock — just in front
- * of it, so they grow, breathe, wobble and sink with it. A new window or door
- * pops in with a puff and a knock; the door opens now and then for its mouse,
- * and at once, with a squeak, when it is tapped. The door is this graphics'
- * hit area and the windows are not, so a tap on a window falls through to
- * the mushroom and one on the door, in front of it, lands here.
+ * mushroom's pose every frame, just in front of it, so they grow, wobble and
+ * sink with it. The door is this graphics' hit area and the windows are not,
+ * so a tap on a window falls through to the mushroom.
  */
 export class HouseView {
   readonly graphics: Phaser.GameObjects.Graphics;
