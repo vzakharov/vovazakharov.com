@@ -250,9 +250,11 @@ export class MushroomBed {
       cap: new Phaser.Geom.Polygon(),
       stem: new Phaser.Geom.Polygon(),
     };
+    // As a config: Phaser reads any other plain object passed here as one,
+    // finds no callback in it and leaves the object hit-testing as `null`.
     const graphics = this.scene.add
       .graphics()
-      .setInteractive(hit, containsMushroom);
+      .setInteractive({ hitArea: hit, hitAreaCallback: containsMushroom });
     const shown: Shown = {
       graphics,
       shadow: this.scene.add.graphics(),
