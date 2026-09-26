@@ -84,6 +84,20 @@ Each note: what happened, and what the skill should do about it.
   the context note above predicted. The skill should plan a review-handling
   session as a whole session, and relay `/go` from it by default.
 
+- **The base-context baseline eats half the budget before the bite starts.**
+  Bite 2's pickup (attach, the relay summary, `/go`, the plan, the slice's
+  source read once) cost ~115k of the 200k warning line before a line was
+  written, and the bite itself fit in the rest only because the quality pass
+  went to a subagent. The skill should read the slice by pointer, not
+  wholesale — the plan's `## Eaten so far` names each module's contract, so
+  a session opens only the files it will edit — and should hand `/polish`,
+  vet triage and frame review to subagents by default, keeping the main
+  context for building.
+- **`tsc -p apps/<site>/tsconfig.json` skips the tests.** It passed while a
+  test had an implicit-`any` index that the root `tsconfig.json` (and vet)
+  rejected. The skill's quick check between commits should be the root
+  project, or just the gates vet runs.
+
 ## Quality levers
 
 - **Spike the engine's risky seam before writing the plan's bite.** Reading
@@ -142,3 +156,19 @@ Each note: what happened, and what the skill should do about it.
   the frame sat next to `syama-drawing.webp`. The skill should have every
   look at a frame put it side by side with the reference it is judged
   against.
+- **Drive motion from the clock, not from tweens, when resize must not
+  interrupt it.** Bite 1 had promised that "tweens survive a rotation"; bite
+  2 found the cleaner contract was to have no long-lived tweens at all —
+  every idle loop and tap reaction is a pure function of time in the model,
+  and the scene's `update` sets it each frame. That made the motion testable
+  under `node:test` and made the resize question disappear. The skill should
+  steer a game's plan toward that shape up front.
+- **Frames caught both of bite 2's visual misses.** Flower heads too small
+  for their stems and a spore puff pale on pale both read fine in code and
+  both were obvious in the first frame. One rebuild-and-reshoot cycle per
+  bite, before vet, is cheap and should be the skill's default.
+- **`type-overlap` is the gate a new creature trips.** A second creature
+  repeats members (`size`, `phase`, `stemBend`, `seed`) that the first
+  declared inline. The skill's bite checklist for "a new kind of thing"
+  should say: name the shared bases first (`Footing`, `Phased`, `Bent`,
+  `Seeded`), then write the types.
