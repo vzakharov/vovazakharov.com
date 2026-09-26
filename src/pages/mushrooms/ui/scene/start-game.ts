@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import { MeadowScene, PIXEL_RATIO_KEY } from './meadow-scene';
+import { PALETTE } from './palette';
 
 /** Past this, a denser buffer costs fill rate without a visible gain. */
 const MAX_PIXEL_RATIO = 3;
@@ -16,7 +17,8 @@ export function startGame(parent: HTMLElement): () => void {
     type: Phaser.AUTO,
     parent,
     transparent: false,
-    backgroundColor: '#000000',
+    // What shows before the first paint: the sky, not black.
+    backgroundColor: PALETTE.skyTop,
     scale: { mode: Phaser.Scale.NONE, width: 1, height: 1 },
     antialias: true,
     scene: [MeadowScene],

@@ -73,11 +73,15 @@ Standing rules for every session in the chain:
   Sound is synthesized with Web Audio, no files.
 - **Phaser 4**, loaded on this route alone: dynamic import inside a
   `'use client'` component's `useEffect`, the game destroyed on unmount.
-  `Scale.RESIZE`, a full-bleed canvas at `100dvh`, `touch-action: none`. No
-  physics engine; tweens and particles carry motion.
+  `Scale.NONE` with the host sizing the buffer in device pixels, since
+  `Scale.RESIZE` sizes it in CSS pixels and blurs every retina tablet; a
+  full-bleed canvas at `100dvh`, `touch-action: none`. No physics engine;
+  tweens and particles carry motion.
 - **A pure model decides, the scene reconciles.** `model/` holds the state, a
   reducer and the generators, all Phaser-free and under `node:test`; the scene
-  diffs states by id and animates the difference. Randomness enters the model
+  diffs states by id and animates the difference. A resize reconciles too: it
+  repaints into the objects already on screen, never destroying one, so a
+  rotation or a collapsing toolbar leaves every tween running. Randomness enters the model
   only as an injected seeded generator, so every test is deterministic.
 - **Made for a six-year-old's hands.** Every target at least ~64 CSS px, taps
   only (no drags, no double taps, no long presses), nothing to lose, nothing
@@ -134,24 +138,37 @@ Standing rules for every session in the chain:
      `between`, `nextSeed`), `geometry.ts` (`Point`, `Circle`),
      `mushroom-genes.ts` (`CAP_KINDS`, `Mushroom`, `mushroomGenes` for all
      four caps, `domeHeight`, `firstMushrooms`).
+   - `model/mushroom-pose.ts`: where a mushroom's parts stand — the stem a
+     quadratic curve bending over by the `stemBend` gene, the cap following
+     its turn, `splayed` for a placement that faces a mushroom one way,
+     `capReach` and `maxReach` for how far a cap gets from its foot. The
+     painter and the layout both read it; `layout.test.ts` runs 2000 visits
+     through it on five screens and holds every opening cap inside
+     `EDGE_MARGIN`, and the sun's glow on screen.
    - `ui/meadow-canvas.tsx` imports `ui/scene/start-game.ts` after mount and
      rethrows a failed load into the error boundary. `start-game.ts` sizes
      the buffer in device pixels itself (Phaser's `RESIZE` would blur a
      retina tablet) and writes the ratio to the registry; the scene's camera
      zooms back to CSS pixels, which `layout.ts` is written in.
-   - `meadow-scene.ts` repaints everything on resize: `paint-backdrop.ts`
-     (sky, the rosette sun, clouds one `Graphics` each so they can drift,
-     two hill ranges, ground and tufts), then one `Graphics` per mushroom,
-     positioned at its foot and rotated by its lean, so a tween can squash
-     it from the ground. `draw-mushroom.ts` paints genes in ink, flat fill,
-     an alpha shade and a shine; `shapes.ts` holds `sample`, `petal`,
-     `fillShape`, `strokeShape`; `palette.ts` every colour.
+   - The opening pair is one clump, as in the drawing: feet close, stems
+     crossing, caps leaning apart in a V (`CLUMP_SPLAY`); stems run longer
+     than the caps are wide, as Syama drew them.
+   - `meadow-scene.ts` repaints on resize into the objects it already has —
+     `paintBackdrop` takes and returns its layers in painting order, the
+     mushrooms are kept by id — so bite 2's tweens survive a rotation.
+     `paint-backdrop.ts` paints the sky, the rosette sun with a many-ringed
+     soft glow, clouds one `Graphics` each so they can drift, two hill
+     ranges, and ground opening on the near hills' shade with tufts along the
+     seam. `draw-mushroom.ts` paints genes in ink, flat fill, tapered shade
+     crescents (spots over the cap's, each with its own) and a shine, the
+     dome sampled by angle and its rim rounded; `shapes.ts` holds `sample`,
+     `petal`, `crescent`, `rounded`, `fillShape`, `strokeShape`;
+     `palette.ts` every colour, the canvas's pre-paint background included.
    - Frames are taken with Playwright from `/opt/node22/lib/node_modules`
-     against `apps/vova/out` served statically (`tmp/preview/shoot.cjs` is
-     the throwaway recipe); Chrome's bare `--screenshot` leaves a false strip
-     at the bottom. Seen and left for the review: the cap's rim corners read
-     angular, the cap shade's inner edge ends in a hard notch, and on a phone
-     the front cap nearly touches the right edge.
+     against `apps/vova/out` served statically, `Math.random` seeded by an
+     init script so two builds compare frame for frame (`tmp/preview/shoot.cjs`
+     is the throwaway recipe); Chrome's bare `--screenshot` leaves a false
+     strip at the bottom.
 
 ## Rest of the elephant
 

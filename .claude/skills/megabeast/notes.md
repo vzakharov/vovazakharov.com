@@ -54,7 +54,7 @@ Each note: what happened, and what the skill should do about it.
   session of bite 1 came up detached at the commit the relay had pushed
   first, with the local branch 12 commits behind `origin`, the session-cost
   hook's commit among them. The skill should have pickup run `git checkout
-  <branch> && git pull --ff-only` every time, and skip only the auto-branch
+<branch> && git pull --ff-only` every time, and skip only the auto-branch
   cleanup.
 - **The context threshold is not measurable from inside a session, and one
   bite already fills it.** The loop says a `/handle` session takes the next
@@ -112,5 +112,5 @@ Each note: what happened, and what the skill should do about it.
 - **A review posts in one call:** build the review JSON (`commit_id`,
   `event: COMMENT`, `comments[]` with `line`/`start_line`, `side: RIGHT`) in
   a script, then `gh api -X POST repos/<o>/<r>/pulls/<n>/reviews --input
-  <file>`. Anchoring on the head commit works even when the bite's last
+<file>`. Anchoring on the head commit works even when the bite's last
   commit is a few commits back, as long as the lines are unchanged.

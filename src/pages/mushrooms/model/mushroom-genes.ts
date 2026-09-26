@@ -29,6 +29,11 @@ export type MushroomGenes = Capped & {
   stemWidth: number;
   /** How much wider the foot is than the top. */
   footBulge: number;
+  /**
+   * How far the stem's top bows sideways from above its foot, as a fraction
+   * of its height: the stem rises upright and bends over, the cap following.
+   */
+  stemBend: number;
   /** The whole mushroom's tilt from upright, the foot staying put. */
   lean: number;
   capWidth: number;
@@ -44,9 +49,10 @@ export type MushroomGenes = Capped & {
 };
 
 export const GENE_RANGES = {
-  stemHeight: [0.42, 0.62],
+  stemHeight: [0.6, 0.9],
   stemWidth: [0.13, 0.19],
   footBulge: [1.1, 1.45],
+  stemBend: [-0.26, 0.26],
   lean: [-0.12, 0.12],
   capWidth: [0.72, 1],
   capHeight: [0.3, 0.42],
@@ -107,6 +113,7 @@ export function mushroomGenes({ seed, cap }: MushroomSeed): MushroomGenes {
     stemHeight: gene('stemHeight'),
     stemWidth: gene('stemWidth'),
     footBulge: gene('footBulge'),
+    stemBend: gene('stemBend'),
     lean: gene('lean'),
     capWidth: gene('capWidth'),
     capHeight: gene('capHeight'),
@@ -119,7 +126,7 @@ export function mushroomGenes({ seed, cap }: MushroomSeed): MushroomGenes {
   return { cap, ...shape, spots };
 }
 
-/** The two fly agarics the meadow opens with, as in the drawing. */
+/** The drawing's two fly agarics, which the meadow opens with and the layout stands as one clump. */
 export function firstMushrooms(random: Random): Mushroom[] {
   return [1, 2].map((n) => ({
     id: `mushroom-${n}`,

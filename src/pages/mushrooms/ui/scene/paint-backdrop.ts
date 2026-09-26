@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
-import type { MeadowLayout } from './layout';
+import { type MeadowLayout, SUN_GLOW_REACH } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal, sample } from './shapes';
 
@@ -10,7 +10,14 @@ const SKY_BANDS = 48;
 const GROUND_BANDS = 12;
 const HILL_STEPS = 64;
 const SUN_RAYS = 16;
+const GLOW_RINGS = 14;
+/** Each glow ring's alpha at the innermost, fading to none at the outermost. */
+const GLOW_ALPHA = 0.05;
+/** The next graphics object to paint into, in painting order. */
+type Layer = () => Phaser.GameObjects.Graphics;
+
 const TUFTS_PER_1000PX = 52;
+const SEAM_TUFTS_PER_1000PX = 40;
 /** Where a hill's shaded lower part begins, as a fraction of its height. */
 const HILL_SHADE_FROM = 0.55;
 
@@ -83,14 +90,20 @@ function fillHills(
  * The sun as a rosette: two rings of rays set half a step apart, then a ring
  * of petals inside the disc — the first of the meadow's mandala ornament.
  */
-function paintSun(scene: Phaser.Scene, { sun }: MeadowLayout): void {
-  const graphics = scene.add.graphics();
-  for (const [scale, alpha] of [
-    [2.8, 0.08],
-    [2.1, 0.14],
-  ] as const) {
-    graphics.fillStyle(PALETTE.sunGlow, alpha);
-    graphics.fillCircle(sun.x, sun.y, sun.r * scale);
+function paintSun(
+  graphics: Phaser.GameObjects.Graphics,
+  { sun }: MeadowLayout,
+): void {
+  // Many faint discs stacked from the outside in, so the glow thickens
+  // toward the sun instead of stopping at an edge.
+  for (let ring = 0; ring < GLOW_RINGS; ring++) {
+    const t = ring / (GLOW_RINGS - 1);
+    graphics.fillStyle(PALETTE.sunGlow, GLOW_ALPHA * t);
+    graphics.fillCircle(
+      sun.x,
+      sun.y,
+      sun.r * (SUN_GLOW_REACH + (1 - SUN_GLOW_REACH) * t),
+    );
   }
   const step = (Math.PI * 2) / SUN_RAYS;
   for (const [offset, reach, width, colour] of [
@@ -125,13 +138,13 @@ function paintSun(scene: Phaser.Scene, { sun }: MeadowLayout): void {
 
 /** One graphics object per cloud, so each can drift on its own. */
 function paintClouds(
-  scene: Phaser.Scene,
+  layer: Layer,
   { clouds }: MeadowLayout,
   random: Random,
 ): void {
   for (const cloud of clouds) {
     const { x, y, r } = cloud;
-    const graphics = scene.add.graphics({ x, y });
+    const graphics = layer().setPosition(x, y);
     const puffs = Array.from({ length: 5 }, (_, index) => ({
       x: (index - 2) * r * between(random, 0.75, 0.95),
       r: r * (index === 2 ? 1 : between(random, 0.55, 0.8)),
@@ -171,23 +184,32 @@ function paintTuft(
 }
 
 function paintGround(
-  scene: Phaser.Scene,
+  graphics: Phaser.GameObjects.Graphics,
   { width, height, groundTop }: MeadowLayout,
   random: Random,
 ): void {
-  const graphics = scene.add.graphics();
+  // Opening on the near hills' shade, so where the hills end there is no step
+  // in colour to draw a line across the screen.
   fillBands(
     graphics,
     width,
     [groundTop, height],
-    [PALETTE.ground, PALETTE.groundDeep],
+    [PALETTE.nearHillShade, PALETTE.groundDeep],
     GROUND_BANDS,
+    0.7,
   );
   const depth = height - groundTop;
   const tufts = Math.round((width / 1000) * TUFTS_PER_1000PX);
-  for (let index = 0; index < tufts; index++) {
-    // Bunched toward the back, where the ground recedes.
-    const y = groundTop + depth * between(random, 0.04, 0.98) ** 1.4;
+  const seamTufts = Math.round((width / 1000) * SEAM_TUFTS_PER_1000PX);
+  for (let index = 0; index < tufts + seamTufts; index++) {
+    // Bunched toward the back, where the ground recedes; the first few line
+    // the seam with the hills, breaking it up.
+    const y =
+      groundTop +
+      depth *
+        (index < seamTufts
+          ? between(random, 0.005, 0.03)
+          : between(random, 0.04, 0.98) ** 1.4);
     // Nearer tufts, lower on the screen, are bigger.
     const nearness = 0.6 + (y - groundTop) / depth;
     paintTuft(graphics, between(random, 0, width), y, nearness * depth * 0.03);
@@ -197,16 +219,25 @@ function paintGround(
 /**
  * Everything behind the mushrooms: sky, sun, clouds, two hill ranges and the
  * ground with its tufts. `random` shapes the clouds, hills and tufts, so the
- * same source repaints the same meadow.
+ * same source repaints the same meadow. It paints into `existing`, in the
+ * order a previous call returned them, and adds only what is missing, so a
+ * repaint keeps the objects — and whatever is moving them.
  */
 export function paintBackdrop(
   scene: Phaser.Scene,
+  existing: readonly Phaser.GameObjects.Graphics[],
   layout: MeadowLayout,
   random: Random,
-): void {
+): Phaser.GameObjects.Graphics[] {
+  const painted: Phaser.GameObjects.Graphics[] = [];
+  const layer: Layer = () => {
+    const graphics = (existing[painted.length] ?? scene.add.graphics()).clear();
+    painted.push(graphics);
+    return graphics;
+  };
   const { width, horizon, nearHills, groundTop } = layout;
   fillBands(
-    scene.add.graphics(),
+    layer(),
     width,
     [0, nearHills],
     [PALETTE.skyTop, PALETTE.skyHorizon],
@@ -214,9 +245,9 @@ export function paintBackdrop(
     // Eased toward the horizon, where a real sky pales fastest.
     1.6,
   );
-  paintSun(scene, layout);
-  paintClouds(scene, layout, random);
-  const hills = scene.add.graphics();
+  paintSun(layer(), layout);
+  paintClouds(layer, layout, random);
+  const hills = layer();
   fillHills(
     hills,
     hillLine(random, width, horizon, (groundTop - horizon) * 0.9),
@@ -234,5 +265,6 @@ export function paintBackdrop(
     groundTop + 2,
     [PALETTE.nearHill, PALETTE.nearHillShade],
   );
-  paintGround(scene, layout, random);
+  paintGround(layer(), layout, random);
+  return painted;
 }

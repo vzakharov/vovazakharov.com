@@ -5,6 +5,7 @@ import {
   type Mushroom,
   mushroomGenes,
 } from '../../model/mushroom-genes';
+import { splayed } from '../../model/mushroom-pose';
 import { mulberry32 } from '../../model/random';
 import { drawMushroom } from './draw-mushroom';
 import { type MeadowLayout, meadowLayout } from './layout';
@@ -14,13 +15,18 @@ import { paintBackdrop } from './paint-backdrop';
 export const PIXEL_RATIO_KEY = 'pixelRatio';
 
 /**
- * The meadow, painted once per viewport size. Everything that varies between
- * visits comes from one seed, so a resize repaints the same meadow rather
- * than a new one.
+ * The meadow. Everything that varies between visits comes from one seed, so a
+ * resize repaints the same meadow rather than a new one — into the objects
+ * already on screen, so whatever is animating them carries on.
  */
 export class MeadowScene extends Phaser.Scene {
   private readonly visitSeed = Math.floor(Math.random() * 2 ** 32);
   private mushrooms: Mushroom[] = [];
+  private backdrop: Phaser.GameObjects.Graphics[] = [];
+  private readonly mushroomGraphics = new Map<
+    string,
+    Phaser.GameObjects.Graphics
+  >();
 
   constructor() {
     super('meadow');
@@ -43,13 +49,17 @@ export class MeadowScene extends Phaser.Scene {
   private readonly paint = (): void => {
     const ratio = Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
     this.cameras.main.setOrigin(0, 0).setZoom(ratio);
-    this.children.removeAll(true);
     const layout = meadowLayout(
       this.scale.width / ratio,
       this.scale.height / ratio,
     );
     // Its own stream, so the backdrop never shifts the mushrooms' seeds.
-    paintBackdrop(this, layout, mulberry32(this.visitSeed ^ 0x5e_ed));
+    this.backdrop = paintBackdrop(
+      this,
+      this.backdrop,
+      layout,
+      mulberry32(this.visitSeed ^ 0x5e_ed),
+    );
     this.paintMushrooms(layout);
   };
 
@@ -57,10 +67,12 @@ export class MeadowScene extends Phaser.Scene {
     for (const [index, mushroom] of this.mushrooms.entries()) {
       const place = mushrooms[index];
       if (!place) continue;
-      const { x, y, size } = place;
-      const genes = mushroomGenes(mushroom);
-      const graphics = this.add.graphics({ x, y });
-      graphics.setRotation(genes.lean);
+      const { x, y, size, splay } = place;
+      const { genes, turn } = splayed(mushroomGenes(mushroom), splay);
+      const graphics =
+        this.mushroomGraphics.get(mushroom.id) ?? this.add.graphics();
+      this.mushroomGraphics.set(mushroom.id, graphics);
+      graphics.clear().setPosition(x, y).setRotation(turn);
       drawMushroom(graphics, genes, size);
     }
   }
