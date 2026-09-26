@@ -71,6 +71,19 @@ Each note: what happened, and what the skill should do about it.
   `gh api -X PATCH repos/<o>/<r>/pulls/<n> -F body=@<file>` works. The skill's
   PR steps should use the REST form directly.
 
+- **The export's authorship label reads the loop's own review as answered.**
+  `/handle` fires its review lane on a thread whose tail is `(human)`, but
+  every review in this loop is an agent's, so all nine threads of bite 1's
+  review came out `@vzakharov (agent)`, the label `/handle` treats as the
+  agent's own reply. This session worked them anyway because the plan's loop
+  says to. The skill should make a loop review recognisable on its own, for
+  example with a marker line the review session writes and `/handle` reads as
+  guidance whatever the label.
+- **Handling one review filled the session.** The nine fixes, their frames,
+  vet and the replies reached the 200k notice before bite 2 could start, as
+  the context note above predicted. The skill should plan a review-handling
+  session as a whole session, and relay `/go` from it by default.
+
 ## Quality levers
 
 - **Spike the engine's risky seam before writing the plan's bite.** Reading
@@ -114,3 +127,18 @@ Each note: what happened, and what the skill should do about it.
   a script, then `gh api -X POST repos/<o>/<r>/pulls/<n>/reviews --input
 <file>`. Anchoring on the head commit works even when the bite's last
   commit is a few commits back, as long as the lines are unchanged.
+- **Seed `Math.random` in the frame recipe.** An init script that swaps
+  `Math.random` for a seeded generator makes a page's visit seed fixed, so a
+  frame before a fix and one after it show the same meadow and differ only by
+  the fix. Without it, every build shoots a different forest and the
+  comparison is by memory.
+- **Turn a review's sweep into a test, then break it on purpose.** The
+  reviewer's 2000-seed edge sweep became `layout.test.ts`. Temporarily
+  removing the size bound failed it on three of five screens, which is how
+  the handling session knew the test tests something. The skill should ask
+  for that mutation check whenever a sweep is kept as a test.
+- **Put the reference next to the frame.** The stems were too short compared
+  with Syama's drawing, and no review comment said so. It only showed once
+  the frame sat next to `syama-drawing.webp`. The skill should have every
+  look at a frame put it side by side with the reference it is judged
+  against.
