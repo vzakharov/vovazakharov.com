@@ -17,13 +17,8 @@ import {
   sample,
 } from './geometry';
 import { domeHeight, type MushroomGenes } from './mushroom-genes';
-import {
-  domeBand,
-  gillsOutline,
-  MUSHROOM_INK,
-  stemHalfWidth,
-} from './mushroom-outline';
-import { capFrame, stemAt, type StemStation } from './mushroom-pose';
+import { capOutlines, MUSHROOM_INK, stemHalfWidth } from './mushroom-outline';
+import { stemAt, type StemStation } from './mushroom-pose';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
 const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
@@ -211,10 +206,7 @@ export function doorStations(genes: MushroomGenes): DoorPlace[] {
       place({ x: corner, y: 0 }).y,
     );
   };
-  const cap = capFrame(genes);
-  const overhead = [domeBand(genes, 0), gillsOutline(genes)].map((outline) =>
-    outline.map((point) => cap(point)),
-  );
+  const overhead = capOutlines(genes);
   const overBox = boxAround(overhead.flat());
   // The whole frame, and `FRAME_MARGIN` round it, clear of the cap.
   const underCap = (door: DoorPlace) => {

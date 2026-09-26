@@ -22,12 +22,11 @@ import {
 } from '../../model/house';
 import { mushroomGenes, type MushroomSeed } from '../../model/mushroom-genes';
 import {
-  domeBand,
-  gillsOutline,
+  capOutlines,
   stemOutline,
   toCanvas,
 } from '../../model/mushroom-outline';
-import { capFrame, type Splayed, splayed } from '../../model/mushroom-pose';
+import { type Splayed, splayed } from '../../model/mushroom-pose';
 import type { MeadowLayout } from './layout';
 
 /** How much of a painted door, and of its doorway, has to show past the mushrooms in front of it. */
@@ -53,15 +52,13 @@ export function standingAt(
   const canvas = toCanvas(place.size);
   const placed = (outline: readonly Point[]) =>
     outline.map((point) => placedAt(place, turn, canvas(point)));
-  const cap = capFrame(genes);
   return {
     depth: place.y,
     genes,
     turn,
     placed,
     drawn: [
-      placed(domeBand(genes, 0).map((point) => cap(point))),
-      placed(gillsOutline(genes).map((point) => cap(point))),
+      ...capOutlines(genes).map((outline) => placed(outline)),
       placed(stemOutline(genes)),
     ],
   };

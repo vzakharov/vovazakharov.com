@@ -16,12 +16,11 @@ import {
 } from './house';
 import { CAP_KINDS, mushroomGenes } from './mushroom-genes';
 import {
+  capOutlines,
   domeBand,
-  gillsOutline,
   MUSHROOM_INK,
   stemOutline,
 } from './mushroom-outline';
-import { capFrame } from './mushroom-pose';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
 const everyMushroom = CAP_KINDS.flatMap((cap) =>
@@ -137,10 +136,7 @@ describe('doorStations', () => {
       for (const [index, door] of stations.slice(1).entries()) {
         assert.ok(door.y > (stations[index]?.y ?? Infinity));
       }
-      const cap = capFrame(genes);
-      const underCap = [domeBand(genes, 0), gillsOutline(genes)].map(
-        (outline) => outline.map((point) => cap(point)),
-      );
+      const underCap = capOutlines(genes);
       const highest = stations.at(-1);
       assert.ok(highest);
       const place = onStem(highest);

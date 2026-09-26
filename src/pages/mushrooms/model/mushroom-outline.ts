@@ -97,6 +97,14 @@ export function gillsOutline(genes: MushroomGenes): Point[] {
   }));
 }
 
+/** The cap's dome and its gills as they are filled, in the mushroom's frame. */
+export function capOutlines(genes: MushroomGenes): [Point[], Point[]] {
+  const cap = capFrame(genes);
+  const inCap = (outline: readonly Point[]) =>
+    outline.map((point) => cap(point));
+  return [inCap(domeBand(genes, 0)), inCap(gillsOutline(genes))];
+}
+
 /**
  * Where a mushroom answers a tap: its dome, gills and stem exactly as they are
  * filled, padded by nothing, not even the ink line round them — the clump's
@@ -104,12 +112,6 @@ export function gillsOutline(genes: MushroomGenes): Point[] {
  * a finger there means.
  */
 export function tapArea(genes: MushroomGenes): TapArea {
-  const cap = capFrame(genes);
-  const inCap = (outline: readonly Point[]) =>
-    outline.map((point) => cap(point));
-  return {
-    cap: inCap(domeBand(genes, 0)),
-    gills: inCap(gillsOutline(genes)),
-    stem: stemOutline(genes),
-  };
+  const [cap, gills] = capOutlines(genes);
+  return { cap, gills, stem: stemOutline(genes) };
 }
