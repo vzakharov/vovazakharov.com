@@ -283,12 +283,14 @@ Standing rules for every session in the chain:
    the tall `▯` — and the door, sharing the top band with the cap picker; a
    pick furnishes the selected mushroom, or the newest, and the picker stays
    open for the next. Windows sit in a row along the cap's lower band, each
-   taking the place of any spot it touches; the door stands at the stem's foot, and now and then it swings
-   open and a mouse looks out, blinks and ducks back. A tap on a door calls
-   the mouse at once with a squeak. What the next bites build on:
+   taking the place of any spot it touches; the door stands at the lowest
+   station on the stem that the mushrooms in front leave in sight
+   (`door-sight.ts`), and now and then it swings open and a mouse looks out,
+   blinks and ducks back. A tap on a door calls the mouse at once with a
+   squeak. What the next bites build on:
    - `model/house.ts`: `WINDOW_KINDS`, `FURNISHINGS`, `House`, `PANE`,
      `windowSlots` (three or five, never four, so a full row balances;
-     centre first, then mirrored pairs, in the cap frame) and `doorPlace`
+     centre first, then mirrored pairs, in the cap frame) and `doorStations`
      (the mushroom frame). `house` lives on `Planted` in `game.ts`, which
      gains `house` (toggles the picker, `Meadow.furnishing`) and `furnish`;
      `canFurnish` is the can-act check. The pickers close each other, and one
