@@ -17,6 +17,7 @@ import {
   LAUNCH_DURATION,
   lookAbout,
   mouseOut,
+  NARROWEST_STANDING,
   peek,
   PEEK_PERIOD,
   peekAfterTap,
@@ -196,6 +197,17 @@ const frames = (from: number, to: number) =>
     { length: Math.round((to - from) / FRAME) },
     (_, index) => from + index * FRAME,
   );
+describe('NARROWEST_STANDING', () => {
+  it('is the narrowest a selected mushroom breathes and beckons to', () => {
+    const lit = { litAt: 0, unlitAt: Infinity };
+    const widths = phases.flatMap((phase) =>
+      frames(0, 60).map((t) => widthFor(breath(t, phase) + beckon(t, lit))),
+    );
+    assert.ok(widths.every((width) => width >= NARROWEST_STANDING - 1e-12));
+    assert.ok(Math.min(...widths) < NARROWEST_STANDING + 1e-3);
+  });
+});
+
 /** When a mouse is more out than in, over two of the longest periods. */
 const outAt = (phase: number) =>
   frames(0, PEEK_PERIOD[1] * 2).filter((t) => peek(t, phase) > 0.5);

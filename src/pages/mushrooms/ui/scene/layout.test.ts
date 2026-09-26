@@ -16,6 +16,7 @@ import {
   onStem,
   paintedDoor,
 } from '../../model/house';
+import { NARROWEST_STANDING } from '../../model/motion';
 import {
   CAP_KINDS,
   GENE_RANGES,
@@ -244,10 +245,11 @@ describe('meadowLayout', () => {
       }
     });
 
-    it(`draws every mouse's head big enough to read on a ${name} screen`, () => {
+    it(`draws every mouse's head big enough to read, its mushroom at its narrowest, on a ${name} screen`, () => {
       for (const { size } of meadowLayout(width, height, 1).mushrooms) {
         for (const { width: door } of DOOR_TRIES) {
-          assert.ok(mouseHead(door * size) >= MOUSE_HEAD_LEAST - 1e-9);
+          const narrowest = mouseHead(door * size) * NARROWEST_STANDING;
+          assert.ok(narrowest >= MOUSE_HEAD_LEAST - 1e-9);
         }
       }
     });

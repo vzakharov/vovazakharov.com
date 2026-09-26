@@ -155,6 +155,13 @@ export function beckon(time: number, { litAt, unlitAt }: Lit): number {
   );
 }
 
+/**
+ * The narrowest an untapped mushroom stands, as a share of its width at rest:
+ * its breath and its beckon at their tallest together. A tap's bounce, which
+ * a door tap does not set off, stretches it narrower for a moment.
+ */
+export const NARROWEST_STANDING = widthFor(BREATH_DEPTH + BECKON_DEPTH);
+
 /** How long a control that cannot act shakes its head, and how many times. */
 export const SHAKE_DURATION = 0.5;
 const SHAKE_SWINGS = 2;

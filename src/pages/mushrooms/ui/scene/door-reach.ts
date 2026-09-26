@@ -6,6 +6,7 @@
 
 import { ellipse, type Point, ROUND_STEPS } from '../../model/geometry';
 import { type DoorPlace, onStem, paintedDoor } from '../../model/house';
+import { NARROWEST_STANDING } from '../../model/motion';
 import { toCanvas } from '../../model/mushroom-outline';
 import { TAP_RADIUS } from './sky-layout';
 
@@ -39,13 +40,17 @@ export const MOUSE_HEAD_LEAST = 28;
 /**
  * How many times over its door's scale the mouse at a door `doorWidth`
  * pixels wide is drawn, so its head is never under `MOUSE_HEAD_LEAST`
- * across: 1 at a door wide enough.
+ * across, even as its mushroom stands at its narrowest (`NARROWEST_STANDING`)
+ * and takes the house with it: 1 at a door wide enough.
  */
 export function mouseScale(doorWidth: number): number {
-  return Math.max(1, MOUSE_HEAD_LEAST / (2 * MOUSE_HEAD_R * doorWidth));
+  return Math.max(
+    1,
+    MOUSE_HEAD_LEAST / (2 * MOUSE_HEAD_R * doorWidth * NARROWEST_STANDING),
+  );
 }
 
-/** How far across, in pixels, the mouse's head is drawn at a door `doorWidth` pixels wide. */
+/** How far across, in pixels, the mouse's head is drawn at a door `doorWidth` pixels wide, its mushroom at rest. */
 export function mouseHead(doorWidth: number): number {
   return 2 * MOUSE_HEAD_R * doorWidth * mouseScale(doorWidth);
 }
