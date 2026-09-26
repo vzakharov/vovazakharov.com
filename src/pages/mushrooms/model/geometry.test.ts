@@ -37,7 +37,9 @@ describe('clipToConvex', () => {
 
   it('keeps a shape inside the opening whole, and nothing of one outside', () => {
     const opening = square(0, 0, 4);
-    assert.ok(Math.abs(area(clipToConvex(square(1, 1, 1), opening)) - 1) < 1e-9);
+    assert.ok(
+      Math.abs(area(clipToConvex(square(1, 1, 1), opening)) - 1) < 1e-9,
+    );
     assert.equal(clipToConvex(square(5, 5, 1), opening).length, 0);
   });
 

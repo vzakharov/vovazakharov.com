@@ -84,7 +84,7 @@ showpiece, any teaching voice.
 ## 7. Pointers
 
 - `docs/plans/mushroom-game-syama.paused.md`: the loop (`## How this elephant
-  is eaten`), the decisions, `## Eaten so far` item 3 with its review
+is eaten`), the decisions, `## Eaten so far` item 3 with its review
   bullets, `## Rest of the elephant` item 4.
 - `pnpm play:mushrooms` (`--no-build` to replay the last probe build): the
   frame and tap recipe; extend its `play` sequence with each bite's

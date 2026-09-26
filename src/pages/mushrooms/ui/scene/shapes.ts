@@ -100,11 +100,7 @@ export type Brush = { ink: number; tone: (colour: number) => number };
 
 const ROUND_STEPS = 28;
 
-export function ellipse(
-  { x, y }: Point,
-  rx: number,
-  ry: number = rx,
-): Point[] {
+export function ellipse({ x, y }: Point, rx: number, ry: number = rx): Point[] {
   return sample(0, Math.PI * 2, ROUND_STEPS, (angle) => ({
     x: x + rx * Math.cos(angle),
     y: y + ry * Math.sin(angle),
@@ -136,4 +132,3 @@ export function arch(width: number, height: number, bottom = 0): Point[] {
     })),
   ];
 }
-

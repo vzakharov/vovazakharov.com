@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { placedAt,type Point } from '../../model/geometry';
+import { placedAt, type Point } from '../../model/geometry';
 import { doorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
@@ -89,7 +89,11 @@ export class HouseView {
       house.windows.length > this.windowsAt.length ||
       (house.door && this.doorAt === undefined);
     const slots = windowSlots(body.genes);
-    for (let index = this.windowsAt.length; index < house.windows.length; index++) {
+    for (
+      let index = this.windowsAt.length;
+      index < house.windows.length;
+      index++
+    ) {
       this.windowsAt.push(at);
       const slot = slots[index];
       if (slot && !opening) this.puff(body, capFrame(body.genes)(slot));

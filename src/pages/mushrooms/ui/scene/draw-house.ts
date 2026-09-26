@@ -10,7 +10,7 @@ import {
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
-import { paintMouse,type Peeking } from './draw-mouse';
+import { paintMouse, type Peeking } from './draw-mouse';
 import { PALETTE } from './palette';
 import {
   arch,
@@ -55,7 +55,14 @@ function paintShine(
   r: number,
   brush: Brush,
 ): void {
-  paint(graphics, place, ellipse(at, r, r * 0.7), PALETTE.windowShine, brush, true);
+  paint(
+    graphics,
+    place,
+    ellipse(at, r, r * 0.7),
+    PALETTE.windowShine,
+    brush,
+    true,
+  );
 }
 
 /** A window's wooden cross, its bars reaching `pane` out from the middle. */
@@ -66,8 +73,22 @@ function paintCross(
   brush: Brush,
 ): void {
   const bar = FRAME * 0.8;
-  paint(graphics, place, box(-pane, -bar / 2, pane, bar / 2), PALETTE.wood, brush, true);
-  paint(graphics, place, box(-bar / 2, -pane, bar / 2, pane), PALETTE.wood, brush, true);
+  paint(
+    graphics,
+    place,
+    box(-pane, -bar / 2, pane, bar / 2),
+    PALETTE.wood,
+    brush,
+    true,
+  );
+  paint(
+    graphics,
+    place,
+    box(-bar / 2, -pane, bar / 2, pane),
+    PALETTE.wood,
+    brush,
+    true,
+  );
 }
 
 /**
@@ -96,16 +117,32 @@ export function paintWindow(
       paint(graphics, place, ellipse(middle, 0.3), PALETTE.windowPane, brush);
       paintShine(graphics, place, { x: -0.1, y: 0.11 }, 0.08, brush);
       // Rivets round the rim, a porthole's.
-      for (const angle of sample(0, Math.PI * 2, 6, (turn) => turn).slice(0, -1)) {
+      for (const angle of sample(0, Math.PI * 2, 6, (turn) => turn).slice(
+        0,
+        -1,
+      )) {
         const at = { x: 0.4 * Math.cos(angle), y: 0.4 * Math.sin(angle) };
-        paint(graphics, place, ellipse(at, 0.035), PALETTE.woodDeep, brush, true);
+        paint(
+          graphics,
+          place,
+          ellipse(at, 0.035),
+          PALETTE.woodDeep,
+          brush,
+          true,
+        );
       }
       return;
     }
     case 'square': {
       const pane = 0.5 - FRAME;
       paint(graphics, place, box(-0.5, -0.5, 0.5, 0.5), PALETTE.wood, brush);
-      paint(graphics, place, box(-pane, -pane, pane, pane), PALETTE.windowPane, brush);
+      paint(
+        graphics,
+        place,
+        box(-pane, -pane, pane, pane),
+        PALETTE.windowPane,
+        brush,
+      );
       paintShine(graphics, place, { x: -0.2, y: 0.2 }, 0.09, brush);
       paintCross(graphics, place, pane, brush);
       return;
@@ -123,7 +160,13 @@ export function paintWindow(
       paintShine(graphics, place, { x: -0.08, y: 0.22 }, 0.07, brush);
       // A sill under it, a little wider than the window.
       const sill = TALL_WIDTH / 2 + 0.07;
-      paint(graphics, place, box(-sill, -0.56, sill, -0.46), PALETTE.woodDeep, brush);
+      paint(
+        graphics,
+        place,
+        box(-sill, -0.56, sill, -0.46),
+        PALETTE.woodDeep,
+        brush,
+      );
       return;
     }
     default: {
@@ -157,15 +200,24 @@ export function paintDoor(
   if (open > 0) inside?.();
   // The leaf, folded towards its hinge as it swings open.
   const fold = 1 - LEAF_FOLD * open;
-  const leafPlace: Place = ({ x, y }) => place({ x: -0.5 + (x + 0.5) * fold, y });
+  const leafPlace: Place = ({ x, y }) =>
+    place({ x: -0.5 + (x + 0.5) * fold, y });
   paint(graphics, leafPlace, arch(1, aspect), PALETTE.wood, brush);
-  graphics.lineStyle(Math.max(1, brush.ink * 0.6), brush.tone(PALETTE.woodDeep));
+  graphics.lineStyle(
+    Math.max(1, brush.ink * 0.6),
+    brush.tone(PALETTE.woodDeep),
+  );
   for (const x of [-1 / 6, 1 / 6]) {
     const line = [
       { x, y: 0.06 },
       { x, y: aspect - 0.5 + Math.sqrt(0.25 - x * x) - 0.08 },
     ].map((point) => leafPlace(point));
-    graphics.lineBetween(line[0]?.x ?? 0, line[0]?.y ?? 0, line[1]?.x ?? 0, line[1]?.y ?? 0);
+    graphics.lineBetween(
+      line[0]?.x ?? 0,
+      line[0]?.y ?? 0,
+      line[1]?.x ?? 0,
+      line[1]?.y ?? 0,
+    );
   }
   paint(
     graphics,
@@ -191,7 +243,8 @@ export function windowPlace(
   const canvas = toCanvas(size);
   const cap = capFrame(genes);
   const side = PANE * grown;
-  return ({ x, y }) => canvas(cap({ x: slot.x + x * side, y: slot.y + y * side }));
+  return ({ x, y }) =>
+    canvas(cap({ x: slot.x + x * side, y: slot.y + y * side }));
 }
 
 /** A door's frame on a mushroom's stem, `grown` of its size round its middle; and its aspect. */

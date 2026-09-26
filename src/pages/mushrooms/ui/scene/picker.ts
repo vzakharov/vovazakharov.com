@@ -104,7 +104,9 @@ export class Picker<Item> {
     const order = [...homes.entries()]
       .toSorted(([, a], [, b]) => away(a) - away(b))
       .map(([index]) => index);
-    const leaving = order.filter((index) => this.buttons[index] !== this.picked);
+    const leaving = order.filter(
+      (index) => this.buttons[index] !== this.picked,
+    );
     for (const [index, button] of this.buttons.entries()) {
       const at = homes[index];
       const item = this.spec.items[index];
@@ -152,5 +154,4 @@ export class Picker<Item> {
       standButton(button, t, at, Math.min(up, going));
     }
   }
-
 }

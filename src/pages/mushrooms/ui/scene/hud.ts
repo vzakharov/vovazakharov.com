@@ -129,7 +129,8 @@ export function drawHouseButton(
     }
     paintDoor(
       graphics,
-      (point) => canvas({ x: point.x * ICON_DOOR_WIDTH, y: point.y * ICON_DOOR_WIDTH }),
+      (point) =>
+        canvas({ x: point.x * ICON_DOOR_WIDTH, y: point.y * ICON_DOOR_WIDTH }),
       DOOR_ASPECT,
       0,
       brush,
@@ -157,7 +158,12 @@ export function drawFurnishButton(
     return;
   }
   const side = r * 1.15;
-  paintWindow(graphics, piece, ({ x, y }) => ({ x: x * side, y: -y * side }), brush);
+  paintWindow(
+    graphics,
+    piece,
+    ({ x, y }) => ({ x: x * side, y: -y * side }),
+    brush,
+  );
 }
 
 /** One of the picker's buttons: a mushroom wearing `cap`. */

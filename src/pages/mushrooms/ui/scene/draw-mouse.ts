@@ -2,13 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { clipToConvex, type Point } from '../../model/geometry';
 import { PALETTE } from './palette';
-import {
-  box,
-  type Brush,
-  ellipse,
-  fillShape,
-  type Place,
-} from './shapes';
+import { box, type Brush, ellipse, fillShape, type Place } from './shapes';
 
 /**
  * A mouse at its door: `out` how far it has come, from 0 (inside) to 1 (its
@@ -25,7 +19,12 @@ const WHISKER_LENGTH = 0.26;
 const WHISKER_WIDTH = 0.018;
 
 /** A thin bar from `from` along `angle`, `length` long: a whisker, or a shut eye. */
-function bar(from: Point, angle: number, length: number, width: number): Point[] {
+function bar(
+  from: Point,
+  angle: number,
+  length: number,
+  width: number,
+): Point[] {
   const along = { x: Math.cos(angle), y: Math.sin(angle) };
   const across = { x: -along.y * (width / 2), y: along.x * (width / 2) };
   const to = { x: from.x + along.x * length, y: from.y + along.y * length };
@@ -55,13 +54,19 @@ export function paintMouse(
   const across = place({ x: 1, y: 0 });
   const unit = Math.hypot(across.x - origin.x, across.y - origin.y) || 1;
   const line = ink / unit;
-  const head = { x: 0.1 + look * 0.05, y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out };
+  const head = {
+    x: 0.1 + look * 0.05,
+    y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out,
+  };
   const faceX = head.x + look * 0.1;
   const fill = (outline: readonly Point[], colour: number) => {
     const seen = clipToConvex(outline, opening);
     if (seen.length < 3) return;
     graphics.fillStyle(tone(colour));
-    fillShape(graphics, seen.map((point) => place(point)));
+    fillShape(
+      graphics,
+      seen.map((point) => place(point)),
+    );
   };
   // Inked by a shape a line wider behind each fill, so a clipped edge shows no ink.
   const inked = (at: Point, rx: number, ry: number, colour: number) => {
@@ -72,7 +77,10 @@ export function paintMouse(
   for (const side of [-1, 1]) {
     const ear = { x: head.x + side * 0.21 + look * 0.03, y: head.y + 0.22 };
     inked(ear, 0.16, 0.16, PALETTE.mouse);
-    fill(ellipse({ x: ear.x + look * 0.02, y: ear.y - 0.01 }, 0.09), PALETTE.mousePink);
+    fill(
+      ellipse({ x: ear.x + look * 0.02, y: ear.y - 0.01 }, 0.09),
+      PALETTE.mousePink,
+    );
   }
   inked(head, HEAD_R, HEAD_R * 0.9, PALETTE.mouse);
   const snout = { x: faceX + look * 0.06, y: head.y - 0.1 };
@@ -89,10 +97,16 @@ export function paintMouse(
   for (const side of [-1, 1]) {
     const eye = { x: faceX + side * 0.1, y: head.y + 0.05 };
     if (shut) {
-      fill(box(eye.x - 0.05, eye.y - 0.01, eye.x + 0.05, eye.y + 0.01), PALETTE.ink);
+      fill(
+        box(eye.x - 0.05, eye.y - 0.01, eye.x + 0.05, eye.y + 0.01),
+        PALETTE.ink,
+      );
       continue;
     }
     fill(ellipse(eye, 0.05, 0.058), PALETTE.mouseEye);
-    fill(ellipse({ x: eye.x + 0.017, y: eye.y + 0.02 }, 0.018), PALETTE.highlight);
+    fill(
+      ellipse({ x: eye.x + 0.017, y: eye.y + 0.02 }, 0.018),
+      PALETTE.highlight,
+    );
   }
 }

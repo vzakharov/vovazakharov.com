@@ -87,9 +87,7 @@ function pickerRow(
   const step = Math.min(r * PICK_ROOMY_SPACING, (span - r * 2) / gaps);
   const first = width / 2 - (step * gaps) / 2;
   const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
-  const y = clearOfMute
-    ? BUTTON_INSET + r
-    : mute.y + mute.r + BUTTON_INSET + r;
+  const y = clearOfMute ? BUTTON_INSET + r : mute.y + mute.r + BUTTON_INSET + r;
   return Array.from({ length: abreast }, (_, index) => ({
     x: first + step * index,
     y,

@@ -145,8 +145,16 @@ export class MushroomBed {
 
   update(t: number): void {
     for (const [id, shown] of this.shown) {
-      const { graphics, shadow, house, plantedAt, goneAt, tappedAt, phase, turn } =
-        shown;
+      const {
+        graphics,
+        shadow,
+        house,
+        plantedAt,
+        goneAt,
+        tappedAt,
+        phase,
+        turn,
+      } = shown;
       const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt));
       if (t - goneAt >= SINK_DURATION) {
         graphics.destroy();

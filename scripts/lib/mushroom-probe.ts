@@ -98,7 +98,9 @@ export const State = z.object({
   picking: z.boolean(),
   furnishing: z.boolean(),
   /** One per mushroom, in the meadow's order. */
-  houses: z.array(z.object({ windows: z.array(z.string()), door: z.boolean() })),
+  houses: z.array(
+    z.object({ windows: z.array(z.string()), door: z.boolean() }),
+  ),
   selected: z.string().nullable(),
   mushrooms: z.array(z.string()),
   muted: z.boolean(),
