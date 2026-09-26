@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-/** A mushroom's tap area: its cap and its stem, apart, so no box round both covers a neighbour. */
+/** A mushroom's tap area: its cap and its stem as two shapes, hugging what is drawn, so it stays off a neighbour close beside it. */
 export type MushroomHit = Record<'cap' | 'stem', Phaser.Geom.Polygon>;
 
 /** Phaser's hit tests, bound for use as an object's hit callback. */

@@ -52,7 +52,7 @@ type ShownFlower = Tapped & {
  */
 export class MeadowScene extends Phaser.Scene {
   private readonly visitSeed = Math.floor(Math.random() * 2 ** 32);
-  /** What the player has made of the meadow; changed only by `dispatch`. */
+  /** What the player has made of the meadow; changed only by `dispatch`, which the screen follows. */
   private meadow: Meadow | undefined;
   /** The seeds each grown mushroom takes, a stream of its own. */
   private readonly growing: Random = mulberry32(this.visitSeed ^ 0x9e_0a);
@@ -146,7 +146,6 @@ export class MeadowScene extends Phaser.Scene {
     }
   }
 
-  /** The one way the meadow's state changes; the screen follows it. */
   private dispatch(action: Action): void {
     if (!this.meadow) return;
     this.meadow = reduce(this.meadow, action);

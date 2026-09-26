@@ -32,8 +32,7 @@ type Button = {
 
 /**
  * The buttons over the meadow: mute, `+` and `−`, and the picker's four caps.
- * Each is drawn by code, presses in when tapped whether or not it can act, and
- * sits above everything at `depth`.
+ * Each presses in when tapped, whether or not it can act.
  */
 export class Controls {
   private readonly mute: Button;
