@@ -45,9 +45,9 @@ export type FlowerGenes = {
 
 export const FLOWER_RANGES = {
   fold: [5, 9],
-  petalLength: [0.2, 0.28],
+  petalLength: [0.3, 0.4],
   petalWidth: [0.32, 0.5],
-  centre: [0.07, 0.1],
+  centre: [0.09, 0.13],
   stemBend: [-0.14, 0.14],
   leafAt: [0.25, 0.5],
 } as const satisfies Record<string, readonly [number, number]>;

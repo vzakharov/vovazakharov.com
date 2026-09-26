@@ -92,9 +92,9 @@ export function drawFlower(
     stem.lineStyle(ink, PALETTE.ink);
     strokeShape(stem, leaf);
   }
-  stem.lineStyle(ink * 2.6, PALETTE.ink);
+  stem.lineStyle(ink * 3.4, PALETTE.ink);
   strokeLine(stem, line);
-  stem.lineStyle(ink * 1.2, PALETTE.flowerStem);
+  stem.lineStyle(ink * 1.8, PALETTE.flowerStem);
   strokeLine(stem, line);
 
   head.clear().setPosition(top.x, top.y);
