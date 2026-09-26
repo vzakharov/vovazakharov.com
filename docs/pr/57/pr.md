@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-26T20:13:08Z
+- **Updated:** 2026-09-26T21:06:07Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -227,9 +227,9 @@ The three that matter most are the hidden door, the door's tap size and the mous
 - **T15** `src/pages/mushrooms/ui/scene/sound.ts`:238 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:28Z — "Done in 47fd58f. A mute fades out over `FADE_SECONDS` and th…" → [↓](#t15)
 - **T16** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-26T15:56:10Z — "Fixed in da50a85, both halves. The call now passes the confi…" → [↓](#t16)
 - **T17** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved — last: @vzakharov (agent) 2026-09-26T16:09:02Z — "Fixed in 87d72d3. The tap area is now built from the outline…" → [↓](#t17)
-- **T18** `src/pages/mushrooms/ui/scene/layout.ts`:103 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
+- **T18** `src/pages/mushrooms/ui/scene/layout.ts`:111 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
 - **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:292 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
-- **T20** `src/pages/mushrooms/ui/scene/layout.ts`:102 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
+- **T20** `src/pages/mushrooms/ui/scene/layout.ts`:110 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
 - **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T17:30:56Z — "The faint glow rings are gone: a selected mushroom now wears…" → [↓](#t21)
 - **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:96 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
 - **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:57Z — "Done in bfcaf78. The picker now closes on the clock as it op…" → [↓](#t23)
@@ -714,7 +714,7 @@ Fixed in 87d72d3. The tap area is now built from the outlines the painter fills:
 
 <a id="t18"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.ts`:103 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.ts`:111 — unresolved
 
 ```diff
 @@ -0,0 +1,387 @@
@@ -768,7 +768,7 @@ Fixed in f1b8bc3, with the sun's rays tightened in 110e977. The + and − now ri
 
 <a id="t20"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.ts`:102 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.ts`:110 — unresolved
 
 ```diff
 @@ -0,0 +1,387 @@
