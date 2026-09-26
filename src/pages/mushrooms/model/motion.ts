@@ -3,6 +3,9 @@
  * set every frame from the clock and a resize never interrupts a movement.
  */
 
+/** A thing's own offset into an idle loop, so no two move in step. */
+export type Phased = { phase: number };
+
 /** How far a mushroom's height swells and settles as it breathes. */
 const BREATH_DEPTH = 0.018;
 const BREATH_PERIOD = 3.4;

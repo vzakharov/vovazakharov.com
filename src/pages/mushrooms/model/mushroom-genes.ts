@@ -1,6 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
-import type { Circle } from './geometry';
+import type { Bent, Circle } from './geometry';
 import {
   between,
   mulberry32,
@@ -27,30 +27,27 @@ export type Mushroom = WithId & MushroomSeed;
  * scene sets per placement, so the same genes paint a near mushroom and a far
  * one. Angles are in radians.
  */
-export type MushroomGenes = Capped & {
-  stemHeight: number;
-  /** The stem's width under the cap. */
-  stemWidth: number;
-  /** How much wider the foot is than the top. */
-  footBulge: number;
-  /**
-   * How far the stem's top bows sideways from above its foot, as a fraction
-   * of its height: the stem rises upright and bends over, the cap following.
-   */
-  stemBend: number;
-  /** The whole mushroom's tilt from upright, the foot staying put. */
-  lean: number;
-  capWidth: number;
-  capHeight: number;
-  /** The dome's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
-  domePower: number;
-  /** A small turn of the cap against the stem. */
-  capTilt: number;
-  /** A shift of the cap's hue, as a fraction of the colour wheel. */
-  hueNudge: number;
-  /** White spots, each centred `y` above the cap's underside. */
-  spots: readonly Circle[];
-};
+/** The cap follows the stem's bend. */
+export type MushroomGenes = Capped &
+  Bent & {
+    stemHeight: number;
+    /** The stem's width under the cap. */
+    stemWidth: number;
+    /** How much wider the foot is than the top. */
+    footBulge: number;
+    /** The whole mushroom's tilt from upright, the foot staying put. */
+    lean: number;
+    capWidth: number;
+    capHeight: number;
+    /** The dome's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
+    domePower: number;
+    /** A small turn of the cap against the stem. */
+    capTilt: number;
+    /** A shift of the cap's hue, as a fraction of the colour wheel. */
+    hueNudge: number;
+    /** White spots, each centred `y` above the cap's underside. */
+    spots: readonly Circle[];
+  };
 
 export const GENE_RANGES = {
   stemHeight: [0.6, 0.9],

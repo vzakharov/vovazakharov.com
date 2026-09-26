@@ -1,5 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
+import type { Bent } from './geometry';
 import {
   between,
   mulberry32,
@@ -25,7 +26,7 @@ export type Flower = WithId & Seeded;
  * Its head is a mandala in miniature: `fold` petals in a ring, and a second
  * ring set half a step round inside the first where `rings` is 2.
  */
-export type FlowerGenes = {
+export type FlowerGenes = Bent & {
   petal: (typeof PETAL_KINDS)[number];
   colour: (typeof FLOWER_COLOURS)[number];
   fold: number;
@@ -36,8 +37,6 @@ export type FlowerGenes = {
   centre: number;
   /** The whole ring's turn, so no two heads line up. */
   twist: number;
-  /** How far the head stands sideways from above the foot. */
-  stemBend: number;
   /** Where along the stem the leaf grows, and to which side. */
   leafAt: number;
   leafSide: -1 | 1;

@@ -13,9 +13,12 @@ import { maxReach } from '../../model/mushroom-pose';
  * Where a mushroom's foot stands, its size — the unit its genes are in — and
  * the `splay` it is stood with (`splayed`).
  */
-type Placement = Point & { size: number; splay: number };
-/** Where a flower's foot stands, and its height to the head. */
-type Planting = Point & { size: number };
+type Placement = Footing & { splay: number };
+/**
+ * Where a thing's foot stands, and its size: the unit its genes are in, a
+ * flower's height to its head.
+ */
+export type Footing = Point & { size: number };
 
 /**
  * Where the flowers grow, as a fraction of the width across and of the ground's
@@ -67,7 +70,7 @@ export type MeadowLayout = Sized & {
   clouds: readonly Circle[];
   /** Back to front, which is the order they are painted in. */
   mushrooms: readonly Placement[];
-  flowers: readonly Planting[];
+  flowers: readonly Footing[];
   mute: Circle;
 };
 

@@ -11,6 +11,7 @@ import {
   bloom,
   breath,
   drift,
+  type Phased,
   sway,
   widthFor,
   wobble,
@@ -22,12 +23,17 @@ import {
   mushroomGenes,
 } from '../../model/mushroom-genes';
 import { capFrame, splayed } from '../../model/mushroom-pose';
-import { mulberry32 } from '../../model/random';
+import { mulberry32, type Seeded } from '../../model/random';
 import { drawFlower } from './draw-flower';
 import { drawMushroom } from './draw-mushroom';
 import { growTufts, paintTufts } from './grass';
 import { drawMuteButton } from './hud';
-import { type MeadowLayout, meadowLayout, TAP_RADIUS } from './layout';
+import {
+  type Footing,
+  type MeadowLayout,
+  meadowLayout,
+  TAP_RADIUS,
+} from './layout';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { MeadowSound, readMuted } from './sound';
 import { puffSpores } from './spores';
@@ -45,10 +51,8 @@ const FLOWER_SWAY = 0.09;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
 
-type PhaseOfParams = { seed: number };
-
 /** A seed's own offset into an idle loop, so no two things move in step. */
-function phaseOf({ seed }: PhaseOfParams): number {
+function phaseOf({ seed }: Seeded): number {
   return (seed / 2 ** 32) * Math.PI * 2;
 }
 
@@ -69,15 +73,15 @@ function containsCircle(area: Phaser.Geom.Circle, x: number, y: number) {
   return Phaser.Geom.Circle.Contains(area, x, y);
 }
 
-type Tapped = { phase: number; tappedAt: number };
+type Tapped = Phased & { tappedAt: number };
 
-type ShownMushroom = Tapped & {
-  graphics: Phaser.GameObjects.Graphics;
-  hit: Phaser.Geom.Rectangle;
-  genes: MushroomGenes;
-  turn: number;
-  size: number;
-};
+type ShownMushroom = Tapped &
+  Pick<Footing, 'size'> & {
+    graphics: Phaser.GameObjects.Graphics;
+    hit: Phaser.Geom.Rectangle;
+    genes: MushroomGenes;
+    turn: number;
+  };
 
 type ShownFlower = Tapped & {
   container: Phaser.GameObjects.Container;

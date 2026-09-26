@@ -1,9 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
-import { sway } from '../../model/motion';
+import { type Phased, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
-import type { MeadowLayout } from './layout';
+import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 
 const TUFTS_PER_1000PX = 52;
@@ -17,7 +16,7 @@ const SWING = 0.35;
  */
 const GUST_LAG = 0.008;
 
-type Tuft = Point & { size: number; phase: number };
+type Tuft = Footing & Phased;
 
 /** Where the grass grows, drawn from `random`, so the same source regrows it. */
 export function growTufts(
