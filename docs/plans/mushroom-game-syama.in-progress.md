@@ -172,8 +172,8 @@ Standing rules for every session in the chain:
 
 2. **The meadow alive, and heard.** Clouds drift, the grass sways in a gust
    seen travelling across it, mushrooms breathe; a tap wobbles a mushroom
-   (squash and stretch that keeps its volume, and a rock) and puffs two rings
-   of spores. Seven seeded flowers (five on a phone) sway and bloom open when
+   (squash and stretch that keeps its volume, and a rock, over about two
+   seconds) and puffs two rings of opaque spores that shrink away. Seven seeded flowers (five on a phone) sway and bloom open when
    tapped, each chiming its own note. A breeze, the odd bird, pop, boing and
    chime are synthesized; a mute pictogram sits top left. What the next bites
    build on:
@@ -187,12 +187,19 @@ Standing rules for every session in the chain:
      loop phase comes from its seed (`phaseOf` in the scene).
    - `model/flower-genes.ts` and `draw-flower.ts`: a flower is a container on
      its foot holding a stem graphics and a head graphics, so sway turns the
-     container and bloom scales the head. `colour.ts` holds `mix` and
+     container and bloom scales the head. `meadowLayout` takes the visit seed and
+     places flowers by it: each jittered off a slot by its own stream (so a
+     resize keeps it), kept only where `clearOfFeet` holds, sized off the
+     clump's unit so a flower is always shorter than a stem — bite 6's bees
+     plant through the same check. A mushroom's shadow is its own graphics,
+     never rotated. `colour.ts` holds `mix` and
      `nudgeHue`; `grass.ts` grows the tufts once per paint and redraws them
      each frame; `spores.ts` puffs; `hud.ts` draws the mute button.
    - `sound.ts`: `MeadowSound`, built on the first tap's release (a browser's
      activation rule) and playing then whatever was asked before it; the
-     scene's field is `voice`, since `Phaser.Scene` owns `sound`. The mute is
+     scene's field is `voice`, since `Phaser.Scene` owns `sound`. A mute suspends
+     the whole synth once faded, and `settle()` keeps it suspended while muted
+     or hidden. The mute is
      remembered in `localStorage` and falls back to unmuted where storage
      throws — the one silent fallback in the game, awaiting the operator's
      approval on the PR.
