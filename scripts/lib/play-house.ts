@@ -1,8 +1,9 @@
 /**
  * The house's part of `play-mushrooms.ts`'s tap sequence, played on the
  * opening clump: the house picker opened, every window and the door put in, a
- * full row and a second door each shaking their heads and changing nothing, a
- * tap on a door calling its mouse out, and the two pickers closing each other.
+ * full row and a second door each shaking their heads and changing nothing,
+ * a door on each mushroom, a tap on each door — the back one too — calling its
+ * mouse out at a readable size, and the two pickers closing each other.
  */
 
 import { z } from 'zod';
@@ -13,6 +14,7 @@ import {
   type Page,
   Point,
   State,
+  Top,
 } from './mushroom-probe.ts';
 
 /** The house picker's buttons, in `FURNISHINGS`' order. */
@@ -22,6 +24,8 @@ const DOOR = PIECES.indexOf('door');
 const MOST_TAPS = 8;
 /** Frames for a pop to settle, and for a shake to be seen. */
 const SETTLE = 45;
+/** The least a mouse's head is drawn across, in CSS px: `MOUSE_HEAD_LEAST` in `ui/scene/door-reach.ts`. */
+const MOUSE_HEAD_LEAST = 28;
 
 type Expect = (holds: boolean, message: string) => void;
 
@@ -40,6 +44,7 @@ export async function playHouse(
   page: Page,
   controls: z.infer<typeof Controls>,
   expect: Expect,
+  note: (line: string) => void,
 ): Promise<void> {
   const state = async () => page.evaluate('__probe.state()', State);
   const tapPiece = async (index: number) => {
@@ -109,11 +114,16 @@ export async function playHouse(
   await page.step(SETTLE);
   await page.shoot('h2-furnished');
 
-  // Whatever the full row left out goes into the other mushroom, selected.
-  if (left.length > 0 && older !== undefined) {
-    await page.tap(
-      await page.evaluate(`__probe.mushroom(${JSON.stringify(older)})`, Point),
+  // Whatever the full row left out goes into the other mushroom, selected,
+  // and a door, so the clump has a door behind a stem as well as in front.
+  if (older !== undefined) {
+    const at = await page.evaluate(
+      `__probe.mushroom(${JSON.stringify(older)})`,
+      Point.nullable(),
     );
+    if (at === null)
+      expect(false, "no tap on the other mushroom's cap reaches it");
+    else await page.tap(at);
     await page.step(6);
     expect(
       (await state()).selected === older && (await state()).furnishing,
@@ -131,25 +141,62 @@ export async function playHouse(
     await page.shoot('h2b-both-furnished');
   }
 
-  if (newest !== undefined) {
+  // Each door tapped at its middle on screen, back one first: a tap there
+  // must reach the door by the scene's own hit test, not the stem before it.
+  const doors = await Promise.all(
+    [older, newest]
+      .filter((id) => id !== undefined)
+      .map(async (id) => ({
+        id,
+        depth: await page.evaluate(
+          `__probe.depth(${JSON.stringify(id)})`,
+          z.number(),
+        ),
+      })),
+  );
+  const byDepth = doors.toSorted((a, b) => a.depth - b.depth);
+  await inTurn(byDepth, async ({ id }) => {
+    const side = id === byDepth.at(-1)?.id ? 'front' : 'back';
     const { selected } = await state();
-    await page.tap(
-      await page.evaluate(`__probe.door(${JSON.stringify(newest)})`, Point),
+    const at = await page.evaluate(
+      `__probe.door(${JSON.stringify(id)})`,
+      Point.nullable(),
     );
+    if (at === null) {
+      expect(false, `the ${side} door is not painted`);
+      return;
+    }
+    const top = await page.evaluate(
+      `__probe.topAt(${JSON.stringify(at)})`,
+      Top,
+    );
+    expect(
+      top === `door:${id}`,
+      `a tap on the ${side} door's middle reaches ${String(top)}`,
+    );
+    await page.tap(at);
     await page.step(24);
     const mouse = await page.evaluate(
-      `__probe.mouse(${JSON.stringify(newest)})`,
+      `__probe.mouse(${JSON.stringify(id)})`,
       Mouse,
     );
     const now = await state();
     expect(
       mouse.tappedAt !== null && now.clock - mouse.tappedAt < 1,
-      'a tap on a door did not call its mouse',
+      `a tap on the ${side} door did not call its mouse`,
     );
-    expect(mouse.out > 0.9, `the mouse is only ${mouse.out.toFixed(2)} out`);
+    expect(
+      mouse.out > 0.9,
+      `the ${side} mouse is only ${mouse.out.toFixed(2)} out`,
+    );
+    expect(
+      mouse.head >= MOUSE_HEAD_LEAST,
+      `the ${side} mouse's head is drawn ${mouse.head.toFixed(1)} px across`,
+    );
     expect(now.selected === selected, 'a tap on a door changed the selection');
-    await page.shoot('h3-mouse');
-  }
+    note(`${side} mouse's head ${mouse.head.toFixed(1)} px`);
+    await page.shoot(`h3-mouse-${side}`);
+  });
 
   await page.tap(controls.plus);
   await page.step(12);

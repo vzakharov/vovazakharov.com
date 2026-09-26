@@ -31,6 +31,7 @@ import {
   Flower,
   type Page,
   Point,
+  Pose,
   PROBE,
   seededRandom,
   State,
@@ -219,6 +220,7 @@ async function open(
 async function play(
   page: Page,
   fail: (message: string) => void,
+  note: (line: string) => void,
 ): Promise<void> {
   const state = async () => page.evaluate('__probe.state()', State);
   const expect = (holds: boolean, message: string) => {
@@ -228,7 +230,7 @@ async function play(
   await page.step(30);
   await page.shoot('0-open');
   const opening = await state();
-  await playHouse(page, controls, expect);
+  await playHouse(page, controls, expect, note);
 
   await page.tap(controls.plus);
   await page.step(30);
@@ -255,9 +257,13 @@ async function play(
 
   const [target] = opening.mushrooms;
   if (target !== undefined) {
-    await page.tap(
-      await page.evaluate(`__probe.mushroom(${JSON.stringify(target)})`, Point),
+    const at = await page.evaluate(
+      `__probe.mushroom(${JSON.stringify(target)})`,
+      Point.nullable(),
     );
+    if (at === null)
+      expect(false, "no tap on the mushroom to select's cap reaches it");
+    else await page.tap(at);
   }
   await page.step(30);
   expect(
@@ -266,8 +272,28 @@ async function play(
   );
   await page.shoot('3-selected');
 
+  // The selected mushroom is furnished, so its house sinks with it.
+  expect(
+    grown.houses[grown.mushrooms.indexOf(target ?? '')]?.door === true,
+    'the mushroom to sink has no house',
+  );
   await page.tap(controls.minus);
-  await page.step(90);
+  // Some 0.33 s into its 0.45 s sink, at about half its height.
+  await page.step(20);
+  const pose = await page.evaluate(
+    `__probe.pose(${JSON.stringify(target)})`,
+    Pose,
+  );
+  expect(
+    pose !== null &&
+      pose.shown &&
+      pose.mushroom > 0 &&
+      pose.mushroom < 1 &&
+      pose.house === pose.mushroom,
+    `mid-sink, the house does not sink with its mushroom: ${JSON.stringify(pose)}`,
+  );
+  await page.shoot('4a-sinking');
+  await page.step(70);
   const thinned = await state();
   expect(
     !thinned.mushrooms.includes(target ?? '') &&
@@ -356,9 +382,15 @@ async function main(): Promise<void> {
   ]: readonly Screen[]): Promise<void> => {
     if (screen === undefined) return;
     const page = await open(browser, origin, screen, errors);
-    await play(page, (message) => {
-      failures.push(`${screen.name}: ${message}`);
-    });
+    await play(
+      page,
+      (message) => {
+        failures.push(`${screen.name}: ${message}`);
+      },
+      (line) => {
+        process.stdout.write(`${screen.name}: ${line}\n`);
+      },
+    );
     process.stdout.write(`${screen.name}: played\n`);
     return playFrom(rest);
   };

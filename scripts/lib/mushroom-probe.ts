@@ -33,6 +33,54 @@ export const PROBE = `(() => {
     const y = points.reduce((sum, point) => sum + point.y, 0) / points.length;
     return graphics.getWorldTransformMatrix().transformPoint(x, y, {});
   };
+  /**
+   * What a tap at a point on screen reaches, by the scene's own hit test and
+   * its topmost-only rule: \`door:<id>\`, \`mushroom:<id>\`, \`other\`, or
+   * \`null\` for the bare meadow.
+   */
+  const topAt = ({ x, y }) => {
+    const pointer = { x: scene.scale.transformX(x), y: scene.scale.transformY(y) };
+    const [top] = scene.input.sortGameObjects(
+      [...scene.input.hitTestPointer(pointer)],
+      pointer,
+    );
+    if (!top) return null;
+    for (const [id, shown] of scene.bed.shown) {
+      if (top === shown.house.graphics) return 'door:' + id;
+      if (top === shown.graphics) return 'mushroom:' + id;
+    }
+    return 'other';
+  };
+  /**
+   * Of a grid over \`points\`' box, in \`graphics\`' frame, the point on
+   * screen nearest their middle whose tap reaches \`label\` (\`topAt\`):
+   * where the thing shows, however much of it stands behind something else.
+   * \`null\` where none does.
+   */
+  const reaching = (graphics, points, label) => {
+    const middle = onScreen(graphics, points);
+    const xs = points.map(({ x }) => x);
+    const ys = points.map(({ y }) => y);
+    const [left, right] = [Math.min(...xs), Math.max(...xs)];
+    const [top, bottom] = [Math.min(...ys), Math.max(...ys)];
+    const matrix = graphics.getWorldTransformMatrix();
+    const grid = [];
+    for (let i = 0; i <= 16; i++) {
+      for (let j = 0; j <= 16; j++) {
+        const { x, y } = matrix.transformPoint(
+          left + ((right - left) * i) / 16,
+          top + ((bottom - top) * j) / 16,
+          {},
+        );
+        grid.push({ x, y });
+      }
+    }
+    const away = ({ x, y }) => Math.hypot(x - middle.x, y - middle.y);
+    const [nearest] = grid
+      .filter((point) => topAt(point) === label)
+      .sort((a, b) => away(a) - away(b));
+    return nearest ?? null;
+  };
   window.__probe = {
     scene,
     state: () => ({
@@ -55,15 +103,28 @@ export const PROBE = `(() => {
       house: centre(scene.layout.house),
       housePicker: scene.layout.housePicker.map(centre),
     }),
-    /** The middle of a mushroom's cap as its hit area has it, on screen. */
+    /** Where a tap selects a mushroom, as near its cap's middle as its cap shows (\`reaching\`). */
     mushroom: (id) => {
       const shown = scene.bed.shown.get(id);
-      return onScreen(shown.graphics, shown.hit.cap);
+      return reaching(shown.graphics, shown.hit.cap, 'mushroom:' + id);
     },
-    /** The middle of a mushroom's door as its hit area has it, on screen. */
+    /** The middle of a mushroom's door as its hit area has it, on screen: \`null\` with no door painted. */
     door: (id) => {
       const { house } = scene.bed.shown.get(id);
-      return onScreen(house.graphics, house.hit);
+      return house.hit.length === 0 ? null : onScreen(house.graphics, house.hit);
+    },
+    topAt,
+    /** A mushroom's depth: the higher, the nearer the front. */
+    depth: (id) => scene.bed.shown.get(id).graphics.depth,
+    /** A mushroom's height scale and its house's, \`null\` once it has sunk away. */
+    pose: (id) => {
+      const shown = scene.bed.shown.get(id);
+      if (!shown) return null;
+      return {
+        mushroom: shown.graphics.scaleY,
+        house: shown.house.graphics.scaleY,
+        shown: shown.house.graphics.visible,
+      };
     },
     /** A mushroom's mouse: when a tap on its door called it, how far out it is, and how far across its head is drawn. */
     mouse: (id) => {
@@ -125,6 +186,10 @@ export const Mouse = z.object({
   /** In CSS px, as painted at the last frame: 0 with no door. */
   head: z.number(),
 });
+export const Top = z.string().nullable();
+export const Pose = z
+  .object({ mushroom: z.number(), house: z.number(), shown: z.boolean() })
+  .nullable();
 export const Flower = Point.extend({ id: z.string() }).nullable();
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
