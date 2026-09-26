@@ -57,6 +57,13 @@ Standing rules for every session in the chain:
 - **Stop and ask only for the unrecoverable** — the operator's line is
   "взломать весь интернет, стереть мой локальный диск". Everything else is
   decided, written into this plan as the decision, and carried on.
+- **Every bite ends by committing the frames worth showing** — picked from
+  `tmp/play/`, not the whole run — to
+  `docs/remove-before-merging/frames/bite-<n>/`, so the operator can look in
+  on them between bites ("хранить всякие скриншоты в remove-before-merging
+  вместо tmp, хочу периодически на них посматривать"; "в конце каждого куска
+  выбирать те что достойны показать"). A handled review's fixes count as
+  their bite's, and land in the same directory. `/finalize` sweeps it.
 - **The result is also an Artifact** (last bite), and its link is posted on
   the PR, so the operator can open it the moment they are back.
 
