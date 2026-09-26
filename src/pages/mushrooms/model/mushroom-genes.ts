@@ -126,7 +126,10 @@ export function mushroomGenes({ seed, cap }: MushroomSeed): MushroomGenes {
   return { cap, ...shape, spots };
 }
 
-/** The drawing's two fly agarics, which the meadow opens with and the layout stands as one clump. */
+/**
+ * The drawing's two fly agarics, which the meadow opens with and the layout
+ * stands as one clump.
+ */
 export function firstMushrooms(random: Random): Mushroom[] {
   return [1, 2].map((n) => ({
     id: `mushroom-${n}`,

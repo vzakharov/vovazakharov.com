@@ -34,8 +34,7 @@ function turn({ x, y }: Point, angle: number): Point {
 
 /**
  * The centreline is a quadratic curve that leaves the foot upright and ends
- * `stemBend` of its height to the side, so the stem bows over rather than
- * tilting as a rod.
+ * `stemBend` of its height to the side.
  */
 export function stemAt(genes: Posed, t: number): StemStation {
   const height = genes.stemHeight;

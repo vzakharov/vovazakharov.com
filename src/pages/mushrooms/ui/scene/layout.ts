@@ -11,8 +11,7 @@ import { maxReach } from '../../model/mushroom-pose';
 
 /**
  * Where a mushroom's foot stands, its size — the unit its genes are in — and
- * how far the placement turns it beyond its own lean. A non-zero `splay` also
- * faces the mushroom toward its sign, as a clump's mushrooms grow apart.
+ * the `splay` it is stood with (`splayed`).
  */
 type Placement = Point & { size: number; splay: number };
 
@@ -64,8 +63,7 @@ export function meadowLayout(width: number, height: number): MeadowLayout {
       side: 1,
     },
   ] as const;
-  // No gene can carry a cap past `maxReach` of its size from its foot, so a
-  // size held under it keeps every mushroom this layout places on screen.
+  // A size held under `maxReach` keeps every cap on screen, whatever its genes.
   const reach = maxReach(CLUMP_SPLAY);
   const fits = Math.min(
     ...feet.map(({ x, scale, side }) => {

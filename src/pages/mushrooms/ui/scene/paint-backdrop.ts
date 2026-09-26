@@ -95,7 +95,7 @@ function paintSun(
   { sun }: MeadowLayout,
 ): void {
   // Many faint discs stacked from the outside in, so the glow thickens
-  // toward the sun instead of stopping at an edge.
+  // toward the sun with no edge of its own.
   for (let ring = 0; ring < GLOW_RINGS; ring++) {
     const t = ring / (GLOW_RINGS - 1);
     graphics.fillStyle(PALETTE.sunGlow, GLOW_ALPHA * t);
