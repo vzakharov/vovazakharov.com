@@ -85,6 +85,29 @@ Standing rules for every session in the chain:
   hills and scale. Checked by frames, not by reading code: each bite ends
   with `/preview` screenshots and a scripted tap sequence captured frame by
   frame at tablet and phone sizes.
+- **The meadow is a small ecosystem — the twist.** The operator asked for
+  one: "не должна быть прямо competitive игра, но какие-то экологические
+  штучки должны прослеживаться -- взаимодействия разных сущностей в природе и
+  с самой природой". So each creature wants something from the meadow and
+  gives something back, and a child sees the cause and its effect without a
+  word: bees carry pollen from flower to flower and a new flower opens where
+  they have been; butterflies drink from flowers and rest on caps; flies are
+  drawn to the fly agarics; rain, from a tapped cloud, closes the flowers,
+  sends the insects under the caps and makes the mushrooms swell, and once it
+  stops, spores an old mushroom shed sprout into little ones and a rainbow
+  comes out; at dusk the mice come out and the fireflies wake. **Shown,
+  never taught** ("это не должно быть в виде назойливого научения, всё
+  должно быть перед глазами, а не на объяснениях"): no hint, arrow, counter,
+  reward or lesson points at a rule — each is simply what happens in plain
+  sight, slow enough to be noticed and left to be discovered. Nothing
+  starves, dies or is lost — the meadow only ever gets fuller and livelier,
+  within the caps the layout sets. These rules are the model's, so they are
+  tested like the rest: a `tick` in the reducer, driven by the scene's clock.
+- **No module past ~450 lines** (CLAUDE.md § "Key principles"; the operator
+  repeated it: "помни чтобы не было слишком больших (>450 строк) модулей").
+  The scene is the one that would grow, so painting splits by layer
+  (`paint-backdrop.ts`, one `draw-*.ts` per creature) and behaviour by
+  creature, the scene class only orchestrating.
 - **`palette.ts` is the one file on the site holding colour literals.** A
   canvas is out of the CSS tokens' reach; `.claude/rules/styling.md`
   § Colours says so in one sentence scoped to that path.
@@ -136,7 +159,9 @@ the insects.
 
 2. **The meadow alive, and heard.** Idle motion: clouds drift, grass sways,
    mushrooms breathe. A tap on a mushroom wobbles it (squash and stretch) and
-   puffs spores. `ui/scene/sound.ts`: a Web Audio synth, started on the first
+   puffs spores. Flowers join the meadow — `model/flower-genes.ts` and
+   `draw-flower.ts`, a few kinds of petal, each seeded — swaying, opening a
+   little wider when tapped. `ui/scene/sound.ts`: a Web Audio synth, started on the first
    tap (autoplay policy), with pop, boing and a soft ambient bed; a mute
    pictogram remembered in `localStorage`.
 3. **More mushrooms: `+`, the cap picker, `−`, a forest.** `model/game.ts`
@@ -152,22 +177,34 @@ the insects.
    peeks out of a door now and then.
 5. **The butterfly.** `model/insect-genes.ts` (body, two wing pairs, pattern,
    colour nudge), `draw-insect.ts`, the button; a press flies one in from
-   off-screen along a curve, wings beating, and it settles on a mushroom with
-   a bob, opening and closing its wings at rest. Tap one and it flutters to
-   another mushroom. Insects on a removed mushroom fly off.
+   off-screen along a curve, wings beating, and it goes between flowers and
+   caps, drinking at a flower and resting on a cap with a bob, opening and
+   closing its wings. Tap one and it flutters on. Insects on a removed
+   mushroom fly off. `model/game.ts` gains `tick`, which carries what each
+   creature wants next.
 6. **The fly and the bee.** The same generator family; fast small flights,
-   jitters and hops at rest, a buzz each; an oldest-leaves limit.
+   jitters and hops at rest, a buzz each; an oldest-leaves limit. The fly is
+   drawn to the fly agarics. The bee visits flower after flower, a speck of
+   pollen on it after each, and a new flower opens near the ones it has
+   pollinated, up to the layout's cap on flowers.
 
    — **MPP** —
 
-7. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows glowing,
-   fireflies.
-8. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+7. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
+   splash on caps and ground, with its own sound. While it rains, flowers
+   close, insects shelter under the nearest cap, and mushrooms swell a
+   little. When it stops, the sun comes back with a rainbow, and spores an
+   old mushroom shed sprout into little mushrooms that grow over the next
+   minutes, within the forest's cap.
+8. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows glowing,
+   fireflies waking, mice coming out of their doors, butterflies folded on
+   the caps and flowers closed for the night.
+9. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
    (idle loops off, short tweens without overshoot); a visually hidden row of
    HTML buttons beside the canvas dispatching the same actions, for
    assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
    carries side projects, none otherwise.
-9. **The artifact.** A single self-contained HTML of the game — esbuild over
+10. **The artifact.** A single self-contained HTML of the game — esbuild over
    the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built under `tmp/`
    and not committed — published with the Artifact tool, its link posted on
    the PR. Then `/relay /finalize`.
