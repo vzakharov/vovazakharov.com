@@ -35,7 +35,7 @@ Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-
   that the stations rise from a sill 0.018–0.030 above the ground to a frame clear of
   the dome and gills.
 
-## Measured (`sweep-door.ts` here, `npx tsx` from the repo root, ~40 s per screen set)
+## Measured (by `sweep-door.ts`, since removed: `door-sight.ts` supersedes it)
 
 The best door height on the back stem shows ≥80% of the door on this share of visits:
 
