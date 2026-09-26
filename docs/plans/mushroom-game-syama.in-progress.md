@@ -176,11 +176,9 @@ Standing rules for every session in the chain:
      dome sampled by angle and its rim rounded; `shapes.ts` holds `sample`,
      `petal`, `crescent`, `rounded`, `fillShape`, `strokeShape`;
      `palette.ts` every colour, the canvas's pre-paint background included.
-   - Frames are taken with Playwright from `/opt/node22/lib/node_modules`
-     against `apps/vova/out` served statically, `Math.random` seeded by an
-     init script so two builds compare frame for frame (`tmp/preview/shoot.cjs`
-     is the throwaway recipe); Chrome's bare `--screenshot` leaves a false
-     strip at the bottom.
+   - Frames come from `pnpm play:mushrooms` (below), with `Math.random`
+     seeded so two builds compare frame for frame; Chrome's bare
+     `--screenshot` leaves a false strip at the bottom of a canvas page.
 
 2. **The meadow alive, and heard.** Clouds drift, the grass sways in a gust
    seen travelling across it, mushrooms breathe; a tap wobbles a mushroom
@@ -248,6 +246,26 @@ Standing rules for every session in the chain:
      `drawMushroom` over fixed upright genes; `hit-areas.ts` holds the hit
      tests. The scene orchestrates, the flowers and the backdrop still its
      own.
+   - A mushroom's tap area is exactly what is drawn — cap, gills and stem,
+     unpadded — built in `model/mushroom-outline.ts`, which the painter reads
+     too; the front-most drawn part takes the tap, held by a clump sweep in
+     `layout.test.ts`. `setInteractive` takes a non-geometry hit area only in
+     its config form: Phaser reads any other plain object as a config.
+   - Every slot's size is floored so its narrowest cap is `2 × TAP_RADIUS`
+     wide; the controls and the sun (`sky-layout.ts`) stand clear of every
+     slot's tap area; no cap is more than ~25% covered by a nearer one. Each
+     is a 2000-visit sweep on every screen, phone landscape included.
+   - `−` with nothing selected sinks the newest mushroom; a control that
+     cannot act shakes its head (`shake`) with a "nuh-uh". The picker unfolds
+     from `+` and folds back into it on the clock; `remove` and a flower tap
+     close it, a flower tap counting as a tap on the meadow. The selected
+     mushroom carries a traced outline that follows it (`beckon`); buttons
+     are opaque discs.
+   - `pnpm play:mushrooms` builds a probe export (`NEXT_PUBLIC_MUSHROOM_PROBE`
+     hands the game to the page), plays every control on four screens over
+     the DevTools protocol, stepping the sleeping loop, and fails on any page
+     error or wrong effect; frames land in `tmp/play/`. Every bite's last
+     frames come from it, after its last source commit.
 
 ## Rest of the elephant
 
