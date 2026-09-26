@@ -15,6 +15,8 @@ export const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
 export type WindowKind = (typeof WINDOW_KINDS)[number];
 /** What one pick puts into a house. */
 export type Furnishing = WindowKind | 'door';
+/** Every pick the house picker offers, in the order it shows them: the windows, then the door. */
+export const FURNISHINGS: readonly Furnishing[] = [...WINDOW_KINDS, 'door'];
 
 export type House = {
   /** In the order they were picked, each going into the next of `windowSlots`. */
@@ -29,7 +31,7 @@ export const EMPTY_HOUSE: House = { windows: [], door: false };
  * The side of the square every window is drawn inside, whatever its kind: a
  * tall window takes the square's height and less of its width.
  */
-export const PANE = 0.085;
+export const PANE = 0.1;
 /** From one window's middle to the next's: a pane's width of cap between them. */
 const SLOT_PITCH = PANE * 2;
 /** How high the row's middle stands, as a fraction of the cap's height. */
@@ -69,9 +71,9 @@ export function windowSlots(
 }
 
 /** A door's width, as a fraction of the stem's width at its foot. */
-const DOOR_WIDTH = 0.55;
+const DOOR_WIDTH = 0.7;
 /** A door's height over its width: an arched door, taller than wide. */
-const DOOR_ASPECT = 1.45;
+export const DOOR_ASPECT = 1.45;
 /** How far the door's sill stands above the ground. */
 const DOOR_SILL = 0.012;
 const RISE_STEP = 0.005;

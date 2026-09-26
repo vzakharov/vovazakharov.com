@@ -9,6 +9,7 @@ import {
   type Point,
   sample,
 } from '../../model/geometry';
+import { FURNISHINGS } from '../../model/house';
 import {
   CAP_KINDS,
   GENE_RANGES,
@@ -36,6 +37,9 @@ import {
   tapReach,
 } from './sky-layout';
 
+/** Each control as its hit area, which the mute's small drawing reaches past. */
+const reach = (circles: readonly Circle[]) =>
+  circles.map((control) => ({ ...control, r: tapReach(control.r) }));
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
 const onScreen = ({ x, y, r }: Circle, width: number, height: number) =>
@@ -264,34 +268,43 @@ describe('meadowLayout', () => {
     });
 
     it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
-      const { mute, plus, minus, picker } = meadowLayout(width, height, 1);
+      const { mute, plus, minus, house, picker, housePicker } = meadowLayout(
+        width,
+        height,
+        1,
+      );
       assert.equal(picker.length, CAP_KINDS.length);
-      for (const drawn of [plus, minus, ...picker]) {
+      assert.equal(housePicker.length, FURNISHINGS.length);
+      for (const drawn of [plus, minus, house, ...picker, ...housePicker]) {
         assert.ok(drawn.r >= TAP_RADIUS);
       }
-      // Each as its hit area, which the mute's small drawing reaches past.
-      const controls = [mute, plus, minus, ...picker].map((control) => ({
-        ...control,
-        r: tapReach(control.r),
-      }));
-      for (const [index, control] of controls.entries()) {
-        assert.ok(onScreen(control, width, height), `control ${index} off`);
-        for (const other of controls.slice(index + 1)) {
-          assert.ok(apart(control, other), `control ${index} overlaps`);
+      // The two pickers share the top, never open together, so each is
+      // held apart from the rest and from itself but not from the other.
+      for (const open of [picker, housePicker]) {
+        const controls = reach([mute, plus, minus, house, ...open]);
+        for (const [index, control] of controls.entries()) {
+          assert.ok(onScreen(control, width, height), `control ${index} off`);
+          for (const other of controls.slice(index + 1)) {
+            assert.ok(apart(control, other), `control ${index} overlaps`);
+          }
         }
       }
     });
 
     it(`keeps every control off every mushroom and the sun's rays on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);
-      const { sun, mute, plus, minus, picker } = layout;
+      const { sun, mute, plus, minus, house, picker, housePicker } = layout;
       // Each as its hit area, which the HUD's depth puts over the meadow.
       const controls = Object.entries({
         mute,
         plus,
         minus,
+        house,
         ...Object.fromEntries(
           picker.map((pick, index) => [`pick ${index}`, pick]),
+        ),
+        ...Object.fromEntries(
+          housePicker.map((pick, index) => [`furnish ${index}`, pick]),
         ),
       }).map(([control, circle]) => ({
         control,
