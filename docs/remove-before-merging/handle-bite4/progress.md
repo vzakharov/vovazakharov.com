@@ -24,11 +24,11 @@ Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-
   sight (painted alone passed doors whose doorway showed 75–79%, which the
   review's sweep rejects); stations run up to under the cap rather than stopping
   at t = 0.6; the clump steps are retuned to landscape [0.02, -0.04] (was
-  [0.08, -0.06]) and portrait [0.22, -0.1] (was [0.14, -0.08]), because with the
+  [0.08, -0.06]) and portrait [0.22, -0.1] (was [0.14, -0.08]; since
+  [0, -0.03], see below), because with the
   earlier steps no station at all showed 80% of the doorway on 2% of landscape
-  visits and 21% of tablet-portrait visits. The steps put the crossing low in
-  landscape (the door stands above it) and high in portrait (the door stands at
-  the foot).
+  visits and 21% of tablet-portrait visits. The steps put the crossing low
+  (the door stands above it).
 - **6. Frame test** — 330dd6d. `house.test.ts` checks, at every station of all
   8000 mushrooms, points a line (`MUSHROOM_INK`) outside the painted frame, off
   each vertex along both edges' outward normals, all inside `stemOutline`; and
@@ -68,13 +68,40 @@ door's reach)`, widened by `1 / cos(π / ROUND_STEPS)` so the polygon's chords
   and printed. `4a-sinking` shoots the furnished mushroom `−` takes, 20
   frames into its sink, asserting its house is shown and scaled with it.
   `__probe.mushroom` now returns the point nearest the cap's middle that
-  reaches that mushroom (the tablet-portrait back cap's middle is behind the
-  front cap). **The run fails on phones**: the back (selected) mouse's head
-  is drawn 27.4 px (phoneP, phoneL; front 28.2, tabL 30.1/32.5, tabP
-  32.3/33.2). `mouseScale` floors the head at rest; the drawn head is
-  times the graphics' `scaleX`, which `widthFor(breath + beckon)` takes
-  under 1 on a breathing, selected mushroom (27.4 / 28 = 0.979). Open:
-  floor against the narrowest pose, or accept the at-rest floor.
+  reaches that mushroom. The run passes on every screen after a878235 and
+  2d7ae65; frames 50afbf2 (tabL frames kept: they differ only by spores).
+  Mouse heads drawn: tabL 30.1 / 32.5 px (back / front), tabP 28.4 / 31.1,
+  phoneP 28.4 / 29.3, phoneL 28.4 / 29.3.
+- **Mouse floor at the narrowest pose (decided)** — a878235. The drawn head
+  is times the graphics' `scaleX`, which a breathing, selected mushroom
+  takes under 1, so the at-rest floor drew 27.4 px on phones. `mouseScale`
+  floors against `NARROWEST_STANDING` (`model/motion.ts`,
+  `widthFor(BREATH_DEPTH + BECKON_DEPTH)` = 0.964). A tap's bounce goes
+  narrower for under a second; a door tap does not set it off, so it is
+  left out. `layout.test.ts` asserts the head at the narrowest pose.
+- **knip** — ce70751: `fromPane`, `DOOR_FRAME`, `doorFrame` made private.
+- **Portrait clump, back cap in view** — 2d7ae65. The [0.22, -0.1] step
+  crossed the stems high and stood the caps nearly one over the other. New
+  portrait step [0, -0.03]: the feet stand together, the stems cross just
+  above them (as in the drawing), the back door stands above the crossing.
+  New `layout.test.ts` bound: ≥45% of the back cap's dome and gills outside
+  the front cap's, every screen and visit. Measured (2000 visits, share of
+  the back cap in view, worst / p10 / median; the back doorway's worst sight
+  per portrait screen, with today's door pick):
+
+  | screen                                    | 3090513 [0.14, -0.08] | 330dd6d [0.22, -0.1] | 2d7ae65 [0, -0.03] |
+  | ----------------------------------------- | --------------------- | -------------------- | ------------------ |
+  | tablet portrait                           | 0.19 / 0.51 / 0.73    | 0.11 / 0.38 / 0.60   | 0.51 / 0.78 / 0.94 |
+  | phone portrait                            | 0.08 / 0.43 / 0.67    | 0.04 / 0.30 / 0.52   | 0.50 / 0.77 / 0.94 |
+  | small phone                               | 0.10 / 0.42 / 0.66    | 0.06 / 0.29 / 0.51   | 0.49 / 0.77 / 0.94 |
+  | landscape (all)                           | 0.47 / 0.76 / 0.93    | same                 | same               |
+  | back doorway worst, tabP / phoneP / small | 0.32 / 0.59 / 0.67    | 0.88 / 1.00 / 1.00   | 0.81 / 0.81 / 0.81 |
+
+  The doorway margin in portrait is now as thin as landscape's (0.81).
+  Latent, not fixed: flowers keep clear of the unmargined, unfloored feet,
+  so a forest mushroom the finger floor grows can stand on a flower's
+  foot; portrait steps with the front foot at or right of the middle hit
+  it on 0.5% of small-phone visits ([0, -0.03]: 0 of 20000).
 
 ## Measured (by `sweep-door.ts`, since removed: `door-sight.ts` supersedes it)
 
@@ -113,7 +140,7 @@ landscape margin is thin (worst 0.81): a step change there wants the door sweep 
 4. **Spots** (finding 4): done, see § "Done".
 5. **Target** (finding 5): done, see § "Done".
 6. **Frame test** (finding 6): done, see § "Done".
-7. **Play run** (finding 7): done, see § "Done" (one open question there).
+7. **Play run** (finding 7): done, see § "Done".
 8. **Nit** (finding 8): done, see § "Done".
 
 Then reply on every thread, `/polish`, `/pr`, fill the megabeast notes, and relay.
