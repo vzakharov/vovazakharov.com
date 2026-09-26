@@ -9,7 +9,9 @@ import {
   sway,
   widthFor,
   wobble,
+  WOBBLE_DEPTH,
   WOBBLE_DURATION,
+  WOBBLE_REST,
 } from './motion';
 
 const samples = (duration: number) =>
@@ -29,6 +31,18 @@ describe('wobble', () => {
     assert.ok(late < early / 20);
     assert.equal(wobble(-0.1), 0);
     assert.equal(wobble(WOBBLE_DURATION), 0);
+  });
+
+  it('is still visible for most of its span, and gone once it ends', () => {
+    const edge = (t: number) => Math.abs(wobble(t)) / WOBBLE_DEPTH;
+    // Two or three bounces over about a second: past a tenth of its depth
+    // somewhere after 0.6 s.
+    assert.ok(samples(0.4).some((t) => edge(t + 0.6) > 0.1));
+    assert.ok(WOBBLE_DURATION > 1.2);
+    // The span ends where the bounce reaches the rest line, so cutting it
+    // there is a step too small to see.
+    const tail = samples(0.05).map((t) => t + WOBBLE_DURATION - 0.05);
+    assert.ok(tail.every((t) => edge(t) < WOBBLE_REST * 1.15));
   });
 });
 

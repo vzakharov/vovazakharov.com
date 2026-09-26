@@ -9,15 +9,20 @@ export type Phased = { phase: number };
 /** How far a mushroom's height swells and settles as it breathes. */
 const BREATH_DEPTH = 0.018;
 const BREATH_PERIOD = 3.4;
-/** A tap's squash at its deepest, and how fast the bounce dies away. */
-const WOBBLE_DEPTH = 0.2;
-const WOBBLE_DAMPING = 4.2;
-const WOBBLE_FREQUENCY = 2.6;
-/** Past this long after a tap, the wobble is too small to see. */
-export const WOBBLE_DURATION = 1.4;
+/**
+ * A tap's squash at its deepest, and how fast the bounce dies away: slow
+ * enough for two or three bounces a child can see, over about a second.
+ */
+export const WOBBLE_DEPTH = 0.2;
+const WOBBLE_DAMPING = 2.4;
+const WOBBLE_FREQUENCY = 1.8;
+/** The share of `WOBBLE_DEPTH` below which a bounce is too small to see. */
+export const WOBBLE_REST = 0.01;
+/** When the bounce has died under `WOBBLE_REST`, which the damping decides. */
+export const WOBBLE_DURATION = Math.log(1 / WOBBLE_REST) / WOBBLE_DAMPING;
 const SWAY_PERIOD = 4.6;
 /** A flower's opening past its rest, at the peak of a tap's bloom. */
-const BLOOM_DEPTH = 0.28;
+const BLOOM_DEPTH = 0.45;
 export const BLOOM_DURATION = 1.6;
 
 /** The height's stretch (above 0) or squash (below) as a mushroom breathes. */
