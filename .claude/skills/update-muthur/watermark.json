@@ -1,12 +1,21 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "6884e9605b98feeac41190624c1e3860e8d9c65e",
-  "lastSyncedAt": "2026-09-23",
+  "lastSyncedSha": "634bdfa47431cdca7423c0dd845bfa4693a6d4c4",
+  "lastSyncedAt": "2026-09-24",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
     },
     ".claude/rules/README.md",
+    ".claude/rules/skills.md",
+    {
+      ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
+    },
+    ".claude/rules/staging.md",
+    ".claude/context-budget/",
+    {
+      ".claude/costs/": "ported to TypeScript — the ledger started here and the source re-expressed it in Python. scripts/session-cost.ts, scripts/costs-report.ts, scripts/lib/{session-cost,session-identity,cost-totals,cost-rows}.ts and .claude/hooks/stop-session-cost.sh are the local counterparts, .claude/rules/costs.md the counterpart of its CLAUDE.md, and sessions/ is each repo's own and never synced. prices.json is taken as it stands."
+    },
     ".claude/settings.json",
     {
       ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands."
@@ -63,7 +72,8 @@
     "scripts/run-parallel.sh",
     {
       "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. CLAUDE.md § Vetting carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
-    }
+    },
+    "scripts/staged.sh"
   ],
   "declined": {
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
