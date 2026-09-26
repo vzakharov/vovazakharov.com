@@ -30,15 +30,16 @@ verbatim.
 
 ## 2. The conversation
 
-The session started with `/relay take claude/mushroom-game-syama-lbirv7`
-(the operator pasted it into a fresh session: the previous chain had hit
-the eight-deep lineage cap), whose Next step was `/handle`. No other
-operator message arrived; the session later resumed in a new container
-with "Continue from where you left off." **Agent:** handled all nine
-threads of bite 3's review (T16–T24) by briefing one subagent per group of
-threads, replied on every thread (none resolved), ran `/polish`, vet
-(green) and `/pr`, filled the megabeast notes, paused the plan and relayed
-`/go`.
+The session started with `/relay take claude/mushroom-game-syama-lbirv7`,
+Next step `/go`. No operator message arrived. **Agent:** attached (the local
+branch was a stale pre-rebase snapshot; reset to `origin`), claimed the
+plan, wrote and committed `## This bite` for bite 4 (the mouse house), and
+built it through three subagents in sequence: the model (d5e15a2), the scene
+with its frames and play steps (2a34dda, 9a6b948, 231f136), then `/polish`,
+vet (green) and `/pr` (fe6cfd1, b3a10a2, 243f34e, 7df0222, 8b78141). It
+reran `pnpm play:mushrooms` after the last source commit (green on all four
+screens), fixed the play script's header (331b847), filled the megabeast
+notes, paused the plan (11b915b) and relayed the review.
 
 ## 3. Intent
 
@@ -53,47 +54,51 @@ showpiece, any teaching voice.
   future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
   `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
   looking where the operator would look.
-- The review's two open calls are now plan decisions ("Every mushroom is a
-  finger's target, on every screen": a size floor, six slots kept on a
-  phone; "No tap is ever answered with a shrug": `−` with no selection sinks
-  the newest, a control that cannot act shakes its head with a "nuh-uh").
-- A flower tap counts as a tap on the meadow: it closes the picker and drops
-  the selection, as bare ground does.
-- `scripts/play-mushrooms.ts` keeps its own small static server rather than
-  reusing `scripts/lib/print-origin.ts`, which needs the site variable at
-  load and would tie the script to `in-site.sh`.
+- Bite 4's calls, all in the plan's `## Eaten so far` item 4: windows paint
+  over the cap's spots; a row holds three or five windows, never four, so a
+  full row balances; `house` lives on `Planted`, not `Mushroom` (an import
+  cycle otherwise); the two pickers share the top band and one opening hides
+  the other at once; a door tap calls the mouse without selecting the
+  mushroom, a window tap is a mushroom tap; a pick that cannot act dims and
+  shakes, as `+`/`−` do.
 - Earlier decisions stand (see the plan).
 
 ## 5. Errors and dead ends
 
-- Bite 3 shipped with every tap dead (Phaser read `{ cap, stem }` as an input
-  config); vet was green. Fixed in da50a85; `pnpm play:mushrooms` now fails
-  on any page error, mutation-checked.
-- Padding the tap area (cap pad, even half the ink line) let a front
-  mushroom swallow the back one's visible stem, so the tap area is exactly
-  what is drawn; the size floor is what makes it a finger target.
+- The scene agent skipped Prettier and knip; vet caught 11 unformatted files
+  and two unused exports.
+- `/polish` and the knip fix changed source after the scene agent's frames,
+  so the play run was repeated at the end.
+- A full `pnpm play:mushrooms` is ~8 minutes, near the 10-minute tool limit:
+  run `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova` first, then
+  `pnpm play:mushrooms --no-build`.
+- Noticed in the frames, left for the review to weigh: the square window can
+  sit at the very rim of a cap; the door's frame pokes slightly past the
+  stem's edge; the mouse is small on a phone.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  `MERGEABLE`/`CLEAN`; last pushed commit 6483c6f.
-- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–3 eaten and bite
-  3's review handled; bites 4–10 left, next is 4 (the mouse house).
+  `MERGEABLE`/`CLEAN`; last pushed commit 11b915b before this summary.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–4 eaten; bite 4
+  unreviewed. Bites 5–10 left, next is 5 (the butterfly).
+- Bite 4's commits for the review: `git log 56df499..11b915b` (d5e15a2
+  through 331b847, less the plan and session-cost commits).
+- Relay lineage: this chain restarted from an operator paste after the
+  eight-deep cap; this session is roughly its second hop.
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md`: the loop (`## How this elephant
-is eaten`), the decisions, `## Eaten so far` item 3 with its review
-  bullets, `## Rest of the elephant` item 4.
-- `pnpm play:mushrooms` (`--no-build` to replay the last probe build): the
-  frame and tap recipe; extend its `play` sequence with each bite's
-  controls. Frames in `tmp/play/`.
-- `.claude/skills/megabeast/notes.md`: how the loop is run, in particular
-  running a session as an orchestrator of subagents from the start.
-- Review threads: `python3 scripts/export-github-item.py 57` →
-  `docs/pr/57/pr.md`.
+- `docs/plans/mushroom-game-syama.paused.md`: the loop, the decisions,
+  `## Eaten so far` item 4, `## Rest of the elephant` item 5.
+- `writing/notes/the-five-percent.md`: the review's reading list (frozen).
+- `pnpm play:mushrooms` and `scripts/lib/play-house.ts`: the frame and tap
+  recipe; frames in `tmp/play/`, which a new container does not have.
+- `src/pages/mushrooms/reference/syama-drawing.webp`: judge frames beside it.
+- `.claude/skills/megabeast/notes.md`: how the loop is run, including how a
+  review is posted in one `gh api` call.
 
 ## 8. Next step
 
-/go
+оставь код ревью на последний кусок
