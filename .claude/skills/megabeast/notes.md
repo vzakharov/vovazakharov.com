@@ -227,7 +227,20 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   bounding box covered it. It surfaced only because selection gave taps a
   consequence. The frame recipe should drive every control and read the
   resulting state (`scene.meadow`), and a bite that changes what a tap means
-  should re-test every tap area.
+  should re-test every tap area. Bite 3 then shipped with no tap working at
+  all: the fix for that bug (074dc66) came after the last frames, passed a
+  hit-area object Phaser reads as a config, and every tap threw — vet green,
+  PR body describing a working selection. Only the review's frame agent,
+  collecting `pageerror`, saw it. The skill should make the last frame run
+  follow the bite's last source commit, and make any page error fail it.
+- **Test a layout's controls against the meadow, not only each other.** Bite
+  3's control test held every button apart from every other and missed `−`
+  sitting on a forest cap in 61% of phone-landscape visits, and the forest
+  shrinking to 50 px caps on a phone — the tap-size rule enforced only where
+  a target happened to be a circle. The review's sweep script (controls
+  against every slot's cap across 2000 visits, min cap and stem px per slot)
+  is the kind the skill should keep: every tap target, whatever its shape,
+  against the size floor and against every other thing on screen.
 - **A new kind of thing competes for the layout; measure the loser.** Adding a
   forest's feet starved the flowers (2.4 per visit on a tablet, 0.6 on a
   tablet held upright, against a test floor of 4.5). A ten-line `tsx` script
