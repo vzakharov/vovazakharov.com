@@ -10,6 +10,7 @@ import {
   EMPTY_HOUSE,
   furnished,
   type Furnishing,
+  FURNISHINGS,
   type Housed,
   windowSlots,
 } from './house';
@@ -76,29 +77,53 @@ export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length === 0;
 }
 
-/**
- * The mushroom a tap on `−` or on a window or door acts on: the selected
- * one, or with none selected the newest.
- */
-function target({ mushrooms, selected }: Meadow): Planted | undefined {
-  return selected === undefined
-    ? mushrooms.at(-1)
-    : mushrooms.find(({ id }) => id === selected);
-}
-
-/** `target` with `piece` put into its house, or `undefined` when it has no room for it. */
-function furnishedTarget(
-  meadow: Meadow,
-  piece: Furnishing,
-): Planted | undefined {
-  const mushroom = target(meadow);
-  if (mushroom === undefined) return undefined;
+/** `mushroom` with `piece` put into its house, or `undefined` when it has no room for it. */
+function withPiece(mushroom: Planted, piece: Furnishing): Planted | undefined {
   const house = furnished(
     mushroom.house,
     piece,
     windowSlots(mushroomGenes(mushroom)).length,
   );
   return house && { ...mushroom, house };
+}
+
+function selectedMushroom({
+  mushrooms,
+  selected,
+}: Meadow): Planted | undefined {
+  return mushrooms.find(({ id }) => id === selected);
+}
+
+/**
+ * The newest mushroom with room for any of `pieces`, or with none that has
+ * room the newest: the one a house tap acts on while nothing is selected, so
+ * a full mushroom never greys the picker out while another still has room.
+ */
+function newestWithRoom(
+  { mushrooms }: Meadow,
+  pieces: readonly Furnishing[],
+): Planted | undefined {
+  return (
+    mushrooms.findLast((mushroom) =>
+      pieces.some((piece) => withPiece(mushroom, piece) !== undefined),
+    ) ?? mushrooms.at(-1)
+  );
+}
+
+/**
+ * The selected mushroom with `piece` put into its house, or with none
+ * selected the newest that has room for it; `undefined` when that one has no
+ * room.
+ */
+function furnishedTarget(
+  meadow: Meadow,
+  piece: Furnishing,
+): Planted | undefined {
+  const mushroom =
+    meadow.selected === undefined
+      ? newestWithRoom(meadow, [piece])
+      : selectedMushroom(meadow);
+  return mushroom && withPiece(mushroom, piece);
 }
 
 /**
@@ -127,11 +152,14 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'house': {
-      return {
-        ...meadow,
-        furnishing: !meadow.furnishing && !isEmpty(meadow),
-        picking: false,
-      };
+      const furnishing = !meadow.furnishing && !isEmpty(meadow);
+      // Opening with nothing selected selects where the next pick goes, so
+      // its glow shows before the pick lands.
+      const selected =
+        furnishing && meadow.selected === undefined
+          ? newestWithRoom(meadow, FURNISHINGS)?.id
+          : meadow.selected;
+      return { ...meadow, furnishing, selected, picking: false };
     }
     case 'furnish': {
       const done = furnishedTarget(meadow, action.piece);
@@ -175,7 +203,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'remove': {
-      const gone = target(meadow)?.id;
+      // With nothing selected, `−` thins the newest.
+      const gone = (
+        meadow.selected === undefined
+          ? meadow.mushrooms.at(-1)
+          : selectedMushroom(meadow)
+      )?.id;
       return {
         ...meadow,
         mushrooms: meadow.mushrooms.filter(({ id }) => id !== gone),

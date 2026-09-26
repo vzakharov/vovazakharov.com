@@ -189,10 +189,10 @@ describe('furnish', () => {
 
   it('cannot act on a full row: the meadow comes back as it was', () => {
     const room = roomIn(opening(), 'mushroom-2');
-    const full = run(
-      opening(),
-      Array.from({ length: room }, () => furnish('square')),
-    );
+    const full = run(opening(), [
+      { kind: 'select', id: 'mushroom-2' },
+      ...Array.from({ length: room }, () => furnish('square')),
+    ]);
     assert.equal(houseOf(full, 'mushroom-2')?.windows.length, room);
     assert.equal(canFurnish(full, 'round'), false);
     assert.equal(reduce(full, furnish('round')), full);
@@ -200,10 +200,26 @@ describe('furnish', () => {
   });
 
   it('cannot put in a second door', () => {
-    const doored = reduce(opening(), furnish('door'));
+    const doored = run(opening(), [
+      { kind: 'select', id: 'mushroom-2' },
+      furnish('door'),
+    ]);
     assert.equal(canFurnish(doored, 'door'), false);
     assert.equal(reduce(doored, furnish('door')), doored);
     assert.equal(canFurnish(doored, 'cross'), true);
+  });
+
+  it('with nothing selected, furnishes the newest with room when the newest is full', () => {
+    const room = roomIn(opening(), 'mushroom-2');
+    const full = run(
+      opening(),
+      Array.from({ length: room }, () => furnish('square')),
+    );
+    assert.equal(houseOf(full, 'mushroom-2')?.windows.length, room);
+    assert.equal(full.selected, undefined);
+    assert.equal(canFurnish(full, 'round'), true);
+    const meadow = reduce(full, furnish('round'));
+    assert.deepEqual(houseOf(meadow, 'mushroom-1')?.windows, ['round']);
   });
 
   it('cannot act on an empty meadow', () => {
@@ -245,6 +261,32 @@ describe('the two pickers', () => {
       { kind: 'select', id: 'mushroom-1' },
     ]);
     assert.equal(meadow.furnishing, true);
+  });
+
+  it('opening the house picker with nothing selected selects where the pick goes', () => {
+    const meadow = reduce(opening(), { kind: 'house' });
+    assert.equal(meadow.selected, 'mushroom-2');
+  });
+
+  it('opening the house picker selects the newest with room, past a full one', () => {
+    const doored = run(opening(), [
+      { kind: 'select', id: 'mushroom-2' },
+      ...Array.from({ length: roomIn(opening(), 'mushroom-2') }, () =>
+        furnish('square'),
+      ),
+      furnish('door'),
+      { kind: 'deselect' },
+      { kind: 'house' },
+    ]);
+    assert.equal(doored.selected, 'mushroom-1');
+  });
+
+  it('keeps the selection when the house picker opens on one', () => {
+    const meadow = run(opening(), [
+      { kind: 'select', id: 'mushroom-1' },
+      { kind: 'house' },
+    ]);
+    assert.equal(meadow.selected, 'mushroom-1');
   });
 
   it('opens no house picker on an empty meadow', () => {
