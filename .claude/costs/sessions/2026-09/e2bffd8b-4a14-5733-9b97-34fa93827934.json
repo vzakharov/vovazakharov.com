@@ -2,12 +2,12 @@
   "sessionId": "e2bffd8b-4a14-5733-9b97-34fa93827934",
   "branch": "claude/trim-client-js-npdqn6",
   "cwd": "/home/user/vovazakharov.com",
-  "name": null,
   "openingPrompt": "/handle claude/trim-client-js-npdqn6",
   "prs": [
     56
   ],
   "url": "https://claude.ai/code/session_014vNyXrYzr12NfZnzcBbzu4",
+  "operator": null,
   "firstResponseAt": "2026-09-21T17:12:32.390Z",
   "lastResponseAt": "2026-09-22T11:47:51.447Z",
   "pricesAsOf": "2026-09-19",

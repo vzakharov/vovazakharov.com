@@ -2,12 +2,12 @@
   "sessionId": "55329747-abc7-5777-b294-4ea9d664435e",
   "branch": "claude/pdfs-at-build-r35sqr",
   "cwd": "/home/user/vovazakharov.com",
-  "name": "Why PDFs render by hand, not at build",
   "openingPrompt": "мы сейчас генерим пдфы-прямо на стадии кода -- почему бы не делать это на стадии билда? есть какая-то причина которой я не вижу или просто так исторически сложи…",
   "prs": [
     78
   ],
   "url": "https://claude.ai/code/session_01F8kvcAWsgDqWWiRbWRQQwz",
+  "operator": null,
   "firstResponseAt": "2026-09-22T09:07:05.039Z",
   "lastResponseAt": "2026-09-22T14:02:24.290Z",
   "pricesAsOf": "2026-09-19",

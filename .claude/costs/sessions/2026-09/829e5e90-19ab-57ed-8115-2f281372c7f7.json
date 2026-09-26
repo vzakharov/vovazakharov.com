@@ -2,12 +2,12 @@
   "sessionId": "829e5e90-19ab-57ed-8115-2f281372c7f7",
   "branch": "claude/api-cost-ledger-0cm1tl",
   "cwd": "/home/user/vovazakharov.com",
-  "name": null,
   "openingPrompt": "/finalize and merge claude/api-cost-ledger-0cm1tl",
   "prs": [
     71
   ],
   "url": "https://claude.ai/code/session_01P6a5CuEhgciMGh7PUM9iDj",
+  "operator": null,
   "firstResponseAt": "2026-09-21T13:39:32.969Z",
   "lastResponseAt": "2026-09-21T13:52:09.902Z",
   "pricesAsOf": "2026-09-19",

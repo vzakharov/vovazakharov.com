@@ -30,7 +30,6 @@ const row = (overrides: Partial<SessionCost> = {}): SessionCost => ({
   sessionId: 'sess',
   branch: 'a-branch',
   cwd: null,
-  name: null,
   openingPrompt: null,
   prs: [],
   url: null,

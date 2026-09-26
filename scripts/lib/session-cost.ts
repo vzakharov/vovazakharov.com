@@ -93,12 +93,6 @@ const SessionCostSchema = z.object({
   cwd: z.string().nullable(),
   // What a person recognises a session by. Each carries a default, so a row
   // written before the field existed still parses.
-  //
-  // `name` is the agent's own short label, and the one field here the transcript
-  // cannot supply: it stays null until a turn fills it in, which is what
-  // `.claude/hooks/prompt-session-name.sh` asks for. Writing a row therefore
-  // carries the existing name forward rather than recomputing it.
-  name: z.string().nullable().default(null),
   openingPrompt: z.string().nullable().default(null),
   prs: z.array(z.number()).default([]),
   // The URL a person opens the session at, which is a different id from the
@@ -387,7 +381,6 @@ export const summariseTranscript = (
     sessionId: sessionId ?? fallbackSessionId,
     branch: branch ?? null,
     cwd: cwd ?? null,
-    name: null,
     openingPrompt: openingPrompt ?? null,
     prs: [...prs].toSorted((a, b) => a - b),
     url: url ?? null,
