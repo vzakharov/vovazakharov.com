@@ -9,7 +9,7 @@ import { crescent, fillShape, rounded, sample, strokeShape } from './shapes';
 
 const CURVE_STEPS = 28;
 /** Where a two-tone cap changes colour, as a fraction of its height. */
-const TONE_SPLIT = 0.5;
+const TONE_SPLIT = 0.42;
 const SHADE_ALPHA = 0.2;
 const SPOT_SHADE_ALPHA = 0.1;
 const HIGHLIGHT_ALPHA = 0.35;

@@ -75,14 +75,12 @@ const FOREST_SLOTS = {
     [0.88, 0.62, 0.58],
     [0.22, 0.06, 0.5],
     [0.8, 0.1, 0.5],
-    [0.4, 0, 0.42],
   ],
   portrait: [
     [0.16, 0.54, 0.44],
     [0.84, 0.58, 0.44],
     [0.22, 0.04, 0.42],
     [0.78, 0.08, 0.42],
-    [0.5, 0, 0.36],
   ],
 } as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
@@ -99,9 +97,13 @@ const BUTTON_INSET = 18;
 /** The `+` and `−` buttons' radius, and the gap between them. */
 const GROW_R = 36;
 const GROW_GAP = 16;
-/** The picker's buttons at their largest, and their spacing in radii. */
+/**
+ * The picker's buttons at their largest, and their spacing in radii: at the
+ * least, which a narrow screen gets, and where there is room.
+ */
 const PICK_R = 46;
 const PICK_SPACING = 2.2;
+const PICK_ROOMY_SPACING = 2.7;
 /**
  * The least radius, in CSS pixels, a tap target reaches: 64 across, which a
  * six-year-old's finger finds without aiming.
@@ -261,8 +263,12 @@ function placeControls(
     PICK_R,
     (width - BUTTON_INSET * 2) / (PICK_SPACING * (CAP_KINDS.length - 1) + 2),
   );
-  const step = r * PICK_SPACING;
-  const first = width / 2 - (step * (CAP_KINDS.length - 1)) / 2;
+  const gaps = CAP_KINDS.length - 1;
+  const step = Math.min(
+    r * PICK_ROOMY_SPACING,
+    (width - BUTTON_INSET * 2 - r * 2) / gaps,
+  );
+  const first = width / 2 - (step * gaps) / 2;
   const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
   const y = clearOfMute
     ? BUTTON_INSET + r

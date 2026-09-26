@@ -31,7 +31,7 @@ export const PALETTE = {
   stem: 0xfb_f3_df,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
-  capDark: 0x6e_1d_22,
+  capDark: 0x4a_14_1a,
   spot: 0xff_fb_f1,
   flowerStem: 0x4c_a0_3c,
   leaf: 0x5e_b8_48,

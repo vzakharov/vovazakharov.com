@@ -13,7 +13,7 @@ import type { Random } from './random';
  * How many mushrooms the meadow holds at most, one per slot the layout
  * stands them in: as many as still read apart on a phone.
  */
-export const MUSHROOM_SLOTS = 7;
+export const MUSHROOM_SLOTS = 6;
 
 /** Where a mushroom stands for its whole life, an index into the layout's slots. */
 export type Slotted = { slot: number };
