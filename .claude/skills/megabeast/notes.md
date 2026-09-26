@@ -70,6 +70,16 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   loads, the frames it looks at and vet's output. The skill should key the
   decision on the notice, and expect a `/handle` session to relay `/go`
   nearly every time rather than take a bite of its own.
+- **A relay chain is capped at eight sessions deep.** Bite 3's review
+  session (the eighth in the chain) got `caller session is at lineage depth 8
+  (limit 8)` from `create_session`, so the chain stopped and waited on the
+  operator. At two or three sessions a bite, ten bites cannot run as one
+  chain. The skill should count the depth (each relay summary can carry it)
+  and plan for it: fold review handling into the next bite's session, take
+  more than one bite per session where context allows, or, as the last hop
+  before the cap, hand over one line for the operator to paste into a fresh
+  session. Where Routines are available, a fresh-session Routine may start a
+  new lineage; that is worth trying before depth 7.
 - **MCP tool names change mid-session** (a server reconnects under another
   id). Relay and `create_session` calls have to be looked up by the current
   name, never taken from an earlier call in the transcript.
