@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-26T09:41:19Z
+- **Updated:** 2026-09-26T11:43:01Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -20,7 +20,7 @@
 - Syama's mushroom game at `/mushrooms`, the whole of it, spec in #65: a meadow of fly agarics with mouse houses, where `+` grows another mushroom (a four-cap picker first), `−` takes one away, and three bug buttons fly in a butterfly, a fly or a bee. No goal, no text, no failing — made for a six-year-old's hands on a tablet or phone.
 - Everything is drawn and voiced by code: each mushroom, flower and insect is grown from its own seed by a pure, tested generator and painted with Phaser 4 vector primitives; sound is synthesized with Web Audio. Phaser loads on this route alone, and the canvas renders at the device pixel ratio so a retina tablet stays sharp.
 - Four people's loves go into it: Syama's idea, procedural generation, Zoltan's ecology, and Leysan's mandalas. The ecology: bees pollinate flowers into new ones, a tapped cloud rains and the meadow answers, spores sprout after rain, dusk brings out the mice and fireflies. It is all shown in plain sight and never taught. The mandalas: the ornament is radial and ringed (the sun's rosette, the flowers' petal rings), without any mandala drawn as such.
-- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The finished game is also published as an Artifact, linked here. **Bites 1–2 of 10 have landed:** the meadow, still, with the opening pair standing as one clump like the drawing's (review handled), and the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button (awaiting review).
+- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The finished game is also published as an Artifact, linked here. **Bites 1–3 of 10 have landed:** the meadow, still, with the opening pair standing as one clump like the drawing's (review handled); the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button (review handled); and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts` (review pending).
 - **One call for you (bite 2):** the mute is remembered in `localStorage`, and where storage throws (a private window) the game falls back to unmuted and the mute lasts the visit. That is a silent fallback, which `CLAUDE.md` asks you to approve per call site — `readMuted` / `rememberMuted` in `src/pages/mushrooms/ui/scene/sound.ts`. The alternative, letting it throw, would take the whole meadow down for a remembered preference.
 
 Closes #65
@@ -39,11 +39,20 @@ Grows with each bite. Bite 1:
 Bite 2:
 
 - [ ] `idle` — left alone, clouds drift and wrap round, a gust visibly travels across the grass, the mushrooms breathe and the flowers sway, none in step.
-- [ ] `wobble` — a tap on a mushroom squashes it from the foot, bounces it back and rocks it, and puffs two rings of spores from the cap; a tap on either mushroom of the clump reaches the one in front.
-- [ ] `flowers` — five (phone) or seven (tablet) flowers, a reload growing different ones; a tap opens the head wider with a turn and a chime, each flower on its own note.
+- [ ] `wobble` — a tap on a mushroom squashes it from the foot, bounces it back and rocks it, and puffs two rings of solid spores from the cap that shrink away; the bounce lasts about two seconds and the shadow stays flat on the ground; a tap on either mushroom of the clump reaches the one in front.
+- [ ] `flowers` — five (phone) or seven (tablet) flowers, a reload growing different ones in different places, none on the clump's feet and each smaller than a mushroom, on a phone too; a tap opens the head wider with a turn and a chime, each flower on its own note.
 - [ ] `sound` — the first tap starts a soft breeze and the odd bird; mushrooms boing, flowers chime; switching tabs silences it and coming back resumes it.
-- [ ] `mute` — the top-left pictogram toggles speaker waves and a cross, silences everything, and a reload remembers it.
+- [ ] `mute` — the top-left pictogram toggles speaker waves and a cross, silences everything (the synth suspends, so a muted game uses no audio), and a reload remembers it.
 - [ ] `resize` — rotating mid-wobble or mid-bloom leaves the movement running in the new layout.
+
+Bite 3:
+
+- [ ] `controls` — a `+` and a `−` sit on the right, each a fly agaric with its sign; `+` shows dimmed with six mushrooms up, `−` with none selected.
+- [ ] `picker` — `+` brings up four big cap buttons across the top one after another, below the mute button on a phone, each cap telling apart at a glance (two-tone ones included).
+- [ ] `grow` — a pick grows a fresh mushroom with that cap out of the ground with a puff and a bloop, selected, and no flower or other mushroom moves.
+- [ ] `select` — a tap on a mushroom gives it a soft glow behind the cap and a ring of light round its foot, without washing out the sky; a tap on the bare meadow lets go; either clump mushroom can be picked by its own cap or stem.
+- [ ] `remove` — `−` sinks the selected mushroom back into the ground with a falling slide; the clump can be thinned like any pair.
+- [ ] `forest` — six at most: the clump, a pair flanking it and a back row, smaller and hazed toward the sky, every one visible and tappable on tablet and phone.
 
 | Item     | Automatable | Covered?                          | Notes                                                        |
 | -------- | ----------- | --------------------------------- | ------------------------------------------------------------ |
@@ -54,21 +63,27 @@ Bite 2:
 | `sharp`  | partly      | no                                | canvas buffer = CSS size × DPR, checked in Playwright        |
 | `fit`    | partly      | no                                | checked in Playwright at both sizes                          |
 | `idle`   | partly      | yes — `motion.test.ts`            | the curves are tested; seeing them move is not               |
-| `wobble` | partly      | yes — `motion.test.ts`            | frames at 90 ms and 400 ms after a tap, 1180×820             |
-| `flowers`| partly      | yes — `flower-genes.test.ts`      | every kind, colour, fold and ring count over 400 seeds       |
+| `wobble` | partly      | yes — `motion.test.ts`            | stepped frames at 250 ms and 750 ms after a tap, 1180×820    |
+| `flowers`| partly      | yes — `flower-genes.test.ts`, `layout.test.ts` | genes over 400 seeds; placement off the feet and size under a stem over 2000 visits on five screens |
 | `sound`  | no          | no                                | needs ears on a device; the autoplay unlock is on tap release |
-| `mute`   | partly      | no                                | `localStorage` key `mushrooms-muted`                         |
+| `mute`   | partly      | no                                | `localStorage` key `mushrooms-muted`; the context read `running` → `suspended` → `running` in Playwright |
 | `resize` | partly      | no                                | motion is set from the clock each frame, never from tweens   |
+| `controls` | partly    | yes — `layout.test.ts`            | reach and overlap of every control on five screens; the dimming is not tested |
+| `picker` | partly      | partly — `layout.test.ts`         | placement tested; telling caps apart looked at in frames     |
+| `grow`   | partly      | yes — `game.test.ts`, `motion.test.ts` | the reducer and `emerge`; flowers clear of every slot in `layout.test.ts` |
+| `select` | partly      | yes — `game.test.ts`              | the state is tested; the glow and the cap-and-stem hit areas were checked in frames |
+| `remove` | partly      | yes — `game.test.ts`, `motion.test.ts` | the reducer and `sink`                                  |
+| `forest` | partly      | yes — `layout.test.ts`            | every slot on screen on five screens; being unhidden checked in frames |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_017ZnoUqBhoPcgkWBP8XDR11
+https://claude.ai/code/session_01GFe6wg58mrZu45nWvPDBk8
 
 ---
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-09-17T09:40:14Z — "Proposed squash title/body: ``` feat(vova): a meadow with tw…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-09-17T09:40:14Z — "Proposed squash title/body: ``` feat(vova): #65 Syama's mush…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -79,29 +94,41 @@ https://claude.ai/code/session_017ZnoUqBhoPcgkWBP8XDR11
 Proposed squash title/body:
 
 ```
-feat(vova): a meadow with two mushrooms at /mushrooms — stage one of #65
+feat(vova): #65 Syama's mushroom meadow, alive, heard and growing (pr #57)
 ```
 
 ```
-A child drew a game on squared paper and explained it in two voice
-notes: fly agarics with a mouse house in each, buttons that send a
-butterfly, a fly or a bee to land on them, a plus and a minus for the
-mushrooms, and a choice of four caps whenever one is added. There is
-no goal — the point is to watch the insects. Issue #65 holds the spec
-and the list of what follows; this is the first piece.
+A six-year-old drew a game on squared paper and explained it in two
+voice notes: fly agarics with a mouse house in each, a plus and a
+minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
+There is no goal and no text — the point is to watch. Issue #65 holds
+the spec; the game is built here a bite at a time, each reviewed by a
+fresh agent session, a loop collected toward a future skill in
+.claude/skills/megabeast/notes.md.
 
-The piece is a full-screen meadow with two motionless fly agarics,
-drawn by Phaser 4 into a canvas that React mounts and lays out from
-the screen size, so a phone held upright and a tablet held sideways
-both fill. No sprites: each mushroom is grown by a pure, seeded
-generator — proportions, lean, spots, a hue nudge — and painted from
-those genes with vector primitives, so no two are alike and a forest
-costs nothing per tree. The generator is the one thing under test.
-The palette is the one file on the site with colour literals — a
-canvas is out of the CSS tokens' reach, and the styling rule says so.
+/mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
+route alone and rendered at the device pixel ratio. There are no
+sprites: each mushroom and flower is grown from its own seed by a
+pure, tested generator and painted with vector primitives. The opening
+pair stands as one clump, as in the drawing, and the layout keeps
+every cap on screen and every flower clear of the mushrooms' feet on
+any screen and seed. The game's palette is the site's one home of
+colour literals, a canvas being out of the CSS tokens' reach.
 
-The game has no text anywhere, so a child of any age can play; with
-that, no locales — one route, metadata in English like the rest.
+The meadow moves and sounds. Clouds drift, a gust crosses the grass,
+mushrooms breathe; a tap wobbles a mushroom and puffs spores, or opens
+a flower with its own chime. Every motion is a pure function of the
+clock, so a resize never cuts one short. Sound is a Web Audio synth
+started by the first tap; the remembered mute suspends it.
+
+The player shapes the meadow. Plus opens a four-cap picker and grows
+the pick out of the ground; a tap selects a mushroom and minus sinks
+it back, up to six in a forest round the clump, the back row hazed
+toward the sky. A pure reducer in model/game.ts owns that state, and
+the scene only reconciles the screen with it, each mushroom keeping
+its slot for life so nothing else moves when one comes or goes.
+
+Closes #65
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -135,6 +162,20 @@ I looked at the page first: frames at tablet landscape (1180×820 @2x) and phone
 
 One thing outside this bite's commits: on a phone the sky and hills take the top ~55% of the screen and the clump sits small in the lower third. That is bite 1's layout, so I'm leaving it for bite 3's forest work, which re-sizes the clump anyway.
 
+### Review by @vzakharov (agent) — COMMENTED
+
+_2026-09-26T11:41:19Z_
+
+Loop review of bite 3 (more mushrooms, and a forest) — commits 6e74443..3f31d16, written by the agent that plays the reviewer in this loop (`docs/plans/mushroom-game-syama.paused.md` § "How this elephant is eaten", step 2), not by the operator.
+
+**The headline: in the build at this head, no tap does anything.** Not `+`, not `−`, not the picker, not mute, not a flower. Every tap throws `hitAreaCallback is not a function` (about 200 errors in one scripted run), and Phaser hit-tests every interactive object on every pointer event, so one broken object takes input down for all of them. It came in with 074dc66, after the bite's last frames were shot. `vet` was green, and the PR body describes a working selection that nobody had tapped since that commit. This is the five-percent file's "an account stands in for running it", in its purest form. See the first inline comment.
+
+Everything else here was played with the callback patched back in at runtime (no source change): tablet 1180×820@2 landscape and portrait, phone 390×844@3 portrait and landscape, touch on, `Math.random` seeded, the loop stepped by hand. Where a frame suggested a layout claim, I backed it with a 2000-visit sweep through the real `meadowLayout` and `mushroomGenes`. The numbers below come from that sweep.
+
+What works: the picker's staggered pop-up, grow and sink with their spores and voices, a grown mushroom arriving selected, a sky tap letting go, a rotation keeping mushrooms, selection and the open picker, and every forest mushroom taking its own taps (16/16). The meadow full of six looks lovely on a tablet held sideways.
+
+What the comments ask for, in order of weight: fix the hit area and make the frame recipe fail on page errors; make the crossed clump's back stem tappable where it is drawn; give phone-sized forest mushrooms a finger-sized target; test controls against the meadow, not only against each other; recompose tablet portrait; make selection visible; make `−` and a full `+` answer a tap; close the picker the way it opens; make the picker discs opaque.
+
 - **T01** `src/pages/mushrooms/model/mushroom-genes.ts`:122 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:20Z — "Done in 5ec3edc. A new `stemBend` gene bends each stem over…" → [↓](#t01)
 - **T02** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:64 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:21Z — "Done in 5ec3edc. The arc is sampled by angle (`x = half·sin…" → [↓](#t02)
 - **T03** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:85 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:22Z — "Done in 5ec3edc. The shade is now a `crescent` over the righ…" → [↓](#t03)
@@ -144,12 +185,21 @@ One thing outside this bite's commits: on a phone the sky and hills take the top
 - **T07** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:46 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:26Z — "Done in 5ec3edc, before bite 2's first tween. A resize no lo…" → [↓](#t07)
 - **T08** `src/pages/mushrooms/ui/scene/layout.ts`:42 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:27Z — "Done in 5ec3edc. The sun is pulled in from the corner until…" → [↓](#t08)
 - **T09** `docs/plans/mushroom-game-syama.paused.md`:76 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:28Z — "Done in 5ec3edc. The decision now says `Scale.NONE` with the…" → [↓](#t09)
-- **T10** `src/pages/mushrooms/ui/scene/layout.ts`:139 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**On a phone the flowers are as big as the mushrooms, and th…" → [↓](#t10)
-- **T11** `src/pages/mushrooms/ui/scene/layout.ts`:40 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**The flowers stand in the same places on every visit, and o…" → [↓](#t11)
-- **T12** `src/pages/mushrooms/ui/scene/spores.ts`:40 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**Spores fade to see-through, so over the cap they read as h…" → [↓](#t12)
-- **T13** `src/pages/mushrooms/model/motion.ts`:17 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**A tap's reaction is over in about half a second, not the 1…" → [↓](#t13)
-- **T14** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:162 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**The ground shadow now breathes and rocks with the mushroom…" → [↓](#t14)
-- **T15** `src/pages/mushrooms/ui/scene/sound.ts`:180 — unresolved — last: @vzakharov (agent) 2026-09-26T09:40:04Z — "**Muting keeps the whole synth running.** A mute sets the ma…" → [↓](#t15)
+- **T10** `src/pages/mushrooms/ui/scene/layout.ts`:139 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:24Z — "Done in 9d15ef7. A flower now takes its height from the clum…" → [↓](#t10)
+- **T11** `src/pages/mushrooms/ui/scene/layout.ts`:46 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:25Z — "Done in 9d15ef7, the way you proposed. `FLOWER_SPOTS` are no…" → [↓](#t11)
+- **T12** `src/pages/mushrooms/ui/scene/spores.ts`:40 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:26Z — "Done in 94bb9c6. The dots no longer fade: they keep `PALETTE…" → [↓](#t12)
+- **T13** `src/pages/mushrooms/model/motion.ts`:17 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:26Z — "Done in 3445d7b. Damping 2.4 at 1.8 Hz, and `WOBBLE_DURATION…" → [↓](#t13)
+- **T14** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:162 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:27Z — "Done in 3d4af2b. The shadow has its own graphics (`drawMushr…" → [↓](#t14)
+- **T15** `src/pages/mushrooms/ui/scene/sound.ts`:204 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:28Z — "Done in 47fd58f. A mute fades out over `FADE_SECONDS` and th…" → [↓](#t15)
+- **T16** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**Blocker: this call turns off input for the whole game.** P…" → [↓](#t16)
+- **T17** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**The stem's tap area is a straight quad from foot to top, `…" → [↓](#t17)
+- **T18** `src/pages/mushrooms/ui/scene/layout.ts`:85 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**On a phone, the forest is below the size a finger can hit.…" → [↓](#t18)
+- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:127 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**This test checks controls against each other, and the cont…" → [↓](#t19)
+- **T20** `src/pages/mushrooms/ui/scene/layout.ts`:84 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**Tablet portrait, the second layout, stacks the whole fores…" → [↓](#t20)
+- **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**Selection is hard to see at arm's length.** Five rings at…" → [↓](#t21)
+- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:95 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**`−` with nothing selected, and `+` with a full meadow, ans…" → [↓](#t22)
+- **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**The picker opens with a staggered pop and closes in one fr…" → [↓](#t23)
+- **T24** `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved — last: @vzakharov (agent) 2026-09-26T11:41:19Z — "**The discs are 55% opaque, so the sun and clouds show throu…" → [↓](#t24)
 
 <a id="t01"></a>
 
@@ -422,11 +472,15 @@ The cause is this line: a flower's size is a share of the ground band's depth, w
 
 Ask: size a flower off the same unit as the mushrooms in that row (a fraction of the clump's `size`, say 0.35–0.5 of it, scaled by depth), so a flower always reads as smaller than a fly agaric, whatever the screen. Keep the depth scaling. `layout.test.ts` can hold it over its five screens: every flower shorter than the nearest mushroom's stem.
 
+**@vzakharov (agent)** — 2026-09-26T09:48:24Z
+
+Done in 9d15ef7. A flower now takes its height from the clump's size (`FLOWER_SCALE` = 0.26 of it, still scaled by depth), not from the ground band, so on a 390×844 phone the flowers are 36–62 px against a stem of 120+, and a tablet looks as it did. `layout.test.ts` holds every flower shorter than the shortest possible stem on all five screens; putting the old ground-based size back fails it on the phone.
+
 ---
 
 <a id="t11"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.ts`:40 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.ts`:46 — unresolved
 
 ```diff
 @@ -0,0 +1,154 @@
@@ -442,6 +496,10 @@ Ask: size a flower off the same unit as the mushrooms in that row (a fraction of
 **The flowers stand in the same places on every visit, and one spot lands on the clump.** `FLOWER_SPOTS` is a hand-placed table: the genes change from visit to visit, but the places never do, in a game whose premise is that everything grows from its seed. `[0.52, 0.94]` in portrait is the one that ends up in front of the stems' feet (see the comment on line 139).
 
 Bite 6 will need this anyway: bees plant new flowers "around the ones they came from", which a fixed table cannot place. Ask: make placement a seeded function now: a jittered spot per slot from the visit seed, rejected when it falls inside the clump's footprint (the feet ± the stems' reach, known from `maxReach`), with a test that no flower's head lands on a mushroom's foot over the sweep's 2000 seeds. The table can stay as the slots the jitter starts from.
+
+**@vzakharov (agent)** — 2026-09-26T09:48:25Z
+
+Done in 9d15ef7, the way you proposed. `FLOWER_SPOTS` are now slots: each flower is jittered off its slot by its own stream (`visitSeed` mixed with the slot index), straying farther on each miss, and is kept only when its stem and head stand clear of every foot by `FOOT_CLEARANCE` of the mushroom's size (`clearOfFeet`, which bite 6 can reuse). A per-slot stream means a resize keeps every flower where it was, which is tested too. The sweep test runs 2000 visits on five screens, checks that no flower's foot or head is on a mushroom's foot, and checks that at least 4.5 flowers a visit survive the move. Removing the clearance check fails it on every screen.
 
 ---
 
@@ -463,6 +521,10 @@ Bite 6 will need this anyway: bees plant new flowers "around the ones they came 
 **Spores fade to see-through, so over the cap they read as holes and over the sky as soap bubbles.** In the stepped frame 250 ms after a tap, the ring is pale blue-grey where it crosses the sky and pink where it crosses the red cap, because a spore fading by `alpha` takes on whatever is behind it. The inked rim fades with it. The effect looks like bubbles rising, not a puff of spores leaving a mushroom.
 
 Ask: keep the dots opaque in `PALETTE.spore` for most of the flight and let them go by shrinking (`scale` down to 0 over the last third, with alpha only in the final frames). Check it with a stepped frame at ~250 ms against the cap and against the sky.
+
+**@vzakharov (agent)** — 2026-09-26T09:48:26Z
+
+Done in 94bb9c6. The dots no longer fade: they keep `PALETTE.spore` and their ink, grow as they leave the cap, and shrink to nothing over the last third of the flight (a tween chain beside the flight tween). In a stepped frame at 250 ms the ring reads cream and outlined over both the cap and the sky.
 
 ---
 
@@ -487,6 +549,10 @@ Ask: pick the feel by frames rather than by the constant: damping around 2–2.5
 
 The same goes for `BLOOM_DEPTH`: +28% on a head 40 px across is about 11 px, which is hard to see on the back row. The frame at 250 ms shows it, but only if you know where to look.
 
+**@vzakharov (agent)** — 2026-09-26T09:48:26Z
+
+Done in 3445d7b. Damping 2.4 at 1.8 Hz, and `WOBBLE_DURATION` is now `ln(1 / WOBBLE_REST) / damping` (about 1.9 s), so the two can no longer disagree. The test checks that the bounce is still above a tenth of its depth after 0.6 s, and that it is under `WOBBLE_REST` within the span's last 50 ms, so cutting it off is invisible. `BLOOM_DEPTH` is now 0.45, up from 0.28.
+
 ---
 
 <a id="t14"></a>
@@ -510,11 +576,15 @@ The same goes for `BLOOM_DEPTH`: +28% on a head 40 px across is about 11 px, whi
 
 Ask: give the shadow its own `Graphics` under the mushroom (same depth minus a little), positioned at the foot and never rotated. At most, widen it slightly on the squash, which is the one change a real shadow would show.
 
+**@vzakharov (agent)** — 2026-09-26T09:48:27Z
+
+Done in 3d4af2b. The shadow has its own graphics (`drawMushroomShadow`), placed at the foot just behind its mushroom (`depth y − 0.5`) and never rotated. The one thing it does on a tap is spread by `SHADOW_SPREAD` of the squash. In the stepped tap frame it lies flat while the front mushroom rocks.
+
 ---
 
 <a id="t15"></a>
 
-### `src/pages/mushrooms/ui/scene/sound.ts`:180 — unresolved
+### `src/pages/mushrooms/ui/scene/sound.ts`:204 — unresolved
 
 ```diff
 @@ -0,0 +1,230 @@
@@ -531,6 +601,259 @@ Ask: give the shadow its own `Graphics` under the mushroom (same depth minus a l
 
 Ask: on mute, `context.suspend()` after the gain has faded (the same call `followVisibility` already makes), and on unmute `resume()`. `followVisibility` then has to leave a muted context suspended when the tab comes back, which is one `if` there.
 
+**@vzakharov (agent)** — 2026-09-26T09:48:28Z
+
+Done in 47fd58f. A mute fades out over `FADE_SECONDS` and then suspends the context. Every resume (a later tap's `start()`, the tab coming back) goes through one `settle()`, which leaves the context suspended while muted or hidden. A bird that comes due while the context is suspended is skipped rather than queued. Checked in the browser: the context reads `running`, then `suspended` 0.6 s after mute, then `running` after unmute.
+
+---
+
+<a id="t16"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved
+
+```diff
+@@ -0,0 +1,284 @@
+… 251 lines elided …
++    };
++    const graphics = this.scene.add
++      .graphics()
++      .setInteractive(hit, containsMushroom);
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**Blocker: this call turns off input for the whole game.** Phaser 4.2.1's `InputPlugin.setHitArea` (`src/input/InputPlugin.js`, around line 2377) reads any non-empty plain object as a *config* object. It looks for `config.hitArea` and `config.hitAreaCallback`, finds neither on `{ cap, stem }`, falls back to the texture, and sets the callback to `null`. In the page, every mushroom's `input.hitAreaCallback` is `null` and `customHitArea` is `false`. The first tap anywhere then throws `n.hitAreaCallback is not a function` from the hit test, which walks every interactive object, so buttons and flowers go dead with it.
+
+Ask: pass it as a config, `setInteractive({ hitArea: hit, hitAreaCallback: containsMushroom })`, or wrap the two polygons in an object Phaser won't take for a config. Then make this class of bug impossible to ship quietly: the frame recipe should drive every control and **fail on any `pageerror`**. The megabeast notes already argue for committing that recipe as a script. This is the bite that shows why. Check: a scripted run of `+` → pick → tap a mushroom → `−` → tap a flower → mute logs zero page errors, and `scene.meadow` changes as each tap says it should.
+
+---
+
+<a id="t17"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved
+
+```diff
+@@ -0,0 +1,284 @@
+… 205 lines elided …
++      cap({ x: -half, y: -genes.capHeight * 0.2 }),
++    ];
++    shown.hit.cap.setTo([...dome, ...underside].map((point) => canvas(point)));
++    const reach = (genes.stemWidth / 2) * genes.footBulge * (1 + HIT_PAD * 4);
++    const { x: topX, y: topY } = stemAt(genes, 1);
++    shown.hit.stem.setTo(
++      [
++        { x: -reach, y: 0 },
++        { x: reach, y: 0 },
++        { x: topX + reach, y: topY },
++        { x: topX - reach, y: topY },
++      ].map((point) => canvas(point)),
++    );
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**The stem's tap area is a straight quad from foot to top, `footBulge`-wide along its whole length.** The stem as drawn is a quadratic curve that tapers above the foot. On the crossed clump, that makes the front mushroom's quad cover the back mushroom's lower and middle stem, including places where the back stem is plainly the one painted on top. With input patched back in, aiming at mushroom-1's lower stem selected mushroom-2 on all three screens tried. One tablet example: (568, 522) CSS px. The clump is the one thing in Syama's drawing, and his first tap will go there.
+
+The worst chord-to-curve gap is small: 0.275 × `stemBend` × `stemHeight`, about 0.064 units. The real cost is the padding: `footBulge × (1 + 4·HIT_PAD)` holds the foot's width all the way up.
+
+Ask: build the stem polygon from `stemOutline(genes)`, the outline `drawMushroom` actually fills, padded a little, so "the cap and the stem as drawn" (the `MushroomHit` docstring) is literally true. Check (pure, no Phaser needed if the polygon builder moves into `model/`): for points sampled along each clump mushroom's drawn stem, across 2000 visits and every viewport, the front-most hit area containing the point belongs to the mushroom drawn there.
+
+---
+
+<a id="t18"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.ts`:85 — unresolved
+
+```diff
+@@ -0,0 +1,387 @@
+… 68 lines elided …
++ * against the clump's. A row flanking the clump, one in front of it, then a
++ * back row, small and hazy.
++ */
++const FOREST_SLOTS = {
++  landscape: [
++    [0.14, 0.8, 0.6],
++    [0.88, 0.62, 0.58],
++    [0.22, 0.06, 0.5],
++    [0.8, 0.1, 0.5],
++  ],
++  portrait: [
++    [0.16, 0.54, 0.44],
++    [0.84, 0.58, 0.44],
++    [0.22, 0.04, 0.42],
++    [0.78, 0.08, 0.42],
++  ],
++} as const;
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**On a phone, the forest is below the size a finger can hit.** From the sweep (2000 visits, the real genes): in phone portrait, slots 2–5 get `size` 70–73 CSS px, so caps are 50–53 px wide and stems 9 px. The plan's rule is "every target at least ~64 CSS px", and `TAP_RADIUS` enforces it only on circles. Mushroom hit areas are polygons and exempt, so the rule quietly stops at the object where it matters most. A six-year-old can't reliably select a back-row mushroom on a phone, so `−` can't remove one. Phone landscape is similar: 86–103 px sizes, caps down to 62 px.
+
+Ask: pick one and write it into the plan as a decision. Either keep a floor under a forest slot's size so its cap is at least `2 × TAP_RADIUS` wide, or give a phone fewer slots (`MUSHROOM_SLOTS` per orientation or per screen class) rather than six unreachable ones. Check in `layout.test.ts`: for every viewport and every slot, `GENE_RANGES.capWidth[0] × size ≥ 2 × TAP_RADIUS`. Also a mutation check: shrink one slot's scale and watch the test fail.
+
+---
+
+<a id="t19"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:127 — unresolved
+
+```diff
+@@ -0,0 +1,138 @@
+… 106 lines elided …
++      for (const place of back) assert.ok(place.size < nearest.size);
++    });
++
++    it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
++      const { mute, plus, minus, picker } = meadowLayout(width, height, 1);
++      assert.equal(picker.length, CAP_KINDS.length);
++      for (const drawn of [plus, minus, ...picker]) {
++        assert.ok(drawn.r >= TAP_RADIUS);
++      }
++      // Each as its hit area, which the mute's small drawing reaches past.
++      const controls = [mute, plus, minus, ...picker].map((control) => ({
++        ...control,
++        r: tapReach(control.r),
++      }));
++      for (const [index, control] of controls.entries()) {
++        assert.ok(onScreen(control, width, height), `control ${index} off`);
++        for (const other of controls.slice(index + 1)) {
++          assert.ok(apart(control, other), `control ${index} overlaps`);
++        }
++      }
++    });
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**This test checks controls against each other, and the controls overlap the meadow.** A gate's coverage has been read as the whole rule. With the same sweep:
+
+- In phone landscape (844×390), slot 3's cap overlaps the `−` hit circle in **61.5%** of visits. The frame shows `−` sitting on mushroom-4's cap (`−` spans x 754–826, y 192–264; the cap spans x 683–767, y 229–287) with a flower hidden behind it. HUD depth wins, so a tap on that edge of the cap removes whatever is selected. That is the one destructive button in the game, triggered by a tap meant for a mushroom.
+- In phone portrait, the picker drops to y 133 at r 41, and its fourth button sits right on the sun.
+- In phone landscape, slot 0's cap reaches picker button 1 in 1.2% of visits.
+
+Ask: extend this test so every control's `tapReach` circle stays clear of every slot's farthest cap reach (`maxReach` with its splay, as `sizeToFit` uses) and of the sun's disc. Then move whatever it catches. On a phone held sideways, `+`/`−` probably want to leave the ground band entirely.
+
+---
+
+<a id="t20"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.ts`:84 — unresolved
+
+```diff
+@@ -0,0 +1,387 @@
+… 75 lines elided …
++    [0.22, 0.06, 0.5],
++    [0.8, 0.1, 0.5],
++  ],
++  portrait: [
++    [0.16, 0.54, 0.44],
++    [0.84, 0.58, 0.44],
++    [0.22, 0.04, 0.42],
++    [0.78, 0.08, 0.42],
++  ],
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**Tablet portrait, the second layout, stacks the whole forest into one band behind the clump.** At 820×1180, mushroom-6's cap is about half hidden behind mushroom-2's, and mushroom-5 sits partly behind mushroom-1. Every mushroom is inside y ≈ 1000–1700 of the 2360-px buffer, with the top 40% empty sky and the bottom fifth bare grass. The back row at `down` 0.04/0.08 and `across` 0.22/0.78 lands exactly where the clump's V of caps opens. That is the "back row centre is always hidden" problem from the landscape table, back again one orientation over.
+
+Ask: place the portrait back row outside the clump's caps (wider `across`, or in front instead of behind), and consider putting more ground under a tall screen (`groundTop` 0.62 leaves the sky most of it). Check: a sweep test that no slot's cap bounding box is more than ~25% covered by a nearer slot's, on every viewport. It is the same kind of property as the edge-margin test, and it would have caught this.
+
+---
+
+<a id="t21"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved
+
+```diff
+@@ -0,0 +1,284 @@
+… 42 lines elided …
++ * its rings, and its pulse. A ring of light on the ground round the foot says
++ * which of two crossed mushrooms it is.
++ */
++const GLOW_REACH = 0.6;
++const GLOW_RINGS = 5;
++const GLOW_ALPHA = 0.07;
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**Selection is hard to see at arm's length.** Five rings at `GLOW_ALPHA` 0.07 of a pale colour add up to a halo that is nearly invisible against the grass and hills. On a clump mushroom, the front cap covers most of it. The foot ring is a thin pale-yellow line on green. In `tabL-17` (selected mushroom-5, back left) you have to know it's there to find it. For a child, the selection is the entire answer to "what will `−` take away?".
+
+It also stays where `paintGlow` last put it. `update` fades it with `scaleY` but never moves it, so while a grown mushroom (selected on arrival) rises from nothing, the halo waits at its full-size cap height, and while a tapped one rocks by `WOBBLE_ROCK`, the halo doesn't follow.
+
+Ask: something a six-year-old reads at a glance, and that moves with the mushroom. For example, a thick bright outline traced over the cap and stem polygons, or a gentle bob of the selected mushroom itself, with the ground ring kept but in a colour that contrasts with green. Check with a frame at phone size next to the unselected frame: the difference should be obvious at thumbnail scale.
+
+---
+
+<a id="t22"></a>
+
+### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:95 — unresolved
+
+```diff
+@@ -0,0 +1,236 @@
+… 89 lines elided …
++          this.voice.pop();
++          this.dispatch({ kind: 'pick' });
++        },
++        remove: () => {
++          this.dispatch({ kind: 'remove' });
++        },
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**`−` with nothing selected, and `+` with a full meadow, answer a tap with a faded wobble and no sound.** The plan's rule is "every tap answers within a frame with motion and sound; anything tappable does something". Taking the frame the plan hands us as given: *select, then press `−`* is a desktop-software pattern. A six-year-old presses `−` first and learns nothing from a dimmed button that shrugs. The same goes for `+` at six mushrooms: nothing says "full".
+
+Ask: decide it in the plan. One option consistent with "nothing to lose": `−` with no selection sinks the newest mushroom, so `−` always takes something away, and selection only chooses which. `+` when full could shake its head (a quick side-to-side rather than the press) with a low "nuh-uh" voice, or wobble every mushroom once, as though the meadow were showing it is full. Whatever is chosen, cover the model half in `game.test.ts` (`remove` with `selected: undefined`) and give each outcome its own voice.
+
+---
+
+<a id="t23"></a>
+
+### `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved
+
+```diff
+@@ -0,0 +1,128 @@
+… 86 lines elided …
++      this.place(button, at);
++      drawCapButton(button.graphics, at.r, cap);
++      if (opening) button.shownAt = this.now() + index * PICK_STAGGER;
++      button.graphics.setVisible(meadow.picking);
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**The picker opens with a staggered pop and closes in one frame.** A pick hides all four buttons immediately, so the press-in on the chosen button is never seen, and the row just vanishes. Juice is the product: closing should mirror opening, the others sinking in the stagger's reverse while the picked one pops toward where the mushroom grows. Its `sink` already exists in `motion.ts`.
+
+Two related gaps in the model (`game.ts` `remove` at line 91): `−` while the picker is open removes the mushroom and leaves the picker up, and a flower tap doesn't close it. Every other tap does (`select`, `deselect`).
+
+Also, the picker sits top centre while `+` is on the right edge, with nothing tying them together. Consider having the row unfold from `+`, or at least start its stagger from the end nearest `+`.
+
+Ask: a closing animation driven by the clock like the opening (`hiddenAt`, with `sink` over the stagger), `remove` returning `picking: false`, and a `game.test.ts` case for it.
+
+---
+
+<a id="t24"></a>
+
+### `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved
+
+```diff
+@@ -0,0 +1,128 @@
+… 14 lines elided …
++/** A button's disc, centred on the graphics' own position so a tap can press it in by scale. */
++function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
++  graphics.clear();
++  graphics.fillStyle(PALETTE.hud, 0.55);
+```
+
+**@vzakharov (agent)** — 2026-09-26T11:41:19Z
+
+**The discs are 55% opaque, so the sun and clouds show through the picker.** On phone portrait (`phoneP-03`), the fourth button sits over the sun and reads as a sun with a mushroom on it. The four icons are also close: the two two-tone caps differ only in which band is dark, and at 41 px radius that is a small difference (it is the look-alike note the last session left open). `+` and `−` share one icon and differ only by a badge a third of the button's size.
+
+Ask: an opaque disc, or at least one opaque enough that nothing behind reads through. Exaggerate each cap's difference at icon size (for example, a spotted-dark-top against a plain dark-bottom, or a thicker band). Make the `+`/`−` badge large enough to carry the meaning on its own. Check: a phone-portrait frame of the open picker over the sun, next to the same frame with the picker closed.
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -543,3 +866,4 @@ Ask: on mute, `context.suspend()` after the gain has faded (the same call `follo
 - **2026-09-26T08:20:39Z** @vzakharov renamed from «feat(vova): a meadow with two mushrooms at /mushrooms — stage one of Syama's game» to «feat(vova): Syama's mushroom game at /mushrooms».
 - **2026-09-26T08:50:20Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325225829.
 - **2026-09-26T09:40:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325464106.
+- **2026-09-26T11:41:19Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325798267.
