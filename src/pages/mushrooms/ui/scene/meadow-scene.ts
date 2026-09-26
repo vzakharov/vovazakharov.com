@@ -25,7 +25,7 @@ import {
 import { capFrame, splayed } from '../../model/mushroom-pose';
 import { mulberry32, type Seeded } from '../../model/random';
 import { drawFlower } from './draw-flower';
-import { drawMushroom } from './draw-mushroom';
+import { drawMushroom, toCanvas } from './draw-mushroom';
 import { growTufts, paintTufts } from './grass';
 import { drawMuteButton } from './hud';
 import {
@@ -208,12 +208,13 @@ export class MeadowScene extends Phaser.Scene {
       drawMushroom(shown.graphics, genes, size);
       // The box round the stem and the cap, in the mushroom's own frame.
       const cap = capFrame(genes);
+      const canvas = toCanvas(size);
       const outline = [
         { x: 0, y: 0 },
         cap({ x: 0, y: genes.capHeight }),
         cap({ x: -genes.capWidth / 2, y: 0 }),
         cap({ x: genes.capWidth / 2, y: 0 }),
-      ].map((point) => ({ x: point.x * size, y: -point.y * size }));
+      ].map((point) => canvas(point));
       const xs = outline.map((point) => point.x);
       const ys = outline.map((point) => point.y);
       const pad = size * 0.06;
@@ -244,7 +245,7 @@ export class MeadowScene extends Phaser.Scene {
       const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
       puffSpores(
         this,
-        toWorld(graphics, turn, { x: crown.x * size, y: -crown.y * size }),
+        toWorld(graphics, turn, toCanvas(size)(crown)),
         genes.capWidth * size * 0.75,
         SPORE_DEPTH,
       );

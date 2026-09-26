@@ -17,7 +17,7 @@ const HIGHLIGHT_ALPHA = 0.35;
 const RIM_ROUNDS = 2;
 
 /** From the model's frame (units of size, y up) to the canvas's. */
-function toCanvas(size: number): (point: Point) => Point {
+export function toCanvas(size: number): (point: Point) => Point {
   return ({ x, y }) => ({ x: x * size, y: -y * size });
 }
 

@@ -3,6 +3,8 @@ import type { WithId } from '@/shared/typings';
 import type { Bent } from './geometry';
 import {
   between,
+  geneFrom,
+  type GeneRanges,
   mulberry32,
   nextSeed,
   type Random,
@@ -49,7 +51,7 @@ export const FLOWER_RANGES = {
   centre: [0.09, 0.13],
   stemBend: [-0.14, 0.14],
   leafAt: [0.25, 0.5],
-} as const satisfies Record<string, readonly [number, number]>;
+} as const satisfies GeneRanges;
 
 function pick<Item>(random: Random, items: readonly [Item, ...Item[]]): Item {
   return items[Math.floor(random() * items.length)] ?? items[0];
@@ -57,8 +59,7 @@ function pick<Item>(random: Random, items: readonly [Item, ...Item[]]): Item {
 
 export function flowerGenes({ seed }: Seeded): FlowerGenes {
   const random = mulberry32(seed);
-  const gene = (name: keyof typeof FLOWER_RANGES) =>
-    between(random, FLOWER_RANGES[name][0], FLOWER_RANGES[name][1]);
+  const gene = geneFrom(random, FLOWER_RANGES);
   const fold = Math.round(gene('fold'));
   return {
     petal: pick(random, PETAL_KINDS),

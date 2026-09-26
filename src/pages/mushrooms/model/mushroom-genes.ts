@@ -3,6 +3,8 @@ import type { WithId } from '@/shared/typings';
 import type { Bent, Circle } from './geometry';
 import {
   between,
+  geneFrom,
+  type GeneRanges,
   mulberry32,
   nextSeed,
   type Random,
@@ -25,9 +27,8 @@ export type Mushroom = WithId & MushroomSeed;
 /**
  * One mushroom's shape. Lengths are in units of the mushroom's size, which the
  * scene sets per placement, so the same genes paint a near mushroom and a far
- * one. Angles are in radians.
+ * one. Angles are in radians. The cap follows the stem's bend.
  */
-/** The cap follows the stem's bend. */
 export type MushroomGenes = Capped &
   Bent & {
     stemHeight: number;
@@ -60,7 +61,7 @@ export const GENE_RANGES = {
   domePower: [0.55, 1.15],
   capTilt: [-0.08, 0.08],
   hueNudge: [-0.03, 0.03],
-} as const satisfies Record<string, readonly [number, number]>;
+} as const satisfies GeneRanges;
 
 const SPOT_COUNT = [4, 8] as const;
 const SPOT_RADIUS = [0.035, 0.065] as const;
@@ -108,8 +109,7 @@ function growSpots(
 
 export function mushroomGenes({ seed, cap }: MushroomSeed): MushroomGenes {
   const random = mulberry32(seed);
-  const gene = (name: keyof typeof GENE_RANGES) =>
-    between(random, GENE_RANGES[name][0], GENE_RANGES[name][1]);
+  const gene = geneFrom(random, GENE_RANGES);
   const shape = {
     stemHeight: gene('stemHeight'),
     stemWidth: gene('stemWidth'),

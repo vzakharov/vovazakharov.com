@@ -24,6 +24,23 @@ export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
 }
 
+/** Each named gene's `[min, max]`, the bounds it is drawn between. */
+export type GeneRanges<Name extends string = string> = Record<
+  Name,
+  readonly [number, number]
+>;
+
+/** Draws a gene between its bounds in `ranges`, one call to `random` each. */
+export function geneFrom<Name extends string>(
+  random: Random,
+  ranges: GeneRanges<Name>,
+): (name: Name) => number {
+  return (name) => {
+    const [min, max] = ranges[name];
+    return between(random, min, max);
+  };
+}
+
 /** A fresh 32-bit seed, for whatever is about to be grown. */
 export function nextSeed(random: Random): number {
   return Math.floor(random() * 2 ** 32);
