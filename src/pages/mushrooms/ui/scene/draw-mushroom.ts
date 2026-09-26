@@ -47,19 +47,32 @@ function stemOutline(genes: MushroomGenes): Point[] {
 }
 
 /**
- * The dome down to `fromLevel` of its height, in the cap's frame. The arc is
- * sampled by angle, which crowds the samples toward the rim where the dome
- * turns steepest, and the rim is rounded into the underside.
+ * The dome's surface between two angles across it, `half` its half-width.
+ * Sampled by angle, which crowds the samples toward the rim where the dome
+ * turns steepest; nothing falls below `floor`.
+ */
+function domeArc(
+  genes: MushroomGenes,
+  half: number,
+  [from, to]: readonly [number, number],
+  floor = 0,
+): Point[] {
+  return sample(from, to, CURVE_STEPS, (angle) => {
+    const x = half * Math.sin(angle);
+    return { x, y: Math.max(floor, domeHeight(genes, x)) };
+  });
+}
+
+/**
+ * The dome down to `fromLevel` of its height, in the cap's frame, its rim
+ * rounded into the underside.
  */
 function domeBand(genes: MushroomGenes, fromLevel: number): Point[] {
   const level = genes.capHeight * fromLevel;
   const half =
     (genes.capWidth / 2) *
     Math.sqrt(1 - (fromLevel === 0 ? 0 : fromLevel ** (2 / genes.domePower)));
-  const arc = sample(Math.PI / 2, -Math.PI / 2, CURVE_STEPS, (angle) => {
-    const x = half * Math.sin(angle);
-    return { x, y: Math.max(level, domeHeight(genes, x)) };
-  });
+  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2], level);
   // The lower edge sags a little, so a band reads as wrapping the dome.
   const sag = genes.capHeight * (fromLevel === 0 ? 0.1 : 0.06);
   const underside = sample(-half, half, CURVE_STEPS, (x) => ({
@@ -74,11 +87,7 @@ function domeBand(genes: MushroomGenes, fromLevel: number): Point[] {
  * light does not reach.
  */
 function shadeArc(genes: MushroomGenes): Point[] {
-  const half = genes.capWidth / 2;
-  return sample(0.3, Math.PI / 2, CURVE_STEPS, (angle) => {
-    const x = half * Math.sin(angle);
-    return { x, y: domeHeight(genes, x) };
-  });
+  return domeArc(genes, genes.capWidth / 2, [0.3, Math.PI / 2]);
 }
 
 /**
