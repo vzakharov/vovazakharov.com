@@ -80,14 +80,15 @@ export const FOOT_CLEARANCE = 0.45;
  * front, leaving the back row room above its caps; its ground is deeper for
  * the clump's size, so its feet stand closer in depth and farther apart
  * across. The steps set where the two stems cross, and the back door needs
- * the crossing either low, the door above it, or high, the door below it: a
- * crossing midway hides every height the door could take (`doorInSight`).
+ * the crossing low, the door above it: a crossing midway hides every height
+ * the door could take (`doorInSight`), and a crossing high, the door below
+ * it, stands the caps nearly one over the other, the back one hidden.
  */
 const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
 const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.74, 0.8] } as const;
 const CLUMP_STEP = {
   landscape: [0.02, -0.04],
-  portrait: [0.22, -0.1],
+  portrait: [0, -0.03],
 } as const;
 /**
  * The forest's slots, after the clump's two, in the order they fill: across as

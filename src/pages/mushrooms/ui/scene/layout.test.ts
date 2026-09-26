@@ -62,6 +62,13 @@ const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const STEM_TRIES = 20;
 /** How much of a cap's bounding box a nearer mushroom's cap may hide. */
 const MOST_HIDDEN = 0.25;
+/**
+ * How much of the clump's back cap shows past the front one at the least:
+ * the two cross, as in the drawing, but each reads as a cap of its own.
+ */
+const BACK_CAP_SHOWN = 0.45;
+/** How many points across a cap its share in view is read at. */
+const CAP_STEPS = 16;
 /** Every station a door may take, over a run of visits' mushrooms of every cap kind. */
 const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed, index) =>
   doorStations(
@@ -144,6 +151,26 @@ function distanceTo(outline: readonly Point[], point: Point): number {
   );
 }
 
+/** How much of the area `outlines` hold together lies outside every one of `covers`. */
+function shownPast(
+  outlines: readonly Point[][],
+  covers: readonly Point[][],
+): number {
+  const { left, right, top, bottom } = boxAround(outlines.flat());
+  const step = (right - left) / CAP_STEPS;
+  let inside = 0;
+  let shown = 0;
+  for (let x = left + step / 2; x < right; x += step) {
+    for (let y = top + step / 2; y < bottom; y += step) {
+      const point = { x, y };
+      if (!outlines.some((outline) => containsPoint(outline, point))) continue;
+      inside += 1;
+      if (!covers.some((cover) => containsPoint(cover, point))) shown += 1;
+    }
+  }
+  return shown / inside;
+}
+
 /** The front-most of `clump` whose outlines, as drawn or as tapped, hold `point`. */
 function topmost(
   clump: ReturnType<typeof standingClump>,
@@ -176,6 +203,20 @@ describe('meadowLayout', () => {
             `visit ${seed}: ${mushroom.id} past the edge`,
           );
         }
+      }
+    });
+
+    it(`keeps the clump's back cap in view past the front one on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      for (const seed of VISITS) {
+        const [front, back] = standingClump(seed, layout);
+        assert.ok(front && back);
+        const [dome = [], gills = []] = back.drawn;
+        const shown = shownPast([dome, gills], front.drawn.slice(0, 2));
+        if (shown < BACK_CAP_SHOWN)
+          assert.fail(
+            `visit ${seed}: ${back.id}'s cap ${(shown * 100).toFixed(0)}% in view`,
+          );
       }
     });
 
