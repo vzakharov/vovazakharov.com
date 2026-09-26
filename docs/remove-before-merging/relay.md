@@ -81,7 +81,7 @@ go-ahead for the plan as written, recommendation included.
   `ADOPTING.md`'s reason); `scripts/muthur-sync.sh` added to `adopted`, since
   it sits outside the skill's directory.
 - **Nudge wording deviation:** the source's `/update-muthur` says nothing is
-  *cloned* before the operator says yes, but its script refreshes
+  _cloned_ before the operator says yes, but its script refreshes
   `tmp/muthur-source` during the nudge. The local text says "read or claimed".
 - **PR type `chore:`**: the squash subject is the deploy switch, and this PR
   changes no site.
@@ -89,7 +89,7 @@ go-ahead for the plan as written, recommendation included.
   `## Eaten so far` / `## Rest of the elephant` / `## This bite`); **pizza** =
   a carve into issues, one PR per slice; **ride-along** / **claimed** =
   `/update-muthur`'s two arguments; **the nudge** = `scripts/muthur-sync.sh
-  nudge` run from SessionStart.
+nudge` run from SessionStart.
 
 ## 5. Errors and dead ends
 

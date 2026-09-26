@@ -1,6 +1,7 @@
 #!/bin/bash
-# Sourced by the hooks beside it — the `Stop` one takes everything here but
-# `emit_context` — and by the `PostToolUse` hook under
+# Sourced by the `UserPromptSubmit` hooks beside it, by the two under
+# `.claude/costs/hooks/` — one of those a `Stop` hook, which takes everything
+# here but `emit_context` — and by the `PostToolUse` hook under
 # `.claude/context-budget/hooks/`: the payload read, the context-injecting JSON
 # shape, and the guards each hook needs before it can do anything.
 #

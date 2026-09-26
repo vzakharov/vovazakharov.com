@@ -1,0 +1,398 @@
+"""Prices a Claude Code transcript at Claude API rates, for the `Stop` hook that
+writes one session's row and the report that sums many.
+
+`.claude/costs/CLAUDE.md` carries the transcript's shape and what the totals
+leave out.
+"""
+
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass, fields
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Set, Tuple
+
+from lib.billed import Event, Telemetry, compaction_costs, disagreement
+from lib.identity import (
+    cost_state_of,
+    kind_of,
+    operator_of,
+    pr_number_of,
+    prompt_text_of,
+    session_url_in,
+)
+from lib.orientation import (
+    Priced,
+    ToolCall,
+    Trail,
+    boundary_of,
+    calls_in,
+    is_boundary,
+    measure,
+    note_results,
+    summary_chars_of,
+)
+from lib.rows import SessionCost
+from lib.shape import (
+    ShapeError,
+    json_lines,
+    mistyped,
+    read_count,
+    read_number,
+    read_object,
+    read_string,
+    required,
+)
+from lib.tally import Rates, Tally, billable_tokens, cost_of
+
+
+class UnpricedError(ValueError):
+    """A response under a `(model, speed)` pair the rate table has no rates for."""
+
+
+# --- The rate table -----------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class PriceTable:
+    as_of: str
+    rates: Dict[str, Rates]
+
+
+
+def parse_prices(text: str) -> PriceTable:
+    table = json.loads(text)
+    if not isinstance(table, dict):
+        raise ShapeError("prices.json: not an object")
+    rates: Dict[str, Rates] = {}
+    for key, entry in required(read_object, table, "rates", "prices.json").items():
+        where = f"prices.json rates[{key!r}]"
+        if not isinstance(entry, dict):
+            raise ShapeError(f"{where}: not an object")
+        rates[key] = Rates(
+            **{f.name: required(read_number, entry, f.name, where) for f in fields(Rates)}
+        )
+    return PriceTable(as_of=required(read_string, table, "as_of", "prices.json"), rates=rates)
+
+
+def rate_key(model: str, speed: Optional[str]) -> str:
+    """`<model>/<speed>`, the pair a response is billed under."""
+    return f"{model}/{speed if speed is not None else 'standard'}"
+
+
+# --- Reading a transcript -----------------------------------------------------
+
+# Claude Code's placeholder for a turn no model served — a cancellation, an
+# interrupted request. It is not a model, so the unpriced-pair error would be
+# reporting the wrong thing; a warning covers one ever arriving with tokens.
+SYNTHETIC_MODEL = "<synthetic>"
+
+
+@dataclass(frozen=True)
+class Response:
+    message_id: str
+    model: str
+    speed: Optional[str]
+    session_id: Optional[str]
+    git_branch: Optional[str]
+    cwd: Optional[str]
+    timestamp: Optional[str]
+    is_sidechain: bool
+    stop_reason: Optional[str]
+    request_id: Optional[str]
+    calls: Tuple[ToolCall, ...]
+    tokens: Tally
+
+
+def _is_response_record(record: Any) -> bool:
+    # Prompts, attachments and tool results share the file and carry no usage,
+    # so only a record that looks like a billed response is held to the shape.
+    if not isinstance(record, dict):
+        return False
+    message = record.get("message")
+    return isinstance(message, dict) and "usage" in message
+
+
+def _parse_response(record: Dict[str, Any], where: str, warnings: List[str]) -> Response:
+    message = required(read_object, record, "message", where)
+    message_id = required(read_string, message, "id", where)
+    usage = required(read_object, message, "usage", where)
+    at = f"{where} usage"
+
+    written = read_count(usage, "cache_creation_input_tokens", at) or 0
+    split = read_object(usage, "cache_creation", at) or {}
+    split_5m = read_count(split, "ephemeral_5m_input_tokens", at) or 0
+    split_1h = read_count(split, "ephemeral_1h_input_tokens", at) or 0
+    # A split that does not account for the whole write leaves the rest at the
+    # API's own default TTL, and says so rather than rounding it away.
+    trust_split = split_5m + split_1h == written
+    if not trust_split and written > 0:
+        warnings.append(
+            f"{message_id}: cache_creation split ({split_5m} + {split_1h}) does not"
+            f" account for {written} written tokens; billed at the 5-minute rate"
+        )
+    details = read_object(usage, "output_tokens_details", at) or {}
+    sidechain = record.get("isSidechain")
+    if sidechain is not None and not isinstance(sidechain, bool):
+        raise mistyped(where, "isSidechain", sidechain, "a boolean")
+
+    return Response(
+        message_id=message_id,
+        model=required(read_string, message, "model", where),
+        speed=read_string(usage, "speed", at),
+        session_id=read_string(record, "sessionId", where),
+        git_branch=read_string(record, "gitBranch", where),
+        cwd=read_string(record, "cwd", where),
+        timestamp=read_string(record, "timestamp", where),
+        is_sidechain=sidechain is True,
+        stop_reason=read_string(message, "stop_reason", where),
+        request_id=read_string(record, "requestId", where),
+        calls=calls_in(message, where),
+        tokens=Tally(
+            input_tokens=required(read_count, usage, "input_tokens", at),
+            cache_write_5m_tokens=split_5m if trust_split else written,
+            cache_write_1h_tokens=split_1h if trust_split else 0,
+            cache_read_tokens=read_count(usage, "cache_read_input_tokens", at) or 0,
+            output_tokens=required(read_count, usage, "output_tokens", at),
+            thinking_tokens=read_count(details, "thinking_tokens", at) or 0,
+        ),
+    )
+
+
+@dataclass(frozen=True)
+class TranscriptSources:
+    """A session's transcripts: the main file, and one per subagent it spawned.
+
+    A subagent's responses are billed to the session that spawned it and are
+    written to a **separate file**, so a reading that opens only the main
+    transcript prices the session short by however much it delegated — silently,
+    since the shortfall looks exactly like a session that delegated nothing.
+    """
+
+    main: str
+    subagents: Sequence[str] = ()
+
+
+# Marks the warning `at_stop` raises, which is what lets a rewrite of the row
+# carry it forward: the next run reads a transcript that has caught up.
+UNWRITTEN_TAIL = "not yet written when the Stop hook read the transcript"
+
+
+def is_unwritten_tail(warning: str) -> bool:
+    return UNWRITTEN_TAIL in warning
+
+
+def summarise_transcript(
+    sources: TranscriptSources,
+    prices: PriceTable,
+    fallback_session_id: str,
+    at_stop: bool = False,
+    events: Optional[Mapping[str, Event]] = None,
+) -> SessionCost:
+    """Raises `UnpricedError` when a transcript names a `(model, speed)` pair the
+    table cannot price, and `ShapeError` when a response record does not parse:
+    an unpriced response silently counted as free is the one failure that makes
+    the whole ledger a lie.
+
+    `at_stop` says the turn is over, so the session's own last response should
+    be the `end_turn` that closed it; anything else is warned about as a tail
+    the file had not yet been given.
+
+    `events` are the session's telemetry by request id. A response they cover
+    keeps its table price, the event's checking it; an event no response
+    matches is a call the transcript never recorded, and is added to the
+    totals at the event's own price."""
+    warnings: List[str] = []
+    last_own: Optional[Response] = None
+    seen: Set[str] = set()
+    by_rate: Dict[str, Tally] = {}
+    total, own_turns, subagents = Tally(), Tally(), Tally()
+    unpriced: Set[str] = set()
+    timestamps: List[str] = []
+    prs: Set[int] = set()
+    session_id: Optional[str] = None
+    branch: Optional[str] = None
+    cwd: Optional[str] = None
+    opening_prompt: Optional[str] = None
+    url: Optional[str] = None
+    operator: Optional[str] = None
+    claude_code_total_usd: Optional[float] = None
+    trail = Trail()
+    # The priced responses by id, which a later record of one adds its calls to.
+    held: Dict[str, Priced] = {}
+    matched: Set[str] = set()
+    matched_event_usd = 0.0
+    matched_table_usd = 0.0
+
+    # `delegated` forces the bucket for a subagent's own file. Its records carry
+    # `isSidechain` too, but the file they are in is the fact that does not
+    # depend on a flag having been set.
+    def scan(jsonl: str, label: str, delegated: bool) -> None:
+        nonlocal session_id, branch, cwd, opening_prompt, url, operator
+        nonlocal claude_code_total_usd, last_own, matched_event_usd, matched_table_usd
+        for where, line, record in json_lines(jsonl, label):
+            kind = kind_of(record)
+            # The session's own identity, which only its own file describes.
+            if not delegated:
+                if kind == "pr-link":
+                    pr = pr_number_of(record)
+                    if pr is not None:
+                        prs.add(pr)
+                    continue
+                if is_boundary(record):
+                    trail.boundaries.append(boundary_of(record, where))
+                    continue
+                if kind == "user":
+                    note_results(record, trail.result_chars)
+                    summary = summary_chars_of(record)
+                    if summary is not None and trail.boundaries:
+                        trail.boundaries[-1].summary_chars = summary
+                    if opening_prompt is None:
+                        opening_prompt = prompt_text_of(record)
+                    continue
+                if kind == "cost-state":
+                    # Last write wins: Claude Code rewrites this as it goes.
+                    state = cost_state_of(record)
+                    if state is not None:
+                        claude_code_total_usd = state
+                    continue
+                if kind == "attachment":
+                    if url is None:
+                        url = session_url_in(record, line)
+                    # The first one any SessionStart resolved, since a resume
+                    # runs the hook again.
+                    if operator is None:
+                        operator = operator_of(record)
+                    continue
+
+            if not _is_response_record(record):
+                continue
+            response = _parse_response(record, where, warnings)
+            if not (delegated or response.is_sidechain or response.model == SYNTHETIC_MODEL):
+                last_own = response
+            # One API response is written as one record per content block, each
+            # carrying the whole response's usage, so the id counts it once.
+            if response.message_id in seen:
+                earlier = held.get(response.message_id)
+                if earlier is not None:
+                    earlier.calls.extend(response.calls)
+                    earlier.ended_turn |= response.stop_reason == "end_turn"
+                continue
+            seen.add(response.message_id)
+
+            if not delegated:
+                if session_id is None:
+                    session_id = response.session_id
+                # Last write wins: a session that renames its branch mid-flight
+                # is filed under where its work ended up.
+                if response.git_branch is not None:
+                    branch = response.git_branch
+                if response.cwd is not None:
+                    cwd = response.cwd
+            if response.timestamp is not None:
+                timestamps.append(response.timestamp)
+
+            tokens = response.tokens
+            if response.model == SYNTHETIC_MODEL:
+                billable = billable_tokens(tokens)
+                if billable > 0:
+                    warnings.append(
+                        f"{response.message_id}: a {SYNTHETIC_MODEL} record carries"
+                        f" {billable} billable tokens and was not priced"
+                    )
+                continue
+
+            key = rate_key(response.model, response.speed)
+            rates = prices.rates.get(key)
+            if rates is None:
+                unpriced.add(key)
+                continue
+
+            tokens.responses = 1
+            tokens.cost_usd = cost_of(tokens, rates)
+            event = events.get(response.request_id or "") if events else None
+            if event is not None:
+                matched.add(event.request_id)
+                matched_event_usd += event.tokens.cost_usd
+                matched_table_usd += tokens.cost_usd
+            by_rate.setdefault(key, Tally()).add(tokens)
+            total.add(tokens)
+            own = not (delegated or response.is_sidechain)
+            (own_turns if own else subagents).add(tokens)
+            # A response with no timestamp has no place among the phases.
+            if response.timestamp is not None:
+                held[response.message_id] = Priced(
+                    message_id=response.message_id,
+                    at=response.timestamp,
+                    seq=len(trail.responses),
+                    own=own,
+                    ended_turn=response.stop_reason == "end_turn",
+                    cwd=response.cwd,
+                    tokens=tokens,
+                    rates=rates,
+                    calls=list(response.calls),
+                )
+                trail.responses.append(held[response.message_id])
+
+    scan(sources.main, "transcript", False)
+    for index, delegated in enumerate(sources.subagents, start=1):
+        scan(delegated, f"subagent transcript {index}", True)
+
+    if unpriced:
+        raise UnpricedError(
+            f"No rates for {', '.join(sorted(unpriced))} in the price table (as of"
+            f" {prices.as_of}). Add them to .claude/costs/prices.json — a response"
+            " counted as free is worse than no ledger at all."
+        )
+
+    if at_stop and last_own is not None and last_own.stop_reason != "end_turn":
+        warnings.append(
+            f"{last_own.message_id}: the session's last response stopped on"
+            f" `{last_own.stop_reason}` rather than `end_turn` — the turn's tail was"
+            f" {UNWRITTEN_TAIL}"
+        )
+
+    telemetry: Optional[Telemetry] = None
+    unseen: List[Event] = []
+    if events is not None:
+        telemetry = Telemetry(
+            events=len(events),
+            matched=len(matched),
+            matched_table_usd=matched_table_usd,
+            matched_event_usd=matched_event_usd,
+        )
+        unseen = [event for key, event in events.items() if key not in matched]
+        for event in unseen:
+            total.add(event.tokens)
+            by_rate.setdefault(rate_key(event.model, event.speed), Tally()).add(event.tokens)
+            telemetry.unseen.setdefault(event.query_source, Tally()).add(event.tokens)
+        mismatch = disagreement(telemetry)
+        if mismatch is not None:
+            warnings.append(mismatch)
+
+    in_order = sorted(timestamps)
+    orientation, compactions = measure(trail)
+    for compaction, billed in zip(
+        compactions, compaction_costs(unseen, [c.at for c in compactions])
+    ):
+        compaction.billed_usd = billed
+    return SessionCost(
+        session_id=session_id if session_id is not None else fallback_session_id,
+        branch=branch,
+        cwd=cwd,
+        opening_prompt=opening_prompt,
+        prs=sorted(prs),
+        url=url,
+        operator=operator,
+        first_response_at=in_order[0] if in_order else None,
+        last_response_at=in_order[-1] if in_order else None,
+        prices_as_of=prices.as_of,
+        claude_code_total_usd=claude_code_total_usd,
+        total=total,
+        own_turns=own_turns,
+        subagents=subagents,
+        by_rate=by_rate,
+        warnings=warnings,
+        orientation=orientation,
+        compactions=compactions,
+        telemetry=telemetry,
+    )
