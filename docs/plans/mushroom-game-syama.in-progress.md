@@ -267,15 +267,58 @@ Standing rules for every session in the chain:
      error or wrong effect; frames land in `tmp/play/`. Every bite's last
      frames come from it, after its last source commit.
 
+## This bite
+
+4. **The mouse house.** Syama's bottom row, read off the drawing: a mushroom
+   with windows, then `⊕`, `○`, `□`, the tall `▯` and the door. So:
+   - **A house button** under `−` on the right, its pictogram a fly agaric
+     with two little windows and a door, drawn through `drawMushroom` like
+     `+` and `−`. It opens its own picker — a row of five big buttons (the
+     four windows and the door) unfolding from it as the cap picker unfolds
+     from `+`, one after another on the clock, and folding back into it.
+     Opening one picker closes the other; a meadow tap, a flower tap and
+     `remove` close both.
+   - **A pick furnishes a mushroom**: the selected one, or with nothing
+     selected the newest, as `−` does ("No tap is ever answered with a
+     shrug"). A window goes on the cap, a door on the stem. The picker stays
+     open, so a child can add window after window.
+   - **The model**: `model/house.ts` holds `WINDOW_KINDS` (`cross`, `round`,
+     `square`, `tall`), a `House` (the windows in the order they were picked,
+     and whether there is a door) and `windowSlots(genes)` — where a cap has
+     room for windows, a row along the cap's lower band like the drawing's,
+     its count from the cap's width (three to five), filled from the middle
+     outward so one window sits centred and each next one balances it. A
+     `Mushroom` carries its `house`; `reduce` gains `furnish` (a window kind
+     or the door). A full row, or a second door, cannot act, and its button
+     shakes its head with the "nuh-uh".
+   - **Drawn** in `draw-house.ts`: each window an ink-outlined pane in a warm
+     window colour (`palette.ts`, a hue bite 8 lights up at dusk) with its
+     frame — `⊕` a round pane with a cross, `○` a round porthole with a rim,
+     `□` a square with four panes, `▯` a tall arched one — and the door an
+     arched wooden door with a knob at the stem's foot. They follow the cap
+     and the stem through every pose, breath and wobble, so they are painted
+     into the mushroom's own graphics or into children that move with it; a
+     new window or door pops in with an overshoot and a puff and a knock of
+     its own sound.
+   - **The mouse**: a door opens now and then — each mushroom's own rhythm,
+     from its seed — and a mouse's head peeks out (grey, round ears, pink
+     nose, whiskers, a blink), looks about and ducks back: a pure function of
+     the clock in `motion.ts` (`peek`), tested. A tap on a door brings the
+     mouse out at once with a squeak; a tap on a window is a tap on its
+     mushroom.
+   - **Checks**: reducer and slot tests (every slot inside the cap's drawn
+     outline and clear of the spots' centre, the fill order symmetric, every
+     slot at least a pane's width apart), `peek` tests, the controls' sweep
+     extended to the house button and its picker (reach, overlap, size floor,
+     clear of every slot's tap area), `pnpm play:mushrooms` extended to furnish
+     a mushroom with every kind, shake on a full row and a second door, and
+     tap a door; frames at tablet and phone beside the drawing.
+
 ## Rest of the elephant
 
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
 
-4. **The mouse house.** Syama's window row — `⊕`, `○`, `□`, the tall `▯` —
-   and the door, as pictograms; a pick puts it on the selected mushroom
-   (windows on the cap, the door on the stem, slots from the genes). A mouse
-   peeks out of a door now and then.
 5. **The butterfly.** `model/insect-genes.ts` (body, two wing pairs, pattern,
    colour nudge), `draw-insect.ts`, the button; a press flies one in from
    off-screen along a curve, wings beating, and it goes between flowers and
