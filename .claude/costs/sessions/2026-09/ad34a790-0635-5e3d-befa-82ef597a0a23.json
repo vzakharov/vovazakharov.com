@@ -1,0 +1,186 @@
+{
+  "sessionId": "ad34a790-0635-5e3d-befa-82ef597a0a23",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "@\"/root/.claude/uploads/ad34a790-0635-5e3d-befa-82ef597a0a23/6d045b11-_____________.m4a\" @\"/root/.claude/uploads/ad34a790-0635-5e3d-befa-82ef597a0a23/0eeb07e7-_…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01H7GQWEwvDwdcC2EUhkw9rR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-17T09:33:02.125Z",
+  "lastResponseAt": "2026-09-26T08:21:35.681Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 34219,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 612002,
+    "cacheReadTokens": 11572838,
+    "outputTokens": 114034,
+    "thinkingTokens": 44604,
+    "responses": 79,
+    "costUsd": 18.59898995
+  },
+  "ownTurns": {
+    "inputTokens": 1530,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 612002,
+    "cacheReadTokens": 11572838,
+    "outputTokens": 112279,
+    "thinkingTokens": 44604,
+    "responses": 75,
+    "costUsd": 18.537525950000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-1/standard": {
+      "inputTokens": 1492,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 484049,
+      "cacheReadTokens": 8941847,
+      "outputTokens": 93687,
+      "thinkingTokens": 37364,
+      "responses": 56,
+      "costUsd": 16.615711750000006
+    },
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 127953,
+      "cacheReadTokens": 2630991,
+      "outputTokens": 18592,
+      "thinkingTokens": 7240,
+      "responses": 19,
+      "costUsd": 1.9218142000000003
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 32689,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1755,
+      "thinkingTokens": 0,
+      "responses": 4,
+      "costUsd": 0.061464000000000005
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/mushroom-game-syama.draft.do-not-implement.md",
+    "endedAt": "2026-09-17T09:37:22.880Z",
+    "contextTokens": 177436,
+    "spend": {
+      "inputTokens": 324,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 139612,
+      "cacheReadTokens": 1286613,
+      "outputTokens": 13740,
+      "thinkingTokens": 7707,
+      "responses": 12,
+      "costUsd": 3.8041332499999996
+    }
+  },
+  "compactions": [
+    {
+      "at": "2026-09-17T12:04:26.520Z",
+      "trigger": "manual",
+      "compactedFrom": 235999,
+      "summaryChars": 17701,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "docs/plans/mushroom-game-syama.draft.do-not-implement.md",
+        "endedAt": "2026-09-17T12:07:27.659Z",
+        "contextTokens": 120405,
+        "spend": {
+          "inputTokens": 34,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 74635,
+          "cacheReadTokens": 139072,
+          "outputTokens": 6249,
+          "thinkingTokens": 5349,
+          "responses": 2,
+          "costUsd": 1.840258
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 8234,
+        "estimatedUsd": 0.21158000000000002
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-09-26T08:14:39.567Z",
+      "trigger": "manual",
+      "compactedFrom": 219731,
+      "summaryChars": 14054,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "docs/plans/mushroom-game-syama.draft.do-not-implement.md",
+        "endedAt": "2026-09-26T08:19:40.250Z",
+        "contextTokens": 156380,
+        "spend": {
+          "inputTokens": 20,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 113392,
+          "cacheReadTokens": 1159420,
+          "outputTokens": 6271,
+          "thinkingTokens": 4677,
+          "responses": 10,
+          "costUsd": 1.26452
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 14946,
+        "estimatedUsd": 0.16006559999999997
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": {
+    "events": 20,
+    "matched": 16,
+    "matchedTableUsd": 1.3563232,
+    "matchedEventUsd": 1.3563232,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 23918,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 997,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.048903
+      },
+      "web_fetch_apply": {
+        "inputTokens": 8771,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 758,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.012561
+      }
+    }
+  }
+}
