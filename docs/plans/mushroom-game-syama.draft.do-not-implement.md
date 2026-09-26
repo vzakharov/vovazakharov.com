@@ -1,198 +1,165 @@
 > ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) _before_ touching code.
 
-# Syama's mushroom game, stage one: the static meadow
+# Syama's mushroom game
 
-A full-screen meadow at `/mushrooms` with two motionless fly agarics on it,
-each drawn by code from a random seed so that no two are alike, filling
-whatever screen opens it. Nothing moves and nothing can be pressed yet. What it
-proves is the two things that could change every later decision — Phaser 4
-inside this static export, and a procedural mushroom that looks like a
-cartoon rather than a diagram — and what it leaves behind is the route, the
-page, the slice and the drawing conventions every later stage builds on.
+The whole game at `/mushrooms`, from Syama's drawing and voice notes (spec in
+issue #65): a meadow of fly agarics, each with a mouse house, where a press
+grows another mushroom and a press on a bug button flies one in — every
+mushroom and every insect grown from its own seed, so a forest of them is all
+different trees. No goal, no text, no failing: the player is six, and the
+point, in his words, is to watch the butterflies, flies and bees.
 
-The game as a whole, its spec and the list of what follows this stage live in
-issue #65. The working scheme is one PR at a time: this PR takes the first item
-and, on landing, edits the issue with what it found still open. The drawing
-and the transcripts ride this branch under `docs/remove-before-merging/` and
-are swept before the merge; the drawing moves into the slice as a reference
-(below), the transcripts are quoted in the issue.
+The bar is the operator's: on a phone or tablet it looks and moves like a
+casual mobile game — Angry Birds was the reference — and it is beautiful,
+atmospheric and comfortable for a six-year-old's hands. One PR (#57), eaten a
+bite per session; the PR closes #65.
 
-## Decisions this stage carries
+## How this elephant is eaten
 
-- **No text anywhere in the game**, so a child of any age can play — the
-  operator's rule, in issue #65. Follows from that: **no locales.** One route,
-  `/mushrooms`, metadata in English like the rest of the site's pages, no
-  catalogue block, nothing from `shared/i18n`.
-- **No sprites — everything is drawn by code, from parameters.** The
-  operator's brief: press, another mushroom; press again, another; then a
-  whole forest, and every one different — and the same for the insects. So a
-  mushroom is not an image but a **generator**: a pure function from a seed
-  to a shape (cap width and dome height, stem height and lean, how many spots
-  and where, a hue nudge inside its cap type), and a drawing routine that
-  paints that shape with vector primitives. Variety is the product, and it
-  costs nothing per instance. Nothing is loaded, so there is no boot scene and
-  no asset step; the one file in `assets/` is the reference drawing.
-- **Phaser 4** (4.2.1 is current on npm), loaded on this route alone: a WebGL
-  renderer with a canvas fallback, scene graph, a `Graphics` object for vector
-  drawing (paths, arcs, curves, fills, strokes), tweens, input, scale manager
-  and sound in one dependency. ~1.2 MB minified, ~300 kB over the wire, in this
-  route's chunk; the rest of the site does not pay for it. No physics engine.
-  Cartoon shading — outline, flat fill, a highlight, a shade — is layered
-  shapes, since `Graphics` gradients are rectangles-only in WebGL; that is
-  also how the idiom is usually drawn.
-- **React owns the page, Phaser owns the canvas.** A `'use client'` component
-  renders a `<div>`, imports Phaser inside `useEffect` — Phaser reaches for
-  `window` when its module evaluates, so the import is dynamic and never runs
-  on the server — creates the game with that element as parent and destroys
-  it on unmount.
-- **The page is the canvas.** No `PageShell`: `100dvh`, no scroll,
-  `touch-action: none` so a swipe does not scroll and a pinch does not zoom.
-  The scale manager runs in `RESIZE` mode and the scene lays itself out from
-  the camera size on every resize — a phone held upright and a tablet held
-  sideways both get a full meadow, no letterbox. The site's theme corner stays
-  where the root layout puts it; the meadow does not follow the scheme yet.
-- **`palette.ts` is the one file on the site holding colour literals.** The
-  site's rule that no component writes one exists so both colour schemes hold
-  together through the `--color-*` tokens; a canvas is out of a stylesheet's
-  reach, and a meadow is red and green in either scheme. It holds the base
-  hues; the generator nudges them per instance. `.claude/rules/styling.md`
-  § Colours gains one sentence saying so, scoped to that path — the rule's
-  own home rather than a suppression elsewhere.
+The operator delegated the whole loop and does not step in until the end
+("весь процесс должен пройти полностью автономно, без единого моего
+вмешательства"). Every session on this branch follows it:
 
-## What gets built
+1. A session takes a bite (`/go`), builds it, folds it into `## Eaten so far`,
+   runs `/polish` and `/pr`, pauses the plan, then runs
+   `/relay оставь код ревью на последний кусок`.
+2. The review session reviews **that bite's commits** as the operator would —
+   `writing/notes/the-five-percent.md` is the reading list: the frame taken as
+   given, an account standing in for running it, reasoning written into the
+   artifact, the copy edited instead of the fact, the render checked against
+   intent rather than the page. It opens and plays the page (`/preview`,
+   screenshots and tap sequences at phone and tablet sizes) before judging
+   the look. It posts one PR review with inline comments, each specific enough
+   to act on, then runs `/relay /handle`.
+3. The `/handle` session answers every comment (reply on GitHub, never
+   resolve), pushes the fixes, then takes the next bite in the same session
+   when its context is still under ~140k tokens — otherwise it pauses and
+   runs `/relay /go`. Either way the bite ends at step 1.
+4. After the last bite and its review is handled: `/relay /finalize`. No
+   merge.
 
-**Route.** `apps/vova/app/mushrooms/page.tsx`, a one-line re-export like the
-music page's. `PAGE_ROUTES` gains `mushrooms: '/mushrooms'`, which is what puts
-it in the sitemap.
+Standing rules for every session in the chain:
 
-**Slice.** `src/pages/mushrooms/`:
+- **`writing/notes/the-five-percent.md` is frozen** — read, never appended:
+  every review here is an agent's, and the file only counts what a human
+  caught ("пятипроцентник зафиксируй и НЕ пополняй, учитывая что все код
+  ревью будут НЕ от меня").
+- **Never merge.** `finalize` runs without `and merge`.
+- **Stop and ask only for the unrecoverable** — the operator's line is
+  "взломать весь интернет, стереть мой локальный диск". Everything else is
+  decided, written into this plan as the decision, and carried on.
+- **The result is also an Artifact** (last bite), and its link is posted on
+  the PR, so the operator can open it the moment they are back.
 
-```
-src/pages/mushrooms/
-  index.ts                     MushroomsPage, mushroomsMetadata
-  lib/
-    mushrooms-metadata.ts      constructMetadata({ title, description, path }) — English, like the music page's
-  model/
-    game.ts                    CAPS as const, Cap, Mushroom = WithId & { cap, seed }, GameState, initialState(random)
-    random.ts                  a seeded generator (mulberry32) and the helpers the generators draw from: between, pick, chance
-    mushroom-genes.ts          growMushroom(seed, cap): MushroomGenes — every proportion, spot and hue nudge, pure
-    mushroom-genes.test.ts     node:test: deterministic per seed, every gene inside its range, spots never overlap the rim
-  assets/
-    reference/
-      syama-drawing.webp       the drawing the generators are read from — moved here from docs/remove-before-merging/
-  ui/
-    mushrooms-page.tsx         server: the full-bleed frame → MushroomGame
-    mushroom-game.tsx          'use client': mounts Phaser into a div, destroys it on unmount
-    mushroom-game.module.scss  the full-bleed frame
-    scene/
-      meadow-scene.ts          sky, ground, the mushrooms from the state; re-lays out on resize
-      draw-mushroom.ts         paints MushroomGenes into a Graphics: stem, then cap dome, rim, spots, highlight, outline
-      layout.ts                every position and size as a function of the camera size
-      palette.ts               the base hues
-```
+## Decisions the whole game carries
 
-**The model.** `Mushroom` carries its `cap` (one of Syama's four — `spotted`
-and `plain` are drawn this stage, the two dark ones are stage two) and a
-`seed`, which is its whole genotype: the same seed always grows the same
-mushroom, so state stays small and the view stays a pure function of it.
-`initialState(random)` seeds two mushrooms, spotted and plain as drawn, from
-the visit's own randomness — every visit's pair looks a little different,
-which is the generator showing itself before there is a button to press.
-There is no reducer yet; it arrives with the first action, in the PR that
-adds `+`, and reads the same seeded `random` for the mushrooms it grows.
+- **No text anywhere in the game**, so a child of any age can play; every
+  control is a pictogram drawn by code. Hence **no locales**: one route,
+  metadata in English like the rest of the site.
+- **No sprites, no asset files — everything is drawn and voiced by code.** A
+  mushroom or an insect is a pure seeded generator (seed → genes: proportions,
+  lean, spots, wing shape, a hue nudge) plus a routine that paints the genes
+  with Phaser `Graphics`: outline, flat fill, a highlight, a shade — cartoon
+  shading as layered shapes. The seed is the state; the genes are derived.
+  Sound is synthesized with Web Audio, no files.
+- **Phaser 4**, loaded on this route alone: dynamic import inside a
+  `'use client'` component's `useEffect`, the game destroyed on unmount.
+  `Scale.RESIZE`, a full-bleed canvas at `100dvh`, `touch-action: none`. No
+  physics engine; tweens and particles carry motion.
+- **A pure model decides, the scene reconciles.** `model/` holds the state, a
+  reducer and the generators, all Phaser-free and under `node:test`; the scene
+  diffs states by id and animates the difference. Randomness enters the model
+  only as an injected seeded generator, so every test is deterministic.
+- **Made for a six-year-old's hands.** Every target at least ~64 CSS px, taps
+  only (no drags, no double taps, no long presses), nothing to lose, nothing
+  to read. Every tap answers within a frame with motion and sound; anything
+  tappable in the meadow does something when tapped. Tablet landscape is the
+  primary layout, phone portrait the second, desktop the third.
+- **Juice is the product.** Squash and stretch on every arrival, `Back.Out`
+  overshoot, a puff of particles on pop-in, idle motion everywhere (grass
+  sway, mushroom breathing, drifting clouds, wing beats), depth from layered
+  hills and scale. Checked by frames, not by reading code: each bite ends
+  with `/preview` screenshots and a scripted tap sequence captured frame by
+  frame at tablet and phone sizes.
+- **`palette.ts` is the one file on the site holding colour literals.** A
+  canvas is out of the CSS tokens' reach; `.claude/rules/styling.md`
+  § Colours says so in one sentence scoped to that path.
 
-**The generator (`mushroom-genes.ts`).** Pure, seeded, and the one thing
-under test this stage: a cap width in a band around the layout's unit size, a
-dome height as a ratio of it, a rim droop, a stem height and a lean of a few
-degrees either way, a stem taper, a spot count and for each spot a position on
-the dome, a radius and a squash, all kept off the rim; a hue nudge, a
-lightness nudge. Tests pin determinism (same seed, same genes), every gene's
-range, and the spot placement invariant. What "looks like a mushroom" is judged
-in `/preview`, but what can be asserted, is.
+## Rest of the elephant
 
-**The drawing (`draw-mushroom.ts`).** One `Graphics` per mushroom, drawn once
-from its genes at the size the layout gives it: stem as a tapered rounded
-shape with a shade on one side; cap as a dome path with a dropping rim, filled
-in the cap's base hue nudged by the genes, a darker band under the rim, white
-spots as squashed ellipses, a soft highlight ellipse near the top, and a
-thick dark outline over everything. Redrawn only on resize. If a forest of
-dozens ever costs frames, `generateTexture` turns a drawn mushroom into a
-texture in one call — a lever, not a step.
+In order; the **MPP** line — every control in the drawing working — is after
+the insects.
 
-**The scene.** A vertical sky gradient (a `Graphics` rectangle with a
-four-corner fill), a ground band with a few grass tufts, and the two
-mushrooms standing on the ground line at positions the layout computes from
-the width — side by side on a tablet, still side by side but smaller on a
-phone. On `resize`, the layout is recomputed and everything is redrawn in
-place; nothing is regrown, so the mushrooms keep their look.
+1. **The meadow, still.** `pnpm add phaser`; the route
+   (`apps/vova/app/mushrooms/page.tsx`, a one-line re-export), `PAGE_ROUTES`
+   entry (which feeds the sitemap), metadata via `constructMetadata` (title
+   "Mushrooms", description "A meadow of fly agarics, from a drawing by
+   Syama."), the slice `src/pages/mushrooms/` (`model/`, `ui/`,
+   `ui/scene/`, `lib/`), the drawing moved from
+   `docs/remove-before-merging/` to `assets/reference/`. `model/random.ts`
+   (mulberry32 + `between`, `pick`, `chance`), `model/mushroom-genes.ts` for
+   all four caps (spotted, plain, dark-top, dark-bottom) with its test
+   (determinism, ranges, spots off the rim); `Seeded` and `WithId` bases.
+   `layout.ts`, `palette.ts`, `draw-mushroom.ts`, `meadow-scene.ts`: a sky
+   gradient, far and near hills, a ground band with tufts, a sun, and two
+   motionless mushrooms from the visit's seeds. Phaser inside this static
+   export is the risk: if Turbopack and Phaser 4 disagree, that is the one
+   stop-and-report.
+2. **The meadow alive, and heard.** Idle motion: clouds drift, grass sways,
+   mushrooms breathe. A tap on a mushroom wobbles it (squash and stretch) and
+   puffs spores. `ui/scene/sound.ts`: a Web Audio synth, started on the first
+   tap (autoplay policy), with pop, boing and a soft ambient bed; a mute
+   pictogram remembered in `localStorage`.
+3. **More mushrooms: `+`, the cap picker, `−`, a forest.** `model/game.ts`
+   gains the reducer and its tests. `+` opens the four-cap picker as big
+   pictograms; a pick grows a fresh-seeded mushroom out of the ground. Tap
+   selects (soft glow); `−` shrinks the selected one back into the ground.
+   The layout turns a growing count into a forest: rows in depth, back rows
+   smaller and hazier; a cap on the count set by what still reads on a phone,
+   decided in this bite by frames. HUD pictograms drawn by code.
+4. **The mouse house.** Syama's window row — `⊕`, `○`, `□`, the tall `▯` —
+   and the door, as pictograms; a pick puts it on the selected mushroom
+   (windows on the cap, the door on the stem, slots from the genes). A mouse
+   peeks out of a door now and then.
+5. **The butterfly.** `model/insect-genes.ts` (body, two wing pairs, pattern,
+   colour nudge), `draw-insect.ts`, the button; a press flies one in from
+   off-screen along a curve, wings beating, and it settles on a mushroom with
+   a bob, opening and closing its wings at rest. Tap one and it flutters to
+   another mushroom. Insects on a removed mushroom fly off.
+6. **The fly and the bee.** The same generator family; fast small flights,
+   jitters and hops at rest, a buzz each; an oldest-leaves limit.
 
-**Page metadata.** Title "Mushrooms", description "A meadow of fly agarics,
-from a drawing by Syama." — the one place the author is named in this stage;
-whether the page itself credits Syama is issue #65's item 9.
+   — **MPP** —
 
-**Not in this stage** — everything in issue #65 "What remains": the other two
-caps, the controls, insects, the mouse house, sound, day and night, reduced
-motion, the hidden button row, a way home, a home-page link.
-
-No open questions: the art direction is settled by the brief above, and the
-rest is issue #65's to raise stage by stage.
-
-## Steps
-
-1. `pnpm add phaser`; `ui/mushroom-game.tsx` mounting an empty Phaser game
-   into a div; the route file and `index.ts`; `pnpm build:vova` green and the
-   page opened in `/preview`'s headless Chromium with a canvas in it. This is
-   the spike, done in place — the skeleton _is_ the spike, and there is
-   nothing to throw away if it works. If Turbopack and Phaser 4 disagree, stop
-   here and report before anything else is written.
-2. `model/random.ts`, `model/mushroom-genes.ts` and its test, red-green;
-   `model/game.ts`.
-3. `scene/palette.ts`, `scene/layout.ts`, `scene/draw-mushroom.ts`: a row of
-   eight seeds against a flat background, judged in `/preview` at tablet
-   resolution — the cheapest place to tune the genes' ranges until the row
-   reads as eight different mushrooms of one family rather than eight noisy
-   copies of one. Iterate here.
-4. `scene/meadow-scene.ts`: the sky, the ground, the two mushrooms from the
-   state, the resize handling.
-5. `ui/mushrooms-page.tsx` + module, `lib/mushrooms-metadata.ts`, the
-   `PAGE_ROUTES` entry, the drawing moved into `assets/reference/`, the
-   sentence in `styling.md`.
-6. `/preview` of `/mushrooms` as a phone upright, a tablet sideways and a
-   desktop, both themes (the theme corner has to stay legible over the sky),
-   and three reloads to see three different pairs; fix what the screenshots
-   show.
-7. `/polish`, then hand the PR to `/pr`; on landing, tick stage one in #65
-   and write down anything found still open.
+7. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows glowing,
+   fireflies.
+8. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+   (idle loops off, short tweens without overshoot); a visually hidden row of
+   HTML buttons beside the canvas dispatching the same actions, for
+   assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
+   carries side projects, none otherwise.
+9. **The artifact.** A single self-contained HTML of the game — esbuild over
+   the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built under `tmp/`
+   and not committed — published with the Artifact tool, its link posted on
+   the PR. Then `/relay /finalize`.
 
 ## DRY notes
 
-- **Metadata reuses `constructMetadata` wholesale**, as the music page does —
-  `title`, `description` and `path` are already its parameters, and with no
-  locale there is no `hreflang` map to build. Nothing new in `shared/seo`.
-- **The route is one line and the sitemap entry is one key** because
-  `PAGE_ROUTES` already feeds `sitemap()`; no new listing anywhere.
-- **The game shares nothing with the rest of the site below the page, on
+- **Metadata reuses `constructMetadata` wholesale**, as the music page does;
+  with no locale there is no `hreflang` map to build.
+- **The route is one line and the sitemap one key**, `PAGE_ROUTES` already
+  feeding `sitemap()`.
+- **The game shares nothing below the page with the rest of the site, on
   purpose.** No other page has a canvas, an engine or a generator, so a
-  `shared/game` segment or a `features/` slice would have one consumer and
-  fail Steiger's `insignificant-slice`. Everything Phaser stays under
-  `pages/mushrooms/ui/scene/`; `Mushroom` is not an `entities/` slice for the
-  same reason.
-- **Genes and drawing are two modules, not one, because one is testable and
-  the other is looked at.** `mushroom-genes.ts` knows nothing of Phaser and
-  runs under `node:test`; `draw-mushroom.ts` knows nothing of randomness and
-  paints whatever genes it is given. The insects of stage four get the same
-  split (`insect-genes.ts` / `draw-insect.ts`) and share `random.ts`, which
-  is why the seeded generator is its own module now rather than a private
-  helper of the mushroom's.
-- **The seed is the state, the genes are derived.** Storing genes in the model
-  would put a dozen numbers per mushroom where one suffices and let the two
-  drift; the generator is pure, so deriving is free and always agrees.
-- **Numbers and colours have one home each.** `layout.ts` is the only file
-  that positions or sizes anything; `palette.ts` the only file with a colour
-  literal — the base hues; a per-instance nudge is a gene, not a second
-  colour.
-- **`WithId` from `shared/typings` is the base for `Mushroom`**, so `id` has
-  its one home now and the `Insect` of a later stage intersects the same base
-  rather than redeclaring it — which `pnpm type-overlap` would fail. The same
-  goes for `seed`: a `Seeded = { seed: number }` base in `model/game.ts` from
-  the start, since `Insect` will carry one too.
+  `shared/game` segment or `features/` slice would have one consumer and fail
+  Steiger's `insignificant-slice`; `Mushroom` and `Insect` are not
+  `entities/` slices for the same reason.
+- **Genes and drawing are two modules per creature** — one is tested, the
+  other looked at. `random.ts` is shared by every generator, which is why it
+  is its own module from bite 1.
+- **`Seeded = { seed: number }` and `WithId` are the bases** `Mushroom` and
+  `Insect` both intersect, so `pnpm type-overlap` holds as the second
+  creature arrives.
+- **Numbers and colours have one home each**: `layout.ts` positions and sizes
+  everything, `palette.ts` holds every base hue; a per-instance nudge is a
+  gene.
