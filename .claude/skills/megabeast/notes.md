@@ -114,6 +114,25 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   rejected. The skill's quick check between commits should be the root
   project, or just the gates vet runs.
 
+- **A `/handle` session is an orchestrator from its first turn.** The
+  base context alone put bite 3's handling session past the 200k notice
+  before its first fix. It handled all nine threads anyway, by briefing
+  one subagent at a time — the thread's text, the decision it needed, the
+  files, the checks, the commit subject and the reply to post — and
+  keeping only their short reports. The skill should brief threads to
+  subagents by default, grouped by the files they touch (all of a layout's
+  threads to one), run one after another on the shared tree, never in
+  parallel on one index.
+- **A review's open design calls are decided before the brief.** Two
+  threads asked the handler to choose. Writing each choice into the plan's
+  decisions and committing that first gave the implementing subagent a rule
+  to build to, not a question to settle, and the reply could point at it.
+- **The Stop hook's git check fires on a subagent's work in progress.**
+  Subagents run in the background, so a turn that ends while one works
+  leaves its edits uncommitted. The answer is `git status`, a push of
+  anything the main session owns, and a stop — committing the subagent's
+  half-done files would collide with its own commit.
+
 ## Quality levers
 
 - **Spike the engine's risky seam before writing the plan's bite.** Reading
@@ -127,13 +146,16 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   17 lint errors and failures in four gates (type overlap, knip, Steiger's
   segment names, the skill catalogue) — each a quick fix while the bite was
   still loaded in context, and each a review comment otherwise.
-- **Looking at a canvas page needs its own recipe.** Chrome's bare
-  `--screenshot` puts a false blank strip under a fixed full-viewport canvas.
-  What works: `apps/vova/out` served with `python3 -m http.server`,
-  Playwright from `/opt/node22/lib/node_modules/playwright` with
-  `--use-angle=swiftshader`, a `deviceScaleFactor` and `hasTouch` per
-  device, and the page's errors collected. The skill should ship that as a
-  script, tap sequences included, rather than leave each session to find it.
+- **Looking at a canvas page needs its own recipe, and now has one.**
+  `pnpm play:mushrooms` (`scripts/play-mushrooms.ts`, `scripts/lib/cdp.ts`)
+  builds a probe export, serves it, drives Chromium over the DevTools
+  protocol with Node's own `WebSocket` — no Playwright, as `/preview` keeps
+  none — steps the sleeping loop, taps every control on four screens, checks
+  the state after each tap and fails on any page error. Every session
+  before it rewrote the recipe from a relay summary, and the one bug that
+  shipped (every tap dead) passed vet. The skill should have bite 1 write
+  the play script with the page, and every bite extend it with its own
+  controls.
 - **In a review, measure a property over many seeds; don't eyeball one
   frame.** "The front cap nearly touches the edge" was a note from one
   frame. A 30-line `tsx` script running 2000 visit seeds through the real
@@ -147,11 +169,9 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   ruler-straight ground seam, the clipped sun) came from the frames, and
   then the code said why. The skill should have review sessions shoot
   frames first and read the code second, with the code pointing at causes.
-- **`tmp/` doesn't survive a relay, so the frame recipe was rewritten from
-  the summary's description.** It took one try, but it was still rework,
-  and the container has no Pillow for pixel checks. Another reason to commit
-  the recipe as a script (under `scripts/` or the slice) rather than keep it
-  in `tmp/`.
+- **`tmp/` doesn't survive a relay**, which is why the recipe above is
+  committed. The container also has no Pillow, so a pixel check wants the
+  page's own state read through the probe, not the image.
 - **A review posts in one call:** build the review JSON (`commit_id`,
   `event: COMMENT`, `comments[]` with `line`/`start_line`, `side: RIGHT`) in
   a script, then `gh api -X POST repos/<o>/<r>/pulls/<n>/reviews --input
