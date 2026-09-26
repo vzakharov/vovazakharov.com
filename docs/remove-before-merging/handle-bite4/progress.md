@@ -60,6 +60,21 @@ door's reach)`, widened by `1 / cos(π / ROUND_STEPS)` so the polygon's chords
   into the plan's § "Decisions the whole game carries" and as a comment at the
   handler.
 - `sweep-door.ts` removed — 9891994 (it failed `tsc`).
+- **7. Play run** — 3c92655, frames 3b9c1c9. `__probe.topAt(point)` asks
+  the scene's own hit test (topmost only) what a tap reaches; the door step
+  asserts it is the door at each door's middle, then taps and checks the
+  mouse. Both clump mushrooms get a door and both are played, back first
+  (`h3-mouse-back`/`-front`). `__probe.mouse(id).head` is asserted ≥ 28 px
+  and printed. `4a-sinking` shoots the furnished mushroom `−` takes, 20
+  frames into its sink, asserting its house is shown and scaled with it.
+  `__probe.mushroom` now returns the point nearest the cap's middle that
+  reaches that mushroom (the tablet-portrait back cap's middle is behind the
+  front cap). **The run fails on phones**: the back (selected) mouse's head
+  is drawn 27.4 px (phoneP, phoneL; front 28.2, tabL 30.1/32.5, tabP
+  32.3/33.2). `mouseScale` floors the head at rest; the drawn head is
+  times the graphics' `scaleX`, which `widthFor(breath + beckon)` takes
+  under 1 on a breathing, selected mushroom (27.4 / 28 = 0.979). Open:
+  floor against the narrowest pose, or accept the at-rest floor.
 
 ## Measured (by `sweep-door.ts`, since removed: `door-sight.ts` supersedes it)
 
@@ -98,10 +113,7 @@ landscape margin is thin (worst 0.81): a step change there wants the door sweep 
 4. **Spots** (finding 4): done, see § "Done".
 5. **Target** (finding 5): done, see § "Done".
 6. **Frame test** (finding 6): done, see § "Done".
-7. **Play run** (finding 7): tap the door through the scene's hit test, play the
-   back door, sink a furnished mushroom mid-frame, and read the mouse's drawn size
-   through the probe.
+7. **Play run** (finding 7): done, see § "Done" (one open question there).
 8. **Nit** (finding 8): done, see § "Done".
 
-Then reply on every thread, `/polish`, `/pr`, commit the frames worth showing to
-`docs/remove-before-merging/frames/bite-4/`, fill the megabeast notes, and relay.
+Then reply on every thread, `/polish`, `/pr`, fill the megabeast notes, and relay.
