@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): #65 Syama's mushroom meadow, alive, heard and growing (pr #57)
+feat(vova): #65 Syama's mushroom meadow, grown and furnished (pr #57)
 ```
 
 ```
@@ -9,32 +9,30 @@ A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
 There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; the game is built here a bite at a time, each bite reviewed
-by a fresh agent session.
+the spec; the game is built here a bite at a time.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
-route alone and rendered at the device pixel ratio. There are no
-sprites: each mushroom and flower is grown from its own seed by a
-pure, tested generator and painted with vector primitives. The opening
-pair stands as one clump, as in the drawing, and the layout keeps
-every cap on screen and every flower clear of the mushrooms' feet on
-any screen and seed.
+route alone and rendered at the device pixel ratio. Each mushroom and
+flower is grown from its own seed by a pure, tested generator and
+painted with vector primitives, and the layout keeps every cap on
+screen and every control clear of the meadow on any screen and seed.
 
-The meadow moves and sounds. Clouds drift, a gust crosses the grass,
-mushrooms breathe; a tap wobbles a mushroom and puffs spores, or opens
-a flower with its own chime. Every motion is a pure function of the
-clock, so a resize never cuts one short. Sound is a Web Audio synth
-started by the first tap; the remembered mute suspends it.
+The meadow moves and sounds: clouds drift, mushrooms breathe, a tap
+wobbles a mushroom or opens a flower with its own chime. Every motion
+is a pure function of the clock, so a resize never cuts one short;
+sound is a Web Audio synth started by the first tap, with a
+remembered mute.
 
-The player shapes the meadow. Plus unfolds a four-cap picker, and the
-pick flies down to grow out of the ground, selected and outlined in a
-band that moves with it; minus sinks the selection, or the newest, up
-to six in a forest round the clump. A control that cannot act shakes
-its head. A mushroom answers a tap exactly where it is drawn, every
-target is a fingertip wide on a phone, and the buttons keep off the
-meadow. A pure reducer in model/game.ts owns the state, each mushroom
-keeping its slot for life; pnpm play:mushrooms plays every control in
-headless Chromium and fails on a page error or a wrong result.
+The player shapes it. Plus unfolds a four-cap picker and the pick
+grows out of the ground, selected; minus sinks the selection, or the
+newest, up to six round the clump. The house button opens a second
+picker of Syama's four windows and a door, which furnish the chosen
+mushroom — a row of three or five windows along the cap, a door at
+the stem's foot — and a mouse peeks out of the door now and then, or
+at once when it is tapped. A control that cannot act shakes its head.
+A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
+plays every control in headless Chromium and fails on a page error
+or a wrong result.
 
 Closes #65
 
