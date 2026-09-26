@@ -170,18 +170,44 @@ Standing rules for every session in the chain:
      is the throwaway recipe); Chrome's bare `--screenshot` leaves a false
      strip at the bottom.
 
+## This bite
+
+2. **The meadow alive, and heard.** Idle motion: clouds drift, grass sways,
+   mushrooms breathe. A tap on a mushroom wobbles it (squash and stretch) and
+   puffs spores. Flowers join the meadow, each seeded, swaying and opening a
+   little wider when tapped. A Web Audio synth, started on the first tap
+   (autoplay policy), with pop, boing and a soft ambient bed; a mute
+   pictogram remembered in `localStorage`.
+   - **Motion is a pure function of time**, in `model/motion.ts` under
+     `node:test`: `breath`, `sway`, and a damped-spring `wobble` of the time
+     since a tap. The scene's `update` sets every scale, rotation and drift
+     from the layout and the clock, never from a tween, so a resize mid-wobble
+     changes where a thing stands and not how it moves.
+   - `model/flower-genes.ts`: `flowerGenes(seed)` — petal kind (pointed or
+     round), fold 5–9, one or two rings a half step apart, stem, leaf, hue
+     picked from the palette's flower colours; `Seeded` moves to `random.ts`
+     as the base both creatures intersect. `draw-flower.ts` paints a stem
+     into one graphics and the head into another, in a container standing on
+     the foot, so sway turns the container and opening scales the head.
+   - Grass: the tufts move out of `paint-backdrop.ts` into `grass.ts`,
+     grown once per paint and redrawn each frame bent by `sway`.
+   - `spores.ts`: a tap's puff as two rings of dots opening outward and
+     fading — the mandala language again. `sound.ts`: an `AudioContext` on
+     the first tap, suspended while the tab is hidden; `hud.ts`: the mute
+     pictogram, top left, a 64 px target.
+   - Taps land on hit areas no smaller than 64 CSS px; the layout places the
+     flowers and the mute button.
+   - **`localStorage` falls back to unmuted where it throws** (a private
+     window). It is the one silent fallback in the game, secondary by
+     construction — losing it costs a remembered mute, never the meadow — and
+     CLAUDE.md asks the operator's approval for each such site, so the PR
+     names it for them.
+
 ## Rest of the elephant
 
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
 
-2. **The meadow alive, and heard.** Idle motion: clouds drift, grass sways,
-   mushrooms breathe. A tap on a mushroom wobbles it (squash and stretch) and
-   puffs spores. Flowers join the meadow — `model/flower-genes.ts` and
-   `draw-flower.ts`, a few kinds of petal, each seeded — swaying, opening a
-   little wider when tapped. `ui/scene/sound.ts`: a Web Audio synth, started on the first
-   tap (autoplay policy), with pop, boing and a soft ambient bed; a mute
-   pictogram remembered in `localStorage`.
 3. **More mushrooms: `+`, the cap picker, `−`, a forest.** `model/game.ts`
    gains the reducer and its tests. `+` opens the four-cap picker as big
    pictograms; a pick grows a fresh-seeded mushroom out of the ground. Tap
