@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, outside, type Point } from './geometry';
+import { type Circle, containsPoint, outside, type Point } from './geometry';
 import {
   DOOR_ASPECT,
   doorStations,
@@ -10,6 +10,7 @@ import {
   type House,
   onStem,
   paintedDoor,
+  paintedSpots,
   PANE,
   windowSlots,
 } from './house';
@@ -150,6 +151,46 @@ describe('doorStations', () => {
         }
       }
     }
+  });
+});
+
+/** How far a spot's circle stands from the pane in `slot`: below 0 where they overlap. */
+function gap(spot: Circle, slot: Point): number {
+  const near = (value: number, middle: number) =>
+    Math.min(middle + PANE / 2, Math.max(middle - PANE / 2, value));
+  return (
+    Math.hypot(spot.x - near(spot.x, slot.x), spot.y - near(spot.y, slot.y)) -
+    spot.r
+  );
+}
+
+describe('paintedSpots', () => {
+  it('leaves no painted spot partly under a window, and takes only those it touches', () => {
+    let dropped = 0;
+    for (const genes of everyMushroom) {
+      const slots = windowSlots(genes);
+      for (let count = 0; count <= slots.length; count++) {
+        const house = {
+          windows: slots.slice(0, count).map(() => 'cross' as const),
+          door: false,
+        };
+        const panes = slots.slice(0, count);
+        const painted = paintedSpots(genes, house);
+        for (const spot of genes.spots) {
+          const touching = panes.some((slot) => gap(spot, slot) < MUSHROOM_INK);
+          if (touching) dropped++;
+          assert.equal(
+            painted.includes(spot),
+            !touching,
+            JSON.stringify({ genes, spot, count }),
+          );
+          if (!painted.includes(spot)) continue;
+          for (const slot of panes) assert.ok(gap(spot, slot) > 0);
+        }
+      }
+    }
+    // Windows go over spots often enough that the rule has work to do.
+    assert.ok(dropped > 0);
   });
 });
 

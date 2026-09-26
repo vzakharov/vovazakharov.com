@@ -10,6 +10,7 @@ import {
   arch,
   boxAround,
   boxesMeet,
+  type Circle,
   containsPoint,
   outside,
   type Point,
@@ -82,6 +83,33 @@ export function windowSlots(
     slots.push({ x: -pair * SLOT_PITCH, y }, { x: pair * SLOT_PITCH, y });
   }
   return slots;
+}
+
+/** How far a spot keeps from a window's square for the house to leave it painted: the window's line of ink. */
+const SPOT_CLEARANCE = MUSHROOM_INK;
+
+/** How far `point` stands from the square a window in `slot` is drawn inside: 0 within it. */
+export function fromPane(point: Point, slot: Point): number {
+  return Math.hypot(
+    Math.max(0, Math.abs(point.x - slot.x) - PANE / 2),
+    Math.max(0, Math.abs(point.y - slot.y) - PANE / 2),
+  );
+}
+
+/**
+ * The spots of `genes` its `house` leaves painted: those clear of every
+ * window put in by `SPOT_CLEARANCE`, so a window takes a spot's place rather
+ * than half-covering it. The spots stay the seed's; only their painting
+ * consults the house.
+ */
+export function paintedSpots(
+  genes: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower' | 'spots'>,
+  { windows }: House,
+): Circle[] {
+  const panes = windowSlots(genes).slice(0, windows.length);
+  return genes.spots.filter((spot) =>
+    panes.every((slot) => fromPane(spot, slot) >= spot.r + SPOT_CLEARANCE),
+  );
 }
 
 /** A door's width, as a fraction of the stem's narrowest width across its frame. */

@@ -1,7 +1,8 @@
 import * as Phaser from 'phaser';
 
 import type { Meadow, Planted } from '../../model/game';
-import { placedAt } from '../../model/geometry';
+import { type Circle, placedAt } from '../../model/geometry';
+import { paintedSpots } from '../../model/house';
 import {
   beckon,
   breath,
@@ -52,6 +53,8 @@ type Shown = Tapped &
     hit: TapArea;
     /** Its windows and door, which follow it. */
     house: HouseView;
+    /** The spots its house left painted (`paintedSpots`) when it was last drawn. */
+    spots: readonly Circle[];
     plantedAt: number;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
@@ -132,6 +135,11 @@ export class MushroomBed {
     for (const mushroom of mushrooms) {
       const shown = this.shown.get(mushroom.id);
       if (!shown) continue;
+      // A window over a spot takes its place, so the mushroom is drawn again without it.
+      const spots = paintedSpots(shown.genes, mushroom.house);
+      if (spots.length !== shown.spots.length) {
+        this.place(shown, mushroom, layout);
+      }
       shown.house.furnish(
         mushroom.house,
         shown,
@@ -236,10 +244,11 @@ export class MushroomBed {
     if (!place) return;
     const { x, y, size, splay, haze } = place;
     const { genes, turn } = splayed(mushroomGenes(mushroom), splay);
-    Object.assign(shown, { genes, turn, size, haze });
+    const spots = paintedSpots(genes, mushroom.house);
+    Object.assign(shown, { genes, turn, size, haze, spots });
     shown.house.repaint();
     shown.graphics.clear().setPosition(x, y).setDepth(y);
-    drawMushroom(shown.graphics, genes, size, haze);
+    drawMushroom(shown.graphics, { ...genes, spots }, size, haze);
     // Just behind its own mushroom, and before anything standing behind it.
     shown.shadow
       .clear()
@@ -285,6 +294,7 @@ export class MushroomBed {
       genes: mushroomGenes(mushroom),
       turn: 0,
       door: undefined,
+      spots: [],
       size: 0,
       haze: 0,
       house: new HouseView(
