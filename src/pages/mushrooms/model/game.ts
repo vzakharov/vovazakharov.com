@@ -6,7 +6,19 @@
 
 import type { WithId } from '@/shared/typings';
 
-import { type CapKind, firstMushrooms, type Mushroom } from './mushroom-genes';
+import {
+  EMPTY_HOUSE,
+  furnished,
+  type Furnishing,
+  type Housed,
+  windowSlots,
+} from './house';
+import {
+  type CapKind,
+  firstMushrooms,
+  type Mushroom,
+  mushroomGenes,
+} from './mushroom-genes';
 import type { Random } from './random';
 
 /**
@@ -17,7 +29,7 @@ export const MUSHROOM_SLOTS = 6;
 
 /** Where a mushroom stands for its whole life, an index into the layout's slots. */
 type Slotted = { slot: number };
-export type Planted = Mushroom & Slotted;
+export type Planted = Mushroom & Housed & Slotted;
 
 export type Meadow = {
   /** In the order they were planted, so the last is the newest. */
@@ -25,6 +37,8 @@ export type Meadow = {
   selected: string | undefined;
   /** Whether the four caps are showing, waiting for a pick. */
   picking: boolean;
+  /** Whether the windows and the door are showing, waiting for a pick. */
+  furnishing: boolean;
   /** How many mushrooms the meadow has ever grown, so every id is new. */
   grown: number;
 };
@@ -34,18 +48,22 @@ export type Action =
   | { kind: 'grow'; cap: CapKind; seed: number }
   | ({ kind: 'select' } & WithId)
   | { kind: 'deselect' }
-  | { kind: 'remove' };
+  | { kind: 'remove' }
+  | { kind: 'house' }
+  | { kind: 'furnish'; piece: Furnishing };
 
 /** The drawing's two fly agarics, standing as one clump in the first two slots. */
 export function firstMeadow(random: Random): Meadow {
   const mushrooms = firstMushrooms(random).map((mushroom, slot) => ({
     ...mushroom,
+    house: EMPTY_HOUSE,
     slot,
   }));
   return {
     mushrooms,
     selected: undefined,
     picking: false,
+    furnishing: false,
     grown: mushrooms.length,
   };
 }
@@ -56,6 +74,39 @@ export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
 
 export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length === 0;
+}
+
+/**
+ * The mushroom a tap on `−` or on a window or door acts on: the selected
+ * one, or with none selected the newest.
+ */
+function target({ mushrooms, selected }: Meadow): Planted | undefined {
+  return selected === undefined
+    ? mushrooms.at(-1)
+    : mushrooms.find(({ id }) => id === selected);
+}
+
+/** `target` with `piece` put into its house, or `undefined` when it has no room for it. */
+function furnishedTarget(
+  meadow: Meadow,
+  piece: Furnishing,
+): Planted | undefined {
+  const mushroom = target(meadow);
+  if (mushroom === undefined) return undefined;
+  const house = furnished(
+    mushroom.house,
+    piece,
+    windowSlots(mushroomGenes(mushroom)).length,
+  );
+  return house && { ...mushroom, house };
+}
+
+/**
+ * Whether a pick of `piece` would furnish anything: not on an empty meadow,
+ * not into a full row of windows, not a second door.
+ */
+export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
+  return furnishedTarget(meadow, piece) !== undefined;
 }
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
@@ -69,7 +120,28 @@ function freeSlot({ mushrooms }: Meadow): number | undefined {
 export function reduce(meadow: Meadow, action: Action): Meadow {
   switch (action.kind) {
     case 'pick': {
-      return { ...meadow, picking: !meadow.picking && !isFull(meadow) };
+      return {
+        ...meadow,
+        picking: !meadow.picking && !isFull(meadow),
+        furnishing: false,
+      };
+    }
+    case 'house': {
+      return {
+        ...meadow,
+        furnishing: !meadow.furnishing && !isEmpty(meadow),
+        picking: false,
+      };
+    }
+    case 'furnish': {
+      const done = furnishedTarget(meadow, action.piece);
+      if (done === undefined) return meadow;
+      return {
+        ...meadow,
+        mushrooms: meadow.mushrooms.map((mushroom) =>
+          mushroom.id === done.id ? done : mushroom,
+        ),
+      };
     }
     case 'grow': {
       const slot = freeSlot(meadow);
@@ -78,7 +150,11 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const id = `mushroom-${grown}`;
       const { cap, seed } = action;
       return {
-        mushrooms: [...meadow.mushrooms, { id, seed, cap, slot }],
+        ...meadow,
+        mushrooms: [
+          ...meadow.mushrooms,
+          { id, seed, cap, house: EMPTY_HOUSE, slot },
+        ],
         selected: id,
         picking: false,
         grown,
@@ -91,16 +167,21 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         : meadow;
     }
     case 'deselect': {
-      return { ...meadow, selected: undefined, picking: false };
+      return {
+        ...meadow,
+        selected: undefined,
+        picking: false,
+        furnishing: false,
+      };
     }
     case 'remove': {
-      // A selection only chooses which goes; without one, the newest does.
-      const gone = meadow.selected ?? meadow.mushrooms.at(-1)?.id;
+      const gone = target(meadow)?.id;
       return {
         ...meadow,
         mushrooms: meadow.mushrooms.filter(({ id }) => id !== gone),
         selected: undefined,
         picking: false,
+        furnishing: false,
       };
     }
     default: {

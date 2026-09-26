@@ -183,3 +183,71 @@ export function launch(elapsed: number): { scale: number; travel: number } {
   const t = elapsed / LAUNCH_DURATION;
   return { scale: (1 - t) * (1 + LAUNCH_POP * t), travel: t * t };
 }
+
+/** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
+const smooth = (t: number) => {
+  const clamped = Math.min(1, Math.max(0, t));
+  return clamped * clamped * (3 - 2 * clamped);
+};
+
+/** How long a mouse takes to come out of its door, and to duck back in. */
+const PEEK_RISE = 0.35;
+const PEEK_DUCK = 0.3;
+/** How long a mouse looks about on its own, and when a tap has called it out. */
+const PEEK_HOLD = 1.6;
+const TAP_PEEK_HOLD = 1.4;
+/** A tap brings the mouse out quicker than it comes on its own. */
+const TAP_PEEK_RISE = 0.18;
+/** The shortest and longest wait from one peek to the next, one per mushroom. */
+export const PEEK_PERIOD = [6, 12] as const;
+export const TAP_PEEK_DURATION = TAP_PEEK_RISE + TAP_PEEK_HOLD + PEEK_DUCK;
+const LOOK_PERIOD = 1.7;
+
+/**
+ * Out and back once, `elapsed` into it: 0 before, up over `rise`, 1 for
+ * `hold`, down over `duck`, and 0 after.
+ */
+function outAndBack(
+  elapsed: number,
+  rise: number,
+  hold: number,
+  duck: number,
+): number {
+  return smooth(elapsed / rise) * (1 - smooth((elapsed - rise - hold) / duck));
+}
+
+/**
+ * How far a mouse is out of its door at `time`, from 0 (the door shut) to 1
+ * (the door open, its head out): now and then on its own, every period from
+ * `PEEK_PERIOD` as `phase` picks it, looking about for a while and ducking
+ * back, and 0 the rest of the time.
+ */
+export function peek(time: number, phase: number): number {
+  const turn = phase / (Math.PI * 2);
+  const period = PEEK_PERIOD[0] + (PEEK_PERIOD[1] - PEEK_PERIOD[0]) * turn;
+  const into = (((time + turn * period) % period) + period) % period;
+  return outAndBack(into, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
+}
+
+/**
+ * The mouse called out by a tap on its door `elapsed` seconds before: out at
+ * once, a look about, and back in — 0 outside `TAP_PEEK_DURATION`.
+ */
+export function peekAfterTap(elapsed: number): number {
+  if (elapsed < 0 || elapsed >= TAP_PEEK_DURATION) return 0;
+  return outAndBack(elapsed, TAP_PEEK_RISE, TAP_PEEK_HOLD, PEEK_DUCK);
+}
+
+/**
+ * How far out a door's mouse is at `time`, on its own or called out by the
+ * last tap on its door, whichever has it farther out — so a tap during a peek
+ * never pulls it back.
+ */
+export function mouseOut(time: number, { phase, tappedAt }: Tapped): number {
+  return Math.max(peek(time, phase), peekAfterTap(time - tappedAt));
+}
+
+/** The mouse's head turn as it looks about, from -1 (left) to 1 (right). */
+export function lookAbout(time: number, phase: number): number {
+  return Math.sin(((Math.PI * 2) / LOOK_PERIOD) * time + phase * 3);
+}

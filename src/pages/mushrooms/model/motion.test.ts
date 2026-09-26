@@ -13,11 +13,17 @@ import {
   EMERGE_DURATION,
   launch,
   LAUNCH_DURATION,
+  lookAbout,
+  mouseOut,
+  peek,
+  PEEK_PERIOD,
+  peekAfterTap,
   shake,
   SHAKE_DURATION,
   sink,
   SINK_DURATION,
   sway,
+  TAP_PEEK_DURATION,
   widthFor,
   wobble,
   WOBBLE_DEPTH,
@@ -174,5 +180,87 @@ describe('beckon', () => {
       assert.ok(jump < BECKON_DEPTH * 0.2);
     }
     assert.equal(beckon(14 + BECKON_EASE, letGo), 0);
+  });
+});
+
+const FRAME = 1 / 60;
+const phases = Array.from(
+  { length: 12 },
+  (_, index) => (index / 12) * Math.PI * 2,
+);
+/** Every frame's time from `from` to `to`, at 60 frames a second. */
+const frames = (from: number, to: number) =>
+  Array.from(
+    { length: Math.round((to - from) / FRAME) },
+    (_, index) => from + index * FRAME,
+  );
+/** When a mouse is more out than in, over two of the longest periods. */
+const outAt = (phase: number) =>
+  frames(0, PEEK_PERIOD[1] * 2).filter((t) => peek(t, phase) > 0.5);
+
+describe('peek', () => {
+  const step = FRAME;
+
+  it('stays between shut and out, and never jumps between frames', () => {
+    for (const phase of phases) {
+      for (const t of frames(0, 40)) {
+        const now = peek(t, phase);
+        assert.ok(now >= 0 && now <= 1);
+        assert.ok(Math.abs(peek(t + step, phase) - now) < 0.1);
+      }
+    }
+  });
+
+  it('is shut most of the time, and all the way out once in every period', () => {
+    for (const phase of phases) {
+      const span = frames(0, PEEK_PERIOD[1] * 4);
+      const shut = span.filter((t) => peek(t, phase) === 0).length;
+      assert.ok(shut > span.length / 2);
+      for (const from of frames(0, PEEK_PERIOD[1] * 3).filter(
+        (_, index) => index % 60 === 0,
+      )) {
+        const window = frames(from, from + PEEK_PERIOD[1]);
+        assert.ok(window.some((t) => peek(t, phase) > 0.99));
+      }
+    }
+  });
+
+  it('keeps each mushroom’s own rhythm', () => {
+    assert.notDeepEqual(outAt(phases[1] ?? 0), outAt(phases[7] ?? 0));
+  });
+});
+
+describe('peekAfterTap', () => {
+  it('comes out at once, all the way, and is back in by the end of its span', () => {
+    assert.equal(peekAfterTap(-0.1), 0);
+    assert.equal(peekAfterTap(0), 0);
+    assert.ok(peekAfterTap(0.25) > 0.99);
+    assert.ok(peekAfterTap(TAP_PEEK_DURATION - 0.01) < 0.01);
+    assert.equal(peekAfterTap(TAP_PEEK_DURATION), 0);
+  });
+
+  it('never jumps between frames, the cut at the end included', () => {
+    const step = 1 / 60;
+    for (let t = -0.2; t < TAP_PEEK_DURATION + 0.2; t += step) {
+      assert.ok(Math.abs(peekAfterTap(t + step) - peekAfterTap(t)) < 0.15);
+    }
+  });
+
+  it('comes out on a tap whatever the door’s own rhythm, and never pulls back a peek', () => {
+    for (const time of [1, 3, 7.5]) {
+      const tapped = { phase: 2, tappedAt: time };
+      assert.ok(mouseOut(time + 0.3, tapped) > 0.99);
+      assert.ok(mouseOut(time + 0.3, tapped) >= peek(time + 0.3, 2));
+    }
+    const never = { phase: 2, tappedAt: -Infinity };
+    assert.equal(mouseOut(4, never), peek(4, 2));
+  });
+});
+
+describe('lookAbout', () => {
+  it('turns the head either way, within one', () => {
+    const turns = samples(4).map((t) => lookAbout(t, 1));
+    assert.ok(turns.every((x) => Math.abs(x) <= 1));
+    assert.ok(turns.some((x) => x > 0.9) && turns.some((x) => x < -0.9));
   });
 });
