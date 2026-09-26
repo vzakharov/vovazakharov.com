@@ -100,6 +100,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ...meadow,
         mushrooms: meadow.mushrooms.filter(({ id }) => id !== gone),
         selected: undefined,
+        picking: false,
       };
     }
     default: {

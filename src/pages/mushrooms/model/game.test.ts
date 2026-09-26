@@ -130,6 +130,12 @@ describe('reduce', () => {
     assert.equal(meadow.selected, undefined);
   });
 
+  it('closes the picker on a remove', () => {
+    const meadow = run(opening(), [{ kind: 'pick' }, { kind: 'remove' }]);
+    assert.equal(meadow.picking, false);
+    assert.equal(meadow.mushrooms.length, 1);
+  });
+
   it('deselects and closes the picker on a tap on the bare meadow', () => {
     const meadow = run(opening(), [
       { kind: 'select', id: 'mushroom-2' },

@@ -8,6 +8,8 @@ import {
   drift,
   emerge,
   EMERGE_DURATION,
+  launch,
+  LAUNCH_DURATION,
   shake,
   SHAKE_DURATION,
   sink,
@@ -124,5 +126,22 @@ describe('shake', () => {
     assert.ok(Math.abs(shake(SHAKE_DURATION - 1e-3)) < 0.01);
     assert.equal(shake(-0.1), 0);
     assert.equal(shake(SHAKE_DURATION), 0);
+  });
+});
+
+describe('launch', () => {
+  it('pops past its size near where it stood, then shrinks away as it goes', () => {
+    assert.deepEqual(launch(-0.1), { scale: 1, travel: 0 });
+    assert.equal(launch(0).scale, 1);
+    const popped = samples(LAUNCH_DURATION).find((t) => launch(t).scale > 1.15);
+    assert.ok(popped !== undefined && launch(popped).travel < 0.2);
+    assert.ok(launch(LAUNCH_DURATION - 0.01).scale < 0.1);
+    assert.deepEqual(launch(LAUNCH_DURATION), { scale: 0, travel: 1 });
+  });
+
+  it('travels only forward, and never shrinks below nothing', () => {
+    const travels = samples(LAUNCH_DURATION).map((t) => launch(t).travel);
+    assert.ok(travels.every((x, index) => x >= (travels[index - 1] ?? 0)));
+    assert.ok(samples(LAUNCH_DURATION).every((t) => launch(t).scale >= 0));
   });
 });

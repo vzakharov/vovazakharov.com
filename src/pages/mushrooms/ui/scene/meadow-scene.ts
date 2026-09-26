@@ -233,6 +233,8 @@ export class MeadowScene extends Phaser.Scene {
     head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       shown.tappedAt = this.clock;
       this.voice.chime(genes.fold + genes.rings);
+      // A flower is part of the meadow: a tap on it is a tap on the meadow too.
+      this.dispatch({ kind: 'deselect' });
     });
     this.shownFlowers.set(flower.id, shown);
     return shown;

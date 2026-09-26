@@ -2,9 +2,9 @@
  * Plays `/mushrooms` on the four screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. `+`, a pick, a tap on a mushroom, `−`
- * with a selection and without, `−` on an empty meadow, a tap on a flower and
- * the mute are each tapped the way a finger does, and a frame of each lands in
- * `tmp/play/<screen>-<step>.png` to look at.
+ * with a selection and without, `−` on an empty meadow, a tap on a flower
+ * with the picker open and the mute are each tapped the way a finger does,
+ * and a frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
@@ -313,7 +313,10 @@ async function play(
 
   const [first] = controls.picker;
   if (first) await page.tap(first);
-  await page.step(90);
+  // Mid-close: the picked cap popping, the others going back towards `+`.
+  await page.step(9);
+  await page.shoot('1b-closing');
+  await page.step(81);
   const grown = await state();
   expect(
     grown.mushrooms.length === opening.mushrooms.length + 1,
@@ -375,8 +378,11 @@ async function play(
 
   const flower = await page.evaluate('__probe.flower()', Flower);
   if (flower) {
+    await page.tap(controls.plus);
+    await page.step(30);
     await page.tap(flower);
     await page.step(20);
+    expect(!(await state()).picking, 'a tap on a flower left the picker open');
     const { clock } = await state();
     const tappedAt = await page.evaluate(
       `__probe.flowerTappedAt(${JSON.stringify(flower.id)})`,

@@ -134,3 +134,22 @@ export function shake(elapsed: number): number {
   const t = elapsed / SHAKE_DURATION;
   return Math.sin(Math.PI * 2 * SHAKE_SWINGS * t) * (1 - t);
 }
+
+/** How long a picked cap takes to pop and fly down to where its mushroom grows. */
+export const LAUNCH_DURATION = 0.55;
+/** How far a picked cap swells as it pops, before it shrinks away. */
+const LAUNCH_POP = 2.5;
+
+/**
+ * A picked cap `elapsed` seconds after the pick: its `scale`, swelling past
+ * its size and then shrinking to nothing, and its `travel` from 0 where it
+ * stood to 1 where its mushroom grows, slow while it pops and quick as it
+ * goes — at rest before the pick, and arrived and gone from
+ * `LAUNCH_DURATION` on.
+ */
+export function launch(elapsed: number): { scale: number; travel: number } {
+  if (elapsed < 0) return { scale: 1, travel: 0 };
+  if (elapsed >= LAUNCH_DURATION) return { scale: 0, travel: 1 };
+  const t = elapsed / LAUNCH_DURATION;
+  return { scale: (1 - t) * (1 + LAUNCH_POP * t), travel: t * t };
+}
