@@ -7,12 +7,16 @@
 import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
+import { CAP_KINDS } from '../../model/mushroom-genes';
 import type { Circle, Point } from '../../model/geometry';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
 
-/** A mushroom's footing, and the `splay` it is stood with (`splayed`). */
-type Placement = Footing & { splay: number };
+/**
+ * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and how
+ * far toward the sky's haze its colours go, the farthest the palest.
+ */
+export type Placement = Footing & { splay: number; haze: number };
 /**
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.
@@ -40,6 +44,8 @@ const FLOWER_SPOTS = {
     [0.24, 0.78],
     [0.8, 0.84],
     [0.52, 0.94],
+    [0.36, 0.14],
+    [0.66, 0.22],
   ],
 } as const;
 /**
@@ -57,9 +63,45 @@ const FLOWER_SCALE = 0.26;
  * together.
  */
 export const FOOT_CLEARANCE = 0.45;
+/**
+ * The forest's slots, after the clump's two, in the order they fill: across as
+ * a fraction of the width, down as one of the ground's depth, and the size
+ * against the clump's. A row flanking the clump, one in front of it, then a
+ * back row, small and hazy.
+ */
+const FOREST_SLOTS = {
+  landscape: [
+    [0.14, 0.8, 0.6],
+    [0.88, 0.62, 0.58],
+    [0.22, 0.06, 0.5],
+    [0.8, 0.1, 0.5],
+    [0.4, 0.0, 0.42],
+  ],
+  portrait: [
+    [0.16, 0.54, 0.44],
+    [0.84, 0.58, 0.44],
+    [0.22, 0.04, 0.42],
+    [0.78, 0.08, 0.42],
+    [0.5, 0.0, 0.36],
+  ],
+} as const;
+/** How far a forest mushroom turns away from the middle of the meadow. */
+const FOREST_SPLAY = 0.1;
+/**
+ * The haze on the farthest mushroom, and how far down the ground it thins
+ * out to none.
+ */
+const MAX_HAZE = 0.4;
+const HAZE_REACH = 0.35;
 /** The mute button's radius, and how far its edge keeps from the corner. */
 const BUTTON_R = 28;
 const BUTTON_INSET = 18;
+/** The `+` and `−` buttons' radius, and the gap between them. */
+const GROW_R = 36;
+const GROW_GAP = 16;
+/** The picker's buttons at their largest, and their spacing in radii. */
+const PICK_R = 46;
+const PICK_SPACING = 2.2;
 /**
  * The least radius, in CSS pixels, a tap target reaches: 64 across, which a
  * six-year-old's finger finds without aiming.
@@ -82,10 +124,14 @@ export type MeadowLayout = Sized & {
   groundTop: number;
   sun: Circle;
   clouds: readonly Circle[];
-  /** Back to front, which is the order they are painted in. */
+  /** One per slot, `MUSHROOM_SLOTS` of them: the clump's two, then the forest. */
   mushrooms: readonly Placement[];
   flowers: readonly Footing[];
   mute: Circle;
+  plus: Circle;
+  minus: Circle;
+  /** One per `CAP_KINDS`, in that order. */
+  picker: readonly Circle[];
 };
 
 /** A flower's head reaches this far from its centre, per unit of its size. */
@@ -152,6 +198,82 @@ function jitter(
   return Math.min(max, Math.max(min, moved));
 }
 
+function hazeAt(down: number): number {
+  return MAX_HAZE * Math.max(0, 1 - down / HAZE_REACH);
+}
+
+/**
+ * The largest size a mushroom stood at `x` with `splay` can take, whatever
+ * its genes, and keep its cap `margin` inside the screen.
+ */
+function sizeToFit(
+  x: number,
+  width: number,
+  splay: number,
+  margin: number,
+): number {
+  const reach = maxReach(splay);
+  const [left, right] =
+    splay < 0 ? [reach.toward, reach.away] : [reach.away, reach.toward];
+  return Math.min((x - margin) / left, (width - margin - x) / right);
+}
+
+/**
+ * The forest's slots, each facing the middle of the meadow and sized under
+ * `sizeToFit`, as the clump is.
+ */
+function placeForest(
+  slots: ReadonlyArray<readonly [number, number, number]>,
+  {
+    width,
+    groundTop,
+    ground,
+    unit,
+    margin,
+  }: Record<'width' | 'groundTop' | 'ground' | 'unit' | 'margin', number>,
+): Placement[] {
+  return slots.map(([across, down, scale]) => {
+    const x = width * across;
+    const splay = (across < 0.5 ? 1 : -1) * FOREST_SPLAY;
+    return {
+      x,
+      y: groundTop + ground * down,
+      size: Math.min(unit * scale, sizeToFit(x, width, splay, margin)),
+      splay,
+      haze: hazeAt(down),
+    };
+  });
+}
+
+/**
+ * The `+` and `−` on the right, where Syama drew them, and the picker across
+ * the top — pushed below the mute button where a narrow screen would have
+ * them meet.
+ */
+function placeControls(
+  width: number,
+  height: number,
+  mute: Circle,
+): Pick<MeadowLayout, 'plus' | 'minus' | 'picker'> {
+  const x = width - BUTTON_INSET - GROW_R;
+  const plusY = height * 0.36;
+  const r = Math.min(
+    PICK_R,
+    (width - BUTTON_INSET * 2) / (PICK_SPACING * (CAP_KINDS.length - 1) + 2),
+  );
+  const step = r * PICK_SPACING;
+  const first = width / 2 - (step * (CAP_KINDS.length - 1)) / 2;
+  const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
+  const y = clearOfMute
+    ? BUTTON_INSET + r
+    : mute.y + mute.r + BUTTON_INSET + r;
+  return {
+    plus: { x, y: plusY, r: GROW_R },
+    minus: { x, y: plusY + GROW_R * 2 + GROW_GAP, r: GROW_R },
+    picker: CAP_KINDS.map((_, index) => ({ x: first + step * index, y, r })),
+  };
+}
+
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize
  * that passes the same one keeps it where it was.
@@ -189,24 +311,43 @@ export function meadowLayout(
     },
   ] as const;
   // A size held under `maxReach` keeps every cap on screen, whatever its genes.
-  const reach = maxReach(CLUMP_SPLAY);
-  const fits = Math.min(
-    ...feet.map(({ x, scale, side }) => {
-      const [left, right] =
-        side < 0 ? [reach.toward, reach.away] : [reach.away, reach.toward];
-      return (
-        Math.min((x - EDGE_MARGIN) / left, (width - EDGE_MARGIN - x) / right) /
-        scale
-      );
-    }),
-  );
-  const size = Math.min(wanted, fits);
-  const mushrooms = feet.map(({ x, y, scale, side }) => ({
-    x,
-    y,
-    size: size * scale,
-    splay: side * CLUMP_SPLAY,
-  }));
+  const clumpSize = (margin: number) =>
+    Math.min(
+      wanted,
+      ...feet.map(
+        ({ x, scale, side }) =>
+          sizeToFit(x, width, side * CLUMP_SPLAY, margin) / scale,
+      ),
+    );
+  const slots = FOREST_SLOTS[portrait ? 'portrait' : 'landscape'];
+  const standing = (margin: number) => {
+    const unit = clumpSize(margin);
+    const clump = feet.map(({ x, y, scale, side }) => ({
+      x,
+      y,
+      size: unit * scale,
+      splay: side * CLUMP_SPLAY,
+      haze: 0,
+    }));
+    const forest = placeForest(slots, {
+      width,
+      groundTop,
+      ground,
+      unit,
+      margin,
+    });
+    return { unit, mushrooms: [...clump, ...forest] };
+  };
+  const { mushrooms } = standing(EDGE_MARGIN);
+  // The flowers keep to the meadow as it would stand with no edge margin,
+  // which scales with the screen exactly, so a resize keeps every flower
+  // where it was.
+  const unmargined = standing(0);
+  const mute = {
+    x: BUTTON_INSET + BUTTON_R,
+    y: BUTTON_INSET + BUTTON_R,
+    r: BUTTON_R,
+  };
   const sunR = short * 0.075;
   return {
     width,
@@ -227,17 +368,15 @@ export function meadowLayout(
       { x: width * 0.68, y: height * 0.24, r: short * 0.05 },
     ],
     // Sized off the mushrooms' unit, not the ground's depth, so a flower
-    // reads as smaller than a fly agaric on every screen.
+    // reads as smaller than a fly agaric on every screen; clear of every
+    // slot's foot, taken or not, so a mushroom growing never moves one.
     flowers: placeFlowers(
       FLOWER_SPOTS[portrait ? 'portrait' : 'landscape'],
-      { width, groundTop, ground, unit: size, seed },
-      mushrooms,
+      { width, groundTop, ground, unit: unmargined.unit, seed },
+      unmargined.mushrooms,
     ),
-    mute: {
-      x: BUTTON_INSET + BUTTON_R,
-      y: BUTTON_INSET + BUTTON_R,
-      r: BUTTON_R,
-    },
+    mute,
+    ...placeControls(width, height, mute),
     mushrooms,
   };
 }
