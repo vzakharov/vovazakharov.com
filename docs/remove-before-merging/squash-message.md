@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): #65 Syama's mushroom meadow, alive and heard (pr #57)
+feat(vova): #65 Syama's mushroom meadow, alive, heard and growing (pr #57)
 ```
 
 ```
@@ -9,29 +9,31 @@ A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
 There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; the game is built here a bite at a time, each bite reviewed
-by a fresh agent session, and this is the meadow the rest stands on.
+the spec; the game is built here a bite at a time, each reviewed by a
+fresh agent session, a loop collected toward a future skill in
+.claude/skills/megabeast/notes.md.
 
-/mushrooms is a full-screen sunny meadow drawn by Phaser 4, loaded on
-this route alone and rendered at the device pixel ratio so a retina
-tablet stays sharp. There are no sprites: each mushroom and flower is
-grown from its own seed by a pure, tested generator and painted with
-vector primitives, so no two are alike. The opening pair stands as one
-clump, as in the drawing, and the layout keeps every cap on screen and
-every flower clear of the mushrooms' feet on any screen and seed. The
-game's palette is the site's one home of colour literals, a canvas
-being out of the CSS tokens' reach.
+/mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
+route alone and rendered at the device pixel ratio. There are no
+sprites: each mushroom and flower is grown from its own seed by a
+pure, tested generator and painted with vector primitives. The opening
+pair stands as one clump, as in the drawing, and the layout keeps
+every cap on screen and every flower clear of the mushrooms' feet on
+any screen and seed. The game's palette is the site's one home of
+colour literals, a canvas being out of the CSS tokens' reach.
 
 The meadow moves and sounds. Clouds drift, a gust crosses the grass,
-mushrooms breathe; a tap wobbles a mushroom for about two seconds and
-puffs spores, or opens a flower with its own pentatonic chime. Every
-motion is a pure function of the clock, so a resize never cuts one
-short. Sound is a Web Audio synth started by the first tap; the mute,
-remembered per device, suspends the audio context rather than playing
-on into silence.
+mushrooms breathe; a tap wobbles a mushroom and puffs spores, or opens
+a flower with its own chime. Every motion is a pure function of the
+clock, so a resize never cuts one short. Sound is a Web Audio synth
+started by the first tap; the remembered mute suspends it.
 
-The unattended bite-review-handle loop the branch runs on is collected
-toward a future skill in .claude/skills/megabeast/notes.md.
+The player shapes the meadow. Plus opens a four-cap picker and grows
+the pick out of the ground; a tap selects a mushroom and minus sinks
+it back, up to six in a forest round the clump, the back row hazed
+toward the sky. A pure reducer in model/game.ts owns that state, and
+the scene only reconciles the screen with it, each mushroom keeping
+its slot for life so nothing else moves when one comes or goes.
 
 Closes #65
 
