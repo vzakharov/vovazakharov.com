@@ -1,13 +1,13 @@
 Proposed squash title/body:
 
 ```
-chore: split work across sessions, /relay, and muthur update nudges (pr #90)
+chore: session splits, /relay, muthur nudges and the Python ledger (pr #90)
 ```
 
 ```
 The repo this one vendors its agent infrastructure from moved, and its
 changes are about sessions: how work too big for one is shared across
-several, and how one hands off to the next.
+several, how one hands off to the next, and what each one costs.
 
 /plan now splits such work in one of two shapes. An elephant is one PR
 eaten a bite per session: the plan keeps what is eaten and the rest
@@ -22,9 +22,15 @@ source moves past the trunk's watermark, behind a lock branch so two
 sessions never sync one range; /update-muthur claims it and hands its
 candidates to /task, which can split a long lag.
 
-A session's first cost commit now reads "session cost (new)", and the
-operator entry asks for «ты» and for Russian when a message carries no
-language of its own.
+The cost ledger is now the source's Python rather than a TypeScript
+port of it, so its later changes land as copies, not translations.
+Each row records what the session spent before it first acted, and a
+local receiver for Claude Code's OpenTelemetry events prices the calls
+the transcript never records, once the environment exports them. A
+session's first cost commit reads "session cost (new)".
+
+The operator entry asks for «ты» and for Russian when a message
+carries no language of its own.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
