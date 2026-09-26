@@ -24,6 +24,11 @@ const SWAY_PERIOD = 4.6;
 /** A flower's opening past its rest, at the peak of a tap's bloom. */
 const BLOOM_DEPTH = 0.45;
 export const BLOOM_DURATION = 1.6;
+/** How long a mushroom takes to grow out of the ground, and to sink back. */
+export const EMERGE_DURATION = 0.75;
+export const SINK_DURATION = 0.45;
+/** `Back.Out`'s overshoot: how far past its size a growing mushroom reaches. */
+const EMERGE_OVERSHOOT = 1.9;
 
 /** The height's stretch (above 0) or squash (below) as a mushroom breathes. */
 export function breath(time: number, phase: number): number {
@@ -81,4 +86,27 @@ export function drift(
   span: number,
 ): number {
   return (((start + speed * time) % span) + span) % span;
+}
+
+/**
+ * A growing mushroom's scale `elapsed` seconds after it was planted: from
+ * nothing, past its full size, and back to it — 1 once `EMERGE_DURATION` has
+ * passed, and before it too, so a mushroom never planted stands still.
+ */
+export function emerge(elapsed: number): number {
+  if (elapsed < 0 || elapsed >= EMERGE_DURATION) return 1;
+  const t = elapsed / EMERGE_DURATION - 1;
+  return 1 + t * t * ((EMERGE_OVERSHOOT + 1) * t + EMERGE_OVERSHOOT);
+}
+
+/**
+ * A removed mushroom's scale `elapsed` seconds after its removal: a little
+ * lift first, as if pulled, then down into the ground, and 0 from
+ * `SINK_DURATION` on.
+ */
+export function sink(elapsed: number): number {
+  if (elapsed < 0) return 1;
+  if (elapsed >= SINK_DURATION) return 0;
+  const t = elapsed / SINK_DURATION;
+  return (1 - t) * (1 + 1.5 * t);
 }

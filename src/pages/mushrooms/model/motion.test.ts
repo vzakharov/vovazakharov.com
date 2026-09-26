@@ -6,6 +6,10 @@ import {
   BLOOM_DURATION,
   breath,
   drift,
+  emerge,
+  EMERGE_DURATION,
+  sink,
+  SINK_DURATION,
   sway,
   widthFor,
   wobble,
@@ -76,5 +80,27 @@ describe('drift', () => {
   it('wraps round its span, going either way', () => {
     assert.equal(drift(90, 20, 1, 100), 10);
     assert.equal(drift(10, -20, 1, 100), 90);
+  });
+});
+
+describe('emerge', () => {
+  it('grows from nothing, past full size, and settles at it', () => {
+    assert.ok(Math.abs(emerge(0)) < 1e-9);
+    assert.ok(samples(EMERGE_DURATION).some((t) => emerge(t) > 1.05));
+    assert.ok(Math.abs(emerge(EMERGE_DURATION - 0.01) - 1) < 0.01);
+    assert.equal(emerge(EMERGE_DURATION), 1);
+  });
+
+  it('never dips below the ground on the way', () => {
+    assert.ok(samples(EMERGE_DURATION).every((t) => emerge(t) >= 0));
+  });
+});
+
+describe('sink', () => {
+  it('lifts a little, then goes down to nothing and stays there', () => {
+    assert.equal(sink(0), 1);
+    assert.ok(samples(SINK_DURATION).some((t) => sink(t) > 1));
+    assert.ok(sink(SINK_DURATION - 0.01) < 0.1);
+    assert.equal(sink(SINK_DURATION), 0);
   });
 });

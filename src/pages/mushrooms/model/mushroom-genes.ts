@@ -18,7 +18,7 @@ export const CAP_KINDS = [
   'dark-top',
   'dark-bottom',
 ] as const;
-type CapKind = (typeof CAP_KINDS)[number];
+export type CapKind = (typeof CAP_KINDS)[number];
 
 type Capped = { cap: CapKind };
 type MushroomSeed = Seeded & Capped;
