@@ -32,118 +32,94 @@ Every successor passes this section on verbatim.
 
 ## 2. The conversation
 
-This session was started with `/relay take claude/mushroom-game-syama-lbirv7`,
-whose relay said `/go`. Every operator message below arrived mid-turn while
-bite 1 was being built; each was acted on without a turn of its own.
-
-**Operator:** the megabeast message (§ 1). **Agent:** created
-`.claude/skills/megabeast/notes.md` (no `SKILL.md`, so nothing loads it; it
-survives `/finalize`'s sweep) and added it to the plan's standing rules.
-
-**Operator:** "заполнять в конце каждой сессии перед релеем". **Agent:**
-written into the plan's standing rules and the notes' header.
-
-**Operator:** "помни чтобы не было слишком больших (>450 строк) модулей".
-**Agent:** split the scene's painting into `paint-backdrop.ts`, and wrote
-the rule into the plan's decisions.
-
-**Operator:**
-
-> и ещё добавь какую-нибудь изюминку. это не должна быть прямо competitive игра, но какие-то экологические штучки должны прослеживаться -- взаимодействия разных сущностей в природе и с самой природой
-
-**Agent:** made the meadow a small ecosystem in the plan: flowers join bite
-2, bees pollinate flowers into new ones, butterflies drink and rest, flies
-seek the fly agarics, a new **Rain** bite (tap a cloud, the meadow answers,
-spores sprout after), and dusk brings mice and fireflies. Rules live in the
-model as a tested `tick`.
-
-**Operator:**
-
-> но это не должно быть в виде назойливого научения, всё должно быть перед глазами, а не на объяснениях
-
-**Agent:** written in as "shown, never taught": no hint, arrow, counter,
-reward or lesson.
-
-**Operator:**
-
-> и давай там что-то будет inspired by mandalas потому что их любит рисовать моя жена Лейсан. Не прямо чтобы рисовал мандалы, а именно inspired. тогда получится от Сямы идея, от меня любовь к процедуркам, от Золтана к экологии, от Лейсан к Мандалам
-
-**Agent:** added a "mandala-inspired ornament" decision (radial symmetry and
-rings in the sun, flowers, wings, splashes, spore puffs, and in how
-pollinated beds grow), the four people's loves to the plan's intro and the PR
-body, and made bite 1's sun a layered rosette.
+This session was started with `/relay take claude/mushroom-game-syama-lbirv7`.
+The previous relay's Next step was "оставь код ревью на последний кусок".
+No operator message arrived during the session. **Agent:** reviewed bite 1
+and posted one PR review with nine inline comments, updated the megabeast
+notes, and relayed `/relay /handle`, as the plan's loop prescribes.
 
 ## 3. Intent
 
-The whole game, built autonomously, beautiful, atmospheric and comfortable
-for a six-year-old. It carries four people's loves: Syama's idea, the
-operator's procedural generation, Zoltan's ecology, Leysan's mandalas. Each
-bite is reviewed by an agent looking where the operator would look. The run
-ends with `/finalize` (no merge) and is also published as an Artifact.
-Ruled out: a competitive game, a 3D/multiplayer showpiece, and any teaching
-voice.
+Unchanged: the whole game, built autonomously, beautiful and comfortable for
+a six-year-old. It carries Syama's idea, the operator's procedural
+generation, Zoltan's ecology and Leysan's mandalas. Each bite gets an agent
+review, and the run ends with `/finalize` (no merge) plus an Artifact. Ruled
+out: a competitive game, a 3D/multiplayer showpiece, and any teaching voice.
 
 ## 4. Decisions
 
 - **Terms.** An _elephant_ is one PR eaten a _bite_ per session. _Megabeast_
-  is the working name of the future skill that would run such a loop
-  unattended; its notes file is not the skill. _Пятипроцентник_ is
-  `writing/notes/the-five-percent.md`, the reviewer's reading list, frozen.
-  _Страшила_ stands for the reviewer looking as the operator would.
-- **Bite 1 took the plan's first bite as written** plus the rosette sun;
-  the ecology and mandala asks grew the plan's later bites instead of this
-  one.
-- **The canvas is sized in device pixels by the host, not by Phaser.**
-  Phaser 4's `Scale.RESIZE` sizes the buffer in CSS pixels, which blurs a
-  retina tablet. So `start-game.ts` uses `Scale.NONE`, zoom `1/ratio`,
-  `resize(css × ratio)`, and the camera zooms back by the ratio.
-- **The drawing lives in `src/pages/mushrooms/reference/`**, not
-  `assets/reference/`, because Steiger rejects an `assets` segment. Issue
-  #65's body still names the old path; left as is.
-- **The squash proposal stays stale until `/finalize`**, which reconciles
-  it; it describes the finished PR, not a bite.
+  is the future skill's working name, and `.claude/skills/megabeast/notes.md`
+  holds its notes. _Пятипроцентник_ is `writing/notes/the-five-percent.md`,
+  frozen. _Страшила_ is the reviewer looking where the operator would look.
+- **The review judged the frames first and the code second.** Every
+  finding came from the page; the code then gave its cause.
+- **The review is `COMMENT`, not `REQUEST_CHANGES`.** None of it blocks
+  bite 2, but it says comments 1–4 should land before the meadow moves.
+- Earlier decisions stand. The canvas is sized in device pixels by the host
+  (`Scale.NONE`). The drawing lives in `src/pages/mushrooms/reference/`. The
+  squash proposal stays stale until `/finalize`.
 
 ## 5. Errors and dead ends
 
 - `gh pr edit` fails on a Projects-classic GraphQL deprecation. Use
-  `python3 scripts/pr-body.py pull|push 57`, and `gh api -X PATCH
-repos/vzakharov/vovazakharov.com/pulls/57 -f title=…` for the title.
-- Chrome's bare `--screenshot` shows a false blank strip below the canvas.
-  Use Playwright (recipe in the plan's `## Eaten so far` and the megabeast
-  notes).
-- The two Deepgram transcripts under `docs/remove-before-merging/deepgram/`
-  needed several `prettier --write` passes to converge; now stable.
+  `python3 scripts/pr-body.py pull|push 57`, and `gh api -X PATCH` for the
+  title.
+- The container has no Pillow, so pixel checks go through Playwright or
+  plain reasoning over the frames.
+- The session came up detached at an older commit of the branch. A
+  checkout and `git pull --ff-only` fixed it.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  body refreshed with bite 1's QA checklist.
-- Plan: `docs/plans/mushroom-game-syama.paused.md`, bite 1 folded into
-  `## Eaten so far`, the rest numbered 2–10.
-- Bite 1's commits, for the review: `b5d0974..bc7fb16` (go-ahead flip
-  through the megabeast notes). The code is in `833a2f9` (feat), `138a429`
-  (vet fixes) and `006a20f` (polish). `./scripts/vet.sh` passed on
-  `138a429`, and the polish commit after it was lint- and type-checked.
+  `MERGEABLE`/`CLEAN` at pickup.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`, bite 1 in
+  `## Eaten so far`, bites 2–10 still to come.
+- Review posted: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325225829
+  (id 5325225829), anchored on 9296e94. Its nine inline threads:
+  1. `mushroom-genes.ts:122`: the opening pair isn't the drawing (one
+     clump, long bent crossing stems, caps leaning apart). Asks for a
+     `stemBend` gene and a clumped, outward-leaning opening pair.
+  2. `draw-mushroom.ts:61-64`: faceted rims, because sampling evenly in x
+     meets an infinite slope at the rim. Sample by angle, and round the lip.
+  3. `draw-mushroom.ts:75-85`: the shade wedge's straight cut through the
+     crest, and spots turning grey under it. Taper the crescent, and paint
+     the spots after it.
+  4. `layout.ts:48-58`: 5.5% of phone visits put a cap within 4 px of the
+     edge (2000 seeds; 0.4% on tablet portrait). Bound the size by
+     `GENE_RANGES` maxima.
+  5. `paint-backdrop.ts:234`: a ruler-straight seam where hills meet
+     ground.
+  6. `start-game.ts:19`: the `'#000000'` literal is outside `palette.ts`.
+  7. `meadow-scene.ts:46`: repaint-all on resize will kill bite 2's tweens.
+     Reconcile on resize instead.
+  8. `layout.ts:42`: the phone sun is pinned to the edge, with hard-edged,
+     clipped glow discs.
+  9. Plan line 76: the decision still says `Scale.RESIZE`.
+- Last pushed commit before this summary: 67f60d8 (megabeast notes).
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md`: the contract, the loop, the
-  decisions (ecology, mandalas, 450 lines), `## Eaten so far` with the
-  defects already seen (angular cap rims, a hard notch where the cap shade
-  ends, the phone's front cap near the right edge).
-- `src/pages/mushrooms/`: the slice. `apps/vova/app/mushrooms/page.tsx`:
-  the route.
-- `.claude/skills/megabeast/notes.md`: fill before the relay.
-- `writing/notes/the-five-percent.md`: the review reading list, frozen.
-- `src/pages/mushrooms/reference/syama-drawing.webp`: the drawing.
+- `docs/plans/mushroom-game-syama.paused.md`: the contract and the loop.
+- The review threads: `gh api repos/vzakharov/vovazakharov.com/pulls/57/comments`
+  (filter to review 5325225829), or
+  `python3 scripts/export-github-item.py 57`.
+- `src/pages/mushrooms/`: the slice. `.claude/skills/megabeast/notes.md`:
+  fill before the relay.
 - Frames: `pnpm build:vova`, serve `apps/vova/out` with `python3 -m
 http.server 8765`, then Playwright from
-  `/opt/node22/lib/node_modules/playwright` with `executablePath:
+  `/opt/node22/lib/node_modules/playwright`, `executablePath:
 '/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
---enable-unsafe-swiftshader`, viewports 1180×820@2 and 390×844@3,
-  `hasTouch: true`, at `http://localhost:8765/mushrooms.html`.
+--enable-unsafe-swiftshader`, viewports 1180×820@2, 820×1180@2 and
+  390×844@3, `hasTouch: true`, at `http://localhost:8765/mushrooms.html`.
+- The edge sweep behind thread 4: import `firstMushrooms`, `mushroomGenes`
+  and `meadowLayout`; for 2000 seeds `s*7919+3`, rotate each cap's rim
+  points (41 across `capWidth`, at the cap underside) by `capTilt`, lift by
+  `stemHeight·size`, rotate by `lean` about the foot, and count visits with
+  any X < 4 or X > w − 4. Run it with `npx tsx`.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
