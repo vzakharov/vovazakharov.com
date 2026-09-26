@@ -2,7 +2,7 @@
 
 ## 1. Standing constraints
 
-The operator's words, verbatim (Russian):
+Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > 4- после каждого куска делал "/relay оставь код ревью на последний кусок" -- что такое релей тоже поймёшь, а код ревью надо оставлять с учётом нашего "пятипроцентника" -- то есть смотреть на то на что смотрел бы я ("что бы на нашем месте сделал Страшила")
 > 5- после ревью передавал "/relay /handle"
@@ -15,98 +15,135 @@ The operator's words, verbatim (Russian):
 
 > (поправка, пятипроцентник зафиксируй и НЕ пополняй, учитывая что все код ревью будут НЕ от меня)
 
-So: never merge; never append to `writing/notes/the-five-percent.md`; ask the
-operator nothing short of the unrecoverable; every successor passes this
-section on verbatim in its own relay summary. The plan's
-`## How this elephant is eaten` carries the loop as the contract.
+Added in this session, verbatim:
+
+> одна штука которую хочу чтобы ты держал, в том числе между сессиями -- файлик будущего скилла, который будет это всё автоматизировать (рабочее название megabeast). Не сам скилл, а именно соображения с тем, что ты нашёл по пути, что помогло бы сделать этот процесс повторяемым и на лучшем уровне
+
+> заполнять в конце каждой сессии перед релеем
+
+> помни чтобы не было слишком больших (>450 строк) модулей
+
+So: never merge; never append to `writing/notes/the-five-percent.md`; ask
+the operator nothing short of the unrecoverable; fill
+`.claude/skills/megabeast/notes.md` at the end of every session, before its
+relay; no module past ~450 lines. The plan's `## How this elephant is eaten`
+and `## Decisions the whole game carries` hold all of it as the contract.
+Every successor passes this section on verbatim.
 
 ## 2. The conversation
 
-Earlier sessions on this branch (before the latest request) planned stage one
-of the game with the operator: a real mobile-feeling game, "как какой-нибудь
-angry birds по отрисовке и анимациям"; no text and no locales ("игрушка должна
-быть без текста, чтобы играть мог ребёнок любого возраста"); no sprites but
-vectors, procedurally varied ("нажал, появился ещё грибок, ещё нажал, ещё --
-потом целый лес, и каждый -- разный. так же с мухами-пчёлами"). Issue #65 was
-filed during planning (the operator noted `/plan` files issues at `/go`; it
-was kept). All of that is now in the plan's decisions.
+This session was started with `/relay take claude/mushroom-game-syama-lbirv7`,
+whose relay said `/go`. Every operator message below arrived mid-turn while
+bite 1 was being built; each was acted on without a turn of its own.
 
-**Operator (latest):**
+**Operator:** the megabeast message (§ 1). **Agent:** created
+`.claude/skills/megabeast/notes.md` (no `SKILL.md`, so nothing loads it; it
+survives `/finalize`'s sweep) and added it to the plan's standing rules.
 
-> так, давно сюда не заходил. Давай-ка мы замахнёмся на крутое в этот раз. смотри, что хочу, чтобы ты сделал:
->
-> 1- погуглил про то, какие офигительные вещи люди понаделали с Opus 5.5 (тобой). Это не значит что я хочу супер-мультиплеер-3д-шутер, но просто чтобы ты зарядился чувством гордости и своих возможностей, чтобы игра получилась прямо красивая, атмосферная и удобная для мальчишки 6 лет
-> 2- ребейзнлся на текущий мейн -- там пара интересных скиллов и подходов
-> 3- считал это "слоном" (ребейзнешься -- поймёшь), то есть план должен быть на всю игру
-> 4–7 and the rest: see § 1.
->
-> (потирает ручки) ну, что, поехали?
+**Operator:** "заполнять в конце каждой сессии перед релеем". **Agent:**
+written into the plan's standing rules and the notes' header.
 
-**Agent:** researched (below), rebased onto `main` (ea64f2b), rewrote the plan
-as an elephant for the whole game with the loop in it, force-pushed (the
-rebase required it), retitled PR #57 to "feat(vova): Syama's mushroom game at
-/mushrooms" with `Closes #65`, trimmed #65 to the spec plus a pointer to the
-plan and renamed it "Syama's mushroom game", and relayed with `/go`.
+**Operator:** "помни чтобы не было слишком больших (>450 строк) модулей".
+**Agent:** split the scene's painting into `paint-backdrop.ts`, and wrote
+the rule into the plan's decisions.
 
-**Operator (mid-turn):** the five-percent correction quoted in § 1. **Agent:**
-acknowledged; it is a standing rule.
+**Operator:**
+
+> и ещё добавь какую-нибудь изюминку. это не должна быть прямо competitive игра, но какие-то экологические штучки должны прослеживаться -- взаимодействия разных сущностей в природе и с самой природой
+
+**Agent:** made the meadow a small ecosystem in the plan: flowers join bite
+2, bees pollinate flowers into new ones, butterflies drink and rest, flies
+seek the fly agarics, a new **Rain** bite (tap a cloud, the meadow answers,
+spores sprout after), and dusk brings mice and fireflies. Rules live in the
+model as a tested `tick`.
+
+**Operator:**
+
+> но это не должно быть в виде назойливого научения, всё должно быть перед глазами, а не на объяснениях
+
+**Agent:** written in as "shown, never taught": no hint, arrow, counter,
+reward or lesson.
+
+**Operator:**
+
+> и давай там что-то будет inspired by mandalas потому что их любит рисовать моя жена Лейсан. Не прямо чтобы рисовал мандалы, а именно inspired. тогда получится от Сямы идея, от меня любовь к процедуркам, от Золтана к экологии, от Лейсан к Мандалам
+
+**Agent:** added a "mandala-inspired ornament" decision (radial symmetry and
+rings in the sun, flowers, wings, splashes, spore puffs, and in how
+pollinated beds grow), the four people's loves to the plan's intro and the PR
+body, and made bite 1's sun a layered rosette.
 
 ## 3. Intent
 
 The whole game, built autonomously, beautiful, atmospheric and comfortable
-for a six-year-old; reviewed at each bite by an agent looking where the
-operator would look; finished with `/finalize` (no merge) and published as an
-Artifact as well as on the branch. Ruled out: a big 3D/multiplayer showpiece.
+for a six-year-old. It carries four people's loves: Syama's idea, the
+operator's procedural generation, Zoltan's ecology, Leysan's mandalas. Each
+bite is reviewed by an agent looking where the operator would look. The run
+ends with `/finalize` (no merge) and is also published as an Artifact.
+Ruled out: a competitive game, a 3D/multiplayer showpiece, and any teaching
+voice.
 
 ## 4. Decisions
 
-- **Elephant, not pizza**: one PR (#57) for the whole game; #65 keeps only the
-  spec and closes with the PR.
-- **Research takeaways** folded into the plan: the standout demos made
-  everything procedurally, art and sound alike, in code; bundled to one HTML
-  via esbuild; were checked by looking at frames. The known weakness is game
-  feel and polish, so every bite ends with screenshots and a scripted tap
-  sequence captured frame by frame. Sources: favtutor.com/claude-opus-5-5-real-examples,
-  soonlab.ai/blog/claude-opus-5-game-development,
-  github.com/magiccreator-ai/awesome-claude-opus-5-5-demos.
-- **Sound moved before MPP** (bite 2), because for a six-year-old a tap that
-  makes no sound is half a tap.
-- **All four caps in bite 1's generator**, since they are gene ranges of one
-  generator and the picker in bite 3 needs them drawn.
-- **A `/handle` session takes the next bite too** when under ~140k context,
-  otherwise pauses and relays `/go` — the reading of "так по циклу".
-- **The go-ahead** for the draft plan is the operator's "(потирает ручки) ну,
-  что, поехали?" together with "весь процесс должен пройти полностью
-  автономно, без единого моего вмешательства". The successor's `/go` quotes
-  it when it flips the plan.
+- **Terms.** An _elephant_ is one PR eaten a _bite_ per session. _Megabeast_
+  is the working name of the future skill that would run such a loop
+  unattended; its notes file is not the skill. _Пятипроцентник_ is
+  `writing/notes/the-five-percent.md`, the reviewer's reading list, frozen.
+  _Страшила_ stands for the reviewer looking as the operator would.
+- **Bite 1 took the plan's first bite as written** plus the rosette sun;
+  the ecology and mandala asks grew the plan's later bites instead of this
+  one.
+- **The canvas is sized in device pixels by the host, not by Phaser.**
+  Phaser 4's `Scale.RESIZE` sizes the buffer in CSS pixels, which blurs a
+  retina tablet. So `start-game.ts` uses `Scale.NONE`, zoom `1/ratio`,
+  `resize(css × ratio)`, and the camera zooms back by the ratio.
+- **The drawing lives in `src/pages/mushrooms/reference/`**, not
+  `assets/reference/`, because Steiger rejects an `assets` segment. Issue
+  #65's body still names the old path; left as is.
+- **The squash proposal stays stale until `/finalize`**, which reconciles
+  it; it describes the finished PR, not a bite.
 
 ## 5. Errors and dead ends
 
-`gh pr edit` fails on a GraphQL Projects-classic deprecation. Use
-`gh api -X PATCH repos/vzakharov/vovazakharov.com/pulls/57 -F body=@<file>`
-(and `-f title=…`).
+- `gh pr edit` fails on a Projects-classic GraphQL deprecation. Use
+  `python3 scripts/pr-body.py pull|push 57`, and `gh api -X PATCH
+repos/vzakharov/vovazakharov.com/pulls/57 -f title=…` for the title.
+- Chrome's bare `--screenshot` shows a false blank strip below the canvas.
+  Use Playwright (recipe in the plan's `## Eaten so far` and the megabeast
+  notes).
+- The two Deepgram transcripts under `docs/remove-before-merging/deepgram/`
+  needed several `prettier --write` passes to converge; now stable.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, rebased on `main`; PR #57 is a
-  draft.
-- Plan: `docs/plans/mushroom-game-syama.draft.do-not-implement.md`, with no
-  bite taken yet.
-- No source code exists yet.
-- `docs/remove-before-merging/` holds `syama-drawing.webp`, the Deepgram
-  transcripts under `deepgram/`, and a squash proposal. The proposal is stale:
-  it still describes stage one, and `/finalize` reconciles it.
-- Nothing is running, and there is no PR subscription.
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
+  body refreshed with bite 1's QA checklist.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`, bite 1 folded into
+  `## Eaten so far`, the rest numbered 2–10.
+- Bite 1's commits, for the review: `b5d0974..bc7fb16` (go-ahead flip
+  through the megabeast notes). The code is in `833a2f9` (feat), `138a429`
+  (vet fixes) and `006a20f` (polish). `./scripts/vet.sh` passed on
+  `138a429`, and the polish commit after it was lint- and type-checked.
+- Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.*.md` — the contract: the loop, decisions,
-  bites.
-- Issue #65 — the spec, with Syama's words transcribed.
-- `docs/remove-before-merging/syama-drawing.webp` — the drawing; look at it.
-- `writing/notes/the-five-percent.md` — the review reading list (frozen).
+- `docs/plans/mushroom-game-syama.paused.md`: the contract, the loop, the
+  decisions (ecology, mandalas, 450 lines), `## Eaten so far` with the
+  defects already seen (angular cap rims, a hard notch where the cap shade
+  ends, the phone's front cap near the right edge).
+- `src/pages/mushrooms/`: the slice. `apps/vova/app/mushrooms/page.tsx`:
+  the route.
+- `.claude/skills/megabeast/notes.md`: fill before the relay.
+- `writing/notes/the-five-percent.md`: the review reading list, frozen.
+- `src/pages/mushrooms/reference/syama-drawing.webp`: the drawing.
+- Frames: `pnpm build:vova`, serve `apps/vova/out` with `python3 -m
+http.server 8765`, then Playwright from
+  `/opt/node22/lib/node_modules/playwright` with `executablePath:
+'/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
+--enable-unsafe-swiftshader`, viewports 1180×820@2 and 390×844@3,
+  `hasTouch: true`, at `http://localhost:8765/mushrooms.html`.
 
 ## 8. Next step
 
-`/go` — take bite 1 of the elephant, flipping the plan with the go-ahead
-quoted in § 4, then continue the loop per the plan.
+оставь код ревью на последний кусок
