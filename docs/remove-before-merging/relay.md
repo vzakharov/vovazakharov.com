@@ -31,11 +31,11 @@ verbatim.
 ## 2. The conversation
 
 The session started with `/relay take claude/mushroom-game-syama-lbirv7`,
-whose Next step was `/go`. No operator message arrived. **Agent:** took and
-built bite 3 (plus, minus, the cap picker, a forest), had frames shot twice
-by a subagent and fixed what they showed, had `/polish` + vet and the PR
-refresh done by subagents, paused the plan, filled the megabeast notes, and
-relayed the review.
+whose Next step was "оставь код ревью на последний кусок". No operator
+message arrived. **Agent:** had a subagent shoot and tap frames at four
+screens, ran a 2000-visit layout sweep itself, read bite 3's source, posted
+one loop review with nine inline comments, filled the megabeast notes, and
+relayed `/handle`.
 
 ## 3. Intent
 
@@ -50,54 +50,45 @@ showpiece, any teaching voice.
   future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
   `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
   looking where the operator would look.
-- **Six mushrooms, not seven or nine.** A seventh slot sat behind the clump
-  on a tablet, invisible and untappable; the back row centre is always
-  hidden by the clump's V of caps. Slots are fixed per orientation in
-  `layout.ts` `FOREST_SLOTS`, each mushroom keeps its slot for life.
-- **Forest faces the middle** (splay toward the clump): facing outward
-  made the edge bound shrink edge slots to nothing.
-- **Flowers clear every slot's foot, taken or not**, placed against the
-  layout computed with `EDGE_MARGIN` 0 so a resize keeps them; portrait
-  gained two back flower spots to compensate.
-- **A grown mushroom is selected**, so `−` is lit right after a grow and
-  bite 4's house goes on it without another tap.
-- **The clump can be thinned** by `−` like any other mushroom; a later grow
-  refills the lowest free slot, clump slots first.
-- **Selection shows twice**: a small soft halo behind the cap and a ring of
-  light on the ground round the foot — the ring is what tells two crossed
-  mushrooms apart.
-- **Tap areas are the cap and the stem as drawn** (`MushroomHit` polygons),
-  not a bounding box.
-- Earlier decisions stand: clock-driven motion, sound starting on the first
-  `POINTER_UP`, the `localStorage` mute fallback still awaiting the
+- The review is `event: COMMENT` and opens with "Loop review of bite 3 …"
+  naming itself an agent's, as bite 2's did, so `/handle` works its threads
+  whatever the export's authorship label says (megabeast notes, "The
+  export's authorship label …").
+- Two of its asks are open design calls the handler decides and writes into
+  the plan as decisions: phone forest (a size floor vs fewer slots on a
+  phone) and what `−` with no selection / `+` when full do (the review
+  suggests `−` sinks the newest mushroom).
+- Earlier decisions stand (see the plan): six slots, forest facing the
+  middle, a grown mushroom selected, clock-driven motion, sound starting on
+  the first `POINTER_UP`, the `localStorage` mute fallback awaiting the
   operator's approval, `Scale.NONE`.
 
 ## 5. Errors and dead ends
 
-- Nine, then seven slots starved the flowers (2.4/visit tablet, 0.6 tablet
-  portrait against a floor of 4.5); `tmp/spots.ts`-style sweeps guided the
-  tables.
-- Parameter properties are banned (`erasableSyntaxOnly`); fields are
-  explicit.
-- Known, left for the review to judge: the picker's two two-tone caps are
-  still easy to confuse at button size; on a phone the picker is tight and
-  its fourth button sits over the sun; the tap spore puff lingers ~1.5 s.
+- **The head's input is dead** (the review's first comment): `mushroom-bed.ts`
+  `setInteractive(hit, containsMushroom)` with `hit = { cap, stem }` is read
+  by Phaser 4.2.1's `InputPlugin.setHitArea` (`node_modules/.pnpm/phaser@4.2.1/node_modules/phaser/src/input/InputPlugin.js`
+  ~2377) as a config object, so `hitAreaCallback` is `null` and every tap
+  throws. Verified in the source by this session. All other findings were
+  played with the callback patched at runtime.
+- The frames and the sweep script lived in `tmp/review3/` and do not survive
+  the relay; each review comment carries the numbers and the method to
+  re-derive them.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  `MERGEABLE`/`CLEAN`; vet green at the polish commit 3dddb0b; last commit
-  before this file 3f31d16.
+  `MERGEABLE`/`CLEAN` at pickup; last commit before this file b409675.
 - Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–3 eaten; bite 3
-  not yet reviewed; bites 4–10 left.
-- PR body and the `Proposed squash title/body:` comment refreshed for bite 3.
+  reviewed, not yet handled; bites 4–10 left.
+- Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325798267
+  (9 inline comments, on head f3e60d0; source unchanged since 3dddb0b).
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- Bite 3's commits: from `docs: take bite 3 of the mushroom game` through
-  `chore: pause mushroom-game-syama after bite 3` (`git log --oneline
-d80d81d..HEAD`).
+- Read the review: `python3 scripts/export-github-item.py 57` →
+  `docs/pr/57/pr.md`, or `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5325798267/comments`.
 - `docs/plans/mushroom-game-syama.paused.md`: the contract, the loop,
   `## Eaten so far` item 3.
 - Frames: `pnpm build:vova` with `Object.assign(window, { __game: game });`
@@ -108,12 +99,17 @@ d80d81d..HEAD`).
 --enable-unsafe-swiftshader`, `hasTouch: true`, url
   `http://localhost:8765/mushrooms.html`, `Math.random` seeded by an
   `addInitScript` mulberry32 (12345); `__game.loop.sleep()` then
-  `__game.step(t, 1000/60)` per frame. State and button circles:
-  `__game.scene.scenes[0].meadow` and `.layout` (`plus`, `minus`,
-  `picker`, `mute`).
-- Re-read the PR: `python3 scripts/export-github-item.py 57` →
-  `docs/pr/57/pr.md`.
+  `__game.step(t, 1000/60)` per frame; **collect `pageerror` and treat any as
+  a failure**. State and button circles: `__game.scene.scenes[0].meadow` and
+  `.layout` (`plus`, `minus`, `picker`, `mute`).
+- Sweep: a `tsx` script under `tmp/` importing `meadowLayout`, `tapReach`,
+  `mushroomGenes`, `domeHeight`, `capFrame`, `splayed`, `mulberry32`,
+  `nextSeed`; for 2000 visits (`v*7919+3`) per viewport, samples each slot's
+  cap outline in world coordinates (canvas y flipped, rotated by `turn` about
+  the foot as `toWorld` in `mushroom-bed.ts` does) and tests it against each
+  control's `tapReach` circle and the sun; also min `capWidth*size` and
+  `stemWidth*size` per slot.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
