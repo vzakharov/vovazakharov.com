@@ -38,9 +38,8 @@ only the next session.
 - `scripts/staged.sh list` shows what is staged, each real path beside its copy.
 - `/finalize` runs `swap` before its quality passes, merging in anything the
   real file gained meanwhile, and nothing deletes a copy by hand.
-- The operator can ask for the swap mid-branch ("swap it in", "unstage"), when
-  the change has to be live on the branch to be tried out. Run `swap`, commit
-  (`chore: swap the staged always-loaded files in early`), and push; the cache
+- The operator's ask to swap early is CLAUDE.md § "About this file"'s: commit it
+  as `chore: swap the staged always-loaded files in early` and push. The cache
   is paid once, and the next edit to the file stages it again.
 
 The PR's file view shows a staged copy as a new file; its diff against the
