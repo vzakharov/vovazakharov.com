@@ -30,12 +30,15 @@ verbatim.
 
 ## 2. The conversation
 
-The session started with `/relay take claude/mushroom-game-syama-lbirv7`,
-whose Next step was "оставь код ревью на последний кусок". No operator
-message arrived. **Agent:** had a subagent shoot and tap frames at four
-screens, ran a 2000-visit layout sweep itself, read bite 3's source, posted
-one loop review with nine inline comments, filled the megabeast notes, and
-relayed `/handle`.
+The session started with `/relay take claude/mushroom-game-syama-lbirv7`
+(the operator pasted it into a fresh session: the previous chain had hit
+the eight-deep lineage cap), whose Next step was `/handle`. No other
+operator message arrived; the session later resumed in a new container
+with "Continue from where you left off." **Agent:** handled all nine
+threads of bite 3's review (T16–T24) by briefing one subagent per group of
+threads, replied on every thread (none resolved), ran `/polish`, vet
+(green) and `/pr`, filled the megabeast notes, paused the plan and relayed
+`/go`.
 
 ## 3. Intent
 
@@ -50,66 +53,47 @@ showpiece, any teaching voice.
   future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
   `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
   looking where the operator would look.
-- The review is `event: COMMENT` and opens with "Loop review of bite 3 …"
-  naming itself an agent's, as bite 2's did, so `/handle` works its threads
-  whatever the export's authorship label says (megabeast notes, "The
-  export's authorship label …").
-- Two of its asks are open design calls the handler decides and writes into
-  the plan as decisions: phone forest (a size floor vs fewer slots on a
-  phone) and what `−` with no selection / `+` when full do (the review
-  suggests `−` sinks the newest mushroom).
-- Earlier decisions stand (see the plan): six slots, forest facing the
-  middle, a grown mushroom selected, clock-driven motion, sound starting on
-  the first `POINTER_UP`, the `localStorage` mute fallback awaiting the
-  operator's approval, `Scale.NONE`.
+- The review's two open calls are now plan decisions ("Every mushroom is a
+  finger's target, on every screen": a size floor, six slots kept on a
+  phone; "No tap is ever answered with a shrug": `−` with no selection sinks
+  the newest, a control that cannot act shakes its head with a "nuh-uh").
+- A flower tap counts as a tap on the meadow: it closes the picker and drops
+  the selection, as bare ground does.
+- `scripts/play-mushrooms.ts` keeps its own small static server rather than
+  reusing `scripts/lib/print-origin.ts`, which needs the site variable at
+  load and would tie the script to `in-site.sh`.
+- Earlier decisions stand (see the plan).
 
 ## 5. Errors and dead ends
 
-- **The head's input is dead** (the review's first comment): `mushroom-bed.ts`
-  `setInteractive(hit, containsMushroom)` with `hit = { cap, stem }` is read
-  by Phaser 4.2.1's `InputPlugin.setHitArea` (`node_modules/.pnpm/phaser@4.2.1/node_modules/phaser/src/input/InputPlugin.js`
-  ~2377) as a config object, so `hitAreaCallback` is `null` and every tap
-  throws. Verified in the source by this session. All other findings were
-  played with the callback patched at runtime.
-- The frames and the sweep script lived in `tmp/review3/` and do not survive
-  the relay; each review comment carries the numbers and the method to
-  re-derive them.
+- Bite 3 shipped with every tap dead (Phaser read `{ cap, stem }` as an input
+  config); vet was green. Fixed in da50a85; `pnpm play:mushrooms` now fails
+  on any page error, mutation-checked.
+- Padding the tap area (cap pad, even half the ink line) let a front
+  mushroom swallow the back one's visible stem, so the tap area is exactly
+  what is drawn; the size floor is what makes it a finger target.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  `MERGEABLE`/`CLEAN` at pickup; last commit before this file b409675.
-- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–3 eaten; bite 3
-  reviewed, not yet handled; bites 4–10 left.
-- Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325798267
-  (9 inline comments, on head f3e60d0; source unchanged since 3dddb0b).
+  `MERGEABLE`/`CLEAN`; last pushed commit 6483c6f.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–3 eaten and bite
+  3's review handled; bites 4–10 left, next is 4 (the mouse house).
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- Read the review: `python3 scripts/export-github-item.py 57` →
-  `docs/pr/57/pr.md`, or `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5325798267/comments`.
-- `docs/plans/mushroom-game-syama.paused.md`: the contract, the loop,
-  `## Eaten so far` item 3.
-- Frames: `pnpm build:vova` with `Object.assign(window, { __game: game });`
-  temporarily after `fit();` in `ui/scene/start-game.ts` (never commit it),
-  serve `apps/vova/out` with `python3 -m http.server 8765`, Playwright from
-  `/opt/node22/lib/node_modules/playwright`, `executablePath:
-'/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
---enable-unsafe-swiftshader`, `hasTouch: true`, url
-  `http://localhost:8765/mushrooms.html`, `Math.random` seeded by an
-  `addInitScript` mulberry32 (12345); `__game.loop.sleep()` then
-  `__game.step(t, 1000/60)` per frame; **collect `pageerror` and treat any as
-  a failure**. State and button circles: `__game.scene.scenes[0].meadow` and
-  `.layout` (`plus`, `minus`, `picker`, `mute`).
-- Sweep: a `tsx` script under `tmp/` importing `meadowLayout`, `tapReach`,
-  `mushroomGenes`, `domeHeight`, `capFrame`, `splayed`, `mulberry32`,
-  `nextSeed`; for 2000 visits (`v*7919+3`) per viewport, samples each slot's
-  cap outline in world coordinates (canvas y flipped, rotated by `turn` about
-  the foot as `toWorld` in `mushroom-bed.ts` does) and tests it against each
-  control's `tapReach` circle and the sun; also min `capWidth*size` and
-  `stemWidth*size` per slot.
+- `docs/plans/mushroom-game-syama.paused.md`: the loop (`## How this elephant
+  is eaten`), the decisions, `## Eaten so far` item 3 with its review
+  bullets, `## Rest of the elephant` item 4.
+- `pnpm play:mushrooms` (`--no-build` to replay the last probe build): the
+  frame and tap recipe; extend its `play` sequence with each bite's
+  controls. Frames in `tmp/play/`.
+- `.claude/skills/megabeast/notes.md`: how the loop is run, in particular
+  running a session as an orchestrator of subagents from the start.
+- Review threads: `python3 scripts/export-github-item.py 57` →
+  `docs/pr/57/pr.md`.
 
 ## 8. Next step
 
-/handle
+/go
