@@ -14,6 +14,9 @@ import {
   WOBBLE_REST,
 } from './motion';
 
+/** The wobble as a share of its deepest squash. */
+const edge = (t: number) => Math.abs(wobble(t)) / WOBBLE_DEPTH;
+
 const samples = (duration: number) =>
   Array.from({ length: 400 }, (_, index) => (index / 400) * duration);
 
@@ -34,7 +37,6 @@ describe('wobble', () => {
   });
 
   it('is still visible for most of its span, and gone once it ends', () => {
-    const edge = (t: number) => Math.abs(wobble(t)) / WOBBLE_DEPTH;
     // Two or three bounces over about a second: past a tenth of its depth
     // somewhere after 0.6 s.
     assert.ok(samples(0.4).some((t) => edge(t + 0.6) > 0.1));

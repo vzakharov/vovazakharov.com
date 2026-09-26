@@ -116,11 +116,14 @@ export function clearOfFeet(
  * clear of the clump's feet, or left out when it never does.
  */
 function placeFlowers(
-  slots: readonly (readonly [number, number])[],
-  { width, groundTop, ground, unit, seed }: Record<
-    'width' | 'groundTop' | 'ground' | 'unit' | 'seed',
-    number
-  >,
+  slots: ReadonlyArray<readonly [number, number]>,
+  {
+    width,
+    groundTop,
+    ground,
+    unit,
+    seed,
+  }: Record<'width' | 'groundTop' | 'ground' | 'unit' | 'seed', number>,
   feet: readonly Footing[],
 ): Footing[] {
   return slots.flatMap(([across, down], index) => {
