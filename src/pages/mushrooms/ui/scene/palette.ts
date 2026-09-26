@@ -50,6 +50,10 @@ export const PALETTE = {
   /** The `+` and `−` badges. */
   grow: 0x4c_b0_4a,
   shrink: 0xe8_7a_2c,
-  /** The soft light behind a selected mushroom. */
-  glow: 0xff_f2_a0,
+  /**
+   * The band round a selected mushroom and its ring on the ground: a warm
+   * yellow as far from the grass, the sky and the caps as a colour gets, and
+   * edged in `ink` against the pale ones.
+   */
+  selection: 0xff_d4_1a,
 } as const;

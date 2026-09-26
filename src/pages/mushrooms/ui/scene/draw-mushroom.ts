@@ -8,6 +8,7 @@ import {
   domeBand,
   gillsOutline,
   stemOutline,
+  type TapArea,
   toCanvas,
 } from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
@@ -20,6 +21,13 @@ const TONE_SPLIT = 0.42;
 const SHADE_ALPHA = 0.2;
 const SPOT_SHADE_ALPHA = 0.1;
 const HIGHLIGHT_ALPHA = 0.35;
+/**
+ * The selection band's width outside a mushroom's own ink, per unit of its
+ * size and at the least in pixels, and its ink edge's.
+ */
+const SELECTION_BAND = 0.05;
+const SELECTION_BAND_LEAST = 5;
+const SELECTION_EDGE = 2.5;
 
 /**
  * The dome's right-hand arc, from past its crown down to the rim: where the
@@ -141,4 +149,39 @@ export function drawMushroom(
 
   graphics.lineStyle(ink, inkColour);
   strokeShape(graphics, dome);
+}
+
+/**
+ * A thick band in `PALETTE.selection` round `outlines`, the mushroom's cap,
+ * gills and stem in its graphics' frame, edged in ink. Painted into a graphics
+ * just behind the mushroom, so only the band outside its own ink line shows.
+ */
+export function drawSelection(
+  graphics: Phaser.GameObjects.Graphics,
+  outlines: TapArea,
+  size: number,
+): void {
+  const band = Math.max(SELECTION_BAND_LEAST, size * SELECTION_BAND) * 2;
+  const parts = Object.values(outlines);
+  // Every edge before any band, so the bands run into one another where the
+  // stem meets the cap and no ink crosses them there.
+  graphics.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
+  for (const part of parts) strokeShape(graphics, part);
+  graphics.lineStyle(band, PALETTE.selection);
+  for (const part of parts) strokeShape(graphics, part);
+}
+
+/** The selected mushroom's ring on the ground, centred on `graphics`' own position, its foot. */
+export function drawSelectionRing(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: MushroomGenes,
+  size: number,
+): void {
+  const across = genes.capWidth * size * 0.8;
+  const tall = across * 0.24;
+  const band = Math.max(SELECTION_BAND_LEAST, size * SELECTION_BAND);
+  graphics.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
+  graphics.strokeEllipse(0, 0, across, tall);
+  graphics.lineStyle(band, PALETTE.selection);
+  graphics.strokeEllipse(0, 0, across, tall);
 }

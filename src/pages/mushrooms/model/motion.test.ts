@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  beckon,
+  BECKON_DEPTH,
+  BECKON_EASE,
   bloom,
   BLOOM_DURATION,
   breath,
@@ -143,5 +146,33 @@ describe('launch', () => {
     const travels = samples(LAUNCH_DURATION).map((t) => launch(t).travel);
     assert.ok(travels.every((x, index) => x >= (travels[index - 1] ?? 0)));
     assert.ok(samples(LAUNCH_DURATION).every((t) => launch(t).scale >= 0));
+  });
+});
+
+describe('beckon', () => {
+  const never = { litAt: -Infinity, unlitAt: -Infinity };
+  const lit = { litAt: 10, unlitAt: Infinity };
+  const letGo = { litAt: 10, unlitAt: 14 };
+
+  it('is nothing for a mushroom never selected, or before its selection', () => {
+    for (const t of samples(20)) assert.equal(beckon(t, never), 0);
+    assert.equal(beckon(9, lit), 0);
+  });
+
+  it('swells taller and back, for as long as the selection holds', () => {
+    const swells = samples(6).map((t) => beckon(t + 10 + BECKON_EASE, lit));
+    assert.ok(swells.some((x) => x > BECKON_DEPTH * 0.9));
+    assert.ok(swells.some((x) => x < -BECKON_DEPTH * 0.9));
+    assert.ok(swells.every((x) => Math.abs(x) <= BECKON_DEPTH));
+  });
+
+  it('starts from rest, and dies out after a release, with no jump at either end', () => {
+    assert.equal(beckon(10, lit), 0);
+    const step = 1 / 60;
+    for (const t of samples(6).map((x) => x + 9)) {
+      const jump = Math.abs(beckon(t + step, letGo) - beckon(t, letGo));
+      assert.ok(jump < BECKON_DEPTH * 0.2);
+    }
+    assert.equal(beckon(14 + BECKON_EASE, letGo), 0);
   });
 });

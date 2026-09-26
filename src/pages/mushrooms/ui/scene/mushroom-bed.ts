@@ -3,8 +3,10 @@ import * as Phaser from 'phaser';
 import type { Meadow, Planted } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import {
+  beckon,
   breath,
   emerge,
+  type Lit,
   phaseOf,
   sink,
   SINK_DURATION,
@@ -20,10 +22,14 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
-import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
+import {
+  drawMushroom,
+  drawMushroomShadow,
+  drawSelection,
+  drawSelectionRing,
+} from './draw-mushroom';
 import { containsMushroom, type WithGraphics } from './hit-areas';
 import type { Footing, MeadowLayout } from './layout';
-import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffSpores } from './spores';
 
@@ -33,17 +39,11 @@ const SPORE_DEPTH = 1e5;
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
 const SHADOW_SPREAD = 0.6;
-/**
- * The selected mushroom's glow: its reach round the cap, the alpha of each of
- * its rings, and its pulse. A ring of light on the ground round the foot says
- * which of two crossed mushrooms it is.
- */
-const GLOW_REACH = 0.6;
-const GLOW_RINGS = 5;
-const GLOW_ALPHA = 0.07;
-const GLOW_PERIOD = 1.6;
+/** How much wider the selected mushroom's ring spreads per unit of its squash. */
+const RING_SPREAD = 1.5;
 
 type Shown = Tapped &
+  Lit &
   WithGraphics &
   Pick<Footing, 'size'> & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
@@ -63,7 +63,13 @@ type Shown = Tapped &
  */
 export class MushroomBed {
   private readonly shown = new Map<string, Shown>();
-  private readonly glow: Phaser.GameObjects.Graphics;
+  /**
+   * The selected mushroom's band, traced round its outlines just behind it and
+   * set each frame to its graphics' own pose, so it grows, breathes, rocks and
+   * beckons with it; and its ring on the ground, which says which of two
+   * crossed mushrooms it is.
+   */
+  private readonly outline: Phaser.GameObjects.Graphics;
   private readonly footRing: Phaser.GameObjects.Graphics;
   private selected: string | undefined;
 
@@ -83,7 +89,7 @@ export class MushroomBed {
     this.voice = voice;
     this.onTap = onTap;
     this.now = now;
-    this.glow = scene.add.graphics().setVisible(false);
+    this.outline = scene.add.graphics().setVisible(false);
     this.footRing = scene.add.graphics().setVisible(false);
   }
 
@@ -113,8 +119,14 @@ export class MushroomBed {
         this.voice.grow();
       }
     }
-    this.selected = selected;
-    this.paintGlow();
+    if (selected !== this.selected) {
+      const was = this.lit();
+      if (was) was.unlitAt = clock;
+      this.selected = selected;
+      const now = this.lit();
+      if (now) Object.assign(now, { litAt: clock, unlitAt: Infinity });
+    }
+    this.paintSelection();
   }
 
   /** Stands every mushroom in its slot of `layout`, into the objects it has. */
@@ -123,37 +135,35 @@ export class MushroomBed {
       const shown = this.shown.get(mushroom.id);
       if (shown) this.place(shown, mushroom, layout);
     }
-    this.paintGlow();
+    this.paintSelection();
   }
 
   update(t: number): void {
     for (const [id, shown] of this.shown) {
-      const grown = Math.min(
-        emerge(t - shown.plantedAt),
-        sink(t - shown.goneAt),
-      );
-      if (t - shown.goneAt >= SINK_DURATION) {
-        shown.graphics.destroy();
-        shown.shadow.destroy();
+      const { graphics, shadow, plantedAt, goneAt, tappedAt, phase, turn } =
+        shown;
+      const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt));
+      if (t - goneAt >= SINK_DURATION) {
+        graphics.destroy();
+        shadow.destroy();
         this.shown.delete(id);
         continue;
       }
-      const bounce = wobble(t - shown.tappedAt);
-      const stretch = breath(t, shown.phase) + bounce;
-      shown.graphics
+      const bounce = wobble(t - tappedAt);
+      const stretch = breath(t, phase) + bounce + beckon(t, shown);
+      graphics
         .setScale(widthFor(stretch) * grown, (1 + stretch) * grown)
-        .setRotation(shown.turn + bounce * WOBBLE_ROCK);
-      shown.shadow.setScale(
+        .setRotation(turn + bounce * WOBBLE_ROCK);
+      shadow.setScale(
         (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown,
         grown,
       );
-    }
-    const lit = this.lit();
-    if (lit) {
-      const pulse = 0.5 + 0.5 * Math.sin((t * Math.PI * 2) / GLOW_PERIOD);
-      const alpha = (0.7 + 0.3 * pulse) * Math.min(1, lit.graphics.scaleY);
-      this.glow.setAlpha(alpha).setScale(0.94 + 0.06 * pulse);
-      this.footRing.setAlpha(alpha).setScale(0.96 + 0.08 * pulse);
+      if (id !== this.selected) continue;
+      this.outline
+        .setPosition(graphics.x, graphics.y)
+        .setScale(graphics.scaleX, graphics.scaleY)
+        .setRotation(graphics.rotation);
+      this.footRing.setScale((1 - stretch * RING_SPREAD) * grown);
     }
   }
 
@@ -185,31 +195,21 @@ export class MushroomBed {
     }
   }
 
-  /** The glow, behind the selected mushroom's cap and before what stands behind it, and its ring on the ground. */
-  private paintGlow(): void {
+  /** The band round the selected mushroom, just behind it, and its ring over its shadow and under its stem. */
+  private paintSelection(): void {
     const lit = this.lit();
-    this.glow.clear().setVisible(lit !== undefined);
+    this.outline.clear().setVisible(lit !== undefined);
     this.footRing.clear().setVisible(lit !== undefined);
     if (!lit) return;
-    const { genes, turn, size, graphics } = lit;
-    const centre = placedAt(
-      graphics,
-      turn,
-      toCanvas(size)(capFrame(genes)({ x: 0, y: genes.capHeight * 0.45 })),
-    );
-    const reach = genes.capWidth * size * GLOW_REACH;
-    this.glow.setPosition(centre.x, centre.y).setDepth(graphics.depth - 0.75);
-    for (let ring = GLOW_RINGS; ring >= 1; ring--) {
-      this.glow.fillStyle(PALETTE.glow, GLOW_ALPHA);
-      this.glow.fillCircle(0, 0, (reach * ring) / GLOW_RINGS);
-    }
-    // Over its shadow, under its stem.
+    const { genes, size, graphics, hit } = lit;
+    this.outline
+      .setPosition(graphics.x, graphics.y)
+      .setDepth(graphics.depth - 0.3);
+    drawSelection(this.outline, hit, size);
     this.footRing
       .setPosition(graphics.x, graphics.y)
       .setDepth(graphics.depth - 0.4);
-    const across = genes.capWidth * size * 0.7;
-    this.footRing.lineStyle(Math.max(3, size * 0.022), PALETTE.glow, 0.95);
-    this.footRing.strokeEllipse(0, 0, across, across * 0.22);
+    drawSelectionRing(this.footRing, genes, size);
   }
 
   private show(mushroom: Planted, plantedAt: number): Shown {
@@ -228,6 +228,8 @@ export class MushroomBed {
       size: 0,
       phase: phaseOf(mushroom),
       tappedAt: -Infinity,
+      litAt: -Infinity,
+      unlitAt: -Infinity,
       plantedAt,
       goneAt: Infinity,
     };
