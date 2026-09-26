@@ -74,12 +74,20 @@ const FLOWER_SCALE = 0.26;
  */
 export const FOOT_CLEARANCE = 0.45;
 /**
- * Where the clump stands: across as a fraction of the width, and its back
- * and front feet down as fractions of the ground's depth. A tall screen's
- * clump stands nearer the front, leaving the back row room above its caps.
+ * Where the clump stands: across as a fraction of the width, its back and
+ * front feet down as fractions of the ground's depth, and each foot's step
+ * off `across` in the clump's size. A tall screen's clump stands nearer the
+ * front, leaving the back row room above its caps; its ground is deeper for
+ * the clump's size, so its feet stand closer in depth and farther apart
+ * across, or the front mushroom would hide the whole of the back one's stem
+ * and the door in it.
  */
 const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
-const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.64, 0.82] } as const;
+const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.74, 0.8] } as const;
+const CLUMP_STEP = {
+  landscape: [0.08, -0.06],
+  portrait: [0.14, -0.08],
+} as const;
 /**
  * The forest's slots, after the clump's two, in the order they fill: across as
  * a fraction of the width, down as one of the ground's depth, and the size
@@ -290,15 +298,16 @@ export function meadowLayout(
   // leaning left and the front one right, their stems crossing.
   const clump = width * CLUMP_ACROSS[orientation];
   const [backDown, frontDown] = CLUMP_DOWN[orientation];
+  const [backStep, frontStep] = CLUMP_STEP[orientation];
   const feet = [
     {
-      x: clump + wanted * 0.08,
+      x: clump + wanted * backStep,
       y: groundTop + ground * backDown,
       scale: 0.9,
       side: -1,
     },
     {
-      x: clump - wanted * 0.06,
+      x: clump + wanted * frontStep,
       y: groundTop + ground * frontDown,
       scale: 1,
       side: 1,

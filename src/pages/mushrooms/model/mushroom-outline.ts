@@ -23,15 +23,23 @@ export function toCanvas(size: number): (point: Point) => Point {
 }
 
 /**
- * The stem as a closed outline around its bent centreline. Its sides swell a
- * little at the middle.
+ * The stem's half-width `t` of the way from its foot to its top: from the
+ * bulge at the foot to the top's width, swelling a little at the middle.
  */
-export function stemOutline(genes: MushroomGenes): Point[] {
+export function stemHalfWidth(
+  genes: Pick<MushroomGenes, 'stemWidth' | 'footBulge'>,
+  t: number,
+): number {
   const top = genes.stemWidth / 2;
   const foot = top * genes.footBulge;
+  return foot + (top - foot) * t + top * 0.12 * Math.sin(Math.PI * t);
+}
+
+/** The stem as a closed outline around its bent centreline. */
+export function stemOutline(genes: MushroomGenes): Point[] {
   const side = (t: number, sign: number): Point => {
     const station = stemAt(genes, t);
-    const half = foot + (top - foot) * t + top * 0.12 * Math.sin(Math.PI * t);
+    const half = stemHalfWidth(genes, t);
     return {
       x: station.x + sign * half * Math.cos(station.tilt),
       y: station.y - sign * half * Math.sin(station.tilt),
