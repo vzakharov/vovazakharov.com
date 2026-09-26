@@ -40,7 +40,7 @@ export class MeadowScene extends Phaser.Scene {
    * screen; the camera's zoom brings the world back to CSS pixels, which is
    * what the layout is written in.
    */
-  private paint(): void {
+  private readonly paint = (): void => {
     const ratio = Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
     this.cameras.main.setOrigin(0, 0).setZoom(ratio);
     this.children.removeAll(true);
@@ -51,16 +51,17 @@ export class MeadowScene extends Phaser.Scene {
     // Its own stream, so the backdrop never shifts the mushrooms' seeds.
     paintBackdrop(this, layout, mulberry32(this.visitSeed ^ 0x5e_ed));
     this.paintMushrooms(layout);
-  }
+  };
 
   private paintMushrooms({ mushrooms }: MeadowLayout): void {
-    this.mushrooms.forEach((mushroom, index) => {
+    for (const [index, mushroom] of this.mushrooms.entries()) {
       const place = mushrooms[index];
-      if (!place) return;
+      if (!place) continue;
+      const { x, y, size } = place;
       const genes = mushroomGenes(mushroom);
-      const graphics = this.add.graphics({ x: place.x, y: place.y });
+      const graphics = this.add.graphics({ x, y });
       graphics.setRotation(genes.lean);
-      drawMushroom(graphics, genes, place.size);
-    });
+      drawMushroom(graphics, genes, size);
+    }
   }
 }

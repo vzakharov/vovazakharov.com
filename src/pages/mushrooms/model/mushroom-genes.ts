@@ -1,5 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
+import type { Circle } from './geometry';
 import { between, mulberry32, nextSeed, type Random } from './random';
 
 /** The four caps of Syama's drawing, in the order he drew them. */
@@ -9,16 +10,13 @@ export const CAP_KINDS = [
   'dark-top',
   'dark-bottom',
 ] as const;
-export type CapKind = (typeof CAP_KINDS)[number];
+type CapKind = (typeof CAP_KINDS)[number];
 
 /** What a creature is grown from: its genes are a pure function of it. */
-export type Seeded = { seed: number };
+type Seeded = { seed: number };
 type Capped = { cap: CapKind };
 type MushroomSeed = Seeded & Capped;
 export type Mushroom = WithId & MushroomSeed;
-
-/** A white spot on the cap, centred `y` above the cap's underside. */
-type Spot = { x: number; y: number; r: number };
 
 /**
  * One mushroom's shape. Lengths are in units of the mushroom's size, which the
@@ -41,7 +39,8 @@ export type MushroomGenes = Capped & {
   capTilt: number;
   /** A shift of the cap's hue, as a fraction of the colour wheel. */
   hueNudge: number;
-  spots: readonly Spot[];
+  /** White spots, each centred `y` above the cap's underside. */
+  spots: readonly Circle[];
 };
 
 export const GENE_RANGES = {
@@ -75,9 +74,9 @@ export function domeHeight(
 function growSpots(
   random: Random,
   cap: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower'>,
-): Spot[] {
+): Circle[] {
   const wanted = Math.round(between(random, SPOT_COUNT[0], SPOT_COUNT[1]));
-  const spots: Spot[] = [];
+  const spots: Circle[] = [];
   for (
     let attempt = 0;
     attempt < SPOT_ATTEMPTS && spots.length < wanted;

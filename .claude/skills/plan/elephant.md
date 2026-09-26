@@ -58,3 +58,10 @@ The session that claims the plan writes `## This bite` before building:
 
 What a pause does — at a bite's end or forced mid-bite by the budget — is
 `/go` Step 2's.
+
+## Unattended runs
+
+An elephant whose plan writes the loop into itself — bite, agent review,
+handle, next bite, with no operator between them — is what
+`@.claude/skills/megabeast/notes.md` collects toward a skill of its own. Each
+session in such a run adds to it before its relay.

@@ -1,7 +1,8 @@
 import * as Phaser from 'phaser';
 
+import type { Point } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
-import type { MeadowLayout, Point } from './layout';
+import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
 
@@ -26,7 +27,8 @@ function mix(from: number, to: number, t: number): number {
 /** Horizontal bands from `top` to `bottom`, blending `from` into `to`. */
 function fillBands(
   graphics: Phaser.GameObjects.Graphics,
-  { width, top, bottom }: { width: number; top: number; bottom: number },
+  width: number,
+  [top, bottom]: readonly [number, number],
   [from, to]: readonly [number, number],
   bands: number,
   ease = 1,
@@ -129,14 +131,15 @@ function paintClouds(
   random: Random,
 ): void {
   for (const cloud of clouds) {
-    const graphics = scene.add.graphics({ x: cloud.x, y: cloud.y });
+    const { x, y, r } = cloud;
+    const graphics = scene.add.graphics({ x, y });
     const puffs = Array.from({ length: 5 }, (_, index) => ({
-      x: (index - 2) * cloud.r * between(random, 0.75, 0.95),
-      r: cloud.r * (index === 2 ? 1 : between(random, 0.55, 0.8)),
+      x: (index - 2) * r * between(random, 0.75, 0.95),
+      r: r * (index === 2 ? 1 : between(random, 0.55, 0.8)),
     }));
     graphics.fillStyle(PALETTE.cloudShade);
     for (const puff of puffs) {
-      graphics.fillCircle(puff.x, cloud.r * 0.14, puff.r);
+      graphics.fillCircle(puff.x, r * 0.14, puff.r);
     }
     graphics.fillStyle(PALETTE.cloud);
     for (const puff of puffs) {
@@ -176,7 +179,8 @@ function paintGround(
   const graphics = scene.add.graphics();
   fillBands(
     graphics,
-    { width, top: groundTop, bottom: height },
+    width,
+    [groundTop, height],
     [PALETTE.ground, PALETTE.groundDeep],
     GROUND_BANDS,
   );
@@ -204,7 +208,8 @@ export function paintBackdrop(
   const { width, horizon, nearHills, groundTop } = layout;
   fillBands(
     scene.add.graphics(),
-    { width, top: 0, bottom: nearHills },
+    width,
+    [0, nearHills],
     [PALETTE.skyTop, PALETTE.skyHorizon],
     SKY_BANDS,
     // Eased toward the horizon, where a real sky pales fastest.

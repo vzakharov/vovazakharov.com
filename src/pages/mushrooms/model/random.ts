@@ -21,16 +21,6 @@ export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
 }
 
-export function pick<Item>(random: Random, items: readonly Item[]): Item {
-  const item = items[Math.floor(random() * items.length)];
-  if (item === undefined) throw new Error('pick from an empty list');
-  return item;
-}
-
-export function chance(random: Random, probability: number): boolean {
-  return random() < probability;
-}
-
 /** A fresh 32-bit seed, for whatever is about to be grown. */
 export function nextSeed(random: Random): number {
   return Math.floor(random() * 2 ** 32);

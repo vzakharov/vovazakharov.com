@@ -139,13 +139,13 @@ two fly agarics grown from the visit's seed, with nothing moving yet.
   (server) renders `ui/meadow-canvas.tsx` (`'use client'`), whose `useEffect`
   dynamically imports `ui/scene/start-game.ts` and destroys the game on
   unmount; `ui/mushrooms.module.scss` pins the host `fixed` over the viewport
-  at `100dvh` with `touch-action: none`. `assets/reference/syama-drawing.webp`
+  at `100dvh` with `touch-action: none`. `reference/syama-drawing.webp`
   moves in from `docs/remove-before-merging/`.
 - **Model**, Phaser-free: `model/random.ts` — `Random` (a `() => number` in
   `[0, 1)`), `mulberry32(seed)`, `between`, `pick`, `chance`;
   `model/mushroom-genes.ts` — `CAP_KINDS` (`spotted`, `plain`, `dark-top`,
   `dark-bottom`), `Seeded`/`WithId` bases, `Mushroom = WithId & Seeded &
-  { cap }`, `mushroomGenes(mushroom)` (stem height, width and foot bulge, lean,
+{ cap }`, `mushroomGenes(mushroom)` (stem height, width and foot bulge, lean,
   cap width, height and dome power, spots for `spotted` only, a hue nudge — all
   in units of the mushroom's size), `firstMushrooms(random)` for the two the
   meadow opens with. `mushroom-genes.test.ts`: same seed same genes, every gene
@@ -219,9 +219,9 @@ the insects.
    assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
    carries side projects, none otherwise.
 10. **The artifact.** A single self-contained HTML of the game — esbuild over
-   the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built under `tmp/`
-   and not committed — published with the Artifact tool, its link posted on
-   the PR. Then `/relay /finalize`.
+    the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built under `tmp/`
+    and not committed — published with the Artifact tool, its link posted on
+    the PR. Then `/relay /finalize`.
 
 ## DRY notes
 

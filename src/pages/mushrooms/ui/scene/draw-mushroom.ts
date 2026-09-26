@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
+import type { Point } from '../../model/geometry';
 import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
-import type { Point } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, strokeShape } from './shapes';
 
@@ -111,7 +111,7 @@ export function drawMushroom(
   graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
   fillShape(graphics, [
     ...stemRight,
-    ...[...stemRight].reverse().map(({ x, y }) => ({ x: x * 0.35, y })),
+    ...stemRight.toReversed().map(({ x, y }) => ({ x: x * 0.35, y })),
   ]);
   graphics.lineStyle(ink, PALETTE.ink);
   strokeShape(graphics, stem);
@@ -125,7 +125,7 @@ export function drawMushroom(
   graphics.fillStyle(PALETTE.gills);
   fillShape(graphics, gills);
 
-  const dome = domeBand(genes, 0).map(toMushroom);
+  const dome = domeBand(genes, 0).map((point) => toMushroom(point));
   const [base, band] =
     genes.cap === 'dark-top'
       ? [red, dark]
@@ -136,7 +136,10 @@ export function drawMushroom(
   fillShape(graphics, dome);
   if (band !== undefined) {
     graphics.fillStyle(band);
-    fillShape(graphics, domeBand(genes, TONE_SPLIT).map(toMushroom));
+    fillShape(
+      graphics,
+      domeBand(genes, TONE_SPLIT).map((point) => toMushroom(point)),
+    );
   }
 
   for (const spot of genes.spots) {
@@ -146,7 +149,10 @@ export function drawMushroom(
   }
 
   graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
-  fillShape(graphics, capShade(genes).map(toMushroom));
+  fillShape(
+    graphics,
+    capShade(genes).map((point) => toMushroom(point)),
+  );
 
   const shine = toMushroom({
     x: -genes.capWidth * 0.2,

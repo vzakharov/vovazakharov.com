@@ -31,10 +31,16 @@ describe('mushroomGenes', () => {
 
   it('keeps every gene inside its range', () => {
     for (const seed of SEEDS) {
-      const genes = mushroomGenes({ seed, cap: 'spotted' });
+      const genes: Record<string, unknown> = mushroomGenes({
+        seed,
+        cap: 'spotted',
+      });
       for (const [name, [min, max]] of Object.entries(GENE_RANGES)) {
-        const value = genes[name as keyof typeof GENE_RANGES];
-        assert.ok(value >= min && value <= max, `${name} = ${value}`);
+        const value = genes[name];
+        assert.ok(
+          typeof value === 'number' && value >= min && value <= max,
+          `${name} = ${String(value)}`,
+        );
       }
     }
   });
@@ -84,11 +90,11 @@ describe('mushroomGenes', () => {
   it('never overlaps two spots', () => {
     for (const seed of SEEDS) {
       const { spots } = mushroomGenes({ seed, cap: 'spotted' });
-      spots.forEach((a, i) => {
+      for (const [i, a] of spots.entries()) {
         for (const b of spots.slice(i + 1)) {
           assert.ok(Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r);
         }
-      });
+      }
     }
   });
 });

@@ -4,14 +4,14 @@
  * held sideways get the same picture composed for each.
  */
 
-export type Point = { x: number; y: number };
-type Circle = Point & { r: number };
-/** Where a mushroom's foot stands, and its size — the unit its genes are in. */
-export type Placement = Point & { size: number };
+import type { Sized } from '@/shared/typings';
 
-export type MeadowLayout = {
-  width: number;
-  height: number;
+import type { Circle, Point } from '../../model/geometry';
+
+/** Where a mushroom's foot stands, and its size — the unit its genes are in. */
+type Placement = Point & { size: number };
+
+export type MeadowLayout = Sized & {
   /** Where the far hills meet the sky. */
   horizon: number;
   /** The top of the near hills' band. */

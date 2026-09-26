@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import type { Point } from './layout';
+import type { Point } from '../../model/geometry';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {
@@ -50,6 +50,6 @@ export function petal(
   );
   return [
     ...steps.map((t) => at(t, 1)),
-    ...[...steps].reverse().map((t) => at(t, -1)),
+    ...steps.toReversed().map((t) => at(t, -1)),
   ];
 }
