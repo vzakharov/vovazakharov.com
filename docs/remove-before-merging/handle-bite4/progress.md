@@ -34,6 +34,32 @@ Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-
   each vertex along both edges' outward normals, all inside `stemOutline`; and
   that the stations rise from a sill 0.018–0.030 above the ground to a frame clear of
   the dome and gills.
+- **2. Door hit area** — 43698d4. `doorHitArea` in the new Phaser-free
+  `ui/scene/door-reach.ts` (not `draw-house.ts`, which loads Phaser through
+  `shapes.ts`): a circle round the door's middle of `max(TAP_RADIUS, painted
+door's reach)`, widened by `1 / cos(π / ROUND_STEPS)` so the polygon's chords
+  keep outside it. `ellipse` moved to `model/geometry.ts`. `layout.test.ts`:
+  every station of 100 visits' mushrooms, in every slot on every screen, is at
+  least `2 × TAP_RADIUS` across and holds the painted door (~0.2 s per screen).
+- **3. Mouse floor** — 2ea224a. `mouseScale` / `mouseHead` in `door-reach.ts`;
+  `paintMouse` scales by `max(1, 28 px / head width)`, clips to above the sill
+  when scaled, and paints a body ellipse under the head (always; in a wide
+  door it shows as shoulders in the doorway). `HouseView.drawnHead` (on screen,
+  times the graphics' scale) and the probe's `mouse(id).head` report it, ready
+  for finding 7's play step. `layout.test.ts` checks head ≥ 28 px at every
+  station/slot/screen.
+- **4. Spots** — b569160, 380d893 (type-overlap). `paintedSpots(genes, house)`
+  in `model/house.ts` drops spots within a line of ink of a furnished window's
+  square (`PANE`); `MushroomBed` draws with them and redraws when a window drops
+  one. The plan's bite-4 summary line now says so. `house.test.ts`: 2000 seeds,
+  every window count, no painted spot overlaps a furnished pane and exactly the
+  touching ones are dropped.
+- **5. Target** — 32d6b36 (another agent): `newestWithRoom` in `model/game.ts`.
+- **8. Door tap vs picker** — 2645fb9. No behaviour change: a door tap leaves
+  an open picker open, as a mushroom tap leaves the house picker open. Written
+  into the plan's § "Decisions the whole game carries" and as a comment at the
+  handler.
+- `sweep-door.ts` removed — 9891994 (it failed `tsc`).
 
 ## Measured (by `sweep-door.ts`, since removed: `door-sight.ts` supersedes it)
 
@@ -67,24 +93,15 @@ landscape margin is thin (worst 0.81): a step change there wants the door sweep 
 ## Design decided, not yet written
 
 1. **Door height per visit** (finding 1): done, see § "Done".
-2. **Door hit area** (finding 2): a circle of `max(TAP_RADIUS, door reach)` round
-   the door's middle, built by a pure function in `draw-house.ts`, which gets tested.
-3. **Mouse floor** (finding 3): `paintMouse` scales the mouse by
-   `max(1, 28 px / head width)`. When it is scaled, it is clipped to everything above
-   the sill instead of the doorway, so it leans out. It gets a body ellipse under the head so
-   a leaning mouse is not a floating head.
-4. **Spots** (finding 4): skip painting a spot that touches a furnished pane
-   plus a margin. Test over `house.test.ts`'s 2000 seeds.
-5. **Target** (finding 5): `house` opening with nothing selected selects the
-   newest mushroom with room. With nothing selected, `target` falls back to the newest mushroom
-   with room for the piece. Tests in `game.test.ts`.
+2. **Door hit area** (finding 2): done, see § "Done".
+3. **Mouse floor** (finding 3): done, see § "Done".
+4. **Spots** (finding 4): done, see § "Done".
+5. **Target** (finding 5): done, see § "Done".
 6. **Frame test** (finding 6): done, see § "Done".
 7. **Play run** (finding 7): tap the door through the scene's hit test, play the
    back door, sink a furnished mushroom mid-frame, and read the mouse's drawn size
    through the probe.
-8. **Nit** (finding 8): keep a door tap from closing the picker, as a mushroom tap
-   does (the door is part of the mushroom, a flower is meadow), and write that into
-   the plan's decisions.
+8. **Nit** (finding 8): done, see § "Done".
 
 Then reply on every thread, `/polish`, `/pr`, commit the frames worth showing to
 `docs/remove-before-merging/frames/bite-4/`, fill the megabeast notes, and relay.
