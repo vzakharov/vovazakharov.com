@@ -16,7 +16,7 @@ import { between, mulberry32, type Random } from '../../model/random';
  * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and how
  * far toward the sky's haze its colours go, the farthest the palest.
  */
-export type Placement = Footing & { splay: number; haze: number };
+type Placement = Footing & { splay: number; haze: number };
 /**
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.

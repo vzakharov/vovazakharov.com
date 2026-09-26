@@ -4,7 +4,11 @@ import { isFull, type Meadow } from '../../model/game';
 import type { Circle } from '../../model/geometry';
 import { emerge, wobble } from '../../model/motion';
 import { CAP_KINDS, type CapKind } from '../../model/mushroom-genes';
-import { containsCircle } from './hit-areas';
+import {
+  containsCircle,
+  type WithCircleHit,
+  type WithGraphics,
+} from './hit-areas';
 import { drawCapButton, drawGrowButton, drawMuteButton } from './hud';
 import { type MeadowLayout, tapReach } from './layout';
 
@@ -22,13 +26,12 @@ export type ControlHandlers = {
   grow: (cap: CapKind) => void;
 };
 
-type Button = {
-  graphics: Phaser.GameObjects.Graphics;
-  hit: Phaser.Geom.Circle;
-  pressedAt: number;
-  /** When it came up, for the picker's buttons; `-Infinity` for the rest. */
-  shownAt: number;
-};
+type Button = WithGraphics &
+  WithCircleHit & {
+    pressedAt: number;
+    /** When it came up, for the picker's buttons; `-Infinity` for the rest. */
+    shownAt: number;
+  };
 
 /**
  * The buttons over the meadow: mute, `+` and `−`, and the picker's four caps.

@@ -16,7 +16,7 @@ import type { Random } from './random';
 export const MUSHROOM_SLOTS = 6;
 
 /** Where a mushroom stands for its whole life, an index into the layout's slots. */
-export type Slotted = { slot: number };
+type Slotted = { slot: number };
 export type Planted = Mushroom & Slotted;
 
 export type Meadow = {

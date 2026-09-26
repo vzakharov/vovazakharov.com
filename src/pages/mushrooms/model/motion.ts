@@ -7,6 +7,8 @@ import type { Seeded } from './random';
 
 /** A thing's own offset into an idle loop, so no two move in step. */
 export type Phased = { phase: number };
+/** A thing a tap sets moving, and when that tap came, on the scene's clock. */
+export type Tapped = Phased & { tappedAt: number };
 
 /** A `Phased` phase read off the seed, so it holds across repaints. */
 export function phaseOf({ seed }: Seeded): number {

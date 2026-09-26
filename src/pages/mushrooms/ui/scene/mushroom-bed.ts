@@ -5,10 +5,10 @@ import type { Point } from '../../model/geometry';
 import {
   breath,
   emerge,
-  type Phased,
   phaseOf,
   sink,
   SINK_DURATION,
+  type Tapped,
   widthFor,
   wobble,
 } from '../../model/motion';
@@ -19,7 +19,11 @@ import {
 } from '../../model/mushroom-genes';
 import { capFrame, splayed, stemAt } from '../../model/mushroom-pose';
 import { drawMushroom, drawMushroomShadow, toCanvas } from './draw-mushroom';
-import { containsMushroom, type MushroomHit } from './hit-areas';
+import {
+  containsMushroom,
+  type MushroomHit,
+  type WithGraphics,
+} from './hit-areas';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
@@ -52,15 +56,14 @@ function toWorld(foot: Point, turn: number, { x, y }: Point): Point {
   };
 }
 
-type Shown = Phased &
+type Shown = Tapped &
+  WithGraphics &
   Pick<Footing, 'size'> & {
-    graphics: Phaser.GameObjects.Graphics;
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
     hit: MushroomHit;
     genes: MushroomGenes;
     turn: number;
-    tappedAt: number;
     plantedAt: number;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;

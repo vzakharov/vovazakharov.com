@@ -12,12 +12,12 @@ import {
   type Meadow,
   reduce,
 } from '../../model/game';
-import { bloom, drift, type Phased, phaseOf, sway } from '../../model/motion';
+import { bloom, drift, phaseOf, sway, type Tapped } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { drawFlower } from './draw-flower';
 import { growTufts, paintTufts } from './grass';
-import { containsCircle } from './hit-areas';
+import { containsCircle, type WithCircleHit } from './hit-areas';
 import { type MeadowLayout, meadowLayout, tapReach } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
@@ -33,15 +33,13 @@ const CLOUD_SPEEDS = [7, 4, 5.5];
 /** A flower's lean at the breeze's strongest, in radians. */
 const FLOWER_SWAY = 0.09;
 
-type Tapped = Phased & { tappedAt: number };
-
-type ShownFlower = Tapped & {
-  container: Phaser.GameObjects.Container;
-  stem: Phaser.GameObjects.Graphics;
-  head: Phaser.GameObjects.Graphics;
-  hit: Phaser.Geom.Circle;
-  headR: number;
-};
+type ShownFlower = Tapped &
+  WithCircleHit & {
+    container: Phaser.GameObjects.Container;
+    stem: Phaser.GameObjects.Graphics;
+    head: Phaser.GameObjects.Graphics;
+    headR: number;
+  };
 
 /**
  * The meadow. Everything that varies between visits comes from one seed, so a
