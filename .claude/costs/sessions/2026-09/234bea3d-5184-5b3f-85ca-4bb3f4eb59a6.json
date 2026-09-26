@@ -1,0 +1,56 @@
+{
+  "sessionId": "234bea3d-5184-5b3f-85ca-4bb3f4eb59a6",
+  "branch": "claude/trim-claude-md-pd7wr2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "так, а при последнем синке muthur-а сократил ли ты CLAUDE.md по его образу и подобию (там для этого был отдельный коммит)?",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01GgYvTnZtkhENWTVEpVPx9W",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-24T18:46:06.854Z",
+  "lastResponseAt": "2026-09-26T01:03:09.802Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 3.1258546,
+  "total": {
+    "inputTokens": 158,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 324239,
+    "cacheReadTokens": 12282199,
+    "outputTokens": 54137,
+    "thinkingTokens": 15826,
+    "responses": 79,
+    "costUsd": 6.1337237999999985
+  },
+  "ownTurns": {
+    "inputTokens": 158,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 324239,
+    "cacheReadTokens": 12282199,
+    "outputTokens": 54137,
+    "thinkingTokens": 15826,
+    "responses": 79,
+    "costUsd": 6.1337237999999985
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 158,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 324239,
+      "cacheReadTokens": 12282199,
+      "outputTokens": 54137,
+      "thinkingTokens": 15826,
+      "responses": 79,
+      "costUsd": 6.1337237999999985
+    }
+  },
+  "warnings": []
+}
