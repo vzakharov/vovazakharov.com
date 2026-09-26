@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import type { Point } from '../../model/geometry';
 import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
 import { PALETTE } from './palette';
-import { fillShape, strokeShape } from './shapes';
+import { fillShape, sample, strokeShape } from './shapes';
 
 const CURVE_STEPS = 28;
 /** Where a two-tone cap changes colour, as a fraction of its height. */
@@ -16,17 +16,6 @@ function nudgeHue(colour: number, nudge: number): number {
   return Phaser.Display.Color.HSVToRGB((h + nudge + 1) % 1, s, v).color;
 }
 
-/** Samples `from`..`to` inclusive in `CURVE_STEPS` steps. */
-function sample(
-  from: number,
-  to: number,
-  point: (value: number) => Point,
-): Point[] {
-  return Array.from({ length: CURVE_STEPS + 1 }, (_, step) =>
-    point(from + ((to - from) * step) / CURVE_STEPS),
-  );
-}
-
 /**
  * The stem as a closed outline, foot at the origin and y growing downward as
  * the canvas's does. Its sides swell a little at the middle.
@@ -37,8 +26,14 @@ function stemOutline(genes: MushroomGenes, size: number): Point[] {
   const foot = top * genes.footBulge;
   const side = (t: number) =>
     foot + (top - foot) * t + top * 0.12 * Math.sin(Math.PI * t);
-  const right = sample(0, 1, (t) => ({ x: side(t), y: -height * t }));
-  const left = sample(1, 0, (t) => ({ x: -side(t), y: -height * t }));
+  const right = sample(0, 1, CURVE_STEPS, (t) => ({
+    x: side(t),
+    y: -height * t,
+  }));
+  const left = sample(1, 0, CURVE_STEPS, (t) => ({
+    x: -side(t),
+    y: -height * t,
+  }));
   return [...right, ...left];
 }
 
@@ -63,10 +58,13 @@ function domeBand(genes: MushroomGenes, fromLevel: number): Point[] {
   const half =
     (genes.capWidth / 2) *
     Math.sqrt(1 - (fromLevel === 0 ? 0 : fromLevel ** (2 / genes.domePower)));
-  const arc = sample(half, -half, (x) => ({ x, y: domeHeight(genes, x) }));
+  const arc = sample(half, -half, CURVE_STEPS, (x) => ({
+    x,
+    y: domeHeight(genes, x),
+  }));
   // The lower edge sags a little, so a band reads as wrapping the dome.
   const sag = genes.capHeight * (fromLevel === 0 ? 0.1 : 0.06);
-  const underside = sample(-half, half, (x) => ({
+  const underside = sample(-half, half, CURVE_STEPS, (x) => ({
     x,
     y: level - sag * (1 - ((2 * x) / (2 * half || 1)) ** 2),
   }));
@@ -76,11 +74,11 @@ function domeBand(genes: MushroomGenes, fromLevel: number): Point[] {
 /** A crescent along the dome's lower right, where the light does not reach. */
 function capShade(genes: MushroomGenes): Point[] {
   const half = genes.capWidth / 2;
-  const outer = sample(half, -half * 0.1, (x) => ({
+  const outer = sample(half, -half * 0.1, CURVE_STEPS, (x) => ({
     x,
     y: domeHeight(genes, x),
   }));
-  const inner = sample(-half * 0.1, half * 0.97, (x) => ({
+  const inner = sample(-half * 0.1, half * 0.97, CURVE_STEPS, (x) => ({
     x: x * 0.86 - half * 0.08,
     y: domeHeight(genes, x) * 0.72,
   }));
@@ -116,7 +114,7 @@ export function drawMushroom(
   graphics.lineStyle(ink, PALETTE.ink);
   strokeShape(graphics, stem);
 
-  const gills = sample(0, Math.PI * 2, (t) =>
+  const gills = sample(0, Math.PI * 2, CURVE_STEPS, (t) =>
     toMushroom({
       x: Math.cos(t) * genes.capWidth * 0.44,
       y: Math.sin(t) * genes.capHeight * 0.14,

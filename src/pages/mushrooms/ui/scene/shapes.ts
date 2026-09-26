@@ -23,10 +23,22 @@ export function strokeShape(
 
 const PETAL_STEPS = 10;
 
+/** `point` at `steps + 1` evenly spaced values from `from` to `to`, both ends included. */
+export function sample<Sampled>(
+  from: number,
+  to: number,
+  steps: number,
+  point: (value: number) => Sampled,
+): Sampled[] {
+  return Array.from({ length: steps + 1 }, (_, step) =>
+    point(from + ((to - from) * step) / steps),
+  );
+}
+
 /**
  * A petal, or a sun's ray: a pointed lens from `from` to `to` out from
- * `centre` along `angle`, widest a third of the way out. The shared stroke of
- * every rosette in the meadow.
+ * `centre` along `angle`, widest a third of the way out: the stroke rosettes
+ * are built from, rays and petals alike.
  */
 export function petal(
   centre: Point,
@@ -44,10 +56,7 @@ export function petal(
       y: centre.y + along.y * reach + across.y * width,
     };
   };
-  const steps = Array.from(
-    { length: PETAL_STEPS + 1 },
-    (_, i) => i / PETAL_STEPS,
-  );
+  const steps = sample(0, 1, PETAL_STEPS, (t) => t);
   return [
     ...steps.map((t) => at(t, 1)),
     ...steps.toReversed().map((t) => at(t, -1)),

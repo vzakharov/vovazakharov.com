@@ -4,7 +4,7 @@ import type { Point } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { fillShape, petal } from './shapes';
+import { fillShape, petal, sample } from './shapes';
 
 const SKY_BANDS = 48;
 const GROUND_BANDS = 12;
@@ -50,8 +50,7 @@ function hillLine(
   const phase = between(random, 0, Math.PI * 2);
   const phase2 = between(random, 0, Math.PI * 2);
   const waves = between(random, 1.2, 2.2);
-  return Array.from({ length: HILL_STEPS + 1 }, (_, step) => {
-    const t = step / HILL_STEPS;
+  return sample(0, 1, HILL_STEPS, (t) => {
     const swell =
       0.65 * Math.sin(t * Math.PI * waves + phase) +
       0.35 * Math.sin(t * Math.PI * waves * 2.3 + phase2);
