@@ -324,12 +324,16 @@ describe('session-cost: what names a session', () => {
   });
 });
 
-describe('session-cost: whether the turn was written in full', () => {
-  const tail = (lines: string[], subagents: string[][] = [], atStop = true) =>
-    summarise(lines, subagents, atStop).warnings.filter((warning) =>
-      isUnwrittenTail(warning),
-    );
+const tail = (
+  lines: string[],
+  subagents: string[][] = [],
+  outsideStop = false,
+) =>
+  summarise(lines, subagents, !outsideStop).warnings.filter((warning) =>
+    isUnwrittenTail(warning),
+  );
 
+describe('session-cost: whether the turn was written in full', () => {
   it('passes a transcript ending on end_turn', () => {
     assert.deepEqual(
       tail([
@@ -351,7 +355,7 @@ describe('session-cost: whether the turn was written in full', () => {
   });
 
   it('says nothing outside the Stop hook', () => {
-    assert.deepEqual(tail([response({ stop: 'tool_use' })], [], false), []);
+    assert.deepEqual(tail([response({ stop: 'tool_use' })], [], true), []);
   });
 
   it("judges the session's own responses, not a subagent's", () => {
