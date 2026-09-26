@@ -2,21 +2,25 @@
 
 // Prices one session's transcript and writes its row under
 // `.claude/costs/sessions/`. The row is rewritten from the whole file each run
-// rather than appended to, which is what lets a run pick up what the previous
-// one was too early to see — the transcript lags the live conversation.
+// rather than appended to, which is what lets a run pick up anything the
+// previous one was too early to see. `--at-stop` is the Stop hook's: the turn is
+// over, so the transcript should end on its `end_turn`. `--out` is the hook's
+// too: it writes the row there instead of into place, since committing it is the
+// hook's job.
 //
-//   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path]
-//   node scripts/session-cost.ts --transcript <path> --name '<short label>'
+//   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path] [--at-stop] [--out <path>]
 
 /* eslint-disable no-console -- stdout is this script's interface: the row's
    path for the hook that calls it, a one-line summary for a person running it
    by hand. */
 
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { flag, given } from './lib/argv.ts';
+import { rowText } from './lib/cost-rows.ts';
 import {
+  isUnwrittenTail,
   parsePrices,
   parseSessionCost,
   type SessionCost,
@@ -55,14 +59,14 @@ const subagentsOf = (main: string): string[] => {
   }
 };
 
-// The name is the one field no run can recompute, so a rewrite reads back what
-// the last one wrote. An unreadable row is treated as no row: the point is to
-// keep a name, never to fail a write over one.
-const nameOn = (row: string): string | null => {
+// An unwritten-tail warning is what no run can recompute from the transcript,
+// so a rewrite reads it back from the last one. An unreadable row is treated as
+// no row: the point is to keep the warning, never to fail a write over one.
+const previous = (row: string): SessionCost | undefined => {
   try {
-    return parseSessionCost(readFileSync(row, 'utf8')).name;
+    return parseSessionCost(readFileSync(row, 'utf8'));
   } catch {
-    return null;
+    return undefined;
   }
 };
 
@@ -76,6 +80,7 @@ const cost = summariseTranscript(
   },
   prices,
   flag('session-id') ?? path.basename(transcript, '.jsonl'),
+  given('at-stop'),
 );
 
 const out = path.join(
@@ -84,11 +89,20 @@ const out = path.join(
   monthOf(cost),
   `${cost.sessionId}.json`,
 );
-const named: SessionCost = { ...cost, name: flag('name') ?? nameOn(out) };
-writeAtomic(root, out, `${JSON.stringify(named, null, 2)}\n`);
+const before = previous(out);
+const carried = (before?.warnings ?? []).filter(
+  (warning) => isUnwrittenTail(warning) && !cost.warnings.includes(warning),
+);
+const row: SessionCost = {
+  ...cost,
+  warnings: [...carried, ...cost.warnings],
+};
+const staged = flag('out');
+if (staged === undefined) writeAtomic(root, out, rowText(row));
+else writeFileSync(staged, rowText(row));
 
 console.log(
   given('row-path')
     ? out
-    : `session-cost: ${named.total.responses} responses, $${named.total.costUsd.toFixed(4)} → ${out}`,
+    : `session-cost: ${row.total.responses} responses, $${row.total.costUsd.toFixed(4)} → ${out}`,
 );

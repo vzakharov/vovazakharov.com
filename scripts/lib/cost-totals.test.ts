@@ -7,7 +7,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { branchLabel, isoWeek, totalsOf } from './cost-totals.ts';
+import {
+  branchLabel,
+  isoWeek,
+  operatorLabel,
+  totalsOf,
+} from './cost-totals.ts';
 import type { SessionCost } from './session-cost.ts';
 
 const tally = (costUsd: number) => ({
@@ -25,10 +30,10 @@ const row = (overrides: Partial<SessionCost> = {}): SessionCost => ({
   sessionId: 'sess',
   branch: 'a-branch',
   cwd: null,
-  name: null,
   openingPrompt: null,
   prs: [],
   url: null,
+  operator: null,
   firstResponseAt: '2026-03-04T05:06:07.000Z',
   lastResponseAt: '2026-03-04T06:06:07.000Z',
   pricesAsOf: '2026-01-01',
@@ -87,6 +92,21 @@ describe('cost-totals: how a branch is labelled', () => {
 
   it('says so rather than dropping a row whose branch went unrecorded', () => {
     assert.equal(branchLabel(row({ branch: null })), '(no branch)');
+  });
+});
+
+describe('cost-totals: whose session it was', () => {
+  it("files a session under its operator's handle", () => {
+    const totals = totalsOf([
+      row({ operator: 'vzakharov' }),
+      row({ total: tally(2) }),
+    ]);
+    assert.equal(totals.byOperator['@vzakharov']?.costUsd, 1);
+    assert.equal(totals.byOperator['(unknown)']?.costUsd, 2);
+  });
+
+  it('says so rather than dropping a row whose operator went unresolved', () => {
+    assert.equal(operatorLabel(row()), '(unknown)');
   });
 });
 

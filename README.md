@@ -36,8 +36,8 @@ pnpm build
 A Next project directory is `apps/<site>/`, so every build and dev server is
 entered there — hence no root `pnpm dev`.
 
-`./scripts/vet.sh` is the check to run before pushing; `CLAUDE.md` § Vetting says
-what it covers.
+`./scripts/vet.sh` is the check to run before pushing; `.claude/rules/stack.md`
+says what it covers.
 
 ## Project Structure
 
@@ -79,15 +79,16 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 
 ## Deployment
 
-Merging to `main` is the deploy; there is no separate release step. A `feat:` or
-`fix:` squash subject is what triggers it, and its scope picks the site.
+Merging to `main` is the deploy; there is no separate release step. A squash
+subject of a publishing type triggers it — the set is the `publishing` variable
+in `.github/workflows/deploy.yml` — and its scope picks the site.
 
 A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
 `latestageagentic.com` and `agentic.bible` are each force-pushed by
 `scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
 whose Pages deploys from a branch.
-`CLAUDE.md` § Deployment carries the rest, and the `/stand-up-site` skill is what
+`.claude/rules/deployment.md` carries the rest, and the `/stand-up-site` skill is what
 puts a site on a domain in the first place.
 
 ## Routes

@@ -5,11 +5,12 @@
 //
 //   node scripts/costs-report.ts [--month YYYY-MM] [--json]
 //
-// Nothing is written: the totals are derived from the rows, so the report is
-// run when a number is wanted rather than kept on disk going stale. `--json`
-// prints the whole breakdown for whoever wants to keep one anyway. Rows reach
-// `main` by merge, so a month read here is a month of *merged* work:
-// `.claude/rules/costs.md` carries what that leaves out.
+// The totals are never written: they are derived from the rows, so the report
+// is run when a number is wanted rather than kept on disk going stale. A row
+// still carrying a retired field is rewritten without it, and the report says
+// which. `--json` prints the whole breakdown for whoever wants to keep one
+// anyway. Rows reach `main` by merge, so a month read here is a month of
+// *merged* work: `.claude/rules/costs.md` carries what that leaves out.
 
 /* eslint-disable no-console -- stdout is this script's interface: the report is
    the whole output. */
@@ -18,12 +19,9 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { flag, given } from './lib/argv.ts';
+import { readRow } from './lib/cost-rows.ts';
 import { type Bucket, totalsOf } from './lib/cost-totals.ts';
-import {
-  parsePrices,
-  parseSessionCost,
-  type SessionCost,
-} from './lib/session-cost.ts';
+import { parsePrices, type SessionCost } from './lib/session-cost.ts';
 
 const root = process.env['CLAUDE_PROJECT_DIR'] ?? process.cwd();
 const sessionsDir = path.join(root, '.claude/costs/sessions');
@@ -44,9 +42,15 @@ const rowsIn = (month: string): SessionCost[] => {
   const dir = path.join(sessionsDir, month);
   return readdirSync(dir)
     .filter((name) => name.endsWith('.json'))
-    .map((name) =>
-      parseSessionCost(readFileSync(path.join(dir, name), 'utf8')),
-    );
+    .map((name) => {
+      const file = path.join(dir, name);
+      const { row, dropped } = readRow(root, file);
+      // Stderr, so `--json` stays parseable. A rewritten row is a change to
+      // commit, which is why it is named rather than done quietly.
+      if (dropped.length > 0)
+        console.error(`costs: dropped ${dropped.join(', ')} from ${file}`);
+      return row;
+    });
 };
 
 const shown = months.filter(
@@ -88,6 +92,7 @@ table('month', totals.byMonth);
 table('week', totals.byWeek);
 table('day', totals.byDay);
 table('branch', totals.byBranch);
+table('operator', totals.byOperator);
 
 const subagents = rows.reduce((sum, row) => sum + row.subagents.costUsd, 0);
 console.log(

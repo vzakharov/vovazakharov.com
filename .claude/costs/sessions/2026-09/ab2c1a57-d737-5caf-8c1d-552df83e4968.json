@@ -2,12 +2,12 @@
   "sessionId": "ab2c1a57-d737-5caf-8c1d-552df83e4968",
   "branch": "claude/api-cost-ledger-0cm1tl",
   "cwd": "/home/user/vovazakharov.com",
-  "name": "the #71 review: subagents, totals, the .claude move",
   "openingPrompt": "/handle claude/api-cost-ledger-0cm1tl",
   "prs": [
     71
   ],
   "url": "https://claude.ai/code/session_01WRCLLgqSrAMpoQYaRdN2qZ",
+  "operator": null,
   "firstResponseAt": "2026-09-19T11:47:02.906Z",
   "lastResponseAt": "2026-09-21T13:26:30.717Z",
   "pricesAsOf": "2026-09-19",

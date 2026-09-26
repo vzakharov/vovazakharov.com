@@ -2,12 +2,12 @@
   "sessionId": "16b3f6f9-e764-5cc8-a6d8-bf7b71e874e2",
   "branch": "claude/content-tree-render-nc7z48",
   "cwd": "/home/user/vovazakharov.com",
-  "name": "PR #72 content-tree render: review replies + finalize",
   "openingPrompt": "/handle claude/content-tree-render-nc7z48",
   "prs": [
     72
   ],
   "url": "https://claude.ai/code/session_01X7dqFbSZ7kvBwvQvMFR5bE",
+  "operator": null,
   "firstResponseAt": "2026-09-21T13:12:43.796Z",
   "lastResponseAt": "2026-09-22T12:22:11.609Z",
   "pricesAsOf": "2026-09-19",

@@ -31,24 +31,33 @@ const PrLinkSchema = z.object({ prNumber: z.number() });
 export const prNumberOf = (record: unknown): number | undefined =>
   PrLinkSchema.safeParse(record).data?.prNumber;
 
+// What the harness attaches to the conversation — a reminder it re-sends, a
+// hook's output — arrives as an `attachment` record, and two of them are read
+// here.
+const AttachmentSchema = z.object({
+  attachment: z.object({
+    type: z.string(),
+    hookEvent: z.string().optional(),
+    content: z.string().optional(),
+  }),
+});
+
+const attachmentOf = (record: unknown) =>
+  AttachmentSchema.safeParse(record).data?.attachment;
+
 // The session's web URL reaches the transcript only as prose, inside the
 // attribution reminder the harness re-sends whenever the remote session
 // changes. Matching that one record's text is narrower than scanning the file,
 // where any quoted commit trailer carries a session URL too — usually another
 // session's. Which is why this takes the record's raw line: the URL is in the
 // reminder's body, not in a field.
-const AttachmentKindSchema = z.object({
-  attachment: z.object({ type: z.string() }),
-});
-
 const SESSION_URL = /https:\/\/claude\.ai\/code\/session_[\dA-Za-z]+/;
 
 export const sessionUrlIn = (
   record: unknown,
   line: string,
 ): string | undefined =>
-  AttachmentKindSchema.safeParse(record).data?.attachment.type ===
-  'remote_session_change'
+  attachmentOf(record)?.type === 'remote_session_change'
     ? SESSION_URL.exec(line)?.[0]
     : undefined;
 
@@ -95,4 +104,18 @@ export const promptTextOf = (record: unknown): string | undefined => {
   return text.length > OPENING_PROMPT_LIMIT
     ? `${text.slice(0, OPENING_PROMPT_LIMIT)}…`
     : text;
+};
+
+// `.claude/hooks/operator-voice.sh` prints `Name (@handle)` or a bare `@handle`,
+// already lowercased, and only this phrasing when it resolved a person: the
+// lines it prints for a bot's token or an unreachable `gh` do not match.
+const OPERATOR_LINE =
+  /^session-start: the operator is (?:[^\n]* \()?@([\da-z-]+)\)? — the GitHub token/;
+
+export const operatorOf = (record: unknown): string | undefined => {
+  const attachment = attachmentOf(record);
+  return attachment?.hookEvent === 'SessionStart' &&
+    attachment.content !== undefined
+    ? OPERATOR_LINE.exec(attachment.content)?.[1]
+    : undefined;
 };

@@ -8,6 +8,7 @@ import { z } from 'zod';
 import {
   costStateOf,
   kindOf,
+  operatorOf,
   prNumberOf,
   promptTextOf,
   sessionUrlIn,
@@ -58,7 +59,12 @@ const ResponseRecordSchema = z.object({
   cwd: z.string().optional(),
   timestamp: z.string().optional(),
   isSidechain: z.boolean().optional(),
-  message: z.object({ id: z.string(), model: z.string(), usage: UsageSchema }),
+  message: z.object({
+    id: z.string(),
+    model: z.string(),
+    stop_reason: z.string().nullish(),
+    usage: UsageSchema,
+  }),
 });
 
 const TokenTallySchema = z.object({
@@ -87,17 +93,14 @@ const SessionCostSchema = z.object({
   cwd: z.string().nullable(),
   // What a person recognises a session by. Each carries a default, so a row
   // written before the field existed still parses.
-  //
-  // `name` is the agent's own short label, and the one field here the transcript
-  // cannot supply: it stays null until a turn fills it in, which is what
-  // `.claude/hooks/prompt-session-name.sh` asks for. Writing a row therefore
-  // carries the existing name forward rather than recomputing it.
-  name: z.string().nullable().default(null),
   openingPrompt: z.string().nullable().default(null),
   prs: z.array(z.number()).default([]),
   // The URL a person opens the session at, which is a different id from the
   // transcript's own and appears only in a remote session.
   url: z.string().nullable().default(null),
+  // The operator's GitHub handle, lowercased and without the `@`; null when no
+  // person was resolved behind the session's token.
+  operator: z.string().nullable().default(null),
   firstResponseAt: z.string().nullable(),
   lastResponseAt: z.string().nullable(),
   pricesAsOf: z.string(),
@@ -226,17 +229,30 @@ export type TranscriptSources = {
   subagents: readonly string[];
 };
 
+// Marks the warning `atStop` raises, which is what lets a rewrite of the row
+// carry it forward: the next run reads a transcript that has caught up.
+const UNWRITTEN_TAIL = 'not yet written when the Stop hook read the transcript';
+
+export const isUnwrittenTail = (warning: string): boolean =>
+  warning.includes(UNWRITTEN_TAIL);
+
 /**
  * Throws when a transcript names a `(model, speed)` pair the table cannot
  * price, or an assistant record does not parse: an unpriced response silently
  * counted as free is the one failure that makes the whole ledger a lie.
+ *
+ * `atStop` says the turn is over, so the session's own last response should be
+ * the `end_turn` that closed it; anything else is warned about as a tail the
+ * file had not yet been given.
  */
 export const summariseTranscript = (
   sources: TranscriptSources,
   prices: PriceTable,
   fallbackSessionId: string,
+  atStop = false,
 ): SessionCost => {
   const warnings: string[] = [];
+  let lastOwn: Response | undefined;
   const seen = new Set<string>();
   const byRate: Record<string, Tally> = {};
   const total = emptyTally();
@@ -250,6 +266,7 @@ export const summariseTranscript = (
   let cwd: string | undefined;
   let openingPrompt: string | undefined;
   let url: string | undefined;
+  let operator: string | undefined;
   let claudeCodeTotalUsd: number | undefined;
 
   // `delegated` forces the bucket for a subagent's own file. Its records carry
@@ -279,12 +296,21 @@ export const summariseTranscript = (
         }
         if (kind === 'attachment') {
           url ??= sessionUrlIn(record, line);
+          // The first one any SessionStart resolved, since a resume runs the
+          // hook again.
+          operator ??= operatorOf(record);
           continue;
         }
       }
 
       if (!isResponseRecord(record)) continue;
       const response = ResponseRecordSchema.parse(record);
+      if (
+        !delegated &&
+        response.isSidechain !== true &&
+        response.message.model !== SYNTHETIC_MODEL
+      )
+        lastOwn = response;
       // One API response is written as one record per content block, each
       // carrying the whole response's usage, so the id is what counts it once.
       if (seen.has(response.message.id)) continue;
@@ -342,15 +368,23 @@ export const summariseTranscript = (
       `No rates for ${[...unpriced].toSorted().join(', ')} in the price table (as of ${prices.as_of}). Add them to .claude/costs/prices.json — a response counted as free is worse than no ledger at all.`,
     );
 
+  if (atStop && lastOwn !== undefined) {
+    const { id, stop_reason: stopReason } = lastOwn.message;
+    if (stopReason !== 'end_turn')
+      warnings.push(
+        `${id}: the session's last response stopped on \`${stopReason ?? 'null'}\` rather than \`end_turn\` — the turn's tail was ${UNWRITTEN_TAIL}`,
+      );
+  }
+
   const inOrder = timestamps.toSorted();
   return {
     sessionId: sessionId ?? fallbackSessionId,
     branch: branch ?? null,
     cwd: cwd ?? null,
-    name: null,
     openingPrompt: openingPrompt ?? null,
     prs: [...prs].toSorted((a, b) => a - b),
     url: url ?? null,
+    operator: operator ?? null,
     firstResponseAt: inOrder.at(0) ?? null,
     lastResponseAt: inOrder.at(-1) ?? null,
     pricesAsOf: prices.as_of,

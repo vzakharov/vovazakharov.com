@@ -1,7 +1,8 @@
 #!/bin/bash
 # Vet: the fast checks the agent runs before pushing review-ready work.
 #
-# See CLAUDE.md → Vetting for the contract and for why this list is what it is.
+# See `.claude/rules/stack.md` for the contract and for why this list is what it
+# is.
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
@@ -43,7 +44,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these fifteen writes anything another one reads, so they overlap
+# None of these seventeen writes anything another one reads, so they overlap
 # freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
@@ -56,14 +57,15 @@ fi
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
 # passes; the test run adds only writes into the OS temp directory, and
-# the two `--check` render passes only hash files, needing no browser. The
+# the two `--check` render passes only hash files, needing no browser, and the
+# context budget's tests write only into their own temporary directories. The
 # squash check reads the proposal under docs/remove-before-merging/ (or its own
 # history) and the notes check counts lines under writing/notes/, neither of
 # which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
-# The last reads the agent infrastructure itself and nothing else here touches
-# it.
+# The last three read the agent infrastructure itself and nothing else here
+# touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
   eslint='pnpm exec eslint .' \
@@ -79,7 +81,9 @@ scripts/run-parallel.sh \
   test='pnpm test' \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
-  skills='scripts/check-skill-catalog.sh' || status=1
+  skills='scripts/check-skill-catalog.sh' \
+  staged='scripts/staged.sh check' \
+  context-budget='python3 .claude/context-budget/test_context_budget.py' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

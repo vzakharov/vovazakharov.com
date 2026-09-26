@@ -2,12 +2,12 @@
   "sessionId": "3d1144b9-9b96-5acb-8b38-ce32ed85c5e5",
   "branch": "claude/agentic-bible-bw6dre",
   "cwd": "/home/user/vovazakharov.com",
-  "name": "pr #69 review round: SITE_CONFIGS annotation, then land prep",
   "openingPrompt": "/handle claude/agentic-bible-bw6dre",
   "prs": [
     69
   ],
   "url": "https://claude.ai/code/session_01JbBiUK51bS2CEFeZuhkymu",
+  "operator": null,
   "firstResponseAt": "2026-09-21T17:00:28.919Z",
   "lastResponseAt": "2026-09-22T09:25:52.606Z",
   "pricesAsOf": "2026-09-19",
