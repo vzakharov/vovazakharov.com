@@ -300,6 +300,27 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   printing flowers per visit and slot sizes per screen turned slot placement
   into three quick iterations. The skill should keep such sweeps as scripts
   beside the frame recipe.
+- **A frame subagent's report is a lead, not a citation.** Bite 4's review
+  agent measured well, but it anchored two causes at lines past the end of
+  their files (`draw-mouse.ts:249` in a 112-line file). It also claimed the
+  drawing's windows were "nearer 1/5 of the cap", which one look at the
+  reference didn't support. The review session re-anchored every comment from
+  the source and dropped the claim. The skill should have the main session
+  open each cited line and the reference before posting, and should ask the
+  frame agent for numbers and frame names, not file:line.
+- **A hint carried in the relay summary is a hypothesis to measure.** Bite
+  4's summary said the door's frame "pokes slightly past the stem". The sweep
+  measured 0 px on every screen, but found the problem next to it: the test
+  holds the doorway, not the painted frame. It also found a far worse one
+  nobody had noticed, the back door hidden on 96% of tablet visits. The
+  skill's review brief should hand over such hints as questions for the
+  sweep, next to an open "what does a child actually see" pass, so the sweep
+  isn't confined to the hints.
+- **Occlusion is a finding class of its own for a layered scene.** Each
+  object's own tests held (every door inside its stem), while the scene hid
+  the back door behind the front stem. The skill's sweep template should
+  include "what fraction of each new tappable thing is covered by nearer
+  things" whenever a bite adds something tappable.
 - **A pixel constant breaks a proportional layout's resize contract.**
   `EDGE_MARGIN` made bounded sizes not scale with the screen, so flowers
   placed against them moved on a resize. The fix was to place the dependents
