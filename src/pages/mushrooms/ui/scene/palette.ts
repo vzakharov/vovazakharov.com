@@ -56,4 +56,20 @@ export const PALETTE = {
    * edged in `ink` against the pale ones.
    */
   selection: 0xff_d4_1a,
+  /**
+   * A window's pane: a warm lamplight, as if the room behind were lit — the
+   * hue dusk turns up.
+   */
+  windowPane: 0xff_d8_6a,
+  windowShine: 0xff_f4_c8,
+  /** Window frames, and the door's wood with its planks' darker grain. */
+  wood: 0xb0_6e_3a,
+  woodDeep: 0x86_4e_28,
+  doorKnob: 0xff_c8_46,
+  /** The dark inside an open door, which the mouse comes out of. */
+  doorway: 0x3a_1e_16,
+  mouse: 0xa4_a2_ae,
+  mouseLight: 0xd2_d0_da,
+  mousePink: 0xff_a2_b4,
+  mouseEye: 0x1e_12_12,
 } as const;

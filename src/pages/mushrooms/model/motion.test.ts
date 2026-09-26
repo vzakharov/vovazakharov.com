@@ -5,6 +5,8 @@ import {
   beckon,
   BECKON_DEPTH,
   BECKON_EASE,
+  blink,
+  BLINK_SHUT,
   bloom,
   BLOOM_DURATION,
   breath,
@@ -262,5 +264,16 @@ describe('lookAbout', () => {
     const turns = samples(4).map((t) => lookAbout(t, 1));
     assert.ok(turns.every((x) => Math.abs(x) <= 1));
     assert.ok(turns.some((x) => x > 0.9) && turns.some((x) => x < -0.9));
+  });
+});
+
+describe('blink', () => {
+  it('shuts the eyes briefly, now and then, each mouse on its own beat', () => {
+    const step = 0.01;
+    const times = Array.from({ length: 1000 }, (_, index) => index * step);
+    const shut = times.filter((t) => blink(t, 1)).length * step;
+    // Two to four blinks in ten seconds, each a moment long.
+    assert.ok(shut >= BLINK_SHUT * 2 && shut <= BLINK_SHUT * 4 + step * 4);
+    assert.ok(times.some((t) => blink(t, 1) !== blink(t, 4)));
   });
 });

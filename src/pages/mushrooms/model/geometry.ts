@@ -66,3 +66,47 @@ export function placedAt(foot: Point, turn: number, { x, y }: Point): Point {
     y: foot.y + x * Math.sin(turn) + y * Math.cos(turn),
   };
 }
+
+/** Twice the signed area of a closed outline: above 0 when it runs anticlockwise with y up. */
+function signedArea(outline: readonly Point[]): number {
+  let sum = 0;
+  for (const [index, a] of outline.entries()) {
+    const b = outline[(index + 1) % outline.length] ?? a;
+    sum += a.x * b.y - b.x * a.y;
+  }
+  return sum;
+}
+
+/**
+ * The part of the closed `subject` inside the convex closed `clip`, by
+ * Sutherland–Hodgman: what shows of a shape through an opening. Either may
+ * run either way round; empty when they do not meet.
+ */
+export function clipToConvex(
+  subject: readonly Point[],
+  clip: readonly Point[],
+): Point[] {
+  const turn = Math.sign(signedArea(clip));
+  let kept = [...subject];
+  for (const [index, a] of clip.entries()) {
+    const b = clip[(index + 1) % clip.length] ?? a;
+    const side = ({ x, y }: Point) =>
+      turn * ((b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x));
+    const input = kept;
+    kept = [];
+    for (const [at, point] of input.entries()) {
+      const next = input[(at + 1) % input.length] ?? point;
+      const here = side(point);
+      const there = side(next);
+      if (here >= 0) kept.push(point);
+      if (here >= 0 !== there >= 0) {
+        const t = here / (here - there);
+        kept.push({
+          x: point.x + (next.x - point.x) * t,
+          y: point.y + (next.y - point.y) * t,
+        });
+      }
+    }
+  }
+  return kept;
+}

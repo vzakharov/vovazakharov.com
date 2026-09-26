@@ -120,6 +120,20 @@ const nuhUh: Voice = (context, out) => {
   reedy([147, 131], 0.26, 0.2);
 };
 
+/** Knock-knock on wood, as a window or a door goes in. */
+const knock: Voice = (context, out) => {
+  for (const delay of [0, 0.14]) {
+    tone(context, out, 'triangle', [330, 170], 0.09, 0.4, delay);
+    tone(context, out, 'sine', [1100, 520], 0.03, 0.14, delay);
+  }
+};
+
+/** A mouse's squeak, twice: high and quick, rising and falling back. */
+const squeak: Voice = (context, out) => {
+  tone(context, out, 'sine', [1900, 2700, 2200], 0.16, 0.11);
+  tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
+};
+
 /** A soft bell on the scale's `step`th note, the same note for the same step. */
 function chime(step: number): Voice {
   const pitch = PENTATONIC[step % PENTATONIC.length] ?? PENTATONIC[0] ?? 440;
@@ -259,6 +273,14 @@ export class MeadowSound {
 
   nuhUh(): void {
     this.play(nuhUh);
+  }
+
+  knock(): void {
+    this.play(knock);
+  }
+
+  squeak(): void {
+    this.play(squeak);
   }
 
   stop(): void {

@@ -251,3 +251,15 @@ export function mouseOut(time: number, { phase, tappedAt }: Tapped): number {
 export function lookAbout(time: number, phase: number): number {
   return Math.sin(((Math.PI * 2) / LOOK_PERIOD) * time + phase * 3);
 }
+
+/** How often a mouse blinks, and how long its eyes stay shut. */
+const BLINK_PERIOD = 2.8;
+export const BLINK_SHUT = 0.14;
+
+/** Whether a mouse's eyes are shut at `time`: briefly, once a period, `phase` setting when. */
+export function blink(time: number, phase: number): boolean {
+  const offset = (phase / (Math.PI * 2)) * BLINK_PERIOD;
+  const into =
+    (((time + offset) % BLINK_PERIOD) + BLINK_PERIOD) % BLINK_PERIOD;
+  return into < BLINK_SHUT;
+}

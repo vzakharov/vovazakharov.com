@@ -97,6 +97,13 @@ export class MeadowScene extends Phaser.Scene {
         grow: (cap) => {
           this.dispatch({ kind: 'grow', cap, seed: nextSeed(this.growing) });
         },
+        house: () => {
+          this.voice.pop();
+          this.dispatch({ kind: 'house' });
+        },
+        furnish: (piece) => {
+          this.dispatch({ kind: 'furnish', piece });
+        },
         refuse: () => {
           this.voice.nuhUh();
         },

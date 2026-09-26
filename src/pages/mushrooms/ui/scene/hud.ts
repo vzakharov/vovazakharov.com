@@ -1,13 +1,18 @@
 import type * as Phaser from 'phaser';
 
+import { DOOR_ASPECT, type Furnishing } from '../../model/house';
 import {
   type CapKind,
   GENE_RANGES,
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
+import { toCanvas } from '../../model/mushroom-outline';
+import { capFrame } from '../../model/mushroom-pose';
+import { paintDoor, paintWindow } from './draw-house';
 import { drawMushroom } from './draw-mushroom';
 import { PALETTE } from './palette';
+import type { Brush } from './shapes';
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
@@ -60,19 +65,99 @@ function iconGenes(cap: CapKind): MushroomGenes {
   };
 }
 
-/** A mushroom `height` tall, centred on `(x, y)`. */
+/**
+ * A mushroom `height` tall, centred on `(x, y)`, and whatever `over` paints on
+ * it in its own frame, given the size it is drawn at.
+ */
 function drawIcon(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   height: number,
   x: number,
   y: number,
+  over?: (size: number) => void,
 ): void {
   const size = height / (genes.stemHeight + genes.capHeight);
   graphics.save();
   graphics.translateCanvas(x, y + height / 2);
   drawMushroom(graphics, genes, size);
+  over?.(size);
   graphics.restore();
+}
+
+/** A pictogram's ink, and no haze. */
+function iconBrush(r: number): Brush {
+  return { ink: Math.max(2, r * 0.07), tone: (colour) => colour };
+}
+
+/**
+ * The house pictogram's windows and door, in its mushroom's units: far larger
+ * than a meadow house's, so they read at a button's size.
+ */
+const ICON_WINDOWS = [
+  { kind: 'cross', x: -0.25 },
+  { kind: 'square', x: 0.25 },
+] as const;
+const ICON_PANE = 0.22;
+const ICON_DOOR_WIDTH = 0.19;
+
+/** The house button: a fly agaric with two windows in its cap and a door in its stem. */
+export function drawHouseButton(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+): void {
+  drawDisc(graphics, r);
+  const genes = { ...iconGenes('spotted'), spots: [], stemWidth: 0.28 };
+  const brush = iconBrush(r * 0.8);
+  drawIcon(graphics, genes, r * 1.35, 0, 0, (size) => {
+    const cap = capFrame(genes);
+    const canvas = toCanvas(size);
+    for (const { kind, x } of ICON_WINDOWS) {
+      const middle = { x, y: genes.capHeight * 0.3 };
+      paintWindow(
+        graphics,
+        kind,
+        (point) =>
+          canvas(
+            cap({
+              x: middle.x + point.x * ICON_PANE,
+              y: middle.y + point.y * ICON_PANE,
+            }),
+          ),
+        brush,
+      );
+    }
+    paintDoor(
+      graphics,
+      (point) => canvas({ x: point.x * ICON_DOOR_WIDTH, y: point.y * ICON_DOOR_WIDTH }),
+      DOOR_ASPECT,
+      0,
+      brush,
+    );
+  });
+}
+
+/** One of the house picker's buttons: a window of its kind, or the door. */
+export function drawFurnishButton(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+  piece: Furnishing,
+): void {
+  drawDisc(graphics, r);
+  const brush = iconBrush(r);
+  if (piece === 'door') {
+    const width = r * 0.78;
+    paintDoor(
+      graphics,
+      ({ x, y }) => ({ x: x * width, y: -(y - DOOR_ASPECT / 2) * width }),
+      DOOR_ASPECT,
+      0,
+      brush,
+    );
+    return;
+  }
+  const side = r * 1.15;
+  paintWindow(graphics, piece, ({ x, y }) => ({ x: x * side, y: -y * side }), brush);
 }
 
 /** One of the picker's buttons: a mushroom wearing `cap`. */

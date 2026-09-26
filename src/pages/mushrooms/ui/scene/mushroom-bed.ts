@@ -14,7 +14,7 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
@@ -28,8 +28,9 @@ import {
   drawSelection,
   drawSelectionRing,
 } from './draw-mushroom';
-import { containsMushroom, type WithGraphics } from './hit-areas';
-import type { Footing, MeadowLayout } from './layout';
+import { containsMushroom } from './hit-areas';
+import { type Body, HouseView } from './house-view';
+import type { MeadowLayout } from './layout';
 import type { MeadowSound } from './sound';
 import { puffSpores } from './spores';
 
@@ -44,13 +45,12 @@ const RING_SPREAD = 1.5;
 
 type Shown = Tapped &
   Lit &
-  WithGraphics &
-  Pick<Footing, 'size'> & {
+  Body & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
     hit: TapArea;
-    genes: MushroomGenes;
-    turn: number;
+    /** Its windows and door, which follow it. */
+    house: HouseView;
     plantedAt: number;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
@@ -107,12 +107,18 @@ export class MushroomBed {
       if (ids.has(id) || shown.goneAt !== Infinity) continue;
       shown.goneAt = clock;
       shown.graphics.disableInteractive();
+      shown.house.disable();
       this.voice.sink();
     }
     for (const mushroom of mushrooms) {
-      if (this.shown.has(mushroom.id)) continue;
+      const standing = this.shown.get(mushroom.id);
+      if (standing) {
+        standing.house.furnish(mushroom.house, standing, clock, opening);
+        continue;
+      }
       const shown = this.show(mushroom, opening ? -Infinity : clock);
       this.place(shown, mushroom, layout);
+      shown.house.furnish(mushroom.house, shown, clock, true);
       if (!opening) {
         puffSpores(this.scene, shown.graphics, shown.size * 0.5, SPORE_DEPTH);
         this.voice.grow();
@@ -139,12 +145,13 @@ export class MushroomBed {
 
   update(t: number): void {
     for (const [id, shown] of this.shown) {
-      const { graphics, shadow, plantedAt, goneAt, tappedAt, phase, turn } =
+      const { graphics, shadow, house, plantedAt, goneAt, tappedAt, phase, turn } =
         shown;
       const grown = Math.min(emerge(t - plantedAt), sink(t - goneAt));
       if (t - goneAt >= SINK_DURATION) {
         graphics.destroy();
         shadow.destroy();
+        house.destroy();
         this.shown.delete(id);
         continue;
       }
@@ -153,6 +160,7 @@ export class MushroomBed {
       graphics
         .setScale(widthFor(stretch) * grown, (1 + stretch) * grown)
         .setRotation(turn + bounce * WOBBLE_ROCK);
+      house.update(t, shown);
       shadow.setScale(
         (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown,
         grown,
@@ -177,7 +185,8 @@ export class MushroomBed {
     if (!place) return;
     const { x, y, size, splay, haze } = place;
     const { genes, turn } = splayed(mushroomGenes(mushroom), splay);
-    Object.assign(shown, { genes, turn, size });
+    Object.assign(shown, { genes, turn, size, haze });
+    shown.house.repaint();
     shown.graphics.clear().setPosition(x, y).setDepth(y);
     drawMushroom(shown.graphics, genes, size, haze);
     // Just behind its own mushroom, and before anything standing behind it.
@@ -225,6 +234,14 @@ export class MushroomBed {
       genes: mushroomGenes(mushroom),
       turn: 0,
       size: 0,
+      haze: 0,
+      house: new HouseView(
+        this.scene,
+        this.voice,
+        this.now,
+        phaseOf(mushroom),
+        SPORE_DEPTH,
+      ),
       phase: phaseOf(mushroom),
       tappedAt: -Infinity,
       litAt: -Infinity,
