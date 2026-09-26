@@ -27,9 +27,11 @@ The player shapes it. Plus unfolds a four-cap picker and the pick
 grows out of the ground, selected; minus sinks the selection, or the
 newest, up to six round the clump. The house button opens a second
 picker of Syama's four windows and a door, which furnish the chosen
-mushroom — a row of three or five windows along the cap, a door at
-the stem's foot — and a mouse peeks out of the door now and then, or
-at once when it is tapped. A control that cannot act shakes its head.
+mushroom or the newest with room — a row of three or five windows
+along the cap, a door as high up the stem as the mushroom in front
+needs to leave it in sight — and a mouse peeks out of the door now
+and then, or at once when it is tapped. A control that cannot act
+shakes its head.
 A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
 plays every control in headless Chromium and fails on a page error
 or a wrong result.
