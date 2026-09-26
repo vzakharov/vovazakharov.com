@@ -47,13 +47,13 @@ const FLOWER_SPOTS = {
     [0.56, 0.88],
   ],
   portrait: [
-    [0.16, 0.3],
-    [0.84, 0.36],
-    [0.24, 0.78],
-    [0.8, 0.84],
-    [0.52, 0.94],
-    [0.36, 0.14],
-    [0.66, 0.22],
+    [0.14, 0.4],
+    [0.86, 0.36],
+    [0.36, 0.26],
+    [0.3, 0.62],
+    [0.78, 0.6],
+    [0.52, 0.44],
+    [0.84, 0.16],
   ],
 } as const;
 /**
@@ -72,23 +72,31 @@ const FLOWER_SCALE = 0.26;
  */
 export const FOOT_CLEARANCE = 0.45;
 /**
+ * Where the clump stands: across as a fraction of the width, and its back
+ * and front feet down as fractions of the ground's depth. A tall screen's
+ * clump stands nearer the front, leaving the back row room above its caps.
+ */
+const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
+const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.64, 0.82] } as const;
+/**
  * The forest's slots, after the clump's two, in the order they fill: across as
  * a fraction of the width, down as one of the ground's depth, and the size
- * against the clump's. A row flanking the clump, one in front of it, then a
- * back row, small and hazy.
+ * against the clump's. Two nearer than the clump's caps, then a back row,
+ * small and hazy, standing clear of those caps: beside them on a wide screen,
+ * above them on a tall one.
  */
 const FOREST_SLOTS = {
   landscape: [
     [0.14, 0.8, 0.6],
     [0.88, 0.7, 0.58],
-    [0.22, 0.06, 0.5],
-    [0.8, 0.1, 0.5],
+    [0.13, 0.06, 0.5],
+    [0.84, 0.08, 0.5],
   ],
   portrait: [
-    [0.2, 0.54, 0.5],
-    [0.8, 0.58, 0.5],
-    [0.22, 0.04, 0.48],
-    [0.52, 0.08, 0.48],
+    [0.2, 0.94, 0.62],
+    [0.8, 0.97, 0.62],
+    [0.2, 0.12, 0.56],
+    [0.58, 0, 0.56],
   ],
 } as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
@@ -267,8 +275,8 @@ export function meadowLayout(
 ): MeadowLayout {
   const portrait = height > width;
   const orientation = portrait ? 'portrait' : 'landscape';
-  const groundTop = height * (portrait ? 0.62 : 0.6);
-  const horizon = height * (portrait ? 0.46 : 0.42);
+  const groundTop = height * (portrait ? 0.5 : 0.6);
+  const horizon = height * (portrait ? 0.36 : 0.42);
   const ground = height - groundTop;
   const short = Math.min(width, height);
   // Sized by height when the screen is wide, by width when it is tall, so a
@@ -278,17 +286,18 @@ export function meadowLayout(
     : height * 0.44;
   // One clump, as in the drawing: two feet close together, the back one
   // leaning left and the front one right, their stems crossing.
-  const clump = width * (portrait ? 0.5 : 0.49);
+  const clump = width * CLUMP_ACROSS[orientation];
+  const [backDown, frontDown] = CLUMP_DOWN[orientation];
   const feet = [
     {
       x: clump + wanted * 0.08,
-      y: groundTop + ground * 0.42,
+      y: groundTop + ground * backDown,
       scale: 0.9,
       side: -1,
     },
     {
       x: clump - wanted * 0.06,
-      y: groundTop + ground * 0.6,
+      y: groundTop + ground * frontDown,
       scale: 1,
       side: 1,
     },

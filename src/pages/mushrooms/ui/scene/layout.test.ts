@@ -47,6 +47,8 @@ const VIEWPORTS = [
 const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 /** How many points along a stem's drawn centreline a tap is tried at. */
 const STEM_TRIES = 20;
+/** How much of a cap's bounding box a nearer mushroom's cap may hide. */
+const MOST_HIDDEN = 0.25;
 
 /**
  * A mushroom as the scene stands it in `place`: its depth, points along its
@@ -97,6 +99,28 @@ function standingForest(seed: number, turn: number, layout: MeadowLayout) {
       cap: CAP_KINDS[(turn + slot) % CAP_KINDS.length] ?? 'spotted',
     }),
   );
+}
+
+type Box = Record<'left' | 'right' | 'top' | 'bottom', number>;
+
+function boxAround(points: readonly Point[]): Box {
+  const xs = points.map(({ x }) => x);
+  const ys = points.map(({ y }) => y);
+  return {
+    left: Math.min(...xs),
+    right: Math.max(...xs),
+    top: Math.min(...ys),
+    bottom: Math.max(...ys),
+  };
+}
+
+/** How much of `box`'s area `over` covers. */
+function coverOf(box: Box, over: Box): number {
+  const across =
+    Math.min(box.right, over.right) - Math.max(box.left, over.left);
+  const down = Math.min(box.bottom, over.bottom) - Math.max(box.top, over.top);
+  const area = (box.right - box.left) * (box.bottom - box.top);
+  return (Math.max(0, across) * Math.max(0, down)) / area;
 }
 
 /** How far `point` is from the closed `outline`: 0 inside it. */
@@ -282,6 +306,29 @@ describe('meadowLayout', () => {
                 `visit ${seed}: ${control} over mushroom-${slot}`,
               );
             }
+          }
+        }
+      }
+    });
+
+    it(`keeps every forest cap mostly in view on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      for (const [turn, seed] of VISITS.entries()) {
+        const caps = standingForest(seed, turn, layout).map(
+          ({ depth, drawn: [dome = [], gills = []] }) => ({
+            depth,
+            box: boxAround([...dome, ...gills]),
+          }),
+        );
+        for (const [slot, { depth, box }] of caps.entries()) {
+          for (const [other, nearer] of caps.entries()) {
+            // The clump's own two caps cross by design, as in the drawing.
+            if (nearer.depth <= depth || (slot < 2 && other < 2)) continue;
+            const hidden = coverOf(box, nearer.box);
+            assert.ok(
+              hidden <= MOST_HIDDEN,
+              `visit ${seed}: mushroom-${other} hides ${(hidden * 100).toFixed(0)}% of mushroom-${slot}`,
+            );
           }
         }
       }
