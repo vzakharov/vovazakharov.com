@@ -55,7 +55,13 @@ Each note: what happened, and what the skill should do about it.
   first, with the local branch 12 commits behind `origin`, the session-cost
   hook's commit among them. The skill should have pickup run `git checkout
 <branch> && git pull --ff-only` every time, and skip only the auto-branch
-  cleanup.
+  cleanup. Bite 3's pickup went one worse: the local branch was a snapshot of
+  history since rewritten on `origin` (50 commits each side), so the
+  fast-forward refused, and auto mode blocked `reset --hard` as destruction.
+  What worked: rename the stale ref aside (`git branch -m <branch>
+stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
+  approve. The skill's pickup should do exactly that when the fast-forward
+  fails.
 - **The context threshold is not measurable from inside a session, and one
   bite already fills it.** The loop says a `/handle` session takes the next
   bite "when its context is still under ~140k tokens", but an agent can't
@@ -210,3 +216,27 @@ Each note: what happened, and what the skill should do about it.
   fix in the same Playwright run as the frames. The skill's frame script
   should read the relevant runtime state beside each shot, not only take
   pictures.
+- **Past the 200k line, subagents are what finish the bite.** Bite 3 hit the
+  budget notice with the scene still unwired; frames, polish plus vet, and the
+  PR refresh each went to a subagent that reported in under 400 words, and the
+  bite finished without a stop. The skill should hand those four out by
+  default from the start, not as a rescue.
+- **A frame subagent has to tap, not only look.** Its first run found five
+  visual issues; its reshoot found the one real bug — the back clump
+  mushroom answered taps only at its left edge, because the front one's
+  bounding box covered it. It surfaced only because selection gave taps a
+  consequence. The frame recipe should drive every control and read the
+  resulting state (`scene.meadow`), and a bite that changes what a tap means
+  should re-test every tap area.
+- **A new kind of thing competes for the layout; measure the loser.** Adding a
+  forest's feet starved the flowers (2.4 per visit on a tablet, 0.6 on a
+  tablet held upright, against a test floor of 4.5). A ten-line `tsx` script
+  printing flowers per visit and slot sizes per screen turned slot placement
+  into three quick iterations. The skill should keep such sweeps as scripts
+  beside the frame recipe.
+- **A pixel constant breaks a proportional layout's resize contract.**
+  `EDGE_MARGIN` made bounded sizes not scale with the screen, so flowers
+  placed against them moved on a resize. The fix was to place the dependents
+  against the layout computed with the margin at 0. The skill's layout
+  checklist should ask which quantities are exactly proportional before
+  anything keys stable placement off them.
