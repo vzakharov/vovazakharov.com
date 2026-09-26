@@ -175,9 +175,7 @@ const LAUNCH_POP = 2.5;
 /**
  * A picked cap `elapsed` seconds after the pick: its `scale`, swelling past
  * its size and then shrinking to nothing, and its `travel` from 0 where it
- * stood to 1 where its mushroom grows, slow while it pops and quick as it
- * goes — at rest before the pick, and arrived and gone from
- * `LAUNCH_DURATION` on.
+ * stood to 1 where its mushroom grows, slow while it pops and quick as it goes.
  */
 export function launch(elapsed: number): { scale: number; travel: number } {
   if (elapsed < 0) return { scale: 1, travel: 0 };

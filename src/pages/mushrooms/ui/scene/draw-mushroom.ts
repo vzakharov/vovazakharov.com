@@ -154,9 +154,9 @@ export function drawMushroom(
 }
 
 /**
- * A thick band in `PALETTE.selection` round `outlines`, the mushroom's cap,
- * gills and stem in its graphics' frame, edged in ink. Painted into a graphics
- * just behind the mushroom, so only the band outside its own ink line shows.
+ * The selection band round `outlines`, in the mushroom's graphics' frame.
+ * Painted into a graphics just behind the mushroom, so only the half outside
+ * its own ink line shows.
  */
 export function drawSelection(
   graphics: Phaser.GameObjects.Graphics,

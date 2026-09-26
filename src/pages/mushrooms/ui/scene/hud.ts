@@ -26,9 +26,8 @@ const ICON_SPOTS = [
 ];
 
 /**
- * A button's disc, opaque so nothing behind it reads through, with an ink rim
- * and a shadow under it; centred on the graphics' own position so a tap can
- * press it in by scale.
+ * A button's disc, opaque so nothing behind it reads through, and centred on
+ * the graphics' own position so a tap can press it in by scale.
  */
 function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
   graphics.clear();

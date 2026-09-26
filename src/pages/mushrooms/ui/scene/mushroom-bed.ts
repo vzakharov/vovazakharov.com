@@ -64,10 +64,9 @@ type Shown = Tapped &
 export class MushroomBed {
   private readonly shown = new Map<string, Shown>();
   /**
-   * The selected mushroom's band, traced round its outlines just behind it and
-   * set each frame to its graphics' own pose, so it grows, breathes, rocks and
-   * beckons with it; and its ring on the ground, which says which of two
-   * crossed mushrooms it is.
+   * The selected mushroom's band, set each frame to its graphics' own pose so
+   * it moves as the mushroom does, and its ring on the ground, which says which
+   * of two crossed mushrooms it is.
    */
   private readonly outline: Phaser.GameObjects.Graphics;
   private readonly footRing: Phaser.GameObjects.Graphics;
