@@ -155,11 +155,11 @@ Standing rules for every session in the chain:
      than the caps are wide, as Syama drew them.
    - `meadow-scene.ts` repaints on resize into the objects it already has —
      `paintBackdrop` takes and returns its layers in painting order, the
-     mushrooms are kept by id — so bite 2's tweens survive a rotation.
+     mushrooms and flowers are kept by id — so a rotation moves them and
+     leaves them.
      `paint-backdrop.ts` paints the sky, the rosette sun with a many-ringed
      soft glow, clouds one `Graphics` each so they can drift, two hill
-     ranges, and ground opening on the near hills' shade with tufts along the
-     seam. `draw-mushroom.ts` paints genes in ink, flat fill, tapered shade
+     ranges, and ground opening on the near hills' shade. `draw-mushroom.ts` paints genes in ink, flat fill, tapered shade
      crescents (spots over the cap's, each with its own) and a shine, the
      dome sampled by angle and its rim rounded; `shapes.ts` holds `sample`,
      `petal`, `crescent`, `rounded`, `fillShape`, `strokeShape`;
@@ -170,38 +170,34 @@ Standing rules for every session in the chain:
      is the throwaway recipe); Chrome's bare `--screenshot` leaves a false
      strip at the bottom.
 
-## This bite
-
-2. **The meadow alive, and heard.** Idle motion: clouds drift, grass sways,
-   mushrooms breathe. A tap on a mushroom wobbles it (squash and stretch) and
-   puffs spores. Flowers join the meadow, each seeded, swaying and opening a
-   little wider when tapped. A Web Audio synth, started on the first tap
-   (autoplay policy), with pop, boing and a soft ambient bed; a mute
-   pictogram remembered in `localStorage`.
-   - **Motion is a pure function of time**, in `model/motion.ts` under
-     `node:test`: `breath`, `sway`, and a damped-spring `wobble` of the time
-     since a tap. The scene's `update` sets every scale, rotation and drift
-     from the layout and the clock, never from a tween, so a resize mid-wobble
-     changes where a thing stands and not how it moves.
-   - `model/flower-genes.ts`: `flowerGenes(seed)` — petal kind (pointed or
-     round), fold 5–9, one or two rings a half step apart, stem, leaf, hue
-     picked from the palette's flower colours; `Seeded` moves to `random.ts`
-     as the base both creatures intersect. `draw-flower.ts` paints a stem
-     into one graphics and the head into another, in a container standing on
-     the foot, so sway turns the container and opening scales the head.
-   - Grass: the tufts move out of `paint-backdrop.ts` into `grass.ts`,
-     grown once per paint and redrawn each frame bent by `sway`.
-   - `spores.ts`: a tap's puff as two rings of dots opening outward and
-     fading — the mandala language again. `sound.ts`: an `AudioContext` on
-     the first tap, suspended while the tab is hidden; `hud.ts`: the mute
-     pictogram, top left, a 64 px target.
-   - Taps land on hit areas no smaller than 64 CSS px; the layout places the
-     flowers and the mute button.
-   - **`localStorage` falls back to unmuted where it throws** (a private
-     window). It is the one silent fallback in the game, secondary by
-     construction — losing it costs a remembered mute, never the meadow — and
-     CLAUDE.md asks the operator's approval for each such site, so the PR
-     names it for them.
+2. **The meadow alive, and heard.** Clouds drift, the grass sways in a gust
+   seen travelling across it, mushrooms breathe; a tap wobbles a mushroom
+   (squash and stretch that keeps its volume, and a rock) and puffs two rings
+   of spores. Seven seeded flowers (five on a phone) sway and bloom open when
+   tapped, each chiming its own note. A breeze, the odd bird, pop, boing and
+   chime are synthesized; a mute pictogram sits top left. What the next bites
+   build on:
+   - `model/motion.ts`: every movement a pure function of the clock —
+     `breath`, `sway`, `wobble` and `bloom` of the time since a tap, `drift`,
+     `widthFor`. The scene's `update` sets every scale, rotation and drift
+     from the layout and the clock, so a resize never interrupts a movement;
+     a new creature's idle loop and its tap reaction go there, tested.
+   - Bases: `Seeded` (`random.ts`), `Bent` (`geometry.ts`), `Phased`
+     (`motion.ts`), `Footing` (`layout.ts`: a foot and a size). A creature's
+     loop phase comes from its seed (`phaseOf` in the scene).
+   - `model/flower-genes.ts` and `draw-flower.ts`: a flower is a container on
+     its foot holding a stem graphics and a head graphics, so sway turns the
+     container and bloom scales the head. `colour.ts` holds `mix` and
+     `nudgeHue`; `grass.ts` grows the tufts once per paint and redraws them
+     each frame; `spores.ts` puffs; `hud.ts` draws the mute button.
+   - `sound.ts`: `MeadowSound`, built on the first tap's release (a browser's
+     activation rule) and playing then whatever was asked before it; the
+     scene's field is `voice`, since `Phaser.Scene` owns `sound`. The mute is
+     remembered in `localStorage` and falls back to unmuted where storage
+     throws — the one silent fallback in the game, awaiting the operator's
+     approval on the PR.
+   - Taps land on hit areas no smaller than `TAP_RADIUS` (32 CSS px); the
+     front-most object takes the tap, depth being where its foot stands.
 
 ## Rest of the elephant
 
