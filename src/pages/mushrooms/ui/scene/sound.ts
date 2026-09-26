@@ -37,7 +37,10 @@ function rememberMuted(muted: boolean): void {
 
 type Voice = (context: AudioContext, out: AudioNode) => void;
 
-/** One enveloped oscillator: `shape` gliding through `pitches` over `seconds`. */
+/**
+ * One enveloped oscillator: `shape` gliding through `pitches` over `seconds`,
+ * `delay` seconds from now.
+ */
 function tone(
   context: AudioContext,
   out: AudioNode,
@@ -45,12 +48,15 @@ function tone(
   pitches: readonly number[],
   seconds: number,
   peak: number,
+  delay = 0,
 ): OscillatorNode {
-  const now = context.currentTime;
+  const now = context.currentTime + delay;
   const oscillator = new OscillatorNode(context, {
     type: shape,
     frequency: pitches[0],
   });
+  // Anchors each ramp at the note's own start rather than at the call.
+  oscillator.frequency.setValueAtTime(oscillator.frequency.value, now);
   for (const [index, pitch] of pitches.slice(1).entries()) {
     oscillator.frequency.exponentialRampToValueAtTime(
       pitch,
@@ -58,6 +64,7 @@ function tone(
     );
   }
   const envelope = new GainNode(context, { gain: 0 });
+  envelope.gain.setValueAtTime(0, now);
   envelope.gain.linearRampToValueAtTime(peak, now + 0.01);
   envelope.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
   oscillator.connect(envelope).connect(out);
@@ -98,6 +105,17 @@ const grow: Voice = (context, out) => {
 /** A mushroom going back into the ground: a falling slide. */
 const sink: Voice = (context, out) => {
   tone(context, out, 'sine', [520, 440, 120], 0.45, 0.24);
+};
+
+/**
+ * A control that cannot act, shaking its head: a low "nuh-uh", the second
+ * note lower, reedy where the meadow's other voices are round.
+ */
+const nuhUh: Voice = (context, out) => {
+  tone(context, out, 'square', [196, 185], 0.16, 0.07);
+  tone(context, out, 'triangle', [196, 185], 0.16, 0.22);
+  tone(context, out, 'square', [147, 131], 0.26, 0.07, 0.2);
+  tone(context, out, 'triangle', [147, 131], 0.26, 0.22, 0.2);
 };
 
 /** A soft bell on the scale's `step`th note, the same note for the same step. */
@@ -235,6 +253,10 @@ export class MeadowSound {
 
   sink(): void {
     this.play(sink);
+  }
+
+  nuhUh(): void {
+    this.play(nuhUh);
   }
 
   stop(): void {

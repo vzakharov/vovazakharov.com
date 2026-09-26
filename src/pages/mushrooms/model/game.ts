@@ -20,6 +20,7 @@ type Slotted = { slot: number };
 export type Planted = Mushroom & Slotted;
 
 export type Meadow = {
+  /** In the order they were planted, so the last is the newest. */
   mushrooms: readonly Planted[];
   selected: string | undefined;
   /** Whether the four caps are showing, waiting for a pick. */
@@ -51,6 +52,10 @@ export function firstMeadow(random: Random): Meadow {
 
 export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length >= MUSHROOM_SLOTS;
+}
+
+export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
+  return mushrooms.length === 0;
 }
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
@@ -89,9 +94,11 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       return { ...meadow, selected: undefined, picking: false };
     }
     case 'remove': {
+      // A selection only chooses which goes; without one, the newest does.
+      const gone = meadow.selected ?? meadow.mushrooms.at(-1)?.id;
       return {
         ...meadow,
-        mushrooms: meadow.mushrooms.filter(({ id }) => id !== meadow.selected),
+        mushrooms: meadow.mushrooms.filter(({ id }) => id !== gone),
         selected: undefined,
       };
     }

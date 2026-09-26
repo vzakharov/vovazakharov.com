@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   type Action,
   firstMeadow,
+  isEmpty,
   isFull,
   type Meadow,
   MUSHROOM_SLOTS,
@@ -79,11 +80,35 @@ describe('reduce', () => {
     assert.equal(grown.id, 'mushroom-3');
   });
 
-  it('removes nothing with nothing selected', () => {
-    const meadow = opening();
-    assert.deepEqual(reduce(meadow, { kind: 'remove' }).mushrooms, [
-      ...meadow.mushrooms,
+  it('removes the newest planted with nothing selected, whatever its slot', () => {
+    // mushroom-5 is planted last, into the slot mushroom-1 left: the lowest.
+    const meadow = run(opening(), [
+      grow(1),
+      grow(2),
+      { kind: 'select', id: 'mushroom-1' },
+      { kind: 'remove' },
+      grow(3),
     ]);
+    const thinned = reduce(
+      { ...meadow, selected: undefined },
+      { kind: 'remove' },
+    );
+    assert.deepEqual(
+      thinned.mushrooms.map(({ id, slot }) => [id, slot]),
+      [
+        ['mushroom-2', 1],
+        ['mushroom-3', 2],
+        ['mushroom-4', 3],
+      ],
+    );
+    assert.equal(thinned.selected, undefined);
+  });
+
+  it('empties down to nothing, and removes nothing from an empty meadow', () => {
+    const bare = run(opening(), [{ kind: 'remove' }, { kind: 'remove' }]);
+    assert.ok(isEmpty(bare));
+    assert.ok(!isEmpty(opening()));
+    assert.deepEqual(reduce(bare, { kind: 'remove' }).mushrooms, []);
   });
 
   it('holds at MUSHROOM_SLOTS, and a full meadow opens no picker', () => {

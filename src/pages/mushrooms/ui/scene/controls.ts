@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 
-import { isFull, type Meadow } from '../../model/game';
+import { isEmpty, isFull, type Meadow } from '../../model/game';
 import type { Circle } from '../../model/geometry';
-import { emerge, wobble } from '../../model/motion';
+import { emerge, shake, wobble } from '../../model/motion';
 import { CAP_KINDS, type CapKind } from '../../model/mushroom-genes';
 import {
   containsCircle,
@@ -17,26 +17,36 @@ import { tapReach } from './sky-layout';
 const PRESS_DEPTH = 0.6;
 /** How far apart the picker's buttons come up, one after another. */
 const PICK_STAGGER = 0.07;
-/** A button that would do nothing now, shown faded but still pressable. */
+/** A control that cannot act now, faded; a tap on it still shakes its head. */
 const DIMMED_ALPHA = 0.4;
+/** A head shake's reach to either side, in the button's radii, and its turn in radians. */
+const SHAKE_REACH = 0.3;
+const SHAKE_TURN = 0.25;
 
 export type ControlHandlers = {
   mute: () => void;
   pick: () => void;
   remove: () => void;
   grow: (cap: CapKind) => void;
+  /** A tap on a control that cannot act. */
+  refuse: () => void;
 };
 
 type Button = WithGraphics &
   WithCircleHit & {
+    /** Where the layout stands it; each frame's movement is an offset from here. */
+    home: Circle;
     pressedAt: number;
+    /** When it last shook its head at a tap it could not act on. */
+    refusedAt: number;
     /** When it came up, for the picker's buttons; `-Infinity` for the rest. */
     shownAt: number;
   };
 
 /**
  * The buttons over the meadow: mute, `+` and `−`, and the picker's four caps.
- * Each presses in when tapped, whether or not it can act.
+ * Each presses in when a tap sets it acting; `+` on a full meadow and `−` on
+ * an empty one shake their heads instead.
  */
 export class Controls {
   private readonly mute: Button;
@@ -44,7 +54,10 @@ export class Controls {
   private readonly minus: Button;
   private readonly picker: Button[];
   private picking = false;
+  /** As of the last paint, which says what `+` and `−` can do. */
+  private meadow: Meadow | undefined;
   private readonly scene: Phaser.Scene;
+  private readonly refuse: () => void;
   private readonly now: () => number;
   private readonly depth: number;
 
@@ -57,9 +70,10 @@ export class Controls {
     this.scene = scene;
     this.now = now;
     this.depth = depth;
+    this.refuse = handlers.refuse;
     this.mute = this.button(handlers.mute);
-    this.plus = this.button(handlers.pick);
-    this.minus = this.button(handlers.remove);
+    this.plus = this.button(handlers.pick, (meadow) => !isFull(meadow));
+    this.minus = this.button(handlers.remove, (meadow) => !isEmpty(meadow));
     this.picker = CAP_KINDS.map((cap) =>
       this.button(() => {
         handlers.grow(cap);
@@ -69,6 +83,7 @@ export class Controls {
 
   /** Draws every button where `layout` puts it, as `meadow` leaves it. */
   paint(layout: MeadowLayout, meadow: Meadow, muted: boolean): void {
+    this.meadow = meadow;
     this.place(this.mute, layout.mute);
     drawMuteButton(this.mute.graphics, layout.mute.r, muted);
     this.place(this.plus, layout.plus);
@@ -76,9 +91,7 @@ export class Controls {
     this.plus.graphics.setAlpha(isFull(meadow) ? DIMMED_ALPHA : 1);
     this.place(this.minus, layout.minus);
     drawGrowButton(this.minus.graphics, layout.minus.r, -1);
-    this.minus.graphics.setAlpha(
-      meadow.selected === undefined ? DIMMED_ALPHA : 1,
-    );
+    this.minus.graphics.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
     const opening = meadow.picking && !this.picking;
     this.picking = meadow.picking;
     for (const [index, button] of this.picker.entries()) {
@@ -96,6 +109,11 @@ export class Controls {
 
   update(t: number): void {
     for (const button of [this.mute, this.plus, this.minus, ...this.picker]) {
+      const { x, y, r } = button.home;
+      const no = shake(t - button.refusedAt);
+      button.graphics
+        .setPosition(x + no * r * SHAKE_REACH, y)
+        .setRotation(no * SHAKE_TURN);
       const press = 1 + wobble(t - button.pressedAt) * PRESS_DEPTH;
       // A picker button waiting its turn in the stagger has not come up yet.
       const since = t - button.shownAt;
@@ -103,12 +121,18 @@ export class Controls {
     }
   }
 
-  private place(button: Button, { x, y, r }: Circle): void {
+  private place(button: Button, home: Circle): void {
+    const { x, y, r } = home;
+    button.home = home;
     button.graphics.setPosition(x, y);
     button.hit.setTo(0, 0, tapReach(r));
   }
 
-  private button(act: () => void): Button {
+  /** A button that does `act` when tapped, while `can` says it is able to. */
+  private button(
+    act: () => void,
+    can: (meadow: Meadow) => boolean = () => true,
+  ): Button {
     const hit = new Phaser.Geom.Circle();
     const graphics = this.scene.add
       .graphics()
@@ -117,10 +141,17 @@ export class Controls {
     const button: Button = {
       graphics,
       hit,
+      home: { x: 0, y: 0, r: 0 },
       pressedAt: -Infinity,
+      refusedAt: -Infinity,
       shownAt: -Infinity,
     };
     graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+      if (this.meadow && !can(this.meadow)) {
+        button.refusedAt = this.now();
+        this.refuse();
+        return;
+      }
       button.pressedAt = this.now();
       act();
     });

@@ -1,9 +1,10 @@
 /**
  * Plays `/mushrooms` on the four screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
- * not the one its control promises. `+`, a pick, a tap on a mushroom, `−`, a
- * tap on a flower and the mute are each tapped the way a finger does, and a
- * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
+ * not the one its control promises. `+`, a pick, a tap on a mushroom, `−`
+ * with a selection and without, `−` on an empty meadow, a tap on a flower and
+ * the mute are each tapped the way a finger does, and a frame of each lands in
+ * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
@@ -137,6 +138,11 @@ const PROBE = `(() => {
     flowerTappedAt: (id) => {
       const { tappedAt } = scene.shownFlowers.get(id);
       return Number.isFinite(tappedAt) ? tappedAt : null;
+    },
+    /** When \`−\` last shook its head, \`null\` if never. */
+    minusRefusedAt: () => {
+      const { refusedAt } = scene.controls.minus;
+      return Number.isFinite(refusedAt) ? refusedAt : null;
     },
   };
 })()`;
@@ -343,6 +349,30 @@ async function play(
   );
   await page.shoot('4-removed');
 
+  // Nothing is selected now, so `−` takes the newest, then the last one left.
+  await page.tap(controls.minus);
+  await page.step(60);
+  expect(
+    (await state()).mushrooms.join(',') ===
+      thinned.mushrooms.slice(0, -1).join(','),
+    '`−` with nothing selected did not take the newest away',
+  );
+  await page.tap(controls.minus);
+  await page.step(60);
+  expect((await state()).mushrooms.length === 0, '`−` left a mushroom');
+  await page.tap(controls.minus);
+  await page.step(6);
+  const { clock: shookBy } = await state();
+  const refusedAt = await page.evaluate(
+    '__probe.minusRefusedAt()',
+    z.number().nullable(),
+  );
+  expect(
+    refusedAt !== null && shookBy - refusedAt < 1,
+    '`−` on an empty meadow did not shake its head',
+  );
+  await page.shoot('5-refused');
+
   const flower = await page.evaluate('__probe.flower()', Flower);
   if (flower) {
     await page.tap(flower);
@@ -356,14 +386,14 @@ async function play(
       tappedAt !== null && clock - tappedAt < 1,
       'a tap on a flower did not open it',
     );
-    await page.shoot('5-flower');
+    await page.shoot('6-flower');
   }
 
   const { muted } = await state();
   await page.tap(controls.mute);
   await page.step(10);
   expect((await state()).muted !== muted, 'the mute did not toggle');
-  await page.shoot('6-muted');
+  await page.shoot('7-muted');
   await page.tap(controls.mute);
   await page.step(10);
   expect((await state()).muted === muted, 'the mute did not toggle back');

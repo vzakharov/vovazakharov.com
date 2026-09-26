@@ -97,6 +97,9 @@ export class MeadowScene extends Phaser.Scene {
         grow: (cap) => {
           this.dispatch({ kind: 'grow', cap, seed: nextSeed(this.growing) });
         },
+        refuse: () => {
+          this.voice.nuhUh();
+        },
       },
       this.now,
       HUD_DEPTH,

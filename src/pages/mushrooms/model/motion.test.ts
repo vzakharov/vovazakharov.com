@@ -8,6 +8,8 @@ import {
   drift,
   emerge,
   EMERGE_DURATION,
+  shake,
+  SHAKE_DURATION,
   sink,
   SINK_DURATION,
   sway,
@@ -102,5 +104,25 @@ describe('sink', () => {
     assert.ok(samples(SINK_DURATION).some((t) => sink(t) > 1));
     assert.ok(sink(SINK_DURATION - 0.01) < 0.1);
     assert.equal(sink(SINK_DURATION), 0);
+  });
+});
+
+describe('shake', () => {
+  it('goes to either side, each swing smaller, within one', () => {
+    const swings = samples(SHAKE_DURATION).map((t) => shake(t));
+    assert.ok(swings.some((x) => x > 0.5));
+    assert.ok(swings.some((x) => x < -0.3));
+    assert.ok(swings.every((x) => Math.abs(x) <= 1));
+    const half = SHAKE_DURATION / 2;
+    const reach = (from: number) =>
+      Math.max(...samples(half).map((t) => Math.abs(shake(t + from))));
+    assert.ok(reach(half) < reach(0));
+  });
+
+  it('starts and ends at rest, and is nothing outside its span', () => {
+    assert.equal(shake(0), 0);
+    assert.ok(Math.abs(shake(SHAKE_DURATION - 1e-3)) < 0.01);
+    assert.equal(shake(-0.1), 0);
+    assert.equal(shake(SHAKE_DURATION), 0);
   });
 });

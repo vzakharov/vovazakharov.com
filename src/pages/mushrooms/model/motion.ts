@@ -119,3 +119,18 @@ export function sink(elapsed: number): number {
   const t = elapsed / SINK_DURATION;
   return (1 - t) * (1 + 1.5 * t);
 }
+
+/** How long a control that cannot act shakes its head, and how many times. */
+export const SHAKE_DURATION = 0.5;
+const SHAKE_SWINGS = 2;
+
+/**
+ * A head shake `elapsed` seconds after a tap on a control that cannot act,
+ * from -1 to 1: side to side `SHAKE_SWINGS` times, each smaller than the
+ * last, and 0 outside its span.
+ */
+export function shake(elapsed: number): number {
+  if (elapsed < 0 || elapsed >= SHAKE_DURATION) return 0;
+  const t = elapsed / SHAKE_DURATION;
+  return Math.sin(Math.PI * 2 * SHAKE_SWINGS * t) * (1 - t);
+}
