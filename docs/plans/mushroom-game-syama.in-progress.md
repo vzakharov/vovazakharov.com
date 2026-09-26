@@ -173,7 +173,7 @@ Standing rules for every session in the chain:
 2. **The meadow alive, and heard.** Clouds drift, the grass sways in a gust
    seen travelling across it, mushrooms breathe; a tap wobbles a mushroom
    (squash and stretch that keeps its volume, and a rock, over about two
-   seconds) and puffs two rings of opaque spores that shrink away. Seven seeded flowers (five on a phone) sway and bloom open when
+   seconds) and puffs two rings of opaque spores that shrink away. Seven seeded flowers sway and bloom open when
    tapped, each chiming its own note. A breeze, the odd bird, pop, boing and
    chime are synthesized; a mute pictogram sits top left. What the next bites
    build on:
@@ -206,40 +206,36 @@ Standing rules for every session in the chain:
    - Taps land on hit areas no smaller than `TAP_RADIUS` (32 CSS px); the
      front-most object takes the tap, depth being where its foot stands.
 
-## This bite
-
-3. **More mushrooms: `+`, the cap picker, `−`, a forest.**
-   - **`model/game.ts`**, Phaser-free and tested: the `Meadow` state (the
-     mushrooms, each with its `slot`; the selected id; whether the picker is
-     open) and `reduce(state, action)` over `pick` (toggle the picker),
-     `grow` (cap and seed carried by the action, so the reducer stays pure;
-     the lowest free slot; the new one selected, the picker closed),
-     `select`, `deselect` (a tap on the bare meadow; closes the picker too)
-     and `remove` (the selected one). `MUSHROOM_SLOTS` is the cap on the
-     count: a full meadow ignores `grow`, and `+` shows dimmed.
-   - **A slot is where a mushroom stands for its whole life**, so growing or
-     removing one never moves another. Slots 0–1 are the opening clump;
-     2 onward are the forest, per orientation in `layout.ts` as fractions of
-     the ground plus a scale: a back row small and hazed toward the sky, a
-     row flanking the clump, one in front, each facing away from the middle
-     and each sized under `maxReach` like the clump. Flowers stand clear of
-     every slot's foot, taken or not, so a mushroom growing never makes a
-     flower jump. `layout.test.ts` sweeps every slot on the five screens.
-   - **Arrival and departure are clock-driven** like every other movement:
-     `emerge` (out of the ground with an overshoot) and `sink` (back into
-     it) in `motion.ts`, a spore puff at the foot and a rising or falling
-     tone. A removed mushroom's objects are destroyed once it has sunk.
-   - **Controls on the right, as Syama drew them**: a `+` and a `−` button,
-     each a small fly agaric with its sign; the picker opens across the top
-     as four big round buttons, each holding a mushroom with that cap, drawn
-     by `drawMushroom` itself. A selected mushroom glows softly behind its
-     cap. Every button presses in when tapped, dimmed ones included.
-   - The scene stays an orchestrator: the mushrooms move to their own module
-     and the controls to theirs, so none passes ~450 lines.
-
-   DRY notes: the picker's and the buttons' pictograms are `drawMushroom`
-   over fixed genes, not a second painter; the haze is a colour `mix` inside
-   `drawMushroom`; the grow and sink tones reuse `tone` in `sound.ts`.
+3. **More mushrooms, and a forest.** A `+` and a `−` sit on the right, as
+   Syama drew them, each a fly agaric with its sign; `+` opens the picker
+   across the top, four big buttons each holding a mushroom with that cap,
+   coming up one after another, and a pick grows a fresh-seeded mushroom out
+   of the ground with a puff and a bloop. A tap selects a mushroom (a soft
+   glow behind its cap and a ring of light round its foot); `−` sinks it
+   back; a tap on the bare meadow lets go. The meadow holds six: the clump
+   and a forest round it, the back row smaller and hazed toward the sky.
+   What the next bites build on:
+   - `model/game.ts`: the `Meadow` state and `reduce` over `pick`, `grow`
+     (its seed carried by the action), `select`, `deselect` and `remove`;
+     the scene changes the state only through `dispatch` and reconciles the
+     screen with what comes back. `MUSHROOM_SLOTS` is the cap, and each
+     mushroom keeps its `slot` for life, so nothing else moves when one
+     comes or goes. A grown mushroom is selected, so bite 4's house goes on
+     it without another tap. The clump can be thinned like any other pair.
+   - `layout.ts`: one `Placement` per slot (`haze` included); the forest's
+     slots per orientation, each facing the middle and held under
+     `sizeToFit`, which the clump shares. Flowers stand clear of every
+     slot's foot, taken or not, placed against the meadow as it would stand
+     with no edge margin, so neither a growth nor a resize moves one. The
+     controls' circles (`mute`, `plus`, `minus`, `picker`) are placed here
+     and tested for reach and overlap.
+   - `motion.ts` gains `emerge`, `sink` and `phaseOf`. `mushroom-bed.ts`
+     owns the mushrooms on screen (grow, sink and destroy, the tap, the
+     glow); `controls.ts` owns every button (press-in by `wobble`, dimmed
+     when it would do nothing); `hud.ts` draws the pictograms through
+     `drawMushroom` over fixed upright genes; `hit-areas.ts` holds the hit
+     tests. The scene orchestrates, the flowers and the backdrop still its
+     own.
 
 ## Rest of the elephant
 
