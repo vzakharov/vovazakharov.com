@@ -183,6 +183,8 @@ export class MeadowScene extends Phaser.Scene {
     const layout = meadowLayout(
       this.scale.width / ratio,
       this.scale.height / ratio,
+      // Its own stream, apart from the creatures' and the backdrop's.
+      this.visitSeed ^ 0xf1_0e_25,
     );
     this.layout = layout;
     // Its own stream, so the backdrop never shifts the creatures' seeds.

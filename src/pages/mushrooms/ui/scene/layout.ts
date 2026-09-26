@@ -6,8 +6,10 @@
 
 import type { Sized } from '@/shared/typings';
 
+import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point } from '../../model/geometry';
 import { maxReach } from '../../model/mushroom-pose';
+import { between, mulberry32 } from '../../model/random';
 
 /** A mushroom's footing, and the `splay` it is stood with (`splayed`). */
 type Placement = Footing & { splay: number };
@@ -18,9 +20,9 @@ type Placement = Footing & { splay: number };
 export type Footing = Point & { size: number };
 
 /**
- * Where the flowers grow, as a fraction of the width across and of the ground's
- * depth down, the likeliest to show first — some behind the clump's stems,
- * some before it.
+ * The slots the flowers grow around, as a fraction of the width across and of
+ * the ground's depth down, the likeliest to show first — some behind the
+ * clump's stems, some before it. Each visit jitters every flower off its slot.
  */
 const FLOWER_SPOTS = {
   landscape: [
@@ -40,6 +42,21 @@ const FLOWER_SPOTS = {
     [0.52, 0.94],
   ],
 } as const;
+/**
+ * How far a flower strays from its slot, as a fraction of the width and of the
+ * ground's depth.
+ */
+const FLOWER_JITTER = [0.07, 0.12] as const;
+/** Tries at a spot off the slot before a flower is left out. */
+const FLOWER_TRIES = 24;
+/** A flower's height, as a share of the clump's size, before depth scales it. */
+const FLOWER_SCALE = 0.26;
+/**
+ * How far round a mushroom's foot, per unit of its size, no flower stands: the
+ * foot and its shadow, the one thing Syama drew being two stems standing
+ * together.
+ */
+export const FOOT_CLEARANCE = 0.45;
 /** The mute button's radius, and how far its edge keeps from the corner. */
 const BUTTON_R = 28;
 const BUTTON_INSET = 18;
@@ -71,7 +88,81 @@ export type MeadowLayout = Sized & {
   mute: Circle;
 };
 
-export function meadowLayout(width: number, height: number): MeadowLayout {
+/** A flower's head reaches this far from its centre, per unit of its size. */
+const HEAD_REACH = FLOWER_RANGES.petalLength[1];
+
+/**
+ * Whether a flower `size` tall standing at `foot` keeps its stem and head off
+ * every mushroom's foot.
+ */
+export function clearOfFeet(
+  { x, y, size }: Footing,
+  feet: readonly Footing[],
+): boolean {
+  const head = size * HEAD_REACH;
+  return feet.every((mushroom) => {
+    // The nearest point to the mushroom's foot on the flower's upright line.
+    const nearestY = Math.min(y, Math.max(y - size, mushroom.y));
+    return (
+      Math.hypot(mushroom.x - x, mushroom.y - nearestY) >=
+      mushroom.size * FOOT_CLEARANCE + head
+    );
+  });
+}
+
+/**
+ * The flowers, each jittered off its slot by its own seeded stream — so a
+ * resize keeps every flower where it was — and moved again until it stands
+ * clear of the clump's feet, or left out when it never does.
+ */
+function placeFlowers(
+  slots: readonly (readonly [number, number])[],
+  { width, groundTop, ground, unit, seed }: Record<
+    'width' | 'groundTop' | 'ground' | 'unit' | 'seed',
+    number
+  >,
+  feet: readonly Footing[],
+): Footing[] {
+  return slots.flatMap(([across, down], index) => {
+    const random = mulberry32(seed + index);
+    for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
+      // Each miss strays a little farther, so a slot on the clump finds a way off it.
+      const stray = 1 + attempt / 4;
+      const x = clamp(
+        across + between(random, -1, 1) * FLOWER_JITTER[0] * stray,
+        0.05,
+        0.95,
+      );
+      const y = clamp(
+        down + between(random, -1, 1) * FLOWER_JITTER[1] * stray,
+        0.12,
+        0.96,
+      );
+      const flower = {
+        x: width * x,
+        y: groundTop + ground * y,
+        // Nearer flowers, lower on the screen, are taller.
+        size: unit * FLOWER_SCALE * (0.7 + y * 0.5),
+      };
+      if (clearOfFeet(flower, feet)) return [flower];
+    }
+    return [];
+  });
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/**
+ * `seed` is the visit's: it places what varies between visits, and a resize
+ * that passes the same one keeps it where it was.
+ */
+export function meadowLayout(
+  width: number,
+  height: number,
+  seed: number,
+): MeadowLayout {
   const portrait = height > width;
   const groundTop = height * (portrait ? 0.62 : 0.6);
   const horizon = height * (portrait ? 0.46 : 0.42);
@@ -112,6 +203,12 @@ export function meadowLayout(width: number, height: number): MeadowLayout {
     }),
   );
   const size = Math.min(wanted, fits);
+  const mushrooms = feet.map(({ x, y, scale, side }) => ({
+    x,
+    y,
+    size: size * scale,
+    splay: side * CLUMP_SPLAY,
+  }));
   const sunR = short * 0.075;
   return {
     width,
@@ -131,24 +228,18 @@ export function meadowLayout(width: number, height: number): MeadowLayout {
       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },
       { x: width * 0.68, y: height * 0.24, r: short * 0.05 },
     ],
-    flowers: FLOWER_SPOTS[portrait ? 'portrait' : 'landscape'].map(
-      ([across, down]) => ({
-        x: width * across,
-        y: groundTop + ground * down,
-        // Nearer flowers, lower on the screen, are taller.
-        size: ground * 0.26 * (0.7 + down * 0.5),
-      }),
+    // Sized off the mushrooms' unit, not the ground's depth, so a flower
+    // reads as smaller than a fly agaric on every screen.
+    flowers: placeFlowers(
+      FLOWER_SPOTS[portrait ? 'portrait' : 'landscape'],
+      { width, groundTop, ground, unit: size, seed },
+      mushrooms,
     ),
     mute: {
       x: BUTTON_INSET + BUTTON_R,
       y: BUTTON_INSET + BUTTON_R,
       r: BUTTON_R,
     },
-    mushrooms: feet.map(({ x, y, scale, side }) => ({
-      x,
-      y,
-      size: size * scale,
-      splay: side * CLUMP_SPLAY,
-    })),
+    mushrooms,
   };
 }
