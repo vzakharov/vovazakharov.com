@@ -14,7 +14,7 @@
  * sleep and stepped a frame at a time, since a screenshot under the software
  * rasterizer takes about a second and a clock left running would move on
  * between a tap and its frame. `Math.random` is seeded, so every run and every
- * build plays the same meadow.
+ * build plays the same meadow. What runs in the page is `lib/mushroom-probe.ts`.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -26,6 +26,14 @@ import { z } from 'zod';
 
 import { given } from './lib/argv.ts';
 import { type Browser, launch } from './lib/cdp.ts';
+import {
+  Controls,
+  Flower,
+  Point,
+  PROBE,
+  seededRandom,
+  State,
+} from './lib/mushroom-probe.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -85,83 +93,6 @@ async function serve(): Promise<http.Server> {
   });
 }
 
-/** Swaps `Math.random` for a seeded mulberry32 before the page's own code runs. */
-const SEEDED_RANDOM = `(() => {
-  let state = ${String(SEED)} >>> 0;
-  Math.random = () => {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-})();`;
-
-/** Page-side helpers, installed once the game is up. */
-const PROBE = `(() => {
-  const scene = window.__game.scene.scenes[0];
-  const centre = ({ x, y }) => ({ x, y });
-  window.__probe = {
-    scene,
-    state: () => ({
-      picking: scene.meadow.picking,
-      selected: scene.meadow.selected ?? null,
-      mushrooms: scene.meadow.mushrooms.map(({ id }) => id),
-      muted: scene.voice.muted,
-      clock: scene.clock,
-    }),
-    controls: () => ({
-      plus: centre(scene.layout.plus),
-      minus: centre(scene.layout.minus),
-      mute: centre(scene.layout.mute),
-      picker: scene.layout.picker.map(centre),
-    }),
-    /** The middle of a mushroom's cap as its hit area has it, on screen. */
-    mushroom: (id) => {
-      const shown = scene.bed.shown.get(id);
-      const points = shown.hit.cap;
-      const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
-      const y = points.reduce((sum, point) => sum + point.y, 0) / points.length;
-      return shown.graphics.getWorldTransformMatrix().transformPoint(x, y, {});
-    },
-    /** The nearest shown flower's head, the one least likely to be covered. */
-    flower: () => {
-      const shown = [...scene.shownFlowers.entries()]
-        .filter(([, flower]) => flower.container.visible)
-        .sort(([, a], [, b]) => b.container.depth - a.container.depth)[0];
-      if (!shown) return null;
-      const [id, flower] = shown;
-      const at = flower.head.getWorldTransformMatrix();
-      return { id, x: at.tx, y: at.ty };
-    },
-    /** When a flower was last tapped, \`null\` if never: JSON has no -Infinity. */
-    flowerTappedAt: (id) => {
-      const { tappedAt } = scene.shownFlowers.get(id);
-      return Number.isFinite(tappedAt) ? tappedAt : null;
-    },
-    /** When \`−\` last shook its head, \`null\` if never. */
-    minusRefusedAt: () => {
-      const { refusedAt } = scene.controls.minus;
-      return Number.isFinite(refusedAt) ? refusedAt : null;
-    },
-  };
-})()`;
-
-const State = z.object({
-  picking: z.boolean(),
-  selected: z.string().nullable(),
-  mushrooms: z.array(z.string()),
-  muted: z.boolean(),
-  clock: z.number(),
-});
-const Point = z.object({ x: z.number(), y: z.number() });
-const Controls = z.object({
-  plus: Point,
-  minus: Point,
-  mute: Point,
-  picker: z.array(Point),
-});
-const Flower = Point.extend({ id: z.string() }).nullable();
 const Thrown = z.object({
   exceptionDetails: z.object({
     text: z.string(),
@@ -222,7 +153,7 @@ async function open(
     maxTouchPoints: 5,
   });
   await send('Page.addScriptToEvaluateOnNewDocument', {
-    source: SEEDED_RANDOM,
+    source: seededRandom(SEED),
   });
   await send('Page.navigate', { url: `${origin}/mushrooms` });
 
