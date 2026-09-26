@@ -86,11 +86,7 @@ function shadeArc(genes: MushroomGenes): Point[] {
   return domeArc(genes, genes.capWidth / 2, [0.3, Math.PI / 2]);
 }
 
-/**
- * Paints a mushroom's shadow on the ground, centred on the foot. It goes in a
- * graphics of its own, so the mushroom's squash and rock leave it on the
- * ground.
- */
+/** Centred on `graphics`' own position, the mushroom's foot. */
 export function drawMushroomShadow(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,

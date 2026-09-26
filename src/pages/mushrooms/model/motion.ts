@@ -18,7 +18,7 @@ const WOBBLE_DAMPING = 2.4;
 const WOBBLE_FREQUENCY = 1.8;
 /** The share of `WOBBLE_DEPTH` below which a bounce is too small to see. */
 export const WOBBLE_REST = 0.01;
-/** When the bounce has died under `WOBBLE_REST`, which the damping decides. */
+/** When the bounce has died under `WOBBLE_REST`. */
 export const WOBBLE_DURATION = Math.log(1 / WOBBLE_REST) / WOBBLE_DAMPING;
 const SWAY_PERIOD = 4.6;
 /** A flower's opening past its rest, at the peak of a tap's bloom. */
