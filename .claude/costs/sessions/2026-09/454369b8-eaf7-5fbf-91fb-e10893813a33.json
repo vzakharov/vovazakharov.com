@@ -1,0 +1,80 @@
+{
+  "sessionId": "454369b8-eaf7-5fbf-91fb-e10893813a33",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com/src/pages/mushrooms/model",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01TUeErTza7fiicyQd8Yr9wX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-26T19:35:13.267Z",
+  "lastResponseAt": "2026-09-26T19:38:10.621Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 60886,
+    "cacheWrite1hTokens": 96059,
+    "cacheReadTokens": 2833894,
+    "outputTokens": 10027,
+    "thinkingTokens": 5639,
+    "responses": 26,
+    "costUsd": 1.8404287999999998
+  },
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 96059,
+    "cacheReadTokens": 2776137,
+    "outputTokens": 10005,
+    "thinkingTokens": 5639,
+    "responses": 24,
+    "costUsd": 1.5239913999999999
+  },
+  "subagents": {
+    "inputTokens": 4,
+    "cacheWrite5mTokens": 60886,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 57757,
+    "outputTokens": 22,
+    "thinkingTokens": 0,
+    "responses": 2,
+    "costUsd": 0.31643740000000004
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 60886,
+      "cacheWrite1hTokens": 96059,
+      "cacheReadTokens": 2833894,
+      "outputTokens": 10027,
+      "thinkingTokens": 5639,
+      "responses": 26,
+      "costUsd": 1.8404287999999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-26T19:38:10.621Z",
+    "contextTokens": 147450,
+    "spend": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 60886,
+      "cacheWrite1hTokens": 94264,
+      "cacheReadTokens": 2688241,
+      "outputTokens": 9468,
+      "thinkingTokens": 5119,
+      "responses": 25,
+      "costUsd": 1.7857501999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 26,
+    "matched": 26,
+    "matchedTableUsd": 1.8404287999999998,
+    "matchedEventUsd": 1.8496287999999999,
+    "unseen": {}
+  }
+}
