@@ -167,6 +167,22 @@ Each note: what happened, and what the skill should do about it.
   for their stems and a spore puff pale on pale both read fine in code and
   both were obvious in the first frame. One rebuild-and-reshoot cycle per
   bite, before vet, is cheap and should be the skill's default.
+- **A timed screenshot under software GL is not a frame at that time.** One
+  Playwright screenshot of the canvas takes ~1 s under swiftshader, so a shot
+  "90 ms after a tap" shows the scene about a second later, and bite 2's
+  review nearly reported the flower bloom as broken. What works: expose the
+  game (`Object.assign(window, { __game: game })` in `start-game.ts`, built
+  but never committed), `__game.loop.sleep()`, then drive
+  `__game.step(t, 1000 / 60)` on a clock the script advances, and take the
+  shot between steps. Reading `head.scaleX` through `page.evaluate` is what
+  showed the tap had landed. The skill's frame script should step the loop
+  by default, and the game should ship a dev-only hook for it rather than a
+  line each session adds and reverts.
+- **Anchor review comments by line from a single file's `cat -n`.** Reading
+  two files through one `cat -n` numbers them as one, and a comment anchored
+  at the second file's line 270 fails with "Line could not be resolved". A
+  failed review post is atomic, so find the bad anchor by posting each
+  comment alone as a pending review and deleting it afterwards.
 - **`type-overlap` is the gate a new creature trips.** A second creature
   repeats members (`size`, `phase`, `stemBend`, `seed`) that the first
   declared inline. The skill's bite checklist for "a new kind of thing"

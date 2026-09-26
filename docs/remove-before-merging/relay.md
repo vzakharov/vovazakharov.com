@@ -15,8 +15,6 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > (поправка, пятипроцентник зафиксируй и НЕ пополняй, учитывая что все код ревью будут НЕ от меня)
 
-Added in this session, verbatim:
-
 > одна штука которую хочу чтобы ты держал, в том числе между сессиями -- файлик будущего скилла, который будет это всё автоматизировать (рабочее название megabeast). Не сам скилл, а именно соображения с тем, что ты нашёл по пути, что помогло бы сделать этот процесс повторяемым и на лучшем уровне
 
 > заполнять в конце каждой сессии перед релеем
@@ -27,17 +25,16 @@ So: never merge; never append to `writing/notes/the-five-percent.md`; ask
 the operator nothing short of the unrecoverable; fill
 `.claude/skills/megabeast/notes.md` at the end of every session, before its
 relay; no module past ~450 lines. The plan's `## How this elephant is eaten`
-and `## Decisions the whole game carries` hold all of it as the contract.
-Every successor passes this section on verbatim.
+holds all of it as the contract. Every successor passes this section on
+verbatim.
 
 ## 2. The conversation
 
-This session was started with `/relay take claude/mushroom-game-syama-lbirv7`;
-the previous relay's Next step was `/go`. No operator message arrived during
-the session. **Agent:** took bite 2 (the meadow alive, and heard), built it,
-shot frames and fixed what they showed, ran vet to green, ran `/polish`
-through a subagent, folded the bite into the plan, refreshed the PR body,
-paused the plan, filled the megabeast notes, and relayed per the loop's step 1.
+Started with `/relay take claude/mushroom-game-syama-lbirv7`; the previous
+relay's Next step was `оставь код ревью на последний кусок`. No operator
+message arrived. **Agent:** shot frames of bite 2 at tablet and phone sizes,
+read the code, posted one review of six inline comments on PR #57, filled
+the megabeast notes, relayed `/handle`.
 
 ## 3. Intent
 
@@ -49,77 +46,66 @@ showpiece, any teaching voice.
 ## 4. Decisions
 
 - **Terms.** _Elephant_: one PR eaten a _bite_ per session. _Megabeast_: the
-  future skill; `.claude/skills/megabeast/notes.md` holds its notes.
-  _Пятипроцентник_: `writing/notes/the-five-percent.md`, frozen — the review
-  reads it as its reading list. _Страшила_: the reviewer looking where the
-  operator would look.
-- **Motion is a pure function of the clock** (`model/motion.ts`), set in the
-  scene's `update`, never by long-lived tweens — so a resize never interrupts
-  a movement. This replaces bite 1's "tweens survive a rotation" promise.
-  Only the spore puff uses short fire-and-forget tweens.
-- **Sound starts on the first tap's release** (`POINTER_UP`: Chrome counts a
-  touch's pointerup, not its pointerdown, as user activation); a sound asked
-  before then plays when it starts. The scene's field is `voice` because
-  `Phaser.Scene` owns `sound`.
-- **The `localStorage` mute falls back to unmuted where storage throws** — a
-  silent fallback, flagged in the PR body for the operator's approval
-  (CLAUDE.md requires it per call site). A reviewer may question it; the
-  answer is in the plan and the PR.
-- **Base types**: `Seeded` (random.ts), `Bent` (geometry.ts), `Phased`
-  (motion.ts), `Footing` (layout.ts), `GeneRanges`/`geneFrom` (random.ts,
-  from polish).
-- The bite-1 record in the plan was corrected (tufts now in `grass.ts`).
-- Earlier decisions stand (`Scale.NONE`, the reference drawing, squash
-  proposal stays stale until `/finalize`, loop reviews worked although the
-  export labels them `(agent)`).
+  future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
+  `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
+  looking where the operator would look.
+- **Bite 2's review**
+  (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325464106),
+  six threads, all agent-authored (the export will label them `(agent)`;
+  work them anyway, the loop says so):
+  1. `layout.ts:139`: flower size comes from the ground band, the mushrooms'
+     from the width, so on a phone the flowers are cap-sized. Size them off
+     the mushrooms' unit; add a test.
+  2. `layout.ts:40`: `FLOWER_SPOTS` is fixed across visits and the portrait
+     `[0.52, 0.94]` covers the clump's foot. Seeded jittered placement that
+     avoids the clump's footprint, plus a sweep test (bite 6 needs it too).
+  3. `spores.ts:40`: the alpha fade makes spores see-through (holes over the
+     cap, bubbles over the sky). Keep them opaque and shrink them out.
+  4. `motion.ts:17`: the wobble is over in about 0.5 s, not 1.4 s. Soften the
+     damping, derive `WOBBLE_DURATION`, test it; the bloom is subtle too.
+  5. `meadow-scene.ts:160-162`: the shadow sits in the mushroom's graphics,
+     so it breathes and rocks. Give it its own unrotated graphics.
+  6. `sound.ts:180`: mute leaves the synth running. Suspend the context on
+     mute, and keep it suspended when the tab comes back.
+  The review body also notes phone layout (sky ~55%, clump small) as bite
+  1's, left for bite 3.
+- Earlier decisions stand (clock-driven motion, sound on the first
+  `POINTER_UP`, the `localStorage` mute fallback awaiting approval, `Scale.NONE`).
 
 ## 5. Errors and dead ends
 
-- First frames: flower heads too small for their stems, spores invisible
-  (pale on pale). Fixed in a5f0742 (heads to 0.3–0.4 of height, thicker stem;
-  spores bigger with an inked rim).
-- `tsc -p apps/vova/tsconfig.json` passed while the root `tsconfig.json`
-  (and vet) rejected an implicit-`any` in a test — check with the root.
-- Vet's `type-overlap` failed on four duplicated members; fixed in e875225.
-- `gh pr edit` still broken; `python3 scripts/pr-body.py pull|push 57` works
-  (its `push` deletes `docs/pr/57/body.md` itself).
-- Not fixed, seen in frames and pre-existing from bite 1: each mushroom's
-  ground-shadow ellipse is painted in the mushroom's own graphics, so it
-  rotates with the lean and now scales with the breath — a slanted shadow
-  under the front mushroom. A fair review finding.
+- **Timed screenshots lie under swiftshader** (~1 s per shot): the flower
+  bloom looked broken until the loop was stepped by hand. Recipe in § 7 and
+  in the megabeast notes. Any "N ms after tap" check must use it.
+- A review post failed with a 422 because one anchor was a line number from
+  a two-file `cat -n`. Posting each comment alone found it.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  `MERGEABLE`/`CLEAN`; body refreshed for bites 1–2 with bite 2's QA rows.
-- Plan: `docs/plans/mushroom-game-syama.paused.md`; bites 1–2 in
-  `## Eaten so far`, bites 3–10 in `## Rest of the elephant`.
-- `./scripts/vet.sh`: green at e875225; after it only polish (lint, tsc,
-  type-overlap, prettier and tests re-run clean) and docs.
-- **Bite 2's commits for the review**: 8b0244f..8e96df7 — code in bb9ecef,
-  a5f0742, e875225, 881882f, 8e96df7. Last pushed before this summary:
-  a747bfb.
+  `MERGEABLE`/`CLEAN`.
+- Plan: `docs/plans/mushroom-game-syama.paused.md` (bites 1–2 eaten, 3–10
+  to go). No code changed in this session.
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
 - `docs/plans/mushroom-game-syama.paused.md`: the contract and the loop
-  (§ "How this elephant is eaten", step 2 is the review session's job).
-- `src/pages/mushrooms/`: new in bite 2 — `model/motion.ts`,
-  `model/flower-genes.ts` (+ tests), `ui/scene/{grass,draw-flower,colour,
-spores,sound,hud}.ts`; changed — `meadow-scene.ts`, `layout.ts`,
-  `paint-backdrop.ts`, `palette.ts`.
+  (step 3 is the `/handle` session's job).
 - Frames: `pnpm build:vova`; serve `apps/vova/out` with `python3 -m
 http.server 8765`; Playwright from `/opt/node22/lib/node_modules/playwright`,
   `executablePath: '/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
 --enable-unsafe-swiftshader`, `hasTouch: true`, at
   `http://localhost:8765/mushrooms.html`; seed `Math.random` with an
-  `addInitScript` mulberry32; wait ~2.5 s. Tap with `page.mouse.click` and
-  shoot at ~90 ms and ~400 ms to see the wobble, spores and bloom. At
-  1180×820 the front mushroom's cap is near (560, 450) and a flower head near
-  (145, 532). No ImageMagick or Pillow in the container.
-- `.claude/skills/megabeast/notes.md`: fill before the relay.
+  `addInitScript` mulberry32 (seed 12345 was used for the review). For
+  motion: temporarily add `Object.assign(window, { __game: game });` after
+  `fit();` in `ui/scene/start-game.ts` (never commit), rebuild, then
+  `__game.loop.sleep()` and `__game.step(t += 1000/60, 1000/60)` per frame
+  before each screenshot. Tablet 1180×820: front cap ≈ (560, 450), blue
+  flower head ≈ (150, 532).
+- Re-read the review: `python3 scripts/export-github-item.py 57` →
+  `docs/pr/57/pr.md`.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
