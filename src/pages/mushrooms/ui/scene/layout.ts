@@ -7,8 +7,8 @@
 import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
-import { CAP_KINDS } from '../../model/mushroom-genes';
 import type { Circle, Point } from '../../model/geometry';
+import { CAP_KINDS } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
 
@@ -75,14 +75,14 @@ const FOREST_SLOTS = {
     [0.88, 0.62, 0.58],
     [0.22, 0.06, 0.5],
     [0.8, 0.1, 0.5],
-    [0.4, 0.0, 0.42],
+    [0.4, 0, 0.42],
   ],
   portrait: [
     [0.16, 0.54, 0.44],
     [0.84, 0.58, 0.44],
     [0.22, 0.04, 0.42],
     [0.78, 0.08, 0.42],
-    [0.5, 0.0, 0.36],
+    [0.5, 0, 0.36],
   ],
 } as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
@@ -322,7 +322,7 @@ export function meadowLayout(
   const slots = FOREST_SLOTS[portrait ? 'portrait' : 'landscape'];
   const standing = (margin: number) => {
     const unit = clumpSize(margin);
-    const clump = feet.map(({ x, y, scale, side }) => ({
+    const opening = feet.map(({ x, y, scale, side }) => ({
       x,
       y,
       size: unit * scale,
@@ -336,13 +336,13 @@ export function meadowLayout(
       unit,
       margin,
     });
-    return { unit, mushrooms: [...clump, ...forest] };
+    return { unit, mushrooms: [...opening, ...forest] };
   };
   const { mushrooms } = standing(EDGE_MARGIN);
   // The flowers keep to the meadow as it would stand with no edge margin,
   // which scales with the screen exactly, so a resize keeps every flower
   // where it was.
-  const unmargined = standing(0);
+  const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0);
   const mute = {
     x: BUTTON_INSET + BUTTON_R,
     y: BUTTON_INSET + BUTTON_R,
@@ -372,8 +372,8 @@ export function meadowLayout(
     // slot's foot, taken or not, so a mushroom growing never moves one.
     flowers: placeFlowers(
       FLOWER_SPOTS[portrait ? 'portrait' : 'landscape'],
-      { width, groundTop, ground, unit: unmargined.unit, seed },
-      unmargined.mushrooms,
+      { width, groundTop, ground, unit: flowerUnit, seed },
+      unmarginedFeet,
     ),
     mute,
     ...placeControls(width, height, mute),

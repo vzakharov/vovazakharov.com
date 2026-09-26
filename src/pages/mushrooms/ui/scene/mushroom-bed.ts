@@ -21,6 +21,8 @@ import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffSpores } from './spores';
 
+/** Above everything in the meadow, whose depth is where its foot stands. */
+const SPORE_DEPTH = 1e5;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
@@ -66,27 +68,17 @@ export class MushroomBed {
   private readonly onTap: (id: string) => void;
   /** Seconds on the scene's clock, which every movement is timed by. */
   private readonly now: () => number;
-  private readonly sporeDepth: number;
 
   constructor(
     scene: Phaser.Scene,
-    {
-      voice,
-      onTap,
-      now,
-      sporeDepth,
-    }: {
-      voice: MeadowSound;
-      onTap: (id: string) => void;
-      now: () => number;
-      sporeDepth: number;
-    },
+    voice: MeadowSound,
+    now: () => number,
+    onTap: (id: string) => void,
   ) {
     this.scene = scene;
     this.voice = voice;
     this.onTap = onTap;
     this.now = now;
-    this.sporeDepth = sporeDepth;
     this.glow = scene.add.graphics().setVisible(false);
   }
 
@@ -116,7 +108,7 @@ export class MushroomBed {
           this.scene,
           shown.graphics,
           shown.size * 0.5,
-          this.sporeDepth,
+          SPORE_DEPTH,
         );
         this.voice.grow();
       }
@@ -153,7 +145,7 @@ export class MushroomBed {
         grown,
       );
     }
-    const lit = this.selected ? this.shown.get(this.selected) : undefined;
+    const lit = this.selected === undefined ? undefined : this.shown.get(this.selected);
     if (lit) {
       const pulse = 0.5 + 0.5 * Math.sin((t * Math.PI * 2) / GLOW_PERIOD);
       this.glow
@@ -198,7 +190,7 @@ export class MushroomBed {
 
   /** The glow, behind the selected mushroom's cap and before what stands behind it. */
   private paintGlow(): void {
-    const lit = this.selected ? this.shown.get(this.selected) : undefined;
+    const lit = this.selected === undefined ? undefined : this.shown.get(this.selected);
     this.glow.clear().setVisible(lit !== undefined);
     if (!lit) return;
     const { genes, turn, size, graphics } = lit;
@@ -240,7 +232,7 @@ export class MushroomBed {
         this.scene,
         toWorld(graphics, turn, toCanvas(size)(crown)),
         genes.capWidth * size * 0.75,
-        this.sporeDepth,
+        SPORE_DEPTH,
       );
       this.voice.boing(Math.min(1.4, 180 / size));
       this.onTap(mushroom.id);

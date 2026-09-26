@@ -13,8 +13,11 @@ import { mulberry32 } from './random';
 
 const opening = () => firstMeadow(mulberry32(1));
 const grow = (seed: number): Action => ({ kind: 'grow', cap: 'plain', seed });
-const run = (meadow: Meadow, actions: readonly Action[]) =>
-  actions.reduce(reduce, meadow);
+function run(meadow: Meadow, actions: readonly Action[]): Meadow {
+  let state = meadow;
+  for (const action of actions) state = reduce(state, action);
+  return state;
+}
 
 describe('reduce', () => {
   it('opens on the clump, in the first two slots, nothing selected', () => {
@@ -71,8 +74,9 @@ describe('reduce', () => {
       grow(7),
     ]);
     const grown = meadow.mushrooms.at(-1);
-    assert.equal(grown?.slot, 0);
-    assert.equal(grown?.id, 'mushroom-3');
+    assert.ok(grown);
+    assert.equal(grown.slot, 0);
+    assert.equal(grown.id, 'mushroom-3');
   });
 
   it('removes nothing with nothing selected', () => {

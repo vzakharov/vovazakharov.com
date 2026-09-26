@@ -21,8 +21,7 @@ import { MeadowSound, readMuted } from './sound';
 /** The registry key the host writes the device pixel ratio under. */
 export const PIXEL_RATIO_KEY = 'pixelRatio';
 
-/** Above everything in the meadow, whose depth is where its foot stands. */
-const SPORE_DEPTH = 1e5;
+/** Above everything in the meadow, spores included. */
 const HUD_DEPTH = 2e5;
 /** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
 const CLOUD_SPEEDS = [7, 4, 5.5];
@@ -63,6 +62,7 @@ export class MeadowScene extends Phaser.Scene {
   private readonly voice = new MeadowSound(readMuted());
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
+  private readonly now = (): number => this.clock;
 
   constructor() {
     super('meadow');
@@ -72,14 +72,8 @@ export class MeadowScene extends Phaser.Scene {
     const random = mulberry32(this.visitSeed);
     this.meadow = firstMeadow(random);
     this.flowers = firstFlowers(random, 7);
-    const now = () => this.clock;
-    this.bed = new MushroomBed(this, {
-      voice: this.voice,
-      onTap: (id) => {
-        this.dispatch({ kind: 'select', id });
-      },
-      now,
-      sporeDepth: SPORE_DEPTH,
+    this.bed = new MushroomBed(this, this.voice, this.now, (id) => {
+      this.dispatch({ kind: 'select', id });
     });
     this.controls = new Controls(
       this,
@@ -100,7 +94,7 @@ export class MeadowScene extends Phaser.Scene {
           this.dispatch({ kind: 'grow', cap, seed: nextSeed(this.growing) });
         },
       },
-      now,
+      this.now,
       HUD_DEPTH,
     );
     this.paint();
@@ -120,7 +114,8 @@ export class MeadowScene extends Phaser.Scene {
   override update(time: number): void {
     this.clock = time / 1000;
     const t = this.clock;
-    const { layout, backdrop, grass, tufts, shownFlowers } = this;
+    const { layout, backdrop, grass, tufts, shownFlowers, bed, controls } =
+      this;
     if (!layout || !backdrop) return;
     const { width, clouds } = layout;
     for (const [index, graphics] of backdrop.clouds.entries()) {
@@ -137,8 +132,8 @@ export class MeadowScene extends Phaser.Scene {
         ) - margin;
     }
     if (grass) paintTufts(grass, tufts, t);
-    this.bed?.update(t);
-    this.controls?.update(t);
+    bed?.update(t);
+    controls?.update(t);
     for (const shown of shownFlowers.values()) {
       const open = bloom(t - shown.tappedAt);
       shown.container.setRotation(sway(t, shown.phase) * FLOWER_SWAY);

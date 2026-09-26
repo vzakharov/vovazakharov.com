@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Circle } from '../../model/geometry';
 import { MUSHROOM_SLOTS } from '../../model/game';
+import type { Circle } from '../../model/geometry';
 import {
   CAP_KINDS,
   GENE_RANGES,

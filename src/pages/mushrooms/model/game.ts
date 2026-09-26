@@ -71,11 +71,9 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       if (slot === undefined) return { ...meadow, picking: false };
       const grown = meadow.grown + 1;
       const id = `mushroom-${grown}`;
+      const { cap, seed } = action;
       return {
-        mushrooms: [
-          ...meadow.mushrooms,
-          { id, seed: action.seed, cap: action.cap, slot },
-        ],
+        mushrooms: [...meadow.mushrooms, { id, seed, cap, slot }],
         selected: id,
         picking: false,
         grown,
@@ -94,6 +92,9 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         mushrooms: meadow.mushrooms.filter(({ id }) => id !== meadow.selected),
         selected: undefined,
       };
+    }
+    default: {
+      return action satisfies never;
     }
   }
 }
