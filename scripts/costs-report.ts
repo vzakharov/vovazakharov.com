@@ -5,12 +5,12 @@
 //
 //   node scripts/costs-report.ts [--month YYYY-MM] [--json]
 //
-// The totals are never written: they are derived from the rows, so the report is
-// run when a number is wanted rather than kept on disk going stale. A row still
-// carrying a retired field is rewritten without it, and the report says which.
-// `--json` prints the whole breakdown for whoever wants to keep one anyway. Rows reach
-// `main` by merge, so a month read here is a month of *merged* work:
-// `.claude/rules/costs.md` carries what that leaves out.
+// The totals are never written: they are derived from the rows, so the report
+// is run when a number is wanted rather than kept on disk going stale. A row
+// still carrying a retired field is rewritten without it, and the report says
+// which. `--json` prints the whole breakdown for whoever wants to keep one
+// anyway. Rows reach `main` by merge, so a month read here is a month of
+// *merged* work: `.claude/rules/costs.md` carries what that leaves out.
 
 /* eslint-disable no-console -- stdout is this script's interface: the report is
    the whole output. */

@@ -8,11 +8,11 @@
 #
 # The images land in gitignored `tmp/`, and nothing here commits: an image worth
 # keeping is moved into the repo deliberately, which is the decision the context
-# message below puts to the agent as each image arrives. A hook that committed on its own would commit
-# to whatever branch HEAD happened to be on; one that wrote into the tree
-# `/finalize` sweeps would restore that tree right after the sweep, since the
-# manifest it dedupes against is inside it and a sweep then looks like a first
-# run.
+# message below puts to the agent as each image arrives. A hook that committed
+# on its own would commit to whatever branch HEAD happened to be on; one that
+# wrote into the tree `/finalize` sweeps would restore that tree right after the
+# sweep, since the manifest it dedupes against is inside it and a sweep then
+# looks like a first run.
 #
 # One event carries this, and measurement rather than assumption says which:
 # when UserPromptSubmit fires the prompt being submitted is not in the

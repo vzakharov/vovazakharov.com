@@ -87,7 +87,7 @@ A repository gets one Pages site, so the sites leave by different doors:
 `latestageagentic.com` and `agentic.bible` are each force-pushed by
 `scripts/publish-site.sh` to the `gh-pages` branch of a source-less repository
 whose Pages deploys from a branch.
-`CLAUDE.md` § Deployment carries the rest, and the `/stand-up-site` skill is what
+`.claude/rules/deployment.md` carries the rest, and the `/stand-up-site` skill is what
 puts a site on a domain in the first place.
 
 ## Routes

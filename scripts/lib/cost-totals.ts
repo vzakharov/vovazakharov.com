@@ -1,8 +1,8 @@
 // Sums the session rows for `pnpm costs` — the same spend by month, by ISO
 // week, by day, by the branch that spent it, and by the operator whose session
-// it was. Nothing here is written to
-// disk: the totals are wholly derived from the rows, and a derived file
-// committed beside its own sources is a merge conflict every branch pays for.
+// it was. Nothing here is written to disk: the totals are wholly derived from
+// the rows, and a derived file committed beside its own sources is a merge
+// conflict every branch pays for.
 
 import { z } from 'zod';
 

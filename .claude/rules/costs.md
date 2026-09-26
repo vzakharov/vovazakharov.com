@@ -52,7 +52,7 @@ Anthropic's prices exists, so the table goes stale by sitting still.
 ## What names a session
 
 Nothing in the transcript is the title Claude Code shows. Three fields stand in
-for one, all read out of the file:
+for one:
 
 - **`openingPrompt`** — the session's first prompt, unwrapped from the envelope a
   slash command arrives in, so it reads `/handle <branch>`.
@@ -149,8 +149,8 @@ adjusting quietly is what would leave the rest of this section false.
 
 `pnpm costs` sums the rows five ways every run — by month, week and day, by the
 branch that spent it with the pull requests it touched named beside it, and by
-operator; `--json` prints the lot. The spend is the branch's rather than each PR's, since
-a session that touched two would otherwise be counted twice.
+operator; `--json` prints the lot. The spend is the branch's rather than each
+PR's, since a session that touched two would otherwise be counted twice.
 
 **The totals are never written to disk.** They are wholly derived from the rows,
 so a file of them committed beside its own sources would be a merge conflict on
@@ -158,11 +158,10 @@ every branch that ran a session — and settling one by summing the two sides
 double-counts every session both of them saw. The rows themselves never collide:
 one file per session id.
 
-**The rows can be.** A row carrying a key the current shape no longer writes is
-rewritten without it as the report reads it, and the report names each one on
-stderr. Retiring a field is therefore a change to the shape alone: the first
-report in each repository clears it, and those rewrites are ordinary changes to
-commit.
+**The report does rewrite a row** that carries a key the current shape does not
+write, dropping the key, and names each such row on stderr. Retiring a
+field is therefore a change to the shape alone: the first report in each
+repository clears it, and those rewrites are ordinary changes to commit.
 
 ## What the totals do not cover
 

@@ -74,7 +74,7 @@ In web/remote sessions the plan-mode approval UI and `AskUserQuestion` re-emit t
   | asks for a change — "add a case-study page", with or without a `#55` | `/task`                                              |
   | asks for no change — "what would a case-study page need?"            | nothing: answer it — no skill covers this, by design |
   - **The test is the expected deliverable, not the grammar.** "Analyse the latest market trends" is an imperative and still lands in row 2, because nothing in this repo changes as a result.
-  - **`let's …` is a token collision.** It is on `@.claude/skills/plan/SKILL.md` § "The approval gate"'s go-ahead list, so "let's add a case-study page" is a directive in a session not yet routed and an approval once a draft plan is waiting. The rule keys on whether the session is routed, which the last two bullets of this section separate.
+  - **`let's …` is a token collision.** It is on `@.claude/skills/plan/SKILL.md` § "The approval gate"'s go-ahead list, so "let's add a case-study page" is a directive in a session not yet routed and an approval once a draft plan is waiting. The rule keys on whether the session is routed, which the routing-point and continued-work bullets below separate.
   - **In doubt, read it as row 2.** A wrong read costs unequally: row 2 read as row 1 mutates and commits against a request that wanted an answer, and undoing it is a revert the operator has to ask for. Row 1 read as row 2 costs one turn — the operator says "now do it", and whatever the answer produced is sitting in `tmp/`.
 
   **"No plan" (or equivalent) in the prompt being routed skips Step 1** and enters `@.claude/skills/go/SKILL.md` § "Planless entry" directly — the one thing that overrides the agent's own call.

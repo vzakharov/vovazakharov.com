@@ -64,7 +64,7 @@ fi
 # which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
-# The last two read the agent infrastructure itself and nothing else here
+# The last three read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \

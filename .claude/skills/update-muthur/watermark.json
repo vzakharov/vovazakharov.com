@@ -71,7 +71,7 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. CLAUDE.md § Vetting carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
     "scripts/staged.sh"
   ],

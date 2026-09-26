@@ -51,7 +51,6 @@ const attachmentOf = (record: unknown) =>
 // where any quoted commit trailer carries a session URL too — usually another
 // session's. Which is why this takes the record's raw line: the URL is in the
 // reminder's body, not in a field.
-
 const SESSION_URL = /https:\/\/claude\.ai\/code\/session_[\dA-Za-z]+/;
 
 export const sessionUrlIn = (
