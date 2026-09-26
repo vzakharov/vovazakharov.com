@@ -1,58 +1,62 @@
 {
   "sessionId": "454369b8-eaf7-5fbf-91fb-e10893813a33",
   "branch": "claude/mushroom-game-syama-lbirv7",
-  "cwd": "/home/user/vovazakharov.com/src/pages/mushrooms/model",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
-  "prs": [],
+  "prs": [
+    57
+  ],
   "url": "https://claude.ai/code/session_01TUeErTza7fiicyQd8Yr9wX",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-26T19:35:13.267Z",
-  "lastResponseAt": "2026-09-26T19:38:10.621Z",
+  "lastResponseAt": "2026-09-26T20:12:55.361Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 52,
-    "cacheWrite5mTokens": 60886,
-    "cacheWrite1hTokens": 96059,
-    "cacheReadTokens": 2833894,
-    "outputTokens": 10027,
-    "thinkingTokens": 5639,
-    "responses": 26,
-    "costUsd": 1.8404287999999998
+    "inputTokens": 128,
+    "cacheWrite5mTokens": 491348,
+    "cacheWrite1hTokens": 125534,
+    "cacheReadTokens": 7499658,
+    "outputTokens": 22641,
+    "thinkingTokens": 7504,
+    "responses": 63,
+    "costUsd": 5.414275599999998
   },
   "ownTurns": {
-    "inputTokens": 48,
+    "inputTokens": 76,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 96059,
-    "cacheReadTokens": 2776137,
-    "outputTokens": 10005,
-    "thinkingTokens": 5639,
-    "responses": 24,
-    "costUsd": 1.5239913999999999
+    "cacheWrite1hTokens": 125534,
+    "cacheReadTokens": 4921636,
+    "outputTokens": 21867,
+    "thinkingTokens": 7504,
+    "responses": 37,
+    "costUsd": 2.4262432
   },
   "subagents": {
-    "inputTokens": 4,
-    "cacheWrite5mTokens": 60886,
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 491348,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 57757,
-    "outputTokens": 22,
+    "cacheReadTokens": 2578022,
+    "outputTokens": 774,
     "thinkingTokens": 0,
-    "responses": 2,
-    "costUsd": 0.31643740000000004
+    "responses": 26,
+    "costUsd": 2.9880324
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 52,
-      "cacheWrite5mTokens": 60886,
-      "cacheWrite1hTokens": 96059,
-      "cacheReadTokens": 2833894,
-      "outputTokens": 10027,
-      "thinkingTokens": 5639,
-      "responses": 26,
-      "costUsd": 1.8404287999999998
+      "inputTokens": 128,
+      "cacheWrite5mTokens": 491348,
+      "cacheWrite1hTokens": 125534,
+      "cacheReadTokens": 7499658,
+      "outputTokens": 22641,
+      "thinkingTokens": 7504,
+      "responses": 63,
+      "costUsd": 5.414275599999998
     }
   },
-  "warnings": [],
+  "warnings": [
+    "prices.json priced the 63 responses the events also priced at $5.4143, against the events' $5.8302: a rate in the table is likely out of date"
+  ],
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
@@ -71,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 26,
-    "matched": 26,
-    "matchedTableUsd": 1.8404287999999998,
-    "matchedEventUsd": 1.8496287999999999,
+    "events": 63,
+    "matched": 63,
+    "matchedTableUsd": 5.414275599999998,
+    "matchedEventUsd": 5.8301956,
     "unseen": {}
   }
 }
