@@ -43,6 +43,28 @@ Each note: what happened, and what the skill should do about it.
 
 ## Friction found
 
+- **The context-budget hook asks, and the loop never asks.** At 200k the
+  hook says to reach a stopping point, offer `/compact` or `/relay`, and "do
+  neither unasked". The bite-4 `/handle` session did that, and the operator
+  answered "мы же договороились что идём yolo/megabeast, и ты у меня ничего
+  не спрашиваешь". The skill should state that its contract counts as the
+  standing answer to that offer: at the warning line the session commits,
+  writes a progress file for the successor, and relays on its own. It also
+  helps to check the budget before starting a review's fixes. That session
+  spent ~50k on door sweeps before writing any code, and the heavy
+  exploration could have gone to a subagent.
+- **A review's fixes can be a bite of their own.** Bite 4's review raised
+  eight findings, three of them geometric (occlusion, tap size, mouse size),
+  with sweeps needed to settle each. One `/handle` session cannot both
+  measure and implement all of them. The skill should let a handle session
+  split the fixes across relays, carried by a
+  `docs/remove-before-merging/handle-bite<n>/progress.md` that holds the
+  design decided and the measurements.
+- **The operator looks in between bites through committed frames.** They
+  asked for the screenshots in `docs/remove-before-merging/` rather than
+  `tmp/`, choosing the ones worth showing at each bite's end. The skill's bite
+  tail should include "pick and commit the frames" beside `/polish`.
+
 - **`elephant.md` and `/go` disagree about vet.** "A bite leaves `vet` green"
   (`plan/elephant.md` § "A bite") against "do not run `./scripts/vet.sh` per
   commit; that is `/finalize`'s job" (`go/SKILL.md` Step 2). An autonomous
