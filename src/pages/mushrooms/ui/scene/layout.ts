@@ -9,7 +9,7 @@ import type { Sized } from '@/shared/typings';
 import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point } from '../../model/geometry';
 import { maxReach } from '../../model/mushroom-pose';
-import { between, mulberry32 } from '../../model/random';
+import { between, mulberry32, type Random } from '../../model/random';
 
 /** A mushroom's footing, and the `splay` it is stood with (`splayed`). */
 type Placement = Footing & { splay: number };
@@ -131,16 +131,8 @@ function placeFlowers(
     for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
       // Each miss strays a little farther, so a slot on the clump finds a way off it.
       const stray = 1 + attempt / 4;
-      const x = clamp(
-        across + between(random, -1, 1) * FLOWER_JITTER[0] * stray,
-        0.05,
-        0.95,
-      );
-      const y = clamp(
-        down + between(random, -1, 1) * FLOWER_JITTER[1] * stray,
-        0.12,
-        0.96,
-      );
+      const x = jitter(random, across, FLOWER_JITTER[0] * stray, [0.05, 0.95]);
+      const y = jitter(random, down, FLOWER_JITTER[1] * stray, [0.12, 0.96]);
       const flower = {
         x: width * x,
         y: groundTop + ground * y,
@@ -153,8 +145,14 @@ function placeFlowers(
   });
 }
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
+function jitter(
+  random: Random,
+  at: number,
+  reach: number,
+  [min, max]: readonly [number, number],
+): number {
+  const moved = at + between(random, -1, 1) * reach;
+  return Math.min(max, Math.max(min, moved));
 }
 
 /**
