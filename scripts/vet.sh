@@ -59,10 +59,9 @@ fi
 # passes; the test run adds only writes into the OS temp directory, and
 # the two `--check` render passes only hash files, needing no browser, and the
 # cost ledger's and context budget's tests write only into their own temporary
-# directories. The
-# squash check reads the proposal under docs/remove-before-merging/ (or its own
-# history) and the notes check counts lines under writing/notes/, neither of
-# which anything else here touches.
+# directories. The squash check reads the proposal under
+# docs/remove-before-merging/ (or its own history) and the notes check counts
+# lines under writing/notes/, neither of which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
 # The last four read the agent infrastructure itself and nothing else here
