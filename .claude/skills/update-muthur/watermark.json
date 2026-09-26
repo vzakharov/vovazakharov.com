@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "634bdfa47431cdca7423c0dd845bfa4693a6d4c4",
-  "lastSyncedAt": "2026-09-24",
+  "lastSyncedSha": "8f0f29a738df87a81632789dd99a1f7561993832",
+  "lastSyncedAt": "2026-09-26",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
@@ -44,6 +44,7 @@
     {
       ".claude/skills/plan/carving.md": "the carve, taken with its filing half rewritten. The source delegates that half to `/propose-issue`, declined here, so this copy states the `gh issue create` and `sub_issues` mechanics inline — where they lived in `/issue` before the split — and drops the dedupe pass, this backlog being one an operator reads in a sitting. The judgment half lands verbatim."
     },
+    ".claude/skills/relay/",
     ".claude/skills/pr/",
     ".claude/skills/preview/",
     ".claude/skills/qa-checklist/",
@@ -68,6 +69,7 @@
     "scripts/lib/github.py",
     "scripts/lib/media.py",
     "scripts/lib/watch-tick-common.sh",
+    "scripts/muthur-sync.sh",
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
@@ -92,6 +94,7 @@
     "README.md": "never — the source's README describes the source. This repo's is the site's own, written for a person who lands on the repository, and the two answer different questions",
     "scripts/check-muthur.sh": "never — the source's one vet line for the checks whose membership test is \"would the adopting repo run this?\": its repo-identity check and the `scripts/test_*.py` over code an adopter vendors and never edits. Its verdict is what this repo takes rather than the line itself — keyed on the catalog this repo declines, it exits 0 downstream, which is the source stating that an adopter runs none of it. Both of the rows it covers are declined below on that reading",
     "scripts/check-repo-identity.sh": "never — it holds the source's own owner/repo to one home, the watermark's `repo` field, across the clone lines and gh recipes a human copies. The source's own vet.sh calls it the one line there that is that repo's alone: it keys on the catalog, which this repo declines, so it exits 0 here and would certify nothing",
-    "scripts/test_*.py": "never, which is the catalog's own disposition for the row — the unit tests over the source's own scripts, `scripts/gh_export/` included. They rode in here as a side effect of porting the exporter's commits, and an adopter that carries them either runs them, certifying code it never edits, or carries two files nothing reaches. The suite stays where the code is edited; `scripts/gh_export/` itself is adopted, being what this repo runs. See vzakharov/muthur#82 on why the disposition never reached the triage"
+    "scripts/test_*.py": "never, which is the catalog's own disposition for the row — the unit tests over the source's own scripts, `scripts/gh_export/` included. They rode in here as a side effect of porting the exporter's commits, and an adopter that carries them either runs them, certifying code it never edits, or carries two files nothing reaches. The suite stays where the code is edited; `scripts/gh_export/` itself is adopted, being what this repo runs. See vzakharov/muthur#82 on why the disposition never reached the triage",
+    "docs/adopting/": "never — the chapters ADOPTING.md was split into, read by a repo at the moment it takes the template on. Declined on ADOPTING.md's own reason: this repo adopted once and will not again, and a repo adopting from here would need its own guide rather than the source's"
   }
 }
