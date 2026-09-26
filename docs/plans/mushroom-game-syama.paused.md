@@ -317,6 +317,12 @@ Standing rules for every session in the chain:
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
 
+**Open, and due by bite 6, which places flowers of its own:** flowers keep
+clear of the forest's feet as they would stand with no edge margin and no
+size floor, so a forest mushroom the finger floor grows can stand on a
+flower. Fixing it is a choice between flowers that stay put on a resize and
+flowers that never land on a foot.
+
 5. **The butterfly.** `model/insect-genes.ts` (body, two wing pairs, pattern,
    colour nudge), `draw-insect.ts`, the button; a press flies one in from
    off-screen along a curve, wings beating, and it goes between flowers and
