@@ -8,6 +8,7 @@ import { z } from 'zod';
 import {
   costStateOf,
   kindOf,
+  operatorOf,
   prNumberOf,
   promptTextOf,
   sessionUrlIn,
@@ -103,6 +104,9 @@ const SessionCostSchema = z.object({
   // The URL a person opens the session at, which is a different id from the
   // transcript's own and appears only in a remote session.
   url: z.string().nullable().default(null),
+  // The operator's GitHub handle, lowercased and without the `@`; null when no
+  // person was resolved behind the session's token.
+  operator: z.string().nullable().default(null),
   firstResponseAt: z.string().nullable(),
   lastResponseAt: z.string().nullable(),
   pricesAsOf: z.string(),
@@ -268,6 +272,7 @@ export const summariseTranscript = (
   let cwd: string | undefined;
   let openingPrompt: string | undefined;
   let url: string | undefined;
+  let operator: string | undefined;
   let claudeCodeTotalUsd: number | undefined;
 
   // `delegated` forces the bucket for a subagent's own file. Its records carry
@@ -297,6 +302,9 @@ export const summariseTranscript = (
         }
         if (kind === 'attachment') {
           url ??= sessionUrlIn(record, line);
+          // The first one any SessionStart resolved, since a resume runs the
+          // hook again.
+          operator ??= operatorOf(record);
           continue;
         }
       }
@@ -383,6 +391,7 @@ export const summariseTranscript = (
     openingPrompt: openingPrompt ?? null,
     prs: [...prs].toSorted((a, b) => a - b),
     url: url ?? null,
+    operator: operator ?? null,
     firstResponseAt: inOrder.at(0) ?? null,
     lastResponseAt: inOrder.at(-1) ?? null,
     pricesAsOf: prices.as_of,

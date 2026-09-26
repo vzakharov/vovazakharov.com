@@ -96,3 +96,20 @@ export const promptTextOf = (record: unknown): string | undefined => {
     ? `${text.slice(0, OPENING_PROMPT_LIMIT)}…`
     : text;
 };
+
+// `.claude/hooks/operator-voice.sh` prints `Name (@handle)` or a bare `@handle`,
+// already lowercased, and only this phrasing when it resolved a person: the
+// lines it prints for a bot's token or an unreachable `gh` do not match.
+const OPERATOR_LINE =
+  /^session-start: the operator is (?:[^\n]* \()?@([\da-z-]+)\)? — the GitHub token/;
+
+const HookAttachmentSchema = z.object({
+  attachment: z.object({ hookEvent: z.string(), content: z.string() }),
+});
+
+export const operatorOf = (record: unknown): string | undefined => {
+  const attachment = HookAttachmentSchema.safeParse(record).data?.attachment;
+  return attachment?.hookEvent === 'SessionStart'
+    ? OPERATOR_LINE.exec(attachment.content)?.[1]
+    : undefined;
+};

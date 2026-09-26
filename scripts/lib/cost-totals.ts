@@ -1,5 +1,6 @@
 // Sums the session rows for `pnpm costs` — the same spend by month, by ISO
-// week, by day, and by the branch that spent it. Nothing here is written to
+// week, by day, by the branch that spent it, and by the operator whose session
+// it was. Nothing here is written to
 // disk: the totals are wholly derived from the rows, and a derived file
 // committed beside its own sources is a merge conflict every branch pays for.
 
@@ -14,6 +15,7 @@ const TotalsSchema = BucketSchema.extend({
   byWeek: z.record(z.string(), BucketSchema),
   byDay: z.record(z.string(), BucketSchema),
   byBranch: z.record(z.string(), BucketSchema),
+  byOperator: z.record(z.string(), BucketSchema),
 });
 
 export type Bucket = z.infer<typeof BucketSchema>;
@@ -77,22 +79,27 @@ const roundedAll = (buckets: Record<string, Bucket>): Record<string, Bucket> =>
 export const branchLabel = (row: SessionCost): string =>
   [row.branch ?? '(no branch)', ...row.prs.map((pr) => `#${pr}`)].join(' ');
 
+export const operatorLabel = (row: SessionCost): string =>
+  row.operator === null ? '(unknown)' : `@${row.operator}`;
+
 /**
  * A session is filed under where it **started**, the rule that already picks its
  * row's month, so one running past midnight stays whole. A row with no priced
- * response has no day to file under and lands in the grand total and its branch
- * alone.
+ * response has no day to file under and lands in the grand total, its branch and
+ * its operator alone.
  */
 export const totalsOf = (rows: readonly SessionCost[]): Totals => {
   const byMonth: Record<string, Bucket> = {};
   const byWeek: Record<string, Bucket> = {};
   const byDay: Record<string, Bucket> = {};
   const byBranch: Record<string, Bucket> = {};
+  const byOperator: Record<string, Bucket> = {};
   const grand = emptyBucket();
 
   for (const row of rows) {
     addInto(grand, row);
     into(byBranch, branchLabel(row), row);
+    into(byOperator, operatorLabel(row), row);
     const startedAt = row.firstResponseAt;
     if (startedAt === null) continue;
     const day = new Date(startedAt);
@@ -107,5 +114,6 @@ export const totalsOf = (rows: readonly SessionCost[]): Totals => {
     byWeek: roundedAll(byWeek),
     byDay: roundedAll(byDay),
     byBranch: roundedAll(byBranch),
+    byOperator: roundedAll(byOperator),
   };
 };

@@ -214,6 +214,12 @@ const link = (prNumber: number): string =>
 const costState = (totalCostUSD: number): string =>
   JSON.stringify({ type: 'cost-state', totalCostUSD });
 
+const sessionStart = (content: string, hookEvent = 'SessionStart'): string =>
+  JSON.stringify({
+    type: 'attachment',
+    attachment: { type: 'hook_success', hookEvent, content },
+  });
+
 describe('session-cost: what names a session', () => {
   it('takes the opening prompt as the session name, unwrapping a slash command', () => {
     const cost = summarise([
@@ -275,6 +281,46 @@ describe('session-cost: what names a session', () => {
       costState(2.25),
     ]);
     assert.equal(cost.claudeCodeTotalUsd, 2.25);
+  });
+
+  it('takes the operator from the SessionStart hook that resolved them', () => {
+    const cost = summarise([
+      sessionStart(
+        'session-start: the operator is @someone-else — the GitHub token',
+        'Stop',
+      ),
+      sessionStart(
+        'session-start: the operator is unresolved (`gh` is unavailable or could not reach the API). Ask them for their GitHub handle, then read …',
+      ),
+      sessionStart(
+        "session-start: the operator is Vova Zakharov (@vzakharov) — the GitHub token in this session is that user's own. They have no entry under …",
+      ),
+      sessionStart(
+        'session-start: the operator is @later — the GitHub token …',
+      ),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.operator, 'vzakharov');
+  });
+
+  it('takes a bare handle from an operator with no name set', () => {
+    const cost = summarise([
+      sessionStart(
+        'session-start: the operator is @vzakharov — the GitHub token …',
+      ),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.operator, 'vzakharov');
+  });
+
+  it("names no operator behind a bot's token", () => {
+    const cost = summarise([
+      sessionStart(
+        "session-start: the GitHub token in this session belongs to claude[bot], a Bot account — that is the agent's own identity, not the operator's. …",
+      ),
+      response({ output: 1 }),
+    ]);
+    assert.equal(cost.operator, null);
   });
 });
 
