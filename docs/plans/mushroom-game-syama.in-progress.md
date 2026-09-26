@@ -7,6 +7,11 @@ mushroom and every insect grown from its own seed, so a forest of them is all
 different trees. No goal, no text, no failing: the player is six, and the
 point, in his words, is to watch the butterflies, flies and bees.
 
+Four people's loves go into it, in the operator's words: "от Сямы идея, от
+меня любовь к процедуркам, от Золтана к экологии, от Лейсан к Мандалам" —
+Syama's idea, the operator's procedural generation, Zoltan's ecology and
+Leysan's mandalas.
+
 The bar is the operator's: on a phone or tablet it looks and moves like a
 casual mobile game — Angry Birds was the reference — and it is beautiful,
 atmospheric and comfortable for a six-year-old's hands. One PR (#57), eaten a
@@ -103,6 +108,14 @@ Standing rules for every session in the chain:
   starves, dies or is lost — the meadow only ever gets fuller and livelier,
   within the caps the layout sets. These rules are the model's, so they are
   tested like the rest: a `tick` in the reducer, driven by the scene's clock.
+- **Mandala-inspired ornament** — Leysan's ("не прямо чтобы рисовал
+  мандалы, а именно inspired"). Radial symmetry and concentric rings are the
+  meadow's ornamental language, and nothing in it is a drawn mandala: the
+  sun a rosette of rays in layers; each flower an n-fold ring of petals over
+  another, the fold and the rings being genes; the butterflies' wings
+  carrying concentric eyes; the spore puff and the rain's splashes opening
+  as rings; the flowers the bees plant opening around the ones they came
+  from, so a well-visited bed grows round; the fireflies at dusk circling.
 - **No module past ~450 lines** (CLAUDE.md § "Key principles"; the operator
   repeated it: "помни чтобы не было слишком больших (>450 строк) модулей").
   The scene is the one that would grow, so painting splits by layer
@@ -143,10 +156,11 @@ two fly agarics grown from the visit's seed, with nothing moving yet.
   mushroom stands and how big, landscape and portrait),
   `ui/scene/draw-mushroom.ts` (genes → `Graphics`: outline, flat fill, shade,
   highlight, the two-tone caps split along a dome level),
-  `ui/scene/meadow-scene.ts` (sky in bands, sun with a glow, a few clouds, far
-  and near hills, a ground band with tufts, the two mushrooms; redrawn on
-  resize), rendered at the device pixel ratio so a tablet's retina screen is
-  not blurred.
+  `ui/scene/paint-backdrop.ts` (everything behind the mushrooms; the sun a
+  layered rosette of rays, the first of the mandala ornament),
+  `ui/scene/meadow-scene.ts` (the backdrop, then the two mushrooms; redrawn
+  on resize), rendered at the device pixel ratio so a tablet's retina screen
+  is not blurred.
 - **Rules.** `.claude/rules/styling.md` § Colours names `palette.ts` as the
   one file holding colour literals.
 - **Done when** `/preview` frames at tablet landscape and phone portrait show
