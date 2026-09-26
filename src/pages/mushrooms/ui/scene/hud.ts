@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import {
   type CapKind,
+  GENE_RANGES,
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
@@ -27,6 +28,9 @@ function iconGenes(cap: CapKind): MushroomGenes {
     lean: 0,
     stemBend: 0,
     capTilt: 0,
+    // A tall, even dome, so a two-tone cap's band reads at a button's size.
+    capHeight: GENE_RANGES.capHeight[1],
+    domePower: 0.8,
   };
 }
 

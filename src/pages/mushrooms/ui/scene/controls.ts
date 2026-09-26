@@ -73,7 +73,9 @@ export class Controls {
     this.plus.graphics.setAlpha(isFull(meadow) ? DIMMED_ALPHA : 1);
     this.place(this.minus, layout.minus);
     drawGrowButton(this.minus.graphics, layout.minus.r, -1);
-    this.minus.graphics.setAlpha(meadow.selected === undefined ? DIMMED_ALPHA : 1);
+    this.minus.graphics.setAlpha(
+      meadow.selected === undefined ? DIMMED_ALPHA : 1,
+    );
     const opening = meadow.picking && !this.picking;
     this.picking = meadow.picking;
     for (const [index, button] of this.picker.entries()) {

@@ -81,7 +81,9 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'select': {
       const known = meadow.mushrooms.some(({ id }) => id === action.id);
-      return known ? { ...meadow, selected: action.id, picking: false } : meadow;
+      return known
+        ? { ...meadow, selected: action.id, picking: false }
+        : meadow;
     }
     case 'deselect': {
       return { ...meadow, selected: undefined, picking: false };

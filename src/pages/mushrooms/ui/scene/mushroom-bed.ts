@@ -12,10 +12,14 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
-import { capFrame, splayed } from '../../model/mushroom-pose';
+import {
+  domeHeight,
+  type MushroomGenes,
+  mushroomGenes,
+} from '../../model/mushroom-genes';
+import { capFrame, splayed, stemAt } from '../../model/mushroom-pose';
 import { drawMushroom, drawMushroomShadow, toCanvas } from './draw-mushroom';
-import { containsRectangle } from './hit-areas';
+import { containsMushroom, type MushroomHit } from './hit-areas';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
@@ -23,6 +27,9 @@ import { puffSpores } from './spores';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;
+/** How finely a mushroom's tap area follows its dome, and how far past it it reaches. */
+const HIT_STEPS = 12;
+const HIT_PAD = 0.08;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
@@ -50,7 +57,7 @@ type Shown = Phased &
     graphics: Phaser.GameObjects.Graphics;
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
-    hit: Phaser.Geom.Rectangle;
+    hit: MushroomHit;
     genes: MushroomGenes;
     turn: number;
     tappedAt: number;
@@ -112,12 +119,7 @@ export class MushroomBed {
       const shown = this.show(mushroom, opening ? -Infinity : clock);
       this.place(shown, mushroom, layout);
       if (!opening) {
-        puffSpores(
-          this.scene,
-          shown.graphics,
-          shown.size * 0.5,
-          SPORE_DEPTH,
-        );
+        puffSpores(this.scene, shown.graphics, shown.size * 0.5, SPORE_DEPTH);
         this.voice.grow();
       }
     }
@@ -136,7 +138,10 @@ export class MushroomBed {
 
   update(t: number): void {
     for (const [id, shown] of this.shown) {
-      const grown = Math.min(emerge(t - shown.plantedAt), sink(t - shown.goneAt));
+      const grown = Math.min(
+        emerge(t - shown.plantedAt),
+        sink(t - shown.goneAt),
+      );
       if (t - shown.goneAt >= SINK_DURATION) {
         shown.graphics.destroy();
         shown.shadow.destroy();
@@ -153,7 +158,8 @@ export class MushroomBed {
         grown,
       );
     }
-    const lit = this.selected === undefined ? undefined : this.shown.get(this.selected);
+    const lit =
+      this.selected === undefined ? undefined : this.shown.get(this.selected);
     if (lit) {
       const pulse = 0.5 + 0.5 * Math.sin((t * Math.PI * 2) / GLOW_PERIOD);
       const alpha = (0.7 + 0.3 * pulse) * Math.min(1, lit.graphics.scaleY);
@@ -176,29 +182,38 @@ export class MushroomBed {
       .setPosition(x, y)
       .setDepth(y - 0.5);
     drawMushroomShadow(shown.shadow, genes, size);
-    // The box round the stem and the cap, in the mushroom's own frame.
+    // The cap and the stem as drawn, a little padded, in the mushroom's own frame.
     const cap = capFrame(genes);
     const canvas = toCanvas(size);
-    const outline = [
-      { x: 0, y: 0 },
-      cap({ x: 0, y: genes.capHeight }),
-      cap({ x: -genes.capWidth / 2, y: 0 }),
-      cap({ x: genes.capWidth / 2, y: 0 }),
-    ].map((point) => canvas(point));
-    const xs = outline.map((point) => point.x);
-    const ys = outline.map((point) => point.y);
-    const pad = size * 0.06;
-    shown.hit.setTo(
-      Math.min(...xs) - pad,
-      Math.min(...ys) - pad,
-      Math.max(...xs) - Math.min(...xs) + pad * 2,
-      Math.max(...ys) - Math.min(...ys) + pad * 2,
+    const half = genes.capWidth / 2;
+    const dome = Array.from({ length: HIT_STEPS + 1 }, (_, index) => {
+      const across = -half + (2 * half * index) / HIT_STEPS;
+      return cap({
+        x: across * (1 + HIT_PAD),
+        y: domeHeight(genes, across) + genes.capHeight * HIT_PAD,
+      });
+    });
+    const underside = [
+      cap({ x: half, y: -genes.capHeight * 0.2 }),
+      cap({ x: -half, y: -genes.capHeight * 0.2 }),
+    ];
+    shown.hit.cap.setTo([...dome, ...underside].map((point) => canvas(point)));
+    const reach = (genes.stemWidth / 2) * genes.footBulge * (1 + HIT_PAD * 4);
+    const { x: topX, y: topY } = stemAt(genes, 1);
+    shown.hit.stem.setTo(
+      [
+        { x: -reach, y: 0 },
+        { x: reach, y: 0 },
+        { x: topX + reach, y: topY },
+        { x: topX - reach, y: topY },
+      ].map((point) => canvas(point)),
     );
   }
 
   /** The glow, behind the selected mushroom's cap and before what stands behind it, and its ring on the ground. */
   private paintGlow(): void {
-    const lit = this.selected === undefined ? undefined : this.shown.get(this.selected);
+    const lit =
+      this.selected === undefined ? undefined : this.shown.get(this.selected);
     this.glow.clear().setVisible(lit !== undefined);
     this.footRing.clear().setVisible(lit !== undefined);
     if (!lit) return;
@@ -224,10 +239,13 @@ export class MushroomBed {
   }
 
   private show(mushroom: Planted, plantedAt: number): Shown {
-    const hit = new Phaser.Geom.Rectangle();
+    const hit = {
+      cap: new Phaser.Geom.Polygon(),
+      stem: new Phaser.Geom.Polygon(),
+    };
     const graphics = this.scene.add
       .graphics()
-      .setInteractive(hit, containsRectangle);
+      .setInteractive(hit, containsMushroom);
     const shown: Shown = {
       graphics,
       shadow: this.scene.add.graphics(),

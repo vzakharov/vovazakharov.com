@@ -270,9 +270,7 @@ function placeControls(
   );
   const first = width / 2 - (step * gaps) / 2;
   const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
-  const y = clearOfMute
-    ? BUTTON_INSET + r
-    : mute.y + mute.r + BUTTON_INSET + r;
+  const y = clearOfMute ? BUTTON_INSET + r : mute.y + mute.r + BUTTON_INSET + r;
   return {
     plus: { x, y: plusY, r: GROW_R },
     minus: { x, y: plusY + GROW_R * 2 + GROW_GAP, r: GROW_R },

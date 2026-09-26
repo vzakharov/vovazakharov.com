@@ -6,7 +6,12 @@ import {
   type FlowerGenes,
   flowerGenes,
 } from '../../model/flower-genes';
-import { type Action, firstMeadow, type Meadow, reduce } from '../../model/game';
+import {
+  type Action,
+  firstMeadow,
+  type Meadow,
+  reduce,
+} from '../../model/game';
 import { bloom, drift, type Phased, phaseOf, sway } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
