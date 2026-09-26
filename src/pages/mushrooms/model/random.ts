@@ -1,3 +1,6 @@
+/** What a creature is grown from: its genes are a pure function of it. */
+export type Seeded = { seed: number };
+
 /** A source of uniform numbers in `[0, 1)`. */
 export type Random = () => number;
 

@@ -21,6 +21,14 @@ export function strokeShape(
   graphics.strokePoints(vectors(points), true, true);
 }
 
+/** A line through `points`, left open. */
+export function strokeLine(
+  graphics: Phaser.GameObjects.Graphics,
+  points: readonly Point[],
+): void {
+  graphics.strokePoints(vectors(points), false);
+}
+
 const PETAL_STEPS = 10;
 
 /** `point` at `steps + 1` evenly spaced values from `from` to `to`, both ends included. */

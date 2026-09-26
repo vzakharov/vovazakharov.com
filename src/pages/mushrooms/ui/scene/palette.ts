@@ -33,4 +33,18 @@ export const PALETTE = {
   capRed: 0xe6_36_2b,
   capDark: 0x6e_1d_22,
   spot: 0xff_fb_f1,
+  flowerStem: 0x4c_a0_3c,
+  leaf: 0x5e_b8_48,
+  flowerCentre: 0xff_c8_2e,
+  flowerCentreDeep: 0xe8_8a_1c,
+  /** One per `FLOWER_COLOURS` name, the flowers' petals. */
+  flowers: {
+    pink: 0xff_8f_c0,
+    yellow: 0xff_de_4a,
+    white: 0xff_fb_f4,
+    violet: 0xb2_7c_f0,
+    blue: 0x6c_b4_ff,
+  },
+  spore: 0xff_f6_d8,
+  hud: 0xff_ff_ff,
 } as const;

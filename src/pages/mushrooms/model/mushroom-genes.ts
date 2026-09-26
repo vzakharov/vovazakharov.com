@@ -1,7 +1,13 @@
 import type { WithId } from '@/shared/typings';
 
 import type { Circle } from './geometry';
-import { between, mulberry32, nextSeed, type Random } from './random';
+import {
+  between,
+  mulberry32,
+  nextSeed,
+  type Random,
+  type Seeded,
+} from './random';
 
 /** The four caps of Syama's drawing, in the order he drew them. */
 export const CAP_KINDS = [
@@ -12,8 +18,6 @@ export const CAP_KINDS = [
 ] as const;
 type CapKind = (typeof CAP_KINDS)[number];
 
-/** What a creature is grown from: its genes are a pure function of it. */
-type Seeded = { seed: number };
 type Capped = { cap: CapKind };
 type MushroomSeed = Seeded & Capped;
 export type Mushroom = WithId & MushroomSeed;

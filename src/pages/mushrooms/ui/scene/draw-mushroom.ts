@@ -1,8 +1,9 @@
-import * as Phaser from 'phaser';
+import type * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
+import { nudgeHue } from './colour';
 import { PALETTE } from './palette';
 import { crescent, fillShape, rounded, sample, strokeShape } from './shapes';
 
@@ -14,11 +15,6 @@ const SPOT_SHADE_ALPHA = 0.1;
 const HIGHLIGHT_ALPHA = 0.35;
 /** How many times the dome's corners are cut, rounding its rim. */
 const RIM_ROUNDS = 2;
-
-function nudgeHue(colour: number, nudge: number): number {
-  const { h, s, v } = Phaser.Display.Color.IntegerToColor(colour);
-  return Phaser.Display.Color.HSVToRGB((h + nudge + 1) % 1, s, v).color;
-}
 
 /** From the model's frame (units of size, y up) to the canvas's. */
 function toCanvas(size: number): (point: Point) => Point {
