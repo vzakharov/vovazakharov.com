@@ -87,6 +87,9 @@ export function bloom(elapsed: number): number {
   return BLOOM_DEPTH * Math.sin(Math.PI * t ** 0.45) * (1 - t) ** 0.5 * 1.25;
 }
 
+/** `value` wrapped into `[0, span)`, negative values included. */
+const wrap = (value: number, span: number) => ((value % span) + span) % span;
+
 /** Where a drifting thing is after `time`, wrapping round a band `span` wide. */
 export function drift(
   start: number,
@@ -94,7 +97,7 @@ export function drift(
   time: number,
   span: number,
 ): number {
-  return (((start + speed * time) % span) + span) % span;
+  return wrap(start + speed * time, span);
 }
 
 /**
@@ -225,7 +228,7 @@ function outAndBack(
 export function peek(time: number, phase: number): number {
   const turn = phase / (Math.PI * 2);
   const period = PEEK_PERIOD[0] + (PEEK_PERIOD[1] - PEEK_PERIOD[0]) * turn;
-  const into = (((time + turn * period) % period) + period) % period;
+  const into = wrap(time + turn * period, period);
   return outAndBack(into, PEEK_RISE, PEEK_HOLD, PEEK_DUCK);
 }
 
@@ -259,7 +262,6 @@ export const BLINK_SHUT = 0.14;
 /** Whether a mouse's eyes are shut at `time`: briefly, once a period, `phase` setting when. */
 export function blink(time: number, phase: number): boolean {
   const offset = (phase / (Math.PI * 2)) * BLINK_PERIOD;
-  const into =
-    (((time + offset) % BLINK_PERIOD) + BLINK_PERIOD) % BLINK_PERIOD;
+  const into = wrap(time + offset, BLINK_PERIOD);
   return into < BLINK_SHUT;
 }

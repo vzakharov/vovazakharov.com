@@ -58,6 +58,18 @@ function paintShine(
   paint(graphics, place, ellipse(at, r, r * 0.7), PALETTE.windowShine, brush, true);
 }
 
+/** A window's wooden cross, its bars reaching `pane` out from the middle. */
+function paintCross(
+  graphics: Phaser.GameObjects.Graphics,
+  place: Place,
+  pane: number,
+  brush: Brush,
+): void {
+  const bar = FRAME * 0.8;
+  paint(graphics, place, box(-pane, -bar / 2, pane, bar / 2), PALETTE.wood, brush, true);
+  paint(graphics, place, box(-bar / 2, -pane, bar / 2, pane), PALETTE.wood, brush, true);
+}
+
 /**
  * One window of `kind` in its frame, as Syama drew them: a round pane with a
  * cross, a porthole with a thick rim, a square of four panes, a tall arched
@@ -70,15 +82,13 @@ export function paintWindow(
   brush: Brush,
 ): void {
   const middle = { x: 0, y: 0 };
-  const bar = FRAME * 0.8;
   switch (kind) {
     case 'cross': {
       const pane = 0.5 - FRAME;
       paint(graphics, place, ellipse(middle, 0.5), PALETTE.wood, brush);
       paint(graphics, place, ellipse(middle, pane), PALETTE.windowPane, brush);
       paintShine(graphics, place, { x: -0.18, y: 0.2 }, 0.1, brush);
-      paint(graphics, place, box(-pane, -bar / 2, pane, bar / 2), PALETTE.wood, brush, true);
-      paint(graphics, place, box(-bar / 2, -pane, bar / 2, pane), PALETTE.wood, brush, true);
+      paintCross(graphics, place, pane, brush);
       return;
     }
     case 'round': {
@@ -97,8 +107,7 @@ export function paintWindow(
       paint(graphics, place, box(-0.5, -0.5, 0.5, 0.5), PALETTE.wood, brush);
       paint(graphics, place, box(-pane, -pane, pane, pane), PALETTE.windowPane, brush);
       paintShine(graphics, place, { x: -0.2, y: 0.2 }, 0.09, brush);
-      paint(graphics, place, box(-pane, -bar / 2, pane, bar / 2), PALETTE.wood, brush, true);
-      paint(graphics, place, box(-bar / 2, -pane, bar / 2, pane), PALETTE.wood, brush, true);
+      paintCross(graphics, place, pane, brush);
       return;
     }
     case 'tall': {
