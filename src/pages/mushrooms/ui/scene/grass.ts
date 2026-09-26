@@ -10,9 +10,8 @@ const SEAM_TUFTS_PER_1000PX = 40;
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
 /**
- * How much of the breeze's cycle one CSS pixel across the meadow is behind the
- * last, so a gust is seen travelling over the grass rather than every tuft
- * moving at once.
+ * How much of the breeze's cycle each CSS pixel across lags, so a gust is
+ * seen crossing the grass.
  */
 const GUST_LAG = 0.008;
 

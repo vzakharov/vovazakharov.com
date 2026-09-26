@@ -8,10 +8,9 @@ const RING_DOTS = 12;
 const PUFF_SECONDS = 0.9;
 
 /**
- * A puff of spores from `at`: two rings of dots opening outward as they drift
- * up and fade, the second set half a step round from the first — the
- * meadow's mandala language again. `reach` is how far the outer ring opens.
- * Each dot is gone when its tween ends, so nothing outlives the puff.
+ * A puff of spores from `at`: two rings of dots, the second half a step round
+ * from the first, opening to `reach` as they drift up and fade. Each dot is
+ * destroyed when its tween ends.
  */
 export function puffSpores(
   scene: Phaser.Scene,

@@ -9,10 +9,7 @@ import type { Sized } from '@/shared/typings';
 import type { Circle, Point } from '../../model/geometry';
 import { maxReach } from '../../model/mushroom-pose';
 
-/**
- * Where a mushroom's foot stands, its size — the unit its genes are in — and
- * the `splay` it is stood with (`splayed`).
- */
+/** A mushroom's footing, and the `splay` it is stood with (`splayed`). */
 type Placement = Footing & { splay: number };
 /**
  * Where a thing's foot stands, and its size: the unit its genes are in, a

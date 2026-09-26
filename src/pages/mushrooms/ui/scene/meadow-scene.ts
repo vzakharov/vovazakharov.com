@@ -51,7 +51,7 @@ const FLOWER_SWAY = 0.09;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
 
-/** A seed's own offset into an idle loop, so no two things move in step. */
+/** A `Phased` phase read off the seed, so it holds across repaints. */
 function phaseOf({ seed }: Seeded): number {
   return (seed / 2 ** 32) * Math.PI * 2;
 }
