@@ -230,7 +230,7 @@ function windowPlace(
 }
 
 /** `door`'s frame on its mushroom's stem, `grown` of its size round its middle; and its aspect. */
-export function doorFrame(
+function doorFrame(
   door: DoorPlace,
   size: number,
   grown: number,

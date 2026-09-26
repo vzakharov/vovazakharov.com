@@ -89,7 +89,7 @@ export function windowSlots(
 const SPOT_CLEARANCE = MUSHROOM_INK;
 
 /** How far `point` stands from the square a window in `slot` is drawn inside: 0 within it. */
-export function fromPane(point: Point, slot: Point): number {
+function fromPane(point: Point, slot: Point): number {
   return Math.hypot(
     Math.max(0, Math.abs(point.x - slot.x) - PANE / 2),
     Math.max(0, Math.abs(point.y - slot.y) - PANE / 2),
@@ -117,7 +117,7 @@ const DOOR_WIDTH = 0.7;
 /** A door's height over its width: an arched door, taller than wide. */
 export const DOOR_ASPECT = 1.45;
 /** How far the door's frame stands out round the doorway, in door widths: to either side, and over the arch. */
-export const DOOR_FRAME = 0.09;
+const DOOR_FRAME = 0.09;
 /**
  * How far a door's frame keeps inside the stem's edge: a line of ink, and a
  * quarter more for the stem's curve between the points it is drawn through.
