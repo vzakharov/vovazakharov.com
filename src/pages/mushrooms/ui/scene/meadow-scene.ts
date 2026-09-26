@@ -18,7 +18,7 @@ import { Controls } from './controls';
 import { drawFlower } from './draw-flower';
 import { growTufts, paintTufts } from './grass';
 import { containsCircle } from './hit-areas';
-import { type MeadowLayout, meadowLayout, TAP_RADIUS } from './layout';
+import { type MeadowLayout, meadowLayout, tapReach } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { MeadowSound, readMuted } from './sound';
@@ -211,7 +211,7 @@ export class MeadowScene extends Phaser.Scene {
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);
       shown.headR = drawFlower(shown, flowerGenes(flower), place.size);
-      shown.hit.setTo(0, 0, Math.max(shown.headR * 1.2, TAP_RADIUS));
+      shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
     }
   }
 

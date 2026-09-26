@@ -16,6 +16,7 @@ import {
   meadowLayout,
   SUN_GLOW_REACH,
   TAP_RADIUS,
+  tapReach,
 } from './layout';
 
 const apart = (a: Circle, b: Circle) =>
@@ -115,7 +116,7 @@ describe('meadowLayout', () => {
       // Each as its hit area, which the mute's small drawing reaches past.
       const controls = [mute, plus, minus, ...picker].map((control) => ({
         ...control,
-        r: Math.max(control.r, TAP_RADIUS),
+        r: tapReach(control.r),
       }));
       for (const [index, control] of controls.entries()) {
         assert.ok(onScreen(control, width, height), `control ${index} off`);

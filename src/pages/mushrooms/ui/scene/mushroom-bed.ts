@@ -158,14 +158,19 @@ export class MushroomBed {
         grown,
       );
     }
-    const lit =
-      this.selected === undefined ? undefined : this.shown.get(this.selected);
+    const lit = this.lit();
     if (lit) {
       const pulse = 0.5 + 0.5 * Math.sin((t * Math.PI * 2) / GLOW_PERIOD);
       const alpha = (0.7 + 0.3 * pulse) * Math.min(1, lit.graphics.scaleY);
       this.glow.setAlpha(alpha).setScale(0.94 + 0.06 * pulse);
       this.footRing.setAlpha(alpha).setScale(0.96 + 0.08 * pulse);
     }
+  }
+
+  private lit(): Shown | undefined {
+    return this.selected === undefined
+      ? undefined
+      : this.shown.get(this.selected);
   }
 
   private place(shown: Shown, mushroom: Planted, layout: MeadowLayout): void {
@@ -212,8 +217,7 @@ export class MushroomBed {
 
   /** The glow, behind the selected mushroom's cap and before what stands behind it, and its ring on the ground. */
   private paintGlow(): void {
-    const lit =
-      this.selected === undefined ? undefined : this.shown.get(this.selected);
+    const lit = this.lit();
     this.glow.clear().setVisible(lit !== undefined);
     this.footRing.clear().setVisible(lit !== undefined);
     if (!lit) return;

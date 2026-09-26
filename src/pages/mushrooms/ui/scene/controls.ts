@@ -6,7 +6,7 @@ import { emerge, wobble } from '../../model/motion';
 import { CAP_KINDS, type CapKind } from '../../model/mushroom-genes';
 import { containsCircle } from './hit-areas';
 import { drawCapButton, drawGrowButton, drawMuteButton } from './hud';
-import { type MeadowLayout, TAP_RADIUS } from './layout';
+import { type MeadowLayout, tapReach } from './layout';
 
 /** How deep a pressed button sinks in, against a mushroom's squash. */
 const PRESS_DEPTH = 0.6;
@@ -102,7 +102,7 @@ export class Controls {
 
   private place(button: Button, { x, y, r }: Circle): void {
     button.graphics.setPosition(x, y);
-    button.hit.setTo(0, 0, Math.max(r, TAP_RADIUS));
+    button.hit.setTo(0, 0, tapReach(r));
   }
 
   private button(act: () => void): Button {

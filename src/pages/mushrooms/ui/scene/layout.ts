@@ -110,6 +110,11 @@ const PICK_ROOMY_SPACING = 2.7;
  */
 export const TAP_RADIUS = 32;
 
+/** A tap target's hit radius: what it draws, and never under `TAP_RADIUS`. */
+export function tapReach(r: number): number {
+  return Math.max(r, TAP_RADIUS);
+}
+
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
 /** The opening pair's turn apart, like the V of Syama's two caps. */
@@ -259,15 +264,10 @@ function placeControls(
 ): Pick<MeadowLayout, 'plus' | 'minus' | 'picker'> {
   const x = width - BUTTON_INSET - GROW_R;
   const plusY = height * 0.36;
-  const r = Math.min(
-    PICK_R,
-    (width - BUTTON_INSET * 2) / (PICK_SPACING * (CAP_KINDS.length - 1) + 2),
-  );
+  const span = width - BUTTON_INSET * 2;
   const gaps = CAP_KINDS.length - 1;
-  const step = Math.min(
-    r * PICK_ROOMY_SPACING,
-    (width - BUTTON_INSET * 2 - r * 2) / gaps,
-  );
+  const r = Math.min(PICK_R, span / (PICK_SPACING * gaps + 2));
+  const step = Math.min(r * PICK_ROOMY_SPACING, (span - r * 2) / gaps);
   const first = width / 2 - (step * gaps) / 2;
   const clearOfMute = first - r >= mute.x + mute.r + BUTTON_INSET;
   const y = clearOfMute ? BUTTON_INSET + r : mute.y + mute.r + BUTTON_INSET + r;
@@ -288,6 +288,7 @@ export function meadowLayout(
   seed: number,
 ): MeadowLayout {
   const portrait = height > width;
+  const orientation = portrait ? 'portrait' : 'landscape';
   const groundTop = height * (portrait ? 0.62 : 0.6);
   const horizon = height * (portrait ? 0.46 : 0.42);
   const ground = height - groundTop;
@@ -323,7 +324,7 @@ export function meadowLayout(
           sizeToFit(x, width, side * CLUMP_SPLAY, margin) / scale,
       ),
     );
-  const slots = FOREST_SLOTS[portrait ? 'portrait' : 'landscape'];
+  const slots = FOREST_SLOTS[orientation];
   const standing = (margin: number) => {
     const unit = clumpSize(margin);
     const opening = feet.map(({ x, y, scale, side }) => ({
@@ -375,7 +376,7 @@ export function meadowLayout(
     // reads as smaller than a fly agaric on every screen; clear of every
     // slot's foot, taken or not, so a mushroom growing never moves one.
     flowers: placeFlowers(
-      FLOWER_SPOTS[portrait ? 'portrait' : 'landscape'],
+      FLOWER_SPOTS[orientation],
       { width, groundTop, ground, unit: flowerUnit, seed },
       unmarginedFeet,
     ),
