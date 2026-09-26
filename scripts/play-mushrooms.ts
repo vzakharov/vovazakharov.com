@@ -29,11 +29,13 @@ import { type Browser, launch } from './lib/cdp.ts';
 import {
   Controls,
   Flower,
+  type Page,
   Point,
   PROBE,
   seededRandom,
   State,
 } from './lib/mushroom-probe.ts';
+import { playHouse } from './lib/play-house.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -105,16 +107,6 @@ const Evaluated = z.object({
     .object({ exception: z.object({ description: z.string() }).optional() })
     .optional(),
 });
-
-type Page = {
-  evaluate: <Parsed>(
-    expression: string,
-    schema: z.ZodType<Parsed>,
-  ) => Promise<Parsed>;
-  step: (frames: number) => Promise<void>;
-  tap: (point: z.infer<typeof Point>) => Promise<void>;
-  shoot: (step: string) => Promise<void>;
-};
 
 async function open(
   browser: Browser,
@@ -236,6 +228,7 @@ async function play(
   await page.step(30);
   await page.shoot('0-open');
   const opening = await state();
+  await playHouse(page, controls, expect);
 
   await page.tap(controls.plus);
   await page.step(30);
