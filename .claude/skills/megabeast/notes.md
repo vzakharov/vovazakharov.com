@@ -48,10 +48,14 @@ Each note: what happened, and what the skill should do about it.
   commit; that is `/finalize`'s job" (`go/SKILL.md` Step 2). An autonomous
   loop has no operator review between bites to catch a red tree, so the
   skill should run vet once at each bite's end, before `/polish`.
-- **The successor starts on the target branch already.** `create_session`
-  with `source_revision` checks out the branch, so `/from-branch` Steps 2–4
-  (drop the auto-branch) are a no-op every time. The skill can say so and
-  skip them.
+- **The successor starts on the branch's commit, not always on its tip.**
+  `create_session` with `source_revision` checks the branch out, so
+  `/from-branch` Steps 2–4 (drop the auto-branch) are a no-op. But the review
+  session of bite 1 came up detached at the commit the relay had pushed
+  first, with the local branch 12 commits behind `origin`, the session-cost
+  hook's commit among them. The skill should have pickup run `git checkout
+  <branch> && git pull --ff-only` every time, and skip only the auto-branch
+  cleanup.
 - **The context threshold is not measurable from inside a session, and one
   bite already fills it.** The loop says a `/handle` session takes the next
   bite "when its context is still under ~140k tokens", but an agent can't
@@ -87,3 +91,26 @@ Each note: what happened, and what the skill should do about it.
   `--use-angle=swiftshader`, a `deviceScaleFactor` and `hasTouch` per
   device, and the page's errors collected. The skill should ship that as a
   script, tap sequences included, rather than leave each session to find it.
+- **In a review, measure a property over many seeds; don't eyeball one
+  frame.** "The front cap nearly touches the edge" was a note from one
+  frame. A 30-line `tsx` script running 2000 visit seeds through the real
+  model and layout turned it into "5.5% of phone visits" — a finding the
+  handling session can check its fix against. For a procedural game, any
+  claim a frame suggests about layout or genes should be backed by a sweep
+  like this. The skill should keep the sweep as a script beside the frame
+  recipe.
+- **A review session's findings are on the page, not in the diff.** Bite 1's
+  code read cleanly: every real finding (faceted rims, the shade's cut, the
+  ruler-straight ground seam, the clipped sun) came from the frames, and
+  then the code said why. The skill should have review sessions shoot
+  frames first and read the code second, with the code pointing at causes.
+- **`tmp/` doesn't survive a relay, so the frame recipe was rewritten from
+  the summary's description.** It took one try, but it was still rework,
+  and the container has no Pillow for pixel checks. Another reason to commit
+  the recipe as a script (under `scripts/` or the slice) rather than keep it
+  in `tmp/`.
+- **A review posts in one call:** build the review JSON (`commit_id`,
+  `event: COMMENT`, `comments[]` with `line`/`start_line`, `side: RIGHT`) in
+  a script, then `gh api -X POST repos/<o>/<r>/pulls/<n>/reviews --input
+  <file>`. Anchoring on the head commit works even when the bite's last
+  commit is a few commits back, as long as the lines are unchanged.
