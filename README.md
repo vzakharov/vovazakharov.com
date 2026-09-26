@@ -36,8 +36,8 @@ pnpm build
 A Next project directory is `apps/<site>/`, so every build and dev server is
 entered there — hence no root `pnpm dev`.
 
-`./scripts/vet.sh` is the check to run before pushing; `CLAUDE.md` § Vetting says
-what it covers.
+`./scripts/vet.sh` is the check to run before pushing; `.claude/rules/stack.md`
+says what it covers.
 
 ## Project Structure
 

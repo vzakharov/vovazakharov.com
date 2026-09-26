@@ -7,8 +7,8 @@ End state: `https://<domain>` serves the new site over an approved certificate,
 this repository still serves its own content.
 
 **A repository gets one Pages site**, so every site after the first is published
-to a **receiving repository** of its own — CLAUDE.md § "Deployment" carries the
-arrangement that follows, and what this skill stands up is its receiving end.
+to a **receiving repository** of its own — `.claude/rules/deployment.md` carries
+the arrangement that follows, and what this skill stands up is its receiving end.
 
 **The domain is bought by the operator; its records are written by whoever can
 reach the registrar.** Step 2 splits on that, and either way the site is dark
@@ -16,7 +16,7 @@ until they land, whatever CI reports.
 
 The code half — the app directory, its `next.config.ts`, the site's entry in the
 shared config — is ordinary work on the branch and is not this skill's; CLAUDE.md
-§ "Repository layout" and § "Deployment" own it. This skill starts where the
+§ "Repository layout" and `.claude/rules/deployment.md` own it. This skill starts where the
 build already produces the site and ends where the domain serves it.
 
 ## Step 1 — The receiving repository and its key
@@ -138,8 +138,8 @@ from an unmerged branch publishes whatever it is told to — including sites who
 pages the branch also changes.
 
 **So the run names one site.** The gate reads a scope off the commit
-subject on a push and off the **site** picker on a manual run (CLAUDE.md
-§ "Deployment"); naming one site is what keeps an unmerged tree from republishing
+subject on a push and off the **site** picker on a manual run
+(`.claude/rules/deployment.md`); naming one site is what keeps an unmerged tree from republishing
 the others.
 
 ```bash
