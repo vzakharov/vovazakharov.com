@@ -1,8 +1,11 @@
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import { arch, type Point, sample } from '../../model/geometry';
 import {
-  doorPlace,
+  type DoorPlace,
+  doorway,
+  onStem,
+  paintedDoor,
   PANE,
   type WindowKind,
   windowSlots,
@@ -13,7 +16,6 @@ import { capFrame } from '../../model/mushroom-pose';
 import { paintMouse, type Peeking } from './draw-mouse';
 import { PALETTE } from './palette';
 import {
-  arch,
   box,
   type Brush,
   ellipse,
@@ -26,8 +28,6 @@ import {
 const FRAME = 0.1;
 /** A tall window's width, in its square's side. */
 const TALL_WIDTH = 0.62;
-/** How far the door's frame stands out round the doorway, in door widths. */
-const DOOR_FRAME = 0.09;
 /** How far an open door's leaf folds back towards its hinge. */
 const LEAF_FOLD = 0.8;
 
@@ -189,20 +189,14 @@ export function paintDoor(
   brush: Brush,
   inside?: () => void,
 ): void {
-  paint(
-    graphics,
-    place,
-    arch(1 + DOOR_FRAME * 2, aspect + DOOR_FRAME),
-    PALETTE.woodDeep,
-    brush,
-  );
-  paint(graphics, place, arch(1, aspect), PALETTE.doorway, brush, true);
+  paint(graphics, place, paintedDoor(aspect), PALETTE.woodDeep, brush);
+  paint(graphics, place, doorway(aspect), PALETTE.doorway, brush, true);
   if (open > 0) inside?.();
   // The leaf, folded towards its hinge as it swings open.
   const fold = 1 - LEAF_FOLD * open;
   const leafPlace: Place = ({ x, y }) =>
     place({ x: -0.5 + (x + 0.5) * fold, y });
-  paint(graphics, leafPlace, arch(1, aspect), PALETTE.wood, brush);
+  paint(graphics, leafPlace, doorway(aspect), PALETTE.wood, brush);
   graphics.lineStyle(
     Math.max(1, brush.ink * 0.6),
     brush.tone(PALETTE.woodDeep),
@@ -228,11 +222,6 @@ export function paintDoor(
   );
 }
 
-/** The doorway's outline in the door's frame: what a mouse is seen through. */
-export function doorway(aspect: number): Point[] {
-  return arch(1, aspect);
-}
-
 /** A window's frame on a mushroom's cap, `grown` of its size round its slot's middle. */
 function windowPlace(
   genes: MushroomGenes,
@@ -247,28 +236,17 @@ function windowPlace(
     canvas(cap({ x: slot.x + x * side, y: slot.y + y * side }));
 }
 
-/** A door's frame on a mushroom's stem, `grown` of its size round its middle; and its aspect. */
+/** `door`'s frame on its mushroom's stem, `grown` of its size round its middle; and its aspect. */
 export function doorFrame(
-  genes: MushroomGenes,
+  door: DoorPlace,
   size: number,
   grown: number,
 ): { place: Place; aspect: number } {
-  const door = doorPlace(genes);
   const canvas = toCanvas(size);
-  const width = door.width * grown;
-  const aspect = door.height / door.width;
-  const cos = Math.cos(door.tilt);
-  const sin = Math.sin(door.tilt);
+  const stem = onStem(door, grown);
   return {
-    aspect,
-    place: ({ x, y }) => {
-      const across = x * width;
-      const up = (y - aspect / 2) * width;
-      return canvas({
-        x: door.x + across * cos + up * sin,
-        y: door.y - across * sin + up * cos,
-      });
-    },
+    aspect: door.height / door.width,
+    place: (point) => canvas(stem(point)),
   };
 }
 
@@ -276,15 +254,15 @@ export function doorFrame(
 type Popped = { popped: number };
 /** A window as the house paints it. */
 export type ShownWindow = Popped & { kind: WindowKind };
-/** A door as the house paints it, and how open it stands. */
-export type ShownDoor = Popped & Peeking & { open: number };
+/** A door as the house paints it: where on the stem it stands, and how open. */
+export type ShownDoor = Popped & Peeking & { station: DoorPlace; open: number };
 
 /**
  * A mushroom's windows and door, painted into `graphics` in the frame
  * `drawMushroom` paints it in — the foot at the graphics' own position — so
  * they go wherever the mushroom does. Each window in its slot of
- * `windowSlots`, in the order it was put in; the door over the stem's foot,
- * with the mouse in its doorway while it is open.
+ * `windowSlots`, in the order it was put in; the door at its station on the
+ * stem, with the mouse in its doorway while it is open.
  */
 export function paintHouse(
   graphics: Phaser.GameObjects.Graphics,
@@ -301,7 +279,7 @@ export function paintHouse(
     paintWindow(graphics, kind, windowPlace(genes, size, slot, popped), brush);
   }
   if (!door || door.popped <= 0) return;
-  const { place, aspect } = doorFrame(genes, size, door.popped);
+  const { place, aspect } = doorFrame(door.station, size, door.popped);
   paintDoor(graphics, place, aspect, door.open, brush, () => {
     paintMouse(graphics, place, doorway(aspect), door, brush);
   });

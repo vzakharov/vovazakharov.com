@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import { type Point, ROUND_STEPS, sample } from '../../model/geometry';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {
@@ -98,8 +98,6 @@ export type Place = (point: Point) => Point;
 /** How a painter inks and tints: the ink line in pixels, and the haze a colour takes. */
 export type Brush = { ink: number; tone: (colour: number) => number };
 
-const ROUND_STEPS = 28;
-
 export function ellipse({ x, y }: Point, rx: number, ry: number = rx): Point[] {
   return sample(0, Math.PI * 2, ROUND_STEPS, (angle) => ({
     x: x + rx * Math.cos(angle),
@@ -113,22 +111,5 @@ export function box(left: number, bottom: number, right: number, top: number) {
     { x: right, y: bottom },
     { x: right, y: top },
     { x: left, y: top },
-  ];
-}
-
-/**
- * A shape `width` across and `height` tall, its bottom's middle `bottom` up,
- * with a round top: a doorway, a tall window.
- */
-export function arch(width: number, height: number, bottom = 0): Point[] {
-  const half = width / 2;
-  const spring = bottom + height - half;
-  return [
-    { x: -half, y: bottom },
-    { x: half, y: bottom },
-    ...sample(0, Math.PI, ROUND_STEPS, (angle) => ({
-      x: half * Math.cos(angle),
-      y: spring + half * Math.sin(angle),
-    })),
   ];
 }

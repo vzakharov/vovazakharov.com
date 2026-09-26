@@ -1,7 +1,12 @@
 import * as Phaser from 'phaser';
 
 import { placedAt, type Point } from '../../model/geometry';
-import { doorPlace, type House, windowSlots } from '../../model/house';
+import {
+  type DoorPlace,
+  doorway,
+  type House,
+  windowSlots,
+} from '../../model/house';
 import {
   blink,
   emerge,
@@ -10,11 +15,10 @@ import {
   mouseOut,
   type Tapped,
 } from '../../model/motion';
-import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
-import { capFrame } from '../../model/mushroom-pose';
+import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { mix } from './colour';
-import { doorFrame, doorway, paintHouse } from './draw-house';
+import { doorFrame, paintHouse } from './draw-house';
 import { containsOutline, type WithGraphics } from './hit-areas';
 import type { Footing, Hazed } from './layout';
 import { PALETTE } from './palette';
@@ -24,12 +28,22 @@ import { puffSpores } from './spores';
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
 
-/** The mushroom a house stands in, as the bed last stood and moved it. */
+/** Where `body`'s door stands, which the bed seats before any door goes in. */
+function seated({ door }: Body): DoorPlace {
+  if (!door) throw new Error('A door put in with no seat on its stem');
+  return door;
+}
+
+/**
+ * The mushroom a house stands in, as the bed last stood and moved it, and
+ * where on its stem the bed seated its door: `undefined` until a door needs
+ * one.
+ */
 export type Body = WithGraphics &
   Pick<Footing, 'size'> &
-  Hazed & {
-    genes: MushroomGenes;
-    turn: number;
+  Hazed &
+  Splayed & {
+    door: DoorPlace | undefined;
   };
 
 /**
@@ -100,12 +114,17 @@ export class HouseView {
     }
     if (house.door && this.doorAt === undefined) {
       this.doorAt = at;
-      const { x, y } = doorPlace(body.genes);
+      const { x, y } = seated(body);
       if (!opening) this.puff(body, { x, y });
     }
     if (added && !opening) this.voice.knock();
     this.house = house;
     this.stale = true;
+  }
+
+  /** Whether its door is in, so that where it stands on the stem is settled. */
+  get doored(): boolean {
+    return this.doorAt !== undefined;
   }
 
   /** Marks the house for a repaint, as a resize or a repaint of its mushroom needs. */
@@ -164,6 +183,7 @@ export class HouseView {
       this.doorAt === undefined
         ? undefined
         : {
+            station: seated(body),
             popped: emerge(t - this.doorAt),
             open: Math.min(1, out * DOOR_LEAD),
             out,
@@ -172,7 +192,7 @@ export class HouseView {
           };
     paintHouse(this.graphics, genes, size, windows, door, brush);
     if (door) {
-      const { place, aspect } = doorFrame(genes, size, 1);
+      const { place, aspect } = doorFrame(door.station, size, 1);
       this.hit.push(...doorway(aspect).map((point) => place(point)));
     }
   }

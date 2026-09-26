@@ -3,9 +3,10 @@ import { describe, it } from 'node:test';
 
 import { firstMeadow, MUSHROOM_SLOTS } from '../../model/game';
 import {
+  type Box,
+  boxAround,
   type Circle,
   containsPoint,
-  placedAt,
   type Point,
   sample,
 } from '../../model/geometry';
@@ -14,16 +15,12 @@ import {
   CAP_KINDS,
   GENE_RANGES,
   mushroomGenes,
+  type MushroomSeed,
 } from '../../model/mushroom-genes';
-import {
-  domeBand,
-  gillsOutline,
-  stemOutline,
-  tapArea,
-  toCanvas,
-} from '../../model/mushroom-outline';
-import { capFrame, capReach, splayed, stemAt } from '../../model/mushroom-pose';
+import { tapArea } from '../../model/mushroom-outline';
+import { capReach, splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed } from '../../model/random';
+import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
 import {
   EDGE_MARGIN,
   FOOT_CLEARANCE,
@@ -60,27 +57,18 @@ const STEM_TRIES = 20;
 const MOST_HIDDEN = 0.25;
 
 /**
- * A mushroom as the scene stands it in `place`: its depth, points along its
- * stem, and its outlines as drawn and as tapped, on screen.
+ * A mushroom as the scene stands it in `place`, with points along its stem
+ * and its outlines as tapped, on screen.
  */
-function standingAt(
+function standingWithTaps(
   place: MeadowLayout['mushrooms'][number],
-  seeded: Parameters<typeof mushroomGenes>[0],
+  seeded: MushroomSeed,
 ) {
-  const { genes, turn } = splayed(mushroomGenes(seeded), place.splay);
-  const canvas = toCanvas(place.size);
-  const placed = (outline: readonly Point[]) =>
-    outline.map((point) => placedAt(place, turn, canvas(point)));
-  const cap = capFrame(genes);
+  const standing = standingAt(place, seeded);
+  const { genes, placed } = standing;
   return {
-    // Where its foot stands, as the scene sets it.
-    depth: place.y,
+    ...standing,
     stem: placed(sample(0.05, 0.95, STEM_TRIES - 1, (t) => stemAt(genes, t))),
-    drawn: [
-      placed(domeBand(genes, 0).map((point) => cap(point))),
-      placed(gillsOutline(genes).map((point) => cap(point))),
-      placed(stemOutline(genes)),
-    ],
     tapped: Object.values(tapArea(genes)).map((outline) => placed(outline)),
   };
 }
@@ -91,7 +79,7 @@ function standingClump(seed: number, layout: MeadowLayout) {
     .mushrooms.map(({ id, slot, ...seeded }) => {
       const place = layout.mushrooms[slot];
       assert.ok(place);
-      return { id, ...standingAt(place, seeded) };
+      return { id, ...standingWithTaps(place, seeded) };
     })
     .toSorted((a, b) => b.depth - a.depth);
 }
@@ -103,24 +91,11 @@ function standingClump(seed: number, layout: MeadowLayout) {
 function standingForest(seed: number, turn: number, layout: MeadowLayout) {
   const random = mulberry32(seed);
   return layout.mushrooms.map((place, slot) =>
-    standingAt(place, {
+    standingWithTaps(place, {
       seed: nextSeed(random),
       cap: CAP_KINDS[(turn + slot) % CAP_KINDS.length] ?? 'spotted',
     }),
   );
-}
-
-type Box = Record<'left' | 'right' | 'top' | 'bottom', number>;
-
-function boxAround(points: readonly Point[]): Box {
-  const xs = points.map(({ x }) => x);
-  const ys = points.map(({ y }) => y);
-  return {
-    left: Math.min(...xs),
-    right: Math.max(...xs),
-    top: Math.min(...ys),
-    bottom: Math.max(...ys),
-  };
 }
 
 /** How much of `box`'s area `over` covers. */
@@ -213,6 +188,25 @@ describe('meadowLayout', () => {
               `visit ${seed}: ${id}'s stem at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`,
             );
           }
+        }
+      }
+    });
+
+    it(`keeps each clump door mostly in sight on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      for (const seed of VISITS) {
+        const clump = standingClump(seed, layout);
+        for (const [index, mushroom] of clump.entries()) {
+          const sight = sightOf(
+            mushroom,
+            doorInSight(mushroom, clump),
+            'doorway',
+            clump.slice(0, index),
+          );
+          if (sight < IN_SIGHT)
+            assert.fail(
+              `visit ${seed}: ${mushroom.id}'s doorway ${(sight * 100).toFixed(0)}% in sight`,
+            );
         }
       }
     });

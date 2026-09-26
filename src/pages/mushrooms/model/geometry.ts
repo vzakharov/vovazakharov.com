@@ -20,6 +20,26 @@ export function sample<Sampled>(
   );
 }
 
+/** How many chords a round shape's curve is drawn with. */
+export const ROUND_STEPS = 28;
+
+/**
+ * A shape `width` across and `height` tall, its bottom's middle `bottom` up,
+ * with a round top: a doorway, a tall window.
+ */
+export function arch(width: number, height: number, bottom = 0): Point[] {
+  const half = width / 2;
+  const spring = bottom + height - half;
+  return [
+    { x: -half, y: bottom },
+    { x: half, y: bottom },
+    ...sample(0, Math.PI, ROUND_STEPS, (angle) => ({
+      x: half * Math.cos(angle),
+      y: spring + half * Math.sin(angle),
+    })),
+  ];
+}
+
 /** One round of Chaikin's corner cutting over a closed outline. */
 function cutCorners(outline: readonly Point[]): Point[] {
   return outline.flatMap((point, index) => {
@@ -41,6 +61,27 @@ export function rounded(points: readonly Point[], rounds: number): Point[] {
   return outline;
 }
 
+/** An axis-aligned box round some points: `top` their least y and `bottom` their greatest, as on a canvas. */
+export type Box = Record<'left' | 'right' | 'top' | 'bottom', number>;
+
+export function boxAround(points: readonly Point[]): Box {
+  const xs = points.map(({ x }) => x);
+  const ys = points.map(({ y }) => y);
+  return {
+    left: Math.min(...xs),
+    right: Math.max(...xs),
+    top: Math.min(...ys),
+    bottom: Math.max(...ys),
+  };
+}
+
+/** Whether two boxes share any point. */
+export const boxesMeet = (a: Box, b: Box) =>
+  a.left <= b.right &&
+  b.left <= a.right &&
+  a.top <= b.bottom &&
+  b.top <= a.bottom;
+
 /** Whether `point` is inside the closed `polygon`, by the even-odd rule. */
 export function containsPoint(
   polygon: readonly Point[],
@@ -53,6 +94,28 @@ export function containsPoint(
     if (x < a.x + ((y - a.y) * (b.x - a.x)) / (b.y - a.y)) inside = !inside;
   }
   return inside;
+}
+
+/**
+ * Points `margin` outside the closed, anticlockwise `outline`: off each vertex
+ * along the outward normal of either edge that meets there. Were they all
+ * inside a smooth-edged shape, so would the outline be, `margin` in from its edge.
+ */
+export function outside(outline: readonly Point[], margin: number): Point[] {
+  return outline.flatMap((point, index) => {
+    const before = outline.at(index - 1) ?? point;
+    const after = outline[(index + 1) % outline.length] ?? point;
+    return [
+      [before, point],
+      [point, after],
+    ].map(([a = point, b = point]) => {
+      const length = Math.hypot(b.x - a.x, b.y - a.y);
+      return {
+        x: point.x + ((b.y - a.y) / length) * margin,
+        y: point.y - ((b.x - a.x) / length) * margin,
+      };
+    });
+  });
 }
 
 /**

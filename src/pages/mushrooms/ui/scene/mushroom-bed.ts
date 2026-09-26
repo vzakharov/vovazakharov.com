@@ -22,6 +22,7 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
+import { doorInSight, standingAt } from './door-sight';
 import {
   drawMushroom,
   drawMushroomShadow,
@@ -110,19 +111,33 @@ export class MushroomBed {
       shown.house.disable();
       this.voice.sink();
     }
+    const planted = new Set<string>();
     for (const mushroom of mushrooms) {
-      const standing = this.shown.get(mushroom.id);
-      if (standing) {
-        standing.house.furnish(mushroom.house, standing, clock, opening);
-        continue;
-      }
+      if (this.shown.has(mushroom.id)) continue;
       const shown = this.show(mushroom, opening ? -Infinity : clock);
       this.place(shown, mushroom, layout);
-      shown.house.furnish(mushroom.house, shown, clock, true);
+      planted.add(mushroom.id);
       if (!opening) {
         puffSpores(this.scene, shown.graphics, shown.size * 0.5, SPORE_DEPTH);
         this.voice.grow();
       }
+    }
+    // A door going in is seated among the mushrooms standing now; one
+    // already in stays where it is, whatever grows in front of it since.
+    this.seatDoors(
+      mushrooms,
+      layout,
+      (shown, { house }) => house.door && !shown.house.doored,
+    );
+    for (const mushroom of mushrooms) {
+      const shown = this.shown.get(mushroom.id);
+      if (!shown) continue;
+      shown.house.furnish(
+        mushroom.house,
+        shown,
+        clock,
+        opening || planted.has(mushroom.id),
+      );
     }
     if (selected !== this.selected) {
       const was = this.lit();
@@ -134,12 +149,16 @@ export class MushroomBed {
     this.paintSelection();
   }
 
-  /** Stands every mushroom in its slot of `layout`, into the objects it has. */
+  /**
+   * Stands every mushroom in its slot of `layout`, into the objects it has,
+   * and seats every door afresh among them as they now stand.
+   */
   paint(meadow: Meadow, layout: MeadowLayout): void {
     for (const mushroom of meadow.mushrooms) {
       const shown = this.shown.get(mushroom.id);
       if (shown) this.place(shown, mushroom, layout);
     }
+    this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
     this.paintSelection();
   }
 
@@ -179,6 +198,30 @@ export class MushroomBed {
         .setScale(graphics.scaleX, graphics.scaleY)
         .setRotation(graphics.rotation);
       this.footRing.setScale((1 - stretch * RING_SPREAD) * grown);
+    }
+  }
+
+  /**
+   * Seats the door of each of `mushrooms` that `due` picks where the ones in
+   * front of it, as `layout` stands them, leave it in sight (`doorInSight`).
+   */
+  private seatDoors(
+    mushrooms: readonly Planted[],
+    layout: MeadowLayout,
+    due: (shown: Shown, mushroom: Planted) => boolean,
+  ): void {
+    const standing = mushrooms.flatMap((mushroom) => {
+      const shown = this.shown.get(mushroom.id);
+      const place = layout.mushrooms[mushroom.slot];
+      return shown && place
+        ? [{ mushroom, shown, standing: standingAt(place, mushroom) }]
+        : [];
+    });
+    const everyone = standing.map((each) => each.standing);
+    for (const { mushroom, shown, standing: self } of standing) {
+      if (!due(shown, mushroom)) continue;
+      shown.door = doorInSight(self, everyone);
+      shown.house.repaint();
     }
   }
 
@@ -241,6 +284,7 @@ export class MushroomBed {
       hit,
       genes: mushroomGenes(mushroom),
       turn: 0,
+      door: undefined,
       size: 0,
       haze: 0,
       house: new HouseView(

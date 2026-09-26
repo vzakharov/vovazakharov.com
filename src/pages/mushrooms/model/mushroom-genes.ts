@@ -21,7 +21,7 @@ export const CAP_KINDS = [
 export type CapKind = (typeof CAP_KINDS)[number];
 
 type Capped = { cap: CapKind };
-type MushroomSeed = Seeded & Capped;
+export type MushroomSeed = Seeded & Capped;
 export type Mushroom = WithId & MushroomSeed;
 
 /**

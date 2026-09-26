@@ -6,9 +6,23 @@
 
 import type { Sized } from '@/shared/typings';
 
-import type { Point } from './geometry';
+import {
+  arch,
+  boxAround,
+  boxesMeet,
+  containsPoint,
+  outside,
+  type Point,
+  sample,
+} from './geometry';
 import { domeHeight, type MushroomGenes } from './mushroom-genes';
-import { stemAt, type StemStation } from './mushroom-pose';
+import {
+  domeBand,
+  gillsOutline,
+  MUSHROOM_INK,
+  stemHalfWidth,
+} from './mushroom-outline';
+import { capFrame, stemAt, type StemStation } from './mushroom-pose';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
 const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
@@ -70,29 +84,133 @@ export function windowSlots(
   return slots;
 }
 
-/** A door's width, as a fraction of the stem's width at its foot. */
+/** A door's width, as a fraction of the stem's narrowest width across its frame. */
 const DOOR_WIDTH = 0.7;
 /** A door's height over its width: an arched door, taller than wide. */
 export const DOOR_ASPECT = 1.45;
-/** How far the door's sill stands above the ground. */
-const DOOR_SILL = 0.012;
+/** How far the door's frame stands out round the doorway, in door widths: to either side, and over the arch. */
+export const DOOR_FRAME = 0.09;
+/**
+ * How far a door's frame keeps inside the stem's edge: a line of ink, and a
+ * quarter more for the stem's curve between the points it is drawn through.
+ */
+const FRAME_MARGIN = MUSHROOM_INK * 1.25;
+/** How far the lowest door's sill stands above the ground, the ground's line clear of it. */
+const DOOR_SILL = FRAME_MARGIN;
+/** From one door station to the next up the stem, in `stemAt`'s `t`. */
+const STATION_STEP = 0.05;
 const RISE_STEP = 0.005;
+/** How finely the stem's width is read along a door's frame. */
+const FIT_SAMPLES = 8;
 
 /** A door on the stem: its middle, the stem's tilt there, and its size. */
 export type DoorPlace = StemStation & Sized;
 
+/** The doorway, `aspect` door widths tall, in the door's frame: door widths, its sill's middle at the origin, y up. */
+export function doorway(aspect: number): Point[] {
+  return arch(1, aspect);
+}
+
+/** The door as painted: its doorway in the frame round it, in the door's frame. */
+export function paintedDoor(aspect: number): Point[] {
+  return arch(1 + DOOR_FRAME * 2, aspect + DOOR_FRAME);
+}
+
 /**
- * Where a mushroom's door goes, in the mushroom's own frame (foot at the
- * origin, y up): its middle on the stem's centreline, its sill just above the
- * ground, upright along the stem there.
+ * From the door's frame onto its stem, in the mushroom's frame: upright along
+ * the stem at its middle, `grown` of its size round that middle.
  */
-export function doorPlace(genes: MushroomGenes): DoorPlace {
-  const width = genes.stemWidth * genes.footBulge * DOOR_WIDTH;
-  const height = width * DOOR_ASPECT;
-  const middle = DOOR_SILL + height / 2;
-  let t = 0;
-  while (stemAt(genes, t).y < middle) t += RISE_STEP;
-  return { ...stemAt(genes, t), width, height };
+export function onStem(door: DoorPlace, grown = 1): (point: Point) => Point {
+  const width = door.width * grown;
+  const aspect = door.height / door.width;
+  const cos = Math.cos(door.tilt);
+  const sin = Math.sin(door.tilt);
+  return ({ x, y }) => {
+    const across = x * width;
+    const up = (y - aspect / 2) * width;
+    return {
+      x: door.x + across * cos + up * sin,
+      y: door.y - across * sin + up * cos,
+    };
+  };
+}
+
+/**
+ * A door with its middle `t` up the stem, as wide as the stem allows there:
+ * `DOOR_WIDTH` of its narrowest width along the frame, and never so wide that
+ * the frame comes nearer the stem's edge than `FRAME_MARGIN`.
+ */
+function doorAt(genes: MushroomGenes, t: number): DoorPlace {
+  const station = stemAt(genes, t);
+  // Along the stem, the frame reaches no farther from its middle than a door
+  // as wide as the stem at the middle would.
+  const widest = 2 * stemHalfWidth(genes, t) * DOOR_WIDTH;
+  const reach = widest * (DOOR_ASPECT / 2 + DOOR_FRAME);
+  const below = stemAt(genes, Math.max(0, t - RISE_STEP));
+  const above = stemAt(genes, Math.min(1, t + RISE_STEP));
+  const perT =
+    Math.hypot(above.x - below.x, above.y - below.y) /
+    (Math.min(1, t + RISE_STEP) - Math.max(0, t - RISE_STEP));
+  const span = reach / perT;
+  const narrowest = Math.min(
+    ...sample(
+      Math.max(0, t - span),
+      Math.min(1, t + span),
+      FIT_SAMPLES,
+      (along) => stemHalfWidth(genes, along),
+    ),
+  );
+  const width = Math.min(
+    2 * narrowest * DOOR_WIDTH,
+    (2 * narrowest - 2 * FRAME_MARGIN) / (1 + DOOR_FRAME * 2),
+  );
+  return { ...station, width, height: width * DOOR_ASPECT };
+}
+
+/**
+ * Where a mushroom's door may go, in the mushroom's own frame (foot at the
+ * origin, y up), from the lowest up: its sill just above the ground, then a
+ * station at a time up the stem for as long as the frame keeps under the cap. Which one it takes is the
+ * scene's call, as the mushrooms in front of it allow.
+ */
+export function doorStations(genes: MushroomGenes): DoorPlace[] {
+  // The frame's lower corner, as the stem's tilt there dips one of them.
+  const sill = (t: number) => {
+    const place = onStem(doorAt(genes, t));
+    const corner = 0.5 + DOOR_FRAME;
+    return Math.min(
+      place({ x: -corner, y: 0 }).y,
+      place({ x: corner, y: 0 }).y,
+    );
+  };
+  const cap = capFrame(genes);
+  const overhead = [domeBand(genes, 0), gillsOutline(genes)].map((outline) =>
+    outline.map((point) => cap(point)),
+  );
+  const overBox = boxAround(overhead.flat());
+  // The whole frame, and `FRAME_MARGIN` round it, clear of the cap.
+  const underCap = (door: DoorPlace) => {
+    const place = onStem(door);
+    const around = outside(
+      paintedDoor(DOOR_ASPECT),
+      FRAME_MARGIN / door.width,
+    ).map((point) => place(point));
+    return (
+      !boxesMeet(boxAround(around), overBox) ||
+      around.every(
+        (point) => !overhead.some((outline) => containsPoint(outline, point)),
+      )
+    );
+  };
+  let lowest = 0;
+  while (sill(lowest) < DOOR_SILL) lowest += RISE_STEP;
+  const stations: DoorPlace[] = [];
+  for (let t = lowest; t <= 1; t += STATION_STEP) {
+    const door = doorAt(genes, t);
+    if (!underCap(door)) break;
+    stations.push(door);
+  }
+  return stations;
 }
 
 /**

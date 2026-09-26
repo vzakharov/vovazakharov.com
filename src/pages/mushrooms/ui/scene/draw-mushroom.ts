@@ -7,6 +7,7 @@ import {
   domeArc,
   domeBand,
   gillsOutline,
+  MUSHROOM_INK,
   stemOutline,
   type TapArea,
   toCanvas,
@@ -60,7 +61,7 @@ export function drawMushroom(
   haze = 0,
 ): void {
   const tone = (colour: number) => mix(colour, PALETTE.skyHorizon, haze);
-  const ink = Math.max(2, size * 0.014);
+  const ink = Math.max(2, size * MUSHROOM_INK);
   const inkColour = tone(PALETTE.ink);
   const canvas = toCanvas(size);
   const cap = capFrame(genes);

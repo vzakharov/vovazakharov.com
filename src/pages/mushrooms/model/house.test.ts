@@ -1,17 +1,26 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, type Point } from './geometry';
+import { containsPoint, outside, type Point } from './geometry';
 import {
-  doorPlace,
+  DOOR_ASPECT,
+  doorStations,
   EMPTY_HOUSE,
   furnished,
   type House,
+  onStem,
+  paintedDoor,
   PANE,
   windowSlots,
 } from './house';
 import { CAP_KINDS, mushroomGenes } from './mushroom-genes';
-import { domeBand, stemOutline } from './mushroom-outline';
+import {
+  domeBand,
+  gillsOutline,
+  MUSHROOM_INK,
+  stemOutline,
+} from './mushroom-outline';
+import { capFrame } from './mushroom-pose';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
 const everyMushroom = CAP_KINDS.flatMap((cap) =>
@@ -101,23 +110,45 @@ describe('windowSlots', () => {
   });
 });
 
-describe('doorPlace', () => {
-  it('stands the door on the stem, just above the ground', () => {
+describe('doorStations', () => {
+  it('frames every door a line of ink inside the stem, at every station', () => {
     for (const genes of everyMushroom) {
-      const door = doorPlace(genes);
       const stem = stemOutline(genes);
-      // Across and along the stem where the door stands, as `stemOutline` turns them.
-      const cos = Math.cos(door.tilt);
-      const sin = Math.sin(door.tilt);
-      for (const { x, y } of corners({ x: 0, y: 0 }, door.width, door.height)) {
-        const corner = {
-          x: door.x + x * cos + y * sin,
-          y: door.y - x * sin + y * cos,
-        };
-        assert.ok(containsPoint(stem, corner), JSON.stringify(genes));
+      for (const door of doorStations(genes)) {
+        const place = onStem(door);
+        const line = MUSHROOM_INK / door.width;
+        for (const point of outside(paintedDoor(DOOR_ASPECT), line)) {
+          if (!containsPoint(stem, place(point)))
+            assert.fail(JSON.stringify({ genes, door }));
+        }
       }
-      assert.ok(door.y - door.height / 2 > 0);
-      assert.ok(door.y + door.height / 2 < genes.stemHeight / 2);
+    }
+  });
+
+  it('rises from a sill just above the ground to under the gills', () => {
+    for (const genes of everyMushroom) {
+      const stations = doorStations(genes);
+      assert.ok(stations.length >= 8, `${stations.length} stations`);
+      const [lowest] = stations;
+      assert.ok(lowest);
+      assert.ok(lowest.y - lowest.height / 2 > 0);
+      assert.ok(lowest.y - lowest.height / 2 < 0.035);
+      for (const [index, door] of stations.slice(1).entries()) {
+        assert.ok(door.y > (stations[index]?.y ?? Infinity));
+      }
+      const cap = capFrame(genes);
+      const underCap = [domeBand(genes, 0), gillsOutline(genes)].map(
+        (outline) => outline.map((point) => cap(point)),
+      );
+      const highest = stations.at(-1);
+      assert.ok(highest);
+      const place = onStem(highest);
+      for (const point of paintedDoor(DOOR_ASPECT)) {
+        for (const outline of underCap) {
+          if (containsPoint(outline, place(point)))
+            assert.fail(JSON.stringify(genes));
+        }
+      }
     }
   });
 });

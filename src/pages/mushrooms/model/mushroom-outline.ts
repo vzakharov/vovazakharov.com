@@ -9,6 +9,8 @@ import { domeHeight, type MushroomGenes } from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';
 
 export const CURVE_STEPS = 28;
+/** A mushroom's ink line, in units of its size, wherever it is painted big enough to leave its pixel floor. */
+export const MUSHROOM_INK = 0.014;
 /** How many times the dome's corners are cut, rounding its rim. */
 const RIM_ROUNDS = 2;
 

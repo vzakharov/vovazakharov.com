@@ -116,6 +116,9 @@ function facing<Genes extends Facing>(genes: Genes, side: -1 | 1): Genes {
   };
 }
 
+/** A mushroom's genes as it stands, and its turn about its foot. */
+export type Splayed<Genes = MushroomGenes> = { genes: Genes; turn: number };
+
 /**
  * A mushroom as a placement stands it: facing the way its `splay` turns it,
  * and turned about its foot by its lean and that splay together.
@@ -123,7 +126,7 @@ function facing<Genes extends Facing>(genes: Genes, side: -1 | 1): Genes {
 export function splayed<Genes extends Facing>(
   genes: Genes,
   splay: number,
-): { genes: Genes; turn: number } {
+): Splayed<Genes> {
   const faced = splay === 0 ? genes : facing(genes, splay < 0 ? -1 : 1);
   return { genes: faced, turn: faced.lean + splay };
 }
