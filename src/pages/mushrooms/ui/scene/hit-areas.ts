@@ -1,16 +1,18 @@
 import * as Phaser from 'phaser';
 
+import { containsPoint } from '../../model/geometry';
+import type { TapArea } from '../../model/mushroom-outline';
+
 export type WithGraphics = { graphics: Phaser.GameObjects.Graphics };
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
 
-/** A mushroom's tap area: its cap and its stem as two shapes, hugging what is drawn, so it stays off a neighbour close beside it. */
-export type MushroomHit = Record<'cap' | 'stem', Phaser.Geom.Polygon>;
-
-/** Phaser's hit tests, bound for use as an object's hit callback. */
-export function containsMushroom(area: MushroomHit, x: number, y: number) {
-  return (
-    Phaser.Geom.Polygon.Contains(area.cap, x, y) ||
-    Phaser.Geom.Polygon.Contains(area.stem, x, y)
+/**
+ * Hit tests, bound for use as an object's hit callback. A mushroom's area is
+ * its `tapArea` in its graphics' own canvas frame, pixels with y down.
+ */
+export function containsMushroom(area: TapArea, x: number, y: number) {
+  return Object.values(area).some((outline) =>
+    containsPoint(outline, { x, y }),
   );
 }
 

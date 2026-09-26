@@ -1,18 +1,32 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { MUSHROOM_SLOTS } from '../../model/game';
-import type { Circle } from '../../model/geometry';
+import { firstMeadow, MUSHROOM_SLOTS } from '../../model/game';
+import {
+  type Circle,
+  containsPoint,
+  placedAt,
+  type Point,
+  sample,
+} from '../../model/geometry';
 import {
   CAP_KINDS,
   GENE_RANGES,
   mushroomGenes,
 } from '../../model/mushroom-genes';
-import { capReach, splayed } from '../../model/mushroom-pose';
+import {
+  domeBand,
+  gillsOutline,
+  stemOutline,
+  tapArea,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { capFrame, capReach, splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed } from '../../model/random';
 import {
   EDGE_MARGIN,
   FOOT_CLEARANCE,
+  type MeadowLayout,
   meadowLayout,
   SUN_GLOW_REACH,
   TAP_RADIUS,
@@ -32,6 +46,52 @@ const VIEWPORTS = [
   ['desktop', 1920, 1080],
 ] as const;
 const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
+/** How many points along a stem's drawn centreline a tap is tried at. */
+const STEM_TRIES = 20;
+
+/**
+ * The opening clump of a visit as the scene stands it, the front-most first:
+ * each mushroom's depth, points along its stem, and its outlines as drawn and
+ * as tapped, on screen.
+ */
+function standingClump(seed: number, layout: MeadowLayout) {
+  return firstMeadow(mulberry32(seed))
+    .mushrooms.map(({ id, slot, ...seeded }) => {
+      const place = layout.mushrooms[slot];
+      assert.ok(place);
+      const { genes, turn } = splayed(mushroomGenes(seeded), place.splay);
+      const canvas = toCanvas(place.size);
+      const placed = (outline: readonly Point[]) =>
+        outline.map((point) => placedAt(place, turn, canvas(point)));
+      const cap = capFrame(genes);
+      return {
+        id,
+        // Where its foot stands, as the scene sets it.
+        depth: place.y,
+        stem: placed(
+          sample(0.05, 0.95, STEM_TRIES - 1, (t) => stemAt(genes, t)),
+        ),
+        drawn: [
+          placed(domeBand(genes, 0).map((point) => cap(point))),
+          placed(gillsOutline(genes).map((point) => cap(point))),
+          placed(stemOutline(genes)),
+        ],
+        tapped: Object.values(tapArea(genes)).map((outline) => placed(outline)),
+      };
+    })
+    .toSorted((a, b) => b.depth - a.depth);
+}
+
+/** The front-most of `clump` whose outlines, as drawn or as tapped, hold `point`. */
+function topmost(
+  clump: ReturnType<typeof standingClump>,
+  point: Point,
+  as: 'drawn' | 'tapped',
+): string | undefined {
+  return clump.find((mushroom) =>
+    mushroom[as].some((outline) => containsPoint(outline, point)),
+  )?.id;
+}
 
 describe('meadowLayout', () => {
   for (const [name, width, height] of VIEWPORTS) {
@@ -53,6 +113,25 @@ describe('meadowLayout', () => {
               place.x + right * place.size <= width - EDGE_MARGIN,
             `visit ${seed}: ${mushroom.id} past the edge`,
           );
+        }
+      }
+    });
+
+    it(`hands a tap on either clump stem to the mushroom drawn there on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      for (const seed of VISITS) {
+        const clump = standingClump(seed, layout);
+        // A tie would leave the one added later on top, which the sort
+        // does not model.
+        assert.notEqual(clump[0]?.depth, clump[1]?.depth);
+        for (const { id, stem } of clump) {
+          for (const point of stem) {
+            assert.equal(
+              topmost(clump, point, 'tapped'),
+              topmost(clump, point, 'drawn'),
+              `visit ${seed}: ${id}'s stem at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`,
+            );
+          }
         }
       }
     });

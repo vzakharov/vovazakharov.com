@@ -1,10 +1,10 @@
 import type * as Phaser from 'phaser';
 
 import type { FlowerGenes } from '../../model/flower-genes';
-import type { Point } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 import { mix } from './colour';
 import { PALETTE } from './palette';
-import { fillShape, petal, sample, strokeLine, strokeShape } from './shapes';
+import { fillShape, petal, strokeLine, strokeShape } from './shapes';
 
 const STEM_STEPS = 16;
 const PADDLE_STEPS = 18;

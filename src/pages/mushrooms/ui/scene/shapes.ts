@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {
@@ -30,18 +30,6 @@ export function strokeLine(
 }
 
 const PETAL_STEPS = 10;
-
-/** `point` at `steps + 1` evenly spaced values from `from` to `to`, both ends included. */
-export function sample<Sampled>(
-  from: number,
-  to: number,
-  steps: number,
-  point: (value: number) => Sampled,
-): Sampled[] {
-  return Array.from({ length: steps + 1 }, (_, step) =>
-    point(from + ((to - from) * step) / steps),
-  );
-}
 
 /**
  * A petal, or a sun's ray: a pointed lens from `from` to `to` out from
@@ -99,25 +87,4 @@ export function crescent(
     return { x: point.x + normal.x * reach, y: point.y + normal.y * reach };
   });
   return [...arc, ...inner.toReversed()];
-}
-
-/** One round of Chaikin's corner cutting over a closed outline. */
-function cutCorners(outline: readonly Point[]): Point[] {
-  return outline.flatMap((point, index) => {
-    const next = outline[(index + 1) % outline.length] ?? point;
-    return [
-      { x: point.x * 0.75 + next.x * 0.25, y: point.y * 0.75 + next.y * 0.25 },
-      { x: point.x * 0.25 + next.x * 0.75, y: point.y * 0.25 + next.y * 0.75 },
-    ];
-  });
-}
-
-/**
- * A closed outline with its corners cut `rounds` times, which rounds a vertex
- * into a short curve and leaves smooth stretches be.
- */
-export function rounded(points: readonly Point[], rounds: number): Point[] {
-  let outline = [...points];
-  for (let round = 0; round < rounds; round++) outline = cutCorners(outline);
-  return outline;
 }

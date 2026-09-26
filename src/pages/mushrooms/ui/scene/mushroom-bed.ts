@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Meadow, Planted } from '../../model/game';
-import type { Point } from '../../model/geometry';
+import { placedAt } from '../../model/geometry';
 import {
   breath,
   emerge,
@@ -12,18 +12,16 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
+import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
 import {
-  domeHeight,
-  type MushroomGenes,
-  mushroomGenes,
-} from '../../model/mushroom-genes';
-import { capFrame, splayed, stemAt } from '../../model/mushroom-pose';
-import { drawMushroom, drawMushroomShadow, toCanvas } from './draw-mushroom';
-import {
-  containsMushroom,
-  type MushroomHit,
-  type WithGraphics,
-} from './hit-areas';
+  TAP_PARTS,
+  type TapArea,
+  tapArea,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { capFrame, splayed } from '../../model/mushroom-pose';
+import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
+import { containsMushroom, type WithGraphics } from './hit-areas';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
@@ -31,9 +29,6 @@ import { puffSpores } from './spores';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;
-/** How finely a mushroom's tap area follows its dome, and how far past it it reaches. */
-const HIT_STEPS = 12;
-const HIT_PAD = 0.08;
 /** A tapped mushroom's rock to and fro, against its squash. */
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
@@ -48,20 +43,12 @@ const GLOW_RINGS = 5;
 const GLOW_ALPHA = 0.07;
 const GLOW_PERIOD = 1.6;
 
-/** A point in a creature's own frame, placed into the world. */
-function toWorld(foot: Point, turn: number, { x, y }: Point): Point {
-  return {
-    x: foot.x + x * Math.cos(turn) - y * Math.sin(turn),
-    y: foot.y + x * Math.sin(turn) + y * Math.cos(turn),
-  };
-}
-
 type Shown = Tapped &
   WithGraphics &
   Pick<Footing, 'size'> & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
-    hit: MushroomHit;
+    hit: TapArea;
     genes: MushroomGenes;
     turn: number;
     plantedAt: number;
@@ -190,32 +177,12 @@ export class MushroomBed {
       .setPosition(x, y)
       .setDepth(y - 0.5);
     drawMushroomShadow(shown.shadow, genes, size);
-    // The cap and the stem as drawn, a little padded, in the mushroom's own frame.
-    const cap = capFrame(genes);
+    // Written into the hit area `show` registered, the object Phaser keeps testing.
     const canvas = toCanvas(size);
-    const half = genes.capWidth / 2;
-    const dome = Array.from({ length: HIT_STEPS + 1 }, (_, index) => {
-      const across = -half + (2 * half * index) / HIT_STEPS;
-      return cap({
-        x: across * (1 + HIT_PAD),
-        y: domeHeight(genes, across) + genes.capHeight * HIT_PAD,
-      });
-    });
-    const underside = [
-      cap({ x: half, y: -genes.capHeight * 0.2 }),
-      cap({ x: -half, y: -genes.capHeight * 0.2 }),
-    ];
-    shown.hit.cap.setTo([...dome, ...underside].map((point) => canvas(point)));
-    const reach = (genes.stemWidth / 2) * genes.footBulge * (1 + HIT_PAD * 4);
-    const { x: topX, y: topY } = stemAt(genes, 1);
-    shown.hit.stem.setTo(
-      [
-        { x: -reach, y: 0 },
-        { x: reach, y: 0 },
-        { x: topX + reach, y: topY },
-        { x: topX - reach, y: topY },
-      ].map((point) => canvas(point)),
-    );
+    const area = tapArea(genes);
+    for (const part of TAP_PARTS) {
+      shown.hit[part] = area[part].map((point) => canvas(point));
+    }
   }
 
   /** The glow, behind the selected mushroom's cap and before what stands behind it, and its ring on the ground. */
@@ -225,7 +192,7 @@ export class MushroomBed {
     this.footRing.clear().setVisible(lit !== undefined);
     if (!lit) return;
     const { genes, turn, size, graphics } = lit;
-    const centre = toWorld(
+    const centre = placedAt(
       graphics,
       turn,
       toCanvas(size)(capFrame(genes)({ x: 0, y: genes.capHeight * 0.45 })),
@@ -246,10 +213,7 @@ export class MushroomBed {
   }
 
   private show(mushroom: Planted, plantedAt: number): Shown {
-    const hit = {
-      cap: new Phaser.Geom.Polygon(),
-      stem: new Phaser.Geom.Polygon(),
-    };
+    const hit: TapArea = { cap: [], gills: [], stem: [] };
     // As a config: Phaser reads any other plain object passed here as one,
     // finds no callback in it and leaves the object hit-testing as `null`.
     const graphics = this.scene.add
@@ -273,7 +237,7 @@ export class MushroomBed {
       const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
       puffSpores(
         this.scene,
-        toWorld(graphics, turn, toCanvas(size)(crown)),
+        placedAt(graphics, turn, toCanvas(size)(crown)),
         genes.capWidth * size * 0.75,
         SPORE_DEPTH,
       );

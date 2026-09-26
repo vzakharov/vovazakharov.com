@@ -118,7 +118,7 @@ const PROBE = `(() => {
     /** The middle of a mushroom's cap as its hit area has it, on screen. */
     mushroom: (id) => {
       const shown = scene.bed.shown.get(id);
-      const points = shown.hit.cap.points ?? shown.hit.cap;
+      const points = shown.hit.cap;
       const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
       const y = points.reduce((sum, point) => sum + point.y, 0) / points.length;
       return shown.graphics.getWorldTransformMatrix().transformPoint(x, y, {});

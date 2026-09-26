@@ -1,82 +1,25 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
-import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
+import { type Point, sample } from '../../model/geometry';
+import type { MushroomGenes } from '../../model/mushroom-genes';
+import {
+  CURVE_STEPS,
+  domeArc,
+  domeBand,
+  gillsOutline,
+  stemOutline,
+  toCanvas,
+} from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
 import { PALETTE } from './palette';
-import { crescent, fillShape, rounded, sample, strokeShape } from './shapes';
+import { crescent, fillShape, strokeShape } from './shapes';
 
-const CURVE_STEPS = 28;
 /** Where a two-tone cap changes colour, as a fraction of its height. */
 const TONE_SPLIT = 0.42;
 const SHADE_ALPHA = 0.2;
 const SPOT_SHADE_ALPHA = 0.1;
 const HIGHLIGHT_ALPHA = 0.35;
-/** How many times the dome's corners are cut, rounding its rim. */
-const RIM_ROUNDS = 2;
-
-/** From the model's frame (units of size, y up) to the canvas's. */
-export function toCanvas(size: number): (point: Point) => Point {
-  return ({ x, y }) => ({ x: x * size, y: -y * size });
-}
-
-/**
- * The stem as a closed outline around its bent centreline, foot at the
- * origin. Its sides swell a little at the middle.
- */
-function stemOutline(genes: MushroomGenes): Point[] {
-  const top = genes.stemWidth / 2;
-  const foot = top * genes.footBulge;
-  const side = (t: number, sign: number): Point => {
-    const station = stemAt(genes, t);
-    const half = foot + (top - foot) * t + top * 0.12 * Math.sin(Math.PI * t);
-    return {
-      x: station.x + sign * half * Math.cos(station.tilt),
-      y: station.y - sign * half * Math.sin(station.tilt),
-    };
-  };
-  return [
-    ...sample(0, 1, CURVE_STEPS, (t) => side(t, 1)),
-    ...sample(1, 0, CURVE_STEPS, (t) => side(t, -1)),
-  ];
-}
-
-/**
- * The dome's surface between two angles across it, `half` its half-width.
- * Sampled by angle, which crowds the samples toward the rim where the dome
- * turns steepest; nothing falls below `floor`.
- */
-function domeArc(
-  genes: MushroomGenes,
-  half: number,
-  [from, to]: readonly [number, number],
-  floor = 0,
-): Point[] {
-  return sample(from, to, CURVE_STEPS, (angle) => {
-    const x = half * Math.sin(angle);
-    return { x, y: Math.max(floor, domeHeight(genes, x)) };
-  });
-}
-
-/**
- * The dome down to `fromLevel` of its height, in the cap's frame, its rim
- * rounded into the underside.
- */
-function domeBand(genes: MushroomGenes, fromLevel: number): Point[] {
-  const level = genes.capHeight * fromLevel;
-  const half =
-    (genes.capWidth / 2) *
-    Math.sqrt(1 - (fromLevel === 0 ? 0 : fromLevel ** (2 / genes.domePower)));
-  const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2], level);
-  // The lower edge sags a little, so a band reads as wrapping the dome.
-  const sag = genes.capHeight * (fromLevel === 0 ? 0.1 : 0.06);
-  const underside = sample(-half, half, CURVE_STEPS, (x) => ({
-    x,
-    y: level - sag * (1 - (x / (half || 1)) ** 2),
-  })).slice(1, -1);
-  return rounded([...arc, ...underside], RIM_ROUNDS);
-}
 
 /**
  * The dome's right-hand arc, from past its crown down to the rim: where the
@@ -132,12 +75,7 @@ export function drawMushroom(
   graphics.lineStyle(ink, inkColour);
   strokeShape(graphics, stem);
 
-  const gills = sample(0, Math.PI * 2, CURVE_STEPS, (t) =>
-    toMushroom({
-      x: Math.cos(t) * genes.capWidth * 0.44,
-      y: Math.sin(t) * genes.capHeight * 0.14,
-    }),
-  );
+  const gills = gillsOutline(genes).map((point) => toMushroom(point));
   graphics.fillStyle(tone(PALETTE.gills));
   fillShape(graphics, gills);
 
