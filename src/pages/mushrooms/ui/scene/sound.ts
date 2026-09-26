@@ -112,10 +112,12 @@ const sink: Voice = (context, out) => {
  * note lower, reedy where the meadow's other voices are round.
  */
 const nuhUh: Voice = (context, out) => {
-  tone(context, out, 'square', [196, 185], 0.16, 0.07);
-  tone(context, out, 'triangle', [196, 185], 0.16, 0.22);
-  tone(context, out, 'square', [147, 131], 0.26, 0.07, 0.2);
-  tone(context, out, 'triangle', [147, 131], 0.26, 0.22, 0.2);
+  const reedy = (pitches: readonly number[], seconds: number, delay = 0) => {
+    tone(context, out, 'square', pitches, seconds, 0.07, delay);
+    tone(context, out, 'triangle', pitches, seconds, 0.22, delay);
+  };
+  reedy([196, 185], 0.16);
+  reedy([147, 131], 0.26, 0.2);
 };
 
 /** A soft bell on the scale's `step`th note, the same note for the same step. */

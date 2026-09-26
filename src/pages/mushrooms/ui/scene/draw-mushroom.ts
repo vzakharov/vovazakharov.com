@@ -163,14 +163,10 @@ export function drawSelection(
   outlines: TapArea,
   size: number,
 ): void {
-  const band = Math.max(SELECTION_BAND_LEAST, size * SELECTION_BAND) * 2;
   const parts = Object.values(outlines);
-  // Every edge before any band, so the bands run into one another where the
-  // stem meets the cap and no ink crosses them there.
-  graphics.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
-  for (const part of parts) strokeShape(graphics, part);
-  graphics.lineStyle(band, PALETTE.selection);
-  for (const part of parts) strokeShape(graphics, part);
+  strokeSelection(graphics, selectionBand(size) * 2, () => {
+    for (const part of parts) strokeShape(graphics, part);
+  });
 }
 
 /** The selected mushroom's ring on the ground, centred on `graphics`' own position, its foot. */
@@ -181,9 +177,27 @@ export function drawSelectionRing(
 ): void {
   const across = genes.capWidth * size * 0.8;
   const tall = across * 0.24;
-  const band = Math.max(SELECTION_BAND_LEAST, size * SELECTION_BAND);
+  strokeSelection(graphics, selectionBand(size), () => {
+    graphics.strokeEllipse(0, 0, across, tall);
+  });
+}
+
+function selectionBand(size: number): number {
+  return Math.max(SELECTION_BAND_LEAST, size * SELECTION_BAND);
+}
+
+/**
+ * What `stroke` draws, as a `band`-wide stroke in `PALETTE.selection` edged in
+ * ink. Every edge goes down before any band, so where two strokes meet — the
+ * stem under the cap — the bands run into one another and no ink crosses them.
+ */
+function strokeSelection(
+  graphics: Phaser.GameObjects.Graphics,
+  band: number,
+  stroke: () => void,
+): void {
   graphics.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
-  graphics.strokeEllipse(0, 0, across, tall);
+  stroke();
   graphics.lineStyle(band, PALETTE.selection);
-  graphics.strokeEllipse(0, 0, across, tall);
+  stroke();
 }
