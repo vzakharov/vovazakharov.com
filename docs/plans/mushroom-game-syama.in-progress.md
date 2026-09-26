@@ -206,18 +206,46 @@ Standing rules for every session in the chain:
    - Taps land on hit areas no smaller than `TAP_RADIUS` (32 CSS px); the
      front-most object takes the tap, depth being where its foot stands.
 
+## This bite
+
+3. **More mushrooms: `+`, the cap picker, `−`, a forest.**
+   - **`model/game.ts`**, Phaser-free and tested: the `Meadow` state (the
+     mushrooms, each with its `slot`; the selected id; whether the picker is
+     open) and `reduce(state, action)` over `pick` (toggle the picker),
+     `grow` (cap and seed carried by the action, so the reducer stays pure;
+     the lowest free slot; the new one selected, the picker closed),
+     `select`, `deselect` (a tap on the bare meadow; closes the picker too)
+     and `remove` (the selected one). `MUSHROOM_SLOTS` is the cap on the
+     count: a full meadow ignores `grow`, and `+` shows dimmed.
+   - **A slot is where a mushroom stands for its whole life**, so growing or
+     removing one never moves another. Slots 0–1 are the opening clump;
+     2 onward are the forest, per orientation in `layout.ts` as fractions of
+     the ground plus a scale: a back row small and hazed toward the sky, a
+     row flanking the clump, one in front, each facing away from the middle
+     and each sized under `maxReach` like the clump. Flowers stand clear of
+     every slot's foot, taken or not, so a mushroom growing never makes a
+     flower jump. `layout.test.ts` sweeps every slot on the five screens.
+   - **Arrival and departure are clock-driven** like every other movement:
+     `emerge` (out of the ground with an overshoot) and `sink` (back into
+     it) in `motion.ts`, a spore puff at the foot and a rising or falling
+     tone. A removed mushroom's objects are destroyed once it has sunk.
+   - **Controls on the right, as Syama drew them**: a `+` and a `−` button,
+     each a small fly agaric with its sign; the picker opens across the top
+     as four big round buttons, each holding a mushroom with that cap, drawn
+     by `drawMushroom` itself. A selected mushroom glows softly behind its
+     cap. Every button presses in when tapped, dimmed ones included.
+   - The scene stays an orchestrator: the mushrooms move to their own module
+     and the controls to theirs, so none passes ~450 lines.
+
+   DRY notes: the picker's and the buttons' pictograms are `drawMushroom`
+   over fixed genes, not a second painter; the haze is a colour `mix` inside
+   `drawMushroom`; the grow and sink tones reuse `tone` in `sound.ts`.
+
 ## Rest of the elephant
 
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
 
-3. **More mushrooms: `+`, the cap picker, `−`, a forest.** `model/game.ts`
-   gains the reducer and its tests. `+` opens the four-cap picker as big
-   pictograms; a pick grows a fresh-seeded mushroom out of the ground. Tap
-   selects (soft glow); `−` shrinks the selected one back into the ground.
-   The layout turns a growing count into a forest: rows in depth, back rows
-   smaller and hazier; a cap on the count set by what still reads on a phone,
-   decided in this bite by frames. HUD pictograms drawn by code.
 4. **The mouse house.** Syama's window row — `⊕`, `○`, `□`, the tall `▯` —
    and the door, as pictograms; a pick puts it on the selected mushroom
    (windows on the cap, the door on the stem, slots from the genes). A mouse
