@@ -1,0 +1,15 @@
+// The game owns the whole screen: pinned over the page at the dynamic
+// viewport's height, so a phone's collapsing toolbar never leaves a strip,
+// and every touch goes to the game rather than scrolling or zooming the page.
+.meadow {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+
+  canvas {
+    display: block;
+  }
+}
