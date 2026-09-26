@@ -30,11 +30,14 @@ verbatim.
 
 ## 2. The conversation
 
-Started with `/relay take claude/mushroom-game-syama-lbirv7`; the previous
-relay's Next step was `оставь код ревью на последний кусок`. No operator
-message arrived. **Agent:** shot frames of bite 2 at tablet and phone sizes,
-read the code, posted one review of six inline comments on PR #57, filled
-the megabeast notes, relayed `/handle`.
+The session started with `/relay take claude/mushroom-game-syama-lbirv7`,
+whose Next step was `/handle`. No operator message arrived. **Agent:**
+handled all six threads of bite 2's review, one commit per concern (flowers
+and their placement, wobble and bloom, spores, the shadow, mute suspension),
+and replied on each thread with the commit SHA. It checked the result in
+stepped Playwright frames and audio-state reads, had `/polish` and the squash
+re-sync done by subagents, refreshed the PR body, ran vet, paused the plan,
+filled the megabeast notes, and relayed `/go`.
 
 ## 3. Intent
 
@@ -49,63 +52,65 @@ showpiece, any teaching voice.
   future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
   `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
   looking where the operator would look.
-- **Bite 2's review**
-  (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325464106),
-  six threads, all agent-authored (the export will label them `(agent)`;
-  work them anyway, the loop says so):
-  1. `layout.ts:139`: flower size comes from the ground band, the mushrooms'
-     from the width, so on a phone the flowers are cap-sized. Size them off
-     the mushrooms' unit; add a test.
-  2. `layout.ts:40`: `FLOWER_SPOTS` is fixed across visits and the portrait
-     `[0.52, 0.94]` covers the clump's foot. Seeded jittered placement that
-     avoids the clump's footprint, plus a sweep test (bite 6 needs it too).
-  3. `spores.ts:40`: the alpha fade makes spores see-through (holes over the
-     cap, bubbles over the sky). Keep them opaque and shrink them out.
-  4. `motion.ts:17`: the wobble is over in about 0.5 s, not 1.4 s. Soften the
-     damping, derive `WOBBLE_DURATION`, test it; the bloom is subtle too.
-  5. `meadow-scene.ts:160-162`: the shadow sits in the mushroom's graphics,
-     so it breathes and rocks. Give it its own unrotated graphics.
-  6. `sound.ts:180`: mute leaves the synth running. Suspend the context on
-     mute, and keep it suspended when the tab comes back.
-  The review body also notes phone layout (sky ~55%, clump small) as bite
-  1's, left for bite 3.
-- Earlier decisions stand (clock-driven motion, sound on the first
-  `POINTER_UP`, the `localStorage` mute fallback awaiting approval, `Scale.NONE`).
+- **`meadowLayout(width, height, seed)`** now takes a seed; the scene passes
+  `visitSeed ^ 0xf1_0e_25`. The flowers are jittered off the `FLOWER_SPOTS`
+  slots, one stream per slot (`seed + index`), so a resize keeps them where
+  they were. A flower is kept only where `clearOfFeet` holds, and one that
+  never clears is dropped. Flower height is `FLOWER_SCALE` (0.26) of the
+  clump's size. `clearOfFeet` is unexported until bite 6's bees need it.
+- **Wobble:** damping 2.4 at 1.8 Hz; `WOBBLE_DURATION` is derived from
+  `WOBBLE_REST`. `BLOOM_DEPTH` is 0.45.
+- **Mute** fades out over `FADE_SECONDS`, then suspends the context. Every
+  resume goes through `settle()`, which stays suspended while muted or
+  hidden, and a bird that comes due while suspended is skipped.
+- **The shadow** has its own graphics at `depth y − 0.5`. It never rotates,
+  and only spreads on the squash.
+- **This session did not take bite 3.** Handling a review plus frames
+  already filled most of the budget, as the megabeast notes predicted, so
+  bite 3 goes to a fresh session.
+- Earlier decisions stand: clock-driven motion, sound starting on the first
+  `POINTER_UP`, the `localStorage` mute fallback still awaiting the
+  operator's approval, and `Scale.NONE`.
 
 ## 5. Errors and dead ends
 
-- **Timed screenshots lie under swiftshader** (~1 s per shot): the flower
-  bloom looked broken until the loop was stepped by hand. Recipe in § 7 and
-  in the megabeast notes. Any "N ms after tap" check must use it.
-- A review post failed with a 422 because one anchor was a line number from
-  a two-file `cat -n`. Posting each comment alone found it.
+- The first draft of the wobble test tested the cutoff itself, which is
+  vacuous. The kept version checks the last 50 ms before the cutoff.
+- The polish pass left `clearOfFeet` exported and unused; it was unexported
+  before vet so knip would not flag it.
+- Vet's only failure was the prettier check on the previous `relay.md`. This
+  file replaces it.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
   `MERGEABLE`/`CLEAN`.
-- Plan: `docs/plans/mushroom-game-syama.paused.md` (bites 1–2 eaten, 3–10
-  to go). No code changed in this session.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–2 are eaten and
+  bite 2's review is handled; bites 3–10 are left.
+- Review replies are posted on all six threads of review 5325464106, and
+  none is resolved.
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md`: the contract and the loop
-  (step 3 is the `/handle` session's job).
-- Frames: `pnpm build:vova`; serve `apps/vova/out` with `python3 -m
-http.server 8765`; Playwright from `/opt/node22/lib/node_modules/playwright`,
-  `executablePath: '/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
---enable-unsafe-swiftshader`, `hasTouch: true`, at
-  `http://localhost:8765/mushrooms.html`; seed `Math.random` with an
-  `addInitScript` mulberry32 (seed 12345 was used for the review). For
-  motion: temporarily add `Object.assign(window, { __game: game });` after
-  `fit();` in `ui/scene/start-game.ts` (never commit), rebuild, then
-  `__game.loop.sleep()` and `__game.step(t += 1000/60, 1000/60)` per frame
-  before each screenshot. Tablet 1180×820: front cap ≈ (560, 450), blue
-  flower head ≈ (150, 532).
-- Re-read the review: `python3 scripts/export-github-item.py 57` →
+- `docs/plans/mushroom-game-syama.paused.md`: the contract, the loop, and
+  `## Rest of the elephant` item 3 (`+`, the cap picker, `−`, a forest,
+  `model/game.ts` reducer).
+- Frames: `pnpm build:vova`, then serve `apps/vova/out` with `python3 -m
+http.server 8765`. Run Playwright from
+  `/opt/node22/lib/node_modules/playwright` with
+  `executablePath: '/opt/pw-browsers/chromium'` and args
+  `--use-angle=swiftshader --enable-unsafe-swiftshader`, `hasTouch: true`,
+  at `http://localhost:8765/mushrooms.html`. Seed `Math.random` with an
+  `addInitScript` mulberry32 (seed 12345). For motion, temporarily add
+  `Object.assign(window, { __game: game });` after `fit();` in
+  `ui/scene/start-game.ts` (never commit it), then `__game.loop.sleep()` and
+  `__game.step(t, 1000/60)` per frame. Audio state:
+  `__game.scene.scenes[0].voice.context.state`. Tablet 1180×820: front cap
+  ≈ (560, 450), mute ≈ (46, 46).
+- Re-read the PR: `python3 scripts/export-github-item.py 57` →
   `docs/pr/57/pr.md`.
 
 ## 8. Next step
 
-/handle
+/go
