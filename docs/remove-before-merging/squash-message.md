@@ -9,9 +9,8 @@ A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
 There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; the game is built here a bite at a time, each reviewed by a
-fresh agent session, a loop collected toward a future skill in
-.claude/skills/megabeast/notes.md.
+the spec; the game is built here a bite at a time, each bite reviewed
+by a fresh agent session.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone and rendered at the device pixel ratio. There are no
@@ -19,8 +18,7 @@ sprites: each mushroom and flower is grown from its own seed by a
 pure, tested generator and painted with vector primitives. The opening
 pair stands as one clump, as in the drawing, and the layout keeps
 every cap on screen and every flower clear of the mushrooms' feet on
-any screen and seed. The game's palette is the site's one home of
-colour literals, a canvas being out of the CSS tokens' reach.
+any screen and seed.
 
 The meadow moves and sounds. Clouds drift, a gust crosses the grass,
 mushrooms breathe; a tap wobbles a mushroom and puffs spores, or opens
@@ -28,12 +26,15 @@ a flower with its own chime. Every motion is a pure function of the
 clock, so a resize never cuts one short. Sound is a Web Audio synth
 started by the first tap; the remembered mute suspends it.
 
-The player shapes the meadow. Plus opens a four-cap picker and grows
-the pick out of the ground; a tap selects a mushroom and minus sinks
-it back, up to six in a forest round the clump, the back row hazed
-toward the sky. A pure reducer in model/game.ts owns that state, and
-the scene only reconciles the screen with it, each mushroom keeping
-its slot for life so nothing else moves when one comes or goes.
+The player shapes the meadow. Plus unfolds a four-cap picker, and the
+pick flies down to grow out of the ground, selected and outlined in a
+band that moves with it; minus sinks the selection, or the newest, up
+to six in a forest round the clump. A control that cannot act shakes
+its head. A mushroom answers a tap exactly where it is drawn, every
+target is a fingertip wide on a phone, and the buttons keep off the
+meadow. A pure reducer in model/game.ts owns the state, each mushroom
+keeping its slot for life; pnpm play:mushrooms plays every control in
+headless Chromium and fails on a page error or a wrong result.
 
 Closes #65
 
