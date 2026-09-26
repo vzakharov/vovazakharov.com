@@ -71,9 +71,9 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   decision on the notice, and expect a `/handle` session to relay `/go`
   nearly every time rather than take a bite of its own.
 - **A relay chain is capped at eight sessions deep.** Bite 3's review
-  session (the eighth in the chain) got `caller session is at lineage depth 8
-  (limit 8)` from `create_session`, so the chain stopped and waited on the
-  operator. At two or three sessions a bite, ten bites cannot run as one
+  session (the eighth in the chain) got
+  `caller session is at lineage depth 8 (limit 8)` from `create_session`, so
+  the chain stopped and waited on the operator. At two or three sessions a bite, ten bites cannot run as one
   chain. The skill should count the depth (each relay summary can carry it)
   and plan for it: fold review handling into the next bite's session, take
   more than one bite per session where context allows, or, as the last hop
