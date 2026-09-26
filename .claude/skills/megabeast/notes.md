@@ -32,10 +32,14 @@ Each note: what happened, and what the skill should do about it.
   plan repeated them. The skill should keep one home for them, the plan, and
   have each relay point at it rather than re-quote it, so a rule the operator
   adds mid-run gets written down once.
-- **An operator message that arrives mid-run is a contract change.** This
-  file exists because of one. The skill needs a step for it: write the
-  message into the plan's standing rules, and into the relay's § 1 if a relay
-  is pending, before going on with the bite.
+- **An operator message that arrives mid-run is a contract change.** Bite 1
+  took five: this file, when to fill it, the 450-line rule restated, an
+  ecology twist and a mandala ornament. What held up: quote the message into
+  the plan (standing rules, decisions or the rest of the elephant) and commit
+  that on its own before touching code again; take into the open bite only
+  the cheap slice that fits (the sun became a rosette) and leave the rest to
+  later bites. The skill should make that the rule, so a mid-run message
+  grows the plan, not the bite.
 
 ## Friction found
 
@@ -48,11 +52,14 @@ Each note: what happened, and what the skill should do about it.
   with `source_revision` checks out the branch, so `/from-branch` Steps 2–4
   (drop the auto-branch) are a no-op every time. The skill can say so and
   skip them.
-- **The context threshold is not measurable from inside a session.** The
-  loop says a `/handle` session takes the next bite "when its context is
-  still under ~140k tokens", but an agent can't read its own context size;
-  only the context-budget hook's notice reports it. The skill should key the
-  decision on that notice (none yet → take the bite) rather than on a number.
+- **The context threshold is not measurable from inside a session, and one
+  bite already fills it.** The loop says a `/handle` session takes the next
+  bite "when its context is still under ~140k tokens", but an agent can't
+  read its own context size; only the context-budget hook's notice reports
+  it. Bite 1 alone reached that hook's 200k warning, between the skills it
+  loads, the frames it looks at and vet's output. The skill should key the
+  decision on the notice, and expect a `/handle` session to relay `/go`
+  nearly every time rather than take a bite of its own.
 - **MCP tool names change mid-session** (a server reconnects under another
   id). Relay and `create_session` calls have to be looked up by the current
   name, never taken from an earlier call in the transcript.
@@ -69,3 +76,14 @@ Each note: what happened, and what the skill should do about it.
   nothing like this; ten minutes in `node_modules` did. The skill should
   point bite 1 at the dependency's source for its core seam (sizing, input,
   lifecycle) before any drawing code is written.
+- **Vet at every bite's end pays for itself.** Bite 1's first vet run found
+  17 lint errors and failures in four gates (type overlap, knip, Steiger's
+  segment names, the skill catalogue) — each a quick fix while the bite was
+  still loaded in context, and each a review comment otherwise.
+- **Looking at a canvas page needs its own recipe.** Chrome's bare
+  `--screenshot` puts a false blank strip under a fixed full-viewport canvas.
+  What works: `apps/vova/out` served with `python3 -m http.server`,
+  Playwright from `/opt/node22/lib/node_modules/playwright` with
+  `--use-angle=swiftshader`, a `deviceScaleFactor` and `hasTouch` per
+  device, and the page's errors collected. The skill should ship that as a
+  script, tap sequences included, rather than leave each session to find it.
