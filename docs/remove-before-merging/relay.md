@@ -33,10 +33,12 @@ Every successor passes this section on verbatim.
 ## 2. The conversation
 
 This session was started with `/relay take claude/mushroom-game-syama-lbirv7`.
-The previous relay's Next step was "оставь код ревью на последний кусок".
-No operator message arrived during the session. **Agent:** reviewed bite 1
-and posted one PR review with nine inline comments, updated the megabeast
-notes, and relayed `/relay /handle`, as the plan's loop prescribes.
+The previous relay's Next step was `/handle`. No operator message arrived
+during the session. **Agent:** answered all nine threads of bite 1's review
+(fixes in 5ec3edc, a reply on each thread, none resolved), ran `/polish`
+(e7eb0fc, 11115ce), refreshed the PR body, filled the megabeast notes, and
+relayed `/relay /go`: the context-budget notice fired at 200k before bite 2
+could start, so the loop's step 3 sends bite 2 to a fresh session.
 
 ## 3. Intent
 
@@ -52,74 +54,67 @@ out: a competitive game, a 3D/multiplayer showpiece, and any teaching voice.
   is the future skill's working name, and `.claude/skills/megabeast/notes.md`
   holds its notes. _Пятипроцентник_ is `writing/notes/the-five-percent.md`,
   frozen. _Страшила_ is the reviewer looking where the operator would look.
-- **The review judged the frames first and the code second.** Every
-  finding came from the page; the code then gave its cause.
-- **The review is `COMMENT`, not `REQUEST_CHANGES`.** None of it blocks
-  bite 2, but it says comments 1–4 should land before the meadow moves.
-- Earlier decisions stand. The canvas is sized in device pixels by the host
-  (`Scale.NONE`). The drawing lives in `src/pages/mushrooms/reference/`. The
-  squash proposal stays stale until `/finalize`.
+- **The review's threads were worked although the export labels them
+  `(agent)`.** In this loop every review is an agent's, so the tail test in
+  `/handle` would read them as answered. The plan's loop overrides it (noted
+  in megabeast).
+- **The opening pair is one clump.** Feet close, stems crossing, caps
+  leaning apart in a V (`CLUMP_SPLAY = 0.22`). `stemHeight` went up to
+  0.6–0.9 because Syama's stems run longer than his caps are wide, and the
+  sizes in `layout.ts` came down to match. `stemBend` is a new gene.
+- **`model/mushroom-pose.ts` is where a mushroom's geometry lives**, read by
+  both the painter and the layout. `maxReach` bounds size per side, and
+  `layout.test.ts` holds it over 2000 visits on five screens.
+- **Resize repaints in place.** `paintBackdrop` takes and returns its layers,
+  and the mushrooms are kept by id, so bite 2's tweens will survive a
+  rotation. The plan's decisions say so.
+- **The squash proposal stays stale until `/finalize`** (earlier decision).
+- Earlier decisions stand: `Scale.NONE` with the host sizing the buffer (now
+  in the plan's decisions as well), and the drawing in
+  `src/pages/mushrooms/reference/`.
 
 ## 5. Errors and dead ends
 
 - `gh pr edit` fails on a Projects-classic GraphQL deprecation. Use
   `python3 scripts/pr-body.py pull|push 57`, and `gh api -X PATCH` for the
   title.
-- The container has no Pillow, so pixel checks go through Playwright or
-  plain reasoning over the frames.
-- The session came up detached at an older commit of the branch. A
-  checkout and `git pull --ff-only` fixed it.
+- The first clump attempt had the caps turned too far and covering each
+  other (`CAP_FOLLOW` 0.7, splay 0.2, short stems). Settled at `CAP_FOLLOW`
+  0.45 and longer stems.
+- A symmetric reach bound shrank the phone's pair too much, so `maxReach`
+  returns `toward` and `away` separately.
+- Vet's knip gate caught unused exports (`turn`, `facing`, `Placement`), now
+  module-private. The megabeast notes file had failed prettier, now fixed.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  `MERGEABLE`/`CLEAN` at pickup.
+  `MERGEABLE`/`CLEAN`.
 - Plan: `docs/plans/mushroom-game-syama.paused.md`, bite 1 in
-  `## Eaten so far`, bites 2–10 still to come.
-- Review posted: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325225829
-  (id 5325225829), anchored on 9296e94. Its nine inline threads:
-  1. `mushroom-genes.ts:122`: the opening pair isn't the drawing (one
-     clump, long bent crossing stems, caps leaning apart). Asks for a
-     `stemBend` gene and a clumped, outward-leaning opening pair.
-  2. `draw-mushroom.ts:61-64`: faceted rims, because sampling evenly in x
-     meets an infinite slope at the rim. Sample by angle, and round the lip.
-  3. `draw-mushroom.ts:75-85`: the shade wedge's straight cut through the
-     crest, and spots turning grey under it. Taper the crescent, and paint
-     the spots after it.
-  4. `layout.ts:48-58`: 5.5% of phone visits put a cap within 4 px of the
-     edge (2000 seeds; 0.4% on tablet portrait). Bound the size by
-     `GENE_RANGES` maxima.
-  5. `paint-backdrop.ts:234`: a ruler-straight seam where hills meet
-     ground.
-  6. `start-game.ts:19`: the `'#000000'` literal is outside `palette.ts`.
-  7. `meadow-scene.ts:46`: repaint-all on resize will kill bite 2's tweens.
-     Reconcile on resize instead.
-  8. `layout.ts:42`: the phone sun is pinned to the edge, with hard-edged,
-     clipped glow discs.
-  9. Plan line 76: the decision still says `Scale.RESIZE`.
-- Last pushed commit before this summary: 67f60d8 (megabeast notes).
+  `## Eaten so far` (updated for the review's fixes), bites 2–10 to come.
+- `./scripts/vet.sh`: green except a format warning, since fixed (prettier
+  check passes on the tree).
+- Last pushed commit before this summary: e4f5458 (megabeast notes).
+- Review 5325225829's nine threads are all replied to and left unresolved for
+  the operator.
 - Nothing running, no PR subscription, no scheduled check-in.
 
 ## 7. Pointers
 
 - `docs/plans/mushroom-game-syama.paused.md`: the contract and the loop.
-- The review threads: `gh api repos/vzakharov/vovazakharov.com/pulls/57/comments`
-  (filter to review 5325225829), or
-  `python3 scripts/export-github-item.py 57`.
+  Bite 2 is `## Rest of the elephant` item 2.
 - `src/pages/mushrooms/`: the slice. `.claude/skills/megabeast/notes.md`:
   fill before the relay.
 - Frames: `pnpm build:vova`, serve `apps/vova/out` with `python3 -m
 http.server 8765`, then Playwright from
-  `/opt/node22/lib/node_modules/playwright`, `executablePath:
+  `/opt/node22/lib/node_modules/playwright` with `executablePath:
 '/opt/pw-browsers/chromium'`, args `--use-angle=swiftshader
 --enable-unsafe-swiftshader`, viewports 1180×820@2, 820×1180@2 and
   390×844@3, `hasTouch: true`, at `http://localhost:8765/mushrooms.html`.
-- The edge sweep behind thread 4: import `firstMushrooms`, `mushroomGenes`
-  and `meadowLayout`; for 2000 seeds `s*7919+3`, rotate each cap's rim
-  points (41 across `capWidth`, at the cap underside) by `capTilt`, lift by
-  `stemHeight·size`, rotate by `lean` about the foot, and count visits with
-  any X < 4 or X > w − 4. Run it with `npx tsx`.
+  Seed `Math.random` with an `addInitScript` mulberry32 so frames compare
+  across builds. Wait ~2.5 s before the shot. For bite 2's motion, take a
+  sequence of shots or use `page.video`.
 
 ## 8. Next step
 
-/handle
+/go
