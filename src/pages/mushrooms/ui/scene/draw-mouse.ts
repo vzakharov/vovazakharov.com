@@ -1,8 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import { clipToConvex, type Point } from '../../model/geometry';
+import { clipToConvex, ellipse, type Point } from '../../model/geometry';
 import { PALETTE } from './palette';
-import { box, type Brush, ellipse, fillShape, type Place } from './shapes';
+import { box, type Brush, fillShape, type Place } from './shapes';
 
 /**
  * A mouse at its door: `out` how far it has come, from 0 (inside) to 1 (its

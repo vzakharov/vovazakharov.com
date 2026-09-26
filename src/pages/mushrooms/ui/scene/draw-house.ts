@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { arch, type Point, sample } from '../../model/geometry';
+import { arch, ellipse, type Point, sample } from '../../model/geometry';
 import {
   type DoorPlace,
   doorway,
@@ -15,14 +15,7 @@ import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { paintMouse, type Peeking } from './draw-mouse';
 import { PALETTE } from './palette';
-import {
-  box,
-  type Brush,
-  ellipse,
-  fillShape,
-  type Place,
-  strokeShape,
-} from './shapes';
+import { box, type Brush, fillShape, type Place, strokeShape } from './shapes';
 
 /** How far a window's frame reaches in from its edge, in its square's side. */
 const FRAME = 0.1;

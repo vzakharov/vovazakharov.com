@@ -1,12 +1,7 @@
 import * as Phaser from 'phaser';
 
 import { placedAt, type Point } from '../../model/geometry';
-import {
-  type DoorPlace,
-  doorway,
-  type House,
-  windowSlots,
-} from '../../model/house';
+import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
   emerge,
@@ -18,7 +13,8 @@ import {
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { mix } from './colour';
-import { doorFrame, paintHouse } from './draw-house';
+import { doorHitArea } from './door-reach';
+import { paintHouse } from './draw-house';
 import { containsOutline, type WithGraphics } from './hit-areas';
 import type { Footing, Hazed } from './layout';
 import { PALETTE } from './palette';
@@ -59,7 +55,7 @@ export class HouseView {
   /** When the door was put in; `undefined` while there is none. */
   private doorAt: number | undefined;
   private house: House | undefined;
-  /** The door on screen, in the graphics' own frame; empty with no door. */
+  /** Where the door answers a tap (`doorHitArea`), in the graphics' own frame; empty with no door. */
   private readonly hit: Point[] = [];
   /** The mouse's peeks, and when a tap on its door called it out. */
   readonly mouse: Tapped;
@@ -191,10 +187,7 @@ export class HouseView {
             shut: blink(t, this.mouse.phase),
           };
     paintHouse(this.graphics, genes, size, windows, door, brush);
-    if (door) {
-      const { place, aspect } = doorFrame(door.station, size, 1);
-      this.hit.push(...doorway(aspect).map((point) => place(point)));
-    }
+    if (door) this.hit.push(...doorHitArea(door.station, size));
   }
 
   /** A puff of spores from `point`, in the mushroom's frame, where it stands on screen. */

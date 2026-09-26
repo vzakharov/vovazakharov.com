@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { type Point, ROUND_STEPS, sample } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {
@@ -97,13 +97,6 @@ export function crescent(
 export type Place = (point: Point) => Point;
 /** How a painter inks and tints: the ink line in pixels, and the haze a colour takes. */
 export type Brush = { ink: number; tone: (colour: number) => number };
-
-export function ellipse({ x, y }: Point, rx: number, ry: number = rx): Point[] {
-  return sample(0, Math.PI * 2, ROUND_STEPS, (angle) => ({
-    x: x + rx * Math.cos(angle),
-    y: y + ry * Math.sin(angle),
-  })).slice(0, -1);
-}
 
 export function box(left: number, bottom: number, right: number, top: number) {
   return [

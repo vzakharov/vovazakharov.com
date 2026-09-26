@@ -23,6 +23,14 @@ export function sample<Sampled>(
 /** How many chords a round shape's curve is drawn with. */
 export const ROUND_STEPS = 28;
 
+/** An ellipse round `(x, y)` with half-axes `rx` and `ry`: a circle when `ry` is left out. */
+export function ellipse({ x, y }: Point, rx: number, ry: number = rx): Point[] {
+  return sample(0, Math.PI * 2, ROUND_STEPS, (angle) => ({
+    x: x + rx * Math.cos(angle),
+    y: y + ry * Math.sin(angle),
+  })).slice(0, -1);
+}
+
 /**
  * A shape `width` across and `height` tall, its bottom's middle `bottom` up,
  * with a round top: a doorway, a tall window.

@@ -10,16 +10,22 @@ import {
   type Point,
   sample,
 } from '../../model/geometry';
-import { FURNISHINGS } from '../../model/house';
+import {
+  doorStations,
+  FURNISHINGS,
+  onStem,
+  paintedDoor,
+} from '../../model/house';
 import {
   CAP_KINDS,
   GENE_RANGES,
   mushroomGenes,
   type MushroomSeed,
 } from '../../model/mushroom-genes';
-import { tapArea } from '../../model/mushroom-outline';
+import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { capReach, splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed } from '../../model/random';
+import { doorHitArea } from './door-reach';
 import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
 import {
   EDGE_MARGIN,
@@ -55,6 +61,15 @@ const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const STEM_TRIES = 20;
 /** How much of a cap's bounding box a nearer mushroom's cap may hide. */
 const MOST_HIDDEN = 0.25;
+/** Every station a door may take, over a run of visits' mushrooms of every cap kind. */
+const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed, index) =>
+  doorStations(
+    mushroomGenes({
+      seed,
+      cap: CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted',
+    }),
+  ),
+);
 
 /**
  * A mushroom as the scene stands it in `place`, with points along its stem
@@ -207,6 +222,24 @@ describe('meadowLayout', () => {
             assert.fail(
               `visit ${seed}: ${mushroom.id}'s doorway ${(sight * 100).toFixed(0)}% in sight`,
             );
+        }
+      }
+    });
+
+    it(`gives every door a finger's target round all of it on a ${name} screen`, () => {
+      for (const { size } of meadowLayout(width, height, 1).mushrooms) {
+        const canvas = toCanvas(size);
+        for (const station of DOOR_TRIES) {
+          const hit = doorHitArea(station, size);
+          const { left, right, top, bottom } = boxAround(hit);
+          assert.ok(
+            Math.min(right - left, bottom - top) >= 2 * TAP_RADIUS - 1e-9,
+            `a door at size ${size.toFixed(0)}`,
+          );
+          const door = paintedDoor(station.height / station.width);
+          for (const point of door.map(onStem(station))) {
+            assert.ok(containsPoint(hit, canvas(point)));
+          }
         }
       }
     });
