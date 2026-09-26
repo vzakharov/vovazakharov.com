@@ -29,7 +29,12 @@ import {
   type MeadowLayout,
   meadowLayout,
 } from './layout';
-import { SUN_GLOW_REACH, TAP_RADIUS, tapReach } from './sky-layout';
+import {
+  SUN_GLOW_REACH,
+  SUN_RAY_REACH,
+  TAP_RADIUS,
+  tapReach,
+} from './sky-layout';
 
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
@@ -277,7 +282,7 @@ describe('meadowLayout', () => {
       }
     });
 
-    it(`keeps every control off every mushroom and the sun on a ${name} screen`, () => {
+    it(`keeps every control off every mushroom and the sun's rays on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);
       const { sun, mute, plus, minus, picker } = layout;
       // Each as its hit area, which the HUD's depth puts over the meadow.
@@ -293,8 +298,9 @@ describe('meadowLayout', () => {
         ...circle,
         r: tapReach(circle.r),
       }));
+      const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
       for (const { control, ...circle } of controls) {
-        assert.ok(apart(circle, sun), `${control} on the sun`);
+        assert.ok(apart(circle, rays), `${control} on the sun`);
       }
       for (const [turn, seed] of VISITS.entries()) {
         const forest = standingForest(seed, turn, layout);

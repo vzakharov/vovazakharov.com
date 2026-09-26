@@ -6,7 +6,7 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
-import { SUN_GLOW_REACH } from './sky-layout';
+import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sky-layout';
 
 const SKY_BANDS = 48;
 const GROUND_BANDS = 12;
@@ -97,7 +97,7 @@ function paintSun(
   }
   const step = (Math.PI * 2) / SUN_RAYS;
   for (const [offset, reach, width, colour] of [
-    [0, [0.8, 1.8], 0.2, PALETTE.sunRayDeep],
+    [0, [0.8, SUN_RAY_REACH], 0.2, PALETTE.sunRayDeep],
     [0.5, [0.8, 1.5], 0.16, PALETTE.sunRay],
   ] as const) {
     graphics.fillStyle(colour);

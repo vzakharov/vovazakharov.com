@@ -42,6 +42,8 @@ export function tapReach(r: number): number {
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
 export const SUN_GLOW_REACH = 2.6;
+/** The sun's longest rays reach this many radii out. */
+export const SUN_RAY_REACH = 1.8;
 
 export type Controls = {
   mute: Circle;
@@ -97,31 +99,47 @@ export function placeControls(
 }
 
 /**
- * The sun in the top right, pulled in from the corner until its glow fits;
- * where the picker's row comes down onto it, which a phone's narrow width
- * calls for, it stands below the row on the left instead, the `+` and `−`
- * keeping the right.
+ * The sun in the top right, pulled in from the corner until its glow fits.
+ * Where its rays would reach the picker's row it comes down below the row —
+ * over on the left, where a phone's narrow width brings the row down onto the
+ * sun itself — and it moves left until its rays keep `BUTTON_INSET` off the
+ * `+` and `−`.
  */
 export function placeSun(
   width: number,
   height: number,
   r: number,
-  picker: readonly Circle[],
+  { plus, minus, picker }: Controls,
 ): Circle {
   const glow = r * SUN_GLOW_REACH;
-  const sun = {
+  const rays = r * SUN_RAY_REACH;
+  const corner = {
     x: Math.min(width * 0.84, width - glow),
     y: Math.max(height * 0.15, glow),
-    r,
   };
+  const meets = (reach: number) =>
+    picker.some(
+      (pick) =>
+        Math.hypot(pick.x - corner.x, pick.y - corner.y) <
+        tapReach(pick.r) + reach,
+    );
   const [row] = picker;
-  const onRow = picker.some(
-    (pick) => Math.hypot(pick.x - sun.x, pick.y - sun.y) < tapReach(pick.r) + r,
+  const { x: across, y } =
+    row === undefined || !meets(rays)
+      ? corner
+      : {
+          x: meets(r) ? width - corner.x : corner.x,
+          y: row.y + tapReach(row.r) + rays,
+        };
+  const x = Math.min(
+    across,
+    ...[plus, minus].map((button) => {
+      const reach = tapReach(button.r) + rays + BUTTON_INSET;
+      const rise = button.y - y;
+      return Math.abs(rise) < reach
+        ? button.x - Math.sqrt(reach ** 2 - rise ** 2)
+        : across;
+    }),
   );
-  if (!onRow || row === undefined) return sun;
-  return {
-    x: width - sun.x,
-    y: row.y + tapReach(row.r) + BUTTON_INSET + r,
-    r,
-  };
+  return { x, y, r };
 }

@@ -343,7 +343,7 @@ export function meadowLayout(
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
-    sun: placeSun(width, height, short * 0.075, controls.picker),
+    sun: placeSun(width, height, short * 0.075, controls),
     clouds: [
       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },
