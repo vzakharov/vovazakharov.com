@@ -7,6 +7,8 @@
 
 const MUTED_KEY = 'mushrooms-muted';
 const LOUDNESS = 0.8;
+/** How long a mute takes to fade out before the synth is suspended. */
+const FADE_SECONDS = 0.25;
 /** A major pentatonic from C5, so any run of chimes is in tune. */
 const PENTATONIC = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66];
 const BIRD_GAP_SECONDS = [5, 12] as const;
@@ -145,6 +147,7 @@ export class MeadowSound {
   private master: GainNode | undefined;
   private pending: Voice | undefined;
   private birdTimer: ReturnType<typeof setTimeout> | undefined;
+  private quietTimer: ReturnType<typeof setTimeout> | undefined;
   private mutedNow: boolean;
 
   constructor(muted: boolean) {
@@ -155,10 +158,13 @@ export class MeadowSound {
     return this.mutedNow;
   }
 
-  /** Builds the synth on the first call; each later call resumes it. */
+  /**
+   * Builds the synth on the first call; each later call resumes it, unless it
+   * is muted or the tab is hidden.
+   */
   start(): void {
     if (this.context) {
-      this.context.resume().catch(reportError);
+      this.settle();
       return;
     }
     const context = new AudioContext();
@@ -172,17 +178,31 @@ export class MeadowSound {
     document.addEventListener('visibilitychange', this.followVisibility);
     this.pending?.(context, this.master);
     this.pending = undefined;
+    this.settle();
   }
 
+  /**
+   * Fades the sound out and then suspends the whole synth — breeze, gusts and
+   * birds — so a muted game costs the tablet no battery; or resumes it and
+   * fades back in.
+   */
   toggleMuted(): void {
     this.mutedNow = !this.mutedNow;
     rememberMuted(this.mutedNow);
+    clearTimeout(this.quietTimer);
     if (this.context && this.master) {
       this.master.gain.setTargetAtTime(
         this.mutedNow ? 0 : LOUDNESS,
         this.context.currentTime,
-        0.05,
+        FADE_SECONDS / 5,
       );
+    }
+    if (this.mutedNow) {
+      this.quietTimer = setTimeout(() => {
+        this.settle();
+      }, FADE_SECONDS * 1000);
+    } else {
+      this.settle();
     }
   }
 
@@ -200,6 +220,7 @@ export class MeadowSound {
 
   stop(): void {
     clearTimeout(this.birdTimer);
+    clearTimeout(this.quietTimer);
     document.removeEventListener('visibilitychange', this.followVisibility);
     this.context?.close().catch(reportError);
   }
@@ -213,18 +234,24 @@ export class MeadowSound {
     const [min, max] = BIRD_GAP_SECONDS;
     this.birdTimer = setTimeout(
       () => {
-        this.play(bird);
+        // A suspended context would only queue the song for later.
+        if (this.context?.state === 'running') this.play(bird);
         this.scheduleBird();
       },
       (min + Math.random() * (max - min)) * 1000,
     );
   }
 
-  /** Silent while the tab is hidden, as the picture is. */
-  private readonly followVisibility = (): void => {
-    const change = document.hidden
-      ? this.context?.suspend()
-      : this.context?.resume();
+  /** Running only while unmuted and the tab is shown, as the picture is. */
+  private settle(): void {
+    const change =
+      this.mutedNow || document.hidden
+        ? this.context?.suspend()
+        : this.context?.resume();
     change?.catch(reportError);
+  }
+
+  private readonly followVisibility = (): void => {
+    this.settle();
   };
 }
