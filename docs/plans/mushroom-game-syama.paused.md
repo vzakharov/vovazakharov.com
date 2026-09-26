@@ -125,46 +125,33 @@ Standing rules for every session in the chain:
   canvas is out of the CSS tokens' reach; `.claude/rules/styling.md`
   § Colours says so in one sentence scoped to that path.
 
-## This bite
+## Eaten so far
 
-**The meadow, still** — a page at `/mushrooms` that paints a sunny meadow and
-two fly agarics grown from the visit's seed, with nothing moving yet.
-
-- **Route and page.** `pnpm add phaser` (4.x). `apps/vova/app/mushrooms/page.tsx`
-  re-exports `MushroomsPage` and `mushroomsMetadata` from `@/pages/mushrooms`;
-  `PAGE_ROUTES.mushrooms` feeds the sitemap; `lib/mushrooms-metadata.ts` calls
-  `constructMetadata` with title "Mushrooms - <site name>" and description "A
-  meadow of fly agarics, from a drawing by Syama.".
-- **The slice** `src/pages/mushrooms/`: `index.ts`; `ui/mushrooms-page.tsx`
-  (server) renders `ui/meadow-canvas.tsx` (`'use client'`), whose `useEffect`
-  dynamically imports `ui/scene/start-game.ts` and destroys the game on
-  unmount; `ui/mushrooms.module.scss` pins the host `fixed` over the viewport
-  at `100dvh` with `touch-action: none`. `reference/syama-drawing.webp`
-  moves in from `docs/remove-before-merging/`.
-- **Model**, Phaser-free: `model/random.ts` — `Random` (a `() => number` in
-  `[0, 1)`), `mulberry32(seed)`, `between`, `pick`, `chance`;
-  `model/mushroom-genes.ts` — `CAP_KINDS` (`spotted`, `plain`, `dark-top`,
-  `dark-bottom`), `Seeded`/`WithId` bases, `Mushroom = WithId & Seeded &
-{ cap }`, `mushroomGenes(mushroom)` (stem height, width and foot bulge, lean,
-  cap width, height and dome power, spots for `spotted` only, a hue nudge — all
-  in units of the mushroom's size), `firstMushrooms(random)` for the two the
-  meadow opens with. `mushroom-genes.test.ts`: same seed same genes, every gene
-  in its range over many seeds, spots inside the cap and off the rim, no two
-  spots overlapping.
-- **Scene**: `ui/scene/palette.ts` (every colour of the game),
-  `ui/scene/layout.ts` (pure: viewport → horizon, hill bands, sun, where each
-  mushroom stands and how big, landscape and portrait),
-  `ui/scene/draw-mushroom.ts` (genes → `Graphics`: outline, flat fill, shade,
-  highlight, the two-tone caps split along a dome level),
-  `ui/scene/paint-backdrop.ts` (everything behind the mushrooms; the sun a
-  layered rosette of rays, the first of the mandala ornament),
-  `ui/scene/meadow-scene.ts` (the backdrop, then the two mushrooms; redrawn
-  on resize), rendered at the device pixel ratio so a tablet's retina screen
-  is not blurred.
-- **Rules.** `.claude/rules/styling.md` § Colours names `palette.ts` as the
-  one file holding colour literals.
-- **Done when** `/preview` frames at tablet landscape and phone portrait show
-  the meadow as described, and `./scripts/vet.sh` is green.
+1. **The meadow, still.** `/mushrooms` (in `PAGE_ROUTES`, so in the sitemap)
+   paints a sunny meadow and two spotted fly agarics, fresh on every visit
+   and the same across a resize. What the next bites build on:
+   - `model/` (Phaser-free, under `node:test`): `random.ts` (`mulberry32`,
+     `between`, `nextSeed`), `geometry.ts` (`Point`, `Circle`),
+     `mushroom-genes.ts` (`CAP_KINDS`, `Mushroom`, `mushroomGenes` for all
+     four caps, `domeHeight`, `firstMushrooms`).
+   - `ui/meadow-canvas.tsx` imports `ui/scene/start-game.ts` after mount and
+     rethrows a failed load into the error boundary. `start-game.ts` sizes
+     the buffer in device pixels itself (Phaser's `RESIZE` would blur a
+     retina tablet) and writes the ratio to the registry; the scene's camera
+     zooms back to CSS pixels, which `layout.ts` is written in.
+   - `meadow-scene.ts` repaints everything on resize: `paint-backdrop.ts`
+     (sky, the rosette sun, clouds one `Graphics` each so they can drift,
+     two hill ranges, ground and tufts), then one `Graphics` per mushroom,
+     positioned at its foot and rotated by its lean, so a tween can squash
+     it from the ground. `draw-mushroom.ts` paints genes in ink, flat fill,
+     an alpha shade and a shine; `shapes.ts` holds `sample`, `petal`,
+     `fillShape`, `strokeShape`; `palette.ts` every colour.
+   - Frames are taken with Playwright from `/opt/node22/lib/node_modules`
+     against `apps/vova/out` served statically (`tmp/preview/shoot.cjs` is
+     the throwaway recipe); Chrome's bare `--screenshot` leaves a false strip
+     at the bottom. Seen and left for the review: the cap's rim corners read
+     angular, the cap shade's inner edge ends in a hard notch, and on a phone
+     the front cap nearly touches the right edge.
 
 ## Rest of the elephant
 
