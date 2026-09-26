@@ -1,10 +1,10 @@
 /**
  * Plays `/mushrooms` on the four screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
- * not the one its control promises. `+`, a pick, a tap on a mushroom, `−`
- * with a selection and without, `−` on an empty meadow, a tap on a flower
- * with the picker open and the mute are each tapped the way a finger does,
- * and a frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
+ * not the one its control promises. Every control and every tappable thing in
+ * the meadow is tapped the way a finger does — the steps are `play` below and
+ * `lib/play-house.ts` — and a frame of each lands in
+ * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
