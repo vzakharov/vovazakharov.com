@@ -97,11 +97,13 @@ export function drawMushroom(
   graphics.fillStyle(base);
   fillShape(graphics, dome);
   if (band !== undefined) {
+    const upper = domeBand(genes, TONE_SPLIT).map((point) => toMushroom(point));
     graphics.fillStyle(band);
-    fillShape(
-      graphics,
-      domeBand(genes, TONE_SPLIT).map((point) => toMushroom(point)),
-    );
+    fillShape(graphics, upper);
+    // An ink line where the tones meet, so which of them is on top reads at
+    // a glance, on a button as in the meadow.
+    graphics.lineStyle(ink, inkColour);
+    strokeShape(graphics, upper);
   }
 
   graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA * (1 - haze));

@@ -11,26 +11,53 @@ import { PALETTE } from './palette';
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
+/** How far below a button its shadow falls, in its radii, and how dark. */
+const DISC_DROP = 0.07;
+const DISC_SHADOW_ALPHA = 0.25;
+/**
+ * A pictogram's spots, in the cap's frame: fewer and larger than a meadow
+ * mushroom's, so they read as spots at a button's size.
+ */
+const ICON_SPOTS = [
+  { x: -0.24, y: 0.16, r: 0.085 },
+  { x: 0.02, y: 0.3, r: 0.09 },
+  { x: 0.26, y: 0.13, r: 0.08 },
+  { x: -0.05, y: 0.08, r: 0.06 },
+];
 
-/** A button's disc, centred on the graphics' own position so a tap can press it in by scale. */
+/**
+ * A button's disc, opaque so nothing behind it reads through, with an ink rim
+ * and a shadow under it; centred on the graphics' own position so a tap can
+ * press it in by scale.
+ */
 function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
   graphics.clear();
-  graphics.fillStyle(PALETTE.hud, 0.55);
+  graphics.fillStyle(PALETTE.shadeInk, DISC_SHADOW_ALPHA);
+  graphics.fillCircle(0, r * DISC_DROP, r);
+  graphics.fillStyle(PALETTE.hud);
   graphics.fillCircle(0, 0, r);
-  graphics.lineStyle(Math.max(2, r * 0.1), PALETTE.ink, 0.8);
+  graphics.lineStyle(Math.max(2, r * 0.1), PALETTE.ink);
   graphics.strokeCircle(0, 0, r);
 }
 
-/** A mushroom with `cap`, standing upright: the pictogram's own, not a meadow's. */
+/**
+ * A mushroom with `cap`, standing upright: the pictogram's own, not a
+ * meadow's. Its cap is wider and taller than any the meadow grows and its stem
+ * short, so the cap, which is what tells the four apart, fills the button.
+ */
 function iconGenes(cap: CapKind): MushroomGenes {
+  const genes = mushroomGenes({ seed: ICON_SEED, cap });
   return {
-    ...mushroomGenes({ seed: ICON_SEED, cap }),
+    ...genes,
     lean: 0,
     stemBend: 0,
     capTilt: 0,
-    // A tall, even dome, so a two-tone cap's band reads at a button's size.
-    capHeight: GENE_RANGES.capHeight[1],
-    domePower: 0.8,
+    stemHeight: GENE_RANGES.stemHeight[0],
+    stemWidth: GENE_RANGES.stemWidth[1],
+    capWidth: GENE_RANGES.capWidth[1],
+    capHeight: 0.58,
+    domePower: 0.85,
+    spots: genes.spots.length > 0 ? ICON_SPOTS : [],
   };
 }
 
@@ -59,24 +86,30 @@ export function drawCapButton(
   drawIcon(graphics, iconGenes(cap), r * 1.4, 0, 0);
 }
 
-/** `+` (`sign` 1) or `−` (`sign` -1): a fly agaric with the sign on a badge. */
+/**
+ * `+` (`sign` 1) or `−` (`sign` -1): a fly agaric with the sign on a badge
+ * half the button across, the sign bold enough to say what the button does
+ * on its own.
+ */
 export function drawGrowButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
   sign: 1 | -1,
 ): void {
   drawDisc(graphics, r);
-  drawIcon(graphics, iconGenes('spotted'), r * 1.25, -r * 0.14, 0);
-  const badge = { x: r * 0.46, y: r * 0.42, r: r * 0.36 };
+  drawIcon(graphics, iconGenes('spotted'), r * 1.15, -r * 0.24, -r * 0.1);
+  const badge = { x: r * 0.36, y: r * 0.36, r: r * 0.5 };
   graphics.fillStyle(sign > 0 ? PALETTE.grow : PALETTE.shrink);
   graphics.fillCircle(badge.x, badge.y, badge.r);
-  graphics.lineStyle(Math.max(2, r * 0.07), PALETTE.ink);
+  graphics.lineStyle(Math.max(2, r * 0.08), PALETTE.ink);
   graphics.strokeCircle(badge.x, badge.y, badge.r);
-  const arm = badge.r * 0.55;
-  graphics.lineStyle(Math.max(3, r * 0.11), PALETTE.hud);
-  graphics.lineBetween(badge.x - arm, badge.y, badge.x + arm, badge.y);
+  const arm = badge.r * 0.62;
+  // Bars rather than strokes, so the cross's arms meet square.
+  const bar = Math.max(4, r * 0.17);
+  graphics.fillStyle(PALETTE.hud);
+  graphics.fillRect(badge.x - arm, badge.y - bar / 2, arm * 2, bar);
   if (sign > 0) {
-    graphics.lineBetween(badge.x, badge.y - arm, badge.x, badge.y + arm);
+    graphics.fillRect(badge.x - bar / 2, badge.y - arm, bar, arm * 2);
   }
 }
 
