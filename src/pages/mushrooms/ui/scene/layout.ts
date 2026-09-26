@@ -8,7 +8,7 @@ import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point } from '../../model/geometry';
-import { CAP_KINDS } from '../../model/mushroom-genes';
+import { CAP_KINDS, GENE_RANGES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
 
@@ -77,10 +77,10 @@ const FOREST_SLOTS = {
     [0.8, 0.1, 0.5],
   ],
   portrait: [
-    [0.16, 0.54, 0.44],
-    [0.84, 0.58, 0.44],
-    [0.22, 0.04, 0.42],
-    [0.78, 0.08, 0.42],
+    [0.2, 0.54, 0.5],
+    [0.8, 0.58, 0.5],
+    [0.22, 0.04, 0.48],
+    [0.78, 0.08, 0.48],
   ],
 } as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
@@ -109,6 +109,13 @@ const PICK_ROOMY_SPACING = 2.7;
  * six-year-old's finger finds without aiming.
  */
 export const TAP_RADIUS = 32;
+
+/**
+ * The least size a forest mushroom stands at, the clump standing larger: the
+ * narrowest cap the genes allow is then `2 × TAP_RADIUS` across, a mushroom's
+ * tap area being its cap as drawn.
+ */
+const FINGER_SIZE = (2 * TAP_RADIUS) / GENE_RANGES.capWidth[0];
 
 /** A tap target's hit radius: what it draws, and never under `TAP_RADIUS`. */
 export function tapReach(r: number): number {
@@ -210,6 +217,15 @@ function hazeAt(down: number): number {
 }
 
 /**
+ * How far any cap reaches left and right of its foot, per unit of size, once
+ * `splay` turns it.
+ */
+function sideReach(splay: number): [left: number, right: number] {
+  const { toward, away } = maxReach(splay);
+  return splay < 0 ? [toward, away] : [away, toward];
+}
+
+/**
  * The largest size a mushroom stood at `x` with `splay` can take, whatever
  * its genes, and keep its cap `margin` inside the screen.
  */
@@ -219,15 +235,14 @@ function sizeToFit(
   splay: number,
   margin: number,
 ): number {
-  const reach = maxReach(splay);
-  const [left, right] =
-    splay < 0 ? [reach.toward, reach.away] : [reach.away, reach.toward];
+  const [left, right] = sideReach(splay);
   return Math.min((x - margin) / left, (width - margin - x) / right);
 }
 
 /**
  * The forest's slots, each facing the middle of the meadow and sized under
- * `sizeToFit`, as the clump is.
+ * `sizeToFit`, as the clump is, but never under `floor`: a slot the floor
+ * outgrows is pulled in from the edge until it fits.
  */
 function placeForest(
   slots: ReadonlyArray<readonly [number, number, number]>,
@@ -237,15 +252,27 @@ function placeForest(
     ground,
     unit,
     margin,
-  }: Record<'width' | 'groundTop' | 'ground' | 'unit' | 'margin', number>,
+    floor,
+  }: Record<
+    'width' | 'groundTop' | 'ground' | 'unit' | 'margin' | 'floor',
+    number
+  >,
 ): Placement[] {
   return slots.map(([across, down, scale]) => {
-    const x = width * across;
     const splay = (across < 0.5 ? 1 : -1) * FOREST_SPLAY;
+    const wanted = width * across;
+    const size = Math.max(
+      floor,
+      Math.min(unit * scale, sizeToFit(wanted, width, splay, margin)),
+    );
+    const [left, right] = sideReach(splay);
     return {
-      x,
+      x: Math.min(
+        width - margin - right * size,
+        Math.max(margin + left * size, wanted),
+      ),
       y: groundTop + ground * down,
-      size: Math.min(unit * scale, sizeToFit(x, width, splay, margin)),
+      size,
       splay,
       haze: hazeAt(down),
     };
@@ -325,7 +352,7 @@ export function meadowLayout(
       ),
     );
   const slots = FOREST_SLOTS[orientation];
-  const standing = (margin: number) => {
+  const standing = (margin: number, floor: number) => {
     const unit = clumpSize(margin);
     const opening = feet.map(({ x, y, scale, side }) => ({
       x,
@@ -340,14 +367,15 @@ export function meadowLayout(
       ground,
       unit,
       margin,
+      floor,
     });
     return { unit, mushrooms: [...opening, ...forest] };
   };
-  const { mushrooms } = standing(EDGE_MARGIN);
-  // The flowers keep to the meadow as it would stand with no edge margin,
-  // which scales with the screen exactly, so a resize keeps every flower
-  // where it was.
-  const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0);
+  const { mushrooms } = standing(EDGE_MARGIN, FINGER_SIZE);
+  // The flowers keep to the meadow as it would stand with no edge margin and
+  // no floor, which scales with the screen exactly, so a resize keeps every
+  // flower where it was.
+  const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0, 0);
   const mute = {
     x: BUTTON_INSET + BUTTON_R,
     y: BUTTON_INSET + BUTTON_R,

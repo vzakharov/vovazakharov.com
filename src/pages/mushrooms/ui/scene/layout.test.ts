@@ -42,6 +42,7 @@ const VIEWPORTS = [
   ['tablet', 1180, 820],
   ['tablet portrait', 820, 1180],
   ['phone', 390, 844],
+  ['phone held sideways', 844, 390],
   ['small phone', 320, 568],
   ['desktop', 1920, 1080],
 ] as const;
@@ -114,6 +115,16 @@ describe('meadowLayout', () => {
             `visit ${seed}: ${mushroom.id} past the edge`,
           );
         }
+      }
+    });
+
+    it(`makes every slot's narrowest cap a finger's target on a ${name} screen`, () => {
+      const { mushrooms } = meadowLayout(width, height, 1);
+      for (const [slot, { size }] of mushrooms.entries()) {
+        assert.ok(
+          GENE_RANGES.capWidth[0] * size >= 2 * TAP_RADIUS - 1e-9,
+          `mushroom-${slot} at size ${size.toFixed(0)}`,
+        );
       }
     });
 
