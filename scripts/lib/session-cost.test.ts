@@ -7,7 +7,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { parsePrices, summariseTranscript } from './session-cost.ts';
+import {
+  isUnwrittenTail,
+  parsePrices,
+  summariseTranscript,
+} from './session-cost.ts';
 
 const prices = parsePrices(
   JSON.stringify({
@@ -44,6 +48,7 @@ type ResponseOverrides = {
   write5m?: number;
   write1h?: number;
   written?: number;
+  stop?: string;
 };
 
 const response = (overrides: ResponseOverrides = {}): string =>
@@ -56,6 +61,7 @@ const response = (overrides: ResponseOverrides = {}): string =>
     message: {
       id: overrides.id ?? 'msg_1',
       model: overrides.model ?? 'test-model',
+      stop_reason: overrides.stop ?? null,
       usage: {
         input_tokens: overrides.input ?? 0,
         output_tokens: overrides.output ?? 0,
@@ -77,11 +83,16 @@ const response = (overrides: ResponseOverrides = {}): string =>
     },
   });
 
-const summarise = (lines: string[], subagents: string[][] = []) =>
+const summarise = (
+  lines: string[],
+  subagents: string[][] = [],
+  atStop = false,
+) =>
   summariseTranscript(
     { main: lines.join('\n'), subagents: subagents.map((s) => s.join('\n')) },
     prices,
     'fallback',
+    atStop,
   );
 
 describe('session-cost: what a response costs', () => {
@@ -264,5 +275,59 @@ describe('session-cost: what names a session', () => {
       costState(2.25),
     ]);
     assert.equal(cost.claudeCodeTotalUsd, 2.25);
+  });
+});
+
+describe('session-cost: whether the turn was written in full', () => {
+  const tail = (lines: string[], subagents: string[][] = [], atStop = true) =>
+    summarise(lines, subagents, atStop).warnings.filter((warning) =>
+      isUnwrittenTail(warning),
+    );
+
+  it('passes a transcript ending on end_turn', () => {
+    assert.deepEqual(
+      tail([
+        response({ id: 'msg_1', stop: 'tool_use' }),
+        response({ id: 'msg_2', stop: 'end_turn' }),
+      ]),
+      [],
+    );
+  });
+
+  it("warns when the turn's last response is not yet written", () => {
+    const [warning, ...rest] = tail([
+      response({ id: 'msg_1', stop: 'end_turn' }),
+      response({ id: 'msg_2', stop: 'tool_use' }),
+    ]);
+    assert.deepEqual(rest, []);
+    assert.match(warning ?? '', /msg_2/);
+    assert.match(warning ?? '', /`tool_use`/);
+  });
+
+  it('says nothing outside the Stop hook', () => {
+    assert.deepEqual(tail([response({ stop: 'tool_use' })], [], false), []);
+  });
+
+  it("judges the session's own responses, not a subagent's", () => {
+    assert.deepEqual(
+      tail(
+        [
+          response({ id: 'msg_1', stop: 'end_turn' }),
+          response({ id: 'msg_2', sidechain: true, stop: 'tool_use' }),
+        ],
+        [[response({ id: 'msg_3', stop: 'tool_use' })]],
+      ),
+      [],
+    );
+  });
+
+  it('passes over a synthetic record after the end_turn', () => {
+    assert.deepEqual(
+      tail([
+        response({ id: 'msg_1', stop: 'end_turn' }),
+        response({ id: 'msg_2', model: '<synthetic>', stop: 'stop_sequence' }),
+      ]),
+      [],
+    );
   });
 });

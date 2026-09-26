@@ -2,10 +2,11 @@
 
 // Prices one session's transcript and writes its row under
 // `.claude/costs/sessions/`. The row is rewritten from the whole file each run
-// rather than appended to, which is what lets a run pick up what the previous
-// one was too early to see — the transcript lags the live conversation.
+// rather than appended to, which is what lets a run pick up anything the
+// previous one was too early to see. `--at-stop` is the Stop hook's: the turn is
+// over, so the transcript should end on its `end_turn`.
 //
-//   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path]
+//   node scripts/session-cost.ts --transcript <path> [--session-id <id>] [--row-path] [--at-stop]
 //   node scripts/session-cost.ts --transcript <path> --name '<short label>'
 
 /* eslint-disable no-console -- stdout is this script's interface: the row's
@@ -17,6 +18,7 @@ import path from 'node:path';
 
 import { flag, given } from './lib/argv.ts';
 import {
+  isUnwrittenTail,
   parsePrices,
   parseSessionCost,
   type SessionCost,
@@ -55,14 +57,15 @@ const subagentsOf = (main: string): string[] => {
   }
 };
 
-// The name is the one field no run can recompute, so a rewrite reads back what
-// the last one wrote. An unreadable row is treated as no row: the point is to
-// keep a name, never to fail a write over one.
-const nameOn = (row: string): string | null => {
+// The name and any unwritten-tail warning are what no run can recompute from
+// the transcript, so a rewrite reads them back from the last one. An unreadable
+// row is treated as no row: the point is to keep them, never to fail a write
+// over them.
+const previous = (row: string): SessionCost | undefined => {
   try {
-    return parseSessionCost(readFileSync(row, 'utf8')).name;
+    return parseSessionCost(readFileSync(row, 'utf8'));
   } catch {
-    return null;
+    return undefined;
   }
 };
 
@@ -76,6 +79,7 @@ const cost = summariseTranscript(
   },
   prices,
   flag('session-id') ?? path.basename(transcript, '.jsonl'),
+  given('at-stop'),
 );
 
 const out = path.join(
@@ -84,7 +88,15 @@ const out = path.join(
   monthOf(cost),
   `${cost.sessionId}.json`,
 );
-const named: SessionCost = { ...cost, name: flag('name') ?? nameOn(out) };
+const before = previous(out);
+const carried = (before?.warnings ?? []).filter(
+  (warning) => isUnwrittenTail(warning) && !cost.warnings.includes(warning),
+);
+const named: SessionCost = {
+  ...cost,
+  name: flag('name') ?? before?.name ?? null,
+  warnings: [...carried, ...cost.warnings],
+};
 writeAtomic(root, out, `${JSON.stringify(named, null, 2)}\n`);
 
 console.log(
