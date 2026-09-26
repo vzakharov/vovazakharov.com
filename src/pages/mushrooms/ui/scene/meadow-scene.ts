@@ -6,37 +6,17 @@ import {
   type FlowerGenes,
   flowerGenes,
 } from '../../model/flower-genes';
-import type { Point } from '../../model/geometry';
-import {
-  bloom,
-  breath,
-  drift,
-  type Phased,
-  sway,
-  widthFor,
-  wobble,
-} from '../../model/motion';
-import {
-  firstMushrooms,
-  type Mushroom,
-  type MushroomGenes,
-  mushroomGenes,
-} from '../../model/mushroom-genes';
-import { capFrame, splayed } from '../../model/mushroom-pose';
-import { mulberry32, type Seeded } from '../../model/random';
+import { type Action, firstMeadow, type Meadow, reduce } from '../../model/game';
+import { bloom, drift, type Phased, phaseOf, sway } from '../../model/motion';
+import { mulberry32, nextSeed, type Random } from '../../model/random';
+import { Controls } from './controls';
 import { drawFlower } from './draw-flower';
-import { drawMushroom, drawMushroomShadow, toCanvas } from './draw-mushroom';
 import { growTufts, paintTufts } from './grass';
-import { drawMuteButton } from './hud';
-import {
-  type Footing,
-  type MeadowLayout,
-  meadowLayout,
-  TAP_RADIUS,
-} from './layout';
+import { containsCircle } from './hit-areas';
+import { type MeadowLayout, meadowLayout, TAP_RADIUS } from './layout';
+import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { MeadowSound, readMuted } from './sound';
-import { puffSpores } from './spores';
 
 /** The registry key the host writes the device pixel ratio under. */
 export const PIXEL_RATIO_KEY = 'pixelRatio';
@@ -48,44 +28,8 @@ const HUD_DEPTH = 2e5;
 const CLOUD_SPEEDS = [7, 4, 5.5];
 /** A flower's lean at the breeze's strongest, in radians. */
 const FLOWER_SWAY = 0.09;
-/** A tapped mushroom's rock to and fro, against its squash. */
-const WOBBLE_ROCK = 0.35;
-/** How much wider a shadow spreads per unit of the mushroom's squash. */
-const SHADOW_SPREAD = 0.6;
-
-/** A `Phased` phase read off the seed, so it holds across repaints. */
-function phaseOf({ seed }: Seeded): number {
-  return (seed / 2 ** 32) * Math.PI * 2;
-}
-
-/** A point in a creature's own frame, placed into the world. */
-function toWorld(foot: Point, turn: number, { x, y }: Point): Point {
-  return {
-    x: foot.x + x * Math.cos(turn) - y * Math.sin(turn),
-    y: foot.y + x * Math.sin(turn) + y * Math.cos(turn),
-  };
-}
-
-/** Phaser's hit tests, bound for use as an object's hit callback. */
-function containsRectangle(area: Phaser.Geom.Rectangle, x: number, y: number) {
-  return Phaser.Geom.Rectangle.Contains(area, x, y);
-}
-
-function containsCircle(area: Phaser.Geom.Circle, x: number, y: number) {
-  return Phaser.Geom.Circle.Contains(area, x, y);
-}
 
 type Tapped = Phased & { tappedAt: number };
-
-type ShownMushroom = Tapped &
-  Pick<Footing, 'size'> & {
-    graphics: Phaser.GameObjects.Graphics;
-    /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
-    shadow: Phaser.GameObjects.Graphics;
-    hit: Phaser.Geom.Rectangle;
-    genes: MushroomGenes;
-    turn: number;
-  };
 
 type ShownFlower = Tapped & {
   container: Phaser.GameObjects.Container;
@@ -104,15 +48,17 @@ type ShownFlower = Tapped & {
  */
 export class MeadowScene extends Phaser.Scene {
   private readonly visitSeed = Math.floor(Math.random() * 2 ** 32);
-  private mushrooms: Mushroom[] = [];
+  /** What the player has made of the meadow; changed only by `dispatch`. */
+  private meadow: Meadow | undefined;
+  /** The seeds each grown mushroom takes, a stream of its own. */
+  private readonly growing: Random = mulberry32(this.visitSeed ^ 0x9e_0a);
   private flowers: Flower[] = [];
   private layout: MeadowLayout | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Phaser.GameObjects.Graphics | undefined;
   private tufts: ReturnType<typeof growTufts> = [];
-  private mute: Phaser.GameObjects.Graphics | undefined;
-  private readonly muteHit = new Phaser.Geom.Circle();
-  private readonly shownMushrooms = new Map<string, ShownMushroom>();
+  private bed: MushroomBed | undefined;
+  private controls: Controls | undefined;
   private readonly shownFlowers = new Map<string, ShownFlower>();
   private readonly voice = new MeadowSound(readMuted());
   /** Seconds on the scene's clock, as of the last frame. */
@@ -124,14 +70,48 @@ export class MeadowScene extends Phaser.Scene {
 
   create(): void {
     const random = mulberry32(this.visitSeed);
-    this.mushrooms = firstMushrooms(random);
+    this.meadow = firstMeadow(random);
     this.flowers = firstFlowers(random, 7);
+    const now = () => this.clock;
+    this.bed = new MushroomBed(this, {
+      voice: this.voice,
+      onTap: (id) => {
+        this.dispatch({ kind: 'select', id });
+      },
+      now,
+      sporeDepth: SPORE_DEPTH,
+    });
+    this.controls = new Controls(
+      this,
+      {
+        mute: () => {
+          this.voice.toggleMuted();
+          this.voice.pop();
+          this.repaintControls();
+        },
+        pick: () => {
+          this.voice.pop();
+          this.dispatch({ kind: 'pick' });
+        },
+        remove: () => {
+          this.dispatch({ kind: 'remove' });
+        },
+        grow: (cap) => {
+          this.dispatch({ kind: 'grow', cap, seed: nextSeed(this.growing) });
+        },
+      },
+      now,
+      HUD_DEPTH,
+    );
     this.paint();
+    this.bed.reconcile(this.meadow, this.requireLayout(), this.clock, true);
     this.scale.on(Phaser.Scale.Events.RESIZE, this.paint, this);
+    this.input.on(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
     // A browser lets sound start only on a tap's release.
     this.input.on(Phaser.Input.Events.POINTER_UP, this.startSound, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.scale.off(Phaser.Scale.Events.RESIZE, this.paint, this);
+      this.input.off(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
       this.input.off(Phaser.Input.Events.POINTER_UP, this.startSound, this);
       this.voice.stop();
     });
@@ -140,8 +120,7 @@ export class MeadowScene extends Phaser.Scene {
   override update(time: number): void {
     this.clock = time / 1000;
     const t = this.clock;
-    const { layout, backdrop, grass, tufts, shownMushrooms, shownFlowers } =
-      this;
+    const { layout, backdrop, grass, tufts, shownFlowers } = this;
     if (!layout || !backdrop) return;
     const { width, clouds } = layout;
     for (const [index, graphics] of backdrop.clouds.entries()) {
@@ -158,14 +137,8 @@ export class MeadowScene extends Phaser.Scene {
         ) - margin;
     }
     if (grass) paintTufts(grass, tufts, t);
-    for (const shown of shownMushrooms.values()) {
-      const bounce = wobble(t - shown.tappedAt);
-      const stretch = breath(t, shown.phase) + bounce;
-      shown.graphics
-        .setScale(widthFor(stretch), 1 + stretch)
-        .setRotation(shown.turn + bounce * WOBBLE_ROCK);
-      shown.shadow.setScale(1 + Math.max(0, -stretch) * SHADOW_SPREAD, 1);
-    }
+    this.bed?.update(t);
+    this.controls?.update(t);
     for (const shown of shownFlowers.values()) {
       const open = bloom(t - shown.tappedAt);
       shown.container.setRotation(sway(t, shown.phase) * FLOWER_SWAY);
@@ -173,9 +146,36 @@ export class MeadowScene extends Phaser.Scene {
     }
   }
 
+  /** The one way the meadow's state changes; the screen follows it. */
+  private dispatch(action: Action): void {
+    if (!this.meadow) return;
+    this.meadow = reduce(this.meadow, action);
+    this.bed?.reconcile(this.meadow, this.requireLayout(), this.clock);
+    this.repaintControls();
+  }
+
+  /** A tap that lands on nothing lets go of the selection. */
+  private readonly tapMeadow = (
+    _pointer: Phaser.Input.Pointer,
+    over: readonly Phaser.GameObjects.GameObject[],
+  ): void => {
+    if (over.length === 0) this.dispatch({ kind: 'deselect' });
+  };
+
   private readonly startSound = (): void => {
     this.voice.start();
   };
+
+  private requireLayout(): MeadowLayout {
+    if (!this.layout) throw new Error('The meadow is used before its paint');
+    return this.layout;
+  }
+
+  private repaintControls(): void {
+    if (this.layout && this.meadow) {
+      this.controls?.paint(this.layout, this.meadow, this.voice.muted);
+    }
+  }
 
   /**
    * The canvas is sized in device pixels for a sharp picture on a dense
@@ -197,77 +197,10 @@ export class MeadowScene extends Phaser.Scene {
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random);
     this.grass ??= this.add.graphics();
     this.tufts = growTufts(layout, random);
-    this.paintMushrooms(layout);
+    if (this.meadow) this.bed?.paint(this.meadow, layout);
     this.paintFlowers(layout);
-    this.paintMute(layout);
+    this.repaintControls();
   };
-
-  private paintMushrooms({ mushrooms }: MeadowLayout): void {
-    for (const [index, mushroom] of this.mushrooms.entries()) {
-      const place = mushrooms[index];
-      if (!place) continue;
-      const { x, y, size, splay } = place;
-      const { genes, turn } = splayed(mushroomGenes(mushroom), splay);
-      const shown =
-        this.shownMushrooms.get(mushroom.id) ?? this.showMushroom(mushroom);
-      Object.assign(shown, { genes, turn, size });
-      shown.graphics.clear().setPosition(x, y).setDepth(y);
-      drawMushroom(shown.graphics, genes, size);
-      // Just behind its own mushroom, and before anything standing behind it.
-      shown.shadow
-        .clear()
-        .setPosition(x, y)
-        .setDepth(y - 0.5);
-      drawMushroomShadow(shown.shadow, genes, size);
-      // The box round the stem and the cap, in the mushroom's own frame.
-      const cap = capFrame(genes);
-      const canvas = toCanvas(size);
-      const outline = [
-        { x: 0, y: 0 },
-        cap({ x: 0, y: genes.capHeight }),
-        cap({ x: -genes.capWidth / 2, y: 0 }),
-        cap({ x: genes.capWidth / 2, y: 0 }),
-      ].map((point) => canvas(point));
-      const xs = outline.map((point) => point.x);
-      const ys = outline.map((point) => point.y);
-      const pad = size * 0.06;
-      shown.hit.setTo(
-        Math.min(...xs) - pad,
-        Math.min(...ys) - pad,
-        Math.max(...xs) - Math.min(...xs) + pad * 2,
-        Math.max(...ys) - Math.min(...ys) + pad * 2,
-      );
-    }
-  }
-
-  private showMushroom(mushroom: Mushroom): ShownMushroom {
-    const hit = new Phaser.Geom.Rectangle();
-    const graphics = this.add.graphics().setInteractive(hit, containsRectangle);
-    const shown: ShownMushroom = {
-      graphics,
-      shadow: this.add.graphics(),
-      hit,
-      genes: mushroomGenes(mushroom),
-      turn: 0,
-      size: 0,
-      phase: phaseOf(mushroom),
-      tappedAt: -Infinity,
-    };
-    graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      shown.tappedAt = this.clock;
-      const { genes, turn, size } = shown;
-      const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
-      puffSpores(
-        this,
-        toWorld(graphics, turn, toCanvas(size)(crown)),
-        genes.capWidth * size * 0.75,
-        SPORE_DEPTH,
-      );
-      this.voice.boing(Math.min(1.4, 180 / size));
-    });
-    this.shownMushrooms.set(mushroom.id, shown);
-    return shown;
-  }
 
   private paintFlowers({ flowers }: MeadowLayout): void {
     for (const [index, flower] of this.flowers.entries()) {
@@ -302,22 +235,5 @@ export class MeadowScene extends Phaser.Scene {
     });
     this.shownFlowers.set(flower.id, shown);
     return shown;
-  }
-
-  private paintMute({ mute }: MeadowLayout): void {
-    if (!this.mute) {
-      this.mute = this.add
-        .graphics()
-        .setDepth(HUD_DEPTH)
-        .setInteractive(this.muteHit, containsCircle);
-      this.mute.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-        this.voice.toggleMuted();
-        this.voice.pop();
-        if (this.layout) this.paintMute(this.layout);
-      });
-    }
-    this.mute.setPosition(mute.x, mute.y);
-    this.muteHit.setTo(0, 0, Math.max(mute.r, TAP_RADIUS));
-    drawMuteButton(this.mute, mute.r, this.voice.muted);
   }
 }
