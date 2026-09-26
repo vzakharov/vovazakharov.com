@@ -61,7 +61,21 @@ Each note: what happened, and what the skill should do about it.
   What worked: rename the stale ref aside (`git branch -m <branch>
 stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   approve. The skill's pickup should do exactly that when the fast-forward
-  fails.
+  fails. Bite 4's pickup met the same stale snapshot and auto mode let
+  `reset --hard origin/<branch>` through, so the block is not reliable
+  either way; the rename aside is the form that never needs it.
+- **`/polish` and vet change source after the last frames.** Bite 4's polish
+  folded helpers and vet's knip fix made two exports private, both after the
+  scene agent's last frame run, which the loop requires to follow the last
+  source commit. The skill should order a bite's end as quick gates
+  (`pnpm format:check`, `pnpm knip`, which the scene agent had skipped),
+  then `/polish`, then vet, then the play run, then `/pr`.
+- **The play run sits near the tool's ten-minute ceiling.** With the house
+  it takes ~8 minutes, most of it the probe build. Running
+  `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova` and then
+  `pnpm play:mushrooms --no-build` as two foreground calls keeps each well
+  inside. The skill should split them from the start, and the script's
+  screens could be played in parallel pages when it outgrows that.
 - **The context threshold is not measurable from inside a session, and one
   bite already fills it.** The loop says a `/handle` session takes the next
   bite "when its context is still under ~140k tokens", but an agent can't
@@ -251,7 +265,15 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   budget notice with the scene still unwired; frames, polish plus vet, and the
   PR refresh each went to a subagent that reported in under 400 words, and the
   bite finished without a stop. The skill should hand those four out by
-  default from the start, not as a rescue.
+  default from the start, not as a rescue. Bite 4 did, and it held: the
+  main session wrote `## This bite` with every open call decided, then
+  briefed three subagents in sequence — the model with its tests, the scene
+  with its frames and play steps (handed the model's API from the first
+  report), polish plus vet plus `/pr` — and stayed near 160k while the
+  subagents spent ~600k between them. A model/scene split works because the
+  model agent's report is a ready API brief for the scene agent. Decide the
+  calls a subagent would otherwise make on the spot (windows over spots or
+  not) in the brief, and read its deviations back into the plan.
 - **A frame subagent has to tap, not only look.** Its first run found five
   visual issues; its reshoot found the one real bug — the back clump
   mushroom answered taps only at its left edge, because the front one's
