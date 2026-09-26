@@ -131,6 +131,10 @@ Standing rules for every session in the chain:
   `−` on an empty one — shakes its head, side to side, with a low two-note
   "nuh-uh" of its own, instead of the press it gives when it acts. Neither is
   dimmed while it can act.
+- **A door belongs to its mushroom; a flower belongs to the meadow.** A flower
+  tap is a tap on the meadow too, so it closes an open picker; a door tap
+  calls the mouse and leaves an open picker open, as a tap on a mushroom leaves
+  the house picker open.
 - **Mandala-inspired ornament** — Leysan's ("не прямо чтобы рисовал
   мандалы, а именно inspired"). Radial symmetry and concentric rings are the
   meadow's ornamental language, and nothing in it is a drawn mandala: the

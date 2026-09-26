@@ -84,6 +84,7 @@ export class HouseView {
     this.graphics = scene.add
       .graphics()
       .setInteractive({ hitArea: this.hit, hitAreaCallback: containsOutline });
+    // A door is part of its mushroom, not the meadow: its tap leaves an open picker open.
     this.graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.mouse.tappedAt = this.now();
       this.voice.squeak();
