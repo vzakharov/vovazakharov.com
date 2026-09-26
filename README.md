@@ -79,8 +79,9 @@ FSD app layer is `src/app` while `apps/*/app/` is routing only.
 
 ## Deployment
 
-Merging to `main` is the deploy; there is no separate release step. A `feat:` or
-`fix:` squash subject is what triggers it, and its scope picks the site.
+Merging to `main` is the deploy; there is no separate release step. A squash
+subject of a publishing type triggers it — the set is the `publishing` variable
+in `.github/workflows/deploy.yml` — and its scope picks the site.
 
 A repository gets one Pages site, so the sites leave by different doors:
 `vovazakharov.com` is this repository's own Pages deployment, while
