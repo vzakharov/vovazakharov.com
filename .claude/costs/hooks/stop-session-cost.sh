@@ -3,14 +3,14 @@
 #
 # It shares the event with the harness's own `Stop` check, which refuses to end a
 # turn on an unclean or unpushed tree.
-# `.claude/rules/costs.md` § "Running beside the harness's Stop check" carries
+# `.claude/costs/CLAUDE.md` § "Running beside the harness's Stop check" carries
 # how the row is committed without the tree ever looking unfinished, and what the
 # closing verdict covers when the tree was unclean before this ran.
 
-. "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
+. "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
 need_command jq "the session's cost row was not written"
-need_command node "the session's cost row was not written"
+need_command python3 "the session's cost row was not written"
 
 root="$(project_root)"
 [ -n "$root" ] && [ -f "$root/.claude/costs/prices.json" ] || exit 0
@@ -57,7 +57,7 @@ ancestors=''
 
 harness_check_running() {
   local hit
-  for hit in $(pgrep -f stop-hook-git-check 2>/dev/null); do
+  for hit in $(pgrep -f "$harness_check" 2>/dev/null); do
     case "$ancestors" in *" $hit "*) ;; *) return 0 ;; esac
   done
   return 1
@@ -68,15 +68,14 @@ wait_out_harness_check() {
   # there was never a check to race.
   [ -f "$launcher_settings" ] || return 0
   harness_check_registered || {
-    say "the harness no longer registers a \`${harness_check}\` Stop hook. The race this hook waits out may be gone, or the check may have been renamed — either way \`.claude/rules/costs.md\` § \"Running beside the harness's Stop check\" is written on an arrangement that has changed, and wants revisiting."
+    say "the harness no longer registers a \`${harness_check}\` Stop hook. The race this hook waits out may be gone, or the check may have been renamed — either way \`.claude/costs/CLAUDE.md\` § \"Running beside the harness's Stop check\" is written on an arrangement that has changed, and wants revisiting."
     return 0
   }
   command -v pgrep >/dev/null && command -v ps >/dev/null || return 0
 
-  local waited=0 seen=no
+  local waited=0
   ancestors="$(ancestry)"
   while harness_check_running; do
-    seen=yes
     sleep 0.05
     waited=$((waited + 1))
     [ "$waited" -lt 100 ] || {
@@ -84,12 +83,6 @@ wait_out_harness_check() {
       return 0
     }
   done
-
-  # TEMPORARY — remove once it has answered whether the look ever lands while
-  # the check is running, which is the whole of whether this wait does anything.
-  mkdir -p "$root/tmp" &&
-    printf '%s seen=%s waited=%sms\n' "$(date -u +%FT%TZ)" "$seen" \
-      "$((waited * 50))" >>"$root/tmp/harness-check-wait.log"
 }
 
 # Only the states that touch git can be mistaken for the agent's own work, which
@@ -97,8 +90,8 @@ wait_out_harness_check() {
 state=none
 
 # Whether the row already differed from HEAD when the turn ended — a hand run of
-# `scripts/session-cost.ts` writes it in place. The check read the same tree, so
-# it was counting the row.
+# `session_cost.py` writes it in place. The check read the same tree, so it was
+# counting the row.
 row_left=false
 
 place_row() { mkdir -p -- "$(dirname "$2")" && mv -f -- "$1" "$2"; }
@@ -124,11 +117,17 @@ commit_row() {
   fi
 
   # The turn's spend is measured from the row as last committed, not as last
-  # written: a hand run between turns rewrites the file too.
-  was="$(repo show "HEAD:$path" 2>/dev/null | jq -r '.total.costUsd // 0' 2>/dev/null)"
+  # written: a hand run between turns rewrites the file too. A row HEAD lacks
+  # is a session's first, and its subject says so, telling new sessions from
+  # continued ones in the log.
   now="$(jq -r '.total.costUsd' "$staged")"
-  subject="$(awk -v was="${was:-0}" -v now="$now" \
-    'BEGIN { printf "chore: session cost +%.2f USD, total %.2f USD", now - was, now }')"
+  if committed="$(repo show "HEAD:$path" 2>/dev/null)"; then
+    was="$(jq -r '.total.costUsd // 0' <<<"$committed" 2>/dev/null)"
+    subject="$(awk -v was="${was:-0}" -v now="$now" \
+      'BEGIN { printf "chore: session cost +%.2f USD, total %.2f USD", now - was, now }')"
+  else
+    subject="$(awk -v now="$now" 'BEGIN { printf "chore: session cost (new) %.2f USD", now }')"
+  fi
 
   # `commit-tree` signs only when told to, where `commit` reads the config.
   [ "$(repo config --type=bool commit.gpgsign 2>/dev/null)" = true ] && sign=(-S)
@@ -171,7 +170,7 @@ run_ledger() {
   # rename that puts the row in place is atomic.
   staged="$root/tmp/cost-row.$$.json"
   mkdir -p -- "$root/tmp" &&
-    row="$(node "$root/scripts/session-cost.ts" \
+    row="$(python3 "$root/.claude/costs/session_cost.py" \
       --transcript "$transcript" \
       --session-id "$(field session_id)" \
       --row-path --at-stop --out "$staged")" ||

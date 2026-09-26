@@ -45,8 +45,8 @@ docs/pr
 # hash of their source, so reformatting them would only churn the diff.
 apps/*/public/generated
 
-# Session cost rows — rewritten wholesale by `scripts/session-cost.ts` on every
-# turn, so a formatting pass over them is undone by the next one.
+# Session cost rows — rewritten wholesale by `.claude/costs/session_cost.py` on
+# every turn, so a formatting pass over them is undone by the next one.
 .claude/costs/sessions
 
 # Per-machine Claude Code settings — never committed, written by the harness

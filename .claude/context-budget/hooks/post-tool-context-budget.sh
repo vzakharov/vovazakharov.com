@@ -63,7 +63,7 @@ k() { echo "$(($1 / 1000))k"; }
 past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line."; }
 stopping='`@.claude/skills/go/SKILL.md` § "Stopping partway releases the plan" — which also covers work that has no plan yet'
 finish=100000
-nearly_done() { echo "First judge whether the work is nearly done: by your own estimate, under ~$(k "$finish") more tokens of context to finish$1. If it is, finish it, and say in your report that you did and why rather than stopping."; }
+nearly_done() { echo "First judge whether the work is nearly done — the open bite, when the plan has a \`## This bite\` section: by your own estimate, under ~$(k "$finish") more tokens of context to finish$1. If it is, finish it, and say in your report that you did and why rather than stopping."; }
 
 case "$level" in
   warn)
@@ -71,7 +71,7 @@ case "$level" in
 
 $(nearly_done " — roughly, less than half of what this session has already carried")
 
-Otherwise get the work to a committed, pushed stopping point and tell the operator, offering two ways on: \`/compact\` in this session, or a new one. A new session resumes only from a paused plan, so offer to pause it per ${stopping}. Do not pause unasked at this level: at $(k "$pause") this notice returns as the pause itself."
+Otherwise get the work to a committed, pushed stopping point and tell the operator, offering two ways on: \`/compact\` in this session, or \`/relay\` to a new one (\`@.claude/skills/relay/SKILL.md\`), which writes a summary of this session for its successor and releases the plan first per ${stopping}. Do neither unasked at this level: at $(k "$pause") this notice returns as the pause itself."
     ;;
   pause)
     notice="$(past "$pause" pause)
