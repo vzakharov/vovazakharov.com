@@ -193,8 +193,8 @@ function doorAt(genes: MushroomGenes, t: number): DoorPlace {
 /**
  * Where a mushroom's door may go, in the mushroom's own frame (foot at the
  * origin, y up), from the lowest up: its sill just above the ground, then a
- * station at a time up the stem for as long as the frame keeps under the cap. Which one it takes is the
- * scene's call, as the mushrooms in front of it allow.
+ * station at a time up the stem for as long as the frame keeps under the cap.
+ * Which one it takes is the scene's call, as the mushrooms in front allow.
  */
 export function doorStations(genes: MushroomGenes): DoorPlace[] {
   // The frame's lower corner, as the stem's tilt there dips one of them.

@@ -77,12 +77,11 @@ export const FOOT_CLEARANCE = 0.45;
  * Where the clump stands: across as a fraction of the width, its back and
  * front feet down as fractions of the ground's depth, and each foot's step
  * off `across` in the clump's size. A tall screen's clump stands nearer the
- * front, leaving the back row room above its caps; its ground is deeper for
- * the clump's size, so its feet stand closer in depth and farther apart
- * across. The steps set where the two stems cross, and the back door needs
- * the crossing low, the door above it: a crossing midway hides every height
- * the door could take (`doorInSight`), and a crossing high, the door below
- * it, stands the caps nearly one over the other, the back one hidden.
+ * front, leaving the back row room above its caps, and its feet closer in
+ * depth on its deeper ground. The steps set where the two stems cross, which
+ * the back door needs low, the door above it: a crossing midway hides every
+ * height the door could take (`doorInSight`), and a high one stands the caps
+ * nearly one over the other, the back one hidden.
  */
 const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
 const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.74, 0.8] } as const;
