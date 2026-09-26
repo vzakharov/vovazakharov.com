@@ -188,3 +188,25 @@ Each note: what happened, and what the skill should do about it.
   declared inline. The skill's bite checklist for "a new kind of thing"
   should say: name the shared bases first (`Footing`, `Phased`, `Bent`,
   `Seeded`), then write the types.
+- **Handling a review is cheaper when every fix is its own commit and its
+  own reply.** Bite 2's six threads went in five commits, one per concern,
+  each reply naming its SHA and the test that holds it. Nothing had to be
+  untangled when writing the replies. The skill should make one commit per
+  thread its default for the `/handle` session.
+- **A reviewer's "Ask" with a test in it is half the fix.** Every one of
+  bite 2's comments ended with a concrete ask and a check for it ("every
+  flower shorter than the nearest stem", "`|wobble| < 1%` past the
+  duration"). The handling session wrote those tests first and then
+  mutation-checked them. The skill's review template should require an
+  `Ask:` line and a checkable property per comment.
+- **A test that pins a derived constant has to test the neighbourhood, not
+  the cutoff.** The reviewer's `|wobble(t)| < 1% for t ≥ WOBBLE_DURATION` is
+  true by construction once the function returns 0 past the span. The
+  version that tests something checks the last 50 ms before the cutoff. A
+  review ask phrased as a property is worth reading for whether the code
+  makes it vacuous.
+- **Checking the audio needs no ears.** `voice.context.state` read through
+  `page.evaluate` (`running` → `suspended` → `running`) confirmed the mute
+  fix in the same Playwright run as the frames. The skill's frame script
+  should read the relevant runtime state beside each shot, not only take
+  pictures.

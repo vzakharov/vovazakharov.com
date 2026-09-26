@@ -92,7 +92,7 @@ export type MeadowLayout = Sized & {
 const HEAD_REACH = FLOWER_RANGES.petalLength[1];
 
 /** Whether a flower keeps its stem and head off every mushroom's foot. */
-export function clearOfFeet(
+function clearOfFeet(
   { x, y, size }: Footing,
   feet: readonly Footing[],
 ): boolean {
