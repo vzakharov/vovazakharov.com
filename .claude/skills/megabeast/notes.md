@@ -125,7 +125,12 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   new lineage; that is worth trying before depth 7. It is not: bite 6's
   `/go` session, at depth 8, got the same refusal from `create_trigger`
   with `create_new_session_on_fire`, so a Routine inherits the lineage too.
-  At the cap, the one line for the operator is the only way on.
+  At the cap, the one line for the operator is the only way on. The
+  operator ruled on it: the cap stays, and relays are not to be replaced by
+  subagent runs to dodge it ("менять relay на что-то другое в этот подход
+  megabeast-a точно не надо"). A chain lasted ~3½ hours for bites 1–3 and
+  ~13 for bites 4–6, so the skill should expect the operator's paste about
+  every three bites, and say so when it hands over.
 - **MCP tool names change mid-session** (a server reconnects under another
   id). Relay and `create_session` calls have to be looked up by the current
   name, never taken from an earlier call in the transcript.

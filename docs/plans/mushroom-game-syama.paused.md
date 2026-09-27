@@ -24,8 +24,8 @@ The operator delegated the whole loop and does not step in until the end
 вмешательства"). Every session on this branch follows it:
 
 1. A session takes a bite (`/go`), builds it, folds it into `## Eaten so far`,
-   runs `/polish` and `/pr`, pauses the plan, then runs
-   `/relay оставь код ревью на последний кусок`.
+   runs `/polish` and `/pr`, publishes the Artifact (below), pauses the plan,
+   then runs `/relay оставь код ревью на последний кусок`.
 2. The review session reviews **that bite's commits** as the operator would —
    `writing/notes/the-five-percent.md` is the reading list: the frame taken as
    given, an account standing in for running it, reasoning written into the
@@ -40,6 +40,13 @@ The operator delegated the whole loop and does not step in until the end
    runs `/relay /go`. Either way the bite ends at step 1.
 4. After the last bite and its review is handled: `/relay /finalize`. No
    merge.
+
+**The relays stay relays.** A chain stops at eight sessions deep — about
+three bites (bites 1–3 took ~3½ hours, 4–6 ~13) — and the operator restarting
+it every eighth session is part of the loop, not a defect to engineer away
+("менять relay на что-то другое в этот подход megabeast-a точно не надо").
+Each relay summary carries the chain's depth, and the session at the cap
+hands the operator the one line to paste into a fresh session.
 
 Standing rules for every session in the chain:
 
@@ -64,8 +71,15 @@ Standing rules for every session in the chain:
   вместо tmp, хочу периодически на них посматривать"; "в конце каждого куска
   выбирать те что достойны показать"). A handled review's fixes count as
   their bite's, and land in the same directory. `/finalize` sweeps it.
-- **The result is also an Artifact** (last bite), and its link is posted on
-  the PR, so the operator can open it the moment they are back.
+- **Every bite ends with the game published as an Artifact**, updated in
+  place at one URL posted on the PR, so the operator can play each bite
+  without installing anything ("атефакт в конце каждого байта, чтобы по ходу
+  дела тоже можно было тестировать без установки"). A handled review
+  republishes it. The recipe: a single self-contained HTML,
+  esbuild over the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built
+  under `tmp/` and not committed; the build script is committed, since
+  `tmp/` does not survive a relay. The first session to reach a bite's end
+  writes it.
 
 ## Decisions the whole game carries
 
@@ -427,24 +441,46 @@ covers its head; the bee's brief flutter at rest still strobes a little;
 the sun sits partly behind the hills on phone landscape and the 320 px
 phone.
 
-7. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
+7. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
+   fills and even black ink everywhere. The operator's bar is the look of
+   beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
+   фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с
+   душой". The bite starts by gathering references (Gris, Ori, Alto's
+   Odyssey; fetched into `tmp/`, never committed) and naming what they do
+   that the meadow does not — likely aerial perspective across the hill
+   ranges, a sky and light that tint everything under them, ink that tapers
+   and takes the colour of what it outlines, soft seeded grain, a harmonised
+   rather than saturated palette. Every frame of the bite is judged beside
+   those references as well as Syama's drawing. Still code-drawn, still no
+   asset files, still made for a six-year-old.
+8. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
+   the screen, and the screen a window onto it: a rotation or a smaller
+   screen changes the crop, not the layout, and the child pans left and
+   right and pinches to zoom, a gesture known from photos ("если мы сделаем
+   более широкое поле, то можно делать не ресайз а просто кроп, а там уже
+   ребёнок сам будет водить влево-вправо"; "кажется, что экран слишком
+   маловат — или объекты великоваты — чтобы было прямо интересно"). It
+   starts from the meadow as it stands. It revisits the rules that exist
+   only because a rotation re-lays the world — the turned-screen planting
+   guard, flowers placed against the meadow with no edge margin, the slot
+   floors per screen — and the taps-only rule for a two-finger pinch and a
+   one-finger pan. Walking through the meadow, as a spectator or a
+   participant the insects fly from, stays out of scope for now.
+9. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
    splash on caps and ground, with its own sound. While it rains, flowers
    close, insects shelter under the nearest cap, and mushrooms swell a
    little. When it stops, the sun comes back with a rainbow, and spores an
    old mushroom shed sprout into little mushrooms that grow over the next
    minutes, within the forest's cap.
-8. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows glowing,
-   fireflies waking, mice coming out of their doors, butterflies folded on
-   the caps and flowers closed for the night.
-9. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
-   (idle loops off, short tweens without overshoot); a visually hidden row of
-   HTML buttons beside the canvas dispatching the same actions, for
-   assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
-   carries side projects, none otherwise.
-10. **The artifact.** A single self-contained HTML of the game — esbuild over
-    the scene entry, Phaser from `cdn.jsdelivr.net/npm/`, built under `tmp/`
-    and not committed — published with the Artifact tool, its link posted on
-    the PR. Then `/relay /finalize`.
+10. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+    glowing, fireflies waking, mice coming out of their doors, butterflies
+    folded on the caps and flowers closed for the night.
+11. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+    (idle loops off, short tweens without overshoot); a visually hidden row
+    of HTML buttons beside the canvas dispatching the same actions, for
+    assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
+    carries side projects, none otherwise. Then, the Artifact republished,
+    `/relay /finalize`.
 
 ## DRY notes
 
