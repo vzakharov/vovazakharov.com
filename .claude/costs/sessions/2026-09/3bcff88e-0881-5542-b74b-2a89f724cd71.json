@@ -9,28 +9,28 @@
   "url": "https://claude.ai/code/session_01EUBUhHJopK6p7KBdg66SJe",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-27T19:00:16.042Z",
-  "lastResponseAt": "2026-09-27T19:26:37.771Z",
+  "lastResponseAt": "2026-09-27T19:26:43.516Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 480,
+    "inputTokens": 484,
     "cacheWrite5mTokens": 751174,
-    "cacheWrite1hTokens": 134140,
-    "cacheReadTokens": 32481404,
-    "outputTokens": 24953,
+    "cacheWrite1hTokens": 134718,
+    "cacheReadTokens": 32657470,
+    "outputTokens": 24975,
     "thinkingTokens": 6956,
-    "responses": 237,
-    "costUsd": 11.826250799999999
+    "responses": 238,
+    "costUsd": 11.866544
   },
   "ownTurns": {
-    "inputTokens": 100,
+    "inputTokens": 104,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134140,
-    "cacheReadTokens": 6567722,
-    "outputTokens": 22328,
+    "cacheWrite1hTokens": 134718,
+    "cacheReadTokens": 6743788,
+    "outputTokens": 22350,
     "thinkingTokens": 6956,
-    "responses": 47,
-    "costUsd": 2.8336244
+    "responses": 48,
+    "costUsd": 2.8739176
   },
   "subagents": {
     "inputTokens": 380,
@@ -44,18 +44,18 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 480,
+      "inputTokens": 484,
       "cacheWrite5mTokens": 751174,
-      "cacheWrite1hTokens": 134140,
-      "cacheReadTokens": 32481404,
-      "outputTokens": 24953,
+      "cacheWrite1hTokens": 134718,
+      "cacheReadTokens": 32657470,
+      "outputTokens": 24975,
       "thinkingTokens": 6956,
-      "responses": 237,
-      "costUsd": 11.826250799999999
+      "responses": 238,
+      "costUsd": 11.866544
     }
   },
   "warnings": [
-    "prices.json priced the 236 responses the events also priced at $11.7872, against the events' $15.0974: a rate in the table is likely out of date"
+    "prices.json priced the 237 responses the events also priced at $11.8263, against the events' $15.1364: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Write",
@@ -75,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 236,
-    "matched": 236,
-    "matchedTableUsd": 11.7871942,
-    "matchedEventUsd": 15.097374200000004,
+    "events": 237,
+    "matched": 237,
+    "matchedTableUsd": 11.826250799999999,
+    "matchedEventUsd": 15.136430800000003,
     "unseen": {}
   }
 }
