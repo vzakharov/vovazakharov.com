@@ -195,11 +195,9 @@ export class InsectView {
     const point = flightPoint(path, now, motion);
     const perched = isSeat(leg.to);
     // It heads for where its perch stood as the leg set off, so a perch
-    // rocking under a tap never swings a short flight's heading about. A
-    // flight going nowhere, a flutter up and back onto the same seat, has no
-    // heading, so it keeps the one it had; and a flier that has landed keeps
-    // the heading it landed on, which its rest facing turns from, however its
-    // perch sways under it.
+    // rocking under a tap never swings a short flight about. A flight going
+    // nowhere keeps the heading it had, and a landed flier the one it landed
+    // on, which its rest facing turns from however its perch sways.
     const aim = shown.aim ?? end;
     shown.aim = aim;
     const still =

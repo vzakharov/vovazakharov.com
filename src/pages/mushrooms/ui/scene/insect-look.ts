@@ -78,10 +78,9 @@ type BeeLook = OfKind<'bee'> &
   Pick<Pollen, 'specks'> & { genes: BeeGenes };
 export type Look = ButterflyLook | FlyLook | BeeLook;
 
-/** What a frame poses a look by: the leg with its stay, the clock in ms, and the flier's motion. */
+/** What a frame poses a look by: the leg with its stay, the clock in ms, the flier and its motion, and its size to its unit in pixels. */
 export type Moment = Timed &
   Flying &
-  /** `size`: its size to its unit, in pixels. */
   Pick<Footing, 'size'> & { stay: Stay; motion: Airborne };
 
 /** An insect of the meadow's, as the scene shows it. */
