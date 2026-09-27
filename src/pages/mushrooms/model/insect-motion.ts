@@ -31,6 +31,17 @@ const SETTLE = 500;
 /** How long a landing's bob lasts, and how deep it goes, as a share of the insect's size. */
 export const LANDING = 450;
 const LANDING_DEPTH = 0.12;
+/** How much of its bank into a turn a flier shows as a turn of its own. */
+const BANK_TURN = 0.6;
+/**
+ * How far off facing up the screen a flier settles on its perch, in radians,
+ * how long it takes to turn there after landing, and to turn into its
+ * heading at take-off, in ms: slow enough that a turn right round never
+ * moves it more than about 0.2 rad in a 16 ms frame.
+ */
+export const REST_LEAN = 0.45;
+const SETTLE_TURN = 700;
+const LIFT_TURN = 450;
 
 /** How far through its flight a path is at `now`, eased in and out. */
 function progress({ departs, arrives }: Span, now: number): number {
@@ -149,4 +160,78 @@ export function landingBob({ arrives }: Span, now: number): number {
   if (elapsed < 0 || elapsed >= LANDING) return 0;
   const t = elapsed / LANDING;
   return LANDING_DEPTH * Math.sin(Math.PI * 2 * t) * (1 - t) ** 2;
+}
+
+/** `angle` brought round into (-π, π]. */
+export const wrap = (angle: number) =>
+  angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
+
+/**
+ * The way a flier's body points in flight, in radians clockwise from up the
+ * screen: along `facing` (a heading from +x), leaning into its bank.
+ */
+export function flyingTurn(
+  facing: number,
+  path: Path,
+  now: number,
+  motion: Phased,
+): number {
+  return wrap(facing + Math.PI / 2 + tilt(path, now, motion) * BANK_TURN);
+}
+
+/**
+ * The way a flier faces settled on its perch, for the flying turn it landed
+ * on: up the screen, leaning toward the way it came in by at most
+ * `REST_LEAN`, and continuous all the way round, so a landing heading either
+ * side of straight down settles the same way.
+ */
+export function restTurn(landing: number): number {
+  return REST_LEAN * Math.sin(landing);
+}
+
+/**
+ * How a leg turns the body off its flying turn, each part fixed once so a
+ * swaying perch never re-decides which way round it goes: `lifted`, how far
+ * off it the body sat as the leg set off; `landed`, how far its rest facing
+ * is off the turn it landed on, `undefined` until it lands and on a leg away.
+ */
+export type Turns = { lifted: number; landed: number | undefined };
+
+/**
+ * `turns` brought up to `now`, for a body flying at `flying`: on a leg's
+ * first frame (`turns` undefined) `lifted` is fixed from `sat`, how the body
+ * was turned as the leg set off (`undefined` coming in from off screen), and
+ * on its first frame past arrival at a perch `landed` is fixed from the turn
+ * it landed on. Otherwise `turns` comes back as it was.
+ */
+export function turned(
+  turns: Turns | undefined,
+  sat: number | undefined,
+  { arrives }: Span,
+  now: number,
+  flying: number,
+  perched: boolean,
+): Turns {
+  const held = turns ?? {
+    lifted: sat === undefined ? 0 : wrap(sat - flying),
+    landed: undefined,
+  };
+  if (!perched || now < arrives || held.landed !== undefined) return held;
+  return { ...held, landed: wrap(restTurn(flying) - flying) };
+}
+
+/**
+ * The body's turn at `now`, in radians clockwise from up the screen: its
+ * flying turn, starting off the way it sat and settling to its rest facing,
+ * every blend an offset fixed in `turns`, so it never spins at ±π.
+ */
+export function bodyTurn(
+  { departs, arrives }: Span,
+  now: number,
+  flying: number,
+  { lifted, landed = 0 }: Turns,
+): number {
+  const lift = smooth((now - departs) / LIFT_TURN);
+  const rest = smooth((now - arrives) / SETTLE_TURN);
+  return wrap(flying + lifted * (1 - lift) + landed * rest);
 }

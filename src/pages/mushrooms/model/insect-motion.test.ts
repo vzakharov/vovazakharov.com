@@ -1,16 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Point } from './geometry';
 import {
+  bodyTurn,
   flightPoint,
+  flyingTurn,
   heading,
   LANDING,
   landingBob,
   MAX_TILT,
   type Path,
+  REST_LEAN,
+  restTurn,
   tilt,
+  turned,
+  type Turns,
   wingBeat,
+  wrap,
 } from './insect-motion';
+import { between, mulberry32, type Random } from './random';
 
 const PATH: Path = {
   start: { x: -40, y: 120 },
@@ -143,5 +152,86 @@ describe('landingBob', () => {
       const step = Math.abs(landingBob(PATH, now + 1) - landingBob(PATH, now));
       assert.ok(step < 0.01);
     }
+  });
+});
+
+/** A perch somewhere on a tall screen, swaying a few pixels about its place. */
+function swaying(random: Random): (now: number) => Point {
+  const place = { x: between(random, 0, 400), y: between(random, 0, 800) };
+  const phase = between(random, 0, Math.PI * 2);
+  return (now) => ({
+    x: place.x + 4 * Math.sin(now / 700 + phase),
+    y: place.y + 3 * Math.cos(now / 900 + phase),
+  });
+}
+
+/**
+ * A butterfly's body turn every 16 ms over a run of legs between swaying
+ * perches, the last one away, set frame by frame as `InsectView` sets it:
+ * each leg starts where the last frame drew it, turned as it was then.
+ */
+function turnsOverLegs(seed: number): number[] {
+  const random = mulberry32(seed);
+  const phased = { phase: between(random, 0, Math.PI * 2), flutter: 12 };
+  const rotations: number[] = [];
+  let at = { x: -40, y: 300 };
+  let sat: number | undefined;
+  let facing = 0;
+  let departs = 0;
+  for (const index of [0, 1, 2, 3, 4]) {
+    const away = index === 4;
+    const perch = away ? () => ({ x: 480, y: 200 }) : swaying(random);
+    const arrives = departs + between(random, 1600, 2600);
+    const leaves = away ? arrives : arrives + between(random, 3000, 6000);
+    const start = at;
+    let turns: Turns | undefined;
+    for (let now = departs; now < leaves || now === departs; now += 16) {
+      const path: Path = { departs, arrives, start, end: perch(now) };
+      const { end } = path;
+      if (Math.hypot(end.x - start.x, end.y - start.y) > 1) {
+        facing = heading(path, now, phased);
+      }
+      const flying = flyingTurn(facing, path, now, phased);
+      turns = turned(turns, sat, path, now, flying, !away);
+      const rotation = bodyTurn(path, now, flying, turns);
+      rotations.push(rotation);
+      at = flightPoint(path, now, phased);
+      sat = rotation;
+    }
+    departs = leaves + 16 - ((leaves - departs) % 16);
+  }
+  return rotations;
+}
+
+describe('bodyTurn', () => {
+  it('never spins: at most ~0.2 rad a frame, flying, landing, resting and taking off', () => {
+    for (const seed of Array.from({ length: 60 }, (_, index) => index * 977)) {
+      const rotations = turnsOverLegs(seed);
+      for (const [index, rotation] of rotations.entries()) {
+        const last = rotations[index - 1] ?? rotation;
+        const step = Math.abs(wrap(rotation - last));
+        assert.ok(
+          step <= 0.2,
+          `seed ${String(seed)}: ${String(step)} rad at frame ${String(index)}`,
+        );
+      }
+    }
+  });
+
+  it('settles facing up the screen, give or take, however it came in', () => {
+    const span = { departs: 0, arrives: 2000 };
+    for (const landing of times(-3.14, 3.14, 0.01)) {
+      const turns = turned(undefined, undefined, span, 2000, landing, true);
+      const settled = bodyTurn(span, 5000, landing, turns);
+      assert.ok(Math.abs(settled) <= REST_LEAN + 1e-9);
+      assert.ok(Math.abs(wrap(settled - restTurn(landing))) < 1e-9);
+    }
+  });
+
+  it('takes off turned the way it sat, and turns into its heading', () => {
+    const span = { departs: 1000, arrives: 3000 };
+    const turns = turned(undefined, 2.5, span, 1000, -2.9, true);
+    assert.ok(Math.abs(wrap(bodyTurn(span, 1000, -2.9, turns) - 2.5)) < 1e-9);
+    assert.ok(Math.abs(wrap(bodyTurn(span, 2000, -2.9, turns) + 2.9)) < 1e-9);
   });
 });

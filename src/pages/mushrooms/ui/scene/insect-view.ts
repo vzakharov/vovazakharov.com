@@ -6,16 +6,19 @@ import type { Perch, Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import { type InsectGenes, insectGenes } from '../../model/insect-genes';
 import {
+  bodyTurn,
   flightPoint,
+  flyingTurn,
   heading,
   landingBob,
   type Path,
-  tilt,
+  turned,
+  type Turns,
   wingBeat,
 } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
-import { phaseOf, smooth, wobble } from '../../model/motion';
+import { phaseOf, wobble } from '../../model/motion';
 import { drawInsect, type InsectParts } from './draw-insect';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
@@ -24,27 +27,12 @@ import type { MeadowSound } from './sound';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;
-/** How much of its bank into a turn a butterfly shows as a turn of its own. */
-const BANK_TURN = 0.6;
 /** How far its wings fold at the most closed, seen from above, as a share of open. */
 const FOLDED = 0.12;
 /** How much the hind wings trail the fore wings' beat, as a share of the way open. */
 const HIND_LAG = 0.15;
 /** How much a tapped butterfly jolts, against a mushroom's squash. */
 const JOLT = 0.7;
-/**
- * How far off facing up the screen a butterfly settles on its perch, in
- * radians, and how long it takes to turn there after landing, and to turn
- * into its heading at take-off, in ms.
- */
-const REST_LEAN = 0.45;
-const SETTLE_TURN = 700;
-const LIFT_TURN = 350;
-
-/** `angle` brought round into (-π, π]. */
-const wrap = (angle: number) =>
-  angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
-
 /**
  * The band of the screen's height a butterfly flies in from and out to off
  * screen, its phase picking where.
@@ -68,6 +56,8 @@ type Shown = TappedFigure &
     facing: number;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
+    /** Its current leg's turns, fixed on the leg's first frame and at its landing. */
+    turns: Turns | undefined;
   };
 
 /**
@@ -124,6 +114,7 @@ export class InsectView {
           ? this.fraction(this.offScreen(from.side, shown))
           : this.fraction(shown.at);
       shown.end = undefined;
+      shown.turns = undefined;
       shown.turnedFrom =
         from.kind === 'away' ? undefined : shown.container.rotation;
     }
@@ -162,21 +153,20 @@ export class InsectView {
     const bob = landingBob(leg, now) * this.size;
     const jolt = 1 + wobble(t - shown.tappedAt) * JOLT;
     Object.assign(shown, { end, at: point });
-    const flying = wrap(
-      shown.facing + Math.PI / 2 + tilt(path, now, motion) * BANK_TURN,
-    );
+    const flying = flyingTurn(shown.facing, path, now, motion);
     // Settled on its perch, it turns to face up the screen, give or take,
     // as Syama drew it on the caps.
-    const settled = Math.min(REST_LEAN, Math.max(-REST_LEAN, flying));
-    const resting =
-      leg.to.kind === 'away' ? 0 : smooth((now - leg.arrives) / SETTLE_TURN);
-    const turn = flying + (settled - flying) * resting;
-    // Taking off, it turns from the way it sat into its heading.
-    const from = shown.turnedFrom ?? turn;
-    const lift = smooth((now - leg.departs) / LIFT_TURN);
+    shown.turns = turned(
+      shown.turns,
+      shown.turnedFrom,
+      leg,
+      now,
+      flying,
+      leg.to.kind !== 'away',
+    );
     shown.container
       .setPosition(point.x, point.y + bob)
-      .setRotation(from + wrap(turn - from) * lift)
+      .setRotation(bodyTurn(leg, now, flying, shown.turns))
       .setScale(jolt * (1 - bob / this.size / 2));
     const open = wingBeat(leg, now, motion);
     shown.fore.setScale(FOLDED + (1 - FOLDED) * open, 1);
@@ -206,6 +196,7 @@ export class InsectView {
       end: undefined,
       facing: 0,
       turnedFrom: undefined,
+      turns: undefined,
       phase: phaseOf(flier),
       tappedAt: -Infinity,
     };
