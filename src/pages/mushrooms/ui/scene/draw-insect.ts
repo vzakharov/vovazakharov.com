@@ -15,6 +15,7 @@ import {
   type WingPair,
   wingTrailingEdge,
 } from '../../model/insect-outline';
+import { proboscisLine } from '../../model/proboscis';
 import { mix, nudgeHue } from './colour';
 import { PALETTE } from './palette';
 import { crescent, fillShape, strokeLine, strokeShape } from './shapes';
@@ -28,18 +29,10 @@ const HIND_TOWARD_PATTERN = 0.18;
 const EDGE_DOTS = 4;
 const EDGE_DOTS_FROM = 0.5;
 /**
- * The proboscis: its length uncurled, as a share of the body's; how far
- * round it coils curled up and how far its tip still curls uncurled, in
- * radians; the share of its length it shows curled up; its thickness, as a
- * share of the ink line, so it reads as a tube and never as a third
- * antenna; and how many segments draw it.
+ * The proboscis's thickness, as a share of the ink line, so it reads as a
+ * tube and never as a third antenna.
  */
-const PROBOSCIS_LENGTH = 0.5;
-const PROBOSCIS_COIL = Math.PI * 3.5;
-const PROBOSCIS_TIP_CURL = 4;
-const PROBOSCIS_CURLED = 0.5;
 const PROBOSCIS_THICKNESS = 1.8;
-const PROBOSCIS_STEPS = 24;
 /** A reach under which the proboscis is tucked away out of sight. */
 const PROBOSCIS_HIDDEN = 0.02;
 
@@ -216,39 +209,21 @@ export function paintBody(
   }
 }
 
-/**
- * The proboscis at `reach` into `graphics`, about the body's middle: from the
- * front of the head, a tight coil at 0 unrolling like a party blower as it
- * grows into a tube reaching straight ahead between the antennae, its tip
- * still curled where it drinks.
- */
+/** How far the proboscis is out, where it reaches in the body's frame, and which side it bows to (`proboscisLine`). */
+export type Reaching = { reach: number; nectar: Point; side: Side };
+
+/** The proboscis into `graphics`, about the body's middle (`proboscisLine`). */
 export function paintProboscis(
   graphics: Phaser.GameObjects.Graphics,
   genes: InsectGenes,
   size: number,
-  reach: number,
+  { reach, nectar, side }: Reaching,
 ): void {
   if (reach < PROBOSCIS_HIDDEN) return;
-  const head = headOf(genes);
-  const length =
-    genes.bodyLength *
-    PROBOSCIS_LENGTH *
-    (PROBOSCIS_CURLED + (1 - PROBOSCIS_CURLED) * reach);
-  const step = (length * size) / PROBOSCIS_STEPS;
-  let point = { x: head.x * size, y: (head.y - head.r) * size };
-  const line = [point];
-  for (let index = 1; index <= PROBOSCIS_STEPS; index += 1) {
-    const along = index / PROBOSCIS_STEPS;
-    // Its angle off straight ahead, curling ever tighter toward the tip.
-    const bend =
-      (1 - reach) * PROBOSCIS_COIL * along ** 2 +
-      reach * PROBOSCIS_TIP_CURL * along ** 6;
-    point = {
-      x: point.x + step * Math.sin(bend),
-      y: point.y - step * Math.cos(bend),
-    };
-    line.push(point);
-  }
+  const at = scaled(size);
+  const line = proboscisLine(genes, reach, nectar, side).map((point) =>
+    at(point),
+  );
   const ink = inkFor(size);
   graphics.lineStyle(ink * PROBOSCIS_THICKNESS, PALETTE.ink);
   strokeLine(graphics, line);

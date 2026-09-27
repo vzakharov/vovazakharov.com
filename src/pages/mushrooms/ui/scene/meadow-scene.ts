@@ -23,11 +23,17 @@ import { Controls } from './controls';
 import { drawFlower } from './draw-flower';
 import { growTufts, paintTufts } from './grass';
 import { containsCircle, type TappedFigure } from './hit-areas';
-import { InsectView } from './insect-view';
+import { InsectView, type Perched } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
-import { airSpots, FLOWER_SWAY, perchSight, perchSpot } from './perch-sight';
+import {
+  airSpots,
+  FLOWER_SWAY,
+  flowerLift,
+  perchSight,
+  perchSpot,
+} from './perch-sight';
 import { tapReach } from './sky-layout';
 import { MeadowSound, readMuted } from './sound';
 
@@ -51,6 +57,8 @@ type ShownFlower = TappedFigure & {
   headR: number;
   /** Where the head stands on its stem as laid out, before a drinking butterfly sags it. */
   headY: number;
+  /** How far above the head's middle a drinking butterfly's middle sits (`flowerLift`). */
+  lift: number;
 };
 
 /**
@@ -244,14 +252,15 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   /**
-   * Where `perch` stands this frame: a flower's head, as it sways and opens,
-   * or a cap's top, as it breathes, wobbles and sinks, each butterfly at a
-   * spot of its own along it; or a spot in the open air.
+   * Where `perch` stands this frame: over a flower's head, as it sways and
+   * sags, with the head's middle it drinks from, or a cap's top, as it
+   * breathes, wobbles and sinks, each butterfly at a spot of its own along
+   * it; or a spot in the open air.
    */
   private readonly perchAt = (
     perch: Perch,
     insect: Flier,
-  ): Point | undefined => {
+  ): Perched | undefined => {
     const spot = perchSpot(insect);
     switch (perch.kind) {
       case 'cap': {
@@ -260,11 +269,13 @@ export class MeadowScene extends Phaser.Scene {
       case 'flower': {
         const shown = this.shownFlowers.get(perch.id);
         if (shown?.container.visible !== true) return undefined;
-        const { container, head, headR } = shown;
-        return placedAt(container, container.rotation, {
-          ...pick(head, 'y'),
+        const { container, head, headR, lift } = shown;
+        const seat = placedAt(container, container.rotation, {
           x: head.x + spot * headR,
+          y: head.y - lift,
         });
+        const nectar = placedAt(container, container.rotation, head);
+        return { ...seat, nectar };
       }
       case 'air': {
         return this.air.get(perch.id);
@@ -370,7 +381,7 @@ export class MeadowScene extends Phaser.Scene {
     this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
   }
 
-  private paintFlowers({ flowers }: MeadowLayout): void {
+  private paintFlowers({ flowers, insectSize }: MeadowLayout): void {
     for (const [index, flower] of this.flowers.entries()) {
       const place = flowers[index];
       const shown = this.shownFlowers.get(flower.id) ?? this.showFlower(flower);
@@ -378,8 +389,10 @@ export class MeadowScene extends Phaser.Scene {
       shown.container.setVisible(place !== undefined);
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);
-      shown.headR = drawFlower(shown, flowerGenes(flower), place.size);
+      const genes = flowerGenes(flower);
+      shown.headR = drawFlower(shown, genes, place.size);
       shown.headY = shown.head.y;
+      shown.lift = flowerLift(genes.centre * place.size, insectSize);
       shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
     }
   }
@@ -395,6 +408,7 @@ export class MeadowScene extends Phaser.Scene {
       hit,
       headR: 0,
       headY: 0,
+      lift: 0,
       phase: phaseOf(flower),
       tappedAt: -Infinity,
     };

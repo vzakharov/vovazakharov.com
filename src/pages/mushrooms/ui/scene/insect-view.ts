@@ -19,10 +19,16 @@ import {
   type Turns,
   wingBeat,
 } from '../../model/insect-motion';
-import { wingspan } from '../../model/insect-outline';
+import { type Side as BodySide, wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { phaseOf, wobble } from '../../model/motion';
-import { drawInsect, type InsectParts, paintProboscis } from './draw-insect';
+import { inBody } from '../../model/proboscis';
+import {
+  drawInsect,
+  type InsectParts,
+  paintProboscis,
+  type Reaching,
+} from './draw-insect';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
 import { tapReach } from './sky-layout';
@@ -34,8 +40,14 @@ const FLUTTER = 0.28;
 const FOLDED = 0.12;
 /** How much the hind wings trail the fore wings' beat, as a share of the way open. */
 const HIND_LAG = 0.15;
-/** How far the proboscis moves before it is painted again, as a share of its reach. */
+/**
+ * How far the proboscis moves before it is painted again: as a share of its
+ * reach, and where it reaches to, in units of the insect's size.
+ */
 const REACH_STEP = 0.01;
+const NECTAR_STEP = 0.01;
+/** Where the proboscis reaches before it has drunk anywhere, in the body's frame: behind the tail. */
+const NO_NECTAR = { x: 0, y: 0.45 };
 /** How much a tapped butterfly jolts, against a mushroom's squash. */
 const JOLT = 0.7;
 /**
@@ -44,11 +56,20 @@ const JOLT = 0.7;
  */
 const AWAY_BAND = [0.18, 0.5] as const;
 
-/** Where a perch stands on screen this frame, `undefined` while it has nowhere to be. */
-export type PerchAt = (perch: Perch, insect: Flier) => Point | undefined;
+/** Where an insect sits on a perch, and at a flower the head's middle it drinks from. */
+export type Perched = Point & { nectar?: Point };
 
+/** Where a perch stands on screen this frame, `undefined` while it has nowhere to be. */
+export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
+
+/**
+ * Its proboscis as last painted: how far out, and where it reaches, the
+ * flower's middle in the body's frame, held from the last frame it sat at a
+ * flower, so it curls up where it drank.
+ */
 type Shown = TappedFigure &
-  InsectParts & {
+  InsectParts &
+  Pick<Reaching, 'reach' | 'nectar'> & {
     genes: InsectGenes;
     flier: Flier;
     /** Where its current leg set off, as fractions of the screen's width and height. */
@@ -65,8 +86,10 @@ type Shown = TappedFigure &
     turns: Turns | undefined;
     /** What its current leg carried over from the one it cut short or followed. */
     carried: Carried;
-    /** How far out its proboscis was last painted. */
-    reach: number;
+    /** Which side its proboscis bows out to, fixed as each drink begins. */
+    side: BodySide | undefined;
+    /** Where its proboscis was last painted reaching. */
+    painted: Point;
   };
 
 /**
@@ -118,7 +141,7 @@ export class InsectView {
       const last = { ...shown.flier.leg, ...shown.carried };
       shown.flier = flier;
       if (!newLeg) continue;
-      const { from, departs } = flier.leg;
+      const { from, to, departs } = flier.leg;
       shown.carried = carriedFrom(last, departs);
       shown.from =
         from.kind === 'away'
@@ -126,6 +149,7 @@ export class InsectView {
           : this.fraction(shown.at);
       shown.end = undefined;
       shown.turns = undefined;
+      if (to.kind === 'flower') shown.side = undefined;
       shown.turnedFrom =
         from.kind === 'away' ? undefined : shown.container.rotation;
     }
@@ -149,10 +173,10 @@ export class InsectView {
     const { leg } = shown.flier;
     const motion = { ...pick(shown, 'phase'), flutter: this.size * FLUTTER };
     const start = this.toScreen(shown.from);
+    const seated =
+      leg.to.kind === 'away' ? undefined : perchAt(leg.to, shown.flier);
     const end =
-      (leg.to.kind === 'away'
-        ? this.offScreen(leg.to.side, shown)
-        : perchAt(leg.to, shown.flier)) ??
+      (leg.to.kind === 'away' ? this.offScreen(leg.to.side, shown) : seated) ??
       shown.end ??
       start;
     const stay = { ...leg, ...shown.carried };
@@ -177,22 +201,43 @@ export class InsectView {
       flying,
       perched,
     );
+    const turn = bodyTurn(leg, now, flying, shown.turns);
+    const middle = { ...point, y: point.y + bob };
     shown.container
-      .setPosition(point.x, point.y + bob)
-      .setRotation(bodyTurn(leg, now, flying, shown.turns))
+      .setPosition(middle.x, middle.y)
+      .setRotation(turn)
       .setScale(jolt * (1 - bob / this.size / 2));
     const open = wingBeat(stay, now, motion);
     shown.fore.setScale(FOLDED + (1 - FOLDED) * open, 1);
     const lagging = open + (1 - open) * HIND_LAG;
     shown.hind.setScale(FOLDED + (1 - FOLDED) * lagging, 1);
     const reach = proboscis(stay, now);
+    if (seated?.nectar && now >= leg.arrives) {
+      shown.nectar = inBody(seated.nectar, middle, turn, this.size);
+    }
+    if (reach > 0 && shown.side === undefined) {
+      shown.side = shown.nectar.x < 0 ? -1 : 1;
+    }
+    const { nectar, painted } = shown;
     if (
       Math.abs(reach - shown.reach) > REACH_STEP ||
-      (reach === 0) !== (shown.reach === 0)
+      (reach === 0) !== (shown.reach === 0) ||
+      (reach > 0 &&
+        Math.hypot(nectar.x - painted.x, nectar.y - painted.y) > NECTAR_STEP)
     ) {
       shown.reach = reach;
-      paintProboscis(shown.proboscis.clear(), shown.genes, this.size, reach);
+      shown.painted = nectar;
+      this.paintProboscis(shown);
     }
+  }
+
+  private paintProboscis(shown: Shown): void {
+    const { genes, reach, nectar, side = 1 } = shown;
+    paintProboscis(shown.proboscis.clear(), genes, this.size, {
+      reach,
+      nectar,
+      side,
+    });
   }
 
   private show(flier: Flier): Shown {
@@ -225,6 +270,9 @@ export class InsectView {
       turns: undefined,
       carried: { launch: 0, speed: 0, drink: 0 },
       reach: 0,
+      nectar: NO_NECTAR,
+      side: undefined,
+      painted: NO_NECTAR,
       phase: phaseOf(flier),
       tappedAt: -Infinity,
     };
@@ -247,12 +295,7 @@ export class InsectView {
 
   private draw(shown: Shown): void {
     drawInsect(shown, shown.genes, this.size);
-    paintProboscis(
-      shown.proboscis.clear(),
-      shown.genes,
-      this.size,
-      shown.reach,
-    );
+    this.paintProboscis(shown);
     shown.hit.setTo(0, 0, tapReach((wingspan(shown.genes) * this.size) / 2));
   }
 

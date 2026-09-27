@@ -54,6 +54,19 @@ const HEAD_RING = 8;
 const AIR_ACROSS = 6;
 const AIR_DOWN = 4;
 
+/**
+ * How far above a flower's centre a drinking butterfly's middle sits, past
+ * the centre's own radius, in units of its size: far enough that its tail
+ * stays off the centre, so its body rests on the head's upper rim and the
+ * proboscis is seen going down into the flower.
+ */
+const ABOVE_CENTRE = 0.3;
+
+/** How far above the middle of a flower whose centre is `disc` across a butterfly `insectSize` to its unit sits. */
+export function flowerLift(disc: number, insectSize: number): number {
+  return disc + ABOVE_CENTRE * insectSize;
+}
+
 /** Where on its perch `insect` sits, from -`PERCH_SPREAD` to `PERCH_SPREAD` of the way out. */
 export function perchSpot(insect: Seeded): number {
   return Math.sin(phaseOf(insect) * 5) * PERCH_SPREAD;
@@ -84,10 +97,12 @@ export function seatAt(
       const place = layout.flowers[index];
       const flower = flowers[index];
       if (!place || !flower) return undefined;
-      const head = flowerHead(flowerGenes(flower), place.size);
+      const genes = flowerGenes(flower);
+      const head = flowerHead(genes, place.size);
+      const lift = flowerLift(genes.centre * place.size, layout.insectSize);
       return {
         x: place.x + head.x + spot * head.r,
-        y: place.y + head.y,
+        y: place.y + head.y - lift,
         slack: PERCH_SPREAD * head.r,
       };
     }
@@ -157,11 +172,11 @@ type Cover = Pick<Standing, 'depth'> & {
 };
 
 /**
- * Whether a butterfly on the flower at `index` can be seen there: its head,
- * as far as the sway and a butterfly's spot move it, stands clear of every
- * control's tap circle and of the screen's edge by half the widest wingspan,
- * and no mushroom of `covers` standing nearer the front covers the head's
- * middle (`HEAD_SHOWN`).
+ * Whether a butterfly on the flower at `index` can be seen there: its seat
+ * over the head, as far as the sway and a butterfly's spot move it, stands
+ * clear of every control's tap circle and of the screen's edge by half the
+ * widest wingspan, and no mushroom of `covers` standing nearer the front
+ * covers the head's middle (`HEAD_SHOWN`).
  */
 function flowerInSight(
   { layout, flowers }: Stand,
@@ -171,20 +186,23 @@ function flowerInSight(
   const place = layout.flowers[index];
   const flower = flowers[index];
   if (!place || !flower) return false;
-  const head = flowerHead(flowerGenes(flower), place.size);
+  const genes = flowerGenes(flower);
+  const head = flowerHead(genes, place.size);
   const centre = { x: place.x + head.x, y: place.y + head.y };
+  const lift = flowerLift(genes.centre * place.size, layout.insectSize);
+  const seat = { ...centre, y: centre.y - lift };
   const reach =
     (WIDEST_SPAN * layout.insectSize) / 2 +
     PERCH_SPREAD * head.r +
-    place.size * Math.sin(FLOWER_SWAY);
+    (place.size + lift) * Math.sin(FLOWER_SWAY);
   const { width, height } = layout;
   const onScreen =
-    centre.x - reach >= 0 &&
-    centre.x + reach <= width &&
-    centre.y - reach >= 0 &&
-    centre.y + reach <= height;
+    seat.x - reach >= 0 &&
+    seat.x + reach <= width &&
+    seat.y - reach >= 0 &&
+    seat.y + reach <= height;
   const clear = tapCircles(layout).every(
-    ({ x, y, r }) => Math.hypot(centre.x - x, centre.y - y) >= r + reach,
+    ({ x, y, r }) => Math.hypot(seat.x - x, seat.y - y) >= r + reach,
   );
   if (!onScreen || !clear) return false;
   const points = [

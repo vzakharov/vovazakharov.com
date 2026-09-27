@@ -56,7 +56,7 @@ const UNCURL = 600;
 const CURL = 400;
 /** One sip in and out while drinking, in ms, and how far it draws the proboscis back. */
 const SIP = 900;
-const SIP_DEPTH = 0.15;
+export const SIP_DEPTH = 0.15;
 /** How fast a flight leaves mid-air, as a share of its average speed. */
 const LAUNCH_SPEED = 1.5;
 /** How long a landing's bob lasts, and how deep it goes, as a share of the insect's size. */

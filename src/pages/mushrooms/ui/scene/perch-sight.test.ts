@@ -4,7 +4,11 @@ import { describe, it } from 'node:test';
 import type { WithId } from '@/shared/typings';
 
 import { BUTTERFLY_LIMIT, isSeat } from '../../model/flight';
-import { firstFlowers } from '../../model/flower-genes';
+import {
+  firstFlowers,
+  flowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import { containsPoint, type Point } from '../../model/geometry';
 import { insectGenes } from '../../model/insect-genes';
@@ -121,8 +125,10 @@ function hiddenHow(
   const { width, height } = layout;
   const index = flowers.findIndex((flower) => flower.id === id);
   const place = layout.flowers[index];
-  const head = seatAt(stand, { kind: 'flower', id }, 0);
-  if (!place || !head) return [];
+  const flower = flowers[index];
+  if (!place || !flower) return [];
+  const top = flowerHead(flowerGenes(flower), place.size);
+  const head = { x: place.x + top.x, y: place.y + top.y };
   const half = span / 2;
   const { mute, plus, minus, house, butterfly, picker, housePicker } = layout;
   const controls = [
