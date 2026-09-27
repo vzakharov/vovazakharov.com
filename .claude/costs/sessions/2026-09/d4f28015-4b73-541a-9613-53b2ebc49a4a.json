@@ -9,52 +9,54 @@
   "url": "https://claude.ai/code/session_015kBE8vA2Cf91oMopTh11dA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-27T01:45:20.825Z",
-  "lastResponseAt": "2026-09-27T01:47:59.971Z",
+  "lastResponseAt": "2026-09-27T02:06:07.358Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 38,
-    "cacheWrite5mTokens": 116147,
-    "cacheWrite1hTokens": 91893,
-    "cacheReadTokens": 1796069,
-    "outputTokens": 11497,
-    "thinkingTokens": 4497,
-    "responses": 19,
-    "costUsd": 1.9051847999999998
+    "inputTokens": 289,
+    "cacheWrite5mTokens": 341056,
+    "cacheWrite1hTokens": 94574,
+    "cacheReadTokens": 17238025,
+    "outputTokens": 13088,
+    "thinkingTokens": 4575,
+    "responses": 145,
+    "costUsd": 6.1723930000000005
   },
   "ownTurns": {
-    "inputTokens": 34,
+    "inputTokens": 35,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 91893,
-    "cacheReadTokens": 1796069,
-    "outputTokens": 11481,
-    "thinkingTokens": 4497,
-    "responses": 17,
-    "costUsd": 1.3241138
+    "cacheWrite1hTokens": 94574,
+    "cacheReadTokens": 1939351,
+    "outputTokens": 11653,
+    "thinkingTokens": 4575,
+    "responses": 18,
+    "costUsd": 1.3776621999999998
   },
   "subagents": {
-    "inputTokens": 4,
-    "cacheWrite5mTokens": 116147,
+    "inputTokens": 254,
+    "cacheWrite5mTokens": 341056,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 16,
+    "cacheReadTokens": 15298674,
+    "outputTokens": 1435,
     "thinkingTokens": 0,
-    "responses": 2,
-    "costUsd": 0.581071
+    "responses": 127,
+    "costUsd": 4.7947308
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 38,
-      "cacheWrite5mTokens": 116147,
-      "cacheWrite1hTokens": 91893,
-      "cacheReadTokens": 1796069,
-      "outputTokens": 11497,
-      "thinkingTokens": 4497,
-      "responses": 19,
-      "costUsd": 1.9051847999999998
+      "inputTokens": 289,
+      "cacheWrite5mTokens": 341056,
+      "cacheWrite1hTokens": 94574,
+      "cacheReadTokens": 17238025,
+      "outputTokens": 13088,
+      "thinkingTokens": 4575,
+      "responses": 145,
+      "costUsd": 6.1723930000000005
     }
   },
-  "warnings": [],
+  "warnings": [
+    "prices.json priced the 145 responses the events also priced at $6.1724, against the events' $8.3285: a rate in the table is likely out of date"
+  ],
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "docs/plans/mushroom-game-syama.paused.md",
@@ -73,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 17,
-    "matched": 17,
-    "matchedTableUsd": 1.3241138,
-    "matchedEventUsd": 1.3241138,
+    "events": 145,
+    "matched": 145,
+    "matchedTableUsd": 6.1723930000000005,
+    "matchedEventUsd": 8.328533000000004,
     "unseen": {}
   }
 }
