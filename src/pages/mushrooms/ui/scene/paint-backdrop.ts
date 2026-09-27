@@ -1,16 +1,16 @@
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import { between, type Random } from '../../model/random';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sky-layout';
+import { farSkyline, hillLine } from './skyline';
 
 const SKY_BANDS = 48;
 const GROUND_BANDS = 12;
-const HILL_STEPS = 64;
 const SUN_RAYS = 16;
 const GLOW_RINGS = 14;
 /** Each glow ring's alpha at the innermost, fading to none at the outermost. */
@@ -35,24 +35,6 @@ function fillBands(
     graphics.fillStyle(mix(from, to, (index / (bands - 1)) ** ease));
     graphics.fillRect(0, top + index * band, width, band + 1);
   }
-}
-
-/** A rolling skyline from a sum of two waves, its phases drawn from `random`. */
-function hillLine(
-  random: Random,
-  width: number,
-  base: number,
-  amplitude: number,
-): Point[] {
-  const phase = between(random, 0, Math.PI * 2);
-  const phase2 = between(random, 0, Math.PI * 2);
-  const waves = between(random, 1.2, 2.2);
-  return sample(0, 1, HILL_STEPS, (t) => {
-    const swell =
-      0.65 * Math.sin(t * Math.PI * waves + phase) +
-      0.35 * Math.sin(t * Math.PI * waves * 2.3 + phase2);
-    return { x: t * width, y: base - amplitude * (0.5 + 0.5 * swell) };
-  });
 }
 
 /** A hill range down to `floor`, its lower part in shade. */
@@ -193,7 +175,7 @@ export function paintBackdrop(
     painted.push(graphics);
     return graphics;
   };
-  const { width, horizon, nearHills, groundTop } = layout;
+  const { width, nearHills, groundTop } = layout;
   fillBands(
     layer(),
     width,
@@ -206,12 +188,10 @@ export function paintBackdrop(
   paintSun(layer(), layout);
   const clouds = paintClouds(layer, layout, random);
   const hills = layer();
-  fillHills(
-    hills,
-    hillLine(random, width, horizon, (groundTop - horizon) * 0.9),
-    groundTop,
-    [PALETTE.farHill, PALETTE.farHillShade],
-  );
+  fillHills(hills, farSkyline(random, layout), groundTop, [
+    PALETTE.farHill,
+    PALETTE.farHillShade,
+  ]);
   fillHills(
     hills,
     hillLine(
