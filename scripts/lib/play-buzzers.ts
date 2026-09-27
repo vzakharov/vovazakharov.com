@@ -17,6 +17,7 @@ import {
   inTurn,
   type Page,
   Point,
+  Top,
 } from './mushroom-probe.ts';
 import { fliersOn, type Insect, landed } from './play-insects.ts';
 
@@ -26,6 +27,11 @@ const LEAST_SPAN = {
   fly: 30,
   bee: 30,
 } as const satisfies Record<InsectKind, number>;
+/** How many taps are aimed at a fly in flight, and how many must reach it. */
+const FLYING_TAPS = 10;
+const FLYING_REACHED = 9;
+/** How long a fly tapped in flight must have flown, and still have to fly, in ms, so the tap lands mid-flight. */
+const MID_FLIGHT = 150;
 /** Frames per look while waiting for a bee to plant, and the most looks. */
 const PLANT_LOOK = 30;
 const PLANT_LOOKS = 180;
@@ -118,6 +124,57 @@ async function tapAtRest(
   await expectPassedOn(resting, tappedAt);
   await page.step(10);
   await page.shoot(`f2-${resting.kind}-startled`);
+}
+
+/**
+ * Taps a fly in flight where it is drawn, `FLYING_TAPS` times, among every
+ * other insect in the air, and expects at least `FLYING_REACHED` of the taps
+ * to reach it: a tap goes to the body nearest the finger, whatever is drawn
+ * over it. How many the insect drawn on top would have let through is noted
+ * beside it.
+ */
+async function tapFlying(
+  page: Page,
+  { waitFor, shown, now }: Fliers,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const tally = { aimed: 0, reached: 0, onTop: 0 };
+  await inTurn([...Array.from({ length: FLYING_TAPS }).keys()], async () => {
+    const fly = await waitFor((all, at) =>
+      all.find(
+        (insect) =>
+          insect.kind === 'fly' &&
+          insect.to.kind !== 'away' &&
+          at > insect.departs + MID_FLIGHT &&
+          at < insect.arrives - MID_FLIGHT,
+      ),
+    );
+    const drawn = fly && (await shown(fly.id));
+    if (!fly || !drawn) return;
+    const point = Point.parse(drawn);
+    const top = await page.evaluate(
+      `__probe.topAt(${JSON.stringify({ ...point, drawn: true })})`,
+      Top,
+    );
+    const before = await now();
+    await page.tap(point);
+    await page.step(2);
+    const tappedAt = (await shown(fly.id))?.tappedAt;
+    tally.aimed += 1;
+    if (top === `insect:${fly.id}`) tally.onTop += 1;
+    if (typeof tappedAt === 'number' && tappedAt * 1000 >= before) {
+      tally.reached += 1;
+    }
+    await page.step(20);
+  });
+  expect(
+    tally.aimed === FLYING_TAPS && tally.reached >= FLYING_REACHED,
+    `of ${String(tally.aimed)} taps at a fly in flight, ${String(tally.reached)} reached it, under ${String(FLYING_REACHED)} of ${String(FLYING_TAPS)}`,
+  );
+  note(
+    `taps at a fly in flight: ${String(tally.reached)} of ${String(tally.aimed)} reached it; the top-drawn insect alone would have let ${String(tally.onTop)} through`,
+  );
 }
 
 /**
@@ -230,6 +287,7 @@ export async function playBuzzers(
   });
   await page.step(20);
   await page.shoot('f1-buzzers-arriving');
+  await tapFlying(page, fliers, expect, note);
 
   const fly = await restingOf(fliers, 'fly');
   if (fly) await tapAtRest(page, fliers, expect, fly);

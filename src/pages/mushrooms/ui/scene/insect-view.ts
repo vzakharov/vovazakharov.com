@@ -33,6 +33,7 @@ import {
   newDrink,
   poseLook,
 } from './insect-look';
+import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
 import { tapReach } from './sky-layout';
 import type { MeadowSound } from './sound';
@@ -170,6 +171,19 @@ export class InsectView {
     for (const shown of this.shown.values()) this.fly(shown, t, perchAt);
   }
 
+  /** The insect a tap at `finger`, in CSS px, reaches as they are drawn (`tappedInsect`); `undefined` for none. */
+  reached(finger: Point): string | undefined {
+    return tappedInsect(
+      finger,
+      // In the order they were added, which is the order they are drawn in.
+      [...this.shown.values()].map(({ flier, container, hit }) => ({
+        ...pick(flier, 'id'),
+        ...pick(container, 'x', 'y'),
+        r: hit.radius * container.scaleX,
+      })),
+    );
+  }
+
   private sizeOf({ flier }: Shown): number {
     return this.sizes[flier.kind];
   }
@@ -273,13 +287,21 @@ export class InsectView {
       shown.at = this.offScreen(from.side, shown);
       shown.from = this.fraction(shown.at);
     }
-    // An insect is not the meadow: its own tap leaves the selection and any
-    // picker as they are, whatever `onTap` passes on to the perch under it.
-    container.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      shown.tappedAt = this.now();
-      this.voice.takeOff(flier.kind);
-      this.onTap(flier.id);
-    });
+    // The top insect under a finger takes the tap for them all and hands it
+    // to the one it reaches. An insect is not the meadow: its tap leaves the
+    // selection and any picker as they are, whatever `onTap` passes on to the
+    // perch under it.
+    container.on(
+      Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN,
+      (pointer: Phaser.Input.Pointer) => {
+        const id =
+          this.reached({ x: pointer.worldX, y: pointer.worldY }) ?? flier.id;
+        const tapped = this.shown.get(id) ?? shown;
+        tapped.tappedAt = this.now();
+        this.voice.takeOff(tapped.flier.kind);
+        this.onTap(tapped.flier.id);
+      },
+    );
     this.draw(shown);
     this.shown.set(flier.id, shown);
     return shown;

@@ -42,10 +42,12 @@ export const PROBE = `(() => {
   };
   /**
    * What a tap at a point on screen reaches, by the scene's own hit test and
-   * its topmost-only rule: \`insect:<id>\`, \`door:<id>\`, \`mushroom:<id>\`, \`other\`, or
-   * \`null\` for the bare meadow.
+   * its topmost-only rule, the top insect handing it to the one whose body is
+   * nearest (\`reached\`): \`insect:<id>\`, \`door:<id>\`, \`mushroom:<id>\`,
+   * \`other\`, or \`null\` for the bare meadow. With \`drawn\` set, the tap
+   * stays with the insect drawn on top.
    */
-  const topAt = ({ x, y }) => {
+  const topAt = ({ x, y, drawn = false }) => {
     const pointer = { x: scene.scale.transformX(x), y: scene.scale.transformY(y) };
     const [top] = scene.input.sortGameObjects(
       [...scene.input.hitTestPointer(pointer)],
@@ -53,7 +55,8 @@ export const PROBE = `(() => {
     );
     if (!top) return null;
     for (const [id, shown] of scene.insects.shown) {
-      if (top === shown.container) return 'insect:' + id;
+      if (top !== shown.container) continue;
+      return 'insect:' + (drawn ? id : (scene.insects.reached({ x, y }) ?? id));
     }
     for (const [id, shown] of scene.bed.shown) {
       if (top === shown.house.graphics) return 'door:' + id;
