@@ -163,11 +163,20 @@ Standing rules for every session in the chain:
   of a perch; only the limit, a startle or its own leaving takes one away.
   At a flower a butterfly sits on the head's upper rim and drinks through a
   proboscis curled down into the centre, leaving the flower in sight; a fly
-  or a bee sits on the centre.
+  sits on the centre, and a bee on the head's rim, facing in, so at least
+  half of the head stays in sight under it. Two perches crowd each other by
+  the wingspans of the kinds actually on them, never the widest for all. The
+  air holds at least as many spots as all the kinds' limits together on
+  every screen, so a flier leaves only by eviction, a startle or its own
+  leaving.
 - **Flowers stay put.** A rotation or a growth never moves a flower, so a
   floored forest mushroom may stand in front of one; such a flower is out of
   sight by the rule above, so no insect is sent to it. Bite 6's bees plant
-  through the same in-sight test.
+  through the same in-sight test, on this screen only: a planted flower a
+  turn hides is out of sight there as a seeded one is.
+- **A tap on fliers in the air reaches the one whose body is nearest the
+  finger**, not the one drawn on top, so the child gets the one they aimed
+  at.
 - **Butterflies are a meadow, not siblings.** Base colours are many enough
   that four on screen rarely repeat, each still derived from its seed alone.
   They cruise at about two thirds of bite 5's speed, so a child's finger can
