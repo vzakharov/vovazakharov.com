@@ -1,0 +1,84 @@
+{
+  "sessionId": "2f3c20d6-624a-5b35-9252-4619cc507334",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01N2Gb9v5iTWmi7Z7wSavDwZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-27T16:33:10.943Z",
+  "lastResponseAt": "2026-09-27T16:35:01.918Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 62,
+    "cacheWrite5mTokens": 175054,
+    "cacheWrite1hTokens": 105148,
+    "cacheReadTokens": 2766799,
+    "outputTokens": 7998,
+    "thinkingTokens": 1505,
+    "responses": 31,
+    "costUsd": 2.4300217999999996
+  },
+  "ownTurns": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 105148,
+    "cacheReadTokens": 1879024,
+    "outputTokens": 7819,
+    "thinkingTokens": 1505,
+    "responses": 17,
+    "costUsd": 1.3735047999999999
+  },
+  "subagents": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 175054,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 887775,
+    "outputTokens": 179,
+    "thinkingTokens": 0,
+    "responses": 14,
+    "costUsd": 1.0565170000000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 62,
+      "cacheWrite5mTokens": 175054,
+      "cacheWrite1hTokens": 105148,
+      "cacheReadTokens": 2766799,
+      "outputTokens": 7998,
+      "thinkingTokens": 1505,
+      "responses": 31,
+      "costUsd": 2.4300217999999996
+    }
+  },
+  "warnings": [
+    "prices.json priced the 31 responses the events also priced at $2.4300, against the events' $2.5048: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-27T16:35:01.918Z",
+    "contextTokens": 146644,
+    "spend": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 175054,
+      "cacheWrite1hTokens": 103700,
+      "cacheReadTokens": 2621605,
+      "outputTokens": 7534,
+      "thinkingTokens": 1345,
+      "responses": 30,
+      "costUsd": 2.380111
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 31,
+    "matched": 31,
+    "matchedTableUsd": 2.4300217999999996,
+    "matchedEventUsd": 2.5048018,
+    "unseen": {}
+  }
+}
