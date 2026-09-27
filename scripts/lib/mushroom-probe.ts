@@ -257,7 +257,7 @@ export const Controls = z.object({
   picker: z.array(Point),
   house: Point,
   housePicker: z.array(Point),
-  releases: z.object({ butterfly: Point, fly: Point, bee: Point }),
+  releases: z.record(z.enum(INSECT_KINDS), Point),
 });
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),

@@ -2,6 +2,8 @@
 
 import { z } from 'zod';
 
+import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
@@ -14,10 +16,8 @@ import {
   State,
 } from './mushroom-probe.ts';
 
-/** How many butterflies are released: one past `INSECT_LIMITS.butterfly` in `model/insects.ts`. */
-const RELEASES = 5;
-/** How long a landing's bob lasts, in ms: `LANDING` in `model/insect-motion.ts`. */
-const LANDING = 450;
+/** How many butterflies are released: one past their limit, so the oldest leaves. */
+const RELEASES = INSECT_LIMITS.butterfly + 1;
 /** How close to its perch, in CSS px, a butterfly at rest is drawn. */
 const ON_PERCH = 1.5;
 /** Frames per look while waiting for a butterfly to be somewhere, and the most looks. */

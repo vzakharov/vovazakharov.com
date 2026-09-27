@@ -11,14 +11,7 @@ import type { BeeGenes } from '../../model/bee-genes';
 import { type Point, sample } from '../../model/geometry';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
-import {
-  type BuzzParts,
-  paintBlur,
-  paintLeg,
-  paintWing,
-  rootWings,
-  SIDES,
-} from './draw-buzz';
+import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { inkFor, scaled } from './draw-insect';
 import { PALETTE } from './palette';
 import {
@@ -252,8 +245,5 @@ export function drawBee(
 ): void {
   paintBeeLegs(parts.legs.clear(), genes, size, specks);
   paintBeeBody(parts.body.clear(), genes, size);
-  paintWing(parts.left.clear(), genes, -1, size, BEE_VEINS);
-  paintWing(parts.right.clear(), genes, 1, size, BEE_VEINS);
-  rootWings(parts, genes, size);
-  paintBlur(parts.blur.clear(), genes, size);
+  drawBuzzWings(parts, genes, size, BEE_VEINS);
 }

@@ -7,12 +7,7 @@ import {
   type InsectKind,
   PICTOGRAM_SEED,
 } from '../../model/insect-genes';
-import {
-  buzzRoot,
-  buzzTurn,
-  type Side,
-  wingspan,
-} from '../../model/insect-outline';
+import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
 import {
   type CapKind,
   GENE_RANGES,
@@ -22,7 +17,7 @@ import {
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
-import { paintWing } from './draw-buzz';
+import { paintWing, SIDES } from './draw-buzz';
 import { paintFlyBody, paintFlyLegs } from './draw-fly';
 import { paintDoor, paintWindow } from './draw-house';
 import { paintBody, paintWings, scaled } from './draw-insect';
@@ -231,7 +226,7 @@ function paintIconWings(
   size: number,
   veins: number,
 ): void {
-  for (const side of [-1, 1] as const satisfies readonly Side[]) {
+  for (const side of SIDES) {
     const root = scaled(size)(buzzRoot(genes, side));
     graphics.save();
     graphics.translateCanvas(root.x, root.y);

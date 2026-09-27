@@ -29,6 +29,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import type { Plot } from '../../model/pollen';
 import { type Standing, standingAt } from './door-sight';
 import {
+  downOf,
   type Placed,
   RING_SLOTS,
   ringSpot,
@@ -240,15 +241,14 @@ function plantable(
   standing: readonly StandingFlower[],
   covers: readonly Cover[],
 ): boolean {
-  const { width, groundTop, height, mushrooms } = layout;
-  const across = place.x / width;
-  const down = (place.y - groundTop) / (height - groundTop);
+  const across = place.x / layout.width;
+  const down = downOf(layout, place.y);
   if (
     across < FLOWER_ACROSS[0] ||
     across > FLOWER_ACROSS[1] ||
     down < FLOWER_DOWN[0] ||
     down > FLOWER_DOWN[1] ||
-    !clearOfFeet(place, mushrooms)
+    !clearOfFeet(place, layout.mushrooms)
   ) {
     return false;
   }

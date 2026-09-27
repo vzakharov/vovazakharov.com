@@ -88,7 +88,7 @@ export function paintWing(
  * wing's shape laid down faintly at spreads across its stroke, so they build
  * a soft fan, densest where the wing spends its beat.
  */
-export function paintBlur(
+function paintBlur(
   graphics: Phaser.GameObjects.Graphics,
   genes: Buzzing,
   size: number,
@@ -106,7 +106,7 @@ export function paintBlur(
 }
 
 /** Stands each wing's graphics on its root, for an insect `size` to its unit. */
-export function rootWings(
+function rootWings(
   { left, right }: Pick<BuzzParts, 'left' | 'right'>,
   genes: Buzzing,
   size: number,
@@ -119,6 +119,19 @@ export function rootWings(
     const { x, y } = at(buzzRoot(genes, side));
     graphics.setPosition(x, y);
   }
+}
+
+/** Paints both wings, each with `veins` veins, stands them on their roots, and paints their blur. */
+export function drawBuzzWings(
+  parts: Pick<BuzzParts, 'left' | 'right' | 'blur'>,
+  genes: Buzzing,
+  size: number,
+  veins: number,
+): void {
+  paintWing(parts.left.clear(), genes, -1, size, veins);
+  paintWing(parts.right.clear(), genes, 1, size, veins);
+  rootWings(parts, genes, size);
+  paintBlur(parts.blur.clear(), genes, size);
 }
 
 /** A leg as a jointed ink line through `points`, already in pixels, its foot a dot. */

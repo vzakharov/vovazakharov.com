@@ -39,7 +39,7 @@ export type Placed = { place: Footing };
 export type StandingFlower = Flower & Placed;
 
 /** How far down the ground `y` is on `layout`, from 0 at its top to 1 at the screen's foot. */
-function downOf({ groundTop, height }: MeadowLayout, y: number): number {
+export function downOf({ groundTop, height }: MeadowLayout, y: number): number {
   return (y - groundTop) / (height - groundTop);
 }
 

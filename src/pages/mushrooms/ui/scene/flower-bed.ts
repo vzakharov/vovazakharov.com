@@ -106,8 +106,7 @@ export class FlowerBed {
     for (const flower of fresh) {
       const shown = this.show(flower, clock);
       shown.tappedAt = clock;
-      const { fold, rings } = flowerGenes(flower);
-      this.voice.chime(fold + rings);
+      this.chime(flower);
     }
     this.paint(layout);
   }
@@ -153,10 +152,15 @@ export class FlowerBed {
       (each) => each.id === id,
     );
     if (!shown || !flower) return;
-    const { fold, rings } = flowerGenes(flower);
     shown.tappedAt = this.now();
-    this.voice.chime(fold + rings);
+    this.chime(flower);
     this.onTap();
+  }
+
+  /** A flower's own note, the same for the same flower. */
+  private chime(flower: Flower): void {
+    const { fold, rings } = flowerGenes(flower);
+    this.voice.chime(fold + rings);
   }
 
   private show(flower: Flower, plantedAt: number): Shown {

@@ -9,14 +9,7 @@ import type * as Phaser from 'phaser';
 import type { FlyGenes } from '../../model/fly-genes';
 import { ellipse, type Point } from '../../model/geometry';
 import { mix, nudgeHue } from './colour';
-import {
-  type BuzzParts,
-  paintBlur,
-  paintLeg,
-  paintWing,
-  rootWings,
-  SIDES,
-} from './draw-buzz';
+import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { inkFor, scaled } from './draw-insect';
 import { PALETTE } from './palette';
 import { crescent, fillShape, ovalArc, strokeShape } from './shapes';
@@ -187,8 +180,5 @@ export function paintFlyLegs(
 export function drawFly(parts: BuzzParts, genes: FlyGenes, size: number): void {
   paintFlyLegs(parts.legs.clear(), genes, size, 0);
   paintFlyBody(parts.body.clear(), genes, size);
-  paintWing(parts.left.clear(), genes, -1, size, genes.veins);
-  paintWing(parts.right.clear(), genes, 1, size, genes.veins);
-  rootWings(parts, genes, size);
-  paintBlur(parts.blur.clear(), genes, size);
+  drawBuzzWings(parts, genes, size, genes.veins);
 }
