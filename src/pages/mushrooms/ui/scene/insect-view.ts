@@ -14,6 +14,7 @@ import {
   heading,
   landingBob,
   type Path,
+  proboscis,
   turned,
   type Turns,
   wingBeat,
@@ -21,7 +22,7 @@ import {
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { phaseOf, wobble } from '../../model/motion';
-import { drawInsect, type InsectParts } from './draw-insect';
+import { drawInsect, type InsectParts, paintProboscis } from './draw-insect';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
 import { tapReach } from './sky-layout';
@@ -33,6 +34,8 @@ const FLUTTER = 0.28;
 const FOLDED = 0.12;
 /** How much the hind wings trail the fore wings' beat, as a share of the way open. */
 const HIND_LAG = 0.15;
+/** How far the proboscis moves before it is painted again, as a share of its reach. */
+const REACH_STEP = 0.01;
 /** How much a tapped butterfly jolts, against a mushroom's squash. */
 const JOLT = 0.7;
 /**
@@ -62,6 +65,8 @@ type Shown = TappedFigure &
     turns: Turns | undefined;
     /** What its current leg carried over from the one it cut short or followed. */
     carried: Carried;
+    /** How far out its proboscis was last painted. */
+    reach: number;
   };
 
 /**
@@ -150,7 +155,8 @@ export class InsectView {
         : perchAt(leg.to, shown.flier)) ??
       shown.end ??
       start;
-    const path: Path = { ...leg, ...shown.carried, start, end };
+    const stay = { ...leg, ...shown.carried };
+    const path: Path = { ...stay, start, end };
     const point = flightPoint(path, now, motion);
     // A flight going nowhere has no heading, so it keeps the one it had.
     if (Math.hypot(end.x - start.x, end.y - start.y) > 1) {
@@ -174,18 +180,30 @@ export class InsectView {
       .setPosition(point.x, point.y + bob)
       .setRotation(bodyTurn(leg, now, flying, shown.turns))
       .setScale(jolt * (1 - bob / this.size / 2));
-    const open = wingBeat(path, now, motion);
+    const open = wingBeat(stay, now, motion);
     shown.fore.setScale(FOLDED + (1 - FOLDED) * open, 1);
     const lagging = open + (1 - open) * HIND_LAG;
     shown.hind.setScale(FOLDED + (1 - FOLDED) * lagging, 1);
+    const reach = proboscis(stay, now);
+    if (
+      Math.abs(reach - shown.reach) > REACH_STEP ||
+      (reach === 0) !== (shown.reach === 0)
+    ) {
+      shown.reach = reach;
+      paintProboscis(shown.proboscis.clear(), shown.genes, this.size, reach);
+    }
   }
 
   private show(flier: Flier): Shown {
     const hit = new Phaser.Geom.Circle();
-    const [hind, fore, body] = [0, 1, 2].map(() => this.scene.add.graphics());
-    if (!hind || !fore || !body) throw new Error('A butterfly with no parts');
+    const [hind, fore, body, reaching] = [0, 1, 2, 3].map(() =>
+      this.scene.add.graphics(),
+    );
+    if (!hind || !fore || !body || !reaching) {
+      throw new Error('A butterfly with no parts');
+    }
     const container = this.scene.add
-      .container(0, 0, [hind, fore, body])
+      .container(0, 0, [hind, fore, body, reaching])
       .setDepth(this.depth)
       .setInteractive(hit, containsCircle);
     const genes = insectGenes(flier);
@@ -194,6 +212,7 @@ export class InsectView {
       hind,
       fore,
       body,
+      proboscis: reaching,
       hit,
       genes,
       flier,
@@ -203,7 +222,8 @@ export class InsectView {
       facing: 0,
       turnedFrom: undefined,
       turns: undefined,
-      carried: { launch: 0 },
+      carried: { launch: 0, drink: 0 },
+      reach: 0,
       phase: phaseOf(flier),
       tappedAt: -Infinity,
     };
@@ -225,6 +245,12 @@ export class InsectView {
 
   private draw(shown: Shown): void {
     drawInsect(shown, shown.genes, this.size);
+    paintProboscis(
+      shown.proboscis.clear(),
+      shown.genes,
+      this.size,
+      shown.reach,
+    );
     shown.hit.setTo(0, 0, tapReach((wingspan(shown.genes) * this.size) / 2));
   }
 

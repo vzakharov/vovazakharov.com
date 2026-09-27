@@ -6,6 +6,8 @@ import type { Point } from './geometry';
 import {
   bodyTurn,
   carriedFrom,
+  drinkDip,
+  drinking,
   flightPoint,
   flyingTurn,
   heading,
@@ -13,8 +15,10 @@ import {
   landingBob,
   MAX_TILT,
   type Path,
+  proboscis,
   REST_LEAN,
   restTurn,
+  type Stay,
   tilt,
   turned,
   type Turns,
@@ -24,12 +28,18 @@ import {
 import { ticked } from './insects';
 import { between, mulberry32, type Random } from './random';
 
-const PATH: Path = {
+/** A leg with its stay, flown from one point to another. */
+type Flown = Path & Stay;
+
+const PATH: Flown = {
   start: { x: -40, y: 120 },
   end: { x: 300, y: 260 },
   departs: 1000,
   arrives: 3000,
+  leaves: 8000,
+  to: { kind: 'cap', id: 'cap' },
   launch: 0,
+  drink: 0,
 };
 const PHASES = [0, 0.7, 2, 3.5, 5.9];
 const flier = (phase: number) => ({ phase, flutter: 12 });
@@ -194,6 +204,7 @@ function turnsOverLegs(seed: number): number[] {
         departs,
         arrives,
         launch: 0,
+        drink: 0,
         start,
         end: perch(now),
       };
@@ -247,7 +258,7 @@ describe('bodyTurn', () => {
 });
 
 /** A flight on `before` cut short at `cut` by `after`, as the view flies it. */
-type Cut = { before: Path; after: Path; cut: number };
+type Cut = { before: Flown; after: Flown; cut: number };
 
 function pointAt({ before, after, cut }: Cut, now: number): Point {
   return flightPoint(now < cut ? before : after, now, flier(0));
@@ -266,9 +277,10 @@ describe('a leg that cuts a flight short', () => {
   const butterfly = { id: 'b', kind: 'butterfly', seed: 4321 } as const;
   const first = firstFlight(butterfly, ['cap'], 0);
   const cut = (first.leg.departs + first.leg.arrives) / 2;
-  const before: Path = {
+  const before: Flown = {
     ...first.leg,
     launch: 0,
+    drink: 0,
     start: { x: -40, y: 300 },
     end: { x: 200, y: 520 },
   };
@@ -279,7 +291,7 @@ describe('a leg that cuts a flight short', () => {
   };
 
   for (const [name, { leg }] of Object.entries(cuts)) {
-    const after: Path = {
+    const after: Flown = {
       ...leg,
       ...carriedFrom(before, cut),
       start: flightPoint(before, cut, flier(0)),
@@ -303,4 +315,107 @@ describe('a leg that cuts a flight short', () => {
       assert.ok(swing(cut, cut + 200, after) > 0.9);
     });
   }
+});
+
+const DRUNK_AT = { kind: 'flower', pick: 0.4 } as const;
+const FLOWER: Flown = { ...PATH, to: DRUNK_AT };
+
+/** The largest change in `value` from one ms to the next between `from` and `to`. */
+function largestStep(
+  value: (now: number) => number,
+  from: number,
+  to: number,
+): number {
+  return Math.max(
+    ...times(from, to, 1).map((now) => Math.abs(value(now + 1) - value(now))),
+  );
+}
+
+describe('drinking and proboscis', () => {
+  it('drinks at a flower, from after landing until just before leaving', () => {
+    assert.equal(drinking(FLOWER, FLOWER.arrives), 0);
+    assert.equal(proboscis(FLOWER, FLOWER.arrives - 500), 0);
+    assert.equal(drinking(FLOWER, 5000), 1);
+    assert.ok(proboscis(FLOWER, 5000) > 0.8);
+    assert.equal(drinking(FLOWER, FLOWER.leaves), 0);
+    assert.equal(proboscis(FLOWER, FLOWER.leaves + 100), 0);
+    const step = largestStep((now) => proboscis(FLOWER, now), 0, 9000);
+    assert.ok(step < 0.01, `step ${String(step)}`);
+  });
+
+  it('never drinks on a cap, whose rest is the slow open and close', () => {
+    for (const now of times(0, 9000, 7)) {
+      assert.equal(drinking(PATH, now), 0);
+      const rest =
+        1 - 0.7 * (0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / 2600 + 1));
+      const settled = now > PATH.arrives + 500;
+      if (settled) assert.equal(wingBeat(PATH, now, { phase: 1 }), rest);
+    }
+  });
+
+  it('holds its wings half shut while drinking', () => {
+    const drinkSwing = times(5000, 7000, 5).map((now) =>
+      wingBeat(FLOWER, now, { phase: 0 }),
+    );
+    assert.ok(Math.max(...drinkSwing) <= 0.6 + 1e-9);
+    assert.ok(swing(5000, 7600) > 0.6);
+  });
+
+  it('curls up without a jump when a drink is cut short', () => {
+    const cut = 5000;
+    const after: Flown = {
+      ...PATH,
+      ...carriedFrom(FLOWER, cut),
+      departs: cut,
+      arrives: cut + 2000,
+      leaves: cut + 8000,
+    };
+    const reach = (now: number) =>
+      now < cut ? proboscis(FLOWER, now) : proboscis(after, now);
+    assert.equal(after.drink, 1);
+    assert.ok(largestStep(reach, cut - 50, cut + 600) < 0.01);
+    assert.equal(reach(cut + 500), 0);
+    const wings = (now: number) =>
+      wingBeat(now < cut ? FLOWER : after, now, { phase: 0 });
+    assert.ok(largestStep(wings, cut - 50, cut + 50) < 0.05);
+  });
+});
+
+describe('drinkDip', () => {
+  const hop = { ...FLOWER, from: { kind: 'flower', pick: 0.9 } } as const;
+  const next = {
+    ...hop,
+    from: DRUNK_AT,
+    to: { kind: 'cap', id: 'cap' },
+    departs: hop.leaves,
+    arrives: hop.leaves + 2000,
+    leaves: hop.leaves + 9000,
+  } as const;
+  const dipAt = (now: number) =>
+    (now < next.departs ? drinkDip(hop, now) : drinkDip(next, now))?.dip ?? 0;
+
+  it('leaves the flower alone while no butterfly is on it', () => {
+    assert.equal(drinkDip({ ...PATH, from: PATH.to }, 5000), undefined);
+    assert.equal(drinkDip(next, next.departs + 1200), undefined);
+  });
+
+  it('sags under the butterfly while it drinks, and springs back as it leaves', () => {
+    assert.equal(drinkDip(hop, hop.arrives)?.dip, 0);
+    assert.equal(drinkDip(hop, 5000)?.pick, DRUNK_AT.pick);
+    assert.ok(Math.abs((drinkDip(hop, 5000)?.dip ?? 0) - 0.18) < 1e-3);
+    assert.equal(drinkDip(next, next.departs)?.pick, DRUNK_AT.pick);
+    assert.ok((drinkDip(next, next.departs + 220)?.dip ?? 0) < 0);
+    assert.ok(largestStep(dipAt, hop.arrives - 50, next.departs + 1300) < 0.01);
+  });
+
+  it('flickers its petals as the butterfly leaves, and only then', () => {
+    assert.equal(drinkDip(hop, 5000)?.flicker, 0);
+    assert.equal(drinkDip(next, next.departs)?.flicker, 0);
+    const flicker = (now: number) => drinkDip(next, now)?.flicker ?? 0;
+    const most = Math.max(
+      ...times(next.departs, next.departs + 300, 5).map((now) => flicker(now)),
+    );
+    assert.ok(most > 0.05);
+    assert.ok(largestStep(flicker, next.departs, next.departs + 1300) < 0.01);
+  });
 });

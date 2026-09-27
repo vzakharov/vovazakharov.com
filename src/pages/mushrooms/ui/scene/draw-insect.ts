@@ -27,10 +27,28 @@ const HIND_TOWARD_PATTERN = 0.18;
 /** The pale dots along a wing's edge band, and how far out along it they start. */
 const EDGE_DOTS = 4;
 const EDGE_DOTS_FROM = 0.5;
+/**
+ * The proboscis: its length uncurled, as a share of the body's; how far
+ * round it coils curled up and how far its tip still curls uncurled, in
+ * radians; the share of its length it shows curled up; its thickness, as a
+ * share of the ink line, so it reads as a tube and never as a third
+ * antenna; and how many segments draw it.
+ */
+const PROBOSCIS_LENGTH = 0.5;
+const PROBOSCIS_COIL = Math.PI * 3.5;
+const PROBOSCIS_TIP_CURL = 4;
+const PROBOSCIS_CURLED = 0.5;
+const PROBOSCIS_THICKNESS = 1.8;
+const PROBOSCIS_STEPS = 24;
+/** A reach under which the proboscis is tucked away out of sight. */
+const PROBOSCIS_HIDDEN = 0.02;
 
-/** A butterfly's parts, each a graphics of its own so a wing beat only scales it. */
+/**
+ * A butterfly's parts, each a graphics of its own so a wing beat only scales
+ * it; the proboscis is repainted as it uncurls.
+ */
 export type InsectParts = Record<
-  'hind' | 'fore' | 'body',
+  'hind' | 'fore' | 'body' | 'proboscis',
   Phaser.GameObjects.Graphics
 >;
 
@@ -198,7 +216,47 @@ export function paintBody(
   }
 }
 
-/** Paints a butterfly `size` to its unit into its three parts, each about its own position. */
+/**
+ * The proboscis at `reach` into `graphics`, about the body's middle: from the
+ * front of the head, a tight coil at 0 unrolling like a party blower as it
+ * grows into a tube reaching straight ahead between the antennae, its tip
+ * still curled where it drinks.
+ */
+export function paintProboscis(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: InsectGenes,
+  size: number,
+  reach: number,
+): void {
+  if (reach < PROBOSCIS_HIDDEN) return;
+  const head = headOf(genes);
+  const length =
+    genes.bodyLength *
+    PROBOSCIS_LENGTH *
+    (PROBOSCIS_CURLED + (1 - PROBOSCIS_CURLED) * reach);
+  const step = (length * size) / PROBOSCIS_STEPS;
+  let point = { x: head.x * size, y: (head.y - head.r) * size };
+  const line = [point];
+  for (let index = 1; index <= PROBOSCIS_STEPS; index += 1) {
+    const along = index / PROBOSCIS_STEPS;
+    // Its angle off straight ahead, curling ever tighter toward the tip.
+    const bend =
+      (1 - reach) * PROBOSCIS_COIL * along ** 2 +
+      reach * PROBOSCIS_TIP_CURL * along ** 6;
+    point = {
+      x: point.x + step * Math.sin(bend),
+      y: point.y - step * Math.cos(bend),
+    };
+    line.push(point);
+  }
+  const ink = inkFor(size);
+  graphics.lineStyle(ink * PROBOSCIS_THICKNESS, PALETTE.ink);
+  strokeLine(graphics, line);
+  graphics.lineStyle(ink * (PROBOSCIS_THICKNESS - 1), hues(genes).pattern);
+  strokeLine(graphics, line);
+}
+
+/** Paints a butterfly `size` to its unit into its parts, each about its own position. */
 export function drawInsect(
   { hind, fore, body }: InsectParts,
   genes: InsectGenes,
