@@ -39,28 +39,20 @@ verbatim.
 ## 2. The conversation
 
 Opened with `/relay take claude/mushroom-game-syama-lbirv7`, Next step
-`/handle`. **Agent:** reset the stale local branch to `origin`, exported the
-PR, and handled bite 4's eight review threads through subagents, per
-`docs/remove-before-merging/handle-bite4/progress.md`'s decided design.
-
-- **Operator:** "пока работаешь -- дай мне пжст какие-нить указания, как игру
-  можно запустить локально (если уже можно)". **Agent:** `pnpm install`,
-  `pnpm dev:vova`, open `http://localhost:3000/mushrooms`; `-H 0.0.0.0` for a
-  tablet on the same Wi-Fi; `pnpm build:vova` + `npx serve apps/vova/out` for
-  the static build.
-- **Operator:** "а за экологию ещё не брались? или ни про что такое в плане
-  вообще нет?" and "и за всяких пчелок-жучков?". **Agent:** not yet; the plan
-  carries the ecosystem as a decision and bites 5 (butterfly, `tick`), 6
-  (fly, bee, pollination), 7 (rain), 8 (dusk) build it, starting right after
-  this review.
+`/go`. No operator message arrived in this session. **Agent:** took bite 5
+(the butterfly): flipped the plan, wrote `## This bite` with every call
+decided, and ran three subagents in sequence — the model (genes, flight
+legs, `tick`, motion), the scene (drawing, view, button, sound, layout
+sweeps, play run, frames), then `/polish`, vet and `/pr`. Folded the bite
+into `## Eaten so far`, filled the megabeast notes and paused the plan.
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable for
 a six-year-old. Each bite gets an agent review, and the run ends with
 `/finalize` (no merge) plus an Artifact. Ruled out: a competitive game, a
-3D/multiplayer showpiece, any teaching voice. The operator is plainly keen on
-the ecology and insects (bites 5–8).
+3D/multiplayer showpiece, any teaching voice. The operator is keen on the
+ecology and insects (bites 5–8).
 
 ## 4. Decisions
 
@@ -68,55 +60,56 @@ the ecology and insects (bites 5–8).
   future skill (`.claude/skills/megabeast/notes.md`). _Пятипроцентник_:
   `writing/notes/the-five-percent.md`, frozen. _Страшила_: the reviewer
   looking where the operator would look.
-- **The mouse's 28 px floor holds at the narrowest pose**
-  (`NARROWEST_STANDING`, breath plus beckon), not only at rest: a tapped
-  mushroom is always the selected, breathing one. Beat loosening the play
-  run's assertion.
-- **Portrait clump step [0, -0.03]** (`CLUMP_DOWN` [0.74, 0.8]): feet
-  together, stems crossing just above them, back door above the crossing.
-  Beat [0.22, -0.1], which showed the door but hid up to 96% of the back
-  cap, and [0.03, 0], which put a finger-floor mushroom on a flower. Held by
-  two tests: ≥80% of each clump doorway in sight, ≥45% of the back cap
-  outside the front cap. Both margins are thin (door worst 0.81): a step
-  change re-runs them.
-- The rest of the review's design (door stations, hit circle, spots, target
-  fallback, door tap leaves the picker open) is in progress.md § "Done" and
-  the plan's decisions.
+- Bite 5's calls are in the plan's `## Eaten so far` item 5 and the
+  decisions it carried: the insect column on the left (as the drawing's
+  БАБОЧКА/МУХА/ПЧЕЛА), the button always acts (oldest flies away past 4),
+  the model names perches and the scene places them, motion from the clock.
+- **Scene deviations, accepted:** a perched butterfly turns to face up the
+  screen (±0.45 rad), as Syama drew it, instead of keeping its landing
+  heading, which looked chaotic; a tap on a butterfly in the air only jolts
+  it and trills (the spec leaves an airborne one's leg alone), a tap on one
+  at rest sends it on.
 
 ## 5. Errors and dead ends
 
-- A subagent's copy of `src/` under `tmp/clump/` was picked up by
-  `pnpm test`'s glob. Never copy test files into the tree.
-- The latent flower-on-a-foot problem is open, carried in the plan's
-  `## Rest of the elephant` as due by bite 6.
+None this bite. **Known weaknesses the scene agent reported — hand them to
+the review as questions to sweep, not as findings:** two butterflies whose
+seeds pick nearby spots can overlap on one cap (visible in
+`phoneP-b3-perched.png`); on phones a butterfly (60 px unit) can be wider
+than the smallest back-row caps, and `insect-layout.test.ts` compares only
+against the clump's caps; `VIEWPORTS` is duplicated in that new test file;
+a butterfly flying under a button is hidden by it; a wings-nearly-closed
+pose reads as a stick in a still frame. The flower-on-a-foot problem is
+still open and due by bite 6 (plan, `## Rest of the elephant`).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`. PR #57, draft, base `main`,
-  `CLEAN`. Last pushed commit before this summary: 0f4b136.
-- Bite 4's review is fully handled: all eight threads replied on GitHub
-  (left unresolved), `/polish` run, `./scripts/vet.sh` green, PR body and
-  squash proposal refreshed, frames in
-  `docs/remove-before-merging/frames/bite-4/`, megabeast notes filled.
-- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–4 eaten and
-  reviewed. The next bite is 5 (the butterfly).
+  `CLEAN`. Last pushed commit before this summary: 08c8ef1.
+- Bite 5's commits, for the review's range: from a4cca45 (plan) through
+  08c8ef1 — model 2d43931, ea1202f, 86a7a16; scene de1c0af, 88f761b,
+  32442f3; frames 42d0e24; polish e942cb3, 92b25a1; PR/squash 604a706.
+  The range is `git log a4cca45^..HEAD`.
+- Vet green, play run green on all four screens after the last source
+  commit (~2.5 min now), PR body and squash proposal refreshed, frames in
+  `docs/remove-before-merging/frames/bite-5/`, megabeast notes filled.
+- Plan: `docs/plans/mushroom-game-syama.paused.md`. Bites 1–5 eaten; bite 5
+  not yet reviewed. Next bite after the review is 6 (fly and bee).
 - Nothing running, no PR subscription, no scheduled check-in.
 - Relay depth: an earlier chain hit `lineage depth 8 (limit 8)` at
-  `create_session`. If it fails again, the megabeast notes say what to do.
+  `create_session`; the megabeast notes say what to do if it recurs.
 
 ## 7. Pointers
 
-- `docs/plans/mushroom-game-syama.paused.md`: the loop,
-  `## Eaten so far`, `## Rest of the elephant` item 5.
-- `.claude/skills/megabeast/notes.md`: how the loop is run, including
-  "a `/handle` session is an orchestrator" and the subagent patterns.
-- `docs/remove-before-merging/handle-bite4/progress.md`: the review's
-  measurements and decisions, for reference.
+- `docs/plans/mushroom-game-syama.paused.md`: the loop (§ "How this
+  elephant is eaten", step 2 is the review's brief), `## Eaten so far`
+  item 5.
+- `.claude/skills/megabeast/notes.md`: review patterns (frames first, sweep
+  many seeds, anchor from one file's `cat -n`, one-call review post).
 - `pnpm play:mushrooms` (probe build `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm
-build:vova`, then `--no-build`), `scripts/lib/play-house.ts`,
-  `scripts/lib/mushroom-probe.ts`.
+build:vova`, then `--no-build`), `scripts/lib/play-insects.ts`.
 - `src/pages/mushrooms/reference/syama-drawing.webp`: judge frames beside it.
 
 ## 8. Next step
 
-/go
+оставь код ревью на последний кусок
