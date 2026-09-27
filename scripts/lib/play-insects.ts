@@ -23,7 +23,7 @@ const ON_PERCH = 1.5;
 const LOOK = 15;
 const MOST_LOOKS = 80;
 /** Looks over which every butterfly that stays must be seen on a perch: longer than any flight. */
-const PERCH_LOOKS = 16;
+const PERCH_LOOKS = 24;
 
 type Insect = z.infer<typeof Insects>[number];
 

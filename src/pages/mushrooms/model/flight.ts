@@ -58,7 +58,7 @@ export type Flight = { leg: Leg; legs: number };
 export const BUTTERFLY_LIMIT = 4;
 
 /** How long a flight takes, a drink at a flower, and a rest on a cap, in ms. */
-export const FLYING = [1600, 2600] as const;
+export const FLYING = [2400, 3900] as const;
 export const DRINKING = [3000, 6000] as const;
 export const RESTING = [4000, 9000] as const;
 /** How often a butterfly with a cap to go to goes to a flower instead. */
