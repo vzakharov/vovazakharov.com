@@ -39,7 +39,12 @@ Each note: what happened, and what the skill should do about it.
   that on its own before touching code again; take into the open bite only
   the cheap slice that fits (the sun became a rosette) and leave the rest to
   later bites. The skill should make that the rule, so a mid-run message
-  grows the plan, not the bite.
+  grows the plan, not the bite. The same holds for a review the operator
+  posts on the PR: their first one (5329778719, during bite 6's review)
+  asked for an Artifact per bite, atmosphere and a wider meadow. The review
+  session folded it into the plan, replied on each thread with that commit,
+  and left the code for the bites it named, which is what they asked for
+  ("действовать по нему пока не надо").
 
 ## Friction found
 
@@ -460,7 +465,20 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   "clear on this screen and on the turned one" cut the room to plant about
   4×, down to under one slot per meadow. The skill should have the scene
   agent report the feature's rate under every guard (plants per minute, not
-  only "a flower was planted") so the reviewer can weigh the guard.
+  only "a flower was planted") so the reviewer can weigh the guard. Bite 6's
+  review found how far off it was: the play run passed on all five screens
+  while a tablet planted one flower per meadow and then never another, and
+  bees beside butterflies roamed 85–99% of their flights. The play run checks
+  that a thing can happen, and the review's model sweep measured how often it
+  does. The skill should keep that sweep as a committed script with rate
+  floors, one per ecological rule, run in the bite's tail next to the play
+  run.
+- **A bound equal to the code's own cap tests nothing.** The play run's
+  0.2 rad-a-frame turn check sat just above the view's 10.8 rad/s cap, so it
+  measured the cap. The reader agent found it along with three tests fed
+  `crowded: []` or always-open flowers. The skill's review brief should ask
+  for each bound the play run and the tests hold, and whether the code makes
+  it true by construction.
 - **The operator's questions mid-run are answered, not treated as a stop.**
   While bite 4's handling ran, the operator asked how to run the game
   locally and whether ecology and the insects were planned. Answering from
