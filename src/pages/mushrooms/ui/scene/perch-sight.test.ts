@@ -17,6 +17,7 @@ import { type Flier, INSECT_LIMITS } from '../../model/insects';
 import { CAP_KINDS } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingAt } from './door-sight';
+import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { meadowLayout } from './layout';
 import {
   airSpots,
@@ -24,10 +25,8 @@ import {
   perchSight,
   perchSpot,
   seatAt,
-  type Stand,
-  WIDEST_SPAN,
 } from './perch-sight';
-import { tapReach } from './sky-layout';
+import { standingControls, tapReach } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How long each visit is watched, how often the model ticks, and how often perches are read, in ms. */
@@ -60,14 +59,15 @@ function opened(
   let meadow = firstMeadow(random);
   const flowers = firstFlowers(random, 7);
   const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
+  const turned = meadowLayout(height, width, seed ^ 0xf1_0e_25);
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
     const cap = CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted';
     meadow = reduce(meadow, { kind: 'grow', cap, seed: nextSeed(growing) });
   }
-  const { mushrooms } = meadow;
-  return { meadow, layout, flowers, mushrooms };
+  const { mushrooms, planted } = meadow;
+  return { meadow, layout, turned, flowers, mushrooms, planted };
 }
 
 /** How much of the narrower of two spans, centred `apart` px from each other, the other covers. */
@@ -130,16 +130,8 @@ function hiddenHow(
   const top = flowerHead(flowerGenes(flower), place.size);
   const head = { x: place.x + top.x, y: place.y + top.y };
   const half = span / 2;
-  const { mute, plus, minus, house, butterfly, picker, housePicker } = layout;
-  const controls = [
-    mute,
-    plus,
-    minus,
-    house,
-    butterfly,
-    ...picker,
-    ...housePicker,
-  ];
+  const { picker, housePicker } = layout;
+  const controls = [...standingControls(layout), ...picker, ...housePicker];
   const how: Count[] = [];
   if (
     controls.some(
@@ -257,10 +249,10 @@ describe('airSpots', () => {
         const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
         const spots = airSpots(layout);
         assert.ok(spots.length > INSECT_LIMITS.butterfly);
-        const { mute, plus, minus, house, butterfly, picker } = layout;
+        const { picker } = layout;
         const { insectSize, groundTop } = layout;
         const span = WIDEST_SPAN * insectSize;
-        const controls = [mute, plus, minus, house, butterfly, ...picker];
+        const controls = [...standingControls(layout), ...picker];
         for (const { x, y } of spots) {
           assert.ok(x >= span && x <= width - span + 1e-9 && y >= span);
           assert.ok(y <= Math.max(span, groundTop) + 1e-9);
@@ -268,6 +260,30 @@ describe('airSpots', () => {
             const apart = Math.hypot(x - control.x, y - control.y);
             assert.ok(apart >= tapReach(control.r) + span / 2);
           }
+        }
+      }
+    });
+  }
+});
+
+describe('the air', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`crowds every two spots nearer than the widest wingspan, so no two hovering fliers overlap, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { crowded } = perchSight(stand);
+      const span = WIDEST_SPAN * stand.layout.insectSize;
+      const spots = airSpots(stand.layout);
+      for (const [index, spot] of spots.entries()) {
+        for (const other of spots.slice(index + 1)) {
+          const near = Math.hypot(spot.x - other.x, spot.y - other.y) < span;
+          const paired = crowded.some(
+            ([a, b]) =>
+              a.kind === 'air' &&
+              b.kind === 'air' &&
+              ((a.id === spot.id && b.id === other.id) ||
+                (a.id === other.id && b.id === spot.id)),
+          );
+          assert.equal(paired, near, `${spot.id} and ${other.id}`);
         }
       }
     });

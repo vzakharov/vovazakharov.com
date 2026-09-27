@@ -80,7 +80,10 @@ const LIFT_TURN = 450;
  * it settles after landing — never at a spot in the air, which it only
  * hovers at.
  */
-function aloft({ departs, arrives, launch, to }: Stay, now: number): number {
+export function aloft(
+  { departs, arrives, launch, to }: Stay,
+  now: number,
+): number {
   const settled = to.kind === 'air' ? 0 : smooth((now - arrives) / SETTLE);
   return Math.min(
     Math.max(launch, smooth((now - departs) / TAKE_OFF)),

@@ -10,6 +10,7 @@ import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point } from '../../model/geometry';
+import type { InsectKind } from '../../model/insect-genes';
 import { GENE_RANGES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
@@ -63,6 +64,12 @@ const FLOWER_SPOTS = {
  * ground's depth.
  */
 const FLOWER_JITTER = [0.07, 0.12] as const;
+/**
+ * How far across the width, and down the ground's depth, a flower's foot
+ * may stand: on the ground, and its head clear of the screen's sides.
+ */
+export const FLOWER_ACROSS = [0.05, 0.95] as const;
+export const FLOWER_DOWN = [0.12, 0.96] as const;
 /** Tries at a spot off the slot before a flower is left out. */
 const FLOWER_TRIES = 24;
 /** A flower's height, as a share of the clump's size, before depth scales it. */
@@ -131,6 +138,15 @@ const FINGER_SIZE = (2 * TAP_RADIUS) / GENE_RANGES.capWidth[0];
  */
 const INSECT_SCALE = 0.3;
 const INSECT_LEAST = 60;
+/**
+ * Each kind's size against the butterfly's: a fly and a bee are small beside
+ * it, and still read on a phone.
+ */
+const KIND_SCALE = {
+  butterfly: 1,
+  fly: 0.55,
+  bee: 0.65,
+} as const satisfies Record<InsectKind, number>;
 
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
@@ -151,13 +167,24 @@ export type MeadowLayout = Sized &
     flowers: readonly Footing[];
     /** The unit a butterfly's genes are painted in. */
     insectSize: number;
+    /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
+    insectSizes: Readonly<Record<InsectKind, number>>;
   };
 
 /** A flower's head reaches this far from its centre, per unit of its size. */
-const HEAD_REACH = FLOWER_RANGES.petalLength[1];
+export const HEAD_REACH = FLOWER_RANGES.petalLength[1];
+
+/**
+ * How much bigger a flower stands `down` of the way down the ground than its
+ * height alone, a share of the clump's size, would make it: nearer flowers,
+ * lower on the screen, are taller.
+ */
+export function depthScale(down: number): number {
+  return 0.7 + down * 0.5;
+}
 
 /** Whether a flower keeps its stem and head off every mushroom's foot. */
-function clearOfFeet(
+export function clearOfFeet(
   { x, y, size }: Footing,
   feet: readonly Footing[],
 ): boolean {
@@ -193,13 +220,12 @@ function placeFlowers(
     for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
       // Each miss strays a little farther, so a slot on the clump finds a way off it.
       const stray = 1 + attempt / 4;
-      const x = jitter(random, across, FLOWER_JITTER[0] * stray, [0.05, 0.95]);
-      const y = jitter(random, down, FLOWER_JITTER[1] * stray, [0.12, 0.96]);
+      const x = jitter(random, across, FLOWER_JITTER[0] * stray, FLOWER_ACROSS);
+      const y = jitter(random, down, FLOWER_JITTER[1] * stray, FLOWER_DOWN);
       const flower = {
         x: width * x,
         y: groundTop + ground * y,
-        // Nearer flowers, lower on the screen, are taller.
-        size: unit * FLOWER_SCALE * (0.7 + y * 0.5),
+        size: unit * FLOWER_SCALE * depthScale(y),
       };
       if (clearOfFeet(flower, feet)) return [flower];
     }
@@ -358,6 +384,7 @@ export function meadowLayout(
   // flower where it was.
   const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0, 0);
   const controls = placeControls(width, height, groundTop);
+  const insectSize = Math.max(INSECT_LEAST, unit * INSECT_SCALE);
   return {
     width,
     height,
@@ -380,6 +407,11 @@ export function meadowLayout(
     ),
     ...controls,
     mushrooms,
-    insectSize: Math.max(INSECT_LEAST, unit * INSECT_SCALE),
+    insectSize,
+    insectSizes: {
+      butterfly: insectSize * KIND_SCALE.butterfly,
+      fly: insectSize * KIND_SCALE.fly,
+      bee: insectSize * KIND_SCALE.bee,
+    },
   };
 }

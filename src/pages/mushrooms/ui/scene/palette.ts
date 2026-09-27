@@ -92,4 +92,30 @@ export const PALETTE = {
   /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */
   insectBody: 0x4a_2c_28,
   wingEye: 0x3a_1c_2a,
+  /** A fly's dark body, which its sheen tints, and its big eyes, a cheerful red. */
+  flyBody: 0x2c_30_36,
+  flyEye: 0xe8_3a_2e,
+  flyEyeDeep: 0xa8_1e_1e,
+  /** One per `FLY_SHEENS` name: the metal a fly's body catches the light in. */
+  flySheens: {
+    bottle: 0x3c_a0_4c,
+    emerald: 0x22_b8_78,
+    teal: 0x1e_a8_a8,
+    peacock: 0x2a_8c_d0,
+    bluebottle: 0x3e_64_e0,
+  },
+  /** A bee's black bands and head. */
+  beeBlack: 0x2e_24_22,
+  /** One per `BEE_YELLOWS` name: a bee's yellow bands. */
+  beeYellows: {
+    lemon: 0xff_e6_48,
+    gold: 0xff_cc_22,
+    amber: 0xff_b0_1e,
+    honey: 0xf0_a0_2a,
+  },
+  /** The pollen in a bee's baskets, a flower's centre carried off. */
+  pollen: 0xff_a8_1a,
+  /** A fly's and a bee's clear wings: the glass, laid over at low alpha, and its veins. */
+  wingGlass: 0xe8_f6_ff,
+  wingVein: 0x5a_6a_7e,
 } as const;

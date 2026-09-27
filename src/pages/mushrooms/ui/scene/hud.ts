@@ -1,8 +1,18 @@
 import type * as Phaser from 'phaser';
 
 import { DOOR_ASPECT, type Furnishing } from '../../model/house';
-import { insectGenes, PICTOGRAM_SEED } from '../../model/insect-genes';
-import { wingspan } from '../../model/insect-outline';
+import {
+  type Buzzing,
+  insectGenes,
+  type InsectKind,
+  PICTOGRAM_SEED,
+} from '../../model/insect-genes';
+import {
+  buzzRoot,
+  buzzTurn,
+  type Side,
+  wingspan,
+} from '../../model/insect-outline';
 import {
   type CapKind,
   GENE_RANGES,
@@ -11,8 +21,11 @@ import {
 } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
+import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
+import { paintWing } from './draw-buzz';
+import { paintFlyBody, paintFlyLegs } from './draw-fly';
 import { paintDoor, paintWindow } from './draw-house';
-import { paintBody, paintWings } from './draw-insect';
+import { paintBody, paintWings, scaled } from './draw-insect';
 import { drawMushroom } from './draw-mushroom';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
@@ -206,20 +219,73 @@ export function drawGrowButton(
   }
 }
 
-/** The butterfly button: a butterfly seen from above, wings open, filling the disc. */
-export function drawButterflyButton(
+/** How far a pictogram fly's or bee's wings stand open, so both read beside its body. */
+const ICON_SPREAD = 0.55;
+/** How many pollen specks the bee pictogram carries: its baskets full. */
+const ICON_SPECKS = 3;
+
+/** A fly's or a bee's wings into `graphics`, `ICON_SPREAD` open, over whatever it has painted. */
+function paintIconWings(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: Buzzing,
+  size: number,
+  veins: number,
+): void {
+  for (const side of [-1, 1] as const satisfies readonly Side[]) {
+    const root = scaled(size)(buzzRoot(genes, side));
+    graphics.save();
+    graphics.translateCanvas(root.x, root.y);
+    graphics.rotateCanvas(buzzTurn(side, ICON_SPREAD));
+    paintWing(graphics, genes, side, size, veins);
+    graphics.restore();
+  }
+}
+
+/**
+ * The button that releases an insect of `kind`: that insect seen from above,
+ * filling the disc — a butterfly with its wings open, a fly or a bee with its
+ * wings half spread, the bee's baskets full.
+ */
+export function drawReleaseButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
+  kind: InsectKind,
 ): void {
   drawDisc(graphics, r);
-  const genes = insectGenes({ seed: PICTOGRAM_SEED, kind: 'butterfly' });
-  const size = (r * 1.6) / wingspan(genes);
   graphics.save();
-  // A little below the middle, the antennae reaching up into the room above.
-  graphics.translateCanvas(0, r * 0.08);
-  paintWings(graphics, genes, 'hind', size);
-  paintWings(graphics, genes, 'fore', size);
-  paintBody(graphics, genes, size);
+  switch (kind) {
+    case 'butterfly': {
+      const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
+      const size = (r * 1.6) / wingspan(genes);
+      // A little below the middle, the antennae reaching up into the room above.
+      graphics.translateCanvas(0, r * 0.08);
+      paintWings(graphics, genes, 'hind', size);
+      paintWings(graphics, genes, 'fore', size);
+      paintBody(graphics, genes, size);
+      break;
+    }
+    case 'fly': {
+      const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
+      const size = (r * 1.3) / genes.bodyLength / 1.25;
+      graphics.translateCanvas(0, r * 0.06);
+      paintFlyLegs(graphics, genes, size, 0);
+      paintFlyBody(graphics, genes, size);
+      paintIconWings(graphics, genes, size, genes.veins);
+      break;
+    }
+    case 'bee': {
+      const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
+      const size = (r * 1.35) / genes.bodyLength / 1.25;
+      graphics.translateCanvas(0, r * 0.1);
+      paintBeeLegs(graphics, genes, size, ICON_SPECKS);
+      paintBeeBody(graphics, genes, size);
+      paintIconWings(graphics, genes, size, BEE_VEINS);
+      break;
+    }
+    default: {
+      kind satisfies never;
+    }
+  }
   graphics.restore();
 }
 

@@ -87,7 +87,9 @@ export type Flight = { leg: Leg; legs: number };
  * How one kind flies: how long a flight takes, a stay at a flower, and a
  * rest on a cap, in ms, `resting` being `undefined` for a kind that never
  * sits on a cap; how often, with both open, it goes to a flower rather than
- * a cap; and how many times as often it picks a spotted cap as any other.
+ * a cap; how many times as often it picks a spotted cap as any other; and
+ * whether, with nowhere else open, it settles again where it sat rather
+ * than roaming.
  */
 export type Habits = {
   flying: readonly [number, number];
@@ -95,13 +97,16 @@ export type Habits = {
   resting: readonly [number, number] | undefined;
   flowerShare: number;
   spottedPull: number;
+  settles: boolean;
 };
 
 /**
  * Every kind's habits. A butterfly drinks at a flower three times in five and
  * rests long; a fly darts, on a cap four times in five and to a fly agaric
  * three times as often as to any other cap; a bee goes only to flowers,
- * roaming the air while none is open.
+ * roaming the air while none is open — and never settling back on the flower
+ * it is leaving, so bees as many as the flowers still take turns at them and
+ * carry pollen between them.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
@@ -110,6 +115,7 @@ export const FLIGHT_HABITS = {
     resting: [4000, 9000],
     flowerShare: 0.6,
     spottedPull: 1,
+    settles: true,
   },
   fly: {
     flying: [600, 1100],
@@ -117,6 +123,7 @@ export const FLIGHT_HABITS = {
     resting: [1500, 4000],
     flowerShare: 0.2,
     spottedPull: 3,
+    settles: true,
   },
   bee: {
     flying: [1100, 1800],
@@ -124,6 +131,7 @@ export const FLIGHT_HABITS = {
     resting: undefined,
     flowerShare: 1,
     spottedPull: 1,
+    settles: false,
   },
 } as const satisfies Record<InsectKind, Habits>;
 
@@ -168,8 +176,9 @@ function isCrowdedBy(
  * where the other fliers sit or are heading, nor crowded by one there. With
  * none open it flutters up and settles again where it was, while that is
  * still a perch offered, and roams to an open spot in the air otherwise,
- * where it looks again. It flies away only when the air has no spot open
- * either, which the scene never lets happen.
+ * where it looks again — to one only crowded, not taken, where a small
+ * screen's air has none uncrowded. It flies away only when the air has no
+ * spot untaken either, which the scene never lets happen.
  */
 function nextPerch(
   random: Random,
@@ -196,8 +205,20 @@ function nextPerch(
       ? habits.spottedPull
       : 1;
   if (first !== undefined) return weighted(random, [first, ...rest], pull);
-  if (isSeat(from) && isOffered(from, perches)) return from;
-  const [spot, ...spots] = open('air', perches.air);
+  if (habits.settles && isSeat(from) && isOffered(from, perches)) return from;
+  // Where every open spot is crowded, a spot merely no one has taken, so
+  // no flier is lost for want of room in the air.
+  const spaced = open('air', perches.air);
+  const [spot, ...spots] =
+    spaced.length > 0
+      ? spaced
+      : perches.air
+          .map((id): Perch => ({ kind: 'air', id }))
+          .filter(
+            (perch) =>
+              !isSamePerch(perch, from) &&
+              !taken.some((each) => isSamePerch(perch, each)),
+          );
   return spot === undefined
     ? awayPerch(random)
     : pick(random, [spot, ...spots]);

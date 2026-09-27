@@ -11,6 +11,7 @@ import {
   phaseOf,
   sink,
   SINK_DURATION,
+  type Sprouted,
   type Tapped,
   widthFor,
   wobble,
@@ -47,6 +48,7 @@ const RING_SPREAD = 1.5;
 
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 type Shown = Tapped &
+  Sprouted &
   Lit &
   Body &
   Pick<MushroomGenes, 'spots'> & {
@@ -55,7 +57,6 @@ type Shown = Tapped &
     hit: TapArea;
     /** Its windows and door, which follow it. */
     house: HouseView;
-    plantedAt: number;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
   };

@@ -89,6 +89,18 @@ export function crescent(
   return [...arc, ...inner.toReversed()];
 }
 
+/** An ellipse's edge round `centre` from angle `from` to `to`, y down. */
+export function ovalArc(
+  centre: Point,
+  [rx, ry]: readonly [number, number],
+  [from, to]: readonly [number, number],
+): Point[] {
+  return sample(from, to, 12, (angle) => ({
+    x: centre.x + rx * Math.cos(angle),
+    y: centre.y + ry * Math.sin(angle),
+  }));
+}
+
 /**
  * From a piece's own frame to the canvas. A window's frame is the square it
  * is drawn inside, side 1 round its middle; a door's is in door widths, its

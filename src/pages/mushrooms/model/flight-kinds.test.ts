@@ -82,6 +82,32 @@ describe('FLIGHT_HABITS', () => {
     }
   });
 
+  it('never settles a bee back on the flower it leaves, where a butterfly would', () => {
+    const taken = FLOWERS.slice(1).map(
+      (id) => ({ kind: 'flower', id }) as const,
+    );
+    const only = { kind: 'flower', id: 'flower-1' } as const;
+    const flowersOnly = { ...PERCHES, caps: [] };
+    for (const seed of SEEDS.slice(0, 300)) {
+      for (const kind of ['bee', 'butterfly'] as const) {
+        const onFlower = {
+          ...firstFlight({ seed, kind }, flowersOnly, 0, taken),
+          seed,
+          kind,
+        };
+        assert.deepEqual(onFlower.leg.to, only);
+        const { to } = nextFlight(
+          onFlower,
+          flowersOnly,
+          onFlower.leg.leaves,
+          taken,
+        ).leg;
+        if (kind === 'bee') assert.equal(to.kind, 'air');
+        else assert.deepEqual(to, only);
+      }
+    }
+  });
+
   it('draws a fly to a spotted cap three times as often as to any other', () => {
     const [spotted = ''] = CAPS;
     const perches = { ...PERCHES, flowers: [], spotted: [spotted] };

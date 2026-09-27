@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { flowerLift } from '../ui/scene/perch-sight';
+import { flowerLift } from '../ui/scene/flower-sight';
 import { flowerGenes, flowerHead } from './flower-genes';
 import { placedAt, type Point } from './geometry';
 import { insectGenes } from './insect-genes';

@@ -227,6 +227,19 @@ describe('nextFlight', () => {
     }
   });
 
+  it('roams to a spot only crowded, not taken, where the air has none uncrowded', () => {
+    const spot = { kind: 'air', id: 'air-1' } as const;
+    const crowded = AIR.slice(1).map(
+      (id) => [spot, { kind: 'air', id }] as const,
+    );
+    const air = { ...AIRY, caps: [], flowers: [], crowded };
+    for (const seed of SEEDS) {
+      const { leg } = firstFlight({ seed, kind }, air, 0, [spot]);
+      assert.equal(leg.to.kind, 'air');
+      assert.notDeepEqual(leg.to, spot);
+    }
+  });
+
   it('flies away only when neither a perch nor a spot in the air is open', () => {
     const none = { caps: [], flowers: [], air: [], crowded: [], ...BARE };
     for (const seed of SEEDS) {

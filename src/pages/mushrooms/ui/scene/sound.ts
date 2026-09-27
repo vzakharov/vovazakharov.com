@@ -5,12 +5,14 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
+import type { InsectKind } from '../../model/insect-genes';
+import { TAKE_OFF } from './insect-voices';
+import { PENTATONIC, tone, type Voice } from './synth';
+
 const MUTED_KEY = 'mushrooms-muted';
 const LOUDNESS = 0.8;
 /** How long a mute takes to fade out before the synth is suspended. */
 const FADE_SECONDS = 0.25;
-/** A major pentatonic from C5, so any run of chimes is in tune. */
-const PENTATONIC = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66];
 const BIRD_GAP_SECONDS = [5, 12] as const;
 
 /**
@@ -33,44 +35,6 @@ function rememberMuted(muted: boolean): void {
   } catch {
     // The same fallback as `readMuted`: the mute holds for this visit.
   }
-}
-
-type Voice = (context: AudioContext, out: AudioNode) => void;
-
-/**
- * One enveloped oscillator: `shape` gliding through `pitches` over `seconds`,
- * `delay` seconds from now.
- */
-function tone(
-  context: AudioContext,
-  out: AudioNode,
-  shape: OscillatorType,
-  pitches: readonly number[],
-  seconds: number,
-  peak: number,
-  delay = 0,
-): OscillatorNode {
-  const now = context.currentTime + delay;
-  const oscillator = new OscillatorNode(context, {
-    type: shape,
-    frequency: pitches[0],
-  });
-  // Anchors each ramp at the note's own start rather than at the call.
-  oscillator.frequency.setValueAtTime(oscillator.frequency.value, now);
-  for (const [index, pitch] of pitches.slice(1).entries()) {
-    oscillator.frequency.exponentialRampToValueAtTime(
-      pitch,
-      now + (seconds * (index + 1)) / pitches.length,
-    );
-  }
-  const envelope = new GainNode(context, { gain: 0 });
-  envelope.gain.setValueAtTime(0, now);
-  envelope.gain.linearRampToValueAtTime(peak, now + 0.01);
-  envelope.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
-  oscillator.connect(envelope).connect(out);
-  oscillator.start(now);
-  oscillator.stop(now + seconds + 0.05);
-  return oscillator;
 }
 
 const pop: Voice = (context, out) => {
@@ -132,18 +96,6 @@ const knock: Voice = (context, out) => {
 const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [1900, 2700, 2200], 0.16, 0.11);
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
-};
-
-/**
- * A butterfly taking wing: a soft trill of quick notes climbing the
- * pentatonic, each fluttering up a little as it sounds.
- */
-const trill: Voice = (context, out) => {
-  for (const [index, pitch] of PENTATONIC.slice(1).entries()) {
-    const high = pitch * 2;
-    tone(context, out, 'sine', [high, high * 1.06], 0.09, 0.05, index * 0.05);
-    tone(context, out, 'triangle', [pitch, pitch], 0.07, 0.03, index * 0.05);
-  }
 };
 
 /** A soft bell on the scale's `step`th note, the same note for the same step. */
@@ -295,8 +247,9 @@ export class MeadowSound {
     this.play(squeak);
   }
 
-  trill(): void {
-    this.play(trill);
+  /** An insect of `kind` taking wing: a butterfly's trill, a fly's or a bee's buzz. */
+  takeOff(kind: InsectKind): void {
+    this.play(TAKE_OFF[kind]);
   }
 
   stop(): void {

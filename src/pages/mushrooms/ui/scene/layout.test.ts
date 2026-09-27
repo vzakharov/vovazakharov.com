@@ -35,6 +35,7 @@ import {
   meadowLayout,
 } from './layout';
 import {
+  standingControls,
   SUN_GLOW_REACH,
   SUN_RAY_REACH,
   TAP_RADIUS,
@@ -338,18 +339,29 @@ describe('meadowLayout', () => {
     });
 
     it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
-      const { mute, butterfly, plus, minus, house, picker, housePicker } =
-        meadowLayout(width, height, 1);
+      const layout = meadowLayout(width, height, 1);
+      const { releases, yielding, picker, housePicker } = layout;
       assert.equal(picker.length, CAP_KINDS.length);
       assert.equal(housePicker.length, FURNISHINGS.length);
-      const drawn = [butterfly, plus, minus, house, ...picker, ...housePicker];
-      for (const { r } of drawn) {
+      const standing = standingControls(layout);
+      for (const { r } of [...standing.slice(1), ...picker, ...housePicker]) {
         assert.ok(r >= TAP_RADIUS);
       }
+      // Only a screen with no room anywhere else has the fly and the bee
+      // give way to an open picker.
+      assert.equal(yielding, name === 'small phone');
+      const given = yielding
+        ? standing.filter(
+            (each) => each !== releases.fly && each !== releases.bee,
+          )
+        : standing;
       // The two pickers share the top, never open together, so each is
       // held apart from the rest and from itself but not from the other.
-      for (const open of [picker, housePicker]) {
-        const controls = reach([mute, butterfly, plus, minus, house, ...open]);
+      for (const open of [[], picker, housePicker]) {
+        const controls = reach([
+          ...(open.length > 0 ? given : standing),
+          ...open,
+        ]);
         for (const [index, control] of controls.entries()) {
           assert.ok(onScreen(control, width, height), `control ${index} off`);
           for (const other of controls.slice(index + 1)) {
@@ -361,12 +373,12 @@ describe('meadowLayout', () => {
 
     it(`keeps every control off every mushroom and the sun's rays on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);
-      const { sun, mute, butterfly, plus, minus, house, picker, housePicker } =
+      const { sun, mute, releases, plus, minus, house, picker, housePicker } =
         layout;
       // Each as its hit area, which the HUD's depth puts over the meadow.
       const controls = Object.entries({
         mute,
-        butterfly,
+        ...releases,
         plus,
         minus,
         house,

@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { canFurnish, isEmpty, isFull, type Meadow } from '../../model/game';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { CAP_KINDS, type CapKind } from '../../model/mushroom-genes';
 import {
   type Button,
@@ -11,12 +12,12 @@ import {
   standButton,
 } from './button';
 import {
-  drawButterflyButton,
   drawCapButton,
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
   drawMuteButton,
+  drawReleaseButton,
 } from './hud';
 import type { MeadowLayout } from './layout';
 import { Picker } from './picker';
@@ -28,13 +29,13 @@ export type ControlHandlers = {
   grow: (cap: CapKind) => void;
   house: () => void;
   furnish: (piece: Furnishing) => void;
-  release: () => void;
+  release: (kind: InsectKind) => void;
   /** A tap on a control that cannot act. */
   refuse: () => void;
 };
 
 /**
- * The buttons over the meadow: mute, `+`, `−`, the house and the butterfly, and the two
+ * The buttons over the meadow: mute, `+`, `−`, the house and one per insect, and the two
  * pickers — the four caps `+` opens and the windows and door the house does.
  * Each presses in when a tap sets it acting; one that cannot act shakes its
  * head instead. A picker comes up one button after another and goes the same
@@ -46,8 +47,10 @@ export class Controls {
   private readonly plus: Button;
   private readonly minus: Button;
   private readonly house: Button;
-  /** Always acts: at the limit, the oldest butterfly makes room. */
-  private readonly butterfly: Button;
+  /** Each always acts: at its kind's limit, the oldest of the kind makes room. */
+  private readonly releases: Record<InsectKind, Button>;
+  /** Whether the fly and the bee give way to an open picker (`Controls.yielding`). */
+  private yielding = false;
   private readonly picker: Picker<CapKind>;
   private readonly housePicker: Picker<Furnishing>;
   /** As of the last paint, which says what each button can do. */
@@ -72,7 +75,15 @@ export class Controls {
     this.plus = button(handlers.pick, (meadow) => !isFull(meadow));
     this.minus = button(handlers.remove, (meadow) => !isEmpty(meadow));
     this.house = button(handlers.house, (meadow) => !isEmpty(meadow));
-    this.butterfly = button(handlers.release);
+    const release = (kind: InsectKind) =>
+      button(() => {
+        handlers.release(kind);
+      });
+    this.releases = {
+      butterfly: release('butterfly'),
+      fly: release('fly'),
+      bee: release('bee'),
+    };
     this.picker = new Picker(
       {
         items: CAP_KINDS,
@@ -108,8 +119,12 @@ export class Controls {
     placeButton(this.house, layout.house);
     drawHouseButton(this.house.graphics, layout.house.r);
     this.house.graphics.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
-    placeButton(this.butterfly, layout.butterfly);
-    drawButterflyButton(this.butterfly.graphics, layout.butterfly.r);
+    for (const kind of INSECT_KINDS) {
+      const home = layout.releases[kind];
+      placeButton(this.releases[kind], home);
+      drawReleaseButton(this.releases[kind].graphics, home.r, kind);
+    }
+    this.yielding = layout.yielding;
     const now = this.now();
     // Each picker opens where the other stands, so the one opening sends the other off at once.
     this.picker.paint(
@@ -133,14 +148,15 @@ export class Controls {
   }
 
   update(t: number): void {
-    for (const button of [
-      this.mute,
-      this.plus,
-      this.minus,
-      this.house,
-      this.butterfly,
-    ]) {
+    for (const button of [this.mute, this.plus, this.minus, this.house]) {
       standButton(button, t, button.home, 1);
+    }
+    const open =
+      this.meadow?.picking === true || this.meadow?.furnishing === true;
+    for (const kind of INSECT_KINDS) {
+      const button = this.releases[kind];
+      const away = this.yielding && open && kind !== 'butterfly';
+      standButton(button, t, button.home, away ? 0 : 1);
     }
     this.picker.update(t);
     this.housePicker.update(t);

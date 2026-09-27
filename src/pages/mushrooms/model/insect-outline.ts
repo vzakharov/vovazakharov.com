@@ -194,16 +194,31 @@ const BUZZ_WING_ANGLE = { rest: 1.25, open: -0.25 } as const;
 /** Where a fly's or a bee's wings root on the body, as shares of its width out and its length down from the middle. */
 const BUZZ_ROOT = { out: 0.3, down: -0.18 } as const;
 
+/** Where a fly's or a bee's wing on `side` roots on its body. */
+export function buzzRoot(genes: Buzzing, side: Side): Point {
+  return {
+    x: side * genes.bodyWidth * BUZZ_ROOT.out,
+    y: genes.bodyLength * BUZZ_ROOT.down,
+  };
+}
+
+/**
+ * How far a fly's or a bee's wing on `side` has turned about its root at
+ * `spread`, in radians clockwise on a screen whose y points down, off laid
+ * back over the body.
+ */
+export function buzzTurn(side: Side, spread: number): number {
+  const { rest, open } = BUZZ_WING_ANGLE;
+  return side * (open - rest) * spread;
+}
+
 /**
  * One of a fly's or a bee's two wings, `spread` of the way from laid back
  * over the body (0) to open (1): the angle turns, the shape is the same.
  */
 export function buzzWing(genes: Buzzing, side: Side, spread: number): Point[] {
   const { rest, open } = BUZZ_WING_ANGLE;
-  const root = {
-    x: genes.bodyWidth * BUZZ_ROOT.out,
-    y: genes.bodyLength * BUZZ_ROOT.down,
-  };
+  const root = buzzRoot(genes, 1);
   return outlineAlong(
     axisAt(root, rest + (open - rest) * spread, side),
     genes.wing,

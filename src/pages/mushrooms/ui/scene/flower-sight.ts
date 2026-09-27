@@ -1,0 +1,304 @@
+/**
+ * Whether a flower can be seen — by an insect sitting on it, and by a child
+ * looking for a flower a bee planted — and where a bee could plant one, as
+ * pure functions of the layout and what stands in it. A flower in sight
+ * stands clear of every control and the screen's edges by an insect's
+ * wings, its head in view past the mushrooms in front of it; a flower is
+ * planted only where it would be in sight on this screen and on the same
+ * screen turned.
+ */
+
+import { pick } from '@/shared/lib/collections';
+
+import {
+  type Flower,
+  FLOWER_RANGES,
+  flowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
+import type { Meadow } from '../../model/game';
+import {
+  type Box,
+  boxAround,
+  boxesMeet,
+  type Circle,
+  containsPoint,
+  type Point,
+} from '../../model/geometry';
+import type { InsectKind } from '../../model/insect-genes';
+import type { Plot } from '../../model/pollen';
+import { type Standing, standingAt } from './door-sight';
+import {
+  type Placed,
+  RING_SLOTS,
+  ringSpot,
+  type StandingFlower,
+  standingFlowers,
+  widestHead,
+} from './flower-plots';
+import {
+  clearOfFeet,
+  FLOWER_ACROSS,
+  FLOWER_DOWN,
+  type Footing,
+  type MeadowLayout,
+} from './layout';
+import { standingControls, tapReach } from './sky-layout';
+
+/**
+ * How far off a cap's crown toward its rims, or off a flower's centre toward
+ * its petals' tips, a butterfly sits at the most, its phase picking where, so
+ * not every one lands dead centre.
+ */
+export const PERCH_SPREAD = 0.3;
+/** The widest a butterfly's open wings span, in units of its size, whatever its genes. */
+export const WIDEST_SPAN = 1.22;
+/** A flower's lean at the breeze's strongest, in radians. */
+export const FLOWER_SWAY = 0.09;
+/**
+ * How much of a flower's head, out from its centre as a share of its reach,
+ * has to show past the mushrooms in front of it, and at how many points
+ * round it that is read, beside the centre.
+ */
+const HEAD_SHOWN = 0.5;
+const HEAD_RING = 8;
+/**
+ * How near two flowers' heads may come, as a share of the two heads' reach
+ * together, a planted one's taken at its widest.
+ */
+const FLOWERS_APART = 0.75;
+
+/**
+ * How far above a flower's centre a drinking butterfly's middle sits, past
+ * the centre's own radius, in units of its size: far enough that its tail
+ * stays off the centre, so its body rests on the head's upper rim and the
+ * proboscis is seen going down into the flower.
+ */
+const ABOVE_CENTRE = 0.3;
+
+/**
+ * How far above a flower's centre a fly or a bee sits, in units of its size:
+ * on the centre itself, which it has no proboscis to reach from the rim.
+ */
+const ON_CENTRE = 0.12;
+
+/**
+ * How far above the middle of a flower whose centre is `disc` across an
+ * insect of `kind`, `insectSize` to its unit, sits: a butterfly on the rim,
+ * drinking down into the centre, a fly or a bee on the centre.
+ */
+export function flowerLift(
+  disc: number,
+  insectSize: number,
+  kind: InsectKind = 'butterfly',
+): number {
+  return kind === 'butterfly'
+    ? disc + ABOVE_CENTRE * insectSize
+    : ON_CENTRE * insectSize;
+}
+
+/**
+ * The meadow as the scene stands it: the layout, the same screen turned —
+ * which a flower is planted in sight on too, so a rotation never hides one —
+ * the visit's seeded flowers, the planted ones, and the mushrooms standing.
+ */
+export type Stand = Pick<Meadow, 'mushrooms' | 'planted'> & {
+  layout: MeadowLayout;
+  turned: MeadowLayout;
+  flowers: readonly Flower[];
+};
+
+/**
+ * A flower as the sight reads it: its place, its head on screen, and how far
+ * over the head's middle a drinking butterfly sits.
+ */
+export type Sighting = Placed & { head: Circle; lift: number };
+
+/** A standing flower as the sight reads it (`Sighting`). */
+export function sightingOf(
+  { place, seed }: StandingFlower,
+  { insectSize }: MeadowLayout,
+): Sighting {
+  const genes = flowerGenes({ seed });
+  const head = flowerHead(genes, place.size);
+  return {
+    place,
+    head: { ...head, x: place.x + head.x, y: place.y + head.y },
+    lift: flowerLift(genes.centre * place.size, insectSize),
+  };
+}
+
+/**
+ * A flower to be planted at `place` as it could grow, whatever its genes:
+ * its stem bent either way or not at all, its head and its centre at their
+ * smallest and largest.
+ */
+function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
+  const [least, most] = FLOWER_RANGES.stemBend;
+  return [least, 0, most].flatMap((bend) =>
+    FLOWER_RANGES.petalLength.flatMap((petal) =>
+      FLOWER_RANGES.centre.map((centre) => ({
+        place,
+        head: {
+          x: place.x + bend * place.size,
+          y: place.y - place.size,
+          r: petal * place.size,
+        },
+        lift: flowerLift(centre * place.size, insectSize),
+      })),
+    ),
+  );
+}
+
+/** Every control's tap circle, as far as a finger reaches it. */
+export function tapCircles(layout: MeadowLayout): Circle[] {
+  const { picker, housePicker } = layout;
+  return [...standingControls(layout), ...picker, ...housePicker].map(
+    (circle) => ({ ...circle, r: tapReach(circle.r) }),
+  );
+}
+
+/** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
+export type Cover = Pick<Standing, 'depth'> & {
+  drawn: ReadonlyArray<{ outline: readonly Point[]; box: Box }>;
+};
+
+/**
+ * Whether a butterfly on `flower` can be seen there, on `layout`: its seat
+ * over the head, as far as the sway and a butterfly's spot move it, stands clear of every control's tap circle and of the
+ * screen's edge by half the widest wingspan, and no mushroom of `covers`
+ * standing nearer the front covers the head's middle (`HEAD_SHOWN`).
+ */
+export function flowerInSight(
+  layout: MeadowLayout,
+  { place, head, lift }: Sighting,
+  covers: readonly Cover[],
+): boolean {
+  const centre = pick(head, 'x', 'y');
+  const seat = { ...centre, y: centre.y - lift };
+  const reach =
+    (WIDEST_SPAN * layout.insectSize) / 2 +
+    PERCH_SPREAD * head.r +
+    (place.size + lift) * Math.sin(FLOWER_SWAY);
+  const { width, height } = layout;
+  const onScreen =
+    seat.x - reach >= 0 &&
+    seat.x + reach <= width &&
+    seat.y - reach >= 0 &&
+    seat.y + reach <= height;
+  const clear = tapCircles(layout).every(
+    ({ x, y, r }) => Math.hypot(seat.x - x, seat.y - y) >= r + reach,
+  );
+  if (!onScreen || !clear) return false;
+  const points = [
+    centre,
+    ...Array.from({ length: HEAD_RING }, (_, step) => {
+      const angle = (step * Math.PI * 2) / HEAD_RING;
+      return {
+        x: centre.x + HEAD_SHOWN * head.r * Math.cos(angle),
+        y: centre.y + HEAD_SHOWN * head.r * Math.sin(angle),
+      };
+    }),
+  ];
+  const headBox = boxAround(points);
+  return covers.every(
+    ({ depth, drawn }) =>
+      depth <= place.y ||
+      drawn.every(
+        ({ outline, box }) =>
+          !boxesMeet(headBox, box) ||
+          points.every((point) => !containsPoint(outline, point)),
+      ),
+  );
+}
+
+/** Every standing mushroom of `mushrooms` on `layout`, as the flowers' sight reads it. */
+export function coversOn(
+  layout: MeadowLayout,
+  mushrooms: Stand['mushrooms'],
+): Cover[] {
+  return mushrooms.flatMap((mushroom) => {
+    const place = layout.mushrooms[mushroom.slot];
+    if (!place) return [];
+    const { depth, drawn } = standingAt(place, mushroom);
+    const outlines = drawn.map((outline) => ({
+      outline,
+      box: boxAround(outline),
+    }));
+    return [{ depth, drawn: outlines }];
+  });
+}
+
+/**
+ * Whether a flower planted at `place` on `layout` would stand on the ground,
+ * clear of every mushroom's foot and of the head of every flower of
+ * `standing`, and in sight there (`flowerInSight`).
+ */
+function plantable(
+  layout: MeadowLayout,
+  place: Footing,
+  standing: readonly StandingFlower[],
+  covers: readonly Cover[],
+): boolean {
+  const { width, groundTop, height, mushrooms } = layout;
+  const across = place.x / width;
+  const down = (place.y - groundTop) / (height - groundTop);
+  if (
+    across < FLOWER_ACROSS[0] ||
+    across > FLOWER_ACROSS[1] ||
+    down < FLOWER_DOWN[0] ||
+    down > FLOWER_DOWN[1] ||
+    !clearOfFeet(place, mushrooms)
+  ) {
+    return false;
+  }
+  const head = widestHead(place);
+  const apart = standing.every((flower) => {
+    const other = widestHead(flower.place);
+    return (
+      Math.hypot(head.x - other.x, head.y - other.y) >=
+      FLOWERS_APART * (head.r + other.r)
+    );
+  });
+  return (
+    apart &&
+    sightingsAt(place, layout).every((sighting) =>
+      flowerInSight(layout, sighting, covers),
+    )
+  );
+}
+
+/**
+ * Where a bee could plant round each flower of `shown`: the first ring slot
+ * no planted flower takes that is `plantable` on this screen and on the same
+ * screen turned, the flower standing on both.
+ */
+export function roomFor(
+  stand: Stand,
+  shown: readonly string[],
+  covers: readonly Cover[],
+): Plot['room'] {
+  const { layout, turned, flowers, planted, mushrooms } = stand;
+  const here = standingFlowers(layout, flowers, planted);
+  const there = standingFlowers(turned, flowers, planted);
+  const turnedCovers = coversOn(turned, mushrooms);
+  return shown.flatMap((id) => {
+    const parent = here.find((flower) => flower.id === id);
+    const turnedParent = there.find((flower) => flower.id === id);
+    if (!parent || !turnedParent) return [];
+    const ring = RING_SLOTS.findIndex((_, slot) => {
+      if (planted.some((each) => each.parent === id && each.ring === slot)) {
+        return false;
+      }
+      const spot = ringSpot(layout, parent.place, slot);
+      const turnedSpot = ringSpot(turned, turnedParent.place, slot);
+      return (
+        spot !== undefined &&
+        turnedSpot !== undefined &&
+        plantable(layout, spot, here, covers) &&
+        plantable(turned, turnedSpot, there, turnedCovers)
+      );
+    });
+    return ring === -1 ? [] : [{ flower: id, ring }];
+  });
+}

@@ -55,6 +55,7 @@ export class MeadowScene extends Phaser.Scene {
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
+  private turned: MeadowLayout | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Phaser.GameObjects.Graphics | undefined;
   private tufts: ReturnType<typeof growTufts> = [];
@@ -130,11 +131,11 @@ export class MeadowScene extends Phaser.Scene {
         furnish: (piece) => {
           this.dispatch({ kind: 'furnish', piece });
         },
-        release: () => {
-          this.voice.trill();
+        release: (insect) => {
+          this.voice.takeOff(insect);
           this.dispatch({
             kind: 'release',
-            insect: 'butterfly',
+            insect,
             seed: nextSeed(this.releasing),
             now: this.clock * 1000,
             ...this.sight,
@@ -212,8 +213,12 @@ export class MeadowScene extends Phaser.Scene {
     // A frame's tick with nothing due changes nothing, and costs nothing.
     if (meadow === this.meadow) return;
     const regrown = meadow.mushrooms !== this.meadow.mushrooms;
+    const sown = meadow.planted !== this.meadow.planted;
     this.meadow = meadow;
-    if (regrown) this.see();
+    if (sown) {
+      this.flowers?.reconcile(meadow.planted, this.requireLayout(), this.clock);
+    }
+    if (regrown || sown) this.see();
     this.bed?.reconcile(meadow, this.requireLayout(), this.clock);
     this.insects?.reconcile(meadow.insects);
     this.repaintControls();
@@ -235,7 +240,7 @@ export class MeadowScene extends Phaser.Scene {
         return this.bed?.capTop(perch.id, spot);
       }
       case 'flower': {
-        return this.flowers?.seat(perch.id, spot);
+        return this.flowers?.seat(perch.id, spot, insect.kind);
       }
       case 'air': {
         return this.air.get(perch.id);
@@ -320,6 +325,12 @@ export class MeadowScene extends Phaser.Scene {
       this.visitSeed ^ 0xf1_0e_25,
     );
     this.layout = layout;
+    // The same screen turned, which a flower is planted in sight on too.
+    this.turned = meadowLayout(
+      this.scale.height / ratio,
+      this.scale.width / ratio,
+      this.visitSeed ^ 0xf1_0e_25,
+    );
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random);
@@ -334,12 +345,13 @@ export class MeadowScene extends Phaser.Scene {
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand. */
   private see(): void {
-    const { layout, flowers, meadow } = this;
-    if (!layout || !meadow) return;
+    const { layout, turned, flowers, meadow } = this;
+    if (!layout || !turned || !meadow) return;
     this.sight = perchSight({
       layout,
+      turned,
       flowers: flowers?.seeded ?? [],
-      ...pick(meadow, 'mushrooms'),
+      ...pick(meadow, 'mushrooms', 'planted'),
     });
     this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
   }

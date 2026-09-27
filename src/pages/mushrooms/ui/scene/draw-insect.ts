@@ -46,12 +46,12 @@ export type InsectParts = Record<
 >;
 
 /** From the outlines' units to pixels, for an insect `size` to its unit. */
-function scaled(size: number): (point: Point) => Point {
+export function scaled(size: number): (point: Point) => Point {
   return ({ x, y }) => ({ x: x * size, y: y * size });
 }
 
 /** An ink line for an insect `size` across its unit, never under a hairline. */
-function inkFor(size: number): number {
+export function inkFor(size: number): number {
   return Math.max(1.5, size * 0.028);
 }
 
