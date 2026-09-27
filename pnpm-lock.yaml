@@ -114,6 +114,9 @@ importers:
       '@types/unist':
         specifier: ^3.0.3
         version: 3.0.3
+      esbuild:
+        specifier: 0.28.2
+        version: 0.28.2
       eslint:
         specifier: ^9
         version: 9.39.1(jiti@2.7.0)
