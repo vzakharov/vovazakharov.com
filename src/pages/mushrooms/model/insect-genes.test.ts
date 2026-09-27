@@ -1,18 +1,18 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { BUTTERFLY_LIMIT } from './flight';
 import { containsPoint, ellipse, type Point } from './geometry';
 import {
   BUTTERFLY_COLOURS,
+  BUTTERFLY_RANGES,
   EYE_RADIUS,
   EYE_RINGS,
-  INSECT_RANGES,
   insectGenes,
   PATTERN_TURN,
   PICTOGRAM_SEED,
 } from './insect-genes';
 import { eyeCentre, WING_PAIRS, wingOutline } from './insect-outline';
+import { INSECT_LIMITS } from './insects';
 import { mulberry32, nextSeed } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
@@ -20,7 +20,7 @@ const butterflies = SEEDS.map((seed) =>
   insectGenes({ seed, kind: 'butterfly' }),
 );
 
-/** Meadows of `BUTTERFLY_LIMIT` butterflies, their seeds drawn as the scene draws them. */
+/** Meadows of `INSECT_LIMITS.butterfly` butterflies, their seeds drawn as the scene draws them. */
 const SPREAD_SETS = 2000;
 const SPREAD_STREAM = 20_260_927;
 /**
@@ -31,8 +31,8 @@ const SPREAD_STREAM = 20_260_927;
 const MOST_REPEATING = 0.45;
 const MOST_TWO_TONED = 0.06;
 
-function inRange(name: keyof typeof INSECT_RANGES, value: number): void {
-  const [min, max] = INSECT_RANGES[name];
+function inRange(name: keyof typeof BUTTERFLY_RANGES, value: number): void {
+  const [min, max] = BUTTERFLY_RANGES[name];
   assert.ok(value >= min && value <= max, `${name} = ${String(value)}`);
 }
 
@@ -116,14 +116,14 @@ describe('insectGenes', () => {
     const stream = mulberry32(SPREAD_STREAM);
     const sets = Array.from({ length: SPREAD_SETS }, () =>
       Array.from(
-        { length: BUTTERFLY_LIMIT },
+        { length: INSECT_LIMITS.butterfly },
         () => insectGenes({ seed: nextSeed(stream), kind: 'butterfly' }).colour,
       ),
     );
     const distinct = sets.map((set) => new Set(set).size);
     const share = (holds: (size: number) => boolean) =>
       distinct.filter((size) => holds(size)).length / SPREAD_SETS;
-    assert.ok(share((size) => size < BUTTERFLY_LIMIT) < MOST_REPEATING);
+    assert.ok(share((size) => size < INSECT_LIMITS.butterfly) < MOST_REPEATING);
     assert.ok(share((size) => size <= 2) < MOST_TWO_TONED);
   });
 

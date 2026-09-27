@@ -6,7 +6,13 @@
  */
 
 import { distanceToEdge, ellipse, type Point, sample } from './geometry';
-import type { InsectGenes, Wing } from './insect-genes';
+import type {
+  ButterflyGenes,
+  Buzzing,
+  InsectBody,
+  InsectGenes,
+  Wing,
+} from './insect-genes';
 
 /** The wings a painter lays down together, the hind pair under the fore. */
 export const WING_PAIRS = ['hind', 'fore'] as const;
@@ -41,22 +47,26 @@ export type Side = -1 | 1;
 type Axis = { root: Point; along: Point; across: Point };
 
 /** The genes the body's outlines and the wings' roots are drawn from. */
-type BodyGenes = Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>;
+type BodyGenes = Pick<InsectBody, 'bodyLength' | 'bodyWidth'>;
 
-function axisOf(genes: BodyGenes, pair: WingPair, side: Side): Axis {
-  const angle = WING_ANGLE[pair];
+/**
+ * A wing's axis off `root`, the right side's root mirrored for the left, at
+ * `angle` in radians from +x with y down, mirrored the same way.
+ */
+function axisAt(root: Point, angle: number, side: Side): Axis {
   const along = { x: side * Math.cos(angle), y: Math.sin(angle) };
   // Of the two ways across the axis, the one toward the tail: every wing sweeps back.
   const turned = { x: -along.y, y: along.x };
   const across = turned.y < 0 ? { x: -turned.x, y: -turned.y } : turned;
-  return {
-    root: {
-      x: side * genes.bodyWidth * 0.3,
-      y: genes.bodyLength * WING_ROOT[pair],
-    },
-    along,
-    across,
+  return { root: { ...root, x: side * root.x }, along, across };
+}
+
+function axisOf(genes: BodyGenes, pair: WingPair, side: Side): Axis {
+  const root = {
+    x: genes.bodyWidth * 0.3,
+    y: genes.bodyLength * WING_ROOT[pair],
   };
+  return axisAt(root, WING_ANGLE[pair], side);
 }
 
 /** How far to either side of its axis a wing reaches, `u` of the way out. */
@@ -84,18 +94,20 @@ function onWing(axis: Axis, wing: Wing, u: number, v: number): Point {
  * root: 1 for the whole wing, `INNER_*` for the base colour inside its band.
  */
 export function wingOutline(
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   pair: WingPair,
   side: Side,
   [reach, breadth]: readonly [number, number] = [1, 1],
 ): Point[] {
-  const axis = axisOf(genes, pair, side);
   const own = genes[pair];
-  const wing = {
+  return outlineAlong(axisOf(genes, pair, side), {
     ...own,
     length: own.length * reach,
     breadth: own.breadth * breadth,
-  };
+  });
+}
+
+function outlineAlong(axis: Axis, wing: Wing): Point[] {
   const out = sample(0, 1, WING_STEPS, (u) => u);
   return [
     ...out.map((u) => onWing(axis, wing, u, halfWidth(wing, u))),
@@ -111,7 +123,7 @@ export function wingOutline(
  * falls, the light coming from above.
  */
 export function wingTrailingEdge(
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   pair: WingPair,
   side: Side,
 ): Point[] {
@@ -124,7 +136,7 @@ export function wingTrailingEdge(
 
 /** The middle of a wing's eye: `eyeAt` of the way out, on its swept axis. */
 export function eyeCentre(
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   pair: WingPair,
   side: Side,
 ): Point {
@@ -135,7 +147,7 @@ export function eyeCentre(
  * How far a wing's eye could reach before it met the wing's edge, as a share
  * of that wing's breadth: the unit the eye rings are measured in.
  */
-export function eyeRoom(genes: InsectGenes, pair: WingPair): number {
+export function eyeRoom(genes: ButterflyGenes, pair: WingPair): number {
   return (
     distanceToEdge(wingOutline(genes, pair, 1), eyeCentre(genes, pair, 1)) /
     genes[pair].breadth
@@ -174,8 +186,40 @@ export function antenna(genes: BodyGenes, side: Side): Point[] {
   }));
 }
 
-/** How far an insect's open wings reach from side to side, in units of its size. */
+/**
+ * A fly's or a bee's wing's angle off the body, in radians from +x with y
+ * down, laid back over the body at rest and spread up and out in flight.
+ */
+const BUZZ_WING_ANGLE = { rest: 1.25, open: -0.25 } as const;
+/** Where a fly's or a bee's wings root on the body, as shares of its width out and its length down from the middle. */
+const BUZZ_ROOT = { out: 0.3, down: -0.18 } as const;
+
+/**
+ * One of a fly's or a bee's two wings, `spread` of the way from laid back
+ * over the body (0) to open (1): the angle turns, the shape is the same.
+ */
+export function buzzWing(genes: Buzzing, side: Side, spread: number): Point[] {
+  const { rest, open } = BUZZ_WING_ANGLE;
+  const root = {
+    x: genes.bodyWidth * BUZZ_ROOT.out,
+    y: genes.bodyLength * BUZZ_ROOT.down,
+  };
+  return outlineAlong(
+    axisAt(root, rest + (open - rest) * spread, side),
+    genes.wing,
+  );
+}
+
+/**
+ * How far an insect reaches from side to side, in units of its size: a
+ * butterfly's open wings, or a fly's or a bee's open wings or its body,
+ * whichever is wider.
+ */
 export function wingspan(genes: InsectGenes): number {
+  if (genes.kind !== 'butterfly') {
+    const xs = buzzWing(genes, 1, 1).map(({ x }) => x);
+    return Math.max(genes.bodyWidth / 2, ...xs) * 2;
+  }
   const xs = WING_PAIRS.flatMap((pair) =>
     wingOutline(genes, pair, 1).map(({ x }) => x),
   );

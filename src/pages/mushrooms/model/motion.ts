@@ -194,6 +194,19 @@ export function launch(elapsed: number): { scale: number; travel: number } {
   return { scale: (1 - t) * (1 + LAUNCH_POP * t), travel: t * t };
 }
 
+/** A wave from 0 to 1 and back over `period`, starting at 0 when `phase` is, `time` in the same unit. */
+export const wave = (time: number, period: number, phase: number) =>
+  0.5 - 0.5 * Math.cos((Math.PI * 2 * time) / period + phase);
+
+/**
+ * How far into its round of `period` `time` is, from 0 up to `period`, the
+ * round starting `phase` of a turn early; `time` in the same unit.
+ */
+export function roundAt(time: number, period: number, phase: number): number {
+  const shifted = time + (phase / (Math.PI * 2)) * period;
+  return ((shifted % period) + period) % period;
+}
+
 /** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
 export const smooth = (t: number) => {
   const clamped = Math.min(1, Math.max(0, t));

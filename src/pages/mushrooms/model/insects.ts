@@ -2,11 +2,12 @@
  * The meadow's insects under `release`, `startle` and `tick`: each keeps its
  * own leg, and these decide when it takes the next one. `perches` is what
  * the meadow offers now; a new leg never goes to a perch another insect sits
- * on or is heading to, nor to one crowded by it (`nextFlight`).
+ * on or is heading to, nor to one crowded by it (`nextFlight`). A bee
+ * leaving a flower it pollinated plants one beside it (`sown`), so these
+ * hand back the planted flowers with the insects.
  */
 
 import {
-  BUTTERFLY_LIMIT,
   firstFlight,
   type Flight,
   flightAway,
@@ -17,13 +18,34 @@ import {
   type Perch,
   type Perches,
 } from './flight';
-import type { Insect, InsectKind } from './insect-genes';
+import type { Insect, InsectKind, OfKind } from './insect-genes';
+import {
+  type Carrying,
+  NO_POLLEN,
+  type Plot,
+  pollenAfter,
+  type Sown,
+  sown,
+} from './pollen';
 
-export type Flier = Insect & Flight;
+/** A kind that carries no pollen. */
+type Visitor = OfKind<Exclude<InsectKind, 'bee'>>;
+/** A bee, and the pollen it carries: only a bee has any. */
+type Pollinator = OfKind<'bee'> & Carrying;
+export type Flier = Insect & Flight & (Visitor | Pollinator);
+
+/**
+ * What the insects make of the meadow: the fliers, in the order they were
+ * released, so the first is the oldest; and the flowers the bees planted, in
+ * the order they opened.
+ */
+export type Swarm = { insects: readonly Flier[]; planted: readonly Sown[] };
 
 /** How many of each kind the meadow holds before the oldest leaves. */
-const INSECT_LIMITS = {
-  butterfly: BUTTERFLY_LIMIT,
+export const INSECT_LIMITS = {
+  butterfly: 4,
+  fly: 3,
+  bee: 3,
 } as const satisfies Record<InsectKind, number>;
 
 /**
@@ -51,71 +73,113 @@ function takenBy(insects: readonly Flight[], self?: Flight): Perch[] {
     .map(({ leg }) => leg.to);
 }
 
+/** `after`, or `before` when nothing was planted onto it, so an unchanged list keeps its identity. */
+const plantedOnto = (before: readonly Sown[], after: readonly Sown[]) =>
+  after.length === before.length ? before : after;
+
+/** `insect` setting off on `flight`, its first, a bee with no pollen yet. */
+function flierOf(insect: Insect, flight: Flight): Flier {
+  const { kind } = insect;
+  return kind === 'bee'
+    ? { ...insect, ...flight, kind, pollen: NO_POLLEN }
+    : { ...insect, ...flight, kind };
+}
+
 /**
- * `insects` with `insect` flying in from `now`. At its kind's limit, the
+ * `flier` setting off on `flight` at `now`. A bee carries its pollen on
+ * (`pollenAfter`), and one leaving a flower it pollinated plants a flower
+ * there, onto `planted`, when `plot` has room (`sown`).
+ */
+function tookOff(
+  flier: Flier,
+  flight: Flight,
+  now: number,
+  plot: Plot,
+  planted: Sown[],
+): Flier {
+  if (flier.kind !== 'bee') return { ...flier, ...flight };
+  const flower = sown(flier, now, plot, planted);
+  if (flower !== undefined) planted.push(flower);
+  const pollen = pollenAfter(flier.pollen, flier.leg, now, flight.leg);
+  return { ...flier, ...flight, pollen };
+}
+
+/**
+ * `swarm` with `insect` flying in from `now`. At its kind's limit, the
  * oldest of that kind not already leaving flies away from `now`, so a release
  * always acts.
  */
 export function released(
-  insects: readonly Flier[],
+  swarm: Swarm,
   insect: Insect,
   perches: Perches,
   now: number,
-): Flier[] {
-  const oldest = evicted(insects, insect.kind, INSECT_LIMITS);
-  const staying = insects.map((each) =>
-    each === oldest ? { ...each, ...flightAway(each, now) } : each,
+): Swarm {
+  const oldest = evicted(swarm.insects, insect.kind, INSECT_LIMITS);
+  const planted = [...swarm.planted];
+  const staying = swarm.insects.map((each) =>
+    each === oldest
+      ? tookOff(each, flightAway(each, now), now, perches, planted)
+      : each,
   );
-  return [
-    ...staying,
-    { ...insect, ...firstFlight(insect, perches, now, takenBy(staying)) },
-  ];
+  const flight = firstFlight(insect, perches, now, takenBy(staying));
+  return {
+    insects: [...staying, flierOf(insect, flight)],
+    planted: plantedOnto(swarm.planted, planted),
+  };
 }
 
 /**
- * `insects` with the one called `id` taking off from `now`, when it is at
- * rest; an insect in the air, or none by that id, leaves them as they were.
+ * `swarm` with the insect called `id` taking off from `now`, when it is at
+ * rest; an insect in the air, or none by that id, leaves the swarm as it
+ * was, the same object.
  */
 export function startled(
-  insects: readonly Flier[],
+  swarm: Swarm,
   id: string,
   perches: Perches,
   now: number,
-): readonly Flier[] {
+): Swarm {
+  const { insects } = swarm;
   const insect = insects.find((each) => each.id === id);
-  if (insect === undefined || isAloft(insect, now)) return insects;
+  if (insect === undefined || isAloft(insect, now)) return swarm;
   const taken = takenBy(insects, insect);
-  return insects.map((each) =>
-    each === insect
-      ? { ...each, ...nextFlight(each, perches, now, taken) }
-      : each,
-  );
+  const planted = [...swarm.planted];
+  const flight = nextFlight(insect, perches, now, taken);
+  return {
+    insects: insects.map((each) =>
+      each === insect ? tookOff(each, flight, now, perches, planted) : each,
+    ),
+    planted: plantedOnto(swarm.planted, planted),
+  };
 }
 
 /**
- * `insects` at `now`: one whose stay is over, or whose perch the meadow no
- * longer offers, takes its next leg from `now`; one whose flight away has
+ * `swarm` at `now`: an insect whose stay is over, or whose perch the meadow
+ * no longer offers, takes its next leg from `now`; one whose flight away has
  * landed is gone. They are taken in order, each new leg seeing the ones
  * before it already taken, so two due on one frame never pick one perch.
- * The same array comes back when nothing is due, so a frame with nothing to
+ * The same object comes back when nothing is due, so a frame with nothing to
  * do changes nothing.
  */
-export function ticked(
-  insects: readonly Flier[],
-  perches: Perches,
-  now: number,
-): readonly Flier[] {
+export function ticked(swarm: Swarm, perches: Perches, now: number): Swarm {
+  const { insects } = swarm;
   let changed = false;
   const next: Flier[] = [...insects];
+  const planted = [...swarm.planted];
   for (const [index, insect] of insects.entries()) {
     if (isLeaving(insect)) {
       if (now >= insect.leg.arrives) changed = true;
     } else if (now >= insect.leg.leaves || !isOffered(insect.leg.to, perches)) {
       changed = true;
       const taken = takenBy(next, insect);
-      next[index] = { ...insect, ...nextFlight(insect, perches, now, taken) };
+      const flight = nextFlight(insect, perches, now, taken);
+      next[index] = tookOff(insect, flight, now, perches, planted);
     }
   }
-  if (!changed) return insects;
-  return next.filter((each) => !isLeaving(each) || now < each.leg.arrives);
+  if (!changed) return swarm;
+  return {
+    insects: next.filter((each) => !isLeaving(each) || now < each.leg.arrives),
+    planted: plantedOnto(swarm.planted, planted),
+  };
 }

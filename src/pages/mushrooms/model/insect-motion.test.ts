@@ -1,38 +1,33 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  DRINKING,
-  firstFlight,
-  type Flight,
-  flightAway,
-  FLYING,
-} from './flight';
+import { firstFlight, type Flight, FLIGHT_HABITS, flightAway } from './flight';
 import type { Point } from './geometry';
 import {
   bodyTurn,
   carriedFrom,
   drinkDip,
   drinking,
-  flightPoint,
   flyingTurn,
-  heading,
   LANDING,
   landingBob,
-  MAX_TILT,
-  type Path,
   proboscis,
   REST_LEAN,
   restTurn,
   type Stay,
-  tilt,
   turned,
   type Turns,
   wingBeat,
   wrap,
 } from './insect-motion';
+import { flightPoint, heading, type Path } from './insect-paths';
 import { ticked } from './insects';
 import { between, mulberry32, type Random } from './random';
+
+const kind = 'butterfly' as const;
+const { flying: FLYING, drinking: DRINKING } = FLIGHT_HABITS[kind];
+/** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
+const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
 
 /** A leg with its stay, flown from one point to another. */
 type Flown = Path & Stay;
@@ -49,83 +44,17 @@ const PATH: Flown = {
   drink: 0,
 };
 const PHASES = [0, 0.7, 2, 3.5, 5.9];
-const flier = (phase: number) => ({ phase, flutter: 12 });
+const flier = (phase: number) => ({ phase, flutter: 12, kind });
 const times = (from: number, to: number, step: number) =>
   Array.from(
     { length: Math.floor((to - from) / step) + 1 },
     (_, index) => from + index * step,
   );
 
-describe('flightPoint', () => {
-  it('starts exactly at the start and ends exactly at the end', () => {
-    for (const phase of PHASES) {
-      assert.deepEqual(
-        flightPoint(PATH, PATH.departs, flier(phase)),
-        PATH.start,
-      );
-      assert.deepEqual(flightPoint(PATH, 0, flier(phase)), PATH.start);
-      assert.deepEqual(flightPoint(PATH, PATH.arrives, flier(phase)), PATH.end);
-      assert.deepEqual(flightPoint(PATH, 99_999, flier(phase)), PATH.end);
-    }
-  });
-
-  it('comes in to the end without a jump', () => {
-    for (const phase of PHASES) {
-      const near = flightPoint(PATH, PATH.arrives - 16, flier(phase));
-      const gap = Math.hypot(near.x - PATH.end.x, near.y - PATH.end.y);
-      assert.ok(gap < 3, `gap ${String(gap)} a frame before landing`);
-    }
-  });
-
-  it('moves little from one frame to the next, all the way', () => {
-    for (const phase of PHASES) {
-      let last = flightPoint(PATH, PATH.departs - 16, flier(phase));
-      for (const now of times(PATH.departs, PATH.arrives + 64, 16)) {
-        const here = flightPoint(PATH, now, flier(phase));
-        assert.ok(Math.hypot(here.x - last.x, here.y - last.y) < 12);
-        last = here;
-      }
-    }
-  });
-
-  it('bows off the straight line mid-flight', () => {
-    const mid = flightPoint(PATH, 2000, { phase: 0, flutter: 0 });
-    const straight = { x: 130, y: 190 };
-    assert.ok(Math.hypot(mid.x - straight.x, mid.y - straight.y) > 20);
-  });
-
-  it('stays put on a flight to where it already is', () => {
-    const still = { ...PATH, end: PATH.start };
-    const here = flightPoint(still, 2000, { phase: 1, flutter: 0 });
-    assert.deepEqual(here, PATH.start);
-  });
-});
-
-describe('heading and tilt', () => {
-  it('faces the way the curve goes, and lands facing the way it came', () => {
-    const toward = Math.atan2(140, 340);
-    for (const phase of PHASES) {
-      const off = heading(PATH, PATH.departs, { phase });
-      const on = heading(PATH, PATH.arrives, { phase });
-      assert.ok(Math.abs(off - toward) < 1 && Math.abs(on - toward) < 1);
-      assert.notEqual(off, on);
-    }
-  });
-
-  it('banks into the turn mid-flight and is level at both ends', () => {
-    for (const phase of PHASES) {
-      assert.equal(Math.abs(tilt(PATH, PATH.departs, { phase })), 0);
-      assert.ok(Math.abs(tilt(PATH, PATH.arrives, { phase })) < 1e-9);
-      const mid = tilt(PATH, 2000, { phase });
-      assert.ok(Math.abs(Math.abs(mid) - MAX_TILT) < 1e-9);
-    }
-  });
-});
-
 /** How far the wings swing between `from` and `to`. */
 function swing(from: number, to: number, path = PATH): number {
   const beats = times(from, to, 5).map((now) =>
-    wingBeat(path, now, { phase: 0 }),
+    wingBeat(path, now, { phase: 0, kind }),
   );
   return Math.max(...beats) - Math.min(...beats);
 }
@@ -136,7 +65,7 @@ describe('wingBeat', () => {
   it('stays between closed and open', () => {
     for (const phase of PHASES) {
       for (const now of all) {
-        const open = wingBeat(PATH, now, { phase });
+        const open = wingBeat(PATH, now, { phase, kind });
         assert.ok(open >= 0 && open <= 1, `open ${String(open)}`);
       }
     }
@@ -151,7 +80,8 @@ describe('wingBeat', () => {
     for (const phase of PHASES) {
       for (const now of times(PATH.departs - 300, PATH.arrives + 700, 1)) {
         const step = Math.abs(
-          wingBeat(PATH, now + 1, { phase }) - wingBeat(PATH, now, { phase }),
+          wingBeat(PATH, now + 1, { phase, kind }) -
+            wingBeat(PATH, now, { phase, kind }),
         );
         assert.ok(step < 0.05, `step ${String(step)} at ${String(now)}`);
       }
@@ -193,7 +123,11 @@ function swaying(random: Random): (now: number) => Point {
  */
 function turnsOverLegs(seed: number): number[] {
   const random = mulberry32(seed);
-  const phased = { phase: between(random, 0, Math.PI * 2), flutter: 12 };
+  const phased = {
+    phase: between(random, 0, Math.PI * 2),
+    flutter: 12,
+    kind,
+  };
   const rotations: number[] = [];
   let at = { x: -40, y: 300 };
   let sat: number | undefined;
@@ -275,7 +209,7 @@ function pointAt({ before, after, cut }: Cut, now: number): Point {
 }
 
 function wingsAt({ before, after, cut }: Cut, now: number): number {
-  return wingBeat(now < cut ? before : after, now, { phase: 0 });
+  return wingBeat(now < cut ? before : after, now, { phase: 0, kind });
 }
 
 function stepAt(flight: Cut, now: number, frame: number): number {
@@ -287,7 +221,7 @@ describe('a leg that cuts a flight short', () => {
   const butterfly = { id: 'b', kind: 'butterfly', seed: 4321 } as const;
   const first = firstFlight(
     butterfly,
-    { caps: ['cap'], flowers: [], air: [], crowded: [] },
+    { caps: ['cap'], flowers: [], air: [], crowded: [], ...BARE },
     0,
   );
   const cut = (first.leg.departs + first.leg.arrives) / 2;
@@ -303,10 +237,10 @@ describe('a leg that cuts a flight short', () => {
     'sent away mid-flight': flightAway({ ...butterfly, ...first }, cut),
     'its cap gone mid-flight':
       ticked(
-        [{ ...butterfly, ...first }],
-        { caps: ['other'], flowers: [], air: [], crowded: [] },
+        { insects: [{ ...butterfly, ...first }], planted: [] },
+        { caps: ['other'], flowers: [], air: [], crowded: [], ...BARE },
         cut,
-      )[0] ?? first,
+      ).insects[0] ?? first,
   };
 
   for (const [name, { leg }] of Object.entries(cuts)) {
@@ -369,13 +303,13 @@ describe('drinking and proboscis', () => {
       const rest =
         1 - 0.7 * (0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / 2600 + 1));
       const settled = now > PATH.arrives + 500;
-      if (settled) assert.equal(wingBeat(PATH, now, { phase: 1 }), rest);
+      if (settled) assert.equal(wingBeat(PATH, now, { phase: 1, kind }), rest);
     }
   });
 
   it('holds its wings half shut while drinking', () => {
     const drinkSwing = times(5000, 7000, 5).map((now) =>
-      wingBeat(FLOWER, now, { phase: 0 }),
+      wingBeat(FLOWER, now, { phase: 0, kind }),
     );
     assert.ok(Math.max(...drinkSwing) <= 0.6 + 1e-9);
     assert.ok(swing(5000, 7600) > 0.6);
@@ -396,7 +330,7 @@ describe('drinking and proboscis', () => {
     assert.ok(largestStep(reach, cut - 50, cut + 600) < 0.01);
     assert.equal(reach(cut + 500), 0);
     const wings = (now: number) =>
-      wingBeat(now < cut ? FLOWER : after, now, { phase: 0 });
+      wingBeat(now < cut ? FLOWER : after, now, { phase: 0, kind });
     assert.ok(largestStep(wings, cut - 50, cut + 50) < 0.05);
   });
 });

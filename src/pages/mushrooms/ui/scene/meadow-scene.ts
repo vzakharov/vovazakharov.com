@@ -86,7 +86,13 @@ export class MeadowScene extends Phaser.Scene {
   private insects: InsectView | undefined;
   private readonly shownFlowers = new Map<string, ShownFlower>();
   /** What the insects see of the perches, as the screen and the mushrooms stand now. */
-  private sight: Sight = { flowers: [], air: [], crowded: [] };
+  private sight: Sight = {
+    flowers: [],
+    air: [],
+    crowded: [],
+    room: [],
+    seededFlowers: 0,
+  };
   /** Where each spot in the open air stands, by id, as the screen stands now. */
   private air = new Map<string, Point>();
   private readonly voice = new MeadowSound(readMuted());

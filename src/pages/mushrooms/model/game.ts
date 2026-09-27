@@ -16,7 +16,7 @@ import {
   windowSlots,
 } from './house';
 import type { InsectKind } from './insect-genes';
-import { type Flier, released, startled, ticked } from './insects';
+import { released, startled, type Swarm, ticked } from './insects';
 import {
   type CapKind,
   firstMushrooms,
@@ -35,7 +35,7 @@ export const MUSHROOM_SLOTS = 6;
 type Slotted = { slot: number };
 export type Planted = Mushroom & Housed & Slotted;
 
-export type Meadow = {
+export type Meadow = Swarm & {
   /** In the order they were planted, so the last is the newest. */
   mushrooms: readonly Planted[];
   selected: string | undefined;
@@ -45,8 +45,6 @@ export type Meadow = {
   furnishing: boolean;
   /** How many mushrooms the meadow has ever grown, so every id is new. */
   grown: number;
-  /** In the order they were released, so the first is the oldest. */
-  insects: readonly Flier[];
   /** How many insects the meadow has ever released, so every id is new. */
   released: number;
 };
@@ -80,6 +78,7 @@ export function firstMeadow(random: Random): Meadow {
     furnishing: false,
     grown: mushrooms.length,
     insects: [],
+    planted: [],
     released: 0,
   };
 }
@@ -150,10 +149,15 @@ export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
 }
 
 /** Every perch an insect can go to: the mushrooms still standing, and what the scene sees. */
-const perchesOf = (
-  { mushrooms }: Meadow,
-  { flowers, air, crowded }: Sight,
-): Perches => ({ caps: mushrooms.map(({ id }) => id), flowers, air, crowded });
+const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
+  ...sight,
+  caps: mushrooms.map(({ id }) => id),
+  spotted: mushrooms.filter(({ cap }) => cap === 'spotted').map(({ id }) => id),
+});
+
+/** `meadow` with what the insects made of it, the same object when they changed nothing. */
+const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
+  swarm === meadow ? meadow : { ...meadow, ...swarm };
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
   const taken = new Set(mushrooms.map(({ slot }) => slot));
@@ -244,31 +248,17 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const insect = { id: `${kind}-${count}`, seed, kind };
       return {
         ...meadow,
-        insects: released(
-          meadow.insects,
-          insect,
-          perchesOf(meadow, action),
-          now,
-        ),
+        ...released(meadow, insect, perchesOf(meadow, action), now),
         released: count,
       };
     }
     case 'startle': {
-      const insects = startled(
-        meadow.insects,
-        action.id,
-        perchesOf(meadow, action),
-        action.now,
-      );
-      return insects === meadow.insects ? meadow : { ...meadow, insects };
+      const perches = perchesOf(meadow, action);
+      return swarmed(meadow, startled(meadow, action.id, perches, action.now));
     }
     case 'tick': {
-      const insects = ticked(
-        meadow.insects,
-        perchesOf(meadow, action),
-        action.now,
-      );
-      return insects === meadow.insects ? meadow : { ...meadow, insects };
+      const perches = perchesOf(meadow, action);
+      return swarmed(meadow, ticked(meadow, perches, action.now));
     }
     default: {
       return action satisfies never;

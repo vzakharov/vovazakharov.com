@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { WithId } from '@/shared/typings';
 
-import { BUTTERFLY_LIMIT, isSeat } from '../../model/flight';
+import { isSeat } from '../../model/flight';
 import {
   firstFlowers,
   flowerGenes,
@@ -13,7 +13,7 @@ import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import { containsPoint, type Point } from '../../model/geometry';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
-import type { Flier } from '../../model/insects';
+import { type Flier, INSECT_LIMITS } from '../../model/insects';
 import { CAP_KINDS } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingAt } from './door-sight';
@@ -256,7 +256,7 @@ describe('airSpots', () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
         const spots = airSpots(layout);
-        assert.ok(spots.length > BUTTERFLY_LIMIT);
+        assert.ok(spots.length > INSECT_LIMITS.butterfly);
         const { mute, plus, minus, house, butterfly, picker } = layout;
         const { insectSize, groundTop } = layout;
         const span = WIDEST_SPAN * insectSize;

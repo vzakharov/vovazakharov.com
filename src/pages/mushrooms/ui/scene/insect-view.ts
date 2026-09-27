@@ -7,19 +7,21 @@ import type { Point } from '../../model/geometry';
 import { type InsectGenes, insectGenes } from '../../model/insect-genes';
 import {
   bodyTurn,
-  type Carried,
   carriedFrom,
-  flightPoint,
   flyingTurn,
-  heading,
   landingBob,
-  type Path,
   proboscis,
   turned,
   type Turns,
   wingBeat,
 } from '../../model/insect-motion';
 import { type Side as BodySide, wingspan } from '../../model/insect-outline';
+import {
+  type Carried,
+  flightPoint,
+  heading,
+  type Path,
+} from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { phaseOf, wobble } from '../../model/motion';
 import { inBody } from '../../model/proboscis';
@@ -171,7 +173,11 @@ export class InsectView {
   private fly(shown: Shown, t: number, perchAt: PerchAt): void {
     const now = t * 1000;
     const { leg } = shown.flier;
-    const motion = { ...pick(shown, 'phase'), flutter: this.size * FLUTTER };
+    const motion = {
+      ...pick(shown, 'phase'),
+      ...pick(shown.flier, 'kind'),
+      flutter: this.size * FLUTTER,
+    };
     const start = this.toScreen(shown.from);
     const seated =
       leg.to.kind === 'away' ? undefined : perchAt(leg.to, shown.flier);
@@ -233,6 +239,8 @@ export class InsectView {
 
   private paintProboscis(shown: Shown): void {
     const { genes, reach, nectar, side = 1 } = shown;
+    // Only the butterfly has a painter yet; a fly or a bee is left unpainted.
+    if (genes.kind !== 'butterfly') return;
     paintProboscis(shown.proboscis.clear(), genes, this.size, {
       reach,
       nectar,
@@ -294,7 +302,10 @@ export class InsectView {
   }
 
   private draw(shown: Shown): void {
-    drawInsect(shown, shown.genes, this.size);
+    // Only the butterfly has a painter yet; a fly or a bee is left unpainted.
+    if (shown.genes.kind === 'butterfly') {
+      drawInsect(shown, shown.genes, this.size);
+    }
     this.paintProboscis(shown);
     shown.hit.setTo(0, 0, tapReach((wingspan(shown.genes) * this.size) / 2));
   }

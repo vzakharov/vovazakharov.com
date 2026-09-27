@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import { type Point, sample } from '../../model/geometry';
-import type { InsectGenes } from '../../model/insect-genes';
+import type { ButterflyGenes } from '../../model/insect-genes';
 import {
   ABDOMEN,
   antenna,
@@ -55,7 +55,7 @@ function inkFor(size: number): number {
   return Math.max(1.5, size * 0.028);
 }
 
-function hues(genes: InsectGenes) {
+function hues(genes: ButterflyGenes) {
   return {
     base: nudgeHue(PALETTE.butterflies[genes.colour], genes.hueNudge),
     pattern: nudgeHue(PALETTE.butterflies[genes.pattern], genes.patternNudge),
@@ -65,7 +65,7 @@ function hues(genes: InsectGenes) {
 /** One pair of wings into `graphics`, both sides mirrored about its own position, the body's middle. */
 export function paintWings(
   graphics: Phaser.GameObjects.Graphics,
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   pair: WingPair,
   size: number,
 ): void {
@@ -144,7 +144,7 @@ export function paintWings(
 /** The body into `graphics`, antennae included, about its own position. */
 export function paintBody(
   graphics: Phaser.GameObjects.Graphics,
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   size: number,
 ): void {
   const at = scaled(size);
@@ -215,7 +215,7 @@ export type Reaching = { reach: number; nectar: Point; side: Side };
 /** The proboscis into `graphics`, about the body's middle (`proboscisLine`). */
 export function paintProboscis(
   graphics: Phaser.GameObjects.Graphics,
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   size: number,
   { reach, nectar, side }: Reaching,
 ): void {
@@ -234,7 +234,7 @@ export function paintProboscis(
 /** Paints a butterfly `size` to its unit into its parts, each about its own position. */
 export function drawInsect(
   { hind, fore, body }: InsectParts,
-  genes: InsectGenes,
+  genes: ButterflyGenes,
   size: number,
 ): void {
   paintWings(hind.clear(), genes, 'hind', size);

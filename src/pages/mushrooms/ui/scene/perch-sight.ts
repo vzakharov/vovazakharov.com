@@ -283,5 +283,12 @@ export function perchSight(stand: Stand): Sight {
       )
       .map((other) => [perch, other.perch] as const),
   );
-  return { flowers: shown, air: airSpots(layout).map(({ id }) => id), crowded };
+  return {
+    flowers: shown,
+    air: airSpots(layout).map(({ id }) => id),
+    crowded,
+    // No ring slot is offered yet, so no bee plants.
+    room: [],
+    seededFlowers: flowers.length,
+  };
 }

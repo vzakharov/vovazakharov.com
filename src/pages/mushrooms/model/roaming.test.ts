@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import {
   firstFlight,
   type Flight,
-  FLYING,
+  FLIGHT_HABITS,
   isSeat,
   nextFlight,
   type Perch,
@@ -13,22 +13,29 @@ import {
 import type { Point } from './geometry';
 import {
   bodyTurn,
-  type Carried,
   carriedFrom,
-  flightPoint,
   flyingTurn,
-  heading,
-  type Path,
   turned,
   type Turns,
   wrap,
 } from './insect-motion';
+import { type Carried, flightPoint, heading, type Path } from './insect-paths';
 import { between, mulberry32 } from './random';
+
+const { flying: FLYING } = FLIGHT_HABITS.butterfly;
+/** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
+const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
 
 /** A roaming butterfly's spots in the air, and the cap it perches on once that frees up. */
 const AIR = Array.from({ length: 8 }, (_, index) => `air-${String(index)}`);
 const CAP = { kind: 'cap', id: 'cap' } as const;
-const PERCHES: Perches = { caps: ['cap'], flowers: [], air: AIR, crowded: [] };
+const PERCHES: Perches = {
+  caps: ['cap'],
+  flowers: [],
+  air: AIR,
+  crowded: [],
+  ...BARE,
+};
 /** How many legs it roams before the cap frees up, and the frame the view flies at, in ms. */
 const ROAMS = 5;
 const FRAME = 16;
@@ -57,8 +64,12 @@ function roamed(seed: number): {
   const capAt = { x: 600, y: 620 };
   const where = (perch: Perch): Point =>
     perch.kind === 'air' ? (spots.get(perch.id) ?? capAt) : capAt;
-  const motion = { phase: between(random, 0, Math.PI * 2), flutter: 12 };
-  let flight = firstFlight({ seed }, PERCHES, 0, [CAP]);
+  const motion = {
+    phase: between(random, 0, Math.PI * 2),
+    flutter: 12,
+    kind: 'butterfly',
+  } as const;
+  let flight = firstFlight({ seed, kind: 'butterfly' }, PERCHES, 0, [CAP]);
   let carried: Carried = { launch: 0, speed: 0, drink: 0 };
   let at = { x: -80, y: 300 };
   let start = at;
@@ -74,7 +85,12 @@ function roamed(seed: number): {
     if (now >= leg.leaves) {
       const last = { ...leg, ...carried };
       const taken = legs.length > ROAMS ? [] : [CAP];
-      flight = nextFlight({ seed, ...flight }, PERCHES, now, taken);
+      flight = nextFlight(
+        { seed, kind: 'butterfly', ...flight },
+        PERCHES,
+        now,
+        taken,
+      );
       carried = carriedFrom(last, now);
       const { leg: next } = flight;
       legs.push({ ...next, ...carried });

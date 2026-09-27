@@ -14,7 +14,7 @@ import {
   State,
 } from './mushroom-probe.ts';
 
-/** How many butterflies are released: one past `BUTTERFLY_LIMIT` in `model/flight.ts`. */
+/** How many butterflies are released: one past `INSECT_LIMITS.butterfly` in `model/insects.ts`. */
 const RELEASES = 5;
 /** How long a landing's bob lasts, in ms: `LANDING` in `model/insect-motion.ts`. */
 const LANDING = 450;

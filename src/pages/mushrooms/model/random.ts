@@ -30,12 +30,39 @@ export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
 }
 
+/** A whole number from `least` to `most`, each as likely. */
+export function countFrom(
+  random: Random,
+  [least, most]: readonly [number, number],
+): number {
+  return least + Math.floor(random() * (most - least + 1));
+}
+
 /** One of `items`, each as likely as the next. */
 export function pick<Item>(
   random: Random,
   items: readonly [Item, ...Item[]],
 ): Item {
   return items[Math.floor(random() * items.length)] ?? items[0];
+}
+
+/**
+ * One of `items`, each as likely as its `weight` says: one with weight 3 is
+ * three times as likely as one with weight 1. Draws once, as `pick` does, so
+ * where every weight is 1 it picks what `pick` would.
+ */
+export function weighted<Item>(
+  random: Random,
+  items: readonly [Item, ...Item[]],
+  weight: (item: Item) => number,
+): Item {
+  const total = items.reduce((sum, item) => sum + weight(item), 0);
+  let left = random() * total;
+  for (const item of items) {
+    left -= weight(item);
+    if (left < 0) return item;
+  }
+  return items.at(-1) ?? items[0];
 }
 
 /** Each named gene's `[min, max]`, the bounds it is drawn between. */

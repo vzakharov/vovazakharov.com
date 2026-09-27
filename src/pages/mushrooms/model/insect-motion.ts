@@ -5,42 +5,30 @@
  */
 
 import type { Leg, Perch, Span } from './flight';
-import type { Point } from './geometry';
-import { type Phased, smooth } from './motion';
-
-/**
- * What a leg carries over from the one before as it sets off: `launch`, how
- * far aloft the flier was, from 0 sitting on its perch to 1 in the air, so a
- * leg that starts in the air beats on rather than taking off again; `speed`,
- * how fast it was still flying, from 0 still — on a perch, or hovering where
- * a flight through the air came to — to 1 mid-flight, so a leg that cuts a
- * flight short flies on rather than setting off from still; `drink`, how far
- * into a drink it was, so a drink cut short curls up rather than vanishing.
- */
-export type Carried = { launch: number; speed: number; drink: number };
-
-/** A leg as the motion reads it: its timing and what it carried over. */
-type Launched = Span & Carried;
+import type { InsectKind } from './insect-genes';
+import {
+  type Airborne,
+  type Carried,
+  type Launched,
+  type Path,
+  tilt,
+} from './insect-paths';
+import { roundAt, smooth, wave } from './motion';
 
 /** A leg with its stay: where it goes and when it leaves. */
 export type Stay = Launched & Pick<Leg, 'to' | 'leaves'>;
 
-/** A leg's flight on screen: from where the scene last drew it to its perch. */
-export type Path = Launched & { start: Point; end: Point };
-
-/** How far a flight's flutter lifts it at most, in the points' units. */
-export type Fluttering = Phased & { flutter: number };
-
-/** How far a flight bows sideways, as a share of the distance flown. */
-const ARC = 0.3;
-/** How many flutter bobs a second a flight makes. */
-const FLUTTER_RATE = 2.2;
-/** The steepest bank into the turn, in radians. */
-export const MAX_TILT = 0.35;
-/** One wing stroke in the air, and one slow open and close at rest, in ms. */
-const BEAT_AIR = 160;
+/**
+ * One kind's wings: one stroke in the air and, for a butterfly, one slow open
+ * and close at rest, in ms. A fly's and a bee's beat far faster than a
+ * butterfly's, too fast to follow, which the painter blurs.
+ */
+const BEAT_AIR = { butterfly: 160, fly: 28, bee: 36 } as const satisfies Record<
+  InsectKind,
+  number
+>;
 const BEAT_REST = 2600;
-/** The least the wings close to at rest, as a share of fully open. */
+/** The least a butterfly's wings close to at rest, as a share of fully open. */
 const REST_CLOSE = 0.3;
 /** How long the beat takes to speed up at take-off, and to calm at landing. */
 const TAKE_OFF = 220;
@@ -51,14 +39,24 @@ const SETTLE = 500;
  */
 const BEAT_DRINK = 1800;
 const DRINK_OPEN = [0.35, 0.6] as const;
+/**
+ * How far a fly's or a bee's beating wings swing back toward laid over the
+ * body, as a share of the way, so in the air they stay mostly spread.
+ */
+const BUZZ_STROKE = 0.45;
+/**
+ * A bee's buzz at rest on a flower: every `BUZZ_EVERY` ms its wings flutter
+ * for `BUZZ_FOR`, opening at most `BUZZ_OPEN` of the way.
+ */
+const BUZZ_EVERY = 1700;
+const BUZZ_FOR = 380;
+const BUZZ_OPEN = 0.35;
 /** How long the proboscis takes to uncurl, and to curl back up, in ms. */
 const UNCURL = 600;
 const CURL = 400;
 /** One sip in and out while drinking, in ms, and how far it draws the proboscis back. */
 const SIP = 900;
 export const SIP_DEPTH = 0.15;
-/** How fast a flight leaves mid-air, as a share of its average speed. */
-const LAUNCH_SPEED = 1.5;
 /** How long a landing's bob lasts, and how deep it goes, as a share of the insect's size. */
 export const LANDING = 450;
 const LANDING_DEPTH = 0.12;
@@ -77,100 +75,6 @@ const SETTLE_TURN = 700;
 const LIFT_TURN = 450;
 
 /**
- * How far through its flight a path is at `now`, eased in to the end and out
- * from the start in proportion to how fast it set off: from still it leaves
- * at rest, mid-flight at `LAUNCH_SPEED`.
- */
-function progress({ departs, arrives, speed }: Launched, now: number): number {
-  const flight = arrives - departs;
-  if (flight <= 0) return 1;
-  const u = Math.min(1, Math.max(0, (now - departs) / flight));
-  // A cubic Hermite from 0 to 1, leaving at `slope` and arriving at rest;
-  // monotonic for any slope up to 3.
-  const slope = speed * LAUNCH_SPEED;
-  return slope * u * (1 - u) ** 2 + u * u * (3 - 2 * u);
-}
-
-/** Which side a flight bows to, -1 or 1, read off the insect's phase. */
-const bowOf = (phase: number) => (Math.sin(phase) < 0 ? -1 : 1);
-
-/** The cubic's four points: out from the start and in to the end, both bowed one way. */
-type Cubic = readonly [Point, Point, Point, Point];
-
-function controls({ start, end }: Path, phase: number): Cubic {
-  const dx = end.x - start.x;
-  const dy = end.y - start.y;
-  const bow = bowOf(phase) * ARC;
-  const side = { x: -dy * bow, y: dx * bow };
-  return [
-    start,
-    { x: start.x + dx / 3 + side.x, y: start.y + dy / 3 + side.y },
-    { x: start.x + (2 * dx) / 3 + side.x, y: start.y + (2 * dy) / 3 + side.y },
-    end,
-  ];
-}
-
-function bezier([p0, p1, p2, p3]: Cubic, u: number): Point {
-  const v = 1 - u;
-  const [a, b, c, d] = [v * v * v, 3 * v * v * u, 3 * v * u * u, u * u * u];
-  return {
-    x: a * p0.x + b * p1.x + c * p2.x + d * p3.x,
-    y: a * p0.y + b * p1.y + c * p2.y + d * p3.y,
-  };
-}
-
-/**
- * Where a flight is at `now`: along a cubic bowed to one side, eased in and
- * out, with a flutter lifting it up and down that dies away at both ends —
- * so it is exactly at `start` until it departs and exactly at `end` once it
- * arrives.
- */
-export function flightPoint(
-  path: Path,
-  now: number,
-  { phase, flutter }: Fluttering,
-): Point {
-  const u = progress(path, now);
-  const { x, y } = bezier(controls(path, phase), u);
-  const elapsed = (now - path.departs) / 1000;
-  // `sin(π)` is not quite 0 in floating point, and the ends must be exact.
-  if (u <= 0 || u >= 1) return { x, y };
-  const lift =
-    flutter *
-    Math.sin(Math.PI * u) *
-    Math.sin(Math.PI * 2 * FLUTTER_RATE * elapsed + phase);
-  return { x, y: y - lift };
-}
-
-/**
- * The direction a flight faces at `now`, in radians from the +x axis: along
- * the curve, and at either end the way the curve leaves or meets it, so the
- * insect lands facing the way it came in.
- */
-export function heading(path: Path, now: number, { phase }: Phased): number {
-  const [p0, p1, p2, p3] = controls(path, phase);
-  const u = progress(path, now);
-  const v = 1 - u;
-  const a = 3 * v * v;
-  const b = 6 * v * u;
-  const c = 3 * u * u;
-  const dx = a * (p1.x - p0.x) + b * (p2.x - p1.x) + c * (p3.x - p2.x);
-  const dy = a * (p1.y - p0.y) + b * (p2.y - p1.y) + c * (p3.y - p2.y);
-  return Math.atan2(dy, dx);
-}
-
-/**
- * The bank into the turn at `now`, in radians, positive turning clockwise on
- * a screen whose y points down: the whole bowed curve turns one way, so the
- * bank rises from 0 at take-off to `MAX_TILT` mid-flight and settles to 0 at
- * landing.
- */
-export function tilt(path: Path, now: number, { phase }: Phased): number {
-  if (path.start.x === path.end.x && path.start.y === path.end.y) return 0;
-  return -bowOf(phase) * MAX_TILT * Math.sin(Math.PI * progress(path, now));
-}
-
-/**
  * How far aloft a leg has the flier at `now`, from 0 on its perch to 1 in the
  * air: rising at take-off from however far aloft it set off, and falling as
  * it settles after landing — never at a spot in the air, which it only
@@ -183,10 +87,6 @@ function aloft({ departs, arrives, launch, to }: Stay, now: number): number {
     1 - settled,
   );
 }
-
-/** A wave from 0 to 1 and back over `period` ms, starting at 0. */
-const wave = (now: number, period: number, phase: number) =>
-  0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / period + phase);
 
 /**
  * How far into a drink a leg has the flier at `now`, from 0 to 1: at a
@@ -223,18 +123,50 @@ export function carriedFrom(leg: Stay, now: number): Carried {
 }
 
 /**
- * How far the wings are open at `now`, from 0 (closed up) to 1 (flat open):
- * a fast beat in the air, and at rest a slow open and close on a cap or a
- * half-shut flex while drinking, easing between them with `aloft` and
- * `drinking`, so the beat never jumps.
+ * How far the wings are open at `now`, from 0 to 1 and never jumping, easing
+ * between the air and the perch with `aloft`. A butterfly's go from closed up
+ * (0) to flat open (1): a fast beat in the air, and at rest a slow open and
+ * close on a cap or a half-shut flex while drinking, easing between them
+ * with `drinking`. A fly's and a bee's go from laid back over the body (0)
+ * to spread (1): a buzz of a beat in the air, still at rest — but for a
+ * bee's short flutter every so often.
  */
-export function wingBeat(leg: Stay, now: number, { phase }: Phased): number {
-  const air = 1 - wave(now, BEAT_AIR, phase);
-  const rest = 1 - (1 - REST_CLOSE) * wave(now, BEAT_REST, phase);
-  const [least, most] = DRINK_OPEN;
-  const sipping = least + (most - least) * wave(now, BEAT_DRINK, phase);
-  const still = rest + (sipping - rest) * drinking(leg, now);
+export function wingBeat(leg: Stay, now: number, motion: Airborne): number {
+  const { phase, kind } = motion;
+  const air =
+    kind === 'butterfly'
+      ? 1 - wave(now, BEAT_AIR[kind], phase)
+      : 1 - BUZZ_STROKE * wave(now, BEAT_AIR[kind], phase);
+  const still = restingBeat(leg, now, motion);
   return still + (air - still) * aloft(leg, now);
+}
+
+/** How far the wings are open at rest at `now`, as `wingBeat` has them. */
+function restingBeat(
+  leg: Stay,
+  now: number,
+  { phase, kind }: Airborne,
+): number {
+  switch (kind) {
+    case 'butterfly': {
+      const rest = 1 - (1 - REST_CLOSE) * wave(now, BEAT_REST, phase);
+      const [least, most] = DRINK_OPEN;
+      const sipping = least + (most - least) * wave(now, BEAT_DRINK, phase);
+      return rest + (sipping - rest) * drinking(leg, now);
+    }
+    case 'fly': {
+      return 0;
+    }
+    case 'bee': {
+      const into = roundAt(now, BUZZ_EVERY, phase);
+      if (into >= BUZZ_FOR) return 0;
+      const swell = Math.sin((Math.PI * into) / BUZZ_FOR);
+      return BUZZ_OPEN * swell * (1 - wave(now, BEAT_AIR.bee, phase));
+    }
+    default: {
+      return kind satisfies never;
+    }
+  }
 }
 
 /**
@@ -261,7 +193,7 @@ export function flyingTurn(
   facing: number,
   path: Path,
   now: number,
-  motion: Phased,
+  motion: Airborne,
 ): number {
   return wrap(facing + Math.PI / 2 + tilt(path, now, motion) * BANK_TURN);
 }

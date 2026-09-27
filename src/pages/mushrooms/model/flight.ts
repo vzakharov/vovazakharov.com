@@ -9,13 +9,15 @@
 
 import type { WithId } from '@/shared/typings';
 
+import type { InsectKind, InsectSeed } from './insect-genes';
+import type { Plot } from './pollen';
 import {
   between,
   mulberry32,
   nextSeed,
   pick,
   type Random,
-  type Seeded,
+  weighted,
 } from './random';
 
 export const SIDES = ['left', 'right'] as const;
@@ -46,16 +48,23 @@ export type Perch = {
  * flowers in sight, by id, the only ones an insect is sent to; the spots in
  * the open air an insect with nowhere to sit roams between, by id; and the
  * pairs of perches standing too close for an insect on each, so a perch
- * crowded by a taken one counts as taken.
+ * crowded by a taken one counts as taken. With them, where a bee could plant
+ * a flower (`Plot`).
  */
-export type Sight = {
+export type Sight = Plot & {
   flowers: readonly string[];
   air: readonly string[];
   crowded: ReadonlyArray<readonly [Perch, Perch]>;
 };
 
-/** The perches the meadow offers: every standing mushroom's cap, and what the scene sees. */
-export type Perches = Sight & { caps: readonly string[] };
+/**
+ * The perches the meadow offers: every standing mushroom's cap, the spotted
+ * ones among them by id again, and what the scene sees.
+ */
+export type Perches = Sight & {
+  caps: readonly string[];
+  spotted: readonly string[];
+};
 
 /** A moment on the scene's clock, in ms. */
 export type Timed = { now: number };
@@ -74,15 +83,49 @@ export type Leg = Span & { from: Perch; to: Perch; leaves: number };
 /** An insect's current leg, and how many legs it has flown, that one included. */
 export type Flight = { leg: Leg; legs: number };
 
-/** How many butterflies the meadow holds; a release past it sends the oldest away. */
-export const BUTTERFLY_LIMIT = 4;
+/**
+ * How one kind flies: how long a flight takes, a stay at a flower, and a
+ * rest on a cap, in ms, `resting` being `undefined` for a kind that never
+ * sits on a cap; how often, with both open, it goes to a flower rather than
+ * a cap; and how many times as often it picks a spotted cap as any other.
+ */
+export type Habits = {
+  flying: readonly [number, number];
+  drinking: readonly [number, number];
+  resting: readonly [number, number] | undefined;
+  flowerShare: number;
+  spottedPull: number;
+};
 
-/** How long a flight takes, a drink at a flower, and a rest on a cap, in ms. */
-export const FLYING = [2400, 3900] as const;
-export const DRINKING = [3000, 6000] as const;
-export const RESTING = [4000, 9000] as const;
-/** How often a butterfly with a cap to go to goes to a flower instead. */
-const FLOWER_SHARE = 0.6;
+/**
+ * Every kind's habits. A butterfly drinks at a flower three times in five and
+ * rests long; a fly darts, on a cap four times in five and to a fly agaric
+ * three times as often as to any other cap; a bee goes only to flowers,
+ * roaming the air while none is open.
+ */
+export const FLIGHT_HABITS = {
+  butterfly: {
+    flying: [2400, 3900],
+    drinking: [3000, 6000],
+    resting: [4000, 9000],
+    flowerShare: 0.6,
+    spottedPull: 1,
+  },
+  fly: {
+    flying: [600, 1100],
+    drinking: [1500, 4000],
+    resting: [1500, 4000],
+    flowerShare: 0.2,
+    spottedPull: 3,
+  },
+  bee: {
+    flying: [1100, 1800],
+    drinking: [2000, 3500],
+    resting: undefined,
+    flowerShare: 1,
+    spottedPull: 1,
+  },
+} as const satisfies Record<InsectKind, Habits>;
 
 /** Keeps a leg's stream apart from the genes grown off the same seed. */
 const LEG_SALT = 0x5b_d1_e9_95;
@@ -117,8 +160,10 @@ function isCrowdedBy(
 }
 
 /**
- * The perch the next leg goes to: a flower about three times in five and a
- * cap otherwise, the other kind when the one drawn has none open. Open means
+ * The perch the next leg goes to: a flower `flowerShare` of the time and a
+ * cap otherwise, the other kind when the one drawn has none open — never a
+ * cap for a kind that does not rest on one — a spotted cap `spottedPull`
+ * times as likely as any other. Open means
  * offered by `perches`, not the one it is leaving, and neither in `taken`,
  * where the other fliers sit or are heading, nor crowded by one there. With
  * none open it flutters up and settles again where it was, while that is
@@ -128,6 +173,7 @@ function isCrowdedBy(
  */
 function nextPerch(
   random: Random,
+  habits: Habits,
   from: Perch,
   perches: Perches,
   taken: readonly Perch[],
@@ -141,10 +187,15 @@ function nextPerch(
           !taken.some((each) => isCrowdedBy(perch, each, perches.crowded)),
       );
   const flowers = open('flower', perches.flowers);
-  const caps = open('cap', perches.caps);
-  const drawn = random() < FLOWER_SHARE ? [flowers, caps] : [caps, flowers];
+  const caps = habits.resting === undefined ? [] : open('cap', perches.caps);
+  const drawn =
+    random() < habits.flowerShare ? [flowers, caps] : [caps, flowers];
   const [first, ...rest] = drawn.find((each) => each.length > 0) ?? [];
-  if (first !== undefined) return pick(random, [first, ...rest]);
+  const pull = (perch: Perch) =>
+    perch.kind === 'cap' && perches.spotted.includes(perch.id)
+      ? habits.spottedPull
+      : 1;
+  if (first !== undefined) return weighted(random, [first, ...rest], pull);
   if (isSeat(from) && isOffered(from, perches)) return from;
   const [spot, ...spots] = open('air', perches.air);
   return spot === undefined
@@ -161,13 +212,17 @@ function awayPerch(random: Random): Perch {
   return { kind: 'away', side: pick(random, SIDES) };
 }
 
-function stayAt(random: Random, to: Perch): number {
+function stayAt(random: Random, habits: Habits, to: Perch): number {
   switch (to.kind) {
     case 'flower': {
-      return between(random, DRINKING[0], DRINKING[1]);
+      return between(random, ...habits.drinking);
     }
     case 'cap': {
-      return between(random, RESTING[0], RESTING[1]);
+      // `nextPerch` offers a cap only to a kind that rests on one.
+      if (habits.resting === undefined) {
+        throw new Error('A leg to a cap for a kind that never rests on one');
+      }
+      return between(random, ...habits.resting);
     }
     case 'air':
     case 'away': {
@@ -179,14 +234,19 @@ function stayAt(random: Random, to: Perch): number {
   }
 }
 
-function legTo(random: Random, from: Perch, to: Perch, now: number): Leg {
-  const arrives = now + between(random, FLYING[0], FLYING[1]);
+function legTo(
+  random: Random,
+  habits: Habits,
+  { from, to }: Pick<Leg, 'from' | 'to'>,
+  now: number,
+): Leg {
+  const arrives = now + between(random, ...habits.flying);
   return {
     from,
     to,
     departs: now,
     arrives,
-    leaves: arrives + stayAt(random, to),
+    leaves: arrives + stayAt(random, habits, to),
   };
 }
 
@@ -195,27 +255,31 @@ function legTo(random: Random, from: Perch, to: Perch, now: number): Leg {
  * to an open perch (`nextPerch`), departing `now`.
  */
 export function firstFlight(
-  { seed }: Seeded,
+  { seed, kind }: InsectSeed,
   perches: Perches,
   now: number,
   taken: readonly Perch[] = [],
 ): Flight {
   const random = legRandom(seed, 0);
+  const habits = FLIGHT_HABITS[kind];
   const from = awayPerch(random);
-  return {
-    leg: legTo(random, from, nextPerch(random, from, perches, taken), now),
-    legs: 1,
-  };
+  const to = nextPerch(random, habits, from, perches, taken);
+  return { leg: legTo(random, habits, { from, to }, now), legs: 1 };
 }
 
 /** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */
 function onward(
-  { seed, leg, legs }: Seeded & Flight,
+  { seed, kind, leg, legs }: InsectSeed & Flight,
   now: number,
-  choose: (random: Random) => Perch,
+  choose: (random: Random, habits: Habits) => Perch,
 ): Flight {
   const random = legRandom(seed, legs);
-  return { leg: legTo(random, leg.to, choose(random), now), legs: legs + 1 };
+  const habits = FLIGHT_HABITS[kind];
+  const to = choose(random, habits);
+  return {
+    leg: legTo(random, habits, { from: leg.to, to }, now),
+    legs: legs + 1,
+  };
 }
 
 /**
@@ -223,18 +287,18 @@ function onward(
  * that one went to, to an open perch (`nextPerch`).
  */
 export function nextFlight(
-  insect: Seeded & Flight,
+  insect: InsectSeed & Flight,
   perches: Perches,
   now: number,
   taken: readonly Perch[] = [],
 ): Flight {
-  return onward(insect, now, (random) =>
-    nextPerch(random, insect.leg.to, perches, taken),
+  return onward(insect, now, (random, habits) =>
+    nextPerch(random, habits, insect.leg.to, perches, taken),
   );
 }
 
 /** `insect` flying off screen from `now`, past a side its seed picks, and gone. */
-export function flightAway(insect: Seeded & Flight, now: number): Flight {
+export function flightAway(insect: InsectSeed & Flight, now: number): Flight {
   return onward(insect, now, awayPerch);
 }
 

@@ -9,13 +9,16 @@ const PERCHES = {
   flowers: ['flower-1'],
   air: [],
   crowded: [],
+  spotted: [],
+  room: [],
+  seededFlowers: 0,
 };
 /** Two kinds, as the meadow will hold once a second one flies. */
 const LIMITS = { butterfly: 2, fly: 3 } as const;
 type Kind = keyof typeof LIMITS;
 
 function flier(kind: Kind, seed: number) {
-  return { kind, seed, ...firstFlight({ seed }, PERCHES, 0) };
+  return { kind, seed, ...firstFlight({ seed, kind }, PERCHES, 0) };
 }
 
 describe('evicted', () => {

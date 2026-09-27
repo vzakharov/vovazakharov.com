@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { BUTTERFLY_LIMIT } from './flight';
 import {
   type Action,
   canFurnish,
@@ -13,6 +12,7 @@ import {
   reduce,
 } from './game';
 import { EMPTY_HOUSE, type Furnishing, windowSlots } from './house';
+import { INSECT_LIMITS } from './insects';
 import { mushroomGenes } from './mushroom-genes';
 import { mulberry32 } from './random';
 
@@ -298,7 +298,13 @@ describe('the two pickers', () => {
 
 /** The flowers in sight, as the scene would pass them, none crowding another. */
 const FLOWERS = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
-const SIGHT = { flowers: FLOWERS, air: [], crowded: [] };
+const SIGHT = {
+  flowers: FLOWERS,
+  air: [],
+  crowded: [],
+  room: [],
+  seededFlowers: FLOWERS.length,
+};
 const release = (seed: number, now: number): Action => ({
   kind: 'release',
   insect: 'butterfly',
@@ -336,13 +342,13 @@ describe('the butterflies', () => {
     }
   });
 
-  it('at BUTTERFLY_LIMIT still flies one in, and sends the oldest away', () => {
+  it('at INSECT_LIMITS.butterfly still flies one in, and sends the oldest away', () => {
     const four = run(
       opening(),
       [1, 2, 3, 4].map((seed) => release(seed, seed)),
     );
     const five = reduce(four, release(5, 100));
-    assert.equal(five.insects.length, BUTTERFLY_LIMIT + 1);
+    assert.equal(five.insects.length, INSECT_LIMITS.butterfly + 1);
     const first = flier(five, 'butterfly-1');
     assert.ok(first);
     assert.equal(first.leg.to.kind, 'away');
@@ -352,7 +358,7 @@ describe('the butterflies', () => {
     assert.equal(flier(six, 'butterfly-2')?.leg.to.kind, 'away');
     assert.equal(
       six.insects.filter(({ leg }) => leg.to.kind !== 'away').length,
-      BUTTERFLY_LIMIT,
+      INSECT_LIMITS.butterfly,
     );
   });
 
@@ -367,7 +373,7 @@ describe('the butterflies', () => {
     assert.ok(flier(still, 'butterfly-1'));
     const after = reduce(still, tick(gone.leg.arrives));
     assert.equal(flier(after, 'butterfly-1'), undefined);
-    assert.equal(after.insects.length, BUTTERFLY_LIMIT);
+    assert.equal(after.insects.length, INSECT_LIMITS.butterfly);
   });
 
   it('takes the next leg once the stay is over, and not before', () => {
@@ -452,6 +458,8 @@ describe('the butterflies', () => {
       flowers: sight,
       air: [],
       crowded: [],
+      room: [],
+      seededFlowers: FLOWERS.length,
     });
     const moved = flier(after, onFlower.id);
     assert.ok(moved);
