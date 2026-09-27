@@ -174,6 +174,28 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   threads asked the handler to choose. Writing each choice into the plan's
   decisions and committing that first gave the implementing subagent a rule
   to build to, not a question to settle, and the reply could point at it.
+- **A fix that tightens a rule can take away what the rule protected.**
+  Bite 5's review asked for exclusive perches and flowers only in sight.
+  Both landed to the letter, and the implementing subagent's report said
+  that on a small phone with the opening pair 89% of visits now lost a
+  butterfly, which breaks the game's "the meadow only gets fuller" rule. The
+  subagent put it in its report as "for you to decide", not as a failure. The
+  skill should brief every constraint-tightening fix with the invariants it
+  must not break, named from the plan's decisions, and have the subagent
+  sweep those too. A handler should read a report's "for you to decide"
+  lines as defects to re-brief, not as footnotes.
+- **Look at the frames before replying, even when every sweep says 0.**
+  The same round's drink met every number the review asked for, while its
+  proboscis unrolled upward, away from the flower. Only the close crop
+  showed it. The skill's handling tail should put the frames in front of the
+  orchestrator itself before the replies go out.
+- **Stage the handling as waves over disjoint files.** Bite 5 ran in three
+  waves. First two parallel groups: the small threads (genes, the probe, the
+  tests) and the motion threads (the view, the motion). Then the perch
+  threads, which needed both groups' files. Then one re-brief for the two
+  defects the perch round exposed. The orchestrator's own context stayed
+  around 180k for twelve threads because it only held the reports. Replies
+  went out in two batches, the first as soon as those fixes were final.
 - **The Stop hook's git check fires on a subagent's work in progress.**
   Subagents run in the background, so a turn that ends while one works
   leaves its edits uncommitted. The answer is `git status`, a push of
