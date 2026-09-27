@@ -440,6 +440,19 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   play script's checks should include "no rotation step above ~0.2 rad
   between frames" for everything that turns, as they already include page
   errors.
+- **Three sequential briefs held a whole bite again, and the main session
+  stayed near 40k.** Bite 6 ran model → scene → tail (gates, `/polish`,
+  vet, play run, frames, `/pr`) from a relay, each brief carrying the
+  previous report as its API. The subagents made model changes the scene
+  needed (a bee never settling back on the flower it leaves, or no bee ever
+  pollinated), and reported them as decisions. The skill's scene brief
+  should say the scene agent may change the model for an invariant the
+  frames expose, and list each change in its report so the plan absorbs it.
+- **A rule stacked on a rule can starve the feature it guards.** Planting
+  "clear on this screen and on the turned one" cut the room to plant about
+  4×, down to under one slot per meadow. The skill should have the scene
+  agent report the feature's rate under every guard (plants per minute, not
+  only "a flower was planted") so the reviewer can weigh the guard.
 - **The operator's questions mid-run are answered, not treated as a stop.**
   While bite 4's handling ran, the operator asked how to run the game
   locally and whether ecology and the insects were planned. Answering from
