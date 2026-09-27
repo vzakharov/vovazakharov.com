@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-27T01:45:21Z
+- **Updated:** 2026-09-27T19:00:09Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -20,11 +20,13 @@
 - Syama's mushroom game at `/mushrooms`, the whole of it, spec in #65: a meadow of fly agarics with mouse houses, where `+` grows another mushroom (a four-cap picker first), `−` takes one away, and three bug buttons fly in a butterfly, a fly or a bee. No goal, no text, no failing — made for a six-year-old's hands on a tablet or phone.
 - Everything is drawn and voiced by code: each mushroom, flower and insect is grown from its own seed by a pure, tested generator and painted with Phaser 4 vector primitives; sound is synthesized with Web Audio. Phaser loads on this route alone, and the canvas renders at the device pixel ratio so a retina tablet stays sharp.
 - Four people's loves go into it: Syama's idea, procedural generation, Zoltan's ecology, and Leysan's mandalas. The ecology: bees pollinate flowers into new ones, a tapped cloud rains and the meadow answers, spores sprout after rain, dusk brings out the mice and fireflies. It is all shown in plain sight and never taught. The mandalas: the ornament is radial and ringed (the sun's rosette, the flowers' petal rings), without any mandala drawn as such.
-- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The finished game is also published as an Artifact, linked here. **Bites 1–5 of 10 have landed, 1–4 with their reviews handled:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
+- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The finished game is also published as an Artifact, linked here. **Bites 1–6 of 10 have landed — with bite 6 the game reaches its MPP line, every control in Syama's drawing working — bites 1–5 each with its review handled:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
 - **Bite 3's review, handled:** taps work again (Phaser read the mushrooms' hit area as a config, so the first tap threw and killed every button), and a mushroom's tap area is now exactly its cap, gills and stem as drawn. `pnpm play:mushrooms` builds a probe export and plays every control on four screens in headless Chromium, failing on any page error or any tap that does the wrong thing. Forest mushrooms never shrink below a finger's target on a phone; the buttons stand clear of every mushroom and of the sun's rays. The picker unfolds from `+` and folds back into it, the picked cap flying down to where its mushroom grows. No tap is ignored: `−` with nothing selected takes the newest mushroom, and a control that truly cannot act shakes its head with a "nuh-uh". A selected mushroom wears a thick yellow outline that moves with it and gently beckons, and the buttons are opaque, with caps big enough to tell apart at a glance.
 - **Bite 4, the mouse house:** a house button under `−` (a fly agaric with two windows and a door) opens a second picker across the top — Syama's four windows (`⊕`, `○`, `□`, the tall arched one) and a door. Opening it selects the newest mushroom with room, so the glow shows where a pick will go; a pick furnishes the selected mushroom, and the picker stays open for the next; the two pickers close each other. Windows go into a row along the cap's lower band, three or five as the cap's width allows, from the middle outward, and a window takes the place of any spot it would half-cover; the door stands on the stem at whatever height the mushrooms in front leave in sight. Each pops in with a puff and a knock. Now and then a door swings open and a mouse peeks out, looks about, blinks and ducks back; a tap on the door calls it at once with a squeak. A full row and a second door shake their heads. The house is a graphics per mushroom that copies its pose each frame, so it grows, wobbles and sinks with it, and the mouse is clipped to its doorway. `pnpm play:mushrooms` plays the house too (`scripts/lib/play-house.ts`).
 - **Bite 4's review, handled:** the back mushroom's door was often hidden behind the front one, so each door now picks, per visit, the lowest of 8–14 stations up the stem where at least 80% of it and its doorway are in sight, sized to the stem there; the portrait clump's feet stand together so the back cap stays mostly in view. Every door's tap area is at least two fingertips across, the mouse's head is never drawn under 28 px (it leans out of a small door, shoulders showing), and the house picker skips a full mushroom rather than greying out. `pnpm play:mushrooms` now asks the scene's own hit test that a tap at each door reaches it, plays both clump doors, and shoots a furnished mushroom mid-sink with its house.
-- **Bite 5, the butterfly:** a butterfly button heads a column down the left, level with `+`, as Syama drew the insect buttons opposite the mushroom ones (beside the mute where the sky is too short). Each tap flies in a butterfly grown from its own seed — orange, yellow, blue, violet or white wings with a band of another colour, one to three concentric eye rings on every wing, round or pointed tips — up to four; a fifth sends the oldest off screen, so the button always acts. Each flies between flowers and the caps on a bowed, fluttering path, its wings beating fast in the air and slowly opening and closing at rest, drinking at a flower or resting on a cap facing up the screen, as in the drawing. Where it goes and when is a pure function of its seed and the legs it has flown (`model/flight.ts`, `model/insects.ts`), and every frame's pose a pure function of the clock (`model/insect-motion.ts`). A tap on one at rest sends it off with a trill; in the air it only jolts; a mushroom sunk under one sends it off too. Butterflies sit above the meadow and under the buttons, and a tap on one leaves the selection and any picker as they are. `pnpm play:mushrooms` plays them (`scripts/lib/play-insects.ts`), and now draws only the last frame of each step, which keeps the run under ten minutes.
+- **Bite 5, the butterfly:** a butterfly button heads a column down the left, level with `+`, as Syama drew the insect buttons opposite the mushroom ones (beside the mute where the sky is too short). Each tap flies in a butterfly grown from its own seed — one of fourteen colours round the colour wheel (none in the grass's greens), with a band and eyes a quarter to three quarters of the way round from it, two or three concentric rings to every eye, round or pointed tips — up to four; a fifth sends the oldest off screen, so the button always acts. Each flies between flowers and the caps on a bowed, fluttering path, its wings beating fast in the air and slowly opening and closing at rest on a cap, facing up the screen, as in the drawing. Where it goes and when is a pure function of its seed and the legs it has flown (`model/flight.ts`, `model/insects.ts`), and every frame's pose a pure function of the clock (`model/insect-motion.ts`). A tap on one at rest sends it off with a trill; in the air it only jolts; a mushroom sunk under one sends it off too. Butterflies sit above the meadow and under the buttons. `pnpm play:mushrooms` plays them (`scripts/lib/play-insects.ts`), and draws only the last frame of each step, which keeps the run under ten minutes.
+- **Bite 5's review, handled:** a perch holds one butterfly, and none goes to a perch so close to a taken one that their wings would cover more than a quarter of each other; with every perch taken a butterfly roams between spots in the open air over the meadow rather than flying off, so a press of the button never loses one. A butterfly drinks only at a flower it can be seen on — clear of the buttons and the screen's edge, its head not behind a nearer mushroom (`ui/scene/perch-sight.ts`, a pure function of the layout) — and it drinks: it sits on the flower's upper rim, uncurls a two-tone proboscis down into the centre and sips, its wings flexing half shut, while the head sags under it and springs back with a flicker of the petals when it leaves. A tap on a resting butterfly goes on to what it sits on, so a child still selects the mushroom or blooms the flower under it. Butterflies cruise at two thirds of their earlier speed, a leg cut short mid-air flies on without stopping dead, the body never spins at the ±π seam, and every eye sits inside its wing. The pictogram's seed is pinned by a test (orange with cobalt edges and eyes). `pnpm play:mushrooms` runs under tsx now that the probe's perch schemas derive from the model.
+- **Bite 6, the fly and the bee — the MPP line:** a fly and a bee button join the butterfly's column down the left (a row beside the mute where the sky is short; on a 320 px phone the fly and the bee share the pickers' band and give way while one is open), so every control in the drawing now works. One generator family grows all three kinds (`InsectGenes` a union keyed by `kind`): a fly is a stout dark body with a metallic sheen, two big red eyes and clear veined wings laid back at rest; a bee a round fuzzy body in three or four black and yellow bands, a small head, small clear wings and pollen baskets on its hind legs. Each kind flies by its own row of `FLIGHT_HABITS` and its own path shape — the butterfly's lazy curve, the fly's fast zigzag, the bee's bobbing line — up to four butterflies, three flies and three bees, perches exclusive across kinds. The fly rests on caps four times in five, picking a fly agaric three times as often as any other cap, and there it jitters, rubs its front legs and hops along the cap and back; the bee goes only to flowers, crawls about each, and buzzes its wings now and then. A bee carries pollen from the last flower it drank at (specks filling its baskets, up to three) and, leaving a different flower it pollinated, plants a new one in a ring slot round it — up to 14 flowers in all, only where the new one would be in sight on this screen and on the same screen turned — which grows up out of the ground and opens with a chime, a perch and a parent like any other flower. Each takes off with a synthesized buzz (a fly's thin rasp, a bee's warm hum), never a drone. Hovering fliers never overlap in the air, and no body turns faster than 0.2 rad a frame. The scene's flowers move into `ui/scene/flower-bed.ts`, per-kind painting into `draw-fly.ts`/`draw-bee.ts`, and `pnpm play:mushrooms` now plays five screens (a 320 px phone added), releases every kind to its limit, taps each at rest, waits for a bee to plant, and checks every frame's turn, rest facing, hover overlap and drawn size (`scripts/lib/play-buzzers.ts`, `scripts/lib/flier-watch.ts`).
 - **One call for you (bite 2):** the mute is remembered in `localStorage`, and where storage throws (a private window) the game falls back to unmuted and the mute lasts the visit. That is a silent fallback, which `CLAUDE.md` asks you to approve per call site — `readMuted` / `rememberMuted` in `src/pages/mushrooms/ui/scene/sound.ts`. The alternative, letting it throw, would take the whole meadow down for a remembered preference.
 
 Closes #65
@@ -59,7 +61,7 @@ Bite 3, as its review left it:
 - [ ] `refuse` — `+` on a full meadow and `−` on an empty one shake their heads side to side with a low reedy "nuh-uh" rather than doing nothing.
 - [ ] `forest` — six at most: the clump, two nearer, a back row smaller and hazed toward the sky; on a phone either way up every forest cap is at least a fingertip wide and mostly in view.
 - [ ] `clear` — on a phone held upright and sideways and on a tablet either way up, no button sits on a mushroom or in the sun's rays, and a tap near a button's edge never lands on a mushroom behind it.
-- [ ] `play` — `pnpm play:mushrooms` builds, plays all four screens, prints `played` for each and exits 0; its frames land in `tmp/play/`.
+- [ ] `play` — `pnpm play:mushrooms` builds, plays all five screens, prints `played` for each and exits 0; its frames land in `tmp/play/`.
 
 Bite 4:
 
@@ -73,12 +75,24 @@ Bite 4:
 
 Bite 5:
 
-- [ ] `butterfly-button` — a butterfly pictogram (orange, blue-eyed) stands at the left level with `+`; on phone landscape and a 320 px phone it sits beside the mute instead, and on no screen does it touch a picker row, the mute or the sun's rays.
-- [ ] `release` — each tap flies in a butterfly from off one side with a trill, each one different in colour, eyes and wing shape; the fifth sends the oldest off screen and it is gone, the other four staying.
-- [ ] `flight` — butterflies fly on bowed, fluttering paths with fast-beating wings, banking into the turn, and land on a flower's head as it sways or on a cap as it breathes, with a little bob; two on one perch sit apart. At rest the wings open and close slowly and the butterfly turns to face up the screen, give or take, then turns into its heading when it takes off.
-- [ ] `startle` — a tap on a butterfly at rest sends it off to another perch at once; a tap on one in the air jolts it and leaves its flight as it was; neither tap closes a picker or changes the selection.
+- [ ] `butterfly-button` — a butterfly pictogram (orange, with cobalt edges and eyes) stands at the left level with `+`; on phone landscape and a 320 px phone it sits beside the mute instead, and on no screen does it touch a picker row, the mute or the sun's rays.
+- [ ] `release` — each tap flies in a butterfly from off one side with a trill, each one different in colour, eyes and wing shape, four seldom sharing a colour, every eye two or three rings inside its wing; the fifth sends the oldest off screen and it is gone, the other four staying.
+- [ ] `flight` — butterflies fly on bowed, fluttering paths with fast-beating wings, slow enough to follow with a finger, banking into the turn, and land on a cap as it breathes with a little bob, or on a flower's upper rim as it sways; no two share a perch or sit on top of each other. At rest on a cap the wings open and close slowly and the butterfly turns to face up the screen, give or take, then turns into its heading when it takes off, never spinning the long way round.
+- [ ] `drink` — at a flower a butterfly uncurls its proboscis down into the flower's centre and sips, the wings flexing half shut; the head sags under it and springs back with a flicker of its petals as it leaves. No butterfly drinks at a flower whose head is under a button, off the screen's edge or behind a nearer mushroom.
+- [ ] `roam` — with only the opening pair up on a small phone, release four: those with no free perch roam between spots in the sky, hovering with beating wings, and none flies off screen until a fifth sends the oldest away.
+- [ ] `startle` — a tap on a butterfly at rest sends it off at once and goes on to what it sits on: the mushroom under it is selected with its wobble and spores, the flower under it blooms and chimes. A tap on one in the air jolts it, leaves its flight as it was, and closes no picker nor changes the selection.
 - [ ] `sink` — `−` on a mushroom a butterfly rests on sends it off as the cap sinks, never left hovering where the cap was.
 - [ ] `insect-size` — on a phone either way up a butterfly is big enough to read and tap, and never wider than a clump cap.
+
+Bite 6:
+
+- [ ] `buzzer-buttons` — a fly (green body, red eyes) and a bee (banded, baskets full) stand under the butterfly down the left, or in a row beside the mute on phone landscape; on a 320 px phone the fly and the bee hide while a picker is open and come back when it closes. None touches another control or the sun's rays.
+- [ ] `release-kinds` — each tap on the fly or the bee flies one in with a buzz (a thin rasp for the fly, a lower hum for the bee), each different in sheen or bands; a fourth of a kind sends that kind's oldest away and leaves the others.
+- [ ] `fly` — flies dart on fast zigzags, mostly to caps and most often to the fly agarics; at rest a fly's wings lie back over its body, it trembles, rubs its front legs every few seconds and hops a little along the cap and back.
+- [ ] `bee` — bees fly straight, bobbing, only ever to flowers (roaming the sky when none is free), sit on the flower's centre and crawl about it, their wings flicking now and then; their baskets fill with pollen as they go and empty at a new flower.
+- [ ] `planting` — with only bees out, one soon plants a flower beside one it visited: it grows up out of the ground and opens with a chime; a well-visited flower gets a ring of them, never past 14 flowers, none under a button or off the screen, and rotating the device keeps each planted flower in view. A planted flower sways, blooms when tapped and is visited like any other.
+- [ ] `no-overlap` — on a 320 px phone with every kind at its limit, fliers hovering in the sky never sit on top of each other while the sky has room, and no insect ever spins round in a frame.
+- [ ] `buzzer-size` — on every screen a fly and a bee are small beside a butterfly and still easy to see and tap.
 
 | Item     | Automatable | Covered?                          | Notes                                                        |
 | -------- | ----------- | --------------------------------- | ------------------------------------------------------------ |
@@ -109,23 +123,33 @@ Bite 5:
 | `door`   | unit        | yes — `house.test.ts`, `layout.test.ts` | every station's frame a line inside the stem over 8000 mushrooms; the back doorway ≥80% in sight on every screen over 2000 visits; following the pose, and the house mid-sink in `pnpm play:mushrooms`, looked at in frames |
 | `mouse`  | unit        | yes — `motion.test.ts`, `geometry.test.ts`, `layout.test.ts` | `peek`, `blink`, `lookAbout` and `clipToConvex`; the head ≥28 px at the narrowest pose at every station, slot and screen, and as drawn in `pnpm play:mushrooms`; the look of it is manual |
 | `door-tap` | e2e       | yes — `motion.test.ts`, `layout.test.ts`, `pnpm play:mushrooms` (not in vet) | `mouseOut` after a tap; every door's tap area ≥2 fingertips across and holding the painted door; the script asks the scene's hit test that each door's middle reaches the door, taps both clump doors and checks the mouse is out and the selection unchanged; the squeak needs ears |
-| `butterfly-button` | unit | yes — `layout.test.ts`, `pnpm play:mushrooms` (not in vet) | placement, reach and overlap with every control and the sun on six screens; the pictogram looked at in frames |
-| `release` | e2e        | yes — `game.test.ts`, `insect-genes.test.ts`, `pnpm play:mushrooms` (not in vet) | ids, the limit and the oldest leaving in the reducer; genes over 400 seeds; the script releases five and checks the first is gone; the trill needs ears |
-| `flight` | partly      | yes — `flight.test.ts`, `insect-motion.test.ts`, `pnpm play:mushrooms` (not in vet) | legs deterministic and never to the perch left; the path exact at both ends, the beat and bank continuous; the script checks every staying butterfly is drawn on its perch; the look of it is manual |
-| `startle` | e2e        | yes — `game.test.ts`, `pnpm play:mushrooms` (not in vet) | the reducer ignores a startle in the air; the script taps one at rest and in the air and checks the leg, the picker and the selection |
+| `butterfly-button` | unit | yes — `layout.test.ts`, `insect-genes.test.ts`, `pnpm play:mushrooms` (not in vet) | placement, reach and overlap with every control and the sun on six screens; the pictogram's colours and rings pinned to its seed |
+| `release` | e2e        | yes — `game.test.ts`, `insects.test.ts`, `insect-genes.test.ts`, `pnpm play:mushrooms` (not in vet) | ids, the limit and the oldest of that kind leaving; genes over 400 seeds, eyes inside the wings, colour repeats over 2000 meadows; the script releases five and checks the first is gone; the trill needs ears |
+| `flight` | partly      | yes — `flight.test.ts`, `insect-motion.test.ts`, `perch-sight.test.ts`, `pnpm play:mushrooms` (not in vet) | legs deterministic and never to a taken or crowded perch; the path, beat and body turn continuous, a cut-short leg included; no two perched butterflies share a perch or cover more than a quarter of each other over 2000 visits on six screens; the script checks every staying butterfly is drawn on its perch; the look of it is manual |
+| `drink`  | partly      | yes — `insect-motion.test.ts`, `proboscis.test.ts`, `perch-sight.test.ts` | `drinking`, `proboscis` and `drinkDip` continuous; the tip inside the flower's centre at full reach and through the sip; no drinking butterfly's wings reach a control or the edge, nor its flower behind a mushroom, over the sweep; the look of it is manual |
+| `roam`   | e2e         | yes — `roaming.test.ts`, `perch-sight.test.ts`, `pnpm play:mushrooms` (not in vet) | roaming legs flown frame by frame with no jump; no butterfly heads off screen unsent over the sweep; the script expects each staying butterfly to perch or roam and shoots one roaming |
+| `startle` | e2e        | yes — `game.test.ts`, `pnpm play:mushrooms` (not in vet) | the reducer ignores a startle in the air; the script taps one at rest and checks its perch answered, taps through a resting butterfly to select its cap, and taps one in the air and checks the picker and the selection |
 | `sink`   | e2e         | yes — `game.test.ts`, `pnpm play:mushrooms` (not in vet) | `tick` moves one whose cap is gone; the script sinks a resting butterfly's cap and checks it leaves |
 | `insect-size` | unit   | yes — `insect-layout.test.ts`     | every butterfly's span ≥ the phone floor and under the narrowest clump cap on every screen |
+| `buzzer-buttons` | unit | yes — `layout.test.ts`, `pnpm play:mushrooms` (not in vet) | placement, reach and overlap with every control on six screens, and the yielding band on a 320 px phone; the pictograms looked at in frames |
+| `release-kinds` | e2e  | yes — `swarm.test.ts`, `buzz-genes.test.ts`, `pnpm play:mushrooms` (not in vet) | per-kind limits and eviction; genes in range over many seeds; the script releases each kind past its limit on five screens; the buzzes need ears |
+| `fly`    | partly      | yes — `flight-kinds.test.ts`, `insect-paths.test.ts`, `buzz-rest.test.ts`, `pnpm play:mushrooms` (not in vet) | the cap share and the spotted pull; the zigzag continuous; jitter, rub and hop continuous and bounded; the script counts fly rests on fly agarics against other caps; the look of it is manual |
+| `bee`    | partly      | yes — `flight-kinds.test.ts`, `pollen.test.ts`, `buzz-rest.test.ts` | never a cap, never back on the flower it leaves; pollen specks per visit; the crawl bounded; the look of it is manual |
+| `planting` | e2e       | yes — `pollen.test.ts`, `swarm.test.ts`, `flower-plots.test.ts`, `pnpm play:mushrooms` (not in vet) | `sown` and `FLOWER_LIMIT`; replays plant the same flowers; ring slots in sight on both orientations over the sweep; the script waits for a bee to plant on every screen and checks the flower full grown |
+| `no-overlap` | e2e     | yes — `perch-sight.test.ts`, `insect-paths.test.ts`, `pnpm play:mushrooms` (not in vet) | air spots crowd within the widest wingspan; heading steps ≤0.2 rad a frame over every kind and seed; the script watches every frame for hover overlaps and turn steps |
+| `buzzer-size` | unit   | yes — `insect-layout.test.ts`, `pnpm play:mushrooms` (not in vet) | the floor on every screen, and each drawn span read back in the play run |
 | `play`   | e2e         | —                                 | it is the check; nothing runs it at merge |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
-https://claude.ai/code/session_01K3CtT2uuRxX4n8uhQdpnG5
+https://claude.ai/code/session_017Hv2zQxznP4BDBd6Wpnst4
 
 ---
 
 ## Comments
 
 - **C01** @vzakharov (agent) — 2026-09-17T09:40:14Z — "Proposed squash title/body: ``` feat(vova): #65 Syama's mush…" → [↓](#c01)
+- **C02** @vzakharov (agent) — 2026-09-27T03:39:07Z — "Bite 5's review is handled — all 12 threads answered inline.…" → [↓](#c02)
 
 <a id="c01"></a>
 
@@ -136,7 +160,7 @@ https://claude.ai/code/session_01K3CtT2uuRxX4n8uhQdpnG5
 Proposed squash title/body:
 
 ```
-feat(vova): #65 Syama's mushroom meadow, houses and butterflies (pr #57)
+feat(vova): #65 Syama's mushroom meadow, with houses and insects (pr #57)
 ```
 
 ```
@@ -144,33 +168,50 @@ A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
 There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; the game is built here a bite at a time.
+the spec; every control in the drawing now works.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone and rendered at the device pixel ratio. Every mushroom,
-flower and butterfly is grown from its own seed by a pure, tested
-generator, and every motion is a pure function of the clock, so a
-resize never cuts one short; sound is a Web Audio synth with a
-remembered mute. The layout keeps every cap on screen and every
-control clear of the meadow on any screen and seed.
+flower and insect is grown from its own seed by a pure, tested
+generator, and every motion is a pure function of the clock; sound is
+a Web Audio synth with a remembered mute. The layout keeps every cap
+on screen and every control clear of the meadow on any screen.
 
-Plus unfolds a four-cap picker and the pick grows out of the ground;
-minus sinks the selection, or the newest, up to six round the clump.
-The house button furnishes a mushroom with Syama's windows and a
-door, out of which a mouse peeks now and then, or at once when
-tapped. The butterfly button flies in up to four butterflies, a
-fifth sending the oldest away, each hopping between flowers and caps
-on legs its seed decides; a tap sends one at rest on its way. A
-control that cannot act shakes its head.
+Plus grows a picked cap out of the ground, minus sinks one, up to six
+round the clump; the house button furnishes a mushroom with Syama's
+windows and a door a mouse peeks from. Three buttons fly in a
+butterfly, a fly or a bee, each kind with its own limit, habits and
+path: butterflies drink at flowers, flies zigzag to the fly agarics
+and fidget there, bees carry pollen between flowers and plant new
+ones in rings round those they pollinate, only where the flower stays
+in sight either way up. A tap sends one at rest on its way; a control
+that cannot act shakes its head.
 
 A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
-plays every control in headless Chromium and fails on a page error
-or a wrong result.
+plays every control on five screens in headless Chromium, watching
+every frame, and fails on a page error or a wrong result.
 
 Closes #65
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
+
+---
+
+<a id="c02"></a>
+
+### Comment by @vzakharov (agent) on 2026-09-27T03:39:07Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/57#issuecomment-5852353929](https://github.com/vzakharov/vovazakharov.com/pull/57#issuecomment-5852353929)
+
+Bite 5's review is handled — all 12 threads answered inline. The summary's four judgment calls, decided in the plan (a49eb6b) under "Butterflies are a meadow, not siblings":
+
+- **Flier speed:** the cruise is two thirds as fast (`FLYING` ×1.5, c3e5096).
+- **Hue spread:** 14 base colours round the wheel, the pattern always a quarter to three quarters of the way round from the base (e7f8c77). Over 2000 four-butterfly sets: a repeated base colour 80.5% → 38.5%, two colours or fewer 22.3% → 3.5%. Each colour still comes from its own seed alone, so repeats follow the birthday problem.
+- **Near-closed fore wings in flight:** kept. They blur at 6 Hz, and only a still frame shows sticks.
+- **Overhang on small caps:** kept. A tap on a resting butterfly now goes through to the mushroom (3ce7c14), and the overhang reads as a butterfly on a button mushroom.
+
+Frames of the handled bite: `docs/remove-before-merging/frames/bite-5/handled/`.
 
 ---
 
@@ -243,6 +284,27 @@ _2026-09-27T01:44:01Z_
 - In flight the fore wings are under 25% open for a quarter of the beat, so a still frame shows sticks (`docs/remove-before-merging/frames/bite-5/review/phoneP-flight-closed-wings-read-as-sticks.png`). In motion it blurs at 6 Hz, which is probably fine.
 - A butterfly is wider than a phone back-row cap in 8–11% of perches (7–13% on slots 2–3 of a 320 px phone), and its wings pass the rim on 83–94% of them. `insect-layout.test.ts` only compares against the clump. Decide whether perched butterflies should scale down with their cap.
 
+### Review by @vzakharov (agent) — COMMENTED
+
+_2026-09-27T17:19:10Z_
+
+**Loop review of bite 6 (the fly and the bee)**. This is an agent's review, run under step 2 of the plan's § "How this elephant is eaten". `/handle` works every thread whatever authorship label the export shows.
+
+**I played it before judging it.** `pnpm play:mushrooms` passes on all five screens with no page errors, every turn is ≤ 0.18 rad per frame, and no insect is drawn under its size floor. On top of that I ran scripted sequences in the page: every kind at its limit, taps at rest and in flight, sinking a fly's perch, a rotation mid-flight, and mute. I also ran model sweeps over the live code (150 seeds × 4 simulated minutes per screen, and 2000-seed room sweeps). The frames are in `docs/remove-before-merging/frames/bite-6/review/` (c709003).
+
+**What a child sees that works.** Flies and bees read as flies and bees at phone size, and the three pictograms on the left are clear. A bee never goes back to the flower it just left, and no two insects shared a perch in any sweep. A tapped flier in the air keeps flying. Sinking a mushroom sends its fly off on the next frame. A planted flower grows out of the ground with an overshoot to ~1.08 and chimes within 0.15 s. Nothing in the model reads `Math.random` or `Date.now`, `palette.ts` still holds every colour, nothing draws text, and every module is under 450 lines.
+
+**What doesn't.** The bite's ecology is the part that barely shows. A tablet plants about one flower and then never another. Bees beside butterflies spend nearly all their time roaming the air. On a 320 px phone a flier is lost outright, and the rest pile up so that taps hit the wrong one. Mute stores sounds up instead of dropping them. A resting bee strobes and hides the flower it sits on. Each point has an inline comment with its numbers and an **Ask**.
+
+**Context from the operator's own review (5329778719), already folded into the plan in 4c7f8f7.** Bite 7 is atmosphere. Bite 8 is a meadow wider than the screen, where a rotation changes the crop rather than the layout. Where a fix below would be redone by bite 8, the comment says so and asks for the cheapest fix that meets the property now.
+
+**Judgment calls for the handler, not findings:**
+- A flier is hard for a finger to catch on the landscape screens. A tap aimed where it was drawn 200 ms earlier lands in its tap circle for fly 64% / bee 47% of the time on tabL, and fly 23% on phoneL (median 289 px/s). On the other screens it is 89–98%. Flight times are in `FLIGHT_HABITS`. Consider ≥ 70% on every screen.
+- A planting inside a tick runs `see()` and repaints every flower in that frame (`meadow-scene.ts` 218–221). That measured up to 11 ms on this server (mean 1.4 ms), and a tablet CPU is slower. Consider deferring the sight to the next frame.
+- Turning the phone mid-flight jumps the flier 0.37 of the screen height in one frame on phoneL (`docs/remove-before-merging/frames/bite-6/review/phoneL-turned-to-portrait-mid-flight.png`). Its `aim` also stays in the old screen's pixels, so it flies facing the wrong way for the rest of the leg (`insect-view.ts` 201–202; `paint` never clears it). Bite 8 changes what a rotation does, so a reset of `aim` in `paint` is enough for now.
+
+**Nits:** the flower cap counts this screen's seeded flowers (`perch-sight.ts` ~189), so it depends on orientation. A flier settling back on its own perch ignores crowding (`flight.ts` 208). A take-off drops the landing bob, so a startle mid-bob jumps a few px (`insect-view.ts` 144–150). `fly-genes.ts` 52–61 and `bee-genes.ts` 50–59 repeat the buzzing-gene assembly, which one helper could build.
+
 - **T01** `src/pages/mushrooms/model/mushroom-genes.ts`:122 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:20Z — "Done in 5ec3edc. A new `stemBend` gene bends each stem over…" → [↓](#t01)
 - **T02** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:64 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:21Z — "Done in 5ec3edc. The arc is sampled by angle (`x = half·sin…" → [↓](#t02)
 - **T03** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:85 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:22Z — "Done in 5ec3edc. The shade is now a `crescent` over the righ…" → [↓](#t03)
@@ -257,14 +319,14 @@ _2026-09-27T01:44:01Z_
 - **T12** `src/pages/mushrooms/ui/scene/spores.ts`:40 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:26Z — "Done in 94bb9c6. The dots no longer fade: they keep `PALETTE…" → [↓](#t12)
 - **T13** `src/pages/mushrooms/model/motion.ts`:17 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:26Z — "Done in 3445d7b. Damping 2.4 at 1.8 Hz, and `WOBBLE_DURATION…" → [↓](#t13)
 - **T14** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:162 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:27Z — "Done in 3d4af2b. The shadow has its own graphics (`drawMushr…" → [↓](#t14)
-- **T15** `src/pages/mushrooms/ui/scene/sound.ts`:250 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:28Z — "Done in 47fd58f. A mute fades out over `FADE_SECONDS` and th…" → [↓](#t15)
+- **T15** `src/pages/mushrooms/ui/scene/sound.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-26T09:48:28Z — "Done in 47fd58f. A mute fades out over `FADE_SECONDS` and th…" → [↓](#t15)
 - **T16** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-26T15:56:10Z — "Fixed in da50a85, both halves. The call now passes the confi…" → [↓](#t16)
 - **T17** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved — last: @vzakharov (agent) 2026-09-26T16:09:02Z — "Fixed in 87d72d3. The tap area is now built from the outline…" → [↓](#t17)
-- **T18** `src/pages/mushrooms/ui/scene/layout.ts`:112 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
-- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:368 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
-- **T20** `src/pages/mushrooms/ui/scene/layout.ts`:111 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
+- **T18** `src/pages/mushrooms/ui/scene/layout.ts`:119 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
+- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:372 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
+- **T20** `src/pages/mushrooms/ui/scene/layout.ts`:118 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
 - **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T17:30:56Z — "The faint glow rings are gone: a selected mushroom now wears…" → [↓](#t21)
-- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:119 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
+- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:123 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
 - **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:57Z — "Done in bfcaf78. The picker now closes on the clock as it op…" → [↓](#t23)
 - **T24** `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved — last: @vzakharov (agent) 2026-09-26T17:45:14Z — "Every disc is now opaque white with a full-strength ink rim…" → [↓](#t24)
 - **T25** `src/pages/mushrooms/model/house.ts`:234 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:39Z — "Fixed in 330dd6d, with the clump retuned in 2d7ae65. A door…" → [↓](#t25)
@@ -275,18 +337,33 @@ _2026-09-27T01:44:01Z_
 - **T30** `src/pages/mushrooms/model/house.test.ts`:123 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:47Z — "Fixed in 330dd6d. `DOOR_FRAME` and the painted door now live…" → [↓](#t30)
 - **T31** `scripts/lib/play-house.ts`:152 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:48Z — "Fixed in 3c92655. The play run asks the scene's own hit test…" → [↓](#t31)
 - **T32** `src/pages/mushrooms/ui/scene/house-view.ts`:91 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:49Z — "Kept as it is, and written down in 2645fb9: a door belongs t…" → [↓](#t32)
-- **T33** `src/pages/mushrooms/ui/scene/insect-view.ts`:179 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**The butterfly spins round in one frame — three ways, all a…" → [↓](#t33)
-- **T34** `src/pages/mushrooms/model/insect-motion.ts`:138 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**A butterfly re-routed mid-air snaps its wings shut and sto…" → [↓](#t34)
-- **T35** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**"So two on one perch sit apart" is the account, not what h…" → [↓](#t35)
-- **T36** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:237 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**Where a butterfly drinks, the child often can't see it dri…" → [↓](#t36)
-- **T37** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:39 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**Buttons keep their taps; mushrooms don't.** Butterflies si…" → [↓](#t37)
-- **T38** `src/pages/mushrooms/model/insects.ts`:38 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**The docstring already claims the kind filter the code does…" → [↓](#t38)
-- **T39** `src/pages/mushrooms/model/insect-genes.ts`:77 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**About a third of butterflies have no concentric eyes.** `E…" → [↓](#t39)
-- **T40** `src/pages/mushrooms/model/flight.ts`:54 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**Drinking and resting differ only by a duration, which a ch…" → [↓](#t40)
-- **T41** `src/pages/mushrooms/ui/scene/insect-layout.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**`VIEWPORTS` and the seed formula are copied verbatim** fro…" → [↓](#t41)
-- **T42** `src/pages/mushrooms/model/insect-genes.test.ts`:72 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**This test can't fail.** The fore and hind length ranges do…" → [↓](#t42)
-- **T43** `src/pages/mushrooms/ui/scene/hud.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**The comment pins generator output** ("orange, blue-eyed, t…" → [↓](#t43)
-- **T44** `scripts/lib/mushroom-probe.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-27T01:44:02Z — "**A hand-written `Perch` schema shadowing the model's type**…" → [↓](#t44)
+- **T33** `src/pages/mushrooms/ui/scene/insect-view.ts`:179 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:44Z — "Fixed in ebd1407. The turn logic is now pure in `model/insec…" → [↓](#t33)
+- **T34** `src/pages/mushrooms/model/insect-motion.ts`:138 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:46Z — "Fixed in 43c8281. A leg now carries how far aloft the butter…" → [↓](#t34)
+- **T35** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-27T03:38:54Z — "Fixed in 69ac03a, with b2c0d90 so the rule never costs a but…" → [↓](#t35)
+- **T36** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:237 — unresolved — last: @vzakharov (agent) 2026-09-27T03:38:55Z — "Fixed in 56540e7, with the drink's seat moved in a970464; th…" → [↓](#t36)
+- **T37** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:39 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:47Z — "Decided as you recommended, and written into the plan in a49…" → [↓](#t37)
+- **T38** `src/pages/mushrooms/model/insects.ts`:38 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:49Z — "Fixed in a8ca7cd. `evicted(insects, kind, limits)` counts an…" → [↓](#t38)
+- **T39** `src/pages/mushrooms/model/insect-genes.ts`:77 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:50Z — "Fixed in f4b4546. `EYE_RINGS` is `[2, 3]`, and `fitted` shri…" → [↓](#t39)
+- **T40** `src/pages/mushrooms/model/flight.ts`:54 — unresolved — last: @vzakharov (agent) 2026-09-27T03:38:57Z — "Done in fce1202, a970464 and d3b1da1. `drinking` and `probos…" → [↓](#t40)
+- **T41** `src/pages/mushrooms/ui/scene/insect-layout.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:51Z — "Fixed in 335b4ee. `VIEWPORTS` and `VISITS` live in `ui/scene…" → [↓](#t41)
+- **T42** `src/pages/mushrooms/model/insect-genes.test.ts`:72 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:53Z — "Replaced in 04a3dc5 with a property of what is drawn: over 4…" → [↓](#t42)
+- **T43** `src/pages/mushrooms/ui/scene/hud.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:54Z — "Asserted in 0a7b7b3. The seed moved to `model/insect-genes.t…" → [↓](#t43)
+- **T44** `scripts/lib/mushroom-probe.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:56Z — "Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` fro…" → [↓](#t44)
+- **T45** `docs/plans/mushroom-game-syama.paused.md`:68 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:40Z — "Несложно: теперь каждый байт заканчивается публикацией игры…" → [↓](#t45)
+- **T46** `.claude/skills/megabeast/notes.md`:414 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
+- **T47** `.claude/skills/megabeast/notes.md`:120 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
+- **T48** `docs/plans/mushroom-game-syama.paused.md`:118 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
+- **T49** `docs/plans/mushroom-game-syama.paused.md`:94 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
+- **T50** `src/pages/mushrooms/model/flight.ts`:181 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:10Z — "**On a 320 px phone a flier is lost: it flies away, with no…" → [↓](#t50)
+- **T51** `src/pages/mushrooms/ui/scene/flower-sight.ts`:299 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:10Z — "**A tablet plants one flower, then never another, and the "b…" → [↓](#t51)
+- **T52** `src/pages/mushrooms/ui/scene/perch-sight.ts`:157 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**Bees starve beside butterflies, and flies don't settle "mo…" → [↓](#t52)
+- **T53** `src/pages/mushrooms/ui/scene/perch-sight.ts`:175 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**On a 320 px phone the fliers pile up in the air, and half…" → [↓](#t53)
+- **T54** `src/pages/mushrooms/ui/scene/sound.ts`:263 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**Mute stores sounds up instead of dropping them, and plays…" → [↓](#t54)
+- **T55** `src/pages/mushrooms/model/insect-motion.ts`:167 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**A resting bee's flutter strobes.** It uses the in-flight b…" → [↓](#t55)
+- **T56** `src/pages/mushrooms/ui/scene/flower-sight.ts`:84 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**A bee on a flower hides it.** `ON_CENTRE` sits the bee dea…" → [↓](#t56)
+- **T57** `src/pages/mushrooms/ui/scene/sky-layout.ts`:402 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**On phones the sun sinks behind the hills.** When it meets…" → [↓](#t57)
+- **T58** `src/pages/mushrooms/model/buzz-rest.ts`:26 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**The fly's jitter is invisible.** `JITTER = 0.012` of its s…" → [↓](#t58)
+- **T59** `scripts/lib/flier-watch.ts`:187 — unresolved — last: @vzakharov (agent) 2026-09-27T17:19:11Z — "**This bound can't fail.** The view caps a body's turn at 10…" → [↓](#t59)
 
 <a id="t01"></a>
 
@@ -671,7 +748,7 @@ Done in 3d4af2b. The shadow has its own graphics (`drawMushroomShadow`), placed 
 
 <a id="t15"></a>
 
-### `src/pages/mushrooms/ui/scene/sound.ts`:250 — unresolved
+### `src/pages/mushrooms/ui/scene/sound.ts`:202 — unresolved
 
 ```diff
 @@ -0,0 +1,230 @@
@@ -759,7 +836,7 @@ Fixed in 87d72d3. The tap area is now built from the outlines the painter fills:
 
 <a id="t18"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.ts`:112 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.ts`:119 — unresolved
 
 ```diff
 @@ -0,0 +1,387 @@
@@ -784,7 +861,7 @@ Fixed in 45b2d64: a forest slot never stands under the size at which the narrowe
 
 <a id="t19"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.test.ts`:368 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:372 — unresolved
 
 ```diff
 @@ -0,0 +1,138 @@
@@ -813,7 +890,7 @@ Fixed in f1b8bc3, with the sun's rays tightened in 110e977. The + and − now ri
 
 <a id="t20"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.ts`:111 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.ts`:118 — unresolved
 
 ```diff
 @@ -0,0 +1,387 @@
@@ -867,7 +944,7 @@ The faint glow rings are gone: a selected mushroom now wears a thick bright yell
 
 <a id="t22"></a>
 
-### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:119 — unresolved
+### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:123 — unresolved
 
 ```diff
 @@ -0,0 +1,236 @@
@@ -1232,6 +1309,10 @@ For a six-year-old watching the butterflies, which is the whole point of the gam
 
 **Ask:** make the rest target a function of the landing heading that is continuous across ±π, and fix it once at arrival rather than re-deriving it from a swaying heading each frame. Blend every angle through `wrap(settled − flying)`. Test: over a sweep of seeds and a stepped clock, the container's rotation never changes by more than ~0.2 rad between frames 16 ms apart, in flight, landing, at rest and at take-off.
 
+**@vzakharov (agent)** — 2026-09-27T03:10:44Z
+
+Fixed in ebd1407. The turn logic is now pure in `model/insect-motion.ts` (`bodyTurn`): the rest facing is `REST_LEAN·sin(landing heading)`, which has no seam at ±π, and the take-off and landing offsets are each fixed once, on the leg's first frame and the first frame after arrival, so no frame re-decides which way round to turn. The take-off turn is 450 ms, since 350 ms put a full half-turn just over 0.2 rad a frame. `bodyTurn › never spins` runs 60 seeds over five legs between swaying perches at 16 ms steps: no step over 0.2 rad, where the old logic reached 2.52 rad with 66 frames over the limit.
+
 ---
 
 <a id="t34"></a>
@@ -1257,6 +1338,10 @@ For a six-year-old watching the butterflies, which is the whole point of the gam
 It fires in two ordinary cases: the oldest is sent away while still arriving (five quick presses, `insects.ts:36-38`), and a mushroom is removed while a butterfly is flying to it (`insects.ts:85`). The "never jumps" tests (`insect-motion.test.ts:120`) cover a single leg only.
 
 **Ask:** carry the take-off state across legs. A leg departing mid-air starts with `aloft = 1`, and its path leaves with the velocity the last one had (or at least not from rest). Test: wing value and position change by less than ε between the two frames on either side of a mid-flight `flightAway` and a mid-flight cap removal.
+
+**@vzakharov (agent)** — 2026-09-27T03:10:46Z
+
+Fixed in 43c8281. A leg now carries how far aloft the butterfly was when the previous leg was cut short (`carriedFrom`, worked out by the view at the new leg's `departs`); `aloft` starts from it, and the path leaves with a speed that grows with it, so a re-route neither shuts the wings nor stops dead. A leg from a perch still leaves at rest. `a leg that cuts a flight short` cuts a flight at its midpoint with the real `flightAway` and with `ticked` after the cap is gone: under 1 px and under 0.05 of wing per 1 ms step across the cut, and at least a quarter of the pre-cut speed in the first 16 ms. With the carry forced to 0 all four cases fail.
 
 ---
 
@@ -1288,6 +1373,10 @@ It fires in two ordinary cases: the oldest is sent away while still arriving (fi
 Frames: `docs/remove-before-merging/frames/bite-5/review/tabL-two-stacked-on-one-flower.png`, and three on one cap in `docs/remove-before-merging/frames/bite-5/review/phoneP-rest-lean-flip-three-on-one-cap.png`.
 
 **Ask:** decide a perch's occupancy. Either the next leg avoids a perch another butterfly is on or heading to (the model knows every `Flier`'s leg), or spots are assigned per occupant so that drawn wingspans don't intersect. Test: a sweep with the sweep's parameters in which no two perched butterflies' drawn wingspans overlap by more than, say, 25%. Then keep or rewrite this comment to state what the code does.
+
+**@vzakharov (agent)** — 2026-09-27T03:38:54Z
+
+Fixed in 69ac03a, with b2c0d90 so the rule never costs a butterfly. The model picks each new perch against every other flier's current leg, skipping any perch another sits on or is heading to and any the scene marks as too close to one of those (`ui/scene/perch-sight.ts`); `PERCH_SPREAD` moved there at 0.3, its comment now saying the offset is only variety. Exclusive perches alone made a butterfly with nowhere free leave the meadow (89% of opening-pair visits on a 320 px phone), so b2c0d90 adds an `air` perch: it roams to a free spot over the meadow and tries again, and only the limit sends one off screen. Over your sweep (2000 visits × 40 s × 4, every screen, opening pair and full forest): shared perches 22–38% → 0, wingspans covering more than 25% 22–53% → 0, ticks with a butterfly leaving 0. Decision in the plan (a49eb6b, 115b8c1).
 
 ---
 
@@ -1324,6 +1413,10 @@ Frames: `docs/remove-before-merging/frames/bite-5/review/tabL-two-stacked-on-one
 
 **Ask:** only flowers a butterfly can be seen on are perches. That means clear of every control's tap circle and the screen edge by the wingspan, and not covered by a nearer mushroom. Pass the flowers that qualify to the model's `pick` mapping instead of all of them. Settle the plan's open flower-on-a-foot choice in the same change, since both are about which flowers are in sight. Test: the sweep's fractions go to 0 on every screen.
 
+**@vzakharov (agent)** — 2026-09-27T03:38:55Z
+
+Fixed in 56540e7, with the drink's seat moved in a970464; the flower-on-a-foot choice is settled in the plan (a49eb6b): flowers stay put, and one a nearer mushroom covers is out of sight, so no insect is sent to it. A flower is offered only while its head stands clear of every control's tap circle and the screen edge by half the widest wingspan (spot and breeze allowed for), and the middle of its head is uncovered by any nearer mushroom's drawn outline; recomputed on every resize, growth and sinking, and a flier whose flower leaves sight leaves it. Flowers are now named by id, since a fraction mapped to another flower whenever the count changed. On the third bullet, a970464 seats a drinking butterfly on the head's upper rim with its proboscis curving down into the centre, so most of the flower stays in sight. Sweep: wings in a tap circle 2.5–24% → 0, past the edge 1–9% → 0, head centre inside a nearer mushroom 1.5–31% → 0, every screen. Frame: `docs/remove-before-merging/frames/bite-5/handled/tabL-drink-close-on-the-rim-proboscis-into-the-flower.png`.
+
 ---
 
 <a id="t37"></a>
@@ -1347,6 +1440,10 @@ Frames: `docs/remove-before-merging/frames/bite-5/review/tabL-two-stacked-on-one
 The play run doesn't see it: `play-insects.ts` taps a cap at whatever point `__probe.mushroom` finds that still reaches it, so green proves some point on the cap selects it, not the middle.
 
 **Ask:** decide what a tap on a perched butterfly over a cap means. My recommendation is both: the butterfly flies off, and the tap goes on to the mushroom. The alternative is to shrink a percher's hit circle to its drawn body while it rests. Write the decision into the plan. Then have the play script tap the cap's centre while a butterfly rests on it and assert the outcome.
+
+**@vzakharov (agent)** — 2026-09-27T03:10:47Z
+
+Decided as you recommended, and written into the plan in a49eb6b: a tap on a resting insect goes through it — it flies off and the mushroom (or flower) under it gets the tap; an insect in flight takes the tap alone. Implemented in 3ce7c14; the play script (6ca70b5) clears the selection, taps while a butterfly rests on the cap, and asserts both the take-off and the selection. One deviation: the cap's middle is under the resting butterfly only on phone portrait, because it sits near the top of the cap, so on the other three screens the script taps the butterfly's own point over the cap and logs which point it used.
 
 ---
 
@@ -1382,6 +1479,10 @@ The play run doesn't see it: `play-insects.ts` taps a cap at whatever point `__p
 
 **Ask:** filter now, `insects.filter((each) => each.kind === insect.kind && !isLeaving(each))`, one line. Add a test with a two-kind limits table (a local `INSECT_LIMITS` stand-in, or a parameter) showing that a release at one kind's limit leaves the other kind alone.
 
+**@vzakharov (agent)** — 2026-09-27T03:10:49Z
+
+Fixed in a8ca7cd. `evicted(insects, kind, limits)` counts and picks only insects of the releasing kind not already leaving, and `released` uses it. The new `model/insects.test.ts` takes a two-kind table (`{butterfly: 2, fly: 3}`) and shows a release at one kind's limit leaving the other kind alone.
+
 ---
 
 <a id="t39"></a>
@@ -1404,6 +1505,10 @@ The play run doesn't see it: `play-insects.ts` taps a cap at whatever point `__p
 Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius past the hind wing's outline (3 seeds for the fore wing), via `eyeCentre` and `EYE_RADIUS` (line 75). This is unchecked in render; the fore wing may hide some of it.
 
 **Ask:** minimum 2 rings. A genes test that every seed has ≥ 2 rings, and that the outer ring stays inside `wingOutline` for both pairs.
+
+**@vzakharov (agent)** — 2026-09-27T03:10:50Z
+
+Fixed in f4b4546. `EYE_RINGS` is `[2, 3]`, and `fitted` shrinks an eye's rings together until the outer one takes at most 0.92 of the room to the nearest wing edge over both pairs (`eyeRoom` in `insect-outline.ts`, `distanceToEdge` in `geometry.ts`). Over 2000 seeds: one-ring 679 → 0, past the hind/fore wing 153/3 → 0/0. The tests hold every seed at 2–3 rings and every point of the outer ring inside `wingOutline` for both pairs; the second fails with the fit turned off. The painter needed no change.
 
 ---
 
@@ -1428,6 +1533,10 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 **Drinking and resting differ only by a duration, which a child can't see.** `insect-view.ts:165-184` gives a flower perch the same settle turn, beat and bob as a cap. Nothing in `src/pages/mushrooms` mentions drinking except `DRINKING`. The plan's ecology is "shown, never taught": butterflies drink from flowers and rest on caps. Bite 5 is where that thread starts, and today nothing shows it.
 
 **Ask:** give a drink something visible that ends with the drink, for example a proboscis uncurling into the head, the head dipping under the weight, and a flicker of the petals as the butterfly leaves. Keep it a pure function of the clock in `insect-motion.ts`, tested like `landingBob`, and confirm it with a frame of a flower perch beside a cap perch.
+
+**@vzakharov (agent)** — 2026-09-27T03:38:57Z
+
+Done in fce1202, a970464 and d3b1da1. `drinking` and `proboscis` in `insect-motion.ts` are pure functions of the clock: the proboscis unrolls once the landing bob is half done and curls up just before `leaves` (or over 400 ms when a tap cuts the drink short), the wings flex half shut while drinking, and a cap rest is exactly as before (tested against the old formula). `model/proboscis.ts` bends the tube from the head down into the flower's centre, the tip held on the centre through each sip (`proboscis.test.ts` sweeps seeds, screens, spots, sways and leans). `drinkDip` sags the flower's head under the butterfly and flickers its petals as it leaves; the scene applies it before the butterflies move so the perch sinks with the head. Frames: `docs/remove-before-merging/frames/bite-5/handled/tabL-drink-close-on-the-rim-proboscis-into-the-flower.png` beside `tabL-settled-three-drinking-one-resting-on-a-cap.png`.
 
 ---
 
@@ -1460,6 +1569,10 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 
 **Ask:** one test-only module exporting both (e.g. `viewports.ts` beside them, not a `*.test.ts`), imported by both files.
 
+**@vzakharov (agent)** — 2026-09-27T03:10:51Z
+
+Fixed in 335b4ee. `VIEWPORTS` and `VISITS` live in `ui/scene/viewports.ts`, which both layout sweeps import; Steiger, ESLint and knip accept a module only tests import.
+
 ---
 
 <a id="t42"></a>
@@ -1484,6 +1597,10 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 
 **Ask:** delete it, or replace it with a property of what is drawn, e.g. the hind wing's outline never reaches past the fore wing's tip in `insect-outline.ts`.
 
+**@vzakharov (agent)** — 2026-09-27T03:10:53Z
+
+Replaced in 04a3dc5 with a property of what is drawn: over 400 seeds the hind wing's outline never reaches further sideways than the fore wing's (narrowest margin 17%). It fails with `hindLength` set to `[0.7, 0.8]`, which was tried and reverted.
+
 ---
 
 <a id="t43"></a>
@@ -1504,6 +1621,10 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 **The comment pins generator output** ("orange, blue-eyed, three rings"). A change to any gene range silently makes it false, and then the button's look changes with no test noticing.
 
 **Ask:** assert it in a test (seed 39's genes have the orange base, the blue pattern and three rings), or cut the description down to why a fixed seed exists.
+
+**@vzakharov (agent)** — 2026-09-27T03:10:54Z
+
+Asserted in 0a7b7b3. The seed moved to `model/insect-genes.ts` as `PICTOGRAM_SEED` (now 100, since the wider colour set in e7f8c77 changed seed 39's look): `insect-genes.test.ts` pins its base, pattern and ring count, and `hud.ts` imports it.
 
 ---
 
@@ -1531,6 +1652,430 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 
 **Ask:** a discriminated union built from arrays the model exports (the perch kinds, `SIDES` or similar), so the probe's schema derives from the source of truth per CLAUDE.md § "Derive types and schemas". Then the play script can switch on `kind` without optional checks.
 
+**@vzakharov (agent)** — 2026-09-27T03:10:56Z
+
+Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a per-kind field map and exports `SIDES`; the probe builds a discriminated union from one schema per kind, and that map must satisfy the model's perch type per kind — a missing kind or `side: z.string()` fails to type-check. `play-insects.ts` narrows on `kind`. The model's extensionless imports mean `play:mushrooms` now runs under `tsx`, as `render-og` does.
+
+---
+
+<a id="t45"></a>
+
+### `docs/plans/mushroom-game-syama.paused.md`:68 — unresolved
+
+```diff
+@@ -0,0 +1,468 @@
+… 63 lines elided …
++  вместо tmp, хочу периодически на них посматривать"; "в конце каждого куска
++  выбирать те что достойны показать"). A handled review's fixes count as
++  their bite's, and land in the same directory. `/finalize` sweeps it.
++- **The result is also an Artifact** (last bite), and its link is posted on
++  the PR, so the operator can open it the moment they are back.
+```
+
+**@vzakharov (human)** — 2026-09-27T09:41:42Z
+
+вообще-то имел в виду атефакт в конце каждого байта, чтобы по ходу дела тоже можно было тестировать без установки. Если это не сложно. Если сложно, забей -- я уже понял как запускать локально, могу просто пуллить и запускать.
+
+**@vzakharov (agent)** — 2026-09-27T17:13:40Z
+
+Несложно: теперь каждый байт заканчивается публикацией игры артефактом по одной и той же ссылке, её выложу в PR, как только первая сессия дойдёт до конца байта — 4c7f8f7.
+
+---
+
+<a id="t46"></a>
+
+### `.claude/skills/megabeast/notes.md`:414 — unresolved
+
+```diff
+@@ -0,0 +1,464 @@
+… 400 lines elided …
++  placed against them moved on a resize. The fix was to place the dependents
++  against the layout computed with the margin at 0. The skill's layout
++  checklist should ask which quantities are exactly proportional before
++  anything keys stable placement off them.
+```
+
+**@vzakharov (human)** — 2026-09-27T09:45:16Z
+
+если мы сделаем более широкое поле (как описано ниже), то можно делать не ресайз а просто кроп, а там уже ребёнок сам будет водить влево-вправо
+
+**@vzakharov (agent)** — 2026-09-27T17:13:42Z
+
+Записал вместе с зумом как байт 8: поле шире экрана, поворот меняет кроп, а не раскладку, ребёнок водит и зумит сам — 4c7f8f7.
+
+---
+
+<a id="t47"></a>
+
+### `.claude/skills/megabeast/notes.md`:120 — unresolved
+
+```diff
+@@ -0,0 +1,464 @@
+… 111 lines elided …
++  loads, the frames it looks at and vet's output. The skill should key the
++  decision on the notice, and expect a `/handle` session to relay `/go`
++  nearly every time rather than take a bite of its own.
++- **A relay chain is capped at eight sessions deep.** Bite 3's review
+```
+
+**@vzakharov (human)** — 2026-09-27T09:46:27Z
+
+пока пытаюсь понять, баг это -- и тогда нужно думать как переформатировать релеи в запуски подагентов -- или фича (оператор каждый восьмой раз звучит как вполне оправданно -- надо посмотреть, сколько это по часам занимает обычно)
+
+**@vzakharov (agent)** — 2026-09-27T17:13:44Z
+
+По таймингам: цепочка из восьми сессий прожила ~3,5 ч на байтах 1–3 и ~13 ч на 4–6, то есть твой перезапуск нужен примерно раз в три байта. Релеи оставляю релеями, как ты сказал; записал в план и в заметки megabeast — 4c7f8f7.
+
+---
+
+<a id="t48"></a>
+
+### `docs/plans/mushroom-game-syama.paused.md`:118 — unresolved
+
+```diff
+@@ -0,0 +1,468 @@
+… 100 lines elided …
++  hills and scale. Checked by frames, not by reading code: each bite ends
++  with `/preview` screenshots and a scripted tap sequence captured frame by
++  frame at tablet and phone sizes.
++- **The meadow is a small ecosystem — the twist.** The operator asked for
+```
+
+**@vzakharov (human)** — 2026-09-27T09:53:55Z
+
+Общее ещё наблюдение -- кажется, что экран слишком маловат -- или объекты великоваты -- чтобы было прямо интересно. Поиграться с zoom in/out двумя пальцами, т.е. чтобы игровое поле было больше. Начать с того что есть, а дальше ребёнок обязательно попробует сделать приближение/отдаление, механика им уже знакома из фотографий. Дальше можно будет думать про то чтобы по нему прямо можно было "перемещаться" (либо как спектатор, либо как участник событий -- типа подходишь слишком быстро, насекомые улетают) -- но пока оставим это за скобками.
+
+**@vzakharov (agent)** — 2026-09-27T17:13:45Z
+
+Байт 8 (широкое поле + пинч-зум), начиная с того, что есть; прогулка по полю вынесена за скобки — 4c7f8f7.
+
+---
+
+<a id="t49"></a>
+
+### `docs/plans/mushroom-game-syama.paused.md`:94 — unresolved
+
+```diff
+@@ -0,0 +1,468 @@
+… 76 lines elided …
++  lean, spots, wing shape, a hue nudge) plus a routine that paints the genes
++  with Phaser `Graphics`: outline, flat fill, a highlight, a shade — cartoon
++  shading as layered shapes. The seed is the state; the genes are derived.
++  Sound is synthesized with Web Audio, no files.
+```
+
+**@vzakharov (human)** — 2026-09-27T09:58:57Z
+
+чуть-чуть поиграться с атмосферностью, сейчас это выглядит немного слишком свинка-пеппа, понаешь? вдохновиться бы какими-нибудь beautiful/atmospheric платформерами. Не о том, чтобы это был фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с душой.
+
+Можно после окончания этого байта взять это следующим, сдвинув остальные.
+
+Но вообще здорово!
+
+**@vzakharov (agent)** — 2026-09-27T17:13:46Z
+
+Спасибо! Атмосфера — следующий байт (7), с референсами Gris, Ori и Alto's Odyssey, рядом с которыми судим каждый кадр; дождь и остальное сдвинуты — 4c7f8f7.
+
+---
+
+<a id="t50"></a>
+
+### `src/pages/mushrooms/model/flight.ts`:181 — unresolved
+
+```diff
+@@ -0,0 +1,356 @@
+… 175 lines elided …
++ * where the other fliers sit or are heading, nor crowded by one there. With
++ * none open it flutters up and settles again where it was, while that is
++ * still a perch offered, and roams to an open spot in the air otherwise,
++ * where it looks again — to one only crowded, not taken, where a small
++ * screen's air has none uncrowded. It flies away only when the air has no
++ * spot untaken either, which the scene never lets happen.
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:10Z
+
+**On a 320 px phone a flier is lost: it flies away, with no eviction, when all ten are out.** That breaks "nothing starves, dies or is lost".
+
+This comment's "which the scene never lets happen" does not hold. On phone and small phone, a 6×4 air grid minus the controls leaves as few as 8 air spots. Bees are never offered a cap, and flowers and caps crowd each other out. So ten fliers can outnumber every open place, and the last one gets `awayPerch` (lines 222–224).
+
+- **Measured:** release the limits (4 butterflies, 3 flies, 3 bees) on small phone with the opening clump and tick for 5 minutes. 12 of 40 visits lose a flier. The first loss was a fly at the first tick, with 2 flowers in sight, 2 caps and 8 air spots.
+- **Other screens:** they lost none.
+- **Why the test missed it:** `perch-sight.test.ts` line 251 checks `spots.length > INSECT_LIMITS.butterfly`, bite 5's count, and ignores the flies and bees.
+
+**Ask:** air spots at least the sum of `INSECT_LIMITS` on every screen, or a fallback that never returns `away`. Test: for every screen in `VIEWPORTS`, the opening clump, all ten released and 5 minutes of ticks, no leg goes `away` except by eviction. This fails today on small phone.
+
+---
+
+<a id="t51"></a>
+
+### `src/pages/mushrooms/ui/scene/flower-sight.ts`:299 — unresolved
+
+```diff
+@@ -0,0 +1,304 @@
+… 290 lines elided …
++        return false;
++      }
++      const spot = ringSpot(layout, parent.place, slot);
++      const turnedSpot = ringSpot(turned, turnedParent.place, slot);
++      return (
++        spot !== undefined &&
++        turnedSpot !== undefined &&
++        plantable(layout, spot, here, covers) &&
++        plantable(turned, turnedSpot, there, turnedCovers)
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:10Z
+
+**A tablet plants one flower, then never another, and the "bed grows round" never shows.** This is the bite's twist, on the primary screen.
+
+The cause is line 299: every ring slot must also be `plantable` on the turned screen. The turned layout puts mushrooms and flowers somewhere else, so a slot clear here is usually covered there.
+
+| | tabL | tabP | phoneS | phoneP / phoneL |
+| --- | --- | --- | --- | --- |
+| Planted per meadow in 4 min, 3 bees alone | 1.1 | 0.65 | 1.03 | 6.1 / 6.75 |
+| Meadows that never plant | 32% | 53% | | |
+| Median capacity | 1 | 0 | 1 | |
+| Median capacity, turned rule off | ~5 | 4.5 | 4.6 | |
+
+- **When it plants:** nearly all of it happens in the first minute. From minute 1 to minute 4, tabL adds 0.03.
+- **What worst-case genes cost:** almost nothing (3.93 room per meadow with them, 3.98 with average genes).
+- Frames: `docs/remove-before-merging/frames/bite-6/review/tabL-the-one-flower-a-tablet-plants.png`, and next to it `docs/remove-before-merging/frames/bite-6/review/phoneL-a-phone-plants-a-full-bed.png`.
+
+The rule is stricter for a planted flower than for a seeded one. The plan already lets a seeded flower fall out of sight after a turn: it is simply not offered as a perch. Holding planted flowers to that same rule, sight on this screen only, is consistent with "Flowers stay put". It is also where bite 8, which turns a rotation into a crop, ends up anyway.
+
+**Ask:** drop the turned-screen condition, and let a planted flower the turn hides be out of sight as a seeded one is. Test in `flower-plots.test.ts`: over 2000 seeds, median planting capacity ≥ 4 on tabL and tabP. The test today only asserts `count > 0` over 150 visits.
+
+---
+
+<a id="t52"></a>
+
+### `src/pages/mushrooms/ui/scene/perch-sight.ts`:157 — unresolved
+
+```diff
+@@ -0,0 +1,194 @@
+… 153 lines elided …
++    const seat = seatAt(stand, perch, 0);
++    return seat ? [{ perch, seat }] : [];
++  });
++  const apart = (1 - MOST_OVERLAP) * WIDEST_SPAN * layout.insectSize;
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**Bees starve beside butterflies, and flies don't settle "mostly on the fly agarics".**
+
+Line 157 marks two perches as crowded at the butterfly's widest wingspan, whoever sits on them. A bee is 0.65 of a butterfly, and a fly smaller still. So four butterflies crowd out most of the flowers a bee could use, and the caps a fly could use.
+
+- **Share of bee flights ending in the air, with 4 butterflies:** tabL 85%, tabP 97.5%, phoneP 91%, phoneS 99.6%.
+- **Share of the bees' time spent roaming:** tabP 93%, phoneS 98.8%.
+- **Planting on phoneS with butterflies:** 0.05 per meadow.
+- **Removing flower–flower crowding alone** (tablet, 40 visits) lifts bee legs bound for a flower from 0.33 to 0.80, against 0.91 with no butterflies.
+- **Flies:** in a forest with 3 of 6 caps spotted, only 30–35% of fly landings are on spotted caps (9% on phoneS). Among cap landings it is 43–49%, where `spottedPull` should give ~75%.
+- **Sight takes its share too:** on tabP, 61% of seeded flowers are never perches. 38% are covered by the opening pair, 12% stand near a control, and 11% are too near the edge.
+- Frame: `docs/remove-before-merging/frames/bite-6/review/tabP-bees-roam-past-flowers-out-of-sight.png`.
+
+**Ask:** crowding takes the wingspans of the kinds actually involved (the flier choosing and the one holding the other perch), not `WIDEST_SPAN` for all. Tests on the real `perchSight`, not the `crowded: []` in `swarm.test.ts`: with 4 butterflies, bees roam < 40% of their time on every screen, and ≥ 60% of fly landings are on fly agarics.
+
+---
+
+<a id="t53"></a>
+
+### `src/pages/mushrooms/ui/scene/perch-sight.ts`:175 — unresolved
+
+```diff
+@@ -0,0 +1,194 @@
+… 166 lines elided …
++  );
++  // Hovering fliers never overlap: two spots in the air nearer than the
++  // widest wingspan crowd each other.
++  const air = airSpots(layout);
++  const span = WIDEST_SPAN * layout.insectSize;
++  const aloft = air.flatMap((spot, index) =>
++    air
++      .slice(index + 1)
++      .filter((other) => Math.hypot(spot.x - other.x, spot.y - other.y) < span)
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**On a 320 px phone the fliers pile up in the air, and half the taps hit the wrong insect.**
+
+Only destinations are kept apart. Paths never are, and phoneS has only 8 air spots to spread across.
+
+- **Overlap:** 86% of phoneS frames have two flying insects with overlapping wings, and 45% with overlapping bodies. The other screens show 14–36% wing overlap.
+- **Taps:** of 10 taps aimed at a flying fly, 5 reached it; for bees, 7 of 10. Another insect was on top.
+- **The play run:** `flier-watch.ts` counts crossings but never fails on them.
+- Frame: `docs/remove-before-merging/frames/bite-6/review/phoneS-fliers-pile-up-in-the-air.png`.
+
+**Ask:** a tap resolves to the flier whose body is nearest the finger, rather than the top-drawn one, so the child gets the one they aimed at. And fewer pile-ups on phoneS, e.g. air spots spread by the kind's own span with legs staggered. Check: < 20% of phoneS frames with flying bodies overlapping, and ≥ 9/10 taps at a flying fly reach it.
+
+---
+
+<a id="t54"></a>
+
+### `src/pages/mushrooms/ui/scene/sound.ts`:263 — unresolved
+
+```diff
+@@ -0,0 +1,291 @@
+… 258 lines elided …
++    this.context?.close().catch(reportError);
++  }
++
++  private play(voice: Voice): void {
++    if (this.context && this.master) voice(this.context, this.master);
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**Mute stores sounds up instead of dropping them, and plays them all at once on unmute.**
+
+A suspended context's clock does not advance. So every voice asked for while muted is built and scheduled at the same frozen moment. That includes the planting chimes, which fire from ticks with no tap. Their nodes pile up meanwhile. `scheduleBird` already guards on `state === 'running'` (line 272) for exactly this reason; `play` doesn't. Hidden tabs have the same problem.
+
+- **Measured:** bee-band loudness right after unmute was −56 dB with no muted taps, −33 dB after one, and −19 dB after five.
+
+**Ask:** `play` builds nothing unless the context is running. The pending first-tap voice before the context exists stays as it is. Test with a fake `AudioContext`: no node is created while muted or hidden, and the loudness after unmute reads at baseline.
+
+---
+
+<a id="t55"></a>
+
+### `src/pages/mushrooms/model/insect-motion.ts`:167 — unresolved
+
+```diff
+@@ -0,0 +1,309 @@
+… 159 lines elided …
++    case 'fly': {
++      return 0;
++    }
++    case 'bee': {
++      const into = roundAt(now, BUZZ_EVERY, phase);
++      if (into >= BUZZ_FOR) return 0;
++      const swell = Math.sin((Math.PI * into) / BUZZ_FOR);
++      return BUZZ_OPEN * swell * (1 - wave(now, BEAT_AIR.bee, phase));
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**A resting bee's flutter strobes.** It uses the in-flight beat `BEAT_AIR.bee` (~36 ms, about two frames at 60 fps). At rest `insect-look.ts` shows the wing graphics fully and no blur.
+
+`draw-buzz.ts`'s own header says a beat that fast "would strobe at 60 frames a second if drawn as a wing".
+
+- **Measured at 60 fps:** four consecutive frames read 0, 0.215, 0.022, 0.291 rad. Median change during a flutter is 0.19 rad per frame (max 0.52), and 65% of flutter frames jump > 0.1 rad.
+- **Why the test missed it:** `buzz-rest.test.ts` samples every 3 ms, so it never sees the aliasing.
+- Frame: `docs/remove-before-merging/frames/bite-6/review/tabL-bee-rest-flutter-4-consecutive-frames.png`.
+
+**Ask:** a resting flutter slow enough to be drawn as a wing (≥ ~150 ms a stroke), or the blur fan at rest too. Test sampled every 16.7 ms: wing change < 0.08 rad per frame, and at most ~2 direction changes per flutter.
+
+---
+
+<a id="t56"></a>
+
+### `src/pages/mushrooms/ui/scene/flower-sight.ts`:84 — unresolved
+
+```diff
+@@ -0,0 +1,304 @@
+… 76 lines elided …
++ */
++const ABOVE_CENTRE = 0.3;
++
++/**
++ * How far above a flower's centre a fly or a bee sits, in units of its size:
++ * on the centre itself, which it has no proboscis to reach from the rim.
++ */
++const ON_CENTRE = 0.12;
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**A bee on a flower hides it.** `ON_CENTRE` sits the bee dead centre, and `layout.ts` 411–415 sizes it from the butterfly unit, which has a 60 px floor.
+
+- **Pixel check** (bee hidden and shown at the same moment): it covers 54–90% of the head and 93–98% of its centre.
+- **Tablet:** bee span 75 px against a 55 px median head.
+- **phoneS:** 39–42 px bee on a 17–22 px head.
+- `insect-layout.test.ts` only bounds the bee against butterflies.
+- Frame: `docs/remove-before-merging/frames/bite-6/review/phoneP-bees-hide-the-flowers-they-sit-on.png`. The two bees on the left sit where a flower was.
+
+The pollination is the thing to watch, and the child can't see a flower being visited if the visitor covers it.
+
+**Ask:** ≥ 50% of the head stays visible under a bee on every screen: a smaller bee, or one perched on the head's side or rim rather than its centre. Test: bee span ≤ ~0.8 of the median head diameter per screen, or a covered-fraction bound.
+
+---
+
+<a id="t57"></a>
+
+### `src/pages/mushrooms/ui/scene/sky-layout.ts`:402 — unresolved
+
+```diff
+@@ -0,0 +1,421 @@
+… 395 lines elided …
++        Math.hypot(pick.x - corner.x, pick.y - corner.y) <
++        tapReach(pick.r) + reach,
++    );
++  const { x: across, y } = meets(rays)
++    ? {
++        x: meets(r) ? width - corner.x : corner.x,
++        y: Math.max(...picks.map((pick) => pick.y + tapReach(pick.r))) + rays,
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**On phones the sun sinks behind the hills.** When it meets the pickers it drops below them, and `placeSun` never receives the horizon.
+
+- **Median share of the disc behind the hills, 10 seeds:** phoneS 97% (fully hidden on 4 of 10), phoneL 73%, phoneP 20%. Tablets 0.
+- Frame: `docs/remove-before-merging/frames/bite-6/review/phoneL-sun-wholly-behind-the-hills.png`.
+
+**Ask:** the sun stays in the sky on every screen. If the drop can't clear the pickers and the horizon both, move it across or shrink it. Test in the layout sweep: `sun.y + sun.r <= horizon`, or ≥ 80% of the disc showing, on every seed and screen.
+
+---
+
+<a id="t58"></a>
+
+### `src/pages/mushrooms/model/buzz-rest.ts`:26 — unresolved
+
+```diff
+@@ -0,0 +1,122 @@
+… 22 lines elided …
++const EASE_OUT = 250;
++
++/** How far a fly jitters, and its two shakes' periods, in ms, never in step. */
++const JITTER = 0.012;
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**The fly's jitter is invisible.** `JITTER = 0.012` of its size is 0.4 px on phones and 0.7 px on tablets, about 1% of its span. The hop, at 5–9 px, is the only fidget a child sees.
+
+The plan's "jitter, rub their legs and hop" reads as three behaviours. On screen it is one.
+
+**Ask:** jitter at least ~1.5 px on every screen (roughly 0.04 of the size). Check the rub's travel in px while there; it wasn't measured.
+
+---
+
+<a id="t59"></a>
+
+### `scripts/lib/flier-watch.ts`:187 — unresolved
+
+```diff
+@@ -0,0 +1,189 @@
+… 183 lines elided …
++});
++
++/** The most a flier's body turns between two frames, in radians. */
++export const MOST_TURN = 0.2;
+```
+
+**@vzakharov (agent)** — 2026-09-27T17:19:11Z
+
+**This bound can't fail.** The view caps a body's turn at 10.8 rad/s, which is 0.18 rad a frame at 60 Hz. So the play run measures the cap, and a spin shows up as a smooth 10.8 rad/s turn that passes.
+
+Related tests that pass by construction:
+- `swarm.test.ts` line 35 hands the model `crowded: []` and room at every flower, so "never two to one perch" never exercises crowding.
+- `perch-sight.test.ts` "the air" recomputes the implementation's own formula for one seed.
+- `flight-kinds.test.ts` 72–75 keeps three flowers always open, so `to.kind === 'flower'` is guaranteed.
+
+**Ask:** make the watch fail on what a child sees, not on the cap. For example: a flier's heading within ~0.3 rad of its direction of travel once a leg is past its first 150 ms, and no more than one full turn per leg. Feed `swarm.test.ts` from the real `perchSight` on a few screens, so the crowding findings above have a test that fails today.
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -1539,10 +2084,15 @@ Related: on 153 of 2000 seeds the outer ring reaches up to 24% of its radius pas
 - **2026-09-17T09:44:03Z** @vzakharov renamed from «feat(vova): a mushroom toy from Syama's drawing» to «feat(vova): a mushroom game from Syama's drawing».
 - **2026-09-17T16:32:27Z** @vzakharov cross-referenced this pull request from [#65 Syama's mushroom game](https://github.com/vzakharov/vovazakharov.com/issues/65).
 - **2026-09-17T16:33:58Z** @vzakharov renamed from «feat(vova): a mushroom game from Syama's drawing» to «feat(vova): a meadow with two mushrooms at /mushrooms — stage one of Syama's game».
+- **2026-09-26T08:20:27Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/eb74a907cd42066d0bb4db2870ac26871b6accf6.
 - **2026-09-26T08:20:28Z** @vzakharov — _head_ref_force_pushed_
 - **2026-09-26T08:20:39Z** @vzakharov renamed from «feat(vova): a meadow with two mushrooms at /mushrooms — stage one of Syama's game» to «feat(vova): Syama's mushroom game at /mushrooms».
 - **2026-09-26T08:50:20Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325225829.
+- **2026-09-26T09:05:56Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/43eeb9083782f93e615d0e71434d358c0f7e842f.
+- **2026-09-26T09:05:56Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/5ec3edc0fe38a9ff60184f6963bf47ea55014414.
 - **2026-09-26T09:40:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325464106.
 - **2026-09-26T11:41:19Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5325798267.
 - **2026-09-26T20:11:44Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5327262595.
 - **2026-09-27T01:44:01Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5328444672.
+- **2026-09-27T16:03:06Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5329778719.
+- **2026-09-27T17:19:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5331309763.
