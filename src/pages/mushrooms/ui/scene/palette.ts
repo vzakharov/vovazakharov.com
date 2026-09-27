@@ -74,10 +74,19 @@ export const PALETTE = {
   mouseEye: 0x1e_12_12,
   /** One per `BUTTERFLY_COLOURS` name: a butterfly's wings and its eyes' rings. */
   butterflies: {
+    coral: 0xff_6e_52,
+    peach: 0xff_b4_86,
     orange: 0xff_9a_2e,
     yellow: 0xff_dc_3c,
-    blue: 0x4e_a6_ff,
+    lemon: 0xec_f2_5e,
+    mint: 0x52_d8_a8,
+    turquoise: 0x30_c4_d8,
+    sky: 0x4e_a6_ff,
+    cobalt: 0x4a_6c_f0,
+    periwinkle: 0x8c_84_ff,
     violet: 0xb0_78_f2,
+    magenta: 0xd8_5a_da,
+    rose: 0xff_78_b4,
     white: 0xff_fb_f2,
   },
   /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */

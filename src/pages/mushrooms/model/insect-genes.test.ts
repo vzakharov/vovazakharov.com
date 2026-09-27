@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { BUTTERFLY_LIMIT } from './flight';
 import { containsPoint, ellipse, type Point } from './geometry';
 import {
   BUTTERFLY_COLOURS,
@@ -8,13 +9,26 @@ import {
   EYE_RINGS,
   INSECT_RANGES,
   insectGenes,
+  PATTERN_TURN,
 } from './insect-genes';
 import { eyeCentre, WING_PAIRS, wingOutline } from './insect-outline';
+import { mulberry32, nextSeed } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const butterflies = SEEDS.map((seed) =>
   insectGenes({ seed, kind: 'butterfly' }),
 );
+
+/** Meadows of `BUTTERFLY_LIMIT` butterflies, their seeds drawn as the scene draws them. */
+const SPREAD_SETS = 2000;
+const SPREAD_STREAM = 20_260_927;
+/**
+ * The most of those meadows that may repeat a base colour, and that may show
+ * two colours or fewer: independent seeds cannot beat the birthday odds of
+ * `BUTTERFLY_COLOURS`, so these hold the ring's size rather than a pairing.
+ */
+const MOST_REPEATING = 0.45;
+const MOST_TWO_TONED = 0.06;
 
 function inRange(name: keyof typeof INSECT_RANGES, value: number): void {
   const [min, max] = INSECT_RANGES[name];
@@ -82,12 +96,34 @@ describe('insectGenes', () => {
     }
   });
 
-  it('grows every colour, and never a pattern the colour of its base', () => {
+  it('grows every colour, its pattern a quarter of the ring away or more', () => {
     const colours = new Set(butterflies.map(({ colour }) => colour));
     assert.equal(colours.size, BUTTERFLY_COLOURS.length);
+    const count = BUTTERFLY_COLOURS.length;
     for (const { colour, pattern } of butterflies) {
-      assert.notEqual(pattern, colour);
+      const apart =
+        (BUTTERFLY_COLOURS.indexOf(pattern) -
+          BUTTERFLY_COLOURS.indexOf(colour) +
+          count) %
+        count;
+      const turn = Math.min(apart, count - apart) / count;
+      assert.ok(turn >= PATTERN_TURN[0], `${colour} under ${pattern}`);
     }
+  });
+
+  it('seldom repeats a base colour among four butterflies on screen', () => {
+    const stream = mulberry32(SPREAD_STREAM);
+    const sets = Array.from({ length: SPREAD_SETS }, () =>
+      Array.from(
+        { length: BUTTERFLY_LIMIT },
+        () => insectGenes({ seed: nextSeed(stream), kind: 'butterfly' }).colour,
+      ),
+    );
+    const distinct = sets.map((set) => new Set(set).size);
+    const share = (holds: (size: number) => boolean) =>
+      distinct.filter((size) => holds(size)).length / SPREAD_SETS;
+    assert.ok(share((size) => size < BUTTERFLY_LIMIT) < MOST_REPEATING);
+    assert.ok(share((size) => size <= 2) < MOST_TWO_TONED);
   });
 
   it('never reaches the hind wings sideways past the fore wings’ tips', () => {

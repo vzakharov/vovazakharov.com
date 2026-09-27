@@ -15,14 +15,33 @@ import {
 const INSECT_KINDS = ['butterfly'] as const;
 export type InsectKind = (typeof INSECT_KINDS)[number];
 
-/** The names `palette.ts` keys its butterfly hues by, one base hue each. */
+/**
+ * The names `palette.ts` keys its butterfly hues by, one base hue each, in
+ * order round the colour wheel with white closing the ring. Enough of them
+ * that four butterflies on screen seldom share one; none in the grass's
+ * greens, which a butterfly would vanish into.
+ */
 export const BUTTERFLY_COLOURS = [
+  'coral',
+  'peach',
   'orange',
   'yellow',
-  'blue',
+  'lemon',
+  'mint',
+  'turquoise',
+  'sky',
+  'cobalt',
+  'periwinkle',
   'violet',
+  'magenta',
+  'rose',
   'white',
 ] as const;
+/**
+ * How far round `BUTTERFLY_COLOURS` a pattern sits from its base, as a share
+ * of the ring: never a near neighbour, so the eyes and the edge stand out.
+ */
+export const PATTERN_TURN = [0.25, 0.75] as const;
 type ButterflyColour = (typeof BUTTERFLY_COLOURS)[number];
 
 type Kinded = { kind: InsectKind };
@@ -109,12 +128,20 @@ function fitted(genes: InsectGenes): InsectGenes {
   };
 }
 
+/** A pattern colour for `colour`, `PATTERN_TURN` of the way round the ring from it. */
+function patternFor(random: Random, colour: ButterflyColour): ButterflyColour {
+  const count = BUTTERFLY_COLOURS.length;
+  const least = Math.ceil(PATTERN_TURN[0] * count);
+  const most = Math.floor(PATTERN_TURN[1] * count);
+  const turn = least + Math.floor(random() * (most - least + 1));
+  const index = (BUTTERFLY_COLOURS.indexOf(colour) + turn) % count;
+  return BUTTERFLY_COLOURS[index] ?? colour;
+}
+
 export function insectGenes({ seed, kind }: InsectSeed): InsectGenes {
   const random = mulberry32(seed);
   const gene = geneFrom(random, INSECT_RANGES);
   const colour = pick(random, BUTTERFLY_COLOURS);
-  const others = BUTTERFLY_COLOURS.filter((each) => each !== colour);
-  const [firstOther = colour, ...restOthers] = others;
   return fitted({
     kind,
     bodyLength: gene('bodyLength'),
@@ -132,7 +159,7 @@ export function insectGenes({ seed, kind }: InsectSeed): InsectGenes {
     eyes: growEyes(random),
     eyeAt: gene('eyeAt'),
     colour,
-    pattern: pick(random, [firstOther, ...restOthers]),
+    pattern: patternFor(random, colour),
     hueNudge: gene('hueNudge'),
     patternNudge: gene('patternNudge'),
   });
