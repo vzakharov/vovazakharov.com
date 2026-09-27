@@ -3,6 +3,7 @@
  * and two clear veined wings, laid back over the body at rest.
  */
 
+import { buzzingBody } from './buzz-genes';
 import type { Buzzing, OfKind } from './insect-genes';
 import {
   countFrom,
@@ -51,14 +52,7 @@ export function flyGenes(seed: number): FlyGenes {
   const gene = geneFrom(random, FLY_RANGES);
   return {
     kind: 'fly',
-    bodyLength: gene('bodyLength'),
-    bodyWidth: gene('bodyWidth'),
-    wing: {
-      length: gene('wingLength'),
-      breadth: gene('wingBreadth'),
-      tip: gene('wingTip'),
-    },
-    legLength: gene('legLength'),
+    ...buzzingBody(gene),
     eyeRadius: gene('eyeRadius'),
     hueNudge: gene('hueNudge'),
     sheen: pick(random, FLY_SHEENS),

@@ -4,6 +4,7 @@
  * carries.
  */
 
+import { buzzingBody } from './buzz-genes';
 import type { Buzzing, OfKind } from './insect-genes';
 import {
   countFrom,
@@ -49,14 +50,7 @@ export function beeGenes(seed: number): BeeGenes {
   const gene = geneFrom(random, BEE_RANGES);
   return {
     kind: 'bee',
-    bodyLength: gene('bodyLength'),
-    bodyWidth: gene('bodyWidth'),
-    wing: {
-      length: gene('wingLength'),
-      breadth: gene('wingBreadth'),
-      tip: gene('wingTip'),
-    },
-    legLength: gene('legLength'),
+    ...buzzingBody(gene),
     headRadius: gene('headRadius'),
     fuzz: gene('fuzz'),
     basket: gene('basket'),
