@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 
+import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
   type Expect,
@@ -198,25 +199,79 @@ export async function playInsects(
   await page.tap(controls.plus);
   await page.step(30);
 
-  // A tap on the middle of a cap a butterfly rests on selects the mushroom
-  // and sends the butterfly off, both.
+  // A tap over a cap a butterfly rests on — the cap's middle, or where the
+  // butterfly is drawn where the middle is not under it — selects the
+  // mushroom and sends the butterfly off, both.
   const onCapToTap = await waitForCapRest();
   if (onCapToTap?.to.kind !== 'cap') {
     expect(false, 'no butterfly ever rested on a cap to be tapped through');
     return;
   }
   const tappedCap = onCapToTap.to.id;
-  const middle = await page.evaluate(
-    `__probe.capMiddle(${JSON.stringify(tappedCap)})`,
-    Point,
-  );
-  const top = await page.evaluate(
-    `__probe.topAt(${JSON.stringify(middle)})`,
-    z.string().nullable(),
-  );
+  // The selection has to change for the tap to prove anything: a tap on the
+  // bare sky lets go of it first.
+  if ((await state()).selected === tappedCap) {
+    const { x, y } = controls.plus;
+    const sky = [0.3, 0.5, 0.7].map((across) => ({ x: x * across, y }));
+    const tops = await Promise.all(
+      sky.map(async (point) =>
+        page.evaluate(
+          `__probe.topAt(${JSON.stringify(point)})`,
+          z.string().nullable(),
+        ),
+      ),
+    );
+    const bare = sky[tops.indexOf(null)];
+    if (bare) await page.tap(bare);
+    await page.step(2);
+  }
   expect(
-    top === `insect:${onCapToTap.id}`,
-    `the middle of ${tappedCap}'s cap is not under ${onCapToTap.id}, but ${String(top)}`,
+    (await state()).selected !== tappedCap,
+    `${tappedCap} stayed selected before it was tapped through`,
+  );
+  const label = `insect:${onCapToTap.id}`;
+  /** The cap's middle, or the butterfly's drawn point, whichever a tap on reaches the butterfly; `undefined` while neither does. */
+  const overButterfly = async () => {
+    const drawn = await shown(onCapToTap.id);
+    const middle = await page.evaluate(
+      `__probe.capMiddle(${JSON.stringify(tappedCap)})`,
+      Point,
+    );
+    const candidates = drawn ? [middle, pick(drawn, 'x', 'y')] : [middle];
+    const tops = await Promise.all(
+      candidates.map(async (point) =>
+        page.evaluate(
+          `__probe.topAt(${JSON.stringify(point)})`,
+          z.string().nullable(),
+        ),
+      ),
+    );
+    const index = tops.indexOf(label);
+    if (index !== -1) {
+      note(
+        `tapped through ${index === 0 ? "the cap's middle" : 'the butterfly, the middle not under it'}`,
+      );
+    }
+    return candidates[index];
+  };
+  /** Steps until a tap over the cap reaches the butterfly, while another flies over it. */
+  const findOver = async (
+    looks: number,
+  ): Promise<z.infer<typeof Point> | undefined> => {
+    const point = await overButterfly();
+    if (point !== undefined || looks === 0) return point;
+    await page.step(2);
+    return findOver(looks - 1);
+  };
+  const middle = await findOver(10);
+  if (middle === undefined) {
+    expect(false, `no tap over ${tappedCap} reaches ${onCapToTap.id} on it`);
+    return;
+  }
+  const unmoved = await byId(onCapToTap.id);
+  expect(
+    unmoved?.legs === onCapToTap.legs,
+    `${onCapToTap.id} left ${tappedCap} before it could be tapped through`,
   );
   await page.tap(middle);
   const throughAt = await now();
@@ -225,11 +280,11 @@ export async function playInsects(
   expect(
     flownOff?.legs === onCapToTap.legs + 1 &&
       Math.abs(flownOff.departs - throughAt) < 100,
-    `a tap on ${tappedCap}'s middle did not send ${onCapToTap.id} off`,
+    `a tap over ${tappedCap} did not send ${onCapToTap.id} off`,
   );
   expect(
     (await state()).selected === tappedCap,
-    `a tap on ${tappedCap}'s middle, through ${onCapToTap.id}, did not select it`,
+    `a tap over ${tappedCap}, through ${onCapToTap.id}, did not select it`,
   );
   await page.step(4);
   await page.shoot('b5-tapped-through');
