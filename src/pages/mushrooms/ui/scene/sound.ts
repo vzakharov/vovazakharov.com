@@ -259,17 +259,32 @@ export class MeadowSound {
     this.context?.close().catch(reportError);
   }
 
+  /**
+   * Builds `voice` only while the synth is heard. A suspended context's clock
+   * stands still, so a voice built while muted or hidden would wait there and
+   * sound, with every other one, the moment it resumes; such a voice is
+   * dropped instead. Before the synth exists the latest voice waits for
+   * `start`, so the first tap is heard.
+   */
   private play(voice: Voice): void {
-    if (this.context && this.master) voice(this.context, this.master);
-    else this.pending = voice;
+    if (!this.context || !this.master) {
+      this.pending = voice;
+      return;
+    }
+    if (this.heard()) voice(this.context, this.master);
+  }
+
+  private heard(): boolean {
+    return (
+      !this.mutedNow && !document.hidden && this.context?.state === 'running'
+    );
   }
 
   private scheduleBird(): void {
     const [min, max] = BIRD_GAP_SECONDS;
     this.birdTimer = setTimeout(
       () => {
-        // A suspended context would only queue the song for later.
-        if (this.context?.state === 'running') this.play(bird);
+        this.play(bird);
         this.scheduleBird();
       },
       (min + Math.random() * (max - min)) * 1000,
