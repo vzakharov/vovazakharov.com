@@ -13,6 +13,7 @@ import {
   LANDING,
   REST_LEAN,
 } from '../../src/pages/mushrooms/model/insect-motion.ts';
+import { PATH_SHAPES } from '../../src/pages/mushrooms/model/insect-paths.ts';
 
 /**
  * How long after landing a flier has turned to its rest facing, in ms: its
@@ -22,15 +23,42 @@ import {
 const SETTLED_AFTER = LANDING + 800;
 /** How far through a flight to a spot in the air a flier counts as hovering there. */
 const HOVERING = 0.85;
+/** How long into a leg its body may still be turning into its heading, in ms. */
+export const HEADING_AFTER = 150;
+/** How far off the way it travels a flier's body may point, in radians, once its leg is `HEADING_AFTER` old. */
+export const MOST_HEADING_OFF = 0.3;
+/** The most a flier's body turns round over one leg: once. */
+export const MOST_SPIN = Math.PI * 2;
+/**
+ * How many frames each kind's way is read over, from where it was drawn at
+ * the first to where it is drawn at the last, and its heading at the middle:
+ * one bob of its flutter, which the eye reads as a bob about its way rather
+ * than as the way itself.
+ */
+const TRAVEL_FRAMES = Object.fromEntries(
+  INSECT_KINDS.map((kind) => [
+    kind,
+    2 * Math.round(30 / PATH_SHAPES[kind].flutterRate),
+  ]),
+);
+/**
+ * How fast a flier must travel to be seen going anywhere, in spans a second:
+ * slower, it reads as hovering, facing any way.
+ */
+const MOVING = 1;
 
 /** Installs `window.__watch`, which the scene's insect view feeds every frame. */
 export const WATCH = `(() => {
   const scene = window.__game.scene.scenes[0];
   const view = scene.insects;
   const fly = view.update.bind(view);
-  const last = new Map();
+  /** Each flier's trail on its current leg: its last frames as drawn, and how far its body has turned round, each way, since the leg set off. */
+  const trails = new Map();
+  const travelFrames = ${JSON.stringify(TRAVEL_FRAMES)};
   const watch = {
-    worstTurn: { id: null, kind: null, step: 0, at: 0, leg: null },
+    worstHeading: { id: null, kind: null, off: 0, at: 0, leg: null },
+    headings: {},
+    worstSpin: { id: null, kind: null, spin: 0, legs: 0 },
     beeVisits: 0,
     pollinating: 0,
     worstRest: { id: null, kind: null, turn: 0, at: 0 },
@@ -76,21 +104,53 @@ export const WATCH = `(() => {
       if (!shown) continue;
       const { leg, kind, id } = flier;
       const turn = shown.container.rotation;
-      const was = last.get(id);
-      if (was !== undefined) {
-        const step = Math.abs(wrap(turn - was));
-        if (step > watch.worstTurn.step) {
-          watch.worstTurn = {
+      const span = shown.span * shown.container.scaleX;
+      const { x, y } = shown.container;
+      const held = trails.get(id);
+      const trail =
+        held?.legs === flier.legs
+          ? held
+          : { legs: flier.legs, frames: [], round: 0, least: 0, most: 0 };
+      const previous = trail.frames.at(-1) ?? held?.frames.at(-1);
+      if (previous) {
+        trail.round += wrap(turn - previous.turn);
+        trail.least = Math.min(trail.least, trail.round);
+        trail.most = Math.max(trail.most, trail.round);
+        if (trail.most - trail.least > watch.worstSpin.spin) {
+          watch.worstSpin = { id, kind, spin: trail.most - trail.least, legs: flier.legs };
+        }
+      }
+      const window = travelFrames[kind];
+      trail.frames = [...trail.frames, { x, y, turn, now }].slice(-window - 1);
+      trails.set(id, trail);
+      const [first] = trail.frames;
+      const middle = trail.frames[window / 2];
+      const travel = first && Math.hypot(x - first.x, y - first.y);
+      const onScreen = x >= 0 && x <= scene.layout.width && y >= 0 && y <= scene.layout.height;
+      if (
+        trail.frames.length > window &&
+        middle.now >= leg.departs + ${String(HEADING_AFTER)} &&
+        now < leg.arrives &&
+        onScreen &&
+        travel >= (span * ${String(MOVING)} * (now - first.now)) / 1000
+      ) {
+        // A body's turn is clockwise from up the screen, a heading from +x.
+        const off = Math.abs(
+          wrap(middle.turn - Math.PI / 2 - Math.atan2(y - first.y, x - first.x)),
+        );
+        const seen = (watch.headings[kind] ??= { frames: 0, off: 0 });
+        seen.frames += 1;
+        if (off > ${String(MOST_HEADING_OFF)}) seen.off += 1;
+        if (off > watch.worstHeading.off) {
+          watch.worstHeading = {
             id,
             kind,
-            step,
+            off,
             at: now,
-            leg: JSON.stringify({ ...leg, legs: flier.legs, was, turn, facing: shown.facing, at: shown.at, from: shown.from, end: shown.end, turns: shown.turns, turnedFrom: shown.turnedFrom }),
+            leg: JSON.stringify({ ...leg, legs: flier.legs, turn: middle.turn, travel, facing: shown.facing, from: shown.from, end: shown.end, turns: shown.turns }),
           };
         }
       }
-      last.set(id, turn);
-      const span = shown.span * shown.container.scaleX;
       if (leg.to.kind !== 'away' && now > leg.arrives) {
         watch.leastSpan[kind] = Math.min(watch.leastSpan[kind] ?? Infinity, span);
       }
@@ -152,13 +212,26 @@ export const WATCH = `(() => {
 
 const Kind = z.enum(INSECT_KINDS);
 export const Watch = z.object({
-  worstTurn: z.object({
+  worstHeading: z.object({
     id: z.string().nullable(),
     kind: Kind.nullable(),
-    step: z.number(),
+    /** How far its body pointed off the way it travelled, in radians. */
+    off: z.number(),
     at: z.number(),
     /** The leg it was on, and how the view held it, for a report to read. */
     leg: z.string().nullable(),
+  }),
+  /** Per kind, frames a flier was seen travelling, and in how many it faced more than `MOST_HEADING_OFF` off its way. */
+  headings: z.partialRecord(
+    Kind,
+    z.object({ frames: z.number(), off: z.number() }),
+  ),
+  worstSpin: z.object({
+    id: z.string().nullable(),
+    kind: Kind.nullable(),
+    /** How far round its body swung over one leg, between the furthest it turned either way, in radians. */
+    spin: z.number(),
+    legs: z.number(),
   }),
   beeVisits: z.number(),
   pollinating: z.number(),
@@ -183,7 +256,5 @@ export const Watch = z.object({
   frames: z.number(),
 });
 
-/** The most a flier's body turns between two frames, in radians. */
-export const MOST_TURN = 0.2;
 /** How far off facing up the screen a settled flier may sit: its rest lean, and a little for its perch's sway. */
 export const MOST_REST_TURN = REST_LEAN + 0.12;

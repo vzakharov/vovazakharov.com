@@ -10,7 +10,13 @@ import { z } from 'zod';
 import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
-import { MOST_REST_TURN, MOST_TURN, Watch } from './flier-watch.ts';
+import {
+  HEADING_AFTER,
+  MOST_HEADING_OFF,
+  MOST_REST_TURN,
+  MOST_SPIN,
+  Watch,
+} from './flier-watch.ts';
 import {
   type Controls,
   type Expect,
@@ -179,7 +185,9 @@ async function tapFlying(
 
 /**
  * Holds what `flier-watch.ts` saw over every frame of `page` to its bounds:
- * no body turning more than `MOST_TURN` a frame, none settled more than
+ * no body pointing more than `MOST_HEADING_OFF` off the way it travels once
+ * its leg is `HEADING_AFTER` old, none turning round more than `MOST_SPIN`
+ * over a leg, none settled more than
  * `MOST_REST_TURN` off facing up, no two hovering fliers overlapping while
  * the air had a spot open, and each of `kinds` drawn at least its
  * `LEAST_SPAN` across.
@@ -191,7 +199,9 @@ async function checkWatch(
   kinds: readonly InsectKind[],
 ): Promise<void> {
   const {
-    worstTurn,
+    worstHeading,
+    headings,
+    worstSpin,
     worstRest,
     worstHover,
     leastSpan,
@@ -204,8 +214,12 @@ async function checkWatch(
     pollinating,
   } = await page.evaluate('window.__watch', Watch);
   expect(
-    worstTurn.step <= MOST_TURN,
-    `${String(worstTurn.id)} (${String(worstTurn.kind)}) turned ${worstTurn.step.toFixed(3)} rad in a frame at ${worstTurn.at.toFixed(0)} ms: ${String(worstTurn.leg)}`,
+    worstHeading.off <= MOST_HEADING_OFF,
+    `${String(worstHeading.id)} (${String(worstHeading.kind)}) faced ${worstHeading.off.toFixed(2)} rad off the way it flew at ${worstHeading.at.toFixed(0)} ms, past its leg's first ${String(HEADING_AFTER)} ms: ${String(worstHeading.leg)}`,
+  );
+  expect(
+    worstSpin.spin <= MOST_SPIN,
+    `${String(worstSpin.id)} (${String(worstSpin.kind)}) turned round ${(worstSpin.spin / MOST_SPIN).toFixed(2)} times on its leg ${String(worstSpin.legs)}`,
   );
   expect(
     worstRest.turn <= MOST_REST_TURN,
@@ -223,7 +237,16 @@ async function checkWatch(
     );
   }
   note(
-    `over ${String(frames)} frames: worst turn ${worstTurn.step.toFixed(3)} rad, worst rest ${worstRest.turn.toFixed(2)} rad, ${String(crossings)} frames with fliers crossing in flight, ${String(hoverForced)} with two hovering overlapped for want of an open spot, least spans ${Object.entries(
+    `over ${String(frames)} frames: worst heading ${worstHeading.off.toFixed(2)} rad off its way, frames in flight facing over ${String(MOST_HEADING_OFF)} off ${Object.entries(
+      headings,
+    )
+      .map(
+        ([kind, { frames: seen, off }]) =>
+          `${kind} ${String(off)} of ${String(seen)}`,
+      )
+      .join(
+        ', ',
+      )}, most turning round on one leg ${(worstSpin.spin / MOST_SPIN).toFixed(2)} times, worst rest ${worstRest.turn.toFixed(2)} rad, ${String(crossings)} frames with fliers crossing in flight, ${String(hoverForced)} with two hovering overlapped for want of an open spot, least spans ${Object.entries(
       leastSpan,
     )
       .map(([kind, span]) => `${kind} ${span.toFixed(0)} px`)
