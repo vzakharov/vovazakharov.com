@@ -321,6 +321,9 @@ export function bodyTurn(
 /** A flower perch: the one a butterfly drinks at. */
 type FlowerPerch = Extract<Perch, { kind: 'flower' }>;
 
+/** A flower head's sag, in shares of its radius and positive down, and its petals' flicker, in radians. */
+export type Dip = { dip: number; flicker: number };
+
 /** How far a flower's head sags under a drinking butterfly, as a share of its radius. */
 const DIP_DEPTH = 0.18;
 /** How fast the head's bounce dies away, and how often it bounces, a second. */
@@ -350,7 +353,7 @@ function bounce(since: number): number {
 export function drinkDip(
   { from, to, departs, arrives }: Leg,
   now: number,
-): (FlowerPerch & { dip: number; flicker: number }) | undefined {
+): (FlowerPerch & Dip) | undefined {
   if (to.kind === 'flower' && now >= arrives) {
     const since = (now - arrives) / 1000;
     return { ...to, dip: DIP_DEPTH * (1 - bounce(since)), flicker: 0 };

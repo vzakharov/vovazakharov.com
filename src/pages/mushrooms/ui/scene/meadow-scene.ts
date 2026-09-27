@@ -15,6 +15,7 @@ import {
   reduce,
 } from '../../model/game';
 import { placedAt, type Point } from '../../model/geometry';
+import { type Dip, drinkDip } from '../../model/insect-motion';
 import type { Flier } from '../../model/insects';
 import { bloom, drift, phaseOf, sway } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
@@ -48,6 +49,8 @@ type ShownFlower = TappedFigure & {
   stem: Phaser.GameObjects.Graphics;
   head: Phaser.GameObjects.Graphics;
   headR: number;
+  /** Where the head stands on its stem as laid out, before a drinking butterfly sags it. */
+  headY: number;
 };
 
 /**
@@ -191,13 +194,38 @@ export class MeadowScene extends Phaser.Scene {
     if (grass) paintTufts(grass, tufts, t);
     bed?.update(t);
     controls?.update(t);
-    for (const shown of shownFlowers.values()) {
+    const drunk = this.drinkingAt(time);
+    for (const [id, shown] of shownFlowers) {
       const open = bloom(t - shown.tappedAt);
+      const { dip, flicker } = drunk.get(id) ?? { dip: 0, flicker: 0 };
       shown.container.setRotation(sway(t, shown.phase) * FLOWER_SWAY);
-      shown.head.setScale(1 + open).setRotation(open * 0.6);
+      shown.head
+        .setScale(1 + open)
+        .setRotation(open * 0.6 + flicker)
+        .setY(shown.headY + dip * shown.headR);
     }
-    // Last, so every perch stands where this frame has put it.
+    // Last, so every perch stands where this frame has put it, a sagging
+    // head's included.
     insects?.update(t, perchAt);
+  }
+
+  /**
+   * What the butterflies do at `time`, in ms, to the flowers under them, by
+   * flower id: each head's sag, in shares of its radius, and its petals'
+   * flicker, in radians (`drinkDip`).
+   */
+  private drinkingAt(time: number): Map<string, Dip> {
+    const drunk = new Map<string, Dip>();
+    for (const { leg } of this.meadow?.insects ?? []) {
+      const under = drinkDip(leg, time);
+      if (!under) continue;
+      const was = drunk.get(under.id) ?? { dip: 0, flicker: 0 };
+      drunk.set(under.id, {
+        dip: was.dip + under.dip,
+        flicker: was.flicker + under.flicker,
+      });
+    }
+    return drunk;
   }
 
   private dispatch(action: Action): void {
@@ -344,6 +372,7 @@ export class MeadowScene extends Phaser.Scene {
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);
       shown.headR = drawFlower(shown, flowerGenes(flower), place.size);
+      shown.headY = shown.head.y;
       shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
     }
   }
@@ -358,6 +387,7 @@ export class MeadowScene extends Phaser.Scene {
       head,
       hit,
       headR: 0,
+      headY: 0,
       phase: phaseOf(flower),
       tappedAt: -Infinity,
     };
