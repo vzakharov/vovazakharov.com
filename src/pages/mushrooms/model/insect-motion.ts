@@ -6,7 +6,7 @@
 
 import type { Span } from './flight';
 import type { Point } from './geometry';
-import type { Phased } from './motion';
+import { type Phased, smooth } from './motion';
 
 /** A leg's flight on screen: from where the scene last drew it to its perch. */
 export type Path = Span & { start: Point; end: Point };
@@ -31,13 +31,6 @@ const SETTLE = 500;
 /** How long a landing's bob lasts, and how deep it goes, as a share of the insect's size. */
 export const LANDING = 450;
 const LANDING_DEPTH = 0.12;
-
-const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
-/** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
-const smooth = (t: number) => {
-  const clamped = clamp01(t);
-  return clamped * clamped * (3 - 2 * clamped);
-};
 
 /** How far through its flight a path is at `now`, eased in and out. */
 function progress({ departs, arrives }: Span, now: number): number {

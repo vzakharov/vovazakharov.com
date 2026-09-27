@@ -248,6 +248,8 @@ export type Page = {
   shoot: (step: string) => Promise<void>;
 };
 
+export type Expect = (holds: boolean, message: string) => void;
+
 /** Runs `each` over `items` one after another, as taps on one page must. */
 export async function inTurn<Item>(
   items: readonly Item[],

@@ -11,6 +11,7 @@ import type { z } from 'zod';
 
 import {
   type Controls,
+  type Expect,
   Insects,
   inTurn,
   type Page,
@@ -31,8 +32,12 @@ const MOST_LOOKS = 80;
 /** Looks over which every butterfly that stays must be seen on a perch: longer than any flight. */
 const PERCH_LOOKS = 16;
 
-type Expect = (holds: boolean, message: string) => void;
 type Insect = z.infer<typeof Insects>[number];
+
+/** Whether `insect` has come down on a perch, its landing done, by `at` ms. */
+function landed(insect: Insect, at: number): boolean {
+  return insect.to.kind !== 'away' && at >= insect.arrives + LANDING;
+}
 
 export async function playInsects(
   page: Page,
@@ -44,12 +49,12 @@ export async function playInsects(
   const insects = async () => page.evaluate('__probe.insects()', Insects);
   const shown = async (id: string) =>
     page.evaluate(`__probe.insect(${JSON.stringify(id)})`, ShownInsect);
+  const byId = async (id: string) =>
+    (await insects()).find((insect) => insect.id === id);
   const now = async () => (await state()).clock * 1000;
   /** Whether `insect` sits drawn on its perch, its landing done, at `at` ms. */
   const perched = async (insect: Insect, at: number) => {
-    if (insect.to.kind === 'away' || at < insect.arrives + LANDING) {
-      return false;
-    }
+    if (!landed(insect, at)) return false;
     const drawn = await shown(insect.id);
     return (
       typeof drawn?.end?.x === 'number' &&
@@ -112,8 +117,7 @@ export async function playInsects(
   }
   const firstId = first?.id ?? '';
   expect(
-    !(await insects()).some(({ id }) => id === firstId) &&
-      (await shown(firstId)) === null,
+    (await byId(firstId)) === undefined && (await shown(firstId)) === null,
     'the butterfly sent away is still in the meadow',
   );
   note(
@@ -127,12 +131,7 @@ export async function playInsects(
   const before = await state();
   expect(before.picking, '`+` did not open the picker');
   const resting = await waitFor((all, at) =>
-    all.find(
-      (insect) =>
-        insect.to.kind !== 'away' &&
-        at >= insect.arrives + LANDING &&
-        insect.leaves - at > 1000,
-    ),
+    all.find((insect) => landed(insect, at) && insect.leaves - at > 1000),
   );
   if (resting === undefined) {
     expect(false, 'no butterfly ever sat still to be tapped');
@@ -142,7 +141,7 @@ export async function playInsects(
   if (restingAt) await page.tap(restingAt);
   const tappedAt = await now();
   await page.step(2);
-  const startled = (await insects()).find(({ id }) => id === resting.id);
+  const startled = await byId(resting.id);
   const after = await state();
   expect(
     startled?.legs === resting.legs + 1 &&
@@ -160,7 +159,7 @@ export async function playInsects(
   const flying = await shown(resting.id);
   if (flying) await page.tap(flying);
   await page.step(2);
-  const still = (await insects()).find(({ id }) => id === resting.id);
+  const still = await byId(resting.id);
   const jolted = await shown(resting.id);
   expect(
     still?.legs === startled?.legs && still?.departs === startled?.departs,
@@ -179,7 +178,7 @@ export async function playInsects(
     all.find(
       (insect) =>
         insect.to.kind === 'cap' &&
-        at >= insect.arrives + LANDING &&
+        landed(insect, at) &&
         insect.leaves - at > 1500,
     ),
   );
@@ -206,7 +205,7 @@ export async function playInsects(
   const sunkAt = await now();
   await page.tap(controls.minus);
   await page.step(3);
-  const flown = (await insects()).find(({ id }) => id === onCap.id);
+  const flown = await byId(onCap.id);
   expect(
     flown?.legs === onCap.legs + 1 &&
       flown.from.kind === 'cap' &&

@@ -89,6 +89,11 @@ function nextPerch(
   return { kind: 'flower', pick: flowerPick };
 }
 
+/** Off screen past a side `random` picks. */
+function awayPerch(random: Random): Perch {
+  return { kind: 'away', side: pick(random, SIDES) };
+}
+
 function stayAt(random: Random, to: Perch): number {
   switch (to.kind) {
     case 'flower': {
@@ -127,11 +132,21 @@ export function firstFlight(
   now: number,
 ): Flight {
   const random = legRandom(seed, 0);
-  const from: Perch = { kind: 'away', side: pick(random, SIDES) };
+  const from = awayPerch(random);
   return {
     leg: legTo(random, from, nextPerch(random, from, caps), now),
     legs: 1,
   };
+}
+
+/** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */
+function onward(
+  { seed, leg, legs }: Seeded & Flight,
+  now: number,
+  choose: (random: Random) => Perch,
+): Flight {
+  const random = legRandom(seed, legs);
+  return { leg: legTo(random, leg.to, choose(random), now), legs: legs + 1 };
 }
 
 /**
@@ -140,23 +155,18 @@ export function firstFlight(
  * a flower whenever `caps` offers none, never the perch it is leaving.
  */
 export function nextFlight(
-  { seed, leg, legs }: Seeded & Flight,
+  insect: Seeded & Flight,
   caps: readonly string[],
   now: number,
 ): Flight {
-  const random = legRandom(seed, legs);
-  const to = nextPerch(random, leg.to, caps);
-  return { leg: legTo(random, leg.to, to, now), legs: legs + 1 };
+  return onward(insect, now, (random) =>
+    nextPerch(random, insect.leg.to, caps),
+  );
 }
 
 /** `insect` flying off screen from `now`, past a side its seed picks, and gone. */
-export function flightAway(
-  { seed, leg, legs }: Seeded & Flight,
-  now: number,
-): Flight {
-  const random = legRandom(seed, legs);
-  const to: Perch = { kind: 'away', side: pick(random, SIDES) };
-  return { leg: legTo(random, leg.to, to, now), legs: legs + 1 };
+export function flightAway(insect: Seeded & Flight, now: number): Flight {
+  return onward(insect, now, awayPerch);
 }
 
 export function isLeaving({ leg }: Flight): boolean {

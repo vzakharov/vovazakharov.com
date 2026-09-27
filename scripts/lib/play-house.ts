@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import {
   type Controls,
+  type Expect,
   inTurn,
   Mouse,
   type Page,
@@ -27,8 +28,6 @@ const MOST_TAPS = 8;
 const SETTLE = 45;
 /** The least a mouse's head is drawn across, in CSS px: `MOUSE_HEAD_LEAST` in `ui/scene/door-reach.ts`. */
 const MOUSE_HEAD_LEAST = 28;
-
-type Expect = (holds: boolean, message: string) => void;
 
 export async function playHouse(
   page: Page,

@@ -15,7 +15,7 @@ import {
 } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
-import { phaseOf, wobble } from '../../model/motion';
+import { phaseOf, smooth, wobble } from '../../model/motion';
 import { drawInsect, type InsectParts } from './draw-insect';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
@@ -44,11 +44,6 @@ const LIFT_TURN = 350;
 /** `angle` brought round into (-π, π]. */
 const wrap = (angle: number) =>
   angle - Math.PI * 2 * Math.round(angle / (Math.PI * 2));
-/** Smoothstep over `t` from 0 to 1, held at either end outside it. */
-const ease = (t: number) => {
-  const clamped = Math.min(1, Math.max(0, t));
-  return clamped * clamped * (3 - 2 * clamped);
-};
 
 /**
  * The band of the screen's height a butterfly flies in from and out to off
@@ -174,11 +169,11 @@ export class InsectView {
     // as Syama drew it on the caps.
     const settled = Math.min(REST_LEAN, Math.max(-REST_LEAN, flying));
     const resting =
-      leg.to.kind === 'away' ? 0 : ease((now - leg.arrives) / SETTLE_TURN);
+      leg.to.kind === 'away' ? 0 : smooth((now - leg.arrives) / SETTLE_TURN);
     const turn = flying + (settled - flying) * resting;
     // Taking off, it turns from the way it sat into its heading.
     const from = shown.turnedFrom ?? turn;
-    const lift = ease((now - leg.departs) / LIFT_TURN);
+    const lift = smooth((now - leg.departs) / LIFT_TURN);
     shown.container
       .setPosition(point.x, point.y + bob)
       .setRotation(from + wrap(turn - from) * lift)

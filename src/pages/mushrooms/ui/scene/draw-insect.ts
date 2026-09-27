@@ -121,12 +121,11 @@ export function paintWings(
     graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
     fillShape(graphics, crescent(trailing, eye, breadth * 0.28));
     if (pair === 'fore') {
-      const shine = at(eyeCentre(genes, pair, side));
-      const root = outline[0] ?? shine;
+      const root = outline[0] ?? eye;
       graphics.fillStyle(PALETTE.highlight, SHINE_ALPHA);
       graphics.fillEllipse(
-        (shine.x + root.x * 2) / 3 - breadth * 0.08,
-        (shine.y + root.y * 2) / 3 - breadth * 0.14,
+        (eye.x + root.x * 2) / 3 - breadth * 0.08,
+        (eye.y + root.y * 2) / 3 - breadth * 0.14,
         breadth * 0.34,
         breadth * 0.18,
       );
@@ -155,10 +154,11 @@ export function paintBody(
     strokeLine(graphics, line);
     const club = line.at(-1);
     if (club) {
+      const clubR = genes.bodyWidth * size * 0.32;
       graphics.fillStyle(PALETTE.insectBody);
-      graphics.fillCircle(club.x, club.y, genes.bodyWidth * size * 0.32);
+      graphics.fillCircle(club.x, club.y, clubR);
       graphics.lineStyle(ink * 0.8, PALETTE.ink);
-      graphics.strokeCircle(club.x, club.y, genes.bodyWidth * size * 0.32);
+      graphics.strokeCircle(club.x, club.y, clubR);
     }
   }
   const [head, thorax, abdomen] = bodyParts(genes).map((part) =>

@@ -40,11 +40,10 @@ export type Side = -1 | 1;
 
 type Axis = { root: Point; along: Point; across: Point };
 
-function axisOf(
-  genes: Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>,
-  pair: WingPair,
-  side: Side,
-): Axis {
+/** The genes the body's outlines and the wings' roots are drawn from. */
+type BodyGenes = Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>;
+
+function axisOf(genes: BodyGenes, pair: WingPair, side: Side): Axis {
   const angle = WING_ANGLE[pair];
   const along = { x: side * Math.cos(angle), y: Math.sin(angle) };
   // Of the two ways across the axis, the one toward the tail: every wing sweeps back.
@@ -137,30 +136,25 @@ export const ABDOMEN = { at: 0.12, half: 0.3 } as const;
 
 /** The body's three parts, head first: head, thorax and abdomen, as closed outlines. */
 export function bodyParts(
-  genes: Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>,
+  genes: BodyGenes,
 ): [head: Point[], thorax: Point[], abdomen: Point[]] {
   const { bodyLength: length, bodyWidth: width } = genes;
-  const headR = width * 0.62;
+  const { r, ...head } = headOf(genes);
   return [
-    ellipse({ x: 0, y: -length / 2 + headR }, headR),
+    ellipse(head, r),
     ellipse({ x: 0, y: -length * 0.2 }, width * 0.62, length * 0.16),
     ellipse({ x: 0, y: length * ABDOMEN.at }, width / 2, length * ABDOMEN.half),
   ];
 }
 
 /** The head's middle and radius, which the eyes and antennae start from. */
-export function headOf(
-  genes: Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>,
-): Point & { r: number } {
+export function headOf(genes: BodyGenes): Point & { r: number } {
   const r = genes.bodyWidth * 0.62;
   return { x: 0, y: -genes.bodyLength / 2 + r, r };
 }
 
 /** One antenna, from the head out and forward, curling at its end where its club sits. */
-export function antenna(
-  genes: Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>,
-  side: Side,
-): Point[] {
+export function antenna(genes: BodyGenes, side: Side): Point[] {
   const head = headOf(genes);
   const reach = genes.bodyLength * 0.42;
   return sample(0, 1, 10, (t) => ({

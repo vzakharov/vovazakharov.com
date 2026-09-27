@@ -195,7 +195,7 @@ export function launch(elapsed: number): { scale: number; travel: number } {
 }
 
 /** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
-const smooth = (t: number) => {
+export const smooth = (t: number) => {
   const clamped = Math.min(1, Math.max(0, t));
   return clamped * clamped * (3 - 2 * clamped);
 };
