@@ -85,7 +85,10 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   approve. The skill's pickup should do exactly that when the fast-forward
   fails. Bite 4's pickup met the same stale snapshot and auto mode let
   `reset --hard origin/<branch>` through, so the block is not reliable
-  either way; the rename aside is the form that never needs it.
+  either way; the rename aside is the form that never needs it. Bite 5's
+  review pickup met the stale snapshot a fourth time and was blocked again,
+  so it is the norm, not an accident: the skill's pickup should go straight
+  to the rename aside.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
@@ -396,6 +399,25 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   `*.test.ts` under the test glob. The brief should say: measure old values
   by importing the live modules with overrides, or check out the old commit
   in a `git worktree` outside the repo, never copy test files into the tree.
+- **A review runs two agents at once: one plays and sweeps, one reads.**
+  Bite 5's review briefed a frame-and-sweep agent (build, play run, scripted
+  child sequences, 2000-seed sweeps, frames committed) and a read-only code
+  agent (the five-percent list, plan against code, tests that cannot fail) in
+  parallel on the same tree, with only the first allowed to commit. The main
+  session looked at frames beside the drawing, re-anchored every cited line
+  from a single file's listing, and posted. It stayed small, and the two
+  reports found different bugs: the reader found the wing snap on a mid-air
+  re-route, the player found the ±π spin. The skill should make that pair
+  the review's default.
+- **A comment that promises a property is a sweep target.** "So two on one
+  perch sit apart" read as fact; the sweep measured 74–98% overlap when two
+  share. The review brief should list every behavioural claim in the bite's
+  comments and plan entry, and have the sweep agent measure each one.
+- **Angles are a finding class of their own.** Every rotation defect in bite
+  5 sat at the ±π seam: a linear blend, a clamp of a wrapped heading. The
+  play script's checks should include "no rotation step above ~0.2 rad
+  between frames" for everything that turns, as they already include page
+  errors.
 - **The operator's questions mid-run are answered, not treated as a stop.**
   While bite 4's handling ran, the operator asked how to run the game
   locally and whether ecology and the insects were planned. Answering from
