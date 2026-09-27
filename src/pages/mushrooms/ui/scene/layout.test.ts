@@ -40,6 +40,7 @@ import {
   TAP_RADIUS,
   tapReach,
 } from './sky-layout';
+import { VIEWPORTS, VISITS } from './viewports';
 
 /** Each control as its hit area, which the mute's small drawing reaches past. */
 const reach = (circles: readonly Circle[]) =>
@@ -49,15 +50,6 @@ const apart = (a: Circle, b: Circle) =>
 const onScreen = ({ x, y, r }: Circle, width: number, height: number) =>
   x - r >= 0 && x + r <= width && y - r >= 0 && y + r <= height;
 
-const VIEWPORTS = [
-  ['tablet', 1180, 820],
-  ['tablet portrait', 820, 1180],
-  ['phone', 390, 844],
-  ['phone held sideways', 844, 390],
-  ['small phone', 320, 568],
-  ['desktop', 1920, 1080],
-] as const;
-const VISITS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 /** How many points along a stem's drawn centreline a tap is tried at. */
 const STEM_TRIES = 20;
 /** How much of a cap's bounding box a nearer mushroom's cap may hide. */

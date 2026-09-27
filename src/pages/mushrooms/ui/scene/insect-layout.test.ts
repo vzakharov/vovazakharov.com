@@ -5,17 +5,10 @@ import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { GENE_RANGES } from '../../model/mushroom-genes';
 import { meadowLayout } from './layout';
+import { VIEWPORTS, VISITS } from './viewports';
 
-const VIEWPORTS = [
-  ['tablet', 1180, 820],
-  ['tablet portrait', 820, 1180],
-  ['phone', 390, 844],
-  ['phone held sideways', 844, 390],
-  ['small phone', 320, 568],
-  ['desktop', 1920, 1080],
-] as const;
-const SPANS = Array.from({ length: 2000 }, (_, index) =>
-  wingspan(insectGenes({ seed: index * 7919 + 3, kind: 'butterfly' })),
+const SPANS = VISITS.map((seed) =>
+  wingspan(insectGenes({ seed, kind: 'butterfly' })),
 );
 /** The least a butterfly's open wings span on screen, in CSS px, to read as one on a phone. */
 const LEAST_SPAN = 52;
