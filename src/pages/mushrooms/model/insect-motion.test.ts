@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { firstFlight, type Flight, flightAway } from './flight';
+import {
+  DRINKING,
+  firstFlight,
+  type Flight,
+  flightAway,
+  FLYING,
+} from './flight';
 import type { Point } from './geometry';
 import {
   bodyTurn,
@@ -195,8 +201,10 @@ function turnsOverLegs(seed: number): number[] {
   for (const index of [0, 1, 2, 3, 4]) {
     const away = index === 4;
     const perch = away ? () => ({ x: 480, y: 200 }) : swaying(random);
-    const arrives = departs + between(random, 1600, 2600);
-    const leaves = away ? arrives : arrives + between(random, 3000, 6000);
+    const arrives = departs + between(random, FLYING[0], FLYING[1]);
+    const leaves = away
+      ? arrives
+      : arrives + between(random, DRINKING[0], DRINKING[1]);
     const start = at;
     let turns: Turns | undefined;
     for (let now = departs; now < leaves || now === departs; now += 16) {

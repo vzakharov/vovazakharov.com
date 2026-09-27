@@ -18,7 +18,7 @@ import { type Phased, smooth } from './motion';
 export type Carried = { launch: number; drink: number };
 
 /** A leg as the motion reads it: its timing and what it carried over. */
-export type Launched = Span & Carried;
+type Launched = Span & Carried;
 
 /** A leg with its stay: where it goes and when it leaves. */
 export type Stay = Launched & Pick<Leg, 'to' | 'leaves'>;
@@ -173,10 +173,7 @@ export function tilt(path: Path, now: number, { phase }: Phased): number {
  * air: rising at take-off from however far aloft it set off, and falling as
  * it settles after landing.
  */
-export function aloft(
-  { departs, arrives, launch }: Launched,
-  now: number,
-): number {
+function aloft({ departs, arrives, launch }: Launched, now: number): number {
   return Math.min(
     Math.max(launch, smooth((now - departs) / TAKE_OFF)),
     1 - smooth((now - arrives) / SETTLE),
