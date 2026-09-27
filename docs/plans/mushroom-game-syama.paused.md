@@ -383,6 +383,14 @@ Standing rules for every session in the chain:
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
 
+**Open from bite 5's handling, for bite 6 to settle alongside its fliers:**
+hovering butterflies can overlap in mid-air on a 320 px phone, where the air
+spots crowd under the controls (only perched ones are kept apart); and one
+handled frame (`frames/bite-5/handled/tabP-two-on-flowers-two-on-caps-apart.png`,
+the back cap) shows a butterfly head-down with its wings shut, which is either
+a landing turn caught mid-way or a rest facing that is wrong — check it in
+bite 6's frames.
+
 6. **The fly and the bee.** The same generator family; fast small flights,
    jitters and hops at rest, a buzz each; an oldest-leaves limit. The fly is
    drawn to the fly agarics. The bee visits flower after flower, a speck of
