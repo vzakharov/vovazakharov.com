@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, ellipse } from './geometry';
+import { containsPoint, ellipse, type Point } from './geometry';
 import {
   BUTTERFLY_COLOURS,
   EYE_RADIUS,
@@ -20,6 +20,10 @@ function inRange(name: keyof typeof INSECT_RANGES, value: number): void {
   const [min, max] = INSECT_RANGES[name];
   assert.ok(value >= min && value <= max, `${name} = ${String(value)}`);
 }
+
+/** How far out to the side a wing's outline reaches from the body's middle. */
+const sideways = (outline: readonly Point[]) =>
+  Math.max(...outline.map(({ x }) => x));
 
 describe('insectGenes', () => {
   it('is a pure function of the seed', () => {
@@ -86,9 +90,13 @@ describe('insectGenes', () => {
     }
   });
 
-  it('keeps the fore wings longer than the hind', () => {
-    for (const { fore, hind } of butterflies) {
-      assert.ok(fore.length > hind.length);
+  it('never reaches the hind wings sideways past the fore wings’ tips', () => {
+    for (const [index, genes] of butterflies.entries()) {
+      assert.ok(
+        sideways(wingOutline(genes, 'hind', 1)) <
+          sideways(wingOutline(genes, 'fore', 1)),
+        `seed ${String(SEEDS[index])}`,
+      );
     }
   });
 });
