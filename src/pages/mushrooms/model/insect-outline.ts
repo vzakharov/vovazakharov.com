@@ -5,11 +5,11 @@
  * wingspan the layout sizes an insect by is the one painted.
  */
 
-import { ellipse, type Point, sample } from './geometry';
+import { distanceToEdge, ellipse, type Point, sample } from './geometry';
 import type { InsectGenes, Wing } from './insect-genes';
 
 /** The wings a painter lays down together, the hind pair under the fore. */
-const WING_PAIRS = ['hind', 'fore'] as const;
+export const WING_PAIRS = ['hind', 'fore'] as const;
 export type WingPair = (typeof WING_PAIRS)[number];
 
 /**
@@ -129,6 +129,17 @@ export function eyeCentre(
   side: Side,
 ): Point {
   return onWing(axisOf(genes, pair, side), genes[pair], genes.eyeAt, 0);
+}
+
+/**
+ * How far a wing's eye could reach before it met the wing's edge, as a share
+ * of that wing's breadth: the unit the eye rings are measured in.
+ */
+export function eyeRoom(genes: InsectGenes, pair: WingPair): number {
+  return (
+    distanceToEdge(wingOutline(genes, pair, 1), eyeCentre(genes, pair, 1)) /
+    genes[pair].breadth
+  );
 }
 
 /** Where the abdomen's middle sits down the body, and its half-length, as shares of the body's length. */

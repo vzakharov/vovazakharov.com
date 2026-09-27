@@ -1,5 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
+import { eyeRoom, WING_PAIRS } from './insect-outline';
 import {
   between,
   geneFrom,
@@ -71,10 +72,16 @@ export const INSECT_RANGES = {
   patternNudge: [-0.04, 0.04],
 } as const satisfies GeneRanges;
 
-/** The outermost eye ring's radius, and each inner ring's share of the one outside it. */
+/**
+ * The outermost eye ring's radius before it is fitted to its wings, and each
+ * inner ring's share of the one outside it. Every eye has at least two
+ * rings, so each reads as concentric.
+ */
 export const EYE_RADIUS = [0.26, 0.38] as const;
 const EYE_SHRINK = [0.45, 0.65] as const;
-export const EYE_RINGS = [1, 3] as const;
+export const EYE_RINGS = [2, 3] as const;
+/** How much of the room to its wing's nearest edge an eye's outer ring may take. */
+const EYE_FIT = 0.92;
 
 function growEyes(random: Random): number[] {
   const count =
@@ -87,13 +94,28 @@ function growEyes(random: Random): number[] {
   return eyes;
 }
 
+/**
+ * `genes` with its eye rings shrunk as a whole, each keeping its share of the
+ * next, until the outer ring sits inside both wings.
+ */
+function fitted(genes: InsectGenes): InsectGenes {
+  const room =
+    EYE_FIT * Math.min(...WING_PAIRS.map((pair) => eyeRoom(genes, pair)));
+  const [outer = 0] = genes.eyes;
+  if (outer <= room) return genes;
+  return {
+    ...genes,
+    eyes: genes.eyes.map((radius) => (radius * room) / outer),
+  };
+}
+
 export function insectGenes({ seed, kind }: InsectSeed): InsectGenes {
   const random = mulberry32(seed);
   const gene = geneFrom(random, INSECT_RANGES);
   const colour = pick(random, BUTTERFLY_COLOURS);
   const others = BUTTERFLY_COLOURS.filter((each) => each !== colour);
   const [firstOther = colour, ...restOthers] = others;
-  return {
+  return fitted({
     kind,
     bodyLength: gene('bodyLength'),
     bodyWidth: gene('bodyWidth'),
@@ -113,5 +135,5 @@ export function insectGenes({ seed, kind }: InsectSeed): InsectGenes {
     pattern: pick(random, [firstOther, ...restOthers]),
     hueNudge: gene('hueNudge'),
     patternNudge: gene('patternNudge'),
-  };
+  });
 }

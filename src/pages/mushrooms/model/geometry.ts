@@ -104,6 +104,32 @@ export function containsPoint(
   return inside;
 }
 
+/** How far `point` is from the nearest edge of the closed `outline`. */
+export function distanceToEdge(
+  outline: readonly Point[],
+  point: Point,
+): number {
+  return Math.min(
+    ...outline.map((a, index) => {
+      const b = outline[(index + 1) % outline.length] ?? a;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const along = dx * dx + dy * dy;
+      const t =
+        along === 0
+          ? 0
+          : Math.max(
+              0,
+              Math.min(
+                1,
+                ((point.x - a.x) * dx + (point.y - a.y) * dy) / along,
+              ),
+            );
+      return Math.hypot(point.x - a.x - t * dx, point.y - a.y - t * dy);
+    }),
+  );
+}
+
 /**
  * Points `margin` outside the closed, anticlockwise `outline`: off each vertex
  * along the outward normal of either edge that meets there. Were they all

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { containsPoint, ellipse } from './geometry';
 import {
   BUTTERFLY_COLOURS,
   EYE_RADIUS,
@@ -8,6 +9,7 @@ import {
   INSECT_RANGES,
   insectGenes,
 } from './insect-genes';
+import { eyeCentre, WING_PAIRS, wingOutline } from './insect-outline';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const butterflies = SEEDS.map((seed) =>
@@ -42,11 +44,11 @@ describe('insectGenes', () => {
     }
   });
 
-  it('rings each eye one to three times, each ring inside the last', () => {
+  it('rings each eye two or three times, each ring inside the last', () => {
     for (const { eyes } of butterflies) {
       assert.ok(eyes.length >= EYE_RINGS[0] && eyes.length <= EYE_RINGS[1]);
       const [outer = 0] = eyes;
-      assert.ok(outer >= EYE_RADIUS[0] && outer <= EYE_RADIUS[1]);
+      assert.ok(outer > 0 && outer <= EYE_RADIUS[1]);
       for (const [index, radius] of eyes.entries()) {
         if (index > 0) assert.ok(radius < (eyes[index - 1] ?? 0));
       }
@@ -54,8 +56,26 @@ describe('insectGenes', () => {
     const counts = new Set(butterflies.map(({ eyes }) => eyes.length));
     assert.deepEqual(
       [...counts].toSorted((a, b) => a - b),
-      [1, 2, 3],
+      [2, 3],
     );
+  });
+
+  it('keeps each eye’s outer ring inside its wing, on both pairs', () => {
+    for (const [index, genes] of butterflies.entries()) {
+      for (const pair of WING_PAIRS) {
+        const outline = wingOutline(genes, pair, 1);
+        const ring = ellipse(
+          eyeCentre(genes, pair, 1),
+          (genes.eyes[0] ?? 0) * genes[pair].breadth,
+        );
+        for (const point of ring) {
+          assert.ok(
+            containsPoint(outline, point),
+            `seed ${String(SEEDS[index])}'s ${pair} eye`,
+          );
+        }
+      }
+    }
   });
 
   it('grows every colour, and never a pattern the colour of its base', () => {
