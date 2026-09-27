@@ -8,8 +8,18 @@ import type { Span } from './flight';
 import type { Point } from './geometry';
 import { type Phased, smooth } from './motion';
 
+/**
+ * What a leg carries over from the one before as it sets off: `launch`, how
+ * far aloft the flier was, from 0 sitting on its perch to 1 in the air, so a
+ * leg that starts mid-flight flies on rather than taking off again.
+ */
+export type Carried = { launch: number };
+
+/** A leg as the motion reads it: its timing and what it carried over. */
+export type Launched = Span & Carried;
+
 /** A leg's flight on screen: from where the scene last drew it to its perch. */
-export type Path = Span & { start: Point; end: Point };
+export type Path = Launched & { start: Point; end: Point };
 
 /** How far a flight's flutter lifts it at most, in the points' units. */
 export type Fluttering = Phased & { flutter: number };
@@ -28,6 +38,8 @@ const REST_CLOSE = 0.3;
 /** How long the beat takes to speed up at take-off, and to calm at landing. */
 const TAKE_OFF = 220;
 const SETTLE = 500;
+/** How fast a flight leaves mid-air, as a share of its average speed. */
+const LAUNCH_SPEED = 1.5;
 /** How long a landing's bob lasts, and how deep it goes, as a share of the insect's size. */
 export const LANDING = 450;
 const LANDING_DEPTH = 0.12;
@@ -43,10 +55,19 @@ export const REST_LEAN = 0.45;
 const SETTLE_TURN = 700;
 const LIFT_TURN = 450;
 
-/** How far through its flight a path is at `now`, eased in and out. */
-function progress({ departs, arrives }: Span, now: number): number {
+/**
+ * How far through its flight a path is at `now`, eased in to the end and out
+ * from the start in proportion to how far aloft it set off: from a perch it
+ * leaves at rest, mid-air at `LAUNCH_SPEED`.
+ */
+function progress({ departs, arrives, launch }: Launched, now: number): number {
   const flight = arrives - departs;
-  return flight <= 0 ? 1 : smooth((now - departs) / flight);
+  if (flight <= 0) return 1;
+  const u = Math.min(1, Math.max(0, (now - departs) / flight));
+  // A cubic Hermite from 0 to 1, leaving at `slope` and arriving at rest;
+  // monotonic for any slope up to 3.
+  const slope = launch * LAUNCH_SPEED;
+  return slope * u * (1 - u) ** 2 + u * u * (3 - 2 * u);
 }
 
 /** Which side a flight bows to, -1 or 1, read off the insect's phase. */
@@ -129,12 +150,32 @@ export function tilt(path: Path, now: number, { phase }: Phased): number {
 }
 
 /**
+ * How far aloft a leg has the flier at `now`, from 0 on its perch to 1 in the
+ * air: rising at take-off from however far aloft it set off, and falling as
+ * it settles after landing.
+ */
+export function aloft(
+  { departs, arrives, launch }: Launched,
+  now: number,
+): number {
+  return Math.min(
+    Math.max(launch, smooth((now - departs) / TAKE_OFF)),
+    1 - smooth((now - arrives) / SETTLE),
+  );
+}
+
+/** What a leg starting at `now` carries over from `leg`, the one it cuts short or follows. */
+export function carriedFrom(leg: Launched, now: number): Carried {
+  return { launch: aloft(leg, now) };
+}
+
+/**
  * How far the wings are open at `now`, from 0 (closed up) to 1 (flat open):
  * a fast beat in the air, a slow open and close at rest, easing from one to
- * the other at take-off and landing, so the beat never jumps.
+ * the other with `aloft`, so the beat never jumps.
  */
 export function wingBeat(
-  { departs, arrives }: Span,
+  leg: Launched,
   now: number,
   { phase }: Phased,
 ): number {
@@ -143,11 +184,7 @@ export function wingBeat(
     1 -
     (1 - REST_CLOSE) *
       (0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / BEAT_REST + phase));
-  const aloft = Math.min(
-    smooth((now - departs) / TAKE_OFF),
-    1 - smooth((now - arrives) / SETTLE),
-  );
-  return rest + (air - rest) * aloft;
+  return rest + (air - rest) * aloft(leg, now);
 }
 
 /**

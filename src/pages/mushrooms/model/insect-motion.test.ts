@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { firstFlight, type Flight, flightAway } from './flight';
 import type { Point } from './geometry';
 import {
   bodyTurn,
+  carriedFrom,
   flightPoint,
   flyingTurn,
   heading,
@@ -19,6 +21,7 @@ import {
   wingBeat,
   wrap,
 } from './insect-motion';
+import { ticked } from './insects';
 import { between, mulberry32, type Random } from './random';
 
 const PATH: Path = {
@@ -26,6 +29,7 @@ const PATH: Path = {
   end: { x: 300, y: 260 },
   departs: 1000,
   arrives: 3000,
+  launch: 0,
 };
 const PHASES = [0, 0.7, 2, 3.5, 5.9];
 const flier = (phase: number) => ({ phase, flutter: 12 });
@@ -102,9 +106,9 @@ describe('heading and tilt', () => {
 });
 
 /** How far the wings swing between `from` and `to`. */
-function swing(from: number, to: number): number {
+function swing(from: number, to: number, path = PATH): number {
   const beats = times(from, to, 5).map((now) =>
-    wingBeat(PATH, now, { phase: 0 }),
+    wingBeat(path, now, { phase: 0 }),
   );
   return Math.max(...beats) - Math.min(...beats);
 }
@@ -186,7 +190,13 @@ function turnsOverLegs(seed: number): number[] {
     const start = at;
     let turns: Turns | undefined;
     for (let now = departs; now < leaves || now === departs; now += 16) {
-      const path: Path = { departs, arrives, start, end: perch(now) };
+      const path: Path = {
+        departs,
+        arrives,
+        launch: 0,
+        start,
+        end: perch(now),
+      };
       const { end } = path;
       if (Math.hypot(end.x - start.x, end.y - start.y) > 1) {
         facing = heading(path, now, phased);
@@ -234,4 +244,63 @@ describe('bodyTurn', () => {
     assert.ok(Math.abs(wrap(bodyTurn(span, 1000, -2.9, turns) - 2.5)) < 1e-9);
     assert.ok(Math.abs(wrap(bodyTurn(span, 2000, -2.9, turns) + 2.9)) < 1e-9);
   });
+});
+
+/** A flight on `before` cut short at `cut` by `after`, as the view flies it. */
+type Cut = { before: Path; after: Path; cut: number };
+
+function pointAt({ before, after, cut }: Cut, now: number): Point {
+  return flightPoint(now < cut ? before : after, now, flier(0));
+}
+
+function wingsAt({ before, after, cut }: Cut, now: number): number {
+  return wingBeat(now < cut ? before : after, now, { phase: 0 });
+}
+
+function stepAt(flight: Cut, now: number, frame: number): number {
+  const [here, next] = [pointAt(flight, now), pointAt(flight, now + frame)];
+  return Math.hypot(next.x - here.x, next.y - here.y);
+}
+
+describe('a leg that cuts a flight short', () => {
+  const butterfly = { id: 'b', kind: 'butterfly', seed: 4321 } as const;
+  const first = firstFlight(butterfly, ['cap'], 0);
+  const cut = (first.leg.departs + first.leg.arrives) / 2;
+  const before: Path = {
+    ...first.leg,
+    launch: 0,
+    start: { x: -40, y: 300 },
+    end: { x: 200, y: 520 },
+  };
+  const cuts: Record<string, Flight> = {
+    'sent away mid-flight': flightAway({ ...butterfly, ...first }, cut),
+    'its cap gone mid-flight':
+      ticked([{ ...butterfly, ...first }], [], cut)[0] ?? first,
+  };
+
+  for (const [name, { leg }] of Object.entries(cuts)) {
+    const after: Path = {
+      ...leg,
+      ...carriedFrom(before, cut),
+      start: flightPoint(before, cut, flier(0)),
+      end: { x: 480, y: 200 },
+    };
+    const flight = { before, after, cut };
+
+    it(`flies on without a jump when ${name}`, () => {
+      assert.equal(leg.departs, cut);
+      assert.equal(after.launch, 1);
+      for (const now of times(cut - 5, cut + 5, 1)) {
+        assert.ok(stepAt(flight, now, 1) < 1);
+        assert.ok(
+          Math.abs(wingsAt(flight, now + 1) - wingsAt(flight, now)) < 0.05,
+        );
+      }
+    });
+
+    it(`does not stop dead when ${name}`, () => {
+      assert.ok(stepAt(flight, cut, 16) > stepAt(flight, cut - 16, 16) / 4);
+      assert.ok(swing(cut, cut + 200, after) > 0.9);
+    });
+  }
 });

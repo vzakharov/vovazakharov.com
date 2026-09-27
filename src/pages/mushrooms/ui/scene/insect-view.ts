@@ -7,6 +7,8 @@ import type { Point } from '../../model/geometry';
 import { type InsectGenes, insectGenes } from '../../model/insect-genes';
 import {
   bodyTurn,
+  type Carried,
+  carriedFrom,
   flightPoint,
   flyingTurn,
   heading,
@@ -58,6 +60,8 @@ type Shown = TappedFigure &
     turnedFrom: number | undefined;
     /** Its current leg's turns, fixed on the leg's first frame and at its landing. */
     turns: Turns | undefined;
+    /** What its current leg carried over from the one it cut short or followed. */
+    carried: Carried;
   };
 
 /**
@@ -106,9 +110,11 @@ export class InsectView {
       const shown = this.shown.get(flier.id) ?? this.show(flier);
       if (shown.flier.legs === flier.legs && shown.flier === flier) continue;
       const newLeg = shown.flier.legs !== flier.legs;
+      const last = { ...shown.flier.leg, ...shown.carried };
       shown.flier = flier;
       if (!newLeg) continue;
-      const { from } = flier.leg;
+      const { from, departs } = flier.leg;
+      shown.carried = carriedFrom(last, departs);
       shown.from =
         from.kind === 'away'
           ? this.fraction(this.offScreen(from.side, shown))
@@ -144,7 +150,7 @@ export class InsectView {
         : perchAt(leg.to, shown.flier)) ??
       shown.end ??
       start;
-    const path: Path = { ...leg, start, end };
+    const path: Path = { ...leg, ...shown.carried, start, end };
     const point = flightPoint(path, now, motion);
     // A flight going nowhere has no heading, so it keeps the one it had.
     if (Math.hypot(end.x - start.x, end.y - start.y) > 1) {
@@ -168,7 +174,7 @@ export class InsectView {
       .setPosition(point.x, point.y + bob)
       .setRotation(bodyTurn(leg, now, flying, shown.turns))
       .setScale(jolt * (1 - bob / this.size / 2));
-    const open = wingBeat(leg, now, motion);
+    const open = wingBeat(path, now, motion);
     shown.fore.setScale(FOLDED + (1 - FOLDED) * open, 1);
     const lagging = open + (1 - open) * HIND_LAG;
     shown.hind.setScale(FOLDED + (1 - FOLDED) * lagging, 1);
@@ -197,6 +203,7 @@ export class InsectView {
       facing: 0,
       turnedFrom: undefined,
       turns: undefined,
+      carried: { launch: 0 },
       phase: phaseOf(flier),
       tappedAt: -Infinity,
     };
