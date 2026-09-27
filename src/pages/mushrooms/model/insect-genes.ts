@@ -11,7 +11,7 @@ import {
   type Seeded,
 } from './random';
 
-export const INSECT_KINDS = ['butterfly'] as const;
+const INSECT_KINDS = ['butterfly'] as const;
 export type InsectKind = (typeof INSECT_KINDS)[number];
 
 /** The names `palette.ts` keys its butterfly hues by, one base hue each. */
@@ -22,7 +22,7 @@ export const BUTTERFLY_COLOURS = [
   'violet',
   'white',
 ] as const;
-export type ButterflyColour = (typeof BUTTERFLY_COLOURS)[number];
+type ButterflyColour = (typeof BUTTERFLY_COLOURS)[number];
 
 type Kinded = { kind: InsectKind };
 export type InsectSeed = Seeded & Kinded;
@@ -73,7 +73,7 @@ export const INSECT_RANGES = {
 
 /** The outermost eye ring's radius, and each inner ring's share of the one outside it. */
 export const EYE_RADIUS = [0.26, 0.38] as const;
-export const EYE_SHRINK = [0.45, 0.65] as const;
+const EYE_SHRINK = [0.45, 0.65] as const;
 export const EYE_RINGS = [1, 3] as const;
 
 function growEyes(random: Random): number[] {

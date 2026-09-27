@@ -51,6 +51,8 @@ export type Controls = {
   plus: Circle;
   minus: Circle;
   house: Circle;
+  /** The butterfly, heading the insects' column down the left. */
+  butterfly: Circle;
   /** One per `CAP_KINDS`, in that order. */
   picker: readonly Circle[];
   /** One per `FURNISHINGS`, in that order. */
@@ -107,6 +109,11 @@ function pickerRow(
  * too long for one row at a finger's size — only ever on a screen narrow
  * enough to drop the row below the mute — puts the rest in the band that
  * leaves free beside the mute.
+ *
+ * The butterfly heads a column down the left, as Syama drew the insects,
+ * level with `+` across the screen, or lower where a picker's row or the mute
+ * stands over it. Where the house leaves the column down the right, the sky
+ * is too short for it, and it stands beside the mute, a finger's size.
  */
 export function placeControls(
   width: number,
@@ -140,18 +147,40 @@ export function placeControls(
     y: column === 1 ? plusY : cornered ? BUTTON_INSET + GROW_R : underMinus,
     r: GROW_R,
   };
-  // The band beside the mute, up to the house where it has the corner.
+  // A sky too short for three down the right is too short for the column
+  // down the left under the mute: the back row's caps reach up into it.
+  const topRow = column === 1 || cornered;
+  const butterfly = topRow
+    ? {
+        ...mute,
+        x: mute.x + tapReach(mute.r) + GROW_GAP + TAP_RADIUS,
+        r: TAP_RADIUS,
+      }
+    : { x: BUTTON_INSET + GROW_R, y: plusY, r: GROW_R };
+  // The band beside the mute, or the butterfly beside it, up to the house
+  // where it has the corner.
   const rest = FURNISHINGS.length - houseRow.length;
   const r = houseRow[0]?.r ?? TAP_RADIUS;
-  const from = mute.x + mute.r + BUTTON_INSET;
+  const from =
+    (topRow ? butterfly.x + tapReach(butterfly.r) : mute.x + mute.r) +
+    BUTTON_INSET;
   const to = cornered ? house.x - hit - BUTTON_INSET : width - BUTTON_INSET;
   const band = Array.from({ length: rest }, (_, index) => ({
     x: from + ((to - from) * (index + 1)) / (rest + 1),
     y: BUTTON_INSET + r,
     r,
   }));
+  if (!topRow) {
+    butterfly.y = Math.max(
+      butterfly.y,
+      ...[...picker, ...houseRow, ...band, mute]
+        .filter((above) => above.x - tapReach(above.r) < butterfly.x + hit)
+        .map((above) => above.y + tapReach(above.r) + GROW_GAP + hit),
+    );
+  }
   return {
     mute,
+    butterfly,
     plus: { x, y: plusY, r: GROW_R },
     minus: { x, y: plusY + below, r: GROW_R },
     house,
@@ -165,13 +194,13 @@ export function placeControls(
  * Where its rays would reach a picker's row it comes down below the rows —
  * over on the left, where a phone's narrow width brings a row down onto the
  * sun itself — and it moves left until its rays keep `BUTTON_INSET` off the
- * buttons down the right.
+ * buttons down the right, and right until they keep it off the butterfly.
  */
 export function placeSun(
   width: number,
   height: number,
   r: number,
-  { plus, minus, house, picker, housePicker }: Controls,
+  { plus, minus, house, butterfly, picker, housePicker }: Controls,
 ): Circle {
   const glow = r * SUN_GLOW_REACH;
   const rays = r * SUN_RAY_REACH;
@@ -192,15 +221,18 @@ export function placeSun(
         y: Math.max(...picks.map((pick) => pick.y + tapReach(pick.r))) + rays,
       }
     : corner;
+  /** How far across from `button` the sun's rays keep `BUTTON_INSET` off it: 0 when they clear it at any x. */
+  const clearing = (button: Circle) => {
+    const reach = tapReach(button.r) + rays + BUTTON_INSET;
+    const rise = button.y - y;
+    return Math.abs(rise) < reach ? Math.sqrt(reach ** 2 - rise ** 2) : 0;
+  };
   const x = Math.min(
     across,
-    ...[plus, minus, house].map((button) => {
-      const reach = tapReach(button.r) + rays + BUTTON_INSET;
-      const rise = button.y - y;
-      return Math.abs(rise) < reach
-        ? button.x - Math.sqrt(reach ** 2 - rise ** 2)
-        : across;
-    }),
+    ...[plus, minus, house].map((button) =>
+      clearing(button) > 0 ? button.x - clearing(button) : across,
+    ),
   );
-  return { x, y, r };
+  const leftOf = clearing(butterfly);
+  return { x: leftOf > 0 ? Math.max(x, butterfly.x + leftOf) : x, y, r };
 }

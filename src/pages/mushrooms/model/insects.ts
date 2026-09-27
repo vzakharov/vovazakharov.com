@@ -18,7 +18,7 @@ import type { Insect, InsectKind } from './insect-genes';
 export type Flier = Insect & Flight;
 
 /** How many of each kind the meadow holds before the oldest leaves. */
-export const INSECT_LIMITS = {
+const INSECT_LIMITS = {
   butterfly: BUTTERFLY_LIMIT,
 } as const satisfies Record<InsectKind, number>;
 

@@ -125,6 +125,13 @@ const HAZE_REACH = 0.35;
  */
 const FINGER_SIZE = (2 * TAP_RADIUS) / GENE_RANGES.capWidth[0];
 
+/**
+ * A butterfly's size, the unit its genes are in, as a share of the clump's,
+ * and the least it is painted at, so it reads on a phone.
+ */
+const INSECT_SCALE = 0.3;
+const INSECT_LEAST = 60;
+
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
 /** The opening pair's turn apart, like the V of Syama's two caps. */
@@ -142,6 +149,8 @@ export type MeadowLayout = Sized &
     /** One per slot, `MUSHROOM_SLOTS` of them: the clump's two, then the forest. */
     mushrooms: readonly Placement[];
     flowers: readonly Footing[];
+    /** The unit a butterfly's genes are painted in. */
+    insectSize: number;
   };
 
 /** A flower's head reaches this far from its centre, per unit of its size. */
@@ -343,7 +352,7 @@ export function meadowLayout(
     });
     return { unit, mushrooms: [...opening, ...forest] };
   };
-  const { mushrooms } = standing(EDGE_MARGIN, FINGER_SIZE);
+  const { unit, mushrooms } = standing(EDGE_MARGIN, FINGER_SIZE);
   // The flowers keep to the meadow as it would stand with no edge margin and
   // no floor, which scales with the screen exactly, so a resize keeps every
   // flower where it was.
@@ -371,5 +380,6 @@ export function meadowLayout(
     ),
     ...controls,
     mushrooms,
+    insectSize: Math.max(INSECT_LEAST, unit * INSECT_SCALE),
   };
 }

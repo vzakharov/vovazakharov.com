@@ -16,7 +16,7 @@ import {
   type Seeded,
 } from './random';
 
-export const SIDES = ['left', 'right'] as const;
+const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
 
 /**
@@ -53,13 +53,13 @@ export const FLYING = [1600, 2600] as const;
 export const DRINKING = [3000, 6000] as const;
 export const RESTING = [4000, 9000] as const;
 /** How often a butterfly with a cap to go to goes to a flower instead. */
-export const FLOWER_SHARE = 0.6;
+const FLOWER_SHARE = 0.6;
 /**
  * How far round a flower-to-flower hop moves `pick`: never less than a fifth
  * of the way, so on a screen of five or more flowers it never lands on the
  * one it left.
  */
-export const FLOWER_HOP = [0.2, 0.8] as const;
+const FLOWER_HOP = [0.2, 0.8] as const;
 
 /** Keeps a leg's stream apart from the genes grown off the same seed. */
 const LEG_SALT = 0x5b_d1_e9_95;

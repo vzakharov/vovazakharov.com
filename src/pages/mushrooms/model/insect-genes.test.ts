@@ -52,7 +52,10 @@ describe('insectGenes', () => {
       }
     }
     const counts = new Set(butterflies.map(({ eyes }) => eyes.length));
-    assert.deepEqual([...counts].toSorted((a, b) => a - b), [1, 2, 3]);
+    assert.deepEqual(
+      [...counts].toSorted((a, b) => a - b),
+      [1, 2, 3],
+    );
   });
 
   it('grows every colour, and never a pattern the colour of its base', () => {
