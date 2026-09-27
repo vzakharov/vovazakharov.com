@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { FlowerGenes } from '../../model/flower-genes';
+import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { mix } from './colour';
 import { PALETTE } from './palette';
@@ -10,11 +10,6 @@ const STEM_STEPS = 16;
 const PADDLE_STEPS = 18;
 /** How much paler than the outer ring the inner ring is. */
 const INNER_PALE = 0.45;
-
-/** Where the head stands, relative to the foot, for a flower `size` tall. */
-function headAt(genes: FlowerGenes, size: number): Point {
-  return { x: genes.stemBend * size, y: -size };
-}
 
 /** A rounded petal: an oval from `from` to `to` out from `centre` along `angle`. */
 function paddle(
@@ -69,7 +64,7 @@ export function drawFlower(
   size: number,
 ): number {
   const ink = Math.max(1.5, size * 0.018);
-  const top = headAt(genes, size);
+  const top = flowerHead(genes, size);
   const line = sample(0, 1, STEM_STEPS, (t) => ({
     // A quadratic from the foot, rising upright before it bends.
     x: top.x * t * t,
@@ -116,5 +111,5 @@ export function drawFlower(
   head.fillCircle(-centre * 0.15, -centre * 0.15, centre * 0.75);
   head.lineStyle(ink, PALETTE.ink);
   head.strokeCircle(0, 0, centre);
-  return genes.petalLength * size;
+  return top.r;
 }

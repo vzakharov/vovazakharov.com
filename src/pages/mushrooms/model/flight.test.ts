@@ -6,24 +6,27 @@ import {
   firstFlight,
   type Flight,
   flightAway,
-  flowerIndex,
   FLYING,
   isAloft,
   isLeaving,
   type Leg,
   nextFlight,
+  type Perch,
+  type Perches,
   RESTING,
 } from './flight';
 
 const CAPS = ['mushroom-1', 'mushroom-2', 'mushroom-3'];
+const FLOWERS = Array.from({ length: 7 }, (_, index) => `flower-${index + 1}`);
+const PERCHES: Perches = { caps: CAPS, flowers: FLOWERS, crowded: [] };
 const SEEDS = Array.from({ length: 200 }, (_, index) => index * 7919 + 1);
 
 /** `legs` flights of the insect grown from `seed`, each departing as the last leaves. */
-function journey(seed: number, legs: number, caps = CAPS): Leg[] {
-  let flight: Flight = firstFlight({ seed }, caps, 0);
+function journey(seed: number, legs: number, perches = PERCHES): Leg[] {
+  let flight: Flight = firstFlight({ seed }, perches, 0);
   const flown = [flight.leg];
   while (flown.length < legs) {
-    flight = nextFlight({ seed, ...flight }, caps, flight.leg.leaves);
+    flight = nextFlight({ seed, ...flight }, perches, flight.leg.leaves);
     flown.push(flight.leg);
   }
   return flown;
@@ -36,7 +39,7 @@ describe('firstFlight', () => {
   it('flies in from off screen, from either side, to a perch', () => {
     const sides = new Set<string>();
     for (const seed of SEEDS) {
-      const { leg, legs } = firstFlight({ seed }, CAPS, 1000);
+      const { leg, legs } = firstFlight({ seed }, PERCHES, 1000);
       assert.equal(legs, 1);
       assert.ok(leg.from.kind === 'away');
       sides.add(leg.from.side);
@@ -48,8 +51,8 @@ describe('firstFlight', () => {
 
   it('is a pure function of the seed', () => {
     assert.deepEqual(
-      firstFlight({ seed: 5 }, CAPS, 0),
-      firstFlight({ seed: 5 }, CAPS, 0),
+      firstFlight({ seed: 5 }, PERCHES, 0),
+      firstFlight({ seed: 5 }, PERCHES, 0),
     );
   });
 });
@@ -74,35 +77,91 @@ describe('nextFlight', () => {
     assert.ok(share > 0.55 && share < 0.7, `flower share ${String(share)}`);
   });
 
-  it('never goes back to the perch it is leaving, on seven flowers', () => {
+  it('never goes back to the perch it is leaving while another is open', () => {
     for (const seed of SEEDS) {
       const flown = journey(seed, 12);
       for (const [index, leg] of flown.entries()) {
         const { from, to } = leg;
         if (index > 0) assert.deepEqual(from, flown[index - 1]?.to);
-        if (from.kind === 'cap' && to.kind === 'cap') {
-          assert.notEqual(to.id, from.id);
-        }
-        if (from.kind === 'flower' && to.kind === 'flower') {
-          assert.notEqual(flowerIndex(to.pick, 7), flowerIndex(from.pick, 7));
-        }
+        assert.notDeepEqual(to, from);
       }
     }
   });
 
-  it('goes only to flowers on an empty meadow, and to the one cap otherwise', () => {
-    for (const seed of SEEDS) {
-      for (const { to } of journey(seed, 6, []))
-        assert.equal(to.kind, 'flower');
-      for (const { from, to } of journey(seed, 6, ['mushroom-1'])) {
-        if (from.kind === 'cap') assert.equal(to.kind, 'flower');
-      }
-    }
-  });
-
-  it('keeps every flower pick in [0, 1)', () => {
+  it('goes only to perches offered, the other kind when one has none', () => {
     for (const { to } of legs) {
-      if (to.kind === 'flower') assert.ok(to.pick >= 0 && to.pick < 1);
+      if (to.kind === 'flower') assert.ok(FLOWERS.includes(to.id));
+      if (to.kind === 'cap') assert.ok(CAPS.includes(to.id));
+    }
+    for (const seed of SEEDS) {
+      for (const { to } of journey(seed, 6, { ...PERCHES, caps: [] }))
+        assert.equal(to.kind, 'flower');
+      for (const { to } of journey(seed, 6, { ...PERCHES, flowers: [] }))
+        assert.equal(to.kind, 'cap');
+      const lone = { caps: ['mushroom-1'], flowers: [], crowded: [] };
+      const [first, second] = journey(seed, 2, lone);
+      assert.deepEqual(first?.to, { kind: 'cap', id: 'mushroom-1' });
+      assert.deepEqual(second?.to, first.to);
+    }
+  });
+
+  it('never goes to a perch another insect sits on or is heading to', () => {
+    const taken: Perch[] = [
+      ...CAPS.slice(1).map((id) => ({ kind: 'cap', id }) as const),
+      ...FLOWERS.slice(2).map((id) => ({ kind: 'flower', id }) as const),
+    ];
+    const free = new Set([
+      'cap mushroom-1',
+      'flower flower-1',
+      'flower flower-2',
+    ]);
+    for (const seed of SEEDS) {
+      const { leg } = firstFlight({ seed }, PERCHES, 0, taken);
+      const { to } = nextFlight({ seed, leg, legs: 1 }, PERCHES, 0, taken).leg;
+      for (const perch of [leg.to, to]) {
+        assert.ok(perch.kind !== 'away');
+        assert.ok(free.has(`${perch.kind} ${perch.id}`));
+      }
+    }
+  });
+
+  it('never goes to a perch crowded by one another insect has taken', () => {
+    const cap = { kind: 'cap', id: 'mushroom-1' } as const;
+    const crowded = FLOWERS.map((id) => [cap, { kind: 'flower', id }] as const);
+    const perches = { ...PERCHES, crowded };
+    for (const seed of SEEDS) {
+      const { to } = firstFlight({ seed }, perches, 0, [cap]).leg;
+      assert.equal(to.kind, 'cap');
+      assert.notDeepEqual(to, cap);
+    }
+  });
+
+  it('settles again where it was when every other perch is taken', () => {
+    const taken: Perch[] = [
+      ...CAPS.slice(1).map((id) => ({ kind: 'cap', id }) as const),
+      ...FLOWERS.map((id) => ({ kind: 'flower', id }) as const),
+    ];
+    for (const seed of SEEDS) {
+      const { leg } = firstFlight({ seed }, PERCHES, 0, taken);
+      assert.deepEqual(leg.to, { kind: 'cap', id: 'mushroom-1' });
+      const next = nextFlight({ seed, leg, legs: 1 }, PERCHES, 0, taken).leg;
+      assert.deepEqual(next.to, leg.to);
+      const gone = { ...PERCHES, caps: CAPS.slice(1) };
+      const away = nextFlight({ seed, leg, legs: 1 }, gone, 0, taken).leg;
+      assert.equal(away.to.kind, 'away');
+    }
+  });
+
+  it('flies away when every perch is taken or none is offered', () => {
+    const none = { caps: [], flowers: [], crowded: [] };
+    for (const seed of SEEDS) {
+      assert.equal(firstFlight({ seed }, none, 0).leg.to.kind, 'away');
+      const everything: Perch[] = [
+        ...CAPS.map((id) => ({ kind: 'cap', id }) as const),
+        ...FLOWERS.map((id) => ({ kind: 'flower', id }) as const),
+      ];
+      const { leg } = firstFlight({ seed }, PERCHES, 0, everything);
+      assert.equal(leg.to.kind, 'away');
     }
   });
 
@@ -114,7 +173,7 @@ describe('nextFlight', () => {
 
 describe('flightAway', () => {
   it('leaves off screen from its perch, and is gone as it arrives', () => {
-    const first = firstFlight({ seed: 3 }, CAPS, 0);
+    const first = firstFlight({ seed: 3 }, PERCHES, 0);
     const away = flightAway({ seed: 3, ...first }, 500);
     assert.ok(isLeaving(away));
     assert.ok(!isLeaving(first));
@@ -125,18 +184,9 @@ describe('flightAway', () => {
   });
 });
 
-describe('flowerIndex', () => {
-  it('spreads picks evenly over the flowers, and stays in range', () => {
-    assert.equal(flowerIndex(0, 7), 0);
-    assert.equal(flowerIndex(0.999, 7), 6);
-    assert.equal(flowerIndex(0.5, 2), 1);
-    assert.equal(flowerIndex(1, 7), 6);
-  });
-});
-
 describe('isAloft', () => {
   it('is true from departure up to arrival', () => {
-    const { leg } = firstFlight({ seed: 1 }, CAPS, 100);
+    const { leg } = firstFlight({ seed: 1 }, PERCHES, 100);
     const flight = { leg, legs: 1 };
     assert.ok(!isAloft(flight, 99));
     assert.ok(isAloft(flight, 100));

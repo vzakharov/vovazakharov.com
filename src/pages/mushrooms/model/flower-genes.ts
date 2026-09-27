@@ -1,6 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
-import type { Bent } from './geometry';
+import type { Bent, Circle } from './geometry';
 import {
   between,
   geneFrom,
@@ -71,6 +71,14 @@ export function flowerGenes({ seed }: Seeded): FlowerGenes {
     leafAt: gene('leafAt'),
     leafSide: random() < 0.5 ? -1 : 1,
   };
+}
+
+/**
+ * Where the head of a flower `size` tall stands relative to its foot, y
+ * down, and how far its petals reach.
+ */
+export function flowerHead(genes: FlowerGenes, size: number): Circle {
+  return { x: genes.stemBend * size, y: -size, r: genes.petalLength * size };
 }
 
 export function firstFlowers(random: Random, count: number): Flower[] {

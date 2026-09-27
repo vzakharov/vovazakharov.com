@@ -24,19 +24,32 @@ export type PerchKind = (typeof PERCH_KINDS)[number];
 
 /** What each kind of perch carries beside its kind. */
 type PerchFields = {
-  flower: { pick: number };
+  flower: WithId;
   cap: WithId;
   away: { side: Side };
 };
 
 /**
- * Where an insect wants to be. A flower's `pick` in `[0, 1)` is mapped by
- * the scene onto whatever flowers the screen has (`flowerIndex`), so a resize
- * never strands a perch; `away` is off screen past that side's edge.
+ * Where an insect wants to be: a flower or a cap by id, or `away`, off screen
+ * past that side's edge.
  */
 export type Perch = {
   [Kind in PerchKind]: { kind: Kind } & PerchFields[Kind];
 }[PerchKind];
+
+/**
+ * What the scene sees of the perches, which only the screen can say: the
+ * flowers in sight, by id, the only ones an insect is sent to; and the pairs
+ * of perches standing too close for an insect on each, so a perch crowded by
+ * a taken one counts as taken.
+ */
+export type Sight = {
+  flowers: readonly string[];
+  crowded: ReadonlyArray<readonly [Perch, Perch]>;
+};
+
+/** The perches the meadow offers: every standing mushroom's cap, and what the scene sees. */
+export type Perches = Sight & { caps: readonly string[] };
 
 /** A moment on the scene's clock, in ms. */
 export type Timed = { now: number };
@@ -63,12 +76,6 @@ export const DRINKING = [3000, 6000] as const;
 export const RESTING = [4000, 9000] as const;
 /** How often a butterfly with a cap to go to goes to a flower instead. */
 const FLOWER_SHARE = 0.6;
-/**
- * How far round a flower-to-flower hop moves `pick`: never less than a fifth
- * of the way, so on a screen of five or more flowers it never lands on the
- * one it left.
- */
-const FLOWER_HOP = [0.2, 0.8] as const;
 
 /** Keeps a leg's stream apart from the genes grown off the same seed. */
 const LEG_SALT = 0x5b_d1_e9_95;
@@ -77,25 +84,58 @@ function legRandom(seed: number, legs: number): Random {
   return mulberry32(nextSeed(mulberry32(((seed ^ LEG_SALT) + legs) >>> 0)));
 }
 
-/** Which of `count` flowers a flower perch's `pick` lands on. */
-export function flowerIndex(at: number, count: number): number {
-  return Math.min(count - 1, Math.max(0, Math.floor(at * count)));
+function isSamePerch(a: Perch, b: Perch): boolean {
+  return a.kind === 'away' || b.kind === 'away'
+    ? false
+    : a.kind === b.kind && a.id === b.id;
 }
 
+/** Whether `perch` is `other`, or stands too close to it for an insect on each. */
+function isCrowdedBy(
+  perch: Perch,
+  other: Perch,
+  crowded: Sight['crowded'],
+): boolean {
+  return (
+    isSamePerch(perch, other) ||
+    crowded.some(
+      ([a, b]) =>
+        (isSamePerch(a, perch) && isSamePerch(b, other)) ||
+        (isSamePerch(b, perch) && isSamePerch(a, other)),
+    )
+  );
+}
+
+/**
+ * The perch the next leg goes to: a flower about three times in five and a
+ * cap otherwise, the other kind when the one drawn has none open. Open means
+ * offered by `perches`, not the one it is leaving, and neither in `taken`,
+ * where the other fliers sit or are heading, nor crowded by one there. With
+ * none open it flutters up and settles again where it was, while that is
+ * still offered, and flies away otherwise.
+ */
 function nextPerch(
   random: Random,
   from: Perch,
-  caps: readonly string[],
+  perches: Perches,
+  taken: readonly Perch[],
 ): Perch {
-  const open = caps.filter((id) => from.kind !== 'cap' || id !== from.id);
-  const [first, ...rest] = open;
-  const toFlower = random() < FLOWER_SHARE;
-  const hop = between(random, FLOWER_HOP[0], FLOWER_HOP[1]);
-  if (!toFlower && first !== undefined) {
-    return { kind: 'cap', id: pick(random, [first, ...rest]) };
-  }
-  const flowerPick = from.kind === 'flower' ? (from.pick + hop) % 1 : random();
-  return { kind: 'flower', pick: flowerPick };
+  const open = (kind: 'flower' | 'cap', ids: readonly string[]): Perch[] =>
+    ids
+      .map((id) => ({ kind, id }))
+      .filter(
+        (perch) =>
+          !isSamePerch(perch, from) &&
+          !taken.some((each) => isCrowdedBy(perch, each, perches.crowded)),
+      );
+  const flowers = open('flower', perches.flowers);
+  const caps = open('cap', perches.caps);
+  const drawn = random() < FLOWER_SHARE ? [flowers, caps] : [caps, flowers];
+  const [first, ...rest] = drawn.find((each) => each.length > 0) ?? [];
+  if (first !== undefined) return pick(random, [first, ...rest]);
+  return from.kind !== 'away' && isOffered(from, perches)
+    ? from
+    : awayPerch(random);
 }
 
 function awayPerch(random: Random): Perch {
@@ -132,17 +172,18 @@ function legTo(random: Random, from: Perch, to: Perch, now: number): Leg {
 
 /**
  * A new insect's first flight, in from off screen on a side its seed picks
- * to a perch among `caps` (mushroom ids) and the flowers, departing `now`.
+ * to an open perch (`nextPerch`), departing `now`.
  */
 export function firstFlight(
   { seed }: Seeded,
-  caps: readonly string[],
+  perches: Perches,
   now: number,
+  taken: readonly Perch[] = [],
 ): Flight {
   const random = legRandom(seed, 0);
   const from = awayPerch(random);
   return {
-    leg: legTo(random, from, nextPerch(random, from, caps), now),
+    leg: legTo(random, from, nextPerch(random, from, perches, taken), now),
     legs: 1,
   };
 }
@@ -159,22 +200,40 @@ function onward(
 
 /**
  * The flight after `insect`'s current one, departing `now` from the perch
- * that one went to: a flower about three times in five and a cap otherwise,
- * a flower whenever `caps` offers none, never the perch it is leaving.
+ * that one went to, to an open perch (`nextPerch`).
  */
 export function nextFlight(
   insect: Seeded & Flight,
-  caps: readonly string[],
+  perches: Perches,
   now: number,
+  taken: readonly Perch[] = [],
 ): Flight {
   return onward(insect, now, (random) =>
-    nextPerch(random, insect.leg.to, caps),
+    nextPerch(random, insect.leg.to, perches, taken),
   );
 }
 
 /** `insect` flying off screen from `now`, past a side its seed picks, and gone. */
 export function flightAway(insect: Seeded & Flight, now: number): Flight {
   return onward(insect, now, awayPerch);
+}
+
+/** Whether `perches` still offers `perch`; `away` always is. */
+export function isOffered(perch: Perch, { caps, flowers }: Perches): boolean {
+  switch (perch.kind) {
+    case 'cap': {
+      return caps.includes(perch.id);
+    }
+    case 'flower': {
+      return flowers.includes(perch.id);
+    }
+    case 'away': {
+      return true;
+    }
+    default: {
+      return perch satisfies never;
+    }
+  }
 }
 
 export function isLeaving({ leg }: Flight): boolean {

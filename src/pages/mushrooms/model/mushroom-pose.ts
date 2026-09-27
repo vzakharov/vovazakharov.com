@@ -61,6 +61,16 @@ export function capFrame(genes: Posed): (point: Point) => Point {
   };
 }
 
+/**
+ * Where a butterfly sits on the cap, `across` from -1 to 1 of the way from
+ * the crown toward either rim: a little under the dome's top, so it reads as
+ * sitting on it rather than hovering.
+ */
+export function capSeat(genes: Posed, across: number): Point {
+  const x = (across * genes.capWidth) / 2;
+  return capFrame(genes)({ x, y: domeHeight(genes, x) * 0.8 });
+}
+
 /** How far the cap reaches to either side of the foot once `lean` turns it. */
 export function capReach(
   genes: Posed,

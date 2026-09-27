@@ -202,7 +202,7 @@ export const State = z.object({
 export const Point = z.object({ x: z.number(), y: z.number() });
 /** One schema per kind of perch, each parsing to the model's perch of that kind. */
 const PERCHES = {
-  flower: z.object({ kind: z.literal('flower'), pick: z.number() }),
+  flower: z.object({ kind: z.literal('flower'), id: z.string() }),
   cap: z.object({ kind: z.literal('cap'), id: z.string() }),
   away: z.object({ kind: z.literal('away'), side: z.enum(SIDES) }),
 } satisfies {

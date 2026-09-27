@@ -6,7 +6,7 @@
 
 import type { WithId } from '@/shared/typings';
 
-import type { Timed } from './flight';
+import type { Perches, Sight, Timed } from './flight';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -59,9 +59,12 @@ export type Action =
   | { kind: 'remove' }
   | { kind: 'house' }
   | { kind: 'furnish'; piece: Furnishing }
-  | ({ kind: 'release'; insect: InsectKind } & Seeded & Timed)
-  | ({ kind: 'startle' } & WithId & Timed)
-  | ({ kind: 'tick' } & Timed);
+  | ({ kind: 'release'; insect: InsectKind } & Seeded & Sighted)
+  | ({ kind: 'startle' } & WithId & Sighted)
+  | ({ kind: 'tick' } & Sighted);
+
+/** An insect action's moment, and what the scene sees of the perches as it happens. */
+type Sighted = Timed & Sight;
 
 /** The drawing's two fly agarics, standing as one clump in the first two slots. */
 export function firstMeadow(random: Random): Meadow {
@@ -146,8 +149,11 @@ export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
   return furnishedTarget(meadow, piece) !== undefined;
 }
 
-/** Every cap an insect can perch on: the mushrooms still standing. */
-const capsOf = ({ mushrooms }: Meadow) => mushrooms.map(({ id }) => id);
+/** Every perch an insect can go to: the mushrooms still standing, and what the scene sees. */
+const perchesOf = (
+  { mushrooms }: Meadow,
+  { flowers, crowded }: Sight,
+): Perches => ({ caps: mushrooms.map(({ id }) => id), flowers, crowded });
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
   const taken = new Set(mushrooms.map(({ slot }) => slot));
@@ -238,7 +244,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const insect = { id: `${kind}-${count}`, seed, kind };
       return {
         ...meadow,
-        insects: released(meadow.insects, insect, capsOf(meadow), now),
+        insects: released(
+          meadow.insects,
+          insect,
+          perchesOf(meadow, action),
+          now,
+        ),
         released: count,
       };
     }
@@ -246,13 +257,17 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       const insects = startled(
         meadow.insects,
         action.id,
-        capsOf(meadow),
+        perchesOf(meadow, action),
         action.now,
       );
       return insects === meadow.insects ? meadow : { ...meadow, insects };
     }
     case 'tick': {
-      const insects = ticked(meadow.insects, capsOf(meadow), action.now);
+      const insects = ticked(
+        meadow.insects,
+        perchesOf(meadow, action),
+        action.now,
+      );
       return insects === meadow.insects ? meadow : { ...meadow, insects };
     }
     default: {

@@ -1,7 +1,8 @@
 /**
  * The meadow's insects under `release`, `startle` and `tick`: each keeps its
- * own leg, and these decide when it takes the next one. `caps` is every
- * mushroom id still standing, the only perches the model can check.
+ * own leg, and these decide when it takes the next one. `perches` is what
+ * the meadow offers now; a new leg never goes to a perch another insect sits
+ * on or is heading to, nor to one crowded by it (`nextFlight`).
  */
 
 import {
@@ -11,7 +12,10 @@ import {
   flightAway,
   isAloft,
   isLeaving,
+  isOffered,
   nextFlight,
+  type Perch,
+  type Perches,
 } from './flight';
 import type { Insect, InsectKind } from './insect-genes';
 
@@ -40,6 +44,13 @@ export function evicted<
   return staying.length >= limits[kind] ? staying[0] : undefined;
 }
 
+/** Where each of `insects` other than `self` sits or is heading, leaving ones aside. */
+function takenBy(insects: readonly Flight[], self?: Flight): Perch[] {
+  return insects
+    .filter((each) => each !== self && !isLeaving(each))
+    .map(({ leg }) => leg.to);
+}
+
 /**
  * `insects` with `insect` flying in from `now`. At its kind's limit, the
  * oldest of that kind not already leaving flies away from `now`, so a release
@@ -48,15 +59,16 @@ export function evicted<
 export function released(
   insects: readonly Flier[],
   insect: Insect,
-  caps: readonly string[],
+  perches: Perches,
   now: number,
 ): Flier[] {
   const oldest = evicted(insects, insect.kind, INSECT_LIMITS);
+  const staying = insects.map((each) =>
+    each === oldest ? { ...each, ...flightAway(each, now) } : each,
+  );
   return [
-    ...insects.map((each) =>
-      each === oldest ? { ...each, ...flightAway(each, now) } : each,
-    ),
-    { ...insect, ...firstFlight(insect, caps, now) },
+    ...staying,
+    { ...insect, ...firstFlight(insect, perches, now, takenBy(staying)) },
   ];
 }
 
@@ -67,43 +79,43 @@ export function released(
 export function startled(
   insects: readonly Flier[],
   id: string,
-  caps: readonly string[],
+  perches: Perches,
   now: number,
 ): readonly Flier[] {
   const insect = insects.find((each) => each.id === id);
   if (insect === undefined || isAloft(insect, now)) return insects;
+  const taken = takenBy(insects, insect);
   return insects.map((each) =>
-    each === insect ? { ...each, ...nextFlight(each, caps, now) } : each,
+    each === insect
+      ? { ...each, ...nextFlight(each, perches, now, taken) }
+      : each,
   );
 }
 
-function capGone({ leg: { to } }: Flight, caps: readonly string[]): boolean {
-  return to.kind === 'cap' && !caps.includes(to.id);
-}
-
 /**
- * `insects` at `now`: one whose stay is over, or whose cap is gone, takes its
- * next leg from `now`; one whose flight away has landed is gone. The same
- * array comes back when nothing is due, so a frame with nothing to do
- * changes nothing.
+ * `insects` at `now`: one whose stay is over, or whose perch the meadow no
+ * longer offers, takes its next leg from `now`; one whose flight away has
+ * landed is gone. They are taken in order, each new leg seeing the ones
+ * before it already taken, so two due on one frame never pick one perch.
+ * The same array comes back when nothing is due, so a frame with nothing to
+ * do changes nothing.
  */
 export function ticked(
   insects: readonly Flier[],
-  caps: readonly string[],
+  perches: Perches,
   now: number,
 ): readonly Flier[] {
   let changed = false;
-  const next: Flier[] = [];
-  for (const insect of insects) {
+  const next: Flier[] = [...insects];
+  for (const [index, insect] of insects.entries()) {
     if (isLeaving(insect)) {
       if (now >= insect.leg.arrives) changed = true;
-      else next.push(insect);
-    } else if (now >= insect.leg.leaves || capGone(insect, caps)) {
+    } else if (now >= insect.leg.leaves || !isOffered(insect.leg.to, perches)) {
       changed = true;
-      next.push({ ...insect, ...nextFlight(insect, caps, now) });
-    } else {
-      next.push(insect);
+      const taken = takenBy(next, insect);
+      next[index] = { ...insect, ...nextFlight(insect, perches, now, taken) };
     }
   }
-  return changed ? next : insects;
+  if (!changed) return insects;
+  return next.filter((each) => !isLeaving(each) || now < each.leg.arrives);
 }

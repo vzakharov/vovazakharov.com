@@ -275,7 +275,11 @@ function stepAt(flight: Cut, now: number, frame: number): number {
 
 describe('a leg that cuts a flight short', () => {
   const butterfly = { id: 'b', kind: 'butterfly', seed: 4321 } as const;
-  const first = firstFlight(butterfly, ['cap'], 0);
+  const first = firstFlight(
+    butterfly,
+    { caps: ['cap'], flowers: [], crowded: [] },
+    0,
+  );
   const cut = (first.leg.departs + first.leg.arrives) / 2;
   const before: Flown = {
     ...first.leg,
@@ -287,7 +291,11 @@ describe('a leg that cuts a flight short', () => {
   const cuts: Record<string, Flight> = {
     'sent away mid-flight': flightAway({ ...butterfly, ...first }, cut),
     'its cap gone mid-flight':
-      ticked([{ ...butterfly, ...first }], [], cut)[0] ?? first,
+      ticked(
+        [{ ...butterfly, ...first }],
+        { caps: ['other'], flowers: [], crowded: [] },
+        cut,
+      )[0] ?? first,
   };
 
   for (const [name, { leg }] of Object.entries(cuts)) {
@@ -317,7 +325,7 @@ describe('a leg that cuts a flight short', () => {
   }
 });
 
-const DRUNK_AT = { kind: 'flower', pick: 0.4 } as const;
+const DRUNK_AT = { kind: 'flower', id: 'flower-4' } as const;
 const FLOWER: Flown = { ...PATH, to: DRUNK_AT };
 
 /** The largest change in `value` from one ms to the next between `from` and `to`. */
@@ -382,7 +390,7 @@ describe('drinking and proboscis', () => {
 });
 
 describe('drinkDip', () => {
-  const hop = { ...FLOWER, from: { kind: 'flower', pick: 0.9 } } as const;
+  const hop = { ...FLOWER, from: { kind: 'flower', id: 'flower-9' } } as const;
   const next = {
     ...hop,
     from: DRUNK_AT,
@@ -401,9 +409,9 @@ describe('drinkDip', () => {
 
   it('sags under the butterfly while it drinks, and springs back as it leaves', () => {
     assert.equal(drinkDip(hop, hop.arrives)?.dip, 0);
-    assert.equal(drinkDip(hop, 5000)?.pick, DRUNK_AT.pick);
+    assert.equal(drinkDip(hop, 5000)?.id, DRUNK_AT.id);
     assert.ok(Math.abs((drinkDip(hop, 5000)?.dip ?? 0) - 0.18) < 1e-3);
-    assert.equal(drinkDip(next, next.departs)?.pick, DRUNK_AT.pick);
+    assert.equal(drinkDip(next, next.departs)?.id, DRUNK_AT.id);
     assert.ok((drinkDip(next, next.departs + 220)?.dip ?? 0) < 0);
     assert.ok(largestStep(dipAt, hop.arrives - 50, next.departs + 1300) < 0.01);
   });

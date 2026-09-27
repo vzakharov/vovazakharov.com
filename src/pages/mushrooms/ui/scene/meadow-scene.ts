@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import { flowerIndex, type Perch } from '../../model/flight';
+import type { Perch, Sight } from '../../model/flight';
 import {
   firstFlowers,
   type Flower,
@@ -27,6 +27,7 @@ import { InsectView } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
+import { perchSight, perchSpot } from './perch-sight';
 import { tapReach } from './sky-layout';
 import { MeadowSound, readMuted } from './sound';
 
@@ -37,11 +38,6 @@ export const PIXEL_RATIO_KEY = 'pixelRatio';
 const HUD_DEPTH = 2e5;
 /** Above everything in the meadow too, but under the buttons, which keep their taps. */
 const INSECT_DEPTH = 1.5e5;
-/**
- * How far off a cap's crown toward its rims, or off a flower's centre toward
- * its petals' tips, butterflies spread, so two on one perch sit apart.
- */
-const PERCH_SPREAD = 0.6;
 /** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
 const CLOUD_SPEEDS = [7, 4, 5.5];
 /** A flower's lean at the breeze's strongest, in radians. */
@@ -77,6 +73,8 @@ export class MeadowScene extends Phaser.Scene {
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
   private readonly shownFlowers = new Map<string, ShownFlower>();
+  /** What the insects see of the perches, as the screen and the mushrooms stand now. */
+  private sight: Sight = { flowers: [], crowded: [] };
   private readonly voice = new MeadowSound(readMuted());
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
@@ -99,7 +97,12 @@ export class MeadowScene extends Phaser.Scene {
       this.now,
       INSECT_DEPTH,
       (id) => {
-        this.dispatch({ kind: 'startle', id, now: this.clock * 1000 });
+        this.dispatch({
+          kind: 'startle',
+          id,
+          now: this.clock * 1000,
+          ...this.sight,
+        });
       },
     );
     this.controls = new Controls(
@@ -134,6 +137,7 @@ export class MeadowScene extends Phaser.Scene {
             insect: 'butterfly',
             seed: nextSeed(this.releasing),
             now: this.clock * 1000,
+            ...this.sight,
           });
         },
         refuse: () => {
@@ -170,9 +174,10 @@ export class MeadowScene extends Phaser.Scene {
       controls,
       insects,
       perchAt,
+      sight,
     } = this;
     if (!layout || !backdrop) return;
-    this.dispatch({ kind: 'tick', now: time });
+    this.dispatch({ kind: 'tick', now: time, ...sight });
     const { width, clouds } = layout;
     for (const [index, graphics] of backdrop.clouds.entries()) {
       const cloud = clouds[index];
@@ -204,7 +209,9 @@ export class MeadowScene extends Phaser.Scene {
     const meadow = reduce(this.meadow, action);
     // A frame's tick with nothing due changes nothing, and costs nothing.
     if (meadow === this.meadow) return;
+    const regrown = meadow.mushrooms !== this.meadow.mushrooms;
     this.meadow = meadow;
+    if (regrown) this.see();
     this.bed?.reconcile(meadow, this.requireLayout(), this.clock);
     this.insects?.reconcile(meadow.insects);
     this.repaintControls();
@@ -219,17 +226,14 @@ export class MeadowScene extends Phaser.Scene {
     perch: Perch,
     insect: Flier,
   ): Point | undefined => {
-    const spot = Math.sin(phaseOf(insect) * 5) * PERCH_SPREAD;
+    const spot = perchSpot(insect);
     switch (perch.kind) {
       case 'cap': {
         return this.bed?.capTop(perch.id, spot);
       }
       case 'flower': {
-        const count = this.layout?.flowers.length ?? 0;
-        const flower =
-          count > 0 ? this.flowers[flowerIndex(perch.pick, count)] : undefined;
-        const shown = flower && this.shownFlowers.get(flower.id);
-        if (!shown) return undefined;
+        const shown = this.shownFlowers.get(perch.id);
+        if (shown?.container.visible !== true) return undefined;
         const { container, head, headR } = shown;
         return placedAt(container, container.rotation, {
           ...pick(head, 'y'),
@@ -291,8 +295,16 @@ export class MeadowScene extends Phaser.Scene {
     if (this.meadow) this.bed?.paint(this.meadow, layout);
     this.insects?.paint(layout);
     this.paintFlowers(layout);
+    this.see();
     this.repaintControls();
   };
+
+  /** Sees the perches afresh, as the screen and the mushrooms now stand. */
+  private see(): void {
+    const { layout, flowers, meadow } = this;
+    if (!layout || !meadow) return;
+    this.sight = perchSight({ layout, flowers, ...pick(meadow, 'mushrooms') });
+  }
 
   private paintFlowers({ flowers }: MeadowLayout): void {
     for (const [index, flower] of this.flowers.entries()) {

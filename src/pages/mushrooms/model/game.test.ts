@@ -296,17 +296,23 @@ describe('the two pickers', () => {
   });
 });
 
+/** The flowers in sight, as the scene would pass them, none crowding another. */
+const FLOWERS = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
+const SIGHT = { flowers: FLOWERS, crowded: [] };
 const release = (seed: number, now: number): Action => ({
   kind: 'release',
   insect: 'butterfly',
   seed,
   now,
+  ...SIGHT,
 });
-const startle = (now: number): Action => ({
+const startle = (now: number, id = 'butterfly-1'): Action => ({
   kind: 'startle',
-  id: 'butterfly-1',
+  id,
   now,
+  ...SIGHT,
 });
+const tick = (now: number): Action => ({ kind: 'tick', now, ...SIGHT });
 const flier = (meadow: Meadow, id: string) =>
   meadow.insects.find((insect) => insect.id === id);
 
@@ -357,9 +363,9 @@ describe('the butterflies', () => {
     );
     const gone = flier(five, 'butterfly-1');
     assert.ok(gone);
-    const still = reduce(five, { kind: 'tick', now: gone.leg.arrives - 1 });
+    const still = reduce(five, tick(gone.leg.arrives - 1));
     assert.ok(flier(still, 'butterfly-1'));
-    const after = reduce(still, { kind: 'tick', now: gone.leg.arrives });
+    const after = reduce(still, tick(gone.leg.arrives));
     assert.equal(flier(after, 'butterfly-1'), undefined);
     assert.equal(after.insects.length, BUTTERFLY_LIMIT);
   });
@@ -369,8 +375,8 @@ describe('the butterflies', () => {
     const [butterfly] = meadow.insects;
     assert.ok(butterfly);
     const { leaves, to } = butterfly.leg;
-    assert.equal(reduce(meadow, { kind: 'tick', now: leaves - 1 }), meadow);
-    const moved = reduce(meadow, { kind: 'tick', now: leaves });
+    assert.equal(reduce(meadow, tick(leaves - 1)), meadow);
+    const moved = reduce(meadow, tick(leaves));
     const [next] = moved.insects;
     assert.ok(next);
     assert.equal(next.legs, 2);
@@ -388,10 +394,7 @@ describe('the butterflies', () => {
     assert.ok(startled);
     assert.equal(startled.leg.departs, arrives + 1);
     assert.equal(startled.legs, 2);
-    assert.equal(
-      reduce(meadow, { kind: 'startle', id: 'butterfly-9', now: 0 }),
-      meadow,
-    );
+    assert.equal(reduce(meadow, startle(0, 'butterfly-9')), meadow);
   });
 
   it('flies one off a cap that is gone, at the next tick', () => {
@@ -409,11 +412,52 @@ describe('the butterflies', () => {
     ]);
     assert.deepEqual(flier(thinned, onCap.id), onCap);
     const now = onCap.leg.arrives + 1;
-    const ticked = reduce(thinned, { kind: 'tick', now });
+    const ticked = reduce(thinned, tick(now));
     const moved = flier(ticked, onCap.id);
     assert.ok(moved);
     assert.equal(moved.leg.departs, now);
     assert.notDeepEqual(moved.leg.to, onCap.leg.to);
+  });
+
+  it('never sends two butterflies to one perch', () => {
+    for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+      let meadow = run(
+        opening(),
+        [0, 1, 2, 3].map((index) => release(seed * 10 + index, index * 500)),
+      );
+      for (let now = 2000; now < 60_000; now += 100) {
+        meadow = reduce(meadow, tick(now));
+        if (now % 7000 === 0) meadow = reduce(meadow, startle(now));
+        const perches = meadow.insects
+          .filter(({ leg }) => leg.to.kind !== 'away')
+          .map(({ leg: { to } }) => JSON.stringify(to));
+        assert.equal(new Set(perches).size, perches.length, perches.join(' '));
+      }
+    }
+  });
+
+  it('flies one off a flower once it is out of sight, and sends none there', () => {
+    const flown = run(
+      opening(),
+      Array.from({ length: 4 }, (_, seed) => release(seed, 0)),
+    );
+    const onFlower = flown.insects.find(({ leg }) => leg.to.kind === 'flower');
+    assert.ok(onFlower);
+    const hidden = onFlower.leg.to.kind === 'flower' ? onFlower.leg.to.id : '';
+    const now = onFlower.leg.arrives + 1;
+    const sight = FLOWERS.filter((id) => id !== hidden);
+    const after = reduce(flown, {
+      kind: 'tick',
+      now,
+      flowers: sight,
+      crowded: [],
+    });
+    const moved = flier(after, onFlower.id);
+    assert.ok(moved);
+    assert.equal(moved.leg.departs, now);
+    for (const { leg } of after.insects) {
+      assert.notDeepEqual(leg.to, { kind: 'flower', id: hidden });
+    }
   });
 
   it('leaves the butterflies alone through the mushroom actions', () => {

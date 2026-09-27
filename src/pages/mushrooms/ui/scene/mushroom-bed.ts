@@ -15,18 +15,14 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import {
-  domeHeight,
-  type MushroomGenes,
-  mushroomGenes,
-} from '../../model/mushroom-genes';
+import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
   tapArea,
   toCanvas,
 } from '../../model/mushroom-outline';
-import { capFrame, splayed } from '../../model/mushroom-pose';
+import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { doorInSight, standingAt } from './door-sight';
 import {
   drawMushroom,
@@ -222,10 +218,7 @@ export class MushroomBed {
     const shown = this.shown.get(id);
     if (!shown) return undefined;
     const { genes, size, graphics } = shown;
-    const x = (across * genes.capWidth) / 2;
-    const seat = toCanvas(size)(
-      capFrame(genes)({ x, y: domeHeight(genes, x) * 0.8 }),
-    );
+    const seat = toCanvas(size)(capSeat(genes, across));
     return placedAt(graphics, graphics.rotation, {
       x: seat.x * graphics.scaleX,
       y: seat.y * graphics.scaleY,

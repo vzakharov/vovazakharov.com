@@ -4,13 +4,17 @@ import { describe, it } from 'node:test';
 import { firstFlight, flightAway } from './flight';
 import { evicted } from './insects';
 
-const CAPS = ['mushroom-1', 'mushroom-2'];
+const PERCHES = {
+  caps: ['mushroom-1', 'mushroom-2'],
+  flowers: ['flower-1'],
+  crowded: [],
+};
 /** Two kinds, as the meadow will hold once a second one flies. */
 const LIMITS = { butterfly: 2, fly: 3 } as const;
 type Kind = keyof typeof LIMITS;
 
 function flier(kind: Kind, seed: number) {
-  return { kind, seed, ...firstFlight({ seed }, CAPS, 0) };
+  return { kind, seed, ...firstFlight({ seed }, PERCHES, 0) };
 }
 
 describe('evicted', () => {
