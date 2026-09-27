@@ -170,7 +170,7 @@ export const PROBE = `(() => {
     },
     /** The nearest shown flower's head, the one least likely to be covered. */
     flower: () => {
-      const shown = [...scene.shownFlowers.entries()]
+      const shown = [...scene.flowers.shown.entries()]
         .filter(([, flower]) => flower.container.visible)
         .sort(([, a], [, b]) => b.container.depth - a.container.depth)[0];
       if (!shown) return null;
@@ -180,7 +180,7 @@ export const PROBE = `(() => {
     },
     /** When a flower was last tapped, \`null\` if never: JSON has no -Infinity. */
     flowerTappedAt: (id) => {
-      const { tappedAt } = scene.shownFlowers.get(id);
+      const { tappedAt } = scene.flowers.shown.get(id);
       return Number.isFinite(tappedAt) ? tappedAt : null;
     },
     /** When \`−\` last shook its head, \`null\` if never. */

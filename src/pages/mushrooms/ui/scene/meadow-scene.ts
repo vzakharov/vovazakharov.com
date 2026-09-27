@@ -3,38 +3,25 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { isAloft, isLeaving, type Perch, type Sight } from '../../model/flight';
-import {
-  firstFlowers,
-  type Flower,
-  flowerGenes,
-} from '../../model/flower-genes';
+import { firstFlowers } from '../../model/flower-genes';
 import {
   type Action,
   firstMeadow,
   type Meadow,
   reduce,
 } from '../../model/game';
-import { placedAt, type Point } from '../../model/geometry';
-import { type Dip, drinkDip } from '../../model/insect-motion';
+import type { Point } from '../../model/geometry';
 import type { Flier } from '../../model/insects';
-import { bloom, drift, phaseOf, sway } from '../../model/motion';
+import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
-import { drawFlower } from './draw-flower';
+import { FlowerBed } from './flower-bed';
 import { growTufts, paintTufts } from './grass';
-import { containsCircle, type TappedFigure } from './hit-areas';
 import { InsectView, type Perched } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
-import {
-  airSpots,
-  FLOWER_SWAY,
-  flowerLift,
-  perchSight,
-  perchSpot,
-} from './perch-sight';
-import { tapReach } from './sky-layout';
+import { airSpots, perchSight, perchSpot } from './perch-sight';
 import { MeadowSound, readMuted } from './sound';
 
 /** The registry key the host writes the device pixel ratio under. */
@@ -51,16 +38,6 @@ const INSECT_DEPTH = 1.5e5;
 /** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
 const CLOUD_SPEEDS = [7, 4, 5.5];
 
-type ShownFlower = TappedFigure & {
-  stem: Phaser.GameObjects.Graphics;
-  head: Phaser.GameObjects.Graphics;
-  headR: number;
-  /** Where the head stands on its stem as laid out, before a drinking butterfly sags it. */
-  headY: number;
-  /** How far above the head's middle a drinking butterfly's middle sits (`flowerLift`). */
-  lift: number;
-};
-
 /**
  * The meadow. Everything that varies between visits comes from one seed, so a
  * resize repaints the same meadow rather than a new one — into the objects
@@ -76,7 +53,7 @@ export class MeadowScene extends Phaser.Scene {
   private readonly growing: Random = mulberry32(this.visitSeed ^ 0x9e_0a);
   /** The seeds each released insect takes. */
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
-  private flowers: Flower[] = [];
+  private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Phaser.GameObjects.Graphics | undefined;
@@ -84,7 +61,6 @@ export class MeadowScene extends Phaser.Scene {
   private bed: MushroomBed | undefined;
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
-  private readonly shownFlowers = new Map<string, ShownFlower>();
   /** What the insects see of the perches, as the screen and the mushrooms stand now. */
   private sight: Sight = {
     flowers: [],
@@ -107,7 +83,16 @@ export class MeadowScene extends Phaser.Scene {
   create(): void {
     const random = mulberry32(this.visitSeed);
     this.meadow = firstMeadow(random);
-    this.flowers = firstFlowers(random, 7);
+    this.flowers = new FlowerBed(
+      this,
+      this.voice,
+      this.now,
+      firstFlowers(random, 7),
+      () => {
+        // A flower is part of the meadow: a tap on it is a tap on the meadow too.
+        this.dispatch({ kind: 'deselect' });
+      },
+    );
     this.bed = new MushroomBed(this, this.voice, this.now, (id) => {
       this.dispatch({ kind: 'select', id });
     });
@@ -184,7 +169,7 @@ export class MeadowScene extends Phaser.Scene {
       backdrop,
       grass,
       tufts,
-      shownFlowers,
+      flowers,
       bed,
       controls,
       insects,
@@ -210,37 +195,15 @@ export class MeadowScene extends Phaser.Scene {
     if (grass) paintTufts(grass, tufts, t);
     bed?.update(t);
     controls?.update(t);
-    const drunk = this.drinkingAt(time);
-    for (const [id, shown] of shownFlowers) {
-      const open = bloom(t - shown.tappedAt);
-      const { dip, flicker } = drunk.get(id) ?? { dip: 0, flicker: 0 };
-      shown.container.setRotation(sway(t, shown.phase) * FLOWER_SWAY);
-      shown.head
-        .setScale(1 + open)
-        .setRotation(open * 0.6 + flicker)
-        .setY(shown.headY + dip * shown.headR);
-    }
+    // As the tick just left them.
+    flowers?.update(t, this.fliers());
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
     insects?.update(t, perchAt);
   }
 
-  /**
-   * What the butterflies do at `time`, in ms, to the flowers under them, by
-   * flower id (`drinkDip`).
-   */
-  private drinkingAt(time: number): Map<string, Dip> {
-    const drunk = new Map<string, Dip>();
-    for (const { leg } of this.meadow?.insects ?? []) {
-      const under = drinkDip(leg, time);
-      if (!under) continue;
-      const was = drunk.get(under.id) ?? { dip: 0, flicker: 0 };
-      drunk.set(under.id, {
-        dip: was.dip + under.dip,
-        flicker: was.flicker + under.flicker,
-      });
-    }
-    return drunk;
+  private fliers(): readonly Flier[] {
+    return this.meadow?.insects ?? [];
   }
 
   private dispatch(action: Action): void {
@@ -272,15 +235,7 @@ export class MeadowScene extends Phaser.Scene {
         return this.bed?.capTop(perch.id, spot);
       }
       case 'flower': {
-        const shown = this.shownFlowers.get(perch.id);
-        if (shown?.container.visible !== true) return undefined;
-        const { container, head, headR, lift } = shown;
-        const seat = placedAt(container, container.rotation, {
-          x: head.x + spot * headR,
-          y: head.y - lift,
-        });
-        const nectar = placedAt(container, container.rotation, head);
-        return { ...seat, nectar };
+        return this.flowers?.seat(perch.id, spot);
       }
       case 'air': {
         return this.air.get(perch.id);
@@ -313,8 +268,7 @@ export class MeadowScene extends Phaser.Scene {
         break;
       }
       case 'flower': {
-        const flower = this.flowers.find((each) => each.id === under.id);
-        if (flower) this.tapFlower(flower);
+        this.flowers?.tap(under.id);
         break;
       }
       case 'air':
@@ -373,7 +327,7 @@ export class MeadowScene extends Phaser.Scene {
     this.tufts = growTufts(layout, random);
     if (this.meadow) this.bed?.paint(this.meadow, layout);
     this.insects?.paint(layout);
-    this.paintFlowers(layout);
+    this.flowers?.paint(layout);
     this.see();
     this.repaintControls();
   };
@@ -382,56 +336,11 @@ export class MeadowScene extends Phaser.Scene {
   private see(): void {
     const { layout, flowers, meadow } = this;
     if (!layout || !meadow) return;
-    this.sight = perchSight({ layout, flowers, ...pick(meadow, 'mushrooms') });
-    this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
-  }
-
-  private paintFlowers({ flowers, insectSize }: MeadowLayout): void {
-    for (const [index, flower] of this.flowers.entries()) {
-      const place = flowers[index];
-      const shown = this.shownFlowers.get(flower.id) ?? this.showFlower(flower);
-      // A narrow screen has room for fewer; the rest wait, hidden.
-      shown.container.setVisible(place !== undefined);
-      if (!place) continue;
-      shown.container.setPosition(place.x, place.y).setDepth(place.y);
-      const genes = flowerGenes(flower);
-      shown.headR = drawFlower(shown, genes, place.size);
-      shown.headY = shown.head.y;
-      shown.lift = flowerLift(genes.centre * place.size, insectSize);
-      shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
-    }
-  }
-
-  private showFlower(flower: Flower): ShownFlower {
-    const hit = new Phaser.Geom.Circle();
-    const stem = this.add.graphics();
-    const head = this.add.graphics().setInteractive(hit, containsCircle);
-    const shown: ShownFlower = {
-      container: this.add.container(0, 0, [stem, head]),
-      stem,
-      head,
-      hit,
-      headR: 0,
-      headY: 0,
-      lift: 0,
-      phase: phaseOf(flower),
-      tappedAt: -Infinity,
-    };
-    head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      this.tapFlower(flower);
+    this.sight = perchSight({
+      layout,
+      flowers: flowers?.seeded ?? [],
+      ...pick(meadow, 'mushrooms'),
     });
-    this.shownFlowers.set(flower.id, shown);
-    return shown;
-  }
-
-  /** Answers a tap on `flower`, whether it landed there or went through a butterfly drinking at it. */
-  private tapFlower(flower: Flower): void {
-    const shown = this.shownFlowers.get(flower.id);
-    if (!shown) return;
-    const { fold, rings } = flowerGenes(flower);
-    shown.tappedAt = this.clock;
-    this.voice.chime(fold + rings);
-    // A flower is part of the meadow: a tap on it is a tap on the meadow too.
-    this.dispatch({ kind: 'deselect' });
+    this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
   }
 }
