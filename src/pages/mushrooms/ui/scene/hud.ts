@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import { DOOR_ASPECT, type Furnishing } from '../../model/house';
-import { insectGenes } from '../../model/insect-genes';
+import { insectGenes, PICTOGRAM_SEED } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import {
   type CapKind,
@@ -19,8 +19,6 @@ import type { Brush } from './shapes';
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
-/** The butterfly pictogram's seed: orange, blue-eyed, three rings to each eye. */
-const BUTTERFLY_SEED = 39;
 /** How far below a button its shadow falls, in its radii, and how dark. */
 const DISC_DROP = 0.07;
 const DISC_SHADOW_ALPHA = 0.25;
@@ -214,7 +212,7 @@ export function drawButterflyButton(
   r: number,
 ): void {
   drawDisc(graphics, r);
-  const genes = insectGenes({ seed: BUTTERFLY_SEED, kind: 'butterfly' });
+  const genes = insectGenes({ seed: PICTOGRAM_SEED, kind: 'butterfly' });
   const size = (r * 1.6) / wingspan(genes);
   graphics.save();
   // A little below the middle, the antennae reaching up into the room above.

@@ -10,6 +10,7 @@ import {
   INSECT_RANGES,
   insectGenes,
   PATTERN_TURN,
+  PICTOGRAM_SEED,
 } from './insect-genes';
 import { eyeCentre, WING_PAIRS, wingOutline } from './insect-outline';
 import { mulberry32, nextSeed } from './random';
@@ -134,5 +135,13 @@ describe('insectGenes', () => {
         `seed ${String(SEEDS[index])}`,
       );
     }
+  });
+
+  it('grows the pictogram orange, cobalt-edged, three rings to each eye', () => {
+    const { colour, pattern, eyes } = insectGenes({
+      seed: PICTOGRAM_SEED,
+      kind: 'butterfly',
+    });
+    assert.deepEqual([colour, pattern, eyes.length], ['orange', 'cobalt', 3]);
   });
 });

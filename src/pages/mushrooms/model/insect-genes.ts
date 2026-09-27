@@ -38,6 +38,11 @@ export const BUTTERFLY_COLOURS = [
   'white',
 ] as const;
 /**
+ * The butterfly button's seed, so the pictogram looks the same on every
+ * visit: orange with cobalt edges and eyes, three rings to each eye.
+ */
+export const PICTOGRAM_SEED = 100;
+/**
  * How far round `BUTTERFLY_COLOURS` a pattern sits from its base, as a share
  * of the ring: never a near neighbour, so the eyes and the edge stand out.
  */
