@@ -135,6 +135,26 @@ Standing rules for every session in the chain:
   tap is a tap on the meadow too, so it closes an open picker; a door tap
   calls the mouse and leaves an open picker open, as a tap on a mushroom leaves
   the house picker open.
+- **A tap on a resting insect goes through it.** The insect flies off and the
+  tap carries on to whatever it sits on — a mushroom is selected, a flower
+  blooms — so a creature never costs the child the thing under it. An insect
+  in flight takes the tap alone. Buttons stay above every insect.
+- **An insect perches only where it can be seen.** A flower is a perch only
+  while its head stands clear of every control's tap circle and the screen's
+  edge by the wingspan, and no nearer mushroom covers it; the model's `pick`
+  maps onto the flowers that qualify. Two insects never share a perch: a
+  leg's next perch skips any another flier sits on or is heading to.
+- **Flowers stay put.** A rotation or a growth never moves a flower, so a
+  floored forest mushroom may stand in front of one; such a flower is out of
+  sight by the rule above, so no insect is sent to it. Bite 6's bees plant
+  through the same in-sight test.
+- **Butterflies are a meadow, not siblings.** Base colours are many enough
+  that four on screen rarely repeat, each still derived from its seed alone.
+  They cruise at about two thirds of bite 5's speed, so a child's finger can
+  catch one. A perched butterfly keeps its size and may overhang a small cap:
+  its tap goes through (above), and the overhang reads as a butterfly on a
+  button mushroom. The fore wings' near-closed quarter of the beat stays —
+  it blurs at 6 Hz, and only a still shows sticks.
 - **Mandala-inspired ornament** — Leysan's ("не прямо чтобы рисовал
   мандалы, а именно inspired"). Radial symmetry and concentric rings are the
   meadow's ornamental language, and nothing in it is a drawn mandala: the
@@ -351,12 +371,6 @@ Standing rules for every session in the chain:
 
 In order; the **MPP** line — every control in the drawing working — is after
 the insects.
-
-**Open, and due by bite 6, which places flowers of its own:** flowers keep
-clear of the forest's feet as they would stand with no edge margin and no
-size floor, so a forest mushroom the finger floor grows can stand on a
-flower. Fixing it is a choice between flowers that stay put on a resize and
-flowers that never land on a foot.
 
 6. **The fly and the bee.** The same generator family; fast small flights,
    jitters and hops at rest, a buzz each; an oldest-leaves limit. The fly is
