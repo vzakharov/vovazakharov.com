@@ -45,11 +45,13 @@ const DRINK_OPEN = [0.35, 0.6] as const;
  */
 const BUZZ_STROKE = 0.45;
 /**
- * A bee's buzz at rest on a flower: every `BUZZ_EVERY` ms its wings flutter
- * for `BUZZ_FOR`, opening at most `BUZZ_OPEN` of the way.
+ * A bee's flutter at rest on a flower: every `BUZZ_EVERY` ms its wings lift
+ * `BUZZ_OPEN` of the way and lay back again, over `BUZZ_FOR` ms. At rest a
+ * wing is drawn as itself rather than blurred, so each stroke takes over
+ * 150 ms, slow enough to follow at 60 frames a second.
  */
 const BUZZ_EVERY = 1700;
-const BUZZ_FOR = 380;
+const BUZZ_FOR = 420;
 const BUZZ_OPEN = 0.35;
 /** How long the proboscis takes to uncurl, and to curl back up, in ms. */
 const UNCURL = 600;
@@ -163,8 +165,7 @@ function restingBeat(
     case 'bee': {
       const into = roundAt(now, BUZZ_EVERY, phase);
       if (into >= BUZZ_FOR) return 0;
-      const swell = Math.sin((Math.PI * into) / BUZZ_FOR);
-      return BUZZ_OPEN * swell * (1 - wave(now, BEAT_AIR.bee, phase));
+      return BUZZ_OPEN * wave(into, BUZZ_FOR, 0);
     }
     default: {
       return kind satisfies never;

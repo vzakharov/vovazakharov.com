@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { crawl, hop, HOP_EVERY, HOP_REACH, jitter, rubbing } from './buzz-rest';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { LANDING, type Stay, wingBeat } from './insect-motion';
+import { buzzTurn } from './insect-outline';
 
 /** A stay on a cap: flying from 0, landing at 1000, due to leave at 9000. */
 const STAY: Stay = {
@@ -108,7 +109,55 @@ describe('a bee at rest', () => {
       }
     }
   });
+
+  it('flutters slowly enough to be drawn as a wing at 60 frames a second', () => {
+    const frame = 1000 / 60;
+    const settled = STAY.arrives + 600;
+    let flutters = 0;
+    for (const phase of PHASES) {
+      for (const offset of [0, 4, 8, 12]) {
+        const turns = times(settled + offset, STAY.leaves, frame).map((now) =>
+          buzzTurn(1, wingBeat(STAY, now, { phase, kind: 'bee' })),
+        );
+        for (const [index, turn] of turns.entries()) {
+          const last = turns[index - 1] ?? turn;
+          assert.ok(Math.abs(turn - last) < 0.08, `${String(turn - last)} rad`);
+        }
+        for (const flutter of runsAboveZero(turns)) {
+          flutters++;
+          assert.ok(flutter.length * frame >= 300, String(flutter.length));
+          assert.ok(directionChanges(flutter) <= 2);
+        }
+      }
+    }
+    assert.ok(flutters > PHASES.length * 4);
+  });
 });
+
+/** The unbroken runs of `values` off zero, leaving out any cut by either end. */
+function runsAboveZero(values: readonly number[]): number[][] {
+  const runs: number[][] = [];
+  let run: number[] = [];
+  for (const [index, value] of values.entries()) {
+    if (value !== 0) {
+      run.push(value);
+      continue;
+    }
+    if (run.length > 0 && index > run.length) runs.push(run);
+    run = [];
+  }
+  return runs;
+}
+
+/** How many times `values` turn from rising to falling or back. */
+function directionChanges(values: readonly number[]): number {
+  const steps = values
+    .slice(1)
+    .map((value, index) => Math.sign(value - (values[index] ?? value)))
+    .filter((sign) => sign !== 0);
+  return steps.filter((sign, index) => index > 0 && sign !== steps[index - 1])
+    .length;
+}
 
 /** How many strokes a `kind`'s wings make in the air, over 600 ms of `STAY`'s flight. */
 const inAir = (kind: InsectKind) => strokes(STAY, 300, 900, { phase: 0, kind });
