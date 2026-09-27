@@ -134,6 +134,18 @@ const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
 };
 
+/**
+ * A butterfly taking wing: a soft trill of quick notes climbing the
+ * pentatonic, each fluttering up a little as it sounds.
+ */
+const trill: Voice = (context, out) => {
+  for (const [index, pitch] of PENTATONIC.slice(1).entries()) {
+    const high = pitch * 2;
+    tone(context, out, 'sine', [high, high * 1.06], 0.09, 0.05, index * 0.05);
+    tone(context, out, 'triangle', [pitch, pitch], 0.07, 0.03, index * 0.05);
+  }
+};
+
 /** A soft bell on the scale's `step`th note, the same note for the same step. */
 function chime(step: number): Voice {
   const pitch = PENTATONIC[step % PENTATONIC.length] ?? PENTATONIC[0] ?? 440;
@@ -281,6 +293,10 @@ export class MeadowSound {
 
   squeak(): void {
     this.play(squeak);
+  }
+
+  trill(): void {
+    this.play(trill);
   }
 
   stop(): void {

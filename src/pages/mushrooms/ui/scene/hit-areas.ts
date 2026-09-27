@@ -1,10 +1,14 @@
 import * as Phaser from 'phaser';
 
 import { containsPoint, type Point } from '../../model/geometry';
+import type { Tapped } from '../../model/motion';
 import type { TapArea } from '../../model/mushroom-outline';
 
 export type WithGraphics = { graphics: Phaser.GameObjects.Graphics };
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
+/** A creature shown as a container of its parts, answering a tap on a circle and set moving by it. */
+export type TappedFigure = Tapped &
+  WithCircleHit & { container: Phaser.GameObjects.Container };
 
 /**
  * Hit tests, bound for use as an object's hit callback. A mushroom's area is

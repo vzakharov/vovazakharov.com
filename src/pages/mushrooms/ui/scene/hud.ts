@@ -1,6 +1,8 @@
 import type * as Phaser from 'phaser';
 
 import { DOOR_ASPECT, type Furnishing } from '../../model/house';
+import { insectGenes } from '../../model/insect-genes';
+import { wingspan } from '../../model/insect-outline';
 import {
   type CapKind,
   GENE_RANGES,
@@ -10,12 +12,15 @@ import {
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { paintDoor, paintWindow } from './draw-house';
+import { paintBody, paintWings } from './draw-insect';
 import { drawMushroom } from './draw-mushroom';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
+/** The butterfly pictogram's seed: orange, blue-eyed, three rings to each eye. */
+const BUTTERFLY_SEED = 39;
 /** How far below a button its shadow falls, in its radii, and how dark. */
 const DISC_DROP = 0.07;
 const DISC_SHADOW_ALPHA = 0.25;
@@ -201,6 +206,23 @@ export function drawGrowButton(
   if (sign > 0) {
     graphics.fillRect(badge.x - bar / 2, badge.y - arm, bar, arm * 2);
   }
+}
+
+/** The butterfly button: a butterfly seen from above, wings open, filling the disc. */
+export function drawButterflyButton(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+): void {
+  drawDisc(graphics, r);
+  const genes = insectGenes({ seed: BUTTERFLY_SEED, kind: 'butterfly' });
+  const size = (r * 1.6) / wingspan(genes);
+  graphics.save();
+  // A little below the middle, the antennae reaching up into the room above.
+  graphics.translateCanvas(0, r * 0.08);
+  paintWings(graphics, genes, 'hind', size);
+  paintWings(graphics, genes, 'fore', size);
+  paintBody(graphics, genes, size);
+  graphics.restore();
 }
 
 /**

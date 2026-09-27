@@ -72,4 +72,15 @@ export const PALETTE = {
   mouseLight: 0xd2_d0_da,
   mousePink: 0xff_a2_b4,
   mouseEye: 0x1e_12_12,
+  /** One per `BUTTERFLY_COLOURS` name: a butterfly's wings and its eyes' rings. */
+  butterflies: {
+    orange: 0xff_9a_2e,
+    yellow: 0xff_dc_3c,
+    blue: 0x4e_a6_ff,
+    violet: 0xb0_78_f2,
+    white: 0xff_fb_f2,
+  },
+  /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */
+  insectBody: 0x4a_2c_28,
+  wingEye: 0x3a_1c_2a,
 } as const;

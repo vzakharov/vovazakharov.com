@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Meadow, Planted } from '../../model/game';
-import { placedAt } from '../../model/geometry';
+import { placedAt, type Point } from '../../model/geometry';
 import { paintedSpots } from '../../model/house';
 import {
   beckon,
@@ -15,7 +15,11 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import {
+  domeHeight,
+  type MushroomGenes,
+  mushroomGenes,
+} from '../../model/mushroom-genes';
 import {
   TAP_PARTS,
   type TapArea,
@@ -207,6 +211,26 @@ export class MushroomBed {
         .setRotation(graphics.rotation);
       this.footRing.setScale((1 - stretch * RING_SPREAD) * grown);
     }
+  }
+
+  /**
+   * Where a butterfly sits on `id`'s cap as it stands this frame — breathing,
+   * wobbling, growing or sinking — `across` from -1 to 1 of the way from the
+   * crown toward either rim, a little down the dome from its edge; `undefined`
+   * once it has sunk away.
+   */
+  capTop(id: string, across: number): Point | undefined {
+    const shown = this.shown.get(id);
+    if (!shown) return undefined;
+    const { genes, size, graphics } = shown;
+    const x = (across * genes.capWidth) / 2;
+    const seat = toCanvas(size)(
+      capFrame(genes)({ x, y: domeHeight(genes, x) * 0.8 }),
+    );
+    return placedAt(graphics, graphics.rotation, {
+      x: seat.x * graphics.scaleX,
+      y: seat.y * graphics.scaleY,
+    });
   }
 
   /**
