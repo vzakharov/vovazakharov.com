@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { WithId } from '@/shared/typings';
 
+import { BUTTERFLY_LIMIT, isSeat } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-genes';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import { containsPoint, type Point } from '../../model/geometry';
@@ -14,6 +15,7 @@ import { mulberry32, nextSeed } from '../../model/random';
 import { standingAt } from './door-sight';
 import { meadowLayout } from './layout';
 import {
+  airSpots,
   MOST_OVERLAP,
   perchSight,
   perchSpot,
@@ -69,9 +71,14 @@ function overlap(a: number, b: number, apart: number): number {
   return Math.max(0, (a + b) / 2 - apart) / Math.min(a, b);
 }
 
-/** What a sweep counts: looks with two perched, and at a flower, and what each found. */
+/**
+ * What a sweep counts: looks with two perched, and at a flower, and what each
+ * found; ticks with a butterfly heading off screen, and with one roaming.
+ */
 const COUNTS = [
   'looks',
+  'left',
+  'roaming',
   'shared',
   'covered',
   'drinks',
@@ -83,6 +90,8 @@ type Count = (typeof COUNTS)[number];
 type Tally = Record<Count, number>;
 const NOTHING: Tally = {
   looks: 0,
+  left: 0,
+  roaming: 0,
   shared: 0,
   covered: 0,
   drinks: 0,
@@ -150,9 +159,10 @@ function hiddenHow(
 }
 
 /**
- * Plays a visit's butterflies for `VISIT` ms, and at every `LOOK` counts
- * whether two perched share a perch or cover more than `MOST_OVERLAP` of each
- * other, and how each drinking at a flower cannot be seen there.
+ * Plays a visit's butterflies for `VISIT` ms, counting every tick with one
+ * heading off screen or roaming the air, and at every `LOOK` whether two
+ * perched share a perch or cover more than `MOST_OVERLAP` of each other, and
+ * how each drinking at a flower cannot be seen there.
  */
 function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
   const tally = { ...NOTHING };
@@ -187,11 +197,14 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
       });
     }
     meadow = reduce(meadow, { kind: 'tick', now, ...sight });
+    const heading = new Set(meadow.insects.map(({ leg }) => leg.to.kind));
+    if (heading.has('away')) tally.left++;
+    if (heading.has('air')) tally.roaming++;
     if (now % LOOK !== 0) continue;
     const perched = meadow.insects.flatMap((insect) => {
-      if (now < insect.leg.arrives) return [];
-      const { to: perch } = insect.leg;
-      const to = perch.kind === 'away' ? perch.side : perch.id;
+      const { to: perch, arrives } = insect.leg;
+      if (now < arrives || !isSeat(perch)) return [];
+      const to = perch.id;
       const seat = seatOf(insect, to);
       const span = spanOf(insect) * layout.insectSize;
       return seat ? [{ insect, to, seat, span }] : [];
@@ -231,11 +244,35 @@ describe('WIDEST_SPAN', () => {
   });
 });
 
-describe('perched butterflies', () => {
+describe('airSpots', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`offers a spot for every butterfly and one more on a ${name} screen, inside it and clear of the controls`, () => {
+      for (const seed of VISITS.slice(0, 200)) {
+        const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
+        const spots = airSpots(layout);
+        assert.ok(spots.length > BUTTERFLY_LIMIT);
+        const { mute, plus, minus, house, butterfly, picker } = layout;
+        const { insectSize, groundTop } = layout;
+        const span = WIDEST_SPAN * insectSize;
+        const controls = [mute, plus, minus, house, butterfly, ...picker];
+        for (const { x, y } of spots) {
+          assert.ok(x >= span && x <= width - span + 1e-9 && y >= span);
+          assert.ok(y <= Math.max(span, groundTop) + 1e-9);
+          for (const control of controls) {
+            const apart = Math.hypot(x - control.x, y - control.y);
+            assert.ok(apart >= tapReach(control.r) + span / 2);
+          }
+        }
+      }
+    });
+  }
+});
+
+describe('the butterflies of a visit', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const forest of [false, true]) {
       const standing = forest ? 'a full forest' : 'the opening clump';
-      it(`never share a perch, cover each other or drink out of sight on a ${name} screen, with ${standing}`, () => {
+      it(`never leave, share a perch, cover each other or drink out of sight on a ${name} screen, with ${standing}`, () => {
         const tally = { ...NOTHING };
         for (const seed of VISITS) {
           const visit = watch(opened(seed, width, height, forest), seed);
@@ -243,7 +280,7 @@ describe('perched butterflies', () => {
         }
         assert.ok(tally.looks > 0 && tally.drinks > 0);
         assert.deepEqual(
-          { ...tally, looks: 0, drinks: 0 },
+          { ...tally, looks: 0, drinks: 0, roaming: 0 },
           NOTHING,
           `${String(tally.looks)} looks, ${String(tally.drinks)} drinks`,
         );

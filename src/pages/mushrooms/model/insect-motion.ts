@@ -11,11 +11,13 @@ import { type Phased, smooth } from './motion';
 /**
  * What a leg carries over from the one before as it sets off: `launch`, how
  * far aloft the flier was, from 0 sitting on its perch to 1 in the air, so a
- * leg that starts mid-flight flies on rather than taking off again; `drink`,
- * how far into a drink it was, so a drink cut short curls up rather than
- * vanishing.
+ * leg that starts in the air beats on rather than taking off again; `speed`,
+ * how fast it was still flying, from 0 still — on a perch, or hovering where
+ * a flight through the air came to — to 1 mid-flight, so a leg that cuts a
+ * flight short flies on rather than setting off from still; `drink`, how far
+ * into a drink it was, so a drink cut short curls up rather than vanishing.
  */
-export type Carried = { launch: number; drink: number };
+export type Carried = { launch: number; speed: number; drink: number };
 
 /** A leg as the motion reads it: its timing and what it carried over. */
 type Launched = Span & Carried;
@@ -76,16 +78,16 @@ const LIFT_TURN = 450;
 
 /**
  * How far through its flight a path is at `now`, eased in to the end and out
- * from the start in proportion to how far aloft it set off: from a perch it
- * leaves at rest, mid-air at `LAUNCH_SPEED`.
+ * from the start in proportion to how fast it set off: from still it leaves
+ * at rest, mid-flight at `LAUNCH_SPEED`.
  */
-function progress({ departs, arrives, launch }: Launched, now: number): number {
+function progress({ departs, arrives, speed }: Launched, now: number): number {
   const flight = arrives - departs;
   if (flight <= 0) return 1;
   const u = Math.min(1, Math.max(0, (now - departs) / flight));
   // A cubic Hermite from 0 to 1, leaving at `slope` and arriving at rest;
   // monotonic for any slope up to 3.
-  const slope = launch * LAUNCH_SPEED;
+  const slope = speed * LAUNCH_SPEED;
   return slope * u * (1 - u) ** 2 + u * u * (3 - 2 * u);
 }
 
@@ -171,12 +173,14 @@ export function tilt(path: Path, now: number, { phase }: Phased): number {
 /**
  * How far aloft a leg has the flier at `now`, from 0 on its perch to 1 in the
  * air: rising at take-off from however far aloft it set off, and falling as
- * it settles after landing.
+ * it settles after landing — never at a spot in the air, which it only
+ * hovers at.
  */
-function aloft({ departs, arrives, launch }: Launched, now: number): number {
+function aloft({ departs, arrives, launch, to }: Stay, now: number): number {
+  const settled = to.kind === 'air' ? 0 : smooth((now - arrives) / SETTLE);
   return Math.min(
     Math.max(launch, smooth((now - departs) / TAKE_OFF)),
-    1 - smooth((now - arrives) / SETTLE),
+    1 - settled,
   );
 }
 
@@ -205,9 +209,14 @@ export function proboscis(stay: Stay, now: number): number {
   return drinking(stay, now) * (1 - SIP_DEPTH * sip);
 }
 
-/** What a leg starting at `now` carries over from `leg`, the one it cuts short or follows. */
+/**
+ * What a leg starting at `now` carries over from `leg`, the one it cuts short
+ * or follows: past its arrival the flier is still, wherever it came to.
+ */
 export function carriedFrom(leg: Stay, now: number): Carried {
-  return { launch: aloft(leg, now), drink: drinking(leg, now) };
+  const launch = aloft(leg, now);
+  const speed = now < leg.arrives ? launch : 0;
+  return { launch, speed, drink: drinking(leg, now) };
 }
 
 /** A slow wave from 0 to 1 and back over `period` ms, starting at 0. */

@@ -30,7 +30,10 @@ type Insect = z.infer<typeof Insects>[number];
 
 /** Whether `insect` has come down on a perch, its landing done, by `at` ms. */
 function landed(insect: Insect, at: number): boolean {
-  return insect.to.kind !== 'away' && at >= insect.arrives + LANDING;
+  const { kind } = insect.to;
+  return (
+    (kind === 'cap' || kind === 'flower') && at >= insect.arrives + LANDING
+  );
 }
 
 export async function playInsects(
@@ -126,18 +129,32 @@ export async function playInsects(
   await page.step(30);
   await page.shoot('b2-arriving');
 
-  // Every one that stays reaches a perch; the first flies off and is gone.
+  // Every one that stays reaches a perch, or roams the air while none is
+  // free, and none of them leaves; the first flies off and is gone.
   const reached = new Set<string>();
+  const roamed = new Set<string>();
+  const left = new Set<string>();
+  let roamingShot = false;
   await inTurn([...Array.from({ length: PERCH_LOOKS }).keys()], async () => {
     const at = await now();
     await inTurn(await insects(), async (insect) => {
       if (await perched(insect, at)) reached.add(insect.id);
+      if (insect.to.kind === 'air') roamed.add(insect.id);
+      if (insect.to.kind === 'away') left.add(insect.id);
     });
+    if (roamed.size > 0 && !roamingShot) {
+      roamingShot = true;
+      await page.shoot('b3-roaming');
+    }
     await page.step(LOOK);
   });
   const staying = released.slice(1).map(({ id }) => id);
   for (const id of staying) {
-    expect(reached.has(id), `${id} never reached a perch`);
+    expect(
+      reached.has(id) || roamed.has(id),
+      `${id} never reached a perch nor roamed`,
+    );
+    expect(!left.has(id), `${id} left the meadow without being sent away`);
   }
   const firstId = first?.id ?? '';
   expect(
@@ -145,7 +162,7 @@ export async function playInsects(
     'the butterfly sent away is still in the meadow',
   );
   note(
-    `${String(reached.size)} of ${String(staying.length)} butterflies perched`,
+    `${String(reached.size)} of ${String(staying.length)} butterflies perched, ${String(roamed.size)} roamed`,
   );
   await page.shoot('b3-perched');
 

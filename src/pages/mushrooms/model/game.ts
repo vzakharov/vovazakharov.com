@@ -152,8 +152,8 @@ export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
 /** Every perch an insect can go to: the mushrooms still standing, and what the scene sees. */
 const perchesOf = (
   { mushrooms }: Meadow,
-  { flowers, crowded }: Sight,
-): Perches => ({ caps: mushrooms.map(({ id }) => id), flowers, crowded });
+  { flowers, air, crowded }: Sight,
+): Perches => ({ caps: mushrooms.map(({ id }) => id), flowers, air, crowded });
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
   const taken = new Set(mushrooms.map(({ slot }) => slot));

@@ -27,7 +27,7 @@ import { InsectView } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
-import { FLOWER_SWAY, perchSight, perchSpot } from './perch-sight';
+import { airSpots, FLOWER_SWAY, perchSight, perchSpot } from './perch-sight';
 import { tapReach } from './sky-layout';
 import { MeadowSound, readMuted } from './sound';
 
@@ -78,7 +78,9 @@ export class MeadowScene extends Phaser.Scene {
   private insects: InsectView | undefined;
   private readonly shownFlowers = new Map<string, ShownFlower>();
   /** What the insects see of the perches, as the screen and the mushrooms stand now. */
-  private sight: Sight = { flowers: [], crowded: [] };
+  private sight: Sight = { flowers: [], air: [], crowded: [] };
+  /** Where each spot in the open air stands, by id, as the screen stands now. */
+  private air = new Map<string, Point>();
   private readonly voice = new MeadowSound(readMuted());
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
@@ -244,7 +246,7 @@ export class MeadowScene extends Phaser.Scene {
   /**
    * Where `perch` stands this frame: a flower's head, as it sways and opens,
    * or a cap's top, as it breathes, wobbles and sinks, each butterfly at a
-   * spot of its own along it.
+   * spot of its own along it; or a spot in the open air.
    */
   private readonly perchAt = (
     perch: Perch,
@@ -263,6 +265,9 @@ export class MeadowScene extends Phaser.Scene {
           ...pick(head, 'y'),
           x: head.x + spot * headR,
         });
+      }
+      case 'air': {
+        return this.air.get(perch.id);
       }
       case 'away': {
         return undefined;
@@ -296,6 +301,7 @@ export class MeadowScene extends Phaser.Scene {
         if (flower) this.tapFlower(flower);
         break;
       }
+      case 'air':
       case 'away':
       case undefined: {
         break;
@@ -361,6 +367,7 @@ export class MeadowScene extends Phaser.Scene {
     const { layout, flowers, meadow } = this;
     if (!layout || !meadow) return;
     this.sight = perchSight({ layout, flowers, ...pick(meadow, 'mushrooms') });
+    this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
   }
 
   private paintFlowers({ flowers }: MeadowLayout): void {

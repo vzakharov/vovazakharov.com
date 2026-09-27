@@ -4,8 +4,11 @@
  * butterfly sits. A flower is a perch only where a butterfly on it can be
  * seen; a perch holds one butterfly at a time, and none goes to a perch
  * crowded by a taken one, so no two drawn butterflies cover much of each
- * other.
+ * other. A butterfly with no perch open roams between spots in the open air
+ * over the meadow, clear of the controls and inside the screen.
  */
+
+import type { WithId } from '@/shared/typings';
 
 import type { Perch, Sight } from '../../model/flight';
 import { type Flower, flowerGenes, flowerHead } from '../../model/flower-genes';
@@ -47,6 +50,9 @@ export const FLOWER_SWAY = 0.09;
  */
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
+/** How many spots across and down the open air offers a roaming butterfly, before the controls take theirs out. */
+const AIR_ACROSS = 6;
+const AIR_DOWN = 4;
 
 /** Where on its perch `insect` sits, from -`PERCH_SPREAD` to `PERCH_SPREAD` of the way out. */
 export function perchSpot(insect: Seeded): number {
@@ -96,6 +102,10 @@ export function seatAt(
         slack: (PERCH_SPREAD * genes.capWidth * place.size) / 2,
       };
     }
+    case 'air': {
+      const found = airSpots(layout).find(({ id }) => id === perch.id);
+      return found && { ...found, slack: 0 };
+    }
     case 'away': {
       return undefined;
     }
@@ -103,6 +113,34 @@ export function seatAt(
       return perch satisfies never;
     }
   }
+}
+
+/**
+ * The spots in the open air a roaming butterfly flies between: a grid over
+ * the sky and hills, down to where the ground begins, its widest wings
+ * inside the screen by a wingspan and clear of every control's tap circle.
+ * Each is named by its place in the grid, so a resize moves a spot rather
+ * than renaming it.
+ */
+export function airSpots(layout: MeadowLayout): Array<WithId & Point> {
+  const { width, groundTop, insectSize } = layout;
+  const margin = WIDEST_SPAN * insectSize;
+  const half = margin / 2;
+  const [left, right] = [margin, width - margin];
+  const [top, bottom] = [margin, Math.max(margin, groundTop)];
+  const controls = tapCircles(layout);
+  return Array.from({ length: AIR_ACROSS * AIR_DOWN }, (_, index) => {
+    const [across, down] = [index % AIR_ACROSS, Math.floor(index / AIR_ACROSS)];
+    return {
+      id: `air-${String(across)}-${String(down)}`,
+      x: left + ((right - left) * across) / (AIR_ACROSS - 1),
+      y: top + ((bottom - top) * down) / (AIR_DOWN - 1),
+    };
+  }).filter(({ x, y }) =>
+    controls.every(
+      (control) => Math.hypot(x - control.x, y - control.y) >= control.r + half,
+    ),
+  );
 }
 
 /** Every control's tap circle, as far as a finger reaches it. */
@@ -173,7 +211,7 @@ function flowerInSight(
 
 /**
  * What the scene sees of the perches in `stand`: the flowers in sight
- * (`flowerInSight`), and every pair of perches whose butterflies, the widest
+ * (`flowerInSight`), the spots in the open air (`airSpots`), and every pair of perches whose butterflies, the widest
  * there are, could cover more than `MOST_OVERLAP` of each other wherever
  * their spots put them.
  */
@@ -211,5 +249,5 @@ export function perchSight(stand: Stand): Sight {
       )
       .map((other) => [perch, other.perch] as const),
   );
-  return { flowers: shown, crowded };
+  return { flowers: shown, air: airSpots(layout).map(({ id }) => id), crowded };
 }

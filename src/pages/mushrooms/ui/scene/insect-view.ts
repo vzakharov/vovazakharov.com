@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Perch, Side } from '../../model/flight';
+import { isSeat, type Perch, type Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import { type InsectGenes, insectGenes } from '../../model/insect-genes';
 import {
@@ -162,7 +162,8 @@ export class InsectView {
     if (Math.hypot(end.x - start.x, end.y - start.y) > 1) {
       shown.facing = heading(path, now, motion);
     }
-    const bob = landingBob(leg, now) * this.size;
+    const perched = isSeat(leg.to);
+    const bob = perched ? landingBob(leg, now) * this.size : 0;
     const jolt = 1 + wobble(t - shown.tappedAt) * JOLT;
     Object.assign(shown, { end, at: point });
     const flying = flyingTurn(shown.facing, path, now, motion);
@@ -174,7 +175,7 @@ export class InsectView {
       leg,
       now,
       flying,
-      leg.to.kind !== 'away',
+      perched,
     );
     shown.container
       .setPosition(point.x, point.y + bob)
@@ -222,7 +223,7 @@ export class InsectView {
       facing: 0,
       turnedFrom: undefined,
       turns: undefined,
-      carried: { launch: 0, drink: 0 },
+      carried: { launch: 0, speed: 0, drink: 0 },
       reach: 0,
       phase: phaseOf(flier),
       tappedAt: -Infinity,

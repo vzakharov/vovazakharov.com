@@ -209,6 +209,7 @@ export const Point = z.object({ x: z.number(), y: z.number() });
 const PERCHES = {
   flower: z.object({ kind: z.literal('flower'), id: z.string() }),
   cap: z.object({ kind: z.literal('cap'), id: z.string() }),
+  air: z.object({ kind: z.literal('air'), id: z.string() }),
   away: z.object({ kind: z.literal('away'), side: z.enum(SIDES) }),
 } satisfies {
   [Kind in PerchKind]: z.ZodType<Extract<ModelPerch, { kind: Kind }>>;
@@ -216,6 +217,7 @@ const PERCHES = {
 const Perch = z.discriminatedUnion('kind', [
   PERCHES.flower,
   PERCHES.cap,
+  PERCHES.air,
   PERCHES.away,
 ]);
 export const Insects = z.array(

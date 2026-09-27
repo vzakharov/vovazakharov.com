@@ -7,6 +7,7 @@ import { evicted } from './insects';
 const PERCHES = {
   caps: ['mushroom-1', 'mushroom-2'],
   flowers: ['flower-1'],
+  air: [],
   crowded: [],
 };
 /** Two kinds, as the meadow will hold once a second one flies. */

@@ -298,7 +298,7 @@ describe('the two pickers', () => {
 
 /** The flowers in sight, as the scene would pass them, none crowding another. */
 const FLOWERS = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
-const SIGHT = { flowers: FLOWERS, crowded: [] };
+const SIGHT = { flowers: FLOWERS, air: [], crowded: [] };
 const release = (seed: number, now: number): Action => ({
   kind: 'release',
   insect: 'butterfly',
@@ -450,6 +450,7 @@ describe('the butterflies', () => {
       kind: 'tick',
       now,
       flowers: sight,
+      air: [],
       crowded: [],
     });
     const moved = flier(after, onFlower.id);

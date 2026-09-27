@@ -2,7 +2,9 @@
  * Where an insect flies next, and when. Every leg is a pure function of the
  * insect's seed and how many legs it has flown, so a replay of the same
  * actions flies the same butterflies; nothing here knows where a perch
- * stands on screen.
+ * stands on screen. An insect is never lost for want of a perch: with none
+ * open it roams the open air until one is, and it leaves only when sent
+ * away (`flightAway`).
  */
 
 import type { WithId } from '@/shared/typings';
@@ -19,19 +21,21 @@ import {
 export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
 
-const PERCH_KINDS = ['flower', 'cap', 'away'] as const;
+const PERCH_KINDS = ['flower', 'cap', 'air', 'away'] as const;
 export type PerchKind = (typeof PERCH_KINDS)[number];
 
 /** What each kind of perch carries beside its kind. */
 type PerchFields = {
   flower: WithId;
   cap: WithId;
+  air: WithId;
   away: { side: Side };
 };
 
 /**
- * Where an insect wants to be: a flower or a cap by id, or `away`, off screen
- * past that side's edge.
+ * Where an insect wants to be: a flower or a cap by id, a spot in the open
+ * air by id, which it only passes through, or `away`, off screen past that
+ * side's edge.
  */
 export type Perch = {
   [Kind in PerchKind]: { kind: Kind } & PerchFields[Kind];
@@ -39,12 +43,14 @@ export type Perch = {
 
 /**
  * What the scene sees of the perches, which only the screen can say: the
- * flowers in sight, by id, the only ones an insect is sent to; and the pairs
- * of perches standing too close for an insect on each, so a perch crowded by
- * a taken one counts as taken.
+ * flowers in sight, by id, the only ones an insect is sent to; the spots in
+ * the open air an insect with nowhere to sit roams between, by id; and the
+ * pairs of perches standing too close for an insect on each, so a perch
+ * crowded by a taken one counts as taken.
  */
 export type Sight = {
   flowers: readonly string[];
+  air: readonly string[];
   crowded: ReadonlyArray<readonly [Perch, Perch]>;
 };
 
@@ -59,8 +65,9 @@ export type Span = { departs: number; arrives: number };
 
 /**
  * One flight and the stay after it: from `from` to `to` over `departs` to
- * `arrives`, then sitting there until `leaves`, when the next leg is due. An
- * `away` leg leaves as it arrives, and the insect is gone.
+ * `arrives`, then sitting there until `leaves`, when the next leg is due. A
+ * leg to the air leaves as it arrives, onward at once; an `away` leg too,
+ * and the insect is gone.
  */
 export type Leg = Span & { from: Perch; to: Perch; leaves: number };
 
@@ -83,6 +90,9 @@ const LEG_SALT = 0x5b_d1_e9_95;
 function legRandom(seed: number, legs: number): Random {
   return mulberry32(nextSeed(mulberry32(((seed ^ LEG_SALT) + legs) >>> 0)));
 }
+
+/** A perch an insect sits on. */
+type Seat = Extract<Perch, { kind: 'flower' | 'cap' }>;
 
 function isSamePerch(a: Perch, b: Perch): boolean {
   return a.kind === 'away' || b.kind === 'away'
@@ -112,7 +122,9 @@ function isCrowdedBy(
  * offered by `perches`, not the one it is leaving, and neither in `taken`,
  * where the other fliers sit or are heading, nor crowded by one there. With
  * none open it flutters up and settles again where it was, while that is
- * still offered, and flies away otherwise.
+ * still a perch offered, and roams to an open spot in the air otherwise,
+ * where it looks again. It flies away only when the air has no spot open
+ * either, which the scene never lets happen.
  */
 function nextPerch(
   random: Random,
@@ -120,9 +132,9 @@ function nextPerch(
   perches: Perches,
   taken: readonly Perch[],
 ): Perch {
-  const open = (kind: 'flower' | 'cap', ids: readonly string[]): Perch[] =>
+  const open = (kind: 'flower' | 'cap' | 'air', ids: readonly string[]) =>
     ids
-      .map((id) => ({ kind, id }))
+      .map((id): Perch => ({ kind, id }))
       .filter(
         (perch) =>
           !isSamePerch(perch, from) &&
@@ -133,9 +145,16 @@ function nextPerch(
   const drawn = random() < FLOWER_SHARE ? [flowers, caps] : [caps, flowers];
   const [first, ...rest] = drawn.find((each) => each.length > 0) ?? [];
   if (first !== undefined) return pick(random, [first, ...rest]);
-  return from.kind !== 'away' && isOffered(from, perches)
-    ? from
-    : awayPerch(random);
+  if (isSeat(from) && isOffered(from, perches)) return from;
+  const [spot, ...spots] = open('air', perches.air);
+  return spot === undefined
+    ? awayPerch(random)
+    : pick(random, [spot, ...spots]);
+}
+
+/** Whether `perch` is one an insect sits on, rather than the air or away. */
+export function isSeat(perch: Perch): perch is Seat {
+  return perch.kind === 'flower' || perch.kind === 'cap';
 }
 
 function awayPerch(random: Random): Perch {
@@ -150,6 +169,7 @@ function stayAt(random: Random, to: Perch): number {
     case 'cap': {
       return between(random, RESTING[0], RESTING[1]);
     }
+    case 'air':
     case 'away': {
       return 0;
     }
@@ -219,13 +239,19 @@ export function flightAway(insect: Seeded & Flight, now: number): Flight {
 }
 
 /** Whether `perches` still offers `perch`; `away` always is. */
-export function isOffered(perch: Perch, { caps, flowers }: Perches): boolean {
+export function isOffered(
+  perch: Perch,
+  { caps, flowers, air }: Perches,
+): boolean {
   switch (perch.kind) {
     case 'cap': {
       return caps.includes(perch.id);
     }
     case 'flower': {
       return flowers.includes(perch.id);
+    }
+    case 'air': {
+      return air.includes(perch.id);
     }
     case 'away': {
       return true;

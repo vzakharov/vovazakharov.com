@@ -45,6 +45,7 @@ const PATH: Flown = {
   leaves: 8000,
   to: { kind: 'cap', id: 'cap' },
   launch: 0,
+  speed: 0,
   drink: 0,
 };
 const PHASES = [0, 0.7, 2, 3.5, 5.9];
@@ -212,6 +213,7 @@ function turnsOverLegs(seed: number): number[] {
         departs,
         arrives,
         launch: 0,
+        speed: 0,
         drink: 0,
         start,
         end: perch(now),
@@ -285,13 +287,14 @@ describe('a leg that cuts a flight short', () => {
   const butterfly = { id: 'b', kind: 'butterfly', seed: 4321 } as const;
   const first = firstFlight(
     butterfly,
-    { caps: ['cap'], flowers: [], crowded: [] },
+    { caps: ['cap'], flowers: [], air: [], crowded: [] },
     0,
   );
   const cut = (first.leg.departs + first.leg.arrives) / 2;
   const before: Flown = {
     ...first.leg,
     launch: 0,
+    speed: 0,
     drink: 0,
     start: { x: -40, y: 300 },
     end: { x: 200, y: 520 },
@@ -301,7 +304,7 @@ describe('a leg that cuts a flight short', () => {
     'its cap gone mid-flight':
       ticked(
         [{ ...butterfly, ...first }],
-        { caps: ['other'], flowers: [], crowded: [] },
+        { caps: ['other'], flowers: [], air: [], crowded: [] },
         cut,
       )[0] ?? first,
   };
@@ -318,6 +321,7 @@ describe('a leg that cuts a flight short', () => {
     it(`flies on without a jump when ${name}`, () => {
       assert.equal(leg.departs, cut);
       assert.equal(after.launch, 1);
+      assert.equal(after.speed, 1);
       for (const now of times(cut - 5, cut + 5, 1)) {
         assert.ok(stepAt(flight, now, 1) < 1);
         assert.ok(
