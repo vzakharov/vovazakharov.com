@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): #65 Syama's mushroom meadow, houses and butterflies (pr #57)
+feat(vova): #65 Syama's mushroom meadow, with houses and insects (pr #57)
 ```
 
 ```
@@ -9,28 +9,28 @@ A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
 There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; the game is built here a bite at a time.
+the spec; every control in the drawing now works.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone and rendered at the device pixel ratio. Every mushroom,
-flower and butterfly is grown from its own seed by a pure, tested
-generator, and every motion is a pure function of the clock, so a
-resize never cuts one short; sound is a Web Audio synth with a
-remembered mute. The layout keeps every cap on screen and every
-control clear of the meadow on any screen and seed.
+flower and insect is grown from its own seed by a pure, tested
+generator, and every motion is a pure function of the clock; sound is
+a Web Audio synth with a remembered mute. The layout keeps every cap
+on screen and every control clear of the meadow on any screen.
 
-Plus unfolds a four-cap picker and the pick grows out of the ground;
-minus sinks the selection, or the newest, up to six round the clump.
-The house button furnishes a mushroom with Syama's windows and a
-door, out of which a mouse peeks now and then, or at once when
-tapped. The butterfly button flies in up to four butterflies, a
-fifth sending the oldest away, each hopping between flowers and caps
-on legs its seed decides; a tap sends one at rest on its way. A
-control that cannot act shakes its head.
+Plus grows a picked cap out of the ground, minus sinks one, up to six
+round the clump; the house button furnishes a mushroom with Syama's
+windows and a door a mouse peeks from. Three buttons fly in a
+butterfly, a fly or a bee, each kind with its own limit, habits and
+path: butterflies drink at flowers, flies zigzag to the fly agarics
+and fidget there, bees carry pollen between flowers and plant new
+ones in rings round those they pollinate, only where the flower stays
+in sight either way up. A tap sends one at rest on its way; a control
+that cannot act shakes its head.
 
 A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
-plays every control in headless Chromium and fails on a page error
-or a wrong result.
+plays every control on five screens in headless Chromium, watching
+every frame, and fails on a page error or a wrong result.
 
 Closes #65
 
