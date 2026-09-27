@@ -7,7 +7,7 @@ import { type Point, sample } from '../../model/geometry';
 import { smooth } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
-import { SUN_GLOW_REACH } from './sky-layout';
+import { SUN_GLOW_REACH } from './sun-layout';
 
 const HILL_STEPS = 64;
 /** How far the far hills rise above the horizon at most, as a share of the way down to the ground's top. */

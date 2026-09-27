@@ -3,7 +3,7 @@
  * CSS pixels. Every size in the meadow is proportional, but for the floor that
  * keeps a mushroom a finger's target, so a phone held upright and a tablet
  * held sideways get the same picture composed for each; `sky-layout.ts` places
- * the buttons over it.
+ * the buttons over it, and `sun-layout.ts` the sun.
  */
 
 import type { Sized } from '@/shared/typings';
@@ -14,12 +14,8 @@ import type { InsectKind } from '../../model/insect-genes';
 import { GENE_RANGES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
-import {
-  type Controls,
-  placeControls,
-  placeSun,
-  TAP_RADIUS,
-} from './sky-layout';
+import { type Controls, placeControls, TAP_RADIUS } from './sky-layout';
+import { horizonAt, placeSun } from './sun-layout';
 
 /**
  * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and
@@ -322,7 +318,7 @@ export function meadowLayout(
   const portrait = height > width;
   const orientation = portrait ? 'portrait' : 'landscape';
   const groundTop = height * (portrait ? 0.5 : 0.6);
-  const horizon = height * (portrait ? 0.36 : 0.42);
+  const horizon = horizonAt(width, height);
   const ground = height - groundTop;
   const short = Math.min(width, height);
   // Sized by height when the screen is wide, by width when it is tall, so a

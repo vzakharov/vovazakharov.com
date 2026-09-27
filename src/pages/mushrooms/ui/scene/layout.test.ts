@@ -34,15 +34,9 @@ import {
   type MeadowLayout,
   meadowLayout,
 } from './layout';
-import {
-  horizonAt,
-  standingControls,
-  SUN_GLOW_REACH,
-  SUN_RAY_REACH,
-  TAP_RADIUS,
-  tapReach,
-} from './sky-layout';
+import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
 import { farSkyline } from './skyline';
+import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** Each control as its hit area, which the mute's small drawing reaches past. */
@@ -328,7 +322,6 @@ describe('meadowLayout', () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed);
         const { sun, horizon, picker, housePicker } = layout;
-        assert.equal(horizon, horizonAt(width, height));
         const flat = [
           { x: 0, y: horizon },
           { x: width, y: horizon },

@@ -6,8 +6,8 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
-import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sky-layout';
 import { farSkyline, hillLine } from './skyline';
+import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 
 const SKY_BANDS = 48;
 const GROUND_BANDS = 12;
