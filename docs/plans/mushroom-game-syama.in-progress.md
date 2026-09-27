@@ -378,26 +378,77 @@ Standing rules for every session in the chain:
      a sinking perch on every screen; a step draws only its last frame, so a
      full run takes ~2.5 minutes.
 
+## This bite
+
+6. **The fly and the bee**, and with them the MPP line: every control in the
+   drawing works. Two more buttons join the butterfly's column on the left, a
+   fly and a bee, each flying one in of its kind. The calls, settled:
+   - **One generator family, one flier model.** `INSECT_KINDS` becomes
+     `butterfly`, `fly`, `bee`; `InsectGenes` becomes a union keyed by
+     `kind`, sharing `Kinded & Nudged` and the body members through a named
+     base, so `type-overlap` holds. A fly: a stout dark body with a metallic
+     sheen (a hue gene over blue-green), two big red eyes, two clear veined
+     wings laid back over the body at rest. A bee: a round fuzzy body in
+     black and yellow bands (the band count a gene, three or four), a small
+     head, two small clear wings, and pollen baskets on its hind legs that
+     fill as it carries. Drawn sizes about 0.55 (fly) and 0.65 (bee) of a
+     butterfly's; every hit area is still at least `TAP_RADIUS`.
+   - **Flight is per kind, from one table.** `FLYING`, `DRINKING`, `RESTING`
+     and `FLOWER_SHARE` move into a `FLIGHT_HABITS` record keyed by kind:
+     butterfly as now; fly 600–1100 ms flights, 1500–4000 ms stays, a cap
+     four times in five; bee 1100–1800 ms flights, 2000–3500 ms at a flower,
+     flowers only (the air when none is open, a cap never). Limits: three
+     flies, three bees, four butterflies, each kind's oldest leaving.
+     Exclusive perches hold across kinds.
+   - **The fly is drawn to the fly agarics**: among open caps it picks a
+     `spotted` one three times as often as any other. It flies a fast zigzag
+     (`flightPoint` gains a per-kind path shape: the butterfly's lazy curve,
+     the fly's zigzag, the bee's bobbing line), and at rest it jitters, rubs
+     its front legs and every second or so hops a short way along the cap
+     and back — motion of the time since landing, pure and tested, never a
+     leg of its own.
+   - **Pollen and planting are the model's.** A bee carries the id of the
+     last flower it drank at. Arriving at a different flower pollinates it;
+     when it leaves that flower, a new flower is planted beside it, unless
+     the meadow is at `FLOWER_LIMIT` (14 in all, the seeded ones counted) or
+     the scene offers no room there. Each visit leaves a speck of pollen on
+     the bee's legs, up to three, shed when it pollinates. `Meadow` gains
+     `planted` (each `{ id, seed, parent, ring }`); the scene's `Sight` gains
+     the flowers with room, each with the ring slot free.
+   - **A planted flower rings its parent**, as the mandala decision has it:
+     ring slot `k` of a parent is at a fixed angle and distance in the
+     parent's size, so a well-visited flower grows a round bed. The scene
+     offers a slot only when it stands clear of every foot and in sight on
+     this screen **and** on the same screen turned, so a rotation never
+     hides a planted flower. It opens with the bloom and a chime, grows from
+     the ground as a mushroom does, and is a perch, a tap target and a
+     parent like any other flower.
+   - **A buzz each**, synthesized: the fly a thin, rasping buzz that wavers
+     in pitch, the bee a lower, warmer hum, each on release and on a tapped
+     take-off. No drone while flying: a buzz follows a tap and stops.
+   - **The two loose ends from bite 5's handling**: hovering fliers never
+     overlap in mid-air (air spots taken exclusively, as perches are,
+     spaced by the widest wingspan, with every kind counted), measured on a
+     320 px phone; and the head-down butterfly on the back cap in
+     `frames/bite-5/handled/tabP-two-on-flowers-two-on-caps-apart.png` is
+     checked in this bite's frames and fixed if it is a rest facing.
+   - **Modules split before they grow**: `meadow-scene.ts` (431 lines) hands
+     its flowers to a `flower-bed.ts`, as the mushrooms have `mushroom-bed.ts`;
+     per-kind drawing goes in `draw-fly.ts` and `draw-bee.ts`, per-kind
+     motion in its own model module. No module past ~450 lines.
+   - **The play run** releases every kind to its limit on every screen, taps
+     each at rest, waits for a bee to plant a flower, reads each drawn
+     flier's size back, and fails on a rotation step above 0.2 rad between
+     frames or two fliers overlapping in the air.
+
+   DRY: the three kinds share `Flier`, `Flight`, the perch choice, the
+   evictor and the view; what differs is data (`FLIGHT_HABITS`, gene ranges)
+   and the painters. A planted flower reuses the flower genes, painter, sway
+   and bloom whole; only its placement is new.
+
 ## Rest of the elephant
 
-In order; the **MPP** line — every control in the drawing working — is after
-the insects.
-
-**Open from bite 5's handling, for bite 6 to settle alongside its fliers:**
-hovering butterflies can overlap in mid-air on a 320 px phone, where the air
-spots crowd under the controls (only perched ones are kept apart); and one
-handled frame (`frames/bite-5/handled/tabP-two-on-flowers-two-on-caps-apart.png`,
-the back cap) shows a butterfly head-down with its wings shut, which is either
-a landing turn caught mid-way or a rest facing that is wrong — check it in
-bite 6's frames.
-
-6. **The fly and the bee.** The same generator family; fast small flights,
-   jitters and hops at rest, a buzz each; an oldest-leaves limit. The fly is
-   drawn to the fly agarics. The bee visits flower after flower, a speck of
-   pollen on it after each, and a new flower opens near the ones it has
-   pollinated, up to the layout's cap on flowers.
-
-   — **MPP** —
+In order.
 
 7. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
    splash on caps and ground, with its own sound. While it rains, flowers
