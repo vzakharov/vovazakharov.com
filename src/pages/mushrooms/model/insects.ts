@@ -23,6 +23,24 @@ const INSECT_LIMITS = {
 } as const satisfies Record<InsectKind, number>;
 
 /**
+ * The oldest of `insects` of `kind` not already leaving, when that kind is at
+ * its limit in `limits`; none below it. No other kind counts or is chosen.
+ */
+export function evicted<
+  Kind extends string,
+  Each extends { kind: Kind } & Flight,
+>(
+  insects: readonly Each[],
+  kind: NoInfer<Kind>,
+  limits: Readonly<Record<NoInfer<Kind>, number>>,
+): Each | undefined {
+  const staying = insects.filter(
+    (each) => each.kind === kind && !isLeaving(each),
+  );
+  return staying.length >= limits[kind] ? staying[0] : undefined;
+}
+
+/**
  * `insects` with `insect` flying in from `now`. At its kind's limit, the
  * oldest of that kind not already leaving flies away from `now`, so a release
  * always acts.
@@ -33,9 +51,7 @@ export function released(
   caps: readonly string[],
   now: number,
 ): Flier[] {
-  const staying = insects.filter((each) => !isLeaving(each));
-  const oldest =
-    staying.length >= INSECT_LIMITS[insect.kind] ? staying[0] : undefined;
+  const oldest = evicted(insects, insect.kind, INSECT_LIMITS);
   return [
     ...insects.map((each) =>
       each === oldest ? { ...each, ...flightAway(each, now) } : each,
