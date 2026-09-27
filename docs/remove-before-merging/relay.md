@@ -84,7 +84,10 @@ Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Стр�
   tabP, phoneP, phoneL, phoneS.
 - Frames: `docs/remove-before-merging/frames/bite-6/`.
 - Nothing running, no PR subscription, no scheduled check-in.
-- Relay depth: unknown here; see the megabeast notes on the depth-8 cap.
+- Relay depth: this session was at the cap (8); `create_session` and a
+  fresh-session Routine were both refused, so the successor is started by
+  the operator pasting `/relay take claude/mushroom-game-syama-lbirv7` into
+  a new session on this repo. That starts a new lineage.
 
 ## 7. Pointers
 

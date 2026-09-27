@@ -122,7 +122,10 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   context allows, or, as the last hop
   before the cap, hand over one line for the operator to paste into a fresh
   session. Where Routines are available, a fresh-session Routine may start a
-  new lineage; that is worth trying before depth 7.
+  new lineage; that is worth trying before depth 7. It is not: bite 6's
+  `/go` session, at depth 8, got the same refusal from `create_trigger`
+  with `create_new_session_on_fire`, so a Routine inherits the lineage too.
+  At the cap, the one line for the operator is the only way on.
 - **MCP tool names change mid-session** (a server reconnects under another
   id). Relay and `create_session` calls have to be looked up by the current
   name, never taken from an earlier call in the transcript.
