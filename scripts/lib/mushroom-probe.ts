@@ -35,7 +35,7 @@ export const PROBE = `(() => {
   };
   /**
    * What a tap at a point on screen reaches, by the scene's own hit test and
-   * its topmost-only rule: \`door:<id>\`, \`mushroom:<id>\`, \`other\`, or
+   * its topmost-only rule: \`insect:<id>\`, \`door:<id>\`, \`mushroom:<id>\`, \`other\`, or
    * \`null\` for the bare meadow.
    */
   const topAt = ({ x, y }) => {
@@ -45,6 +45,9 @@ export const PROBE = `(() => {
       pointer,
     );
     if (!top) return null;
+    for (const [id, shown] of scene.insects.shown) {
+      if (top === shown.container) return 'insect:' + id;
+    }
     for (const [id, shown] of scene.bed.shown) {
       if (top === shown.house.graphics) return 'door:' + id;
       if (top === shown.graphics) return 'mushroom:' + id;
@@ -102,7 +105,26 @@ export const PROBE = `(() => {
       picker: scene.layout.picker.map(centre),
       house: centre(scene.layout.house),
       housePicker: scene.layout.housePicker.map(centre),
+      butterfly: centre(scene.layout.butterfly),
     }),
+    /** The meadow's insects, oldest first, each with its current leg. */
+    insects: () =>
+      scene.meadow.insects.map(({ id, legs, leg }) => ({ id, legs, ...leg })),
+    /**
+     * An insect on screen: where it is drawn, where its perch stood last
+     * frame, and when it was last tapped; \`null\` once it is gone.
+     */
+    insect: (id) => {
+      const shown = scene.insects.shown.get(id);
+      if (!shown) return null;
+      return {
+        x: shown.container.x,
+        y: shown.container.y,
+        at: centre(shown.at),
+        end: shown.end ? centre(shown.end) : null,
+        tappedAt: finite(shown.tappedAt),
+      };
+    },
     /** Where a tap selects a mushroom, as near its cap's middle as its cap shows (\`reaching\`). */
     mushroom: (id) => {
       const shown = scene.bed.shown.get(id);
@@ -172,6 +194,28 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
+const Perch = z.object({
+  kind: z.enum(['flower', 'cap', 'away']),
+  id: z.string().optional(),
+  pick: z.number().optional(),
+  side: z.string().optional(),
+});
+export const Insects = z.array(
+  z.object({
+    id: z.string(),
+    legs: z.number(),
+    from: Perch,
+    to: Perch,
+    departs: z.number(),
+    arrives: z.number(),
+    leaves: z.number(),
+  }),
+);
+export const ShownInsect = Point.extend({
+  at: Point,
+  end: Point.nullable(),
+  tappedAt: z.number().nullable(),
+}).nullable();
 export const Controls = z.object({
   plus: Point,
   minus: Point,
@@ -179,6 +223,7 @@ export const Controls = z.object({
   picker: z.array(Point),
   house: Point,
   housePicker: z.array(Point),
+  butterfly: Point,
 });
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
@@ -202,3 +247,14 @@ export type Page = {
   tap: (point: z.infer<typeof Point>) => Promise<void>;
   shoot: (step: string) => Promise<void>;
 };
+
+/** Runs `each` over `items` one after another, as taps on one page must. */
+export async function inTurn<Item>(
+  items: readonly Item[],
+  each: (item: Item) => Promise<void>,
+): Promise<void> {
+  const [first, ...rest] = items;
+  if (first === undefined) return;
+  await each(first);
+  return inTurn(rest, each);
+}

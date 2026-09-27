@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import {
   type Controls,
+  inTurn,
   Mouse,
   type Page,
   Point,
@@ -28,17 +29,6 @@ const SETTLE = 45;
 const MOUSE_HEAD_LEAST = 28;
 
 type Expect = (holds: boolean, message: string) => void;
-
-/** Runs `each` over `items` one after another, as taps on one page must. */
-async function inTurn<Item>(
-  items: readonly Item[],
-  each: (item: Item) => Promise<void>,
-): Promise<void> {
-  const [first, ...rest] = items;
-  if (first === undefined) return;
-  await each(first);
-  return inTurn(rest, each);
-}
 
 export async function playHouse(
   page: Page,

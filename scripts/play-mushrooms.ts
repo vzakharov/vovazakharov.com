@@ -2,8 +2,8 @@
  * Plays `/mushrooms` on the four screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
- * the meadow is tapped the way a finger does — the steps are `play` below and
- * `lib/play-house.ts` — and a frame of each lands in
+ * the meadow is tapped the way a finger does — the steps are `play` below,
+ * `lib/play-house.ts` and `lib/play-insects.ts` — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -37,6 +37,7 @@ import {
   State,
 } from './lib/mushroom-probe.ts';
 import { playHouse } from './lib/play-house.ts';
+import { playInsects } from './lib/play-insects.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -189,8 +190,10 @@ async function open(
     step: async (frames) => {
       const from = time;
       time += frames * FRAME_MS;
+      // Only the last frame is drawn: every movement is set in `update`, and
+      // a frame drawn under the software rasterizer is what the run spends.
       await evaluate(
-        `for (let t = ${String(from)}; t < ${String(time)}; t += ${String(FRAME_MS)}) window.__game.step(t + ${String(FRAME_MS)}, ${String(FRAME_MS)}); true`,
+        `for (let t = ${String(from)}; t < ${String(time)}; t += ${String(FRAME_MS)}) window.__game[t + ${String(FRAME_MS * 1.5)} < ${String(time)} ? 'headlessStep' : 'step'](t + ${String(FRAME_MS)}, ${String(FRAME_MS)}); true`,
         z.boolean(),
       );
     },
@@ -353,6 +356,8 @@ async function play(
   await page.tap(controls.mute);
   await page.step(10);
   expect((await state()).muted === muted, 'the mute did not toggle back');
+
+  await playInsects(page, controls, expect, note);
 }
 
 async function main(): Promise<void> {
