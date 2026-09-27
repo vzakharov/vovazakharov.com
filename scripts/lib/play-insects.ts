@@ -26,22 +26,18 @@ const MOST_LOOKS = 80;
 /** Looks over which every butterfly that stays must be seen on a perch: longer than any flight. */
 const PERCH_LOOKS = 24;
 
-type Insect = z.infer<typeof Insects>[number];
+export type Insect = z.infer<typeof Insects>[number];
 
 /** Whether `insect` has come down on a perch, its landing done, by `at` ms. */
-function landed(insect: Insect, at: number): boolean {
+export function landed(insect: Insect, at: number): boolean {
   const { kind } = insect.to;
   return (
     (kind === 'cap' || kind === 'flower') && at >= insect.arrives + LANDING
   );
 }
 
-export async function playInsects(
-  page: Page,
-  controls: z.infer<typeof Controls>,
-  expect: Expect,
-  note: (line: string) => void,
-): Promise<void> {
+/** The insects as the page shows them, and the looks and waits every insect step takes. */
+export function fliersOn(page: Page, expect: Expect) {
   const state = async () => page.evaluate('__probe.state()', State);
   const insects = async () => page.evaluate('__probe.insects()', Insects);
   const shown = async (id: string) =>
@@ -109,6 +105,39 @@ export async function playInsects(
     }
   };
 
+  return {
+    state,
+    insects,
+    shown,
+    byId,
+    now,
+    perched,
+    waitFor,
+    topsAt,
+    waitForCapRest,
+    expectPassedOn,
+  };
+}
+
+export async function playInsects(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  expect: Expect,
+  note: (line: string) => void,
+): Promise<void> {
+  const {
+    state,
+    insects,
+    shown,
+    byId,
+    now,
+    perched,
+    waitFor,
+    topsAt,
+    waitForCapRest,
+    expectPassedOn,
+  } = fliersOn(page, expect);
+
   // Something to rest on: two mushrooms, grown from the picker's first two caps.
   await inTurn(controls.picker.slice(0, 2), async (cap) => {
     await page.tap(controls.plus);
@@ -122,7 +151,7 @@ export async function playInsects(
   );
 
   await inTurn([...Array.from({ length: RELEASES }).keys()], async (index) => {
-    await page.tap(controls.butterfly);
+    await page.tap(controls.releases.butterfly);
     await page.step(index === 0 ? 40 : 20);
     if (index === 0) await page.shoot('b1-released');
   });

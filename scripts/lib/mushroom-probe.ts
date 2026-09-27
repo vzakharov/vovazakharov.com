@@ -13,6 +13,7 @@ import {
   type PerchKind,
   SIDES,
 } from '../../src/pages/mushrooms/model/flight.ts';
+import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
 export function seededRandom(seed: number): string {
@@ -111,11 +112,20 @@ export const PROBE = `(() => {
       picker: scene.layout.picker.map(centre),
       house: centre(scene.layout.house),
       housePicker: scene.layout.housePicker.map(centre),
-      butterfly: centre(scene.layout.butterfly),
+      releases: {
+        butterfly: centre(scene.layout.releases.butterfly),
+        fly: centre(scene.layout.releases.fly),
+        bee: centre(scene.layout.releases.bee),
+      },
     }),
     /** The meadow's insects, oldest first, each with its current leg. */
     insects: () =>
-      scene.meadow.insects.map(({ id, legs, leg }) => ({ id, legs, ...leg })),
+      scene.meadow.insects.map(({ id, kind, legs, leg }) => ({
+        id,
+        kind,
+        legs,
+        ...leg,
+      })),
     /**
      * An insect on screen: where it is drawn, where its perch stood last
      * frame, and when it was last tapped; \`null\` once it is gone.
@@ -128,6 +138,7 @@ export const PROBE = `(() => {
         y: shown.container.y,
         at: centre(shown.at),
         end: shown.end ? centre(shown.end) : null,
+        span: shown.span * shown.container.scaleX,
         tappedAt: finite(shown.tappedAt),
       };
     },
@@ -223,6 +234,7 @@ const Perch = z.discriminatedUnion('kind', [
 export const Insects = z.array(
   z.object({
     id: z.string(),
+    kind: z.enum(INSECT_KINDS),
     legs: z.number(),
     from: Perch,
     to: Perch,
@@ -234,6 +246,8 @@ export const Insects = z.array(
 export const ShownInsect = Point.extend({
   at: Point,
   end: Point.nullable(),
+  /** How far its open wings span as drawn this frame, in CSS px. */
+  span: z.number(),
   tappedAt: z.number().nullable(),
 }).nullable();
 export const Controls = z.object({
@@ -243,7 +257,7 @@ export const Controls = z.object({
   picker: z.array(Point),
   house: Point,
   housePicker: z.array(Point),
-  butterfly: Point,
+  releases: z.object({ butterfly: Point, fly: Point, bee: Point }),
 });
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),

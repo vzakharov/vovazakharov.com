@@ -1,13 +1,14 @@
 /**
- * Plays `/mushrooms` on the four screens it is made for and fails on the first
+ * Plays `/mushrooms` on the five screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
  * the meadow is tapped the way a finger does — the steps are `play` below,
- * `lib/play-house.ts` and `lib/play-insects.ts` — and a frame of each lands in
+ * `lib/play-house.ts`, `lib/play-insects.ts` and `lib/play-buzzers.ts` — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
+ *   pnpm play:mushrooms --no-build --screens tabL,phoneS  # only those screens
  *
  * The page hands its game over only in a build with
  * `NEXT_PUBLIC_MUSHROOM_PROBE` set, which this builds; the game loop is put to
@@ -24,8 +25,9 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { given } from './lib/argv.ts';
+import { flag, given } from './lib/argv.ts';
 import { type Browser, launch } from './lib/cdp.ts';
+import { WATCH } from './lib/flier-watch.ts';
 import {
   Controls,
   Flower,
@@ -36,6 +38,7 @@ import {
   seededRandom,
   State,
 } from './lib/mushroom-probe.ts';
+import { playBuzzers, playPlanting } from './lib/play-buzzers.ts';
 import { playHouse } from './lib/play-house.ts';
 import { playInsects } from './lib/play-insects.ts';
 
@@ -51,6 +54,7 @@ const SCREENS = [
   { name: 'tabP', width: 820, height: 1180, ratio: 2 },
   { name: 'phoneP', width: 390, height: 844, ratio: 3 },
   { name: 'phoneL', width: 844, height: 390, ratio: 3 },
+  { name: 'phoneS', width: 320, height: 568, ratio: 2 },
 ] as const;
 
 type Screen = (typeof SCREENS)[number];
@@ -182,7 +186,10 @@ async function open(
     return awaitGame();
   };
   await awaitGame();
-  await evaluate(`${PROBE}; window.__game.loop.sleep(); true`, z.boolean());
+  await evaluate(
+    `${PROBE}; ${WATCH}; window.__game.loop.sleep(); true`,
+    z.boolean(),
+  );
 
   let time = 1000;
   return {
@@ -358,6 +365,7 @@ async function play(
   expect((await state()).muted === muted, 'the mute did not toggle back');
 
   await playInsects(page, controls, expect, note);
+  await playBuzzers(page, controls, expect, note);
 }
 
 async function main(): Promise<void> {
@@ -387,20 +395,31 @@ async function main(): Promise<void> {
   ]: readonly Screen[]): Promise<void> => {
     if (screen === undefined) return;
     const page = await open(browser, origin, screen, errors);
-    await play(
-      page,
-      (message) => {
-        failures.push(`${screen.name}: ${message}`);
+    const fail = (message: string) => {
+      failures.push(`${screen.name}: ${message}`);
+    };
+    const note = (line: string) => {
+      process.stdout.write(`${screen.name}: ${line}\n`);
+    };
+    await play(page, fail, note);
+    // A fresh meadow, the bees alone on it.
+    const fresh = await open(browser, origin, screen, errors);
+    await fresh.step(30);
+    await playPlanting(
+      fresh,
+      await fresh.evaluate('__probe.controls()', Controls),
+      (holds, message) => {
+        if (!holds) fail(message);
       },
-      (line) => {
-        process.stdout.write(`${screen.name}: ${line}\n`);
-      },
+      note,
     );
     process.stdout.write(`${screen.name}: played\n`);
     return playFrom(rest);
   };
   try {
-    await playFrom(SCREENS);
+    // `--screens tabL,phoneS` plays only those.
+    const only = flag('screens')?.split(',');
+    await playFrom(SCREENS.filter(({ name }) => only?.includes(name) ?? true));
   } finally {
     await browser.close();
     server.close();
