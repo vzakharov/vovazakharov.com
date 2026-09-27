@@ -96,8 +96,11 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   it takes ~8 minutes, most of it the probe build. Running
   `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova` and then
   `pnpm play:mushrooms --no-build` as two foreground calls keeps each well
-  inside. The skill should split them from the start, and the script's
-  screens could be played in parallel pages when it outgrows that.
+  inside. The skill should split them from the start. Bite 5's scene agent
+  then had each probe `step` draw only its last frame, not every stepped
+  one, and the whole run fell to ~2.5 minutes: under a software renderer
+  the drawing, not the simulation, was the cost. The skill's play script
+  should step the simulation freely and render only what it shoots.
 - **The context threshold is not measurable from inside a session, and one
   bite already fills it.** The loop says a `/handle` session takes the next
   bite "when its context is still under ~140k tokens", but an agent can't
@@ -299,7 +302,25 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   subagents spent ~600k between them. A model/scene split works because the
   model agent's report is a ready API brief for the scene agent. Decide the
   calls a subagent would otherwise make on the spot (windows over spots or
-  not) in the brief, and read its deviations back into the plan.
+  not) in the brief, and read its deviations back into the plan. Bite 5
+  ran the same three briefs from a fresh relay and the main session never
+  came near the notice (~70k, against ~620k spent by the subagents), so a
+  `/go` session is an orchestrator too, not only a `/handle` one. The main
+  session's own work was what a subagent cannot do well: settling the
+  bite's calls before any brief, looking at two frames beside the drawing,
+  and folding the bite into the plan.
+- **A per-frame action wants a reducer that returns the same object when
+  nothing changed.** Bite 5 dispatches `tick` every frame; the model agent
+  made `tick` and `startle` hand back the input `Meadow` untouched when no
+  leg turned over, and the scene skips reconciling on reference equality.
+  The skill's brief for any clock-driven action should ask for that
+  property and a test of it.
+- **An unmeasured weakness goes in the relay, not only in the report.** The
+  scene agent listed what it knew was weak (two butterflies crowding one
+  cap, a butterfly wider than the smallest back caps on a phone, a wings-
+  closed pose reading as a stick in a still). Handing that list to the
+  review session as questions to sweep is cheaper than having it
+  rediscover them.
 - **A frame subagent has to tap, not only look.** Its first run found five
   visual issues; its reshoot found the one real bug — the back clump
   mushroom answered taps only at its left edge, because the front one's
