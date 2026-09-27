@@ -15,7 +15,7 @@ import {
 import type { Sown } from '../../model/pollen';
 import { drawFlower } from './draw-flower';
 import { standingFlowers } from './flower-plots';
-import { FLOWER_SWAY, flowerLift } from './flower-sight';
+import { type Centred, FLOWER_SWAY, flowerLift } from './flower-sight';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { Perched } from './insect-view';
 import type { MeadowLayout } from './layout';
@@ -24,14 +24,13 @@ import type { MeadowSound } from './sound';
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
-  Sprouted & {
+  Sprouted &
+  Centred & {
     stem: Phaser.GameObjects.Graphics;
     head: Phaser.GameObjects.Graphics;
     headR: number;
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
-    /** The radius of the head's centre, which a drinking insect sits above (`flowerLift`). */
-    disc: number;
   };
 
 /**
@@ -136,7 +135,7 @@ export class FlowerBed {
     const shown = this.shown.get(id);
     if (shown?.container.visible !== true) return undefined;
     const { container, head, headR, disc } = shown;
-    const lift = flowerLift(disc, this.sizes[kind], kind);
+    const lift = flowerLift({ r: headR, disc }, this.sizes[kind], kind);
     const seat = placedAt(container, container.rotation, {
       x: head.x + spot * headR,
       y: head.y - lift,

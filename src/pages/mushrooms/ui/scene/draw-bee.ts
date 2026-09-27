@@ -8,6 +8,7 @@
 import type * as Phaser from 'phaser';
 
 import type { BeeGenes } from '../../model/bee-genes';
+import { beeAnatomy, beeOutline, type Oval } from '../../model/bee-outline';
 import { type Point, sample } from '../../model/geometry';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
@@ -22,37 +23,9 @@ import {
   strokeShape,
 } from './shapes';
 
-/** How many tufts the fuzz round the thorax and the abdomen stands in. */
-const FUZZ_TUFTS = { thorax: 16, abdomen: 26 } as const;
 const SHADE_ALPHA = 0.22;
 /** How many veins a bee's small wing shows. */
 export const BEE_VEINS = 2;
-
-type Oval = Point & { rx: number; ry: number };
-
-function anatomy({
-  bodyLength: length,
-  bodyWidth: width,
-  headRadius,
-}: BeeGenes) {
-  const thorax = { x: 0, y: -length * 0.2, rx: width * 0.4, ry: length * 0.19 };
-  return {
-    head: { x: 0, y: thorax.y - thorax.ry - headRadius * 0.55, r: headRadius },
-    thorax,
-    abdomen: { x: 0, y: length * 0.13, rx: width / 2, ry: length * 0.33 },
-  };
-}
-
-/** An oval's outline with its fuzz standing off it in `tufts` soft bumps, `fuzz` of its width out. */
-function fuzzy(oval: Oval, fuzz: number, tufts: number): Point[] {
-  return sample(0, Math.PI * 2, tufts * 4, (angle) => {
-    const bump = 1 + fuzz * Math.abs(Math.sin((angle * tufts) / 2));
-    return {
-      x: oval.x + oval.rx * bump * Math.cos(angle),
-      y: oval.y + oval.ry * bump * Math.sin(angle),
-    };
-  }).slice(0, -1);
-}
 
 /** The band of `oval` between `top` and `bottom`, across the whole of it. */
 function band(oval: Oval, top: number, bottom: number): Point[] {
@@ -75,22 +48,19 @@ export function paintBeeBody(
   const at = scaled(size);
   const ink = inkFor(size);
   const yellow = nudgeHue(PALETTE.beeYellows[genes.stripe], genes.hueNudge);
-  const { head, thorax, abdomen } = anatomy(genes);
+  const { head, thorax, abdomen } = beeAnatomy(genes);
+  const painted = beeOutline(genes);
 
   // The stinger, under the abdomen's tail.
   const tail = abdomen.y + abdomen.ry;
-  const sting = [
-    { x: -abdomen.rx * 0.12, y: tail - 0.01 },
-    { x: 0, y: tail + genes.bodyLength * 0.07 },
-    { x: abdomen.rx * 0.12, y: tail - 0.01 },
-  ].map((point) => at(point));
   graphics.fillStyle(PALETTE.beeBlack);
-  fillShape(graphics, sting);
+  fillShape(
+    graphics,
+    painted.sting.map((point) => at(point)),
+  );
 
   // The abdomen: yellow and black bands, yellow first, the tail black.
-  const outline = fuzzy(abdomen, genes.fuzz, FUZZ_TUFTS.abdomen).map((point) =>
-    at(point),
-  );
+  const outline = painted.abdomen.map((point) => at(point));
   graphics.fillStyle(yellow);
   fillShape(graphics, outline);
   const stripes = genes.bands * 2;
@@ -125,9 +95,7 @@ export function paintBeeBody(
   strokeShape(graphics, outline);
 
   // The thorax, all fuzz, a warm brown-gold.
-  const chest = fuzzy(thorax, genes.fuzz * 1.6, FUZZ_TUFTS.thorax).map(
-    (point) => at(point),
-  );
+  const chest = painted.chest.map((point) => at(point));
   graphics.fillStyle(mix(yellow, PALETTE.beeBlack, 0.45));
   fillShape(graphics, chest);
   graphics.fillStyle(PALETTE.highlight, 0.3);
@@ -195,7 +163,7 @@ export function paintBeeLegs(
 ): void {
   const at = scaled(size);
   const ink = inkFor(size);
-  const { thorax } = anatomy(genes);
+  const { thorax } = beeAnatomy(genes);
   const reach = genes.legLength;
   for (const side of SIDES) {
     for (const [down, out, back] of [

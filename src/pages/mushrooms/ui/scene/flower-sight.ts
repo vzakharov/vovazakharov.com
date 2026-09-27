@@ -66,24 +66,50 @@ const HEAD_RING = 8;
 const ABOVE_CENTRE = 0.3;
 
 /**
- * How far above a flower's centre a fly or a bee sits, in units of its size:
- * on the centre itself, which it has no proboscis to reach from the rim.
+ * How far above a flower's centre a fly sits, in units of its size: on the
+ * centre itself, which it has no proboscis to reach from the rim.
  */
 const ON_CENTRE = 0.12;
 
 /**
- * How far above the middle of a flower whose centre is `disc` across an
- * insect of `kind`, `insectSize` to its unit, sits: a butterfly on the rim,
- * drinking down into the centre, a fly or a bee on the centre.
+ * How far below the head's lower rim a bee's middle sits, in units of its
+ * size: its head and thorax over the petals, facing in toward the centre as
+ * a settled insect faces up the screen, and its abdomen over the rim, so at
+ * least half of the head stays in sight under it wherever its crawl takes it.
+ */
+const PAST_RIM = 0.05;
+
+/** How far a flower's centre reaches from the head's middle, in CSS px. */
+export type Centred = { disc: number };
+
+/** How far a flower's head reaches, and its centre (`Centred`). */
+export type HeadReach = Pick<Circle, 'r'> & Centred;
+
+/**
+ * How far above the middle of a flower whose head reaches `r` and whose
+ * centre reaches `disc` an insect of `kind`, `insectSize` to its unit, sits:
+ * a butterfly on the upper rim, drinking down into the centre, a fly on the
+ * centre, and a bee on the lower rim, below the middle.
  */
 export function flowerLift(
-  disc: number,
+  { r, disc }: HeadReach,
   insectSize: number,
   kind: InsectKind = 'butterfly',
 ): number {
-  return kind === 'butterfly'
-    ? disc + ABOVE_CENTRE * insectSize
-    : ON_CENTRE * insectSize;
+  switch (kind) {
+    case 'butterfly': {
+      return disc + ABOVE_CENTRE * insectSize;
+    }
+    case 'fly': {
+      return ON_CENTRE * insectSize;
+    }
+    case 'bee': {
+      return -(r + PAST_RIM * insectSize);
+    }
+    default: {
+      return kind satisfies never;
+    }
+  }
 }
 
 /**
@@ -111,7 +137,10 @@ export function sightingOf(
   return {
     place,
     head: { ...head, x: place.x + head.x, y: place.y + head.y },
-    lift: flowerLift(genes.centre * place.size, insectSize),
+    lift: flowerLift(
+      { ...pick(head, 'r'), disc: genes.centre * place.size },
+      insectSize,
+    ),
   };
 }
 
@@ -131,7 +160,10 @@ function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
           y: place.y - place.size,
           r: petal * place.size,
         },
-        lift: flowerLift(centre * place.size, insectSize),
+        lift: flowerLift(
+          { r: petal * place.size, disc: centre * place.size },
+          insectSize,
+        ),
       })),
     ),
   );

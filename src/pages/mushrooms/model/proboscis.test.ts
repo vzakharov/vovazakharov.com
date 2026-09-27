@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/shared/lib/collections';
+
 import { flowerLift } from '../ui/scene/flower-sight';
 import { flowerGenes, flowerHead } from './flower-genes';
 import { placedAt, type Point } from './geometry';
@@ -32,7 +34,7 @@ function* drinks() {
     for (const [flowerSize, size] of SIZES) {
       const head = flowerHead(flower, flowerSize);
       const disc = flower.centre * flowerSize;
-      const lift = flowerLift(disc, size);
+      const lift = flowerLift({ ...pick(head, 'r'), disc }, size);
       for (const spot of SPOTS) {
         for (const sway of SWAYS) {
           const foot = { x: 400, y: 600 };
