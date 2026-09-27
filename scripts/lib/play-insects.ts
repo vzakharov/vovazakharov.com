@@ -69,6 +69,16 @@ export async function playInsects(
     return waitFor(found, looks - 1);
   };
 
+  /** What a tap at each of `points` reaches first (`__probe.topAt`). */
+  const topsAt = async (points: ReadonlyArray<z.infer<typeof Point>>) =>
+    Promise.all(
+      points.map(async (point) =>
+        page.evaluate(
+          `__probe.topAt(${JSON.stringify(point)})`,
+          z.string().nullable(),
+        ),
+      ),
+    );
   /** Steps until a butterfly is resting on a cap with time to stay. */
   const waitForCapRest = async () =>
     waitFor((all, at) =>
@@ -230,14 +240,7 @@ export async function playInsects(
   if ((await state()).selected === tappedCap) {
     const { x, y } = controls.plus;
     const sky = [0.3, 0.5, 0.7].map((across) => ({ x: x * across, y }));
-    const tops = await Promise.all(
-      sky.map(async (point) =>
-        page.evaluate(
-          `__probe.topAt(${JSON.stringify(point)})`,
-          z.string().nullable(),
-        ),
-      ),
-    );
+    const tops = await topsAt(sky);
     const bare = sky[tops.indexOf(null)];
     if (bare) await page.tap(bare);
     await page.step(2);
@@ -255,14 +258,7 @@ export async function playInsects(
       Point,
     );
     const candidates = drawn ? [middle, pick(drawn, 'x', 'y')] : [middle];
-    const tops = await Promise.all(
-      candidates.map(async (point) =>
-        page.evaluate(
-          `__probe.topAt(${JSON.stringify(point)})`,
-          z.string().nullable(),
-        ),
-      ),
-    );
+    const tops = await topsAt(candidates);
     const index = tops.indexOf(label);
     if (index !== -1) {
       note(

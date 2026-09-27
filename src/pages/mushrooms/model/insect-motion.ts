@@ -184,6 +184,10 @@ function aloft({ departs, arrives, launch, to }: Stay, now: number): number {
   );
 }
 
+/** A wave from 0 to 1 and back over `period` ms, starting at 0. */
+const wave = (now: number, period: number, phase: number) =>
+  0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / period + phase);
+
 /**
  * How far into a drink a leg has the flier at `now`, from 0 to 1: at a
  * flower it rises once the landing's bob is half done and falls back to 0
@@ -205,8 +209,7 @@ export function drinking(stay: Stay, now: number): number {
  * the flower: out with the drink, drawn a little back and forth with each sip.
  */
 export function proboscis(stay: Stay, now: number): number {
-  const sip = 0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / SIP);
-  return drinking(stay, now) * (1 - SIP_DEPTH * sip);
+  return drinking(stay, now) * (1 - SIP_DEPTH * wave(now, SIP, 0));
 }
 
 /**
@@ -218,10 +221,6 @@ export function carriedFrom(leg: Stay, now: number): Carried {
   const speed = now < leg.arrives ? launch : 0;
   return { launch, speed, drink: drinking(leg, now) };
 }
-
-/** A slow wave from 0 to 1 and back over `period` ms, starting at 0. */
-const wave = (now: number, period: number, phase: number) =>
-  0.5 - 0.5 * Math.cos((Math.PI * 2 * now) / period + phase);
 
 /**
  * How far the wings are open at `now`, from 0 (closed up) to 1 (flat open):

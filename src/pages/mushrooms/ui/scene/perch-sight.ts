@@ -8,6 +8,7 @@
  * over the meadow, clear of the controls and inside the screen.
  */
 
+import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import type { Perch, Sight } from '../../model/flight';
@@ -78,6 +79,26 @@ export type Stand = Pick<Meadow, 'mushrooms'> & {
   flowers: readonly Flower[];
 };
 
+/**
+ * The flower at `index` as the layout stands it: its place, its head on
+ * screen, and how far over the head's middle a drinking butterfly sits.
+ */
+function flowerAt(
+  { layout, flowers }: Pick<Stand, 'layout' | 'flowers'>,
+  index: number,
+) {
+  const place = layout.flowers[index];
+  const flower = flowers[index];
+  if (!place || !flower) return;
+  const genes = flowerGenes(flower);
+  const head = flowerHead(genes, place.size);
+  return {
+    place,
+    head: { ...head, x: place.x + head.x, y: place.y + head.y },
+    lift: flowerLift(genes.centre * place.size, layout.insectSize),
+  };
+}
+
 /** A seat on a perch: where it is and how far across it a butterfly's spot moves it at most, either way. */
 type Seat = Point & { slack: number };
 
@@ -94,15 +115,12 @@ export function seatAt(
   switch (perch.kind) {
     case 'flower': {
       const index = flowers.findIndex(({ id }) => id === perch.id);
-      const place = layout.flowers[index];
-      const flower = flowers[index];
-      if (!place || !flower) return undefined;
-      const genes = flowerGenes(flower);
-      const head = flowerHead(genes, place.size);
-      const lift = flowerLift(genes.centre * place.size, layout.insectSize);
+      const standing = flowerAt({ layout, flowers }, index);
+      if (!standing) return undefined;
+      const { head, lift } = standing;
       return {
-        x: place.x + head.x + spot * head.r,
-        y: place.y + head.y - lift,
+        x: head.x + spot * head.r,
+        y: head.y - lift,
         slack: PERCH_SPREAD * head.r,
       };
     }
@@ -179,17 +197,15 @@ type Cover = Pick<Standing, 'depth'> & {
  * covers the head's middle (`HEAD_SHOWN`).
  */
 function flowerInSight(
-  { layout, flowers }: Stand,
+  stand: Stand,
   index: number,
   covers: readonly Cover[],
 ): boolean {
-  const place = layout.flowers[index];
-  const flower = flowers[index];
-  if (!place || !flower) return false;
-  const genes = flowerGenes(flower);
-  const head = flowerHead(genes, place.size);
-  const centre = { x: place.x + head.x, y: place.y + head.y };
-  const lift = flowerLift(genes.centre * place.size, layout.insectSize);
+  const { layout } = stand;
+  const standing = flowerAt(stand, index);
+  if (!standing) return false;
+  const { place, head, lift } = standing;
+  const centre = pick(head, 'x', 'y');
   const seat = { ...centre, y: centre.y - lift };
   const reach =
     (WIDEST_SPAN * layout.insectSize) / 2 +
