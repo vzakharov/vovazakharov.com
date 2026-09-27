@@ -19,7 +19,7 @@ import {
 export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
 
-export const PERCH_KINDS = ['flower', 'cap', 'away'] as const;
+const PERCH_KINDS = ['flower', 'cap', 'away'] as const;
 export type PerchKind = (typeof PERCH_KINDS)[number];
 
 /** What each kind of perch carries beside its kind. */
