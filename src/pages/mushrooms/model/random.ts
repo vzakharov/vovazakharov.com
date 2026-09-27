@@ -1,6 +1,12 @@
 /** What a creature is grown from: its genes are a pure function of it. */
 export type Seeded = { seed: number };
 
+/**
+ * A creature's own shift off its base hue, as a fraction of the colour wheel:
+ * the base lives in `palette.ts`, the nudge in the genes.
+ */
+export type Nudged = { hueNudge: number };
+
 /** A source of uniform numbers in `[0, 1)`. */
 export type Random = () => number;
 
@@ -22,6 +28,14 @@ export function mulberry32(seed: number): Random {
 
 export function between(random: Random, min: number, max: number): number {
   return min + random() * (max - min);
+}
+
+/** One of `items`, each as likely as the next. */
+export function pick<Item>(
+  random: Random,
+  items: readonly [Item, ...Item[]],
+): Item {
+  return items[Math.floor(random() * items.length)] ?? items[0];
 }
 
 /** Each named gene's `[min, max]`, the bounds it is drawn between. */

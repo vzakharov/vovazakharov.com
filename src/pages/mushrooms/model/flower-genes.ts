@@ -7,6 +7,7 @@ import {
   type GeneRanges,
   mulberry32,
   nextSeed,
+  pick,
   type Random,
   type Seeded,
 } from './random';
@@ -52,10 +53,6 @@ export const FLOWER_RANGES = {
   stemBend: [-0.14, 0.14],
   leafAt: [0.25, 0.5],
 } as const satisfies GeneRanges;
-
-function pick<Item>(random: Random, items: readonly [Item, ...Item[]]): Item {
-  return items[Math.floor(random() * items.length)] ?? items[0];
-}
 
 export function flowerGenes({ seed }: Seeded): FlowerGenes {
   const random = mulberry32(seed);

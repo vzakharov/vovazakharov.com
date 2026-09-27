@@ -7,6 +7,7 @@ import {
   type GeneRanges,
   mulberry32,
   nextSeed,
+  type Nudged,
   type Random,
   type Seeded,
 } from './random';
@@ -30,7 +31,8 @@ export type Mushroom = WithId & MushroomSeed;
  * one. Angles are in radians. The cap follows the stem's bend.
  */
 export type MushroomGenes = Capped &
-  Bent & {
+  Bent &
+  Nudged & {
     stemHeight: number;
     /** The stem's width under the cap. */
     stemWidth: number;
@@ -44,8 +46,6 @@ export type MushroomGenes = Capped &
     domePower: number;
     /** A small turn of the cap against the stem. */
     capTilt: number;
-    /** A shift of the cap's hue, as a fraction of the colour wheel. */
-    hueNudge: number;
     /** White spots, each centred `y` above the cap's underside. */
     spots: readonly Circle[];
   };
