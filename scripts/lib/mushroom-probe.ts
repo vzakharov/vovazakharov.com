@@ -131,6 +131,11 @@ export const PROBE = `(() => {
         tappedAt: finite(shown.tappedAt),
       };
     },
+    /** The middle of a mushroom's cap as its hit area has it, on screen, whatever stands over it. */
+    capMiddle: (id) => {
+      const shown = scene.bed.shown.get(id);
+      return onScreen(shown.graphics, shown.hit.cap);
+    },
     /** Where a tap selects a mushroom, as near its cap's middle as its cap shows (\`reaching\`). */
     mushroom: (id) => {
       const shown = scene.bed.shown.get(id);

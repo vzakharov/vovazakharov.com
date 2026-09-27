@@ -328,19 +328,30 @@ export class MushroomBed {
       goneAt: Infinity,
     };
     graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      shown.tappedAt = this.now();
-      const { genes, turn, size } = shown;
-      const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
-      puffSpores(
-        this.scene,
-        placedAt(graphics, turn, toCanvas(size)(crown)),
-        genes.capWidth * size * 0.75,
-        SPORE_DEPTH,
-      );
-      this.voice.boing(Math.min(1.4, 180 / size));
-      this.onTap(mushroom.id);
+      this.tap(mushroom.id);
     });
     this.shown.set(mushroom.id, shown);
     return shown;
+  }
+
+  /**
+   * Answers a tap on `id`'s mushroom, whether it landed there or went
+   * through a butterfly resting on it: a wobble, a puff of spores, a boing,
+   * and `onTap`. A mushroom sinking away takes no tap.
+   */
+  tap(id: string): void {
+    const shown = this.shown.get(id);
+    if (shown?.goneAt !== Infinity) return;
+    shown.tappedAt = this.now();
+    const { genes, turn, size, graphics } = shown;
+    const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
+    puffSpores(
+      this.scene,
+      placedAt(graphics, turn, toCanvas(size)(crown)),
+      genes.capWidth * size * 0.75,
+      SPORE_DEPTH,
+    );
+    this.voice.boing(Math.min(1.4, 180 / size));
+    this.onTap(id);
   }
 }

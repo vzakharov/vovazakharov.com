@@ -2,11 +2,10 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import type { Perch, Sight } from '../../model/flight';
+import { isAloft, isLeaving, type Perch, type Sight } from '../../model/flight';
 import {
   firstFlowers,
   type Flower,
-  type FlowerGenes,
   flowerGenes,
 } from '../../model/flower-genes';
 import {
@@ -36,7 +35,11 @@ export const PIXEL_RATIO_KEY = 'pixelRatio';
 
 /** Above everything in the meadow, spores included. */
 const HUD_DEPTH = 2e5;
-/** Above everything in the meadow too, but under the buttons, which keep their taps. */
+/**
+ * Above everything in the meadow too, taking a tap first and passing one at
+ * rest on to its perch (`tapInsect`), but under the buttons, which keep their
+ * taps.
+ */
 const INSECT_DEPTH = 1.5e5;
 /** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
 const CLOUD_SPEEDS = [7, 4, 5.5];
@@ -95,12 +98,7 @@ export class MeadowScene extends Phaser.Scene {
       this.now,
       INSECT_DEPTH,
       (id) => {
-        this.dispatch({
-          kind: 'startle',
-          id,
-          now: this.clock * 1000,
-          ...this.sight,
-        });
+        this.tapInsect(id);
       },
     );
     this.controls = new Controls(
@@ -247,6 +245,39 @@ export class MeadowScene extends Phaser.Scene {
     }
   };
 
+  /**
+   * A tap on the insect `id` startles it; at rest, the tap goes on to
+   * whatever it sits on, so a creature never costs the child the thing under
+   * it. In flight it takes the tap alone.
+   */
+  private tapInsect(id: string): void {
+    const now = this.clock * 1000;
+    const flier = this.meadow?.insects.find((each) => each.id === id);
+    const under =
+      flier && !isAloft(flier, now) && !isLeaving(flier)
+        ? flier.leg.to
+        : undefined;
+    this.dispatch({ kind: 'startle', id, now, ...this.sight });
+    switch (under?.kind) {
+      case 'cap': {
+        this.bed?.tap(under.id);
+        break;
+      }
+      case 'flower': {
+        const flower = this.flowers.find((each) => each.id === under.id);
+        if (flower) this.tapFlower(flower);
+        break;
+      }
+      case 'away':
+      case undefined: {
+        break;
+      }
+      default: {
+        under satisfies never;
+      }
+    }
+  }
+
   /** A tap that lands on nothing lets go of the selection. */
   private readonly tapMeadow = (
     _pointer: Phaser.Input.Pointer,
@@ -318,7 +349,6 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   private showFlower(flower: Flower): ShownFlower {
-    const genes: FlowerGenes = flowerGenes(flower);
     const hit = new Phaser.Geom.Circle();
     const stem = this.add.graphics();
     const head = this.add.graphics().setInteractive(hit, containsCircle);
@@ -332,12 +362,20 @@ export class MeadowScene extends Phaser.Scene {
       tappedAt: -Infinity,
     };
     head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-      shown.tappedAt = this.clock;
-      this.voice.chime(genes.fold + genes.rings);
-      // A flower is part of the meadow: a tap on it is a tap on the meadow too.
-      this.dispatch({ kind: 'deselect' });
+      this.tapFlower(flower);
     });
     this.shownFlowers.set(flower.id, shown);
     return shown;
+  }
+
+  /** Answers a tap on `flower`, whether it landed there or went through a butterfly drinking at it. */
+  private tapFlower(flower: Flower): void {
+    const shown = this.shownFlowers.get(flower.id);
+    if (!shown) return;
+    const { fold, rings } = flowerGenes(flower);
+    shown.tappedAt = this.clock;
+    this.voice.chime(fold + rings);
+    // A flower is part of the meadow: a tap on it is a tap on the meadow too.
+    this.dispatch({ kind: 'deselect' });
   }
 }

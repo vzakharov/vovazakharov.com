@@ -1,6 +1,6 @@
 /** The butterflies' part of `play-mushrooms.ts`'s tap sequence, played once the meadow is bare. */
 
-import type { z } from 'zod';
+import { z } from 'zod';
 
 import {
   type Controls,
@@ -65,6 +65,36 @@ export async function playInsects(
     return waitFor(found, looks - 1);
   };
 
+  /** Steps until a butterfly is resting on a cap with time to stay. */
+  const waitForCapRest = async () =>
+    waitFor((all, at) =>
+      all.find(
+        (insect) =>
+          insect.to.kind === 'cap' &&
+          landed(insect, at) &&
+          insect.leaves - at > 1500,
+      ),
+    );
+  /** Expects the tap at `at` ms on `insect` at rest to have gone on to its perch. */
+  const expectPassedOn = async ({ id, to }: Insect, at: number) => {
+    if (to.kind === 'cap') {
+      expect(
+        (await state()).selected === to.id,
+        `a tap on ${id} resting on ${to.id} did not select it`,
+      );
+    }
+    if (to.kind === 'flower') {
+      const bloomed = await page.evaluate(
+        `__probe.flowerTappedAt(${JSON.stringify(to.id)})`,
+        z.number().nullable(),
+      );
+      expect(
+        bloomed !== null && Math.abs(bloomed * 1000 - at) < 100,
+        `a tap on ${id} drinking at ${to.id} did not bloom it`,
+      );
+    }
+  };
+
   // Something to rest on: two mushrooms, grown from the picker's first two caps.
   await inTurn(controls.picker.slice(0, 2), async (cap) => {
     await page.tap(controls.plus);
@@ -118,11 +148,7 @@ export async function playInsects(
   );
   await page.shoot('b3-perched');
 
-  // A tap on one at rest sends it off, and leaves the picker and the selection be.
-  await page.tap(controls.plus);
-  await page.step(30);
-  const before = await state();
-  expect(before.picking, '`+` did not open the picker');
+  // A tap on one at rest sends it off and goes on to what it sits on.
   const resting = await waitFor((all, at) =>
     all.find((insect) => landed(insect, at) && insect.leaves - at > 1000),
   );
@@ -135,25 +161,27 @@ export async function playInsects(
   const tappedAt = await now();
   await page.step(2);
   const startled = await byId(resting.id);
-  const after = await state();
   expect(
     startled?.legs === resting.legs + 1 &&
       Math.abs(startled.departs - tappedAt) < 100,
     `a tap on ${resting.id} at rest did not send it off`,
   );
-  expect(
-    after.picking && after.selected === before.selected,
-    'a tap on a butterfly closed the picker or changed the selection',
-  );
+  await expectPassedOn(resting, tappedAt);
   await page.step(12);
   await page.shoot('b4-startled');
 
-  // In the air, a tap jolts it and leaves its flight as it was.
+  // In the air, a tap jolts it, leaves its flight as it was, and goes no
+  // further: the picker and the selection stay as they were.
+  await page.tap(controls.plus);
+  await page.step(2);
+  const before = await state();
+  expect(before.picking, '`+` did not open the picker');
   const flying = await shown(resting.id);
   if (flying) await page.tap(flying);
   await page.step(2);
   const still = await byId(resting.id);
   const jolted = await shown(resting.id);
+  const after = await state();
   expect(
     still?.legs === startled?.legs && still?.departs === startled?.departs,
     `a tap on ${resting.id} in the air changed its flight`,
@@ -163,24 +191,57 @@ export async function playInsects(
       (await now()) - jolted.tappedAt * 1000 < 200,
     `a tap on ${resting.id} in the air did not reach it`,
   );
+  expect(
+    after.picking && after.selected === before.selected,
+    'a tap on a butterfly in the air closed the picker or changed the selection',
+  );
   await page.tap(controls.plus);
   await page.step(30);
 
-  // A mushroom sunk under a resting butterfly sends it off.
-  const onCap = await waitFor((all, at) =>
-    all.find(
-      (insect) =>
-        insect.to.kind === 'cap' &&
-        landed(insect, at) &&
-        insect.leaves - at > 1500,
-    ),
+  // A tap on the middle of a cap a butterfly rests on selects the mushroom
+  // and sends the butterfly off, both.
+  const onCapToTap = await waitForCapRest();
+  if (onCapToTap?.to.kind !== 'cap') {
+    expect(false, 'no butterfly ever rested on a cap to be tapped through');
+    return;
+  }
+  const tappedCap = onCapToTap.to.id;
+  const middle = await page.evaluate(
+    `__probe.capMiddle(${JSON.stringify(tappedCap)})`,
+    Point,
   );
+  const top = await page.evaluate(
+    `__probe.topAt(${JSON.stringify(middle)})`,
+    z.string().nullable(),
+  );
+  expect(
+    top === `insect:${onCapToTap.id}`,
+    `the middle of ${tappedCap}'s cap is not under ${onCapToTap.id}, but ${String(top)}`,
+  );
+  await page.tap(middle);
+  const throughAt = await now();
+  await page.step(2);
+  const flownOff = await byId(onCapToTap.id);
+  expect(
+    flownOff?.legs === onCapToTap.legs + 1 &&
+      Math.abs(flownOff.departs - throughAt) < 100,
+    `a tap on ${tappedCap}'s middle did not send ${onCapToTap.id} off`,
+  );
+  expect(
+    (await state()).selected === tappedCap,
+    `a tap on ${tappedCap}'s middle, through ${onCapToTap.id}, did not select it`,
+  );
+  await page.step(4);
+  await page.shoot('b5-tapped-through');
+
+  // A mushroom sunk under a resting butterfly sends it off.
+  const onCap = await waitForCapRest();
   if (onCap?.to.kind !== 'cap') {
     expect(false, 'no butterfly ever rested on a cap');
     return;
   }
   const capId = onCap.to.id;
-  await page.shoot('b5-resting');
+  await page.shoot('b6-resting');
   const capAt = await page.evaluate(
     `__probe.mushroom(${JSON.stringify(capId)})`,
     Point.nullable(),
@@ -208,5 +269,5 @@ export async function playInsects(
     `${onCap.id} stayed on ${capId} as it sank`,
   );
   await page.step(12);
-  await page.shoot('b6-takeoff');
+  await page.shoot('b7-takeoff');
 }

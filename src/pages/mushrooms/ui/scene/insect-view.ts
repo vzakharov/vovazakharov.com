@@ -232,7 +232,8 @@ export class InsectView {
       shown.at = this.offScreen(from.side, shown);
       shown.from = this.fraction(shown.at);
     }
-    // A butterfly is not the meadow: its tap leaves the selection and any picker as they are.
+    // A butterfly is not the meadow: its own tap leaves the selection and any
+    // picker as they are, whatever `onTap` passes on to the perch under it.
     container.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       shown.tappedAt = this.now();
       this.voice.trill();
