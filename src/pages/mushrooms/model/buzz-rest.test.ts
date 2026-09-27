@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { meadowLayout } from '../ui/scene/layout';
+import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { crawl, hop, HOP_EVERY, HOP_REACH, jitter, rubbing } from './buzz-rest';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { LANDING, type Stay, wingBeat } from './insect-motion';
@@ -40,19 +42,41 @@ describe('a fly at rest', () => {
     }
   });
 
-  it('jitters tinily and fast, never jumping', () => {
+  it('jitters a little and fast, never jumping', () => {
     for (const phase of PHASES) {
       const offsets = times(STAY.arrives, STAY.leaves, 1).map((now) =>
         jitter(STAY, now, { phase }),
       );
-      assert.ok(Math.max(...offsets.map((each) => size(each))) < 0.02);
+      assert.ok(Math.max(...offsets.map((each) => size(each))) < 0.08);
       const moved = offsets.filter(
-        (each, index) => index > 0 && size(each) > 0.005,
+        (each, index) => index > 0 && size(each) > 0.02,
       ).length;
       assert.ok(moved > 1000);
       for (const [index, each] of offsets.entries()) {
         const last = offsets[index - 1] ?? each;
-        assert.ok(size({ x: each.x - last.x, y: each.y - last.y }) < 0.002);
+        assert.ok(size({ x: each.x - last.x, y: each.y - last.y }) < 0.005);
+      }
+    }
+  });
+
+  it('jitters at least 1.5 px each way on every screen', () => {
+    const smallest = Math.min(
+      ...VIEWPORTS.flatMap(([, width, height]) =>
+        VISITS.slice(0, 50).map(
+          (seed) => meadowLayout(width, height, seed).insectSizes.fly,
+        ),
+      ),
+    );
+    for (const phase of PHASES) {
+      const offsets = times(STAY.arrives, STAY.leaves, 1).map((now) =>
+        jitter(STAY, now, { phase }),
+      );
+      for (const axis of ['x', 'y'] as const) {
+        const most = Math.max(...offsets.map((each) => Math.abs(each[axis])));
+        assert.ok(
+          most * smallest >= 1.5,
+          `${axis} ${String(most * smallest)} px`,
+        );
       }
     }
   });

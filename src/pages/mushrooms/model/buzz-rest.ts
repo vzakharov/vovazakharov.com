@@ -22,8 +22,12 @@ type Sitting = Pick<Leg, 'arrives' | 'leaves'>;
 const EASE_IN = 300;
 const EASE_OUT = 250;
 
-/** How far a fly jitters, and its two shakes' periods, in ms, never in step. */
-const JITTER = 0.012;
+/**
+ * How far a fly jitters, and its two shakes' periods, in ms, never in step:
+ * 1.5 px or more each way at the smallest a fly is drawn, so it reads as a
+ * tremble of its own beside the hop.
+ */
+const JITTER = 0.05;
 const JITTER_PERIODS = [83, 127] as const;
 
 /**
@@ -61,7 +65,7 @@ function settled({ arrives, leaves }: Sitting, now: number): number {
   );
 }
 
-/** How far a sitting fly has jittered off its seat at `now`: a tiny fast tremble. */
+/** How far a sitting fly has jittered off its seat at `now`: a small fast tremble. */
 export function jitter(stay: Sitting, now: number, { phase }: Phased): Point {
   const reach = JITTER * settled(stay, now);
   const [fast, faster] = JITTER_PERIODS;
