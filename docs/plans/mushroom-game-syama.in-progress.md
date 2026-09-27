@@ -141,9 +141,14 @@ Standing rules for every session in the chain:
   in flight takes the tap alone. Buttons stay above every insect.
 - **An insect perches only where it can be seen.** A flower is a perch only
   while its head stands clear of every control's tap circle and the screen's
-  edge by the wingspan, and no nearer mushroom covers it; the model's `pick`
-  maps onto the flowers that qualify. Two insects never share a perch: a
-  leg's next perch skips any another flier sits on or is heading to.
+  edge by the wingspan, and no nearer mushroom covers it; the scene hands the
+  model the flowers that qualify, by id. Two insects never share a perch: a
+  leg's next perch skips any another flier sits on or is heading to, and any
+  the scene marks as too close to one of those. A flier with no free perch
+  roams the open air and tries again, so a butterfly is never lost for want
+  of a perch; only the limit, a startle or its own leaving takes one away.
+  At a flower it sits on the head's upper rim and drinks through a
+  proboscis curled down into the centre, leaving the flower in sight.
 - **Flowers stay put.** A rotation or a growth never moves a flower, so a
   floored forest mushroom may stand in front of one; such a flower is out of
   sight by the rule above, so no insect is sent to it. Bite 6's bees plant
@@ -343,16 +348,22 @@ Standing rules for every session in the chain:
      `Nudged` is the hue-nudge base mushroom and insect genes share, in
      `random.ts` with `pick`), `model/insect-outline.ts` (the shapes and
      `wingspan`, read by painter and layout alike).
-   - `model/flight.ts`: `Perch` (a flower by a `pick` the scene maps with
-     `flowerIndex`, a cap by id, `away` by side), `Leg`, `Flight`, the next
-     leg a pure function of seed and leg count. `model/insects.ts`: `Flier`,
-     `INSECT_LIMITS` and the reducer helpers; the release limit counts every
-     insect today, so bite 6 adds a kind filter. `game.ts` gains `insects`,
-     `released` and `release`, `startle`, `tick`; `tick` and `startle` hand
-     back the same `Meadow` when nothing changed, and the scene skips
-     reconciling then.
+   - `model/flight.ts`: `Perch` (a flower or a cap by id, `away` by side,
+     built from `PerchKind` and `SIDES`, which the probe's schema derives
+     from), `Leg`, `Flight`; the next leg a pure function of seed, leg count
+     and what the scene can see — the flowers in sight and the perches too
+     close together, from `ui/scene/perch-sight.ts` — skipping perches other
+     fliers hold. `model/insects.ts`: `Flier`, `INSECT_LIMITS` and the
+     reducer helpers; `evicted` counts the releasing kind only. `game.ts`
+     gains `insects`, `released` and `release`, `startle`, `tick`; `tick`
+     and `startle` hand back the same `Meadow` when nothing changed, and the
+     scene skips reconciling then.
    - `model/insect-motion.ts` (ms, where `motion.ts` is seconds):
-     `flightPoint`, `heading`, `tilt`, `wingBeat`, `landingBob`.
+     `flightPoint`, `heading`, `tilt`, `wingBeat`, `landingBob`; the body's
+     turn (`bodyTurn`, continuous across ±π), a leg cut short mid-air
+     carrying its lift and speed on, `drinking` and `proboscis`, and
+     `drinkDip`, which the scene applies to the flower's head. A tap on a
+     resting butterfly goes through to what it sits on.
    - `draw-insect.ts` paints hind wings, fore wings and body into three
      graphics in one container; `insect-view.ts` owns the butterflies on
      screen, starting each leg from the last drawn point as a screen
