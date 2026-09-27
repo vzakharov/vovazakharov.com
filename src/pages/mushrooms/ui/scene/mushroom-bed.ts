@@ -214,10 +214,9 @@ export class MushroomBed {
   }
 
   /**
-   * Where a butterfly sits on `id`'s cap as it stands this frame — breathing,
-   * wobbling, growing or sinking — `across` from -1 to 1 of the way from the
-   * crown toward either rim, a little down the dome from its edge; `undefined`
-   * once it has sunk away.
+   * Where a butterfly sits on `id`'s cap as it stands this frame, `across`
+   * from -1 to 1 of the way from the crown toward either rim; `undefined` once
+   * it has sunk away.
    */
   capTop(id: string, across: number): Point | undefined {
     const shown = this.shown.get(id);

@@ -51,12 +51,7 @@ function hues(genes: InsectGenes) {
   };
 }
 
-/**
- * One pair of wings into `graphics`, both sides mirrored about its own
- * position, the body's middle: an edge band in the pattern's colour round
- * the base, pale dots along the band, the eye's concentric rings, a shade
- * along the trailing edge, a shine, and ink.
- */
+/** One pair of wings into `graphics`, both sides mirrored about its own position, the body's middle. */
 export function paintWings(
   graphics: Phaser.GameObjects.Graphics,
   genes: InsectGenes,
@@ -135,11 +130,7 @@ export function paintWings(
   }
 }
 
-/**
- * The body into `graphics`, about its own position: antennae with their
- * clubs, abdomen, thorax and head, each shaded and inked, a shine along the
- * back and two eyes looking up out of the head.
- */
+/** The body into `graphics`, antennae included, about its own position. */
 export function paintBody(
   graphics: Phaser.GameObjects.Graphics,
   genes: InsectGenes,

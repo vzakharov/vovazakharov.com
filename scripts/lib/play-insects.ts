@@ -1,11 +1,4 @@
-/**
- * The butterflies' part of `play-mushrooms.ts`'s tap sequence, played once
- * the meadow is bare: two mushrooms grown to rest on, five butterflies
- * released — the fifth sending the first away, which is then gone — each
- * reaching a perch, one tapped at rest taking off and again in the air left
- * on its way, neither tap changing the selection or closing the picker, and a
- * mushroom one rests on sunk under it, which sends it off.
- */
+/** The butterflies' part of `play-mushrooms.ts`'s tap sequence, played once the meadow is bare. */
 
 import type { z } from 'zod';
 
@@ -52,7 +45,7 @@ export async function playInsects(
   const byId = async (id: string) =>
     (await insects()).find((insect) => insect.id === id);
   const now = async () => (await state()).clock * 1000;
-  /** Whether `insect` sits drawn on its perch, its landing done, at `at` ms. */
+  /** Whether `insect` is drawn on its perch at `at` ms. */
   const perched = async (insect: Insect, at: number) => {
     if (!landed(insect, at)) return false;
     const drawn = await shown(insect.id);

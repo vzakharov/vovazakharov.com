@@ -89,7 +89,6 @@ function nextPerch(
   return { kind: 'flower', pick: flowerPick };
 }
 
-/** Off screen past a side `random` picks. */
 function awayPerch(random: Random): Perch {
   return { kind: 'away', side: pick(random, SIDES) };
 }
