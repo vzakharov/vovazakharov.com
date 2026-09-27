@@ -22,7 +22,7 @@ import {
   type Path,
 } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
-import { phaseOf, wobble } from '../../model/motion';
+import { phaseOf, smooth, wobble } from '../../model/motion';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import {
   drawLook,
@@ -46,6 +46,8 @@ const TURN_RATE = 10.8;
 const GOING_NOWHERE = 0.3;
 /** How much a tapped insect jolts, against a mushroom's squash. */
 const JOLT = 0.7;
+/** How long a landing's bob cut short by a take-off takes to die away, in ms. */
+const BOB_FADE = 200;
 /**
  * The band of the screen's height a butterfly flies in from and out to off
  * screen, its phase picking where.
@@ -70,13 +72,21 @@ type Shown = TappedFigure &
     at: Point;
     /** How far its fidgets on its perch moved it off `at` last frame. */
     offset: Point;
+    /** How far its landing's bob sank it last frame, in units of its size. */
+    bob: number;
+    /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
+    bobFrom: number;
     /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
     end: Point | undefined;
     /** Which way its flight heads, in radians from +x. */
     facing: number;
     /** When it was last flown, in seconds on the scene's clock; `-Infinity` before its first frame. */
     flownAt: number;
-    /** Where its perch stood on its current leg's first frame, which it heads for; `undefined` before it. */
+    /**
+     * Where its perch stood on its current leg's first frame, or the first
+     * since the screen was last painted, which it heads for; `undefined`
+     * before it.
+     */
     aim: Point | undefined;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
@@ -149,6 +159,7 @@ export class InsectView {
               x: shown.at.x + shown.offset.x,
               y: shown.at.y + shown.offset.y,
             });
+      shown.bobFrom = shown.bob;
       shown.end = undefined;
       shown.turns = undefined;
       shown.aim = undefined;
@@ -158,12 +169,19 @@ export class InsectView {
     }
   }
 
-  /** Paints every insect at `layout`'s sizes, into the objects it has. */
+  /**
+   * Paints every insect at `layout`'s sizes, into the objects it has. Each
+   * takes its aim afresh, since where its perch stood was measured on the
+   * screen as it was.
+   */
   paint({ width, height, insectSizes }: MeadowLayout): void {
     this.width = width;
     this.height = height;
     this.sizes = insectSizes;
-    for (const shown of this.shown.values()) this.draw(shown);
+    for (const shown of this.shown.values()) {
+      shown.aim = undefined;
+      this.draw(shown);
+    }
   }
 
   /** Flies every insect to where its leg has it at `t`, in seconds, its perch standing where `perchAt` says. */
@@ -219,11 +237,15 @@ export class InsectView {
     if (!still && !(perched && now >= leg.arrives)) {
       shown.facing = heading({ ...path, end: aim }, now, motion);
     }
-    const bob = perched ? landingBob(leg, now) * size : 0;
+    // A bob cut short by a take-off dies away rather than jumping.
+    const bob =
+      ((perched ? landingBob(leg, now) : 0) +
+        shown.bobFrom * (1 - smooth((now - leg.departs) / BOB_FADE))) *
+      size;
     const jolt = 1 + wobble(t - shown.tappedAt) * JOLT;
     const moment = { stay, now, motion, ...pick(shown, 'flier'), size };
     const offset = perched ? fidget(shown.look, moment) : { x: 0, y: 0 };
-    Object.assign(shown, { end, at: point, offset });
+    Object.assign(shown, { end, at: point, offset, bob: bob / size });
     const flying = flyingTurn(shown.facing, path, now, motion);
     // Settled on its perch, it turns to face up the screen, give or take,
     // as Syama drew it on the caps.
@@ -272,6 +294,8 @@ export class InsectView {
       from: { x: 0, y: 0 },
       at: { x: 0, y: 0 },
       offset: { x: 0, y: 0 },
+      bob: 0,
+      bobFrom: 0,
       end: undefined,
       facing: 0,
       aim: undefined,
