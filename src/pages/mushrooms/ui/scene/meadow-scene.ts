@@ -27,7 +27,7 @@ import { InsectView } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
-import { perchSight, perchSpot } from './perch-sight';
+import { FLOWER_SWAY, perchSight, perchSpot } from './perch-sight';
 import { tapReach } from './sky-layout';
 import { MeadowSound, readMuted } from './sound';
 
@@ -40,8 +40,6 @@ const HUD_DEPTH = 2e5;
 const INSECT_DEPTH = 1.5e5;
 /** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
 const CLOUD_SPEEDS = [7, 4, 5.5];
-/** A flower's lean at the breeze's strongest, in radians. */
-const FLOWER_SWAY = 0.09;
 
 type ShownFlower = TappedFigure & {
   stem: Phaser.GameObjects.Graphics;

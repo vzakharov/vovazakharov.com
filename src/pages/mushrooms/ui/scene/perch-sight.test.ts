@@ -1,13 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { WithId } from '@/shared/typings';
+
 import { firstFlowers } from '../../model/flower-genes';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import { containsPoint, type Point } from '../../model/geometry';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { CAP_KINDS } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
+import { standingAt } from './door-sight';
 import { meadowLayout } from './layout';
 import {
   MOST_OVERLAP,
@@ -17,6 +21,7 @@ import {
   type Stand,
   WIDEST_SPAN,
 } from './perch-sight';
+import { tapReach } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How long each visit is watched, how often the model ticks, and how often perches are read, in ms. */
@@ -64,15 +69,93 @@ function overlap(a: number, b: number, apart: number): number {
   return Math.max(0, (a + b) / 2 - apart) / Math.min(a, b);
 }
 
-type Tally = { looks: number; shared: number; covered: number };
+/** What a sweep counts: looks with two perched, and at a flower, and what each found. */
+const COUNTS = [
+  'looks',
+  'shared',
+  'covered',
+  'drinks',
+  'underControl',
+  'offEdge',
+  'behindCap',
+] as const;
+type Count = (typeof COUNTS)[number];
+type Tally = Record<Count, number>;
+const NOTHING: Tally = {
+  looks: 0,
+  shared: 0,
+  covered: 0,
+  drinks: 0,
+  underControl: 0,
+  offEdge: 0,
+  behindCap: 0,
+};
+
+/** A butterfly drinking: at the flower `id`, sitting at `seat`, its wings `span` px wide. */
+type Drink = WithId & { seat: Point; span: number };
+
+/** Every standing mushroom as drawn, measured once a visit. */
+type Covers = ReadonlyArray<ReturnType<typeof standingAt>>;
 
 /**
- * Plays a visit's butterflies for `VISIT` ms, and at every `LOOK` with two
- * or more perched counts whether two share a perch and whether two cover
- * more than `MOST_OVERLAP` of each other.
+ * How a butterfly `span` px wide drinking at `seat` on the flower `id`
+ * cannot be seen: its wings reaching into a control's tap circle or past the
+ * screen's edge, or the flower's head centre inside a nearer mushroom of
+ * `covers` as drawn.
+ */
+function hiddenHow(
+  stand: Stand,
+  covers: Covers,
+  { id, seat, span }: Drink,
+): Count[] {
+  const { layout, flowers } = stand;
+  const { width, height } = layout;
+  const index = flowers.findIndex((flower) => flower.id === id);
+  const place = layout.flowers[index];
+  const head = seatAt(stand, { kind: 'flower', id }, 0);
+  if (!place || !head) return [];
+  const half = span / 2;
+  const { mute, plus, minus, house, butterfly, picker, housePicker } = layout;
+  const controls = [
+    mute,
+    plus,
+    minus,
+    house,
+    butterfly,
+    ...picker,
+    ...housePicker,
+  ];
+  const how: Count[] = [];
+  if (
+    controls.some(
+      ({ x, y, r }) => Math.hypot(seat.x - x, seat.y - y) < tapReach(r) + half,
+    )
+  ) {
+    how.push('underControl');
+  }
+  if (
+    seat.x - half < 0 ||
+    seat.x + half > width ||
+    seat.y - half < 0 ||
+    seat.y + half > height
+  ) {
+    how.push('offEdge');
+  }
+  const behind = covers.some(
+    ({ depth, drawn }) =>
+      depth > place.y && drawn.some((outline) => containsPoint(outline, head)),
+  );
+  if (behind) how.push('behindCap');
+  return how;
+}
+
+/**
+ * Plays a visit's butterflies for `VISIT` ms, and at every `LOOK` counts
+ * whether two perched share a perch or cover more than `MOST_OVERLAP` of each
+ * other, and how each drinking at a flower cannot be seen there.
  */
 function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
-  const tally: Tally = { looks: 0, shared: 0, covered: 0 };
+  const tally = { ...NOTHING };
   const releasing = mulberry32(seed ^ 0xb7_7e_f1);
   const sight = perchSight(stand);
   // A seat stands still through a visit, and is costly to measure.
@@ -85,7 +168,12 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
     seats.set(key, seat);
     return seat;
   };
-  const { layout, meadow: opening } = stand;
+  const hidden = new Map<string, Count[]>();
+  const { layout, meadow: opening, mushrooms } = stand;
+  const covers = mushrooms.flatMap((mushroom) => {
+    const place = layout.mushrooms[mushroom.slot];
+    return place ? [standingAt(place, mushroom)] : [];
+  });
   let meadow = opening;
   for (let now = 0; now <= VISIT; now += TICK) {
     if (now % RELEASE_GAP === 0 && now / RELEASE_GAP < BUTTERFLIES) {
@@ -106,8 +194,17 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
       const to = perch.kind === 'away' ? perch.side : perch.id;
       const seat = seatOf(insect, to);
       const span = spanOf(insect) * layout.insectSize;
-      return seat ? [{ to, seat, span }] : [];
+      return seat ? [{ insect, to, seat, span }] : [];
     });
+    for (const { insect, to, seat, span } of perched) {
+      if (insect.leg.to.kind !== 'flower') continue;
+      tally.drinks++;
+      const key = `${insect.id} ${to}`;
+      const how =
+        hidden.get(key) ?? hiddenHow(stand, covers, { id: to, seat, span });
+      hidden.set(key, how);
+      for (const each of how) tally[each]++;
+    }
     if (perched.length < 2) continue;
     tally.looks++;
     if (new Set(perched.map(({ to }) => to)).size < perched.length) {
@@ -138,20 +235,17 @@ describe('perched butterflies', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const forest of [false, true]) {
       const standing = forest ? 'a full forest' : 'the opening clump';
-      it(`never share a perch or cover each other on a ${name} screen, with ${standing}`, () => {
-        const tally: Tally = { looks: 0, shared: 0, covered: 0 };
+      it(`never share a perch, cover each other or drink out of sight on a ${name} screen, with ${standing}`, () => {
+        const tally = { ...NOTHING };
         for (const seed of VISITS) {
           const visit = watch(opened(seed, width, height, forest), seed);
-          tally.looks += visit.looks;
-          tally.shared += visit.shared;
-          tally.covered += visit.covered;
+          for (const count of COUNTS) tally[count] += visit[count];
         }
-        const of = `of ${String(tally.looks)} looks`;
-        assert.equal(tally.shared, 0, `${String(tally.shared)} shared ${of}`);
-        assert.equal(
-          tally.covered,
-          0,
-          `${String(tally.covered)} covered ${of}`,
+        assert.ok(tally.looks > 0 && tally.drinks > 0);
+        assert.deepEqual(
+          { ...tally, looks: 0, drinks: 0 },
+          NOTHING,
+          `${String(tally.looks)} looks, ${String(tally.drinks)} drinks`,
         );
       });
     }

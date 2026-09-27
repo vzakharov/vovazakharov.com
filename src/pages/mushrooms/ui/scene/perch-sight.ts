@@ -1,21 +1,32 @@
 /**
  * What the scene sees of the perches (`Sight` in `model/flight.ts`), as a
  * pure function of the layout and what stands in it, and where on a perch a
- * butterfly sits. A perch holds one butterfly at a time, and none goes to a
- * perch crowded by a taken one, so no two drawn butterflies cover much of
- * each other.
+ * butterfly sits. A flower is a perch only where a butterfly on it can be
+ * seen; a perch holds one butterfly at a time, and none goes to a perch
+ * crowded by a taken one, so no two drawn butterflies cover much of each
+ * other.
  */
 
 import type { Perch, Sight } from '../../model/flight';
 import { type Flower, flowerGenes, flowerHead } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
-import { placedAt, type Point } from '../../model/geometry';
+import {
+  type Box,
+  boxAround,
+  boxesMeet,
+  type Circle,
+  containsPoint,
+  placedAt,
+  type Point,
+} from '../../model/geometry';
 import { phaseOf } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
+import { type Standing, standingAt } from './door-sight';
 import type { MeadowLayout } from './layout';
+import { tapReach } from './sky-layout';
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward
@@ -27,6 +38,15 @@ const PERCH_SPREAD = 0.3;
 export const WIDEST_SPAN = 1.22;
 /** How much of the narrower of two perched butterflies' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
+/** A flower's lean at the breeze's strongest, in radians. */
+export const FLOWER_SWAY = 0.09;
+/**
+ * How much of a flower's head, out from its centre as a share of its reach,
+ * has to show past the mushrooms in front of it, and at how many points
+ * round it that is read, beside the centre.
+ */
+const HEAD_SHOWN = 0.5;
+const HEAD_RING = 8;
 
 /** Where on its perch `insect` sits, from -`PERCH_SPREAD` to `PERCH_SPREAD` of the way out. */
 export function perchSpot(insect: Seeded): number {
@@ -85,16 +105,92 @@ export function seatAt(
   }
 }
 
+/** Every control's tap circle, as far as a finger reaches it. */
+function tapCircles(layout: MeadowLayout): Circle[] {
+  const { mute, plus, minus, house, butterfly, picker, housePicker } = layout;
+  return [mute, plus, minus, house, butterfly, ...picker, ...housePicker].map(
+    (circle) => ({ ...circle, r: tapReach(circle.r) }),
+  );
+}
+
+/** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
+type Cover = Pick<Standing, 'depth'> & {
+  drawn: ReadonlyArray<{ outline: readonly Point[]; box: Box }>;
+};
+
 /**
- * What the scene sees of the perches in `stand`: every flower the layout has
- * room for, and every pair of perches whose butterflies, the widest there
- * are, could cover more than `MOST_OVERLAP` of each other wherever their
- * spots put them.
+ * Whether a butterfly on the flower at `index` can be seen there: its head,
+ * as far as the sway and a butterfly's spot move it, stands clear of every
+ * control's tap circle and of the screen's edge by half the widest wingspan,
+ * and no mushroom of `covers` standing nearer the front covers the head's
+ * middle (`HEAD_SHOWN`).
+ */
+function flowerInSight(
+  { layout, flowers }: Stand,
+  index: number,
+  covers: readonly Cover[],
+): boolean {
+  const place = layout.flowers[index];
+  const flower = flowers[index];
+  if (!place || !flower) return false;
+  const head = flowerHead(flowerGenes(flower), place.size);
+  const centre = { x: place.x + head.x, y: place.y + head.y };
+  const reach =
+    (WIDEST_SPAN * layout.insectSize) / 2 +
+    PERCH_SPREAD * head.r +
+    place.size * Math.sin(FLOWER_SWAY);
+  const { width, height } = layout;
+  const onScreen =
+    centre.x - reach >= 0 &&
+    centre.x + reach <= width &&
+    centre.y - reach >= 0 &&
+    centre.y + reach <= height;
+  const clear = tapCircles(layout).every(
+    ({ x, y, r }) => Math.hypot(centre.x - x, centre.y - y) >= r + reach,
+  );
+  if (!onScreen || !clear) return false;
+  const points = [
+    centre,
+    ...Array.from({ length: HEAD_RING }, (_, step) => {
+      const angle = (step * Math.PI * 2) / HEAD_RING;
+      return {
+        x: centre.x + HEAD_SHOWN * head.r * Math.cos(angle),
+        y: centre.y + HEAD_SHOWN * head.r * Math.sin(angle),
+      };
+    }),
+  ];
+  const headBox = boxAround(points);
+  return covers.every(
+    ({ depth, drawn }) =>
+      depth <= place.y ||
+      drawn.every(
+        ({ outline, box }) =>
+          !boxesMeet(headBox, box) ||
+          points.every((point) => !containsPoint(outline, point)),
+      ),
+  );
+}
+
+/**
+ * What the scene sees of the perches in `stand`: the flowers in sight
+ * (`flowerInSight`), and every pair of perches whose butterflies, the widest
+ * there are, could cover more than `MOST_OVERLAP` of each other wherever
+ * their spots put them.
  */
 export function perchSight(stand: Stand): Sight {
   const { layout, flowers, mushrooms } = stand;
+  const covers = mushrooms.flatMap((mushroom) => {
+    const place = layout.mushrooms[mushroom.slot];
+    if (!place) return [];
+    const { depth, drawn } = standingAt(place, mushroom);
+    const outlines = drawn.map((outline) => ({
+      outline,
+      box: boxAround(outline),
+    }));
+    return [{ depth, drawn: outlines }];
+  });
   const shown = flowers
-    .filter((_, index) => layout.flowers[index] !== undefined)
+    .filter((_, index) => flowerInSight(stand, index, covers))
     .map(({ id }) => id);
   const perches: Perch[] = [
     ...mushrooms.map(({ id }) => ({ kind: 'cap', id }) as const),
