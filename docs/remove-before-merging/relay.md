@@ -39,15 +39,14 @@ verbatim.
 ## 2. The conversation
 
 Opened with `/relay take claude/mushroom-game-syama-lbirv7`, Next step
-`/handle`. No operator message arrived in this session. **Agent:** handled
-all 12 threads of the bite-5 review as an orchestrator. It decided the
-threads' design calls and the review's judgment calls first (plan, a49eb6b),
-then ran subagents in waves: small threads ∥ motion threads, then the perch
-threads, then a re-brief for two defects the perch round exposed (lost
-butterflies, a proboscis pointing away from the flower). Then it replied on
-every thread, posted one PR comment for the judgment calls, ran `/polish` and
-the `/pr` refresh through a subagent, updated the plan, paused it, filled the
-megabeast notes and relayed `/go`.
+`/go`. No operator message arrived in this session. **Agent:** claimed the
+plan, wrote bite 6's `## This bite` with every call settled (2ec6655), then
+ran three subagents in sequence: the model (2a34a0a), the scene with its play
+run (84df6ca, 074a27f, a002a9d), and the tail — gates, `/polish` (edcdd91,
+e0c65b9), vet green, the last play run green on five screens, nine frames
+(13b6530), the PR body and squash proposal refreshed (030b48c). It looked at
+two frames itself, folded the bite into the plan, paused it and filled the
+megabeast notes (c1ce67d).
 
 ## 3. Intent
 
@@ -58,58 +57,48 @@ a six-year-old. Each bite gets an agent review, and the run ends with
 
 ## 4. Decisions
 
-All written into `docs/plans/mushroom-game-syama.paused.md` § "Decisions
-the whole game carries": a tap on a resting insect goes through it; an insect
-perches only where it can be seen, perches are exclusive, and a flier with no
-free perch roams the air (an `air` perch kind) instead of leaving; flowers
-stay put (which settles the old flower-on-a-foot item); 14 butterfly colours,
-a cruise two thirds as fast, near-closed fore wings in flight kept, overhang
-on small caps kept. A drink sits on the head's upper rim with the proboscis
-curved down into the centre.
+All in `docs/plans/mushroom-game-syama.paused.md`: bite 6's calls are folded
+into `## Eaten so far` item 6 and the decisions. Two were the subagents'
+own and are worth the reviewer's eye: a bee never settles back on the flower
+it leaves (otherwise no bee ever pollinated), and a body's turn is capped at
+10.8 rad/s (what holds the 0.2 rad-per-frame bound). A fly or a bee sits on
+a flower's centre, a butterfly on its rim.
 
-Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_, as in
-the plan and the notes.
+Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_, _MPP_
+(every control in the drawing working — reached with bite 6).
 
 ## 5. Errors and dead ends
 
-- Pickup met the local branch as a stale snapshot again (50/51 diverged);
-  `git reset --hard origin/<branch>` worked this time.
-- The first perch fix met the review's asks to the letter but lost a
-  butterfly on 89% of small-phone opening-pair visits; the fix was roaming
-  (b2c0d90). The first proboscis unrolled upward; the fix was the rim seat
-  (a970464). Both are in the megabeast notes.
-- The squash proposal (`docs/remove-before-merging/squash-message.md`, last
-  604a706) was not refreshed and predates bite 5's handling; `/finalize`
-  or `/squash-message` brings it up to date.
+- Pickup met the stale local branch again; the session was detached, and
+  `git reset --hard origin/<branch>` after checkout worked.
+- None in the bite itself; vet and the play run passed first time at the
+  tail.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  `CLEAN`. Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–5 eaten,
-  every review handled. Next is bite 6 (the fly and the bee). `## Rest of the
-elephant` opens with two loose ends for bite 6: mid-air overlap on a 320 px
-  phone, and a head-down butterfly on the back cap in
-  `frames/bite-5/handled/tabP-two-on-flowers-two-on-caps-apart.png` (a
-  landing caught mid-turn, or a wrong rest facing: check it).
-- Handled frames: `docs/remove-before-merging/frames/bite-5/handled/`.
-- `pnpm test` was 321/321 at b2c0d90. tsc, knip and type-overlap were clean.
-  vet.sh has not run.
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
+  Last pushed commit: this summary's, on top of c1ce67d.
+- Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–6 eaten; next is
+  bite 6's review, then bite 7 (rain).
+- `pnpm test` 386/386; `./scripts/vet.sh` "vet OK"; play run green on tabL,
+  tabP, phoneP, phoneL, phoneS.
+- Frames: `docs/remove-before-merging/frames/bite-6/`.
 - Nothing running, no PR subscription, no scheduled check-in.
-- Relay depth: unknown here. An earlier chain hit `lineage depth 8 (limit 8)`,
-  and the megabeast notes say what to do if that recurs.
+- Relay depth: unknown here; see the megabeast notes on the depth-8 cap.
 
 ## 7. Pointers
 
-- The plan: § "How this elephant is eaten" (the loop), `## Eaten so far`
-  item 5 (the insect modules' contracts, as handled), and `## Rest of the
-elephant` item 6.
-- `.claude/skills/megabeast/notes.md` (448 lines): the orchestration
-  patterns, including the three new handling notes.
+- The plan: `## Eaten so far` item 6 (the modules' contracts) and the
+  "Open from bite 6, for its review to sweep" paragraph in
+  `## Rest of the elephant` — the measured weaknesses, handed over as
+  questions for the review's sweep.
+- `.claude/skills/megabeast/notes.md`: § "Quality levers" last entries — the
+  review's two-agent default (one plays and sweeps, one reads).
+- The bite's commits for the review: 2a34a0a..c1ce67d (source in 2a34a0a,
+  84df6ca, 074a27f, a002a9d, edcdd91, e0c65b9).
 - `pnpm play:mushrooms` (probe build `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm
-build:vova`, then `--no-build`; now runs under tsx),
-  `scripts/lib/play-insects.ts`, `src/pages/mushrooms/ui/scene/perch-sight.ts`.
-- Re-fetch the threads: `python3 scripts/export-github-item.py 57`.
+  build:vova`, then `--no-build`, optionally `--screens`).
 
 ## 8. Next step
 
-/go
+оставь код ревью на последний кусок
