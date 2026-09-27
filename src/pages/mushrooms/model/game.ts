@@ -6,6 +6,7 @@
 
 import type { WithId } from '@/shared/typings';
 
+import type { Timed } from './flight';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -14,13 +15,15 @@ import {
   type Housed,
   windowSlots,
 } from './house';
+import type { InsectKind } from './insect-genes';
+import { type Flier, released, startled, ticked } from './insects';
 import {
   type CapKind,
   firstMushrooms,
   type Mushroom,
   mushroomGenes,
 } from './mushroom-genes';
-import type { Random } from './random';
+import type { Random, Seeded } from './random';
 
 /**
  * How many mushrooms the meadow holds at most, one per slot the layout
@@ -42,6 +45,10 @@ export type Meadow = {
   furnishing: boolean;
   /** How many mushrooms the meadow has ever grown, so every id is new. */
   grown: number;
+  /** In the order they were released, so the first is the oldest. */
+  insects: readonly Flier[];
+  /** How many insects the meadow has ever released, so every id is new. */
+  released: number;
 };
 
 export type Action =
@@ -51,7 +58,10 @@ export type Action =
   | { kind: 'deselect' }
   | { kind: 'remove' }
   | { kind: 'house' }
-  | { kind: 'furnish'; piece: Furnishing };
+  | { kind: 'furnish'; piece: Furnishing }
+  | ({ kind: 'release'; insect: InsectKind } & Seeded & Timed)
+  | ({ kind: 'startle' } & WithId & Timed)
+  | ({ kind: 'tick' } & Timed);
 
 /** The drawing's two fly agarics, standing as one clump in the first two slots. */
 export function firstMeadow(random: Random): Meadow {
@@ -66,6 +76,8 @@ export function firstMeadow(random: Random): Meadow {
     picking: false,
     furnishing: false,
     grown: mushrooms.length,
+    insects: [],
+    released: 0,
   };
 }
 
@@ -133,6 +145,9 @@ function furnishedTarget(
 export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
   return furnishedTarget(meadow, piece) !== undefined;
 }
+
+/** Every cap an insect can perch on: the mushrooms still standing. */
+const capsOf = ({ mushrooms }: Meadow) => mushrooms.map(({ id }) => id);
 
 function freeSlot({ mushrooms }: Meadow): number | undefined {
   const taken = new Set(mushrooms.map(({ slot }) => slot));
@@ -216,6 +231,29 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         picking: false,
         furnishing: false,
       };
+    }
+    case 'release': {
+      const count = meadow.released + 1;
+      const { insect: kind, seed, now } = action;
+      const insect = { id: `${kind}-${count}`, seed, kind };
+      return {
+        ...meadow,
+        insects: released(meadow.insects, insect, capsOf(meadow), now),
+        released: count,
+      };
+    }
+    case 'startle': {
+      const insects = startled(
+        meadow.insects,
+        action.id,
+        capsOf(meadow),
+        action.now,
+      );
+      return insects === meadow.insects ? meadow : { ...meadow, insects };
+    }
+    case 'tick': {
+      const insects = ticked(meadow.insects, capsOf(meadow), action.now);
+      return insects === meadow.insects ? meadow : { ...meadow, insects };
     }
     default: {
       return action satisfies never;

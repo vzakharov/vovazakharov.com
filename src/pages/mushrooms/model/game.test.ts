@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { BUTTERFLY_LIMIT } from './flight';
 import {
   type Action,
   canFurnish,
@@ -292,5 +293,137 @@ describe('the two pickers', () => {
   it('opens no house picker on an empty meadow', () => {
     const bare = run(opening(), [{ kind: 'remove' }, { kind: 'remove' }]);
     assert.equal(reduce(bare, { kind: 'house' }).furnishing, false);
+  });
+});
+
+const release = (seed: number, now: number): Action => ({
+  kind: 'release',
+  insect: 'butterfly',
+  seed,
+  now,
+});
+const startle = (now: number): Action => ({
+  kind: 'startle',
+  id: 'butterfly-1',
+  now,
+});
+const flier = (meadow: Meadow, id: string) =>
+  meadow.insects.find((insect) => insect.id === id);
+
+describe('the butterflies', () => {
+  it('opens with none', () => {
+    assert.deepEqual(opening().insects, []);
+  });
+
+  it('flies a release in from off screen, each under a new id', () => {
+    const meadow = run(opening(), [release(1, 0), release(2, 10)]);
+    assert.deepEqual(
+      meadow.insects.map(({ id, kind }) => [id, kind]),
+      [
+        ['butterfly-1', 'butterfly'],
+        ['butterfly-2', 'butterfly'],
+      ],
+    );
+    for (const { leg } of meadow.insects) {
+      assert.equal(leg.from.kind, 'away');
+      assert.notEqual(leg.to.kind, 'away');
+    }
+  });
+
+  it('at BUTTERFLY_LIMIT still flies one in, and sends the oldest away', () => {
+    const four = run(
+      opening(),
+      [1, 2, 3, 4].map((seed) => release(seed, seed)),
+    );
+    const five = reduce(four, release(5, 100));
+    assert.equal(five.insects.length, BUTTERFLY_LIMIT + 1);
+    const first = flier(five, 'butterfly-1');
+    assert.ok(first);
+    assert.equal(first.leg.to.kind, 'away');
+    assert.equal(first.leg.departs, 100);
+    const six = reduce(five, release(6, 200));
+    assert.equal(flier(six, 'butterfly-1')?.leg.departs, 100);
+    assert.equal(flier(six, 'butterfly-2')?.leg.to.kind, 'away');
+    assert.equal(
+      six.insects.filter(({ leg }) => leg.to.kind !== 'away').length,
+      BUTTERFLY_LIMIT,
+    );
+  });
+
+  it('removes one flying away once it has gone', () => {
+    const five = run(
+      opening(),
+      [1, 2, 3, 4, 5].map((seed) => release(seed, 0)),
+    );
+    const gone = flier(five, 'butterfly-1');
+    assert.ok(gone);
+    const still = reduce(five, { kind: 'tick', now: gone.leg.arrives - 1 });
+    assert.ok(flier(still, 'butterfly-1'));
+    const after = reduce(still, { kind: 'tick', now: gone.leg.arrives });
+    assert.equal(flier(after, 'butterfly-1'), undefined);
+    assert.equal(after.insects.length, BUTTERFLY_LIMIT);
+  });
+
+  it('takes the next leg once the stay is over, and not before', () => {
+    const meadow = reduce(opening(), release(1, 0));
+    const [butterfly] = meadow.insects;
+    assert.ok(butterfly);
+    const { leaves, to } = butterfly.leg;
+    assert.equal(reduce(meadow, { kind: 'tick', now: leaves - 1 }), meadow);
+    const moved = reduce(meadow, { kind: 'tick', now: leaves });
+    const [next] = moved.insects;
+    assert.ok(next);
+    assert.equal(next.legs, 2);
+    assert.equal(next.leg.departs, leaves);
+    assert.deepEqual(next.leg.from, to);
+  });
+
+  it('startles one at rest into a leg from now, and leaves one in the air be', () => {
+    const meadow = reduce(opening(), release(1, 0));
+    const [butterfly] = meadow.insects;
+    assert.ok(butterfly);
+    const { arrives } = butterfly.leg;
+    assert.equal(reduce(meadow, startle(arrives - 1)), meadow);
+    const [startled] = reduce(meadow, startle(arrives + 1)).insects;
+    assert.ok(startled);
+    assert.equal(startled.leg.departs, arrives + 1);
+    assert.equal(startled.legs, 2);
+    assert.equal(
+      reduce(meadow, { kind: 'startle', id: 'butterfly-9', now: 0 }),
+      meadow,
+    );
+  });
+
+  it('flies one off a cap that is gone, at the next tick', () => {
+    // Enough releases that one heads for a cap; each takes off afresh.
+    const flown = run(
+      opening(),
+      Array.from({ length: 40 }, (_, seed) => release(seed, 0)),
+    );
+    const onCap = flown.insects.find(({ leg }) => leg.to.kind === 'cap');
+    assert.ok(onCap);
+    const target = onCap.leg.to.kind === 'cap' ? onCap.leg.to.id : '';
+    const thinned = run(flown, [
+      { kind: 'select', id: target },
+      { kind: 'remove' },
+    ]);
+    assert.deepEqual(flier(thinned, onCap.id), onCap);
+    const now = onCap.leg.arrives + 1;
+    const ticked = reduce(thinned, { kind: 'tick', now });
+    const moved = flier(ticked, onCap.id);
+    assert.ok(moved);
+    assert.equal(moved.leg.departs, now);
+    assert.notDeepEqual(moved.leg.to, onCap.leg.to);
+  });
+
+  it('leaves the butterflies alone through the mushroom actions', () => {
+    const meadow = reduce(opening(), release(1, 0));
+    const after = run(meadow, [
+      { kind: 'pick' },
+      grow(3),
+      { kind: 'house' },
+      { kind: 'deselect' },
+    ]);
+    assert.equal(after.insects, meadow.insects);
   });
 });
