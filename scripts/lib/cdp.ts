@@ -1,8 +1,7 @@
 /**
  * A headless Chromium driven over the DevTools protocol with Node's own
  * `WebSocket`, for the scripts that have to play a page rather than print it:
- * the project keeps no Playwright or Puppeteer dependency. Bare Node runs its
- * callers, so this file stays free of syntax the type stripper cannot erase.
+ * the project keeps no Playwright or Puppeteer dependency.
  */
 
 import { type ChildProcess, spawn } from 'node:child_process';

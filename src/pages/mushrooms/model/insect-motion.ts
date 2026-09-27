@@ -349,11 +349,10 @@ function bounce(since: number): number {
 
 /**
  * What a butterfly on `leg` does at `now` to the flower under it, or the one
- * it has just left: the head's sag, in shares of its radius and positive
- * down, and the petals' flicker, in radians. Landing, the head bounces down
- * to a sag it holds through the drink; leaving, it springs back up past its
- * place and settles while the petals flicker, and after `DIP_AFTER` the
- * flower is left alone. `undefined` while no flower is under it.
+ * it has just left. Landing, the head bounces down to a sag it holds through
+ * the drink; leaving, it springs back up past its place and settles while the
+ * petals flicker, and after `DIP_AFTER` the flower is left alone. `undefined`
+ * while no flower is under it.
  */
 export function drinkDip(
   { from, to, departs, arrives }: Leg,

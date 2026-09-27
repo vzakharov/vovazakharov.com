@@ -336,8 +336,7 @@ export class MushroomBed {
 
   /**
    * Answers a tap on `id`'s mushroom, whether it landed there or went
-   * through a butterfly resting on it: a wobble, a puff of spores, a boing,
-   * and `onTap`. A mushroom sinking away takes no tap.
+   * through a butterfly resting on it. A mushroom sinking away takes no tap.
    */
   tap(id: string): void {
     const shown = this.shown.get(id);

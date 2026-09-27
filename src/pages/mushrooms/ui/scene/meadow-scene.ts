@@ -221,8 +221,7 @@ export class MeadowScene extends Phaser.Scene {
 
   /**
    * What the butterflies do at `time`, in ms, to the flowers under them, by
-   * flower id: each head's sag, in shares of its radius, and its petals'
-   * flicker, in radians (`drinkDip`).
+   * flower id (`drinkDip`).
    */
   private drinkingAt(time: number): Map<string, Dip> {
     const drunk = new Map<string, Dip>();
