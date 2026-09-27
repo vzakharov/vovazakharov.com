@@ -2,11 +2,17 @@
  * What `play-mushrooms.ts` installs in the page it plays, and the schemas its
  * answers are parsed with. The page-side sources are strings evaluated there,
  * so they reach into the scene's own fields, and a rename in the scene breaks
- * them only at play time. Bare Node runs the caller, so this file stays free of
- * syntax the type stripper cannot erase.
+ * them only at play time. The answers' schemas derive from the model's own
+ * arrays, so the caller runs under tsx, which resolves the model's imports.
  */
 
 import { z } from 'zod';
+
+import {
+  type Perch as ModelPerch,
+  type PerchKind,
+  SIDES,
+} from '../../src/pages/mushrooms/model/flight.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
 export function seededRandom(seed: number): string {
@@ -194,12 +200,19 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
-const Perch = z.object({
-  kind: z.enum(['flower', 'cap', 'away']),
-  id: z.string().optional(),
-  pick: z.number().optional(),
-  side: z.string().optional(),
-});
+/** One schema per kind of perch, each parsing to the model's perch of that kind. */
+const PERCHES = {
+  flower: z.object({ kind: z.literal('flower'), pick: z.number() }),
+  cap: z.object({ kind: z.literal('cap'), id: z.string() }),
+  away: z.object({ kind: z.literal('away'), side: z.enum(SIDES) }),
+} satisfies {
+  [Kind in PerchKind]: z.ZodType<Extract<ModelPerch, { kind: Kind }>>;
+};
+const Perch = z.discriminatedUnion('kind', [
+  PERCHES.flower,
+  PERCHES.cap,
+  PERCHES.away,
+]);
 export const Insects = z.array(
   z.object({
     id: z.string(),

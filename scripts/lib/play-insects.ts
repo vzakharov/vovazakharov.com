@@ -175,11 +175,11 @@ export async function playInsects(
         insect.leaves - at > 1500,
     ),
   );
-  const capId = onCap?.to.id;
-  if (onCap === undefined || capId === undefined) {
+  if (onCap?.to.kind !== 'cap') {
     expect(false, 'no butterfly ever rested on a cap');
     return;
   }
+  const capId = onCap.to.id;
   await page.shoot('b5-resting');
   const capAt = await page.evaluate(
     `__probe.mushroom(${JSON.stringify(capId)})`,
@@ -203,7 +203,7 @@ export async function playInsects(
     flown?.legs === onCap.legs + 1 &&
       flown.from.kind === 'cap' &&
       flown.from.id === capId &&
-      flown.to.id !== capId &&
+      !(flown.to.kind === 'cap' && flown.to.id === capId) &&
       flown.departs >= sunkAt,
     `${onCap.id} stayed on ${capId} as it sank`,
   );

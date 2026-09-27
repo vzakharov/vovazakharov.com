@@ -16,18 +16,27 @@ import {
   type Seeded,
 } from './random';
 
-const SIDES = ['left', 'right'] as const;
+export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
+
+export const PERCH_KINDS = ['flower', 'cap', 'away'] as const;
+export type PerchKind = (typeof PERCH_KINDS)[number];
+
+/** What each kind of perch carries beside its kind. */
+type PerchFields = {
+  flower: { pick: number };
+  cap: WithId;
+  away: { side: Side };
+};
 
 /**
  * Where an insect wants to be. A flower's `pick` in `[0, 1)` is mapped by
  * the scene onto whatever flowers the screen has (`flowerIndex`), so a resize
  * never strands a perch; `away` is off screen past that side's edge.
  */
-export type Perch =
-  | { kind: 'flower'; pick: number }
-  | ({ kind: 'cap' } & WithId)
-  | { kind: 'away'; side: Side };
+export type Perch = {
+  [Kind in PerchKind]: { kind: Kind } & PerchFields[Kind];
+}[PerchKind];
 
 /** A moment on the scene's clock, in ms. */
 export type Timed = { now: number };
