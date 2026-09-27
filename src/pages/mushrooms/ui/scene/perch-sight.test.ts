@@ -59,7 +59,6 @@ function opened(
   let meadow = firstMeadow(random);
   const flowers = firstFlowers(random, 7);
   const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
-  const turned = meadowLayout(height, width, seed ^ 0xf1_0e_25);
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
@@ -67,7 +66,7 @@ function opened(
     meadow = reduce(meadow, { kind: 'grow', cap, seed: nextSeed(growing) });
   }
   const { mushrooms, planted } = meadow;
-  return { meadow, layout, turned, flowers, mushrooms, planted };
+  return { meadow, layout, flowers, mushrooms, planted };
 }
 
 /** How much of the narrower of two spans, centred `apart` px from each other, the other covers. */

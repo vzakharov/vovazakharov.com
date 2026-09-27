@@ -78,7 +78,7 @@ export class FlowerBed {
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
       const place = standing.find(({ id }) => id === flower.id)?.place;
-      // A narrow screen has room for fewer; the rest wait, hidden.
+      // A screen may have no room for some; they wait, hidden.
       shown.container.setVisible(place !== undefined);
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);

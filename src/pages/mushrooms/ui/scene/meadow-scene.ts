@@ -55,7 +55,6 @@ export class MeadowScene extends Phaser.Scene {
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
-  private turned: MeadowLayout | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Phaser.GameObjects.Graphics | undefined;
   private tufts: ReturnType<typeof growTufts> = [];
@@ -325,12 +324,6 @@ export class MeadowScene extends Phaser.Scene {
       this.visitSeed ^ 0xf1_0e_25,
     );
     this.layout = layout;
-    // The same screen turned, which a flower is planted in sight on too.
-    this.turned = meadowLayout(
-      this.scale.height / ratio,
-      this.scale.width / ratio,
-      this.visitSeed ^ 0xf1_0e_25,
-    );
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random);
@@ -345,11 +338,10 @@ export class MeadowScene extends Phaser.Scene {
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand. */
   private see(): void {
-    const { layout, turned, flowers, meadow } = this;
-    if (!layout || !turned || !meadow) return;
+    const { layout, flowers, meadow } = this;
+    if (!layout || !meadow) return;
     this.sight = perchSight({
       layout,
-      turned,
       flowers: flowers?.seeded ?? [],
       ...pick(meadow, 'mushrooms', 'planted'),
     });

@@ -4,8 +4,8 @@
  * pure functions of the layout and what stands in it. A flower in sight
  * stands clear of every control and the screen's edges by an insect's
  * wings, its head in view past the mushrooms in front of it; a flower is
- * planted only where it would be in sight on this screen and on the same
- * screen turned.
+ * planted only where it would be in sight on this screen, so one a turn of
+ * the screen hides is out of sight there as a seeded one is.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -29,21 +29,14 @@ import type { InsectKind } from '../../model/insect-genes';
 import type { Plot } from '../../model/pollen';
 import { type Standing, standingAt } from './door-sight';
 import {
-  downOf,
+  groundFor,
   type Placed,
   RING_SLOTS,
   ringSpot,
   type StandingFlower,
   standingFlowers,
-  widestHead,
 } from './flower-plots';
-import {
-  clearOfFeet,
-  FLOWER_ACROSS,
-  FLOWER_DOWN,
-  type Footing,
-  type MeadowLayout,
-} from './layout';
+import type { Footing, MeadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
 
 /**
@@ -63,11 +56,6 @@ export const FLOWER_SWAY = 0.09;
  */
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
-/**
- * How near two flowers' heads may come, as a share of the two heads' reach
- * together, a planted one's taken at its widest.
- */
-const FLOWERS_APART = 0.75;
 
 /**
  * How far above a flower's centre a drinking butterfly's middle sits, past
@@ -99,13 +87,11 @@ export function flowerLift(
 }
 
 /**
- * The meadow as the scene stands it: the layout, the same screen turned —
- * which a flower is planted in sight on too, so a rotation never hides one —
- * the visit's seeded flowers, the planted ones, and the mushrooms standing.
+ * The meadow as the scene stands it: the layout, the visit's seeded flowers,
+ * the planted ones, and the mushrooms standing.
  */
 export type Stand = Pick<Meadow, 'mushrooms' | 'planted'> & {
   layout: MeadowLayout;
-  turned: MeadowLayout;
   flowers: readonly Flower[];
 };
 
@@ -231,9 +217,9 @@ export function coversOn(
 }
 
 /**
- * Whether a flower planted at `place` on `layout` would stand on the ground,
- * clear of every mushroom's foot and of the head of every flower of
- * `standing`, and in sight there (`flowerInSight`).
+ * Whether a flower planted at `place` on `layout` would have ground there
+ * among the flowers of `standing` (`groundFor`) and be in sight there
+ * (`flowerInSight`), whatever its genes.
  */
 function plantable(
   layout: MeadowLayout,
@@ -241,27 +227,8 @@ function plantable(
   standing: readonly StandingFlower[],
   covers: readonly Cover[],
 ): boolean {
-  const across = place.x / layout.width;
-  const down = downOf(layout, place.y);
-  if (
-    across < FLOWER_ACROSS[0] ||
-    across > FLOWER_ACROSS[1] ||
-    down < FLOWER_DOWN[0] ||
-    down > FLOWER_DOWN[1] ||
-    !clearOfFeet(place, layout.mushrooms)
-  ) {
-    return false;
-  }
-  const head = widestHead(place);
-  const apart = standing.every((flower) => {
-    const other = widestHead(flower.place);
-    return (
-      Math.hypot(head.x - other.x, head.y - other.y) >=
-      FLOWERS_APART * (head.r + other.r)
-    );
-  });
   return (
-    apart &&
+    groundFor(layout, place, standing) &&
     sightingsAt(place, layout).every((sighting) =>
       flowerInSight(layout, sighting, covers),
     )
@@ -270,34 +237,23 @@ function plantable(
 
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable` on this screen and on the same
- * screen turned, the flower standing on both.
+ * no planted flower takes that is `plantable` on this screen.
  */
 export function roomFor(
-  stand: Stand,
+  { layout, flowers, planted }: Stand,
   shown: readonly string[],
   covers: readonly Cover[],
 ): Plot['room'] {
-  const { layout, turned, flowers, planted, mushrooms } = stand;
   const here = standingFlowers(layout, flowers, planted);
-  const there = standingFlowers(turned, flowers, planted);
-  const turnedCovers = coversOn(turned, mushrooms);
   return shown.flatMap((id) => {
     const parent = here.find((flower) => flower.id === id);
-    const turnedParent = there.find((flower) => flower.id === id);
-    if (!parent || !turnedParent) return [];
+    if (!parent) return [];
     const ring = RING_SLOTS.findIndex((_, slot) => {
       if (planted.some((each) => each.parent === id && each.ring === slot)) {
         return false;
       }
       const spot = ringSpot(layout, parent.place, slot);
-      const turnedSpot = ringSpot(turned, turnedParent.place, slot);
-      return (
-        spot !== undefined &&
-        turnedSpot !== undefined &&
-        plantable(layout, spot, here, covers) &&
-        plantable(turned, turnedSpot, there, turnedCovers)
-      );
+      return spot !== undefined && plantable(layout, spot, here, covers);
     });
     return ring === -1 ? [] : [{ flower: id, ring }];
   });
