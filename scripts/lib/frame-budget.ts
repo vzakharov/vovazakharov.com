@@ -12,7 +12,7 @@
  * builds on the machine), and drawn afresh every frame about 31 ms, so this
  * leaves room for a busy machine and still fails that.
  */
-export const FRAME_BUDGET_MS = 26;
+const FRAME_BUDGET_MS = 26;
 
 export function median(values: readonly number[]): number {
   const sorted = values.toSorted((a, b) => a - b);

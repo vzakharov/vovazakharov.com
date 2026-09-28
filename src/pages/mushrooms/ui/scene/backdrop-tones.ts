@@ -89,7 +89,7 @@ type HaloLayer = {
  * about the rays. Each thins from its peak at the sun's middle to nothing at
  * its reach (`falloff`), so none has a plateau or an edge.
  */
-export const SUN_HALO: readonly HaloLayer[] = [
+const SUN_HALO: readonly HaloLayer[] = [
   { colour: PALETTE.highlight, peak: 0.3, from: 0, reach: 0.4, per: 'screen' },
   { colour: PALETTE.highlight, peak: 0.92, from: 1.8, reach: 3.5, per: 'sun' },
   { colour: PALETTE.skyWarm, peak: 0.6, from: 1.8, reach: 2.8, per: 'sun' },

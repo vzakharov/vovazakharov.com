@@ -43,7 +43,7 @@ export type Button = WithCircleHit & {
 };
 
 /** Paints a button's picture into `graphics`, centred on its origin; `hairline` is one device pixel, in CSS pixels. */
-export type Draw = (
+type Draw = (
   graphics: Phaser.GameObjects.Graphics,
   hairline: number,
 ) => void;

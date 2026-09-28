@@ -29,7 +29,7 @@ import { PALETTE } from './palette';
 const FULL_SIDE = 0.6;
 
 /** `light` as a thing at `at` on screen has it: pointing from there at the sun. */
-export function lightAt<Lit extends Light>(
+function lightAt<Lit extends Light>(
   light: Lit,
   at: Point,
   sun: Point,

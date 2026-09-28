@@ -53,7 +53,7 @@ export const MOST_TURN_RATE = Object.fromEntries(
   INSECT_KINDS.map((kind) => [kind, TURN_RATE[kind] * 1.001]),
 );
 /** How far a body's light may turn from the sun, in radians: a quarter turn, where its lit side would face away. */
-export const MOST_LIGHT_OFF = Math.PI / 2;
+const MOST_LIGHT_OFF = Math.PI / 2;
 
 /** Installs `window.__watch`, which the scene's insect view feeds every frame. */
 export const WATCH = `(() => {
