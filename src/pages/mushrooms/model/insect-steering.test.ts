@@ -310,10 +310,10 @@ describe('steer', () => {
         perch: undefined,
       };
       for (let now = 0; now < least; now += FRAME) {
-        const flown = steer(steering, course, now);
-        steering = flown.steering;
+        const step = steer(steering, course, now);
+        steering = step.steering;
         assert.ok(
-          Number.isFinite(flown.point.x) && Number.isFinite(steering.turn),
+          Number.isFinite(step.point.x) && Number.isFinite(steering.turn),
           `lost at ${now.toFixed(0)} ms`,
         );
       }
