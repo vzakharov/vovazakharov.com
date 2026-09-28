@@ -197,9 +197,11 @@ Standing rules for every session in the chain:
   The scene is the one that would grow, so painting splits by layer
   (`paint-backdrop.ts`, one `draw-*.ts` per creature) and behaviour by
   creature, the scene class only orchestrating.
-- **`palette.ts` is the one file on the site holding colour literals.** A
-  canvas is out of the CSS tokens' reach; `.claude/rules/styling.md`
-  § Colours says so in one sentence scoped to that path.
+- **The `palette*.ts` modules are the one place on the site holding colour
+  literals** — `palette.ts` with its two sections, `palette-backdrop.ts` and
+  `palette-creatures.ts`. A canvas is out of the CSS tokens' reach;
+  `.claude/rules/styling.md` § Colours says so in one sentence scoped to those
+  paths.
 
 ## Eaten so far
 

@@ -58,8 +58,8 @@ Never write a colour literal in a component. The tokens are declared in
 that declares them, so adding one is a single edit there. They are
 colour-scheme aware, so nothing branches on the scheme itself.
 
-The one exception is `src/pages/mushrooms/ui/scene/palette.ts`, the game's
-colour table: a canvas is out of the tokens' reach, so every colour it paints
+The one exception is the `palette*.ts` modules in
+`src/pages/mushrooms/ui/scene/`, the game's colour table: a canvas is out of the tokens' reach, so every colour it paints
 is a literal there and nowhere else.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
