@@ -153,6 +153,18 @@ type Choosing = Kinded &
     blocked: ReadonlySet<string>;
   };
 
+/** How far apart `places` puts two perches, `undefined` where it places either nowhere. */
+function apartIn(
+  places: Places | undefined,
+  a: Perch,
+  b: Perch,
+): number | undefined {
+  const [here, there] = [places?.[perchName(a)], places?.[perchName(b)]];
+  return here && there
+    ? Math.hypot(there.x - here.x, there.y - here.y)
+    : undefined;
+}
+
 /**
  * A spot in the air for a flier with no perch open, the nearer the likelier
  * by its `stride`: one uncrowded, else one merely no one has taken, so no
@@ -179,12 +191,9 @@ function roamFrom(
           (perch) => !taken.some((each) => isSamePerch(perch, each.perch)),
         );
   if (spot === undefined) return hovering ? from : undefined;
-  const here = perches.places?.[perchName(from)];
   const near = (perch: Perch) => {
-    const there = perches.places?.[perchName(perch)];
-    if (!here || !there) return 1;
-    const apart = Math.hypot(there.x - here.x, there.y - here.y);
-    return 1 / (1 + (apart / habits.stride) ** 2);
+    const apart = apartIn(perches.places, from, perch);
+    return apart === undefined ? 1 : 1 / (1 + (apart / habits.stride) ** 2);
   };
   return weighted(random, [spot, ...spots], near);
 }
@@ -287,9 +296,9 @@ function paced(
   { from, to }: Pick<Leg, 'from' | 'to'>,
   places: Places | undefined,
 ): Pick<Span, 'dash'> & { stretch: number } {
-  const [start, end] = [places?.[perchName(from)], places?.[perchName(to)]];
-  if (!start || !end) return { stretch: 1 };
-  const strides = Math.hypot(end.x - start.x, end.y - start.y) / stride;
+  const apart = apartIn(places, from, to);
+  if (apart === undefined) return { stretch: 1 };
+  const strides = apart / stride;
   if (strides <= slowest || dashing === undefined) {
     return { stretch: Math.min(slowest, Math.max(1, strides)) };
   }

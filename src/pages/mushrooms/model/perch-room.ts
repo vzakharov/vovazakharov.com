@@ -69,6 +69,17 @@ export function flowersFor(
   return kind === 'bee' ? (beeFlowers ?? flowers) : flowers;
 }
 
+/** The flowers open to a bee among `taken`: its own, and neither taken nor crowded for it. */
+function openToBees(
+  taken: readonly Held[],
+  perches: FlowersSeen,
+): readonly string[] {
+  const blocked = blockedFor('bee', taken, perches.crowded);
+  return flowersFor('bee', perches).filter(
+    (id) => !blocked.has(perchName({ kind: 'flower', id })),
+  );
+}
+
 /**
  * The perches an insect of `kind` other than a bee leaves to the bees: while
  * a bee waits in the air, or the flowers open to a bee are no more than the
@@ -81,13 +92,11 @@ export function keptForBees(
 ): Set<string> {
   const bees = taken.filter((each) => each.kind === 'bee').length;
   if (kind === 'bee' || bees === 0) return new Set();
-  const { crowded } = perches;
-  const forBee = blockedFor('bee', taken, crowded);
-  const kept = flowersFor('bee', perches)
-    .map((id): Held => ({ kind: 'bee', perch: { kind: 'flower', id } }))
-    .filter(({ perch }) => !forBee.has(perchName(perch)));
+  const kept = openToBees(taken, perches).map(
+    (id): Held => ({ kind: 'bee', perch: { kind: 'flower', id } }),
+  );
   return kept.length <= bees || taken.some((each) => isWaitingBee(each))
-    ? blockedFor(kind, kept, crowded)
+    ? blockedFor(kind, kept, perches.crowded)
     : new Set();
 }
 
@@ -118,11 +127,7 @@ export function flowerFreed(
   taken: readonly Held[],
   perches: FlowersSeen,
 ): boolean {
-  if (!isWaitingBee(held)) return false;
-  const blocked = blockedFor('bee', taken, perches.crowded);
-  return flowersFor('bee', perches).some(
-    (id) => !blocked.has(perchName({ kind: 'flower', id })),
-  );
+  return isWaitingBee(held) && openToBees(taken, perches).length > 0;
 }
 
 /** Whether `perch` is one an insect sits on, rather than the air or away. */

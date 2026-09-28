@@ -19,12 +19,13 @@ import {
 import { carriedFrom } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import { type Carried, flightPoint } from '../../model/insect-paths';
-import { type Flier, INSECT_LIMITS } from '../../model/insects';
+import type { Flier } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { blockedFor, type Held } from '../../model/perch-room';
 import type { MeadowLayout } from './layout';
 import {
   airSpots,
+  EVERY_ONE,
   MOST_OVERLAP,
   perchSight,
   perchSpot,
@@ -32,19 +33,29 @@ import {
 } from './perch-sight';
 import { tapReach } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
-import { ALL_TEN, type Opened, opened, overlap, play } from './visit-play';
+import {
+  ALL_TEN,
+  type Opened,
+  opened,
+  overlap,
+  play,
+  type Playing,
+} from './visit-play';
 
 /** How long each visit is played and how often ticked, and how far apart its fliers fly in, in ms. */
 const LASTING = 5 * 60_000;
 const TICK = 250;
 const GAP = 300;
 const SEEDS = VISITS.slice(0, 3);
+/** `kinds` played `GAP` apart, over `LASTING`, ticked every `TICK`. */
+const playingOf = (kinds: readonly InsectKind[]): Playing => ({
+  kinds,
+  gap: GAP,
+  lasting: LASTING,
+  tick: TICK,
+});
 /** Enough visits that the flies' share of landings on spotted caps holds steady on every screen. */
 const LANDING_SEEDS = VISITS.slice(0, 10);
-/** Every insect the meadow can hold, widest kinds first. */
-const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
-  Array.from({ length: INSECT_LIMITS[kind] }, () => kind),
-);
 /**
  * The screens that fall short of the air's promise, a spot for every insect
  * clear of the others, and by how much, as measured; their tests run as todo
@@ -173,7 +184,7 @@ function allTen(
   const known = visits.get(key);
   if (known) return known;
   const stand = opened(seed, width, height, forest);
-  const playing = { kinds: ALL_TEN, gap: GAP, lasting: LASTING, tick: TICK };
+  const playing = playingOf(ALL_TEN);
   const visited: Visited = { broken: undefined, ticks: 0, aloft: 0 };
   const seats = new Map<string, Point | undefined>();
   play(stand, seed, playing, ({ meadow, now }) => {
@@ -251,12 +262,7 @@ describe('the bees among the butterflies', () => {
       const count = { bees: 0, roaming: 0 };
       for (const seed of SEEDS) {
         const stand = opened(seed, width, height, false);
-        const playing = {
-          kinds: BEES_AMONG_BUTTERFLIES,
-          gap: GAP,
-          lasting: LASTING,
-          tick: TICK,
-        };
+        const playing = playingOf(BEES_AMONG_BUTTERFLIES);
         play(stand, seed, playing, ({ meadow }) => {
           for (const { kind, leg } of meadow.insects) {
             if (kind !== 'bee') continue;
@@ -283,12 +289,7 @@ describe('the flies in a full forest', () => {
             .map(({ id }) => id),
         );
         const flown = new Map<string, Flight['leg']>();
-        const playing = {
-          kinds: ALL_TEN,
-          gap: GAP,
-          lasting: LASTING,
-          tick: TICK,
-        };
+        const playing = playingOf(ALL_TEN);
         play(stand, seed, playing, ({ meadow }) => {
           for (const { id, kind, leg } of meadow.insects) {
             if (kind !== 'fly' || flown.get(id) === leg) continue;
@@ -341,8 +342,7 @@ describe('a flier in flight', () => {
         const drawn = new Map<string, Drawn>();
         const trail: Array<Map<string, Point>> = [];
         const playing = {
-          kinds: ALL_TEN,
-          gap: GAP,
+          ...playingOf(ALL_TEN),
           lasting: 2 * 60_000,
           tick: FRAME,
         };

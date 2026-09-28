@@ -6,8 +6,7 @@ import { pick } from '@/shared/lib/collections';
 import { beeGenes } from '../../model/bee-genes';
 import { beeOutline } from '../../model/bee-outline';
 import { crawl } from '../../model/buzz-rest';
-import { firstFlowers, flowerGenes } from '../../model/flower-genes';
-import { firstMeadow } from '../../model/game';
+import { flowerGenes } from '../../model/flower-genes';
 import {
   boxAround,
   containsPoint,
@@ -23,7 +22,6 @@ import {
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
 import { GENE_RANGES } from '../../model/mushroom-genes';
-import { mulberry32 } from '../../model/random';
 import { standingFlowers } from './flower-plots';
 import {
   FLOWER_SWAY,
@@ -33,6 +31,7 @@ import {
 } from './flower-sight';
 import { meadowLayout } from './layout';
 import { VIEWPORTS, VISITS } from './viewports';
+import { opened } from './visit-play';
 
 const SPANS = VISITS.map((seed) =>
   wingspan(insectGenes({ seed, kind: 'butterfly' })),
@@ -107,10 +106,7 @@ const GRID = 28;
 /** A screen's median flower head, as the scene stands its seeded flowers over many visits: its reach and its centre's. */
 function medianHead(width: number, height: number) {
   const heads = VISITS.slice(0, 200).flatMap((seed) => {
-    const random = mulberry32(seed);
-    firstMeadow(random);
-    const flowers = firstFlowers(random, 7);
-    const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
+    const { layout, flowers } = opened(seed, width, height, false);
     return standingFlowers(layout, flowers, []).map((flower) => ({
       ...pick(sightingOf(flower, layout).head, 'r'),
       disc: flowerGenes(flower).centre * flower.place.size,

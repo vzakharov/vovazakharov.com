@@ -126,20 +126,25 @@ function apartOnce(
   return apart;
 }
 
+/** How far apart an insect of `first` and one of `second` must sit. */
+type Apart = (first: InsectKind, second: InsectKind) => number;
+
+/** How far apart each pairing's two kinds must sit, by `apart`, and the farthest of those. */
+function needsOf(apart: Apart) {
+  const needs = PAIRINGS.map((pairing) => ({
+    pairing,
+    need: apart(...pairing),
+  }));
+  return { needs, farthest: Math.max(...needs.map(({ need }) => need)) };
+}
+
 /**
  * Every two of `seated` on which an insect of one kind of a pairing on the
  * first and one of the other on the second could come nearer than `apart`
  * says for those two kinds, wherever their spots put them.
  */
-export function crowdings(
-  seated: readonly Seats[],
-  apart: (first: InsectKind, second: InsectKind) => number,
-): Crowding[] {
-  const needs = PAIRINGS.map((pairing) => ({
-    pairing,
-    need: apart(...pairing),
-  }));
-  const farthest = Math.max(...needs.map(({ need }) => need));
+export function crowdings(seated: readonly Seats[], apart: Apart): Crowding[] {
+  const { needs, farthest } = needsOf(apart);
   const found: Crowding[] = [];
   for (let index = 0; index < seated.length; index++) {
     const here = seated[index];
@@ -176,13 +181,9 @@ export function crowdings(
  */
 export function pointCrowdings(
   points: ReadonlyArray<Pick<Held, 'perch'> & Point>,
-  apart: (first: InsectKind, second: InsectKind) => number,
+  apart: Apart,
 ): Crowding[] {
-  const needs = PAIRINGS.map((pairing) => ({
-    pairing,
-    need: apart(...pairing),
-  }));
-  const farthest = Math.max(...needs.map(({ need }) => need));
+  const { needs, farthest } = needsOf(apart);
   const found: Crowding[] = [];
   for (let index = 0; index < points.length; index++) {
     const here = points[index];

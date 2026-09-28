@@ -8,7 +8,12 @@ import type { InsectKind } from '../../model/insect-genes';
 import { carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import type { CarryingOver } from '../../model/insect-paths';
-import { startLeg, steer, type Steering } from '../../model/insect-steering';
+import {
+  firstSteering,
+  startLeg,
+  steer,
+  type Steering,
+} from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
 import { phaseOf, smooth, wobble } from '../../model/motion';
 import { containsCircle, type TappedFigure } from './hit-areas';
@@ -267,13 +272,7 @@ export class InsectView {
       bob: 0,
       bobFrom: 0,
       end: undefined,
-      steering: {
-        facing: 0,
-        turn: 0,
-        at: -Infinity,
-        setOff: undefined,
-        perch: undefined,
-      },
+      steering: firstSteering({ facing: 0, turn: 0 }),
       aim: undefined,
       turnedFrom: undefined,
       carried: { launch: 0, speed: 0, drink: 0 },

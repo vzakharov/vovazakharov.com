@@ -94,6 +94,18 @@ export type Course = CarryingOver &
     motion: Fluttering;
   };
 
+/** A flier's steering before its first frame, turned `turn` and heading `facing`. */
+export const firstSteering = ({
+  facing,
+  turn,
+}: Pick<Steering, 'facing' | 'turn'>): Steering => ({
+  facing,
+  turn,
+  at: -Infinity,
+  setOff: undefined,
+  perch: undefined,
+});
+
 /** `held` as a new leg finds it: turned as it was, with nothing of its leg fixed yet. */
 export const startLeg = (held: Steering): Steering => ({
   ...held,

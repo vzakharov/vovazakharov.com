@@ -161,7 +161,7 @@ export function seatAt(
 }
 
 /** Every insect the meadow can hold. */
-const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
+export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
   Array.from({ length: INSECT_LIMITS[kind] }, () => kind),
 );
 

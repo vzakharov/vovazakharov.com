@@ -6,7 +6,7 @@ import type { Point } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { carriedFrom, wrap } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
-import { startLeg, steer, type Steering } from './insect-steering';
+import { firstSteering, startLeg, steer } from './insect-steering';
 import {
   beckon,
   BECKON_PERIOD as BECKON_SECONDS,
@@ -70,13 +70,7 @@ function flyLegs(
 ): Worst {
   const window = 2 * Math.round(30 / PATH_SHAPES[motion.kind].flutterRate);
   let at = from;
-  let steering: Steering = {
-    facing: 0,
-    turn: sat ?? 0,
-    at: -Infinity,
-    setOff: undefined,
-    perch: undefined,
-  };
+  let steering = firstSteering({ facing: 0, turn: sat ?? 0 });
   let turnedFrom = sat;
   let carried: Carried = { launch: 0, speed: 0, drink: 0 };
   let now = 0;
@@ -308,13 +302,7 @@ describe('steer', () => {
         size: SIZE,
         motion: { phase: 1, kind, flutter: 8 },
       };
-      let steering: Steering = {
-        facing: Math.PI / 2,
-        turn: 0,
-        at: -Infinity,
-        setOff: undefined,
-        perch: undefined,
-      };
+      let steering = firstSteering({ facing: Math.PI / 2, turn: 0 });
       for (let now = 0; now < least; now += FRAME) {
         const step = steer(steering, course, now);
         steering = step.steering;

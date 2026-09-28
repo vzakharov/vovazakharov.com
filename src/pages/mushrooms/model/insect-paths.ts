@@ -222,6 +222,9 @@ export function flightPoint(
   return { x, y: y - lift };
 }
 
+/** Half of one bob of a kind's flutter, in ms. */
+const halfBob = ({ kind }: Kinded) => 500 / PATH_SHAPES[kind].flutterRate;
+
 /**
  * How far and which way a flight's line goes over one bob of its flutter
  * about `now`, in the points' units, which is the way the eye reads it
@@ -235,7 +238,7 @@ export function stride(
   motion: Airborne,
   drift?: Point,
 ): Point {
-  const half = 500 / PATH_SHAPES[motion.kind].flutterRate;
+  const half = halfBob(motion);
   const { end } = path;
   const { x: dx, y: dy } = drift ?? { x: 0, y: 0 };
   const at = (then: number): Point => {
@@ -258,8 +261,10 @@ export function stride(
 export function heading(path: Path, now: number, motion: Airborne): number {
   const { x, y } = stride(path, now, motion);
   if (Math.hypot(x, y) > 1e-9) return Math.atan2(y, x);
-  const half = 500 / PATH_SHAPES[motion.kind].flutterRate;
-  const along = tangent(controls(path, motion), progress(path, now - half));
+  const along = tangent(
+    controls(path, motion),
+    progress(path, now - halfBob(motion)),
+  );
   return Math.atan2(along.y, along.x);
 }
 
