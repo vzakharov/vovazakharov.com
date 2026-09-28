@@ -84,7 +84,7 @@ export function frontSag(genes: ChanterelleGenes, x: number): number {
 }
 
 /** How far `r` out from its middle stands from a chanterelle's stem toward its rim, from 0 to 1. */
-export function funnelOut(genes: ChanterelleGenes, r: number): number {
+function funnelOut(genes: ChanterelleGenes, r: number): number {
   const stem = genes.stemWidth / 2;
   const v = (Math.abs(r) - stem) / (genes.capWidth / 2 - stem);
   return Math.min(1, Math.max(0, v));
