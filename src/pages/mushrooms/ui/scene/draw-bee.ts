@@ -15,20 +15,22 @@ import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
-import { awayAngle, inkFor, type Lighting, TAPER } from './ink';
+import { awayAngle, inkFor, type Lighting, lineInk, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
   inkedDisc,
+  inkedFill,
   inkUnder,
   ovalArc,
   strokeTapered,
 } from './shapes';
 
 const SHADE_ALPHA = 0.26;
-/** A bee's ink: its black's own, near-black whatever it edges. */
-const BEE_INK = inkFor(PALETTE.beeBlack);
+/** The ink round a bee's black bands, and the dark pen its feelers are drawn in. */
+const BLACK_INK = inkFor(PALETTE.beeBlack);
+const FEELER_INK = lineInk(PALETTE.beeBlack);
 /** How many veins a bee's small wing shows. */
 export const BEE_VEINS = 2;
 
@@ -66,15 +68,15 @@ export function paintBeeBody(
     painted.sting.map((point) => at(point)),
   );
 
-  // The abdomen: yellow and black bands, yellow first, the tail black.
+  // The abdomen: yellow and black bands, yellow first, the tail black, each
+  // band edged in its own fill's ink: the black bands' ink laid over the
+  // yellow's, and the yellow filled over both, so only the rim shows.
   const outline = painted.abdomen.map((point) => at(point));
-  inkUnder(graphics, outline, BEE_INK, ink, lighting);
-  graphics.fillStyle(yellow);
-  fillShape(graphics, outline);
+  inkUnder(graphics, outline, inkFor(yellow), ink, lighting);
   const stripes = genes.bands * 2;
   const top = abdomen.y - abdomen.ry;
   const step = (abdomen.ry * 2) / stripes;
-  graphics.fillStyle(PALETTE.beeBlack);
+  const blacks: Point[][] = [];
   for (let index = 1; index < stripes; index += 2) {
     const from = top + step * index;
     // The last black band runs on to the tail, past the fuzz.
@@ -85,8 +87,13 @@ export function paintBeeBody(
       from,
       Math.min(to, tail),
     ).map((point) => at(point));
-    fillShape(graphics, stripe);
+    inkUnder(graphics, stripe, BLACK_INK, ink, lighting);
+    blacks.push(stripe);
   }
+  graphics.fillStyle(yellow);
+  fillShape(graphics, outline);
+  graphics.fillStyle(PALETTE.beeBlack);
+  for (const stripe of blacks) fillShape(graphics, stripe);
   const away = awayAngle(toward);
   const shaded = ovalArc(
     abdomen,
@@ -106,9 +113,13 @@ export function paintBeeBody(
 
   // The thorax, all fuzz, a warm brown-gold.
   const chest = painted.chest.map((point) => at(point));
-  inkUnder(graphics, chest, BEE_INK, ink, lighting);
-  graphics.fillStyle(mix(yellow, PALETTE.beeBlack, 0.45));
-  fillShape(graphics, chest);
+  inkedFill(
+    graphics,
+    chest,
+    mix(yellow, PALETTE.beeBlack, 0.45),
+    ink,
+    lighting,
+  );
   const fuzz = litCrest(toward, [thorax.rx, thorax.ry], 0.4);
   graphics.fillStyle(PALETTE.highlight, 0.3);
   graphics.fillEllipse(
@@ -137,11 +148,11 @@ function paintHead(
       y: middle.y - r * 0.6 - r * 1.5 * Math.sin((t * Math.PI) / 2.4),
     }));
     const width = Math.max(1, ink * 0.8);
-    graphics.fillStyle(BEE_INK);
+    graphics.fillStyle(FEELER_INK);
     strokeTapered(graphics, line, [width, width * TAPER], lighting);
     const club = line.at(-1);
     if (club) {
-      graphics.fillStyle(BEE_INK);
+      graphics.fillStyle(FEELER_INK);
       graphics.fillCircle(club.x, club.y, Math.max(1, r * 0.22));
     }
   }

@@ -18,7 +18,7 @@ import {
 } from '../../model/insect-outline';
 import { proboscisLine } from '../../model/proboscis';
 import { mix, nudgeHue } from './colour';
-import { inkFor, type Lighting, TAPER } from './ink';
+import { inkFor, type Lighting, lineInk, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
@@ -171,11 +171,11 @@ export function paintBody(
 ): void {
   const at = scaled(size);
   const ink = insectInk(size);
-  const bodyInk = inkFor(PALETTE.insectBody);
+  const feelerInk = lineInk(PALETTE.insectBody);
   const { pattern } = hues(genes);
   for (const side of SIDES) {
     const line = antenna(genes, side).map((point) => at(point));
-    graphics.fillStyle(bodyInk);
+    graphics.fillStyle(feelerInk);
     strokeTapered(graphics, line, [ink, ink * TAPER], lighting);
     const club = line.at(-1);
     if (club) {
