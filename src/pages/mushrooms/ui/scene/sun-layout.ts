@@ -11,11 +11,9 @@ export const SUN_GLOW_REACH = 2.6;
 /** The sun's longest rays reach this many radii out. */
 export const SUN_RAY_REACH = 1.8;
 /**
- * How far above the horizon the sun's middle stays, in radii, keeping four
- * fifths of its disc in the sky; and the least share of its size it shrinks
- * to for that on a crowded screen.
+ * The least share of its size the sun shrinks to, on a crowded screen, to
+ * keep its whole disc above the horizon.
  */
-const SUN_ABOVE = 0.5;
 const SUN_LEAST = 0.5;
 
 /** Where the far hills meet the meadow, as a share down a screen `width` by `height`. */
@@ -25,7 +23,7 @@ export function horizonAt(width: number, height: number): number {
 
 /**
  * The sun, of radius `r` at the most, as `sunAt` places it: shrunk, a pixel
- * at a time, until it keeps `SUN_ABOVE` over the horizon, which also frees
+ * at a time, until its whole disc stands above the horizon, which also frees
  * the corner where only its rays kept it off; never below `SUN_LEAST`.
  */
 export function placeSun(
@@ -37,7 +35,7 @@ export function placeSun(
   const horizon = horizonAt(width, height);
   let sun = sunAt(width, height, r, controls);
   for (let size = r - 1; size >= r * SUN_LEAST; size--) {
-    if (sun.y + SUN_ABOVE * sun.r <= horizon) break;
+    if (sun.y + sun.r <= horizon) break;
     sun = sunAt(width, height, size, controls);
   }
   return sun;

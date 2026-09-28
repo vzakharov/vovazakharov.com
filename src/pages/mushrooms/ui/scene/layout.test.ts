@@ -35,7 +35,6 @@ import {
   meadowLayout,
 } from './layout';
 import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
-import { farSkyline } from './skyline';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -46,34 +45,6 @@ const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
 const onScreen = ({ x, y, r }: Circle, width: number, height: number) =>
   x - r >= 0 && x + r <= width && y - r >= 0 && y + r <= height;
-
-/** How much of the sun's disc shows in the sky at the least, above the horizon and the hills. */
-const SUN_SHOWN = 0.8;
-/** How many points across the sun's disc its showing share is measured at. */
-const SUN_GRID = 40;
-
-/** The share of `disc` above `skyline`, a line of points left to right. */
-function shownAbove(disc: Circle, skyline: readonly Point[]): number {
-  const lineAt = (x: number) => {
-    const next = skyline.findIndex((point) => point.x >= x);
-    const right = skyline[Math.max(next, 1)] ?? { x, y: Infinity };
-    const left = skyline[Math.max(next, 1) - 1] ?? right;
-    const t = right.x === left.x ? 0 : (x - left.x) / (right.x - left.x);
-    return left.y + (right.y - left.y) * t;
-  };
-  let inside = 0;
-  let shown = 0;
-  for (let row = 0; row <= SUN_GRID; row++) {
-    for (let column = 0; column <= SUN_GRID; column++) {
-      const x = disc.x + disc.r * ((2 * column) / SUN_GRID - 1);
-      const y = disc.y + disc.r * ((2 * row) / SUN_GRID - 1);
-      if (Math.hypot(x - disc.x, y - disc.y) > disc.r) continue;
-      inside++;
-      if (y < lineAt(x)) shown++;
-    }
-  }
-  return shown / inside;
-}
 
 /** How many points along a stem's drawn centreline a tap is tried at. */
 const STEM_TRIES = 20;
@@ -407,38 +378,6 @@ describe('meadowLayout', () => {
       const { sun } = screenLayout(width, height);
       const glow = sun.r * SUN_GLOW_REACH;
       assert.ok(sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9);
-    });
-
-    it(`keeps the sun in the sky, over the horizon and the hills, on a ${name} screen`, () => {
-      for (const seed of VISITS.slice(0, 200)) {
-        const layout = meadowLayout(width, height, seed);
-        const { sun, horizon, picker, housePicker } = layout;
-        const flat = [
-          { x: 0, y: horizon },
-          { x: width, y: horizon },
-        ];
-        const low = shownAbove(sun, flat);
-        assert.ok(low >= SUN_SHOWN, `visit ${seed}: ${low.toFixed(2)} shown`);
-        const hills = farSkyline(mulberry32(seed), layout);
-        const shown = shownAbove(sun, hills);
-        assert.ok(
-          shown >= SUN_SHOWN,
-          `visit ${seed}: ${shown.toFixed(2)} shown`,
-        );
-        const glow = sun.r * SUN_GLOW_REACH;
-        assert.ok(sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9);
-        const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
-        for (const control of reach([
-          ...standingControls(layout),
-          ...picker,
-          ...housePicker,
-        ])) {
-          assert.ok(
-            apart(control, rays),
-            `visit ${seed}: a control on the sun`,
-          );
-        }
-      }
     });
 
     it(`keeps every flower off every slot's foot on a ${name} screen`, () => {

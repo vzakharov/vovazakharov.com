@@ -6,7 +6,7 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
-import { farSkyline, hillLine } from './skyline';
+import { farSkyline, nearSkyline } from './skyline';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 
 const SKY_BANDS = 48;
@@ -192,17 +192,10 @@ export function paintBackdrop(
     PALETTE.farHill,
     PALETTE.farHillShade,
   ]);
-  fillHills(
-    hills,
-    hillLine(
-      random,
-      width,
-      nearHills + (groundTop - nearHills) * 0.6,
-      (groundTop - nearHills) * 1.1,
-    ),
-    groundTop + 2,
-    [PALETTE.nearHill, PALETTE.nearHillShade],
-  );
+  fillHills(hills, nearSkyline(random, layout), groundTop + 2, [
+    PALETTE.nearHill,
+    PALETTE.nearHillShade,
+  ]);
   paintGround(layer(), layout);
   return { layers: painted, clouds };
 }
