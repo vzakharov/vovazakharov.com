@@ -107,8 +107,10 @@ sky, 6 huge discs round the sun (radius 3–9 sun radii) of `skyWarm: 0xff_e8_b8
 at alpha 0.04 each. (c) Pure: the sky's horizon colour is warmer (R − B > 0)
 and its top cooler (B − R > 60); HSV value of `skyTop` ≥ 0.85 (not dusk).
 Frame: the sky next to the sun is visibly warmer than the sky on the far side.
-(d) Static, painted once per resize: free. Risk: too cream reads as haze or
-evening; hold `skyTop` blue and keep the cream to the bottom fifth.
+(d) Baked with the rest of the backdrop once per resize (see "Phaser" below):
+a frame pays one textured quad for the sky, halo and sun. Painted live, the
+halo's discs alone blended ~12 screens of pixels a frame. Risk: too cream reads
+as haze or evening; hold `skyTop` blue and keep the cream to the bottom fifth.
 
 **A2. Sun bloom and a light wash over the land.**
 (a) Alto and Gris: the sun's light lands on everything under it; the meadow's
@@ -122,7 +124,9 @@ across the hills at alpha 0.05 (`fillTriangle`), as in Gris. (c) Frame: the
 hill crest under the sun is warmer and lighter than the same range at the far
 edge. Pure: the wash never reaches below the ground's upper third
 (radius × position bound), so it never lifts the ground where caps stand.
-(d) Static. `SCREEN` is a WebGL blend and Phaser's Canvas renderer maps it too.
+(d) Baked into a texture of its own once per resize and screened as one quad
+over the sky, the clouds and the hills. `SCREEN` is a WebGL blend and Phaser's
+Canvas renderer maps it too.
 Risk: a wash reaching the mushrooms lowers their contrast — bound it as in (c).
 
 **A3. Aerial perspective across three ranges.**
@@ -141,7 +145,7 @@ not new literals where a mix will do:
 
 (c) Pure test over the palette: contrast against `skyHorizon` strictly
 increases farthest → far → near → ground front, and saturation strictly
-increases the same way. (d) One more polygon, static. Risk: the parted-sun rule
+increases the same way. (d) One more polygon, baked per resize. Risk: the parted-sun rule
 — a new range that ignores the parting would cover the sun on phone portrait.
 
 **A4. Mist at every range's foot, not a hard shade band.**
@@ -159,7 +163,7 @@ rim light gives. `farHillShade`/`nearHillShade` retire, or remain as the foot
 colours. (c) Pure: `hillBands` covers the range exactly (areas sum to the
 polygon's; no band extends above the skyline); the foot band's colour is
 lighter than the crest's. Frame: no horizontal edge crosses a hill. (d) 16
-polygons per range instead of 2, static: free. Risk: the ground's seam — the
+polygons per range instead of 2, baked: they cost the resize, not the frame. Risk: the ground's seam — the
 ground must open on the near range's foot colour, as it now opens on
 `nearHillShade`, or a line appears across the screen.
 
@@ -176,7 +180,7 @@ darkens a further 10% toward `groundDeep`, framing the frame without a
 vignette. (c) Pure: the patches' generator is a function of `random` (same
 source → same patches); no patch darker than `groundDeep`. Frame: the ground
 under the flowers at `FLOWER_DOWN[1]` is darker than at `FLOWER_DOWN[0]`, and
-yellow flowers still stand out (see risks). (d) Static. Risk: yellow petals and
+yellow flowers still stand out (see risks). (d) Baked per resize. Risk: yellow petals and
 the `lemon` butterfly against `groundLit` — which is why `groundLit` lives only
 in the band behind the flowers' top row, and the outer ink stays dark (B1).
 
@@ -206,9 +210,9 @@ wash, so under the grass and every creature — creatures stay crisp (for
 readability; Gris grains everything). A second, fainter pass over the sky alone
 is optional. `Backdrop` gains `grain`, reused on repaint like the layers.
 (c) Pure: same seed → same pixels; mean luminance of the tile ≈ 0.5 (grain
-neither darkens nor lightens overall). (d) One full-screen textured quad per
-frame: one extra overdraw, fine under swiftshader; the canvas texture works in
-both renderers. Static, so no shimmer. Risk: at 0.07 on a phone it may be
+neither darkens nor lightens overall). (d) Eleven strips of one tiled texture
+over the baked wash, so one overdraw of the ground a frame; the canvas texture
+works in both renderers. Static, so no shimmer. Risk: at 0.07 on a phone it may be
 invisible or look like dirt — tune by frames, bound 0.04–0.10.
 
 **A8. Clouds lit from the sun.**
@@ -217,7 +221,9 @@ are white with a grey-blue underside. (b) `cloudShade` 0xd8eaf6 →
 `0xe2_dc_f0` (lilac, the cool side); a third puff pass on the sun's side,
 `cloudLit: 0xff_f6_e4`, offset 0.08 r toward the sun; the highest cloud mixed
 20% toward `skyTop`. (c) Frame: each cloud's sun side is warmer than its far
-side. (d) Clouds are one graphics each, static between drifts: free.
+side. (d) The backdrop's one live part: one graphics each, re-tessellated every frame
+as they drift, three passes of five puffs a cloud. Everything else behind the
+grass is baked.
 
 ## Group B — creatures and HUD
 
@@ -359,6 +365,16 @@ sun side. The fly's sheen and the bee's fuzz are unchanged.
   object is the case to try, measured.
 - **Blend modes**: `SCREEN` for A2's wash; `MULTIPLY` is available if the grain
   wants it; nothing else.
+- **A `Graphics` is not a picture.** It keeps its command list and
+  re-tessellates all of it on every render — each circle ~100 points, each
+  band path through Earcut again — so a shape that does not move costs every
+  frame as much as one that does. Whatever stands still is baked into a
+  `RenderTexture` once per paint and repainted in place: the backdrop behind
+  the clouds and in front of them (`paint-backdrop.ts`), and each button's face
+  (`button.ts`). A framebuffer has no multisampling, so a bake draws at twice
+  the device resolution and shrinks by half, which smooths edges as the
+  canvas's own antialiasing does. The play run fails a screen whose
+  rendered-frame median passes `scripts/lib/frame-budget.ts`'s bound.
 
 ## The bar: risks, and what holds them
 
