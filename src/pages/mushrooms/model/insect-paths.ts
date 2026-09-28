@@ -25,8 +25,12 @@ export type Carried = { launch: number; speed: number; drink: number };
 /** A leg as the motion reads it: its timing and what it carried over. */
 export type Launched = Span & Carried;
 
-/** A leg's flight on screen: from where the scene last drew it to its perch. */
-export type Path = Launched & { start: Point; end: Point };
+/**
+ * A leg's flight on screen: from where the scene last drew it to its perch,
+ * bowed `bow` of its kind's `arc` to one side or the other, from -1 to 1 —
+ * or with none, all the way to the side the insect's phase picks.
+ */
+export type Path = Launched & { start: Point; end: Point; bow?: number };
 
 /** A flier as its path reads it: its kind, and the phase its seed gives it. */
 export type Airborne = Phased & Kinded;
@@ -36,16 +40,14 @@ export type Fluttering = Airborne & { flutter: number };
 
 /**
  * One kind's flight: how far it bows sideways, as a share of the distance
- * flown; how far it zigzags to either side, the same way, how many swings a
- * leg makes, and how much of each swing the body turns into; how many times
- * a second its flutter lifts it; and its steepest bank into the turn, in
- * radians.
+ * flown; how far it zigzags to either side, the same way, and how many
+ * swings a leg makes; how many times a second its flutter lifts it; and its
+ * steepest bank into the turn, in radians.
  */
 type Shape = {
   arc: number;
   zigzag: number;
   swings: number;
-  follow: number;
   flutterRate: number;
   bank: number;
 };
@@ -55,17 +57,15 @@ export const MAX_TILT = 0.35;
 
 /**
  * Each kind's flight. The butterfly bows wide and flutters slowly; the fly
- * flies nearly straight but zigzags, its body turning only a third of the
- * way into each swing — as far as it can on its shortest dart without
- * turning more than 0.2 rad a frame; the bee holds a nearly straight line
- * and bobs.
+ * flies nearly straight but zigzags, faster than its flutter bobs, so its
+ * body wiggles about its way rather than swinging with each zigzag; the bee
+ * holds a nearly straight line and bobs.
  */
 export const PATH_SHAPES = {
   butterfly: {
     arc: 0.3,
     zigzag: 0,
     swings: 0,
-    follow: 0,
     flutterRate: 2.2,
     bank: MAX_TILT,
   },
@@ -73,7 +73,6 @@ export const PATH_SHAPES = {
     arc: 0.06,
     zigzag: 0.07,
     swings: 2,
-    follow: 0.3,
     flutterRate: 5,
     bank: 0.1,
   },
@@ -81,11 +80,16 @@ export const PATH_SHAPES = {
     arc: 0.1,
     zigzag: 0,
     swings: 0,
-    follow: 0,
     flutterRate: 3.2,
     bank: 0.15,
   },
 } as const satisfies Record<InsectKind, Shape>;
+
+/**
+ * The most a flight's flutter lifts it, as a share of the distance flown: a
+ * short hop bobs less, so its bob never reads as flying the other way.
+ */
+const FLUTTER_REACH = 0.04;
 
 /** How fast a flight leaves mid-air, as a share of its average speed. */
 const LAUNCH_SPEED = 1.5;
@@ -105,16 +109,20 @@ function progress({ departs, arrives, speed }: Launched, now: number): number {
   return slope * u * (1 - u) ** 2 + u * u * (3 - 2 * u);
 }
 
-/** Which side a flight bows to, -1 or 1, read off the insect's phase. */
-const bowOf = (phase: number) => (Math.sin(phase) < 0 ? -1 : 1);
+/** The side an insect's phase has its flights bow to, -1 or 1, when nothing else picks one. */
+export const phaseBow = (phase: number) => (Math.sin(phase) < 0 ? -1 : 1);
+
+/** How far a flight bows, and to which side: its own, or all the way to its insect's phase's. */
+const bowOf = ({ bow }: Path, phase: number): number => bow ?? phaseBow(phase);
 
 /** The cubic's four points: out from the start and in to the end, both bowed one way. */
 type Cubic = readonly [Point, Point, Point, Point];
 
-function controls({ start, end }: Path, { phase, kind }: Airborne): Cubic {
+function controls(path: Path, { phase, kind }: Airborne): Cubic {
+  const { start, end } = path;
   const dx = end.x - start.x;
   const dy = end.y - start.y;
-  const bow = bowOf(phase) * PATH_SHAPES[kind].arc;
+  const bow = bowOf(path, phase) * PATH_SHAPES[kind].arc;
   const side = { x: -dy * bow, y: dx * bow };
   return [
     start,
@@ -145,16 +153,24 @@ function tangent([p0, p1, p2, p3]: Cubic, u: number): Point {
 
 /**
  * The zigzag's swing off the chord `u` of the way along, as a share of the
- * distance flown, and its rate of change along `u`: `swings` swings under a
- * `sin²` swell, so it and its slope are 0 at both ends and the flight leaves
- * and lands along its curve.
+ * distance flown: `swings` swings under a `sin²` swell, so it and its slope
+ * are 0 at both ends and the flight leaves and lands along its curve.
  */
-function swing({ zigzag, swings }: Shape, u: number): [number, number] {
-  const swell = Math.sin(Math.PI * u) ** 2;
-  const swelling = Math.PI * Math.sin(2 * Math.PI * u);
-  const wave = Math.sin(2 * Math.PI * swings * u);
-  const waving = 2 * Math.PI * swings * Math.cos(2 * Math.PI * swings * u);
-  return [zigzag * swell * wave, zigzag * (swelling * wave + swell * waving)];
+function swing({ zigzag, swings }: Shape, u: number): number {
+  return (
+    zigzag * Math.sin(Math.PI * u) ** 2 * Math.sin(2 * Math.PI * swings * u)
+  );
+}
+
+/** Where a flight's line is `u` of the way along: on its bowed cubic, swung across it by its zigzag. */
+function lineAt(path: Path, u: number, motion: Airborne): Point {
+  const { x, y } = bezier(controls(path, motion), u);
+  const across = swing(PATH_SHAPES[motion.kind], u);
+  const { start, end } = path;
+  return {
+    x: x - (end.y - start.y) * across,
+    y: y + (end.x - start.x) * across,
+  };
 }
 
 /**
@@ -170,46 +186,45 @@ export function flightPoint(
 ): Point {
   const shape = PATH_SHAPES[motion.kind];
   const u = progress(path, now);
-  const { x, y } = bezier(controls(path, motion), u);
   // `sin(π)` is not quite 0 in floating point, and the ends must be exact.
-  if (u <= 0 || u >= 1) return { x, y };
+  if (u <= 0 || u >= 1) return bezier(controls(path, motion), u);
+  const { x, y } = lineAt(path, u, motion);
   const elapsed = (now - path.departs) / 1000;
-  const [across] = swing(shape, u);
+  const { start, end } = path;
+  const reach = Math.min(
+    motion.flutter,
+    FLUTTER_REACH * Math.hypot(end.x - start.x, end.y - start.y),
+  );
   const lift =
-    motion.flutter *
+    reach *
     Math.sin(Math.PI * u) *
     Math.sin(Math.PI * 2 * shape.flutterRate * elapsed + motion.phase);
-  const { start, end } = path;
-  return {
-    x: x - (end.y - start.y) * across,
-    y: y + (end.x - start.x) * across - lift,
-  };
+  return { x, y: y - lift };
 }
 
 /**
- * The direction a flight faces at `now`, in radians from the +x axis: along
- * the curve, turned `follow` of the way into each zigzag, and at either end
- * the way the curve leaves or meets it, so the insect lands facing the way
- * it came in.
+ * The direction a flight faces at `now`, in radians from the +x axis: the
+ * way its line goes over one bob of its flutter about `now`, which is the
+ * way the eye reads it going — a zigzag faster than that reads as a wiggle
+ * about the way, not a turn of it. At either end it is the way the line
+ * leaves or meets it, so the insect lands facing the way it came in.
  */
 export function heading(path: Path, now: number, motion: Airborne): number {
-  const shape = PATH_SHAPES[motion.kind];
-  const u = progress(path, now);
-  const along = tangent(controls(path, motion), u);
-  const [, turning] = swing(shape, u);
-  const across = turning * shape.follow;
-  const { start, end } = path;
-  return Math.atan2(
-    along.y + (end.x - start.x) * across,
-    along.x - (end.y - start.y) * across,
-  );
+  const half = 500 / PATH_SHAPES[motion.kind].flutterRate;
+  const [from, to] = [progress(path, now - half), progress(path, now + half)];
+  const [a, b] = [lineAt(path, from, motion), lineAt(path, to, motion)];
+  if (Math.hypot(b.x - a.x, b.y - a.y) > 1e-9) {
+    return Math.atan2(b.y - a.y, b.x - a.x);
+  }
+  const along = tangent(controls(path, motion), from);
+  return Math.atan2(along.y, along.x);
 }
 
 /**
  * The bank into the turn at `now`, in radians, positive turning clockwise on
  * a screen whose y points down: the whole bowed curve turns one way, so the
- * bank rises from 0 at take-off to its kind's `bank` mid-flight and settles
- * to 0 at landing.
+ * bank rises from 0 at take-off to its kind's `bank` mid-flight, for a
+ * flight bowed all the way, and settles to 0 at landing.
  */
 export function tilt(
   path: Path,
@@ -218,7 +233,7 @@ export function tilt(
 ): number {
   if (path.start.x === path.end.x && path.start.y === path.end.y) return 0;
   return (
-    -bowOf(phase) *
+    -bowOf(path, phase) *
     PATH_SHAPES[kind].bank *
     Math.sin(Math.PI * progress(path, now))
   );

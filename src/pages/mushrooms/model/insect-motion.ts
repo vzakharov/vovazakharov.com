@@ -65,16 +65,22 @@ const LANDING_DEPTH = 0.12;
 /** When a drink starts: once the landing's bob is half done, in ms after landing. */
 const DRINK_DELAY = LANDING / 2;
 /** How much of its bank into a turn a flier shows as a turn of its own. */
-const BANK_TURN = 0.6;
+const BANK_TURN = 0.45;
 /**
  * How far off facing up the screen a flier settles on its perch, in radians,
- * how long it takes to turn there after landing, and to turn into its
- * heading at take-off, in ms: slow enough that a turn right round never
- * moves it more than about 0.2 rad in a 16 ms frame.
+ * and how long it takes to turn there after landing, in ms: slow enough that
+ * a turn right round never moves it more than about 0.2 rad in a 16 ms frame.
  */
 export const REST_LEAN = 0.45;
 const SETTLE_TURN = 700;
-const LIFT_TURN = 450;
+/**
+ * How much of its flight a flier spends turning on the spot into its heading
+ * at take-off, for a turn right round: a smaller turn takes its share of
+ * that, so a butterfly turns lazily and a fly snaps round.
+ */
+const PIVOT_SHARE = 0.25;
+/** How far through its pivot a flier has turned into its heading: it hangs there a moment before it flies. */
+const TURNED_BY = 0.75;
 
 /**
  * How far aloft a leg has the flier at `now`, from 0 on its perch to 1 in the
@@ -244,17 +250,31 @@ export function turned(
 }
 
 /**
+ * How long a leg's flier turns on the spot as it sets off, in ms, before its
+ * flight moves it: in proportion to how far off its heading it sat, so it
+ * flies off already facing the way it goes.
+ */
+export function pivot({ departs, arrives }: Span, { lifted }: Turns): number {
+  return (PIVOT_SHARE * (arrives - departs) * Math.abs(lifted)) / Math.PI;
+}
+
+/**
  * The body's turn at `now`, in radians clockwise from up the screen: its
- * flying turn, starting off the way it sat and settling to its rest facing,
- * every blend an offset fixed in `turns`, so it never spins at ±π.
+ * flying turn, starting off the way it sat and turning into it over the
+ * leg's `pivot`, and settling to its rest facing, every blend an offset
+ * fixed in `turns`, so it never spins at ±π.
  */
 export function bodyTurn(
-  { departs, arrives }: Span,
+  span: Span,
   now: number,
   flying: number,
-  { lifted, landed = 0 }: Turns,
+  turns: Turns,
 ): number {
-  const lift = smooth((now - departs) / LIFT_TURN);
+  const { departs, arrives } = span;
+  const { lifted, landed = 0 } = turns;
+  const turning = pivot(span, turns);
+  const lift =
+    turning > 0 ? smooth((now - departs) / (turning * TURNED_BY)) : 1;
   const rest = smooth((now - arrives) / SETTLE_TURN);
   return wrap(flying + lifted * (1 - lift) + landed * rest);
 }

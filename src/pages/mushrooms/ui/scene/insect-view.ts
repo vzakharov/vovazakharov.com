@@ -5,22 +5,10 @@ import { pick } from '@/shared/lib/collections';
 import { isSeat, type Perch, type Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import {
-  bodyTurn,
-  carriedFrom,
-  flyingTurn,
-  landingBob,
-  turned,
-  type Turns,
-  wrap,
-} from '../../model/insect-motion';
+import { carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
-import {
-  type Carried,
-  flightPoint,
-  heading,
-  type Path,
-} from '../../model/insect-paths';
+import type { Carried } from '../../model/insect-paths';
+import { startLeg, steer, type Steering } from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
 import { phaseOf, smooth, wobble } from '../../model/motion';
 import { containsCircle, type TappedFigure } from './hit-areas';
@@ -40,10 +28,6 @@ import type { MeadowSound } from './sound';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;
-/** How fast its body turns at the most, in radians a second: 0.18 in a 60 Hz frame. */
-const TURN_RATE = 10.8;
-/** A flight shorter than this, in units of the insect's size, goes nowhere and has no heading of its own. */
-const GOING_NOWHERE = 0.3;
 /** How much a tapped insect jolts, against a mushroom's squash. */
 const JOLT = 0.7;
 /** How long a landing's bob cut short by a take-off takes to die away, in ms. */
@@ -78,10 +62,8 @@ type Shown = TappedFigure &
     bobFrom: number;
     /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
     end: Point | undefined;
-    /** Which way its flight heads, in radians from +x. */
-    facing: number;
-    /** When it was last flown, in seconds on the scene's clock; `-Infinity` before its first frame. */
-    flownAt: number;
+    /** How its body is held from one frame to the next (`steer`). */
+    steering: Steering;
     /**
      * Where its perch stood on its current leg's first frame, or the first
      * since the screen was last painted, which it heads for; `undefined`
@@ -90,8 +72,6 @@ type Shown = TappedFigure &
     aim: Point | undefined;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
-    /** Its current leg's turns, fixed on the leg's first frame and at its landing. */
-    turns: Turns | undefined;
     /** What its current leg carried over from the one it cut short or followed. */
     carried: Carried;
   };
@@ -161,7 +141,7 @@ export class InsectView {
             });
       shown.bobFrom = shown.bob;
       shown.end = undefined;
-      shown.turns = undefined;
+      shown.steering = startLeg(shown.steering);
       shown.aim = undefined;
       if (to.kind === 'flower') newDrink(shown.look);
       shown.turnedFrom =
@@ -223,20 +203,30 @@ export class InsectView {
       shown.end ??
       start;
     const stay = { ...leg, ...shown.carried };
-    const path: Path = { ...stay, start, end };
-    const point = flightPoint(path, now, motion);
     const perched = isSeat(leg.to);
     // It heads for where its perch stood as the leg set off, so a perch
-    // rocking under a tap never swings a short flight about. A flight going
-    // nowhere keeps the heading it had, and a landed flier the one it landed
-    // on, which its rest facing turns from however its perch sways.
+    // rocking under a tap never swings a short flight about.
     const aim = shown.aim ?? end;
     shown.aim = aim;
-    const still =
-      Math.hypot(aim.x - start.x, aim.y - start.y) <= size * GOING_NOWHERE;
-    if (!still && !(perched && now >= leg.arrives)) {
-      shown.facing = heading({ ...path, end: aim }, now, motion);
-    }
+    // Settled on its perch, it turns to face up the screen, give or take,
+    // as Syama drew it on the caps.
+    const { steering, point } = steer(
+      shown.steering,
+      {
+        leg,
+        ...pick(shown, 'carried'),
+        start,
+        end,
+        aim,
+        sat: shown.turnedFrom,
+        perched,
+        size,
+        motion,
+      },
+      now,
+    );
+    shown.steering = steering;
+    const { turn } = steering;
     // A bob cut short by a take-off dies away rather than jumping.
     const bob =
       ((perched ? landingBob(leg, now) : 0) +
@@ -246,26 +236,6 @@ export class InsectView {
     const moment = { stay, now, motion, ...pick(shown, 'flier'), size };
     const offset = perched ? fidget(shown.look, moment) : { x: 0, y: 0 };
     Object.assign(shown, { end, at: point, offset, bob: bob / size });
-    const flying = flyingTurn(shown.facing, path, now, motion);
-    // Settled on its perch, it turns to face up the screen, give or take,
-    // as Syama drew it on the caps.
-    shown.turns = turned(
-      shown.turns,
-      shown.turnedFrom,
-      leg,
-      now,
-      flying,
-      perched,
-    );
-    // Its body follows the turn its leg gives it no faster than a body can,
-    // so no blend of a take-off, a zigzag and a landing ever spins it.
-    const wanted = bodyTurn(leg, now, flying, shown.turns);
-    const most = TURN_RATE * Math.max(0, t - shown.flownAt);
-    const was = shown.container.rotation;
-    const turn = Number.isFinite(most)
-      ? wrap(was + Math.max(-most, Math.min(most, wrap(wanted - was))))
-      : wanted;
-    shown.flownAt = t;
     const middle = { x: point.x + offset.x, y: point.y + bob + offset.y };
     shown.container
       .setPosition(middle.x, middle.y)
@@ -297,11 +267,9 @@ export class InsectView {
       bob: 0,
       bobFrom: 0,
       end: undefined,
-      facing: 0,
+      steering: { facing: 0, turn: 0, at: -Infinity, setOff: undefined },
       aim: undefined,
-      flownAt: -Infinity,
       turnedFrom: undefined,
-      turns: undefined,
       carried: { launch: 0, speed: 0, drink: 0 },
       phase: phaseOf(flier),
       tappedAt: -Infinity,

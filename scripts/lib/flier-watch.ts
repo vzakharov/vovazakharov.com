@@ -147,7 +147,7 @@ export const WATCH = `(() => {
             kind,
             off,
             at: now,
-            leg: JSON.stringify({ ...leg, legs: flier.legs, turn: middle.turn, travel, facing: shown.facing, from: shown.from, end: shown.end, turns: shown.turns }),
+            leg: JSON.stringify({ ...leg, legs: flier.legs, turn: middle.turn, travel, steering: shown.steering, from: shown.from, end: shown.end }),
           };
         }
       }
