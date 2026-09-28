@@ -69,15 +69,15 @@ export function skyAt(down: number): number {
 }
 
 /**
- * A layer of the sun's light over the sky: its colour, its opacity out to
- * `from` the sun's middle, and how far it reaches, thinning between the two —
+ * A layer of the sun's light over the sky: its colour, its `opacity` out to
+ * `from` the sun's middle, and how far it reaches, `to`, thinning between the two —
  * in sun radii, or as shares of the screen's short side.
  */
 type HaloLayer = {
   colour: number;
-  peak: number;
+  opacity: number;
   from: number;
-  reach: number;
+  to: number;
   per: 'sun' | 'screen';
 };
 
@@ -86,23 +86,23 @@ type HaloLayer = {
  * reaching farthest and as far for its size on every screen, that pales the
  * blue round the sun; the warmth, kept inside the part the halo has already
  * paled, since yellow laid over blue mixes to a grey-teal; and the glow close
- * about the rays. Each thins from its peak at the sun's middle to nothing at
- * its reach (`falloff`), so none has a plateau or an edge.
+ * about the rays. Each thins from its full opacity at the sun's middle to
+ * nothing at its `to` (`falloff`), so none has a plateau or an edge.
  */
 const SUN_HALO: readonly HaloLayer[] = [
-  { colour: PALETTE.highlight, peak: 0.3, from: 0, reach: 0.4, per: 'screen' },
-  { colour: PALETTE.highlight, peak: 0.92, from: 1.8, reach: 3.5, per: 'sun' },
-  { colour: PALETTE.skyWarm, peak: 0.6, from: 1.8, reach: 2.8, per: 'sun' },
+  { colour: PALETTE.highlight, opacity: 0.3, from: 0, to: 0.4, per: 'screen' },
+  { colour: PALETTE.highlight, opacity: 0.92, from: 1.8, to: 3.5, per: 'sun' },
+  { colour: PALETTE.skyWarm, opacity: 0.6, from: 1.8, to: 2.8, per: 'sun' },
   {
     colour: PALETTE.sunGlow,
-    peak: 0.6,
+    opacity: 0.6,
     from: 1,
-    reach: SUN_GLOW_REACH,
+    to: SUN_GLOW_REACH,
     per: 'sun',
   },
 ];
 
-/** A layer's opacity `t` of the way from its `from` to its reach, as a share of its peak: a smoothstep down, level only at either end. */
+/** A layer's opacity `t` of the way from its `from` to its `to`, as a share of its full opacity: a smoothstep down, level only at either end. */
 function falloff(t: number): number {
   const clamped = Math.min(1, Math.max(0, t));
   return 1 - clamped * clamped * (3 - 2 * clamped);
@@ -126,11 +126,11 @@ export function litSkyAt(
   const short = Math.min(width, height);
   const away = Math.hypot(x - sun.x, y - sun.y);
   let lit = channels(skyAt(y / nearHills));
-  for (const { colour, peak, from, reach, per } of SUN_HALO) {
+  for (const { colour, opacity, from, to, per } of SUN_HALO) {
     const over = channels(colour);
     const unit = per === 'sun' ? sun.r : short;
     const alpha =
-      peak * falloff((away - from * unit) / ((reach - from) * unit));
+      opacity * falloff((away - from * unit) / ((to - from) * unit));
     lit = {
       r: lit.r + (over.r - lit.r) * alpha,
       g: lit.g + (over.g - lit.g) * alpha,

@@ -24,8 +24,8 @@ const FADE = 0.85;
 /** How far up a blade its lit crown, the tip, begins, as a share of its height. */
 const TIP_FROM = 0.6;
 
-/** A tuft's blades' colours, toned by its distance: the two side blades, the middle one, and every blade's lit crown. */
-type TuftColours = { side: number; middle: number; crown: number };
+/** A tuft's blades' colours, toned by its distance: the two flanking blades, the middle one, and every blade's lit crown. */
+type TuftColours = { flank: number; middle: number; crown: number };
 
 type Tuft = Footing & Phased & TuftColours;
 
@@ -34,7 +34,7 @@ export function tuftColours(down: number): TuftColours {
   const under = groundAt(down);
   const fade = (1 - down) * FADE;
   return {
-    side: mix(PALETTE.tuftDark, under, fade),
+    flank: mix(PALETTE.tuftDark, under, fade),
     middle: mix(PALETTE.tuft, under, fade),
     crown: mix(mix(PALETTE.tuft, PALETTE.groundLit, 0.4), under, fade),
   };
@@ -78,11 +78,11 @@ export function paintTufts(
   time: number,
 ): void {
   graphics.clear();
-  for (const { x, y, size, phase, side, middle, crown } of tufts) {
+  for (const { x, y, size, phase, flank, middle, crown } of tufts) {
     const bend = sway(time, phase) * SWING;
     for (const [lean, height, colour] of [
-      [-0.5, 1.6, side],
-      [0.45, 1.4, side],
+      [-0.5, 1.6, flank],
+      [0.45, 1.4, flank],
       [0, 2, middle],
     ] as const) {
       const left = x - size * 0.3;

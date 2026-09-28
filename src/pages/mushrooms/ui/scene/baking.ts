@@ -4,7 +4,7 @@
  * which device pixels each texture covers and how it is baked tile by tile.
  */
 
-import type { Circle } from '../../model/geometry';
+import type { Circle, Cornered } from '../../model/geometry';
 
 /**
  * How many texels a side a bake draws per device pixel before shrinking to
@@ -26,9 +26,7 @@ const FACE_MARGIN = 2;
  * face at rest lies texel for pixel, its side, even, and the button's middle
  * within it as a share of the side, which is where it turns and presses.
  */
-export type FaceFrame = {
-  left: number;
-  top: number;
+export type FaceFrame = Cornered & {
   side: number;
   origin: { x: number; y: number };
 };
@@ -47,12 +45,13 @@ export function faceFrame({ x, y, r }: Circle, ratio: number): FaceFrame {
   };
 }
 
-/** One square of a picture baked at a time, in the picture's texels. */
-export type Tile = { left: number; top: number };
-
-/** The tiles `tile` texels a side that cover a picture `width` by `height` texels, row by row. */
-export function bakeTiles(width: number, height: number, tile: number): Tile[] {
-  const tiles: Tile[] = [];
+/** The top-left corners of the tiles `tile` texels a side that cover a picture `width` by `height` texels, row by row: one square baked at a time. */
+export function bakeTiles(
+  width: number,
+  height: number,
+  tile: number,
+): Cornered[] {
+  const tiles: Cornered[] = [];
   for (let top = 0; top < height; top += tile) {
     for (let left = 0; left < width; left += tile) tiles.push({ left, top });
   }

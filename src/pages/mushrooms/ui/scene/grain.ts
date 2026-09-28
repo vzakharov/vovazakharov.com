@@ -6,6 +6,7 @@
  */
 
 import type { Oval } from '../../model/bee-outline';
+import type { Topped } from '../../model/geometry';
 import { between, mulberry32, type Random } from '../../model/random';
 import { depthScale, type MeadowLayout } from './layout';
 
@@ -65,7 +66,7 @@ const GRAIN_RAMP = 0.2;
 const GRAIN_STEPS = 10;
 
 /** One strip of the grain: the rows it covers, in CSS pixels, and its share of the grain's full alpha. */
-export type GrainStrip = { top: number; bottom: number; share: number };
+export type GrainStrip = Topped & { bottom: number; share: number };
 
 /**
  * The grain's strips from `top`, the seam's highest point, to the bottom
