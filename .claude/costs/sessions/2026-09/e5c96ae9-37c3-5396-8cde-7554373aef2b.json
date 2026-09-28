@@ -9,28 +9,28 @@
   "url": "https://claude.ai/code/session_016Y6EaGWoqB9Vy7wF3UQzeb",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-28T17:11:21.551Z",
-  "lastResponseAt": "2026-09-28T19:42:50.785Z",
+  "lastResponseAt": "2026-09-28T19:42:57.095Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 41880,
+    "inputTokens": 41884,
     "cacheWrite5mTokens": 970451,
-    "cacheWrite1hTokens": 157603,
-    "cacheReadTokens": 78781266,
-    "outputTokens": 34322,
+    "cacheWrite1hTokens": 157840,
+    "cacheReadTokens": 78981046,
+    "outputTokens": 34375,
     "thinkingTokens": 5057,
-    "responses": 521,
-    "costUsd": 22.73305419999997
+    "responses": 522,
+    "costUsd": 22.77598219999997
   },
   "ownTurns": {
-    "inputTokens": 170,
+    "inputTokens": 174,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 157603,
-    "cacheReadTokens": 11704214,
-    "outputTokens": 26406,
+    "cacheWrite1hTokens": 157840,
+    "cacheReadTokens": 11903994,
+    "outputTokens": 26459,
     "thinkingTokens": 4995,
-    "responses": 72,
-    "costUsd": 4.130466800000001
+    "responses": 73,
+    "costUsd": 4.1733948000000005
   },
   "subagents": {
     "inputTokens": 870,
@@ -44,18 +44,18 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 41880,
+      "inputTokens": 41884,
       "cacheWrite5mTokens": 970451,
-      "cacheWrite1hTokens": 157603,
-      "cacheReadTokens": 78781266,
-      "outputTokens": 34322,
+      "cacheWrite1hTokens": 157840,
+      "cacheReadTokens": 78981046,
+      "outputTokens": 34375,
       "thinkingTokens": 5057,
-      "responses": 521,
-      "costUsd": 22.73305419999997
+      "responses": 522,
+      "costUsd": 22.77598219999997
     }
   },
   "warnings": [
-    "prices.json priced the 506 responses the events also priced at $21.9911, against the events' $28.4634: a rate in the table is likely out of date"
+    "prices.json priced the 508 responses the events also priced at $22.0773, against the events' $28.5496: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Edit",
@@ -75,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 520,
-    "matched": 506,
-    "matchedTableUsd": 21.99111079999997,
-    "matchedEventUsd": 28.463370799999996,
+    "events": 522,
+    "matched": 508,
+    "matchedTableUsd": 22.07729339999997,
+    "matchedEventUsd": 28.549553400000004,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 40840,
