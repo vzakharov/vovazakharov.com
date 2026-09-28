@@ -1,10 +1,7 @@
 import type { Point } from '../../model/geometry';
 
 /** A door as a tap finds it: its tap area's middle on screen, and whether that area holds a point on screen. */
-export type DoorTarget = {
-  middle: Point;
-  holds: (at: Point) => boolean;
-};
+export type DoorTarget = Point & { holds: (at: Point) => boolean };
 
 /**
  * Which of `doors` a tap at `finger` goes to: of those whose tap area holds
@@ -19,7 +16,7 @@ export function tappedDoor<Door extends DoorTarget>(
   let nearest: { door: Door; away: number } | undefined;
   for (const door of doors) {
     if (!door.holds(finger)) continue;
-    const away = Math.hypot(finger.x - door.middle.x, finger.y - door.middle.y);
+    const away = Math.hypot(finger.x - door.x, finger.y - door.y);
     if (nearest && away > nearest.away) continue;
     nearest = { door, away };
   }

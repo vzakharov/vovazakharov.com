@@ -9,7 +9,7 @@ type Named = DoorTarget & { name: string };
 /** A door whose tap area is the circle `r` round `middle`, as `doorHitArea` draws it. */
 const circle = (name: string, middle: Point, r: number): Named => ({
   name,
-  middle,
+  ...middle,
   holds: ({ x, y }) => Math.hypot(x - middle.x, y - middle.y) <= r,
 });
 

@@ -1,9 +1,9 @@
 import type * as Phaser from 'phaser';
 
-import { sample } from '../../model/geometry';
+import { ellipse, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import type { MushroomGenes, PorciniGenes } from '../../model/mushroom-genes';
-import type { TapArea } from '../../model/mushroom-outline';
+import { footWidth, type TapArea } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import type { Lighting } from './ink';
@@ -114,21 +114,37 @@ export function drawSelection(
   size: number,
 ): void {
   const parts = Object.values(outlines);
-  strokeSelection(graphics, selectionBand(size) * 2, () => {
+  strokeSelection(graphics, graphics, selectionBand(size) * 2, () => {
     for (const part of parts) strokeShape(graphics, part);
   });
 }
 
-/** The selected mushroom's ring on the ground, centred on `graphics`' own position, its foot. */
+/** How tall the ground ring stands against how wide. */
+const RING_TALL = 0.24;
+
+/**
+ * The ground ring's two graphics, both centred on the mushroom's foot: its
+ * ink edge, under the band round the mushroom, and its yellow, over that
+ * band, so where the two meet at the foot they run into one another as the
+ * band's own strokes do.
+ */
+export type RingGraphics = Record<'edge' | 'band', Phaser.GameObjects.Graphics>;
+
+/**
+ * The selected mushroom's ring on the ground, as wide as its foot stands
+ * turned `turn` (`footWidth`), so its ends meet the band at the foot's
+ * corners.
+ */
 export function drawSelectionRing(
-  graphics: Phaser.GameObjects.Graphics,
+  { edge, band }: RingGraphics,
   genes: MushroomGenes,
   size: number,
+  turn: number,
 ): void {
-  const across = genes.capWidth * size * 0.8;
-  const tall = across * 0.24;
-  strokeSelection(graphics, selectionBand(size), () => {
-    graphics.strokeEllipse(0, 0, across, tall);
+  const half = (footWidth(genes, turn) * size) / 2;
+  const ring = ellipse({ x: 0, y: 0 }, half, half * RING_TALL);
+  strokeSelection(edge, band, selectionBand(size), (graphics) => {
+    strokeShape(graphics, ring);
   });
 }
 
@@ -137,17 +153,19 @@ function selectionBand(size: number): number {
 }
 
 /**
- * What `stroke` draws, as a `band`-wide stroke in `PALETTE.selection` edged in
- * ink. Every edge goes down before any band, so where two strokes meet — the
- * stem under the cap — the bands run into one another and no ink crosses them.
+ * What `stroke` draws, as a `band`-wide stroke in `PALETTE.selection` into
+ * `inBand`, edged in ink into `inEdge`. Every edge goes down before any band,
+ * so where two strokes meet — the stem under the cap — the bands run into
+ * one another and no ink crosses them.
  */
 function strokeSelection(
-  graphics: Phaser.GameObjects.Graphics,
+  inEdge: Phaser.GameObjects.Graphics,
+  inBand: Phaser.GameObjects.Graphics,
   band: number,
-  stroke: () => void,
+  stroke: (graphics: Phaser.GameObjects.Graphics) => void,
 ): void {
-  graphics.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
-  stroke();
-  graphics.lineStyle(band, PALETTE.selection);
-  stroke();
+  inEdge.lineStyle(band + SELECTION_EDGE * 2, PALETTE.ink);
+  stroke(inEdge);
+  inBand.lineStyle(band, PALETTE.selection);
+  stroke(inBand);
 }

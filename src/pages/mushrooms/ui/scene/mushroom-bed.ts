@@ -35,6 +35,7 @@ import {
   drawMushroomShadow,
   drawSelection,
   drawSelectionRing,
+  type RingGraphics,
 } from './draw-mushroom';
 import { containsMushroom } from './hit-areas';
 import { type Body, HouseView } from './house-view';
@@ -50,8 +51,6 @@ const SPORE_DEPTH = 1e5;
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
 const SHADOW_SPREAD = 0.6;
-/** How much wider the selected mushroom's ring spreads per unit of its squash. */
-const RING_SPREAD = 1.5;
 
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 type Shown = Tapped &
@@ -81,7 +80,7 @@ export class MushroomBed {
    * of two crossed mushrooms it is.
    */
   private readonly outline: Phaser.GameObjects.Graphics;
-  private readonly footRing: Phaser.GameObjects.Graphics;
+  private readonly footRing: RingGraphics;
   private selected: string | undefined;
   /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
@@ -103,7 +102,10 @@ export class MushroomBed {
     this.onTap = onTap;
     this.now = now;
     this.outline = scene.add.graphics().setVisible(false);
-    this.footRing = scene.add.graphics().setVisible(false);
+    this.footRing = {
+      edge: scene.add.graphics().setVisible(false),
+      band: scene.add.graphics().setVisible(false),
+    };
   }
 
   /**
@@ -216,7 +218,10 @@ export class MushroomBed {
         .setPosition(graphics.x, graphics.y)
         .setScale(graphics.scaleX, graphics.scaleY)
         .setRotation(graphics.rotation);
-      this.footRing.setScale((1 - stretch * RING_SPREAD) * grown);
+      // As wide as the foot it rings, which widens as the mushroom squashes.
+      for (const ring of Object.values(this.footRing)) {
+        ring.setScale(graphics.scaleX);
+      }
     }
   }
 
@@ -300,21 +305,25 @@ export class MushroomBed {
     }
   }
 
-  /** The band round the selected mushroom, just behind it, and its ring over its shadow and under its stem. */
+  /**
+   * The band round the selected mushroom, just behind it, and its ring over
+   * its shadow and under its stem: the ring's edge under the band, its
+   * yellow over it (`RingGraphics`).
+   */
   private paintSelection(): void {
     const lit = this.lit();
-    this.outline.clear().setVisible(lit !== undefined);
-    this.footRing.clear().setVisible(lit !== undefined);
+    const { edge, band } = this.footRing;
+    for (const graphics of [this.outline, edge, band]) {
+      graphics.clear().setVisible(lit !== undefined);
+    }
     if (!lit) return;
-    const { genes, size, graphics, hit } = lit;
-    this.outline
-      .setPosition(graphics.x, graphics.y)
-      .setDepth(graphics.depth - 0.3);
+    const { genes, size, turn, graphics, hit } = lit;
+    const [x, y, depth] = [graphics.x, graphics.y, graphics.depth];
+    this.outline.setPosition(x, y).setDepth(depth - 0.3);
+    edge.setPosition(x, y).setDepth(depth - 0.4);
+    band.setPosition(x, y).setDepth(depth - 0.2);
     drawSelection(this.outline, hit, size);
-    this.footRing
-      .setPosition(graphics.x, graphics.y)
-      .setDepth(graphics.depth - 0.4);
-    drawSelectionRing(this.footRing, genes, size);
+    drawSelectionRing(this.footRing, genes, size, turn);
   }
 
   private requireLighting(): Lighting {
@@ -366,7 +375,7 @@ export class MushroomBed {
     const doors = [...this.shown.values()].flatMap(({ house: other }) => {
       const middle = other.doorMiddle();
       return middle
-        ? [{ house: other, middle, holds: (p: Point) => other.holdsTap(p) }]
+        ? [{ house: other, ...middle, holds: (p: Point) => other.holdsTap(p) }]
         : [];
     });
     return tappedDoor(at, doors)?.house === house;
