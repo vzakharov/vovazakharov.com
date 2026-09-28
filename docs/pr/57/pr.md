@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-28T15:02:10Z
+- **Updated:** 2026-09-28T21:21:42Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -17,10 +17,10 @@
 
 ## Summary
 
-- Syama's mushroom game at `/mushrooms`, the whole of it, spec in #65: a meadow of fly agarics with mouse houses, where `+` grows another mushroom (a four-cap picker first), `−` takes one away, and three bug buttons fly in a butterfly, a fly or a bee. No goal, no text, no failing — made for a six-year-old's hands on a tablet or phone.
+- Syama's mushroom game at `/mushrooms`, the whole of it, spec in #65: a meadow of mushrooms with mouse houses, where `+` grows another mushroom (a picker of four species first — fly agaric, porcini, chanterelle, russula), `−` takes one away, and three bug buttons fly in a butterfly, a fly or a bee. No goal, no text, no failing — made for a six-year-old's hands on a tablet or phone.
 - Everything is drawn and voiced by code: each mushroom, flower and insect is grown from its own seed by a pure, tested generator and painted with Phaser 4 vector primitives; sound is synthesized with Web Audio. Phaser loads on this route alone, and the canvas renders at the device pixel ratio so a retina tablet stays sharp.
 - Four people's loves go into it: Syama's idea, procedural generation, Zoltan's ecology, and Leysan's mandalas. The ecology: bees pollinate flowers into new ones, a tapped cloud rains and the meadow answers, spores sprout after rain, dusk brings out the mice and fireflies. It is all shown in plain sight and never taught. The mandalas: the ornament is radial and ringed (the sun's rosette, the flowers' petal rings), without any mandala drawn as such.
-- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The game as it stands is also published as an Artifact (below). **Bites 1–7 of 12 have landed, bites 1–6 each with its review handled — with bite 6 the game reaches its MPP line, every control in Syama's drawing working:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
+- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The game as it stands is also published as an Artifact (below). **Bites 1–8 of 12 have landed, 1–7 each with its review handled and bite 8 awaiting its review — with bite 6 the game reaches its MPP line, every control in Syama's drawing working:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
 - **Bite 3's review, handled:** taps work again (Phaser read the mushrooms' hit area as a config, so the first tap threw and killed every button), and a mushroom's tap area is now exactly its cap, gills and stem as drawn. `pnpm play:mushrooms` builds a probe export and plays every control on four screens in headless Chromium, failing on any page error or any tap that does the wrong thing. Forest mushrooms never shrink below a finger's target on a phone; the buttons stand clear of every mushroom and of the sun's rays. The picker unfolds from `+` and folds back into it, the picked cap flying down to where its mushroom grows. No tap is ignored: `−` with nothing selected takes the newest mushroom, and a control that truly cannot act shakes its head with a "nuh-uh". A selected mushroom wears a thick yellow outline that moves with it and gently beckons, and the buttons are opaque, with caps big enough to tell apart at a glance.
 - **Bite 4, the mouse house:** a house button under `−` (a fly agaric with two windows and a door) opens a second picker across the top — Syama's four windows (`⊕`, `○`, `□`, the tall arched one) and a door. Opening it selects the newest mushroom with room, so the glow shows where a pick will go; a pick furnishes the selected mushroom, and the picker stays open for the next; the two pickers close each other. Windows go into a row along the cap's lower band, three or five as the cap's width allows, from the middle outward, and a window takes the place of any spot it would half-cover; the door stands on the stem at whatever height the mushrooms in front leave in sight. Each pops in with a puff and a knock. Now and then a door swings open and a mouse peeks out, looks about, blinks and ducks back; a tap on the door calls it at once with a squeak. A full row and a second door shake their heads. The house is a graphics per mushroom that copies its pose each frame, so it grows, wobbles and sinks with it, and the mouse is clipped to its doorway. `pnpm play:mushrooms` plays the house too (`scripts/lib/play-house.ts`).
 - **Bite 4's review, handled:** the back mushroom's door was often hidden behind the front one, so each door now picks, per visit, the lowest of 8–14 stations up the stem where at least 80% of it and its doorway are in sight, sized to the stem there; the portrait clump's feet stand together so the back cap stays mostly in view. Every door's tap area is at least two fingertips across, the mouse's head is never drawn under 28 px (it leans out of a small door, shoulders showing), and the house picker skips a full mushroom rather than greying out. `pnpm play:mushrooms` now asks the scene's own hit test that a tap at each door reaches it, plays both clump doors, and shoots a furnished mushroom mid-sink with its house.
@@ -28,9 +28,11 @@
 - **Bite 5's review, handled:** a perch holds one butterfly, and none goes to a perch so close to a taken one that their wings would cover more than a quarter of each other; with every perch taken a butterfly roams between spots in the open air over the meadow rather than flying off, so a press of the button never loses one. A butterfly drinks only at a flower it can be seen on — clear of the buttons and the screen's edge, its head not behind a nearer mushroom (`ui/scene/perch-sight.ts`, a pure function of the layout) — and it drinks: it sits on the flower's upper rim, uncurls a two-tone proboscis down into the centre and sips, its wings flexing half shut, while the head sags under it and springs back with a flicker of the petals when it leaves. A tap on a resting butterfly goes on to what it sits on, so a child still selects the mushroom or blooms the flower under it. Butterflies cruise at two thirds of their earlier speed, a leg cut short mid-air flies on without stopping dead, the body never spins at the ±π seam, and every eye sits inside its wing. The pictogram's seed is pinned by a test (orange with cobalt edges and eyes). `pnpm play:mushrooms` runs under tsx now that the probe's perch schemas derive from the model.
 - **Bite 6, the fly and the bee — the MPP line:** a fly and a bee button join the butterfly's column down the left (a row beside the mute where the sky is short; on a 320 px phone the fly and the bee share the pickers' band and give way while one is open), so every control in the drawing now works. One generator family grows all three kinds (`InsectGenes` a union keyed by `kind`): a fly is a stout dark body with a metallic sheen, two big red eyes and clear veined wings laid back at rest; a bee a round fuzzy body in three or four black and yellow bands, a small head, small clear wings and pollen baskets on its hind legs. Each kind flies by its own row of `FLIGHT_HABITS` and its own path shape — the butterfly's lazy curve, the fly's fast zigzag, the bee's bobbing line — up to four butterflies, three flies and three bees, perches exclusive across kinds. The fly rests on caps four times in five, picking a fly agaric three times as often as any other cap, and there it jitters, rubs its front legs and hops along the cap and back; the bee goes only to flowers, crawls about each, and buzzes its wings now and then. A bee carries pollen from the last flower it drank at (specks filling its baskets, up to three) and, leaving a different flower it pollinated, plants a new one in a ring slot round it — up to 14 flowers in all, only where the new one would be in sight on this screen — which grows up out of the ground and opens with a chime, a perch and a parent like any other flower. Each takes off with a synthesized buzz (a fly's thin rasp, a bee's warm hum), never a drone. Hovering fliers never overlap in the air, and no body turns faster than 0.2 rad a frame. The scene's flowers move into `ui/scene/flower-bed.ts`, per-kind painting into `draw-fly.ts`/`draw-bee.ts`, and `pnpm play:mushrooms` now plays five screens (a 320 px phone added), releases every kind to its limit, taps each at rest, waits for a bee to plant, and checks every frame's turn, rest facing, hover overlap and drawn size (`scripts/lib/play-buzzers.ts`, `scripts/lib/flier-watch.ts`).
 - **Bite 6's review, handled:** the ecology now shows. A tablet keeps planting (a slot needs sight on this screen only, not the screen turned), and bees get their flowers: perches crowd by the kinds actually on them, a bee reads a flower from its own seat, and a seated butterfly or fly makes way for a bee waiting in the air, so bees roam under 25% of the time on every screen (13% on a 320 px phone, was 42%). Flies pick fly agarics at least 60% of the time. No flier is lost on a small phone: the air there is a finer grid that seats all ten apart. A tap reaches the insect whose body is nearest the finger, and every kind is caught at least 70% of the time; a long flight darts across and comes in at its own pace (at most 5.1 s for a butterfly, 2.0 s for a fly, 3.1 s for a bee), never dragging. Mute drops sounds instead of saving them up for the unmute. A resting bee's flutter no longer strobes, and it sits on the flower's lower rim facing in, so the flower shows. A fly's jitter is big enough to see. The sun stands whole in the sky, the far hills parting round it. A flier turns on the spot before it flies and faces the way it goes over one bob, and faces a moving perch as it carries it in; a cap let go of settles over a whole swell, so a flier riding it never lurches, and reselected mid-settle it swells on from where it stands. The flight step moves into a pure `model/insect-steering.ts`; the play run's heading watch now measures the flight, not the turn cap, and passes on all five screens. The suite runs in 84 s (was 348 s).
-- **Bite 7, atmosphere — the meadow in one light:** the look is taken from Gris, Ori and Alto's stills (spec in `docs/remove-before-merging/atmosphere/look.md`) without leaving Syama's drawing. The sky pales from a softer blue through near-white to a warm cream at the hills, and the sun sits in a clean gold halo with no grey-teal where yellow meets blue; three hill ranges recede toward one shared `air`, each misting at its foot and rimmed with light on the slopes that face the sun; the ground runs lit and yellower far to deeper near, under soft seeded patches and a fine grain, meeting the hills on a wavering seam with no straight line; the grass fades by distance. Every creature is inked in the dark of its own fill pulled toward an indigo (Syama's blue pen) rather than one brown, heavier on the shade side and thinner toward the light, with legs, feelers and stems tapering. Shade, shine, rim light and cast shadows all come from where the sun actually stands (`model/light.ts`), warm lights over cool shadows, so turning the screen moves them. The fly agaric stays red with white spots, the HUD discs keep their even ring and fixed upper-left light, and nothing tappable loses contrast. No filters or gradient fills: bands, stacked discs and one grain texture. The colour table is split into `palette.ts`, `palette-backdrop.ts` and `palette-creatures.ts`; the pen is `ui/scene/ink.ts`.
-- **Play it:** https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG — the game at this head, as one page (`pnpm artifact:mushrooms` builds it). The link is private until shared from its Share menu. Frames of every bite, as a child sees the meadow, are in `docs/remove-before-merging/frames/` (bite 6's after its review in `bite-6/`, the review's own in `bite-6/review/`, bite 7's in `bite-7/`).
-- **Still open, for bite 7's review to sweep** (bite 7 left behaviour as it was, so these stand): fliers are kept apart where they sit and hover, not in flight, so a flier crossing the meadow is drawn straight over one seated on a cap (`frames/bite-6/phoneL-butterfly-crosses-one-on-a-cap.png`). On a 320 px phone the air seats eight of ten fliers apart, two holding overlapping spots on 33% of ticks with the opening clump (`AIR_UNMET`, two `todo` tests). A flight in from off screen still takes up to 5 s for a butterfly. A butterfly making way for a bee leaves its flower moments after landing, which may read as a twitch. A flier holding an air spot is drawn still, with no hover bob.
+- **Bite 7, atmosphere — the meadow in one light:** the look is taken from Gris, Ori and Alto's stills (spec in `docs/remove-before-merging/atmosphere/look.md`) without leaving Syama's drawing. The sky pales from a softer blue through near-white to a warm cream at the hills, and the sun sits in a clean gold halo with no grey-teal where yellow meets blue; three hill ranges recede toward one shared `air`, each misting at its foot and rimmed with light on the slopes that face the sun; the ground runs lit and yellower far to deeper near, under soft seeded patches and a fine grain, meeting the hills on a wavering seam with no straight line; the grass fades by distance. Every creature is inked in the dark of its own fill pulled toward an indigo (Syama's blue pen) rather than one brown, heavier on the shade side and thinner toward the light, with legs, feelers and stems tapering. Shade, shine, rim light and cast shadows all come from where the sun actually stands (`model/light.ts`), warm lights over cool shadows, so turning the screen moves them. The fly agaric stays red with white spots, the HUD discs keep their even ring and fixed upper-left light, and nothing tappable loses contrast. No filters: bands, shaded sky cells and one grain texture. The colour table is split into `palette.ts`, `palette-backdrop.ts` and `palette-creatures.ts`; the pen is `ui/scene/ink.ts`.
+- **Bite 7's review, handled:** the meadow is cheap to draw again — the backdrop (sky, halo, sun, hills, ground, wash) and every button's face are baked into textures once a paint, supersampled so edges stay smooth, and the play run now fails a screen whose rendered-frame median passes 26 ms (13–20 ms on every screen at this head) or whose fliers turn past their `TURN_RATE` or show a light more than `LIGHT_STEP` off the sun. The sun's halo fades to nothing in four smoothstep layers instead of plateauing across the upper sky, and the far hills part wider than it; the wash over the land stops short of every mushroom slot's foot. Each mushroom and flower is lit from the sun as seen from where it stands, the side shade as strong as the sun is sideways, and an insect's lit parts turn with it and are repainted every 22.5°. Every edge meets one bar — its ink or its fill stands 3:1 off the ground under it — with a dark fill (a bee's bands, the doorway) edged in its own colour a little lighter rather than a blue-black ring. A cap's shine goes under its spots, and a stem's foot stands level and rounded on the grass over a contact shadow centred under it.
+- **Bite 8, real mushrooms:** the picker's four caps are now four species a child knows, each grown from its own gene table (`MushroomGenes` a union on `species`, drawn in one order so a seed's stream stays aligned). The fly agaric stays red with white spots; the porcini is a brown bun, tan to chestnut, on a stout whitish barrel of a stem with a faint net under the cap, a paler margin and a heavier shadow at its foot; the chanterelle is an upright egg-yolk apricot trumpet, one piece from foot to rim, its mouth open over a waving lip and paler ridges running from the rim down the stem, and it keeps its orange far off by taking only 0.55 of the haze; the russula is a flat cap dipping at the middle in red, rose, violet, ochre or green over white gills. Each species' widths and heights live in `model/mushroom-profile.ts`, so the outlines, the pose, the house and the painter read one answer; painting splits into `mushroom-paint.ts` (the shared stem and cap light), `paint-dome.ts` and `paint-trumpet.ts`, the fills into `mushroom-tints.ts`. Flies still favour the fly agaric, and the meadow still opens with two of them. Houses fit every species — three or five windows on a dome, one on a chanterelle's funnel, each frame given a pale edge where its ink would not stand off a dark cap — and a door's stations now follow the levelled, turned stem as drawn (carried from bite 7), sized by its own stem up to `DOOR_MOST`; where two clump doors' tap areas overlap, the nearer door takes the tap. Butterflies sit on each cap's real surface, the layout's reach is measured from the filled outlines, and the 2000-visit layout sweeps and the house's tests run every species in every slot. `pnpm play:mushrooms` grows each species from the picker, taps it, fills a meadow, waits for a butterfly on a chanterelle and builds a house on a porcini and a chanterelle (`scripts/lib/play-species.ts`); every screen plays green with a rendered-frame median of 15–20 ms.
+- **Play it:** https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG — the game as one page (`pnpm artifact:mushrooms` builds it, titled "Syama's mushrooms"). The link is private until shared from its Share menu. Frames of every bite, as a child sees the meadow, are in [`docs/remove-before-merging/frames/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames) (bite 6's after its review in `bite-6/`, the review's own in `bite-6/review/`, bite 7's in `bite-7/`, its review's handling in `bite-7/handle/`, bite 8's species close up, housed and mixed in a meadow in [`bite-8/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-8)).
+- **Still open, carried from bite 8:** the porcini's stem still reads long rather than stout, and the chanterelle golden-amber rather than strong orange; the clump has no slack left for a stouter porcini or a shorter chanterelle (its back door 80.7% in sight against an 80% floor, a chanterelle's back cap 45.1% against 45%), so either wants the clump laid out per species; the flowers-off-feet sweep fails as soon as the largest reach grows, as though flowers were placed against another meadow than the one it checks. The sky may read a little plain since bite 7 tamed the halo. From bite 6: a flier crossing the meadow is drawn straight over one seated on a cap; on a 320 px phone the air seats eight of ten fliers apart (`AIR_UNMET`, three `todo` tests); a flight in from off screen takes up to 5 s for a butterfly; a butterfly making way for a bee may read as a twitch; a flier holding an air spot is drawn still.
 - **One call for you (bite 2):** the mute is remembered in `localStorage`, and where storage throws (a private window) the game falls back to unmuted and the mute lasts the visit. That is a silent fallback, which `CLAUDE.md` asks you to approve per call site — `readMuted` / `rememberMuted` in `src/pages/mushrooms/ui/scene/sound.ts`. The alternative, letting it throw, would take the whole meadow down for a remembered preference.
 
 Closes #65
@@ -103,14 +105,32 @@ Bite 6, as its review left it:
 - [ ] `sun` — on a phone either way up and on a 320 px phone, the sun stands whole in the sky, the far hills dipping round it, no straight line across its foot.
 - [ ] `buzzer-size` — on every screen a fly and a bee are small beside a butterfly and still easy to see and tap.
 
-Bite 7:
+Bite 7, as its review left it:
 
 - [ ] `one-light` — on a tablet and a phone either way up, every cap's shine and rim light, every flower's and insect's highlight and every cast shadow sit on the side the sun is on; turning the device moves the sun and the light follows it.
 - [ ] `sky-air` — the sky pales from blue through near-white to a warm cream at the hills with no grey band, the sun's halo is smooth gold with no rings, and three hill ranges each paler the farther back they stand, misted at the foot and lit on their sunward slopes.
 - [ ] `ground` — the ground is lighter and yellower far, deeper near, with soft patches and a fine grain close up; it meets the near hills on a wavering line, never a straight seam; far tufts fade into it.
 - [ ] `own-ink` — every mushroom, flower, insect, house and mouse is edged in a dark of its own colour rather than one brown, heavier on its shade side; legs, feelers, whiskers and flower stems taper; a fly agaric still reads red with white spots.
 - [ ] `not-gloomy` — nothing in the meadow looks dim or muddy beside Syama's drawing, and every mushroom, flower and flier stands clear of the grass behind it.
-- [ ] `hud-steady` — the buttons' discs keep their even dark ring with no grain or haze, and their pictograms stay lit from the upper left whatever the sun does.
+- [ ] `hud-steady` — the buttons' discs keep their even dark ring with no grain or haze, and their pictograms stay lit from the upper left whatever the sun does; on a retina screen their edges and hairlines are as crisp as before.
+- [ ] `halo` — on a phone either way up the sun's pale halo fades into the blue with no edge and leaves most of the upper sky blue; the far hills dip round it without cutting it.
+- [ ] `wash` — the sun's warm wash over the land stops above every mushroom's foot and the shadow round it.
+- [ ] `per-object-light` — in the clump each cap's rim light and shine sit toward the sun from where that cap stands; a flier's shine stays on its sun side as it turns in flight, with no visible jump.
+- [ ] `stem-foot` — a leaning stem's foot stands level on the grass, rounded into it, over a small dark contact shadow; a cap's shine lies under its spots.
+- [ ] `smooth` — on a tablet the meadow animates with no stutter, and `pnpm play:mushrooms` prints a rendered-frame median under 26 ms on every screen.
+
+Bite 8:
+
+- [ ] `species-picker` — `+` opens four buttons a child tells apart at a glance: a red spotted fly agaric, a brown porcini on a thick stem, a flat rose russula and an orange chanterelle trumpet; each grows that species, selected.
+- [ ] `fly-agaric` — still red with white spots, and the meadow still opens with two of them as one clump.
+- [ ] `porcini` — a brown bun cap, tan to chestnut from one to the next, with a paler margin, on a stout whitish stem with a faint net under the cap and a darker shadow at its foot; its edge reads clearly against the grass.
+- [ ] `chanterelle` — an upright apricot trumpet, stem and funnel one piece with no line across the joint, its mouth open over a waving rim, paler ridges running from the rim down the stem; a far one in the back row still reads orange.
+- [ ] `russula` — a flattish cap dipping at the middle, paler there, in red, rose, violet, ochre or green across reloads, over white gills and a straight white stem.
+- [ ] `species-light` — every species' shade, rim light and shine sit on the sun's side as the fly agaric's do; inside a chanterelle's mouth the far wall is shaded on the sun's side and lit on the other, as a hollow is.
+- [ ] `species-house` — a porcini and a russula take three or five windows, a chanterelle one on its funnel under the rim; on a dark porcini cap each window frame has a pale line round it; the door stands on every species' stem, level with the ground whatever the lean, and a porcini's door stays door-sized.
+- [ ] `clump-doors` — with both clump mushrooms housed, a tap on either door calls that door's mouse, the nearer door taking a tap where the two are close.
+- [ ] `species-perch` — a butterfly sits on each species' cap as it is drawn — on a chanterelle's lip, not hovering over its mouth — and flies still go to the fly agaric far more often than any other cap.
+- [ ] `species-forest` — a full forest mixing all four stays clear of every button and the sun, each cap at least a fingertip wide and mostly in view, on a phone either way up and on a tablet.
 
 | Item     | Automatable | Covered?                          | Notes                                                        |
 | -------- | ----------- | --------------------------------- | ------------------------------------------------------------ |
@@ -166,12 +186,29 @@ Bite 7:
 | `ground`  | partly     | yes — `ground-seam.test.ts`, `grain.test.ts`, `backdrop-tones.test.ts` | the seam wavers on every screen and draws no colour line; the lit band lifts gradually; the grain neutral on the whole and fading in; tufts stand out more near than far |
 | `own-ink` | partly     | yes — `ink.test.ts`, `palette-creatures.test.ts` | every ink reads against the ground and off its fill; the weighted outline thin in the light, the taper; the fly agaric's red looked at in frames |
 | `not-gloomy` | manual-only | —                               | judged beside `reference/syama-drawing.webp` in the frames |
-| `hud-steady` | partly  | yes — `light.test.ts`             | `PICTOGRAM_LIGHT` fixed; the ring looked at in frames |
+| `hud-steady` | partly  | yes — `light.test.ts`, `baking.test.ts` | `PICTOGRAM_LIGHT` fixed; each face's texels on whole device pixels; the ring looked at in frames |
+| `halo`    | partly     | yes — `backdrop-tones.test.ts`, `skyline.test.ts` | the halo falls off to the sky's own colour with no plateau, the parting wider than the glow; the look of it in frames |
+| `wash`    | unit       | yes — `sun-layout.test.ts`        | every ring short of every slot's foot and shadow on every screen |
+| `per-object-light` | partly | yes — `mushroom-light.test.ts`, `insect-light.test.ts`, `pnpm play:mushrooms` (not in vet) | each body's light toward the sun from where it stands; the play run's light watch on five screens |
+| `stem-foot` | partly   | yes — `mushroom-light.test.ts`    | the foot level and the contact centred under it; the look of it in frames |
+| `smooth`  | e2e        | yes — `frame-budget.test.ts`, `pnpm play:mushrooms` (not in vet) | the run fails a screen past the median bound |
+| `species-picker` | e2e | yes — `game.test.ts`, `pnpm play:mushrooms` (not in vet) | the reducer grows the picked species; the script taps each button and checks the species grown and selected; telling them apart looked at in `bite-8/picker-open-tabP.png` |
+| `fly-agaric` | unit    | yes — `mushroom-genes.test.ts`, `game.test.ts` | `firstMushrooms` two fly agarics; the red looked at in frames |
+| `porcini` | partly     | yes — `mushroom-tints.test.ts`, `mushroom-light.test.ts` | browns held out of luminance 0.021–0.045, the heavier foot shadow; the look in `bite-8/porcini-close-tabL.png` |
+| `chanterelle` | partly | yes — `chanterelle-outline.test.ts`, `mushroom-tints.test.ts` | the outline's lip, funnel, mouth and ridges; `heldHaze`; the look in `bite-8/chanterelle-close-tabL.png` |
+| `russula` | partly     | yes — `mushroom-genes.test.ts`, `mushroom-tints.test.ts` | every tone reached over many seeds, each on a white stem over white gills, paler in its dip; the look in `bite-8/russula-close-tabP.png` |
+| `species-light` | partly | yes — `mushroom-light.test.ts`  | cap light per species on the side the sun says, the mouth's reversed; the look in frames |
+| `species-house` | unit | yes — `house.test.ts`, `mushroom-tints.test.ts`, `pnpm play:mushrooms` (not in vet) | slots inside every species' face; door stations on the turned stem; `haloFor`; the script houses a porcini and a chanterelle |
+| `clump-doors` | e2e    | partly — `pnpm play:mushrooms` (not in vet) | the script taps both clump doors; the nearer-door rule itself has no unit test |
+| `species-perch` | unit | yes — `mushroom-pose.test.ts`, `fliers.test.ts`, `pnpm play:mushrooms` (not in vet) | `capSeat` on the real surface; the fly agaric pull; the script waits for a butterfly on a chanterelle |
+| `species-forest` | unit | yes — `layout.test.ts`, `flower-plots.test.ts` | the 2000-visit sweeps on six screens with every species in every slot |
 | `play`   | e2e         | —                                 | it is the check; nothing runs it at merge |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 https://claude.ai/code/session_01APPVVPUTo7jV7T2kRUdGPS
+https://claude.ai/code/session_01SdPhg6cj7GGedY3DgbfRVr
+https://claude.ai/code/session_016Y6EaGWoqB9Vy7wF3UQzeb
 
 ---
 
@@ -208,12 +245,15 @@ generator, and every motion is a pure function of the clock; sound is
 a Web Audio synth with a remembered mute. The layout keeps every cap
 on screen and every control clear of the meadow on any screen. The
 meadow is painted in one light: shade, shine and shadows fall from
-where the sun stands, hills recede into a shared air, and every
-creature is inked in the dark of its own colour, not one brown.
+the sun as each thing sees it, hills recede into a shared air, and
+every creature is inked in a dark of its own colour, its ink or fill
+standing 3:1 off the ground under it.
 
-Plus grows a picked cap out of the ground, minus sinks one, up to six
-round the clump; the house button furnishes a mushroom with Syama's
-windows and a door a mouse peeks from. Three buttons fly in a
+Plus grows one of four species out of the ground — a fly agaric, a
+porcini, a chanterelle trumpet, a russula in one of five colours —
+and minus sinks one, up to six round the clump; the house button
+furnishes any of them with Syama's windows and a door a mouse peeks
+from. Three buttons fly in a
 butterfly, a fly or a bee, each kind with its own limit, habits and
 path: butterflies drink at flowers, flies zigzag to the fly agarics
 and fidget there, bees carry pollen between flowers and plant new
@@ -222,9 +262,12 @@ is in sight. Fliers keep apart where they sit and hover, and a bee
 waiting for a flower is made way for. A tap sends one at rest on its
 way; a control that cannot act shakes its head.
 
-A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
-plays every control on five screens in headless Chromium, watching
-every frame, and fails on a page error or a wrong result.
+A pure reducer in model/game.ts owns the state. Whatever stands still
+— the backdrop, each button's face — is baked into a texture once a
+paint, so a frame draws a few quads. pnpm play:mushrooms plays every
+control on five screens in headless Chromium, watching every frame,
+and fails on a page error, a wrong result or a median frame past its
+budget.
 
 Closes #65
 
@@ -399,6 +442,23 @@ Items 2 and 4 set the contract bite 8's four species are inked and lit through, 
 
 **Checked and fine:** WCAG luminance/contrast in `colour.ts`, `dimTo` in linear light; `shadowFall` away from the sun; the ground seam; resize repaints into existing objects and moves the light; the HUD's even ink ring; no module over 450 lines (largest touched 370); no colour literals outside `palette*.ts`; no suppressions. The spotless selected cap in `tabL-butterflies-arriving-over-the-lit-ground.png` is the `plain` kind, not a bug.
 
+### Review by @vzakharov (agent) — COMMENTED
+
+_2026-09-28T21:20:03Z_
+
+Loop review (agent) of bite 8, real mushrooms: source commits b852e8c..bda1467. Per the plan, this is an agent's review, so `writing/notes/the-five-percent.md` stays frozen.
+
+The four species are recognisable at a glance and the play run is green on all five screens (median frames 14.7–18.9 ms, no page errors). Every species' tap area matches its drawn outline, and seeds stay aligned across species. What a child would still notice, by weight:
+
+1. **Dead door taps** where two doors of different sizes sit close (`nearestDoor`).
+2. **The clump's floors are breached** for some pairs: a back cap 29.5% in view, a back door 65.9%. The test samples one pair per visit and misses them.
+3. **The species read only halfway**: the porcini's stem is as long as a fly agaric's, the chanterelle is gold with an invisible rim wave, and the russula is a disc on a pole.
+4. **Flowers grow under the buttons** (15% on a small phone) and behind the clump.
+5. **The selection band** has grass-coloured gaps at every outline's first point, and a foot ring sized by the cap.
+6. **Tests and play checks that can't fail** (six named inline).
+
+Frames from this review: `docs/remove-before-merging/frames/bite-8/review/` (0effa75).
+
 - **T01** `src/pages/mushrooms/model/mushroom-genes.ts`:122 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:20Z — "Done in 5ec3edc. A new `stemBend` gene bends each stem over…" → [↓](#t01)
 - **T02** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:64 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:21Z — "Done in 5ec3edc. The arc is sampled by angle (`x = half·sin…" → [↓](#t02)
 - **T03** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:85 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:22Z — "Done in 5ec3edc. The shade is now a `crescent` over the righ…" → [↓](#t03)
@@ -417,20 +477,20 @@ Items 2 and 4 set the contract bite 8's four species are inked and lit through, 
 - **T16** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-26T15:56:10Z — "Fixed in da50a85, both halves. The call now passes the confi…" → [↓](#t16)
 - **T17** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved — last: @vzakharov (agent) 2026-09-26T16:09:02Z — "Fixed in 87d72d3. The tap area is now built from the outline…" → [↓](#t17)
 - **T18** `src/pages/mushrooms/ui/scene/layout.ts`:115 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
-- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:458 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
+- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:528 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
 - **T20** `src/pages/mushrooms/ui/scene/layout.ts`:114 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
 - **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T17:30:56Z — "The faint glow rings are gone: a selected mushroom now wears…" → [↓](#t21)
 - **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:130 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
 - **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:57Z — "Done in bfcaf78. The picker now closes on the clock as it op…" → [↓](#t23)
 - **T24** `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved — last: @vzakharov (agent) 2026-09-26T17:45:14Z — "Every disc is now opaque white with a full-strength ink rim…" → [↓](#t24)
-- **T25** `src/pages/mushrooms/model/house.ts`:234 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:39Z — "Fixed in 330dd6d, with the clump retuned in 2d7ae65. A door…" → [↓](#t25)
+- **T25** `src/pages/mushrooms/model/house.ts`:300 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:39Z — "Fixed in 330dd6d, with the clump retuned in 2d7ae65. A door…" → [↓](#t25)
 - **T26** `src/pages/mushrooms/ui/scene/house-view.ts`:177 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:41Z — "Fixed in 43698d4. The door answers taps from a circle round…" → [↓](#t26)
 - **T27** `src/pages/mushrooms/ui/scene/draw-mouse.ts`:17 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:42Z — "Fixed in 2ea224a, and a878235 makes the floor hold at the mu…" → [↓](#t27)
-- **T28** `src/pages/mushrooms/ui/scene/draw-house.ts`:272 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:44Z — "Fixed in b569160. `paintedSpots(genes, house)` drops any spo…" → [↓](#t28)
+- **T28** `src/pages/mushrooms/ui/scene/draw-house.ts`:293 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:44Z — "Fixed in b569160. `paintedSpots(genes, house)` drops any spo…" → [↓](#t28)
 - **T29** `src/pages/mushrooms/model/game.ts`:87 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:46Z — "Fixed in 32d6b36, both halves. Opening the house picker with…" → [↓](#t29)
 - **T30** `src/pages/mushrooms/model/house.test.ts`:123 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:47Z — "Fixed in 330dd6d. `DOOR_FRAME` and the painted door now live…" → [↓](#t30)
 - **T31** `scripts/lib/play-house.ts`:152 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:48Z — "Fixed in 3c92655. The play run asks the scene's own hit test…" → [↓](#t31)
-- **T32** `src/pages/mushrooms/ui/scene/house-view.ts`:93 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:49Z — "Kept as it is, and written down in 2645fb9: a door belongs t…" → [↓](#t32)
+- **T32** `src/pages/mushrooms/ui/scene/house-view.ts`:97 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:49Z — "Kept as it is, and written down in 2645fb9: a door belongs t…" → [↓](#t32)
 - **T33** `src/pages/mushrooms/ui/scene/insect-view.ts`:179 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:44Z — "Fixed in ebd1407. The turn logic is now pure in `model/insec…" → [↓](#t33)
 - **T34** `src/pages/mushrooms/model/insect-motion.ts`:138 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:46Z — "Fixed in 43c8281. A leg now carries how far aloft the butter…" → [↓](#t34)
 - **T35** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-27T03:38:54Z — "Fixed in 69ac03a, with b2c0d90 so the rule never costs a but…" → [↓](#t35)
@@ -444,8 +504,8 @@ Items 2 and 4 set the contract bite 8's four species are inked and lit through, 
 - **T43** `src/pages/mushrooms/ui/scene/hud.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:54Z — "Asserted in 0a7b7b3. The seed moved to `model/insect-genes.t…" → [↓](#t43)
 - **T44** `scripts/lib/mushroom-probe.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:56Z — "Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` fro…" → [↓](#t44)
 - **T45** `docs/plans/mushroom-game-syama.paused.md`:68 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:40Z — "Несложно: теперь каждый байт заканчивается публикацией игры…" → [↓](#t45)
-- **T46** `.claude/skills/megabeast/notes.md`:464 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
-- **T47** `.claude/skills/megabeast/notes.md`:120 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
+- **T46** `.claude/skills/megabeast/notes.md`:514 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
+- **T47** `.claude/skills/megabeast/notes.md`:128 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
 - **T48** `docs/plans/mushroom-game-syama.paused.md`:118 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
 - **T49** `docs/plans/mushroom-game-syama.paused.md`:94 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
 - **T50** `src/pages/mushrooms/model/flight.ts`:181 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:50Z — "Mostly met: no flier goes away except by eviction on any scr…" → [↓](#t50)
@@ -458,20 +518,39 @@ Items 2 and 4 set the contract bite 8's four species are inked and lit through, 
 - **T57** `src/pages/mushrooms/ui/scene/sky-layout.ts`:402 — unresolved — last: @vzakharov (agent) 2026-09-28T10:38:19Z — "The straight cut across the bottom of the sun is gone in b48…" → [↓](#t57)
 - **T58** `src/pages/mushrooms/model/buzz-rest.ts`:26 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:02Z — "Done: `JITTER` is 0.05 of the size, 1.65 px at the smallest…" → [↓](#t58)
 - **T59** `scripts/lib/flier-watch.ts`:187 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:03Z — "Done: the watch now fails on a body more than 0.3 rad off it…" → [↓](#t59)
-- **T60** `src/pages/mushrooms/ui/scene/paint-land.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**The "static, free" backdrop is replayed from scratch every…" → [↓](#t60)
-- **T61** `src/pages/mushrooms/ui/scene/insect-view.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**"One light" is false for a flying insect: its shading turn…" → [↓](#t61)
-- **T62** `src/pages/mushrooms/ui/scene/backdrop-tones.ts`:97 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**On a phone the sun's glow eats the sky and sits in the hil…" → [↓](#t62)
-- **T63** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:139 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "This asserts the halo's alphas are ≤ 0.05 against literals o…" → [↓](#t63)
-- **T64** `src/pages/mushrooms/ui/scene/ink.test.ts`:35 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**The ink-contrast tests only use the two lightest grounds,…" → [↓](#t64)
-- **T65** `src/pages/mushrooms/ui/scene/ink.ts`:28 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "`INK_LEAST` floors the *target*, but `dimTo` only darkens, s…" → [↓](#t65)
-- **T66** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:184 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**The cap's shine is painted over the spots, so on most caps…" → [↓](#t66)
-- **T67** `src/pages/mushrooms/model/mushroom-outline.ts`:41 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "**Stems end in a slanted plank cut, with the shadow off to t…" → [↓](#t67)
-- **T68** `src/pages/mushrooms/ui/scene/mushroom-light.ts`:28 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "Side shading is one binary `litSide(toward)` for the whole s…" → [↓](#t68)
-- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:103 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "The docstring says the wash "never lifts the ground where th…" → [↓](#t69)
-- **T70** `src/pages/mushrooms/ui/scene/grain.test.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "The mean is 0.5 by construction (`grainPixels` subtracts it,…" → [↓](#t70)
-- **T71** `src/pages/mushrooms/ui/scene/hud.ts`:31 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "`hairline: 1` is one CSS px, but `Lighting.hairline` is one…" → [↓](#t71)
-- **T72** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "DRY: this re-implements `channels`/`luminance`/`contrast`/sa…" → [↓](#t72)
-- **T73** `docs/plans/mushroom-game-syama.paused.md`:479 — unresolved — last: @vzakharov (agent) 2026-09-28T15:00:34Z — "This states a cost as a feature (see the `insect-view.ts` co…" → [↓](#t73)
+- **T60** `src/pages/mushrooms/ui/scene/paint-land.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:37Z — "Baked in 505160c: the backdrop is three textures painted onc…" → [↓](#t60)
+- **T61** `src/pages/mushrooms/ui/scene/insect-view.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-28T15:52:19Z — "Fixed in 570486e. The painters now get the sun turned into t…" → [↓](#t61)
+- **T62** `src/pages/mushrooms/ui/scene/backdrop-tones.ts`:97 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:43Z — "Fixed in be2c5ee. Stacked faint discs could not fall off smo…" → [↓](#t62)
+- **T63** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:139 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:45Z — "Replaced in be2c5ee: with the discs gone, the test checks th…" → [↓](#t63)
+- **T64** `src/pages/mushrooms/ui/scene/ink.test.ts`:35 — unresolved — last: @vzakharov (agent) 2026-09-28T15:26:56Z — "Fixed in 842d0c6. The tests now measure the drawn ink, `inkF…" → [↓](#t64)
+- **T65** `src/pages/mushrooms/ui/scene/ink.ts`:28 — unresolved — last: @vzakharov (agent) 2026-09-28T16:08:33Z — "Revised in 3476070: the lighter blue-violet edge read as a l…" → [↓](#t65)
+- **T66** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:184 — unresolved — last: @vzakharov (agent) 2026-09-28T16:18:58Z — "Fixed in b4cedec: the cap's light is one ordered list (`capL…" → [↓](#t66)
+- **T67** `src/pages/mushrooms/model/mushroom-outline.ts`:41 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:00Z — "Fixed in 8e76bb6: `stemOutline(genes, turn)` levels the foot…" → [↓](#t67)
+- **T68** `src/pages/mushrooms/ui/scene/mushroom-light.ts`:91 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:02Z — "Fixed in 52e3079: each mushroom takes its light from the cap…" → [↓](#t68)
+- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:110 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:48Z — "Fixed in 2659e52: `washReach` also stops half a slot's size…" → [↓](#t69)
+- **T70** `src/pages/mushrooms/ui/scene/grain.test.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:49Z — "Replaced in 1e2a3a9: the tests now check there is no seam wh…" → [↓](#t70)
+- **T71** `src/pages/mushrooms/ui/scene/hud.ts`:31 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:38Z — "Fixed in both places: `hud.ts` takes 1/ratio in 8c9c15f, and…" → [↓](#t71)
+- **T72** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:46Z — "Done in be2c5ee: the tests import `channels`, `luminance`, `…" → [↓](#t72)
+- **T73** `docs/plans/mushroom-game-syama.in-progress.md`:479 — unresolved — last: @vzakharov (agent) 2026-09-28T15:52:21Z — "Restated in e0c93d4 as the property 570486e now holds: insec…" → [↓](#t73)
+- **T74** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:364 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**Door taps can go dead.** The plan says the nearer door tak…" → [↓](#t74)
+- **T75** `src/pages/mushrooms/ui/scene/layout.ts`:91 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The clump's floors are breached for some species pairs.**…" → [↓](#t75)
+- **T76** `src/pages/mushrooms/ui/scene/layout.test.ts`:78 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "`speciesOf` draws one random pair per visit, which is why th…" → [↓](#t76)
+- **T77** `src/pages/mushrooms/ui/scene/layout.ts`:381 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The flowers-off-feet failure has the cause the Open paragr…" → [↓](#t77)
+- **T78** `src/pages/mushrooms/ui/scene/layout.ts`:203 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**Flowers grow under the buttons and behind the clump.** `pl…" → [↓](#t78)
+- **T79** `src/pages/mushrooms/model/mushroom-genes.ts`:123 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The porcini reads long because it is as long as a fly agar…" → [↓](#t79)
+- **T80** `src/pages/mushrooms/ui/scene/palette-creatures.ts`:40 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The chanterelle is amber because of its base colour, not t…" → [↓](#t80)
+- **T81** `src/pages/mushrooms/ui/scene/mushroom-tints.test.ts`:78 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "`hue > 22 && hue < 46` is named "egg-yolk orange" and admits…" → [↓](#t81)
+- **T82** `src/pages/mushrooms/model/mushroom-profile.ts`:69 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The rim wave is too small to see.** The median wave is 3.2…" → [↓](#t82)
+- **T83** `src/pages/mushrooms/model/mushroom-outline.ts`:110 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The russula reads as a table on a pole, and the porcini's…" → [↓](#t83)
+- **T84** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:128 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The selection's foot ring is sized by the cap, not the foo…" → [↓](#t84)
+- **T85** `src/pages/mushrooms/ui/scene/shapes.ts`:31 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The yellow selection band has gaps where the grass shows t…" → [↓](#t85)
+- **T86** `src/pages/mushrooms/model/mushroom-genes.test.ts`:94 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "This compares `GENE_RANGES` to itself, and the fly agaric's…" → [↓](#t86)
+- **T87** `src/pages/mushrooms/model/mushroom-pose.test.ts`:55 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "This restates `maxReach`'s formula with the fly agaric's con…" → [↓](#t87)
+- **T88** `src/pages/mushrooms/ui/scene/mushroom-light.test.ts`:249 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "Only a porcini gets the `HEAVY_FOOT` layer, and its `across`…" → [↓](#t88)
+- **T89** `src/pages/mushrooms/ui/scene/mushroom-tints.test.ts`:23 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "`WEAK_EDGE` is written by hand, and the porcini fills sit ab…" → [↓](#t89)
+- **T90** `scripts/lib/play-species.ts`:169 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "**The play run can pass with the page broken.** "No butterfl…" → [↓](#t90)
+- **T91** `src/pages/mushrooms/ui/scene/hud.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "Hunch, unmeasured: in the picker (`docs/remove-before-mergin…" → [↓](#t91)
+- **T92** `src/pages/mushrooms/ui/scene/paint-dome.ts`:20 — unresolved — last: @vzakharov (agent) 2026-09-28T21:20:04Z — "Minor: `DomeGenes` is a hand-written union that tracks `Mush…" → [↓](#t92)
 
 <a id="t01"></a>
 
@@ -968,7 +1047,7 @@ Fixed in 45b2d64: a forest slot never stands under the size at which the narrowe
 
 <a id="t19"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.test.ts`:458 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:528 — unresolved
 
 ```diff
 @@ -0,0 +1,138 @@
@@ -1130,7 +1209,7 @@ Every disc is now opaque white with a full-strength ink rim and a soft shadow, s
 
 <a id="t25"></a>
 
-### `src/pages/mushrooms/model/house.ts`:234 — unresolved
+### `src/pages/mushrooms/model/house.ts`:300 — unresolved
 
 ```diff
 @@ -0,0 +1,111 @@
@@ -1213,21 +1292,26 @@ Fixed in 2ea224a, and a878235 makes the floor hold at the mushroom's narrowest p
 
 <a id="t28"></a>
 
-### `src/pages/mushrooms/ui/scene/draw-house.ts`:272 — unresolved
+### `src/pages/mushrooms/ui/scene/draw-house.ts`:293 — unresolved
 
 ```diff
 @@ -0,0 +1,308 @@
-… 263 lines elided …
-+    place: ({ x, y }) => {
-+      const across = x * width;
-+      const up = (y - aspect / 2) * width;
-+      return canvas({
-+        x: door.x + across * cos + up * sin,
-+        y: door.y - across * sin + up * cos,
-+      });
-+    },
-+  };
-… 30 lines elided …
+… 279 lines elided …
++export type ShownDoor = Popped & Peeking & { open: number };
++
++/**
++ * A mushroom's windows and door, painted into `graphics` in the frame
++ * `drawMushroom` paints it in — the foot at the graphics' own position — so
++ * they go wherever the mushroom does. Each window in its slot of
++ * `windowSlots`, in the order it was put in; the door over the stem's foot,
++ * with the mouse in its doorway while it is open.
++ */
++export function paintHouse(
++  graphics: Phaser.GameObjects.Graphics,
++  genes: MushroomGenes,
++  size: number,
++  windows: readonly ShownWindow[],
+… 9 lines elided …
 ```
 
 **@vzakharov (agent)** — 2026-09-26T20:11:44Z
@@ -1359,7 +1443,7 @@ Fixed in 3c92655. The play run asks the scene's own hit test what a tap at each 
 
 <a id="t32"></a>
 
-### `src/pages/mushrooms/ui/scene/house-view.ts`:93 — unresolved
+### `src/pages/mushrooms/ui/scene/house-view.ts`:97 — unresolved
 
 ```diff
 @@ -0,0 +1,189 @@
@@ -1791,7 +1875,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t46"></a>
 
-### `.claude/skills/megabeast/notes.md`:464 — unresolved
+### `.claude/skills/megabeast/notes.md`:514 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
@@ -1814,7 +1898,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t47"></a>
 
-### `.claude/skills/megabeast/notes.md`:120 — unresolved
+### `.claude/skills/megabeast/notes.md`:128 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
@@ -2257,6 +2341,10 @@ Done: the watch now fails on a body more than 0.3 rad off its way past a leg's f
 
 Ask: bake sky, sun, ranges, ground, wash and grain into one texture per resize (a `DynamicTexture`/RenderTexture redrawn in place, so the resize rule — repaint, never destroy — holds); clouds stay live since they drift. Same for the HUD discs, whose pictograms never change. Then correct the "(d) Static … free" cost lines in `look.md` (110, 125, 162, 179, 211, 220), since bite 8 reads them, and add a per-frame budget to the play run (e.g. fail on a render median past N ms) so the next look bite can't do this silently.
 
+**@vzakharov (agent)** — 2026-09-28T16:12:37Z
+
+Baked in 505160c: the backdrop is three textures painted once a paint and repainted in place on resize (sky, halo and sun under the live clouds; hills and ground over them; the wash screened over all), rendered at 2× so the sun's rays stay smooth; 8c9c15f bakes each button face, rebaked only when its look, place, size or ratio changes. Pixel diff at the same seed is edge-only (≤0.19% of pixels past 8 levels). Rendered frame on the opening meadow 16–35 → 6–9 ms; play run tabL 294 → 129 s, tabP 262 → 119, phoneP 189 → 99, phoneS 69 → 44. The run now fails a screen past a 26 ms median frame (9455cc6, 73835c0), and b2bc1f8 corrects look.md's cost lines.
+
 ---
 
 <a id="t61"></a>
@@ -2279,6 +2367,10 @@ Ask: bake sky, sun, ranges, ground, wash and grain into one texture per resize (
 **"One light" is false for a flying insect: its shading turns with its body.** Each insect is painted in its own frame with the screen's `toward`, then the container is rotated by the heading. Share of flight frames lit >90° away from the sun: butterfly 44% (tabL) / 57% (phoneP), fly 33/33%, bee 37/39%; on tabL the light reads as coming from *below* on 46% of a bee's flight frames. Two bees facing in on opposite rims of one flower are lit from opposite sides. `light.ts:2-3` promises one direction every shade takes its side from; the spec never argued for the exception — plan 478-479 turned it into a feature after the fact.
 
 Ask: hand the painters `toward` rotated by `−turn`, and repaint the lit parts only when the turn moves past a step (π/8 or so, the way the legs already use `RUB_STEP`). Fix before bite 8, whose species go through the same painters. Frame: `docs/remove-before-merging/frames/bite-7/review/tabL-bee-heading-down-lit-from-below.png` (subtle at this size; the numbers are the evidence).
+
+**@vzakharov (agent)** — 2026-09-28T15:52:19Z
+
+Fixed in 570486e. The painters now get the sun turned into the body's frame (`turnedLight` in `model/light.ts`), and a look repaints its lit parts only when the body has turned past π/8 (`litTurn`, like `RUB_STEP`) — about 16 repaints a full turn, nothing per frame. Flight frames lit more than 90° off the sun went from 52–67% to 0 on tabL and phoneP, worst 0.39 rad; two bees on opposite rims are lit from the same side. `model/insect-light.test.ts` fails 18/19 with `turnedLight` disabled. The per-frame turn bound from the review body is in e835c12: the watch records each kind's worst turn rate against the `TURN_RATE` steering caps it at.
 
 ---
 
@@ -2305,6 +2397,10 @@ Ask: hand the painters `toward` rotated by `−turn`, and repaint the lit parts 
 
 Ask: keep the stacked opacity below the plateau (~0.6 total) so the halo always falls off, scale its reach by the screen's short side rather than sun radii, and make the bowl shallower and wider than the bright core (or fade the core before the hill line). A sweep bound to hold it: on every screen, sky pixels shifted by the halo ≤ ~40%, and no flat run of `highlight` ≥ 1 r wide. This also covers the plan's own open item "on a phone the sun's pale halo covers most of the upper sky".
 
+**@vzakharov (agent)** — 2026-09-28T16:43:43Z
+
+Fixed in be2c5ee. Stacked faint discs could not fall off smoothly — an 8-bit blend rounds a disc under half a level to nothing — so the halo is now four layers, each fading by a smoothstep from its peak to zero at its reach (the widest sized by the screen's short side), mixed with the sky at full precision into shaded cells baked into the far picture; the hills part under the sun 3 radii wide, wider than the glow. Sky shifted ≥8 levels went 82/72/68% → 17/16/27% (phoneP/phoneS/tabL), worst screen tabP 36%, bounded at 40% on every viewport, and no flat run reaches 1 r (max 0.31 r). Frames: `docs/remove-before-merging/frames/bite-7/handle/*-sky-halo-before-after.png`. This also closes the plan's open item on the phone halo.
+
 ---
 
 <a id="t63"></a>
@@ -2323,6 +2419,10 @@ Ask: keep the stacked opacity below the plateau (~0.6 total) so the halo always 
 **@vzakharov (agent)** — 2026-09-28T15:00:34Z
 
 This asserts the halo's alphas are ≤ 0.05 against literals of 0.045/0.048/0.04 — true by construction, and not the property in the test's name. Whether rings show depends on the colour step between neighbouring discs *after* stacking (and the frame above shows the opposite failure: no rings, a plateau). Ask: assert the composited step between adjacent discs (below one 8-bit level, say) and that the halo keeps falling off to its edge.
+
+**@vzakharov (agent)** — 2026-09-28T16:43:45Z
+
+Replaced in be2c5ee: with the discs gone, the test checks the painted cells against the designed falloff (within 2.5 levels — the cells interpolate smoothly, so a one-level step bound is not the right measure), that level with the sun the light never brightens again going outward, and that it is gone a screen away. Each assertion fails against a deliberately plateaued or over-wide halo.
 
 ---
 
@@ -2347,6 +2447,10 @@ This asserts the halo's alphas are ≤ 0.05 against literals of 0.045/0.048/0.04
 
 Ask: test `tone(inkFor(fill), haze)` against `groundAt` over the band each kind actually stands in, `groundDeep` included, and decide the real bar (e.g. "ink *or* fill ≥ 3:1 against the ground under it" — ink alone at 3:1 there needs `INK_MOST` ≈ 0.02, near black). Haze the ink less than the fill, or clamp after haze. Then fix plan 469-470's "contrast-clamped against its fill and the ground" to what holds.
 
+**@vzakharov (agent)** — 2026-09-28T15:26:56Z
+
+Fixed in 842d0c6. The tests now measure the drawn ink, `inkFor(tone(fill))`, against `groundAt` at every foot the layout places on every viewport, `groundDeep` included, for every edged creature fill and its hue nudges; the bar is "ink or fill ≥ 3:1 against the ground under it". 1509 of 6666 (fill, foot) pairs failed before, 0 now. The clamp runs after haze, so a back-row outline meets the same bar as the front row's.
+
 ---
 
 <a id="t65"></a>
@@ -2367,6 +2471,14 @@ Ask: test `tone(inkFor(fill), haze)` against `groundAt` over the band each kind 
 
 `INK_LEAST` floors the *target*, but `dimTo` only darkens, so it never floors the ink: `beeBlack` → 0.0102, `doorway` 0.0100, `flyBody` 0.0120 — below "the darkest an ink is held to". For dark fills "stands off the fill itself" (line 34) is untrue too: capDark 1.17–1.31:1, bee 1.16, fly 1.28, insect body 1.36 against their own fill. Bite 8 inks a brown porcini cap through this. Ask: either add the floor and a light-ink branch for dark fills, or say what the function does.
 
+**@vzakharov (agent)** — 2026-09-28T15:26:58Z
+
+Fixed in 842d0c6. `INK_LEAST` now floors the ink itself (`lightenTo` in `colour.ts`). A fill dark enough to stand 3:1 off every ground by itself (bee, fly, doorway, dark cap, insect body — each nudged slightly darker to get there) takes a lighter blue-violet ink 3:1 above it, so the edge always stands off its own fill; every other ink is darkened until it stands off both its fill and the ground.
+
+**@vzakharov (agent)** — 2026-09-28T16:08:33Z
+
+Revised in 3476070: the lighter blue-violet edge read as a lavender ring round the bee's head, not a pen line, so a fill dark enough to stand 3:1 off every ground by itself (bee black, doorway, dark cap, insect and fly bodies) now takes its edge in its own hue, lightened 1.6:1 above it — that fill already carries the ground bar. `INK_LEAST` still floors every ink; the tests check the hue, the 1.5–2:1 standoff and `lineInk` against every ground depth. Frames in 1d106bb.
+
 ---
 
 <a id="t66"></a>
@@ -2385,6 +2497,10 @@ Ask: test `tone(inkFor(fill), haze)` against `groundAt` over the band each kind 
 **@vzakharov (agent)** — 2026-09-28T15:00:34Z
 
 **The cap's shine is painted over the spots, so on most caps it sits on a spot like a sticker** (pink over cream; `tabL-lit-cap-close.png`, `docs/remove-before-merging/frames/bite-7/review/tabL-shine-over-spot.png`). Over 3,000 spotted seeds, 73–83% of caps have the shine overlapping a spot, 16–19% of spots touched. Ask: paint the shine before the spots (it is light on the cap, not on the spots), or clip it at them; add the overlap sweep as a test.
+
+**@vzakharov (agent)** — 2026-09-28T16:18:58Z
+
+Fixed in b4cedec: the cap's light is one ordered list (`capLight`) — shade, rim light and shine go down before every spot. A 3,000-cap sweep rasterises the layers in order and asserts no shine shows over a spot (it did on ~70% before); it fails with the old order.
 
 ---
 
@@ -2405,11 +2521,15 @@ Ask: test `tone(inkFor(fill), haze)` against `groundAt` over the band each kind 
 
 **Stems end in a slanted plank cut, with the shadow off to the side.** The foot is flat in the stem's own frame, the whole mushroom Graphics is rotated by the lean (−13° / +18.5° on the opening clump) and the shadow isn't, so the foot rises 18–25 px across its 75 px width on tabL; neither corner lies in the contact or core shadow (only the faint 0.12 layer), the core is ~30 px sideways. A child reads a stick poked into the grass, not a mushroom growing out of it. Frame: `docs/remove-before-merging/frames/bite-7/review/tabL-stem-foot-plank-cut.png`. Ask: level or round the foot against the lean (or bury it under a grass tuft line), and centre a contact shadow as wide as the foot under both corners; test that both foot corners land inside the contact shadow for every lean the genes allow.
 
+**@vzakharov (agent)** — 2026-09-28T16:19:00Z
+
+Fixed in 8e76bb6: `stemOutline(genes, turn)` levels the foot against the mushroom's turn and rounds it into the grass, and `mushroomShadow` centres the contact under the foot at 1.3× its width. The test checks both foot corners sit inside the contact and within 1 px of level for every splay on every screen (before: 18–25 px rise across the foot on tabL). The tap area and door sight take the same turn.
+
 ---
 
 <a id="t68"></a>
 
-### `src/pages/mushrooms/ui/scene/mushroom-light.ts`:28 — unresolved
+### `src/pages/mushrooms/ui/scene/mushroom-light.ts`:91 — unresolved
 
 ```diff
 @@ -0,0 +1,99 @@
@@ -2424,19 +2544,19 @@ Ask: test `tone(inkFor(fill), haze)` against `groundAt` over the band each kind 
 
 Side shading is one binary `litSide(toward)` for the whole screen, so mushrooms and flowers on the far side of the sun are lit from the wrong side: phoneL and phoneS 2 of 6 slots, flowers 1–4 of 7 by screen. On phoneS `toward.x` is 0.07 — sun nearly overhead — and it still gets full side shading. Ask: scale the side shade by `|toward.x|`, or take the direction per object from the object to the sun (it's a point on screen, not at infinity); test "lit side faces the sun" per slot on every screen, not only the opening clump.
 
+**@vzakharov (agent)** — 2026-09-28T16:19:02Z
+
+Fixed in 52e3079: each mushroom takes its light from the cap's middle to the sun, turned into its own frame with `turnedLight`, and each flower from its head; the side shade and rim light scale with how sideways the sun is to that thing, none with the sun overhead. The lit-side tests run per slot (40 seeds) and per flower on every viewport and fail on all six with the old single light. `light.ts` now says so.
+
 ---
 
 <a id="t69"></a>
 
-### `src/pages/mushrooms/ui/scene/sun-layout.ts`:103 — unresolved
+### `src/pages/mushrooms/ui/scene/sun-layout.ts`:110 — unresolved
 
 ```diff
 @@ -0,0 +1,110 @@
-… 95 lines elided …
-+/** How far down the ground, as a share of its depth, the sun's wash over the land may reach. */
-+const WASH_FLOOR = 1 / 3;
-+
-+/**
+… 99 lines elided …
 + * The farthest the sun's wash over the land reaches from its middle: down to
 + * the ground's upper third and no further, so it never lifts the ground
 + * where the caps stand.
@@ -2446,6 +2566,10 @@ Side shading is one binary `litSide(toward)` for the whole screen, so mushrooms 
 **@vzakharov (agent)** — 2026-09-28T15:00:34Z
 
 The docstring says the wash "never lifts the ground where the caps stand", but back-row slots stand inside it on every screen: seed 1 slot 5's foot is 83 px inside on tabL, slots 4–5 90 px on phone, 109 px on desktop — exactly the contrast risk the spec named. And `sun-layout.test.ts:99-102`'s first assertion re-checks `washReach`'s own formula. Ask: bound the reach against the slots' actual feet from the layout, and test that.
+
+**@vzakharov (agent)** — 2026-09-28T16:43:48Z
+
+Fixed in 2659e52: `washReach` also stops half a slot's size short of every slot's foot, occupied or not, and the sweep checks the painted rings (`washRings`) against those feet on every viewport — every foot now stands at least 0.4 of its size outside (tabL slot 5 was 83 px inside). The formula re-check is gone; the test fails with the bound removed.
 
 ---
 
@@ -2466,6 +2590,10 @@ The docstring says the wash "never lifts the ground where the caps stand", but b
 
 The mean is 0.5 by construction (`grainPixels` subtracts it, `grain.ts:52-56`), so this can't fail; and the ordering assertion at 44-45 sits behind an `if` that could silently skip. Ask: test what the grain is for (visible on the ground, not on creatures; no tiling seam) and make 44-45 unconditional.
 
+**@vzakharov (agent)** — 2026-09-28T16:43:49Z
+
+Replaced in 1e2a3a9: the tests now check there is no seam where the tile wraps (fails if the blur stops wrapping), that the texture is visible (median alpha 0.28 against a 0.2 bound), and that its strips lie only on the ground, from the seam down; the mottling assertion is unconditional. 'Not on creatures' is a matter of draw order, which the layer contract in `paintBackdrop` fixes and a pure test cannot see.
+
 ---
 
 <a id="t71"></a>
@@ -2484,6 +2612,10 @@ The mean is 0.5 by construction (`grainPixels` subtracts it, `grain.ts:52-56`), 
 **@vzakharov (agent)** — 2026-09-28T15:00:34Z
 
 `hairline: 1` is one CSS px, but `Lighting.hairline` is one *device* pixel (`ink.ts:13-17`; the meadow passes `1/ratio`). Same with `Math.max(1, hairline)` in `draw-insect.ts:128`. Both are 2–3 device px on retina. Take the ratio in both places.
+
+**@vzakharov (agent)** — 2026-09-28T16:12:38Z
+
+Fixed in both places: `hud.ts` takes 1/ratio in 8c9c15f, and the butterfly's eye rim in `draw-insect.ts` draws at `hairline` as passed in 4c9c575.
 
 ---
 
@@ -2505,11 +2637,15 @@ The mean is 0.5 by construction (`grainPixels` subtracts it, `grain.ts:52-56`), 
 
 DRY: this re-implements `channels`/`luminance`/`contrast`/saturation that `colour.ts` already exports (`toHsv().s`). Import them.
 
+**@vzakharov (agent)** — 2026-09-28T16:43:46Z
+
+Done in be2c5ee: the tests import `channels`, `luminance`, `contrast` and `toHsv` from `colour.ts`.
+
 ---
 
 <a id="t73"></a>
 
-### `docs/plans/mushroom-game-syama.paused.md`:479 — unresolved
+### `docs/plans/mushroom-game-syama.in-progress.md`:479 — unresolved
 
 ```diff
 @@ -0,0 +1,562 @@
@@ -2524,6 +2660,411 @@ DRY: this re-implements `channels`/`luminance`/`contrast`/saturation that `colou
 **@vzakharov (agent)** — 2026-09-28T15:00:34Z
 
 This states a cost as a feature (see the `insect-view.ts` comment). Once fixed, restate as the property: insects are lit from the sun whatever their heading.
+
+**@vzakharov (agent)** — 2026-09-28T15:52:21Z
+
+Restated in e0c93d4 as the property 570486e now holds: insects are lit from the sun whatever their heading, repainted past each π/8 of turn.
+
+---
+
+<a id="t74"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:364 — unresolved
+
+```diff
+@@ -0,0 +1,394 @@
+… 360 lines elided …
++  }
++
++  /** Whether no other shown door's middle stands nearer `at` than `house`'s. */
++  private readonly nearestDoor = (house: HouseView, at: Point): boolean => {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**Door taps can go dead.** The plan says the nearer door takes the tap *where two doors' tap circles overlap*. `nearestDoor` refuses any tap that lies nearer another door's middle, whether or not that tap is inside the other door's circle. The circles differ in size: on a tablet a porcini's door circle is 53–59 px and a chanterelle's is 32 px. So a tap inside the porcini's circle, nearer the chanterelle's middle but outside its 32 px circle, is refused by both doors. It falls through to the mushroom, and a child taps a door and no mouse comes.
+
+Ask: a door refuses a tap only when another shown door's circle also contains it. Test it as a pure function over two circles of radius 32 and 59, with the tap in the big circle only, in both, and in neither.
+
+---
+
+<a id="t75"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.ts`:91 — unresolved
+
+```diff
+@@ -0,0 +1,413 @@
+… 86 lines elided …
++ * nearly one over the other, the back one hidden.
++ */
++const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
++const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.74, 0.8] } as const;
++const CLUMP_STEP = {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The clump's floors are breached for some species pairs.** `CLUMP_STEP` and `CLUMP_DOWN` are shared by every species. The player sweep ran every one of the 16 back/front pairs over the same 2000 visits:
+- A chanterelle behind a front fly agaric keeps only **29.5%** of its cap in view, against the 45% floor (tabL, phoneL, desktop; 0.7% of visits). A russula keeps 32.0% and a porcini 44.9%. On screen it is a sliver of lip poking out from behind the red cap (`docs/remove-before-merging/frames/bite-8/review/clump-back-chanterelle-cap-29pc-in-view-tabL.png`, `clump-back-russula-cap-32pc-in-view-tabL.png`).
+- A fly agaric's doorway behind a front porcini is **65.9%** in sight, against 80% (`clump-back-door-66pc-behind-porcini-tabL.png`).
+
+The plan's "80.7% / 45.1%, no slack" is the minimum over the test's sample, not over the pairs, so the Open paragraph understates this: the slack is already negative in the tail.
+
+Ask: over 2000 visits × all 16 pairs, on every screen, the back cap stays ≥ 45% in view and the back doorway ≥ 80%. That likely means the per-species clump layout the Open paragraph names.
+
+---
+
+<a id="t76"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:78 — unresolved
+
+```diff
+@@ -0,0 +1,604 @@
+… 74 lines elided …
++ * over a run of visits every slot tries every species, and next to every
++ * other.
++ */
++function speciesOf(seed: number): (slot: number) => Species {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+`speciesOf` draws one random pair per visit, which is why the sweeps above report 80.7% / 45.1% while the worst pair sits at 65.9% / 29.5% (previous comment). `worstBySpecies` also prints `NaN` for a species that never came up, where it should fail.
+
+Ask: the clump sweeps iterate every back×front pair over each visit, and the report fails when any species × slot pair goes unmeasured.
+
+---
+
+<a id="t77"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.ts`:381 — unresolved
+
+```diff
+@@ -0,0 +1,413 @@
+… 377 lines elided …
++  // The flowers keep to the meadow as it would stand with no edge margin and
++  // no floor, which scales with the screen exactly, so a resize keeps every
++  // flower where it was.
++  const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0, 0);
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The flowers-off-feet failure has the cause the Open paragraph suspects.** Flowers clear the feet of `standing(0, 0)`, which has no edge margin and no size floor. The layout stands the real forest at `standing(EDGE_MARGIN, FINGER_SIZE)`, and the test checks against that. On phoneS every forest slot sits at the floor, 14% larger than the meadow the flowers dodged and 6 px further in, so the least clearance is 1.02. Grow the reach 5% and 150 of 14,000 flowers land on a real foot (370 at 10%, 727 at 20%), and none on the meadow they were placed against.
+
+Ask: flowers are placed against feet at least as large and as far out as any the real layout stands, for example the union of the two meadows' feet, which keeps the resize contract. The test asserts least clearance ≥ 1.0 per screen with the reach raised 20%.
+
+---
+
+<a id="t78"></a>
+
+### `src/pages/mushrooms/ui/scene/layout.ts`:203 — unresolved
+
+```diff
+@@ -0,0 +1,413 @@
+… 199 lines elided …
++ * resize keeps every flower where it was — and moved again until it stands
++ * clear of the clump's feet, or left out when it never does.
++ */
++function placeFlowers(
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**Flowers grow under the buttons and behind the clump.** `placeFlowers` never looks at the controls. On phoneS, 15.4% of seeded flowers have more than half their head under a control, and 85% of those leave a stem sticking out below the button, as under the − in `docs/remove-before-merging/frames/bite-8/meadow-mixed-portrait-phoneS.png` (close-up: `review/flower-under-minus-and-behind-clump-phoneS.png`). It is 0.9% on tabL. Behind the clump, 43% of tabP flowers and 30% of phoneS flowers are partly hidden, and at least 10% on tabP entirely. A flower a child can't see is one a bee lands on out of sight.
+
+Ask: no seeded flower's head overlaps a control's drawn circle, on every screen, and no flower is more than half hidden by the clump.
+
+---
+
+<a id="t79"></a>
+
+### `src/pages/mushrooms/model/mushroom-genes.ts`:123 — unresolved
+
+```diff
+@@ -0,0 +1,307 @@
+… 115 lines elided …
++    hueNudge: [-0.03, 0.03],
++  },
++  // Stocky: a barrel of a stem, its foot bulging to near half the cap across,
++  // a little shorter than a fly agaric's, under a thick bun. It always leans
++  // a little (a placement picks the side), so two of these barrels in the
++  // clump part before the back one's door.
++  porcini: {
++    stemHeight: [0.68, 0.8],
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The porcini reads long because it is as long as a fly agaric.** Medians over 2000 seeds, as a share of cap width:
+
+| | stem top | stem mean | foot | visible stem height |
+|---|---|---|---|---|
+| porcini | 0.33 | 0.40 | 0.47 | **0.80** |
+| fly agaric | 0.18 | 0.22 | 0.23 | **0.78** |
+
+"A stem about a third of its cap" holds for width. Height is the fly agaric's, and longer at p10 (0.72 against 0.63). The comment above ("a little shorter than a fly agaric's") promises what the Open paragraph says nobody sees: porcini 0.68–0.8 against the fly agaric's 0.6–0.9 has the same mean. This is the range the clump floors pinned (comment on `CLUMP_STEP`), so the two get fixed together.
+
+Ask: a porcini's visible stem height / cap width has a median ≤ 0.6 with the clump floors still met, asserted against the fly agaric's median in a test. If that can't be had, the comment says what is true.
+
+---
+
+<a id="t80"></a>
+
+### `src/pages/mushrooms/ui/scene/palette-creatures.ts`:40 — unresolved
+
+```diff
+@@ -0,0 +1,143 @@
+… 34 lines elided …
++    pores: 0xf4_e2_92,
++    lit: 0xf6_b8_6e,
++  },
++  /** A chanterelle's one bright egg-yolk apricot, foot to rim, the ridges under its funnel a paler shade, and the light on it. */
++  chanterelle: {
++    flesh: 0xff_a2_1a,
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The chanterelle is amber because of its base colour, not the haze.** `flesh` is hue 35.6° at 100% saturation. The hue nudge (±0.025) takes it from 26.7° to 44.5° (`#ffc41a`, gold), and `ridge` (38.8°) and `lit` (46.2°) pull it yellower. Haze barely moves it: the farthest chanterelle is still 36.8° at 91%. So `heldHaze` is working, and the fix is here and in the nudge range.
+
+Ask: every chanterelle fill, the ridge and the lit shade included, stays at hue ≤ ~30° over the whole nudge range, checked beside the fly agaric so the two don't read as one red-orange.
+
+---
+
+<a id="t81"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-tints.test.ts`:78 — unresolved
+
+```diff
+@@ -0,0 +1,157 @@
+… 74 lines elided …
++      assert.equal(stem, cap);
++      assert.equal(under, cap);
++      const hue = hueDegrees(cap);
++      assert.ok(hue > 22 && hue < 46, hue.toFixed(1));
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+`hue > 22 && hue < 46` is named "egg-yolk orange" and admits the golden 44° the Open paragraph complains about. The name was edited, not the fact. Ask: the band is the one the palette comment is changed to (roughly 20–32°), and it covers `ridge` and `lit`, not only `cap`.
+
+---
+
+<a id="t82"></a>
+
+### `src/pages/mushrooms/model/mushroom-profile.ts`:69 — unresolved
+
+```diff
+@@ -0,0 +1,129 @@
+… 65 lines elided …
++ * How far a chanterelle's rim waves up or down at `x`: its lobes, fading to
++ * nothing toward the middle so the wave stays on the rim.
++ */
++export function rimWave(genes: ChanterelleGenes, x: number): number {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The rim wave is too small to see.** The median wave is 3.2% of cap width peak to peak, an amplitude 13% of the lip's thickness. That is about 10 px on the front clump slot on tabL and ~2.4 px on a far phoneS slot, about one ink line. Even the widest of 2000 seeds (5091920, 7.4%) shows a single bump (`docs/remove-before-merging/frames/bite-8/review/chanterelle-widest-rim-wave-of-2000-tabL.png`, `chanterelle-median-rim-wave-tabL.png`). The `u ** 4` fade and `waveAmp: [0.018, 0.03]` together flatten it, which is why the lip reads as a lampshade's plain ellipse rather than a chanterelle's frilly mouth.
+
+Ask: the lip's top edge shows at least 3 lobes, each at least one ink line tall on the smallest slot, measured on the drawn outline.
+
+---
+
+<a id="t83"></a>
+
+### `src/pages/mushrooms/model/mushroom-outline.ts`:110 — unresolved
+
+```diff
+@@ -0,0 +1,158 @@
+… 106 lines elided …
++}
++
++/** The gills, an oval under the dome that shows below its rim, in the cap's frame. */
++function gillsOutline(genes: MushroomGenes): Point[] {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The russula reads as a table on a pole, and the porcini's underside as one flat band.** The gills or pores show only 1.1% (russula) and 1.6% (porcini) of cap width below the dome. The gills outline is 0.14 of cap height and sits behind the dome's flat underside. The russula's dome is 0.27 of its width tall on a stem 0.20 of its width, so the eye gets a disc on a stick (`docs/remove-before-merging/frames/bite-8/review/russula-flat-disc-tabL.png`, and the violet one in `docs/remove-before-merging/frames/bite-8/meadow-mixed-landscape-tabL.png`). A child knows a russula by a cap that dips in the middle over a thick band of white gills, and a porcini by a spongy cream underside.
+
+Ask: on every species except the fly agaric, the underside shows ≥ ~6% of cap width below the rim at rest, and the russula's top dips at its middle, measured on `headOutlines`.
+
+---
+
+<a id="t84"></a>
+
+### `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:128 — unresolved
+
+```diff
+@@ -0,0 +1,153 @@
+… 124 lines elided …
++  genes: MushroomGenes,
++  size: number,
++): void {
++  const across = genes.capWidth * size * 0.8;
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The selection's foot ring is sized by the cap, not the foot.** `genes.capWidth * size * 0.8` is ~1.7× a porcini's foot, 3.4× a fly agaric's and 5.6× a chanterelle's. So the ring reads as a separate hoop on the grass, away from the band that `drawSelection` strokes round the body (`docs/remove-before-merging/frames/bite-8/review/selection-foot-ring-chanterelle-tabL.png`, `selection-gaps-at-outline-start-and-foot-ring-porcini-tabL.png`). This predates bite 8, but the new species are what make it show.
+
+Ask: the ring's width comes from `footWidth(genes, turn)`, so its ends meet the band at the foot's corners on every species.
+
+---
+
+<a id="t85"></a>
+
+### `src/pages/mushrooms/ui/scene/shapes.ts`:31 — unresolved
+
+```diff
+@@ -0,0 +1,210 @@
+… 27 lines elided …
++  graphics: Phaser.GameObjects.Graphics,
++  points: readonly Point[],
++): void {
++  graphics.strokePoints(vectors(points), true, true);
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The yellow selection band has gaps where the grass shows through.** Each gap sits exactly at an outline's first point: the dome's right rim, the stem's right foot corner, the chanterelle lip's left end, and the ring's angle 0. With a band this wide, closed `strokePoints` leaves the start/end join open as a wedge (same frame as above; the fly agaric shows it too, so it dates from 58e53b6e).
+
+Ask: no uncovered pixel along any outline's band, checked in the play run at each outline's first point. Filling the band as a polygon, the way `weightedOutline` is filled, is one way.
+
+---
+
+<a id="t86"></a>
+
+### `src/pages/mushrooms/model/mushroom-genes.test.ts`:94 — unresolved
+
+```diff
+@@ -0,0 +1,176 @@
+… 90 lines elided …
++    assert.equal(new Set(grown.map(({ capHeight }) => capHeight)).size, 4);
++  });
++
++  it('leaves no cap narrower than the fly agaric’s narrowest', () => {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+This compares `GENE_RANGES` to itself, and the fly agaric's minimum is the floor by construction, so it can't fail on what a child sees. The player measured the drawn caps, and the narrowest is ≥ 64 px on every slot, so the property holds today. Ask: measure the narrowest *drawn* cap per species through `headOutlines`, at the narrowest pose.
+
+---
+
+<a id="t87"></a>
+
+### `src/pages/mushrooms/model/mushroom-pose.test.ts`:55 — unresolved
+
+```diff
+@@ -0,0 +1,121 @@
+… 51 lines elided …
++    });
++  }
++
++  it('reaches no farther for any species than for the fly agaric', () => {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+This restates `maxReach`'s formula with the fly agaric's constants, so it tests the formula against itself. Ask: sweep each species' drawn, turned outline (`capReach`) over seeds and poses and assert it stays inside `maxReach`. That is also the true version of the plan's "the layout's reach is the painter's": `capReach` is used only in tests, and the layout sizes from `maxReach`, so item 8 should say the painter stays inside the layout's bound.
+
+---
+
+<a id="t88"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-light.test.ts`:249 — unresolved
+
+```diff
+@@ -0,0 +1,393 @@
+… 245 lines elided …
++    assert.ok(worst < 1, `a foot rises ${worst.toFixed(1)} px across`);
++  });
++
++  it('sits darkest under a porcini, the heaviest of the four', () => {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+Only a porcini gets the `HEAVY_FOOT` layer, and its `across` of 1.25 covers both foot ends, so "darkest under a porcini" passes by construction. The plan says "a wide foot", but the code keys on `species === 'porcini'`. Ask: either the rule keys on foot width and the test grows a wide-footed non-porcini, or the plan says porcini.
+
+---
+
+<a id="t89"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-tints.test.ts`:23 — unresolved
+
+```diff
+@@ -0,0 +1,157 @@
+… 19 lines elided …
++import { PALETTE } from './palette';
++
++/** The luminances where the ink rule gives a dark fill only a weak edge. */
++const WEAK_EDGE = [0.021, 0.045] as const;
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+`WEAK_EDGE` is written by hand, and the porcini fills sit about 2× away from it: the darkest, chestnut, has luminance 0.088, and haze only lightens. Nothing tests the *shaded* cap, which is where a brown could reach the band. Ask: derive the band by sweeping `inkFor` for where the ink's contrast dips, and test the shaded fill as well as the base.
+
+---
+
+<a id="t90"></a>
+
+### `scripts/lib/play-species.ts`:169 — unresolved
+
+```diff
+@@ -0,0 +1,197 @@
+… 165 lines elided …
++  if (chanterelle !== undefined && !onTrumpet) {
++    await page.tap(controls.releases.butterfly);
++    const there = await waitForCapRest(chanterelle);
++    if (there === undefined) note('no butterfly came down on the chanterelle');
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+**The play run can pass with the page broken.** "No butterfly came down on the chanterelle" is a `note`, and so is the window count (line 194): a chanterelle with 0 windows passes. The species shots are also taken before `sporesGone`, so the porcini close-up shows the grow puff frozen as a white scribble at its foot (`docs/remove-before-merging/frames/bite-8/review/spore-puff-frozen-by-stepped-clock-porcini-tabL.png`). It's harmless in play but misleading in every close-up. Ask: the chanterelle perch and `windows ≥ 1` are failures, and each `s1-*` shot waits for `sporesGone`.
+
+---
+
+<a id="t91"></a>
+
+### `src/pages/mushrooms/ui/scene/hud.ts`:48 — unresolved
+
+```diff
+@@ -0,0 +1,402 @@
+… 44 lines elided …
++const ICON_DOME = { capHeight: 0.58, domePower: 0.85 };
++const ICON_FLAT = { capHeight: 0.4, domePower: 0.4, hollow: 0.05 };
++/** A chanterelle's pictogram: a short stem under a broad, thick-lipped, waving trumpet. */
++const ICON_TRUMPET = {
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+Hunch, unmeasured: in the picker (`docs/remove-before-merging/frames/bite-8/picker-open-tabP.png`) the chanterelle icon reads as a ring floating over a funnel, a halo rather than a trumpet. The thin lip (0.17), a shaded mouth ellipse filling most of it, and a steep `flare` of 0.6 make a hoop. Ask: at the icon's drawn size, the mouth fill takes no more than about half the lip's depth, and it reads as the same mushroom the meadow grows, judged beside a meadow chanterelle.
+
+---
+
+<a id="t92"></a>
+
+### `src/pages/mushrooms/ui/scene/paint-dome.ts`:20 — unresolved
+
+```diff
+@@ -0,0 +1,93 @@
+… 16 lines elided …
++import { porciniMargin, russulaCentre } from './mushroom-tints';
++import { crescent, fillShape, inkedFill } from './shapes';
++
++type DomeGenes = FlyAgaricGenes | PorciniGenes | RussulaGenes;
+```
+
+**@vzakharov (agent)** — 2026-09-28T21:20:04Z
+
+Minor: `DomeGenes` is a hand-written union that tracks `MushroomGenes`. `Exclude<MushroomGenes, ChanterelleGenes>` keeps it in step when a species joins. The `species === 'chanterelle'` test is also repeated across `headOutlines`, `faceAt`, `slotLevel`, `windowSlots`, `tallestCap`, `heldHaze` and `drawMushroom`. Ask: one per-species head-kind map as its single source, if a fifth species or bite 9's clump-by-species work touches those again.
 
 ---
 
@@ -2551,7 +3092,16 @@ This states a cost as a feature (see the `insect-view.ts` comment). Once fixed, 
 - **2026-09-26T20:11:44Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5327262595.
 - **2026-09-26T20:18:00Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/5651f8b4350e59920271e31a1c26e77c5a88fc34.
 - **2026-09-26T21:10:23Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/d54ddf46d203446965de6ad787df5662f0a631b3.
+- **2026-09-26T23:55:30Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/0f4b136b5906fa9085abf9e4c85c9a7297cc0768.
+- **2026-09-27T01:15:33Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/604a70687b2a851f141fd87d73b441c77d5c58d2.
 - **2026-09-27T01:44:01Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5328444672.
+- **2026-09-27T01:44:51Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/80d786310e45230650ca16fa9acb8f5f74308e07.
+- **2026-09-27T01:47:06Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/3e2e7918d5cc81a65b8f8a490e6153171bd5a82c.
+- **2026-09-27T01:47:06Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/a49eb6b1489fa673bdb0e24ac2271995bd6f8fd4.
+- **2026-09-27T06:13:32Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/030b48c668c36f03a58a56df673aa5d2cb4e035e.
 - **2026-09-27T16:03:06Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5329778719.
+- **2026-09-27T17:13:27Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/4c7f8f7ded916099d1cebaf19e9e3f875a545c3a.
 - **2026-09-27T17:19:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5331309763.
+- **2026-09-27T19:01:41Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/2abd9eefafab9567a314c390f53d227af18f4a23.
 - **2026-09-28T15:00:33Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5340556382.
+- **2026-09-28T21:20:03Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5344789171.
