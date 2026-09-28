@@ -306,6 +306,13 @@ export function castShadow(
 const CONTACT = [1.3, 0.32] as const;
 
 /**
+ * A porcini's extra darkness where its broad foot presses the ground, round
+ * the whole foot, so the heaviest of the four sits heaviest: across and
+ * tall per unit of foot width, and alpha.
+ */
+const HEAVY_FOOT = { across: 1.25, tall: 0.3, alpha: 0.4 } as const;
+
+/**
  * A mushroom's shadow, in pixels round its foot: fallen away from the sun,
  * its contact centred under the whole foot as it stands turned `turn`.
  */
@@ -316,8 +323,19 @@ export function mushroomShadow(
   turn = 0,
 ): ShadowLayer[] {
   const foot = footWidth(genes, turn) * size;
-  return castShadow([genes.capWidth * size * 0.8, size * 0.07], light, [
+  const cast = castShadow([genes.capWidth * size * 0.8, size * 0.07], light, [
     foot * CONTACT[0],
     foot * CONTACT[1],
   ]);
+  return genes.species === 'porcini'
+    ? [
+        ...cast,
+        {
+          ...HEAVY_FOOT,
+          x: 0,
+          across: foot * HEAVY_FOOT.across,
+          tall: foot * HEAVY_FOOT.tall,
+        },
+      ]
+    : cast;
 }

@@ -165,7 +165,7 @@ export const GENE_RANGES = {
 export const TRUMPET_RANGES = {
   lip: [0.12, 0.15],
   hollow: [0.025, 0.04],
-  flare: [0.55, 0.8],
+  flare: [0.85, 1.1],
   waveAmp: [0.018, 0.03],
   wavePhase: [0, Math.PI * 2],
 } as const satisfies GeneRanges<Exclude<keyof Trumpet, 'lobes' | 'ridges'>>;

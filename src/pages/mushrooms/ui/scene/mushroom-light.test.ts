@@ -245,7 +245,54 @@ describe('a mushroom’s foot', () => {
     }
     assert.ok(worst < 1, `a foot rises ${worst.toFixed(1)} px across`);
   });
+
+  it('sits darkest under a porcini, the heaviest of the four', () => {
+    for (let seed = 1; seed <= 40; seed++) {
+      const porcini = footDarkness(
+        mushroomGenes({ seed, species: 'porcini' }),
+        size,
+        light,
+      );
+      for (const species of MUSHROOM_SPECIES) {
+        if (species === 'porcini') continue;
+        const other = footDarkness(
+          mushroomGenes({ seed, species }),
+          size,
+          light,
+        );
+        assert.ok(
+          porcini >= other + 0.1,
+          `seed ${seed}: porcini ${porcini.toFixed(2)}, ${species} ${other.toFixed(2)}`,
+        );
+      }
+    }
+  });
 });
+
+/**
+ * A standing mushroom's shadow's darkness where the ground meets each end of
+ * its foot, the lighter of the two: every ellipse painted over that spot,
+ * stacked.
+ */
+function footDarkness(
+  genes: MushroomGenes,
+  size: number,
+  light: Parameters<typeof mushroomShadow>[2],
+): number {
+  const layers = mushroomShadow(genes, size, light);
+  const corners = stemOutline(genes, 0).map(toCanvas(size));
+  const ends = [corners[0], corners[CURVE_STEPS * 2 + 1]];
+  return Math.min(
+    ...ends.map((end) => {
+      assert.ok(end);
+      const over = layers.filter(
+        ({ x, across, tall }) =>
+          ((end.x - x) / (across / 2)) ** 2 + (end.y / (tall / 2)) ** 2 < 1,
+      );
+      return 1 - over.reduce((clear, { alpha }) => clear * (1 - alpha), 1);
+    }),
+  );
+}
 
 /** A unit vector from `from` to `to`. */
 function heading(from: Point, to: Point): Point {
