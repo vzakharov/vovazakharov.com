@@ -450,7 +450,20 @@ covers its head; the bee's brief flutter at rest still strobes a little;
 the sun sits partly behind the hills on phone landscape and the 320 px
 phone.
 
-7. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
+7. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
+   fills and even black ink everywhere. The operator's bar is the look of
+   beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
+   фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с
+   душой". The bite starts by gathering references (Gris, Ori, Alto's
+   Odyssey; fetched into `tmp/`, never committed) and naming what they do
+   that the meadow does not — likely aerial perspective across the hill
+   ranges, a sky and light that tint everything under them, ink that tapers
+   and takes the colour of what it outlines, soft seeded grain, a harmonised
+   rather than saturated palette. Every frame of the bite is judged beside
+   those references as well as Syama's drawing. Still code-drawn, still no
+   asset files, still made for a six-year-old.
+
+8. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
    different doors as different caps. The operator keeps the misreading's
    idea, variety, but asks for real species instead of shapes that look like
    nothing ("давай у нас будут реальные грибы вместо неопределённых"):
@@ -463,21 +476,9 @@ phone.
 
    Only the look changes in this bite ("на первом этапе это только внешний
    вид, а дальше можно думать"). Behaviour tied to a kind stays with the
-   fly agaric: flies still favour it, as `spotted` does now. It comes before
-   atmosphere so that bite's palette is judged on the real species.
+   fly agaric: flies still favour it, as `spotted` does now. The new species
+   are drawn in the look bite 7 set.
 
-8. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
-   fills and even black ink everywhere. The operator's bar is the look of
-   beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
-   фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с
-   душой". The bite starts by gathering references (Gris, Ori, Alto's
-   Odyssey; fetched into `tmp/`, never committed) and naming what they do
-   that the meadow does not — likely aerial perspective across the hill
-   ranges, a sky and light that tint everything under them, ink that tapers
-   and takes the colour of what it outlines, soft seeded grain, a harmonised
-   rather than saturated palette. Every frame of the bite is judged beside
-   those references as well as Syama's drawing. Still code-drawn, still no
-   asset files, still made for a six-year-old.
 9. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
    screen changes the crop, not the layout, and the child pans left and
