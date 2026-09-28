@@ -27,8 +27,14 @@ import type { Lighting } from './ink';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
 
-/** A pictogram's light, the same on every button whatever the sun does, and its thinnest line. */
-const ICON_LIGHTING: Lighting = { ...PICTOGRAM_LIGHT, hairline: 1 };
+/**
+ * A pictogram's light, the same on every button whatever the sun does, and
+ * its thinnest line: `hairline`, one device pixel in CSS pixels.
+ */
+const iconLighting = (hairline: number): Lighting => ({
+  ...PICTOGRAM_LIGHT,
+  hairline,
+});
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
@@ -91,22 +97,23 @@ function drawIcon(
   height: number,
   x: number,
   y: number,
+  hairline: number,
   over?: (size: number) => void,
 ): void {
   const size = height / (genes.stemHeight + genes.capHeight);
   graphics.save();
   graphics.translateCanvas(x, y + height / 2);
-  drawMushroom(graphics, genes, size, ICON_LIGHTING);
+  drawMushroom(graphics, genes, size, iconLighting(hairline));
   over?.(size);
   graphics.restore();
 }
 
 /** A pictogram's ink, and no haze. */
-function iconBrush(r: number): Brush {
+function iconBrush(r: number, hairline: number): Brush {
   return {
     ink: Math.max(2, r * 0.07),
     tone: (colour) => colour,
-    lighting: ICON_LIGHTING,
+    lighting: iconLighting(hairline),
   };
 }
 
@@ -125,11 +132,12 @@ const ICON_DOOR_WIDTH = 0.19;
 export function drawHouseButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
+  hairline: number,
 ): void {
   drawDisc(graphics, r);
   const genes = { ...iconGenes('spotted'), spots: [], stemWidth: 0.28 };
-  const brush = iconBrush(r * 0.8);
-  drawIcon(graphics, genes, r * 1.35, 0, 0, (size) => {
+  const brush = iconBrush(r * 0.8, hairline);
+  drawIcon(graphics, genes, r * 1.35, 0, 0, hairline, (size) => {
     const cap = capFrame(genes);
     const canvas = toCanvas(size);
     for (const { kind, x } of ICON_WINDOWS) {
@@ -163,9 +171,10 @@ export function drawFurnishButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
   piece: Furnishing,
+  hairline: number,
 ): void {
   drawDisc(graphics, r);
-  const brush = iconBrush(r);
+  const brush = iconBrush(r, hairline);
   if (piece === 'door') {
     const width = r * 0.78;
     paintDoor(
@@ -191,9 +200,10 @@ export function drawCapButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
   cap: CapKind,
+  hairline: number,
 ): void {
   drawDisc(graphics, r);
-  drawIcon(graphics, iconGenes(cap), r * 1.4, 0, 0);
+  drawIcon(graphics, iconGenes(cap), r * 1.4, 0, 0, hairline);
 }
 
 /**
@@ -205,9 +215,17 @@ export function drawGrowButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
   sign: 1 | -1,
+  hairline: number,
 ): void {
   drawDisc(graphics, r);
-  drawIcon(graphics, iconGenes('spotted'), r * 1.15, -r * 0.24, -r * 0.1);
+  drawIcon(
+    graphics,
+    iconGenes('spotted'),
+    r * 1.15,
+    -r * 0.24,
+    -r * 0.1,
+    hairline,
+  );
   const badge = { x: r * 0.36, y: r * 0.36, r: r * 0.5 };
   graphics.fillStyle(sign > 0 ? PALETTE.grow : PALETTE.shrink);
   graphics.fillCircle(badge.x, badge.y, badge.r);
@@ -234,13 +252,14 @@ function paintIconWings(
   genes: Buzzing,
   size: number,
   veins: number,
+  lighting: Lighting,
 ): void {
   for (const side of SIDES) {
     const root = scaled(size)(buzzRoot(genes, side));
     graphics.save();
     graphics.translateCanvas(root.x, root.y);
     graphics.rotateCanvas(buzzTurn(side, ICON_SPREAD));
-    paintWing(graphics, genes, side, size, veins, ICON_LIGHTING);
+    paintWing(graphics, genes, side, size, veins, lighting);
     graphics.restore();
   }
 }
@@ -254,7 +273,9 @@ export function drawReleaseButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
   kind: InsectKind,
+  hairline: number,
 ): void {
+  const lighting = iconLighting(hairline);
   drawDisc(graphics, r);
   graphics.save();
   switch (kind) {
@@ -263,27 +284,27 @@ export function drawReleaseButton(
       const size = (r * 1.6) / wingspan(genes);
       // A little below the middle, the antennae reaching up into the room above.
       graphics.translateCanvas(0, r * 0.08);
-      paintWings(graphics, genes, 'hind', size, ICON_LIGHTING);
-      paintWings(graphics, genes, 'fore', size, ICON_LIGHTING);
-      paintBody(graphics, genes, size, ICON_LIGHTING);
+      paintWings(graphics, genes, 'hind', size, lighting);
+      paintWings(graphics, genes, 'fore', size, lighting);
+      paintBody(graphics, genes, size, lighting);
       break;
     }
     case 'fly': {
       const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
       const size = (r * 1.3) / genes.bodyLength / 1.25;
       graphics.translateCanvas(0, r * 0.06);
-      paintFlyLegs(graphics, genes, size, 0, ICON_LIGHTING);
-      paintFlyBody(graphics, genes, size, ICON_LIGHTING);
-      paintIconWings(graphics, genes, size, genes.veins);
+      paintFlyLegs(graphics, genes, size, 0, lighting);
+      paintFlyBody(graphics, genes, size, lighting);
+      paintIconWings(graphics, genes, size, genes.veins, lighting);
       break;
     }
     case 'bee': {
       const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
       const size = (r * 1.35) / genes.bodyLength / 1.25;
       graphics.translateCanvas(0, r * 0.1);
-      paintBeeLegs(graphics, genes, size, ICON_SPECKS, ICON_LIGHTING);
-      paintBeeBody(graphics, genes, size, ICON_LIGHTING);
-      paintIconWings(graphics, genes, size, BEE_VEINS);
+      paintBeeLegs(graphics, genes, size, ICON_SPECKS, lighting);
+      paintBeeBody(graphics, genes, size, lighting);
+      paintIconWings(graphics, genes, size, BEE_VEINS, lighting);
       break;
     }
     default: {

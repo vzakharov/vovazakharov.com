@@ -34,7 +34,12 @@ export type PickerSpec<Item> = {
   pick: (item: Item) => void;
   /** Whether a pick of `item` can act; one that cannot shakes its head. */
   can?: (meadow: Meadow, item: Item) => boolean;
-  draw: (graphics: Phaser.GameObjects.Graphics, r: number, item: Item) => void;
+  draw: (
+    graphics: Phaser.GameObjects.Graphics,
+    r: number,
+    item: Item,
+    hairline: number,
+  ) => void;
   /**
    * Whether a pick closes the picker and flies to the newest mushroom's slot
    * as it goes, as a picked cap flies to where its mushroom grows.
@@ -84,7 +89,8 @@ export class Picker<Item> {
   /**
    * Stands the buttons at `homes`, unfolding from `from` as `open` turns true
    * at `now` and folding back as it turns false; `slots` are where the
-   * layout stands each mushroom, for a picked button to fly to. A picker
+   * layout stands each mushroom, for a picked button to fly to; `ratio` is
+   * device pixels to a CSS pixel. A picker
    * closing `inPlaceOf` the other, which opens where it stands, goes at once
    * rather than folding back, so the two never show together.
    */
@@ -95,6 +101,7 @@ export class Picker<Item> {
     now: number,
     meadow: Meadow,
     slots: readonly Point[],
+    ratio: number,
     inPlaceOf = false,
   ): void {
     const opening = open && !this.open;
@@ -111,10 +118,14 @@ export class Picker<Item> {
       const at = homes[index];
       const item = this.spec.items[index];
       if (!at || item === undefined) continue;
-      placeButton(button, at);
-      this.spec.draw(button.graphics, at.r, item);
+      placeButton(button, at, ratio, {
+        look: String(index),
+        draw: (graphics, hairline) => {
+          this.spec.draw(graphics, at.r, item, hairline);
+        },
+      });
       const able = this.spec.can?.(meadow, item) ?? true;
-      button.graphics.setAlpha(able ? 1 : DIMMED_ALPHA);
+      button.face.setAlpha(able ? 1 : DIMMED_ALPHA);
       if (opening) {
         button.shownAt = now + order.indexOf(index) * PICK_STAGGER;
         button.hiddenAt = Infinity;
@@ -131,8 +142,8 @@ export class Picker<Item> {
       button.target =
         button.towards === undefined ? undefined : slots[button.towards];
       // Out of reach the moment the picker closes, while it is still going.
-      if (open) button.graphics.setInteractive();
-      else button.graphics.disableInteractive();
+      if (open) button.face.setInteractive();
+      else button.face.disableInteractive();
     }
     if (!open) this.picked = undefined;
   }

@@ -105,24 +105,51 @@ export class Controls {
     );
   }
 
-  /** Draws every button where `layout` puts it, as `meadow` leaves it. */
-  paint(layout: MeadowLayout, meadow: Meadow, muted: boolean): void {
+  /**
+   * Draws every button where `layout` puts it, as `meadow` leaves it, at
+   * `ratio` device pixels to a CSS pixel.
+   */
+  paint(
+    layout: MeadowLayout,
+    meadow: Meadow,
+    muted: boolean,
+    ratio: number,
+  ): void {
     this.meadow = meadow;
-    placeButton(this.mute, layout.mute);
-    drawMuteButton(this.mute.graphics, layout.mute.r, muted);
-    placeButton(this.plus, layout.plus);
-    drawGrowButton(this.plus.graphics, layout.plus.r, 1);
-    this.plus.graphics.setAlpha(isFull(meadow) ? DIMMED_ALPHA : 1);
-    placeButton(this.minus, layout.minus);
-    drawGrowButton(this.minus.graphics, layout.minus.r, -1);
-    this.minus.graphics.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
-    placeButton(this.house, layout.house);
-    drawHouseButton(this.house.graphics, layout.house.r);
-    this.house.graphics.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
+    placeButton(this.mute, layout.mute, ratio, {
+      look: muted ? 'muted' : 'heard',
+      draw: (graphics) => {
+        drawMuteButton(graphics, layout.mute.r, muted);
+      },
+    });
+    for (const [button, home, sign] of [
+      [this.plus, layout.plus, 1],
+      [this.minus, layout.minus, -1],
+    ] as const) {
+      placeButton(button, home, ratio, {
+        look: String(sign),
+        draw: (graphics, hairline) => {
+          drawGrowButton(graphics, home.r, sign, hairline);
+        },
+      });
+    }
+    this.plus.face.setAlpha(isFull(meadow) ? DIMMED_ALPHA : 1);
+    this.minus.face.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
+    placeButton(this.house, layout.house, ratio, {
+      look: 'house',
+      draw: (graphics, hairline) => {
+        drawHouseButton(graphics, layout.house.r, hairline);
+      },
+    });
+    this.house.face.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
     for (const kind of INSECT_KINDS) {
       const home = layout.releases[kind];
-      placeButton(this.releases[kind], home);
-      drawReleaseButton(this.releases[kind].graphics, home.r, kind);
+      placeButton(this.releases[kind], home, ratio, {
+        look: kind,
+        draw: (graphics, hairline) => {
+          drawReleaseButton(graphics, home.r, kind, hairline);
+        },
+      });
     }
     this.yielding = layout.yielding;
     const now = this.now();
@@ -134,6 +161,7 @@ export class Controls {
       now,
       meadow,
       layout.mushrooms,
+      ratio,
       meadow.furnishing,
     );
     this.housePicker.paint(
@@ -143,6 +171,7 @@ export class Controls {
       now,
       meadow,
       layout.mushrooms,
+      ratio,
       meadow.picking,
     );
   }
