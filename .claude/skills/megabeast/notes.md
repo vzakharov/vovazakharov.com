@@ -564,3 +564,20 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   the plan in chat, with the subagents still working, cost two short turns
   and broke nothing. A question is not a contract change, so it goes to the
   plan only when it changes what is built.
+- **A spec's cost column is a claim, and the review measures it.** Bite 7's
+  spec marked every backdrop layer "(d) Static, painted once per resize:
+  free". But a Phaser `Graphics` replays and re-tessellates its whole command
+  list on every render, so the bands and halo discs cost 2.3× bite 6's draw
+  commands a frame and a rendered frame went from 13 to 31 ms. The play run
+  grew from minutes to ~20 and nobody asked why until the review. The reader
+  found the cause in Phaser's renderer source; the player confirmed it by
+  hiding layers and timing frames. The skill should have the play run
+  report a render-frame median per screen and fail past a budget, so a
+  look bite's cost shows up in its own tail rather than in the next review.
+- **The orchestrator's own look at the bite's committed frames finds what
+  the bite's agents walked past.** The shine sitting over a spot and the
+  stem's slanted plank foot were plain in bite 7's own committed close-ups.
+  The review's orchestrator named them in a few minutes and sent them to
+  the player to measure (73–83% of caps; 18–25 px). The skill's review
+  should open with the orchestrator reading the bite's frames and briefing
+  what it sees as sweep targets, before the agents start.
