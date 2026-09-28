@@ -93,7 +93,8 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   either way; the rename aside is the form that never needs it. Bite 5's
   review pickup met the stale snapshot a fourth time and was blocked again,
   so it is the norm, not an accident: the skill's pickup should go straight
-  to the rename aside.
+  to the rename aside. Bite 8's pickup met it a fifth time, with the harness leaving HEAD
+  detached at the relay's commit; `reset --hard` went through.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
@@ -288,6 +289,24 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   the full play run, frames, `/polish`, the Artifact build and `/pr` to one
   agent, keeping only the Artifact publish (its tool is the orchestrator's)
   and the relay.
+
+- **A subagent reaches ~230k in about twenty-five minutes, often before
+  its first commit.** Bite 8 briefed five agents; four hit that line, two of
+  them with nothing committed yet, so their work survived only as a patch or
+  a pause commit. A `send_later` check-in every ~20 minutes, reading the
+  transcript's usage, caught each one in time. The skill's common brief
+  should ask for a commit after every step that passes, and its orchestrator
+  should arm the check-in with each spawn, not wait for a report.
+- **A brief's paths are checked with `ls` before it goes out.** Bite 8's
+  common brief named the drawing under `docs/remove-before-merging/`; it had
+  moved to `src/pages/mushrooms/reference/`. Every agent spent a search on it,
+  and one reported it. The skill's template should fill paths from the tree.
+- **A look bite changing proportions meets layout floors with no slack.**
+  Every bite-8 attempt at a stouter porcini or a shorter chanterelle failed
+  the clump's door-sight and back-cap floors (80.7% against 80%), so the
+  species read less like themselves than asked. The skill's plan for a
+  proportions bite should budget the layout change alongside the genes, or
+  say up front which floor may move.
 
 ## Quality levers
 
