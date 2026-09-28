@@ -126,7 +126,7 @@ export function paintWings(
     // A fine rim of light round the eye's outer ring, on the sun's side.
     const outer = (genes.eyes[0] ?? 0) * breadth - hairline;
     const sun = Math.atan2(toward.y, toward.x);
-    graphics.lineStyle(Math.max(1, hairline), PALETTE.rimLight, 0.9);
+    graphics.lineStyle(hairline, PALETTE.rimLight, 0.9);
     strokeLine(
       graphics,
       sample(sun - 1, sun + 1, 8, (angle) => ({
