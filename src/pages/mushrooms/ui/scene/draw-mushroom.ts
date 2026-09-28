@@ -19,6 +19,7 @@ import {
   capLight,
   mushroomShadow,
   shadedHalf,
+  sideways,
   STEM_LIGHT,
 } from './mushroom-light';
 import { PALETTE } from './palette';
@@ -63,7 +64,8 @@ export function drawMushroomShadow(
 /**
  * Paints one mushroom into `graphics`, whose own position is the foot and
  * whose rotation is the lean, `turn` — so the scene squashes and rocks it from
- * the ground, the foot kept level with it — lit from where `lighting` says.
+ * the ground, the foot kept level with it — lit from where `lighting`, in
+ * that turned frame, says (`mushroomLights`).
  * `haze`, from 0 to 1, takes every colour toward the air's, as distance does.
  */
 export function drawMushroom(
@@ -103,7 +105,7 @@ export function drawMushroom(
     // Shade is laid over the fill's own haze, as the cap's is.
     graphics.fillStyle(
       side === 'shade' ? colour : tone(colour),
-      alpha * (1 - haze),
+      alpha * sideways(toward) * (1 - haze),
     );
     fillShape(
       graphics,
@@ -151,7 +153,7 @@ export function drawMushroom(
   for (const layer of capLight(genes, toward)) {
     switch (layer.kind) {
       case 'shade': {
-        shade(SHADE_ALPHA);
+        shade(SHADE_ALPHA * layer.strength);
         const arc = layer.arc.map((point) => toMushroom(point));
         fillShape(graphics, crescent(arc, interior, capHeight * 0.34));
         break;
@@ -162,7 +164,7 @@ export function drawMushroom(
           [PALETTE.capLit, RIM],
           [PALETTE.rimLight, RIM_FINE],
         ] as const) {
-          lit(colour, alpha);
+          lit(colour, alpha * layer.strength);
           fillShape(graphics, crescent(arc, interior, capHeight * width));
         }
         break;

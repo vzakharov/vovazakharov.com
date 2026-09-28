@@ -38,6 +38,7 @@ import { containsMushroom } from './hit-areas';
 import { type Body, HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
+import { mushroomLights } from './mushroom-light';
 import type { MeadowSound } from './sound';
 import { puffSpores } from './spores';
 
@@ -80,7 +81,7 @@ export class MushroomBed {
   private readonly outline: Phaser.GameObjects.Graphics;
   private readonly footRing: Phaser.GameObjects.Graphics;
   private selected: string | undefined;
-  /** The light the mushrooms are drawn in, as the screen last stood. */
+  /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
 
   private readonly scene: Phaser.Scene;
@@ -267,9 +268,15 @@ export class MushroomBed {
     const place = layout.mushrooms[mushroom.slot];
     if (!place) return;
     const { x, y, size, splay, haze } = place;
-    const { genes, turn } = splayed(mushroomGenes(mushroom), splay);
+    const stood = splayed(mushroomGenes(mushroom), splay);
+    const { genes, turn } = stood;
     const spots = paintedSpots(genes, mushroom.house);
-    const lighting = this.requireLighting();
+    const { body: lighting, ground } = mushroomLights(
+      this.requireLighting(),
+      stood,
+      place,
+      layout.sun,
+    );
     Object.assign(shown, { genes, turn, size, haze, spots, lighting });
     shown.house.repaint();
     shown.graphics.clear().setPosition(x, y).setDepth(y);
@@ -282,7 +289,7 @@ export class MushroomBed {
       .clear()
       .setPosition(x, y)
       .setDepth(y - 0.5);
-    drawMushroomShadow(shown.shadow, genes, size, lighting, turn);
+    drawMushroomShadow(shown.shadow, genes, size, ground, turn);
     // Written into the hit area `show` registered, the object Phaser keeps testing.
     const canvas = toCanvas(size);
     const area = tapArea(genes, turn);

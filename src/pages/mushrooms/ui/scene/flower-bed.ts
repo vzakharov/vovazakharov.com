@@ -20,6 +20,7 @@ import { containsCircle, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
 import type { MeadowLayout } from './layout';
+import { flowerLight } from './mushroom-light';
 import { tapReach } from './sky-layout';
 import type { MeadowSound } from './sound';
 
@@ -51,7 +52,7 @@ export class FlowerBed {
   private readonly onTap: () => void;
   readonly seeded: readonly Flower[];
   private planted: readonly Sown[] = [];
-  /** The light the flowers are drawn in, as the screen last stood. */
+  /** The screen's light as it last stood, which each flower takes from where it stands (`flowerLight`). */
   private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
     butterfly: 1,
@@ -86,7 +87,12 @@ export class FlowerBed {
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);
       const genes = flowerGenes(flower);
-      shown.headR = drawFlower(shown, genes, place.size, lighting);
+      shown.headR = drawFlower(
+        shown,
+        genes,
+        place.size,
+        flowerLight(lighting, genes, place, layout.sun),
+      );
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
       shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));

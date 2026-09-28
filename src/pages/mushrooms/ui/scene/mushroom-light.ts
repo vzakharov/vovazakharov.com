@@ -1,15 +1,81 @@
 /**
- * Where the light falls on a mushroom's cap: its shade, its rim light and
- * its shine, each on the side the light gives it. In the cap's frame (units
- * of size, y up) unless said otherwise.
+ * Where the light falls on a mushroom and on a flower: each one lit from the
+ * sun as seen from where it stands, its cap's shade, rim light and shine on
+ * the side that gives it, as strong as the light is sideways. In the cap's
+ * frame (units of size, y up) unless said otherwise.
  */
 
-import { type Circle, type Point, sample } from '../../model/geometry';
-import type { Light } from '../../model/light';
+import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
+import {
+  type Circle,
+  placedAt,
+  type Point,
+  sample,
+  type Scaled,
+} from '../../model/geometry';
+import { type Light, turnedLight } from '../../model/light';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import { CURVE_STEPS, domeArc, footWidth } from '../../model/mushroom-outline';
+import {
+  CURVE_STEPS,
+  domeArc,
+  footWidth,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { awayAngle, litSide, shadowFall } from './ink';
 import { PALETTE } from './palette';
+
+/** How sideways a light, as its across share, gives a full side shade: about 37° off straight above. */
+const FULL_SIDE = 0.6;
+
+/** `light` as a thing at `at` on screen has it: pointing from there at the sun. */
+export function lightAt<Lit extends Light>(
+  light: Lit,
+  at: Point,
+  sun: Point,
+): Lit {
+  const [dx, dy] = [sun.x - at.x, sun.y - at.y];
+  const length = Math.hypot(dx, dy) || 1;
+  return { ...light, toward: { x: dx / length, y: dy / length } };
+}
+
+/**
+ * How much of a full side shade `toward` gives: none with the light straight
+ * above, all of it from `FULL_SIDE` across and past it.
+ */
+export function sideways({ x }: Point): number {
+  return Math.min(1, Math.abs(x) / FULL_SIDE);
+}
+
+/**
+ * The light a mushroom standing at `foot`, `size` its unit, is painted in:
+ * its body's from its cap's middle toward the sun, in the frame its turn
+ * paints it in (`turnedLight`), and its shadow's, on the ground at its foot.
+ */
+export function mushroomLights<Lit extends Light>(
+  light: Lit,
+  { genes, turn }: Splayed,
+  foot: Point & Scaled,
+  sun: Point,
+): Record<'body' | 'ground', Lit> {
+  const middle = capFrame(genes)({ x: 0, y: genes.capHeight / 2 });
+  const at = placedAt(foot, turn, toCanvas(foot.size)(middle));
+  return {
+    body: turnedLight(lightAt(light, at, sun), turn),
+    ground: lightAt(light, foot, sun),
+  };
+}
+
+/** The light a flower standing at `foot`, `size` tall, is painted in: from its head toward the sun. */
+export function flowerLight<Lit extends Light>(
+  light: Lit,
+  genes: FlowerGenes,
+  foot: Point & Scaled,
+  sun: Point,
+): Lit {
+  const head = flowerHead(genes, foot.size);
+  return lightAt(light, { x: foot.x + head.x, y: foot.y + head.y }, sun);
+}
 
 /** The dome's arc from `from` past its crown to the rim, on `side`. */
 function sideArc(
@@ -44,19 +110,21 @@ export function capShine(
 
 /** One layer of the light on a cap, in the cap's frame. */
 export type CapLight =
-  | { kind: 'shade' | 'rim'; arc: Point[] }
+  | { kind: 'shade' | 'rim'; arc: Point[]; strength: number }
   | { kind: 'shine'; centre: Point; radii: readonly [number, number] }
   | { kind: 'spot'; spot: Circle };
 
 /**
  * The cap's light in the order it is painted, first to last. The shade, the
  * rim light and the shine are light on the cap's own skin, so every spot goes
- * on after them and stays its own white wherever they reach.
+ * on after them and stays its own white wherever they reach. The shade and
+ * the rim light are `strength` of their full alpha (`sideways`).
  */
 export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
+  const strength = sideways(toward);
   return [
-    { kind: 'shade', arc: capShadeArc(genes, toward) },
-    { kind: 'rim', arc: capRimArc(genes, toward) },
+    { kind: 'shade', arc: capShadeArc(genes, toward), strength },
+    { kind: 'rim', arc: capRimArc(genes, toward), strength },
     {
       kind: 'shine',
       centre: capShine(genes, toward),

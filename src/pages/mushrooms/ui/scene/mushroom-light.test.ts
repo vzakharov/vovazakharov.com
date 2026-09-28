@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
+import { sunLight } from '../../model/light';
 import {
   CAP_KINDS,
   type MushroomGenes,
@@ -12,22 +14,24 @@ import {
   stemOutline,
   toCanvas,
 } from '../../model/mushroom-outline';
-import { splayed } from '../../model/mushroom-pose';
+import { capFrame, splayed } from '../../model/mushroom-pose';
 import { luminance, mix, toHsv } from './colour';
-import { meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import {
   type CapLight,
   capLight,
   capRimArc,
   capShadeArc,
   capShine,
+  flowerLight,
+  mushroomLights,
   mushroomShadow,
   shadedHalf,
   STEM_LIGHT,
   type StemLayer,
 } from './mushroom-light';
 import { PALETTE } from './palette';
-import { VIEWPORTS } from './viewports';
+import { VIEWPORTS, VISITS } from './viewports';
 
 /** How far round the wheel a colour's hue stands from orange's. */
 function towardOrange(colour: number): number {
@@ -213,4 +217,99 @@ describe('a mushroom’s foot', () => {
     }
     assert.ok(worst < 1, `a foot rises ${worst.toFixed(1)} px across`);
   });
+});
+
+/** A unit vector from `from` to `to`. */
+function heading(from: Point, to: Point): Point {
+  const length = Math.hypot(to.x - from.x, to.y - from.y);
+  return { x: (to.x - from.x) / length, y: (to.y - from.y) / length };
+}
+
+/**
+ * How a mushroom of `seed` stands lit in `place`, on screen: which side of
+ * its own axis its rim light, its shade and the sun stand (above 0 its right,
+ * as it leans), how far off that axis the sun is, in radians, and how strong
+ * its side shade is.
+ */
+function flanks(
+  layout: MeadowLayout,
+  place: MeadowLayout['mushrooms'][number],
+  seed: number,
+) {
+  const stood = splayed(
+    mushroomGenes({ seed, cap: CAP_KINDS[seed % CAP_KINDS.length] ?? 'plain' }),
+    place.splay,
+  );
+  const { genes, turn } = stood;
+  const { body } = mushroomLights(sunLight(layout), stood, place, layout.sun);
+  const onScreen = (point: Point) =>
+    placedAt(place, turn, toCanvas(place.size)(capFrame(genes)(point)));
+  const middle = onScreen({ x: 0, y: genes.capHeight / 2 });
+  const toSun = heading(middle, layout.sun);
+  const up = { x: Math.sin(turn), y: -Math.cos(turn) };
+  const sideOf = ({ x, y }: Point) => up.x * y - up.y * x;
+  const layers = capLight(genes, body.toward);
+  const arcSide = (kind: 'shade' | 'rim') => {
+    const layer = layers.find((each) => each.kind === kind);
+    assert.ok(layer?.kind === kind);
+    return sideOf(
+      heading(middle, middleOf(layer.arc.map((point) => onScreen(point)))),
+    );
+  };
+  const shaded = layers.find((layer) => layer.kind === 'shade');
+  assert.ok(shaded?.kind === 'shade');
+  const { strength } = shaded;
+  return {
+    rim: arcSide('rim'),
+    shade: arcSide('shade'),
+    sun: sideOf(toSun),
+    off: Math.acos(up.x * toSun.x + up.y * toSun.y),
+    strength,
+  };
+}
+
+describe('the meadow’s light', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    const layout = meadowLayout(width, height, VISITS[0] ?? 0);
+    const { sun, mushrooms, flowers } = layout;
+
+    it(`lights every mushroom on the side facing the sun, as strongly as it is sideways, on a ${name} screen`, () => {
+      let overhead = 0;
+      for (const [slot, place] of mushrooms.entries()) {
+        for (let seed = 1; seed <= 40; seed++) {
+          const {
+            rim,
+            shade,
+            sun: sunSide,
+            off,
+            strength,
+          } = flanks(layout, place, seed);
+          const where = `slot ${String(slot)}, seed ${String(seed)}`;
+          if (off >= 0.1) {
+            assert.ok(rim * sunSide > 0, `rim, ${where}`);
+            assert.ok(shade * sunSide < 0, `shade, ${where}`);
+          } else {
+            // The sun straight up its own axis lights both flanks alike.
+            overhead++;
+            assert.ok(strength < 0.25, `overhead shade, ${where}`);
+          }
+        }
+      }
+      if (name === 'small phone') {
+        assert.ok(overhead > 0, 'no mushroom under the sun');
+      }
+    });
+
+    it(`lights every flower from the sun’s side, on a ${name} screen`, () => {
+      const light = sunLight(layout);
+      for (const [index, foot] of flowers.entries()) {
+        const genes = flowerGenes({ seed: index * 31 + 7 });
+        const { x, size } = foot;
+        const across = sun.x - (x + flowerHead(genes, size).x);
+        if (Math.abs(across) < size * 0.5) continue;
+        const { toward } = flowerLight(light, genes, foot, sun);
+        assert.ok(toward.x * across > 0, `flower ${String(index)}`);
+      }
+    });
+  }
 });
