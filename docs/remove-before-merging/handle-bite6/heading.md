@@ -1,4 +1,4 @@
-# Heading group (T59 flight fix) — paused, heading watch passing
+# Heading group (T59 flight fix) — done, heading watch passing
 
 ## Done
 
@@ -66,3 +66,12 @@ then run `node --import tsx tmp/handle-bite6/heading/sim.ts 60`.
   `in` (from off screen).
 - `STILL=1` freezes the cap, `TRACE='<scenario> seed N <kind> <width>'`
   prints the watched frames, and `ALL=` prints every frame.
+
+## State
+
+Done. The tabL failure was the beckon's release stopping a cap dead
+mid-swell, which no one-bob read of the perch can foresee; the beckon now
+dies over a whole swell (290612d, test in `insect-steering.test.ts`). The
+play exits 0 on all five screens, worst heading tabL 0.25, tabP 0.26,
+phoneP 0.21, phoneL 0.22, phoneS 0.22 rad; lint (d6281d4) and
+`pnpm type-overlap` (6a5680f) are clean.
