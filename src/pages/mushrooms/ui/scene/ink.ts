@@ -27,6 +27,8 @@ const INK_MOST = 0.06;
 const INK_LEAST = 0.012;
 /** The contrast an edge keeps, against its fill and against a ground its fill does not stand off: 3:1 and a little room. */
 const INK_CONTRAST = 3.1;
+/** How far a dark fill's edge rises above it: enough to read as a line, too little to read as a ring of another colour. */
+const EDGE_LIFT = 1.6;
 /** How far an inner line's ink goes back toward its fill, so the silhouette reads first. */
 const INNER_BACK = 0.4;
 
@@ -45,20 +47,24 @@ const GROUND_DARKEST = Math.min(
 );
 
 /**
- * The ink that edges `fill` — the fill as drawn, haze and all: its own dark
- * cooled toward Syama's blue pen. A fill dark enough to stand 3:1 off every
- * ground by itself gets that pen lifted until it stands off the fill, a
- * lighter line round a dark shape. Any other fill gets the pen dimmed until it
- * stands off the fill, where the fill is light enough, and off every ground
- * the fill does not stand off itself; never lighter than `INK_MOST`, and no
- * ink is darker than `INK_LEAST`.
+ * The ink that edges `fill` — the fill as drawn, haze and all. Every edge
+ * meets one bar: its ink or its fill stands 3:1 off the ground under it.
+ *
+ * A fill dark enough to stand 3:1 off every ground by itself carries that bar
+ * alone, so its ink is only an edge: the fill's own colour, hue kept (a
+ * neutral fill's stays neutral), lightened `EDGE_LIFT` above it — never
+ * shifted toward the blue pen, which on a dark shape reads as a ring of
+ * another colour. Any other fill gets its own dark cooled toward Syama's blue
+ * pen and dimmed until it stands off the fill, where the fill is light
+ * enough, and off every ground the fill does not stand off itself; never
+ * lighter than `INK_MOST`. No ink is darker than `INK_LEAST`.
  */
 export function inkFor(fill: number): number {
-  const pen = penFor(fill);
   const own = luminance(fill);
   if (lighterBy(own, READS) <= GROUND_DARKEST) {
-    return lightenTo(pen, lighterBy(own, INK_CONTRAST));
+    return lightenTo(fill, Math.max(INK_LEAST, lighterBy(own, EDGE_LIFT)));
   }
+  const pen = penFor(fill);
   // The darkest ground the fill does not stand off: any darker, it stands off itself.
   const unread = Math.max(GROUND_DARKEST, darkerBy(own, READS));
   const most = Math.min(

@@ -3,10 +3,11 @@ import { describe, it } from 'node:test';
 
 import { ellipse, type Point } from '../../model/geometry';
 import { groundAt } from './backdrop-tones';
-import { contrast, luminance, mix, nudgeHue } from './colour';
+import { contrast, luminance, mix, nudgeHue, toHsv } from './colour';
 import {
   facingArc,
   inkFor,
+  lineInk,
   outwardNormals,
   shadowFall,
   taperedLine,
@@ -34,6 +35,21 @@ const NUDGE = 0.04;
 const READS = 3;
 /** The least a dark ink stands off a fill too dark for 3:1, yet too light to stand off every ground itself. */
 const STANDS_OFF = 1.7;
+/** How far a dark fill's lighter edge stands off it: enough to read as a line, too little to read as a ring. */
+const EDGE = [1.5, 2] as const;
+/** How far round the wheel a dark fill's edge may drift from the fill's own hue, in turns. */
+const HUE_DRIFT = 0.02;
+/** A saturation under which a colour reads as grey, and has no hue to keep. */
+const GREY = 0.08;
+
+/** How far apart two hues are round the wheel, in turns. */
+function hueGap(a: number, b: number): number {
+  const gap = Math.abs(toHsv(a).h - toHsv(b).h) % 1;
+  return Math.min(gap, 1 - gap);
+}
+
+/** Every depth down the ground, top to bottom edge, finely enough to find its darkest. */
+const DEPTHS = Array.from({ length: 51 }, (_, index) => index / 50);
 
 /** A foot's depth down the ground, from 0 at its top to 1 at the bottom edge, and the haze what stands there takes. */
 type Foot = { down: number; haze: number };
@@ -58,6 +74,10 @@ const FEET: readonly Foot[] = [
   ),
   { down: 1, haze: 0 },
 ];
+
+/** Whether `fill` stands 3:1 off every ground by itself, so its ink need only be an edge. */
+const standsAlone = (fill: number) =>
+  DEPTHS.every((down) => contrast(fill, groundAt(down)) >= READS);
 
 /** The ink drawn round `fill` hazed by `haze`, and the fill as drawn. */
 function drawn(fill: number, haze: number): { ink: number; fill: number } {
@@ -103,25 +123,74 @@ describe('inkFor', () => {
     assert.deepEqual([...new Set(failing)], []);
   });
 
-  it('stands off its own fill, lighter round a dark one', () => {
-    const hazes = [0, ...new Set(FEET.map(({ haze }) => haze))];
-    const failing = fills.flatMap((fill) =>
-      hazes.flatMap((haze) => {
-        const shown = drawn(fill, haze);
-        const off = contrast(shown.ink, shown.fill);
-        const darker = luminance(shown.ink) < luminance(shown.fill);
+  const hazes = [0, ...new Set(FEET.map(({ haze }) => haze))];
+  const shown = fills.flatMap((fill) =>
+    hazes.map((haze) => ({
+      name: `${fill.toString(16)} hazed ${haze.toFixed(2)}`,
+      ...drawn(fill, haze),
+    })),
+  );
+
+  it('stands a fill that cannot carry the ground off its ink', () => {
+    const failing = shown
+      .filter(({ fill }) => !standsAlone(fill))
+      .flatMap(({ name, ink, fill }) => {
+        const off = contrast(ink, fill);
+        const darker = luminance(ink) < luminance(fill);
         return off >= READS || (darker && off >= STANDS_OFF)
           ? []
-          : [
-              `${fill.toString(16)} hazed ${haze.toFixed(2)}: ${off.toFixed(2)}`,
-            ];
-      }),
-    );
+          : [`${name}: ${off.toFixed(2)}`];
+      });
+    assert.deepEqual([...new Set(failing)], []);
+  });
+
+  it('edges a dark fill in its own hue, a little lighter', () => {
+    const dark = [
+      ...shown.filter(({ fill }) => standsAlone(fill)),
+      // A grey fill, which has no hue for its edge to take.
+      { name: 'grey', fill: 0x20_20_20, ink: inkFor(0x20_20_20) },
+    ];
+    for (const name of ['beeBlack', 'flyBody', 'doorway'] as const) {
+      assert.ok(
+        dark.some(({ fill }) => fill === CREATURES[name]),
+        name,
+      );
+    }
+    const failing = dark.flatMap(({ name, ink, fill }) => {
+      const off = contrast(ink, fill);
+      const lighter = luminance(ink) > luminance(fill);
+      const hued =
+        toHsv(fill).s < GREY
+          ? toHsv(ink).s < GREY
+          : hueGap(ink, fill) <= HUE_DRIFT;
+      return lighter && off >= EDGE[0] && off <= EDGE[1] && hued
+        ? []
+        : [`${name}: ${off.toFixed(2)}, hue ${hueGap(ink, fill).toFixed(3)}`];
+    });
     assert.deepEqual([...new Set(failing)], []);
   });
 
   it('is never black', () => {
     for (const fill of fills) assert.ok(luminance(inkFor(fill)) >= 0.01);
+  });
+});
+
+describe('lineInk', () => {
+  const lines = coloursIn(CREATURES);
+
+  it('stands off every ground by itself, having no fill to lean on', () => {
+    const failing = lines.flatMap((colour) =>
+      DEPTHS.flatMap((down) =>
+        contrast(lineInk(colour), groundAt(down)) >= READS
+          ? []
+          : [`${colour.toString(16)} at ${down.toFixed(2)}`],
+      ),
+    );
+    assert.deepEqual(failing, []);
+  });
+
+  it('is never black', () => {
+    for (const colour of lines) assert.ok(luminance(lineInk(colour)) >= 0.01);
   });
 });
 
