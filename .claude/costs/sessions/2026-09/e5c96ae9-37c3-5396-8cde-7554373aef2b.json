@@ -9,49 +9,49 @@
   "url": "https://claude.ai/code/session_016Y6EaGWoqB9Vy7wF3UQzeb",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-28T17:11:21.551Z",
-  "lastResponseAt": "2026-09-28T19:02:06.053Z",
+  "lastResponseAt": "2026-09-28T19:02:12.329Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 40129,
-    "cacheWrite5mTokens": 817436,
-    "cacheWrite1hTokens": 149882,
-    "cacheReadTokens": 60924259,
-    "outputTokens": 29648,
+    "inputTokens": 40135,
+    "cacheWrite5mTokens": 819208,
+    "cacheWrite1hTokens": 150128,
+    "cacheReadTokens": 61280794,
+    "outputTokens": 29709,
     "thinkingTokens": 4863,
-    "responses": 405,
-    "costUsd": 18.233221799999974
+    "responses": 407,
+    "costUsd": 18.316600799999975
   },
   "ownTurns": {
-    "inputTokens": 137,
+    "inputTokens": 141,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 149882,
-    "cacheReadTokens": 9165853,
-    "outputTokens": 23755,
+    "cacheWrite1hTokens": 150128,
+    "cacheReadTokens": 9357544,
+    "outputTokens": 23808,
     "thinkingTokens": 4801,
-    "responses": 59,
-    "costUsd": 3.5078746
+    "responses": 60,
+    "costUsd": 3.5492568
   },
   "subagents": {
-    "inputTokens": 670,
-    "cacheWrite5mTokens": 814550,
+    "inputTokens": 672,
+    "cacheWrite5mTokens": 816322,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 49846391,
-    "outputTokens": 5451,
+    "cacheReadTokens": 50011235,
+    "outputTokens": 5459,
     "thinkingTokens": 62,
-    "responses": 335,
-    "costUsd": 14.15372819999999
+    "responses": 336,
+    "costUsd": 14.19572499999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 40129,
-      "cacheWrite5mTokens": 817436,
-      "cacheWrite1hTokens": 149882,
-      "cacheReadTokens": 60924259,
-      "outputTokens": 29648,
+      "inputTokens": 40135,
+      "cacheWrite5mTokens": 819208,
+      "cacheWrite1hTokens": 150128,
+      "cacheReadTokens": 61280794,
+      "outputTokens": 29709,
       "thinkingTokens": 4863,
-      "responses": 405,
-      "costUsd": 18.233221799999974
+      "responses": 407,
+      "costUsd": 18.316600799999975
     }
   },
   "warnings": [
