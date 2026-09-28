@@ -529,6 +529,35 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   `crowded: []` or always-open flowers. The skill's review brief should ask
   for each bound the play run and the tests hold, and whether the code makes
   it true by construction.
+- **A look bite opens with a research agent that writes a spec, not code.**
+  Bite 7 ("atmosphere") had no model to split on, so the model → scene
+  pattern did not apply. What worked: one agent fetched reference stills
+  into `tmp/refs/`, read the painting code and Phaser's source for what is
+  cheap (gradients and filters turned out WebGL-only and a render pass a
+  frame), and wrote a spec whose items each name what the references do,
+  the change in the code's terms, a checkable property and a cost. It also
+  split the items by files into two groups and named a small step 0 (the
+  shared table split, a pure light module) that had to land first. The
+  orchestrator settled the spec's open calls in `## This bite`, then ran
+  step 0 alone and the two groups in parallel on one tree. The groups'
+  file lists were disjoint down to "the scene is B's; A comes through
+  `paintBackdrop`'s layer contract", and a `flock` around build and play
+  kept their frame runs from colliding. The skill should make "research
+  → spec → step 0 → parallel groups by file" the shape of any bite whose
+  subject is the look rather than behaviour.
+- **The orchestrator's two frames are a round of their own.** Both groups
+  reported "not gloomy, reads at a glance", and both were right about what
+  they had built. But the orchestrator's own look at two frames, one per
+  orientation, found a ruler-straight seam across the whole ground, a
+  grey-teal smear by the sun (yellow halo over blue), and stems still flat.
+  None was in either report, because each sat at a seam between the
+  groups' work or in what neither was asked about. A third agent fixed all
+  three, each with a shape test. The skill should budget a fix round after
+  parallel groups by default, briefed from the orchestrator's own frames.
+- **A parallel agent's gate report can be the other's half-made state.**
+  Group B reported `type-overlap` failing in A's files, and A reported
+  `tsc` failing in B's test; both were clean once each had landed. The skill
+  should have the fix round, not the groups, own the final gates.
 - **The operator's questions mid-run are answered, not treated as a stop.**
   While bite 4's handling ran, the operator asked how to run the game
   locally and whether ecology and the insects were planned. Answering from
