@@ -1,6 +1,7 @@
 /**
- * Where the light comes from: one direction per picture, which every lit
- * crest and every shade takes its side from.
+ * Where the light comes from: one sun, seen from where each thing stands and
+ * turned into its own frame, which every lit crest and every shade takes its
+ * side from.
  */
 
 import type { Sized } from '@/shared/typings';
