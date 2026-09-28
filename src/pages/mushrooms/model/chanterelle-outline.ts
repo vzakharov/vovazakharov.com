@@ -84,10 +84,13 @@ const MOUTH_ACROSS = 0.84;
 /**
  * The mouth's far and near edges between the lip's top and its front rim, as
  * shares of the lip's depth there up from the rim: the near rim's curled
- * edge shows thicker than the far one, as seen a little from above.
+ * edge shows thicker than the far one, as seen a little from above, and the
+ * mouth takes under half the lip, so the orange stands round it.
  */
-const MOUTH_FAR = 0.8;
-const MOUTH_NEAR = 0.3;
+const MOUTH_FAR = 0.74;
+const MOUTH_NEAR = 0.32;
+/** The ink the painter strokes along the mouth's near and far edges, centred on each, in the ink line's width. */
+export const MOUTH_LINE = { near: 0.5, far: 0.3 };
 
 /**
  * The mouth of a chanterelle's funnel as it shows over the lip, seen a little

@@ -5,7 +5,11 @@
  * lit as a concave hollow is.
  */
 
-import { mouthEdges, ridgeLines } from '../../model/chanterelle-outline';
+import {
+  MOUTH_LINE,
+  mouthEdges,
+  ridgeLines,
+} from '../../model/chanterelle-outline';
 import type { Point } from '../../model/geometry';
 import type { ChanterelleGenes } from '../../model/mushroom-genes';
 import { headOutlines } from '../../model/mushroom-outline';
@@ -30,8 +34,6 @@ const SHADE_ALPHA = 0.22;
 const DEPTHS = { shade: 0.7, rim: 0.3, 'dip-shade': 0.4, 'dip-light': 0.28 };
 /** The shade over the whole mouth, deeper than the lip round it. */
 const MOUTH_SHADE = 0.12;
-/** The ink along the mouth's near and far edges, in the ink line's width. */
-const MOUTH_LINE = { near: 0.5, far: 0.3 };
 /** The funnel's shade on the side turned from the sun and in under the lip, each one's depth in the cap's width, and alpha. */
 const FUNNEL_SIDE = { depth: 0.16, alpha: 0.15 };
 const UNDER_LIP = { depth: 0.1, alpha: 0.2 };

@@ -1,6 +1,5 @@
 import type * as Phaser from 'phaser';
 
-import { sample } from '../../model/geometry';
 import { DOOR_ASPECT, type Furnishing } from '../../model/house';
 import {
   type Buzzing,
@@ -10,22 +9,16 @@ import {
 } from '../../model/insect-genes';
 import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
 import { PICTOGRAM_LIGHT } from '../../model/light';
-import {
-  GENE_RANGES,
-  type MushroomGenes,
-  mushroomGenes,
-  type RussulaTone,
-  type Species,
-} from '../../model/mushroom-genes';
+import type { MushroomGenes, Species } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
-import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
 import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
 import { paintWing, SIDES } from './draw-buzz';
 import { paintFlyBody, paintFlyLegs } from './draw-fly';
 import { paintDoor, paintWindow } from './draw-house';
 import { paintBody, paintWings, scaled } from './draw-insect';
 import { drawMushroom } from './draw-mushroom';
+import { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './icon-genes';
 import type { Lighting } from './ink';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
@@ -39,36 +32,9 @@ const iconLighting = (hairline: number): Lighting => ({
   hairline,
 });
 
-/** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
-const ICON_SEED = 11;
-/** A pictogram's domed cap, and a russula's flatter one, dipping at the middle. */
-const ICON_DOME = { capHeight: 0.58, domePower: 0.85 };
-const ICON_FLAT = { capHeight: 0.4, domePower: 0.4, hollow: 0.05 };
-/** A chanterelle's pictogram: a short stem under a broad, thick-lipped, waving trumpet. */
-const ICON_TRUMPET = {
-  capWidth: 1.05,
-  stemHeight: 0.5,
-  stemWidth: 0.2,
-  capHeight: 0.3,
-  lip: 0.17,
-  flare: 0.6,
-  waveAmp: 0.03,
-};
-/** The russula's pictogram colour: a rose apart from the fly agaric's red. */
-const ICON_RUSSULA = 'rose' satisfies RussulaTone;
 /** How far below a button its shadow falls, in its radii, and how dark. */
 const DISC_DROP = 0.07;
 const DISC_SHADOW_ALPHA = 0.25;
-/**
- * A pictogram's spots, in the cap's frame: fewer and larger than a meadow
- * mushroom's, so they read as spots at a button's size.
- */
-const ICON_SPOTS = [
-  { x: -0.24, y: 0.16, r: 0.085 },
-  { x: 0.02, y: 0.3, r: 0.09 },
-  { x: 0.26, y: 0.13, r: 0.08 },
-  { x: -0.05, y: 0.08, r: 0.06 },
-];
 
 /**
  * A button's disc, opaque so nothing behind it reads through, and centred on
@@ -85,44 +51,6 @@ function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
 }
 
 /**
- * A mushroom of `species`, standing upright: the pictogram's own, not a
- * meadow's. Its cap is wider and taller than any the meadow grows and its stem
- * short, so the cap, which is what tells the four apart, fills the button:
- * a fly agaric's spotted dome, a porcini's broad brown one on a thick stem, a
- * russula's flat rose one, a chanterelle's orange trumpet.
- */
-function iconGenes(species: Species): MushroomGenes {
-  const genes = mushroomGenes({ seed: ICON_SEED, species });
-  const ranges = GENE_RANGES[species];
-  const upright = {
-    ...genes,
-    lean: 0,
-    stemBend: 0,
-    capTilt: 0,
-    stemHeight: ranges.stemHeight[0],
-    stemWidth: ranges.stemWidth[1],
-    capWidth: ranges.capWidth[1],
-  };
-  switch (upright.species) {
-    case 'fly-agaric': {
-      return { ...upright, ...ICON_DOME, spots: ICON_SPOTS };
-    }
-    case 'porcini': {
-      return { ...upright, ...ICON_DOME };
-    }
-    case 'russula': {
-      return { ...upright, ...ICON_FLAT, tone: ICON_RUSSULA };
-    }
-    case 'chanterelle': {
-      return { ...upright, ...ICON_TRUMPET };
-    }
-    default: {
-      return upright satisfies never;
-    }
-  }
-}
-
-/**
  * A mushroom `height` tall, centred on `(x, y)`, and whatever `over` paints on
  * it in its own frame, given the size it is drawn at.
  */
@@ -135,12 +63,7 @@ function drawIcon(
   hairline: number,
   over?: (size: number) => void,
 ): void {
-  const crown = Math.max(
-    ...sample(-0.5, 0.5, CURVE_STEPS, (across) =>
-      capSurface(genes, across * genes.capWidth),
-    ),
-  );
-  const size = height / (genes.stemHeight + crown);
+  const size = iconSize(genes, height);
   graphics.save();
   graphics.translateCanvas(x, y + height / 2);
   drawMushroom(graphics, genes, size, iconLighting(hairline));
@@ -243,7 +166,14 @@ export function drawSpeciesButton(
   hairline: number,
 ): void {
   drawDisc(graphics, r);
-  drawIcon(graphics, iconGenes(species), r * 1.4, 0, 0, hairline);
+  drawIcon(
+    graphics,
+    iconGenes(species),
+    r * SPECIES_ICON_HEIGHT,
+    0,
+    0,
+    hairline,
+  );
 }
 
 /**
