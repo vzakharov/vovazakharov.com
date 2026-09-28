@@ -79,12 +79,13 @@ export function fliersOn(page: Page, expect: Expect) {
         ),
       ),
     );
-  /** Steps until a butterfly is resting on a cap with time to stay. */
-  const waitForCapRest = async () =>
+  /** Steps until a butterfly is resting on a cap, on mushroom `on` when given, with time to stay. */
+  const waitForCapRest = async (on?: string) =>
     waitFor((all, at) =>
       all.find(
         (insect) =>
           insect.to.kind === 'cap' &&
+          (on === undefined || insect.to.id === on) &&
           landed(insect, at) &&
           insect.leaves - at > 1500,
       ),

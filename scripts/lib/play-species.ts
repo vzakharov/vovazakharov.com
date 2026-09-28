@@ -133,7 +133,10 @@ export async function playSpecies(
   const [meadow] = bare.flat();
   if (meadow) await page.tap(meadow);
   await page.step(30);
-  expect((await state()).selected === null, 'a tap on the bare meadow kept a selection');
+  expect(
+    (await state()).selected === null,
+    'a tap on the bare meadow kept a selection',
+  );
   const full = await state();
   expect(
     MUSHROOM_SPECIES.every((species) => full.species.includes(species)),
@@ -156,6 +159,15 @@ export async function playSpecies(
     await close(resting.to.id, `s3-butterfly-on-${species}`);
   } else {
     expect(false, 'no butterfly came down on a cap');
+  }
+  // The trumpet's lip is a perch too: wait on, releasing more, for one there.
+  const chanterelle = grown.get('chanterelle');
+  const onTrumpet = resting?.to.kind === 'cap' && resting.to.id === chanterelle;
+  if (chanterelle !== undefined && !onTrumpet) {
+    await page.tap(controls.releases.butterfly);
+    const there = await waitForCapRest(chanterelle);
+    if (there === undefined) note('no butterfly came down on the chanterelle');
+    else await close(chanterelle, 's3-butterfly-on-chanterelle');
   }
 
   // A house on the porcini and on the chanterelle: every window it has
