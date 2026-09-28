@@ -125,6 +125,12 @@ export function sink(elapsed: number): number {
   return (1 - t) * (1 + 1.5 * t);
 }
 
+/** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
+export const smooth = (t: number) => {
+  const clamped = Math.min(1, Math.max(0, t));
+  return clamped * clamped * (3 - 2 * clamped);
+};
+
 /**
  * When a thing was last selected and let go of, on the scene's clock:
  * `unlitAt` is `Infinity` while it stays selected, and both are `-Infinity`
@@ -135,20 +141,26 @@ export type Lit = { litAt: number; unlitAt: number };
 /** A selected mushroom's stretch at its tallest, and how long one swell takes. */
 export const BECKON_DEPTH = 0.06;
 const BECKON_PERIOD = 1.3;
-/** How long the beckon takes to come on at a selection, and to die at a release. */
+/** How long the beckon takes to come on at a selection. */
 export const BECKON_EASE = 0.3;
-
-const eased = (elapsed: number) =>
-  Math.min(1, Math.max(0, elapsed / BECKON_EASE));
+/**
+ * How long the beckon takes to die at a release: a whole swell, so a cap let
+ * go of settles as slowly as it swells. Dying faster, it would stop dead
+ * mid-swell, and a flier riding its top in to land would lurch with it.
+ */
+export const BECKON_RELEASE = BECKON_PERIOD;
 
 /**
  * The stretch a selected mushroom beckons with at `time`, over its breath: a
  * slow swell taller and back that starts from rest at the selection, eases in
- * over `BECKON_EASE`, and eases out over as long at the release, so neither
- * end is a jump.
+ * over `BECKON_EASE`, and eases out over `BECKON_RELEASE` at the release, so
+ * neither end is a jump.
  */
 export function beckon(time: number, { litAt, unlitAt }: Lit): number {
-  const reach = Math.min(eased(time - litAt), 1 - eased(time - unlitAt));
+  const reach = Math.min(
+    Math.min(1, Math.max(0, (time - litAt) / BECKON_EASE)),
+    1 - smooth((time - unlitAt) / BECKON_RELEASE),
+  );
   if (reach <= 0) return 0;
   return (
     BECKON_DEPTH *
@@ -208,12 +220,6 @@ export function roundAt(time: number, period: number, phase: number): number {
   const shifted = time + (phase / (Math.PI * 2)) * period;
   return ((shifted % period) + period) % period;
 }
-
-/** Smoothstep: 0 to 1 over `t` from 0 to 1, starting and ending at rest. */
-export const smooth = (t: number) => {
-  const clamped = Math.min(1, Math.max(0, t));
-  return clamped * clamped * (3 - 2 * clamped);
-};
 
 /** How long a mouse takes to come out of its door, and to duck back in. */
 const PEEK_RISE = 0.35;

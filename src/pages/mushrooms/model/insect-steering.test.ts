@@ -7,7 +7,7 @@ import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { carriedFrom, wrap } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { startLeg, steer, type Steering } from './insect-steering';
-import { BECKON_DEPTH } from './motion';
+import { beckon, type Lit } from './motion';
 import { between, mulberry32 } from './random';
 
 /** The screen the legs are flown on, the insect's size and span on it, and the frame, in ms. */
@@ -155,22 +155,17 @@ function flown(kind: InsectKind, seed: number): Worst {
   return flyLegs(motion, legs, { x: -SPAN, y: HEIGHT * 0.3 }, undefined);
 }
 
-/**
- * How a lit cap beckons (`beckon` in `./motion`): its top rising and falling
- * `BECKON_DEPTH` of its height every `BECKON_PERIOD` ms, a cap `CAP_HEIGHT`
- * sizes tall, lit at `litAt`.
- */
+/** How far a cap `CAP_HEIGHT` sizes tall carries its top as it beckons (`beckon`), lit and let go as `lit` says, in ms. */
 const BECKON_PERIOD = 1300;
 const CAP_HEIGHT = 3;
 const beckoning =
-  (litAt: number) =>
+  ({ litAt, unlitAt }: Lit) =>
   (now: number): Point => ({
     x: 0,
     y:
-      -BECKON_DEPTH *
+      -beckon(now / 1000, { litAt: litAt / 1000, unlitAt: unlitAt / 1000 }) *
       CAP_HEIGHT *
-      SIZE *
-      Math.sin((Math.PI * 2 * (now - litAt)) / BECKON_PERIOD),
+      SIZE,
   });
 
 /**
@@ -188,7 +183,10 @@ function flownToBeckoning(kind: InsectKind, seed: number): Worst {
     const [least, most] = FLIGHT_HABITS[kind].flying;
     const flight = between(random, least, most);
     const stay = flight + between(random, ...STAY);
-    const moved = beckoning(between(random, 0, BECKON_PERIOD));
+    const moved = beckoning({
+      litAt: between(random, 0, BECKON_PERIOD),
+      unlitAt: Infinity,
+    });
     return { end, air: false, flight, stay, moved };
   });
   const side = random() < 0.5 ? -SPAN : WIDTH + SPAN;
@@ -196,6 +194,8 @@ function flownToBeckoning(kind: InsectKind, seed: number): Worst {
 }
 
 const SEEDS = Array.from({ length: 30 }, (_, index) => index * 7919 + 13);
+/** As many single legs as it takes to fly one into a cap's release at every moment of its swell. */
+const RELEASES = Array.from({ length: 300 }, (_, index) => index * 7919 + 13);
 
 describe('steer', () => {
   for (const kind of INSECT_KINDS) {
@@ -229,13 +229,50 @@ describe('steer', () => {
       }
     });
 
+    it(`faces a ${kind} the way it flies to a cap let go of on the way`, () => {
+      // Lured by a selection, and flying on as the child selects another.
+      const [least, most] = FLIGHT_HABITS[kind].flying;
+      for (const seed of RELEASES) {
+        const random = mulberry32(seed);
+        const motion = {
+          phase: between(random, 0, Math.PI * 2),
+          kind,
+          flutter: 8,
+        };
+        const [from, end] = [0, 0].map(() => ({
+          x: between(random, 0.1, 0.9) * WIDTH,
+          y: between(random, 0.5, 0.9) * HEIGHT,
+        }));
+        if (!from || !end)
+          throw new Error('a leg flies from somewhere to somewhere');
+        const flight = between(random, least, most);
+        const moved = beckoning({
+          litAt: -between(random, 0, 3000),
+          unlitAt: between(random, 0, flight),
+        });
+        const { off } = flyLegs(
+          motion,
+          [{ end, air: false, flight, stay: flight + 1000, moved }],
+          from,
+          between(random, -0.45, 0.45),
+        );
+        assert.ok(
+          off <= MOST_HEADING_OFF,
+          `seed ${String(seed)}: ${off.toFixed(2)} rad off its way`,
+        );
+      }
+    });
+
     it(`never winds a ${kind} round on a hop going nowhere while its perch moves`, () => {
       // Startled onto the cap it sat on, it is carried up and down with it.
       const [least, most] = FLIGHT_HABITS[kind].flying;
       for (const seed of SEEDS) {
         const random = mulberry32(seed);
         const end = { x: WIDTH / 2, y: HEIGHT * 0.7 };
-        const moved = beckoning(between(random, 0, BECKON_PERIOD));
+        const moved = beckoning({
+          litAt: between(random, 0, BECKON_PERIOD),
+          unlitAt: Infinity,
+        });
         const flight = between(random, least, most);
         const { spin } = flyLegs(
           { phase: between(random, 0, Math.PI * 2), kind, flutter: 8 },

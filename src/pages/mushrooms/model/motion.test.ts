@@ -5,6 +5,7 @@ import {
   beckon,
   BECKON_DEPTH,
   BECKON_EASE,
+  BECKON_RELEASE,
   blink,
   BLINK_SHUT,
   bloom,
@@ -182,7 +183,7 @@ describe('beckon', () => {
       const jump = Math.abs(beckon(t + step, letGo) - beckon(t, letGo));
       assert.ok(jump < BECKON_DEPTH * 0.2);
     }
-    assert.equal(beckon(14 + BECKON_EASE, letGo), 0);
+    assert.equal(beckon(14 + BECKON_RELEASE, letGo), 0);
   });
 });
 
