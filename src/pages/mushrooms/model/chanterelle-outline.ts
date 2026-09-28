@@ -23,7 +23,7 @@ import {
 /** How far down the stem a ridge runs from the funnel, to `t` from its foot. */
 const RIDGE_END = 0.55;
 /** How many chords the lip's waving top is drawn with. */
-const LIP_STEPS = CURVE_STEPS * 3;
+const LIP_STEPS = CURVE_STEPS * 2;
 
 /** The front rim from right to left, its two ends left out: where the lip and the funnel meet. */
 function frontRim(genes: ChanterelleGenes): Point[] {
