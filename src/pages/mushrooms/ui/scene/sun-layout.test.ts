@@ -5,8 +5,8 @@ import type { Circle, Point } from '../../model/geometry';
 import { mulberry32 } from '../../model/random';
 import { meadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
-import { farSkyline, nearSkyline } from './skyline';
-import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
+import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
+import { SUN_GLOW_REACH, SUN_RAY_REACH, washReach } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -49,12 +49,13 @@ describe('the sun', () => {
           sun.y + sun.r <= horizon + 1e-9,
           `visit ${String(seed)}: the disc below the horizon`,
         );
-        const far = farSkyline(mulberry32(seed), layout);
-        assert.equal(
-          shownAbove(rays, far),
-          1,
-          `visit ${String(seed)}: a far hill on the rays`,
-        );
+        for (const skyline of [farthestSkyline, farSkyline]) {
+          assert.equal(
+            shownAbove(rays, skyline(mulberry32(seed), layout)),
+            1,
+            `visit ${String(seed)}: a far hill on the rays`,
+          );
+        }
         const near = nearSkyline(mulberry32(seed), layout);
         assert.equal(
           shownAbove(sun, near),
@@ -88,6 +89,18 @@ describe('the sun', () => {
           );
           assert.ok(point.y < layout.nearHills, `visit ${String(seed)}: sky`);
         }
+      }
+    });
+
+    it(`washes the land no lower than the ground's upper third, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 200)) {
+        const layout = meadowLayout(width, height, seed);
+        const { sun, groundTop } = layout;
+        assert.ok(
+          sun.y + washReach(layout) <=
+            groundTop + (height - groundTop) / 3 + 1e-9,
+        );
+        assert.ok(washReach(layout) > sun.r * 4);
       }
     });
   }

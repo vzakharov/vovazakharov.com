@@ -4,6 +4,7 @@
  */
 
 import type { Circle } from '../../model/geometry';
+import type { MeadowLayout } from './layout';
 import { BUTTON_INSET, type Controls, tapReach } from './sky-layout';
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
@@ -90,4 +91,20 @@ function sunAt(
     clearing(button) > 0 ? button.x + clearing(button) : x,
   );
   return { x: Math.max(x, ...rightOf), y, r };
+}
+
+/** How far down the ground, as a share of its depth, the sun's wash over the land may reach. */
+const WASH_FLOOR = 1 / 3;
+
+/**
+ * The farthest the sun's wash over the land reaches from its middle: down to
+ * the ground's upper third and no further, so it never lifts the ground
+ * where the caps stand.
+ */
+export function washReach({
+  sun,
+  groundTop,
+  height,
+}: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height'>): number {
+  return groundTop + (height - groundTop) * WASH_FLOOR - sun.y;
 }

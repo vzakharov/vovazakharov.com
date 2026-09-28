@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { type Phased, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
+import { blend, groundAt } from './backdrop-tones';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 
@@ -14,8 +15,26 @@ const SWING = 0.35;
  * seen crossing the grass.
  */
 const GUST_LAG = 0.008;
+/** How far toward the ground under it the farthest tuft is mixed; the nearest is not at all. */
+const FADE = 0.85;
+/** How far up a blade its lit crown, the tip, begins, as a share of its height. */
+const TIP_FROM = 0.6;
 
-type Tuft = Footing & Phased;
+/** A tuft's blades' colours, toned by its distance: the two side blades, the middle one, and every blade's lit crown. */
+type TuftColours = { side: number; middle: number; crown: number };
+
+type Tuft = Footing & Phased & TuftColours;
+
+/** A tuft's colours `down` of the way from the ground's top to the bottom edge, fading into the ground the farther back it stands. */
+export function tuftColours(down: number): TuftColours {
+  const under = groundAt(down);
+  const fade = (1 - down) * FADE;
+  return {
+    side: blend(PALETTE.tuftDark, under, fade),
+    middle: blend(PALETTE.tuft, under, fade),
+    crown: blend(blend(PALETTE.tuft, PALETTE.groundLit, 0.4), under, fade),
+  };
+}
 
 /** Where the grass grows, drawn from `random`, so the same source regrows it. */
 export function growTufts(
@@ -42,6 +61,7 @@ export function growTufts(
       y,
       size: nearness * depth * 0.03,
       phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
+      ...tuftColours((y - groundTop) / depth),
     };
   });
 }
@@ -53,21 +73,28 @@ export function paintTufts(
   time: number,
 ): void {
   graphics.clear();
-  for (const { x, y, size, phase } of tufts) {
+  for (const { x, y, size, phase, side, middle, crown } of tufts) {
     const bend = sway(time, phase) * SWING;
     for (const [lean, height, colour] of [
-      [-0.5, 1.6, PALETTE.tuftDark],
-      [0.45, 1.4, PALETTE.tuftDark],
-      [0, 2, PALETTE.tuft],
+      [-0.5, 1.6, side],
+      [0.45, 1.4, side],
+      [0, 2, middle],
     ] as const) {
+      const left = x - size * 0.3;
+      const right = x + size * 0.3;
+      const apexX = x + (lean * 1.3 + bend * height) * size;
+      const apexY = y - height * size;
       graphics.fillStyle(colour);
+      graphics.fillTriangle(left, y, right, y, apexX, apexY);
+      const tipY = y + (apexY - y) * TIP_FROM;
+      graphics.fillStyle(crown);
       graphics.fillTriangle(
-        x - size * 0.3,
-        y,
-        x + size * 0.3,
-        y,
-        x + (lean * 1.3 + bend * height) * size,
-        y - height * size,
+        left + (apexX - left) * TIP_FROM,
+        tipY,
+        right + (apexX - right) * TIP_FROM,
+        tipY,
+        apexX,
+        apexY,
       );
     }
   }
