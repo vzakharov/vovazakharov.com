@@ -35,14 +35,14 @@ const SPOT_SHADE_ALPHA = 0.13;
 const RIM = { width: 1, alpha: 0.6 };
 const RIM_FINE = { width: 0.42, alpha: 0.4 };
 
+/** Something painted into its graphics through a haze. */
+export type HazedGraphics = WithGraphics & Hazed;
+
 /**
  * One mushroom's brush: its graphics, genes and fills, the light it is lit
  * by, its size and ink line in pixels, `tone` taking a colour through its
  * haze, and the maps from its own frame and its cap's to the canvas.
  */
-/** Something painted into its graphics through a haze. */
-export type HazedGraphics = WithGraphics & Hazed;
-
 export type MushroomBrush = Brush &
   HazedGraphics &
   Scaled & {

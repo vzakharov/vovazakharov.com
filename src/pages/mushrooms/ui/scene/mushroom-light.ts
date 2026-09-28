@@ -242,11 +242,11 @@ function layers(
 }
 
 /**
- * The stem's light, as the cap's, its warm side in `lit`: a cool shade on the side turned from the
- * sun and a warm light on the side toward it, each stacked in thin layers
- * from the deepest in, so it deepens toward the edge with no band of its
- * own; and a pale line just inside the lit edge. It stays light enough that
- * the stem still reads as pale.
+ * The stem's light, as the cap's, its warm side in `lit`: a cool shade on
+ * the side turned from the sun and a warm light on the side toward it, each
+ * stacked in thin layers from the deepest in, so it deepens toward the edge
+ * with no band of its own; and a pale line just inside the lit edge. It
+ * stays light enough that the stem still reads as pale.
  */
 export function stemLight(lit: number): StemLayer[] {
   return [

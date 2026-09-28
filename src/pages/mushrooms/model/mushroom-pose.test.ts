@@ -53,7 +53,7 @@ describe('maxReach', () => {
   }
 
   it('reaches no farther for any species than for the fly agaric', () => {
-    // The layout's margins were set for the fly agaric's reach.
+    // The layout's margins hold for the fly agaric's reach.
     const flyAgaric = GENE_RANGES['fly-agaric'];
     for (const splay of [0, 0.22]) {
       const lean = flyAgaric.lean[1] + splay;

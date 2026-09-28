@@ -112,8 +112,9 @@ function slotLevel(genes: MushroomGenes, x: number): number {
  * Where a cap has room for windows: the middles of a row across the face of
  * its cap (`faceAt`), in the cap's own frame (`capFrame`'s, y up). As many
  * as the cap's width allows, from its `FEWEST_WINDOWS` up to five — an odd
- * count, so the row ends balanced — ordered from the middle outward: the first centred, then each
- * pair's left before its right, a pane's width of cap between each two.
+ * count, so the row ends balanced — ordered from the middle outward: the
+ * first centred, then each pair's left before its right, a pane's width of
+ * cap between each two.
  */
 export function windowSlots(genes: MushroomGenes): Point[] {
   const slot = (x: number) => ({ x, y: slotLevel(genes, x) });
