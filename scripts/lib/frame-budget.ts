@@ -8,10 +8,11 @@
 
 /**
  * The bound, in ms: with the backdrop and buttons baked the run's frames
- * measure about 14–17 ms at the median, and drawn afresh every frame about
- * 31 ms, so this leaves room for a busy machine and still fails that.
+ * measure about 14–20 ms at the median (the top of that range with other
+ * builds on the machine), and drawn afresh every frame about 31 ms, so this
+ * leaves room for a busy machine and still fails that.
  */
-export const FRAME_BUDGET_MS = 24;
+export const FRAME_BUDGET_MS = 26;
 
 export function median(values: readonly number[]): number {
   const sorted = values.toSorted((a, b) => a - b);
