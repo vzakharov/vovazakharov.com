@@ -7,6 +7,7 @@ import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { carriedFrom, wrap } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { startLeg, steer, type Steering } from './insect-steering';
+import { BECKON_DEPTH } from './motion';
 import { between, mulberry32 } from './random';
 
 /** The screen the legs are flown on, the insect's size and span on it, and the frame, in ms. */
@@ -28,8 +29,24 @@ type Drawn = Point & { turn: number; now: number };
 /** The worst a run of legs faced off its way, and swung round on one leg. */
 type Worst = { off: number; spin: number };
 
-/** One leg to fly: where to, whether to a spot in the air, and how long it flies and stays, in ms. */
-type Planned = { end: Point; air: boolean; flight: number; stay: number };
+/**
+ * One leg to fly: where to, whether to a spot in the air, and how long it
+ * flies and stays, in ms; and how far its perch has moved off `end` at a
+ * moment, for a perch that moves.
+ */
+type Planned = {
+  end: Point;
+  air: boolean;
+  flight: number;
+  stay: number;
+  moved?: (now: number) => Point;
+};
+
+/** Where `planned`'s perch stands at `now`. */
+function perchAt({ end, moved }: Planned, now: number): Point {
+  const { x, y } = moved?.(now) ?? { x: 0, y: 0 };
+  return { x: end.x + x, y: end.y + y };
+}
 
 /**
  * A flier flying `legs` frame by frame the way `InsectView` flies it, from
@@ -51,24 +68,26 @@ function flyLegs(
     turn: sat ?? 0,
     at: -Infinity,
     setOff: undefined,
+    perch: undefined,
   };
   let turnedFrom = sat;
   let carried: Carried = { launch: 0, speed: 0, drink: 0 };
   let now = 0;
   const worst: Worst = { off: 0, spin: 0 };
-  for (const { end, air, flight, stay } of legs) {
+  for (const planned of legs) {
+    const { air, flight, stay } = planned;
     const leg = {
       departs: now,
       arrives: now + flight,
       to: { kind: air ? 'air' : 'cap', id: 'perch' } as const,
     };
     const leaves = leg.departs + stay;
+    const aim = perchAt(planned, now);
     const course = {
       leg,
       carried,
       start: at,
-      end,
-      aim: end,
+      aim,
       sat: turnedFrom,
       perched: !air,
       size: SIZE,
@@ -79,7 +98,8 @@ function flyLegs(
     let [round, left, right] = [0, 0, 0];
     for (; now < leaves; now += FRAME) {
       const last = steering.turn;
-      const flying = steer(steering, course, now);
+      const end = perchAt(planned, now);
+      const flying = steer(steering, { ...course, end }, now);
       steering = flying.steering;
       at = flying.point;
       round += wrap(steering.turn - last);
@@ -135,6 +155,46 @@ function flown(kind: InsectKind, seed: number): Worst {
   return flyLegs(motion, legs, { x: -SPAN, y: HEIGHT * 0.3 }, undefined);
 }
 
+/**
+ * How a lit cap beckons (`beckon` in `./motion`): its top rising and falling
+ * `BECKON_DEPTH` of its height every `BECKON_PERIOD` ms, a cap `CAP_HEIGHT`
+ * sizes tall, lit at `litAt`.
+ */
+const BECKON_PERIOD = 1300;
+const CAP_HEIGHT = 3;
+const beckoning =
+  (litAt: number) =>
+  (now: number): Point => ({
+    x: 0,
+    y:
+      -BECKON_DEPTH *
+      CAP_HEIGHT *
+      SIZE *
+      Math.sin((Math.PI * 2 * (now - litAt)) / BECKON_PERIOD),
+  });
+
+/**
+ * A flier of `kind` flying in from off screen to a beckoning cap, and on
+ * between beckoning caps, each lit at a moment of its own.
+ */
+function flownToBeckoning(kind: InsectKind, seed: number): Worst {
+  const random = mulberry32(seed);
+  const motion = { phase: between(random, 0, Math.PI * 2), kind, flutter: 8 };
+  const legs = Array.from({ length: 6 }, (): Planned => {
+    const end = {
+      x: between(random, 0.1, 0.9) * WIDTH,
+      y: between(random, 0.5, 0.9) * HEIGHT,
+    };
+    const [least, most] = FLIGHT_HABITS[kind].flying;
+    const flight = between(random, least, most);
+    const stay = flight + between(random, ...STAY);
+    const moved = beckoning(between(random, 0, BECKON_PERIOD));
+    return { end, air: false, flight, stay, moved };
+  });
+  const side = random() < 0.5 ? -SPAN : WIDTH + SPAN;
+  return flyLegs(motion, legs, { x: side, y: HEIGHT * 0.3 }, undefined);
+}
+
 const SEEDS = Array.from({ length: 30 }, (_, index) => index * 7919 + 13);
 
 describe('steer', () => {
@@ -155,6 +215,69 @@ describe('steer', () => {
         assert.ok(
           spin <= MOST_SPIN,
           `seed ${String(seed)}: ${(spin / MOST_SPIN).toFixed(2)} turns`,
+        );
+      }
+    });
+
+    it(`faces a ${kind} the way it flies to a perch moving under it`, () => {
+      for (const seed of SEEDS) {
+        const { off, spin } = flownToBeckoning(kind, seed);
+        assert.ok(
+          off <= MOST_HEADING_OFF && spin <= MOST_SPIN,
+          `seed ${String(seed)}: ${off.toFixed(2)} rad off its way, ${(spin / MOST_SPIN).toFixed(2)} turns`,
+        );
+      }
+    });
+
+    it(`never winds a ${kind} round on a hop going nowhere while its perch moves`, () => {
+      // Startled onto the cap it sat on, it is carried up and down with it.
+      const [least, most] = FLIGHT_HABITS[kind].flying;
+      for (const seed of SEEDS) {
+        const random = mulberry32(seed);
+        const end = { x: WIDTH / 2, y: HEIGHT * 0.7 };
+        const moved = beckoning(between(random, 0, BECKON_PERIOD));
+        const flight = between(random, least, most);
+        const { spin } = flyLegs(
+          { phase: between(random, 0, Math.PI * 2), kind, flutter: 8 },
+          [{ end, air: false, flight, stay: flight + 1000, moved }],
+          perchAt({ end, air: false, flight, stay: 0, moved }, 0),
+          between(random, -0.45, 0.45),
+        );
+        assert.ok(
+          spin <= MOST_SPIN,
+          `seed ${String(seed)}: ${(spin / MOST_SPIN).toFixed(2)} turns`,
+        );
+      }
+    });
+
+    it(`flies a ${kind} going nowhere, headed the other way from how it sat`, () => {
+      // Landed facing down and settled facing up, then startled onto the spot it sat on.
+      const spot = { x: 200, y: 600 };
+      const [least] = FLIGHT_HABITS[kind].flying;
+      const course = {
+        leg: { departs: 0, arrives: least },
+        carried: { launch: 0, speed: 0, drink: 0 },
+        start: spot,
+        end: spot,
+        aim: spot,
+        sat: 0,
+        perched: true,
+        size: SIZE,
+        motion: { phase: 1, kind, flutter: 8 },
+      };
+      let steering: Steering = {
+        facing: Math.PI / 2,
+        turn: 0,
+        at: -Infinity,
+        setOff: undefined,
+        perch: undefined,
+      };
+      for (let now = 0; now < least; now += FRAME) {
+        const flown = steer(steering, course, now);
+        steering = flown.steering;
+        assert.ok(
+          Number.isFinite(flown.point.x) && Number.isFinite(steering.turn),
+          `lost at ${now.toFixed(0)} ms`,
         );
       }
     });

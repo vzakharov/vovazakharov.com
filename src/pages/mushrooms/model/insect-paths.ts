@@ -203,20 +203,43 @@ export function flightPoint(
 }
 
 /**
+ * How far and which way a flight's line goes over one bob of its flutter
+ * about `now`, in the points' units, which is the way the eye reads it
+ * going — a zigzag faster than that reads as a wiggle about the way, not a
+ * turn of it. Its end moves on by `drift` a ms, the way its perch is moving,
+ * since near its end a flight rides its perch as much as it flies.
+ */
+export function stride(
+  path: Path,
+  now: number,
+  motion: Airborne,
+  drift?: Point,
+): Point {
+  const half = 500 / PATH_SHAPES[motion.kind].flutterRate;
+  const { end } = path;
+  const { x: dx, y: dy } = drift ?? { x: 0, y: 0 };
+  const at = (then: number): Point => {
+    const moved = then - now;
+    const shifted = {
+      ...path,
+      end: { x: end.x + dx * moved, y: end.y + dy * moved },
+    };
+    return lineAt(shifted, progress(path, then), motion);
+  };
+  const [a, b] = [at(now - half), at(now + half)];
+  return { x: b.x - a.x, y: b.y - a.y };
+}
+
+/**
  * The direction a flight faces at `now`, in radians from the +x axis: the
- * way its line goes over one bob of its flutter about `now`, which is the
- * way the eye reads it going — a zigzag faster than that reads as a wiggle
- * about the way, not a turn of it. At either end it is the way the line
- * leaves or meets it, so the insect lands facing the way it came in.
+ * way of its `stride`. At either end it is the way the line leaves or meets
+ * it, so the insect lands facing the way it came in.
  */
 export function heading(path: Path, now: number, motion: Airborne): number {
+  const { x, y } = stride(path, now, motion);
+  if (Math.hypot(x, y) > 1e-9) return Math.atan2(y, x);
   const half = 500 / PATH_SHAPES[motion.kind].flutterRate;
-  const [from, to] = [progress(path, now - half), progress(path, now + half)];
-  const [a, b] = [lineAt(path, from, motion), lineAt(path, to, motion)];
-  if (Math.hypot(b.x - a.x, b.y - a.y) > 1e-9) {
-    return Math.atan2(b.y - a.y, b.x - a.x);
-  }
-  const along = tangent(controls(path, motion), from);
+  const along = tangent(controls(path, motion), progress(path, now - half));
   return Math.atan2(along.y, along.x);
 }
 

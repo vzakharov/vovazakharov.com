@@ -21,8 +21,11 @@ import {
   type Fluttering,
   heading,
   type Path,
+  PATH_SHAPES,
   phaseBow,
+  stride,
 } from './insect-paths';
+import { smooth } from './motion';
 
 /**
  * How fast each kind's body turns at the most, in radians a second: a
@@ -36,6 +39,13 @@ const TURN_RATE = {
 } as const satisfies Record<InsectKind, number>;
 /** A flight shorter than this, in units of the insect's size, goes nowhere and has no heading of its own. */
 const GOING_NOWHERE = 0.3;
+/**
+ * How fast a flight goes, in the insect's sizes a second, where its body
+ * starts to face the way it goes rather than the way it meant to, and where
+ * it faces the way it goes alone: slower, its perch moving under it reads as
+ * the perch moving, not as it flying.
+ */
+const GOING = [0.4, 0.8] as const;
 
 /**
  * How near a half turn a settling turn is as short one way round as the
@@ -45,21 +55,26 @@ const EVEN = 0.35;
 
 /**
  * What a leg fixes as it sets off, how far its flight bows and to which
- * side, and its turns; and how far its body has turned round since, each way signed.
+ * side, its turns, and the way it means to head on a flight going nowhere,
+ * in radians from +x; and how far its body has turned round since, each way
+ * signed.
  */
-type SetOff = { bow: number; turns: Turns; wound: number };
+type SetOff = { bow: number; turns: Turns; meant: number; wound: number };
 
 /**
  * How a flier's body is held from one frame to the next: which way its
  * flight heads, in radians from +x; how its body was turned, and when, in ms
- * on the scene's clock, `-Infinity` before its first frame; and what its
- * leg fixed as it set off, `undefined` until the leg's first frame.
+ * on the scene's clock, `-Infinity` before its first frame; what its leg
+ * fixed as it set off, `undefined` until the leg's first frame; and where its
+ * perch stood that frame, `undefined` until the leg's first frame and while
+ * the screen it was measured on is gone.
  */
 export type Steering = {
   facing: number;
   turn: number;
   at: number;
   setOff: SetOff | undefined;
+  perch: Point | undefined;
 };
 
 /**
@@ -85,7 +100,17 @@ export type Course = {
 export const startLeg = (held: Steering): Steering => ({
   ...held,
   setOff: undefined,
+  perch: undefined,
 });
+
+/** How fast a perch standing at `end` now moves, in points a ms, from where `held` saw it last. */
+function drifting({ perch, at }: Steering, end: Point, now: number): Point {
+  if (!perch || !(now > at)) return { x: 0, y: 0 };
+  return {
+    x: (end.x - perch.x) / (now - at),
+    y: (end.y - perch.y) / (now - at),
+  };
+}
 
 /** How far round a run of turns swings between its furthest either way, starting from 0. */
 function sweep(turns: readonly number[]): number {
@@ -142,7 +167,9 @@ function setOffFor(course: Course, still: boolean, facing: number): SetOff {
   const candidates = sides.flatMap((side) => {
     const curving = Math.abs(flown(side).curve);
     const room = 2 * (Math.PI - EVEN - off);
-    const bow = side * (curving > room ? Math.max(0, room) / curving : 1);
+    // A leg that does not curve bows all the way, since its bow turns it none.
+    const bow =
+      side * (curving > 0 ? Math.min(1, Math.max(0, room) / curving) : 1);
     const { turns, curve, landing } = flown(bow);
     return evenly(turns.lifted).map((lifted, way) => {
       const lift = -lifted;
@@ -166,7 +193,27 @@ function setOffFor(course: Course, still: boolean, facing: number): SetOff {
   }
   if (!best) throw new Error('a leg sets off some way');
   const { bow, turns, wound } = best;
-  return { bow, turns, wound };
+  return { bow, turns, meant: facing, wound };
+}
+
+/**
+ * The way a flier faces going by `going` over a bob of its flutter, in
+ * radians from +x, having meant to face `meant`: the way it meant to going
+ * slower than `GOING`'s first, the way it goes faster than its second, and
+ * turning from one to the other between.
+ */
+function facingWay(
+  meant: number,
+  going: Point,
+  size: number,
+  { kind }: Fluttering,
+): number {
+  const [slow, fast] = GOING;
+  const speed =
+    (Math.hypot(going.x, going.y) * PATH_SHAPES[kind].flutterRate) / size;
+  const goes = smooth((speed - slow) / (fast - slow));
+  const way = Math.atan2(going.y, going.x);
+  return wrap(meant + goes * wrap(way - meant));
 }
 
 /**
@@ -174,7 +221,10 @@ function setOffFor(course: Course, still: boolean, facing: number): SetOff {
  * body's turn. It turns on the spot for its leg's `pivot` before its flight
  * moves it, so it flies off facing the way it goes, and its body follows the
  * turn its leg gives it no faster than its kind's `TURN_RATE`, so no blend
- * of a take-off, a curve and a landing ever spins it.
+ * of a take-off, a curve and a landing ever spins it. It heads the way its
+ * flight to its perch as it stands and moves this frame takes it, so a perch
+ * bobbing under it as it comes in never has it flying one way and facing
+ * another.
  */
 export function steer(
   held: Steering,
@@ -182,8 +232,9 @@ export function steer(
   now: number,
 ): { steering: Steering; point: Point } {
   const { leg, carried, start, end, aim, sat, perched, size, motion } = course;
-  // A flight going nowhere keeps the heading it had, and a landed flier the
-  // one it landed on, which its rest facing turns from however its perch sways.
+  // A flight going nowhere means to keep the heading it set off with, and a
+  // landed flier keeps the one it landed on, which its rest facing turns from
+  // however its perch sways.
   const still =
     Math.hypot(aim.x - start.x, aim.y - start.y) <= size * GOING_NOWHERE;
   const setOff = held.setOff ?? setOffFor(course, still, held.facing);
@@ -204,10 +255,14 @@ export function steer(
         : carried.speed,
   };
   const point = flightPoint(path, now, motion);
+  const meant = still
+    ? setOff.meant
+    : heading({ ...path, end: aim }, now, motion);
+  const going = stride(path, now, motion, drifting(held, end, now));
   const facing =
-    still || (perched && now >= leg.arrives)
+    perched && now >= leg.arrives
       ? held.facing
-      : heading({ ...path, end: aim }, now, motion);
+      : facingWay(meant, going, size, motion);
   const flying = flyingTurn(facing, path, now, motion);
   const found = turned(setOff.turns, sat, leg, now, flying, perched);
   const turns =
@@ -227,10 +282,11 @@ export function steer(
       turn,
       at: now,
       setOff: {
-        bow,
+        ...setOff,
         turns,
         wound: wound + (Number.isFinite(most) ? wrap(turn - held.turn) : 0),
       },
+      perch: end,
     },
     point,
   };

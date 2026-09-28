@@ -66,7 +66,7 @@ type Shown = TappedFigure &
     steering: Steering;
     /**
      * Where its perch stood on its current leg's first frame, or the first
-     * since the screen was last painted, which it heads for; `undefined`
+     * since the screen was last painted, which its leg sets off by; `undefined`
      * before it.
      */
     aim: Point | undefined;
@@ -151,8 +151,8 @@ export class InsectView {
 
   /**
    * Paints every insect at `layout`'s sizes, into the objects it has. Each
-   * takes its aim afresh, since where its perch stood was measured on the
-   * screen as it was.
+   * takes its aim afresh, and forgets where its perch stood last frame, since
+   * both were measured on the screen as it was.
    */
   paint({ width, height, insectSizes }: MeadowLayout): void {
     this.width = width;
@@ -160,6 +160,7 @@ export class InsectView {
     this.sizes = insectSizes;
     for (const shown of this.shown.values()) {
       shown.aim = undefined;
+      shown.steering = { ...shown.steering, perch: undefined };
       this.draw(shown);
     }
   }
@@ -204,8 +205,8 @@ export class InsectView {
       start;
     const stay = { ...leg, ...shown.carried };
     const perched = isSeat(leg.to);
-    // It heads for where its perch stood as the leg set off, so a perch
-    // rocking under a tap never swings a short flight about.
+    // It sets off by where its perch stood as the leg set off, so a perch
+    // rocking under a tap never swings the way a short flight bows about.
     const aim = shown.aim ?? end;
     shown.aim = aim;
     // Settled on its perch, it turns to face up the screen, give or take,
@@ -267,7 +268,13 @@ export class InsectView {
       bob: 0,
       bobFrom: 0,
       end: undefined,
-      steering: { facing: 0, turn: 0, at: -Infinity, setOff: undefined },
+      steering: {
+        facing: 0,
+        turn: 0,
+        at: -Infinity,
+        setOff: undefined,
+        perch: undefined,
+      },
       aim: undefined,
       turnedFrom: undefined,
       carried: { launch: 0, speed: 0, drink: 0 },
