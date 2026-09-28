@@ -16,16 +16,21 @@ export const CREATURES = {
   leaf: 0x5e_b8_48,
   flowerCentre: 0xff_c8_2e,
   flowerCentreDeep: 0xe8_8a_1c,
-  /** One per `FLOWER_COLOURS` name, the flowers' petals. */
+  /**
+   * One per `FLOWER_COLOURS` name, the flowers' petals; with the
+   * butterflies', a little softer than pure and turned a few degrees toward
+   * the sun's yellow, a warm cast over the lit meadow.
+   */
   flowers: {
-    pink: 0xff_8f_c0,
-    yellow: 0xff_de_4a,
+    pink: 0xff_9a_c0,
+    yellow: 0xff_e7_5c,
     white: 0xff_fb_f4,
-    violet: 0xb2_7c_f0,
-    blue: 0x6c_b4_ff,
+    violet: 0xbf_88_f0,
+    blue: 0x7b_c4_ff,
   },
   spore: 0xff_f6_d8,
-  hud: 0xff_ff_ff,
+  /** The buttons' discs: a warm white, so they sit in the palette. */
+  hud: 0xff_fa_f0,
   /** The `+` and `−` badges. */
   grow: 0x4c_b0_4a,
   shrink: 0xe8_7a_2c,
@@ -53,19 +58,19 @@ export const CREATURES = {
   mouseEye: 0x1e_12_12,
   /** One per `BUTTERFLY_COLOURS` name: a butterfly's wings and its eyes' rings. */
   butterflies: {
-    coral: 0xff_6e_52,
-    peach: 0xff_b4_86,
-    orange: 0xff_9a_2e,
-    yellow: 0xff_dc_3c,
-    lemon: 0xec_f2_5e,
-    mint: 0x52_d8_a8,
-    turquoise: 0x30_c4_d8,
-    sky: 0x4e_a6_ff,
-    cobalt: 0x4a_6c_f0,
-    periwinkle: 0x8c_84_ff,
-    violet: 0xb0_78_f2,
-    magenta: 0xd8_5a_da,
-    rose: 0xff_78_b4,
+    coral: 0xff_87_63,
+    peach: 0xff_c3_92,
+    orange: 0xff_b2_43,
+    yellow: 0xff_e6_50,
+    lemon: 0xed_f2_6d,
+    mint: 0x5f_d8_a5,
+    turquoise: 0x41_d0_d8,
+    sky: 0x60_ba_ff,
+    cobalt: 0x5b_83_f0,
+    periwinkle: 0x9f_90_ff,
+    violet: 0xbe_84_f2,
+    magenta: 0xda_67_d4,
+    rose: 0xff_85_b3,
     white: 0xff_fb_f2,
   },
   /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */
