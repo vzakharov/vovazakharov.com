@@ -497,71 +497,51 @@ Standing rules for every session in the chain:
      the spots; the stem's foot stands level and rounded over a centred
      contact shadow.
 
-## This bite
-
-8. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
-   different doors as different caps. The operator keeps the misreading's
-   idea, variety, but asks for real species instead of shapes that look like
-   nothing ("давай у нас будут реальные грибы вместо неопределённых"):
-   - **мухомор** (fly agaric): as drawn now.
-   - **белый гриб** (porcini): a whitish stem and a brownish cap, stockier.
-   - **лисичка** (chanterelle): a different shape, the stem widening into the
-     cap with no joint, gill ridges running outward under the cap like rays,
-     orange-ish.
-   - **сыроежка** (russula): simple, its cap in one of several colours.
-
-   Only the look changes in this bite ("на первом этапе это только внешний
-   вид, а дальше можно думать"). Behaviour tied to a kind stays with the
-   fly agaric: flies still favour it, as `spotted` does now. The new species
-   are inked and lit through `ink.ts` and `light.ts`, in the look bite 7 set.
-
-   Decided for the bite:
-   - **Species, not caps.** `CAP_KINDS` becomes `MUSHROOM_SPECIES`
-     (`fly-agaric`, `porcini`, `chanterelle`, `russula`, the picker's order)
-     and `Mushroom.cap` becomes `species`, through the probe's schema and the
-     play scripts. `dark-top`, `dark-bottom` and the two-tone band go.
-     `Perches.spotted` keeps its name: the fly agaric is the one spotted cap.
-   - **Genes by species.** One `GENE_RANGES` per species, drawn in the same
-     order so a seed's stream stays aligned, plus the genes a species alone
-     has. Every stem stands tall enough that the clump's back cap and door
-     stay in view behind any species, so a porcini reads stocky by a thick
-     club stem (a foot bulging well past the top) a little shorter than a
-     fly agaric's, under a thick broad dome, not by height. Chanterelle: a trumpet — the stem flaring into
-     the cap, the cap's top dipping at the middle and its rim waving, the
-     underside's ridges running down from the rim onto the stem. Russula: a
-     straight white stem and a flattish cap dipping a little at the middle,
-     its colour one of several picked by seed.
-   - **Every layout rule holds for every species, not only the fly agaric.**
-     Each species' `capWidth` floor is at least the fly agaric's 0.72 and its
-     reach inside `maxReach`, so the slot floors and the edge margins keep
-     their meaning; the 2000-visit sweeps in `layout.test.ts` (edges, tap
-     size, cap cover, controls and the sun clear of every slot) run with
-     every species in every slot, and so do the house's window slots and door
-     sight. A chanterelle's tap area is its drawn trumpet, as a fly agaric's is
-     its cap, gills and stem.
-   - **The door stands on the stem as drawn.** `doorStations` follows the
-     levelled, turned foot `stemOutline` draws, and a fat porcini or flared
-     chanterelle stem places its door by its own width.
-   - **Colours.** A porcini's stem is whitish-cream and its cap a warm
-     tan-to-chestnut brown kept out of luminance 0.021–0.045, where the ink
-     rule gives a dark fill only a 1.2–1.5:1 edge; a chanterelle is one
-     egg-yolk orange from foot to rim, its ridges a shade paler; a russula's
-     cap is red, rose, violet, ochre-yellow or green, each through the ink
-     test the palette already runs. The house's windows and door read on
-     every cap and stem.
-   - **The picker and the growth.** The cap picker's four buttons show the
-     four species; a pick grows that species. The meadow still opens with
-     the two fly agarics. A porcini's contact shadow may darken past alpha
-     0.3 if the frames want it.
-   - Split as bites 4–6 were: the model (species, genes, outlines, pose,
-     door stations, sweeps), then the scene (painting, light, palette, the
-     HUD, frames and the play run), then the tail.
+8. **Real mushrooms.** The cap picker's four buttons are four species, each
+   a real mushroom a child knows: the fly agaric as before, red with white
+   spots; the porcini, a brown bun cap on a stout pale stem over a heavier
+   contact shadow; the chanterelle, an upright apricot trumpet, its mouth
+   open over a waving rim and its ridges running down the stem; the
+   russula, a flat cap in red, rose, violet, ochre or green on a white
+   stem. Only the look changed: flies still favour the fly agaric (the one
+   `spotted` cap), and the meadow still opens with two of them. What the
+   next bites build on:
+   - `model/mushroom-genes.ts`: `MUSHROOM_SPECIES`, `Species`,
+     `Mushroom.species`; `MushroomGenes` a union on `species`, one gene
+     table per species drawn in one order so a seed's stream stays aligned
+     (`ChanterelleGenes` with `lip`, `hollow`, `flare`, the rim's wave,
+     `lobes`, `ridges`; a russula's `hollow` and `tone` from
+     `RUSSULA_TONES`). Every stem stands tall enough that the clump's back
+     cap and door stay in view behind any species, so a porcini reads stout
+     by girth, a stem about a third of its cap, not by height.
+   - `model/mushroom-profile.ts` (each species' stem width, `capSurface`,
+     `capBase`, the chanterelle's `rimWave`, `frontSag`, `funnelHeight`),
+     `mushroom-outline.ts` (`headOutlines`, `capOutlines`, `tapArea` — the
+     chanterelle's lip, funnel and stem are its cap, gills and stem) and
+     `chanterelle-outline.ts` (`trumpetOutlines`, `ridgeLines`, `mouthEdges`).
+     `capReach` measures the filled, turned outlines, so the layout's reach
+     is the painter's. Butterflies sit on `capSeat`, on the real surface.
+   - `doorStations(genes, turn)` follows the levelled, turned stem as drawn,
+     each door sized by its own stem (at most `DOOR_MOST`); a chanterelle
+     takes one window, on its funnel face, the others three or five.
+   - Painting: `mushroom-paint.ts` (the stem and cap light every species
+     shares), `paint-dome.ts` (fly agaric, porcini, russula) and
+     `paint-trumpet.ts` (the chanterelle, both inks before either fill);
+     `mushroom-tints.ts` the fills, the colours in `palette-creatures.ts`
+     (porcini browns held out of luminance 0.021–0.045 by a test); a
+     chanterelle takes 0.55 of the haze (`heldHaze`) so a far one stays
+     orange; `HEAVY_FOOT` darkens a wide foot's shadow; a house's frames
+     take a pale edge on a dark cap.
+   - The layout's 2000-visit sweeps and the house's tests run every species
+     in every slot. The play run grows each species from the picker and
+     shoots it (`scripts/lib/play-species.ts`); where two clump doors' tap
+     circles overlap, the nearer door takes the tap. Median frames 16–19 ms.
 
 ## Rest of the elephant
 
 In order.
 
-**Open:** the sky may read a little plain since bite 7 tamed the halo. Carried from bite 6: fliers are
+**Open:** from bite 8 — the porcini's stem still reads long rather than stout, and the chanterelle golden-amber rather than strong orange; the clump has no slack left for a stouter porcini or a shorter chanterelle (its back door 80.7% in sight against an 80% floor, a chanterelle's back cap 45.1% against 45%), so either wants the clump laid out per species; the flowers-off-feet sweep fails as soon as the largest reach grows, as though flowers were placed against another meadow than the one it checks. The sky may read a little plain since bite 7 tamed the halo. Carried from bite 6: fliers are
 kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
