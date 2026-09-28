@@ -9,12 +9,14 @@ import { z } from 'zod';
 
 import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import { LIGHT_STEP } from '../../src/pages/mushrooms/model/insect-light.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import {
   HEADING_AFTER,
   MOST_HEADING_OFF,
   MOST_REST_TURN,
   MOST_SPIN,
+  MOST_TURN_RATE,
   Watch,
 } from './flier-watch.ts';
 import {
@@ -247,7 +249,18 @@ async function checkWatch(
     frames,
     beeVisits,
     pollinating,
+    worstTurn,
+    worstLight,
   } = await page.evaluate('window.__watch', Watch);
+  expect(
+    worstTurn.kind === null ||
+      worstTurn.rate <= (MOST_TURN_RATE[worstTurn.kind] ?? 0),
+    `${String(worstTurn.id)} (${String(worstTurn.kind)}) turned ${worstTurn.rate.toFixed(2)} rad/s from one frame to the next at ${worstTurn.at.toFixed(0)} ms, past its kind's ${String(worstTurn.kind && MOST_TURN_RATE[worstTurn.kind]?.toFixed(2))}`,
+  );
+  expect(
+    worstLight.off <= LIGHT_STEP + 1e-3,
+    `${String(worstLight.id)} (${String(worstLight.kind)}) was shown ${worstLight.off.toFixed(3)} rad from the turn its light was painted for at ${worstLight.at.toFixed(0)} ms, past LIGHT_STEP ${LIGHT_STEP.toFixed(3)}`,
+  );
   expect(
     worstHeading.off <= MOST_HEADING_OFF,
     `${String(worstHeading.id)} (${String(worstHeading.kind)}) faced ${worstHeading.off.toFixed(2)} rad off the way it flew at ${worstHeading.at.toFixed(0)} ms, past its leg's first ${String(HEADING_AFTER)} ms: ${String(worstHeading.leg)}`,
@@ -272,7 +285,7 @@ async function checkWatch(
     );
   }
   note(
-    `over ${String(frames)} frames: worst heading ${worstHeading.off.toFixed(2)} rad off its way, frames in flight facing over ${String(MOST_HEADING_OFF)} off ${Object.entries(
+    `over ${String(frames)} frames: fastest turn ${worstTurn.rate.toFixed(2)} rad/s (${String(worstTurn.kind)}), light at most ${worstLight.off.toFixed(3)} rad off its painted turn, worst heading ${worstHeading.off.toFixed(2)} rad off its way, frames in flight facing over ${String(MOST_HEADING_OFF)} off ${Object.entries(
       headings,
     )
       .map(
