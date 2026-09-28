@@ -306,11 +306,18 @@ export function castShadow(
 const CONTACT = [1.3, 0.32] as const;
 
 /**
- * A porcini's extra darkness where its broad foot presses the ground, round
- * the whole foot, so the heaviest of the four sits heaviest: across and
- * tall per unit of foot width, and alpha.
+ * The extra darkness where a broad foot presses the ground, round the whole
+ * foot, so a stout mushroom sits heavy: across and tall per unit of foot
+ * width, and alpha, under a foot at least `wide` of its cap across, stood
+ * upright — which a porcini's barrel reaches, and a slimmer species' foot all
+ * but never.
  */
-const HEAVY_FOOT = { across: 1.25, tall: 0.3, alpha: 0.4 } as const;
+const HEAVY_FOOT = { wide: 0.37, across: 1.25, tall: 0.3, alpha: 0.4 } as const;
+
+/** Whether `genes`' foot is broad enough against its cap to press the ground heavily. */
+function heavyFoot(genes: MushroomGenes): boolean {
+  return footWidth(genes) / genes.capWidth >= HEAVY_FOOT.wide;
+}
 
 /**
  * A mushroom's shadow, in pixels round its foot: fallen away from the sun,
@@ -327,15 +334,8 @@ export function mushroomShadow(
     foot * CONTACT[0],
     foot * CONTACT[1],
   ]);
-  return genes.species === 'porcini'
-    ? [
-        ...cast,
-        {
-          ...HEAVY_FOOT,
-          x: 0,
-          across: foot * HEAVY_FOOT.across,
-          tall: foot * HEAVY_FOOT.tall,
-        },
-      ]
+  const { across, tall, alpha } = HEAVY_FOOT;
+  return heavyFoot(genes)
+    ? [...cast, { x: 0, across: foot * across, tall: foot * tall, alpha }]
     : cast;
 }

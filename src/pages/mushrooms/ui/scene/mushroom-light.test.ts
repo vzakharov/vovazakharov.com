@@ -210,7 +210,7 @@ describe('a mushroom’s foot', () => {
     ),
   );
 
-  it('stands level on the ground, both corners inside its contact shadow, at every lean', () => {
+  it('stands level on the ground, both corners inside every layer of shadow centred on its foot, at every lean', () => {
     let worst = 0;
     for (const splay of splays) {
       for (let seed = 1; seed <= 200; seed++) {
@@ -222,52 +222,92 @@ describe('a mushroom’s foot', () => {
           }),
           splay,
         );
-        const canvas = toCanvas(size);
-        const drawn = stemOutline(genes, turn).map((point) =>
-          placedAt({ x: 0, y: 0 }, turn, canvas(point)),
-        );
-        // Where its sides end: up the right one, and back down the left.
-        const corners = [drawn[0], drawn[CURVE_STEPS * 2 + 1]];
-        const contact = mushroomShadow(genes, size, light, turn).find(
-          ({ x }) => x === 0,
-        );
-        assert.ok(contact);
-        for (const corner of corners) {
-          assert.ok(corner);
-          const reach =
-            (corner.x / (contact.across / 2)) ** 2 +
-            (corner.y / (contact.tall / 2)) ** 2;
-          assert.ok(reach < 1, JSON.stringify({ seed, splay, corner, reach }));
-        }
-        const [left, right] = corners;
-        worst = Math.max(worst, Math.abs((left?.y ?? 0) - (right?.y ?? 0)));
+        assertCentredCover(genes, turn, { seed, splay });
+        const [left, right] = footCorners(genes, size, turn);
+        worst = Math.max(worst, Math.abs(left.y - right.y));
       }
     }
     assert.ok(worst < 1, `a foot rises ${worst.toFixed(1)} px across`);
   });
 
-  it('sits darkest under a porcini, the heaviest of the four', () => {
+  it('presses darker under a foot wide against its cap, whatever the species', () => {
     for (let seed = 1; seed <= 40; seed++) {
-      const porcini = footDarkness(
-        mushroomGenes({ seed, species: 'porcini' }),
-        size,
-        light,
-      );
+      const porcini = mushroomGenes({ seed, species: 'porcini' });
       for (const species of MUSHROOM_SPECIES) {
         if (species === 'porcini') continue;
-        const other = footDarkness(
-          mushroomGenes({ seed, species }),
-          size,
-          light,
-        );
+        const slim = mushroomGenes({ seed, species });
+        const label = `seed ${String(seed)}, ${species}`;
+        // As grown, a porcini's barrel is the one foot that presses heavily.
         assert.ok(
-          porcini >= other + 0.1,
-          `seed ${seed}: porcini ${porcini.toFixed(2)}, ${species} ${other.toFixed(2)}`,
+          footDarkness(porcini, size, light) >=
+            footDarkness(slim, size, light) + 0.1,
+          label,
         );
+        // The shadow follows the foot: swap the feet, and the darkness swaps.
+        const wideSlim = footOf(slim, porcini);
+        const slimPorcini = footOf(porcini, slim);
+        assert.equal(
+          footDarkness(wideSlim, size, light),
+          footDarkness(porcini, size, light),
+          label,
+        );
+        assert.equal(
+          footDarkness(slimPorcini, size, light),
+          footDarkness(slim, size, light),
+          label,
+        );
+        for (const splay of splays) {
+          for (const wide of [porcini, wideSlim]) {
+            const { genes, turn } = splayed(wide, splay);
+            assertCentredCover(genes, turn, { seed, species, splay });
+          }
+        }
       }
     }
   });
+
+  /** Both ends of `genes`' foot, stood turned `turn`, inside every layer of its shadow centred on the foot. */
+  function assertCentredCover(
+    genes: MushroomGenes,
+    turn: number,
+    label: object,
+  ): void {
+    const centred = mushroomShadow(genes, size, light, turn).filter(
+      ({ x }) => x === 0,
+    );
+    assert.ok(centred.length > 0);
+    for (const { across, tall } of centred) {
+      for (const corner of footCorners(genes, size, turn)) {
+        const reach =
+          (corner.x / (across / 2)) ** 2 + (corner.y / (tall / 2)) ** 2;
+        assert.ok(
+          reach < 1,
+          JSON.stringify({ ...label, across, corner, reach }),
+        );
+      }
+    }
+  }
 });
+
+/** `genes` grown on `from`'s foot: its stem's width and bulge, and the cap width it is measured against. */
+function footOf(genes: MushroomGenes, from: MushroomGenes): MushroomGenes {
+  const { stemWidth, footBulge, capWidth } = from;
+  return { ...genes, stemWidth, footBulge, capWidth };
+}
+
+/** Where the sides of `genes`' stem end on the ground, on a canvas `size` px to the unit, stood turned `turn`: up the right one, and back down the left. */
+function footCorners(
+  genes: MushroomGenes,
+  size: number,
+  turn: number,
+): [Point, Point] {
+  const drawn = stemOutline(genes, turn).map((point) =>
+    placedAt({ x: 0, y: 0 }, turn, toCanvas(size)(point)),
+  );
+  const [right, left] = [drawn[0], drawn[CURVE_STEPS * 2 + 1]];
+  assert.ok(right && left);
+  return [right, left];
+}
 
 /**
  * A standing mushroom's shadow's darkness where the ground meets each end of
@@ -280,11 +320,8 @@ function footDarkness(
   light: Parameters<typeof mushroomShadow>[2],
 ): number {
   const layers = mushroomShadow(genes, size, light);
-  const corners = stemOutline(genes, 0).map(toCanvas(size));
-  const ends = [corners[0], corners[CURVE_STEPS * 2 + 1]];
   return Math.min(
-    ...ends.map((end) => {
-      assert.ok(end);
+    ...footCorners(genes, size, 0).map((end) => {
       const over = layers.filter(
         ({ x, across, tall }) =>
           ((end.x - x) / (across / 2)) ** 2 + (end.y / (tall / 2)) ** 2 < 1,
