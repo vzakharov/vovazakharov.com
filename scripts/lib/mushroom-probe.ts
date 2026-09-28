@@ -14,6 +14,7 @@ import {
   SIDES,
 } from '../../src/pages/mushrooms/model/flight.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 
 /** Swaps `Math.random` for a mulberry32 seeded with `seed` before the page's own code runs. */
 export function seededRandom(seed: number): string {
@@ -105,6 +106,7 @@ export const PROBE = `(() => {
       })),
       selected: scene.meadow.selected ?? null,
       mushrooms: scene.meadow.mushrooms.map(({ id }) => id),
+      species: scene.meadow.mushrooms.map(({ species }) => species),
       muted: scene.voice.muted,
       clock: scene.clock,
     }),
@@ -149,6 +151,18 @@ export const PROBE = `(() => {
     capMiddle: (id) => {
       const shown = scene.bed.shown.get(id);
       return onScreen(shown.graphics, shown.hit.cap);
+    },
+    /** A mushroom's box on screen round its cap, gills and stem as its hit area has them. */
+    bounds: (id) => {
+      const { graphics, hit } = scene.bed.shown.get(id);
+      const matrix = graphics.getWorldTransformMatrix();
+      const points = [...hit.cap, ...hit.gills, ...hit.stem].map(({ x, y }) =>
+        matrix.transformPoint(x, y, {}),
+      );
+      const xs = points.map(({ x }) => x);
+      const ys = points.map(({ y }) => y);
+      const [x, y] = [Math.min(...xs), Math.min(...ys)];
+      return { x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y };
     },
     /** Where a tap selects a mushroom, as near its cap's middle as its cap shows (\`reaching\`). */
     mushroom: (id) => {
@@ -215,10 +229,14 @@ export const State = z.object({
   ),
   selected: z.string().nullable(),
   mushrooms: z.array(z.string()),
+  /** Each mushroom's species, in the meadow's order. */
+  species: z.array(z.enum(MUSHROOM_SPECIES)),
   muted: z.boolean(),
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
+/** A box on screen, in CSS px. */
+export const Box = Point.extend({ width: z.number(), height: z.number() });
 /** One schema per kind of perch, each parsing to the model's perch of that kind. */
 const PERCHES = {
   flower: z.object({ kind: z.literal('flower'), id: z.string() }),
@@ -284,7 +302,8 @@ export type Page = {
   /** The JS time of every frame `step` has drawn, in ms. */
   rendered: readonly number[];
   tap: (point: z.infer<typeof Point>) => Promise<void>;
-  shoot: (step: string) => Promise<void>;
+  /** A frame of the whole screen, or of `clip` alone. */
+  shoot: (step: string, clip?: z.infer<typeof Box>) => Promise<void>;
 };
 
 export type Expect = (holds: boolean, message: string) => void;

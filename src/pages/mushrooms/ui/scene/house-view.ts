@@ -15,9 +15,10 @@ import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
-import { containsOutline, type WithGraphics } from './hit-areas';
+import { containsOutline } from './hit-areas';
 import type { Lighted } from './ink';
-import type { Footing, Hazed } from './layout';
+import type { Footing } from './layout';
+import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffSpores } from './spores';
@@ -36,9 +37,8 @@ function seated({ door }: Body): DoorPlace {
  * where on its stem the bed seated its door: `undefined` until a door needs
  * one.
  */
-export type Body = WithGraphics &
+export type Body = HazedGraphics &
   Pick<Footing, 'size'> &
-  Hazed &
   Lighted &
   Splayed & {
     door: DoorPlace | undefined;
@@ -77,6 +77,7 @@ export class HouseView {
     now: () => number,
     phase: number,
     puffDepth: number,
+    nearest: (house: HouseView, at: Point) => boolean,
   ) {
     this.scene = scene;
     this.voice = voice;
@@ -85,12 +86,35 @@ export class HouseView {
     this.mouse = { phase, tappedAt: -Infinity };
     this.graphics = scene.add
       .graphics()
-      .setInteractive({ hitArea: this.hit, hitAreaCallback: containsOutline });
+      .setInteractive({
+        hitArea: this.hit,
+        // Where two doors' tap areas overlap, a tap goes to the nearer door.
+        hitAreaCallback: (area: readonly Point[], x: number, y: number) =>
+          containsOutline(area, x, y) &&
+          nearest(this, this.onScreen({ x, y })),
+      });
     // A door is part of its mushroom, not the meadow: its tap leaves an open picker open.
     this.graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.mouse.tappedAt = this.now();
       this.voice.squeak();
     });
+  }
+
+  /** The middle of the door's tap area on screen; `undefined` with no door. */
+  doorMiddle(): Point | undefined {
+    if (this.hit.length === 0) return undefined;
+    const count = this.hit.length;
+    return this.onScreen({
+      x: this.hit.reduce((sum, { x }) => sum + x, 0) / count,
+      y: this.hit.reduce((sum, { y }) => sum + y, 0) / count,
+    });
+  }
+
+  private onScreen({ x, y }: Point): Point {
+    const { x: sx, y: sy } = this.graphics
+      .getWorldTransformMatrix()
+      .transformPoint(x, y, { x: 0, y: 0 });
+    return { x: sx, y: sy };
   }
 
   /**

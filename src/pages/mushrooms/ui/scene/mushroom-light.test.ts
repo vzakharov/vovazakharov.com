@@ -11,7 +11,7 @@ import {
 } from '../../model/mushroom-genes';
 import { stemOutline, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
-import { CURVE_STEPS } from '../../model/mushroom-profile';
+import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
 import { luminance, mix, toHsv } from './colour';
 import { type MeadowLayout, meadowLayout } from './layout';
 import {
@@ -67,6 +67,36 @@ describe('a cap in the light', () => {
     const half = shadedHalf({ x: 0, y: 0 }, 1, { x: 1, y: 0 });
     assert.ok(middleOf(half).x < 0);
   });
+});
+
+describe('a chanterelle’s hollow top in the light', () => {
+  const genes = mushroomGenes({ seed: 7, species: 'chanterelle' });
+  assert.ok(genes.species === 'chanterelle');
+  for (const [name, toward, side] of [
+    ['from the right', { x: 0.8, y: -0.6 }, 1],
+    ['from the left', { x: -0.8, y: -0.6 }, -1],
+  ] as const) {
+    it(`is shaded on the wall toward a light ${name}, and lit on the far one`, () => {
+      const layers = capLight(genes, toward);
+      const arc = (kind: CapLight['kind']) => {
+        const layer = layers.find((each) => each.kind === kind);
+        assert.ok(layer && 'arc' in layer, kind);
+        return middleOf(layer.arc);
+      };
+      assert.ok(arc('dip-shade').x * side > 0);
+      assert.ok(arc('dip-light').x * side < 0);
+      // Outside the hollow the lip is lit as a dome's rim is.
+      assert.ok(arc('rim').x * side > 0);
+      assert.ok(arc('shade').x * side < 0);
+      const shine = layers.find((layer) => layer.kind === 'shine');
+      assert.ok(shine?.kind === 'shine' && shine.centre.x * side < 0);
+      // Each lies along the lip's top, where the hollow is.
+      for (const kind of ['dip-shade', 'dip-light'] as const) {
+        const { x, y } = arc(kind);
+        assert.ok(Math.abs(y - capSurface(genes, x)) < genes.lip * 0.5, kind);
+      }
+    });
+  }
 });
 
 describe('the creatures’ light and shade', () => {

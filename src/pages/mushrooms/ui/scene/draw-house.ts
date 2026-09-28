@@ -15,8 +15,18 @@ import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { paintMouse, type Peeking } from './draw-mouse';
 import { inkFor, innerInk } from './ink';
+import { haloFor, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
 import { box, type Brush, fillShape, inkUnder, type Place } from './shapes';
+
+/**
+ * How a house piece is painted: a mushroom's brush, and the pale line round
+ * the piece's outer edge where its own ink would not stand off what it sits
+ * on (`haloFor`), which only the outer edge takes.
+ */
+type HouseBrush = Brush & { halo?: number };
+/** How far a halo reaches outside its piece, in its ink line's widths. */
+const HALO = 2.6;
 
 /** How far a window's frame reaches in from its edge, in its square's side. */
 const FRAME = 0.1;
@@ -30,10 +40,13 @@ function paint(
   place: Place,
   outline: readonly Point[],
   fill: number,
-  { ink, tone, lighting }: Brush,
+  { ink, tone, lighting, halo }: HouseBrush,
   bare = false,
 ): void {
   const points = outline.map((point) => place(point));
+  if (!bare && halo !== undefined) {
+    inkUnder(graphics, points, tone(halo), ink * HALO, lighting);
+  }
   if (!bare) inkUnder(graphics, points, inkFor(tone(fill)), ink, lighting);
   graphics.fillStyle(tone(fill));
   fillShape(graphics, points);
@@ -92,22 +105,24 @@ export function paintWindow(
   graphics: Phaser.GameObjects.Graphics,
   kind: WindowKind,
   place: Place,
-  brush: Brush,
+  brush: HouseBrush,
 ): void {
+  // Only a window's outer edge takes the halo.
+  const inner = { ...brush, halo: undefined };
   const middle = { x: 0, y: 0 };
   switch (kind) {
     case 'cross': {
       const pane = 0.5 - FRAME;
       paint(graphics, place, ellipse(middle, 0.5), PALETTE.wood, brush);
-      paint(graphics, place, ellipse(middle, pane), PALETTE.windowPane, brush);
-      paintShine(graphics, place, { x: -0.18, y: 0.2 }, 0.1, brush);
-      paintCross(graphics, place, pane, brush);
+      paint(graphics, place, ellipse(middle, pane), PALETTE.windowPane, inner);
+      paintShine(graphics, place, { x: -0.18, y: 0.2 }, 0.1, inner);
+      paintCross(graphics, place, pane, inner);
       return;
     }
     case 'round': {
       paint(graphics, place, ellipse(middle, 0.5), PALETTE.wood, brush);
-      paint(graphics, place, ellipse(middle, 0.3), PALETTE.windowPane, brush);
-      paintShine(graphics, place, { x: -0.1, y: 0.11 }, 0.08, brush);
+      paint(graphics, place, ellipse(middle, 0.3), PALETTE.windowPane, inner);
+      paintShine(graphics, place, { x: -0.1, y: 0.11 }, 0.08, inner);
       // Rivets round the rim, a porthole's.
       for (const angle of sample(0, Math.PI * 2, 6, (turn) => turn).slice(
         0,
@@ -119,7 +134,7 @@ export function paintWindow(
           place,
           ellipse(at, 0.035),
           PALETTE.woodDeep,
-          brush,
+          inner,
           true,
         );
       }
@@ -133,10 +148,10 @@ export function paintWindow(
         place,
         box(-pane, -pane, pane, pane),
         PALETTE.windowPane,
-        brush,
+        inner,
       );
-      paintShine(graphics, place, { x: -0.2, y: 0.2 }, 0.09, brush);
-      paintCross(graphics, place, pane, brush);
+      paintShine(graphics, place, { x: -0.2, y: 0.2 }, 0.09, inner);
+      paintCross(graphics, place, pane, inner);
       return;
     }
     case 'tall': {
@@ -147,9 +162,9 @@ export function paintWindow(
         place,
         arch(TALL_WIDTH - inset * 2, 1 - inset * 2, -0.5 + inset),
         PALETTE.windowPane,
-        brush,
+        inner,
       );
-      paintShine(graphics, place, { x: -0.08, y: 0.22 }, 0.07, brush);
+      paintShine(graphics, place, { x: -0.08, y: 0.22 }, 0.07, inner);
       // A sill under it, a little wider than the window.
       const sill = TALL_WIDTH / 2 + 0.07;
       paint(
@@ -157,7 +172,7 @@ export function paintWindow(
         place,
         box(-sill, -0.56, sill, -0.46),
         PALETTE.woodDeep,
-        brush,
+        inner,
       );
       return;
     }
@@ -178,20 +193,21 @@ export function paintDoor(
   place: Place,
   aspect: number,
   open: number,
-  brush: Brush,
+  brush: HouseBrush,
   inside?: () => void,
 ): void {
   paint(graphics, place, paintedDoor(aspect), PALETTE.woodDeep, brush);
+  const inner = { ...brush, halo: undefined };
   paint(graphics, place, doorway(aspect), PALETTE.doorway, brush, true);
   if (open > 0) inside?.();
   // The leaf, folded towards its hinge as it swings open.
   const fold = 1 - LEAF_FOLD * open;
   const leafPlace: Place = ({ x, y }) =>
     place({ x: -0.5 + (x + 0.5) * fold, y });
-  paint(graphics, leafPlace, doorway(aspect), PALETTE.wood, brush);
+  paint(graphics, leafPlace, doorway(aspect), PALETTE.wood, inner);
   graphics.lineStyle(
-    Math.max(brush.lighting.hairline, brush.ink * 0.5),
-    brush.tone(innerInk(PALETTE.wood)),
+    Math.max(inner.lighting.hairline, inner.ink * 0.5),
+    inner.tone(innerInk(PALETTE.wood)),
   );
   for (const x of [-1 / 6, 1 / 6]) {
     const line = [
@@ -210,7 +226,7 @@ export function paintDoor(
     leafPlace,
     ellipse({ x: 0.3, y: aspect * 0.42 }, 0.085),
     PALETTE.doorKnob,
-    brush,
+    inner,
   );
 }
 
@@ -265,14 +281,20 @@ export function paintHouse(
   brush: Brush,
 ): void {
   const slots = windowSlots(genes);
+  const tints = mushroomTints(genes);
+  const onCap = { ...brush, halo: haloFor(PALETTE.wood, brush.tone(tints.cap)) };
   for (const [index, { kind, popped }] of windows.entries()) {
     const slot = slots[index];
     if (!slot || popped <= 0) continue;
-    paintWindow(graphics, kind, windowPlace(genes, size, slot, popped), brush);
+    paintWindow(graphics, kind, windowPlace(genes, size, slot, popped), onCap);
   }
   if (!door || door.popped <= 0) return;
   const { place, aspect } = doorFrame(door.station, size, door.popped);
-  paintDoor(graphics, place, aspect, door.open, brush, () => {
+  const onItsStem = {
+    ...brush,
+    halo: haloFor(PALETTE.woodDeep, brush.tone(tints.stem)),
+  };
+  paintDoor(graphics, place, aspect, door.open, onItsStem, () => {
     paintMouse(graphics, place, doorway(aspect), door, brush);
   });
 }

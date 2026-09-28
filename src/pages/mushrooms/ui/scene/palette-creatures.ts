@@ -20,6 +20,36 @@ export const CREATURES = {
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
   spot: 0xff_fb_f1,
+  /**
+   * A porcini's: its whitish-cream stem and the faint net near its top; its
+   * cap, one shade from tan to chestnut per mushroom, each well above the
+   * luminance where a dark fill gets only a weak edge, with a paler band at
+   * its margin; its pale cream-yellow pores; and the warm light on its cap.
+   */
+  porcini: {
+    stem: 0xf5_ec_d6,
+    net: 0xd8_c0_96,
+    tan: 0xbc_7c_42,
+    chestnut: 0x80_44_22,
+    margin: 0xe2_ba_84,
+    pores: 0xf4_e2_92,
+    lit: 0xf6_b8_6e,
+  },
+  /** A chanterelle's one egg-yolk orange, foot to rim, the ridges under its funnel a deeper shade, and the light on it. */
+  chanterelle: {
+    flesh: 0xf7_96_14,
+    ridge: 0xcc_68_08,
+    lit: 0xff_dc_6a,
+  },
+  /** One per `RUSSULA_TONES` name, a russula's cap, and its white gills. */
+  russula: {
+    red: 0xe0_3c_54,
+    rose: 0xf4_84_a0,
+    violet: 0xa4_62_bc,
+    ochre: 0xea_b8_3c,
+    green: 0x94_b4_5a,
+  },
+  russulaGills: 0xfe_fa_ee,
   flowerStem: 0x4c_a0_3c,
   leaf: 0x5e_b8_48,
   flowerCentre: 0xff_c8_2e,

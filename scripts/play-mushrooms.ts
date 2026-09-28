@@ -3,7 +3,7 @@
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
  * the meadow is tapped the way a finger does — the steps are `play` below,
- * `lib/play-house.ts`, `lib/play-insects.ts` and `lib/play-buzzers.ts` — and a frame of each lands in
+ * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts` and `lib/play-species.ts` — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -31,7 +31,9 @@ import { WATCH } from './lib/flier-watch.ts';
 import { median, overBudget } from './lib/frame-budget.ts';
 import {
   Controls,
+  type Expect,
   Flower,
+  inTurn,
   type Page,
   Point,
   Pose,
@@ -42,6 +44,7 @@ import {
 import { playBuzzers, playPlanting } from './lib/play-buzzers.ts';
 import { playHouse } from './lib/play-house.ts';
 import { playInsects } from './lib/play-insects.ts';
+import { playSpecies } from './lib/play-species.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -221,10 +224,13 @@ async function open(
         touchPoints: [],
       });
     },
-    shoot: async (step) => {
-      const { data } = z
-        .object({ data: z.string() })
-        .parse(await send('Page.captureScreenshot', { format: 'png' }));
+    shoot: async (step, clip) => {
+      const { data } = z.object({ data: z.string() }).parse(
+        await send('Page.captureScreenshot', {
+          format: 'png',
+          ...(clip && { clip: { ...clip, scale: 1 } }),
+        }),
+      );
       fs.writeFileSync(
         path.join(FRAMES, `${screen.name}-${step}.png`),
         Buffer.from(data, 'base64'),
@@ -409,18 +415,23 @@ async function main(): Promise<void> {
       process.stdout.write(`${screen.name}: ${line}\n`);
     };
     await play(page, fail, note);
-    // A fresh meadow, the bees alone on it.
-    const fresh = await open(browser, origin, screen, errors);
-    await fresh.step(30);
-    await playPlanting(
-      fresh,
-      await fresh.evaluate('__probe.controls()', Controls),
-      (holds, message) => {
-        if (!holds) fail(message);
-      },
-      note,
-    );
-    const frames = [...page.rendered, ...fresh.rendered];
+    const expect: Expect = (holds, message) => {
+      if (!holds) fail(message);
+    };
+    // Fresh meadows, one after the other: the bees alone on one, every
+    // species grown on the next.
+    const frames = [...page.rendered];
+    await inTurn([playPlanting, playSpecies], async (playOn) => {
+      const on = await open(browser, origin, screen, errors);
+      await on.step(30);
+      await playOn(
+        on,
+        await on.evaluate('__probe.controls()', Controls),
+        expect,
+        note,
+      );
+      frames.push(...on.rendered);
+    });
     const slow = overBudget(frames);
     if (slow !== undefined) fail(slow);
     note(

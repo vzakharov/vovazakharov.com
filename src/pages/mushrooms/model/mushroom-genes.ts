@@ -31,7 +31,7 @@ export const RUSSULA_TONES = [
   'ochre',
   'green',
 ] as const;
-type RussulaTone = (typeof RUSSULA_TONES)[number];
+export type RussulaTone = (typeof RUSSULA_TONES)[number];
 
 type OfSpecies<Kind extends Species = Species> = { species: Kind };
 export type MushroomSeed = Seeded & OfSpecies;
@@ -85,10 +85,10 @@ type Grown<Kind extends Species, Own = unknown> = OfSpecies<Kind> &
   Spotted &
   Own;
 
-type FlyAgaricGenes = Grown<'fly-agaric'>;
-type PorciniGenes = Grown<'porcini'>;
+export type FlyAgaricGenes = Grown<'fly-agaric'>;
+export type PorciniGenes = Grown<'porcini'>;
 export type ChanterelleGenes = Grown<'chanterelle', Trumpet>;
-type RussulaGenes = Grown<'russula', Hollowed & { tone: RussulaTone }>;
+export type RussulaGenes = Grown<'russula', Hollowed & { tone: RussulaTone }>;
 /** One mushroom's genes, whichever its species. */
 export type MushroomGenes =
   | FlyAgaricGenes

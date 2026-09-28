@@ -345,6 +345,7 @@ export class MushroomBed {
         this.now,
         phaseOf(mushroom),
         SPORE_DEPTH,
+        this.nearestDoor,
       ),
       phase: phaseOf(mushroom),
       tappedAt: -Infinity,
@@ -358,6 +359,18 @@ export class MushroomBed {
     this.shown.set(mushroom.id, shown);
     return shown;
   }
+
+  /** Whether no other shown door's middle stands nearer `at` than `house`'s. */
+  private readonly nearestDoor = (house: HouseView, at: Point): boolean => {
+    const away = (other: HouseView) => {
+      const middle = other.doorMiddle();
+      return middle ? Math.hypot(middle.x - at.x, middle.y - at.y) : Infinity;
+    };
+    const own = away(house);
+    return [...this.shown.values()].every(
+      (other) => other.house === house || away(other.house) >= own,
+    );
+  };
 
   /**
    * Answers a tap on `id`'s mushroom, whether it landed there or went

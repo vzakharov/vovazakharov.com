@@ -14,10 +14,13 @@ import {
   type Scaled,
 } from '../../model/geometry';
 import { type Light, turnedLight } from '../../model/light';
-import type { MushroomGenes } from '../../model/mushroom-genes';
+import type {
+  ChanterelleGenes,
+  MushroomGenes,
+} from '../../model/mushroom-genes';
 import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
-import { CURVE_STEPS } from '../../model/mushroom-profile';
+import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
 import { awayAngle, litSide, shadowFall } from './ink';
 import { PALETTE } from './palette';
 
@@ -100,9 +103,17 @@ export function capShine(
   return { x: toward.x * 0.2 * capWidth, y: capHeight * 0.72 };
 }
 
-/** One layer of the light on a cap, in the cap's frame. */
+/**
+ * One layer of the light on a cap, in the cap's frame. A dip's shade and
+ * light lie inside a chanterelle's hollow top, where a concave wall turns the
+ * other way from a dome's: the wall on the sun's side faces from it.
+ */
 export type CapLight =
-  | { kind: 'shade' | 'rim'; arc: Point[]; strength: number }
+  | {
+      kind: 'shade' | 'rim' | 'dip-shade' | 'dip-light';
+      arc: Point[];
+      strength: number;
+    }
   | { kind: 'shine'; centre: Point; radii: readonly [number, number] }
   | { kind: 'spot'; spot: Circle };
 
@@ -113,6 +124,7 @@ export type CapLight =
  * the rim light are `strength` of their full alpha (`sideways`).
  */
 export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
+  if (genes.species === 'chanterelle') return lipLight(genes, toward);
   const strength = sideways(toward);
   return [
     { kind: 'shade', arc: capShadeArc(genes, toward), strength },
@@ -123,6 +135,49 @@ export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
       radii: [genes.capWidth * 0.1, genes.capHeight * 0.11],
     },
     ...genes.spots.map((spot) => ({ kind: 'spot' as const, spot })),
+  ];
+}
+
+/** The top of a chanterelle's lip from `from` to `to` of its half-width across, sampled evenly. */
+function lipArc(
+  genes: ChanterelleGenes,
+  [from, to]: readonly [number, number],
+): Point[] {
+  const half = genes.capWidth / 2;
+  return sample(from * half, to * half, CURVE_STEPS, (x) => ({
+    x,
+    y: capSurface(genes, x),
+  }));
+}
+
+/** How much of a dip's shade stays with the sun straight above, the hollow shading itself. */
+const DIP_LEAST = 0.5;
+
+/**
+ * A chanterelle's lip in the light: its outer shoulders shaded and lit as a
+ * dome's rims are, and inside its hollow top the other way round — the wall on
+ * the sun's side in shade, the far wall lit, the shine on it.
+ */
+function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
+  const strength = sideways(toward);
+  const sun = litSide(toward);
+  const arc = (from: number, to: number) =>
+    lipArc(genes, [from * sun, to * sun]);
+  const far = -0.3 * sun * (genes.capWidth / 2);
+  return [
+    { kind: 'shade', arc: arc(-0.52, -0.98), strength },
+    { kind: 'rim', arc: arc(0.56, 0.97), strength },
+    {
+      kind: 'dip-shade',
+      arc: arc(-0.06, 0.52),
+      strength: DIP_LEAST + (1 - DIP_LEAST) * strength,
+    },
+    { kind: 'dip-light', arc: arc(-0.08, -0.5), strength },
+    {
+      kind: 'shine',
+      centre: { x: far, y: capSurface(genes, far) - genes.lip * 0.3 },
+      radii: [genes.capWidth * 0.07, genes.lip * 0.16],
+    },
   ];
 }
 
@@ -171,17 +226,22 @@ function layers(
 }
 
 /**
- * The stem's light, as the cap's: a cool shade on the side turned from the
+ * The stem's light, as the cap's, its warm side in `lit`: a cool shade on the side turned from the
  * sun and a warm light on the side toward it, each stacked in thin layers
  * from the deepest in, so it deepens toward the edge with no band of its
  * own; and a pale line just inside the lit edge. It stays light enough that
  * the stem still reads as pale.
  */
-export const STEM_LIGHT: readonly StemLayer[] = [
-  ...layers(PALETTE.shadeCool, 'shade', 12, 0.024, [0.6, 0.08]),
-  ...layers(PALETTE.stemLit, 'sun', 8, 0.08, [0.34, 0.06]),
-  [PALETTE.rimLight, 0.6, 0.04, 'sun'],
-];
+export function stemLight(lit: number): StemLayer[] {
+  return [
+    ...layers(PALETTE.shadeCool, 'shade', 12, 0.024, [0.6, 0.08]),
+    ...layers(lit, 'sun', 8, 0.08, [0.34, 0.06]),
+    [PALETTE.rimLight, 0.6, 0.04, 'sun'],
+  ];
+}
+
+/** A pale stem's light, its warm side in `stemLit`. */
+export const STEM_LIGHT: readonly StemLayer[] = stemLight(PALETTE.stemLit);
 
 /** A cast shadow's soft outer shade, its core and its contact at the foot: each one's size, as a share of the shadow's, and alpha. */
 const SHADOW_LAYERS = [
