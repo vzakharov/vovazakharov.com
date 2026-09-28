@@ -13,7 +13,9 @@ import {
   nextFlight,
   type Perch,
   type Perches,
+  perchName,
 } from './flight';
+import { INSECT_KINDS, type InsectKind } from './insect-genes';
 
 const kind = 'butterfly' as const;
 const {
@@ -275,6 +277,60 @@ describe('flightAway', () => {
     assert.equal(away.leg.departs, 500);
     assert.equal(away.leg.leaves, away.leg.arrives);
     assert.equal(away.legs, 2);
+  });
+});
+
+/** Both edges `strides` of `kinded`'s strides from the perch `to`. */
+const placesAt = (to: Perch, kinded: InsectKind, strides: number) => {
+  const far = { x: strides * FLIGHT_HABITS[kinded].stride, y: 0 };
+  return {
+    [perchName(to)]: { x: 0, y: 0 },
+    'away left': far,
+    'away right': far,
+  };
+};
+
+describe('a flight across the screen', () => {
+  it('takes its pace to a stride, longer in proportion past it, and never past its slowest, every kind', () => {
+    for (const kinded of INSECT_KINDS) {
+      const { flying, slowest } = FLIGHT_HABITS[kinded];
+      for (const strides of [0.5, 1, (1 + slowest) / 2, slowest, 3, 40]) {
+        const stretch = Math.min(slowest, Math.max(1, strides));
+        for (const seed of SEEDS.slice(0, 20)) {
+          const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
+          const places = placesAt(first.leg.to, kinded, strides);
+          const { leg } = flightAway({ seed, kind: kinded, ...first }, 0, {
+            places,
+          });
+          const taken = leg.arrives - leg.departs;
+          assert.ok(
+            within(taken / stretch, flying),
+            `${kinded} over ${String(strides)} strides takes ${String(taken)}`,
+          );
+        }
+      }
+    }
+  });
+
+  it('dashes past its slowest, the rest flown at its pace, for a kind that dashes', () => {
+    for (const kinded of INSECT_KINDS) {
+      const { slowest, dashing } = FLIGHT_HABITS[kinded];
+      for (const strides of [slowest, 3, 40]) {
+        const first = firstFlight({ seed: 3, kind: kinded }, PERCHES, 0);
+        const places = placesAt(first.leg.to, kinded, strides);
+        const { dash } = flightAway({ seed: 3, kind: kinded, ...first }, 0, {
+          places,
+        }).leg;
+        if (dashing === undefined || strides <= slowest) {
+          assert.equal(dash, undefined, kinded);
+          continue;
+        }
+        assert.ok(dash, kinded);
+        assert.equal(dash.time, dashing);
+        const rest = (1 - dash.way) * strides;
+        assert.ok(Math.abs(rest - (1 - dashing) * slowest) < 1e-9, kinded);
+      }
+    }
   });
 });
 

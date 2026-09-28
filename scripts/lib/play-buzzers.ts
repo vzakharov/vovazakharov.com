@@ -38,9 +38,17 @@ const FLYING_TAPS = 10;
 const FLYING_REACHED = 9;
 /** How long a fly tapped in flight must have flown, and still have to fly, in ms, so the tap lands mid-flight. */
 const MID_FLIGHT = 150;
-/** Frames per look while waiting for a fly in flight to be drawn on screen, and the most looks. */
+/**
+ * Frames per look while waiting for a fly in flight to be drawn on screen,
+ * and the most looks: one past a fly's longest flight, the longest any fly
+ * in flight can stay off the screen.
+ */
 const SIGHT_LOOK = 15;
-const SIGHT_LOOKS = 40;
+const SIGHT_LOOKS =
+  Math.ceil(
+    (FLIGHT_HABITS.fly.flying[1] * FLIGHT_HABITS.fly.slowest) /
+      ((SIGHT_LOOK * 1000) / 60),
+  ) + 1;
 
 const Screen = z.object({ width: z.number(), height: z.number() });
 /** Frames per look while waiting for a bee to plant, and the most looks. */

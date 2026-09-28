@@ -48,11 +48,11 @@ const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
 /**
  * The screens that fall short of the air's promise, a spot for every insect
  * clear of the others, and by how much, as measured; their tests run as todo
- * there, but for a full forest's, whose caps seat enough of the ten.
+ * there.
  */
 const AIR_UNMET: Partial<Record<(typeof VIEWPORTS)[number][0], string>> = {
   'small phone':
-    'its grid seats eight of the ten apart, and with the opening clump two fliers hold overlapping spots 40% of ticks',
+    'its grid seats eight of the ten apart, and two fliers hold overlapping spots 33% of ticks with the opening clump, 0.2% over ten visits with a full forest',
 };
 /** Four butterflies and three bees, released in turn. */
 const BEES_AMONG_BUTTERFLIES: readonly InsectKind[] = [
@@ -96,15 +96,15 @@ function overlapAloft({ layout }: Opened, fliers: readonly Flier[]): boolean {
 }
 
 /**
- * Asserts, at `now`, that no two of `fliers` sitting share a perch or cover
- * more than `MOST_OVERLAP` of the narrower's wings, each seated as its kind
- * sits there.
+ * How, at `now`, two of `fliers` sitting share a perch or cover more than
+ * `MOST_OVERLAP` of the narrower's wings, each seated as its kind sits there;
+ * `undefined` where none do.
  */
-function assertSeatedApart(
+function seatedClash(
   stand: Opened,
   fliers: readonly Flier[],
   now: number,
-): void {
+): string | undefined {
   const { layout } = stand;
   const sitting = fliers.flatMap((flier) => {
     const { to, arrives } = flier.leg;
@@ -113,18 +113,55 @@ function assertSeatedApart(
     return seat ? [{ flier, seat, name: perchName(to) }] : [];
   });
   for (const [a, b] of pairsOf(sitting)) {
-    assert.notEqual(a.name, b.name, `${a.name} shared at ${String(now)}`);
+    if (a.name === b.name) return `${a.name} shared at ${String(now)}`;
     const apart = Math.hypot(a.seat.x - b.seat.x, a.seat.y - b.seat.y);
     const covered = overlap(
       spanOn(layout, a.flier),
       spanOn(layout, b.flier),
       apart,
     );
-    assert.ok(
-      covered <= MOST_OVERLAP,
-      `${a.flier.kind} on ${a.name} and ${b.flier.kind} on ${b.name} at ${String(now)}`,
-    );
+    if (covered > MOST_OVERLAP) {
+      return `${a.flier.kind} on ${a.name} and ${b.flier.kind} on ${b.name} at ${String(now)}`;
+    }
   }
+  return undefined;
+}
+
+/**
+ * What all ten fliers of a visit did over `LASTING`: the first time one
+ * headed off screen or two sat crowded (`seatedClash`), if ever, and how many
+ * ticks it was played for, and on how many two held spots in the air whose
+ * wings overlap (`overlapAloft`).
+ */
+type Visited = { broken: string | undefined; ticks: number; aloft: number };
+
+/** Each visit played once, however many tests read it. */
+const visits = new Map<string, Visited>();
+
+/** All ten fliers of the visit `seed` on a screen `width` by `height`, with a full forest or the opening clump. */
+function allTen(
+  seed: number,
+  width: number,
+  height: number,
+  forest: boolean,
+): Visited {
+  const key = [seed, width, height, forest].join(' ');
+  const known = visits.get(key);
+  if (known) return known;
+  const stand = opened(seed, width, height, forest);
+  const playing = { kinds: ALL_TEN, gap: GAP, lasting: LASTING, tick: TICK };
+  const visited: Visited = { broken: undefined, ticks: 0, aloft: 0 };
+  play(stand, seed, playing, ({ meadow, now }) => {
+    const standing = { ...stand, ...pick(meadow, 'planted') };
+    const leaving = meadow.insects.some(({ leg }) => leg.to.kind === 'away');
+    visited.broken ??= leaving
+      ? `one leaving at ${String(now)}`
+      : seatedClash(standing, meadow.insects, now);
+    visited.ticks++;
+    if (overlapAloft(standing, meadow.insects)) visited.aloft++;
+  });
+  visits.set(key, visited);
+  return visited;
 }
 
 describe('the air', () => {
@@ -157,35 +194,23 @@ describe('the air', () => {
 describe('all ten fliers of a visit', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const forest of [false, true]) {
-      const todo = forest ? undefined : AIR_UNMET[name];
       const grown = forest ? 'a full forest' : 'the opening clump';
+      it(`never leave and never crowd each other's perches, over five minutes on a ${name} screen with ${grown}`, () => {
+        for (const seed of SEEDS) {
+          const { broken } = allTen(seed, width, height, forest);
+          assert.equal(broken, undefined, `visit ${String(seed)}`);
+        }
+      });
+
       it(
-        `never leave, never crowd each other's perches, and hold spots in the air apart, over five minutes on a ${name} screen with ${grown}`,
-        { todo },
+        `hold spots in the air apart, over five minutes on a ${name} screen with ${grown}`,
+        { todo: AIR_UNMET[name] },
         () => {
           const count = { ticks: 0, aloft: 0 };
           for (const seed of SEEDS) {
-            const stand = opened(seed, width, height, forest);
-            const playing = {
-              kinds: ALL_TEN,
-              gap: GAP,
-              lasting: LASTING,
-              tick: TICK,
-            };
-            play(stand, seed, playing, ({ meadow, now }) => {
-              const leaving = meadow.insects.find(
-                ({ leg }) => leg.to.kind === 'away',
-              );
-              assert.equal(
-                leaving,
-                undefined,
-                `visit ${String(seed)} at ${String(now)}`,
-              );
-              const standing = { ...stand, ...pick(meadow, 'planted') };
-              assertSeatedApart(standing, meadow.insects, now);
-              count.ticks++;
-              if (overlapAloft(standing, meadow.insects)) count.aloft++;
-            });
+            const { ticks, aloft } = allTen(seed, width, height, forest);
+            count.ticks += ticks;
+            count.aloft += aloft;
           }
           const aloft = share(count.aloft, count.ticks);
           assert.equal(count.aloft, 0, `overlapping aloft ${String(aloft)}`);

@@ -95,18 +95,33 @@ const FLUTTER_REACH = 0.04;
 const LAUNCH_SPEED = 1.5;
 
 /**
+ * A cubic Hermite from 0 to 1 over `v` from 0 to 1, leaving at `m0` and
+ * arriving at `m1` times its average slope; monotonic for slopes up to 3.
+ */
+function hermite(v: number, m0: number, m1: number): number {
+  return m0 * v * (1 - v) ** 2 + v * v * (3 - 2 * v) - m1 * v * v * (1 - v);
+}
+
+/**
  * How far through its flight a path is at `now`, eased in to the end and out
  * from the start in proportion to how fast it set off: from still it leaves
- * at rest, mid-flight at `LAUNCH_SPEED`.
+ * at rest, mid-flight at `LAUNCH_SPEED`. A flight that dashes (`Dash`) slows
+ * out of its dash to the pace it flies the rest at.
  */
-function progress({ departs, arrives, speed }: Launched, now: number): number {
+function progress(
+  { departs, arrives, speed, dash }: Launched,
+  now: number,
+): number {
   const flight = arrives - departs;
   if (flight <= 0) return 1;
   const u = Math.min(1, Math.max(0, (now - departs) / flight));
-  // A cubic Hermite from 0 to 1, leaving at `slope` and arriving at rest;
-  // monotonic for any slope up to 3.
   const slope = speed * LAUNCH_SPEED;
-  return slope * u * (1 - u) ** 2 + u * u * (3 - 2 * u);
+  if (!dash) return hermite(u, slope, 0);
+  const { time, way } = dash;
+  const pace = (1 - way) / (1 - time) / (way / time);
+  return u < time
+    ? way * hermite(u / time, slope, pace)
+    : way + (1 - way) * hermite((u - time) / (1 - time), 1, 0);
 }
 
 /** The side an insect's phase has its flights bow to, -1 or 1, when nothing else picks one. */

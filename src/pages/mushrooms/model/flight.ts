@@ -113,8 +113,18 @@ export type Perches = Sight & {
 /** A moment on the scene's clock, in ms. */
 export type Timed = { now: number };
 
-/** When a leg's flight takes off and lands, in ms on the scene's clock. */
-export type Span = { departs: number; arrives: number };
+/**
+ * How a flight farther than its kind flies at its own pace gets there: it
+ * dashes `way` of the way in the first `time` of its flight, both shares, and
+ * flies the rest at its pace.
+ */
+export type Dash = { time: number; way: number };
+
+/**
+ * When a leg's flight takes off and lands, in ms on the scene's clock, and
+ * how it dashes, if it does.
+ */
+export type Span = { departs: number; arrives: number; dash?: Dash };
 
 /**
  * One flight and the stay after it: from `from` to `to` over `departs` to
@@ -266,15 +276,25 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
   }
 }
 
-/** How many times its `flying` time a flight from `from` to `to` takes: 1 up to a `stride`, and in proportion past it. */
-function stretch(
-  { stride }: Habits,
+/**
+ * How a flight from `from` to `to` is timed, in times its `flying` time: 1 up
+ * to a `stride`, in proportion past it up to `slowest`, and `slowest` past
+ * that, where a kind that dashes (`dashing`) flies its last strides at its
+ * own pace and dashes the rest, and any other simply flies faster.
+ */
+function paced(
+  { stride, slowest, dashing }: Habits,
   { from, to }: Pick<Leg, 'from' | 'to'>,
   places: Places | undefined,
-): number {
+): Pick<Span, 'dash'> & { stretch: number } {
   const [start, end] = [places?.[perchName(from)], places?.[perchName(to)]];
-  if (!start || !end) return 1;
-  return Math.max(1, Math.hypot(end.x - start.x, end.y - start.y) / stride);
+  if (!start || !end) return { stretch: 1 };
+  const strides = Math.hypot(end.x - start.x, end.y - start.y) / stride;
+  if (strides <= slowest || dashing === undefined) {
+    return { stretch: Math.min(slowest, Math.max(1, strides)) };
+  }
+  const way = 1 - ((1 - dashing) * slowest) / strides;
+  return { stretch: slowest, dash: { time: dashing, way } };
 }
 
 function legTo(
@@ -285,12 +305,14 @@ function legTo(
 ): Leg {
   const { from, to } = route;
   const flown = between(random, ...habits.flying);
-  const arrives = now + flown * stretch(habits, route, places);
+  const { stretch, dash } = paced(habits, route, places);
+  const arrives = now + flown * stretch;
   return {
     from,
     to,
     departs: now,
     arrives,
+    ...(dash && { dash }),
     leaves: arrives + stayAt(random, habits, to),
   };
 }

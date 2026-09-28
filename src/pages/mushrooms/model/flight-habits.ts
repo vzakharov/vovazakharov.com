@@ -11,15 +11,21 @@ import type { InsectKind } from './insect-genes';
  * `undefined` for a kind that never sits on a cap; `stride`, the farthest a
  * flight goes in its `flying` time, in butterfly sizes (`Places`), a farther
  * one flying on at that speed, so a child's finger can follow it across a
- * wide screen; how often, with both open, it goes to a flower rather than a
- * cap; how many times as often it picks a spotted cap as any other; how
- * often, with no spotted cap open, it roams the air and looks again rather
- * than land anywhere else (`fussy`); and whether, with nowhere else open, it
- * settles again where it sat rather than roaming.
+ * wide screen, but never for more than `slowest` times its `flying` time, so
+ * no flight drags; past that, the share of its time a kind that dashes
+ * (`dashing`) spends dashing before it flies its last strides at its pace,
+ * `undefined` for a kind that simply flies faster; how often, with both
+ * open, it goes to a flower rather than a cap; how many times as often it
+ * picks a spotted cap as any other; how often, with no spotted cap open, it
+ * roams the air and looks again rather than land anywhere else (`fussy`);
+ * and whether, with nowhere else open, it settles again where it sat rather
+ * than roaming.
  */
 export type Habits = {
   flying: readonly [number, number];
   stride: number;
+  slowest: number;
+  dashing: number | undefined;
   drinking: readonly [number, number];
   hovering: readonly [number, number];
   resting: readonly [number, number] | undefined;
@@ -37,12 +43,18 @@ export type Habits = {
  * roaming the air while none is open — and never settling back on the
  * flower it is leaving, so bees as many as the flowers still take turns at
  * them and carry pollen between them. Hovers are long enough that on a
- * small screen few insects in the air move at once.
+ * small screen few insects in the air move at once. Across a wide screen a
+ * butterfly takes at most a third longer than over a stride, flying the
+ * faster the farther it goes, and a fly or a bee darts over most of it and
+ * comes in to its perch at its own pace, so each is a child's finger's to
+ * catch most of the way.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
     flying: [2400, 3900],
     stride: 3,
+    slowest: 1.3,
+    dashing: undefined,
     drinking: [3000, 6000],
     hovering: [4000, 8000],
     resting: [4000, 9000],
@@ -54,6 +66,8 @@ export const FLIGHT_HABITS = {
   fly: {
     flying: [600, 1100],
     stride: 0.9,
+    slowest: 1.8,
+    dashing: 0.2,
     drinking: [1500, 4000],
     hovering: [2000, 4500],
     resting: [1500, 4000],
@@ -65,6 +79,8 @@ export const FLIGHT_HABITS = {
   bee: {
     flying: [1100, 1800],
     stride: 1.4,
+    slowest: 1.7,
+    dashing: 0.2,
     drinking: [2000, 3500],
     hovering: [1500, 3000],
     resting: undefined,

@@ -47,6 +47,21 @@ function offChord({ start, end }: Path, point: Point) {
   );
 }
 
+/** `PATH` dashing nine tenths of the way in a fifth of its time. */
+const DASH = { time: 0.2, way: 0.9 };
+const DASHING: Path = { ...PATH, dash: DASH };
+
+/**
+ * How far along its chord `DASHING` has come at `now`, as a share: every
+ * kind's bow and zigzag are across the chord.
+ */
+function dashedAt(now: number, motion: ReturnType<typeof flier>): number {
+  const { start, end } = DASHING;
+  const { x, y } = flightPoint(DASHING, now, motion);
+  const [dx, dy] = [end.x - start.x, end.y - start.y];
+  return ((x - start.x) * dx + (y - start.y) * dy) / (dx * dx + dy * dy);
+}
+
 describe('flightPoint', () => {
   it('starts exactly at the start and ends exactly at the end, every kind', () => {
     for (const kind of INSECT_KINDS) {
@@ -126,6 +141,34 @@ describe('flightPoint', () => {
     for (const kind of INSECT_KINDS) {
       const here = flightPoint(still, 2000, { ...flier(1, kind), flutter: 0 });
       assert.deepEqual(here, PATH.start);
+    }
+  });
+
+  it('dashes its way in its time, then slows to its pace without a jump, every kind', () => {
+    const { start, end, departs, arrives } = DASHING;
+    const { time, way } = DASH;
+    const joins = departs + time * (arrives - departs);
+    const pace = (1 - way) / (1 - time) / (arrives - departs);
+    for (const kind of INSECT_KINDS) {
+      const motion = { ...flier(1, kind), flutter: 0 };
+      assert.deepEqual(flightPoint(DASHING, departs, motion), start);
+      assert.deepEqual(flightPoint(DASHING, arrives, motion), end);
+      assert.ok(Math.abs(dashedAt(joins, motion) - way) < 1e-9, kind);
+      const shares = times(departs, arrives, FRAME).map((now) =>
+        dashedAt(now, motion),
+      );
+      for (const [index, share] of shares.slice(1).entries()) {
+        assert.ok(share >= (shares[index] ?? 0) - 1e-9, `${kind} turns back`);
+      }
+      // As fast a moment before the join as a moment after it: its pace.
+      for (const now of [joins - 0.02, joins + 0.01]) {
+        const speed =
+          (dashedAt(now + 0.01, motion) - dashedAt(now, motion)) / 0.01;
+        assert.ok(
+          Math.abs(speed / pace - 1) < 0.01,
+          `${kind} at ${String(now)}`,
+        );
+      }
     }
   });
 });
