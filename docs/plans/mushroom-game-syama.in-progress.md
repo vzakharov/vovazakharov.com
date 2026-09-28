@@ -486,12 +486,28 @@ Standing rules for every session in the chain:
      mushroom's shadow.
    - The spec and the references' reading are in
      `docs/remove-before-merging/atmosphere/look.md`.
+   - Its review (5340556382, T60–T73) is handled: the backdrop and the
+     button faces are baked once a paint, and the play run fails a screen
+     past a 26 ms median frame (`scripts/lib/frame-budget.ts`) and a flier
+     turning past its `TURN_RATE` or lit past `LIGHT_STEP`; the halo fades
+     to nothing in four smoothstep layers painted as shaded cells, the hills
+     parting wider than it; the wash stops short of every slot's foot; each
+     mushroom and flower takes its light from where it stands, the side
+     shade scaled by how sideways the sun is; the shine goes down before
+     the spots; the stem's foot stands level and rounded over a centred
+     contact shadow.
 
 ## Rest of the elephant
 
 In order.
 
-**Open, for bite 7's review to sweep:** the play run (probe build and all five screens) now takes ~21 minutes against bite 6's few, which may be the weighted ink on every flier repainted each frame under the software renderer, or the machine; on a phone the sun's pale halo covers most of the upper sky. Carried from bite 6: fliers are
+**Open:** from bite 7's handling — a mushroom house's door stations are
+laid out on the unturned stem while the stem's foot now levels against the
+turn (its tests pass; the model lags the drawing); the contact shadow is
+faint on the lit grass (alpha 0.3), which bite 8's stockier porcini may want
+stronger; a brown fill between luminance 0.021 and ~0.045 gets only a
+1.2–1.5:1 edge, so bite 8 keeps porcini tones out of that band; the sky may
+read a little plain since the halo was tamed. Carried from bite 6: fliers are
 kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
