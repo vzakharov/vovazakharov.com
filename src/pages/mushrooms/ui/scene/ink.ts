@@ -15,7 +15,6 @@ import { PALETTE } from './palette';
  * CSS px: one device pixel.
  */
 export type Lighting = Light & { hairline: number };
-/** A thing drawn in `lighting`. */
 export type Lighted = { lighting: Lighting };
 
 /** How far a fill's own dark goes, and how much of Syama's pen it takes. */
