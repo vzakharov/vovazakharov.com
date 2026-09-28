@@ -95,6 +95,8 @@ export type MushroomGenes =
   | PorciniGenes
   | ChanterelleGenes
   | RussulaGenes;
+/** The genes of a species with a domed cap: every one but the chanterelle. */
+export type DomeGenes = Exclude<MushroomGenes, ChanterelleGenes>;
 
 /**
  * Each species' shape genes, drawn in the one order `growGenes` lists them,

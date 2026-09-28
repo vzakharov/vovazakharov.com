@@ -6,7 +6,7 @@
 
 import { sample } from '../../model/geometry';
 import type {
-  FlyAgaricGenes,
+  DomeGenes,
   PorciniGenes,
   RussulaGenes,
 } from '../../model/mushroom-genes';
@@ -16,8 +16,6 @@ import { capLight } from './mushroom-light';
 import { type MushroomBrush, paintCapLight } from './mushroom-paint';
 import { porciniMargin, russulaCentre } from './mushroom-tints';
 import { crescent, fillShape, inkedFill } from './shapes';
-
-type DomeGenes = FlyAgaricGenes | PorciniGenes | RussulaGenes;
 
 const SHADE_ALPHA = 0.26;
 /** How deep each crescent of a dome's light reaches in from its arc, in the cap's height. */
