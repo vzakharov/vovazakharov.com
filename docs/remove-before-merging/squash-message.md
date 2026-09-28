@@ -24,9 +24,10 @@ windows and a door a mouse peeks from. Three buttons fly in a
 butterfly, a fly or a bee, each kind with its own limit, habits and
 path: butterflies drink at flowers, flies zigzag to the fly agarics
 and fidget there, bees carry pollen between flowers and plant new
-ones in rings round those they pollinate, only where the flower stays
-in sight either way up. A tap sends one at rest on its way; a control
-that cannot act shakes its head.
+ones in rings round those they pollinate, only where the new flower
+is in sight. Fliers keep apart where they sit and hover, and a bee
+waiting for a flower is made way for. A tap sends one at rest on its
+way; a control that cannot act shakes its head.
 
 A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
 plays every control on five screens in headless Chromium, watching
