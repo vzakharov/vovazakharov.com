@@ -10,11 +10,12 @@ import type * as Phaser from 'phaser';
 import type { BeeGenes } from '../../model/bee-genes';
 import { beeAnatomy, beeOutline, type Oval } from '../../model/bee-outline';
 import { type Point, sample } from '../../model/geometry';
+import { litCrest } from '../../model/insect-light';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
-import { awayAngle, inkFor, type Lighting, litSide, TAPER } from './ink';
+import { awayAngle, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
@@ -51,7 +52,6 @@ export function paintBeeBody(
   lighting: Lighting,
 ): void {
   const { toward } = lighting;
-  const lit = litSide(toward);
   const at = scaled(size);
   const ink = insectInk(size);
   const yellow = nudgeHue(PALETTE.beeYellows[genes.stripe], genes.hueNudge);
@@ -95,10 +95,11 @@ export function paintBeeBody(
   ).map((point) => at(point));
   graphics.fillStyle(PALETTE.shadeCool, SHADE_ALPHA);
   fillShape(graphics, crescent(shaded, at(abdomen), abdomen.rx * size * 0.5));
+  const shine = litCrest(toward, [abdomen.rx, abdomen.ry], 0.45);
   graphics.fillStyle(PALETTE.highlight, 0.45);
   graphics.fillEllipse(
-    (abdomen.x + lit * abdomen.rx * 0.4) * size,
-    (abdomen.y - abdomen.ry * 0.25) * size,
+    (abdomen.x + shine.x) * size,
+    (abdomen.y + shine.y) * size,
     abdomen.rx * size * 0.4,
     abdomen.ry * size * 0.55,
   );
@@ -108,10 +109,11 @@ export function paintBeeBody(
   inkUnder(graphics, chest, BEE_INK, ink, lighting);
   graphics.fillStyle(mix(yellow, PALETTE.beeBlack, 0.45));
   fillShape(graphics, chest);
+  const fuzz = litCrest(toward, [thorax.rx, thorax.ry], 0.4);
   graphics.fillStyle(PALETTE.highlight, 0.3);
   graphics.fillEllipse(
-    (thorax.x + lit * thorax.rx * 0.3) * size,
-    (thorax.y - thorax.ry * 0.3) * size,
+    (thorax.x + fuzz.x) * size,
+    (thorax.y + fuzz.y) * size,
     thorax.rx * size * 0.8,
     thorax.ry * size * 0.6,
   );
@@ -169,7 +171,6 @@ export function paintBeeLegs(
   specks: number,
   lighting: Lighting,
 ): void {
-  const lit = litSide(lighting.toward);
   const at = scaled(size);
   const ink = insectInk(size);
   const { thorax } = beeAnatomy(genes);
@@ -212,8 +213,9 @@ export function paintBeeLegs(
         Math.max(1, ink * 0.7),
         lighting,
       );
+      const shine = litCrest(lighting.toward, [r, r], 0.42);
       graphics.fillStyle(PALETTE.highlight, 0.6);
-      graphics.fillCircle(x + lit * r * 0.3, y - r * 0.3, r * 0.35);
+      graphics.fillCircle(x + shine.x, y + shine.y, r * 0.35);
     }
   }
 }

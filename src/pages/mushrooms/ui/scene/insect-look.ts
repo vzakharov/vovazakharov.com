@@ -18,6 +18,7 @@ import {
   insectGenes,
   type OfKind,
 } from '../../model/insect-genes';
+import { litTurn } from '../../model/insect-light';
 import {
   aloft,
   proboscis,
@@ -27,11 +28,12 @@ import {
 import { buzzTurn, type Side as BodySide } from '../../model/insect-outline';
 import type { Airborne } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
+import { turnedLight } from '../../model/light';
 import { type Pollen, specksAt } from '../../model/pollen';
 import { inBody } from '../../model/proboscis';
-import { drawBee, paintBeeLegs } from './draw-bee';
+import { drawBee, paintBeeBody, paintBeeLegs } from './draw-bee';
 import type { BuzzParts } from './draw-buzz';
-import { drawFly, paintFlyLegs } from './draw-fly';
+import { drawFly, paintFlyBody, paintFlyLegs } from './draw-fly';
 import {
   drawInsect,
   type InsectParts,
@@ -77,8 +79,13 @@ type FlyLook = OfKind<'fly'> & BuzzParts & { genes: FlyGenes; rub: number };
 type BeeLook = OfKind<'bee'> &
   BuzzParts &
   Pick<Pollen, 'specks'> & { genes: BeeGenes };
-/** Each look, and the light it was last painted in, which its every repaint keeps. */
-export type Look = (ButterflyLook | FlyLook | BeeLook) & Lighted;
+/**
+ * Each look; the light it was last painted in, as the screen stands, which
+ * its every repaint keeps; and the body's turn its parts were last painted
+ * lit for, within `LIGHT_STEP` of the turn it is shown at.
+ */
+export type Look = (ButterflyLook | FlyLook | BeeLook) &
+  Lighted & { litTurn: number };
 
 /** What a frame poses a look by: the leg with its stay, the clock in ms, the flier and its motion, and its size to its unit in pixels. */
 export type Moment = Timed &
@@ -107,9 +114,10 @@ export function lookOf(
   const genes = insectGenes(flier);
   switch (genes.kind) {
     case 'butterfly': {
-      const look: ButterflyLook & Lighted = {
+      const look: Look = {
         kind: 'butterfly',
         lighting,
+        litTurn: 0,
         hind: make(),
         fore: make(),
         body: make(),
@@ -143,8 +151,8 @@ export function lookOf(
       ];
       const look: Look =
         genes.kind === 'fly'
-          ? { kind: 'fly', ...parts, genes, rub: 0, lighting }
-          : { kind: 'bee', ...parts, genes, specks: 0, lighting };
+          ? { kind: 'fly', ...parts, genes, rub: 0, lighting, litTurn: 0 }
+          : { kind: 'bee', ...parts, genes, specks: 0, lighting, litTurn: 0 };
       return { look, stack };
     }
     default: {
@@ -160,26 +168,65 @@ export function drawLook(
   flier: Flier,
   now: number,
 ): void {
+  const lighting = ownLighting(look);
   switch (look.kind) {
     case 'butterfly': {
-      drawInsect(look, look.genes, size, look.lighting);
+      drawInsect(look, look.genes, size, lighting);
       paintReach(look, size);
       return;
     }
     case 'fly': {
-      drawFly(look, look.genes, size, look.lighting);
-      paintFlyLegs(
-        look.legs.clear(),
-        look.genes,
-        size,
-        look.rub,
-        look.lighting,
-      );
+      drawFly(look, look.genes, size, lighting);
+      paintFlyLegs(look.legs.clear(), look.genes, size, look.rub, lighting);
       return;
     }
     case 'bee': {
       look.specks = flier.kind === 'bee' ? specksAt(flier, now) : 0;
-      drawBee(look, look.genes, size, look.specks, look.lighting);
+      drawBee(look, look.genes, size, look.specks, lighting);
+      return;
+    }
+    default: {
+      look satisfies never;
+    }
+  }
+}
+
+/** `look`'s light in its body's own frame, turned as its parts were last painted lit. */
+function ownLighting(look: Look): Lighting {
+  return turnedLight(look.lighting, look.litTurn);
+}
+
+/**
+ * Paints afresh the parts of `look` the light falls on once its body, turned
+ * `turn`, has turned more than `LIGHT_STEP` past the turn they show: a
+ * butterfly's wings and body, a fly's body, a bee's body and the pollen in
+ * its baskets. Its clear wings keep their plain edge, and its legs no side.
+ */
+function relight(look: Look, turn: number, size: number): void {
+  const turned = litTurn(look.litTurn, turn);
+  if (turned === look.litTurn) return;
+  look.litTurn = turned;
+  const lighting = ownLighting(look);
+  switch (look.kind) {
+    case 'butterfly': {
+      drawInsect(look, look.genes, size, lighting);
+      return;
+    }
+    case 'fly': {
+      paintFlyBody(look.body.clear(), look.genes, size, lighting);
+      return;
+    }
+    case 'bee': {
+      paintBeeBody(look.body.clear(), look.genes, size, lighting);
+      if (look.specks > 0) {
+        paintBeeLegs(
+          look.legs.clear(),
+          look.genes,
+          size,
+          look.specks,
+          lighting,
+        );
+      }
       return;
     }
     default: {
@@ -189,13 +236,15 @@ export function drawLook(
 }
 
 /**
- * Sets what moves in `look` this frame: a butterfly's wings beating and its
+ * Sets what moves in `look` this frame: its lit parts kept to the sun as it
+ * turns (`relight`), a butterfly's wings beating and its
  * proboscis reaching, `drinking` saying where it and the flower stand; a
  * fly's or a bee's wings turning, shown still at rest and as a blur in the
  * air, a fly's front legs rubbing, a bee's baskets filling and emptying.
  */
 export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
   const { stay, now, motion, size } = moment;
+  relight(look, drinking.rotation, size);
   const open = wingBeat(stay, now, motion);
   switch (look.kind) {
     case 'butterfly': {
@@ -218,7 +267,13 @@ export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
           (rub === 0) !== (look.rub === 0)
         ) {
           look.rub = rub;
-          paintFlyLegs(look.legs.clear(), look.genes, size, rub, look.lighting);
+          paintFlyLegs(
+            look.legs.clear(),
+            look.genes,
+            size,
+            rub,
+            ownLighting(look),
+          );
         }
         return;
       }
@@ -231,7 +286,7 @@ export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
           look.genes,
           size,
           specks,
-          look.lighting,
+          ownLighting(look),
         );
       }
       return;
@@ -269,7 +324,7 @@ export function fidget(look: Look, { stay, now, motion, size }: Moment): Point {
 
 /** Uncurls a butterfly's proboscis into the flower it drinks at, repainting it only as far as it has moved. */
 function poseProboscis(
-  look: ButterflyLook & Lighted,
+  look: ButterflyLook & Look,
   { stay, now, size }: Moment,
   { middle, rotation, nectar: flower }: Drinking,
 ): void {
@@ -293,14 +348,14 @@ function poseProboscis(
   }
 }
 
-function paintReach(look: ButterflyLook & Lighted, size: number): void {
-  const { genes, reach, nectar, side = 1, lighting } = look;
+function paintReach(look: ButterflyLook & Look, size: number): void {
+  const { genes, reach, nectar, side = 1 } = look;
   paintProboscis(
     look.proboscis.clear(),
     genes,
     size,
     { reach, nectar, side },
-    lighting,
+    ownLighting(look),
   );
 }
 

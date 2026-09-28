@@ -26,6 +26,20 @@ export function sunLight({
   return { toward: { x: dx / length, y: dy / length } };
 }
 
+/**
+ * `light` as a body turned `turn` radians clockwise on screen sees it, in
+ * its own frame: what a painter drawing that body before it is turned has
+ * to be handed, so the body shows the light where the light is.
+ */
+export function turnedLight<Turned extends Light>(
+  light: Turned,
+  turn: number,
+): Turned {
+  const [cos, sin] = [Math.cos(turn), Math.sin(turn)];
+  const { x, y } = light.toward;
+  return { ...light, toward: { x: x * cos + y * sin, y: y * cos - x * sin } };
+}
+
 /** The HUD's pictograms' light, fixed to the upper left whatever the sun does. */
 export const PICTOGRAM_LIGHT: Light = {
   toward: { x: -Math.SQRT1_2, y: -Math.SQRT1_2 },

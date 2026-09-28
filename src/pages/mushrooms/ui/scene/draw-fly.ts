@@ -8,10 +8,11 @@ import type * as Phaser from 'phaser';
 
 import type { FlyGenes } from '../../model/fly-genes';
 import { ellipse, type Point } from '../../model/geometry';
+import { litCrest } from '../../model/insect-light';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
-import { awayAngle, type Lighting, litSide } from './ink';
+import { awayAngle, type Lighting } from './ink';
 import { PALETTE } from './palette';
 import { crescent, fillShape, inkedDisc, inkedFill, ovalArc } from './shapes';
 
@@ -19,6 +20,8 @@ import { crescent, fillShape, inkedDisc, inkedFill, ovalArc } from './shapes';
 const SHEEN = 0.42;
 const SHINE = 0.55;
 const SHADE_ALPHA = 0.3;
+/** How far either way of the point turned full from the light an eye's depth reaches round it, in radians. */
+const DEEP = Math.PI / 2 - 0.2;
 
 /** Where the head, thorax and abdomen sit and how big each is, in the body's length and width. */
 function anatomy({
@@ -42,7 +45,6 @@ export function paintFlyBody(
   lighting: Lighting,
 ): void {
   const sun = lighting.toward;
-  const lit = litSide(sun);
   const away = awayAngle(sun);
   const at = scaled(size);
   const ink = insectInk(size);
@@ -60,10 +62,11 @@ export function paintFlyBody(
     ).map((point) => at(point));
     graphics.fillStyle(PALETTE.shadeCool, SHADE_ALPHA);
     fillShape(graphics, crescent(shaded, at(part), part.rx * size * 0.45));
+    const shine = litCrest(sun, [part.rx, part.ry], 0.45);
     graphics.fillStyle(mix(sheen, PALETTE.highlight, SHINE), 0.8);
     graphics.fillEllipse(
-      (part.x + lit * part.rx * 0.35) * size,
-      (part.y - part.ry * 0.3) * size,
+      (part.x + shine.x) * size,
+      (part.y + shine.y) * size,
       part.rx * size * 0.55,
       part.ry * size * 0.7,
     );
@@ -88,26 +91,26 @@ function paintEyes(
   lighting: Lighting,
 ): void {
   const ink = insectInk(size);
-  const lit = litSide(lighting.toward);
   const r = eyeRadius * size;
+  const sun = lighting.toward;
+  const away = awayAngle(sun);
+  const glint = litCrest(sun, [r, r], 0.42);
+  const catchlight = litCrest(sun, [r, r], -0.3);
   for (const side of SIDES) {
     const eye = {
       x: (head.x + side * (head.r * 0.55 + eyeRadius * 0.45)) * size,
       y: (head.y - eyeRadius * 0.15) * size,
     };
     inkedDisc(graphics, eye, r, PALETTE.flyEye, ink, lighting);
-    const back = ovalArc(eye, [r, r], [0.2, Math.PI - 0.2]);
+    // Its depth, on the side turned from the light.
+    const back = ovalArc(eye, [r, r], [away - DEEP, away + DEEP]);
     graphics.fillStyle(PALETTE.flyEyeDeep, 0.8);
     fillShape(graphics, crescent(back, eye, r * 0.4));
     graphics.fillStyle(PALETTE.highlight, 0.95);
+    graphics.fillCircle(eye.x + glint.x, eye.y + glint.y, Math.max(1, r * 0.3));
     graphics.fillCircle(
-      eye.x + lit * r * 0.3,
-      eye.y - r * 0.32,
-      Math.max(1, r * 0.3),
-    );
-    graphics.fillCircle(
-      eye.x - lit * r * 0.28,
-      eye.y + r * 0.2,
+      eye.x + catchlight.x,
+      eye.y + catchlight.y,
       Math.max(0.6, r * 0.12),
     );
   }

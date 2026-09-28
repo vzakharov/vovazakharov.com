@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { type Point, sample } from '../../model/geometry';
 import type { ButterflyGenes } from '../../model/insect-genes';
+import { litCrest } from '../../model/insect-light';
 import {
   ABDOMEN,
   antenna,
@@ -17,7 +18,7 @@ import {
 } from '../../model/insect-outline';
 import { proboscisLine } from '../../model/proboscis';
 import { mix, nudgeHue } from './colour';
-import { inkFor, type Lighting, litSide, TAPER } from './ink';
+import { inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
@@ -134,10 +135,11 @@ export function paintWings(
       })),
     );
     const innermost = (genes.eyes.at(-1) ?? 0) * breadth;
+    const glint = litCrest(toward, [innermost, innermost], 0.42);
     graphics.fillStyle(PALETTE.highlight, 0.85);
     graphics.fillCircle(
-      eye.x - innermost * 0.3,
-      eye.y - innermost * 0.3,
+      eye.x + glint.x,
+      eye.y + glint.y,
       Math.max(1, innermost * 0.35),
     );
 
@@ -148,10 +150,11 @@ export function paintWings(
     fillShape(graphics, crescent(trailing, eye, breadth * 0.28));
     if (pair === 'fore') {
       const root = outline[0] ?? eye;
+      const shine = litCrest(toward, [breadth, breadth], 0.16);
       graphics.fillStyle(PALETTE.rimLight, SHINE_ALPHA);
       graphics.fillEllipse(
-        (eye.x + root.x * 2) / 3 - breadth * 0.08,
-        (eye.y + root.y * 2) / 3 - breadth * 0.14,
+        (eye.x + root.x * 2) / 3 + shine.x,
+        (eye.y + root.y * 2) / 3 + shine.y,
         breadth * 0.34,
         breadth * 0.18,
       );
@@ -199,17 +202,19 @@ export function paintBody(
     const half = width * 0.4 * Math.sqrt(1 - (step * 0.33) ** 2);
     graphics.lineBetween(-half, y, half, y);
   }
-  const lit = litSide(lighting.toward);
+  const { toward } = lighting;
+  const chest = litCrest(toward, [width / 2, length * 0.1], 0.4);
+  const belly = litCrest(toward, [width / 2, length * 0.2], 0.3);
   graphics.fillStyle(PALETTE.highlight, SHINE_ALPHA * 0.8);
   graphics.fillEllipse(
-    lit * width * 0.15,
-    -length * 0.22,
+    chest.x,
+    -length * 0.22 + chest.y,
     width * 0.35,
     length * 0.16,
   );
   graphics.fillEllipse(
-    lit * width * 0.12,
-    length * 0.1,
+    belly.x,
+    length * 0.1 + belly.y,
     width * 0.28,
     length * 0.28,
   );
