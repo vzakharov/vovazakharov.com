@@ -214,6 +214,25 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   leaves its edits uncommitted. The answer is `git status`, a push of
   anything the main session owns, and a stop — committing the subagent's
   half-done files would collide with its own commit.
+- **Subagents pause and resume across a quota reset, while the container
+  lives.** Bite 6's handling hit the operator's weekly quota mid-wave. A
+  `SendMessage` asking each agent to commit what passes and write a pause
+  note stopped them cleanly; the next morning "continue" resumed each with
+  its transcript intact. The container outlived the night, but nothing
+  promises that, so the pause note is the part that counts.
+- **A subagent's context runs out too, so its pause has to be a hand-over.**
+  Both long-running agents neared 300k. One had work that did not yet
+  type-check against old tests: it committed it as a `git apply`-able
+  `.patch` beside its note rather than as source, which kept the branch
+  green and nothing lost. The skill should brief every subagent to take
+  that form when paused mid-change, and cap a brief at what fits well
+  under that ceiling (bite 6's perch brief held six threads, too many).
+- **A test that can fail fails the run it lands in.** The review asked the
+  play run's turn watch to measure what a child sees; the stricter watch
+  landed first and turned `pnpm play:mushrooms` red until the flight
+  caught up, across two sessions. Harmless on a branch nobody merges
+  mid-loop, but the handling order should land the watch and its fix in
+  the same wave, or say in the pause note that red is expected.
 
 ## Quality levers
 
