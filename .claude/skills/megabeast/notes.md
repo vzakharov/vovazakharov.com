@@ -94,7 +94,14 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   review pickup met the stale snapshot a fourth time and was blocked again,
   so it is the norm, not an accident: the skill's pickup should go straight
   to the rename aside. Bite 8's pickup met it a fifth time, with the harness leaving HEAD
-  detached at the relay's commit; `reset --hard` went through.
+  detached at the relay's commit; `reset --hard` went through. Bite 8's
+  review pickup was blocked again, and found the cause: the clone is
+  shallow, so the stale ref and `origin`'s tip look unrelated even when the
+  one is an ancestor of the other. `git fetch --unshallow origin`, then
+  `git merge-base --is-ancestor <branch> origin/<branch>` proved nothing
+  was local, and `git merge --ff-only origin/<branch>` needed no approval.
+  The skill's pickup should unshallow first. The rename aside is then the
+  fallback for a genuine rewrite only.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
@@ -623,4 +630,30 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   The review's orchestrator named them in a few minutes and sent them to
   the player to measure (73–83% of caps; 18–25 px). The skill's review
   should open with the orchestrator reading the bite's frames and briefing
-  what it sees as sweep targets, before the agents start.
+  what it sees as sweep targets, before the agents start. Bite 8's review
+  did that, and it held: of the six things the orchestrator saw in the
+  committed frames, the agents turned five into numbers and causes (the
+  foot ring, the stroke gaps, the flat russula, the invisible rim wave,
+  the frozen puff), and ranked the sixth, the picker icon, as a hunch.
+- **A sweep that draws its combinations at random reports the sample, not
+  the worst case.** Bite 8's clump test drew one species pair per visit,
+  and the plan wrote down its minimums (80.7% door, 45.1% cap) as "no
+  slack". The review swept all 16 pairs over the same seeds and found
+  65.9% and 29.5%. Wherever a layout's inputs are a small discrete set (species,
+  slots, screens), the skill's sweep template should iterate the set
+  exhaustively and randomise only the continuous genes. The report should
+  fail on any combination left unmeasured, rather than printing `NaN`.
+- **Two agents reaching one cause independently is the confidence
+  signal.** The reader, from code alone, and the player, from frames and
+  sweeps, each named `standing(0, 0)` as the flowers-off-feet cause and
+  `capWidth * 0.8` as the foot ring's. Their unshared finds were of
+  different kinds: dead door taps and vacuous tests from the reader,
+  pair breaches and hidden flowers from the player. The review can post
+  the agreed findings as confirmed, and should mark a finding one agent
+  reports without a measurement as a hunch. Bite 8's picker icon was
+  posted that way.
+- **The cap-depth session reviews and stops; the operator restarts.** Bite 8's
+  review was the eighth session in its chain, so it posted the review,
+  wrote the summary with depth reset to 1 and the Next step `/handle`, and
+  handed the operator `/relay take <branch>`. It is cheap to do because the
+  review is the natural stop: nothing is half-built.
