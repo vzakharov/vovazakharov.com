@@ -4,7 +4,7 @@
  * layout keeps inside the screen is what gets painted.
  */
 
-import type { Point } from './geometry';
+import type { Point, Turned } from './geometry';
 import { domeHeight, GENE_RANGES, type MushroomGenes } from './mushroom-genes';
 
 /** How far along the stem its bend's control point sits. */
@@ -127,7 +127,7 @@ function facing<Genes extends Facing>(genes: Genes, side: -1 | 1): Genes {
 }
 
 /** A mushroom's genes as it stands, and its turn about its foot. */
-export type Splayed<Genes = MushroomGenes> = { genes: Genes; turn: number };
+export type Splayed<Genes = MushroomGenes> = Turned & { genes: Genes };
 
 /**
  * A mushroom as a placement stands it: facing the way its `splay` turns it,

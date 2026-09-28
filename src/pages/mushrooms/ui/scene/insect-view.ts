@@ -7,7 +7,7 @@ import type { Point } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
-import type { Carried } from '../../model/insect-paths';
+import type { CarryingOver } from '../../model/insect-paths';
 import { startLeg, steer, type Steering } from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
 import { phaseOf, smooth, wobble } from '../../model/motion';
@@ -46,7 +46,8 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 
 /** An insect on screen: its look, and where and how it flies. */
 type Shown = TappedFigure &
-  Flying & {
+  Flying &
+  CarryingOver & {
     look: Look;
     /** How far its open wings span on screen, in pixels, as last painted. */
     span: number;
@@ -72,8 +73,6 @@ type Shown = TappedFigure &
     aim: Point | undefined;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
-    /** What its current leg carried over from the one it cut short or followed. */
-    carried: Carried;
   };
 
 /**

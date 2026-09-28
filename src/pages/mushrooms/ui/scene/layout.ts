@@ -9,7 +9,7 @@
 import type { Sized } from '@/shared/typings';
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
-import type { Circle, Point } from '../../model/geometry';
+import type { Circle, Point, Scaled } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { GENE_RANGES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
@@ -28,7 +28,7 @@ export type Hazed = { haze: number };
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.
  */
-export type Footing = Point & { size: number };
+export type Footing = Point & Scaled;
 
 /**
  * The slots the flowers grow around, as a fraction of the width across and of

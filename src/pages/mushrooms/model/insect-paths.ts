@@ -21,16 +21,21 @@ import type { Phased } from './motion';
  * into a drink it was, so a drink cut short curls up rather than vanishing.
  */
 export type Carried = { launch: number; speed: number; drink: number };
+/** What a leg carries over from the one before (`Carried`). */
+export type CarryingOver = { carried: Carried };
 
 /** A leg as the motion reads it: its timing and what it carried over. */
 export type Launched = Span & Carried;
+
+/** Where a flight sets off from, and where its perch stands. */
+export type Routed = { start: Point; end: Point };
 
 /**
  * A leg's flight on screen: from where the scene last drew it to its perch,
  * bowed `bow` of its kind's `arc` to one side or the other, from -1 to 1 —
  * or with none, all the way to the side the insect's phase picks.
  */
-export type Path = Launched & { start: Point; end: Point; bow?: number };
+export type Path = Launched & Routed & { bow?: number };
 
 /** A flier as its path reads it: its kind, and the phase its seed gives it. */
 export type Airborne = Phased & Kinded;

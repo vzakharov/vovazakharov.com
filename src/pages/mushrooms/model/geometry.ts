@@ -1,6 +1,10 @@
 /** A position, in whatever unit the module holding it works in. */
 export type Point = { x: number; y: number };
 export type Circle = Point & { r: number };
+/** How big a thing stands on screen, in its points' units: the unit its shape is drawn in. */
+export type Scaled = { size: number };
+/** How far a thing is turned from upright as it is drawn, in radians. */
+export type Turned = { turn: number };
 
 /**
  * A stem that rises upright and bends over: how far its top stands sideways

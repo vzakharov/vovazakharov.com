@@ -4,7 +4,7 @@
  */
 
 import type { Span } from './flight';
-import type { Point } from './geometry';
+import type { Point, Scaled, Turned } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
   bodyTurn,
@@ -16,13 +16,14 @@ import {
   wrap,
 } from './insect-motion';
 import {
-  type Carried,
+  type CarryingOver,
   flightPoint,
   type Fluttering,
   heading,
   type Path,
   PATH_SHAPES,
   phaseBow,
+  type Routed,
   stride,
 } from './insect-paths';
 import { smooth } from './motion';
@@ -69,9 +70,8 @@ type SetOff = { bow: number; turns: Turns; meant: number; wound: number };
  * perch stood that frame, `undefined` until the leg's first frame and while
  * the screen it was measured on is gone.
  */
-export type Steering = {
+export type Steering = Turned & {
   facing: number;
-  turn: number;
   at: number;
   setOff: SetOff | undefined;
   perch: Point | undefined;
@@ -84,17 +84,15 @@ export type Steering = {
  * off (`undefined` flying in), whether it lands on a seat, and its size in
  * the points' units.
  */
-export type Course = {
-  leg: Span;
-  carried: Carried;
-  start: Point;
-  end: Point;
-  aim: Point;
-  sat: number | undefined;
-  perched: boolean;
-  size: number;
-  motion: Fluttering;
-};
+export type Course = CarryingOver &
+  Routed &
+  Scaled & {
+    leg: Span;
+    aim: Point;
+    sat: number | undefined;
+    perched: boolean;
+    motion: Fluttering;
+  };
 
 /** `held` as a new leg finds it: turned as it was, with nothing of its leg fixed yet. */
 export const startLeg = (held: Steering): Steering => ({
