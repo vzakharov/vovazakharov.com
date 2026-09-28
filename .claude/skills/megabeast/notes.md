@@ -237,8 +237,8 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   No context-budget notice reaches a subagent, and asked for its usage one
   answered 115k while its transcript held 220k. The number is in the
   transcript the spawn result names: `jq -c 'select(.message.usage) |
-  .message.usage | (.input_tokens + (.cache_read_input_tokens//0) +
-  (.cache_creation_input_tokens//0))' <output_file> | tail -1` prints the
+.message.usage | (.input_tokens + (.cache_read_input_tokens//0) +
+(.cache_creation_input_tokens//0))' <output_file> | tail -1` prints the
   last call's context without reading any content. The skill should check
   it between reports and pause an agent from outside past ~200k, then
   start a fresh one on the same brief from its hand-over note — which is

@@ -14,7 +14,7 @@ on Steam; Adventure is the same studio and the same look.
 
 - **Alto's Adventure** — flat fills, no ink, and it still reads as deep: five or
   six mountain ranges, each mixed further toward one fog colour, and fog lying
-  at the *foot* of every range rather than on top, so each silhouette pales at
+  at the _foot_ of every range rather than on top, so each silhouette pales at
   its base. A big soft sun bloom tints the whole sky around it. Visible grain.
   **The lesson: flat fills are fine; what the meadow lacks is air between them.**
 - **Gris** — a few analogous hues per scene, watercolour blotches and paper
@@ -24,7 +24,7 @@ on Steam; Adventure is the same studio and the same look.
 - **Ori** — warm light against cool shadow in every frame (orange on teal), rim
   light on every edge facing the light, glow round every light source, blurred
   dark foreground framing. Too dark for a six-year-old as a whole; its
-  *temperature split* and *rim light* are what to take.
+  _temperature split_ and _rim light_ are what to take.
 - **Syama's drawing** — blue ballpoint. The child's own line is a cool,
   uneven, hand-pressed stroke, thicker where the pen pressed.
 
@@ -73,6 +73,7 @@ commit, then fork:
   moves to `palette.ts` and says the other two are its sections. The alternative
   — one file, two agents editing different regions — works with care but makes
   every parallel edit a merge hazard; three files cost one sentence of rule.
+
 - **Two shared entries.** `air: 0xd6_ea_e4` — the colour distance takes things
   toward at ground level, a pale green-blue mist, replacing `skyHorizon` as the
   haze target in `draw-mushroom.ts` and `house-view.ts` (B makes that switch).
@@ -113,7 +114,7 @@ evening; hold `skyTop` blue and keep the cream to the bottom fifth.
 (a) Alto and Gris: the sun's light lands on everything under it; the meadow's
 sun glow stops at its own rays. (b) In `paintSun`, `SUN_GLOW_REACH`'s rings
 extended by a second set out to ~6 sun radii at alpha 0.025. Then a new
-`light` layer painted *after the ground*: 10 discs round the sun, radius 4→14
+`light` layer painted _after the ground_: 10 discs round the sun, radius 4→14
 sun radii, `sunGlow` at alpha 0.03 each, blend mode `SCREEN` — the near hills
 and the back of the meadow on the sun's side come out warmer. Optional, only if
 the frames want it: 3 light shafts, long thin triangles from the sun downward
@@ -132,6 +133,7 @@ far range's, amplitude ~0.6× — it must pass the same sun parting as the far
 range (`skyline.ts`' `PARTED_DEPTH`, which `sun-layout.test.ts` checks), so
 build it through the same parting function. Colours, each derived with `mix`,
 not new literals where a mix will do:
+
 - farthest: `mix(farHill, air, 0.75)`, a blue-lilac green;
 - far (`farHill` 0xa6d8a0 → 0x9f_cc_a6, cooler): lit at 55% toward `air`;
 - near (`nearHill` 0x78c45e → 0x80_c2_62): 20% toward `air`;
@@ -248,10 +250,11 @@ gives a pale ink — the luminance clamp is what keeps every silhouette dark.
 (a) A hand line thickens where the pen presses and thins at the ends and toward
 the light; Phaser's `strokePoints` is one width all round, which is the
 vector-clip-art tell. (b) Two pure helpers in `ink.ts`:
+
 - `weightedOutline(points, base, toward)` — a closed outline pushed outward
   along each vertex's normal by `base × (0.45 + 0.85 × max(0, −n·toward))`, so
   the edge facing the sun is ~0.45× and the edge in shade ~1.3×. Painted in the
-  ink colour *before* the part's fill (an underlay), which needs no polygon
+  ink colour _before_ the part's fill (an underlay), which needs no polygon
   with a hole: the fill then covers the inner half. Painting order per part
   becomes underlay → fill → shading, which is what the ink drawn after the fill
   looks like today.
@@ -288,7 +291,7 @@ repaints every mushroom, so it follows.
 **B4. Warm lights, cool shadows; rim light on the caps.**
 (a) Ori's whole look is orange light on teal shade; the meadow shades by
 darkening with a near-black at 20% alpha, which only dirties the red.
-(b) `shadeInk` (0x2a1010) is replaced *for creatures* by
+(b) `shadeInk` (0x2a1010) is replaced _for creatures_ by
 `shadeCool: 0x3a_2c_6a` at alpha 0.26 (the cap, stem, spots, petals) — shadows
 bluer, not blacker. A rim light: a crescent of `capLit: 0xff_7a_52` along the
 dome's sun-facing edge, width 0.06 capHeight, alpha 0.6, then a finer
