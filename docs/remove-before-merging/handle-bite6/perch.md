@@ -35,12 +35,13 @@ The mushrooms suite passes at 8a3aebe: 417 tests, 2 of them todo.
 ## Unmet
 
 **Small phone, all ten with the opening clump: two fliers hold overlapping
-air spots on 40% of ticks** (was 68%). Even the halved grid seats only eight
-of the ten apart. A greedy pass needs a grid of about a twentieth of a
+air spots on 33% of ticks** over the test's three visits, 24% over ten (was
+68%; measured at 4550cd0). Even the halved grid seats only eight of the ten
+apart. A greedy pass needs a grid of about a twentieth of a
 wingspan (4313 spots) to seat all ten, which `perchSight` cannot afford. The
 air test and both all-ten air tests run as `todo` on the small phone
-(`AIR_UNMET`): with a full forest two fliers still overlap on 0.21% of ticks
-(b75c650).
+(`AIR_UNMET`): with a full forest two fliers still overlap on 0.28% of ticks
+over three visits, 0.21% over ten.
 
 ## For a person looking at the screen
 

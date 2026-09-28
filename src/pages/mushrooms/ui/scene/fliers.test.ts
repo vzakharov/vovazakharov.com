@@ -52,7 +52,7 @@ const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
  */
 const AIR_UNMET: Partial<Record<(typeof VIEWPORTS)[number][0], string>> = {
   'small phone':
-    'its grid seats eight of the ten apart, and two fliers hold overlapping spots 33% of ticks with the opening clump, 0.2% over ten visits with a full forest',
+    'its grid seats eight of the ten apart, and over these three visits two fliers hold overlapping spots on 33% of ticks with the opening clump, 0.28% with a full forest',
 };
 /** Four butterflies and three bees, released in turn. */
 const BEES_AMONG_BUTTERFLIES: readonly InsectKind[] = [
