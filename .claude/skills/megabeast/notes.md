@@ -264,6 +264,30 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   none, so a bite-scoped run wrote `polish(bite 6):` to avoid claiming the
   whole branch was covered. The skill should say which bites a polish
   commit covers, so a per-bite polish and the scope rule agree.
+- **A committed brief file beats restating the rules in each prompt.**
+  Bite 7's handling wrote the shared-tree, house-rule, pause and report
+  conventions once to `docs/remove-before-merging/handle-bite7/brief-common.md`,
+  and each group's prompt was only its threads, its files, its off-limits
+  list and the decisions already made. Six groups ran from it with no
+  collision. A `flock` on one lock file for anything that builds or serves
+  the site let three agents run play runs on one checkout. The skill should
+  write that file from a template at the start of every handling session.
+- **Start the next wave the moment its files free up, not when the wave
+  ends.** The mushroom group launched as soon as the ink group finished,
+  while the other two still ran, since only the ink files overlapped. The
+  wave boundary is per file set, not per clock.
+- **A fix that meets its number can still change the look, so the
+  orchestrator looks at every group's after-frame.** The ink group met the
+  contrast bar to the letter by giving dark fills a lighter blue edge, and
+  the insect group's frame showed it as a lavender ring round the bee's
+  head. A small follow-up group settled it as a decision (a dark fill's
+  edge is its own hue, 1.6:1 lighter). The report's "for you to decide" line
+  had named it; the frame is what made it a defect.
+- **Past the 200k line, the tail goes out whole.** At the warning line
+  this session had replies posted and the plan folded, and handed look.md,
+  the full play run, frames, `/polish`, the Artifact build and `/pr` to one
+  agent, keeping only the Artifact publish (its tool is the orchestrator's)
+  and the relay.
 
 ## Quality levers
 
