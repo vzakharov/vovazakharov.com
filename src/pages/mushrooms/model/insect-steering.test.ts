@@ -7,7 +7,14 @@ import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { carriedFrom, wrap } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { startLeg, steer, type Steering } from './insect-steering';
-import { beckon, type Lit } from './motion';
+import {
+  beckon,
+  BECKON_PERIOD as BECKON_SECONDS,
+  letGo,
+  lightUp,
+  type Lit,
+  UNLIT,
+} from './motion';
 import { between, mulberry32 } from './random';
 
 /** The screen the legs are flown on, the insect's size and span on it, and the frame, in ms. */
@@ -155,18 +162,17 @@ function flown(kind: InsectKind, seed: number): Worst {
   return flyLegs(motion, legs, { x: -SPAN, y: HEIGHT * 0.3 }, undefined);
 }
 
-/** How far a cap `CAP_HEIGHT` sizes tall carries its top as it beckons (`beckon`), lit and let go as `lit` says, in ms. */
-const BECKON_PERIOD = 1300;
+/** How far a cap `CAP_HEIGHT` sizes tall carries its top as it beckons (`beckon`), selected at `litAt` and let go of at `unlitAt`, in ms. */
+const BECKON_PERIOD = BECKON_SECONDS * 1000;
 const CAP_HEIGHT = 3;
-const beckoning =
-  ({ litAt, unlitAt }: Lit) =>
-  (now: number): Point => ({
+const beckoning = ({ litAt, unlitAt }: Pick<Lit, 'litAt' | 'unlitAt'>) => {
+  const lit = lightUp(UNLIT, litAt / 1000);
+  const shown = unlitAt === Infinity ? lit : letGo(lit, unlitAt / 1000);
+  return (now: number): Point => ({
     x: 0,
-    y:
-      -beckon(now / 1000, { litAt: litAt / 1000, unlitAt: unlitAt / 1000 }) *
-      CAP_HEIGHT *
-      SIZE,
+    y: -beckon(now / 1000, shown) * CAP_HEIGHT * SIZE,
   });
+};
 
 /**
  * A flier of `kind` flying in from off screen to a beckoning cap, and on

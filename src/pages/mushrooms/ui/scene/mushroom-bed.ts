@@ -7,12 +7,15 @@ import {
   beckon,
   breath,
   emerge,
+  letGo,
+  lightUp,
   type Lit,
   phaseOf,
   sink,
   SINK_DURATION,
   type Sprouted,
   type Tapped,
+  UNLIT,
   widthFor,
   wobble,
 } from '../../model/motion';
@@ -150,10 +153,10 @@ export class MushroomBed {
     }
     if (selected !== this.selected) {
       const was = this.lit();
-      if (was) was.unlitAt = clock;
+      if (was) Object.assign(was, letGo(was, clock));
       this.selected = selected;
       const now = this.lit();
-      if (now) Object.assign(now, { litAt: clock, unlitAt: Infinity });
+      if (now) Object.assign(now, lightUp(now, clock));
     }
     this.paintSelection();
   }
@@ -323,8 +326,7 @@ export class MushroomBed {
       ),
       phase: phaseOf(mushroom),
       tappedAt: -Infinity,
-      litAt: -Infinity,
-      unlitAt: -Infinity,
+      ...UNLIT,
       plantedAt,
       goneAt: Infinity,
     };

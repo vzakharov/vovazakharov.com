@@ -5,6 +5,7 @@ import {
   beckon,
   BECKON_DEPTH,
   BECKON_EASE,
+  BECKON_PERIOD,
   BECKON_RELEASE,
   blink,
   BLINK_SHUT,
@@ -16,6 +17,9 @@ import {
   EMERGE_DURATION,
   launch,
   LAUNCH_DURATION,
+  letGo,
+  lightUp,
+  type Lit,
   lookAbout,
   mouseOut,
   NARROWEST_STANDING,
@@ -28,6 +32,7 @@ import {
   SINK_DURATION,
   sway,
   TAP_PEEK_DURATION,
+  UNLIT,
   widthFor,
   wobble,
   WOBBLE_DEPTH,
@@ -159,10 +164,21 @@ describe('launch', () => {
   });
 });
 
+const FRAME = 1 / 60;
+const phases = Array.from(
+  { length: 12 },
+  (_, index) => (index / 12) * Math.PI * 2,
+);
+/** Every frame's time from `from` to `to`, at 60 frames a second. */
+const frames = (from: number, to: number) =>
+  Array.from(
+    { length: Math.round((to - from) / FRAME) },
+    (_, index) => from + index * FRAME,
+  );
 describe('beckon', () => {
-  const never = { litAt: -Infinity, unlitAt: -Infinity };
-  const lit = { litAt: 10, unlitAt: Infinity };
-  const letGo = { litAt: 10, unlitAt: 14 };
+  const never = UNLIT;
+  const lit = lightUp(UNLIT, 10);
+  const released = letGo(lit, 14);
 
   it('is nothing for a mushroom never selected, or before its selection', () => {
     for (const t of samples(20)) assert.equal(beckon(t, never), 0);
@@ -180,27 +196,49 @@ describe('beckon', () => {
     assert.equal(beckon(10, lit), 0);
     const step = 1 / 60;
     for (const t of samples(6).map((x) => x + 9)) {
-      const jump = Math.abs(beckon(t + step, letGo) - beckon(t, letGo));
+      const jump = Math.abs(beckon(t + step, released) - beckon(t, released));
       assert.ok(jump < BECKON_DEPTH * 0.2);
     }
-    assert.equal(beckon(14 + BECKON_RELEASE, letGo), 0);
+    assert.equal(beckon(14 + BECKON_RELEASE, released), 0);
+  });
+
+  it('never jumps between frames as a cap is let go of and picked again', () => {
+    // The steepest a held swell ever changes from one frame to the next.
+    const steepest = BECKON_DEPTH * ((Math.PI * 2) / BECKON_PERIOD) * FRAME;
+    const gaps = Array.from({ length: 15 }, (_, index) => (index + 1) / 10);
+    const holds = Array.from({ length: 26 }, (_, index) => 0.1 * index + 0.05);
+    for (const held of holds) {
+      for (const gap of gaps) {
+        const changes: Array<[number, (lit: Lit, time: number) => Lit]> = [
+          [10, lightUp],
+          [10 + held, letGo],
+          [10 + held + gap, lightUp],
+          [10 + held + gap + held, letGo],
+        ];
+        let now = UNLIT;
+        let was = 0;
+        for (const t of frames(9, 10 + 2 * held + gap + BECKON_RELEASE + 1)) {
+          while (changes[0] && changes[0][0] <= t) {
+            const [at, change] = changes[0];
+            now = change(now, at);
+            changes.shift();
+          }
+          const pose = beckon(t, now);
+          assert.ok(
+            Math.abs(pose - was) <= steepest,
+            `held ${held.toFixed(2)} s, picked again ${gap.toFixed(1)} s on: ` +
+              `${(Math.abs(pose - was) / steepest).toFixed(2)} swells' change at ${t.toFixed(2)} s`,
+          );
+          was = pose;
+        }
+      }
+    }
   });
 });
 
-const FRAME = 1 / 60;
-const phases = Array.from(
-  { length: 12 },
-  (_, index) => (index / 12) * Math.PI * 2,
-);
-/** Every frame's time from `from` to `to`, at 60 frames a second. */
-const frames = (from: number, to: number) =>
-  Array.from(
-    { length: Math.round((to - from) / FRAME) },
-    (_, index) => from + index * FRAME,
-  );
 describe('NARROWEST_STANDING', () => {
   it('is the narrowest a selected mushroom breathes and beckons to', () => {
-    const lit = { litAt: 0, unlitAt: Infinity };
+    const lit = lightUp(UNLIT, 0);
     const widths = phases.flatMap((phase) =>
       frames(0, 60).map((t) => widthFor(breath(t, phase) + beckon(t, lit))),
     );

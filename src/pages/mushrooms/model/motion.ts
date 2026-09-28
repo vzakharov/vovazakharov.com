@@ -131,17 +131,10 @@ export const smooth = (t: number) => {
   return clamped * clamped * (3 - 2 * clamped);
 };
 
-/**
- * When a thing was last selected and let go of, on the scene's clock:
- * `unlitAt` is `Infinity` while it stays selected, and both are `-Infinity`
- * for a thing never selected.
- */
-export type Lit = { litAt: number; unlitAt: number };
-
 /** A selected mushroom's stretch at its tallest, and how long one swell takes. */
 export const BECKON_DEPTH = 0.06;
-const BECKON_PERIOD = 1.3;
-/** How long the beckon takes to come on at a selection. */
+export const BECKON_PERIOD = 1.3;
+/** How long the beckon takes to come on at a selection from rest. */
 export const BECKON_EASE = 0.3;
 /**
  * How long the beckon takes to die at a release: a whole swell, so a cap let
@@ -151,21 +144,67 @@ export const BECKON_EASE = 0.3;
 export const BECKON_RELEASE = BECKON_PERIOD;
 
 /**
- * The stretch a selected mushroom beckons with at `time`, over its breath: a
- * slow swell taller and back that starts from rest at the selection, eases in
- * over `BECKON_EASE`, and eases out over `BECKON_RELEASE` at the release, so
- * neither end is a jump.
+ * A thing's beckon, on the scene's clock. `swellFrom` is when the swell now
+ * running began from rest, and sets its phase. The beckon's settle runs from
+ * 0 (full) to 1 (at rest) over `BECKON_RELEASE`: forward from `unlitAt`, and
+ * back from `litAt` while the thing is selected (`unlitAt` is `Infinity`),
+ * `settled` being where it stood at the latest of the two.
  */
-export function beckon(time: number, { litAt, unlitAt }: Lit): number {
+export type Lit = {
+  swellFrom: number;
+  litAt: number;
+  unlitAt: number;
+  settled: number;
+};
+
+/** A thing never selected: at rest, and settled for good. */
+export const UNLIT: Lit = {
+  swellFrom: -Infinity,
+  litAt: -Infinity,
+  unlitAt: -Infinity,
+  settled: 1,
+};
+
+/** How far into its settle `lit`'s beckon is at `time`, from 0 up; 1 and past it at rest. */
+function settleAt(time: number, { litAt, unlitAt, settled }: Lit): number {
+  return time < unlitAt
+    ? Math.max(0, settled - (time - litAt) / BECKON_RELEASE)
+    : settled + (time - unlitAt) / BECKON_RELEASE;
+}
+
+/**
+ * `lit` selected at `time`. A cap still settling keeps its swell and eases
+ * back up along the settle it was on, so a quick reselect never pops it back
+ * to rest; one at rest starts a fresh swell.
+ */
+export function lightUp(lit: Lit, time: number): Lit {
+  const settled = settleAt(time, lit);
+  return settled < 1
+    ? { ...lit, litAt: time, unlitAt: Infinity, settled }
+    : { swellFrom: time, litAt: time, unlitAt: Infinity, settled: 0 };
+}
+
+/** `lit` let go of at `time`, settling on from wherever its beckon stands. */
+export function letGo(lit: Lit, time: number): Lit {
+  return { ...lit, unlitAt: time, settled: settleAt(time, lit) };
+}
+
+/**
+ * The stretch a selected mushroom beckons with at `time`, over its breath: a
+ * slow swell taller and back that starts from rest at a selection, eases in
+ * over `BECKON_EASE`, and eases out over `BECKON_RELEASE` at the release, so
+ * neither end, nor a reselect while it settles, is a jump.
+ */
+export function beckon(time: number, lit: Lit): number {
   const reach = Math.min(
-    Math.min(1, Math.max(0, (time - litAt) / BECKON_EASE)),
-    1 - smooth((time - unlitAt) / BECKON_RELEASE),
+    Math.min(1, Math.max(0, (time - lit.swellFrom) / BECKON_EASE)),
+    1 - smooth(settleAt(time, lit)),
   );
   if (reach <= 0) return 0;
   return (
     BECKON_DEPTH *
     reach *
-    Math.sin(((Math.PI * 2) / BECKON_PERIOD) * (time - litAt))
+    Math.sin(((Math.PI * 2) / BECKON_PERIOD) * (time - lit.swellFrom))
   );
 }
 
