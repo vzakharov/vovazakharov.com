@@ -33,7 +33,7 @@ import { smooth } from './motion';
  * butterfly 0.18 rad in a 60 Hz frame, a bee twice that, a fly snapping
  * round at 0.6 — each above the fastest its pivot at take-off turns it.
  */
-const TURN_RATE = {
+export const TURN_RATE = {
   butterfly: 10.8,
   fly: 36,
   bee: 21.6,

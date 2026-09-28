@@ -14,6 +14,7 @@ import {
   REST_LEAN,
 } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { PATH_SHAPES } from '../../src/pages/mushrooms/model/insect-paths.ts';
+import { TURN_RATE } from '../../src/pages/mushrooms/model/insect-steering.ts';
 
 /**
  * How long after landing a flier has turned to its rest facing, in ms: its
@@ -47,6 +48,13 @@ const TRAVEL_FRAMES = Object.fromEntries(
  */
 const MOVING = 1;
 
+/** How fast a body shown on screen may turn, in radians a second: its kind's `TURN_RATE`, a hair over for rounding. */
+export const MOST_TURN_RATE = Object.fromEntries(
+  INSECT_KINDS.map((kind) => [kind, TURN_RATE[kind] * 1.001]),
+);
+/** How far a body's light may turn from the sun, in radians: a quarter turn, where its lit side would face away. */
+export const MOST_LIGHT_OFF = Math.PI / 2;
+
 /** Installs `window.__watch`, which the scene's insect view feeds every frame. */
 export const WATCH = `(() => {
   const scene = window.__game.scene.scenes[0];
@@ -68,8 +76,13 @@ export const WATCH = `(() => {
     crossings: 0,
     leastSpan: {},
     capRests: { spotted: 0, other: 0 },
+    turnSteps: {},
+    worstTurn: { id: null, kind: null, rate: 0, at: 0 },
+    light: {},
+    worstLight: { id: null, kind: null, off: 0, at: 0 },
     frames: 0,
   };
+  const mostTurnRate = ${JSON.stringify(MOST_TURN_RATE)};
   const counted = new Set();
   /**
    * Whether the air has a spot no flier is taking and none taken crowds: a
@@ -112,6 +125,28 @@ export const WATCH = `(() => {
           ? held
           : { legs: flier.legs, frames: [], round: 0, least: 0, most: 0 };
       const previous = trail.frames.at(-1) ?? held?.frames.at(-1);
+      if (previous && now > previous.now) {
+        const step = Math.abs(wrap(turn - previous.turn));
+        const steps = (watch.turnSteps[kind] ??= { steps: 0, over: 0, most: 0 });
+        steps.steps += 1;
+        if (step > 0.2) steps.over += 1;
+        steps.most = Math.max(steps.most, step);
+        const rate = (step * 1000) / (now - previous.now);
+        if (rate / mostTurnRate[kind] > watch.worstTurn.rate / (mostTurnRate[watch.worstTurn.kind] ?? 1)) {
+          watch.worstTurn = { id, kind, rate, at: now };
+        }
+      }
+      // The light its lit parts were painted in turns with its body from the
+      // turn they were painted for.
+      const lightOff = Math.abs(wrap(turn - (shown.look.litTurn ?? 0)));
+      if (lightOff > watch.worstLight.off) {
+        watch.worstLight = { id, kind, off: lightOff, at: now };
+      }
+      if (now >= leg.departs && now < leg.arrives) {
+        const lit = (watch.light[kind] ??= { frames: 0, off: 0 });
+        lit.frames += 1;
+        if (lightOff > ${String(MOST_LIGHT_OFF)}) lit.off += 1;
+      }
       if (previous) {
         trail.round += wrap(turn - previous.turn);
         trail.least = Math.min(trail.least, trail.round);
@@ -253,6 +288,30 @@ export const Watch = z.object({
   crossings: z.number(),
   leastSpan: z.partialRecord(Kind, z.number()),
   capRests: z.object({ spotted: z.number(), other: z.number() }),
+  /** Per kind, frame-to-frame turns of its body, how many were over 0.2 rad, and the largest, in radians. */
+  turnSteps: z.partialRecord(
+    Kind,
+    z.object({ steps: z.number(), over: z.number(), most: z.number() }),
+  ),
+  /** The fastest a body turned from one frame to the next against its kind's `MOST_TURN_RATE`, in radians a second. */
+  worstTurn: z.object({
+    id: z.string().nullable(),
+    kind: Kind.nullable(),
+    rate: z.number(),
+    at: z.number(),
+  }),
+  /** Per kind, frames in flight, and in how many its light stood more than `MOST_LIGHT_OFF` off the sun. */
+  light: z.partialRecord(
+    Kind,
+    z.object({ frames: z.number(), off: z.number() }),
+  ),
+  /** The furthest a body's light stood off the sun on any frame, in radians. */
+  worstLight: z.object({
+    id: z.string().nullable(),
+    kind: Kind.nullable(),
+    off: z.number(),
+    at: z.number(),
+  }),
   frames: z.number(),
 });
 
