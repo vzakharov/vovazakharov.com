@@ -18,8 +18,9 @@ generator, and every motion is a pure function of the clock; sound is
 a Web Audio synth with a remembered mute. The layout keeps every cap
 on screen and every control clear of the meadow on any screen. The
 meadow is painted in one light: shade, shine and shadows fall from
-where the sun stands, hills recede into a shared air, and every
-creature is inked in the dark of its own colour, not one brown.
+the sun as each thing sees it, hills recede into a shared air, and
+every creature is inked in a dark of its own colour, its ink or fill
+standing 3:1 off the ground under it.
 
 Plus grows a picked cap out of the ground, minus sinks one, up to six
 round the clump; the house button furnishes a mushroom with Syama's
@@ -32,9 +33,12 @@ is in sight. Fliers keep apart where they sit and hover, and a bee
 waiting for a flower is made way for. A tap sends one at rest on its
 way; a control that cannot act shakes its head.
 
-A pure reducer in model/game.ts owns the state; pnpm play:mushrooms
-plays every control on five screens in headless Chromium, watching
-every frame, and fails on a page error or a wrong result.
+A pure reducer in model/game.ts owns the state. Whatever stands still
+— the backdrop, each button's face — is baked into a texture once a
+paint, so a frame draws a few quads. pnpm play:mushrooms plays every
+control on five screens in headless Chromium, watching every frame,
+and fails on a page error, a wrong result or a median frame past its
+budget.
 
 Closes #65
 
