@@ -12,6 +12,8 @@ import {
   firstFlight,
   type Flight,
   flightAway,
+  flowerFreed,
+  givesWay,
   type Held,
   isAloft,
   isLeaving,
@@ -156,6 +158,24 @@ export function startled(
 }
 
 /**
+ * Whether `insect`'s next leg is due at `now`, among `insects`: its stay is
+ * over, the meadow no longer offers its perch, or it sits where a waiting
+ * bee is owed room (`givesWay`).
+ */
+function isDue(
+  insect: Flier,
+  insects: readonly Flier[],
+  perches: Perches,
+  now: number,
+): boolean {
+  const { kind, leg } = insect;
+  if (now >= leg.leaves || !isOffered(leg.to, perches)) return true;
+  if (now < leg.arrives) return false;
+  const [held, taken] = [{ kind, perch: leg.to }, takenBy(insects, insect)];
+  return givesWay(held, taken, perches) || flowerFreed(held, taken, perches);
+}
+
+/**
  * `swarm` at `now`: an insect whose stay is over, or whose perch the meadow
  * no longer offers, takes its next leg from `now`; one whose flight away has
  * landed is gone. They are taken in order, each new leg seeing the ones
@@ -171,7 +191,7 @@ export function ticked(swarm: Swarm, perches: Perches, now: number): Swarm {
   for (const [index, insect] of insects.entries()) {
     if (isLeaving(insect)) {
       if (now >= insect.leg.arrives) changed = true;
-    } else if (now >= insect.leg.leaves || !isOffered(insect.leg.to, perches)) {
+    } else if (isDue(insect, next, perches, now)) {
       changed = true;
       const taken = takenBy(next, insect);
       const flight = nextFlight(insect, perches, now, taken);

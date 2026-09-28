@@ -5,6 +5,9 @@ import {
   firstFlight,
   type Flight,
   FLIGHT_HABITS,
+  flowerFreed,
+  givesWay,
+  type Held,
   type Leg,
   nextFlight,
   type Perches,
@@ -154,5 +157,41 @@ describe('FLIGHT_HABITS', () => {
       Math.abs(share - expected) < 0.02,
       `spotted share ${String(share)}`,
     );
+  });
+});
+
+describe('the bees’ turn at the flowers', () => {
+  const flower = { kind: 'flower', id: 'flower-1' } as const;
+  const cap = { kind: 'cap', id: 'mushroom-1' } as const;
+  const waiting: Held = { kind: 'bee', perch: { kind: 'air', id: 'air-1' } };
+  const sipping: Held = { kind: 'bee', perch: { kind: 'flower', id: 'x' } };
+  const perches = { flowers: ['flower-1'], crowded: [] };
+
+  it('moves a seated butterfly off a bee’s flower while a bee waits in the air', () => {
+    const butterfly: Held = { kind: 'butterfly', perch: flower };
+    assert.ok(givesWay(butterfly, [waiting], perches));
+    assert.ok(!givesWay(butterfly, [], perches));
+    assert.ok(!givesWay(butterfly, [sipping], perches));
+    assert.ok(!givesWay({ kind: 'bee', perch: flower }, [waiting], perches));
+  });
+
+  it('moves one off a cap only where it crowds a bee on that flower', () => {
+    const resting: Held = { kind: 'butterfly', perch: cap };
+    const crowdingFor = (pairing: readonly ['butterfly', 'bee' | 'fly']) => ({
+      ...perches,
+      crowded: [[cap, flower, [pairing]] as const],
+    });
+    assert.ok(givesWay(resting, [waiting], crowdingFor(['butterfly', 'bee'])));
+    assert.ok(!givesWay(resting, [waiting], crowdingFor(['butterfly', 'fly'])));
+    assert.ok(!givesWay(resting, [waiting], perches));
+  });
+
+  it('sends a hovering bee on at once when a flower is open to it', () => {
+    const taken: Held[] = [{ kind: 'butterfly', perch: flower }];
+    assert.ok(!flowerFreed(waiting, taken, perches));
+    const two = { ...perches, flowers: ['flower-1', 'flower-2'] };
+    assert.ok(flowerFreed(waiting, taken, two));
+    const hovering: Held = { ...waiting, kind: 'butterfly' };
+    assert.ok(!flowerFreed(hovering, taken, two));
   });
 });

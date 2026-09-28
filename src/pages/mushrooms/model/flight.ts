@@ -12,6 +12,14 @@ import type { WithId } from '@/shared/typings';
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
+import {
+  blockedFor,
+  type Held,
+  isSamePerch,
+  isSeat,
+  keptForBees,
+  perchName,
+} from './perch-room';
 import type { Plot } from './pollen';
 import {
   between,
@@ -23,6 +31,13 @@ import {
 } from './random';
 
 export { FLIGHT_HABITS } from './flight-habits';
+export {
+  flowerFreed,
+  givesWay,
+  type Held,
+  isSeat,
+  perchName,
+} from './perch-room';
 
 export const SIDES = ['left', 'right'] as const;
 export type Side = (typeof SIDES)[number];
@@ -116,82 +131,14 @@ function legRandom(seed: number, legs: number): Random {
   return mulberry32(nextSeed(mulberry32(((seed ^ LEG_SALT) + legs) >>> 0)));
 }
 
-/** A perch an insect sits on. */
-type Seat = Extract<Perch, { kind: 'flower' | 'cap' }>;
-
-function isSamePerch(a: Perch, b: Perch): boolean {
-  return a.kind === 'away' || b.kind === 'away'
-    ? false
-    : a.kind === b.kind && a.id === b.id;
-}
-
-/** A perch another insect sits on or is heading to, and that insect's kind. */
-export type Held = Kinded & { perch: Perch };
-
-/** A perch's name, the same for the same perch, as `Places` keys it. */
-export function perchName(perch: Perch): string {
-  return perch.kind === 'away'
-    ? `away ${perch.side}`
-    : `${perch.kind} ${perch.id}`;
-}
-
-const hasPairing = (pairings: readonly Pairing[], [a, b]: Pairing) =>
-  pairings.some(([first, second]) => first === a && second === b);
-
-/** Whether `held` is a bee roaming the air for want of a flower. */
-const isWaitingBee = ({ kind, perch }: Held) =>
-  kind === 'bee' && perch.kind === 'air';
-
-/**
- * Every perch an insect of `kind` may not take: each of `taken`, and each
- * that stands too close to one of them for `kind` beside the kind there.
- */
-function blockedFor(
-  kind: InsectKind,
-  taken: readonly Held[],
-  crowded: Sight['crowded'],
-): Set<string> {
-  const blocked = new Set(taken.map(({ perch }) => perchName(perch)));
-  for (const [a, b, pairings] of crowded) {
-    for (const held of taken) {
-      if (isSamePerch(a, held.perch) && hasPairing(pairings, [held.kind, kind]))
-        blocked.add(perchName(b));
-      if (isSamePerch(b, held.perch) && hasPairing(pairings, [kind, held.kind]))
-        blocked.add(perchName(a));
-    }
-  }
-  return blocked;
-}
-
-/**
- * The perches an insect of `kind` other than a bee leaves to the bees: while
- * a bee waits in the air, or the flowers open to a bee are no more than the
- * bees, every such flower and every perch crowding one.
- */
-function keptForBees(
-  kind: InsectKind,
-  taken: readonly Held[],
-  { flowers, crowded }: Pick<Perches, 'flowers' | 'crowded'>,
-): Set<string> {
-  const bees = taken.filter((each) => each.kind === 'bee').length;
-  if (kind === 'bee' || bees === 0) return new Set();
-  const forBee = blockedFor('bee', taken, crowded);
-  const kept = flowers
-    .map((id): Held => ({ kind: 'bee', perch: { kind: 'flower', id } }))
-    .filter(({ perch }) => !forBee.has(perchName(perch)));
-  return kept.length <= bees || taken.some((each) => isWaitingBee(each))
-    ? blockedFor(kind, kept, crowded)
-    : new Set();
-}
-
 /** What `nextPerch` weighs a choice by: where the insect is, what it cannot take, and the kind and habits choosing. */
-type Choosing = Kinded & {
-  habits: Habits;
-  from: Perch;
-  perches: Perches;
-  taken: readonly Held[];
-  blocked: ReadonlySet<string>;
-};
+type Choosing = Kinded &
+  Pick<Leg, 'from'> & {
+    habits: Habits;
+    perches: Perches;
+    taken: readonly Held[];
+    blocked: ReadonlySet<string>;
+  };
 
 /**
  * A spot in the air for a flier with no perch open, the nearer the likelier
@@ -286,11 +233,6 @@ function nextPerch(
     !blocked.has(perchName(from));
   if (settles) return from;
   return roamFrom(random, choosing) ?? awayPerch(random);
-}
-
-/** Whether `perch` is one an insect sits on, rather than the air or away. */
-export function isSeat(perch: Perch): perch is Seat {
-  return perch.kind === 'flower' || perch.kind === 'cap';
 }
 
 function awayPerch(random: Random): Perch {

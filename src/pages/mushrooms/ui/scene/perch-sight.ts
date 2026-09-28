@@ -16,6 +16,7 @@ import type { WithId } from '@/shared/typings';
 
 import {
   type Crowding,
+  type Held,
   type Pairing,
   type Perch,
   perchName,
@@ -59,14 +60,14 @@ export const MOST_OVERLAP = 0.25;
  * The widest each kind's open wings span, in units of its own size, whatever
  * its genes: the butterfly's `WIDEST_SPAN`, and a fly's and a bee's.
  */
-export const WIDEST_SPANS = {
+const WIDEST_SPANS = {
   butterfly: WIDEST_SPAN,
   fly: 1.36,
   bee: 1.2,
 } as const satisfies Record<InsectKind, number>;
 
 /** The widest an insect of `kind` spans on `layout`, in CSS px. */
-export function widestOn(layout: MeadowLayout, kind: InsectKind): number {
+function widestOn(layout: MeadowLayout, kind: InsectKind): number {
   return WIDEST_SPANS[kind] * layout.insectSizes[kind];
 }
 
@@ -247,8 +248,7 @@ function tracksApart(here: Track, there: Track): number {
  * A perch, where an insect of each kind may sit on it, and a circle around
  * every such seat, so two perches far apart are passed over at a glance.
  */
-type Seats = {
-  perch: Perch;
+type Seats = Pick<Held, 'perch'> & {
   tracks: Record<InsectKind, Track>;
   around: Circle;
 };
