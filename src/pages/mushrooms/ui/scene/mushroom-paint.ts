@@ -114,8 +114,7 @@ export function paintStem(
     stem.slice(0, CURVE_STEPS + 1),
     stem.slice(CURVE_STEPS + 1, (CURVE_STEPS + 1) * 2),
   ];
-  const [sunSide, shadeSide] =
-    litSide(lighting.toward) === 1 ? [right, left] : [left, right];
+  const [sunSide, shadeSide] = bySun(lighting.toward, [left, right]);
   const middle = brush.canvas(stemAt(genes, 0.5));
   const stemWidth = genes.stemWidth * size;
   for (const [colour, alpha, depth, side] of stemLight(tints.stemLit)) {
@@ -129,6 +128,14 @@ export function paintStem(
       crescent(side === 'sun' ? sunSide : shadeSide, middle, stemWidth * depth),
     );
   }
+}
+
+/** A shape's `left` and `right` sides as the light `toward` falls on them: the sun's side first. */
+export function bySun<Side>(
+  toward: Point,
+  [left, right]: readonly [Side, Side],
+): [Side, Side] {
+  return litSide(toward) === 1 ? [right, left] : [left, right];
 }
 
 /** The stem's ink line, laid before its fill. */

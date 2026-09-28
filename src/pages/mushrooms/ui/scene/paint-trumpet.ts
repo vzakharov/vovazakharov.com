@@ -10,9 +10,10 @@ import type { Point } from '../../model/geometry';
 import type { ChanterelleGenes } from '../../model/mushroom-genes';
 import { headOutlines } from '../../model/mushroom-outline';
 import { CURVE_STEPS } from '../../model/mushroom-profile';
-import { inkFor, litSide } from './ink';
+import { inkFor } from './ink';
 import { type CapLight, capLight, sideways } from './mushroom-light';
 import {
+  bySun,
   inkStem,
   lightWith,
   type MushroomBrush,
@@ -149,8 +150,7 @@ function paintFunnelLight(
     funnel.slice(side, side * 2),
     funnel.slice(side * 2),
   ];
-  const [sunSide, shadeSide] =
-    litSide(lighting.toward) === 1 ? [right, left] : [left, right];
+  const [sunSide, shadeSide] = bySun(lighting.toward, [left, right]);
   const middle = toMushroom({ x: 0, y: genes.capHeight * 0.6 });
   const across = genes.capWidth * size;
   const strength = sideways(lighting.toward);
