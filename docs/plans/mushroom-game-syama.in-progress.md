@@ -448,47 +448,44 @@ Standing rules for every session in the chain:
      the sun stands whole in the sky over a valley in the far hills. The play
      run's heading watch is over one bob and passes on every screen.
 
-## This bite
-
-**7. Atmosphere**, to the spec in
-`docs/remove-before-merging/atmosphere/look.md` (references fetched into
-`tmp/refs/`, never committed). What the references showed: flat fills are
-not the fault — Alto's uses nothing else — the meadow lacks air between its
-layers and one light that everything agrees with (today the caps are shaded
-on the right whichever side the sun is). So:
-
-- **Step 0, alone, first:** `palette.ts` splits into `palette.ts` (shared,
-  and the merge, `PALETTE` unchanged), `palette-backdrop.ts` and
-  `palette-creatures.ts`; the shared `air` and `inkCool`; a pure `light.ts`
-  (`sunLight(layout)`, `PICTOGRAM_LIGHT`) with its test; the styling rule and
-  the palette decision below name the three modules.
-- **Group A, the backdrop** (spec A1–A8): a warm horizon, a sun bloom that
-  washes over the land, a third and farthest hill range, each range mixed
-  toward `air`, mist at each range's foot, a ground lit far and deeper near,
-  grass toned by distance, a seeded grain texture under the creatures,
-  clouds lit from the sun. `paint-backdrop.ts` splits into `paint-sky.ts`
-  and `paint-land.ts`.
-- **Group B, the creatures and the HUD's pictograms** (B1–B7): ink the dark
-  of what it outlines pulled toward `inkCool`, heavier in shade and thinner
-  toward the light, tapering on legs, antennae and stems; shade, shine, rim
-  light and cast shadows from the real sun, warm lights over cool shadows;
-  the flowers' and butterflies' literals harmonised. The HUD discs keep
-  their even ring: a control never reads as a creature.
-- Groups A and B run in parallel over disjoint files, after step 0.
-
-Calls settled: **no foreground frame** across the bottom edge (it would
-cover the lowest flowers and a child's finger); **no grain over the
-creatures** (they stay crisp, the grain is the land's); **light shafts** only
-if a frame shows them reading as sunlight, faint, and cut otherwise. No
-Phaser filters and no gradient fills: bands and one canvas texture, since
-both work on either renderer and a filter is a render pass a frame. The fly
-agaric stays red with white spots, Syama's own subject.
+7. **Atmosphere.** The meadow has air between its layers and one light.
+   The sky pales from a softer blue through near-white to a warm cream at
+   the hills, and the sun sits in a clean gold halo; three hill ranges
+   recede toward a shared `air`, each misting at its foot and lit on the
+   slopes that face the sun; the ground runs lit and yellower far to deeper
+   near under soft seeded patches and a grain, meeting the hills on a
+   wavering seam; grass is toned by distance. Every creature is inked in the
+   dark of its own fill pulled toward an indigo (Syama's pen), heavier in
+   shade and thinner toward the light, legs and feelers tapering; shade,
+   shine, rim light and cast shadows come from where the sun actually is,
+   warm lights over cool shadows. The fly agaric stays red with white spots;
+   the HUD discs keep their even ring. What the next bites build on:
+   - The colour table is three modules: `palette.ts` (shared: `air`,
+     `inkCool`, `ink`…; merges the other two into `PALETTE`),
+     `palette-backdrop.ts` and `palette-creatures.ts`.
+   - `model/light.ts`: `sunLight(layout)` (a unit vector toward the sun,
+     screen axes) and `PICTOGRAM_LIGHT`; the scene hands the light to every
+     bed and painter, and a resize repaints, so a turn moves it.
+   - `ink.ts`: `inkFor(fill)` (contrast-clamped against its fill and the
+     ground), `innerInk`, `weightedOutline` (an underlay pushed out by the
+     light), `taperedLine`, `facingArc`, `shadowFall`; `colour.ts` is
+     Phaser-free, with `darken`, `luminance`, `contrast`. A new creature
+     (bite 8's species) is inked and lit through these.
+   - The backdrop is `paint-sky.ts` and `paint-land.ts` behind
+     `paintBackdrop`'s layer contract; `backdrop-tones.ts` the derived
+     colours, `grain.ts` one seeded canvas texture under the grass. No Phaser
+     filters and no gradient fills: bands and that one texture.
+   - Insects are painted once and rotated as they fly, so their shading
+     turns with them; clear wings keep a plain edge. The house stands on its
+     mushroom's shadow.
+   - The spec and the references' reading are in
+     `docs/remove-before-merging/atmosphere/look.md`.
 
 ## Rest of the elephant
 
 In order.
 
-**Open after bite 6's review, for bite 7's review to sweep:** fliers are
+**Open, for bite 7's review to sweep:** the play run (probe build and all five screens) now takes ~21 minutes against bite 6's few, which may be the weighted ink on every flier repainted each frame under the software renderer, or the machine; on a phone the sun's pale halo covers most of the upper sky. Carried from bite 6: fliers are
 kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
@@ -497,11 +494,6 @@ ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
 from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
-
-7. **Atmosphere** — taken as `## This bite`. The meadow read "немного
-   слишком свинка-пеппа"; the bar is "не о том, чтобы это был фотореализм
-   или какое-то супер-пупер-3д, но что-то такое рисованное с душой". Every
-   frame is judged beside the references as well as Syama's drawing.
 
 8. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
    different doors as different caps. The operator keeps the misreading's
@@ -517,7 +509,7 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
    Only the look changes in this bite ("на первом этапе это только внешний
    вид, а дальше можно думать"). Behaviour tied to a kind stays with the
    fly agaric: flies still favour it, as `spotted` does now. The new species
-   are drawn in the look bite 7 set.
+   are inked and lit through `ink.ts` and `light.ts`, in the look bite 7 set.
 
 9. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
