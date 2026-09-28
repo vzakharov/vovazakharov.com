@@ -90,9 +90,9 @@ export class Picker<Item> {
    * Stands the buttons at `homes`, unfolding from `from` as `open` turns true
    * at `now` and folding back as it turns false; `slots` are where the
    * layout stands each mushroom, for a picked button to fly to; `ratio` is
-   * device pixels to a CSS pixel. A picker
-   * closing `inPlaceOf` the other, which opens where it stands, goes at once
-   * rather than folding back, so the two never show together.
+   * device pixels to a CSS pixel. A picker closing `inPlaceOf` the other,
+   * which opens where it stands, goes at once rather than folding back, so
+   * the two never show together.
    */
   paint(
     homes: readonly Circle[],

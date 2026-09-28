@@ -65,8 +65,8 @@ export function drawMushroomShadow(
  * Paints one mushroom into `graphics`, whose own position is the foot and
  * whose rotation is the lean, `turn` — so the scene squashes and rocks it from
  * the ground, the foot kept level with it — lit from where `lighting`, in
- * that turned frame, says (`mushroomLights`).
- * `haze`, from 0 to 1, takes every colour toward the air's, as distance does.
+ * that turned frame, says (`mushroomLights`). `haze`, from 0 to 1, takes
+ * every colour toward the air's, as distance does.
  */
 export function drawMushroom(
   graphics: Phaser.GameObjects.Graphics,

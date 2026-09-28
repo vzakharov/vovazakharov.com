@@ -110,9 +110,8 @@ function falloff(t: number): number {
 
 /**
  * The sky at `x`, `y` with the sun's light laid over it, each layer in turn
- * at its opacity there, composited in full precision and rounded once, so a
- * layer however faint is never lost to the rounding a stack of faint discs
- * would pay at every one.
+ * at its opacity there, composited in full precision and rounded once, so
+ * rounding never loses a layer however faint.
  */
 export function litSkyAt(
   {

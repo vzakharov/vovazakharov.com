@@ -237,10 +237,10 @@ function relight(look: Look, turn: number, size: number): void {
 
 /**
  * Sets what moves in `look` this frame: its lit parts kept to the sun as it
- * turns (`relight`), a butterfly's wings beating and its
- * proboscis reaching, `drinking` saying where it and the flower stand; a
- * fly's or a bee's wings turning, shown still at rest and as a blur in the
- * air, a fly's front legs rubbing, a bee's baskets filling and emptying.
+ * turns (`relight`), a butterfly's wings beating and its proboscis reaching,
+ * `drinking` saying where it and the flower stand; a fly's or a bee's wings
+ * turning, shown still at rest and as a blur in the air, a fly's front legs
+ * rubbing, a bee's baskets filling and emptying.
  */
 export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
   const { stay, now, motion, size } = moment;

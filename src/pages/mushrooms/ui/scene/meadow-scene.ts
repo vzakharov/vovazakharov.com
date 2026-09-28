@@ -332,15 +332,15 @@ export class MeadowScene extends Phaser.Scene {
     }
   }
 
+  private pixelRatio(): number {
+    return Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
+  }
+
   /**
    * The canvas is sized in device pixels for a sharp picture on a dense
    * screen; the camera's zoom brings the world back to CSS pixels, which is
    * what the layout is written in.
    */
-  private pixelRatio(): number {
-    return Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
-  }
-
   private readonly paint = (): void => {
     const ratio = this.pixelRatio();
     this.cameras.main.setOrigin(0, 0).setZoom(ratio);
