@@ -9,21 +9,24 @@ import type * as Phaser from 'phaser';
 
 import type { BeeGenes } from '../../model/bee-genes';
 import { beeAnatomy, beeOutline, type Oval } from '../../model/bee-outline';
-import { type Point, sample } from '../../model/geometry';
+import { ellipse, type Point, sample } from '../../model/geometry';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
-import { inkFor, scaled } from './draw-insect';
+import { insectInk, scaled } from './draw-insect';
+import { inkFor, type Lighting, litSide, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
+  inkUnder,
   ovalArc,
-  strokeLine,
-  strokeShape,
+  strokeTapered,
 } from './shapes';
 
-const SHADE_ALPHA = 0.22;
+const SHADE_ALPHA = 0.26;
+/** A bee's ink: its black's own, near-black whatever it edges. */
+const BEE_INK = inkFor(PALETTE.beeBlack);
 /** How many veins a bee's small wing shows. */
 export const BEE_VEINS = 2;
 
@@ -44,9 +47,12 @@ export function paintBeeBody(
   graphics: Phaser.GameObjects.Graphics,
   genes: BeeGenes,
   size: number,
+  lighting: Lighting,
 ): void {
+  const { toward } = lighting;
+  const lit = litSide(toward);
   const at = scaled(size);
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   const yellow = nudgeHue(PALETTE.beeYellows[genes.stripe], genes.hueNudge);
   const { head, thorax, abdomen } = beeAnatomy(genes);
   const painted = beeOutline(genes);
@@ -61,6 +67,7 @@ export function paintBeeBody(
 
   // The abdomen: yellow and black bands, yellow first, the tail black.
   const outline = painted.abdomen.map((point) => at(point));
+  inkUnder(graphics, outline, BEE_INK, ink, lighting);
   graphics.fillStyle(yellow);
   fillShape(graphics, outline);
   const stripes = genes.bands * 2;
@@ -79,36 +86,36 @@ export function paintBeeBody(
     ).map((point) => at(point));
     fillShape(graphics, stripe);
   }
-  const right = ovalArc(abdomen, [abdomen.rx, abdomen.ry], [-1.2, 1.4]).map(
-    (point) => at(point),
-  );
-  graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
-  fillShape(graphics, crescent(right, at(abdomen), abdomen.rx * size * 0.5));
+  const away = Math.atan2(-toward.y, -toward.x);
+  const shaded = ovalArc(
+    abdomen,
+    [abdomen.rx, abdomen.ry],
+    [away - 1.3, away + 1.3],
+  ).map((point) => at(point));
+  graphics.fillStyle(PALETTE.shadeCool, SHADE_ALPHA);
+  fillShape(graphics, crescent(shaded, at(abdomen), abdomen.rx * size * 0.5));
   graphics.fillStyle(PALETTE.highlight, 0.45);
   graphics.fillEllipse(
-    (abdomen.x - abdomen.rx * 0.4) * size,
+    (abdomen.x + lit * abdomen.rx * 0.4) * size,
     (abdomen.y - abdomen.ry * 0.25) * size,
     abdomen.rx * size * 0.4,
     abdomen.ry * size * 0.55,
   );
-  graphics.lineStyle(ink, PALETTE.ink);
-  strokeShape(graphics, outline);
 
   // The thorax, all fuzz, a warm brown-gold.
   const chest = painted.chest.map((point) => at(point));
+  inkUnder(graphics, chest, BEE_INK, ink, lighting);
   graphics.fillStyle(mix(yellow, PALETTE.beeBlack, 0.45));
   fillShape(graphics, chest);
   graphics.fillStyle(PALETTE.highlight, 0.3);
   graphics.fillEllipse(
-    (thorax.x - thorax.rx * 0.3) * size,
+    (thorax.x + lit * thorax.rx * 0.3) * size,
     (thorax.y - thorax.ry * 0.3) * size,
     thorax.rx * size * 0.8,
     thorax.ry * size * 0.6,
   );
-  graphics.lineStyle(ink, PALETTE.ink);
-  strokeShape(graphics, chest);
 
-  paintHead(graphics, size, head);
+  paintHead(graphics, size, head, lighting);
 }
 
 /** The head: small and dark, two short antennae, and two bright eyes looking up. */
@@ -116,8 +123,9 @@ function paintHead(
   graphics: Phaser.GameObjects.Graphics,
   size: number,
   head: Point & { r: number },
+  lighting: Lighting,
 ): void {
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   const r = head.r * size;
   const middle = { x: head.x * size, y: head.y * size };
   for (const side of SIDES) {
@@ -125,18 +133,18 @@ function paintHead(
       x: middle.x + side * (r * 0.35 + r * 1.1 * t),
       y: middle.y - r * 0.6 - r * 1.5 * Math.sin((t * Math.PI) / 2.4),
     }));
-    graphics.lineStyle(Math.max(1, ink * 0.8), PALETTE.ink);
-    strokeLine(graphics, line);
+    const width = Math.max(1, ink * 0.8);
+    graphics.fillStyle(BEE_INK);
+    strokeTapered(graphics, line, [width, width * TAPER], lighting);
     const club = line.at(-1);
     if (club) {
-      graphics.fillStyle(PALETTE.ink);
+      graphics.fillStyle(BEE_INK);
       graphics.fillCircle(club.x, club.y, Math.max(1, r * 0.22));
     }
   }
+  inkUnder(graphics, ellipse(middle, r), BEE_INK, ink, lighting);
   graphics.fillStyle(PALETTE.beeBlack);
   graphics.fillCircle(middle.x, middle.y, r);
-  graphics.lineStyle(ink, PALETTE.ink);
-  graphics.strokeCircle(middle.x, middle.y, r);
   for (const side of SIDES) {
     const eye = { x: middle.x + side * r * 0.45, y: middle.y - r * 0.15 };
     graphics.fillStyle(PALETTE.highlight);
@@ -160,9 +168,11 @@ export function paintBeeLegs(
   genes: BeeGenes,
   size: number,
   specks: number,
+  lighting: Lighting,
 ): void {
+  const lit = litSide(lighting.toward);
   const at = scaled(size);
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   const { thorax } = beeAnatomy(genes);
   const reach = genes.legLength;
   for (const side of SIDES) {
@@ -184,6 +194,7 @@ export function paintBeeLegs(
         graphics,
         [hip, knee, foot].map((point) => at(point)),
         size,
+        lighting,
       );
       if (down !== 0.95 || specks <= 0) continue;
       const basket = {
@@ -194,12 +205,17 @@ export function paintBeeLegs(
       };
       const { x, y } = at(basket);
       const r = basket.r * size;
+      inkUnder(
+        graphics,
+        ellipse({ x, y }, r),
+        inkFor(PALETTE.pollen),
+        Math.max(1, ink * 0.7),
+        lighting,
+      );
       graphics.fillStyle(PALETTE.pollen);
       graphics.fillCircle(x, y, r);
       graphics.fillStyle(PALETTE.highlight, 0.6);
-      graphics.fillCircle(x - r * 0.3, y - r * 0.3, r * 0.35);
-      graphics.lineStyle(Math.max(1, ink * 0.7), PALETTE.ink);
-      graphics.strokeCircle(x, y, r);
+      graphics.fillCircle(x + lit * r * 0.3, y - r * 0.3, r * 0.35);
     }
   }
 }
@@ -210,8 +226,9 @@ export function drawBee(
   genes: BeeGenes,
   size: number,
   specks: number,
+  lighting: Lighting,
 ): void {
-  paintBeeLegs(parts.legs.clear(), genes, size, specks);
-  paintBeeBody(parts.body.clear(), genes, size);
-  drawBuzzWings(parts, genes, size, BEE_VEINS);
+  paintBeeLegs(parts.legs.clear(), genes, size, specks, lighting);
+  paintBeeBody(parts.body.clear(), genes, size, lighting);
+  drawBuzzWings(parts, genes, size, BEE_VEINS, lighting);
 }

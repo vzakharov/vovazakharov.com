@@ -240,7 +240,7 @@ function paintIconWings(
     graphics.save();
     graphics.translateCanvas(root.x, root.y);
     graphics.rotateCanvas(buzzTurn(side, ICON_SPREAD));
-    paintWing(graphics, genes, side, size, veins);
+    paintWing(graphics, genes, side, size, veins, ICON_LIGHTING);
     graphics.restore();
   }
 }
@@ -263,17 +263,17 @@ export function drawReleaseButton(
       const size = (r * 1.6) / wingspan(genes);
       // A little below the middle, the antennae reaching up into the room above.
       graphics.translateCanvas(0, r * 0.08);
-      paintWings(graphics, genes, 'hind', size);
-      paintWings(graphics, genes, 'fore', size);
-      paintBody(graphics, genes, size);
+      paintWings(graphics, genes, 'hind', size, ICON_LIGHTING);
+      paintWings(graphics, genes, 'fore', size, ICON_LIGHTING);
+      paintBody(graphics, genes, size, ICON_LIGHTING);
       break;
     }
     case 'fly': {
       const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
       const size = (r * 1.3) / genes.bodyLength / 1.25;
       graphics.translateCanvas(0, r * 0.06);
-      paintFlyLegs(graphics, genes, size, 0);
-      paintFlyBody(graphics, genes, size);
+      paintFlyLegs(graphics, genes, size, 0, ICON_LIGHTING);
+      paintFlyBody(graphics, genes, size, ICON_LIGHTING);
       paintIconWings(graphics, genes, size, genes.veins);
       break;
     }
@@ -281,8 +281,8 @@ export function drawReleaseButton(
       const genes = insectGenes({ seed: PICTOGRAM_SEED, kind });
       const size = (r * 1.35) / genes.bodyLength / 1.25;
       graphics.translateCanvas(0, r * 0.1);
-      paintBeeLegs(graphics, genes, size, ICON_SPECKS);
-      paintBeeBody(graphics, genes, size);
+      paintBeeLegs(graphics, genes, size, ICON_SPECKS, ICON_LIGHTING);
+      paintBeeBody(graphics, genes, size, ICON_LIGHTING);
       paintIconWings(graphics, genes, size, BEE_VEINS);
       break;
     }

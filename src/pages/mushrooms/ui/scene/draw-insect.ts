@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import { ellipse, type Point, sample } from '../../model/geometry';
 import type { ButterflyGenes } from '../../model/insect-genes';
 import {
   ABDOMEN,
@@ -17,8 +17,15 @@ import {
 } from '../../model/insect-outline';
 import { proboscisLine } from '../../model/proboscis';
 import { mix, nudgeHue } from './colour';
+import { inkFor, type Lighting, litSide, TAPER } from './ink';
 import { PALETTE } from './palette';
-import { crescent, fillShape, strokeLine, strokeShape } from './shapes';
+import {
+  crescent,
+  fillShape,
+  inkUnder,
+  strokeLine,
+  strokeTapered,
+} from './shapes';
 
 const SIDES: readonly Side[] = [-1, 1];
 const SHADE_ALPHA = 0.2;
@@ -51,7 +58,7 @@ export function scaled(size: number): (point: Point) => Point {
 }
 
 /** An ink line for an insect `size` across its unit, never under a hairline. */
-export function inkFor(size: number): number {
+export function insectInk(size: number): number {
   return Math.max(1.5, size * 0.028);
 }
 
@@ -68,14 +75,17 @@ export function paintWings(
   genes: ButterflyGenes,
   pair: WingPair,
   size: number,
+  lighting: Lighting,
 ): void {
+  const { toward, hairline } = lighting;
   const at = scaled(size);
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   const { base: own, pattern } = hues(genes);
   const base = pair === 'hind' ? mix(own, pattern, HIND_TOWARD_PATTERN) : own;
   const breadth = genes[pair].breadth * size;
   for (const side of SIDES) {
     const outline = wingOutline(genes, pair, side).map((point) => at(point));
+    inkUnder(graphics, outline, inkFor(pattern), ink, lighting);
     graphics.fillStyle(pattern);
     fillShape(graphics, outline);
     const inner = wingOutline(genes, pair, side, [
@@ -92,10 +102,10 @@ export function paintWings(
       const out = Math.round(u * steps);
       const index = out >= steps ? steps : 2 * steps - out;
       const edge = outline[index] ?? outline[0] ?? { x: 0, y: 0 };
-      const toward = inner[index] ?? edge;
+      const within = inner[index] ?? edge;
       return {
-        x: (edge.x * 3 + toward.x * 2) / 5,
-        y: (edge.y * 3 + toward.y * 2) / 5,
+        x: (edge.x * 3 + within.x * 2) / 5,
+        y: (edge.y * 3 + within.y * 2) / 5,
       };
     });
     graphics.fillStyle(mix(pattern, PALETTE.highlight, 0.65));
@@ -113,6 +123,17 @@ export function paintWings(
       graphics.fillStyle(rings[index % rings.length] ?? pattern);
       graphics.fillCircle(eye.x, eye.y, radius * breadth);
     }
+    // A fine rim of light round the eye's outer ring, on the sun's side.
+    const outer = (genes.eyes[0] ?? 0) * breadth - hairline;
+    const sun = Math.atan2(toward.y, toward.x);
+    graphics.lineStyle(Math.max(1, hairline), PALETTE.rimLight, 0.9);
+    strokeLine(
+      graphics,
+      sample(sun - 1, sun + 1, 8, (angle) => ({
+        x: eye.x + outer * Math.cos(angle),
+        y: eye.y + outer * Math.sin(angle),
+      })),
+    );
     const innermost = (genes.eyes.at(-1) ?? 0) * breadth;
     graphics.fillStyle(PALETTE.highlight, 0.85);
     graphics.fillCircle(
@@ -124,11 +145,11 @@ export function paintWings(
     const trailing = wingTrailingEdge(genes, pair, side).map((point) =>
       at(point),
     );
-    graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
+    graphics.fillStyle(PALETTE.shadeCool, SHADE_ALPHA);
     fillShape(graphics, crescent(trailing, eye, breadth * 0.28));
     if (pair === 'fore') {
       const root = outline[0] ?? eye;
-      graphics.fillStyle(PALETTE.highlight, SHINE_ALPHA);
+      graphics.fillStyle(PALETTE.rimLight, SHINE_ALPHA);
       graphics.fillEllipse(
         (eye.x + root.x * 2) / 3 - breadth * 0.08,
         (eye.y + root.y * 2) / 3 - breadth * 0.14,
@@ -136,8 +157,6 @@ export function paintWings(
         breadth * 0.18,
       );
     }
-    graphics.lineStyle(ink, PALETTE.ink);
-    strokeShape(graphics, outline);
   }
 }
 
@@ -146,21 +165,22 @@ export function paintBody(
   graphics: Phaser.GameObjects.Graphics,
   genes: ButterflyGenes,
   size: number,
+  lighting: Lighting,
 ): void {
   const at = scaled(size);
-  const ink = inkFor(size);
+  const ink = insectInk(size);
+  const bodyInk = inkFor(PALETTE.insectBody);
   const { pattern } = hues(genes);
   for (const side of SIDES) {
     const line = antenna(genes, side).map((point) => at(point));
-    graphics.lineStyle(ink, PALETTE.ink);
-    strokeLine(graphics, line);
+    graphics.fillStyle(bodyInk);
+    strokeTapered(graphics, line, [ink, ink * TAPER], lighting);
     const club = line.at(-1);
     if (club) {
       const clubR = genes.bodyWidth * size * 0.32;
+      inkUnder(graphics, ellipse(club, clubR), bodyInk, ink * 0.8, lighting);
       graphics.fillStyle(PALETTE.insectBody);
       graphics.fillCircle(club.x, club.y, clubR);
-      graphics.lineStyle(ink * 0.8, PALETTE.ink);
-      graphics.strokeCircle(club.x, club.y, clubR);
     }
   }
   const [head, thorax, abdomen] = bodyParts(genes).map((part) =>
@@ -168,10 +188,9 @@ export function paintBody(
   );
   for (const part of [abdomen, thorax, head]) {
     if (!part) continue;
+    inkUnder(graphics, part, bodyInk, ink, lighting);
     graphics.fillStyle(PALETTE.insectBody);
     fillShape(graphics, part);
-    graphics.lineStyle(ink, PALETTE.ink);
-    strokeShape(graphics, part);
   }
   // Rings round the abdomen in the pattern's colour, so the body is its wings' kin.
   const width = genes.bodyWidth * size;
@@ -185,15 +204,16 @@ export function paintBody(
     const half = width * 0.4 * Math.sqrt(1 - (step * 0.33) ** 2);
     graphics.lineBetween(-half, y, half, y);
   }
+  const lit = litSide(lighting.toward);
   graphics.fillStyle(PALETTE.highlight, SHINE_ALPHA * 0.8);
   graphics.fillEllipse(
-    -width * 0.15,
+    lit * width * 0.15,
     -length * 0.22,
     width * 0.35,
     length * 0.16,
   );
   graphics.fillEllipse(
-    -width * 0.12,
+    lit * width * 0.12,
     length * 0.1,
     width * 0.28,
     length * 0.28,
@@ -218,16 +238,20 @@ export function paintProboscis(
   genes: ButterflyGenes,
   size: number,
   { reach, nectar, side }: Reaching,
+  lighting: Lighting,
 ): void {
   if (reach < PROBOSCIS_HIDDEN) return;
   const at = scaled(size);
   const line = proboscisLine(genes, reach, nectar, side).map((point) =>
     at(point),
   );
-  const ink = inkFor(size);
-  graphics.lineStyle(ink * PROBOSCIS_THICKNESS, PALETTE.ink);
-  strokeLine(graphics, line);
-  graphics.lineStyle(ink * (PROBOSCIS_THICKNESS - 1), hues(genes).pattern);
+  const ink = insectInk(size);
+  const { pattern } = hues(genes);
+  const tube = ink * (PROBOSCIS_THICKNESS - 1);
+  // The ink either side of the tube thins toward its tip.
+  graphics.fillStyle(inkFor(pattern));
+  strokeTapered(graphics, line, [tube + ink, tube + ink * TAPER], lighting);
+  graphics.lineStyle(tube, pattern);
   strokeLine(graphics, line);
 }
 
@@ -236,8 +260,9 @@ export function drawInsect(
   { hind, fore, body }: InsectParts,
   genes: ButterflyGenes,
   size: number,
+  lighting: Lighting,
 ): void {
-  paintWings(hind.clear(), genes, 'hind', size);
-  paintWings(fore.clear(), genes, 'fore', size);
-  paintBody(body.clear(), genes, size);
+  paintWings(hind.clear(), genes, 'hind', size, lighting);
+  paintWings(fore.clear(), genes, 'fore', size, lighting);
+  paintBody(body.clear(), genes, size, lighting);
 }

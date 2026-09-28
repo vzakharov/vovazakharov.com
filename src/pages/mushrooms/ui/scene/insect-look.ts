@@ -38,6 +38,7 @@ import {
   paintProboscis,
   type Reaching,
 } from './draw-insect';
+import type { Lighted, Lighting } from './ink';
 import type { Perched } from './insect-view';
 import type { Footing } from './layout';
 
@@ -76,7 +77,8 @@ type FlyLook = OfKind<'fly'> & BuzzParts & { genes: FlyGenes; rub: number };
 type BeeLook = OfKind<'bee'> &
   BuzzParts &
   Pick<Pollen, 'specks'> & { genes: BeeGenes };
-export type Look = ButterflyLook | FlyLook | BeeLook;
+/** Each look, and the light it was last painted in, which its every repaint keeps. */
+export type Look = (ButterflyLook | FlyLook | BeeLook) & Lighted;
 
 /** What a frame poses a look by: the leg with its stay, the clock in ms, the flier and its motion, and its size to its unit in pixels. */
 export type Moment = Timed &
@@ -99,13 +101,15 @@ export type Drinking = Pick<Perched, 'nectar'> & {
 export function lookOf(
   scene: Phaser.Scene,
   flier: Flier,
+  lighting: Lighting,
 ): { look: Look; stack: Phaser.GameObjects.Graphics[] } {
   const make = () => scene.add.graphics();
   const genes = insectGenes(flier);
   switch (genes.kind) {
     case 'butterfly': {
-      const look: ButterflyLook = {
+      const look: ButterflyLook & Lighted = {
         kind: 'butterfly',
+        lighting,
         hind: make(),
         fore: make(),
         body: make(),
@@ -139,8 +143,8 @@ export function lookOf(
       ];
       const look: Look =
         genes.kind === 'fly'
-          ? { kind: 'fly', ...parts, genes, rub: 0 }
-          : { kind: 'bee', ...parts, genes, specks: 0 };
+          ? { kind: 'fly', ...parts, genes, rub: 0, lighting }
+          : { kind: 'bee', ...parts, genes, specks: 0, lighting };
       return { look, stack };
     }
     default: {
@@ -158,18 +162,24 @@ export function drawLook(
 ): void {
   switch (look.kind) {
     case 'butterfly': {
-      drawInsect(look, look.genes, size);
+      drawInsect(look, look.genes, size, look.lighting);
       paintReach(look, size);
       return;
     }
     case 'fly': {
-      drawFly(look, look.genes, size);
-      paintFlyLegs(look.legs.clear(), look.genes, size, look.rub);
+      drawFly(look, look.genes, size, look.lighting);
+      paintFlyLegs(
+        look.legs.clear(),
+        look.genes,
+        size,
+        look.rub,
+        look.lighting,
+      );
       return;
     }
     case 'bee': {
       look.specks = flier.kind === 'bee' ? specksAt(flier, now) : 0;
-      drawBee(look, look.genes, size, look.specks);
+      drawBee(look, look.genes, size, look.specks, look.lighting);
       return;
     }
     default: {
@@ -208,7 +218,7 @@ export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
           (rub === 0) !== (look.rub === 0)
         ) {
           look.rub = rub;
-          paintFlyLegs(look.legs.clear(), look.genes, size, rub);
+          paintFlyLegs(look.legs.clear(), look.genes, size, rub, look.lighting);
         }
         return;
       }
@@ -216,7 +226,13 @@ export function poseLook(look: Look, moment: Moment, drinking: Drinking): void {
       const specks = flier.kind === 'bee' ? specksAt(flier, now) : 0;
       if (specks !== look.specks) {
         look.specks = specks;
-        paintBeeLegs(look.legs.clear(), look.genes, size, specks);
+        paintBeeLegs(
+          look.legs.clear(),
+          look.genes,
+          size,
+          specks,
+          look.lighting,
+        );
       }
       return;
     }
@@ -253,7 +269,7 @@ export function fidget(look: Look, { stay, now, motion, size }: Moment): Point {
 
 /** Uncurls a butterfly's proboscis into the flower it drinks at, repainting it only as far as it has moved. */
 function poseProboscis(
-  look: ButterflyLook,
+  look: ButterflyLook & Lighted,
   { stay, now, size }: Moment,
   { middle, rotation, nectar: flower }: Drinking,
 ): void {
@@ -277,9 +293,15 @@ function poseProboscis(
   }
 }
 
-function paintReach(look: ButterflyLook, size: number): void {
-  const { genes, reach, nectar, side = 1 } = look;
-  paintProboscis(look.proboscis.clear(), genes, size, { reach, nectar, side });
+function paintReach(look: ButterflyLook & Lighted, size: number): void {
+  const { genes, reach, nectar, side = 1, lighting } = look;
+  paintProboscis(
+    look.proboscis.clear(),
+    genes,
+    size,
+    { reach, nectar, side },
+    lighting,
+  );
 }
 
 /** A new leg's drink begins afresh: its proboscis bows out to whichever side the flower is, once it reaches. */

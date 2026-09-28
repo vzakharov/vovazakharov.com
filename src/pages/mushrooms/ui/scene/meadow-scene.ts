@@ -350,7 +350,7 @@ export class MeadowScene extends Phaser.Scene {
     // One device pixel is the thinnest line the screen shows.
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);
-    this.insects?.paint(layout);
+    this.insects?.paint(layout, lighting);
     this.flowers?.paint(layout, lighting);
     this.see();
     this.repaintControls();

@@ -17,6 +17,7 @@ import {
 import type { Flier } from '../../model/insects';
 import { phaseOf, smooth, wobble } from '../../model/motion';
 import { containsCircle, type TappedFigure } from './hit-areas';
+import type { Lighting } from './ink';
 import {
   drawLook,
   fidget,
@@ -92,6 +93,8 @@ export class InsectView {
   private readonly shown = new Map<string, Shown>();
   private width = 1;
   private height = 1;
+  /** The light the insects are drawn in, as the screen last stood. */
+  private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
     butterfly: 1,
     fly: 1,
@@ -158,11 +161,16 @@ export class InsectView {
    * takes its aim afresh, and forgets where its perch stood last frame, since
    * both were measured on the screen as it was.
    */
-  paint({ width, height, insectSizes }: MeadowLayout): void {
+  paint(
+    { width, height, insectSizes }: MeadowLayout,
+    lighting: Lighting,
+  ): void {
+    this.lighting = lighting;
     this.width = width;
     this.height = height;
     this.sizes = insectSizes;
     for (const shown of this.shown.values()) {
+      shown.look.lighting = lighting;
       shown.aim = undefined;
       shown.steering = { ...shown.steering, perch: undefined };
       this.draw(shown);
@@ -255,7 +263,8 @@ export class InsectView {
 
   private show(flier: Flier): Shown {
     const hit = new Phaser.Geom.Circle();
-    const { look, stack } = lookOf(this.scene, flier);
+    if (!this.lighting) throw new Error('An insect is shown before its paint');
+    const { look, stack } = lookOf(this.scene, flier, this.lighting);
     const container = this.scene.add
       .container(0, 0, stack)
       .setDepth(this.depth)

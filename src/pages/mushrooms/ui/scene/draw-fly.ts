@@ -10,9 +10,10 @@ import type { FlyGenes } from '../../model/fly-genes';
 import { ellipse, type Point } from '../../model/geometry';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
-import { inkFor, scaled } from './draw-insect';
+import { insectInk, scaled } from './draw-insect';
+import { inkFor, type Lighting, litSide } from './ink';
 import { PALETTE } from './palette';
-import { crescent, fillShape, ovalArc, strokeShape } from './shapes';
+import { crescent, fillShape, inkUnder, ovalArc } from './shapes';
 
 /** How far the body takes its sheen, and its shine the same sheen paled. */
 const SHEEN = 0.42;
@@ -38,33 +39,36 @@ export function paintFlyBody(
   graphics: Phaser.GameObjects.Graphics,
   genes: FlyGenes,
   size: number,
+  lighting: Lighting,
 ): void {
+  const sun = lighting.toward;
+  const lit = litSide(sun);
+  const away = Math.atan2(-sun.y, -sun.x);
   const at = scaled(size);
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   const sheen = nudgeHue(PALETTE.flySheens[genes.sheen], genes.hueNudge);
   const base = mix(PALETTE.flyBody, sheen, SHEEN);
   const { head, thorax, abdomen } = anatomy(genes);
   for (const part of [abdomen, thorax]) {
     const outline = ellipse(part, part.rx, part.ry).map((point) => at(point));
+    inkUnder(graphics, outline, inkFor(base), ink, lighting);
     graphics.fillStyle(base);
     fillShape(graphics, outline);
-    // The shade along the right, the light coming from the top left.
-    const right = ovalArc(
+    // The shade along the side turned from the light.
+    const shaded = ovalArc(
       part,
       [part.rx, part.ry],
-      [-Math.PI / 2, Math.PI / 2],
+      [away - Math.PI / 2, away + Math.PI / 2],
     ).map((point) => at(point));
-    graphics.fillStyle(PALETTE.shadeInk, SHADE_ALPHA);
-    fillShape(graphics, crescent(right, at(part), part.rx * size * 0.45));
+    graphics.fillStyle(PALETTE.shadeCool, SHADE_ALPHA);
+    fillShape(graphics, crescent(shaded, at(part), part.rx * size * 0.45));
     graphics.fillStyle(mix(sheen, PALETTE.highlight, SHINE), 0.8);
     graphics.fillEllipse(
-      (part.x - part.rx * 0.35) * size,
+      (part.x + lit * part.rx * 0.35) * size,
       (part.y - part.ry * 0.3) * size,
       part.rx * size * 0.55,
       part.ry * size * 0.7,
     );
-    graphics.lineStyle(ink, PALETTE.ink);
-    strokeShape(graphics, outline);
   }
   // The abdomen's segments.
   graphics.lineStyle(Math.max(1, ink * 0.6), PALETTE.ink, 0.55);
@@ -73,11 +77,11 @@ export function paintFlyBody(
     const half = abdomen.rx * Math.sqrt(1 - step ** 2) * 0.8;
     graphics.lineBetween(-half * size, y * size, half * size, y * size);
   }
+  const face = at(head);
+  inkUnder(graphics, ellipse(face, head.r * size), inkFor(base), ink, lighting);
   graphics.fillStyle(base);
-  graphics.fillCircle(head.x * size, head.y * size, head.r * size);
-  graphics.lineStyle(ink, PALETTE.ink);
-  graphics.strokeCircle(head.x * size, head.y * size, head.r * size);
-  paintEyes(graphics, genes, size, head);
+  graphics.fillCircle(face.x, face.y, head.r * size);
+  paintEyes(graphics, genes, size, head, lighting);
 }
 
 /** Two big red eyes either side of the head, each with its shine, so the fly has a face. */
@@ -86,29 +90,30 @@ function paintEyes(
   { eyeRadius }: FlyGenes,
   size: number,
   head: Point & { r: number },
+  lighting: Lighting,
 ): void {
-  const ink = inkFor(size);
+  const ink = insectInk(size);
+  const lit = litSide(lighting.toward);
   const r = eyeRadius * size;
   for (const side of SIDES) {
     const eye = {
       x: (head.x + side * (head.r * 0.55 + eyeRadius * 0.45)) * size,
       y: (head.y - eyeRadius * 0.15) * size,
     };
+    inkUnder(graphics, ellipse(eye, r), inkFor(PALETTE.flyEye), ink, lighting);
     graphics.fillStyle(PALETTE.flyEye);
     graphics.fillCircle(eye.x, eye.y, r);
     const back = ovalArc(eye, [r, r], [0.2, Math.PI - 0.2]);
     graphics.fillStyle(PALETTE.flyEyeDeep, 0.8);
     fillShape(graphics, crescent(back, eye, r * 0.4));
-    graphics.lineStyle(ink, PALETTE.ink);
-    graphics.strokeCircle(eye.x, eye.y, r);
     graphics.fillStyle(PALETTE.highlight, 0.95);
     graphics.fillCircle(
-      eye.x - r * 0.3,
+      eye.x + lit * r * 0.3,
       eye.y - r * 0.32,
       Math.max(1, r * 0.3),
     );
     graphics.fillCircle(
-      eye.x + r * 0.28,
+      eye.x - lit * r * 0.28,
       eye.y + r * 0.2,
       Math.max(0.6, r * 0.12),
     );
@@ -129,6 +134,7 @@ export function paintFlyLegs(
   genes: FlyGenes,
   size: number,
   rub: number,
+  lighting: Lighting,
 ): void {
   const at = scaled(size);
   const { thorax, head } = anatomy(genes);
@@ -152,6 +158,7 @@ export function paintFlyLegs(
         graphics,
         [hip, knee, foot].map((point) => at(point)),
         size,
+        lighting,
       );
     }
     // The front pair reaches forward beside the head, or up and across it.
@@ -172,13 +179,19 @@ export function paintFlyLegs(
         toward(down.foot, up.foot, rub),
       ].map((point) => at(point)),
       size,
+      lighting,
     );
   }
 }
 
 /** Paints a fly `size` to its unit into its parts, its legs down, its wings laid back. */
-export function drawFly(parts: BuzzParts, genes: FlyGenes, size: number): void {
-  paintFlyLegs(parts.legs.clear(), genes, size, 0);
-  paintFlyBody(parts.body.clear(), genes, size);
-  drawBuzzWings(parts, genes, size, genes.veins);
+export function drawFly(
+  parts: BuzzParts,
+  genes: FlyGenes,
+  size: number,
+  lighting: Lighting,
+): void {
+  paintFlyLegs(parts.legs.clear(), genes, size, 0, lighting);
+  paintFlyBody(parts.body.clear(), genes, size, lighting);
+  drawBuzzWings(parts, genes, size, genes.veins, lighting);
 }

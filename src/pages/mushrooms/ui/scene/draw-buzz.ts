@@ -10,9 +10,10 @@ import type * as Phaser from 'phaser';
 import { type Point, sample } from '../../model/geometry';
 import type { Buzzing } from '../../model/insect-genes';
 import { buzzRoot, buzzWing, type Side } from '../../model/insect-outline';
-import { inkFor, scaled } from './draw-insect';
+import { insectInk, scaled } from './draw-insect';
+import { inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
-import { fillShape, strokeLine, strokeShape } from './shapes';
+import { fillShape, strokeLine, strokeShape, strokeTapered } from './shapes';
 
 export const SIDES: readonly Side[] = [-1, 1];
 /** A clear wing's glass, and its veins', alpha. */
@@ -47,13 +48,14 @@ export function paintWing(
   side: Side,
   size: number,
   veins: number,
+  { hairline }: Pick<Lighting, 'hairline'>,
 ): void {
   const root = buzzRoot(genes, side);
   const at = scaled(size);
   const own = (point: Point) =>
     at({ x: point.x - root.x, y: point.y - root.y });
   const outline = buzzWing(genes, side, 0).map((point) => own(point));
-  const ink = inkFor(size);
+  const ink = insectInk(size);
   graphics.fillStyle(PALETTE.wingGlass, GLASS_ALPHA);
   fillShape(graphics, outline);
   // The outline runs out along one edge and back along the other, so the
@@ -79,7 +81,12 @@ export function paintWing(
     Math.max(2, Math.abs(tip.y) * 0.25 + size * 0.03),
     Math.max(1.5, size * 0.035),
   );
-  graphics.lineStyle(Math.max(1, ink * 0.75), PALETTE.ink, 0.85);
+  // A stroke, not an underlay: the glass is clear, and an ink under it would show through.
+  graphics.lineStyle(
+    Math.max(hairline, ink * 0.75),
+    inkFor(PALETTE.wingGlass),
+    0.85,
+  );
   strokeShape(graphics, outline);
 }
 
@@ -127,22 +134,25 @@ export function drawBuzzWings(
   genes: Buzzing,
   size: number,
   veins: number,
+  lighting: Lighting,
 ): void {
-  paintWing(parts.left.clear(), genes, -1, size, veins);
-  paintWing(parts.right.clear(), genes, 1, size, veins);
+  paintWing(parts.left.clear(), genes, -1, size, veins, lighting);
+  paintWing(parts.right.clear(), genes, 1, size, veins, lighting);
   rootWings(parts, genes, size);
   paintBlur(parts.blur.clear(), genes, size);
 }
 
-/** A leg as a jointed ink line through `points`, already in pixels, its foot a dot. */
+/** A leg as a jointed ink line through `points`, already in pixels, thinning from the hip to its foot, a dot. */
 export function paintLeg(
   graphics: Phaser.GameObjects.Graphics,
   points: readonly Point[],
   size: number,
+  lighting: Pick<Lighting, 'hairline'>,
 ): void {
-  const ink = inkFor(size);
-  graphics.lineStyle(Math.max(1.2, ink * 0.9), PALETTE.ink);
-  strokeLine(graphics, points);
+  const ink = insectInk(size);
+  const hip = Math.max(1.2, ink * 0.9);
+  graphics.fillStyle(PALETTE.ink);
+  strokeTapered(graphics, points, [hip, hip * TAPER], lighting);
   const foot = points.at(-1);
   if (foot) {
     graphics.fillStyle(PALETTE.ink);
