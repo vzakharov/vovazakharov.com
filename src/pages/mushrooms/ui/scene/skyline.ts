@@ -115,6 +115,44 @@ export function nearSkyline(
   );
 }
 
+/** How far above and below the ground's top its seam with the near hills wanders, as a share of the ground's depth. */
+export const SEAM_REACH = 0.035;
+/** One swell of the seam, in CSS pixels across. */
+const SEAM_WAVELENGTH = 290;
+const SEAM_STEPS = 128;
+
+/**
+ * Where the ground meets the near hills' foot: a line wavering about the
+ * ground's top by `SEAM_REACH`, so the meadow's far edge has no straight line
+ * in it. It depends on the screen alone, so the ground and the grass that
+ * lines it read the same seam.
+ */
+export function groundSeam({
+  width,
+  height,
+  groundTop,
+}: MeadowLayout): Point[] {
+  const reach = (height - groundTop) * SEAM_REACH;
+  const waves = (width / SEAM_WAVELENGTH) * Math.PI * 2;
+  return sample(0, 1, SEAM_STEPS, (t) => {
+    const swell =
+      0.6 * Math.sin(t * waves + 0.7) + 0.4 * Math.sin(t * waves * 2.7 + 2.1);
+    return { x: t * width, y: groundTop + reach * swell };
+  });
+}
+
+/** The seam's height at `x`, between the two points either side; level past either end. */
+export function seamAt(seam: readonly Point[], x: number): number {
+  const after = seam.findIndex((point) => point.x >= x);
+  const right = after === -1 ? seam.at(-1) : seam[after];
+  const left = seam[after - 1] ?? right;
+  if (!left || !right) return 0;
+  const span = right.x - left.x;
+  return span === 0
+    ? right.y
+    : left.y + ((right.y - left.y) * (x - left.x)) / span;
+}
+
 /**
  * `line` with a point added wherever it crosses one of `levels`, so clamping
  * its points to a band is the same as clamping the line itself.

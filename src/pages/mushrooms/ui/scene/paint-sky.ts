@@ -32,7 +32,7 @@ const HIGH_CLOUD_HAZE = 0.2;
 export type Layer = () => Phaser.GameObjects.Graphics;
 
 /** Horizontal bands from `top` to `bottom`, the colour at each from `colourAt` of its share down, 0 to 1. */
-export function fillBands(
+function fillBands(
   graphics: Phaser.GameObjects.Graphics,
   width: number,
   [top, bottom]: readonly [number, number],

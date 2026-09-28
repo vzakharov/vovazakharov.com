@@ -5,6 +5,7 @@
  */
 
 import { PALETTE } from './palette';
+import { SEAM_REACH } from './skyline';
 
 /** `from` blended toward `to` by `t`, channel by channel, rounded. */
 export function blend(from: number, to: number, t: number): number {
@@ -76,15 +77,17 @@ export function skyAt(down: number): number {
 
 /**
  * The ground's colour stops, as shares of the way from its top to the bottom
- * edge: it opens on the near range's foot, so the seam draws no line; is lit
- * and yellow only behind the flowers' back row; and deepens to `groundDeep`
- * at the bottom, never past it.
+ * edge: it holds the near range's foot as far down as the seam wanders, so
+ * the seam draws no line; lifts to the lit ground over a band rather than a
+ * step, and is lit and yellow only about the flowers' back row; and deepens
+ * to `groundDeep` at the bottom, never past it.
  */
 export const GROUND_STOPS: readonly Stop[] = [
   [0, RANGES.near.foot],
-  [0.05, blend(PALETTE.groundLit, PALETTE.air, 0.12)],
-  [0.14, PALETTE.groundLit],
-  [0.42, PALETTE.ground],
+  [SEAM_REACH, RANGES.near.foot],
+  [0.1, blend(PALETTE.groundLit, PALETTE.air, 0.15)],
+  [0.18, PALETTE.groundLit],
+  [0.44, PALETTE.ground],
   [0.92, blend(PALETTE.ground, PALETTE.groundDeep, 0.9)],
   [1, PALETTE.groundDeep],
 ];

@@ -4,14 +4,14 @@ import { sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
 import { groundAt, RANGES, ridgeTone } from './backdrop-tones';
 import { mix } from './colour';
-import { grainPixels, mottles } from './grain';
+import { grainPixels, grainStrips, mottles } from './grain';
 import type { MeadowLayout } from './layout';
-import { fillBands } from './paint-sky';
 import { PALETTE } from './palette';
 import { fillShape } from './shapes';
 import {
   farSkyline,
   farthestSkyline,
+  groundSeam,
   hillBands,
   litRidge,
   nearSkyline,
@@ -28,12 +28,18 @@ const GRAIN_ALPHA = 0.07;
 /** CSS pixels per grain texel. */
 const GRAIN_SCALE = 1;
 
-/** Each range: its skyline, its tones, how far below the ground's top its floor lies, and its sunlit rim's depth; farthest first. */
+/**
+ * Each range: its skyline, its tones, whether its floor reaches down past the
+ * seam's lowest point (the near range's foot lies under the whole seam) or
+ * stops at the ground's top, and its sunlit rim's depth; farthest first.
+ */
 const RANGE_FLOORS = [
-  [farthestSkyline, RANGES.farthest, 0, 2],
-  [farSkyline, RANGES.far, 0, 3],
-  [nearSkyline, RANGES.near, 2, 4],
+  [farthestSkyline, RANGES.farthest, false, 2],
+  [farSkyline, RANGES.far, false, 3],
+  [nearSkyline, RANGES.near, true, 4],
 ] as const;
+/** How far past the seam's lowest point the near range's foot reaches, so no sliver of sky shows under it. */
+const FOOT_OVERLAP = 2;
 
 /**
  * The three hill ranges, farthest first, each nearer the air the farther it
@@ -46,13 +52,11 @@ export function paintRanges(
   random: Random,
 ): void {
   const light = sunLight(layout);
-  for (const [skyline, { lit, foot }, below, rim] of RANGE_FLOORS) {
+  const seamBottom = Math.max(...groundSeam(layout).map(({ y }) => y));
+  for (const [skyline, { lit, foot }, underSeam, rim] of RANGE_FLOORS) {
     const line = skyline(random, layout);
-    for (const { outline, down } of hillBands(
-      line,
-      layout.groundTop + below,
-      HILL_BANDS,
-    )) {
+    const floor = underSeam ? seamBottom + FOOT_OVERLAP : layout.groundTop;
+    for (const { outline, down } of hillBands(line, floor, HILL_BANDS)) {
       graphics.fillStyle(mix(lit, foot, down));
       fillShape(graphics, outline);
     }
@@ -61,14 +65,24 @@ export function paintRanges(
   }
 }
 
-/** The ground from the near hills' foot to the bottom edge, lit far and deeper near, mottled. */
+/**
+ * The ground from its seam with the near hills to the bottom edge, lit far
+ * and deeper near, mottled: bands under the seam, each toned by how far down
+ * the ground it starts.
+ */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
   random: Random,
 ): void {
-  const { width, height, groundTop } = layout;
-  fillBands(graphics, width, [groundTop, height], groundAt, GROUND_BANDS);
+  const { height, groundTop } = layout;
+  const seam = groundSeam(layout);
+  const top = Math.min(...seam.map(({ y }) => y));
+  for (const { outline, down } of hillBands(seam, height, GROUND_BANDS)) {
+    const y = top + (height - top) * down * ((GROUND_BANDS - 1) / GROUND_BANDS);
+    graphics.fillStyle(groundAt((y - groundTop) / (height - groundTop)));
+    fillShape(graphics, outline);
+  }
   // Each patch twice, the outer at a wider reach, so its edge is soft.
   for (const { x, y, rx, ry, deep } of mottles(random, layout)) {
     graphics.fillStyle(
@@ -86,15 +100,16 @@ export function paintGround(
 
 /**
  * The grain over the ground, under the grass and every creature: one tile
- * texture made from `seed` the first time, then one sprite sized to the
- * ground, reused on every repaint.
+ * texture made from `seed` the first time, then one sprite per strip of
+ * `grainStrips`, reused on every repaint, the texture lying continuous across
+ * the strips.
  */
 export function paintGrain(
   scene: Phaser.Scene,
-  existing: Phaser.GameObjects.TileSprite | undefined,
-  { width, height, groundTop }: MeadowLayout,
+  existing: readonly Phaser.GameObjects.TileSprite[] | undefined,
+  layout: MeadowLayout,
   seed: number,
-): Phaser.GameObjects.TileSprite {
+): Phaser.GameObjects.TileSprite[] {
   if (!scene.textures.exists(GRAIN_KEY)) {
     const texture = scene.textures.createCanvas(
       GRAIN_KEY,
@@ -109,12 +124,15 @@ export function paintGrain(
     context.putImageData(image, 0, 0);
     texture.refresh();
   }
-  const grain =
-    existing ?? scene.add.tileSprite(0, 0, width, height, GRAIN_KEY);
-  return grain
-    .setOrigin(0, 0)
-    .setPosition(0, groundTop)
-    .setSize(width, height - groundTop)
-    .setTileScale(GRAIN_SCALE)
-    .setAlpha(GRAIN_ALPHA);
+  const { width } = layout;
+  const top = Math.min(...groundSeam(layout).map(({ y }) => y));
+  return grainStrips(layout, top).map(({ top: from, bottom, share }, index) =>
+    (existing?.[index] ?? scene.add.tileSprite(0, 0, width, 1, GRAIN_KEY))
+      .setOrigin(0, 0)
+      .setPosition(0, from)
+      .setSize(width, bottom - from)
+      .setTileScale(GRAIN_SCALE)
+      .setTilePosition(0, from / GRAIN_SCALE)
+      .setAlpha(GRAIN_ALPHA * share),
+  );
 }

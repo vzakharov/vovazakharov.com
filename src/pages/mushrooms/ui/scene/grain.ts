@@ -59,3 +59,27 @@ export function grainPixels(seed: number, side: number): Uint8ClampedArray {
   }
   return pixels;
 }
+
+/** How far down the ground, as a share of its depth, the grain takes to come fully in, and in how many strips. */
+const GRAIN_RAMP = 0.2;
+const GRAIN_STEPS = 10;
+
+/** One strip of the grain: the rows it covers, in CSS pixels, and its share of the grain's full alpha. */
+export type GrainStrip = { top: number; bottom: number; share: number };
+
+/**
+ * The grain's strips from `top`, the seam's highest point, to the bottom
+ * edge, each a little stronger than the one above: the grain fades in over
+ * `GRAIN_RAMP` of the ground rather than stepping in along one line.
+ */
+export function grainStrips(
+  { height, groundTop }: MeadowLayout,
+  top: number,
+): GrainStrip[] {
+  const step = ((height - groundTop) * GRAIN_RAMP) / GRAIN_STEPS;
+  return Array.from({ length: GRAIN_STEPS + 1 }, (_, index) => ({
+    top: top + index * step,
+    bottom: index === GRAIN_STEPS ? height : top + (index + 1) * step,
+    share: (index + 1) / (GRAIN_STEPS + 1),
+  }));
+}

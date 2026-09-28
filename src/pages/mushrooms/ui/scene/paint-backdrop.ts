@@ -11,11 +11,11 @@ import {
   paintWash,
 } from './paint-sky';
 
-/** The backdrop's objects in painting order, which of them are clouds, and the grain over them all. */
+/** The backdrop's objects in painting order, which of them are clouds, and the grain's strips over them all. */
 export type Backdrop = {
   layers: Phaser.GameObjects.Graphics[];
   clouds: Phaser.GameObjects.Graphics[];
-  grain: Phaser.GameObjects.TileSprite;
+  grain: Phaser.GameObjects.TileSprite[];
 };
 
 /**
