@@ -497,25 +497,7 @@ Standing rules for every session in the chain:
      the spots; the stem's foot stands level and rounded over a centred
      contact shadow.
 
-## Rest of the elephant
-
-In order.
-
-**Open:** from bite 7's handling — a mushroom house's door stations are
-laid out on the unturned stem while the stem's foot now levels against the
-turn (its tests pass; the model lags the drawing); the contact shadow is
-faint on the lit grass (alpha 0.3), which bite 8's stockier porcini may want
-stronger; a brown fill between luminance 0.021 and ~0.045 gets only a
-1.2–1.5:1 edge, so bite 8 keeps porcini tones out of that band; the sky may
-read a little plain since the halo was tamed. Carried from bite 6: fliers are
-kept apart where they sit and hover, not in flight, so a flier crossing
-the meadow is drawn straight over one seated on a cap (frame
-`phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
-seats eight of ten fliers apart, two holding overlapping spots on 33% of
-ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
-from off screen still takes up to 5 s for a butterfly; a butterfly making
-way for a bee leaves its flower moments after landing, which may read as a
-twitch; a flier holding an air spot is drawn still, with no hover bob.
+## This bite
 
 8. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
    different doors as different caps. The operator keeps the misreading's
@@ -532,6 +514,60 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
    вид, а дальше можно думать"). Behaviour tied to a kind stays with the
    fly agaric: flies still favour it, as `spotted` does now. The new species
    are inked and lit through `ink.ts` and `light.ts`, in the look bite 7 set.
+
+   Decided for the bite:
+   - **Species, not caps.** `CAP_KINDS` becomes `MUSHROOM_SPECIES`
+     (`fly-agaric`, `porcini`, `chanterelle`, `russula`, the picker's order)
+     and `Mushroom.cap` becomes `species`, through the probe's schema and the
+     play scripts. `dark-top`, `dark-bottom` and the two-tone band go.
+     `Perches.spotted` keeps its name: the fly agaric is the one spotted cap.
+   - **Genes by species.** One `GENE_RANGES` per species, drawn in the same
+     order so a seed's stream stays aligned, plus the genes a species alone
+     has. Porcini: a short, thick club stem (a foot bulging well past the
+     top), a thick broad dome. Chanterelle: a trumpet — the stem flaring into
+     the cap, the cap's top dipping at the middle and its rim waving, the
+     underside's ridges running down from the rim onto the stem. Russula: a
+     straight white stem and a flattish cap dipping a little at the middle,
+     its colour one of several picked by seed.
+   - **Every layout rule holds for every species, not only the fly agaric.**
+     Each species' `capWidth` floor is at least the fly agaric's 0.72 and its
+     reach inside `maxReach`, so the slot floors and the edge margins keep
+     their meaning; the 2000-visit sweeps in `layout.test.ts` (edges, tap
+     size, cap cover, controls and the sun clear of every slot) run with
+     every species in every slot, and so do the house's window slots and door
+     sight. A chanterelle's tap area is its drawn trumpet, as a fly agaric's is
+     its cap, gills and stem.
+   - **The door stands on the stem as drawn.** `doorStations` follows the
+     levelled, turned foot `stemOutline` draws, and a fat porcini or flared
+     chanterelle stem places its door by its own width.
+   - **Colours.** A porcini's stem is whitish-cream and its cap a warm
+     tan-to-chestnut brown kept out of luminance 0.021–0.045, where the ink
+     rule gives a dark fill only a 1.2–1.5:1 edge; a chanterelle is one
+     egg-yolk orange from foot to rim, its ridges a shade paler; a russula's
+     cap is red, rose, violet, ochre-yellow or green, each through the ink
+     test the palette already runs. The house's windows and door read on
+     every cap and stem.
+   - **The picker and the growth.** The cap picker's four buttons show the
+     four species; a pick grows that species. The meadow still opens with
+     the two fly agarics. A porcini's contact shadow may darken past alpha
+     0.3 if the frames want it.
+   - Split as bites 4–6 were: the model (species, genes, outlines, pose,
+     door stations, sweeps), then the scene (painting, light, palette, the
+     HUD, frames and the play run), then the tail.
+
+## Rest of the elephant
+
+In order.
+
+**Open:** the sky may read a little plain since bite 7 tamed the halo. Carried from bite 6: fliers are
+kept apart where they sit and hover, not in flight, so a flier crossing
+the meadow is drawn straight over one seated on a cap (frame
+`phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
+seats eight of ten fliers apart, two holding overlapping spots on 33% of
+ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
+from off screen still takes up to 5 s for a butterfly; a butterfly making
+way for a bee leaves its flower moments after landing, which may read as a
+twitch; a flier holding an air spot is drawn still, with no hover bob.
 
 9. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
