@@ -251,6 +251,19 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   reads them as a six-year-old would and re-briefs, as with the "for you
   to decide" lines above. The same read caught the suite growing to
   330 s.
+- **The bite's tail is subagent work too, and two of it run in parallel.**
+  Frames plus the Artifact, and the review replies, touch nothing in
+  common, so they ran side by side; `/polish`, then the Artifact's
+  republish plus `/pr`, ran after. The orchestrator's own share was looking
+  at two frames — which caught the sun cut by a straight line in open sky,
+  a defect the frames agent had reported as "matches the 80% the fix aims
+  for". A test that asserts a share of something visible can pass on a
+  visible fault; the fix's test asserted the shape instead (no flat run in
+  the hill line).
+- **`/polish` keys its scope on a bare `polish:` subject.** The branch had
+  none, so a bite-scoped run wrote `polish(bite 6):` to avoid claiming the
+  whole branch was covered. The skill should say which bites a polish
+  commit covers, so a per-bite polish and the scope rule agree.
 
 ## Quality levers
 
