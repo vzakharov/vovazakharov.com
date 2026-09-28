@@ -20,6 +20,7 @@ import { standingAt } from './door-sight';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { meadowLayout } from './layout';
 import {
+  AIR_BELOW,
   airSpots,
   MOST_OVERLAP,
   perchSight,
@@ -243,7 +244,7 @@ describe('WIDEST_SPAN', () => {
 
 describe('airSpots', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`offers a spot for every butterfly and one more on a ${name} screen, inside it and clear of the controls`, () => {
+    it(`offers a spot for every butterfly and one more on a ${name} screen, inside it by half a wingspan and clear of the controls`, () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
         const spots = airSpots(layout);
@@ -251,10 +252,12 @@ describe('airSpots', () => {
         const { picker } = layout;
         const { insectSize, groundTop } = layout;
         const span = WIDEST_SPAN * insectSize;
+        const half = span / 2;
+        const bottom = groundTop + AIR_BELOW * (height - groundTop);
         const controls = [...standingControls(layout), ...picker];
         for (const { x, y } of spots) {
-          assert.ok(x >= span && x <= width - span + 1e-9 && y >= span);
-          assert.ok(y <= Math.max(span, groundTop) + 1e-9);
+          assert.ok(x >= half && x <= width - half + 1e-9 && y >= half);
+          assert.ok(y <= Math.max(half, bottom) + 1e-9);
           for (const control of controls) {
             const apart = Math.hypot(x - control.x, y - control.y);
             assert.ok(apart >= tapReach(control.r) + span / 2);

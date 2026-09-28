@@ -2,7 +2,8 @@
  * The meadow's insects under `release`, `startle` and `tick`: each keeps its
  * own leg, and these decide when it takes the next one. `perches` is what
  * the meadow offers now; a new leg never goes to a perch another insect sits
- * on or is heading to, nor to one crowded by it (`nextFlight`). A bee
+ * on or is heading to, nor to one crowded by it for the two kinds
+ * (`nextFlight`). A bee
  * leaving a flower it pollinated plants one beside it (`sown`), so these
  * hand back the planted flowers with the insects.
  */
@@ -11,11 +12,11 @@ import {
   firstFlight,
   type Flight,
   flightAway,
+  type Held,
   isAloft,
   isLeaving,
   isOffered,
   nextFlight,
-  type Perch,
   type Perches,
 } from './flight';
 import type { Insect, InsectKind, OfKind } from './insect-genes';
@@ -66,11 +67,11 @@ export function evicted<
   return staying.length >= limits[kind] ? staying[0] : undefined;
 }
 
-/** Where each of `insects` other than `self` sits or is heading, leaving ones aside. */
-function takenBy(insects: readonly Flight[], self?: Flight): Perch[] {
+/** Where each of `insects` other than `self` sits or is heading, and its kind, leaving ones aside. */
+function takenBy(insects: readonly Flier[], self?: Flier): Held[] {
   return insects
     .filter((each) => each !== self && !isLeaving(each))
-    .map(({ leg }) => leg.to);
+    .map(({ kind, leg }) => ({ kind, perch: leg.to }));
 }
 
 /** `after`, or `before` when nothing was planted onto it, so an unchanged list keeps its identity. */
@@ -119,7 +120,7 @@ export function released(
   const planted = [...swarm.planted];
   const staying = swarm.insects.map((each) =>
     each === oldest
-      ? tookOff(each, flightAway(each, now), now, perches, planted)
+      ? tookOff(each, flightAway(each, now, perches), now, perches, planted)
       : each,
   );
   const flight = firstFlight(insect, perches, now, takenBy(staying));

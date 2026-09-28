@@ -6,6 +6,7 @@ import {
   type Flight,
   FLIGHT_HABITS,
   flightAway,
+  type Held,
   isAloft,
   isLeaving,
   type Leg,
@@ -19,6 +20,7 @@ const {
   flying: FLYING,
   drinking: DRINKING,
   resting: RESTING,
+  hovering: HOVERING,
 } = FLIGHT_HABITS[kind];
 /** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
 const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
@@ -46,6 +48,11 @@ function journey(seed: number, legs: number, perches = PERCHES): Leg[] {
   }
   return flown;
 }
+
+/** `perch`, taken by another butterfly. */
+const held = (perch: Perch): Held => ({ kind, perch });
+/** Two perches crowding each other for two butterflies. */
+const BUTTERFLIES = [[kind, kind]] as const;
 
 const within = (value: number, [min, max]: readonly [number, number]) =>
   value >= min && value <= max;
@@ -127,10 +134,10 @@ describe('nextFlight', () => {
   });
 
   it('never goes to a perch another insect sits on or is heading to', () => {
-    const taken: Perch[] = [
+    const taken = [
       ...CAPS.slice(1).map((id) => ({ kind: 'cap', id }) as const),
       ...FLOWERS.slice(2).map((id) => ({ kind: 'flower', id }) as const),
-    ];
+    ].map((perch) => held(perch));
     const free = new Set([
       'cap mushroom-1',
       'flower flower-1',
@@ -153,20 +160,22 @@ describe('nextFlight', () => {
 
   it('never goes to a perch crowded by one another insect has taken', () => {
     const cap = { kind: 'cap', id: 'mushroom-1' } as const;
-    const crowded = FLOWERS.map((id) => [cap, { kind: 'flower', id }] as const);
+    const crowded = FLOWERS.map(
+      (id) => [cap, { kind: 'flower', id }, BUTTERFLIES] as const,
+    );
     const perches = { ...PERCHES, crowded };
     for (const seed of SEEDS) {
-      const { to } = firstFlight({ seed, kind }, perches, 0, [cap]).leg;
+      const { to } = firstFlight({ seed, kind }, perches, 0, [held(cap)]).leg;
       assert.equal(to.kind, 'cap');
       assert.notDeepEqual(to, cap);
     }
   });
 
   it('settles again where it was when every other perch is taken', () => {
-    const taken: Perch[] = [
+    const taken = [
       ...CAPS.slice(1).map((id) => ({ kind: 'cap', id }) as const),
       ...FLOWERS.map((id) => ({ kind: 'flower', id }) as const),
-    ];
+    ].map((perch) => held(perch));
     for (const seed of SEEDS) {
       const { leg } = firstFlight({ seed, kind }, PERCHES, 0, taken);
       assert.deepEqual(leg.to, { kind: 'cap', id: 'mushroom-1' });
@@ -185,34 +194,37 @@ describe('nextFlight', () => {
 
   it('roams the air when every perch is taken or none is offered', () => {
     const none = { caps: [], flowers: [], air: AIR, crowded: [], ...BARE };
-    const everything: Perch[] = [
+    const everything = [
       ...CAPS.map((id) => ({ kind: 'cap', id }) as const),
       ...FLOWERS.map((id) => ({ kind: 'flower', id }) as const),
-    ];
+    ].map((perch) => held(perch));
     for (const seed of SEEDS) {
       assert.equal(firstFlight({ seed, kind }, none, 0).leg.to.kind, 'air');
       const { leg } = firstFlight({ seed, kind }, AIRY, 0, everything);
       assert.equal(leg.to.kind, 'air');
-      assert.equal(leg.leaves, leg.arrives);
+      assert.ok(within(leg.leaves - leg.arrives, HOVERING));
       assert.ok(within(leg.arrives - leg.departs, FLYING));
     }
   });
 
   it('roams from spot to spot, never one another has taken, and perches once one is open', () => {
-    const everything: Perch[] = [
+    const everything = [
       ...CAPS.map((id) => ({ kind: 'cap', id }) as const),
       ...FLOWERS.map((id) => ({ kind: 'flower', id }) as const),
-    ];
+    ].map((perch) => held(perch));
     const spot = { kind: 'air', id: 'air-1' } as const;
     for (const seed of SEEDS) {
-      let flight = firstFlight({ seed, kind }, AIRY, 0, [...everything, spot]);
+      let flight = firstFlight({ seed, kind }, AIRY, 0, [
+        ...everything,
+        held(spot),
+      ]);
       for (const _ of Array.from({ length: 6 })) {
         const { leg } = flight;
         assert.equal(leg.to.kind, 'air');
         assert.notDeepEqual(leg.to, spot);
         const next = nextFlight({ seed, kind, ...flight }, AIRY, leg.leaves, [
           ...everything,
-          spot,
+          held(spot),
         ]);
         assert.notDeepEqual(next.leg.to, leg.to);
         flight = next;
@@ -223,18 +235,18 @@ describe('nextFlight', () => {
         flight.leg.leaves,
         everything.slice(1),
       );
-      assert.deepEqual(freed.leg.to, everything[0]);
+      assert.deepEqual(freed.leg.to, everything[0]?.perch);
     }
   });
 
   it('roams to a spot only crowded, not taken, where the air has none uncrowded', () => {
     const spot = { kind: 'air', id: 'air-1' } as const;
     const crowded = AIR.slice(1).map(
-      (id) => [spot, { kind: 'air', id }] as const,
+      (id) => [spot, { kind: 'air', id }, BUTTERFLIES] as const,
     );
     const air = { ...AIRY, caps: [], flowers: [], crowded };
     for (const seed of SEEDS) {
-      const { leg } = firstFlight({ seed, kind }, air, 0, [spot]);
+      const { leg } = firstFlight({ seed, kind }, air, 0, [held(spot)]);
       assert.equal(leg.to.kind, 'air');
       assert.notDeepEqual(leg.to, spot);
     }

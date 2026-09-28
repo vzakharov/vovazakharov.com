@@ -61,11 +61,25 @@ describe('FLIGHT_HABITS', () => {
     }
   });
 
-  it('sends a fly to a cap about four times in five', () => {
-    const legs = SEEDS.slice(0, 400).flatMap((seed) => journey('fly', seed, 6));
-    const caps = legs.filter(({ to }) => to.kind === 'cap').length;
-    const share = caps / legs.length;
-    assert.ok(share > 0.74 && share < 0.86, `cap share ${String(share)}`);
+  it('sends a fly to a flower about one time in ten, a cap otherwise', () => {
+    const perches = { ...PERCHES, spotted: [CAPS[0] ?? ''] };
+    const firsts = SEEDS.map(
+      (seed) => firstFlight({ seed, kind: 'fly' }, perches, 0).leg.to,
+    );
+    const flowers = firsts.filter(({ kind }) => kind === 'flower').length;
+    assert.equal(firsts.filter(({ kind }) => kind === 'air').length, 0);
+    const share = flowers / firsts.length;
+    assert.ok(Math.abs(share - 0.1) < 0.03, `flower share ${String(share)}`);
+  });
+
+  it('mostly roams a fly with no spotted cap open, and looks again', () => {
+    const firsts = SEEDS.map(
+      (seed) => firstFlight({ seed, kind: 'fly' }, PERCHES, 0).leg.to,
+    );
+    const share =
+      firsts.filter(({ kind }) => kind === 'air').length / firsts.length;
+    const { fussy } = FLIGHT_HABITS.fly;
+    assert.ok(Math.abs(share - fussy) < 0.03, `air share ${String(share)}`);
   });
 
   it('never sends a bee to a cap: flowers, else the air', () => {
@@ -83,9 +97,10 @@ describe('FLIGHT_HABITS', () => {
   });
 
   it('never settles a bee back on the flower it leaves, where a butterfly would', () => {
-    const taken = FLOWERS.slice(1).map(
-      (id) => ({ kind: 'flower', id }) as const,
-    );
+    const taken = FLOWERS.slice(1).map((id) => ({
+      kind: 'butterfly' as const,
+      perch: { kind: 'flower', id } as const,
+    }));
     const only = { kind: 'flower', id: 'flower-1' } as const;
     const flowersOnly = { ...PERCHES, caps: [] };
     for (const seed of SEEDS.slice(0, 300)) {
@@ -108,7 +123,7 @@ describe('FLIGHT_HABITS', () => {
     }
   });
 
-  it('draws a fly to a spotted cap three times as often as to any other', () => {
+  it('draws a fly to a spotted cap eight times as often as to any other', () => {
     const [spotted = ''] = CAPS;
     const perches = { ...PERCHES, flowers: [], spotted: [spotted] };
     const firsts = SEEDS.map(
@@ -117,11 +132,14 @@ describe('FLIGHT_HABITS', () => {
     const share =
       firsts.filter((to) => to.kind === 'cap' && to.id === spotted).length /
       firsts.length;
-    // One spotted cap weighed 3 against three plain ones weighed 1 each.
-    assert.ok(Math.abs(share - 3 / 6) < 0.04, `spotted share ${String(share)}`);
+    // One spotted cap weighed 8 against three plain ones weighed 1 each.
+    assert.ok(
+      Math.abs(share - 8 / 11) < 0.04,
+      `spotted share ${String(share)}`,
+    );
   });
 
-  it('draws a butterfly to every cap alike, spotted or not', () => {
+  it('draws a butterfly to a spotted cap a quarter as often as to any other', () => {
     const [spotted = ''] = CAPS;
     const perches = { ...PERCHES, flowers: [], spotted: [spotted] };
     const firsts = SEEDS.map(
@@ -130,6 +148,11 @@ describe('FLIGHT_HABITS', () => {
     const share =
       firsts.filter((to) => to.kind === 'cap' && to.id === spotted).length /
       firsts.length;
-    assert.ok(Math.abs(share - 1 / 4) < 0.04, `spotted share ${String(share)}`);
+    // One spotted cap weighed 0.25 against three plain ones weighed 1 each.
+    const expected = 0.25 / 3.25;
+    assert.ok(
+      Math.abs(share - expected) < 0.02,
+      `spotted share ${String(share)}`,
+    );
   });
 });

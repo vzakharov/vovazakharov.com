@@ -29,6 +29,8 @@ const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
 /** A roaming butterfly's spots in the air, and the cap it perches on once that frees up. */
 const AIR = Array.from({ length: 8 }, (_, index) => `air-${String(index)}`);
 const CAP = { kind: 'cap', id: 'cap' } as const;
+/** The cap, taken by another butterfly. */
+const CAP_TAKEN = [{ kind: 'butterfly', perch: CAP }] as const;
 const PERCHES: Perches = {
   caps: ['cap'],
   flowers: [],
@@ -69,7 +71,7 @@ function roamed(seed: number): {
     flutter: 12,
     kind: 'butterfly',
   } as const;
-  let flight = firstFlight({ seed, kind: 'butterfly' }, PERCHES, 0, [CAP]);
+  let flight = firstFlight({ seed, kind: 'butterfly' }, PERCHES, 0, CAP_TAKEN);
   let carried: Carried = { launch: 0, speed: 0, drink: 0 };
   let at = { x: -80, y: 300 };
   let start = at;
@@ -84,7 +86,7 @@ function roamed(seed: number): {
     if (now >= leg.leaves && isSeat(leg.to)) break;
     if (now >= leg.leaves) {
       const last = { ...leg, ...carried };
-      const taken = legs.length > ROAMS ? [] : [CAP];
+      const taken = legs.length > ROAMS ? [] : CAP_TAKEN;
       flight = nextFlight(
         { seed, kind: 'butterfly', ...flight },
         PERCHES,
@@ -149,7 +151,7 @@ describe('a roaming butterfly', () => {
       for (const [index, leg] of legs.entries()) {
         const from = legs[index - 1];
         if (from?.to.kind !== 'air') continue;
-        assert.equal(from.leaves, from.arrives);
+        assert.ok(from.leaves >= from.arrives);
         assert.equal(leg.launch, 1);
         assert.equal(leg.speed, 0);
       }
