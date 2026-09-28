@@ -59,7 +59,7 @@ export function standingAt(
     placed,
     drawn: [
       ...capOutlines(genes).map((outline) => placed(outline)),
-      placed(stemOutline(genes)),
+      placed(stemOutline(genes, turn)),
     ],
   };
 }

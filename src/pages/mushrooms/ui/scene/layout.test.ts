@@ -76,8 +76,8 @@ function standingWithTaps(
   seeded: MushroomSeed,
 ) {
   const standing = standingAt(place, seeded);
-  const { genes, placed, drawn } = standing;
-  const tapped = Object.values(tapArea(genes)).map((outline) =>
+  const { genes, turn, placed, drawn } = standing;
+  const tapped = Object.values(tapArea(genes, turn)).map((outline) =>
     placed(outline),
   );
   return {

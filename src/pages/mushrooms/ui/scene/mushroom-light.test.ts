@@ -1,20 +1,33 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '../../model/geometry';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { placedAt, type Point } from '../../model/geometry';
+import {
+  CAP_KINDS,
+  type MushroomGenes,
+  mushroomGenes,
+} from '../../model/mushroom-genes';
+import {
+  CURVE_STEPS,
+  stemOutline,
+  toCanvas,
+} from '../../model/mushroom-outline';
+import { splayed } from '../../model/mushroom-pose';
 import { luminance, mix, toHsv } from './colour';
+import { meadowLayout } from './layout';
 import {
   type CapLight,
   capLight,
   capRimArc,
   capShadeArc,
   capShine,
+  mushroomShadow,
   shadedHalf,
   STEM_LIGHT,
   type StemLayer,
 } from './mushroom-light';
 import { PALETTE } from './palette';
+import { VIEWPORTS } from './viewports';
 
 /** How far round the wheel a colour's hue stands from orange's. */
 function towardOrange(colour: number): number {
@@ -153,5 +166,51 @@ describe('a spotted cap’s shine', () => {
     }
     // Most caps put a spot under the shine: the order is what keeps it off.
     assert.ok(overlapping > 3000, String(overlapping));
+  });
+});
+
+describe('a mushroom’s foot', () => {
+  const size = 300;
+  const light = { toward: { x: 0.8, y: -0.6 } };
+  // Every turn a slot stands a mushroom at, on every screen.
+  const splays = new Set(
+    VIEWPORTS.flatMap(([, width, height]) =>
+      meadowLayout(width, height, 1).mushrooms.map(({ splay }) => splay),
+    ),
+  );
+
+  it('stands level on the ground, both corners inside its contact shadow, at every lean', () => {
+    let worst = 0;
+    for (const splay of splays) {
+      for (let seed = 1; seed <= 200; seed++) {
+        const { genes, turn } = splayed(
+          mushroomGenes({
+            seed,
+            cap: CAP_KINDS[seed % CAP_KINDS.length] ?? 'plain',
+          }),
+          splay,
+        );
+        const canvas = toCanvas(size);
+        const drawn = stemOutline(genes, turn).map((point) =>
+          placedAt({ x: 0, y: 0 }, turn, canvas(point)),
+        );
+        // Where its sides end: up the right one, and back down the left.
+        const corners = [drawn[0], drawn[CURVE_STEPS * 2 + 1]];
+        const contact = mushroomShadow(genes, size, light, turn).find(
+          ({ x }) => x === 0,
+        );
+        assert.ok(contact);
+        for (const corner of corners) {
+          assert.ok(corner);
+          const reach =
+            (corner.x / (contact.across / 2)) ** 2 +
+            (corner.y / (contact.tall / 2)) ** 2;
+          assert.ok(reach < 1, JSON.stringify({ seed, splay, corner, reach }));
+        }
+        const [left, right] = corners;
+        worst = Math.max(worst, Math.abs((left?.y ?? 0) - (right?.y ?? 0)));
+      }
+    }
+    assert.ok(worst < 1, `a foot rises ${worst.toFixed(1)} px across`);
   });
 });

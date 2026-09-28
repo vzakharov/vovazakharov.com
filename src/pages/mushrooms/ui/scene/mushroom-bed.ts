@@ -273,16 +273,19 @@ export class MushroomBed {
     Object.assign(shown, { genes, turn, size, haze, spots, lighting });
     shown.house.repaint();
     shown.graphics.clear().setPosition(x, y).setDepth(y);
-    drawMushroom(shown.graphics, { ...genes, spots }, size, lighting, haze);
+    drawMushroom(shown.graphics, { ...genes, spots }, size, lighting, {
+      haze,
+      turn,
+    });
     // Just behind its own mushroom, and before anything standing behind it.
     shown.shadow
       .clear()
       .setPosition(x, y)
       .setDepth(y - 0.5);
-    drawMushroomShadow(shown.shadow, genes, size, lighting);
+    drawMushroomShadow(shown.shadow, genes, size, lighting, turn);
     // Written into the hit area `show` registered, the object Phaser keeps testing.
     const canvas = toCanvas(size);
-    const area = tapArea(genes);
+    const area = tapArea(genes, turn);
     for (const part of TAP_PARTS) {
       shown.hit[part] = area[part].map((point) => canvas(point));
     }

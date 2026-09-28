@@ -15,13 +15,18 @@ import {
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
 import { innerInk, type Lighting, litSide, longestRun } from './ink';
-import { capLight, shadedHalf, STEM_LIGHT } from './mushroom-light';
+import {
+  capLight,
+  mushroomShadow,
+  shadedHalf,
+  STEM_LIGHT,
+} from './mushroom-light';
 import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
   inkedFill,
-  paintCastShadow,
+  paintShadow,
   strokeLine,
   strokeShape,
 } from './shapes';
@@ -44,28 +49,29 @@ const SELECTION_BAND = 0.05;
 const SELECTION_BAND_LEAST = 5;
 const SELECTION_EDGE = 2.5;
 
-/** Centred on `graphics`' own position, the mushroom's foot, and fallen away from the sun. */
+/** Centred on `graphics`' own position, the mushroom's foot (`mushroomShadow`). */
 export function drawMushroomShadow(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   size: number,
   light: Light,
+  turn = 0,
 ): void {
-  paintCastShadow(graphics, [genes.capWidth * size * 0.8, size * 0.07], light);
+  paintShadow(graphics, mushroomShadow(genes, size, light, turn));
 }
 
 /**
  * Paints one mushroom into `graphics`, whose own position is the foot and
- * whose rotation is the lean — so the scene squashes and rocks it from the
- * ground — lit from where `lighting` says. `haze`, from 0 to 1, takes every
- * colour toward the air's, as distance does.
+ * whose rotation is the lean, `turn` — so the scene squashes and rocks it from
+ * the ground, the foot kept level with it — lit from where `lighting` says.
+ * `haze`, from 0 to 1, takes every colour toward the air's, as distance does.
  */
 export function drawMushroom(
   graphics: Phaser.GameObjects.Graphics,
   genes: MushroomGenes,
   size: number,
   lighting: Lighting,
-  haze = 0,
+  { haze = 0, turn = 0 } = {},
 ): void {
   const { toward } = lighting;
   const tone = (colour: number) => mix(colour, PALETTE.air, haze);
@@ -82,12 +88,12 @@ export function drawMushroom(
     graphics.fillStyle(tone(colour), alpha * (1 - haze));
   };
 
-  const stem = stemOutline(genes).map((point) => canvas(point));
+  const stem = stemOutline(genes, turn).map((point) => canvas(point));
   inkedFill(graphics, stem, PALETTE.stem, ink, lighting, tone);
   // The outline runs up the stem's right side and back down its left.
   const [right, left] = [
     stem.slice(0, CURVE_STEPS + 1),
-    stem.slice(CURVE_STEPS + 1),
+    stem.slice(CURVE_STEPS + 1, (CURVE_STEPS + 1) * 2),
   ];
   const [sunSide, shadeSide] =
     litSide(toward) === 1 ? [right, left] : [left, right];

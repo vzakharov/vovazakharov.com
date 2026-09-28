@@ -6,10 +6,10 @@ import {
   inkFor,
   type Lighted,
   type Lighting,
-  shadowFall,
   taperedLine,
   weightedOutline,
 } from './ink';
+import { castShadow, type ShadowLayer } from './mushroom-light';
 import { PALETTE } from './palette';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
@@ -85,32 +85,26 @@ export function strokeTapered(
   fillShape(graphics, taperedLine(points, widths, hairline));
 }
 
-/** A cast shadow's soft outer shade, its core and its contact at the foot: each one's size, as a share of the shadow's, and alpha. */
-const SHADOW_LAYERS = [
-  { across: 1.3, tall: 1.3, alpha: 0.12, falls: true },
-  { across: 0.8, tall: 0.8, alpha: 0.2, falls: true },
-  { across: 0.25, tall: 0.6, alpha: 0.3, falls: false },
-] as const;
-
 /**
  * The shadow a thing standing on the graphics' own position casts on the
- * ground, `across` by `tall`: fallen away from the sun, soft at its edge,
- * darkest at the foot.
+ * ground (`castShadow`), painted.
  */
 export function paintCastShadow(
   graphics: Phaser.GameObjects.Graphics,
-  [across, tall]: readonly [number, number],
-  { toward }: Light,
+  size: readonly [number, number],
+  light: Light,
 ): void {
-  const fall = shadowFall(toward, across);
-  for (const layer of SHADOW_LAYERS) {
-    graphics.fillStyle(PALETTE.shadowCool, layer.alpha);
-    graphics.fillEllipse(
-      layer.falls ? fall : 0,
-      0,
-      across * layer.across,
-      tall * layer.tall,
-    );
+  paintShadow(graphics, castShadow(size, light));
+}
+
+/** A cast shadow's layers, round the graphics' own position. */
+export function paintShadow(
+  graphics: Phaser.GameObjects.Graphics,
+  layers: readonly ShadowLayer[],
+): void {
+  for (const { x, across, tall, alpha } of layers) {
+    graphics.fillStyle(PALETTE.shadowCool, alpha);
+    graphics.fillEllipse(x, 0, across, tall);
   }
 }
 

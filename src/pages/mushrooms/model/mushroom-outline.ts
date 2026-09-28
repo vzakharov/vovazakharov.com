@@ -37,20 +37,49 @@ export function stemHalfWidth(
   return foot + (top - foot) * t + top * 0.12 * Math.sin(Math.PI * t);
 }
 
-/** The stem as a closed outline around its bent centreline. */
-export function stemOutline(genes: MushroomGenes): Point[] {
+/** How far up the stem, `t` from its foot, the foot's levelling against the lean reaches. */
+const FOOT_LEVELS = 0.3;
+/** How far the foot's bottom rounds down into the grass, in its half-width. */
+const FOOT_SAG = 0.22;
+
+/**
+ * The stem as a closed outline around its bent centreline, its foot level
+ * with the ground and rounded into it once the mushroom stands turned `turn`
+ * about its foot (`placedAt`): up its right side, down its left, and along
+ * its foot back to the start.
+ */
+export function stemOutline(genes: MushroomGenes, turn = 0): Point[] {
+  // A point `x` across the foot is level with it on screen at `x * slope` up.
+  const slope = Math.tan(turn);
   const side = (t: number, sign: number): Point => {
     const station = stemAt(genes, t);
     const half = stemHalfWidth(genes, t);
+    const x = station.x + sign * half * Math.cos(station.tilt);
+    const level = Math.max(0, 1 - t / FOOT_LEVELS) ** 2;
     return {
-      x: station.x + sign * half * Math.cos(station.tilt),
-      y: station.y - sign * half * Math.sin(station.tilt),
+      x,
+      y: station.y - sign * half * Math.sin(station.tilt) + x * slope * level,
     };
   };
-  return [
-    ...sample(0, 1, CURVE_STEPS, (t) => side(t, 1)),
-    ...sample(1, 0, CURVE_STEPS, (t) => side(t, -1)),
-  ];
+  const right = sample(0, 1, CURVE_STEPS, (t) => side(t, 1));
+  const left = sample(1, 0, CURVE_STEPS, (t) => side(t, -1));
+  const [from, to] = [left.at(-1) ?? side(0, -1), right[0] ?? side(0, 1)];
+  // Straight down on screen, in this frame.
+  const down = { x: Math.sin(turn), y: -Math.cos(turn) };
+  const sag = FOOT_SAG * stemHalfWidth(genes, 0);
+  const foot = sample(0, 1, CURVE_STEPS, (u) => {
+    const dip = sag * 4 * u * (1 - u);
+    return {
+      x: from.x + (to.x - from.x) * u + down.x * dip,
+      y: from.y + (to.y - from.y) * u + down.y * dip,
+    };
+  }).slice(1, -1);
+  return [...right, ...left, ...foot];
+}
+
+/** How wide a stem's foot stands on screen once turned `turn`, in units of size. */
+export function footWidth(genes: MushroomGenes, turn = 0): number {
+  return (2 * stemHalfWidth(genes, 0)) / Math.cos(turn);
 }
 
 /**
@@ -109,9 +138,9 @@ export function capOutlines(genes: MushroomGenes): [Point[], Point[]] {
  * Where a mushroom answers a tap: its dome, gills and stem exactly as they are
  * filled, padded by nothing, not even the ink line round them — the clump's
  * stems cross under each other's caps, and the part painted on top is the one
- * a finger there means.
+ * a finger there means. `turn` is the one the mushroom stands at.
  */
-export function tapArea(genes: MushroomGenes): TapArea {
+export function tapArea(genes: MushroomGenes, turn = 0): TapArea {
   const [cap, gills] = capOutlines(genes);
-  return { cap, gills, stem: stemOutline(genes) };
+  return { cap, gills, stem: stemOutline(genes, turn) };
 }
