@@ -98,13 +98,18 @@ bloom, clouds) and `paint-land.ts` (ranges, mist, ground) — with
 **A1. Sky: a warm horizon under a softer blue.**
 (a) Every reference's sky pales toward a warm colour near the light; the
 meadow's pales toward a cold near-white. (b) `skyTop` 0x5ab8ee → 0x6c_b4_e6 (a
-touch less saturated); `skyHorizon` 0xd4f1ff → 0xfc_ee_d2 (warm cream). Keep
-`fillBands` (see "Phaser" below), raise `SKY_BANDS` 48 → 96 so a 1640 px
-buffer shows no step, ease 1.6 kept. Add a second, sideways term: each band
-mixed up to 25% toward `sunGlow` by `1 − |x − sun.x| / width` — which means
-painting the sky in vertical strips as well as bands; cheaper: over the banded
-sky, 6 huge discs round the sun (radius 3–9 sun radii) of `skyWarm: 0xff_e8_b8`
-at alpha 0.04 each. (c) Pure: the sky's horizon colour is warmer (R − B > 0)
+touch less saturated); the sky's stops (`SKY_STOPS`) pale from it to a clean
+light blue, then near white, then `skyLow: 0xfc_ee_d2` (warm cream) nearest
+the hills, so blue and cream never mix to grey. The sun's halo lies over it as
+four layers (`SUN_HALO`), each thinning by a smoothstep from its peak to zero
+at its reach, so none has a plateau or an edge: a white one reaching 0.4 of
+the screen's short side, as far for its size on every screen; a white one to
+3.5 sun radii; `skyWarm: 0xff_e8_b8` to 2.8, inside what the white has
+already paled, since yellow over blue mixes to a grey-teal; and `sunGlow` to
+`SUN_GLOW_REACH`. `litSkyAt` composites sky and layers in full precision and
+rounds once, and `paintSky` fills `skyGrid`'s cells, each shaded between its
+corners' `litSkyAt` (flat at its middle's on a renderer that cannot shade),
+baked into the far picture. (c) Pure: the sky's horizon colour is warmer (R − B > 0)
 and its top cooler (B − R > 60); HSV value of `skyTop` ≥ 0.85 (not dusk).
 Frame: the sky next to the sun is visibly warmer than the sky on the far side.
 (d) Baked with the rest of the backdrop once per resize (see "Phaser" below):
@@ -114,16 +119,17 @@ as haze or evening; hold `skyTop` blue and keep the cream to the bottom fifth.
 
 **A2. Sun bloom and a light wash over the land.**
 (a) Alto and Gris: the sun's light lands on everything under it; the meadow's
-sun glow stops at its own rays. (b) In `paintSun`, `SUN_GLOW_REACH`'s rings
-extended by a second set out to ~6 sun radii at alpha 0.025. Then a new
-`light` layer painted _after the ground_: 10 discs round the sun, radius 4→14
-sun radii, `sunGlow` at alpha 0.03 each, blend mode `SCREEN` — the near hills
+sun glow stops at its own rays. (b) The glow round the rays is the halo's
+innermost layer (A1). Then a `wash` layer painted _after the ground_: 10 discs
+round the sun (`washRings`), radius 4→14 sun radii shrunk as a whole to fit the
+bound in (c), `sunGlow` at alpha 0.02 each, blend mode `SCREEN` — the near hills
 and the back of the meadow on the sun's side come out warmer. Optional, only if
 the frames want it: 3 light shafts, long thin triangles from the sun downward
 across the hills at alpha 0.05 (`fillTriangle`), as in Gris. (c) Frame: the
 hill crest under the sun is warmer and lighter than the same range at the far
 edge. Pure: the wash never reaches below the ground's upper third
-(radius × position bound), so it never lifts the ground where caps stand.
+and short of every slot's foot (radius × position bound), so it never lifts the
+ground where caps stand.
 (d) Baked into a texture of its own once per resize and screened as one quad
 over the sky, the clouds and the hills. `SCREEN` is a WebGL blend and Phaser's
 Canvas renderer maps it too.
@@ -239,16 +245,20 @@ moves (the house's clearances in `model/house.ts` read it).
 (a) Syama's line is blue; where Ori's forms have an edge at all, it is the
 dark of the thing itself; the meadow's are one brown-black everywhere. (b) `colour.ts`
 gains `darken(colour, by)` (HSV value × (1 − by)). `ink.ts`:
-`inkFor(fill) = mix(darken(fill, 0.6), PALETTE.inkCool, 0.35)`, then clamped so
-its relative luminance ≤ 0.06. Every `lineStyle(…, PALETTE.ink)` in the
+`inkFor(fill)`: a fill dark enough to stand 3:1 off every ground by itself
+gets its own colour lifted just above it as an edge; any other gets
+`mix(darken(fill, 0.6), PALETTE.inkCool, 0.35)` dimmed until it stands 3:1 off
+the fill and off every ground the fill does not stand off, its relative
+luminance ≤ 0.06 and never below 0.012. Every `lineStyle(…, PALETTE.ink)` in the
 painters takes `inkFor` of the fill it edges: a cap's contour is a deep
 crimson-indigo, a stem's a warm grey-violet, a petal's a deep version of the
 petal, a butterfly's wing a deep version of the wing. Bee and fly bodies keep
 near-black (their fills are dark already). Haze still applies on top
 (`tone(inkFor(fill))`). `PALETTE.ink` remains for the selection band's edge,
 the HUD disc and the mouse's whiskers. (c) Pure, in `ink.test.ts`: for every
-fill in `palette-creatures.ts` (and every genes' hue nudge extreme), `inkFor`
-has contrast ≥ 3:1 against `ground`, `groundLit` and its own fill. (d) One
+fill in `palette-creatures.ts` (and every genes' hue nudge extreme), every
+edged creature fill, as drawn, has its ink or itself ≥ 3:1 against the ground
+at every foot the layout places. (d) One
 colour per stroke: no cost. Risk: a pale fill (a white daisy, a white butterfly)
 gives a pale ink — the luminance clamp is what keeps every silhouette dark.
 
@@ -286,7 +296,8 @@ line on a small insect falls under 1 px — floor it at 1 device px.
 (a) Every reference has one light and everything agrees with it; the meadow's
 shade is always on the right and its shine on the left, so on the tablet the
 caps are lit from the side the sun is not on. (b) `drawMushroom(…, light)` and
-the other painters take `toward` from `sunLight(layout)` via the beds;
+the other painters take `toward` from the sun as seen from where each thing stands
+(`lightAt`, via the beds);
 `shadeArc` mirrors when the sun is left; the shine ellipse moves to the sun side
 at `(toward.x × 0.2 capWidth, 0.72 capHeight)`. (c) Pure: for a light from the
 right, the shade crescent's centroid lies left of the cap's middle and the shine
@@ -353,7 +364,8 @@ sun side. The fly's sheen and the bee's fuzz are unchanged.
   triangles"; a polygon's fan gives artefacts, and a Canvas renderer
   (`Phaser.AUTO`'s fallback) drops them. **Use bands** — `fillBands` and A4's
   clipped hill bands — which the backdrop already does and which look the same
-  on either renderer.
+  on either renderer. The sky alone is shaded rectangles (A1), each filled flat
+  where the renderer drops the gradient.
 - **Canvas textures** (`scene.textures.createCanvas`) work on both renderers:
   the one texture the look needs (A7's grain), generated once from a seed — no
   asset file, so within "everything drawn by code".
@@ -382,7 +394,8 @@ sun side. The fly's sheen and the bee's fuzz are unchanged.
   luminance (~0.18 vs ~0.33): hue and the dark contour carry the cap. So the
   outer ink's luminance clamp (B1) is load-bearing, and the lit ground
   (`groundLit`, A5) stays in the band behind the flowers' back row. B1's test
-  checks every creature fill's ink against every ground colour.
+  checks every edged creature fill, as drawn, against the ground at every foot
+  the layout places: ink or fill ≥ 3:1.
 - **Caps readable.** Rim light and shine stay at the edge and in one ellipse;
   spots stay ≥ 0.9 luminance on their lit side; the cap stays `capRed`.
 - **Nothing gloomy.** Sky top HSV value ≥ 0.85; shadows cool but at alpha ≤
