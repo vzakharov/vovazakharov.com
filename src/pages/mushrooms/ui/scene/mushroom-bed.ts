@@ -323,7 +323,7 @@ export class MushroomBed {
     edge.setPosition(x, y).setDepth(depth - 0.4);
     band.setPosition(x, y).setDepth(depth - 0.2);
     drawSelection(this.outline, hit, size);
-    drawSelectionRing(this.footRing, genes, size, turn);
+    drawSelectionRing(this.footRing, genes, size, turn, hit.stem);
   }
 
   private requireLighting(): Lighting {

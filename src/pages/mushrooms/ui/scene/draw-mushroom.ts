@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { ellipse, sample } from '../../model/geometry';
+import { ellipse, placedAt, type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import type { MushroomGenes, PorciniGenes } from '../../model/mushroom-genes';
 import { footWidth, type TapArea } from '../../model/mushroom-outline';
@@ -119,9 +119,6 @@ export function drawSelection(
   });
 }
 
-/** How tall the ground ring stands against how wide. */
-const RING_TALL = 0.24;
-
 /**
  * The ground ring's two graphics, both centred on the mushroom's foot: its
  * ink edge, under the band round the mushroom, and its yellow, over that
@@ -131,19 +128,34 @@ const RING_TALL = 0.24;
 export type RingGraphics = Record<'edge' | 'band', Phaser.GameObjects.Graphics>;
 
 /**
- * The selected mushroom's ring on the ground, as wide as its foot stands
- * turned `turn` (`footWidth`), so its ends meet the band at the foot's
- * corners.
+ * How far below the foot the ring's front arc runs, in its own width. The
+ * band reaches one width below the foot, its ink edge just past that, and
+ * the ring's yellow straddles that edge and covers it.
+ */
+const RING_DEPTH = 1.25;
+
+/**
+ * The selected mushroom's ring of light on the ground: as wide as its foot
+ * stands turned `turn` (`footWidth`), so its ends meet the band at the
+ * foot's corners, and deep enough that its front arc shows below the band
+ * under `stem`, the stem's outline in the mushroom's graphics' frame.
  */
 export function drawSelectionRing(
   { edge, band }: RingGraphics,
   genes: MushroomGenes,
   size: number,
   turn: number,
+  stem: readonly Point[],
 ): void {
   const half = (footWidth(genes, turn) * size) / 2;
-  const ring = ellipse({ x: 0, y: 0 }, half, half * RING_TALL);
-  strokeSelection(edge, band, selectionBand(size), (graphics) => {
+  const width = selectionBand(size);
+  // The foot's lowest point on screen, where the ring's graphics stands unturned.
+  const sag = Math.max(
+    0,
+    ...stem.map((point) => placedAt({ x: 0, y: 0 }, turn, point).y),
+  );
+  const ring = ellipse({ x: 0, y: 0 }, half, sag + width * RING_DEPTH);
+  strokeSelection(edge, band, width, (graphics) => {
     strokeShape(graphics, ring);
   });
 }
