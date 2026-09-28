@@ -41,7 +41,7 @@ export function toHsv(colour: number): Hsv {
   return { h: (sector / 6) % 1, s, v };
 }
 
-export function fromHsv({ h, s, v }: Hsv): number {
+function fromHsv({ h, s, v }: Hsv): number {
   const turn = (((h % 1) + 1) % 1) * 6;
   const sector = Math.floor(turn);
   const f = turn - sector;

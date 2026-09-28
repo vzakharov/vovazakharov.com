@@ -6,7 +6,6 @@ import {
   BECKON_DEPTH,
   BECKON_EASE,
   BECKON_PERIOD,
-  BECKON_RELEASE,
   blink,
   BLINK_SHUT,
   bloom,
@@ -199,7 +198,7 @@ describe('beckon', () => {
       const jump = Math.abs(beckon(t + step, released) - beckon(t, released));
       assert.ok(jump < BECKON_DEPTH * 0.2);
     }
-    assert.equal(beckon(14 + BECKON_RELEASE, released), 0);
+    assert.equal(beckon(14 + BECKON_PERIOD, released), 0);
   });
 
   it('never jumps between frames as a cap is let go of and picked again', () => {
@@ -217,7 +216,7 @@ describe('beckon', () => {
         ];
         let now = UNLIT;
         let was = 0;
-        for (const t of frames(9, 10 + 2 * held + gap + BECKON_RELEASE + 1)) {
+        for (const t of frames(9, 10 + 2 * held + gap + BECKON_PERIOD + 1)) {
           while (changes[0] && changes[0][0] <= t) {
             const [at, change] = changes[0];
             now = change(now, at);

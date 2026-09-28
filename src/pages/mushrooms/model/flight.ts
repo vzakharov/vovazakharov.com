@@ -118,7 +118,7 @@ export type Timed = { now: number };
  * dashes `way` of the way in the first `time` of its flight, both shares, and
  * flies the rest at its pace.
  */
-export type Dash = { time: number; way: number };
+type Dash = { time: number; way: number };
 
 /**
  * When a leg's flight takes off and lands, in ms on the scene's clock, and

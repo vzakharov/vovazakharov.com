@@ -141,7 +141,7 @@ export const BECKON_EASE = 0.3;
  * go of settles as slowly as it swells. Dying faster, it would stop dead
  * mid-swell, and a flier riding its top in to land would lurch with it.
  */
-export const BECKON_RELEASE = BECKON_PERIOD;
+const BECKON_RELEASE = BECKON_PERIOD;
 
 /**
  * A thing's beckon, on the scene's clock. `swellFrom` is when the swell now
