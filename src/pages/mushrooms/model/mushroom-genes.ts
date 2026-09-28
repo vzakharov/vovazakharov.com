@@ -144,7 +144,7 @@ export const GENE_RANGES = {
     capHeight: [0.25, 0.29],
     domePower: [0.85, 1.05],
     capTilt: [0, 0],
-    hueNudge: [-0.025, 0.025],
+    hueNudge: [-0.006, 0.006],
   },
   // A straight stem under a flattish cap.
   russula: {

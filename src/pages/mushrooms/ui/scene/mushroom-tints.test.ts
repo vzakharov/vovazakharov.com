@@ -19,37 +19,98 @@ import {
 } from './mushroom-tints';
 import { PALETTE } from './palette';
 
-/** The luminances where the ink rule gives a dark fill only a weak edge. */
-const WEAK_EDGE = [0.021, 0.045] as const;
 /** Every haze a mushroom stands in, from none to the farthest slot's. */
 const HAZES = [0, 0.1, 0.2, 0.3, 0.4];
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index + 1);
+/**
+ * The deepest single layer of cool shade each head's painter lays on a cap:
+ * `SHADE_ALPHA` in `paint-dome.ts` and in `paint-trumpet.ts`.
+ */
+const CAP_SHADE = { dome: 0.26, trumpet: 0.22 } as const;
 
 function grown(species: Species): MushroomGenes[] {
   return SEEDS.map((seed) => mushroomGenes({ seed, species }));
 }
 
-const hueDegrees = (colour: number) => toHsv(colour).h * 360;
+/** A hue in degrees, from -180 to 180, so a red nudged past 0° stays a red. */
+function hueDegrees(colour: number): number {
+  const degrees = toHsv(colour).h * 360;
+  return degrees > 180 ? degrees - 360 : degrees;
+}
+
+/** A fill as it shows in one light, `where` naming that light and `label` the fill in it. */
+type Shown = { label: string; where: string; shown: number };
+
+/**
+ * `fill` as `genes` shows it at every haze a mushroom stands in, each haze
+ * held as `genes` holds it: in the light, and under its cap's deepest shade.
+ */
+function shownFills(
+  genes: MushroomGenes,
+  fill: number,
+  shade: number,
+): Shown[] {
+  return HAZES.flatMap((haze) => {
+    const held = heldHaze(genes, haze);
+    const hazed = mix(fill, PALETTE.air, held);
+    const shaded = mix(hazed, PALETTE.shadeCool, shade * (1 - held));
+    return [
+      [`hazed ${String(haze)}`, hazed],
+      [`hazed ${String(haze)}, shaded`, shaded],
+    ] as const;
+  }).map(([where, shown]) => ({
+    label: `${fill.toString(16)} ${where}`,
+    where,
+    shown,
+  }));
+}
+
+/**
+ * The luminances where a fill's ink stands off it by less than the edge the
+ * ink rule lifts over the darkest fills, swept over every grey but black: the
+ * fills too light for a lifted edge that no ink dark enough can stand off.
+ */
+function weakEdge(): readonly [number, number] {
+  const edges = Array.from({ length: 255 }, (_, index) => {
+    const fill = (index + 1) * 0x01_01_01;
+    const ink = inkFor(fill);
+    return {
+      shown: luminance(fill),
+      lifted: luminance(ink) > luminance(fill),
+      edge: contrast(ink, fill),
+    };
+  });
+  const bar = Math.min(
+    ...edges.filter(({ lifted }) => lifted).map(({ edge }) => edge),
+  );
+  const weak = edges.filter(({ edge }) => edge < bar).map(({ shown }) => shown);
+  const band = [Math.min(...weak), Math.max(...weak)] as const;
+  // One band, with no fill inside it that reads.
+  const inside = edges.filter(
+    ({ shown }) => shown >= band[0] && shown <= band[1],
+  );
+  assert.ok(weak.length > 0 && inside.every(({ edge }) => edge < bar));
+  return band;
+}
 
 describe('a porcini', () => {
   const porcini = grown('porcini').flatMap((genes) =>
     genes.species === 'porcini' ? [genes] : [],
   );
 
-  it('keeps its cap and its margin out of the luminance where an edge reads weakly', () => {
+  it('keeps every fill, near and far, lit or shaded, out of the luminance where an edge reads weakly', () => {
+    const [low, high] = weakEdge();
     const failing = porcini.flatMap((genes) =>
-      [mushroomTints(genes).cap, porciniMargin(genes)].flatMap((fill) =>
-        HAZES.flatMap((haze) => {
-          const shown = luminance(mix(fill, PALETTE.air, haze));
-          return shown > WEAK_EDGE[0] && shown < WEAK_EDGE[1]
-            ? [
-                `${fill.toString(16)} hazed ${String(haze)}: ${shown.toFixed(3)}`,
-              ]
-            : [];
-        }),
+      [...Object.values(mushroomTints(genes)), porciniMargin(genes)].flatMap(
+        (fill) =>
+          shownFills(genes, fill, CAP_SHADE.dome).flatMap(({ label, shown }) =>
+            luminance(shown) >= low && luminance(shown) <= high
+              ? [`${label}: ${luminance(shown).toFixed(3)}`]
+              : [],
+          ),
       ),
     );
-    assert.deepEqual(failing, []);
+    assert.deepEqual([...new Set(failing)], []);
   });
 
   it('is brown, from tan to chestnut, under a paler margin, on a whitish stem', () => {
@@ -69,28 +130,78 @@ describe('a porcini', () => {
 });
 
 describe('a chanterelle', () => {
-  it('is one egg-yolk orange from foot to rim', () => {
-    for (const genes of grown('chanterelle')) {
+  /** The hues, in degrees, a chanterelle keeps every fill to: orange, short of gold. */
+  const ORANGE = [20, 30] as const;
+  /** The least a chanterelle's hue stands above a fly agaric's in one light, in degrees. */
+  const LEAST_GAP = 8;
+  const chanterelles = grown('chanterelle');
+
+  /**
+   * Every fill a chanterelle shows near and far: its flesh and its ridges lit
+   * or shaded, and its light, which lies only on the side toward the sun.
+   */
+  const shown = chanterelles.flatMap((genes) => {
+    const { cap, capLit } = mushroomTints(genes);
+    return [
+      ...[cap, PALETTE.chanterelle.ridge].flatMap((fill) =>
+        shownFills(genes, fill, CAP_SHADE.trumpet),
+      ),
+      ...shownFills(genes, capLit, 0),
+    ];
+  });
+
+  it('is one egg-yolk orange from foot to rim, its ridges paler', () => {
+    for (const genes of chanterelles) {
       const { stem, under, cap } = mushroomTints(genes);
       assert.equal(stem, cap);
       assert.equal(under, cap);
-      const hue = hueDegrees(cap);
-      assert.ok(hue > 22 && hue < 46, hue.toFixed(1));
       assert.ok(toHsv(cap).s > 0.8 && toHsv(cap).v > 0.9);
     }
     const { flesh, ridge } = PALETTE.chanterelle;
     assert.ok(luminance(ridge) > luminance(flesh));
   });
 
-  it('stays orange in the farthest haze', () => {
-    for (const genes of grown('chanterelle')) {
+  it('keeps its flesh, its ridges and its light orange, near and far, lit or shaded', () => {
+    const failing = shown.flatMap(({ label, shown: colour }) => {
+      const hue = hueDegrees(colour);
+      return hue >= ORANGE[0] && hue <= ORANGE[1]
+        ? []
+        : [`${label}: ${hue.toFixed(1)}°`];
+    });
+    assert.deepEqual([...new Set(failing)], []);
+  });
+
+  it('stays apart from a fly agaric’s red, each as it stands in the meadow', () => {
+    const fly = grown('fly-agaric').flatMap((genes) =>
+      shownFills(genes, mushroomTints(genes).cap, CAP_SHADE.dome),
+    );
+    // A chanterelle's lowest hue against a fly agaric's highest, in each light.
+    const gaps = [...new Set(fly.map(({ where }) => where))].map((where) => {
+      const hues = (fills: readonly Shown[]) =>
+        fills
+          .filter((fill) => fill.where === where)
+          .map(({ shown: colour }) => hueDegrees(colour));
+      return {
+        where,
+        gap: Math.min(...hues(shown)) - Math.max(...hues(fly)),
+      };
+    });
+    assert.deepEqual(
+      gaps.filter(
+        // A light with no chanterelle measured in it is infinitely apart: a failure too.
+        ({ gap }) => !Number.isFinite(gap) || gap < LEAST_GAP,
+      ),
+      [],
+    );
+  });
+
+  it('stays bright in the farthest haze', () => {
+    for (const genes of chanterelles) {
       const hazed = mix(
         mushroomTints(genes).cap,
         PALETTE.air,
         heldHaze(genes, HAZES.at(-1) ?? 0),
       );
-      const hue = hueDegrees(hazed);
-      assert.ok(hue > 22 && hue < 46, hue.toFixed(1));
       assert.ok(toHsv(hazed).s > 0.65, toHsv(hazed).s.toFixed(2));
     }
   });

@@ -35,11 +35,16 @@ export const CREATURES = {
     pores: 0xf4_e2_92,
     lit: 0xf6_b8_6e,
   },
-  /** A chanterelle's one bright egg-yolk apricot, foot to rim, the ridges under its funnel a paler shade, and the light on it. */
+  /**
+   * A chanterelle's one bright egg-yolk apricot, foot to rim, the ridges
+   * under its funnel a paler shade, and the light on it: each at a hue of
+   * 20–30°, near or far, shaded or lit, over its whole hue nudge — orange,
+   * well clear of the fly agaric's red and short of gold.
+   */
   chanterelle: {
-    flesh: 0xff_a2_1a,
-    ridge: 0xff_c6_5e,
-    lit: 0xff_e4_8a,
+    flesh: 0xff_82_1e,
+    ridge: 0xff_a8_62,
+    lit: 0xff_c0_8e,
   },
   /** One per `RUSSULA_TONES` name, a russula's cap, and its white gills. */
   russula: {
