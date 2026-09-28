@@ -436,6 +436,15 @@ Standing rules for every session in the chain:
      `play-buzzers.ts` and `flier-watch.ts` fail it on a turn over 0.2 rad a
      frame, a settled flier not facing up, overlapping hoverers or a drawn
      span under the floor.
+   - Its review (5331309763, T50–T59) is handled: fliers crowd by their own
+     kinds' seats and spans, and give way to waiting bees (`perch-room.ts`);
+     the air grid seats every limit where the screen allows and a flier with
+     nowhere to go hovers; a long flight is capped per kind (`slowest`) and
+     darts, then comes in at its kind's pace; a flier faces the way its
+     moving perch carries it (`insect-steering.ts`); a released cap settles
+     over 1.3 s and a reselect swells on from where it stands (`motion.ts`);
+     the sun stands whole in the sky over a valley in the far hills. The play
+     run's heading watch is over one bob and passes on every screen.
 
 ## Rest of the elephant
 
