@@ -91,4 +91,3 @@ function paintCentre(brush: MushroomBrush, genes: RussulaGenes): void {
     genes.capHeight * tall * size * 2,
   );
 }
-

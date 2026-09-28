@@ -25,11 +25,7 @@ import {
   sideways,
   stemLight,
 } from './mushroom-light';
-import {
-  heldHaze,
-  type MushroomTints,
-  mushroomTints,
-} from './mushroom-tints';
+import { heldHaze, type MushroomTints, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
 import { type Brush, crescent, fillShape, inkUnder } from './shapes';
 
@@ -155,7 +151,8 @@ export function paintCapLight(
   shadeAlpha: number,
 ): void {
   const { graphics, toMushroom, size, tints, tone, lighting } = brush;
-  const along = (arc: readonly Point[]) => arc.map((point) => toMushroom(point));
+  const along = (arc: readonly Point[]) =>
+    arc.map((point) => toMushroom(point));
   for (const layer of layers) {
     switch (layer.kind) {
       case 'shade':

@@ -43,7 +43,7 @@ Other agents work on this tree at the same time, on other files.
   laid out, never a constant restated — this review exists because several
   tests passed by construction.
 - Quick checks between commits: `node --import tsx --test <your test
-  files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project —
+files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project —
   the app's tsconfig skips tests), and `pnpm exec eslint <your files>`.
   Not `./scripts/vet.sh`.
 - Commit per thread or per coherent fix, conventional subjects

@@ -43,7 +43,7 @@ Other agents may work on this tree at the same time, on other files.
   laid out, never a constant restated. When you keep a sweep as a test,
   break the code on purpose once and see it fail.
 - Quick checks between commits: `node --import tsx --test <your test
-  files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project —
+files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project —
   the app's tsconfig skips tests), `pnpm exec eslint <your files>`,
   `pnpm type-overlap`, `pnpm knip`. Not `./scripts/vet.sh`.
 - Commit per coherent step, conventional subjects (`feat(mushrooms): …`,

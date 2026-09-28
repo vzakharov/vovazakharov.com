@@ -95,11 +95,7 @@ function russulaCap(genes: RussulaGenes): number {
 
 /** A porcini's paler band along its cap's margin. */
 export function porciniMargin(genes: PorciniGenes): number {
-  return mix(
-    mushroomTints(genes).cap,
-    PALETTE.porcini.margin,
-    MARGIN_SHARE,
-  );
+  return mix(mushroomTints(genes).cap, PALETTE.porcini.margin, MARGIN_SHARE);
 }
 
 /** The paler middle of a russula's cap, in its dip. */

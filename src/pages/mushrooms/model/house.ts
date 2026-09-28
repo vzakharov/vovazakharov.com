@@ -71,7 +71,10 @@ const PANE_SAMPLES = 8;
  * underside up to its top; a chanterelle's the funnel's, from its lower edge
  * up to the front rim.
  */
-function faceAt(genes: MushroomGenes, x: number): { top: number; base: number } {
+function faceAt(
+  genes: MushroomGenes,
+  x: number,
+): { top: number; base: number } {
   if (genes.species !== 'chanterelle')
     return { top: capSurface(genes, x), base: capBase(genes, x) };
   return {

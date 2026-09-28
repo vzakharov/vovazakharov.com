@@ -84,15 +84,12 @@ export class HouseView {
     this.now = now;
     this.puffDepth = puffDepth;
     this.mouse = { phase, tappedAt: -Infinity };
-    this.graphics = scene.add
-      .graphics()
-      .setInteractive({
-        hitArea: this.hit,
-        // Where two doors' tap areas overlap, a tap goes to the nearer door.
-        hitAreaCallback: (area: readonly Point[], x: number, y: number) =>
-          containsOutline(area, x, y) &&
-          nearest(this, this.onScreen({ x, y })),
-      });
+    this.graphics = scene.add.graphics().setInteractive({
+      hitArea: this.hit,
+      // Where two doors' tap areas overlap, a tap goes to the nearer door.
+      hitAreaCallback: (area: readonly Point[], x: number, y: number) =>
+        containsOutline(area, x, y) && nearest(this, this.onScreen({ x, y })),
+    });
     // A door is part of its mushroom, not the meadow: its tap leaves an open picker open.
     this.graphics.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.mouse.tappedAt = this.now();

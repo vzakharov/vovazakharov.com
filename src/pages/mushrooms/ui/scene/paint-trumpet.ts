@@ -87,7 +87,11 @@ export function paintTrumpet(
     (kind) => thick * DEPTHS[kind],
     SHADE_ALPHA,
   );
-  paintMouth(brush, thick, layers.filter(({ kind }) => inMouth(kind)));
+  paintMouth(
+    brush,
+    thick,
+    layers.filter(({ kind }) => inMouth(kind)),
+  );
 }
 
 /**

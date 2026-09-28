@@ -1,11 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  mouthEdges,
-  ridgeLines,
-  trumpetOutlines,
-} from './chanterelle-outline';
+import { mouthEdges, ridgeLines, trumpetOutlines } from './chanterelle-outline';
 import { containsPoint, distanceToEdge, type Point } from './geometry';
 import {
   type ChanterelleGenes,
@@ -81,7 +77,9 @@ describe('mouthEdges', () => {
       const { far, near } = mouthEdges(genes);
       for (const point of [...far, ...near]) {
         if (!containsPoint(lip, point))
-          assert.fail(`seed ${seed}: mouth off the lip at ${JSON.stringify(point)}`);
+          assert.fail(
+            `seed ${seed}: mouth off the lip at ${JSON.stringify(point)}`,
+          );
       }
       const depth = capSurface(genes, 0) - capBase(genes, 0);
       assert.ok(middleY(far) - middleY(near) > depth * 0.4, `seed ${seed}`);

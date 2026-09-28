@@ -137,7 +137,8 @@ function drawIcon(
 ): void {
   const crown = Math.max(
     ...sample(-0.5, 0.5, CURVE_STEPS, (across) =>
-      capSurface(genes, across * genes.capWidth)),
+      capSurface(genes, across * genes.capWidth),
+    ),
   );
   const size = height / (genes.stemHeight + crown);
   graphics.save();

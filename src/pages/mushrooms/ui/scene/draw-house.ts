@@ -282,7 +282,10 @@ export function paintHouse(
 ): void {
   const slots = windowSlots(genes);
   const tints = mushroomTints(genes);
-  const onCap = { ...brush, halo: haloFor(PALETTE.wood, brush.tone(tints.cap)) };
+  const onCap = {
+    ...brush,
+    halo: haloFor(PALETTE.wood, brush.tone(tints.cap)),
+  };
   for (const [index, { kind, popped }] of windows.entries()) {
     const slot = slots[index];
     if (!slot || popped <= 0) continue;

@@ -42,7 +42,9 @@ describe('a porcini', () => {
         HAZES.flatMap((haze) => {
           const shown = luminance(mix(fill, PALETTE.air, haze));
           return shown > WEAK_EDGE[0] && shown < WEAK_EDGE[1]
-            ? [`${fill.toString(16)} hazed ${String(haze)}: ${shown.toFixed(3)}`]
+            ? [
+                `${fill.toString(16)} hazed ${String(haze)}: ${shown.toFixed(3)}`,
+              ]
             : [];
         }),
       ),

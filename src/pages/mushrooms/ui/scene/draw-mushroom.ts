@@ -2,10 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
-import type {
-  MushroomGenes,
-  PorciniGenes,
-} from '../../model/mushroom-genes';
+import type { MushroomGenes, PorciniGenes } from '../../model/mushroom-genes';
 import type { TapArea } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { stemHalfWidth } from '../../model/mushroom-profile';
