@@ -4,17 +4,12 @@ import { describe, it } from 'node:test';
 import type { WithId } from '@/shared/typings';
 
 import { isSeat } from '../../model/flight';
-import {
-  firstFlowers,
-  flowerGenes,
-  flowerHead,
-} from '../../model/flower-genes';
-import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
+import { type Meadow, reduce } from '../../model/game';
 import { containsPoint, type Point } from '../../model/geometry';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
-import { CAP_KINDS } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingAt } from './door-sight';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
@@ -29,6 +24,7 @@ import {
 } from './perch-sight';
 import { standingControls, tapReach } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
+import { opened, overlap } from './visit-play';
 
 /** How long each visit is watched, how often the model ticks, and how often perches are read, in ms. */
 const VISIT = 40_000;
@@ -44,35 +40,6 @@ function spanOf({ seed, kind }: Flier): number {
   const known = spans.get(seed) ?? wingspan(insectGenes({ seed, kind }));
   spans.set(seed, known);
   return known;
-}
-
-/**
- * A meadow as the scene opens it for the visit `seed`, drawing from the
- * scene's own streams, with the opening clump or a full forest standing.
- */
-function opened(
-  seed: number,
-  width: number,
-  height: number,
-  forest: boolean,
-): Stand & { meadow: Meadow } {
-  const random = mulberry32(seed);
-  let meadow = firstMeadow(random);
-  const flowers = firstFlowers(random, 7);
-  const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
-  const growing = mulberry32(seed ^ 0x9e_0a);
-  const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
-  for (const index of Array.from({ length: grown }).keys()) {
-    const cap = CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted';
-    meadow = reduce(meadow, { kind: 'grow', cap, seed: nextSeed(growing) });
-  }
-  const { mushrooms, planted } = meadow;
-  return { meadow, layout, flowers, mushrooms, planted };
-}
-
-/** How much of the narrower of two spans, centred `apart` px from each other, the other covers. */
-function overlap(a: number, b: number, apart: number): number {
-  return Math.max(0, (a + b) / 2 - apart) / Math.min(a, b);
 }
 
 /**
