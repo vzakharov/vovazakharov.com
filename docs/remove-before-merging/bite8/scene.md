@@ -1,48 +1,54 @@
-# Bite 8, scene agent — paused
+# Bite 8, scene agent — paused (second agent)
 
-## Done (committed with this note)
+Last commits: 1c737e1 (porcini, chanterelle), 514c621 (spore wait in the
+play). Everything is committed; all 580 mushroom tests pass, tsc and eslint
+are clean. `pnpm type-overlap` also fails at 4651e94, in files this part did
+not touch (`baking.ts`, `grain.ts`, `backdrop-tones.ts`, ...).
 
-- **Painting split by head** (`ui/scene/`): `draw-mushroom.ts` dispatches
-  (and keeps shadow/selection, plus the porcini's stem net);
-  `mushroom-paint.ts` holds `MushroomBrush`/`mushroomBrush`, `paintStem`
-  (`{ inkLaid }`), `inkStem`, `paintCapLight` (every `CapLight` kind);
-  `paint-dome.ts` fly agaric / porcini (pale margin band) / russula (paler
-  centre); `paint-trumpet.ts` chanterelle: funnel ink and stem ink laid
-  before both fills so no line crosses the joint, funnel light, ridges
-  (`ridgeLines`, tapered), then the lip and its light.
-- **Colours** (`palette-creatures.ts`: `porcini.*`, `chanterelle.*`,
-  `russula.*`, `russulaGills`) read per mushroom through
-  `mushroom-tints.ts` (`mushroomTints`, `porciniMargin`, `russulaCentre`,
-  `haloFor`). Porcini brown = mix(tan, chestnut) by hue nudge; test asserts
-  it stays out of luminance 0.021–0.045 (broken once on purpose: fails).
-- **Light**: `capLight` gives a chanterelle `shade`/`rim` on the lip's outer
-  shoulders plus `dip-shade` (sun-side wall) and `dip-light` + shine (far
-  wall); tested. `stemLight(lit)` replaces the fixed colour (`STEM_LIGHT`
-  kept).
-- **HUD**: per-species `iconGenes` (fat porcini club, flat rose russula,
-  short broad chanterelle); icon height uses the drawn crown.
-- **House**: a window's/door's outer edge gets a pale `rimLight` line where
-  its ink would not stand 3:1 off the cap/stem (dark porcini caps).
-- **Door taps**: HEAD already failed play on phoneS (the clump's two door
-  tap circles overlap after the new `doorStations`). Fixed in the scene: where
-  circles overlap, the nearer door's middle wins (`HouseView` `nearest`,
-  `MushroomBed.nearestDoor`).
-- **Play run**: `scripts/lib/play-species.ts` grows each species from the
-  picker, shoots `s1-<species>-selected/-wobble` close-ups (clip via
-  `__probe.bounds`), `s2-meadow`, `s3-butterfly-on-<species>`,
-  `s4-house-porcini/-chanterelle`. phoneS green, median 13.0 ms.
+## The orchestrator's five items
 
-## Left
+1. **Porcini stocky**: done in the genes (below). The HUD's `ICON_CLUB` is
+   gone. It was not looked at after the last change.
+2. **Chanterelle**: (a) nearly upright; (b) `mouthEdges`
+   (`model/chanterelle-outline.ts`) opens the funnel's mouth over the lip.
+   `paint-trumpet.ts` `paintMouth` fills and shades it, and `lipLight` puts
+   the dip light and shine on its far wall, with the near rim shading into it;
+   (c) flesh `0xffa21a`, ridges paler `0xffc65e`, and `heldHaze` in
+   `mushroom-tints.ts` gives it 0.55 of the haze. Tested; each new test was
+   broken on purpose once and failed.
+3. **Windows**: one window on the funnel face under the front rim
+   (`faceAt`, `slotLevel`, `FEWEST_WINDOWS = { dome: 3, trumpet: 1 }` in
+   `model/house.ts`). The face is a narrow V, so three full panes never fit.
+   Nothing has been shot since this change.
+4. **Spores**: Phaser tweens run on the wall clock (34 ms at most per frame),
+   so `play-species.ts` `sporesGone` draws 36 frames 34 ms apart before the
+   meadow and house shots. Not yet seen working.
+5. **Left**: porcini contact shadow, the play run on all five screens, the
+   frames, the side-by-side look. The phoneS frames in `frames/bite-8/` are
+   stale. The last phoneS run (median 12.5 ms) came before the chanterelle
+   reshape and the windows, so none of its frames were committed.
 
-- Play tabL, tabP, phoneP, phoneL; copy their frames (only phoneS committed).
-- Contact shadow for the porcini (item 5) untouched.
-- Look side by side with Syama's drawing; not yet done carefully.
+## Model changes
 
-## What still reads wrong
+- porcini: stemWidth 0.26–0.30 (was 0.18–0.23), footBulge 1.3–1.55,
+  stemHeight 0.68–0.80, capHeight 0.30–0.36, domePower 0.55–0.85, lean
+  0.05–0.10 (magnitude; `facing` picks the sign).
+- chanterelle: stemHeight 0.56–0.70, stemBend ±0.06, lean ±0.04, capWidth
+  0.78–0.90, capHeight 0.25–0.29, domePower 0.85–1.05, lip 0.12–0.15,
+  waveAmp 0.018–0.030.
+- `house.ts` `DOOR_MOST = 0.175`: the widest a door grows.
+- The pose test now says each gene keeps a size its range allows.
 
-- Porcini in the meadow is not stocky: its stem reads thin (genes are the
-  model's; the icon fakes it).
-- The chanterelle's lip reads as a flat plate over a narrow funnel; hazed far
-  away it goes tan. Its stem is long for a chanterelle.
-- `s2-meadow` is full of growth spores: wait longer before the shot.
-- Porcini pores barely show (the gills oval is a sliver).
+## Sweep numbers that moved
+
+- Least back cap in view: porcini 47.9 → 61.1%; chanterelle 51.2 → 45.1% on
+  the small phone. The floor is 45%, so there is no room left.
+- Clump doorway in sight: still 80.7% everywhere (floor 80).
+- Nearest the edge: fly agaric unchanged.
+
+## What still reads wrong (last frames)
+
+- The porcini's bulge is low and reads subtly. A barrel profile (widest in
+  the lower third) would read fatter, but the clump's door sight has no slack.
+- The chanterelle's stem was still long and thin in those frames. The
+  reshape since then has not been looked at.
