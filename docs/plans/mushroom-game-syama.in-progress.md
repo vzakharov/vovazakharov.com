@@ -441,14 +441,15 @@ Standing rules for every session in the chain:
 
 In order.
 
-**Open from bite 6, for its review to sweep:** planting is rare (room to
-plant per meadow ~1.0 on a tablet, 0.6 upright, 0.8 on a 320 px phone — the
-turned-screen rule cuts it about 4×); bees starve beside four butterflies,
-so they seldom plant then; on a 320 px phone fliers cross each other in
-flight often (only hoverers are kept apart); a bee on a flower's centre
-covers its head; the bee's brief flutter at rest still strobes a little;
-the sun sits partly behind the hills on phone landscape and the 320 px
-phone.
+**Open after bite 6's review, for bite 7's review to sweep:** fliers are
+kept apart where they sit and hover, not in flight, so a flier crossing
+the meadow is drawn straight over one seated on a cap (frame
+`phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
+seats eight of ten fliers apart, two holding overlapping spots on 33% of
+ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
+from off screen still takes up to 5 s for a butterfly; a butterfly making
+way for a bee leaves its flower moments after landing, which may read as a
+twitch; a flier holding an air spot is drawn still, with no hover bob.
 
 7. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
    fills and even black ink everywhere. The operator's bar is the look of
