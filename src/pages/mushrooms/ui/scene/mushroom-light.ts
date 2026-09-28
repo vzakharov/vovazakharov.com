@@ -15,13 +15,9 @@ import {
 } from '../../model/geometry';
 import { type Light, turnedLight } from '../../model/light';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import {
-  CURVE_STEPS,
-  domeArc,
-  footWidth,
-  toCanvas,
-} from '../../model/mushroom-outline';
+import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
+import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { awayAngle, litSide, shadowFall } from './ink';
 import { PALETTE } from './palette';
 
@@ -29,11 +25,7 @@ import { PALETTE } from './palette';
 const FULL_SIDE = 0.6;
 
 /** `light` as a thing at `at` on screen has it: pointing from there at the sun. */
-function lightAt<Lit extends Light>(
-  light: Lit,
-  at: Point,
-  sun: Point,
-): Lit {
+function lightAt<Lit extends Light>(light: Lit, at: Point, sun: Point): Lit {
   const [dx, dy] = [sun.x - at.x, sun.y - at.y];
   const length = Math.hypot(dx, dy) || 1;
   return { ...light, toward: { x: dx / length, y: dy / length } };
@@ -199,8 +191,7 @@ const SHADOW_LAYERS = [
 ] as const;
 
 /** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
-export type ShadowLayer = {
-  x: number;
+export type ShadowLayer = Pick<Point, 'x'> & {
   across: number;
   tall: number;
   alpha: number;

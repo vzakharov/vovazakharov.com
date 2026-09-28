@@ -21,7 +21,7 @@ import {
   wingBeat,
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
-import { GENE_RANGES } from '../../model/mushroom-genes';
+import { geneBounds } from '../../model/mushroom-genes';
 import { standingFlowers } from './flower-plots';
 import {
   FLOWER_SWAY,
@@ -48,7 +48,7 @@ describe('the butterflies’ size', () => {
       const narrowestCap = Math.min(
         ...mushrooms
           .slice(0, 2)
-          .map(({ size }) => size * GENE_RANGES.capWidth[0]),
+          .map(({ size }) => size * geneBounds('capWidth')[0]),
       );
       for (const span of SPANS) {
         assert.ok(

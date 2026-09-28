@@ -127,7 +127,7 @@ export function doorInSight(
 ): DoorPlace {
   const nearer = others.filter(({ depth }) => depth > standing.depth);
   let most: { station: DoorPlace; sight: number } | undefined;
-  for (const station of doorStations(standing.genes)) {
+  for (const station of doorStations(standing.genes, standing.turn)) {
     const sight = Math.min(
       sightOf(standing, station, 'painted', nearer),
       sightOf(standing, station, 'doorway', nearer),

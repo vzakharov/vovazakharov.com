@@ -4,15 +4,14 @@ import type { Point } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import {
-  CURVE_STEPS,
-  domeBand,
-  gillsOutline,
+  headOutlines,
   MUSHROOM_INK,
   stemOutline,
   type TapArea,
   toCanvas,
 } from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
+import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { mix, nudgeHue } from './colour';
 import { type Lighting, litSide } from './ink';
 import {
@@ -107,11 +106,14 @@ export function drawMushroom(
     );
   }
 
-  const gills = gillsOutline(genes).map((point) => toMushroom(point));
+  const [top, under] = headOutlines(genes);
   graphics.fillStyle(tone(PALETTE.gills));
-  fillShape(graphics, gills);
+  fillShape(
+    graphics,
+    under.map((point) => toMushroom(point)),
+  );
 
-  const dome = domeBand(genes, 0).map((point) => toMushroom(point));
+  const dome = top.map((point) => toMushroom(point));
   inkedFill(graphics, dome, red, ink, lighting, tone);
 
   const interior = toMushroom({ x: 0, y: genes.capHeight * 0.3 });

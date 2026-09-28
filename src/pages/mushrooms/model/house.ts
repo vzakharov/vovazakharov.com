@@ -16,9 +16,10 @@ import {
   type Point,
   sample,
 } from './geometry';
-import { domeHeight, type MushroomGenes } from './mushroom-genes';
-import { capOutlines, MUSHROOM_INK, stemHalfWidth } from './mushroom-outline';
+import type { MushroomGenes } from './mushroom-genes';
+import { capOutlines, MUSHROOM_INK } from './mushroom-outline';
 import { stemAt, type StemStation } from './mushroom-pose';
+import { capBase, capSurface, stemHalfWidth } from './mushroom-profile';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
 const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
@@ -44,35 +45,62 @@ export const EMPTY_HOUSE: House = { windows: [], door: false };
 export const PANE = 0.1;
 /** From one window's middle to the next's: a pane's width of cap between them. */
 const SLOT_PITCH = PANE * 2;
-/** How high the row's middle stands, as a fraction of the cap's height. */
+/** How high a dome's row of windows stands, as a fraction of the cap's height. */
 const ROW_LEVEL = 0.3;
-/** How far a pane keeps below the dome's surface. */
+/** How far a pane keeps inside the cap's face, above and below. */
 const PANE_MARGIN = 0.02;
 const MOST_WINDOWS = 5;
 const FEWEST_WINDOWS = 3;
-const REACH_STEP = 0.002;
+/** How finely a pane's top and bottom edges are read against the cap's face. */
+const PANE_SAMPLES = 8;
+
+/** Whether a pane with its middle at `slot` keeps `PANE_MARGIN` inside the cap's face, over its whole width. */
+function paneFits(genes: MushroomGenes, slot: Point): boolean {
+  return sample(slot.x - PANE / 2, slot.x + PANE / 2, PANE_SAMPLES, (x) => ({
+    top: capSurface(genes, x),
+    base: capBase(genes, x),
+  })).every(
+    ({ top, base }) =>
+      top >= slot.y + PANE / 2 + PANE_MARGIN &&
+      base <= slot.y - PANE / 2 - PANE_MARGIN,
+  );
+}
 
 /**
- * Where a cap has room for windows: the middles of a row along its lower
- * band, in the cap's own frame (`capFrame`'s, the middle of its underside at
- * the origin, y up). Three windows or five, as the cap's width allows — an odd
- * count, so the row ends balanced — ordered from the middle outward: the
- * first centred, then each pair's left before its right.
+ * How high the row's middle stands: a dome's on its lower band, never so low
+ * a pane's bottom leaves the underside; a chanterelle's midway up its lip,
+ * where the lip is thinnest across the fewest windows' span.
  */
-export function windowSlots(
-  genes: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower'>,
-): Point[] {
-  const y = genes.capHeight * ROW_LEVEL;
-  const top = y + PANE / 2 + PANE_MARGIN;
-  // The farthest a pane's middle goes out before its top corner meets the dome.
-  let reach = 0;
-  while (domeHeight(genes, reach + REACH_STEP + PANE / 2) >= top) {
-    reach += REACH_STEP;
+function rowLevel(genes: MushroomGenes): number {
+  if (genes.species !== 'chanterelle') {
+    return Math.max(genes.capHeight * ROW_LEVEL, PANE / 2 + PANE_MARGIN);
   }
-  const pairs = Math.max(
-    (FEWEST_WINDOWS - 1) / 2,
-    Math.min((MOST_WINDOWS - 1) / 2, Math.floor(reach / SLOT_PITCH)),
-  );
+  const reach = ((FEWEST_WINDOWS - 1) / 2) * SLOT_PITCH + PANE / 2;
+  const span = sample(-reach, reach, PANE_SAMPLES * FEWEST_WINDOWS, (x) => ({
+    top: capSurface(genes, x),
+    base: capBase(genes, x),
+  }));
+  const lowestTop = Math.min(...span.map(({ top }) => top));
+  const highestBase = Math.max(...span.map(({ base }) => base));
+  return (lowestTop + highestBase) / 2;
+}
+
+/**
+ * Where a cap has room for windows: the middles of a row across the face of
+ * its cap (`capBase` up to `capSurface`), in the cap's own frame (`capFrame`'s,
+ * y up). Three windows or five, as the cap's width allows — an odd count, so
+ * the row ends balanced — ordered from the middle outward: the first centred,
+ * then each pair's left before its right.
+ */
+export function windowSlots(genes: MushroomGenes): Point[] {
+  const y = rowLevel(genes);
+  // Whether a pane `pair` pitches out fits on both sides.
+  const pairFits = (pair: number) =>
+    [-1, 1].every((side) =>
+      paneFits(genes, { x: side * pair * SLOT_PITCH, y }),
+    );
+  let pairs = (FEWEST_WINDOWS - 1) / 2;
+  while (pairs < (MOST_WINDOWS - 1) / 2 && pairFits(pairs + 1)) pairs += 1;
   const slots: Point[] = [{ x: 0, y }];
   for (let pair = 1; pair <= pairs; pair++) {
     slots.push({ x: -pair * SLOT_PITCH, y }, { x: pair * SLOT_PITCH, y });
@@ -98,7 +126,7 @@ function fromPane(point: Point, slot: Point): number {
  * consults the house.
  */
 export function paintedSpots(
-  genes: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower' | 'spots'>,
+  genes: MushroomGenes,
   { windows }: House,
 ): Circle[] {
   const panes = windowSlots(genes).slice(0, windows.length);
@@ -194,16 +222,23 @@ function doorAt(genes: MushroomGenes, t: number): DoorPlace {
  * Where a mushroom's door may go, in the mushroom's own frame (foot at the
  * origin, y up), from the lowest up: its sill just above the ground, then a
  * station at a time up the stem for as long as the frame keeps under the cap.
- * Which one it takes is the scene's call, as the mushrooms in front allow.
+ * `turn` is the one the mushroom stands at, whose ground `stemOutline` levels
+ * the foot with. Which one it takes is the scene's call, as the mushrooms in
+ * front allow.
  */
-export function doorStations(genes: MushroomGenes): DoorPlace[] {
-  // The frame's lower corner, as the stem's tilt there dips one of them.
+export function doorStations(genes: MushroomGenes, turn = 0): DoorPlace[] {
+  // The ground runs through the foot level on screen: `x * slope` up here.
+  const slope = Math.tan(turn);
+  // The frame's lower corner nearest the ground, as the stem's tilt and the
+  // ground's slope dip one of them.
   const sill = (t: number) => {
     const place = onStem(doorAt(genes, t));
     const corner = 0.5 + DOOR_FRAME;
     return Math.min(
-      place({ x: -corner, y: 0 }).y,
-      place({ x: corner, y: 0 }).y,
+      ...[-corner, corner].map((x) => {
+        const point = place({ x, y: 0 });
+        return point.y - point.x * slope;
+      }),
     );
   };
   const overhead = capOutlines(genes);

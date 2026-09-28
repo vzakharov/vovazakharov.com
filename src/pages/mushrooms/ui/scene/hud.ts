@@ -73,18 +73,20 @@ function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
  */
 function iconGenes(species: Species): MushroomGenes {
   const genes = mushroomGenes({ seed: ICON_SEED, species });
-  return {
+  const ranges = GENE_RANGES[species];
+  const upright = {
     ...genes,
     lean: 0,
     stemBend: 0,
     capTilt: 0,
-    stemHeight: GENE_RANGES.stemHeight[0],
-    stemWidth: GENE_RANGES.stemWidth[1],
-    capWidth: GENE_RANGES.capWidth[1],
-    capHeight: 0.58,
-    domePower: 0.85,
+    stemHeight: ranges.stemHeight[0],
+    stemWidth: ranges.stemWidth[1],
+    capWidth: ranges.capWidth[1],
     spots: genes.spots.length > 0 ? ICON_SPOTS : [],
   };
+  return upright.species === 'chanterelle'
+    ? upright
+    : { ...upright, capHeight: 0.58, domePower: 0.85 };
 }
 
 /**

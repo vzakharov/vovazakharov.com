@@ -27,6 +27,7 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
+import { capSurface } from '../../model/mushroom-profile';
 import { doorInSight, standingAt } from './door-sight';
 import {
   drawMushroom,
@@ -367,7 +368,7 @@ export class MushroomBed {
     if (shown?.goneAt !== Infinity) return;
     shown.tappedAt = this.now();
     const { genes, turn, size, graphics } = shown;
-    const crown = capFrame(genes)({ x: 0, y: genes.capHeight * 0.9 });
+    const crown = capFrame(genes)({ x: 0, y: capSurface(genes, 0) * 0.9 });
     puffSpores(
       this.scene,
       placedAt(graphics, turn, toCanvas(size)(crown)),

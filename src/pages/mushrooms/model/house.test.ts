@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/shared/lib/collections';
+
 import { type Circle, containsPoint, outside, type Point } from './geometry';
 import {
   DOOR_ASPECT,
@@ -19,18 +21,29 @@ import {
   MUSHROOM_SPECIES,
   type MushroomGenes,
   mushroomGenes,
+  type Species,
 } from './mushroom-genes';
 import {
   capOutlines,
-  domeBand,
+  headOutlines,
   MUSHROOM_INK,
   stemOutline,
 } from './mushroom-outline';
+import { splayed } from './mushroom-pose';
+import { capBase } from './mushroom-profile';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
 const everyMushroom = MUSHROOM_SPECIES.flatMap((species) =>
   SEEDS.map((seed) => mushroomGenes({ seed, species })),
 );
+
+/** The mean width of `species`' lowest door over `everyMushroom`. */
+function meanWidth(species: Species): number {
+  const doors = everyMushroom
+    .filter((genes) => genes.species === species)
+    .map((genes) => stationsOf(genes)[0]?.width ?? 0);
+  return doors.reduce((sum, width) => sum + width, 0) / doors.length;
+}
 
 /** Each of `everyMushroom`'s door stations, found once for every test that reads them. */
 const found = new Map<MushroomGenes, DoorPlace[]>();
@@ -72,7 +85,7 @@ describe('windowSlots', () => {
 
   it('puts every pane inside the cap as it is drawn', () => {
     for (const genes of everyMushroom) {
-      const dome = domeBand(genes, 0);
+      const [dome] = headOutlines(genes);
       for (const slot of windowSlots(genes)) {
         for (const corner of corners(slot, PANE)) {
           assert.ok(
@@ -84,9 +97,16 @@ describe('windowSlots', () => {
     }
   });
 
-  it('keeps the row on the cap’s lower band', () => {
+  it('keeps the row on a dome’s lower band, and on a chanterelle’s lip', () => {
     for (const genes of everyMushroom) {
-      for (const { y } of windowSlots(genes)) {
+      for (const { x, y } of windowSlots(genes)) {
+        if (genes.species === 'chanterelle') {
+          // Over its front rim, clear of the ridged funnel under it.
+          for (const side of [-1, 1]) {
+            assert.ok(y - PANE / 2 > capBase(genes, x + (side * PANE) / 2));
+          }
+          continue;
+        }
         assert.ok(y - PANE / 2 > 0);
         assert.ok(y + PANE / 2 < genes.capHeight * 0.6);
       }
@@ -123,7 +143,40 @@ describe('windowSlots', () => {
   });
 });
 
+/** Every turn a slot stands a mushroom at, its lean and the layout's splay together, at their widest either way. */
+const TURNS = [-0.22, 0.22];
+
 describe('doorStations', () => {
+  it('stands every door inside its stem as drawn at the turn the mushroom stands at', () => {
+    let lowered = 0;
+    for (const genes of everyMushroom.filter((_, index) => index % 5 === 0)) {
+      for (const splay of TURNS) {
+        const { genes: faced, turn } = splayed(genes, splay);
+        const stem = stemOutline(faced, turn);
+        const [lowest, ...rest] = doorStations(faced, turn);
+        assert.ok(lowest, genes.species);
+        // The lowest door is the one the levelled foot's slope reaches.
+        if (lowest.y > (doorStations(faced)[0]?.y ?? Infinity)) lowered++;
+        for (const door of [lowest, ...rest]) {
+          const place = onStem(door);
+          const line = MUSHROOM_INK / door.width;
+          for (const point of outside(paintedDoor(DOOR_ASPECT), line)) {
+            if (!containsPoint(stem, place(point)))
+              assert.fail(
+                JSON.stringify({ ...pick(genes, 'species'), turn, door }),
+              );
+          }
+        }
+      }
+    }
+    assert.ok(lowered > 0);
+  });
+
+  it('gives a fat stem a wide door and a slender one a narrow door', () => {
+    assert.ok(meanWidth('porcini') > meanWidth('fly-agaric') * 1.2);
+    assert.ok(meanWidth('chanterelle') < meanWidth('fly-agaric'));
+  });
+
   it('frames every door a line of ink inside the stem, at every station', () => {
     for (const genes of everyMushroom) {
       const stem = stemOutline(genes);
@@ -141,7 +194,10 @@ describe('doorStations', () => {
   it('rises from a sill just above the ground to under the gills', () => {
     for (const genes of everyMushroom) {
       const stations = stationsOf(genes);
-      assert.ok(stations.length >= 8, `${stations.length} stations`);
+      assert.ok(
+        stations.length >= 8,
+        `${genes.species}: ${stations.length} stations`,
+      );
       const [lowest] = stations;
       assert.ok(lowest);
       assert.ok(lowest.y - lowest.height / 2 > 0);

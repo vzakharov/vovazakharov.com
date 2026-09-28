@@ -5,13 +5,31 @@ import {
   domeHeight,
   firstMushrooms,
   GENE_RANGES,
+  geneBounds,
   MUSHROOM_SPECIES,
   mushroomGenes,
+  RUSSULA_HOLLOW,
+  RUSSULA_TONES,
+  type Species,
   SPOT_MARGIN,
+  TRUMPET_RANGES,
 } from './mushroom-genes';
 import { mulberry32 } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
+
+/** How far through its range each of `species`' genes with room to vary was drawn for `seed`. */
+function along(seed: number, species: Species): Map<string, number> {
+  const genes: Record<string, unknown> = mushroomGenes({ seed, species });
+  return new Map(
+    Object.entries(GENE_RANGES[species]).flatMap(([name, [min, max]]) => {
+      const value = genes[name];
+      return max > min && typeof value === 'number'
+        ? [[name, (value - min) / (max - min)] as const]
+        : [];
+    }),
+  );
+}
 
 describe('mushroomGenes', () => {
   it('grows the same mushroom from the same seed', () => {
@@ -29,40 +47,83 @@ describe('mushroomGenes', () => {
     assert.notEqual(a.capWidth, b.capWidth);
   });
 
-  it('keeps every gene inside its range', () => {
-    for (const seed of SEEDS) {
-      const genes: Record<string, unknown> = mushroomGenes({
-        seed,
-        species: 'fly-agaric',
-      });
-      for (const [name, [min, max]] of Object.entries(GENE_RANGES)) {
-        const value = genes[name];
-        assert.ok(
-          typeof value === 'number' && value >= min && value <= max,
-          `${name} = ${String(value)}`,
-        );
+  it('keeps every gene inside its species’ range', () => {
+    for (const species of MUSHROOM_SPECIES) {
+      for (const seed of SEEDS) {
+        const genes: Record<string, unknown> = mushroomGenes({ seed, species });
+        const ranges: Record<string, readonly [number, number]> = {
+          ...GENE_RANGES[species],
+          ...(species === 'chanterelle' ? TRUMPET_RANGES : {}),
+          ...(species === 'russula' ? { hollow: RUSSULA_HOLLOW } : {}),
+        };
+        for (const [name, [min, max]] of Object.entries(ranges)) {
+          const value = genes[name];
+          assert.ok(
+            typeof value === 'number' && value >= min && value <= max,
+            `${species} ${name} = ${String(value)}`,
+          );
+        }
       }
     }
   });
 
-  it('gives the same seed the same shape whatever the species', () => {
-    const {
-      spots: _spots,
-      species: _species,
-      ...spotted
-    } = mushroomGenes({
-      seed: 9,
-      species: 'fly-agaric',
-    });
-    const {
-      spots: _none,
-      species: _porcini,
-      ...plain
-    } = mushroomGenes({
-      seed: 9,
-      species: 'porcini',
-    });
-    assert.deepEqual(spotted, plain);
+  it('draws the same seed’s shape from the same place in each species’ ranges', () => {
+    for (const seed of SEEDS.slice(0, 50)) {
+      const reference = along(seed, 'fly-agaric');
+      for (const species of MUSHROOM_SPECIES) {
+        for (const [name, share] of along(seed, species)) {
+          const expected = reference.get(name);
+          assert.ok(expected !== undefined, name);
+          assert.ok(Math.abs(share - expected) < 1e-9, `${species} ${name}`);
+        }
+      }
+    }
+  });
+
+  it('grows each species its own, from the same seed', () => {
+    const grown = MUSHROOM_SPECIES.map((species) =>
+      mushroomGenes({ seed: 9, species }),
+    );
+    assert.deepEqual(
+      grown.map(({ species }) => species),
+      [...MUSHROOM_SPECIES],
+    );
+    assert.equal(new Set(grown.map(({ capHeight }) => capHeight)).size, 4);
+  });
+
+  it('leaves no cap narrower than the fly agaric’s narrowest', () => {
+    for (const species of MUSHROOM_SPECIES) {
+      assert.ok(
+        GENE_RANGES[species].capWidth[0] >=
+          GENE_RANGES['fly-agaric'].capWidth[0],
+      );
+    }
+    assert.equal(
+      geneBounds('capWidth')[0],
+      GENE_RANGES['fly-agaric'].capWidth[0],
+    );
+  });
+
+  it('gives a chanterelle whole lobes and ridges, and a russula every tone', () => {
+    const tones = new Set<string>();
+    for (const seed of SEEDS) {
+      const chanterelle = mushroomGenes({ seed, species: 'chanterelle' });
+      assert.ok(chanterelle.species === 'chanterelle');
+      assert.ok(
+        Number.isInteger(chanterelle.lobes) &&
+          chanterelle.lobes >= 3 &&
+          chanterelle.lobes <= 5,
+      );
+      assert.ok(
+        Number.isInteger(chanterelle.ridges) &&
+          chanterelle.ridges >= 7 &&
+          chanterelle.ridges <= 11,
+      );
+      const russula = mushroomGenes({ seed, species: 'russula' });
+      assert.ok(russula.species === 'russula');
+      tones.add(russula.tone);
+    }
+    assert.deepEqual([...tones].toSorted(), [...RUSSULA_TONES].toSorted());
   });
 
   it('spots only the fly agaric', () => {

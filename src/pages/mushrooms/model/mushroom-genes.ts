@@ -3,11 +3,13 @@ import type { WithId } from '@/shared/typings';
 import type { Bent, Circle } from './geometry';
 import {
   between,
+  countFrom,
   geneFrom,
   type GeneRanges,
   mulberry32,
   nextSeed,
   type Nudged,
+  pick,
   type Random,
   type Seeded,
 } from './random';
@@ -21,47 +23,160 @@ export const MUSHROOM_SPECIES = [
 ] as const;
 export type Species = (typeof MUSHROOM_SPECIES)[number];
 
-type OfSpecies = { species: Species };
+/** The colours a russula's cap comes in, one picked by its seed. */
+export const RUSSULA_TONES = [
+  'red',
+  'rose',
+  'violet',
+  'ochre',
+  'green',
+] as const;
+type RussulaTone = (typeof RUSSULA_TONES)[number];
+
+type OfSpecies<Kind extends Species = Species> = { species: Kind };
 export type MushroomSeed = Seeded & OfSpecies;
 export type Mushroom = WithId & MushroomSeed;
 
 /**
- * One mushroom's shape. Lengths are in units of the mushroom's size, which the
- * scene sets per placement, so the same genes paint a near mushroom and a far
- * one. Angles are in radians. The cap follows the stem's bend.
+ * The shape every species grows, each from its own `GENE_RANGES`. Lengths are
+ * in units of the mushroom's size, which the scene sets per placement, so the
+ * same genes paint a near mushroom and a far one. Angles are in radians. The
+ * cap follows the stem's bend.
  */
-export type MushroomGenes = OfSpecies &
-  Bent &
+export type MushroomShape = Bent &
   Nudged & {
     stemHeight: number;
     /** The stem's width under the cap. */
     stemWidth: number;
-    /** How much wider the foot is than the top. */
+    /** The foot's width over the top's: past 1 a bulging foot, under 1 a stem flaring upward. */
     footBulge: number;
     /** The whole mushroom's tilt from upright, the foot staying put. */
     lean: number;
     capWidth: number;
+    /** A dome's height; a chanterelle's funnel's rise from the stem to its rim. */
     capHeight: number;
-    /** The dome's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
+    /** The cap's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
     domePower: number;
     /** A small turn of the cap against the stem. */
     capTilt: number;
-    /** White spots, each centred `y` above the cap's underside. */
-    spots: readonly Circle[];
   };
+type ShapeGene = keyof MushroomShape;
 
+/** White spots, each centred `y` above the cap's underside: a fly agaric's, none on any other. */
+type Spotted = { spots: readonly Circle[] };
+/** How far the middle of the cap's top sinks below where a plain dome would stand. */
+type Hollowed = { hollow: number };
+/**
+ * A chanterelle's own: a trumpet whose funnel rises `capHeight` from the stem
+ * to a thick `lip` of cap, the funnel's curve `flare` (under 1, the stem's
+ * sides running up into it with no joint), its rim waving in `lobes` of
+ * `waveAmp` from `wavePhase`, and `ridges` running from the rim onto the stem.
+ */
+type Trumpet = Hollowed & {
+  lip: number;
+  flare: number;
+  lobes: number;
+  waveAmp: number;
+  wavePhase: number;
+  ridges: number;
+};
+type Grown<Kind extends Species, Own = unknown> = OfSpecies<Kind> &
+  MushroomShape &
+  Spotted &
+  Own;
+
+type FlyAgaricGenes = Grown<'fly-agaric'>;
+type PorciniGenes = Grown<'porcini'>;
+export type ChanterelleGenes = Grown<'chanterelle', Trumpet>;
+type RussulaGenes = Grown<'russula', Hollowed & { tone: RussulaTone }>;
+/** One mushroom's genes, whichever its species. */
+export type MushroomGenes =
+  | FlyAgaricGenes
+  | PorciniGenes
+  | ChanterelleGenes
+  | RussulaGenes;
+
+/**
+ * Each species' shape genes, drawn in the one order `growGenes` lists them,
+ * so a seed's stream stays aligned whatever the species. Every cap is at least
+ * the fly agaric's narrowest across and reaches no farther than its widest
+ * reaches (`maxReach`), so the layout's floors and margins hold for all four.
+ */
 export const GENE_RANGES = {
-  stemHeight: [0.6, 0.9],
-  stemWidth: [0.13, 0.19],
-  footBulge: [1.1, 1.45],
-  stemBend: [-0.26, 0.26],
-  lean: [-0.12, 0.12],
-  capWidth: [0.72, 1],
-  capHeight: [0.3, 0.42],
-  domePower: [0.55, 1.15],
-  capTilt: [-0.08, 0.08],
-  hueNudge: [-0.03, 0.03],
-} as const satisfies GeneRanges;
+  'fly-agaric': {
+    stemHeight: [0.6, 0.9],
+    stemWidth: [0.13, 0.19],
+    footBulge: [1.1, 1.45],
+    stemBend: [-0.26, 0.26],
+    lean: [-0.12, 0.12],
+    capWidth: [0.72, 1],
+    capHeight: [0.3, 0.42],
+    domePower: [0.55, 1.15],
+    capTilt: [-0.08, 0.08],
+    hueNudge: [-0.03, 0.03],
+  },
+  // Stocky: a thick club of a stem, shorter than a fly agaric's, under a thick, broad dome.
+  porcini: {
+    stemHeight: [0.62, 0.74],
+    stemWidth: [0.18, 0.23],
+    footBulge: [1.2, 1.45],
+    stemBend: [-0.2, 0.2],
+    lean: [-0.1, 0.1],
+    capWidth: [0.78, 0.92],
+    capHeight: [0.28, 0.36],
+    domePower: [0.6, 0.95],
+    capTilt: [-0.06, 0.06],
+    hueNudge: [-0.03, 0.03],
+  },
+  // The cap turns only as the stem does, so the funnel meets it with no joint.
+  chanterelle: {
+    stemHeight: [0.6, 0.76],
+    stemWidth: [0.15, 0.2],
+    footBulge: [0.62, 0.78],
+    stemBend: [-0.16, 0.16],
+    lean: [-0.1, 0.1],
+    capWidth: [0.78, 0.92],
+    capHeight: [0.22, 0.27],
+    domePower: [0.4, 0.7],
+    capTilt: [0, 0],
+    hueNudge: [-0.025, 0.025],
+  },
+  // A straight stem under a flattish cap.
+  russula: {
+    stemHeight: [0.68, 0.88],
+    stemWidth: [0.15, 0.2],
+    footBulge: [0.98, 1.08],
+    stemBend: [-0.14, 0.14],
+    lean: [-0.1, 0.1],
+    capWidth: [0.76, 0.98],
+    capHeight: [0.2, 0.27],
+    domePower: [0.3, 0.55],
+    capTilt: [-0.06, 0.06],
+    hueNudge: [-0.02, 0.02],
+  },
+} as const satisfies Record<Species, GeneRanges<ShapeGene>>;
+
+/** The genes only a chanterelle grows, drawn after its shape. */
+export const TRUMPET_RANGES = {
+  lip: [0.13, 0.16],
+  hollow: [0.025, 0.04],
+  flare: [0.55, 0.8],
+  waveAmp: [0.012, 0.028],
+  wavePhase: [0, Math.PI * 2],
+} as const satisfies GeneRanges<Exclude<keyof Trumpet, 'lobes' | 'ridges'>>;
+const LOBES = [3, 5] as const;
+const RIDGES = [7, 11] as const;
+/** How far a russula's cap dips at its middle, drawn after its shape. */
+export const RUSSULA_HOLLOW = [0.015, 0.035] as const;
+
+/** The least and the most `name` takes over every species. */
+export function geneBounds(name: ShapeGene): [number, number] {
+  const ranges = MUSHROOM_SPECIES.map((species) => GENE_RANGES[species][name]);
+  return [
+    Math.min(...ranges.map(([min]) => min)),
+    Math.max(...ranges.map(([, max]) => max)),
+  ];
+}
 
 const SPOT_COUNT = [4, 8] as const;
 const SPOT_RADIUS = [0.035, 0.065] as const;
@@ -71,7 +186,7 @@ const SPOT_ATTEMPTS = 120;
 
 /** The dome's height above its underside at `x` across it. */
 export function domeHeight(
-  genes: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower'>,
+  genes: Pick<MushroomShape, 'capWidth' | 'capHeight' | 'domePower'>,
   x: number,
 ): number {
   const across = (2 * x) / genes.capWidth;
@@ -81,7 +196,7 @@ export function domeHeight(
 
 function growSpots(
   random: Random,
-  cap: Pick<MushroomGenes, 'capWidth' | 'capHeight' | 'domePower'>,
+  cap: Pick<MushroomShape, 'capWidth' | 'capHeight' | 'domePower'>,
 ): Circle[] {
   const wanted = Math.round(between(random, SPOT_COUNT[0], SPOT_COUNT[1]));
   const spots: Circle[] = [];
@@ -123,8 +238,8 @@ export function mushroomGenes(seeded: MushroomSeed): MushroomGenes {
 
 function growGenes({ seed, species }: MushroomSeed): MushroomGenes {
   const random = mulberry32(seed);
-  const gene = geneFrom(random, GENE_RANGES);
-  const shape = {
+  const gene = geneFrom(random, GENE_RANGES[species]);
+  const shape: MushroomShape = {
     stemHeight: gene('stemHeight'),
     stemWidth: gene('stemWidth'),
     footBulge: gene('footBulge'),
@@ -136,9 +251,42 @@ function growGenes({ seed, species }: MushroomSeed): MushroomGenes {
     capTilt: gene('capTilt'),
     hueNudge: gene('hueNudge'),
   };
-  // Drawn after the shape, so turning spots on or off leaves the shape alone.
-  const spots = species === 'fly-agaric' ? growSpots(random, shape) : [];
-  return { species, ...shape, spots };
+  // A species' own genes are drawn after the shape, so they leave it alone.
+  switch (species) {
+    case 'fly-agaric': {
+      return { species, ...shape, spots: growSpots(random, shape) };
+    }
+    case 'porcini': {
+      return { species, ...shape, spots: [] };
+    }
+    case 'chanterelle': {
+      const own = geneFrom(random, TRUMPET_RANGES);
+      return {
+        species,
+        ...shape,
+        spots: [],
+        lip: own('lip'),
+        hollow: own('hollow'),
+        flare: own('flare'),
+        waveAmp: own('waveAmp'),
+        wavePhase: own('wavePhase'),
+        lobes: countFrom(random, LOBES),
+        ridges: countFrom(random, RIDGES),
+      };
+    }
+    case 'russula': {
+      return {
+        species,
+        ...shape,
+        spots: [],
+        hollow: between(random, ...RUSSULA_HOLLOW),
+        tone: pick(random, RUSSULA_TONES),
+      };
+    }
+    default: {
+      return species satisfies never;
+    }
+  }
 }
 
 /**

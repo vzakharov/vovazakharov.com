@@ -11,7 +11,7 @@ import type { Sized } from '@/shared/typings';
 import { FLOWER_RANGES } from '../../model/flower-genes';
 import type { Circle, Point, Scaled } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import { GENE_RANGES } from '../../model/mushroom-genes';
+import { geneBounds } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type Controls, placeControls, TAP_RADIUS } from './sky-layout';
@@ -126,7 +126,7 @@ const HAZE_REACH = 0.35;
  * narrowest cap the genes allow is then `2 × TAP_RADIUS` across, a mushroom's
  * tap area being its cap as drawn.
  */
-const FINGER_SIZE = (2 * TAP_RADIUS) / GENE_RANGES.capWidth[0];
+const FINGER_SIZE = (2 * TAP_RADIUS) / geneBounds('capWidth')[0];
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,

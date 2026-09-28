@@ -5,17 +5,31 @@
  */
 
 import type { Point, Turned } from './geometry';
-import { domeHeight, GENE_RANGES, type MushroomGenes } from './mushroom-genes';
+import {
+  GENE_RANGES,
+  MUSHROOM_SPECIES,
+  type MushroomGenes,
+  type Species,
+  TRUMPET_RANGES,
+} from './mushroom-genes';
+import { capBase, capSurface } from './mushroom-profile';
 
 /** How far along the stem its bend's control point sits. */
 const BEND_FROM = 0.55;
-/** How much of the stem's turn at the top the cap follows. */
-const CAP_FOLLOW = 0.45;
-const RIM_SAMPLES = 41;
+/**
+ * How much of the stem's turn at the top the cap follows: a chanterelle's
+ * all of it, its funnel running on from the stem.
+ */
+const CAP_FOLLOW = {
+  'fly-agaric': 0.45,
+  porcini: 0.45,
+  chanterelle: 1,
+  russula: 0.45,
+} as const satisfies Record<Species, number>;
 
 type Posed = Pick<
   MushroomGenes,
-  'stemHeight' | 'stemBend' | 'capWidth' | 'capHeight' | 'domePower' | 'capTilt'
+  'species' | 'stemHeight' | 'stemBend' | 'capTilt'
 >;
 
 /** A point on the stem's centreline and its tilt there, `t` from foot to top. */
@@ -36,7 +50,10 @@ function turn({ x, y }: Point, angle: number): Point {
  * The centreline is a quadratic curve that leaves the foot upright and ends
  * `stemBend` of its height to the side.
  */
-export function stemAt(genes: Posed, t: number): StemStation {
+export function stemAt(
+  genes: Pick<MushroomGenes, 'stemHeight' | 'stemBend'>,
+  t: number,
+): StemStation {
   const height = genes.stemHeight;
   const control = { x: 0, y: height * BEND_FROM };
   const end = { x: genes.stemBend * height, y: height };
@@ -54,7 +71,7 @@ export function stemAt(genes: Posed, t: number): StemStation {
  */
 export function capFrame(genes: Posed): (point: Point) => Point {
   const top = stemAt(genes, 1);
-  const angle = genes.capTilt + CAP_FOLLOW * top.tilt;
+  const angle = genes.capTilt + CAP_FOLLOW[genes.species] * top.tilt;
   return (point) => {
     const turned = turn(point, angle);
     return { x: turned.x + top.x, y: turned.y + top.y };
@@ -63,51 +80,46 @@ export function capFrame(genes: Posed): (point: Point) => Point {
 
 /**
  * Where a butterfly sits on the cap, `across` from -1 to 1 of the way from
- * the crown toward either rim: a little under the dome's top, so it reads as
- * sitting on it rather than hovering.
+ * the crown toward either rim: a little under the cap's top, so it reads as
+ * sitting on it rather than hovering — on a chanterelle, in the dip of its
+ * lip or on its rim.
  */
-export function capSeat(genes: Posed, across: number): Point {
+export function capSeat(genes: MushroomGenes, across: number): Point {
   const x = (across * genes.capWidth) / 2;
-  return capFrame(genes)({ x, y: domeHeight(genes, x) * 0.8 });
+  const base = capBase(genes, x);
+  return capFrame(genes)({ x, y: base + (capSurface(genes, x) - base) * 0.8 });
 }
 
-/** How far the cap reaches to either side of the foot once `lean` turns it. */
-export function capReach(
-  genes: Posed,
-  lean: number,
-): { left: number; right: number } {
-  const toMushroom = capFrame(genes);
-  const half = genes.capWidth / 2;
-  const xs = Array.from({ length: RIM_SAMPLES }, (_, index) => {
-    const x = -half + (2 * half * index) / (RIM_SAMPLES - 1);
-    return [
-      { x, y: 0 },
-      { x, y: domeHeight(genes, x) },
-    ];
-  })
-    .flat()
-    .map((point) => turn(toMushroom(point), lean).x);
-  return { left: -Math.min(...xs), right: Math.max(...xs) };
+/** The tallest any of `species`' caps stands over the middle of its underside. */
+function tallestCap(species: Species): number {
+  const height = GENE_RANGES[species].capHeight[1];
+  return species === 'chanterelle'
+    ? height + TRUMPET_RANGES.lip[1] + TRUMPET_RANGES.waveAmp[1]
+    : height;
 }
 
 /**
  * The farthest any mushroom's cap can reach from its foot, per unit of size,
- * once a placement turns it by `splay` beyond its own lean: the stem's top
- * sits no farther out than its bend plus its lean allow, and no point of the
- * cap is farther from the top than the dome's corner. `toward` is the side a
+ * once a placement turns it by `splay` beyond its own lean, whatever its
+ * species: the stem's top sits no farther out than its bend plus its lean
+ * allow, and no point of the cap is farther from the top than the corner of
+ * the box its widest and tallest cap stands in. `toward` is the side a
  * splayed mushroom faces; `away` the other, which only the cap's own width
  * reaches, the top never crossing back over the foot.
  */
 export function maxReach(splay: number): { toward: number; away: number } {
-  const height = GENE_RANGES.stemHeight[1];
-  const bend = GENE_RANGES.stemBend[1];
-  const lean = GENE_RANGES.lean[1] + Math.abs(splay);
-  const corner = Math.hypot(
-    GENE_RANGES.capWidth[1] / 2,
-    GENE_RANGES.capHeight[1],
-  );
-  const toward = height * (bend + Math.sin(lean)) + corner;
-  return { toward, away: splay === 0 ? toward : corner };
+  const reaches = MUSHROOM_SPECIES.map((species) => {
+    const ranges = GENE_RANGES[species];
+    const lean = ranges.lean[1] + Math.abs(splay);
+    const corner = Math.hypot(ranges.capWidth[1] / 2, tallestCap(species));
+    const toward =
+      ranges.stemHeight[1] * (ranges.stemBend[1] + Math.sin(lean)) + corner;
+    return { toward, away: splay === 0 ? toward : corner };
+  });
+  return {
+    toward: Math.max(...reaches.map(({ toward }) => toward)),
+    away: Math.max(...reaches.map(({ away }) => away)),
+  };
 }
 
 type Facing = Pick<MushroomGenes, 'lean' | 'stemBend' | 'capTilt'>;

@@ -9,12 +9,9 @@ import {
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
-import {
-  CURVE_STEPS,
-  stemOutline,
-  toCanvas,
-} from '../../model/mushroom-outline';
+import { stemOutline, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
+import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { luminance, mix, toHsv } from './colour';
 import { type MeadowLayout, meadowLayout } from './layout';
 import {
