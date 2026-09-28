@@ -8,6 +8,8 @@ export const CREATURES = {
   capLit: 0xff_7a_52,
   rimLight: 0xff_f0_d0,
   stem: 0xfb_f3_df,
+  /** The warm light down a stem's sun side: the cap's `capLit`, for a pale fill. */
+  stemLit: 0xff_d6_8a,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
   capDark: 0x5a_18_2e,

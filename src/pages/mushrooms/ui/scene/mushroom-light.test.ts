@@ -3,8 +3,15 @@ import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
 import { mushroomGenes } from '../../model/mushroom-genes';
-import { luminance, toHsv } from './colour';
-import { capRimArc, capShadeArc, capShine, shadedHalf } from './mushroom-light';
+import { luminance, mix, toHsv } from './colour';
+import {
+  capRimArc,
+  capShadeArc,
+  capShine,
+  shadedHalf,
+  STEM_LIGHT,
+  type StemLayer,
+} from './mushroom-light';
 import { PALETTE } from './palette';
 
 /** How far round the wheel a colour's hue stands from orange's. */
@@ -54,5 +61,35 @@ describe('the creatures’ light and shade', () => {
 
   it('keeps a spot white on its lit side', () => {
     assert.ok(luminance(PALETTE.spot) >= 0.9);
+  });
+});
+
+describe('a stem in the light', () => {
+  const over = (side: StemLayer[3], depth: number) => {
+    let colour: number = PALETTE.stem;
+    for (const [layer, alpha, reach, on] of STEM_LIGHT) {
+      if (on === side && reach >= depth) colour = mix(colour, layer, alpha);
+    }
+    return colour;
+  };
+  const shade = STEM_LIGHT.filter((layer) => layer[3] === 'shade');
+
+  it('shades softly, deepening toward its edge in steps too small to read as a band', () => {
+    assert.ok(shade.length >= 4);
+    for (const [, alpha] of shade) assert.ok(alpha <= 0.08);
+    const depths = shade.map((layer) => layer[2]);
+    assert.ok(
+      depths.every(
+        (depth, index) => index === 0 || depth < (depths[index - 1] ?? 0),
+      ),
+    );
+    assert.ok(blueness(over('shade', 0)) > blueness(PALETTE.stem));
+  });
+
+  it('warms toward the sun and stays pale on both sides', () => {
+    assert.ok(towardOrange(over('sun', 0.05)) < towardOrange(PALETTE.stem));
+    for (const side of ['sun', 'shade'] as const) {
+      assert.ok(luminance(over(side, 0)) >= 0.5, side);
+    }
   });
 });

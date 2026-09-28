@@ -15,7 +15,13 @@ import {
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
 import { inkFor, innerInk, type Lighting, litSide, longestRun } from './ink';
-import { capRimArc, capShadeArc, capShine, shadedHalf } from './mushroom-light';
+import {
+  capRimArc,
+  capShadeArc,
+  capShine,
+  shadedHalf,
+  STEM_LIGHT,
+} from './mushroom-light';
 import { PALETTE } from './palette';
 import {
   crescent,
@@ -34,8 +40,6 @@ const SHINE_ALPHA = 0.45;
 /** The cap's warm rim light and the pale line inside it: each one's width, in the cap's height, and alpha. */
 const RIM = { width: 0.06, alpha: 0.6 };
 const RIM_FINE = { width: 0.025, alpha: 0.4 };
-/** The pale light down the stem's sun side, in its width, and its alpha. */
-const STEM_RIM = { width: 0.14, alpha: 0.35 };
 /** How far a two-tone cap's band line stays in from the dome's own surface, in its height: what counts as its lower edge. */
 const BAND_EDGE = 0.02;
 /**
@@ -97,10 +101,17 @@ export function drawMushroom(
     litSide(toward) === 1 ? [right, left] : [left, right];
   const middle = canvas(stemAt(genes, 0.5));
   const stemWidth = genes.stemWidth * size;
-  shade(SHADE_ALPHA);
-  fillShape(graphics, crescent(shadeSide, middle, stemWidth * 0.3));
-  lit(PALETTE.rimLight, STEM_RIM.alpha);
-  fillShape(graphics, crescent(sunSide, middle, stemWidth * STEM_RIM.width));
+  for (const [colour, alpha, depth, side] of STEM_LIGHT) {
+    // Shade is laid over the fill's own haze, as the cap's is.
+    graphics.fillStyle(
+      side === 'shade' ? colour : tone(colour),
+      alpha * (1 - haze),
+    );
+    fillShape(
+      graphics,
+      crescent(side === 'sun' ? sunSide : shadeSide, middle, stemWidth * depth),
+    );
+  }
 
   const gills = gillsOutline(genes).map((point) => toMushroom(point));
   graphics.fillStyle(tone(PALETTE.gills));

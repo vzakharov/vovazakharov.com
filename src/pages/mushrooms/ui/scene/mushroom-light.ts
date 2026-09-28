@@ -8,6 +8,7 @@ import { type Point, sample } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { CURVE_STEPS, domeArc } from '../../model/mushroom-outline';
 import { litSide } from './ink';
+import { PALETTE } from './palette';
 
 /** The dome's arc from `from` past its crown to the rim, on `side`. */
 function sideArc(
@@ -56,3 +57,43 @@ export function shadedHalf(centre: Point, r: number, toward: Point): Point[] {
     }),
   );
 }
+
+/**
+ * One of the stem's layers of light: its colour, its alpha, how deep into the
+ * stem it reaches from its edge, in the stem's widths, and which edge.
+ */
+export type StemLayer = readonly [
+  colour: number,
+  alpha: number,
+  depth: number,
+  side: 'sun' | 'shade',
+];
+
+/** `count` layers of `colour` on `side`, each at `alpha`, from `deepest` in to `shallowest`. */
+function layers(
+  colour: number,
+  side: StemLayer[3],
+  count: number,
+  alpha: number,
+  [deepest, shallowest]: readonly [number, number],
+): StemLayer[] {
+  return Array.from({ length: count }, (_, index) => [
+    colour,
+    alpha,
+    deepest + ((shallowest - deepest) * index) / (count - 1),
+    side,
+  ]);
+}
+
+/**
+ * The stem's light, as the cap's: a cool shade on the side turned from the
+ * sun and a warm light on the side toward it, each stacked in thin layers
+ * from the deepest in, so it deepens toward the edge with no band of its
+ * own; and a pale line just inside the lit edge. It stays light enough that
+ * the stem still reads as pale.
+ */
+export const STEM_LIGHT: readonly StemLayer[] = [
+  ...layers(PALETTE.shadeCool, 'shade', 12, 0.024, [0.6, 0.08]),
+  ...layers(PALETTE.stemLit, 'sun', 8, 0.08, [0.34, 0.06]),
+  [PALETTE.rimLight, 0.6, 0.04, 'sun'],
+];
