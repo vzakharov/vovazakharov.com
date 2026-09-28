@@ -1,53 +1,68 @@
-# Heading group (T59 flight fix) — paused, part done
+# Heading group (T59 flight fix) — paused, heading watch passing
 
 ## Done
 
-- **ebb4b2c** moves the per-frame flight step out of `ui/scene/insect-view.ts`
-  into a pure `model/insect-steering.ts` (`steer`, `startLeg`), with its test
-  `model/insect-steering.test.ts`. The test flies legs the watch's way; it fails
-  with the old flutter and with the unwinding turned off.
-  - Take-off turns on the spot before moving: `pivot()` in `insect-motion.ts`
-    takes `PIVOT_SHARE` 0.25 of the flight × |lifted|/π. The turn completes at
-    `TURNED_BY` 0.75 of the pivot. The turn cap is set per kind in steering.
-  - `heading()` in `insect-paths.ts` is the line's chord over one flutter bob,
-    and the `follow` setting is gone. The flutter is capped at `FLUTTER_REACH`
-    0.04 of the distance. `BANK_TURN` is 0.45.
-  - The bow side is chosen, and the bow scaled down (`Path.bow` is now a
-    number), to minimise the leg's sweep. Near a half turn (`EVEN` 0.35), the
-    lift and the settle unwind the leg.
+- **ebb4b2c**: the flight step lives in pure `model/insect-steering.ts`. A
+  flier turns before it flies, and heads over one flutter bob.
+- **678b2e9**: a flier faces the way its moving perch carries it.
+  - The cause of both failure kinds was the perch moving (a cap beckoning,
+    or bouncing from a tap). The point rides the live `end`, but the body
+    headed for the stale `aim`, and a still hop kept its old heading.
+  - `steer` reads the way the flight goes over one bob (`stride` in
+    `insect-paths.ts`). It reads it to the live end, drifting at the speed
+    the perch moved since the last frame (`Steering.perch`, reset on a new
+    leg and on a repaint).
+  - It faces that way above 0.8 sizes/s. Below 0.4 it faces the way it
+    meant to (toward `aim`, or `SetOff.meant` on a still leg), and between
+    the two it blends (`GOING`, `facingWay`).
+  - A NaN bow is fixed: a leg with no curve that set off near a half turn
+    from its heading used to vanish.
+  - New tests in `insect-steering.test.ts`: flying to beckoning caps (fails
+    before at 0.37–0.39 rad), a still hop on a beckoning cap, and the NaN leg.
+- **38b2ac3**: `scripts/play-mushrooms.ts` `step` counts frames. Summing
+  `FRAME_MS` used to run one frame twice per call now and then. The watch
+  then saw part of a bob, and a bee read 0.32 rad on tabP.
 
-## Play run on ebb4b2c (run in a worktree at HEAD, since the perch agent's WIP `flight.ts` breaks `roaming.test.ts`)
+## Measurements (worst heading, rad; bound 0.3)
 
-Worst heading error in rad, first pass / second pass (before this fix → after):
+| Screen | ebb4b2c | 678b2e9 + step fix, at 678b2e9's tree | at 38b2ac3 (with the perch group's 52295ea/8321601) |
+| ------ | ------- | ------------------------------------- | --------------------------------------------------- |
+| tabL   | 1.41    | 0.26                                  | 0.27                                                |
+| tabP   | 0.47    | 0.25                                  | 0.30                                                |
+| phoneP | 2.68    | 0.21                                  | not run                                             |
+| phoneL | 0.38    | 0.23                                  | not run                                             |
+| phoneS | 0.29    | 0.24                                  | not run                                             |
 
-| Screen | Before      | After       | Most turns on a leg (after) |
-| ------ | ----------- | ----------- | --------------------------- |
-| tabL   | 2.15 / 1.83 | 1.41 / 0.17 | 0.54                        |
-| tabP   | 3.04 / 1.94 | 0.47 / 0.14 | 0.58 (was 1.02)             |
-| phoneP | 3.05 / 1.98 | 2.68 / 0.15 | 0.63 (was 1.02)             |
-| phoneL | 1.78 / 2.19 | 0.38 / 0.17 | 0.60                        |
-| phoneS | 3.13 / 1.75 | 0.29 / 0.17 | 0.60 (was 1.09) — passes    |
+The most turning round on one leg stayed at or under 0.72 everywhere. The
+run before the perch group's commits exited 0 on all five screens.
 
-Log: `tmp/handle-bite6/heading/play1.log`. The spin bound now passes everywhere.
-The heading bound still fails on 4 screens.
+## Left
 
-## Left: two remaining failure kinds (unmet)
+1. **The play at 38b2ac3 exits 1 on tabL/tabP**, from the perch checks and
+   not the heading watch. The failures read "butterfly-N never reached a
+   perch nor roamed" and "the butterfly sent away is still in the meadow".
+   Two causes are possible:
+   - the perch group's 52295ea/8321601;
+   - 38b2ac3, which plays slightly less time per `step` than the old
+     double-stepping did.
 
-1. **A fly in its last 80–130 ms before landing on a cap** faces 1.4–2.7 rad
-   off (tabL fly-8, phoneP fly-7). Its travel is right at the 1 span/s floor
-   (8–14 px over the window), so the fly is nearly still and something moves
-   it backwards. Suspects:
-   - the perch's end moving (the cap breathing or swaying) while the heading
-     aims at `aim`, the perch's spot as the leg set off;
-   - the tail of the flutter.
+   To settle it, play a worktree at 38b2ac3 with 38b2ac3 reverted. The
+   phones were not played at 38b2ac3.
 
-   Check it with `tmp/handle-bite6/heading/sim.ts`, adding a moving `end`. If
-   it is the perch's motion, steer toward the live `end` for the last stretch.
+2. The harness still fails its hardest cases. These are a fly hopping on,
+   or re-landing on, a cap bouncing at the full 20% tap depth: 0.38 rad and
+   1.5 turns. The play never hits them, and the watch passes.
 
-2. **A butterfly flying in from off screen** (legs 1, from x > 1) is 0.38–0.47
-   rad off late in its flight. Its first leg has `sat` undefined, so its bow is
-   full. Look at its heading versus `aim` near arrival.
+## Harness
 
-The harness (`node --import tsx tmp/handle-bite6/heading/sim.ts 60`) passes
-with a worst of 0.20 rad. It does not model perch motion or legs flown in from
-off screen, which is likely why it misses both failure kinds.
+`heading/sim.ts.txt` is the harness. Copy it to
+`tmp/handle-bite6/heading/sim.ts` so that its `../../../src` imports resolve,
+then run `node --import tsx tmp/handle-bite6/heading/sim.ts 60`.
+
+- It flies `steer` the view's way to a cap that moves (breath, a tap's
+  bounce, a beckon) and reads each leg as the flier watch does.
+- It prints the worst heading and spin per scenario and screen. The
+  scenarios are `hop`, `same` (a startle back onto the cap it sat on) and
+  `in` (from off screen).
+- `STILL=1` freezes the cap, `TRACE='<scenario> seed N <kind> <width>'`
+  prints the watched frames, and `ALL=` prints every frame.
