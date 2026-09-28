@@ -466,8 +466,12 @@ Standing rules for every session in the chain:
    - `model/light.ts`: `sunLight(layout)` (a unit vector toward the sun,
      screen axes) and `PICTOGRAM_LIGHT`; the scene hands the light to every
      bed and painter, and a resize repaints, so a turn moves it.
-   - `ink.ts`: `inkFor(fill)` (contrast-clamped against its fill and the
-     ground), `innerInk`, `weightedOutline` (an underlay pushed out by the
+   - `ink.ts`: `inkFor(fill)` takes the fill as drawn, haze included; the
+     ink or the fill stands 3:1 off every ground down to `groundDeep`, the
+     ink always stands off its fill — a darker line round a light or mid
+     fill, the fill's own hue a little lighter round one dark enough to
+     stand off every ground itself — and no ink is darker than
+     `INK_LEAST`; `lineInk` strokes feelers; `innerInk`, `weightedOutline` (an underlay pushed out by the
      light), `taperedLine`, `facingArc`, `shadowFall`; `colour.ts` is
      Phaser-free, with `darken`, `luminance`, `contrast`. A new creature
      (bite 8's species) is inked and lit through these.
@@ -475,8 +479,10 @@ Standing rules for every session in the chain:
      `paintBackdrop`'s layer contract; `backdrop-tones.ts` the derived
      colours, `grain.ts` one seeded canvas texture under the grass. No Phaser
      filters and no gradient fills: bands and that one texture.
-   - Insects are painted once and rotated as they fly, so their shading
-     turns with them; clear wings keep a plain edge. The house stands on its
+   - Insects are lit from the sun whatever their heading: each is painted
+     in its own frame with the sun turned to match (`turnedLight`), and its
+     lit parts are painted again whenever it turns past π/8 (`litTurn`);
+     clear wings keep a plain edge. The house stands on its
      mushroom's shadow.
    - The spec and the references' reading are in
      `docs/remove-before-merging/atmosphere/look.md`.
