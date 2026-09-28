@@ -4,7 +4,8 @@
  * test can hold the depth they make without painting.
  */
 
-import { mix } from './colour';
+import { channels, mix, packed } from './colour';
+import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { SEAM_REACH } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
@@ -67,34 +68,107 @@ export function skyAt(down: number): number {
   return alongStops(SKY_STOPS, down);
 }
 
-/** A disc of the sun's light over the sky, round the sun's middle: its colour, its alpha, and its radius in sun radii. */
-export type HaloDisc = readonly [colour: number, alpha: number, radius: number];
+/**
+ * A layer of the sun's light over the sky: its colour, its opacity out to
+ * `from` the sun's middle, and how far it reaches, thinning between the two —
+ * in sun radii, or as shares of the screen's short side.
+ */
+type HaloLayer = {
+  colour: number;
+  peak: number;
+  from: number;
+  reach: number;
+  per: 'sun' | 'screen';
+};
 
-/** `count` discs of `colour` from `outer` sun radii in to `inner`, each at `alpha` of `alphaAt` of its share of the way in. */
-function discs(
-  colour: number,
-  count: number,
-  [outer, inner]: readonly [number, number],
-  alphaAt: (inward: number) => number,
-): HaloDisc[] {
-  return Array.from({ length: count }, (_, index) => {
-    const inward = index / (count - 1);
-    return [colour, alphaAt(inward), outer + (inner - outer) * inward];
-  });
+/**
+ * The sun's light over the sky, in the order it is laid on: a white halo,
+ * reaching farthest and as far for its size on every screen, that pales the
+ * blue round the sun; the warmth, kept inside the part the halo has already
+ * paled, since yellow laid over blue mixes to a grey-teal; and the glow close
+ * about the rays. Each thins from its peak at the sun's middle to nothing at
+ * its reach (`falloff`), so none has a plateau or an edge.
+ */
+export const SUN_HALO: readonly HaloLayer[] = [
+  { colour: PALETTE.highlight, peak: 0.3, from: 0, reach: 0.4, per: 'screen' },
+  { colour: PALETTE.highlight, peak: 0.92, from: 1.8, reach: 3.5, per: 'sun' },
+  { colour: PALETTE.skyWarm, peak: 0.6, from: 1.8, reach: 2.8, per: 'sun' },
+  {
+    colour: PALETTE.sunGlow,
+    peak: 0.6,
+    from: 1,
+    reach: SUN_GLOW_REACH,
+    per: 'sun',
+  },
+];
+
+/** A layer's opacity `t` of the way from its `from` to its reach, as a share of its peak: a smoothstep down, level only at either end. */
+function falloff(t: number): number {
+  const clamped = Math.min(1, Math.max(0, t));
+  return 1 - clamped * clamped * (3 - 2 * clamped);
 }
 
 /**
- * The sun's light over the sky, in painting order, stacked from the outside
- * in so it thickens toward the sun with no edge of its own: a white halo,
- * reaching farthest, that pales the blue round the sun; the warmth, kept
- * inside the part the halo has already paled, since yellow laid over blue
- * mixes to a grey-teal; and the glow close about the rays.
+ * The sky at `x`, `y` with the sun's light laid over it, each layer in turn
+ * at its opacity there, composited in full precision and rounded once, so a
+ * layer however faint is never lost to the rounding a stack of faint discs
+ * would pay at every one.
  */
-export const SUN_HALO: readonly HaloDisc[] = [
-  ...discs(PALETTE.highlight, 44, [9, 1], () => 0.045),
-  ...discs(PALETTE.skyWarm, 26, [3.5, 1], () => 0.048),
-  ...discs(PALETTE.sunGlow, 14, [SUN_GLOW_REACH, 1], (inward) => 0.04 * inward),
-];
+export function litSkyAt(
+  {
+    sun,
+    width,
+    height,
+    nearHills,
+  }: Pick<MeadowLayout, 'sun' | 'width' | 'height' | 'nearHills'>,
+  x: number,
+  y: number,
+): number {
+  const short = Math.min(width, height);
+  const away = Math.hypot(x - sun.x, y - sun.y);
+  let lit = channels(skyAt(y / nearHills));
+  for (const { colour, peak, from, reach, per } of SUN_HALO) {
+    const over = channels(colour);
+    const unit = per === 'sun' ? sun.r : short;
+    const alpha =
+      peak * falloff((away - from * unit) / ((reach - from) * unit));
+    lit = {
+      r: lit.r + (over.r - lit.r) * alpha,
+      g: lit.g + (over.g - lit.g) * alpha,
+      b: lit.b + (over.b - lit.b) * alpha,
+    };
+  }
+  return packed(lit);
+}
+
+/**
+ * How many cells of the painted sky span the screen's short side, and a sun
+ * radius at the least, where its light curves the most.
+ */
+const SKY_CELLS = 48;
+const SUN_CELLS = 5;
+
+/**
+ * The cells the sky is painted in down to the near hills: each shaded
+ * between its corners' `litSkyAt`, so the sky and the sun's light on it are
+ * one smooth fill, however many layers are laid on.
+ */
+export function skyGrid({
+  width,
+  height,
+  nearHills,
+  sun,
+}: Pick<MeadowLayout, 'width' | 'height' | 'nearHills' | 'sun'>): {
+  columns: number;
+  rows: number;
+  across: number;
+  down: number;
+} {
+  const cell = Math.min(Math.min(width, height) / SKY_CELLS, sun.r / SUN_CELLS);
+  const columns = Math.ceil(width / cell);
+  const rows = Math.ceil(nearHills / cell);
+  return { columns, rows, across: width / columns, down: nearHills / rows };
+}
 
 /**
  * The ground's colour stops, as shares of the way from its top to the bottom

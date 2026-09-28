@@ -37,10 +37,13 @@ function hillLine(
 }
 
 /**
- * How deep under the sun's middle, in its radii, the far hills part; and how
- * soft, in radii, the crease is where a hill slope meets the parting.
+ * How deep under the sun's middle, in its radii, the far hills part; how far
+ * either side, in radii, the parting is still half as deep, which keeps it
+ * wider than the glow round the sun; and how soft, in radii, the crease is
+ * where a hill slope meets the parting.
  */
 const PARTED_DEPTH = 2;
+const PARTED_SPREAD = 3;
 const PARTED_SOFTNESS = 0.4;
 
 /** The larger of `a` and `b` — the lower on screen — with the crease between them rounded over `k`. */
@@ -51,19 +54,21 @@ function softLower(a: number, b: number, k: number): number {
 
 /**
  * `line` parted under the sun by a bowl `PARTED_DEPTH` radii deep at its
- * middle, wide enough that its sides stay under every ray, so no hill stands
- * in front of the sun and the parting has no level floor.
+ * middle, its sides under every ray and outside the glow, so no hill stands
+ * in front of the sun, the glow is not cut out of the sky by the hills, and
+ * the parting has no level floor.
  */
 function partedUnderSun(
   line: readonly Point[],
   sun: MeadowLayout['sun'],
 ): Point[] {
   const depth = sun.r * PARTED_DEPTH;
-  const rays = sun.r * SUN_RAY_REACH;
+  const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
   // A parabola through `depth` below the middle and `depth / 2` below it at
-  // the rays' reach either side, which keeps it under the rays' circle.
+  // `spread` either side; no narrower than the rays' reach, which keeps it
+  // under the rays' circle.
   const bowl = (x: number) =>
-    sun.y + depth - (depth * (x - sun.x) ** 2) / (2 * rays ** 2);
+    sun.y + depth - (depth * (x - sun.x) ** 2) / (2 * spread ** 2);
   return line.map(({ x, y }) => ({
     x,
     y: softLower(y, bowl(x), sun.r * PARTED_SOFTNESS),

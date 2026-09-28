@@ -1,14 +1,13 @@
 import * as Phaser from 'phaser';
 
 import { between, type Random } from '../../model/random';
-import { skyAt, SUN_HALO } from './backdrop-tones';
+import { litSkyAt, skyGrid } from './backdrop-tones';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH, washRings } from './sun-layout';
 
-const SKY_BANDS = 96;
 const SUN_RAYS = 16;
 const WASH_ALPHA = 0.02;
 /** The highest cloud's share of the way toward the sky's top colour. */
@@ -17,37 +16,37 @@ const HIGH_CLOUD_HAZE = 0.2;
 /** The next graphics object to paint into, in painting order. */
 export type Layer = () => Phaser.GameObjects.Graphics;
 
-/** Horizontal bands from `top` to `bottom`, the colour at each from `colourAt` of its share down, 0 to 1. */
-function fillBands(
-  graphics: Phaser.GameObjects.Graphics,
-  width: number,
-  [top, bottom]: readonly [number, number],
-  colourAt: (down: number) => number,
-  bands: number,
-): void {
-  const band = (bottom - top) / bands;
-  for (let index = 0; index < bands; index++) {
-    graphics.fillStyle(colourAt(index / (bands - 1)));
-    graphics.fillRect(0, top + index * band, width, band + 1);
-  }
-}
-
-/** The sky down to the near hills, warm at the bottom, and pale and warm round the sun. */
+/**
+ * The sky down to the near hills, warm at the bottom, and pale and warm round
+ * the sun: `skyGrid`'s cells, each shaded between its corners' colours. A
+ * renderer that cannot shade between corners fills each with the colour at
+ * its middle.
+ */
 export function paintSky(
   graphics: Phaser.GameObjects.Graphics,
-  { width, nearHills, sun }: MeadowLayout,
+  layout: MeadowLayout,
 ): void {
-  fillBands(graphics, width, [0, nearHills], skyAt, SKY_BANDS);
-  for (const [colour, alpha, radius] of SUN_HALO) {
-    graphics.fillStyle(colour, alpha);
-    graphics.fillCircle(sun.x, sun.y, sun.r * radius);
+  const { columns, rows, across, down } = skyGrid(layout);
+  const at = (x: number, y: number) => litSkyAt(layout, x, y);
+  for (let row = 0; row < rows; row++) {
+    for (let column = 0; column < columns; column++) {
+      const [x, y] = [column * across, row * down];
+      graphics.fillStyle(at(x + across / 2, y + down / 2));
+      graphics.fillGradientStyle(
+        at(x, y),
+        at(x + across, y),
+        at(x, y + down),
+        at(x + across, y + down),
+      );
+      graphics.fillRect(x, y, across, down);
+    }
   }
 }
 
 /**
  * The sun as a rosette: two rings of rays set half a step apart, then a ring
  * of petals inside the disc — the first of the meadow's mandala ornament —
- * over the glow the sky lays round it (`SUN_HALO`).
+ * over the glow the sky lays round it (`litSkyAt`).
  */
 export function paintSun(
   graphics: Phaser.GameObjects.Graphics,

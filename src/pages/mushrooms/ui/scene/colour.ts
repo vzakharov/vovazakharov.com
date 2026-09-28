@@ -6,7 +6,8 @@
 type Rgb = Record<'r' | 'g' | 'b', number>;
 type Hsv = Record<'h' | 's' | 'v', number>;
 
-function channels(colour: number): Rgb {
+/** A colour's red, green and blue, each 0–255. */
+export function channels(colour: number): Rgb {
   return {
     r: (colour >> 16) & 0xff,
     g: (colour >> 8) & 0xff,
@@ -19,7 +20,8 @@ function byte(value: number): number {
   return Math.min(255, Math.max(0, Math.round(value)));
 }
 
-function packed({ r, g, b }: Rgb): number {
+/** Channels, each rounded to a whole byte, as one colour. */
+export function packed({ r, g, b }: Rgb): number {
   return (byte(r) << 16) | (byte(g) << 8) | byte(b);
 }
 
