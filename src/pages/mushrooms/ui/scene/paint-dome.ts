@@ -4,18 +4,19 @@
  * it, and its light.
  */
 
-import { sample } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 import type {
   DomeGenes,
   PorciniGenes,
   RussulaGenes,
 } from '../../model/mushroom-genes';
-import { domeArc, headOutlines } from '../../model/mushroom-outline';
+import { domeArc, gillLines, headOutlines } from '../../model/mushroom-outline';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
+import { inkFor } from './ink';
 import { capLight } from './mushroom-light';
-import { type MushroomBrush, paintCapLight } from './mushroom-paint';
+import { type MushroomBrush, paintCapLight, shadeWith } from './mushroom-paint';
 import { porciniMargin, russulaCentre } from './mushroom-tints';
-import { crescent, fillShape, inkedFill } from './shapes';
+import { crescent, fillShape, inkedFill, strokeTapered } from './shapes';
 
 const SHADE_ALPHA = 0.26;
 /** How deep each crescent of a dome's light reaches in from its arc, in the cap's height. */
@@ -25,16 +26,22 @@ const MARGIN_CLIMB = 0.55;
 const MARGIN_DEPTH = 0.2;
 /** A russula's pale middle: its half-width, in the cap's, and its height, in the cap's. */
 const CENTRE = [0.24, 0.16] as const;
+/** The cap's shadow across the top of a porcini's sponge or a russula's gills: how deep, in the cap's width, and how dark. */
+const UNDER_SHADE = { depth: 0.035, alpha: 0.3 };
+/** A russula's gill line: its width under the dome and at its foot, in the ink line's, and its alpha. */
+const GILL_WIDTH = [0.4, 0.25] as const;
+const GILL_ALPHA = 0.55;
 
 export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
   const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
     brush;
   const [top, under] = headOutlines(genes);
-  graphics.fillStyle(tone(tints.under));
-  fillShape(
-    graphics,
-    under.map((point) => toMushroom(point)),
-  );
+  const band = under.map((point) => toMushroom(point));
+  if (genes.species === 'fly-agaric') {
+    graphics.fillStyle(tone(tints.under));
+    fillShape(graphics, band);
+  } else paintBand(brush, band);
+  if (genes.species === 'russula') paintGills(brush, genes);
   const dome = top.map((point) => toMushroom(point));
   inkedFill(graphics, dome, tints.cap, ink, lighting, tone);
 
@@ -49,6 +56,41 @@ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
     (kind) => capHeight * DEPTHS[kind],
     SHADE_ALPHA,
   );
+}
+
+/**
+ * A porcini's sponge or a russula's gills, inked round, the cap's shadow
+ * lying across the top of it just under the rim.
+ */
+function paintBand(brush: MushroomBrush, band: readonly Point[]): void {
+  const { graphics, genes, tints, toMushroom, ink, lighting, tone, size } =
+    brush;
+  inkedFill(graphics, band, tints.under, ink, lighting, tone);
+  const half = genes.capWidth / 2;
+  const rim = sample(-half, half, CURVE_STEPS, (x) => toMushroom({ x, y: 0 }));
+  shadeWith(brush, UNDER_SHADE.alpha);
+  fillShape(
+    graphics,
+    crescent(
+      rim,
+      toMushroom({ x: 0, y: -genes.capWidth }),
+      genes.capWidth * size * UNDER_SHADE.depth,
+    ),
+  );
+}
+
+/** A russula's gills, fine lines down its band in the band's own ink. */
+function paintGills(brush: MushroomBrush, genes: RussulaGenes): void {
+  const { graphics, tints, toMushroom, ink, lighting, tone } = brush;
+  graphics.fillStyle(inkFor(tone(tints.under)), GILL_ALPHA);
+  for (const gill of gillLines(genes)) {
+    strokeTapered(
+      graphics,
+      gill.map((point) => toMushroom(point)),
+      [ink * GILL_WIDTH[0], ink * GILL_WIDTH[1]],
+      lighting,
+    );
+  }
 }
 
 /**

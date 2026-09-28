@@ -3,9 +3,9 @@ import { describe, it } from 'node:test';
 
 import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS } from '../ui/scene/viewports';
-import type { Point } from './geometry';
-import { mushroomGenes } from './mushroom-genes';
-import { headOutlines, inkWidth } from './mushroom-outline';
+import { containsPoint, type Point } from './geometry';
+import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
+import { gillLines, headOutlines, inkWidth } from './mushroom-outline';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
@@ -95,6 +95,60 @@ describe('a chanterelle’s lip', () => {
       const [lip] = headOutlines(genes);
       const lobes = notches(lip, LINE).length + 1;
       if (lobes < 3) assert.fail(`seed ${seed}: ${lobes} lobes`);
+    }
+  });
+});
+
+/** The least `y` along `outline`: its lowest point. */
+const lowest = (outline: readonly Point[]) =>
+  Math.min(...outline.map(({ y }) => y));
+
+/** How far a closed `outline`'s top stands at its middle below its highest point. */
+function dipAtMiddle(outline: readonly Point[]): number {
+  const edge = topEdge(outline);
+  const middle = edge.toSorted((a, b) => Math.abs(a.x) - Math.abs(b.x))[0];
+  assert.ok(middle);
+  return Math.max(...edge.map(({ y }) => y)) - middle.y;
+}
+
+/** How deep the underside must show below the cap, in the cap's width. */
+const UNDERSIDE_SHOWN = 0.06;
+
+describe('every head but the fly agaric’s', () => {
+  it('shows its underside well below its cap', () => {
+    const species = MUSHROOM_SPECIES.filter((kind) => kind !== 'fly-agaric');
+    assert.equal(species.length, MUSHROOM_SPECIES.length - 1);
+    for (const kind of species) {
+      for (const seed of SEEDS) {
+        const genes = mushroomGenes({ seed, species: kind });
+        const [cap, under] = headOutlines(genes);
+        const shown = (lowest(cap) - lowest(under)) / genes.capWidth;
+        if (shown < UNDERSIDE_SHOWN)
+          assert.fail(
+            `${kind} seed ${seed}: ${(shown * 100).toFixed(1)}% shown`,
+          );
+      }
+    }
+  });
+
+  it('dips a russula’s top at its middle, an ink line deep on the smallest slot', () => {
+    for (const seed of SEEDS) {
+      const genes = mushroomGenes({ seed, species: 'russula' });
+      const [cap] = headOutlines(genes);
+      const dip = dipAtMiddle(cap);
+      if (dip < LINE) assert.fail(`seed ${seed}: dips ${dip.toFixed(4)}`);
+    }
+  });
+
+  it('runs every russula gill down its band as filled', () => {
+    for (const seed of SEEDS.slice(0, 400)) {
+      const genes = mushroomGenes({ seed, species: 'russula' });
+      assert.ok(genes.species === 'russula');
+      const [, band] = headOutlines(genes);
+      for (const point of gillLines(genes).flat()) {
+        if (!containsPoint(band, point))
+          assert.fail(`seed ${seed}: a gill off at ${JSON.stringify(point)}`);
+      }
     }
   });
 });

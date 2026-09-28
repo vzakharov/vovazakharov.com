@@ -21,6 +21,8 @@ export const RIM_ROUNDS = 2;
 
 /** How far a chanterelle's front rim curves down at its middle, in its lip: the near edge of its mouth, seen a little from above. */
 const FRONT_SAG = 0.6;
+/** How far out a russula's dish reaches, in its half-width: the shoulders round it stand higher than its middle. */
+const DISH_REACH = 0.55;
 
 type Stem = Pick<MushroomGenes, 'species'> &
   Pick<MushroomShape, 'stemWidth' | 'footBulge'>;
@@ -114,7 +116,7 @@ export function capSurface(genes: MushroomGenes, x: number): number {
       return domeHeight(genes, x);
     }
     case 'russula': {
-      const inside = 1 - acrossOf(genes, x) ** 2;
+      const inside = Math.max(0, 1 - (acrossOf(genes, x) / DISH_REACH) ** 2);
       return Math.max(0, domeHeight(genes, x) - genes.hollow * inside ** 2);
     }
     case 'chanterelle': {

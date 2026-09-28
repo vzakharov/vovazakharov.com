@@ -174,7 +174,7 @@ export const TRUMPET_RANGES = {
 const LOBES = [3, 5] as const;
 const RIDGES = [7, 11] as const;
 /** How far a russula's cap dips at its middle, drawn after its shape. */
-export const RUSSULA_HOLLOW = [0.015, 0.035] as const;
+export const RUSSULA_HOLLOW = [0.05, 0.07] as const;
 
 /** The least and the most `name` takes over every species. */
 export function geneBounds(name: ShapeGene): [number, number] {

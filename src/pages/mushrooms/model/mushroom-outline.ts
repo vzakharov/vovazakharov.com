@@ -6,7 +6,12 @@
 
 import { trumpetOutlines } from './chanterelle-outline';
 import { placedAt, type Point, rounded, sample } from './geometry';
-import type { MushroomGenes } from './mushroom-genes';
+import type {
+  DomeGenes,
+  FlyAgaricGenes,
+  MushroomGenes,
+  RussulaGenes,
+} from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';
 import {
   capSurface,
@@ -98,25 +103,106 @@ export function domeArc(
   });
 }
 
+/** How far a dome's underside sags at its middle, in the cap's height, so the cap reads as wrapping round. */
+const UNDER_SAG = 0.1;
+
 /** A domed cap, its rim rounded into the underside, in the cap's frame. */
 function domeOutline(genes: MushroomGenes): Point[] {
   const half = genes.capWidth / 2;
   const arc = domeArc(genes, half, [Math.PI / 2, -Math.PI / 2]);
-  // The underside sags a little, so the cap reads as wrapping round.
-  const sag = genes.capHeight * 0.1;
   const underside = sample(-half, half, CURVE_STEPS, (x) => ({
     x,
-    y: -sag * (1 - (x / half) ** 2),
+    y: undersideAt(genes, x),
   })).slice(1, -1);
   return rounded([...arc, ...underside], RIM_ROUNDS);
 }
 
-/** The gills, an oval under the dome that shows below its rim, in the cap's frame. */
-function gillsOutline(genes: MushroomGenes): Point[] {
-  return sample(0, Math.PI * 2, CURVE_STEPS, (angle) => ({
-    x: Math.cos(angle) * genes.capWidth * 0.44,
-    y: Math.sin(angle) * genes.capHeight * 0.14,
-  }));
+/**
+ * How deep a porcini's sponge and a russula's gills hang below the dome's
+ * underside either side of the stem, in the cap's width: a band thick enough
+ * to know the two by, where a fly agaric's gills only line its rim.
+ */
+const UNDER_BAND = { porcini: 0.085, russula: 0.085 } as const;
+/** How far across a band reaches, in the cap's width, and how square its ends stand: under 1, flat along the bottom. */
+const BAND_ACROSS = 0.45;
+const BAND_ROUND = 0.35;
+/**
+ * How many gills a russula's band shows to either side of its stem, how far
+ * past the collar they start, in its reach, and how far toward the band's
+ * end and its lower edge they run.
+ */
+const GILLS = { side: 4, clear: 1.25, reach: 0.88 };
+
+/** A species whose dome sits over a thick band: a porcini's sponge or a russula's gills. */
+type Banded = Exclude<DomeGenes, FlyAgaricGenes>;
+
+/**
+ * Where a band draws up to the dome's underside round the stem, from and to
+ * how far out from the middle, in the stem's top half-width: the stem runs up
+ * into the cap between the band's two sides, as high as a door can climb.
+ */
+const COLLAR = [0.9, 1.3] as const;
+
+/** The underside of a dome at `x`, sagging at its middle. */
+function undersideAt(genes: MushroomGenes, x: number): number {
+  const across = Math.min(1, Math.abs((2 * x) / genes.capWidth));
+  return -genes.capHeight * UNDER_SAG * (1 - across ** 2);
+}
+
+/**
+ * The band's lower edge at `x`: flat along the bottom either side of the
+ * stem, drawn up to the dome's underside round it and rounding up at either
+ * end.
+ */
+function bandBottom(genes: Banded, x: number): number {
+  const along = Math.min(1, Math.abs(x) / (genes.capWidth * BAND_ACROSS));
+  const collar = stemHalfWidth(genes, 1);
+  const [from, to] = [COLLAR[0] * collar, COLLAR[1] * collar];
+  const out = Math.min(1, Math.max(0, (Math.abs(x) - from) / (to - from)));
+  const hangs =
+    out * out * (3 - 2 * out) * (1 - along ** 2) ** (BAND_ROUND / 2);
+  return (
+    undersideAt(genes, x) - genes.capWidth * UNDER_BAND[genes.species] * hangs
+  );
+}
+
+/**
+ * What shows under the dome, in the cap's frame: a fly agaric's gills, an
+ * oval that shows only just below its rim, or the thick band of a porcini's
+ * sponge or a russula's gills, its top tucked up inside the dome.
+ */
+function gillsOutline(genes: DomeGenes): Point[] {
+  if (genes.species === 'fly-agaric')
+    return sample(0, Math.PI * 2, CURVE_STEPS, (angle) => ({
+      x: Math.cos(angle) * genes.capWidth * 0.44,
+      y: Math.sin(angle) * genes.capHeight * 0.14,
+    }));
+  const across = genes.capWidth * BAND_ACROSS;
+  const tuck = genes.capHeight * UNDER_SAG * 2;
+  // By angle, crowding the samples toward the band's ends, where it rounds.
+  return sample(0, Math.PI * 2, CURVE_STEPS * 2, (angle) => {
+    const x = Math.cos(angle) * across;
+    const y = Math.sin(angle);
+    return { x, y: y < 0 ? bandBottom(genes, x) : tuck * y };
+  });
+}
+
+/**
+ * A russula's gills as lines down its band, in the cap's frame: `GILLS.side`
+ * to either side of the stem, spread from its collar toward the band's end,
+ * each from under the dome to short of the band's lower edge so its stroke
+ * stays on it.
+ */
+export function gillLines(genes: RussulaGenes): Point[][] {
+  const from = COLLAR[1] * GILLS.clear * stemHalfWidth(genes, 1);
+  const to = genes.capWidth * BAND_ACROSS * GILLS.reach;
+  return [-1, 1].flatMap((sign) =>
+    Array.from({ length: GILLS.side }, (_, index) => {
+      const x = sign * (from + ((to - from) * index) / (GILLS.side - 1));
+      const foot = bandBottom(genes, x) * GILLS.reach;
+      return sample(0, 1, 1, (t) => ({ x, y: foot * t }));
+    }),
+  );
 }
 
 /**
