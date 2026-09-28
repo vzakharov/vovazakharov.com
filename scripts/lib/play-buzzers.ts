@@ -38,6 +38,11 @@ const FLYING_TAPS = 10;
 const FLYING_REACHED = 9;
 /** How long a fly tapped in flight must have flown, and still have to fly, in ms, so the tap lands mid-flight. */
 const MID_FLIGHT = 150;
+/** Frames per look while waiting for a fly in flight to be drawn on screen, and the most looks. */
+const SIGHT_LOOK = 15;
+const SIGHT_LOOKS = 40;
+
+const Screen = z.object({ width: z.number(), height: z.number() });
 /** Frames per look while waiting for a bee to plant, and the most looks. */
 const PLANT_LOOK = 30;
 const PLANT_LOOKS = 180;
@@ -55,11 +60,14 @@ const Planted = z.object({
     .nullable(),
 });
 
-/** How many flowers the bees have planted, and the newest as drawn. */
-const PLANTED = `(() => {
+/**
+ * How many flowers the bees have planted, and the one planted as `id` as
+ * drawn, the newest where no id is given.
+ */
+const plantedAs = (id?: string) => `(() => {
   const scene = window.__game.scene.scenes[0];
   const { planted } = scene.meadow;
-  const newest = planted.at(-1);
+  const newest = ${id === undefined ? 'planted.at(-1)' : `planted.find((each) => each.id === ${JSON.stringify(id)})`};
   const shown = newest && scene.flowers.shown.get(newest.id);
   return {
     count: planted.length,
@@ -133,7 +141,7 @@ async function tapAtRest(
 }
 
 /**
- * Taps a fly in flight where it is drawn, `FLYING_TAPS` times, among every
+ * Taps a fly in flight where it is drawn on the screen, `FLYING_TAPS` times, among every
  * other insect in the air, and expects at least `FLYING_REACHED` of the taps
  * to reach it: a tap goes to the body nearest the finger, whatever is drawn
  * over it. How many the insect drawn on top would have let through is noted
@@ -146,7 +154,14 @@ async function tapFlying(
   note: (line: string) => void,
 ): Promise<void> {
   const tally = { aimed: 0, reached: 0, onTop: 0 };
-  await inTurn([...Array.from({ length: FLYING_TAPS }).keys()], async () => {
+  const screen = await page.evaluate(
+    '({ width: innerWidth, height: innerHeight })',
+    Screen,
+  );
+  /** Steps until a fly is mid-flight and drawn on the screen, where a child could tap it; `undefined` if none ever is. */
+  const flyingInSight = async (
+    looks: number,
+  ): Promise<{ fly: Insect; point: z.infer<typeof Point> } | undefined> => {
     const fly = await waitFor((all, at) =>
       all.find(
         (insect) =>
@@ -157,8 +172,20 @@ async function tapFlying(
       ),
     );
     const drawn = fly && (await shown(fly.id));
-    if (!fly || !drawn) return;
+    if (!fly || !drawn) return undefined;
     const point = Point.parse(drawn);
+    const { x, y } = point;
+    if (x >= 0 && x <= screen.width && y >= 0 && y <= screen.height) {
+      return { fly, point };
+    }
+    if (looks <= 1) return undefined;
+    await page.step(SIGHT_LOOK);
+    return flyingInSight(looks - 1);
+  };
+  await inTurn([...Array.from({ length: FLYING_TAPS }).keys()], async () => {
+    const found = await flyingInSight(SIGHT_LOOKS);
+    if (!found) return;
+    const { fly, point } = found;
     const top = await page.evaluate(
       `__probe.topAt(${JSON.stringify({ ...point, drawn: true })})`,
       Top,
@@ -350,14 +377,14 @@ export async function playPlanting(
   const bee = await restingOf(fliers, 'bee');
   if (bee) await tapAtRest(page, fliers, expect, bee);
   else expect(false, 'no bee ever sat still to be tapped, alone on the meadow');
-  const before = await page.evaluate(PLANTED, Planted);
+  const before = await page.evaluate(plantedAs(), Planted);
   /** Steps until a flower is planted, `looks` looks at the most, a frame shot of the bees in the air on the way. */
   const untilPlanted = async (
     looks: number,
     shotAloft: boolean,
   ): Promise<z.infer<typeof Planted>> => {
     await page.step(PLANT_LOOK);
-    const seen = await page.evaluate(PLANTED, Planted);
+    const seen = await page.evaluate(plantedAs(), Planted);
     if (seen.count > before.count || looks <= 1) return seen;
     const at = await now();
     const flying = (await insects()).some(
@@ -371,13 +398,14 @@ export async function playPlanting(
     await page.step(12);
     await page.shoot('p1-planted-growing');
     await page.step(90);
-    const grown = await page.evaluate(PLANTED, Planted);
+    // The one seen planted, which the bees may since have planted beside.
+    const grown = await page.evaluate(plantedAs(planted.last?.id), Planted);
     expect(
       grown.last?.visible === true && Math.abs(grown.last.scale - 1) < 0.02,
       `the planted flower is not drawn full grown: ${JSON.stringify(grown.last)}`,
     );
     note(
-      `planted ${String(grown.count)} flower(s), the newest at (${String(Math.round(grown.last?.x ?? 0))}, ${String(Math.round(grown.last?.y ?? 0))})`,
+      `planted ${String(grown.count)} flower(s), the first seen at (${String(Math.round(grown.last?.x ?? 0))}, ${String(Math.round(grown.last?.y ?? 0))})`,
     );
     await page.shoot('p2-planted-open');
   } else if (sight.room > 0) {

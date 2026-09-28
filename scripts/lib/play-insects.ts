@@ -23,7 +23,11 @@ const ON_PERCH = 1.5;
 /** Frames per look while waiting for a butterfly to be somewhere, and the most looks. */
 const LOOK = 15;
 const MOST_LOOKS = 80;
-/** Looks over which every butterfly that stays must be seen on a perch: longer than any flight. */
+/**
+ * The fewest looks over which every butterfly that stays must be seen on a
+ * perch; the looks go on until the longest of their flights in has landed,
+ * however far a wide screen stretches it (`stride`), up to `MOST_LOOKS`.
+ */
 const PERCH_LOOKS = 24;
 
 export type Insect = z.infer<typeof Insects>[number];
@@ -174,7 +178,9 @@ export async function playInsects(
   const roamed = new Set<string>();
   const left = new Set<string>();
   let roamingShot = false;
-  await inTurn([...Array.from({ length: PERCH_LOOKS }).keys()], async () => {
+  const landedBy =
+    Math.max(...released.map(({ arrives }) => arrives)) + LANDING;
+  const look = async (looks: number): Promise<void> => {
     const at = await now();
     await inTurn(await insects(), async (insect) => {
       if (await perched(insect, at)) reached.add(insect.id);
@@ -186,7 +192,10 @@ export async function playInsects(
       await page.shoot('b3-roaming');
     }
     await page.step(LOOK);
-  });
+    const more = looks + 1 < PERCH_LOOKS || at < landedBy;
+    if (more && looks + 1 < MOST_LOOKS) await look(looks + 1);
+  };
+  await look(0);
   const staying = released.slice(1).map(({ id }) => id);
   for (const id of staying) {
     expect(
