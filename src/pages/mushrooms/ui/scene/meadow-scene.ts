@@ -351,7 +351,7 @@ export class MeadowScene extends Phaser.Scene {
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);
     this.insects?.paint(layout);
-    this.flowers?.paint(layout);
+    this.flowers?.paint(layout, lighting);
     this.see();
     this.repaintControls();
   };

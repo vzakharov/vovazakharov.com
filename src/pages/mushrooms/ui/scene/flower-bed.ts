@@ -17,6 +17,7 @@ import { drawFlower } from './draw-flower';
 import { standingFlowers } from './flower-plots';
 import { type Centred, FLOWER_SWAY, flowerLift } from './flower-sight';
 import { containsCircle, type TappedFigure } from './hit-areas';
+import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
 import type { MeadowLayout } from './layout';
 import { tapReach } from './sky-layout';
@@ -50,6 +51,8 @@ export class FlowerBed {
   private readonly onTap: () => void;
   readonly seeded: readonly Flower[];
   private planted: readonly Sown[] = [];
+  /** The light the flowers are drawn in, as the screen last stood. */
+  private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
     butterfly: 1,
     fly: 1,
@@ -71,7 +74,8 @@ export class FlowerBed {
   }
 
   /** Stands every flower where `layout` puts it, into the objects it has. */
-  paint(layout: MeadowLayout): void {
+  paint(layout: MeadowLayout, lighting: Lighting): void {
+    this.lighting = lighting;
     this.sizes = layout.insectSizes;
     const standing = standingFlowers(layout, this.seeded, this.planted);
     for (const flower of [...this.seeded, ...this.planted]) {
@@ -82,7 +86,7 @@ export class FlowerBed {
       if (!place) continue;
       shown.container.setPosition(place.x, place.y).setDepth(place.y);
       const genes = flowerGenes(flower);
-      shown.headR = drawFlower(shown, genes, place.size);
+      shown.headR = drawFlower(shown, genes, place.size, lighting);
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
       shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
@@ -107,7 +111,8 @@ export class FlowerBed {
       shown.tappedAt = clock;
       this.chime(flower);
     }
-    this.paint(layout);
+    if (!this.lighting) throw new Error('A flower is planted before its paint');
+    this.paint(layout, this.lighting);
   }
 
   /** Sways and blooms every flower at `t`, in seconds, each sagging under whatever of `insects` drinks at it. */

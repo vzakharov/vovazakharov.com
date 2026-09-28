@@ -1,15 +1,31 @@
 import type * as Phaser from 'phaser';
 
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
-import { type Point, sample } from '../../model/geometry';
+import { ellipse, type Point, sample } from '../../model/geometry';
 import { mix } from './colour';
+import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
-import { fillShape, petal, strokeLine, strokeShape } from './shapes';
+import {
+  crescent,
+  fillShape,
+  inkUnder,
+  paintCastShadow,
+  petal,
+  strokeLine,
+  strokeTapered,
+} from './shapes';
 
 const STEM_STEPS = 16;
 const PADDLE_STEPS = 18;
 /** How much paler than the outer ring the inner ring is. */
 const INNER_PALE = 0.45;
+/** How squarely a petal's edge must face the light, or turn from it, to catch its rim light or its shade, and their alphas. */
+const PETAL_FACING = 0.5;
+const PETAL_RIM_ALPHA = 0.3;
+const PETAL_SHADE_ALPHA = 0.2;
+/** The stem's green line and the ink either side of it, in ink widths. */
+const STEM_GREEN = 1.8;
+const STEM_EDGE = 1.6;
 
 /** A rounded petal: an oval from `from` to `to` out from `centre` along `angle`. */
 function paddle(
@@ -38,7 +54,10 @@ function paintRing(
   size: number,
   [reach, turn, colour]: readonly [number, number, number],
   ink: number,
+  lighting: Lighting,
 ): void {
+  const { toward } = lighting;
+  const away = { x: -toward.x, y: -toward.y };
   const length = genes.petalLength * size * reach;
   const span = [genes.centre * size * 0.5, length] as const;
   const outline = genes.petal === 'pointed' ? petal : paddle;
@@ -46,10 +65,22 @@ function paintRing(
   for (let index = 0; index < genes.fold; index++) {
     const angle = genes.twist + turn + (index * Math.PI * 2) / genes.fold;
     const shape = outline({ x: 0, y: 0 }, angle, span, width);
+    inkUnder(graphics, shape, inkFor(colour), ink, lighting);
     graphics.fillStyle(colour);
     fillShape(graphics, shape);
-    graphics.lineStyle(ink, PALETTE.ink);
-    strokeShape(graphics, shape);
+    const middle = {
+      x: Math.cos(angle) * (span[0] + span[1]) * 0.5,
+      y: Math.sin(angle) * (span[0] + span[1]) * 0.5,
+    };
+    for (const [facing, fill, alpha] of [
+      [toward, PALETTE.rimLight, PETAL_RIM_ALPHA],
+      [away, PALETTE.shadeCool, PETAL_SHADE_ALPHA],
+    ] as const) {
+      const edge = facingArc(shape, facing, PETAL_FACING);
+      if (edge.length < 3) continue;
+      graphics.fillStyle(fill, alpha);
+      fillShape(graphics, crescent(edge, middle, width * 0.35));
+    }
   }
 }
 
@@ -62,6 +93,7 @@ export function drawFlower(
   { stem, head }: Record<'stem' | 'head', Phaser.GameObjects.Graphics>,
   genes: FlowerGenes,
   size: number,
+  lighting: Lighting,
 ): number {
   const ink = Math.max(1.5, size * 0.018);
   const top = flowerHead(genes, size);
@@ -72,8 +104,7 @@ export function drawFlower(
   }));
 
   stem.clear();
-  stem.fillStyle(PALETTE.groundShadow, 0.2);
-  stem.fillEllipse(0, 0, size * 0.34, size * 0.06);
+  paintCastShadow(stem, [size * 0.34, size * 0.06], lighting);
   const leafFoot = line[Math.round(genes.leafAt * STEM_STEPS)] ?? line[0];
   if (leafFoot) {
     const leaf = petal(
@@ -82,19 +113,24 @@ export function drawFlower(
       [0, size * 0.3],
       size * 0.07,
     );
+    inkUnder(stem, leaf, inkFor(PALETTE.leaf), ink, lighting);
     stem.fillStyle(PALETTE.leaf);
     fillShape(stem, leaf);
-    stem.lineStyle(ink, PALETTE.ink);
-    strokeShape(stem, leaf);
   }
-  stem.lineStyle(ink * 3.4, PALETTE.ink);
-  strokeLine(stem, line);
-  stem.lineStyle(ink * 1.8, PALETTE.flowerStem);
+  // The ink either side of the green thins from the foot to the head.
+  stem.fillStyle(inkFor(PALETTE.flowerStem));
+  strokeTapered(
+    stem,
+    line,
+    [ink * (STEM_GREEN + STEM_EDGE), ink * (STEM_GREEN + STEM_EDGE * TAPER)],
+    lighting,
+  );
+  stem.lineStyle(ink * STEM_GREEN, PALETTE.flowerStem);
   strokeLine(stem, line);
 
   head.clear().setPosition(top.x, top.y);
   const outer = PALETTE.flowers[genes.colour];
-  paintRing(head, genes, size, [1, 0, outer], ink);
+  paintRing(head, genes, size, [1, 0, outer], ink, lighting);
   if (genes.rings === 2) {
     paintRing(
       head,
@@ -102,14 +138,25 @@ export function drawFlower(
       size,
       [0.62, Math.PI / genes.fold, mix(outer, PALETTE.highlight, INNER_PALE)],
       ink,
+      lighting,
     );
   }
   const centre = genes.centre * size;
+  const { toward } = lighting;
+  inkUnder(
+    head,
+    ellipse({ x: 0, y: 0 }, centre),
+    inkFor(PALETTE.flowerCentreDeep),
+    ink,
+    lighting,
+  );
   head.fillStyle(PALETTE.flowerCentreDeep);
   head.fillCircle(0, 0, centre);
   head.fillStyle(PALETTE.flowerCentre);
-  head.fillCircle(-centre * 0.15, -centre * 0.15, centre * 0.75);
-  head.lineStyle(ink, PALETTE.ink);
-  head.strokeCircle(0, 0, centre);
+  head.fillCircle(
+    toward.x * centre * 0.2,
+    toward.y * centre * 0.2,
+    centre * 0.75,
+  );
   return top.r;
 }

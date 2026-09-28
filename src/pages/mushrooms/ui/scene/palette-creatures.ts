@@ -7,7 +7,6 @@ export const CREATURES = {
   /** The warm light along a cap's sun-facing edge, and the pale one just inside every lit contour and in every shine. */
   capLit: 0xff_7a_52,
   rimLight: 0xff_f0_d0,
-  groundShadow: 0x1e_4a_1a,
   stem: 0xfb_f3_df,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
