@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: this session was started by a relay at depth 1, so it is depth 2;
-the successor is depth 3.
+Relay depth: this session was started by a relay at depth 2, so it is depth 3;
+the successor is depth 4.
 
 ## 1. Standing constraints
 
@@ -32,50 +32,62 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > менять relay на что-то другое в этот подход megabeast-a точно не надо
 
+New this session:
+
+> спроси подагентов, осталось ли им <100к. если нет, пусть ставят на паузу, и ты перезапускай новых с теми же задачами
+
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask the
 operator nothing, including the context-budget hook's "offer /compact or
 /relay": past the warning line, commit, write progress down and relay on your
 own. Fill `.claude/skills/megabeast/notes.md` before every relay. No module
 past ~450 lines. Each bite ends by committing its best frames to
-`docs/remove-before-merging/frames/bite-<n>/` and publishing the game as an
-Artifact at one URL posted on the PR. The loop keeps three relayed sessions a
-bite; the depth cap of 8 is accepted, never engineered around. The plan's
-`## How this elephant is eaten` holds all of it. Pass this section on
-verbatim.
+`docs/remove-before-merging/frames/bite-<n>/` and republishing the game
+Artifact at its one URL (below). The loop keeps three relayed sessions a
+bite; the depth cap of 8 is accepted, never engineered around. Subagents
+get no context notices and misjudge their own usage: read it from their
+transcript (megabeast notes, "A subagent cannot see its own context") and
+pause/replace one past ~200k. The plan's `## How this elephant is eaten`
+holds the rest. Pass this section on verbatim.
 
 ## 2. The conversation
 
-Opened with `/relay take claude/mushroom-game-syama-lbirv7`, Next step
-`/handle`. **Agent:** attached, exported and committed PR #57, claimed the
-plan, wrote the review's design calls into the plan's decisions (6a87e91),
-and ran bite 6's review (5331309763, threads T50–T59 plus the body's
-judgment calls and nits) as waves of subagents over disjoint files — "sight",
-"small", "view", then "perch", "sun", "heading". It wrote
-`pnpm artifact:mushrooms` itself (fc3677d). Waves one and "sun" finished; see
-§ 6.
+Opened with `/relay take claude/mushroom-game-syama-lbirv7`. **Agent:**
+attached, claimed the plan, recreated the subagents' shared brief, and ran
+the "perch" and "heading" groups of bite 6's review as parallel subagents.
 
-**Operator:** "кажется сейчас кончится недельная квота, можно как-то
-поставить на паузу подагентов, чтобы они смогли продолжить когда я (тебе)
-скажу, когда она сбросится?"
+**Operator:** "пока они думают, я хочу изменение которое нужно отработать в
+каком-то из более поздних кусков: сейчас у нас есть мухоморы и какие-то
+другие грибы, ни на что не похожие. там вообще в оригинальном рисунке у
+Сямы разные виды дверей были, а первоначальный агент, видимо, считал их как
+разные виды шляпок. Это, хоть и ошибка, но хорошая идея. Но давай у нас
+будутреальные грибы вместо неопределённых: мухомор -- тот же что уже есть;
+белый гриб - белая-ish ножка, коричневая-ish шапка, поплотнее; лисичка --
+немного другая форма (ножка естественно переходит в шляпку расширением, по
+шляпке снизу расходятся "лучики" пластин, ну и цвет рыжий-ish); сыроежка --
+простенькая, но у неё могут быть шляпки разных цветов; на первом этапе это
+только внешний вид, а дальше можно думать"
 
-**Agent:** asked each running subagent to commit what passes and write a
-pause note, released the plan, wrote
-`docs/remove-before-merging/handle-bite6/progress.md` (e06d492); said
-"continue" would resume them if the container survived, or fresh agents
-would work from the notes if not, and that it would likely relay after the
-wave.
+**Agent:** wrote it into the plan as a new bite before atmosphere (c7b8e48).
 
-**Operator:** "доброе утро, поехали!"
+**Operator:** "не, давай атмосферу вперёд видов грибов"
 
-**Agent:** the container had survived; reclaimed the plan and resumed the
-"perch" and "heading" subagents with "continue".
+**Agent:** swapped them: atmosphere is bite 7, real mushrooms bite 8
+(df82727); later bites 9–12.
 
-**Operator:** "оба агента подбираются к 300к, давай-ка мы запаузим их и
-сразу релейнем"
+**Operator:** "спроси подагентов, осталось ли им <100к. если нет, пусть
+ставят на паузу, и ты перезапускай новых с теми же задачами"
+**Operator:** "и спроси у них, получают ли они уведомления о 200/300, как
+обычная сессия?"
 
-**Agent:** paused both again with hand-over notes (a subagent's transcript
-does not cross a relay), cleaned the tree to the committed patch, filled the
-megabeast notes, released the plan, and wrote this relay.
+**Agent:** asked both; perch said "115k, no notices".
+
+**Operator:** "а ты отсюда их token usage видишь и как-то "прицепиться" к
+нему можешь?"
+
+**Agent:** yes, via `jq` on the transcript: perch was really at 220k,
+heading 274k; paused both and replaced them. Then ran further subagents in
+sequence ("stretch", "finish", "reselect", "show" + "replies" in parallel,
+"sun", "polish", "ship") to the end of bite 6's handling.
 
 ## 3. Intent
 
@@ -87,82 +99,66 @@ teaching voice, photorealism, replacing relays with subagent runs.
 
 ## 4. Decisions
 
-- In the plan (6a87e91): a bee sits on the head's rim, not the centre;
-  crowding by the kinds actually involved; the air holds at least the sum of
-  all limits in spots; planting judged on this screen only; a tap on fliers
-  in the air reaches the nearest body.
-- All three judgment calls of the review body were accepted: catchability
-  ≥ 70% everywhere, the planting's sight deferred to the next frame
-  (00cd630), `aim` reset in `paint` (7a10e93). All four nits accepted.
-- The Artifact: `pnpm artifact:mushrooms` builds
-  `tmp/mushroom-artifact/index.html` (esbuild, Phaser from jsDelivr at the
-  lockfile version, booted on `DOMContentLoaded`); esbuild is now a direct
-  dev dependency. Checked once in headless Chromium: the meadow renders, no
-  page errors. **Not yet published** — the first publish creates the URL,
-  which then goes on the PR.
-- The stricter heading watch (e8e53f7) is right and stays; the flight is
-  what must catch up. Do not loosen it.
+- Bite order now: 7 atmosphere, 8 real mushrooms (look only; fly agaric
+  keeps the flies' pull), 9 wider meadow, 10 rain, 11 dusk, 12 around the
+  canvas.
+- Far flights are capped per kind (`slowest` in `flight-habits.ts`: dash,
+  then come in at the kind's pace) rather than stretched without bound —
+  an 11 s fly read as broken; catchability still ≥ 70% everywhere.
+- A released cap settles over 1.3 s (`BECKON_RELEASE`); a reselect swells
+  on from where it stands (`lightUp`/`letGo` in `motion.ts`).
+- The sun shrinks (never below half) to stand whole in the sky; the far
+  hills dip under it in a valley with no flat run.
+- Small-phone air: 8 of 10 seat apart; accepted as unmet and stated, two
+  `todo` tests (`AIR_UNMET`), plus a third for the full forest (0.21–0.28%).
+- Polish commits are `polish(bite 6):`, scoped to that bite's handling; the
+  branch has no bare `polish:` commit, so a `/polish` will cover the whole
+  branch.
 
 Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_, _MPP_,
-_wave_ (a round of parallel subagents over disjoint files).
+_wave_, _orchestrator_ (the main session, which only briefs subagents and
+reads their reports and frames).
 
 ## 5. Errors and dead ends
 
-- `pnpm add --offline` fails here (no metadata cache); the online add worked.
-- Chromium through the proxy needs `--ignore-certificate-errors` for the CDN.
-- The first artifact build booted Phaser before the document was
-  interactive and threw on `canvas.style`; the entry now waits for
-  `DOMContentLoaded`.
-- The perch patch does not type-check against the old tests yet, which is why
-  it is a patch and not a commit.
+- Asking a subagent for its context size gives a wrong answer (115k vs
+  220k); read the transcript.
+- A frames agent called the sun's flat cut "within the 80% the fix aims
+  for"; only looking at the frame caught it. Look at two frames yourself.
+- Smoothing the beckon's ease alone did not fix the tabL heading; the
+  release had to be longer (1.3 s).
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
-  Last pushed commit: this summary's.
-- Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–6 eaten; bite
-  6's review being handled; then bite 7 (atmosphere).
-- **Done, per thread:** T54 91849d5, T55 739b348, T58 635f59a, T57 77d0bbd
-  (+ sun split edbf253), buzzing-gene nit 36c0b1a, T51 e1db096, T56 0a36044,
-  T53 tap half c53c421, T59 watch e8e53f7, judgment calls 00cd630 7a10e93,
-  heading partial ebb4b2c. Each subagent's numbers are in its commit bodies.
-- **Left:**
-  1. `docs/remove-before-merging/handle-bite6/perch.patch` + `perch.md`:
-     `git apply` it, fix the old tests against it, write the new tests,
-     commit. Covers T50, T52, T53 air half, T59 test half, catchability, two
-     nits. Unmet with it: small-phone bees roam 56% (ask < 40%; alone 32%, 2
-     flowers in sight for 3 bees).
-  2. `heading.md`: the heading watch still fails on tabL, tabP, phoneP,
-     phoneL — a fly's last ~100 ms before landing, a butterfly flying in from
-     off screen. `pnpm play:mushrooms` exits 1 until both land. It touches
-     `insect-steering.ts`, `insect-paths.ts`, `insect-motion.ts`; the perch
-     patch touches `flight.ts`, `insects.ts`, `perch-sight.ts`, new
-     `flight-habits.ts` — disjoint, so they can run in parallel.
-  3. Then: play run green, best frames to `frames/bite-6/`, publish the
-     Artifact and post its URL on the PR, reply on every thread T50–T59 and
-     the review body (never resolve), `/polish`, `/pr`, megabeast notes, and
-     the loop's next step (bite 7 in-session if context allows, else
-     `/relay /go`).
-- Nothing running, no PR subscription, no scheduled check-in. The subagents'
-  shared brief `tmp/handle-bite6/common.md` did not survive; its gist is in
-  `progress.md`.
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
+  mergeable/clean. Last pushed commit: this summary's.
+- Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–6 eaten, bite
+  6's review handled (folded into `## Eaten so far`); next is bite 7,
+  atmosphere. `## Rest of the elephant` opens with what bite 6 leaves open.
+- Artifact: https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG (version 2,
+  bite 6 handled), linked in PR comment 5868107970. Republish at this URL
+  with `pnpm artifact:mushrooms` (then set `<title>` to "Syama's mushrooms",
+  which the build resets); `read` it first in a new session.
+- All review threads T50–T59 and the review body have replies; none resolved.
+- Checks at the end: tsc, eslint, type-overlap clean; mushrooms tests 439
+  pass, 3 todo, ~88 s; play run exits 0 on all five screens.
+- Nothing running, no PR subscription, no check-in scheduled.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/handle-bite6/{progress,perch,heading}.md`,
-  `perch.patch`.
-- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5331309763/comments`,
-  or `python3 scripts/export-github-item.py 57`.
-- `.claude/skills/megabeast/notes.md` § "Friction found" — the orchestration
-  pattern (waves, briefs by file group, invariants in each brief) and this
-  session's three new entries at its end.
+- `docs/remove-before-merging/handle-bite6/` — the groups' final notes.
+- `docs/remove-before-merging/frames/bite-6/` — this bite's frames.
+- `tmp/handle-bite6/common.md` does not survive; its gist: invariants from
+  the plan's decisions, explicit `git add`, merge never rebase, no
+  suppressions, ≤450 lines, commit trailers, stop and hand over past ~200k,
+  report under 300 words.
+- `.claude/skills/megabeast/notes.md` § "Friction found", its last four
+  entries.
 - Play run: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`, then
-  `pnpm play:mushrooms --no-build`, as two foreground calls.
+  `pnpm play:mushrooms --no-build`, two foreground calls.
 
 ## 8. Next step
 
-Handle the rest of bite 6's review, starting from
-`docs/remove-before-merging/handle-bite6/progress.md`: apply `perch.patch`
-and finish the perch group, finish the heading group, then the tail in § 6
-item 3. The operator's most recent word: "давай-ка мы запаузим их и сразу
-релейнем".
+`/go` — bite 7, atmosphere, per the plan's `## Rest of the elephant` item 7,
+as an orchestrator briefing subagents. Then, per the standing loop, "/relay
+оставь код ревью на последний кусок".
