@@ -19,7 +19,14 @@ import {
 import type { MushroomGenes } from './mushroom-genes';
 import { capOutlines, MUSHROOM_INK } from './mushroom-outline';
 import { stemAt, type StemStation } from './mushroom-pose';
-import { capBase, capSurface, stemHalfWidth } from './mushroom-profile';
+import {
+  capBase,
+  capSurface,
+  frontSag,
+  funnelHeight,
+  rimWave,
+  stemHalfWidth,
+} from './mushroom-profile';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
 const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;
@@ -50,16 +57,34 @@ const ROW_LEVEL = 0.3;
 /** How far a pane keeps inside the cap's face, above and below. */
 const PANE_MARGIN = 0.02;
 const MOST_WINDOWS = 5;
-const FEWEST_WINDOWS = 3;
+/**
+ * The fewest windows a cap has room for: three across a dome, and one on a
+ * chanterelle's funnel, whose face under the rim is wide enough for a
+ * window only at its middle.
+ */
+const FEWEST_WINDOWS = { dome: 3, trumpet: 1 } as const;
 /** How finely a pane's top and bottom edges are read against the cap's face. */
 const PANE_SAMPLES = 8;
 
+/**
+ * The face a window goes in, at `x` across the cap: a dome's from its
+ * underside up to its top; a chanterelle's the funnel's, from its lower edge
+ * up to the front rim.
+ */
+function faceAt(genes: MushroomGenes, x: number): { top: number; base: number } {
+  if (genes.species !== 'chanterelle')
+    return { top: capSurface(genes, x), base: capBase(genes, x) };
+  return {
+    top: capBase(genes, x),
+    base: funnelHeight(genes, x) + rimWave(genes, x),
+  };
+}
+
 /** Whether a pane with its middle at `slot` keeps `PANE_MARGIN` inside the cap's face, over its whole width. */
 function paneFits(genes: MushroomGenes, slot: Point): boolean {
-  return sample(slot.x - PANE / 2, slot.x + PANE / 2, PANE_SAMPLES, (x) => ({
-    top: capSurface(genes, x),
-    base: capBase(genes, x),
-  })).every(
+  return sample(slot.x - PANE / 2, slot.x + PANE / 2, PANE_SAMPLES, (x) =>
+    faceAt(genes, x),
+  ).every(
     ({ top, base }) =>
       top >= slot.y + PANE / 2 + PANE_MARGIN &&
       base <= slot.y - PANE / 2 - PANE_MARGIN,
@@ -67,43 +92,38 @@ function paneFits(genes: MushroomGenes, slot: Point): boolean {
 }
 
 /**
- * How high the row's middle stands: a dome's on its lower band, never so low
- * a pane's bottom leaves the underside; a chanterelle's midway up its lip,
- * where the lip is thinnest across the fewest windows' span.
+ * How high a window `x` across the cap stands: a dome's row on its lower
+ * band, never so low a pane's bottom leaves the underside; a chanterelle's
+ * just under its front rim, so they ring the funnel as the rim does and dip
+ * at the middle with it — the rim's sag alone, which is the same either side.
  */
-function rowLevel(genes: MushroomGenes): number {
+function slotLevel(genes: MushroomGenes, x: number): number {
   if (genes.species !== 'chanterelle') {
     return Math.max(genes.capHeight * ROW_LEVEL, PANE / 2 + PANE_MARGIN);
   }
-  const reach = ((FEWEST_WINDOWS - 1) / 2) * SLOT_PITCH + PANE / 2;
-  const span = sample(-reach, reach, PANE_SAMPLES * FEWEST_WINDOWS, (x) => ({
-    top: capSurface(genes, x),
-    base: capBase(genes, x),
-  }));
-  const lowestTop = Math.min(...span.map(({ top }) => top));
-  const highestBase = Math.max(...span.map(({ base }) => base));
-  return (lowestTop + highestBase) / 2;
+  const lowestRim = genes.capHeight - genes.waveAmp - frontSag(genes, x);
+  return lowestRim - PANE_MARGIN - PANE / 2;
 }
 
 /**
  * Where a cap has room for windows: the middles of a row across the face of
- * its cap (`capBase` up to `capSurface`), in the cap's own frame (`capFrame`'s,
- * y up). Three windows or five, as the cap's width allows — an odd count, so
- * the row ends balanced — ordered from the middle outward: the first centred,
- * then each pair's left before its right.
+ * its cap (`faceAt`), in the cap's own frame (`capFrame`'s, y up). As many
+ * as the cap's width allows, from its `FEWEST_WINDOWS` up to five — an odd
+ * count, so the row ends balanced — ordered from the middle outward: the first centred, then each
+ * pair's left before its right, a pane's width of cap between each two.
  */
 export function windowSlots(genes: MushroomGenes): Point[] {
-  const y = rowLevel(genes);
+  const slot = (x: number) => ({ x, y: slotLevel(genes, x) });
   // Whether a pane `pair` pitches out fits on both sides.
   const pairFits = (pair: number) =>
-    [-1, 1].every((side) =>
-      paneFits(genes, { x: side * pair * SLOT_PITCH, y }),
-    );
-  let pairs = (FEWEST_WINDOWS - 1) / 2;
+    [-1, 1].every((side) => paneFits(genes, slot(side * pair * SLOT_PITCH)));
+  const fewest =
+    FEWEST_WINDOWS[genes.species === 'chanterelle' ? 'trumpet' : 'dome'];
+  let pairs = (fewest - 1) / 2;
   while (pairs < (MOST_WINDOWS - 1) / 2 && pairFits(pairs + 1)) pairs += 1;
-  const slots: Point[] = [{ x: 0, y }];
+  const slots: Point[] = [slot(0)];
   for (let pair = 1; pair <= pairs; pair++) {
-    slots.push({ x: -pair * SLOT_PITCH, y }, { x: pair * SLOT_PITCH, y });
+    slots.push(slot(-pair * SLOT_PITCH), slot(pair * SLOT_PITCH));
   }
   return slots;
 }
@@ -137,6 +157,12 @@ export function paintedSpots(
 
 /** A door's width, as a fraction of the stem's narrowest width across its frame. */
 const DOOR_WIDTH = 0.7;
+/**
+ * The widest a door grows, in the mushroom's size: on a porcini's barrel it
+ * stays a door, low enough under the cap to climb the stem and to show past
+ * the mushroom in front.
+ */
+const DOOR_MOST = 0.175;
 /** A door's height over its width: an arched door, taller than wide. */
 export const DOOR_ASPECT = 1.45;
 /** How far the door's frame stands out round the doorway, in door widths: to either side, and over the arch. */
@@ -188,8 +214,8 @@ export function onStem(door: DoorPlace, grown = 1): (point: Point) => Point {
 
 /**
  * A door with its middle `t` up the stem, as wide as the stem allows there:
- * `DOOR_WIDTH` of its narrowest width along the frame, and never so wide that
- * the frame comes nearer the stem's edge than `FRAME_MARGIN`.
+ * `DOOR_WIDTH` of its narrowest width along the frame up to `DOOR_MOST`, and
+ * never so wide that the frame comes nearer the stem's edge than `FRAME_MARGIN`.
  */
 function doorAt(genes: MushroomGenes, t: number): DoorPlace {
   const station = stemAt(genes, t);
@@ -212,6 +238,7 @@ function doorAt(genes: MushroomGenes, t: number): DoorPlace {
     ),
   );
   const width = Math.min(
+    DOOR_MOST,
     2 * narrowest * DOOR_WIDTH,
     (2 * narrowest - 2 * FRAME_MARGIN) / (1 + DOOR_FRAME * 2),
   );

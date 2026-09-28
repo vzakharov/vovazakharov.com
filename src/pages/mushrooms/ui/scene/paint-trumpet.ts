@@ -1,17 +1,17 @@
 /**
  * A chanterelle, painted as one trumpet: the stem running up into the
  * funnel with no ink across the joint, the ridges over the funnel and on
- * down the stem, and the lip over them, its hollow top lit as a concave one
- * is.
+ * down the stem, and the lip over them, its mouth open under the far rim and
+ * lit as a concave hollow is.
  */
 
-import { ridgeLines } from '../../model/chanterelle-outline';
+import { mouthEdges, ridgeLines } from '../../model/chanterelle-outline';
 import type { Point } from '../../model/geometry';
 import type { ChanterelleGenes } from '../../model/mushroom-genes';
 import { headOutlines } from '../../model/mushroom-outline';
 import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { inkFor, litSide } from './ink';
-import { capLight, sideways } from './mushroom-light';
+import { type CapLight, capLight, sideways } from './mushroom-light';
 import {
   inkStem,
   lightWith,
@@ -23,16 +23,29 @@ import {
 import { PALETTE } from './palette';
 import { crescent, fillShape, inkUnder, strokeTapered } from './shapes';
 
-const SHADE_ALPHA = 0.3;
+/** Kept light on a chanterelle, so its cool shade deepens its orange rather than browning it. */
+const SHADE_ALPHA = 0.22;
 /** How deep each crescent of the lip's light reaches in from its arc, in the lip's thickness. */
-const DEPTHS = { shade: 0.7, rim: 0.3, 'dip-shade': 0.55, 'dip-light': 0.32 };
+const DEPTHS = { shade: 0.7, rim: 0.3, 'dip-shade': 0.4, 'dip-light': 0.28 };
+/** The shade over the whole mouth, deeper than the lip round it. */
+const MOUTH_SHADE = 0.12;
+/** The ink along the mouth's near and far edges, in the ink line's width. */
+const MOUTH_LINE = { near: 0.5, far: 0.3 };
 /** The funnel's shade on the side turned from the sun and in under the lip, each one's depth in the cap's width, and alpha. */
-const FUNNEL_SIDE = { depth: 0.16, alpha: 0.22 };
-const UNDER_LIP = { depth: 0.1, alpha: 0.26 };
+const FUNNEL_SIDE = { depth: 0.16, alpha: 0.15 };
+const UNDER_LIP = { depth: 0.1, alpha: 0.2 };
 /** The warm light up the funnel's sun side. */
 const FUNNEL_LIT = { depth: 0.08, alpha: 0.35 };
 /** A ridge's width at the rim and at its end down the stem, in the ink line's. */
 const RIDGE = [0.85, 0.25] as const;
+
+/** Whether a layer of a chanterelle's light lies inside its mouth. */
+const inMouth = (kind: CapLight['kind']) =>
+  kind === 'dip-shade' || kind === 'dip-light' || kind === 'shine';
+
+/** The middle point of a mouth's `edge`. */
+const midpoint = (edge: readonly Point[]) =>
+  edge[Math.floor(edge.length / 2)] ?? { x: 0, y: 0 };
 
 export function paintTrumpet(
   brush: MushroomBrush & { genes: ChanterelleGenes },
@@ -66,13 +79,54 @@ export function paintTrumpet(
   graphics.fillStyle(tone(tints.cap));
   fillShape(graphics, lip);
   const thick = genes.lip * size;
+  const layers = capLight(genes, lighting.toward);
   paintCapLight(
     brush,
-    capLight(genes, lighting.toward),
+    layers.filter(({ kind }) => !inMouth(kind)),
     toMushroom({ x: 0, y: genes.capHeight + genes.lip * 0.2 }),
     (kind) => thick * DEPTHS[kind],
     SHADE_ALPHA,
   );
+  paintMouth(brush, thick, layers.filter(({ kind }) => inMouth(kind)));
+}
+
+/**
+ * The funnel's mouth over the lip: the far inner wall under the far rim,
+ * deeper than the lip round it, lit and shaded inside as `layers` say, with
+ * a fine line along each edge — the near one, the curled rim's edge, the
+ * heavier.
+ */
+function paintMouth(
+  brush: MushroomBrush & { genes: ChanterelleGenes },
+  thick: number,
+  layers: readonly CapLight[],
+): void {
+  const { graphics, genes, tints, toMushroom, ink, lighting, tone } = brush;
+  const { far, near } = mouthEdges(genes);
+  const [farEdge, nearEdge] = [far, near].map((edge) =>
+    edge.map((point) => toMushroom(point)),
+  );
+  if (!farEdge || !nearEdge) return;
+  const mouth = [...farEdge, ...nearEdge];
+  graphics.fillStyle(tone(tints.cap));
+  fillShape(graphics, mouth);
+  shadeWith(brush, MOUTH_SHADE);
+  fillShape(graphics, mouth);
+  const [top, bottom] = [midpoint(far), midpoint(near)];
+  paintCapLight(
+    brush,
+    layers,
+    toMushroom({ x: 0, y: (top.y + bottom.y) / 2 }),
+    (kind) => thick * DEPTHS[kind],
+    SHADE_ALPHA,
+  );
+  graphics.fillStyle(inkFor(tone(tints.cap)));
+  for (const [edge, width] of [
+    [nearEdge, MOUTH_LINE.near],
+    [farEdge, MOUTH_LINE.far],
+  ] as const) {
+    strokeTapered(graphics, edge, [ink * width, ink * width], lighting);
+  }
 }
 
 /**

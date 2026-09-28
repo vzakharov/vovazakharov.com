@@ -1,11 +1,20 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ridgeLines } from './chanterelle-outline';
+import {
+  mouthEdges,
+  ridgeLines,
+  trumpetOutlines,
+} from './chanterelle-outline';
 import { containsPoint, distanceToEdge, type Point } from './geometry';
-import { type ChanterelleGenes, mushroomGenes } from './mushroom-genes';
+import {
+  type ChanterelleGenes,
+  mushroomGenes,
+  type Species,
+} from './mushroom-genes';
 import { capOutlines, MUSHROOM_INK, stemOutline } from './mushroom-outline';
 import { stemAt } from './mushroom-pose';
+import { capBase, capSurface } from './mushroom-profile';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
@@ -57,5 +66,40 @@ describe('ridgeLines', () => {
         assert.ok(end.y < top.y - 0.2 * genes.stemHeight, `seed ${seed}`);
       }
     }
+  });
+});
+
+/** The height of the middle point of a mouth's `edge`. */
+const middleY = (edge: readonly Point[]) =>
+  edge[Math.floor(edge.length / 2)]?.y ?? 0;
+
+describe('mouthEdges', () => {
+  it('opens the mouth inside the lip, its far edge well over its near one', () => {
+    for (const seed of SEEDS) {
+      const genes = chanterelle(seed);
+      const [lip] = trumpetOutlines(genes);
+      const { far, near } = mouthEdges(genes);
+      for (const point of [...far, ...near]) {
+        if (!containsPoint(lip, point))
+          assert.fail(`seed ${seed}: mouth off the lip at ${JSON.stringify(point)}`);
+      }
+      const depth = capSurface(genes, 0) - capBase(genes, 0);
+      assert.ok(middleY(far) - middleY(near) > depth * 0.4, `seed ${seed}`);
+    }
+  });
+});
+
+/** The mean of how far `species`' stem's top stands turned from upright, its lean with its bend. */
+function meanTurn(species: Species): number {
+  const turns = SEEDS.map((seed) => {
+    const genes = mushroomGenes({ seed, species });
+    return Math.abs(genes.lean + stemAt(genes, 1).tilt);
+  });
+  return turns.reduce((sum, turn) => sum + turn, 0) / turns.length;
+}
+
+describe('a chanterelle', () => {
+  it('stands nearer upright than a fly agaric', () => {
+    assert.ok(meanTurn('chanterelle') < meanTurn('fly-agaric') * 0.5);
   });
 });

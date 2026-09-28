@@ -115,29 +115,34 @@ export const GENE_RANGES = {
     capTilt: [-0.08, 0.08],
     hueNudge: [-0.03, 0.03],
   },
-  // Stocky: a thick club of a stem, shorter than a fly agaric's, under a thick, broad dome.
+  // Stocky: a barrel of a stem, its foot bulging to near half the cap across,
+  // a little shorter than a fly agaric's, under a thick bun. It always leans
+  // a little (a placement picks the side), so two of these barrels in the
+  // clump part before the back one's door.
   porcini: {
-    stemHeight: [0.62, 0.74],
-    stemWidth: [0.18, 0.23],
-    footBulge: [1.2, 1.45],
+    stemHeight: [0.68, 0.8],
+    stemWidth: [0.26, 0.3],
+    footBulge: [1.3, 1.55],
     stemBend: [-0.2, 0.2],
-    lean: [-0.1, 0.1],
+    lean: [0.065, 0.1],
     capWidth: [0.78, 0.92],
-    capHeight: [0.28, 0.36],
-    domePower: [0.6, 0.95],
+    capHeight: [0.3, 0.36],
+    domePower: [0.55, 0.85],
     capTilt: [-0.06, 0.06],
     hueNudge: [-0.03, 0.03],
   },
-  // The cap turns only as the stem does, so the funnel meets it with no joint.
+  // Nearly upright on a short stem, the cap turning only as the stem does, so
+  // the tall funnel meets it with no joint; the lip's top rounds as an
+  // ellipse's far half.
   chanterelle: {
-    stemHeight: [0.6, 0.76],
+    stemHeight: [0.56, 0.7],
     stemWidth: [0.15, 0.2],
     footBulge: [0.62, 0.78],
-    stemBend: [-0.16, 0.16],
-    lean: [-0.1, 0.1],
-    capWidth: [0.78, 0.92],
-    capHeight: [0.22, 0.27],
-    domePower: [0.4, 0.7],
+    stemBend: [-0.06, 0.06],
+    lean: [-0.04, 0.04],
+    capWidth: [0.78, 0.9],
+    capHeight: [0.25, 0.29],
+    domePower: [0.85, 1.05],
     capTilt: [0, 0],
     hueNudge: [-0.025, 0.025],
   },
@@ -158,10 +163,10 @@ export const GENE_RANGES = {
 
 /** The genes only a chanterelle grows, drawn after its shape. */
 export const TRUMPET_RANGES = {
-  lip: [0.13, 0.16],
+  lip: [0.12, 0.15],
   hollow: [0.025, 0.04],
   flare: [0.55, 0.8],
-  waveAmp: [0.012, 0.028],
+  waveAmp: [0.018, 0.03],
   wavePhase: [0, Math.PI * 2],
 } as const satisfies GeneRanges<Exclude<keyof Trumpet, 'lobes' | 'ridges'>>;
 const LOBES = [3, 5] as const;

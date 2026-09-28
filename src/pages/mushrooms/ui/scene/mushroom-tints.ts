@@ -37,6 +37,14 @@ function porciniBrown({ hueNudge }: PorciniGenes): number {
   return (hueNudge - min) / (max - min);
 }
 
+/** How much of the meadow's haze a chanterelle takes: less than the rest, its orange being what tells it apart far off. */
+const CHANTERELLE_HAZE = 0.55;
+
+/** The haze `genes`' colours go toward, of the `haze` where it stands. */
+export function heldHaze(genes: MushroomGenes, haze: number): number {
+  return genes.species === 'chanterelle' ? haze * CHANTERELLE_HAZE : haze;
+}
+
 export function mushroomTints(genes: MushroomGenes): MushroomTints {
   const shared = pick(PALETTE, 'stem', 'stemLit', 'capLit');
   switch (genes.species) {

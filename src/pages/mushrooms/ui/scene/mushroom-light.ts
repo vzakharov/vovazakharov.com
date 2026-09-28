@@ -5,6 +5,7 @@
  * frame (units of size, y up) unless said otherwise.
  */
 
+import { mouthEdges } from '../../model/chanterelle-outline';
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import {
   type Circle,
@@ -105,7 +106,7 @@ export function capShine(
 
 /**
  * One layer of the light on a cap, in the cap's frame. A dip's shade and
- * light lie inside a chanterelle's hollow top, where a concave wall turns the
+ * light lie inside a chanterelle's mouth, where a concave wall turns the
  * other way from a dome's: the wall on the sun's side faces from it.
  */
 export type CapLight =
@@ -153,30 +154,45 @@ function lipArc(
 /** How much of a dip's shade stays with the sun straight above, the hollow shading itself. */
 const DIP_LEAST = 0.5;
 
+/** The part of a mouth's `edge` from `from` to `to` of its half-width across, in order along it. */
+function mouthArc(
+  edge: readonly Point[],
+  [from, to]: readonly [number, number],
+): Point[] {
+  const inner = Math.max(...edge.map(({ x }) => Math.abs(x)));
+  const [low, high] = [Math.min(from, to), Math.max(from, to)];
+  return edge.filter(({ x }) => x / inner >= low && x / inner <= high);
+}
+
 /**
  * A chanterelle's lip in the light: its outer shoulders shaded and lit as a
- * dome's rims are, and inside its hollow top the other way round — the wall on
- * the sun's side in shade, the far wall lit, the shine on it.
+ * dome's rims are, and inside its mouth the other way round — the far wall
+ * shaded on the sun's side and lit on the other, the shine on it, and the
+ * near rim's shadow along the mouth's near edge.
  */
 function lipLight(genes: ChanterelleGenes, toward: Point): CapLight[] {
   const strength = sideways(toward);
   const sun = litSide(toward);
   const arc = (from: number, to: number) =>
     lipArc(genes, [from * sun, to * sun]);
-  const far = -0.3 * sun * (genes.capWidth / 2);
+  const { far, near } = mouthEdges(genes);
+  const wall = (from: number, to: number) =>
+    mouthArc(far, [from * sun, to * sun]);
+  const { x, y } = wall(-0.3, -0.5)[0] ?? { x: 0, y: capSurface(genes, 0) };
   return [
     { kind: 'shade', arc: arc(-0.52, -0.98), strength },
     { kind: 'rim', arc: arc(0.56, 0.97), strength },
     {
       kind: 'dip-shade',
-      arc: arc(-0.06, 0.52),
+      arc: wall(-0.05, 1),
       strength: DIP_LEAST + (1 - DIP_LEAST) * strength,
     },
-    { kind: 'dip-light', arc: arc(-0.08, -0.5), strength },
+    { kind: 'dip-light', arc: wall(-0.1, -0.95), strength },
+    { kind: 'dip-shade', arc: near, strength: 1 },
     {
       kind: 'shine',
-      centre: { x: far, y: capSurface(genes, far) - genes.lip * 0.3 },
-      radii: [genes.capWidth * 0.07, genes.lip * 0.16],
+      centre: { x, y: y - genes.lip * 0.22 },
+      radii: [genes.capWidth * 0.07, genes.lip * 0.13],
     },
   ];
 }

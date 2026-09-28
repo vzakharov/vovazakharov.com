@@ -35,11 +35,11 @@ export const CREATURES = {
     pores: 0xf4_e2_92,
     lit: 0xf6_b8_6e,
   },
-  /** A chanterelle's one egg-yolk orange, foot to rim, the ridges under its funnel a deeper shade, and the light on it. */
+  /** A chanterelle's one bright egg-yolk apricot, foot to rim, the ridges under its funnel a paler shade, and the light on it. */
   chanterelle: {
-    flesh: 0xf7_96_14,
-    ridge: 0xcc_68_08,
-    lit: 0xff_dc_6a,
+    flesh: 0xff_a2_1a,
+    ridge: 0xff_c6_5e,
+    lit: 0xff_e4_8a,
   },
   /** One per `RUSSULA_TONES` name, a russula's cap, and its white gills. */
   russula: {

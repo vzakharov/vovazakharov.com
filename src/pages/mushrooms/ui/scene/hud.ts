@@ -44,8 +44,6 @@ const ICON_SEED = 11;
 /** A pictogram's domed cap, and a russula's flatter one, dipping at the middle. */
 const ICON_DOME = { capHeight: 0.58, domePower: 0.85 };
 const ICON_FLAT = { capHeight: 0.4, domePower: 0.4, hollow: 0.05 };
-/** A porcini's pictogram stands on a fat club of a stem. */
-const ICON_CLUB = { stemWidth: 0.27, footBulge: 1.5 };
 /** A chanterelle's pictogram: a short stem under a broad, thick-lipped, waving trumpet. */
 const ICON_TRUMPET = {
   capWidth: 1.05,
@@ -110,7 +108,7 @@ function iconGenes(species: Species): MushroomGenes {
       return { ...upright, ...ICON_DOME, spots: ICON_SPOTS };
     }
     case 'porcini': {
-      return { ...upright, ...ICON_DOME, ...ICON_CLUB };
+      return { ...upright, ...ICON_DOME };
     }
     case 'russula': {
       return { ...upright, ...ICON_FLAT, tone: ICON_RUSSULA };

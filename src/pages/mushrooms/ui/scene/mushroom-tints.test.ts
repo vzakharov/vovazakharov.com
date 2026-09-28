@@ -12,6 +12,7 @@ import { contrast, luminance, mix, toHsv } from './colour';
 import { inkFor } from './ink';
 import {
   haloFor,
+  heldHaze,
   mushroomTints,
   porciniMargin,
   russulaCentre,
@@ -74,6 +75,21 @@ describe('a chanterelle', () => {
       const hue = hueDegrees(cap);
       assert.ok(hue > 22 && hue < 46, hue.toFixed(1));
       assert.ok(toHsv(cap).s > 0.8 && toHsv(cap).v > 0.9);
+    }
+    const { flesh, ridge } = PALETTE.chanterelle;
+    assert.ok(luminance(ridge) > luminance(flesh));
+  });
+
+  it('stays orange in the farthest haze', () => {
+    for (const genes of grown('chanterelle')) {
+      const hazed = mix(
+        mushroomTints(genes).cap,
+        PALETTE.air,
+        heldHaze(genes, HAZES.at(-1) ?? 0),
+      );
+      const hue = hueDegrees(hazed);
+      assert.ok(hue > 22 && hue < 46, hue.toFixed(1));
+      assert.ok(toHsv(hazed).s > 0.65, toHsv(hazed).s.toFixed(2));
     }
   });
 });

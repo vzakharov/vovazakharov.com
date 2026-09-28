@@ -126,8 +126,8 @@ type Facing = Pick<MushroomGenes, 'lean' | 'stemBend' | 'capTilt'>;
 
 /**
  * The same mushroom bending and leaning toward `side`, -1 for left and 1 for
- * right: how a clump's mushrooms grow apart. Only the signs change, so it
- * stays inside every gene's range.
+ * right: how a clump's mushrooms grow apart. Only the signs change, so each
+ * gene keeps a size its range allows.
  */
 function facing<Genes extends Facing>(genes: Genes, side: -1 | 1): Genes {
   return {

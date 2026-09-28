@@ -64,10 +64,14 @@ function corners({ x, y }: Point, width: number, height = width): Point[] {
 }
 
 describe('windowSlots', () => {
-  it('has room for three windows or five, more on a wider cap', () => {
+  it('has room for three windows or five on a dome, more on a wider cap, and one on a chanterelle', () => {
     const counts = new Set<number>();
     for (const genes of everyMushroom) {
       const count = windowSlots(genes).length;
+      if (genes.species === 'chanterelle') {
+        assert.equal(count, 1);
+        continue;
+      }
       assert.ok(count === 3 || count === 5, `${count} windows`);
       counts.add(count);
     }
@@ -83,13 +87,14 @@ describe('windowSlots', () => {
     assert.equal(windowSlots(narrowest).length, 3);
   });
 
-  it('puts every pane inside the cap as it is drawn', () => {
+  it('puts every pane inside the cap as it is drawn: a dome’s, or a chanterelle’s funnel', () => {
     for (const genes of everyMushroom) {
-      const [dome] = headOutlines(genes);
+      const [dome, funnel] = headOutlines(genes);
+      const face = genes.species === 'chanterelle' ? funnel : dome;
       for (const slot of windowSlots(genes)) {
         for (const corner of corners(slot, PANE)) {
           assert.ok(
-            containsPoint(dome, corner),
+            containsPoint(face, corner),
             JSON.stringify({ genes, slot }),
           );
         }
@@ -97,13 +102,13 @@ describe('windowSlots', () => {
     }
   });
 
-  it('keeps the row on a dome’s lower band, and on a chanterelle’s lip', () => {
+  it('keeps the row on a dome’s lower band, and under a chanterelle’s front rim', () => {
     for (const genes of everyMushroom) {
       for (const { x, y } of windowSlots(genes)) {
         if (genes.species === 'chanterelle') {
-          // Over its front rim, clear of the ridged funnel under it.
+          // Under its front rim, clear of the lip over it.
           for (const side of [-1, 1]) {
-            assert.ok(y - PANE / 2 > capBase(genes, x + (side * PANE) / 2));
+            assert.ok(y + PANE / 2 < capBase(genes, x + (side * PANE) / 2));
           }
           continue;
         }

@@ -71,7 +71,7 @@ describe('maxReach', () => {
 });
 
 describe('splayed', () => {
-  it('faces a mushroom its splay’s way without leaving any gene’s range', () => {
+  it('faces a mushroom its splay’s way, each gene keeping a size its range allows', () => {
     for (const species of MUSHROOM_SPECIES) {
       for (const seed of SEEDS.slice(0, 200)) {
         for (const side of [-1, 1] as const) {
@@ -79,8 +79,12 @@ describe('splayed', () => {
           assert.ok(Math.sign(turn) === side);
           assert.ok(genes.stemBend * side >= 0 && genes.lean * side >= 0);
           for (const name of ['lean', 'stemBend', 'capTilt'] as const) {
+            // A range on one side of 0 gives the size alone; the sign is the side's.
             const [min, max] = GENE_RANGES[species][name];
-            assert.ok(genes[name] >= min && genes[name] <= max);
+            const least = Math.max(0, min);
+            const most = Math.max(-min, max);
+            const size = Math.abs(genes[name]);
+            assert.ok(size >= least && size <= most);
           }
         }
       }

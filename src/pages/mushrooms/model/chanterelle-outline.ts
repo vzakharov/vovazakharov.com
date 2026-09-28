@@ -75,6 +75,46 @@ export function trumpetOutlines(genes: ChanterelleGenes): [Point[], Point[]] {
   return [lip, funnel];
 }
 
+/** How far in from either end of the lip its mouth reaches, in the lip's half-width. */
+const MOUTH_ACROSS = 0.84;
+/**
+ * The mouth's far and near edges between the lip's top and its front rim, as
+ * shares of the lip's depth there up from the rim: the near rim's curled
+ * edge shows thicker than the far one, as seen a little from above.
+ */
+const MOUTH_FAR = 0.8;
+const MOUTH_NEAR = 0.3;
+
+/**
+ * The mouth of a chanterelle's funnel as it shows over the lip, seen a little
+ * from above, in the cap's frame: its far edge from left to right, where the
+ * far inner wall drops from the far rim, and its near edge from right to
+ * left, over the near rim. Closed, the two are the opening the painter
+ * shades.
+ */
+export function mouthEdges(genes: ChanterelleGenes): {
+  far: Point[];
+  near: Point[];
+} {
+  const half = genes.capWidth / 2;
+  const edge = (share: number, from: number, to: number) =>
+    sample(from, to, CURVE_STEPS, (angle) => {
+      const x = MOUTH_ACROSS * half * Math.cos(angle);
+      const base = capBase(genes, x);
+      const depth = capSurface(genes, x) - base;
+      // Pointed where the two edges meet at either end, as an ellipse is.
+      const middle = (MOUTH_FAR + MOUTH_NEAR) / 2;
+      return {
+        x,
+        y: base + depth * (middle + (share - middle) * Math.sin(angle)),
+      };
+    });
+  return {
+    far: edge(MOUTH_FAR, Math.PI, 0),
+    near: edge(MOUTH_NEAR, 0, Math.PI),
+  };
+}
+
 /**
  * Each ridge as a line in the mushroom's frame, from the front rim down over
  * the funnel and on down the stem to `RIDGE_END`: `ridges` of them spread

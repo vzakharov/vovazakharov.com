@@ -25,7 +25,11 @@ import {
   sideways,
   stemLight,
 } from './mushroom-light';
-import { type MushroomTints, mushroomTints } from './mushroom-tints';
+import {
+  heldHaze,
+  type MushroomTints,
+  mushroomTints,
+} from './mushroom-tints';
 import { PALETTE } from './palette';
 import { type Brush, crescent, fillShape, inkUnder } from './shapes';
 
@@ -61,6 +65,7 @@ export function mushroomBrush(
 ): MushroomBrush {
   const canvas = toCanvas(size);
   const cap = capFrame(genes);
+  const held = heldHaze(genes, haze);
   return {
     graphics,
     genes,
@@ -68,8 +73,8 @@ export function mushroomBrush(
     lighting,
     size,
     ink: Math.max(2, size * MUSHROOM_INK),
-    haze,
-    tone: (colour) => mix(colour, PALETTE.air, haze),
+    haze: held,
+    tone: (colour) => mix(colour, PALETTE.air, held),
     canvas,
     toMushroom: (point) => canvas(cap(point)),
   };
