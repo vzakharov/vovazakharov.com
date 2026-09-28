@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: this session was started by a relay at depth 3, so it is depth 4;
-the successor is depth 5.
+Relay depth: this session was started by a relay at depth 4, so it is depth 5;
+the successor is depth 6.
 
 ## 1. Standing constraints
 
@@ -50,12 +50,15 @@ holds the rest. Pass this section on verbatim.
 ## 2. The conversation
 
 No operator message arrived in this session. It opened with
-`/relay take claude/mushroom-game-syama-lbirv7` and ran `/go` for bite 7,
-atmosphere, as an orchestrator: a research agent fetched references and
-wrote a spec; step 0 (palette split, `light.ts`); groups A (backdrop) and B
-(creatures) in parallel; B paused and handed over past ~245k; a fix round
-from the orchestrator's own frames (ground seam, grey sky by the sun, flat
-stems, knip); the tail (polish, vet, play run, frames, artifact build, `/pr`).
+`/relay take claude/mushroom-game-syama-lbirv7` (Next step: "оставь код ревью
+на последний кусок") and reviewed bite 7 (atmosphere). On attach the local
+branch ref was a stale pre-rewrite head (54b5438, not on any remote); it was
+reset to `origin`, the old head kept as local branch
+`backup/stale-local-54b5438` (not pushed). The orchestrator looked at bite 7's
+committed frames, then ran two agents in parallel: a player (probe build,
+play run one screen per call, seed sweeps, frames) and a read-only reader
+(spec and plan against code, tests that cannot fail). It posted one PR
+review with 14 inline comments.
 
 ## 3. Intent
 
@@ -67,66 +70,59 @@ teaching voice, photorealism, replacing relays with subagent runs.
 
 ## 4. Decisions
 
-- Bite 7's calls (in the plan's `## Eaten so far` 7 and the spec): no
-  foreground frame, no grain over creatures, light shafts cut (read as
-  haze), no Phaser filters or gradient fills. The fly agaric stays red with
-  white spots; HUD discs keep an even `PALETTE.ink` ring.
-- Palette is three modules (`palette.ts` shared + merge,
-  `palette-backdrop.ts`, `palette-creatures.ts`); `.claude/rules/styling.md`
-  names all three.
-- Insects are painted once and rotated, so their shading turns with them.
-- Polish commits are `polish(bite 7):`, scoped to the bite.
+- The review's order, stated in its body: (1) bake backdrop + HUD per resize
+  (perf), (2) insects lit through `toward` rotated by −turn, (3) phone sun
+  halo plateau and the cream bowl, (4) ink contrast over the real ground band
+  and after haze; then shine over spots, stem foot, binary side light, wash
+  reach, test proxies, retina hairline, a DRY miss, plan wording. Items 2 and
+  4 set the contract bite 8's species go through, so they land before bite 8.
+- Not a bug: the spotless selected cap in bite 7's frame is the `plain` kind.
 
 Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_, _MPP_,
-_wave_, _orchestrator_, _step 0_ (the shared prerequisite before parallel
-groups), _fix round_ (the brief built from the orchestrator's own frames).
+_wave_, _orchestrator_, _step 0_, _fix round_, _player_ / _reader_ (the
+review's two parallel agents).
 
 ## 5. Errors and dead ends
 
-- The spec's haze amounts (75%/55% toward `air`) made the far ranges vanish;
-  group A used lower ones.
-- Yellow halo discs over blue sky mixed to grey-teal; fixed by a white halo
-  first and warmth only near the sun.
-- Parallel agents reported gate failures that were the other's half-made
-  state; the fix round owned the final gates.
+- The whole play run outruns the 600 s tool limit; one `--screens` per call
+  works (tabL 294 s, tabP 262, phoneP 189, phoneL 191, phoneS 69).
+- Both agents ended near 185–190k tokens: a brief this size is about the
+  most one agent holds.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
-  Last pushed commit: this summary's.
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
+  MERGEABLE. Last pushed commit: this summary's (before it, 160ca9d
+  megabeast notes, c598492 review frames).
+- Review: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5340556382
+  (14 inline comments, anchored on c598492).
 - Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–7 eaten; next in
-  the loop is bite 7's review. `## Rest of the elephant` opens with what the
-  review should sweep (play run now ~22 min, the phone's large sun halo,
-  bite 6's carried items).
+  the loop is handling bite 7's review, then bite 8 (real mushrooms).
 - Artifact: https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG (version 3,
-  bite 7). Republish with `pnpm artifact:mushrooms` (output
-  `tmp/mushroom-artifact/index.html`), then set `<title>` to "Syama's
+  bite 7). A handled review republishes it: `pnpm artifact:mushrooms`
+  (output `tmp/mushroom-artifact/index.html`), `<title>` "Syama's
   mushrooms"; `read` it first in a new session.
-- Checks at the end: `./scripts/vet.sh` green; mushrooms tests 505 pass, 3
-  todo; play run exit 0 on all five screens, 1313 s for the play step.
 - Nothing running, no PR subscription, no check-in scheduled.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/atmosphere/look.md` — the spec, each item with
-  a checkable property: the review's checklist for the look.
-- `docs/remove-before-merging/bite7/B-handover.md` — group B's notes.
-- `docs/remove-before-merging/frames/bite-7/` — this bite's frames.
-- Bite 7's commits: bc2e514 (spec) and 6330979..550034f.
-- References are gone with `tmp/`; re-fetch Steam stills of Gris, Ori and
-  the Blind Forest / Will of the Wisps and Wikipedia's Alto's Adventure
-  animation into `tmp/refs/` if the review wants them beside a frame.
-- `.claude/skills/megabeast/notes.md` — the three bite-7 entries before "The
-  operator's questions mid-run".
+- The review above — every comment names its measurement, frame and ask.
+  `python3 scripts/export-github-item.py 57` exports it.
+- `docs/remove-before-merging/frames/bite-7/review/` — the review's frames
+  (seed 12345, stepped loop).
+- `docs/remove-before-merging/atmosphere/look.md` — the spec; its "(d)
+  Static … free" cost lines are wrong (review comment on `paint-land.ts`).
+- `.claude/skills/megabeast/notes.md` — the last two entries are this
+  session's.
 - Play run: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`, then
-  `pnpm play:mushrooms --no-build` — it now outruns the 600 s tool limit on
-  five screens; use `--screens` to split it.
+  `pnpm play:mushrooms --no-build --screens <one>`.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
 
-(The standing loop's `/relay оставь код ревью на последний кусок`: review
-bite 7's commits as the operator would, per the plan's § "How this elephant
-is eaten" step 2 — frames first, one PR review with inline comments — then
-`/relay /handle`.)
+(The standing loop's `/relay /handle`: answer every comment of the review
+above on GitHub, never resolve, push the fixes, republish the Artifact,
+commit the fixes' frames to `docs/remove-before-merging/frames/bite-7/`,
+then take bite 8 if context allows, per the plan's § "How this elephant is
+eaten" step 3.)
