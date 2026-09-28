@@ -23,7 +23,7 @@ import {
 /** How far down the stem a ridge runs from the funnel, to `t` from its foot. */
 const RIDGE_END = 0.55;
 /** How many chords the lip's waving top is drawn with. */
-const LIP_STEPS = CURVE_STEPS * 2;
+const LIP_STEPS = CURVE_STEPS * 1.5;
 
 /** The front rim from right to left, its two ends left out: where the lip and the funnel meet. */
 function frontRim(genes: ChanterelleGenes): Point[] {
@@ -64,10 +64,10 @@ function funnelSide(genes: ChanterelleGenes, sign: -1 | 1): Point[] {
 export function trumpetOutlines(genes: ChanterelleGenes): [Point[], Point[]] {
   const half = genes.capWidth / 2;
   const rim = frontRim(genes);
-  // By angle, crowding the samples toward the rim, where the lip turns down,
-  // and closely enough that every lobe of the wave is drawn round.
-  const top = sample(-Math.PI / 2, Math.PI / 2, LIP_STEPS, (angle) => {
-    const x = half * Math.sin(angle);
+  // Half by angle, crowding the samples toward the rim where the lip turns
+  // down, and half evenly, so every lobe of the wave across it is drawn round.
+  const top = sample(-1, 1, LIP_STEPS, (along) => {
+    const x = (half * (along + Math.sin((along * Math.PI) / 2))) / 2;
     return { x, y: capSurface(genes, x) };
   });
   const lip = rounded([...top, ...rim], RIM_ROUNDS);
