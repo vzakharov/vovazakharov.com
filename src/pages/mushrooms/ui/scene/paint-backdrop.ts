@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Random } from '../../model/random';
-import { bakeTiles } from './baking';
+import { bakeTiles, SUPERSAMPLE } from './baking';
 import type { MeadowLayout } from './layout';
 import { paintGrain, paintGround, paintRanges } from './paint-land';
 import {
@@ -32,13 +32,6 @@ export type Backdrop = {
   scratch: Phaser.GameObjects.RenderTexture;
 };
 
-/**
- * How many texels a side a bake draws per device pixel before shrinking to
- * one: a framebuffer draws with no multisampling, so a shape baked at one
- * texel a pixel shows a stepped edge the screen's own canvas smooths. Two a
- * side, shrunk by exactly half, averages four samples to a pixel.
- */
-const SUPERSAMPLE = 2;
 /** The side of a finished picture's square baked at a time, in texels, so the supersampled scratch stays 2048² whatever the screen. */
 const TILE = 1024;
 

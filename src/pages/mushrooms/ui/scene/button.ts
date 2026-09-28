@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import type { Meadow } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { shake, wobble } from '../../model/motion';
-import { faceFrame } from './baking';
+import { faceFrame, SUPERSAMPLE } from './baking';
 import { containsCircle, type WithCircleHit } from './hit-areas';
 import { tapReach } from './sky-layout';
 
@@ -14,12 +14,6 @@ const SHAKE_REACH = 0.3;
 const SHAKE_TURN = 0.25;
 /** A control that cannot act now, faded; a tap on it still shakes its head. */
 export const DIMMED_ALPHA = 0.4;
-/**
- * Texels a side per device pixel a face is drawn at before it is shrunk to
- * one: a framebuffer draws with no multisampling, so this is what smooths
- * the pictogram's edges as the screen's own canvas would.
- */
-const SUPERSAMPLE = 2;
 
 /**
  * A button as the screen shows it: its picture baked into `face` whenever
@@ -43,10 +37,7 @@ export type Button = WithCircleHit & {
 };
 
 /** Paints a button's picture into `graphics`, centred on its origin; `hairline` is one device pixel, in CSS pixels. */
-type Draw = (
-  graphics: Phaser.GameObjects.Graphics,
-  hairline: number,
-) => void;
+type Draw = (graphics: Phaser.GameObjects.Graphics, hairline: number) => void;
 
 /** What a button shows: `look` names it, so the same look is never baked twice. */
 export type Face = { look: string; draw: Draw };

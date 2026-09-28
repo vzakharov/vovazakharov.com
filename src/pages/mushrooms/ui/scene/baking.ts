@@ -7,6 +7,14 @@
 import type { Circle } from '../../model/geometry';
 
 /**
+ * How many texels a side a bake draws per device pixel before shrinking to
+ * one: a framebuffer draws with no multisampling, so a shape baked at one
+ * texel a pixel shows a stepped edge the screen's own canvas smooths. Two a
+ * side, shrunk by exactly half, averages four samples to a pixel.
+ */
+export const SUPERSAMPLE = 2;
+
+/**
  * How far a button's face reaches from its middle, in the button's radii, and
  * CSS pixels on top: past the disc, its ink ring and the shadow under it.
  */

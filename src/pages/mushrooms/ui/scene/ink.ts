@@ -64,20 +64,25 @@ export function inkFor(fill: number): number {
   if (lighterBy(own, READS) <= GROUND_DARKEST) {
     return lightenTo(fill, Math.max(INK_LEAST, lighterBy(own, EDGE_LIFT)));
   }
-  const pen = penFor(fill);
   // The darkest ground the fill does not stand off: any darker, it stands off itself.
   const unread = Math.max(GROUND_DARKEST, darkerBy(own, READS));
-  const most = Math.min(
-    INK_MOST,
-    darkerBy(own, INK_CONTRAST),
-    darkerBy(unread, INK_CONTRAST),
+  return penFor(
+    fill,
+    Math.min(
+      INK_MOST,
+      darkerBy(own, INK_CONTRAST),
+      darkerBy(unread, INK_CONTRAST),
+    ),
   );
-  return lightenTo(dimTo(pen, Math.max(INK_LEAST, most)), INK_LEAST);
 }
 
-/** `colour`'s own dark, cooled toward Syama's blue pen. */
-function penFor(colour: number): number {
-  return mix(darken(colour, INK_DARKEN), PALETTE.inkCool, INK_COOL);
+/**
+ * `colour`'s own dark, cooled toward Syama's blue pen and dimmed to a
+ * luminance of `most` at the most, never below `INK_LEAST`.
+ */
+function penFor(colour: number, most: number): number {
+  const pen = mix(darken(colour, INK_DARKEN), PALETTE.inkCool, INK_COOL);
+  return lightenTo(dimTo(pen, Math.max(INK_LEAST, most)), INK_LEAST);
 }
 
 /**
@@ -86,8 +91,10 @@ function penFor(colour: number): number {
  * itself, and no darker than `INK_LEAST`.
  */
 export function lineInk(colour: number): number {
-  const most = Math.min(INK_MOST, darkerBy(GROUND_DARKEST, INK_CONTRAST));
-  return lightenTo(dimTo(penFor(colour), Math.max(INK_LEAST, most)), INK_LEAST);
+  return penFor(
+    colour,
+    Math.min(INK_MOST, darkerBy(GROUND_DARKEST, INK_CONTRAST)),
+  );
 }
 
 /** The ink of a line inside a shape filled `fill`: a band's edge, a plank, a vein. */
