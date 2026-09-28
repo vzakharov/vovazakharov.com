@@ -465,6 +465,7 @@ phone.
    вид, а дальше можно думать"). Behaviour tied to a kind stays with the
    fly agaric: flies still favour it, as `spotted` does now. It comes before
    atmosphere so that bite's palette is judged on the real species.
+
 8. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
    fills and even black ink everywhere. The operator's bar is the look of
    beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
@@ -491,14 +492,14 @@ phone.
    one-finger pan. Walking through the meadow, as a spectator or a
    participant the insects fly from, stays out of scope for now.
 10. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
-   splash on caps and ground, with its own sound. While it rains, flowers
-   close, insects shelter under the nearest cap, and mushrooms swell a
-   little. When it stops, the sun comes back with a rainbow, and spores an
-   old mushroom shed sprout into little mushrooms that grow over the next
-   minutes, within the forest's cap.
+    splash on caps and ground, with its own sound. While it rains, flowers
+    close, insects shelter under the nearest cap, and mushrooms swell a
+    little. When it stops, the sun comes back with a rainbow, and spores an
+    old mushroom shed sprout into little mushrooms that grow over the next
+    minutes, within the forest's cap.
 11. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
-     glowing, fireflies waking, mice coming out of their doors, butterflies
-     folded on the caps and flowers closed for the night.
+    glowing, fireflies waking, mice coming out of their doors, butterflies
+    folded on the caps and flowers closed for the night.
 12. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
     (idle loops off, short tweens without overshoot); a visually hidden row
     of HTML buttons beside the canvas dispatching the same actions, for
