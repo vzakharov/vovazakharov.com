@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { firstFlowers } from '../../model/flower-genes';
 import { firstMeadow, reduce } from '../../model/game';
-import { CAP_KINDS } from '../../model/mushroom-genes';
+import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { FLOWER_LIMIT, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import {
@@ -48,8 +48,9 @@ function plantedOut(
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
-    const cap = CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted';
-    meadow = reduce(meadow, { kind: 'grow', cap, seed: nextSeed(growing) });
+    const species =
+      MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
+    meadow = reduce(meadow, { kind: 'grow', species, seed: nextSeed(growing) });
   }
   const { mushrooms } = meadow;
   const planted: Sown[] = [];

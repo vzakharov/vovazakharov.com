@@ -220,7 +220,7 @@ export function facingArc(
 }
 
 /** The longest run of a closed outline's vertices that `keep` marks, in the order the outline runs, round its end if need be. */
-export function longestRun(
+function longestRun(
   points: readonly Point[],
   keep: readonly boolean[],
 ): Point[] {

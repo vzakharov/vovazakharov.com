@@ -5,7 +5,8 @@ import { GENE_RANGES, mushroomGenes } from './mushroom-genes';
 import { capReach, maxReach, splayed, stemAt } from './mushroom-pose';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
-const genesOf = (seed: number) => mushroomGenes({ seed, cap: 'spotted' });
+const genesOf = (seed: number) =>
+  mushroomGenes({ seed, species: 'fly-agaric' });
 
 describe('stemAt', () => {
   it('leaves the foot upright and ends bent over by stemBend', () => {

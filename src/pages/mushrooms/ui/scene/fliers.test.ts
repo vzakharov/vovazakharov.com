@@ -285,7 +285,7 @@ describe('the flies in a full forest', () => {
         const stand = opened(seed, width, height, true);
         const agarics = new Set(
           stand.mushrooms
-            .filter(({ cap }) => cap === 'spotted')
+            .filter(({ species }) => species === 'fly-agaric')
             .map(({ id }) => id),
         );
         const flown = new Map<string, Flight['leg']>();

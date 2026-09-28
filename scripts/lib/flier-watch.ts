@@ -209,7 +209,7 @@ export const WATCH = `(() => {
         if (!counted.has(key)) {
           counted.add(key);
           const cap = scene.meadow.mushrooms.find((each) => each.id === leg.to.id);
-          watch.capRests[cap?.cap === 'spotted' ? 'spotted' : 'other'] += 1;
+          watch.capRests[cap?.species === 'fly-agaric' ? 'spotted' : 'other'] += 1;
         }
       }
       const flying = now >= leg.departs && now < leg.arrives;

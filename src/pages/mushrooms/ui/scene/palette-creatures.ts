@@ -19,7 +19,6 @@ export const CREATURES = {
   stemLit: 0xff_d6_8a,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
-  capDark: 0x48_11_24,
   spot: 0xff_fb_f1,
   flowerStem: 0x4c_a0_3c,
   leaf: 0x5e_b8_48,

@@ -3,7 +3,7 @@ import type * as Phaser from 'phaser';
 import { canFurnish, isEmpty, isFull, type Meadow } from '../../model/game';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
-import { CAP_KINDS, type CapKind } from '../../model/mushroom-genes';
+import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import {
   type Button,
   buttonMaker,
@@ -12,12 +12,12 @@ import {
   standButton,
 } from './button';
 import {
-  drawCapButton,
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
   drawMuteButton,
   drawReleaseButton,
+  drawSpeciesButton,
 } from './hud';
 import type { MeadowLayout } from './layout';
 import { Picker } from './picker';
@@ -26,7 +26,7 @@ export type ControlHandlers = {
   mute: () => void;
   pick: () => void;
   remove: () => void;
-  grow: (cap: CapKind) => void;
+  grow: (species: Species) => void;
   house: () => void;
   furnish: (piece: Furnishing) => void;
   release: (kind: InsectKind) => void;
@@ -51,7 +51,7 @@ export class Controls {
   private readonly releases: Record<InsectKind, Button>;
   /** Whether the fly and the bee give way to an open picker (`Controls.yielding`). */
   private yielding = false;
-  private readonly picker: Picker<CapKind>;
+  private readonly picker: Picker<Species>;
   private readonly housePicker: Picker<Furnishing>;
   /** As of the last paint, which says what each button can do. */
   private meadow: Meadow | undefined;
@@ -86,9 +86,9 @@ export class Controls {
     };
     this.picker = new Picker(
       {
-        items: CAP_KINDS,
+        items: MUSHROOM_SPECIES,
         pick: handlers.grow,
-        draw: drawCapButton,
+        draw: drawSpeciesButton,
         flies: true,
       },
       button,

@@ -17,7 +17,11 @@ import { mushroomGenes } from './mushroom-genes';
 import { mulberry32 } from './random';
 
 const opening = () => firstMeadow(mulberry32(1));
-const grow = (seed: number): Action => ({ kind: 'grow', cap: 'plain', seed });
+const grow = (seed: number): Action => ({
+  kind: 'grow',
+  species: 'porcini',
+  seed,
+});
 function run(meadow: Meadow, actions: readonly Action[]): Meadow {
   let state = meadow;
   for (const action of actions) state = reduce(state, action);
@@ -47,7 +51,7 @@ describe('reduce', () => {
     assert.deepEqual(grown, {
       id: 'mushroom-3',
       seed: 42,
-      cap: 'plain',
+      species: 'porcini',
       house: EMPTY_HOUSE,
       slot: 2,
     });

@@ -9,7 +9,7 @@ import type { Sized } from '@/shared/typings';
 import type { Circle } from '../../model/geometry';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
-import { CAP_KINDS } from '../../model/mushroom-genes';
+import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 
 /** The mute button's radius, and how far its edge keeps from the corner. */
 const BUTTON_R = 28;
@@ -63,7 +63,7 @@ export type Controls = {
    * hidden, while a picker is open.
    */
   yielding: boolean;
-  /** One per `CAP_KINDS`, in that order. */
+  /** One per `MUSHROOM_SPECIES`, in that order. */
   picker: readonly Circle[];
   /** One per `FURNISHINGS`, in that order. */
   housePicker: readonly Circle[];
@@ -173,7 +173,7 @@ export function placeControls(
     y: BUTTON_INSET + BUTTON_R,
     r: BUTTON_R,
   };
-  const picker = pickerRow(CAP_KINDS.length, width, height, mute);
+  const picker = pickerRow(MUSHROOM_SPECIES.length, width, height, mute);
   const houseRow = pickerRow(FURNISHINGS.length, width, height, mute);
   const x = width - BUTTON_INSET - GROW_R;
   const hit = tapReach(GROW_R);

@@ -18,10 +18,10 @@ import {
 import type { InsectKind } from './insect-genes';
 import { released, startled, type Swarm, ticked } from './insects';
 import {
-  type CapKind,
   firstMushrooms,
   type Mushroom,
   mushroomGenes,
+  type Species,
 } from './mushroom-genes';
 import type { Random, Seeded } from './random';
 
@@ -39,7 +39,7 @@ export type Meadow = Swarm & {
   /** In the order they were planted, so the last is the newest. */
   mushrooms: readonly Planted[];
   selected: string | undefined;
-  /** Whether the four caps are showing, waiting for a pick. */
+  /** Whether the four species are showing, waiting for a pick. */
   picking: boolean;
   /** Whether the windows and the door are showing, waiting for a pick. */
   furnishing: boolean;
@@ -51,7 +51,7 @@ export type Meadow = Swarm & {
 
 export type Action =
   | { kind: 'pick' }
-  | { kind: 'grow'; cap: CapKind; seed: number }
+  | { kind: 'grow'; species: Species; seed: number }
   | ({ kind: 'select' } & WithId)
   | { kind: 'deselect' }
   | { kind: 'remove' }
@@ -152,7 +152,9 @@ export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
 const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
   ...sight,
   caps: mushrooms.map(({ id }) => id),
-  spotted: mushrooms.filter(({ cap }) => cap === 'spotted').map(({ id }) => id),
+  spotted: mushrooms
+    .filter(({ species }) => species === 'fly-agaric')
+    .map(({ id }) => id),
 });
 
 /** `meadow` with what the insects made of it, the same object when they changed nothing. */
@@ -201,12 +203,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       if (slot === undefined) return { ...meadow, picking: false };
       const grown = meadow.grown + 1;
       const id = `mushroom-${grown}`;
-      const { cap, seed } = action;
+      const { species, seed } = action;
       return {
         ...meadow,
         mushrooms: [
           ...meadow.mushrooms,
-          { id, seed, cap, house: EMPTY_HOUSE, slot },
+          { id, seed, species, house: EMPTY_HOUSE, slot },
         ],
         selected: id,
         picking: false,

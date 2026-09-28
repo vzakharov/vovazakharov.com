@@ -18,8 +18,8 @@ import {
 } from '../../model/house';
 import { NARROWEST_STANDING } from '../../model/motion';
 import {
-  CAP_KINDS,
   GENE_RANGES,
+  MUSHROOM_SPECIES,
   mushroomGenes,
   type MushroomSeed,
 } from '../../model/mushroom-genes';
@@ -62,7 +62,8 @@ const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed, index) =>
   doorStations(
     mushroomGenes({
       seed,
-      cap: CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted',
+      species:
+        MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric',
     }),
   ),
 );
@@ -138,7 +139,9 @@ function standingForest(seed: number, turn: number, layout: MeadowLayout) {
   return layout.mushrooms.map((place, slot) =>
     standingWithTaps(place, {
       seed: nextSeed(random),
-      cap: CAP_KINDS[(turn + slot) % CAP_KINDS.length] ?? 'spotted',
+      species:
+        MUSHROOM_SPECIES[(turn + slot) % MUSHROOM_SPECIES.length] ??
+        'fly-agaric',
     }),
   );
 }
@@ -272,7 +275,8 @@ describe('meadowLayout', () => {
           const mushroom = {
             id: `mushroom-${slot}`,
             seed: nextSeed(random),
-            cap: CAP_KINDS[slot % CAP_KINDS.length] ?? 'spotted',
+            species:
+              MUSHROOM_SPECIES[slot % MUSHROOM_SPECIES.length] ?? 'fly-agaric',
           };
           const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
           const { left, right } = capReach(genes, turn);
@@ -427,7 +431,7 @@ describe('meadowLayout', () => {
     it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
       const layout = screenLayout(width, height);
       const { releases, yielding, picker, housePicker } = layout;
-      assert.equal(picker.length, CAP_KINDS.length);
+      assert.equal(picker.length, MUSHROOM_SPECIES.length);
       assert.equal(housePicker.length, FURNISHINGS.length);
       const standing = standingControls(layout);
       for (const { r } of [...standing.slice(1), ...picker, ...housePicker]) {

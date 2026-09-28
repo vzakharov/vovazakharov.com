@@ -5,7 +5,7 @@ import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
 import { sunLight } from '../../model/light';
 import {
-  CAP_KINDS,
+  MUSHROOM_SPECIES,
   type MushroomGenes,
   mushroomGenes,
 } from '../../model/mushroom-genes';
@@ -54,7 +54,7 @@ const middleOf = (points: readonly Point[]) => ({
 });
 
 describe('a cap in the light', () => {
-  const genes = mushroomGenes({ seed: 7, cap: 'spotted' });
+  const genes = mushroomGenes({ seed: 7, species: 'fly-agaric' });
   for (const [name, toward, side] of [
     ['from the right', { x: 0.8, y: -0.6 }, 1],
     ['from the left', { x: -0.8, y: -0.6 }, -1],
@@ -158,7 +158,7 @@ describe('a spotted cap’s shine', () => {
   it('never shows over a spot, on caps where the two overlap', () => {
     let overlapping = 0;
     for (let seed = 1; seed <= 3000; seed++) {
-      const genes = mushroomGenes({ seed, cap: 'spotted' });
+      const genes = mushroomGenes({ seed, species: 'fly-agaric' });
       for (const toward of [
         { x: 0.8, y: -0.6 },
         { x: -0.3, y: -0.95 },
@@ -190,7 +190,8 @@ describe('a mushroom’s foot', () => {
         const { genes, turn } = splayed(
           mushroomGenes({
             seed,
-            cap: CAP_KINDS[seed % CAP_KINDS.length] ?? 'plain',
+            species:
+              MUSHROOM_SPECIES[seed % MUSHROOM_SPECIES.length] ?? 'fly-agaric',
           }),
           splay,
         );
@@ -237,7 +238,10 @@ function flanks(
   seed: number,
 ) {
   const stood = splayed(
-    mushroomGenes({ seed, cap: CAP_KINDS[seed % CAP_KINDS.length] ?? 'plain' }),
+    mushroomGenes({
+      seed,
+      species: MUSHROOM_SPECIES[seed % MUSHROOM_SPECIES.length] ?? 'fly-agaric',
+    }),
     place.splay,
   );
   const { genes, turn } = stood;

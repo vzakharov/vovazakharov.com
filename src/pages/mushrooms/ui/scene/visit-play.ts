@@ -9,7 +9,7 @@ import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-genes';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
-import { CAP_KINDS } from '../../model/mushroom-genes';
+import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import type { Stand } from './flower-sight';
 import { meadowLayout } from './layout';
@@ -38,8 +38,9 @@ export function opened(
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
-    const cap = CAP_KINDS[index % CAP_KINDS.length] ?? 'spotted';
-    meadow = reduce(meadow, { kind: 'grow', cap, seed: nextSeed(growing) });
+    const species =
+      MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
+    meadow = reduce(meadow, { kind: 'grow', species, seed: nextSeed(growing) });
   }
   const { mushrooms, planted } = meadow;
   return { meadow, layout, flowers, mushrooms, planted };

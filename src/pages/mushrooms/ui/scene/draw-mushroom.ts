@@ -2,7 +2,7 @@ import type * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import type { Light } from '../../model/light';
-import { domeHeight, type MushroomGenes } from '../../model/mushroom-genes';
+import type { MushroomGenes } from '../../model/mushroom-genes';
 import {
   CURVE_STEPS,
   domeBand,
@@ -14,7 +14,7 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
-import { innerInk, type Lighting, litSide, longestRun } from './ink';
+import { type Lighting, litSide } from './ink';
 import {
   capLight,
   mushroomShadow,
@@ -28,20 +28,15 @@ import {
   fillShape,
   inkedFill,
   paintShadow,
-  strokeLine,
   strokeShape,
 } from './shapes';
 
-/** Where a two-tone cap changes colour, as a fraction of its height. */
-const TONE_SPLIT = 0.42;
 const SHADE_ALPHA = 0.26;
 const SPOT_SHADE_ALPHA = 0.13;
 const SHINE_ALPHA = 0.45;
 /** The cap's warm rim light and the pale line inside it: each one's width, in the cap's height, and alpha. */
 const RIM = { width: 0.06, alpha: 0.6 };
 const RIM_FINE = { width: 0.025, alpha: 0.4 };
-/** How far a two-tone cap's band line stays in from the dome's own surface, in its height: what counts as its lower edge. */
-const BAND_EDGE = 0.02;
 /**
  * The selection band's width outside a mushroom's own ink, per unit of its
  * size and at the least in pixels, and its ink edge's.
@@ -82,7 +77,6 @@ export function drawMushroom(
   const cap = capFrame(genes);
   const toMushroom = (point: Point) => canvas(cap(point));
   const red = nudgeHue(PALETTE.capRed, genes.hueNudge);
-  const dark = nudgeHue(PALETTE.capDark, genes.hueNudge);
   const shade = (alpha: number) => {
     graphics.fillStyle(PALETTE.shadeCool, alpha * (1 - haze));
   };
@@ -118,35 +112,7 @@ export function drawMushroom(
   fillShape(graphics, gills);
 
   const dome = domeBand(genes, 0).map((point) => toMushroom(point));
-  const [base, band] =
-    genes.cap === 'dark-top'
-      ? [red, dark]
-      : genes.cap === 'dark-bottom'
-        ? [dark, red]
-        : [red, undefined];
-  inkedFill(graphics, dome, base, ink, lighting, tone);
-  if (band !== undefined) {
-    const upper = domeBand(genes, TONE_SPLIT);
-    graphics.fillStyle(tone(band));
-    fillShape(
-      graphics,
-      upper.map((point) => toMushroom(point)),
-    );
-    // A line where the tones meet, so which of them is on top reads at a
-    // glance, on a button as in the meadow: along the band's lower edge
-    // only, the dome's own contour being the outer ink's.
-    const edge = longestRun(
-      upper,
-      upper.map(
-        ({ x, y }) => y < domeHeight(genes, x) - genes.capHeight * BAND_EDGE,
-      ),
-    );
-    graphics.lineStyle(ink * 0.5, tone(innerInk(band)));
-    strokeLine(
-      graphics,
-      edge.map((point) => toMushroom(point)),
-    );
-  }
+  inkedFill(graphics, dome, red, ink, lighting, tone);
 
   const interior = toMushroom({ x: 0, y: genes.capHeight * 0.3 });
   const capHeight = genes.capHeight * size;

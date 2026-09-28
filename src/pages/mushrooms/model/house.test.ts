@@ -15,7 +15,11 @@ import {
   PANE,
   windowSlots,
 } from './house';
-import { CAP_KINDS, type MushroomGenes, mushroomGenes } from './mushroom-genes';
+import {
+  MUSHROOM_SPECIES,
+  type MushroomGenes,
+  mushroomGenes,
+} from './mushroom-genes';
 import {
   capOutlines,
   domeBand,
@@ -24,8 +28,8 @@ import {
 } from './mushroom-outline';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
-const everyMushroom = CAP_KINDS.flatMap((cap) =>
-  SEEDS.map((seed) => mushroomGenes({ seed, cap })),
+const everyMushroom = MUSHROOM_SPECIES.flatMap((species) =>
+  SEEDS.map((seed) => mushroomGenes({ seed, species })),
 );
 
 /** Each of `everyMushroom`'s door stations, found once for every test that reads them. */

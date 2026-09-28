@@ -10,10 +10,10 @@ import {
 import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
 import { PICTOGRAM_LIGHT } from '../../model/light';
 import {
-  type CapKind,
   GENE_RANGES,
   type MushroomGenes,
   mushroomGenes,
+  type Species,
 } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
@@ -67,12 +67,12 @@ function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
 }
 
 /**
- * A mushroom with `cap`, standing upright: the pictogram's own, not a
+ * A mushroom of `species`, standing upright: the pictogram's own, not a
  * meadow's. Its cap is wider and taller than any the meadow grows and its stem
  * short, so the cap, which is what tells the four apart, fills the button.
  */
-function iconGenes(cap: CapKind): MushroomGenes {
-  const genes = mushroomGenes({ seed: ICON_SEED, cap });
+function iconGenes(species: Species): MushroomGenes {
+  const genes = mushroomGenes({ seed: ICON_SEED, species });
   return {
     ...genes,
     lean: 0,
@@ -135,7 +135,7 @@ export function drawHouseButton(
   hairline: number,
 ): void {
   drawDisc(graphics, r);
-  const genes = { ...iconGenes('spotted'), spots: [], stemWidth: 0.28 };
+  const genes = { ...iconGenes('fly-agaric'), spots: [], stemWidth: 0.28 };
   const brush = iconBrush(r * 0.8, hairline);
   drawIcon(graphics, genes, r * 1.35, 0, 0, hairline, (size) => {
     const cap = capFrame(genes);
@@ -195,15 +195,15 @@ export function drawFurnishButton(
   );
 }
 
-/** One of the picker's buttons: a mushroom wearing `cap`. */
-export function drawCapButton(
+/** One of the picker's buttons: a mushroom of `species`. */
+export function drawSpeciesButton(
   graphics: Phaser.GameObjects.Graphics,
   r: number,
-  cap: CapKind,
+  species: Species,
   hairline: number,
 ): void {
   drawDisc(graphics, r);
-  drawIcon(graphics, iconGenes(cap), r * 1.4, 0, 0, hairline);
+  drawIcon(graphics, iconGenes(species), r * 1.4, 0, 0, hairline);
 }
 
 /**
@@ -220,7 +220,7 @@ export function drawGrowButton(
   drawDisc(graphics, r);
   drawIcon(
     graphics,
-    iconGenes('spotted'),
+    iconGenes('fly-agaric'),
     r * 1.15,
     -r * 0.24,
     -r * 0.1,

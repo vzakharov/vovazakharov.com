@@ -12,17 +12,17 @@ import {
   type Seeded,
 } from './random';
 
-/** The four caps of Syama's drawing, in the order he drew them. */
-export const CAP_KINDS = [
-  'spotted',
-  'plain',
-  'dark-top',
-  'dark-bottom',
+/** The meadow's four species, in the order the picker shows them. */
+export const MUSHROOM_SPECIES = [
+  'fly-agaric',
+  'porcini',
+  'chanterelle',
+  'russula',
 ] as const;
-export type CapKind = (typeof CAP_KINDS)[number];
+export type Species = (typeof MUSHROOM_SPECIES)[number];
 
-type Capped = { cap: CapKind };
-export type MushroomSeed = Seeded & Capped;
+type OfSpecies = { species: Species };
+export type MushroomSeed = Seeded & OfSpecies;
 export type Mushroom = WithId & MushroomSeed;
 
 /**
@@ -30,7 +30,7 @@ export type Mushroom = WithId & MushroomSeed;
  * scene sets per placement, so the same genes paint a near mushroom and a far
  * one. Angles are in radians. The cap follows the stem's bend.
  */
-export type MushroomGenes = Capped &
+export type MushroomGenes = OfSpecies &
   Bent &
   Nudged & {
     stemHeight: number;
@@ -108,20 +108,20 @@ function growSpots(
 }
 
 /**
- * Every mushroom's genes grown so far, by cap and seed: a pure function of
+ * Every mushroom's genes grown so far, by species and seed: a pure function of
  * the two, costly to grow and read every time a mushroom is drawn or sat on,
  * and never changed once grown.
  */
 const grown = new Map<string, MushroomGenes>();
 
 export function mushroomGenes(seeded: MushroomSeed): MushroomGenes {
-  const key = `${seeded.cap} ${String(seeded.seed)}`;
+  const key = `${seeded.species} ${String(seeded.seed)}`;
   const known = grown.get(key) ?? growGenes(seeded);
   grown.set(key, known);
   return known;
 }
 
-function growGenes({ seed, cap }: MushroomSeed): MushroomGenes {
+function growGenes({ seed, species }: MushroomSeed): MushroomGenes {
   const random = mulberry32(seed);
   const gene = geneFrom(random, GENE_RANGES);
   const shape = {
@@ -137,8 +137,8 @@ function growGenes({ seed, cap }: MushroomSeed): MushroomGenes {
     hueNudge: gene('hueNudge'),
   };
   // Drawn after the shape, so turning spots on or off leaves the shape alone.
-  const spots = cap === 'spotted' ? growSpots(random, shape) : [];
-  return { cap, ...shape, spots };
+  const spots = species === 'fly-agaric' ? growSpots(random, shape) : [];
+  return { species, ...shape, spots };
 }
 
 /**
@@ -149,6 +149,6 @@ export function firstMushrooms(random: Random): Mushroom[] {
   return [1, 2].map((n) => ({
     id: `mushroom-${n}`,
     seed: nextSeed(random),
-    cap: 'spotted',
+    species: 'fly-agaric',
   }));
 }
