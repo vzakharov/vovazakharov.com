@@ -1,0 +1,82 @@
+{
+  "sessionId": "1ee5bd65-a52f-5d21-95a4-e7955a248392",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01RyW9H1H8Fot3GHhhfy3mRu",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-28T03:40:28.800Z",
+  "lastResponseAt": "2026-09-28T03:42:11.287Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 118804,
+    "cacheWrite1hTokens": 66659,
+    "cacheReadTokens": 983913,
+    "outputTokens": 6233,
+    "thinkingTokens": 1381,
+    "responses": 14,
+    "costUsd": 1.4488466
+  },
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66659,
+    "cacheReadTokens": 873305,
+    "outputTokens": 6159,
+    "thinkingTokens": 1381,
+    "responses": 10,
+    "costUsd": 0.8311930000000001
+  },
+  "subagents": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 118804,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 110608,
+    "outputTokens": 74,
+    "thinkingTokens": 0,
+    "responses": 4,
+    "costUsd": 0.6176535999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 118804,
+      "cacheWrite1hTokens": 66659,
+      "cacheReadTokens": 983913,
+      "outputTokens": 6233,
+      "thinkingTokens": 1381,
+      "responses": 14,
+      "costUsd": 1.4488466
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-28T03:42:11.013Z",
+    "contextTokens": 107821,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 110608,
+      "cacheWrite1hTokens": 63781,
+      "cacheReadTokens": 768364,
+      "outputTokens": 5615,
+      "thinkingTokens": 1336,
+      "responses": 11,
+      "costUsd": 1.3293488
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 1.385089,
+    "matchedEventUsd": 1.391869,
+    "unseen": {}
+  }
+}
