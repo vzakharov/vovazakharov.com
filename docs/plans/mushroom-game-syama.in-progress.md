@@ -523,8 +523,10 @@ Standing rules for every session in the chain:
      `Perches.spotted` keeps its name: the fly agaric is the one spotted cap.
    - **Genes by species.** One `GENE_RANGES` per species, drawn in the same
      order so a seed's stream stays aligned, plus the genes a species alone
-     has. Porcini: a short, thick club stem (a foot bulging well past the
-     top), a thick broad dome. Chanterelle: a trumpet — the stem flaring into
+     has. Every stem stands tall enough that the clump's back cap and door
+     stay in view behind any species, so a porcini reads stocky by a thick
+     club stem (a foot bulging well past the top) a little shorter than a
+     fly agaric's, under a thick broad dome, not by height. Chanterelle: a trumpet — the stem flaring into
      the cap, the cap's top dipping at the middle and its rim waving, the
      underside's ridges running down from the rim onto the stem. Russula: a
      straight white stem and a flattish cap dipping a little at the middle,
