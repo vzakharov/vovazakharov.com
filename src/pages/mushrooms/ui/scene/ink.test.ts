@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ellipse, type Point } from '../../model/geometry';
-import { contrast, luminance, nudgeHue } from './colour';
+import { groundAt } from './backdrop-tones';
+import { contrast, luminance, mix, nudgeHue } from './colour';
 import {
   facingArc,
   inkFor,
@@ -11,8 +12,10 @@ import {
   taperedLine,
   weightedOutline,
 } from './ink';
+import { meadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { CREATURES } from './palette-creatures';
+import { VIEWPORTS, VISITS } from './viewports';
 
 /** Every colour a section holds, its nested families' included. */
 function coloursIn(section: object): number[] {
@@ -27,44 +30,98 @@ function coloursIn(section: object): number[] {
 
 /** The widest a gene nudges any creature's hue, either way. */
 const NUDGE = 0.04;
-/** A fill light enough that an ink can stand off it at 3:1. */
-const INKABLE = 0.15;
+/** The contrast a child reads an edge by, against the ground and against its own fill. */
+const READS = 3;
+/** The least a dark ink stands off a fill too dark for 3:1, yet too light to stand off every ground itself. */
+const STANDS_OFF = 1.7;
 
-const grounds = Object.entries(PALETTE)
-  .filter(([name]) => name === 'ground' || name === 'groundLit')
-  .flatMap(([, colour]) => (typeof colour === 'number' ? [colour] : []));
+/** A foot's depth down the ground, from 0 at its top to 1 at the bottom edge, and the haze what stands there takes. */
+type Foot = { down: number; haze: number };
+
+/**
+ * Where every creature stands: the mushrooms' slots (a house is one), the
+ * flowers' feet, which the insects perch over, on every screen and a spread
+ * of visits, and the bottom edge's `groundDeep`. Each foot's ground is the
+ * darkest behind what stands there, the ground lightening up the screen.
+ */
+const FEET: readonly Foot[] = [
+  ...VIEWPORTS.flatMap(([, width, height]) =>
+    VISITS.slice(0, 40).flatMap((seed) => {
+      const layout = meadowLayout(width, height, seed);
+      const depth = height - layout.groundTop;
+      const down = (y: number) => (y - layout.groundTop) / depth;
+      return [
+        ...layout.mushrooms.map(({ y, haze }) => ({ down: down(y), haze })),
+        ...layout.flowers.map(({ y }) => ({ down: down(y), haze: 0 })),
+      ];
+    }),
+  ),
+  { down: 1, haze: 0 },
+];
+
+/** The ink drawn round `fill` hazed by `haze`, and the fill as drawn. */
+function drawn(fill: number, haze: number): { ink: number; fill: number } {
+  const hazed = mix(fill, PALETTE.air, haze);
+  return { ink: inkFor(hazed), fill: hazed };
+}
+
+/** The creature colours only ever laid over at low alpha, which no ink edges. */
+const OVERLAYS: ReadonlySet<string> = new Set<keyof typeof CREATURES>([
+  'shadowCool',
+  'shadeCool',
+]);
 
 describe('inkFor', () => {
-  const fills = coloursIn(CREATURES).flatMap((fill) => [
+  const edged = Object.fromEntries(
+    Object.entries(CREATURES).filter(([name]) => !OVERLAYS.has(name)),
+  );
+  const fills = coloursIn(edged).flatMap((fill) => [
     fill,
     nudgeHue(fill, -NUDGE),
     nudgeHue(fill, NUDGE),
   ]);
 
-  it('reads against the ground, whatever it edges', () => {
-    assert.ok(grounds.length > 0);
-    for (const fill of fills) {
-      for (const ground of grounds) {
-        const ink = inkFor(fill);
-        assert.ok(
-          contrast(ink, ground) >= 3,
-          `${fill.toString(16)}'s ink ${ink.toString(16)} on ${ground.toString(16)}`,
-        );
-      }
-    }
+  it('stands every creature off the ground under it, by its ink or its fill', () => {
+    assert.ok(FEET.some(({ haze }) => haze > 0));
+    assert.ok(FEET.some(({ down }) => down > 0.9));
+    const failing = fills.flatMap((fill) =>
+      FEET.flatMap(({ down, haze }) =>
+        [0, haze].flatMap((by) => {
+          const ground = groundAt(down);
+          const shown = drawn(fill, by);
+          return Math.max(
+            contrast(shown.ink, ground),
+            contrast(shown.fill, ground),
+          ) >= READS
+            ? []
+            : [
+                `${fill.toString(16)} hazed ${by.toFixed(2)} at ${down.toFixed(2)}`,
+              ];
+        }),
+      ),
+    );
+    assert.deepEqual([...new Set(failing)], []);
   });
 
-  it('stands off its own fill, wherever the fill is light enough to allow it', () => {
-    for (const fill of fills.filter((colour) => luminance(colour) >= INKABLE)) {
-      assert.ok(
-        contrast(inkFor(fill), fill) >= 3,
-        `${fill.toString(16)} against its ink ${inkFor(fill).toString(16)}`,
-      );
-    }
+  it('stands off its own fill, lighter round a dark one', () => {
+    const hazes = [0, ...new Set(FEET.map(({ haze }) => haze))];
+    const failing = fills.flatMap((fill) =>
+      hazes.flatMap((haze) => {
+        const shown = drawn(fill, haze);
+        const off = contrast(shown.ink, shown.fill);
+        const darker = luminance(shown.ink) < luminance(shown.fill);
+        return off >= READS || (darker && off >= STANDS_OFF)
+          ? []
+          : [
+              `${fill.toString(16)} hazed ${haze.toFixed(2)}: ${off.toFixed(2)}`,
+            ];
+      }),
+    );
+    assert.deepEqual([...new Set(failing)], []);
   });
 
-  it('is never lighter than the silhouette allows', () => {
-    for (const fill of fills) assert.ok(luminance(inkFor(fill)) <= 0.06);
+  it('is never black', () => {
+    for (const fill of fills) assert.ok(luminance(inkFor(fill)) >= 0.01);
   });
 });
 

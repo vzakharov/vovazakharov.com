@@ -34,7 +34,7 @@ function paint(
   bare = false,
 ): void {
   const points = outline.map((point) => place(point));
-  if (!bare) inkUnder(graphics, points, tone(inkFor(fill)), ink, lighting);
+  if (!bare) inkUnder(graphics, points, inkFor(tone(fill)), ink, lighting);
   graphics.fillStyle(tone(fill));
   fillShape(graphics, points);
 }

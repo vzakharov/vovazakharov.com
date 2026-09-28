@@ -7,7 +7,8 @@
 
 import type { Point } from '../../model/geometry';
 import type { Light } from '../../model/light';
-import { darken, dimTo, luminance, mix } from './colour';
+import { GROUND_STOPS } from './backdrop-tones';
+import { darken, dimTo, lightenTo, luminance, mix } from './colour';
 import { PALETTE } from './palette';
 
 /**
@@ -20,23 +21,52 @@ export type Lighted = { lighting: Lighting };
 /** How far a fill's own dark goes, and how much of Syama's pen it takes. */
 const INK_DARKEN = 0.6;
 const INK_COOL = 0.35;
-/** The lightest an ink may be, so every silhouette stays dark on the grass. */
+/** The lightest a dark ink may be, so a silhouette stays dark on the lit grass. */
 const INK_MOST = 0.06;
-/** The contrast an ink keeps against its own fill, where the fill is light enough to allow it, with a little room over 3:1. */
-const INK_CONTRAST = 3.1;
-/** The darkest an ink is held to, so a dark fill's edge is its own deep colour and never black. */
+/** The darkest any ink may be, so an edge is its fill's own deep colour and never black. */
 const INK_LEAST = 0.012;
+/** The contrast an edge keeps, against its fill and against a ground its fill does not stand off: 3:1 and a little room. */
+const INK_CONTRAST = 3.1;
 /** How far an inner line's ink goes back toward its fill, so the silhouette reads first. */
 const INNER_BACK = 0.4;
 
+/** The contrast a child reads an edge by, against what is behind it. */
+const READS = 3;
+
+/** The luminance a colour `ratio` darker than one of luminance `other` stands at, and one `ratio` lighter. */
+const darkerBy = (other: number, ratio: number) =>
+  (other + 0.05) / ratio - 0.05;
+const lighterBy = (other: number, ratio: number) =>
+  (other + 0.05) * ratio - 0.05;
+
+/** The luminance of the darkest the ground gets, at its bottom edge. */
+const GROUND_DARKEST = Math.min(
+  ...GROUND_STOPS.map(([, colour]) => luminance(colour)),
+);
+
 /**
- * The ink that edges `fill`: its own dark, cooled toward Syama's blue pen,
- * then dimmed until it is dark on the grass and stands off the fill itself.
+ * The ink that edges `fill` — the fill as drawn, haze and all: its own dark
+ * cooled toward Syama's blue pen. A fill dark enough to stand 3:1 off every
+ * ground by itself gets that pen lifted until it stands off the fill, a
+ * lighter line round a dark shape. Any other fill gets the pen dimmed until it
+ * stands off the fill, where the fill is light enough, and off every ground
+ * the fill does not stand off itself; never lighter than `INK_MOST`, and no
+ * ink is darker than `INK_LEAST`.
  */
 export function inkFor(fill: number): number {
-  const ink = mix(darken(fill, INK_DARKEN), PALETTE.inkCool, INK_COOL);
-  const own = (luminance(fill) + 0.05) / INK_CONTRAST - 0.05;
-  return dimTo(ink, Math.max(INK_LEAST, Math.min(INK_MOST, own)));
+  const pen = mix(darken(fill, INK_DARKEN), PALETTE.inkCool, INK_COOL);
+  const own = luminance(fill);
+  if (lighterBy(own, READS) <= GROUND_DARKEST) {
+    return lightenTo(pen, lighterBy(own, INK_CONTRAST));
+  }
+  // The darkest ground the fill does not stand off: any darker, it stands off itself.
+  const unread = Math.max(GROUND_DARKEST, darkerBy(own, READS));
+  const most = Math.min(
+    INK_MOST,
+    darkerBy(own, INK_CONTRAST),
+    darkerBy(unread, INK_CONTRAST),
+  );
+  return lightenTo(dimTo(pen, Math.max(INK_LEAST, most)), INK_LEAST);
 }
 
 /** The ink of a line inside a shape filled `fill`: a band's edge, a plank, a vein. */

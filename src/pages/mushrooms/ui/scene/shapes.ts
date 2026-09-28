@@ -47,7 +47,7 @@ export function inkUnder(
   fillShape(graphics, weightedOutline(points, base, toward, hairline));
 }
 
-/** `points` filled in `fill` over its own ink (`inkFor`), both through `tone`. */
+/** `points` filled in `fill` through `tone`, over the ink of the fill as toned (`inkFor`). */
 export function inkedFill(
   graphics: Phaser.GameObjects.Graphics,
   points: readonly Point[],
@@ -56,7 +56,7 @@ export function inkedFill(
   lighting: Lighting,
   tone: (colour: number) => number = (colour) => colour,
 ): void {
-  inkUnder(graphics, points, tone(inkFor(fill)), base, lighting);
+  inkUnder(graphics, points, inkFor(tone(fill)), base, lighting);
   graphics.fillStyle(tone(fill));
   fillShape(graphics, points);
 }

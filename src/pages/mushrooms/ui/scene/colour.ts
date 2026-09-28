@@ -106,6 +106,32 @@ export function contrast(a: number, b: number): number {
   return ((light ?? 0) + 0.05) / ((dark ?? 0) + 0.05);
 }
 
+/**
+ * `colour` brightened in linear light until its luminance is at least
+ * `least`, a channel that reaches full holding there while the others go on
+ * rising.
+ */
+export function lightenTo(colour: number, least: number): number {
+  if (luminance(colour) >= least) return colour;
+  const { r, g, b } = channels(colour);
+  const scaled = (k: number) =>
+    packed({
+      r: encoded(Math.min(1, linear(r) * k)),
+      g: encoded(Math.min(1, linear(g) * k)),
+      b: encoded(Math.min(1, linear(b) * k)),
+    });
+  let [low, high] = [1, 2];
+  while (luminance(scaled(high)) < least && high < 2 ** 20) {
+    [low, high] = [high, high * 2];
+  }
+  for (let step = 0; step < 24; step++) {
+    const middle = (low + high) / 2;
+    if (luminance(scaled(middle)) < least) low = middle;
+    else high = middle;
+  }
+  return scaled(high);
+}
+
 /** `colour` dimmed in linear light until its luminance is at most `most`, its hue kept. */
 export function dimTo(colour: number, most: number): number {
   const now = luminance(colour);

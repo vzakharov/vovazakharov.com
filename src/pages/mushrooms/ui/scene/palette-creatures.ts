@@ -1,4 +1,11 @@
-/** `PALETTE`'s creatures section: the mushrooms, the flowers, the house, the insects and the HUD, and the shadow they cast. */
+/**
+ * `PALETTE`'s creatures section: the mushrooms, the flowers, the house, the
+ * insects and the HUD, and the shadow they cast. A dark fill — a dark cap,
+ * the doorway, an insect's body — stays dark enough to stand 3:1 off the
+ * deepest ground by itself, a hue nudge included, so its ink can be a lighter
+ * line that stands off it (`inkFor`); a fill a little lighter than that gets
+ * only a dark edge it barely stands off.
+ */
 export const CREATURES = {
   /** A shadow cast on the grass: cool, as a sunlit scene's shadows are. */
   shadowCool: 0x24_48_40,
@@ -12,7 +19,7 @@ export const CREATURES = {
   stemLit: 0xff_d6_8a,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
-  capDark: 0x5a_18_2e,
+  capDark: 0x48_11_24,
   spot: 0xff_fb_f1,
   flowerStem: 0x4c_a0_3c,
   leaf: 0x5e_b8_48,
@@ -53,7 +60,7 @@ export const CREATURES = {
   woodDeep: 0x86_4e_28,
   doorKnob: 0xff_c8_46,
   /** The dark inside an open door, which the mouse comes out of. */
-  doorway: 0x3a_1e_16,
+  doorway: 0x33_1a_13,
   mouse: 0xa4_a2_ae,
   mouseLight: 0xd2_d0_da,
   mousePink: 0xff_a2_b4,
@@ -76,10 +83,10 @@ export const CREATURES = {
     white: 0xff_fb_f2,
   },
   /** A butterfly's body, warm and dark, and the dark ring of its wings' eyes. */
-  insectBody: 0x4a_2c_28,
+  insectBody: 0x33_1d_1a,
   wingEye: 0x3a_1c_2a,
   /** A fly's dark body, which its sheen tints, and its big eyes, a cheerful red. */
-  flyBody: 0x2c_30_36,
+  flyBody: 0x23_26_2b,
   flyEye: 0xe8_3a_2e,
   flyEyeDeep: 0xa8_1e_1e,
   /** One per `FLY_SHEENS` name: the metal a fly's body catches the light in. */
@@ -91,7 +98,7 @@ export const CREATURES = {
     bluebottle: 0x3e_64_e0,
   },
   /** A bee's black bands and head. */
-  beeBlack: 0x2e_24_22,
+  beeBlack: 0x2a_21_1f,
   /** One per `BEE_YELLOWS` name: a bee's yellow bands. */
   beeYellows: {
     lemon: 0xff_e6_48,

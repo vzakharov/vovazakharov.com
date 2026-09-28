@@ -67,10 +67,14 @@ export function paintMouse(
     y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out,
   };
   const faceX = head.x + look * 0.1;
-  const fill = (outline: readonly Point[], colour: number) => {
+  const fill = (
+    outline: readonly Point[],
+    colour: number,
+    shown: (colour: number) => number = tone,
+  ) => {
     const seen = clipToConvex(outline, clip);
     if (seen.length < 3) return;
-    graphics.fillStyle(tone(colour));
+    graphics.fillStyle(shown(colour));
     fillShape(
       graphics,
       seen.map(({ x, y }) => place({ x: x * scale, y: y * scale })),
@@ -80,7 +84,9 @@ export function paintMouse(
   // a clipped edge shows no ink.
   const inked = (at: Point, rx: number, ry: number, colour: number) => {
     const shape = ellipse(at, rx, ry);
-    fill(weightedOutline(shape, line, toward, hairline), inkFor(colour));
+    fill(weightedOutline(shape, line, toward, hairline), colour, (part) =>
+      inkFor(tone(part)),
+    );
     fill(shape, colour);
   };
 
