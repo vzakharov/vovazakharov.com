@@ -169,7 +169,7 @@ export const TRUMPET_RANGES = {
   hollow: [0.025, 0.04],
   flare: [0.85, 1.1],
   waveAmp: [0.018, 0.03],
-  wavePhase: [0, Math.PI * 2],
+  wavePhase: [-0.8, 0.8],
 } as const satisfies GeneRanges<Exclude<keyof Trumpet, 'lobes' | 'ridges'>>;
 const LOBES = [3, 5] as const;
 const RIDGES = [7, 11] as const;

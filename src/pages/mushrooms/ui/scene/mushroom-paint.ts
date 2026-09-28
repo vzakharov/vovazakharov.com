@@ -8,11 +8,7 @@ import type * as Phaser from 'phaser';
 
 import type { Point, Scaled } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
-import {
-  MUSHROOM_INK,
-  stemOutline,
-  toCanvas,
-} from '../../model/mushroom-outline';
+import { inkWidth, stemOutline, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { CURVE_STEPS } from '../../model/mushroom-profile';
 import { mix } from './colour';
@@ -68,7 +64,7 @@ export function mushroomBrush(
     tints: mushroomTints(genes),
     lighting,
     size,
-    ink: Math.max(2, size * MUSHROOM_INK),
+    ink: inkWidth(size),
     haze: held,
     tone: (colour) => mix(colour, PALETTE.air, held),
     canvas,

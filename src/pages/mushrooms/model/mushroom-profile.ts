@@ -63,16 +63,16 @@ function acrossOf(genes: Pick<MushroomShape, 'capWidth'>, x: number): number {
 }
 
 /**
- * How far a chanterelle's rim waves up or down at `x`: its lobes, fading to
- * nothing toward the middle so the wave stays on the rim.
+ * How far a chanterelle's rim waves up or down at `x`: `lobes` crests across
+ * it, a trough at either end, the crests shifted by `wavePhase` so no two
+ * rims wave alike. The lip's top is the far rim and its lower edge the near
+ * one, so the wave runs the whole way across both.
  */
 export function rimWave(genes: ChanterelleGenes, x: number): number {
-  const u = acrossOf(genes, x);
   const along = x / genes.capWidth + 0.5;
   return (
-    genes.waveAmp *
-    Math.sin(genes.lobes * Math.PI * along + genes.wavePhase) *
-    u ** 4
+    -genes.waveAmp *
+    Math.cos(2 * Math.PI * genes.lobes * along + genes.wavePhase)
   );
 }
 
@@ -81,11 +81,25 @@ export function frontSag(genes: ChanterelleGenes, x: number): number {
   return FRONT_SAG * genes.lip * Math.sqrt(1 - acrossOf(genes, x) ** 4);
 }
 
+/** How far `r` out from its middle stands from a chanterelle's stem toward its rim, from 0 to 1. */
+export function funnelOut(genes: ChanterelleGenes, r: number): number {
+  const stem = genes.stemWidth / 2;
+  const v = (Math.abs(r) - stem) / (genes.capWidth / 2 - stem);
+  return Math.min(1, Math.max(0, v));
+}
+
 /** The height of a chanterelle's funnel `r` out from its middle, `r` from the stem's top half-width to the rim's. */
 export function funnelHeight(genes: ChanterelleGenes, r: number): number {
-  const stem = genes.stemWidth / 2;
-  const v = Math.max(0, (Math.abs(r) - stem) / (genes.capWidth / 2 - stem));
-  return genes.capHeight * Math.min(1, v) ** genes.flare;
+  return genes.capHeight * funnelOut(genes, r) ** genes.flare;
+}
+
+/**
+ * The funnel's side at `x`, as its outline is drawn: its height there, and
+ * the rim's wave growing into it from nothing at the stem, so the stem runs
+ * on into it with no step.
+ */
+export function funnelEdge(genes: ChanterelleGenes, x: number): number {
+  return funnelHeight(genes, x) + rimWave(genes, x) * funnelOut(genes, x);
 }
 
 /**

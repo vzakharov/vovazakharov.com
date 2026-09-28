@@ -17,6 +17,11 @@ import {
 /** A mushroom's ink line, in units of its size, wherever it is painted big enough to leave its pixel floor. */
 export const MUSHROOM_INK = 0.014;
 
+/** A mushroom's ink line in pixels, painted `size` px to its unit: `MUSHROOM_INK`, never under two pixels. */
+export function inkWidth(size: number): number {
+  return Math.max(2, size * MUSHROOM_INK);
+}
+
 /**
  * The parts of a mushroom a tap lands on, in the order they are painted over
  * one another from the last: its cap, the gills or a chanterelle's ridged
