@@ -446,6 +446,42 @@ Standing rules for every session in the chain:
      the sun stands whole in the sky over a valley in the far hills. The play
      run's heading watch is over one bob and passes on every screen.
 
+## This bite
+
+**7. Atmosphere**, to the spec in
+`docs/remove-before-merging/atmosphere/look.md` (references fetched into
+`tmp/refs/`, never committed). What the references showed: flat fills are
+not the fault — Alto's uses nothing else — the meadow lacks air between its
+layers and one light that everything agrees with (today the caps are shaded
+on the right whichever side the sun is). So:
+
+- **Step 0, alone, first:** `palette.ts` splits into `palette.ts` (shared,
+  and the merge, `PALETTE` unchanged), `palette-backdrop.ts` and
+  `palette-creatures.ts`; the shared `air` and `inkCool`; a pure `light.ts`
+  (`sunLight(layout)`, `PICTOGRAM_LIGHT`) with its test; the styling rule and
+  the palette decision below name the three modules.
+- **Group A, the backdrop** (spec A1–A8): a warm horizon, a sun bloom that
+  washes over the land, a third and farthest hill range, each range mixed
+  toward `air`, mist at each range's foot, a ground lit far and deeper near,
+  grass toned by distance, a seeded grain texture under the creatures,
+  clouds lit from the sun. `paint-backdrop.ts` splits into `paint-sky.ts`
+  and `paint-land.ts`.
+- **Group B, the creatures and the HUD's pictograms** (B1–B7): ink the dark
+  of what it outlines pulled toward `inkCool`, heavier in shade and thinner
+  toward the light, tapering on legs, antennae and stems; shade, shine, rim
+  light and cast shadows from the real sun, warm lights over cool shadows;
+  the flowers' and butterflies' literals harmonised. The HUD discs keep
+  their even ring: a control never reads as a creature.
+- Groups A and B run in parallel over disjoint files, after step 0.
+
+Calls settled: **no foreground frame** across the bottom edge (it would
+cover the lowest flowers and a child's finger); **no grain over the
+creatures** (they stay crisp, the grain is the land's); **light shafts** only
+if a frame shows them reading as sunlight, faint, and cut otherwise. No
+Phaser filters and no gradient fills: bands and one canvas texture, since
+both work on either renderer and a filter is a render pass a frame. The fly
+agaric stays red with white spots, Syama's own subject.
+
 ## Rest of the elephant
 
 In order.
@@ -460,18 +496,10 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-7. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
-   fills and even black ink everywhere. The operator's bar is the look of
-   beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
-   фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с
-   душой". The bite starts by gathering references (Gris, Ori, Alto's
-   Odyssey; fetched into `tmp/`, never committed) and naming what they do
-   that the meadow does not — likely aerial perspective across the hill
-   ranges, a sky and light that tint everything under them, ink that tapers
-   and takes the colour of what it outlines, soft seeded grain, a harmonised
-   rather than saturated palette. Every frame of the bite is judged beside
-   those references as well as Syama's drawing. Still code-drawn, still no
-   asset files, still made for a six-year-old.
+7. **Atmosphere** — taken as `## This bite`. The meadow read "немного
+   слишком свинка-пеппа"; the bar is "не о том, чтобы это был фотореализм
+   или какое-то супер-пупер-3д, но что-то такое рисованное с душой". Every
+   frame is judged beside the references as well as Syama's drawing.
 
 8. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
    different doors as different caps. The operator keeps the misreading's
