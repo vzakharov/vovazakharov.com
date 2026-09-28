@@ -65,9 +65,16 @@ const BEES_AMONG_BUTTERFLIES: readonly InsectKind[] = [
   'butterfly',
 ];
 
+/** Each flier's wingspan in units of its own size, by kind and seed, measured once. */
+const wingspans = new Map<string, number>();
+
 /** How wide a flier's wings span on `layout`, in CSS px. */
-const spanOn = (layout: MeadowLayout, flier: Flier) =>
-  wingspan(insectGenes(flier)) * layout.insectSizes[flier.kind];
+function spanOn(layout: MeadowLayout, flier: Flier): number {
+  const key = `${flier.kind} ${String(flier.seed)}`;
+  const span = wingspans.get(key) ?? wingspan(insectGenes(flier));
+  wingspans.set(key, span);
+  return span * layout.insectSizes[flier.kind];
+}
 
 /** The share of `part` in `whole`, 0 for none. */
 const share = (part: number, whole: number) => (whole > 0 ? part / whole : 0);
@@ -78,12 +85,22 @@ const pairsOf = <Item>(items: readonly Item[]): Array<readonly [Item, Item]> =>
     items.slice(index + 1).map((other) => [item, other] as const),
   );
 
+/** Each layout's spots in the air by id, found once a layout. */
+const spotted = new WeakMap<MeadowLayout, Map<string, Point>>();
+function spotsOn(layout: MeadowLayout): Map<string, Point> {
+  const spots =
+    spotted.get(layout) ??
+    new Map(airSpots(layout).map((spot) => [spot.id, spot]));
+  spotted.set(layout, spots);
+  return spots;
+}
+
 /**
  * Whether two of `fliers` hold spots in the air (sit there or are heading
  * there) on which their own wings would overlap.
  */
 function overlapAloft({ layout }: Opened, fliers: readonly Flier[]): boolean {
-  const air = new Map(airSpots(layout).map((spot) => [spot.id, spot]));
+  const air = spotsOn(layout);
   const held = fliers.flatMap((flier) => {
     const { to } = flier.leg;
     const spot = to.kind === 'air' ? air.get(to.id) : undefined;
@@ -104,13 +121,20 @@ function seatedClash(
   stand: Opened,
   fliers: readonly Flier[],
   now: number,
+  seats: Map<string, Point | undefined>,
 ): string | undefined {
-  const { layout } = stand;
+  const { layout, planted } = stand;
   const sitting = fliers.flatMap((flier) => {
     const { to, arrives } = flier.leg;
     if (now < arrives || !isSeat(to)) return [];
-    const seat = seatAt(stand, to, perchSpot(flier), flier.kind);
-    return seat ? [{ flier, seat, name: perchName(to) }] : [];
+    const name = perchName(to);
+    // A perch stands still once it stands, so a seat is found once.
+    const key = `${flier.id} ${name} ${String(planted.length)}`;
+    const seat = seats.has(key)
+      ? seats.get(key)
+      : seatAt(stand, to, perchSpot(flier), flier.kind);
+    seats.set(key, seat);
+    return seat ? [{ flier, seat, name }] : [];
   });
   for (const [a, b] of pairsOf(sitting)) {
     if (a.name === b.name) return `${a.name} shared at ${String(now)}`;
@@ -151,12 +175,13 @@ function allTen(
   const stand = opened(seed, width, height, forest);
   const playing = { kinds: ALL_TEN, gap: GAP, lasting: LASTING, tick: TICK };
   const visited: Visited = { broken: undefined, ticks: 0, aloft: 0 };
+  const seats = new Map<string, Point | undefined>();
   play(stand, seed, playing, ({ meadow, now }) => {
     const standing = { ...stand, ...pick(meadow, 'planted') };
     const leaving = meadow.insects.some(({ leg }) => leg.to.kind === 'away');
     visited.broken ??= leaving
       ? `one leaving at ${String(now)}`
-      : seatedClash(standing, meadow.insects, now);
+      : seatedClash(standing, meadow.insects, now, seats);
     visited.ticks++;
     if (overlapAloft(standing, meadow.insects)) visited.aloft++;
   });

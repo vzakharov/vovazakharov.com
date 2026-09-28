@@ -107,7 +107,21 @@ function growSpots(
   return spots;
 }
 
-export function mushroomGenes({ seed, cap }: MushroomSeed): MushroomGenes {
+/**
+ * Every mushroom's genes grown so far, by cap and seed: a pure function of
+ * the two, costly to grow and read every time a mushroom is drawn or sat on,
+ * and never changed once grown.
+ */
+const grown = new Map<string, MushroomGenes>();
+
+export function mushroomGenes(seeded: MushroomSeed): MushroomGenes {
+  const key = `${seeded.cap} ${String(seeded.seed)}`;
+  const known = grown.get(key) ?? growGenes(seeded);
+  grown.set(key, known);
+  return known;
+}
+
+function growGenes({ seed, cap }: MushroomSeed): MushroomGenes {
   const random = mulberry32(seed);
   const gene = geneFrom(random, GENE_RANGES);
   const shape = {

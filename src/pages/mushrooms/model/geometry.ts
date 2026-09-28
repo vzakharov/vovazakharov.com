@@ -73,14 +73,19 @@ export function rounded(points: readonly Point[], rounds: number): Point[] {
 export type Box = Record<'left' | 'right' | 'top' | 'bottom', number>;
 
 export function boxAround(points: readonly Point[]): Box {
-  const xs = points.map(({ x }) => x);
-  const ys = points.map(({ y }) => y);
-  return {
-    left: Math.min(...xs),
-    right: Math.max(...xs),
-    top: Math.min(...ys),
-    bottom: Math.max(...ys),
+  const box = {
+    left: Infinity,
+    right: -Infinity,
+    top: Infinity,
+    bottom: -Infinity,
   };
+  for (const { x, y } of points) {
+    box.left = Math.min(box.left, x);
+    box.right = Math.max(box.right, x);
+    box.top = Math.min(box.top, y);
+    box.bottom = Math.max(box.bottom, y);
+  }
+  return box;
 }
 
 /** Whether two boxes share any point. */
@@ -96,12 +101,32 @@ export function containsPoint(
   { x, y }: Point,
 ): boolean {
   let inside = false;
-  for (const [index, a] of polygon.entries()) {
-    const b = polygon[(index + 1) % polygon.length] ?? a;
-    if (a.y > y === b.y > y) continue;
-    if (x < a.x + ((y - a.y) * (b.x - a.x)) / (b.y - a.y)) inside = !inside;
+  // Each edge from the point before `b`, the last closing onto the first.
+  let a = polygon.at(-1);
+  for (const b of polygon) {
+    const crosses =
+      a !== undefined &&
+      a.y > y !== b.y > y &&
+      x < a.x + ((y - a.y) * (b.x - a.x)) / (b.y - a.y);
+    if (crosses) inside = !inside;
+    a = b;
   }
   return inside;
+}
+
+/** How far `point` is from the nearest point of the segment from `a` to `b`. */
+export function distanceToSegment(a: Point, b: Point, point: Point): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const along = dx * dx + dy * dy;
+  const t =
+    along === 0
+      ? 0
+      : Math.max(
+          0,
+          Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / along),
+        );
+  return Math.hypot(point.x - a.x - t * dx, point.y - a.y - t * dy);
 }
 
 /** How far `point` is from the nearest edge of the closed `outline`. */
@@ -110,23 +135,9 @@ export function distanceToEdge(
   point: Point,
 ): number {
   return Math.min(
-    ...outline.map((a, index) => {
-      const b = outline[(index + 1) % outline.length] ?? a;
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const along = dx * dx + dy * dy;
-      const t =
-        along === 0
-          ? 0
-          : Math.max(
-              0,
-              Math.min(
-                1,
-                ((point.x - a.x) * dx + (point.y - a.y) * dy) / along,
-              ),
-            );
-      return Math.hypot(point.x - a.x - t * dx, point.y - a.y - t * dy);
-    }),
+    ...outline.map((a, index) =>
+      distanceToSegment(a, outline[(index + 1) % outline.length] ?? a, point),
+    ),
   );
 }
 

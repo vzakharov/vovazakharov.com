@@ -171,13 +171,30 @@ function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
   );
 }
 
+/**
+ * `measure` of a layout, measured once a layout: a layout is never changed
+ * once laid out, so what the sight reads off it alone is read once.
+ */
+export function perLayout<Measured extends object>(
+  measure: (layout: MeadowLayout) => Measured,
+): (layout: MeadowLayout) => Measured {
+  const measured = new WeakMap<MeadowLayout, Measured>();
+  return (layout) => {
+    const known = measured.get(layout);
+    if (known) return known;
+    const fresh = measure(layout);
+    measured.set(layout, fresh);
+    return fresh;
+  };
+}
+
 /** Every control's tap circle, as far as a finger reaches it. */
-export function tapCircles(layout: MeadowLayout): Circle[] {
+export const tapCircles = perLayout((layout): readonly Circle[] => {
   const { picker, housePicker } = layout;
   return [...standingControls(layout), ...picker, ...housePicker].map(
     (circle) => ({ ...circle, r: tapReach(circle.r) }),
   );
-}
+});
 
 /** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
 export type Cover = Pick<Standing, 'depth'> & {
@@ -235,12 +252,21 @@ export function flowerInSight(
   );
 }
 
+/** Each layout's covers, by the mushrooms standing on it (`coversOn`). */
+const coverings = perLayout(
+  () => new WeakMap<Stand['mushrooms'], readonly Cover[]>(),
+);
+
 /** Every standing mushroom of `mushrooms` on `layout`, as the flowers' sight reads it. */
 export function coversOn(
   layout: MeadowLayout,
   mushrooms: Stand['mushrooms'],
-): Cover[] {
-  return mushrooms.flatMap((mushroom) => {
+): readonly Cover[] {
+  // The meadow's mushrooms are never changed in place, only replaced.
+  const covering = coverings(layout);
+  const known = covering.get(mushrooms);
+  if (known) return known;
+  const covers = mushrooms.flatMap((mushroom) => {
     const place = layout.mushrooms[mushroom.slot];
     if (!place) return [];
     const { depth, drawn } = standingAt(place, mushroom);
@@ -250,6 +276,8 @@ export function coversOn(
     }));
     return [{ depth, drawn: outlines }];
   });
+  covering.set(mushrooms, covers);
+  return covers;
 }
 
 /**

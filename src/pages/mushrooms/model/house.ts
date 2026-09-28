@@ -208,13 +208,13 @@ export function doorStations(genes: MushroomGenes): DoorPlace[] {
   };
   const overhead = capOutlines(genes);
   const overBox = boxAround(overhead.flat());
+  const frame = paintedDoor(DOOR_ASPECT);
   // The whole frame, and `FRAME_MARGIN` round it, clear of the cap.
   const underCap = (door: DoorPlace) => {
     const place = onStem(door);
-    const around = outside(
-      paintedDoor(DOOR_ASPECT),
-      FRAME_MARGIN / door.width,
-    ).map((point) => place(point));
+    const around = outside(frame, FRAME_MARGIN / door.width).map((point) =>
+      place(point),
+    );
     return (
       !boxesMeet(boxAround(around), overBox) ||
       around.every(

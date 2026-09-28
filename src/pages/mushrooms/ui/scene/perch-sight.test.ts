@@ -11,8 +11,7 @@ import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
 import { mulberry32, nextSeed } from '../../model/random';
-import { standingAt } from './door-sight';
-import { type Stand, WIDEST_SPAN } from './flower-sight';
+import { coversOn, type Stand, WIDEST_SPAN } from './flower-sight';
 import { meadowLayout } from './layout';
 import {
   AIR_BELOW,
@@ -74,8 +73,8 @@ const NOTHING: Tally = {
 /** A butterfly drinking: at the flower `id`, sitting at `seat`, its wings `span` px wide. */
 type Drink = WithId & { seat: Point; span: number };
 
-/** Every standing mushroom as drawn, measured once a visit. */
-type Covers = ReadonlyArray<ReturnType<typeof standingAt>>;
+/** Every standing mushroom as drawn, as the flowers' sight measured it. */
+type Covers = ReturnType<typeof coversOn>;
 
 /**
  * How a butterfly `span` px wide drinking at `seat` on the flower `id`
@@ -117,7 +116,8 @@ function hiddenHow(
   }
   const behind = covers.some(
     ({ depth, drawn }) =>
-      depth > place.y && drawn.some((outline) => containsPoint(outline, head)),
+      depth > place.y &&
+      drawn.some(({ outline }) => containsPoint(outline, head)),
   );
   if (behind) how.push('behindCap');
   return how;
@@ -145,10 +145,7 @@ function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
   };
   const hidden = new Map<string, Count[]>();
   const { layout, meadow: opening, mushrooms } = stand;
-  const covers = mushrooms.flatMap((mushroom) => {
-    const place = layout.mushrooms[mushroom.slot];
-    return place ? [standingAt(place, mushroom)] : [];
-  });
+  const covers = coversOn(layout, mushrooms);
   let meadow = opening;
   for (let now = 0; now <= VISIT; now += TICK) {
     if (now % RELEASE_GAP === 0 && now / RELEASE_GAP < BUTTERFLIES) {

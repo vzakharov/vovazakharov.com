@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { type Circle, containsPoint, outside, type Point } from './geometry';
 import {
   DOOR_ASPECT,
+  type DoorPlace,
   doorStations,
   EMPTY_HOUSE,
   furnished,
@@ -14,7 +15,7 @@ import {
   PANE,
   windowSlots,
 } from './house';
-import { CAP_KINDS, mushroomGenes } from './mushroom-genes';
+import { CAP_KINDS, type MushroomGenes, mushroomGenes } from './mushroom-genes';
 import {
   capOutlines,
   domeBand,
@@ -26,6 +27,14 @@ const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
 const everyMushroom = CAP_KINDS.flatMap((cap) =>
   SEEDS.map((seed) => mushroomGenes({ seed, cap })),
 );
+
+/** Each of `everyMushroom`'s door stations, found once for every test that reads them. */
+const found = new Map<MushroomGenes, DoorPlace[]>();
+function stationsOf(genes: MushroomGenes): DoorPlace[] {
+  const stations = found.get(genes) ?? doorStations(genes);
+  found.set(genes, stations);
+  return stations;
+}
 
 /** A box's four corners, `width` by `height` round `middle`. */
 function corners({ x, y }: Point, width: number, height = width): Point[] {
@@ -114,7 +123,7 @@ describe('doorStations', () => {
   it('frames every door a line of ink inside the stem, at every station', () => {
     for (const genes of everyMushroom) {
       const stem = stemOutline(genes);
-      for (const door of doorStations(genes)) {
+      for (const door of stationsOf(genes)) {
         const place = onStem(door);
         const line = MUSHROOM_INK / door.width;
         for (const point of outside(paintedDoor(DOOR_ASPECT), line)) {
@@ -127,7 +136,7 @@ describe('doorStations', () => {
 
   it('rises from a sill just above the ground to under the gills', () => {
     for (const genes of everyMushroom) {
-      const stations = doorStations(genes);
+      const stations = stationsOf(genes);
       assert.ok(stations.length >= 8, `${stations.length} stations`);
       const [lowest] = stations;
       assert.ok(lowest);
