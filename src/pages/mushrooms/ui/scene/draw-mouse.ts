@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { clipToConvex, ellipse, type Point } from '../../model/geometry';
 import { MOUSE_HEAD_R, mouseScale } from './door-reach';
+import { inkFor, TAPER, taperedLine, upward, weightedOutline } from './ink';
 import { PALETTE } from './palette';
 import { box, type Brush, fillShape, type Place } from './shapes';
 
@@ -20,22 +21,18 @@ const ABOVE_SILL = box(-2, 0, 2, 2);
 const WHISKER_LENGTH = 0.26;
 const WHISKER_WIDTH = 0.018;
 
-/** A thin bar from `from` along `angle`, `length` long: a whisker, or a shut eye. */
-function bar(
+/** A whisker from `from` along `angle`, `length` long, `width` at its root and tapering to its tip, no thinner than `least`. */
+function whisker(
   from: Point,
   angle: number,
-  length: number,
-  width: number,
+  [length, width]: readonly [number, number],
+  least: number,
 ): Point[] {
-  const along = { x: Math.cos(angle), y: Math.sin(angle) };
-  const across = { x: -along.y * (width / 2), y: along.x * (width / 2) };
-  const to = { x: from.x + along.x * length, y: from.y + along.y * length };
-  return [
-    { x: from.x + across.x, y: from.y + across.y },
-    { x: to.x + across.x, y: to.y + across.y },
-    { x: to.x - across.x, y: to.y - across.y },
-    { x: from.x - across.x, y: from.y - across.y },
-  ];
+  const to = {
+    x: from.x + Math.cos(angle) * length,
+    y: from.y + Math.sin(angle) * length,
+  };
+  return taperedLine([from, to], [width, width * TAPER], least);
 }
 
 /**
@@ -52,7 +49,7 @@ export function paintMouse(
   place: Place,
   opening: readonly Point[],
   { out, look, shut }: Peeking,
-  { ink, tone }: Brush,
+  { ink, tone, lighting }: Brush,
 ): void {
   // The pixels a door width spans, and the mouse's frame: door widths,
   // `scale` times over.
@@ -62,6 +59,9 @@ export function paintMouse(
   const scale = mouseScale(unit);
   const clip = scale > 1 ? ABOVE_SILL : opening;
   const line = ink / (unit * scale);
+  // The light and the hairline in the mouse's own frame, y up and in door widths.
+  const toward = upward(lighting.toward);
+  const hairline = lighting.hairline / (unit * scale);
   const head = {
     x: 0.1 + look * 0.05,
     y: HEAD_LOW + (HEAD_HIGH - HEAD_LOW) * out,
@@ -76,10 +76,12 @@ export function paintMouse(
       seen.map(({ x, y }) => place({ x: x * scale, y: y * scale })),
     );
   };
-  // Inked by a shape a line wider behind each fill, so a clipped edge shows no ink.
+  // Inked by a shape grown behind each fill, heavier on its shade side, so
+  // a clipped edge shows no ink.
   const inked = (at: Point, rx: number, ry: number, colour: number) => {
-    fill(ellipse(at, rx + line, ry + line), PALETTE.ink);
-    fill(ellipse(at, rx, ry), colour);
+    const shape = ellipse(at, rx, ry);
+    fill(weightedOutline(shape, line, toward, hairline), inkFor(colour));
+    fill(shape, colour);
   };
 
   // A body under the head, so a mouse leaning out is not a floating head.
@@ -105,7 +107,10 @@ export function paintMouse(
     for (const tilt of [-0.28, 0, 0.28]) {
       const angle = (side > 0 ? 0 : Math.PI) + side * tilt;
       const from = { x: nose.x + side * 0.05, y: nose.y - 0.02 };
-      fill(bar(from, angle, WHISKER_LENGTH, WHISKER_WIDTH), PALETTE.ink);
+      fill(
+        whisker(from, angle, [WHISKER_LENGTH, WHISKER_WIDTH], hairline),
+        PALETTE.ink,
+      );
     }
   }
   inked(nose, 0.045, 0.038, PALETTE.mousePink);

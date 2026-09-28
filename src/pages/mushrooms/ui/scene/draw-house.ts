@@ -14,8 +14,9 @@ import type { MushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { paintMouse, type Peeking } from './draw-mouse';
+import { inkFor, innerInk } from './ink';
 import { PALETTE } from './palette';
-import { box, type Brush, fillShape, type Place, strokeShape } from './shapes';
+import { box, type Brush, fillShape, inkUnder, type Place } from './shapes';
 
 /** How far a window's frame reaches in from its edge, in its square's side. */
 const FRAME = 0.1;
@@ -29,15 +30,13 @@ function paint(
   place: Place,
   outline: readonly Point[],
   fill: number,
-  { ink, tone }: Brush,
+  { ink, tone, lighting }: Brush,
   bare = false,
 ): void {
   const points = outline.map((point) => place(point));
+  if (!bare) inkUnder(graphics, points, tone(inkFor(fill)), ink, lighting);
   graphics.fillStyle(tone(fill));
   fillShape(graphics, points);
-  if (bare) return;
-  graphics.lineStyle(ink, tone(PALETTE.ink));
-  strokeShape(graphics, points);
 }
 
 /** A pane's glint, top left, as a lit window has. */
@@ -191,8 +190,8 @@ export function paintDoor(
     place({ x: -0.5 + (x + 0.5) * fold, y });
   paint(graphics, leafPlace, doorway(aspect), PALETTE.wood, brush);
   graphics.lineStyle(
-    Math.max(1, brush.ink * 0.6),
-    brush.tone(PALETTE.woodDeep),
+    Math.max(brush.lighting.hairline, brush.ink * 0.5),
+    brush.tone(innerInk(PALETTE.wood)),
   );
   for (const x of [-1 / 6, 1 / 6]) {
     const line = [
