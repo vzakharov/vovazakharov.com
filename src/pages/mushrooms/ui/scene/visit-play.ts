@@ -5,7 +5,7 @@
  * whenever a bee plants. Only tests read it.
  */
 
-import type { Sight } from '../../model/flight';
+import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-genes';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
@@ -15,8 +15,11 @@ import type { Stand } from './flower-sight';
 import { meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
 
+/** The meadow as it stands. */
+type Meadowed = { meadow: Meadow };
+
 /** A stand, and the meadow it stands. */
-export type Opened = Stand & { meadow: Meadow };
+export type Opened = Stand & Meadowed;
 
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the
@@ -70,7 +73,7 @@ export type Playing = {
 };
 
 /** One tick of a played visit: the meadow after it, when, and what the scene saw. */
-export type Played = { meadow: Meadow; now: number; sight: Sight };
+export type Played = Meadowed & Timed & { sight: Sight };
 
 /**
  * `stand` played for the visit `seed`: `kinds` released `gap` apart, then

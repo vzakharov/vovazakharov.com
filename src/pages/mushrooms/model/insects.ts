@@ -169,7 +169,7 @@ function isDue(
   now: number,
 ): boolean {
   const { kind, leg } = insect;
-  if (now >= leg.leaves || !isOffered(leg.to, perches)) return true;
+  if (now >= leg.leaves || !isOffered(leg.to, perches, kind)) return true;
   if (now < leg.arrives) return false;
   const [held, taken] = [{ kind, perch: leg.to }, takenBy(insects, insect)];
   return givesWay(held, taken, perches) || flowerFreed(held, taken, perches);

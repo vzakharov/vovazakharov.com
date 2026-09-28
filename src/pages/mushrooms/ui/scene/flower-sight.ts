@@ -123,14 +123,15 @@ export type Stand = Pick<Meadow, 'mushrooms' | 'planted'> & {
 
 /**
  * A flower as the sight reads it: its place, its head on screen, and how far
- * over the head's middle a drinking butterfly sits.
+ * over the head's middle the insect it is read for sits (`flowerLift`).
  */
 export type Sighting = Placed & { head: Circle; lift: number };
 
-/** A standing flower as the sight reads it (`Sighting`). */
+/** A standing flower as the sight reads it for an insect of `kind` (`Sighting`). */
 export function sightingOf(
   { place, seed }: StandingFlower,
-  { insectSize }: MeadowLayout,
+  { insectSizes }: MeadowLayout,
+  kind: InsectKind = 'butterfly',
 ): Sighting {
   const genes = flowerGenes({ seed });
   const head = flowerHead(genes, place.size);
@@ -139,7 +140,8 @@ export function sightingOf(
     head: { ...head, x: place.x + head.x, y: place.y + head.y },
     lift: flowerLift(
       { ...pick(head, 'r'), disc: genes.centre * place.size },
-      insectSize,
+      insectSizes[kind],
+      kind,
     ),
   };
 }
@@ -183,20 +185,22 @@ export type Cover = Pick<Standing, 'depth'> & {
 };
 
 /**
- * Whether a butterfly on `flower` can be seen there, on `layout`: its seat
- * over the head, as far as the sway and a butterfly's spot move it, stands clear of every control's tap circle and of the
- * screen's edge by half the widest wingspan, and no mushroom of `covers`
- * standing nearer the front covers the head's middle (`HEAD_SHOWN`).
+ * Whether an insect on `flower` can be seen there, on `layout`: its seat
+ * (`Sighting`), as far as the sway and its spot move it, stands clear of
+ * every control's tap circle and of the screen's edge by half `span`, its
+ * kind's widest wingspan, a butterfly's unless said, and no mushroom of
+ * `covers` standing nearer the front covers the head's middle (`HEAD_SHOWN`).
  */
 export function flowerInSight(
   layout: MeadowLayout,
   { place, head, lift }: Sighting,
   covers: readonly Cover[],
+  span: number = WIDEST_SPAN * layout.insectSize,
 ): boolean {
   const centre = pick(head, 'x', 'y');
   const seat = { ...centre, y: centre.y - lift };
   const reach =
-    (WIDEST_SPAN * layout.insectSize) / 2 +
+    span / 2 +
     PERCH_SPREAD * head.r +
     (place.size + lift) * Math.sin(FLOWER_SWAY);
   const { width, height } = layout;

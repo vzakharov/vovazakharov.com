@@ -47,11 +47,12 @@ const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
 );
 /**
  * The screens that fall short of the air's promise, a spot for every insect
- * clear of the others, and by how much, as measured; their tests run as todo.
+ * clear of the others, and by how much, as measured; their tests run as todo
+ * there, but for a full forest's, whose caps seat enough of the ten.
  */
 const AIR_UNMET: Partial<Record<(typeof VIEWPORTS)[number][0], string>> = {
   'small phone':
-    'its grid holds six of the ten apart, and two fliers hold overlapping spots 68% of ticks with the opening clump, 6% with a full forest',
+    'its grid seats eight of the ten apart, and with the opening clump two fliers hold overlapping spots 40% of ticks',
 };
 /** Four butterflies and three bees, released in turn. */
 const BEES_AMONG_BUTTERFLIES: readonly InsectKind[] = [
@@ -155,8 +156,8 @@ describe('the air', () => {
 
 describe('all ten fliers of a visit', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    const todo = AIR_UNMET[name];
     for (const forest of [false, true]) {
+      const todo = forest ? undefined : AIR_UNMET[name];
       const grown = forest ? 'a full forest' : 'the opening clump';
       it(
         `never leave, never crowd each other's perches, and hold spots in the air apart, over five minutes on a ${name} screen with ${grown}`,
@@ -215,9 +216,7 @@ describe('the bees among the butterflies', () => {
         });
       }
       const roams = share(count.roaming, count.bees);
-      // On a small phone about two flowers stand in sight for three bees.
-      const most = name === 'small phone' ? 0.45 : 0.25;
-      assert.ok(roams < most, `bees roam ${String(roams)}`);
+      assert.ok(roams < 0.25, `bees roam ${String(roams)}`);
     });
   }
 });

@@ -33,6 +33,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { mushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
@@ -156,18 +157,54 @@ export function seatAt(
   return seaterOn(stand, perch)?.(spot, kind);
 }
 
+/** Every insect the meadow can hold. */
+const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
+  Array.from({ length: INSECT_LIMITS[kind] }, () => kind),
+);
+
+/**
+ * Whether `spots` seat every insect the meadow can hold at once, each clear
+ * of the others by their kinds' widest spans, taken widest first.
+ */
+function seatsEveryOne(layout: MeadowLayout, spots: readonly Point[]): boolean {
+  const spans = EVERY_ONE.map((kind) => widestOn(layout, kind)).toSorted(
+    (a, b) => b - a,
+  );
+  const held: Array<Point & { span: number }> = [];
+  return spans.every((span) => {
+    const spot = spots.find(({ x, y }) =>
+      held.every(
+        (other) =>
+          Math.hypot(x - other.x, y - other.y) >= (span + other.span) / 2,
+      ),
+    );
+    if (spot) held.push({ ...pick(spot, 'x', 'y'), span });
+    return spot !== undefined;
+  });
+}
+
 /**
  * The spots in the open air a roaming insect flies between: a grid over the
- * sky and hills, down over the back of the ground by `AIR_BELOW`, its rows and columns one
- * narrowest kind's wingspan apart, so each kind keeps to spots its own span
- * apart (`perchSight`); a butterfly's widest wings stay inside the screen and
- * clear of every control's tap circle. Each is named by its place in the
- * grid, so a resize moves a spot rather than renaming it.
+ * sky and hills, down over the back of the ground by `AIR_BELOW`, its rows and
+ * columns one narrowest kind's wingspan apart, or half that where the controls
+ * leave too little air for the coarser grid to seat every insect the meadow
+ * can hold clear of each other (`seatsEveryOne`), so each kind keeps to spots
+ * its own span apart (`perchSight`); a butterfly's widest wings stay inside
+ * the screen and clear of every control's tap circle. Each is named by its
+ * place in the grid, so a resize moves a spot rather than renaming it.
  */
 export function airSpots(layout: MeadowLayout): Array<WithId & Point> {
+  const narrowest = Math.min(
+    ...INSECT_KINDS.map((kind) => widestOn(layout, kind)),
+  );
+  const spots = airGrid(layout, narrowest);
+  return seatsEveryOne(layout, spots) ? spots : airGrid(layout, narrowest / 2);
+}
+
+/** `airSpots`' grid with its rows and columns about `step` px apart. */
+function airGrid(layout: MeadowLayout, step: number): Array<WithId & Point> {
   const { width, height, groundTop } = layout;
   const half = widestOn(layout, 'butterfly') / 2;
-  const step = Math.min(...INSECT_KINDS.map((kind) => widestOn(layout, kind)));
   const [left, right] = [half, width - half];
   const ground = height - groundTop;
   const [top, bottom] = [half, Math.max(half, groundTop + AIR_BELOW * ground)];
@@ -299,7 +336,8 @@ function crowdings(
 
 /**
  * What the scene sees of the perches in `stand`: the flowers in sight
- * (`flowerInSight`), the spots in the open air (`airSpots`), every two
+ * (`flowerInSight`) to a butterfly, and to a bee, whose seat and wings
+ * differ, the spots in the open air (`airSpots`), every two
  * perches on which two insects, the widest of their kinds, could cover more
  * than `MOST_OVERLAP` of the narrower wherever their spots put them, and
  * every two spots in the air on which two insects of their kinds would
@@ -309,14 +347,22 @@ export function perchSight(stand: Stand): Sight {
   const { layout, flowers, mushrooms, planted } = stand;
   const covers = coversOn(layout, mushrooms);
   const standing = standingFlowers(layout, flowers, planted);
-  const shown = standing
-    .filter((flower) =>
-      flowerInSight(layout, sightingOf(flower, layout), covers),
-    )
-    .map(({ id }) => id);
+  const inSightTo = (kind: InsectKind) =>
+    standing
+      .filter((flower) =>
+        flowerInSight(
+          layout,
+          sightingOf(flower, layout, kind),
+          covers,
+          widestOn(layout, kind),
+        ),
+      )
+      .map(({ id }) => id);
+  const [shown, beeFlowers] = [inSightTo('butterfly'), inSightTo('bee')];
+  const seen = [...new Set([...shown, ...beeFlowers])];
   const perches: Perch[] = [
     ...mushrooms.map(({ id }) => ({ kind: 'cap', id }) as const),
-    ...shown.map((id) => ({ kind: 'flower', id }) as const),
+    ...seen.map((id) => ({ kind: 'flower', id }) as const),
   ];
   const seatsOf = (perch: Perch): Seats[] => {
     const seater = seaterOn(stand, perch);
@@ -373,10 +419,11 @@ export function perchSight(stand: Stand): Sight {
   );
   return {
     flowers: shown,
+    beeFlowers,
     air: air.map(({ id }) => id),
     crowded: [...perched, ...aloft],
     places,
-    room: roomFor(stand, shown, covers),
+    room: roomFor(stand, beeFlowers, covers),
     seededFlowers: flowers.length,
   };
 }

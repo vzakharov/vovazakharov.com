@@ -55,6 +55,20 @@ export function blockedFor(
   return blocked;
 }
 
+/** What of `Perches` the rules for flowers read: the flowers in sight, a bee's own, and the crowded pairs. */
+type FlowersSeen = Pick<Perches, 'flowers' | 'beeFlowers' | 'crowded'>;
+
+/**
+ * The flowers `perches` offers an insect of `kind`: a bee's own, where the
+ * scene gives them (`Sight`), and the ones in sight to every kind otherwise.
+ */
+export function flowersFor(
+  kind: InsectKind,
+  { flowers, beeFlowers }: Pick<Perches, 'flowers' | 'beeFlowers'>,
+): readonly string[] {
+  return kind === 'bee' ? (beeFlowers ?? flowers) : flowers;
+}
+
 /**
  * The perches an insect of `kind` other than a bee leaves to the bees: while
  * a bee waits in the air, or the flowers open to a bee are no more than the
@@ -63,12 +77,13 @@ export function blockedFor(
 export function keptForBees(
   kind: InsectKind,
   taken: readonly Held[],
-  { flowers, crowded }: Pick<Perches, 'flowers' | 'crowded'>,
+  perches: FlowersSeen,
 ): Set<string> {
   const bees = taken.filter((each) => each.kind === 'bee').length;
   if (kind === 'bee' || bees === 0) return new Set();
+  const { crowded } = perches;
   const forBee = blockedFor('bee', taken, crowded);
-  const kept = flowers
+  const kept = flowersFor('bee', perches)
     .map((id): Held => ({ kind: 'bee', perch: { kind: 'flower', id } }))
     .filter(({ perch }) => !forBee.has(perchName(perch)));
   return kept.length <= bees || taken.some((each) => isWaitingBee(each))
@@ -84,7 +99,7 @@ export function keptForBees(
 export function givesWay(
   { kind, perch }: Held,
   taken: readonly Held[],
-  perches: Pick<Perches, 'flowers' | 'crowded'>,
+  perches: FlowersSeen,
 ): boolean {
   return (
     kind !== 'bee' &&
@@ -101,11 +116,13 @@ export function givesWay(
 export function flowerFreed(
   held: Held,
   taken: readonly Held[],
-  { flowers, crowded }: Pick<Perches, 'flowers' | 'crowded'>,
+  perches: FlowersSeen,
 ): boolean {
   if (!isWaitingBee(held)) return false;
-  const blocked = blockedFor('bee', taken, crowded);
-  return flowers.some((id) => !blocked.has(perchName({ kind: 'flower', id })));
+  const blocked = blockedFor('bee', taken, perches.crowded);
+  return flowersFor('bee', perches).some(
+    (id) => !blocked.has(perchName({ kind: 'flower', id })),
+  );
 }
 
 /** Whether `perch` is one an insect sits on, rather than the air or away. */

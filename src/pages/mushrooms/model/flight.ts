@@ -14,6 +14,7 @@ import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
   blockedFor,
+  flowersFor,
   type Held,
   isSamePerch,
   isSeat,
@@ -83,7 +84,8 @@ export type Places = Readonly<Record<string, Point>>;
 
 /**
  * What the scene sees of the perches, which only the screen can say: the
- * flowers in sight, by id, the only ones an insect is sent to; the spots in
+ * flowers in sight, by id, the only ones an insect is sent to, and where the
+ * scene gives them the more a bee's narrower wings see (`flowersFor`); the spots in
  * the open air an insect with nowhere to sit roams between, by id; the pairs
  * of perches standing too close for an insect on each (`Crowding`), so a
  * perch crowded by a taken one counts as taken; and, where the scene gives
@@ -93,6 +95,7 @@ export type Places = Readonly<Record<string, Point>>;
  */
 export type Sight = Plot & {
   flowers: readonly string[];
+  beeFlowers?: readonly string[];
   air: readonly string[];
   crowded: readonly Crowding[];
   places?: Places;
@@ -149,13 +152,13 @@ type Choosing = Kinded &
  */
 function roamFrom(
   random: Random,
-  { habits, from, perches, taken, blocked }: Choosing,
+  { kind, habits, from, perches, taken, blocked }: Choosing,
 ): Perch | undefined {
   const others = perches.air
     .map((id): Perch => ({ kind: 'air', id }))
     .filter((perch) => !isSamePerch(perch, from));
   const spaced = others.filter((perch) => !blocked.has(perchName(perch)));
-  const hovering = from.kind === 'air' && isOffered(from, perches);
+  const hovering = from.kind === 'air' && isOffered(from, perches, kind);
   if (spaced.length === 0 && hovering && !blocked.has(perchName(from))) {
     return from;
   }
@@ -208,7 +211,7 @@ function nextPerch(
       .filter(
         (perch) => !isSamePerch(perch, from) && !blocked.has(perchName(perch)),
       );
-  const flowers = open('flower', perches.flowers);
+  const flowers = open('flower', flowersFor(kind, perches));
   const caps = habits.resting === undefined ? [] : open('cap', perches.caps);
   const drawn =
     random() < habits.flowerShare ? [flowers, caps] : [caps, flowers];
@@ -229,7 +232,7 @@ function nextPerch(
   const settles =
     habits.settles &&
     isSeat(from) &&
-    isOffered(from, perches) &&
+    isOffered(from, perches, kind) &&
     !blocked.has(perchName(from));
   if (settles) return from;
   return roamFrom(random, choosing) ?? awayPerch(random);
@@ -356,17 +359,19 @@ export function flightAway(
   return onward(insect, { now, places }, awayPerch);
 }
 
-/** Whether `perches` still offers `perch`; `away` always is. */
+/** Whether `perches` still offers `perch` to an insect of `kind`; `away` always is. */
 export function isOffered(
   perch: Perch,
-  { caps, flowers, air }: Perches,
+  perches: Perches,
+  kind: InsectKind,
 ): boolean {
+  const { caps, air } = perches;
   switch (perch.kind) {
     case 'cap': {
       return caps.includes(perch.id);
     }
     case 'flower': {
-      return flowers.includes(perch.id);
+      return flowersFor(kind, perches).includes(perch.id);
     }
     case 'air': {
       return air.includes(perch.id);
