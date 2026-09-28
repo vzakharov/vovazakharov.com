@@ -29,6 +29,7 @@ import {
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import { doorInSight, standingAt } from './door-sight';
+import { tappedDoor } from './door-tap';
 import {
   drawMushroom,
   drawMushroomShadow,
@@ -360,16 +361,15 @@ export class MushroomBed {
     return shown;
   }
 
-  /** Whether no other shown door's middle stands nearer `at` than `house`'s. */
+  /** Whether a tap at `at`, on screen, goes to `house`'s door of all the shown doors (`tappedDoor`). */
   private readonly nearestDoor = (house: HouseView, at: Point): boolean => {
-    const away = (other: HouseView) => {
+    const doors = [...this.shown.values()].flatMap(({ house: other }) => {
       const middle = other.doorMiddle();
-      return middle ? Math.hypot(middle.x - at.x, middle.y - at.y) : Infinity;
-    };
-    const own = away(house);
-    return [...this.shown.values()].every(
-      (other) => other.house === house || away(other.house) >= own,
-    );
+      return middle
+        ? [{ house: other, middle, holds: (p: Point) => other.holdsTap(p) }]
+        : [];
+    });
+    return tappedDoor(at, doors)?.house === house;
   };
 
   /**

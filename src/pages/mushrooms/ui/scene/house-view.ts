@@ -86,7 +86,7 @@ export class HouseView {
     this.mouse = { phase, tappedAt: -Infinity };
     this.graphics = scene.add.graphics().setInteractive({
       hitArea: this.hit,
-      // Where two doors' tap areas overlap, a tap goes to the nearer door.
+      // Where two doors' tap areas overlap, the bed hands the tap to one (`tappedDoor`).
       hitAreaCallback: (area: readonly Point[], x: number, y: number) =>
         containsOutline(area, x, y) && nearest(this, this.onScreen({ x, y })),
     });
@@ -105,6 +105,15 @@ export class HouseView {
       x: this.hit.reduce((sum, { x }) => sum + x, 0) / count,
       y: this.hit.reduce((sum, { y }) => sum + y, 0) / count,
     });
+  }
+
+  /** Whether the door's tap area holds `at`, on screen: never with no door, or once out of reach (`disable`). */
+  holdsTap(at: Point): boolean {
+    if (this.graphics.input?.enabled !== true) return false;
+    const { x, y } = this.graphics
+      .getWorldTransformMatrix()
+      .applyInverse(at.x, at.y);
+    return containsOutline(this.hit, x, y);
   }
 
   private onScreen({ x, y }: Point): Point {
