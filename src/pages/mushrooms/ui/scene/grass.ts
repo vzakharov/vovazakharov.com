@@ -2,7 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { type Phased, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
-import { blend, groundAt } from './backdrop-tones';
+import { groundAt } from './backdrop-tones';
+import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { groundSeam, seamAt } from './skyline';
@@ -33,9 +34,9 @@ export function tuftColours(down: number): TuftColours {
   const under = groundAt(down);
   const fade = (1 - down) * FADE;
   return {
-    side: blend(PALETTE.tuftDark, under, fade),
-    middle: blend(PALETTE.tuft, under, fade),
-    crown: blend(blend(PALETTE.tuft, PALETTE.groundLit, 0.4), under, fade),
+    side: mix(PALETTE.tuftDark, under, fade),
+    middle: mix(PALETTE.tuft, under, fade),
+    crown: mix(mix(PALETTE.tuft, PALETTE.groundLit, 0.4), under, fade),
   };
 }
 

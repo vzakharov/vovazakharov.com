@@ -7,7 +7,7 @@
 import { type Point, sample } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { CURVE_STEPS, domeArc } from '../../model/mushroom-outline';
-import { litSide } from './ink';
+import { awayAngle, litSide } from './ink';
 import { PALETTE } from './palette';
 
 /** The dome's arc from `from` past its crown to the rim, on `side`. */
@@ -46,7 +46,7 @@ export function capShine(
  * frame (y down, as `toward` is): a spot's shade, an eye's.
  */
 export function shadedHalf(centre: Point, r: number, toward: Point): Point[] {
-  const away = Math.atan2(-toward.y, -toward.x);
+  const away = awayAngle(toward);
   return sample(
     away - Math.PI / 2,
     away + Math.PI / 2,

@@ -2,13 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  blend,
   GROUND_STOPS,
   groundAt,
   RANGES,
   skyAt,
   SUN_HALO,
 } from './backdrop-tones';
+import { mix } from './colour';
 import { tuftColours } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { PALETTE } from './palette';
@@ -59,7 +59,7 @@ function skyWithHalo(
   const away = Math.hypot(x - sun.x, y - sun.y) / sun.r;
   let colour = skyAt(y / nearHills);
   for (const [over, alpha, radius] of SUN_HALO) {
-    if (away < radius) colour = blend(colour, over, alpha);
+    if (away < radius) colour = mix(colour, over, alpha);
   }
   return colour;
 }
@@ -111,7 +111,7 @@ describe('the backdrop', () => {
       assert.ok(luminance(groundAt(down)) >= luminance(PALETTE.groundDeep));
     }
     for (const deep of [true, false]) {
-      const mottle = blend(
+      const mottle = mix(
         PALETTE.ground,
         deep ? PALETTE.groundDeep : PALETTE.groundLit,
         0.3,

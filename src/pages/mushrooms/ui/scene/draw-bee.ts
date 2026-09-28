@@ -9,16 +9,17 @@ import type * as Phaser from 'phaser';
 
 import type { BeeGenes } from '../../model/bee-genes';
 import { beeAnatomy, beeOutline, type Oval } from '../../model/bee-outline';
-import { ellipse, type Point, sample } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
 import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
-import { inkFor, type Lighting, litSide, TAPER } from './ink';
+import { awayAngle, inkFor, type Lighting, litSide, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
+  inkedDisc,
   inkUnder,
   ovalArc,
   strokeTapered,
@@ -86,7 +87,7 @@ export function paintBeeBody(
     ).map((point) => at(point));
     fillShape(graphics, stripe);
   }
-  const away = Math.atan2(-toward.y, -toward.x);
+  const away = awayAngle(toward);
   const shaded = ovalArc(
     abdomen,
     [abdomen.rx, abdomen.ry],
@@ -142,9 +143,7 @@ function paintHead(
       graphics.fillCircle(club.x, club.y, Math.max(1, r * 0.22));
     }
   }
-  inkUnder(graphics, ellipse(middle, r), BEE_INK, ink, lighting);
-  graphics.fillStyle(PALETTE.beeBlack);
-  graphics.fillCircle(middle.x, middle.y, r);
+  inkedDisc(graphics, middle, r, PALETTE.beeBlack, ink, lighting);
   for (const side of SIDES) {
     const eye = { x: middle.x + side * r * 0.45, y: middle.y - r * 0.15 };
     graphics.fillStyle(PALETTE.highlight);
@@ -205,15 +204,14 @@ export function paintBeeLegs(
       };
       const { x, y } = at(basket);
       const r = basket.r * size;
-      inkUnder(
+      inkedDisc(
         graphics,
-        ellipse({ x, y }, r),
-        inkFor(PALETTE.pollen),
+        { x, y },
+        r,
+        PALETTE.pollen,
         Math.max(1, ink * 0.7),
         lighting,
       );
-      graphics.fillStyle(PALETTE.pollen);
-      graphics.fillCircle(x, y, r);
       graphics.fillStyle(PALETTE.highlight, 0.6);
       graphics.fillCircle(x + lit * r * 0.3, y - r * 0.3, r * 0.35);
     }

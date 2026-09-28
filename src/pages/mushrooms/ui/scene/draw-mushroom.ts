@@ -14,7 +14,7 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
-import { inkFor, innerInk, type Lighting, litSide, longestRun } from './ink';
+import { innerInk, type Lighting, litSide, longestRun } from './ink';
 import {
   capRimArc,
   capShadeArc,
@@ -26,7 +26,7 @@ import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
-  inkUnder,
+  inkedFill,
   paintCastShadow,
   strokeLine,
   strokeShape,
@@ -89,9 +89,7 @@ export function drawMushroom(
   };
 
   const stem = stemOutline(genes).map((point) => canvas(point));
-  inkUnder(graphics, stem, tone(inkFor(PALETTE.stem)), ink, lighting);
-  graphics.fillStyle(tone(PALETTE.stem));
-  fillShape(graphics, stem);
+  inkedFill(graphics, stem, PALETTE.stem, ink, lighting, tone);
   // The outline runs up the stem's right side and back down its left.
   const [right, left] = [
     stem.slice(0, CURVE_STEPS + 1),
@@ -124,9 +122,7 @@ export function drawMushroom(
       : genes.cap === 'dark-bottom'
         ? [dark, red]
         : [red, undefined];
-  inkUnder(graphics, dome, tone(inkFor(base)), ink, lighting);
-  graphics.fillStyle(tone(base));
-  fillShape(graphics, dome);
+  inkedFill(graphics, dome, base, ink, lighting, tone);
   if (band !== undefined) {
     const upper = domeBand(genes, TONE_SPLIT);
     graphics.fillStyle(tone(band));

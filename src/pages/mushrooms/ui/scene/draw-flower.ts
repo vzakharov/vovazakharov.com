@@ -1,14 +1,15 @@
 import type * as Phaser from 'phaser';
 
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
-import { ellipse, type Point, sample } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 import { mix } from './colour';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
-  inkUnder,
+  inkedDisc,
+  inkedFill,
   paintCastShadow,
   petal,
   strokeLine,
@@ -65,9 +66,7 @@ function paintRing(
   for (let index = 0; index < genes.fold; index++) {
     const angle = genes.twist + turn + (index * Math.PI * 2) / genes.fold;
     const shape = outline({ x: 0, y: 0 }, angle, span, width);
-    inkUnder(graphics, shape, inkFor(colour), ink, lighting);
-    graphics.fillStyle(colour);
-    fillShape(graphics, shape);
+    inkedFill(graphics, shape, colour, ink, lighting);
     const middle = {
       x: Math.cos(angle) * (span[0] + span[1]) * 0.5,
       y: Math.sin(angle) * (span[0] + span[1]) * 0.5,
@@ -113,9 +112,7 @@ export function drawFlower(
       [0, size * 0.3],
       size * 0.07,
     );
-    inkUnder(stem, leaf, inkFor(PALETTE.leaf), ink, lighting);
-    stem.fillStyle(PALETTE.leaf);
-    fillShape(stem, leaf);
+    inkedFill(stem, leaf, PALETTE.leaf, ink, lighting);
   }
   // The ink either side of the green thins from the foot to the head.
   stem.fillStyle(inkFor(PALETTE.flowerStem));
@@ -143,15 +140,14 @@ export function drawFlower(
   }
   const centre = genes.centre * size;
   const { toward } = lighting;
-  inkUnder(
+  inkedDisc(
     head,
-    ellipse({ x: 0, y: 0 }, centre),
-    inkFor(PALETTE.flowerCentreDeep),
+    { x: 0, y: 0 },
+    centre,
+    PALETTE.flowerCentreDeep,
     ink,
     lighting,
   );
-  head.fillStyle(PALETTE.flowerCentreDeep);
-  head.fillCircle(0, 0, centre);
   head.fillStyle(PALETTE.flowerCentre);
   head.fillCircle(
     toward.x * centre * 0.2,

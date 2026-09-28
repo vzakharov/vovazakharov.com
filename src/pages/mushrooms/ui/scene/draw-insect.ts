@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { ellipse, type Point, sample } from '../../model/geometry';
+import { type Point, sample } from '../../model/geometry';
 import type { ButterflyGenes } from '../../model/insect-genes';
 import {
   ABDOMEN,
@@ -22,7 +22,8 @@ import { PALETTE } from './palette';
 import {
   crescent,
   fillShape,
-  inkUnder,
+  inkedDisc,
+  inkedFill,
   strokeLine,
   strokeTapered,
 } from './shapes';
@@ -85,9 +86,7 @@ export function paintWings(
   const breadth = genes[pair].breadth * size;
   for (const side of SIDES) {
     const outline = wingOutline(genes, pair, side).map((point) => at(point));
-    inkUnder(graphics, outline, inkFor(pattern), ink, lighting);
-    graphics.fillStyle(pattern);
-    fillShape(graphics, outline);
+    inkedFill(graphics, outline, pattern, ink, lighting);
     const inner = wingOutline(genes, pair, side, [
       INNER_REACH,
       INNER_BREADTH,
@@ -178,9 +177,7 @@ export function paintBody(
     const club = line.at(-1);
     if (club) {
       const clubR = genes.bodyWidth * size * 0.32;
-      inkUnder(graphics, ellipse(club, clubR), bodyInk, ink * 0.8, lighting);
-      graphics.fillStyle(PALETTE.insectBody);
-      graphics.fillCircle(club.x, club.y, clubR);
+      inkedDisc(graphics, club, clubR, PALETTE.insectBody, ink * 0.8, lighting);
     }
   }
   const [head, thorax, abdomen] = bodyParts(genes).map((part) =>
@@ -188,9 +185,7 @@ export function paintBody(
   );
   for (const part of [abdomen, thorax, head]) {
     if (!part) continue;
-    inkUnder(graphics, part, bodyInk, ink, lighting);
-    graphics.fillStyle(PALETTE.insectBody);
-    fillShape(graphics, part);
+    inkedFill(graphics, part, PALETTE.insectBody, ink, lighting);
   }
   // Rings round the abdomen in the pattern's colour, so the body is its wings' kin.
   const width = genes.bodyWidth * size;

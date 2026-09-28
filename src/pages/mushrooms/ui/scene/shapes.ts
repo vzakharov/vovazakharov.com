@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import { ellipse, type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import {
+  inkFor,
   type Lighted,
   type Lighting,
   shadowFall,
@@ -44,6 +45,34 @@ export function inkUnder(
 ): void {
   graphics.fillStyle(colour);
   fillShape(graphics, weightedOutline(points, base, toward, hairline));
+}
+
+/** `points` filled in `fill` over its own ink (`inkFor`), both through `tone`. */
+export function inkedFill(
+  graphics: Phaser.GameObjects.Graphics,
+  points: readonly Point[],
+  fill: number,
+  base: number,
+  lighting: Lighting,
+  tone: (colour: number) => number = (colour) => colour,
+): void {
+  inkUnder(graphics, points, tone(inkFor(fill)), base, lighting);
+  graphics.fillStyle(tone(fill));
+  fillShape(graphics, points);
+}
+
+/** A disc of `fill` round `centre` over its own ink (`inkFor`). */
+export function inkedDisc(
+  graphics: Phaser.GameObjects.Graphics,
+  centre: Point,
+  r: number,
+  fill: number,
+  base: number,
+  lighting: Lighting,
+): void {
+  inkUnder(graphics, ellipse(centre, r), inkFor(fill), base, lighting);
+  graphics.fillStyle(fill);
+  graphics.fillCircle(centre.x, centre.y, r);
 }
 
 /** An ink stroke through `points`, `from` wide at the first and tapering to `to` at the last, never under a hairline. */

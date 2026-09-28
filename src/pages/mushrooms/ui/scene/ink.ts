@@ -195,6 +195,11 @@ export function litSide({ x }: Point): -1 | 1 {
   return x > 0 ? 1 : -1;
 }
 
+/** The angle, from a shape's middle, of the point on its edge turned full from the light. */
+export function awayAngle({ x, y }: Point): number {
+  return Math.atan2(-y, -x);
+}
+
 /** How far a shadow falls from under the foot, as a share of the thing's width. */
 const SHADOW_FALL = 0.25;
 

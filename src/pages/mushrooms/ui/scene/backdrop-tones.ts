@@ -4,19 +4,10 @@
  * test can hold the depth they make without painting.
  */
 
+import { mix } from './colour';
 import { PALETTE } from './palette';
 import { SEAM_REACH } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
-
-/** `from` blended toward `to` by `t`, channel by channel, rounded. */
-export function blend(from: number, to: number, t: number): number {
-  const channel = (shift: number) => {
-    const a = (from >> shift) & 0xff;
-    const b = (to >> shift) & 0xff;
-    return Math.round(a + (b - a) * t) << shift;
-  };
-  return channel(16) | channel(8) | channel(0);
-}
 
 /** A range's colours: `lit` at its highest crest, `foot` where the mist lies at its base. */
 export type RangeTones = { lit: number; foot: number };
@@ -26,8 +17,8 @@ const MIST = 0.25;
 
 function range(colour: number, haze: number): RangeTones {
   return {
-    lit: blend(colour, PALETTE.air, haze),
-    foot: blend(colour, PALETTE.air, haze + MIST),
+    lit: mix(colour, PALETTE.air, haze),
+    foot: mix(colour, PALETTE.air, haze + MIST),
   };
 }
 
@@ -37,14 +28,14 @@ function range(colour: number, haze: number): RangeTones {
  * the far range at a glance.
  */
 export const RANGES = {
-  farthest: range(blend(PALETTE.farHill, PALETTE.skyTop, 0.45), 0.35),
+  farthest: range(mix(PALETTE.farHill, PALETTE.skyTop, 0.45), 0.35),
   far: range(PALETTE.farHill, 0),
   near: range(PALETTE.nearHill, 0.05),
 } as const;
 
 /** A crest's rim on the sun's side of its range. */
 export function ridgeTone(lit: number): number {
-  return blend(lit, PALETTE.sunGlow, 0.35);
+  return mix(lit, PALETTE.sunGlow, 0.35);
 }
 
 /** A colour stop: a share of the way along, and the colour there. */
@@ -56,7 +47,7 @@ function alongStops(stops: readonly Stop[], at: number): number {
   const next = stops.findIndex(([stop]) => stop >= clamped);
   const [to, toColour] = stops[Math.max(next, 1)] ?? [1, 0];
   const [from, fromColour] = stops[Math.max(next, 1) - 1] ?? [0, 0];
-  return blend(fromColour, toColour, (clamped - from) / (to - from));
+  return mix(fromColour, toColour, (clamped - from) / (to - from));
 }
 
 /**
@@ -66,8 +57,8 @@ function alongStops(stops: readonly Stop[], at: number): number {
  */
 const SKY_STOPS: readonly Stop[] = [
   [0, PALETTE.skyTop],
-  [0.55, blend(PALETTE.skyTop, PALETTE.highlight, 0.4)],
-  [0.8, blend(PALETTE.skyHorizon, PALETTE.highlight, 0.5)],
+  [0.55, mix(PALETTE.skyTop, PALETTE.highlight, 0.4)],
+  [0.8, mix(PALETTE.skyHorizon, PALETTE.highlight, 0.5)],
   [1, PALETTE.skyLow],
 ];
 
@@ -115,10 +106,10 @@ export const SUN_HALO: readonly HaloDisc[] = [
 export const GROUND_STOPS: readonly Stop[] = [
   [0, RANGES.near.foot],
   [SEAM_REACH, RANGES.near.foot],
-  [0.1, blend(PALETTE.groundLit, PALETTE.air, 0.15)],
+  [0.1, mix(PALETTE.groundLit, PALETTE.air, 0.15)],
   [0.18, PALETTE.groundLit],
   [0.44, PALETTE.ground],
-  [0.92, blend(PALETTE.ground, PALETTE.groundDeep, 0.9)],
+  [0.92, mix(PALETTE.ground, PALETTE.groundDeep, 0.9)],
   [1, PALETTE.groundDeep],
 ];
 
