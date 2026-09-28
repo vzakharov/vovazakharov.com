@@ -28,6 +28,7 @@ import { z } from 'zod';
 import { flag, given } from './lib/argv.ts';
 import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
+import { median, overBudget } from './lib/frame-budget.ts';
 import {
   Controls,
   Flower,
@@ -192,18 +193,22 @@ async function open(
   );
 
   let time = 1000;
+  const rendered: number[] = [];
   return {
     evaluate,
+    rendered,
     step: async (frames) => {
       const from = time;
       time += frames * FRAME_MS;
       // Only the last frame is drawn: every movement is set in `update`, and
       // a frame drawn under the software rasterizer is what the run spends.
       // Counted by frame rather than by summed time, so no step runs a frame
-      // twice where the sum falls a hair short.
-      await evaluate(
-        `for (let i = 1; i <= ${String(frames)}; i += 1) window.__game[i < ${String(frames)} ? 'headlessStep' : 'step'](${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); true`,
-        z.boolean(),
+      // twice where the sum falls a hair short. The drawn frame is timed.
+      rendered.push(
+        await evaluate(
+          `(() => { for (let i = 1; i < ${String(frames)}; i += 1) window.__game.headlessStep(${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); const started = performance.now(); window.__game.step(${String(from + frames * FRAME_MS)}, ${String(FRAME_MS)}); return performance.now() - started; })()`,
+          z.number(),
+        ),
       );
     },
     tap: async ({ x, y }) => {
@@ -414,6 +419,12 @@ async function main(): Promise<void> {
         if (!holds) fail(message);
       },
       note,
+    );
+    const frames = [...page.rendered, ...fresh.rendered];
+    const slow = overBudget(frames);
+    if (slow !== undefined) fail(slow);
+    note(
+      `rendered-frame JS median ${median(frames).toFixed(1)} ms over ${String(frames.length)} frames`,
     );
     process.stdout.write(`${screen.name}: played\n`);
     return playFrom(rest);

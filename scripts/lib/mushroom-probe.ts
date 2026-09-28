@@ -281,6 +281,8 @@ export type Page = {
     schema: z.ZodType<Parsed>,
   ) => Promise<Parsed>;
   step: (frames: number) => Promise<void>;
+  /** The JS time of every frame `step` has drawn, in ms. */
+  rendered: readonly number[];
   tap: (point: z.infer<typeof Point>) => Promise<void>;
   shoot: (step: string) => Promise<void>;
 };
