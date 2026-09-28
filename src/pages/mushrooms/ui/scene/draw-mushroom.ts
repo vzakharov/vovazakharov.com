@@ -15,13 +15,7 @@ import {
 import { capFrame, stemAt } from '../../model/mushroom-pose';
 import { mix, nudgeHue } from './colour';
 import { innerInk, type Lighting, litSide, longestRun } from './ink';
-import {
-  capRimArc,
-  capShadeArc,
-  capShine,
-  shadedHalf,
-  STEM_LIGHT,
-} from './mushroom-light';
+import { capLight, shadedHalf, STEM_LIGHT } from './mushroom-light';
 import { PALETTE } from './palette';
 import {
   crescent,
@@ -148,46 +142,51 @@ export function drawMushroom(
 
   const interior = toMushroom({ x: 0, y: genes.capHeight * 0.3 });
   const capHeight = genes.capHeight * size;
-  shade(SHADE_ALPHA);
-  fillShape(
-    graphics,
-    crescent(
-      capShadeArc(genes, toward).map((point) => toMushroom(point)),
-      interior,
-      capHeight * 0.34,
-    ),
-  );
-  const rim = capRimArc(genes, toward).map((point) => toMushroom(point));
-  for (const [colour, { width, alpha }] of [
-    [PALETTE.capLit, RIM],
-    [PALETTE.rimLight, RIM_FINE],
-  ] as const) {
-    lit(colour, alpha);
-    fillShape(graphics, crescent(rim, interior, capHeight * width));
+  for (const layer of capLight(genes, toward)) {
+    switch (layer.kind) {
+      case 'shade': {
+        shade(SHADE_ALPHA);
+        const arc = layer.arc.map((point) => toMushroom(point));
+        fillShape(graphics, crescent(arc, interior, capHeight * 0.34));
+        break;
+      }
+      case 'rim': {
+        const arc = layer.arc.map((point) => toMushroom(point));
+        for (const [colour, { width, alpha }] of [
+          [PALETTE.capLit, RIM],
+          [PALETTE.rimLight, RIM_FINE],
+        ] as const) {
+          lit(colour, alpha);
+          fillShape(graphics, crescent(arc, interior, capHeight * width));
+        }
+        break;
+      }
+      case 'shine': {
+        const centre = toMushroom(layer.centre);
+        const [rx, ry] = layer.radii;
+        lit(PALETTE.rimLight, SHINE_ALPHA);
+        graphics.fillEllipse(centre.x, centre.y, rx * size * 2, ry * size * 2);
+        break;
+      }
+      case 'spot': {
+        // Each with a shade of its own, so a spot stays white where the cap
+        // turns from the light.
+        const centre = toMushroom(layer.spot);
+        const r = layer.spot.r * size;
+        graphics.fillStyle(tone(PALETTE.spot));
+        graphics.fillCircle(centre.x, centre.y, r);
+        shade(SPOT_SHADE_ALPHA);
+        fillShape(
+          graphics,
+          crescent(shadedHalf(centre, r, toward), centre, r * 0.4),
+        );
+        break;
+      }
+      default: {
+        return layer satisfies never;
+      }
+    }
   }
-
-  // Painted over the cap's shade, each with a shade of its own, so a spot
-  // stays white where the cap turns from the light.
-  for (const spot of genes.spots) {
-    const centre = toMushroom(spot);
-    const r = spot.r * size;
-    graphics.fillStyle(tone(PALETTE.spot));
-    graphics.fillCircle(centre.x, centre.y, r);
-    shade(SPOT_SHADE_ALPHA);
-    fillShape(
-      graphics,
-      crescent(shadedHalf(centre, r, toward), centre, r * 0.4),
-    );
-  }
-
-  const shine = toMushroom(capShine(genes, toward));
-  lit(PALETTE.rimLight, SHINE_ALPHA);
-  graphics.fillEllipse(
-    shine.x,
-    shine.y,
-    genes.capWidth * size * 0.2,
-    capHeight * 0.22,
-  );
 }
 
 /**

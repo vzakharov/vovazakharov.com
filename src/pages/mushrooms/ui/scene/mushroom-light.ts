@@ -4,7 +4,7 @@
  * of size, y up) unless said otherwise.
  */
 
-import { type Point, sample } from '../../model/geometry';
+import { type Circle, type Point, sample } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { CURVE_STEPS, domeArc } from '../../model/mushroom-outline';
 import { awayAngle, litSide } from './ink';
@@ -39,6 +39,30 @@ export function capShine(
   toward: Point,
 ): Point {
   return { x: toward.x * 0.2 * capWidth, y: capHeight * 0.72 };
+}
+
+/** One layer of the light on a cap, in the cap's frame. */
+export type CapLight =
+  | { kind: 'shade' | 'rim'; arc: Point[] }
+  | { kind: 'shine'; centre: Point; radii: readonly [number, number] }
+  | { kind: 'spot'; spot: Circle };
+
+/**
+ * The cap's light in the order it is painted, first to last. The shade, the
+ * rim light and the shine are light on the cap's own skin, so every spot goes
+ * on after them and stays its own white wherever they reach.
+ */
+export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
+  return [
+    { kind: 'shade', arc: capShadeArc(genes, toward) },
+    { kind: 'rim', arc: capRimArc(genes, toward) },
+    {
+      kind: 'shine',
+      centre: capShine(genes, toward),
+      radii: [genes.capWidth * 0.1, genes.capHeight * 0.11],
+    },
+    ...genes.spots.map((spot) => ({ kind: 'spot' as const, spot })),
+  ];
 }
 
 /**
