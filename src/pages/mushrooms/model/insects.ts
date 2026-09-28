@@ -3,9 +3,8 @@
  * own leg, and these decide when it takes the next one. `perches` is what
  * the meadow offers now; a new leg never goes to a perch another insect sits
  * on or is heading to, nor to one crowded by it for the two kinds
- * (`nextFlight`). A bee
- * leaving a flower it pollinated plants one beside it (`sown`), so these
- * hand back the planted flowers with the insects.
+ * (`nextFlight`). A bee leaving a flower it pollinated plants one beside it
+ * (`sown`), so these hand back the planted flowers with the insects.
  */
 
 import {
@@ -176,8 +175,8 @@ function isDue(
 }
 
 /**
- * `swarm` at `now`: an insect whose stay is over, or whose perch the meadow
- * no longer offers, takes its next leg from `now`; one whose flight away has
+ * `swarm` at `now`: an insect whose next leg is due (`isDue`) takes it from
+ * `now`; one whose flight away has
  * landed is gone. They are taken in order, each new leg seeing the ones
  * before it already taken, so two due on one frame never pick one perch.
  * The same object comes back when nothing is due, so a frame with nothing to

@@ -5,33 +5,36 @@
 
 import type { InsectKind } from './insect-genes';
 
-/**
- * How one kind flies: how long a flight takes, a stay at a flower, a hover
- * at a spot in the air and a rest on a cap, in ms, `resting` being
- * `undefined` for a kind that never sits on a cap; `stride`, the farthest a
- * flight goes in its `flying` time, in butterfly sizes (`Places`), a farther
- * one flying on at that speed, so a child's finger can follow it across a
- * wide screen, but never for more than `slowest` times its `flying` time, so
- * no flight drags; past that, the share of its time a kind that dashes
- * (`dashing`) spends dashing before it flies its last strides at its pace,
- * `undefined` for a kind that simply flies faster; how often, with both
- * open, it goes to a flower rather than a cap; how many times as often it
- * picks a spotted cap as any other; how often, with no spotted cap open, it
- * roams the air and looks again rather than land anywhere else (`fussy`);
- * and whether, with nowhere else open, it settles again where it sat rather
- * than roaming.
- */
+/** How one kind flies, stays and chooses; every time in ms. */
 export type Habits = {
+  /** How long a flight takes, over a `stride` or less. */
   flying: readonly [number, number];
+  /**
+   * The farthest a flight goes in its `flying` time, in butterfly sizes
+   * (`Places`); a farther one flies on at that speed, so a child's finger can
+   * follow it across a wide screen.
+   */
   stride: number;
+  /** The most times its `flying` time any flight takes, so none drags. */
   slowest: number;
+  /**
+   * Past `slowest`, the share of its time a flight dashes before it flies its
+   * last strides at its pace; `undefined` for a kind that simply flies faster.
+   */
   dashing: number | undefined;
+  /** A stay at a flower. */
   drinking: readonly [number, number];
+  /** A hover at a spot in the air. */
   hovering: readonly [number, number];
+  /** A rest on a cap; `undefined` for a kind that never sits on one. */
   resting: readonly [number, number] | undefined;
+  /** How often, with both open, it goes to a flower rather than a cap. */
   flowerShare: number;
+  /** How many times as often it picks a spotted cap as any other. */
   spottedPull: number;
+  /** How often, with no spotted cap open, it roams the air and looks again rather than land anywhere else. */
   fussy: number;
+  /** Whether, with nowhere else open, it settles again where it sat rather than roaming. */
   settles: boolean;
 };
 

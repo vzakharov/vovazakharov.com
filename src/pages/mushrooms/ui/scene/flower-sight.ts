@@ -4,8 +4,7 @@
  * pure functions of the layout and what stands in it. A flower in sight
  * stands clear of every control and the screen's edges by an insect's
  * wings, its head in view past the mushrooms in front of it; a flower is
- * planted only where it would be in sight on this screen, so one a turn of
- * the screen hides is out of sight there as a seeded one is.
+ * planted only where it would be in sight on this screen.
  */
 
 import { pick } from '@/shared/lib/collections';

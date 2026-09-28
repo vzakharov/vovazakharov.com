@@ -47,7 +47,7 @@ const phaserFromGlobal: Plugin = {
 };
 
 // Phaser boots in its constructor only once the document is interactive, and
-// \`startGame\` sizes the canvas straight after, so the game starts no sooner
+// `startGame` sizes the canvas straight after, so the game starts no sooner
 // — as the site's page, mounting after hydration, always does.
 const ENTRY = `
 import { startGame } from './src/pages/mushrooms/ui/scene/start-game';
