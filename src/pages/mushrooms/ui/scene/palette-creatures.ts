@@ -1,10 +1,17 @@
 /** `PALETTE`'s creatures section: the mushrooms, the flowers, the house, the insects and the HUD, and the shadow they cast. */
 export const CREATURES = {
+  /** A shadow cast on the grass: cool, as a sunlit scene's shadows are. */
+  shadowCool: 0x24_48_40,
+  /** Shade laid over a creature's fill at low alpha: bluer, never blacker. */
+  shadeCool: 0x3a_2c_6a,
+  /** The warm light along a cap's sun-facing edge, and the pale one just inside every lit contour and in every shine. */
+  capLit: 0xff_7a_52,
+  rimLight: 0xff_f0_d0,
   groundShadow: 0x1e_4a_1a,
   stem: 0xfb_f3_df,
   gills: 0xef_dc_b6,
   capRed: 0xe6_36_2b,
-  capDark: 0x4a_14_1a,
+  capDark: 0x5a_18_2e,
   spot: 0xff_fb_f1,
   flowerStem: 0x4c_a0_3c,
   leaf: 0x5e_b8_48,

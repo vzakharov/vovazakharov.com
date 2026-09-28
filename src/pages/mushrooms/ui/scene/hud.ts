@@ -8,6 +8,7 @@ import {
   PICTOGRAM_SEED,
 } from '../../model/insect-genes';
 import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
+import { PICTOGRAM_LIGHT } from '../../model/light';
 import {
   type CapKind,
   GENE_RANGES,
@@ -22,8 +23,12 @@ import { paintFlyBody, paintFlyLegs } from './draw-fly';
 import { paintDoor, paintWindow } from './draw-house';
 import { paintBody, paintWings, scaled } from './draw-insect';
 import { drawMushroom } from './draw-mushroom';
+import type { Lighting } from './ink';
 import { PALETTE } from './palette';
 import type { Brush } from './shapes';
+
+/** A pictogram's light, the same on every button whatever the sun does, and its thinnest line. */
+const ICON_LIGHTING: Lighting = { ...PICTOGRAM_LIGHT, hairline: 1 };
 
 /** The seed every pictogram's mushroom grows from, so each looks the same on every visit. */
 const ICON_SEED = 11;
@@ -91,14 +96,18 @@ function drawIcon(
   const size = height / (genes.stemHeight + genes.capHeight);
   graphics.save();
   graphics.translateCanvas(x, y + height / 2);
-  drawMushroom(graphics, genes, size);
+  drawMushroom(graphics, genes, size, ICON_LIGHTING);
   over?.(size);
   graphics.restore();
 }
 
 /** A pictogram's ink, and no haze. */
 function iconBrush(r: number): Brush {
-  return { ink: Math.max(2, r * 0.07), tone: (colour) => colour };
+  return {
+    ink: Math.max(2, r * 0.07),
+    tone: (colour) => colour,
+    lighting: ICON_LIGHTING,
+  };
 }
 
 /**

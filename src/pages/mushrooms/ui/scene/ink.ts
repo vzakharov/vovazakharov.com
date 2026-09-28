@@ -156,18 +156,26 @@ export function facingArc(
   toward: Point,
   least: number,
 ): Point[] {
-  const facing = outwardNormals(points).map(
-    (normal) => dot(normal, toward) >= least,
+  return longestRun(
+    points,
+    outwardNormals(points).map((normal) => dot(normal, toward) >= least),
   );
-  if (facing.every(Boolean)) return [...points];
-  // From just past a vertex that does not face, round once.
-  const start = facing.indexOf(false);
+}
+
+/** The longest run of a closed outline's vertices that `keep` marks, in the order the outline runs, round its end if need be. */
+export function longestRun(
+  points: readonly Point[],
+  keep: readonly boolean[],
+): Point[] {
+  if (keep.every(Boolean)) return [...points];
+  // From just past a vertex left out, round once.
+  const start = keep.indexOf(false);
   let best: Point[] = [];
   let run: Point[] = [];
   for (let step = 1; step <= points.length; step++) {
     const index = (start + step) % points.length;
     const point = points[index];
-    if (facing[index] === true && point) {
+    if (keep[index] === true && point) {
       run.push(point);
       if (run.length > best.length) best = run;
     } else {

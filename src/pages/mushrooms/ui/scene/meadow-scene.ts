@@ -12,6 +12,7 @@ import {
 } from '../../model/game';
 import type { Point } from '../../model/geometry';
 import type { Flier } from '../../model/insects';
+import { sunLight } from '../../model/light';
 import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
@@ -346,7 +347,9 @@ export class MeadowScene extends Phaser.Scene {
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random);
     this.grass ??= this.add.graphics();
     this.tufts = growTufts(layout, random);
-    if (this.meadow) this.bed?.paint(this.meadow, layout);
+    // One device pixel is the thinnest line the screen shows.
+    const lighting = { ...sunLight(layout), hairline: 1 / ratio };
+    if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);
     this.insects?.paint(layout);
     this.flowers?.paint(layout);
     this.see();

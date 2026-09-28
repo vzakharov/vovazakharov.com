@@ -16,6 +16,7 @@ import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
 import { containsOutline, type WithGraphics } from './hit-areas';
+import type { Lighted } from './ink';
 import type { Footing, Hazed } from './layout';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
@@ -38,6 +39,7 @@ function seated({ door }: Body): DoorPlace {
 export type Body = WithGraphics &
   Pick<Footing, 'size'> &
   Hazed &
+  Lighted &
   Splayed & {
     door: DoorPlace | undefined;
   };
@@ -170,7 +172,7 @@ export class HouseView {
   }
 
   private paint(t: number, body: Body, out: number): void {
-    const { genes, size, haze } = body;
+    const { genes, size, haze, lighting } = body;
     const house = this.house;
     this.graphics.clear();
     this.hit.length = 0;
@@ -178,7 +180,8 @@ export class HouseView {
     if (!house) return;
     const brush = {
       ink: Math.max(1.5, size * 0.01),
-      tone: (colour: number) => mix(colour, PALETTE.skyHorizon, haze),
+      tone: (colour: number) => mix(colour, PALETTE.air, haze),
+      lighting,
     };
     const windows = house.windows.map((kind, index) => ({
       kind,

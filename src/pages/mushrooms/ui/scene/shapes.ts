@@ -1,6 +1,15 @@
 import * as Phaser from 'phaser';
 
 import { type Point, sample } from '../../model/geometry';
+import type { Light } from '../../model/light';
+import {
+  type Lighted,
+  type Lighting,
+  shadowFall,
+  taperedLine,
+  weightedOutline,
+} from './ink';
+import { PALETTE } from './palette';
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {
@@ -19,6 +28,61 @@ export function strokeShape(
   points: readonly Point[],
 ): void {
   graphics.strokePoints(vectors(points), true, true);
+}
+
+/**
+ * `points`' ink line in `colour`, `base` wide, heavier on the side turned
+ * from the light (`weightedOutline`): painted before the shape's fill, which
+ * covers all of it but the edge.
+ */
+export function inkUnder(
+  graphics: Phaser.GameObjects.Graphics,
+  points: readonly Point[],
+  colour: number,
+  base: number,
+  { toward, hairline }: Lighting,
+): void {
+  graphics.fillStyle(colour);
+  fillShape(graphics, weightedOutline(points, base, toward, hairline));
+}
+
+/** An ink stroke through `points`, `from` wide at the first and tapering to `to` at the last, never under a hairline. */
+export function strokeTapered(
+  graphics: Phaser.GameObjects.Graphics,
+  points: readonly Point[],
+  widths: readonly [number, number],
+  { hairline }: Pick<Lighting, 'hairline'>,
+): void {
+  fillShape(graphics, taperedLine(points, widths, hairline));
+}
+
+/** A cast shadow's soft outer shade, its core and its contact at the foot: each one's size, as a share of the shadow's, and alpha. */
+const SHADOW_LAYERS = [
+  { across: 1.3, tall: 1.3, alpha: 0.12, falls: true },
+  { across: 0.8, tall: 0.8, alpha: 0.2, falls: true },
+  { across: 0.25, tall: 0.6, alpha: 0.3, falls: false },
+] as const;
+
+/**
+ * The shadow a thing standing on the graphics' own position casts on the
+ * ground, `across` by `tall`: fallen away from the sun, soft at its edge,
+ * darkest at the foot.
+ */
+export function paintCastShadow(
+  graphics: Phaser.GameObjects.Graphics,
+  [across, tall]: readonly [number, number],
+  { toward }: Light,
+): void {
+  const fall = shadowFall(toward, across);
+  for (const layer of SHADOW_LAYERS) {
+    graphics.fillStyle(PALETTE.shadowCool, layer.alpha);
+    graphics.fillEllipse(
+      layer.falls ? fall : 0,
+      0,
+      across * layer.across,
+      tall * layer.tall,
+    );
+  }
 }
 
 /** A line through `points`, left open. */
@@ -107,8 +171,11 @@ export function ovalArc(
  * sill's middle at the origin; both y up.
  */
 export type Place = (point: Point) => Point;
-/** How a painter inks and tints: the ink line in pixels, and the haze a colour takes. */
-export type Brush = { ink: number; tone: (colour: number) => number };
+/** How a painter inks, tints and lights: the ink line in pixels, the haze a colour takes, and the light it is drawn in. */
+export type Brush = Lighted & {
+  ink: number;
+  tone: (colour: number) => number;
+};
 
 export function box(left: number, bottom: number, right: number, top: number) {
   return [
