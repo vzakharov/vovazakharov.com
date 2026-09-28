@@ -22,9 +22,11 @@ the sun as each thing sees it, hills recede into a shared air, and
 every creature is inked in a dark of its own colour, its ink or fill
 standing 3:1 off the ground under it.
 
-Plus grows a picked cap out of the ground, minus sinks one, up to six
-round the clump; the house button furnishes a mushroom with Syama's
-windows and a door a mouse peeks from. Three buttons fly in a
+Plus grows one of four species out of the ground — a fly agaric, a
+porcini, a chanterelle trumpet, a russula in one of five colours —
+and minus sinks one, up to six round the clump; the house button
+furnishes any of them with Syama's windows and a door a mouse peeks
+from. Three buttons fly in a
 butterfly, a fly or a bee, each kind with its own limit, habits and
 path: butterflies drink at flowers, flies zigzag to the fly agarics
 and fidget there, bees carry pollen between flowers and plant new
