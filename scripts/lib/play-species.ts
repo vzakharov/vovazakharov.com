@@ -21,14 +21,14 @@ import {
   Point,
   State,
 } from './mushroom-probe.ts';
+import { bandGaps } from './play-band.ts';
 import { fliersOn } from './play-insects.ts';
 
 /** How much room a close-up leaves round its mushroom, in the mushroom's own height, and its least side, in CSS px. */
 const MARGIN = 0.25;
 const LEAST_SIDE = 180;
-/** Frames for a grown mushroom to settle, and into a tap's wobble. */
+/** Frames for a grown mushroom to settle. */
 const SETTLE = 90;
-const WOBBLE = 8;
 /**
  * A puff of spores is a tween, and Phaser's tweens run on the wall clock, at
  * most `TWEEN_STEP_MS` a frame however far the stepped clock moves: so a shot
@@ -105,10 +105,21 @@ export async function playSpecies(
     if (id === undefined) return;
     grown.set(species, id);
     expect(now.selected === id, `the grown ${species} is not selected`);
+    await sporesGone();
     await close(id, `s1-${species}-selected`);
-    // A tap on the selected one wobbles it and keeps it selected.
+    const band = await bandGaps(page, id);
+    const [gap] = band.gaps;
+    expect(
+      gap === undefined,
+      `the ${species}'s band leaves ${String(band.gaps.length)} gaps, the first on its ${String(gap?.outline)} at point ${String(gap?.index)}`,
+    );
+    note(
+      `the ${species}'s band: ${band.outlines.map(({ outline, sampled, first }) => `${outline} ${String(sampled)} samples${first ? ', its first point one' : ''}`).join('; ')}`,
+    );
+    // A tap on the selected one wobbles it and keeps it selected; the shot
+    // waits out the tap's puff, which the stepped clock would freeze.
     if (await tapMushroom(id)) {
-      await page.step(WOBBLE);
+      await sporesGone();
       await close(id, `s1-${species}-wobble`);
       expect(
         (await state()).selected === id,
@@ -166,7 +177,8 @@ export async function playSpecies(
   if (chanterelle !== undefined && !onTrumpet) {
     await page.tap(controls.releases.butterfly);
     const there = await waitForCapRest(chanterelle);
-    if (there === undefined) note('no butterfly came down on the chanterelle');
+    if (there === undefined)
+      expect(false, 'no butterfly came down on the chanterelle');
     else await close(chanterelle, 's3-butterfly-on-chanterelle');
   }
 
@@ -191,7 +203,9 @@ export async function playSpecies(
     await sporesGone();
     const house = (await state()).houses[full.mushrooms.indexOf(id)];
     expect(house?.door === true, `the ${species} took no door`);
-    note(`the ${species} took ${String(house?.windows.length)} windows`);
+    const windows = house?.windows.length ?? 0;
+    expect(windows >= 1, `the ${species} took no window`);
+    note(`the ${species} took ${String(windows)} windows`);
     await close(id, `s4-house-${species}`);
   });
 }

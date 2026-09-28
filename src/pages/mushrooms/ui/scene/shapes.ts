@@ -24,11 +24,38 @@ export function fillShape(
   graphics.fillPoints(vectors(points), true);
 }
 
+/** Whether two points of an outline stand apart, rather than being one point twice. */
+function apart(a: Point, b: Point): boolean {
+  return Math.hypot(a.x - b.x, a.y - b.y) > 1e-6;
+}
+
+/**
+ * `points`' closed outline, stroked. Phaser joins a closed path's last
+ * segment to its first only when the path closes itself, and leaves the
+ * joins either side of a zero-length segment open, so a point repeating the
+ * one before it (the first repeated at the end included) goes before the
+ * stroke: the first point is joined as every other is.
+ */
 export function strokeShape(
   graphics: Phaser.GameObjects.Graphics,
   points: readonly Point[],
 ): void {
-  graphics.strokePoints(vectors(points), true, true);
+  const distinct = points.filter((point, index) => {
+    const before = points[index - 1];
+    return !before || apart(point, before);
+  });
+  const [first] = distinct;
+  const last = distinct.at(-1);
+  const closing =
+    first !== undefined &&
+    last !== undefined &&
+    distinct.length > 1 &&
+    !apart(first, last);
+  graphics.strokePoints(
+    vectors(closing ? distinct.slice(0, -1) : distinct),
+    false,
+    true,
+  );
 }
 
 /**
