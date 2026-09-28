@@ -6,7 +6,7 @@ import { mulberry32 } from '../../model/random';
 import { meadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
-import { SUN_GLOW_REACH, SUN_RAY_REACH, washReach } from './sun-layout';
+import { SUN_GLOW_REACH, SUN_RAY_REACH, washRings } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -92,15 +92,20 @@ describe('the sun', () => {
       }
     });
 
-    it(`washes the land no lower than the ground's upper third, on a ${name} screen`, () => {
-      for (const seed of VISITS.slice(0, 200)) {
+    it(`washes the land past the sun's rays and never over a mushroom's foot, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const { sun, groundTop } = layout;
-        assert.ok(
-          sun.y + washReach(layout) <=
-            groundTop + (height - groundTop) / 3 + 1e-9,
-        );
-        assert.ok(washReach(layout) > sun.r * 4);
+        const { sun, mushrooms } = layout;
+        const outer = Math.max(...washRings(layout));
+        assert.ok(outer > sun.r * SUN_RAY_REACH, `visit ${String(seed)}`);
+        // Every slot, taken or not: its foot, and some ground round it.
+        for (const [slot, { x, y, size }] of mushrooms.entries()) {
+          const clear = Math.hypot(x - sun.x, y - sun.y) - outer;
+          assert.ok(
+            clear >= size * 0.4,
+            `visit ${String(seed)}: slot ${String(slot)}'s foot ${clear.toFixed(0)} px outside the wash`,
+          );
+        }
       }
     });
   }

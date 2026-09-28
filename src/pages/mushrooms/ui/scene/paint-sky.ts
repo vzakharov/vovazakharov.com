@@ -6,14 +6,10 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
-import { SUN_RAY_REACH, washReach } from './sun-layout';
+import { SUN_RAY_REACH, washRings } from './sun-layout';
 
 const SKY_BANDS = 96;
 const SUN_RAYS = 16;
-/** The light the sun lays over the land, one disc of each alpha per ring. */
-const WASH_RINGS = 10;
-/** The wash's innermost and outermost rings, in sun radii, before it is shrunk to fit. */
-const WASH_REACH = [4, 14] as const;
 const WASH_ALPHA = 0.02;
 /** The highest cloud's share of the way toward the sky's top colour. */
 const HIGH_CLOUD_HAZE = 0.2;
@@ -128,23 +124,17 @@ export function paintClouds(
 
 /**
  * The sun's light over the land, screened on so it only ever lightens: faint
- * discs round the sun, none reaching past `washReach`, so the ground where
- * the caps stand is never lifted.
+ * discs round the sun at `washRings`, so the ground a mushroom stands on is
+ * never lifted.
  */
 export function paintWash(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
 ): void {
   const { sun } = layout;
-  const reach = washReach(layout);
   graphics.setBlendMode(Phaser.BlendModes.SCREEN);
   graphics.fillStyle(PALETTE.sunGlow, WASH_ALPHA);
-  // Shrunk as a whole to fit, rather than each clamped, so no two rings
-  // share an edge that would stack into a line.
-  const outer = Math.min(sun.r * WASH_REACH[1], reach);
-  for (let ring = 0; ring < WASH_RINGS; ring++) {
-    const t = ring / (WASH_RINGS - 1);
-    const r = WASH_REACH[0] + (WASH_REACH[1] - WASH_REACH[0]) * t;
-    graphics.fillCircle(sun.x, sun.y, (outer * r) / WASH_REACH[1]);
+  for (const radius of washRings(layout)) {
+    graphics.fillCircle(sun.x, sun.y, radius);
   }
 }

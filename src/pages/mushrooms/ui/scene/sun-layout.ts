@@ -95,16 +95,48 @@ function sunAt(
 
 /** How far down the ground, as a share of its depth, the sun's wash over the land may reach. */
 const WASH_FLOOR = 1 / 3;
+/** How far round a mushroom's foot, in its size, the wash leaves the ground as it is: its foot and the shadow round it. */
+const WASH_FOOT_CLEAR = 0.5;
+/** The wash's rings, one disc of each alpha per ring. */
+const WASH_RINGS = 10;
+/** The wash's innermost and outermost rings, in sun radii, before it is shrunk to fit. */
+const WASH_REACH = [4, 14] as const;
 
 /**
  * The farthest the sun's wash over the land reaches from its middle: down to
- * the ground's upper third and no further, so it never lifts the ground
- * where the caps stand.
+ * the ground's upper third at most, and short of every mushroom slot's foot
+ * and the shadow round it, taken or not, so it never lifts the ground a
+ * mushroom stands on.
  */
-export function washReach({
+function washReach({
   sun,
   groundTop,
   height,
-}: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height'>): number {
-  return groundTop + (height - groundTop) * WASH_FLOOR - sun.y;
+  mushrooms,
+}: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>): number {
+  return Math.min(
+    groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
+    ...mushrooms.map(
+      ({ x, y, size }) =>
+        Math.hypot(x - sun.x, y - sun.y) - size * WASH_FOOT_CLEAR,
+    ),
+  );
+}
+
+/**
+ * The radii of the wash's rings round the sun's middle, innermost first:
+ * shrunk as a whole to fit inside `washReach`, rather than each clamped, so
+ * no two share an edge that would stack into a line.
+ */
+export function washRings(
+  layout: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>,
+): number[] {
+  const outer = Math.min(layout.sun.r * WASH_REACH[1], washReach(layout));
+  return Array.from({ length: WASH_RINGS }, (_, ring) => {
+    const t = ring / (WASH_RINGS - 1);
+    return (
+      (outer * (WASH_REACH[0] + (WASH_REACH[1] - WASH_REACH[0]) * t)) /
+      WASH_REACH[1]
+    );
+  });
 }
