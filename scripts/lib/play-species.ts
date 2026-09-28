@@ -5,6 +5,7 @@
  * house on a porcini and on a chanterelle, windows and door, looked at close.
  */
 
+import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
 import {
@@ -28,6 +29,14 @@ const LEAST_SIDE = 180;
 /** Frames for a grown mushroom to settle, and into a tap's wobble. */
 const SETTLE = 90;
 const WOBBLE = 8;
+/**
+ * A puff of spores is a tween, and Phaser's tweens run on the wall clock, at
+ * most `TWEEN_STEP_MS` a frame however far the stepped clock moves: so a shot
+ * that wants the last puff gone draws `SPORES_GONE` frames that far apart,
+ * over the 0.9 s a puff lasts.
+ */
+const TWEEN_STEP_MS = 34;
+const SPORES_GONE = 36;
 /** The house picker's buttons, windows first and the door last. */
 const PIECES = 5;
 
@@ -38,6 +47,11 @@ export async function playSpecies(
   note: (line: string) => void,
 ): Promise<void> {
   const state = async () => page.evaluate('__probe.state()', State);
+  const sporesGone = async () =>
+    inTurn([...Array.from({ length: SPORES_GONE }).keys()], async () => {
+      await sleep(TWEEN_STEP_MS);
+      await page.step(1);
+    });
   const screen = await page.evaluate(
     '({ width: innerWidth, height: innerHeight })',
     z.object({ width: z.number(), height: z.number() }),
@@ -125,6 +139,7 @@ export async function playSpecies(
     MUSHROOM_SPECIES.every((species) => full.species.includes(species)),
     `the meadow stands ${full.species.join(', ')}`,
   );
+  await sporesGone();
   await page.shoot('s2-meadow');
 
   // A butterfly come down on a cap, whichever species it chose.
@@ -161,6 +176,7 @@ export async function playSpecies(
       await page.step(6);
     });
     await page.step(45);
+    await sporesGone();
     const house = (await state()).houses[full.mushrooms.indexOf(id)];
     expect(house?.door === true, `the ${species} took no door`);
     note(`the ${species} took ${String(house?.windows.length)} windows`);
