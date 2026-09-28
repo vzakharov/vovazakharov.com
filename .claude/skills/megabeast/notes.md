@@ -233,6 +233,24 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   caught up, across two sessions. Harmless on a branch nobody merges
   mid-loop, but the handling order should land the watch and its fix in
   the same wave, or say in the pause note that red is expected.
+- **A subagent cannot see its own context, so the orchestrator reads it.**
+  No context-budget notice reaches a subagent, and asked for its usage one
+  answered 115k while its transcript held 220k. The number is in the
+  transcript the spawn result names: `jq -c 'select(.message.usage) |
+  .message.usage | (.input_tokens + (.cache_read_input_tokens//0) +
+  (.cache_creation_input_tokens//0))' <output_file> | tail -1` prints the
+  last call's context without reading any content. The skill should check
+  it between reports and pause an agent from outside past ~200k, then
+  start a fresh one on the same brief from its hand-over note — which is
+  what the operator asked for here, and what got both groups done.
+- **A subagent's "done" gets a plain-sight read before it is accepted.**
+  The perch group met every number, and in doing so stretched a far flight
+  in proportion to its length: a fly entering a phone crawled for 11 s
+  against its usual second. Each report's "for a person looking at the
+  screen" lines are the place such a trade-off surfaces; the orchestrator
+  reads them as a six-year-old would and re-briefs, as with the "for you
+  to decide" lines above. The same read caught the suite growing to
+  330 s.
 
 ## Quality levers
 
