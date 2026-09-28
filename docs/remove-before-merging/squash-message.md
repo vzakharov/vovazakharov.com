@@ -16,7 +16,10 @@ route alone and rendered at the device pixel ratio. Every mushroom,
 flower and insect is grown from its own seed by a pure, tested
 generator, and every motion is a pure function of the clock; sound is
 a Web Audio synth with a remembered mute. The layout keeps every cap
-on screen and every control clear of the meadow on any screen.
+on screen and every control clear of the meadow on any screen. The
+meadow is painted in one light: shade, shine and shadows fall from
+where the sun stands, hills recede into a shared air, and every
+creature is inked in the dark of its own colour, not one brown.
 
 Plus grows a picked cap out of the ground, minus sinks one, up to six
 round the clump; the house button furnishes a mushroom with Syama's
