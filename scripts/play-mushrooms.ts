@@ -199,8 +199,10 @@ async function open(
       time += frames * FRAME_MS;
       // Only the last frame is drawn: every movement is set in `update`, and
       // a frame drawn under the software rasterizer is what the run spends.
+      // Counted by frame rather than by summed time, so no step runs a frame
+      // twice where the sum falls a hair short.
       await evaluate(
-        `for (let t = ${String(from)}; t < ${String(time)}; t += ${String(FRAME_MS)}) window.__game[t + ${String(FRAME_MS * 1.5)} < ${String(time)} ? 'headlessStep' : 'step'](t + ${String(FRAME_MS)}, ${String(FRAME_MS)}); true`,
+        `for (let i = 1; i <= ${String(frames)}; i += 1) window.__game[i < ${String(frames)} ? 'headlessStep' : 'step'](${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); true`,
         z.boolean(),
       );
     },
