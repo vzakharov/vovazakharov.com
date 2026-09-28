@@ -6,6 +6,7 @@
 
 import { PALETTE } from './palette';
 import { SEAM_REACH } from './skyline';
+import { SUN_GLOW_REACH } from './sun-layout';
 
 /** `from` blended toward `to` by `t`, channel by channel, rounded. */
 export function blend(from: number, to: number, t: number): number {
@@ -60,13 +61,13 @@ function alongStops(stops: readonly Stop[], at: number): number {
 
 /**
  * The sky's stops from its top to the near hills: blue paling to a clean
- * light blue, and the cream kept to the part nearest the hills, so the
- * middle never greys where blue and cream would meet.
+ * light blue, then to near white before the cream nearest the hills, so blue
+ * and cream never mix to a grey on the way.
  */
 const SKY_STOPS: readonly Stop[] = [
   [0, PALETTE.skyTop],
   [0.55, blend(PALETTE.skyTop, PALETTE.highlight, 0.4)],
-  [0.8, blend(PALETTE.skyLow, PALETTE.highlight, 0.3)],
+  [0.8, blend(PALETTE.skyHorizon, PALETTE.highlight, 0.5)],
   [1, PALETTE.skyLow],
 ];
 
@@ -74,6 +75,35 @@ const SKY_STOPS: readonly Stop[] = [
 export function skyAt(down: number): number {
   return alongStops(SKY_STOPS, down);
 }
+
+/** A disc of the sun's light over the sky, round the sun's middle: its colour, its alpha, and its radius in sun radii. */
+export type HaloDisc = readonly [colour: number, alpha: number, radius: number];
+
+/** `count` discs of `colour` from `outer` sun radii in to `inner`, each at `alpha` of `alphaAt` of its share of the way in. */
+function discs(
+  colour: number,
+  count: number,
+  [outer, inner]: readonly [number, number],
+  alphaAt: (inward: number) => number,
+): HaloDisc[] {
+  return Array.from({ length: count }, (_, index) => {
+    const inward = index / (count - 1);
+    return [colour, alphaAt(inward), outer + (inner - outer) * inward];
+  });
+}
+
+/**
+ * The sun's light over the sky, in painting order, stacked from the outside
+ * in so it thickens toward the sun with no edge of its own: a white halo,
+ * reaching farthest, that pales the blue round the sun; the warmth, kept
+ * inside the part the halo has already paled, since yellow laid over blue
+ * mixes to a grey-teal; and the glow close about the rays.
+ */
+export const SUN_HALO: readonly HaloDisc[] = [
+  ...discs(PALETTE.highlight, 16, [9, 1], () => 0.12),
+  ...discs(PALETTE.skyWarm, 10, [3.5, 1], () => 0.12),
+  ...discs(PALETTE.sunGlow, 14, [SUN_GLOW_REACH, 1], (inward) => 0.04 * inward),
+];
 
 /**
  * The ground's colour stops, as shares of the way from its top to the bottom

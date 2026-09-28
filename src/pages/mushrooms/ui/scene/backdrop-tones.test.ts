@@ -1,9 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { blend, GROUND_STOPS, groundAt, RANGES } from './backdrop-tones';
+import {
+  blend,
+  GROUND_STOPS,
+  groundAt,
+  RANGES,
+  skyAt,
+  SUN_HALO,
+} from './backdrop-tones';
 import { tuftColours } from './grass';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { PALETTE } from './palette';
+import { SUN_RAY_REACH } from './sun-layout';
+import { VIEWPORTS } from './viewports';
 
 const channels = (colour: number) =>
   [(colour >> 16) & 0xff, (colour >> 8) & 0xff, colour & 0xff] as const;
@@ -38,6 +48,29 @@ function standOut(down: number): number {
       ),
     ),
   );
+}
+
+/** The sky at `x`, `y` with the sun's halo laid over it, as `paintSky` lays it. */
+function skyWithHalo(
+  { nearHills, sun }: MeadowLayout,
+  x: number,
+  y: number,
+): number {
+  const away = Math.hypot(x - sun.x, y - sun.y) / sun.r;
+  let colour = skyAt(y / nearHills);
+  for (const [over, alpha, radius] of SUN_HALO) {
+    if (away < radius) colour = blend(colour, over, alpha);
+  }
+  return colour;
+}
+
+/** HSL saturation and lightness, 0 to 1. */
+function saturationAndLightness(colour: number): [number, number] {
+  const values = channels(colour).map((value) => value / 255);
+  const [high, low] = [Math.max(...values), Math.min(...values)];
+  const lightness = (high + low) / 2;
+  const span = high - low;
+  return [span === 0 ? 0 : span / (1 - Math.abs(2 * lightness - 1)), lightness];
 }
 
 const increasing = (values: readonly number[]) =>
@@ -101,4 +134,42 @@ describe('the backdrop', () => {
       .map((down) => standOut(down));
     assert.ok(Math.max(...back) < Math.min(...front));
   });
+
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`has no grey in the sky, round the sun or anywhere, on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      const { horizon, sun } = layout;
+      for (let y = 0; y < horizon; y += 6) {
+        for (let x = 0; x < width; x += 6) {
+          if (Math.hypot(x - sun.x, y - sun.y) < sun.r * SUN_RAY_REACH)
+            continue;
+          const [chroma, lightness] = saturationAndLightness(
+            skyWithHalo(layout, x, y),
+          );
+          // Clearly coloured, or so light it reads as white.
+          assert.ok(
+            chroma >= 0.3 || lightness >= 0.88,
+            `grey at ${x}, ${y}: ${chroma.toFixed(2)}, ${lightness.toFixed(2)}`,
+          );
+        }
+      }
+    });
+
+    it(`is warm just past the sun's rays, on a ${name} screen`, () => {
+      const layout = meadowLayout(width, height, 1);
+      const { sun } = layout;
+      for (let turn = 0; turn < 16; turn++) {
+        const angle = (turn / 16) * Math.PI * 2;
+        const reach = sun.r * (SUN_RAY_REACH + 0.2);
+        const [r, , b] = channels(
+          skyWithHalo(
+            layout,
+            sun.x + Math.cos(angle) * reach,
+            sun.y + Math.sin(angle) * reach,
+          ),
+        );
+        assert.ok(r - b >= 12, `${r} against ${b}`);
+      }
+    });
+  }
 });
