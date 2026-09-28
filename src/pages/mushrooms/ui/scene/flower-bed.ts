@@ -14,8 +14,9 @@ import {
 } from '../../model/motion';
 import type { Sown } from '../../model/pollen';
 import { drawFlower } from './draw-flower';
+import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import { type Centred, FLOWER_SWAY, flowerLift } from './flower-sight';
+import { type Centred, flowerLift } from './flower-sight';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';

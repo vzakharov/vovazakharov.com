@@ -34,7 +34,10 @@ export function opened(
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
   const flowers = firstFlowers(random, 7);
-  const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
+  const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25, {
+    screen: { width, height },
+    openers: meadow.mushrooms,
+  });
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {

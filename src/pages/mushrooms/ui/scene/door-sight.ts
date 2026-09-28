@@ -20,7 +20,11 @@ import {
   onStem,
   paintedDoor,
 } from '../../model/house';
-import { mushroomGenes, type MushroomSeed } from '../../model/mushroom-genes';
+import {
+  type MushroomGenes,
+  mushroomGenes,
+  type MushroomSeed,
+} from '../../model/mushroom-genes';
 import {
   capOutlines,
   stemOutline,
@@ -48,7 +52,15 @@ export function standingAt(
   place: MeadowLayout['mushrooms'][number],
   seeded: MushroomSeed,
 ): Standing {
-  const { genes, turn } = splayed(mushroomGenes(seeded), place.splay);
+  return standingWith(place, mushroomGenes(seeded));
+}
+
+/** A mushroom of `grown` as the scene stands it in its slot (`standingAt`). */
+export function standingWith(
+  place: MeadowLayout['mushrooms'][number],
+  grown: MushroomGenes,
+): Standing {
+  const { genes, turn } = splayed(grown, place.splay);
   const canvas = toCanvas(place.size);
   const placed = (outline: readonly Point[]) =>
     outline.map((point) => placedAt(place, turn, canvas(point)));

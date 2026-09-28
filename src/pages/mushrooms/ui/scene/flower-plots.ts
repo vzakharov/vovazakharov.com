@@ -10,17 +10,16 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
-import type { Circle, Point } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import type { Sown } from '../../model/pollen';
 import {
   clearOfFeet,
   depthScale,
   FLOWER_ACROSS,
   FLOWER_DOWN,
-  type Footing,
-  HEAD_REACH,
-  type MeadowLayout,
-} from './layout';
+  headsApart,
+} from './flower-layout';
+import type { Footing, MeadowLayout } from './layout';
 
 /**
  * Each ring slot round a parent, in the order a bee's plantings take them:
@@ -36,12 +35,6 @@ export const RING_SLOTS: readonly Point[] = [
   { x: 0.55, y: -0.75 },
   { x: -0.55, y: -0.75 },
 ];
-
-/**
- * How near two flowers' heads may come, as a share of the two heads' reach
- * together, each taken at its widest.
- */
-export const FLOWERS_APART = 0.75;
 
 /** Where a flower stands on one screen. */
 export type Placed = { place: Footing };
@@ -93,14 +86,10 @@ export function groundFor(
   ) {
     return false;
   }
-  const head = widestHead(place);
-  return standing.every((flower) => {
-    const other = widestHead(flower.place);
-    return (
-      Math.hypot(head.x - other.x, head.y - other.y) >=
-      FLOWERS_APART * (head.r + other.r)
-    );
-  });
+  return headsApart(
+    place,
+    standing.map((flower) => flower.place),
+  );
 }
 
 /**
@@ -129,9 +118,4 @@ export function standingFlowers(
     }
   }
   return standing;
-}
-
-/** The farthest a flower `place` stands for could reach with its head, whatever its genes: over its stem's top. */
-export function widestHead({ x, y, size }: Footing): Circle {
-  return { x, y: y - size, r: HEAD_REACH * size };
 }

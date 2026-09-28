@@ -22,13 +22,9 @@ import {
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
 import { geneBounds } from '../../model/mushroom-genes';
+import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import {
-  FLOWER_SWAY,
-  flowerLift,
-  PERCH_SPREAD,
-  sightingOf,
-} from './flower-sight';
+import { flowerLift, PERCH_SPREAD, sightingOf } from './flower-sight';
 import { meadowLayout } from './layout';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';

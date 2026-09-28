@@ -18,7 +18,6 @@ import {
 } from '../../model/house';
 import { NARROWEST_STANDING } from '../../model/motion';
 import {
-  geneBounds,
   MUSHROOM_SPECIES,
   mushroomGenes,
   type MushroomSeed,
@@ -34,12 +33,7 @@ import { splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed, pick } from '../../model/random';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
-import {
-  EDGE_MARGIN,
-  FOOT_CLEARANCE,
-  type MeadowLayout,
-  meadowLayout,
-} from './layout';
+import { EDGE_MARGIN, type MeadowLayout, meadowLayout } from './layout';
 import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -450,37 +444,6 @@ describe('meadowLayout', () => {
       assert.ok(sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9);
     });
 
-    it(`keeps every flower off every slot's foot on a ${name} screen`, () => {
-      let placed = 0;
-      for (const seed of VISITS) {
-        const { flowers, mushrooms } = meadowLayout(width, height, seed);
-        placed += flowers.length;
-        for (const flower of flowers) {
-          for (const mushroom of mushrooms) {
-            const clear = mushroom.size * FOOT_CLEARANCE;
-            for (const y of [flower.y, flower.y - flower.size]) {
-              assert.ok(
-                Math.hypot(flower.x - mushroom.x, y - mushroom.y) >= clear,
-                `visit ${seed}: a flower on a mushroom's foot`,
-              );
-            }
-          }
-        }
-      }
-      // Moving flowers off the feet must not leave the meadow bare.
-      assert.ok(placed / VISITS.length >= 4.5);
-    });
-
-    it(`keeps every flower shorter than the clump's stems on a ${name} screen`, () => {
-      const { flowers, mushrooms } = screenLayout(width, height);
-      const stem = Math.min(
-        ...mushrooms
-          .slice(0, 2)
-          .map(({ size }) => size * geneBounds('stemHeight')[0]),
-      );
-      for (const flower of flowers) assert.ok(flower.size < stem);
-    });
-
     it(`keeps the forest's back rows smaller and hazier on a ${name} screen`, () => {
       const { mushrooms } = screenLayout(width, height);
       const [nearest] = mushrooms;
@@ -590,15 +553,6 @@ describe('meadowLayout', () => {
         }
       }
       t.diagnostic(`most of a cap hidden: ${most.report('%')}`);
-    });
-
-    it(`keeps the flowers where they were across a resize on a ${name} screen`, () => {
-      const before = meadowLayout(width, height, 7).flowers;
-      const after = meadowLayout(width * 1.25, height * 1.25, 7).flowers;
-      assert.equal(after.length, before.length);
-      for (const [index, flower] of before.entries()) {
-        assert.ok(Math.abs((after[index]?.x ?? 0) / 1.25 - flower.x) < 1e-6);
-      }
     });
   }
 });

@@ -19,7 +19,7 @@ import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
-import { type MeadowLayout, meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout, type Opening } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { airSpots, perchSight, perchSpot } from './perch-sight';
@@ -56,6 +56,8 @@ export class MeadowScene extends Phaser.Scene {
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
+  /** The visit as it opened, which places the flowers. */
+  private opening: Opening | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Phaser.GameObjects.Graphics | undefined;
   private tufts: ReturnType<typeof growTufts> = [];
@@ -348,11 +350,19 @@ export class MeadowScene extends Phaser.Scene {
   private readonly paint = (): void => {
     const ratio = this.pixelRatio();
     this.cameras.main.setOrigin(0, 0).setZoom(ratio);
+    const screen = {
+      width: this.scale.width / ratio,
+      height: this.scale.height / ratio,
+    };
+    // The flowers are placed on the screen the visit opens on, against the
+    // mushrooms it opens with, and stay put.
+    this.opening ??= { screen, openers: this.meadow?.mushrooms ?? [] };
     const layout = meadowLayout(
-      this.scale.width / ratio,
-      this.scale.height / ratio,
+      screen.width,
+      screen.height,
       // Its own stream, apart from the creatures' and the backdrop's.
       this.visitSeed ^ 0xf1_0e_25,
+      this.opening,
     );
     this.layout = layout;
     // Its own stream, so the backdrop never shifts the creatures' seeds.

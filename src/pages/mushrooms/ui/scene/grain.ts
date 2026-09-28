@@ -8,7 +8,8 @@
 import type { Oval } from '../../model/bee-outline';
 import type { Topped } from '../../model/geometry';
 import { between, mulberry32, type Random } from '../../model/random';
-import { depthScale, type MeadowLayout } from './layout';
+import { depthScale } from './flower-layout';
+import type { MeadowLayout } from './layout';
 
 const MOTTLES = 24;
 

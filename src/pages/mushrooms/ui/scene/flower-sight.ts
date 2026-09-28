@@ -27,6 +27,7 @@ import {
 import type { InsectKind } from '../../model/insect-genes';
 import type { Plot } from '../../model/pollen';
 import { type Standing, standingAt } from './door-sight';
+import { FLOWER_SWAY } from './flower-layout';
 import {
   groundFor,
   type Placed,
@@ -46,8 +47,6 @@ import { standingControls, tapReach } from './sky-layout';
 export const PERCH_SPREAD = 0.3;
 /** The widest a butterfly's open wings span, in units of its size, whatever its genes. */
 export const WIDEST_SPAN = 1.22;
-/** A flower's lean at the breeze's strongest, in radians. */
-export const FLOWER_SWAY = 0.09;
 /**
  * How much of a flower's head, out from its centre as a share of its reach,
  * has to show past the mushrooms in front of it, and at how many points

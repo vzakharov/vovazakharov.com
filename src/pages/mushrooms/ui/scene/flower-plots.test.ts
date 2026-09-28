@@ -9,19 +9,15 @@ import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { FLOWER_LIMIT, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import {
-  downOf,
-  FLOWERS_APART,
-  standingFlowers,
-  widestHead,
-} from './flower-plots';
-import type { Stand } from './flower-sight';
-import {
   clearOfFeet,
   FLOWER_ACROSS,
   FLOWER_DOWN,
-  type MeadowLayout,
-  meadowLayout,
-} from './layout';
+  FLOWERS_APART,
+  widestHead,
+} from './flower-layout';
+import { downOf, standingFlowers } from './flower-plots';
+import type { Stand } from './flower-sight';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -44,7 +40,11 @@ function plantedOut(
   let meadow = firstMeadow(random);
   const flowers = firstFlowers(random, 7);
   const visit = seed ^ 0xf1_0e_25;
-  const layout = meadowLayout(width, height, visit);
+  const opening = {
+    screen: { width, height },
+    openers: meadow.mushrooms,
+  };
+  const layout = meadowLayout(width, height, visit, opening);
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
@@ -66,7 +66,7 @@ function plantedOut(
       ...pick(slot, 'ring'),
     });
   }
-  return { ...stand, turned: meadowLayout(height, width, visit) };
+  return { ...stand, turned: meadowLayout(height, width, visit, opening) };
 }
 
 /** The middle of `counts`, the upper one of an even count's two. */
