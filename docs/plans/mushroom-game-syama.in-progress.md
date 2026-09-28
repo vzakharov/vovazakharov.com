@@ -450,7 +450,22 @@ covers its head; the bee's brief flutter at rest still strobes a little;
 the sun sits partly behind the hills on phone landscape and the 320 px
 phone.
 
-7. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
+7. **Real mushrooms.** `CAP_KINDS` came from misreading the drawing's
+   different doors as different caps. The operator keeps the misreading's
+   idea, variety, but asks for real species instead of shapes that look like
+   nothing ("давай у нас будут реальные грибы вместо неопределённых"):
+   - **мухомор** (fly agaric): as drawn now.
+   - **белый гриб** (porcini): a whitish stem and a brownish cap, stockier.
+   - **лисичка** (chanterelle): a different shape, the stem widening into the
+     cap with no joint, gill ridges running outward under the cap like rays,
+     orange-ish.
+   - **сыроежка** (russula): simple, its cap in one of several colours.
+
+   Only the look changes in this bite ("на первом этапе это только внешний
+   вид, а дальше можно думать"). Behaviour tied to a kind stays with the
+   fly agaric: flies still favour it, as `spotted` does now. It comes before
+   atmosphere so that bite's palette is judged on the real species.
+8. **Atmosphere.** The meadow reads "немного слишком свинка-пеппа": flat
    fills and even black ink everywhere. The operator's bar is the look of
    beautiful, atmospheric hand-drawn platformers — "не о том, чтобы это был
    фотореализм или какое-то супер-пупер-3д, но что-то такое рисованное с
@@ -462,7 +477,7 @@ phone.
    rather than saturated palette. Every frame of the bite is judged beside
    those references as well as Syama's drawing. Still code-drawn, still no
    asset files, still made for a six-year-old.
-8. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
+9. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
    screen changes the crop, not the layout, and the child pans left and
    right and pinches to zoom, a gesture known from photos ("если мы сделаем
@@ -475,16 +490,16 @@ phone.
    floors per screen — and the taps-only rule for a two-finger pinch and a
    one-finger pan. Walking through the meadow, as a spectator or a
    participant the insects fly from, stays out of scope for now.
-9. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
+10. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
    splash on caps and ground, with its own sound. While it rains, flowers
    close, insects shelter under the nearest cap, and mushrooms swell a
    little. When it stops, the sun comes back with a rainbow, and spores an
    old mushroom shed sprout into little mushrooms that grow over the next
    minutes, within the forest's cap.
-10. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
-    glowing, fireflies waking, mice coming out of their doors, butterflies
-    folded on the caps and flowers closed for the night.
-11. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+11. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+     glowing, fireflies waking, mice coming out of their doors, butterflies
+     folded on the caps and flowers closed for the night.
+12. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
     (idle loops off, short tweens without overshoot); a visually hidden row
     of HTML buttons beside the canvas dispatching the same actions, for
     assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
