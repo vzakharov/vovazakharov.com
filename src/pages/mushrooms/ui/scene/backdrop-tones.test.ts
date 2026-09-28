@@ -135,6 +135,10 @@ describe('the backdrop', () => {
     assert.ok(Math.max(...back) < Math.min(...front));
   });
 
+  it('stacks the sun’s halo in steps too fine to read as rings', () => {
+    for (const [, alpha] of SUN_HALO) assert.ok(alpha <= 0.05);
+  });
+
   for (const [name, width, height] of VIEWPORTS) {
     it(`has no grey in the sky, round the sun or anywhere, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);

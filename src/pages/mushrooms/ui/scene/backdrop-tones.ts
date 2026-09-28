@@ -100,8 +100,8 @@ function discs(
  * mixes to a grey-teal; and the glow close about the rays.
  */
 export const SUN_HALO: readonly HaloDisc[] = [
-  ...discs(PALETTE.highlight, 16, [9, 1], () => 0.12),
-  ...discs(PALETTE.skyWarm, 10, [3.5, 1], () => 0.12),
+  ...discs(PALETTE.highlight, 44, [9, 1], () => 0.045),
+  ...discs(PALETTE.skyWarm, 26, [3.5, 1], () => 0.048),
   ...discs(PALETTE.sunGlow, 14, [SUN_GLOW_REACH, 1], (inward) => 0.04 * inward),
 ];
 
