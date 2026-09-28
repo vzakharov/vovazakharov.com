@@ -203,6 +203,34 @@ Standing rules for every session in the chain:
   `.claude/rules/styling.md` § Colours says so in one sentence scoped to those
   paths.
 
+## This bite
+
+Bite 8's review (5344789171) handled, its fixes counting as bite 8's. The
+calls it left open, decided:
+
+- **The clump is laid out per species.** The back slot's step and depth
+  follow the species standing front and back, so over 2000 visits × all 16
+  back/front pairs × every screen the back cap stays ≥ 45% in view and the
+  back doorway ≥ 80% in sight. That slack is what buys the porcini its
+  shorter stem (median visible stem ≤ 0.6 of its cap width, below the fly
+  agaric's). The opening clump of two fly agarics looks as it did, and the
+  sweep iterates the pairs rather than drawing one.
+- **Flowers are placed against the widest feet** either meadow stands — the
+  union of the margined, floored forest and the unmargined one — so the
+  resize contract holds and no flower lands on a foot. A seeded flower also
+  stands clear of every control's drawn circle and no more than half hidden
+  by the clump, on both orientations of the screen it opens on, or is left
+  out; the flowers per visit that survive are reported, so the guard cannot
+  quietly empty the meadow.
+- **`HEAVY_FOOT` keys on the foot as drawn**, not on the species: a foot
+  wide against its cap gets the heavier shadow, which today is the
+  porcini's alone.
+- **One per-species head-kind map** (dome or trumpet) replaces the repeated
+  `species === 'chanterelle'` tests, and `DomeGenes` is derived from
+  `MushroomGenes`.
+- **The picker's chanterelle** reads as the trumpet the meadow grows: its
+  mouth fill takes at most about half the lip's depth.
+
 ## Eaten so far
 
 1. **The meadow, still.** `/mushrooms` (in `PAGE_ROUTES`, so in the sitemap)
