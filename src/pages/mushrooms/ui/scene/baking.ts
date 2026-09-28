@@ -1,0 +1,52 @@
+/**
+ * Where a baked picture's texels lie, pure: the backdrop and the buttons are
+ * drawn once a paint into textures the frame then only shows, and these say
+ * which device pixels each texture covers and how it is baked tile by tile.
+ */
+
+import type { Circle } from '../../model/geometry';
+
+/**
+ * How far a button's face reaches from its middle, in the button's radii, and
+ * CSS pixels on top: past the disc, its ink ring and the shadow under it.
+ */
+const FACE_REACH = 1.25;
+const FACE_MARGIN = 2;
+
+/**
+ * A button's face in device pixels: its top-left texel's pixel, whole so a
+ * face at rest lies texel for pixel, its side, even, and the button's middle
+ * within it as a share of the side, which is where it turns and presses.
+ */
+export type FaceFrame = {
+  left: number;
+  top: number;
+  side: number;
+  origin: { x: number; y: number };
+};
+
+export function faceFrame({ x, y, r }: Circle, ratio: number): FaceFrame {
+  const reach = r * FACE_REACH + FACE_MARGIN;
+  const left = Math.floor((x - reach) * ratio);
+  const top = Math.floor((y - reach) * ratio);
+  // Even, as a render texture rounds its size up to one.
+  const side = 2 * Math.ceil((reach * 2 * ratio + 1) / 2);
+  return {
+    left,
+    top,
+    side,
+    origin: { x: (x * ratio - left) / side, y: (y * ratio - top) / side },
+  };
+}
+
+/** One square of a picture baked at a time, in the picture's texels. */
+export type Tile = { left: number; top: number };
+
+/** The tiles `tile` texels a side that cover a picture `width` by `height` texels, row by row. */
+export function bakeTiles(width: number, height: number, tile: number): Tile[] {
+  const tiles: Tile[] = [];
+  for (let top = 0; top < height; top += tile) {
+    for (let left = 0; left < width; left += tile) tiles.push({ left, top });
+  }
+  return tiles;
+}

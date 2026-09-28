@@ -323,7 +323,12 @@ export class MeadowScene extends Phaser.Scene {
 
   private repaintControls(): void {
     if (this.layout && this.meadow) {
-      this.controls?.paint(this.layout, this.meadow, this.voice.muted);
+      this.controls?.paint(
+        this.layout,
+        this.meadow,
+        this.voice.muted,
+        this.pixelRatio(),
+      );
     }
   }
 
@@ -332,8 +337,12 @@ export class MeadowScene extends Phaser.Scene {
    * screen; the camera's zoom brings the world back to CSS pixels, which is
    * what the layout is written in.
    */
+  private pixelRatio(): number {
+    return Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
+  }
+
   private readonly paint = (): void => {
-    const ratio = Number(this.registry.get(PIXEL_RATIO_KEY) ?? 1);
+    const ratio = this.pixelRatio();
     this.cameras.main.setOrigin(0, 0).setZoom(ratio);
     const layout = meadowLayout(
       this.scale.width / ratio,
@@ -344,7 +353,7 @@ export class MeadowScene extends Phaser.Scene {
     this.layout = layout;
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
-    this.backdrop = paintBackdrop(this, this.backdrop, layout, random);
+    this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
     this.grass ??= this.add.graphics();
     this.tufts = growTufts(layout, random);
     // One device pixel is the thinnest line the screen shows.
