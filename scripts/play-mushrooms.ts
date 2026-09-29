@@ -3,8 +3,8 @@
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
  * the meadow is tapped the way a finger does — the steps are `play` below,
- * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts` and
- * `lib/play-species.ts` — and a frame of each lands in
+ * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
+ * `lib/play-species.ts` and `lib/play-tufts.ts` — and a frame of each lands in
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -46,6 +46,7 @@ import { playBuzzers, playPlanting } from './lib/play-buzzers.ts';
 import { playHouse } from './lib/play-house.ts';
 import { playInsects } from './lib/play-insects.ts';
 import { playSpecies } from './lib/play-species.ts';
+import { playTufts } from './lib/play-tufts.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -420,9 +421,9 @@ async function main(): Promise<void> {
       if (!holds) fail(message);
     };
     // Fresh meadows, one after the other: the bees alone on one, every
-    // species grown on the next.
+    // species grown on the next, the child planting flowers on the last.
     const frames = [...page.rendered];
-    await inTurn([playPlanting, playSpecies], async (playOn) => {
+    await inTurn([playPlanting, playSpecies, playTufts], async (playOn) => {
       const on = await open(browser, origin, screen, errors);
       await on.step(30);
       await playOn(

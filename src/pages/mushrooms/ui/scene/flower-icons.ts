@@ -16,6 +16,8 @@ import { inkedDisc } from './shapes';
 
 /** A colour swatch's radius, in its button's. */
 const SWATCH = 0.62;
+/** A swatch's ink, in its button's radius, as a pictogram's is. */
+const SWATCH_INK = 0.07;
 /** A flower's head reach, and its stem from the foot to the head, in its button's radius. */
 const HEAD_REACH = 0.58;
 const STEM = 0.9;
@@ -35,7 +37,7 @@ export function drawColourButton(
     { x: 0, y: 0 },
     r * SWATCH,
     PALETTE.flowers[colour],
-    PALETTE.hud,
+    Math.max(2, r * SWATCH_INK),
     iconLighting(hairline),
   );
 }
