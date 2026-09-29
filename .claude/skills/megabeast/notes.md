@@ -121,7 +121,13 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   (`git branch stale-local/<…> <old-tip>`) then cost one command. So the
   reset is worse than blocked: it can stall the whole run on a question to
   the operator. The skill's pickup should never issue it, and should go to
-  the rename aside without trying.
+  the rename aside without trying. Bite 9's handling pickup reset anyway,
+  because the attach ran before the relay summary that forbids it was
+  read: `/relay take` reads the summary at its step 2, after
+  `/from-branch`'s attach. Nothing was lost (the stale tip went aside from
+  the reflog), but a standing constraint read after the step it governs
+  does not govern it. The skill's pickup should read the summary's
+  § "Standing constraints" before attaching.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
