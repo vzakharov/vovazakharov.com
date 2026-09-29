@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
+
 import type { Meadow, Planted } from '../../model/game';
 import { placedAt, type Point } from '../../model/geometry';
 import { paintedSpots } from '../../model/house';
@@ -44,7 +46,7 @@ import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { mushroomLights } from './mushroom-light';
 import type { MeadowSound } from './sound';
-import { puffSpores } from './spores';
+import { puffFrom, puffSpores } from './spores';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;
@@ -134,7 +136,11 @@ export class MushroomBed {
       this.place(shown, mushroom, layout);
       planted.add(mushroom.id);
       if (!opening) {
-        puffSpores(this.scene, shown.graphics, shown.size * 0.5, SPORE_DEPTH);
+        puffSpores(
+          this.scene,
+          () => ({ ...pick(shown.graphics, 'x', 'y'), r: shown.size * 0.5 }),
+          SPORE_DEPTH,
+        );
         this.voice.grow();
       }
     }
@@ -390,14 +396,9 @@ export class MushroomBed {
     const shown = this.shown.get(id);
     if (shown?.goneAt !== Infinity) return;
     shown.tappedAt = this.now();
-    const { genes, turn, size, graphics } = shown;
+    const { genes, size } = shown;
     const crown = capFrame(genes)({ x: 0, y: capSurface(genes, 0) * 0.9 });
-    puffSpores(
-      this.scene,
-      placedAt(graphics, turn, toCanvas(size)(crown)),
-      genes.capWidth * size * 0.75,
-      SPORE_DEPTH,
-    );
+    puffFrom(this.scene, shown, crown, 0.75, SPORE_DEPTH);
     this.voice.boing(Math.min(1.4, 180 / size));
     this.onTap(id);
   }

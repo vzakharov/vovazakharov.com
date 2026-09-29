@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { placedAt, type Point } from '../../model/geometry';
+import type { Point } from '../../model/geometry';
 import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
@@ -10,7 +10,6 @@ import {
   mouseOut,
   type Tapped,
 } from '../../model/motion';
-import { toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
@@ -21,7 +20,7 @@ import type { Footing } from './layout';
 import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
-import { puffSpores } from './spores';
+import { puffFrom } from './spores';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -235,12 +234,7 @@ export class HouseView {
   }
 
   /** A puff of spores from `point`, in the mushroom's frame, where it stands on screen. */
-  private puff({ graphics, turn, size, genes }: Body, point: Point): void {
-    puffSpores(
-      this.scene,
-      placedAt(graphics, turn, toCanvas(size)(point)),
-      genes.capWidth * size * 0.35,
-      this.puffDepth,
-    );
+  private puff(body: Body, point: Point): void {
+    puffFrom(this.scene, body, point, 0.35, this.puffDepth);
   }
 }
