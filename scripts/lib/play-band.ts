@@ -9,6 +9,8 @@
 
 import { z } from 'zod';
 
+import { inkWidth } from '../../src/pages/mushrooms/model/mushroom-outline.ts';
+import { INK_REACH } from '../../src/pages/mushrooms/ui/scene/ink.ts';
 import { PALETTE } from '../../src/pages/mushrooms/ui/scene/palette.ts';
 import type { Page } from './mushroom-probe.ts';
 
@@ -20,8 +22,8 @@ import type { Page } from './mushroom-probe.ts';
  */
 const OUT = 0.6;
 const FAR = 0.85;
-/** How near another outline, in the mushroom's size, a sample may land on its ink: plus a pixel of antialiasing. */
-const INK_CLEAR = 0.025;
+/** How far past another outline a sample may still land on its ink, in pixels, besides the ink's own reach (`INK_REACH`): antialiasing. */
+const INK_BLUR = 1;
 /** How far, per channel, a drawn pixel may stray from the band's yellow. */
 const TOLERANCE = 40;
 
@@ -41,8 +43,15 @@ const Band = z.object({
 });
 export type BandCheck = z.infer<typeof Band>;
 
-/** Page-side: the check on mushroom `id`, which must be the selected one. */
-function source(id: string, [r, g, b]: readonly number[]): string {
+/**
+ * Page-side: the check on mushroom `id`, which must be the selected one,
+ * `clear` being how far past each of its parts' outlines its ink may show.
+ */
+function source(
+  id: string,
+  [r, g, b]: readonly number[],
+  clear: number,
+): string {
   return `(() => {
   const scene = window.__game.scene.scenes[0];
   const { bed } = scene;
@@ -86,7 +95,7 @@ function source(id: string, [r, g, b]: readonly number[]): string {
     Math.min(...points.map((a, i) => toSegment(p, a, points[(i + 1) % points.length])));
   const body = lit.graphics.getWorldTransformMatrix();
   const parts = Object.values(lit.hit);
-  const clear = ${String(INK_CLEAR)} * lit.size + 1;
+  const clear = ${String(clear)};
   const samples = [];
   const outlines = [];
   for (const [name, graphics] of [['band', bed.outline], ['ring', bed.footRing.band]]) {
@@ -170,5 +179,10 @@ function source(id: string, [r, g, b]: readonly number[]): string {
 export async function bandGaps(page: Page, id: string): Promise<BandCheck> {
   const yellow = PALETTE.selection;
   const channels = [16, 8, 0].map((shift) => (yellow >> shift) & 0xff);
-  return page.evaluate(source(id, channels), Band);
+  const size = await page.evaluate(
+    `window.__game.scene.scenes[0].bed.shown.get(${JSON.stringify(id)}).size`,
+    z.number(),
+  );
+  const clear = INK_REACH * inkWidth(size) + INK_BLUR;
+  return page.evaluate(source(id, channels, clear), Band);
 }

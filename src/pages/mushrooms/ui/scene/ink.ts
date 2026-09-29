@@ -105,6 +105,8 @@ export function innerInk(fill: number): number {
 /** The share of the base width the line keeps on its lit side, and how much more it gains turned full away. */
 const LIT_WEIGHT = 0.45;
 const SHADE_WEIGHT = 0.85;
+/** The farthest a `weightedOutline` reaches past its shape, in its base width: on the side turned full away from the light. */
+export const INK_REACH = LIT_WEIGHT + SHADE_WEIGHT;
 /** How far a stroke tapers by its end, as a share of where it starts. */
 export const TAPER = 0.35;
 
