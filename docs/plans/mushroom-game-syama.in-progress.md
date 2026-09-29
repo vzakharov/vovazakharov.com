@@ -223,8 +223,8 @@ Standing rules for every session in the chain:
      quadratic curve bending over by the `stemBend` gene, the cap following
      its turn, `splayed` for a placement that faces a mushroom one way,
      `capReach` and `maxReach` for how far a cap gets from its foot. The
-     painter and the layout both read it; `layout.test.ts` runs 2000 visits
-     through it on five screens and holds every opening cap inside
+     painter and the layout both read it; `layout.test.ts` runs 500 visits'
+     opening clumps through it on every screen and holds every opening cap inside
      `EDGE_MARGIN`, and the sun's glow on screen.
    - `ui/meadow-canvas.tsx` imports `ui/scene/start-game.ts` after mount and
      rethrows a failed load into the error boundary. `start-game.ts` sizes
@@ -322,8 +322,10 @@ Standing rules for every session in the chain:
      its config form: Phaser reads any other plain object as a config.
    - Every slot's size is floored so its narrowest cap is `2 × TAP_RADIUS`
      wide; the controls and the sun (`sky-layout.ts`) stand clear of every
-     slot's tap area; no cap is more than ~25% covered by a nearer one. Each
-     is a 2000-visit sweep on every screen, phone landscape included.
+     slot's tap area; no cap is more than a quarter hidden, nor a stem more than half,
+     by the nearer mushrooms' caps, gills and stems together
+     (`MOST_HIDDEN`). Each is swept on every screen, phone landscape
+     included.
    - `−` with nothing selected sinks the newest mushroom; a control that
      cannot act shakes its head (`shake`) with a "nuh-uh". The picker unfolds
      from `+` and folds back into it on the clock; `remove` and a flower tap
@@ -523,8 +525,8 @@ Standing rules for every session in the chain:
      (`hasTrumpet` narrowing to the trumpet's genes, `DomeGenes` derived
      from it), what is a species' own colour or genes asks the species.
    - The clump stands each species' foot by its own shift (`CLUMP_SHIFT`,
-     `ui/scene/clump-layout.ts`), so over 2000 visits × all 16 back/front
-     pairs × every screen the back cap stays ≥ 45% in view and the back
+     `ui/scene/clump-layout.ts`); over 500 visits' opening clumps on
+     every screen the suite holds that the back cap stays ≥ 45% in view and the back
      doorway ≥ 80% in sight, and the porcini reads stout by a short barrel of
      a stem (visible stem ~0.58 of its cap, the fly agaric's ~0.8). The
      opening clump of two fly agarics stands as before.
@@ -610,13 +612,18 @@ Standing rules for every session in the chain:
    - `model/placement.ts`: `pickFoot` takes the best of `ROUNDS` (32)
      candidate feet by the new mushroom's seed; `Planted.foot`, and the
      `grow` action carries it. `ui/scene/mushroom-room.ts` `roomFor` checks
-     a foot on this screen, `cap-cover.ts` how much of a cap is hidden, and
+     a foot on this screen, `cap-cover.ts` how much of a cap and of a stem the nearer mushrooms
+     hide, and
      `+` shakes its head when no foot passes; `keptRoom` finds the room
      again once the layout, the mushrooms or the plantings change. The
-     meadow holds up to six as far as there is room: every screen, the
-     small phone included, reaches six in every one of the swept visits,
-     and on a tablet held sideways the six caps span a median 80% of the
-     width. Feet keep a 0.2 foot distance from flowers rather than the
+     meadow holds up to six as far as there is room. The suite holds six
+     in at least 99% of every tenth visit (every twentieth on the small
+     phone), and on a tablet held sideways a median span of the six caps
+     of at least 60% of the width (`layout.test.ts`); `pnpm
+sweep:mushrooms` grows all 2000 visits on every screen and prints the
+     share reaching six, the caps' median span and the most of any cap and
+     stem hidden, which is where any figure for the whole of the visits
+     comes from. Feet keep a 0.2 foot distance from flowers rather than the
      rule a flower keeps off a foot (`clearOfFeet`), which rejected ~13×
      more feet than every other rule together. On the small phone upright
      a widest-gene cap on the frame's near corners stands up to 20 px past the edge margin,
