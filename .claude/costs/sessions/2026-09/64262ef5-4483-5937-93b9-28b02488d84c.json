@@ -1,0 +1,80 @@
+{
+  "sessionId": "64262ef5-4483-5937-93b9-28b02488d84c",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01HQVLgjZabTdM8vu9Rdxqm5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-29T17:06:58.561Z",
+  "lastResponseAt": "2026-09-29T17:08:40.038Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51661,
+    "cacheReadTokens": 735685,
+    "outputTokens": 2976,
+    "thinkingTokens": 847,
+    "responses": 9,
+    "costUsd": 0.6200169999999999
+  },
+  "ownTurns": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51661,
+    "cacheReadTokens": 735685,
+    "outputTokens": 2976,
+    "thinkingTokens": 847,
+    "responses": 9,
+    "costUsd": 0.6200169999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51661,
+      "cacheReadTokens": 735685,
+      "outputTokens": 2976,
+      "thinkingTokens": 847,
+      "responses": 9,
+      "costUsd": 0.6200169999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-29T17:08:40.038Z",
+    "contextTokens": 92940,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50688,
+      "cacheReadTokens": 643720,
+      "outputTokens": 1957,
+      "thinkingTokens": 667,
+      "responses": 8,
+      "costUsd": 0.573452
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 9,
+    "matched": 9,
+    "matchedTableUsd": 0.6200169999999999,
+    "matchedEventUsd": 0.6200169999999999,
+    "unseen": {}
+  }
+}
