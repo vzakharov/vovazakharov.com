@@ -440,6 +440,26 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   skill should say which one a bite's end writes. The unfocused one is
   the better choice, since the range since the last bite's end is exactly
   what the lookup would otherwise compute.
+- **A review's design call is decided on paper, then proven by an agent,
+  and the proof can reopen it.** Bite 9's handling decided "each screen at
+  its own width" before briefing; the agent built it, and its report
+  showed a turn then broke door-in-sight in most phone meadows. The
+  orchestrator decided a second rule (one viewing angle) on that
+  evidence, and the next agent found the one angle starves a sideways
+  phone's sky, a third call (the minimum size gives way). Each call went
+  into the plan with the numbers that forced it before the next brief.
+  The skill should expect a layout review to take calls in a chain like
+  this, and brief each agent to stop and report at the first rule it
+  cannot keep, with the options measured, rather than pick one: all
+  three calls here were the orchestrator's to take, and each was taken
+  in one turn off a measured report.
+- **An operator's mid-loop pause is a relay with a reset depth.** The
+  operator stopped the chain at depth 6 for the night and takes it up by
+  hand, which starts a new chain at depth 1. The running agent was told
+  to hand over, its dirty tree proven equal to its patch and
+  reverse-applied, and the relay summary written while its tests ran.
+  The skill should treat "pause, I'll take it manually" as `/relay` with
+  no `create_session`, the successor line handed to the operator.
 
 ## Quality levers
 

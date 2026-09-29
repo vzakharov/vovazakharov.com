@@ -119,7 +119,23 @@ All in plan item 9, bullet "Review 5356809390's calls":
 
 ## 6. State
 
-(Filled in below once the angle agent hands over.)
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
+- Plan `docs/plans/mushroom-game-syama.paused.md`; item 9's bullet
+  "Review 5356809390's handling, left" is the to-do list, and the bullet
+  above it holds the short-screen call (the minimum size gives way).
+- Committed fixes: 13ccefb (T97, T104, T99, T107), 8e5e408 (T100),
+  f9a2f7a (T106), 55e4512 (`Sky` type-overlap). Replies posted on T99,
+  T100, T104, T106, T107.
+- The one-angle change is **not** in source: it is
+  `docs/remove-before-merging/handle-bite9/angle.patch` (type-checks, four
+  tests fail by design until T98's rewrite), note `angle.md`. The working
+  tree was proven equal to the patch and reverse-applied, so the branch is
+  clean. Apply it first: `git apply docs/remove-before-merging/handle-bite9/angle.patch`.
+- Known red until the angle work lands: `meadow-rules.test.ts` prints
+  after-turn diagnostics rather than asserting (by 13ccefb).
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is still
+  version 7 (bite 9); not republished.
+- Nothing running: no agents, no check-ins, no PR subscription.
 
 ## 7. Pointers
 
@@ -137,7 +153,8 @@ All in plan item 9, bullet "Review 5356809390's calls":
 
 /handle
 
-Finish review 5356809390 (answer every open thread on GitHub, never
-resolve), then republish the Artifact and commit frames to
+Finish review 5356809390 per the plan's "handling, left" bullet: apply
+the angle patch, finish it, then T96+T98, then T103+T105; answer every
+open thread on GitHub (never resolve); then republish the Artifact and commit frames to
 `frames/bite-9/`, `/polish`, `/pr`, and take bite 10 if context allows,
 else pause and `/relay /go`.

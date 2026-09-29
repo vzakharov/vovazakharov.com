@@ -666,6 +666,33 @@ Standing rules for every session in the chain:
        each rule with each camera's own foreshortening: the own-width
        refit let a turn break door-in-sight in 9 of 13 swept phone
        meadows and hide 71% of the flowers.
+     - **The angle is `UP_PER_Z` 0.481, and on a short screen the
+       mushrooms' minimum size gives way, not the sky.** At that angle a
+       phone held sideways (844×390) needs 63% of its height for ground
+       at the 127 px minimum, which starves the sky: the sun shrinks to
+       radius 8 and no sun fits at ~300 px tall. Letting the minimum go
+       (81 px there, 4.6 units across) keeps sky, buttons and sun as
+       they were, and it is the direction T98's lower zoom floor and
+       "объекты великоваты" already point. The four tests that encode
+       the old minimum (smallest cap a finger wide, outline detail an
+       ink line, butterfly narrower than any cap, the finger-pad sweep)
+       are rewritten with T98: the finger pad holds the tap, and the
+       ink and butterfly floors are restated against the new least
+       size. This beat keeping the minimum (starved sky, a throwing
+       layout on short screens) and a second angle for short screens
+       (reopens the one-angle call).
+   - **Review 5356809390's handling, left:** apply
+     `docs/remove-before-merging/handle-bite9/angle.patch` (one angle;
+     its note `angle.md` beside it) and finish its steps under the call
+     above — the `seen` test on every screen and 412×915 turned, the
+     after-turn rules back as assertions, the T102 flowers-in-sight test,
+     re-checking `LEAST_IN_A_FOREST` 1 and the butterfly's `slowest` 2.
+     Then T96 and T98 together (depth for the forest, the lower floor,
+     the four tests), then T103 (stems in cap cover) and T105 (the plan
+     names which numbers the suite holds; the sweep script committed).
+     Replies are posted on T99, T100, T104, T106, T107; T96, T97, T98,
+     T101, T102, T103, T105 wait on their commits. Then frames into
+     `frames/bite-9/`, the Artifact republished, `/polish`, `/pr`.
 
 ## Rest of the elephant
 
