@@ -16,7 +16,12 @@ import {
   type Point,
   sample,
 } from './geometry';
-import type { MushroomGenes } from './mushroom-genes';
+import {
+  hasTrumpet,
+  HEAD_KIND,
+  type HeadKind,
+  type MushroomGenes,
+} from './mushroom-genes';
 import { capOutlines, MUSHROOM_INK } from './mushroom-outline';
 import { stemAt, type StemStation } from './mushroom-pose';
 import {
@@ -62,7 +67,10 @@ const MOST_WINDOWS = 5;
  * chanterelle's funnel, whose face under the rim is wide enough for a
  * window only at its middle.
  */
-const FEWEST_WINDOWS = { dome: 3, trumpet: 1 } as const;
+const FEWEST_WINDOWS = { dome: 3, trumpet: 1 } as const satisfies Record<
+  HeadKind,
+  number
+>;
 /** How finely a pane's top and bottom edges are read against the cap's face. */
 const PANE_SAMPLES = 8;
 
@@ -75,7 +83,7 @@ function faceAt(
   genes: MushroomGenes,
   x: number,
 ): { top: number; base: number } {
-  if (genes.species !== 'chanterelle')
+  if (!hasTrumpet(genes))
     return { top: capSurface(genes, x), base: capBase(genes, x) };
   return {
     top: capBase(genes, x),
@@ -101,7 +109,7 @@ function paneFits(genes: MushroomGenes, slot: Point): boolean {
  * at the middle with it — the rim's sag alone, which is the same either side.
  */
 function slotLevel(genes: MushroomGenes, x: number): number {
-  if (genes.species !== 'chanterelle') {
+  if (!hasTrumpet(genes)) {
     return Math.max(genes.capHeight * ROW_LEVEL, PANE / 2 + PANE_MARGIN);
   }
   const lowestRim = genes.capHeight - genes.waveAmp - frontSag(genes, x);
@@ -121,8 +129,7 @@ export function windowSlots(genes: MushroomGenes): Point[] {
   // Whether a pane `pair` pitches out fits on both sides.
   const pairFits = (pair: number) =>
     [-1, 1].every((side) => paneFits(genes, slot(side * pair * SLOT_PITCH)));
-  const fewest =
-    FEWEST_WINDOWS[genes.species === 'chanterelle' ? 'trumpet' : 'dome'];
+  const fewest = FEWEST_WINDOWS[HEAD_KIND[genes.species]];
   let pairs = (fewest - 1) / 2;
   while (pairs < (MOST_WINDOWS - 1) / 2 && pairFits(pairs + 1)) pairs += 1;
   const slots: Point[] = [slot(0)];

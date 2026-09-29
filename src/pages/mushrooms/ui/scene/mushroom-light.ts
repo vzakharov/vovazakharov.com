@@ -15,9 +15,10 @@ import {
   type Scaled,
 } from '../../model/geometry';
 import { type Light, turnedLight } from '../../model/light';
-import type {
-  ChanterelleGenes,
-  MushroomGenes,
+import {
+  type ChanterelleGenes,
+  hasTrumpet,
+  type MushroomGenes,
 } from '../../model/mushroom-genes';
 import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
@@ -125,7 +126,7 @@ export type CapLight =
  * the rim light are `strength` of their full alpha (`sideways`).
  */
 export function capLight(genes: MushroomGenes, toward: Point): CapLight[] {
-  if (genes.species === 'chanterelle') return lipLight(genes, toward);
+  if (hasTrumpet(genes)) return lipLight(genes, toward);
   const strength = sideways(toward);
   return [
     { kind: 'shade', arc: capShadeArc(genes, toward), strength },

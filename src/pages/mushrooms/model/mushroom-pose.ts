@@ -7,6 +7,7 @@
 import type { Point, Turned } from './geometry';
 import {
   GENE_RANGES,
+  HEAD_KIND,
   MUSHROOM_SPECIES,
   type MushroomGenes,
   type Species,
@@ -93,7 +94,7 @@ export function capSeat(genes: MushroomGenes, across: number): Point {
 /** The tallest any of `species`' caps stands over the middle of its underside. */
 function tallestCap(species: Species): number {
   const height = GENE_RANGES[species].capHeight[1];
-  return species === 'chanterelle'
+  return HEAD_KIND[species] === 'trumpet'
     ? height + TRUMPET_RANGES.lip[1] + TRUMPET_RANGES.waveAmp[1]
     : height;
 }

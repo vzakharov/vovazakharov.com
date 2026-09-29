@@ -6,11 +6,12 @@
 
 import { trumpetOutlines } from './chanterelle-outline';
 import { placedAt, type Point, rounded, sample } from './geometry';
-import type {
-  DomeGenes,
-  FlyAgaricGenes,
-  MushroomGenes,
-  RussulaGenes,
+import {
+  type DomeGenes,
+  type FlyAgaricGenes,
+  hasTrumpet,
+  type MushroomGenes,
+  type RussulaGenes,
 } from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';
 import {
@@ -210,7 +211,7 @@ export function gillLines(genes: RussulaGenes): Point[][] {
  * dome and its gills, or a chanterelle's lip and its ridged funnel.
  */
 export function headOutlines(genes: MushroomGenes): [Point[], Point[]] {
-  return genes.species === 'chanterelle'
+  return hasTrumpet(genes)
     ? trumpetOutlines(genes)
     : [domeOutline(genes), gillsOutline(genes)];
 }

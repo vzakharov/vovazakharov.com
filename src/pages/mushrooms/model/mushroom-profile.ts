@@ -10,6 +10,7 @@
 import {
   type ChanterelleGenes,
   domeHeight,
+  hasTrumpet,
   type MushroomGenes,
   type MushroomShape,
 } from './mushroom-genes';
@@ -140,6 +141,6 @@ export function capSurface(genes: MushroomGenes, x: number): number {
  * its lip meets its ridged funnel.
  */
 export function capBase(genes: MushroomGenes, x: number): number {
-  if (genes.species !== 'chanterelle') return 0;
+  if (!hasTrumpet(genes)) return 0;
   return genes.capHeight + rimWave(genes, x) - frontSag(genes, x);
 }

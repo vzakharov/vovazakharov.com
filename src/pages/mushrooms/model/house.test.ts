@@ -18,6 +18,7 @@ import {
   windowSlots,
 } from './house';
 import {
+  hasTrumpet,
   MUSHROOM_SPECIES,
   type MushroomGenes,
   mushroomGenes,
@@ -68,7 +69,7 @@ describe('windowSlots', () => {
     const counts = new Set<number>();
     for (const genes of everyMushroom) {
       const count = windowSlots(genes).length;
-      if (genes.species === 'chanterelle') {
+      if (hasTrumpet(genes)) {
         assert.equal(count, 1);
         continue;
       }
@@ -90,7 +91,7 @@ describe('windowSlots', () => {
   it('puts every pane inside the cap as it is drawn: a dome’s, or a chanterelle’s funnel', () => {
     for (const genes of everyMushroom) {
       const [dome, funnel] = headOutlines(genes);
-      const face = genes.species === 'chanterelle' ? funnel : dome;
+      const face = hasTrumpet(genes) ? funnel : dome;
       for (const slot of windowSlots(genes)) {
         for (const corner of corners(slot, PANE)) {
           assert.ok(
@@ -105,7 +106,7 @@ describe('windowSlots', () => {
   it('keeps the row on a dome’s lower band, and under a chanterelle’s front rim', () => {
     for (const genes of everyMushroom) {
       for (const { x, y } of windowSlots(genes)) {
-        if (genes.species === 'chanterelle') {
+        if (hasTrumpet(genes)) {
           // Under its front rim, clear of the lip over it.
           for (const side of [-1, 1]) {
             assert.ok(y + PANE / 2 < capBase(genes, x + (side * PANE) / 2));

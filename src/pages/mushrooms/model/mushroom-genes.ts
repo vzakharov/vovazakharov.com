@@ -95,8 +95,34 @@ export type MushroomGenes =
   | PorciniGenes
   | ChanterelleGenes
   | RussulaGenes;
-/** The genes of a species with a domed cap: every one but the chanterelle. */
-export type DomeGenes = Exclude<MushroomGenes, ChanterelleGenes>;
+/**
+ * The shape each species' head takes: a dome over gills or pores, or a
+ * trumpet whose funnel runs on from the stem. What is drawn, lit and housed
+ * by shape asks this; what is a species' own colour or genes asks the species.
+ */
+export const HEAD_KIND = {
+  'fly-agaric': 'dome',
+  porcini: 'dome',
+  chanterelle: 'trumpet',
+  russula: 'dome',
+} as const satisfies Record<Species, 'dome' | 'trumpet'>;
+export type HeadKind = (typeof HEAD_KIND)[Species];
+/** The genes of every species whose head is `Kind`. */
+type HeadGenes<Kind extends HeadKind> = Extract<
+  MushroomGenes,
+  OfSpecies<
+    { [S in Species]: (typeof HEAD_KIND)[S] extends Kind ? S : never }[Species]
+  >
+>;
+/** The genes of a species with a domed cap. */
+export type DomeGenes = HeadGenes<'dome'>;
+
+/** Whether `genes` grow a trumpet rather than a dome. */
+export function hasTrumpet(
+  genes: MushroomGenes,
+): genes is HeadGenes<'trumpet'> {
+  return HEAD_KIND[genes.species] === 'trumpet';
+}
 
 /**
  * Each species' shape genes, drawn in the one order `growGenes` lists them,

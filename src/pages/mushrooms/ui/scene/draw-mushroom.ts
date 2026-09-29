@@ -2,7 +2,11 @@ import type * as Phaser from 'phaser';
 
 import { ellipse, placedAt, type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
-import type { MushroomGenes, PorciniGenes } from '../../model/mushroom-genes';
+import {
+  hasTrumpet,
+  type MushroomGenes,
+  type PorciniGenes,
+} from '../../model/mushroom-genes';
 import { footWidth, type TapArea } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { stemHalfWidth } from '../../model/mushroom-profile';
@@ -56,7 +60,7 @@ export function drawMushroom(
 ): void {
   const brush = mushroomBrush(graphics, genes, size, lighting, haze);
   const stem = stemPoints(brush, turn);
-  if (genes.species === 'chanterelle') {
+  if (hasTrumpet(genes)) {
     paintTrumpet({ ...brush, genes }, stem);
     return;
   }
