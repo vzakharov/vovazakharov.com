@@ -694,23 +694,73 @@ Standing rules for every session in the chain:
        (reopens the one-angle call).
    - Review 5356809390 (T96–T107) is handled, every thread answered.
 
-## Rest of the elephant
+## This bite
 
-In order.
+Bite 10, in two halves, the first gating the second.
 
-**Before bite 10**, found by the play run after review 5356809390's
+**A. The three defects the play run found** after review 5356809390's
 handling (frames `frames/bite-9/handled/`, commit 828fbaf6):
 
 - **A grown mushroom no tap reaches** — mushroom-5's cap on the small
   phone (the front caps pile on each other), mushroom-4's on phoneL. This
-  breaks "every tap selects what the finger is on"; fix it first, with
-  the tap sweep covering grown forests on every screen.
+  breaks "every tap selects what the finger is on"; fixed first, with a
+  tap sweep over grown forests (every forest size up to the cap, many
+  seeds) on every screen the play run shoots, asserted in the suite: every
+  grown mushroom keeps a tappable patch of its own.
 - **Insects on phoneL fall below the play run's size floors** (bee 27.7,
-  fly 25.6, butterfly 38.9 px against 30, 30, 52), since insects now
-  shrink with a small clump: bees read as specks. Reconcile the two
-  rules — the play run's floors or the shrink — and say which gave way.
-- **Spore rings stay hanging over the hills after a turn**: they are
-  not refit with the meadow.
+  fly 25.6, butterfly 38.9 px against 30, 30, 52), since insects shrink
+  with a small clump. The two rules are reconciled — the play run's floors
+  or the shrink — and the plan says which gave way and why.
+- **Spore rings stay hanging over the hills after a turn**: they are refit
+  with the meadow, like everything else placed on it.
+
+**B. The flowers as an instrument** — item 10 as the plan's
+`## Rest of the elephant` stated it when this bite was taken (moved here
+whole, below), its design `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`
+§ «Что ты решил» overriding the rest of that file:
+
+- Five flower colours stay. Three colours × four shapes (`petal` ×
+  `rings`) are twelve pitch classes, played by the nearest-note rule over
+  three octaves; the other two colours × four shapes are eight drums —
+  kick, snare, hat, three toms, shaker, rim — soft and synthesized,
+  downtempo/trip-hop, never an acoustic kit ("Это не должно звучать как
+  акустическая установка").
+- Every flower's hue is nudged from its seed, bounded so its class still
+  reads by eye ("чтобы розовый два раза не получался абсолютно
+  одинаковый"). Colour blindness is not designed for yet ("давай туда
+  пока не будем идти, это всегда успеется").
+- Seeded flowers are pentatonic, C D E G A, plus a kick and a hat ("пусть
+  будет пентатоника"); bees bring the other notes and drums.
+- **The child plants flowers too.** A tap on a grass tuft (only there)
+  opens a two-stage picker — one of five colours, then one of four shapes,
+  no stage over five buttons, no words — and the chosen flower grows on
+  that tuft ("не случайный, а именно тот который потом в две стадии
+  пикера выберет ребёнок"; "сажать можно не везде, а только там где есть
+  травка"). Bees still bring their own.
+- **Darker is lower**, one law for notes and drums, never random: blue
+  C–D♯, pink E–G, yellow G♯–B; within a colour the shapes rise
+  round-one-ring, round-two, pointed-one, pointed-two. Violet is the skins
+  (kick, then the toms low to high), white the ticks (snare, rim, hat,
+  shaker — pointed for the noisy two). The keyboard's drum rows follow the
+  same order: `a s d f` violet, `q w e r` white. The agent's proposal,
+  standing unless the operator redraws it.
+- Chords: several fingers at once, a compressor on `master` ("нужно, да,
+  особенно с учётом барабанов"). One-finger gestures only elsewhere
+  (review 5355192406, «давай однопальцевые жесты»).
+- Keyboard on the canvas host: `g h j k l ; '` the white keys C–B,
+  `y u o p [` the sharps, `a s d f` and `q w e r` the eight drums, `z`/`x`
+  the octave.
+
+A tap on a flower plays it and still does whatever a tap on a flower did
+before; a tap selects what the finger is on and nothing else, so the
+picker opens on a tuft only, and a tap outside an open picker closes it
+without planting. Planting obeys the forest's existing flower cap and
+placement rules: a full meadow refuses the tuft the way a full forest
+refuses `+`.
+
+## Rest of the elephant
+
+In order.
 
 **Open:** a turn keeps the meadow laid out for the shape it was grown on,
 by design until item 11's pan: upright to sideways the six bunch in the
@@ -728,44 +778,6 @@ ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
 from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
-
-10. **The flowers as an instrument.** The operator's second idea, placed
-    here on their word (review 5354936232, "да, ок" to "сразу после текущего
-    байта 9, до пунктов 10–12"). The design is
-    `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`, its
-    § «Что ты решил» overriding the rest:
-    - Five flower colours stay. Three colours × four shapes (`petal` ×
-      `rings`) are twelve pitch classes, played by the nearest-note rule
-      over three octaves; the other two colours × four shapes are eight
-      drums — kick, snare, hat, three toms, shaker, rim — soft and
-      synthesized, downtempo/trip-hop, never an acoustic kit ("Это не
-      должно звучать как акустическая установка").
-    - Every flower's hue is nudged from its seed, bounded so its class
-      still reads by eye ("чтобы розовый два раза не получался абсолютно
-      одинаковый"). Colour blindness is not designed for yet ("давай туда
-      пока не будем идти, это всегда успеется").
-    - Seeded flowers are pentatonic, C D E G A, plus a kick and a hat
-      ("пусть будет пентатоника"); bees bring the other notes and drums.
-    - **The child plants flowers too.** A tap on a grass tuft (only there)
-      opens a two-stage picker — one of five colours, then one of four
-      shapes, no stage over five buttons, no words — and the chosen flower
-      grows on that tuft ("не случайный, а именно тот который потом в две
-      стадии пикера выберет ребёнок"; "сажать можно не везде, а только там
-      где есть травка"). Bees still bring their own.
-    - **Darker is lower**, one law for notes and drums, never random:
-      blue C–D♯, pink E–G, yellow G♯–B; within a colour the shapes rise
-      round-one-ring, round-two, pointed-one, pointed-two. Violet is the
-      skins (kick, then the toms low to high), white the ticks (snare,
-      rim, hat, shaker — pointed for the noisy two). The keyboard's drum
-      rows follow the same order: `a s d f` violet, `q w e r` white. The
-      agent's proposal, standing unless the operator redraws it.
-    - Chords: several fingers at once, a compressor on `master` ("нужно,
-      да, особенно с учётом барабанов"). Item 11 takes no pinch: the
-      operator's call on the first idea is one finger (review 5355192406,
-      «давай однопальцевые жесты»).
-    - Keyboard on the canvas host: `g h j k l ; '` the white keys C–B,
-      `y u o p [` the sharps, `a s d f` and `q w e r` the eight drums,
-      `z`/`x` the octave.
 
 11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
     comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
