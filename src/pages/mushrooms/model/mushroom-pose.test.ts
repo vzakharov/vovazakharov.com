@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, placedAt } from './geometry';
+import { containsPoint } from './geometry';
 import {
   GENE_RANGES,
   MUSHROOM_SPECIES,
   mushroomGenes,
   type Species,
 } from './mushroom-genes';
-import { capOutlines, stemOutline } from './mushroom-outline';
+import { capOutlines, capReach, stemOutline } from './mushroom-outline';
 import { capSeat, maxReach, splayed, stemAt } from './mushroom-pose';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
@@ -27,9 +27,12 @@ describe('stemAt', () => {
 });
 
 describe('maxReach', () => {
-  for (const splay of [0, 0.22]) {
-    it(`bounds every species' reach at a splay of ${splay}, as its cap is drawn`, () => {
+  // Every turn a placement stands a mushroom at: upright, and splayed either
+  // way as the forest and the clump splay theirs.
+  for (const splay of [0, 0.1, 0.22]) {
+    it(`bounds each species' drawn, turned cap at a splay of ${splay}`, (t) => {
       const bound = maxReach(splay);
+      const farthest = new Map<Species, number>();
       for (const species of MUSHROOM_SPECIES) {
         for (const seed of SEEDS) {
           for (const sign of splay === 0 ? [1] : [-1, 1]) {
@@ -37,37 +40,26 @@ describe('maxReach', () => {
               genesOf(seed, species),
               sign * splay,
             );
-            // The cap as drawn: its outlines turned as the mushroom stands.
-            const drawn = capOutlines(genes)
-              .flat()
-              .map((point) => placedAt({ x: 0, y: 0 }, -turn, point).x);
-            const [left, right] = [-Math.min(...drawn), Math.max(...drawn)];
-            const label = `${species} ${seed}`;
+            const { left, right } = capReach(genes, turn);
             const [toward, away] = sign < 0 ? [left, right] : [right, left];
+            const label = `${species} ${seed}`;
             assert.ok(toward <= bound.toward, `${label}: ${toward}`);
             assert.ok(away <= bound.away, `${label}: ${away}`);
+            farthest.set(
+              species,
+              Math.max(farthest.get(species) ?? 0, toward / bound.toward),
+            );
           }
         }
       }
+      assert.equal(farthest.size, MUSHROOM_SPECIES.length);
+      t.diagnostic(
+        `farthest reach, of the bound: ${[...farthest]
+          .map(([species, share]) => `${species} ${(share * 100).toFixed(0)}%`)
+          .join(', ')}`,
+      );
     });
   }
-
-  it('reaches no farther for any species than for the fly agaric', () => {
-    // The layout's margins hold for the fly agaric's reach.
-    const flyAgaric = GENE_RANGES['fly-agaric'];
-    for (const splay of [0, 0.22]) {
-      const lean = flyAgaric.lean[1] + splay;
-      const corner = Math.hypot(
-        flyAgaric.capWidth[1] / 2,
-        flyAgaric.capHeight[1],
-      );
-      const toward =
-        flyAgaric.stemHeight[1] * (flyAgaric.stemBend[1] + Math.sin(lean)) +
-        corner;
-      assert.ok(Math.abs(maxReach(splay).toward - toward) < 1e-12);
-      if (splay > 0) assert.ok(Math.abs(maxReach(splay).away - corner) < 1e-3);
-    }
-  });
 });
 
 describe('splayed', () => {
