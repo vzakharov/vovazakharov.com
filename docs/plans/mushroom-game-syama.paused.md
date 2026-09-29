@@ -620,18 +620,30 @@ Standing rules for every session in the chain:
    - `placeSun` shrinks the sun until its rays clear each opening mushroom's
      reach — 24 → 16 px, on the small phone sideways only.
    - Shared bases `Layered`, `Framed`, `Screened`; `Camera.midline`. The
-     mushroom suite runs 48 files in ~212 s, none over 60 s (run in chunks:
-     one call exceeds the tool limit); `layout.test.ts` and
-     `meadow-rules.test.ts` sweep placed meadows on the screen and its turn.
-   - Waiting for the operator (the first document's list): pan and pinch,
-     the world's edges, a panorama wider than the screen, insects in world
-     coordinates, the mute.
+     mushroom suite runs 48 files in ~270 s, none over 60 s, one file at a
+     time (all of them in one `node --test` call exceeds the tool limit);
+     `layout.test.ts` and `meadow-rules.test.ts` sweep placed meadows on
+     the screen and its turn. The play run checks a full forest's planting
+     by counting free bee slots, not by watching bees plant.
+   - The first idea is still the operator's to place; their calls on it so
+     far are that document's «Что ты решил» (review 5355192406: one-finger
+     drag, hidden cursor keys, a turn as a crop, flat ground, a schematic
+     map, insects perching where they like).
 
 ## Rest of the elephant
 
 In order.
 
-**Open:** the sky may read a little plain since bite 7 tamed the halo.
+**Open:** on landscape screens six mushrooms crowd into the middle,
+overlapping, while the grass on both sides stays empty
+(`frames/bite-9/six-meadow-crowded-tabL.png`, `…-phoneL.png`). The cause
+is the frame held on this screen and its turn, which is the portrait's
+width. A parent would ask why `+` refuses there. Item 11's wider world, or
+the operator's first idea, is where it resolves. On tablets the front
+mushroom's stem can run to the bottom edge. On phoneP one planted flower
+reads larger than its neighbours at the same depth. The play run shoots
+no refused `+` and no bees planting in a full forest.
+The sky may read a little plain since bite 7 tamed the halo.
 Carried from bite 6: fliers are kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
