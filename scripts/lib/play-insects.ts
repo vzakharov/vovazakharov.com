@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 
+import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
@@ -29,6 +30,17 @@ const MOST_LOOKS = 80;
  * however far a wide screen stretches it (`stride`), up to `MOST_LOOKS`.
  */
 const PERCH_LOOKS = 24;
+/** How long, in ms, a butterfly found at rest has still to stay there. */
+const STAYS_MS = 1500;
+/**
+ * The most frames a look waiting on a rest may step: a butterfly rests at
+ * least `FLIGHT_HABITS.butterfly.resting[0]` from its arrival, is seen at
+ * rest once its `LANDING` is done, and must have `STAYS_MS` left, so every
+ * rest is seen by looks this far apart.
+ */
+export const REST_LOOK = Math.floor(
+  ((FLIGHT_HABITS.butterfly.resting[0] - LANDING - STAYS_MS) * 60) / 1000,
+);
 
 export type Insect = z.infer<typeof Insects>[number];
 
@@ -58,15 +70,16 @@ export function fliersOn(page: Page, expect: Expect) {
       Math.hypot(drawn.at.x - drawn.end.x, drawn.at.y - drawn.end.y) <= ON_PERCH
     );
   };
-  /** Steps until `found` picks an insect, `LOOK` frames at a time; `undefined` if none ever does. */
+  /** Steps until `found` picks an insect, `every` frames at a time; `undefined` if none ever does. */
   const waitFor = async (
     found: (all: Insect[], at: number) => Insect | undefined,
     looks = MOST_LOOKS,
+    every = LOOK,
   ): Promise<Insect | undefined> => {
     const hit = found(await insects(), await now());
     if (hit !== undefined || looks === 0) return hit;
-    await page.step(LOOK);
-    return waitFor(found, looks - 1);
+    await page.step(every);
+    return waitFor(found, looks - 1, every);
   };
 
   /** What a tap at each of `points` reaches first (`__probe.topAt`). */
@@ -79,16 +92,22 @@ export function fliersOn(page: Page, expect: Expect) {
         ),
       ),
     );
-  /** Steps until a butterfly is resting on a cap, on mushroom `on` when given, with time to stay. */
-  const waitForCapRest = async (on?: string) =>
-    waitFor((all, at) =>
-      all.find(
-        (insect) =>
-          insect.to.kind === 'cap' &&
-          (on === undefined || insect.to.id === on) &&
-          landed(insect, at) &&
-          insect.leaves - at > 1500,
-      ),
+  /**
+   * Steps until a butterfly is resting on a cap, on mushroom `on` when given,
+   * with time to stay, looking every `every` frames, at most `REST_LOOK`.
+   */
+  const waitForCapRest = async (on?: string, every = LOOK) =>
+    waitFor(
+      (all, at) =>
+        all.find(
+          (insect) =>
+            insect.to.kind === 'cap' &&
+            (on === undefined || insect.to.id === on) &&
+            landed(insect, at) &&
+            insect.leaves - at > STAYS_MS,
+        ),
+      MOST_LOOKS,
+      every,
     );
   /** Expects the tap at `at` ms on `insect` at rest to have gone on to its perch. */
   const expectPassedOn = async ({ id, to }: Insect, at: number) => {

@@ -23,7 +23,7 @@ import {
   State,
 } from './mushroom-probe.ts';
 import { bandGaps } from './play-band.ts';
-import { fliersOn } from './play-insects.ts';
+import { fliersOn, REST_LOOK } from './play-insects.ts';
 
 /** How much room a close-up leaves round its mushroom, in the mushroom's own height, and its least side, in CSS px. */
 const MARGIN = 0.25;
@@ -188,11 +188,15 @@ export async function playSpecies(
     expect(false, 'no butterfly came down on a cap');
   }
   // The trumpet's lip is a perch too: wait on, releasing more, for one there.
+  // A butterfly takes a cap two legs in five, the chanterelle about one cap
+  // in four beside three fly agarics, so the wait looks as seldom as a rest
+  // allows (`REST_LOOK`): a couple of minutes of meadow for the frames a
+  // shorter wait would draw.
   const chanterelle = grown.get('chanterelle');
   const onTrumpet = resting?.to.kind === 'cap' && resting.to.id === chanterelle;
   if (chanterelle !== undefined && !onTrumpet) {
     await page.tap(controls.releases.butterfly);
-    const there = await waitForCapRest(chanterelle);
+    const there = await waitForCapRest(chanterelle, REST_LOOK);
     if (there === undefined)
       expect(false, 'no butterfly came down on the chanterelle');
     else await close(chanterelle, 's3-butterfly-on-chanterelle');
