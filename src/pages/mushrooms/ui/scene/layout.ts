@@ -196,7 +196,7 @@ export type Opening = { screen: Sized; openers: readonly Opener[] };
  * `seed` is the visit's: it places what varies between visits, and a resize
  * that passes the same one keeps it where it was. The flowers are placed on
  * the screen the visit opened on, and on it turned, against the mushrooms it
- * opened with (`opening`; this screen and none unless said); on this screen
+ * opened with (`opening`, by default this screen with none); on this screen
  * each stands where it stands on whichever of the two is held the same way,
  * at the same share of the width, of the ground's depth and of the flowers'
  * size.

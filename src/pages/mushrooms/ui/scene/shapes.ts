@@ -33,8 +33,8 @@ function apart(a: Point, b: Point): boolean {
  * `points`' closed outline, stroked. Phaser joins a closed path's last
  * segment to its first only when the path closes itself, and leaves the
  * joins either side of a zero-length segment open, so a point repeating the
- * one before it (the first repeated at the end included) goes before the
- * stroke: the first point is joined as every other is.
+ * one before it (the first repeated at the end included) is dropped before
+ * stroking: the first point is joined as every other is.
  */
 export function strokeShape(
   graphics: Phaser.GameObjects.Graphics,

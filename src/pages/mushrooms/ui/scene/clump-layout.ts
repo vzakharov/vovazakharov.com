@@ -87,7 +87,6 @@ export const CLUMP_SPLAY = 0.22;
 /** A slot's place for each species that may grow in it. */
 export type SlotPlaces = Readonly<Record<Species, Placement>>;
 
-/** Which slot a mushroom stands in, and its species. */
 type PlaceInParams = Pick<Planted, 'slot' | 'species'>;
 
 /** Where `mushroom` stands among `slots`: its slot's place for its species. */
