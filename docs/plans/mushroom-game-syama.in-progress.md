@@ -635,6 +635,23 @@ Standing rules for every session in the chain:
      far are that document's «Что ты решил» (review 5355192406: one-finger
      drag, hidden cursor keys, a turn as a crop, flat ground, a schematic
      map, insects perching where they like).
+   - **Review 5356809390's calls**, decided before the fixes:
+     - **Each screen lays out at its own width.** The common frame of
+       this screen and its turn is dropped: `+` checks a foot on this
+       screen only, and a turn or resize refits the camera so every foot
+       already used (mushrooms and flowers) stays in view, zooming out
+       where the new screen is narrower. Nothing moves on the ground.
+       This beat scoping the turn guard to coarse pointers, which leaves
+       tablet landscape — the primary layout — crowded, and beat pulling
+       item 11's crop forward, which without a pan hides what a turn
+       crops away. Item 11 turns the refit into a crop once there is a
+       pan.
+     - **Forest mushrooms shrink with depth** as the clump does
+       (`scaleAt`), and the zoom floor comes down so `mushroom-tap.ts`'s
+       finger pad is what holds a far cap's tap. The pad stays.
+     - **`seen` measures with the actual camera's foreshortening**, and
+       `FORESHORTENING`'s span comes from the formula's bounds, not from
+       the play run's screens.
 
 ## Rest of the elephant
 
