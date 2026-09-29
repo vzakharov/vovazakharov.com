@@ -10,8 +10,10 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
+import type { Meadow } from '../../model/game';
 import type { Point } from '../../model/geometry';
 import type { Sown } from '../../model/pollen';
+import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,
   depthScale,
@@ -67,13 +69,14 @@ export function ringSpot(
 
 /**
  * Whether a flower at `place` has ground to stand on `layout`: on the
- * meadow's ground, clear of every mushroom slot's foot, taken or not, and its
- * head at its widest apart from the head of every flower of `standing`.
+ * meadow's ground, clear of every mushroom's foot of `feet`, and its head at
+ * its widest apart from the head of every flower of `standing`.
  */
 export function groundFor(
   layout: MeadowLayout,
   place: Footing,
   standing: readonly Placed[],
+  feet: readonly Footing[],
 ): boolean {
   const across = place.x / layout.width;
   const down = downOf(layout, place.y);
@@ -82,7 +85,7 @@ export function groundFor(
     across > FLOWER_ACROSS[1] ||
     down < FLOWER_DOWN[0] ||
     down > FLOWER_DOWN[1] ||
-    !clearOfFeet(place, layout.mushrooms)
+    !clearOfFeet(place, feet)
   ) {
     return false;
   }
@@ -93,19 +96,23 @@ export function groundFor(
 }
 
 /**
- * Every flower that stands on `layout`: the seeded ones the layout has room
- * for, then each planted one round its parent, in the order they opened, so
- * a parent always stands before its children. A planted flower stands only
- * where its slot has ground on this screen (`groundFor`), so a turn of the
- * screen that puts the slot in the hills, on a foot or on another flower
- * hides it until the screen turns back; one whose parent stands nowhere here
- * stands nowhere either.
+ * Every flower that stands on `layout` among `mushrooms`: the seeded ones the
+ * layout has room for, then each planted one round its parent, in the order
+ * they opened, so a parent always stands before its children. A planted
+ * flower stands only where its slot has ground on this screen (`groundFor`)
+ * off the feet of the mushrooms standing now, so a turn of the screen that
+ * puts the slot in the hills, on a foot or on another flower hides it until
+ * the screen turns back, and a mushroom grown on it hides it while that
+ * mushroom stands; one whose parent stands nowhere here stands nowhere
+ * either.
  */
 export function standingFlowers(
   layout: MeadowLayout,
   seeded: readonly Flower[],
   planted: readonly Sown[],
+  mushrooms: Meadow['mushrooms'],
 ): StandingFlower[] {
+  const feet = standingPlaces(layout.mushrooms, mushrooms);
   const standing: StandingFlower[] = seeded.flatMap((flower, index) => {
     const place = layout.flowers[index];
     return place ? [{ ...flower, place }] : [];
@@ -113,7 +120,7 @@ export function standingFlowers(
   for (const sown of planted) {
     const parent = standing.find(({ id }) => id === sown.parent);
     const place = parent && ringSpot(layout, parent.place, sown.ring);
-    if (place && groundFor(layout, place, standing)) {
+    if (place && groundFor(layout, place, standing, feet)) {
       standing.push({ ...pick(sown, 'id', 'seed'), place });
     }
   }

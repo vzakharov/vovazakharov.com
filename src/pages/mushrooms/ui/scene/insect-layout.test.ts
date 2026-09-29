@@ -22,6 +22,7 @@ import {
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
 import { geneBounds } from '../../model/mushroom-genes';
+import { everyPlace } from './clump-layout';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { flowerLift, PERCH_SPREAD, sightingOf } from './flower-sight';
@@ -42,9 +43,9 @@ describe('the butterflies’ size', () => {
     it(`spans a butterfly wide enough to read, and narrower than any clump cap, on a ${name} screen`, () => {
       const { insectSize, mushrooms } = meadowLayout(width, height, 1);
       const narrowestCap = Math.min(
-        ...mushrooms
-          .slice(0, 2)
-          .map(({ size }) => size * geneBounds('capWidth')[0]),
+        ...everyPlace(mushrooms.slice(0, 2)).map(
+          ({ size }) => size * geneBounds('capWidth')[0],
+        ),
       );
       for (const span of SPANS) {
         assert.ok(
@@ -102,8 +103,8 @@ const GRID = 28;
 /** A screen's median flower head, as the scene stands its seeded flowers over many visits: its reach and its centre's. */
 function medianHead(width: number, height: number) {
   const heads = VISITS.slice(0, 200).flatMap((seed) => {
-    const { layout, flowers } = opened(seed, width, height, false);
-    return standingFlowers(layout, flowers, []).map((flower) => ({
+    const { layout, flowers, mushrooms } = opened(seed, width, height, false);
+    return standingFlowers(layout, flowers, [], mushrooms).map((flower) => ({
       ...pick(sightingOf(flower, layout).head, 'r'),
       disc: flowerGenes(flower).centre * flower.place.size,
     }));

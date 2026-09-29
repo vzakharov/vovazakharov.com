@@ -12,6 +12,7 @@ import {
 import { stemOutline, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
+import { everyPlace, type SlotPlaces } from './clump-layout';
 import { luminance, mix, toHsv } from './colour';
 import { type MeadowLayout, meadowLayout } from './layout';
 import {
@@ -206,7 +207,9 @@ describe('a mushroom’s foot', () => {
   // Every turn a slot stands a mushroom at, on every screen.
   const splays = new Set(
     VIEWPORTS.flatMap(([, width, height]) =>
-      meadowLayout(width, height, 1).mushrooms.map(({ splay }) => splay),
+      everyPlace(meadowLayout(width, height, 1).mushrooms).map(
+        ({ splay }) => splay,
+      ),
     ),
   );
 
@@ -343,18 +346,11 @@ function heading(from: Point, to: Point): Point {
  * as it leans), how far off that axis the sun is, in radians, and how strong
  * its side shade is.
  */
-function flanks(
-  layout: MeadowLayout,
-  place: MeadowLayout['mushrooms'][number],
-  seed: number,
-) {
-  const stood = splayed(
-    mushroomGenes({
-      seed,
-      species: MUSHROOM_SPECIES[seed % MUSHROOM_SPECIES.length] ?? 'fly-agaric',
-    }),
-    place.splay,
-  );
+function flanks(layout: MeadowLayout, places: SlotPlaces, seed: number) {
+  const species =
+    MUSHROOM_SPECIES[seed % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
+  const place = places[species];
+  const stood = splayed(mushroomGenes({ seed, species }), place.splay);
   const { genes, turn } = stood;
   const { body } = mushroomLights(sunLight(layout), stood, place, layout.sun);
   const onScreen = (point: Point) =>

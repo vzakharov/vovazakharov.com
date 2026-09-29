@@ -31,9 +31,15 @@ import {
 } from '../../model/mushroom-outline';
 import { splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed, pick } from '../../model/random';
+import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
-import { EDGE_MARGIN, type MeadowLayout, meadowLayout } from './layout';
+import {
+  EDGE_MARGIN,
+  type MeadowLayout,
+  meadowLayout,
+  type Placement,
+} from './layout';
 import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -100,10 +106,7 @@ function worstBySpecies(worse: (a: number, b: number) => number): {
  * A mushroom as the scene stands it in `place`, with points along its stem
  * and its outlines as tapped, on screen.
  */
-function standingWithTaps(
-  place: MeadowLayout['mushrooms'][number],
-  seeded: MushroomSeed,
-) {
+function standingWithTaps(place: Placement, seeded: MushroomSeed) {
   const standing = standingAt(place, seeded);
   const { genes, turn, placed, drawn } = standing;
   const tapped = Object.values(tapArea(genes, turn)).map((outline) =>
@@ -138,7 +141,7 @@ function clumpOf(seed: number, layout: MeadowLayout) {
   const species = speciesOf(seed);
   return firstMeadow(mulberry32(seed))
     .mushrooms.map(({ id, slot, seed: own }) => {
-      const place = layout.mushrooms[slot];
+      const place = placeIn(layout.mushrooms, { slot, species: species(slot) });
       assert.ok(place);
       return {
         id,
@@ -171,9 +174,9 @@ function standingClump(seed: number, layout: MeadowLayout) {
 function standingForest(seed: number, layout: MeadowLayout) {
   const random = mulberry32(seed);
   const species = speciesOf(seed);
-  return layout.mushrooms.map((place, slot) => ({
+  return layout.mushrooms.map((places, slot) => ({
     species: species(slot),
-    ...standingWithTaps(place, {
+    ...standingWithTaps(places[species(slot)], {
       seed: nextSeed(random),
       species: species(slot),
     }),
@@ -303,9 +306,10 @@ describe('meadowLayout', () => {
       const margins = worstBySpecies(Math.min);
       for (const seed of VISITS) {
         const random = mulberry32(seed);
-        for (const [slot, place] of layout.mushrooms.entries()) {
+        for (const [slot, places] of layout.mushrooms.entries()) {
           const own = nextSeed(random);
           for (const species of MUSHROOM_SPECIES) {
+            const place = places[species];
             const mushroom = { seed: own, species };
             const { genes, turn } = splayed(
               mushroomGenes(mushroom),
@@ -358,7 +362,8 @@ describe('meadowLayout', () => {
             return Math.max(...xs) - Math.min(...xs);
           }),
         );
-        for (const [slot, { size }] of mushrooms.entries()) {
+        for (const [slot, places] of mushrooms.entries()) {
+          const { size } = places[species];
           narrowest.note(species, across * size);
           // A pixel's slack for the rim's rounding, which cuts its corner.
           assert.ok(
@@ -412,7 +417,9 @@ describe('meadowLayout', () => {
     });
 
     it(`gives every door a finger's target round all of it on a ${name} screen`, () => {
-      for (const { size } of screenLayout(width, height).mushrooms) {
+      for (const { size } of everyPlace(
+        screenLayout(width, height).mushrooms,
+      )) {
         const canvas = toCanvas(size);
         for (const station of DOOR_TRIES) {
           const hit = doorHitArea(station, size);
@@ -430,7 +437,9 @@ describe('meadowLayout', () => {
     });
 
     it(`draws every mouse's head big enough to read, its mushroom at its narrowest, on a ${name} screen`, () => {
-      for (const { size } of screenLayout(width, height).mushrooms) {
+      for (const { size } of everyPlace(
+        screenLayout(width, height).mushrooms,
+      )) {
         for (const { width: door } of DOOR_TRIES) {
           const narrowest = mouseHead(door * size) * NARROWEST_STANDING;
           assert.ok(narrowest >= MOUSE_HEAD_LEAST - 1e-9);
@@ -445,7 +454,7 @@ describe('meadowLayout', () => {
     });
 
     it(`keeps the forest's back rows smaller and hazier on a ${name} screen`, () => {
-      const { mushrooms } = screenLayout(width, height);
+      const mushrooms = everyPlace(screenLayout(width, height).mushrooms);
       const [nearest] = mushrooms;
       assert.ok(nearest);
       for (const place of mushrooms) {

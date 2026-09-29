@@ -14,9 +14,16 @@ import {
   SPOT_MARGIN,
   TRUMPET_RANGES,
 } from './mushroom-genes';
+import { capOutlines } from './mushroom-outline';
+import { stemAt } from './mushroom-pose';
+import { stemHalfWidth } from './mushroom-profile';
 import { mulberry32 } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
+const median = (values: readonly number[]) =>
+  values.toSorted((a, b) => a - b)[Math.floor(values.length / 2)] ?? Number.NaN;
+/** Enough seeds that each gene comes near either end of its range. */
+const WIDE_SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
 /** How far through its range each of `species`' genes with room to vary was drawn for `seed`. */
 function along(seed: number, species: Species): Map<string, number> {
@@ -30,6 +37,24 @@ function along(seed: number, species: Species): Map<string, number> {
     }),
   );
 }
+
+/**
+ * The median stem as a child sees it, over `WIDE_SEEDS`: from the foot to the
+ * lowest of the cap and what shows under it over the stem's top, in the
+ * cap's width.
+ */
+const visibleStem = (species: Species) =>
+  median(
+    WIDE_SEEDS.map((seed) => {
+      const genes = mushroomGenes({ seed, species });
+      const top = stemAt(genes, 1);
+      const half = stemHalfWidth(genes, 1);
+      const over = capOutlines(genes)
+        .flat()
+        .filter(({ x }) => Math.abs(x - top.x) <= half);
+      return Math.min(...over.map(({ y }) => y)) / genes.capWidth;
+    }),
+  );
 
 describe('mushroomGenes', () => {
   it('grows the same mushroom from the same seed', () => {
@@ -101,6 +126,21 @@ describe('mushroomGenes', () => {
     assert.equal(
       geneBounds('capWidth')[0],
       GENE_RANGES['fly-agaric'].capWidth[0],
+    );
+  });
+
+  it('stands a porcini on a stem short against its cap, shorter than a fly agaric’s', (t) => {
+    const [porcini, flyAgaric] = [
+      visibleStem('porcini'),
+      visibleStem('fly-agaric'),
+    ];
+    assert.ok(
+      porcini <= 0.6,
+      `a porcini's stem ${porcini.toFixed(2)} of its cap`,
+    );
+    assert.ok(porcini < flyAgaric);
+    t.diagnostic(
+      `median stem in sight, of the cap's width: porcini ${porcini.toFixed(2)}, fly agaric ${flyAgaric.toFixed(2)}`,
     );
   });
 

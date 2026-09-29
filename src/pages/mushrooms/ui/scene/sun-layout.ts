@@ -4,6 +4,7 @@
  */
 
 import type { Circle } from '../../model/geometry';
+import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { BUTTON_INSET, type Controls, tapReach } from './sky-layout';
 
@@ -116,7 +117,7 @@ function washReach({
 }: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>): number {
   return Math.min(
     groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
-    ...mushrooms.map(
+    ...everyPlace(mushrooms).map(
       ({ x, y, size }) =>
         Math.hypot(x - sun.x, y - sun.y) - size * WASH_FOOT_CLEAR,
     ),

@@ -98,24 +98,32 @@ function tallestCap(species: Species): number {
     : height;
 }
 
+/** How far a cap reaches to the side a splayed mushroom faces, and to the other. */
+export type Reach = { toward: number; away: number };
+
 /**
- * The farthest any mushroom's cap can reach from its foot, per unit of size,
- * once a placement turns it by `splay` beyond its own lean, whatever its
- * species: the stem's top sits no farther out than its bend plus its lean
- * allow, and no point of the cap is farther from the top than the corner of
- * the box its widest and tallest cap stands in. `toward` is the side a
- * splayed mushroom faces; `away` the other, which only the cap's own width
- * reaches, the top never crossing back over the foot.
+ * The farthest any of `species`' caps can reach from its foot, per unit of
+ * size, once a placement turns it by `splay` beyond its own lean: the stem's
+ * top sits no farther out than its bend plus its lean allow, and no point of
+ * the cap is farther from the top than the corner of the box its widest and
+ * tallest cap stands in. `toward` is the side a splayed mushroom faces;
+ * `away` the other, which only the cap's own width reaches, the top never
+ * crossing back over the foot.
  */
-export function maxReach(splay: number): { toward: number; away: number } {
-  const reaches = MUSHROOM_SPECIES.map((species) => {
-    const ranges = GENE_RANGES[species];
-    const lean = ranges.lean[1] + Math.abs(splay);
-    const corner = Math.hypot(ranges.capWidth[1] / 2, tallestCap(species));
-    const toward =
-      ranges.stemHeight[1] * (ranges.stemBend[1] + Math.sin(lean)) + corner;
-    return { toward, away: splay === 0 ? toward : corner };
-  });
+export function speciesReach(species: Species, splay: number): Reach {
+  const ranges = GENE_RANGES[species];
+  const lean = ranges.lean[1] + Math.abs(splay);
+  const corner = Math.hypot(ranges.capWidth[1] / 2, tallestCap(species));
+  const toward =
+    ranges.stemHeight[1] * (ranges.stemBend[1] + Math.sin(lean)) + corner;
+  return { toward, away: splay === 0 ? toward : corner };
+}
+
+/** `speciesReach` over every species: the farthest any cap reaches. */
+export function maxReach(splay: number): Reach {
+  const reaches = MUSHROOM_SPECIES.map((species) =>
+    speciesReach(species, splay),
+  );
   return {
     toward: Math.max(...reaches.map(({ toward }) => toward)),
     away: Math.max(...reaches.map(({ away }) => away)),

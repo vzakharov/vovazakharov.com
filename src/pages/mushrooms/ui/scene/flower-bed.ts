@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import { type Flower, flowerGenes } from '../../model/flower-genes';
+import type { Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
@@ -53,6 +54,8 @@ export class FlowerBed {
   private readonly onTap: () => void;
   readonly seeded: readonly Flower[];
   private planted: readonly Sown[] = [];
+  /** The mushrooms standing as of the last `reconcile`, whose feet a planted flower keeps off. */
+  private mushrooms: Meadow['mushrooms'] = [];
   /** The screen's light as it last stood, which each flower takes from where it stands (`flowerLight`). */
   private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
@@ -79,7 +82,12 @@ export class FlowerBed {
   paint(layout: MeadowLayout, lighting: Lighting): void {
     this.lighting = lighting;
     this.sizes = layout.insectSizes;
-    const standing = standingFlowers(layout, this.seeded, this.planted);
+    const standing = standingFlowers(
+      layout,
+      this.seeded,
+      this.planted,
+      this.mushrooms,
+    );
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
       const place = standing.find(({ id }) => id === flower.id)?.place;
@@ -101,18 +109,20 @@ export class FlowerBed {
   }
 
   /**
-   * Shows what `planted` holds as of `clock`, in seconds: each new flower
-   * grows up where `layout` rings it round its parent, blooming open with a
-   * chime.
+   * Shows what `planted` holds as of `clock`, in seconds, among `mushrooms`:
+   * each new flower grows up where `layout` rings it round its parent,
+   * blooming open with a chime, and each planted flower stands or hides as
+   * the mushrooms' feet leave it ground (`standingFlowers`).
    */
   reconcile(
-    planted: readonly Sown[],
+    { planted, mushrooms }: Pick<Meadow, 'planted' | 'mushrooms'>,
     layout: MeadowLayout,
     clock: number,
   ): void {
-    if (planted === this.planted) return;
+    if (planted === this.planted && mushrooms === this.mushrooms) return;
     const fresh = planted.filter(({ id }) => !this.shown.has(id));
     this.planted = planted;
+    this.mushrooms = mushrooms;
     for (const flower of fresh) {
       const shown = this.show(flower, clock);
       shown.tappedAt = clock;

@@ -30,6 +30,7 @@ import { mushroomGenes } from '../../model/mushroom-genes';
 import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
+import { placeIn } from './clump-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import {
   coversOn,
@@ -114,7 +115,8 @@ function seaterOn(
   const { layout, mushrooms, flowers, planted } = stand;
   switch (perch.kind) {
     case 'flower': {
-      const here = standing ?? standingFlowers(layout, flowers, planted);
+      const here =
+        standing ?? standingFlowers(layout, flowers, planted, mushrooms);
       const flower = flowerAt(stand, perch.id, here);
       if (!flower) return undefined;
       const { head, place, seed } = flower;
@@ -127,7 +129,7 @@ function seaterOn(
     }
     case 'cap': {
       const mushroom = mushrooms.find(({ id }) => id === perch.id);
-      const place = mushroom && layout.mushrooms[mushroom.slot];
+      const place = mushroom && placeIn(layout.mushrooms, mushroom);
       if (!mushroom || !place) return undefined;
       const { genes, turn } = splayed(mushroomGenes(mushroom), place.splay);
       const toPlace = toCanvas(place.size);
@@ -269,7 +271,7 @@ function trackOf(perch: Perch, seater: Seater, kind: InsectKind): Track {
 export function perchSight(stand: Stand): Sight {
   const { layout, flowers, mushrooms, planted } = stand;
   const covers = coversOn(layout, mushrooms);
-  const standing = standingFlowers(layout, flowers, planted);
+  const standing = standingFlowers(layout, flowers, planted, mushrooms);
   const inSightTo = (kind: InsectKind) =>
     standing
       .filter((flower) =>

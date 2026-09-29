@@ -31,7 +31,7 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import type { MeadowLayout } from './layout';
+import type { Placement } from './layout';
 
 /** How much of a painted door, and of its doorway, has to show past the mushrooms in front of it. */
 export const IN_SIGHT = 0.8;
@@ -48,18 +48,12 @@ export type Standing = Splayed & {
   drawn: readonly Point[][];
 };
 
-export function standingAt(
-  place: MeadowLayout['mushrooms'][number],
-  seeded: MushroomSeed,
-): Standing {
+export function standingAt(place: Placement, seeded: MushroomSeed): Standing {
   return standingWith(place, mushroomGenes(seeded));
 }
 
 /** A mushroom of `grown` as the scene stands it in its slot (`standingAt`). */
-export function standingWith(
-  place: MeadowLayout['mushrooms'][number],
-  grown: MushroomGenes,
-): Standing {
+export function standingWith(place: Placement, grown: MushroomGenes): Standing {
   const { genes, turn } = splayed(grown, place.splay);
   const canvas = toCanvas(place.size);
   const placed = (outline: readonly Point[]) =>

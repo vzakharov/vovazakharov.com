@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { Meadow } from '../../model/game';
+import type { Meadow, Planted } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { emerge, launch, sink, SINK_DURATION } from '../../model/motion';
 import {
@@ -10,6 +10,7 @@ import {
   placeButton,
   standButton,
 } from './button';
+import { placeIn, type SlotPlaces } from './clump-layout';
 
 /**
  * How far apart a picker's buttons come up, one after another from the end
@@ -22,9 +23,9 @@ type PickButton = Button & {
   /** When it starts coming up, and going; `-Infinity` for both before the picker first opens. */
   shownAt: number;
   hiddenAt: number;
-  /** The slot the mushroom it was picked for grows in, which it flies to as it goes. */
-  towards: number | undefined;
-  /** Where the layout stands that slot's mushroom. */
+  /** The mushroom it was picked for, whose place it flies to as it goes. */
+  towards: Planted | undefined;
+  /** Where the layout stands that mushroom. */
   target: Point | undefined;
 };
 
@@ -100,7 +101,7 @@ export class Picker<Item> {
     open: boolean,
     now: number,
     meadow: Meadow,
-    slots: readonly Point[],
+    slots: readonly SlotPlaces[],
     ratio: number,
     inPlaceOf = false,
   ): void {
@@ -132,15 +133,14 @@ export class Picker<Item> {
         button.towards = undefined;
       } else if (closing && button === this.picked) {
         button.hiddenAt = now;
-        button.towards = meadow.mushrooms.at(-1)?.slot;
+        button.towards = meadow.mushrooms.at(-1);
       } else if (closing && inPlaceOf) {
         button.hiddenAt = now - SINK_DURATION;
       } else if (closing) {
         const turn = leaving.length - 1 - leaving.indexOf(index);
         button.hiddenAt = now + turn * PICK_STAGGER;
       }
-      button.target =
-        button.towards === undefined ? undefined : slots[button.towards];
+      button.target = button.towards && placeIn(slots, button.towards);
       // Out of reach the moment the picker closes, while it is still going.
       if (open) button.face.setInteractive();
       else button.face.disableInteractive();

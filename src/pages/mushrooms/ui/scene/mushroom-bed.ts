@@ -28,6 +28,7 @@ import {
 } from '../../model/mushroom-outline';
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
+import { placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
 import {
@@ -252,7 +253,7 @@ export class MushroomBed {
   ): void {
     const standing = mushrooms.flatMap((mushroom) => {
       const shown = this.shown.get(mushroom.id);
-      const place = layout.mushrooms[mushroom.slot];
+      const place = placeIn(layout.mushrooms, mushroom);
       return shown && place
         ? [{ mushroom, shown, standing: standingAt(place, mushroom) }]
         : [];
@@ -272,7 +273,7 @@ export class MushroomBed {
   }
 
   private place(shown: Shown, mushroom: Planted, layout: MeadowLayout): void {
-    const place = layout.mushrooms[mushroom.slot];
+    const place = placeIn(layout.mushrooms, mushroom);
     if (!place) return;
     const { x, y, size, splay, haze } = place;
     const stood = splayed(mushroomGenes(mushroom), splay);

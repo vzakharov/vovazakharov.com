@@ -10,6 +10,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { geneBounds } from '../../model/mushroom-genes';
+import { everyPlace, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FLOWER_SWAY, FOOT_CLEARANCE, MOST_SHADED } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
@@ -109,7 +110,7 @@ describe('the seeded flowers', () => {
         placed += here.flowers.length;
         for (const { flowers, mushrooms } of [here, turned]) {
           for (const flower of flowers) {
-            for (const mushroom of mushrooms) {
+            for (const mushroom of everyPlace(mushrooms)) {
               for (const y of [flower.y, flower.y - flower.size]) {
                 least = Math.min(
                   least,
@@ -142,6 +143,7 @@ describe('the seeded flowers', () => {
             visit.layout,
             visit.flowers,
             [],
+            visit.mushrooms,
           )) {
             for (const head of headsOf(flower)) {
               for (const control of controls) {
@@ -171,7 +173,7 @@ describe('the seeded flowers', () => {
       for (const [held, w, h] of heldEitherWay(width, height)) {
         for (const [index, visit] of visitsOn(w, h).entries()) {
           const clump = visit.meadow.mushrooms.flatMap((mushroom) => {
-            const place = visit.layout.mushrooms[mushroom.slot];
+            const place = placeIn(visit.layout.mushrooms, mushroom);
             if (!place) return [];
             const drawn = standingAt(place, mushroom).drawn.map((outline) => ({
               outline,
@@ -179,7 +181,12 @@ describe('the seeded flowers', () => {
             }));
             return [{ depth: place.y, drawn }];
           });
-          const standing = standingFlowers(visit.layout, visit.flowers, []);
+          const standing = standingFlowers(
+            visit.layout,
+            visit.flowers,
+            [],
+            visit.mushrooms,
+          );
           flowers += standing.length;
           for (const flower of standing) {
             const nearer = clump
@@ -213,9 +220,9 @@ describe('the seeded flowers', () => {
     it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {
       const { flowers, mushrooms } = meadowLayout(width, height, 1);
       const stem = Math.min(
-        ...mushrooms
-          .slice(0, 2)
-          .map(({ size }) => size * geneBounds('stemHeight')[0]),
+        ...everyPlace(mushrooms.slice(0, 2)).map(
+          ({ size }) => size * geneBounds('stemHeight')[0],
+        ),
       );
       for (const flower of flowers) assert.ok(flower.size < stem);
     });

@@ -99,12 +99,14 @@ describe('the sun', () => {
         const outer = Math.max(...washRings(layout));
         assert.ok(outer > sun.r * SUN_RAY_REACH, `visit ${String(seed)}`);
         // Every slot, taken or not: its foot, and some ground round it.
-        for (const [slot, { x, y, size }] of mushrooms.entries()) {
-          const clear = Math.hypot(x - sun.x, y - sun.y) - outer;
-          assert.ok(
-            clear >= size * 0.4,
-            `visit ${String(seed)}: slot ${String(slot)}'s foot ${clear.toFixed(0)} px outside the wash`,
-          );
+        for (const [slot, places] of mushrooms.entries()) {
+          for (const { x, y, size } of Object.values(places)) {
+            const clear = Math.hypot(x - sun.x, y - sun.y) - outer;
+            assert.ok(
+              clear >= size * 0.4,
+              `visit ${String(seed)}: slot ${String(slot)}'s foot ${clear.toFixed(0)} px outside the wash`,
+            );
+          }
         }
       }
     });

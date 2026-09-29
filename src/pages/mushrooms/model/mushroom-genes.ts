@@ -117,18 +117,20 @@ export const GENE_RANGES = {
     capTilt: [-0.08, 0.08],
     hueNudge: [-0.03, 0.03],
   },
-  // Stocky: a barrel of a stem, its foot bulging to near half the cap across,
-  // a little shorter than a fly agaric's, under a thick bun. It always leans
-  // a little (a placement picks the side), so two of these barrels in the
-  // clump part before the back one's door.
+  // Stout: a short barrel of a stem, its foot bulging to near half the cap
+  // across, under a wide, thick bun. The stem shows about 0.58 of the cap's
+  // width tall, against a fly agaric's 0.8, and stands as short as the door
+  // stations up it allow (`doorStations`). It always leans a little (a
+  // placement picks the side), so two of these barrels in the clump part
+  // before the back one's door.
   porcini: {
-    stemHeight: [0.68, 0.8],
-    stemWidth: [0.26, 0.3],
+    stemHeight: [0.54, 0.64],
+    stemWidth: [0.28, 0.32],
     footBulge: [1.3, 1.55],
     stemBend: [-0.2, 0.2],
     lean: [0.065, 0.1],
-    capWidth: [0.78, 0.92],
-    capHeight: [0.3, 0.36],
+    capWidth: [0.86, 1],
+    capHeight: [0.32, 0.39],
     domePower: [0.55, 0.85],
     capTilt: [-0.06, 0.06],
     hueNudge: [-0.03, 0.03],

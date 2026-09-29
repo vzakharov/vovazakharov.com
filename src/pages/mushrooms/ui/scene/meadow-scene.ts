@@ -75,10 +75,10 @@ export class MeadowScene extends Phaser.Scene {
   /** Where each spot in the open air stands, by id, as the screen stands now. */
   private air = new Map<string, Point>();
   /**
-   * Whether flowers were planted since the flower bed last caught up: the
-   * bed draws them and the insects see them on the next frame, so a planting
-   * never adds a repaint of every flower and a fresh sight to the frame whose
-   * tick planted it.
+   * Whether flowers were planted, or mushrooms grown or thinned, since the
+   * flower bed last caught up: the bed draws them and the insects see them on
+   * the next frame, so a planting never adds a repaint of every flower and a
+   * fresh sight to the frame whose tick planted it.
    */
   private sown = false;
   private readonly voice = new MeadowSound(readMuted());
@@ -217,15 +217,11 @@ export class MeadowScene extends Phaser.Scene {
     insects?.update(t, perchAt);
   }
 
-  /** Draws the flowers planted since the bed last caught up, and sees the perches with them. */
+  /** Draws the flowers as the plantings and the mushrooms now stand, and sees the perches with them. */
   private sow(): void {
     this.sown = false;
     if (!this.meadow) return;
-    this.flowers?.reconcile(
-      this.meadow.planted,
-      this.requireLayout(),
-      this.clock,
-    );
+    this.flowers?.reconcile(this.meadow, this.requireLayout(), this.clock);
     this.see();
   }
 
@@ -239,7 +235,7 @@ export class MeadowScene extends Phaser.Scene {
     // A frame's tick with nothing due changes nothing, and costs nothing.
     if (meadow === this.meadow) return;
     const regrown = meadow.mushrooms !== this.meadow.mushrooms;
-    this.sown ||= meadow.planted !== this.meadow.planted;
+    this.sown ||= regrown || meadow.planted !== this.meadow.planted;
     this.meadow = meadow;
     if (regrown) this.see();
     this.bed?.reconcile(meadow, this.requireLayout(), this.clock);

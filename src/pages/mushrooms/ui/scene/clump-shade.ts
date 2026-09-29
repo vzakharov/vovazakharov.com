@@ -12,14 +12,12 @@ import {
   type Point,
 } from '../../model/geometry';
 import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { placeIn, type SlotPlaces } from './clump-layout';
 import { standingWith } from './door-sight';
-import type { MeadowLayout } from './layout';
+import type { Placement } from './layout';
 
 /** A mushroom standing as a visit opens: its seed, and the slot it stands in. */
 export type Opener = Pick<Planted, 'seed' | 'species' | 'slot'>;
-
-/** A slot of the layout's, as it stands a mushroom. */
-type Slot = MeadowLayout['mushrooms'][number];
 
 /** A silhouette's cell, in units of the mushroom's size. */
 const CELL = 0.02;
@@ -37,20 +35,20 @@ type Silhouette = Pick<Box, 'left' | 'top'> & {
 
 /** The mushrooms of a visit's opening, each as its silhouette where it stands and the box round it. */
 export type ClumpShade = ReadonlyArray<{
-  slot: Slot;
+  slot: Placement;
   silhouette: Silhouette;
   box: Box;
 }>;
 
 /** The shade of each of `openers` standing in its slot of `slots`. */
 export function clumpShade(
-  slots: readonly Slot[],
+  slots: readonly SlotPlaces[],
   openers: readonly Opener[],
 ): ClumpShade {
-  return openers.flatMap(({ slot: index, ...seeded }) => {
-    const slot = slots[index];
+  return openers.flatMap((opener) => {
+    const slot = placeIn(slots, opener);
     if (!slot) return [];
-    const silhouette = silhouetteOf(mushroomGenes(seeded), slot.splay);
+    const silhouette = silhouetteOf(mushroomGenes(opener), slot.splay);
     return [{ slot, silhouette, box: placedBox(silhouette, slot) }];
   });
 }
@@ -212,7 +210,7 @@ export function mostShaded(
 /** The box on screen `silhouette` stays inside, stood in `slot`. */
 function placedBox(
   { left, top, columns, rows }: Silhouette,
-  { x, y, size }: Slot,
+  { x, y, size }: Placement,
 ): Box {
   return {
     left: x + left * size,

@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { ellipse, type Point } from '../../model/geometry';
 import { groundAt } from './backdrop-tones';
+import { everyPlace } from './clump-layout';
 import { contrast, luminance, mix, nudgeHue, toHsv } from './colour';
 import {
   facingArc,
@@ -67,7 +68,10 @@ const FEET: readonly Foot[] = [
       const depth = height - layout.groundTop;
       const down = (y: number) => (y - layout.groundTop) / depth;
       return [
-        ...layout.mushrooms.map(({ y, haze }) => ({ down: down(y), haze })),
+        ...everyPlace(layout.mushrooms).map(({ y, haze }) => ({
+          down: down(y),
+          haze,
+        })),
         ...layout.flowers.map(({ y }) => ({ down: down(y), haze: 0 })),
       ];
     }),

@@ -9,7 +9,13 @@ import {
   type Species,
 } from './mushroom-genes';
 import { capOutlines, capReach, stemOutline } from './mushroom-outline';
-import { capSeat, maxReach, splayed, stemAt } from './mushroom-pose';
+import {
+  capSeat,
+  maxReach,
+  speciesReach,
+  splayed,
+  stemAt,
+} from './mushroom-pose';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const genesOf = (seed: number, species: Species = 'fly-agaric') =>
@@ -31,7 +37,7 @@ describe('maxReach', () => {
   // way as the forest and the clump splay theirs.
   for (const splay of [0, 0.1, 0.22]) {
     it(`bounds each species' drawn, turned cap at a splay of ${splay}`, (t) => {
-      const bound = maxReach(splay);
+      const most = maxReach(splay);
       const farthest = new Map<Species, number>();
       for (const species of MUSHROOM_SPECIES) {
         for (const seed of SEEDS) {
@@ -42,6 +48,10 @@ describe('maxReach', () => {
             );
             const { left, right } = capReach(genes, turn);
             const [toward, away] = sign < 0 ? [left, right] : [right, left];
+            // Its own species' bound, which the clump's feet stand by, and so
+            // the bound over every species the layout sizes by.
+            const bound = speciesReach(species, splay);
+            assert.ok(bound.toward <= most.toward && bound.away <= most.away);
             const label = `${species} ${seed}`;
             assert.ok(toward <= bound.toward, `${label}: ${toward}`);
             assert.ok(away <= bound.away, `${label}: ${away}`);

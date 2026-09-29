@@ -12,6 +12,14 @@ import type { Circle, Point, Scaled } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { geneBounds } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
+import {
+  CLUMP_SPLAY,
+  clumpFeet,
+  clumpSlots,
+  everyPlace,
+  forAll,
+  type SlotPlaces,
+} from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { type FlowerGround, placeFlowers } from './flower-layout';
 import {
@@ -26,7 +34,7 @@ import { horizonAt, placeSun } from './sun-layout';
  * A slot's footing, the `splay` its mushroom is stood with (`splayed`), and
  * its haze, the farthest slot the palest.
  */
-type Placement = Footing & Hazed & { splay: number };
+export type Placement = Footing & Hazed & { splay: number };
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
 export type Hazed = { haze: number };
 /**
@@ -35,22 +43,6 @@ export type Hazed = { haze: number };
  */
 export type Footing = Point & Scaled;
 
-/**
- * Where the clump stands: across as a fraction of the width, its back and
- * front feet down as fractions of the ground's depth, and each foot's step
- * off `across` in the clump's size. A tall screen's clump stands nearer the
- * front, leaving the back row room above its caps, and its feet closer in
- * depth on its deeper ground. The steps set where the two stems cross, which
- * the back door needs low, the door above it: a crossing midway hides every
- * height the door could take (`doorInSight`), and a high one stands the caps
- * nearly one over the other, the back one hidden.
- */
-const CLUMP_ACROSS = { landscape: 0.47, portrait: 0.5 } as const;
-const CLUMP_DOWN = { landscape: [0.42, 0.6], portrait: [0.74, 0.8] } as const;
-const CLUMP_STEP = {
-  landscape: [0.02, -0.04],
-  portrait: [0, -0.03],
-} as const;
 /**
  * The forest's slots, after the clump's two, in the order they fill: across as
  * a fraction of the width, down as one of the ground's depth, and the size
@@ -105,8 +97,6 @@ const KIND_SCALE = {
 
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
-/** The opening pair's turn apart, like the V of Syama's two caps. */
-const CLUMP_SPLAY = 0.22;
 export type MeadowLayout = Sized &
   Controls & {
     /** Where the far hills meet the sky. */
@@ -117,8 +107,11 @@ export type MeadowLayout = Sized &
     groundTop: number;
     sun: Circle;
     clouds: readonly Circle[];
-    /** One per slot, `MUSHROOM_SLOTS` of them: the clump's two, then the forest. */
-    mushrooms: readonly Placement[];
+    /**
+     * One per slot, `MUSHROOM_SLOTS` of them, each by the species standing
+     * there (`placeIn`): the clump's two, then the forest.
+     */
+    mushrooms: readonly SlotPlaces[];
     flowers: readonly Footing[];
     /** The unit a butterfly's genes are painted in. */
     insectSize: number;
@@ -315,23 +308,7 @@ function standMeadow(width: number, height: number): Stood {
     : height * 0.44;
   // One clump, as in the drawing: two feet close together, the back one
   // leaning left and the front one right, their stems crossing.
-  const clump = width * CLUMP_ACROSS[orientation];
-  const [backDown, frontDown] = CLUMP_DOWN[orientation];
-  const [backStep, frontStep] = CLUMP_STEP[orientation];
-  const feet = [
-    {
-      x: clump + wanted * backStep,
-      y: groundTop + ground * backDown,
-      scale: 0.9,
-      side: -1,
-    },
-    {
-      x: clump + wanted * frontStep,
-      y: groundTop + ground * frontDown,
-      scale: 1,
-      side: 1,
-    },
-  ] as const;
+  const feet = clumpFeet(orientation, { width, groundTop, ground, wanted });
   // A size held under `maxReach` keeps every cap on screen, whatever its genes.
   const clumpSize = (margin: number) =>
     Math.min(
@@ -344,13 +321,13 @@ function standMeadow(width: number, height: number): Stood {
   const slots = FOREST_SLOTS[orientation];
   const standing = (margin: number, floor: number) => {
     const unit = clumpSize(margin);
-    const opening = feet.map(({ x, y, scale, side }) => ({
-      x,
-      y,
-      size: unit * scale,
-      splay: side * CLUMP_SPLAY,
-      haze: 0,
-    }));
+    const clump = clumpSlots(orientation, feet, {
+      width,
+      ground,
+      wanted,
+      unit,
+      margin,
+    });
     const forest = placeForest(slots, {
       width,
       groundTop,
@@ -359,7 +336,10 @@ function standMeadow(width: number, height: number): Stood {
       margin,
       floor,
     });
-    return { unit, mushrooms: [...opening, ...forest] };
+    return {
+      unit,
+      mushrooms: [...clump, ...forest.map((place) => forAll(place))],
+    };
   };
   const { unit, mushrooms } = standing(EDGE_MARGIN, FINGER_SIZE);
   // The flowers are sized off the meadow as it would stand with no edge
@@ -376,7 +356,7 @@ function standMeadow(width: number, height: number): Stood {
     groundTop,
     ground,
     unit: flowerUnit,
-    feet: [...mushrooms, ...unmarginedFeet],
+    feet: everyPlace([...mushrooms, ...unmarginedFeet]),
     controls: [
       ...standingControls(controls),
       ...controls.picker,

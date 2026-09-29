@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { everyPlace } from '../ui/scene/clump-layout';
 import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import { containsPoint, type Point } from './geometry';
@@ -12,7 +13,9 @@ const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 /** The smallest any slot on any screen paints a mushroom, in px to its unit. */
 const SMALLEST = Math.min(
   ...VIEWPORTS.flatMap(([, width, height]) =>
-    meadowLayout(width, height, 1).mushrooms.map(({ size }) => size),
+    everyPlace(meadowLayout(width, height, 1).mushrooms).map(
+      ({ size }) => size,
+    ),
   ),
 );
 /** One ink line on the smallest slot, in units of size. */
