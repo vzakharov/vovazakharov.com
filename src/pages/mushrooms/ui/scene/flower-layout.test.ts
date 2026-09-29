@@ -10,11 +10,20 @@ import {
   type Point,
 } from '../../model/geometry';
 import { geneBounds } from '../../model/mushroom-genes';
-import { everyPlace, placeIn } from './clump-layout';
+import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import { FLOWER_SWAY, FOOT_CLEARANCE, MOST_SHADED } from './flower-layout';
+import {
+  FLOWER_SWAY,
+  type FlowerFoot,
+  FLOWERS_APART,
+  FOOT_CLEARANCE,
+  groundOf,
+  MOST_SHADED,
+  standingOn,
+  widestHead,
+} from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
-import { type MeadowLayout, meadowLayout } from './layout';
+import { type Footing, type MeadowLayout, meadowLayout } from './layout';
 import { standingControls } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened } from './visit-play';
@@ -23,22 +32,27 @@ import { type Opened, opened } from './visit-play';
 const LEAST_FLOWERS = 6.5;
 /** How many points across a flower's head its share hidden is read at. */
 const HEAD_STEPS = 9;
+/** How near two ground points count as the same one, in the clump's size. */
+const SAME_GROUND = 1e-9;
 
-/** Each way a screen `width` by `height` may be held: as named, and turned. */
-function heldEitherWay(
-  width: number,
-  height: number,
-): Array<[string, number, number]> {
-  return [
-    ['as it opens', width, height],
-    ['turned', height, width],
-  ];
-}
+/** Every screen a visit may be shown on: each of `VIEWPORTS`, as named and turned. */
+const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
+  [name, width, height] as const,
+  [`${name} turned`, height, width] as const,
+]);
+
+/** Each screen's layout for a visit that opened elsewhere, but for its flowers. */
+const screenLayouts = new Map(
+  SCREENS.map(([name, width, height]) => [
+    name,
+    meadowLayout(width, height, 1),
+  ]),
+);
 
 /**
  * Every visit opened on a screen `width` by `height` as the scene opens it,
  * opened once for every test of that screen that reads it; a screen's tests
- * run one after another, so only the latest two screens' are kept.
+ * run one after another, so only the latest screen's are kept.
  */
 const openedOn = new Map<string, Opened[]>();
 function visitsOn(width: number, height: number): Opened[] {
@@ -46,12 +60,14 @@ function visitsOn(width: number, height: number): Opened[] {
   const known =
     openedOn.get(key) ??
     VISITS.map((seed) => opened(seed, width, height, false));
+  openedOn.clear();
   openedOn.set(key, known);
-  for (const oldest of openedOn.keys()) {
-    if (openedOn.size <= 2) break;
-    openedOn.delete(oldest);
-  }
   return known;
+}
+
+/** The visit's seeded bed on the ground, read back off the screen it opened on. */
+function bedOf({ layout }: Opened): FlowerFoot[] {
+  return layout.flowers.map((place) => groundOf(layout.camera, place));
 }
 
 /** Every head of `flower` as drawn: at rest, and leant either way by the breeze. */
@@ -90,73 +106,127 @@ const drawnControls = (layout: MeadowLayout): Circle[] => [
 const inBox = ({ left, right, top, bottom }: Box, { x, y }: Point) =>
   x >= left && x <= right && y >= top && y <= bottom;
 
+/**
+ * How far `flower`'s stem and head keep off the foot `mushroom` on the
+ * screen, as a share of the clearance a foot keeps round it: 1 or more is
+ * clear.
+ */
+function footClearance(flower: Footing, mushroom: Footing): number {
+  const nearestY = Math.min(
+    flower.y,
+    Math.max(flower.y - flower.size, mushroom.y),
+  );
+  return (
+    Math.hypot(mushroom.x - flower.x, mushroom.y - nearestY) /
+    (mushroom.size * FOOT_CLEARANCE + widestHead(flower).r)
+  );
+}
+
+/** How far apart two flowers' heads stand on the screen, as a share of how far apart they must. */
+function headsGap(a: Footing, b: Footing): number {
+  const [p, q] = [widestHead(a), widestHead(b)];
+  return Math.hypot(p.x - q.x, p.y - q.y) / (FLOWERS_APART * (p.r + q.r));
+}
+
 describe('the seeded flowers', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`keep off every foot the meadow stands, as many on the screen turned, on a ${name} screen`, (t) => {
-      let least = Infinity;
-      let placed = 0;
-      const [heres, turneds] = heldEitherWay(width, height).map(([, w, h]) =>
-        visitsOn(w, h),
+    it(`stand on the same ground on every screen, by the visit, for a visit opened on a ${name} screen`, () => {
+      const visits = visitsOn(width, height).slice(0, 40);
+      let shown = 0;
+      for (const [index, visit] of visits.entries()) {
+        const seed = (VISITS[index] ?? 0) ^ 0xf1_0e_25;
+        const opening = {
+          screen: { width, height },
+          openers: visit.meadow.mushrooms,
+        };
+        const bed = bedOf(visit);
+        for (const [screen, across, down] of SCREENS) {
+          const there = meadowLayout(across, down, seed, opening);
+          assert.equal(there.flowers.length, bed.length);
+          for (const [at, place] of there.flowers.entries()) {
+            const foot = groundOf(there.camera, place);
+            const own = bed[at];
+            assert.ok(own);
+            shown += 1;
+            assert.ok(
+              Math.abs(foot.x - own.x) < SAME_GROUND &&
+                Math.abs(foot.z - own.z) < SAME_GROUND &&
+                Math.abs(foot.size - own.size) < SAME_GROUND,
+              `visit ${String(VISITS[index])}: flower ${String(at)} moved on the ground on a ${screen} screen`,
+            );
+          }
+        }
+      }
+      assert.ok(shown > 0);
+    });
+
+    it(`differ from visit to visit, opened on a ${name} screen`, () => {
+      const beds = visitsOn(width, height).map((visit) =>
+        bedOf(visit)
+          .map(({ x, z }) => `${x.toFixed(6)} ${z.toFixed(6)}`)
+          .join(' '),
       );
-      for (const [index, seed] of VISITS.entries()) {
-        const here = heres?.[index]?.layout;
-        const turned = turneds?.[index]?.layout;
-        assert.ok(here && turned);
-        assert.equal(
-          turned.flowers.length,
-          here.flowers.length,
-          `visit ${seed}: a turn shows or hides a flower`,
-        );
-        placed += here.flowers.length;
-        for (const { flowers, mushrooms } of [here, turned]) {
-          for (const flower of flowers) {
-            for (const mushroom of everyPlace(mushrooms)) {
-              for (const y of [flower.y, flower.y - flower.size]) {
-                least = Math.min(
-                  least,
-                  Math.hypot(flower.x - mushroom.x, y - mushroom.y) /
-                    (mushroom.size * FOOT_CLEARANCE),
-                );
-              }
+      const alike = beds.length - new Set(beds).size;
+      assert.equal(alike, 0, `${String(alike)} visits placed as another`);
+    });
+
+    it(`keep off the opening clump's feet and apart on every screen, opened on a ${name} screen`, (t) => {
+      let least = Infinity;
+      let nearest = Infinity;
+      let placed = 0;
+      for (const [index, visit] of visitsOn(width, height).entries()) {
+        const bed = bedOf(visit);
+        placed += bed.length;
+        for (const [screen] of SCREENS) {
+          const there = screenLayouts.get(screen);
+          assert.ok(there);
+          const flowers = bed.map((foot) => standingOn(there.camera, foot));
+          const feet = visit.mushrooms.flatMap(
+            (mushroom) => placeIn(there.mushrooms, mushroom) ?? [],
+          );
+          for (const [at, flower] of flowers.entries()) {
+            for (const foot of feet) {
+              least = Math.min(least, footClearance(flower, foot));
+            }
+            for (const other of flowers.slice(at + 1)) {
+              nearest = Math.min(nearest, headsGap(flower, other));
             }
           }
+          assert.ok(
+            least >= 1 && nearest >= 1,
+            `visit ${String(VISITS[index])} on a ${screen} screen: clearance ${least.toFixed(3)}, heads ${nearest.toFixed(3)}`,
+          );
         }
       }
       const perVisit = placed / VISITS.length;
       t.diagnostic(
-        `least clearance off a foot ${least.toFixed(3)}, ${perVisit.toFixed(2)} flowers a visit`,
-      );
-      assert.ok(
-        least >= 1,
-        `a flower on a foot, clearance ${least.toFixed(3)}`,
+        `least clearance off a foot ${least.toFixed(3)}, heads ${nearest.toFixed(3)} apart, ${perVisit.toFixed(2)} flowers a visit`,
       );
       // Moving flowers where they are seen must not leave the meadow bare.
       assert.ok(perVisit >= LEAST_FLOWERS, `${perVisit.toFixed(2)} a visit`);
     });
 
-    it(`keep every head off every control, however the breeze leans it, on a ${name} screen held either way`, (t) => {
+    it(`keep every head off every control, however the breeze leans it, on the ${name} screen the visit opens on`, (t) => {
       let nearest = Infinity;
-      for (const [held, w, h] of heldEitherWay(width, height)) {
-        for (const [index, visit] of visitsOn(w, h).entries()) {
-          const controls = drawnControls(visit.layout);
-          for (const flower of standingFlowers(
-            visit.layout,
-            visit.flowers,
-            [],
-            visit.mushrooms,
-          )) {
-            for (const head of headsOf(flower)) {
-              for (const control of controls) {
-                const gap =
-                  Math.hypot(head.x - control.x, head.y - control.y) -
-                  control.r -
-                  head.r;
-                nearest = Math.min(nearest, gap);
-                assert.ok(
-                  gap >= 0,
-                  `visit ${String(VISITS[index])}, ${held}: ${flower.id}'s head under a control`,
-                );
-              }
+      for (const [index, visit] of visitsOn(width, height).entries()) {
+        const controls = drawnControls(visit.layout);
+        for (const flower of standingFlowers(
+          visit.layout,
+          visit.flowers,
+          [],
+          visit.mushrooms,
+        )) {
+          for (const head of headsOf(flower)) {
+            for (const control of controls) {
+              const gap =
+                Math.hypot(head.x - control.x, head.y - control.y) -
+                control.r -
+                head.r;
+              nearest = Math.min(nearest, gap);
+              assert.ok(
+                gap >= 0,
+                `visit ${String(VISITS[index])}: ${flower.id}'s head under a control`,
+              );
             }
           }
         }
@@ -166,50 +236,48 @@ describe('the seeded flowers', () => {
       );
     });
 
-    it(`keep every head at least half in sight past the clump the visit opens with, on a ${name} screen held either way`, (t) => {
+    it(`keep every head at least half in sight past the clump the visit opens with, on the ${name} screen it opens on`, (t) => {
       let most = 0;
       let behind = 0;
       let flowers = 0;
-      for (const [held, w, h] of heldEitherWay(width, height)) {
-        for (const [index, visit] of visitsOn(w, h).entries()) {
-          const clump = visit.meadow.mushrooms.flatMap((mushroom) => {
-            const place = placeIn(visit.layout.mushrooms, mushroom);
-            if (!place) return [];
-            const drawn = standingAt(place, mushroom).drawn.map((outline) => ({
-              outline,
-              box: boxAround(outline),
-            }));
-            return [{ depth: place.y, drawn }];
-          });
-          const standing = standingFlowers(
-            visit.layout,
-            visit.flowers,
-            [],
-            visit.mushrooms,
-          );
-          flowers += standing.length;
-          for (const flower of standing) {
-            const nearer = clump
-              .filter(({ depth }) => depth > flower.place.y)
-              .flatMap(({ drawn }) => drawn);
-            let hidden = 0;
-            for (const head of headsOf(flower)) {
-              const points = headPoints(head);
-              const shaded = points.filter((point) =>
-                nearer.some(
-                  ({ outline, box }) =>
-                    inBox(box, point) && containsPoint(outline, point),
-                ),
-              ).length;
-              hidden = Math.max(hidden, shaded / points.length);
-            }
-            most = Math.max(most, hidden);
-            if (hidden > 0) behind += 1;
-            assert.ok(
-              hidden <= MOST_SHADED,
-              `visit ${String(VISITS[index])}, ${held}: ${flower.id} ${(hidden * 100).toFixed(0)}% hidden by the clump`,
-            );
+      for (const [index, visit] of visitsOn(width, height).entries()) {
+        const clump = visit.meadow.mushrooms.flatMap((mushroom) => {
+          const place = placeIn(visit.layout.mushrooms, mushroom);
+          if (!place) return [];
+          const drawn = standingAt(place, mushroom).drawn.map((outline) => ({
+            outline,
+            box: boxAround(outline),
+          }));
+          return [{ depth: place.y, drawn }];
+        });
+        const standing = standingFlowers(
+          visit.layout,
+          visit.flowers,
+          [],
+          visit.mushrooms,
+        );
+        flowers += standing.length;
+        for (const flower of standing) {
+          const nearer = clump
+            .filter(({ depth }) => depth > flower.place.y)
+            .flatMap(({ drawn }) => drawn);
+          let hidden = 0;
+          for (const head of headsOf(flower)) {
+            const points = headPoints(head);
+            const shaded = points.filter((point) =>
+              nearer.some(
+                ({ outline, box }) =>
+                  inBox(box, point) && containsPoint(outline, point),
+              ),
+            ).length;
+            hidden = Math.max(hidden, shaded / points.length);
           }
+          most = Math.max(most, hidden);
+          if (hidden > 0) behind += 1;
+          assert.ok(
+            hidden <= MOST_SHADED,
+            `visit ${String(VISITS[index])}: ${flower.id} ${(hidden * 100).toFixed(0)}% hidden by the clump`,
+          );
         }
       }
       t.diagnostic(
@@ -217,45 +285,48 @@ describe('the seeded flowers', () => {
       );
     });
 
-    it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {
-      const { flowers, mushrooms } = meadowLayout(width, height, 1);
-      const stem = Math.min(
-        ...everyPlace(mushrooms.slice(0, 2)).map(
-          ({ size }) => size * geneBounds('stemHeight')[0],
-        ),
+    it(`are cropped, not moved, on the ${name} screen turned`, (t) => {
+      let off = 0;
+      let under = 0;
+      let flowers = 0;
+      for (const visit of visitsOn(width, height)) {
+        const turned = screenLayouts.get(`${name} turned`);
+        assert.ok(turned);
+        const controls = drawnControls(turned);
+        for (const foot of bedOf(visit)) {
+          const { x, y, size } = standingOn(turned.camera, foot);
+          const head = widestHead({ x, y, size });
+          flowers += 1;
+          if (head.x - head.r < 0 || head.x + head.r > turned.width) off += 1;
+          else if (
+            controls.some(
+              (control) =>
+                Math.hypot(head.x - control.x, head.y - control.y) <
+                control.r + head.r,
+            )
+          ) {
+            under += 1;
+          }
+        }
+      }
+      t.diagnostic(
+        `turned: ${(off / VISITS.length).toFixed(2)} a visit past the screen's side, ${(under / VISITS.length).toFixed(2)} under a control, of ${(flowers / VISITS.length).toFixed(2)}`,
       );
-      for (const flower of flowers) assert.ok(flower.size < stem);
+      assert.ok(flowers > 0);
     });
 
-    it(`keep where the visit opened them across a resize and a turn on a ${name} screen`, () => {
-      const turned = visitsOn(height, width);
-      for (const [index, visit] of visitsOn(width, height)
-        .slice(0, 50)
-        .entries()) {
-        const seed = (VISITS[index] ?? 0) ^ 0xf1_0e_25;
-        const opening = {
-          screen: { width, height },
-          openers: visit.meadow.mushrooms,
-        };
-        const before = visit.layout;
-        const after = meadowLayout(width * 1.25, height * 1.1, seed, opening);
-        assert.equal(after.flowers.length, before.flowers.length);
-        for (const [at, flower] of before.flowers.entries()) {
-          const moved = after.flowers[at];
-          assert.ok(moved);
-          assert.ok(Math.abs(moved.x / 1.25 - flower.x) < 1e-6);
-          assert.ok(
-            Math.abs(
-              (moved.y - after.groundTop) / 1.1 - (flower.y - before.groundTop),
-            ) < 1e-6,
-          );
-        }
-        // Turned, they stand where a visit opened on the screen turned has them.
-        assert.deepEqual(
-          meadowLayout(height, width, seed, opening).flowers,
-          turned[index]?.layout.flowers,
-        );
-      }
+    it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {
+      const [visit] = visitsOn(width, height);
+      assert.ok(visit);
+      const { flowers, mushrooms } = visit.layout;
+      const stem = Math.min(
+        ...visit.mushrooms.flatMap((mushroom) => {
+          const place = placeIn(mushrooms, mushroom);
+          return place ? [place.size * geneBounds('stemHeight')[0]] : [];
+        }),
+      );
+      assert.ok(flowers.length > 0);
+      for (const flower of flowers) assert.ok(flower.size < stem);
     });
   }
 });

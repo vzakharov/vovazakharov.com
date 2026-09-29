@@ -52,9 +52,25 @@ export function standingAt(place: Placement, seeded: MushroomSeed): Standing {
   return standingWith(place, mushroomGenes(seeded));
 }
 
-/** A mushroom of `grown` as the scene stands it in its slot (`standingAt`). */
+/** A mushroom of `grown` as the scene stands it where it grows (`standingAt`). */
 export function standingWith(place: Placement, grown: MushroomGenes): Standing {
-  const { genes, turn } = splayed(grown, place.splay);
+  return standingAs(place, splayed(grown, place.splay));
+}
+
+/** Each stood mushroom's dome, gills and stem in its own frame, drawn once however often it is stood. */
+const figures = new WeakMap<Splayed, readonly Point[][]>();
+
+/**
+ * A mushroom `stood` as `place` splays it, as the scene stands it there
+ * (`standingWith`): one `stood` stood in many places draws its outlines once.
+ */
+export function standingAs(place: Placement, stood: Splayed): Standing {
+  const { genes, turn } = stood;
+  const figure = figures.get(stood) ?? [
+    ...capOutlines(genes),
+    stemOutline(genes, turn),
+  ];
+  figures.set(stood, figure);
   const canvas = toCanvas(place.size);
   const placed = (outline: readonly Point[]) =>
     outline.map((point) => placedAt(place, turn, canvas(point)));
@@ -63,10 +79,7 @@ export function standingWith(place: Placement, grown: MushroomGenes): Standing {
     genes,
     turn,
     placed,
-    drawn: [
-      ...capOutlines(genes).map((outline) => placed(outline)),
-      placed(stemOutline(genes, turn)),
-    ],
+    drawn: figure.map((outline) => placed(outline)),
   };
 }
 
@@ -121,6 +134,16 @@ export function sightOf(
   return shown.length / spread.length;
 }
 
+/** Each mushroom's door stations by its genes, laid out once: genes are never changed once grown. */
+const stations = new WeakMap<MushroomGenes, Map<number, DoorPlace[]>>();
+function stationsOf({ genes, turn }: Splayed): DoorPlace[] {
+  const byTurn = stations.get(genes) ?? new Map<number, DoorPlace[]>();
+  stations.set(genes, byTurn);
+  const known = byTurn.get(turn) ?? doorStations(genes, turn);
+  byTurn.set(turn, known);
+  return known;
+}
+
 /**
  * The station `standing`'s door takes among `others` standing round it: the
  * lowest where `IN_SIGHT` of the painted door, and of the doorway it frames,
@@ -133,7 +156,7 @@ export function doorInSight(
 ): DoorPlace {
   const nearer = others.filter(({ depth }) => depth > standing.depth);
   let most: { station: DoorPlace; sight: number } | undefined;
-  for (const station of doorStations(standing.genes, standing.turn)) {
+  for (const station of stationsOf(standing)) {
     const sight = Math.min(
       sightOf(standing, station, 'painted', nearer),
       sightOf(standing, station, 'doorway', nearer),

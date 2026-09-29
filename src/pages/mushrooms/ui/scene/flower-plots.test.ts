@@ -3,27 +3,27 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
-import { firstFlowers } from '../../model/flower-genes';
-import { firstMeadow, reduce } from '../../model/game';
-import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import { reduce } from '../../model/game';
 import { FLOWER_LIMIT, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingPlaces } from './clump-layout';
 import {
-  clearOfFeet,
-  FLOWER_ACROSS,
   FLOWER_DOWN,
   FLOWERS_APART,
+  FOOT_CLEARANCE,
   widestHead,
 } from './flower-layout';
-import { downOf, standingFlowers } from './flower-plots';
+import { clearOfFlowers, flowerFeet, standingFlowers } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
 import { VIEWPORTS, VISITS } from './viewports';
+import { opened } from './visit-play';
 
 /** The least number of flowers the bees plant in the median visit, on every screen. */
 const LEAST_PLANTED = 4;
+/** How near two ground points count as the same one, in the clump's size. */
+const SAME_GROUND = 1e-9;
 
 /** What stands in the meadow while the bees plant. */
 const STANDINGS = {
@@ -33,45 +33,40 @@ const STANDINGS = {
 } as const;
 type Standing = keyof typeof STANDINGS;
 
+/** Every screen a visit may be shown on: each of `VIEWPORTS`, as named and turned. */
+const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
+  [name, width, height] as const,
+  [`${name} turned`, height, width] as const,
+]);
+
+/** A planted-out visit, and how to lay it out on another screen. */
+type PlantedOut = Stand & {
+  on: (width: number, height: number) => MeadowLayout;
+};
+
 /**
  * A visit's meadow as the scene stands it on a screen `width` by `height`,
  * with `standing` in it, and as many flowers planted as the sight offers
  * room for, each in the first slot it offers, as a bee leaving each flower
- * in turn would plant them; with the same visit's layout on the screen
- * turned.
+ * in turn would plant them.
  */
 function plantedOut(
   seed: number,
   [width, height]: readonly [number, number],
   standing: Standing,
-): Stand & { turned: MeadowLayout } {
-  const random = mulberry32(seed);
-  let meadow = firstMeadow(random);
-  const flowers = firstFlowers(random, 7);
-  const visit = seed ^ 0xf1_0e_25;
-  const opening = {
-    screen: { width, height },
-    openers: meadow.mushrooms,
-  };
-  const layout = meadowLayout(width, height, visit, opening);
-  const growing = mulberry32(seed ^ 0x9e_0a);
-  const grown =
-    standing === 'forest'
-      ? layout.mushrooms.length - meadow.mushrooms.length
-      : 0;
-  for (const index of Array.from({ length: grown }).keys()) {
-    const species =
-      MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
-    meadow = reduce(meadow, { kind: 'grow', species, seed: nextSeed(growing) });
-  }
-  const back = meadow.mushrooms.find(({ slot }) => slot === 0);
+): PlantedOut {
+  const visit = opened(seed, width, height, standing === 'forest');
+  let { meadow } = visit;
+  const back = meadow.mushrooms[0];
   if (standing === 'thinned' && back) {
     meadow = reduce(meadow, { kind: 'select', ...pick(back, 'id') });
     meadow = reduce(meadow, { kind: 'remove' });
   }
   const { mushrooms } = meadow;
+  const { layout, flowers } = visit;
   const planted: Sown[] = [];
   const stand = { layout, flowers, mushrooms, planted };
+  const random = mulberry32(seed ^ 0x50_1d);
   for (;;) {
     const { room, seededFlowers } = perchSight(stand);
     const [slot] = room;
@@ -83,7 +78,15 @@ function plantedOut(
       ...pick(slot, 'ring'),
     });
   }
-  return { ...stand, turned: meadowLayout(height, width, visit, opening) };
+  const opening = {
+    screen: { width, height },
+    openers: visit.meadow.mushrooms,
+  };
+  return {
+    ...stand,
+    on: (across, down) =>
+      meadowLayout(across, down, seed ^ 0xf1_0e_25, opening),
+  };
 }
 
 /** The middle of `counts`, the upper one of an even count's two. */
@@ -93,9 +96,9 @@ function median(counts: readonly number[]): number {
 }
 
 /**
- * Asserts that every planted flower of `stand` that stands on `screen` has
- * ground there: on the meadow's ground, off every standing mushroom's foot,
- * and its head apart from every other flower's standing there.
+ * Asserts that every planted flower of `stand` stands on `screen` where it
+ * stands on the ground, in the flowers' band of the ground, off every
+ * standing mushroom's foot and its head apart from every other flower's.
  */
 function assertGrounded(
   seed: number,
@@ -109,23 +112,28 @@ function assertGrounded(
     stand.mushrooms,
   );
   const feet = standingPlaces(screen.mushrooms, stand.mushrooms);
+  const depth = screen.height - screen.groundTop;
   for (const { id } of stand.planted) {
     const flower = placed.find((each) => each.id === id);
-    if (!flower) continue;
+    assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);
     const { place } = flower;
-    const across = place.x / screen.width;
-    const down = downOf(screen, place.y);
+    const down = (place.y - screen.groundTop) / depth;
     assert.ok(
-      across >= FLOWER_ACROSS[0] &&
-        across <= FLOWER_ACROSS[1] &&
-        down >= FLOWER_DOWN[0] &&
-        down <= FLOWER_DOWN[1],
+      down >= FLOWER_DOWN[0] - SAME_GROUND &&
+        down <= FLOWER_DOWN[1] + SAME_GROUND,
       `visit ${String(seed)}: ${id} off the ground`,
     );
-    assert.ok(
-      clearOfFeet(place, feet),
-      `visit ${String(seed)}: ${id} on a foot`,
-    );
+    for (const foot of feet) {
+      const nearestY = Math.min(
+        place.y,
+        Math.max(place.y - place.size, foot.y),
+      );
+      assert.ok(
+        Math.hypot(foot.x - place.x, foot.y - nearestY) >=
+          foot.size * FOOT_CLEARANCE + widestHead(place).r,
+        `visit ${String(seed)}: ${id} on a foot`,
+      );
+    }
     const head = widestHead(place);
     for (const other of placed) {
       if (other.id === id) continue;
@@ -141,26 +149,34 @@ function assertGrounded(
 
 describe('a planted flower', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    for (const standing of ['clump', 'forest'] as const) {
-      it(`stands in sight where it was planted, on the ground and off every foot and flower wherever it stands, on a ${name} screen with ${STANDINGS[standing]}`, () => {
-        const counts = VISITS.slice(0, 150).map((seed) => {
+    for (const standing of ['clump', 'forest', 'thinned'] as const) {
+      it(`stands in sight where it was planted, and on its ground on every screen, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
+        const counts = VISITS.slice(0, 60).map((seed) => {
           const stand = plantedOut(seed, [width, height], standing);
-          const { layout, turned, planted, flowers, mushrooms } = stand;
           const shown = new Set(perchSight(stand).flowers);
-          const placed = standingFlowers(layout, flowers, planted, mushrooms);
-          for (const { id } of planted) {
-            assert.ok(
-              placed.some((each) => each.id === id),
-              `visit ${String(seed)}: ${id} stands nowhere`,
-            );
+          const feet = flowerFeet(stand);
+          for (const { id } of stand.planted) {
             assert.ok(
               shown.has(id),
               `visit ${String(seed)}: ${id} out of sight`,
             );
           }
-          assertGrounded(seed, stand, layout);
-          assertGrounded(seed, stand, turned);
-          return planted.length;
+          for (const [, across, down] of SCREENS) {
+            const there = stand.on(across, down);
+            assertGrounded(seed, stand, there);
+            const moved = flowerFeet({ ...stand, layout: there });
+            assert.equal(moved.length, feet.length);
+            for (const [at, foot] of moved.entries()) {
+              const own = feet[at];
+              assert.ok(
+                own &&
+                  Math.abs(foot.x - own.x) < SAME_GROUND &&
+                  Math.abs(foot.z - own.z) < SAME_GROUND,
+                `visit ${String(seed)}: flower ${String(at)} moved on the ground`,
+              );
+            }
+          }
+          return stand.planted.length;
         });
         assert.ok(
           median(counts) >= LEAST_PLANTED,
@@ -168,42 +184,21 @@ describe('a planted flower', () => {
         );
       });
     }
-
-    it(`keeps its ground whichever species grows in a clump slot that stood free while it was planted, on a ${name} screen`, () => {
-      for (const seed of VISITS.slice(0, 150)) {
-        const { layout, flowers, planted, mushrooms } = plantedOut(
-          seed,
-          [width, height],
-          'thinned',
-        );
-        const before = standingFlowers(layout, flowers, planted, mushrooms);
-        for (const species of MUSHROOM_SPECIES) {
-          const meadow = reduce(
-            { ...firstMeadow(mulberry32(seed)), mushrooms, planted },
-            { kind: 'grow', species, seed },
-          );
-          const grown = meadow.mushrooms.at(-1);
-          assert.equal(
-            grown?.slot,
-            0,
-            `visit ${String(seed)}: grown elsewhere`,
-          );
-          const after = standingFlowers(
-            layout,
-            flowers,
-            planted,
-            meadow.mushrooms,
-          );
-          for (const { id } of before) {
-            assert.ok(
-              after.some((each) => each.id === id),
-              `visit ${String(seed)}: a ${species} grown on ${id}`,
-            );
-          }
-        }
-      }
-    });
   }
+});
+
+describe('a mushroom’s foot', () => {
+  it('keeps off every flower when clearOfFlowers says so, and not otherwise', () => {
+    const stand = plantedOut(VISITS[0] ?? 0, [1180, 820], 'clump');
+    const flowers = flowerFeet(stand);
+    const [flower] = flowers;
+    assert.ok(flower);
+    assert.equal(clearOfFlowers({ ...flower, size: 1 }, flowers), false);
+    assert.equal(
+      clearOfFlowers({ ...flower, x: flower.x + 5, size: 1 }, [flower]),
+      true,
+    );
+  });
 });
 
 describe('a tablet’s meadow', () => {

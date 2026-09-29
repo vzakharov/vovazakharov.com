@@ -10,32 +10,31 @@
 
 import type { Planted } from '../../model/game';
 import {
+  type Box,
   boxAround,
+  boxesMeet,
   type Circle,
   containsPoint,
   type Point,
 } from '../../model/geometry';
 import { type Ground, groundAt } from '../../model/ground';
-import {
-  MUSHROOM_SPECIES,
-  type MushroomGenes,
-  mushroomGenes,
-} from '../../model/mushroom-genes';
-import { TAP_PARTS, tapArea, toCanvas } from '../../model/mushroom-outline';
+import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
+import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
+import { type Splayed, splayed } from '../../model/mushroom-pose';
 import { apartOnScreen, pickFoot } from '../../model/placement';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
-import { placeOf } from './clump-layout';
+import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
   doorInSight,
   IN_SIGHT,
   sightOf,
   type Standing,
+  standingAs,
   standingAt,
-  standingWith,
 } from './door-sight';
 import { standingFlowers } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { EDGE_MARGIN, meadowStage } from './layout';
+import { EDGE_MARGIN, meadowStage, type Placement } from './layout';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
@@ -103,26 +102,38 @@ function distanceTo(outline: readonly Point[], point: Point): number {
 
 /**
  * Whether `standing`'s door shows `IN_SIGHT` past every nearer one of
- * `others`, painted door and doorway alike, where `doorInSight` seats it.
+ * `others`, painted door and doorway alike, where `doorInSight` seats it:
+ * at once where no nearer one reaches its stem.
  */
 function doorShows(standing: Standing, others: readonly Standing[]): boolean {
-  const nearer = others.filter(({ depth }) => depth > standing.depth);
-  const station = doorInSight(standing, others);
+  const stem = boxAround(standing.drawn.at(-1) ?? []);
+  const nearer = others.filter(
+    ({ depth, drawn }) =>
+      depth > standing.depth &&
+      drawn.some((outline) => boxesMeet(stem, boxAround(outline))),
+  );
+  if (nearer.length === 0) return true;
+  const station = doorInSight(standing, nearer);
   return (['painted', 'doorway'] as const).every(
     (part) => sightOf(standing, station, part, nearer) >= IN_SIGHT,
   );
 }
+
+/** Each stood mushroom's tap area in its own frame, laid out once. */
+const areas = new WeakMap<Splayed, TapArea>();
 
 /**
  * Whether every one of `circles` keeps off `standing`'s tap area as it
  * stands on screen: its drawn parts, and its finger pad where it has one.
  */
 function keptOff(
-  { genes, turn, placed }: Standing,
+  stood: Splayed,
+  { placed, drawn }: Standing,
   size: number,
   circles: readonly Circle[],
 ): boolean {
-  const area = tapArea(genes, turn);
+  const area = areas.get(stood) ?? tapArea(stood.genes, stood.turn);
+  areas.set(stood, area);
   const canvas = toCanvas(size);
   const pad = fingerPad({
     cap: area.cap.map((point) => canvas(point)),
@@ -131,10 +142,11 @@ function keptOff(
   });
   const [middle] = pad ? placed([{ x: pad.x / size, y: -pad.y / size }]) : [];
   const padded = middle && pad && { middle, reach: pad.r };
-  const outlines = TAP_PARTS.map((part) => {
-    const outline = placed(area[part]);
-    return { outline, box: boxAround(outline) };
-  });
+  // A mushroom's drawn outlines are its tap area's parts (`TAP_PARTS`).
+  const outlines = drawn.map((outline) => ({
+    outline,
+    box: boxAround(outline),
+  }));
   return circles.every((circle) => {
     if (
       padded &&
@@ -154,13 +166,30 @@ function keptOff(
   });
 }
 
-/** A standing mushroom as a pick weighs it: how it stands, and its cap's box. */
-type Weighed = { standing: Standing; cap: ReturnType<typeof capBox> };
+/**
+ * A standing mushroom as a pick weighs it: how it stands, its cap's box and
+ * the box round all of it, and whether its door shows past the rest.
+ */
+type Weighed = {
+  standing: Standing;
+  cap: Box;
+  whole: Box;
+  /** Whether its door shows past the rest as they stood before the pick, read once. */
+  shows: () => boolean;
+};
 
-const weighed = (standing: Standing): Weighed => ({
-  standing,
-  cap: capBox(standing),
-});
+function weighed(
+  standing: Standing,
+  among: () => readonly Standing[],
+): Weighed {
+  let shows: boolean | undefined;
+  return {
+    standing,
+    cap: capBox(standing),
+    whole: boxAround(standing.drawn.flat()),
+    shows: () => (shows ??= doorShows(standing, among())),
+  };
+}
 
 /**
  * Each of the meadow's mushrooms on each of `SCREENS`, weighed once however
@@ -171,54 +200,70 @@ const standings = new WeakMap<readonly Planted[], Weighed[][]>();
 function standingOn(mushrooms: readonly Planted[]): Weighed[][] {
   const known = standings.get(mushrooms);
   if (known) return known;
-  const stood = SCREENS.map(({ stage }) =>
-    mushrooms.map((mushroom) =>
-      weighed(standingAt(placeOf(stage.camera, mushroom.foot), mushroom)),
-    ),
-  );
+  const stood = SCREENS.map(({ stage }) => {
+    const here: Weighed[] = [];
+    const among = () => here.map(({ standing }) => standing);
+    for (const mushroom of mushrooms) {
+      const place = placeOf(stage.camera, mushroom.foot);
+      here.push(weighed(standingAt(place, mushroom), among));
+    }
+    return here;
+  });
   standings.set(mushrooms, stood);
   return stood;
 }
 
+/** A new mushroom as one screen stands it on a foot, and the screen's rules. */
+type Trial = {
+  screen: Screen;
+  place: Placement;
+  stood: Splayed;
+  own: Standing;
+};
+
 /**
- * Whether `grown` stands on `foot` on `screen` as the meadow's rules allow,
- * among `others` standing there.
+ * `grown` stood on `foot` on `screen`, where its foot, its cap and every
+ * cap it stands among keep the cheap rules: its foot out of the sun's wash,
+ * its cap inside the edge margin, and no cap hiding more than `MOST_HIDDEN`
+ * of another's; `undefined` where one breaks.
  */
-function fitsOn(
+function trialOn(
   screen: Screen,
   foot: Ground,
-  grown: MushroomGenes,
+  grown: Splayed,
   others: readonly Weighed[],
-): boolean {
-  const { stage, keepOff, wash } = screen;
-  const { camera, sun, width } = stage;
+): Trial | undefined {
+  const { camera, sun, width } = screen.stage;
   const place = placeOf(camera, foot);
-  if (
-    Math.hypot(place.x - sun.x, place.y - sun.y) <
-    wash + place.size * WASH_FOOT_CLEAR
-  ) {
-    return false;
-  }
-  const own = standingWith(place, grown);
+  const away = Math.hypot(place.x - sun.x, place.y - sun.y);
+  if (away < screen.wash + place.size * WASH_FOOT_CLEAR) return undefined;
+  const own = standingAs(place, grown);
   const cap = capBox(own);
   if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {
-    return false;
+    return undefined;
   }
   for (const other of others) {
     const [far, near] =
       other.standing.depth > own.depth ? [cap, other.cap] : [other.cap, cap];
-    if (coverOf(far, near) > MOST_HIDDEN) return false;
+    if (coverOf(far, near) > MOST_HIDDEN) return undefined;
   }
-  if (!keptOff(own, place.size, keepOff)) return false;
-  const before = others.map(({ standing }) => standing);
-  const after = [...before, own];
+  return { screen, place, stood: grown, own };
+}
+
+/**
+ * Whether a `trial` keeps every door in sight among `others`: its own, and
+ * every one behind it that showed before it grew.
+ */
+function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
+  const after = [...others.map(({ standing }) => standing), own];
   if (!doorShows(own, after)) return false;
-  // A door already out of sight is not this one's to hide.
-  return before.every(
-    (standing) =>
-      standing.depth >= own.depth ||
-      doorShows(standing, after) ||
-      !doorShows(standing, before),
+  const whole = boxAround(own.drawn.flat());
+  return others.every(
+    (other) =>
+      other.standing.depth >= own.depth ||
+      !boxesMeet(whole, other.whole) ||
+      !other.shows() ||
+      doorShows(other.standing, after),
   );
 }
 
@@ -233,7 +278,8 @@ export type Growing = {
 /**
  * Where the mushroom grown from `seed` grows among `mushrooms` and
  * `flowers`, whichever species the child picks: `undefined` where the
- * meadow has no room left for one.
+ * meadow has no room left for one. Each foot is tried on the cheap rules on
+ * every screen first, then the controls, then the doors.
  */
 export function roomFor({
   mushrooms,
@@ -241,16 +287,41 @@ export function roomFor({
   seed,
 }: Growing): Ground | undefined {
   const stood = standingOn(mushrooms);
-  const genes = MUSHROOM_SPECIES.map((species) =>
+  const grown = MUSHROOM_SPECIES.map((species) =>
     mushroomGenes({ seed, species }),
+  );
+  const splays = new Map(
+    [-FOREST_SPLAY, FOREST_SPLAY].map((splay) => [
+      splay,
+      grown.map((genes) => splayed(genes, splay)),
+    ]),
   );
   return pickFoot(seed, {
     feet: mushrooms.map(({ foot }) => foot),
-    admits: (foot) =>
-      flowers.every((flower) => apartOnScreen(foot, flower) >= FLOWER_APART) &&
-      SCREENS.every((screen, index) =>
-        genes.every((grown) => fitsOn(screen, foot, grown, stood[index] ?? [])),
-      ),
+    admits: (foot) => {
+      if (flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART))
+        return false;
+      const trials: Array<{ trial: Trial; others: readonly Weighed[] }> = [];
+      for (const [index, screen] of SCREENS.entries()) {
+        const others = stood[index] ?? [];
+        const { splay } = placeOf(screen.stage.camera, foot);
+        for (const genes of splays.get(splay) ?? []) {
+          const trial = trialOn(screen, foot, genes, others);
+          if (!trial) return false;
+          trials.push({ trial, others });
+        }
+      }
+      return (
+        trials.every(({ trial }) =>
+          keptOff(
+            trial.stood,
+            trial.own,
+            trial.place.size,
+            trial.screen.keepOff,
+          ),
+        ) && trials.every(({ trial, others }) => doorsKept(trial, others))
+      );
+    },
   });
 }
 

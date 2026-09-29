@@ -3,8 +3,8 @@
  * last flower it drank at; landing at a different one pollinates it, and as
  * it leaves that flower a new one is planted in a free ring slot round it —
  * while the meadow holds fewer than `FLOWER_LIMIT` and the scene offers the
- * room. Nothing here knows where a slot stands on screen: the scene says
- * which flowers have room, and in which slot.
+ * room. Nothing here knows where a slot stands: the scene fixes each on the
+ * ground round its parent, and says which flowers have room, and in which.
  */
 
 import type { Flight, Leg } from './flight';
@@ -16,7 +16,7 @@ export const FLOWER_LIMIT = 14;
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;
 
-/** A ring slot round a flower, by its index: the scene fixes each slot's angle and distance. */
+/** A ring slot round a flower, by its index: the scene fixes each slot's step on the ground, in the flower's size. */
 type Ringed = { ring: number };
 /** A flower in sight with a ring slot free round it, and the slot. */
 type Room = Ringed & { flower: string };

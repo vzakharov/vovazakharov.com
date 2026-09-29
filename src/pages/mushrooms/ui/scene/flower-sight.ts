@@ -28,12 +28,17 @@ import type { InsectKind } from '../../model/insect-genes';
 import type { Plot } from '../../model/pollen';
 import { claimedPlaces, placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
-import { FLOWER_SWAY } from './flower-layout';
+import {
+  FLOWER_SWAY,
+  type FlowerFoot,
+  groundOf,
+  standingOn,
+} from './flower-layout';
 import {
   groundFor,
   type Placed,
   RING_SLOTS,
-  ringSpot,
+  ringFoot,
   type StandingFlower,
   standingFlowers,
 } from './flower-plots';
@@ -279,26 +284,26 @@ export function coversOn(
   return covers;
 }
 
-/** The flowers standing where a bee plants, and every foot a planting keeps off. */
+/** The flowers standing where a bee plants, and every foot on the ground a planting keeps off. */
 type Ground = {
   standing: readonly StandingFlower[];
-  claimed: readonly Footing[];
+  claimed: readonly FlowerFoot[];
 };
 
 /**
- * Whether a flower planted at `place` on `layout` would have ground there
- * among the flowers of `standing`, off every foot of `claimed`
- * (`groundFor`), and be in sight there (`flowerInSight`), whatever its genes.
+ * Whether a flower planted at `foot` would have ground there among the
+ * flowers of `standing`, off every foot of `claimed` (`groundFor`), and be
+ * in sight on `layout`, this screen (`flowerInSight`), whatever its genes.
  */
 function plantable(
   layout: MeadowLayout,
-  place: Footing,
+  foot: FlowerFoot,
   { standing, claimed }: Ground,
   covers: readonly Cover[],
 ): boolean {
   return (
-    groundFor(layout, place, standing, claimed) &&
-    sightingsAt(place, layout).every((sighting) =>
+    groundFor(foot, standing, claimed) &&
+    sightingsAt(standingOn(layout.camera, foot), layout).every((sighting) =>
       flowerInSight(layout, sighting, covers),
     )
   );
@@ -306,7 +311,7 @@ function plantable(
 
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable` on this screen, off every
+ * no planted flower takes that is `plantable`, in sight on this screen, off every
  * place a mushroom stands or may yet grow (`claimedPlaces`), so no mushroom
  * ever grows on a flower planted while its slot stood free.
  */
@@ -318,7 +323,9 @@ export function roomFor(
   const here = standingFlowers(layout, flowers, planted, mushrooms);
   const ground: Ground = {
     standing: here,
-    claimed: claimedPlaces(layout.mushrooms, mushrooms),
+    claimed: claimedPlaces(layout.mushrooms, mushrooms).map((place) =>
+      groundOf(layout.camera, place),
+    ),
   };
   return shown.flatMap((id) => {
     const parent = here.find((flower) => flower.id === id);
@@ -327,7 +334,7 @@ export function roomFor(
       if (planted.some((each) => each.parent === id && each.ring === slot)) {
         return false;
       }
-      const spot = ringSpot(layout, parent.place, slot);
+      const spot = ringFoot(parent.foot, slot);
       return spot !== undefined && plantable(layout, spot, ground, covers);
     });
     return ring === -1 ? [] : [{ flower: id, ring }];
