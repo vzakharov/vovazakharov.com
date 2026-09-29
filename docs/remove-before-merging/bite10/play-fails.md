@@ -17,6 +17,15 @@ On 89abb21 the run failed on phoneL only, with both failures reproducing
   that seed. The wait now looks every `REST_LOOK` frames (~160 s of meadow,
   the same drawn frames).
 
-## Left
+## Verified
 
-- Full run on HEAD after both fixes (and picker's tuft commits): pending.
+Probe build of HEAD after both fixes, picker's tuft commits (7d30ff0,
+1f4ee21) included: `pnpm play:mushrooms --no-build --screens <each>` green
+on tabL, tabP, phoneP, phoneL, phoneS.
+
+## Worth a look
+
+On phoneL the chanterelle stands small at the back, and the butterfly on
+its lip covers most of it (`tmp/play/phoneL-s3-butterfly-on-chanterelle.png`):
+the accepted cost of the insect-size floors (fe648aa). A tap still reaches
+the cap through the butterfly.
