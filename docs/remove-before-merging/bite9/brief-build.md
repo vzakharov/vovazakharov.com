@@ -2,7 +2,7 @@
 
 Repo `/home/user/vovazakharov.com`, branch `claude/mushroom-game-syama-lbirv7`
 (PR #57). The game lives in `src/pages/mushrooms/`. The spec is the plan,
-`docs/plans/mushroom-game-syama.in-progress.md`: § "This bite" (item 9.2,
+`docs/plans/mushroom-game-syama.in-progress.md`: § "Rest of the bite" (item 9,
 the calls this bite already decided), § "Decisions the whole game carries",
 and the entries of § "Eaten so far" for the modules you touch — read those
 parts, not the whole file. The design this bite builds is argued in
@@ -65,7 +65,7 @@ names your files and the ones that are off limits.
 
   ```
   Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-  Claude-Session: https://claude.ai/code/session_01PN4ML41dri7HvW3Pz54LLo
+  Claude-Session: https://claude.ai/code/session_01W9VjLbgV5LvxWtsrs97cPX
   ```
 
 ## If told to pause, or running long
