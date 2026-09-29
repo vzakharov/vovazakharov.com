@@ -656,9 +656,16 @@ Standing rules for every session in the chain:
      - **Forest mushrooms shrink with depth** as the clump does
        (`scaleAt`), and the zoom floor comes down so `mushroom-tap.ts`'s
        finger pad is what holds a far cap's tap. The pad stays.
-     - **`seen` measures with the actual camera's foreshortening**, and
-       `FORESHORTENING`'s span comes from the formula's bounds, not from
-       the play run's screens.
+     - **Every camera looks at the meadow from one angle**: the
+       foreshortening is the meadow's, not the screen's, and a screen
+       picks only the unit and how much ground it shows. A turn's refit is
+       then a scaled copy of the picture the child grew on, so what
+       overlaps (doors in sight, hidden caps, flowers under caps) is what
+       it was before the turn. `seen` is true on every camera, and
+       `FORESHORTENING` narrows to that one value. This beat measuring
+       each rule with each camera's own foreshortening: the own-width
+       refit let a turn break door-in-sight in 9 of 13 swept phone
+       meadows and hide 71% of the flowers.
 
 ## Rest of the elephant
 
