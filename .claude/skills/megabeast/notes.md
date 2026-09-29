@@ -101,7 +101,13 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   `git merge-base --is-ancestor <branch> origin/<branch>` proved nothing
   was local, and `git merge --ff-only origin/<branch>` needed no approval.
   The skill's pickup should unshallow first. The rename aside is then the
-  fallback for a genuine rewrite only.
+  fallback for a genuine rewrite only. Bite 9's end met a genuine one: past
+  `--deepen=300` the stale ref still diverged, and every commit only it
+  held was the trunk's own old history ("Initial commit" onward), so the
+  snapshot predates a rewrite of `main`. `reset --hard` was blocked, the
+  rename aside went through. A subject-level
+  `comm -23 <(git log --format=%s origin/<b>..<b> | sort -u) <(git log --format=%s origin/<b> | sort -u)`
+  is the quick way to see that nothing session-made is on the stale side.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
@@ -389,6 +395,31 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   the plan gets the item in English with the operator's words quoted. The
   replies name the commit, and each reading the agent had to guess (a word
   that reads two ways) is said in the reply so the operator can correct it.
+  When the document's idea is still held out of the plan, only the
+  document gets the section. The plan takes only the one line where an
+  item already in it waited on that call (item 11's pinch, dropped by
+  "one finger").
+- **An operator review lands fine while a tail agent runs.** The review of
+  idea 1 came in with the gates-and-polish agent busy on `src/`. The
+  orchestrator answered it: a document under `ideas/`, eight replies, and
+  one plan line after the agent finished. The paths never met. The skill
+  should let the orchestrator take operator comments inline while an agent
+  holds the code, and push them with a pull-then-push, never waiting.
+- **A code span split across a line can break prettier on a nested list.**
+  A `` `y u o p [` `` wrapped so its continuation opened the line: the first
+  `--write` pushed that line to column 0, and the second flattened item 10's
+  whole bullet list into a paragraph. `--check` failed after each pass,
+  which is the tell. The skill should run `prettier --check` again after
+  every `--write` on the plan, and its prose rule should say never to wrap
+  inside a code span.
+- **A tail agent marks its polish `polish(bite n):`, which `/polish`'s
+  lookup skips**, so the next run reads the whole branch rather than the
+  bite. The scoping is right: the bite's range is a focused run by the
+  skill's own definition. But the loop never writes a plain `polish:`, so
+  every `/polish` from here to `/finalize` re-reads the whole branch. The
+  skill should say which one a bite's end writes. The unfocused one is
+  the better choice, since the range since the last bite's end is exactly
+  what the lookup would otherwise compute.
 
 ## Quality levers
 
