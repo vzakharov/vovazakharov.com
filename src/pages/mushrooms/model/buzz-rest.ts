@@ -23,12 +23,26 @@ const EASE_IN = 300;
 const EASE_OUT = 250;
 
 /**
- * How far a fly jitters, and its two shakes' periods, in ms, never in step:
- * 1.5 px or more each way at the smallest a fly is drawn, so it reads as a
- * tremble of its own beside the hop.
+ * How far a fly jitters each way, in units of its size, and its two shakes'
+ * periods, in ms, never in step.
  */
 const JITTER = 0.05;
 const JITTER_PERIODS = [83, 127] as const;
+
+/**
+ * The least a fly's jitter reaches each way, in CSS px, so it reads as a
+ * tremble of its own beside the hop.
+ */
+export const LEAST_TREMBLE = 1.5;
+
+/**
+ * The size a fly drawn `size` px to its unit jitters at: its own, but never
+ * under the size at which the jitter reaches `LEAST_TREMBLE`, so a fly on a
+ * small meadow trembles as far as one that size.
+ */
+export function trembleSize(size: number): number {
+  return Math.max(size, LEAST_TREMBLE / JITTER);
+}
 
 /**
  * A fly's leg-rubbing: a bout of `RUB_FOR` ms starting every `RUB_EVERY`,

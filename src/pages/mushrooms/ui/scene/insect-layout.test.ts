@@ -30,6 +30,7 @@ import {
   type HeadReach,
   PERCH_SPREAD,
   sightingOf,
+  WIDEST_SPAN,
 } from './flower-sight';
 import { meadowLayout } from './layout';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -45,16 +46,22 @@ const LEAST_SPAN = 52;
 
 describe('the butterflies’ size', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`spans a butterfly wide enough to read, and narrower than any clump cap, on a ${name} screen`, () => {
+    it(`spans a butterfly narrower than any clump cap, and ${String(LEAST_SPAN)} px wide or as near it as the clump lets, on a ${name} screen`, () => {
       const { insectSize, mushrooms } = meadowLayout(width, height, 1);
       const narrowestCap = Math.min(
         ...everyPlace(mushrooms)
           .slice(0, 2)
           .map(({ size }) => size * geneBounds('capWidth')[0]),
       );
+      // Where the clump stands small, the butterflies shrink with it, the
+      // widest any genes grow no wider than its narrowest cap.
+      const least = Math.min(
+        LEAST_SPAN,
+        (narrowestCap * Math.min(...SPANS)) / WIDEST_SPAN,
+      );
       for (const span of SPANS) {
         assert.ok(
-          span * insectSize >= LEAST_SPAN,
+          span * insectSize >= least - 1e-9,
           `${(span * insectSize).toFixed(0)} px`,
         );
         assert.ok(span * insectSize < narrowestCap);
@@ -65,14 +72,15 @@ describe('the butterflies’ size', () => {
 
 describe('the flies’ and the bees’ size', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`draws a fly and a bee big enough to read, and smaller than any butterfly, on a ${name} screen`, () => {
+    it(`draws a fly and a bee big enough to read, or shrunk as the butterflies are, and smaller than any butterfly, on a ${name} screen`, () => {
       const { insectSize, insectSizes } = meadowLayout(width, height, 1);
       const narrowestButterfly = Math.min(...SPANS) * insectSize;
+      const least = LEAST_BUZZER * Math.min(1, narrowestButterfly / LEAST_SPAN);
       for (const kind of ['fly', 'bee'] as const) {
         for (const seed of VISITS) {
           const span =
             wingspan(insectGenes({ seed, kind })) * insectSizes[kind];
-          assert.ok(span >= LEAST_BUZZER, `a ${kind} ${span.toFixed(0)} px`);
+          assert.ok(span >= least, `a ${kind} ${span.toFixed(0)} px`);
           assert.ok(
             span < narrowestButterfly,
             `a ${kind} ${span.toFixed(0)} px`,

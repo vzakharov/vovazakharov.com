@@ -217,7 +217,7 @@ function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
 
 describe('a turn', () => {
   for (const [name, width, height] of VIEWPORTS.filter(([screen]) =>
-    ['phone', 'small phone'].includes(screen),
+    ['phone', 'phone held sideways', 'small phone'].includes(screen),
   )) {
     it(`keeps every flower in sight that was, and half of them at least, in the median meadow grown to six on a ${name} screen`, () => {
       const kept: number[] = [];

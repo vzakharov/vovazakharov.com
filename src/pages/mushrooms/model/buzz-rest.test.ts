@@ -3,7 +3,16 @@ import { describe, it } from 'node:test';
 
 import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
-import { crawl, hop, HOP_EVERY, HOP_REACH, jitter, rubbing } from './buzz-rest';
+import {
+  crawl,
+  hop,
+  HOP_EVERY,
+  HOP_REACH,
+  jitter,
+  LEAST_TREMBLE,
+  rubbing,
+  trembleSize,
+} from './buzz-rest';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { LANDING, type Stay, wingBeat } from './insect-motion';
 import { buzzTurn } from './insect-outline';
@@ -59,7 +68,7 @@ describe('a fly at rest', () => {
     }
   });
 
-  it('jitters at least 1.5 px each way on every screen', () => {
+  it(`jitters at least ${String(LEAST_TREMBLE)} px each way on every screen, however small the fly`, () => {
     const smallest = Math.min(
       ...VIEWPORTS.flatMap(([, width, height]) =>
         VISITS.slice(0, 50).map(
@@ -73,10 +82,9 @@ describe('a fly at rest', () => {
       );
       for (const axis of ['x', 'y'] as const) {
         const most = Math.max(...offsets.map((each) => Math.abs(each[axis])));
-        assert.ok(
-          most * smallest >= 1.5,
-          `${axis} ${String(most * smallest)} px`,
-        );
+        const reach = most * trembleSize(smallest);
+        // Sampled a millisecond apart, the peak can fall between two samples.
+        assert.ok(reach >= LEAST_TREMBLE - 1e-3, `${axis} ${String(reach)} px`);
       }
     }
   });

@@ -72,19 +72,24 @@ function reachOf(places: typeof UNIT_PLACES): number {
 }
 
 /**
- * The zoom floor: the least clump size a camera stands the meadow at, the
- * opening clump's narrowest cap its genes allow being `2 × TAP_RADIUS` across
- * by its gene there. The forest, smaller with depth, is drawn narrower than a
- * finger on every screen's far rows, and a short screen stands the clump
- * under the floor too (`floorOn`): a cap drawn narrower than a finger is
- * padded to one (`fingerPad`).
+ * How wide the opening clump's narrowest cap is by its genes, where the
+ * clump's smaller one stands, in the clump's size.
  */
-export const ZOOM_FLOOR =
-  (2 * TAP_RADIUS) /
-  (GENE_RANGES[OPENING_SPECIES].capWidth[0] *
-    Math.min(
-      ...UNIT_PLACES.slice(0, OPENING_FEET.length).map(({ size }) => size),
-    ));
+export const CLUMP_NARROWEST =
+  GENE_RANGES[OPENING_SPECIES].capWidth[0] *
+  Math.min(
+    ...UNIT_PLACES.slice(0, OPENING_FEET.length).map(({ size }) => size),
+  );
+
+/**
+ * The zoom floor: the least clump size a camera stands the meadow at, the
+ * clump's narrowest cap being `2 × TAP_RADIUS` across by its gene there. The
+ * forest, smaller with depth, is drawn narrower than a finger on a phone's
+ * far rows, and a short screen stands the clump under the floor too
+ * (`floorOn`): a cap drawn narrower than a finger is padded to one
+ * (`fingerPad`).
+ */
+export const ZOOM_FLOOR = (2 * TAP_RADIUS) / CLUMP_NARROWEST;
 
 /**
  * What every screen's camera shows: the opening clump's caps, every cap

@@ -9,7 +9,13 @@
 import type * as Phaser from 'phaser';
 
 import type { BeeGenes } from '../../model/bee-genes';
-import { crawl, hop, jitter, rubbing } from '../../model/buzz-rest';
+import {
+  crawl,
+  hop,
+  jitter,
+  rubbing,
+  trembleSize,
+} from '../../model/buzz-rest';
 import type { Timed } from '../../model/flight';
 import type { FlyGenes } from '../../model/fly-genes';
 import type { Point } from '../../model/geometry';
@@ -310,7 +316,11 @@ export function fidget(look: Look, { stay, now, motion, size }: Moment): Point {
     case 'fly': {
       const shake = jitter(stay, now, motion);
       const { along, rise } = hop(stay, now, motion);
-      return { x: (shake.x + along) * size, y: (shake.y - rise) * size };
+      const trembling = trembleSize(size);
+      return {
+        x: shake.x * trembling + along * size,
+        y: shake.y * trembling - rise * size,
+      };
     }
     case 'bee': {
       const { x, y } = crawl(stay, now, motion);

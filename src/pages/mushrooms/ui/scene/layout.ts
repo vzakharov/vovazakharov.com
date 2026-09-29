@@ -1,8 +1,9 @@
 /**
  * Where everything in the meadow stands, as a pure function of the viewport in
- * CSS pixels. Every size in the meadow is proportional, but for the floor that
- * keeps a mushroom a finger's target, so a phone held upright and a tablet
- * held sideways get the same picture composed for each; `sky-layout.ts` places
+ * CSS pixels. Every size in the meadow is proportional, but for the floors
+ * that keep the clump a finger's target and an insect big enough to read,
+ * so a phone held upright and a tablet held sideways get the same picture
+ * composed for each; `sky-layout.ts` places
  * the buttons over it, and `sun-layout.ts` the sun.
  */
 
@@ -20,7 +21,13 @@ import {
   headsAcross,
   seededBed,
 } from './flower-layout';
-import { capsAcross, meadowCamera, meadowFrame } from './meadow-camera';
+import { WIDEST_SPAN } from './flower-sight';
+import {
+  capsAcross,
+  CLUMP_NARROWEST,
+  meadowCamera,
+  meadowFrame,
+} from './meadow-camera';
 import { type Controls, placeControls, standingControls } from './sky-layout';
 import { horizonAt, placeSun, washRings } from './sun-layout';
 
@@ -38,10 +45,27 @@ export type Footing = Point & Scaled;
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,
- * and the least it is painted at, so it reads on a phone.
+ * and the least it is painted at, so it reads on a phone. That least gives
+ * way where the clump stands small (`insectSizeFor`).
  */
 const INSECT_SCALE = 0.3;
 const INSECT_LEAST = 60;
+
+/**
+ * The unit a butterfly's genes are painted in where the clump stands `unit`:
+ * `INSECT_SCALE` of it, never under `INSECT_LEAST` nor so big that its open
+ * wings span wider than the clump's narrowest cap. Where the clump stands
+ * small — a short screen, or a refit zoomed out to keep what the meadow used
+ * in view — the insects shrink with it, so a turn's refit is a scaled copy of
+ * the picture, the room a flower keeps for an insect's wings included. An
+ * insect's tap stays a finger's however small it is drawn (`tapReach`).
+ */
+function insectSizeFor(unit: number): number {
+  return Math.min(
+    Math.max(INSECT_LEAST, unit * INSECT_SCALE),
+    (unit * CLUMP_NARROWEST) / WIDEST_SPAN,
+  );
+}
 /**
  * Each kind's size against the butterfly's: a fly and a bee are small beside
  * it, and still read on a phone.
@@ -199,7 +223,7 @@ function standMeadow(width: number, height: number, shown: number): Stood {
   const frame = meadowFrame({ width, height });
   const mushrooms = { camera, frame };
   const controls = placeControls(width, height, groundTop);
-  const insectSize = Math.max(INSECT_LEAST, unit * INSECT_SCALE);
+  const insectSize = insectSizeFor(unit);
   const flowers = {
     width,
     height,
