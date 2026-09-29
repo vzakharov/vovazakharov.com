@@ -14,26 +14,26 @@ the spec; every control in the drawing now works.
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone and rendered at the device pixel ratio. Every mushroom,
 flower and insect is grown from its own seed by a pure, tested
-generator, and every motion is a pure function of the clock; sound is
-a Web Audio synth with a remembered mute. The layout keeps every cap
-on screen and every control clear of the meadow on any screen. The
-meadow is painted in one light: shade, shine and shadows fall from
-the sun as each thing sees it, hills recede into a shared air, and
-every creature is inked in a dark of its own colour, its ink or fill
-standing 3:1 off the ground under it.
+generator, and every motion is a pure function of the clock; sound is a
+Web Audio synth with a remembered mute. The meadow is one piece of
+ground seen through a camera, so turning the screen moves nothing on it,
+and every rule holds on the screen and on it turned. It is painted in
+one light: shade, shine and shadows fall from the sun as each thing sees
+it, hills recede into a shared air, and every creature is inked in a
+dark of its own colour that stands off the ground under it.
 
 Plus grows one of four species out of the ground — a fly agaric, a
-porcini, a chanterelle trumpet, a russula in one of five colours —
-and minus sinks one, up to six round the clump; the house button
+porcini, a chanterelle trumpet, a russula in one of five colours — and
+minus sinks one; each new one takes a foot of its own wherever it fits,
+up to six, and plus shakes its head when none does. The house button
 furnishes any of them with Syama's windows and a door a mouse peeks
-from. Three buttons fly in a
-butterfly, a fly or a bee, each kind with its own limit, habits and
-path: butterflies drink at flowers, flies zigzag to the fly agarics
-and fidget there, bees carry pollen between flowers and plant new
-ones in rings round those they pollinate, only where the new flower
-is in sight. Fliers keep apart where they sit and hover, and a bee
-waiting for a flower is made way for. A tap sends one at rest on its
-way; a control that cannot act shakes its head.
+from. Three buttons fly in a butterfly, a fly or a bee, each kind with
+its own limit, habits and path: butterflies drink at flowers, flies
+zigzag to the fly agarics and fidget there, bees carry pollen between
+flowers and plant new ones in rings round those they pollinate, only
+where the new flower is in sight. Fliers keep apart where they sit and
+hover, and a bee waiting for a flower is made way for. A tap sends one
+at rest on its way; a control that cannot act shakes its head.
 
 A pure reducer in model/game.ts owns the state. Whatever stands still
 — the backdrop, each button's face — is baked into a texture once a
