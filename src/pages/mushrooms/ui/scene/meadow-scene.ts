@@ -18,11 +18,12 @@ import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
+import { flowerFeet } from './flower-plots';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
 import { type MeadowLayout, meadowLayout, type Opening } from './layout';
 import { MushroomBed } from './mushroom-bed';
-import { flowersOnGround, roomFor } from './mushroom-room';
+import { roomFor } from './mushroom-room';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { airSpots, perchSight, perchSpot } from './perch-sight';
 import { MeadowSound, readMuted } from './sound';
@@ -254,7 +255,7 @@ export class MeadowScene extends Phaser.Scene {
     const foot = roomFor({
       screen: layout,
       mushrooms,
-      flowers: flowersOnGround(stand),
+      flowers: flowerFeet(stand),
       seed: upcoming,
     });
     this.room = { mushrooms, planted, foot };

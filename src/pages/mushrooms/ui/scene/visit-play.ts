@@ -16,9 +16,10 @@ import {
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
+import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { meadowLayout } from './layout';
-import { flowersOnGround, roomFor } from './mushroom-room';
+import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 
 /** The meadow as it stands. */
@@ -55,7 +56,7 @@ export function opened(
     const foot = roomFor({
       screen: { width, height },
       mushrooms,
-      flowers: flowersOnGround({ layout, flowers, mushrooms, planted }),
+      flowers: flowerFeet({ layout, flowers, mushrooms, planted }),
       seed: own,
     });
     if (!foot) break;
