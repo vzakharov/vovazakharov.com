@@ -24,9 +24,9 @@ import type { Ground } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import { pickFoot } from '../../model/placement';
+import { apartOnScreen, pickFoot } from '../../model/placement';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
-import { FOREST_SPLAY, placeOf, sizeOn } from './clump-layout';
+import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
   doorInSight,
   IN_SIGHT,
@@ -36,12 +36,19 @@ import {
   standingAt,
 } from './door-sight';
 import type { FlowerFoot } from './flower-layout';
-import { clearOfFlowers } from './flower-plots';
 import { meadowStage, type Placement } from './layout';
 import { EDGE_MARGIN, meadowFrame } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
+
+/**
+ * How close, as a camera lays the ground out (`apartOnScreen`), in the
+ * clump's size, a mushroom's foot comes to a flower's. Holding it to
+ * `clearOfFlowers` instead, the rule a flower keeps off a mushroom's foot,
+ * leaves room for six mushrooms among seven flowers in almost no visit.
+ */
+const FLOWER_APART = 0.2;
 
 /** What a screen holds a new mushroom to, whatever stands on it. */
 type Screen = {
@@ -324,7 +331,9 @@ export function roomFor({
     frame: meadowFrame(screen),
     feet: mushrooms.map(({ foot }) => foot),
     admits: (foot) => {
-      if (!clearOfFlowers({ ...foot, size: sizeOn(foot) }, flowers)) {
+      if (
+        flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART)
+      ) {
         return false;
       }
       const trials: Array<{ trial: Trial; others: readonly Weighed[] }> = [];

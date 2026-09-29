@@ -60,7 +60,7 @@ function standOn(
  * size before depth scales it: an opening foot's as the clump's, any other
  * drawn `FOREST_DRAWN` of the clump's front one wherever it stands.
  */
-export function sizeOn(foot: Ground): number {
+function sizeOn(foot: Ground): number {
   const opening = openingIndex(foot);
   if (opening !== undefined) return CLUMP_SIZES[opening] ?? 1;
   return FOREST_DRAWN / scaleAt(foot.z);
