@@ -35,7 +35,7 @@ type Screen = (typeof VIEWPORTS)[number][0];
 
 /**
  * The visits every rule is swept over, every species tried on every foot:
- * a dozen spread over the seeds `fill.md`'s 2000 were grown from.
+ * a dozen spread over `VISITS`.
  */
 const RULED = VISITS.filter((_, index) => index % 160 === 0);
 

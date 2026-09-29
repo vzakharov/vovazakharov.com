@@ -10,7 +10,7 @@ import { gillLines, headOutlines, inkWidth } from './mushroom-outline';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
-/** The smallest any slot on any screen paints a mushroom, in px to its unit. */
+/** The smallest any place on any screen paints a mushroom, in px to its unit. */
 const SMALLEST = Math.min(
   ...VIEWPORTS.flatMap(([, width, height]) =>
     everyPlace(meadowLayout(width, height, 1).mushrooms).map(
@@ -18,7 +18,7 @@ const SMALLEST = Math.min(
     ),
   ),
 );
-/** One ink line on the smallest slot, in units of size. */
+/** One ink line on the smallest place, in units of size. */
 const LINE = inkWidth(SMALLEST) / SMALLEST;
 
 /** The stretch of a closed `outline` from its leftmost point to its rightmost over the top, left to right. */
@@ -92,7 +92,7 @@ function notches(outline: readonly Point[], deep: number): number[] {
 }
 
 describe('a chanterelle’s lip', () => {
-  it('waves its top in three lobes or more, each an ink line tall on the smallest slot', () => {
+  it('waves its top in three lobes or more, each an ink line tall on the smallest place', () => {
     for (const seed of SEEDS) {
       const genes = mushroomGenes({ seed, species: 'chanterelle' });
       const [lip] = headOutlines(genes);
@@ -134,7 +134,7 @@ describe('every head but the fly agaric’s', () => {
     }
   });
 
-  it('dips a russula’s top at its middle, an ink line deep on the smallest slot', () => {
+  it('dips a russula’s top at its middle, an ink line deep on the smallest place', () => {
     for (const seed of SEEDS) {
       const genes = mushroomGenes({ seed, species: 'russula' });
       const [cap] = headOutlines(genes);

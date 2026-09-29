@@ -207,7 +207,7 @@ export function mostShaded(
   return most;
 }
 
-/** The box on screen `silhouette` stays inside, stood in `slot`. */
+/** The box on screen `silhouette` stays inside, stood at its place. */
 function placedBox(
   { left, top, columns, rows }: Silhouette,
   { x, y, size }: Placement,

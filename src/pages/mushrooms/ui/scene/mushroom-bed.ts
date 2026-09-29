@@ -71,7 +71,7 @@ type Shown = Tapped &
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
  * one grows out of the ground, a removed one sinks back into it and is
- * destroyed once it has, and every one stands in its slot of the layout.
+ * destroyed once it has, and every one stands where the layout stands its foot.
  */
 export class MushroomBed {
   private readonly shown = new Map<string, Shown>();
@@ -171,7 +171,7 @@ export class MushroomBed {
   }
 
   /**
-   * Stands every mushroom in its slot of `layout`, into the objects it has,
+   * Stands every mushroom where `layout` stands its foot, into the objects it has,
    * and seats every door afresh among them as they now stand.
    */
   paint(meadow: Meadow, layout: MeadowLayout, lighting: Lighting): void {

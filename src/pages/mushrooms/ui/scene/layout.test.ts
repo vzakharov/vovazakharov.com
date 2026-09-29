@@ -66,16 +66,16 @@ const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed) =>
 const CLUMPS = VISITS.slice(0, 500);
 
 /**
- * The visits a screen grows toward six, spread over the seeds `fill.md`'s
- * 2000 were grown from: every tenth, and every twentieth on the small phone,
- * whose visits grow slowest and whose share stands farthest from its floor.
+ * The visits a screen grows toward six, spread over `VISITS`: every tenth,
+ * and every twentieth on the small phone, whose visits grow slowest and
+ * whose share stands farthest from its floor.
  */
 const grownVisits = (name: Screen) =>
   VISITS.filter((_, index) => index % (name === 'small phone' ? 20 : 10) === 0);
 /**
  * The least share of visits reaching six mushrooms on each screen: 99%, and
- * on the small phone, whose frame stands at the zoom floor both ways, the
- * share `fill.md` accepted (69% of 2000).
+ * on the small phone, whose frame stands at the zoom floor both ways, a
+ * little under the share all of `VISITS` reach (69%).
  */
 const LEAST_FULL: Partial<Record<Screen, number>> = { 'small phone': 0.65 };
 const FULL_ELSEWHERE = 0.99;
@@ -172,7 +172,7 @@ function topmost(
 
 describe('meadowLayout', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`grows six mushrooms in the share of visits fill.md accepts on a ${name} screen`, (t) => {
+    it(`grows six mushrooms in the share of visits it is held to on a ${name} screen`, (t) => {
       const visits = grownVisits(name);
       const full = visits.filter(
         (seed) =>

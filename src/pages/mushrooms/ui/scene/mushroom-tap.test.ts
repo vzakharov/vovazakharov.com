@@ -26,7 +26,7 @@ import {
 import { TAP_RADIUS } from './sky-layout';
 import { VIEWPORTS } from './viewports';
 
-/** Sizes a mushroom may be drawn at, px to its unit: from a speck to past today's clump. */
+/** Sizes a mushroom may be drawn at, px to its unit: from a speck to past any screen's clump. */
 const SIZES = [3, 5, 8, 12, 16, 20, 25, 30, 40, 50, 60, 70, 80, 100, 130];
 const SEEDS_PER = 12;
 /** Directions round a point a finger is tried in. */
@@ -227,7 +227,7 @@ describe('a small mushroom’s tap area', () => {
     t.diagnostic(`taps on a big mushroom’s body a small one took: ${stolen}`);
   });
 
-  it('changes nothing on today’s screens, every mushroom there already a finger across', (t) => {
+  it('changes nothing on the swept screens, every mushroom there already a finger across', (t) => {
     const smallest = Math.min(
       ...VIEWPORTS.flatMap(([, width, height]) =>
         everyPlace(meadowLayout(width, height, 1).mushrooms).map(
@@ -240,7 +240,7 @@ describe('a small mushroom’s tap area', () => {
     for (const species of MUSHROOM_SPECIES) {
       for (let index = 0; index < 200; index += 1) {
         // A head's width in its own frame grows with its size, so the
-        // smallest slot of any screen is the one to try.
+        // smallest place of any screen is the one to try.
         const mushroom = standing(
           'today',
           species,
@@ -257,14 +257,14 @@ describe('a small mushroom’s tap area', () => {
           assert.equal(
             tappedMushroom(finger, [mushroom]) === mushroom,
             drawnOnScreen(mushroom, finger),
-            `a ${species} on the smallest slot`,
+            `a ${species} on the smallest place`,
           );
         }
       }
     }
     assert.equal(least.size, MUSHROOM_SPECIES.length);
     t.diagnostic(
-      `narrowest head on the smallest slot (${smallest.toFixed(1)} px): ${[...least].map(([species, across]) => `${species} ${across.toFixed(2)} px`).join(', ')}; smaller than a finger under ${FINGER_ACROSS.toFixed(2)} px`,
+      `narrowest head on the smallest place (${smallest.toFixed(1)} px): ${[...least].map(([species, across]) => `${species} ${across.toFixed(2)} px`).join(', ')}; smaller than a finger under ${FINGER_ACROSS.toFixed(2)} px`,
     );
   });
 });

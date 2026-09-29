@@ -119,7 +119,7 @@ describe('mushroomGenes', () => {
     assert.equal(new Set(grown.map(({ capHeight }) => capHeight)).size, 4);
   });
 
-  it('makes every species’ narrowest drawn cap a finger’s target on the smallest slot', (t) => {
+  it('makes every species’ narrowest drawn cap a finger’s target on the smallest place', (t) => {
     const places = VIEWPORTS.flatMap(([, width, height]) =>
       everyPlace(meadowLayout(width, height, 1).mushrooms),
     );
@@ -150,7 +150,7 @@ describe('mushroomGenes', () => {
       );
     }
     t.diagnostic(
-      `narrowest cap on the smallest slot: ${[...narrowest]
+      `narrowest cap on the smallest place: ${[...narrowest]
         .map(
           ([species, across]) =>
             `${species} ${(across * smallest).toFixed(0)} px`,

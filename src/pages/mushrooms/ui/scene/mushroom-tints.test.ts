@@ -19,7 +19,7 @@ import {
 } from './mushroom-tints';
 import { PALETTE } from './palette';
 
-/** Every haze a mushroom stands in, from none to the farthest slot's. */
+/** Every haze a mushroom stands in, from none to the farthest place's. */
 const HAZES = [0, 0.1, 0.2, 0.3, 0.4];
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index + 1);
 /**

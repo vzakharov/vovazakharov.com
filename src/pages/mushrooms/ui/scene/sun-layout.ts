@@ -117,9 +117,10 @@ const WASH_REACH = [4, 14] as const;
 
 /**
  * The farthest the sun's wash over the land reaches from its middle: down to
- * the ground's upper third at most, and short of every mushroom slot's foot
- * and the shadow round it, taken or not, so it never lifts the ground a
- * mushroom stands on.
+ * the ground's upper third at most, and short of the foot and the shadow
+ * round it of every place at the frame's extremes (`everyPlace`); a new
+ * mushroom's foot keeps out of it too (`roomFor`), so it never lifts the
+ * ground a mushroom stands on.
  */
 function washReach({
   sun,
