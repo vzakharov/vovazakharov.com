@@ -672,11 +672,12 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
       rows follow the same order: `a s d f` violet, `q w e r` white. The
       agent's proposal, standing unless the operator redraws it.
     - Chords: several fingers at once, a compressor on `master` ("нужно,
-      да, особенно с учётом барабанов"). Whether item 11 needs a pinch at
-      all is left to the operator's call on the first idea.
-    - Keyboard on the canvas host: `g h j k l ; '` the white keys C–B, `y
-u o p [` the sharps, `a s d f` and `q w e r` the eight drums, `z`/`x`
-      the octave.
+      да, особенно с учётом барабанов"). Item 11 takes no pinch: the
+      operator's call on the first idea is one finger (review 5355192406,
+      «давай однопальцевые жесты»).
+    - Keyboard on the canvas host: `g h j k l ; '` the white keys C–B,
+      `y u o p [` the sharps, `a s d f` and `q w e r` the eight drums,
+      `z`/`x` the octave.
 
 11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
     comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
