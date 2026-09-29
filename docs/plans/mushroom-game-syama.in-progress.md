@@ -675,26 +675,26 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
       да, особенно с учётом барабанов"). Whether item 11 needs a pinch at
       all is left to the operator's call on the first idea.
     - Keyboard on the canvas host: `g h j k l ; '` the white keys C–B, `y
-      u o p [` the sharps, `a s d f` and `q w e r` the eight drums, `z`/`x`
+u o p [` the sharps, `a s d f` and `q w e r` the eight drums, `z`/`x`
       the octave.
 
 11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
-   comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
-   план, но подготовь отдельные два документа (по одному на идею) … Исходя из
-   этого будем думать. Документы на русском."); what of this item waits on
-   the first of them is left for the operator's call. The meadow is a world wider than
-   the screen, and the screen a window onto it: a rotation or a smaller
-   screen changes the crop, not the layout, and the child pans left and
-   right and pinches to zoom, a gesture known from photos ("если мы сделаем
-   более широкое поле, то можно делать не ресайз а просто кроп, а там уже
-   ребёнок сам будет водить влево-вправо"; "кажется, что экран слишком
-   маловат — или объекты великоваты — чтобы было прямо интересно"). It
-   starts from the meadow as it stands. It revisits the rules that exist
-   only because a rotation re-lays the world — the turned-screen planting
-   guard, flowers placed against the feet of both meadows, the slot
-   floors per screen — and the taps-only rule for a two-finger pinch and a
-   one-finger pan. Walking through the meadow, as a spectator or a
-   participant the insects fly from, stays out of scope for now.
+    comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
+    план, но подготовь отдельные два документа (по одному на идею) … Исходя из
+    этого будем думать. Документы на русском."); what of this item waits on
+    the first of them is left for the operator's call. The meadow is a world wider than
+    the screen, and the screen a window onto it: a rotation or a smaller
+    screen changes the crop, not the layout, and the child pans left and
+    right and pinches to zoom, a gesture known from photos ("если мы сделаем
+    более широкое поле, то можно делать не ресайз а просто кроп, а там уже
+    ребёнок сам будет водить влево-вправо"; "кажется, что экран слишком
+    маловат — или объекты великоваты — чтобы было прямо интересно"). It
+    starts from the meadow as it stands. It revisits the rules that exist
+    only because a rotation re-lays the world — the turned-screen planting
+    guard, flowers placed against the feet of both meadows, the slot
+    floors per screen — and the taps-only rule for a two-finger pinch and a
+    one-finger pan. Walking through the meadow, as a spectator or a
+    participant the insects fly from, stays out of scope for now.
 
 12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
     splash on caps and ground, with its own sound. While it rains, flowers
