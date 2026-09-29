@@ -23,6 +23,7 @@ import {
   type Ground,
   project,
   scaleAt,
+  zAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
@@ -306,7 +307,7 @@ function spotOn(
   seed: number,
   placed: readonly FlowerFoot[],
 ): FlowerFoot | undefined {
-  const { width, height, groundTop, ground, frame, controls, clump } = opening;
+  const { width, height, frame, controls, clump } = opening;
   const spot = FLOWER_SPOTS[height > width ? 'portrait' : 'landscape'][index];
   if (!spot) return undefined;
   const camera = cameraOf(opening);
@@ -318,11 +319,7 @@ function spotOn(
     const stray = 1 + attempt / 4;
     const x = jitter(random, across, FLOWER_JITTER[0] * stray, FLOWER_ACROSS);
     const y = jitter(random, down, FLOWER_JITTER[1] * stray, FLOWER_DOWN);
-    const { z } = groundOf(camera, {
-      x: 0,
-      y: groundTop + ground * y,
-      size: 0,
-    });
+    const z = zAt(y);
     const foot = {
       x: ((2 * x - 1) * frame.across) / scaleAt(z),
       z,

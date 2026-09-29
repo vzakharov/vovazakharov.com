@@ -75,8 +75,11 @@ const HAZE_REACH = 0.35;
  */
 const FRAME_INSET = { far: 0.01, near: 0.005 } as const;
 
-/** How far into the distance a point `down` of the way down the band stands. */
-function zAt(down: number): number {
+/**
+ * How far into the distance a point `down` of the way down the band stands,
+ * the same on every camera.
+ */
+export function zAt(down: number): number {
   return (CLUMP_DOWN - down) * BAND_DEPTH;
 }
 

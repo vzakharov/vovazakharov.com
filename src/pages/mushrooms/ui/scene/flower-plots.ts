@@ -11,7 +11,7 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
-import type { Ground } from '../../model/ground';
+import { type Ground, zAt } from '../../model/ground';
 import type { Sown } from '../../model/pollen';
 import { standingPlaces } from './clump-layout';
 import {
@@ -68,13 +68,9 @@ export type StandingFlower = Flower & Placed & Rooted;
  * first: as far down the ground's depth as `FLOWER_DOWN` on every screen,
  * a point's share of the depth being the same on all of them.
  */
-const FLOWER_DEPTH = FLOWER_DOWN.map(
-  (down) =>
-    groundOf(
-      { width: 0, height: 0, groundTop: 0, ground: 1, midline: 0, unit: 1 },
-      { x: 0, y: down, size: 0 },
-    ).z,
-).toSorted((a, b) => a - b);
+const FLOWER_DEPTH = FLOWER_DOWN.map((down) => zAt(down)).toSorted(
+  (a, b) => a - b,
+);
 
 /**
  * How far past the flowers' band, in the clump's size, a foot still stands on
