@@ -27,7 +27,7 @@ import {
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { mulberry32 } from '../../model/random';
-import { capBox } from './cap-cover';
+import { capBox, hiddenOf, partOf, sighted } from './cap-cover';
 import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { standingAt } from './door-sight';
@@ -55,8 +55,6 @@ const STEM_TRIES = 20;
  * the two cross, as in the drawing, but each reads as a cap of its own.
  */
 const BACK_CAP_SHOWN = 0.45;
-/** How many points across a cap its share in view is read at. */
-const CAP_STEPS = 16;
 /** Every station a door may take, over a run of visits' mushrooms of every species. */
 const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed) =>
   MUSHROOM_SPECIES.flatMap((species) =>
@@ -126,30 +124,6 @@ function clumpOf(seed: number, layout: MeadowLayout) {
 const inBox = ({ left, right, top, bottom }: Box, { x, y }: Point) =>
   x >= left && x <= right && y >= top && y <= bottom;
 
-/** How much of the area `outlines` hold together lies outside every one of `covers`. */
-function shownPast(
-  outlines: readonly Point[][],
-  covers: readonly Point[][],
-): number {
-  const { left, right, top, bottom } = boxAround(outlines.flat());
-  const boxed = covers.map((cover) => ({ cover, box: boxAround(cover) }));
-  const step = (right - left) / CAP_STEPS;
-  let inside = 0;
-  let shown = 0;
-  for (let x = left + step / 2; x < right; x += step) {
-    for (let y = top + step / 2; y < bottom; y += step) {
-      const point = { x, y };
-      if (!outlines.some((outline) => containsPoint(outline, point))) continue;
-      inside += 1;
-      const covered = boxed.some(
-        ({ cover, box }) => inBox(box, point) && containsPoint(cover, point),
-      );
-      if (!covered) shown += 1;
-    }
-  }
-  return shown / inside;
-}
-
 /** The front-most of `clump` whose outlines, as drawn or as tapped, hold `point`. */
 function topmost(
   clump: ReturnType<typeof clumpOf>,
@@ -218,8 +192,8 @@ describe('meadowLayout', () => {
       for (const seed of CLUMPS) {
         const [front, back] = clumpOf(seed, layout);
         assert.ok(front && back);
-        const [dome = [], gills = []] = back.drawn;
-        const shown = shownPast([dome, gills], front.drawn.slice(0, 2));
+        const shown =
+          1 - hiddenOf(sighted(partOf(back, 'cap'), partOf(front, 'cap')));
         least = Math.min(least, shown);
         assert.ok(
           shown >= BACK_CAP_SHOWN,

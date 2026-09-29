@@ -55,7 +55,7 @@ const playingOf = (kinds: readonly InsectKind[]): Playing => ({
   tick: TICK,
 });
 /** Enough visits that the flies' share of landings on spotted caps holds steady on every screen. */
-const LANDING_SEEDS = VISITS.slice(0, 10);
+const LANDING_SEEDS = VISITS.slice(0, 20);
 /**
  * The screens that fall short of the air's promise, a spot for every insect
  * clear of the others, and by how much, as measured; their tests run as todo

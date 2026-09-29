@@ -1,25 +1,120 @@
 /**
- * How much of a mushroom's cap a nearer one's hides: read box against box,
- * the cap and gills as drawn, so a pick and the sweeps over it measure the
- * same thing.
+ * How much of a mushroom the nearer ones hide: read at points spread over
+ * its cap (dome and gills) and over its stem as drawn, each point hidden
+ * where any nearer mushroom's cap, gills or stem is drawn over it, so a pick
+ * and the sweeps over it measure what the eye sees.
  */
 
-import { type Box, boxAround } from '../../model/geometry';
-import type { Standing } from './door-sight';
+import {
+  type Box,
+  boxAround,
+  containsPoint,
+  type Point,
+} from '../../model/geometry';
+import { boxOf, type Standing } from './door-sight';
 
-/** How much of a cap's box a nearer mushroom's cap may hide. */
-export const MOST_HIDDEN = 0.25;
+/** The parts of a mushroom whose share hidden is held. */
+export const PARTS = ['cap', 'stem'] as const;
+export type Part = (typeof PARTS)[number];
 
-/** How much of `box`'s area `over` covers. */
-export function coverOf(box: Box, over: Box): number {
-  const across =
-    Math.min(box.right, over.right) - Math.max(box.left, over.left);
-  const down = Math.min(box.bottom, over.bottom) - Math.max(box.top, over.top);
-  const area = (box.right - box.left) * (box.bottom - box.top);
-  return (Math.max(0, across) * Math.max(0, down)) / area;
+/** How much of each part of a mushroom the nearer ones may hide together. */
+export const MOST_HIDDEN: Readonly<Record<Part, number>> = {
+  cap: 0.25,
+  stem: 0.5,
+};
+
+/** How many points across the wider side of a part's box its share hidden is read at. */
+const SPREAD_STEPS = 16;
+
+/** `standing`'s `part` as drawn, on screen. */
+export function partOf(
+  { drawn: [dome = [], gills = [], stem = []] }: Standing,
+  part: Part,
+): Point[][] {
+  return part === 'cap' ? [dome, gills] : [stem];
 }
 
 /** The box round `standing`'s cap and gills as drawn. */
-export function capBox({ drawn: [dome = [], gills = []] }: Standing): Box {
-  return boxAround([...dome, ...gills]);
+export function capBox(standing: Standing): Box {
+  return boxAround(partOf(standing, 'cap').flat());
+}
+
+/** What of a part shows past what is drawn in front of it: its points in sight, of how many. */
+export type Sighted = { spread: number; shown: readonly Point[] };
+
+/** `shown` without the points any of `covers` holds. */
+function pastCovers(
+  shown: readonly Point[],
+  covers: ReadonlyArray<readonly Point[]>,
+): Point[] {
+  const boxed = covers.map((cover) => ({ cover, box: boxOf(cover) }));
+  return shown.filter(
+    (point) =>
+      !boxed.some(
+        ({ cover, box }) =>
+          point.x >= box.left &&
+          point.x <= box.right &&
+          point.y >= box.top &&
+          point.y <= box.bottom &&
+          containsPoint(cover, point),
+      ),
+  );
+}
+
+/**
+ * The area `outlines` hold together, read at `SPREAD_STEPS` points across
+ * its box's wider side, as it shows past `covers`.
+ */
+export function sighted(
+  outlines: ReadonlyArray<readonly Point[]>,
+  covers: ReadonlyArray<readonly Point[]>,
+): Sighted {
+  const { left, right, top, bottom } = boxAround(outlines.flat());
+  const step = Math.max(right - left, bottom - top) / SPREAD_STEPS;
+  const spread: Point[] = [];
+  for (let x = left + step / 2; x < right; x += step) {
+    for (let y = top + step / 2; y < bottom; y += step) {
+      const point = { x, y };
+      if (outlines.some((outline) => containsPoint(outline, point))) {
+        spread.push(point);
+      }
+    }
+  }
+  if (spread.length === 0) throw new Error('A part holding none of its spread');
+  return { spread: spread.length, shown: pastCovers(spread, covers) };
+}
+
+/** `sight` once `covers` are drawn in front of it too. */
+export function pastMore(
+  { spread, shown }: Sighted,
+  covers: ReadonlyArray<readonly Point[]>,
+): Sighted {
+  return { spread, shown: pastCovers(shown, covers) };
+}
+
+/** How much of a part `sight` reads is hidden: from 0 to 1. */
+export const hiddenOf = ({ spread, shown }: Sighted) =>
+  1 - shown.length / spread;
+
+/** How `standing`'s `part` shows past everything `nearer` draws. */
+export function partSighted(
+  standing: Standing,
+  part: Part,
+  nearer: readonly Standing[],
+): Sighted {
+  return sighted(
+    partOf(standing, part),
+    nearer.flatMap(({ drawn }) => drawn),
+  );
+}
+
+/** How each of `standing`'s parts shows past everything `nearer` draws. */
+export function partsSighted(
+  standing: Standing,
+  nearer: readonly Standing[],
+): Record<Part, Sighted> {
+  return {
+    cap: partSighted(standing, 'cap', nearer),
+    stem: partSighted(standing, 'stem', nearer),
+  };
 }

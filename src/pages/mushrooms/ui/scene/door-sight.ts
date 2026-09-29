@@ -105,7 +105,7 @@ export type DoorPart = keyof typeof DOOR_PARTS;
 
 /** Each drawn outline's box, read once however many doors it is tried against. */
 const boxes = new WeakMap<readonly Point[], Box>();
-function boxOf(outline: readonly Point[]): Box {
+export function boxOf(outline: readonly Point[]): Box {
   const known = boxes.get(outline);
   if (known) return known;
   const box = boxAround(outline);

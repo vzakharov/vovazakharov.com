@@ -13,7 +13,7 @@ import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
-import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
+import { capBox, hiddenOf, MOST_HIDDEN, PARTS, partSighted } from './cap-cover';
 import { placeIn } from './clump-layout';
 import {
   doorInSight,
@@ -45,6 +45,7 @@ const RULES = [
   'inside the edge margin',
   'out of the wash',
   'cap in view',
+  'stem in view',
   'door in sight',
   'off the controls',
   'a finger wide',
@@ -186,22 +187,28 @@ function broken(
     const nearer = stood.filter(
       (other) => other.standing.depth > standing.depth,
     );
-    note(species, 'cap in view');
-    for (const other of nearer) {
-      // The clump's own two caps cross by design, as in the drawing.
-      const clump = [mushroom, other.mushroom].every(
-        (each) => openingIndex(each.foot) !== undefined,
-      );
-      const hidden = coverOf(cap, capBox(other.standing));
-      if (!clump && hidden > MOST_HIDDEN) {
+    const covers = nearer.map((other) => other.standing);
+    // The clump's own two cross by design, as in the drawing.
+    const hiding = nearer
+      .filter(
+        (other) =>
+          ![mushroom, other.mushroom].every(
+            (each) => openingIndex(each.foot) !== undefined,
+          ),
+      )
+      .map((other) => other.standing);
+    for (const part of PARTS) {
+      const rule = `${part} in view` as const;
+      note(species, rule);
+      const hidden = hiddenOf(partSighted(standing, part, hiding));
+      if (hidden > MOST_HIDDEN[part]) {
         fault(
-          'cap in view',
-          `${other.mushroom.id} hides ${(hidden * 100).toFixed(0)}% of ${id}'s ${species} cap`,
+          rule,
+          `${(hidden * 100).toFixed(0)}% of ${id}'s ${species} ${part} hidden`,
         );
       }
     }
     note(species, 'door in sight');
-    const covers = nearer.map((other) => other.standing);
     const station = doorInSight(standing, covers);
     for (const part of ['painted', 'doorway'] as const) {
       const sight = sightOf(standing, station, part, covers);

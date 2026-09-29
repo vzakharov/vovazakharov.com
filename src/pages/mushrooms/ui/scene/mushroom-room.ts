@@ -3,9 +3,9 @@
  * screen's frame, kept only where the mushroom grown there, of whichever
  * species the child picks, keeps every rule the meadow keeps on this screen.
  * Judged as the scene stands and draws it: its cap inside `EDGE_MARGIN`, no
- * cap more than `MOST_HIDDEN` behind a nearer one's, every door in sight
- * (`doorInSight`), every control, the sun's rays and its wash off it, and
- * off every flower.
+ * cap or stem hidden behind the nearer ones past `MOST_HIDDEN`, every door
+ * in sight (`doorInSight`), every control, the sun's rays and its wash off
+ * it, and off every flower.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -24,9 +24,19 @@ import type { Ground } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import { apartOnScreen, pickFoot } from '../../model/placement';
+import { apartOnScreen, openingIndex, pickFoot } from '../../model/placement';
 import type { Seeded } from '../../model/random';
-import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
+import {
+  capBox,
+  hiddenOf,
+  MOST_HIDDEN,
+  type Part,
+  PARTS,
+  partSighted,
+  partsSighted,
+  pastMore,
+  type Sighted,
+} from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
   doorInSight,
@@ -152,27 +162,47 @@ function keptOff(
 }
 
 /**
- * A standing mushroom as a pick weighs it: how it stands, its cap's box and
- * the box round all of it, and whether its door shows past the rest.
+ * A standing mushroom as a pick weighs it: how it stands, whether it is one
+ * of the opening clump, the box round all of it, and how its door and each
+ * of its parts show past the rest as they stood before the pick, each read
+ * once.
  */
 type Weighed = {
   standing: Standing;
-  cap: Box;
+  opening: boolean;
   whole: Box;
-  /** Whether its door shows past the rest as they stood before the pick, read once. */
   shows: () => boolean;
+  /** Past every nearer one but its clump partner: the clump's two cross by design. */
+  sight: () => Record<Part, Sighted>;
 };
 
 function weighed(
   standing: Standing,
-  among: () => readonly Standing[],
+  opening: boolean,
+  among: () => readonly Weighed[],
 ): Weighed {
   let shows: boolean | undefined;
+  let sight: Record<Part, Sighted> | undefined;
   return {
     standing,
-    cap: capBox(standing),
+    opening,
     whole: boxAround(standing.drawn.flat()),
-    shows: () => (shows ??= doorShows(standing, among())),
+    shows: () =>
+      (shows ??= doorShows(
+        standing,
+        among().map((other) => other.standing),
+      )),
+    sight: () =>
+      (sight ??= partsSighted(
+        standing,
+        among()
+          .filter(
+            (other) =>
+              other.standing.depth > standing.depth &&
+              !(opening && other.opening),
+          )
+          .map((other) => other.standing),
+      )),
   };
 }
 
@@ -188,10 +218,10 @@ function standingOn(mushrooms: readonly Planted[], screen: Screen): Weighed[] {
   const known = byScreen.get(screen);
   if (known) return known;
   const here: Weighed[] = [];
-  const among = () => here.map(({ standing }) => standing);
   for (const mushroom of mushrooms) {
     const place = placeOf(screen.stage.camera, mushroom.foot);
-    here.push(weighed(standingAt(place, mushroom), among));
+    const opening = openingIndex(mushroom.foot) !== undefined;
+    here.push(weighed(standingAt(place, mushroom), opening, () => here));
   }
   byScreen.set(screen, here);
   return here;
@@ -206,16 +236,48 @@ type Trial = {
 };
 
 /**
- * `grown` stood on `foot` on `screen`, where its foot, its cap and every
- * cap it stands among keep the cheap rules: its foot out of the sun's wash,
- * its cap inside the edge margin, and no cap hiding more than `MOST_HIDDEN`
- * of another's; `undefined` where one breaks.
+ * Whether `own`, standing among `others`, leaves every part of each in view
+ * past `MOST_HIDDEN`: its own behind the nearer ones, and each of those it
+ * stands in front of, unless it hides nothing more of that one than was
+ * hidden already.
+ */
+function partsInView(own: Standing, others: readonly Weighed[]): boolean {
+  const nearer = others
+    .filter((other) => other.standing.depth > own.depth)
+    .map((other) => other.standing);
+  if (
+    PARTS.some(
+      (part) => hiddenOf(partSighted(own, part, nearer)) > MOST_HIDDEN[part],
+    )
+  ) {
+    return false;
+  }
+  const whole = boxAround(own.drawn.flat());
+  return others.every((other) => {
+    if (other.standing.depth >= own.depth || !boxesMeet(whole, other.whole)) {
+      return true;
+    }
+    const sight = other.sight();
+    return PARTS.every((part) => {
+      const before = sight[part];
+      const after = pastMore(before, own.drawn);
+      return (
+        after.shown.length === before.shown.length ||
+        hiddenOf(after) <= MOST_HIDDEN[part]
+      );
+    });
+  });
+}
+
+/**
+ * `grown` stood on `foot` on `screen`, where its foot and its cap keep the
+ * cheap rules: its foot out of the sun's wash and its cap inside the edge
+ * margin; `undefined` where one breaks.
  */
 function trialOn(
   screen: Screen,
   foot: Ground,
   grown: Splayed,
-  others: readonly Weighed[],
 ): Trial | undefined {
   const { camera, sun, width, wash } = screen.stage;
   const place = placeOf(camera, foot);
@@ -227,11 +289,6 @@ function trialOn(
   const cap = capBox(own);
   if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {
     return undefined;
-  }
-  for (const other of others) {
-    const [far, near] =
-      other.standing.depth > own.depth ? [cap, other.cap] : [other.cap, cap];
-    if (coverOf(far, near) > MOST_HIDDEN) return undefined;
   }
   return { screen, place, stood: grown, own };
 }
@@ -258,7 +315,8 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
  * the visit a sweep opens both find it, whichever species the child picks:
  * `undefined` where the meadow has no room left for one. It keeps off every
  * flower standing there (`flowerFeet`), and each foot is tried on the cheap
- * rules first, then the controls, then the doors.
+ * rules first, then the controls, then what it hides and what hides it,
+ * then the doors.
  */
 export function roomFor(stand: Stand, seed: number): Ground | undefined {
   const { layout, mushrooms } = stand;
@@ -290,7 +348,7 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
       }
       const trials: Trial[] = [];
       for (const genes of species) {
-        const trial = trialOn(screen, foot, genes, others);
+        const trial = trialOn(screen, foot, genes);
         if (!trial) return false;
         trials.push(trial);
       }
@@ -302,7 +360,9 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
             trial.place.size,
             trial.screen.keepOff,
           ),
-        ) && trials.every((trial) => doorsKept(trial, others))
+        ) &&
+        trials.every((trial) => partsInView(trial.own, others)) &&
+        trials.every((trial) => doorsKept(trial, others))
       );
     },
   });
