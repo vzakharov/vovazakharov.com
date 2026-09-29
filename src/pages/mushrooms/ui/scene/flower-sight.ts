@@ -10,6 +10,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import { FACE_REACH } from '../../model/bee-outline';
+import { CRAWL_REACH } from '../../model/buzz-rest';
 import {
   type Flower,
   FLOWER_RANGES,
@@ -77,8 +78,9 @@ const ON_CENTRE = 0.12;
  * size: its head and thorax over the petals, facing in toward the centre as
  * a settled insect faces up the screen, and its abdomen over the rim. On a
  * head small beside the bee it sits lower still, its face reaching no
- * farther than the centre (`FACE_REACH`), so at least half of the head stays
- * in sight under it wherever its crawl takes it.
+ * farther than the centre (`FACE_REACH`) even at the top of its crawl
+ * (`CRAWL_REACH`), so at least half of the head stays in sight under it
+ * wherever the crawl takes it.
  */
 const PAST_RIM = 0.05;
 
@@ -107,7 +109,10 @@ export function flowerLift(
       return ON_CENTRE * insectSize;
     }
     case 'bee': {
-      return -Math.max(r + PAST_RIM * insectSize, FACE_REACH * insectSize);
+      return -Math.max(
+        r + PAST_RIM * insectSize,
+        (FACE_REACH + CRAWL_REACH.y) * insectSize,
+      );
     }
     default: {
       return kind satisfies never;

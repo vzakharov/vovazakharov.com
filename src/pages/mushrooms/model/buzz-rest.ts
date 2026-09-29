@@ -49,8 +49,11 @@ const HOP_BACK = 440;
 export const HOP_REACH = 0.14;
 const HOP_LIFT = 0.05;
 
-/** A bee's crawl about its flower's head: how far, and its two sweeps' periods, in ms. */
-const CRAWL = 0.06;
+/**
+ * A bee's crawl about its flower's head: how far across and down it reaches
+ * at the most, in units of its size, and its two sweeps' periods, in ms.
+ */
+export const CRAWL_REACH = { x: 0.06, y: 0.03 } as const satisfies Point;
 const CRAWL_PERIODS = [2600, 1700] as const;
 
 /**
@@ -117,10 +120,10 @@ export function hop(stay: Sitting, now: number, { phase }: Phased): Hop {
 
 /** How far a bee sitting at a flower has crawled off the middle of its seat at `now`. */
 export function crawl(stay: Sitting, now: number, { phase }: Phased): Point {
-  const reach = CRAWL * settled(stay, now);
+  const ease = settled(stay, now);
   const [across, down] = CRAWL_PERIODS;
   return {
-    x: reach * Math.sin((Math.PI * 2 * now) / across + phase),
-    y: (reach / 2) * Math.sin((Math.PI * 2 * now) / down + phase * 2),
+    x: CRAWL_REACH.x * ease * Math.sin((Math.PI * 2 * now) / across + phase),
+    y: CRAWL_REACH.y * ease * Math.sin((Math.PI * 2 * now) / down + phase * 2),
   };
 }
