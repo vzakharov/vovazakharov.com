@@ -9,6 +9,7 @@
 
 import { pick } from '@/shared/lib/collections';
 
+import { FACE_REACH } from '../../model/bee-outline';
 import {
   type Flower,
   FLOWER_RANGES,
@@ -78,8 +79,10 @@ const ON_CENTRE = 0.12;
 /**
  * How far below the head's lower rim a bee's middle sits, in units of its
  * size: its head and thorax over the petals, facing in toward the centre as
- * a settled insect faces up the screen, and its abdomen over the rim, so at
- * least half of the head stays in sight under it wherever its crawl takes it.
+ * a settled insect faces up the screen, and its abdomen over the rim. On a
+ * head small beside the bee it sits lower still, its face reaching no
+ * farther than the centre (`FACE_REACH`), so at least half of the head stays
+ * in sight under it wherever its crawl takes it.
  */
 const PAST_RIM = 0.05;
 
@@ -108,7 +111,7 @@ export function flowerLift(
       return ON_CENTRE * insectSize;
     }
     case 'bee': {
-      return -(r + PAST_RIM * insectSize);
+      return -Math.max(r + PAST_RIM * insectSize, FACE_REACH * insectSize);
     }
     default: {
       return kind satisfies never;

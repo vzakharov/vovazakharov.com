@@ -5,7 +5,7 @@
  * covers by the same ones.
  */
 
-import type { BeeGenes } from './bee-genes';
+import { BEE_RANGES, type BeeGenes } from './bee-genes';
 import { ellipse, type Point, sample } from './geometry';
 
 export type Oval = Point & { rx: number; ry: number };
@@ -20,7 +20,7 @@ export function beeAnatomy({
   bodyLength: length,
   bodyWidth: width,
   headRadius,
-}: BeeGenes) {
+}: Pick<BeeGenes, 'bodyLength' | 'bodyWidth' | 'headRadius'>) {
   const thorax = { x: 0, y: -length * 0.2, rx: width * 0.4, ry: length * 0.19 };
   return {
     head: { x: 0, y: thorax.y - thorax.ry - headRadius * 0.55, r: headRadius },
@@ -28,6 +28,19 @@ export function beeAnatomy({
     abdomen: { x: 0, y: length * 0.13, rx: width / 2, ry: length * 0.33 },
   };
 }
+
+/**
+ * How far ahead of its middle any bee's face reaches, in units of its size:
+ * the longest body under the biggest head.
+ */
+export const FACE_REACH = (() => {
+  const { head } = beeAnatomy({
+    bodyLength: BEE_RANGES.bodyLength[1],
+    bodyWidth: BEE_RANGES.bodyWidth[1],
+    headRadius: BEE_RANGES.headRadius[1],
+  });
+  return head.r - head.y;
+})();
 
 /** An oval's outline with its fuzz standing off it in `tufts` soft bumps, `fuzz` of its width out. */
 function fuzzy(oval: Oval, fuzz: number, tufts: number): Point[] {
