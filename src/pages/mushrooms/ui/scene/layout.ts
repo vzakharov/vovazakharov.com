@@ -3,8 +3,8 @@
  * CSS pixels. Every size in the meadow is proportional, but for the floors
  * that keep the clump a finger's target and an insect big enough to read,
  * so a phone held upright and a tablet held sideways get the same picture
- * composed for each; `sky-layout.ts` places
- * the buttons over it, and `sun-layout.ts` the sun.
+ * composed for each; `sky-layout.ts` places the buttons over it, and
+ * `sun-layout.ts` the sun.
  */
 
 import type { Sized } from '@/shared/typings';
@@ -53,12 +53,11 @@ const INSECT_LEAST = 60;
 
 /**
  * The unit a butterfly's genes are painted in where the clump stands `unit`:
- * `INSECT_SCALE` of it, never under `INSECT_LEAST` nor so big that its open
- * wings span wider than the clump's narrowest cap. Where the clump stands
- * small — a short screen, or a refit zoomed out to keep what the meadow used
- * in view — the insects shrink with it, so a turn's refit is a scaled copy of
- * the picture, the room a flower keeps for an insect's wings included. An
- * insect's tap stays a finger's however small it is drawn (`tapReach`).
+ * `INSECT_SCALE` of it and at least `INSECT_LEAST`, but never so big that its
+ * open wings span wider than the clump's narrowest cap, which wins where the
+ * clump stands small — a short screen, or a refit zoomed out to keep what the
+ * meadow used in view. So a turn's refit is a scaled copy of the picture, a
+ * flower's room for wings included; a tap stays a finger's (`tapReach`).
  */
 function insectSizeFor(unit: number): number {
   return Math.min(

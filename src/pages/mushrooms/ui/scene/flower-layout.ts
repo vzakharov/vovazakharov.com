@@ -170,8 +170,8 @@ function leastRise(depth: number, low: number, high: number): number {
 
 /**
  * Whether a flower at `flower` keeps its stem and head off every mushroom's
- * foot of `feet`, on every screen: the foot and its
- * shadow, the one thing Syama drew being two stems standing together.
+ * foot of `feet`, on every screen: the foot and its shadow, the one thing
+ * Syama drew being two stems standing together.
  */
 export function clearOfFeet(
   flower: FlowerFoot,

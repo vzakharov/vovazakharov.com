@@ -19,10 +19,10 @@ const SMALLEST = Math.min(
   ),
 );
 /**
- * The least step a cap's outline shows as one, in units of size on the
- * smallest place: a whole CSS pixel, which a screen draws as a step rather
- * than blurring it away. The ink line is 2 px there, its least (`inkWidth`),
- * deeper than the detail, which reads as the line's edge stepping.
+ * The least step a cap's outline shows, in units of size on the smallest
+ * place: a whole CSS pixel, which a screen draws as a step rather than
+ * blurring away, and which reads as the edge of the 2 px ink line there
+ * (`inkWidth`) stepping.
  */
 const STEP = 1 / SMALLEST;
 

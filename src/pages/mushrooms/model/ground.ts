@@ -224,11 +224,10 @@ export function widestOf(feet: readonly Ground[]): number {
 /**
  * The camera for `screen`: the clump stands as big as the screen composes it
  * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
- * reach past `lens.margin`, and never under `floorOn` but where `shown`,
- * how far across in the clump's size at its front foot the camera must show
- * besides, would reach past it: what the meadow has already used stays in
- * view, however small that draws it. The ground's band runs up from the
- * screen's foot as deep as `UP_PER_Z` stands it at that size.
+ * reach past `lens.margin`, and never under `floorOn` unless `shown`, the
+ * ground across in the clump's size it must show besides, needs it smaller:
+ * what the meadow has used stays in view however small that draws it. The
+ * ground's band is as deep as `UP_PER_Z` stands it at that size.
  */
 export function fitCamera(screen: Sized, lens: Lens, shown = 0): Camera {
   const { width, height } = screen;

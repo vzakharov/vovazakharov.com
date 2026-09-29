@@ -20,7 +20,7 @@ const SAME = 1e-9;
  * The most of the pairs of forest mushrooms standing at different depths, in
  * a meadow grown to six, whose farther one is drawn with the wider cap: the
  * pairs standing nearly as far off as each other are a toss between their
- * genes, and a flat forest, drawn as big wherever it stands, gave 40–57%.
+ * genes, and a forest drawn as big wherever it stands gives 40–57%.
  */
 const MOST_FAR_WIDER = 0.2;
 /** How many visits each screen grows to six for the pairs. */

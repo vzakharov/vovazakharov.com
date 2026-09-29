@@ -82,12 +82,11 @@ export const CLUMP_NARROWEST =
   );
 
 /**
- * The zoom floor: the least clump size a camera stands the meadow at, the
- * clump's narrowest cap being `2 × TAP_RADIUS` across by its gene there. The
- * forest, smaller with depth, is drawn narrower than a finger on a phone's
- * far rows, and a short screen stands the clump under the floor too
- * (`floorOn`): a cap drawn narrower than a finger is padded to one
- * (`fingerPad`).
+ * The zoom floor: the clump size at which the clump's narrowest cap is
+ * `2 × TAP_RADIUS` across by its gene, the least a camera stands the meadow
+ * at but on a short screen (`floorOn`). A cap drawn narrower than a finger
+ * there, or on a phone's far rows where the forest stands smaller with depth,
+ * is padded to one (`fingerPad`).
  */
 export const ZOOM_FLOOR = (2 * TAP_RADIUS) / CLUMP_NARROWEST;
 

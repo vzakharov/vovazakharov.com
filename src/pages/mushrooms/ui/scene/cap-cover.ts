@@ -87,7 +87,7 @@ export function sighted(
   return { spread: spread.length, shown: pastCovers(spread, covers) };
 }
 
-/** `sight` once `covers` are drawn in front of it too. */
+/** A part's sight once `covers` are drawn in front of it too. */
 export function pastMore(
   { spread, shown }: Sighted,
   covers: ReadonlyArray<readonly Point[]>,
@@ -95,7 +95,7 @@ export function pastMore(
   return { spread, shown: pastCovers(shown, covers) };
 }
 
-/** How much of a part `sight` reads is hidden: from 0 to 1. */
+/** How much of a part a sight reads as hidden: from 0 to 1. */
 export const hiddenOf = ({ spread, shown }: Sighted) =>
   1 - shown.length / spread;
 
@@ -125,7 +125,7 @@ export function partsSighted(
 /** A mushroom as it stands, and whether it is one of the opening clump. */
 export type Among = { standing: Standing; opening: boolean };
 
-/** `mushroom` as the scene stands it in `place` (`standingAt`), among the rest. */
+/** `mushroom` as the scene stands it in `place` (`standingAt`). */
 export function amongAt(place: Placement, mushroom: Planted): Among {
   return {
     standing: standingAt(place, mushroom),

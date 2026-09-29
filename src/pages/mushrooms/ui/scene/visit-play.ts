@@ -69,8 +69,8 @@ export function opened(
 /**
  * The visit `seed` of `stand` laid out on a screen `width` by `height`, as
  * the scene lays it out after a turn or a resize: its flowers where the
- * screen it opened on placed them, among the clump it opened with, and every
- * foot it has used in view.
+ * screen it opened on placed them, among the opening clump still standing,
+ * and every foot it has used in view.
  */
 export function relaidOn(
   stand: Stand,
