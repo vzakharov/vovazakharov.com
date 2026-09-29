@@ -568,8 +568,9 @@ Standing rules for every session in the chain:
      shoots it (`scripts/lib/play-species.ts`). Median frames 16–19 ms. Its
      review (5344789171, T74–T92) is handled.
 
-9. **The operator's two ideas weighed, and the meadow on the ground** (in
-   part; its rest is below). The two Russian documents are in
+9. **The operator's two ideas weighed, and the meadow on the ground.** A
+   grown mushroom takes a foot of its own on the ground, picked where it
+   fits, and the seeded flowers stand on that ground too. The two Russian documents are in
    `docs/remove-before-merging/ideas/` (`idea-1-walking-meadow.md`,
    `idea-2-flower-keyboard.md`), posted on the PR (comment 5889105662),
    waiting for the operator's call. What the next bites build on:
@@ -589,83 +590,42 @@ Standing rules for every session in the chain:
      it also holds a `TAP_RADIUS` circle round the head's middle, which never
      takes a tap from another mushroom's drawn body. A finger's target rests
      on this pad, not on a raised zoom floor.
-
-## Rest of the bite
-
-9. **Mushrooms placed, flowers on the ground — finished and joined.** HEAD
-   (73a295b1 and before) holds both halves and **does not type-check**: read
-   `docs/remove-before-merging/bite9/placement.md` and `flowers.md` (what is
-   done, the API, what is left) and `fold-notes.md` before touching code.
-   Built: `model/placement.ts` (`pickFoot`, best-of-K by the new mushroom's
-   seed), `Planted.foot`, the `grow` action carrying the foot,
-   `ui/scene/mushroom-room.ts` `roomFor`, `cap-cover.ts`, `+` shaking its
-   head when nothing passes; `seededBed`/`flowersOn`, `flowerFeet`,
-   `clearOfFlowers`, the bees' rings in ground steps. Left, with these
-   decisions:
-   - **The rules hold on this screen and on it turned, not on every
-     screen.** A meadow's state never leaves the browser it lives in, so
-     what can happen to it is a turn or a small resize; checking all six
-     screens both ways shrank the common frame to the overlap of every
-     device and stopped meadows at 4.8 of six on average. `COMMON_FRAME`
-     becomes the overlap of this screen's camera and its turn's, derived,
-     and the camera fits that frame.
-   - **Seeded flowers stand inside that frame too**, so a turn loses none
-     ("nothing is lost"; today a landscape-to-portrait turn pushes 2–3 of 7
-     off the sides). `FORESHORTENING`'s span is derived from the screens the
-     play run covers, not a constant.
-   - **The meadow holds up to six, as far as there is room**, `+` shaking
-     its head past it. Measure the grow-to-six distribution per screen over
-     2000 visits; if a screen stops short in more than one visit in ten,
-     narrow the forest's size before anything else.
-   - **Built in step A** (8b2483c–9ae907b, `bite9/step-a.md`, `fill.md`):
-     `frameFor(screen, lens)` and `meadow-camera.ts`, `roomFor` on the
-     screen and its turn, seeded flowers spread over the frame (none lost on
-     a turn), `FORESHORTENING` derived (0.252–0.765), `ROUNDS` 32. Decided
-     there: `clearOfFlowers` rejected ~13× more feet than every other rule
-     together and is backed out for the 0.2 foot distance; narrowing the
-     forest raises `ZOOM_FLOOR` and fills worse. Every screen reaches six in
-     ≥ 99.5% of visits except the small phone, **69%: accepted** — K 48
-     reaches only 85% at 4× the pick cost, a lower finger floor trades the
-     comfort the floor exists for, and a 320 px phone stopping at five with
-     `+` shaking its head is the "as far as there is room" this item
-     already allows.
-   - **Bees with a full forest** plant a median of 3 (2 on the small phone)
-     against `LEAST_PLANTED` 4. First try giving the rings more room
-     (more ring slots, or slots reached past a mushroom) so a full forest
-     still plants 4; only if that fails, `LEAST_PLANTED` holds on the
-     opening clump and a full forest asserts its own measured floor, noted
-     here.
-   - **Built in step B1** (e19ad56, 84bdd9b, `bite9/bees.md`): a second
-     ring of twelve bee slots at 2.3 of the parent's size, so a full forest
-     plants a median of 6 (phone) and 5 (tablet upright); the small phone
-     can reach no more than 3 with any ring, so its full forest asserts
-     `LEAST_IN_A_FOREST` 3 and `LEAST_PLANTED` 4 holds everywhere else.
-     `layout.test.ts` and `meadow-rules.test.ts` sweep placed meadows on
-     the screen and its turn; doubling `MOST_HIDDEN` failed it on all six.
-   - **The sun clears the opening clump**: on the small phone sideways its
-     rays touched the clump's tallest caps in 143 of 4000 openings, by up to
-     9 px. Built in step B2 (82a2aec): `placeSun` shrinks the sun until its
-     rays clear each clump mushroom's reach, 24 → 16 px there only; moving
-     it is blocked by the buttons and pickers.
-   - **Built in step B2** (2f8f12e–e5db13b, `bite9/suite.md`): a bee sits no
-     nearer a flower's middle than `FACE_REACH` (seeded heads stand deeper
-     and smaller since 379346e); `perch-sight.test.ts` 580 s → 36 s;
-     `placement.test.ts` (picked feet's closest pair 0.637 against a
-     jittered grid's 0.390) and `ground.test.ts`; shared bases `Layered`,
-     `Framed`, `Screened`, `Camera.centre` renamed `midline`; type-overlap,
-     knip, eslint, prettier clean; all 48 mushroom test files green in
-     212 s, none over 60 s; five breaks on purpose, each caught. Accepted:
-     on the small phone upright a widest-gene cap on the frame's near
-     corners would stand 20 px past the edge margin — every placed foot
-     still passes `roomFor`, and `ground.test.ts` names the exception.
-   - **Code is done. Left: the bite's end**, § "How this elephant is eaten" step 1: fold into
-     item 9 above, `/polish`, vet, the five-screen play run, frames to
-     `docs/remove-before-merging/frames/bite-9/`, the Artifact republished,
-     `/pr`, the megabeast notes, `/relay оставь код ревью на последний
-     кусок`. The repaint-by-step and crowded-meadow run stay optional.
-   Waiting for the operator (the first document's list): pan and pinch, the
-   world's edges, a panorama wider than the screen, insects in world
-   coordinates, the mute.
+   - **The rules hold on this screen and on it turned**, not on every
+     screen: a meadow never leaves its browser, so a turn or a small resize
+     is all that can happen to it. `frameFor(screen, lens)` and
+     `meadow-camera.ts` derive the common frame as the overlap of this
+     screen's camera and its turn's, and the camera fits it.
+     `FORESHORTENING`'s span is derived from the screens the play run
+     covers (0.252–0.765).
+   - `model/placement.ts`: `pickFoot` takes the best of `ROUNDS` (32)
+     candidate feet by the new mushroom's seed; `Planted.foot`, and the
+     `grow` action carries it. `ui/scene/mushroom-room.ts` `roomFor` checks
+     a foot on the screen and its turn, `cap-cover.ts` how much of a cap
+     is hidden, and `+` shakes its head when no foot passes. The meadow
+     holds up to six as far as there is room: every screen reaches six in
+     ≥ 99.5% of 2000 visits except the small phone, at 69%, accepted (a 320
+     px phone stopping at five is the room it has; K 48 reached only 85% at
+     four times the cost). Feet keep a 0.2 foot distance from flowers
+     rather than `clearOfFlowers`, which rejected ~13× more feet than every
+     other rule together. On the small phone upright a widest-gene cap on
+     the frame's near corners stands up to 20 px past the edge margin,
+     accepted and named in `ground.test.ts`.
+   - Seeded flowers (`seededBed`, `flowersOn`, `flowerFeet`) spread over
+     the frame, so a turn loses none. A bee sits no nearer a flower's
+     middle than `FACE_REACH`. The bees' slots are two rings in ground
+     steps, the second of twelve at 2.3 of the parent's size, so a full
+     forest plants a median of 5–6; the small phone reaches 3 with any
+     ring, so its full forest asserts `LEAST_IN_A_FOREST` 3 and
+     `LEAST_PLANTED` 4 holds everywhere else.
+   - `placeSun` shrinks the sun until its rays clear each opening mushroom's
+     reach — 24 → 16 px, on the small phone sideways only.
+   - Shared bases `Layered`, `Framed`, `Screened`; `Camera.midline`. The
+     mushroom suite runs 48 files in ~212 s, none over 60 s (run in chunks:
+     one call exceeds the tool limit); `layout.test.ts` and
+     `meadow-rules.test.ts` sweep placed meadows on the screen and its turn.
+   - Waiting for the operator (the first document's list): pan and pinch,
+     the world's edges, a panorama wider than the screen, insects in world
+     coordinates, the mute.
 
 ## Rest of the elephant
 

@@ -65,7 +65,7 @@ names your files and the ones that are off limits.
 
   ```
   Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-  Claude-Session: https://claude.ai/code/session_01W9VjLbgV5LvxWtsrs97cPX
+  Claude-Session: https://claude.ai/code/session_01RhVb6TgQb9wrwX1BR4i1yG
   ```
 
 ## If told to pause, or running long
