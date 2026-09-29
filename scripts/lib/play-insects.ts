@@ -29,9 +29,6 @@ const MOST_LOOKS = 80;
  * however far a wide screen stretches it (`stride`), up to `MOST_LOOKS`.
  */
 const PERCH_LOOKS = 24;
-/** Frames between looks for a resting butterfly that leaves some of its cap showing, and the most looks. */
-const REST_LOOK = 30;
-const REST_LOOKS = 12;
 
 export type Insect = z.infer<typeof Insects>[number];
 
@@ -344,36 +341,23 @@ export async function playInsects(
   await page.step(4);
   await page.shoot('b5-tapped-through');
 
-  // A mushroom sunk under a resting butterfly sends it off. The cap is
-  // tapped where it shows past the butterfly, since a tap on the butterfly
-  // would startle it first; a butterfly covering a small cap whole is waited
-  // out, the cap still reached through it (`playSpecies`).
-  const restShowing = async (
-    looks: number,
-  ): Promise<
-    | { onCap: Insect; capId: string; capAt: z.infer<typeof Point> | null }
-    | undefined
-  > => {
-    const onCap = await waitForCapRest();
-    if (onCap?.to.kind !== 'cap') return undefined;
-    const capId = onCap.to.id;
-    const capAt = await page.evaluate(
-      `__probe.mushroom(${JSON.stringify(capId)})`,
-      Point.nullable(),
-    );
-    if (capAt !== null || looks === 0) return { onCap, capId, capAt };
-    await page.step(REST_LOOK);
-    return restShowing(looks - 1);
-  };
-  const rest = await restShowing(REST_LOOKS);
-  if (rest === undefined) {
+  // A mushroom sunk under a resting butterfly sends it off. The cap a
+  // butterfly firstRest rests on is selected — through the butterfly where it
+  // covers the cap whole, which startles it — and then a butterfly resting
+  // on the selected cap is waited for, so the tap never startles the one
+  // the sink is to send off.
+  const firstRest = await waitForCapRest();
+  if (firstRest?.to.kind !== 'cap') {
     expect(false, 'no butterfly ever rested on a cap');
     return;
   }
-  const { onCap, capId, capAt } = rest;
-  await page.shoot('b6-resting');
+  const capId = firstRest.to.id;
+  const capAt = await page.evaluate(
+    `__probe.mushroom(${JSON.stringify(capId)}, true)`,
+    Point.nullable(),
+  );
   if (capAt === null) {
-    expect(false, 'no butterfly rested on a cap left showing past it');
+    expect(false, `no tap on ${capId}'s cap reaches it`);
     return;
   }
   await page.tap(capAt);
@@ -382,6 +366,12 @@ export async function playInsects(
     (await state()).selected === capId,
     `a tap on ${capId} did not select it`,
   );
+  const onCap = await waitForCapRest(capId);
+  if (onCap === undefined) {
+    expect(false, `no butterfly came to rest on the selected ${capId}`);
+    return;
+  }
+  await page.shoot('b6-resting');
   const sunkAt = await now();
   await page.tap(controls.minus);
   await page.step(3);
