@@ -1,63 +1,26 @@
-# Bite 9, ground group: paused
+# Bite 9, ground group: paused (second time)
 
-`ground.patch` beside this note holds the work. Apply it with `git apply docs/remove-before-merging/bite9/ground.patch`. It adds `src/pages/mushrooms/model/ground.ts` and changes `ui/scene/layout.ts` and `ui/scene/clump-layout.ts`. It type-checks. It does not pass `layout.test.ts` yet, so it has not been committed as source.
+## Committed
 
-## Done
+- 379346ef: `model/ground.ts`, one ground table in `clump-layout.ts` and `layout.ts`, the camera. The whole `layout.test.ts` passes (66 tests). The phone held sideways was 26% over its cover limit. A search (`tmp/bite9/ground/search.ts`) over the clump shifts on every screen, all 16 species pairs and 2000 visits fixed it: the front porcini went from `{0.12, 0}` to `{0.12, 0.12}` and the back porcini from `{-0.05, 0.16}` to `{-0.03, 0.24}`. The worst cover there is now 23.1%. Every back doorway is at least 80.7% in sight, and every back cap at least 51.7% in view.
+- 016e2a99: the `mushroom-tap.ts` comment now cites `ZOOM_FLOOR`.
+- `ground.patch` was deleted in 379346ef. The one beside this note is new (see below).
 
-- **`model/ground.ts`** (Phaser-free):
-  - `Ground { x, z }` is a point on the ground, in the clump's size. `x` runs across from the frame's middle; `z` runs into the distance from the clump's front foot.
-  - `Camera` is `Sized & { groundTop, ground, centre, unit }`.
-  - `project(camera, point)` returns `{ x, y, scale, haze, depth }`. It is today's projection: the depth share goes to `y` linearly, `scale = depthScale(down) / depthScale(CLUMP_DOWN)`, and haze is `hazeAt`, moved here from `layout.ts`. `depthScale` also moved here. `depth` is `y`.
-  - `COMMON_FRAME { left, right, near, far }` and `inFrame(point)`.
-  - `fitCamera(screen, lens)`. `Lens = { reach, margin, floor }` is passed in, because the finger and the edge margin are ui constants.
-  - `unit = max(floor, min(composed as today, ground × UNIT_PER_BAND, (w/2 − margin) / reach))`.
-  - `Hazed` moved here, and `layout.ts` re-exports it.
-- **`clump-layout.ts`**: one ground table for every screen, `CLUMP_FEET` plus `CLUMP_SHIFT` in ground units. `standOn(camera, foot, size, splay)` returns a `Placement`. `clumpSlots(camera)` no longer clamps to the edge, so nothing moves on the ground per screen.
-- **`layout.ts`**:
-  - `FOREST_FEET` is one ground table, and `slotsOn(camera)` projects the slots through the camera.
-  - `ZOOM_FLOOR` is `2·TAP_RADIUS / (least capWidth × least slot size at unit 1)`. It replaces `FINGER_SIZE`.
-  - `LENS.reach` is measured from the slots at unit 1 using `maxReach`.
-  - `meadowCamera(w, h)` builds the camera, and `MeadowLayout.camera` carries it.
-  - Flowers keep their unit on `camera.unit`, and their feet are `everyPlace(mushrooms)`.
-  - `layout.mushrooms` keeps its `SlotPlaces[]` shape, so `mushroom-bed`, `flower-bed`, `perch-sight` and the rest are unchanged. They already draw what the camera projected.
+## In the tree, not committed (`ground.patch` holds the same diff)
 
-## Measured (full `layout.test.ts`, 2000 visits, one config back from the patch)
+- `layout.test.ts` has a new test: every cap in every slot is drawn at least `2 × TAP_RADIUS` across, measured from the drawn cap box. With the committed floor it **fails** on the phone held sideways and on the small phone (a fly agaric in mushroom-3 is 63.6 px across). The committed floor divides by the `capWidth` gene. A cap drawn turned (lean + splay + tilt + the stem's bend) and rounded at its rim is up to 11% narrower than that gene.
+- `layout.ts`: `narrowestCap(splay)` measures the drawn cap box at every corner of the genes it depends on (`CAP_TURNS`, plus 0 where a range spans 0, on the canvas with y flipped), and `ZOOM_FLOOR` is taken per slot. With that, the finger test passes on every screen. The floor goes from 127 to 142.6 px, and that breaks two other tests:
+  - small phone: a fly agaric in mushroom-2 goes past the edge, because the floor now overrides the width limit;
+  - phone held sideways: mushroom-0's fly agaric covers mushroom-4's porcini by 25%.
+  - The flower-plots test "stands in sight where it was planted…" fails on the small phone for both opening states. This was not checked against the committed code.
 
-Every invariant held on every screen but one: the phone held sideways. There, one forest cap covers another by **25–26%**, against a limit of **25%**:
+## What was tried
 
-- With the current slot 4 at `x = −1.15`: mushroom-3 (front-right) covers the clump's front porcini by 26%.
-- With slot 4 at `−1.03`: the clump's back cap covers slot 4 by 25.x%.
-
-The cause is that the phone held sideways is at the zoom floor (unit 127, ground band 156 px). The small phone is at the floor and at its width limit together (unit 127, 1–2 px of edge margin to spare on slots 2–3). With one table, the phone held sideways can have no more room across than the small phone has, and it has no more depth.
-
-Worst cover per screen, before → after:
-
-| Screen              | Before | After            |
-| ------------------- | ------ | ---------------- |
-| tablet              | 14.7%  | 17.5%            |
-| tablet portrait     | 21.1%  | 17.3%            |
-| phone               | 8.9%   | 12.3%            |
-| phone held sideways | 0%     | 25–26% (fails)   |
-| small phone         | 24.4%  | 16.1%            |
-| desktop             | 14.7%  | 17.5%            |
-
-The clump's size (unit, px), before → after:
-
-| Screen              | Before | After |
-| ------------------- | ------ | ----- |
-| tablet              | 361    | 171   |
-| tablet portrait     | 345    | 300   |
-| phone               | 160    | 138   |
-| phone held sideways | 172    | 127   |
-| small phone         | 130    | 127   |
-| desktop             | 475    | 225   |
-
-Landscape now stands the portrait arrangement, with the back row above and beside the clump, and more meadow either side. The clump on the landscape tablet is half today's size. That is the cost of one table.
+The forest slots were made 12% larger (0.72, 0.71, 1.12, 1.2) so the floor came back down to 127, with slot 3 at `x = 0.76`. The small phone then still went past the edge on slot 2 or 3. On the phone held sideways, the back porcini came out 36–49% covered by slot 2 whatever the clump shift. That route is worse, and it was reverted.
 
 ## Left
 
-1. Get the phone held sideways under 25%. Options: a smaller `x` for the front porcini shift (0.065 passed cover, but the door test then sat at 80.7%, right at the limit), a deeper ground band on landscape (0.55·H broke the controls tests), or report the trade to the operator.
-2. Add `model/ground.test.ts`, covering: the frame is shown on every viewport; a rotation keeps ground points; the zoom floor measured from the drawn cap box on every slot and screen, by adding a width check to `capsOfForest` in `layout.test.ts`. Then break the code once to see each test fail.
-3. Run the other suites that read `meadowLayout`: flower-layout, flower-plots, perch-sight, sun-layout, ink, insect-layout, mushroom-light, mushroom-outline, backdrop-tones.
-4. Update the header comment of `layout.ts`, the `mushroom-tap.ts` comment citing `FINGER_SIZE` (the tap agent's file), and run lint, type-overlap and knip.
-5. Probe build, then play tabL and phoneP, with frames going to `tmp/bite9/ground/`.
+1. Fit the drawn-cap floor. Options: extend `tmp/bite9/ground/search.ts` to rebuild the camera for candidate forest feet `x`/sizes, taking the edge constraint as `ZOOM_FLOOR × LENS.reach ≤ 148` on the small phone. Or narrow the forest's turn (`FOREST_SPLAY`) so the drawn cap is wider. Or cap the lean/tilt corner. Or give phoneL a deeper band for the cover (the orchestrator's fallback).
+2. `COMMON_FRAME` (±0.62, −0.7 to 2.6) does not hold the forest feet (x up to ±1.15, z −0.94 to 3). Either derive it from what every camera shows, or fix the `FOREST_FEET` comment that says "inside the common frame".
+3. `model/ground.test.ts`: the frame is shown on every viewport, and a rotation keeps ground points. For the second, test that `(x − centre)/size`, `(y − groundTop)/ground` and `size/unit` per slot are equal across `VIEWPORTS`.
+4. Lint, type-overlap and knip; the other suites; the probe build and the tabL/phoneL play frames.
