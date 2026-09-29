@@ -692,6 +692,19 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
       пока не будем идти, это всегда успеется").
     - Seeded flowers are pentatonic, C D E G A, plus a kick and a hat
       ("пусть будет пентатоника"); bees bring the other notes and drums.
+    - **The child plants flowers too.** A tap on a grass tuft (only there)
+      opens a two-stage picker — one of five colours, then one of four
+      shapes, no stage over five buttons, no words — and the chosen flower
+      grows on that tuft ("не случайный, а именно тот который потом в две
+      стадии пикера выберет ребёнок"; "сажать можно не везде, а только там
+      где есть травка"). Bees still bring their own.
+    - **Darker is lower**, one law for notes and drums, never random:
+      blue C–D♯, pink E–G, yellow G♯–B; within a colour the shapes rise
+      round-one-ring, round-two, pointed-one, pointed-two. Violet is the
+      skins (kick, then the toms low to high), white the ticks (snare,
+      rim, hat, shaker — pointed for the noisy two). The keyboard's drum
+      rows follow the same order: `a s d f` violet, `q w e r` white. The
+      agent's proposal, standing unless the operator redraws it.
     - Chords: several fingers at once, a compressor on `master` ("нужно,
       да, особенно с учётом барабанов"). Whether item 11 needs a pinch at
       all is left to the operator's call on the first idea.
