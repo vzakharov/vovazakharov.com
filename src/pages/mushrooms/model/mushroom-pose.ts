@@ -99,6 +99,14 @@ function tallestCap(species: Species): number {
     : height;
 }
 
+/**
+ * The tallest any of `species` stands over its foot, per unit of size: its
+ * tallest stem under its tallest cap.
+ */
+export function speciesHeight(species: Species): number {
+  return GENE_RANGES[species].stemHeight[1] + tallestCap(species);
+}
+
 /** How far a cap reaches to the side a splayed mushroom faces, and to the other. */
 export type Reach = { toward: number; away: number };
 

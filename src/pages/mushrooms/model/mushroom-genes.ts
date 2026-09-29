@@ -324,6 +324,9 @@ function growGenes({ seed, species }: MushroomSeed): MushroomGenes {
   }
 }
 
+/** The species the meadow opens with, both of the clump's two. */
+export const OPENING_SPECIES = 'fly-agaric' satisfies Species;
+
 /**
  * The drawing's two fly agarics, which the meadow opens with and the layout
  * stands as one clump.
@@ -332,6 +335,6 @@ export function firstMushrooms(random: Random): Mushroom[] {
   return [1, 2].map((n) => ({
     id: `mushroom-${n}`,
     seed: nextSeed(random),
-    species: 'fly-agaric',
+    species: OPENING_SPECIES,
   }));
 }

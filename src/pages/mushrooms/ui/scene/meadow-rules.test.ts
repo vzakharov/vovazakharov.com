@@ -7,6 +7,7 @@ import {
   type Circle,
   containsPoint,
   distanceToEdge,
+  type Point,
 } from '../../model/geometry';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
@@ -14,7 +15,13 @@ import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
 import { placeIn } from './clump-layout';
-import { doorInSight, IN_SIGHT, sightOf, standingAt } from './door-sight';
+import {
+  doorInSight,
+  IN_SIGHT,
+  sightOf,
+  type Standing,
+  standingAt,
+} from './door-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
@@ -94,9 +101,6 @@ function asTheyGrew(mushrooms: readonly Planted[]): Planted[][] {
   ];
 }
 
-/** What the sun's rays are named as among the controls. */
-const SUN = 'the sun';
-
 /** Every control's hit area, open pickers and all, and the sun's rays. */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   const { mute, releases, plus, minus, house, picker, housePicker, sun } =
@@ -113,27 +117,38 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   ];
   return [
     ...controls.map((control) => ({ ...control, r: tapReach(control.r) })),
-    { name: SUN, ...sun, r: sun.r * SUN_RAY_REACH },
+    { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
   ];
+}
+
+/** Whether `circle` reaches into any of `outlines`. */
+const reaches = (outlines: readonly Point[][], circle: Circle) =>
+  outlines.some(
+    (outline) =>
+      containsPoint(outline, circle) ||
+      distanceToEdge(outline, circle) < circle.r,
+  );
+
+/** A mushroom's tap area where it stands on screen. */
+function standingArea({ genes, turn, placed }: Standing): Point[][] {
+  return Object.values(tapArea(genes, turn)).map((outline) => placed(outline));
 }
 
 /**
  * Every rule `meadow` breaks on `layout`, each as a sentence, noting in
- * `measured` each rule read for the newest mushroom's species; the sun's
- * rays over the opening clump, which no pick places, apart.
+ * `measured` each rule read for the newest mushroom's species.
  */
 function broken(
   meadow: readonly Planted[],
   layout: MeadowLayout,
   measured = new Set<string>(),
-): { faults: string[]; clumpUnderSun: string[] } {
+): string[] {
   const { width, sun, mushrooms: ground } = layout;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
   };
   const faults: string[] = [];
-  const clumpUnderSun: string[] = [];
   const stood = meadow.flatMap((mushroom) => {
     const place = placeIn(ground, mushroom);
     note(mushroom.species, 'shown');
@@ -146,7 +161,7 @@ function broken(
   const wash = washRings(layout).at(-1) ?? 0;
   const controls = keepOff(layout);
   for (const { mushroom, place, standing } of stood) {
-    const { id, species, foot } = mushroom;
+    const { id, species } = mushroom;
     const cap = capBox(standing);
     note(species, 'inside the edge margin');
     if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {
@@ -204,35 +219,32 @@ function broken(
     const [middle] = pad
       ? placed([{ x: pad.x / place.size, y: -pad.y / place.size }])
       : [];
-    const outlines = Object.values(area).map((outline) => placed(outline));
+    const outlines = standingArea(standing);
     note(species, 'off the controls');
     for (const { name, ...circle } of controls) {
       const onPad =
         middle !== undefined &&
         pad !== undefined &&
         Math.hypot(middle.x - circle.x, middle.y - circle.y) < pad.r + circle.r;
-      const onArea = outlines.some(
-        (outline) =>
-          containsPoint(outline, circle) ||
-          distanceToEdge(outline, circle) < circle.r,
-      );
-      if (!onPad && !onArea) continue;
-      const fault = `${name} over ${id}'s ${species}`;
-      if (name === SUN && openingIndex(foot) !== undefined) {
-        clumpUnderSun.push(fault);
-      } else faults.push(fault);
+      if (onPad || reaches(outlines, circle)) {
+        faults.push(`${name} over ${id}'s ${species}`);
+      }
     }
   }
-  return { faults, clumpUnderSun };
+  return faults;
 }
 
-/**
- * The screens whose turn stands the opening clump's tallest caps under the
- * sun's rays: the small phone held sideways, 568 by 320, in 143 of the 4000
- * opening mushrooms of `VISITS`, by up to 9 px. The sun is placed off the
- * controls only, and the clump stands where no pick places it.
- */
-const CLUMP_UNDER_SUN: ReadonlySet<Screen> = new Set(['small phone']);
+/** Each of `meadow` the sun's rays reach into on `layout`, by id. */
+function underSun(meadow: readonly Planted[], layout: MeadowLayout): string[] {
+  const { sun, mushrooms: ground } = layout;
+  const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
+  return meadow.flatMap((mushroom) => {
+    const place = placeIn(ground, mushroom);
+    if (!place) return [`${mushroom.id} off the screen`];
+    const area = standingArea(standingAt(place, mushroom));
+    return reaches(area, rays) ? [mushroom.id] : [];
+  });
+}
 
 /** Which visit, how many standing, and on which screen, for an assertion's message. */
 const where = (seed: number, stood: readonly Planted[], layout: MeadowLayout) =>
@@ -250,7 +262,7 @@ describe('a meadow grown toward six', () => {
       for (const [seed, meadow] of grownOn(name, width, height)) {
         for (const stood of asTheyGrew(meadow)) {
           for (const layout of screens()) {
-            const { faults } = broken(stood, layout, measured);
+            const faults = broken(stood, layout, measured);
             assert.deepEqual(faults, [], where(seed, stood, layout));
           }
         }
@@ -262,22 +274,17 @@ describe('a meadow grown toward six', () => {
       );
     });
 
-    it(
-      `keeps the sun's rays off the opening clump on a ${name} screen and on it turned`,
-      {
-        todo: CLUMP_UNDER_SUN.has(name)
-          ? 'the sun is placed off the controls only'
-          : undefined,
-      },
-      () => {
-        for (const seed of VISITS.filter((_, index) => index % 10 === 0)) {
-          const clump = firstMeadow(mulberry32(seed)).mushrooms;
-          for (const layout of screens()) {
-            const { clumpUnderSun } = broken(clump, layout);
-            assert.deepEqual(clumpUnderSun, [], where(seed, clump, layout));
-          }
+    it(`keeps the sun's rays off the opening clump, in every visit, on a ${name} screen and on it turned`, () => {
+      for (const seed of VISITS) {
+        const clump = firstMeadow(mulberry32(seed)).mushrooms;
+        for (const layout of screens()) {
+          assert.deepEqual(
+            underSun(clump, layout),
+            [],
+            where(seed, clump, layout),
+          );
         }
-      },
-    );
+      }
+    });
   }
 });

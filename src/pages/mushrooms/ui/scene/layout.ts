@@ -11,7 +11,7 @@ import type { Sized } from '@/shared/typings';
 import type { Circle, Point, Scaled } from '../../model/geometry';
 import type { Camera, Hazed } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
-import type { MushroomGround } from './clump-layout';
+import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import {
   type FlowerFoot,
@@ -195,7 +195,7 @@ function standMeadow(width: number, height: number): Stood {
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
-    sun: placeSun(width, height, short * 0.075, controls),
+    sun: placeSun(width, height, short * 0.075, controls, clumpCrowns(camera)),
     clouds: [
       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },

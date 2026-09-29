@@ -3,7 +3,7 @@
  * its glow on screen and its rays off every button.
  */
 
-import type { Circle } from '../../model/geometry';
+import type { Box, Circle } from '../../model/geometry';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { BUTTON_INSET, type Controls, tapReach } from './sky-layout';
@@ -26,21 +26,33 @@ export function horizonAt(width: number, height: number): number {
 /**
  * The sun, of radius `r` at the most, as `sunAt` places it: shrunk, a pixel
  * at a time, until its whole disc stands above the horizon, which also frees
- * the corner where only its rays kept it off; never below `SUN_LEAST`.
+ * the corner where only its rays kept it off, and its rays clear every one of
+ * `crowns`, the boxes the opening clump's caps can fill; never below
+ * `SUN_LEAST`.
  */
 export function placeSun(
   width: number,
   height: number,
   r: number,
   controls: Controls,
+  crowns: readonly Box[],
 ): Circle {
   const horizon = horizonAt(width, height);
+  const clear = (sun: Circle) =>
+    sun.y + sun.r <= horizon && crowns.every((crown) => raysClear(sun, crown));
   let sun = sunAt(width, height, r, controls);
   for (let size = r - 1; size >= r * SUN_LEAST; size--) {
-    if (sun.y + sun.r <= horizon) break;
+    if (clear(sun)) break;
     sun = sunAt(width, height, size, controls);
   }
   return sun;
+}
+
+/** Whether `sun`'s rays keep off `box`. */
+function raysClear(sun: Circle, box: Box): boolean {
+  const x = Math.min(Math.max(sun.x, box.left), box.right);
+  const y = Math.min(Math.max(sun.y, box.top), box.bottom);
+  return Math.hypot(sun.x - x, sun.y - y) >= sun.r * SUN_RAY_REACH;
 }
 
 /**

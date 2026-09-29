@@ -5,6 +5,7 @@
  * every other stands as the forest does.
  */
 
+import type { Box } from '../../model/geometry';
 import {
   type Camera,
   type Frame,
@@ -12,6 +13,8 @@ import {
   project,
   scaleAt,
 } from '../../model/ground';
+import { OPENING_SPECIES } from '../../model/mushroom-genes';
+import { speciesHeight, speciesReach } from '../../model/mushroom-pose';
 import { type Footed, OPENING_FEET, openingIndex } from '../../model/placement';
 import type { Placement } from './layout';
 
@@ -79,6 +82,25 @@ export function placeOf(camera: Camera, foot: Ground): Placement {
       ? (foot.x < 0 ? 1 : -1) * FOREST_SPLAY
       : (opening === 0 ? -1 : 1) * CLUMP_SPLAY;
   return standOn(camera, foot, sizeOn(foot), splay);
+}
+
+/**
+ * The box each of the opening clump's two can fill on the screen `camera`
+ * shows, whatever its genes: as tall as its tallest stem and cap stand, and
+ * as wide as its cap reaches to either side once splayed.
+ */
+export function clumpCrowns(camera: Camera): Box[] {
+  return OPENING_FEET.map((foot) => {
+    const { x, y, size, splay } = placeOf(camera, foot);
+    const { toward, away } = speciesReach(OPENING_SPECIES, splay);
+    const [left, right] = splay < 0 ? [toward, away] : [away, toward];
+    return {
+      left: x - left * size,
+      right: x + right * size,
+      top: y - speciesHeight(OPENING_SPECIES) * size,
+      bottom: y,
+    };
+  });
 }
 
 /**
