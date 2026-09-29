@@ -9,16 +9,21 @@
 import type { Sized } from '@/shared/typings';
 
 import type { Circle, Point, Scaled } from '../../model/geometry';
+import {
+  type Camera,
+  fitCamera,
+  type Hazed,
+  type Lens,
+} from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { geneBounds } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import {
-  CLUMP_SPLAY,
-  clumpFeet,
   clumpSlots,
   everyPlace,
   forAll,
   type SlotPlaces,
+  standOn,
 } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { type FlowerGround, placeFlowers } from './flower-layout';
@@ -35,8 +40,7 @@ import { horizonAt, placeSun } from './sun-layout';
  * its haze, the farthest slot the palest.
  */
 export type Placement = Footing & Hazed & { splay: number };
-/** How far toward the sky's haze a thing's colours go, from 0 to 1. */
-export type Hazed = { haze: number };
+export type { Hazed } from '../../model/ground';
 /**
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.
@@ -44,40 +48,20 @@ export type Hazed = { haze: number };
 export type Footing = Point & Scaled;
 
 /**
- * The forest's slots, after the clump's two, in the order they fill: across as
- * a fraction of the width, down as one of the ground's depth, and the size
- * against the clump's. Two nearer than the clump's caps, then a back row,
- * small and hazy, standing clear of those caps: beside them on a wide screen,
- * above them on a tall one.
+ * The forest's feet on the ground, after the clump's two, in the order they
+ * fill, each with its size against the clump's: two nearer than the clump's
+ * caps, one to either side, then a back row, small and hazy, whose caps stand
+ * above and beside the clump's. One table for every screen, inside the common
+ * frame, so a turn or a resize moves none of them.
  */
-const FOREST_SLOTS = {
-  landscape: [
-    [0.14, 0.8, 0.6],
-    [0.88, 0.7, 0.58],
-    [0.13, 0.06, 0.5],
-    [0.84, 0.08, 0.5],
-  ],
-  portrait: [
-    [0.2, 0.94, 0.62],
-    [0.8, 0.97, 0.62],
-    [0.2, 0.12, 0.56],
-    [0.58, 0, 0.56],
-  ],
-} as const;
+const FOREST_FEET = [
+  { x: -0.79, z: -0.8, size: 0.64 },
+  { x: 0.785, z: -0.94, size: 0.63 },
+  { x: -1.15, z: 2.6, size: 1 },
+  { x: 0.29, z: 3, size: 1.07 },
+] as const;
 /** How far a forest mushroom turns away from the middle of the meadow. */
 const FOREST_SPLAY = 0.1;
-/**
- * The haze on the farthest mushroom, and how far down the ground it thins
- * out to none.
- */
-const MAX_HAZE = 0.4;
-const HAZE_REACH = 0.35;
-/**
- * The least size a forest mushroom stands at, the clump standing larger: the
- * narrowest cap the genes allow is then `2 × TAP_RADIUS` across, a mushroom's
- * tap area being its cap as drawn.
- */
-const FINGER_SIZE = (2 * TAP_RADIUS) / geneBounds('capWidth')[0];
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,
@@ -99,6 +83,8 @@ const KIND_SCALE = {
 export const EDGE_MARGIN = 12;
 export type MeadowLayout = Sized &
   Controls & {
+    /** What the meadow is shown through: a turn or a resize fits a new one. */
+    camera: Camera;
     /** Where the far hills meet the sky. */
     horizon: number;
     /** The top of the near hills' band. */
@@ -119,10 +105,6 @@ export type MeadowLayout = Sized &
     insectSizes: Readonly<Record<InsectKind, number>>;
   };
 
-function hazeAt(down: number): number {
-  return MAX_HAZE * Math.max(0, 1 - down / HAZE_REACH);
-}
-
 /**
  * How far any cap reaches left and right of its foot, per unit of size, once
  * `splay` turns it.
@@ -132,58 +114,50 @@ function sideReach(splay: number): [left: number, right: number] {
   return splay < 0 ? [toward, away] : [away, toward];
 }
 
-/**
- * The largest size a mushroom stood at `x` with `splay` can take, whatever
- * its genes, and keep its cap `margin` inside the screen.
- */
-function sizeToFit(
-  x: number,
-  width: number,
-  splay: number,
-  margin: number,
-): number {
-  const [left, right] = sideReach(splay);
-  return Math.min((x - margin) / left, (width - margin - x) / right);
+/** Every slot as `camera` shows it: the clump's two, then the forest. */
+function slotsOn(camera: Camera): SlotPlaces[] {
+  return [
+    ...clumpSlots(camera),
+    ...FOREST_FEET.map(({ size, ...foot }) =>
+      forAll(standOn(camera, foot, size, (foot.x < 0 ? 1 : -1) * FOREST_SPLAY)),
+    ),
+  ];
 }
 
 /**
- * The forest's slots, each facing the middle of the meadow and sized under
- * `sizeToFit`, as the clump is, but never under `floor`: a slot the floor
- * outgrows is pulled in from the edge until it fits.
+ * The slots as a camera of the clump's size 1, centred on 0, shows them: how
+ * far their caps reach either side of the middle, whatever their genes, and
+ * the smallest any stands.
  */
-function placeForest(
-  slots: ReadonlyArray<readonly [number, number, number]>,
-  {
-    width,
-    groundTop,
-    ground,
-    unit,
-    margin,
-    floor,
-  }: Record<
-    'width' | 'groundTop' | 'ground' | 'unit' | 'margin' | 'floor',
-    number
-  >,
-): Placement[] {
-  return slots.map(([across, down, scale]) => {
-    const splay = (across < 0.5 ? 1 : -1) * FOREST_SPLAY;
-    const wanted = width * across;
-    const size = Math.max(
-      floor,
-      Math.min(unit * scale, sizeToFit(wanted, width, splay, margin)),
-    );
-    const [left, right] = sideReach(splay);
-    return {
-      x: Math.min(
-        width - margin - right * size,
-        Math.max(margin + left * size, wanted),
-      ),
-      y: groundTop + ground * down,
-      size,
-      splay,
-      haze: hazeAt(down),
-    };
-  });
+const UNIT_SLOTS = everyPlace(
+  slotsOn({ width: 0, height: 0, groundTop: 0, ground: 1, centre: 0, unit: 1 }),
+);
+
+/**
+ * The zoom floor: the least clump size a camera stands the meadow at, the
+ * narrowest cap the genes allow on the smallest slot, in the farthest row,
+ * being `2 × TAP_RADIUS` across there, a mushroom's tap area being its cap
+ * as drawn.
+ */
+export const ZOOM_FLOOR =
+  (2 * TAP_RADIUS) /
+  (geneBounds('capWidth')[0] * Math.min(...UNIT_SLOTS.map(({ size }) => size)));
+
+/** What every screen's camera shows: every slot's cap, and the zoom floor. */
+const LENS: Lens = {
+  reach: Math.max(
+    ...UNIT_SLOTS.map(({ x, size, splay }) => {
+      const [left, right] = sideReach(splay);
+      return Math.max(left * size - x, x + right * size);
+    }),
+  ),
+  margin: EDGE_MARGIN,
+  floor: ZOOM_FLOOR,
+};
+
+/** The camera the meadow on a screen `width` by `height` is shown through. */
+export function meadowCamera(width: number, height: number): Camera {
+  return fitCamera({ width, height }, LENS);
 }
 
 /**
@@ -295,59 +269,11 @@ function placedOn(
 
 /** The meadow on a screen `width` by `height` but for its flowers (`Stood`). */
 function standMeadow(width: number, height: number): Stood {
-  const portrait = height > width;
-  const orientation = portrait ? 'portrait' : 'landscape';
-  const groundTop = height * (portrait ? 0.5 : 0.6);
+  const camera = meadowCamera(width, height);
+  const { groundTop, ground, unit } = camera;
   const horizon = horizonAt(width, height);
-  const ground = height - groundTop;
   const short = Math.min(width, height);
-  // Sized by height when the screen is wide, by width when it is tall, so a
-  // mushroom never outgrows the side of the screen it has less of.
-  const wanted = portrait
-    ? Math.min(width * 0.6, height * 0.34)
-    : height * 0.44;
-  // One clump, as in the drawing: two feet close together, the back one
-  // leaning left and the front one right, their stems crossing.
-  const feet = clumpFeet(orientation, { width, groundTop, ground, wanted });
-  // A size held under `maxReach` keeps every cap on screen, whatever its genes.
-  const clumpSize = (margin: number) =>
-    Math.min(
-      wanted,
-      ...feet.map(
-        ({ x, scale, side }) =>
-          sizeToFit(x, width, side * CLUMP_SPLAY, margin) / scale,
-      ),
-    );
-  const slots = FOREST_SLOTS[orientation];
-  const standing = (margin: number, floor: number) => {
-    const unit = clumpSize(margin);
-    const clump = clumpSlots(orientation, feet, {
-      width,
-      ground,
-      wanted,
-      unit,
-      margin,
-    });
-    const forest = placeForest(slots, {
-      width,
-      groundTop,
-      ground,
-      unit,
-      margin,
-      floor,
-    });
-    return {
-      unit,
-      mushrooms: [...clump, ...forest.map((place) => forAll(place))],
-    };
-  };
-  const { unit, mushrooms } = standing(EDGE_MARGIN, FINGER_SIZE);
-  // The flowers are sized off the meadow as it would stand with no edge
-  // margin and no floor, which scales with the screen exactly, so a flower
-  // reads as smaller than a fly agaric on every screen. They keep off the
-  // feet of that meadow and of this one, whichever reaches farther, and of
-  // every slot, taken or not, so a mushroom growing never moves one.
-  const { unit: flowerUnit, mushrooms: unmarginedFeet } = standing(0, 0);
+  const mushrooms = slotsOn(camera);
   const controls = placeControls(width, height, groundTop);
   const insectSize = Math.max(INSECT_LEAST, unit * INSECT_SCALE);
   const flowers = {
@@ -355,8 +281,8 @@ function standMeadow(width: number, height: number): Stood {
     height,
     groundTop,
     ground,
-    unit: flowerUnit,
-    feet: everyPlace([...mushrooms, ...unmarginedFeet]),
+    unit,
+    feet: everyPlace(mushrooms),
     controls: [
       ...standingControls(controls),
       ...controls.picker,
@@ -366,6 +292,7 @@ function standMeadow(width: number, height: number): Stood {
   const layout = {
     width,
     height,
+    camera,
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
