@@ -30,11 +30,11 @@ const CLUMP_SIZES = [0.92, 1] as const;
 /** The opening pair's turn apart, like the V of Syama's two caps. */
 const CLUMP_SPLAY = 0.22;
 /**
- * How big a forest mushroom is drawn, against the clump's front one, wherever
- * it stands: the back rows as big as the front ones, so a far cap still reads
- * as a mushroom, only paler.
+ * How big a forest mushroom stands on the ground against the clump's front
+ * one, before depth scales it as it scales the clump: the farther, the
+ * smaller, as in Syama's drawing of one near mushroom and small ones behind.
  */
-const FOREST_DRAWN = 0.7;
+const FOREST_SIZE = 0.7;
 /** How far a forest mushroom turns away from the middle of the meadow. */
 export const FOREST_SPLAY = 0.1;
 
@@ -61,19 +61,19 @@ function standOn(
 /**
  * How big a mushroom standing on `foot` is on the ground, in the clump's
  * size before depth scales it: an opening foot's as the clump's, any other
- * drawn `FOREST_DRAWN` of the clump's front one wherever it stands.
+ * `FOREST_SIZE`.
  */
 function sizeOn(foot: Ground): number {
   const opening = openingIndex(foot);
   if (opening !== undefined) return CLUMP_SIZES[opening] ?? 1;
-  return FOREST_DRAWN / scaleAt(foot.z);
+  return FOREST_SIZE;
 }
 
 /**
  * Where `camera` stands a mushroom on `foot`: on an opening foot as the
  * clump's, the back one leaning left and the front one right, their stems
- * crossing; anywhere else as the forest, drawn `FOREST_DRAWN` of the clump's
- * size and turned away from the middle.
+ * crossing; anywhere else as the forest, `FOREST_SIZE` of the clump's size
+ * and turned away from the middle.
  */
 export function placeOf(camera: Camera, foot: Ground): Placement {
   const opening = openingIndex(foot);

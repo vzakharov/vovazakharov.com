@@ -79,17 +79,19 @@ describe('seen', () => {
 });
 
 /**
- * The screens whose camera is held at the zoom floor while their frame is
- * held at its least across: the small phone upright, 320 px wide, where a
- * cap of the widest genes on the frame's near corners would stand 20 px past
- * the edge margin. Every foot there still stands inside the margin, and the
- * room check turns away a foot whose cap would not (`roomFor`).
+ * A phone narrower than any of `VIEWPORTS`, whose camera the zoom floor holds
+ * while its frame is held at its least across: a cap of the widest genes on
+ * the frame's near corners stands past the edge margin there. Every foot
+ * still stands inside the margin, and the room check turns away a foot whose
+ * cap would not (`roomFor`).
  */
-const FLOOR_HELD: ReadonlySet<string> = new Set(['small phone']);
+const FLOOR_HELD = { name: '280×600', width: 280, height: 600 };
 
 describe('the frame', () => {
-  for (const { name, width, height } of SCREENS) {
-    const held = FLOOR_HELD.has(name);
+  for (const { name, width, height, held } of [
+    ...SCREENS.map((screen) => ({ ...screen, held: false })),
+    { ...FLOOR_HELD, held: true },
+  ]) {
     it(`stands on a ${name} screen, every ${held ? 'foot' : 'cap'} on it inside the edge margin`, () => {
       const camera = meadowCamera(width, height);
       const frame = meadowFrame({ width, height });

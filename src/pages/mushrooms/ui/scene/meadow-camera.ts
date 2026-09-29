@@ -17,7 +17,7 @@ import {
   type Lens,
   widestOf,
 } from '../../model/ground';
-import { geneBounds } from '../../model/mushroom-genes';
+import { GENE_RANGES, OPENING_SPECIES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
@@ -53,9 +53,9 @@ const UNIT_CAMERA: Camera = {
 
 /**
  * Every place at the extremes of a frame 1 across as `UNIT_CAMERA` shows
- * them, the opening clump's two first: how far their caps
- * reach either side of the middle, whatever their genes, and the smallest
- * any stands, which no frame's width changes.
+ * them, the opening clump's two first: how far their caps reach either side
+ * of the middle, whatever their genes, and the smaller of the clump's two,
+ * which no frame's width changes.
  */
 const UNIT_PLACES = extremes({ across: 1, ...FRAME_DEPTH }).map((foot) =>
   placeOf(UNIT_CAMERA, foot),
@@ -73,14 +73,18 @@ function reachOf(places: typeof UNIT_PLACES): number {
 
 /**
  * The zoom floor: the least clump size a camera stands the meadow at, the
- * narrowest cap the genes allow, where a mushroom stands smallest, being
- * `2 × TAP_RADIUS` across by its gene there; a cap drawn narrower than a
- * finger is padded to one (`fingerPad`).
+ * opening clump's narrowest cap its genes allow being `2 × TAP_RADIUS` across
+ * by its gene there. The forest, smaller with depth, is drawn narrower than a
+ * finger on every screen's far rows, and a short screen stands the clump
+ * under the floor too (`floorOn`): a cap drawn narrower than a finger is
+ * padded to one (`fingerPad`).
  */
-const ZOOM_FLOOR =
+export const ZOOM_FLOOR =
   (2 * TAP_RADIUS) /
-  (geneBounds('capWidth')[0] *
-    Math.min(...UNIT_PLACES.map(({ size }) => size)));
+  (GENE_RANGES[OPENING_SPECIES].capWidth[0] *
+    Math.min(
+      ...UNIT_PLACES.slice(0, OPENING_FEET.length).map(({ size }) => size),
+    ));
 
 /**
  * What every screen's camera shows: the opening clump's caps, every cap

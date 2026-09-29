@@ -122,8 +122,12 @@ export function nearSkyline(
 
 /** How far above and below the ground's top its seam with the near hills wanders, as a share of the ground's depth. */
 export const SEAM_REACH = 0.035;
-/** One swell of the seam, in CSS pixels across. */
-const SEAM_WAVELENGTH = 290;
+/**
+ * One swell of the seam, in CSS pixels across: short enough that the
+ * narrowest phone, whose band is shallow and its seam's reach with it, has no
+ * crest running level for long.
+ */
+const SEAM_WAVELENGTH = 250;
 const SEAM_STEPS = 128;
 
 /**
