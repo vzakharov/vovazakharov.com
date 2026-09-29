@@ -70,35 +70,65 @@ const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed) =>
   ),
 );
 
+/** Every pair of species the clump can stand, back then front. */
+const PAIRS = MUSHROOM_SPECIES.flatMap((back) =>
+  MUSHROOM_SPECIES.map((front) => [back, front] as const),
+);
+const pairName = ([back, front]: readonly [Species, Species]) =>
+  `${back} behind ${front}`;
+const PAIR_NAMES = PAIRS.map((pair) => pairName(pair));
+/** Each species in each slot, as the sweeps over every slot name them. */
+const SPECIES_IN_SLOTS = MUSHROOM_SPECIES.flatMap((species) =>
+  Array.from(
+    { length: MUSHROOM_SLOTS },
+    (_, slot) => `${species} in mushroom-${slot}`,
+  ),
+);
+
 /**
- * The species standing in each slot on the visit `seed`, drawn from it, so
- * over a run of visits every slot tries every species, and next to every
- * other.
+ * The species standing in each slot on the `index`th visit, `seed`: the
+ * clump's back and front take each of `PAIRS` in turn, so every pair stands
+ * over a sixteenth of the visits (all sixteen on every visit would take
+ * sixteen times as long), and each forest slot one drawn from the seed, so
+ * over a run of visits it tries every species.
  */
-function speciesOf(seed: number): (slot: number) => Species {
+function speciesOf(seed: number, index: number): (slot: number) => Species {
   const random = mulberry32(seed ^ 0x5b_d1_e9_95);
   const drawn = Array.from({ length: MUSHROOM_SLOTS }, () =>
     pick(random, MUSHROOM_SPECIES),
   );
-  return (slot) => drawn[slot] ?? 'fly-agaric';
+  const [back, front] = PAIRS[index % PAIRS.length] ?? [];
+  return (slot) =>
+    (slot === 0 ? back : slot === 1 ? front : drawn[slot]) ?? 'fly-agaric';
 }
 
-/** The worst of each species' measure over a sweep, logged beside its test for the record. */
-function worstBySpecies(worse: (a: number, b: number) => number): {
-  note: (species: Species, value: number) => void;
+/**
+ * The worst of a measure over a sweep by each of `keys`, logged beside its
+ * test for the record; a key the sweep never measured fails it.
+ */
+function worstOf(
+  keys: readonly string[],
+  worse: (a: number, b: number) => number,
+): {
+  note: (key: string, value: number) => void;
   report: (unit: string) => string;
 } {
-  const worst = new Map<Species, number>();
+  const worst = new Map<string, number>();
   return {
-    note: (species, value) => {
-      const known = worst.get(species);
-      worst.set(species, known === undefined ? value : worse(known, value));
+    note: (key, value) => {
+      const known = worst.get(key);
+      worst.set(key, known === undefined ? value : worse(known, value));
     },
-    report: (unit) =>
-      MUSHROOM_SPECIES.map(
-        (species) =>
-          `${species} ${(worst.get(species) ?? Number.NaN).toFixed(1)}${unit}`,
-      ).join(', '),
+    report: (unit) => {
+      assert.deepEqual(
+        keys.filter((key) => !worst.has(key)),
+        [],
+        'left unmeasured',
+      );
+      return keys
+        .map((key) => `${key} ${(worst.get(key) ?? 0).toFixed(1)}${unit}`)
+        .join(', ');
+    },
   };
 }
 
@@ -133,12 +163,13 @@ function screenLayout(width: number, height: number): MeadowLayout {
 }
 
 /**
- * The clump of a visit as the scene stands it, the front-most first: the
- * opening clump's seeds, each of the species `speciesOf` draws for its slot,
- * since whatever grows into a freed clump slot stands where it stood.
+ * The clump of the `index`th visit, `seed`, as the scene stands it, the
+ * front-most first: the opening clump's seeds, each of the species
+ * `speciesOf` stands in its slot, since whatever grows into a freed clump
+ * slot grows from a seed like theirs.
  */
-function clumpOf(seed: number, layout: MeadowLayout) {
-  const species = speciesOf(seed);
+function clumpOf(seed: number, index: number, layout: MeadowLayout) {
+  const species = speciesOf(seed, index);
   return firstMeadow(mulberry32(seed))
     .mushrooms.map(({ id, slot, seed: own }) => {
       const place = placeIn(layout.mushrooms, { slot, species: species(slot) });
@@ -162,18 +193,18 @@ let clumps: {
   bySeed: Map<number, ReturnType<typeof clumpOf>>;
 } = { layout: meadowLayout(1, 1, 1), bySeed: new Map() };
 
-/** The opening clump of the visit `seed` on `layout` (`clumpOf`). */
-function standingClump(seed: number, layout: MeadowLayout) {
+/** The opening clump of the `index`th visit, `seed`, on `layout` (`clumpOf`). */
+function standingClump(seed: number, index: number, layout: MeadowLayout) {
   if (clumps.layout !== layout) clumps = { layout, bySeed: new Map() };
-  const clump = clumps.bySeed.get(seed) ?? clumpOf(seed, layout);
+  const clump = clumps.bySeed.get(seed) ?? clumpOf(seed, index, layout);
   clumps.bySeed.set(seed, clump);
   return clump;
 }
 
-/** Every slot filled with a mushroom fresh-seeded from `seed`, of the species `speciesOf` draws for it. */
-function standingForest(seed: number, layout: MeadowLayout) {
+/** Every slot of the `index`th visit, `seed`, filled with a mushroom fresh-seeded from it, of the species `speciesOf` stands there. */
+function standingForest(seed: number, index: number, layout: MeadowLayout) {
   const random = mulberry32(seed);
-  const species = speciesOf(seed);
+  const species = speciesOf(seed, index);
   return layout.mushrooms.map((places, slot) => ({
     species: species(slot),
     ...standingWithTaps(places[species(slot)], {
@@ -204,18 +235,22 @@ let forestCaps: { layout: MeadowLayout; bySeed: Map<number, CapBox[]> } = {
 };
 
 /** `standingForest`, its caps noted for `capsOfForest`. */
-function notedForest(seed: number, layout: MeadowLayout) {
-  const forest = standingForest(seed, layout);
+function notedForest(seed: number, index: number, layout: MeadowLayout) {
+  const forest = standingForest(seed, index, layout);
   if (forestCaps.layout !== layout) forestCaps = { layout, bySeed: new Map() };
   forestCaps.bySeed.set(seed, capBoxesOf(forest));
   return forest;
 }
 
-/** The caps of the forest `standingForest` stands for `seed` on `layout`. */
-function capsOfForest(seed: number, layout: MeadowLayout): CapBox[] {
+/** The caps of the forest `standingForest` stands for the `index`th visit, `seed`, on `layout`. */
+function capsOfForest(
+  seed: number,
+  index: number,
+  layout: MeadowLayout,
+): CapBox[] {
   const noted =
     forestCaps.layout === layout ? forestCaps.bySeed.get(seed) : undefined;
-  return noted ?? capBoxesOf(standingForest(seed, layout));
+  return noted ?? capBoxesOf(standingForest(seed, index, layout));
 }
 
 /** How much of `box`'s area `over` covers. */
@@ -303,7 +338,7 @@ describe('meadowLayout', () => {
     it(`keeps every species' cap in every slot on a ${name} screen`, (t) => {
       const layout = screenLayout(width, height);
       assert.equal(layout.mushrooms.length, MUSHROOM_SLOTS);
-      const margins = worstBySpecies(Math.min);
+      const margins = worstOf(SPECIES_IN_SLOTS, Math.min);
       for (const seed of VISITS) {
         const random = mulberry32(seed);
         for (const [slot, places] of layout.mushrooms.entries()) {
@@ -320,7 +355,7 @@ describe('meadowLayout', () => {
               place.x - left * place.size,
               width - place.x - right * place.size,
             );
-            margins.note(species, margin);
+            margins.note(`${species} in mushroom-${slot}`, margin);
             assert.ok(
               margin >= EDGE_MARGIN,
               `visit ${seed}: a ${species} in mushroom-${slot} past the edge`,
@@ -333,13 +368,13 @@ describe('meadowLayout', () => {
 
     it(`keeps the clump's back cap in view past the front one on a ${name} screen`, (t) => {
       const layout = screenLayout(width, height);
-      const least = worstBySpecies(Math.min);
-      for (const seed of VISITS) {
-        const [front, back] = standingClump(seed, layout);
+      const least = worstOf(PAIR_NAMES, Math.min);
+      for (const [index, seed] of VISITS.entries()) {
+        const [front, back] = standingClump(seed, index, layout);
         assert.ok(front && back);
         const [dome = [], gills = []] = back.drawn;
         const shown = shownPast([dome, gills], front.drawn.slice(0, 2));
-        least.note(back.species, shown * 100);
+        least.note(pairName([back.species, front.species]), shown * 100);
         if (shown < BACK_CAP_SHOWN)
           assert.fail(
             `visit ${seed}: ${back.id}'s ${back.species} cap ${(shown * 100).toFixed(0)}% in view behind a ${front.species}`,
@@ -350,7 +385,7 @@ describe('meadowLayout', () => {
 
     it(`makes every slot's narrowest cap of every species a finger's target on a ${name} screen`, (t) => {
       const { mushrooms } = screenLayout(width, height);
-      const narrowest = worstBySpecies(Math.min);
+      const narrowest = worstOf(MUSHROOM_SPECIES, Math.min);
       for (const species of MUSHROOM_SPECIES) {
         // The cap as drawn and tapped, across its own frame, so a turn does
         // not widen it; read over many seeds, the narrowest genes among them.
@@ -377,8 +412,8 @@ describe('meadowLayout', () => {
 
     it(`hands a tap on either clump stem to the mushroom drawn there on a ${name} screen`, () => {
       const layout = screenLayout(width, height);
-      for (const seed of VISITS) {
-        const clump = standingClump(seed, layout);
+      for (const [index, seed] of VISITS.entries()) {
+        const clump = standingClump(seed, index, layout);
         // A tie would leave the one added later on top, which the sort
         // does not model.
         assert.notEqual(clump[0]?.depth, clump[1]?.depth);
@@ -396,24 +431,27 @@ describe('meadowLayout', () => {
 
     it(`keeps each clump door mostly in sight on a ${name} screen`, (t) => {
       const layout = screenLayout(width, height);
-      const least = worstBySpecies(Math.min);
-      for (const seed of VISITS) {
-        const clump = standingClump(seed, layout);
-        for (const [index, mushroom] of clump.entries()) {
+      const least = worstOf(PAIR_NAMES, Math.min);
+      for (const [index, seed] of VISITS.entries()) {
+        const clump = standingClump(seed, index, layout);
+        const [front, back] = clump;
+        assert.ok(front && back);
+        for (const [depth, mushroom] of clump.entries()) {
           const sight = sightOf(
             mushroom,
             doorInSight(mushroom, clump),
             'doorway',
-            clump.slice(0, index),
+            clump.slice(0, depth),
           );
-          least.note(mushroom.species, sight * 100);
+          if (mushroom === back)
+            least.note(pairName([back.species, front.species]), sight * 100);
           if (sight < IN_SIGHT)
             assert.fail(
               `visit ${seed}: ${mushroom.id}'s ${mushroom.species} doorway ${(sight * 100).toFixed(0)}% in sight`,
             );
         }
       }
-      t.diagnostic(`least of a clump doorway in sight: ${least.report('%')}`);
+      t.diagnostic(`least of a back doorway in sight: ${least.report('%')}`);
     });
 
     it(`gives every door a finger's target round all of it on a ${name} screen`, () => {
@@ -525,12 +563,12 @@ describe('meadowLayout', () => {
       for (const { control, ...circle } of controls) {
         assert.ok(apart(circle, rays), `${control} on the sun`);
       }
-      for (const seed of VISITS) {
-        const forest = notedForest(seed, layout);
+      for (const [index, seed] of VISITS.entries()) {
+        const forest = notedForest(seed, index, layout);
         for (const [slot, { tapped, boxes }] of forest.entries()) {
           for (const { control, ...circle } of controls) {
-            for (const [index, outline] of tapped.entries()) {
-              const box = boxes.tapped[index] ?? boxAround(outline);
+            for (const [part, outline] of tapped.entries()) {
+              const box = boxes.tapped[part] ?? boxAround(outline);
               // No nearer to the outline than to the box round it.
               if (distanceToBox(box, circle) >= circle.r) continue;
               assert.ok(
@@ -545,9 +583,9 @@ describe('meadowLayout', () => {
 
     it(`keeps every forest cap mostly in view on a ${name} screen`, (t) => {
       const layout = screenLayout(width, height);
-      const most = worstBySpecies(Math.max);
-      for (const seed of VISITS) {
-        const caps = capsOfForest(seed, layout);
+      const most = worstOf(MUSHROOM_SPECIES, Math.max);
+      for (const [index, seed] of VISITS.entries()) {
+        const caps = capsOfForest(seed, index, layout);
         for (const [slot, { species, depth, box }] of caps.entries()) {
           for (const [other, nearer] of caps.entries()) {
             // The clump's own two caps cross by design, as in the drawing.
