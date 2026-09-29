@@ -285,7 +285,7 @@ describe('the seeded flowers', () => {
       );
     });
 
-    it(`are cropped, not moved, on the ${name} screen turned`, (t) => {
+    it(`all stand on the ${name} screen turned, none under a control`, (t) => {
       let off = 0;
       let under = 0;
       let flowers = 0;
@@ -313,6 +313,12 @@ describe('the seeded flowers', () => {
         `turned: ${(off / VISITS.length).toFixed(2)} a visit past the screen's side, ${(under / VISITS.length).toFixed(2)} under a control, of ${(flowers / VISITS.length).toFixed(2)}`,
       );
       assert.ok(flowers > 0);
+      assert.equal(
+        off,
+        0,
+        `${String(off)} flowers past the turned screen's side`,
+      );
+      assert.equal(under, 0, `${String(under)} flowers under a turned control`);
     });
 
     it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {

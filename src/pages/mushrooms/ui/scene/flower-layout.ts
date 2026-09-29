@@ -4,9 +4,10 @@
  * jittered off a slot by its own seeded stream, and moved again until it
  * stands where a child sees it on that screen — off the clump's feet and
  * apart from the other flowers on the ground, its head clear of every
- * control and no more than half hidden by those mushrooms — or left out. A
- * turn or a resize changes the camera, not the ground: what a screen crops
- * is the crop, and in-sight is the scene's query (`flower-sight.ts`).
+ * control and no more than half hidden by those mushrooms — or left out.
+ * Every one stands in the opening screen's frame (`meadowFrame`), which its
+ * turn shows too, so a turn loses none; a resize changes the camera, not the
+ * ground, and in-sight is the scene's query (`flower-sight.ts`).
  */
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
@@ -16,14 +17,21 @@ import {
   type Point,
   type Scaled,
 } from '../../model/geometry';
-import { type Camera, type Ground, project, scaleAt } from '../../model/ground';
+import {
+  type Camera,
+  type Frame,
+  type Ground,
+  project,
+  scaleAt,
+} from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
 import type { Footing, MeadowLayout } from './layout';
+import { FORESHORTENING } from './meadow-camera';
 
 /**
  * The slots the flowers grow around on the screen a visit opens on, as a
- * fraction of the width across and of the ground's depth down, the likeliest
+ * fraction of its frame's width across and of the ground's depth down, the likeliest
  * to show first — some behind the clump's stems, some before it. Each visit
  * jitters every flower off its slot.
  */
@@ -48,15 +56,16 @@ const FLOWER_SPOTS = {
   ],
 } as const;
 /**
- * How far a flower strays from its slot, as a fraction of the width and of the
- * ground's depth.
+ * How far a flower strays from its slot, as a fraction of the frame's width
+ * and of the ground's depth.
  */
 const FLOWER_JITTER = [0.07, 0.12] as const;
 /**
- * How far across the width, and down the ground's depth, a flower's foot
- * may stand: on the ground, and its head clear of the screen's sides.
+ * How far across the frame's width, and down the ground's depth, a flower's
+ * foot may stand: on the ground, and its head clear of the screen's sides
+ * on the screen and on its turn.
  */
-export const FLOWER_ACROSS = [0.05, 0.95] as const;
+const FLOWER_ACROSS = [0.05, 0.95] as const;
 export const FLOWER_DOWN = [0.12, 0.96] as const;
 /** Tries at a spot off the slot before a flower is left out. */
 const FLOWER_TRIES = 48;
@@ -88,16 +97,17 @@ const HEAD_STEPS = 7;
 const LEAN_STEPS = 7;
 
 /**
- * The screen a visit opens on, as its flowers are placed on it: its ground;
- * the flowers' unit, the clump's size where its front foot stands; every
- * control's circle as drawn; and the mushrooms the visit opens with, as they
- * shade it.
+ * The screen a visit opens on, as its flowers are placed on it: its ground
+ * and the frame on it the meadow is laid out in; the flowers' unit, the
+ * clump's size where its front foot stands; every control's circle as
+ * drawn; and the mushrooms the visit opens with, as they shade it.
  */
 export type FlowerGround = Pick<
   MeadowLayout,
   'width' | 'height' | 'groundTop'
 > & {
   ground: number;
+  frame: Frame;
   unit: number;
   controls: readonly Circle[];
   clump: ClumpShade;
@@ -144,15 +154,6 @@ export function flowersOn(
 ): Footing[] {
   return bed.map((foot) => standingOn(camera, foot));
 }
-
-/**
- * How many px down the screen a step of the clump's size into the distance
- * takes, per px a thing of the clump's size stands across there, over every
- * screen a child holds: from a small phone held sideways, whose ground is
- * shallow, to a narrow phone upright. A rule kept on the ground holds on the
- * screen through every camera in the span.
- */
-export const FORESHORTENING = [0.25, 0.8] as const;
 
 /**
  * The least `|r × depth + rise|` for any `r` of `FORESHORTENING` and any
@@ -307,7 +308,7 @@ function spotOn(
   seed: number,
   placed: readonly FlowerFoot[],
 ): FlowerFoot | undefined {
-  const { width, height, groundTop, ground, controls, clump } = opening;
+  const { width, height, groundTop, ground, frame, controls, clump } = opening;
   const spot = FLOWER_SPOTS[height > width ? 'portrait' : 'landscape'][index];
   if (!spot) return undefined;
   const camera = cameraOf(opening);
@@ -319,8 +320,14 @@ function spotOn(
     const stray = 1 + attempt / 4;
     const x = jitter(random, across, FLOWER_JITTER[0] * stray, FLOWER_ACROSS);
     const y = jitter(random, down, FLOWER_JITTER[1] * stray, FLOWER_DOWN);
+    const { z } = groundOf(camera, {
+      x: 0,
+      y: groundTop + ground * y,
+      size: 0,
+    });
     const foot = {
-      ...groundOf(camera, { x: width * x, y: groundTop + ground * y, size: 0 }),
+      x: ((2 * x - 1) * frame.across) / scaleAt(z),
+      z,
       size: FLOWER_SIZE,
     };
     const flower = standingOn(camera, foot);

@@ -180,6 +180,7 @@ function standMeadow(width: number, height: number): Stood {
     height,
     groundTop,
     ground,
+    frame,
     unit,
     controls: [
       ...standingControls(controls),
