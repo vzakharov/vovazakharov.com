@@ -173,7 +173,8 @@ Standing rules for every session in the chain:
   floored forest mushroom may stand in front of one; such a flower is out of
   sight by the rule above, so no insect is sent to it. Bite 6's bees plant
   through the same in-sight test, on this screen only: a planted flower a
-  turn hides is out of sight there as a seeded one is.
+  turn hides is out of sight there as a seeded one is. A seeded flower is
+  placed on the visit's opening screen and its turn.
 - **A tap on fliers in the air reaches the one whose body is nearest the
   finger**, not the one drawn on top, so the child gets the one they aimed
   at.
@@ -202,34 +203,6 @@ Standing rules for every session in the chain:
   `palette-creatures.ts`. A canvas is out of the CSS tokens' reach;
   `.claude/rules/styling.md` § Colours says so in one sentence scoped to those
   paths.
-
-## This bite
-
-Bite 8's review (5344789171) handled, its fixes counting as bite 8's. The
-calls it left open, decided:
-
-- **The clump is laid out per species.** The back slot's step and depth
-  follow the species standing front and back, so over 2000 visits × all 16
-  back/front pairs × every screen the back cap stays ≥ 45% in view and the
-  back doorway ≥ 80% in sight. That slack is what buys the porcini its
-  shorter stem (median visible stem ≤ 0.6 of its cap width, below the fly
-  agaric's). The opening clump of two fly agarics looks as it did, and the
-  sweep iterates the pairs rather than drawing one.
-- **Flowers are placed against the widest feet** either meadow stands — the
-  union of the margined, floored forest and the unmargined one — so the
-  resize contract holds and no flower lands on a foot. A seeded flower also
-  stands clear of every control's drawn circle and no more than half hidden
-  by the clump, on both orientations of the screen it opens on, or is left
-  out; the flowers per visit that survive are reported, so the guard cannot
-  quietly empty the meadow.
-- **`HEAVY_FOOT` keys on the foot as drawn**, not on the species: a foot
-  wide against its cap gets the heavier shadow, which today is the
-  porcini's alone.
-- **One per-species head-kind map** (dome or trumpet) replaces the repeated
-  `species === 'chanterelle'` tests, and `DomeGenes` is derived from
-  `MushroomGenes`.
-- **The picker's chanterelle** reads as the trumpet the meadow grows: its
-  mouth fill takes at most about half the lip's depth.
 
 ## Eaten so far
 
@@ -527,50 +500,80 @@ calls it left open, decided:
 
 8. **Real mushrooms.** The cap picker's four buttons are four species, each
    a real mushroom a child knows: the fly agaric as before, red with white
-   spots; the porcini, a brown bun cap on a stout pale stem over a heavier
-   contact shadow; the chanterelle, an upright apricot trumpet, its mouth
-   open over a waving rim and its ridges running down the stem; the
-   russula, a flat cap in red, rose, violet, ochre or green on a white
-   stem. Only the look changed: flies still favour the fly agaric (the one
-   `spotted` cap), and the meadow still opens with two of them. What the
-   next bites build on:
+   spots; the porcini, a brown bun cap on a short barrel of a pale stem over
+   a heavier contact shadow; the chanterelle, an upright egg-yolk-orange
+   trumpet, its mouth open over a rim waving in lobes and its ridges running
+   down the stem; the russula, a flat cap dished at its middle, in red, rose,
+   violet, ochre or green on a white stem. Only the look changed: flies still
+   favour the fly agaric (the one `spotted` cap), and the meadow still opens
+   with two of them. What the next bites build on:
    - `model/mushroom-genes.ts`: `MUSHROOM_SPECIES`, `Species`,
      `Mushroom.species`; `MushroomGenes` a union on `species`, one gene
      table per species drawn in one order so a seed's stream stays aligned
      (`ChanterelleGenes` with `lip`, `hollow`, `flare`, the rim's wave,
      `lobes`, `ridges`; a russula's `hollow` and `tone` from
-     `RUSSULA_TONES`). Every stem stands tall enough that the clump's back
-     cap and door stay in view behind any species, so a porcini reads stout
-     by girth, a stem about a third of its cap, not by height.
+     `RUSSULA_TONES`). `HEAD_KIND` gives each species its head's shape, dome
+     or trumpet: what is drawn, lit and housed by shape asks it
+     (`hasTrumpet` narrowing to the trumpet's genes, `DomeGenes` derived
+     from it), what is a species' own colour or genes asks the species.
+   - The clump stands each species' foot by its own shift (`CLUMP_SHIFT`,
+     `ui/scene/clump-layout.ts`), so over 2000 visits × all 16 back/front
+     pairs × every screen the back cap stays ≥ 45% in view and the back
+     doorway ≥ 80% in sight, and the porcini reads stout by a short barrel of
+     a stem (visible stem ~0.58 of its cap, the fly agaric's ~0.8). The
+     opening clump of two fly agarics stands as before.
    - `model/mushroom-profile.ts` (each species' stem width, `capSurface`,
-     `capBase`, the chanterelle's `rimWave`, `frontSag`, `funnelHeight`),
+     `capBase`, the russula's dish, the chanterelle's `rimWave` in `lobes`
+     whole crests, `frontSag`, `funnelHeight`, `funnelEdge`),
      `mushroom-outline.ts` (`headOutlines`, `capOutlines`, `tapArea` — the
-     chanterelle's lip, funnel and stem are its cap, gills and stem) and
-     `chanterelle-outline.ts` (`trumpetOutlines`, `ridgeLines`, `mouthEdges`).
-     `capReach` measures the filled, turned outlines, so the layout's reach
-     is the painter's. Butterflies sit on `capSeat`, on the real surface.
+     chanterelle's lip, funnel and stem are its cap, gills and stem —
+     `inkWidth`, and `gillLines`: a porcini's sponge and a russula's gills
+     hang as a band under the dome, drawn up round the stem) and
+     `chanterelle-outline.ts` (`trumpetOutlines`, `ridgeLines`, `mouthEdges`,
+     `MOUTH_LINE`). The painter stays inside the layout's bound
+     (`speciesReach`, `maxReach`), swept per species over the drawn, turned
+     cap. Butterflies sit on `capSeat`, on the real surface.
    - `doorStations(genes, turn)` follows the levelled, turned stem as drawn,
      each door sized by its own stem (at most `DOOR_MOST`); a chanterelle
-     takes one window, on its funnel face, the others three or five.
+     takes one window, on its funnel face, the others three or five. A door
+     refuses a tap only to a nearer door whose tap area also holds it
+     (`tappedDoor`, `ui/scene/door-tap.ts`).
    - Painting: `mushroom-paint.ts` (the stem and cap light every species
      shares), `paint-dome.ts` (fly agaric, porcini, russula) and
      `paint-trumpet.ts` (the chanterelle, both inks before either fill);
-     `mushroom-tints.ts` the fills, the colours in `palette-creatures.ts`
-     (porcini browns held out of luminance 0.021–0.045 by a test); a
-     chanterelle takes 0.55 of the haze (`heldHaze`) so a far one stays
-     orange; `HEAVY_FOOT` darkens a wide foot's shadow; a house's frames
-     take a pale edge on a dark cap.
+     `mushroom-tints.ts` the fills, the colours in `palette-creatures.ts`:
+     a chanterelle's every fill at hue 20–30°, the porcini browns, shaded
+     and hazed, held out of the weak-edge band a sweep of `inkFor` finds
+     (0.021–0.050 today). A chanterelle takes 0.55 of the haze (`heldHaze`)
+     so a far one stays orange; `HEAVY_FOOT` darkens a foot at least 0.37
+     of its cap across; a house's frames take a pale edge on a dark cap.
+     `icon-genes.ts` holds the pictograms' genes and size, Phaser-free, the
+     picker's chanterelle the meadow's trumpet, its mouth fill at most about
+     half the lip's depth.
+   - The selection's ground ring is as wide as the foot (`footWidth` at the
+     drawn turn), meeting the band at its corners; `strokeShape` closes each
+     outline itself, and the play run checks the band for gaps
+     (`scripts/lib/play-band.ts`).
+   - Flowers live in `ui/scene/flower-layout.ts`, placed against the union
+     of both meadows' feet (the margined, floored forest and the unmargined
+     one); a seeded flower stands clear of every control's drawn circle and
+     at most half hidden by the clump the visit opens with
+     (`clump-shade.ts`), on the screen it opens on and on it turned, and is
+     kept only where both have room, the flowers per visit that survive
+     reported; later sizes map it by proportion. Bees keep clear of the feet
+     standing now and of every species' place in free slots
+     (`claimedPlaces`).
    - The layout's 2000-visit sweeps and the house's tests run every species
      in every slot. The play run grows each species from the picker and
-     shoots it (`scripts/lib/play-species.ts`); where two clump doors' tap
-     circles overlap, the nearer door takes the tap. Median frames 16–19 ms.
+     shoots it (`scripts/lib/play-species.ts`). Median frames 16–19 ms. Its
+     review (5344789171, T74–T92) is handled.
 
 ## Rest of the elephant
 
 In order.
 
-**Open:** from bite 8 — the porcini's stem still reads long rather than stout, and the chanterelle golden-amber rather than strong orange; the clump has no slack left for a stouter porcini or a shorter chanterelle (its back door 80.7% in sight against an 80% floor, a chanterelle's back cap 45.1% against 45%), so either wants the clump laid out per species; the flowers-off-feet sweep fails as soon as the largest reach grows, as though flowers were placed against another meadow than the one it checks. The sky may read a little plain since bite 7 tamed the halo. Carried from bite 6: fliers are
-kept apart where they sit and hover, not in flight, so a flier crossing
+**Open:** the sky may read a little plain since bite 7 tamed the halo.
+Carried from bite 6: fliers are kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
 `phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
 seats eight of ten fliers apart, two holding overlapping spots on 33% of
@@ -606,6 +609,7 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
    floors per screen — and the taps-only rule for a two-finger pinch and a
    one-finger pan. Walking through the meadow, as a spectator or a
    participant the insects fly from, stays out of scope for now.
+
 10. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
     splash on caps and ground, with its own sound. While it rains, flowers
     close, insects shelter under the nearest cap, and mushrooms swell a
