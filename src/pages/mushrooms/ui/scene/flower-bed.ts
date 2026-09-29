@@ -23,14 +23,13 @@ import type { Sown } from '../../model/pollen';
 import { drawFlower } from './draw-flower';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import { type Centred, flowerLift } from './flower-sight';
-import { containsCircle, type TappedFigure } from './hit-areas';
+import { type Centred, flowerLift, flowerTapReach } from './flower-sight';
+import { containsFlower, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
 import type { Instrument } from './instrument';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
-import { tapReach } from './sky-layout';
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
@@ -110,7 +109,7 @@ export class FlowerBed {
       );
       shown.headY = shown.head.y;
       shown.disc = genes.centre * place.size;
-      shown.hit.setTo(0, 0, tapReach(shown.headR * 1.2));
+      shown.hit.setTo(0, 0, flowerTapReach(shown.headR));
     }
   }
 
@@ -220,7 +219,7 @@ export class FlowerBed {
   private show(flower: Flower, plantedAt: number): Shown {
     const hit = new Phaser.Geom.Circle();
     const stem = this.scene.add.graphics();
-    const head = this.scene.add.graphics().setInteractive(hit, containsCircle);
+    const head = this.scene.add.graphics();
     const shown: Shown = {
       container: this.scene.add.container(0, 0, [stem, head]),
       stem,
@@ -233,6 +232,10 @@ export class FlowerBed {
       phase: phaseOf(flower),
       tappedAt: -Infinity,
     };
+    head.setInteractive(
+      hit,
+      containsFlower(() => shown.headR),
+    );
     head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.tap(flower.id);
     });

@@ -24,16 +24,19 @@ export const FINGER_ACROSS = 2 * TAP_RADIUS * (1 - HEAD_SHORTFALL);
 
 /**
  * The circle a mushroom's tap area grows to hold once its head — cap and
- * gills, where a child aims — is drawn narrower than `FINGER_ACROSS`:
- * `TAP_RADIUS` round the middle of the head. `undefined` for a mushroom drawn
- * bigger, whose tap area stays exactly what is drawn, and for one not drawn
- * yet. In the same frame as `area`, pixels with y down.
+ * gills, where a child aims — is drawn narrower than `FINGER_ACROSS`, or
+ * shallower than `TAP_RADIUS`, a flat cap whose dome a finger overhangs:
+ * `TAP_RADIUS` round the middle of the head. `undefined` for a head drawn
+ * bigger both ways, whose tap area stays exactly what is drawn, and for one
+ * not drawn yet. In the same frame as `area`, pixels with y down.
  */
 export function fingerPad(area: TapArea): Circle | undefined {
   const head = [...area.cap, ...area.gills];
   if (head.length === 0) return undefined;
   const { left, right, top, bottom } = boxAround(head);
-  if (right - left >= FINGER_ACROSS) return undefined;
+  if (right - left >= FINGER_ACROSS && bottom - top >= TAP_RADIUS) {
+    return undefined;
+  }
   return { x: (left + right) / 2, y: (top + bottom) / 2, r: TAP_RADIUS };
 }
 
@@ -47,6 +50,33 @@ export type MushroomTarget = {
   area: TapArea;
   local: (at: Point) => Point;
 };
+
+/** Whether any of `mushrooms` has a drawn part under `finger` on screen. */
+export function drawnUnder(
+  finger: Point,
+  mushrooms: readonly MushroomTarget[],
+): boolean {
+  return mushrooms.some(({ area, local }) => drawnHolds(area, local(finger)));
+}
+
+/** How far a flower's head reaches round its middle, in px: its petals, and its tap. */
+export type FlowerReach = { petals: number; tap: number };
+
+/**
+ * Whether a flower takes a tap `away` px from its head's middle, its petals
+ * reaching `petals` and its tap `tap` (`flowerTapReach`): anywhere on its
+ * head, and past it only where `underDrawn` says no mushroom is drawn under
+ * the finger — so the reach round a small flower never takes a tap on a cap
+ * the finger is on. Where both are drawn, the nearer the front takes it.
+ */
+export function flowerTakes(
+  away: number,
+  { petals, tap }: FlowerReach,
+  underDrawn: () => boolean,
+): boolean {
+  if (away <= petals) return true;
+  return away <= tap && !underDrawn();
+}
 
 /**
  * Which of `mushrooms`, listed back to front as they are painted, a tap at

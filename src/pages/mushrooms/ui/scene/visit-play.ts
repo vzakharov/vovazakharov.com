@@ -15,8 +15,13 @@ import {
   MUSHROOM_SLOTS,
   reduce,
 } from '../../model/game';
+import { placedAt, type Point } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import {
+  MUSHROOM_SPECIES,
+  type MushroomGenes,
+} from '../../model/mushroom-genes';
+import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
@@ -25,6 +30,7 @@ import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
+import type { MushroomTarget } from './mushroom-tap';
 import { perchSight } from './perch-sight';
 
 /** The meadow as it stands. */
@@ -98,6 +104,30 @@ export function standingIn({ layout, mushrooms }: Stand): Among[] {
     if (!place) throw new Error(`${mushroom.id} off the screen`);
     return amongAt(place, mushroom);
   });
+}
+
+/**
+ * A mushroom of `genes` drawn `size` px to its unit, its foot at `foot` and
+ * turned `turn`, as a tap finds it: its tap area as the bed fills it in, in
+ * its graphics' canvas frame, and a point on screen in that frame.
+ */
+export function tapTarget(
+  genes: MushroomGenes,
+  size: number,
+  foot: Point,
+  turn: number,
+): MushroomTarget {
+  const canvas = toCanvas(size);
+  const { cap, gills, stem } = tapArea(genes, turn);
+  return {
+    area: {
+      cap: cap.map((point) => canvas(point)),
+      gills: gills.map((point) => canvas(point)),
+      stem: stem.map((point) => canvas(point)),
+    },
+    local: ({ x, y }) =>
+      placedAt({ x: 0, y: 0 }, -turn, { x: x - foot.x, y: y - foot.y }),
+  };
 }
 
 /** How wide `stand`'s caps span together, as a share of its screen's width. */

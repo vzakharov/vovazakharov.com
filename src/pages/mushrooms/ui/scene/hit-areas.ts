@@ -5,7 +5,9 @@ import type { Tapped } from '../../model/motion';
 import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
 import {
   drawnHolds,
+  drawnUnder,
   fingerPad,
+  flowerTakes,
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
@@ -39,6 +41,31 @@ export function containsMushroom(
   return (
     tappedMushroom(finger, shownMushrooms(mushroom.scene))?.of === mushroom
   );
+}
+
+/**
+ * A flower head's hit test, bound with its petals' reach `petals()` in the
+ * head's own frame: its tap circle `area` (`flowerTakes`), yielding past the
+ * petals to any mushroom drawn under the finger.
+ */
+export function containsFlower(petals: () => number) {
+  return (
+    area: Phaser.Geom.Circle,
+    x: number,
+    y: number,
+    flower: Phaser.GameObjects.GameObject,
+  ): boolean =>
+    flowerTakes(
+      Math.hypot(x - area.x, y - area.y),
+      { petals: petals(), tap: area.radius },
+      () => {
+        if (!(flower instanceof Phaser.GameObjects.Graphics)) return false;
+        const finger = flower
+          .getWorldTransformMatrix()
+          .transformPoint(x, y, { x: 0, y: 0 });
+        return drawnUnder(finger, shownMushrooms(flower.scene));
+      },
+    );
 }
 
 /** The scene's mushrooms that take a tap, back to front as they are painted. */

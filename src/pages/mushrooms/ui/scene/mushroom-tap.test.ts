@@ -7,12 +7,7 @@ import {
   mushroomGenes,
   type Species,
 } from '../../model/mushroom-genes';
-import {
-  capOutlines,
-  type TapArea,
-  tapArea,
-  toCanvas,
-} from '../../model/mushroom-outline';
+import { capOutlines } from '../../model/mushroom-outline';
 import { between, mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -20,13 +15,14 @@ import {
   drawnHolds,
   FINGER_ACROSS,
   fingerPad,
+  flowerTakes,
   HEAD_SHORTFALL,
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
 import { TAP_RADIUS } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { opened, tapTarget } from './visit-play';
 
 /** Sizes a mushroom may be drawn at, px to its unit: from a speck to past any screen's clump. */
 const SIZES = [3, 5, 8, 12, 16, 20, 25, 30, 40, 50, 60, 70, 80, 100, 130];
@@ -64,21 +60,12 @@ function standing(
   turn: number,
 ): Named {
   const genes = mushroomGenes({ seed, species });
-  const canvas = toCanvas(size);
-  const { cap, gills, stem } = tapArea(genes, turn);
-  const area: TapArea = {
-    cap: cap.map((point) => canvas(point)),
-    gills: gills.map((point) => canvas(point)),
-    stem: stem.map((point) => canvas(point)),
-  };
   return {
+    ...tapTarget(genes, size, foot, turn),
     name,
-    area,
     foot,
     turn,
     capWidth: genes.capWidth * size,
-    local: ({ x, y }) =>
-      placedAt({ x: 0, y: 0 }, -turn, { x: x - foot.x, y: y - foot.y }),
   };
 }
 
@@ -94,6 +81,12 @@ function headAcross({ area }: Named): number {
   return right - left;
 }
 
+/** Whether its head is drawn narrower than a finger, or shallower than `TAP_RADIUS`. */
+function underFinger({ area }: Named): boolean {
+  const { left, right, top, bottom } = boxAround([...area.cap, ...area.gills]);
+  return right - left < FINGER_ACROSS || bottom - top < TAP_RADIUS;
+}
+
 const around = (middle: Point, r: number) =>
   AROUND.map((angle) => ({
     x: middle.x + r * Math.cos(angle),
@@ -104,7 +97,7 @@ const drawnOnScreen = (mushroom: Named, at: Point) =>
   drawnHolds(mushroom.area, mushroom.local(at));
 
 describe('a small mushroom’s tap area', () => {
-  it('takes a tap `TAP_RADIUS` from its head’s middle once drawn smaller than a finger, and only what is drawn otherwise', (t) => {
+  it('takes a tap `TAP_RADIUS` from its head’s middle once drawn narrower or shallower than a finger, and only what is drawn otherwise', (t) => {
     const random = mulberry32(17);
     const padded = new Map<Species, number>();
     const exact = new Map<Species, number>();
@@ -121,9 +114,16 @@ describe('a small mushroom’s tap area', () => {
           );
           // Narrower than a finger by its gene, drawn no wider than that;
           // or a finger wide by it, however much narrower it is drawn. The
-          // sliver between is either.
+          // sliver between is either. A head drawn shallower than
+          // `TAP_RADIUS` is padded however wide.
           const fingerWide = 2 * TAP_RADIUS;
-          const small = mushroom.capWidth < fingerWide * (1 - HEAD_SHORTFALL);
+          const { top, bottom } = boxAround([
+            ...mushroom.area.cap,
+            ...mushroom.area.gills,
+          ]);
+          const shallow = bottom - top < TAP_RADIUS;
+          const small =
+            shallow || mushroom.capWidth < fingerWide * (1 - HEAD_SHORTFALL);
           if (!small && mushroom.capWidth < fingerWide) continue;
           const count = small ? padded : exact;
           count.set(species, (count.get(species) ?? 0) + 1);
@@ -270,7 +270,7 @@ describe('a small mushroom’s tap area', () => {
         for (const mushroom of targets) {
           if (!fingerPad(mushroom.area)) continue;
           padded += 1;
-          assert.ok(headAcross(mushroom) < FINGER_ACROSS);
+          assert.ok(underFinger(mushroom));
           const middle = headMiddle(mushroom);
           for (const finger of around(middle, TAP_RADIUS - 1e-6)) {
             assert.equal(tappedMushroom(finger, [mushroom]), mushroom);
@@ -302,4 +302,26 @@ describe('a small mushroom’s tap area', () => {
       assert.ok(rimsTaken > 0, 'no tap at a pad’s rim taken');
     });
   }
+});
+
+describe('a flower’s tap', () => {
+  const reach = { petals: 8, tap: TAP_RADIUS };
+  it('takes its head whatever is drawn under it, and its reach past the head only off a drawn mushroom', () => {
+    assert.equal(
+      flowerTakes(7, reach, () => true),
+      true,
+    );
+    assert.equal(
+      flowerTakes(20, reach, () => false),
+      true,
+    );
+    assert.equal(
+      flowerTakes(20, reach, () => true),
+      false,
+    );
+    assert.equal(
+      flowerTakes(TAP_RADIUS + 1, reach, () => false),
+      false,
+    );
+  });
 });

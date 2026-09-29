@@ -196,6 +196,11 @@ export function perLayout<Measured extends object>(
   };
 }
 
+/** How far round its head's middle a flower whose petals reach `r` answers a tap: a little past them, and never under `TAP_RADIUS`. */
+export function flowerTapReach(r: number): number {
+  return tapReach(r * 1.2);
+}
+
 /** Every control's tap circle, as far as a finger reaches it. */
 export const tapCircles = perLayout((layout): readonly Circle[] => {
   const { picker, housePicker } = layout;
