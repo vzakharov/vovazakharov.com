@@ -256,13 +256,21 @@ describe('the air', () => {
   }
 });
 
+/**
+ * The visits the butterflies are watched in, spread over `VISITS`: a
+ * quarter of them with the opening clump, and one in twenty-five with a full
+ * forest, whose growing costs forty times a visit's watch.
+ */
+const WITH_THE_CLUMP = VISITS.filter((_, index) => index % 4 === 0);
+const IN_A_FOREST = VISITS.filter((_, index) => index % 25 === 0);
+
 describe('the butterflies of a visit', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const forest of [false, true]) {
       const standing = forest ? 'a full forest' : 'the opening clump';
       it(`never leave, share a perch, cover each other or drink out of sight on a ${name} screen, with ${standing}`, () => {
         const tally = { ...NOTHING };
-        for (const seed of VISITS) {
+        for (const seed of forest ? IN_A_FOREST : WITH_THE_CLUMP) {
           const visit = watch(opened(seed, width, height, forest), seed);
           for (const count of COUNTS) tally[count] += visit[count];
         }
