@@ -1,8 +1,10 @@
 # Relay summary
 
-Relay depth: this session was depth 5 of the chain the operator restarted at
-bite 8's review; the successor is **depth 6**, with two relays left before
-the cap (the plan's "The relays stay relays").
+Relay depth: the operator paused this chain at depth 6 for the night
+("давай паузнем и я вручную тейкну с новой сессии, чтобы начать новый
+цикл"). The session that takes this up manually is **depth 1 of a new
+chain**, with seven relays before the cap (the plan's "The relays stay
+relays").
 
 ## 1. Standing constraints
 
@@ -35,110 +37,107 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > спроси подагентов, осталось ли им <100к. если нет, пусть ставят на паузу, и ты перезапускай новых с теми же задачами
 
+> вопрос, ты задаёшь агента для следующих сессий? а то я сейчас многое новое начинаю с соннета, он у меня стоит дефолтом -- но в этой задаче все новые должны идти опусом
+
 From review 5350040790, comment 4131492133, about the operator's two game
 ideas:
 
 > Не вноси их пока ни в какой план, но подготовь отдельные два документа (по одному на идею), в котором опиши, насколько существующий код готов к реализации той и другой, насколько drastic changes нужны в оставшемся плане и текущей реализации. Исходя из этого будем думать. Документы на русском.
 
 That hold is lifted for the second idea only (plan item 10, "да, ок"). The
-first idea (walking meadow / map) is still held out of the plan: the operator
-is making calls on it (review 5355192406, below) but has not placed it.
+first idea (walking meadow / map) is still held out of the plan.
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask the
-operator nothing, including the context-budget hook's offer. Fill
-`.claude/skills/megabeast/notes.md` before every relay. No module past ~450
-lines. Each bite ends by committing its best frames to
-`docs/remove-before-merging/frames/bite-<n>/` and republishing the game
-Artifact at its one URL. The depth cap is accepted, never engineered around.
-Read subagents' context off their transcript (megabeast notes) and
-pause/replace one past ~190k. Every session and subagent runs on Opus, named explicitly
-(`create_session` `model: "claude-opus-5-5"`, `Agent` `model: "opus"`); the
-operator, in this session:
-
-> вопрос, ты задаёшь агента для следующих сессий? а то я сейчас многое новое начинаю с соннета, он у меня стоит дефолтом -- но в этой задаче все новые должны идти опусом
-
-Never issue `git reset --hard` on pickup; rename the stale ref aside. Pass
-this section on verbatim.
+operator nothing. Fill `.claude/skills/megabeast/notes.md` before every
+relay. No module past ~450 lines. Each bite ends by committing its best
+frames to `docs/remove-before-merging/frames/bite-<n>/` and republishing the
+game Artifact at its one URL. The depth cap is accepted, never engineered
+around. Read subagents' context off their transcript and pause/replace one
+past ~170k. Every session and subagent runs on Opus, named explicitly
+(`create_session` `model: "claude-opus-5-5"`, `Agent` `model: "opus"`).
+**Never issue `git reset --hard` on pickup — read this section before the
+attach, not after**; if the local ref is stale, rename it aside
+(`git branch -m <branch> stale-local/<n>`) and check out a fresh tracking
+branch. Pass this section on verbatim.
 
 ## 2. The conversation
 
 The session opened with `/relay take claude/mushroom-game-syama-lbirv7`
-(Next step: "оставь код ревью на последний кусок"). The local ref was a
-stale snapshot; `git reset --hard origin/<branch>` went through, and auto
-mode then refused every command, reads included, as retroactive
-destruction. The agent stopped and asked. Operator messages, in order:
+(Next step: `/handle`). The attach ran `git reset --hard` before this
+summary was read (the stale tip went aside as `stale-local/mushroom-game-3`,
+nothing lost; megabeast note 2392a80). The agent then ran `/handle` as an
+orchestrator over review 5356809390 (T96–T107): wrote the review's open
+calls into the plan (747561b), briefed subagents in waves, posted replies
+as threads finished. Operator messages, in order:
 
-1. > разрешаю
+1. > слушай, на какой глубине вложенности мы сейчас? если осталось немного, давай паузнем и я вручную тейкну с новой сессии, чтобы начать новый цикл, а то ночь и я уйду
 
-   Restored the dropped tip aside (`stale-local/mushroom-game-2` at
-   54b5438, pre-rewrite trunk history), wrote the megabeast note (47a6cfc),
-   ran the review: the orchestrator looked at bite 9's frames, then a
-   player agent (play run, 600-visit sweeps, frames ec95c72) and a
-   read-only reader agent in parallel; every cited line re-anchored from
-   source; one review posted.
+   Answered: depth 6 of 8; pausing now; the running "angle" agent was told
+   to hand over; this summary written; the operator gets one line to paste.
 
-2. > вопрос, ты задаёшь агента для следующих сессий? а то я сейчас многое новое начинаю с соннета, он у меня стоит дефолтом -- но в этой задаче все новые должны идти опусом
+2. > она там "running all mushroom tests", я так представляю это небыстро, но подождём
 
-   Answered: this session is `claude-opus-5-5`, successors and subagents
-   inherited it so far; from now on the model is named explicitly, and the
-   cap-depth hand-off tells the operator to start on Opus. Written into the
-   plan's standing rules and megabeast notes (5457d5a).
+   Answered: the suite is ~270 s; the summary was drafted meanwhile.
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable for
 a six-year-old, an agent review per bite handled by the next session, the
-Artifact playable after every bite, ending with `/finalize` (no merge). The
-next session handles bite 9's review, then bite 10 (the flowers as an
-instrument) if context allows. The first idea (walking meadow) still waits
-for the operator to place it.
+Artifact playable after every bite, ending with `/finalize` (no merge). Now:
+finish handling bite 9's review, republish, then bite 10 (flowers as an
+instrument). The first idea (walking meadow) still waits for the operator.
 
 ## 4. Decisions
 
-- Review 5356809390 (12 inline comments) is bite 9's loop review. Its two
-  heaviest findings, both confirmed by reader and player independently:
-  forest mushrooms get no perspective (`clump-layout.ts` `sizeOn` divides
-  by `scaleAt`, cancelling `project`'s), and landscape/desktop lay out at
-  the portrait's width (`ground.ts` `frameFor`). The second asks the
-  handler to decide before bite 10: pull item 11's crop forward, or scope
-  the turn guard to screens that can turn, and record the call in the plan.
-- The finger pad (`mushroom-tap.ts`) is unreachable today because
-  `ZOOM_FLOOR` holds every cap at a finger; the perspective fix is what
-  would need it, so the two comments are linked.
+All in plan item 9, bullet "Review 5356809390's calls":
+
+- **Each screen lays out at its own width** (T97). The common frame of a
+  screen and its turn is gone; `+` checks this screen only; a turn/resize
+  refits the camera so every used foot stays in view. Beat: scoping the turn
+  guard to coarse pointers (leaves tablet landscape crowded), pulling item
+  11's crop forward (hides what a turn crops without a pan).
+- **Forest mushrooms shrink with depth** (T96), the zoom floor comes down so
+  `mushroom-tap.ts`'s finger pad holds a far cap's tap (T98). Pad stays.
+- **Every camera looks from one angle** (T101, and the turn's cost): the
+  foreshortening is the meadow's, a screen picks only unit and extent, so a
+  turn's refit is a scaled copy and overlaps are what they were. Beat:
+  per-camera foreshortening, under which the own-width refit broke
+  door-in-sight in 9 of 13 swept phone meadows after a turn and left 29% of
+  flowers in sight.
+- Sun (T100): moved along the sky when shrinking alone does not clear;
+  accepted cost: under ~520×460 the moved sun can shrink to `SUN_SMALLEST`
+  0.2 (reply posted says so).
+- Layout agent's trade-offs, to be re-checked under one angle:
+  `LEAST_IN_A_FOREST` lowered to 1 (small phone), butterfly `slowest` 1.3 →
+  2 (desktop catch 0.62 → 0.73).
 
 ## 5. Errors and dead ends
 
-- `git reset --hard` on pickup: allowed, then every later command refused
-  until the operator said "разрешаю". Megabeast note: never issue it.
-- Play run: tabP median 27.0 ms against a 26 ms budget, exit 1, twice;
-  every screen 1–4.5 ms slower than bite 9's own run. Undecided whether it
-  is the machine or the code; the review asks the handler to rerun.
+- `git reset --hard` on pickup, again (see § 1).
+- The first layout agent reached ~248k before handing over; one wave agent
+  per big thread is the size that fits.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE/CLEAN.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 9 done, its review
-  posted, not yet handled.
-- Review frames `docs/remove-before-merging/frames/bite-9/review/` (ec95c72).
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is version 7
-  (bite 9); unchanged by the review.
-- Nothing running: no agents, no PR subscription, no check-in.
+(Filled in below once the angle agent hands over.)
 
 ## 7. Pointers
 
-- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5356809390/comments`.
-- Sweep scripts were under `tmp/review9/` in this container only (gone);
-  the review's numbers name what each measured, so a handler re-derives.
-- Plan § "How this elephant is eaten" step 3, § "Eaten so far" item 9,
-  § "Rest of the elephant" (Open, item 10).
-- `.claude/skills/megabeast/notes.md` § "Quality levers", last entries.
+- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5356809390/comments`;
+  thread text in `docs/pr/57/pr.md` (anchors `#t96`…`#t107`).
+- Hand-over notes: `docs/remove-before-merging/handle-bite9/` (`layout.md`,
+  `angle.md`).
+- Common brief given to every handling agent:
+  `docs/remove-before-merging/handle-bite9/common-brief.md` (its scratchpad
+  path in each brief is gone with the container; point new agents here).
+- Plan § "How this elephant is eaten" step 3; item 9's review bullet.
+- `.claude/skills/megabeast/notes.md` § "Friction found".
 
 ## 8. Next step
 
 /handle
 
-(Plan § "How this elephant is eaten" step 3: answer every comment of review
-5356809390 on GitHub, never resolve, push the fixes with frames into
-`frames/bite-9/`, republish the Artifact, then take bite 10 if context is
-under ~140k, else pause and `/relay /go`.)
+Finish review 5356809390 (answer every open thread on GitHub, never
+resolve), then republish the Artifact and commit frames to
+`frames/bite-9/`, `/polish`, `/pr`, and take bite 10 if context allows,
+else pause and `/relay /go`.
