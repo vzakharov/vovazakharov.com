@@ -1,0 +1,295 @@
+diff --git a/src/pages/mushrooms/model/ground.ts b/src/pages/mushrooms/model/ground.ts
+index 7faaf8a..f6c4b95 100644
+--- a/src/pages/mushrooms/model/ground.ts
++++ b/src/pages/mushrooms/model/ground.ts
+@@ -101,10 +101,13 @@ export const FRAME_DEPTH = {
+ 
+ /**
+  * How far up the screen one step into the distance goes against one across
+- * at the clump's front foot, on the camera whose band the clump's size fills
+- * the most of (`UNIT_PER_BAND`).
++ * at the clump's front foot, on every camera: the flattest look at the meadow
++ * that still stands the frame's back row with its caps above the clump's
++ * (`UNIT_PER_BAND`). The angle is the meadow's, not the screen's, so a screen
++ * picks only the clump's size and how much ground it shows, and one screen's
++ * picture is a scaled copy of another's.
+  */
+-const UP_PER_Z = 1 / (BAND_DEPTH * UNIT_PER_BAND);
++export const UP_PER_Z = 1 / (BAND_DEPTH * UNIT_PER_BAND);
+ 
+ /**
+  * A ground point as a camera lays it out, in the clump's size at its front
+@@ -161,18 +164,33 @@ export type Lens = Record<
+   number
+ >;
+ 
++/**
++ * The biggest clump size `screen` stands the meadow at: where the ground's
++ * band, at `UP_PER_Z`, takes the lower half of a tall screen or the lower 0.4
++ * of a wide one, leaving the sky room for the controls and the sun.
++ */
++function mostUnit({ width, height }: Sized): number {
++  return height * (height > width ? 0.5 : 0.4) * UNIT_PER_BAND;
++}
++
++/**
++ * The least clump size on `screen`: `lens.floor`, but where the screen is
++ * too short to stand the clump that big (`mostUnit`).
++ */
++function floorOn(screen: Sized, lens: Lens): number {
++  return Math.min(lens.floor, mostUnit(screen));
++}
++
+ /**
+  * The clump's size on `screen` as the screen composes it: by height when
+- * the screen is wide, by width when it is tall, no bigger than the band's
+- * depth leaves the back row room behind it, never under `lens.floor`.
+- */
+-function composedUnit({ width, height }: Sized, lens: Lens): number {
+-  const portrait = height > width;
+-  const ground = height * (portrait ? 0.5 : 0.4);
+-  const composed = portrait
+-    ? Math.min(width * 0.6, height * 0.34)
+-    : height * 0.44;
+-  return Math.max(lens.floor, Math.min(composed, ground * UNIT_PER_BAND));
++ * the screen is wide, by width when it is tall, never over `mostUnit` nor
++ * under `floorOn`.
++ */
++function composedUnit(screen: Sized, lens: Lens): number {
++  const { width, height } = screen;
++  const composed =
++    height > width ? Math.min(width * 0.6, height * 0.34) : height * 0.44;
++  return Math.min(mostUnit(screen), Math.max(lens.floor, composed));
+ }
+ 
+ /** How far across `screen` shows the ground at the size it composes the clump at, caps inside the margin. */
+@@ -204,42 +222,36 @@ export function widestOf(feet: readonly Ground[]): number {
+ }
+ 
+ /**
+- * The camera for `screen`: the ground begins halfway down a tall screen and
+- * lower on a wide one, and the clump stands as big as the screen composes it
++ * The camera for `screen`: the clump stands as big as the screen composes it
+  * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
+- * reach past `lens.margin`, and never under `lens.floor` but where `shown`,
++ * reach past `lens.margin`, and never under `floorOn` but where `shown`,
+  * how far across in the clump's size at its front foot the camera must show
+  * besides, would reach past it: what the meadow has already used stays in
+- * view, however small that draws it.
++ * view, however small that draws it. The ground's band runs up from the
++ * screen's foot as deep as `UP_PER_Z` stands it at that size.
+  */
+ export function fitCamera(screen: Sized, lens: Lens, shown = 0): Camera {
+   const { width, height } = screen;
+-  const groundTop = height * (height > width ? 0.5 : 0.6);
+   const half = width / 2 - lens.margin;
+   const reach = Math.max(
+     lens.reach,
+     frameFor(screen, lens).across + lens.beyond,
+   );
+   const unit = Math.min(
+-    Math.max(lens.floor, Math.min(composedUnit(screen, lens), half / reach)),
++    Math.max(
++      floorOn(screen, lens),
++      Math.min(composedUnit(screen, lens), half / reach),
++    ),
+     // What the frame holds is in view already, at the floor too.
+     shown > reach ? half / shown : Infinity,
+   );
++  const ground = unit * BAND_DEPTH * UP_PER_Z;
+   return {
+     width,
+     height,
+-    groundTop,
+-    ground: height - groundTop,
++    groundTop: height - ground,
++    ground,
+     midline: width / 2,
+     unit,
+   };
+ }
+-
+-/**
+- * How many px down the screen a step of the clump's size into the distance
+- * takes on `camera`, per px a thing of the clump's size stands across at the
+- * clump's front foot.
+- */
+-export function foreshortening({ ground, unit }: Camera): number {
+-  return ground / (BAND_DEPTH * unit);
+-}
+diff --git a/src/pages/mushrooms/ui/scene/flower-layout.ts b/src/pages/mushrooms/ui/scene/flower-layout.ts
+index e2df579..3719c58 100644
+--- a/src/pages/mushrooms/ui/scene/flower-layout.ts
++++ b/src/pages/mushrooms/ui/scene/flower-layout.ts
+@@ -25,12 +25,12 @@ import {
+   project,
+   scaleAt,
+   seen,
++  UP_PER_Z,
+   zAt,
+ } from '../../model/ground';
+ import { between, mulberry32, type Random } from '../../model/random';
+ import { type ClumpShade, mostShaded } from './clump-shade';
+ import type { Footing } from './layout';
+-import { FORESHORTENING } from './meadow-camera';
+ 
+ /**
+  * The slots the flowers grow around on the screen a visit opens on, as a
+@@ -156,22 +156,21 @@ export function flowersOn(
+ }
+ 
+ /**
+- * The least `|r × depth + rise|` for any `r` of `FORESHORTENING` and any
+- * `rise` from `low` to `high`: how near on the screen, down it, in the
+- * clump's size, two things can come whose feet are `depth` apart into the
+- * distance.
++ * How near on the screen, down it, in the clump's size, two things come whose
++ * feet are `depth` apart into the distance and whose tops stand from `low` to
++ * `high` up off them: the least `|UP_PER_Z × depth + rise|` for any `rise`
++ * between.
+  */
+ function leastRise(depth: number, low: number, high: number): number {
+-  const [flat, steep] = FORESHORTENING.map((r) => r * depth);
+-  const least = Math.min(flat ?? 0, steep ?? 0) + low;
+-  const most = Math.max(flat ?? 0, steep ?? 0) + high;
++  const least = UP_PER_Z * depth + low;
++  const most = UP_PER_Z * depth + high;
+   if (least > 0) return least;
+   return most < 0 ? -most : 0;
+ }
+ 
+ /**
+  * Whether a flower at `flower` keeps its stem and head off every mushroom's
+- * foot of `feet`, on every screen (`FORESHORTENING`): the foot and its
++ * foot of `feet`, on every screen: the foot and its
+  * shadow, the one thing Syama drew being two stems standing together.
+  */
+ export function clearOfFeet(
+@@ -194,7 +193,7 @@ export function clearOfFeet(
+ 
+ /**
+  * Whether a flower at `place` keeps its head, at its widest, apart from the
+- * head of every flower at `others`, on every screen (`FORESHORTENING`).
++ * head of every flower at `others`, on every screen.
+  */
+ export function headsApart(
+   place: FlowerFoot,
+diff --git a/src/pages/mushrooms/ui/scene/layout.ts b/src/pages/mushrooms/ui/scene/layout.ts
+index e42fbdd..d621296 100644
+--- a/src/pages/mushrooms/ui/scene/layout.ts
++++ b/src/pages/mushrooms/ui/scene/layout.ts
+@@ -187,7 +187,7 @@ function keptBed(
+ function standMeadow(width: number, height: number, shown: number): Stood {
+   const camera = meadowCamera(width, height, shown);
+   const { groundTop, ground, unit } = camera;
+-  const horizon = horizonAt(width, height);
++  const horizon = horizonAt(groundTop);
+   const short = Math.min(width, height);
+   const frame = meadowFrame({ width, height });
+   const mushrooms = { camera, frame };
+@@ -213,7 +213,12 @@ function standMeadow(width: number, height: number, shown: number): Stood {
+     horizon,
+     nearHills: horizon + (groundTop - horizon) * 0.45,
+     groundTop,
+-    sun: placeSun(width, height, short * 0.075, controls, clumpCrowns(camera)),
++    sun: placeSun(
++      { width, height, horizon },
++      short * 0.075,
++      controls,
++      clumpCrowns(camera),
++    ),
+     clouds: [
+       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
+       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },
+diff --git a/src/pages/mushrooms/ui/scene/meadow-camera.ts b/src/pages/mushrooms/ui/scene/meadow-camera.ts
+index de91f78..28df7d1 100644
+--- a/src/pages/mushrooms/ui/scene/meadow-camera.ts
++++ b/src/pages/mushrooms/ui/scene/meadow-camera.ts
+@@ -10,7 +10,6 @@ import type { Sized } from '@/shared/typings';
+ import {
+   type Camera,
+   fitCamera,
+-  foreshortening,
+   type Frame,
+   FRAME_DEPTH,
+   frameFor,
+@@ -23,7 +22,6 @@ import { maxReach } from '../../model/mushroom-pose';
+ import { OPENING_FEET } from '../../model/placement';
+ import { extremes, placeOf } from './clump-layout';
+ import { TAP_RADIUS } from './sky-layout';
+-import { VIEWPORTS } from './viewports';
+ 
+ /** How close, in CSS pixels, a cap may come to the side of the screen. */
+ export const EDGE_MARGIN = 12;
+@@ -118,27 +116,3 @@ export function meadowCamera(width: number, height: number, shown = 0): Camera {
+ export function meadowFrame(screen: Sized): Frame {
+   return frameFor(screen, LENS);
+ }
+-
+-/**
+- * How many px down the screen a step of the clump's size into the distance
+- * takes, per px a thing of the clump's size stands across there
+- * (`foreshortening`), from the flattest to the steepest camera of every
+- * screen the sweeps and the play run cover, held either way, and each turned
+- * from the other holding the first's frame in view. A rule kept on the ground
+- * over the span holds on the screen through every camera in it.
+- */
+-export const FORESHORTENING = ((): readonly [number, number] => {
+-  const spans = VIEWPORTS.flatMap(([, width, height]) =>
+-    [
+-      [width, height],
+-      [height, width],
+-    ].flatMap(([across = 0, down = 0]) => {
+-      const turned = meadowFrame({ width: down, height: across }).across;
+-      return [
+-        meadowCamera(across, down),
+-        meadowCamera(across, down, turned + LENS.beyond),
+-      ].map((camera) => foreshortening(camera));
+-    }),
+-  );
+-  return [Math.min(...spans), Math.max(...spans)];
+-})();
+diff --git a/src/pages/mushrooms/ui/scene/sun-layout.ts b/src/pages/mushrooms/ui/scene/sun-layout.ts
+index 9851acd..414e79e 100644
+--- a/src/pages/mushrooms/ui/scene/sun-layout.ts
++++ b/src/pages/mushrooms/ui/scene/sun-layout.ts
+@@ -29,11 +29,18 @@ const SUN_LEAST = 0.5;
+  */
+ const SUN_SMALLEST = 0.2;
+ 
+-/** Where the far hills meet the meadow, as a share down a screen `width` by `height`. */
+-export function horizonAt(width: number, height: number): number {
+-  return height * (height > width ? 0.36 : 0.42);
++/**
++ * Where the far hills meet the sky, over ground whose band begins
++ * `groundTop` down the screen: the hills stand as tall against the ground's
++ * depth on every screen.
++ */
++export function horizonAt(groundTop: number): number {
++  return groundTop * 0.7;
+ }
+ 
++/** The screen the sun stands on, and where its sky meets the hills. */
++type SunScreen = Pick<MeadowLayout, 'width' | 'height' | 'horizon'>;
++
+ /** The step, in CSS px, of the grid across the sky the sun is moved over. */
+ const SKY_STEP = 2;
+ 
+@@ -46,15 +53,14 @@ const SKY_STEP = 2;
+  * screen's sun would stand over the clump or a button.
+  */
+ export function placeSun(
+-  width: number,
+-  height: number,
++  { width, height, horizon }: SunScreen,
+   r: number,
+   controls: Controls,
+   crowns: readonly Box[],
+ ): Circle {
+   const sky = {
+     width,
+-    horizon: horizonAt(width, height),
++    horizon,
+     buttons: [
+       ...standingControls(controls).map((button) => ({
+         ...button,
