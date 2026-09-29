@@ -8,7 +8,7 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Sight, Timed } from '../../model/flight';
-import { firstFlowers } from '../../model/flower-genes';
+import { firstFlowers } from '../../model/flower-sounds';
 import {
   firstMeadow,
   type Meadow,

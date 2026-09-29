@@ -2,16 +2,16 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  firstFlowers,
   FLOWER_COLOURS,
   FLOWER_RANGES,
   flowerGenes,
   PETAL_KINDS,
 } from './flower-genes';
-import { mulberry32 } from './random';
+import { mulberry32, nextSeed } from './random';
 
-const flowers = firstFlowers(mulberry32(7), 400).map((flower) =>
-  flowerGenes(flower),
+const random = mulberry32(7);
+const flowers = Array.from({ length: 400 }, () =>
+  flowerGenes({ seed: nextSeed(random) }),
 );
 
 const seen = (read: (genes: (typeof flowers)[number]) => unknown) =>
@@ -43,13 +43,5 @@ describe('flowerGenes', () => {
     assert.equal(seen((genes) => genes.colour).size, FLOWER_COLOURS.length);
     assert.equal(seen((genes) => genes.fold).size, 5);
     assert.equal(seen((genes) => genes.rings).size, 2);
-  });
-});
-
-describe('firstFlowers', () => {
-  it('gives each its own id and seed', () => {
-    const grown = firstFlowers(mulberry32(1), 8);
-    assert.equal(new Set(grown.map(({ id }) => id)).size, 8);
-    assert.equal(new Set(grown.map(({ seed }) => seed)).size, 8);
   });
 });

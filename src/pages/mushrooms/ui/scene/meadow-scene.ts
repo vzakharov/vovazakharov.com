@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { isAloft, isLeaving, type Perch, type Sight } from '../../model/flight';
-import { firstFlowers } from '../../model/flower-genes';
+import { firstFlowers } from '../../model/flower-sounds';
 import {
   type Action,
   firstMeadow,

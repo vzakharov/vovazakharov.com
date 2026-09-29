@@ -6,9 +6,7 @@ import {
   geneFrom,
   type GeneRanges,
   mulberry32,
-  nextSeed,
   pick,
-  type Random,
   type Seeded,
 } from './random';
 
@@ -43,6 +41,8 @@ export type FlowerGenes = Bent & {
   /** Where along the stem the leaf grows, and to which side. */
   leafAt: number;
   leafSide: -1 | 1;
+  /** The petals' turn off their colour's base hue, a fraction of a turn: small enough that the colour still reads as itself. */
+  hueNudge: number;
 };
 
 export const FLOWER_RANGES = {
@@ -52,6 +52,7 @@ export const FLOWER_RANGES = {
   centre: [0.09, 0.13],
   stemBend: [-0.14, 0.14],
   leafAt: [0.25, 0.5],
+  hueNudge: [-0.025, 0.025],
 } as const satisfies GeneRanges;
 
 export function flowerGenes({ seed }: Seeded): FlowerGenes {
@@ -70,6 +71,7 @@ export function flowerGenes({ seed }: Seeded): FlowerGenes {
     stemBend: gene('stemBend'),
     leafAt: gene('leafAt'),
     leafSide: random() < 0.5 ? -1 : 1,
+    hueNudge: gene('hueNudge'),
   };
 }
 
@@ -79,11 +81,4 @@ export function flowerGenes({ seed }: Seeded): FlowerGenes {
  */
 export function flowerHead(genes: FlowerGenes, size: number): Circle {
   return { x: genes.stemBend * size, y: -size, r: genes.petalLength * size };
-}
-
-export function firstFlowers(random: Random, count: number): Flower[] {
-  return Array.from({ length: count }, (_, index) => ({
-    id: `flower-${index + 1}`,
-    seed: nextSeed(random),
-  }));
 }

@@ -3,6 +3,7 @@ import type * as Phaser from 'phaser';
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import { type Point, sample } from '../../model/geometry';
 import { mix } from './colour';
+import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import {
@@ -126,7 +127,7 @@ export function drawFlower(
   strokeLine(stem, line);
 
   head.clear().setPosition(top.x, top.y);
-  const outer = PALETTE.flowers[genes.colour];
+  const outer = petalColour(genes);
   paintRing(head, genes, size, [1, 0, outer], ink, lighting);
   if (genes.rings === 2) {
     paintRing(
