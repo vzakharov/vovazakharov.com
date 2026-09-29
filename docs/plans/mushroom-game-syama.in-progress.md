@@ -568,6 +568,22 @@ Standing rules for every session in the chain:
      shoots it (`scripts/lib/play-species.ts`). Median frames 16–19 ms. Its
      review (5344789171, T74–T92) is handled.
 
+## This bite
+
+9. **Two documents, then the part of the wider meadow that holds either
+   way.**
+   1. Two documents in Russian beside `ideas/operator-ideas.md`:
+      `idea-1-walking-meadow.md` and `idea-2-flower-keyboard.md`. Each says
+      how ready the code is (module by module: what is reused as is, what
+      changes, what is new), how drastic the changes to the plan's rest
+      (items 9–12) and to the current implementation would be, a rough size
+      in bites, and the forks the operator has to decide. The first ends on
+      the list of what the wider meadow can build now without prejudging the
+      walking meadow; the second on whether it fits as a bite of its own. They
+      are posted on the PR as one comment linking both.
+   2. Then that list, built, detailed here once the first document names it,
+      and the bite's end as § "How this elephant is eaten" step 1 says.
+
 ## Rest of the elephant
 
 In order.
@@ -582,21 +598,11 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-9. **First, two documents on the operator's ideas.** Before any code, the
-   bite writes two documents in Russian, one per idea in the operator's
-   comment 4131492133 (kept verbatim in
-   `docs/remove-before-merging/ideas/operator-ideas.md`), each saying how
-   ready the existing code is for that idea and how drastic the changes to
-   the rest of this plan and to the current implementation would be. The
-   ideas themselves stay out of the plan ("Не вноси их пока ни в какой план,
-   но подготовь отдельные два документа (по одному на идею) … Исходя из
-   этого будем думать. Документы на русском."). The documents land in
-   `docs/remove-before-merging/ideas/` and are posted on the PR. The first
-   idea bears directly on the wider meadow below, so the bite builds only
-   the parts of it the first document finds hold either way, and leaves the
-   rest for the operator's call.
-
-   **A wider meadow, cropped and zoomed.** The meadow is a world wider than
+9. **A wider meadow, cropped and zoomed.** The ideas in the operator's
+   comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
+   план, но подготовь отдельные два документа (по одному на идею) … Исходя из
+   этого будем думать. Документы на русском."); what of this item waits on
+   the first of them is left for the operator's call. The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
    screen changes the crop, not the layout, and the child pans left and
    right and pinches to zoom, a gesture known from photos ("если мы сделаем
