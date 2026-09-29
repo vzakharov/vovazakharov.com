@@ -92,9 +92,7 @@ export function placeSun(
 }
 
 /** What the sun stands in: the sky above `horizon`, and what its rays keep off there. */
-type Sky = {
-  width: number;
-  horizon: number;
+type Sky = Pick<MeadowLayout, 'width' | 'horizon'> & {
   /** Every control, each as far round as the sun's rays keep off it. */
   buttons: readonly Circle[];
   /** The boxes the opening clump's caps can fill. */
