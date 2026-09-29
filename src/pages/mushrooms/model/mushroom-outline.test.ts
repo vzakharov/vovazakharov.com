@@ -6,7 +6,7 @@ import { meadowLayout } from '../ui/scene/layout';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import { containsPoint, type Point } from './geometry';
 import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
-import { gillLines, headOutlines, inkWidth } from './mushroom-outline';
+import { gillLines, headOutlines } from './mushroom-outline';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 
@@ -18,8 +18,13 @@ const SMALLEST = Math.min(
     ),
   ),
 );
-/** One ink line on the smallest place, in units of size. */
-const LINE = inkWidth(SMALLEST) / SMALLEST;
+/**
+ * The least step a cap's outline shows as one, in units of size on the
+ * smallest place: a whole CSS pixel, which a screen draws as a step rather
+ * than blurring it away. The ink line is 2 px there, its least (`inkWidth`),
+ * deeper than the detail, which reads as the line's edge stepping.
+ */
+const STEP = 1 / SMALLEST;
 
 /** The stretch of a closed `outline` from its leftmost point to its rightmost over the top, left to right. */
 function topEdge(outline: readonly Point[]): Point[] {
@@ -92,11 +97,11 @@ function notches(outline: readonly Point[], deep: number): number[] {
 }
 
 describe('a chanterelle’s lip', () => {
-  it('waves its top in three lobes or more, each an ink line tall on the smallest place', () => {
+  it('waves its top in three lobes or more, each a pixel tall on the smallest place', () => {
     for (const seed of SEEDS) {
       const genes = mushroomGenes({ seed, species: 'chanterelle' });
       const [lip] = headOutlines(genes);
-      const lobes = notches(lip, LINE).length + 1;
+      const lobes = notches(lip, STEP).length + 1;
       if (lobes < 3) assert.fail(`seed ${seed}: ${lobes} lobes`);
     }
   });
@@ -134,12 +139,12 @@ describe('every head but the fly agaric’s', () => {
     }
   });
 
-  it('dips a russula’s top at its middle, an ink line deep on the smallest place', () => {
+  it('dips a russula’s top at its middle, a pixel deep on the smallest place', () => {
     for (const seed of SEEDS) {
       const genes = mushroomGenes({ seed, species: 'russula' });
       const [cap] = headOutlines(genes);
       const dip = dipAtMiddle(cap);
-      if (dip < LINE) assert.fail(`seed ${seed}: dips ${dip.toFixed(4)}`);
+      if (dip < STEP) assert.fail(`seed ${seed}: dips ${dip.toFixed(4)}`);
     }
   });
 

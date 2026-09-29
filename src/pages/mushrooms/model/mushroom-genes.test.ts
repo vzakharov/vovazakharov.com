@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { everyPlace } from '../ui/scene/clump-layout';
+import { placeOf } from '../ui/scene/clump-layout';
 import { meadowLayout } from '../ui/scene/layout';
+import { ZOOM_FLOOR } from '../ui/scene/meadow-camera';
 import { TAP_RADIUS } from '../ui/scene/sky-layout';
 import { VIEWPORTS } from '../ui/scene/viewports';
 import {
@@ -11,6 +12,7 @@ import {
   GENE_RANGES,
   MUSHROOM_SPECIES,
   mushroomGenes,
+  OPENING_SPECIES,
   RUSSULA_HOLLOW,
   RUSSULA_TONES,
   type Species,
@@ -20,6 +22,7 @@ import {
 import { capOutlines, headOutlines } from './mushroom-outline';
 import { stemAt } from './mushroom-pose';
 import { stemHalfWidth } from './mushroom-profile';
+import { OPENING_FEET } from './placement';
 import { mulberry32 } from './random';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
@@ -119,44 +122,39 @@ describe('mushroomGenes', () => {
     assert.equal(new Set(grown.map(({ capHeight }) => capHeight)).size, 4);
   });
 
-  it('makes every species’ narrowest drawn cap a finger’s target on the smallest place', (t) => {
-    const places = VIEWPORTS.flatMap(([, width, height]) =>
-      everyPlace(meadowLayout(width, height, 1).mushrooms),
-    );
-    const smallest = Math.min(...places.map(({ size }) => size));
-    const narrowest = new Map<Species, number>();
-    for (const species of MUSHROOM_SPECIES) {
-      for (const seed of WIDE_SEEDS) {
-        // The cap and what shows under it as drawn and tapped, across its own
-        // frame, which a turn only turns: a finger's circle fits it the same.
-        const xs = headOutlines(mushroomGenes({ seed, species }))
+  it('makes the opening clump’s narrowest drawn cap a finger’s target on every screen the zoom floor holds it on', (t) => {
+    // The cap and what shows under it as drawn and tapped, across its own
+    // frame, which a turn only turns: a finger's circle fits it the same.
+    const narrowest = Math.min(
+      ...WIDE_SEEDS.map((seed) => {
+        const xs = headOutlines(
+          mushroomGenes({ seed, species: OPENING_SPECIES }),
+        )
           .flat()
           .map(({ x }) => x);
-        narrowest.set(
-          species,
-          Math.min(
-            narrowest.get(species) ?? Infinity,
-            Math.max(...xs) - Math.min(...xs),
-          ),
-        );
-      }
-    }
-    assert.equal(narrowest.size, MUSHROOM_SPECIES.length);
-    for (const [species, across] of narrowest) {
-      // A pixel's slack for the rim's rounding, which cuts its corner.
-      assert.ok(
-        across * smallest >= 2 * TAP_RADIUS - 1,
-        `a ${species} ${(across * smallest).toFixed(1)} px across`,
-      );
-    }
-    t.diagnostic(
-      `narrowest cap on the smallest place: ${[...narrowest]
-        .map(
-          ([species, across]) =>
-            `${species} ${(across * smallest).toFixed(0)} px`,
-        )
-        .join(', ')}`,
+        return Math.max(...xs) - Math.min(...xs);
+      }),
     );
+    // A phone narrower than any of `VIEWPORTS`, which the floor holds.
+    const screens = [...VIEWPORTS, ['280×600', 280, 600] as const];
+    const held: string[] = [];
+    const drawn: string[] = [];
+    for (const [name, width, height] of screens) {
+      const { camera } = meadowLayout(width, height, 1).mushrooms;
+      // A short screen stands the clump under the floor; the finger pad holds
+      // its caps there (`mushroom-tap.test.ts`).
+      if (camera.unit < ZOOM_FLOOR - 1e-9) continue;
+      if (camera.unit - ZOOM_FLOOR < 1e-9) held.push(name);
+      const smallest = Math.min(
+        ...OPENING_FEET.map((foot) => placeOf(camera, foot).size),
+      );
+      const across = narrowest * smallest;
+      drawn.push(`${name} ${across.toFixed(0)} px`);
+      // A pixel's slack for the rim's rounding, which cuts its corner.
+      assert.ok(across >= 2 * TAP_RADIUS - 1, `${name}: ${across.toFixed(1)}`);
+    }
+    assert.deepEqual(held, ['280×600']);
+    t.diagnostic(`narrowest clump cap: ${drawn.join(', ')}`);
   });
 
   it('stands a porcini on a stem short against its cap, shorter than a fly agaric’s', (t) => {
