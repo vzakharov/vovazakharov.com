@@ -15,25 +15,19 @@ import {
   widestHead,
 } from './flower-layout';
 import { flowerFeet, standingFlowers, usedIn } from './flower-plots';
-import type { Stand } from './flower-sight';
+import {
+  coversOn,
+  flowerInSight,
+  sightingOf,
+  type Stand,
+} from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { opened, relaidOn } from './visit-play';
 
 /** The least number of flowers the bees plant in the median visit, on every screen. */
 const LEAST_PLANTED = 4;
-/**
- * The least the bees plant in the median visit with a full forest standing,
- * where it falls short of `LEAST_PLANTED`: the small phone, 320 px wide,
- * grows six mushrooms in every visit, and six leave its flowers' band ground
- * for about one planting beside the flower a bee drinks from.
- */
-const LEAST_IN_A_FOREST: Partial<Record<Screen, number>> = {
-  'small phone': 1,
-};
-/** A screen's name, as the sweeps know it. */
-type Screen = (typeof VIEWPORTS)[number][0];
 /** How near two ground points count as the same one, in the clump's size. */
 const SAME_GROUND = 1e-9;
 
@@ -198,15 +192,50 @@ describe('a planted flower', () => {
           }
           return stand.planted.length;
         });
-        const least =
-          (standing === 'forest' ? LEAST_IN_A_FOREST[name] : undefined) ??
-          LEAST_PLANTED;
         assert.ok(
-          median(counts) >= least,
+          median(counts) >= LEAST_PLANTED,
           `median ${String(median(counts))} planted`,
         );
       });
     }
+  }
+});
+
+/** The visits a meadow is grown to six in and turned, spread over `VISITS`. */
+const TURNED_VISITS = VISITS.filter((_, index) => index % 40 === 0);
+
+/** Whether each flower standing in `stand` is in sight on `layout`, in order. */
+function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
+  const covers = coversOn(layout, stand.mushrooms);
+  return standingFlowers(
+    layout,
+    stand.flowers,
+    stand.planted,
+    stand.mushrooms,
+  ).map((flower) => flowerInSight(layout, sightingOf(flower, layout), covers));
+}
+
+describe('a turn', () => {
+  for (const [name, width, height] of VIEWPORTS.filter(([screen]) =>
+    ['phone', 'small phone'].includes(screen),
+  )) {
+    it(`keeps every flower in sight that was, and half of them at least, in the median meadow grown to six on a ${name} screen`, () => {
+      const kept: number[] = [];
+      const shown: number[] = [];
+      for (const seed of TURNED_VISITS) {
+        const stand = opened(seed, width, height, true);
+        const was = inSightOn(stand, stand.layout);
+        const now = inSightOn(stand, relaidOn(stand, seed, height, width));
+        const before = was.filter(Boolean).length;
+        const still = was.filter(
+          (seen, index) => seen && now[index] === true,
+        ).length;
+        kept.push(before > 0 ? still / before : 1);
+        shown.push(now.filter(Boolean).length / now.length);
+      }
+      assert.equal(median(kept), 1, 'in sight before the turn');
+      assert.ok(median(shown) >= 0.5, `median ${String(median(shown))} shown`);
+    });
   }
 });
 
