@@ -4,7 +4,8 @@
  */
 
 import type { Box, Circle } from '../../model/geometry';
-import { everyPlace } from './clump-layout';
+import type { Ground } from '../../model/ground';
+import { everyPlace, placeOf } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import {
   BUTTON_INSET,
@@ -216,22 +217,28 @@ const WASH_RINGS = 10;
 /** The wash's innermost and outermost rings, in sun radii, before it is shrunk to fit. */
 const WASH_REACH = [4, 14] as const;
 
+/** What the sun's wash is laid out over. */
+type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>;
+
 /**
  * The farthest the sun's wash over the land reaches from its middle: down to
  * the ground's upper third at most, and short of the foot and the shadow
- * round it of every place at the frame's extremes (`everyPlace`); a new
- * mushroom's foot keeps out of it too (`roomFor`), so it never lifts the
- * ground a mushroom stands on.
+ * round it of every place at the frame's extremes (`everyPlace`) and of every
+ * mushroom standing on `standing`, wherever it grew; a new mushroom's foot
+ * keeps out of it too (`roomFor`), so it never lifts the ground a mushroom
+ * stands on.
  */
-function washReach({
-  sun,
-  groundTop,
-  height,
-  mushrooms,
-}: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>): number {
+function washReach(
+  { sun, groundTop, height, mushrooms }: Washed,
+  standing: readonly Ground[],
+): number {
+  const places = [
+    ...everyPlace(mushrooms),
+    ...standing.map((foot) => placeOf(mushrooms.camera, foot)),
+  ];
   return Math.min(
     groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
-    ...everyPlace(mushrooms).map(
+    ...places.map(
       ({ x, y, size }) =>
         Math.hypot(x - sun.x, y - sun.y) - size * WASH_FOOT_CLEAR,
     ),
@@ -244,9 +251,13 @@ function washReach({
  * no two share an edge that would stack into a line.
  */
 export function washRings(
-  layout: Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>,
+  layout: Washed,
+  standing: readonly Ground[],
 ): number[] {
-  const outer = Math.min(layout.sun.r * WASH_REACH[1], washReach(layout));
+  const outer = Math.min(
+    layout.sun.r * WASH_REACH[1],
+    washReach(layout, standing),
+  );
   return Array.from({ length: WASH_RINGS }, (_, ring) => {
     const t = ring / (WASH_RINGS - 1);
     return (

@@ -26,7 +26,7 @@ import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
 import { tapReach } from './sky-layout';
-import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
+import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, relaidOn } from './visit-play';
 
@@ -50,15 +50,6 @@ const RULES = [
   'a finger wide',
 ] as const;
 type Rule = (typeof RULES)[number];
-/**
- * The rules the meadow keeps once turned: every one a mushroom is held to on
- * the screen it grows on (`roomFor`), the turned camera showing a scaled copy
- * of that screen's picture (`UP_PER_Z`), but for the sun's wash, which the
- * turned screen's own sun casts. A turn is measured against that one.
- */
-const TURN_KEPT: ReadonlySet<Rule> = new Set(
-  RULES.filter((rule) => rule !== 'out of the wash'),
-);
 
 /** Each species as the newest mushroom, by each rule, as the sweep names them. */
 const MEASURES = MUSHROOM_SPECIES.flatMap((species) =>
@@ -173,7 +164,7 @@ function broken(
     }
     return [{ mushroom, place, standing: standingAt(place, mushroom) }];
   });
-  const wash = washRings(layout).at(-1) ?? 0;
+  const wash = layout.wash.at(-1) ?? 0;
   const controls = keepOff(layout);
   for (const { mushroom, place, standing } of stood) {
     const { id, species } = mushroom;
@@ -297,33 +288,19 @@ describe('a meadow grown toward six', () => {
       );
     });
 
-    it(`keeps every rule but the wash, once a meadow grown on a ${name} screen turns`, (t) => {
-      const turnBroken = new Map<Rule, number>();
-      let meadows = 0;
+    // The turned camera shows a scaled copy of the picture the meadow grew
+    // in (`UP_PER_Z`), and the turned screen's wash stays off every foot used.
+    it(`keeps every rule once a meadow grown on a ${name} screen turns`, () => {
       for (const [seed, meadow] of grownOn(name, width, height)) {
         const { layout, flowers } = opened(seed, width, height, false);
         const stand = { layout, flowers, mushrooms: meadow, planted: [] };
         const turned = relaidOn(stand, seed, height, width);
-        const faults = broken(meadow, turned);
-        meadows += 1;
-        for (const rule of new Set(faults.map((each) => each.rule))) {
-          turnBroken.set(rule, (turnBroken.get(rule) ?? 0) + 1);
-        }
         assert.deepEqual(
-          faults
-            .filter(({ rule }) => TURN_KEPT.has(rule))
-            .map(({ sentence }) => sentence),
+          broken(meadow, turned).map(({ sentence }) => sentence),
           [],
           where(seed, meadow, turned),
         );
       }
-      t.diagnostic(
-        `of ${String(meadows)} meadows turned: ${
-          [...turnBroken]
-            .map(([rule, count]) => `${rule} broken in ${String(count)}`)
-            .join(', ') || 'every rule kept'
-        }`,
-      );
     });
 
     it(`keeps the sun's rays off the opening clump, in every visit, on a ${name} screen and on it turned`, () => {

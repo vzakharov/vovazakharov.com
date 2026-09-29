@@ -7,12 +7,7 @@ import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
-import {
-  raysClear,
-  SUN_GLOW_REACH,
-  SUN_RAY_REACH,
-  washRings,
-} from './sun-layout';
+import { raysClear, SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -139,8 +134,8 @@ describe('the sun', () => {
     it(`washes the land past the sun's rays and never over a mushroom's foot, on a ${name} screen`, () => {
       for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const { sun, mushrooms } = layout;
-        const outer = Math.max(...washRings(layout));
+        const { sun, mushrooms, wash } = layout;
+        const outer = Math.max(...wash);
         assert.ok(outer > sun.r * SUN_RAY_REACH, `visit ${String(seed)}`);
         // Every place at the extremes: its foot, and some ground round it.
         for (const [index, { x, y, size }] of everyPlace(mushrooms).entries()) {

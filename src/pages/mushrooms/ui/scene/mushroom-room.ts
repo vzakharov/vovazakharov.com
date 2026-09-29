@@ -42,7 +42,7 @@ import type { MeadowLayout, Placement } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
-import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
+import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
@@ -57,8 +57,6 @@ type Screen = {
   stage: MeadowLayout;
   /** Every control's hit area, open pickers and all, and the sun's rays. */
   keepOff: readonly Circle[];
-  /** How far the sun's wash reaches round its middle. */
-  wash: number;
 };
 
 /** Each layout as a new mushroom is held to on it, read once. */
@@ -77,7 +75,6 @@ function screenOf(stage: MeadowLayout): Screen {
       ),
       { ...sun, r: sun.r * SUN_RAY_REACH },
     ],
-    wash: washRings(stage).at(-1) ?? 0,
   };
   screens.set(stage, screen);
   return screen;
@@ -220,10 +217,12 @@ function trialOn(
   grown: Splayed,
   others: readonly Weighed[],
 ): Trial | undefined {
-  const { camera, sun, width } = screen.stage;
+  const { camera, sun, width, wash } = screen.stage;
   const place = placeOf(camera, foot);
   const away = Math.hypot(place.x - sun.x, place.y - sun.y);
-  if (away < screen.wash + place.size * WASH_FOOT_CLEAR) return undefined;
+  if (away < (wash.at(-1) ?? 0) + place.size * WASH_FOOT_CLEAR) {
+    return undefined;
+  }
   const own = standingAs(place, grown);
   const cap = capBox(own);
   if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {

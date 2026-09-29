@@ -22,7 +22,7 @@ import {
 } from './flower-layout';
 import { capsAcross, meadowCamera, meadowFrame } from './meadow-camera';
 import { type Controls, placeControls, standingControls } from './sky-layout';
-import { horizonAt, placeSun } from './sun-layout';
+import { horizonAt, placeSun, washRings } from './sun-layout';
 
 /**
  * A mushroom's footing, the `splay` it is stood with (`splayed`), and its
@@ -70,6 +70,8 @@ export type MeadowLayout = Sized &
     insectSize: number;
     /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
     insectSizes: Readonly<Record<InsectKind, number>>;
+    /** The radii of the sun's wash over the land, innermost first (`washRings`). */
+    wash: readonly number[];
   };
 
 /**
@@ -97,7 +99,7 @@ const UNUSED: Used = { mushrooms: [], flowers: [] };
  * it opened with (`opening`, by default this screen with none), and this
  * screen's camera shows them where they stand. The camera keeps every seeded
  * flower and everything standing on a foot of `used` in view, the caps
- * inside the edge margin.
+ * inside the edge margin, and the sun's wash off every mushroom's foot of it.
  */
 export function meadowLayout(
   width: number,
@@ -116,15 +118,20 @@ export function meadowLayout(
     headsAcross([...used.flowers, ...bed]),
   );
   const here = stoodMeadow(width, height, shown);
-  return { ...here.layout, flowers: flowersOn(here.layout.camera, bed) };
+  return {
+    ...here.layout,
+    flowers: flowersOn(here.layout.camera, bed),
+    wash: washRings(here.layout, used.mushrooms),
+  };
 }
 
 /**
- * Everything the meadow stands on a screen but the flowers, and the ground
- * they are placed on there but for the mushrooms standing (`FlowerGround`).
+ * Everything the meadow stands on a screen but the flowers and the sun's
+ * wash, and the ground the flowers are placed on there but for the mushrooms
+ * standing (`FlowerGround`).
  */
 type Stood = {
-  layout: Omit<MeadowLayout, 'flowers'>;
+  layout: Omit<MeadowLayout, 'flowers' | 'wash'>;
   flowers: Omit<FlowerGround, 'clump'>;
 };
 

@@ -6,7 +6,7 @@ import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { fillShape, petal } from './shapes';
-import { SUN_RAY_REACH, washRings } from './sun-layout';
+import { SUN_RAY_REACH } from './sun-layout';
 
 const SUN_RAYS = 16;
 const WASH_ALPHA = 0.02;
@@ -123,17 +123,17 @@ export function paintClouds(
 
 /**
  * The sun's light over the land, screened on so it only ever lightens: faint
- * discs round the sun at `washRings`, so the ground a mushroom stands on is
- * never lifted.
+ * discs round the sun at the layout's `wash`, so the ground a mushroom stands
+ * on is never lifted.
  */
 export function paintWash(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
 ): void {
-  const { sun } = layout;
+  const { sun, wash } = layout;
   graphics.setBlendMode(Phaser.BlendModes.SCREEN);
   graphics.fillStyle(PALETTE.sunGlow, WASH_ALPHA);
-  for (const radius of washRings(layout)) {
+  for (const radius of wash) {
     graphics.fillCircle(sun.x, sun.y, radius);
   }
 }
