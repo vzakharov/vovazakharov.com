@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { everyPlace } from '../ui/scene/clump-layout';
+import { meadowLayout } from '../ui/scene/layout';
+import { TAP_RADIUS } from '../ui/scene/sky-layout';
+import { VIEWPORTS } from '../ui/scene/viewports';
 import {
   domeHeight,
   firstMushrooms,
   GENE_RANGES,
-  geneBounds,
   MUSHROOM_SPECIES,
   mushroomGenes,
   RUSSULA_HOLLOW,
@@ -14,7 +17,7 @@ import {
   SPOT_MARGIN,
   TRUMPET_RANGES,
 } from './mushroom-genes';
-import { capOutlines } from './mushroom-outline';
+import { capOutlines, headOutlines } from './mushroom-outline';
 import { stemAt } from './mushroom-pose';
 import { stemHalfWidth } from './mushroom-profile';
 import { mulberry32 } from './random';
@@ -116,16 +119,43 @@ describe('mushroomGenes', () => {
     assert.equal(new Set(grown.map(({ capHeight }) => capHeight)).size, 4);
   });
 
-  it('leaves no cap narrower than the fly agaric’s narrowest', () => {
+  it('makes every species’ narrowest drawn cap a finger’s target on the smallest slot', (t) => {
+    const places = VIEWPORTS.flatMap(([, width, height]) =>
+      everyPlace(meadowLayout(width, height, 1).mushrooms),
+    );
+    const smallest = Math.min(...places.map(({ size }) => size));
+    const narrowest = new Map<Species, number>();
     for (const species of MUSHROOM_SPECIES) {
+      for (const seed of WIDE_SEEDS) {
+        // The cap and what shows under it as drawn and tapped, across its own
+        // frame, which a turn only turns: a finger's circle fits it the same.
+        const xs = headOutlines(mushroomGenes({ seed, species }))
+          .flat()
+          .map(({ x }) => x);
+        narrowest.set(
+          species,
+          Math.min(
+            narrowest.get(species) ?? Infinity,
+            Math.max(...xs) - Math.min(...xs),
+          ),
+        );
+      }
+    }
+    assert.equal(narrowest.size, MUSHROOM_SPECIES.length);
+    for (const [species, across] of narrowest) {
+      // A pixel's slack for the rim's rounding, which cuts its corner.
       assert.ok(
-        GENE_RANGES[species].capWidth[0] >=
-          GENE_RANGES['fly-agaric'].capWidth[0],
+        across * smallest >= 2 * TAP_RADIUS - 1,
+        `a ${species} ${(across * smallest).toFixed(1)} px across`,
       );
     }
-    assert.equal(
-      geneBounds('capWidth')[0],
-      GENE_RANGES['fly-agaric'].capWidth[0],
+    t.diagnostic(
+      `narrowest cap on the smallest slot: ${[...narrowest]
+        .map(
+          ([species, across]) =>
+            `${species} ${(across * smallest).toFixed(0)} px`,
+        )
+        .join(', ')}`,
     );
   });
 

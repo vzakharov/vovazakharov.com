@@ -23,12 +23,7 @@ import {
   type MushroomSeed,
   type Species,
 } from '../../model/mushroom-genes';
-import {
-  capReach,
-  headOutlines,
-  tapArea,
-  toCanvas,
-} from '../../model/mushroom-outline';
+import { capReach, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { splayed, stemAt } from '../../model/mushroom-pose';
 import { mulberry32, nextSeed, pick } from '../../model/random';
 import { everyPlace, placeIn } from './clump-layout';
@@ -381,33 +376,6 @@ describe('meadowLayout', () => {
           );
       }
       t.diagnostic(`least of a back cap in view: ${least.report('%')}`);
-    });
-
-    it(`makes every slot's narrowest cap of every species a finger's target on a ${name} screen`, (t) => {
-      const { mushrooms } = screenLayout(width, height);
-      const narrowest = worstOf(MUSHROOM_SPECIES, Math.min);
-      for (const species of MUSHROOM_SPECIES) {
-        // The cap as drawn and tapped, across its own frame, so a turn does
-        // not widen it; read over many seeds, the narrowest genes among them.
-        const across = Math.min(
-          ...VISITS.slice(0, 500).map((seed) => {
-            const xs = headOutlines(mushroomGenes({ seed, species }))
-              .flat()
-              .map(({ x }) => x);
-            return Math.max(...xs) - Math.min(...xs);
-          }),
-        );
-        for (const [slot, places] of mushrooms.entries()) {
-          const { size } = places[species];
-          narrowest.note(species, across * size);
-          // A pixel's slack for the rim's rounding, which cuts its corner.
-          assert.ok(
-            across * size >= 2 * TAP_RADIUS - 1,
-            `a ${species} in mushroom-${slot} ${(across * size).toFixed(1)} px across`,
-          );
-        }
-      }
-      t.diagnostic(`narrowest cap: ${narrowest.report(' px')}`);
     });
 
     it(`hands a tap on either clump stem to the mushroom drawn there on a ${name} screen`, () => {
