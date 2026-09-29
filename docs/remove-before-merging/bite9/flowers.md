@@ -85,5 +85,15 @@ its 7 flowers off the sides — the rule "a rotation changes the crop" taken
 literally. Keeping a share of the bed inside `COMMON_FRAME` would hold some
 on every screen.
 
+The `flower-plots.test.ts` run finished after pausing: 66 min, 15 pass,
+8 fail, median 7 planted everywhere. The failures are one cause:
+`standingFlowers` and `roomFor` take mushroom feet from `standingPlaces`,
+which keeps only the mushrooms shown on this screen. A planting on one
+screen ignores a mushroom its crop leaves out, and on a screen that shows
+that mushroom the flower is "hidden on a turn" (and "moved" shifts the
+index). Fix: take every standing mushroom's ground foot (`Planted.foot`,
+size from `placeOf`) rather than the screen-filtered places. That is the
+helper placement could export, or `flower-plots.ts` reads `foot` itself.
+
 To finish: `git apply docs/remove-before-merging/bite9/flowers.patch` (only
 if the paths were reset), then the list above.
