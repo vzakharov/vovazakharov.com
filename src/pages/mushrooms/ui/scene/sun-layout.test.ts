@@ -3,11 +3,16 @@ import { describe, it } from 'node:test';
 
 import type { Circle, Point } from '../../model/geometry';
 import { mulberry32 } from '../../model/random';
-import { everyPlace } from './clump-layout';
+import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
-import { SUN_GLOW_REACH, SUN_RAY_REACH, washRings } from './sun-layout';
+import {
+  raysClear,
+  SUN_GLOW_REACH,
+  SUN_RAY_REACH,
+  washRings,
+} from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -38,6 +43,44 @@ function shownAbove(disc: Circle, skyline: readonly Point[]): number {
 
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
+
+/** Every screen from 300 to 2600 px wide and 300 to 1600 px tall, this many px apart each way. */
+const GRID_STEP = 20;
+
+describe('the sun on every screen size', () => {
+  it('stands whole above the horizon, its glow on the screen and its rays off every crown and control', () => {
+    for (let width = 300; width <= 2600; width += GRID_STEP) {
+      for (let height = 300; height <= 1600; height += GRID_STEP) {
+        const layout = meadowLayout(width, height, 1);
+        const { sun, horizon, camera, picker, housePicker } = layout;
+        const screen = `${String(width)}×${String(height)}`;
+        const glow = sun.r * SUN_GLOW_REACH;
+        assert.ok(sun.y + sun.r <= horizon + 1e-9, `${screen}: the horizon`);
+        assert.ok(
+          sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9,
+          `${screen}: the glow off the screen`,
+        );
+        for (const [index, crown] of clumpCrowns(camera).entries()) {
+          assert.ok(
+            raysClear(sun, crown),
+            `${screen}: the rays on crown ${String(index)}`,
+          );
+        }
+        const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
+        for (const control of [
+          ...standingControls(layout),
+          ...picker,
+          ...housePicker,
+        ]) {
+          assert.ok(
+            apart({ ...control, r: tapReach(control.r) }, rays),
+            `${screen}: a control on the sun`,
+          );
+        }
+      }
+    }
+  });
+});
 
 describe('the sun', () => {
   for (const [name, width, height] of VIEWPORTS) {
