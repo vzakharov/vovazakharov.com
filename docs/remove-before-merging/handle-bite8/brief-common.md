@@ -51,8 +51,8 @@ names your files and the ones that are off limits.
   in the report.
 - A fix that tightens a rule must not take away what the rule protected:
   sweep the invariants your brief names alongside your own number.
-- Quick checks between commits: `node --import tsx --test <your test
-  files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project),
+- Quick checks between commits:
+  `node --import tsx --test <your test files>`, `pnpm exec tsc --noEmit -p tsconfig.json` (the root project),
   `pnpm exec eslint <your files>`, `pnpm type-overlap`, `pnpm knip`,
   `pnpm exec prettier --check <your files>`. Not `./scripts/vet.sh`. Keep
   the whole `src/pages/mushrooms` suite under its current running time.

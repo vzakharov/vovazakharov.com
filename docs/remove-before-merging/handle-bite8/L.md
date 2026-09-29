@@ -44,12 +44,12 @@ but one: `flower-plots.test.ts` on a tablet, below.
 Exhaustive sweep: `tmp/handle8/L/tune.ts`, all 16 pairs × 2000 visits × all
 6 screens. Worst back cap in view / worst back doorway in sight:
 
-| | before | after |
-|---|---|---|
+|                       | before                                                                | after                                      |
+| --------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
 | tabL, phoneL, desktop | chanterelle behind fly agaric 28.4% / fly agaric behind porcini 65.9% | fly agaric behind fly agaric 45.2% / 80.7% |
-| tabP | chanterelle behind fly agaric 35.4% / fly agaric behind porcini 62.5% | russula behind fly agaric 48.1% / 80.7% |
-| phoneP | chanterelle behind fly agaric 35.2% / 76.1% | russula behind fly agaric 47.4% / 80.7% |
-| phoneS | — | fly agaric behind fly agaric 47.2% / 80.7% |
+| tabP                  | chanterelle behind fly agaric 35.4% / fly agaric behind porcini 62.5% | russula behind fly agaric 48.1% / 80.7%    |
+| phoneP                | chanterelle behind fly agaric 35.2% / 76.1%                           | russula behind fly agaric 47.4% / 80.7%    |
+| phoneS                | —                                                                     | fly agaric behind fly agaric 47.2% / 80.7% |
 
 In every row, the worst pair after the fix is the opening clump's own
 numbers or better.
@@ -94,6 +94,7 @@ lowest drawn point over the stem's top):
    - accept a lower median.
 
    This is the operator's call.
+
 2. Porcini gene comment. Plan item 8's wording: "a stem about a third of
    its cap" still holds (0.32). The line "every stem stands tall enough…"
    should become "the clump stands each species' foot by its own
