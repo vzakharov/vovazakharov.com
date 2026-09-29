@@ -698,7 +698,25 @@ Standing rules for every session in the chain:
 
 In order.
 
-**Open:** on tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
+**Before bite 10**, found by the play run after review 5356809390's
+handling (frames `frames/bite-9/handled/`, commit 828fbaf6):
+
+- **A grown mushroom no tap reaches** — mushroom-5's cap on the small
+  phone (the front caps pile on each other), mushroom-4's on phoneL. This
+  breaks "every tap selects what the finger is on"; fix it first, with
+  the tap sweep covering grown forests on every screen.
+- **Insects on phoneL fall below the play run's size floors** (bee 27.7,
+  fly 25.6, butterfly 38.9 px against 30, 30, 52), since insects now
+  shrink with a small clump: bees read as specks. Reconcile the two
+  rules — the play run's floors or the shrink — and say which gave way.
+- **Spore rings stay hanging over the hills after a turn**: they are
+  not refit with the meadow.
+
+**Open:** a turn keeps the meadow laid out for the shape it was grown on,
+by design until item 11's pan: upright to sideways the six bunch in the
+middle with empty grass either side; sideways to upright they shrink
+into the bottom fifth under empty hills. The play run has no turn step
+(the frames came from a scratch driver). On tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
 reads larger than its neighbours at the same depth. The play run shoots
 no refused `+` and no bees planting in a full forest.
 The sky may read a little plain since bite 7 tamed the halo.
