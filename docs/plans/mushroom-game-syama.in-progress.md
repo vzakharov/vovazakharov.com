@@ -617,6 +617,24 @@ Standing rules for every session in the chain:
      its head past it. Measure the grow-to-six distribution per screen over
      2000 visits; if a screen stops short in more than one visit in ten,
      narrow the forest's size before anything else.
+   - **Built in step A** (8b2483c–9ae907b, `bite9/step-a.md`, `fill.md`):
+     `frameFor(screen, lens)` and `meadow-camera.ts`, `roomFor` on the
+     screen and its turn, seeded flowers spread over the frame (none lost on
+     a turn), `FORESHORTENING` derived (0.252–0.765), `ROUNDS` 32. Decided
+     there: `clearOfFlowers` rejected ~13× more feet than every other rule
+     together and is backed out for the 0.2 foot distance; narrowing the
+     forest raises `ZOOM_FLOOR` and fills worse. Every screen reaches six in
+     ≥ 99.5% of visits except the small phone, **69%: accepted** — K 48
+     reaches only 85% at 4× the pick cost, a lower finger floor trades the
+     comfort the floor exists for, and a 320 px phone stopping at five with
+     `+` shaking its head is the "as far as there is room" this item
+     already allows.
+   - **Bees with a full forest** plant a median of 3 (2 on the small phone)
+     against `LEAST_PLANTED` 4. First try giving the rings more room
+     (more ring slots, or slots reached past a mushroom) so a full forest
+     still plants 4; only if that fails, `LEAST_PLANTED` holds on the
+     opening clump and a full forest asserts its own measured floor, noted
+     here.
    - Rewrite `layout.test.ts` over meadows grown to six on every screen
      (every rule, species exhaustive), finish `flower-plots.test.ts` inside
      the tool limit, add `placement.test.ts` (evenness against a
