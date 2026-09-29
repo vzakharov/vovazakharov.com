@@ -46,7 +46,7 @@ const UNIT_CAMERA: Camera = {
   height: 0,
   groundTop: 0,
   ground: 1,
-  centre: 0,
+  midline: 0,
   unit: 1,
 };
 
@@ -76,7 +76,7 @@ function reachOf(places: typeof UNIT_PLACES): number {
  * `2 × TAP_RADIUS` across by its gene there; a cap drawn narrower than a
  * finger is padded to one (`fingerPad`).
  */
-export const ZOOM_FLOOR =
+const ZOOM_FLOOR =
   (2 * TAP_RADIUS) /
   (geneBounds('capWidth')[0] *
     Math.min(...UNIT_PLACES.map(({ size }) => size)));

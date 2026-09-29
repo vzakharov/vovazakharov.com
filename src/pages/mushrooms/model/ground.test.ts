@@ -88,7 +88,7 @@ describe('a turn', () => {
         const [here, turned] = cameras.map((camera) => {
           const { x, y, size } = placeOf(camera, foot);
           return [
-            (x - camera.centre) / size,
+            (x - camera.midline) / size,
             (y - camera.groundTop) / camera.ground,
             size / camera.unit,
           ];

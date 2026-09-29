@@ -14,7 +14,7 @@ import type { Point } from './geometry';
  * the meadow, rightward, and `z` into the distance from the clump's
  * front foot, farther away the larger.
  */
-export type Ground = { x: number; z: number };
+export type Ground = Pick<Point, 'x'> & { z: number };
 
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
 export type Hazed = { haze: number };
@@ -22,26 +22,28 @@ export type Hazed = { haze: number };
 /**
  * A camera on a screen, in CSS px: the band of ground it shows, from
  * `groundTop` down to the screen's foot `ground` deep; where across the
- * ground's middle stands; and `unit`, the clump's size where the clump's
- * front foot stands.
+ * ground's middle stands (`midline`); and `unit`, the clump's size where the
+ * clump's front foot stands.
  */
 export type Camera = Sized & {
   groundTop: number;
   ground: number;
-  centre: number;
+  midline: number;
   unit: number;
 };
+
+/** The depth a thing is drawn at: the nearer, the deeper, so it is drawn over what stands behind. */
+export type Layered = { depth: number };
+
+/** Where on the ground something is laid out (`frameFor`). */
+export type Framed = { frame: Frame };
 
 /**
  * A ground point as a camera shows it: where on the screen, how big one of
  * the clump's size stands there, how hazy, and the depth it is drawn at —
  * the nearer, the deeper, so it is drawn over what stands behind.
  */
-export type Projected = Point &
-  Hazed & {
-    scale: number;
-    depth: number;
-  };
+export type Projected = Point & Hazed & Layered & { scale: number };
 
 /**
  * How deep the ground is, in the clump's size, from the screen's foot to
@@ -136,7 +138,7 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
   const scale = camera.unit * scaleAt(z);
   const y = camera.groundTop + camera.ground * down;
   return {
-    x: camera.centre + x * scale,
+    x: camera.midline + x * scale,
     y,
     scale,
     haze: MAX_HAZE * Math.max(0, 1 - down / HAZE_REACH),
@@ -212,15 +214,9 @@ export function fitCamera(screen: Sized, lens: Lens): Camera {
     height,
     groundTop,
     ground: height - groundTop,
-    centre: width / 2,
+    midline: width / 2,
     unit,
   };
-}
-
-/** Whether `point` stands inside `frame`. */
-export function inFrame(frame: Frame, point: Ground): boolean {
-  const { across, near, far } = frame;
-  return Math.abs(seen(point).x) <= across && point.z >= near && point.z <= far;
 }
 
 /**
@@ -230,10 +226,4 @@ export function inFrame(frame: Frame, point: Ground): boolean {
  */
 export function foreshortening({ ground, unit }: Camera): number {
   return ground / (BAND_DEPTH * unit);
-}
-
-/** The ground point `camera` shows at `point` on the screen: `project` undone. */
-export function groundAt(camera: Camera, { x, y }: Point): Ground {
-  const z = zAt((y - camera.groundTop) / camera.ground);
-  return { x: (x - camera.centre) / (camera.unit * scaleAt(z)), z };
 }

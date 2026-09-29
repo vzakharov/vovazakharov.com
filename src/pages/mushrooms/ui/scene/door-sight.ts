@@ -12,6 +12,7 @@ import {
   placedAt,
   type Point,
 } from '../../model/geometry';
+import type { Layered } from '../../model/ground';
 import {
   DOOR_ASPECT,
   type DoorPlace,
@@ -39,14 +40,13 @@ export const IN_SIGHT = 0.8;
 const SIGHT_STEPS = 8;
 
 /** A mushroom as the scene stands it in its slot. */
-export type Standing = Splayed & {
-  /** Where its foot stands, as the scene sets it: the nearer, the lower. */
-  depth: number;
-  /** An outline in the mushroom's own frame, where it stands on screen. */
-  placed: (outline: readonly Point[]) => Point[];
-  /** Its dome, gills and stem as drawn, on screen. */
-  drawn: readonly Point[][];
-};
+export type Standing = Splayed &
+  Layered & {
+    /** An outline in the mushroom's own frame, where it stands on screen. */
+    placed: (outline: readonly Point[]) => Point[];
+    /** Its dome, gills and stem as drawn, on screen. */
+    drawn: readonly Point[][];
+  };
 
 export function standingAt(place: Placement, seeded: MushroomSeed): Standing {
   return standingWith(place, mushroomGenes(seeded));

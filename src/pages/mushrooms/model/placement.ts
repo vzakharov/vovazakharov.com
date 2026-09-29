@@ -6,7 +6,7 @@
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
  */
 
-import { type Frame, type Ground, scaleAt, seen } from './ground';
+import { type Frame, type Framed, type Ground, scaleAt, seen } from './ground';
 import { mulberry32, type Random } from './random';
 
 /**
@@ -54,9 +54,7 @@ function drawnFoot(random: Random, { across, near, far }: Frame): Ground {
   return { x: ((random() * 2 - 1) * across) / scaleAt(z), z };
 }
 
-export type Picking = {
-  /** Where on the ground the meadow is laid out (`frameFor`). */
-  frame: Frame;
+export type Picking = Framed & {
   /** The feet already standing, which a new one stands clear of and as far from as it can. */
   feet: readonly Ground[];
   /**

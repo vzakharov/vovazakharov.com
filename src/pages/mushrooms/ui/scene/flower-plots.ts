@@ -71,7 +71,7 @@ export type StandingFlower = Flower & Placed & Rooted;
 const FLOWER_DEPTH = FLOWER_DOWN.map(
   (down) =>
     groundOf(
-      { width: 0, height: 0, groundTop: 0, ground: 1, centre: 0, unit: 1 },
+      { width: 0, height: 0, groundTop: 0, ground: 1, midline: 0, unit: 1 },
       { x: 0, y: down, size: 0 },
     ).z,
 ).toSorted((a, b) => a - b);

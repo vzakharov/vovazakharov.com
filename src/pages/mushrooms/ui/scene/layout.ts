@@ -52,15 +52,14 @@ const KIND_SCALE = {
 } as const satisfies Record<InsectKind, number>;
 
 export type MeadowLayout = Sized &
-  Controls & {
+  Controls &
+  Pick<Camera, 'groundTop'> & {
     /** What the meadow is shown through: a turn or a resize fits a new one. */
     camera: Camera;
     /** Where the far hills meet the sky. */
     horizon: number;
     /** The top of the near hills' band. */
     nearHills: number;
-    /** Where the flat ground the mushrooms stand on begins. */
-    groundTop: number;
     sun: Circle;
     clouds: readonly Circle[];
     /** How the mushrooms stand, each by its foot (`placeIn`). */
@@ -76,7 +75,10 @@ export type MeadowLayout = Sized &
  * The visit as it opened: the screen, in CSS px, and the mushrooms standing
  * then, which together place the flowers.
  */
-export type Opening = { screen: Sized; openers: readonly Opener[] };
+export type Opening = Screened & { openers: readonly Opener[] };
+
+/** The screen, in CSS px, something is laid out on. */
+export type Screened = { screen: Sized };
 
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize

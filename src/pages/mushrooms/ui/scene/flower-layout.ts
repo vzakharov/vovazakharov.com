@@ -19,14 +19,14 @@ import {
 } from '../../model/geometry';
 import {
   type Camera,
-  type Frame,
+  type Framed,
   type Ground,
   project,
   scaleAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
-import type { Footing, MeadowLayout } from './layout';
+import type { Footing } from './layout';
 import { FORESHORTENING } from './meadow-camera';
 
 /**
@@ -70,7 +70,7 @@ export const FLOWER_DOWN = [0.12, 0.96] as const;
 /** Tries at a spot off the slot before a flower is left out. */
 const FLOWER_TRIES = 48;
 /** A flower's height, as a share of the clump's size, before depth scales it. */
-export const FLOWER_SIZE = 0.28;
+const FLOWER_SIZE = 0.28;
 /**
  * How far round a mushroom's foot, per unit of its size, no flower stands: the
  * foot and its shadow, the one thing Syama drew being two stems standing
@@ -103,15 +103,13 @@ const LEAN_STEPS = 7;
  * drawn; and the mushrooms the visit opens with, as they shade it.
  */
 export type FlowerGround = Pick<
-  MeadowLayout,
-  'width' | 'height' | 'groundTop'
-> & {
-  ground: number;
-  frame: Frame;
-  unit: number;
-  controls: readonly Circle[];
-  clump: ClumpShade;
-};
+  Camera,
+  'width' | 'height' | 'groundTop' | 'ground' | 'unit'
+> &
+  Framed & {
+    controls: readonly Circle[];
+    clump: ClumpShade;
+  };
 
 /**
  * A foot on the ground (`Ground`) and its size in the clump's before depth
@@ -129,7 +127,7 @@ function cameraOf({
   ground,
   unit,
 }: FlowerGround): Camera {
-  return { width, height, groundTop, ground, centre: width / 2, unit };
+  return { width, height, groundTop, ground, midline: width / 2, unit };
 }
 
 /** Where `foot` stands on the screen `camera` shows, and how big. */

@@ -28,13 +28,13 @@ import type { Placement } from './layout';
  */
 const CLUMP_SIZES = [0.92, 1] as const;
 /** The opening pair's turn apart, like the V of Syama's two caps. */
-export const CLUMP_SPLAY = 0.22;
+const CLUMP_SPLAY = 0.22;
 /**
  * How big a forest mushroom is drawn, against the clump's front one, wherever
  * it stands: the back rows as big as the front ones, so a far cap still reads
  * as a mushroom, only paler.
  */
-export const FOREST_DRAWN = 0.7;
+const FOREST_DRAWN = 0.7;
 /** How far a forest mushroom turns away from the middle of the meadow. */
 export const FOREST_SPLAY = 0.1;
 

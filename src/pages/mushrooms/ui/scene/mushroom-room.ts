@@ -11,7 +11,7 @@
 
 import type { Sized } from '@/shared/typings';
 
-import type { Planted } from '../../model/game';
+import type { Meadow, Planted } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -25,6 +25,7 @@ import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import { apartOnScreen, pickFoot } from '../../model/placement';
+import type { Seeded } from '../../model/random';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
@@ -36,7 +37,7 @@ import {
   standingAt,
 } from './door-sight';
 import type { FlowerFoot } from './flower-layout';
-import { meadowStage, type Placement } from './layout';
+import { meadowStage, type Placement, type Screened } from './layout';
 import { EDGE_MARGIN, meadowFrame } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
@@ -296,13 +297,12 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
  * What the next mushroom grows among: the screen the meadow is laid out on,
  * the mushrooms and flowers standing, and its own seed.
  */
-export type Growing = {
-  screen: Sized;
-  mushrooms: readonly Planted[];
-  /** Every flower standing, seeded and planted, on the ground (`flowerFeet`). */
-  flowers: readonly FlowerFoot[];
-  seed: number;
-};
+export type Growing = Screened &
+  Pick<Meadow, 'mushrooms'> &
+  Seeded & {
+    /** Every flower standing, seeded and planted, on the ground (`flowerFeet`). */
+    flowers: readonly FlowerFoot[];
+  };
 
 /**
  * Where the mushroom grown from `seed` grows among `mushrooms` and
