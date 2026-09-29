@@ -460,6 +460,27 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   reverse-applied, and the relay summary written while its tests ran.
   The skill should treat "pause, I'll take it manually" as `/relay` with
   no `create_session`, the successor line handed to the operator.
+- **Reading an Artifact before republishing it costs ~40k tokens** when
+  the page is a 135 KB bundle: the read hands its head back inline. The
+  republish needs only the version header and the writer check. The
+  skill should give that read a narrow `prompt`, or hand the republish to
+  the tail agent that built the page, so the orchestrator's context never
+  holds the bundle.
+- **Three waves of agents, each one thread group, handled a twelve-thread
+  review in one orchestrator session at ~200k.** Two ran in parallel
+  (angle; cover) because their files barely met, with the plan file
+  reserved to the orchestrator, so neither agent's `git add` swept up the
+  other's edit. The third (depth) waited on the first, since it rewrote
+  the tests the first left failing by design. Each agent ended between
+  188k and 244k, past the ~170k hand-over line the common brief sets and
+  without handing over. The line holds only if the brief makes the
+  agent check its own transcript size at every commit. The skill should
+  size a wave by threads per agent, two or three, rather than trusting
+  the agent to stop.
+- **A parallel agent's uncommitted edits trip the Stop hook's git check**
+  in the orchestrator's session. The orchestrator must not commit them,
+  since they are another agent's work in progress. The skill should say
+  so, so the hook does not read as an order.
 
 ## Quality levers
 
