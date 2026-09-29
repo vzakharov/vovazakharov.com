@@ -1,10 +1,9 @@
 # Relay summary
 
-Relay depth: this session was at depth 8, the cap, so it did not relay. The
-operator starts the successor by hand in a fresh session with
-`/relay take claude/mushroom-game-syama-lbirv7`. That session is **depth 1**
-of a new chain, and it can relay seven more times before the next cap (see
-the plan's "The relays stay relays").
+Relay depth: this session was depth 1 of a new chain (the previous chain hit
+the cap of 8 at bite 8's review, and the operator restarted it by hand). The
+successor is **depth 2**, and can relay six more times before the cap (the
+plan's "The relays stay relays").
 
 ## 1. Standing constraints
 
@@ -37,112 +36,126 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > спроси подагентов, осталось ли им <100к. если нет, пусть ставят на паузу, и ты перезапускай новых с теми же задачами
 
+New in this session (review 5350040790, comment 4131492133), about the
+operator's two game ideas:
+
+> Не вноси их пока ни в какой план, но подготовь отдельные два документа (по одному на идею), в котором опиши, насколько существующий код готов к реализации той и другой, насколько drastic changes нужны в оставшемся плане и текущей реализации. Исходя из этого будем думать. Документы на русском.
+
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask the
-operator nothing, including the context-budget hook's "offer /compact or
-/relay": past the warning line, commit, write progress down and relay on your
-own. Fill `.claude/skills/megabeast/notes.md` before every relay. No module
-past ~450 lines. Each bite ends by committing its best frames to
+operator nothing, including the context-budget hook's offer: past the warning
+line, commit, write progress down and relay on your own. Fill
+`.claude/skills/megabeast/notes.md` before every relay. No module past ~450
+lines. Each bite ends by committing its best frames to
 `docs/remove-before-merging/frames/bite-<n>/` and republishing the game
-Artifact at its one URL (below). The loop keeps three relayed sessions a
-bite; the depth cap of 8 is accepted, never engineered around. Subagents
-get no context notices and misjudge their own usage: read it from their
-transcript (megabeast notes, "A subagent cannot see its own context") and
-pause/replace one past ~200k. The plan's `## How this elephant is eaten`
-holds the rest. Pass this section on verbatim.
+Artifact at its one URL. The depth cap is accepted, never engineered around.
+Subagents misjudge their own context: read it from their transcript (megabeast
+notes, "A subagent cannot see its own context") and pause/replace one past
+~200k. The two ideas stay out of the plan beyond the task of writing the
+documents. The plan's `## How this elephant is eaten` holds the rest. Pass
+this section on verbatim.
 
 ## 2. The conversation
 
-No operator message arrived in this session. It opened with
-`/relay take claude/mushroom-game-syama-lbirv7` (Next step: `/relay оставь код
-ревью на последний кусок`, i.e. review bite 8). It looked at bite 8's frames
-beside the drawing and ran two agents in parallel: a player (play run, 2000-seed
-sweeps, frames committed in 0effa75) and a read-only reader. It checked two of
-the player's frames itself, re-anchored every comment from the source, and
-posted one review.
+The session opened with `/relay take claude/mushroom-game-syama-lbirv7`
+(Next step `/handle`, review 5344789171). It attached, decided the review's
+open calls into the plan, and orchestrated subagents: four in parallel (taps
+and selection, colour and light, shapes, flowers), then the clump group
+(paused at ~220k, finished by a replacement), then two tail agents. It replied
+on all 19 threads and republished the Artifact.
+
+One operator message arrived mid-run:
+
+> глянь пока на пару идей: https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5350040790
+
+The review's one comment (4131492133, kept verbatim in
+`docs/remove-before-merging/ideas/operator-ideas.md`) proposes two ideas. The
+first is a walkable meadow the child turns and walks through, with footsteps,
+insect panning, planting from empty, a top-down or isometric view to "draw" with
+mushrooms, and voxel hills. The second is flowers as a chromatic keyboard (12
+shape×colour pairs, nearest-note octave choice within three octaves, a
+piano-like computer keyboard). It ends: "Что нужно следать прямо сейчас:
+зафиксировать этот мой комментарий и обратиться к нему на предмет создания
+документов в следующем байте (можно совместить с существующим байтом или
+создать новый)." The agent kept the comment verbatim and added bite 9's
+opening task in 74c849b. It replied on the thread, and told the operator in
+chat that the keyboard idea looks like a small separate bite and the walking
+meadow likely reshapes plan items 9–12. It promised exact estimates in the
+documents.
 
 ## 3. Intent
 
-Unchanged: the whole game, built autonomously, beautiful and comfortable for
-a six-year-old. Each bite gets an agent review, and the next session handles
-it. The game is playable as an Artifact after every bite, and the run ends
-with `/finalize` (no merge). Ruled out: a competitive game, a
-3D/multiplayer showpiece, any teaching voice, photorealism, and replacing
-relays with subagent runs.
+Unchanged: the whole game, built autonomously, beautiful and comfortable for a
+six-year-old, an agent review per bite handled by the next session, the
+Artifact playable after every bite, ending with `/finalize` (no merge). New:
+the operator weighs two bigger ideas against the code before deciding; they
+want the two Russian documents, not implementation. Ruled out, as before: a
+competitive game, any teaching voice, photorealism, replacing relays with
+subagent runs.
 
 ## 4. Decisions
 
-- The review is posted in English (a PR review is human-facing prose). Its
-  body opens "Loop review (agent)", so `/handle` can tell it from an
-  operator's.
-- Findings both agents reached independently are posted as confirmed. The
-  picker's chanterelle icon is posted as a hunch.
-- Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_,
-  _MPP_, _wave_, _orchestrator_, _step 0_, _fix round_, _player_ / _reader_,
-  _group_.
+- Review 5344789171's open calls, now folded into plan item 8. The clump is
+  laid out per species (`CLUMP_SHIFT`, `clump-layout.ts`); a slot's place
+  depends on its own species, not on the pair, so a back mushroom never jumps.
+  Flowers are placed against the union of both meadows' feet, clear of the
+  controls and at most half hidden by the opening clump. `HEAVY_FOOT` keys on
+  the foot as drawn (≥ 0.37 of the cap; one fly agaric in ~2500 qualifies). One
+  `HEAD_KIND` map dispatches head shape. Bees plant clear of what stands plus
+  every species' place in free slots only.
+- The clump test samples 125 visits per pair (~67 s); an exhaustive 16×2000
+  script confirmed the margin once.
+- The play run's band check counts a gap only where two samples outward both
+  miss yellow (2eb6894), since the phoneL stem's ink tinted one sample.
+- Bite 9 opens with the two documents and builds only the parts of the wider
+  meadow the first document finds hold either way.
+- Terms: _elephant_, _bite_, _megabeast_, _пятипроцентник_, _Страшила_, _MPP_,
+  _wave_, _orchestrator_, _group_, _tail agent_, _step 0_, _fix round_.
 
 ## 5. Errors and dead ends
 
-- The local branch ref was stale again, and auto mode blocked `git reset --hard`.
-  The cause is the shallow clone. `git fetch --unshallow origin` followed by
-  `merge-base --is-ancestor` proved there was nothing local, and then
-  `git merge --ff-only origin/<branch>` worked (megabeast notes, pickup
-  entry).
+- A container restart mid-wave dropped four completion notifications; the
+  work was on `origin` and the reports came back from the transcripts in the
+  session's `tasks/` directory (megabeast notes).
+- Group L was blocked from `git checkout`-resetting the tree and asked the
+  orchestrator to do it. That was refused as permission laundering, and a
+  fresh agent continued from the dirty tree.
+- L's first per-species clump starved bee planting (tablet median 3), fixed
+  by keying the planting guard on what stands plus free slots.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE/CLEAN at pickup. The last commit before this summary is the
-  megabeast notes commit (see `git log`).
-- Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–8 are eaten. Bite
-  8's review is posted and not yet handled.
-- **Review to handle: 5344789171**
-  (https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5344789171),
-  with 19 inline comments anchored on 0effa75. By weight:
-  - dead door taps (`mushroom-bed.ts` `nearestDoor`);
-  - the clump floors breached per species pair (back cap 29.5%, door 65.9%;
-    `layout.ts` `CLUMP_STEP`, `layout.test.ts` `speciesOf`);
-  - flowers-off-feet (`layout.ts` `standing(0, 0)`);
-  - flowers under the controls or behind the clump (`placeFlowers`);
-  - the porcini's stem length (`GENE_RANGES.porcini.stemHeight`);
-  - the chanterelle's gold hue (`palette-creatures.ts`, and its tints test);
-  - the invisible rim wave (`rimWave`);
-  - the flat russula and porcini undersides (`gillsOutline`);
-  - the selection foot ring and stroke gaps (`drawSelectionRing`,
-    `shapes.ts` `strokeShape`);
-  - five vacuous tests and play checks;
-  - the picker icon (a hunch);
-  - `DomeGenes` derivation.
-- Frames: `docs/remove-before-merging/frames/bite-8/review/`.
-- Artifact: https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG, version 5
-  (bite 8). Rebuild with `pnpm artifact:mushrooms`. A new session `read`s it
-  first, then republishes with its `url`. A handled review republishes it.
-- Nothing is running: no PR subscription, no check-in scheduled.
+  MERGEABLE/CLEAN. The last commit is this summary's (see `git log`).
+- Plan `docs/plans/mushroom-game-syama.paused.md`: bites 1–8 eaten, bite 8's
+  review handled; next is bite 9, opening with the two documents.
+- Review 5344789171: all 19 threads replied to (none resolved). The ideas
+  thread 4131492133 was replied to.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG, version 6 (bite 8
+  handled). Rebuild with `pnpm artifact:mushrooms`; a new session `read`s it
+  first, then republishes with its `url`.
+- Vet green; play run green on all five screens (median frames 14–20 ms).
+- Nothing running: no PR subscription, no check-in scheduled.
 
 ## 7. Pointers
 
 - `docs/plans/mushroom-game-syama.paused.md`: § "How this elephant is eaten",
-  § "Eaten so far" item 8, the "**Open:**" paragraph (several of its claims
-  are corrected by the review: the 80.7%/45.1% are sample minimums, and
-  "the layout's reach is the painter's" should say the painter stays within
-  `maxReach`), and § "Rest of the elephant" (next: 9, a wider meadow).
-- Scratch sweeps from this review lived in `tmp/review-bite8/` and
-  `tmp/reader8/`, which a relay does not keep. The review comments carry
-  their numbers and seeds (visit 15663785, seeds 3545888893/2940784782;
-  visit 9273152; rim-wave seed 5091920).
-- `.claude/skills/megabeast/notes.md`: this session's entries are the pickup
-  note's last lines and the last four "Quality levers".
-- Play run: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`, then
-  `pnpm play:mushrooms --no-build --screens <one>`, under
-  `flock /tmp/mushroom-site.lock` when agents share the tree.
+  item 8, § "Rest of the elephant" (Open, then 9's opening paragraph).
+- `docs/remove-before-merging/ideas/operator-ideas.md`: the ideas, verbatim;
+  the documents go beside it.
+- `docs/remove-before-merging/handle-bite8/brief-common.md`: the common brief
+  template that ran six groups without collision.
+- `docs/remove-before-merging/frames/bite-8/handled/`: the handled frames.
+- `.claude/skills/megabeast/notes.md`: this session's entries are the last
+  three of "Friction found" and the last three of "Quality levers".
 
 ## 8. Next step
 
-/handle
+/go
 
-(The loop's step 3: answer every comment of review 5344789171 on GitHub, one
-commit per thread where practical, and never resolve a thread. Push the fixes,
-commit the handled frames to `frames/bite-8/`, and republish the Artifact.
-Then take bite 9 if context allows, otherwise pause and `/relay /go`. The
-clump-per-species and the porcini-stem comments are one fix, and may be big
-enough to count as a bite of their own, per the megabeast notes' "A review's
-fixes can be a bite of their own".)
+(The loop's step 1 for bite 9: its opening paragraph asks first for two
+documents in Russian, one per idea in `ideas/operator-ideas.md`. Each says how
+ready the existing code is and how drastic the changes to the rest of the plan
+and the current implementation would be. Post them on the PR. Then build only
+the parts of the wider meadow the first document finds hold either way, and
+end the bite as step 1 says, with frames, the Artifact and
+`/relay оставь код ревью на последний кусок`.)
