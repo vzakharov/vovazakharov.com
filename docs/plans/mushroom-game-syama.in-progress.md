@@ -687,8 +687,9 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
       synthesized, downtempo/trip-hop, never an acoustic kit ("Это не
       должно звучать как акустическая установка").
     - Every flower's hue is nudged from its seed, bounded so its class
-      still reads under the colour-blind ΔE check ("чтобы розовый два раза
-      не получался абсолютно одинаковый").
+      still reads by eye ("чтобы розовый два раза не получался абсолютно
+      одинаковый"). Colour blindness is not designed for yet ("давай туда
+      пока не будем идти, это всегда успеется").
     - Seeded flowers are pentatonic, C D E G A, plus a kick and a hat
       ("пусть будет пентатоника"); bees bring the other notes and drums.
     - Chords: several fingers at once, a compressor on `master` ("нужно,
