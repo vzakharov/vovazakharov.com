@@ -579,7 +579,21 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-9. **A wider meadow, cropped and zoomed.** The meadow is a world wider than
+9. **First, two documents on the operator's ideas.** Before any code, the
+   bite writes two documents in Russian, one per idea in the operator's
+   comment 4131492133 (kept verbatim in
+   `docs/remove-before-merging/ideas/operator-ideas.md`), each saying how
+   ready the existing code is for that idea and how drastic the changes to
+   the rest of this plan and to the current implementation would be. The
+   ideas themselves stay out of the plan ("Не вноси их пока ни в какой план,
+   но подготовь отдельные два документа (по одному на идею) … Исходя из
+   этого будем думать. Документы на русском."). The documents land in
+   `docs/remove-before-merging/ideas/` and are posted on the PR. The first
+   idea bears directly on the wider meadow below, so the bite builds only
+   the parts of it the first document finds hold either way, and leaves the
+   rest for the operator's call.
+
+   **A wider meadow, cropped and zoomed.** The meadow is a world wider than
    the screen, and the screen a window onto it: a rotation or a smaller
    screen changes the crop, not the layout, and the child pans left and
    right and pinches to zoom, a gesture known from photos ("если мы сделаем
