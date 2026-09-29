@@ -333,11 +333,20 @@ function groundIn({ layout, flowers, planted, mushrooms }: Stand): Ground {
  * every screen and is in sight on this one.
  */
 export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
-  const { layout, flowers, planted, mushrooms } = stand;
-  return (
-    flowers.length + planted.length < FLOWER_LIMIT &&
-    plantable(layout, foot, groundIn(stand), coversOn(layout, mushrooms))
-  );
+  const { flowers, planted } = stand;
+  return flowers.length + planted.length < FLOWER_LIMIT && roomIn(stand)(foot);
+}
+
+/**
+ * Whether a flower planted at a foot on `stand` would stand there and be in
+ * sight (`plantable`), however full the meadow: what `stand` holds read
+ * once, for every foot asked after.
+ */
+export function roomIn(stand: Stand): (foot: FlowerFoot) => boolean {
+  const { layout, mushrooms } = stand;
+  const ground = groundIn(stand);
+  const covers = coversOn(layout, mushrooms);
+  return (foot) => plantable(layout, foot, ground, covers);
 }
 
 /**

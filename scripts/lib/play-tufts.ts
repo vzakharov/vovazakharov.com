@@ -1,9 +1,10 @@
 /**
- * The child planting flowers, `play-mushrooms.ts`'s run on a fresh meadow: a
- * tuft that cannot take a flower shaking its head; the flower picker opened
- * on one that can, a colour picked, a shape picked, and that very flower
- * grown on the tuft; and the picker closed, planting nothing, by a second
- * tap on its tuft.
+ * The child planting flowers, `play-mushrooms.ts`'s run on a fresh meadow:
+ * the flower picker opened on the farthest tuft and on the nearest, as on
+ * every tuft of a meadow not yet full; a colour picked, a shape picked, and
+ * that very flower grown on the tuft; the tuft it grew on shaking its head
+ * at a second flower; and the picker opened on another tuft, then closed,
+ * planting nothing, by a second tap on it.
  */
 
 import { z } from 'zod';
@@ -91,27 +92,18 @@ export async function playTufts(
   const tufts = await page.evaluate(TUFTS, z.array(Point));
   expect(tufts.length > 0, 'no tuft a tap reaches bare');
 
-  // The farthest tufts stand past the flowers' band: one of them refuses.
+  // Every tuft of a meadow not yet full takes a flower, the farthest too.
   const [far] = tufts;
   if (far) {
     await page.tap(far);
-    await page.step(6);
-    const after = await planting();
-    if (after.open) {
-      note('the farthest tuft took a flower; no refusal shot');
-      await page.tap(far);
-      await page.step(20);
-    } else {
-      expect(
-        after.refusedAt !== null && after.clock - after.refusedAt < 1,
-        'a tuft with no room did not shake its head',
-      );
-      await page.shoot('tuft-0-refused');
-      await page.step(30);
-    }
+    await page.step(30);
+    expect((await planting()).open, 'the farthest tuft refused a flower');
+    await page.shoot('tuft-0-far');
+    await page.tap(far);
+    await page.step(20);
   }
 
-  // The nearest first, till one opens the picker.
+  // The nearest first, till one opens the picker: the nearest itself.
   const near = tufts.toReversed().slice(0, TRIES);
   const firstOpening = async ([tuft, ...rest]: ReadonlyArray<
     z.infer<typeof Point>
@@ -126,6 +118,7 @@ export async function playTufts(
     expect(false, `none of ${String(near.length)} tufts opened the picker`);
     return;
   }
+  expect(opened === near[0], 'the nearest tuft refused a flower');
   const before = await planting();
   expect(!before.chosen, 'the picker opened past its colours');
   await page.shoot('tuft-1-colours');
@@ -180,10 +173,29 @@ export async function playTufts(
     });
   }
 
-  // A second tap on a tuft with the picker open closes it, planting nothing.
-  const other = await firstOpening(
-    near.filter((tuft) => Math.hypot(tuft.x - opened.x, tuft.y - opened.y) > 1),
+  // The tuft the flower grew on takes no second one.
+  const bare = await page.evaluate(
+    `__probe.topAt(${JSON.stringify(opened)}) === null`,
+    z.boolean(),
   );
+  if (bare) {
+    await page.tap(opened);
+    await page.step(6);
+    const after = await planting();
+    expect(
+      !after.open &&
+        after.refusedAt !== null &&
+        after.clock - after.refusedAt < 1,
+      'a planted tuft did not shake its head at a second flower',
+    );
+    await page.shoot('tuft-5-refused');
+    await page.step(30);
+  } else {
+    note('the grown flower covers its tuft; no refusal shot');
+  }
+
+  // A second tap on a tuft with the picker open closes it, planting nothing.
+  const other = await firstOpening(near.filter((tuft) => tuft !== opened));
   if (!other) {
     note('no other tuft took a flower; no close-without-planting step');
     return;

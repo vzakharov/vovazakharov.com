@@ -422,7 +422,8 @@ export class MeadowScene extends Phaser.Scene {
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
     this.grass ??= new Grass(this);
-    this.grass.paint(layout, random);
+    const stand = this.stand();
+    if (stand) this.grass.paint(stand, random);
     // One device pixel is the thinnest line the screen shows.
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);

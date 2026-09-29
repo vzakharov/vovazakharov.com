@@ -8,7 +8,6 @@ import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { groundSeam, seamAt } from './skyline';
 
-const TUFTS_PER_1000PX = 52;
 const SEAM_TUFTS_PER_1000PX = 28;
 /** How far below the seam the tufts that break it up stand, as shares of the ground's depth. */
 const SEAM_SCATTER = [0.004, 0.09] as const;
@@ -42,34 +41,45 @@ export function tuftColours(down: number): TuftColours {
   };
 }
 
-/** Where the grass grows, drawn from `random`, so the same source regrows it. */
-export function growTufts(layout: MeadowLayout, random: Random): Tuft[] {
+/**
+ * A tuft rooted at `x`, `y` on `layout`, its breeze drawn from `random`:
+ * nearer tufts, lower on the screen, bigger, and farther ones fading into
+ * the ground.
+ */
+export function tuftOn(
+  layout: MeadowLayout,
+  x: number,
+  y: number,
+  random: Random,
+): Tuft {
+  const { height, groundTop } = layout;
+  const depth = height - groundTop;
+  const nearness = 0.6 + Math.max(0, y - groundTop) / depth;
+  return {
+    x,
+    y,
+    size: nearness * depth * 0.03,
+    phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
+    ...tuftColours(Math.max(0, y - groundTop) / depth),
+  };
+}
+
+/**
+ * The grass scattered just under the seam with the hills, following its
+ * waver, drawn from `random`, so the same source regrows it: it breaks the
+ * seam up rather than lining it, standing behind the flowers' band, where no
+ * flower is planted.
+ */
+export function seamGrass(layout: MeadowLayout, random: Random): Tuft[] {
   const { width, height, groundTop } = layout;
   const seam = groundSeam(layout);
   const depth = height - groundTop;
-  const tufts = Math.round((width / 1000) * TUFTS_PER_1000PX);
-  const seamTufts = Math.round((width / 1000) * SEAM_TUFTS_PER_1000PX);
-  return Array.from({ length: tufts + seamTufts }, (_, index) => {
-    // Bunched toward the back, where the ground recedes; the first few
-    // scatter just under the seam with the hills, following its waver, so
-    // they break it up rather than line it.
+  const count = Math.round((width / 1000) * SEAM_TUFTS_PER_1000PX);
+  return Array.from({ length: count }, () => {
     const x = between(random, 0, width);
-    const y =
-      index < seamTufts
-        ? seamAt(seam, x) +
-          depth *
-            (SEAM_SCATTER[0] +
-              (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6)
-        : groundTop + depth * between(random, 0.1, 0.98) ** 1.4;
-    // Nearer tufts, lower on the screen, are bigger.
-    const nearness = 0.6 + Math.max(0, y - groundTop) / depth;
-    return {
-      x,
-      y,
-      size: nearness * depth * 0.03,
-      phase: -x * GUST_LAG * Math.PI * 2 + between(random, -0.4, 0.4),
-      ...tuftColours(Math.max(0, y - groundTop) / depth),
-    };
+    const below =
+      SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
+    return tuftOn(layout, x, seamAt(seam, x) + depth * below, random);
   });
 }
 

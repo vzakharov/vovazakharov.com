@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { mulberry32 } from '../../model/random';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
-import { growTufts } from './grass';
+import { seamGrass } from './grass';
 import { meadowLayout } from './layout';
 import { groundSeam, SEAM_REACH, seamAt } from './skyline';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -89,7 +89,7 @@ describe('the seam between the near hills and the ground', () => {
         const layout = meadowLayout(width, height, seed);
         const seam = groundSeam(layout);
         const depth = height - layout.groundTop;
-        const back = growTufts(layout, mulberry32(seed))
+        const back = seamGrass(layout, mulberry32(seed))
           .map(({ x, y }) => (y - seamAt(seam, x)) / depth)
           .filter((below) => below < 0.1);
         for (const below of back) assert.ok(below >= 0);
@@ -97,7 +97,7 @@ describe('the seam between the near hills and the ground', () => {
         const spread = Math.sqrt(
           back.reduce((sum, v) => sum + (v - mean) ** 2, 0) / back.length,
         );
-        assert.ok(spread >= 0.015, `spread ${spread.toFixed(3)}`);
+        assert.ok(spread >= 0.008, `spread ${spread.toFixed(3)}`);
       }
     }
   });

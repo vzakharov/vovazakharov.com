@@ -6,17 +6,19 @@ import { mulberry32 } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { type Stand, takesFlower } from './flower-sight';
-import { growTufts, type Tuft } from './grass';
-import { TUFT_REACH, tuftAt, tuftFoot, tuftReach } from './tufts';
+import type { Tuft } from './grass';
+import { growTufts, TUFT_REACH, tuftAt, tuftFoot, tuftReach } from './tufts';
 import { FLOOR_HELD, VIEWPORTS } from './viewports';
 import { opened, relaidOn } from './visit-play';
 
 const SCREENS = [...VIEWPORTS, FLOOR_HELD] as const;
 /** How many visits each screen is tried over. */
-const VISITS = 12;
+const VISITS = 40;
+/** The fewest tufts a screen grows for the child to plant on. */
+const FEWEST_TUFTS = 6;
 
-const tuftsOf = ({ layout }: Stand, seed: number): Tuft[] =>
-  growTufts(layout, mulberry32(seed ^ 0x5e_ed));
+const tuftsOf = (stand: Stand, seed: number): Tuft[] =>
+  growTufts(stand, mulberry32(seed ^ 0x5e_ed));
 
 /** `stand` with a flower planted on `tuft`, as the scene plants it. */
 function plantedOn(stand: Stand, tuft: Tuft, seed: number): Stand {
@@ -62,22 +64,28 @@ describe('tuftAt', () => {
 
 describe('planting on a tuft', () => {
   for (const [name, width, height] of SCREENS) {
-    it(`some tuft takes a flower on the ${name}, which stands at its root`, () => {
+    it(`grows tufts on the ${name} that each take a flower, standing at its root, till the meadow is full`, () => {
       for (let visit = 0; visit < VISITS; visit++) {
         const seed = visit * 7919 + 3;
-        const stand = opened(seed, width, height, false);
+        let stand: Stand = opened(seed, width, height, false);
         const tufts = tuftsOf(stand, seed);
-        const taking = tufts.filter((tuft) =>
-          takesFlower(stand, tuftFoot(stand.layout.camera, tuft)),
-        );
-        assert.ok(taking.length > 0, `visit ${String(seed)}`);
-        const [tuft] = taking;
-        assert.ok(tuft);
-        const foot = tuftFoot(stand.layout.camera, tuft);
-        assert.equal(foot.size, FLOWER_SIZE);
-        const root = standingOn(stand.layout.camera, foot);
-        assert.ok(Math.abs(root.x - tuft.x) < 1e-6);
-        assert.ok(Math.abs(root.y - tuft.y) < 1e-6);
+        assert.ok(tufts.length >= FEWEST_TUFTS, `visit ${String(seed)}`);
+        for (const tuft of tufts) {
+          const foot = tuftFoot(stand.layout.camera, tuft);
+          const full =
+            stand.flowers.length + stand.planted.length >= FLOWER_LIMIT;
+          assert.equal(
+            takesFlower(stand, foot),
+            !full,
+            `visit ${String(seed)}`,
+          );
+          if (full) continue;
+          assert.equal(foot.size, FLOWER_SIZE);
+          const root = standingOn(stand.layout.camera, foot);
+          assert.ok(Math.abs(root.x - tuft.x) < 1e-6);
+          assert.ok(Math.abs(root.y - tuft.y) < 1e-6);
+          stand = plantedOn(stand, tuft, stand.planted.length + 60);
+        }
       }
     });
   }
@@ -107,7 +115,7 @@ describe('planting on a tuft', () => {
     }
   });
 
-  it('keeps every flower planted on a tuft through a turn and back', () => {
+  it('keeps every flower planted on a tuft through a turn and back, on a tuft of its own', () => {
     for (const [, width, height] of SCREENS) {
       const seed = 17;
       let stand: Stand = opened(seed, width, height, false);
@@ -128,10 +136,16 @@ describe('planting on a tuft', () => {
           stand.planted,
           stand.mushrooms,
         );
+        const regrown = tuftsOf({ ...stand, layout }, seed);
         for (const { id } of stand.planted) {
+          const flower = standing.find((each) => each.id === id);
+          assert.ok(flower, `${id} gone on ${String(across)}×${String(down)}`);
           assert.ok(
-            standing.some((flower) => flower.id === id),
-            `${id} gone on ${String(across)}×${String(down)}`,
+            regrown.some(
+              ({ x, y }) =>
+                Math.hypot(x - flower.place.x, y - flower.place.y) < 1e-6,
+            ),
+            `${id} off the grass on ${String(across)}×${String(down)}`,
           );
         }
       }
