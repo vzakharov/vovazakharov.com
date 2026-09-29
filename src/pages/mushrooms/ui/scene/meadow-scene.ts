@@ -18,7 +18,6 @@ import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
-import { flowerFeet } from './flower-plots';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
 import { type MeadowLayout, meadowLayout, type Opening } from './layout';
@@ -246,18 +245,10 @@ export class MeadowScene extends Phaser.Scene {
     if (room?.mushrooms === mushrooms && room.planted === planted) {
       return room.foot;
     }
-    const stand = {
-      layout,
-      flowers: flowers?.seeded ?? [],
-      mushrooms,
-      planted,
-    };
-    const foot = roomFor({
-      screen: layout,
-      mushrooms,
-      flowers: flowerFeet(stand),
-      seed: upcoming,
-    });
+    const foot = roomFor(
+      { layout, flowers: flowers?.seeded ?? [], mushrooms, planted },
+      upcoming,
+    );
     this.room = { mushrooms, planted, foot };
     return foot;
   }

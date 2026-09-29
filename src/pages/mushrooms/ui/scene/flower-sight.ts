@@ -27,16 +27,12 @@ import {
 } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Plot } from '../../model/pollen';
-import { claimedPlaces, placeIn } from './clump-layout';
+import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
-import {
-  FLOWER_SWAY,
-  type FlowerFoot,
-  groundOf,
-  standingOn,
-} from './flower-layout';
+import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
 import {
   groundFor,
+  mushroomFeet,
   type Placed,
   RING_SLOTS,
   ringFoot,
@@ -314,9 +310,8 @@ function plantable(
 
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable`, in sight on this screen, off every
- * place a mushroom stands or may yet grow (`claimedPlaces`), so no mushroom
- * ever grows on a flower planted while its slot stood free.
+ * no planted flower takes that is `plantable`, in sight on this screen, off
+ * the foot of every mushroom standing (`mushroomFeet`).
  */
 export function roomFor(
   { layout, flowers, planted, mushrooms }: Stand,
@@ -326,9 +321,7 @@ export function roomFor(
   const here = standingFlowers(layout, flowers, planted, mushrooms);
   const ground: Ground = {
     standing: here,
-    claimed: claimedPlaces(layout.mushrooms, mushrooms).map((place) =>
-      groundOf(layout.camera, place),
-    ),
+    claimed: mushroomFeet(layout, mushrooms),
   };
   return shown.flatMap((id) => {
     const parent = here.find((flower) => flower.id === id);

@@ -78,7 +78,7 @@ export type MeadowLayout = Sized &
 export type Opening = Screened & { openers: readonly Opener[] };
 
 /** The screen, in CSS px, something is laid out on. */
-export type Screened = { screen: Sized };
+type Screened = { screen: Sized };
 
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize

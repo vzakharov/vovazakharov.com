@@ -40,8 +40,7 @@ export type Framed = { frame: Frame };
 
 /**
  * A ground point as a camera shows it: where on the screen, how big one of
- * the clump's size stands there, how hazy, and the depth it is drawn at —
- * the nearer, the deeper, so it is drawn over what stands behind.
+ * the clump's size stands there, how hazy, and the depth it is drawn at.
  */
 export type Projected = Point & Hazed & Layered & { scale: number };
 

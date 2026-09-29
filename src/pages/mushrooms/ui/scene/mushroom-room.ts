@@ -3,21 +3,23 @@
  * the mushroom grown there, of whichever species the child picks, keeps
  * every rule the meadow keeps on the screen it is laid out on and on that
  * screen turned, so a rotation never makes a mushroom break one: a meadow
- * never leaves the browser it lives in, where a turn is what can happen. Judged as the
- * scene stands and draws it: its cap inside `EDGE_MARGIN`, no cap more than
- * `MOST_HIDDEN` behind a nearer one's, every door in sight (`doorInSight`),
- * every control, the sun's rays and its wash off it, and off every flower.
+ * never leaves the browser it lives in, where a turn is what can happen.
+ * Judged as the scene stands and draws it: its cap inside `EDGE_MARGIN`, no
+ * cap more than `MOST_HIDDEN` behind a nearer one's, every door in sight
+ * (`doorInSight`), every control, the sun's rays and its wash off it, and
+ * off every flower.
  */
 
 import type { Sized } from '@/shared/typings';
 
-import type { Meadow, Planted } from '../../model/game';
+import type { Planted } from '../../model/game';
 import {
   type Box,
   boxAround,
   boxesMeet,
   type Circle,
   containsPoint,
+  distanceToEdge,
   type Point,
 } from '../../model/geometry';
 import type { Ground } from '../../model/ground';
@@ -25,7 +27,6 @@ import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import { apartOnScreen, pickFoot } from '../../model/placement';
-import type { Seeded } from '../../model/random';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
@@ -36,8 +37,9 @@ import {
   standingAs,
   standingAt,
 } from './door-sight';
-import type { FlowerFoot } from './flower-layout';
-import { meadowStage, type Placement, type Screened } from './layout';
+import { flowerFeet } from './flower-plots';
+import type { Stand } from './flower-sight';
+import { meadowStage, type Placement } from './layout';
 import { EDGE_MARGIN, meadowFrame } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
@@ -96,26 +98,7 @@ function screensOf(screen: Sized): Screens {
 
 /** How far `point` is from the closed `outline`: 0 inside it. */
 function distanceTo(outline: readonly Point[], point: Point): number {
-  if (containsPoint(outline, point)) return 0;
-  let least = Infinity;
-  for (const [index, a] of outline.entries()) {
-    const b = outline[(index + 1) % outline.length] ?? a;
-    const length = (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
-    const along =
-      length === 0
-        ? 0
-        : ((point.x - a.x) * (b.x - a.x) + (point.y - a.y) * (b.y - a.y)) /
-          length;
-    const t = Math.min(1, Math.max(0, along));
-    least = Math.min(
-      least,
-      Math.hypot(
-        point.x - (a.x + t * (b.x - a.x)),
-        point.y - (a.y + t * (b.y - a.y)),
-      ),
-    );
-  }
-  return least;
+  return containsPoint(outline, point) ? 0 : distanceToEdge(outline, point);
 }
 
 /**
@@ -294,28 +277,15 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
 }
 
 /**
- * What the next mushroom grows among: the screen the meadow is laid out on,
- * the mushrooms and flowers standing, and its own seed.
+ * Where the mushroom grown from `seed` grows in `stand`, as the scene and
+ * the visit a sweep opens both find it, whichever species the child picks:
+ * `undefined` where the meadow has no room left for one. It keeps off every
+ * flower standing there (`flowerFeet`), and each foot is tried on the cheap
+ * rules on both screens first, then the controls, then the doors.
  */
-export type Growing = Screened &
-  Pick<Meadow, 'mushrooms'> &
-  Seeded & {
-    /** Every flower standing, seeded and planted, on the ground (`flowerFeet`). */
-    flowers: readonly FlowerFoot[];
-  };
-
-/**
- * Where the mushroom grown from `seed` grows among `mushrooms` and
- * `flowers`, whichever species the child picks: `undefined` where the
- * meadow has no room left for one. Each foot is tried on the cheap rules on
- * both screens first, then the controls, then the doors.
- */
-export function roomFor({
-  screen,
-  mushrooms,
-  flowers,
-  seed,
-}: Growing): Ground | undefined {
+export function roomFor(stand: Stand, seed: number): Ground | undefined {
+  const { layout: screen, mushrooms } = stand;
+  const flowers = flowerFeet(stand);
   const screens = screensOf(screen);
   const stood = standingOn(mushrooms, screens);
   const grown = MUSHROOM_SPECIES.map((species) =>

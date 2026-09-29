@@ -122,6 +122,20 @@ export function groundFor(
 }
 
 /**
+ * The foot of each of `mushrooms` that `layout` shows, on the ground, for a
+ * flower to keep off (`groundFor`). A mushroom yet to grow keeps off every
+ * flower (`pickFoot`), so a flower keeps off only these.
+ */
+export function mushroomFeet(
+  layout: MeadowLayout,
+  mushrooms: Meadow['mushrooms'],
+): FlowerFoot[] {
+  return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
+    groundOf(layout.camera, place),
+  );
+}
+
+/**
  * Every flower that stands on `layout` among `mushrooms`: the seeded ones of
  * the visit's bed, then each planted one round its parent, in the order they
  * opened, so a parent always stands before its children. A planted flower
@@ -136,9 +150,7 @@ export function standingFlowers(
   mushrooms: Meadow['mushrooms'],
 ): StandingFlower[] {
   const { camera, flowers } = layout;
-  const feet = standingPlaces(layout.mushrooms, mushrooms).map((place) =>
-    groundOf(camera, place),
-  );
+  const feet = mushroomFeet(layout, mushrooms);
   const standing: StandingFlower[] = seeded.flatMap((flower, index) => {
     const place = flowers[index];
     return place ? [{ ...flower, place, foot: groundOf(camera, place) }] : [];

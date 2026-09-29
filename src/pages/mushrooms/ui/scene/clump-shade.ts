@@ -1,6 +1,7 @@
 /**
  * How much of a flower's head the mushrooms a visit opens with draw over:
- * each mushroom's caps and stem as drawn, where the layout stands it, read as a silhouette of cells so a flower's many tries stay cheap.
+ * each mushroom's caps and stem as drawn, where the layout stands it, read
+ * as a silhouette of cells so a flower's many tries stay cheap.
  */
 
 import type { Planted } from '../../model/game';

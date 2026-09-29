@@ -16,7 +16,6 @@ import {
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
-import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
@@ -53,12 +52,7 @@ export function opened(
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
     const own = nextSeed(growing);
     const { mushrooms, planted } = meadow;
-    const foot = roomFor({
-      screen: { width, height },
-      mushrooms,
-      flowers: flowerFeet({ layout, flowers, mushrooms, planted }),
-      seed: own,
-    });
+    const foot = roomFor({ layout, flowers, mushrooms, planted }, own);
     if (!foot) break;
     meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
   }

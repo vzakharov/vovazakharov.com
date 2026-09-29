@@ -39,7 +39,7 @@ export const IN_SIGHT = 0.8;
 /** How many points across a door its sight is read at; down it, as many more as it is taller. */
 const SIGHT_STEPS = 8;
 
-/** A mushroom as the scene stands it in its slot. */
+/** A mushroom as the scene stands it on its foot. */
 export type Standing = Splayed &
   Layered & {
     /** An outline in the mushroom's own frame, where it stands on screen. */

@@ -150,15 +150,3 @@ export function standingPlaces(
 ): Placement[] {
   return standing.flatMap((mushroom) => placeIn(ground, mushroom) ?? []);
 }
-
-/**
- * Every place on the screen `ground` is for that a mushroom stands, with
- * `standing` in them. A mushroom yet to grow keeps off every flower
- * (`pickFoot`), so a flower keeps off only these.
- */
-export function claimedPlaces(
-  ground: MushroomGround,
-  standing: readonly Footed[],
-): Placement[] {
-  return standingPlaces(ground, standing);
-}
