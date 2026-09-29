@@ -27,7 +27,7 @@ const TIP_FROM = 0.6;
 /** A tuft's blades' colours, toned by its distance: the two flanking blades, the middle one, and every blade's lit crown. */
 type TuftColours = { flank: number; middle: number; crown: number };
 
-type Tuft = Footing & Phased & TuftColours;
+export type Tuft = Footing & Phased & TuftColours;
 
 /** A tuft's colours `down` of the way from the ground's top to the bottom edge, fading into the ground the farther back it stands. */
 export function tuftColours(down: number): TuftColours {

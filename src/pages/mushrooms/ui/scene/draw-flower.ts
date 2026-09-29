@@ -84,6 +84,84 @@ function paintRing(
   }
 }
 
+/** A flower's ink width at `size`. */
+const inkAt = (size: number): number => Math.max(1.5, size * 0.018);
+
+/** Paints a flower's stem and leaf into `graphics`, its foot at the origin. */
+export function paintFlowerStem(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: FlowerGenes,
+  size: number,
+  lighting: Lighting,
+): void {
+  const ink = inkAt(size);
+  const top = flowerHead(genes, size);
+  const line = sample(0, 1, STEM_STEPS, (t) => ({
+    // A quadratic from the foot, rising upright before it bends.
+    x: top.x * t * t,
+    y: top.y * t,
+  }));
+  paintCastShadow(graphics, [size * 0.34, size * 0.06], lighting);
+  const leafFoot = line[Math.round(genes.leafAt * STEM_STEPS)] ?? line[0];
+  if (leafFoot) {
+    const leaf = petal(
+      leafFoot,
+      -Math.PI / 2 + genes.leafSide * 1.05,
+      [0, size * 0.3],
+      size * 0.07,
+    );
+    inkedFill(graphics, leaf, PALETTE.leaf, ink, lighting);
+  }
+  // The ink either side of the green thins from the foot to the head.
+  graphics.fillStyle(inkFor(PALETTE.flowerStem));
+  strokeTapered(
+    graphics,
+    line,
+    [ink * (STEM_GREEN + STEM_EDGE), ink * (STEM_GREEN + STEM_EDGE * TAPER)],
+    lighting,
+  );
+  graphics.lineStyle(ink * STEM_GREEN, PALETTE.flowerStem);
+  strokeLine(graphics, line);
+}
+
+/** Paints a flower's head into `graphics`, its middle at the origin. */
+export function paintFlowerHead(
+  graphics: Phaser.GameObjects.Graphics,
+  genes: FlowerGenes,
+  size: number,
+  lighting: Lighting,
+): void {
+  const ink = inkAt(size);
+  const outer = petalColour(genes);
+  paintRing(graphics, genes, size, [1, 0, outer], ink, lighting);
+  if (genes.rings === 2) {
+    paintRing(
+      graphics,
+      genes,
+      size,
+      [0.62, Math.PI / genes.fold, mix(outer, PALETTE.highlight, INNER_PALE)],
+      ink,
+      lighting,
+    );
+  }
+  const centre = genes.centre * size;
+  const { toward } = lighting;
+  inkedDisc(
+    graphics,
+    { x: 0, y: 0 },
+    centre,
+    PALETTE.flowerCentreDeep,
+    ink,
+    lighting,
+  );
+  graphics.fillStyle(PALETTE.flowerCentre);
+  graphics.fillCircle(
+    toward.x * centre * 0.2,
+    toward.y * centre * 0.2,
+    centre * 0.75,
+  );
+}
+
 /**
  * Paints a flower into its two parts: `stem`, whose origin is the foot, and
  * `head`, which this moves to the stem's top so opening it scales the head
@@ -95,65 +173,13 @@ export function drawFlower(
   size: number,
   lighting: Lighting,
 ): number {
-  const ink = Math.max(1.5, size * 0.018);
   const top = flowerHead(genes, size);
-  const line = sample(0, 1, STEM_STEPS, (t) => ({
-    // A quadratic from the foot, rising upright before it bends.
-    x: top.x * t * t,
-    y: top.y * t,
-  }));
-
-  stem.clear();
-  paintCastShadow(stem, [size * 0.34, size * 0.06], lighting);
-  const leafFoot = line[Math.round(genes.leafAt * STEM_STEPS)] ?? line[0];
-  if (leafFoot) {
-    const leaf = petal(
-      leafFoot,
-      -Math.PI / 2 + genes.leafSide * 1.05,
-      [0, size * 0.3],
-      size * 0.07,
-    );
-    inkedFill(stem, leaf, PALETTE.leaf, ink, lighting);
-  }
-  // The ink either side of the green thins from the foot to the head.
-  stem.fillStyle(inkFor(PALETTE.flowerStem));
-  strokeTapered(
-    stem,
-    line,
-    [ink * (STEM_GREEN + STEM_EDGE), ink * (STEM_GREEN + STEM_EDGE * TAPER)],
+  paintFlowerStem(stem.clear(), genes, size, lighting);
+  paintFlowerHead(
+    head.clear().setPosition(top.x, top.y),
+    genes,
+    size,
     lighting,
-  );
-  stem.lineStyle(ink * STEM_GREEN, PALETTE.flowerStem);
-  strokeLine(stem, line);
-
-  head.clear().setPosition(top.x, top.y);
-  const outer = petalColour(genes);
-  paintRing(head, genes, size, [1, 0, outer], ink, lighting);
-  if (genes.rings === 2) {
-    paintRing(
-      head,
-      genes,
-      size,
-      [0.62, Math.PI / genes.fold, mix(outer, PALETTE.highlight, INNER_PALE)],
-      ink,
-      lighting,
-    );
-  }
-  const centre = genes.centre * size;
-  const { toward } = lighting;
-  inkedDisc(
-    head,
-    { x: 0, y: 0 },
-    centre,
-    PALETTE.flowerCentreDeep,
-    ink,
-    lighting,
-  );
-  head.fillStyle(PALETTE.flowerCentre);
-  head.fillCircle(
-    toward.x * centre * 0.2,
-    toward.y * centre * 0.2,
-    centre * 0.75,
   );
   return top.r;
 }

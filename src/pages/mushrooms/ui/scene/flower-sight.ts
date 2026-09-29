@@ -27,7 +27,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import { type Plot, slotTaken } from '../../model/pollen';
+import { FLOWER_LIMIT, type Plot, slotTaken } from '../../model/pollen';
 import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
 import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
@@ -318,23 +318,42 @@ function plantable(
   );
 }
 
+/** The flowers standing in `stand`, and the mushrooms' feet a planting keeps off. */
+function groundIn({ layout, flowers, planted, mushrooms }: Stand): Ground {
+  return {
+    standing: standingFlowers(layout, flowers, planted, mushrooms),
+    claimed: mushroomFeet(layout, mushrooms),
+  };
+}
+
+/**
+ * Whether the child can plant a flower at `foot` on `stand`: the meadow
+ * holds fewer than `FLOWER_LIMIT`, the seeded flowers counted, and the foot
+ * is `plantable` as a bee's planting would be, so the flower stands on
+ * every screen and is in sight on this one.
+ */
+export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
+  const { layout, flowers, planted, mushrooms } = stand;
+  return (
+    flowers.length + planted.length < FLOWER_LIMIT &&
+    plantable(layout, foot, groundIn(stand), coversOn(layout, mushrooms))
+  );
+}
+
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
  * no planted flower takes that is `plantable`, in sight on this screen, off
  * the foot of every mushroom standing (`mushroomFeet`).
  */
 export function roomFor(
-  { layout, flowers, planted, mushrooms }: Stand,
+  stand: Stand,
   shown: readonly string[],
   covers: readonly Cover[],
 ): Plot['room'] {
-  const here = standingFlowers(layout, flowers, planted, mushrooms);
-  const ground: Ground = {
-    standing: here,
-    claimed: mushroomFeet(layout, mushrooms),
-  };
+  const { layout, planted } = stand;
+  const ground = groundIn(stand);
   return shown.flatMap((id) => {
-    const parent = here.find((flower) => flower.id === id);
+    const parent = ground.standing.find((flower) => flower.id === id);
     if (!parent) return [];
     const ring = RING_SLOTS.findIndex((_, slot) => {
       if (slotTaken(planted, id, slot)) return false;

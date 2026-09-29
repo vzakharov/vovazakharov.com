@@ -71,7 +71,7 @@ export const FLOWER_DOWN = [0.12, 0.96] as const;
 /** Tries at a spot off the slot before a flower is left out. */
 const FLOWER_TRIES = 48;
 /** A flower's height, as a share of the clump's size, before depth scales it. */
-const FLOWER_SIZE = 0.28;
+export const FLOWER_SIZE = 0.28;
 /**
  * How far round a mushroom's foot, per unit of its size, no flower stands: the
  * foot and its shadow, the one thing Syama drew being two stems standing
