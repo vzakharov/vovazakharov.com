@@ -35,7 +35,7 @@ const CANDIDATES = 12;
  * How many rounds of `CANDIDATES` a pick draws before it gives up, when
  * none of a round's is admitted.
  */
-const ROUNDS = 4;
+const ROUNDS = 32;
 /**
  * How close, as a camera lays the ground out (`seen`), in the clump's size, a
  * foot comes to another mushroom's foot at the nearest.
