@@ -12,8 +12,14 @@ import { z } from 'zod';
 import { PALETTE } from '../../src/pages/mushrooms/ui/scene/palette.ts';
 import type { Page } from './mushroom-probe.ts';
 
-/** How far past its outline a sample stands, in the band's half-width outside it. */
+/**
+ * How far past its outline each point's two samples stand, in the band's
+ * half-width outside it. A gap is ground at both: the near one alone may land
+ * on the mushroom's own ink where the band is at its floor width, the far one
+ * alone past a corner's bevelled join.
+ */
 const OUT = 0.6;
+const FAR = 0.85;
 /** How near another outline, in the mushroom's size, a sample may land on its ink: plus a pixel of antialiasing. */
 const INK_CLEAR = 0.025;
 /** How far, per channel, a drawn pixel may stray from the band's yellow. */
@@ -87,6 +93,7 @@ function source(id: string, [r, g, b]: readonly number[]): string {
     const { width, paths } = stroked(graphics);
     const matrix = graphics.getWorldTransformMatrix();
     const out = ${String(OUT)} * width / 2;
+    const far = ${String(FAR)} * width / 2;
     paths.forEach((path, which) => {
       const points = path.filter((p, i) => i === 0 || Math.hypot(p.x - path[i - 1].x, p.y - path[i - 1].y) > 1e-6);
       if (Math.hypot(points[0].x - points.at(-1).x, points[0].y - points.at(-1).y) <= 1e-6) points.pop();
@@ -98,23 +105,28 @@ function source(id: string, [r, g, b]: readonly number[]): string {
         const before = points[(index - 1 + points.length) % points.length];
         const after = points[(index + 1) % points.length];
         const length = Math.hypot(after.x - before.x, after.y - before.y) || 1;
-        const local = {
-          x: point.x + (turn * (after.y - before.y) * out) / length,
-          y: point.y - (turn * (after.x - before.x) * out) / length,
+        const at = (reach) => ({
+          x: point.x + (turn * (after.y - before.y) * reach) / length,
+          y: point.y - (turn * (after.x - before.x) * reach) / length,
+        });
+        // Its own outline stands \`reach\` off by construction; any other may cover it.
+        const open = (reach) => {
+          const local = at(reach);
+          if (near(points, local) < reach * 0.8) return null;
+          const screen = matrix.transformPoint(local.x, local.y, {});
+          const own = body.applyInverse(screen.x, screen.y, {});
+          const covered = parts.some(
+            (part) =>
+              !(name === 'band' && part === parts[which]) &&
+              (inside(part, own) || near(part, own) < clear),
+          );
+          return covered ? null : { x: screen.x, y: screen.y };
         };
-        if (near(points, local) < out * 0.8) return;
-        const screen = matrix.transformPoint(local.x, local.y, {});
-        const own = body.applyInverse(screen.x, screen.y, {});
-        // Its own outline stands \`out\` off by construction; any other may cover it.
-        const covered = parts.some(
-          (part) =>
-            !(name === 'band' && part === parts[which]) &&
-            (inside(part, own) || near(part, own) < clear),
-        );
-        if (covered) return;
+        const screen = open(out);
+        if (!screen) return;
         sampled += 1;
         if (index === 0) first = true;
-        samples.push({ outline, index, x: screen.x, y: screen.y });
+        samples.push({ outline, index, ...screen, beyond: open(far) });
       });
       outlines.push({ outline, sampled, first });
     });
@@ -134,14 +146,21 @@ function source(id: string, [r, g, b]: readonly number[]): string {
   window.__game.step(scene.clock * 1000, 0);
   // From the world, where the scene lays things out, to the canvas's own pixels.
   const camera = scene.cameras.main.matrixCombined;
-  const gaps = samples.flatMap(({ outline, index, x, y }) => {
+  /** The drawn pixel at world point \`x\`, \`y\`, and whether it strays from the band's yellow; null off the canvas. */
+  const read = ({ x, y }) => {
     const pixel = camera.transformPoint(x, y, {});
     const [px, py] = [Math.round(pixel.x), Math.round(pixel.y)];
-    if (px < 0 || py < 0 || px >= copy.width || py >= copy.height) return [];
+    if (px < 0 || py < 0 || px >= copy.width || py >= copy.height) return null;
     const rgb = [...context.getImageData(px, py, 1, 1).data.slice(0, 3)];
     const [r, g, b] = rgb;
     const off = Math.max(Math.abs(r - ${String(r)}), Math.abs(g - ${String(g)}), Math.abs(b - ${String(b)}));
-    return off > ${String(TOLERANCE)} ? [{ outline, index, x, y, rgb }] : [];
+    return { rgb, off: off > ${String(TOLERANCE)} };
+  };
+  const gaps = samples.flatMap(({ outline, index, x, y, beyond }) => {
+    const nearer = read({ x, y });
+    if (!nearer?.off) return [];
+    const farther = beyond && read(beyond);
+    return farther && !farther.off ? [] : [{ outline, index, x, y, rgb: nearer.rgb }];
   });
   return { outlines, gaps };
 })()`;
