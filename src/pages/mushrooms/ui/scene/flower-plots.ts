@@ -28,9 +28,12 @@ import type { Footing, MeadowLayout } from './layout';
 /**
  * Each ring slot round a parent, in the order a bee's plantings take them:
  * across and into the distance on the ground from the parent's foot, in the
- * parent's size. Beside it either way, then before it, then behind it, so
- * the bed grows round and each head stands clear of its neighbours' however
- * foreshortened the screen shows the ground.
+ * parent's size. The near ring first, then a ring twice as far out, which
+ * reaches past a mushroom standing beside the parent, so a full forest
+ * still leaves the bees ground to plant on; in each ring beside it either
+ * way, then before it, then behind it, so the bed grows round and each head
+ * stands clear of its neighbours' however foreshortened the screen shows the
+ * ground.
  */
 export const RING_SLOTS: readonly Ground[] = [
   { x: 1.1, z: 0 },
@@ -39,6 +42,18 @@ export const RING_SLOTS: readonly Ground[] = [
   { x: -0.5, z: -1.2 },
   { x: 0.5, z: 1.2 },
   { x: -0.5, z: 1.2 },
+  { x: 2.3, z: 0 },
+  { x: -2.3, z: 0 },
+  { x: 2, z: -1.15 },
+  { x: -2, z: -1.15 },
+  { x: 2, z: 1.15 },
+  { x: -2, z: 1.15 },
+  { x: 1.15, z: -2 },
+  { x: -1.15, z: -2 },
+  { x: 1.15, z: 2 },
+  { x: -1.15, z: 2 },
+  { x: 0, z: -2.3 },
+  { x: 0, z: 2.3 },
 ];
 
 /** Where a flower stands on one screen. */
