@@ -29,6 +29,9 @@ const MOST_LOOKS = 80;
  * however far a wide screen stretches it (`stride`), up to `MOST_LOOKS`.
  */
 const PERCH_LOOKS = 24;
+/** Frames between looks for a resting butterfly that leaves some of its cap showing, and the most looks. */
+const REST_LOOK = 30;
+const REST_LOOKS = 12;
 
 export type Insect = z.infer<typeof Insects>[number];
 
@@ -341,20 +344,36 @@ export async function playInsects(
   await page.step(4);
   await page.shoot('b5-tapped-through');
 
-  // A mushroom sunk under a resting butterfly sends it off.
-  const onCap = await waitForCapRest();
-  if (onCap?.to.kind !== 'cap') {
+  // A mushroom sunk under a resting butterfly sends it off. The cap is
+  // tapped where it shows past the butterfly, since a tap on the butterfly
+  // would startle it first; a butterfly covering a small cap whole is waited
+  // out, the cap still reached through it (`playSpecies`).
+  const restShowing = async (
+    looks: number,
+  ): Promise<
+    | { onCap: Insect; capId: string; capAt: z.infer<typeof Point> | null }
+    | undefined
+  > => {
+    const onCap = await waitForCapRest();
+    if (onCap?.to.kind !== 'cap') return undefined;
+    const capId = onCap.to.id;
+    const capAt = await page.evaluate(
+      `__probe.mushroom(${JSON.stringify(capId)})`,
+      Point.nullable(),
+    );
+    if (capAt !== null || looks === 0) return { onCap, capId, capAt };
+    await page.step(REST_LOOK);
+    return restShowing(looks - 1);
+  };
+  const rest = await restShowing(REST_LOOKS);
+  if (rest === undefined) {
     expect(false, 'no butterfly ever rested on a cap');
     return;
   }
-  const capId = onCap.to.id;
+  const { onCap, capId, capAt } = rest;
   await page.shoot('b6-resting');
-  const capAt = await page.evaluate(
-    `__probe.mushroom(${JSON.stringify(capId)})`,
-    Point.nullable(),
-  );
   if (capAt === null) {
-    expect(false, `no tap on ${capId}'s cap reaches it`);
+    expect(false, 'no butterfly rested on a cap left showing past it');
     return;
   }
   await page.tap(capAt);

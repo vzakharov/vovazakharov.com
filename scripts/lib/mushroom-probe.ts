@@ -67,11 +67,11 @@ export const PROBE = `(() => {
   };
   /**
    * Of a grid over \`points\`' box, in \`graphics\`' frame, the point on
-   * screen nearest their middle whose tap reaches \`label\` (\`topAt\`):
-   * where the thing shows, however much of it stands behind something else.
-   * \`null\` where none does.
+   * screen nearest their middle whose tap reaches one of \`labels\`
+   * (\`topAt\`): where the thing shows, however much of it stands behind
+   * something else. \`null\` where none does.
    */
-  const reaching = (graphics, points, label) => {
+  const reaching = (graphics, points, labels) => {
     const middle = onScreen(graphics, points);
     const xs = points.map(({ x }) => x);
     const ys = points.map(({ y }) => y);
@@ -91,7 +91,7 @@ export const PROBE = `(() => {
     }
     const away = ({ x, y }) => Math.hypot(x - middle.x, y - middle.y);
     const [nearest] = grid
-      .filter((point) => topAt(point) === label)
+      .filter((point) => labels.includes(topAt(point)))
       .sort((a, b) => away(a) - away(b));
     return nearest ?? null;
   };
@@ -164,10 +164,21 @@ export const PROBE = `(() => {
       const [x, y] = [Math.min(...xs), Math.min(...ys)];
       return { x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y };
     },
-    /** Where a tap selects a mushroom, as near its cap's middle as its cap shows (\`reaching\`). */
-    mushroom: (id) => {
+    /**
+     * Where a tap selects a mushroom, as near its cap's middle as its cap
+     * shows (\`reaching\`). With \`through\` set, where no tap reaches the
+     * cap itself, where one reaches an insect perched on it, which passes
+     * the tap on to the cap (\`tapInsect\`): a butterfly can cover a small
+     * cap whole.
+     */
+    mushroom: (id, through = false) => {
       const shown = scene.bed.shown.get(id);
-      return reaching(shown.graphics, shown.hit.cap, 'mushroom:' + id);
+      const own = reaching(shown.graphics, shown.hit.cap, ['mushroom:' + id]);
+      if (own !== null || !through) return own;
+      const perched = scene.meadow.insects
+        .filter(({ leg }) => leg.to.kind === 'cap' && leg.to.id === id)
+        .map((insect) => 'insect:' + insect.id);
+      return reaching(shown.graphics, shown.hit.cap, perched);
     },
     /** The middle of a mushroom's door as its hit area has it, on screen: \`null\` with no door painted. */
     door: (id) => {

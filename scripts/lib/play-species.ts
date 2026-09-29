@@ -1,8 +1,9 @@
 /**
  * The species' part of `play-mushrooms.ts`'s run, on a fresh meadow: each of
  * the four grown from its picker button, looked at close, tapped and
- * wobbling; the meadow full of them; a butterfly come down on one; and a
- * house on a porcini and on a chanterelle, windows and door, looked at close.
+ * wobbling; the meadow full of them, each taken by a tap of its own; a
+ * butterfly come down on one; and a house on a porcini and on a
+ * chanterelle, windows and door, looked at close.
  */
 
 import { setTimeout as sleep } from 'node:timers/promises';
@@ -77,9 +78,11 @@ export async function playSpecies(
       height: side,
     });
   };
+  // Through a butterfly resting on it, if that is where the cap shows: by
+  // the house step a butterfly may cover the chanterelle's whole trumpet.
   const tapMushroom = async (id: string) => {
     const at = await page.evaluate(
-      `__probe.mushroom(${JSON.stringify(id)})`,
+      `__probe.mushroom(${JSON.stringify(id)}, true)`,
       Point.nullable(),
     );
     if (at === null) expect(false, `no tap reaches ${id}'s cap`);
@@ -127,6 +130,19 @@ export async function playSpecies(
       );
     }
   });
+
+  // Every mushroom of the grown forest, the opening clump's two too, taken
+  // by a tap of its own.
+  const forest = await state();
+  await inTurn(forest.mushrooms, async (id) => {
+    if (!(await tapMushroom(id))) return;
+    await page.step(6);
+    expect(
+      (await state()).selected === id,
+      `a tap on ${id} in the grown forest did not select it`,
+    );
+  });
+  note(`tapped each of the grown forest's ${String(forest.mushrooms.length)}`);
 
   // The whole meadow, nothing selected, every species standing.
   const bare = await Promise.all(
