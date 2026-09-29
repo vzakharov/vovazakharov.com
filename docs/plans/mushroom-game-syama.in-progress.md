@@ -675,7 +675,30 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-9. **A wider meadow, cropped and zoomed.** The ideas in the operator's
+10. **The flowers as an instrument.** The operator's second idea, placed
+    here on their word (review 5354936232, "да, ок" to "сразу после текущего
+    байта 9, до пунктов 10–12"). The design is
+    `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`, its
+    § «Что ты решил» overriding the rest:
+    - Five flower colours stay. Three colours × four shapes (`petal` ×
+      `rings`) are twelve pitch classes, played by the nearest-note rule
+      over three octaves; the other two colours × four shapes are eight
+      drums — kick, snare, hat, three toms, shaker, rim — soft and
+      synthesized, downtempo/trip-hop, never an acoustic kit ("Это не
+      должно звучать как акустическая установка").
+    - Every flower's hue is nudged from its seed, bounded so its class
+      still reads under the colour-blind ΔE check ("чтобы розовый два раза
+      не получался абсолютно одинаковый").
+    - Seeded flowers are pentatonic, C D E G A, plus a kick and a hat
+      ("пусть будет пентатоника"); bees bring the other notes and drums.
+    - Chords: several fingers at once, a compressor on `master` ("нужно,
+      да, особенно с учётом барабанов"). Whether item 11 needs a pinch at
+      all is left to the operator's call on the first idea.
+    - Keyboard on the canvas host: `g h j k l ; '` the white keys C–B, `y
+      u o p [` the sharps, `a s d f` and `q w e r` the eight drums, `z`/`x`
+      the octave.
+
+11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
    comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
    план, но подготовь отдельные два документа (по одному на идею) … Исходя из
    этого будем думать. Документы на русском."); what of this item waits on
@@ -693,16 +716,16 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
    one-finger pan. Walking through the meadow, as a spectator or a
    participant the insects fly from, stays out of scope for now.
 
-10. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
+12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
     splash on caps and ground, with its own sound. While it rains, flowers
     close, insects shelter under the nearest cap, and mushrooms swell a
     little. When it stops, the sun comes back with a rainbow, and spores an
     old mushroom shed sprout into little mushrooms that grow over the next
     minutes, within the forest's cap.
-11. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+13. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
     glowing, fireflies waking, mice coming out of their doors, butterflies
     folded on the caps and flowers closed for the night.
-12. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+14. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
     (idle loops off, short tweens without overshoot); a visually hidden row
     of HTML buttons beside the canvas dispatching the same actions, for
     assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
