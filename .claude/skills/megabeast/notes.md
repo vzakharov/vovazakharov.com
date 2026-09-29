@@ -314,6 +314,29 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   species read less like themselves than asked. The skill's plan for a
   proportions bite should budget the layout change alongside the genes, or
   say up front which floor may move.
+- **A container restart mid-wave loses the notifications, not the work.**
+  Bite 8's handling had four agents running when the container restarted;
+  all four had finished, their commits were on `origin`, and their
+  transcripts survived in the session's `tasks/` directory. Their reports
+  came back with `jq -r 'select(.type=="assistant") | .message.content[]? |
+select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
+  orchestrator should reach for that before re-briefing anyone.
+- **A subagent refused a destructive step hands it to the orchestrator, and
+  the orchestrator hands it on to nobody.** Paused at ~220k, group L was
+  blocked from resetting the tree and asked the orchestrator to do it. The
+  reset was not needed: a fresh agent continued from the dirty tree, with
+  the committed patch as the backup. The skill's pause instruction should
+  say "leave the tree as it is and commit the patch beside it", never
+  "reset".
+- **An operator review that asks for a document, not a change, is kept
+  verbatim and scheduled.** Mid-handling, the operator posted two game ideas
+  and asked for a Russian document on each, weighing them against the code
+  and the plan, "не вноси их пока ни в какой план". The ideas went to
+  `docs/remove-before-merging/ideas/` verbatim, the plan got only the task
+  (bite 9 opens with the documents, and builds only what survives either
+  way), and the thread got one reply naming the commit. The skill should
+  keep "quote it into the plan" for contract changes and this form for
+  ideas still being weighed.
 
 ## Quality levers
 
@@ -657,3 +680,20 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   wrote the summary with depth reset to 1 and the Next step `/handle`, and
   handed the operator `/relay take <branch>`. It is cheap to do because the
   review is the natural stop: nothing is half-built.
+- **Waves follow dependencies of the result, not only of the files.** Bite
+  8's handling ran four groups at once (taps, colour, shapes, flowers) and
+  the clump group after the shapes, since the clump's floors measure the
+  drawn caps. The flower group could run early only because its brief said
+  to build every guard as a function of the layout, never a constant tuned
+  to today's clump, so the clump's move flowed through with no second
+  round. The skill's wave planner should ask of each pair of groups "does
+  one measure what the other draws?" and brief the earlier one that way.
+- **An exhaustive sweep is a script; the test samples it.** All 16 species
+  pairs on all 2000 visits took ~7 minutes, so `layout.test` runs 125
+  visits a pair (~67 s) and a committed-to-`tmp/` script proved the margin
+  once. The skill's sweep template should say which of the two a number
+  came from.
+- **The tail splits in two, because each half fills an agent.** One agent
+  took the last refactor, the plan fold and `/polish` (~225k); a second took
+  vet, the five-screen play run, the frames, the Artifact build and `/pr`.
+  The orchestrator kept the replies, the Artifact publish and the relay.
