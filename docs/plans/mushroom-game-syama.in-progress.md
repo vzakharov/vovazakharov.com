@@ -635,6 +635,17 @@ Standing rules for every session in the chain:
      still plants 4; only if that fails, `LEAST_PLANTED` holds on the
      opening clump and a full forest asserts its own measured floor, noted
      here.
+   - **Built in step B1** (e19ad56, 84bdd9b, `bite9/bees.md`): a second
+     ring of twelve bee slots at 2.3 of the parent's size, so a full forest
+     plants a median of 6 (phone) and 5 (tablet upright); the small phone
+     can reach no more than 3 with any ring, so its full forest asserts
+     `LEAST_IN_A_FOREST` 3 and `LEAST_PLANTED` 4 holds everywhere else.
+     `layout.test.ts` and `meadow-rules.test.ts` sweep placed meadows on
+     the screen and its turn; doubling `MOST_HIDDEN` failed it on all six.
+   - **The sun clears the opening clump**: on the small phone sideways its
+     rays touch the clump's tallest caps in 143 of 4000 openings, by up to
+     9 px. Fixed in code (the sun sized or moved off the tallest cap), not
+     left as a `todo`: a child sees a ray through a cap.
    - Rewrite `layout.test.ts` over meadows grown to six on every screen
      (every rule, species exhaustive), finish `flower-plots.test.ts` inside
      the tool limit, add `placement.test.ts` (evenness against a
