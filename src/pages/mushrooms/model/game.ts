@@ -23,17 +23,16 @@ import {
   mushroomGenes,
   type Species,
 } from './mushroom-genes';
+import { type Footed, OPENING_FEET } from './placement';
 import type { Random, Seeded } from './random';
 
 /**
- * How many mushrooms the meadow holds at most, one per slot the layout
- * stands them in: as many as still read apart on a phone.
+ * How many mushrooms the meadow holds at most: as many as still read apart
+ * on a phone.
  */
 export const MUSHROOM_SLOTS = 6;
 
-/** Where a mushroom stands for its whole life, an index into the layout's slots. */
-type Slotted = { slot: number };
-export type Planted = Mushroom & Housed & Slotted;
+export type Planted = Mushroom & Housed & Footed;
 
 export type Meadow = Swarm & {
   /** In the order they were planted, so the last is the newest. */
@@ -51,7 +50,7 @@ export type Meadow = Swarm & {
 
 export type Action =
   | { kind: 'pick' }
-  | { kind: 'grow'; species: Species; seed: number }
+  | ({ kind: 'grow'; species: Species } & Seeded & Footed)
   | ({ kind: 'select' } & WithId)
   | { kind: 'deselect' }
   | { kind: 'remove' }
@@ -64,12 +63,12 @@ export type Action =
 /** An insect action's moment, and what the scene sees of the perches as it happens. */
 type Sighted = Timed & Sight;
 
-/** The drawing's two fly agarics, standing as one clump in the first two slots. */
+/** The drawing's two fly agarics, standing as one clump on the opening's feet. */
 export function firstMeadow(random: Random): Meadow {
-  const mushrooms = firstMushrooms(random).map((mushroom, slot) => ({
+  const mushrooms = firstMushrooms(random).map((mushroom, index) => ({
     ...mushroom,
     house: EMPTY_HOUSE,
-    slot,
+    foot: OPENING_FEET[index] ?? OPENING_FEET[0],
   }));
   return {
     mushrooms,
@@ -161,14 +160,6 @@ const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
 const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
   swarm === meadow ? meadow : { ...meadow, ...swarm };
 
-function freeSlot({ mushrooms }: Meadow): number | undefined {
-  const taken = new Set(mushrooms.map(({ slot }) => slot));
-  for (let slot = 0; slot < MUSHROOM_SLOTS; slot++) {
-    if (!taken.has(slot)) return slot;
-  }
-  return undefined;
-}
-
 export function reduce(meadow: Meadow, action: Action): Meadow {
   switch (action.kind) {
     case 'pick': {
@@ -199,16 +190,16 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'grow': {
-      const slot = freeSlot(meadow);
-      if (slot === undefined) return { ...meadow, picking: false };
+      // Where it grows is the scene's pick (`pickFoot`), made before the tap.
+      if (isFull(meadow)) return { ...meadow, picking: false };
       const grown = meadow.grown + 1;
       const id = `mushroom-${grown}`;
-      const { species, seed } = action;
+      const { species, seed, foot } = action;
       return {
         ...meadow,
         mushrooms: [
           ...meadow.mushrooms,
-          { id, seed, species, house: EMPTY_HOUSE, slot },
+          { id, seed, species, house: EMPTY_HOUSE, foot },
         ],
         selected: id,
         picking: false,

@@ -7,12 +7,18 @@
 
 import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-genes';
-import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import {
+  firstMeadow,
+  type Meadow,
+  MUSHROOM_SLOTS,
+  reduce,
+} from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { mulberry32, nextSeed } from '../../model/random';
 import type { Stand } from './flower-sight';
 import { meadowLayout } from './layout';
+import { flowersOnGround, roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 
 /** The meadow as it stands. */
@@ -23,7 +29,8 @@ export type Opened = Stand & Meadowed;
 
 /**
  * A meadow as the scene opens it for the visit `seed`, drawing from the
- * scene's own streams, with the opening clump or a full forest standing.
+ * scene's own streams, with the opening clump or a forest grown to
+ * `MUSHROOM_SLOTS`, as far as the meadow has room, standing.
  */
 export function opened(
   seed: number,
@@ -39,11 +46,19 @@ export function opened(
     openers: meadow.mushrooms,
   });
   const growing = mulberry32(seed ^ 0x9e_0a);
-  const grown = forest ? layout.mushrooms.length - meadow.mushrooms.length : 0;
+  const grown = forest ? MUSHROOM_SLOTS - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
     const species =
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
-    meadow = reduce(meadow, { kind: 'grow', species, seed: nextSeed(growing) });
+    const own = nextSeed(growing);
+    const { mushrooms, planted } = meadow;
+    const foot = roomFor({
+      mushrooms,
+      flowers: flowersOnGround({ layout, flowers, mushrooms, planted }),
+      seed: own,
+    });
+    if (!foot) break;
+    meadow = reduce(meadow, { kind: 'grow', species, seed: own, foot });
   }
   const { mushrooms, planted } = meadow;
   return { meadow, layout, flowers, mushrooms, planted };

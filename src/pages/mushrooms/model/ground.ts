@@ -53,6 +53,13 @@ const BAND_DEPTH = 4;
 const CLUMP_DOWN = 0.76;
 
 /**
+ * The share of the ground's band the clump's size may take, at the most:
+ * enough depth to stand the frame's back row with its caps above the
+ * clump's.
+ */
+const UNIT_PER_BAND = 0.52;
+
+/**
  * The haze on the farthest ground, and how far down the band it thins out
  * to none.
  */
@@ -60,17 +67,47 @@ const MAX_HAZE = 0.4;
 const HAZE_REACH = 0.35;
 
 /**
+ * How far in from the band's top and foot, as shares of its depth, the
+ * common frame's far and near edges stand: a foot on the frame's near edge
+ * still stands on the screen, and one on its far edge on the flat ground
+ * below the hills.
+ */
+const FRAME_INSET = { far: 0.01, near: 0.005 } as const;
+
+/** How far into the distance a point `down` of the way down the band stands. */
+function zAt(down: number): number {
+  return (CLUMP_DOWN - down) * BAND_DEPTH;
+}
+
+/**
  * The ground every screen's camera shows (`fitCamera`), in the clump's size:
- * across from `left` to `right`, and in depth from `near` to `far`. A foot
- * placed inside it is in reach on every screen; a wider screen shows more
- * ground round it.
+ * in depth from `near` to `far`, the whole band every camera shows but for
+ * `FRAME_INSET`, and across `across` either side of the middle as a camera
+ * lays it (`seen`), which a camera's `Lens` fits to the screen. A foot placed
+ * inside it is in reach on every screen; a wider screen shows more ground
+ * round it.
  */
 export const COMMON_FRAME = {
-  left: -0.62,
-  right: 0.62,
-  near: -0.7,
-  far: 2.6,
+  across: 0.87,
+  near: zAt(1 - FRAME_INSET.near),
+  far: zAt(FRAME_INSET.far),
 } as const;
+
+/**
+ * How far up the screen one step into the distance goes against one across
+ * at the clump's front foot, on the camera whose band the clump's size fills
+ * the most of (`UNIT_PER_BAND`).
+ */
+const UP_PER_Z = 1 / (BAND_DEPTH * UNIT_PER_BAND);
+
+/**
+ * A ground point as a camera lays it out, in the clump's size at its front
+ * foot: `across` from the middle, `up` the screen from the clump's front
+ * foot. Two points as far apart here stand as far apart on the screen.
+ */
+export function seen({ x, z }: Ground): Point {
+  return { x: x * scaleAt(z), y: z * UP_PER_Z };
+}
 
 /**
  * How much bigger a thing stands `down` of the way down the ground's band
@@ -114,13 +151,6 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
 export type Lens = Record<'reach' | 'margin' | 'floor', number>;
 
 /**
- * The share of the ground's band the clump's size may take, at the most:
- * enough depth to stand the frame's back row with its caps above the
- * clump's.
- */
-const UNIT_PER_BAND = 0.52;
-
-/**
  * The camera for `screen`: the ground begins halfway down a tall screen and
  * lower on a wide one, and the clump stands as big as the screen composes
  * it — by height when the screen is wide, by width when it is tall — no
@@ -146,7 +176,13 @@ export function fitCamera({ width, height }: Sized, lens: Lens): Camera {
 }
 
 /** Whether `point` stands inside the common frame. */
-export function inFrame({ x, z }: Ground): boolean {
-  const { left, right, near, far } = COMMON_FRAME;
-  return x >= left && x <= right && z >= near && z <= far;
+export function inFrame(point: Ground): boolean {
+  const { across, near, far } = COMMON_FRAME;
+  return Math.abs(seen(point).x) <= across && point.z >= near && point.z <= far;
+}
+
+/** The ground point `camera` shows at `point` on the screen: `project` undone. */
+export function groundAt(camera: Camera, { x, y }: Point): Ground {
+  const z = zAt((y - camera.groundTop) / camera.ground);
+  return { x: (x - camera.centre) / (camera.unit * scaleAt(z)), z };
 }

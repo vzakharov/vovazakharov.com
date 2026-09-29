@@ -43,9 +43,9 @@ describe('the butterflies’ size', () => {
     it(`spans a butterfly wide enough to read, and narrower than any clump cap, on a ${name} screen`, () => {
       const { insectSize, mushrooms } = meadowLayout(width, height, 1);
       const narrowestCap = Math.min(
-        ...everyPlace(mushrooms.slice(0, 2)).map(
-          ({ size }) => size * geneBounds('capWidth')[0],
-        ),
+        ...everyPlace(mushrooms)
+          .slice(0, 2)
+          .map(({ size }) => size * geneBounds('capWidth')[0]),
       );
       for (const span of SPANS) {
         assert.ok(

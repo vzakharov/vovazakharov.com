@@ -14,14 +14,20 @@ import {
 import { EMPTY_HOUSE, type Furnishing, windowSlots } from './house';
 import { INSECT_LIMITS } from './insects';
 import { mushroomGenes } from './mushroom-genes';
+import { OPENING_FEET } from './placement';
 import { mulberry32 } from './random';
 
 const opening = () => firstMeadow(mulberry32(1));
+/** Where the scene picked the foot of the mushroom grown from `seed`, as these tests have it. */
+const footOf = (seed: number) => ({ x: seed / 10, z: 1 });
 const grow = (seed: number): Action => ({
   kind: 'grow',
   species: 'porcini',
   seed,
+  foot: footOf(seed),
 });
+const feetOf = (meadow: Meadow) =>
+  meadow.mushrooms.map(({ id, foot }) => [id, foot]);
 function run(meadow: Meadow, actions: readonly Action[]): Meadow {
   let state = meadow;
   for (const action of actions) state = reduce(state, action);
@@ -29,11 +35,11 @@ function run(meadow: Meadow, actions: readonly Action[]): Meadow {
 }
 
 describe('reduce', () => {
-  it('opens on the clump, in the first two slots, nothing selected', () => {
+  it('opens on the clump, on the opening feet, nothing selected', () => {
     const meadow = opening();
     assert.deepEqual(
-      meadow.mushrooms.map(({ slot }) => slot),
-      [0, 1],
+      meadow.mushrooms.map(({ foot }) => foot),
+      OPENING_FEET,
     );
     assert.equal(meadow.selected, undefined);
     assert.equal(meadow.picking, false);
@@ -45,7 +51,7 @@ describe('reduce', () => {
     assert.equal(reduce(open, { kind: 'pick' }).picking, false);
   });
 
-  it('grows the pick into the lowest free slot, selected, the picker closed', () => {
+  it('grows the pick on the foot the action carries, selected, the picker closed', () => {
     const meadow = run(opening(), [{ kind: 'pick' }, grow(42)]);
     const grown = meadow.mushrooms.at(-1);
     assert.deepEqual(grown, {
@@ -53,31 +59,28 @@ describe('reduce', () => {
       seed: 42,
       species: 'porcini',
       house: EMPTY_HOUSE,
-      slot: 2,
+      foot: footOf(42),
     });
     assert.equal(meadow.selected, 'mushroom-3');
     assert.equal(meadow.picking, false);
   });
 
-  it('removes only the selected mushroom, and leaves the rest in their slots', () => {
+  it('removes only the selected mushroom, and leaves the rest where they stand', () => {
     const meadow = run(opening(), [
       grow(1),
       grow(2),
       { kind: 'select', id: 'mushroom-3' },
       { kind: 'remove' },
     ]);
-    assert.deepEqual(
-      meadow.mushrooms.map(({ id, slot }) => [id, slot]),
-      [
-        ['mushroom-1', 0],
-        ['mushroom-2', 1],
-        ['mushroom-4', 3],
-      ],
-    );
+    assert.deepEqual(feetOf(meadow), [
+      ['mushroom-1', OPENING_FEET[0]],
+      ['mushroom-2', OPENING_FEET[1]],
+      ['mushroom-4', footOf(2)],
+    ]);
     assert.equal(meadow.selected, undefined);
   });
 
-  it('fills a freed slot again, under a new id', () => {
+  it('grows again once one is thinned, under a new id', () => {
     const meadow = run(opening(), [
       { kind: 'select', id: 'mushroom-1' },
       { kind: 'remove' },
@@ -85,12 +88,11 @@ describe('reduce', () => {
     ]);
     const grown = meadow.mushrooms.at(-1);
     assert.ok(grown);
-    assert.equal(grown.slot, 0);
+    assert.deepEqual(grown.foot, footOf(7));
     assert.equal(grown.id, 'mushroom-3');
   });
 
-  it('removes the newest planted with nothing selected, whatever its slot', () => {
-    // mushroom-5 is planted last, into the slot mushroom-1 left: the lowest.
+  it('removes the newest planted with nothing selected, wherever it stands', () => {
     const meadow = run(opening(), [
       grow(1),
       grow(2),
@@ -102,14 +104,11 @@ describe('reduce', () => {
       { ...meadow, selected: undefined },
       { kind: 'remove' },
     );
-    assert.deepEqual(
-      thinned.mushrooms.map(({ id, slot }) => [id, slot]),
-      [
-        ['mushroom-2', 1],
-        ['mushroom-3', 2],
-        ['mushroom-4', 3],
-      ],
-    );
+    assert.deepEqual(feetOf(thinned), [
+      ['mushroom-2', OPENING_FEET[1]],
+      ['mushroom-3', footOf(1)],
+      ['mushroom-4', footOf(2)],
+    ]);
     assert.equal(thinned.selected, undefined);
   });
 
@@ -127,10 +126,6 @@ describe('reduce', () => {
     );
     assert.equal(full.mushrooms.length, MUSHROOM_SLOTS);
     assert.ok(isFull(full));
-    assert.equal(
-      new Set(full.mushrooms.map(({ slot }) => slot)).size,
-      MUSHROOM_SLOTS,
-    );
     assert.equal(reduce(full, { kind: 'pick' }).picking, false);
   });
 

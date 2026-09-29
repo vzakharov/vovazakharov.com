@@ -30,6 +30,8 @@ export type ControlHandlers = {
   house: () => void;
   furnish: (piece: Furnishing) => void;
   release: (kind: InsectKind) => void;
+  /** Whether the meadow has room for another mushroom, full or not. */
+  roomy: (meadow: Meadow) => boolean;
   /** A tap on a control that cannot act. */
   refuse: () => void;
 };
@@ -45,6 +47,8 @@ export type ControlHandlers = {
 export class Controls {
   private readonly mute: Button;
   private readonly plus: Button;
+  /** Whether `+` can act: a meadow short of full, with room for one more. */
+  private readonly growable: (meadow: Meadow) => boolean;
   private readonly minus: Button;
   private readonly house: Button;
   /** Each always acts: at its kind's limit, the oldest of the kind makes room. */
@@ -72,7 +76,8 @@ export class Controls {
       handlers.refuse,
     );
     this.mute = button(handlers.mute);
-    this.plus = button(handlers.pick, (meadow) => !isFull(meadow));
+    this.growable = (meadow) => !isFull(meadow) && handlers.roomy(meadow);
+    this.plus = button(handlers.pick, this.growable);
     this.minus = button(handlers.remove, (meadow) => !isEmpty(meadow));
     this.house = button(handlers.house, (meadow) => !isEmpty(meadow));
     const release = (kind: InsectKind) =>
@@ -133,7 +138,7 @@ export class Controls {
         },
       });
     }
-    this.plus.face.setAlpha(isFull(meadow) ? DIMMED_ALPHA : 1);
+    this.plus.face.setAlpha(this.growable(meadow) ? 1 : DIMMED_ALPHA);
     this.minus.face.setAlpha(isEmpty(meadow) ? DIMMED_ALPHA : 1);
     placeButton(this.house, layout.house, ratio, {
       look: 'house',

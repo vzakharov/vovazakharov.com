@@ -1,7 +1,6 @@
 /**
  * How much of a flower's head the mushrooms a visit opens with draw over:
- * each mushroom's caps and stem as drawn, in the slot the layout stands it
- * in, read as a silhouette of cells so a flower's many tries stay cheap.
+ * each mushroom's caps and stem as drawn, where the layout stands it, read as a silhouette of cells so a flower's many tries stay cheap.
  */
 
 import type { Planted } from '../../model/game';
@@ -12,12 +11,12 @@ import {
   type Point,
 } from '../../model/geometry';
 import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
-import { placeIn, type SlotPlaces } from './clump-layout';
+import { type MushroomGround, placeIn } from './clump-layout';
 import { standingWith } from './door-sight';
 import type { Placement } from './layout';
 
-/** A mushroom standing as a visit opens: its seed, and the slot it stands in. */
-export type Opener = Pick<Planted, 'seed' | 'species' | 'slot'>;
+/** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
+export type Opener = Pick<Planted, 'seed' | 'species' | 'foot'>;
 
 /** A silhouette's cell, in units of the mushroom's size. */
 const CELL = 0.02;
@@ -35,21 +34,21 @@ type Silhouette = Pick<Box, 'left' | 'top'> & {
 
 /** The mushrooms of a visit's opening, each as its silhouette where it stands and the box round it. */
 export type ClumpShade = ReadonlyArray<{
-  slot: Placement;
+  place: Placement;
   silhouette: Silhouette;
   box: Box;
 }>;
 
-/** The shade of each of `openers` standing in its slot of `slots`. */
+/** The shade of each of `openers` standing where `ground` stands it. */
 export function clumpShade(
-  slots: readonly SlotPlaces[],
+  ground: MushroomGround,
   openers: readonly Opener[],
 ): ClumpShade {
   return openers.flatMap((opener) => {
-    const slot = placeIn(slots, opener);
-    if (!slot) return [];
-    const silhouette = silhouetteOf(mushroomGenes(opener), slot.splay);
-    return [{ slot, silhouette, box: placedBox(silhouette, slot) }];
+    const place = placeIn(ground, opener);
+    if (!place) return [];
+    const silhouette = silhouetteOf(mushroomGenes(opener), place.splay);
+    return [{ place, silhouette, box: placedBox(silhouette, place) }];
   });
 }
 
@@ -159,22 +158,22 @@ export function mostShaded(
     bottom: Math.max(...heads.map(({ y, r }) => y + r)),
   };
   const nearer = shade.filter(
-    ({ slot, box }) => slot.y > depth && boxesMeet(around, box),
+    ({ place, box }) => place.y > depth && boxesMeet(around, box),
   );
   if (nearer.length === 0) return 0;
   const columns = Math.ceil((around.right - around.left) / step);
   const rows = Math.ceil((around.bottom - around.top) / step);
   // Which lattice points any nearer mushroom draws over.
   const over = new Uint8Array(columns * rows);
-  for (const { slot, silhouette } of nearer) {
+  for (const { place, silhouette } of nearer) {
     const { left, top, cells } = silhouette;
     for (let row = 0; row < rows; row++) {
       const y = around.top + (row + 0.5) * step;
-      const cellRow = Math.floor(((y - slot.y) / slot.size - top) / CELL);
+      const cellRow = Math.floor(((y - place.y) / place.size - top) / CELL);
       if (cellRow < 0 || cellRow >= silhouette.rows) continue;
       for (let column = 0; column < columns; column++) {
         const x = around.left + (column + 0.5) * step;
-        const cell = Math.floor(((x - slot.x) / slot.size - left) / CELL);
+        const cell = Math.floor(((x - place.x) / place.size - left) / CELL);
         if (
           cell >= 0 &&
           cell < silhouette.columns &&

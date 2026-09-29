@@ -97,7 +97,7 @@ function sunAt(
 /** How far down the ground, as a share of its depth, the sun's wash over the land may reach. */
 const WASH_FLOOR = 1 / 3;
 /** How far round a mushroom's foot, in its size, the wash leaves the ground as it is: its foot and the shadow round it. */
-const WASH_FOOT_CLEAR = 0.5;
+export const WASH_FOOT_CLEAR = 0.5;
 /** The wash's rings, one disc of each alpha per ring. */
 const WASH_RINGS = 10;
 /** The wash's innermost and outermost rings, in sun radii, before it is shrunk to fit. */

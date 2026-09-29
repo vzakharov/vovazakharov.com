@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { Circle, Point } from '../../model/geometry';
 import { mulberry32 } from '../../model/random';
+import { everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
 import { standingControls, tapReach } from './sky-layout';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
@@ -98,15 +99,13 @@ describe('the sun', () => {
         const { sun, mushrooms } = layout;
         const outer = Math.max(...washRings(layout));
         assert.ok(outer > sun.r * SUN_RAY_REACH, `visit ${String(seed)}`);
-        // Every slot, taken or not: its foot, and some ground round it.
-        for (const [slot, places] of mushrooms.entries()) {
-          for (const { x, y, size } of Object.values(places)) {
-            const clear = Math.hypot(x - sun.x, y - sun.y) - outer;
-            assert.ok(
-              clear >= size * 0.4,
-              `visit ${String(seed)}: slot ${String(slot)}'s foot ${clear.toFixed(0)} px outside the wash`,
-            );
-          }
+        // Every place at the extremes: its foot, and some ground round it.
+        for (const [index, { x, y, size }] of everyPlace(mushrooms).entries()) {
+          const clear = Math.hypot(x - sun.x, y - sun.y) - outer;
+          assert.ok(
+            clear >= size * 0.4,
+            `visit ${String(seed)}: place ${String(index)}'s foot ${clear.toFixed(0)} px outside the wash`,
+          );
         }
       }
     });

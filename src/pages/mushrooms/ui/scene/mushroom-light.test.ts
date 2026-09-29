@@ -12,9 +12,9 @@ import {
 import { stemOutline, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, splayed } from '../../model/mushroom-pose';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
-import { everyPlace, type SlotPlaces } from './clump-layout';
+import { everyPlace } from './clump-layout';
 import { luminance, mix, toHsv } from './colour';
-import { type MeadowLayout, meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import {
   type CapLight,
   capLight,
@@ -204,7 +204,7 @@ describe('a spotted cap’s shine', () => {
 describe('a mushroom’s foot', () => {
   const size = 300;
   const light = { toward: { x: 0.8, y: -0.6 } };
-  // Every turn a slot stands a mushroom at, on every screen.
+  // Every turn a mushroom stands at, on every screen.
   const splays = new Set(
     VIEWPORTS.flatMap(([, width, height]) =>
       everyPlace(meadowLayout(width, height, 1).mushrooms).map(
@@ -346,10 +346,9 @@ function heading(from: Point, to: Point): Point {
  * as it leans), how far off that axis the sun is, in radians, and how strong
  * its side shade is.
  */
-function flanks(layout: MeadowLayout, places: SlotPlaces, seed: number) {
+function flanks(layout: MeadowLayout, place: Placement, seed: number) {
   const species =
     MUSHROOM_SPECIES[seed % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
-  const place = places[species];
   const stood = splayed(mushroomGenes({ seed, species }), place.splay);
   const { genes, turn } = stood;
   const { body } = mushroomLights(sunLight(layout), stood, place, layout.sun);
@@ -386,7 +385,7 @@ describe('the meadow’s light', () => {
 
     it(`lights every mushroom on the side facing the sun, as strongly as it is sideways, on a ${name} screen`, () => {
       let overhead = 0;
-      for (const [slot, place] of mushrooms.entries()) {
+      for (const [slot, place] of everyPlace(mushrooms).entries()) {
         for (let seed = 1; seed <= 40; seed++) {
           const {
             rim,
@@ -395,7 +394,7 @@ describe('the meadow’s light', () => {
             off,
             strength,
           } = flanks(layout, place, seed);
-          const where = `slot ${String(slot)}, seed ${String(seed)}`;
+          const where = `place ${String(slot)}, seed ${String(seed)}`;
           if (off >= 0.1) {
             assert.ok(rim * sunSide > 0, `rim, ${where}`);
             assert.ok(shade * sunSide < 0, `shade, ${where}`);

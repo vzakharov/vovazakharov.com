@@ -10,7 +10,7 @@ import {
   placeButton,
   standButton,
 } from './button';
-import { placeIn, type SlotPlaces } from './clump-layout';
+import { type MushroomGround, placeIn } from './clump-layout';
 
 /**
  * How far apart a picker's buttons come up, one after another from the end
@@ -42,7 +42,7 @@ export type PickerSpec<Item> = {
     hairline: number,
   ) => void;
   /**
-   * Whether a pick closes the picker and flies to the newest mushroom's slot
+   * Whether a pick closes the picker and flies to the newest mushroom's foot
    * as it goes, as a picked cap flies to where its mushroom grows.
    */
   flies: boolean;
@@ -89,7 +89,7 @@ export class Picker<Item> {
 
   /**
    * Stands the buttons at `homes`, unfolding from `from` as `open` turns true
-   * at `now` and folding back as it turns false; `slots` are where the
+   * at `now` and folding back as it turns false; `ground` is how the
    * layout stands each mushroom, for a picked button to fly to; `ratio` is
    * device pixels to a CSS pixel. A picker closing `inPlaceOf` the other,
    * which opens where it stands, goes at once rather than folding back, so
@@ -101,7 +101,7 @@ export class Picker<Item> {
     open: boolean,
     now: number,
     meadow: Meadow,
-    slots: readonly SlotPlaces[],
+    ground: MushroomGround,
     ratio: number,
     inPlaceOf = false,
   ): void {
@@ -140,7 +140,7 @@ export class Picker<Item> {
         const turn = leaving.length - 1 - leaving.indexOf(index);
         button.hiddenAt = now + turn * PICK_STAGGER;
       }
-      button.target = button.towards && placeIn(slots, button.towards);
+      button.target = button.towards && placeIn(ground, button.towards);
       // Out of reach the moment the picker closes, while it is still going.
       if (open) button.face.setInteractive();
       else button.face.disableInteractive();
