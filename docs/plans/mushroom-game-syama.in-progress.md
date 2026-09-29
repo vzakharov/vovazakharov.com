@@ -603,12 +603,12 @@ Standing rules for every session in the chain:
      the camera over every foot the meadow has used (`meadowLayout`'s `used`, the scene's `usedIn`), each cap inside the
      edge margin and each flower's head in view, zooming out past the zoom
      floor where the new screen is narrower (a phone turned upright from
-     landscape: unit 138 → 60 px). Once turned, the rest are measured, not
-     held: grown upright on a phone, a turn breaks a cap's `MOST_HIDDEN` in
-     11 of 13 swept meadows and a door's `IN_SIGHT` in 9
-     (`meadow-rules.test.ts`). `FORESHORTENING`'s span is derived from the
-     screens the play run covers, each turned from the other with the
-     first's frame in view (0.252–1.918).
+     landscape). Every camera looks from one angle, `UP_PER_Z` 0.481, so a
+     turn's refit is a scaled copy of the picture the child grew and every
+     rule it grew under still holds after it — door in sight, cap and stem
+     cover, off the controls, flowers in sight — asserted in
+     `meadow-rules.test.ts` and `flower-layout.test.ts`. On a short screen
+     the mushrooms' least size gives way, not the sky.
    - `model/placement.ts`: `pickFoot` takes the best of `ROUNDS` (32)
      candidate feet by the new mushroom's seed; `Planted.foot`, and the
      `grow` action carries it. `ui/scene/mushroom-room.ts` `roomFor` checks
@@ -619,28 +619,32 @@ Standing rules for every session in the chain:
      meadow holds up to six as far as there is room. The suite holds six
      in at least 99% of every tenth visit (every twentieth on the small
      phone), and on a tablet held sideways a median span of the six caps
-     of at least 60% of the width (`layout.test.ts`); `pnpm
-sweep:mushrooms` grows all 2000 visits on every screen and prints the
+     of at least 60% of the width (`layout.test.ts`);
+     `pnpm sweep:mushrooms` grows all 2000 visits on every screen and prints the
      share reaching six, the caps' median span and the most of any cap and
      stem hidden, which is where any figure for the whole of the visits
      comes from. Feet keep a 0.2 foot distance from flowers rather than the
      rule a flower keeps off a foot (`clearOfFeet`), which rejected ~13×
-     more feet than every other rule together. On the small phone upright
-     a widest-gene cap on the frame's near corners stands up to 20 px past the edge margin,
-     accepted and named in `ground.test.ts`.
+     more feet than every other rule together. Forest mushrooms shrink
+     with depth by the clump's `scaleAt`, and the zoom floor is where the
+     clump's narrowest cap is a finger wide (99 px); `mushroom-tap.ts`'s
+     finger pad holds the far caps' taps, switching on for a third to three
+     quarters of a phone's grown forest. Insects shrink with the clump
+     where it is small, a butterfly never wider than its narrowest cap. On
+     a 280 px phone upright a widest-gene cap on the frame's near corners
+     stands past the edge margin, accepted and named in `ground.test.ts`.
    - Seeded flowers (`seededBed`, `flowersOn`, `flowerFeet`) spread over
      the frame of the screen the visit opens on, and the refit keeps every
      one in view. A bee sits no nearer a flower's middle than `FACE_REACH`. The bees' slots are two rings in ground
      steps, the second of twelve at 2.3 of the parent's size, so a full
-     forest plants a median of 5–6; the small phone's six mushrooms leave
-     it about one, so its full forest asserts `LEAST_IN_A_FOREST` 1 and
-     `LEAST_PLANTED` 4 holds everywhere else. A butterfly takes up to twice
+     forest plants a median of 5–7, and `LEAST_PLANTED` 4 holds on every
+     screen, the small phone included. A butterfly takes up to twice
      its flight time (`slowest` 2) so a desktop's wide meadow still lets a
      finger catch it 7 times in 10.
    - `placeSun` shrinks the sun until its rays clear each opening mushroom's
      reach — 24 → 16 px, on the small phone sideways only.
    - Shared bases `Layered`, `Framed`, `Screened`; `Camera.midline`. The
-     mushroom suite runs 48 files in ~270 s, none over 60 s, one file at a
+     mushroom suite runs 51 files in ~270 s, none over 60 s, one file at a
      time (all of them in one `node --test` call exceeds the tool limit);
      `layout.test.ts` and `meadow-rules.test.ts` sweep placed meadows on
      the screen and its turn. The play run checks a full forest's planting
@@ -688,30 +692,13 @@ sweep:mushrooms` grows all 2000 visits on every screen and prints the
        size. This beat keeping the minimum (starved sky, a throwing
        layout on short screens) and a second angle for short screens
        (reopens the one-angle call).
-   - **Review 5356809390's handling, left:** apply
-     `docs/remove-before-merging/handle-bite9/angle.patch` (one angle;
-     its note `angle.md` beside it) and finish its steps under the call
-     above — the `seen` test on every screen and 412×915 turned, the
-     after-turn rules back as assertions, the T102 flowers-in-sight test,
-     re-checking `LEAST_IN_A_FOREST` 1 and the butterfly's `slowest` 2.
-     Then T96 and T98 together (depth for the forest, the lower floor,
-     the four tests), then T103 (stems in cap cover) and T105 (the plan
-     names which numbers the suite holds; the sweep script committed).
-     Replies are posted on T99, T100, T104, T106, T107; T96, T97, T98,
-     T101, T102, T103, T105 wait on their commits. Then frames into
-     `frames/bite-9/`, the Artifact republished, `/polish`, `/pr`.
+   - Review 5356809390 (T96–T107) is handled, every thread answered.
 
 ## Rest of the elephant
 
 In order.
 
-**Open:** on landscape screens six mushrooms crowd into the middle,
-overlapping, while the grass on both sides stays empty
-(`frames/bite-9/six-meadow-crowded-tabL.png`, `…-phoneL.png`). The cause
-is the frame held on this screen and its turn, which is the portrait's
-width. A parent would ask why `+` refuses there. Item 11's wider world, or
-the operator's first idea, is where it resolves. On tablets the front
-mushroom's stem can run to the bottom edge. On phoneP one planted flower
+**Open:** on tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
 reads larger than its neighbours at the same depth. The play run shoots
 no refused `+` and no bees planting in a full forest.
 The sky may read a little plain since bite 7 tamed the halo.
