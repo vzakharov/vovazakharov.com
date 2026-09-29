@@ -605,7 +605,7 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
    маловат — или объекты великоваты — чтобы было прямо интересно"). It
    starts from the meadow as it stands. It revisits the rules that exist
    only because a rotation re-lays the world — the turned-screen planting
-   guard, flowers placed against the meadow with no edge margin, the slot
+   guard, flowers placed against the feet of both meadows, the slot
    floors per screen — and the taps-only rule for a two-finger pinch and a
    one-finger pan. Walking through the meadow, as a spectator or a
    participant the insects fly from, stays out of scope for now.
