@@ -360,6 +360,36 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   (`git apply -R`) or committed the tree as source. A `reset --hard` was
   refused by the permission classifier, and the proof made it unnecessary.
 
+- **Sequential steps, each briefed to commit early, finished a refactor
+  the parallel wave could not.** Bite 9's rest ran as three agents one
+  after another (frame and room, bees and the layout sweep, the remaining
+  red and the gates), each told its first commit was due within ~60k and
+  to self-pause at ~170k. All three finished inside ~195k with 3–8 commits
+  on origin each, where every wave-B agent before them had nothing on
+  origin at 186–254k. The skill should brief a refactor's tail this way by
+  default: one agent at a time, a step list in dependency order, a test
+  file named as off limits until the step that rewrites it.
+- **The orchestrator reads a subagent's context off its transcript on a
+  timer.** A `send_later` check-in every 15–30 min read the last
+  `cache_read_input_tokens` from the agent's output file (`tac | grep -m1`,
+  never a full read) and the branch's new commits; one nudge at ~190k got
+  a clean hand-back. A container restart kills the background agent but
+  not the check-in, so the check-in's prompt should say to re-launch from
+  the agent's note when the agent is gone.
+- **An agent's "decision for you" is the orchestrator's to take and
+  record, not to forward.** Each report ended with trade-offs (the small
+  phone filling to six in 69% of visits, the bees' floor in a full forest,
+  the sun over the clump). The orchestrator decided each against the plan's
+  own tests and wrote the call, with the alternative it beat, into
+  `## Rest of the bite` before the next agent started, so the next brief
+  could cite it instead of re-arguing it.
+- **An operator review that answers a design document's forks lands in two
+  places at once**: the document gets a "what you decided" section on top
+  that overrides the body below it (the body kept as the reasoning), and
+  the plan gets the item in English with the operator's words quoted. The
+  replies name the commit, and each reading the agent had to guess (a word
+  that reads two ways) is said in the reply so the operator can correct it.
+
 ## Quality levers
 
 - **Spike the engine's risky seam before writing the plan's bite.** Reading

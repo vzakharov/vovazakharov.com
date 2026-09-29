@@ -643,16 +643,22 @@ Standing rules for every session in the chain:
      `layout.test.ts` and `meadow-rules.test.ts` sweep placed meadows on
      the screen and its turn; doubling `MOST_HIDDEN` failed it on all six.
    - **The sun clears the opening clump**: on the small phone sideways its
-     rays touch the clump's tallest caps in 143 of 4000 openings, by up to
-     9 px. Fixed in code (the sun sized or moved off the tallest cap), not
-     left as a `todo`: a child sees a ray through a cap.
-   - Rewrite `layout.test.ts` over meadows grown to six on every screen
-     (every rule, species exhaustive), finish `flower-plots.test.ts` inside
-     the tool limit, add `placement.test.ts` (evenness against a
-     jittered-grid baseline, visits differ, one seed the same meadow) and
-     `ground.test.ts`; the finger test through `fingerPad`; lint,
-     type-overlap, knip; break a sweep once on purpose.
-   - Then the bite's end, § "How this elephant is eaten" step 1: fold into
+     rays touched the clump's tallest caps in 143 of 4000 openings, by up to
+     9 px. Built in step B2 (82a2aec): `placeSun` shrinks the sun until its
+     rays clear each clump mushroom's reach, 24 → 16 px there only; moving
+     it is blocked by the buttons and pickers.
+   - **Built in step B2** (2f8f12e–e5db13b, `bite9/suite.md`): a bee sits no
+     nearer a flower's middle than `FACE_REACH` (seeded heads stand deeper
+     and smaller since 379346e); `perch-sight.test.ts` 580 s → 36 s;
+     `placement.test.ts` (picked feet's closest pair 0.637 against a
+     jittered grid's 0.390) and `ground.test.ts`; shared bases `Layered`,
+     `Framed`, `Screened`, `Camera.centre` renamed `midline`; type-overlap,
+     knip, eslint, prettier clean; all 48 mushroom test files green in
+     212 s, none over 60 s; five breaks on purpose, each caught. Accepted:
+     on the small phone upright a widest-gene cap on the frame's near
+     corners would stand 20 px past the edge margin — every placed foot
+     still passes `roomFor`, and `ground.test.ts` names the exception.
+   - **Code is done. Left: the bite's end**, § "How this elephant is eaten" step 1: fold into
      item 9 above, `/polish`, vet, the five-screen play run, frames to
      `docs/remove-before-merging/frames/bite-9/`, the Artifact republished,
      `/pr`, the megabeast notes, `/relay оставь код ревью на последний
