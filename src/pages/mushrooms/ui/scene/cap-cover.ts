@@ -118,3 +118,22 @@ export function partsSighted(
     stem: partSighted(standing, 'stem', nearer),
   };
 }
+
+/** A mushroom as it stands, and whether it is one of the opening clump. */
+export type Among = { standing: Standing; opening: boolean };
+
+/**
+ * Those of `among` whose drawing counts against `one`'s parts: every nearer
+ * one but its clump partner, the clump's two crossing by design.
+ */
+export function hidersOf(
+  { standing, opening }: Among,
+  among: readonly Among[],
+): Standing[] {
+  return among
+    .filter(
+      (other) =>
+        other.standing.depth > standing.depth && !(opening && other.opening),
+    )
+    .map((other) => other.standing);
+}

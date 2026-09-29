@@ -13,7 +13,14 @@ import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
-import { capBox, hiddenOf, MOST_HIDDEN, PARTS, partSighted } from './cap-cover';
+import {
+  capBox,
+  hiddenOf,
+  hidersOf,
+  MOST_HIDDEN,
+  PARTS,
+  partSighted,
+} from './cap-cover';
 import { placeIn } from './clump-layout';
 import {
   doorInSight,
@@ -163,11 +170,19 @@ function broken(
       fault('shown', `${mushroom.id} off the screen`);
       return [];
     }
-    return [{ mushroom, place, standing: standingAt(place, mushroom) }];
+    return [
+      {
+        mushroom,
+        place,
+        standing: standingAt(place, mushroom),
+        opening: openingIndex(mushroom.foot) !== undefined,
+      },
+    ];
   });
   const wash = layout.wash.at(-1) ?? 0;
   const controls = keepOff(layout);
-  for (const { mushroom, place, standing } of stood) {
+  for (const one of stood) {
+    const { mushroom, place, standing } = one;
     const { id, species } = mushroom;
     const cap = capBox(standing);
     note(species, 'inside the edge margin');
@@ -188,15 +203,7 @@ function broken(
       (other) => other.standing.depth > standing.depth,
     );
     const covers = nearer.map((other) => other.standing);
-    // The clump's own two cross by design, as in the drawing.
-    const hiding = nearer
-      .filter(
-        (other) =>
-          ![mushroom, other.mushroom].every(
-            (each) => openingIndex(each.foot) !== undefined,
-          ),
-      )
-      .map((other) => other.standing);
+    const hiding = hidersOf(one, stood);
     for (const part of PARTS) {
       const rule = `${part} in view` as const;
       note(species, rule);

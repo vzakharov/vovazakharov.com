@@ -27,8 +27,10 @@ import { type Splayed, splayed } from '../../model/mushroom-pose';
 import { apartOnScreen, openingIndex, pickFoot } from '../../model/placement';
 import type { Seeded } from '../../model/random';
 import {
+  type Among,
   capBox,
   hiddenOf,
+  hidersOf,
   MOST_HIDDEN,
   type Part,
   PARTS,
@@ -167,42 +169,26 @@ function keptOff(
  * of its parts show past the rest as they stood before the pick, each read
  * once.
  */
-type Weighed = {
-  standing: Standing;
-  opening: boolean;
+type Weighed = Among & {
   whole: Box;
   shows: () => boolean;
-  /** Past every nearer one but its clump partner: the clump's two cross by design. */
+  /** Past those that count against it (`hidersOf`). */
   sight: () => Record<Part, Sighted>;
 };
 
-function weighed(
-  standing: Standing,
-  opening: boolean,
-  among: () => readonly Weighed[],
-): Weighed {
+function weighed(one: Among, among: () => readonly Weighed[]): Weighed {
+  const { standing } = one;
   let shows: boolean | undefined;
   let sight: Record<Part, Sighted> | undefined;
   return {
-    standing,
-    opening,
+    ...one,
     whole: boxAround(standing.drawn.flat()),
     shows: () =>
       (shows ??= doorShows(
         standing,
         among().map((other) => other.standing),
       )),
-    sight: () =>
-      (sight ??= partsSighted(
-        standing,
-        among()
-          .filter(
-            (other) =>
-              other.standing.depth > standing.depth &&
-              !(opening && other.opening),
-          )
-          .map((other) => other.standing),
-      )),
+    sight: () => (sight ??= partsSighted(standing, hidersOf(one, among()))),
   };
 }
 
@@ -220,8 +206,11 @@ function standingOn(mushrooms: readonly Planted[], screen: Screen): Weighed[] {
   const here: Weighed[] = [];
   for (const mushroom of mushrooms) {
     const place = placeOf(screen.stage.camera, mushroom.foot);
-    const opening = openingIndex(mushroom.foot) !== undefined;
-    here.push(weighed(standingAt(place, mushroom), opening, () => here));
+    const one = {
+      standing: standingAt(place, mushroom),
+      opening: openingIndex(mushroom.foot) !== undefined,
+    };
+    here.push(weighed(one, () => here));
   }
   byScreen.set(screen, here);
   return here;

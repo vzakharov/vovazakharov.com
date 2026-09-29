@@ -10,6 +10,7 @@
     "build": "pnpm build:vova && pnpm build:lsa && pnpm build:bible",
     "build:vova": "scripts/in-site.sh vova next build",
     "play:mushrooms": "tsx scripts/play-mushrooms.ts",
+    "sweep:mushrooms": "tsx scripts/sweep-mushrooms.ts",
     "build:lsa": "scripts/in-site.sh lsa next build",
     "build:bible": "scripts/in-site.sh bible next build",
     "typecheck": "tsc --noEmit",

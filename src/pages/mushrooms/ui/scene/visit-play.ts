@@ -2,7 +2,7 @@
  * A visit played as the scene plays it, for the sweeps over `VIEWPORTS`: the
  * meadow opened from the visit's own streams, fliers released through the
  * real reducer, and the perches read off the real `perchSight`, read again
- * whenever a bee plants. Only tests read it.
+ * whenever a bee plants. Only tests and `scripts/sweep-mushrooms.ts` read it.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -19,6 +19,9 @@ import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
+import { type Among, capBox } from './cap-cover';
+import { placeIn } from './clump-layout';
+import { standingAt } from './door-sight';
 import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
@@ -87,6 +90,26 @@ export function relaidOn(
     },
     usedIn(stand),
   );
+}
+
+/** Each of `stand`'s mushrooms as the scene stands it on its layout. */
+export function standingIn({ layout, mushrooms }: Stand): Among[] {
+  return mushrooms.map((mushroom) => {
+    const place = placeIn(layout.mushrooms, mushroom);
+    if (!place) throw new Error(`${mushroom.id} off the screen`);
+    return {
+      standing: standingAt(place, mushroom),
+      opening: openingIndex(mushroom.foot) !== undefined,
+    };
+  });
+}
+
+/** How wide `stand`'s caps span together, as a share of its screen's width. */
+export function capsSpan(stand: Stand): number {
+  const caps = standingIn(stand).map(({ standing }) => capBox(standing));
+  const left = Math.min(...caps.map((cap) => cap.left));
+  const right = Math.max(...caps.map((cap) => cap.right));
+  return (right - left) / stand.layout.width;
 }
 
 /** How much of the narrower of two spans, centred `apart` px from each other, the other covers. */

@@ -27,7 +27,7 @@ import {
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { mulberry32 } from '../../model/random';
-import { capBox, hiddenOf, partOf, sighted } from './cap-cover';
+import { hiddenOf, partOf, sighted } from './cap-cover';
 import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { standingAt } from './door-sight';
@@ -35,7 +35,7 @@ import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { capsSpan, opened } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
 type Screen = (typeof VIEWPORTS)[number][0];
@@ -145,20 +145,9 @@ const LEAST_SPAN = 0.6;
 describe('a meadow grown to six on a tablet held sideways', () => {
   it(`spans at least ${String(LEAST_SPAN * 100)}% of the screen's width with its caps in the median visit`, (t) => {
     const [, width, height] = VIEWPORTS[0];
-    const spans = grownVisits('tablet').map((seed) => {
-      const { layout, mushrooms } = opened(seed, width, height, true);
-      const caps = mushrooms.map((mushroom) => {
-        const place = placeIn(layout.mushrooms, mushroom);
-        assert.ok(
-          place,
-          `visit ${String(seed)}: ${mushroom.id} off the screen`,
-        );
-        return capBox(standingAt(place, mushroom));
-      });
-      const left = Math.min(...caps.map((cap) => cap.left));
-      const right = Math.max(...caps.map((cap) => cap.right));
-      return (right - left) / width;
-    });
+    const spans = grownVisits('tablet').map((seed) =>
+      capsSpan(opened(seed, width, height, true)),
+    );
     const median =
       spans.toSorted((a, b) => a - b)[Math.floor(spans.length / 2)] ?? 0;
     t.diagnostic(`median span ${(median * 100).toFixed(0)}%`);

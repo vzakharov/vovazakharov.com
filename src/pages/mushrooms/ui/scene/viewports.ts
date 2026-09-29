@@ -1,6 +1,7 @@
 /**
  * The screens and visits the layout sweeps run over, one list for every
- * sweep so a screen added here is tried by all of them. Only tests read it.
+ * sweep so a screen added here is tried by all of them. Only tests and
+ * `scripts/sweep-mushrooms.ts` read it.
  */
 
 /** Each screen as its name, width and height in CSS px. */
