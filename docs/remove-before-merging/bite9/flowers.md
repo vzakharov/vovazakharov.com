@@ -9,7 +9,10 @@
 export function flowerFeet(stand: Stand): FlowerFoot[];
 
 /** Whether a mushroom's foot `foot`, of `size` in the clump's, keeps off every flower of `flowers`. */
-export function clearOfFlowers(foot: FlowerFoot, flowers: readonly FlowerFoot[]): boolean;
+export function clearOfFlowers(
+  foot: FlowerFoot,
+  flowers: readonly FlowerFoot[],
+): boolean;
 ```
 
 `FlowerFoot = Ground & Scaled` (`model/ground.ts` `Ground`, `model/geometry.ts`
@@ -51,9 +54,9 @@ Done:
   (the shim) is removed; `FlowerGround.feet` is gone (unused).
 - `flower-plots.ts`: ring slots on the ground (`RING_SLOTS` `{x, z}` in the
   parent's size, sides ±1.1, diagonals ±0.5 / ∓1.2, sized to stay apart at
-  the flattest foreshortening), `ringFoot`, `groundFor(foot, standing,
-  feet)` all on the ground, `StandingFlower` carries `foot`, plus
-  `flowerFeet` and `clearOfFlowers` as agreed above.
+  the flattest foreshortening), `ringFoot`,
+  `groundFor(foot, standing, feet)` all on the ground, `StandingFlower`
+  carries `foot`, plus `flowerFeet` and `clearOfFlowers` as agreed above.
 - `flower-sight.ts`: planting reads `ringFoot`/`groundFor` on the ground and
   keeps the in-sight test on this screen only. `pollen.ts`: comments.
 - `flower-layout.test.ts` rewritten and **passing** (42 tests, 9 s, was

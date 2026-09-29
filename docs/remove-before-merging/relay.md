@@ -111,6 +111,7 @@ operator.
 
 All in the plan: `## Rest of the bite` (item 9's step A/B1/B2 bullets) and
 `## Rest of the elephant` item 10. Headlines:
+
 - The rules hold on this screen and its turn (`frameFor`, `roomFor`);
   small phone fills to six in 69% of visits, accepted; `clearOfFlowers`
   backed out for the 0.2 foot distance; `ROUNDS` 32.

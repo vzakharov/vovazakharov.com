@@ -351,7 +351,7 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   and placement agents each needed the other's uncommitted renames to
   type-check, so neither could test, and both paused with patches that only
   worked stacked. The skill's wave planner should run two groups at once
-  only when each builds on the other's *committed* API, and otherwise run
+  only when each builds on the other's _committed_ API, and otherwise run
   them one after another.
 - **A paused tree is committed only once it is proven equal to its patch.**
   To drop or keep a paused agent's uncommitted tree without losing work, the
