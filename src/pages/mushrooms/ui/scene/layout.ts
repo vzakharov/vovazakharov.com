@@ -21,13 +21,7 @@ import {
   headsAcross,
   seededBed,
 } from './flower-layout';
-import { WIDEST_SPAN } from './flower-sight';
-import {
-  capsAcross,
-  CLUMP_NARROWEST,
-  meadowCamera,
-  meadowFrame,
-} from './meadow-camera';
+import { capsAcross, meadowCamera, meadowFrame } from './meadow-camera';
 import { type Controls, placeControls, standingControls } from './sky-layout';
 import { horizonAt, placeSun, washRings } from './sun-layout';
 
@@ -45,25 +39,26 @@ export type Footing = Point & Scaled;
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,
- * and the least it is painted at, so it reads on a phone. That least gives
- * way where the clump stands small (`insectSizeFor`).
+ * and the least it is painted at, which holds on every screen and every
+ * refit, however small the clump stands: an insect a child cannot make out
+ * is not in the meadow at all, where a butterfly wider than a small cap is
+ * only a big butterfly. So a refit that zooms out shrinks the ground under
+ * insects kept at the least, and a tap stays a finger's (`tapReach`).
  */
 const INSECT_SCALE = 0.3;
 const INSECT_LEAST = 60;
-
 /**
- * The unit a butterfly's genes are painted in where the clump stands `unit`:
- * `INSECT_SCALE` of it and at least `INSECT_LEAST`, but never so big that its
- * open wings span wider than the clump's narrowest cap, which wins where the
- * clump stands small — a short screen, or a refit zoomed out to keep what the
- * meadow used in view. So a turn's refit is a scaled copy of the picture, a
- * flower's room for wings included; a tap stays a finger's (`tapReach`).
+ * The least each kind's open wings span as drawn, in CSS px, to read on a
+ * phone, which `INSECT_LEAST` keeps every gene above.
  */
+export const LEAST_SPANS = {
+  butterfly: 52,
+  fly: 30,
+  bee: 30,
+} as const satisfies Record<InsectKind, number>;
+
 function insectSizeFor(unit: number): number {
-  return Math.min(
-    Math.max(INSECT_LEAST, unit * INSECT_SCALE),
-    (unit * CLUMP_NARROWEST) / WIDEST_SPAN,
-  );
+  return Math.max(INSECT_LEAST, unit * INSECT_SCALE);
 }
 /**
  * Each kind's size against the butterfly's: a fly and a bee are small beside

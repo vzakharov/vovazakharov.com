@@ -11,6 +11,7 @@ import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { LIGHT_STEP } from '../../src/pages/mushrooms/model/insect-light.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
+import { LEAST_SPANS } from '../../src/pages/mushrooms/ui/scene/layout.ts';
 import {
   HEADING_AFTER,
   MOST_HEADING_OFF,
@@ -29,12 +30,6 @@ import {
 } from './mushroom-probe.ts';
 import { fliersOn, type Insect, landed } from './play-insects.ts';
 
-/** The least each kind's open wings span as drawn, in CSS px, to read on a phone. */
-const LEAST_SPAN = {
-  butterfly: 52,
-  fly: 30,
-  bee: 30,
-} as const satisfies Record<InsectKind, number>;
 /** How many taps are aimed at a fly in flight, and how many must reach it. */
 const FLYING_TAPS = 10;
 const FLYING_REACHED = 9;
@@ -227,7 +222,7 @@ async function tapFlying(
  * over a leg, none settled more than
  * `MOST_REST_TURN` off facing up, no two hovering fliers overlapping while
  * the air had a spot open, and each of `kinds` drawn at least its
- * `LEAST_SPAN` across.
+ * `LEAST_SPANS` across.
  */
 async function checkWatch(
   page: Page,
@@ -280,8 +275,8 @@ async function checkWatch(
   for (const kind of kinds) {
     const span = leastSpan[kind];
     expect(
-      span !== undefined && span >= LEAST_SPAN[kind],
-      `a ${kind} drawn ${String(span?.toFixed(1))} px across, under ${String(LEAST_SPAN[kind])}`,
+      span !== undefined && span >= LEAST_SPANS[kind],
+      `a ${kind} drawn ${String(span?.toFixed(1))} px across, under ${String(LEAST_SPANS[kind])}`,
     );
   }
   note(

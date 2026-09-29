@@ -13,7 +13,11 @@ import {
   placedAt,
   type Point,
 } from '../../model/geometry';
-import { insectGenes } from '../../model/insect-genes';
+import {
+  INSECT_KINDS,
+  insectGenes,
+  type InsectKind,
+} from '../../model/insect-genes';
 import {
   LANDING,
   REST_LEAN,
@@ -21,8 +25,6 @@ import {
   wingBeat,
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
-import { geneBounds } from '../../model/mushroom-genes';
-import { everyPlace } from './clump-layout';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import {
@@ -30,61 +32,33 @@ import {
   type HeadReach,
   PERCH_SPREAD,
   sightingOf,
-  WIDEST_SPAN,
 } from './flower-sight';
-import { meadowLayout } from './layout';
-import { VIEWPORTS, VISITS } from './viewports';
+import { LEAST_SPANS, meadowLayout } from './layout';
+import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 
-const SPANS = VISITS.map((seed) =>
-  wingspan(insectGenes({ seed, kind: 'butterfly' })),
-);
-/** The least a fly's or a bee's open wings span on screen, in CSS px, to read on a phone. */
-const LEAST_BUZZER = 30;
-/** The least a butterfly's open wings span on screen, in CSS px, to read as one on a phone. */
-const LEAST_SPAN = 52;
-
-describe('the butterflies’ size', () => {
-  for (const [name, width, height] of VIEWPORTS) {
-    it(`spans a butterfly narrower than any clump cap, and ${String(LEAST_SPAN)} px wide or as near it as the clump lets, on a ${name} screen`, () => {
-      const { insectSize, mushrooms } = meadowLayout(width, height, 1);
-      const narrowestCap = Math.min(
-        ...everyPlace(mushrooms)
-          .slice(0, 2)
-          .map(({ size }) => size * geneBounds('capWidth')[0]),
+describe('the insects’ size', () => {
+  for (const [name, width, height] of [...VIEWPORTS, FLOOR_HELD]) {
+    it(`draws every kind at least its least span, and a fly and a bee smaller than any butterfly, on a ${name} screen`, () => {
+      const { insectSizes } = meadowLayout(width, height, 1);
+      const spanOf = (kind: InsectKind, seed: number) =>
+        wingspan(insectGenes({ seed, kind })) * insectSizes[kind];
+      const narrowestButterfly = Math.min(
+        ...VISITS.map((seed) => spanOf('butterfly', seed)),
       );
-      // Where the clump stands small, the butterflies shrink with it, the
-      // widest any genes grow no wider than its narrowest cap.
-      const least = Math.min(
-        LEAST_SPAN,
-        (narrowestCap * Math.min(...SPANS)) / WIDEST_SPAN,
-      );
-      for (const span of SPANS) {
-        assert.ok(
-          span * insectSize >= least - 1e-9,
-          `${(span * insectSize).toFixed(0)} px`,
-        );
-        assert.ok(span * insectSize < narrowestCap);
-      }
-    });
-  }
-});
-
-describe('the flies’ and the bees’ size', () => {
-  for (const [name, width, height] of VIEWPORTS) {
-    it(`draws a fly and a bee big enough to read, or shrunk as the butterflies are, and smaller than any butterfly, on a ${name} screen`, () => {
-      const { insectSize, insectSizes } = meadowLayout(width, height, 1);
-      const narrowestButterfly = Math.min(...SPANS) * insectSize;
-      const least = LEAST_BUZZER * Math.min(1, narrowestButterfly / LEAST_SPAN);
-      for (const kind of ['fly', 'bee'] as const) {
+      for (const kind of INSECT_KINDS) {
         for (const seed of VISITS) {
-          const span =
-            wingspan(insectGenes({ seed, kind })) * insectSizes[kind];
-          assert.ok(span >= least, `a ${kind} ${span.toFixed(0)} px`);
+          const span = spanOf(kind, seed);
           assert.ok(
-            span < narrowestButterfly,
-            `a ${kind} ${span.toFixed(0)} px`,
+            span >= LEAST_SPANS[kind],
+            `a ${kind} ${span.toFixed(1)} px`,
           );
+          if (kind !== 'butterfly') {
+            assert.ok(
+              span < narrowestButterfly,
+              `a ${kind} ${span.toFixed(0)} px`,
+            );
+          }
         }
       }
     });

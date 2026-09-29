@@ -203,6 +203,14 @@ describe('a planted flower', () => {
 
 /** The visits a meadow is grown to six in and turned, spread over `VISITS`. */
 const TURNED_VISITS = VISITS.filter((_, index) => index % 40 === 0);
+/**
+ * The least share of the flowers in sight before a turn that the median
+ * meadow keeps in sight after it. The ground is a scaled copy, but insects
+ * keep their least span on a refit zoomed out, so a flower by an edge or a
+ * control can lose the room a butterfly's wings take there: one of six or
+ * seven, turning a grown phone meadow from sideways to upright.
+ */
+const KEPT_IN_SIGHT = 0.8;
 
 /** Whether each flower standing in `stand` is in sight on `layout`, in order. */
 function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
@@ -219,7 +227,7 @@ describe('a turn', () => {
   for (const [name, width, height] of VIEWPORTS.filter(([screen]) =>
     ['phone', 'phone held sideways', 'small phone'].includes(screen),
   )) {
-    it(`keeps every flower in sight that was, and half of them at least, in the median meadow grown to six on a ${name} screen`, () => {
+    it(`keeps ${String(KEPT_IN_SIGHT * 100)}% of the flowers in sight that were, and half of them at least, in the median meadow grown to six on a ${name} screen`, () => {
       const kept: number[] = [];
       const shown: number[] = [];
       for (const seed of TURNED_VISITS) {
@@ -233,7 +241,10 @@ describe('a turn', () => {
         kept.push(before > 0 ? still / before : 1);
         shown.push(now.filter(Boolean).length / now.length);
       }
-      assert.equal(median(kept), 1, 'in sight before the turn');
+      assert.ok(
+        median(kept) >= KEPT_IN_SIGHT,
+        `median ${String(median(kept))} of those in sight before the turn`,
+      );
       assert.ok(median(shown) >= 0.5, `median ${String(median(shown))} shown`);
     });
   }
