@@ -28,29 +28,62 @@ predicate's inputs, whichever you prefer.
 If `model/` needs `Ground & Scaled` by name too, move it to `ground.ts` as
 `Foot` and I point `FlowerFoot` at it (type-overlap floor 2).
 
-## A change in `layout.ts` (yours) the flowers need
+## Paused — state of the work
 
-The seeded bed is placed once a visit on the opening screen's ground and
-projected through the current camera (`flower-layout.ts`):
+`flowers.patch` beside this note is the whole diff of the flowers' paths
+(`flower-layout.ts`, `flower-plots.ts`, `flower-sight.ts`, `model/pollen.ts`
+and the two tests), taken against 4d5abe3d's tree while placement's
+uncommitted changes (`.place` on `ClumpShade`, `layout.mushrooms` a
+`MushroomGround`, `Planted.foot`) stood in it; it type-checks only on top of
+those. `layout.ts` already calls `seededBed`/`flowersOn` (placement wired it).
 
-```ts
-export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[];
-export function flowersOn(camera: Camera, bed: readonly FlowerFoot[]): Footing[];
-```
+Done:
 
-Until `meadowLayout` calls these, `placeFlowers(here, turned, seed)` stays as
-a shim over them (exact on the opening screen and its turn, proportional on a
-resize as today). Replace the flower part of `meadowLayout` with:
+- `flower-layout.ts`: `FlowerFoot`, `standingOn`, `groundOf` (unproject),
+  `flowersOn`, `seededBed(opening, seed)` — the bed placed once on the
+  opening screen's ground, sampled as before (screen-fraction spots, the
+  visit's stream), guarded on the ground by `clearOfFeet` (the opening
+  clump's feet only) and `headsApart`, and on the opening screen by the
+  controls and the clump's shade. The ground guards hold exactly for every
+  foreshortening in `FORESHORTENING = [0.25, 0.8]` (screen px down per z
+  step over the clump's px across; 0.251 small phone sideways to 0.765
+  phone upright), so they hold through every camera, not one. `placeFlowers`
+  (the shim) is removed; `FlowerGround.feet` is gone (unused).
+- `flower-plots.ts`: ring slots on the ground (`RING_SLOTS` `{x, z}` in the
+  parent's size, sides ±1.1, diagonals ±0.5 / ∓1.2, sized to stay apart at
+  the flattest foreshortening), `ringFoot`, `groundFor(foot, standing,
+  feet)` all on the ground, `StandingFlower` carries `foot`, plus
+  `flowerFeet` and `clearOfFlowers` as agreed above.
+- `flower-sight.ts`: planting reads `ringFoot`/`groundFor` on the ground and
+  keeps the in-sight test on this screen only. `pollen.ts`: comments.
+- `flower-layout.test.ts` rewritten and **passing** (42 tests, 9 s, was
+  81 s with the plots test): same ground on all 12 screens (6 × both ways)
+  per visit, all visits' beds distinct, clump-feet clearance ≥ 1.000 and
+  heads ≥ 1.002 through every camera, controls and ≤ 50 % shade on the
+  opening screen, shorter than the stems. Flowers per visit 7.00 on every
+  screen before and after. Turned diagnostic: past the screen's side on the
+  turn — tablet 4.46, phone sideways 4.22, desktop 5.09 of 7 a visit;
+  portraits turned 0; under a control on any turn 0.
 
-```ts
-const here = stoodMeadow(width, height); // or standMeadow, now that no turn is placed
-const opened = groundOf(screen.width, screen.height); // FlowerGround of the opening screen
-return {
-  ...here.layout,
-  flowers: flowersOn(here.layout.camera, keptBed(opened, seed, openers)),
-};
-```
+Left:
 
-— `keptBed` being `placedOn` without the turned screen (a cache of
-`seededBed` by screen, seed and openers) — and drop `turned`, the
-`from`/`to` mapping and the swapped-key lookup. Then `placeFlowers` goes.
+1. Run `flower-plots.test.ts` (rewritten, uses `opened(…, forest)` from
+   `visit-play.ts` and `flowerFeet`); it ran past 600 s under the tool
+   limit, so cut its sweep (`VISITS.slice(0, 60)` × 12 screens × 3
+   standings is too many `meadowLayout`s — lay each screen out once per
+   visit, or sweep 20 visits) and fix what fails.
+2. Break a guard once on purpose (e.g. `FORESHORTENING` back to 0.3 fails on
+   the small phone turned, seen already) and note it.
+3. `pnpm exec eslint`, `type-overlap`, `knip` on the paths (eslint was clean
+   before the last prettier pass; `depthScale` is re-exported for
+   `grain.ts`).
+4. Commit the six paths, probe build, play runs on tabL and phoneP into
+   `tmp/bite9/flowers/`.
+
+For the operator: a landscape visit turned to portrait crops about 4½ of
+its 7 flowers off the sides — the rule "a rotation changes the crop" taken
+literally. Keeping a share of the bed inside `COMMON_FRAME` would hold some
+on every screen.
+
+To finish: `git apply docs/remove-before-merging/bite9/flowers.patch` (only
+if the paths were reset), then the list above.
