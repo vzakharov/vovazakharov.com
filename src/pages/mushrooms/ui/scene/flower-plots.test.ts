@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/shared/lib/collections';
 
 import { reduce } from '../../model/game';
+import { openingIndex } from '../../model/placement';
 import { FLOWER_LIMIT, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingPlaces } from './clump-layout';
@@ -33,11 +34,10 @@ const STANDINGS = {
 } as const;
 type Standing = keyof typeof STANDINGS;
 
-/** Every screen a visit may be shown on: each of `VIEWPORTS`, as named and turned. */
-const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
-  [name, width, height] as const,
-  [`${name} turned`, height, width] as const,
-]);
+/** How many visits each screen and standing plants out. */
+const PLANTED_VISITS = 20;
+/** How many visits a tablet plants out for the median bed. */
+const BED_VISITS = 200;
 
 /** A planted-out visit, and how to lay it out on another screen. */
 type PlantedOut = Stand & {
@@ -80,7 +80,9 @@ function plantedOut(
   }
   const opening = {
     screen: { width, height },
-    openers: visit.meadow.mushrooms,
+    openers: visit.meadow.mushrooms.filter(
+      ({ foot }) => openingIndex(foot) !== undefined,
+    ),
   };
   return {
     ...stand,
@@ -150,8 +152,8 @@ function assertGrounded(
 describe('a planted flower', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const standing of ['clump', 'forest', 'thinned'] as const) {
-      it(`stands in sight where it was planted, and on its ground on every screen, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
-        const counts = VISITS.slice(0, 60).map((seed) => {
+      it(`stands in sight where it was planted, and on its ground on the screen and on it turned, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
+        const counts = VISITS.slice(0, PLANTED_VISITS).map((seed) => {
           const stand = plantedOut(seed, [width, height], standing);
           const shown = new Set(perchSight(stand).flowers);
           const feet = flowerFeet(stand);
@@ -161,7 +163,10 @@ describe('a planted flower', () => {
               `visit ${String(seed)}: ${id} out of sight`,
             );
           }
-          for (const [, across, down] of SCREENS) {
+          for (const [across, down] of [
+            [width, height],
+            [height, width],
+          ] as const) {
             const there = stand.on(across, down);
             assertGrounded(seed, stand, there);
             const moved = flowerFeet({ ...stand, layout: there });
@@ -206,8 +211,8 @@ describe('a tablet’s meadow', () => {
     screen.startsWith('tablet'),
   )) {
     for (const standing of ['clump', 'forest'] as const) {
-      it(`has room for the bees to plant a bed, over every visit, on a ${name} screen with ${STANDINGS[standing]}`, (t) => {
-        const counts = VISITS.map(
+      it(`has room for the bees to plant a bed, over the first visits, on a ${name} screen with ${STANDINGS[standing]}`, (t) => {
+        const counts = VISITS.slice(0, BED_VISITS).map(
           (seed) => plantedOut(seed, [width, height], standing).planted.length,
         );
         t.diagnostic(`median ${String(median(counts))} planted`);

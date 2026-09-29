@@ -62,6 +62,13 @@ const FLOWER_DEPTH = FLOWER_DOWN.map(
 ).toSorted((a, b) => a - b);
 
 /**
+ * How far past the flowers' band, in the clump's size, a foot still stands on
+ * it: a seeded flower held to the band's edge and its side slots stand on it
+ * as each screen reads them back, a float's rounding either way.
+ */
+const ON_THE_BAND = 1e-9;
+
+/**
  * Where a flower in ring slot `ring` round `parent` stands on the ground:
  * its foot the slot's step off the parent's; `undefined` for a slot past the
  * ring.
@@ -89,8 +96,8 @@ export function groundFor(
 ): boolean {
   const [near = 0, far = 0] = FLOWER_DEPTH;
   return (
-    foot.z >= near &&
-    foot.z <= far &&
+    foot.z >= near - ON_THE_BAND &&
+    foot.z <= far + ON_THE_BAND &&
     clearOfFeet(foot, feet) &&
     headsApart(
       foot,
