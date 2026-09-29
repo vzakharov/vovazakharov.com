@@ -19,9 +19,8 @@ import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
-import { type Among, capBox } from './cap-cover';
+import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
-import { standingAt } from './door-sight';
 import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
@@ -97,10 +96,7 @@ export function standingIn({ layout, mushrooms }: Stand): Among[] {
   return mushrooms.map((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
     if (!place) throw new Error(`${mushroom.id} off the screen`);
-    return {
-      standing: standingAt(place, mushroom),
-      opening: openingIndex(mushroom.foot) !== undefined,
-    };
+    return amongAt(place, mushroom);
   });
 }
 

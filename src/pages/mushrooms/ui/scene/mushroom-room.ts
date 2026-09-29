@@ -24,10 +24,11 @@ import type { Ground } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import { apartOnScreen, openingIndex, pickFoot } from '../../model/placement';
+import { apartOnScreen, pickFoot } from '../../model/placement';
 import type { Seeded } from '../../model/random';
 import {
   type Among,
+  amongAt,
   capBox,
   hiddenOf,
   hidersOf,
@@ -46,7 +47,6 @@ import {
   sightOf,
   type Standing,
   standingAs,
-  standingAt,
 } from './door-sight';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
@@ -206,11 +206,7 @@ function standingOn(mushrooms: readonly Planted[], screen: Screen): Weighed[] {
   const here: Weighed[] = [];
   for (const mushroom of mushrooms) {
     const place = placeOf(screen.stage.camera, mushroom.foot);
-    const one = {
-      standing: standingAt(place, mushroom),
-      opening: openingIndex(mushroom.foot) !== undefined,
-    };
-    here.push(weighed(one, () => here));
+    here.push(weighed(amongAt(place, mushroom), () => here));
   }
   byScreen.set(screen, here);
   return here;

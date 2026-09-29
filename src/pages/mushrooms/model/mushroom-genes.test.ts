@@ -5,7 +5,7 @@ import { placeOf } from '../ui/scene/clump-layout';
 import { meadowLayout } from '../ui/scene/layout';
 import { ZOOM_FLOOR } from '../ui/scene/meadow-camera';
 import { TAP_RADIUS } from '../ui/scene/sky-layout';
-import { VIEWPORTS } from '../ui/scene/viewports';
+import { FLOOR_HELD, VIEWPORTS } from '../ui/scene/viewports';
 import {
   domeHeight,
   firstMushrooms,
@@ -135,8 +135,7 @@ describe('mushroomGenes', () => {
         return Math.max(...xs) - Math.min(...xs);
       }),
     );
-    // A phone narrower than any of `VIEWPORTS`, which the floor holds.
-    const screens = [...VIEWPORTS, ['280×600', 280, 600] as const];
+    const screens = [...VIEWPORTS, FLOOR_HELD];
     const held: string[] = [];
     const drawn: string[] = [];
     for (const [name, width, height] of screens) {
@@ -153,7 +152,7 @@ describe('mushroomGenes', () => {
       // A pixel's slack for the rim's rounding, which cuts its corner.
       assert.ok(across >= 2 * TAP_RADIUS - 1, `${name}: ${across.toFixed(1)}`);
     }
-    assert.deepEqual(held, ['280×600']);
+    assert.deepEqual(held, [FLOOR_HELD[0]]);
     t.diagnostic(`narrowest clump cap: ${drawn.join(', ')}`);
   });
 

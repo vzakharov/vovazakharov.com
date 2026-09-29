@@ -19,6 +19,7 @@ import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
 import { usedIn } from './flower-plots';
+import type { Stand } from './flower-sight';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
 import {
@@ -237,18 +238,21 @@ export class MeadowScene extends Phaser.Scene {
     this.see();
   }
 
+  /** The meadow as it stands on the screen last painted, once there is one. */
+  private stand(): Stand | undefined {
+    const { layout, flowers, meadow } = this;
+    if (!layout || !meadow) return undefined;
+    return {
+      layout,
+      flowers: flowers?.seeded ?? [],
+      ...pick(meadow, 'mushrooms', 'planted'),
+    };
+  }
+
   /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
   private roomNow(): Ground | undefined {
-    const { layout, flowers, meadow, upcoming } = this;
-    if (!layout || !meadow) return undefined;
-    return this.room(
-      {
-        layout,
-        flowers: flowers?.seeded ?? [],
-        ...pick(meadow, 'mushrooms', 'planted'),
-      },
-      upcoming,
-    );
+    const stand = this.stand();
+    return stand && this.room(stand, this.upcoming);
   }
 
   private fliers(): readonly Flier[] {
@@ -405,28 +409,21 @@ export class MeadowScene extends Phaser.Scene {
 
   /** Every foot the meadow has used, as the screen last painted stands it. */
   private used(): Used | undefined {
-    const { layout, flowers, meadow } = this;
-    if (!meadow) return undefined;
-    const { mushrooms, planted } = meadow;
-    if (!layout)
-      return { mushrooms: mushrooms.map(({ foot }) => foot), flowers: [] };
-    return usedIn({
-      layout,
-      flowers: flowers?.seeded ?? [],
-      mushrooms,
-      planted,
-    });
+    const stand = this.stand();
+    if (stand) return usedIn(stand);
+    const mushrooms = this.meadow?.mushrooms;
+    return (
+      mushrooms && { mushrooms: mushrooms.map(({ foot }) => foot), flowers: [] }
+    );
   }
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand. */
   private see(): void {
-    const { layout, flowers, meadow } = this;
-    if (!layout || !meadow) return;
-    this.sight = perchSight({
-      layout,
-      flowers: flowers?.seeded ?? [],
-      ...pick(meadow, 'mushrooms', 'planted'),
-    });
-    this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
+    const stand = this.stand();
+    if (!stand) return;
+    this.sight = perchSight(stand);
+    this.air = new Map(
+      airSpots(stand.layout).map(({ id, x, y }) => [id, { x, y }]),
+    );
   }
 }

@@ -14,6 +14,9 @@ export const VIEWPORTS = [
   ['desktop', 1920, 1080],
 ] as const;
 
+/** A phone narrower than any of `VIEWPORTS`, whose camera the zoom floor holds. */
+export const FLOOR_HELD = ['280×600', 280, 600] as const;
+
 /** The seed of each of 2000 visits, spread over the seed space. */
 export const VISITS = Array.from(
   { length: 2000 },

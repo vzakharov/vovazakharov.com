@@ -14,6 +14,7 @@ import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
 import {
+  amongAt,
   capBox,
   hiddenOf,
   hidersOf,
@@ -170,14 +171,7 @@ function broken(
       fault('shown', `${mushroom.id} off the screen`);
       return [];
     }
-    return [
-      {
-        mushroom,
-        place,
-        standing: standingAt(place, mushroom),
-        opening: openingIndex(mushroom.foot) !== undefined,
-      },
-    ];
+    return [{ mushroom, place, ...amongAt(place, mushroom) }];
   });
   const wash = layout.wash.at(-1) ?? 0;
   const controls = keepOff(layout);

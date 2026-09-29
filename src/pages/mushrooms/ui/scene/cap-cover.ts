@@ -5,13 +5,16 @@
  * and the sweeps over it measure what the eye sees.
  */
 
+import type { Planted } from '../../model/game';
 import {
   type Box,
   boxAround,
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import { boxOf, type Standing } from './door-sight';
+import { openingIndex } from '../../model/placement';
+import { boxOf, type Standing, standingAt } from './door-sight';
+import type { Placement } from './layout';
 
 /** The parts of a mushroom whose share hidden is held. */
 export const PARTS = ['cap', 'stem'] as const;
@@ -121,6 +124,14 @@ export function partsSighted(
 
 /** A mushroom as it stands, and whether it is one of the opening clump. */
 export type Among = { standing: Standing; opening: boolean };
+
+/** `mushroom` as the scene stands it in `place` (`standingAt`), among the rest. */
+export function amongAt(place: Placement, mushroom: Planted): Among {
+  return {
+    standing: standingAt(place, mushroom),
+    opening: openingIndex(mushroom.foot) !== undefined,
+  };
+}
 
 /**
  * Those of `among` whose drawing counts against `one`'s parts: every nearer
