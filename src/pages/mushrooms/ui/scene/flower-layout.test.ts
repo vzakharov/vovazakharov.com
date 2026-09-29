@@ -26,7 +26,7 @@ import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type Footing, type MeadowLayout, meadowLayout } from './layout';
 import { standingControls } from './sky-layout';
 import { VIEWPORTS, VISITS } from './viewports';
-import { type Opened, opened } from './visit-play';
+import { type Opened, opened, relaidOn } from './visit-play';
 
 /** The least number of seeded flowers the average visit keeps, on every screen. */
 const LEAST_FLOWERS = 6.5;
@@ -289,9 +289,8 @@ describe('the seeded flowers', () => {
       let off = 0;
       let under = 0;
       let flowers = 0;
-      for (const visit of visitsOn(width, height)) {
-        const turned = screenLayouts.get(`${name} turned`);
-        assert.ok(turned);
+      for (const [index, visit] of visitsOn(width, height).entries()) {
+        const turned = relaidOn(visit, VISITS[index] ?? 0, height, width);
         const controls = drawnControls(turned);
         for (const foot of bedOf(visit)) {
           const { x, y, size } = standingOn(turned.camera, foot);

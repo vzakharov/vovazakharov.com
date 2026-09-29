@@ -18,11 +18,17 @@ import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
+import { usedIn } from './flower-plots';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
-import { type MeadowLayout, meadowLayout, type Opening } from './layout';
+import {
+  type MeadowLayout,
+  meadowLayout,
+  type Opening,
+  type Used,
+} from './layout';
 import { MushroomBed } from './mushroom-bed';
-import { roomFor } from './mushroom-room';
+import { keptRoom } from './mushroom-room';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { airSpots, perchSight, perchSpot } from './perch-sight';
 import { MeadowSound, readMuted } from './sound';
@@ -56,13 +62,8 @@ export class MeadowScene extends Phaser.Scene {
   private readonly growing: Random = mulberry32(this.visitSeed ^ 0x9e_0a);
   /** The seed the next mushroom grows from, drawn before the tap so where it grows is known. */
   private upcoming = nextSeed(this.growing);
-  /**
-   * Where the next mushroom grows (`roomFor`), as of the mushrooms and
-   * plantings it was found among: `undefined` where there is no room.
-   */
-  private room:
-    | (Pick<Meadow, 'mushrooms' | 'planted'> & { foot: Ground | undefined })
-    | undefined;
+  /** Where the next mushroom grows (`roomFor`), found again once the stand changes. */
+  private readonly room = keptRoom();
   /** The seeds each released insect takes. */
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
@@ -236,21 +237,18 @@ export class MeadowScene extends Phaser.Scene {
     this.see();
   }
 
-  /** Where the next mushroom grows as the meadow stands now, found again once it changes. */
+  /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
   private roomNow(): Ground | undefined {
     const { layout, flowers, meadow, upcoming } = this;
     if (!layout || !meadow) return undefined;
-    const { mushrooms, planted } = meadow;
-    const { room } = this;
-    if (room?.mushrooms === mushrooms && room.planted === planted) {
-      return room.foot;
-    }
-    const foot = roomFor(
-      { layout, flowers: flowers?.seeded ?? [], mushrooms, planted },
+    return this.room(
+      {
+        layout,
+        flowers: flowers?.seeded ?? [],
+        ...pick(meadow, 'mushrooms', 'planted'),
+      },
       upcoming,
     );
-    this.room = { mushrooms, planted, foot };
-    return foot;
   }
 
   private fliers(): readonly Flier[] {
@@ -387,6 +385,8 @@ export class MeadowScene extends Phaser.Scene {
       // Its own stream, apart from the creatures' and the backdrop's.
       this.visitSeed ^ 0xf1_0e_25,
       this.opening,
+      // Every foot used so far stays in view, read as the last screen stood it.
+      this.used(),
     );
     this.layout = layout;
     // Its own stream, so the backdrop never shifts the creatures' seeds.
@@ -402,6 +402,21 @@ export class MeadowScene extends Phaser.Scene {
     this.see();
     this.repaintControls();
   };
+
+  /** Every foot the meadow has used, as the screen last painted stands it. */
+  private used(): Used | undefined {
+    const { layout, flowers, meadow } = this;
+    if (!meadow) return undefined;
+    const { mushrooms, planted } = meadow;
+    if (!layout)
+      return { mushrooms: mushrooms.map(({ foot }) => foot), flowers: [] };
+    return usedIn({
+      layout,
+      flowers: flowers?.seeded ?? [],
+      mushrooms,
+      planted,
+    });
+  }
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand. */
   private see(): void {

@@ -27,6 +27,7 @@ import {
 import { tapArea, toCanvas } from '../../model/mushroom-outline';
 import { stemAt } from '../../model/mushroom-pose';
 import { mulberry32 } from '../../model/random';
+import { capBox } from './cap-cover';
 import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { standingAt } from './door-sight';
@@ -67,18 +68,12 @@ const CLUMPS = VISITS.slice(0, 500);
 
 /**
  * The visits a screen grows toward six, spread over `VISITS`: every tenth,
- * and every twentieth on the small phone, whose visits grow slowest and
- * whose share stands farthest from its floor.
+ * and every twentieth on the small phone, whose visits grow slowest.
  */
 const grownVisits = (name: Screen) =>
   VISITS.filter((_, index) => index % (name === 'small phone' ? 20 : 10) === 0);
-/**
- * The least share of visits reaching six mushrooms on each screen: 99%, and
- * on the small phone, whose frame stands at the zoom floor both ways, a
- * little under the share all of `VISITS` reach (69%).
- */
-const LEAST_FULL: Partial<Record<Screen, number>> = { 'small phone': 0.65 };
-const FULL_ELSEWHERE = 0.99;
+/** The least share of visits reaching six mushrooms on every screen. */
+const LEAST_FULL = 0.99;
 
 /**
  * A mushroom as the scene stands it in `place`, with points along its stem
@@ -170,6 +165,36 @@ function topmost(
   )?.id;
 }
 
+/** How wide the six caps of a tablet held sideways span, at the least, in the median visit, as a share of the screen's width. */
+const LEAST_SPAN = 0.6;
+
+describe('a meadow grown to six on a tablet held sideways', () => {
+  it(`spans at least ${String(LEAST_SPAN * 100)}% of the screen's width with its caps in the median visit`, (t) => {
+    const [, width, height] = VIEWPORTS[0];
+    const spans = grownVisits('tablet').map((seed) => {
+      const { layout, mushrooms } = opened(seed, width, height, true);
+      const caps = mushrooms.map((mushroom) => {
+        const place = placeIn(layout.mushrooms, mushroom);
+        assert.ok(
+          place,
+          `visit ${String(seed)}: ${mushroom.id} off the screen`,
+        );
+        return capBox(standingAt(place, mushroom));
+      });
+      const left = Math.min(...caps.map((cap) => cap.left));
+      const right = Math.max(...caps.map((cap) => cap.right));
+      return (right - left) / width;
+    });
+    const median =
+      spans.toSorted((a, b) => a - b)[Math.floor(spans.length / 2)] ?? 0;
+    t.diagnostic(`median span ${(median * 100).toFixed(0)}%`);
+    assert.ok(
+      median >= LEAST_SPAN,
+      `median span ${(median * 100).toFixed(0)}%`,
+    );
+  });
+});
+
 describe('meadowLayout', () => {
   for (const [name, width, height] of VIEWPORTS) {
     it(`grows six mushrooms in the share of visits it is held to on a ${name} screen`, (t) => {
@@ -182,7 +207,7 @@ describe('meadowLayout', () => {
         `${String(full)} of ${String(visits.length)} visits reach six`,
       );
       assert.ok(
-        full / visits.length >= (LEAST_FULL[name] ?? FULL_ELSEWHERE),
+        full / visits.length >= LEAST_FULL,
         `${String(full)} of ${String(visits.length)} reach six`,
       );
     });

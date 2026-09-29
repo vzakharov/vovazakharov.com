@@ -47,7 +47,7 @@ export type Habits = {
  * flower it is leaving, so bees as many as the flowers still take turns at
  * them and carry pollen between them. Hovers are long enough that on a
  * small screen few insects in the air move at once. Across a wide screen a
- * butterfly takes at most a third longer than over a stride, flying the
+ * butterfly takes at most twice as long as over a stride, flying the
  * faster the farther it goes, and a fly or a bee darts over most of it and
  * comes in to its perch at its own pace, so each is a child's finger's to
  * catch most of the way.
@@ -56,7 +56,7 @@ export const FLIGHT_HABITS = {
   butterfly: {
     flying: [2400, 3900],
     stride: 3,
-    slowest: 1.3,
+    slowest: 2,
     dashing: undefined,
     drinking: [3000, 6000],
     hovering: [4000, 8000],

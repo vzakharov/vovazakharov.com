@@ -5,9 +5,10 @@
  * stands where a child sees it on that screen — off the clump's feet and
  * apart from the other flowers on the ground, its head clear of every
  * control and no more than half hidden by those mushrooms — or left out.
- * Every one stands in the opening screen's frame (`meadowFrame`), which its
- * turn shows too, so a turn loses none; a resize changes the camera, not the
- * ground, and in-sight is the scene's query (`flower-sight.ts`).
+ * Every one stands in the opening screen's frame (`meadowFrame`), and a turn
+ * or a resize fits a camera that keeps every one in view (`meadowLayout`): it
+ * changes the camera, not the ground, and in-sight is the scene's query
+ * (`flower-sight.ts`).
  */
 
 import { FLOWER_RANGES } from '../../model/flower-genes';
@@ -23,6 +24,7 @@ import {
   type Ground,
   project,
   scaleAt,
+  seen,
   zAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
@@ -63,8 +65,7 @@ const FLOWER_SPOTS = {
 const FLOWER_JITTER = [0.07, 0.12] as const;
 /**
  * How far across the frame's width, and down the ground's depth, a flower's
- * foot may stand: on the ground, and its head clear of the screen's sides
- * on the screen and on its turn.
+ * foot may stand: on the ground, and its head clear of the screen's sides.
  */
 const FLOWER_ACROSS = [0.05, 0.95] as const;
 export const FLOWER_DOWN = [0.12, 0.96] as const;
@@ -210,6 +211,21 @@ export function headsApart(
       Math.hypot(across, down) >= FLOWERS_APART * HEAD_REACH * (own + size)
     );
   });
+}
+
+/**
+ * How far across, in the clump's size at its front foot, a camera shows the
+ * ground to keep the widest head a flower on any of `feet` could grow in
+ * view (`widestHead`): 0 for none.
+ */
+export function headsAcross(feet: readonly FlowerFoot[]): number {
+  return Math.max(
+    0,
+    ...feet.map(
+      (foot) =>
+        Math.abs(seen(foot).x) + HEAD_REACH * foot.size * scaleAt(foot.z),
+    ),
+  );
 }
 
 /** The farthest a flower `place` stands for could reach with its head, whatever its genes: over its stem's top. */

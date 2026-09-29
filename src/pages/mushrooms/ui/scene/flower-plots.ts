@@ -23,7 +23,7 @@ import {
   standingOn,
 } from './flower-layout';
 import type { Stand } from './flower-sight';
-import type { Footing, MeadowLayout } from './layout';
+import type { Footing, MeadowLayout, Used } from './layout';
 
 /**
  * Each ring slot round a parent, in the order a bee's plantings take them:
@@ -167,7 +167,7 @@ export function standingFlowers(
 
 /**
  * Every flower standing in `stand`, seeded and planted, as its foot on the
- * ground, for a mushroom's foot to keep off (`clearOfFlowers`).
+ * ground, for a mushroom's foot to keep off (`roomFor`).
  */
 export function flowerFeet({
   layout,
@@ -181,13 +181,12 @@ export function flowerFeet({
 }
 
 /**
- * Whether a mushroom's foot at `foot`, `size` its unit in the clump's, keeps
- * off every flower of `flowers` as each flower keeps off a foot
- * (`clearOfFeet`), on every screen.
+ * Every foot the meadow of `stand` has used, its mushrooms' and its
+ * flowers', for the next screen's camera to keep in view (`meadowLayout`).
  */
-export function clearOfFlowers(
-  foot: FlowerFoot,
-  flowers: readonly FlowerFoot[],
-): boolean {
-  return flowers.every((flower) => clearOfFeet(flower, [foot]));
+export function usedIn(stand: Stand): Used {
+  return {
+    mushrooms: stand.mushrooms.map(({ foot }) => foot),
+    flowers: flowerFeet(stand),
+  };
 }

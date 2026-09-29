@@ -183,33 +183,47 @@ function shownAcross(screen: Sized, lens: Lens): number {
 }
 
 /**
- * The frame the meadow on `screen` is laid out in: as far across as both
- * `screen` and `screen` turned show at the size each composes the clump at,
- * and never under `lens.least`, the full depth deep. The same for a screen
- * and its turn, so a foot in it stays in reach through a turn.
+ * The frame the meadow on `screen` is laid out in: as far across as `screen`
+ * shows at the size it composes the clump at, never under `lens.least`, the
+ * full depth deep.
  */
 export function frameFor(screen: Sized, lens: Lens): Frame {
-  const turned = { width: screen.height, height: screen.width };
-  const across = Math.min(shownAcross(screen, lens), shownAcross(turned, lens));
-  return { across: Math.max(lens.least, across), ...FRAME_DEPTH };
+  return {
+    across: Math.max(lens.least, shownAcross(screen, lens)),
+    ...FRAME_DEPTH,
+  };
+}
+
+/**
+ * How far across the widest of `feet` stands from the middle as a camera
+ * lays the ground out (`seen`), in the clump's size at its front foot: 0 for
+ * none.
+ */
+export function widestOf(feet: readonly Ground[]): number {
+  return Math.max(0, ...feet.map((foot) => Math.abs(seen(foot).x)));
 }
 
 /**
  * The camera for `screen`: the ground begins halfway down a tall screen and
  * lower on a wide one, and the clump stands as big as the screen composes it
  * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
- * reach past `lens.margin`, and never under `lens.floor`.
+ * reach past `lens.margin`, and never under `lens.floor` but where `shown`,
+ * how far across in the clump's size at its front foot the camera must show
+ * besides, would reach past it: what the meadow has already used stays in
+ * view, however small that draws it.
  */
-export function fitCamera(screen: Sized, lens: Lens): Camera {
+export function fitCamera(screen: Sized, lens: Lens, shown = 0): Camera {
   const { width, height } = screen;
   const groundTop = height * (height > width ? 0.5 : 0.6);
+  const half = width / 2 - lens.margin;
   const reach = Math.max(
     lens.reach,
     frameFor(screen, lens).across + lens.beyond,
   );
-  const unit = Math.max(
-    lens.floor,
-    Math.min(composedUnit(screen, lens), (width / 2 - lens.margin) / reach),
+  const unit = Math.min(
+    Math.max(lens.floor, Math.min(composedUnit(screen, lens), half / reach)),
+    // What the frame holds is in view already, at the floor too.
+    shown > reach ? half / shown : Infinity,
   );
   return {
     width,

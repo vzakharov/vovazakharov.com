@@ -9,7 +9,7 @@
 import type { Sized } from '@/shared/typings';
 
 import type { Circle, Point, Scaled } from '../../model/geometry';
-import type { Camera, Hazed } from '../../model/ground';
+import type { Camera, Ground, Hazed } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
@@ -17,9 +17,10 @@ import {
   type FlowerFoot,
   type FlowerGround,
   flowersOn,
+  headsAcross,
   seededBed,
 } from './flower-layout';
-import { meadowCamera, meadowFrame } from './meadow-camera';
+import { capsAcross, meadowCamera, meadowFrame } from './meadow-camera';
 import { type Controls, placeControls, standingControls } from './sky-layout';
 import { horizonAt, placeSun } from './sun-layout';
 
@@ -80,28 +81,42 @@ export type Opening = Screened & { openers: readonly Opener[] };
 /** The screen, in CSS px, something is laid out on. */
 type Screened = { screen: Sized };
 
+/** The feet the meadow has used on the ground: its mushrooms', and its flowers'. */
+export type Used = Readonly<{
+  mushrooms: readonly Ground[];
+  flowers: readonly FlowerFoot[];
+}>;
+
+/** Nothing used yet: the visit as it opens. */
+const UNUSED: Used = { mushrooms: [], flowers: [] };
+
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize
  * that passes the same one keeps it where it was. The flowers are placed on
  * the ground once, on the screen the visit opened on against the mushrooms
  * it opened with (`opening`, by default this screen with none), and this
- * screen's camera shows them where they stand.
+ * screen's camera shows them where they stand. The camera keeps every seeded
+ * flower and everything standing on a foot of `used` in view, the caps
+ * inside the edge margin.
  */
 export function meadowLayout(
   width: number,
   height: number,
   seed: number,
   opening?: Opening,
+  used: Used = UNUSED,
 ): MeadowLayout {
   const screen = opening?.screen ?? { width, height };
   const openers = opening?.openers ?? [];
-  const here = stoodMeadow(width, height);
   const { layout, flowers } = stoodMeadow(screen.width, screen.height);
   const opened = { ...flowers, clump: clumpShade(layout.mushrooms, openers) };
-  return {
-    ...here.layout,
-    flowers: flowersOn(here.layout.camera, keptBed(opened, seed, openers)),
-  };
+  const bed = keptBed(opened, seed, openers);
+  const shown = Math.max(
+    capsAcross(used.mushrooms),
+    headsAcross([...used.flowers, ...bed]),
+  );
+  const here = stoodMeadow(width, height, shown);
+  return { ...here.layout, flowers: flowersOn(here.layout.camera, bed) };
 }
 
 /**
@@ -137,15 +152,13 @@ function keptIn<Kept>(
   return known;
 }
 
-/** Everything the meadow stands on a screen `width` by `height` but the flowers: nothing of it varies between visits. */
-export function meadowStage(width: number, height: number): Stood['layout'] {
-  return stoodMeadow(width, height).layout;
-}
-
-/** `standMeadow`, kept for the screens stood last: nothing it stands varies between visits. */
-function stoodMeadow(width: number, height: number): Stood {
-  return keptIn(stood, `${String(width)} ${String(height)}`, () =>
-    standMeadow(width, height),
+/**
+ * `standMeadow`, kept for the screens stood last: nothing it stands varies
+ * between visits but how far across it shows (`shown`).
+ */
+function stoodMeadow(width: number, height: number, shown = 0): Stood {
+  return keptIn(stood, [width, height, shown].map(String).join(' '), () =>
+    standMeadow(width, height, shown),
   );
 }
 
@@ -167,9 +180,12 @@ function keptBed(
   return keptIn(beds, key, () => seededBed(opened, seed));
 }
 
-/** The meadow on a screen `width` by `height` but for its flowers (`Stood`). */
-function standMeadow(width: number, height: number): Stood {
-  const camera = meadowCamera(width, height);
+/**
+ * The meadow on a screen `width` by `height`, showing `shown` across
+ * (`meadowCamera`), but for its flowers (`Stood`).
+ */
+function standMeadow(width: number, height: number, shown: number): Stood {
+  const camera = meadowCamera(width, height, shown);
   const { groundTop, ground, unit } = camera;
   const horizon = horizonAt(width, height);
   const short = Math.min(width, height);

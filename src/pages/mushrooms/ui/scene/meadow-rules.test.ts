@@ -28,7 +28,7 @@ import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
 import { tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { opened, relaidOn } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
 type Screen = (typeof VIEWPORTS)[number][0];
@@ -39,7 +39,7 @@ type Screen = (typeof VIEWPORTS)[number][0];
  */
 const RULED = VISITS.filter((_, index) => index % 160 === 0);
 
-/** Every rule a grown mushroom keeps on the screen and on it turned. */
+/** Every rule a grown mushroom keeps on the screen it grew on. */
 const RULES = [
   'shown',
   'inside the edge margin',
@@ -50,6 +50,15 @@ const RULES = [
   'a finger wide',
 ] as const;
 type Rule = (typeof RULES)[number];
+/**
+ * The rules the meadow keeps once turned: every mushroom in view, its cap
+ * inside the edge margin. The rest are held on the screen a mushroom grows
+ * on only (`roomFor`), and a turn is measured against them.
+ */
+const TURN_KEPT: ReadonlySet<Rule> = new Set([
+  'shown',
+  'inside the edge margin',
+]);
 
 /** Each species as the newest mushroom, by each rule, as the sweep names them. */
 const MEASURES = MUSHROOM_SPECIES.flatMap((species) =>
@@ -134,26 +143,32 @@ function standingArea({ genes, turn, placed }: Standing): Point[][] {
   return Object.values(tapArea(genes, turn)).map((outline) => placed(outline));
 }
 
+/** A rule broken, and how, as a sentence. */
+type Fault = { rule: Rule; sentence: string };
+
 /**
- * Every rule `meadow` breaks on `layout`, each as a sentence, noting in
- * `measured` each rule read for the newest mushroom's species.
+ * Every rule `meadow` breaks on `layout`, noting in `measured` each rule read
+ * for the newest mushroom's species.
  */
 function broken(
   meadow: readonly Planted[],
   layout: MeadowLayout,
   measured = new Set<string>(),
-): string[] {
+): Fault[] {
   const { width, sun, mushrooms: ground } = layout;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
   };
-  const faults: string[] = [];
+  const faults: Fault[] = [];
+  const fault = (rule: Rule, sentence: string) => {
+    faults.push({ rule, sentence });
+  };
   const stood = meadow.flatMap((mushroom) => {
     const place = placeIn(ground, mushroom);
     note(mushroom.species, 'shown');
     if (!place) {
-      faults.push(`${mushroom.id} off the screen`);
+      fault('shown', `${mushroom.id} off the screen`);
       return [];
     }
     return [{ mushroom, place, standing: standingAt(place, mushroom) }];
@@ -165,14 +180,17 @@ function broken(
     const cap = capBox(standing);
     note(species, 'inside the edge margin');
     if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {
-      faults.push(`${id}'s ${species} cap past the edge margin`);
+      fault(
+        'inside the edge margin',
+        `${id}'s ${species} cap past the edge margin`,
+      );
     }
     note(species, 'out of the wash');
     if (
       Math.hypot(place.x - sun.x, place.y - sun.y) <
       wash + place.size * WASH_FOOT_CLEAR
     ) {
-      faults.push(`${id}'s foot in the sun's wash`);
+      fault('out of the wash', `${id}'s foot in the sun's wash`);
     }
     const nearer = stood.filter(
       (other) => other.standing.depth > standing.depth,
@@ -185,7 +203,8 @@ function broken(
       );
       const hidden = coverOf(cap, capBox(other.standing));
       if (!clump && hidden > MOST_HIDDEN) {
-        faults.push(
+        fault(
+          'cap in view',
           `${other.mushroom.id} hides ${(hidden * 100).toFixed(0)}% of ${id}'s ${species} cap`,
         );
       }
@@ -196,7 +215,8 @@ function broken(
     for (const part of ['painted', 'doorway'] as const) {
       const sight = sightOf(standing, station, part, covers);
       if (sight < IN_SIGHT) {
-        faults.push(
+        fault(
+          'door in sight',
           `${id}'s ${species} ${part} door ${(sight * 100).toFixed(0)}% in sight`,
         );
       }
@@ -214,7 +234,7 @@ function broken(
     );
     note(species, 'a finger wide');
     if (Math.max(head.right - head.left, pad ? 2 * pad.r : 0) < FINGER_ACROSS) {
-      faults.push(`${id}'s ${species} narrower than a finger`);
+      fault('a finger wide', `${id}'s ${species} narrower than a finger`);
     }
     const [middle] = pad
       ? placed([{ x: pad.x / place.size, y: -pad.y / place.size }])
@@ -227,7 +247,7 @@ function broken(
         pad !== undefined &&
         Math.hypot(middle.x - circle.x, middle.y - circle.y) < pad.r + circle.r;
       if (onPad || reaches(outlines, circle)) {
-        faults.push(`${name} over ${id}'s ${species}`);
+        fault('off the controls', `${name} over ${id}'s ${species}`);
       }
     }
   }
@@ -257,20 +277,52 @@ describe('a meadow grown toward six', () => {
       meadowLayout(height, width, 1),
     ];
 
-    it(`keeps every rule, whichever species grew on each foot, on a ${name} screen and on it turned`, () => {
+    it(`keeps every rule, whichever species grew on each foot, on a ${name} screen`, () => {
       const measured = new Set<string>();
       for (const [seed, meadow] of grownOn(name, width, height)) {
+        const layout = opened(seed, width, height, false).layout;
         for (const stood of asTheyGrew(meadow)) {
-          for (const layout of screens()) {
-            const faults = broken(stood, layout, measured);
-            assert.deepEqual(faults, [], where(seed, stood, layout));
-          }
+          const faults = broken(stood, layout, measured);
+          assert.deepEqual(
+            faults.map(({ sentence }) => sentence),
+            [],
+            where(seed, stood, layout),
+          );
         }
       }
       assert.deepEqual(
         MEASURES.filter((key) => !measured.has(key)),
         [],
         'left unmeasured',
+      );
+    });
+
+    it(`keeps every mushroom in view, its cap inside the edge margin, once a meadow grown on a ${name} screen turns`, (t) => {
+      const turnBroken = new Map<Rule, number>();
+      let meadows = 0;
+      for (const [seed, meadow] of grownOn(name, width, height)) {
+        const { layout, flowers } = opened(seed, width, height, false);
+        const stand = { layout, flowers, mushrooms: meadow, planted: [] };
+        const turned = relaidOn(stand, seed, height, width);
+        const faults = broken(meadow, turned);
+        meadows += 1;
+        for (const rule of new Set(faults.map((each) => each.rule))) {
+          turnBroken.set(rule, (turnBroken.get(rule) ?? 0) + 1);
+        }
+        assert.deepEqual(
+          faults
+            .filter(({ rule }) => TURN_KEPT.has(rule))
+            .map(({ sentence }) => sentence),
+          [],
+          where(seed, meadow, turned),
+        );
+      }
+      t.diagnostic(
+        `of ${String(meadows)} meadows turned: ${
+          [...turnBroken]
+            .map(([rule, count]) => `${rule} broken in ${String(count)}`)
+            .join(', ') || 'every rule kept'
+        }`,
       );
     });
 

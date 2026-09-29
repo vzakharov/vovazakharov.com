@@ -5,6 +5,8 @@
  * whenever a bee plants. Only tests read it.
  */
 
+import { pick } from '@/shared/lib/collections';
+
 import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-genes';
 import {
@@ -15,9 +17,11 @@ import {
 } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
+import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 
@@ -58,6 +62,31 @@ export function opened(
   }
   const { mushrooms, planted } = meadow;
   return { meadow, layout, flowers, mushrooms, planted };
+}
+
+/**
+ * The visit `seed` of `stand` laid out on a screen `width` by `height`, as
+ * the scene lays it out after a turn or a resize: its flowers where the
+ * screen it opened on placed them, among the clump it opened with, and every
+ * foot it has used in view.
+ */
+export function relaidOn(
+  stand: Stand,
+  seed: number,
+  width: number,
+  height: number,
+): MeadowLayout {
+  const { layout, mushrooms } = stand;
+  return meadowLayout(
+    width,
+    height,
+    seed ^ 0xf1_0e_25,
+    {
+      screen: pick(layout, 'width', 'height'),
+      openers: mushrooms.filter(({ foot }) => openingIndex(foot) !== undefined),
+    },
+    usedIn(stand),
+  );
 }
 
 /** How much of the narrower of two spans, centred `apart` px from each other, the other covers. */

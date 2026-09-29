@@ -1,16 +1,14 @@
 /**
- * Where the next mushroom may grow: a foot `pickFoot` draws, kept only where
- * the mushroom grown there, of whichever species the child picks, keeps
- * every rule the meadow keeps on the screen it is laid out on and on that
- * screen turned, so a rotation never makes a mushroom break one: a meadow
- * never leaves the browser it lives in, where a turn is what can happen.
+ * Where the next mushroom may grow: a foot `pickFoot` draws over this
+ * screen's frame, kept only where the mushroom grown there, of whichever
+ * species the child picks, keeps every rule the meadow keeps on this screen.
  * Judged as the scene stands and draws it: its cap inside `EDGE_MARGIN`, no
  * cap more than `MOST_HIDDEN` behind a nearer one's, every door in sight
  * (`doorInSight`), every control, the sun's rays and its wash off it, and
  * off every flower.
  */
 
-import type { Sized } from '@/shared/typings';
+import { pick } from '@/shared/lib/collections';
 
 import type { Planted } from '../../model/game';
 import {
@@ -27,6 +25,7 @@ import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
 import { apartOnScreen, pickFoot } from '../../model/placement';
+import type { Seeded } from '../../model/random';
 import { capBox, coverOf, MOST_HIDDEN } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import {
@@ -39,34 +38,38 @@ import {
 } from './door-sight';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { meadowStage, type Placement } from './layout';
-import { EDGE_MARGIN, meadowFrame } from './meadow-camera';
+import type { MeadowLayout, Placement } from './layout';
+import { EDGE_MARGIN } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
- * clump's size, a mushroom's foot comes to a flower's. Holding it to
- * `clearOfFlowers` instead, the rule a flower keeps off a mushroom's foot,
- * leaves room for six mushrooms among seven flowers in almost no visit.
+ * clump's size, a mushroom's foot comes to a flower's. Holding it to the
+ * rule a flower keeps off a mushroom's foot (`clearOfFeet`) instead leaves
+ * room for six mushrooms among seven flowers in almost no visit.
  */
 const FLOWER_APART = 0.2;
 
 /** What a screen holds a new mushroom to, whatever stands on it. */
 type Screen = {
-  stage: ReturnType<typeof meadowStage>;
+  stage: MeadowLayout;
   /** Every control's hit area, open pickers and all, and the sun's rays. */
   keepOff: readonly Circle[];
   /** How far the sun's wash reaches round its middle. */
   wash: number;
 };
 
-/** `screen` as a new mushroom is held to on it. */
-function screenOf({ width, height }: Sized): Screen {
-  const stage = meadowStage(width, height);
+/** Each layout as a new mushroom is held to on it, read once. */
+const screens = new WeakMap<MeadowLayout, Screen>();
+
+/** `stage` as a new mushroom is held to on it. */
+function screenOf(stage: MeadowLayout): Screen {
+  const known = screens.get(stage);
+  if (known) return known;
   const { sun, picker, housePicker } = stage;
-  return {
+  const screen = {
     stage,
     keepOff: [
       ...[...standingControls(stage), ...picker, ...housePicker].map(
@@ -76,24 +79,8 @@ function screenOf({ width, height }: Sized): Screen {
     ],
     wash: washRings(stage).at(-1) ?? 0,
   };
-}
-
-/** A screen and its turn, as a new mushroom is held to on each. */
-type Screens = readonly [Screen, Screen];
-const screenPairs = new Map<string, Screens>();
-
-/** `screen` and `screen` turned, read once for each screen. */
-function screensOf(screen: Sized): Screens {
-  const { width, height } = screen;
-  const key = `${String(width)} ${String(height)}`;
-  const known = screenPairs.get(key);
-  if (known) return known;
-  const pair = [
-    screenOf(screen),
-    screenOf({ width: height, height: width }),
-  ] as const;
-  screenPairs.set(key, pair);
-  return pair;
+  screens.set(stage, screen);
+  return screen;
 }
 
 /** How far `point` is from the closed `outline`: 0 inside it. */
@@ -193,33 +180,24 @@ function weighed(
 }
 
 /**
- * Each of the meadow's mushrooms on each of `screens`, weighed once however
- * many feet are tried beside them: the meadow's mushrooms are never changed
- * in place, only replaced.
+ * Each of the meadow's mushrooms on `screen`, weighed once however many feet
+ * are tried beside them: the meadow's mushrooms are never changed in place,
+ * only replaced.
  */
-const standings = new WeakMap<
-  readonly Planted[],
-  WeakMap<Screens, Weighed[][]>
->();
-function standingOn(
-  mushrooms: readonly Planted[],
-  screens: Screens,
-): Weighed[][] {
-  const byScreens = standings.get(mushrooms) ?? new WeakMap();
-  standings.set(mushrooms, byScreens);
-  const known = byScreens.get(screens);
+const standings = new WeakMap<readonly Planted[], WeakMap<Screen, Weighed[]>>();
+function standingOn(mushrooms: readonly Planted[], screen: Screen): Weighed[] {
+  const byScreen = standings.get(mushrooms) ?? new WeakMap();
+  standings.set(mushrooms, byScreen);
+  const known = byScreen.get(screen);
   if (known) return known;
-  const stood = screens.map(({ stage }) => {
-    const here: Weighed[] = [];
-    const among = () => here.map(({ standing }) => standing);
-    for (const mushroom of mushrooms) {
-      const place = placeOf(stage.camera, mushroom.foot);
-      here.push(weighed(standingAt(place, mushroom), among));
-    }
-    return here;
-  });
-  byScreens.set(screens, stood);
-  return stood;
+  const here: Weighed[] = [];
+  const among = () => here.map(({ standing }) => standing);
+  for (const mushroom of mushrooms) {
+    const place = placeOf(screen.stage.camera, mushroom.foot);
+    here.push(weighed(standingAt(place, mushroom), among));
+  }
+  byScreen.set(screen, here);
+  return here;
 }
 
 /** A new mushroom as one screen stands it on a foot, and the screen's rules. */
@@ -281,13 +259,13 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
  * the visit a sweep opens both find it, whichever species the child picks:
  * `undefined` where the meadow has no room left for one. It keeps off every
  * flower standing there (`flowerFeet`), and each foot is tried on the cheap
- * rules on both screens first, then the controls, then the doors.
+ * rules first, then the controls, then the doors.
  */
 export function roomFor(stand: Stand, seed: number): Ground | undefined {
-  const { layout: screen, mushrooms } = stand;
+  const { layout, mushrooms } = stand;
   const flowers = flowerFeet(stand);
-  const screens = screensOf(screen);
-  const stood = standingOn(mushrooms, screens);
+  const screen = screenOf(layout);
+  const others = standingOn(mushrooms, screen);
   const grown = MUSHROOM_SPECIES.map((species) =>
     mushroomGenes({ seed, species }),
   );
@@ -298,7 +276,7 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
     ]),
   );
   return pickFoot(seed, {
-    frame: meadowFrame(screen),
+    ...pick(layout.mushrooms, 'frame'),
     feet: mushrooms.map(({ foot }) => foot),
     admits: (foot) => {
       if (
@@ -306,26 +284,53 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
       ) {
         return false;
       }
-      const trials: Array<{ trial: Trial; others: readonly Weighed[] }> = [];
-      for (const [index, held] of screens.entries()) {
-        const others = stood[index] ?? [];
-        const { splay } = placeOf(held.stage.camera, foot);
-        for (const genes of splays.get(splay) ?? []) {
-          const trial = trialOn(held, foot, genes, others);
-          if (!trial) return false;
-          trials.push({ trial, others });
-        }
+      const { splay } = placeOf(layout.camera, foot);
+      const species = splays.get(splay);
+      if (!species) {
+        throw new Error(`A forest mushroom stood with splay ${String(splay)}`);
+      }
+      const trials: Trial[] = [];
+      for (const genes of species) {
+        const trial = trialOn(screen, foot, genes, others);
+        if (!trial) return false;
+        trials.push(trial);
       }
       return (
-        trials.every(({ trial }) =>
+        trials.every((trial) =>
           keptOff(
             trial.stood,
             trial.own,
             trial.place.size,
             trial.screen.keepOff,
           ),
-        ) && trials.every(({ trial, others }) => doorsKept(trial, others))
+        ) && trials.every((trial) => doorsKept(trial, others))
       );
     },
   });
+}
+
+/** What a room was found in, and where. */
+type Found = Stand & Seeded & { foot: Ground | undefined };
+
+/** What of a stand the room in it is found from. */
+const FOUND_FROM = ['layout', 'flowers', 'mushrooms', 'planted'] as const;
+
+/**
+ * `find` answered again only once the stand it answered for, or the seed,
+ * changes: a new layout after any resize, the mushrooms, the plantings or
+ * the seeded flowers.
+ */
+export function keptRoom(find: typeof roomFor = roomFor): typeof roomFor {
+  let found: Found | undefined;
+  return (stand, seed) => {
+    if (
+      found?.seed === seed &&
+      FOUND_FROM.every((key) => found?.[key] === stand[key])
+    ) {
+      return found.foot;
+    }
+    const foot = find(stand, seed);
+    found = { ...stand, seed, foot };
+    return foot;
+  };
 }

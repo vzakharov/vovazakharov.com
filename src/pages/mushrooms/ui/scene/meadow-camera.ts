@@ -1,7 +1,8 @@
 /**
  * The camera a screen shows the meadow through, and the frame on the ground
- * it lays the meadow out in: both a pure function of the screen in CSS px,
- * the frame the same for a screen and its turn (`frameFor`).
+ * it lays the meadow out in: the frame a pure function of the screen in CSS
+ * px (`frameFor`), and the camera of the screen and the feet the meadow has
+ * used, which it keeps in view wherever they were used.
  */
 
 import type { Sized } from '@/shared/typings';
@@ -13,7 +14,9 @@ import {
   type Frame,
   FRAME_DEPTH,
   frameFor,
+  type Ground,
   type Lens,
+  widestOf,
 } from '../../model/ground';
 import { geneBounds } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
@@ -27,7 +30,7 @@ export const EDGE_MARGIN = 12;
 
 /**
  * The least a frame reaches across, as a camera lays the ground out: room
- * for six mushrooms however narrow the screen or its turn.
+ * for six mushrooms however narrow the screen.
  */
 const LEAST_ACROSS = 0.87;
 
@@ -93,12 +96,25 @@ const LENS: Lens = {
   least: LEAST_ACROSS,
 };
 
-/** The camera the meadow on a screen `width` by `height` is shown through. */
-export function meadowCamera(width: number, height: number): Camera {
-  return fitCamera({ width, height }, LENS);
+/**
+ * How far across, in the clump's size at its front foot, a camera shows the
+ * ground to keep the cap of every mushroom standing on `feet` inside the
+ * edge margin, as a cap on the frame's side stands: 0 for none.
+ */
+export function capsAcross(feet: readonly Ground[]): number {
+  return feet.length > 0 ? widestOf(feet) + LENS.beyond : 0;
 }
 
-/** The frame the meadow on `screen` is laid out in, the same as on its turn. */
+/**
+ * The camera the meadow on a screen `width` by `height` is shown through,
+ * showing `shown` across besides: zoomed out where the screen is narrower
+ * than the one the meadow used its feet on.
+ */
+export function meadowCamera(width: number, height: number, shown = 0): Camera {
+  return fitCamera({ width, height }, LENS, shown);
+}
+
+/** The frame the meadow on `screen` is laid out in. */
 export function meadowFrame(screen: Sized): Frame {
   return frameFor(screen, LENS);
 }
@@ -107,14 +123,22 @@ export function meadowFrame(screen: Sized): Frame {
  * How many px down the screen a step of the clump's size into the distance
  * takes, per px a thing of the clump's size stands across there
  * (`foreshortening`), from the flattest to the steepest camera of every
- * screen the sweeps and the play run cover, held either way. A rule kept on
- * the ground over the span holds on the screen through every camera in it.
+ * screen the sweeps and the play run cover, held either way, and each turned
+ * from the other holding the first's frame in view. A rule kept on the ground
+ * over the span holds on the screen through every camera in it.
  */
 export const FORESHORTENING = ((): readonly [number, number] => {
   const spans = VIEWPORTS.flatMap(([, width, height]) =>
-    [meadowCamera(width, height), meadowCamera(height, width)].map((camera) =>
-      foreshortening(camera),
-    ),
+    [
+      [width, height],
+      [height, width],
+    ].flatMap(([across = 0, down = 0]) => {
+      const turned = meadowFrame({ width: down, height: across }).across;
+      return [
+        meadowCamera(across, down),
+        meadowCamera(across, down, turned + LENS.beyond),
+      ].map((camera) => foreshortening(camera));
+    }),
   );
   return [Math.min(...spans), Math.max(...spans)];
 })();

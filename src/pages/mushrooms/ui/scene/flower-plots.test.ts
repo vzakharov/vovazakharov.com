@@ -14,7 +14,7 @@ import {
   FOOT_CLEARANCE,
   widestHead,
 } from './flower-layout';
-import { clearOfFlowers, flowerFeet, standingFlowers } from './flower-plots';
+import { flowerFeet, standingFlowers, usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
@@ -25,13 +25,12 @@ import { opened } from './visit-play';
 const LEAST_PLANTED = 4;
 /**
  * The least the bees plant in the median visit with a full forest standing,
- * where it falls short of `LEAST_PLANTED`: the small phone's frame is floor-
- * bound, and a full forest leaves ground for about four flowers however they
- * are spread (a planting anywhere in sight, not only in a ring slot), so a
- * bee planting beside the flower it drinks from measures three.
+ * where it falls short of `LEAST_PLANTED`: the small phone, 320 px wide,
+ * grows six mushrooms in every visit, and six leave its flowers' band ground
+ * for about one planting beside the flower a bee drinks from.
  */
 const LEAST_IN_A_FOREST: Partial<Record<Screen, number>> = {
-  'small phone': 3,
+  'small phone': 1,
 };
 /** A screen's name, as the sweeps know it. */
 type Screen = (typeof VIEWPORTS)[number][0];
@@ -99,7 +98,7 @@ function plantedOut(
   return {
     ...stand,
     on: (across, down) =>
-      meadowLayout(across, down, seed ^ 0xf1_0e_25, opening),
+      meadowLayout(across, down, seed ^ 0xf1_0e_25, opening, usedIn(stand)),
   };
 }
 
@@ -131,6 +130,10 @@ function assertGrounded(
     const flower = placed.find((each) => each.id === id);
     assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);
     const { place } = flower;
+    assert.ok(
+      place.x >= 0 && place.x <= screen.width,
+      `visit ${String(seed)}: ${id} out of view`,
+    );
     const down = (place.y - screen.groundTop) / depth;
     assert.ok(
       down >= FLOWER_DOWN[0] - SAME_GROUND &&
@@ -205,20 +208,6 @@ describe('a planted flower', () => {
       });
     }
   }
-});
-
-describe('a mushroom’s foot', () => {
-  it('keeps off every flower when clearOfFlowers says so, and not otherwise', () => {
-    const stand = plantedOut(VISITS[0] ?? 0, [1180, 820], 'clump');
-    const flowers = flowerFeet(stand);
-    const [flower] = flowers;
-    assert.ok(flower);
-    assert.equal(clearOfFlowers({ ...flower, size: 1 }, flowers), false);
-    assert.equal(
-      clearOfFlowers({ ...flower, x: flower.x + 5, size: 1 }, [flower]),
-      true,
-    );
-  });
 });
 
 describe('a tablet’s meadow', () => {
