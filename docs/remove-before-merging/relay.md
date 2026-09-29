@@ -1,10 +1,9 @@
 # Relay summary
 
-Relay depth: the operator paused this chain at depth 6 for the night
-("давай паузнем и я вручную тейкну с новой сессии, чтобы начать новый
-цикл"). The session that takes this up manually is **depth 1 of a new
-chain**, with seven relays before the cap (the plan's "The relays stay
-relays").
+Relay depth: 2 of a new chain. The operator restarted the chain by hand
+(`/relay take claude/mushroom-game-syama-lbirv7`) after pausing it at
+depth 6 for the night; that session was depth 1. Six relays remain
+before the cap (the plan's "The relays stay relays").
 
 ## 1. Standing constraints
 
@@ -62,99 +61,92 @@ branch. Pass this section on verbatim.
 
 ## 2. The conversation
 
-The session opened with `/relay take claude/mushroom-game-syama-lbirv7`
-(Next step: `/handle`). The attach ran `git reset --hard` before this
-summary was read (the stale tip went aside as `stale-local/mushroom-game-3`,
-nothing lost; megabeast note 2392a80). The agent then ran `/handle` as an
-orchestrator over review 5356809390 (T96–T107): wrote the review's open
-calls into the plan (747561b), briefed subagents in waves, posted replies
-as threads finished. Operator messages, in order:
+The operator sent one message: `/relay take claude/mushroom-game-syama-lbirv7`
+(the previous summary's Next step: `/handle`). No other operator message
+arrived; every later turn was a subagent's report or a hook.
 
-1. > слушай, на какой глубине вложенности мы сейчас? если осталось немного, давай паузнем и я вручную тейкну с новой сессии, чтобы начать новый цикл, а то ночь и я уйду
+The agent attached without `git reset --hard`, claimed the plan, refreshed
+and committed the PR export (d6818c8; no new human comments), then ran
+`/handle` as an orchestrator over review 5356809390's remaining threads, in
+three waves of Opus subagents, all briefed off
+`docs/remove-before-merging/handle-bite9/common-brief.md`:
 
-   Answered: depth 6 of 8; pausing now; the running "angle" agent was told
-   to hand over; this summary written; the operator gets one line to paste.
+- **angle** (T97, T101, T102): applied `angle.patch`, one camera angle
+  `UP_PER_Z` 0.481, after-turn rules back as assertions, the T102 test
+  (a177993, 4c5c874, 3e49b0b). `LEAST_IN_A_FOREST` removed; butterfly
+  `slowest` stays 2.
+- **cover** (T103, T105), in parallel: stems counted in cap cover
+  (931b2662), `pnpm sweep:mushrooms` (9ebbc17b). The orchestrator wrote
+  its plan text (23b0e890).
+- **depth** (T96, T98): the forest shrinks with depth, zoom floor 99 px,
+  finger pad switching on, the five floor tests restated, insects shrink
+  with a small clump (5e7b2d79, fe708323, e84a2a71).
 
-2. > она там "running all mushroom tests", я так представляю это небыстро, но подождём
-
-   Answered: the suite is ~270 s; the summary was drafted meanwhile.
+Replies are posted on every thread T96–T107, none resolved. Then the plan
+recorded the handling (2c347f2e), the Artifact was republished (version 8),
+a tail agent polished (c47a4e50, 8f17885f) and refreshed the PR body and
+squash proposal, a frames agent committed `frames/bite-9/handled/`
+(828fbaf6), megabeast notes were added (caeb2671), and the plan paused
+with three defects the play run found (6905b7a0).
 
 ## 3. Intent
 
-Unchanged: the whole game, built autonomously, beautiful and comfortable for
-a six-year-old, an agent review per bite handled by the next session, the
-Artifact playable after every bite, ending with `/finalize` (no merge). Now:
-finish handling bite 9's review, republish, then bite 10 (flowers as an
-instrument). The first idea (walking meadow) still waits for the operator.
+Unchanged: the whole game, built autonomously, beautiful and comfortable
+for a six-year-old, an agent review per bite handled by the next session,
+the Artifact playable after every bite, ending with `/finalize` (no merge).
+The first idea (walking meadow) still waits for the operator.
 
 ## 4. Decisions
 
-All in plan item 9, bullet "Review 5356809390's calls":
-
-- **Each screen lays out at its own width** (T97). The common frame of a
-  screen and its turn is gone; `+` checks this screen only; a turn/resize
-  refits the camera so every used foot stays in view. Beat: scoping the turn
-  guard to coarse pointers (leaves tablet landscape crowded), pulling item
-  11's crop forward (hides what a turn crops without a pan).
-- **Forest mushrooms shrink with depth** (T96), the zoom floor comes down so
-  `mushroom-tap.ts`'s finger pad holds a far cap's tap (T98). Pad stays.
-- **Every camera looks from one angle** (T101, and the turn's cost): the
-  foreshortening is the meadow's, a screen picks only unit and extent, so a
-  turn's refit is a scaled copy and overlaps are what they were. Beat:
-  per-camera foreshortening, under which the own-width refit broke
-  door-in-sight in 9 of 13 swept phone meadows after a turn and left 29% of
-  flowers in sight.
-- Sun (T100): moved along the sky when shrinking alone does not clear;
-  accepted cost: under ~520×460 the moved sun can shrink to `SUN_SMALLEST`
-  0.2 (reply posted says so).
-- Layout agent's trade-offs, to be re-checked under one angle:
-  `LEAST_IN_A_FOREST` lowered to 1 (small phone), butterfly `slowest` 1.3 →
-  2 (desktop catch 0.62 → 0.73).
+All in the plan, item 9 ("Review 5356809390's calls" and the paragraphs
+above it). New this session: the plan's numbers are the floors the suite
+asserts, figures over all 2000 visits come from `pnpm sweep:mushrooms`;
+insects shrink with a small clump, a butterfly never wider than the
+clump's narrowest cap (this is what the play run now flags, below).
 
 ## 5. Errors and dead ends
 
-- `git reset --hard` on pickup, again (see § 1).
-- The first layout agent reached ~248k before handing over; one wave agent
-  per big thread is the size that fits.
+- Reading the Artifact before republishing pulled ~40k tokens of bundle
+  into context: give the read a narrow `prompt` or delegate the republish.
+- Every agent ran past the brief's ~170k hand-over line (188k–276k)
+  without handing over; size waves by two or three threads.
+- A parallel agent's uncommitted edits tripped the Stop hook's git check;
+  they are not the orchestrator's to commit.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; item 9's bullet
-  "Review 5356809390's handling, left" is the to-do list, and the bullet
-  above it holds the short-screen call (the minimum size gives way).
-- Committed fixes: 13ccefb (T97, T104, T99, T107), 8e5e408 (T100),
-  f9a2f7a (T106), 55e4512 (`Sky` type-overlap). Replies posted on T99,
-  T100, T104, T106, T107.
-- The one-angle change is **not** in source: it is
-  `docs/remove-before-merging/handle-bite9/angle.patch` (type-checks, four
-  tests fail by design until T98's rewrite), note `angle.md`. The working
-  tree was proven equal to the patch and reverse-applied, so the branch is
-  clean. Apply it first: `git apply docs/remove-before-merging/handle-bite9/angle.patch`.
-- Known red until the angle work lands: `meadow-rules.test.ts` prints
-  after-turn diagnostics rather than asserting (by 13ccefb).
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is still
-  version 7 (bite 9); not republished.
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
+  MERGEABLE.
+- Plan `docs/plans/mushroom-game-syama.paused.md`. Review 5356809390 is
+  handled. `## Rest of the elephant` opens with **"Before bite 10"**:
+  three defects the play run found (a grown mushroom no tap reaches on
+  the small phone and phoneL; insects on phoneL below the play run's
+  size floors; spore rings hanging after a turn).
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is version
+  8 (bite 9 with its review handled). This session is not subscribed to it.
+- The PR body does not link `frames/bite-9/handled/` yet; the next `/pr`
+  refresh should.
 - Nothing running: no agents, no check-ins, no PR subscription.
 
 ## 7. Pointers
 
-- The review: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5356809390/comments`;
-  thread text in `docs/pr/57/pr.md` (anchors `#t96`…`#t107`).
-- Hand-over notes: `docs/remove-before-merging/handle-bite9/` (`layout.md`,
-  `angle.md`).
-- Common brief given to every handling agent:
-  `docs/remove-before-merging/handle-bite9/common-brief.md` (its scratchpad
-  path in each brief is gone with the container; point new agents here).
-- Plan § "How this elephant is eaten" step 3; item 9's review bullet.
+- Plan: `## Rest of the elephant` → "Before bite 10", then item 10.
+- Frames: `docs/remove-before-merging/frames/bite-9/handled/`; the turn
+  frames came from a scratch driver in `tmp/` that is gone. The play run
+  has no turn step.
+- Hand-over notes of this handling: `docs/remove-before-merging/handle-bite9/`.
+- Idea 2's design: `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`,
+  § «Что ты решил» overriding the rest.
 - `.claude/skills/megabeast/notes.md` § "Friction found".
 
 ## 8. Next step
 
-/handle
+/go
 
-Finish review 5356809390 per the plan's "handling, left" bullet: apply
-the angle patch, finish it, then T96+T98, then T103+T105; answer every
-open thread on GitHub (never resolve); then republish the Artifact and commit frames to
-`frames/bite-9/`, `/polish`, `/pr`, and take bite 10 if context allows,
-else pause and `/relay /go`.
+Resume the paused plan: fix the three "Before bite 10" defects first (the
+untappable mushroom before anything else, with a tap sweep over grown
+forests on every screen), then take bite 10, the flowers as an instrument
+(plan item 10), per the plan's § "How this elephant is eaten" step 1:
+build, fold into `## Eaten so far`, `/polish`, `/pr`, frames into
+`frames/bite-10/`, republish the Artifact, pause, fill megabeast notes,
+then `/relay оставь код ревью на последний кусок`.
