@@ -4,9 +4,13 @@
  * comes back; nothing here knows how any of it is drawn.
  */
 
+import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import type { Perches, Sight, Timed } from './flight';
+import type { Coloured } from './flower-genes';
+import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
+import type { FlowerFoot, Rooted } from './ground';
 import {
   EMPTY_HOUSE,
   furnished,
@@ -24,6 +28,7 @@ import {
   type Species,
 } from './mushroom-genes';
 import { type Footed, OPENING_FEET } from './placement';
+import { plantedId } from './pollen';
 import type { Random, Seeded } from './random';
 
 /**
@@ -34,6 +39,20 @@ export const MUSHROOM_SLOTS = 6;
 
 export type Planted = Mushroom & Housed & Footed;
 
+/**
+ * A colour the child picked to plant, and the seed each of `FLOWER_SHAPES`
+ * grows from in it, in that order, drawn before the pick so the picker shows
+ * the very flower that will grow.
+ */
+type Chosen = Coloured & { seeds: readonly number[] };
+
+/**
+ * The tuft the child tapped to plant on, as its foot on the ground, while
+ * the flower picker waits: for a colour while `chosen` is `undefined`, then
+ * for a shape.
+ */
+export type Planting = Rooted & { chosen: Chosen | undefined };
+
 export type Meadow = Swarm & {
   /** In the order they were planted, so the last is the newest. */
   mushrooms: readonly Planted[];
@@ -42,6 +61,8 @@ export type Meadow = Swarm & {
   picking: boolean;
   /** Whether the windows and the door are showing, waiting for a pick. */
   furnishing: boolean;
+  /** The flower picker, open on a tuft, `undefined` while closed. */
+  planting: Planting | undefined;
   /** How many mushrooms the meadow has ever grown, so every id is new. */
   grown: number;
   /** How many insects the meadow has ever released, so every id is new. */
@@ -56,6 +77,9 @@ export type Action =
   | { kind: 'remove' }
   | { kind: 'house' }
   | { kind: 'furnish'; piece: Furnishing }
+  | { kind: 'tuft'; foot: FlowerFoot }
+  | ({ kind: 'colour' } & Chosen)
+  | { kind: 'plant'; shape: FlowerShape }
   | ({ kind: 'release'; insect: InsectKind } & Seeded & Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
   | ({ kind: 'tick' } & Sighted);
@@ -75,6 +99,7 @@ export function firstMeadow(random: Random): Meadow {
     selected: undefined,
     picking: false,
     furnishing: false,
+    planting: undefined,
     grown: mushrooms.length,
     insects: [],
     planted: [],
@@ -167,6 +192,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ...meadow,
         picking: !meadow.picking && !isFull(meadow),
         furnishing: false,
+        planting: undefined,
       };
     }
     case 'house': {
@@ -177,7 +203,13 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         furnishing && meadow.selected === undefined
           ? newestWithRoom(meadow, FURNISHINGS)?.id
           : meadow.selected;
-      return { ...meadow, furnishing, selected, picking: false };
+      return {
+        ...meadow,
+        furnishing,
+        selected,
+        picking: false,
+        planting: undefined,
+      };
     }
     case 'furnish': {
       const done = furnishedTarget(meadow, action.piece);
@@ -187,6 +219,39 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         mushrooms: meadow.mushrooms.map((mushroom) =>
           mushroom.id === done.id ? done : mushroom,
         ),
+      };
+    }
+    case 'tuft': {
+      // A tap outside an open picker closes it, another tuft's too.
+      return {
+        ...meadow,
+        planting:
+          meadow.planting === undefined
+            ? { ...pick(action, 'foot'), chosen: undefined }
+            : undefined,
+        selected: undefined,
+        picking: false,
+        furnishing: false,
+      };
+    }
+    case 'colour': {
+      const { planting } = meadow;
+      if (planting === undefined) return meadow;
+      const { colour, seeds } = action;
+      return {
+        ...meadow,
+        planting: { ...planting, chosen: { colour, seeds } },
+      };
+    }
+    case 'plant': {
+      const { planting, planted } = meadow;
+      const seed = planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(action.shape)];
+      if (planting === undefined || seed === undefined) return meadow;
+      const { foot } = planting;
+      return {
+        ...meadow,
+        planted: [...planted, { id: plantedId(planted), seed, foot }],
+        planting: undefined,
       };
     }
     case 'grow': {
@@ -203,13 +268,19 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ],
         selected: id,
         picking: false,
+        planting: undefined,
         grown,
       };
     }
     case 'select': {
       const known = meadow.mushrooms.some(({ id }) => id === action.id);
       return known
-        ? { ...meadow, selected: action.id, picking: false }
+        ? {
+            ...meadow,
+            selected: action.id,
+            picking: false,
+            planting: undefined,
+          }
         : meadow;
     }
     case 'deselect': {
@@ -218,6 +289,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         selected: undefined,
         picking: false,
         furnishing: false,
+        planting: undefined,
       };
     }
     case 'remove': {
@@ -233,6 +305,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         selected: undefined,
         picking: false,
         furnishing: false,
+        planting: undefined,
       };
     }
     case 'release': {

@@ -1,8 +1,8 @@
 /**
  * Where every flower stands, seeded and planted alike: a seeded flower on its
- * foot of the visit's bed, which `layout.flowers` shows, and a planted one in
- * its ring slot round its parent, on the ground, where the slot has ground
- * for it (`groundFor`). A slot is fixed on the ground in the parent's size,
+ * foot of the visit's bed, which `layout.flowers` shows, a bee's in its ring
+ * slot round its parent, on the ground, and the child's on the tuft it was
+ * planted on — each where it has ground (`groundFor`). A slot is fixed on the ground in the parent's size,
  * so a turn or a resize moves no flower, and a well-visited flower grows a
  * round bed.
  */
@@ -11,8 +11,8 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
-import { type Ground, zAt } from '../../model/ground';
-import type { Sown } from '../../model/pollen';
+import { type Ground, type Rooted, zAt } from '../../model/ground';
+import type { RootedFlower, Sown } from '../../model/pollen';
 import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,
@@ -58,10 +58,8 @@ export const RING_SLOTS: readonly Ground[] = [
 
 /** Where a flower stands on one screen. */
 export type Placed = { place: Footing };
-/** Where a flower stands on the ground. */
-type Rooted = { foot: FlowerFoot };
 /** A flower as it stands: on the ground, and on one screen. */
-export type StandingFlower = Flower & Placed & Rooted;
+export type StandingFlower = RootedFlower & Placed;
 
 /**
  * Where on the ground the flowers' band lies into the distance, nearest
@@ -132,12 +130,26 @@ export function mushroomFeet(
 }
 
 /**
+ * Where on the ground `sown` would stand among the flowers of `standing`: on
+ * its own foot, planted on a tuft, or in its ring slot round its parent; a
+ * bee's flower whose parent stands nowhere stands nowhere either.
+ */
+function footOf(
+  sown: Sown,
+  standing: readonly StandingFlower[],
+): FlowerFoot | undefined {
+  if (!('parent' in sown)) return sown.foot;
+  const parent = standing.find(({ id }) => id === sown.parent);
+  return parent && ringFoot(parent.foot, sown.ring);
+}
+
+/**
  * Every flower that stands on `layout` among `mushrooms`: the seeded ones of
- * the visit's bed, then each planted one round its parent, in the order they
- * opened, so a parent always stands before its children. A planted flower
- * stands only where its slot has ground (`groundFor`) off the feet of the
- * mushrooms standing now, so a mushroom grown on it hides it while that
- * mushroom stands; one whose parent stands nowhere stands nowhere either.
+ * the visit's bed, then each planted one, a bee's round its parent and the
+ * child's on its tuft, in the order they opened, so a parent always stands before its children (`footOf`). A
+ * planted flower stands only where it has ground (`groundFor`) off the feet
+ * of the mushrooms standing now, so a mushroom grown on it hides it while
+ * that mushroom stands.
  */
 export function standingFlowers(
   layout: MeadowLayout,
@@ -152,8 +164,7 @@ export function standingFlowers(
     return place ? [{ ...flower, place, foot: groundOf(camera, place) }] : [];
   });
   for (const sown of planted) {
-    const parent = standing.find(({ id }) => id === sown.parent);
-    const foot = parent && ringFoot(parent.foot, sown.ring);
+    const foot = footOf(sown, standing);
     if (foot && groundFor(foot, standing, feet)) {
       standing.push({
         ...pick(sown, 'id', 'seed'),

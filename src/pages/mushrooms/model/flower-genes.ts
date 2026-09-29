@@ -20,6 +20,8 @@ export const FLOWER_COLOURS = [
   'violet',
   'blue',
 ] as const;
+export type FlowerColour = (typeof FLOWER_COLOURS)[number];
+export type Coloured = { colour: FlowerColour };
 
 export type Flower = WithId & Seeded;
 
@@ -28,21 +30,21 @@ export type Flower = WithId & Seeded;
  * Its head is a mandala in miniature: `fold` petals in a ring, and a second
  * ring set half a step round inside the first where `rings` is 2.
  */
-export type FlowerGenes = Stalked & {
-  petal: (typeof PETAL_KINDS)[number];
-  colour: (typeof FLOWER_COLOURS)[number];
-  fold: number;
-  rings: 1 | 2;
-  petalLength: number;
-  /** The petal's half-width, as a fraction of its length. */
-  petalWidth: number;
-  centre: number;
-  /** The whole ring's turn, so no two heads line up. */
-  twist: number;
-  /** Where along the stem the leaf grows, and to which side. */
-  leafAt: number;
-  leafSide: -1 | 1;
-};
+export type FlowerGenes = Stalked &
+  Coloured & {
+    petal: (typeof PETAL_KINDS)[number];
+    fold: number;
+    rings: 1 | 2;
+    petalLength: number;
+    /** The petal's half-width, as a fraction of its length. */
+    petalWidth: number;
+    centre: number;
+    /** The whole ring's turn, so no two heads line up. */
+    twist: number;
+    /** Where along the stem the leaf grows, and to which side. */
+    leafAt: number;
+    leafSide: -1 | 1;
+  };
 
 export const FLOWER_RANGES = {
   fold: [5, 9],

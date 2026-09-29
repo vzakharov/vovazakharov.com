@@ -16,12 +16,11 @@ import {
   type Circle,
   distanceToSegment,
   type Point,
-  type Scaled,
 } from '../../model/geometry';
 import {
   type Camera,
+  type FlowerFoot,
   type Framed,
-  type Ground,
   project,
   scaleAt,
   seen,
@@ -113,13 +112,7 @@ export type FlowerGround = Pick<
     clump: ClumpShade;
   };
 
-/**
- * A foot on the ground (`Ground`) and its size in the clump's before depth
- * scales it: a flower's height to its head, a mushroom's unit.
- */
-export type FlowerFoot = Ground & Scaled;
-
-export { depthScale } from '../../model/ground';
+export { depthScale, type FlowerFoot } from '../../model/ground';
 
 /** The camera a visit's opening screen shows its ground through. */
 function cameraOf({

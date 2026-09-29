@@ -9,6 +9,7 @@
 
 import type { Flight, Leg } from './flight';
 import type { Flower } from './flower-genes';
+import type { Rooted } from './ground';
 import { mulberry32, nextSeed, type Seeded } from './random';
 
 /** How many flowers the meadow holds at most, the seeded ones counted. */
@@ -32,7 +33,33 @@ export type Plot = { room: readonly Room[]; seededFlowers: number };
  * flower's id or a planted one's, so planted flowers ring planted flowers
  * too. Its genes grow from `seed` as any flower's do.
  */
-export type Sown = Flower & Ringed & { parent: string };
+export type BeeSown = Flower & Ringed & { parent: string };
+/**
+ * A flower on its own foot on the ground: as a planted one, the child's,
+ * planted on a tuft.
+ */
+export type RootedFlower = Flower & Rooted;
+/**
+ * A planted flower, a bee's or the child's: both count toward
+ * `FLOWER_LIMIT`, and either can be a bee's parent.
+ */
+export type Sown = BeeSown | RootedFlower;
+
+/** Whether a flower of `planted` stands in ring slot `ring` round `parent`. */
+export function slotTaken(
+  planted: readonly Sown[],
+  parent: string,
+  ring: number,
+): boolean {
+  return planted.some(
+    (each) => 'parent' in each && each.parent === parent && each.ring === ring,
+  );
+}
+
+/** The id the next flower planted onto `planted` takes. */
+export function plantedId(planted: readonly Sown[]): string {
+  return `planted-${String(planted.length + 1)}`;
+}
 
 /**
  * What a bee carries: `from`, the last flower it drank at, `undefined` until
@@ -117,19 +144,18 @@ export function sown(
   now: number,
   { room, seededFlowers }: Plot,
   planted: readonly Sown[],
-): Sown | undefined {
+): BeeSown | undefined {
   const parent = landedAt(leg, now);
   if (!pollen.pollinates || parent === undefined) return undefined;
   if (seededFlowers + planted.length >= FLOWER_LIMIT) return undefined;
   const slot = room.find(
     ({ flower, ring }) =>
-      flower === parent &&
-      !planted.some((each) => each.parent === parent && each.ring === ring),
+      flower === parent && !slotTaken(planted, parent, ring),
   );
   if (slot === undefined) return undefined;
   const { ring } = slot;
   return {
-    id: `planted-${String(planted.length + 1)}`,
+    id: plantedId(planted),
     seed: nextSeed(mulberry32(((seed ^ SOW_SALT) + legs) >>> 0)),
     parent,
     ring,

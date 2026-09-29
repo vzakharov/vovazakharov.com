@@ -27,7 +27,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import type { Plot } from '../../model/pollen';
+import { type Plot, slotTaken } from '../../model/pollen';
 import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
 import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
@@ -337,9 +337,7 @@ export function roomFor(
     const parent = here.find((flower) => flower.id === id);
     if (!parent) return [];
     const ring = RING_SLOTS.findIndex((_, slot) => {
-      if (planted.some((each) => each.parent === id && each.ring === slot)) {
-        return false;
-      }
+      if (slotTaken(planted, id, slot)) return false;
       const spot = ringFoot(parent.foot, slot);
       return spot !== undefined && plantable(layout, spot, ground, covers);
     });

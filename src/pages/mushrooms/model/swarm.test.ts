@@ -5,7 +5,13 @@ import type { Sight } from './flight';
 import { type Action, firstMeadow, type Meadow, reduce } from './game';
 import type { InsectKind } from './insect-genes';
 import { type Flier, INSECT_LIMITS } from './insects';
-import { FLOWER_LIMIT, POLLEN_MOST } from './pollen';
+import {
+  type BeeSown,
+  FLOWER_LIMIT,
+  POLLEN_MOST,
+  slotTaken,
+  type Sown,
+} from './pollen';
 import { mulberry32 } from './random';
 
 const SEEDED = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
@@ -24,10 +30,7 @@ function sightOf(meadow: Meadow, cramped = false): Sight {
   const flowers = [...SEEDED, ...meadow.planted.map(({ id }) => id)];
   const free = (parent: string) =>
     Array.from({ length: RINGS }, (_, ring) => ring).find(
-      (ring) =>
-        !meadow.planted.some(
-          (each) => each.parent === parent && each.ring === ring,
-        ),
+      (ring) => !slotTaken(meadow.planted, parent, ring),
     );
   return {
     flowers,
@@ -79,6 +82,10 @@ function run(
 
 const leaving = (state: Meadow) =>
   state.insects.filter(({ leg }) => leg.to.kind === 'away');
+
+/** The flowers of `planted` the bees planted: here, every one. */
+const beeSown = (planted: readonly Sown[]): BeeSown[] =>
+  planted.filter((each) => 'parent' in each);
 
 function bees(count: number, seed: number): Meadow {
   let meadow = opening();
@@ -154,7 +161,7 @@ describe('the bees’ planting', () => {
   it('plants a flower as a bee leaves one it pollinated, and only then', () => {
     let plantings = 0;
     const each = (before: Meadow, after: Meadow, now: number) => {
-      const added = after.planted.slice(before.planted.length);
+      const added = beeSown(after.planted.slice(before.planted.length));
       for (const planted of added) {
         plantings++;
         const leaver = after.insects.find(
@@ -188,8 +195,8 @@ describe('the bees’ planting', () => {
   it('rings planted flowers round planted ones too, each slot once', () => {
     const end = run(bees(3, 3), [1000, 400_000]);
     const planted = new Set(end.planted.map(({ id }) => id));
-    assert.ok(end.planted.some(({ parent }) => planted.has(parent)));
-    const slots = end.planted.map(
+    assert.ok(beeSown(end.planted).some(({ parent }) => planted.has(parent)));
+    const slots = beeSown(end.planted).map(
       ({ parent, ring }) => `${parent} ${String(ring)}`,
     );
     assert.equal(new Set(slots).size, slots.length);

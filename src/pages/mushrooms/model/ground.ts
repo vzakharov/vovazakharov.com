@@ -7,7 +7,7 @@
 
 import type { Sized } from '@/shared/typings';
 
-import type { Point } from './geometry';
+import type { Point, Scaled } from './geometry';
 
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
@@ -15,6 +15,14 @@ import type { Point } from './geometry';
  * front foot, farther away the larger.
  */
 export type Ground = Pick<Point, 'x'> & { z: number };
+
+/**
+ * A foot on the ground (`Ground`) and its size in the clump's before depth
+ * scales it: a flower's height to its head, a mushroom's unit.
+ */
+export type FlowerFoot = Ground & Scaled;
+/** Where a thing stands on the ground. */
+export type Rooted = { foot: FlowerFoot };
 
 /** How far toward the sky's haze a thing's colours go, from 0 to 1. */
 export type Hazed = { haze: number };

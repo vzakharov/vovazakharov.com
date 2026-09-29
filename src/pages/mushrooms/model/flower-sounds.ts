@@ -8,13 +8,11 @@
 
 import {
   type Flower,
-  type FLOWER_COLOURS,
+  type FlowerColour,
   type FlowerGenes,
   flowerGenes,
 } from './flower-genes';
 import { mulberry32, nextSeed, type Random } from './random';
-
-type FlowerColour = (typeof FLOWER_COLOURS)[number];
 
 /** The colours that sound notes, darkest first: each takes the next four semitones up from C. */
 export const NOTE_COLOURS = [
@@ -36,6 +34,7 @@ export const FLOWER_SHAPES = [
   { petal: 'pointed', rings: 1 },
   { petal: 'pointed', rings: 2 },
 ] as const satisfies ReadonlyArray<Pick<FlowerGenes, 'petal' | 'rings'>>;
+export type FlowerShape = (typeof FLOWER_SHAPES)[number];
 
 /** Semitones above C. */
 export const PITCH_CLASSES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
@@ -124,6 +123,16 @@ export function seedSounding(random: Random, sound: FlowerSound): number {
     if (sameSound(soundOf(flowerGenes({ seed })), sound)) return seed;
   }
   throw new Error('No seed sounds the flower asked for');
+}
+
+/**
+ * A seed off `random` for each of `FLOWER_SHAPES` in `colour`, in that
+ * order: the flowers a child picks among once it has picked the colour.
+ */
+export function shapeSeeds(random: Random, colour: FlowerColour): number[] {
+  return FLOWER_SHAPES.map((shape) =>
+    seedSounding(random, soundOf({ colour, ...shape })),
+  );
 }
 
 /**
