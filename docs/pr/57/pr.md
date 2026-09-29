@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-29T18:35:53Z
+- **Updated:** 2026-09-29T19:47:15Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -539,10 +539,10 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T16** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-26T15:56:10Z — "Fixed in da50a85, both halves. The call now passes the confi…" → [↓](#t16)
 - **T17** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:218 — unresolved — last: @vzakharov (agent) 2026-09-26T16:09:02Z — "Fixed in 87d72d3. The tap area is now built from the outline…" → [↓](#t17)
 - **T18** `src/pages/mushrooms/ui/scene/layout.ts`:85 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:39Z — "Fixed in 45b2d64: a forest slot never stands under the size…" → [↓](#t18)
-- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:307 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
+- **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:332 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
 - **T20** `src/pages/mushrooms/ui/scene/layout.ts`:84 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
 - **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T17:30:56Z — "The faint glow rings are gone: a selected mushroom now wears…" → [↓](#t21)
-- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:143 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
+- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:144 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
 - **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:57Z — "Done in bfcaf78. The picker now closes on the clock as it op…" → [↓](#t23)
 - **T24** `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved — last: @vzakharov (agent) 2026-09-26T17:45:14Z — "Every disc is now opaque white with a full-strength ink rim…" → [↓](#t24)
 - **T25** `src/pages/mushrooms/model/house.ts`:307 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:39Z — "Fixed in 330dd6d, with the clump retuned in 2d7ae65. A door…" → [↓](#t25)
@@ -566,17 +566,17 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T43** `src/pages/mushrooms/ui/scene/hud.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:54Z — "Asserted in 0a7b7b3. The seed moved to `model/insect-genes.t…" → [↓](#t43)
 - **T44** `scripts/lib/mushroom-probe.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:56Z — "Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` fro…" → [↓](#t44)
 - **T45** `docs/plans/mushroom-game-syama.paused.md`:68 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:40Z — "Несложно: теперь каждый байт заканчивается публикацией игры…" → [↓](#t45)
-- **T46** `.claude/skills/megabeast/notes.md`:634 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
-- **T47** `.claude/skills/megabeast/notes.md`:148 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
-- **T48** `docs/plans/mushroom-game-syama.paused.md`:124 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
-- **T49** `docs/plans/mushroom-game-syama.paused.md`:100 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
+- **T46** `.claude/skills/megabeast/notes.md`:660 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
+- **T47** `.claude/skills/megabeast/notes.md`:154 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
+- **T48** `docs/plans/mushroom-game-syama.in-progress.md`:124 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
+- **T49** `docs/plans/mushroom-game-syama.in-progress.md`:100 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
 - **T50** `src/pages/mushrooms/model/flight.ts`:181 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:50Z — "Mostly met: no flier goes away except by eviction on any scr…" → [↓](#t50)
 - **T51** `src/pages/mushrooms/ui/scene/flower-sight.ts`:299 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:52Z — "Done as asked: planting asks for sight on this screen only,…" → [↓](#t51)
 - **T52** `src/pages/mushrooms/ui/scene/perch-sight.ts`:157 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:53Z — "Done: crowding now takes the pairing of kinds actually invol…" → [↓](#t52)
 - **T53** `src/pages/mushrooms/ui/scene/perch-sight.ts`:175 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:55Z — "The tap half is done: a tap reaches the flier whose body is…" → [↓](#t53)
 - **T54** `src/pages/mushrooms/ui/scene/sound.ts`:263 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:56Z — "Done: `play` builds a voice only while the synth is unmuted,…" → [↓](#t54)
 - **T55** `src/pages/mushrooms/model/insect-motion.ts`:167 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:58Z — "Done: a resting flutter is one lift and one fall over 420 ms…" → [↓](#t55)
-- **T56** `src/pages/mushrooms/ui/scene/flower-sight.ts`:73 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:59Z — "Done: a bee sits on the head's lower rim facing in instead o…" → [↓](#t56)
+- **T56** `src/pages/mushrooms/ui/scene/flower-sight.ts`:74 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:59Z — "Done: a bee sits on the head's lower rim facing in instead o…" → [↓](#t56)
 - **T57** `src/pages/mushrooms/ui/scene/sky-layout.ts`:402 — unresolved — last: @vzakharov (agent) 2026-09-28T10:38:19Z — "The straight cut across the bottom of the sun is gone in b48…" → [↓](#t57)
 - **T58** `src/pages/mushrooms/model/buzz-rest.ts`:26 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:02Z — "Done: `JITTER` is 0.05 of the size, 1.65 px at the smallest…" → [↓](#t58)
 - **T59** `scripts/lib/flier-watch.ts`:187 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:03Z — "Done: the watch now fails on a body more than 0.3 rad off it…" → [↓](#t59)
@@ -589,7 +589,7 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T66** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:184 — unresolved — last: @vzakharov (agent) 2026-09-28T16:18:58Z — "Fixed in b4cedec: the cap's light is one ordered list (`capL…" → [↓](#t66)
 - **T67** `src/pages/mushrooms/model/mushroom-outline.ts`:41 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:00Z — "Fixed in 8e76bb6: `stemOutline(genes, turn)` levels the foot…" → [↓](#t67)
 - **T68** `src/pages/mushrooms/ui/scene/mushroom-light.ts`:92 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:02Z — "Fixed in 52e3079: each mushroom takes its light from the cap…" → [↓](#t68)
-- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:124 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:48Z — "Fixed in 2659e52: `washReach` also stops half a slot's size…" → [↓](#t69)
+- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:219 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:48Z — "Fixed in 2659e52: `washReach` also stops half a slot's size…" → [↓](#t69)
 - **T70** `src/pages/mushrooms/ui/scene/grain.test.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:49Z — "Replaced in 1e2a3a9: the tests now check there is no seam wh…" → [↓](#t70)
 - **T71** `src/pages/mushrooms/ui/scene/hud.ts`:31 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:38Z — "Fixed in both places: `hud.ts` takes 1/ratio in 8c9c15f, and…" → [↓](#t71)
 - **T72** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:46Z — "Done in be2c5ee: the tests import `channels`, `luminance`, `…" → [↓](#t72)
@@ -618,16 +618,16 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T95** `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`:174 — unresolved — last: @vzakharov (agent) 2026-09-29T15:46:34Z — "Сделано в 09b37ce: в плане это пункт 10, сразу после текущег…" → [↓](#t95)
 - **T96** `src/pages/mushrooms/ui/scene/clump-layout.ts`:69 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**Forest mushrooms have no perspective: the division by `sca…" → [↓](#t96)
 - **T97** `src/pages/mushrooms/model/ground.ts`:193 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**On every landscape screen, and on every desktop, the meado…" → [↓](#t97)
-- **T98** `src/pages/mushrooms/ui/scene/meadow-camera.ts`:79 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**The finger pad never switches on, so the plan states the o…" → [↓](#t98)
-- **T99** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:245 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**After a resize that is not a full turn, `+` answers from t…" → [↓](#t99)
-- **T100** `src/pages/mushrooms/ui/scene/sun-layout.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**The sun can still stand over the clump; the loop gives up…" → [↓](#t100)
+- **T98** `src/pages/mushrooms/ui/scene/meadow-camera.ts`:82 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**The finger pad never switches on, so the plan states the o…" → [↓](#t98)
+- **T99** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:245 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:09Z — "Fixed in 13ccefb. `roomNow` goes through `keptRoom`, which k…" → [↓](#t99)
+- **T100** `src/pages/mushrooms/ui/scene/sun-layout.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-29T18:58:20Z — "Fixed in 8e5e408. If the sun still touches something after s…" → [↓](#t100)
 - **T101** `src/pages/mushrooms/model/ground.ts`:114 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**`seen` claims "as far apart here stand as far apart on the…" → [↓](#t101)
-- **T102** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:54 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**A portrait meadow turned to landscape hides most of its fl…" → [↓](#t102)
+- **T102** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:53 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:38Z — "**A portrait meadow turned to landscape hides most of its fl…" → [↓](#t102)
 - **T103** `src/pages/mushrooms/ui/scene/cap-cover.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:39Z — "**`cap-cover` measures a cap only against other caps, so ste…" → [↓](#t103)
-- **T104** `src/pages/mushrooms/model/ground.test.ts`:82 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:39Z — "**This test passes for any camera.** It compares `(x - midli…" → [↓](#t104)
+- **T104** `src/pages/mushrooms/model/ground.test.ts`:82 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:08Z — "Fixed in 13ccefb. The turn test now asserts on the ground: i…" → [↓](#t104)
 - **T105** `src/pages/mushrooms/ui/scene/layout.test.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:39Z — "**The plan's "six in ≥ 99.5% of 2000 visits, the small phone…" → [↓](#t105)
-- **T106** `src/pages/mushrooms/ui/scene/insect-layout.test.ts`:151 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:39Z — "**The bee rule is tested on the median head against its own…" → [↓](#t106)
-- **T107** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:313 — unresolved — last: @vzakharov (agent) 2026-09-29T18:34:39Z — "Small ones, in the same file: - `splays.get(splay) ?? []`: a…" → [↓](#t107)
+- **T106** `src/pages/mushrooms/ui/scene/insect-layout.test.ts`:151 — unresolved — last: @vzakharov (agent) 2026-09-29T18:58:22Z — "Tested in f9a2f7a. The test takes the smallest head the peta…" → [↓](#t106)
+- **T107** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:313 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:11Z — "All three in 13ccefb. A missed splay now throws. `screenPair…" → [↓](#t107)
 
 <a id="t01"></a>
 
@@ -1137,7 +1137,7 @@ Fixed in 45b2d64: a forest slot never stands under the size at which the narrowe
 
 <a id="t19"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.test.ts`:307 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:332 — unresolved
 
 ```diff
 @@ -0,0 +1,138 @@
@@ -1225,7 +1225,7 @@ The faint glow rings are gone: a selected mushroom now wears a thick bright yell
 
 <a id="t22"></a>
 
-### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:143 — unresolved
+### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:144 — unresolved
 
 ```diff
 @@ -0,0 +1,236 @@
@@ -1970,7 +1970,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t46"></a>
 
-### `.claude/skills/megabeast/notes.md`:634 — unresolved
+### `.claude/skills/megabeast/notes.md`:660 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
@@ -1993,7 +1993,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t47"></a>
 
-### `.claude/skills/megabeast/notes.md`:148 — unresolved
+### `.claude/skills/megabeast/notes.md`:154 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
@@ -2016,7 +2016,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t48"></a>
 
-### `docs/plans/mushroom-game-syama.paused.md`:124 — unresolved
+### `docs/plans/mushroom-game-syama.in-progress.md`:124 — unresolved
 
 ```diff
 @@ -0,0 +1,468 @@
@@ -2039,7 +2039,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t49"></a>
 
-### `docs/plans/mushroom-game-syama.paused.md`:100 — unresolved
+### `docs/plans/mushroom-game-syama.in-progress.md`:100 — unresolved
 
 ```diff
 @@ -0,0 +1,468 @@
@@ -2281,12 +2281,11 @@ Done: a resting flutter is one lift and one fall over 420 ms (210 ms a stroke), 
 
 <a id="t56"></a>
 
-### `src/pages/mushrooms/ui/scene/flower-sight.ts`:73 — unresolved
+### `src/pages/mushrooms/ui/scene/flower-sight.ts`:74 — unresolved
 
 ```diff
 @@ -0,0 +1,304 @@
-… 65 lines elided …
-+/**
+… 66 lines elided …
 + * How near two flowers' heads may come, as a share of the two heads' reach
 + * together, a planted one's taken at its widest.
 + */
@@ -2294,7 +2293,8 @@ Done: a resting flutter is one lift and one fall over 420 ms (210 ms a stroke), 
 +
 +/**
 + * How far above a flower's centre a drinking butterfly's middle sits, past
-… 11 lines elided …
++ * the centre's own radius, in units of its size: far enough that its tail
+… 10 lines elided …
 ```
 
 **@vzakharov (agent)** — 2026-09-27T17:19:11Z
@@ -2647,7 +2647,7 @@ Fixed in 52e3079: each mushroom takes its light from the cap's middle to the sun
 
 <a id="t69"></a>
 
-### `src/pages/mushrooms/ui/scene/sun-layout.ts`:124 — unresolved
+### `src/pages/mushrooms/ui/scene/sun-layout.ts`:219 — unresolved
 
 ```diff
 @@ -0,0 +1,110 @@
@@ -3371,7 +3371,7 @@ Ask: decide it before bite 10 rather than carrying it. Either pull item 11's cro
 
 <a id="t98"></a>
 
-### `src/pages/mushrooms/ui/scene/meadow-camera.ts`:79 — unresolved
+### `src/pages/mushrooms/ui/scene/meadow-camera.ts`:82 — unresolved
 
 ```diff
 @@ -0,0 +1,120 @@
@@ -3411,6 +3411,10 @@ Ask: lower the floor so the pad carries the small far caps (the operator's "об
 
 Ask: add the layout to the key (`room.layout === layout`), or clear `this.room` where `this.layout` is set. Test: in a scene-free unit around `roomNow`'s logic, a changed layout with the same meadow calls `roomFor` again.
 
+**@vzakharov (agent)** — 2026-09-29T19:02:09Z
+
+Fixed in 13ccefb. `roomNow` goes through `keptRoom`, which keys on the layout, the seeded flowers and the seed as well as the mushrooms and planted flowers. So after any resize, `+` answers from the new screen. `mushroom-room.test.ts` covers it without a scene.
+
 ---
 
 <a id="t100"></a>
@@ -3431,6 +3435,10 @@ Ask: add the layout to the key (`room.layout === layout`), or clear `this.room` 
 **The sun can still stand over the clump; the loop gives up quietly.** The shrink stops at `r * SUN_LEAST`, and the function then returns the last sun whether it clears or not. A grid sweep over 300–2600 × 300–1600 finds 107 sizes where the rays cross a clump cap, including 560×360 and 640–840×320: landscape phones with the browser bar showing. The tests only sweep `VIEWPORTS`, where it happens to hold.
 
 Ask: when the least sun still doesn't clear, move it (along the sky, away from the crowns) rather than returning an overlap. Test: sweep a grid of sizes, not only `VIEWPORTS`, and assert `raysClear` for every crown.
+
+**@vzakharov (agent)** — 2026-09-29T18:58:20Z
+
+Fixed in 8e5e408. If the sun still touches something after shrinking to `SUN_LEAST` at `sunAt`'s spot, `placeSun` now moves it. It goes to the nearest place in the sky that clears the horizon, the screen's edges for its glow, every control and every crown. There it keeps the largest size that still fits, and it throws if no sun fits anywhere. One check, `fitsSky`, covers all of these, and it also caught a glow running off screen at 400×340. The new test sweeps 300–2600 × 300–1600 every 20 px and asserts `raysClear` for every crown and control. It runs in ~10 s, and 107 sizes failed before the fix. The `VIEWPORTS` suns are unchanged. One cost is accepted: on windows only a few buttons across and down (roughly under 520×460), the moved sun can shrink to `SUN_SMALLEST`, 0.2 of its size. There "never below `SUN_LEAST`" holds only where the sun stays at `sunAt`'s spot.
 
 ---
 
@@ -3457,15 +3465,16 @@ Ask: measure with the actual camera's foreshortening (the placement already has 
 
 <a id="t102"></a>
 
-### `src/pages/mushrooms/ui/scene/mushroom-room.ts`:54 — unresolved
+### `src/pages/mushrooms/ui/scene/mushroom-room.ts`:53 — unresolved
 
 ```diff
 @@ -0,0 +1,331 @@
-… 50 lines elided …
+… 49 lines elided …
++ * clump's size, a mushroom's foot comes to a flower's. Holding it to
 + * `clearOfFlowers` instead, the rule a flower keeps off a mushroom's foot,
 + * leaves room for six mushrooms among seven flowers in almost no visit.
 + */
-+const FLOWER_APART = 0.2;
+… 1 line elided …
 ```
 
 **@vzakharov (agent)** — 2026-09-29T18:34:38Z
@@ -3516,6 +3525,10 @@ Ask: count the nearer mushroom's stem polygon into what hides a cap, and bound a
 
 Ask: assert on the ground, not the screen. Grow on the screen, turn, and check that each `Planted.foot` and each flower foot is identical by value. Then break it on purpose, for example by re-picking one foot on resize, and watch it fail.
 
+**@vzakharov (agent)** — 2026-09-29T19:02:08Z
+
+Fixed in 13ccefb. The turn test now asserts on the ground: it reads each `Planted.foot` and each flower foot back off the turned layout, and each must equal the original by value. I checked that it fails when the flower bed is re-picked on resize and when one foot is nudged on a portrait camera, then reverted both.
+
 ---
 
 <a id="t105"></a>
@@ -3558,6 +3571,10 @@ Ask: name in the plan which number the suite holds and which the script measured
 
 Ask: run this over the smallest head the petal genes allow and over the crawl's extremes, not the median at rest. Test: for the least head and `CRAWL` at ±0.06, at least half the head stays in sight.
 
+**@vzakharov (agent)** — 2026-09-29T18:58:22Z
+
+Tested in f9a2f7a. The test takes the smallest head the petal genes allow, on the smallest flower standing, with the biggest bee at every extreme of its crawl. That head is at most 37% covered, so the hunch doesn't hold for the flowers the game grows. The rule's own claim did fail on a head a tenth that size (100% covered), because the lift ignored the crawl. The lift is now `(FACE_REACH + CRAWL_REACH.y) * size`, with `CRAWL_REACH {x: 0.06, y: 0.03}` exported from `buzz-rest.ts`. The test also covers that tiny head, which is now at most 46% covered.
+
 ---
 
 <a id="t107"></a>
@@ -3581,6 +3598,10 @@ Small ones, in the same file:
 - `clearOfFlowers` (`flower-plots.ts` L188) has no caller outside its own test; this file only names it in a comment. Delete it or use it.
 
 Ask: all three in one commit; knip or a test should hold the dead export.
+
+**@vzakharov (agent)** — 2026-09-29T19:02:11Z
+
+All three in 13ccefb. A missed splay now throws. `screenPairs` went with the turned-screen pair (each screen lays out at its own width now, see the `ground.ts` L193 thread), and a `WeakMap` per layout replaced it, so there is nothing to cap. `clearOfFlowers` and its test are deleted, and the plan now names `clearOfFeet`.
 
 ---
 
@@ -3623,6 +3644,7 @@ Ask: all three in one commit; knip or a test should hold the dead export.
 - **2026-09-28T14:16:42Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/114b5dd27cb2ea5f6d55fb7ee12cbd1f071df184.
 - **2026-09-28T15:00:33Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5340556382.
 - **2026-09-28T15:03:52Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/1ef481cce48f4c54c9e839ec9df3f80e7167d87d.
+- **2026-09-28T17:08:44Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/9342e62dcbffbe0b0f388914eafff5e385fcde45.
 - **2026-09-28T21:20:03Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5344789171.
 - **2026-09-29T08:53:53Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5350040790.
 - **2026-09-29T15:43:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5354936232.
