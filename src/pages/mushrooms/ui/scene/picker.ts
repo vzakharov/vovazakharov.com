@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { Meadow, Planted } from '../../model/game';
+import type { Meadow } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { emerge, launch, sink, SINK_DURATION } from '../../model/motion';
 import {
@@ -10,7 +10,6 @@ import {
   placeButton,
   standButton,
 } from './button';
-import { type MushroomGround, placeIn } from './clump-layout';
 
 /**
  * How far apart a picker's buttons come up, one after another from the end
@@ -19,18 +18,18 @@ import { type MushroomGround, placeIn } from './clump-layout';
 const PICK_STAGGER = 0.07;
 
 /** One of a picker's buttons, which come and go with it. */
-type PickButton = Button & {
+type PickButton<Towards> = Button & {
   /** When it starts coming up, and going; `-Infinity` for both before the picker first opens. */
   shownAt: number;
   hiddenAt: number;
-  /** The mushroom it was picked for, whose place it flies to as it goes. */
-  towards: Planted | undefined;
-  /** Where the layout stands that mushroom. */
+  /** What it was picked for, whose place it flies to as it goes. */
+  towards: Towards | undefined;
+  /** Where the layout stands that. */
   target: Point | undefined;
 };
 
 /** What a picker offers and does, one `Item` per button. */
-export type PickerSpec<Item> = {
+export type PickerSpec<Item, Towards> = {
   items: readonly Item[];
   pick: (item: Item) => void;
   /** Whether a pick of `item` can act; one that cannot shakes its head. */
@@ -40,38 +39,42 @@ export type PickerSpec<Item> = {
     r: number,
     item: Item,
     hairline: number,
+    meadow: Meadow,
   ) => void;
+  /** What `item`'s button shows of `meadow`, so a change there bakes its face afresh; nothing by default. */
+  look?: (item: Item, meadow: Meadow) => string;
   /**
-   * Whether a pick closes the picker and flies to the newest mushroom's foot
-   * as it goes, as a picked cap flies to where its mushroom grows.
+   * What a pick that closes the picker flies to as it goes, read off the
+   * meadow it leaves — as a picked cap flies to where its mushroom grows;
+   * without it, a pick folds back with the rest.
    */
-  flies: boolean;
+  flies?: (meadow: Meadow) => Towards | undefined;
 };
 
 /**
  * A row of buttons that unfolds from the button that opens it, one after
  * another on the clock, the nearest first, and folds back into it the same
- * way; a pick that closes it flies off to its mushroom.
+ * way; a pick that closes it flies off to what it was picked for.
  */
-export class Picker<Item> {
-  private readonly buttons: PickButton[];
+export class Picker<Item, Towards = never> {
+  private readonly buttons: Array<PickButton<Towards>>;
   private open = false;
   /** The button a tap has just picked, until the picker closes on it. */
-  private picked: PickButton | undefined;
-  private readonly spec: PickerSpec<Item>;
+  private picked: PickButton<Towards> | undefined;
+  private readonly spec: PickerSpec<Item, Towards>;
 
   constructor(
-    spec: PickerSpec<Item>,
+    spec: PickerSpec<Item, Towards>,
     make: (act: () => void, can?: Able) => Button,
   ) {
     this.spec = spec;
     const { items, can, flies, pick } = spec;
     this.buttons = items.map((item) => {
       // Into the object the tap handler presses, not a copy of it.
-      const button: PickButton = Object.assign(
+      const button: PickButton<Towards> = Object.assign(
         make(
           () => {
-            if (flies) this.picked = button;
+            if (flies !== undefined) this.picked = button;
             pick(item);
           },
           can && ((meadow) => can(meadow, item)),
@@ -89,11 +92,11 @@ export class Picker<Item> {
 
   /**
    * Stands the buttons at `homes`, unfolding from `from` as `open` turns true
-   * at `now` and folding back as it turns false; `ground` is how the
-   * layout stands each mushroom, for a picked button to fly to; `ratio` is
-   * device pixels to a CSS pixel. A picker closing `inPlaceOf` the other,
-   * which opens where it stands, goes at once rather than folding back, so
-   * the two never show together.
+   * at `now` and folding back as it turns false; `ratio` is device pixels
+   * to a CSS pixel. A picker closing `inPlaceOf` another, which opens where
+   * it stands, goes at once rather than folding back, so the two never show
+   * together. `placeOf` is where the layout stands what a picked button
+   * flies to (`PickerSpec.flies`).
    */
   paint(
     homes: readonly Circle[],
@@ -101,9 +104,9 @@ export class Picker<Item> {
     open: boolean,
     now: number,
     meadow: Meadow,
-    ground: MushroomGround,
     ratio: number,
-    inPlaceOf = false,
+    inPlaceOf: boolean,
+    placeOf?: (towards: Towards) => Point | undefined,
   ): void {
     const opening = open && !this.open;
     const closing = !open && this.open;
@@ -120,9 +123,9 @@ export class Picker<Item> {
       const item = this.spec.items[index];
       if (!at || item === undefined) continue;
       placeButton(button, at, ratio, {
-        look: String(index),
+        look: `${String(index)} ${this.spec.look?.(item, meadow) ?? ''}`,
         draw: (graphics, hairline) => {
-          this.spec.draw(graphics, at.r, item, hairline);
+          this.spec.draw(graphics, at.r, item, hairline, meadow);
         },
       });
       const able = this.spec.can?.(meadow, item) ?? true;
@@ -133,14 +136,15 @@ export class Picker<Item> {
         button.towards = undefined;
       } else if (closing && button === this.picked) {
         button.hiddenAt = now;
-        button.towards = meadow.mushrooms.at(-1);
+        button.towards = this.spec.flies?.(meadow);
       } else if (closing && inPlaceOf) {
         button.hiddenAt = now - SINK_DURATION;
       } else if (closing) {
         const turn = leaving.length - 1 - leaving.indexOf(index);
         button.hiddenAt = now + turn * PICK_STAGGER;
       }
-      button.target = button.towards && placeIn(ground, button.towards);
+      button.target =
+        button.towards === undefined ? undefined : placeOf?.(button.towards);
       // Out of reach the moment the picker closes, while it is still going.
       if (open) button.face.setInteractive();
       else button.face.disableInteractive();

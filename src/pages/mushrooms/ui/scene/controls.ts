@@ -1,9 +1,24 @@
 import type * as Phaser from 'phaser';
 
-import { canFurnish, isEmpty, isFull, type Meadow } from '../../model/game';
+import type { FlowerColour } from '../../model/flower-genes';
+import {
+  FLOWER_SHAPES,
+  type FlowerShape,
+  PICKED_COLOURS,
+} from '../../model/flower-sounds';
+import {
+  canFurnish,
+  isEmpty,
+  isFull,
+  type Meadow,
+  type Planted,
+  shapeSeed,
+} from '../../model/game';
+import type { Point } from '../../model/geometry';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
+import type { Sown } from '../../model/pollen';
 import {
   type Button,
   buttonMaker,
@@ -11,6 +26,9 @@ import {
   placeButton,
   standButton,
 } from './button';
+import { placeIn } from './clump-layout';
+import { drawColourButton, drawShapeButton } from './flower-icons';
+import { standingOn } from './flower-layout';
 import {
   drawFurnishButton,
   drawGrowButton,
@@ -21,6 +39,7 @@ import {
 } from './hud';
 import type { MeadowLayout } from './layout';
 import { Picker } from './picker';
+import { flowerPicker } from './sky-layout';
 
 export type ControlHandlers = {
   mute: () => void;
@@ -30,6 +49,11 @@ export type ControlHandlers = {
   house: () => void;
   furnish: (piece: Furnishing) => void;
   release: (kind: InsectKind) => void;
+  /** The flower picker's two stages: a colour picked, then a shape planted. */
+  colour: (colour: FlowerColour) => void;
+  plant: (shape: FlowerShape) => void;
+  /** Whether the tuft the flower picker is open on can still take a flower. */
+  plantable: (meadow: Meadow) => boolean;
   /** Whether the meadow has room for another mushroom, full or not. */
   roomy: (meadow: Meadow) => boolean;
   /** A tap on a control that cannot act. */
@@ -37,8 +61,10 @@ export type ControlHandlers = {
 };
 
 /**
- * The buttons over the meadow: mute, `+`, `−`, the house and one per insect, and the two
- * pickers — the four caps `+` opens and the windows and door the house does.
+ * The buttons over the meadow: mute, `+`, `−`, the house and one per insect,
+ * and the pickers — the four caps `+` opens, the windows and door the house
+ * does, and the flower picker a tuft opens, its five colours standing where
+ * the house's five do and then its four shapes where the caps do.
  * Each presses in when a tap sets it acting; one that cannot act shakes its
  * head instead. A picker comes up one button after another and goes the same
  * way back, a picked cap flying down to where its mushroom grows; the house's
@@ -55,8 +81,12 @@ export class Controls {
   private readonly releases: Record<InsectKind, Button>;
   /** Whether the fly and the bee give way to an open picker (`Controls.yielding`). */
   private yielding = false;
-  private readonly picker: Picker<Species>;
+  private readonly picker: Picker<Species, Planted>;
   private readonly housePicker: Picker<Furnishing>;
+  private readonly colourPicker: Picker<FlowerColour>;
+  private readonly shapePicker: Picker<FlowerShape, Sown>;
+  /** Where the flower picker last opened, which it folds back into. */
+  private tuft: Point = { x: 0, y: 0 };
   /** As of the last paint, which says what each button can do. */
   private meadow: Meadow | undefined;
   private readonly now: () => number;
@@ -94,7 +124,7 @@ export class Controls {
         items: MUSHROOM_SPECIES,
         pick: handlers.grow,
         draw: drawSpeciesButton,
-        flies: true,
+        flies: (meadow) => meadow.mushrooms.at(-1),
       },
       button,
     );
@@ -104,7 +134,28 @@ export class Controls {
         pick: handlers.furnish,
         can: canFurnish,
         draw: drawFurnishButton,
-        flies: false,
+      },
+      button,
+    );
+    this.colourPicker = new Picker(
+      { items: PICKED_COLOURS, pick: handlers.colour, draw: drawColourButton },
+      button,
+    );
+    this.shapePicker = new Picker(
+      {
+        items: FLOWER_SHAPES,
+        pick: handlers.plant,
+        can: handlers.plantable,
+        draw: (graphics, r, shape, hairline, meadow) => {
+          drawShapeButton(
+            graphics,
+            r,
+            shapeSeed(meadow.planting, shape),
+            hairline,
+          );
+        },
+        look: (shape, meadow) => String(shapeSeed(meadow.planting, shape)),
+        flies: (meadow) => meadow.planted.at(-1),
       },
       button,
     );
@@ -158,26 +209,54 @@ export class Controls {
     }
     this.yielding = layout.yielding;
     const now = this.now();
-    // Each picker opens where the other stands, so the one opening sends the other off at once.
+    const { picking, furnishing, planting } = meadow;
+    if (planting) this.tuft = standingOn(layout.camera, planting.foot);
+    const stages = flowerPicker(layout);
+    const colouring = planting !== undefined && planting.chosen === undefined;
+    const shaping = planting?.chosen !== undefined;
+    const mushroomAt = (mushroom: Planted) =>
+      placeIn(layout.mushrooms, mushroom);
+    const flowerAt = (sown: Sown) =>
+      'parent' in sown ? undefined : standingOn(layout.camera, sown.foot);
+    // Every picker opens where another stands, so the one opening sends the
+    // rest off at once.
     this.picker.paint(
       layout.picker,
       layout.plus,
-      meadow.picking,
+      picking,
       now,
       meadow,
-      layout.mushrooms,
       ratio,
-      meadow.furnishing,
+      furnishing || planting !== undefined,
+      mushroomAt,
     );
     this.housePicker.paint(
       layout.housePicker,
       layout.house,
-      meadow.furnishing,
+      furnishing,
       now,
       meadow,
-      layout.mushrooms,
       ratio,
-      meadow.picking,
+      picking || planting !== undefined,
+    );
+    this.colourPicker.paint(
+      stages.colours,
+      this.tuft,
+      colouring,
+      now,
+      meadow,
+      ratio,
+      picking || furnishing || shaping,
+    );
+    this.shapePicker.paint(
+      stages.shapes,
+      this.tuft,
+      shaping,
+      now,
+      meadow,
+      ratio,
+      picking || furnishing,
+      flowerAt,
     );
   }
 
@@ -186,13 +265,21 @@ export class Controls {
       standButton(button, t, button.home, 1);
     }
     const open =
-      this.meadow?.picking === true || this.meadow?.furnishing === true;
+      this.meadow?.picking === true ||
+      this.meadow?.furnishing === true ||
+      this.meadow?.planting !== undefined;
     for (const kind of INSECT_KINDS) {
       const button = this.releases[kind];
       const away = this.yielding && open && kind !== 'butterfly';
       standButton(button, t, button.home, away ? 0 : 1);
     }
-    this.picker.update(t);
-    this.housePicker.update(t);
+    for (const picker of [
+      this.picker,
+      this.housePicker,
+      this.colourPicker,
+      this.shapePicker,
+    ]) {
+      picker.update(t);
+    }
   }
 }

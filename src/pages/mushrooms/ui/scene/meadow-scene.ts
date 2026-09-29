@@ -20,7 +20,6 @@ import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
 import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheFlowers } from './instrument-input';
@@ -34,7 +33,9 @@ import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
 import { type Backdrop, paintBackdrop } from './paint-backdrop';
 import { airSpots, perchSight, perchSpot } from './perch-sight';
+import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
+import { Grass } from './tufts';
 
 /** The registry key the host writes the device pixel ratio under. */
 export const PIXEL_RATIO_KEY = 'pixelRatio';
@@ -74,8 +75,7 @@ export class MeadowScene extends Phaser.Scene {
   /** The visit as it opened, which places the flowers. */
   private opening: Opening | undefined;
   private backdrop: Backdrop | undefined;
-  private grass: Phaser.GameObjects.Graphics | undefined;
-  private tufts: ReturnType<typeof growTufts> = [];
+  private grass: Grass | undefined;
   private bed: MushroomBed | undefined;
   private controls: Controls | undefined;
   private insects: InsectView | undefined;
@@ -101,6 +101,18 @@ export class MeadowScene extends Phaser.Scene {
   private clock = 0;
   private readonly now = (): number => this.clock;
   private readonly instrument = new Instrument(this.voice, this.now);
+  private readonly planter = new Planter(
+    this.voice,
+    this.now,
+    {
+      stand: () => this.stand(),
+      meadow: () => this.meadow,
+      dispatch: (action) => {
+        this.dispatch(action);
+      },
+    },
+    this.visitSeed ^ 0x7f_10_e5,
+  );
 
   constructor() {
     super('meadow');
@@ -169,6 +181,7 @@ export class MeadowScene extends Phaser.Scene {
             ...this.sight,
           });
         },
+        ...pick(this.planter, 'colour', 'plant', 'plantable'),
         roomy: () => this.roomNow() !== undefined,
         refuse: () => {
           this.voice.nuhUh();
@@ -201,7 +214,6 @@ export class MeadowScene extends Phaser.Scene {
       layout,
       backdrop,
       grass,
-      tufts,
       flowers,
       bed,
       controls,
@@ -225,7 +237,7 @@ export class MeadowScene extends Phaser.Scene {
           width + margin * 2,
         ) - margin;
     }
-    if (grass) paintTufts(grass, tufts, t);
+    grass?.update(t);
     bed?.update(t);
     controls?.update(t);
     // As the tick just left them.
@@ -341,12 +353,20 @@ export class MeadowScene extends Phaser.Scene {
     }
   }
 
-  /** A tap that lands on nothing lets go of the selection. */
+  /**
+   * A tap that lands on nothing else lands on a tuft or the bare meadow,
+   * either of which lets go of the selection.
+   */
   private readonly tapMeadow = (
-    _pointer: Phaser.Input.Pointer,
+    pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
-    if (over.length === 0) this.dispatch({ kind: 'deselect' });
+    if (over.length > 0) return;
+    const { grass, cameras, planter } = this;
+    const at = cameras.main.getWorldPoint(pointer.x, pointer.y);
+    const tuft = grass?.at(at);
+    if (grass && tuft) planter.tapTuft(tuft, grass);
+    else this.dispatch({ kind: 'deselect' });
   };
 
   private readonly startSound = (): void => {
@@ -401,8 +421,8 @@ export class MeadowScene extends Phaser.Scene {
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
-    this.grass ??= this.add.graphics();
-    this.tufts = growTufts(layout, random);
+    this.grass ??= new Grass(this);
+    this.grass.paint(layout, random);
     // One device pixel is the thinnest line the screen shows.
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);

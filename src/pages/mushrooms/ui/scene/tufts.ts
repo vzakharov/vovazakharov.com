@@ -5,10 +5,14 @@
  * no mushroom, flower, insect or button is drawn.
  */
 
+import type * as Phaser from 'phaser';
+
 import type { Point } from '../../model/geometry';
 import type { Camera, FlowerFoot } from '../../model/ground';
+import type { Random } from '../../model/random';
 import { FLOWER_SIZE, groundOf } from './flower-layout';
-import type { Tuft } from './grass';
+import { growTufts, paintTufts, type Refusal, type Tuft } from './grass';
+import type { MeadowLayout } from './layout';
 
 /**
  * How far round its middle a tuft answers a tap at the least, in CSS px: a
@@ -50,4 +54,37 @@ export function tuftAt(tufts: readonly Tuft[], point: Point): Tuft | undefined {
  */
 export function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
   return { ...groundOf(camera, { x, y, size: 0 }), size: FLOWER_SIZE };
+}
+
+/**
+ * The meadow's grass on screen: its tufts as the layout grows them, bending
+ * in the breeze, the one that last refused a flower shaking its head.
+ */
+export class Grass {
+  private readonly graphics: Phaser.GameObjects.Graphics;
+  private tufts: readonly Tuft[] = [];
+  private refused: Refusal | undefined;
+
+  constructor(scene: Phaser.Scene) {
+    this.graphics = scene.add.graphics();
+  }
+
+  /** Grows the tufts for `layout` from `random`: the same source regrows the same grass. */
+  paint(layout: MeadowLayout, random: Random): void {
+    this.tufts = growTufts(layout, random);
+  }
+
+  update(t: number): void {
+    paintTufts(this.graphics, this.tufts, t, this.refused);
+  }
+
+  /** The tuft a tap at `point` lands on (`tuftAt`). */
+  at(point: Point): Tuft | undefined {
+    return tuftAt(this.tufts, point);
+  }
+
+  /** Shakes `tuft`'s head from `now`, in seconds, as it refuses a flower. */
+  refuse(tuft: Tuft, now: number): void {
+    this.refused = { tuft, shakenAt: now };
+  }
 }

@@ -107,6 +107,14 @@ export function firstMeadow(random: Random): Meadow {
   };
 }
 
+/** The seed `shape` grows from in the colour `planting` has picked; `undefined` before a pick. */
+export function shapeSeed(
+  planting: Planting | undefined,
+  shape: FlowerShape,
+): number | undefined {
+  return planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(shape)];
+}
+
 export function isFull({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
   return mushrooms.length >= MUSHROOM_SLOTS;
 }
@@ -245,7 +253,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'plant': {
       const { planting, planted } = meadow;
-      const seed = planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(action.shape)];
+      const seed = shapeSeed(planting, action.shape);
       if (planting === undefined || seed === undefined) return meadow;
       const { foot } = planting;
       return {

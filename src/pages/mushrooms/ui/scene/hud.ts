@@ -27,7 +27,7 @@ import type { Brush } from './shapes';
  * A pictogram's light, the same on every button whatever the sun does, and
  * its thinnest line: `hairline`, one device pixel in CSS pixels.
  */
-const iconLighting = (hairline: number): Lighting => ({
+export const iconLighting = (hairline: number): Lighting => ({
   ...PICTOGRAM_LIGHT,
   hairline,
 });
@@ -40,7 +40,10 @@ const DISC_SHADOW_ALPHA = 0.25;
  * A button's disc, opaque so nothing behind it reads through, and centred on
  * the graphics' own position so a tap can press it in by scale.
  */
-function drawDisc(graphics: Phaser.GameObjects.Graphics, r: number): void {
+export function drawDisc(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+): void {
   graphics.clear();
   graphics.fillStyle(PALETTE.shadeInk, DISC_SHADOW_ALPHA);
   graphics.fillCircle(0, r * DISC_DROP, r);

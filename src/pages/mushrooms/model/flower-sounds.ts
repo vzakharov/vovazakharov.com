@@ -27,6 +27,9 @@ export const DRUM_COLOURS = [
   'white',
 ] as const satisfies readonly FlowerColour[];
 
+/** The five colours as the flower picker offers them: the notes darkest first, then the drums. */
+export const PICKED_COLOURS = [...NOTE_COLOURS, ...DRUM_COLOURS] as const;
+
 /** A flower's four shapes, lowest first. */
 export const FLOWER_SHAPES = [
   { petal: 'round', rings: 1 },

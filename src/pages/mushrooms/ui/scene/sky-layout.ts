@@ -6,6 +6,7 @@
 
 import type { Sized } from '@/shared/typings';
 
+import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
 import type { Circle } from '../../model/geometry';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
@@ -86,6 +87,48 @@ export function standingControls({
   ];
 }
 
+/** Whether two buttons' tap circles keep `gap` apart. */
+const apart = (a: Circle, b: Circle, gap: number) =>
+  Math.hypot(a.x - b.x, a.y - b.y) >= tapReach(a.r) + tapReach(b.r) + gap;
+
+/**
+ * The flower picker's two stages, one open at a time, in the top row the
+ * other pickers share: its five colours where the house picker's five
+ * stand, then its four shapes where the caps' four do. On a screen too
+ * narrow for either whole — the caps' row short of four abreast, the house
+ * picker's band beside the mute too narrow to hold its rest apart — a stage
+ * stands as many abreast as the caps' row holds, the rest in rows under it.
+ */
+export function flowerPicker({
+  picker,
+  housePicker,
+}: Pick<Controls, 'picker' | 'housePicker'>): Record<
+  'colours' | 'shapes',
+  readonly Circle[]
+> {
+  const whole = (row: readonly Circle[], count: number) =>
+    row.length === count &&
+    row.every((button, index) =>
+      row.slice(index + 1).every((other) => apart(button, other, 0)),
+    );
+  const stage = (row: readonly Circle[], count: number) =>
+    whole(row, count) ? row : stacked(picker, count);
+  return {
+    colours: stage(housePicker, PICKED_COLOURS.length),
+    shapes: stage(picker, FLOWER_SHAPES.length),
+  };
+}
+
+/** `count` buttons standing as `row` does, as many abreast as it holds, the rest in rows under it. */
+function stacked(row: readonly Circle[], count: number): Circle[] {
+  const step = (row[0] ? tapReach(row[0].r) * 2 : 0) + GROW_GAP;
+  return Array.from({ length: count }, (_, index) => {
+    const at = row[index % row.length];
+    if (!at) throw new Error('A picker row with no buttons');
+    return { ...at, y: at.y + step * Math.floor(index / row.length) };
+  });
+}
+
 /** A picker's radius with `count` buttons abreast. */
 function pickRadius(count: number, span: number, height: number): number {
   return Math.min(
@@ -142,9 +185,6 @@ function rowAcross(
     r,
   }));
 }
-
-const apart = (a: Circle, b: Circle, gap: number) =>
-  Math.hypot(a.x - b.x, a.y - b.y) >= tapReach(a.r) + tapReach(b.r) + gap;
 
 /**
  * The mute in the top left; the two pickers across the top, one at a time, as

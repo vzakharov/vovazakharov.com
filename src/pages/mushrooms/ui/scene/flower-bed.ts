@@ -46,8 +46,8 @@ type Shown = TappedFigure &
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the
  * ones the bees plant alike: each stands where the layout puts it
  * (`standingFlowers`), sways in the breeze, blooms open when tapped and sags
- * under an insect drinking at it; a planted one grows up out of the ground
- * and opens sounding its note or drum.
+ * under an insect drinking at it; a planted one, a bee's or the child's,
+ * grows up out of the ground and opens sounding its note or drum.
  */
 export class FlowerBed {
   private readonly shown = new Map<string, Shown>();
@@ -115,7 +115,7 @@ export class FlowerBed {
 
   /**
    * Shows what `planted` holds as of `clock`, in seconds, among `mushrooms`:
-   * each new flower grows up where `layout` rings it round its parent,
+   * each new flower grows up where `layout` stands it,
    * blooming open with its sound, and each planted flower stands or hides as
    * the mushrooms' feet leave it ground (`standingFlowers`).
    */
@@ -131,7 +131,9 @@ export class FlowerBed {
     for (const flower of fresh) {
       const shown = this.show(flower, clock);
       shown.tappedAt = clock;
-      this.sound(flower, false);
+      // The child's own flower leads the melody, as a tap does; a bee's
+      // plays from it without moving it.
+      this.sound(flower, !('parent' in flower));
     }
     if (!this.lighting) throw new Error('A flower is planted before its paint');
     this.paint(layout, this.lighting);

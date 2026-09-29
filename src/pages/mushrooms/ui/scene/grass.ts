@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { type Phased, sway } from '../../model/motion';
+import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import { groundAt } from './backdrop-tones';
 import { mix } from './colour';
@@ -14,6 +14,8 @@ const SEAM_TUFTS_PER_1000PX = 28;
 const SEAM_SCATTER = [0.004, 0.09] as const;
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
+/** How far a tuft's tip swings as it shakes its head, refusing a flower. */
+const REFUSE_SWING = 0.9;
 /**
  * How much of the breeze's cycle each CSS pixel across lags, so a gust is
  * seen crossing the grass.
@@ -71,15 +73,24 @@ export function growTufts(layout: MeadowLayout, random: Random): Tuft[] {
   });
 }
 
-/** The grass as it bends at `time`, into `graphics` cleared for it. */
+/** A tuft that refused a flower, and when, in seconds on the scene's clock. */
+export type Refusal = { tuft: Tuft; shakenAt: number };
+
+/**
+ * The grass as it bends at `time`, into `graphics` cleared for it, the tuft
+ * of `refused` shaking its head as it refuses.
+ */
 export function paintTufts(
   graphics: Phaser.GameObjects.Graphics,
   tufts: readonly Tuft[],
   time: number,
+  refused?: Refusal,
 ): void {
   graphics.clear();
-  for (const { x, y, size, phase, flank, middle, crown } of tufts) {
-    const bend = sway(time, phase) * SWING;
+  for (const tuft of tufts) {
+    const { x, y, size, phase, flank, middle, crown } = tuft;
+    const no = tuft === refused?.tuft ? shake(time - refused.shakenAt) : 0;
+    const bend = sway(time, phase) * SWING + no * REFUSE_SWING;
     for (const [lean, height, colour] of [
       [-0.5, 1.6, flank],
       [0.45, 1.4, flank],
