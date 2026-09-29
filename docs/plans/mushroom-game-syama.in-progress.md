@@ -593,8 +593,11 @@ Standing rules for every session in the chain:
         yet, the camera shows the whole **common frame** — the ground every
         screen's camera sees — and mushrooms stand only inside it, so none
         is ever out of reach; a wider screen shows more meadow round it.
-        The slot floors become a zoom floor: no camera shows the narrowest
-        cap in the farthest row narrower than `2 × TAP_RADIUS`.
+        The common frame is derived from what every screen's camera shows,
+        never set by hand. A finger's target is the tap area's to hold, not
+        the drawn width's: the zoom floor (`ZOOM_FLOOR`) keeps today's
+        sizes, and a cap drawn narrower than a finger (a turned cap draws up
+        to 11% under its `capWidth`) is padded by the tap floor below.
       - **A small thing's tap area is at least `TAP_RADIUS`** round what is
         drawn (`mushroom-outline.ts` `tapArea`, `hit-areas.ts`), the
         front-most drawn part still taking the tap (wave A, alongside).
