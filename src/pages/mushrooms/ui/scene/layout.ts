@@ -187,7 +187,7 @@ function keptBed(
 function standMeadow(width: number, height: number, shown: number): Stood {
   const camera = meadowCamera(width, height, shown);
   const { groundTop, ground, unit } = camera;
-  const horizon = horizonAt(width, height);
+  const horizon = horizonAt(groundTop);
   const short = Math.min(width, height);
   const frame = meadowFrame({ width, height });
   const mushrooms = { camera, frame };
@@ -213,7 +213,12 @@ function standMeadow(width: number, height: number, shown: number): Stood {
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
-    sun: placeSun(width, height, short * 0.075, controls, clumpCrowns(camera)),
+    sun: placeSun(
+      { width, height, horizon },
+      short * 0.075,
+      controls,
+      clumpCrowns(camera),
+    ),
     clouds: [
       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
       { x: width * 0.5, y: height * 0.08, r: short * 0.045 },

@@ -101,10 +101,13 @@ export const FRAME_DEPTH = {
 
 /**
  * How far up the screen one step into the distance goes against one across
- * at the clump's front foot, on the camera whose band the clump's size fills
- * the most of (`UNIT_PER_BAND`).
+ * at the clump's front foot, on every camera: the flattest look at the meadow
+ * that still stands the frame's back row with its caps above the clump's
+ * (`UNIT_PER_BAND`). The angle is the meadow's, not the screen's, so a screen
+ * picks only the clump's size and how much ground it shows, and one screen's
+ * picture is a scaled copy of another's.
  */
-const UP_PER_Z = 1 / (BAND_DEPTH * UNIT_PER_BAND);
+export const UP_PER_Z = 1 / (BAND_DEPTH * UNIT_PER_BAND);
 
 /**
  * A ground point as a camera lays it out, in the clump's size at its front
@@ -162,17 +165,32 @@ export type Lens = Record<
 >;
 
 /**
- * The clump's size on `screen` as the screen composes it: by height when
- * the screen is wide, by width when it is tall, no bigger than the band's
- * depth leaves the back row room behind it, never under `lens.floor`.
+ * The biggest clump size `screen` stands the meadow at: where the ground's
+ * band, at `UP_PER_Z`, takes the lower half of a tall screen or the lower 0.4
+ * of a wide one, leaving the sky room for the controls and the sun.
  */
-function composedUnit({ width, height }: Sized, lens: Lens): number {
-  const portrait = height > width;
-  const ground = height * (portrait ? 0.5 : 0.4);
-  const composed = portrait
-    ? Math.min(width * 0.6, height * 0.34)
-    : height * 0.44;
-  return Math.max(lens.floor, Math.min(composed, ground * UNIT_PER_BAND));
+function mostUnit({ width, height }: Sized): number {
+  return height * (height > width ? 0.5 : 0.4) * UNIT_PER_BAND;
+}
+
+/**
+ * The least clump size on `screen`: `lens.floor`, but where the screen is
+ * too short to stand the clump that big (`mostUnit`).
+ */
+function floorOn(screen: Sized, lens: Lens): number {
+  return Math.min(lens.floor, mostUnit(screen));
+}
+
+/**
+ * The clump's size on `screen` as the screen composes it: by height when
+ * the screen is wide, by width when it is tall, never over `mostUnit` nor
+ * under `floorOn`.
+ */
+function composedUnit(screen: Sized, lens: Lens): number {
+  const { width, height } = screen;
+  const composed =
+    height > width ? Math.min(width * 0.6, height * 0.34) : height * 0.44;
+  return Math.min(mostUnit(screen), Math.max(lens.floor, composed));
 }
 
 /** How far across `screen` shows the ground at the size it composes the clump at, caps inside the margin. */
@@ -204,42 +222,36 @@ export function widestOf(feet: readonly Ground[]): number {
 }
 
 /**
- * The camera for `screen`: the ground begins halfway down a tall screen and
- * lower on a wide one, and the clump stands as big as the screen composes it
+ * The camera for `screen`: the clump stands as big as the screen composes it
  * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
- * reach past `lens.margin`, and never under `lens.floor` but where `shown`,
+ * reach past `lens.margin`, and never under `floorOn` but where `shown`,
  * how far across in the clump's size at its front foot the camera must show
  * besides, would reach past it: what the meadow has already used stays in
- * view, however small that draws it.
+ * view, however small that draws it. The ground's band runs up from the
+ * screen's foot as deep as `UP_PER_Z` stands it at that size.
  */
 export function fitCamera(screen: Sized, lens: Lens, shown = 0): Camera {
   const { width, height } = screen;
-  const groundTop = height * (height > width ? 0.5 : 0.6);
   const half = width / 2 - lens.margin;
   const reach = Math.max(
     lens.reach,
     frameFor(screen, lens).across + lens.beyond,
   );
   const unit = Math.min(
-    Math.max(lens.floor, Math.min(composedUnit(screen, lens), half / reach)),
+    Math.max(
+      floorOn(screen, lens),
+      Math.min(composedUnit(screen, lens), half / reach),
+    ),
     // What the frame holds is in view already, at the floor too.
     shown > reach ? half / shown : Infinity,
   );
+  const ground = unit * BAND_DEPTH * UP_PER_Z;
   return {
     width,
     height,
-    groundTop,
-    ground: height - groundTop,
+    groundTop: height - ground,
+    ground,
     midline: width / 2,
     unit,
   };
-}
-
-/**
- * How many px down the screen a step of the clump's size into the distance
- * takes on `camera`, per px a thing of the clump's size stands across at the
- * clump's front foot.
- */
-export function foreshortening({ ground, unit }: Camera): number {
-  return ground / (BAND_DEPTH * unit);
 }

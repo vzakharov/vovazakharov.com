@@ -51,14 +51,14 @@ const RULES = [
 ] as const;
 type Rule = (typeof RULES)[number];
 /**
- * The rules the meadow keeps once turned: every mushroom in view, its cap
- * inside the edge margin. The rest are held on the screen a mushroom grows
- * on only (`roomFor`), and a turn is measured against them.
+ * The rules the meadow keeps once turned: every one a mushroom is held to on
+ * the screen it grows on (`roomFor`), the turned camera showing a scaled copy
+ * of that screen's picture (`UP_PER_Z`), but for the sun's wash, which the
+ * turned screen's own sun casts. A turn is measured against that one.
  */
-const TURN_KEPT: ReadonlySet<Rule> = new Set([
-  'shown',
-  'inside the edge margin',
-]);
+const TURN_KEPT: ReadonlySet<Rule> = new Set(
+  RULES.filter((rule) => rule !== 'out of the wash'),
+);
 
 /** Each species as the newest mushroom, by each rule, as the sweep names them. */
 const MEASURES = MUSHROOM_SPECIES.flatMap((species) =>
@@ -297,7 +297,7 @@ describe('a meadow grown toward six', () => {
       );
     });
 
-    it(`keeps every mushroom in view, its cap inside the edge margin, once a meadow grown on a ${name} screen turns`, (t) => {
+    it(`keeps every rule but the wash, once a meadow grown on a ${name} screen turns`, (t) => {
       const turnBroken = new Map<Rule, number>();
       let meadows = 0;
       for (const [seed, meadow] of grownOn(name, width, height)) {

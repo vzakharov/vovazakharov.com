@@ -10,7 +10,6 @@ import type { Sized } from '@/shared/typings';
 import {
   type Camera,
   fitCamera,
-  foreshortening,
   type Frame,
   FRAME_DEPTH,
   frameFor,
@@ -23,7 +22,6 @@ import { maxReach } from '../../model/mushroom-pose';
 import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { TAP_RADIUS } from './sky-layout';
-import { VIEWPORTS } from './viewports';
 
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;
@@ -118,27 +116,3 @@ export function meadowCamera(width: number, height: number, shown = 0): Camera {
 export function meadowFrame(screen: Sized): Frame {
   return frameFor(screen, LENS);
 }
-
-/**
- * How many px down the screen a step of the clump's size into the distance
- * takes, per px a thing of the clump's size stands across there
- * (`foreshortening`), from the flattest to the steepest camera of every
- * screen the sweeps and the play run cover, held either way, and each turned
- * from the other holding the first's frame in view. A rule kept on the ground
- * over the span holds on the screen through every camera in it.
- */
-export const FORESHORTENING = ((): readonly [number, number] => {
-  const spans = VIEWPORTS.flatMap(([, width, height]) =>
-    [
-      [width, height],
-      [height, width],
-    ].flatMap(([across = 0, down = 0]) => {
-      const turned = meadowFrame({ width: down, height: across }).across;
-      return [
-        meadowCamera(across, down),
-        meadowCamera(across, down, turned + LENS.beyond),
-      ].map((camera) => foreshortening(camera));
-    }),
-  );
-  return [Math.min(...spans), Math.max(...spans)];
-})();

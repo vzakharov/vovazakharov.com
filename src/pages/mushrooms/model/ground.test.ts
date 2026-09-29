@@ -13,7 +13,7 @@ import {
 } from '../ui/scene/meadow-camera';
 import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened, relaidOn } from '../ui/scene/visit-play';
-import { type Frame, type Ground, project, scaleAt } from './ground';
+import { type Frame, type Ground, project, scaleAt, seen } from './ground';
 import { maxReach } from './mushroom-pose';
 import { OPENING_FEET } from './placement';
 
@@ -39,6 +39,44 @@ const SCREENS = VIEWPORTS.flatMap(([name, width, height]) => [
   { name, width, height },
   { name: `${name} turned`, width: height, height: width },
 ]);
+
+/** How near, in CSS px, two points on the screen count as one. */
+const SAME_PX = 1e-6;
+
+describe('seen', () => {
+  // A tall phone none of `VIEWPORTS` is, and its turn.
+  const screens = [
+    ...SCREENS,
+    { name: '412×915', width: 412, height: 915 },
+    { name: '412×915 turned', width: 915, height: 412 },
+  ];
+  for (const { name, width, height } of screens) {
+    it(`times the clump's size is where the ${name} camera shows a foot from the clump's front foot, fitted or turned into`, () => {
+      const [seed = 0] = VISITS;
+      const grownTurned = opened(seed, height, width, true);
+      const cameras = {
+        fitted: meadowCamera(width, height),
+        'turned into': relaidOn(grownTurned, seed, width, height).camera,
+      };
+      for (const [how, camera] of Object.entries(cameras)) {
+        const front = project(camera, { x: 0, z: 0 });
+        for (const foot of feetOver(meadowFrame({ width, height }))) {
+          const shown = project(camera, foot);
+          const { x, y } = seen(foot);
+          const at = `${how}, foot ${foot.x.toFixed(2)}, ${foot.z.toFixed(2)}`;
+          assert.ok(
+            Math.abs(shown.x - front.x - x * camera.unit) < SAME_PX,
+            `${at}: across`,
+          );
+          assert.ok(
+            Math.abs(front.y - shown.y - y * camera.unit) < SAME_PX,
+            `${at}: up`,
+          );
+        }
+      }
+    });
+  }
+});
 
 /**
  * The screens whose camera is held at the zoom floor while their frame is

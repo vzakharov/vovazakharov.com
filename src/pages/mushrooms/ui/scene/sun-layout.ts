@@ -29,10 +29,17 @@ const SUN_LEAST = 0.5;
  */
 const SUN_SMALLEST = 0.2;
 
-/** Where the far hills meet the meadow, as a share down a screen `width` by `height`. */
-export function horizonAt(width: number, height: number): number {
-  return height * (height > width ? 0.36 : 0.42);
+/**
+ * Where the far hills meet the sky, over ground whose band begins
+ * `groundTop` down the screen: the hills stand as tall against the ground's
+ * depth on every screen.
+ */
+export function horizonAt(groundTop: number): number {
+  return groundTop * 0.7;
 }
+
+/** The screen the sun stands on, and where its sky meets the hills. */
+type SunScreen = Pick<MeadowLayout, 'width' | 'height' | 'horizon'>;
 
 /** The step, in CSS px, of the grid across the sky the sun is moved over. */
 const SKY_STEP = 2;
@@ -46,15 +53,14 @@ const SKY_STEP = 2;
  * screen's sun would stand over the clump or a button.
  */
 export function placeSun(
-  width: number,
-  height: number,
+  { width, height, horizon }: SunScreen,
   r: number,
   controls: Controls,
   crowns: readonly Box[],
 ): Circle {
   const sky = {
     width,
-    horizon: horizonAt(width, height),
+    horizon,
     buttons: [
       ...standingControls(controls).map((button) => ({
         ...button,

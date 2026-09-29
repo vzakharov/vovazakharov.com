@@ -25,12 +25,12 @@ import {
   project,
   scaleAt,
   seen,
+  UP_PER_Z,
   zAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
 import type { Footing } from './layout';
-import { FORESHORTENING } from './meadow-camera';
 
 /**
  * The slots the flowers grow around on the screen a visit opens on, as a
@@ -156,22 +156,21 @@ export function flowersOn(
 }
 
 /**
- * The least `|r × depth + rise|` for any `r` of `FORESHORTENING` and any
- * `rise` from `low` to `high`: how near on the screen, down it, in the
- * clump's size, two things can come whose feet are `depth` apart into the
- * distance.
+ * How near on the screen, down it, in the clump's size, two things come whose
+ * feet are `depth` apart into the distance and whose tops stand from `low` to
+ * `high` up off them: the least `|UP_PER_Z × depth + rise|` for any `rise`
+ * between.
  */
 function leastRise(depth: number, low: number, high: number): number {
-  const [flat, steep] = FORESHORTENING.map((r) => r * depth);
-  const least = Math.min(flat ?? 0, steep ?? 0) + low;
-  const most = Math.max(flat ?? 0, steep ?? 0) + high;
+  const least = UP_PER_Z * depth + low;
+  const most = UP_PER_Z * depth + high;
   if (least > 0) return least;
   return most < 0 ? -most : 0;
 }
 
 /**
  * Whether a flower at `flower` keeps its stem and head off every mushroom's
- * foot of `feet`, on every screen (`FORESHORTENING`): the foot and its
+ * foot of `feet`, on every screen: the foot and its
  * shadow, the one thing Syama drew being two stems standing together.
  */
 export function clearOfFeet(
@@ -194,7 +193,7 @@ export function clearOfFeet(
 
 /**
  * Whether a flower at `place` keeps its head, at its widest, apart from the
- * head of every flower at `others`, on every screen (`FORESHORTENING`).
+ * head of every flower at `others`, on every screen.
  */
 export function headsApart(
   place: FlowerFoot,
