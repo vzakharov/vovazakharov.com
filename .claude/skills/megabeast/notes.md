@@ -794,6 +794,16 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   took the last refactor, the plan fold and `/polish` (~225k); a second took
   vet, the five-screen play run, the frames, the Artifact build and `/pr`.
   The orchestrator kept the replies, the Artifact publish and the relay.
+- **A comment that states the intent is where a flattened property hides.**
+  Bite 9's review found forest mushrooms drawn one size at every depth,
+  because `sizeOn` divides by the very `scaleAt` that `project` multiplies
+  by. The comment above the constant stated it as a choice ("the back rows
+  as big as the front ones"), every test compared the forest only with the
+  clump, and so the bite's agents read the choice as settled. The
+  orchestrator saw it in two committed frames (a far cap wider than a near
+  one), and the reader and the player then reached the cause independently.
+  The skill's review brief should ask of every "on purpose" comment what it
+  trades away, and measure that.
 - **Ask what an invariant protects before sweeping it everywhere.** Bite 9's
   agents inherited "every screen" from the old layout sweeps and checked
   each mushroom pick against all six screens held both ways. That shrank
