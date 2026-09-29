@@ -581,8 +581,44 @@ Standing rules for every session in the chain:
       the list of what the wider meadow can build now without prejudging the
       walking meadow; the second on whether it fits as a bite of its own. They
       are posted on the PR as one comment linking both.
-   2. Then that list, built, detailed here once the first document names it,
-      and the bite's end as § "How this elephant is eaten" step 1 says.
+   2. Then the document's list («Что можно строить в байте 9 при любом
+      решении», items 1–4, and 5 if the bite has room), and the bite's end
+      as § "How this elephant is eaten" step 1 says:
+      - **Ground and camera** (wave A). Everything stands at a point on the
+        ground `{ x, z }` in the clump's units (`model/ground.ts`); a
+        `Camera` is a pure function onto the screen (`project` → position,
+        scale, haze, depth), and today's depth-to-`y` projection is the
+        first one, `fitCamera(screen)`. A rotation or a resize builds a new
+        camera and moves nothing in the world. Since the child cannot pan
+        yet, the camera shows the whole **common frame** — the ground every
+        screen's camera sees — and mushrooms stand only inside it, so none
+        is ever out of reach; a wider screen shows more meadow round it.
+        The slot floors become a zoom floor: no camera shows the narrowest
+        cap in the farthest row narrower than `2 × TAP_RADIUS`.
+      - **A small thing's tap area is at least `TAP_RADIUS`** round what is
+        drawn (`mushroom-outline.ts` `tapArea`, `hit-areas.ts`), the
+        front-most drawn part still taking the tap (wave A, alongside).
+      - **Flowers in the world, once a visit** (wave B): placed on the
+        ground by the visit's stream, not on the screen and on it turned;
+        the turned-screen guards and the two meadows' feet go
+        (`meadowLayout`, `placedOn`, `stoodMeadow`), `clearOfFeet` and
+        `headsApart` stay, a flower may stand outside the common frame, and
+        in-sight stays the scene's query against the current camera
+        (`flower-sight.ts`). The bees' ring slots move to the ground.
+      - **Mushrooms placed, not slotted** (wave B, beside the flowers):
+        `model/placement.ts` picks a free foot by Mitchell's best-of-K over
+        the common frame, from the visit's stream; `Planted.slot` becomes
+        `Planted.foot`, `MUSHROOM_SLOTS` stays the count. A pick keeps what
+        the slots kept — off every foot and flower, the cap in frame, no cap
+        more than ~25% covered, the door in sight — and the opening clump
+        stands as in the drawing. Different visits give different meadows,
+        one seed the same one.
+      - If room: repaint a mushroom or flower only past a step of scale,
+        haze or light (as `litTurn` does), and a play-run screen with 20–30
+        mushrooms under the 26 ms budget.
+      Waiting for the operator (the document's list): pan and pinch, the
+      world's edges, a panorama wider than the screen, insects in world
+      coordinates, the mute.
 
 ## Rest of the elephant
 
