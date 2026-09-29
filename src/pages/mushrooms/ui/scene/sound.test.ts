@@ -103,6 +103,7 @@ const globals = {
   OscillatorNode: FakeNode,
   AudioBufferSourceNode: FakeNode,
   BiquadFilterNode: FakeNode,
+  DynamicsCompressorNode: FakeNode,
   document: page,
   localStorage: { getItem: () => null, setItem: () => null },
 };
@@ -127,7 +128,9 @@ afterEach(() => {
 function askForEverything(sound: MeadowSound): void {
   sound.pop();
   sound.boing(1);
-  sound.chime(2);
+  sound.note(72);
+  sound.drum('kick');
+  sound.drum('shaker');
   sound.grow();
   sound.sink();
   sound.nuhUh();
@@ -166,6 +169,34 @@ describe('MeadowSound', () => {
     silent.start();
     assert.ok(withPop > built.nodes);
     silent.stop();
+  });
+
+  it('a chord asked for before the synth exists is heard whole', () => {
+    const one = new MeadowSound(false);
+    one.note(72);
+    one.start();
+    const single = built.nodes;
+    one.stop();
+
+    built.nodes = 0;
+    const chord = new MeadowSound(false);
+    for (const note of [72, 76, 79]) chord.note(note);
+    chord.start();
+    assert.ok(built.nodes > single);
+    chord.stop();
+  });
+
+  it('a browser with no Web Audio stays silent without throwing', () => {
+    Object.defineProperty(globalThis, 'AudioContext', {
+      value: undefined,
+      configurable: true,
+    });
+    const sound = new MeadowSound(false);
+    sound.start();
+    askForEverything(sound);
+    sound.toggleMuted();
+    sound.stop();
+    assert.equal(built.nodes, 0);
   });
 
   it('no voice is built while muted, fading or suspended', async () => {

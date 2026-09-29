@@ -1,3 +1,5 @@
+import type { Bent } from './geometry';
+
 /** What a creature is grown from: its genes are a pure function of it. */
 export type Seeded = { seed: number };
 
@@ -6,6 +8,9 @@ export type Seeded = { seed: number };
  * the base lives in `palette.ts`, the nudge in the genes.
  */
 export type Nudged = { hueNudge: number };
+
+/** A thing grown on a stem, a mushroom or a flower: the stem's bend, and its colour's nudge. */
+export type Stalked = Bent & Nudged;
 
 /** A source of uniform numbers in `[0, 1)`. */
 export type Random = () => number;

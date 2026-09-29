@@ -5,15 +5,19 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
+import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
 import { TAKE_OFF } from './insect-voices';
-import { PENTATONIC, tone, type Voice } from './synth';
+import { drumVoice, noteVoice } from './instrument-voices';
+import { tone, type Voice } from './synth';
 
 const MUTED_KEY = 'mushrooms-muted';
 const LOUDNESS = 0.8;
 /** How long a mute takes to fade out before the synth is suspended. */
 const FADE_SECONDS = 0.25;
 const BIRD_GAP_SECONDS = [5, 12] as const;
+/** The most voices asked for before the synth starts that wait for it: a chord's worth. */
+const PENDING_VOICES = 5;
 
 /**
  * Whether the player muted the meadow on an earlier visit. Where storage
@@ -98,15 +102,6 @@ const squeak: Voice = (context, out) => {
   tone(context, out, 'sine', [2100, 2900], 0.1, 0.09, 0.2);
 };
 
-/** A soft bell on the scale's `step`th note, the same note for the same step. */
-function chime(step: number): Voice {
-  const pitch = PENTATONIC[step % PENTATONIC.length] ?? PENTATONIC[0] ?? 440;
-  return (context, out) => {
-    tone(context, out, 'triangle', [pitch, pitch], 0.9, 0.16);
-    tone(context, out, 'sine', [pitch * 2, pitch * 2], 0.5, 0.05);
-  };
-}
-
 const bird: Voice = (context, out) => {
   const notes = 2 + Math.floor(Math.random() * 3);
   const high = 2600 + Math.random() * 900;
@@ -154,7 +149,7 @@ function startBreeze(context: AudioContext, out: AudioNode): void {
 export class MeadowSound {
   private context: AudioContext | undefined;
   private master: GainNode | undefined;
-  private pending: Voice | undefined;
+  private pending: Voice[] = [];
   private birdTimer: ReturnType<typeof setTimeout> | undefined;
   private quietTimer: ReturnType<typeof setTimeout> | undefined;
   private mutedNow: boolean;
@@ -176,17 +171,30 @@ export class MeadowSound {
       this.settle();
       return;
     }
+    // A browser with no Web Audio keeps the meadow silent, and nothing else changes.
+    if (typeof AudioContext === 'undefined') return;
     const context = new AudioContext();
     this.context = context;
     this.master = new GainNode(context, {
       gain: this.mutedNow ? 0 : LOUDNESS,
     });
-    this.master.connect(context.destination);
+    // Chords and drums stacked on the breeze stay under full scale.
+    this.master
+      .connect(
+        new DynamicsCompressorNode(context, {
+          threshold: -14,
+          knee: 12,
+          ratio: 4,
+          attack: 0.004,
+          release: 0.2,
+        }),
+      )
+      .connect(context.destination);
     startBreeze(context, this.master);
     this.scheduleBird();
     document.addEventListener('visibilitychange', this.followVisibility);
-    this.pending?.(context, this.master);
-    this.pending = undefined;
+    for (const voice of this.pending) voice(context, this.master);
+    this.pending = [];
     this.settle();
   }
 
@@ -223,8 +231,13 @@ export class MeadowSound {
     this.play(boing(pitch));
   }
 
-  chime(step: number): void {
-    this.play(chime(step));
+  /** A flower's note, `note` a MIDI number. */
+  note(note: number): void {
+    this.play(noteVoice(note));
+  }
+
+  drum(drum: Drum): void {
+    this.play(drumVoice(drum));
   }
 
   grow(): void {
@@ -263,12 +276,12 @@ export class MeadowSound {
    * Builds `voice` only while the synth is heard. A suspended context's clock
    * stands still, so a voice built while muted or hidden would wait there and
    * sound, with every other one, the moment it resumes; such a voice is
-   * dropped instead. Before the synth exists the latest voice waits for
-   * `start`, so the first tap is heard.
+   * dropped instead. Before the synth exists the latest few voices wait
+   * for `start`, so the first tap is heard, or the first chord.
    */
   private play(voice: Voice): void {
     if (!this.context || !this.master) {
-      this.pending = voice;
+      this.pending = [...this.pending, voice].slice(-PENDING_VOICES);
       return;
     }
     if (this.heard()) voice(this.context, this.master);

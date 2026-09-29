@@ -25,6 +25,7 @@ import {
   peek,
   PEEK_PERIOD,
   peekAfterTap,
+  rebloom,
   shake,
   SHAKE_DURATION,
   sink,
@@ -70,6 +71,17 @@ describe('wobble', () => {
     // there is a step too small to see.
     const tail = samples(0.05).map((t) => t + WOBBLE_DURATION - 0.05);
     assert.ok(tail.every((t) => edge(t) < WOBBLE_REST * 1.15));
+  });
+});
+
+describe('rebloom', () => {
+  it('opens a flower on from where it stands, never shutting it first', () => {
+    for (let elapsed = 0; elapsed < BLOOM_DURATION; elapsed += 0.01) {
+      const from = rebloom(elapsed);
+      assert.ok(Math.abs(bloom(from) - bloom(elapsed)) < 1e-4);
+      assert.ok(bloom(from - 0.01) <= bloom(from), 'on the way out');
+    }
+    assert.equal(rebloom(-Infinity), 0);
   });
 });
 

@@ -1,6 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
-import type { Bent, Circle } from './geometry';
+import type { Circle } from './geometry';
 import {
   between,
   geneFrom,
@@ -8,6 +8,7 @@ import {
   mulberry32,
   pick,
   type Seeded,
+  type Stalked,
 } from './random';
 
 /** A petal's outline: a pointed lens, or a rounded paddle. */
@@ -27,7 +28,7 @@ export type Flower = WithId & Seeded;
  * Its head is a mandala in miniature: `fold` petals in a ring, and a second
  * ring set half a step round inside the first where `rings` is 2.
  */
-export type FlowerGenes = Bent & {
+export type FlowerGenes = Stalked & {
   petal: (typeof PETAL_KINDS)[number];
   colour: (typeof FLOWER_COLOURS)[number];
   fold: number;
@@ -41,8 +42,6 @@ export type FlowerGenes = Bent & {
   /** Where along the stem the leaf grows, and to which side. */
   leafAt: number;
   leafSide: -1 | 1;
-  /** The petals' turn off their colour's base hue, a fraction of a turn: small enough that the colour still reads as itself. */
-  hueNudge: number;
 };
 
 export const FLOWER_RANGES = {

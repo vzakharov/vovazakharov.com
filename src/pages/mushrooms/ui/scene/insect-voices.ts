@@ -4,7 +4,7 @@
  */
 
 import type { InsectKind } from '../../model/insect-genes';
-import { PENTATONIC, tone, type Voice } from './synth';
+import { PENTATONIC, tone, type Voice, type Voiced } from './synth';
 
 /**
  * A butterfly taking wing: a soft trill of quick notes climbing the
@@ -23,8 +23,7 @@ const trill: Voice = (context, out) => {
  * the pitch wavers, the filter that colours it, its wingbeat's tremolo of
  * loudness, how long it lasts and how loud it gets.
  */
-type Buzz = {
-  shape: OscillatorType;
+type Buzz = Voiced & {
   pitch: number;
   waver: number;
   waverRate: number;
@@ -32,7 +31,6 @@ type Buzz = {
   cutoff: number;
   tremolo: number;
   duration: number;
-  peak: number;
 };
 
 /** A fly's thin rasp, wavering; a bee's lower, warmer hum. */

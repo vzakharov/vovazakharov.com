@@ -11,5 +11,11 @@
 
   canvas {
     display: block;
+
+    // The canvas takes focus for the keyboard to play it; it is the whole
+    // screen, so a ring round it would frame nothing.
+    &:focus {
+      outline: none;
+    }
   }
 }

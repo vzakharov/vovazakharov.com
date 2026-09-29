@@ -8,18 +8,26 @@ export const PENTATONIC = [
   523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66,
 ];
 
+/** An oscillator's waveform, and how loud it gets. */
+export type Voiced = { shape: OscillatorType; peak: number };
+
 /**
- * One enveloped oscillator: `shape` gliding through `pitches` over `seconds`,
- * `delay` seconds from now.
+ * One enveloped oscillator: `shape` gliding through `pitches` over `lasts`,
+ * rising to `peak` over `attack` seconds, `delay` seconds from now.
  */
-export function tone(
+export type Swell = Voiced & {
+  pitches: readonly number[];
+  /** How long it sounds, in seconds. */
+  lasts: number;
+  attack: number;
+  delay?: number;
+};
+
+/** Plays `swell` into `out`, returning its oscillator for a caller to bend further. */
+export function swell(
   context: AudioContext,
   out: AudioNode,
-  shape: OscillatorType,
-  pitches: readonly number[],
-  seconds: number,
-  peak: number,
-  delay = 0,
+  { shape, pitches, lasts, peak, attack, delay = 0 }: Swell,
 ): OscillatorNode {
   const now = context.currentTime + delay;
   const oscillator = new OscillatorNode(context, {
@@ -31,15 +39,48 @@ export function tone(
   for (const [index, pitch] of pitches.slice(1).entries()) {
     oscillator.frequency.exponentialRampToValueAtTime(
       pitch,
-      now + (seconds * (index + 1)) / pitches.length,
+      now + (lasts * (index + 1)) / pitches.length,
     );
   }
-  const envelope = new GainNode(context, { gain: 0 });
-  envelope.gain.setValueAtTime(0, now);
-  envelope.gain.linearRampToValueAtTime(peak, now + 0.01);
-  envelope.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
+  const envelope = envelopeAt(context, now, { peak, attack, lasts });
   oscillator.connect(envelope).connect(out);
   oscillator.start(now);
-  oscillator.stop(now + seconds + 0.05);
+  oscillator.stop(now + lasts + 0.05);
   return oscillator;
+}
+
+/** How a sound's loudness goes: up to `peak` over `attack`, then dying away by `lasts`. */
+export type Envelope = Pick<Swell, 'peak' | 'attack' | 'lasts'>;
+
+/** A gain that plays `envelope` from `at` on the context's clock. */
+export function envelopeAt(
+  context: AudioContext,
+  at: number,
+  { peak, attack, lasts }: Envelope,
+): GainNode {
+  const envelope = new GainNode(context, { gain: 0 });
+  envelope.gain.setValueAtTime(0, at);
+  envelope.gain.linearRampToValueAtTime(peak, at + attack);
+  envelope.gain.exponentialRampToValueAtTime(0.0001, at + lasts);
+  return envelope;
+}
+
+/** A `swell` with a quick attack, as most of the meadow's voices have. */
+export function tone(
+  context: AudioContext,
+  out: AudioNode,
+  shape: OscillatorType,
+  pitches: readonly number[],
+  seconds: number,
+  peak: number,
+  delay = 0,
+): OscillatorNode {
+  return swell(context, out, {
+    shape,
+    pitches,
+    lasts: seconds,
+    peak,
+    attack: 0.01,
+    delay,
+  });
 }

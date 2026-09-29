@@ -22,6 +22,8 @@ import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { growTufts, paintTufts } from './grass';
 import { InsectView, type Perched } from './insect-view';
+import { Instrument } from './instrument';
+import { playTheFlowers } from './instrument-input';
 import {
   type MeadowLayout,
   meadowLayout,
@@ -98,6 +100,7 @@ export class MeadowScene extends Phaser.Scene {
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
   private readonly now = (): number => this.clock;
+  private readonly instrument = new Instrument(this.voice, this.now);
 
   constructor() {
     super('meadow');
@@ -108,7 +111,7 @@ export class MeadowScene extends Phaser.Scene {
     this.meadow = firstMeadow(random);
     this.flowers = new FlowerBed(
       this,
-      this.voice,
+      this.instrument,
       this.now,
       firstFlowers(random, 7),
       () => {
@@ -180,7 +183,9 @@ export class MeadowScene extends Phaser.Scene {
     this.input.on(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
     // A browser lets sound start only on a tap's release.
     this.input.on(Phaser.Input.Events.POINTER_UP, this.startSound, this);
+    const stopPlaying = playTheFlowers(this, this.instrument, this.flowers);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      stopPlaying();
       this.scale.off(Phaser.Scale.Events.RESIZE, this.paint, this);
       this.input.off(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
       this.input.off(Phaser.Input.Events.POINTER_UP, this.startSound, this);

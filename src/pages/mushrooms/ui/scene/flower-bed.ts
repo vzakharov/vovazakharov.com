@@ -1,6 +1,11 @@
 import * as Phaser from 'phaser';
 
 import { type Flower, flowerGenes } from '../../model/flower-genes';
+import {
+  type FlowerSound,
+  sameSound,
+  soundOf,
+} from '../../model/flower-sounds';
 import type { Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
@@ -10,6 +15,7 @@ import {
   bloom,
   emerge,
   phaseOf,
+  rebloom,
   type Sprouted,
   sway,
 } from '../../model/motion';
@@ -21,10 +27,10 @@ import { type Centred, flowerLift } from './flower-sight';
 import { containsCircle, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
+import type { Instrument } from './instrument';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
 import { tapReach } from './sky-layout';
-import type { MeadowSound } from './sound';
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
@@ -42,12 +48,12 @@ type Shown = TappedFigure &
  * ones the bees plant alike: each stands where the layout puts it
  * (`standingFlowers`), sways in the breeze, blooms open when tapped and sags
  * under an insect drinking at it; a planted one grows up out of the ground
- * and opens with a chime.
+ * and opens sounding its note or drum.
  */
 export class FlowerBed {
   private readonly shown = new Map<string, Shown>();
   private readonly scene: Phaser.Scene;
-  private readonly voice: MeadowSound;
+  private readonly instrument: Instrument;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;
   /** A tap on a flower is a tap on the meadow too, which this passes on. */
@@ -66,13 +72,13 @@ export class FlowerBed {
 
   constructor(
     scene: Phaser.Scene,
-    voice: MeadowSound,
+    instrument: Instrument,
     now: () => number,
     seeded: readonly Flower[],
     onTap: () => void,
   ) {
     this.scene = scene;
-    this.voice = voice;
+    this.instrument = instrument;
     this.now = now;
     this.seeded = seeded;
     this.onTap = onTap;
@@ -111,7 +117,7 @@ export class FlowerBed {
   /**
    * Shows what `planted` holds as of `clock`, in seconds, among `mushrooms`:
    * each new flower grows up where `layout` rings it round its parent,
-   * blooming open with a chime, and each planted flower stands or hides as
+   * blooming open with its sound, and each planted flower stands or hides as
    * the mushrooms' feet leave it ground (`standingFlowers`).
    */
   reconcile(
@@ -126,7 +132,7 @@ export class FlowerBed {
     for (const flower of fresh) {
       const shown = this.show(flower, clock);
       shown.tappedAt = clock;
-      this.chime(flower);
+      this.sound(flower, false);
     }
     if (!this.lighting) throw new Error('A flower is planted before its paint');
     this.paint(layout, this.lighting);
@@ -173,15 +179,42 @@ export class FlowerBed {
       (each) => each.id === id,
     );
     if (!shown || !flower) return;
-    shown.tappedAt = this.now();
-    this.chime(flower);
+    this.open(shown);
+    this.sound(flower, true);
     this.onTap();
   }
 
-  /** A flower's own note, the same for the same flower. */
-  private chime(flower: Flower): void {
-    const { fold, rings } = flowerGenes(flower);
-    this.voice.chime(fold + rings);
+  /**
+   * Answers a finger beyond the first, which plays a chord: `object`, the
+   * topmost thing under it, is played when it is a flower's head, and
+   * whether it was is returned. Nothing else takes a second finger.
+   */
+  chordTap(object: Phaser.GameObjects.GameObject): boolean {
+    for (const [id, shown] of this.shown) {
+      if (shown.head !== object) continue;
+      this.tap(id);
+      return true;
+    }
+    return false;
+  }
+
+  /** Opens every flower in sight that makes `sound`, as a key played it. */
+  answer(sound: FlowerSound): void {
+    for (const flower of [...this.seeded, ...this.planted]) {
+      const shown = this.shown.get(flower.id);
+      if (shown?.container.visible !== true) continue;
+      if (sameSound(soundOf(flowerGenes(flower)), sound)) this.open(shown);
+    }
+  }
+
+  /** Blooms `shown` open from where it stands. */
+  private open(shown: Shown): void {
+    const now = this.now();
+    shown.tappedAt = now - rebloom(now - shown.tappedAt);
+  }
+
+  private sound(flower: Flower, leads: boolean): void {
+    this.instrument.flower(soundOf(flowerGenes(flower)), leads);
   }
 
   private show(flower: Flower, plantedAt: number): Shown {

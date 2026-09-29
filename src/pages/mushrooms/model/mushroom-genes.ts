@@ -1,6 +1,6 @@
 import type { WithId } from '@/shared/typings';
 
-import type { Bent, Circle } from './geometry';
+import type { Circle } from './geometry';
 import {
   between,
   countFrom,
@@ -8,10 +8,10 @@ import {
   type GeneRanges,
   mulberry32,
   nextSeed,
-  type Nudged,
   pick,
   type Random,
   type Seeded,
+  type Stalked,
 } from './random';
 
 /** The meadow's four species, in the order the picker shows them. */
@@ -43,23 +43,22 @@ export type Mushroom = WithId & MushroomSeed;
  * same genes paint a near mushroom and a far one. Angles are in radians. The
  * cap follows the stem's bend.
  */
-export type MushroomShape = Bent &
-  Nudged & {
-    stemHeight: number;
-    /** The stem's width under the cap. */
-    stemWidth: number;
-    /** The foot's width over the top's: past 1 a bulging foot, under 1 a stem flaring upward. */
-    footBulge: number;
-    /** The whole mushroom's tilt from upright, the foot staying put. */
-    lean: number;
-    capWidth: number;
-    /** A dome's height; a chanterelle's funnel's rise from the stem to its rim. */
-    capHeight: number;
-    /** The cap's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
-    domePower: number;
-    /** A small turn of the cap against the stem. */
-    capTilt: number;
-  };
+export type MushroomShape = Stalked & {
+  stemHeight: number;
+  /** The stem's width under the cap. */
+  stemWidth: number;
+  /** The foot's width over the top's: past 1 a bulging foot, under 1 a stem flaring upward. */
+  footBulge: number;
+  /** The whole mushroom's tilt from upright, the foot staying put. */
+  lean: number;
+  capWidth: number;
+  /** A dome's height; a chanterelle's funnel's rise from the stem to its rim. */
+  capHeight: number;
+  /** The cap's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
+  domePower: number;
+  /** A small turn of the cap against the stem. */
+  capTilt: number;
+};
 type ShapeGene = keyof MushroomShape;
 
 /** White spots, each centred `y` above the cap's underside: a fly agaric's, none on any other. */
