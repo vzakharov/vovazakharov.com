@@ -108,6 +108,13 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   rename aside went through. A subject-level
   `comm -23 <(git log --format=%s origin/<b>..<b> | sort -u) <(git log --format=%s origin/<b> | sort -u)`
   is the quick way to see that nothing session-made is on the stale side.
+  Bite 9's review pickup let `reset --hard` through and was then refused
+  every later command, reads included, as retroactive destruction, until the
+  operator allowed it; restoring the dropped tip from the reflog
+  (`git branch stale-local/<…> <old-tip>`) then cost one command. So the
+  reset is worse than blocked: it can stall the whole run on a question to
+  the operator. The skill's pickup should never issue it, and should go to
+  the rename aside without trying.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
