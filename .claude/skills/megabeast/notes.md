@@ -32,6 +32,13 @@ Each note: what happened, and what the skill should do about it.
   plan repeated them. The skill should keep one home for them, the plan, and
   have each relay point at it rather than re-quote it, so a rule the operator
   adds mid-run gets written down once.
+- **The model is part of the contract, so it is named, never inherited.**
+  The operator's default is Sonnet, and a relay's successor or a subagent
+  that inherits could land on it, or on whatever the next restart picks.
+  They asked mid-run for Opus throughout. The skill should record the
+  run's model in the plan and pass it explicitly to every `create_session`
+  and `Agent` call, and a cap-depth hand-off should name it in the line it
+  gives the operator.
 - **An operator message that arrives mid-run is a contract change.** Bite 1
   took five: this file, when to fill it, the 450-line rule restated, an
   ecology twist and a mandala ornament. What held up: quote the message into

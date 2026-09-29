@@ -55,6 +55,12 @@ Standing rules for every session in the chain:
   caught ("пятипроцентник зафиксируй и НЕ пополняй, учитывая что все код
   ревью будут НЕ от меня").
 - **Never merge.** `finalize` runs without `and merge`.
+- **Every session and subagent in the chain runs on Opus, named
+  explicitly** — `create_session` with `model: "claude-opus-5-5"`, every
+  `Agent` call with `model: "opus"` — never left to inherit, because the
+  operator's own default is Sonnet ("в этой задаче все новые должны идти
+  опусом"). A cap-depth hand-off tells the operator to start the fresh
+  session on Opus.
 - **`.claude/skills/megabeast/notes.md` is filled at the end of every
   session, before its relay**: what the session found that would make this
   loop repeatable and better, toward a future skill ("файлик будущего
