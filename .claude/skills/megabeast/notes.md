@@ -338,6 +338,28 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   keep "quote it into the plan" for contract changes and this form for
   ideas still being weighed.
 
+- **A refactor bite's agents reach their limit before their first commit.**
+  Bite 9 moved the meadow from screen slots onto the ground. All four
+  agents on it (ground twice, flowers, placement) reached 186–254k, and
+  three had nothing on origin when the check-in came. A nudge at 165k did
+  not help, because a half-migrated tree does not type-check, so there was
+  nothing that passed to commit. The skill's brief for a refactor should cut
+  it into steps that each type-check (the old API kept as a shim until the
+  last step), and make the first commit a "compiles and its tests pass"
+  milestone due within ~100k.
+- **Parallel agents on one migration block each other.** Bite 9's flowers
+  and placement agents each needed the other's uncommitted renames to
+  type-check, so neither could test, and both paused with patches that only
+  worked stacked. The skill's wave planner should run two groups at once
+  only when each builds on the other's *committed* API, and otherwise run
+  them one after another.
+- **A paused tree is committed only once it is proven equal to its patch.**
+  To drop or keep a paused agent's uncommitted tree without losing work, the
+  orchestrator compared `git diff` with the committed patch (the sorted `+`
+  and `-` lines were identical). Then it reverse-applied the patch
+  (`git apply -R`) or committed the tree as source. A `reset --hard` was
+  refused by the permission classifier, and the proof made it unnecessary.
+
 ## Quality levers
 
 - **Spike the engine's risky seam before writing the plan's bite.** Reading
@@ -697,3 +719,11 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   took the last refactor, the plan fold and `/polish` (~225k); a second took
   vet, the five-screen play run, the frames, the Artifact build and `/pr`.
   The orchestrator kept the replies, the Artifact publish and the relay.
+- **Ask what an invariant protects before sweeping it everywhere.** Bite 9's
+  agents inherited "every screen" from the old layout sweeps and checked
+  each mushroom pick against all six screens held both ways. That shrank
+  the frame to the overlap of every device, and a meadow stopped at 4.8 of
+  six. The rule protects one child's meadow across a turn, and a meadow never
+  leaves its browser, so this screen and its turn are the whole domain. The
+  skill's orchestrator should state each invariant's domain in the brief
+  rather than let the sweep's habit choose it.

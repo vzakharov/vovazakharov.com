@@ -568,60 +568,69 @@ Standing rules for every session in the chain:
      shoots it (`scripts/lib/play-species.ts`). Median frames 16–19 ms. Its
      review (5344789171, T74–T92) is handled.
 
-## This bite
+9. **The operator's two ideas weighed, and the meadow on the ground** (in
+   part; its rest is below). The two Russian documents are in
+   `docs/remove-before-merging/ideas/` (`idea-1-walking-meadow.md`,
+   `idea-2-flower-keyboard.md`), posted on the PR (comment 5889105662),
+   waiting for the operator's call. What the next bites build on:
+   - `model/ground.ts`: `Ground {x, z}` in the clump's units, `Camera`,
+     `project` (screen position, scale, haze, depth), `depthScale`, `hazeAt`,
+     `COMMON_FRAME`, `inFrame`, `fitCamera(screen, lens)` — the lens carries
+     the reach, edge margin and floor that live in ui code. A rotation or
+     resize builds a new camera and moves nothing on the ground.
+   - `clump-layout.ts` stands the opening clump on one ground table
+     (`standOn(camera, foot, size, splay)`); `layout.ts` exposes
+     `ZOOM_FLOOR`, `meadowCamera`, `MeadowLayout.camera`. Landscape screens
+     show the clump about half its old size with meadow round it (tabL 361 →
+     171 px), accepted: one world while there is no pan, and in line with
+     "объекты великоваты".
+   - `ui/scene/mushroom-tap.ts`: a mushroom's tap area is what is drawn
+     until its head is drawn narrower than `FINGER_ACROSS` (60.8 px); then
+     it also holds a `TAP_RADIUS` circle round the head's middle, which never
+     takes a tap from another mushroom's drawn body. A finger's target rests
+     on this pad, not on a raised zoom floor.
 
-9. **Two documents, then the part of the wider meadow that holds either
-   way.**
-   1. Two documents in Russian beside `ideas/operator-ideas.md`:
-      `idea-1-walking-meadow.md` and `idea-2-flower-keyboard.md`. Each says
-      how ready the code is (module by module: what is reused as is, what
-      changes, what is new), how drastic the changes to the plan's rest
-      (items 9–12) and to the current implementation would be, a rough size
-      in bites, and the forks the operator has to decide. The first ends on
-      the list of what the wider meadow can build now without prejudging the
-      walking meadow; the second on whether it fits as a bite of its own. They
-      are posted on the PR as one comment linking both.
-   2. Then the document's list («Что можно строить в байте 9 при любом
-      решении», items 1–4, and 5 if the bite has room), and the bite's end
-      as § "How this elephant is eaten" step 1 says:
-      - **Ground and camera** (wave A). Everything stands at a point on the
-        ground `{ x, z }` in the clump's units (`model/ground.ts`); a
-        `Camera` is a pure function onto the screen (`project` → position,
-        scale, haze, depth), and today's depth-to-`y` projection is the
-        first one, `fitCamera(screen)`. A rotation or a resize builds a new
-        camera and moves nothing in the world. Since the child cannot pan
-        yet, the camera shows the whole **common frame** — the ground every
-        screen's camera sees — and mushrooms stand only inside it, so none
-        is ever out of reach; a wider screen shows more meadow round it.
-        The common frame is derived from what every screen's camera shows,
-        never set by hand. A finger's target is the tap area's to hold, not
-        the drawn width's: the zoom floor (`ZOOM_FLOOR`) keeps today's
-        sizes, and a cap drawn narrower than a finger (a turned cap draws up
-        to 11% under its `capWidth`) is padded by the tap floor below.
-      - **A small thing's tap area is at least `TAP_RADIUS`** round what is
-        drawn (`mushroom-outline.ts` `tapArea`, `hit-areas.ts`), the
-        front-most drawn part still taking the tap (wave A, alongside).
-      - **Flowers in the world, once a visit** (wave B): placed on the
-        ground by the visit's stream, not on the screen and on it turned;
-        the turned-screen guards and the two meadows' feet go
-        (`meadowLayout`, `placedOn`, `stoodMeadow`), `clearOfFeet` and
-        `headsApart` stay, a flower may stand outside the common frame, and
-        in-sight stays the scene's query against the current camera
-        (`flower-sight.ts`). The bees' ring slots move to the ground.
-      - **Mushrooms placed, not slotted** (wave B, beside the flowers):
-        `model/placement.ts` picks a free foot by Mitchell's best-of-K over
-        the common frame, from the visit's stream; `Planted.slot` becomes
-        `Planted.foot`, `MUSHROOM_SLOTS` stays the count. A pick keeps what
-        the slots kept — off every foot and flower, the cap in frame, no cap
-        more than ~25% covered, the door in sight — and the opening clump
-        stands as in the drawing. Different visits give different meadows,
-        one seed the same one.
-      - If room: repaint a mushroom or flower only past a step of scale,
-        haze or light (as `litTurn` does), and a play-run screen with 20–30
-        mushrooms under the 26 ms budget.
-      Waiting for the operator (the document's list): pan and pinch, the
-      world's edges, a panorama wider than the screen, insects in world
-      coordinates, the mute.
+## Rest of the bite
+
+9. **Mushrooms placed, flowers on the ground — finished and joined.** HEAD
+   (73a295b1 and before) holds both halves and **does not type-check**: read
+   `docs/remove-before-merging/bite9/placement.md` and `flowers.md` (what is
+   done, the API, what is left) and `fold-notes.md` before touching code.
+   Built: `model/placement.ts` (`pickFoot`, best-of-K by the new mushroom's
+   seed), `Planted.foot`, the `grow` action carrying the foot,
+   `ui/scene/mushroom-room.ts` `roomFor`, `cap-cover.ts`, `+` shaking its
+   head when nothing passes; `seededBed`/`flowersOn`, `flowerFeet`,
+   `clearOfFlowers`, the bees' rings in ground steps. Left, with these
+   decisions:
+   - **The rules hold on this screen and on it turned, not on every
+     screen.** A meadow's state never leaves the browser it lives in, so
+     what can happen to it is a turn or a small resize; checking all six
+     screens both ways shrank the common frame to the overlap of every
+     device and stopped meadows at 4.8 of six on average. `COMMON_FRAME`
+     becomes the overlap of this screen's camera and its turn's, derived,
+     and the camera fits that frame.
+   - **Seeded flowers stand inside that frame too**, so a turn loses none
+     ("nothing is lost"; today a landscape-to-portrait turn pushes 2–3 of 7
+     off the sides). `FORESHORTENING`'s span is derived from the screens the
+     play run covers, not a constant.
+   - **The meadow holds up to six, as far as there is room**, `+` shaking
+     its head past it. Measure the grow-to-six distribution per screen over
+     2000 visits; if a screen stops short in more than one visit in ten,
+     narrow the forest's size before anything else.
+   - Rewrite `layout.test.ts` over meadows grown to six on every screen
+     (every rule, species exhaustive), finish `flower-plots.test.ts` inside
+     the tool limit, add `placement.test.ts` (evenness against a
+     jittered-grid baseline, visits differ, one seed the same meadow) and
+     `ground.test.ts`; the finger test through `fingerPad`; lint,
+     type-overlap, knip; break a sweep once on purpose.
+   - Then the bite's end, § "How this elephant is eaten" step 1: fold into
+     item 9 above, `/polish`, vet, the five-screen play run, frames to
+     `docs/remove-before-merging/frames/bite-9/`, the Artifact republished,
+     `/pr`, the megabeast notes, `/relay оставь код ревью на последний
+     кусок`. The repaint-by-step and crowded-meadow run stay optional.
+   Waiting for the operator (the first document's list): pan and pinch, the
+   world's edges, a panorama wider than the screen, insects in world
+   coordinates, the mute.
 
 ## Rest of the elephant
 
