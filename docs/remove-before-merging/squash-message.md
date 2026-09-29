@@ -16,11 +16,11 @@ route alone and rendered at the device pixel ratio. Every mushroom,
 flower and insect is grown from its own seed by a pure, tested
 generator, and every motion is a pure function of the clock; sound is a
 Web Audio synth with a remembered mute. The meadow is one piece of
-ground seen through a camera, so turning the screen moves nothing on it,
-and every rule holds on the screen and on it turned. It is painted in
-one light: shade, shine and shadows fall from the sun as each thing sees
-it, hills recede into a shared air, and every creature is inked in a
-dark of its own colour that stands off the ground under it.
+ground seen from one angle, so a turn moves nothing on it: the camera
+zooms out to keep all that has grown in view, and every rule still
+holds. It is painted in one light: shade, shine and shadows fall from
+the sun as each thing sees it, hills recede into a shared air, and every
+creature is inked in a dark of its own colour.
 
 Plus grows one of four species out of the ground — a fly agaric, a
 porcini, a chanterelle trumpet, a russula in one of five colours — and
