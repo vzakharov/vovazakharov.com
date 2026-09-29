@@ -582,8 +582,8 @@ Standing rules for every session in the chain:
    waiting for the operator's call. What the next bites build on:
    - `model/ground.ts`: `Ground {x, z}` in the clump's units, `Camera`,
      `project` (screen position, scale, haze, depth), `depthScale`, `hazeAt`,
-     `COMMON_FRAME`, `inFrame`, `fitCamera(screen, lens)` — the lens carries
-     the reach, edge margin and floor that live in ui code. A rotation or
+     `frameFor`, `fitCamera(screen, lens, shown)` — the lens carries the
+     reach, edge margin and floor that live in ui code. A rotation or
      resize builds a new camera and moves nothing on the ground.
    - `clump-layout.ts` stands the opening clump on one ground table
      (`standOn(camera, foot, size, splay)`); `layout.ts` exposes
@@ -596,33 +596,40 @@ Standing rules for every session in the chain:
      it also holds a `TAP_RADIUS` circle round the head's middle, which never
      takes a tap from another mushroom's drawn body. A finger's target rests
      on this pad, not on a raised zoom floor.
-   - **The rules hold on this screen and on it turned**, not on every
-     screen: a meadow never leaves its browser, so a turn or a small resize
-     is all that can happen to it. `frameFor(screen, lens)` and
-     `meadow-camera.ts` derive the common frame as the overlap of this
-     screen's camera and its turn's, and the camera fits it.
-     `FORESHORTENING`'s span is derived from the screens the play run
-     covers (0.252–0.765).
+   - **The rules hold on the screen a mushroom grows on.** `frameFor` is
+     this screen's own, and the camera fits it; a turn or a resize refits
+     the camera over every foot the meadow has used (`meadowLayout`'s `used`, the scene's `usedIn`), each cap inside the
+     edge margin and each flower's head in view, zooming out past the zoom
+     floor where the new screen is narrower (a phone turned upright from
+     landscape: unit 138 → 60 px). Once turned, the rest are measured, not
+     held: grown upright on a phone, a turn breaks a cap's `MOST_HIDDEN` in
+     11 of 13 swept meadows and a door's `IN_SIGHT` in 9
+     (`meadow-rules.test.ts`). `FORESHORTENING`'s span is derived from the
+     screens the play run covers, each turned from the other with the
+     first's frame in view (0.252–1.918).
    - `model/placement.ts`: `pickFoot` takes the best of `ROUNDS` (32)
      candidate feet by the new mushroom's seed; `Planted.foot`, and the
      `grow` action carries it. `ui/scene/mushroom-room.ts` `roomFor` checks
-     a foot on the screen and its turn, `cap-cover.ts` how much of a cap
-     is hidden, and `+` shakes its head when no foot passes. The meadow
-     holds up to six as far as there is room: every screen reaches six in
-     ≥ 99.5% of 2000 visits except the small phone, at 69%, accepted (a 320
-     px phone stopping at five is the room it has; K 48 reached only 85% at
-     four times the cost). Feet keep a 0.2 foot distance from flowers
-     rather than `clearOfFlowers`, which rejected ~13× more feet than every
-     other rule together. On the small phone upright a widest-gene cap on
-     the frame's near corners stands up to 20 px past the edge margin,
+     a foot on this screen, `cap-cover.ts` how much of a cap is hidden, and
+     `+` shakes its head when no foot passes; `keptRoom` finds the room
+     again once the layout, the mushrooms or the plantings change. The
+     meadow holds up to six as far as there is room: every screen, the
+     small phone included, reaches six in every one of the swept visits,
+     and on a tablet held sideways the six caps span a median 80% of the
+     width. Feet keep a 0.2 foot distance from flowers rather than the
+     rule a flower keeps off a foot (`clearOfFeet`), which rejected ~13×
+     more feet than every other rule together. On the small phone upright
+     a widest-gene cap on the frame's near corners stands up to 20 px past the edge margin,
      accepted and named in `ground.test.ts`.
    - Seeded flowers (`seededBed`, `flowersOn`, `flowerFeet`) spread over
-     the frame, so a turn loses none. A bee sits no nearer a flower's
-     middle than `FACE_REACH`. The bees' slots are two rings in ground
+     the frame of the screen the visit opens on, and the refit keeps every
+     one in view. A bee sits no nearer a flower's middle than `FACE_REACH`. The bees' slots are two rings in ground
      steps, the second of twelve at 2.3 of the parent's size, so a full
-     forest plants a median of 5–6; the small phone reaches 3 with any
-     ring, so its full forest asserts `LEAST_IN_A_FOREST` 3 and
-     `LEAST_PLANTED` 4 holds everywhere else.
+     forest plants a median of 5–6; the small phone's six mushrooms leave
+     it about one, so its full forest asserts `LEAST_IN_A_FOREST` 1 and
+     `LEAST_PLANTED` 4 holds everywhere else. A butterfly takes up to twice
+     its flight time (`slowest` 2) so a desktop's wide meadow still lets a
+     finger catch it 7 times in 10.
    - `placeSun` shrinks the sun until its rays clear each opening mushroom's
      reach — 24 → 16 px, on the small phone sideways only.
    - Shared bases `Layered`, `Framed`, `Screened`; `Camera.midline`. The
@@ -726,10 +733,10 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
     ребёнок сам будет водить влево-вправо"; "кажется, что экран слишком
     маловат — или объекты великоваты — чтобы было прямо интересно"). It
     starts from the meadow as it stands. It revisits the rules that exist
-    only because a rotation re-lays the world — the turned-screen planting
-    guard, flowers placed against the feet of both meadows, the slot
-    floors per screen — and the taps-only rule for a two-finger pinch and a
-    one-finger pan. Walking through the meadow, as a spectator or a
+    only because a rotation re-lays the world — the refit that zooms out
+    to keep the used feet in view, flowers placed against the feet of both
+    meadows, the slot floors per screen — and the taps-only rule for a
+    two-finger pinch and a one-finger pan. Walking through the meadow, as a spectator or a
     participant the insects fly from, stays out of scope for now.
 
 12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
