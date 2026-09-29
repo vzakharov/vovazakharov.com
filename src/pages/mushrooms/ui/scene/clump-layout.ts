@@ -7,7 +7,7 @@
 
 import {
   type Camera,
-  COMMON_FRAME,
+  type Frame,
   type Ground,
   project,
   scaleAt,
@@ -35,8 +35,11 @@ export const FOREST_DRAWN = 0.7;
 /** How far a forest mushroom turns away from the middle of the meadow. */
 export const FOREST_SPLAY = 0.1;
 
-/** How a screen stands the meadow's mushrooms: through its camera. */
-export type MushroomGround = Readonly<{ camera: Camera }>;
+/**
+ * How a screen stands the meadow's mushrooms: through its camera, their feet
+ * in its frame (`frameFor`).
+ */
+export type MushroomGround = Readonly<{ camera: Camera; frame: Frame }>;
 
 /**
  * A foot of `size`, in the clump's, stood at `foot` with `splay` as `camera`
@@ -53,6 +56,17 @@ function standOn(
 }
 
 /**
+ * How big a mushroom standing on `foot` is on the ground, in the clump's
+ * size before depth scales it: an opening foot's as the clump's, any other
+ * drawn `FOREST_DRAWN` of the clump's front one wherever it stands.
+ */
+export function sizeOn(foot: Ground): number {
+  const opening = openingIndex(foot);
+  if (opening !== undefined) return CLUMP_SIZES[opening] ?? 1;
+  return FOREST_DRAWN / scaleAt(foot.z);
+}
+
+/**
  * Where `camera` stands a mushroom on `foot`: on an opening foot as the
  * clump's, the back one leaning left and the front one right, their stems
  * crossing; anywhere else as the forest, drawn `FOREST_DRAWN` of the clump's
@@ -60,12 +74,11 @@ function standOn(
  */
 export function placeOf(camera: Camera, foot: Ground): Placement {
   const opening = openingIndex(foot);
-  if (opening !== undefined) {
-    const splay = (opening === 0 ? -1 : 1) * CLUMP_SPLAY;
-    return standOn(camera, foot, CLUMP_SIZES[opening] ?? 1, splay);
-  }
-  const splay = (foot.x < 0 ? 1 : -1) * FOREST_SPLAY;
-  return standOn(camera, foot, FOREST_DRAWN / scaleAt(foot.z), splay);
+  const splay =
+    opening === undefined
+      ? (foot.x < 0 ? 1 : -1) * FOREST_SPLAY
+      : (opening === 0 ? -1 : 1) * CLUMP_SPLAY;
+  return standOn(camera, foot, sizeOn(foot), splay);
 }
 
 /**
@@ -86,27 +99,26 @@ export function placeIn(
 }
 
 /**
- * Where a mushroom may stand at the extremes: on each opening foot, and at
- * each corner of the common frame and the middle of each of its edges, the
+ * Where a mushroom may stand at the extremes of `frame`: on each opening
+ * foot, and at each of its corners and the middle of each of its edges, the
  * forest's farthest, nearest and widest.
  */
-const EXTREMES: readonly Ground[] = [
-  ...OPENING_FEET,
-  ...[-1, 0, 1].flatMap((side) =>
-    [COMMON_FRAME.near, COMMON_FRAME.far].map((z) => ({
-      x: (side * COMMON_FRAME.across) / scaleAt(z),
-      z,
-    })),
-  ),
-];
+export function extremes({ across, near, far }: Frame): Ground[] {
+  return [
+    ...OPENING_FEET,
+    ...[-1, 0, 1].flatMap((side) =>
+      [near, far].map((z) => ({ x: (side * across) / scaleAt(z), z })),
+    ),
+  ];
+}
 
 /**
  * Every place at the extremes a mushroom may stand on the screen `ground` is
  * for, the opening clump's two first: the least and the most of every
  * size, haze and reach it may stand at.
  */
-export function everyPlace({ camera }: MushroomGround): Placement[] {
-  return EXTREMES.map((foot) => placeOf(camera, foot));
+export function everyPlace({ camera, frame }: MushroomGround): Placement[] {
+  return extremes(frame).map((foot) => placeOf(camera, foot));
 }
 
 /** Where each of `standing` stands on the screen `ground` is for. */

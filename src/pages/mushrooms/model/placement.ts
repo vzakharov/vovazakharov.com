@@ -1,12 +1,12 @@
 /**
  * Where a new mushroom's foot goes on the ground: Mitchell's best of a few
- * candidates, each drawn at random over the common frame, the one farthest
+ * candidates, each drawn at random over the screen's frame, the one farthest
  * from every foot already standing — so a meadow fills evenly, never on a
  * grid, and each visit's differently. What a foot must keep to on the screen
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
  */
 
-import { COMMON_FRAME, type Ground, scaleAt, seen } from './ground';
+import { type Frame, type Ground, scaleAt, seen } from './ground';
 import { mulberry32, type Random } from './random';
 
 /**
@@ -48,14 +48,15 @@ export function apartOnScreen(a: Ground, b: Ground): number {
   return Math.hypot(p.x - q.x, p.y - q.y);
 }
 
-/** A ground point drawn evenly over the common frame, as a camera lays it out. */
-function drawnFoot(random: Random): Ground {
-  const { across, near, far } = COMMON_FRAME;
+/** A ground point drawn evenly over `frame`, as a camera lays it out. */
+function drawnFoot(random: Random, { across, near, far }: Frame): Ground {
   const z = near + random() * (far - near);
   return { x: ((random() * 2 - 1) * across) / scaleAt(z), z };
 }
 
 export type Picking = {
+  /** Where on the ground the meadow is laid out (`frameFor`). */
+  frame: Frame;
   /** The feet already standing, which a new one stands clear of and as far from as it can. */
   feet: readonly Ground[];
   /**
@@ -73,14 +74,14 @@ export type Picking = {
  */
 export function pickFoot(
   seed: number,
-  { feet, admits }: Picking,
+  { frame, feet, admits }: Picking,
 ): Ground | undefined {
   const random = mulberry32(seed ^ 0x6f_07_5e);
   const room = (foot: Ground) =>
     Math.min(Infinity, ...feet.map((other) => apartOnScreen(foot, other)));
   for (let round = 0; round < ROUNDS; round++) {
     const candidates = Array.from({ length: CANDIDATES }, () =>
-      drawnFoot(random),
+      drawnFoot(random, frame),
     )
       .map((foot) => ({ foot, room: room(foot) }))
       .filter(({ room: apart }) => apart >= FOOT_APART)

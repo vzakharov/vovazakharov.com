@@ -53,6 +53,7 @@ export function opened(
     const own = nextSeed(growing);
     const { mushrooms, planted } = meadow;
     const foot = roomFor({
+      screen: { width, height },
       mushrooms,
       flowers: flowersOnGround({ layout, flowers, mushrooms, planted }),
       seed: own,

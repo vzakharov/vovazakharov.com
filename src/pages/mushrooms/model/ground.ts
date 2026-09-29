@@ -11,7 +11,7 @@ import type { Point } from './geometry';
 
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
- * the common frame, rightward, and `z` into the distance from the clump's
+ * the meadow, rightward, and `z` into the distance from the clump's
  * front foot, farther away the larger.
  */
 export type Ground = { x: number; z: number };
@@ -68,7 +68,7 @@ const HAZE_REACH = 0.35;
 
 /**
  * How far in from the band's top and foot, as shares of its depth, the
- * common frame's far and near edges stand: a foot on the frame's near edge
+ * frame's far and near edges stand: a foot on the frame's near edge
  * still stands on the screen, and one on its far edge on the flat ground
  * below the hills.
  */
@@ -80,15 +80,17 @@ function zAt(down: number): number {
 }
 
 /**
- * The ground every screen's camera shows (`fitCamera`), in the clump's size:
- * in depth from `near` to `far`, the whole band every camera shows but for
- * `FRAME_INSET`, and across `across` either side of the middle as a camera
- * lays it (`seen`), which a camera's `Lens` fits to the screen. A foot placed
- * inside it is in reach on every screen; a wider screen shows more ground
- * round it.
+ * A stretch of ground, in the clump's size: in depth from `near` to `far`,
+ * and across `across` either side of the middle as a camera lays it out
+ * (`seen`).
  */
-export const COMMON_FRAME = {
-  across: 0.87,
+export type Frame = Record<'across' | 'near' | 'far', number>;
+
+/**
+ * How deep every screen's frame is (`frameFor`): the whole band every camera
+ * shows but for `FRAME_INSET`.
+ */
+export const FRAME_DEPTH = {
   near: zAt(1 - FRAME_INSET.near),
   far: zAt(FRAME_INSET.far),
 } as const;
@@ -144,41 +146,90 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
 
 /**
  * What a camera must show: `reach`, how far, in the clump's size at the
- * clump's front foot, what stands in the common frame reaches either side of
- * its middle, caps and all, which stands `margin` px inside the screen; and
- * `floor`, the least that size may be, in px, whatever the screen.
+ * clump's front foot, the opening clump's caps reach either side of the
+ * middle, and `beyond`, how far past its foot a cap standing on the frame's
+ * side reaches, both standing `margin` px inside the screen; `floor`, the
+ * least that size may be, in px, whatever the screen; and `least`, the least
+ * a frame reaches across, whatever the screen, which leaves the forest room.
  */
-export type Lens = Record<'reach' | 'margin' | 'floor', number>;
+export type Lens = Record<
+  'reach' | 'beyond' | 'margin' | 'floor' | 'least',
+  number
+>;
 
 /**
- * The camera for `screen`: the ground begins halfway down a tall screen and
- * lower on a wide one, and the clump stands as big as the screen composes
- * it — by height when the screen is wide, by width when it is tall — no
- * bigger than the band's depth leaves the back row room behind it or than
- * `lens` fits the frame across, and never under `lens.floor`.
+ * The clump's size on `screen` as the screen composes it: by height when
+ * the screen is wide, by width when it is tall, no bigger than the band's
+ * depth leaves the back row room behind it, never under `lens.floor`.
  */
-export function fitCamera({ width, height }: Sized, lens: Lens): Camera {
+function composedUnit({ width, height }: Sized, lens: Lens): number {
   const portrait = height > width;
-  const groundTop = height * (portrait ? 0.5 : 0.6);
-  const ground = height - groundTop;
+  const ground = height * (portrait ? 0.5 : 0.4);
   const composed = portrait
     ? Math.min(width * 0.6, height * 0.34)
     : height * 0.44;
-  const unit = Math.max(
-    lens.floor,
-    Math.min(
-      composed,
-      ground * UNIT_PER_BAND,
-      (width / 2 - lens.margin) / lens.reach,
-    ),
-  );
-  return { width, height, groundTop, ground, centre: width / 2, unit };
+  return Math.max(lens.floor, Math.min(composed, ground * UNIT_PER_BAND));
 }
 
-/** Whether `point` stands inside the common frame. */
-export function inFrame(point: Ground): boolean {
-  const { across, near, far } = COMMON_FRAME;
+/** How far across `screen` shows the ground at the size it composes the clump at, caps inside the margin. */
+function shownAcross(screen: Sized, lens: Lens): number {
+  return (
+    (screen.width / 2 - lens.margin) / composedUnit(screen, lens) - lens.beyond
+  );
+}
+
+/**
+ * The frame the meadow on `screen` is laid out in: as far across as both
+ * `screen` and `screen` turned show at the size each composes the clump at,
+ * and never under `lens.least`, the full depth deep. The same for a screen
+ * and its turn, so a foot in it stays in reach through a turn.
+ */
+export function frameFor(screen: Sized, lens: Lens): Frame {
+  const turned = { width: screen.height, height: screen.width };
+  const across = Math.min(shownAcross(screen, lens), shownAcross(turned, lens));
+  return { across: Math.max(lens.least, across), ...FRAME_DEPTH };
+}
+
+/**
+ * The camera for `screen`: the ground begins halfway down a tall screen and
+ * lower on a wide one, and the clump stands as big as the screen composes it
+ * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
+ * reach past `lens.margin`, and never under `lens.floor`.
+ */
+export function fitCamera(screen: Sized, lens: Lens): Camera {
+  const { width, height } = screen;
+  const groundTop = height * (height > width ? 0.5 : 0.6);
+  const reach = Math.max(
+    lens.reach,
+    frameFor(screen, lens).across + lens.beyond,
+  );
+  const unit = Math.max(
+    lens.floor,
+    Math.min(composedUnit(screen, lens), (width / 2 - lens.margin) / reach),
+  );
+  return {
+    width,
+    height,
+    groundTop,
+    ground: height - groundTop,
+    centre: width / 2,
+    unit,
+  };
+}
+
+/** Whether `point` stands inside `frame`. */
+export function inFrame(frame: Frame, point: Ground): boolean {
+  const { across, near, far } = frame;
   return Math.abs(seen(point).x) <= across && point.z >= near && point.z <= far;
+}
+
+/**
+ * How many px down the screen a step of the clump's size into the distance
+ * takes on `camera`, per px a thing of the clump's size stands across at the
+ * clump's front foot.
+ */
+export function foreshortening({ ground, unit }: Camera): number {
+  return ground / (BAND_DEPTH * unit);
 }
 
 /** The ground point `camera` shows at `point` on the screen: `project` undone. */

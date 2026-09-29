@@ -252,6 +252,7 @@ export class MeadowScene extends Phaser.Scene {
       planted,
     };
     const foot = roomFor({
+      screen: layout,
       mushrooms,
       flowers: flowersOnGround(stand),
       seed: upcoming,

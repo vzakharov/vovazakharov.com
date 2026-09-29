@@ -9,16 +9,9 @@
 import type { Sized } from '@/shared/typings';
 
 import type { Circle, Point, Scaled } from '../../model/geometry';
-import {
-  type Camera,
-  fitCamera,
-  type Hazed,
-  type Lens,
-} from '../../model/ground';
+import type { Camera, Hazed } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
-import { geneBounds } from '../../model/mushroom-genes';
-import { maxReach } from '../../model/mushroom-pose';
-import { everyPlace, type MushroomGround } from './clump-layout';
+import type { MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import {
   type FlowerFoot,
@@ -26,12 +19,8 @@ import {
   flowersOn,
   seededBed,
 } from './flower-layout';
-import {
-  type Controls,
-  placeControls,
-  standingControls,
-  TAP_RADIUS,
-} from './sky-layout';
+import { meadowCamera, meadowFrame } from './meadow-camera';
+import { type Controls, placeControls, standingControls } from './sky-layout';
 import { horizonAt, placeSun } from './sun-layout';
 
 /**
@@ -62,8 +51,6 @@ const KIND_SCALE = {
   bee: 0.65,
 } as const satisfies Record<InsectKind, number>;
 
-/** How close, in CSS pixels, a cap may come to the side of the screen. */
-export const EDGE_MARGIN = 12;
 export type MeadowLayout = Sized &
   Controls & {
     /** What the meadow is shown through: a turn or a resize fits a new one. */
@@ -84,62 +71,6 @@ export type MeadowLayout = Sized &
     /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
     insectSizes: Readonly<Record<InsectKind, number>>;
   };
-
-/**
- * How far any cap reaches left and right of its foot, per unit of size, once
- * `splay` turns it.
- */
-function sideReach(splay: number): [left: number, right: number] {
-  const { toward, away } = maxReach(splay);
-  return splay < 0 ? [toward, away] : [away, toward];
-}
-
-/**
- * Every place at the extremes (`everyPlace`) as a camera of the clump's size
- * 1, centred on 0, shows them: how far their caps reach either side of the
- * middle, whatever their genes, and the smallest any stands.
- */
-const UNIT_PLACES = everyPlace({
-  camera: {
-    width: 0,
-    height: 0,
-    groundTop: 0,
-    ground: 1,
-    centre: 0,
-    unit: 1,
-  },
-});
-
-/**
- * The zoom floor: the least clump size a camera stands the meadow at, the
- * narrowest cap the genes allow, where a mushroom stands smallest, being
- * `2 × TAP_RADIUS` across by its gene there; a cap drawn narrower than a
- * finger is padded to one (`fingerPad`).
- */
-export const ZOOM_FLOOR =
-  (2 * TAP_RADIUS) /
-  (geneBounds('capWidth')[0] *
-    Math.min(...UNIT_PLACES.map(({ size }) => size)));
-
-/**
- * What every screen's camera shows: every cap standing anywhere in the common
- * frame and on the opening feet, and the zoom floor.
- */
-const LENS: Lens = {
-  reach: Math.max(
-    ...UNIT_PLACES.map(({ x, size, splay }) => {
-      const [left, right] = sideReach(splay);
-      return Math.max(left * size - x, x + right * size);
-    }),
-  ),
-  margin: EDGE_MARGIN,
-  floor: ZOOM_FLOOR,
-};
-
-/** The camera the meadow on a screen `width` by `height` is shown through. */
-export function meadowCamera(width: number, height: number): Camera {
-  return fitCamera({ width, height }, LENS);
-}
 
 /**
  * The visit as it opened: the screen, in CSS px, and the mushrooms standing
@@ -240,7 +171,8 @@ function standMeadow(width: number, height: number): Stood {
   const { groundTop, ground, unit } = camera;
   const horizon = horizonAt(width, height);
   const short = Math.min(width, height);
-  const mushrooms = { camera };
+  const frame = meadowFrame({ width, height });
+  const mushrooms = { camera, frame };
   const controls = placeControls(width, height, groundTop);
   const insectSize = Math.max(INSECT_LEAST, unit * INSECT_SCALE);
   const flowers = {

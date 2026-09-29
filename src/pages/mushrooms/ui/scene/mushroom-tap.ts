@@ -17,7 +17,7 @@ export const HEAD_SHORTFALL = 0.05;
 /**
  * How wide across a mushroom's cap and gills stand in its canvas frame before
  * it counts as smaller than a finger: what a cap `2 × TAP_RADIUS` wide by its
- * gene — the narrowest the zoom floor allows (`ZOOM_FLOOR` in `layout.ts`) —
+ * gene — the narrowest the zoom floor allows (`ZOOM_FLOOR` in `meadow-camera.ts`) —
  * is drawn across at the least.
  */
 export const FINGER_ACROSS = 2 * TAP_RADIUS * (1 - HEAD_SHORTFALL);

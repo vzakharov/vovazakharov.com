@@ -1,12 +1,15 @@
 /**
  * Where the next mushroom may grow: a foot `pickFoot` draws, kept only where
  * the mushroom grown there, of whichever species the child picks, keeps
- * every rule the meadow keeps on every screen it is composed for — turned
- * either way, so a rotation never makes a mushroom break one. Judged as the
+ * every rule the meadow keeps on the screen it is laid out on and on that
+ * screen turned, so a rotation never makes a mushroom break one: a meadow
+ * never leaves the browser it lives in, where a turn is what can happen. Judged as the
  * scene stands and draws it: its cap inside `EDGE_MARGIN`, no cap more than
  * `MOST_HIDDEN` behind a nearer one's, every door in sight (`doorInSight`),
  * every control, the sun's rays and its wash off it, and off every flower.
  */
+
+import type { Sized } from '@/shared/typings';
 
 import type { Planted } from '../../model/game';
 import {
@@ -34,11 +37,11 @@ import {
 } from './door-sight';
 import { standingFlowers } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { EDGE_MARGIN, meadowStage, type Placement } from './layout';
+import { meadowStage, type Placement } from './layout';
+import { EDGE_MARGIN, meadowFrame } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
 import { standingControls, tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR, washRings } from './sun-layout';
-import { VIEWPORTS } from './viewports';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
@@ -55,26 +58,39 @@ type Screen = {
   wash: number;
 };
 
-/** Every screen the meadow is composed for, each held either way. */
-const SCREENS: readonly Screen[] = VIEWPORTS.flatMap(([, width, height]) =>
-  [
-    [width, height],
-    [height, width],
-  ].map(([across = 0, down = 0]) => {
-    const stage = meadowStage(across, down);
-    const { sun, picker, housePicker } = stage;
-    return {
-      stage,
-      keepOff: [
-        ...[...standingControls(stage), ...picker, ...housePicker].map(
-          (control) => ({ ...control, r: tapReach(control.r) }),
-        ),
-        { ...sun, r: sun.r * SUN_RAY_REACH },
-      ],
-      wash: washRings(stage).at(-1) ?? 0,
-    };
-  }),
-);
+/** `screen` as a new mushroom is held to on it. */
+function screenOf({ width, height }: Sized): Screen {
+  const stage = meadowStage(width, height);
+  const { sun, picker, housePicker } = stage;
+  return {
+    stage,
+    keepOff: [
+      ...[...standingControls(stage), ...picker, ...housePicker].map(
+        (control) => ({ ...control, r: tapReach(control.r) }),
+      ),
+      { ...sun, r: sun.r * SUN_RAY_REACH },
+    ],
+    wash: washRings(stage).at(-1) ?? 0,
+  };
+}
+
+/** A screen and its turn, as a new mushroom is held to on each. */
+type Screens = readonly [Screen, Screen];
+const screenPairs = new Map<string, Screens>();
+
+/** `screen` and `screen` turned, read once for each screen. */
+function screensOf(screen: Sized): Screens {
+  const { width, height } = screen;
+  const key = `${String(width)} ${String(height)}`;
+  const known = screenPairs.get(key);
+  if (known) return known;
+  const pair = [
+    screenOf(screen),
+    screenOf({ width: height, height: width }),
+  ] as const;
+  screenPairs.set(key, pair);
+  return pair;
+}
 
 /** How far `point` is from the closed `outline`: 0 inside it. */
 function distanceTo(outline: readonly Point[], point: Point): number {
@@ -192,15 +208,23 @@ function weighed(
 }
 
 /**
- * Each of the meadow's mushrooms on each of `SCREENS`, weighed once however
+ * Each of the meadow's mushrooms on each of `screens`, weighed once however
  * many feet are tried beside them: the meadow's mushrooms are never changed
  * in place, only replaced.
  */
-const standings = new WeakMap<readonly Planted[], Weighed[][]>();
-function standingOn(mushrooms: readonly Planted[]): Weighed[][] {
-  const known = standings.get(mushrooms);
+const standings = new WeakMap<
+  readonly Planted[],
+  WeakMap<Screens, Weighed[][]>
+>();
+function standingOn(
+  mushrooms: readonly Planted[],
+  screens: Screens,
+): Weighed[][] {
+  const byScreens = standings.get(mushrooms) ?? new WeakMap();
+  standings.set(mushrooms, byScreens);
+  const known = byScreens.get(screens);
   if (known) return known;
-  const stood = SCREENS.map(({ stage }) => {
+  const stood = screens.map(({ stage }) => {
     const here: Weighed[] = [];
     const among = () => here.map(({ standing }) => standing);
     for (const mushroom of mushrooms) {
@@ -209,7 +233,7 @@ function standingOn(mushrooms: readonly Planted[]): Weighed[][] {
     }
     return here;
   });
-  standings.set(mushrooms, stood);
+  byScreens.set(screens, stood);
   return stood;
 }
 
@@ -267,8 +291,12 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
   );
 }
 
-/** What the next mushroom grows among: the mushrooms and flowers standing, and its own seed. */
+/**
+ * What the next mushroom grows among: the screen the meadow is laid out on,
+ * the mushrooms and flowers standing, and its own seed.
+ */
 export type Growing = {
+  screen: Sized;
   mushrooms: readonly Planted[];
   /** Every flower's foot on the ground. */
   flowers: readonly Ground[];
@@ -279,14 +307,16 @@ export type Growing = {
  * Where the mushroom grown from `seed` grows among `mushrooms` and
  * `flowers`, whichever species the child picks: `undefined` where the
  * meadow has no room left for one. Each foot is tried on the cheap rules on
- * every screen first, then the controls, then the doors.
+ * both screens first, then the controls, then the doors.
  */
 export function roomFor({
+  screen,
   mushrooms,
   flowers,
   seed,
 }: Growing): Ground | undefined {
-  const stood = standingOn(mushrooms);
+  const screens = screensOf(screen);
+  const stood = standingOn(mushrooms, screens);
   const grown = MUSHROOM_SPECIES.map((species) =>
     mushroomGenes({ seed, species }),
   );
@@ -297,16 +327,17 @@ export function roomFor({
     ]),
   );
   return pickFoot(seed, {
+    frame: meadowFrame(screen),
     feet: mushrooms.map(({ foot }) => foot),
     admits: (foot) => {
       if (flowers.some((flower) => apartOnScreen(foot, flower) < FLOWER_APART))
         return false;
       const trials: Array<{ trial: Trial; others: readonly Weighed[] }> = [];
-      for (const [index, screen] of SCREENS.entries()) {
+      for (const [index, held] of screens.entries()) {
         const others = stood[index] ?? [];
-        const { splay } = placeOf(screen.stage.camera, foot);
+        const { splay } = placeOf(held.stage.camera, foot);
         for (const genes of splays.get(splay) ?? []) {
-          const trial = trialOn(screen, foot, genes, others);
+          const trial = trialOn(held, foot, genes, others);
           if (!trial) return false;
           trials.push({ trial, others });
         }
