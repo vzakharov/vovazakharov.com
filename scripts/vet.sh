@@ -44,7 +44,7 @@ if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   status=1
 fi
 
-# None of these seventeen writes anything another one reads, so they overlap
+# None of these nineteen writes anything another one reads, so they overlap
 # freely.
 # The Open Graph check is one entry per site, not one script running both: pnpm
 # appends a passed `--check` to the end of the command line, so a combined
@@ -64,7 +64,7 @@ fi
 # lines under writing/notes/, neither of which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
 # finished writing under `apps/*/out/`, which nothing here writes to.
-# The last four read the agent infrastructure itself and nothing else here
+# The last five read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
@@ -83,6 +83,7 @@ scripts/run-parallel.sh \
   notes='scripts/check-notes-length.sh' \
   skills='scripts/check-skill-catalog.sh' \
   staged='scripts/staged.sh check' \
+  claude-md-size='scripts/check-claude-md-size.sh' \
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
   context-budget='python3 .claude/context-budget/test_context_budget.py' || status=1
 
