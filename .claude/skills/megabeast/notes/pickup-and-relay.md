@@ -94,7 +94,11 @@
   republish needs only the version header and the writer check. The skill
   should give that read a narrow `prompt`, or hand the republish to the tail
   agent that built the page, so the orchestrator's context never holds the
-  bundle.
+  bundle. The cheap path, taken at bite 11: publish with `url` and let the
+  refusal save the live source to a file; `Read` every line of it but the
+  one bundle line (the refusal names it), confirm the rest is the build
+  script's shell plus the publish wrapper, and publish the same file again.
+  A second unchanged publish without that `Read` is refused as a resend.
 
 ## The depth cap
 
