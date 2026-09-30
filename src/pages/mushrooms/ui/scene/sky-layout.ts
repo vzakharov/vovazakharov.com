@@ -17,6 +17,7 @@ import {
   pickerRow,
   rowsFrom,
   stacked,
+  type WithMute,
 } from './picker-rows';
 import {
   apart,
@@ -44,8 +45,7 @@ const COLUMN_REACH = 0.7;
 const YIELDERS = [...INSECT_KINDS, 'house'] as const;
 type Yielder = (typeof YIELDERS)[number];
 
-export type Controls = {
-  mute: Circle;
+export type Controls = WithMute & {
   plus: Circle;
   minus: Circle;
   house: Circle;

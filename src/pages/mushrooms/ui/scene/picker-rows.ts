@@ -4,7 +4,7 @@
  * or under the row, each held `PICK_CLEAR` off every other button.
  */
 
-import type { Circle } from '../../model/geometry';
+import type { Circle, Lefted } from '../../model/geometry';
 import {
   apart,
   BUTTON_INSET,
@@ -53,7 +53,10 @@ function pickRadius(count: number, span: number, height: number): number {
   );
 }
 
-type PickerRowParams = { mute: Circle; dropped: number };
+/** Where the mute button stands, which a picker's row keeps off. */
+export type WithMute = { mute: Circle };
+
+type PickerRowParams = WithMute & { dropped: number };
 
 /**
  * A picker's buttons across the top, as many of `count` abreast as keep a
@@ -154,9 +157,7 @@ export function completed(
 }
 
 /** Where `rowsFrom` fits the pickers' rows in the top row. */
-type TopRow = {
-  /** The row's left end. */
-  left: number;
+type TopRow = Lefted & {
   /** How far down the top row's buttons reach: a row below it may stay. */
   bandBottom: number;
   /** Whether a row's buttons stand clear of every button they must keep off. */

@@ -75,7 +75,7 @@ function reachOf(places: typeof UNIT_PLACES): number {
  * How wide the opening clump's narrowest cap is by its genes, where the
  * clump's smaller one stands, in the clump's size.
  */
-export const CLUMP_NARROWEST =
+const CLUMP_NARROWEST =
   GENE_RANGES[OPENING_SPECIES].capWidth[0] *
   Math.min(
     ...UNIT_PLACES.slice(0, OPENING_FEET.length).map(({ size }) => size),

@@ -5,6 +5,7 @@ Repo /home/user/vovazakharov.com, branch claude/mushroom-game-syama-lbirv7 (PR #
 You are building part of bite 10 of Syama's mushroom game (src/pages/mushrooms/). The plan: docs/plans/mushroom-game-syama.in-progress.md — `## This bite` is what you build to, `## Decisions the whole game carries` and `## Eaten so far` are the game as it stands; do not re-argue them. Nobody can be asked anything: where the plan leaves a fork open, pick the option that best serves a six-year-old on a phone, and state the decision in your report so it can go into the plan.
 
 Rules of work:
+
 - Commit after every step that passes its own tests; push each commit (`git pull --no-rebase origin claude/mushroom-game-syama-lbirv7` then `git push origin HEAD` if rejected — merge, never rebase, never force). `git add` only your own paths; wait out an index.lock. Conventional subjects scoped `(mushrooms)`, descriptive bodies, ending with the two lines:
   Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
   Claude-Session: https://claude.ai/code/session_019GUASJxfNC34B8pEHDpVbB

@@ -9,7 +9,7 @@ import type { PitchClass } from './flower-sounds';
 
 /** The lowest note the meadow plays, C4; a phone's speaker loses the octave below. */
 export const LOWEST_NOTE = 60;
-export const OCTAVES = 3;
+const OCTAVES = 3;
 export const HIGHEST_NOTE = LOWEST_NOTE + OCTAVES * 12 - 1;
 /** The octave a melody starts in, and the keyboard with it: the middle one. */
 export const HOME_OCTAVE = 1;

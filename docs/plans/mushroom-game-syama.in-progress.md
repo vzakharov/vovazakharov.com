@@ -772,6 +772,7 @@ Standing rules for every session in the chain:
       `picker-rows.ts`.
 
 ## Rest of the elephant` stated it when this bite was taken (moved here
+
 whole, below), its design `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`
 § «Что ты решил» overriding the rest of that file:
 

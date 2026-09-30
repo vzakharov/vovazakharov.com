@@ -15,14 +15,14 @@ import {
 import { mulberry32, nextSeed, type Random } from './random';
 
 /** The colours that sound notes, darkest first: each takes the next four semitones up from C. */
-export const NOTE_COLOURS = [
+const NOTE_COLOURS = [
   'blue',
   'pink',
   'yellow',
 ] as const satisfies readonly FlowerColour[];
 
 /** The colours that sound drums: violet the skins, white the ticks. */
-export const DRUM_COLOURS = [
+const DRUM_COLOURS = [
   'violet',
   'white',
 ] as const satisfies readonly FlowerColour[];
