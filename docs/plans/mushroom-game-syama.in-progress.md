@@ -861,9 +861,12 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
     10's 14-flower cap, the turn's refit and `perchedOn`. What the next
     bites build on:
     - `model/pan.ts` is the crop's pure state: a 10 CSS px slop, 1:1
-      follow, a glide timed by the events' own timestamps, a key step of
-      0.4 of a screen, soft ends, and a resize keeping the ground point at
-      the screen's centre. `pan-input.ts`'s `Crop` is the one screen↔world
+      follow, a glide timed by the events' own timestamps, soft ends, and a
+      resize keeping the ground point at the screen's centre. A held `←` or
+      `→` turns the meadow like a shooter's keyboard turn, only slower —
+      eased in, a steady cruise in screen widths a second, eased out on
+      release — never in steps («курсорами -- как-то дёрганно. Должен быть
+      плавный, умеренно медленный поворот»). `pan-input.ts`'s `Crop` is the one screen↔world
       home. The layout is computed once per screen size for the whole
       world and `cameras.main.scrollX` is the crop, so a pan never makes a
       new `MeadowLayout`. The zoom is the screen's, capped to show the
@@ -896,7 +899,7 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
       `fliers.test.ts` takes ~354 s and runs alone under a 590 s timeout.
     - The play run converts through the crop (`__probe.toScreen`,
       `toWorld`), drags with its frame clock as each touch's timestamp, and
-      checks in `scripts/lib/play-pan.ts` that keys step the crop, a drag
+      checks in `scripts/lib/play-pan.ts` that a held key turns the crop smoothly, a drag
       from bare ground pans and taps nothing, a 6 px press taps, and a turn
       keeps every mushroom's ground; one screen per call, ~8.5 min each.
 
