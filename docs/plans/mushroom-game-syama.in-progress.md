@@ -878,6 +878,20 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
+**Sub-bite, taken before bite 11's code by the session that eats it: the
+megabeast notes become a directory** ("разбить megabeast на папку+файлы
+внутри, а то уже непотребно раздуло"). `.claude/skills/megabeast/notes.md`
+is past 900 lines, one file every session appends to. It becomes
+`.claude/skills/megabeast/notes/`: a `README.md` indexing one file per
+theme — the loop's contract, pickup and relay, subagents and parallel
+work, gates and vetting, the play run and frames, quality levers — each
+kept well under ~450 lines and condensed where an entry repeats an earlier
+one. Every citation repoints (this plan's standing rule,
+`.claude/skills/plan/elephant.md`, the relay summary), and
+`notes.retired.md` is the tombstone for the old path. A `docs(megabeast):`
+commit of its own, and the notes are then filled in the file for their
+theme.
+
 11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
     comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
     план, но подготовь отдельные два документа (по одному на идею) … Исходя из
