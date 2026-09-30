@@ -35,11 +35,8 @@ import { EDGE_MARGIN } from './meadow-camera';
 import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
 import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { tapReach } from './tap-reach';
-import { VIEWPORTS, VISITS } from './viewports';
+import { type Screen, VIEWPORTS, VISITS } from './viewports';
 import { opened, openingCrop } from './visit-play';
-
-/** A screen's name, as the sweeps know it. */
-type Screen = (typeof VIEWPORTS)[number][0];
 
 /**
  * The visits every rule is swept over, every species tried on every foot:

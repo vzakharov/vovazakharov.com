@@ -8,12 +8,13 @@
  */
 
 import type { Drum, FlowerSound, PitchClass } from '../../model/flower-sounds';
+import type { Direction } from '../../model/pan';
 
 /** What a key plays on the instrument. */
 export type PlayedKey = FlowerSound | { kind: 'octave'; step: -1 | 1 };
 
 /** A key that turns the crop across the world while held, leftward or rightward. */
-export type PanKey = { kind: 'pan'; direction: -1 | 1 };
+export type PanKey = { kind: 'pan'; direction: Direction };
 
 export type KeyAction = PlayedKey | PanKey;
 

@@ -111,7 +111,7 @@ export function clampLeft({ world, width }: View, left: number): number {
 }
 
 /** The crop at rest at `left`, held inside the world. */
-function restingAt(view: View, left: number): Pan {
+export function restingAt(view: View, left: number): Pan {
   return { ...view, motion: { kind: 'rest', left: clampLeft(view, left) } };
 }
 

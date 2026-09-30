@@ -2,29 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { firstMeadow } from '../../model/game';
-import type { Point } from '../../model/geometry';
 import type { Ground } from '../../model/ground';
-import { clampLeft, openingPan, type Pan, worldOf } from '../../model/pan';
+import { openingPan, type Pan, restingAt, worldOf } from '../../model/pan';
 import { mulberry32 } from '../../model/random';
 import { placeOf } from './clump-layout';
 import { meadowLayout } from './layout';
 import { keptRoom, roomFor } from './mushroom-room';
-
-/** A crop of `pan` at rest, as the scene's crop converts to the world. */
-function cropOf(pan: Pan) {
-  return {
-    toWorld: <Placed extends Point>(point: Placed): Placed => ({
-      ...point,
-      x: worldOf(pan, 0, point.x),
-    }),
-  };
-}
-
-/** `pan` come to rest with its left edge at `left`, held inside the world. */
-const restingAt = (pan: Pan, left: number): Pan => ({
-  ...pan,
-  motion: { kind: 'rest', left: clampLeft(pan, left) },
-});
+import { stillCrop } from './visit-play';
 
 /**
  * `keptRoom` over a finder that counts how often it is asked, and a crop
@@ -74,11 +58,11 @@ describe('the room kept for the next mushroom', () => {
   it('keeps the room it found over a pan while the foot still fits the crop, and finds it again once it does not', () => {
     const fitting = { now: true };
     const { asked, room } = counted(fitting);
-    room(stand, 7, cropOf(opening));
-    room(stand, 7, cropOf(restingAt(opening, 0)));
+    room(stand, 7, stillCrop(opening));
+    room(stand, 7, stillCrop(restingAt(opening, 0)));
     assert.equal(asked.times, 1);
     fitting.now = false;
-    room(stand, 7, cropOf(restingAt(opening, 10)));
+    room(stand, 7, stillCrop(restingAt(opening, 10)));
     assert.equal(asked.times, 2);
   });
 
@@ -91,10 +75,10 @@ describe('the room kept for the next mushroom', () => {
       },
       () => true,
     );
-    room(stand, 7, cropOf(opening));
-    room(stand, 7, cropOf(opening));
+    room(stand, 7, stillCrop(opening));
+    room(stand, 7, stillCrop(opening));
     assert.equal(asked, 1);
-    room(stand, 7, cropOf(restingAt(opening, 0)));
+    room(stand, 7, stillCrop(restingAt(opening, 0)));
     assert.equal(asked, 2);
   });
 });
@@ -117,7 +101,7 @@ describe('the room a `+` finds', () => {
   it('grows the next mushroom inside the crop the screen shows, wherever it is panned to', () => {
     for (const pan of crops) {
       for (const seed of [3, 11, 29, 47]) {
-        const foot = roomFor(stand, seed, cropOf(pan));
+        const foot = roomFor(stand, seed, stillCrop(pan));
         assert.ok(foot, `seed ${String(seed)} found no room`);
         const x = across(pan, foot);
         assert.ok(

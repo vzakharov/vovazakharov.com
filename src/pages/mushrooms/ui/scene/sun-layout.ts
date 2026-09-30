@@ -5,7 +5,7 @@
 
 import type { Box, Circle, Point } from '../../model/geometry';
 import type { Camera } from '../../model/ground';
-import { clampLeft, screenOf } from '../../model/pan';
+import { restingAt, screenOf } from '../../model/pan';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { type Controls, standingControls } from './sky-layout';
@@ -231,14 +231,7 @@ function acrossFromSun(
   right: number,
 ): number {
   const cropped = (crop: number, x: number) =>
-    screenOf(
-      {
-        ...camera,
-        motion: { kind: 'rest', left: clampLeft(camera, crop) },
-      },
-      0,
-      x,
-    );
+    screenOf(restingAt(camera, crop), 0, x);
   return Math.max(
     0,
     cropped(camera.world, left) - sun.x,

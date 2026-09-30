@@ -20,10 +20,8 @@ import {
   Point,
   State,
 } from './mushroom-probe.ts';
-import { type CropOf, playKeys, walkTo } from './play-pan-keys.ts';
+import { type CropOf, playKeys, SAME, walkTo } from './play-pan-keys.ts';
 
-/** How near two crops' edges, in CSS px, count as one: the easing's float left over. */
-const SAME = 0.5;
 /** Frames enough for a glide to come to rest (`GLIDE_TAU` × `GLIDE_SPANS` in `pan.ts`, about 2 s). */
 const GLIDE_FRAMES = 150;
 /** A drag's travel across, as a share of the screen's width, and how many frames it takes. */

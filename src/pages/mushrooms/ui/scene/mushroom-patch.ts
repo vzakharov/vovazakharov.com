@@ -172,6 +172,11 @@ export function flowerTaps({
   );
 }
 
+/** The box `r` either side of `point`, across and down. */
+function boxRound({ x, y }: Point, r: number): Box {
+  return { left: x - r, right: x + r, top: y - r, bottom: y + r };
+}
+
 /** Whether `box` holds `at`. */
 function boxHolds({ left, right, top, bottom }: Box, { x, y }: Point): boolean {
   return x >= left && x <= right && y >= top && y <= bottom;
@@ -249,8 +254,8 @@ export function patchOf(
     top: top - radius,
     bottom: bottom + radius,
   };
-  const reaches = ({ x, y }: Point, r: number) =>
-    boxesMeet(zone, { left: x - r, right: x + r, top: y - r, bottom: y + r });
+  const reaches = (point: Point, r: number) =>
+    boxesMeet(zone, boxRound(point, r));
   const near: Tapped = {
     flowers: tapped.flowers.filter((flower) =>
       reaches(flower, Math.max(flower.petals, flower.tap)),
@@ -326,12 +331,7 @@ export function keepsPatches(
     held.every(
       ({ target, floor, patch }) =>
         !patch ||
-        !boxesMeet(own.reach, {
-          left: patch.x - floor,
-          right: patch.x + floor,
-          top: patch.y - floor,
-          bottom: patch.y + floor,
-        }) ||
+        !boxesMeet(own.reach, boxRound(patch, floor)) ||
         patchOf(target, among, floor) !== undefined,
     )
   );

@@ -16,7 +16,7 @@ import {
 import type { Point } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { openingPan, worldOf } from '../../model/pan';
+import { openingPan, type Pan, worldOf } from '../../model/pan';
 import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
@@ -36,17 +36,21 @@ type Meadowed = { meadow: Meadow };
 export type Opened = Stand & Meadowed;
 
 /**
- * The crop the visit opens on (`openingPan`), as the scene's crop converts a
- * point across the screen to the world (`roomFor`).
+ * `pan` held still, as the scene's crop converts a point across the screen
+ * to the world (`roomFor`).
  */
-export function openingCrop(layout: MeadowLayout): Pick<Crop, 'toWorld'> {
-  const pan = openingPan(layout.camera);
+export function stillCrop(pan: Pan): Pick<Crop, 'toWorld'> {
   return {
     toWorld: <Placed extends Point>(point: Placed): Placed => ({
       ...point,
       x: worldOf(pan, 0, point.x),
     }),
   };
+}
+
+/** The crop the visit opens on (`openingPan`), held still (`stillCrop`). */
+export function openingCrop(layout: MeadowLayout): Pick<Crop, 'toWorld'> {
+  return stillCrop(openingPan(layout.camera));
 }
 
 /**

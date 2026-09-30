@@ -10,16 +10,20 @@ import { z } from 'zod';
 
 import {
   CRUISE_ACROSS,
+  type Direction,
   KEY_EASE,
 } from '../../src/pages/mushrooms/model/pan.ts';
 import { type Crop, type Expect, inTurn, type Page } from './mushroom-probe.ts';
 
 type Key = 'ArrowLeft' | 'ArrowRight';
 
+/** Which way `key` turns the crop. */
+const towardOf = (key: Key): Direction => (key === 'ArrowRight' ? 1 : -1);
+
 export type CropOf = () => Promise<z.infer<typeof Crop>>;
 
-/** How near two crops' edges, in CSS px, count as one. */
-const SAME = 0.5;
+/** How near two crops' edges, in CSS px, count as one: the easing's float left over. */
+export const SAME = 0.5;
 /** How long each key is held from the middle, in frames: past its ease, short of either end. */
 const HELD_FRAMES = 36;
 /** Frames between a held key's repeats, as a browser's own come about every 33 ms. */
@@ -56,13 +60,16 @@ async function holding(
 }
 
 /** What a stretch of traced frames is checked against: which way it turns, how fast it may, and what it is called in a message. */
-type Turning = { toward: -1 | 1; cruise: number; what: string };
+type Turning = { toward: Direction; cruise: number; what: string };
+
+/** How far a traced frame moved the crop the key's way, and the time it took. */
+type Move = { by: number; over: number };
 
 /** Each traced frame's move after the one before it, `toward` the key's way, and the time it took. */
 function moves(
   frames: ReadonlyArray<z.infer<typeof Frame>>,
-  toward: -1 | 1,
-): Array<{ by: number; over: number }> {
+  toward: Direction,
+): Move[] {
   return frames.slice(1).map(([clock, left], index) => {
     const [was, before] = frames[index] ?? [clock, left];
     return { by: toward * (left - before), over: clock - was };
@@ -76,8 +83,8 @@ async function traced(
   frames: number,
   enough?: (left: number) => boolean,
 ): Promise<{
-  held: Array<{ by: number; over: number }>;
-  after: Array<{ by: number; over: number }>;
+  held: Move[];
+  after: Move[];
   from: number;
   letGo: number;
   rest: number;
@@ -85,7 +92,7 @@ async function traced(
   const start = await page.evaluate(FRAME, Frame);
   const holds = await holding(page, key, frames, enough);
   const after = await page.trace(REST_FRAMES, FRAME, Frame);
-  const all = moves([start, ...holds, ...after], key === 'ArrowRight' ? 1 : -1);
+  const all = moves([start, ...holds, ...after], towardOf(key));
   return {
     held: all.slice(0, holds.length),
     after: all.slice(holds.length),
@@ -97,7 +104,7 @@ async function traced(
 
 /** Every frame moves the key's way, if at all, and none faster than the cruise. */
 function turnsSmoothly(
-  steps: ReadonlyArray<{ by: number; over: number }>,
+  steps: readonly Move[],
   { cruise, what }: Turning,
   expect: Expect,
 ): void {
@@ -112,7 +119,7 @@ function turnsSmoothly(
 
 /** The frames of the first `KEY_EASE` after a press each move farther than the last, from well under the cruise. */
 function easesIn(
-  steps: ReadonlyArray<{ by: number; over: number }>,
+  steps: readonly Move[],
   { cruise, what }: Turning,
   expect: Expect,
 ): void {
@@ -135,7 +142,7 @@ function easesIn(
 
 /** After the release (or on braking at an end), the frames that move each move less than the last, the last well under the cruise, then none. */
 function stopsSoftly(
-  steps: ReadonlyArray<{ by: number; over: number }>,
+  steps: readonly Move[],
   { cruise, what }: Turning,
   expect: Expect,
 ): void {
@@ -165,7 +172,7 @@ export async function playKeys(
   await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
     const { width } = await crop();
     const turning: Turning = {
-      toward: key === 'ArrowRight' ? 1 : -1,
+      toward: towardOf(key),
       cruise: CRUISE_ACROSS * width,
       what: `${key} held`,
     };
@@ -203,7 +210,7 @@ export async function walkTo(
   until?: number,
 ): Promise<void> {
   const { left, world, width } = await crop();
-  const toward = key === 'ArrowRight' ? 1 : -1;
+  const toward = towardOf(key);
   const end = toward === 1 ? world - width : 0;
   const goal = until ?? end;
   const passed = (at: number) =>
