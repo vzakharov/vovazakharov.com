@@ -2,10 +2,10 @@
  * Plays `/mushrooms` on the five screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
- * the meadow is tapped the way a finger does — the steps are `play` below,
- * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
- * `lib/play-species.ts` and `lib/play-tufts.ts` — and a frame of each lands in
- * `tmp/play/<screen>-<step>.png` to look at.
+ * the meadow is tapped the way a finger does — the steps are
+ * `lib/play-meadow.ts`, `lib/play-house.ts`, `lib/play-insects.ts`,
+ * `lib/play-buzzers.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and
+ * a frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
@@ -33,18 +33,13 @@ import { median, overBudget } from './lib/frame-budget.ts';
 import {
   Controls,
   type Expect,
-  Flower,
   inTurn,
   type Page,
-  Point,
-  Pose,
   PROBE,
   seededRandom,
-  State,
 } from './lib/mushroom-probe.ts';
-import { playBuzzers, playPlanting } from './lib/play-buzzers.ts';
-import { playHouse } from './lib/play-house.ts';
-import { playInsects } from './lib/play-insects.ts';
+import { playPlanting } from './lib/play-buzzers.ts';
+import { playMeadow } from './lib/play-meadow.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
 
@@ -241,148 +236,6 @@ async function open(
   };
 }
 
-/** The whole tap sequence on one screen; each broken promise is a failure. */
-async function play(
-  page: Page,
-  fail: (message: string) => void,
-  note: (line: string) => void,
-): Promise<void> {
-  const state = async () => page.evaluate('__probe.state()', State);
-  const expect = (holds: boolean, message: string) => {
-    if (!holds) fail(message);
-  };
-  const controls = await page.evaluate('__probe.controls()', Controls);
-  await page.step(30);
-  await page.shoot('0-open');
-  const opening = await state();
-  await playHouse(page, controls, expect, note);
-
-  await page.tap(controls.plus);
-  await page.step(30);
-  expect((await state()).picking, '`+` did not open the picker');
-  await page.shoot('1-picker');
-
-  const [first] = controls.picker;
-  if (first) await page.tap(first);
-  // Mid-close: the picked cap popping, the others going back towards `+`.
-  await page.step(9);
-  await page.shoot('1b-closing');
-  await page.step(81);
-  const grown = await state();
-  expect(
-    grown.mushrooms.length === opening.mushrooms.length + 1,
-    'a pick grew no mushroom',
-  );
-  expect(!grown.picking, 'a pick left the picker open');
-  expect(
-    grown.selected === grown.mushrooms.at(-1),
-    'the grown mushroom is not selected',
-  );
-  await page.shoot('2-grown');
-
-  const [target] = opening.mushrooms;
-  if (target !== undefined) {
-    const at = await page.evaluate(
-      `__probe.mushroom(${JSON.stringify(target)})`,
-      Point.nullable(),
-    );
-    if (at === null)
-      expect(false, "no tap on the mushroom to select's cap reaches it");
-    else await page.tap(at);
-  }
-  await page.step(30);
-  expect(
-    (await state()).selected === target,
-    'a tap on a mushroom did not select it',
-  );
-  await page.shoot('3-selected');
-
-  // The selected mushroom is furnished, so its house sinks with it.
-  expect(
-    grown.houses[grown.mushrooms.indexOf(target ?? '')]?.door === true,
-    'the mushroom to sink has no house',
-  );
-  await page.tap(controls.minus);
-  // Some 0.33 s into its 0.45 s sink, at about half its height.
-  await page.step(20);
-  const pose = await page.evaluate(
-    `__probe.pose(${JSON.stringify(target)})`,
-    Pose,
-  );
-  expect(
-    pose !== null &&
-      pose.shown &&
-      pose.mushroom > 0 &&
-      pose.mushroom < 1 &&
-      pose.house === pose.mushroom,
-    `mid-sink, the house does not sink with its mushroom: ${JSON.stringify(pose)}`,
-  );
-  await page.shoot('4a-sinking');
-  await page.step(70);
-  const thinned = await state();
-  expect(
-    !thinned.mushrooms.includes(target ?? '') &&
-      thinned.mushrooms.length === grown.mushrooms.length - 1,
-    '`−` did not take the selected mushroom away',
-  );
-  await page.shoot('4-removed');
-
-  // Nothing is selected now, so `−` takes the newest, then the last one left.
-  await page.tap(controls.minus);
-  await page.step(60);
-  expect(
-    (await state()).mushrooms.join(',') ===
-      thinned.mushrooms.slice(0, -1).join(','),
-    '`−` with nothing selected did not take the newest away',
-  );
-  await page.tap(controls.minus);
-  await page.step(60);
-  expect((await state()).mushrooms.length === 0, '`−` left a mushroom');
-  await page.tap(controls.minus);
-  await page.step(6);
-  const { clock: shookBy } = await state();
-  const refusedAt = await page.evaluate(
-    '__probe.minusRefusedAt()',
-    z.number().nullable(),
-  );
-  expect(
-    refusedAt !== null && shookBy - refusedAt < 1,
-    '`−` on an empty meadow did not shake its head',
-  );
-  await page.shoot('5-refused');
-
-  const flower = await page.evaluate('__probe.flower()', Flower);
-  if (flower) {
-    await page.tap(controls.plus);
-    await page.step(30);
-    await page.tap(flower);
-    await page.step(20);
-    expect(!(await state()).picking, 'a tap on a flower left the picker open');
-    const { clock } = await state();
-    const tappedAt = await page.evaluate(
-      `__probe.flowerTappedAt(${JSON.stringify(flower.id)})`,
-      z.number().nullable(),
-    );
-    expect(
-      tappedAt !== null && clock - tappedAt < 1,
-      'a tap on a flower did not open it',
-    );
-    await page.shoot('6-flower');
-  }
-
-  const { muted } = await state();
-  await page.tap(controls.mute);
-  await page.step(10);
-  expect((await state()).muted !== muted, 'the mute did not toggle');
-  await page.shoot('7-muted');
-  await page.tap(controls.mute);
-  await page.step(10);
-  expect((await state()).muted === muted, 'the mute did not toggle back');
-
-  await playInsects(page, controls, expect, note);
-  await playBuzzers(page, controls, expect, note);
-}
-
 async function main(): Promise<void> {
   if (!given('no-build')) {
     const built = spawnSync('pnpm', ['build:vova'], {
@@ -416,10 +269,15 @@ async function main(): Promise<void> {
     const note = (line: string) => {
       process.stdout.write(`${screen.name}: ${line}\n`);
     };
-    await play(page, fail, note);
     const expect: Expect = (holds, message) => {
       if (!holds) fail(message);
     };
+    await playMeadow(
+      page,
+      await page.evaluate('__probe.controls()', Controls),
+      expect,
+      note,
+    );
     // Fresh meadows, one after the other: the bees alone on one, every
     // species grown on the next, the child planting flowers on the last.
     const frames = [...page.rendered];
