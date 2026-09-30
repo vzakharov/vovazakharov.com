@@ -193,14 +193,20 @@ const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
 const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
   swarm === meadow ? meadow : { ...meadow, ...swarm };
 
+/** Every picker shut: the mushrooms', the house's and the flowers'. */
+const PICKERS_SHUT = {
+  picking: false,
+  furnishing: false,
+  planting: undefined,
+} as const satisfies Pick<Meadow, 'picking' | 'furnishing' | 'planting'>;
+
 export function reduce(meadow: Meadow, action: Action): Meadow {
   switch (action.kind) {
     case 'pick': {
       return {
         ...meadow,
+        ...PICKERS_SHUT,
         picking: !meadow.picking && !isFull(meadow),
-        furnishing: false,
-        planting: undefined,
       };
     }
     case 'house': {
@@ -211,13 +217,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         furnishing && meadow.selected === undefined
           ? newestWithRoom(meadow, FURNISHINGS)?.id
           : meadow.selected;
-      return {
-        ...meadow,
-        furnishing,
-        selected,
-        picking: false,
-        planting: undefined,
-      };
+      return { ...meadow, ...PICKERS_SHUT, furnishing, selected };
     }
     case 'furnish': {
       const done = furnishedTarget(meadow, action.piece);
@@ -233,13 +233,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       // A tap outside an open picker closes it, another tuft's too.
       return {
         ...meadow,
+        ...PICKERS_SHUT,
         planting:
           meadow.planting === undefined
             ? { ...pick(action, 'foot'), chosen: undefined }
             : undefined,
         selected: undefined,
-        picking: false,
-        furnishing: false,
       };
     }
     case 'colour': {
@@ -292,13 +291,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         : meadow;
     }
     case 'deselect': {
-      return {
-        ...meadow,
-        selected: undefined,
-        picking: false,
-        furnishing: false,
-        planting: undefined,
-      };
+      return { ...meadow, ...PICKERS_SHUT, selected: undefined };
     }
     case 'remove': {
       // With nothing selected, `−` thins the newest.
@@ -310,10 +303,8 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       return {
         ...meadow,
         mushrooms: meadow.mushrooms.filter(({ id }) => id !== gone),
+        ...PICKERS_SHUT,
         selected: undefined,
-        picking: false,
-        furnishing: false,
-        planting: undefined,
       };
     }
     case 'release': {

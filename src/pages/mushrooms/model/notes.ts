@@ -36,9 +36,7 @@ export function nearestNote(
   anchor: number | undefined,
   pitchClass: PitchClass,
 ): number {
-  if (anchor === undefined) {
-    return LOWEST_NOTE + HOME_OCTAVE * 12 + pitchClass;
-  }
+  if (anchor === undefined) return keyNote(HOME_OCTAVE, pitchClass);
   const up = (((pitchClass - anchor) % 12) + 12) % 12;
   if (up === 0) return intoRange(anchor);
   const above = anchor + up;

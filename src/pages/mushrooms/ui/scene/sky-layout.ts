@@ -63,11 +63,18 @@ export type Controls = WithMute & {
   housePicker: readonly Circle[];
 };
 
+/** The button `name` names among `house` and `releases`. */
+function yielder(
+  name: Yielder,
+  { house, releases }: Pick<Controls, 'house' | 'releases'>,
+): Circle {
+  return name === 'house' ? house : releases[name];
+}
+
 /** Every button still shown while a picker is open: all that stand but those `yielding`. */
 export function shownOverPickers(controls: Controls): Circle[] {
-  const { house, releases, yielding } = controls;
   const hidden = new Set(
-    yielding.map((name) => (name === 'house' ? house : releases[name])),
+    controls.yielding.map((name) => yielder(name, controls)),
   );
   return standingControls(controls).filter((button) => !hidden.has(button));
 }
@@ -181,6 +188,8 @@ export function placeControls(
     r: GROW_R,
   };
   const topRow = column === 1 || cornered;
+  const plus = { x, y: plusY, r: GROW_R };
+  const minus = { x, y: plusY + below, r: GROW_R };
   const {
     releases,
     yielding,
@@ -189,19 +198,13 @@ export function placeControls(
   } = placeReleases({
     mute,
     rows: [picker, houseRow],
-    grow: {
-      plus: { x, y: plusY, r: GROW_R },
-      minus: { x, y: plusY + below, r: GROW_R },
-      house,
-    },
+    grow: { plus, minus, house },
     width,
     height,
     lowest: topRow ? 0 : groundTop * COLUMN_REACH,
   });
   // The band beside the mute, or the insects beside it, up to the house
   // where it has the corner.
-  const plus = { x, y: plusY, r: GROW_R };
-  const minus = { x, y: plusY + below, r: GROW_R };
   const room = {
     from:
       Math.max(
@@ -215,7 +218,7 @@ export function placeControls(
       plus,
       minus,
       ...YIELDERS.filter((name) => !yielding.includes(name)).map((name) =>
-        name === 'house' ? house : releases[name],
+        yielder(name, { house, releases }),
       ),
     ],
   };
@@ -336,12 +339,13 @@ function placeReleases({
       })
     : undefined;
   if (over) {
+    const { house } = grow;
     const met = (button: Circle) =>
       over.flat().some((pick) => !apart(pick, button, PICK_CLEAR));
     return {
       releases: inRowReleases,
       yielding: YIELDERS.filter((name) =>
-        met(name === 'house' ? grow.house : inRowReleases[name]),
+        met(yielder(name, { house, releases: inRowReleases })),
       ),
       inTopRow: inRow,
       rows: over,

@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+import { drift } from '../../model/motion';
 import type { Random } from '../../model/random';
 import { bakeTiles, SUPERSAMPLE } from './baking';
 import type { MeadowLayout } from './layout';
@@ -138,4 +139,28 @@ export function paintBackdrop(
   bake(near, scratch, painted.slice(farLayers, -1), layout, ratio);
   bake(wash, scratch, [washLayer], layout, ratio);
   return { far, clouds, near, wash, grain, layers: painted, scratch };
+}
+
+/** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
+const CLOUD_SPEEDS = [7, 4, 5.5];
+
+/** Moves `backdrop`'s clouds to where they have drifted across `layout` by `t`, in seconds. */
+export function driftClouds(
+  backdrop: Backdrop,
+  { width, clouds }: MeadowLayout,
+  t: number,
+): void {
+  for (const [index, graphics] of backdrop.clouds.entries()) {
+    const cloud = clouds[index];
+    if (!cloud) continue;
+    const { x, r } = cloud;
+    const margin = r * 4;
+    graphics.x =
+      drift(
+        x + margin,
+        CLOUD_SPEEDS[index % CLOUD_SPEEDS.length] ?? 5,
+        t,
+        width + margin * 2,
+      ) - margin;
+  }
 }

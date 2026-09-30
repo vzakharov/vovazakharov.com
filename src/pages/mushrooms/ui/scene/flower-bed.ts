@@ -19,7 +19,7 @@ import {
   type Sprouted,
   sway,
 } from '../../model/motion';
-import type { Sown } from '../../model/pollen';
+import { isBeeSown, type Sown } from '../../model/pollen';
 import { drawFlower } from './draw-flower';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
@@ -133,7 +133,7 @@ export class FlowerBed {
       shown.tappedAt = clock;
       // The child's own flower leads the melody, as a tap does; a bee's
       // plays from it without moving it.
-      this.sound(flower, !('parent' in flower));
+      this.sound(flower, !isBeeSown(flower));
     }
     if (!this.lighting) throw new Error('A flower is planted before its paint');
     this.paint(layout, this.lighting);

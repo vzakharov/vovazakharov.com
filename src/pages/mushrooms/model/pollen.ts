@@ -45,6 +45,11 @@ export type RootedFlower = Flower & Rooted;
  */
 export type Sown = BeeSown | RootedFlower;
 
+/** Whether `flower` is a bee's, ringed round its parent, rather than the child's. */
+export function isBeeSown(flower: Sown): flower is BeeSown {
+  return 'parent' in flower;
+}
+
 /** Whether a flower of `planted` stands in ring slot `ring` round `parent`. */
 export function slotTaken(
   planted: readonly Sown[],
@@ -52,7 +57,7 @@ export function slotTaken(
   ring: number,
 ): boolean {
   return planted.some(
-    (each) => 'parent' in each && each.parent === parent && each.ring === ring,
+    (each) => isBeeSown(each) && each.parent === parent && each.ring === ring,
   );
 }
 

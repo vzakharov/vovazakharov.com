@@ -12,6 +12,7 @@ import type * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import type { Camera, FlowerFoot } from '../../model/ground';
+import { isBeeSown } from '../../model/pollen';
 import { between, type Random } from '../../model/random';
 import {
   FLOWER_DOWN,
@@ -88,7 +89,7 @@ export function growTufts(stand: Stand, random: Random): Tuft[] {
   const { layout, flowers, planted, mushrooms } = stand;
   const { camera, width } = layout;
   const own = new Set(
-    planted.flatMap((sown) => ('parent' in sown ? [] : [sown.id])),
+    planted.flatMap((sown) => (isBeeSown(sown) ? [] : [sown.id])),
   );
   const tufts = standingFlowers(layout, flowers, planted, mushrooms)
     .filter(({ id }) => own.has(id))

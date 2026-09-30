@@ -14,7 +14,6 @@ import type { Point } from '../../model/geometry';
 import type { Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
-import { drift } from '../../model/motion';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
@@ -31,7 +30,7 @@ import {
 } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
-import { type Backdrop, paintBackdrop } from './paint-backdrop';
+import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { airSpots, perchSight, perchSpot } from './perch-sight';
 import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
@@ -48,8 +47,6 @@ const HUD_DEPTH = 2e5;
  * taps.
  */
 const INSECT_DEPTH = 1.5e5;
-/** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
-const CLOUD_SPEEDS = [7, 4, 5.5];
 
 /**
  * The meadow. Everything that varies between visits comes from one seed, so a
@@ -223,20 +220,7 @@ export class MeadowScene extends Phaser.Scene {
     } = this;
     if (!layout || !backdrop) return;
     this.dispatch({ kind: 'tick', now: time, ...sight });
-    const { width, clouds } = layout;
-    for (const [index, graphics] of backdrop.clouds.entries()) {
-      const cloud = clouds[index];
-      if (!cloud) continue;
-      const { x, r } = cloud;
-      const margin = r * 4;
-      graphics.x =
-        drift(
-          x + margin,
-          CLOUD_SPEEDS[index % CLOUD_SPEEDS.length] ?? 5,
-          t,
-          width + margin * 2,
-        ) - margin;
-    }
+    driftClouds(backdrop, layout, t);
     grass?.update(t);
     bed?.update(t);
     controls?.update(t);

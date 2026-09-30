@@ -18,7 +18,7 @@ import type { Point } from '../../model/geometry';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
-import type { Sown } from '../../model/pollen';
+import { isBeeSown, type Sown } from '../../model/pollen';
 import {
   type Button,
   buttonMaker,
@@ -217,7 +217,7 @@ export class Controls {
     const mushroomAt = (mushroom: Planted) =>
       placeIn(layout.mushrooms, mushroom);
     const flowerAt = (sown: Sown) =>
-      'parent' in sown ? undefined : standingOn(layout.camera, sown.foot);
+      isBeeSown(sown) ? undefined : standingOn(layout.camera, sown.foot);
     // Every picker opens where another stands, so the one opening sends the
     // rest off at once.
     this.picker.paint(

@@ -12,7 +12,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';
 import { type Ground, type Rooted, zAt } from '../../model/ground';
-import type { RootedFlower, Sown } from '../../model/pollen';
+import { isBeeSown, type RootedFlower, type Sown } from '../../model/pollen';
 import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,
@@ -138,7 +138,7 @@ function footOf(
   sown: Sown,
   standing: readonly StandingFlower[],
 ): FlowerFoot | undefined {
-  if (!('parent' in sown)) return sown.foot;
+  if (!isBeeSown(sown)) return sown.foot;
   const parent = standing.find(({ id }) => id === sown.parent);
   return parent && ringFoot(parent.foot, sown.ring);
 }
