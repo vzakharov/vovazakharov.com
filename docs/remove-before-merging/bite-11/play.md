@@ -21,9 +21,23 @@
   leaves the crop; the turn keeps every mushroom's ground x and re-crops
   round the centre's ground point (`pan-turned`).
 
+- Steps 2–3 (27d9edf, 60d9b1f): the resting-insect tap waits for one the
+  crop shows (`__probe.insects()` carries `inSight`); the tufts tried are the
+  ones on screen; the end drags also cross a flower; the middle drag takes at
+  most 0.6 of the crop's room (phoneL has ~395 px of it); the wait for a
+  butterfly on the one selected cap (`play-insects.ts`) looks 3× as long.
+- **Green on all five screens**, each run alone (`--screens <one>`, ~8.5 min
+  each, over the tool's limit all together) on a probe build of b187dc4 plus
+  the other packages' tree at the time.
+- Frames in `docs/remove-before-merging/frames/bite-11/`: tabL dragged,
+  left end, right end; phoneP dragged, and turned sideways.
+
 ## Left
 
-- See the report / next section once the per-screen runs are green.
+- Nothing in the package. The whole five-screen run takes ~42 min, so it is
+  run a screen at a time.
+- Seen, not this package's: on phoneP upright the far hills' parting under
+  the sun reads as a flat-topped cliff at the sun's left (`pan-dragged`).
 
 ## Decided
 
