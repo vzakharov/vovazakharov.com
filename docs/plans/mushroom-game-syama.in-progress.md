@@ -896,8 +896,10 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
       perch and takes that perch in view (`model/flight-in.ts`,
       `onscreenOf`); every later leg roams the world.
     - Every grown mushroom's tap lands — none missed at the head's middle,
-      at least 80% of the head's taps; a fingertip bound would fail every
-      head flatter than a fingertip is round.
+      at least 75% of the head's taps, the rest taken by a mushroom drawn
+      in front (worst 76.5% over all 2000 tablet forests, where a sampled
+      80% had missed the tail); a fingertip bound would fail every head
+      flatter than a fingertip is round.
       `fliers.test.ts` takes ~354 s and runs alone under a 590 s timeout.
     - The play run converts through the crop (`__probe.toScreen`,
       `toWorld`), drags with its frame clock as each touch's timestamp, and

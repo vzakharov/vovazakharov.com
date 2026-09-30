@@ -134,12 +134,15 @@ function headsGap(a: Footing, b: Footing): number {
   return Math.hypot(p.x - q.x, p.y - q.y) / (FLOWERS_APART * (p.r + q.r));
 }
 
+/** The flowers' sounds, sorted, so two beds compare as multisets. */
+function sounds(flowers: readonly StandingFlower[]): string[] {
+  return flowers
+    .map((flower) => JSON.stringify(soundOf(flowerGenes(flower))))
+    .toSorted();
+}
+
 describe('the seeded flowers', () => {
   it('sound each seeded sound once in each half of the world', () => {
-    const sounds = (flowers: readonly StandingFlower[]) =>
-      flowers
-        .map((flower) => JSON.stringify(soundOf(flowerGenes(flower))))
-        .toSorted();
     const every = sounds(
       SEEDED_SOUNDS.map((sound, index) => ({
         id: String(index),
