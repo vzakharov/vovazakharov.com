@@ -1,14 +1,18 @@
 /**
- * The hills' skylines, as points across the screen in CSS pixels: pure, so
- * a sweep can check what stands in front of the sun without painting.
+ * The hills' skylines and the ground's seam, as points across their layers
+ * in CSS pixels: pure, so a sweep can check what stands in front of the sun
+ * without painting. Each runs across the stretch of its layer the screen
+ * shows over every crop (`layerSpan`), the hills at their parallax.
  */
 
 import { type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
+import { layerSpan, PARALLAX, type Span } from './parallax';
 import { SUN_RAY_REACH } from './sun-layout';
 
+/** A skyline's points to a screen's width. */
 const HILL_STEPS = 64;
 /** How fast a lit rim deepens to its full depth as a slope turns toward the light. */
 const RIDGE_GAIN = 4;
@@ -18,22 +22,35 @@ const FAR_RISE = 0.9;
 const FARTHEST_LIFT = 0.15;
 const FARTHEST_RISE = 0.6;
 
-/** A rolling skyline from a sum of two waves, its phases drawn from `random`. */
+/**
+ * A rolling skyline across `span` from a sum of two waves, its phases drawn
+ * from `random`, as many swells to a screen's `width` however far it runs.
+ */
 function hillLine(
   random: Random,
+  { left, across }: Span,
   width: number,
   base: number,
   amplitude: number,
 ): Point[] {
   const phase = between(random, 0, Math.PI * 2);
   const phase2 = between(random, 0, Math.PI * 2);
-  const waves = between(random, 1.2, 2.2);
-  return sample(0, 1, HILL_STEPS, (t) => {
+  const screens = across / width;
+  const waves = between(random, 1.2, 2.2) * screens;
+  return sample(0, 1, Math.ceil(HILL_STEPS * screens), (t) => {
     const swell =
       0.65 * Math.sin(t * Math.PI * waves + phase) +
       0.35 * Math.sin(t * Math.PI * waves * 2.3 + phase2);
-    return { x: t * width, y: base - amplitude * (0.5 + 0.5 * swell) };
+    return {
+      x: left + t * across,
+      y: base - amplitude * (0.5 + 0.5 * swell),
+    };
   });
+}
+
+/** The far hills' layer, which the farthest range shares. */
+function farSpan({ camera }: MeadowLayout): Span {
+  return layerSpan(camera, PARALLAX.far);
 }
 
 /**
@@ -45,6 +62,8 @@ function hillLine(
 const PARTED_DEPTH = 2;
 const PARTED_SPREAD = 3;
 const PARTED_SOFTNESS = 0.4;
+/** How much deeper, in the sun's radii, the parting sags midway along the stretch the sun sweeps as the crop pans, so its floor never runs level. */
+const PARTED_SAG = 0.2;
 
 /** The larger of `a` and `b` — the lower on screen — with the crease between them rounded over `k`. */
 function softLower(a: number, b: number, k: number): number {
@@ -53,22 +72,37 @@ function softLower(a: number, b: number, k: number): number {
 }
 
 /**
- * `line` parted under the sun by a bowl `PARTED_DEPTH` radii deep at its
- * middle, its sides under every ray and outside the glow, so no hill stands
- * in front of the sun, the glow is not cut out of the sky by the hills, and
- * the parting has no level floor.
+ * `line`, the far hills' layer's, parted under the sun by a bowl
+ * `PARTED_DEPTH` radii deep at its middle, its sides under every ray and
+ * outside the glow, so no hill stands in front of the sun, the glow is not
+ * cut out of the sky by the hills, and the parting has no level floor. The
+ * sun stands still on the screen while the layer slides under it, so the
+ * bowl's middle runs along the whole stretch of the layer the sun passes
+ * over as the crop pans, sagging a little midway along it.
  */
-function partedUnderSun(
-  line: readonly Point[],
-  sun: MeadowLayout['sun'],
-): Point[] {
+function partedUnderSun(line: readonly Point[], layout: MeadowLayout): Point[] {
+  const { sun, width } = layout;
+  const span = farSpan(layout);
+  const sweep = { left: sun.x + span.left, across: span.across - width };
   const depth = sun.r * PARTED_DEPTH;
+  const sag = sun.r * PARTED_SAG;
   const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
   // A parabola through `depth` below the middle and `depth / 2` below it at
-  // `spread` either side; no narrower than the rays' reach, which keeps it
-  // under the rays' circle.
-  const bowl = (x: number) =>
-    sun.y + depth - (depth * (x - sun.x) ** 2) / (2 * spread ** 2);
+  // `spread` either side of the sweep; no narrower than the rays' reach,
+  // which keeps it under the rays' circle wherever the sun stands.
+  const bowl = (x: number) => {
+    const along =
+      sweep.across > 0
+        ? Math.min(1, Math.max(0, (x - sweep.left) / sweep.across))
+        : 0;
+    const off = x - (sweep.left + along * sweep.across);
+    return (
+      sun.y +
+      depth +
+      sag * Math.sin(Math.PI * along) -
+      (depth * off ** 2) / (2 * spread ** 2)
+    );
+  };
   return line.map(({ x, y }) => ({
     x,
     y: softLower(y, bowl(x), sun.r * PARTED_SOFTNESS),
@@ -76,13 +110,17 @@ function partedUnderSun(
 }
 
 /** The far hills' skyline: a rolling line rising from the horizon, parted under the sun. */
-export function farSkyline(
-  random: Random,
-  { width, horizon, groundTop, sun }: MeadowLayout,
-): Point[] {
+export function farSkyline(random: Random, layout: MeadowLayout): Point[] {
+  const { width, horizon, groundTop } = layout;
   return partedUnderSun(
-    hillLine(random, width, horizon, (groundTop - horizon) * FAR_RISE),
-    sun,
+    hillLine(
+      random,
+      farSpan(layout),
+      width,
+      horizon,
+      (groundTop - horizon) * FAR_RISE,
+    ),
+    layout,
   );
 }
 
@@ -93,27 +131,30 @@ export function farSkyline(
  */
 export function farthestSkyline(
   random: Random,
-  { width, horizon, groundTop, sun }: MeadowLayout,
+  layout: MeadowLayout,
 ): Point[] {
+  const { width, horizon, groundTop } = layout;
   const rise = groundTop - horizon;
   return partedUnderSun(
     hillLine(
       random,
+      farSpan(layout),
       width,
       horizon - rise * FARTHEST_LIFT,
       rise * FAR_RISE * FARTHEST_RISE,
     ),
-    sun,
+    layout,
   );
 }
 
 /** The near hills' skyline, rolling across the band below the far hills'. */
 export function nearSkyline(
   random: Random,
-  { width, nearHills, groundTop }: MeadowLayout,
+  { width, nearHills, groundTop, camera }: MeadowLayout,
 ): Point[] {
   return hillLine(
     random,
+    layerSpan(camera, PARALLAX.near),
     width,
     nearHills + (groundTop - nearHills) * 0.6,
     (groundTop - nearHills) * 1.1,
@@ -128,25 +169,28 @@ export const SEAM_REACH = 0.035;
  * crest running level for long.
  */
 const SEAM_WAVELENGTH = 250;
+/** The seam's points to a screen's width. */
 const SEAM_STEPS = 128;
 
 /**
- * Where the ground meets the near hills' foot: a line wavering about the
- * ground's top by `SEAM_REACH`, so the meadow's far edge has no straight line
- * in it. It depends on the screen alone, so the ground and the grass that
- * lines it read the same seam.
+ * Where the ground meets the near hills' foot, across the world: a line
+ * wavering about the ground's top by `SEAM_REACH`, so the meadow's far edge
+ * has no straight line in it. It depends on the screen's size alone, so the
+ * ground and the grass that lines it read the same seam.
  */
 export function groundSeam({
   width,
   height,
   groundTop,
+  camera,
 }: MeadowLayout): Point[] {
+  const { left, across } = layerSpan(camera, PARALLAX.ground);
   const reach = (height - groundTop) * SEAM_REACH;
-  const waves = (width / SEAM_WAVELENGTH) * Math.PI * 2;
-  return sample(0, 1, SEAM_STEPS, (t) => {
+  const waves = (across / SEAM_WAVELENGTH) * Math.PI * 2;
+  return sample(0, 1, Math.ceil((SEAM_STEPS * across) / width), (t) => {
     const swell =
       0.6 * Math.sin(t * waves + 0.7) + 0.4 * Math.sin(t * waves * 2.7 + 2.1);
-    return { x: t * width, y: groundTop + reach * swell };
+    return { x: left + t * across, y: groundTop + reach * swell };
   });
 }
 

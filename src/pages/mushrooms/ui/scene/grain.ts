@@ -10,23 +10,30 @@ import type { Topped } from '../../model/geometry';
 import { between, mulberry32, type Random } from '../../model/random';
 import { depthScale } from './flower-layout';
 import type { MeadowLayout } from './layout';
+import { layerSpan, PARALLAX } from './parallax';
 
+/** The ground's patches to a screen's width. */
 const MOTTLES = 24;
 
 /** A flattened patch of the ground a little lighter or deeper than round it, so the meadow reads as rolling. */
 export type Mottle = Oval & { deep: boolean };
 
-/** The ground's patches, drawn from `random`, so the same source mottles it the same; smaller the farther back they lie. */
+/**
+ * The ground's patches across the world, `MOTTLES` to a screen's width,
+ * drawn from `random`, so the same source mottles it the same; smaller the
+ * farther back they lie.
+ */
 export function mottles(
   random: Random,
-  { width, height, groundTop }: MeadowLayout,
+  { width, height, groundTop, camera }: MeadowLayout,
 ): Mottle[] {
   const depth = height - groundTop;
-  return Array.from({ length: MOTTLES }, () => {
+  const { left, across } = layerSpan(camera, PARALLAX.ground);
+  return Array.from({ length: Math.round((MOTTLES * across) / width) }, () => {
     const down = between(random, 0.06, 1) ** 1.3;
     const rx = between(random, 0.05, 0.12) * width * depthScale(down) * 0.8;
     return {
-      x: between(random, 0, width),
+      x: between(random, left, left + across),
       y: groundTop + depth * down,
       rx,
       ry: rx * between(random, 0.18, 0.25),
@@ -66,8 +73,11 @@ export function grainPixels(seed: number, side: number): Uint8ClampedArray {
 const GRAIN_RAMP = 0.2;
 const GRAIN_STEPS = 10;
 
-/** One strip of the grain: the rows it covers, in CSS pixels, and its share of the grain's full alpha. */
-export type GrainStrip = Topped & { bottom: number; share: number };
+/** The rows from `top` to `bottom`, in CSS pixels. */
+export type Band = Topped & { bottom: number };
+
+/** One strip of the grain: the rows it covers, and its share of the grain's full alpha. */
+export type GrainStrip = Band & { share: number };
 
 /**
  * The grain's strips from `top`, the seam's highest point, to the bottom

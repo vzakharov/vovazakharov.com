@@ -5,6 +5,7 @@
  */
 
 import type { Circle, Cornered } from '../../model/geometry';
+import type { Span } from './parallax';
 
 /**
  * How many texels a side a bake draws per device pixel before shrinking to
@@ -43,6 +44,30 @@ export function faceFrame({ x, y, r }: Circle, ratio: number): FaceFrame {
     side,
     origin: { x: (x * ratio - left) / side, y: (y * ratio - top) / side },
   };
+}
+
+/**
+ * The widest texture a picture is baked into, in texels: a world-wide
+ * picture on a dense screen passes the 4096 an older phone allows, so it is
+ * baked as columns this wide at most, side by side.
+ */
+export const WIDEST_TEXTURE = 2048;
+
+/**
+ * The columns, in texels, that a picture `width` texels wide is baked in,
+ * left to right, each at most `widest` and all but the last even, as a
+ * render texture rounds its size up to one.
+ */
+export function pictureColumns(
+  width: number,
+  widest: number = WIDEST_TEXTURE,
+): Span[] {
+  const count = Math.max(1, Math.ceil(width / widest));
+  const each = 2 * Math.ceil(width / count / 2);
+  return Array.from({ length: count }, (_, index) => ({
+    left: index * each,
+    across: Math.min(each, width - index * each),
+  }));
 }
 
 /** The top-left corners of the tiles `tile` texels a side that cover a picture `width` by `height` texels, row by row: one square baked at a time. */

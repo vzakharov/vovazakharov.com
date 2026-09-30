@@ -3,15 +3,19 @@ import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
 import { sunLight } from '../../model/light';
+import { clampLeft } from '../../model/pan';
 import { mulberry32 } from '../../model/random';
 import { meadowLayout } from './layout';
+import { PARALLAX } from './parallax';
 import {
   farSkyline,
   farthestSkyline,
   hillBands,
   litRidge,
   nearSkyline,
+  seamAt,
 } from './skyline';
+import { SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** A simple polygon's area, by the shoelace formula. */
@@ -38,8 +42,8 @@ describe('the hill bands', () => {
           const floor = layout.groundTop;
           const whole = area([
             ...line,
-            { x: width, y: floor },
-            { x: 0, y: floor },
+            { x: line.at(-1)?.x ?? 0, y: floor },
+            { x: line[0]?.x ?? 0, y: floor },
           ]);
           const bands = hillBands(line, floor, 16);
           const sum = bands.reduce(
@@ -53,6 +57,37 @@ describe('the hill bands', () => {
           }
           assert.equal(bands[0]?.down, 0);
           assert.equal(bands.at(-1)?.down, 1);
+        }
+      }
+    });
+  }
+});
+
+describe('the far hills under the sun', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`stay under the sun's rays at every crop, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 40)) {
+        const layout = meadowLayout(width, height, seed);
+        const { sun, camera } = layout;
+        const rays = sun.r * SUN_RAY_REACH;
+        const random = mulberry32(seed);
+        const lines = [
+          farthestSkyline(random, layout),
+          farSkyline(random, layout),
+        ];
+        for (const wanted of [-Infinity, 0.25, 0.5, 0.75, Infinity]) {
+          const scroll = clampLeft(camera, wanted * camera.world);
+          // Where the far layer has the sun, which stands still on screen.
+          const x = sun.x + PARALLAX.far * scroll;
+          for (const line of lines) {
+            for (let dx = -rays; dx <= rays; dx += rays / 16) {
+              const under = sun.y + Math.sqrt(rays ** 2 - dx ** 2);
+              assert.ok(
+                seamAt(line, x + dx) >= under - 1e-6,
+                `visit ${String(seed)}: a far hill on the rays`,
+              );
+            }
+          }
         }
       }
     });

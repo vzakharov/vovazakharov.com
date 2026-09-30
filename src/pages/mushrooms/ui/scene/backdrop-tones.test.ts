@@ -14,7 +14,12 @@ import { channels, contrast, luminance, mix, toHsv } from './colour';
 import { tuftColours } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
+import {
+  farSkyline,
+  farthestSkyline,
+  nearSkyline,
+  seamAt,
+} from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
@@ -56,7 +61,7 @@ function saturationAndLightness(colour: number): [number, number] {
 const shiftAt = (layout: MeadowLayout, x: number, y: number) =>
   levels(litSkyAt(layout, x, y), skyAt(y / layout.nearHills));
 
-/** Where the sky shows past the sun's rays, above all three ranges, `step` px apart, for `seed`'s hills. */
+/** Where the sky shows past the sun's rays, above all three ranges at the leftmost crop, `step` px apart, for `seed`'s hills. */
 function openSky(layout: MeadowLayout, seed: number, step: number) {
   const { width, sun } = layout;
   const lines = [farthestSkyline, farSkyline, nearSkyline].map((skyline) =>
@@ -64,10 +69,9 @@ function openSky(layout: MeadowLayout, seed: number, step: number) {
   );
   const top = (x: number) =>
     Math.min(
-      ...lines.map((line) => {
-        const at = Math.round((x / width) * (line.length - 1));
-        return line[Math.min(line.length - 1, Math.max(0, at))]?.y ?? 0;
-      }),
+      // Each layer as the crop at the world's left end shows it, where
+      // every layer's x is the screen's.
+      ...lines.map((line) => seamAt(line, x)),
     );
   const points: Array<[number, number]> = [];
   for (let x = 0; x < width; x += step) {
