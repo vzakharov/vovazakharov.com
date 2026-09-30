@@ -1,0 +1,80 @@
+{
+  "sessionId": "7bb9e20e-89ea-5076-ab32-8d74c9dd0afa",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01XyW49KwhrenZGUGVG5bxT7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-30T02:20:07.473Z",
+  "lastResponseAt": "2026-09-30T02:21:13.982Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 41967,
+    "cacheReadTokens": 671726,
+    "outputTokens": 2882,
+    "thinkingTokens": 1007,
+    "responses": 8,
+    "costUsd": 0.5277852
+  },
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 41967,
+    "cacheReadTokens": 671726,
+    "outputTokens": 2882,
+    "thinkingTokens": 1007,
+    "responses": 8,
+    "costUsd": 0.5277852
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41967,
+      "cacheReadTokens": 671726,
+      "outputTokens": 2882,
+      "thinkingTokens": 1007,
+      "responses": 8,
+      "costUsd": 0.5277852
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-30T02:21:13.982Z",
+    "contextTokens": 94077,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41041,
+      "cacheReadTokens": 578577,
+      "outputTokens": 1655,
+      "thinkingTokens": 558,
+      "responses": 7,
+      "costUsd": 0.4771994
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.5277852,
+    "matchedEventUsd": 0.5277852000000001,
+    "unseen": {}
+  }
+}
