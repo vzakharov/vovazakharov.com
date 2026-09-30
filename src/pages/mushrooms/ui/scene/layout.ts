@@ -109,7 +109,7 @@ export function meadowLayout(
   return {
     ...layout,
     flowers: flowersOn(layout.camera, keptBed(seed, openers)),
-    wash: washRings(layout, []),
+    wash: washRings(layout),
   };
 }
 

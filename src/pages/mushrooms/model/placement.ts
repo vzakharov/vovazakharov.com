@@ -1,6 +1,7 @@
 /**
  * Where a new mushroom's foot goes on the ground: Mitchell's best of a few
- * candidates, each drawn at random over the screen's frame, the one farthest
+ * candidates, each drawn at random over the world's frame or the stretch of
+ * it the screen shows, the one farthest
  * from every foot already standing — so a meadow fills evenly, never on a
  * grid, and each visit's differently. What a foot must keep to on the screen
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
@@ -48,13 +49,25 @@ export function apartOnScreen(a: Ground, b: Ground): number {
   return Math.hypot(p.x - q.x, p.y - q.y);
 }
 
-/** A ground point drawn evenly over `frame`, as a camera lays it out. */
-function drawnFoot(random: Random, { across, near, far }: Frame): Ground {
+/**
+ * A stretch across the ground as a camera lays it out (`seen`), in the
+ * clump's size, from `left` to `right`.
+ */
+export type Span = Record<'left' | 'right', number>;
+
+/** A ground point drawn evenly over `frame`, within `span`, as a camera lays it out. */
+function drawnFoot(
+  random: Random,
+  { near, far }: Frame,
+  { left, right }: Span,
+): Ground {
   const z = near + random() * (far - near);
-  return { x: ((random() * 2 - 1) * across) / scaleAt(z), z };
+  return { x: (left + random() * (right - left)) / scaleAt(z), z };
 }
 
 export type Picking = Framed & {
+  /** How far across the frame a foot is drawn: all of it where absent. */
+  within?: Span;
   /** The feet already standing, which a new one stands clear of and as far from as it can. */
   feet: readonly Ground[];
   /**
@@ -72,14 +85,18 @@ export type Picking = Framed & {
  */
 export function pickFoot(
   seed: number,
-  { frame, feet, admits }: Picking,
+  { frame, feet, admits, within }: Picking,
 ): Ground | undefined {
   const random = mulberry32(seed ^ 0x6f_07_5e);
+  const span = {
+    left: Math.max(-frame.across, within?.left ?? -Infinity),
+    right: Math.min(frame.across, within?.right ?? Infinity),
+  };
   const room = (foot: Ground) =>
     Math.min(Infinity, ...feet.map((other) => apartOnScreen(foot, other)));
   for (let round = 0; round < ROUNDS; round++) {
     const candidates = Array.from({ length: CANDIDATES }, () =>
-      drawnFoot(random, frame),
+      drawnFoot(random, frame, span),
     )
       .map((foot) => ({ foot, room: room(foot) }))
       .filter(({ room: apart }) => apart >= FOOT_APART)

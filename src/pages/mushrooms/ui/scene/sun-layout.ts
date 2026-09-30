@@ -3,9 +3,10 @@
  * its glow on screen and its rays off every button.
  */
 
-import type { Box, Circle } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
-import { everyPlace, placeOf } from './clump-layout';
+import type { Box, Circle, Point } from '../../model/geometry';
+import type { Camera } from '../../model/ground';
+import { clampLeft, screenOf } from '../../model/pan';
+import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { type Controls, standingControls } from './sky-layout';
 import { BUTTON_INSET, tapReach } from './tap-reach';
@@ -217,26 +218,43 @@ const WASH_REACH = [4, 14] as const;
 type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>;
 
 /**
+ * How near `point`, in the world, comes to the sun's middle on any crop a
+ * pan can take: the sun stands on the screen and the world pans under it,
+ * so across it is as near as the crops at the world's two ends bring it.
+ */
+export function nearestTheSun(
+  camera: Camera,
+  sun: Point,
+  { x, y }: Point,
+): number {
+  const cropped = (left: number) =>
+    screenOf(
+      {
+        ...camera,
+        motion: { kind: 'rest', left: clampLeft(camera, left) },
+      },
+      0,
+      x,
+    );
+  const across = Math.max(0, cropped(camera.world) - sun.x, sun.x - cropped(0));
+  return Math.hypot(across, y - sun.y);
+}
+
+/**
  * The farthest the sun's wash over the land reaches from its middle: down to
  * the ground's upper third at most, and short of the foot and the shadow
- * round it of every place at the frame's extremes (`everyPlace`) and of every
- * mushroom standing on `standing`, wherever it grew; a new mushroom's foot
- * keeps out of it too (`roomFor`), so it never lifts the ground a mushroom
- * stands on.
+ * round it of every place at the frame's extremes (`everyPlace`) on every
+ * crop (`nearestTheSun`). A place's height and size both grow linearly down
+ * the band, so no foot on the frame stands in it on any crop, and the wash
+ * never lifts the ground a mushroom stands on.
  */
-function washReach(
-  { sun, groundTop, height, mushrooms }: Washed,
-  standing: readonly Ground[],
-): number {
-  const places = [
-    ...everyPlace(mushrooms),
-    ...standing.map((foot) => placeOf(mushrooms.camera, foot)),
-  ];
+function washReach({ sun, groundTop, height, mushrooms }: Washed): number {
   return Math.min(
     groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
-    ...places.map(
-      ({ x, y, size }) =>
-        Math.hypot(x - sun.x, y - sun.y) - size * WASH_FOOT_CLEAR,
+    ...everyPlace(mushrooms).map(
+      (place) =>
+        nearestTheSun(mushrooms.camera, sun, place) -
+        place.size * WASH_FOOT_CLEAR,
     ),
   );
 }
@@ -246,14 +264,8 @@ function washReach(
  * shrunk as a whole to fit inside `washReach`, rather than each clamped, so
  * no two share an edge that would stack into a line.
  */
-export function washRings(
-  layout: Washed,
-  standing: readonly Ground[],
-): number[] {
-  const outer = Math.min(
-    layout.sun.r * WASH_REACH[1],
-    washReach(layout, standing),
-  );
+export function washRings(layout: Washed): number[] {
+  const outer = Math.min(layout.sun.r * WASH_REACH[1], washReach(layout));
   return Array.from({ length: WASH_RINGS }, (_, ring) => {
     const t = ring / (WASH_RINGS - 1);
     return (
