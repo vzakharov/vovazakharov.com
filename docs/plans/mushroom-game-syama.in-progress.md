@@ -804,10 +804,10 @@ Standing rules for every session in the chain:
       is 0.1. Finger reach lives in `tap-reach.ts`, picker rows in
       `picker-rows.ts`.
 
-## Rest of the elephant` stated it when this bite was taken (moved here
+### The instrument as decided (bite 10)
 
-whole, below), its design `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`
-§ «Что ты решил» overriding the rest of that file:
+Bite 10 was built on `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`
+§ «Что ты решил», which overrides the rest of that file:
 
 - Five flower colours stay. Three colours × four shapes (`petal` ×
   `rings`) are twelve pitch classes, played by the nearest-note rule over
