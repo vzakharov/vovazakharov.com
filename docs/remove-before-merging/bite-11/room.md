@@ -74,10 +74,25 @@ found is looked for again once the crop's left edge has moved.
   45.2% (tablet); no patchless mushroom anywhere; under a fingertip:
   27.1 / 3.3 / 24.8 / 13.3 / 21.8 / 14.2% in that order.
 
+- Step 4: every forest-growing test at 390e2ac in a throwaway worktree,
+  twelve mushrooms: owned — `layout`, `meadow-rules`, `mushroom-room`,
+  `cap-cover`, `sun-layout`, `model/placement`, `model/game` green;
+  `mushroom-patch` red only in the three fingertip bounds above. Other
+  packages' — `model/ground`, `clump-layout`, `mushroom-tap`,
+  `insect-layout`, `perch-sight`, `tufts`, `fliers`, `flower-plots` — all
+  green.
+- Step 5: the wash's outer ring on each screen (visit 1, px), before bite
+  11 (476652d) → before the row fix (dc25945) → now: tablet 308 → 296 →
+  296 (−4%); tablet portrait 343 → 343 → 343 and phone 329 → 329 → 329
+  (0%, both held by `WASH_FLOOR`); phone held sideways 151 → 114 → 82
+  (−46%); small phone 115 → 110 → 110 (−4%); desktop 426 → 426 → 390 (−8%).
+  On a phone held sideways the innermost ring (4/14 of 82 = 23 px) now
+  falls inside the sun's own disc (r 27): the wash there all but vanishes.
+  Scratch script: `tmp/room/wash-size.ts`.
+
 ## Left
 
-- Step 4: every forest-growing test re-run with twelve.
-- Step 5: how much the wash shrank per screen.
+- The three fingertip bounds, for the orchestrator to rule on (above).
 
 ## Decided
 
