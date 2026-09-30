@@ -2,9 +2,10 @@
 
 ## Done
 
-- Step 1, quick gates: see the `chore(mushrooms)` gate commit below.
+- Step 1, quick gates: 8ae595e (knip exports, type-overlap bases, prettier).
+- Step 2, /polish: 108c442 (/dry, meadow-scene.ts 455 → 439 lines),
+  acfdf43 (/tend-prose).
 
 ## Left
 
-- Step 2: /polish (dry, tend-prose; meadow-scene.ts line count).
 - Step 3: ./scripts/vet.sh until green.
