@@ -32,10 +32,10 @@ import { FLOWER_LIMIT, plantedId, type Plot } from './pollen';
 import type { Random, Seeded } from './random';
 
 /**
- * How many mushrooms the meadow holds at most: as many as still read apart
- * on a phone.
+ * How many mushrooms the meadow holds at most, room permitting: a world two
+ * tablet screens wide holds twice the six one screen reads apart.
  */
-export const MUSHROOM_SLOTS = 6;
+export const MUSHROOM_SLOTS = 12;
 
 export type Planted = Mushroom & Housed & Footed;
 

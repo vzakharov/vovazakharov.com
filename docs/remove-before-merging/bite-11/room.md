@@ -25,16 +25,40 @@ found is looked for again once the crop's left edge has moved.
 
 ## Done
 
-- (this commit) The crop API; `pickFoot`'s `within` span
-  (`model/placement.ts`); the wash (below).
+- 558e309: the crop API; `pickFoot`'s `within` span (`model/placement.ts`);
+  the wash (below). `mushroom-room.test.ts` covers the kept room over a pan
+  and a `+` growing inside the crop at the opening crop and both world ends.
+- (this commit) `MUSHROOM_SLOTS` 12. Measured over every tenth visit, 200
+  per screen: twelve fit the world in 200 of 200 on every `VIEWPORTS` screen;
+  grown `+` by `+` on the opening crop, at least six fit in 200 of 200 on
+  every screen (twelve in all but 1 phone visit, which holds 10, and 2
+  small-phone visits, which hold 11). Scratch script: `tmp/room/measure.ts`.
+- `mushroom-room.ts`'s edits lost to package 3's stash were rewritten by hand
+  (not merged from the stash); 558e309 holds the whole of them.
 
 ## Left
 
-- Step 1: `MUSHROOM_SLOTS` 12 and the suite's checks (opening crop six in
-  99%, twelve over the world).
-- Step 2: edge margin and wash tests against the world in
-  `meadow-rules.test.ts`; `mushroom-patch.test.ts`'s tablet fingertip bound.
+- Step 1's tests: in `layout.test.ts`, "grows six" should become "at least
+  six in 99% on the opening crop" (`opened(…, true, openingCrop)`, `>= 6`)
+  plus "twelve over the world" (measured 100%, so a floor of 0.99), and the
+  caps' span test should grow on the opening crop. Today the test still
+  counts `=== MUSHROOM_SLOTS` over the world, which passes (every visit
+  reaches twelve) under a message that says six.
+- Step 2, not run since the change: `meadow-rules.test.ts` (its edge margin
+  already tests `world`; its wash test should use `nearestTheSun`; its
+  controls test mixes screen controls with world places and should grow on
+  the opening crop and map the controls through `openingCrop`), and
+  `mushroom-patch.test.ts`. The tablet fingertip bound was red at 25.3%
+  against 25% before any change here; a likely cause, not yet acted on:
+  `mushroom-patch.ts`'s `tappedIn` counts the screen's controls at their
+  screen x as if in the world, so mushrooms in the world's left half lose
+  patch to controls that do not stand there. The fix I had settled on:
+  drop the controls from `Tapped` (a pan can slide any cap under a button,
+  accepted by the plan; the new mushroom's keep-off is `roomFor`'s), then
+  re-measure every bound over twelve.
 - Step 4: `scripts/sweep-mushrooms.ts`.
+- Not re-run with twelve: every other forest sweep (`opened(…, true)`), in
+  packages 3's tests too — each now grows twelve over the whole world.
 
 ## Decided
 
