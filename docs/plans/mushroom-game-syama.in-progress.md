@@ -910,19 +910,13 @@ not 24, because phoneL stands the clump under the zoom floor and growth does
 not place the clump. Near-square windows of ~320–360 px each way (no phone has one)
 fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
 ground; no test covers them. The play run shoots no 568×320 screen, so the
-tests alone hold it. A turn keeps the meadow laid out for the shape it was grown on,
-by design until item 11's pan: upright to sideways the six bunch in the
-middle with empty grass either side; sideways to upright they shrink
-into the bottom fifth under empty hills. The play run has no turn step
-(the frames came from a scratch driver). On tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
+tests alone hold it. On tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
 reads larger than its neighbours at the same depth. The play run shoots
 no refused `+` and no bees planting in a full forest.
 The sky may read a little plain since bite 7 tamed the halo.
 Carried from bite 6: fliers are kept apart where they sit and hover, not in flight, so a flier crossing
 the meadow is drawn straight over one seated on a cap (frame
-`phoneL-butterfly-crosses-one-on-a-cap.png`); on a 320 px phone the air
-seats eight of ten fliers apart, two holding overlapping spots on 33% of
-ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
+`phoneL-butterfly-crosses-one-on-a-cap.png`); a flight in
 from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
