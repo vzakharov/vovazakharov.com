@@ -161,7 +161,7 @@ export const WATCH = `(() => {
       const [first] = trail.frames;
       const middle = trail.frames[window / 2];
       const travel = first && Math.hypot(x - first.x, y - first.y);
-      const onScreen = x >= 0 && x <= scene.layout.width && y >= 0 && y <= scene.layout.height;
+      const onScreen = scene.crop.shows(x) && y >= 0 && y <= scene.layout.height;
       if (
         trail.frames.length > window &&
         middle.now >= leg.departs + ${String(HEADING_AFTER)} &&

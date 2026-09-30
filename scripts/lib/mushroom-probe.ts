@@ -35,11 +35,18 @@ export const PROBE = `(() => {
   const scene = window.__game.scene.scenes[0];
   const centre = ({ x, y }) => ({ x, y });
   const finite = (at) => (Number.isFinite(at) ? at : null);
+  /**
+   * A world point where the screen shows it now, and back, through the
+   * scene's crop: what stands on the ground is placed in the world, and a
+   * finger lands on the screen.
+   */
+  const toScreen = ({ x, y }) => scene.crop.toScreen({ x, y });
+  const toWorld = ({ x, y }) => scene.crop.toWorld({ x, y });
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
     const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
     const y = points.reduce((sum, point) => sum + point.y, 0) / points.length;
-    return graphics.getWorldTransformMatrix().transformPoint(x, y, {});
+    return toScreen(graphics.getWorldTransformMatrix().transformPoint(x, y, {}));
   };
   /**
    * What a tap at a point on screen reaches, by the scene's own hit test and
@@ -57,7 +64,7 @@ export const PROBE = `(() => {
     if (!top) return null;
     for (const [id, shown] of scene.insects.shown) {
       if (top !== shown.container) continue;
-      return 'insect:' + (drawn ? id : (scene.insects.reached({ x, y }) ?? id));
+      return 'insect:' + (drawn ? id : (scene.insects.reached(toWorld({ x, y })) ?? id));
     }
     for (const [id, shown] of scene.bed.shown) {
       if (top === shown.house.graphics) return 'door:' + id;
@@ -81,12 +88,15 @@ export const PROBE = `(() => {
     const grid = [];
     for (let i = 0; i <= 16; i++) {
       for (let j = 0; j <= 16; j++) {
-        const { x, y } = matrix.transformPoint(
-          left + ((right - left) * i) / 16,
-          top + ((bottom - top) * j) / 16,
-          {},
+        grid.push(
+          toScreen(
+            matrix.transformPoint(
+              left + ((right - left) * i) / 16,
+              top + ((bottom - top) * j) / 16,
+              {},
+            ),
+          ),
         );
-        grid.push({ x, y });
       }
     }
     const away = ({ x, y }) => Math.hypot(x - middle.x, y - middle.y);
@@ -97,6 +107,15 @@ export const PROBE = `(() => {
   };
   window.__probe = {
     scene,
+    toScreen,
+    toWorld,
+    /** The crop's left edge, in world px, and the world's and the screen's widths. */
+    crop: () => ({
+      left: scene.crop.left(),
+      world: scene.layout.camera.world,
+      width: scene.layout.camera.width,
+      unit: scene.layout.camera.unit,
+    }),
     state: () => ({
       picking: scene.meadow.picking,
       furnishing: scene.meadow.furnishing,
@@ -139,10 +158,9 @@ export const PROBE = `(() => {
       const shown = scene.insects.shown.get(id);
       if (!shown) return null;
       return {
-        x: shown.container.x,
-        y: shown.container.y,
-        at: centre(shown.at),
-        end: shown.end ? centre(shown.end) : null,
+        ...toScreen(shown.container),
+        at: toScreen(shown.at),
+        end: shown.end ? toScreen(shown.end) : null,
         span: shown.span * shown.container.scaleX,
         tappedAt: finite(shown.tappedAt),
       };
@@ -157,7 +175,7 @@ export const PROBE = `(() => {
       const { graphics, hit } = scene.bed.shown.get(id);
       const matrix = graphics.getWorldTransformMatrix();
       const points = [...hit.cap, ...hit.gills, ...hit.stem].map(({ x, y }) =>
-        matrix.transformPoint(x, y, {}),
+        toScreen(matrix.transformPoint(x, y, {})),
       );
       const xs = points.map(({ x }) => x);
       const ys = points.map(({ y }) => y);
@@ -207,15 +225,19 @@ export const PROBE = `(() => {
         head: house.drawnHead,
       };
     },
-    /** The nearest shown flower's head, the one least likely to be covered. */
+    /** The nearest shown flower's head on screen, the one least likely to be covered. */
     flower: () => {
       const shown = [...scene.flowers.shown.entries()]
         .filter(([, flower]) => flower.container.visible)
-        .sort(([, a], [, b]) => b.container.depth - a.container.depth)[0];
+        .map(([id, flower]) => {
+          const at = flower.head.getWorldTransformMatrix();
+          return { id, depth: flower.container.depth, x: at.tx, y: at.ty };
+        })
+        .filter(({ x }) => scene.crop.shows(x))
+        .sort((a, b) => b.depth - a.depth)[0];
       if (!shown) return null;
-      const [id, flower] = shown;
-      const at = flower.head.getWorldTransformMatrix();
-      return { id, x: at.tx, y: at.ty };
+      const { id, x, y } = shown;
+      return { id, ...toScreen({ x, y }) };
     },
     /** When a flower was last tapped, \`null\` if never: JSON has no -Infinity. */
     flowerTappedAt: (id) => {
@@ -291,6 +313,13 @@ export const Controls = z.object({
   housePicker: z.array(Point),
   releases: z.record(z.enum(INSECT_KINDS), Point),
 });
+/** `__probe.crop()`: the crop's left edge and the widths it is taken across, in CSS px, and the clump's size. */
+export const Crop = z.object({
+  left: z.number(),
+  world: z.number(),
+  width: z.number(),
+  unit: z.number(),
+});
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),
@@ -313,6 +342,20 @@ export type Page = {
   /** The JS time of every frame `step` has drawn, in ms. */
   rendered: readonly number[];
   tap: (point: z.infer<typeof Point>) => Promise<void>;
+  /**
+   * One finger pressed at `from`, moved to `to` over `frames` frames, one
+   * move a frame, and lifted: a pan, or a tap where it moves less than the
+   * slop. Every touch carries the frames' clock, as a real finger's does.
+   */
+  drag: (
+    from: z.infer<typeof Point>,
+    to: z.infer<typeof Point>,
+    frames: number,
+  ) => Promise<void>;
+  /** A key pressed and let go, by its DOM `key`, as `ArrowLeft`. */
+  press: (key: 'ArrowLeft' | 'ArrowRight') => Promise<void>;
+  /** The screen turned: its width and height swapped. */
+  turn: () => Promise<void>;
   /** A frame of the whole screen, or of `clip` alone. */
   shoot: (step: string, clip?: z.infer<typeof Box>) => Promise<void>;
 };

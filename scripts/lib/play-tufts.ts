@@ -50,7 +50,7 @@ const PLANTING = `(() => {
  * button over it — the farthest first.
  */
 const TUFTS = `__probe.scene.grass.tufts
-  .map(({ tuft: { x, y, size } }) => ({ x, y: y - size }))
+  .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;
 
@@ -63,7 +63,7 @@ const NEWEST = `(() => {
     seed: sown.seed,
     onTuft: 'foot' in sown,
     shown: shown.container.visible,
-    head: { x: at.tx, y: at.ty },
+    head: __probe.toScreen({ x: at.tx, y: at.ty }),
   };
 })()`;
 

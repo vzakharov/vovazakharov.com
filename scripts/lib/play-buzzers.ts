@@ -81,8 +81,7 @@ const plantedAs = (id?: string) => `(() => {
           id: newest.id,
           visible: shown.container.visible,
           scale: shown.container.scaleY,
-          x: shown.container.x,
-          y: shown.container.y,
+          ...__probe.toScreen(shown.container),
         }
       : null,
   };

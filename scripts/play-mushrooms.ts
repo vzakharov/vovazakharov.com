@@ -2,10 +2,11 @@
  * Plays `/mushrooms` on the five screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
- * the meadow is tapped the way a finger does — the steps are
- * `lib/play-meadow.ts`, `lib/play-house.ts`, `lib/play-insects.ts`,
- * `lib/play-buzzers.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and
- * a frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
+ * the meadow is tapped the way a finger does, and the meadow is panned by
+ * drag and by key and turned — the steps are `lib/play-meadow.ts`,
+ * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
+ * `lib/play-pan.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and a
+ * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
@@ -35,11 +36,13 @@ import {
   type Expect,
   inTurn,
   type Page,
+  type Point,
   PROBE,
   seededRandom,
 } from './lib/mushroom-probe.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playMeadow } from './lib/play-meadow.ts';
+import { playPan } from './lib/play-pan.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
 
@@ -194,34 +197,99 @@ async function open(
 
   let time = 1000;
   const rendered: number[] = [];
+  // A touch is stamped with the frames' clock, as a real finger's event
+  // shares its clock with the frames: the crop times a finger's velocity
+  // and a glide by the event's own stamp. CDP takes seconds since the epoch.
+  const timeOrigin = await evaluate('performance.timeOrigin', z.number());
+  const touch = async (
+    type: 'touchStart' | 'touchMove' | 'touchEnd',
+    touchPoints: ReadonlyArray<z.infer<typeof Point>>,
+  ) =>
+    send('Input.dispatchTouchEvent', {
+      type,
+      touchPoints,
+      timestamp: (timeOrigin + time) / 1000,
+    });
+  let turned = false;
+  const step: Page['step'] = async (frames) => {
+    const from = time;
+    time += frames * FRAME_MS;
+    // Only the last frame is drawn: every movement is set in `update`, and
+    // a frame drawn under the software rasterizer is what the run spends.
+    // Counted by frame rather than by summed time, so no step runs a frame
+    // twice where the sum falls a hair short. The drawn frame is timed.
+    rendered.push(
+      await evaluate(
+        `(() => { for (let i = 1; i < ${String(frames)}; i += 1) window.__game.headlessStep(${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); const started = performance.now(); window.__game.step(${String(from + frames * FRAME_MS)}, ${String(FRAME_MS)}); return performance.now() - started; })()`,
+        z.number(),
+      ),
+    );
+  };
   return {
     evaluate,
     rendered,
-    step: async (frames) => {
-      const from = time;
-      time += frames * FRAME_MS;
-      // Only the last frame is drawn: every movement is set in `update`, and
-      // a frame drawn under the software rasterizer is what the run spends.
-      // Counted by frame rather than by summed time, so no step runs a frame
-      // twice where the sum falls a hair short. The drawn frame is timed.
-      rendered.push(
-        await evaluate(
-          `(() => { for (let i = 1; i < ${String(frames)}; i += 1) window.__game.headlessStep(${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); const started = performance.now(); window.__game.step(${String(from + frames * FRAME_MS)}, ${String(FRAME_MS)}); return performance.now() - started; })()`,
-          z.number(),
-        ),
-      );
-    },
+    step,
     tap: async ({ x, y }) => {
-      await send('Input.dispatchTouchEvent', {
-        type: 'touchStart',
-        touchPoints: [{ x, y }],
-      });
-      await send('Input.dispatchTouchEvent', {
-        type: 'touchEnd',
-        touchPoints: [],
+      await touch('touchStart', [{ x, y }]);
+      await touch('touchEnd', []);
+    },
+    drag: async (from, to, frames) => {
+      await touch('touchStart', [from]);
+      await inTurn(
+        Array.from({ length: frames }, (_, index) => (index + 1) / frames),
+        async (along) => {
+          await step(1);
+          await touch('touchMove', [
+            {
+              x: from.x + (to.x - from.x) * along,
+              y: from.y + (to.y - from.y) * along,
+            },
+          ]);
+        },
+      );
+      await touch('touchEnd', []);
+    },
+    press: async (key) => {
+      const code = { ArrowLeft: 37, ArrowRight: 39 }[key];
+      await inTurn(['keyDown', 'keyUp'] as const, async (type) => {
+        await send('Input.dispatchKeyEvent', {
+          type,
+          key,
+          code: key,
+          windowsVirtualKeyCode: code,
+        });
       });
     },
-    shoot: async (step, clip) => {
+    turn: async () => {
+      turned = !turned;
+      const across = turned ? height : width;
+      await send('Emulation.setDeviceMetricsOverride', {
+        width: across,
+        height: turned ? width : height,
+        deviceScaleFactor: ratio,
+        mobile: true,
+      });
+      // The game refits from a `ResizeObserver`, which the browser runs on
+      // its own rendering step rather than on the stepped game loop.
+      const until = Date.now() + 10_000;
+      const refitted = async (): Promise<void> => {
+        if (
+          await evaluate(
+            `window.__game.scene.scenes[0].layout.width === ${String(across)}`,
+            z.boolean(),
+          )
+        )
+          return;
+        if (Date.now() > until)
+          throw new Error(
+            `${screen.name}: the game never refitted to the turn`,
+          );
+        await sleep(POLL_MS);
+        return refitted();
+      };
+      await refitted();
+    },
+    shoot: async (name, clip) => {
       const { data } = z.object({ data: z.string() }).parse(
         await send('Page.captureScreenshot', {
           format: 'png',
@@ -229,7 +297,7 @@ async function open(
         }),
       );
       fs.writeFileSync(
-        path.join(FRAMES, `${screen.name}-${step}.png`),
+        path.join(FRAMES, `${screen.name}-${name}.png`),
         Buffer.from(data, 'base64'),
       );
     },
@@ -278,20 +346,24 @@ async function main(): Promise<void> {
       expect,
       note,
     );
-    // Fresh meadows, one after the other: the bees alone on one, every
-    // species grown on the next, the child planting flowers on the last.
+    // Fresh meadows, one after the other: panned and turned on one, the
+    // bees alone on the next, every species grown on the next, the child
+    // planting flowers on the last.
     const frames = [...page.rendered];
-    await inTurn([playPlanting, playSpecies, playTufts], async (playOn) => {
-      const on = await open(browser, origin, screen, errors);
-      await on.step(30);
-      await playOn(
-        on,
-        await on.evaluate('__probe.controls()', Controls),
-        expect,
-        note,
-      );
-      frames.push(...on.rendered);
-    });
+    await inTurn(
+      [playPan, playPlanting, playSpecies, playTufts],
+      async (playOn) => {
+        const on = await open(browser, origin, screen, errors);
+        await on.step(30);
+        await playOn(
+          on,
+          await on.evaluate('__probe.controls()', Controls),
+          expect,
+          note,
+        );
+        frames.push(...on.rendered);
+      },
+    );
     const slow = overBudget(frames);
     if (slow !== undefined) fail(slow);
     note(
