@@ -1,13 +1,15 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "fa21eb1a3c8b22406f1e63c3f8a76080c7df6c8f",
+  "lastSyncedSha": "b7805f2aac5334080d8dbe29a0356c823ce9b519",
   "lastSyncedAt": "2026-09-30",
   "adopted": [
     {
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
     },
-    ".claude/rules/README.md",
-    ".claude/rules/skills.md",
+    {
+      ".claude/rules/README.md": "taken with one paragraph of this repo's own: a directory whose files are served keeps its conventions in a rule file here, since a CLAUDE.md under apps/*/public/ would be published with the site. The source's README has no served directory to name, so a verbatim re-copy would drop it."
+    },
+    ".claude/skills/CLAUDE.md",
     {
       ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
@@ -18,6 +20,7 @@
     {
       ".claude/costs/": "sessions/ is each repo's own and never synced."
     },
+    ".claude/cold-cache/",
     ".claude/settings.json",
     {
       ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
@@ -58,8 +61,11 @@
     },
     ".claude/skills/squash-message/",
     ".claude/skills/sync-branch/",
-    ".claude/skills/tend-prose/",
+    {
+      ".claude/skills/tend-prose/": "taken with one fix the source still lacks: § \"Rule or README?\" cites the two rule homes as 4 and 5, the rows they sit at since the homes table put a directory's CLAUDE.md ahead of .claude/rules/. The source's copy says \"homes 3 and 4\", the numbering from before that swap."
+    },
     ".claude/skills/watch-ci/",
+    "scripts/check-claude-md-size.sh",
     "scripts/check-merge.sh",
     "scripts/check-skill-catalog.sh",
     "scripts/check-squash-message.sh",
