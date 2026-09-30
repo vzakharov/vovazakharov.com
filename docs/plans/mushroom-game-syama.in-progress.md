@@ -629,8 +629,8 @@ Standing rules for every session in the chain:
      with depth by the clump's `scaleAt`, and the zoom floor is where the
      clump's narrowest cap is a finger wide (99 px); `mushroom-tap.ts`'s
      finger pad holds the far caps' taps, switching on for a third to three
-     quarters of a phone's grown forest. Insects shrink with the clump
-     where it is small, a butterfly never wider than its narrowest cap. On
+     quarters of a phone's grown forest. Insects keep their least size
+     however small the clump (bite 10). On
      a 280 px phone upright a widest-gene cap on the frame's near corners
      stands past the edge margin, accepted and named in `ground.test.ts`.
    - Seeded flowers (`seededBed`, `flowersOn`, `flowerFeet`) spread over
@@ -693,6 +693,74 @@ Standing rules for every session in the chain:
        layout on short screens) and a second angle for short screens
        (reopens the one-angle call).
    - Review 5356809390 (T96–T107) is handled, every thread answered.
+10. **The flowers as an instrument, and the child plants them.** Every
+    flower is a note or a drum, a tap plays it, and a tap on a grass tuft
+    opens a two-stage picker whose flower grows there. What the next bites
+    build on:
+    - `model/flower-sounds.ts` maps colour × shape (petal × rings) to one
+      of twenty sounds by darker-is-lower, types from const arrays; the
+      visit's seven seeded flowers sound C D E G A, a kick and a hat (each
+      searches its own stream for a seed of its sound, so every later draw
+      of the visit stands), bees' flowers any of the twenty.
+      `model/notes.ts` is the nearest-note rule over C4–B6, a tritone's tie
+      toward the middle, resting back to the middle octave after 10 s.
+    - A hue-nudge gene, drawn last so the other genes stand, keeps every
+      petal three times nearer its own colour's hue than any other's; a
+      white warms toward cream (`flower-tints.ts`).
+    - `instrument-voices.ts` is the synth, every envelope data the tests
+      hold: a soft keyed note (sine, quiet triangle, an octave partial
+      under a lowpass, louder and longer low where a phone loses the
+      fundamental) and eight soft downtempo drums — sine skins, filtered
+      noise ticks, nothing past 8 kHz — through a compressor on master.
+      Up to five voices asked for before the synth starts wait for it; no
+      Web Audio, no sound, no error.
+    - A flower tap plays through the Instrument and still deselects and
+      blooms; a re-tap mid-bloom reopens from where the head stands. A
+      bee's flower plays from the melody without moving it. Fingers past
+      the first play only a flower's head under them (a touchstart
+      listener using Phaser's hit test), so every other gesture stays
+      one-finger. The focused canvas plays the keyboard by `event.code`
+      (a Russian layout plays the same); a key opens every flower in sight
+      of its sound.
+    - **Planting.** `model/planting.ts`: the meadow remembers the open
+      tuft, then the colour and one seed per shape; the child's flowers
+      join the bees' in one list under the 14-flower cap. Tufts grow only
+      where a flower can stand (`growTufts` in `tufts.ts`: spots in the
+      flowers' band where the bees' `roomIn` holds, heads apart from each
+      other, so planting one never refuses another), so every tuft shown
+      takes a flower until the cap; a tuft regrows at the root of each
+      planted flower. Seam grass along the horizon is drawn, not
+      tappable. A tuft answers 22 px round its middle, or its blades if
+      larger, keeping the ground between tufts bare. Colours stand where
+      the house picker's five buttons do (blue, pink, yellow, violet,
+      white), shapes where the species picker's four do, lowest note
+      first, each the exact flower that will grow, head enlarged; a shape
+      press makes no sound, the flower plays as it opens. A tap anywhere
+      else, another tuft included, closes the picker unplanted. A full
+      meadow shakes the tuft with the `+` refusal's sound.
+    - **The floors won over the shrink.** `insectSizeFor` is
+      `max(INSECT_LEAST, INSECT_SCALE × unit)` on every screen and refit,
+      `LEAST_SPANS` (52/30/30) in `layout.ts`, asserted over 2000 seeds and
+      imported by the play run: a turn's refit zooms a grown phone meadow
+      to unit ~37, where the cap rule drew bees ~15 px. Accepted: after
+      such a turn about one flower in six or seven by an edge loses a
+      butterfly's wing room; the turn test asks 80% of flowers kept in
+      sight.
+    - Spore puffs are containers tied to their mushroom, following it
+      through a refit (`puffFrom`).
+    - **Every grown mushroom keeps a tappable patch** of at least 24 px,
+      swept over every forest size on every `VIEWPORTS` screen
+      (`mushroom-patch.test.ts`); 64 px cannot hold while placement lets
+      a quarter of a cap hide. Fixed by hit-testing, layout untouched: past
+      its petals a flower answers only where no mushroom is drawn, and a
+      head drawn shallower than `TAP_RADIUS` gets the finger pad too. The
+      play run's "unreachable" caps were its probe missing a cap under a
+      resting butterfly, which the game passes a tap through.
+    - The play run was green on every screen once two checks were fixed,
+      not the game: the selection band's outline allowance is the ink's
+      real reach (`INK_REACH`), and the wait for a butterfly on the
+      chanterelle looks every `REST_LOOK` frames, covering ~160 s. Every
+      picker shows all its buttons on the 280 px phone.
 
 ## This bite
 
