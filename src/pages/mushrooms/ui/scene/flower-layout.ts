@@ -5,10 +5,9 @@
  * stands where a child sees it on that screen — off the clump's feet and
  * apart from the other flowers on the ground, its head clear of every
  * control and no more than half hidden by those mushrooms — or left out.
- * Every one stands in the opening screen's frame (`meadowFrame`), and a turn
- * or a resize fits a camera that keeps every one in view (`meadowLayout`): it
- * changes the camera, not the ground, and in-sight is the scene's query
- * (`flower-sight.ts`).
+ * Every one stands in the world's frame (`MEADOW_FRAME`), and a turn or a
+ * resize changes the camera and the crop, not the ground; in-sight is the
+ * scene's query (`flower-sight.ts`).
  */
 
 import {
@@ -27,7 +26,6 @@ import {
   type Framed,
   project,
   scaleAt,
-  seen,
   UP_PER_Z,
   zAt,
 } from '../../model/ground';
@@ -109,7 +107,7 @@ const LEAN_STEPS = 7;
  */
 export type FlowerGround = Pick<
   Camera,
-  'width' | 'height' | 'groundTop' | 'ground' | 'unit'
+  'width' | 'height' | 'groundTop' | 'ground' | 'world' | 'unit'
 > &
   Framed & {
     controls: readonly Circle[];
@@ -124,9 +122,10 @@ function cameraOf({
   height,
   groundTop,
   ground,
+  world,
   unit,
 }: FlowerGround): Camera {
-  return { width, height, groundTop, ground, midline: width / 2, unit };
+  return { width, height, groundTop, ground, world, midline: world / 2, unit };
 }
 
 /** Where `foot` stands on the screen `camera` shows, and how big. */
@@ -232,21 +231,6 @@ export function headClear(
     const down = leastRise(foot.z - place.z, rise, rise);
     return Math.hypot(across, down) >= head.r + HEAD_REACH * own;
   });
-}
-
-/**
- * How far across, in the clump's size at its front foot, a camera shows the
- * ground to keep the widest head a flower on any of `feet` could grow in
- * view (`widestHead`): 0 for none.
- */
-export function headsAcross(feet: readonly FlowerFoot[]): number {
-  return Math.max(
-    0,
-    ...feet.map(
-      (foot) =>
-        Math.abs(seen(foot).x) + HEAD_REACH * foot.size * scaleAt(foot.z),
-    ),
-  );
 }
 
 /** The farthest a flower `place` stands for could reach with its head, whatever its genes: over its stem's top. */

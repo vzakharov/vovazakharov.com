@@ -15,19 +15,14 @@ import type { Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
+import type { Opener } from './clump-shade';
 import { Controls } from './controls';
 import { FlowerBed } from './flower-bed';
-import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { InsectView, type Perched } from './insect-view';
 import { Instrument } from './instrument';
 import { playTheFlowers } from './instrument-input';
-import {
-  type MeadowLayout,
-  meadowLayout,
-  type Opening,
-  type Used,
-} from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
@@ -69,8 +64,8 @@ export class MeadowScene extends Phaser.Scene {
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
-  /** The visit as it opened, which places the flowers. */
-  private opening: Opening | undefined;
+  /** The mushrooms the visit opened with, which place the flowers. */
+  private openers: readonly Opener[] | undefined;
   private backdrop: Backdrop | undefined;
   private grass: Grass | undefined;
   private bed: MushroomBed | undefined;
@@ -407,17 +402,15 @@ export class MeadowScene extends Phaser.Scene {
       width: this.scale.width / ratio,
       height: this.scale.height / ratio,
     };
-    // The flowers are placed on the screen the visit opens on, against the
-    // mushrooms it opens with, and stay put.
-    this.opening ??= { screen, openers: this.meadow?.mushrooms ?? [] };
+    // The flowers are placed on the world against the mushrooms the visit
+    // opens with, and stay put.
+    this.openers ??= this.meadow?.mushrooms ?? [];
     const layout = meadowLayout(
       screen.width,
       screen.height,
       // Its own stream, apart from the creatures' and the backdrop's.
       this.visitSeed ^ 0xf1_0e_25,
-      this.opening,
-      // Every foot used so far stays in view, read as the last screen stood it.
-      this.used(),
+      this.openers,
     );
     this.layout = layout;
     // Its own stream, so the backdrop never shifts the creatures' seeds.
@@ -436,16 +429,6 @@ export class MeadowScene extends Phaser.Scene {
     this.see();
     this.repaintControls();
   };
-
-  /** Every foot the meadow has used, as the screen last painted stands it. */
-  private used(): Used | undefined {
-    const stand = this.stand();
-    if (stand) return usedIn(stand);
-    const mushrooms = this.meadow?.mushrooms;
-    return (
-      mushrooms && { mushrooms: mushrooms.map(({ foot }) => foot), flowers: [] }
-    );
-  }
 
   /** Sees the perches afresh, as the screen and the mushrooms now stand. */
   private see(): void {

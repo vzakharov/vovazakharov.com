@@ -1,8 +1,9 @@
 /**
- * Where a mushroom stands on a screen: a pure function of its foot on the
- * ground and the camera, so a mushroom never moves while it stands, whatever
- * grows beside it. The opening's two stand as one clump, as in the drawing;
- * every other stands as the forest does.
+ * Where a mushroom stands in the world a screen crops: a pure function of its
+ * foot on the ground and the camera, so a mushroom never moves while it
+ * stands, whatever grows beside it or however the screen pans. The opening's
+ * two stand as one clump at the world's middle, as in the drawing; every
+ * other stands as the forest does.
  */
 
 import type { Box } from '../../model/geometry';
@@ -40,7 +41,7 @@ export const FOREST_SPLAY = 0.1;
 
 /**
  * How a screen stands the meadow's mushrooms: through its camera, their feet
- * in its frame (`frameFor`).
+ * in the world's frame (`MEADOW_FRAME`).
  */
 export type MushroomGround = Readonly<{ camera: Camera; frame: Frame }>;
 
@@ -104,8 +105,8 @@ export function clumpCrowns(camera: Camera): Box[] {
 }
 
 /**
- * Where `mushroom` stands on the screen `ground` is for, or `undefined` where
- * that screen does not show its foot.
+ * Where `mushroom` stands in the world `ground` lays out, or `undefined`
+ * where its foot stands outside it.
  */
 export function placeIn(
   { camera }: MushroomGround,
@@ -114,7 +115,7 @@ export function placeIn(
   const place = placeOf(camera, foot);
   const shown =
     place.x >= 0 &&
-    place.x <= camera.width &&
+    place.x <= camera.world &&
     place.y >= camera.groundTop &&
     place.y <= camera.height;
   return shown ? place : undefined;

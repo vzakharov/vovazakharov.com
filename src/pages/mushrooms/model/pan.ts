@@ -16,7 +16,7 @@ import type { Camera } from './ground';
  * What a crop is taken across: the world's width and the screen's, in CSS
  * px, and the clump's size in px, which ties a world px to the ground.
  */
-export type View = Pick<Camera, 'width' | 'unit'> & { world: number };
+export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
 
 /**
  * A finger at `x` across the screen, in CSS px, at `sampledAt` on the scene's

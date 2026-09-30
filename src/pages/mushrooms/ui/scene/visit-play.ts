@@ -5,8 +5,6 @@
  * whenever a bee plants. Only tests and `scripts/sweep-mushrooms.ts` read it.
  */
 
-import { pick } from '@/shared/lib/collections';
-
 import type { Sight, Timed } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
@@ -21,7 +19,6 @@ import { openingIndex } from '../../model/placement';
 import { mulberry32, nextSeed } from '../../model/random';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
-import { usedIn } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
@@ -49,10 +46,12 @@ export function opened(
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
   const flowers = firstFlowers(random, 7);
-  const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25, {
-    screen: { width, height },
-    openers: meadow.mushrooms,
-  });
+  const layout = meadowLayout(
+    width,
+    height,
+    seed ^ 0xf1_0e_25,
+    meadow.mushrooms,
+  );
   const growing = mulberry32(seed ^ 0x9e_0a);
   const grown = forest ? MUSHROOM_SLOTS - meadow.mushrooms.length : 0;
   for (const index of Array.from({ length: grown }).keys()) {
@@ -70,26 +69,21 @@ export function opened(
 
 /**
  * The visit `seed` of `stand` laid out on a screen `width` by `height`, as
- * the scene lays it out after a turn or a resize: its flowers where the
- * screen it opened on placed them, among the opening clump still standing,
- * and every foot it has used in view.
+ * the scene lays it out after a turn or a resize: the same world, placed
+ * against the opening clump still standing, at this screen's zoom, the
+ * screen a new crop of it.
  */
 export function relaidOn(
-  stand: Stand,
+  { mushrooms }: Stand,
   seed: number,
   width: number,
   height: number,
 ): MeadowLayout {
-  const { layout, mushrooms } = stand;
   return meadowLayout(
     width,
     height,
     seed ^ 0xf1_0e_25,
-    {
-      screen: pick(layout, 'width', 'height'),
-      openers: mushrooms.filter(({ foot }) => openingIndex(foot) !== undefined),
-    },
-    usedIn(stand),
+    mushrooms.filter(({ foot }) => openingIndex(foot) !== undefined),
   );
 }
 

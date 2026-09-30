@@ -14,17 +14,12 @@ import {
   FOOT_CLEARANCE,
   widestHead,
 } from './flower-layout';
-import { flowerFeet, standingFlowers, usedIn } from './flower-plots';
-import {
-  coversOn,
-  flowerInSight,
-  sightingOf,
-  type Stand,
-} from './flower-sight';
+import { flowerFeet, standingFlowers } from './flower-plots';
+import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened, relaidOn } from './visit-play';
+import { opened } from './visit-play';
 
 /** The least number of flowers the bees plant in the median visit, on every screen. */
 const LEAST_PLANTED = 4;
@@ -83,16 +78,13 @@ function plantedOut(
       ...pick(slot, 'ring'),
     });
   }
-  const opening = {
-    screen: { width, height },
-    openers: visit.meadow.mushrooms.filter(
-      ({ foot }) => openingIndex(foot) !== undefined,
-    ),
-  };
+  const openers = visit.meadow.mushrooms.filter(
+    ({ foot }) => openingIndex(foot) !== undefined,
+  );
   return {
     ...stand,
     on: (across, down) =>
-      meadowLayout(across, down, seed ^ 0xf1_0e_25, opening, usedIn(stand)),
+      meadowLayout(across, down, seed ^ 0xf1_0e_25, openers),
   };
 }
 
@@ -103,8 +95,8 @@ function median(counts: readonly number[]): number {
 }
 
 /**
- * Asserts that every planted flower of `stand` stands on `screen` where it
- * stands on the ground, in the flowers' band of the ground, off every
+ * Asserts that every planted flower of `stand` stands in `screen`'s world
+ * where it stands on the ground, in the flowers' band of the ground, off every
  * standing mushroom's foot and its head apart from every other flower's.
  */
 function assertGrounded(
@@ -125,8 +117,8 @@ function assertGrounded(
     assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);
     const { place } = flower;
     assert.ok(
-      place.x >= 0 && place.x <= screen.width,
-      `visit ${String(seed)}: ${id} out of view`,
+      place.x >= 0 && place.x <= screen.camera.world,
+      `visit ${String(seed)}: ${id} out of the world`,
     );
     const down = (place.y - screen.groundTop) / depth;
     assert.ok(
@@ -161,7 +153,7 @@ function assertGrounded(
 describe('a planted flower', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const standing of ['clump', 'forest', 'thinned'] as const) {
-      it(`stands in sight where it was planted and on the screen turned, on its ground on both, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
+      it(`stands in sight where it was planted, and on its ground off every foot and flower on that screen and turned, the turn moving nothing on the ground, on a ${name} screen with ${STANDINGS[standing]}`, () => {
         const counts = VISITS.slice(0, PLANTED_VISITS).map((seed) => {
           const stand = plantedOut(seed, [width, height], standing);
           const shown = new Set(perchSight(stand).flowers);
@@ -178,21 +170,6 @@ describe('a planted flower', () => {
           ] as const) {
             const there = stand.on(across, down);
             assertGrounded(seed, stand, there);
-            // What was planted stays a perch whichever way the screen is
-            // held; a tuft grows only where the bees would plant.
-            const seen = inSightOn(stand, there);
-            for (const [at, { id }] of standingFlowers(
-              there,
-              stand.flowers,
-              stand.planted,
-              stand.mushrooms,
-            ).entries()) {
-              assert.ok(
-                seen[at] === true ||
-                  !stand.planted.some((planted) => planted.id === id),
-                `visit ${String(seed)}: ${id} out of sight on a ${String(across)}×${String(down)} screen`,
-              );
-            }
             const moved = flowerFeet({ ...stand, layout: there });
             assert.equal(moved.length, feet.length);
             for (const [at, foot] of moved.entries()) {
@@ -210,76 +187,6 @@ describe('a planted flower', () => {
         assert.ok(
           median(counts) >= LEAST_PLANTED,
           `median ${String(median(counts))} planted`,
-        );
-      });
-    }
-  }
-});
-
-/** The visits a meadow is grown to six in and turned, spread over `VISITS`. */
-const TURNED_VISITS = VISITS.filter((_, index) => index % 40 === 0);
-/**
- * The most of the flowers in sight before a turn that leave sight after it,
- * over every visit, and in the visit a tenth of visits lose more than. The
- * camera shows an edge flower's head with a butterfly's wings inside the
- * edge margin; only a phone held sideways and turned upright loses any,
- * each a front flower whose perch the thin upright ground brings within a
- * wing of the screen's bottom: about one in eleven, and in a tenth of
- * visits one in six or seven.
- */
-const MOST_LOST = 0.11;
-const WORST_DECILE_LOST = 0.18;
-
-/** Whether each flower standing in `stand` is in sight on `layout`, in order. */
-function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
-  const covers = coversOn(layout, stand.mushrooms);
-  return standingFlowers(
-    layout,
-    stand.flowers,
-    stand.planted,
-    stand.mushrooms,
-  ).map((flower) => flowerInSight(layout, sightingOf(flower, layout), covers));
-}
-
-describe('a turn', () => {
-  for (const [name, width, height] of VIEWPORTS.filter(
-    ([screen]) => screen !== 'desktop',
-  )) {
-    for (const forest of [false, true]) {
-      it(`keeps all but ${String(MOST_LOST * 100)}% of the flowers in sight that were, ${String(WORST_DECILE_LOST * 100)}% in the worst tenth of visits, and half of them at least in the median, turning ${forest ? 'a meadow grown to six' : 'the opening clump'} on a ${name} screen`, (t) => {
-        const lost: number[] = [];
-        const shown: number[] = [];
-        let before = 0;
-        let gone = 0;
-        for (const seed of TURNED_VISITS) {
-          const stand = opened(seed, width, height, forest);
-          const was = inSightOn(stand, stand.layout);
-          const now = inSightOn(stand, relaidOn(stand, seed, height, width));
-          const seen = was.filter(Boolean).length;
-          const left = was.filter(
-            (sighted, index) => sighted && now[index] !== true,
-          ).length;
-          before += seen;
-          gone += left;
-          lost.push(seen > 0 ? left / seen : 0);
-          shown.push(now.filter(Boolean).length / now.length);
-        }
-        const worst =
-          lost.toSorted((a, b) => a - b)[Math.floor(lost.length * 0.9)] ?? 0;
-        t.diagnostic(
-          `${String(gone)} of ${String(before)} lost, the worst tenth ${(worst * 100).toFixed(0)}% or more`,
-        );
-        assert.ok(
-          gone <= before * MOST_LOST,
-          `${String(gone)} of ${String(before)} lost`,
-        );
-        assert.ok(
-          worst <= WORST_DECILE_LOST,
-          `the worst tenth lose ${String(worst)}`,
-        );
-        assert.ok(
-          median(shown) >= 0.5,
-          `median ${String(median(shown))} shown`,
         );
       });
     }

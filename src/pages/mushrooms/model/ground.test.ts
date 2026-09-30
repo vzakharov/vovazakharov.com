@@ -1,15 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { capBox } from '../ui/scene/cap-cover';
 import { placeIn, placeOf } from '../ui/scene/clump-layout';
-import { standingAt } from '../ui/scene/door-sight';
 import { groundOf } from '../ui/scene/flower-layout';
 import { flowerFeet } from '../ui/scene/flower-plots';
 import {
   EDGE_MARGIN,
+  MEADOW_FRAME,
   meadowCamera,
-  meadowFrame,
+  WORLD_ACROSS,
 } from '../ui/scene/meadow-camera';
 import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened, relaidOn } from '../ui/scene/visit-play';
@@ -60,7 +59,7 @@ describe('seen', () => {
       };
       for (const [how, camera] of Object.entries(cameras)) {
         const front = project(camera, { x: 0, z: 0 });
-        for (const foot of feetOver(meadowFrame({ width, height }))) {
+        for (const foot of feetOver(MEADOW_FRAME)) {
           const shown = project(camera, foot);
           const { x, y } = seen(foot);
           const at = `${how}, foot ${foot.x.toFixed(2)}, ${foot.z.toFixed(2)}`;
@@ -78,25 +77,16 @@ describe('seen', () => {
   }
 });
 
-describe('the frame', () => {
-  for (const { name, width, height, held } of [
-    ...SCREENS.map((screen) => ({ ...screen, held: false })),
-    // Its frame held at its least across too, a cap of the widest genes on
-    // the frame's near corners stands past the edge margin there. Every foot
-    // still stands inside the margin, and the room check turns away a foot
-    // whose cap would not (`roomFor`).
-    {
-      name: FLOOR_HELD[0],
-      width: FLOOR_HELD[1],
-      height: FLOOR_HELD[2],
-      held: true,
-    },
-  ]) {
-    it(`stands on a ${name} screen, every ${held ? 'foot' : 'cap'} on it inside the edge margin`, () => {
+describe('the world', () => {
+  const screens = [
+    ...SCREENS,
+    { name: FLOOR_HELD[0], width: FLOOR_HELD[1], height: FLOOR_HELD[2] },
+  ];
+  for (const { name, width, height } of screens) {
+    it(`stands on a ${name} screen's world, every cap on its frame inside the world's edge margin`, () => {
       const camera = meadowCamera(width, height);
-      const frame = meadowFrame({ width, height });
       const past: string[] = [];
-      for (const foot of feetOver(frame)) {
+      for (const foot of feetOver(MEADOW_FRAME)) {
         const { x, y, size, splay } = placeOf(camera, foot);
         const { toward, away } = maxReach(splay);
         const [left, right] = splay < 0 ? [toward, away] : [away, toward];
@@ -105,21 +95,35 @@ describe('the frame', () => {
           y >= camera.groundTop && y <= height,
           `${at}: off the ground`,
         );
-        assert.ok(
-          x >= EDGE_MARGIN && x <= width - EDGE_MARGIN,
-          `${at}: past the edge margin`,
-        );
         if (
           x - left * size < EDGE_MARGIN - 1e-9 ||
-          x + right * size > width - EDGE_MARGIN + 1e-9
+          x + right * size > camera.world - EDGE_MARGIN + 1e-9
         ) {
           past.push(`${at}: its cap past the edge margin`);
         }
       }
-      if (held) assert.notDeepEqual(past, [], 'no longer held at the floor');
-      else assert.deepEqual(past, []);
+      assert.deepEqual(past, []);
     });
   }
+
+  it('is as wide on the ground on every screen, its middle the ground’s', () => {
+    const across = screens.map(({ width, height }) => {
+      const { world, midline, unit } = meadowCamera(width, height);
+      assert.equal(midline, world / 2);
+      return (world - 2 * EDGE_MARGIN) / unit;
+    });
+    for (const each of across) {
+      assert.ok(Math.abs(each - (across[0] ?? 0)) < 1e-9, String(each));
+    }
+  });
+
+  it('reaches twice as far across as a tablet held sideways shows', () => {
+    const [, width, height] = VIEWPORTS[0];
+    const { world, unit } = meadowCamera(width, height);
+    const beyond = (world / 2 - EDGE_MARGIN) / unit - WORLD_ACROSS;
+    const shown = (width / 2 - EDGE_MARGIN) / unit - beyond;
+    assert.ok(Math.abs(2 * shown - WORLD_ACROSS) < 1e-3, String(2 * shown));
+  });
 });
 
 /** The visits a meadow is grown in and turned. */
@@ -133,14 +137,14 @@ const same = (a: Ground, b: Ground) =>
 
 describe('a turn', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`leaves every mushroom and every flower on its foot on the ground, grown on a ${name} screen`, () => {
+    it(`changes the zoom and the crop and leaves every mushroom and every flower on its foot on the ground, grown on a ${name} screen`, () => {
       for (const seed of TURNED_VISITS) {
         const stand = opened(seed, width, height, true);
         const turned = relaidOn(stand, seed, height, width);
         const at = `visit ${String(seed)}`;
         for (const { id, foot } of stand.mushrooms) {
           const place = placeIn(turned.mushrooms, { foot });
-          assert.ok(place, `${at}: ${id} off the turned screen`);
+          assert.ok(place, `${at}: ${id} off the turned world`);
           assert.ok(
             same(groundOf(turned.camera, place), foot),
             `${at}: ${id} moved`,
@@ -159,33 +163,18 @@ describe('a turn', () => {
       }
     });
 
-    it(`keeps every foot a meadow grown on a ${name} screen used in view once turned, every cap inside the edge margin`, () => {
+    it(`zooms a meadow grown on a ${name} screen as the turned screen composes it, whatever it used`, () => {
       for (const seed of TURNED_VISITS) {
         const stand = opened(seed, width, height, true);
         const turned = relaidOn(stand, seed, height, width);
-        const { camera } = turned;
-        const at = `visit ${String(seed)}`;
-        for (const mushroom of stand.mushrooms) {
-          const place = placeOf(camera, mushroom.foot);
-          const cap = capBox(standingAt(place, mushroom));
-          assert.ok(
-            cap.left >= EDGE_MARGIN - 1e-9 &&
-              cap.right <= camera.width - EDGE_MARGIN + 1e-9 &&
-              place.y >= camera.groundTop &&
-              place.y <= camera.height,
-            `${at}: ${mushroom.id} out of view`,
-          );
-        }
-        for (const foot of flowerFeet(stand)) {
-          const { x, y } = project(camera, foot);
-          assert.ok(
-            x >= 0 &&
-              x <= camera.width &&
-              y >= camera.groundTop &&
-              y <= camera.height,
-            `${at}: a flower at ${foot.x.toFixed(2)}, ${foot.z.toFixed(2)} out of view`,
-          );
-        }
+        assert.deepEqual(turned.camera, meadowCamera(height, width));
+        const bare = relaidOn(
+          opened(seed, width, height, false),
+          seed,
+          height,
+          width,
+        );
+        assert.deepEqual(turned.flowers, bare.flowers, `visit ${String(seed)}`);
       }
     });
   }

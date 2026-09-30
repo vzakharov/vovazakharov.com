@@ -23,7 +23,7 @@ import {
   standingOn,
 } from './flower-layout';
 import type { Stand } from './flower-sight';
-import type { Footing, MeadowLayout, Used } from './layout';
+import type { Footing, MeadowLayout } from './layout';
 
 /**
  * Each ring slot round a parent, in the order a bee's plantings take them:
@@ -189,15 +189,4 @@ export function flowerFeet({
   return standingFlowers(layout, flowers, planted, mushrooms).map(
     ({ foot }) => foot,
   );
-}
-
-/**
- * Every foot the meadow of `stand` has used, its mushrooms' and its
- * flowers', for the next screen's camera to keep in view (`meadowLayout`).
- */
-export function usedIn(stand: Stand): Used {
-  return {
-    mushrooms: stand.mushrooms.map(({ foot }) => foot),
-    flowers: flowerFeet(stand),
-  };
 }

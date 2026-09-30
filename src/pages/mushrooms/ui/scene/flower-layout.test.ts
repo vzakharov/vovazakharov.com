@@ -135,13 +135,14 @@ describe('the seeded flowers', () => {
       let shown = 0;
       for (const [index, visit] of visits.entries()) {
         const seed = (VISITS[index] ?? 0) ^ 0xf1_0e_25;
-        const opening = {
-          screen: { width, height },
-          openers: visit.meadow.mushrooms,
-        };
         const bed = bedOf(visit);
         for (const [screen, across, down] of SCREENS) {
-          const there = meadowLayout(across, down, seed, opening);
+          const there = meadowLayout(
+            across,
+            down,
+            seed,
+            visit.meadow.mushrooms,
+          );
           assert.equal(there.flowers.length, bed.length);
           for (const [at, place] of there.flowers.entries()) {
             const foot = groundOf(there.camera, place);
@@ -285,39 +286,28 @@ describe('the seeded flowers', () => {
       );
     });
 
-    it(`all stand on the ${name} screen turned, none under a control`, (t) => {
-      let off = 0;
-      let under = 0;
+    it(`all stand in the world of the ${name} screen turned, where they stood`, () => {
       let flowers = 0;
       for (const [index, visit] of visitsOn(width, height).entries()) {
         const turned = relaidOn(visit, VISITS[index] ?? 0, height, width);
-        const controls = drawnControls(turned);
+        const { world } = turned.camera;
         for (const foot of bedOf(visit)) {
           const { x, y, size } = standingOn(turned.camera, foot);
           const head = widestHead({ x, y, size });
           flowers += 1;
-          if (head.x - head.r < 0 || head.x + head.r > turned.width) off += 1;
-          else if (
-            controls.some(
-              (control) =>
-                Math.hypot(head.x - control.x, head.y - control.y) <
-                control.r + head.r,
-            )
-          ) {
-            under += 1;
-          }
+          assert.ok(
+            head.x - head.r >= 0 && head.x + head.r <= world,
+            `visit ${String(VISITS[index])}: a flower past the turned world's side`,
+          );
+          const back = groundOf(turned.camera, { x, y, size });
+          assert.ok(
+            Math.abs(back.x - foot.x) < SAME_GROUND &&
+              Math.abs(back.z - foot.z) < SAME_GROUND,
+            `visit ${String(VISITS[index])}: a flower moved on the ground`,
+          );
         }
       }
-      t.diagnostic(
-        `turned: ${(off / VISITS.length).toFixed(2)} a visit past the screen's side, ${(under / VISITS.length).toFixed(2)} under a control, of ${(flowers / VISITS.length).toFixed(2)}`,
-      );
       assert.ok(flowers > 0);
-      assert.equal(
-        off,
-        0,
-        `${String(off)} flowers past the turned screen's side`,
-      );
-      assert.equal(under, 0, `${String(under)} flowers under a turned control`);
     });
 
     it(`keep every flower shorter than the clump's stems on a ${name} screen`, () => {

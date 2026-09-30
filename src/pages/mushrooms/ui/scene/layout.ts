@@ -7,28 +7,18 @@
  * `sun-layout.ts` the sun.
  */
 
+import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
-import type { Circle, Point, Scaled } from '../../model/geometry';
-import type { Camera, Ground, Hazed } from '../../model/ground';
+import type { Box, Circle, Point, Scaled } from '../../model/geometry';
+import type { Camera, Hazed } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
+import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
-import {
-  type FlowerFoot,
-  type FlowerGround,
-  flowersOn,
-  headsAcross,
-  seededBed,
-} from './flower-layout';
-import { WIDEST_SPAN } from './flower-sight';
-import {
-  capsAcross,
-  EDGE_MARGIN,
-  meadowCamera,
-  meadowFrame,
-} from './meadow-camera';
-import { type Controls, placeControls, standingControls } from './sky-layout';
+import { type FlowerFoot, flowersOn, seededBed } from './flower-layout';
+import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import { type Controls, placeControls } from './sky-layout';
 import { horizonAt, placeSun, washRings } from './sun-layout';
 
 /**
@@ -98,100 +88,30 @@ export type MeadowLayout = Sized &
     wash: readonly number[];
   };
 
-/**
- * The visit as it opened: the screen, in CSS px, and the mushrooms standing
- * then, which together place the flowers.
- */
-export type Opening = Screened & { openers: readonly Opener[] };
-
-/** The screen, in CSS px, something is laid out on. */
-type Screened = { screen: Sized };
-
-/** The feet the meadow has used on the ground: its mushrooms', and its flowers'. */
-export type Used = Readonly<{
-  mushrooms: readonly Ground[];
-  flowers: readonly FlowerFoot[];
-}>;
-
-/** Nothing used yet: the visit as it opens. */
-const UNUSED: Used = { mushrooms: [], flowers: [] };
+/** Everything the meadow stands on a screen but its flowers and the sun's wash. */
+type Stood = Omit<MeadowLayout, 'flowers' | 'wash'>;
 
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize
- * that passes the same one keeps it where it was. The flowers are placed on
- * the ground once, on the screen the visit opened on against the mushrooms
- * it opened with (`opening`, by default this screen with none), and this
- * screen's camera shows them where they stand. The camera keeps every seeded
- * flower and everything standing on a foot of `used` in view, the caps
- * inside the edge margin, and the sun's wash off every mushroom's foot of it.
+ * that passes the same one keeps it where it was. The meadow is laid out
+ * across the whole world for this screen's size, the screen a crop of it
+ * (`pan.ts`), so a turn or a resize changes the zoom and the crop and moves
+ * nothing on the ground. The seeded flowers are placed on the world once,
+ * against `openers`, the mushrooms the visit opened with.
  */
 export function meadowLayout(
   width: number,
   height: number,
   seed: number,
-  opening?: Opening,
-  used: Used = UNUSED,
+  openers: readonly Opener[] = [],
 ): MeadowLayout {
-  const screen = opening?.screen ?? { width, height };
-  const openers = opening?.openers ?? [];
-  const { layout, flowers } = stoodMeadow(screen.width, screen.height);
-  const opened = { ...flowers, clump: clumpShade(layout.mushrooms, openers) };
-  const bed = keptBed(opened, seed, openers);
-  const caps = capsAcross(used.mushrooms);
-  const heads = headsAcross([...used.flowers, ...bed]);
-  const here = perchedOn(width, height, caps, heads);
+  const layout = stoodMeadow(width, height);
   return {
-    ...here.layout,
-    flowers: flowersOn(here.layout.camera, bed),
-    wash: washRings(here.layout, used.mushrooms),
+    ...layout,
+    flowers: flowersOn(layout.camera, keptBed(seed, openers)),
+    wash: washRings(layout, []),
   };
 }
-
-/**
- * How many refits `perchedOn` takes at the most: each widens what is shown
- * by the room a butterfly's wings take at the last one's size, which only
- * changes again where the zoom lifts the insects off their least.
- */
-const PERCH_REFITS = 3;
-
-/**
- * The meadow on a screen `width` by `height`, showing `caps` across and
- * `heads` besides, `heads` widened until an edge flower's head keeps half a
- * butterfly's open wings inside the edge margin, the margin standing for the
- * rest of its perch's reach (`flowerInSight`): so a flower in sight on the
- * screen a turn left is in sight across on this one.
- */
-function perchedOn(
-  width: number,
-  height: number,
-  caps: number,
-  heads: number,
-): Stood {
-  let shown = Math.max(caps, heads);
-  let here = stoodMeadow(width, height, shown);
-  if (heads === 0) return here;
-  const half = width / 2;
-  for (const _refit of Array.from({ length: PERCH_REFITS })) {
-    const wings = (WIDEST_SPAN * here.layout.insectSize) / 2;
-    const kept = half - EDGE_MARGIN;
-    if (kept - wings <= 0) return here;
-    const perched = Math.max(shown, (heads * kept) / (kept - wings));
-    if (perched <= shown + 1e-9) return here;
-    shown = perched;
-    here = stoodMeadow(width, height, shown);
-  }
-  return here;
-}
-
-/**
- * Everything the meadow stands on a screen but the flowers and the sun's
- * wash, and the ground the flowers are placed on there but for the mushrooms
- * standing (`FlowerGround`).
- */
-type Stood = {
-  layout: Omit<MeadowLayout, 'flowers' | 'wash'>;
-  flowers: Omit<FlowerGround, 'clump'>;
-};
 
 /**
  * How many screens' `Stood`, and visits' flowers, are kept: a screen and its
@@ -217,61 +137,76 @@ function keptIn<Kept>(
   return known;
 }
 
-/**
- * `standMeadow`, kept for the screens stood last: nothing it stands varies
- * between visits but how far across it shows (`shown`).
- */
-function stoodMeadow(width: number, height: number, shown = 0): Stood {
-  return keptIn(stood, [width, height, shown].map(String).join(' '), () =>
-    standMeadow(width, height, shown),
+/** `standMeadow`, kept for the screens stood last: nothing it stands varies between visits. */
+function stoodMeadow(width: number, height: number): Stood {
+  return keptIn(stood, `${String(width)} ${String(height)}`, () =>
+    standMeadow(width, height),
   );
 }
 
-/** `seededBed`, kept for the visits placed last. */
-function keptBed(
-  opened: FlowerGround,
-  seed: number,
-  openers: readonly Opener[],
-): FlowerFoot[] {
+/**
+ * The screen the seeded flowers are placed through: any one places them on
+ * the same ground, every camera looking from one angle, so the tablet held
+ * sideways, the primary layout. No control stands over the world, so none is
+ * in the bed's way.
+ */
+const BED_SCREEN = { width: 1180, height: 820 } as const;
+
+/** `seededBed` on the world against `openers`, kept for the visits placed last. */
+function keptBed(seed: number, openers: readonly Opener[]): FlowerFoot[] {
   const key = [
-    String(opened.width),
-    String(opened.height),
     String(seed),
     ...openers.map(
       ({ foot, species, seed: own }) =>
         `${String(foot.x)} ${String(foot.z)} ${species} ${String(own)}`,
     ),
   ].join(' ');
-  return keptIn(beds, key, () => seededBed(opened, seed));
+  return keptIn(beds, key, () => {
+    const { camera, mushrooms } = stoodMeadow(
+      BED_SCREEN.width,
+      BED_SCREEN.height,
+    );
+    const opened = {
+      ...pick(
+        camera,
+        'width',
+        'height',
+        'groundTop',
+        'ground',
+        'world',
+        'unit',
+      ),
+      ...pick(mushrooms, 'frame'),
+      controls: [],
+      clump: clumpShade(mushrooms, openers),
+    };
+    return seededBed(opened, seed);
+  });
 }
 
 /**
- * The meadow on a screen `width` by `height`, showing `shown` across
- * (`meadowCamera`), but for its flowers (`Stood`).
+ * The clump's crowns (`clumpCrowns`) where the screen shows them as the visit
+ * opens, for the sun, which stands on the screen, to keep its rays off.
  */
-function standMeadow(width: number, height: number, shown: number): Stood {
-  const camera = meadowCamera(width, height, shown);
-  const { groundTop, ground, unit } = camera;
+function openingCrowns(camera: Camera): Box[] {
+  const opening = openingPan(camera);
+  return clumpCrowns(camera).map((crown) => ({
+    ...crown,
+    left: screenOf(opening, 0, crown.left),
+    right: screenOf(opening, 0, crown.right),
+  }));
+}
+
+/** The meadow on a screen `width` by `height` (`meadowCamera`), but for its flowers (`Stood`). */
+function standMeadow(width: number, height: number): Stood {
+  const camera = meadowCamera(width, height);
+  const { groundTop, unit } = camera;
   const horizon = horizonAt(groundTop);
   const short = Math.min(width, height);
-  const frame = meadowFrame({ width, height });
-  const mushrooms = { camera, frame };
+  const mushrooms = { camera, frame: MEADOW_FRAME };
   const controls = placeControls(width, height, groundTop);
   const insectSize = insectSizeFor(unit);
-  const flowers = {
-    width,
-    height,
-    groundTop,
-    ground,
-    frame,
-    unit,
-    controls: [
-      ...standingControls(controls),
-      ...controls.picker,
-      ...controls.housePicker,
-    ],
-  };
-  const layout = {
+  return {
     width,
     height,
     camera,
@@ -282,7 +217,7 @@ function standMeadow(width: number, height: number, shown: number): Stood {
       { width, height, horizon },
       short * 0.075,
       controls,
-      clumpCrowns(camera),
+      openingCrowns(camera),
     ),
     clouds: [
       { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
@@ -298,5 +233,4 @@ function standMeadow(width: number, height: number, shown: number): Stood {
       bee: insectSize * KIND_SCALE.bee,
     },
   };
-  return { layout, flowers };
 }

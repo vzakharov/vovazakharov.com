@@ -36,7 +36,7 @@ import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened, relaidOn } from './visit-play';
+import { opened } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
 type Screen = (typeof VIEWPORTS)[number][0];
@@ -155,7 +155,8 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { width, sun, mushrooms: ground } = layout;
+  const { sun, mushrooms: ground } = layout;
+  const { world } = ground.camera;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
@@ -180,7 +181,7 @@ function broken(
     const { id, species } = mushroom;
     const cap = capBox(standing);
     note(species, 'inside the edge margin');
-    if (cap.left < EDGE_MARGIN || cap.right > width - EDGE_MARGIN) {
+    if (cap.left < EDGE_MARGIN || cap.right > world - EDGE_MARGIN) {
       fault(
         'inside the edge margin',
         `${id}'s ${species} cap past the edge margin`,
@@ -294,21 +295,6 @@ describe('a meadow grown toward six', () => {
         [],
         'left unmeasured',
       );
-    });
-
-    // The turned camera shows a scaled copy of the picture the meadow grew
-    // in (`UP_PER_Z`), and the turned screen's wash stays off every foot used.
-    it(`keeps every rule once a meadow grown on a ${name} screen turns`, () => {
-      for (const [seed, meadow] of grownOn(name, width, height)) {
-        const { layout, flowers } = opened(seed, width, height, false);
-        const stand = { layout, flowers, mushrooms: meadow, planted: [] };
-        const turned = relaidOn(stand, seed, height, width);
-        assert.deepEqual(
-          broken(meadow, turned).map(({ sentence }) => sentence),
-          [],
-          where(seed, meadow, turned),
-        );
-      }
     });
 
     it(`keeps the sun's rays off the opening clump, in every visit, on a ${name} screen and on it turned`, () => {

@@ -1,21 +1,15 @@
 /**
- * The camera a screen shows the meadow through, and the frame on the ground
- * it lays the meadow out in: the frame a pure function of the screen in CSS
- * px (`frameFor`), and the camera of the screen and the feet the meadow has
- * used, which it keeps in view wherever they were used.
+ * The camera a screen shows the meadow through, a pure function of the
+ * screen in CSS px, and the frame on the ground the meadow is laid out in,
+ * the world's, the same on every screen.
  */
-
-import type { Sized } from '@/shared/typings';
 
 import {
   type Camera,
   fitCamera,
   type Frame,
   FRAME_DEPTH,
-  frameFor,
-  type Ground,
   type Lens,
-  widestOf,
 } from '../../model/ground';
 import { GENE_RANGES, OPENING_SPECIES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
@@ -27,10 +21,22 @@ import { TAP_RADIUS } from './tap-reach';
 export const EDGE_MARGIN = 12;
 
 /**
- * The least a frame reaches across, as a camera lays the ground out: room
- * for six mushrooms however narrow the screen.
+ * The least ground a screen shows across either side of its middle, as a
+ * camera lays the ground out: room for six mushrooms however narrow the
+ * screen.
  */
 const LEAST_ACROSS = 0.87;
+
+/**
+ * How far the world's frame reaches either side of the ground's middle, as a
+ * camera lays the ground out, on every screen: twice the 2.882 a tablet held
+ * sideways (1180×820 CSS px) shows at the size it composes the clump at, caps
+ * inside the edge margin, so that tablet shows half the world at a time.
+ */
+export const WORLD_ACROSS = 5.764;
+
+/** The frame on the ground the meadow is laid out in, the world's. */
+export const MEADOW_FRAME: Frame = { across: WORLD_ACROSS, ...FRAME_DEPTH };
 
 /**
  * How far any cap reaches left and right of its foot, per unit of size, once
@@ -47,6 +53,7 @@ const UNIT_CAMERA: Camera = {
   height: 0,
   groundTop: 0,
   ground: 1,
+  world: 0,
   midline: 0,
   unit: 1,
 };
@@ -100,27 +107,10 @@ const LENS: Lens = {
   margin: EDGE_MARGIN,
   floor: ZOOM_FLOOR,
   least: LEAST_ACROSS,
+  across: WORLD_ACROSS,
 };
 
-/**
- * How far across, in the clump's size at its front foot, a camera shows the
- * ground to keep the cap of every mushroom standing on `feet` inside the
- * edge margin, as a cap on the frame's side stands: 0 for none.
- */
-export function capsAcross(feet: readonly Ground[]): number {
-  return feet.length > 0 ? widestOf(feet) + LENS.beyond : 0;
-}
-
-/**
- * The camera the meadow on a screen `width` by `height` is shown through,
- * showing `shown` across besides: zoomed out where the screen is narrower
- * than the one the meadow used its feet on.
- */
-export function meadowCamera(width: number, height: number, shown = 0): Camera {
-  return fitCamera({ width, height }, LENS, shown);
-}
-
-/** The frame the meadow on `screen` is laid out in. */
-export function meadowFrame(screen: Sized): Frame {
-  return frameFor(screen, LENS);
+/** The camera the meadow on a screen `width` by `height` is shown through. */
+export function meadowCamera(width: number, height: number): Camera {
+  return fitCamera({ width, height }, LENS);
 }

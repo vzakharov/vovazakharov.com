@@ -2,11 +2,11 @@
 
 ## Done
 
-- Step 1: `model/pan.ts` + `pan.test.ts` — the crop's pure state.
+- Step 1 (19b7306): `model/pan.ts` + `pan.test.ts` — the crop's pure state.
+- Step 2: the world camera and layout.
 
 ## Left
 
-- Step 2: the world camera and layout.
 - Step 3: the minimal scroll in `meadow-scene.ts`.
 
 ## Decided
@@ -15,7 +15,7 @@
   `release` (finger x in screen CSS px, time in seconds as `motion.ts`),
   `isPanning`, `isMoving`, `step(pan, ±1, time)`, `recrop(pan, view, time)`,
   and the one conversion pair `worldOf`/`screenOf`. `View` is
-  `{ width, unit, world }`.
+  `Pick<Camera, 'width' | 'world' | 'unit'>`, so a `Camera` is a `View`.
 - The slop re-anchors where it is crossed, so the crop never jumps 10 px
   when a pan starts; from there it is 1:1.
 - A glide is an exponential ease from the release position to
@@ -25,6 +25,46 @@
   5000 px/s.
 - A key step is 0.4 of the screen's width, eased (cubic out) over 0.25 s;
   presses during a step add to its goal.
-- A press stops a glide or a step where it stands.
-- A re-crop stops a glide or a step; a pressed finger pans on from the new
-  crop.
+- A press stops a glide or a step where it stands. A re-crop stops a glide
+  or a step; a pressed finger pans on from the new crop.
+- **The zoom is today's opening zoom on every screen**: `composedUnit`,
+  capped so the screen still shows `LEAST_ACROSS` (0.87) either side and the
+  opening clump's caps. Plain `composedUnit` would zoom a phone upright in
+  from unit 133 to 219, cutting the opening clump off the screen (it needs
+  ≤ 158). Nothing the meadow has used changes it.
+- `Camera.world` = `2 × (EDGE_MARGIN + (WORLD_ACROSS + beyond) × unit)`, so a
+  cap on the world frame's side stands inside the margin at the world's
+  edge; `midline` = `world / 2`. `WORLD_ACROSS` = 5.764 (2 × the tablet's
+  2.882); the tablet's world is 2163 px.
+- `MEADOW_FRAME` (in `meadow-camera.ts`) replaces `meadowFrame(screen)` and
+  `frameFor`: `{ across: WORLD_ACROSS, ...FRAME_DEPTH }` on every screen.
+- `meadowLayout(width, height, seed, openers = [])`. The seeded bed is
+  placed once through the tablet's camera (`BED_SCREEN`, any camera places
+  it on the same ground), across the world frame, with no controls in its
+  way (they are screen-fixed); `FLOWER_SPOTS.landscape`, since 1180 > 820.
+  Package "flowers" reworks the bed itself.
+- The sun keeps its rays off the clump where the screen shows it at the
+  opening crop (`openingCrowns`, via `screenOf`).
+- `washRings(layout, [])`: the wash no longer shrinks for the mushrooms
+  used, and `washReach` still measures the screen-fixed sun against world
+  places (`everyPlace`) — package "room" (owner of `sun-layout.ts`) to
+  reconcile.
+
+## Touched outside the package's files (type-check forced)
+
+- `flower-layout.ts`: `FlowerGround` picks `world`, `cameraOf` sets it and
+  `midline = world / 2`; `headsAcross` removed; header comment.
+- `flower-plots.ts`: `usedIn` removed.
+- `meadow-scene.ts`: `opening`/`used()` replaced by `openers`.
+- `placement.test.ts`: the six-screen spread test is one test on
+  `MEADOW_FRAME`.
+- `meadow-rules.test.ts`: the turn test deleted; the edge-margin rule
+  measured against the world's width.
+
+## Tests left red for other packages
+
+- `fliers.test.ts`: bees roam 68–69% on phone, small phone, tablet portrait
+  (the seeded bed now spreads across the world, and `flowerInSight` still
+  tests the screen's edges) — package "flowers"/sight.
+- `mushroom-patch.test.ts`: "at most 25% under a fingertip on a tablet" —
+  package "room".

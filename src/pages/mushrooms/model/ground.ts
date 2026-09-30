@@ -29,13 +29,16 @@ export type Hazed = { haze: number };
 
 /**
  * A camera on a screen, in CSS px: the band of ground it shows, from
- * `groundTop` down to the screen's foot `ground` deep; where across the
- * ground's middle stands (`midline`); and `unit`, the clump's size where the
+ * `groundTop` down to the screen's foot `ground` deep; how wide the world it
+ * lays the meadow out on stands (`world`), the screen being a crop of it
+ * (`pan.ts`), and where across that world the ground's middle stands
+ * (`midline`, the world's middle); and `unit`, the clump's size where the
  * clump's front foot stands.
  */
 export type Camera = Sized & {
   groundTop: number;
   ground: number;
+  world: number;
   midline: number;
   unit: number;
 };
@@ -43,7 +46,7 @@ export type Camera = Sized & {
 /** The depth a thing is drawn at: the nearer, the deeper, so it is drawn over what stands behind. */
 export type Layered = { depth: number };
 
-/** Where on the ground something is laid out (`frameFor`). */
+/** Where on the ground something is laid out: the world's frame. */
 export type Framed = { frame: Frame };
 
 /**
@@ -99,8 +102,8 @@ export function zAt(down: number): number {
 export type Frame = Record<'across' | 'near' | 'far', number>;
 
 /**
- * How deep every screen's frame is (`frameFor`): the whole band every camera
- * shows but for `FRAME_INSET`.
+ * How deep the world's frame is: the whole band every camera shows but for
+ * `FRAME_INSET`.
  */
 export const FRAME_DEPTH = {
   near: zAt(1 - FRAME_INSET.near),
@@ -162,13 +165,15 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
 /**
  * What a camera must show: `reach`, how far, in the clump's size at the
  * clump's front foot, the opening clump's caps reach either side of the
- * middle, and `beyond`, how far past its foot a cap standing on the frame's
- * side reaches, both standing `margin` px inside the screen; `floor`, the
- * least that size may be, in px, whatever the screen; and `least`, the least
- * a frame reaches across, whatever the screen, which leaves the forest room.
+ * middle, and `least`, the least ground a screen shows across either side of
+ * it, both with the caps standing `margin` px inside the screen; `beyond`,
+ * how far past its foot a cap standing on the frame's side reaches; `floor`,
+ * the least that size may be, in px, whatever the screen; and `across`, how
+ * far the world's frame reaches either side of the middle, the same on every
+ * screen.
  */
 export type Lens = Record<
-  'reach' | 'beyond' | 'margin' | 'floor' | 'least',
+  'reach' | 'beyond' | 'margin' | 'floor' | 'least' | 'across',
   number
 >;
 
@@ -201,64 +206,34 @@ function composedUnit(screen: Sized, lens: Lens): number {
   return Math.min(mostUnit(screen), Math.max(lens.floor, composed));
 }
 
-/** How far across `screen` shows the ground at the size it composes the clump at, caps inside the margin. */
-function shownAcross(screen: Sized, lens: Lens): number {
-  return (
-    (screen.width / 2 - lens.margin) / composedUnit(screen, lens) - lens.beyond
-  );
-}
-
-/**
- * The frame the meadow on `screen` is laid out in: as far across as `screen`
- * shows at the size it composes the clump at, never under `lens.least`, the
- * full depth deep.
- */
-export function frameFor(screen: Sized, lens: Lens): Frame {
-  return {
-    across: Math.max(lens.least, shownAcross(screen, lens)),
-    ...FRAME_DEPTH,
-  };
-}
-
-/**
- * How far across the widest of `feet` stands from the middle as a camera
- * lays the ground out (`seen`), in the clump's size at its front foot: 0 for
- * none.
- */
-export function widestOf(feet: readonly Ground[]): number {
-  return Math.max(0, ...feet.map((foot) => Math.abs(seen(foot).x)));
-}
-
 /**
  * The camera for `screen`: the clump stands as big as the screen composes it
- * (`composedUnit`), smaller where its frame (`frameFor`), caps and all, would
- * reach past `lens.margin`, and never under `floorOn` unless `shown`, the
- * ground across in the clump's size it must show besides, needs it smaller:
- * what the meadow has used stays in view however small that draws it. The
- * ground's band is as deep as `UP_PER_Z` stands it at that size.
+ * (`composedUnit`), smaller where the screen would show less than
+ * `lens.least` across or cut the opening clump's caps, caps inside
+ * `lens.margin`, and never under `floorOn`. The world is the frame
+ * `lens.across` wide either side of the middle at that size, a cap on its
+ * side inside the margin, and the ground's middle its middle; the ground's
+ * band is as deep as `UP_PER_Z` stands it at that size. Nothing the meadow
+ * has used changes it, so a turn or a resize changes the zoom and the crop,
+ * never the ground.
  */
-export function fitCamera(screen: Sized, lens: Lens, shown = 0): Camera {
+export function fitCamera(screen: Sized, lens: Lens): Camera {
   const { width, height } = screen;
   const half = width / 2 - lens.margin;
-  const reach = Math.max(
-    lens.reach,
-    frameFor(screen, lens).across + lens.beyond,
-  );
-  const unit = Math.min(
-    Math.max(
-      floorOn(screen, lens),
-      Math.min(composedUnit(screen, lens), half / reach),
-    ),
-    // What the frame holds is in view already, at the floor too.
-    shown > reach ? half / shown : Infinity,
+  const shown = Math.max(lens.reach, lens.least + lens.beyond);
+  const unit = Math.max(
+    floorOn(screen, lens),
+    Math.min(composedUnit(screen, lens), half / shown),
   );
   const ground = unit * BAND_DEPTH * UP_PER_Z;
+  const world = 2 * (lens.margin + (lens.across + lens.beyond) * unit);
   return {
     width,
     height,
     groundTop: height - ground,
     ground,
-    midline: width / 2,
+    world,
+    midline: world / 2,
     unit,
   };
 }

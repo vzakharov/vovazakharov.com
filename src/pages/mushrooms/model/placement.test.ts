@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { meadowFrame } from '../ui/scene/meadow-camera';
+import { MEADOW_FRAME } from '../ui/scene/meadow-camera';
 import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened } from '../ui/scene/visit-play';
 import { type Frame, type Ground, scaleAt, seen } from './ground';
@@ -72,22 +72,20 @@ const mean = (values: readonly number[]) =>
   values.reduce((sum, value) => sum + value, 0) / values.length;
 
 describe('pickFoot', () => {
-  for (const [name, width, height] of VIEWPORTS) {
-    it(`spreads six feet over a ${name} screen's frame further past a jittered grid than the grid is past feet thrown at random`, () => {
-      const frame = meadowFrame({ width, height });
-      const trials = VISITS.slice(0, 300);
-      const random = mulberry32(0x97_1d);
-      const spread = (lay: (seed: number) => Ground[]) =>
-        mean(trials.map((seed) => nearestPair(lay(seed))));
-      const picks = spread((seed) => picked(seed, frame));
-      const grid = spread(() => jittered(random, frame));
-      const chance = spread(() => thrown(random, frame));
-      assert.ok(
-        picks - grid >= grid - chance,
-        `nearest pair ${picks.toFixed(3)}, a grid's ${grid.toFixed(3)}, at random ${chance.toFixed(3)}`,
-      );
-    });
-  }
+  it("spreads six feet over the world's frame further past a jittered grid than the grid is past feet thrown at random", () => {
+    const frame = MEADOW_FRAME;
+    const trials = VISITS.slice(0, 300);
+    const random = mulberry32(0x97_1d);
+    const spread = (lay: (seed: number) => Ground[]) =>
+      mean(trials.map((seed) => nearestPair(lay(seed))));
+    const picks = spread((seed) => picked(seed, frame));
+    const grid = spread(() => jittered(random, frame));
+    const chance = spread(() => thrown(random, frame));
+    assert.ok(
+      picks - grid >= grid - chance,
+      `nearest pair ${picks.toFixed(3)}, a grid's ${grid.toFixed(3)}, at random ${chance.toFixed(3)}`,
+    );
+  });
 });
 
 describe('a meadow grown to six', () => {
