@@ -839,9 +839,12 @@ whole, below), its design `docs/remove-before-merging/ideas/idea-2-flower-keyboa
 A tap on a flower plays it and still does whatever a tap on a flower did
 before; a tap selects what the finger is on and nothing else, so the
 picker opens on a tuft only, and a tap outside an open picker closes it
-without planting. Planting obeys the forest's existing flower cap and
-placement rules: a full meadow refuses the tuft the way a full forest
-refuses `+`.
+without planting — except on another tuft, which opens the picker there
+(review 5360733525). Planting obeys the forest's existing flower cap and
+placement rules. A full meadow shows no bare tuft rather than refusing
+one, the agent's call standing until the operator redraws it: tufts are
+held to the flowers the cap has left (review 5360733525), so a tuft never
+promises a flower that cannot grow, and the child meets one "no" fewer.
 
 ## Rest of the elephant
 
