@@ -176,6 +176,27 @@
   the same brief from its hand-over note — rather than trusting the agent
   to stop.
 
+- **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
+  the common brief from the start.** Bite 11's first flowers agent stashed
+  for a test baseline and swept up two siblings' uncommitted edits; the
+  pop then conflicted and the owners rewrote by hand. A throwaway
+  `git worktree` gives the same baseline. (A production build fails in a
+  worktree inside the repo — Turbopack symlinks, Google Fonts — and works
+  from one in the scratchpad after `pnpm install --offline`.)
+- **An agent does two or three steps, not five.** Bite 11's seven package
+  agents each reached 160–220k after two to three steps of a five-step
+  list, so every package took two or three agents. Brief two or three
+  steps, and name the step that ends the brief.
+- **A half-landed migration blocks the whole tree.** Flowers' step 2 sat
+  uncommitted at 137k while the other two agents' typechecks went red on
+  it; a nudge to "land step 2 within ~40k" did not bite. A step that
+  breaks a shared type lands first and alone, or in a worktree.
+- **A fix round's first answer can be "the measure is wrong".** Bite 11's
+  room fix found both reds were proxies — a fingertip disc too round for
+  flat caps while every tap landed, a wash kept off feet it is drawn
+  beneath — and changed no source. Brief a fix round to test the measure
+  against the rule it stands for before tuning the code to it.
+
 ## Pauses, restarts and the Stop hook
 
 - **A pause is a hand-over, and never a reset.** Bite 6's handling hit the

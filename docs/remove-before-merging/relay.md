@@ -1,15 +1,17 @@
 # Relay summary
 
-Relay depth: 6 of the chain the operator restarted by hand (this session was
-depth 5). Two relays remain before the cap (the plan's "The relays stay
-relays").
+Relay depth: 7 of the chain the operator restarted by hand (this session was
+depth 6). One relay remains before the cap (the plan's "The relays stay
+relays"): the session after the successor hands the operator the line to
+paste into a fresh Opus session.
 
 ## 1. Standing constraints
 
 **Never issue `git reset --hard` on pickup**; if the local ref is stale,
 rename it aside (`git branch -m <branch> stale-local/<n>`) and check out a
-fresh tracking branch. It held this time, from the prompt line. Read files
-with `Read`, not `cat`/`sed` (CLAUDE.md).
+fresh tracking branch. It held this time, from the prompt line
+(`stale-local/1` holds the old ref). Read files with `Read`, not
+`cat`/`sed` (CLAUDE.md).
 
 Carried from earlier sessions, the operator's words verbatim (Russian):
 
@@ -54,9 +56,9 @@ idea (walking meadow) is still held out of the plan; bite 11 borrows only
 its «Что ты решил» answers to questions the pan raises too.
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask the
-operator nothing. Fill the megabeast notes — now
-`.claude/skills/megabeast/notes/`, one file per theme — before every relay.
-No module past ~450 lines. Each bite ends by committing its best frames to
+operator nothing. Fill the megabeast notes — `.claude/skills/megabeast/notes/`,
+one file per theme — before every relay. No module past ~450 lines. Each
+bite ends by committing its best frames to
 `docs/remove-before-merging/frames/bite-<n>/` and republishing the game
 Artifact at its one URL. The depth cap is accepted, never engineered around.
 Read subagents' context off their transcript and pause/replace one past
@@ -68,11 +70,8 @@ Pass this section on verbatim.
 
 No operator message reached this session; it ran from its launch prompt
 (`/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never
-git reset --hard; …`). The operator's one new ask arrived through another
-session (01XyW49K…), which wrote it into the plan as a sub-bite (bff3410):
-«разбить megabeast на папку+файлы внутри, а то уже непотребно раздуло».
-This session merged that in rather than overwriting it, and a subagent did
-the split (0ee97c5).
+git reset --hard; …`), dispatched `/go`, and orchestrated packages 2–4 of
+bite 11 through eight Opus subagents.
 
 ## 3. Intent
 
@@ -82,56 +81,63 @@ Artifact playable after every bite, ending with `/finalize` (no merge).
 
 ## 4. Decisions
 
-All written into the plan's `## Rest of the bite` (item 11) — read it there:
-one-finger pan and no pinch (the operator's later «давай однопальцевые
-жесты» beat item 11's first text); a scrolled Phaser camera as the crop, the
-layout computed once per screen size; the world `WORLD_ACROSS` wide, the
-turn's refit gone; sky/sun/controls fixed, hills in parallax; what the child
-adds appears in the crop; twelve mushrooms; the flower cap as room; insects
-perch anywhere in the world. The core agent's own calls (the zoom capped to
-show the opening clump, the world's width formula, the bed placed through
-the tablet's camera, pan.ts's feel) are in the plan's package 1 and
-`docs/remove-before-merging/bite-11/core.md`.
+All written into the plan's `## Rest of the bite` (item 11, work packages
+2–4) — read them there: the fingertip test becomes "a tap lands"; the
+sideways phone's wash stays at 82 px; butterflies' `slowest` 4; tufts 6 per
+1000 px; a tuft or cap under a control after a pan is the control's; the
+far hills part under the sun along the pan. The packages' own calls are in
+`docs/remove-before-merging/bite-11/{room,roomfix,flowers,scene}.md`.
 
 ## 5. Errors and dead ends
 
-- The bite was cut too big: five sequential packages, and this session
-  crossed 200k with one built (megabeast `pickup-and-relay.md`, "A
-  structural bite does not fit one session").
-- The core agent ran to 254k against a 170k line; the 25-minute check-in
-  caught it at 241k. Check at ~15 minutes.
+- The first flowers agent ran `git stash` on the shared tree and swept two
+  siblings' edits; recovered by the owners, nothing lost. The common brief
+  now bans stash/checkout/restore. `stash@{0}` ("WIP on … 71165ac") is
+  still in this container's repo only — harmless, not on origin.
+- Every agent reached 160–220k after two or three steps; each package took
+  two or three agents. Brief two or three steps per agent.
+- Flowers' step 2 sat uncommitted for ~40 min and broke the tree's
+  typecheck for the others; it landed as 3452376 and the tree is green.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
-- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`
-  (item 11) with package 1 built and 2–5 left.
-- Tests red, expected, for packages 2–3: `ui/scene/fliers.test.ts` (3) and
-  `ui/scene/mushroom-patch.test.ts` (1). Every other mushroom test green;
-  `pnpm typecheck` green.
-- The game on the branch opens centred on a wider world with no way to pan
-  yet; seam grass covers only part of the screen. The Artifact (version 10,
-  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG) is still bite 10's —
-  do not republish mid-bite.
-- Nothing running: no agents, no check-ins, no PR subscription.
+- Plan `docs/plans/mushroom-game-syama.paused.md`, `## Rest of the bite`.
+- **One agent may still be running in this session's container** at the
+  relay: the tap-lands test in `ui/scene/mushroom-patch.test.ts` (plan item
+  11, package 2's "Decided"). Check `git log origin/<branch> --
+  src/pages/mushrooms/ui/scene/mushroom-patch.test.ts` for a commit after
+  this relay's; if none lands within ~30 minutes of pickup, write it per the
+  plan's decision.
+- Tests: `mushroom-patch.test.ts`'s three fingertip bounds red until that
+  commit; `fliers.test.ts` unchecked against the 14-flower bed (run alone,
+  590 s timeout). Everything else the agents ran is green; typecheck green
+  at a675f2e.
+- The Artifact (version 10, https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG)
+  is still bite 10's — do not republish mid-bite.
+- Nothing else running: no PR subscription; this session's check-ins
+  target its own agents and are harmless.
 
 ## 7. Pointers
 
 - `docs/remove-before-merging/bite-11/` — `brief-common.md` (every build
-  agent's brief), `map.md` (the scene map), `core.md` (package 1's
-  hand-over).
+  agent's brief; it still says § "This bite": point agents at § "Rest of
+  the bite"), `map.md`, and the packages' hand-over notes; `look/` holds
+  the scene's and room fix's frames.
 - `.claude/skills/megabeast/notes/README.md` — the notes' index.
 
 ## 8. Next step
 
 /go
 
-That is: continue bite 11 from `## Rest of the bite` — packages 2 (room), 3
-(flowers, sight, flower cap) and 4 (scene, render, input) in parallel from
-the common brief, each owning its listed files (2 and 3 split `model/game.ts`
-by the limit and `plant`), then 5 (play run); then fold the bite into
-`## Eaten so far`, rewrite the three Decisions bullets the plan names,
-`/polish`, `/pr`, frames to `docs/remove-before-merging/frames/bite-11/`,
-republish the Artifact, pause, fill the megabeast notes, and
+That is: finish bite 11 from `## Rest of the bite` — package 3's step 4
+(seam grass over the world) and step 5 (the released insect's first perch
+in view), `fliers.test.ts` against the 14-flower bed, the tap-lands test if
+the running agent did not land it; then package 5 (play run: probe screen =
+world − scroll, a drag helper, drag pans without tapping, small move taps,
+keys pan, a turn step); then fold the bite into `## Eaten so far`, rewrite
+the three Decisions bullets the plan names, `/polish`, `/pr`, frames to
+`docs/remove-before-merging/frames/bite-11/`, republish the Artifact,
+pause, fill the megabeast notes, and
 `/relay оставь код ревью на последний кусок`. If the session nears 200k
-before package 5, relay `/go` at a package boundary.
+first, relay `/go` at a package boundary.

@@ -937,16 +937,46 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
        measures the fixed sun against world positions. The seam grass is
        still drawn over world x 0..screen width, and the `near` bake and
        grain are screen-sized and fixed: 3 and 4.
-    2. Mushroom room: `mushroom-room.ts`, `model/placement.ts`,
-       `cap-cover.ts`, `sun-layout.ts`, `model/game.ts`'s limit,
-       `meadow-rules.test.ts`, `mushroom-patch.test.ts`,
-       `scripts/sweep-mushrooms.ts`.
-    3. Flowers, tufts, sight, the flower cap: `flower-layout.ts`,
-       `flower-sight.ts`, `flower-plots.ts`, `perch-sight.ts`, `tufts.ts`,
-       `grass.ts`, `model/pollen.ts`, `model/game.ts`'s `plant`, their tests.
-    4. Scene, render, input: `meadow-scene.ts`, `paint-*.ts`, `grain.ts`,
-       `controls.ts`, `button.ts`, `picker.ts`, `insect-view.ts`,
-       `keyboard.ts`, `instrument-input.ts`.
+    2. **Built** (558e309, be7e71b, dc25945, a4661b7, a866c5e;
+       `bite-11/room.md`, `roomfix.md`): twelve mushrooms, twelve over
+       the world in every visit, at least six on the opening crop in every
+       visit; `roomFor(stand, seed, crop?)` grows `+` inside the crop, the
+       new cap wholly on screen, clear of controls and rays where they
+       stand; the controls out of `mushroom-patch.ts`'s `Tapped`; the wash
+       keeps off every foot any crop brings under the fixed sun
+       (`nearestTheSun`, each row at its nearest point). **Decided:** the
+       three "under a fingertip" bounds counted heads flatter than a
+       fingertip is round (a 44 px disc in a 33–48 px deep cap), while
+       every tap on them lands (12,000 checked, worst mushroom keeps 83%
+       of its head's taps), so the test asserts that instead — zero misses
+       at the head's middle, at least 80% of the head's taps — beating
+       re-reading the bounds over grown mushrooms only, a loosening. A
+       small agent was writing it at the relay (see relay.md). **Decided:**
+       the wash on a phone held sideways stays at 82 px (151 before): it
+       is drawn beneath every cap, the difference is faint in
+       `look/sideways-wash-*.png`, and every way back (roomfix.md A–C)
+       grows the tablet's wash ≥43% or breaks the foot rule.
+    3. Steps 1–3 **built** (3ddb960, 3452376, a675f2e; `bite-11/flowers.md`):
+       sight and air against the world; butterflies' `slowest` 2 → 4 in
+       `flight-habits.ts`, since flights across the world ran twice as fast
+       and dropped the catch rate to 0.63–0.65 (now 0.78–0.95);
+       `FLOWER_LIMIT` gone, tufts `TUFTS_PER_1000PX` 6 over the world (the
+       tablet's opening screen shows ~6.9, bite 10's 7); a tuft a pan slides
+       under a control is the control's to tap there; the seeded bed 14,
+       each sound once per half. **Left:** run `fliers.test.ts` alone with a
+       590 s timeout against the 14-flower bed (unchecked); step 4, seam
+       grass over the whole world (`grass.ts` — the right end's horizon is
+       bare in `look/*-right-end.png`); step 5, the released insect's first
+       perch in view, plugging into `InsectView` per `scene.md`.
+    4. **Built** (71165ac, 1fc17fd, 47b2a95, b935210; `bite-11/scene.md`,
+       frames in `bite-11/look/`): `pan-input.ts`'s `Crop` (the one
+       screen↔world home), drag with glide, `←`/`→`, a key plays the
+       flowers on screen, five baked layers in ≤2048 columns with
+       parallax (`parallax.ts`), controls and insects converted through the
+       crop, `+` wired to the crop. **Decided:** the far hills part under
+       the sun along the whole stretch the pan brings under it, keeping "no
+       hill in front of the sun"; the frames read it as a low range, not a
+       hole.
     5. Play run, last: `scripts/lib/mushroom-probe.ts` (screen = world −
        scroll), a drag helper, checks that a drag pans without tapping, a
        small move taps, and the keys pan; a turn step.
