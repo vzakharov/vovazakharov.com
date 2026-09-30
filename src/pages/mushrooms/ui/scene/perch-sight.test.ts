@@ -21,8 +21,6 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { standingControls } from './sky-layout';
-import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 
@@ -44,7 +42,7 @@ function spanOf({ seed, kind }: Flier): number {
 
 /**
  * What a sweep counts: looks with two perched, and at a flower, and what each
- * found; ticks with a butterfly heading off screen, and with one roaming.
+ * found; ticks with a butterfly leaving the meadow, and with one roaming.
  */
 const COUNTS = [
   'looks',
@@ -53,7 +51,6 @@ const COUNTS = [
   'shared',
   'covered',
   'drinks',
-  'underControl',
   'offEdge',
   'behindCap',
 ] as const;
@@ -66,7 +63,6 @@ const NOTHING: Tally = {
   shared: 0,
   covered: 0,
   drinks: 0,
-  underControl: 0,
   offEdge: 0,
   behindCap: 0,
 };
@@ -79,9 +75,8 @@ type Covers = ReturnType<typeof coversOn>;
 
 /**
  * How a butterfly `span` px wide drinking at `seat` on the flower `id`
- * cannot be seen: its wings reaching into a control's tap circle or past the
- * screen's edge, or the flower's head centre inside a nearer mushroom of
- * `covers` as drawn.
+ * cannot be seen: its wings reaching past the world's edge, or the flower's
+ * head centre inside a nearer mushroom of `covers` as drawn.
  */
 function hiddenHow(
   stand: Stand,
@@ -89,7 +84,7 @@ function hiddenHow(
   { id, seat, span }: Drink,
 ): Count[] {
   const { layout, flowers } = stand;
-  const { width, height } = layout;
+  const { camera, height } = layout;
   const index = flowers.findIndex((flower) => flower.id === id);
   const place = layout.flowers[index];
   const flower = flowers[index];
@@ -97,19 +92,10 @@ function hiddenHow(
   const top = flowerHead(flowerGenes(flower), place.size);
   const head = { x: place.x + top.x, y: place.y + top.y };
   const half = span / 2;
-  const { picker, housePicker } = layout;
-  const controls = [...standingControls(layout), ...picker, ...housePicker];
   const how: Count[] = [];
   if (
-    controls.some(
-      ({ x, y, r }) => Math.hypot(seat.x - x, seat.y - y) < tapReach(r) + half,
-    )
-  ) {
-    how.push('underControl');
-  }
-  if (
     seat.x - half < 0 ||
-    seat.x + half > width ||
+    seat.x + half > camera.world ||
     seat.y - half < 0 ||
     seat.y + half > height
   ) {
@@ -126,7 +112,7 @@ function hiddenHow(
 
 /**
  * Plays a visit's butterflies for `VISIT` ms, counting every tick with one
- * heading off screen or roaming the air, and at every `LOOK` whether two
+ * leaving the meadow or roaming the air, and at every `LOOK` whether two
  * perched share a perch or cover more than `MOST_OVERLAP` of each other, and
  * how each drinking at a flower cannot be seen there.
  */
@@ -209,25 +195,21 @@ describe('WIDEST_SPAN', () => {
 
 describe('airSpots', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`offers a spot for every butterfly and one more on a ${name} screen, inside it by half a wingspan and clear of the controls`, () => {
+    it(`offers a spot for every butterfly and one more on a ${name} screen, inside the world by half a wingspan and across the whole of it`, () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed ^ 0xf1_0e_25);
         const spots = airSpots(layout);
         assert.ok(spots.length > INSECT_LIMITS.butterfly);
-        const { picker } = layout;
-        const { insectSize, groundTop } = layout;
-        const span = WIDEST_SPAN * insectSize;
-        const half = span / 2;
+        const { insectSize, groundTop, camera } = layout;
+        const half = (WIDEST_SPAN * insectSize) / 2;
         const bottom = groundTop + AIR_BELOW * (height - groundTop);
-        const controls = [...standingControls(layout), ...picker];
         for (const { x, y } of spots) {
-          assert.ok(x >= half && x <= width - half + 1e-9 && y >= half);
+          assert.ok(x >= half && x <= camera.world - half + 1e-9 && y >= half);
           assert.ok(y <= Math.max(half, bottom) + 1e-9);
-          for (const control of controls) {
-            const apart = Math.hypot(x - control.x, y - control.y);
-            assert.ok(apart >= tapReach(control.r) + span / 2);
-          }
         }
+        const across = spots.map(({ x }) => x);
+        assert.ok(Math.min(...across) < half + 1e-9);
+        assert.ok(Math.max(...across) > camera.world - half - 1e-9);
       }
     });
   }

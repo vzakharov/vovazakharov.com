@@ -2,9 +2,10 @@
  * Whether a flower can be seen — by an insect sitting on it, and by a child
  * looking for a flower a bee planted — and where a bee could plant one, as
  * pure functions of the layout and what stands in it. A flower in sight
- * stands clear of every control and the screen's edges by an insect's
- * wings, its head in view past the mushrooms in front of it; a flower is
- * planted only where it would be in sight on this screen.
+ * stands inside the world's edges by an insect's wings, its head in view past
+ * the mushrooms in front of it, wherever the crop stands: the controls stand
+ * on the screen, not the world, so a pan never changes what is in sight. A
+ * flower is planted only where it would be in sight.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -217,9 +218,9 @@ export type Cover = Pick<Standing, 'depth'> & {
 
 /**
  * Whether an insect on `flower` can be seen there, on `layout`: its seat
- * (`Sighting`), as far as the sway and its spot move it, stands clear of
- * every control's tap circle and of the screen's edge by half `span`, its
- * kind's widest wingspan, a butterfly's unless said, and no mushroom of
+ * (`Sighting`), as far as the sway and its spot move it, stands inside the
+ * world's edges by half `span`, its kind's widest wingspan, a butterfly's
+ * unless said, and no mushroom of
  * `covers` standing nearer the front covers the head's middle (`HEAD_SHOWN`).
  */
 export function flowerInSight(
@@ -234,16 +235,13 @@ export function flowerInSight(
     span / 2 +
     PERCH_SPREAD * head.r +
     (place.size + lift) * Math.sin(FLOWER_SWAY);
-  const { width, height } = layout;
-  const onScreen =
+  const { camera, height } = layout;
+  const inWorld =
     seat.x - reach >= 0 &&
-    seat.x + reach <= width &&
+    seat.x + reach <= camera.world &&
     seat.y - reach >= 0 &&
     seat.y + reach <= height;
-  const clear = tapCircles(layout).every(
-    ({ x, y, r }) => Math.hypot(seat.x - x, seat.y - y) >= r + reach,
-  );
-  if (!onScreen || !clear) return false;
+  if (!inWorld) return false;
   const points = [
     centre,
     ...Array.from({ length: HEAD_RING }, (_, step) => {
@@ -303,7 +301,7 @@ type Ground = {
 /**
  * Whether a flower planted at `foot` would have ground there among the
  * flowers of `standing`, off every foot of `claimed` (`groundFor`), and be
- * in sight on `layout`, this screen (`flowerInSight`), whatever its genes.
+ * in sight on `layout` (`flowerInSight`), whatever its genes.
  */
 function plantable(
   layout: MeadowLayout,
@@ -330,8 +328,8 @@ function groundIn({ layout, flowers, planted, mushrooms }: Stand): Ground {
 /**
  * Whether the child can plant a flower at `foot` on `stand`: the meadow
  * holds fewer than `FLOWER_LIMIT`, the seeded flowers counted, and the foot
- * is `plantable` as a bee's planting would be, so the flower stands on
- * every screen and is in sight on this one.
+ * is `plantable` as a bee's planting would be, so the flower stands and is
+ * in sight on every screen.
  */
 export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
   const { flowers, planted } = stand;
@@ -352,7 +350,7 @@ export function roomIn(stand: Stand): (foot: FlowerFoot) => boolean {
 
 /**
  * Where a bee could plant round each flower of `shown`: the first ring slot
- * no planted flower takes that is `plantable`, in sight on this screen, off
+ * no planted flower takes that is `plantable`, in sight, off
  * the foot of every mushroom standing (`mushroomFeet`).
  */
 export function roomFor(

@@ -5,8 +5,8 @@
  * (`flower-sight.ts`); a perch holds one insect at a time, and none goes to a
  * perch crowded by a taken one for the two kinds' wings, so no two drawn
  * insects cover much of each other. An insect with no perch open roams
- * between spots in the open air over the meadow, clear of the controls and
- * inside the screen, as many as the meadow holds insects on every screen,
+ * between spots in the open air over the whole world, inside its edges, as
+ * many as the meadow holds insects on every screen,
  * and no two spots nearer than the two kinds' wingspans are held at once, so
  * hovering insects never overlap while the air has room.
  */
@@ -42,7 +42,6 @@ import {
   type Sighting,
   sightingOf,
   type Stand,
-  tapCircles,
   WIDEST_SPAN,
 } from './flower-sight';
 import type { MeadowLayout } from './layout';
@@ -76,7 +75,8 @@ export const AIR_BELOW = 0.15;
 
 /**
  * How far down the screen, as a share of its height, an insect flies in from
- * off screen and out to, about: the middle of the view's band for it.
+ * past the world's side and out to, about: the middle of the view's band for
+ * it.
  */
 const AWAY_DOWN = 0.34;
 
@@ -213,13 +213,14 @@ const airOf = perLayout((layout) => {
 
 /**
  * The spots in the open air a roaming insect flies between: a grid over the
- * sky and hills, down over the back of the ground by `AIR_BELOW`, its rows and
- * columns one narrowest kind's wingspan apart, or half that where the controls
- * leave too little air for the coarser grid to seat every insect the meadow
- * can hold clear of each other (`seatsEveryOne`), so each kind keeps to spots
- * its own span apart (`perchSight`); a butterfly's widest wings stay inside
- * the screen and clear of every control's tap circle. Each is named by its
- * place in the grid, so a resize moves a spot rather than renaming it.
+ * sky and hills of the whole world, down over the back of the ground by
+ * `AIR_BELOW`, its rows and columns one narrowest kind's wingspan apart, or
+ * half that where the coarser grid is too small to seat every insect the
+ * meadow can hold clear of each other (`seatsEveryOne`), so each kind keeps
+ * to spots its own span apart (`perchSight`); a butterfly's widest wings stay
+ * inside the world. The controls stand on the screen, not the world, so no
+ * spot keeps off them. Each is named by its place in the grid, so a resize
+ * moves a spot rather than renaming it.
  */
 export function airSpots(layout: MeadowLayout): ReadonlyArray<WithId & Point> {
   return airOf(layout).spots;
@@ -227,14 +228,13 @@ export function airSpots(layout: MeadowLayout): ReadonlyArray<WithId & Point> {
 
 /** `airSpots`' grid with its rows and columns about `step` px apart. */
 function airGrid(layout: MeadowLayout, step: number): Array<WithId & Point> {
-  const { width, height, groundTop } = layout;
+  const { camera, height, groundTop } = layout;
   const half = widestOn(layout, 'butterfly') / 2;
-  const [left, right] = [half, width - half];
+  const [left, right] = [half, camera.world - half];
   const ground = height - groundTop;
   const [top, bottom] = [half, Math.max(half, groundTop + AIR_BELOW * ground)];
   const across = Math.max(2, Math.floor((right - left) / step) + 1);
   const down = Math.max(2, Math.floor((bottom - top) / step) + 1);
-  const controls = tapCircles(layout);
   return Array.from({ length: across * down }, (_, index) => {
     const [column, row] = [index % across, Math.floor(index / across)];
     return {
@@ -242,11 +242,7 @@ function airGrid(layout: MeadowLayout, step: number): Array<WithId & Point> {
       x: left + ((right - left) * column) / (across - 1),
       y: top + ((bottom - top) * row) / (down - 1),
     };
-  }).filter(({ x, y }) =>
-    controls.every(
-      (control) => Math.hypot(x - control.x, y - control.y) >= control.r + half,
-    ),
-  );
+  });
 }
 
 /** The spots a cap's track is drawn through, enough that its dome's curve between two stays well inside an insect's wings. */
@@ -324,7 +320,7 @@ export function perchSight(stand: Stand): Sight {
           [
             perchName({ kind: 'away', side }),
             {
-              x: side === 'left' ? -reach : layout.width + reach,
+              x: side === 'left' ? -reach : layout.camera.world + reach,
               y: layout.height * AWAY_DOWN,
             },
           ] as const,

@@ -56,15 +56,6 @@ const playingOf = (kinds: readonly InsectKind[]): Playing => ({
 });
 /** Enough visits that the flies' share of landings on spotted caps holds steady on every screen. */
 const LANDING_SEEDS = VISITS.slice(0, 20);
-/**
- * The screens that fall short of the air's promise, a spot for every insect
- * clear of the others, and by how much, as measured; their tests run as todo
- * there.
- */
-const AIR_UNMET: Partial<Record<(typeof VIEWPORTS)[number][0], string>> = {
-  'small phone':
-    'its grid seats eight of the ten apart, and over these three visits two fliers hold overlapping spots on 33% of ticks with the opening clump, 0.28% with a full forest',
-};
 /** Four butterflies and three bees, released in turn. */
 const BEES_AMONG_BUTTERFLIES: readonly InsectKind[] = [
   'butterfly',
@@ -164,7 +155,7 @@ function seatedClash(
 
 /**
  * What all ten fliers of a visit did over `LASTING`: the first time one
- * headed off screen or two sat crowded (`seatedClash`), if ever, and how many
+ * headed away or two sat crowded (`seatedClash`), if ever, and how many
  * ticks it was played for, and on how many two held spots in the air whose
  * wings overlap (`overlapAloft`).
  */
@@ -202,28 +193,20 @@ function allTen(
 
 describe('the air', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    const todo = AIR_UNMET[name];
-    it(
-      `holds a spot for every insect the meadow can hold, each clear of the others by their kinds' spans, on a ${name} screen`,
-      { todo },
-      () => {
-        for (const seed of VISITS.slice(0, 50)) {
-          const { air, crowded } = perchSight(
-            opened(seed, width, height, false),
+    it(`holds a spot for every insect the meadow can hold, each clear of the others by their kinds' spans, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 50)) {
+        const { air, crowded } = perchSight(opened(seed, width, height, false));
+        const held: Held[] = [];
+        for (const kind of EVERY_ONE) {
+          const blocked = blockedFor(kind, held, crowded);
+          const id = air.find(
+            (each) => !blocked.has(perchName({ kind: 'air', id: each })),
           );
-          const held: Held[] = [];
-          for (const kind of EVERY_ONE) {
-            const blocked = blockedFor(kind, held, crowded);
-            const id = air.find(
-              (each) => !blocked.has(perchName({ kind: 'air', id: each })),
-            );
-            if (id !== undefined)
-              held.push({ kind, perch: { kind: 'air', id } });
-          }
-          assert.equal(held.length, EVERY_ONE.length, `visit ${String(seed)}`);
+          if (id !== undefined) held.push({ kind, perch: { kind: 'air', id } });
         }
-      },
-    );
+        assert.equal(held.length, EVERY_ONE.length, `visit ${String(seed)}`);
+      }
+    });
   }
 });
 
@@ -238,20 +221,16 @@ describe('all ten fliers of a visit', () => {
         }
       });
 
-      it(
-        `hold spots in the air apart, over five minutes on a ${name} screen with ${grown}`,
-        { todo: AIR_UNMET[name] },
-        () => {
-          const count = { ticks: 0, aloft: 0 };
-          for (const seed of SEEDS) {
-            const { ticks, aloft } = allTen(seed, width, height, forest);
-            count.ticks += ticks;
-            count.aloft += aloft;
-          }
-          const aloft = share(count.aloft, count.ticks);
-          assert.equal(count.aloft, 0, `overlapping aloft ${String(aloft)}`);
-        },
-      );
+      it(`hold spots in the air apart, over five minutes on a ${name} screen with ${grown}`, () => {
+        const count = { ticks: 0, aloft: 0 };
+        for (const seed of SEEDS) {
+          const { ticks, aloft } = allTen(seed, width, height, forest);
+          count.ticks += ticks;
+          count.aloft += aloft;
+        }
+        const aloft = share(count.aloft, count.ticks);
+        assert.equal(count.aloft, 0, `overlapping aloft ${String(aloft)}`);
+      });
     }
   }
 });
