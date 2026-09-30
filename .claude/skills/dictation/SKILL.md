@@ -152,7 +152,7 @@ three of the seven places the text needed a correction.
 ## Step 3 — Write the dictation file
 
 `writing/<project>/dictations/<slug>.md`, no frontmatter — the keys in
-`@.claude/rules/writing.md` describe post drafts, and this is not one.
+`@writing/CLAUDE.md` describe post drafts, and this is not one.
 
 Four parts, in this order, and only one of them is the recording:
 
@@ -206,7 +206,7 @@ place, and five departures are licensed.
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
 rule does **not** ask: that the result read well. The recording was loose, so the
 text is loose — smoothness is the tell that a sentence has been improved rather
-than transcribed, which is the same rule `@.claude/rules/writing.md` § "Voice"
+than transcribed, which is the same rule `@writing/CLAUDE.md` § "Voice"
 states for drafts.
 
 The slip and the insertion are the two to be careful with, because both are you
@@ -282,7 +282,7 @@ A dictation is dense with "об этом мы поговорим позже" and
 раньше" — a recording makes more of these per minute than a draft does, because
 nothing on the way out of a mouth stops to check that the promise is keepable.
 Each one gets its link as the file is written, under the rule
-`@.claude/rules/writing.md` § "Ideas and the threads between them" states.
+`@writing/CLAUDE.md` § "Ideas and the threads between them" states.
 
 ## What happens after
 

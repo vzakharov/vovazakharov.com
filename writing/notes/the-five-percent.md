@@ -341,7 +341,7 @@ was plain to the agent that wrote it.
 
 ## Not bumps
 
-Flagging two words missing from verbatim text is `.claude/rules/writing.md`
+Flagging two words missing from verbatim text is `writing/CLAUDE.md`
 doing its job, not judgement: every learning above is one no rule caught.
 
 **A verdict on his own material, filed as a blind spot.** Told the limits
