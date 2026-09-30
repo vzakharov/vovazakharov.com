@@ -9,28 +9,28 @@
   "url": "https://claude.ai/code/session_01XyW49KwhrenZGUGVG5bxT7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-30T02:20:07.473Z",
-  "lastResponseAt": "2026-09-30T16:27:06.310Z",
+  "lastResponseAt": "2026-09-30T16:27:17.262Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": 0.5586602,
   "total": {
-    "inputTokens": 3741,
+    "inputTokens": 3747,
     "cacheWrite5mTokens": 1439753,
-    "cacheWrite1hTokens": 266175,
-    "cacheReadTokens": 49248208,
-    "outputTokens": 32301,
+    "cacheWrite1hTokens": 267063,
+    "cacheReadTokens": 49680406,
+    "outputTokens": 32502,
     "thinkingTokens": 5336,
-    "responses": 354,
-    "costUsd": 19.8470376
+    "responses": 356,
+    "costUsd": 19.944625200000004
   },
   "ownTurns": {
-    "inputTokens": 129,
+    "inputTokens": 135,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 266175,
-    "cacheReadTokens": 9668012,
-    "outputTokens": 26222,
+    "cacheWrite1hTokens": 267063,
+    "cacheReadTokens": 10100210,
+    "outputTokens": 26423,
     "thinkingTokens": 5336,
-    "responses": 60,
-    "costUsd": 4.587958399999999
+    "responses": 62,
+    "costUsd": 4.685545999999999
   },
   "subagents": {
     "inputTokens": 576,
@@ -44,18 +44,18 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3741,
+      "inputTokens": 3747,
       "cacheWrite5mTokens": 1439753,
-      "cacheWrite1hTokens": 266175,
-      "cacheReadTokens": 49248208,
-      "outputTokens": 32301,
+      "cacheWrite1hTokens": 267063,
+      "cacheReadTokens": 49680406,
+      "outputTokens": 32502,
       "thinkingTokens": 5336,
-      "responses": 354,
-      "costUsd": 19.8470376
+      "responses": 356,
+      "costUsd": 19.944625200000004
     }
   },
   "warnings": [
-    "prices.json priced the 347 responses the events also priced at $19.5444, against the events' $23.9659: a rate in the table is likely out of date"
+    "prices.json priced the 349 responses the events also priced at $19.6515, against the events' $24.0729: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "end_turn",
@@ -75,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 353,
-    "matched": 347,
-    "matchedTableUsd": 19.544406999999996,
-    "matchedEventUsd": 23.965887000000013,
+    "events": 355,
+    "matched": 349,
+    "matchedTableUsd": 19.651467999999998,
+    "matchedEventUsd": 24.07294800000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 3036,
