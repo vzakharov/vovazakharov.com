@@ -915,7 +915,9 @@ not 24, because phoneL stands the clump under the zoom floor and growth does
 not place the clump. Near-square windows of ~320–360 px each way (no phone has one)
 fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
 ground; no test covers them. The play run shoots no 568×320 screen, so the
-tests alone hold it. On tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
+tests alone hold it. The play run's world-end drag check skips where
+no cap or flower at an end has bare ground beside it — both ends on tabL
+in the keys run, whose right-end frame shows grass round every cap. On tablets the front mushroom's stem can run to the bottom edge. On phoneP one planted flower
 reads larger than its neighbours at the same depth. The play run shoots
 no refused `+` and no bees planting in a full forest.
 The sky may read a little plain since bite 7 tamed the halo.
