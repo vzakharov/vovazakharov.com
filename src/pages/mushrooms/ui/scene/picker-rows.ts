@@ -117,8 +117,7 @@ type Room = Record<'from' | 'to' | 'floor', number> & {
  * other and from `row`, its ends' reach `PICK_CLEAR` inside the band's;
  * otherwise in rows under `row` (`stacked`) where those keep above the room's
  * floor and `PICK_CLEAR` from its standing buttons; and on a screen too small
- * for either, in
- * the band as it falls.
+ * for either, in the band as it falls.
  */
 export function completed(
   row: readonly Circle[],

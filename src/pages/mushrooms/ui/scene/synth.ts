@@ -3,7 +3,7 @@
 /** A sound, played into `out` from the context's current time. */
 export type Voice = (context: AudioContext, out: AudioNode) => void;
 
-/** A major pentatonic from C5, so any run of chimes is in tune. */
+/** A major pentatonic from C5, so any run of its notes is in tune. */
 export const PENTATONIC = [
   523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66,
 ];

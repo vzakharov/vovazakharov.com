@@ -213,7 +213,7 @@ export function placeControls(
       ) + BUTTON_INSET,
     to: cornered ? house.x - hit - BUTTON_INSET : width - BUTTON_INSET,
     floor: groundTop * COLUMN_REACH,
-    // The fly and the bee give way to an open picker where they share its band.
+    // Those `yielding` are hidden while a picker is open, so it may stand over them.
     standing: [
       plus,
       minus,

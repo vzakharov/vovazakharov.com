@@ -24,7 +24,7 @@ type PickButton<Towards> = Button & {
   hiddenAt: number;
   /** What it was picked for, whose place it flies to as it goes. */
   towards: Towards | undefined;
-  /** Where the layout stands that. */
+  /** Where the layout stands it. */
   target: Point | undefined;
 };
 

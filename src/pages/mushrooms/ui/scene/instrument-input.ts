@@ -14,11 +14,11 @@ const CHORD_POINTER = 99;
 
 /**
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
- * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a played key opening the
- * flowers of its sound in sight; and with more fingers than one, each finger
- * past the first playing the flower under it and nothing else, so every
- * other gesture keeps to one finger — Phaser, taking one pointer, never sees
- * the rest. Returns what stops both.
+ * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a
+ * played key opening the flowers of its sound in sight; and with more
+ * fingers than one, each finger past the first playing the flower under it
+ * and nothing else, so every other gesture keeps to one finger — Phaser,
+ * taking one pointer, never sees the rest. Returns what stops both.
  */
 export function playTheFlowers(
   scene: Phaser.Scene,

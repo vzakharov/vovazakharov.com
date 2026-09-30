@@ -50,9 +50,8 @@ export function puffFrom(
  * half a step round from the first, opening to its reach as they drift up.
  * They stay opaque and go by shrinking — a spore fading by alpha takes on
  * whatever is behind it and reads as a hole in the cap or a bubble in the
- * sky. The rings are drawn in a container of their own, which each frame
- * takes the anchor's place and its reach against the reach puffed at; the
- * container is destroyed when the last dot's flight ends.
+ * sky. The rings follow `anchor` every frame, and are destroyed when the
+ * last dot's flight ends.
  */
 export function puffSpores(
   scene: Phaser.Scene,

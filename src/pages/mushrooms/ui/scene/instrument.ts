@@ -9,15 +9,15 @@ import {
 import type { KeyAction } from './keyboard';
 import type { MeadowSound } from './sound';
 
+/** What of the meadow's synth the instrument plays through. */
+type Synth = Pick<MeadowSound, 'note' | 'drum' | 'start'>;
+
 /**
  * The flowers played as one instrument: a flower's note sounds nearest the
  * melody's last (`strike`), a key's sounds where the keyboard's octave puts
  * it, and either becomes the melody's last, so a child on the flowers and a
  * parent on the keys play in one register.
  */
-/** What of the meadow's synth the instrument plays through. */
-type Synth = Pick<MeadowSound, 'note' | 'drum' | 'start'>;
-
 export class Instrument {
   private readonly voice: Synth;
   /** Seconds on the scene's clock. */

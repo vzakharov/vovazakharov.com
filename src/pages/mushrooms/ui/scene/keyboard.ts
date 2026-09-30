@@ -67,9 +67,9 @@ export function keyAction(event: Pressed): KeyAction | undefined {
 }
 
 /**
- * Plays the key presses `host` takes into `onKey` while it holds focus, and not the
- * page's: single-letter keys bound page-wide would take a screen reader's
- * own. Returns what stops listening.
+ * Plays the key presses `host` takes into `onKey` while it holds focus, and
+ * not the page's: single-letter keys bound page-wide would take a screen
+ * reader's own. Returns what stops listening.
  */
 export function listenForKeys(
   host: HTMLElement,

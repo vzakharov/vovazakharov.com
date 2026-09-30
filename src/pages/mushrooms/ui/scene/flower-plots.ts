@@ -2,9 +2,9 @@
  * Where every flower stands, seeded and planted alike: a seeded flower on its
  * foot of the visit's bed, which `layout.flowers` shows, a bee's in its ring
  * slot round its parent, on the ground, and the child's on the tuft it was
- * planted on — each where it has ground (`groundFor`). A slot is fixed on the ground in the parent's size,
- * so a turn or a resize moves no flower, and a well-visited flower grows a
- * round bed.
+ * planted on — each where it has ground (`groundFor`). A slot is fixed on
+ * the ground in the parent's size, so a turn or a resize moves no flower,
+ * and a well-visited flower grows a round bed.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -146,10 +146,10 @@ function footOf(
 /**
  * Every flower that stands on `layout` among `mushrooms`: the seeded ones of
  * the visit's bed, then each planted one, a bee's round its parent and the
- * child's on its tuft, in the order they opened, so a parent always stands before its children (`footOf`). A
- * planted flower stands only where it has ground (`groundFor`) off the feet
- * of the mushrooms standing now, so a mushroom grown on it hides it while
- * that mushroom stands.
+ * child's on its tuft, in the order they opened, so a parent always stands
+ * before its children (`footOf`). A planted flower stands only where it has
+ * ground (`groundFor`) off the feet of the mushrooms standing now, so a
+ * mushroom grown on it hides it while that mushroom stands.
  */
 export function standingFlowers(
   layout: MeadowLayout,

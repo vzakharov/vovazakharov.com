@@ -360,11 +360,11 @@ export async function playInsects(
   await page.step(4);
   await page.shoot('b5-tapped-through');
 
-  // A mushroom sunk under a resting butterfly sends it off. The cap a
-  // butterfly firstRest rests on is selected — through the butterfly where it
-  // covers the cap whole, which startles it — and then a butterfly resting
-  // on the selected cap is waited for, so the tap never startles the one
-  // the sink is to send off.
+  // A mushroom sunk under a resting butterfly sends it off. The cap the
+  // first resting butterfly is on is selected — through the butterfly where
+  // it covers the cap whole, which startles it — and then a butterfly
+  // resting on the selected cap is waited for, so the tap never startles the
+  // one the sink is to send off.
   const firstRest = await waitForCapRest();
   if (firstRest?.to.kind !== 'cap') {
     expect(false, 'no butterfly ever rested on a cap');
