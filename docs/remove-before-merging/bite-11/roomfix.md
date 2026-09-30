@@ -108,3 +108,14 @@ sun's middle). Each page load opens its own visit, so the two differ in
 flowers and hills too. The difference is faint either way: at 82 px the glow
 round the sun is mostly the sky's halo; at 151 px the near hills under the
 sun come out a little warmer. Script: `tmp/roomfix/shoot.ts`.
+
+## The tap-lands test (d5d0715)
+
+Replaces the fingertip bounds: zero misses at the head's middle, every grown
+mushroom keeping at least 80% of its head's taps (3 px grid). Green in a
+clean worktree (worst 83.0% tablet, 84.7% small phone). **Re-run it at the
+current head:** run while flowers' step 3 (the 14-flower bed, a675f2e) was
+still uncommitted in the tree, the tablet failed — visit 4988973,
+mushroom-10 kept 77.7% — and small phone's worst fell to 83.5%, probably a
+seeded flower standing in front of a grown head (unconfirmed). If it fails
+there, root-cause it; the 80% floor is not loosened.
