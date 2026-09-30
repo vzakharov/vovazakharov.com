@@ -36,6 +36,8 @@ const GLIDE_FRAMES = 150;
 /** A drag's travel across, as a share of the screen's width, and how many frames it takes. */
 const DRAG_ACROSS = 0.3;
 const DRAG_FRAMES = 12;
+/** The most of the crop's room toward the world's end that a drag takes, the rest left to its glide. */
+const ROOM_DRAGGED = 0.6;
 /** How far a press that still taps moves, in CSS px: well inside the slop. */
 const NUDGE = SLOP * 0.6;
 
@@ -149,9 +151,12 @@ export async function playPan(
   } else {
     const before = await taps();
     const from = await crop();
-    const travel = DRAG_ACROSS * from.width;
-    // A finger moving left carries the crop right: toward the roomier side.
-    const toward = from.left < (from.world - from.width) / 2 ? 1 : -1;
+    // A finger moving left carries the crop right: toward the roomier side,
+    // leaving it room to glide on, which a phone held sideways has little of.
+    const most = from.world - from.width;
+    const toward = from.left < most / 2 ? 1 : -1;
+    const room = toward === 1 ? most - from.left : from.left;
+    const travel = Math.min(DRAG_ACROSS * from.width, room * ROOM_DRAGGED);
     await page.drag(
       start,
       { ...start, x: start.x - toward * travel },

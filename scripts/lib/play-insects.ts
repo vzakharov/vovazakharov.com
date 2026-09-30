@@ -385,7 +385,9 @@ export async function playInsects(
     (await state()).selected === capId,
     `a tap on ${capId} did not select it`,
   );
-  const onCap = await waitForCapRest(capId);
+  // Looked for three times as long: with the world's flowers and caps to
+  // choose from, a butterfly comes to one given cap seldom.
+  const onCap = await waitForCapRest(capId, LOOK * 3);
   if (onCap === undefined) {
     expect(false, `no butterfly came to rest on the selected ${capId}`);
     return;
