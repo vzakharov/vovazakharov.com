@@ -1,9 +1,3 @@
----
-description: Adding, renaming or cross-referencing a skill — the checks that cover it, names to avoid, and naming one inside another's argument
-paths:
-  - .claude/skills/**
----
-
 # Adding or renaming a skill
 
 **The vet run covers the cross-references**: `scripts/vet.sh` calls `scripts/check-skill-catalog.sh`, so there is no separate step to remember — run the script directly only when you want the answer before the next vet. What it protects: the skills are densely cross-referenced, and an `@`-reference into `.claude/` naming a file that isn't there fails **silently** — the agent follows the surviving prose and skips the step they couldn't load. It also asserts that no skill is left as an unhydrated stub. Its catalog assertions skip here by design: the catalog describes the source's own tree and is never vendored.
