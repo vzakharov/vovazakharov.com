@@ -9,28 +9,28 @@
   "url": "https://claude.ai/code/session_01Dk3bkJUqubAFtn4k7GiE5J",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-30T18:30:48.044Z",
-  "lastResponseAt": "2026-09-30T19:06:24.985Z",
+  "lastResponseAt": "2026-09-30T19:06:38.902Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 30036,
+    "inputTokens": 30042,
     "cacheWrite5mTokens": 914269,
-    "cacheWrite1hTokens": 110209,
-    "cacheReadTokens": 43053323,
-    "outputTokens": 26633,
+    "cacheWrite1hTokens": 110988,
+    "cacheReadTokens": 43380301,
+    "outputTokens": 26865,
     "thinkingTokens": 2234,
-    "responses": 330,
-    "costUsd": 14.72433959999999
+    "responses": 332,
+    "costUsd": 14.800631199999989
   },
   "ownTurns": {
-    "inputTokens": 90,
+    "inputTokens": 96,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 110209,
-    "cacheReadTokens": 4783411,
-    "outputTokens": 22048,
+    "cacheWrite1hTokens": 110988,
+    "cacheReadTokens": 5110389,
+    "outputTokens": 22280,
     "thinkingTokens": 1938,
-    "responses": 36,
-    "costUsd": 2.2796741999999997
+    "responses": 38,
+    "costUsd": 2.3559658
   },
   "subagents": {
     "inputTokens": 572,
@@ -44,18 +44,18 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 30036,
+      "inputTokens": 30042,
       "cacheWrite5mTokens": 914269,
-      "cacheWrite1hTokens": 110209,
-      "cacheReadTokens": 43053323,
-      "outputTokens": 26633,
+      "cacheWrite1hTokens": 110988,
+      "cacheReadTokens": 43380301,
+      "outputTokens": 26865,
       "thinkingTokens": 2234,
-      "responses": 330,
-      "costUsd": 14.72433959999999
+      "responses": 332,
+      "costUsd": 14.800631199999989
     }
   },
   "warnings": [
-    "prices.json priced the 322 responses the events also priced at $14.3397, against the events' $18.2213: a rate in the table is likely out of date"
+    "prices.json priced the 323 responses the events also priced at $14.3777, against the events' $18.2593: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "end_turn",
@@ -75,10 +75,10 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 330,
-    "matched": 322,
-    "matchedTableUsd": 14.33966839999999,
-    "matchedEventUsd": 18.22126839999999,
+    "events": 331,
+    "matched": 323,
+    "matchedTableUsd": 14.37767279999999,
+    "matchedEventUsd": 18.259272799999987,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 29374,
