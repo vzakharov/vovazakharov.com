@@ -1,7 +1,7 @@
 # Relay summary
 
-Relay depth: 3 of the chain the operator restarted by hand (this session
-was depth 2). Five relays remain before the cap (the plan's "The relays
+Relay depth: 4 of the chain the operator restarted by hand (this session
+was depth 3). Four relays remain before the cap (the plan's "The relays
 stay relays").
 
 ## 1. Standing constraints
@@ -61,21 +61,20 @@ branch. Pass this section on verbatim.
 ## 2. The conversation
 
 The operator sent one message: `/relay take claude/mushroom-game-syama-lbirv7`
-(the previous summary's Next step: `/go`). No other operator message
-arrived; every later turn was a subagent's report, a hook, or a container
-restart notice.
+(the previous summary's Next step: "оставь код ревью на последний кусок").
+No other operator message arrived; every later turn was a subagent's report
+or a hook.
 
-The agent attached (HEAD was detached one cost commit behind; `checkout -B`
-onto `origin`, no reset), claimed the plan, wrote `## This bite` (the three
-play-run defects, then item 10), and orchestrated Opus subagents off
-`docs/remove-before-merging/bite10/common-brief.md`: `tap`,
-`insects-spores`, `sound` in parallel; after a container restart killed
-`sound` (its work already pushed) and `play-fails`, it re-ran `play-fails`
-and `picker`; then `picker-2` (died in a second restart with everything
-pushed), `picker-3`, `tail` (gates, `/polish`, vet green), `frames` (play run
-green on all five screens, frames, Artifact build) and a publish agent
-(Artifact version 9, PR body and squash comment refreshed). The agent
-folded the bite into the plan, added megabeast notes, and paused the plan.
+The agent attached, and **reset the stale local ref with `git reset --hard`
+before reading § 1** (the same slip as bite 9's handling pickup); the old
+tip went aside as `stale-local/1` (54b5438, pre-rewrite history, nothing
+session-made). It briefed two Opus agents off
+`docs/remove-before-merging/review-bite10/common-brief.md` (e4a354b): a
+player (probe build, play run green on phoneP/phoneL/phoneS/tabL, scripted
+child sequences, 2000-visit sweeps, offline audio renders; frames 4b6b6a0)
+and a read-only reader (diff against plan item 10, mutation checks). The
+agent checked every cited line, looked at two frames, and posted review
+5360733525 (12 inline comments), then filled the megabeast notes.
 
 ## 3. Intent
 
@@ -86,56 +85,59 @@ The first idea (walking meadow) still waits for the operator.
 
 ## 4. Decisions
 
-All in the plan, item 10 of `## Eaten so far`; per-group detail in
-`docs/remove-before-merging/bite10/*.md`. The ones a reviewer is most
-likely to question: the insect size floors beat the shrink-with-the-clump
-rule (bite 9's), with ~1 flower in 6–7 losing a butterfly's wing room after
-a turn; the tap patch floor is 24 px, not a finger's 64; tufts grow only
-where a flower can stand, so every tuft shown takes one; on a short sky an
-open picker takes the top row and the buttons it covers hide
-(`Controls.yielding`); a shape press is silent (the flower plays as it
-opens); three play-run failures were check defects, not game defects.
+The review's own calls, which `/handle` may still weigh:
+
+- Stale tufts (meadow-scene.ts:410) is the one blocking comment: the
+  bite's headline claim fails after `+` or bee plantings.
+- The chord-finger comments ask a finger Phaser's pointer1 holds never to
+  be a chord finger, and `chordTap` to change nothing but bloom and sound.
+- Sound: the four violet drums need content a phone speaker reproduces
+  (>300 Hz); the hat's band edge must sit under 8 kHz; drums' loudness
+  within a stated range of a note's.
+- Tufts: a least drawn size (e.g. ≥12 px), readable as tappable, no more
+  than the cap leaves room for, the picker marking its tuft.
+- The turn test: add the opening clump (28.7% lost there) and a worst-decile
+  bound, or state the figure in the plan; the child's own flowers never
+  leave sight.
 
 ## 5. Errors and dead ends
 
-- Two container restarts killed running agents; briefs now demand a push
-  per passing step and a live hand-over note, which made the second
-  restart cost nothing.
-- Test files and a worktree agents left under `tmp/` turned vet red (the
-  test glob reaches `tmp/`); the tail agent moved them to its scratchpad,
-  which auto mode flagged; nothing of value was in them.
+- The pickup reset (above). Nothing lost; noted in megabeast § "Friction
+  found" with where the fix has to live.
+- The shallow clone: `git fetch --deepen=200` was needed before
+  `11f3f09..2be0028` resolved.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE / CLEAN.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 10 is eaten,
-  `## Rest of the elephant` holds items 11–14 and an **Open** list.
-- Bite 10's commits run from 11f3f09 (the claim) to 2be0028 (the pause);
-  the review covers everything between them.
-- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is version
-  9 (bite 10). This session is not subscribed to it.
-- Frames: `docs/remove-before-merging/frames/bite-10/` (13, README).
+  MERGEABLE / CLEAN, head 005e83e before this summary's commit.
+- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 10 eaten, review
+  posted, items 11–14 remain in `## Rest of the elephant`.
+- Review https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5360733525
+  — 12 threads, none answered yet.
+- Artifact https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG is version 9
+  (bite 10); the handled review republishes it.
 - Nothing running: no agents, no check-ins, no PR subscription.
 
 ## 7. Pointers
 
-- Plan item 10 of `## Eaten so far`; `## Rest of the elephant` → **Open**.
-- `docs/remove-before-merging/bite10/` — the brief and every group's
-  hand-over note.
-- The play run: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`, then
-  `pnpm play:mushrooms --no-build --screens <name>`, one screen per call
-  (~4 min each).
-- `.claude/skills/megabeast/notes.md` § "Friction found".
-- Review loop instructions: plan § "How this elephant is eaten", step 2.
+- The review's threads: `gh api repos/vzakharov/vovazakharov.com/pulls/57/reviews/5360733525/comments`,
+  or `python3 scripts/export-github-item.py 57`.
+- Frames: `docs/remove-before-merging/frames/bite-10-review/` (README).
+- The sweeps behind the numbers were under `tmp/review-bite10/` and do not
+  survive the relay; each comment states its property so a test can be
+  rewritten from it.
+- Plan § "How this elephant is eaten" step 3 (the `/handle` session's
+  duties); `docs/remove-before-merging/handle-bite9/` as the last handling's
+  brief shape.
+- `.claude/skills/megabeast/notes.md`.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
 
-That is: review bite 10's commits (11f3f09..2be0028) as the operator would,
-per the plan's § "How this elephant is eaten" step 2: play the page on
-phone and tablet sizes before judging the look (the tuft picker, the sound
-mapping and keyboard can be checked in code and in the play run's frames),
-post one PR review with inline comments specific enough to act on, fill the
-megabeast notes, then `/relay /handle`.
+That is: answer every thread of review 5360733525 (reply on GitHub, never
+resolve), push the fixes as one commit per thread, commit frames of the
+fixes to `docs/remove-before-merging/frames/bite-10/`, republish the
+Artifact, then take bite 11 in the same session if context is under ~140k,
+otherwise pause and `/relay /go`.
