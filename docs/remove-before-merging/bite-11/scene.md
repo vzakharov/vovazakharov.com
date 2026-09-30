@@ -50,10 +50,20 @@
   lint but no one has seen them render. Check first (probe build, CDP at
   tablet 1180×820@2 and phone 390×844@3): no gap or seam between columns,
   the hills sliding at their parallax on a drag, the sun's widened valley.
+- Step 6 looked at (`look/`, production build, touch drags over CDP; each
+  load is a fresh visit, so the frames of one screen are not one meadow):
+  no seam between bake columns, nor between the ground and the hills at
+  either world end; far hills slide ~0.3 of the ground (tablet: ground
+  +484 px to the left end, the farthest range +147 px). The sun's parted
+  valley reads as a low range behind the near hills on both screens, not
+  as a hole. Seen wrong, not this package's: seam grass (`grass.ts`,
+  `0..width`) and the sprouting tufts (`tufts.ts`) cover only the world's
+  left stretch — both world-end-right frames show a bare horizon and no
+  sprouts.
 - The controls' tuft and fly-out targets are taken at the controls' last
   paint (every dispatch): a pan with the flower picker open leaves it
   folding back to where the tuft stood on screen then.
-- Step 6: `flock tmp/site.lock pnpm build:vova` and the `/preview` look.
+
 
 ## Decided
 
