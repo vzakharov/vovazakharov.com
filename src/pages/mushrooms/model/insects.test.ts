@@ -11,7 +11,6 @@ const PERCHES = {
   crowded: [],
   spotted: [],
   room: [],
-  seededFlowers: 0,
 };
 /** Two kinds, as the meadow will hold once a second one flies. */
 const LIMITS = { butterfly: 2, fly: 3 } as const;

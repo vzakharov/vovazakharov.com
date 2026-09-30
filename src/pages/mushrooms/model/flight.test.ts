@@ -25,7 +25,7 @@ const {
   hovering: HOVERING,
 } = FLIGHT_HABITS[kind];
 /** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
-const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
+const BARE = { spotted: [], room: [] } as const;
 
 const CAPS = ['mushroom-1', 'mushroom-2', 'mushroom-3'];
 const FLOWERS = Array.from({ length: 7 }, (_, index) => `flower-${index + 1}`);

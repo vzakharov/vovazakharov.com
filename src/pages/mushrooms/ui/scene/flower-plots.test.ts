@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { reduce } from '../../model/game';
 import { openingIndex } from '../../model/placement';
-import { FLOWER_LIMIT, type Sown } from '../../model/pollen';
+import type { Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';
 import { standingPlaces } from './clump-layout';
 import {
@@ -39,6 +39,13 @@ const PLANTED_VISITS = 20;
 /** How many visits a tablet plants out for the median bed. */
 const BED_VISITS = 200;
 
+/**
+ * How many flowers a visit plants at the most: the world has room for more,
+ * and this many beside the seeded bed already stand more flowers than one
+ * screen's cap of fourteen ever held.
+ */
+const PLANTINGS = 15;
+
 /** A planted-out visit, and how to lay it out on another screen. */
 type PlantedOut = Stand & {
   on: (width: number, height: number) => MeadowLayout;
@@ -46,8 +53,8 @@ type PlantedOut = Stand & {
 
 /**
  * A visit's meadow as the scene stands it on a screen `width` by `height`,
- * with `standing` in it, and as many flowers planted as the sight offers
- * room for, each in the first slot it offers, as a bee leaving each flower
+ * with `standing` in it, and flowers planted until `PLANTINGS` or the sight
+ * offers no more room, each in the first slot it offers, as a bee leaving each flower
  * in turn would plant them.
  */
 function plantedOut(
@@ -67,10 +74,9 @@ function plantedOut(
   const planted: Sown[] = [];
   const stand = { layout, flowers, mushrooms, planted };
   const random = mulberry32(seed ^ 0x50_1d);
-  for (;;) {
-    const { room, seededFlowers } = perchSight(stand);
-    const [slot] = room;
-    if (!slot || seededFlowers + planted.length >= FLOWER_LIMIT) break;
+  while (planted.length < PLANTINGS) {
+    const [slot] = perchSight(stand).room;
+    if (!slot) break;
     planted.push({
       id: `planted-${String(planted.length + 1)}`,
       seed: nextSeed(random),

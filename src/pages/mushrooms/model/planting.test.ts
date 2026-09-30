@@ -4,22 +4,13 @@ import { describe, it } from 'node:test';
 import { FLOWER_COLOURS, flowerGenes } from './flower-genes';
 import { FLOWER_SHAPES, shapeSeeds } from './flower-sounds';
 import { type Action, firstMeadow, type Meadow, reduce } from './game';
-import { FLOWER_LIMIT } from './pollen';
 import { mulberry32 } from './random';
 
 const TUFT = { x: 0.4, z: 1.3, size: 0.28 };
 const OTHER_TUFT = { x: -0.6, z: 0.8, size: 0.28 };
 const seeds = shapeSeeds(mulberry32(7), 'blue');
 const [roundOne, , pointedOne] = FLOWER_SHAPES;
-/** The visit's seeded flowers, as many as the scene opens with. */
-const SEEDED = 7;
-const SIGHT = {
-  flowers: [],
-  air: [],
-  crowded: [],
-  room: [],
-  seededFlowers: SEEDED,
-};
+const SIGHT = { flowers: [], air: [], crowded: [], room: [] };
 
 function run(actions: readonly Action[], from = firstMeadow(mulberry32(1))) {
   let state: Meadow = from;
@@ -43,7 +34,7 @@ describe('the flower picker', () => {
     const meadow = run([
       { kind: 'tuft', foot: TUFT },
       { kind: 'colour', colour: 'blue', seeds },
-      { kind: 'plant', shape: pointedOne, seededFlowers: SEEDED },
+      { kind: 'plant', shape: pointedOne },
     ]);
     assert.equal(meadow.planting, undefined);
     assert.deepEqual(meadow.planted, [
@@ -81,39 +72,27 @@ describe('the flower picker', () => {
     assert.deepEqual(meadow.planting, { foot: OTHER_TUFT, chosen: undefined });
   });
 
-  it('plants nothing once the meadow holds FLOWER_LIMIT flowers, the seeded ones counted', () => {
-    const planted = Array.from(
-      { length: FLOWER_LIMIT - SEEDED },
-      (_, index) => ({
-        id: `planted-${String(index + 1)}`,
-        seed: index,
-        foot: { x: index, z: 1, size: 0.28 },
-      }),
-    );
-    const full = run(
+  it('plants however many flowers the meadow holds, the room being the scene’s to judge', () => {
+    const planted = Array.from({ length: 40 }, (_, index) => ({
+      id: `planted-${String(index + 1)}`,
+      seed: index,
+      foot: { x: index, z: 1, size: 0.28 },
+    }));
+    const open = run(
       [
         { kind: 'tuft', foot: TUFT },
         { kind: 'colour', colour: 'blue', seeds },
       ],
       { ...firstMeadow(mulberry32(1)), planted },
     );
-    assert.equal(
-      reduce(full, { kind: 'plant', shape: roundOne, seededFlowers: SEEDED }),
-      full,
-    );
-    const roomy = { ...full, planted: planted.slice(1) };
-    const grown = reduce(roomy, {
-      kind: 'plant',
-      shape: roundOne,
-      seededFlowers: SEEDED,
-    });
-    assert.equal(grown.planted.length, FLOWER_LIMIT - SEEDED);
+    const grown = reduce(open, { kind: 'plant', shape: roundOne });
+    assert.equal(grown.planted.length, planted.length + 1);
   });
 
   it('plants nothing before a colour, and takes no colour while closed', () => {
     const early = run([
       { kind: 'tuft', foot: TUFT },
-      { kind: 'plant', shape: roundOne, seededFlowers: SEEDED },
+      { kind: 'plant', shape: roundOne },
     ]);
     assert.deepEqual(early.planted, []);
     assert.deepEqual(early.planting, { foot: TUFT, chosen: undefined });
@@ -128,10 +107,10 @@ describe('the flower picker', () => {
     const twice = run([
       { kind: 'tuft', foot: TUFT },
       { kind: 'colour', colour: 'blue', seeds },
-      { kind: 'plant', shape: roundOne, seededFlowers: SEEDED },
+      { kind: 'plant', shape: roundOne },
       { kind: 'tuft', foot: OTHER_TUFT },
       { kind: 'colour', colour: 'blue', seeds },
-      { kind: 'plant', shape: roundOne, seededFlowers: SEEDED },
+      { kind: 'plant', shape: roundOne },
     ]);
     assert.deepEqual(
       twice.planted.map(({ id }) => id),

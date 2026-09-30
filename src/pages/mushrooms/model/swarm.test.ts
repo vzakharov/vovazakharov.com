@@ -5,13 +5,7 @@ import type { Sight } from './flight';
 import { type Action, firstMeadow, type Meadow, reduce } from './game';
 import type { InsectKind } from './insect-genes';
 import { type Flier, INSECT_LIMITS } from './insects';
-import {
-  type BeeSown,
-  FLOWER_LIMIT,
-  POLLEN_MOST,
-  slotTaken,
-  type Sown,
-} from './pollen';
+import { type BeeSown, POLLEN_MOST, slotTaken, type Sown } from './pollen';
 import { mulberry32 } from './random';
 
 const SEEDED = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
@@ -42,7 +36,6 @@ function sightOf(meadow: Meadow, cramped = false): Sight {
           const ring = free(flower);
           return ring === undefined ? [] : [{ flower, ring }];
         }),
-    seededFlowers: SEEDED.length,
   };
 }
 
@@ -183,13 +176,10 @@ describe('the bees’ planting', () => {
     assert.ok(plantings > 0);
   });
 
-  it('never plants past FLOWER_LIMIT, the seeded flowers counted, and fills to it', () => {
-    const end = run(bees(3, 2), [1000, 400_000], {
-      each: (_, after) => {
-        assert.ok(SEEDED.length + after.planted.length <= FLOWER_LIMIT);
-      },
-    });
-    assert.equal(SEEDED.length + end.planted.length, FLOWER_LIMIT);
+  it('plants on for as long as the scene offers room, however many flowers stand', () => {
+    const halfway = run(bees(3, 2), [1000, 200_000]);
+    const end = run(halfway, [200_100, 400_000]);
+    assert.ok(end.planted.length > halfway.planted.length);
   });
 
   it('rings planted flowers round planted ones too, each slot once', () => {

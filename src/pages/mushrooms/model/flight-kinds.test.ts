@@ -24,7 +24,6 @@ const PERCHES: Perches = {
   air: AIR,
   crowded: [],
   room: [],
-  seededFlowers: FLOWERS.length,
 };
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 1);
 

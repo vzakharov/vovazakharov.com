@@ -49,10 +49,7 @@ export class Planter {
   };
 
   readonly plant = (shape: FlowerShape): void => {
-    const stand = this.scene.stand();
-    if (!stand) return;
-    const seededFlowers = stand.flowers.length;
-    this.scene.dispatch({ kind: 'plant', shape, seededFlowers });
+    this.scene.dispatch({ kind: 'plant', shape });
   };
 
   /** Whether the tuft the flower picker is open on can still take a flower. */

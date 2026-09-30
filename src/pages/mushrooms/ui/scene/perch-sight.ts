@@ -334,6 +334,5 @@ export function perchSight(stand: Stand): Sight {
     crowded: [...perched, ...aloft],
     places,
     room: roomFor(stand, beeFlowers, covers),
-    seededFlowers: flowers.length,
   };
 }

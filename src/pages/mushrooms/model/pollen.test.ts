@@ -5,7 +5,6 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Leg, Perch } from './flight';
 import {
-  FLOWER_LIMIT,
   NO_POLLEN,
   type Plot,
   type Pollen,
@@ -105,7 +104,6 @@ describe('sown', () => {
       { flower: 'flower-1', ring: 0 },
       { flower: 'flower-2', ring: 2 },
     ],
-    seededFlowers: 7,
   };
 
   it('plants beside the flower it pollinated, in the slot offered, as it leaves', () => {
@@ -141,9 +139,9 @@ describe('sown', () => {
     assert.equal(sown(bee, 3000, plot, [taken]), undefined);
   });
 
-  it('plants nothing once the meadow holds FLOWER_LIMIT, the seeded ones counted', () => {
+  it('plants however many flowers the meadow already holds, while the slot is offered', () => {
     const planted = Array.from(
-      { length: FLOWER_LIMIT - plot.seededFlowers - 1 },
+      { length: 40 },
       (_, index): Sown => ({
         id: `planted-${String(index + 1)}`,
         seed: index,
@@ -151,14 +149,6 @@ describe('sown', () => {
         ring: index + 10,
       }),
     );
-    assert.ok(sown(bee, 3000, plot, planted));
-    const last: Sown = {
-      id: 'planted-x',
-      seed: 0,
-      parent: 'flower-1',
-      ring: 99,
-    };
-    const full = [...planted, last];
-    assert.equal(sown(bee, 3000, plot, full), undefined);
+    assert.equal(sown(bee, 3000, plot, planted)?.id, 'planted-41');
   });
 });

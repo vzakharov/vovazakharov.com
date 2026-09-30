@@ -24,7 +24,7 @@ import { between, mulberry32 } from './random';
 
 const { flying: FLYING } = FLIGHT_HABITS.butterfly;
 /** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
-const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
+const BARE = { spotted: [], room: [] } as const;
 
 /** A roaming butterfly's spots in the air, and the cap it perches on once that frees up. */
 const AIR = Array.from({ length: 8 }, (_, index) => `air-${String(index)}`);

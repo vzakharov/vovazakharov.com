@@ -27,7 +27,7 @@ import { between, mulberry32, type Random } from './random';
 const kind = 'butterfly' as const;
 const { flying: FLYING, drinking: DRINKING } = FLIGHT_HABITS[kind];
 /** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */
-const BARE = { spotted: [], room: [], seededFlowers: 0 } as const;
+const BARE = { spotted: [], room: [] } as const;
 
 /** A leg with its stay, flown from one point to another. */
 type Flown = Path & Stay;

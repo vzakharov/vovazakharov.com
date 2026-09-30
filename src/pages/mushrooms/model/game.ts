@@ -28,7 +28,7 @@ import {
   type Species,
 } from './mushroom-genes';
 import { type Footed, OPENING_FEET } from './placement';
-import { FLOWER_LIMIT, plantedId, type Plot } from './pollen';
+import { plantedId } from './pollen';
 import type { Random, Seeded } from './random';
 
 /**
@@ -79,7 +79,7 @@ export type Action =
   | { kind: 'furnish'; piece: Furnishing }
   | { kind: 'tuft'; foot: FlowerFoot }
   | ({ kind: 'colour' } & Chosen)
-  | ({ kind: 'plant'; shape: FlowerShape } & Pick<Plot, 'seededFlowers'>)
+  | { kind: 'plant'; shape: FlowerShape }
   // A tap on a control that changes nothing here, the mute's: it closes
   // the flower picker, as any tap outside it does.
   | { kind: 'shut' }
@@ -267,8 +267,7 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     case 'plant': {
       const { planting, planted } = meadow;
       const seed = shapeSeed(planting, action.shape);
-      const full = action.seededFlowers + planted.length >= FLOWER_LIMIT;
-      if (planting === undefined || seed === undefined || full) return meadow;
+      if (planting === undefined || seed === undefined) return meadow;
       const { foot } = planting;
       return {
         ...meadow,

@@ -6,7 +6,7 @@ import { pick } from '@/shared/lib/collections';
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { MUSHROOM_SLOTS, reduce } from '../../model/game';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { FLOWER_LIMIT, plantedId, type Sown } from '../../model/pollen';
+import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import { standingFlowers } from './flower-plots';
@@ -16,8 +16,8 @@ import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 import {
   bareToTap,
-  flowersLeft,
   growTufts,
+  mostTufts,
   plantableIn,
   type Sprout,
   tendTufts,
@@ -94,8 +94,8 @@ describe('tuftAt', () => {
  * What is wrong with `sprouts` as the bare tufts of `stand`, `kept` the
  * ones shown before: a tuft that refuses a flower, is not bare to a finger,
  * is drawn under `TUFT_LEAST` or reaches into another's reach; more of them
- * than the meadow has flowers left for; none below the cap; or a tuft still
- * fit that moved or went while there was room for it.
+ * than `mostTufts` over the world; or a tuft still fit that moved or went
+ * while there was room for it.
  */
 function faultsOf(
   stand: Stand,
@@ -105,7 +105,7 @@ function faultsOf(
   const faults: string[] = [];
   const bare = bareToTap(stand);
   const plantable = plantableIn(stand);
-  const left = flowersLeft(stand);
+  const most = mostTufts(stand.layout.camera);
   for (const { foot, tuft } of sprouts) {
     if (!takesFlower(stand, foot)) faults.push('a tuft refuses');
     if (!plantable({ foot, tuft }))
@@ -124,10 +124,10 @@ function faultsOf(
       }
     }
   }
-  if (sprouts.length > left) faults.push('more tufts than flowers left');
+  if (sprouts.length > most) faults.push('more tufts than the world grows');
   const stillFit = kept.filter(plantableIn(stand));
   if (
-    sprouts.length < left &&
+    sprouts.length < most &&
     stillFit.some((each) => !sprouts.includes(each))
   ) {
     faults.push('a tuft still fit went');
@@ -136,7 +136,7 @@ function faultsOf(
 }
 
 /**
- * The share of meadows below the cap a screen may show with no bare tuft,
+ * The share of meadows a screen may show with no bare tuft,
  * none unless named: on the 280 px phone, a grown forest and a full band of
  * flowers leave no spot a flower can stand in sight off every cap and
  * finger pad, its head clear of every other, in about one meadow in seven.
@@ -145,21 +145,20 @@ const BARELESS_MOST: Partial<Record<(typeof SCREENS)[number][0], number>> = {
   '280×600': 0.16,
 };
 
-/** A tally of the meadows below the cap, and those among them with no bare tuft. */
+/** A tally of the meadows, and those among them with no bare tuft. */
 class Barren {
-  private belowCap = 0;
+  private meadows = 0;
   private readonly bare: string[] = [];
 
-  count(stand: Stand, sprouts: readonly Sprout[], at: string): void {
-    if (flowersLeft(stand) === 0) return;
-    this.belowCap++;
+  count(sprouts: readonly Sprout[], at: string): void {
+    this.meadows++;
     if (sprouts.length === 0) this.bare.push(at);
   }
 
   holdTo(most: number): void {
     assert.ok(
-      this.bare.length <= most * this.belowCap,
-      `${String(this.bare.length)} of ${String(this.belowCap)} with no tuft, first ${this.bare.slice(0, 3).join('; ')}`,
+      this.bare.length <= most * this.meadows,
+      `${String(this.bare.length)} of ${String(this.meadows)} with no tuft, first ${this.bare.slice(0, 3).join('; ')}`,
     );
   }
 }
@@ -187,7 +186,6 @@ function turned(
     const thinned = reduce(meadow, { kind: 'remove' });
     return { ...stand, meadow: thinned, ...pick(thinned, 'mushrooms') };
   }
-  if (flowersLeft(stand) === 0) return stand;
   if (roll < 0.65) {
     const { room } = perchSight(stand);
     const slot = room[Math.floor(random() * room.length)];
@@ -210,7 +208,7 @@ describe('the tufts the child plants on', () => {
     const most = BARELESS_MOST[name] ?? 0;
     const bound = most === 0 ? 'always' : `in all but ${String(most * 100)}%`;
 
-    it(`grows on the ${name} as many as the meadow has flowers left for, each taking one, bare to a finger and at least TUFT_LEAST, and one ${bound}`, () => {
+    it(`grows on the ${name} as many as \`mostTufts\` over the world, each taking one, bare to a finger and at least TUFT_LEAST, and one ${bound}`, () => {
       const barren = new Barren();
       for (let visit = 0; visit < VISITS; visit++) {
         const seed = seedOf(visit);
@@ -222,7 +220,7 @@ describe('the tufts the child plants on', () => {
             [],
             `visit ${String(seed)}`,
           );
-          barren.count(stand, sprouts, `visit ${String(seed)}`);
+          barren.count(sprouts, `visit ${String(seed)}`);
         }
       }
       barren.holdTo(most);
@@ -243,7 +241,7 @@ describe('the tufts the child plants on', () => {
           sprouts = tendTufts(stand, kept, tufting);
           const at = `visit ${String(seed)}, turn ${String(turn)}`;
           assert.deepEqual(faultsOf(stand, sprouts, kept), [], at);
-          barren.count(stand, sprouts, at);
+          barren.count(sprouts, at);
         }
       }
       barren.holdTo(most);
@@ -299,7 +297,7 @@ describe('the tufts the child plants on', () => {
     }
   });
 
-  it('refuses a second flower on a tuft already planted, and grows none once the meadow is full', () => {
+  it('refuses a second flower on a tuft already planted, and grows none once the world has no room, past the fourteen flowers a screen once held', () => {
     const seed = 3;
     let stand: Stand = opened(seed, 1180, 820, false);
     const tufting = mulberry32(seed);
@@ -308,14 +306,16 @@ describe('the tufts the child plants on', () => {
     assert.ok(first);
     const once = plantedOn(stand, first, 11);
     assert.equal(takesFlower(once, first.foot), false);
-    while (flowersLeft(stand) > 0) {
+    // Each planting takes a tuft's room, so the world fills well within this many.
+    for (let planting = 0; planting < 400 && sprouts.length > 0; planting++) {
       const [next] = sprouts;
-      assert.ok(next, `${String(flowersLeft(stand))} flowers left, no tuft`);
+      assert.ok(next);
       stand = plantedOn(stand, next, stand.planted.length + 20);
       sprouts = tendTufts(stand, sprouts, tufting);
     }
-    assert.equal(stand.flowers.length + stand.planted.length, FLOWER_LIMIT);
     assert.deepEqual(sprouts, []);
+    assert.deepEqual(growTufts(stand, mulberry32(seed + 1)), []);
+    assert.ok(stand.flowers.length + stand.planted.length > 14);
   });
 
   it('keeps every flower planted on a tuft through a turn and back, and no tuft at its root', () => {

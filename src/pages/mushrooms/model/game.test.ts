@@ -302,7 +302,6 @@ const SIGHT = {
   air: [],
   crowded: [],
   room: [],
-  seededFlowers: FLOWERS.length,
 };
 const release = (seed: number, now: number): Action => ({
   kind: 'release',
@@ -458,7 +457,6 @@ describe('the butterflies', () => {
       air: [],
       crowded: [],
       room: [],
-      seededFlowers: FLOWERS.length,
     });
     const moved = flier(after, onFlower.id);
     assert.ok(moved);

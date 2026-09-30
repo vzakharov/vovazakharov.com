@@ -3,8 +3,8 @@
  * tap lands on, and where on the ground a flower planted there stands. The
  * bare tufts are exactly the spots a flower can be planted now — each takes a
  * flower (`takesFlower`), is bare to a finger (`bareToTap`) and stays apart
- * from every other's reach — and there are never more of them than the
- * flowers the meadow still has room for. They are tended afresh whenever the
+ * from every other's reach — spread over the whole world, never denser than
+ * `TUFTS_PER_1000PX`. They are tended afresh whenever the
  * mushrooms or the flowers change, and on every paint, a tuft still fit
  * staying where it stands. Only a tap nothing else takes reaches the grass
  * (`MeadowScene.tapMeadow`).
@@ -18,7 +18,6 @@ import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
-import { FLOWER_LIMIT } from '../../model/pollen';
 import { between, type Random } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -31,12 +30,7 @@ import {
   standingOn,
 } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import {
-  sightingOf,
-  type Stand,
-  takesFlower,
-  tapCircles,
-} from './flower-sight';
+import { roomIn, sightingOf, type Stand } from './flower-sight';
 import {
   paintSprouts,
   paintTufts,
@@ -48,8 +42,12 @@ import {
 import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 
-/** How many tufts a screen grows at the most, per 1000 CSS px across. */
-const TUFTS_PER_1000PX = 52;
+/**
+ * How many tufts the meadow grows at the most, per 1000 CSS px of its world
+ * across: the tablet's opening screen shows about seven, a handful to pick
+ * from rather than a lawn of targets.
+ */
+const TUFTS_PER_1000PX = 6;
 /** How many spots are tried for each tuft a screen could grow. */
 const TUFT_TRIES = 12;
 /** How many spots across and down the flowers' band are tried when no tried spot grew a tuft. */
@@ -127,19 +125,16 @@ function sproutTuft(
   return { ...tuft, size: Math.max(TUFT_LEAST, tuft.size) };
 }
 
-/** How many more flowers `stand` has room for under `FLOWER_LIMIT`. */
-export function flowersLeft({ flowers, planted }: Stand): number {
-  return Math.max(0, FLOWER_LIMIT - flowers.length - planted.length);
-}
-
 /**
  * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, as
- * the scene hit-tests it: no control's tap circle, no flower's petals as far
+ * the scene hit-tests it wherever the crop stands: no flower's petals as far
  * as its sway takes them — past them a flower yields to a bare tuft
  * (`tuftUnder`) — and no mushroom's tap area or
  * finger pad (`tappedMushroom`) holds the tuft's middle, nor any point of the
- * core round it (`BARE_CORE`). What `stand` holds is read once, for every
- * tuft asked after.
+ * core round it (`BARE_CORE`). The controls stand on the screen, not the
+ * world, so none is tested: a tuft a pan slides under one is the control's to
+ * tap there, and the grass's again one pan on. What `stand` holds is read
+ * once, for every tuft asked after.
  */
 export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   const { layout, flowers, planted, mushrooms } = stand;
@@ -159,15 +154,13 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
     const { genes, turn } = standingAt(place, mushroom);
     return [tapTarget(genes, place.size, place, turn)];
   });
-  const controls = tapCircles(layout);
-  const clear = (circles: readonly Circle[], at: Point, reach: number) =>
-    circles.every(({ x, y, r }) => Math.hypot(x - at.x, y - at.y) > r + reach);
   return (tuft) => {
     const middle = middleOf(tuft);
     const core = BARE_CORE * tuftReach(tuft);
-    if (!clear(controls, middle, core) || !clear(heads, middle, core)) {
-      return false;
-    }
+    const clear = heads.every(
+      ({ x, y, r }) => Math.hypot(x - middle.x, y - middle.y) > r + core,
+    );
+    if (!clear) return false;
     const ring = Array.from({ length: CORE_RING }, (_, step) => {
       const angle = (step * Math.PI * 2) / CORE_RING;
       return {
@@ -183,12 +176,13 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
 
 /**
  * Whether the child can plant on a tuft of `stand`, whatever else grows
- * there: it takes a flower (`takesFlower`) whose head, however it grows,
+ * there: it takes a flower (`roomIn`) whose head, however it grows,
  * meets no standing flower's on any screen (`headClear`), and it is bare
  * to a finger (`bareToTap`). What `stand` holds is read once, for every
  * tuft asked after.
  */
 export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
+  const room = roomIn(stand);
   const bare = bareToTap(stand);
   const standing = standingFlowers(
     stand.layout,
@@ -197,7 +191,12 @@ export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
     stand.mushrooms,
   ).map((flower) => ({ ...pick(flower, 'foot'), genes: flowerGenes(flower) }));
   return ({ foot, tuft }) =>
-    takesFlower(stand, foot) && headClear(foot, standing) && bare(tuft);
+    room(foot) && headClear(foot, standing) && bare(tuft);
+}
+
+/** How many bare tufts a meadow seen through `camera` grows at the most (`TUFTS_PER_1000PX`). */
+export function mostTufts({ world }: Camera): number {
+  return Math.round((world / 1000) * TUFTS_PER_1000PX);
 }
 
 /** Whether the reach of `tuft` stays off the reach of every tuft of `others`. */
@@ -214,12 +213,12 @@ function reachApart(tuft: Tuft, others: readonly Sprout[]): boolean {
 
 /**
  * The bare tufts of `stand`: every tuft of `kept` still fit to plant on,
- * where it stands, as many as the meadow has flowers left for, the first
- * kept first; then new ones from `random` up to that many. A tuft is fit
- * where the child can plant on it (`plantableIn`) and its reach stays off
- * every other's. New tufts are tried
- * at spots in the flowers' band, bunched toward the back, where the ground
- * recedes, and where none of those grows one, across the whole band.
+ * where it stands, as many as `TUFTS_PER_1000PX` allows over the world, the
+ * first kept first; then new ones from `random` up to that many. A tuft is
+ * fit where the child can plant on it (`plantableIn`) and its reach stays off
+ * every other's. New tufts are tried at spots in the flowers' band across the
+ * world, bunched toward the back, where the ground recedes, and where none of
+ * those grows one, across the whole band.
  */
 export function tendTufts(
   stand: Stand,
@@ -227,11 +226,9 @@ export function tendTufts(
   random: Random,
 ): Sprout[] {
   const { layout } = stand;
-  const { camera, width } = layout;
-  const most = Math.min(
-    flowersLeft(stand),
-    Math.round((width / 1000) * TUFTS_PER_1000PX),
-  );
+  const { camera } = layout;
+  const { world, groundTop, ground } = camera;
+  const most = mostTufts(camera);
   const plantable = plantableIn(stand);
   const sprouts: Sprout[] = [];
   const fits = (sprout: Sprout) =>
@@ -241,12 +238,7 @@ export function tendTufts(
   }
   const [near, far] = FLOWER_DOWN;
   const tryAt = (x: number, down: number) => {
-    const tuft = sproutTuft(
-      layout,
-      x,
-      camera.groundTop + camera.ground * down,
-      random,
-    );
+    const tuft = sproutTuft(layout, x, groundTop + ground * down, random);
     const sprout = { tuft, foot: tuftFoot(camera, tuft) };
     if (fits(sprout)) sprouts.push(sprout);
   };
@@ -255,12 +247,12 @@ export function tendTufts(
     tries > 0 && sprouts.length < most;
     tries--
   ) {
-    tryAt(between(random, 0, width), near + (far - near) * random() ** 1.4);
+    tryAt(between(random, 0, world), near + (far - near) * random() ** 1.4);
   }
   if (most === 0 || sprouts.length > 0) return sprouts;
   const [across, down] = GRID;
   const spots = Array.from({ length: across * down }, (_, index) => ({
-    x: (((index % across) + 0.5) / across) * width,
+    x: (((index % across) + 0.5) / across) * world,
     down: near + ((far - near) * (Math.floor(index / across) + 0.5)) / down,
   }));
   spots.some(({ x, down: at }) => {

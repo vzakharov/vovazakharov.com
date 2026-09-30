@@ -1,9 +1,8 @@
 /**
  * A bee's pollen, and the flowers it plants. A bee carries pollen from the
  * last flower it drank at; landing at a different one pollinates it, and as
- * it leaves that flower a new one is planted in a free ring slot round it —
- * while the meadow holds fewer than `FLOWER_LIMIT` and the scene offers the
- * room. Nothing here knows where a slot stands: the scene fixes each on the
+ * it leaves that flower a new one is planted in a free ring slot round it,
+ * wherever the scene offers the room. Nothing here knows where a slot stands: the scene fixes each on the
  * ground round its parent, and says which flowers have room, and in which.
  */
 
@@ -12,8 +11,6 @@ import type { Flower } from './flower-genes';
 import type { Rooted } from './ground';
 import { mulberry32, nextSeed, type Seeded } from './random';
 
-/** How many flowers the meadow holds at most, the seeded ones counted. */
-export const FLOWER_LIMIT = 14;
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;
 
@@ -21,12 +18,8 @@ export const POLLEN_MOST = 3;
 type Ringed = { ring: number };
 /** A flower in sight with a ring slot free round it, and the slot. */
 type Room = Ringed & { flower: string };
-/**
- * What the scene says of the room to plant in: the flowers a planted one
- * could open beside, and how many seeded flowers stand, which count toward
- * `FLOWER_LIMIT` with the planted ones.
- */
-export type Plot = { room: readonly Room[]; seededFlowers: number };
+/** What the scene says of the room to plant in: the flowers a planted one could open beside. */
+export type Plot = { room: readonly Room[] };
 
 /**
  * A flower a bee planted, in ring slot `ring` round `parent` — a seeded
@@ -39,10 +32,7 @@ export type BeeSown = Flower & Ringed & { parent: string };
  * planted on a tuft.
  */
 export type RootedFlower = Flower & Rooted;
-/**
- * A planted flower, a bee's or the child's: both count toward
- * `FLOWER_LIMIT`, and either can be a bee's parent.
- */
+/** A planted flower, a bee's or the child's: either can be a bee's parent. */
 export type Sown = BeeSown | RootedFlower;
 
 /** Whether `flower` is a bee's, ringed round its parent, rather than the child's. */
@@ -139,20 +129,18 @@ export function specksAt(
 
 /**
  * The flower planted as `bee` leaves its current leg at `now`: beside the
- * flower that leg took it to, when it landed there and pollinated it, the
- * meadow holds fewer than `FLOWER_LIMIT` with `planted` counted, and `plot`
- * offers a slot there no planted flower already takes. Its seed comes off
+ * flower that leg took it to, when it landed there and pollinated it and
+ * `plot` offers a slot there no planted flower already takes. Its seed comes off
  * the bee's own stream, so a replay plants the same flowers.
  */
 export function sown(
   { seed, leg, legs, pollen }: Seeded & Flight & Carrying,
   now: number,
-  { room, seededFlowers }: Plot,
+  { room }: Plot,
   planted: readonly Sown[],
 ): BeeSown | undefined {
   const parent = landedAt(leg, now);
   if (!pollen.pollinates || parent === undefined) return undefined;
-  if (seededFlowers + planted.length >= FLOWER_LIMIT) return undefined;
   const slot = room.find(
     ({ flower, ring }) =>
       flower === parent && !slotTaken(planted, parent, ring),

@@ -78,7 +78,6 @@ export class MeadowScene extends Phaser.Scene {
     air: [],
     crowded: [],
     room: [],
-    seededFlowers: 0,
   };
   /** Where each spot in the open air stands, by id, as the screen stands now. */
   private air = new Map<string, Point>();

@@ -28,7 +28,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
-import { FLOWER_LIMIT, type Plot, slotTaken } from '../../model/pollen';
+import { type Plot, slotTaken } from '../../model/pollen';
 import { placeIn } from './clump-layout';
 import { type Standing, standingAt } from './door-sight';
 import { FLOWER_SWAY, type FlowerFoot, standingOn } from './flower-layout';
@@ -326,20 +326,18 @@ function groundIn({ layout, flowers, planted, mushrooms }: Stand): Ground {
 }
 
 /**
- * Whether the child can plant a flower at `foot` on `stand`: the meadow
- * holds fewer than `FLOWER_LIMIT`, the seeded flowers counted, and the foot
- * is `plantable` as a bee's planting would be, so the flower stands and is
- * in sight on every screen.
+ * Whether the child can plant a flower at `foot` on `stand`: it is
+ * `plantable` as a bee's planting would be, so the flower stands and is in
+ * sight on every screen (`roomIn`, for one foot).
  */
 export function takesFlower(stand: Stand, foot: FlowerFoot): boolean {
-  const { flowers, planted } = stand;
-  return flowers.length + planted.length < FLOWER_LIMIT && roomIn(stand)(foot);
+  return roomIn(stand)(foot);
 }
 
 /**
  * Whether a flower planted at a foot on `stand` would stand there and be in
- * sight (`plantable`), however full the meadow: what `stand` holds read
- * once, for every foot asked after.
+ * sight (`plantable`): what `stand` holds read once, for every foot asked
+ * after.
  */
 export function roomIn(stand: Stand): (foot: FlowerFoot) => boolean {
   const { layout, mushrooms } = stand;
