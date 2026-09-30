@@ -94,10 +94,9 @@ const apart = (a: Circle, b: Circle, gap: number) =>
 /**
  * The flower picker's two stages, one open at a time, in the top row the
  * other pickers share: its five colours where the house picker's five
- * stand, then its four shapes where the caps' four do. On a screen too
- * narrow for either whole — the caps' row short of four abreast, the house
- * picker's band beside the mute too narrow to hold its rest apart — a stage
- * stands as many abreast as the caps' row holds, the rest in rows under it.
+ * stand, then its four shapes where the caps' four do. Where that picker
+ * does not hold a stage's count apart, the stage stands as many abreast as
+ * the caps' row holds, the rest in rows under it.
  */
 export function flowerPicker({
   picker,
@@ -197,7 +196,8 @@ function rowAcross(
  * edge, it takes the top right corner, opposite the mute, instead. A picker
  * too long for one row at a finger's size — only ever on a screen narrow
  * enough to drop the row below the mute — puts the rest in the band that
- * leaves free beside the mute.
+ * leaves free beside the mute, or in rows under its own where that band is
+ * too narrow to hold them (`completed`).
  *
  * The insects' buttons, butterfly, fly and bee, stand down the left as Syama
  * drew the insects, or beside the mute where the sky is too short for that
@@ -255,29 +255,87 @@ export function placeControls(
   });
   // The band beside the mute, or the insects beside it, up to the house
   // where it has the corner.
-  const rest = FURNISHINGS.length - furnishRow.length;
-  const r = furnishRow[0]?.r ?? TAP_RADIUS;
-  const from =
-    Math.max(
-      mute.x + mute.r,
-      ...inTopRow.map((button) => button.x + tapReach(button.r)),
-    ) + BUTTON_INSET;
-  const to = cornered ? house.x - hit - BUTTON_INSET : width - BUTTON_INSET;
-  const band = Array.from({ length: rest }, (_, index) => ({
-    x: from + ((to - from) * (index + 1)) / (rest + 1),
-    y: BUTTON_INSET + r,
-    r,
-  }));
+  const plus = { x, y: plusY, r: GROW_R };
+  const minus = { x, y: plusY + below, r: GROW_R };
+  const room = {
+    from:
+      Math.max(
+        mute.x + mute.r,
+        ...inTopRow.map((button) => button.x + tapReach(button.r)),
+      ) + BUTTON_INSET,
+    to: cornered ? house.x - hit - BUTTON_INSET : width - BUTTON_INSET,
+    floor: groundTop * COLUMN_REACH,
+    // The fly and the bee give way to an open picker where they share its band.
+    standing: [
+      plus,
+      minus,
+      house,
+      ...(yielding ? [releases.butterfly] : Object.values(releases)),
+    ],
+  };
   return {
     mute,
     releases,
     yielding,
-    plus: { x, y: plusY, r: GROW_R },
-    minus: { x, y: plusY + below, r: GROW_R },
+    plus,
+    minus,
     house,
-    picker: pickRow,
-    housePicker: [...furnishRow, ...band],
+    picker: completed(pickRow, MUSHROOM_SPECIES.length, room),
+    housePicker: completed(furnishRow, FURNISHINGS.length, room),
   };
+}
+
+/**
+ * The room a picker's rest may take: the band beside the mute, from `from`
+ * to `to` across the top, or rows under the picker's own down to `floor`,
+ * clear of every button of `standing` still shown while it is open.
+ */
+type Room = Record<'from' | 'to' | 'floor', number> & {
+  standing: readonly Circle[];
+};
+
+/**
+ * A picker of `count` buttons whose `row` holds only some of them: the rest
+ * spread across the band of `room` where it holds them apart from each
+ * other and from `row`, each a finger's reach clear of its ends; otherwise
+ * in rows under `row` (`stacked`) where those keep above the room's floor and
+ * clear of its standing buttons; and on a screen too small for either, in
+ * the band as it falls.
+ */
+function completed(
+  row: readonly Circle[],
+  count: number,
+  { from, to, floor, standing }: Room,
+): Circle[] {
+  const rest = count - row.length;
+  if (rest === 0) return [...row];
+  const r = row[0]?.r ?? TAP_RADIUS;
+  const reach = tapReach(r);
+  const inBand = Array.from({ length: rest }, (_, index) => ({
+    x: from + ((to - from) * (index + 1)) / (rest + 1),
+    y: BUTTON_INSET + r,
+    r,
+  }));
+  const [first, ...others] = inBand;
+  const held =
+    first !== undefined &&
+    first.x - reach >= from - BUTTON_INSET &&
+    (inBand.at(-1)?.x ?? first.x) + reach <= to + BUTTON_INSET &&
+    others.every((button, index) => {
+      const before = inBand[index];
+      return before !== undefined && apart(before, button, 0);
+    }) &&
+    inBand.every((button) => row.every((other) => apart(button, other, 0)));
+  if (held) return [...row, ...inBand];
+  const under = stacked(row, count);
+  const fits = under
+    .slice(row.length)
+    .every(
+      (button) =>
+        button.y + tapReach(button.r) <= floor &&
+        standing.every((other) => apart(button, other, 0)),
+    );
+  return fits ? under : [...row, ...inBand];
 }
 
 /** The insects' buttons, each a finger's size and `GROW_GAP` from the next. */

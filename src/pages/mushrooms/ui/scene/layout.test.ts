@@ -34,7 +34,7 @@ import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
 import { SUN_GLOW_REACH } from './sun-layout';
-import { VIEWPORTS, VISITS } from './viewports';
+import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
 import { capsSpan, opened } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
@@ -260,7 +260,11 @@ describe('meadowLayout', () => {
       assert.ok(back.length >= 2);
       for (const place of back) assert.ok(place.size < nearest.size);
     });
+  }
+});
 
+describe('the controls', () => {
+  for (const [name, width, height] of [...VIEWPORTS, FLOOR_HELD]) {
     it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
       const layout = screenLayout(width, height);
       const { releases, yielding, picker, housePicker } = layout;
@@ -272,7 +276,7 @@ describe('meadowLayout', () => {
       }
       // Only a screen with no room anywhere else has the fly and the bee
       // give way to an open picker.
-      assert.equal(yielding, name === 'small phone');
+      assert.equal(yielding, name === 'small phone' || name === FLOOR_HELD[0]);
       const given = yielding
         ? standing.filter(
             (each) => each !== releases.fly && each !== releases.bee,
