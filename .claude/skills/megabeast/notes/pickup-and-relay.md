@@ -67,6 +67,18 @@
   on door sweeps before any code), and give the heavy exploration, and
   everything else it can, to subagents
   ([subagents.md](subagents.md)).
+- **A structural bite does not fit one session, even orchestrated.** Bite
+  11's session read a 938-line plan whole (~20k), ran a notes split and a
+  code-mapping agent, wrote the bite and its briefs, and crossed 200k with
+  one of five work packages built — the core agent itself ending at 254k,
+  past the 170k line its brief set, because "stop when long" is not a
+  measure it can take. What worked: the prompt line's "never reset" held
+  (stale ref renamed aside, first try), and an operator ask arriving on
+  the branch from another session was merged in, not overwritten. The
+  skill should size a bite in work packages before taking it — more than
+  two sequential packages is two bites — read the plan by section, arm the
+  subagent check-in at ~15 minutes rather than 25, and plan the relay at
+  the package boundary rather than meet it at the notice.
 - **Reading an Artifact before republishing it costs ~40k tokens** when the
   page is a 135 KB bundle: the read hands its head back inline. The
   republish needs only the version header and the writer check. The skill

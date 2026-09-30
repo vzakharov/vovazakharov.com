@@ -852,7 +852,7 @@ one, the agent's call standing until the operator redraws it: tufts are
 held to the flowers the cap has left (review 5360733525), so a tuft never
 promises a flower that cannot grow, and the child meets one "no" fewer.
 
-## This bite
+## Rest of the bite
 
 11. **A wider meadow, panned.** The meadow is a world wider than the screen,
     and the screen a window onto it ("если мы сделаем более широкое поле, то
@@ -922,9 +922,21 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
     **Work, by who owns which files** (the scene map in
     `docs/remove-before-merging/bite-11/map.md`):
 
-    1. World camera and layout, first: `model/ground.ts`,
-       `meadow-camera.ts`, `layout.ts`, `clump-layout.ts`, `visit-play.ts`,
-       new `model/pan.ts`, their tests.
+    1. **Built** (19b7306, 8971c9b, 17a3abb; `bite-11/core.md`): `pan.ts`
+       (slop, 1:1 follow, glide, key step 0.4 of a screen, re-crop keeping
+       the centre's ground point, `worldOf`/`screenOf`); `Camera.world`,
+       `midline = world/2`; `WORLD_ACROSS` 5.764 and `MEADOW_FRAME` in
+       `meadow-camera.ts`; `meadowLayout(width, height, seed, openers)` with
+       the refit, `Used`, `shown`, `opening` gone; the seeded bed placed once
+       through the tablet's camera across the world; the camera scrolled to
+       the crop, sky and controls fixed. The zoom is the opening zoom
+       capped to show the opening clump (bare `composedUnit` would cut the
+       clump off a phone held upright). Red, for 2 and 3: `fliers.test.ts`
+       (bees roam 68–69%, sight still tests the screen's edges) and
+       `mushroom-patch.test.ts`'s tablet fingertip bound; `washReach`
+       measures the fixed sun against world positions. The seam grass is
+       still drawn over world x 0..screen width, and the `near` bake and
+       grain are screen-sized and fixed: 3 and 4.
     2. Mushroom room: `mushroom-room.ts`, `model/placement.ts`,
        `cap-cover.ts`, `sun-layout.ts`, `model/game.ts`'s limit,
        `meadow-rules.test.ts`, `mushroom-patch.test.ts`,
