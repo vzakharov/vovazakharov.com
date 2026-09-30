@@ -100,3 +100,14 @@
     foot in minutes (then measured at 73–83% of caps and 18–25 px); bite
     8's saw six things, and the agents turned five into numbers and causes
     and ranked the sixth as a hunch.
+  - **treat a fault an agent attributes to another package as the
+    orchestrator's to dispatch, then and there.** Bite 11's play agent
+    reported the far hill cut into a flat-topped cliff beside the sun on
+    phoneP as "package 4's bake, not mine" — true, and package 4's agent
+    was long gone, so nobody owned it until the orchestrator opened the
+    frame and briefed a fix before `/polish`. A report's "not mine" list is
+    a work queue, not a disclaimer.
+- **The play run is one screen per call.** Bite 11's run took ~8.5 min a
+  screen once the probe converted through the crop, so all five in one
+  call pass the tool's 10-minute ceiling; brief it per screen from the
+  start.

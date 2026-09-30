@@ -46,6 +46,16 @@
 - **MCP tool names change mid-session** (a server reconnects under another
   id). Relay and `create_session` calls have to be looked up by the current
   name, never taken from an earlier call in the transcript.
+- **The relaying session keeps pushing after it relays.** Its Stop hook
+  commits a cost row on every turn end, and its own subagents are still
+  running: at bite 11's pickup three cost commits and the "running agent"'s
+  test (d5d0715) landed on `origin` within minutes, and the successor's
+  first two pushes were refused, one as a lock race. So the successor
+  pulls `--no-rebase` before every push for its first hour, and checks
+  `origin` for a relayed agent's commit before redoing its work, rather
+  than trusting the summary's "may still be running". The skill should
+  have the relaying session stop its subagents, or wait them out, before
+  it starts the successor, so the summary's state is final.
 
 ## The context budget
 
