@@ -2,7 +2,7 @@
 
 ## Done
 
-- Step 1: a held arrow turns the crop. `model/pan.ts` drops the key's step
+- 362f232, 2cddaab. Step 1: a held arrow turns the crop. `model/pan.ts` drops the key's step
   (`step`, `STEP_ACROSS`, `STEP_DURATION`) for a `keys` motion — the left
   edge, its `pace` in px/s and which arrows are held — moved by
   `tick(pan, seconds)`; `holdKey` / `letGoKey` feed it. `pan-input.ts`'s
@@ -15,9 +15,18 @@
   `trace(frames, expression, schema)` (headless frames, one read each);
   the key checks moved out of `play-pan.ts` into `scripts/lib/play-pan-keys.ts`.
 
+- Play run green on tabL and phoneP (probe build of 362f232 in a worktree,
+  2cddaab's trace fix on top): each arrow held 36 frames cruises at exactly
+  the cruise (590 px/s tabL, 195 phoneP), turns the crop 0.3 of a screen,
+  1/16 of a screen of it coasting after the release; both end walks rest
+  exactly at the end, slowing every frame into it.
+
 ## Left
 
-- The play run for tabL and phoneP.
+- Nothing in the package. Seen, not this package's: on tabL both end drags
+  were skipped ("nothing at the world's … end with bare ground beside it"),
+  the grass now covering the ground round every cap there; phoneP ran both.
+  Not checked against a baseline.
 
 ## Decided
 
