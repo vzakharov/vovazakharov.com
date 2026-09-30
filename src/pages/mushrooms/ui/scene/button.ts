@@ -91,6 +91,7 @@ export function buttonMaker(
     const hit = new Phaser.Geom.Circle();
     const face = scene.add
       .renderTexture(0, 0, 2, 2)
+      .setScrollFactor(0)
       .setDepth(depth)
       .setInteractive(hit, containsCircle);
     const button: Button = {

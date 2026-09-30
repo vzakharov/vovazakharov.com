@@ -3,11 +3,27 @@
 ## Done
 
 - Step 1 (19b7306): `model/pan.ts` + `pan.test.ts` — the crop's pure state.
-- Step 2: the world camera and layout.
+- Step 2 (8971c9b): the world camera and layout.
+- Step 3 (this commit): the minimal scroll. `meadow-scene.ts` holds a `Pan`,
+  opened on the clump (`openingPan`) and re-cropped on every paint/resize
+  (`recrop`), and sets `cameras.main.setScroll(leftAt(pan, clock), 0)` in
+  `paint`. `setScrollFactor(0)` on the `far`, `near` and `wash` bakes, the
+  clouds and the grain strips (`paint-backdrop.ts`), and every button face
+  (`button.ts`, which every control and picker button is made by).
 
 ## Left
 
-- Step 3: the minimal scroll in `meadow-scene.ts`.
+- Not run: a production build (`flock tmp/site.lock pnpm build:vova`) and a
+  `/preview` look at the scrolled scene — stopped on the orchestrator's
+  context call. Typecheck and lint are green.
+- For package "scene": the drag input, the key pan, parallax, tiled bakes,
+  the fly-out origin conversion, and setting the scroll per frame in
+  `update` once the crop moves on its own (today only `paint` sets it).
+- The `near` bake (hills and ground in one) is still screen-sized, so it is
+  fixed on the screen (scroll factor 0), and the grain with it. Seam grass
+  and tufts (`tufts.ts`/`grass.ts`, off limits) scroll with the world but
+  seam grass is still drawn over world x `0..width`, so on the opening crop
+  it covers only the screen's left part (tablet: screen x −492..688).
 
 ## Decided
 

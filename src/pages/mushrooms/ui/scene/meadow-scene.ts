@@ -14,6 +14,7 @@ import type { Point } from '../../model/geometry';
 import type { Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
+import { leftAt, openingPan, type Pan, recrop } from '../../model/pan';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { Opener } from './clump-shade';
 import { Controls } from './controls';
@@ -64,6 +65,8 @@ export class MeadowScene extends Phaser.Scene {
   private readonly releasing: Random = mulberry32(this.visitSeed ^ 0xb7_7e_f1);
   private flowers: FlowerBed | undefined;
   private layout: MeadowLayout | undefined;
+  /** Which stretch of the world the screen shows (`pan.ts`): the camera's scroll. */
+  private pan: Pan | undefined;
   /** The mushrooms the visit opened with, which place the flowers. */
   private openers: readonly Opener[] | undefined;
   private backdrop: Backdrop | undefined;
@@ -413,6 +416,13 @@ export class MeadowScene extends Phaser.Scene {
       this.openers,
     );
     this.layout = layout;
+    // The visit opens on the clump; a resize keeps the ground at the
+    // screen's centre where it was.
+    const { camera } = layout;
+    this.pan = this.pan
+      ? recrop(this.pan, camera, this.clock)
+      : openingPan(camera);
+    this.cameras.main.setScroll(leftAt(this.pan, this.clock), 0);
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);

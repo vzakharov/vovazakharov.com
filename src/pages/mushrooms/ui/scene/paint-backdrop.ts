@@ -14,8 +14,9 @@ import {
 } from './paint-sky';
 
 /**
- * The backdrop as the screen shows it: three pictures baked once a paint, and
- * the clouds between them live, since they drift. `far` (sky, halo, sun) lies
+ * The backdrop as the screen shows it, each of its pictures fixed on the
+ * screen however the camera scrolls: three baked once a paint, and the
+ * clouds between them live, since they drift. `far` (sky, halo, sun) lies
  * under the clouds, `near` (hills and ground) over them, as the hills stand
  * in front of the sky, and `wash` screens the sun's light over all of it; the
  * grain's strips, already a texture, lie over the wash. `layers` are what the
@@ -36,12 +37,18 @@ export type Backdrop = {
 /** The side of a finished picture's square baked at a time, in texels, so the supersampled scratch stays 2048² whatever the screen. */
 const TILE = 1024;
 
-/** A picture the size of the screen, one texel to a device pixel, laid at the origin. */
+/**
+ * A picture the size of the screen, one texel to a device pixel, laid at the
+ * screen's origin and fixed there however the camera scrolls.
+ */
 function bakedPicture(
   scene: Phaser.Scene,
   existing: Phaser.GameObjects.RenderTexture | undefined,
 ): Phaser.GameObjects.RenderTexture {
-  return existing ?? scene.add.renderTexture(0, 0, 2, 2).setOrigin(0, 0);
+  return (
+    existing ??
+    scene.add.renderTexture(0, 0, 2, 2).setOrigin(0, 0).setScrollFactor(0)
+  );
 }
 
 /**
@@ -103,7 +110,7 @@ export function paintBackdrop(
   let cloudCount = 0;
   const cloudLayer: Layer = () => {
     const graphics = (
-      existing?.clouds[cloudCount] ?? scene.add.graphics()
+      existing?.clouds[cloudCount] ?? scene.add.graphics().setScrollFactor(0)
     ).clear();
     cloudCount += 1;
     return graphics;
@@ -126,6 +133,8 @@ export function paintBackdrop(
     layout,
     Math.floor(random() * 2 ** 32),
   );
+  // The grain lies on the ground's picture, which the screen holds still.
+  for (const strip of grain) strip.setScrollFactor(0);
   const scratch = (
     existing?.scratch ??
     scene.make.renderTexture(
