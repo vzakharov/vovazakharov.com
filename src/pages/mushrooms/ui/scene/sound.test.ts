@@ -147,6 +147,23 @@ function started(): MeadowSound {
   return sound;
 }
 
+/** The nodes `start` builds for what `ask` queued before it, past a start with nothing queued. */
+function builtOnStart(ask: (sound: MeadowSound) => void): number {
+  built.nodes = 0;
+  const silent = new MeadowSound(false);
+  silent.start();
+  const bare = built.nodes;
+  silent.stop();
+
+  built.nodes = 0;
+  const sound = new MeadowSound(false);
+  ask(sound);
+  sound.start();
+  const queued = built.nodes;
+  sound.stop();
+  return queued - bare;
+}
+
 describe('MeadowSound', () => {
   it('a voice asked for while sound is on is built', () => {
     const sound = started();
@@ -171,19 +188,35 @@ describe('MeadowSound', () => {
     silent.stop();
   });
 
-  it('a chord asked for before the synth exists is heard whole', () => {
-    const one = new MeadowSound(false);
-    one.note(72);
-    one.start();
-    const single = built.nodes;
-    one.stop();
+  it('a chord of five asked for before the synth exists is built whole', () => {
+    const note = builtOnStart((sound) => {
+      sound.note(72);
+    });
+    const chord = builtOnStart((sound) => {
+      for (let n = 0; n < 5; n++) sound.note(72);
+    });
+    assert.ok(note > 0);
+    assert.equal(chord, 5 * note);
+  });
 
-    built.nodes = 0;
-    const chord = new MeadowSound(false);
-    for (const note of [72, 76, 79]) chord.note(note);
-    chord.start();
-    assert.ok(built.nodes > single);
-    chord.stop();
+  it('a sixth voice asked for before the synth exists drops the oldest', () => {
+    const note = builtOnStart((sound) => {
+      sound.note(72);
+    });
+    const pop = builtOnStart((sound) => {
+      sound.pop();
+    });
+    // The two differ, so which of them was dropped shows in the count.
+    assert.notEqual(pop, note);
+    const six = builtOnStart((sound) => {
+      sound.pop();
+      for (let n = 0; n < 5; n++) sound.note(72);
+    });
+    assert.equal(six, 5 * note);
+    const sixNotes = builtOnStart((sound) => {
+      for (let n = 0; n < 6; n++) sound.note(72);
+    });
+    assert.equal(sixNotes, 5 * note);
   });
 
   it('a browser with no Web Audio stays silent without throwing', () => {
