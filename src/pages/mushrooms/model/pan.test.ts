@@ -262,7 +262,7 @@ describe('a held key', () => {
   });
 
   it('lands within a pixel at 60, 30 and 144 frames a second', () => {
-    // Holds each frame rate spans a whole number of its frames.
+    // Each hold spans a whole number of frames at every rate.
     for (const seconds of [1 / 6, 1, 3]) {
       const lands = [1 / 60, 1 / 30, 1 / 144].map((frame): [number, number] => {
         const { held, after } = heldFor(TABLET, 1, seconds, frame);

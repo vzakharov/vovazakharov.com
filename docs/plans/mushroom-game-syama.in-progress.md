@@ -858,7 +858,7 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
     twice a sideways tablet's screen, and the screen a crop onto it ("если
     мы сделаем более широкое поле, то можно делать не ресайз а просто кроп,
     а там уже ребёнок сам будет водить влево-вправо"). It supersedes item
-    10's 14-flower cap, the turn's refit and `perchedOn`. What the next
+    10's 14-flower cap, the turn's refit and `layout.ts`'s `perchedOn`. What the next
     bites build on:
     - `model/pan.ts` is the crop's pure state: a 10 CSS px slop, 1:1
       follow, a glide timed by the events' own timestamps, soft ends, and a
@@ -891,13 +891,13 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
       a kick and a hat. The seam grass spans the world (`layerSpan`).
     - Sight and the air grid span the world, tested against its edges by
       the wingspan and not recomputed on a pan; butterflies' `slowest` is 4,
-      so a leg across the world flies no faster than one across a tablet
-      did. A released insect enters from the screen edge nearer its first
+      so a leg across the world flies no faster than one across a tablet's
+      screen. A released insect enters from the screen edge nearer its first
       perch and takes that perch in view (`model/flight-in.ts`,
       `onscreenOf`); every later leg roams the world.
     - Every grown mushroom's tap lands — none missed at the head's middle,
-      at least 80% of the head's taps — asserted in place of the fingertip
-      bounds, which counted heads flatter than a fingertip is round.
+      at least 80% of the head's taps; a fingertip bound would fail every
+      head flatter than a fingertip is round.
       `fliers.test.ts` takes ~354 s and runs alone under a 590 s timeout.
     - The play run converts through the crop (`__probe.toScreen`,
       `toWorld`), drags with its frame clock as each touch's timestamp, and
