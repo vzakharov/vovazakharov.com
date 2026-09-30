@@ -32,7 +32,7 @@ import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
-import { PICK_CLEAR } from './picker-rows';
+import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 import { TAP_RADIUS, tapReach } from './tap-reach';
@@ -47,6 +47,8 @@ const reach = (circles: readonly Circle[]) =>
   circles.map((control) => ({ ...control, r: tapReach(control.r) }));
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
+/** Whether two buttons stand in one row: their reaches overlap up and down. */
+const beside = (a: Circle, b: Circle) => Math.abs(a.y - b.y) < a.r + b.r;
 const onScreen = ({ x, y, r }: Circle, width: number, height: number) =>
   x - r >= 0 && x + r <= width && y - r >= 0 && y + r <= height;
 
@@ -310,8 +312,11 @@ describe('the controls', () => {
         const buttons = reach(open);
         for (const [index, button] of buttons.entries()) {
           assert.ok(onScreen(button, width, height), `${stage} ${index} off`);
-          for (const other of buttons.slice(index + 1)) {
-            assert.ok(apart(button, other), `${stage} ${index} overlaps`);
+          for (const [at, other] of buttons.slice(index + 1).entries()) {
+            assert.ok(
+              apart(button, { ...other, r: other.r + PICK_CLEAR }),
+              `${stage} ${String(index)} and ${String(index + 1 + at)} closer than PICK_CLEAR`,
+            );
           }
           for (const other of reach(given)) {
             assert.ok(
@@ -319,6 +324,28 @@ describe('the controls', () => {
               `${stage} ${index} meets a control`,
             );
           }
+        }
+      }
+    });
+
+    // A screen with room for every button sets the four-button row apart
+    // from the controls it shares the top row with; the five-button one
+    // fills that row on a phone held sideways, which has it keep only
+    // `PICK_CLEAR`.
+    it(`sets the caps' and the shapes' row apart from the controls beside it on a ${name} screen`, () => {
+      const layout = screenLayout(width, height);
+      if (layout.yielding.length > 0) return;
+      const given = reach(shownOverPickers(layout));
+      for (const [index, button] of reach(
+        flowerPicker(layout).shapes,
+      ).entries()) {
+        for (const other of given.filter((control) =>
+          beside(button, control),
+        )) {
+          assert.ok(
+            apart(button, { ...other, r: other.r + PICK_APART }),
+            `shape ${String(index)} within PICK_APART of a control beside it`,
+          );
         }
       }
     });

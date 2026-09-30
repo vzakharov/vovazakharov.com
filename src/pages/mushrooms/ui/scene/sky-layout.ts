@@ -113,7 +113,7 @@ export function flowerPicker({
   const whole = (row: readonly Circle[], count: number) =>
     row.length === count &&
     row.every((button, index) =>
-      row.slice(index + 1).every((other) => apart(button, other, 0)),
+      row.slice(index + 1).every((other) => apart(button, other, PICK_CLEAR)),
     );
   const stage = (row: readonly Circle[], count: number) =>
     whole(row, count) ? row : stacked(picker, count);
@@ -316,9 +316,9 @@ function placeReleases({
   const fits = clear(GROW_GAP / 2, Object.values(grow))(inRow);
   const moved = fits
     ? rowsFrom(rows, {
-        left: last.x + tapReach(last.r) + PICK_CLEAR,
+        after: last.x + tapReach(last.r),
         bandBottom: last.y + tapReach(last.r),
-        clear: clear(PICK_CLEAR, Object.values(grow)),
+        clear: (gap) => clear(gap, Object.values(grow)),
         size: [width, height],
       })
     : undefined;
@@ -332,9 +332,9 @@ function placeReleases({
   }
   const over = fits
     ? rowsFrom(rows, {
-        left: muteX + tapReach(muteR) + PICK_CLEAR,
+        after: muteX + tapReach(muteR),
         bandBottom: Infinity,
-        clear: clear(PICK_CLEAR, [grow.plus, grow.minus]),
+        clear: (gap) => clear(gap, [grow.plus, grow.minus]),
         size: [width, height],
       })
     : undefined;

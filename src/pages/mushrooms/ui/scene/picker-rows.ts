@@ -4,7 +4,7 @@
  * or under the row, each held `PICK_CLEAR` off every other button.
  */
 
-import type { Circle, Lefted } from '../../model/geometry';
+import type { Circle } from '../../model/geometry';
 import {
   apart,
   BUTTON_INSET,
@@ -33,6 +33,12 @@ const PICK_SHARE = 0.095;
  * the gap its own buttons keep at a finger's size.
  */
 export const PICK_CLEAR = (PICK_SPACING - 2) * TAP_RADIUS;
+/**
+ * How far a picker's row keeps from the buttons it shares the top row with,
+ * where the screen has room: wider than the gaps inside either, so the row
+ * reads as a group of its own rather than as more of the controls.
+ */
+export const PICK_APART = GROW_GAP * 2;
 
 /** `count` buttons standing as `row` does, as many abreast as it holds, the rest in rows under it. */
 export function stacked(row: readonly Circle[], count: number): Circle[] {
@@ -113,8 +119,8 @@ type Room = Record<'from' | 'to' | 'floor', number> & {
 
 /**
  * A picker of `count` buttons whose `row` holds only some of them: the rest
- * spread across the band of `room` where it holds them apart from each
- * other and from `row`, its ends' reach `PICK_CLEAR` inside the band's;
+ * spread across the band of `room` where it holds them `PICK_CLEAR` apart
+ * from each other and from `row`, its ends' reach `PICK_CLEAR` inside the band's;
  * otherwise in rows under `row` (`stacked`) where those keep above the room's
  * floor and `PICK_CLEAR` from its standing buttons; and on a screen too small
  * for either, in the band as it falls.
@@ -140,9 +146,11 @@ export function completed(
     (inBand.at(-1)?.x ?? first.x) + reach <= to + BUTTON_INSET - PICK_CLEAR &&
     others.every((button, index) => {
       const before = inBand[index];
-      return before !== undefined && apart(before, button, 0);
+      return before !== undefined && apart(before, button, PICK_CLEAR);
     }) &&
-    inBand.every((button) => row.every((other) => apart(button, other, 0)));
+    inBand.every((button) =>
+      row.every((other) => apart(button, other, PICK_CLEAR)),
+    );
   if (held) return [...row, ...inBand];
   const under = stacked(row, count);
   const fits = under
@@ -156,30 +164,34 @@ export function completed(
 }
 
 /** Where `rowsFrom` fits the pickers' rows in the top row. */
-type TopRow = Lefted & {
+type TopRow = {
+  /** The right edge of the reach of the buttons the rows stand after. */
+  after: number;
   /** How far down the top row's buttons reach: a row below it may stay. */
   bandBottom: number;
-  /** Whether a row's buttons stand clear of every button they must keep off. */
-  clear: (buttons: readonly Circle[]) => boolean;
+  /** Whether a row's buttons stand `gap` clear of every button they must keep off. */
+  clear: (gap: number) => (buttons: readonly Circle[]) => boolean;
   size: readonly [number, number];
 };
 
 /**
  * The pickers' `rows`, each as it stands where it is below the top row and
- * `clear`; else in the top row from `left`, narrowed from the right until
- * it is clear; `undefined` where a row fits whole in neither.
+ * `PICK_CLEAR` clear; else in the top row `PICK_APART` past `after` and clear
+ * of the rest by as much, narrowed from the right until it is; else the same
+ * at `PICK_CLEAR`; `undefined` where a row fits whole in none of these.
  */
 export function rowsFrom(
   rows: readonly [Circle[], Circle[]],
-  { left, bandBottom, clear, size: [width, height] }: TopRow,
+  { after, bandBottom, clear, size: [width, height] }: TopRow,
 ): readonly [Circle[], Circle[]] | undefined {
-  const inTopRow = (count: number): Circle[] | undefined => {
+  const inTopRow = (count: number, gap: number): Circle[] | undefined => {
+    const left = after + gap;
     for (let right = width - BUTTON_INSET; right > left; right--) {
       const placed = rowAcross(count, [left, right], height);
       if (
         placed.length === count &&
         placed.every((button) => button.r >= TAP_RADIUS) &&
-        clear(placed)
+        clear(gap)(placed)
       ) {
         return placed;
       }
@@ -189,8 +201,8 @@ export function rowsFrom(
   const fitted = (row: Circle[]): Circle[] | undefined => {
     const [first] = row;
     if (!first) return row;
-    if (first.y - first.r > bandBottom && clear(row)) return row;
-    return inTopRow(row.length);
+    if (first.y - first.r > bandBottom && clear(PICK_CLEAR)(row)) return row;
+    return inTopRow(row.length, PICK_APART) ?? inTopRow(row.length, PICK_CLEAR);
   };
   const [picks, furnishings] = rows.map((row) => fitted(row));
   return picks && furnishings ? [picks, furnishings] : undefined;
