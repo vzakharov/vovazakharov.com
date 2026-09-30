@@ -133,7 +133,17 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   steps that open it. The fix is in `/relay take`'s own order (read
   `relay.md` from `origin/<branch>` with `git show`, then attach), or in the
   successor's one-line prompt naming the rename aside; the skill should
-  carry one of the two.
+  carry one of the two. Bite 10's handling pickup reset a third time in the
+  same order, and it cost what bite 9's review warned of: the next read was
+  refused as retroactive destruction, and the run stopped on a turn to the
+  operator — the one thing the loop exists not to need. Three misses of one
+  instruction placed after the step it governs settle it: until the skill
+  reorders, the relaying session should put "never `reset --hard`; rename a
+  stale ref aside" in the successor's prompt line itself, the one text read
+  before the attach. The refused read was a `cat`/`sed -n` over Bash, where
+  CLAUDE.md asks for `Read`; the operator asked why, so a session in this
+  loop reads files with `Read`, which also keeps each read one visible call
+  a classifier weighs on its own.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
