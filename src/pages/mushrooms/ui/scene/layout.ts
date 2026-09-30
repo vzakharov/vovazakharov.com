@@ -21,7 +21,13 @@ import {
   headsAcross,
   seededBed,
 } from './flower-layout';
-import { capsAcross, meadowCamera, meadowFrame } from './meadow-camera';
+import { WIDEST_SPAN } from './flower-sight';
+import {
+  capsAcross,
+  EDGE_MARGIN,
+  meadowCamera,
+  meadowFrame,
+} from './meadow-camera';
 import { type Controls, placeControls, standingControls } from './sky-layout';
 import { horizonAt, placeSun, washRings } from './sun-layout';
 
@@ -131,16 +137,50 @@ export function meadowLayout(
   const { layout, flowers } = stoodMeadow(screen.width, screen.height);
   const opened = { ...flowers, clump: clumpShade(layout.mushrooms, openers) };
   const bed = keptBed(opened, seed, openers);
-  const shown = Math.max(
-    capsAcross(used.mushrooms),
-    headsAcross([...used.flowers, ...bed]),
-  );
-  const here = stoodMeadow(width, height, shown);
+  const caps = capsAcross(used.mushrooms);
+  const heads = headsAcross([...used.flowers, ...bed]);
+  const here = perchedOn(width, height, caps, heads);
   return {
     ...here.layout,
     flowers: flowersOn(here.layout.camera, bed),
     wash: washRings(here.layout, used.mushrooms),
   };
+}
+
+/**
+ * How many refits `perchedOn` takes at the most: each widens what is shown
+ * by the room a butterfly's wings take at the last one's size, which only
+ * changes again where the zoom lifts the insects off their least.
+ */
+const PERCH_REFITS = 3;
+
+/**
+ * The meadow on a screen `width` by `height`, showing `caps` across and
+ * `heads` besides, `heads` widened until an edge flower's head keeps half a
+ * butterfly's open wings inside the edge margin, the margin standing for the
+ * rest of its perch's reach (`flowerInSight`): so a flower in sight on the
+ * screen a turn left is in sight across on this one.
+ */
+function perchedOn(
+  width: number,
+  height: number,
+  caps: number,
+  heads: number,
+): Stood {
+  let shown = Math.max(caps, heads);
+  let here = stoodMeadow(width, height, shown);
+  if (heads === 0) return here;
+  const half = width / 2;
+  for (const _refit of Array.from({ length: PERCH_REFITS })) {
+    const wings = (WIDEST_SPAN * here.layout.insectSize) / 2;
+    const kept = half - EDGE_MARGIN;
+    if (kept - wings <= 0) return here;
+    const perched = Math.max(shown, (heads * kept) / (kept - wings));
+    if (perched <= shown + 1e-9) return here;
+    shown = perched;
+    here = stoodMeadow(width, height, shown);
+  }
+  return here;
 }
 
 /**

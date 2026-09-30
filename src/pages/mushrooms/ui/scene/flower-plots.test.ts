@@ -161,7 +161,7 @@ function assertGrounded(
 describe('a planted flower', () => {
   for (const [name, width, height] of VIEWPORTS) {
     for (const standing of ['clump', 'forest', 'thinned'] as const) {
-      it(`stands in sight where it was planted, and on its ground on the screen and on it turned, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
+      it(`stands in sight where it was planted and on the screen turned, on its ground on both, off every foot and flower, on a ${name} screen with ${STANDINGS[standing]}`, () => {
         const counts = VISITS.slice(0, PLANTED_VISITS).map((seed) => {
           const stand = plantedOut(seed, [width, height], standing);
           const shown = new Set(perchSight(stand).flowers);
@@ -178,6 +178,21 @@ describe('a planted flower', () => {
           ] as const) {
             const there = stand.on(across, down);
             assertGrounded(seed, stand, there);
+            // What was planted stays a perch whichever way the screen is
+            // held; a tuft grows only where the bees would plant.
+            const seen = inSightOn(stand, there);
+            for (const [at, { id }] of standingFlowers(
+              there,
+              stand.flowers,
+              stand.planted,
+              stand.mushrooms,
+            ).entries()) {
+              assert.ok(
+                seen[at] === true ||
+                  !stand.planted.some((planted) => planted.id === id),
+                `visit ${String(seed)}: ${id} out of sight on a ${String(across)}×${String(down)} screen`,
+              );
+            }
             const moved = flowerFeet({ ...stand, layout: there });
             assert.equal(moved.length, feet.length);
             for (const [at, foot] of moved.entries()) {
@@ -204,13 +219,16 @@ describe('a planted flower', () => {
 /** The visits a meadow is grown to six in and turned, spread over `VISITS`. */
 const TURNED_VISITS = VISITS.filter((_, index) => index % 40 === 0);
 /**
- * The least share of the flowers in sight before a turn that the median
- * meadow keeps in sight after it. The ground is a scaled copy, but insects
- * keep their least span on a refit zoomed out, so a flower by an edge or a
- * control can lose the room a butterfly's wings take there: one of six or
- * seven, turning a grown phone meadow from sideways to upright.
+ * The most of the flowers in sight before a turn that leave sight after it,
+ * over every visit, and in the visit a tenth of visits lose more than. The
+ * camera shows an edge flower's head with a butterfly's wings inside the
+ * edge margin; only a phone held sideways and turned upright loses any,
+ * each a front flower whose perch the thin upright ground brings within a
+ * wing of the screen's bottom: about one in eleven, and in a tenth of
+ * visits one in six or seven.
  */
-const KEPT_IN_SIGHT = 0.8;
+const MOST_LOST = 0.11;
+const WORST_DECILE_LOST = 0.18;
 
 /** Whether each flower standing in `stand` is in sight on `layout`, in order. */
 function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
@@ -224,29 +242,47 @@ function inSightOn(stand: Stand, layout: MeadowLayout): boolean[] {
 }
 
 describe('a turn', () => {
-  for (const [name, width, height] of VIEWPORTS.filter(([screen]) =>
-    ['phone', 'phone held sideways', 'small phone'].includes(screen),
+  for (const [name, width, height] of VIEWPORTS.filter(
+    ([screen]) => screen !== 'desktop',
   )) {
-    it(`keeps ${String(KEPT_IN_SIGHT * 100)}% of the flowers in sight that were, and half of them at least, in the median meadow grown to six on a ${name} screen`, () => {
-      const kept: number[] = [];
-      const shown: number[] = [];
-      for (const seed of TURNED_VISITS) {
-        const stand = opened(seed, width, height, true);
-        const was = inSightOn(stand, stand.layout);
-        const now = inSightOn(stand, relaidOn(stand, seed, height, width));
-        const before = was.filter(Boolean).length;
-        const still = was.filter(
-          (seen, index) => seen && now[index] === true,
-        ).length;
-        kept.push(before > 0 ? still / before : 1);
-        shown.push(now.filter(Boolean).length / now.length);
-      }
-      assert.ok(
-        median(kept) >= KEPT_IN_SIGHT,
-        `median ${String(median(kept))} of those in sight before the turn`,
-      );
-      assert.ok(median(shown) >= 0.5, `median ${String(median(shown))} shown`);
-    });
+    for (const forest of [false, true]) {
+      it(`keeps all but ${String(MOST_LOST * 100)}% of the flowers in sight that were, ${String(WORST_DECILE_LOST * 100)}% in the worst tenth of visits, and half of them at least in the median, turning ${forest ? 'a meadow grown to six' : 'the opening clump'} on a ${name} screen`, (t) => {
+        const lost: number[] = [];
+        const shown: number[] = [];
+        let before = 0;
+        let gone = 0;
+        for (const seed of TURNED_VISITS) {
+          const stand = opened(seed, width, height, forest);
+          const was = inSightOn(stand, stand.layout);
+          const now = inSightOn(stand, relaidOn(stand, seed, height, width));
+          const seen = was.filter(Boolean).length;
+          const left = was.filter(
+            (sighted, index) => sighted && now[index] !== true,
+          ).length;
+          before += seen;
+          gone += left;
+          lost.push(seen > 0 ? left / seen : 0);
+          shown.push(now.filter(Boolean).length / now.length);
+        }
+        const worst =
+          lost.toSorted((a, b) => a - b)[Math.floor(lost.length * 0.9)] ?? 0;
+        t.diagnostic(
+          `${String(gone)} of ${String(before)} lost, the worst tenth ${(worst * 100).toFixed(0)}% or more`,
+        );
+        assert.ok(
+          gone <= before * MOST_LOST,
+          `${String(gone)} of ${String(before)} lost`,
+        );
+        assert.ok(
+          worst <= WORST_DECILE_LOST,
+          `the worst tenth lose ${String(worst)}`,
+        );
+        assert.ok(
+          median(shown) >= 0.5,
+          `median ${String(median(shown))} shown`,
+        );
+      });
+    }
   }
 });
 

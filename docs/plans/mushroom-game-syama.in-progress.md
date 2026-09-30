@@ -762,10 +762,18 @@ Standing rules for every session in the chain:
       `max(INSECT_LEAST, INSECT_SCALE × unit)` on every screen and refit,
       `LEAST_SPANS` (52/30/30) in `layout.ts`, asserted over 2000 seeds and
       imported by the play run: a turn's refit zooms a grown phone meadow
-      to unit ~37, where the cap rule drew bees ~15 px. Accepted: after
-      such a turn about one flower in six or seven by an edge loses a
-      butterfly's wing room; the turn test asks 80% of flowers kept in
-      sight.
+      to unit ~37, where the cap rule drew bees ~15 px. The camera shows
+      an edge flower's head with half a butterfly's wings inside the edge
+      margin (`perchedOn` in `layout.ts`), so no flower leaves sight by a
+      side on a turn, and none the bees or the child planted leaves sight
+      at all. Accepted: a phone held sideways and turned upright loses
+      about one flower in eleven (opening clump 8.9%, forest 10.0% over
+      2000 visits; 28.7% and 11.1% before the camera kept the wings), a
+      front flower whose perch the thin upright ground brings within a
+      wing of the screen's bottom, and a tenth of visits lose 14–17% or
+      more; every other screen's turn loses none. The shrink kept every
+      flower but drew bees ~15 px. `flower-plots.test.ts` bounds both
+      standings at 11%, the worst tenth at 18%.
     - Spore puffs are containers tied to their mushroom, following it
       through a refit (`puffFrom`).
     - **Every grown mushroom keeps a tappable patch** of at least 24 px,
