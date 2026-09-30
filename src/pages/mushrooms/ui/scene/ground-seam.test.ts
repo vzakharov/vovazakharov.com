@@ -101,4 +101,26 @@ describe('the seam between the near hills and the ground', () => {
       }
     }
   });
+
+  it('grows its tufts across the whole world, none of its crops bare', () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      for (const seed of VISITS.slice(0, 20)) {
+        const layout = meadowLayout(width, height, seed);
+        const { world } = layout.camera;
+        const xs = seamGrass(layout, mulberry32(seed)).map(({ x }) => x);
+        for (const x of xs) assert.ok(x >= 0 && x <= world, `${name}: ${x}`);
+        const crops = [0, (world - width) / 2, world - width];
+        const counts = crops.map(
+          (left) => xs.filter((x) => x >= left && x <= left + width).length,
+        );
+        const share = (xs.length * width) / world;
+        for (const [index, count] of counts.entries()) {
+          assert.ok(
+            count >= share / 4,
+            `${name}, seed ${seed}: ${count} in crop ${index}, ${share.toFixed(1)} expected`,
+          );
+        }
+      }
+    }
+  });
 });

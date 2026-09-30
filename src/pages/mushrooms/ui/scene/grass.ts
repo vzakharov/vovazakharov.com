@@ -6,6 +6,7 @@ import { groundAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
+import { layerSpan, PARALLAX } from './parallax';
 import { groundSeam, seamAt } from './skyline';
 
 const SEAM_TUFTS_PER_1000PX = 28;
@@ -68,15 +69,17 @@ export function tuftOn(
  * The grass scattered just under the seam with the hills, following its
  * waver, drawn from `random`, so the same source regrows it: it breaks the
  * seam up rather than lining it, standing behind the flowers' band, where no
- * flower is planted.
+ * flower is planted. It spans the ground's layer, the seam's own stretch
+ * (`layerSpan`), so every crop shows it at one density.
  */
 export function seamGrass(layout: MeadowLayout, random: Random): Tuft[] {
-  const { width, height, groundTop } = layout;
+  const { height, groundTop, camera } = layout;
+  const { left, across } = layerSpan(camera, PARALLAX.ground);
   const seam = groundSeam(layout);
   const depth = height - groundTop;
-  const count = Math.round((width / 1000) * SEAM_TUFTS_PER_1000PX);
+  const count = Math.round((across / 1000) * SEAM_TUFTS_PER_1000PX);
   return Array.from({ length: count }, () => {
-    const x = between(random, 0, width);
+    const x = between(random, left, left + across);
     const below =
       SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
     return tuftOn(layout, x, seamAt(seam, x) + depth * below, random);
