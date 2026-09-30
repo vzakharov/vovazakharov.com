@@ -17,10 +17,17 @@
   the disc along the sun's whole track, on every screen, 200 visits. The old
   clamp fails it on every screen.
 
+- Step 2: looked at. Probe exports of the commit before and a401096 built
+  in a throwaway worktree, the play run's pan step (`lib/play-pan.ts`)
+  alone on all five screens, seed 12345. `look/hills-<screen>-<frame>-before|after.png`:
+  `dragged` on every screen, both world ends on phoneP and phoneL (all
+  five screens' ends were looked at). `frames/bite-11/phoneP-pan-dragged.png`
+  is the fixed frame. No plateau and no shoulder anywhere; the hill left of
+  the sun on phoneP is a rounded crest below the disc.
+
 ## Left
 
-- Render before/after frames (`look/hills-*.png`) and replace
-  `frames/bite-11/phoneP-pan-dragged.png`.
+- Nothing.
 
 ## Decided
 
@@ -30,4 +37,5 @@
   (phone held sideways, where the bowl nearly reaches `nearHills`).
 - The soft-min lowers a range slightly even where the bowl just clears its
   crest (at room = 1 it keeps ~0.79 of its height); far from the sun's track
-  it keeps its whole height to within a percent.
+  it keeps its whole height to within a percent. Visible: on a tablet the
+  far range stands ~15 CSS px lower across the screen than before.
