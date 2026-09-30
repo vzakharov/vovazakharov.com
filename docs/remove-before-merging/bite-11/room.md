@@ -36,29 +36,21 @@ found is looked for again once the crop's left edge has moved.
 - `mushroom-room.ts`'s edits lost to package 3's stash were rewritten by hand
   (not merged from the stash); 558e309 holds the whole of them.
 
+- Step 1 of the second run (layout.test.ts): at least six on the opening
+  crop in 99% (200 of 200 on every screen, 100 of 100 on the small phone),
+  twelve over the world in 99% (the same), and the tablet's caps' span grown
+  on the opening crop (median 90%, bound 60%). The file takes ~4.6 min.
+
 ## Left
 
-- Step 1's tests: in `layout.test.ts`, "grows six" should become "at least
-  six in 99% on the opening crop" (`opened(…, true, openingCrop)`, `>= 6`)
-  plus "twelve over the world" (measured 100%, so a floor of 0.99), and the
-  caps' span test should grow on the opening crop. Today the test still
-  counts `=== MUSHROOM_SLOTS` over the world, which passes (every visit
-  reaches twelve) under a message that says six.
-- Step 2, not run since the change: `meadow-rules.test.ts` (its edge margin
-  already tests `world`; its wash test should use `nearestTheSun`; its
-  controls test mixes screen controls with world places and should grow on
-  the opening crop and map the controls through `openingCrop`), and
-  `mushroom-patch.test.ts`. The tablet fingertip bound was red at 25.3%
-  against 25% before any change here; a likely cause, not yet acted on:
-  `mushroom-patch.ts`'s `tappedIn` counts the screen's controls at their
-  screen x as if in the world, so mushrooms in the world's left half lose
-  patch to controls that do not stand there. The fix I had settled on:
-  drop the controls from `Tapped` (a pan can slide any cap under a button,
-  accepted by the plan; the new mushroom's keep-off is `roomFor`'s), then
-  re-measure every bound over twelve.
-- Step 4: `scripts/sweep-mushrooms.ts`.
-- Not re-run with twelve: every other forest sweep (`opened(…, true)`), in
-  packages 3's tests too — each now grows twelve over the whole world.
+- Step 2: `meadow-rules.test.ts` (wash through `nearestTheSun`, controls
+  through `openingCrop` on a forest grown on the opening crop) and
+  `mushroom-patch.test.ts`, with the controls out of `mushroom-patch.ts`'s
+  `Tapped` (orchestrator's decision; a pan can slide any cap under a
+  button, and `roomFor` keeps a new one off them where they stand).
+- Step 3: `scripts/sweep-mushrooms.ts` to the world and twelve.
+- Step 4: every forest-growing test re-run with twelve.
+- Step 5: how much the wash shrank per screen.
 
 ## Decided
 

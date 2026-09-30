@@ -43,7 +43,7 @@ import {
   VIEWPORTS,
   VISITS,
 } from './viewports';
-import { capsSpan, opened } from './visit-play';
+import { capsSpan, opened, openingCrop } from './visit-play';
 
 /** Each control as its hit area, which the mute's small drawing reaches past. */
 const reach = (circles: readonly Circle[]) =>
@@ -72,13 +72,40 @@ const DOOR_TRIES = VISITS.slice(0, 100).flatMap((seed) =>
 const CLUMPS = VISITS.slice(0, 500);
 
 /**
- * The visits a screen grows toward six, spread over `VISITS`: every tenth,
+ * The visits a screen grows a forest in, spread over `VISITS`: every tenth,
  * and every twentieth on the small phone, whose visits grow slowest.
  */
 const grownVisits = (name: Screen) =>
   VISITS.filter((_, index) => index % (name === 'small phone' ? 20 : 10) === 0);
-/** The least share of visits reaching six mushrooms on every screen. */
+/** The least share of visits reaching each count of mushrooms on every screen. */
 const LEAST_FULL = 0.99;
+/** How many mushrooms the opening crop holds, grown `+` by `+`, in `LEAST_FULL` of visits. */
+const CROP_HOLDS = 6;
+
+/** How many mushrooms a forest grew, and how wide its caps span as a share of its screen's width. */
+type Forest = { grown: number; span: number };
+/** Each forest grown, by visit, screen and whether it grew on the opening crop, grown once for every sweep that reads it. */
+const forests = new Map<string, Forest>();
+function forestOf(
+  seed: number,
+  width: number,
+  height: number,
+  cropped: boolean,
+): Forest {
+  const key = `${String(seed)} ${String(width)} ${String(height)} ${String(cropped)}`;
+  const known = forests.get(key);
+  if (known) return known;
+  const stand = opened(
+    seed,
+    width,
+    height,
+    true,
+    cropped ? openingCrop : undefined,
+  );
+  const forest = { grown: stand.mushrooms.length, span: capsSpan(stand) };
+  forests.set(key, forest);
+  return forest;
+}
 
 /**
  * A mushroom as the scene stands it in `place`, with points along its stem
@@ -146,14 +173,14 @@ function topmost(
   )?.id;
 }
 
-/** How wide the six caps of a tablet held sideways span, at the least, in the median visit, as a share of the screen's width. */
+/** How wide the caps of a tablet held sideways span, at the least, in the median visit, as a share of the screen's width. */
 const LEAST_SPAN = 0.6;
 
-describe('a meadow grown to six on a tablet held sideways', () => {
+describe('a meadow grown on the opening crop of a tablet held sideways', () => {
   it(`spans at least ${String(LEAST_SPAN * 100)}% of the screen's width with its caps in the median visit`, (t) => {
     const [, width, height] = VIEWPORTS[0];
-    const spans = grownVisits('tablet').map((seed) =>
-      capsSpan(opened(seed, width, height, true)),
+    const spans = grownVisits('tablet').map(
+      (seed) => forestOf(seed, width, height, true).span,
     );
     const median =
       spans.toSorted((a, b) => a - b)[Math.floor(spans.length / 2)] ?? 0;
@@ -167,18 +194,31 @@ describe('a meadow grown to six on a tablet held sideways', () => {
 
 describe('meadowLayout', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`grows six mushrooms in the share of visits it is held to on a ${name} screen`, (t) => {
+    it(`grows at least ${String(CROP_HOLDS)} mushrooms on the opening crop in the share of visits it is held to on a ${name} screen`, (t) => {
       const visits = grownVisits(name);
-      const full = visits.filter(
-        (seed) =>
-          opened(seed, width, height, true).mushrooms.length === MUSHROOM_SLOTS,
+      const held = visits.filter(
+        (seed) => forestOf(seed, width, height, true).grown >= CROP_HOLDS,
       ).length;
       t.diagnostic(
-        `${String(full)} of ${String(visits.length)} visits reach six`,
+        `${String(held)} of ${String(visits.length)} visits reach ${String(CROP_HOLDS)}`,
+      );
+      assert.ok(
+        held / visits.length >= LEAST_FULL,
+        `${String(held)} of ${String(visits.length)} reach ${String(CROP_HOLDS)}`,
+      );
+    });
+
+    it(`grows ${String(MUSHROOM_SLOTS)} mushrooms over the world in the share of visits it is held to on a ${name} screen`, (t) => {
+      const visits = grownVisits(name);
+      const full = visits.filter(
+        (seed) => forestOf(seed, width, height, false).grown === MUSHROOM_SLOTS,
+      ).length;
+      t.diagnostic(
+        `${String(full)} of ${String(visits.length)} visits reach ${String(MUSHROOM_SLOTS)}`,
       );
       assert.ok(
         full / visits.length >= LEAST_FULL,
-        `${String(full)} of ${String(visits.length)} reach six`,
+        `${String(full)} of ${String(visits.length)} reach ${String(MUSHROOM_SLOTS)}`,
       );
     });
 
