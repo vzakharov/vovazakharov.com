@@ -852,6 +852,102 @@ one, the agent's call standing until the operator redraws it: tufts are
 held to the flowers the cap has left (review 5360733525), so a tuft never
 promises a flower that cannot grow, and the child meets one "no" fewer.
 
+## This bite
+
+11. **A wider meadow, panned.** The meadow is a world wider than the screen,
+    and the screen a window onto it ("если мы сделаем более широкое поле, то
+    можно делать не ресайз а просто кроп, а там уже ребёнок сам будет водить
+    влево-вправо"; "кажется, что экран слишком маловат — или объекты
+    великоваты — чтобы было прямо интересно"). The first idea (walking)
+    stays out of scope; its «Что ты решил» is read only where it answers a
+    question this bite has too.
+
+    **Decided, each beating the alternative named:**
+
+    - **One finger pans; nothing pinches.** Item 11 as first written asked
+      for a pinch, but the operator's later review (5355192406) ruled
+      «давай однопальцевые жесты», and every extra finger already plays a
+      flower (bite 10's chords). So the zoom is the screen's, as today
+      (`composedUnit`), and a drag of Phaser's pointer past a slop of 10 CSS
+      px moves the crop across, 1:1 under the finger, with a short glide
+      after release, stopping soft at the world's ends. A finger that
+      barely moves is a tap. Taps keep acting on the press, so every tap
+      answers within a frame: a drag that starts on a flower has already
+      played it, on a mushroom has selected it — accepted, since neither
+      costs the child anything. A drag that starts on a control does not
+      pan. The hidden `←`/`→` keys pan by a step, eased.
+    - **Scroll the Phaser camera; lay out once per screen size.** The layout
+      is computed for the whole world in world px and `cameras.main.scrollX`
+      is the crop. Re-projecting through `Camera.midline` per pan step would
+      re-run every cache keyed on the layout, `roomFor`'s search and
+      `tendTufts`' seeded draw per frame. A pan never makes a new
+      `MeadowLayout`. `model/pan.ts` is the crop's pure state: clamp,
+      slop, glide, key step, and a resize keeping the ground point at the
+      screen's centre where it was.
+    - **The world is `WORLD_ACROSS` ground units across**, twice what a
+      tablet held sideways shows today, the same on every screen; the visit
+      opens centred on the clump. A turn or resize changes the zoom and the
+      crop, never the ground — so the refit that zooms out to keep the used
+      feet in view (`perchedOn`, `Used`, `shown`, `usedIn`, `opening`), the
+      flowers placed against both meadows' feet and the turn assertions go.
+      Resolves bite 10's open note that a turn bunches or shrinks the six.
+    - **Fixed on the screen:** the sky, the sun, its wash, the clouds and
+      every control and picker (`scrollFactor 0`). **Parallax:** the far
+      and near hills scroll slower than the ground (0.3, 0.6), which splits
+      the `near` bake. **With the ground:** the land, grain, grass, tufts,
+      mushrooms, flowers, spores, insects. A world-wide bake goes past a
+      4096 texture on older phones, so the land bakes in tiles.
+    - **What the child adds appears where they look.** `+` grows its
+      mushroom on a foot inside the current crop, checked against the
+      controls where they stand now and against the world's edges; a later
+      pan may slide a cap under a button, which then takes the tap there —
+      accepted, one more pan moves it out, where keeping every cap off a
+      control's band across the whole world would starve the room. A
+      released insect flies in from the nearer screen edge and takes its
+      first perch in view. A key plays the flowers on screen.
+    - **The meadow holds twelve mushrooms**, room permitting: six was a
+      screen's worth, and a world twice as wide with six reads empty. The
+      suite's "six in 99%" holds for the opening crop.
+    - **The flower cap becomes room** ("сейчас, конечно, это делать не надо —
+      но в тот байт где расширяем, да"): `FLOWER_LIMIT` goes, a flower is
+      planted by bee or child wherever a flower has room, the bare tufts
+      bounded by their density over the world. The seeded bed spreads over
+      the world, its seven sounds (C D E G A, kick, hat) once per half.
+    - **Insects perch anywhere in the world** («пусть садятся куда хотят»,
+      from the first idea's calls, which the pan makes a question here too):
+      sight is tested against the world's edges by the wingspan, not the
+      screen's nor the controls', and is not recomputed on a pan; the air
+      and away spots span the world.
+
+    **Work, by who owns which files** (the scene map in
+    `docs/remove-before-merging/bite-11/map.md`):
+
+    1. World camera and layout, first: `model/ground.ts`,
+       `meadow-camera.ts`, `layout.ts`, `clump-layout.ts`, `visit-play.ts`,
+       new `model/pan.ts`, their tests.
+    2. Mushroom room: `mushroom-room.ts`, `model/placement.ts`,
+       `cap-cover.ts`, `sun-layout.ts`, `model/game.ts`'s limit,
+       `meadow-rules.test.ts`, `mushroom-patch.test.ts`,
+       `scripts/sweep-mushrooms.ts`.
+    3. Flowers, tufts, sight, the flower cap: `flower-layout.ts`,
+       `flower-sight.ts`, `flower-plots.ts`, `perch-sight.ts`, `tufts.ts`,
+       `grass.ts`, `model/pollen.ts`, `model/game.ts`'s `plant`, their tests.
+    4. Scene, render, input: `meadow-scene.ts`, `paint-*.ts`, `grain.ts`,
+       `controls.ts`, `button.ts`, `picker.ts`, `insect-view.ts`,
+       `keyboard.ts`, `instrument-input.ts`.
+    5. Play run, last: `scripts/lib/mushroom-probe.ts` (screen = world −
+       scroll), a drag helper, checks that a drag pans without tapping, a
+       small move taps, and the keys pan; a turn step.
+
+    2–4 run in parallel once 1's types land. The Decisions section's
+    "taps only", the perch-in-sight rule and "Flowers stay put … on its turn"
+    are rewritten when the bite folds in.
+
+    **DRY:** `pan.ts` is the one home for the crop; every screen↔world
+    conversion goes through one helper on it rather than `− scrollX` at each
+    call site. The room, sight and tuft checks keep their functions and
+    change only the bounds they test against.
+
 ## Rest of the elephant
 
 In order.
@@ -878,28 +974,6 @@ ticks with the opening clump (`AIR_UNMET`, two `todo` tests); a flight in
 from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
-
-11. **A wider meadow, cropped and zoomed.** The ideas in the operator's
-    comment 4131492133 stay out of this plan ("Не вноси их пока ни в какой
-    план, но подготовь отдельные два документа (по одному на идею) … Исходя из
-    этого будем думать. Документы на русском."); what of this item waits on
-    the first of them is left for the operator's call. The meadow is a world wider than
-    the screen, and the screen a window onto it: a rotation or a smaller
-    screen changes the crop, not the layout, and the child pans left and
-    right and pinches to zoom, a gesture known from photos ("если мы сделаем
-    более широкое поле, то можно делать не ресайз а просто кроп, а там уже
-    ребёнок сам будет водить влево-вправо"; "кажется, что экран слишком
-    маловат — или объекты великоваты — чтобы было прямо интересно"). It
-    starts from the meadow as it stands. It revisits the rules that exist
-    only because a rotation re-lays the world — the refit that zooms out
-    to keep the used feet in view, flowers placed against the feet of both
-    meadows, the slot floors per screen — and the taps-only rule for a
-    two-finger pinch and a one-finger pan. The flower cap becomes room, not a
-    number: `FLOWER_LIMIT` 14 fits a phone and starves a tablet (the seven
-    seeded flowers leave the child seven plantings), so a flower can be
-    planted wherever the wider meadow has room for one ("сейчас, конечно, это
-    делать не надо — но в тот байт где расширяем, да"). Walking through the meadow, as a spectator or a
-    participant the insects fly from, stays out of scope for now.
 
 12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
     splash on caps and ground, with its own sound. While it rains, flowers
