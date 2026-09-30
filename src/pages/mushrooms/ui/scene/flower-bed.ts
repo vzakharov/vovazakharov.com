@@ -204,11 +204,16 @@ export class FlowerBed {
     for (const action of FLOWER_TOUCH_ACTIONS[touch]) this.dispatch(action);
   }
 
-  /** Opens every flower in sight that makes `sound`, as a key played it. */
-  answer(sound: FlowerSound): void {
+  /**
+   * Opens every flower that makes `sound`, as a key played it, of those the
+   * screen shows: `shows` says whether it shows a world x.
+   */
+  answer(sound: FlowerSound, shows: (x: number) => boolean): void {
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id);
-      if (shown?.container.visible !== true) continue;
+      if (shown?.container.visible !== true || !shows(shown.container.x)) {
+        continue;
+      }
       if (sameSound(soundOf(flowerGenes(flower)), sound)) this.open(shown);
     }
   }

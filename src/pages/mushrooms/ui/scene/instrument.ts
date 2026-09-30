@@ -6,7 +6,7 @@ import {
   shiftOctave,
   strike,
 } from '../../model/notes';
-import type { KeyAction } from './keyboard';
+import type { PlayedKey } from './keyboard';
 import type { MeadowSound } from './sound';
 
 /** What of the meadow's synth the instrument plays through. */
@@ -51,7 +51,7 @@ export class Instrument {
   }
 
   /** Plays a key, returning the flower sound it made; an octave key sounds nothing, and at the range's end does nothing. */
-  key(action: KeyAction): FlowerSound | undefined {
+  key(action: PlayedKey): FlowerSound | undefined {
     if (action.kind === 'octave') {
       this.octave = shiftOctave(this.octave, action.step);
       return undefined;

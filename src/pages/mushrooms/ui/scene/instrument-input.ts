@@ -4,6 +4,7 @@ import { chordFingers } from './chord-fingers';
 import type { FlowerBed } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
+import type { Crop } from './pan-input';
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
@@ -15,7 +16,8 @@ const CHORD_POINTER = 99;
 /**
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a
- * played key opening the flowers of its sound in sight; and with more
+ * played key opening the flowers of its sound the screen shows, and the
+ * arrows stepping `crop`; and with more
  * fingers than one, each finger Phaser's one touch pointer does not hold
  * playing the flower under it and nothing else, so every other gesture keeps
  * to one finger — Phaser never sees the rest. Returns what stops both.
@@ -24,6 +26,7 @@ export function playTheFlowers(
   scene: Phaser.Scene,
   instrument: Instrument,
   flowers: FlowerBed,
+  crop: Crop,
 ): () => void {
   const { canvas } = scene.game;
   // The canvas is the game's one widget: it takes focus, so the keyboard
@@ -32,9 +35,15 @@ export function playTheFlowers(
   canvas.setAttribute('role', 'application');
   canvas.focus({ preventScroll: true });
   const stopKeys = listenForKeys(canvas, (action) => {
+    if (action.kind === 'pan') {
+      crop.step(action.direction);
+      return;
+    }
     instrument.wake();
     const sound = instrument.key(action);
-    if (sound) flowers.answer(sound);
+    if (sound) {
+      flowers.answer(sound, (x) => crop.shows(x));
+    }
   });
 
   const { manager, pointer1 } = scene.input;

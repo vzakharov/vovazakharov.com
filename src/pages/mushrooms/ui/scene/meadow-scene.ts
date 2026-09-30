@@ -191,7 +191,12 @@ export class MeadowScene extends Phaser.Scene {
     this.input.on(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
     // A browser lets sound start only on a tap's release.
     this.input.on(Phaser.Input.Events.POINTER_UP, this.startSound, this);
-    const stopPlaying = playTheFlowers(this, this.instrument, this.flowers);
+    const stopPlaying = playTheFlowers(
+      this,
+      this.instrument,
+      this.flowers,
+      this.crop,
+    );
     const stopPanning = this.crop.listen(this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       stopPlaying();

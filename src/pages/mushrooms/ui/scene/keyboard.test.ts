@@ -47,6 +47,11 @@ describe('the keyboard', () => {
     ]);
   });
 
+  it('pans a step on the arrows', () => {
+    assert.deepEqual(press('ArrowLeft'), { kind: 'pan', direction: -1 });
+    assert.deepEqual(press('ArrowRight'), { kind: 'pan', direction: 1 });
+  });
+
   it('ignores a held key’s repeats, a shortcut and a key it has no use for', () => {
     assert.equal(press('KeyG', { repeat: true }), undefined);
     assert.equal(press('KeyG', { metaKey: true }), undefined);

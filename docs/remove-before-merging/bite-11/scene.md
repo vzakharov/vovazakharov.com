@@ -8,9 +8,17 @@
   `toWorld`, `shows`), each through `pan.ts`'s `screenOf`/`worldOf`. The
   scene scrolls the camera to it every frame in `update` and on paint.
 
+- Step 2: keys. `ArrowLeft`/`ArrowRight` are `{ kind: 'pan' }` key actions
+  (`keyboard.ts`, a held key's repeats ignored as for every key) that step
+  the crop; the instrument's keys are `PlayedKey` (`instrument.ts`'s
+  `key` takes that — one-line type edit outside the package). A played key
+  opens only the flowers of its sound the crop shows
+  (`FlowerBed.answer(sound, shows)` — `flower-bed.ts`, outside the package,
+  owned by no one).
+
 ## Left
 
-- Steps 2–6.
+- Steps 3–6.
 
 ## Decided
 
