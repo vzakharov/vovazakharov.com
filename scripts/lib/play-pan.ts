@@ -11,7 +11,11 @@
 
 import { z } from 'zod';
 
-import { clampLeft, SLOP } from '../../src/pages/mushrooms/model/pan.ts';
+import {
+  clampLeft,
+  type Direction,
+  SLOP,
+} from '../../src/pages/mushrooms/model/pan.ts';
 import {
   type Controls,
   Crop,
@@ -77,7 +81,7 @@ const BARE_START = `(() => {
  * does, the first with bare ground on its row on the side \`side\` points
  * to: where a drag starts that crosses it, and the middle it crosses.
  */
-const crossing = (side: -1 | 1) => `(() => {
+const crossing = (side: Direction) => `(() => {
   const bare = ${BARE};
   const { width } = __probe.scene.layout;
   const caps = __probe.state().mushrooms.map((id) => [id, __probe.mushroom(id)]);
@@ -199,7 +203,7 @@ type EndChecks = {
 async function dragOverEnd(
   page: Page,
   found: z.infer<typeof Crossing>,
-  toward: -1 | 1,
+  toward: Direction,
   { crop, taps, expect, note }: EndChecks,
 ): Promise<void> {
   const end = toward === 1 ? 'right' : 'left';
