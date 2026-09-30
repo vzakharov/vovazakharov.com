@@ -27,7 +27,7 @@ plan".
   so a compact re-arms both. A notice that cannot be recorded is not sent, since
   it would otherwise repeat on every tool call.
 - **The operator is resolved only when a notice is about to fire**, with `gh api
-  user`, since it costs a network call and the ordinary tool call has no use for
+user`, since it costs a network call and the ordinary tool call has no use for
   it. Their `auto-relay/<handle>` decides how the pause ends, and
   `@.claude/skills/relay/SKILL.md` § "Auto-relay" owns what it means and who
   writes it. A `gh` that cannot answer, or a token that is not a `User`'s, reads
