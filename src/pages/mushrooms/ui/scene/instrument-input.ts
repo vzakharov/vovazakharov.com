@@ -16,9 +16,9 @@ const CHORD_POINTER = 99;
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a
  * played key opening the flowers of its sound in sight; and with more
- * fingers than one, each finger past the first playing the flower under it
- * and nothing else, so every other gesture keeps to one finger — Phaser,
- * taking one pointer, never sees the rest. Returns what stops both.
+ * fingers than one, each finger Phaser's one touch pointer does not hold
+ * playing the flower under it and nothing else, so every other gesture keeps
+ * to one finger — Phaser never sees the rest. Returns what stops both.
  */
 export function playTheFlowers(
   scene: Phaser.Scene,
@@ -37,17 +37,18 @@ export function playTheFlowers(
     if (sound) flowers.answer(sound);
   });
 
-  const pointer = new Phaser.Input.Pointer(scene.input.manager, CHORD_POINTER);
+  const { manager, pointer1 } = scene.input;
+  const pointer = new Phaser.Input.Pointer(manager, CHORD_POINTER);
+  // Phaser listens on the canvas from boot, before this does, so by the time
+  // this runs its pointer has already taken the finger it answers.
   const touched = (event: TouchEvent) => {
-    const chord = chordFingers(ids(event.changedTouches), ids(event.touches));
+    const chord = chordFingers(
+      ids(event.changedTouches),
+      pointer1.active ? pointer1.identifier : undefined,
+    );
     for (const touch of event.changedTouches) {
       if (!chord.includes(touch.identifier)) continue;
-      scene.input.manager.transformPointer(
-        pointer,
-        touch.pageX,
-        touch.pageY,
-        false,
-      );
+      manager.transformPointer(pointer, touch.pageX, touch.pageY, false);
       const over = scene.input.sortGameObjects(
         scene.input.hitTestPointer(pointer),
         pointer,

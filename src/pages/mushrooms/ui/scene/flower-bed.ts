@@ -6,7 +6,7 @@ import {
   sameSound,
   soundOf,
 } from '../../model/flower-sounds';
-import type { Meadow } from '../../model/game';
+import type { Action, Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
@@ -24,6 +24,7 @@ import { drawFlower } from './draw-flower';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { type Centred, flowerLift, flowerTapReach } from './flower-sight';
+import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
@@ -55,8 +56,8 @@ export class FlowerBed {
   private readonly instrument: Instrument;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;
-  /** A tap on a flower is a tap on the meadow too, which this passes on. */
-  private readonly onTap: () => void;
+  /** What a touch on a flower asks of the meadow (`FLOWER_TOUCH_ACTIONS`) goes here. */
+  private readonly dispatch: (action: Action) => void;
   readonly seeded: readonly Flower[];
   private planted: readonly Sown[] = [];
   /** The mushrooms standing as of the last `reconcile`, whose feet a planted flower keeps off. */
@@ -74,13 +75,13 @@ export class FlowerBed {
     instrument: Instrument,
     now: () => number,
     seeded: readonly Flower[],
-    onTap: () => void,
+    dispatch: (action: Action) => void,
   ) {
     this.scene = scene;
     this.instrument = instrument;
     this.now = now;
     this.seeded = seeded;
-    this.onTap = onTap;
+    this.dispatch = dispatch;
   }
 
   /** Stands every flower where `layout` puts it, into the objects it has. */
@@ -175,6 +176,24 @@ export class FlowerBed {
 
   /** Answers a tap on the flower `id`, whether it landed there or went through an insect drinking at it. */
   tap(id: string): void {
+    this.touch(id, 'tap');
+  }
+
+  /**
+   * Answers a finger beyond Phaser's, which plays a chord: `object`, the
+   * topmost thing under it, is opened and sounded when it is a flower's head,
+   * and whether it was is returned. Nothing else takes such a finger.
+   */
+  chordTap(object: Phaser.GameObjects.GameObject): boolean {
+    for (const [id, shown] of this.shown) {
+      if (shown.head !== object) continue;
+      this.touch(id, 'chord');
+      return true;
+    }
+    return false;
+  }
+
+  private touch(id: string, touch: FlowerTouch): void {
     const shown = this.shown.get(id);
     const flower = [...this.seeded, ...this.planted].find(
       (each) => each.id === id,
@@ -182,21 +201,7 @@ export class FlowerBed {
     if (!shown || !flower) return;
     this.open(shown);
     this.sound(flower, true);
-    this.onTap();
-  }
-
-  /**
-   * Answers a finger beyond the first, which plays a chord: `object`, the
-   * topmost thing under it, is played when it is a flower's head, and
-   * whether it was is returned. Nothing else takes a second finger.
-   */
-  chordTap(object: Phaser.GameObjects.GameObject): boolean {
-    for (const [id, shown] of this.shown) {
-      if (shown.head !== object) continue;
-      this.tap(id);
-      return true;
-    }
-    return false;
+    for (const action of FLOWER_TOUCH_ACTIONS[touch]) this.dispatch(action);
   }
 
   /** Opens every flower in sight that makes `sound`, as a key played it. */

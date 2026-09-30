@@ -123,9 +123,8 @@ export class MeadowScene extends Phaser.Scene {
       this.instrument,
       this.now,
       firstFlowers(random, 7),
-      () => {
-        // A flower is part of the meadow: a tap on it is a tap on the meadow too.
-        this.dispatch({ kind: 'deselect' });
+      (action) => {
+        this.dispatch(action);
       },
     );
     this.bed = new MushroomBed(this, this.voice, this.now, (id) => {

@@ -1,12 +1,13 @@
 /**
  * Which of a touch's `changed` fingers, by identifier, play a chord: every
- * one when a finger was already `down` before them, and every one but the
- * first otherwise, the first being the finger Phaser takes as its one.
+ * one but the finger Phaser's one touch pointer holds (`held`, `undefined`
+ * while it holds none), which Phaser answers as an ordinary tap. Phaser gives
+ * a landing finger that pointer whenever it is free, so after the first
+ * finger lifts, the next to land is Phaser's even while another is down.
  */
 export function chordFingers(
   changed: readonly number[],
-  down: readonly number[],
+  held: number | undefined,
 ): number[] {
-  const earlier = down.some((id) => !changed.includes(id));
-  return earlier ? [...changed] : changed.slice(1);
+  return changed.filter((id) => id !== held);
 }
