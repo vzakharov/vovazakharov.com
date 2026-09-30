@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { placeOf } from '../ui/scene/clump-layout';
 import { meadowLayout } from '../ui/scene/layout';
 import { ZOOM_FLOOR } from '../ui/scene/meadow-camera';
-import { TAP_RADIUS } from '../ui/scene/sky-layout';
+import { TAP_RADIUS } from '../ui/scene/tap-reach';
 import { FLOOR_HELD, VIEWPORTS } from '../ui/scene/viewports';
 import {
   domeHeight,

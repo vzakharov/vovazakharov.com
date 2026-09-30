@@ -79,8 +79,8 @@ export class Controls {
   private readonly house: Button;
   /** Each always acts: at its kind's limit, the oldest of the kind makes room. */
   private readonly releases: Record<InsectKind, Button>;
-  /** Whether the fly and the bee give way to an open picker (`Controls.yielding`). */
-  private yielding = false;
+  /** Those buttons that give way to an open picker (`Controls.yielding`). */
+  private yielding: MeadowLayout['yielding'] = [];
   private readonly picker: Picker<Species, Planted>;
   private readonly housePicker: Picker<Furnishing>;
   private readonly colourPicker: Picker<FlowerColour>;
@@ -261,17 +261,19 @@ export class Controls {
   }
 
   update(t: number): void {
-    for (const button of [this.mute, this.plus, this.minus, this.house]) {
-      standButton(button, t, button.home, 1);
-    }
     const open =
       this.meadow?.picking === true ||
       this.meadow?.furnishing === true ||
       this.meadow?.planting !== undefined;
+    const shown = (name: MeadowLayout['yielding'][number]) =>
+      open && this.yielding.includes(name) ? 0 : 1;
+    for (const button of [this.mute, this.plus, this.minus]) {
+      standButton(button, t, button.home, 1);
+    }
+    standButton(this.house, t, this.house.home, shown('house'));
     for (const kind of INSECT_KINDS) {
       const button = this.releases[kind];
-      const away = this.yielding && open && kind !== 'butterfly';
-      standButton(button, t, button.home, away ? 0 : 1);
+      standButton(button, t, button.home, shown(kind));
     }
     for (const picker of [
       this.picker,

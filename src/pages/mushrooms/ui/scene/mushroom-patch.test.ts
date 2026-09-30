@@ -23,7 +23,8 @@ import {
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
-import { standingControls, tapReach } from './sky-layout';
+import { standingControls } from './sky-layout';
+import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened, tapTarget } from './visit-play';
 

@@ -53,8 +53,9 @@ import type { Stand } from './flower-sight';
 import type { MeadowLayout, Placement } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { fingerPad } from './mushroom-tap';
-import { standingControls, tapReach } from './sky-layout';
+import { standingControls } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
+import { tapReach } from './tap-reach';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the

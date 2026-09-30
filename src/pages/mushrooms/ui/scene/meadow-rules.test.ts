@@ -33,8 +33,8 @@ import {
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
-import { tapReach } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
+import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, relaidOn } from './visit-play';
 

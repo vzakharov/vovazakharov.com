@@ -21,7 +21,7 @@ import { GENE_RANGES, OPENING_SPECIES } from '../../model/mushroom-genes';
 import { maxReach } from '../../model/mushroom-pose';
 import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
-import { TAP_RADIUS } from './sky-layout';
+import { TAP_RADIUS } from './tap-reach';
 
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;

@@ -5,7 +5,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
-import { TAP_RADIUS } from './sky-layout';
+import { TAP_RADIUS } from './tap-reach';
 
 /**
  * How much narrower than its `capWidth` gene a mushroom's cap and gills are

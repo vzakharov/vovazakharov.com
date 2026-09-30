@@ -5,9 +5,10 @@ import type { Circle, Point } from '../../model/geometry';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
-import { standingControls, tapReach } from './sky-layout';
+import { standingControls } from './sky-layout';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
 import { raysClear, SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
+import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */

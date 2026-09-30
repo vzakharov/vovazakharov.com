@@ -8,7 +8,7 @@ import { ellipse, type Point, ROUND_STEPS } from '../../model/geometry';
 import { type DoorPlace, onStem, paintedDoor } from '../../model/house';
 import { NARROWEST_STANDING } from '../../model/motion';
 import { toCanvas } from '../../model/mushroom-outline';
-import { TAP_RADIUS } from './sky-layout';
+import { TAP_RADIUS } from './tap-reach';
 
 /**
  * Where a door answers a tap: a circle round its middle that takes in the

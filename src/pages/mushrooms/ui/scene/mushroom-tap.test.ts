@@ -20,7 +20,7 @@ import {
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
-import { TAP_RADIUS } from './sky-layout';
+import { TAP_RADIUS } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, tapTarget } from './visit-play';
 

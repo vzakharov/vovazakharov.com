@@ -5,7 +5,7 @@ import type { Circle, Point } from '../../model/geometry';
 import { shake, wobble } from '../../model/motion';
 import { faceFrame, SUPERSAMPLE } from './baking';
 import { containsCircle, type WithCircleHit } from './hit-areas';
-import { tapReach } from './sky-layout';
+import { tapReach } from './tap-reach';
 
 /** How deep a pressed button sinks in, against a mushroom's squash. */
 const PRESS_DEPTH = 0.6;

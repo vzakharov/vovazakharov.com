@@ -11,45 +11,38 @@ import type { Circle } from '../../model/geometry';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import {
+  completed,
+  PICK_CLEAR,
+  pickerRow,
+  rowsFrom,
+  stacked,
+} from './picker-rows';
+import {
+  apart,
+  BUTTON_INSET,
+  GROW_GAP,
+  TAP_RADIUS,
+  tapReach,
+} from './tap-reach';
 
-/** The mute button's radius, and how far its edge keeps from the corner. */
+/** The mute button's radius. */
 const BUTTON_R = 28;
-export const BUTTON_INSET = 18;
 /**
- * The radius of `+`, `−` and the house, the gap between each and the next,
- * and the `+`'s height at the lowest, as a share of the screen's.
+ * The radius of `+`, `−` and the house, and the `+`'s height at the lowest,
+ * as a share of the screen's.
  */
 const GROW_R = 36;
-const GROW_GAP = 16;
 const PLUS_HEIGHT = 0.36;
-/**
- * The picker's buttons at their largest, and their spacing in radii: at the
- * least, which a narrow screen gets, and where there is room.
- */
-const PICK_R = 46;
-const PICK_SPACING = 2.2;
-const PICK_ROOMY_SPACING = 2.7;
-/**
- * The picker's buttons at their largest on a short screen, as a share of its
- * height, so the row keeps to the sky above the clump's caps.
- */
-const PICK_SHARE = 0.095;
-/**
- * The least radius, in CSS pixels, a tap target reaches: 64 across, which a
- * six-year-old's finger finds without aiming.
- */
-export const TAP_RADIUS = 32;
-
-/** A tap target's hit radius: what it draws, and never under `TAP_RADIUS`. */
-export function tapReach(r: number): number {
-  return Math.max(r, TAP_RADIUS);
-}
-
 /**
  * How far down the sky, as a share of the ground's top, the insects' column
  * down the left may reach: below it the back row's caps rise into it.
  */
 const COLUMN_REACH = 0.7;
+
+/** The buttons that may give way, hidden, to an open picker. */
+const YIELDERS = [...INSECT_KINDS, 'house'] as const;
+type Yielder = (typeof YIELDERS)[number];
 
 export type Controls = {
   mute: Circle;
@@ -59,16 +52,25 @@ export type Controls = {
   /** One per `INSECT_KINDS`, each releasing one of its kind: the insects' column down the left. */
   releases: Readonly<Record<InsectKind, Circle>>;
   /**
-   * Whether the fly and the bee stand in the band a picker opens in, which a
-   * screen too small for them anywhere else has them share: they give way,
-   * hidden, while a picker is open.
+   * Those buttons that stand where a picker opens, which a screen too small
+   * for both anywhere else has them share: they give way, hidden, while a
+   * picker is open.
    */
-  yielding: boolean;
+  yielding: readonly Yielder[];
   /** One per `MUSHROOM_SPECIES`, in that order. */
   picker: readonly Circle[];
   /** One per `FURNISHINGS`, in that order. */
   housePicker: readonly Circle[];
 };
+
+/** Every button still shown while a picker is open: all that stand but those `yielding`. */
+export function shownOverPickers(controls: Controls): Circle[] {
+  const { house, releases, yielding } = controls;
+  const hidden = new Set(
+    yielding.map((name) => (name === 'house' ? house : releases[name])),
+  );
+  return standingControls(controls).filter((button) => !hidden.has(button));
+}
 
 /** Every button that stands whatever is open: all but the pickers'. */
 export function standingControls({
@@ -86,10 +88,6 @@ export function standingControls({
     ...INSECT_KINDS.map((kind) => releases[kind]),
   ];
 }
-
-/** Whether two buttons' tap circles keep `gap` apart. */
-const apart = (a: Circle, b: Circle, gap: number) =>
-  Math.hypot(a.x - b.x, a.y - b.y) >= tapReach(a.r) + tapReach(b.r) + gap;
 
 /**
  * The flower picker's two stages, one open at a time, in the top row the
@@ -118,80 +116,14 @@ export function flowerPicker({
   };
 }
 
-/** `count` buttons standing as `row` does, as many abreast as it holds, the rest in rows under it. */
-function stacked(row: readonly Circle[], count: number): Circle[] {
-  const step = (row[0] ? tapReach(row[0].r) * 2 : 0) + GROW_GAP;
-  return Array.from({ length: count }, (_, index) => {
-    const at = row[index % row.length];
-    if (!at) throw new Error('A picker row with no buttons');
-    return { ...at, y: at.y + step * Math.floor(index / row.length) };
-  });
-}
-
-/** A picker's radius with `count` buttons abreast. */
-function pickRadius(count: number, span: number, height: number): number {
-  return Math.min(
-    PICK_R,
-    span / (PICK_SPACING * (count - 1) + 2),
-    height * PICK_SHARE,
-  );
-}
-
-/**
- * A picker's buttons across the top, as many of `count` abreast as keep a
- * finger's size — pushed below the mute where a narrow screen would have them
- * meet, and smaller on a short one.
- */
-function pickerRow(
-  count: number,
-  width: number,
-  height: number,
-  mute: Circle,
-): Circle[] {
-  const row = rowAcross(count, [BUTTON_INSET, width - BUTTON_INSET], height);
-  const [first] = row;
-  const clearOfMute =
-    first !== undefined && first.x - first.r >= mute.x + mute.r + BUTTON_INSET;
-  if (clearOfMute) return row;
-  return row.map((pick) => ({
-    ...pick,
-    y: mute.y + mute.r + BUTTON_INSET + pick.r,
-  }));
-}
-
-/**
- * As many of `count` buttons abreast as keep a finger's size, across the
- * top between `left` and `right`, as near their middle as their spacing
- * lets them.
- */
-function rowAcross(
-  count: number,
-  [left, right]: readonly [number, number],
-  height: number,
-): Circle[] {
-  const span = right - left;
-  let abreast = count;
-  while (abreast > 2 && pickRadius(abreast, span, height) < TAP_RADIUS) {
-    abreast--;
-  }
-  const r = pickRadius(abreast, span, height);
-  const gaps = abreast - 1;
-  const step = Math.min(r * PICK_ROOMY_SPACING, (span - r * 2) / gaps);
-  const first = (left + right) / 2 - (step * gaps) / 2;
-  return Array.from({ length: abreast }, (_, index) => ({
-    x: first + step * index,
-    y: BUTTON_INSET + r,
-    r,
-  }));
-}
-
 /**
  * The mute in the top left; the two pickers across the top, one at a time, as
  * each closes the other; and `+`, `−` and the house down the right, where
  * Syama drew them: at `PLUS_HEIGHT`, raised where that would bring the house
  * down onto the ground, but never onto a picker's row or off the screen.
  *
- * A sky too short for three down the right stands the house left of `+`.
+ * A sky too short for three down the right stands the house left of `+`,
+ * and a picker's row that would push them onto the ground moves instead.
  * Where the rows, dropped below the mute, push the house under the ground's
  * edge, it takes the top right corner, opposite the mute, instead. A picker
  * too long for one row at a finger's size — only ever on a screen narrow
@@ -213,8 +145,19 @@ export function placeControls(
     y: BUTTON_INSET + BUTTON_R,
     r: BUTTON_R,
   };
-  const picker = pickerRow(MUSHROOM_SPECIES.length, width, height, mute);
-  const houseRow = pickerRow(FURNISHINGS.length, width, height, mute);
+  // A row dropped below the mute clears the house too, should it take the corner.
+  const dropped = Math.max(
+    mute.y + mute.r + BUTTON_INSET,
+    BUTTON_INSET + tapReach(GROW_R) * 2 + PICK_CLEAR,
+  );
+  const picker = pickerRow(MUSHROOM_SPECIES.length, [width, height], {
+    mute,
+    dropped,
+  });
+  const houseRow = pickerRow(FURNISHINGS.length, [width, height], {
+    mute,
+    dropped,
+  });
   const x = width - BUTTON_INSET - GROW_R;
   const hit = tapReach(GROW_R);
   const below = GROW_R * 2 + GROW_GAP;
@@ -223,10 +166,12 @@ export function placeControls(
     .filter((pick) => pick.x + tapReach(pick.r) > x - hit)
     .map((pick) => pick.y + tapReach(pick.r) + GROW_GAP + hit);
   const column = hit * 2 + below * 2 <= groundTop - GROW_GAP ? 2 : 1;
+  const lowestPlus = groundTop - GROW_GAP - hit - below * column;
   const plusY = Math.max(
     hit,
-    ...overColumn,
-    Math.min(height * PLUS_HEIGHT, groundTop - GROW_GAP - hit - below * column),
+    // A row that would push the short column onto the ground gives way instead.
+    ...(column === 1 ? overColumn.filter((y) => y <= lowestPlus) : overColumn),
+    Math.min(height * PLUS_HEIGHT, lowestPlus),
   );
   const underMinus = plusY + below * 2;
   const cornered = column === 2 && underMinus > groundTop;
@@ -244,11 +189,11 @@ export function placeControls(
   } = placeReleases({
     mute,
     rows: [picker, houseRow],
-    fixed: [
-      { x, y: plusY, r: GROW_R },
-      { x, y: plusY + below, r: GROW_R },
+    grow: {
+      plus: { x, y: plusY, r: GROW_R },
+      minus: { x, y: plusY + below, r: GROW_R },
       house,
-    ],
+    },
     width,
     height,
     lowest: topRow ? 0 : groundTop * COLUMN_REACH,
@@ -269,8 +214,9 @@ export function placeControls(
     standing: [
       plus,
       minus,
-      house,
-      ...(yielding ? [releases.butterfly] : Object.values(releases)),
+      ...YIELDERS.filter((name) => !yielding.includes(name)).map((name) =>
+        name === 'house' ? house : releases[name],
+      ),
     ],
   };
   return {
@@ -285,59 +231,6 @@ export function placeControls(
   };
 }
 
-/**
- * The room a picker's rest may take: the band beside the mute, from `from`
- * to `to` across the top, or rows under the picker's own down to `floor`,
- * clear of every button of `standing` still shown while it is open.
- */
-type Room = Record<'from' | 'to' | 'floor', number> & {
-  standing: readonly Circle[];
-};
-
-/**
- * A picker of `count` buttons whose `row` holds only some of them: the rest
- * spread across the band of `room` where it holds them apart from each
- * other and from `row`, each a finger's reach clear of its ends; otherwise
- * in rows under `row` (`stacked`) where those keep above the room's floor and
- * clear of its standing buttons; and on a screen too small for either, in
- * the band as it falls.
- */
-function completed(
-  row: readonly Circle[],
-  count: number,
-  { from, to, floor, standing }: Room,
-): Circle[] {
-  const rest = count - row.length;
-  if (rest === 0) return [...row];
-  const r = row[0]?.r ?? TAP_RADIUS;
-  const reach = tapReach(r);
-  const inBand = Array.from({ length: rest }, (_, index) => ({
-    x: from + ((to - from) * (index + 1)) / (rest + 1),
-    y: BUTTON_INSET + r,
-    r,
-  }));
-  const [first, ...others] = inBand;
-  const held =
-    first !== undefined &&
-    first.x - reach >= from - BUTTON_INSET &&
-    (inBand.at(-1)?.x ?? first.x) + reach <= to + BUTTON_INSET &&
-    others.every((button, index) => {
-      const before = inBand[index];
-      return before !== undefined && apart(before, button, 0);
-    }) &&
-    inBand.every((button) => row.every((other) => apart(button, other, 0)));
-  if (held) return [...row, ...inBand];
-  const under = stacked(row, count);
-  const fits = under
-    .slice(row.length)
-    .every(
-      (button) =>
-        button.y + tapReach(button.r) <= floor &&
-        standing.every((other) => apart(button, other, 0)),
-    );
-  return fits ? under : [...row, ...inBand];
-}
-
 /** The insects' buttons, each a finger's size and `GROW_GAP` from the next. */
 const RELEASE_STEP = TAP_RADIUS * 2 + GROW_GAP;
 
@@ -345,7 +238,7 @@ const RELEASE_STEP = TAP_RADIUS * 2 + GROW_GAP;
 type PlaceReleasesParams = Sized &
   Pick<Controls, 'mute'> & {
     rows: readonly [Circle[], Circle[]];
-    fixed: readonly Circle[];
+    grow: Pick<Controls, 'plus' | 'minus' | 'house'>;
     lowest: number;
   };
 
@@ -353,20 +246,23 @@ type PlaceReleasesParams = Sized &
  * The insects' buttons, as the sky has room for them, the first that fits:
  * a column down the left under the mute and any picker's row over it, while
  * it ends above `lowest`; a row beside the mute, the pickers' rows moved right
- * of it when they stand in the top row too, clear of the `fixed` buttons; or,
- * on a screen too small for either, the butterfly beside the mute and the
- * fly and the bee in the band a picker opens in, which they give way to.
+ * of it when they stand in the top row too, clear of the `grow` buttons; that
+ * row where a sky too short for a picker's row anywhere else has the rows
+ * stand over it, from the mute to `+`, and whichever of the insects and the
+ * house they meet give way to them; or, on a screen too narrow for the row,
+ * the butterfly beside the mute and the fly and the bee in the band a picker
+ * opens in, which they give way to.
  */
 function placeReleases({
   mute,
   rows,
-  fixed,
+  grow,
   width,
   height,
   lowest,
 }: PlaceReleasesParams): {
   releases: Record<InsectKind, Circle>;
-  yielding: boolean;
+  yielding: readonly Yielder[];
   /** Those of them that stand in the top row, beside the mute. */
   inTopRow: readonly Circle[];
   rows: readonly [Circle[], Circle[]];
@@ -394,7 +290,7 @@ function placeReleases({
         y: columnTop + RELEASE_STEP * index,
         r,
       })),
-      yielding: false,
+      yielding: [],
       inTopRow: [],
       rows,
     };
@@ -405,22 +301,50 @@ function placeReleases({
     y: muteY,
     r,
   }));
-  // A picker's row, open only a moment, may come as near as touching.
-  const clear = (gap: number) => (buttons: readonly Circle[]) =>
-    buttons.every(
-      (button) =>
-        button.x + tapReach(button.r) <= width - BUTTON_INSET &&
-        fixed.every((other) => apart(button, other, gap)),
-    );
-  const moved = clear(GROW_GAP / 2)(inRow)
-    ? rowsBeside(inRow, rows, clear(0), [width, height])
+  const clear =
+    (gap: number, fixed: readonly Circle[]) => (buttons: readonly Circle[]) =>
+      buttons.every(
+        (button) =>
+          button.x + tapReach(button.r) <= width - BUTTON_INSET &&
+          fixed.every((other) => apart(button, other, gap)),
+      );
+  const inRowReleases = keyed((index) => inRow[index] ?? mute);
+  const last = inRow.at(-1) ?? mute;
+  const fits = clear(GROW_GAP / 2, Object.values(grow))(inRow);
+  const moved = fits
+    ? rowsFrom(rows, {
+        left: last.x + tapReach(last.r) + PICK_CLEAR,
+        bandBottom: last.y + tapReach(last.r),
+        clear: clear(PICK_CLEAR, Object.values(grow)),
+        size: [width, height],
+      })
     : undefined;
   if (moved) {
     return {
-      releases: keyed((index) => inRow[index] ?? mute),
-      yielding: false,
+      releases: inRowReleases,
+      yielding: [],
       inTopRow: inRow,
       rows: moved,
+    };
+  }
+  const over = fits
+    ? rowsFrom(rows, {
+        left: muteX + tapReach(muteR) + PICK_CLEAR,
+        bandBottom: Infinity,
+        clear: clear(PICK_CLEAR, [grow.plus, grow.minus]),
+        size: [width, height],
+      })
+    : undefined;
+  if (over) {
+    const met = (button: Circle) =>
+      over.flat().some((pick) => !apart(pick, button, PICK_CLEAR));
+    return {
+      releases: inRowReleases,
+      yielding: YIELDERS.filter((name) =>
+        met(name === 'house' ? grow.house : inRowReleases[name]),
+      ),
+      inTopRow: inRow,
+      rows: over,
     };
   }
   const [butterfly = mute] = inRow;
@@ -431,35 +355,8 @@ function placeReleases({
         ? butterfly
         : { x: columnX + RELEASE_STEP * (index - 1), y: band, r },
     ),
-    yielding: true,
+    yielding: ['fly', 'bee'],
     inTopRow: [butterfly],
     rows,
   };
-}
-
-/**
- * The pickers' `rows` with any standing in the top row moved right of
- * `inRow`, narrowed from the right until they are `clear`; `undefined`
- * where a row no longer fits whole.
- */
-function rowsBeside(
-  inRow: readonly Circle[],
-  rows: readonly [Circle[], Circle[]],
-  clear: (buttons: readonly Circle[]) => boolean,
-  [width, height]: readonly [number, number],
-): readonly [Circle[], Circle[]] | undefined {
-  const last = inRow.at(-1);
-  if (!last) return rows;
-  const left = last.x + tapReach(last.r) + GROW_GAP / 2;
-  const beside = (row: Circle[]): Circle[] | undefined => {
-    const [first] = row;
-    if (!first || first.y - first.r > last.y + tapReach(last.r)) return row;
-    for (let right = width - BUTTON_INSET; right > left; right -= 4) {
-      const placed = rowAcross(row.length, [left, right], height);
-      if (placed.length === row.length && clear(placed)) return placed;
-    }
-    return undefined;
-  };
-  const [picks, furnishings] = rows.map((row) => beside(row));
-  return picks && furnishings ? [picks, furnishings] : undefined;
 }

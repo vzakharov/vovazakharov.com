@@ -31,7 +31,7 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { tapReach } from './sky-layout';
+import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import {
   ALL_TEN,

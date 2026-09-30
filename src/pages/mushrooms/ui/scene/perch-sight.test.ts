@@ -21,7 +21,8 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { standingControls, tapReach } from './sky-layout';
+import { standingControls } from './sky-layout';
+import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 

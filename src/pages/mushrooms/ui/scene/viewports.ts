@@ -17,6 +17,15 @@ export const VIEWPORTS = [
 /** A phone narrower than any of `VIEWPORTS`, whose camera the zoom floor holds. */
 export const FLOOR_HELD = ['280×600', 280, 600] as const;
 
+/**
+ * The small phones held sideways, whose sky is too short for the pickers'
+ * top row: the controls' sweeps alone run over them.
+ */
+export const TURNED_SMALL = [
+  ['small phone held sideways', 568, 320],
+  ['600×280', 600, 280],
+] as const;
+
 /** The seed of each of 2000 visits, spread over the seed space. */
 export const VISITS = Array.from(
   { length: 2000 },

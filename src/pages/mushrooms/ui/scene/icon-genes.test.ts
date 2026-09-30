@@ -6,7 +6,7 @@ import type { Point } from '../../model/geometry';
 import { inkWidth } from '../../model/mushroom-outline';
 import { capBase, capSurface } from '../../model/mushroom-profile';
 import { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './icon-genes';
-import { TAP_RADIUS } from './sky-layout';
+import { TAP_RADIUS } from './tap-reach';
 
 /** The height of the middle point of a mouth's `edge`. */
 const middleY = (edge: readonly Point[]) =>

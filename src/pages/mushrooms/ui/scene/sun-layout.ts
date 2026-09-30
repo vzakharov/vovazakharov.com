@@ -7,12 +7,8 @@ import type { Box, Circle } from '../../model/geometry';
 import type { Ground } from '../../model/ground';
 import { everyPlace, placeOf } from './clump-layout';
 import type { MeadowLayout } from './layout';
-import {
-  BUTTON_INSET,
-  type Controls,
-  standingControls,
-  tapReach,
-} from './sky-layout';
+import { type Controls, standingControls } from './sky-layout';
+import { BUTTON_INSET, tapReach } from './tap-reach';
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
 export const SUN_GLOW_REACH = 2.6;
@@ -28,7 +24,7 @@ const SUN_LEAST = 0.5;
  * for it at `SUN_LEAST`: only on a screen a few buttons across and down, where
  * the controls leave the clump a gap too narrow for anything larger.
  */
-const SUN_SMALLEST = 0.2;
+const SUN_SMALLEST = 0.1;
 
 /**
  * Where the far hills meet the sky, over ground whose band begins

@@ -29,8 +29,8 @@ import {
 } from './insect-look';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
-import { tapReach } from './sky-layout';
 import type { MeadowSound } from './sound';
+import { tapReach } from './tap-reach';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;

@@ -41,7 +41,8 @@ import {
   standingFlowers,
 } from './flower-plots';
 import type { Footing, MeadowLayout } from './layout';
-import { standingControls, tapReach } from './sky-layout';
+import { standingControls } from './sky-layout';
+import { tapReach } from './tap-reach';
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward

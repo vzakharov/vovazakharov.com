@@ -32,9 +32,11 @@ import { everyPlace, placeIn } from './clump-layout';
 import { doorHitArea, MOUSE_HEAD_LEAST, mouseHead } from './door-reach';
 import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
-import { standingControls, TAP_RADIUS, tapReach } from './sky-layout';
+import { PICK_CLEAR } from './picker-rows';
+import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import { SUN_GLOW_REACH } from './sun-layout';
-import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
+import { TAP_RADIUS, tapReach } from './tap-reach';
+import { FLOOR_HELD, TURNED_SMALL, VIEWPORTS, VISITS } from './viewports';
 import { capsSpan, opened } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
@@ -264,35 +266,58 @@ describe('meadowLayout', () => {
 });
 
 describe('the controls', () => {
-  for (const [name, width, height] of [...VIEWPORTS, FLOOR_HELD]) {
-    it(`gives every control a finger's reach, apart, on a ${name} screen`, () => {
+  for (const [name, width, height] of [
+    ...VIEWPORTS,
+    FLOOR_HELD,
+    ...TURNED_SMALL,
+  ]) {
+    it(`gives every control and every picker's stage a finger's reach, apart, on a ${name} screen`, () => {
       const layout = screenLayout(width, height);
-      const { releases, yielding, picker, housePicker } = layout;
+      const { yielding, picker, housePicker } = layout;
+      const { colours, shapes } = flowerPicker(layout);
       assert.equal(picker.length, MUSHROOM_SPECIES.length);
       assert.equal(housePicker.length, FURNISHINGS.length);
       const standing = standingControls(layout);
-      for (const { r } of [...standing.slice(1), ...picker, ...housePicker]) {
+      const stages = { picker, housePicker, colours, shapes };
+      for (const { r } of [
+        ...standing.slice(1),
+        ...Object.values(stages).flat(),
+      ]) {
         assert.ok(r >= TAP_RADIUS);
       }
-      // Only a screen with no room anywhere else has the fly and the bee
-      // give way to an open picker.
-      assert.equal(yielding, name === 'small phone' || name === FLOOR_HELD[0]);
-      const given = yielding
-        ? standing.filter(
-            (each) => each !== releases.fly && each !== releases.bee,
-          )
-        : standing;
-      // The two pickers share the top, never open together, so each is
-      // held apart from the rest and from itself but not from the other.
-      for (const open of [[], picker, housePicker]) {
-        const controls = reach([
-          ...(open.length > 0 ? given : standing),
-          ...open,
-        ]);
-        for (const [index, control] of controls.entries()) {
-          assert.ok(onScreen(control, width, height), `control ${index} off`);
-          for (const other of controls.slice(index + 1)) {
-            assert.ok(apart(control, other), `control ${index} overlaps`);
+      // Only a screen with no room anywhere else has buttons give way to an
+      // open picker.
+      assert.equal(
+        yielding.length > 0,
+        [
+          'small phone',
+          FLOOR_HELD[0],
+          ...TURNED_SMALL.map(([turned]) => turned),
+        ].includes(name),
+      );
+      const given = shownOverPickers(layout);
+      const reached = reach(standing);
+      for (const [index, control] of reached.entries()) {
+        assert.ok(onScreen(control, width, height), `control ${index} off`);
+        for (const other of reached.slice(index + 1)) {
+          assert.ok(apart(control, other), `control ${index} overlaps`);
+        }
+      }
+      // The pickers share the top, one open at a time, so each stage is held
+      // apart from itself and clear of every button still standing, but not
+      // from the others.
+      for (const [stage, open] of Object.entries(stages)) {
+        const buttons = reach(open);
+        for (const [index, button] of buttons.entries()) {
+          assert.ok(onScreen(button, width, height), `${stage} ${index} off`);
+          for (const other of buttons.slice(index + 1)) {
+            assert.ok(apart(button, other), `${stage} ${index} overlaps`);
+          }
+          for (const other of reach(given)) {
+            assert.ok(
+              apart(button, { ...other, r: other.r + PICK_CLEAR }),
+              `${stage} ${index} meets a control`,
+            );
           }
         }
       }
