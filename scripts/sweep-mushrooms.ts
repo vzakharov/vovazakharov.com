@@ -1,13 +1,15 @@
 /**
  * Grows the forest as `+` grows it, over every visit the layout sweeps draw
  * from (`VISITS`) on every screen they know (`VIEWPORTS`), and prints what
- * the suite only samples: how many visits reach `MUSHROOM_SLOTS`, how wide
- * the grown caps span in the median visit, the most of any cap and stem
- * the nearer mushrooms hide (`hidersOf`, against `MOST_HIDDEN`), which
- * mushrooms keep no patch of their own as wide as their floor
- * (`patchlessIn`), and how many keep one narrower than a fingertip. The tests
- * hold a floor over a share of these visits; the numbers a plan quotes for
- * the whole of them come from here.
+ * the suite only samples. Over the whole world: how many visits reach
+ * `MUSHROOM_SLOTS`, the most of any cap and stem the nearer mushrooms hide
+ * (`hidersOf`, against `MOST_HIDDEN`), which mushrooms keep no patch of
+ * their own as wide as their floor (`patchlessIn`), and how many keep one
+ * narrower than a fingertip. On the crop the visit opens on
+ * (`openingCrop`), grown as the child grows it: how many mushrooms the least
+ * and the median visit hold, and how wide their caps span in the median
+ * visit. The tests hold a floor over a share of these visits; the numbers a
+ * plan quotes for the whole of them come from here.
  *
  *   pnpm sweep:mushrooms                            # all 2000 visits
  *   pnpm sweep:mushrooms --visits 200               # 200 spread over them
@@ -29,6 +31,7 @@ import { VIEWPORTS, VISITS } from '../src/pages/mushrooms/ui/scene/viewports';
 import {
   capsSpan,
   opened,
+  openingCrop,
   standingIn,
 } from '../src/pages/mushrooms/ui/scene/visit-play';
 import { flag } from './lib/argv.ts';
@@ -67,6 +70,7 @@ for (const [name, width, height] of VIEWPORTS) {
   let full = 0;
   let least = MUSHROOM_SLOTS;
   const spans: number[] = [];
+  const cropped: number[] = [];
   const most = { cap: 0, stem: 0 };
   const patchless: string[] = [];
   let mushrooms = 0;
@@ -80,7 +84,9 @@ for (const [name, width, height] of VIEWPORTS) {
     narrow += patchlessIn(stand, () => FINGERTIP).length;
     if (grown === MUSHROOM_SLOTS) full += 1;
     least = Math.min(least, grown);
-    spans.push(capsSpan(stand));
+    const crop = opened(seed, width, height, true, openingCrop);
+    cropped.push(crop.mushrooms.length);
+    spans.push(capsSpan(crop));
     const among = standingIn(stand);
     for (const one of among) {
       const hiders = hidersOf(one, among);
@@ -97,7 +103,7 @@ for (const [name, width, height] of VIEWPORTS) {
   const line = [
     `${name} ${String(width)}×${String(height)}`,
     `${String(MUSHROOM_SLOTS)} in ${String(full)} of ${String(seeds.length)} visits (${percent(full / seeds.length)}), least ${String(least)}`,
-    `caps span a median ${percent(median(spans))} of the width`,
+    `on the opening crop least ${String(Math.min(...cropped))}, median ${String(median(cropped))}, caps span a median ${percent(median(spans))} of the width`,
     `most hidden: ${hidden.join(', ')}`,
     `no patch: ${patchless.length > 0 ? patchless.join(', ') : 'none'}`,
     `under a fingertip ${percent(narrow / mushrooms)}`,

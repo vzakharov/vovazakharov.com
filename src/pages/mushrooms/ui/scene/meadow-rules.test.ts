@@ -159,10 +159,10 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { sun, mushrooms: ground } = layout;
+  const { sun, width, mushrooms: ground } = layout;
   const { world } = ground.camera;
   const crop = openingCrop(layout);
-  const shown = [0, layout.width].map((x) => crop.toWorld({ x, y: 0 }).x);
+  const shown = [0, width].map((x) => crop.toWorld({ x, y: 0 }).x);
   const [left = 0, right = world] = shown;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {

@@ -64,9 +64,18 @@ found is looked for again once the crop's left edge has moved.
   six, cannot hold at twelve without loosening: left red for the
   orchestrator.
 
+- Step 3 (this commit): `scripts/sweep-mushrooms.ts` grows each visit over
+  the world and on the opening crop. `--visits 200`, every screen: twelve
+  over the world in 200 of 200 (least 12) on every screen; on the opening
+  crop least 12 / median 12 everywhere but the phone (least 10) and the
+  small phone (least 11); caps' span on the opening crop, median: tablet
+  90.3%, tablet portrait 89.4%, phone 86.9%, phone held sideways 90.4%,
+  small phone 86.0%, desktop 92.1%; most hidden cap 16.4% (tablet), stem
+  45.2% (tablet); no patchless mushroom anywhere; under a fingertip:
+  27.1 / 3.3 / 24.8 / 13.3 / 21.8 / 14.2% in that order.
+
 ## Left
 
-- Step 3: `scripts/sweep-mushrooms.ts` to the world and twelve.
 - Step 4: every forest-growing test re-run with twelve.
 - Step 5: how much the wash shrank per screen.
 
