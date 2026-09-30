@@ -127,7 +127,13 @@ stale/<…>`) and check out a fresh tracking branch — nothing lost, nothing to
   `/from-branch`'s attach. Nothing was lost (the stale tip went aside from
   the reflog), but a standing constraint read after the step it governs
   does not govern it. The skill's pickup should read the summary's
-  § "Standing constraints" before attaching.
+  § "Standing constraints" before attaching. Bite 10's review pickup reset
+  the same way, with the summary itself saying "read this section before
+  the attach, not after": a sentence inside the file cannot reorder the
+  steps that open it. The fix is in `/relay take`'s own order (read
+  `relay.md` from `origin/<branch>` with `git show`, then attach), or in the
+  successor's one-line prompt naming the rename aside; the skill should
+  carry one of the two.
 - **`/polish` and vet change source after the last frames.** Bite 4's polish
   folded helpers and vet's knip fix made two exports private, both after the
   scene agent's last frame run, which the loop requires to follow the last
