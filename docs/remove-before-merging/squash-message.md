@@ -1,46 +1,39 @@
 Proposed squash title/body:
 
 ```
-feat(vova): #65 Syama's mushroom meadow, with houses and insects (pr #57)
+feat(vova): #65 Syama's mushroom meadow: houses, insects, flower music (pr #57)
 ```
 
 ```
 A six-year-old drew a game on squared paper and explained it in two
 voice notes: fly agarics with a mouse house in each, a plus and a
 minus for mushrooms, buttons that fly in a butterfly, a fly or a bee.
-There is no goal and no text — the point is to watch. Issue #65 holds
-the spec; every control in the drawing now works.
+There is no goal and no text — the point is to watch and to play.
+Issue #65 holds the spec; every control in the drawing works.
 
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
-route alone and rendered at the device pixel ratio. Every mushroom,
-flower and insect is grown from its own seed by a pure, tested
-generator, and every motion is a pure function of the clock; sound is a
-Web Audio synth with a remembered mute. The meadow is one piece of
-ground seen from one angle, so a turn moves nothing on it: the camera
-zooms out to keep all that has grown in view, and every rule still
-holds. It is painted in one light: shade, shine and shadows fall from
-the sun as each thing sees it, hills recede into a shared air, and every
-creature is inked in a dark of its own colour.
+route alone. Every mushroom, flower and insect is grown from its own
+seed by a pure, tested generator, and every motion is a pure function
+of the clock. The meadow is one piece of ground seen from one angle,
+so a turn moves nothing on it and every rule still holds. It is
+painted in one light: shade, shine and shadows fall from the sun as
+each thing sees it, and every creature is inked in a dark of its own
+colour. A pure reducer in model/game.ts owns the state, and pnpm
+play:mushrooms plays every control on five screens in headless
+Chromium, failing on a page error, a wrong result or a slow frame.
 
-Plus grows one of four species out of the ground — a fly agaric, a
-porcini, a chanterelle trumpet, a russula in one of five colours — and
-minus sinks one; each new one takes a foot of its own wherever it fits,
-up to six, and plus shakes its head when none does. The house button
-furnishes any of them with Syama's windows and a door a mouse peeks
-from. Three buttons fly in a butterfly, a fly or a bee, each kind with
-its own limit, habits and path: butterflies drink at flowers, flies
-zigzag to the fly agarics and fidget there, bees carry pollen between
-flowers and plant new ones in rings round those they pollinate, only
-where the new flower is in sight. Fliers keep apart where they sit and
-hover, and a bee waiting for a flower is made way for. A tap sends one
-at rest on its way; a control that cannot act shakes its head.
+Plus grows one of four species — a fly agaric, a porcini, a
+chanterelle, a russula — on a foot of its own, up to six, and minus
+sinks one; the house button furnishes any of them with Syama's windows
+and a door a mouse peeks from. Butterflies drink at flowers, flies
+zigzag to the fly agarics, and bees carry pollen and plant new flowers
+round those they pollinate. A control that cannot act shakes its head.
 
-A pure reducer in model/game.ts owns the state. Whatever stands still
-— the backdrop, each button's face — is baked into a texture once a
-paint, so a frame draws a few quads. pnpm play:mushrooms plays every
-control on five screens in headless Chromium, watching every frame,
-and fails on a page error, a wrong result or a median frame past its
-budget.
+Every flower is a note or a drum by its colour and shape, darker
+sounding lower, so the meadow is an instrument: a tap plays a flower,
+several fingers play a chord, and a keyboard plays it too. A tap on a
+grass tuft opens a two-stage picker, colour then shape, and that very
+flower grows there. Sound is a Web Audio synth with a remembered mute.
 
 Closes #65
 
