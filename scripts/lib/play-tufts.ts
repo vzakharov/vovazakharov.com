@@ -2,8 +2,8 @@
  * The child planting flowers, `play-mushrooms.ts`'s run on a fresh meadow:
  * the flower picker opened on the farthest tuft and on the nearest, as on
  * every tuft of a meadow not yet full; a colour picked, a shape picked, and
- * that very flower grown on the tuft; the tuft it grew on shaking its head
- * at a second flower; and the picker opened on another tuft, then closed,
+ * that very flower grown on the tuft; the tuft it grew on opening no picker
+ * again; and the picker opened on another tuft, then closed,
  * planting nothing, by a second tap on it.
  */
 
@@ -23,9 +23,6 @@ const Planting = z.object({
   /** The seeds the shape stage shows, in shape order; empty before a colour. */
   seeds: z.array(z.number()),
   planted: z.number(),
-  /** When the last tuft to refuse shook its head, `null` if none has. */
-  refusedAt: z.number().nullable(),
-  clock: z.number(),
 });
 /** The newest planted flower: its seed, whether it stands on a tuft, and where its head shows. */
 const Newest = z
@@ -38,16 +35,13 @@ const Newest = z
   .nullable();
 
 const PLANTING = `(() => {
-  const { meadow, grass } = __probe.scene;
+  const { meadow } = __probe.scene;
   const { planting } = meadow;
-  const refused = grass.refused;
   return {
     open: planting !== undefined,
     chosen: planting?.chosen !== undefined,
     seeds: [...(planting?.chosen?.seeds ?? [])],
     planted: meadow.planted.length,
-    refusedAt: refused ? refused.shakenAt : null,
-    clock: __probe.scene.clock,
   };
 })()`;
 
@@ -56,7 +50,7 @@ const PLANTING = `(() => {
  * button over it — the farthest first.
  */
 const TUFTS = `__probe.scene.grass.tufts
-  .map(({ x, y, size }) => ({ x, y: y - size }))
+  .map(({ tuft: { x, y, size } }) => ({ x, y: y - size }))
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;
 
@@ -173,7 +167,8 @@ export async function playTufts(
     });
   }
 
-  // The tuft the flower grew on takes no second one.
+  // The tuft the flower grew on is grass under a flower now: a tap there
+  // opens no picker.
   const bare = await page.evaluate(
     `__probe.topAt(${JSON.stringify(opened)}) === null`,
     z.boolean(),
@@ -181,17 +176,11 @@ export async function playTufts(
   if (bare) {
     await page.tap(opened);
     await page.step(6);
-    const after = await planting();
-    expect(
-      !after.open &&
-        after.refusedAt !== null &&
-        after.clock - after.refusedAt < 1,
-      'a planted tuft did not shake its head at a second flower',
-    );
-    await page.shoot('tuft-5-refused');
+    expect(!(await planting()).open, 'a planted tuft opened the picker again');
+    await page.shoot('tuft-5-planted');
     await page.step(30);
   } else {
-    note('the grown flower covers its tuft; no refusal shot');
+    note('the grown flower covers its tuft; no second tap there');
   }
 
   // A second tap on a tuft with the picker open closes it, planting nothing.

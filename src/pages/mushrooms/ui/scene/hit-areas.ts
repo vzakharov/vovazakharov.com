@@ -11,6 +11,7 @@ import {
   type MushroomTarget,
   tappedMushroom,
 } from './mushroom-tap';
+import { tuftUnder } from './tufts';
 
 export type WithGraphics = { graphics: Phaser.GameObjects.Graphics };
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
@@ -46,7 +47,8 @@ export function containsMushroom(
 /**
  * A flower head's hit test, bound with its petals' reach `petals()` in the
  * head's own frame: its tap circle `area` (`flowerTakes`), yielding past the
- * petals to any mushroom drawn under the finger.
+ * petals to any mushroom drawn under the finger, and to a bare tuft whose
+ * reach holds it (`tuftUnder`).
  */
 export function containsFlower(petals: () => number) {
   return (
@@ -63,7 +65,10 @@ export function containsFlower(petals: () => number) {
         const finger = flower
           .getWorldTransformMatrix()
           .transformPoint(x, y, { x: 0, y: 0 });
-        return drawnUnder(finger, shownMushrooms(flower.scene));
+        return (
+          drawnUnder(finger, shownMushrooms(flower.scene)) ||
+          tuftUnder(flower.scene, finger)
+        );
       },
     );
 }

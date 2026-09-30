@@ -2,9 +2,16 @@ import {
   boxAround,
   type Circle,
   containsPoint,
+  placedAt,
   type Point,
 } from '../../model/geometry';
-import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
+import type { MushroomGenes } from '../../model/mushroom-genes';
+import {
+  TAP_PARTS,
+  type TapArea,
+  tapArea,
+  toCanvas,
+} from '../../model/mushroom-outline';
 import { TAP_RADIUS } from './tap-reach';
 
 /**
@@ -50,6 +57,30 @@ export type MushroomTarget = {
   area: TapArea;
   local: (at: Point) => Point;
 };
+
+/**
+ * A mushroom of `genes` drawn `size` px to its unit, its foot at `foot` and
+ * turned `turn`, as a tap finds it: its tap area as the bed fills it in, in
+ * its graphics' canvas frame, and a point on screen in that frame.
+ */
+export function tapTarget(
+  genes: MushroomGenes,
+  size: number,
+  foot: Point,
+  turn: number,
+): MushroomTarget {
+  const canvas = toCanvas(size);
+  const { cap, gills, stem } = tapArea(genes, turn);
+  return {
+    area: {
+      cap: cap.map((point) => canvas(point)),
+      gills: gills.map((point) => canvas(point)),
+      stem: stem.map((point) => canvas(point)),
+    },
+    local: ({ x, y }) =>
+      placedAt({ x: 0, y: 0 }, -turn, { x: x - foot.x, y: y - foot.y }),
+  };
+}
 
 /** Whether any of `mushrooms` has a drawn part under `finger` on screen. */
 export function drawnUnder(

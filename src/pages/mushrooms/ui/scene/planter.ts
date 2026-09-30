@@ -3,9 +3,8 @@ import { type FlowerShape, shapeSeeds } from '../../model/flower-sounds';
 import { type Action, type Meadow, sameFoot } from '../../model/game';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
-import type { Tuft } from './grass';
 import type { MeadowSound } from './sound';
-import { type Grass, tuftFoot } from './tufts';
+import type { Grass, Sprout } from './tufts';
 
 /** What the planter acts through: the scene's stand and reducer. */
 type Scened = {
@@ -72,11 +71,10 @@ export class Planter {
    * its head and lets go of the selection and any open picker, as any tap on
    * the meadow does.
    */
-  tapTuft(tuft: Tuft, grass: Grass): void {
+  tapTuft({ tuft, foot }: Sprout, grass: Grass): void {
     const { stand, meadow, dispatch } = this.scene;
     const standing = stand();
     if (!standing) return;
-    const foot = tuftFoot(standing.layout.camera, tuft);
     const open = meadow()?.planting?.foot;
     const again = open !== undefined && sameFoot(open, foot);
     if (!again && !takesFlower(standing, foot)) {

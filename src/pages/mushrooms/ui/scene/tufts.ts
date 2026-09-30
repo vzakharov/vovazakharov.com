@@ -1,49 +1,80 @@
 /**
  * The grass tufts as the child plants on them: where they grow, which one a
- * tap lands on, and where on the ground a flower planted there stands. A
- * tuft grows only where a flower could stand, so the grass is the sign of
- * where planting works: each takes a flower until the meadow is full or
- * something has come to stand on it. Only a tap nothing else takes reaches
- * the grass (`MeadowScene.tapMeadow`), so a tuft answers where no mushroom,
- * flower, insect or button is drawn.
+ * tap lands on, and where on the ground a flower planted there stands. The
+ * bare tufts are exactly the spots a flower can be planted now — each takes a
+ * flower (`takesFlower`), is bare to a finger (`bareToTap`) and stays apart
+ * from every other's reach — and there are never more of them than the
+ * flowers the meadow still has room for. They are tended afresh whenever the
+ * mushrooms or the flowers change, and on every paint, a tuft still fit
+ * staying where it stands. Only a tap nothing else takes reaches the grass
+ * (`MeadowScene.tapMeadow`).
  */
 
 import type * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
-import type { Camera, FlowerFoot } from '../../model/ground';
-import { isBeeSown } from '../../model/pollen';
+import { sameFoot } from '../../model/game';
+import type { Circle, Point } from '../../model/geometry';
+import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
+import { FLOWER_LIMIT, isBeeSown } from '../../model/pollen';
 import { between, type Random } from '../../model/random';
+import { placeIn } from './clump-layout';
+import { standingAt } from './door-sight';
 import {
   FLOWER_DOWN,
   FLOWER_SIZE,
+  FLOWER_SWAY,
   groundOf,
-  headsApart,
   standingOn,
 } from './flower-layout';
 import { standingFlowers } from './flower-plots';
-import { roomIn, type Stand } from './flower-sight';
 import {
+  sightingOf,
+  type Stand,
+  takesFlower,
+  tapCircles,
+} from './flower-sight';
+import {
+  paintSprouts,
   paintTufts,
   type Refusal,
   seamGrass,
   type Tuft,
   tuftOn,
 } from './grass';
+import type { MeadowLayout } from './layout';
+import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 
 /** How many tufts a screen grows at the most, per 1000 CSS px across. */
 const TUFTS_PER_1000PX = 52;
 /** How many spots are tried for each tuft a screen could grow. */
-const TUFT_TRIES = 8;
+const TUFT_TRIES = 12;
+/** How many spots across and down the flowers' band are tried when no tried spot grew a tuft. */
+const GRID = [60, 30] as const;
+
+/**
+ * The least size a tuft the child plants on is drawn at, in CSS px on every
+ * screen: its middle blade twice that tall, a finger's target, where the
+ * seam's grass keeps to its depth's share.
+ */
+export const TUFT_LEAST = 12;
 
 /**
  * How far round its middle a tuft answers a tap at the least, in CSS px: a
- * small finger's pad round a tuft drawn smaller than one, and no more, so
- * the bare ground between the tufts stays bare.
+ * small finger's pad.
  */
 export const TUFT_REACH = 22;
 /** How far round its middle a tuft drawn larger than that answers, in units of its size: its blades. */
 const TUFT_BLADES = 1.4;
+/**
+ * How far round a tuft's middle a finger lands bare, nothing but the tuft
+ * taking it, as a share of its reach: where a tap is aimed at it.
+ */
+const BARE_CORE = 0.25;
+/** How many points round the core a bare tuft is read at, beside its middle. */
+const CORE_RING = 8;
+
+/** A tuft the child can plant on, and the foot on the ground a flower planted there stands on. */
+export type Sprout = Rooted & { tuft: Tuft };
 
 /** Where a tuft's blades stand thickest: halfway up the middle blade. */
 function middleOf({ x, y, size }: Tuft): Point {
@@ -55,15 +86,18 @@ export function tuftReach({ size }: Tuft): number {
   return Math.max(TUFT_REACH, size * TUFT_BLADES);
 }
 
-/** The tuft of `tufts` a tap at `point` lands on: the nearest whose reach holds it. */
-export function tuftAt(tufts: readonly Tuft[], point: Point): Tuft | undefined {
-  let nearest: Tuft | undefined;
+/** The sprout of `sprouts` a tap at `point` lands on: the nearest whose reach holds it. */
+export function tuftAt(
+  sprouts: readonly Sprout[],
+  point: Point,
+): Sprout | undefined {
+  let nearest: Sprout | undefined;
   let least = Infinity;
-  for (const tuft of tufts) {
-    const middle = middleOf(tuft);
+  for (const sprout of sprouts) {
+    const middle = middleOf(sprout.tuft);
     const away = Math.hypot(middle.x - point.x, middle.y - point.y);
-    if (away <= tuftReach(tuft) && away < least) {
-      nearest = tuft;
+    if (away <= tuftReach(sprout.tuft) && away < least) {
+      nearest = sprout;
       least = away;
     }
   }
@@ -78,80 +112,256 @@ export function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
   return { ...groundOf(camera, { x, y, size: 0 }), size: FLOWER_SIZE };
 }
 
+/** A tuft the child plants on, rooted at `x`, `y`: at least `TUFT_LEAST`. */
+function sproutTuft(
+  layout: MeadowLayout,
+  x: number,
+  y: number,
+  random: Random,
+): Tuft {
+  const tuft = tuftOn(layout, x, y, random);
+  return { ...tuft, size: Math.max(TUFT_LEAST, tuft.size) };
+}
+
+/** How many more flowers `stand` has room for under `FLOWER_LIMIT`. */
+export function flowersLeft({ flowers, planted }: Stand): number {
+  return Math.max(0, FLOWER_LIMIT - flowers.length - planted.length);
+}
+
 /**
- * The tufts of `stand`, drawn from `random`, so the same source regrows
- * them: one at the root of each flower the child planted, and the rest
- * where a flower could stand and be in sight on this screen (`roomIn`),
- * bunched toward the back, where the ground recedes — each far enough from
- * every other that a flower on one leaves room for a flower on each.
+ * Whether a finger aimed at a tuft rooted in `stand` lands on the grass, as
+ * the scene hit-tests it: no control's tap circle, no flower's petals as far
+ * as its sway takes them — past them a flower yields to a bare tuft
+ * (`tuftUnder`) — and no mushroom's tap area or
+ * finger pad (`tappedMushroom`) holds the tuft's middle, nor any point of the
+ * core round it (`BARE_CORE`). What `stand` holds is read once, for every
+ * tuft asked after.
  */
-export function growTufts(stand: Stand, random: Random): Tuft[] {
+export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   const { layout, flowers, planted, mushrooms } = stand;
-  const { camera, width } = layout;
-  const own = new Set(
-    planted.flatMap((sown) => (isBeeSown(sown) ? [] : [sown.id])),
-  );
-  const tufts = standingFlowers(layout, flowers, planted, mushrooms)
-    .filter(({ id }) => own.has(id))
-    .map(({ foot }) => {
-      const { x, y } = standingOn(camera, foot);
-      return tuftOn(layout, x, y, random);
+  const heads: Circle[] = standingFlowers(
+    layout,
+    flowers,
+    planted,
+    mushrooms,
+  ).map((flower) => {
+    const { head } = sightingOf(flower, layout);
+    const swayed = flower.place.size * Math.sin(FLOWER_SWAY);
+    return { ...head, r: head.r + swayed };
+  });
+  const targets: MushroomTarget[] = mushrooms.flatMap((mushroom) => {
+    const place = placeIn(layout.mushrooms, mushroom);
+    if (!place) return [];
+    const { genes, turn } = standingAt(place, mushroom);
+    return [tapTarget(genes, place.size, place, turn)];
+  });
+  const controls = tapCircles(layout);
+  const clear = (circles: readonly Circle[], at: Point, reach: number) =>
+    circles.every(({ x, y, r }) => Math.hypot(x - at.x, y - at.y) > r + reach);
+  return (tuft) => {
+    const middle = middleOf(tuft);
+    const core = BARE_CORE * tuftReach(tuft);
+    if (!clear(controls, middle, core) || !clear(heads, middle, core)) {
+      return false;
+    }
+    const ring = Array.from({ length: CORE_RING }, (_, step) => {
+      const angle = (step * Math.PI * 2) / CORE_RING;
+      return {
+        x: middle.x + core * Math.cos(angle),
+        y: middle.y + core * Math.sin(angle),
+      };
     });
-  const room = roomIn(stand);
-  const taken: FlowerFoot[] = [];
-  const most = Math.round((width / 1000) * TUFTS_PER_1000PX);
+    return [middle, ...ring].every(
+      (point) => tappedMushroom(point, targets) === undefined,
+    );
+  };
+}
+
+/** Whether the reach of `tuft` stays off the reach of every tuft of `others`. */
+function reachApart(tuft: Tuft, others: readonly Sprout[]): boolean {
+  const middle = middleOf(tuft);
+  return others.every(({ tuft: other }) => {
+    const at = middleOf(other);
+    return (
+      Math.hypot(at.x - middle.x, at.y - middle.y) >=
+      tuftReach(tuft) + tuftReach(other)
+    );
+  });
+}
+
+/**
+ * The bare tufts of `stand`: every tuft of `kept` still fit to plant on,
+ * where it stands, as many as the meadow has flowers left for, the first
+ * kept first; then new ones from `random` up to that many. A tuft is fit
+ * where it takes a flower (`takesFlower`), is bare to a finger
+ * (`bareToTap`), and its reach stays off every other's. New tufts are tried
+ * at spots in the flowers' band, bunched toward the back, where the ground
+ * recedes, and where none of those grows one, across the whole band.
+ */
+export function tendTufts(
+  stand: Stand,
+  kept: readonly Sprout[],
+  random: Random,
+): Sprout[] {
+  const { layout } = stand;
+  const { camera, width } = layout;
+  const most = Math.min(
+    flowersLeft(stand),
+    Math.round((width / 1000) * TUFTS_PER_1000PX),
+  );
+  const bare = bareToTap(stand);
+  const sprouts: Sprout[] = [];
+  const fits = ({ foot, tuft }: Sprout) =>
+    takesFlower(stand, foot) && bare(tuft) && reachApart(tuft, sprouts);
+  for (const sprout of kept) {
+    if (sprouts.length < most && fits(sprout)) sprouts.push(sprout);
+  }
   const [near, far] = FLOWER_DOWN;
-  for (
-    let tries = most * TUFT_TRIES;
-    tries > 0 && taken.length < most;
-    tries--
-  ) {
-    const x = between(random, 0, width);
-    const down = near + (far - near) * random() ** 1.4;
-    const tuft = tuftOn(
+  const tryAt = (x: number, down: number) => {
+    const tuft = sproutTuft(
       layout,
       x,
       camera.groundTop + camera.ground * down,
       random,
     );
-    const foot = tuftFoot(camera, tuft);
-    if (room(foot) && headsApart(foot, taken)) {
-      taken.push(foot);
-      tufts.push(tuft);
-    }
+    const sprout = { tuft, foot: tuftFoot(camera, tuft) };
+    if (fits(sprout)) sprouts.push(sprout);
+  };
+  for (
+    let tries = most * TUFT_TRIES;
+    tries > 0 && sprouts.length < most;
+    tries--
+  ) {
+    tryAt(between(random, 0, width), near + (far - near) * random() ** 1.4);
   }
-  return tufts;
+  if (most === 0 || sprouts.length > 0) return sprouts;
+  const [across, down] = GRID;
+  const spots = Array.from({ length: across * down }, (_, index) => ({
+    x: (((index % across) + 0.5) / across) * width,
+    down: near + ((far - near) * (Math.floor(index / across) + 0.5)) / down,
+  }));
+  spots.some(({ x, down: at }) => {
+    tryAt(x, at);
+    return sprouts.length > 0;
+  });
+  return sprouts;
+}
+
+/** The bare tufts `stand` grows from `random` on a meadow with none yet (`tendTufts`). */
+export function growTufts(stand: Stand, random: Random): Sprout[] {
+  return tendTufts(stand, [], random);
 }
 
 /**
- * The meadow's grass on screen: the seam's grass and the tufts the child
- * plants on, as the stand grows them, bending in the breeze, the tuft that
- * last refused a flower shaking its head.
+ * A tuft at the root of each flower the child planted and `stand` shows,
+ * the one of `known` rooted there already kept, the rest drawn from
+ * `random`: the grass it grew on, which takes no tap.
+ */
+export function rootTufts(
+  stand: Stand,
+  known: readonly Tuft[],
+  random: Random,
+): Tuft[] {
+  const { layout, flowers, planted, mushrooms } = stand;
+  const own = new Set(
+    planted.flatMap((sown) => (isBeeSown(sown) ? [] : [sown.id])),
+  );
+  return standingFlowers(layout, flowers, planted, mushrooms)
+    .filter(({ id }) => own.has(id))
+    .map(({ foot }) => {
+      const { x, y } = standingOn(layout.camera, foot);
+      return (
+        known.find(
+          (tuft) => Math.abs(tuft.x - x) < 1e-6 && Math.abs(tuft.y - y) < 1e-6,
+        ) ?? sproutTuft(layout, x, y, random)
+      );
+    });
+}
+
+/** `sprouts` as `layout` shows their feet: each on the same foot, where it now stands. */
+function relaid(
+  sprouts: readonly Sprout[],
+  layout: MeadowLayout,
+  random: Random,
+): Sprout[] {
+  return sprouts.map(({ foot }) => {
+    const { x, y } = standingOn(layout.camera, foot);
+    return { foot, tuft: sproutTuft(layout, x, y, random) };
+  });
+}
+
+/** Each scene's grass, for the flowers' hit tests to yield to (`tuftUnder`). */
+const grassOf = new WeakMap<Phaser.Scene, Grass>();
+
+/** Whether a finger at `point` on `scene`'s screen is within a bare tuft's reach (`tuftAt`). */
+export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
+  return grassOf.get(scene)?.at(point) !== undefined;
+}
+
+/**
+ * The meadow's grass on screen: the seam's grass, the tufts the child plants
+ * on, as `tendTufts` keeps them, and the tuft at the root of each flower the
+ * child planted, bending in the breeze, the tuft the flower picker is open
+ * on marked, and the tuft that last refused a flower shaking its head.
  */
 export class Grass {
   private readonly graphics: Phaser.GameObjects.Graphics;
-  private tufts: readonly Tuft[] = [];
-  /** The seam's grass and the tufts, as drawn. */
-  private drawn: readonly Tuft[] = [];
+  /** The stream every tuft the child plants on is drawn from, so a replay grows the same. */
+  private readonly growing: Random;
+  private layout: MeadowLayout | undefined;
+  private seam: readonly Tuft[] = [];
+  /** The bare tufts, each taking a flower. */
+  private tufts: readonly Sprout[] = [];
+  /** The tufts under the child's flowers. */
+  private rooted: readonly Tuft[] = [];
   private refused: Refusal | undefined;
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, growing: Random) {
     this.graphics = scene.add.graphics();
+    this.growing = growing;
+    grassOf.set(scene, this);
   }
 
-  /** Grows the grass for `stand` from `random`: the same source regrows the same grass. */
+  /**
+   * Grows the seam's grass for `stand` from `random`, the same source
+   * regrowing the same, and tends the tufts on its layout, each kept on its
+   * foot.
+   */
   paint(stand: Stand, random: Random): void {
-    const seam = seamGrass(stand.layout, random);
-    this.tufts = growTufts(stand, random);
-    this.drawn = [...seam, ...this.tufts];
+    this.seam = seamGrass(stand.layout, random);
+    if (this.layout !== stand.layout) {
+      this.tufts = relaid(this.tufts, stand.layout, this.growing);
+      this.rooted = [];
+      this.layout = stand.layout;
+    }
+    this.tend(stand);
   }
 
-  update(t: number): void {
-    paintTufts(this.graphics, this.drawn, t, this.refused);
+  /** Tends the tufts to `stand` as it now stands (`tendTufts`, `rootTufts`). */
+  tend(stand: Stand): void {
+    const known = [...this.rooted, ...this.tufts.map(({ tuft }) => tuft)];
+    this.rooted = rootTufts(stand, known, this.growing);
+    this.tufts = tendTufts(stand, this.tufts, this.growing);
   }
 
-  /** The tuft a tap at `point` lands on (`tuftAt`). */
-  at(point: Point): Tuft | undefined {
+  /** Whether a bare tuft stands on `foot`: where the flower picker can stay open. */
+  holds(foot: FlowerFoot): boolean {
+    return this.tufts.some((sprout) => sameFoot(sprout.foot, foot));
+  }
+
+  /** The grass as it bends at `t`, the tuft on `open`, the flower picker's, marked. */
+  update(t: number, open: FlowerFoot | undefined): void {
+    const { graphics, seam, rooted, tufts, refused } = this;
+    const marked = open && tufts.find(({ foot }) => sameFoot(foot, open))?.tuft;
+    paintTufts(graphics, seam, t);
+    paintSprouts(graphics, [...rooted, ...tufts.map(({ tuft }) => tuft)], t, {
+      refused,
+      marked,
+    });
+  }
+
+  /** The bare tuft a tap at `point` lands on (`tuftAt`). */
+  at(point: Point): Sprout | undefined {
     return tuftAt(this.tufts, point);
   }
 

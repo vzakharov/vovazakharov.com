@@ -217,11 +217,12 @@ export class MeadowScene extends Phaser.Scene {
       insects,
       perchAt,
       sight,
+      meadow,
     } = this;
     if (!layout || !backdrop) return;
     this.dispatch({ kind: 'tick', now: time, ...sight });
     driftClouds(backdrop, layout, t);
-    grass?.update(t);
+    grass?.update(t, meadow?.planting?.foot);
     bed?.update(t);
     controls?.update(t);
     // As the tick just left them.
@@ -237,6 +238,23 @@ export class MeadowScene extends Phaser.Scene {
     if (!this.meadow) return;
     this.flowers?.reconcile(this.meadow, this.requireLayout(), this.clock);
     this.see();
+    this.tendGrass();
+  }
+
+  /** Tends the tufts to the meadow as it now stands (`Grass.tend`). */
+  private tendGrass(): void {
+    const stand = this.stand();
+    if (!stand) return;
+    this.grass?.tend(stand);
+    this.shutStrayPicker();
+  }
+
+  /** Shuts the flower picker once the tuft it is open on no longer takes a flower. */
+  private shutStrayPicker(): void {
+    const open = this.meadow?.planting?.foot;
+    if (open && this.grass && !this.grass.holds(open)) {
+      this.dispatch({ kind: 'shut' });
+    }
   }
 
   /** The meadow as it stands on the screen last painted, once there is one. */
@@ -405,9 +423,11 @@ export class MeadowScene extends Phaser.Scene {
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
-    this.grass ??= new Grass(this);
+    // Its own stream, so a planting never shifts the backdrop's.
+    this.grass ??= new Grass(this, mulberry32(this.visitSeed ^ 0x70_f7_5e));
     const stand = this.stand();
     if (stand) this.grass.paint(stand, random);
+    this.shutStrayPicker();
     // One device pixel is the thinnest line the screen shows.
     const lighting = { ...sunLight(layout), hairline: 1 / ratio };
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);

@@ -272,8 +272,8 @@ Standing rules for every session in the chain:
      clump's unit so a flower is always shorter than a stem — bite 6's bees
      plant through the same check. A mushroom's shadow is its own graphics,
      never rotated. `colour.ts` holds `mix` and
-     `nudgeHue`; `grass.ts` grows the tufts once per paint and redraws them
-     each frame; `spores.ts` puffs; `hud.ts` draws the mute button.
+     `nudgeHue`; `grass.ts` draws the seam's grass and the tufts each frame,
+     `tufts.ts` tends the tufts; `spores.ts` puffs; `hud.ts` draws the mute button.
    - `sound.ts`: `MeadowSound`, built on the first tap's release (a browser's
      activation rule) and playing then whatever was asked before it; the
      scene's field is `voice`, since `Phaser.Scene` owns `sound`. A mute suspends
@@ -733,21 +733,31 @@ Standing rules for every session in the chain:
       `model/planting.test.ts`): the meadow remembers the open tuft, then
       the colour and one seed per shape; the child's flowers join the
       bees' in one list under the 14-flower cap, which `plant` holds
-      itself, the seeded flowers counted. Tufts grow only
-      where a flower can stand (`growTufts` in `tufts.ts`: spots in the
-      flowers' band where the bees' `roomIn` holds, heads apart from each
-      other, so planting one never refuses another), so every tuft shown
-      takes a flower until the cap; a tuft regrows at the root of each
-      planted flower. Seam grass along the horizon is drawn, not
-      tappable. A tuft answers 22 px round its middle, or its blades if
-      larger, keeping the ground between tufts bare. Colours stand where
+      itself, the seeded flowers counted. The bare tufts
+      are exactly the spots a flower can be planted now (`tendTufts` in
+      `tufts.ts`): each takes a flower (`takesFlower`), is bare to a finger
+      (`bareToTap`: off every control, petal and cap — past its petals a
+      flower yields to a bare tuft's reach), keeps its reach off every
+      other's, and there are never more of them than flowers left under
+      the cap. They are tended again whenever the mushrooms or the flowers
+      change and on every paint, a tuft still fit staying on its foot; the
+      picker shuts if its tuft stops taking a flower. Swept over grown
+      forests with `+`, `−`, bee plantings and the child's on every
+      `VIEWPORTS` screen, with 0 refusals and a bare tuft whenever the
+      meadow is below the cap (on 280×600, all but ≤ 12% of meadows).
+      They are drawn at least 12 px (`TUFT_LEAST`) as five fresh blades
+      round a closed pink bud, apart from the seam's grass; the tuft the
+      picker is open on stands taller on a cream glow. A tuft answers
+      22 px round its middle, or its blades if larger; the tuft under a
+      flower the child planted is drawn and takes no tap. Colours stand where
       the house picker's five buttons do (blue, pink, yellow, violet,
       white), shapes where the species picker's four do, lowest note
       first, each the exact flower that will grow, head enlarged; a shape
       press makes no sound, the flower plays as it opens. A tap anywhere
       else closes the picker unplanted — a control, the mute, an insect and
       its own tuft included — and a tap on another tuft opens it there. A
-      full meadow shakes the tuft with the `+` refusal's sound.
+      full meadow shows no bare tuft; a tuft that somehow refuses shakes
+      with the `+` refusal's sound.
     - **The floors won over the shrink.** `insectSizeFor` is
       `max(INSECT_LEAST, INSECT_SCALE × unit)` on every screen and refit,
       `LEAST_SPANS` (52/30/30) in `layout.ts`, asserted over 2000 seeds and
