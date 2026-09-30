@@ -145,6 +145,7 @@ export class MeadowScene extends Phaser.Scene {
         mute: () => {
           this.voice.toggleMuted();
           this.voice.pop();
+          this.dispatch({ kind: 'shut' });
           this.repaintControls();
         },
         pick: () => {

@@ -722,9 +722,11 @@ Standing rules for every session in the chain:
       one-finger. The focused canvas plays the keyboard by `event.code`
       (a Russian layout plays the same); a key opens every flower in sight
       of its sound.
-    - **Planting.** `model/planting.ts`: the meadow remembers the open
-      tuft, then the colour and one seed per shape; the child's flowers
-      join the bees' in one list under the 14-flower cap. Tufts grow only
+    - **Planting.** The reducer in `model/game.ts` (held by
+      `model/planting.test.ts`): the meadow remembers the open tuft, then
+      the colour and one seed per shape; the child's flowers join the
+      bees' in one list under the 14-flower cap, which `plant` holds
+      itself, the seeded flowers counted. Tufts grow only
       where a flower can stand (`growTufts` in `tufts.ts`: spots in the
       flowers' band where the bees' `roomIn` holds, heads apart from each
       other, so planting one never refuses another), so every tuft shown
@@ -736,8 +738,9 @@ Standing rules for every session in the chain:
       white), shapes where the species picker's four do, lowest note
       first, each the exact flower that will grow, head enlarged; a shape
       press makes no sound, the flower plays as it opens. A tap anywhere
-      else, another tuft included, closes the picker unplanted. A full
-      meadow shakes the tuft with the `+` refusal's sound.
+      else closes the picker unplanted — a control, the mute, an insect and
+      its own tuft included — and a tap on another tuft opens it there. A
+      full meadow shakes the tuft with the `+` refusal's sound.
     - **The floors won over the shrink.** `insectSizeFor` is
       `max(INSECT_LEAST, INSECT_SCALE × unit)` on every screen and refit,
       `LEAST_SPANS` (52/30/30) in `layout.ts`, asserted over 2000 seeds and

@@ -28,7 +28,7 @@ import {
   type Species,
 } from './mushroom-genes';
 import { type Footed, OPENING_FEET } from './placement';
-import { plantedId } from './pollen';
+import { FLOWER_LIMIT, plantedId, type Plot } from './pollen';
 import type { Random, Seeded } from './random';
 
 /**
@@ -79,7 +79,10 @@ export type Action =
   | { kind: 'furnish'; piece: Furnishing }
   | { kind: 'tuft'; foot: FlowerFoot }
   | ({ kind: 'colour' } & Chosen)
-  | { kind: 'plant'; shape: FlowerShape }
+  | ({ kind: 'plant'; shape: FlowerShape } & Pick<Plot, 'seededFlowers'>)
+  // A tap on a control that changes nothing here, the mute's: it closes
+  // the flower picker, as any tap outside it does.
+  | { kind: 'shut' }
   | ({ kind: 'release'; insect: InsectKind } & Seeded & Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
   | ({ kind: 'tick' } & Sighted);
@@ -193,6 +196,14 @@ const perchesOf = ({ mushrooms }: Meadow, sight: Sight): Perches => ({
 const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
   swarm === meadow ? meadow : { ...meadow, ...swarm };
 
+/** `meadow` with the flower picker shut, the same object when it was. */
+const flowersShut = (meadow: Meadow): Meadow =>
+  meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
+
+/** Whether `a` and `b` are the one foot on the ground. */
+export const sameFoot = (a: FlowerFoot, b: FlowerFoot): boolean =>
+  a.x === b.x && a.z === b.z && a.size === b.size;
+
 /** Every picker shut: the mushrooms', the house's and the flowers'. */
 const PICKERS_SHUT = {
   picking: false,
@@ -230,14 +241,17 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'tuft': {
-      // A tap outside an open picker closes it, another tuft's too.
+      // A tap on the open picker's own tuft closes it; on another, the
+      // picker opens there afresh.
+      const again =
+        meadow.planting !== undefined &&
+        sameFoot(meadow.planting.foot, action.foot);
       return {
         ...meadow,
         ...PICKERS_SHUT,
-        planting:
-          meadow.planting === undefined
-            ? { ...pick(action, 'foot'), chosen: undefined }
-            : undefined,
+        planting: again
+          ? undefined
+          : { ...pick(action, 'foot'), chosen: undefined },
         selected: undefined,
       };
     }
@@ -253,7 +267,8 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     case 'plant': {
       const { planting, planted } = meadow;
       const seed = shapeSeed(planting, action.shape);
-      if (planting === undefined || seed === undefined) return meadow;
+      const full = action.seededFlowers + planted.length >= FLOWER_LIMIT;
+      if (planting === undefined || seed === undefined || full) return meadow;
       const { foot } = planting;
       return {
         ...meadow,
@@ -315,11 +330,16 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
         ...meadow,
         ...released(meadow, insect, perchesOf(meadow, action), now),
         released: count,
+        planting: undefined,
       };
     }
     case 'startle': {
       const perches = perchesOf(meadow, action);
-      return swarmed(meadow, startled(meadow, action.id, perches, action.now));
+      const swarm = startled(meadow, action.id, perches, action.now);
+      return flowersShut(swarmed(meadow, swarm));
+    }
+    case 'shut': {
+      return flowersShut(meadow);
     }
     case 'tick': {
       const perches = perchesOf(meadow, action);

@@ -1,6 +1,6 @@
 import type { FlowerColour } from '../../model/flower-genes';
 import { type FlowerShape, shapeSeeds } from '../../model/flower-sounds';
-import type { Action, Meadow } from '../../model/game';
+import { type Action, type Meadow, sameFoot } from '../../model/game';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
 import type { Tuft } from './grass';
@@ -50,7 +50,10 @@ export class Planter {
   };
 
   readonly plant = (shape: FlowerShape): void => {
-    this.scene.dispatch({ kind: 'plant', shape });
+    const stand = this.scene.stand();
+    if (!stand) return;
+    const seededFlowers = stand.flowers.length;
+    this.scene.dispatch({ kind: 'plant', shape, seededFlowers });
   };
 
   /** Whether the tuft the flower picker is open on can still take a flower. */
@@ -64,16 +67,19 @@ export class Planter {
   };
 
   /**
-   * A tap on `tuft` of `grass` opens the flower picker on it, or closes one
-   * open anywhere; a tuft that cannot take a flower shakes its head and lets
-   * go of the selection, as any tap on the meadow does.
+   * A tap on `tuft` of `grass` opens the flower picker on it, or closes it
+   * when it is open there already; a tuft that cannot take a flower shakes
+   * its head and lets go of the selection and any open picker, as any tap on
+   * the meadow does.
    */
   tapTuft(tuft: Tuft, grass: Grass): void {
     const { stand, meadow, dispatch } = this.scene;
     const standing = stand();
     if (!standing) return;
     const foot = tuftFoot(standing.layout.camera, tuft);
-    if (meadow()?.planting === undefined && !takesFlower(standing, foot)) {
+    const open = meadow()?.planting?.foot;
+    const again = open !== undefined && sameFoot(open, foot);
+    if (!again && !takesFlower(standing, foot)) {
       grass.refuse(tuft, this.now());
       this.voice.nuhUh();
       dispatch({ kind: 'deselect' });
