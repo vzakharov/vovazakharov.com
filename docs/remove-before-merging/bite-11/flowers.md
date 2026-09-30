@@ -56,6 +56,22 @@ then drop the stash.
   flowers stand. `flower-plots.test.ts`: `plantedOut` plants at most
   `PLANTINGS` 15, stopping at the first refusal (86 s for the file).
 
+## Step 3 (the seeded bed, fourteen over the world) — done, one test unrun
+
+- `seededBed` places `FLOWER_SPOTS.landscape` once in each half of the world
+  (`BED_HALVES` 2, slot fractions and jitter taken within the half), the left
+  half's seven first; `firstFlowers(random, 14)` in `visit-play.ts` and
+  `meadow-scene.ts` (package 4's file, that one line) deals the seven sounds
+  twice in order, so each half sounds C D E G A, kick, hat once. 14.00
+  flowers a visit on every screen; new test in `flower-layout.test.ts`.
+- Pass: flower-layout, flower-plots, flower-touch, flower-picker,
+  ground-seam, tufts, perch-sight, and package 2's layout and meadow-rules.
+- **Unrun: `fliers.test.ts`** — it took 258 s with seven flowers and passed
+  the 290 s cap with fourteen. Run it alone with a 590 s timeout next.
+- Known limit: `standingFlowers` pairs seeded flowers with bed feet by index,
+  so a slot left out would shift the later sounds a half; no visit leaves one
+  out today (14.00 a visit), and the new test would catch it.
+
 ## Left
 
-Steps 3–5 of the package.
+Steps 4–5 of the package, and the `fliers.test.ts` run above.

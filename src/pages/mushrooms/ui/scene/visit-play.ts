@@ -64,7 +64,7 @@ export function opened(
 ): Opened {
   const random = mulberry32(seed);
   let meadow = firstMeadow(random);
-  const flowers = firstFlowers(random, 7);
+  const flowers = firstFlowers(random, 14);
   const layout = meadowLayout(
     width,
     height,

@@ -119,7 +119,7 @@ export class MeadowScene extends Phaser.Scene {
       this,
       this.instrument,
       this.now,
-      firstFlowers(random, 7),
+      firstFlowers(random, 14),
       (action) => {
         this.dispatch(action);
       },

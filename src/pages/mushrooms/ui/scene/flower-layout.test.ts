@@ -3,6 +3,11 @@ import { describe, it } from 'node:test';
 
 import { flowerGenes } from '../../model/flower-genes';
 import {
+  SEEDED_SOUNDS,
+  seedSounding,
+  soundOf,
+} from '../../model/flower-sounds';
+import {
   type Box,
   boxAround,
   type Circle,
@@ -10,6 +15,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { geneBounds } from '../../model/mushroom-genes';
+import { mulberry32 } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import {
@@ -129,6 +135,36 @@ function headsGap(a: Footing, b: Footing): number {
 }
 
 describe('the seeded flowers', () => {
+  it('sound each seeded sound once in each half of the world', () => {
+    const sounds = (flowers: readonly StandingFlower[]) =>
+      flowers
+        .map((flower) => JSON.stringify(soundOf(flowerGenes(flower))))
+        .toSorted();
+    const every = sounds(
+      SEEDED_SOUNDS.map((sound, index) => ({
+        id: String(index),
+        seed: seedSounding(mulberry32(index), sound),
+        foot: { x: 0, z: 0, size: 0 },
+        place: { x: 0, y: 0, size: 0 },
+      })),
+    );
+    for (const [index, visit] of visitsOn(1180, 820).slice(0, 200).entries()) {
+      const { layout, flowers, mushrooms } = visit;
+      const standing = standingFlowers(layout, flowers, [], mushrooms);
+      const at = `visit ${String(VISITS[index])}`;
+      assert.deepEqual(
+        sounds(standing.filter(({ foot }) => foot.x < 0)),
+        every,
+        `${at}, left half`,
+      );
+      assert.deepEqual(
+        sounds(standing.filter(({ foot }) => foot.x >= 0)),
+        every,
+        `${at}, right half`,
+      );
+    }
+  });
+
   for (const [name, width, height] of VIEWPORTS) {
     it(`stand on the same ground on every screen, by the visit, for a visit opened on a ${name} screen`, () => {
       const visits = visitsOn(width, height).slice(0, 40);

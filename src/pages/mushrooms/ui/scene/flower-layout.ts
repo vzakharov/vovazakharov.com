@@ -34,10 +34,11 @@ import { type ClumpShade, mostShaded } from './clump-shade';
 import type { Footing } from './layout';
 
 /**
- * The slots the flowers grow around on the screen a visit opens on, as a
- * fraction of its frame's width across and of the ground's depth down, the likeliest
- * to show first — some behind the clump's stems, some before it. Each visit
- * jitters every flower off its slot.
+ * The slots the flowers grow around in each half of the world, as a fraction
+ * of that half's width across and of the ground's depth down — some behind
+ * the clump's stems, some before it. Each half holds one flower per seeded
+ * sound (`SEEDED_SOUNDS`), in the order `firstFlowers` deals them, and each
+ * visit jitters every flower off its slot.
  */
 const FLOWER_SPOTS = {
   landscape: [
@@ -60,13 +61,14 @@ const FLOWER_SPOTS = {
   ],
 } as const;
 /**
- * How far a flower strays from its slot, as a fraction of the frame's width
+ * How far a flower strays from its slot, as a fraction of its half's width
  * and of the ground's depth.
  */
 const FLOWER_JITTER = [0.07, 0.12] as const;
 /**
- * How far across the frame's width, and down the ground's depth, a flower's
- * foot may stand: on the ground, and its head clear of the screen's sides.
+ * How far across its half's width, and down the ground's depth, a flower's
+ * foot may stand: on the ground, its head clear of the world's sides and of
+ * the other half's flowers.
  */
 const FLOWER_ACROSS = [0.05, 0.95] as const;
 export const FLOWER_DOWN = [0.12, 0.96] as const;
@@ -315,8 +317,11 @@ function jitter(
   return Math.min(max, Math.max(min, moved));
 }
 
+/** How many halves of the world the seeded bed spreads over, a full set of sounds in each. */
+const BED_HALVES = 2;
+
 /**
- * Where the flower in slot `index` stands on the ground `opening` shows: the
+ * Where the flower in slot `index` of the world's `half` stands on the ground `opening` shows: the
  * first try off its slot, from its own seeded stream, that stands off the
  * opening clump's feet and apart from every flower of `placed` on the
  * ground, and on `opening` has its head clear of every control and shown
@@ -324,6 +329,7 @@ function jitter(
  */
 function spotOn(
   opening: FlowerGround,
+  half: number,
   index: number,
   seed: number,
   placed: readonly FlowerFoot[],
@@ -334,7 +340,9 @@ function spotOn(
   const camera = cameraOf(opening);
   const feet = clump.map(({ place }) => groundOf(camera, place));
   const [across, down] = spot;
-  const random = mulberry32(seed + index);
+  const random = mulberry32(
+    seed + half * FLOWER_SPOTS.landscape.length + index,
+  );
   for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
     // Each miss strays a little farther, so a slot on the clump finds a way off it.
     const stray = 1 + attempt / 4;
@@ -342,7 +350,7 @@ function spotOn(
     const y = jitter(random, down, FLOWER_JITTER[1] * stray, FLOWER_DOWN);
     const z = zAt(y);
     const foot = {
-      x: ((2 * x - 1) * frame.across) / scaleAt(z),
+      x: ((2 * ((half + x) / BED_HALVES) - 1) * frame.across) / scaleAt(z),
       z,
       size: FLOWER_SIZE,
     };
@@ -360,15 +368,17 @@ function spotOn(
 }
 
 /**
- * The visit's seeded flowers on the ground, placed once on `opening`, the
- * screen it opens on: each at its slot's first spot there that a child sees
- * (`spotOn`), left out when it has none.
+ * The visit's seeded flowers on the ground, placed once on `opening`: the
+ * left half's slots, then the right's, each flower at its slot's first spot
+ * there that a child sees (`spotOn`), left out when it has none.
  */
 export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[] {
   const bed: FlowerFoot[] = [];
-  for (const index of FLOWER_SPOTS.landscape.keys()) {
-    const foot = spotOn(opening, index, seed, bed);
-    if (foot) bed.push(foot);
+  for (let half = 0; half < BED_HALVES; half++) {
+    for (const index of FLOWER_SPOTS.landscape.keys()) {
+      const foot = spotOn(opening, half, index, seed, bed);
+      if (foot) bed.push(foot);
+    }
   }
   return bed;
 }
