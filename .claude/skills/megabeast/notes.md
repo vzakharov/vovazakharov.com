@@ -900,3 +900,25 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   leaves its browser, so this screen and its turn are the whole domain. The
   skill's orchestrator should state each invariant's domain in the brief
   rather than let the sweep's habit choose it.
+- **A claim true on the opening meadow is a claim about one state.** Bite
+  10's headline, "every tuft shown takes a flower until the cap", held in
+  14000 plantings on a fresh meadow per screen and failed for up to 45% of
+  tufts after `+`. The tufts were computed in `paint`, which runs on a
+  resize, and every test built the opening clump only. The same shape
+  recurred in the turn test (forest only, while the opening clump lost 1
+  flower in 3.5). The skill's sweep template should run every rule over
+  the states a child reaches (opening, after `+`, after bee plantings, full
+  forest, after a turn), not the state a test's helper happens to build.
+- **Sound gets reviewed by rendering it, not by reading its specs.** An
+  `OfflineAudioContext` render in the probe build's Chromium, then an FFT,
+  showed four drums with ~0% energy above 300 Hz (silent on a phone
+  speaker) and a hat 26 dB under a note, where every spec-level test
+  passed. The skill's frame script should render each sound the way it
+  shoots each screen, and the review brief should ask for level above
+  ~300 Hz and relative loudness per sound.
+- **Two agents, one review, again held.** Reader and player ran in
+  parallel (~190k and ~200k); they reached the stale-tufts bug
+  independently from code and from play, and each found what the other
+  could not (the chord finger from Phaser's pointer pool; the inaudible
+  drums from a render). The orchestrator checked each cited line, looked
+  at two frames and posted in one call, staying under 60k.
