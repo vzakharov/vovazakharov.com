@@ -885,7 +885,11 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
     only because a rotation re-lays the world — the refit that zooms out
     to keep the used feet in view, flowers placed against the feet of both
     meadows, the slot floors per screen — and the taps-only rule for a
-    two-finger pinch and a one-finger pan. Walking through the meadow, as a spectator or a
+    two-finger pinch and a one-finger pan. The flower cap becomes room, not a
+    number: `FLOWER_LIMIT` 14 fits a phone and starves a tablet (the seven
+    seeded flowers leave the child seven plantings), so a flower can be
+    planted wherever the wider meadow has room for one ("сейчас, конечно, это
+    делать не надо — но в тот байт где расширяем, да"). Walking through the meadow, as a spectator or a
     participant the insects fly from, stays out of scope for now.
 
 12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
