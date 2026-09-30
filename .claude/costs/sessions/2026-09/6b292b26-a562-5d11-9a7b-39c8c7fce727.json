@@ -9,53 +9,63 @@
   "url": "https://claude.ai/code/session_01EpLkhKsHnrkerpK5nAQDgo",
   "operator": "vzakharov",
   "firstResponseAt": "2026-09-30T19:55:33.293Z",
-  "lastResponseAt": "2026-09-30T20:15:32.057Z",
+  "lastResponseAt": "2026-09-30T20:46:22.699Z",
   "pricesAsOf": "2026-09-23",
   "claudeCodeTotalUsd": null,
   "total": {
-    "inputTokens": 10212,
-    "cacheWrite5mTokens": 422961,
-    "cacheWrite1hTokens": 69233,
-    "cacheReadTokens": 13748121,
-    "outputTokens": 9388,
-    "thinkingTokens": 1840,
-    "responses": 125,
-    "costUsd": 5.650258200000003
+    "inputTokens": 11703,
+    "cacheWrite5mTokens": 947548,
+    "cacheWrite1hTokens": 69303,
+    "cacheReadTokens": 17434480,
+    "outputTokens": 10303,
+    "thinkingTokens": 1894,
+    "responses": 152,
+    "costUsd": 9.032430000000003
   },
   "ownTurns": {
-    "inputTokens": 54,
+    "inputTokens": 56,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 69233,
-    "cacheReadTokens": 2362578,
-    "outputTokens": 7718,
-    "thinkingTokens": 1840,
-    "responses": 23,
-    "costUsd": 1.1809555999999999
+    "cacheWrite1hTokens": 69303,
+    "cacheReadTokens": 2484534,
+    "outputTokens": 8304,
+    "thinkingTokens": 1894,
+    "responses": 24,
+    "costUsd": 1.2176348
   },
   "subagents": {
-    "inputTokens": 198,
-    "cacheWrite5mTokens": 421842,
+    "inputTokens": 246,
+    "cacheWrite5mTokens": 946367,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 11034173,
-    "outputTokens": 1428,
+    "cacheReadTokens": 14476682,
+    "outputTokens": 1710,
     "thinkingTokens": 0,
-    "responses": 99,
-    "costUsd": 4.345396600000002
+    "responses": 123,
+    "costUsd": 7.662355399999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10212,
-      "cacheWrite5mTokens": 422961,
-      "cacheWrite1hTokens": 69233,
-      "cacheReadTokens": 13748121,
-      "outputTokens": 9388,
-      "thinkingTokens": 1840,
-      "responses": 125,
-      "costUsd": 5.650258200000003
+      "inputTokens": 10768,
+      "cacheWrite5mTokens": 947548,
+      "cacheWrite1hTokens": 69303,
+      "cacheReadTokens": 17434480,
+      "outputTokens": 10287,
+      "thinkingTokens": 1894,
+      "responses": 151,
+      "costUsd": 9.031415000000003
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 935,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 16,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0010149999999999998
     }
   },
   "warnings": [
-    "prices.json priced the 121 responses the events also priced at $5.4950, against the events' $6.8114: a rate in the table is likely out of date"
+    "prices.json priced the 147 responses the events also priced at $8.8800, against the events' $10.4119: a rate in the table is likely out of date"
   ],
   "orientation": {
     "endedBy": "Edit",
@@ -75,20 +85,30 @@
   },
   "compactions": [],
   "telemetry": {
-    "events": 124,
-    "matched": 121,
-    "matchedTableUsd": 5.495039200000003,
-    "matchedEventUsd": 6.811439199999999,
+    "events": 152,
+    "matched": 147,
+    "matchedTableUsd": 8.879990200000003,
+    "matchedEventUsd": 10.411930199999995,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 9960,
-        "cacheWrite5mTokens": 1119,
+        "inputTokens": 10466,
+        "cacheWrite5mTokens": 1181,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 351370,
-        "outputTokens": 242,
+        "cacheReadTokens": 473264,
+        "outputTokens": 273,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.12390600000000002
+        "responses": 4,
+        "costUsd": 0.15142480000000003
+      },
+      "generate_session_title": {
+        "inputTokens": 935,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 16,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0010149999999999998
       }
     }
   }
