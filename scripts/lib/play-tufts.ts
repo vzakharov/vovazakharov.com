@@ -167,8 +167,8 @@ export async function playTufts(
     });
   }
 
-  // The tuft the flower grew on is grass under a flower now: a tap there
-  // opens no picker.
+  // The tuft the flower grew on is gone, the flower standing there alone: a
+  // tap there opens no picker.
   const bare = await page.evaluate(
     `__probe.topAt(${JSON.stringify(opened)}) === null`,
     z.boolean(),

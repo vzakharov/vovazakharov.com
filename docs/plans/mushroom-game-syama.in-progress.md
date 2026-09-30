@@ -748,8 +748,8 @@ Standing rules for every session in the chain:
       They are drawn at least 12 px (`TUFT_LEAST`) as five fresh blades
       round a closed pink bud, apart from the seam's grass; the tuft the
       picker is open on stands taller on a cream glow. A tuft answers
-      22 px round its middle, or its blades if larger; the tuft under a
-      flower the child planted is drawn and takes no tap. Colours stand where
+      22 px round its middle, or its blades if larger; a flower the child
+      plants on a tuft stands there alone, the tuft gone. Colours stand where
       the house picker's five buttons do (blue, pink, yellow, violet,
       white), shapes where the species picker's four do, lowest note
       first, each the exact flower that will grow, head enlarged; a shape

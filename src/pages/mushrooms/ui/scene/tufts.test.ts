@@ -17,7 +17,6 @@ import {
   bareToTap,
   flowersLeft,
   growTufts,
-  rootTufts,
   type Sprout,
   tendTufts,
   TUFT_LEAST,
@@ -267,7 +266,7 @@ describe('the tufts the child plants on', () => {
     assert.deepEqual(sprouts, []);
   });
 
-  it('keeps every flower planted on a tuft through a turn and back, on a tuft of its own', () => {
+  it('keeps every flower planted on a tuft through a turn and back, and no tuft at its root', () => {
     for (const [, width, height] of SCREENS) {
       const seed = 17;
       let stand: Stand = opened(seed, width, height, false);
@@ -281,27 +280,33 @@ describe('the tufts the child plants on', () => {
       }
       assert.ok(stand.planted.length > 0);
       for (const [across, down] of [
+        [width, height],
         [height, width],
         [width, height],
       ] as const) {
         const layout = relaidOn(stand, seed, across, down);
+        const shown = { ...stand, layout };
         const standing = standingFlowers(
           layout,
           stand.flowers,
           stand.planted,
           stand.mushrooms,
         );
-        const rooted: Tuft[] = rootTufts({ ...stand, layout }, [], tufting);
+        // Every tuft the grass draws: the bare ones, tended afresh.
+        const drawn: Tuft[] = tendTufts(shown, [], tufting).map(
+          ({ tuft }) => tuft,
+        );
         for (const { id } of stand.planted) {
           const flower = standing.find((each) => each.id === id);
           assert.ok(flower, `${id} gone on ${String(across)}×${String(down)}`);
-          assert.ok(
-            rooted.some(
-              ({ x, y }) =>
-                Math.hypot(x - flower.place.x, y - flower.place.y) < 1e-6,
-            ),
-            `${id} off the grass on ${String(across)}×${String(down)}`,
-          );
+          // A tuft's blades spread about its size round its root.
+          for (const tuft of drawn) {
+            assert.ok(
+              Math.hypot(tuft.x - flower.place.x, tuft.y - flower.place.y) >
+                tuft.size,
+              `a tuft drawn at ${id}'s root on ${String(across)}×${String(down)}`,
+            );
+          }
         }
       }
     }

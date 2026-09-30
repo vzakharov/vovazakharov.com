@@ -15,7 +15,7 @@ import type * as Phaser from 'phaser';
 import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
-import { FLOWER_LIMIT, isBeeSown } from '../../model/pollen';
+import { FLOWER_LIMIT } from '../../model/pollen';
 import { between, type Random } from '../../model/random';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -252,32 +252,6 @@ export function growTufts(stand: Stand, random: Random): Sprout[] {
   return tendTufts(stand, [], random);
 }
 
-/**
- * A tuft at the root of each flower the child planted and `stand` shows,
- * the one of `known` rooted there already kept, the rest drawn from
- * `random`: the grass it grew on, which takes no tap.
- */
-export function rootTufts(
-  stand: Stand,
-  known: readonly Tuft[],
-  random: Random,
-): Tuft[] {
-  const { layout, flowers, planted, mushrooms } = stand;
-  const own = new Set(
-    planted.flatMap((sown) => (isBeeSown(sown) ? [] : [sown.id])),
-  );
-  return standingFlowers(layout, flowers, planted, mushrooms)
-    .filter(({ id }) => own.has(id))
-    .map(({ foot }) => {
-      const { x, y } = standingOn(layout.camera, foot);
-      return (
-        known.find(
-          (tuft) => Math.abs(tuft.x - x) < 1e-6 && Math.abs(tuft.y - y) < 1e-6,
-        ) ?? sproutTuft(layout, x, y, random)
-      );
-    });
-}
-
 /** `sprouts` as `layout` shows their feet: each on the same foot, where it now stands. */
 function relaid(
   sprouts: readonly Sprout[],
@@ -299,10 +273,10 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
 }
 
 /**
- * The meadow's grass on screen: the seam's grass, the tufts the child plants
- * on, as `tendTufts` keeps them, and the tuft at the root of each flower the
- * child planted, bending in the breeze, the tuft the flower picker is open
- * on marked, and the tuft that last refused a flower shaking its head.
+ * The meadow's grass on screen: the seam's grass and the tufts the child
+ * plants on, as `tendTufts` keeps them, bending in the breeze, the tuft the
+ * flower picker is open on marked, and the tuft that last refused a flower
+ * shaking its head. A flower planted on a tuft stands there alone.
  */
 export class Grass {
   private readonly graphics: Phaser.GameObjects.Graphics;
@@ -312,8 +286,6 @@ export class Grass {
   private seam: readonly Tuft[] = [];
   /** The bare tufts, each taking a flower. */
   private tufts: readonly Sprout[] = [];
-  /** The tufts under the child's flowers. */
-  private rooted: readonly Tuft[] = [];
   private refused: Refusal | undefined;
 
   constructor(scene: Phaser.Scene, growing: Random) {
@@ -331,16 +303,13 @@ export class Grass {
     this.seam = seamGrass(stand.layout, random);
     if (this.layout !== stand.layout) {
       this.tufts = relaid(this.tufts, stand.layout, this.growing);
-      this.rooted = [];
       this.layout = stand.layout;
     }
     this.tend(stand);
   }
 
-  /** Tends the tufts to `stand` as it now stands (`tendTufts`, `rootTufts`). */
+  /** Tends the tufts to `stand` as it now stands (`tendTufts`). */
   tend(stand: Stand): void {
-    const known = [...this.rooted, ...this.tufts.map(({ tuft }) => tuft)];
-    this.rooted = rootTufts(stand, known, this.growing);
     this.tufts = tendTufts(stand, this.tufts, this.growing);
   }
 
@@ -351,13 +320,18 @@ export class Grass {
 
   /** The grass as it bends at `t`, the tuft on `open`, the flower picker's, marked. */
   update(t: number, open: FlowerFoot | undefined): void {
-    const { graphics, seam, rooted, tufts, refused } = this;
+    const { graphics, seam, tufts, refused } = this;
     const marked = open && tufts.find(({ foot }) => sameFoot(foot, open))?.tuft;
     paintTufts(graphics, seam, t);
-    paintSprouts(graphics, [...rooted, ...tufts.map(({ tuft }) => tuft)], t, {
-      refused,
-      marked,
-    });
+    paintSprouts(
+      graphics,
+      tufts.map(({ tuft }) => tuft),
+      t,
+      {
+        refused,
+        marked,
+      },
+    );
   }
 
   /** The bare tuft a tap at `point` lands on (`tuftAt`). */
