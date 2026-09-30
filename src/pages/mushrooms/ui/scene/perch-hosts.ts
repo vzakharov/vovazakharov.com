@@ -1,0 +1,80 @@
+import { isAloft, isLeaving, type Perch } from '../../model/flight';
+import type { Point } from '../../model/geometry';
+import type { Flier } from '../../model/insects';
+import type { FlowerBed } from './flower-bed';
+import type { Perched } from './insect-view';
+import type { MushroomBed } from './mushroom-bed';
+import { perchSpot } from './perch-sight';
+
+/** What the scene's perches stand on: the mushrooms' caps, the flowers' heads, and each spot in the open air by id. */
+export type PerchHosts = {
+  bed: MushroomBed | undefined;
+  flowers: FlowerBed | undefined;
+  air: ReadonlyMap<string, Point>;
+};
+
+/**
+ * Where `perch` stands this frame: over a flower's head, as it sways and
+ * sags, with the head's middle it drinks from, or a cap's top, as it
+ * breathes, wobbles and sinks, each butterfly at a spot of its own along
+ * it; or a spot in the open air.
+ */
+export function perchedOn(
+  { bed, flowers, air }: PerchHosts,
+  perch: Perch,
+  insect: Flier,
+): Perched | undefined {
+  const spot = perchSpot(insect);
+  switch (perch.kind) {
+    case 'cap': {
+      return bed?.capTop(perch.id, spot);
+    }
+    case 'flower': {
+      return flowers?.seat(perch.id, spot, insect.kind);
+    }
+    case 'air': {
+      return air.get(perch.id);
+    }
+    case 'away': {
+      return undefined;
+    }
+    default: {
+      return perch satisfies never;
+    }
+  }
+}
+
+/** The perch `flier` sits on at `now`, in ms: none while it flies or leaves. */
+export function restingOn(
+  flier: Flier | undefined,
+  now: number,
+): Perch | undefined {
+  return flier && !isAloft(flier, now) && !isLeaving(flier)
+    ? flier.leg.to
+    : undefined;
+}
+
+/** Passes a tap through an insect at rest on to `under`, the cap or the flower it sits on. */
+export function tapThrough(
+  { bed, flowers }: PerchHosts,
+  under: Perch | undefined,
+): void {
+  switch (under?.kind) {
+    case 'cap': {
+      bed?.tap(under.id);
+      break;
+    }
+    case 'flower': {
+      flowers?.tap(under.id);
+      break;
+    }
+    case 'air':
+    case 'away':
+    case undefined: {
+      break;
+    }
+    default: {
+      under satisfies never;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import { isAloft, isLeaving, type Perch, type Sight } from '../../model/flight';
+import type { Perch, Sight } from '../../model/flight';
 import { firstFlowers } from '../../model/flower-sounds';
 import {
   type Action,
@@ -27,7 +27,13 @@ import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { Crop } from './pan-input';
-import { airSpots, onscreenOf, perchSight, perchSpot } from './perch-sight';
+import {
+  perchedOn,
+  type PerchHosts,
+  restingOn,
+  tapThrough,
+} from './perch-hosts';
+import { airSpots, onscreenOf, perchSight } from './perch-sight';
 import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
@@ -301,35 +307,17 @@ export class MeadowScene extends Phaser.Scene {
     this.repaintControls();
   }
 
-  /**
-   * Where `perch` stands this frame: over a flower's head, as it sways and
-   * sags, with the head's middle it drinks from, or a cap's top, as it
-   * breathes, wobbles and sinks, each butterfly at a spot of its own along
-   * it; or a spot in the open air.
-   */
+  /** What the perches stand on, as the scene holds it now. */
+  private hosts(): PerchHosts {
+    const { bed, flowers, air } = this;
+    return { bed, flowers, air };
+  }
+
+  /** Where `perch` stands this frame (`perchedOn`). */
   private readonly perchAt = (
     perch: Perch,
     insect: Flier,
-  ): Perched | undefined => {
-    const spot = perchSpot(insect);
-    switch (perch.kind) {
-      case 'cap': {
-        return this.bed?.capTop(perch.id, spot);
-      }
-      case 'flower': {
-        return this.flowers?.seat(perch.id, spot, insect.kind);
-      }
-      case 'air': {
-        return this.air.get(perch.id);
-      }
-      case 'away': {
-        return undefined;
-      }
-      default: {
-        return perch satisfies never;
-      }
-    }
-  };
+  ): Perched | undefined => perchedOn(this.hosts(), perch, insect);
 
   /**
    * A tap on the insect `id` startles it; at rest, the tap goes on to
@@ -339,29 +327,9 @@ export class MeadowScene extends Phaser.Scene {
   private tapInsect(id: string): void {
     const now = this.clock * 1000;
     const flier = this.meadow?.insects.find((each) => each.id === id);
-    const under =
-      flier && !isAloft(flier, now) && !isLeaving(flier)
-        ? flier.leg.to
-        : undefined;
+    const under = restingOn(flier, now);
     this.dispatch({ kind: 'startle', id, now, ...this.sight });
-    switch (under?.kind) {
-      case 'cap': {
-        this.bed?.tap(under.id);
-        break;
-      }
-      case 'flower': {
-        this.flowers?.tap(under.id);
-        break;
-      }
-      case 'air':
-      case 'away':
-      case undefined: {
-        break;
-      }
-      default: {
-        under satisfies never;
-      }
-    }
+    tapThrough(this.hosts(), under);
   }
 
   /**
