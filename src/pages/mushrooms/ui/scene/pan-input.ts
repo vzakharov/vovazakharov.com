@@ -44,9 +44,7 @@ export class Crop {
 
   /** Takes the crop across `view`: the visit's opening crop the first time, a re-crop round the screen's centre after. */
   fit(view: View): void {
-    this.pan = this.pan
-      ? recrop(this.pan, view, this.now())
-      : openingPan(view);
+    this.pan = this.pan ? recrop(this.pan, view, this.now()) : openingPan(view);
   }
 
   /** The crop's left edge now, in world px; 0 before the first paint. */
@@ -59,19 +57,13 @@ export class Crop {
     camera.setScroll(this.left(), 0);
   }
 
-  /** `point`, in world px, where the screen shows it now. */
-  toScreen<Placed extends Point>(point: Placed): Placed {
-    return this.pan
-      ? { ...point, x: screenOf(this.pan, this.now(), point.x) }
-      : point;
-  }
+  /** `point`, in world px, where the screen shows it now; bound, so it passes as it is. */
+  readonly toScreen = <Placed extends Point>(point: Placed): Placed =>
+    this.pan ? { ...point, x: screenOf(this.pan, this.now(), point.x) } : point;
 
-  /** `point`, across the screen in CSS px, where it lies in the world now. */
-  toWorld<Placed extends Point>(point: Placed): Placed {
-    return this.pan
-      ? { ...point, x: worldOf(this.pan, this.now(), point.x) }
-      : point;
-  }
+  /** `point`, across the screen in CSS px, where it lies in the world now; bound, so it passes as it is. */
+  readonly toWorld = <Placed extends Point>(point: Placed): Placed =>
+    this.pan ? { ...point, x: worldOf(this.pan, this.now(), point.x) } : point;
 
   /** Whether the screen shows the world's `x` now. */
   shows(x: number): boolean {
@@ -112,7 +104,12 @@ export class Crop {
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
-    if (!this.pan || this.holder !== undefined || over.some((object) => isFixed(object))) return;
+    if (
+      !this.pan ||
+      this.holder !== undefined ||
+      over.some((object) => isFixed(object))
+    )
+      return;
     this.holder = pointer.id;
     this.pan = press(this.pan, ...this.sample(pointer));
   };

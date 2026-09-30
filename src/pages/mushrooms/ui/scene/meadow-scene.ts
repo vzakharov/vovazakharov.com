@@ -136,6 +136,7 @@ export class MeadowScene extends Phaser.Scene {
       (id) => {
         this.tapInsect(id);
       },
+      this.crop,
     );
     this.controls = new Controls(
       this,
@@ -279,7 +280,7 @@ export class MeadowScene extends Phaser.Scene {
   /** Where the next mushroom grows as the meadow stands now: `undefined` where there is no room. */
   private roomNow(): Ground | undefined {
     const stand = this.stand();
-    return stand && this.room(stand, this.upcoming);
+    return stand && this.room(stand, this.upcoming, this.crop);
   }
 
   private fliers(): readonly Flier[] {
@@ -395,6 +396,7 @@ export class MeadowScene extends Phaser.Scene {
         this.meadow,
         this.voice.muted,
         this.pixelRatio(),
+        this.crop.toScreen,
       );
     }
   }

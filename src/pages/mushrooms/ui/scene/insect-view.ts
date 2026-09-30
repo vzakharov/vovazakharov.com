@@ -29,6 +29,7 @@ import {
 } from './insect-look';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
+import type { Crop } from './pan-input';
 import type { MeadowSound } from './sound';
 import { tapReach } from './tap-reach';
 
@@ -39,7 +40,7 @@ const JOLT = 0.7;
 /** How long a landing's bob cut short by a take-off takes to die away, in ms. */
 const BOB_FADE = 200;
 /**
- * The band of the screen's height a butterfly flies in from and out to off
+ * The band of the screen's height an insect flies in from and out to off
  * screen, its phase picking where.
  */
 const AWAY_BAND = [0.18, 0.5] as const;
@@ -47,7 +48,7 @@ const AWAY_BAND = [0.18, 0.5] as const;
 /** Where an insect sits on a perch, and at a flower the head's middle it drinks from. */
 export type Perched = Point & { nectar?: Point };
 
-/** Where a perch stands on screen this frame, `undefined` while it has nowhere to be. */
+/** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
 export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 
 /** An insect on screen: its look, and where and how it flies. */
@@ -57,9 +58,17 @@ type Shown = TappedFigure &
     look: Look;
     /** How far its open wings span on screen, in pixels, as last painted. */
     span: number;
-    /** Where its current leg set off, as fractions of the screen's width and height. */
+    /**
+     * Where its current leg set off: across, in ground units from the
+     * world's midline; down, as a fraction of the screen's height.
+     */
     from: Point;
-    /** Where its flight had it last frame, on screen. */
+    /**
+     * Whether its leg in from away has yet to pick the screen edge it
+     * enters by, which it does on its first frame, once its perch stands.
+     */
+    entering: boolean;
+    /** Where its flight had it last frame, in the world. */
     at: Point;
     /** How far its fidgets on its perch moved it off `at` last frame. */
     offset: Point;
@@ -82,17 +91,23 @@ type Shown = TappedFigure &
   };
 
 /**
- * The meadow's insects on screen, reconciled with the state by id: each a
- * container of its kind's parts (`insect-look.ts`), above everything in the
- * meadow and under the buttons, flown along its leg every frame. A leg's
- * start is where it was last drawn, kept as a share of the screen so a
- * resize mid-flight never makes it jump; its end is wherever its perch
- * stands that frame, so it lands on a breathing cap or a swaying flower.
+ * The meadow's insects, reconciled with the state by id: each a container of
+ * its kind's parts (`insect-look.ts`), above everything in the meadow and
+ * under the buttons, flown along its leg every frame. A leg's start is where
+ * it was last drawn, kept in ground units so a resize mid-flight never makes
+ * it jump; its end is wherever its perch stands that frame, so it lands on a
+ * breathing cap or a swaying flower. Away is just past the screen's edge
+ * where the crop stands now: one in from away enters by the edge nearer its
+ * first perch, one leaving goes out by its seed's side.
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
+  /** The screen's width and height, in CSS px, as last painted. */
   private width = 1;
   private height = 1;
+  /** The world's width and its ground unit, in px, as last painted. */
+  private world = 1;
+  private unit = 1;
   /** The light the insects are drawn in, as the screen last stood. */
   private lighting: Lighting | undefined;
   private sizes: Readonly<Record<InsectKind, number>> = {
@@ -106,6 +121,8 @@ export class InsectView {
   /** Seconds on the scene's clock. */
   private readonly now: () => number;
   private readonly onTap: (id: string) => void;
+  /** Which stretch of the world the screen shows. */
+  private readonly crop: Pick<Crop, 'toScreen' | 'toWorld'>;
 
   constructor(
     scene: Phaser.Scene,
@@ -113,12 +130,14 @@ export class InsectView {
     now: () => number,
     depth: number,
     onTap: (id: string) => void,
+    crop: Pick<Crop, 'toScreen' | 'toWorld'>,
   ) {
     this.scene = scene;
     this.voice = voice;
     this.now = now;
     this.depth = depth;
     this.onTap = onTap;
+    this.crop = crop;
   }
 
   /** Shows what `insects` holds: a new one set off from off screen, a gone one destroyed, a new leg started from where it was drawn. */
@@ -139,10 +158,11 @@ export class InsectView {
       const { from, to, departs } = flier.leg;
       shown.carried = carriedFrom(last, departs);
       // From where it was drawn, fidgets and all, so a startle never jumps.
+      shown.entering = from.kind === 'away';
       shown.from =
         from.kind === 'away'
-          ? this.fraction(this.offScreen(from.side, shown))
-          : this.fraction({
+          ? this.units(this.offScreen(from.side, shown))
+          : this.units({
               x: shown.at.x + shown.offset.x,
               y: shown.at.y + shown.offset.y,
             });
@@ -162,12 +182,14 @@ export class InsectView {
    * both were measured on the screen as it was.
    */
   paint(
-    { width, height, insectSizes }: MeadowLayout,
+    { width, height, camera, insectSizes }: MeadowLayout,
     lighting: Lighting,
   ): void {
     this.lighting = lighting;
     this.width = width;
     this.height = height;
+    this.world = camera.world;
+    this.unit = camera.unit;
     this.sizes = insectSizes;
     for (const shown of this.shown.values()) {
       shown.look.lighting = lighting;
@@ -208,9 +230,15 @@ export class InsectView {
       ...pick(shown.flier, 'kind'),
       flutter: size * FLUTTER,
     };
-    const start = this.toScreen(shown.from);
     const seated =
       leg.to.kind === 'away' ? undefined : perchAt(leg.to, shown.flier);
+    if (shown.entering && leg.from.kind === 'away') {
+      shown.entering = false;
+      shown.from = this.units(
+        this.offScreen(seated ? this.nearerEdge(seated) : leg.from.side, shown),
+      );
+    }
+    const start = this.placed(shown.from);
     const end =
       (leg.to.kind === 'away' ? this.offScreen(leg.to.side, shown) : seated) ??
       shown.end ??
@@ -276,6 +304,7 @@ export class InsectView {
       flier,
       span: 0,
       from: { x: 0, y: 0 },
+      entering: false,
       at: { x: 0, y: 0 },
       offset: { x: 0, y: 0 },
       bob: 0,
@@ -291,7 +320,8 @@ export class InsectView {
     const { from } = flier.leg;
     if (from.kind === 'away') {
       shown.at = this.offScreen(from.side, shown);
-      shown.from = this.fraction(shown.at);
+      shown.from = this.units(shown.at);
+      shown.entering = true;
     }
     // The top insect under a finger takes the tap for them all and hands it
     // to the one it reaches. An insect is not the meadow: its tap leaves the
@@ -320,23 +350,33 @@ export class InsectView {
     shown.hit.setTo(0, 0, tapReach(shown.span / 2));
   }
 
-  /** Just past `side`'s edge, at a height in `AWAY_BAND` its phase picks. */
+  /**
+   * In the world, just past the screen's `side` edge where the crop stands
+   * now, at a height in `AWAY_BAND` its phase picks.
+   */
   private offScreen(side: Side, shown: Shown): Point {
     const reach = wingspan(shown.look.genes) * this.sizeOf(shown);
     const down =
       AWAY_BAND[0] +
       (AWAY_BAND[1] - AWAY_BAND[0]) * (0.5 + 0.5 * Math.sin(shown.phase * 3));
-    return {
+    return this.crop.toWorld({
       x: side === 'left' ? -reach : this.width + reach,
       y: this.height * down,
-    };
+    });
   }
 
-  private fraction({ x, y }: Point): Point {
-    return { x: x / this.width, y: y / this.height };
+  /** The screen's edge nearer the world's `point` where the crop stands now. */
+  private nearerEdge(point: Point): Side {
+    return this.crop.toScreen(point).x < this.width / 2 ? 'left' : 'right';
   }
 
-  private toScreen({ x, y }: Point): Point {
-    return { x: x * this.width, y: y * this.height };
+  /** A world point as `Shown.from` keeps it. */
+  private units({ x, y }: Point): Point {
+    return { x: (x - this.world / 2) / this.unit, y: y / this.height };
+  }
+
+  /** `Shown.from` back in the world. */
+  private placed({ x, y }: Point): Point {
+    return { x: this.world / 2 + x * this.unit, y: y * this.height };
   }
 }

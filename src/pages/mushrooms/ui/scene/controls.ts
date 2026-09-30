@@ -163,13 +163,16 @@ export class Controls {
 
   /**
    * Draws every button where `layout` puts it, as `meadow` leaves it, at
-   * `ratio` device pixels to a CSS pixel.
+   * `ratio` device pixels to a CSS pixel. The buttons stand fixed on the
+   * screen, so what they open from or fly to in the meadow is taken where
+   * `toScreen` says the screen shows it now.
    */
   paint(
     layout: MeadowLayout,
     meadow: Meadow,
     muted: boolean,
     ratio: number,
+    toScreen: <Placed extends Point>(point: Placed) => Placed,
   ): void {
     this.meadow = meadow;
     placeButton(this.mute, layout.mute, ratio, {
@@ -210,14 +213,20 @@ export class Controls {
     this.yielding = layout.yielding;
     const now = this.now();
     const { picking, furnishing, planting } = meadow;
-    if (planting) this.tuft = standingOn(layout.camera, planting.foot);
+    if (planting) {
+      this.tuft = toScreen(standingOn(layout.camera, planting.foot));
+    }
     const stages = flowerPicker(layout);
     const colouring = planting !== undefined && planting.chosen === undefined;
     const shaping = planting?.chosen !== undefined;
-    const mushroomAt = (mushroom: Planted) =>
-      placeIn(layout.mushrooms, mushroom);
+    const mushroomAt = (mushroom: Planted) => {
+      const place = placeIn(layout.mushrooms, mushroom);
+      return place && toScreen(place);
+    };
     const flowerAt = (sown: Sown) =>
-      isBeeSown(sown) ? undefined : standingOn(layout.camera, sown.foot);
+      isBeeSown(sown)
+        ? undefined
+        : toScreen(standingOn(layout.camera, sown.foot));
     // Every picker opens where another stands, so the one opening sends the
     // rest off at once.
     this.picker.paint(
