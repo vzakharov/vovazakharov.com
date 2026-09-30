@@ -771,8 +771,8 @@ Standing rules for every session in the chain:
       2000 visits; 28.7% and 11.1% before the camera kept the wings), a
       front flower whose perch the thin upright ground brings within a
       wing of the screen's bottom, and a tenth of visits lose 14–17% or
-      more; every other screen's turn loses none. The shrink kept every
-      flower but drew bees ~15 px. `flower-plots.test.ts` bounds both
+      more; every other screen's turn loses none. The shrink it beat
+      drew those bees ~15 px. `flower-plots.test.ts` bounds both
       standings at 11%, the worst tenth at 18%.
     - Spore puffs are containers tied to their mushroom, following it
       through a refit (`puffFrom`).
