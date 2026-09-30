@@ -30,7 +30,10 @@ You build one work package of bite 11 of the mushroom game
   decided. Commit it with the step.
 - Work that does not type-check yet is committed as a `git apply`-able
   `.patch` beside the note, never as source. Never `git reset --hard`, never
-  force-push.
+  force-push, **never `git stash`, `git checkout -- <path>` or
+  `git restore` on the tree** — each sweeps up or overwrites other agents'
+  uncommitted edits. For a baseline, build a throwaway
+  `git worktree add tmp/wt-<package> HEAD` and run there.
 - Tests: `node --import tsx --test <file>` one file at a time (the whole
   mushroom suite in one call exceeds the tool's time limit). Run every test
   file your change could touch.
