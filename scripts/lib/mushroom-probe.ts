@@ -142,14 +142,18 @@ export const PROBE = `(() => {
         bee: centre(scene.layout.releases.bee),
       },
     }),
-    /** The meadow's insects, oldest first, each with its current leg. */
+    /** The meadow's insects, oldest first, each with its current leg and whether the crop shows it. */
     insects: () =>
-      scene.meadow.insects.map(({ id, kind, legs, leg }) => ({
-        id,
-        kind,
-        legs,
-        ...leg,
-      })),
+      scene.meadow.insects.map(({ id, kind, legs, leg }) => {
+        const shown = scene.insects.shown.get(id);
+        return {
+          id,
+          kind,
+          legs,
+          ...leg,
+          inSight: shown !== undefined && scene.crop.shows(shown.container.x),
+        };
+      }),
     /**
      * An insect on screen: where it is drawn, where its perch stood last
      * frame, and when it was last tapped; \`null\` once it is gone.
@@ -295,6 +299,8 @@ export const Insects = z.array(
     departs: z.number(),
     arrives: z.number(),
     leaves: z.number(),
+    /** Whether the crop shows it, where a finger can reach it. */
+    inSight: z.boolean(),
   }),
 );
 export const ShownInsect = Point.extend({

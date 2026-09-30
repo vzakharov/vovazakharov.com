@@ -89,7 +89,7 @@ const plantedAs = (id?: string) => `(() => {
 
 type Fliers = ReturnType<typeof fliersOn>;
 
-/** Steps until an insect of `kind` sits still with time to stay; `undefined` if none does. */
+/** Steps until an insect of `kind` sits still in sight with time to stay; `undefined` if none does. */
 async function restingOf(
   { waitFor }: Fliers,
   kind: InsectKind,
@@ -97,7 +97,10 @@ async function restingOf(
   return waitFor((all, at) =>
     all.find(
       (insect) =>
-        insect.kind === kind && landed(insect, at) && insect.leaves - at > 600,
+        insect.kind === kind &&
+        insect.inSight &&
+        landed(insect, at) &&
+        insect.leaves - at > 600,
     ),
   );
 }

@@ -2,10 +2,11 @@
  * The pan, `play-mushrooms.ts`'s run on a fresh meadow: `←` and `→` stepping
  * the crop by `STEP_ACROSS` of the screen, to either end of the world; a drag
  * from bare ground moving the crop under the finger and gliding on, tapping
- * nothing; a drag past the world's end sliding the finger over a mushroom,
- * tapping nothing; a press that moves less than the slop still selecting the
- * mushroom it landed on; and the screen turned, the ground standing where it
- * was and the crop re-centred on the ground point at the screen's middle.
+ * nothing; a drag past the world's end sliding the finger over a mushroom or
+ * a flower, tapping nothing; a press that moves less than the slop still
+ * selecting the mushroom it landed on; and the screen turned, the ground
+ * standing where it was and the crop re-centred on the ground point at the
+ * screen's middle.
  */
 
 import { z } from 'zod';
@@ -79,15 +80,22 @@ const BARE_START = `(() => {
 })()`;
 
 /**
- * Of the mushrooms whose cap a tap reaches, the first with bare ground on
- * its cap's row on the side \`side\` points to: where a drag starts that
- * crosses the cap, and the cap's middle.
+ * Of the mushrooms whose cap a tap reaches, then the flowers whose head one
+ * does, the first with bare ground on its row on the side \`side\` points
+ * to: where a drag starts that crosses it, and the middle it crosses.
  */
 const crossing = (side: -1 | 1) => `(() => {
   const bare = ${BARE};
   const { width } = __probe.scene.layout;
-  for (const id of __probe.state().mushrooms) {
-    const over = __probe.mushroom(id);
+  const caps = __probe.state().mushrooms.map((id) => [id, __probe.mushroom(id)]);
+  const heads = [...__probe.scene.flowers.shown]
+    .filter(([, { container }]) => container.visible)
+    .map(([id, { head }]) => {
+      const at = head.getWorldTransformMatrix();
+      return [id, __probe.toScreen({ x: at.tx, y: at.ty })];
+    })
+    .filter(([, at]) => at.x > 0 && at.x < width && __probe.topAt(at) !== null);
+  for (const [id, over] of [...caps, ...heads]) {
     if (!over) continue;
     for (let off = 12; off <= 240; off += 12) {
       const from = { x: over.x + ${String(side)} * off, y: over.y };
@@ -232,8 +240,8 @@ type EndChecks = {
 
 /**
  * At the world's end `toward` points to, a drag from bare ground over a cap
- * away from that end: the crop stands, so the finger slides over the cap past
- * the slop, and nothing is tapped.
+ * or a flower, away from that end: the crop stands, so the finger slides
+ * over it past the slop, and nothing is tapped.
  */
 async function dragOverEnd(
   page: Page,
@@ -244,7 +252,7 @@ async function dragOverEnd(
   const end = toward === 1 ? 'right' : 'left';
   if (found === null) {
     note(
-      `no cap at the world's ${end} end with bare ground beside it to drag over`,
+      `nothing at the world's ${end} end with bare ground beside it to drag over`,
     );
     return;
   }
