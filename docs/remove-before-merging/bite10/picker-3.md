@@ -12,9 +12,12 @@
   (`Controls.yielding` is now a list). Split: `tap-reach.ts`,
   `picker-rows.ts`. `SUN_SMALLEST` 0.2 -> 0.1.
 
+- Played phoneL (probe build): pass; tuft colours/shapes, species and
+  house frames looked at, every picker clear of the house.
+
 ## Left
 
-- Build + play phoneL (tufts, species, house steps), look at frames.
+- 568×320 is not a play-script screen, so its look is unshot.
 
 ## Decisions
 
