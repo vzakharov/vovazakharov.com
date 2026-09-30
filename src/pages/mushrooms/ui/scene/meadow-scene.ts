@@ -27,7 +27,7 @@ import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import { Crop } from './pan-input';
-import { airSpots, perchSight, perchSpot } from './perch-sight';
+import { airSpots, onscreenOf, perchSight, perchSpot } from './perch-sight';
 import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
@@ -174,6 +174,7 @@ export class MeadowScene extends Phaser.Scene {
             seed: nextSeed(this.releasing),
             now: this.clock * 1000,
             ...this.sight,
+            onscreen: onscreenOf(this.requireLayout(), this.crop),
           });
         },
         ...pick(this.planter, 'colour', 'plant', 'plantable'),

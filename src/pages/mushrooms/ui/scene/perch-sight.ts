@@ -21,6 +21,7 @@ import {
   SIDES,
   type Sight,
 } from '../../model/flight';
+import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
@@ -45,6 +46,7 @@ import {
   WIDEST_SPAN,
 } from './flower-sight';
 import type { MeadowLayout } from './layout';
+import type { Crop } from './pan-input';
 import {
   crowdings,
   pointCrowdings,
@@ -334,5 +336,24 @@ export function perchSight(stand: Stand): Sight {
     crowded: [...perched, ...aloft],
     places,
     room: roomFor(stand, beeFlowers, covers),
+  };
+}
+
+/**
+ * What the screen shows of the world on `layout` where `crop` stands now, in
+ * the units of `Places`: a perch counts as shown half the widest
+ * butterfly's wings inside either edge, so one seated there is wholly in
+ * view.
+ */
+export function onscreenOf(
+  layout: MeadowLayout,
+  crop: Pick<Crop, 'toWorld'>,
+): Onscreen {
+  const unit = layout.insectSize;
+  const across = (x: number) => crop.toWorld({ x, y: 0 }).x / unit;
+  return {
+    left: across(0),
+    right: across(layout.width),
+    inset: widestOn(layout, 'butterfly') / 2 / unit,
   };
 }

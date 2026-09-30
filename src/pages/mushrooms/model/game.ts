@@ -8,6 +8,7 @@ import { pick } from '@/shared/lib/collections';
 import type { WithId } from '@/shared/typings';
 
 import type { Perches, Sight, Timed } from './flight';
+import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
 import type { FlowerFoot, Rooted } from './ground';
@@ -83,7 +84,8 @@ export type Action =
   // A tap on a control that changes nothing here, the mute's: it closes
   // the flower picker, as any tap outside it does.
   | { kind: 'shut' }
-  | ({ kind: 'release'; insect: InsectKind } & Seeded & Sighted)
+  | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
+      Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
   | ({ kind: 'tick' } & Sighted);
 
@@ -323,11 +325,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'release': {
       const count = meadow.released + 1;
-      const { insect: kind, seed, now } = action;
+      const { insect: kind, seed, now, onscreen } = action;
       const insect = { id: `${kind}-${count}`, seed, kind };
+      const perches = perchesOf(meadow, action);
       return {
         ...meadow,
-        ...released(meadow, insect, perchesOf(meadow, action), now),
+        ...released(meadow, insect, perches, now, onscreen),
         released: count,
         planting: undefined,
       };

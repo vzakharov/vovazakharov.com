@@ -10,6 +10,7 @@
 import type { WithId } from '@/shared/typings';
 
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
+import { enteringSide, type Onscreen, shownOf } from './flight-in';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
@@ -257,7 +258,7 @@ function nextPerch(
   return roamFrom(random, choosing) ?? awayPerch(random);
 }
 
-function awayPerch(random: Random): Perch {
+function awayPerch(random: Random): Extract<Perch, { kind: 'away' }> {
   return { kind: 'away', side: pick(random, SIDES) };
 }
 
@@ -327,20 +328,38 @@ function legTo(
 }
 
 /**
- * A new insect's first flight, in from off screen on a side its seed picks
- * to an open perch (`nextPerch`), departing `now`.
+ * A new insect's first flight, in from off screen to an open perch
+ * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
+ * one it shows while any is open there, and the insect enters by the
+ * screen's edge nearer it (`flight-in.ts`); otherwise by a side its seed
+ * picks.
  */
 export function firstFlight(
   { seed, kind }: InsectSeed,
   perches: Perches,
   now: number,
   taken: readonly Held[] = [],
+  onscreen?: Onscreen,
 ): Flight {
   const random = legRandom(seed, 0);
   const habits = FLIGHT_HABITS[kind];
-  const from = awayPerch(random);
-  const to = nextPerch(random, { kind, habits }, from, perches, taken);
-  const { places } = perches;
+  const drawn = awayPerch(random);
+  const choose = (among: Perches) =>
+    nextPerch(random, { kind, habits }, drawn, among, taken);
+  if (!onscreen) {
+    const { places } = perches;
+    const to = choose(perches);
+    return {
+      leg: legTo(random, habits, { from: drawn, to }, { now, places }),
+      legs: 1,
+    };
+  }
+  const shown = shownOf(perches, onscreen);
+  const inView = choose(shown);
+  const to = inView.kind === 'away' ? choose(perches) : inView;
+  const { places } = shown;
+  const side = enteringSide(onscreen, places, to, drawn.side);
+  const from: Perch = { kind: 'away', side };
   return {
     leg: legTo(random, habits, { from, to }, { now, places }),
     legs: 1,

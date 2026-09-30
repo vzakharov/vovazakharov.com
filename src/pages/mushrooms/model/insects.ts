@@ -20,6 +20,7 @@ import {
   nextFlight,
   type Perches,
 } from './flight';
+import type { Onscreen } from './flight-in';
 import type { Insect, InsectKind, OfKind } from './insect-genes';
 import {
   type Carrying,
@@ -107,15 +108,17 @@ function tookOff(
 }
 
 /**
- * `swarm` with `insect` flying in from `now`. At its kind's limit, the
- * oldest of that kind not already leaving flies away from `now`, so a release
- * always acts.
+ * `swarm` with `insect` flying in from `now`, to a first perch `onscreen`
+ * shows where it is given (`firstFlight`). At its kind's limit, the oldest of
+ * that kind not already leaving flies away from `now`, so a release always
+ * acts.
  */
 export function released(
   swarm: Swarm,
   insect: Insect,
   perches: Perches,
   now: number,
+  onscreen?: Onscreen,
 ): Swarm {
   const oldest = evicted(swarm.insects, insect.kind, INSECT_LIMITS);
   const planted = [...swarm.planted];
@@ -124,7 +127,7 @@ export function released(
       ? tookOff(each, flightAway(each, now, perches), now, perches, planted)
       : each,
   );
-  const flight = firstFlight(insect, perches, now, takenBy(staying));
+  const flight = firstFlight(insect, perches, now, takenBy(staying), onscreen);
   return {
     insects: [...staying, flierOf(insect, flight)],
     planted: plantedOnto(swarm.planted, planted),
