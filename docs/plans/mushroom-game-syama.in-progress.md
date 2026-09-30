@@ -759,31 +759,19 @@ Standing rules for every session in the chain:
     - The play run was green on every screen once two checks were fixed,
       not the game: the selection band's outline allowance is the ink's
       real reach (`INK_REACH`), and the wait for a butterfly on the
-      chanterelle looks every `REST_LOOK` frames, covering ~160 s. Every
-      picker shows all its buttons on the 280 px phone.
+      chanterelle looks every `REST_LOOK` frames, covering ~160 s.
+    - **Every picker stage is finger-sized and apart**, asserted in
+      `layout.test.ts` on every `VIEWPORTS` screen, the 280 px phone and
+      `TURNED_SMALL` (568×320, 600×280): each button at least `TAP_RADIUS`,
+      on screen, and `PICK_CLEAR` (6.4 px) from every button still shown.
+      Rows narrow until they clear `+`, `−` and the house; where the sky is
+      too short for a row beside the insects, the picker opens in the top
+      row and the buttons it covers hide while it is open
+      (`Controls.yielding`) — a lower row covered the caps. `SUN_SMALLEST`
+      is 0.1. Finger reach lives in `tap-reach.ts`, picker rows in
+      `picker-rows.ts`.
 
-## This bite
-
-Bite 10, in two halves, the first gating the second.
-
-**A. The three defects the play run found** after review 5356809390's
-handling (frames `frames/bite-9/handled/`, commit 828fbaf6):
-
-- **A grown mushroom no tap reaches** — mushroom-5's cap on the small
-  phone (the front caps pile on each other), mushroom-4's on phoneL. This
-  breaks "every tap selects what the finger is on"; fixed first, with a
-  tap sweep over grown forests (every forest size up to the cap, many
-  seeds) on every screen the play run shoots, asserted in the suite: every
-  grown mushroom keeps a tappable patch of its own.
-- **Insects on phoneL fall below the play run's size floors** (bee 27.7,
-  fly 25.6, butterfly 38.9 px against 30, 30, 52), since insects shrink
-  with a small clump. The two rules are reconciled — the play run's floors
-  or the shrink — and the plan says which gave way and why.
-- **Spore rings stay hanging over the hills after a turn**: they are refit
-  with the meadow, like everything else placed on it.
-
-**B. The flowers as an instrument** — item 10 as the plan's
-`## Rest of the elephant` stated it when this bite was taken (moved here
+## Rest of the elephant` stated it when this bite was taken (moved here
 whole, below), its design `docs/remove-before-merging/ideas/idea-2-flower-keyboard.md`
 § «Что ты решил» overriding the rest of that file:
 
@@ -830,7 +818,10 @@ refuses `+`.
 
 In order.
 
-**Open:** a turn keeps the meadow laid out for the shape it was grown on,
+**Open:** near-square windows of ~320–360 px each way (no phone has one)
+fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
+ground; no test covers them. The play run shoots no 568×320 screen, so the
+tests alone hold it. A turn keeps the meadow laid out for the shape it was grown on,
 by design until item 11's pan: upright to sideways the six bunch in the
 middle with empty grass either side; sideways to upright they shrink
 into the bottom fifth under empty hills. The play run has no turn step
