@@ -174,7 +174,11 @@
   ~15–30 minutes with each spawn, reading the usage and the branch's new
   commits, pause an agent from outside past ~200k, and start a fresh one on
   the same brief from its hand-over note — rather than trusting the agent
-  to stop.
+  to stop. Bite 11's review shows the split: the reader finished at 124k in
+  9 minutes, the player read 149k at the 20-minute check-in with nothing
+  committed, and one nudge ("wrap up within ~25k, commit the frames")
+  brought frames and report at 158k. A player gets the 20-minute check-in
+  by default; a reader rarely needs one.
 
 - **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
   the common brief from the start.** Bite 11's first flowers agent stashed

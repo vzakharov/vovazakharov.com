@@ -58,6 +58,17 @@
   on the head works when the bite's last commit is a few back, as long as
   the lines are unchanged. A failed post is atomic, so a bad anchor is found
   by posting each comment alone as a pending review and deleting it.
+- **A cause outside the diff anchors on the changed line that states its
+  contract.** Bite 11's worst finding (every pan taps its start) lives in
+  an unchanged `POINTER_DOWN` line, which a review comment cannot anchor
+  on; the new `pan-input.ts` doc comment that says "a press still taps
+  whatever it lands on" could, with the causal line quoted in the text.
+  Check each anchor against `git diff -U0 <base>..HEAD -- <file>`'s hunks
+  before building the JSON.
+- **A player agent may drive the build with its own frame-stepping CDP
+  script instead of the play recipe.** Bite 11's did (seeded, one frame at
+  a time) and got wobbly-tap and key-release traces the recipe has no step
+  for; the recipe stays the tail's green/red gate.
 - **Every comment carries an `Ask:` with a checkable property, and every fix
   is its own commit and reply.** Bite 2's comments each ended with a
   concrete ask and a check ("every flower shorter than the nearest stem",

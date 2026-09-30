@@ -1,18 +1,17 @@
 # Relay summary
 
-Relay depth: 8 of the chain the operator restarted by hand (this session was
-depth 7). **The successor is at the cap**: `create_session` will refuse it.
-So it posts its review, writes its own relay summary with the depth reset to
-1 and the Next step `/relay /handle`, and ends by handing the operator the
-one line to paste into a fresh Opus session:
-`/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard; if the local ref is stale, rename it aside (git branch -m <branch> stale-local/<n>) and check out a fresh tracking branch`
+Relay depth: 1 — the chain restarts here, from the operator's paste. The
+relaying session (bite 11's review) was depth 8, where `create_session`
+refuses, so it did not start a successor; the operator pastes the line
+below into a fresh **Opus** session. That successor is depth 1 and may relay
+with `create_session` again (count the depth in each summary; the cap is 8).
 (plan § "The relays stay relays"; `.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
 
 **Never issue `git reset --hard` on pickup**; if the local ref is stale,
 rename it aside (`git branch -m <branch> stale-local/<n>`) and check out a
-fresh tracking branch. It held this time (`stale-local/1`). Read files with
+fresh tracking branch. It held again at bite 11's review (local ref one behind, renamed to `stale-local/1`). Read files with
 `Read`, not `cat`/`sed` (CLAUDE.md).
 
 Carried from earlier sessions, the operator's words verbatim (Russian):
@@ -73,92 +72,78 @@ named explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
 
 ## 2. The conversation
 
-The session ran from its launch prompt (`/relay take … — before attaching:
-never git reset --hard; …`), attached (stale local ref renamed aside),
-dispatched `/go` and finished bite 11 through Opus subagents. Operator
-messages, in order:
-
-1. > вопрос в сторону: как ты думаешь, агенту интереснее писать игрушку, чем какой-нибудь erp?
-
-   Reply: a banter answer — in a toy the right answer doesn't exist until
-   invented, so the decisions carry a "because"; ERP's are someone's rule.
-   (It called Syama «шестилетняя» — wrong, see 2.)
-2. > Сяма -- мальчик :)
-
-   Reply: apologised; checked the branch — no doc misgenders him; promised
-   this summary would carry it.
-3. > (если что, ещё Сяма -- это короткое от Салман)
-
-   Reply: noted, carried here.
-4. > небольшой фидбек: движения по свайпу мышкой выглядят отлично, а вот курсорами -- как-то дёрганно. Должен быть плавный, умеренно медленный поворот. Считай как в игрушках-стрелялках, только медленнее. (Сейчас он какой-то дискретный)
-
-   Reply: dispatched an agent; built as a held-key turn (362f232), quoted
-   into the plan's item 11 (74ff5b6).
+No operator message reached this session. It ran from its launch prompt
+(`/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never
+git reset --hard; …`), attached (local ref one behind, renamed aside to
+`stale-local/1`), and did the previous summary's Next step: "оставь код
+ревью на последний кусок". Everything else in its transcript is its own
+agents' reports and scheduled check-ins, none of which is the operator.
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable for
-a six-year-old boy, an agent review per bite handled by the next session,
-the Artifact playable after every bite, ending with `/finalize` (no merge).
+a six-year-old boy, with an agent review of each bite handled by the next
+session, the Artifact playable after every bite, and `/finalize` at the end
+(no merge).
 
 ## 4. Decisions
 
-All in the plan's § "Eaten so far" item 11 (§ "A wider meadow, panned
-(bite 11)") and the three restated whole-game Decisions (one drag pans;
-sight against the world's edges, first perch on screen; flowers stay put
-through a pan). The ones this session took beyond the packages' own notes
-(`docs/remove-before-merging/bite-11/*.md`):
-
-- **Arrow keys: held-key turn**, 0.5 screen widths/s cruise, 0.25 s ease
-  each way, a tap nudges ~2% of a screen (`keys.md`), beating the 0.4-screen
-  eased step the operator found jerky.
-- **Far hills pressed, not cut** under the sun: a smooth squash envelope in
-  `skyline.ts` (`hills.md`), beating the clamp that made a mesa on phoneP.
-- **Head-tap floor 75%, not 80%** (d997db8): over all 2000 tablet forests
-  the worst mushroom keeps 76.5%, every lost tap on a mushroom drawn in
-  front (`redfix.md`); beat "no new mushroom covers >20% of a grown head",
-  which would starve room for no loss to the child. A reviewer may
-  legitimately question this — it is a bar lowered on measurement.
+- **Review shape as before.** Two Opus agents ran in parallel from a
+  committed common brief (`docs/remove-before-merging/review-bite11/common-brief.md`):
+  a player driving the build frame by frame with its own CDP scripts, and a
+  read-only reader. Findings both agents reached are marked confirmed; the
+  rest are posted with one agent's measurement.
+- **Severity markers** in the review follow the loop's convention: 🔴 are
+  findings 1 and 2, 🟠 are 3 and 4, 🟡 are 5–7, and ⚪ is 8, the house
+  rules. None is optional for the handler: this is the loop's own review,
+  and every thread gets worked.
+- **Two findings carry a design call for the handler, not just a fix.**
+  #2 asks whether a press that becomes a pan should tap at all (the review's
+  Ask is "no: only a press released inside the slop taps"). #7 asks for a
+  phoneL pan room of at least half a screen, or an explicit acceptance in
+  plan item 11. Decide each in the plan before briefing, per
+  `subagents.md` § "Handling a review".
 
 ## 5. Errors and dead ends
 
-- The previous session kept pushing cost commits and its agent landed the
-  tap test (d5d0715) after relaying — pushes refused twice; pull
-  `--no-rebase` before every push early on (megabeast note added).
-- The first `/polish` agent died in a container restart; the second kept its
-  uncommitted edits and finished (00fbc9a7…5a044269).
+- One comment's first anchor, `meadow-scene.ts`'s `POINTER_DOWN` line, sits
+  outside the diff. It was anchored instead on `pan-input.ts:30`, the doc
+  comment that states the behaviour (noted in `quality.md`).
+- The player agent was at 149k with nothing committed by the 20-minute
+  check-in. One nudge got its frames committed and its report sent (158k).
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE/CLEAN; body, QA checklist and squash proposal refreshed for
-  bite 11.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 11 folded, next is
-  item 12 (Rain) in § "Rest of the elephant".
-- The Artifact is bite 11's: version 11 of
-  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG.
-- Tests: every file the agents touched green; `fliers.test.ts` green in
-  354 s (run alone, 590 s timeout); play run green per screen (tabL, phoneP
-  after the keys change; all five before it). Vet not run (that's
-  `/finalize`'s).
-- Nothing running: no subagents, no PR subscription, no check-ins.
+  MERGEABLE/CLEAN at attach.
+- The review is https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5373085053
+  (id 5373085053), 8 inline threads, anchored on commit 9670fedd.
+- Plan `docs/plans/mushroom-game-syama.paused.md`. Bite 11 is folded in, and
+  item 12 (Rain) in § "Rest of the elephant" comes after the review is
+  handled.
+- The Artifact is still bite 11's (version 11 of
+  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG).
+- Nothing is running: no subagents, no PR subscription, no check-ins.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-11/` — every package's hand-over
-  (`core`, `room`, `roomfix`, `flowers`, `scene`, `grass`, `perch`, `play`,
-  `hills`, `keys`, `redfix`), `look/` for before/after frames.
-- `docs/remove-before-merging/frames/bite-11/` — the bite's frames.
-- `.claude/skills/megabeast/notes/README.md` — the notes' index.
-- The diff to review: `git log --oneline 91fd7f7..HEAD` plus bite 11's
-  earlier commits from 19b7306 (plan item 11 names them).
+- The review's threads: `python3 scripts/export-github-item.py 57` writes
+  `docs/pr/57/pr.md`. `/handle` does this itself.
+- `docs/remove-before-merging/frames/bite-11-review/` holds the review's
+  frames, named after the finding each one shows.
+- The review agents' scratch sweeps (`tmp/review-bite11/`) did not survive
+  the relay. Each finding states its measurement, so re-derive a number
+  from its Ask.
+- `docs/remove-before-merging/bite-11/` holds bite 11's package hand-overs,
+  and `.claude/skills/megabeast/notes/README.md` indexes the megabeast
+  notes.
 
 ## 8. Next step
 
-оставь код ревью на последний кусок
+/handle
 
-That is: review bite 11 (from 19b7306 to HEAD) as the operator would ("что
-бы на нашем месте сделал Страшила"), post it on PR #57, fill the megabeast
-notes, then — being at the depth cap — write the relay summary with depth
-reset to 1 and Next step `/relay /handle`, and hand the operator the paste
-line at the top of this file instead of calling `create_session`.
+That is: handle review 5373085053's eight threads on PR #57 (every one,
+this being the loop's own review), fold the decisions into the plan, then
+continue the loop per § 1: "/relay оставь код ревью на последний кусок"
+after each bite, "/relay /handle" after each review, and "/relay finalize"
+at the end.
