@@ -345,6 +345,15 @@ export type Page = {
     schema: z.ZodType<Parsed>,
   ) => Promise<Parsed>;
   step: (frames: number) => Promise<void>;
+  /**
+   * `frames` frames stepped and none drawn, `expression` read after each and
+   * parsed by `schema`: how something moves frame by frame.
+   */
+  trace: <Parsed>(
+    frames: number,
+    expression: string,
+    schema: z.ZodType<Parsed>,
+  ) => Promise<Parsed[]>;
   /** The JS time of every frame `step` has drawn, in ms. */
   rendered: readonly number[];
   tap: (point: z.infer<typeof Point>) => Promise<void>;
@@ -358,8 +367,15 @@ export type Page = {
     to: z.infer<typeof Point>,
     frames: number,
   ) => Promise<void>;
-  /** A key pressed and let go, by its DOM `key`, as `ArrowLeft`. */
-  press: (key: 'ArrowLeft' | 'ArrowRight') => Promise<void>;
+  /**
+   * A key going down or up, by its DOM `key`, as `ArrowLeft`; a `repeat` is
+   * the browser's own repeat of a held key's press.
+   */
+  key: (
+    key: 'ArrowLeft' | 'ArrowRight',
+    type: 'keyDown' | 'keyUp',
+    repeat?: boolean,
+  ) => Promise<void>;
   /** The screen turned: its width and height swapped. */
   turn: () => Promise<void>;
   /** A frame of the whole screen, or of `clip` alone. */

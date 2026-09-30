@@ -2,7 +2,10 @@ import * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import {
+  type Direction,
+  holdKey,
   leftAt,
+  letGoKey,
   move,
   openingPan,
   type Pan,
@@ -10,7 +13,7 @@ import {
   recrop,
   release,
   screenOf,
-  step,
+  tick,
   type View,
   worldOf,
 } from '../../model/pan';
@@ -22,7 +25,8 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
 
 /**
  * The crop the scene's camera shows (`pan.ts`), and what moves it: Phaser's
- * one pointer, pressed anywhere but on a control, drags it; a key steps it.
+ * one pointer, pressed anywhere but on a control, drags it; a held arrow
+ * key turns it, ticked by the scene's clock whenever the crop is read.
  * A press still taps whatever it lands on, since the meadow answers taps on
  * the press; only a finger that moves past the slop pans. Every other
  * finger plays a chord and never reaches Phaser (`instrument-input.ts`), and
@@ -31,6 +35,8 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
  */
 export class Crop {
   private pan: Pan | undefined;
+  /** When, on the scene's clock, the pan was last ticked. */
+  private ticked = 0;
   /** The id of the pointer whose press moves the crop, until it lifts. */
   private holder: number | undefined;
   /** Seconds on the scene's clock, as of the last frame. */
@@ -44,12 +50,26 @@ export class Crop {
 
   /** Takes the crop across `view`: the visit's opening crop the first time, a re-crop round the screen's centre after. */
   fit(view: View): void {
-    this.pan = this.pan ? recrop(this.pan, view, this.now()) : openingPan(view);
+    const pan = this.current();
+    this.pan = pan ? recrop(pan, view, this.now()) : openingPan(view);
+  }
+
+  /**
+   * The pan as of now: a held key's turn ticked on by the time since it was
+   * last read, which the scene's clock, being the frames', steps a frame at
+   * a time.
+   */
+  private current(): Pan | undefined {
+    const now = this.now();
+    if (this.pan) this.pan = tick(this.pan, now - this.ticked);
+    this.ticked = now;
+    return this.pan;
   }
 
   /** The crop's left edge now, in world px; 0 before the first paint. */
   left(): number {
-    return this.pan ? leftAt(this.pan, this.now()) : 0;
+    const pan = this.current();
+    return pan ? leftAt(pan, this.now()) : 0;
   }
 
   /** Scrolls `camera` to the crop as it stands now. */
@@ -58,23 +78,35 @@ export class Crop {
   }
 
   /** `point`, in world px, where the screen shows it now; bound, so it passes as it is. */
-  readonly toScreen = <Placed extends Point>(point: Placed): Placed =>
-    this.pan ? { ...point, x: screenOf(this.pan, this.now(), point.x) } : point;
+  readonly toScreen = <Placed extends Point>(point: Placed): Placed => {
+    const pan = this.current();
+    return pan ? { ...point, x: screenOf(pan, this.now(), point.x) } : point;
+  };
 
   /** `point`, across the screen in CSS px, where it lies in the world now; bound, so it passes as it is. */
-  readonly toWorld = <Placed extends Point>(point: Placed): Placed =>
-    this.pan ? { ...point, x: worldOf(this.pan, this.now(), point.x) } : point;
+  readonly toWorld = <Placed extends Point>(point: Placed): Placed => {
+    const pan = this.current();
+    return pan ? { ...point, x: worldOf(pan, this.now(), point.x) } : point;
+  };
 
   /** Whether the screen shows the world's `x` now. */
   shows(x: number): boolean {
-    if (!this.pan) return false;
-    const across = screenOf(this.pan, this.now(), x);
-    return across >= 0 && across <= this.pan.width;
+    const pan = this.current();
+    if (!pan) return false;
+    const across = screenOf(pan, this.now(), x);
+    return across >= 0 && across <= pan.width;
   }
 
-  /** A key's step, `direction` -1 leftward and 1 rightward (`step`). */
-  step(direction: -1 | 1): void {
-    if (this.pan) this.pan = step(this.pan, direction, this.now());
+  /** The arrow key for `direction` went down (`holdKey`); its repeats change nothing. */
+  hold(direction: Direction): void {
+    const pan = this.current();
+    if (pan) this.pan = holdKey(pan, direction, this.now());
+  }
+
+  /** The arrow key for `direction` came up (`letGoKey`). */
+  letGo(direction: Direction): void {
+    const pan = this.current();
+    if (pan) this.pan = letGoKey(pan, direction);
   }
 
   /** Lets `scene`'s pointer drag the crop. Returns what stops it. */
@@ -104,14 +136,15 @@ export class Crop {
     pointer: Phaser.Input.Pointer,
     over: readonly Phaser.GameObjects.GameObject[],
   ): void => {
+    const pan = this.current();
     if (
-      !this.pan ||
+      !pan ||
       this.holder !== undefined ||
       over.some((object) => isFixed(object))
     )
       return;
     this.holder = pointer.id;
-    this.pan = press(this.pan, ...this.sample(pointer));
+    this.pan = press(pan, ...this.sample(pointer));
   };
 
   private readonly moved = (pointer: Phaser.Input.Pointer): void => {

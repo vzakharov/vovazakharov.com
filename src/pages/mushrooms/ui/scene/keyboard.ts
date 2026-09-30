@@ -1,8 +1,8 @@
 /**
  * The meadow played from a computer's keyboard: `g h j k l ; '` the white
  * keys C to B, `y u o p [` the sharps above them, `a s d f` violet's drums and
- * `q w e r` white's, `z`/`x` the octave down and up, and `←`/`→` pan the
- * meadow a step. Keys are read by
+ * `q w e r` white's, `z`/`x` the octave down and up, and `←`/`→` turn the
+ * meadow while held. Keys are read by
  * `event.code`, where they sit rather than what they print, so a Russian
  * layout plays the same.
  */
@@ -12,10 +12,14 @@ import type { Drum, FlowerSound, PitchClass } from '../../model/flower-sounds';
 /** What a key plays on the instrument. */
 export type PlayedKey = FlowerSound | { kind: 'octave'; step: -1 | 1 };
 
-/** A key that steps the crop across the world, leftward or rightward. */
-type PanKey = { kind: 'pan'; direction: -1 | 1 };
+/** A key that turns the crop across the world while held, leftward or rightward. */
+export type PanKey = { kind: 'pan'; direction: -1 | 1 };
 
 export type KeyAction = PlayedKey | PanKey;
+
+const LEFTWARD: PanKey = { kind: 'pan', direction: -1 };
+const RIGHTWARD: PanKey = { kind: 'pan', direction: 1 };
+const PAN_KEYS = [LEFTWARD, RIGHTWARD];
 
 /** C D E F G A B. */
 const WHITE_KEYS = [
@@ -58,8 +62,8 @@ export const KEYS: ReadonlyMap<string, KeyAction> = new Map([
   ...DRUM_KEYS.map(([code, drum]): Bound => [code, { kind: 'drum', drum }]),
   ['KeyZ', { kind: 'octave', step: -1 }],
   ['KeyX', { kind: 'octave', step: 1 }],
-  ['ArrowLeft', { kind: 'pan', direction: -1 }],
-  ['ArrowRight', { kind: 'pan', direction: 1 }],
+  ['ArrowLeft', LEFTWARD],
+  ['ArrowRight', RIGHTWARD],
 ] satisfies Bound[]);
 
 type Pressed = Pick<
@@ -76,13 +80,27 @@ export function keyAction(event: Pressed): KeyAction | undefined {
 }
 
 /**
+ * The pan key a key's release lets go, whatever modifiers are down by then:
+ * a held arrow let go under a modifier must still stop the crop.
+ */
+export function letGoPan(
+  event: Pick<KeyboardEvent, 'code'>,
+): PanKey | undefined {
+  const action = KEYS.get(event.code);
+  return action?.kind === 'pan' ? action : undefined;
+}
+
+/**
  * Plays the key presses `host` takes into `onKey` while it holds focus, and
  * not the page's: single-letter keys bound page-wide would take a screen
- * reader's own. Returns what stops listening.
+ * reader's own. A pan key's release goes to `onLetGo`, and so does every pan
+ * key when `host` loses focus, whose releases it then never hears. Returns
+ * what stops listening.
  */
 export function listenForKeys(
   host: HTMLElement,
   onKey: (action: KeyAction) => void,
+  onLetGo: (key: PanKey) => void,
 ): () => void {
   const pressed = (event: KeyboardEvent) => {
     const action = keyAction(event);
@@ -90,8 +108,19 @@ export function listenForKeys(
     event.preventDefault();
     onKey(action);
   };
+  const lifted = (event: KeyboardEvent) => {
+    const key = letGoPan(event);
+    if (key) onLetGo(key);
+  };
+  const blurred = () => {
+    for (const key of PAN_KEYS) onLetGo(key);
+  };
   host.addEventListener('keydown', pressed);
+  host.addEventListener('keyup', lifted);
+  host.addEventListener('blur', blurred);
   return () => {
     host.removeEventListener('keydown', pressed);
+    host.removeEventListener('keyup', lifted);
+    host.removeEventListener('blur', blurred);
   };
 }

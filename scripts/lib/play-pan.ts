@@ -1,6 +1,6 @@
 /**
- * The pan, `play-mushrooms.ts`'s run on a fresh meadow: `←` and `→` stepping
- * the crop by `STEP_ACROSS` of the screen, to either end of the world; a drag
+ * The pan, `play-mushrooms.ts`'s run on a fresh meadow: `←` and `→` held,
+ * turning the crop smoothly, to either end of the world (`play-pan-keys.ts`); a drag
  * from bare ground moving the crop under the finger and gliding on, tapping
  * nothing; a drag past the world's end sliding the finger over a mushroom or
  * a flower, tapping nothing; a press that moves less than the slop still
@@ -11,26 +11,19 @@
 
 import { z } from 'zod';
 
-import {
-  clampLeft,
-  SLOP,
-  STEP_ACROSS,
-  STEP_DURATION,
-} from '../../src/pages/mushrooms/model/pan.ts';
+import { clampLeft, SLOP } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   type Controls,
   Crop,
   type Expect,
-  inTurn,
   type Page,
   Point,
   State,
 } from './mushroom-probe.ts';
+import { type CropOf, playKeys, walkTo } from './play-pan-keys.ts';
 
 /** How near two crops' edges, in CSS px, count as one: the easing's float left over. */
 const SAME = 0.5;
-/** Frames enough for a key's step to come to rest, with room to spare. */
-const STEP_FRAMES = Math.ceil(STEP_DURATION * 60) + 6;
 /** Frames enough for a glide to come to rest (`GLIDE_TAU` × `GLIDE_SPANS` in `pan.ts`, about 2 s). */
 const GLIDE_FRAMES = 150;
 /** A drag's travel across, as a share of the screen's width, and how many frames it takes. */
@@ -129,13 +122,13 @@ export async function playPan(
   const taps = async () => page.evaluate(TAPS, z.string());
   const opening = await crop();
 
-  await playKeys(page, crop, expect);
+  await playKeys(page, crop, expect, note);
   await page.shoot('pan-right-end');
   // A finger moving left carries the crop rightward, so at the right end it
   // starts right of a cap and slides over it; at the left end, the mirror.
   const ends = { crop, taps, expect, note };
   await dragOverEnd(page, await page.evaluate(crossing(1), Crossing), 1, ends);
-  await walkTo(page, crop, 'ArrowLeft');
+  await walkTo(page, crop, 'ArrowLeft', expect);
   await page.shoot('pan-left-end');
   await dragOverEnd(
     page,
@@ -143,7 +136,7 @@ export async function playPan(
     -1,
     ends,
   );
-  await walkTo(page, crop, 'ArrowRight', opening.left);
+  await walkTo(page, crop, 'ArrowRight', expect, opening.left);
 
   const start = await page.evaluate(BARE_START, Point.nullable());
   if (start === null) {
@@ -190,49 +183,6 @@ export async function playPan(
 
   await playNudge(page, crop, expect);
   await playTurn(page, crop, expect, note);
-}
-
-type CropOf = () => Promise<z.infer<typeof Crop>>;
-
-/** `→` then `←`, each a step from where the crop rests, then `→` on to the world's right end. */
-async function playKeys(
-  page: Page,
-  crop: CropOf,
-  expect: Expect,
-): Promise<void> {
-  await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
-    const from = await crop();
-    await page.press(key);
-    await page.step(STEP_FRAMES);
-    const to = await crop();
-    const direction = key === 'ArrowRight' ? 1 : -1;
-    const goal = clampLeft(
-      from,
-      from.left + direction * STEP_ACROSS * from.width,
-    );
-    expect(
-      Math.abs(to.left - goal) < SAME && Math.abs(goal - from.left) > SAME,
-      `${key} moved the crop from ${from.left.toFixed(1)} to ${to.left.toFixed(1)}, not ${goal.toFixed(1)}`,
-    );
-  });
-  await walkTo(page, crop, 'ArrowRight');
-}
-
-/** Presses `key` until the crop stands at the world's end it points to, or at `until` where given, passing it by less than a step. */
-async function walkTo(
-  page: Page,
-  crop: CropOf,
-  key: 'ArrowLeft' | 'ArrowRight',
-  until?: number,
-): Promise<void> {
-  const { left, world, width } = await crop();
-  const end = key === 'ArrowRight' ? world - width : 0;
-  const goal = until ?? end;
-  const passed = key === 'ArrowRight' ? left >= goal : left <= goal;
-  if (passed || Math.abs(left - end) < SAME) return;
-  await page.press(key);
-  await page.step(STEP_FRAMES);
-  return walkTo(page, crop, key, until);
 }
 
 /** What a drag at a world's end reads and reports through. */

@@ -17,7 +17,7 @@ const CHORD_POINTER = 99;
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a
  * played key opening the flowers of its sound the screen shows, and the
- * arrows stepping `crop`; and with more
+ * held arrows turning `crop`; and with more
  * fingers than one, each finger Phaser's one touch pointer does not hold
  * playing the flower under it and nothing else, so every other gesture keeps
  * to one finger — Phaser never sees the rest. Returns what stops both.
@@ -34,17 +34,23 @@ export function playTheFlowers(
   canvas.tabIndex = 0;
   canvas.setAttribute('role', 'application');
   canvas.focus({ preventScroll: true });
-  const stopKeys = listenForKeys(canvas, (action) => {
-    if (action.kind === 'pan') {
-      crop.step(action.direction);
-      return;
-    }
-    instrument.wake();
-    const sound = instrument.key(action);
-    if (sound) {
-      flowers.answer(sound, (x) => crop.shows(x));
-    }
-  });
+  const stopKeys = listenForKeys(
+    canvas,
+    (action) => {
+      if (action.kind === 'pan') {
+        crop.hold(action.direction);
+        return;
+      }
+      instrument.wake();
+      const sound = instrument.key(action);
+      if (sound) {
+        flowers.answer(sound, (x) => crop.shows(x));
+      }
+    },
+    ({ direction }) => {
+      crop.letGo(direction);
+    },
+  );
 
   const { manager, pointer1 } = scene.input;
   const pointer = new Phaser.Input.Pointer(manager, CHORD_POINTER);

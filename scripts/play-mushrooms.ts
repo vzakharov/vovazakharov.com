@@ -225,10 +225,19 @@ async function open(
       ),
     );
   };
+  const trace: Page['trace'] = async (frames, expression, schema) => {
+    const from = time;
+    time += frames * FRAME_MS;
+    return evaluate(
+      `(() => { const seen = []; for (let i = 1; i <= ${String(frames)}; i += 1) { window.__game.headlessStep(${String(from)} + i * ${String(FRAME_MS)}, ${String(FRAME_MS)}); seen.push(${expression}); } return seen; })()`,
+      z.array(schema),
+    );
+  };
   return {
     evaluate,
     rendered,
     step,
+    trace,
     tap: async ({ x, y }) => {
       await touch('touchStart', [{ x, y }]);
       await touch('touchEnd', []);
@@ -249,15 +258,13 @@ async function open(
       );
       await touch('touchEnd', []);
     },
-    press: async (key) => {
-      const code = { ArrowLeft: 37, ArrowRight: 39 }[key];
-      await inTurn(['keyDown', 'keyUp'] as const, async (type) => {
-        await send('Input.dispatchKeyEvent', {
-          type,
-          key,
-          code: key,
-          windowsVirtualKeyCode: code,
-        });
+    key: async (key, type, repeat = false) => {
+      await send('Input.dispatchKeyEvent', {
+        type,
+        key,
+        code: key,
+        windowsVirtualKeyCode: { ArrowLeft: 37, ArrowRight: 39 }[key],
+        autoRepeat: repeat,
       });
     },
     turn: async () => {
