@@ -11,7 +11,11 @@
  * (`flower-sight.ts`).
  */
 
-import { FLOWER_RANGES } from '../../model/flower-genes';
+import {
+  FLOWER_RANGES,
+  type FlowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
 import {
   type Circle,
   distanceToSegment,
@@ -202,6 +206,31 @@ export function headsApart(
     return (
       Math.hypot(across, down) >= FLOWERS_APART * HEAD_REACH * (own + size)
     );
+  });
+}
+
+/**
+ * Whether a flower yet to grow at `place`, whatever its genes, keeps its
+ * head clear of the head of every flower of `others` as it grew, on every
+ * screen: however far its stem bends toward one, and its head at its widest.
+ */
+export function headClear(
+  place: FlowerFoot,
+  others: ReadonlyArray<{ foot: FlowerFoot; genes: FlowerGenes }>,
+): boolean {
+  const own = place.size * scaleAt(place.z);
+  const bend = FLOWER_RANGES.stemBend[1] * own;
+  return others.every(({ foot, genes }) => {
+    const scale = scaleAt(foot.z);
+    const size = foot.size * scale;
+    const head = flowerHead(genes, size);
+    const across = Math.max(
+      0,
+      Math.abs(place.x * scaleAt(place.z) - (foot.x * scale + head.x)) - bend,
+    );
+    const rise = size - own;
+    const down = leastRise(foot.z - place.z, rise, rise);
+    return Math.hypot(across, down) >= head.r + HEAD_REACH * own;
   });
 }
 

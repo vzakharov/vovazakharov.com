@@ -12,6 +12,9 @@
 
 import type * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
+
+import { flowerGenes } from '../../model/flower-genes';
 import { sameFoot } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import type { Camera, FlowerFoot, Rooted } from '../../model/ground';
@@ -24,6 +27,7 @@ import {
   FLOWER_SIZE,
   FLOWER_SWAY,
   groundOf,
+  headClear,
   standingOn,
 } from './flower-layout';
 import { standingFlowers } from './flower-plots';
@@ -177,6 +181,25 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
   };
 }
 
+/**
+ * Whether the child can plant on a tuft of `stand`, whatever else grows
+ * there: it takes a flower (`takesFlower`) whose head, however it grows,
+ * meets no standing flower's on any screen (`headClear`), and it is bare
+ * to a finger (`bareToTap`). What `stand` holds is read once, for every
+ * tuft asked after.
+ */
+export function plantableIn(stand: Stand): (sprout: Sprout) => boolean {
+  const bare = bareToTap(stand);
+  const standing = standingFlowers(
+    stand.layout,
+    stand.flowers,
+    stand.planted,
+    stand.mushrooms,
+  ).map((flower) => ({ ...pick(flower, 'foot'), genes: flowerGenes(flower) }));
+  return ({ foot, tuft }) =>
+    takesFlower(stand, foot) && headClear(foot, standing) && bare(tuft);
+}
+
 /** Whether the reach of `tuft` stays off the reach of every tuft of `others`. */
 function reachApart(tuft: Tuft, others: readonly Sprout[]): boolean {
   const middle = middleOf(tuft);
@@ -193,8 +216,8 @@ function reachApart(tuft: Tuft, others: readonly Sprout[]): boolean {
  * The bare tufts of `stand`: every tuft of `kept` still fit to plant on,
  * where it stands, as many as the meadow has flowers left for, the first
  * kept first; then new ones from `random` up to that many. A tuft is fit
- * where it takes a flower (`takesFlower`), is bare to a finger
- * (`bareToTap`), and its reach stays off every other's. New tufts are tried
+ * where the child can plant on it (`plantableIn`) and its reach stays off
+ * every other's. New tufts are tried
  * at spots in the flowers' band, bunched toward the back, where the ground
  * recedes, and where none of those grows one, across the whole band.
  */
@@ -209,10 +232,10 @@ export function tendTufts(
     flowersLeft(stand),
     Math.round((width / 1000) * TUFTS_PER_1000PX),
   );
-  const bare = bareToTap(stand);
+  const plantable = plantableIn(stand);
   const sprouts: Sprout[] = [];
-  const fits = ({ foot, tuft }: Sprout) =>
-    takesFlower(stand, foot) && bare(tuft) && reachApart(tuft, sprouts);
+  const fits = (sprout: Sprout) =>
+    plantable(sprout) && reachApart(sprout.tuft, sprouts);
   for (const sprout of kept) {
     if (sprouts.length < most && fits(sprout)) sprouts.push(sprout);
   }

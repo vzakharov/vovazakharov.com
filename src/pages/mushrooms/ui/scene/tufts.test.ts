@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/shared/lib/collections';
 
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { MUSHROOM_SLOTS, reduce } from '../../model/game';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { FLOWER_LIMIT, plantedId, type Sown } from '../../model/pollen';
@@ -17,6 +18,7 @@ import {
   bareToTap,
   flowersLeft,
   growTufts,
+  plantableIn,
   type Sprout,
   tendTufts,
   TUFT_LEAST,
@@ -102,9 +104,12 @@ function faultsOf(
 ): string[] {
   const faults: string[] = [];
   const bare = bareToTap(stand);
+  const plantable = plantableIn(stand);
   const left = flowersLeft(stand);
   for (const { foot, tuft } of sprouts) {
     if (!takesFlower(stand, foot)) faults.push('a tuft refuses');
+    if (!plantable({ foot, tuft }))
+      faults.push('a tuft’s flower would meet a head');
     if (!bare(tuft)) faults.push('a tuft is covered');
     if (tuft.size < TUFT_LEAST) faults.push('a tuft is drawn small');
     const root = standingOn(stand.layout.camera, foot);
@@ -120,9 +125,7 @@ function faultsOf(
     }
   }
   if (sprouts.length > left) faults.push('more tufts than flowers left');
-  const stillFit = kept.filter(
-    ({ foot, tuft }) => takesFlower(stand, foot) && bare(tuft),
-  );
+  const stillFit = kept.filter(plantableIn(stand));
   if (
     sprouts.length < left &&
     stillFit.some((each) => !sprouts.includes(each))
@@ -136,10 +139,10 @@ function faultsOf(
  * The share of meadows below the cap a screen may show with no bare tuft,
  * none unless named: on the 280 px phone, a grown forest and a full band of
  * flowers leave no spot a flower can stand in sight off every cap and
- * finger pad in about one meadow in ten.
+ * finger pad, its head clear of every other, in about one meadow in seven.
  */
 const BARELESS_MOST: Partial<Record<(typeof SCREENS)[number][0], number>> = {
-  '280×600': 0.12,
+  '280×600': 0.16,
 };
 
 /** A tally of the meadows below the cap, and those among them with no bare tuft. */
@@ -246,6 +249,55 @@ describe('the tufts the child plants on', () => {
       barren.holdTo(most);
     });
   }
+
+  it('keeps the head of every flower the child plants apart from every other head, on the screen it opened on and turned', () => {
+    for (const [, width, height] of SCREENS) {
+      for (let visit = 0; visit < VISITS; visit++) {
+        const seed = seedOf(visit);
+        let stand: Stand = opened(seed, width, height, visit % 2 === 1);
+        const tufting = mulberry32(seed ^ 0x70_f7_5e);
+        const choosing = mulberry32(seed);
+        let sprouts = tendTufts(stand, [], tufting);
+        for (let planting = 0; planting < 5; planting++) {
+          const next = sprouts[Math.floor(choosing() * sprouts.length)];
+          if (!next) break;
+          stand = plantedOn(stand, next, nextSeed(choosing));
+          sprouts = tendTufts(stand, sprouts, tufting);
+        }
+        const own = new Set(stand.planted.map(({ id }) => id));
+        for (const [across, down] of [
+          [width, height],
+          [height, width],
+        ] as const) {
+          const layout = relaidOn(stand, seed, across, down);
+          const heads = standingFlowers(
+            layout,
+            stand.flowers,
+            stand.planted,
+            stand.mushrooms,
+          ).map(({ id, seed: grown, place }) => {
+            const head = flowerHead(flowerGenes({ seed: grown }), place.size);
+            return {
+              id,
+              ...pick(head, 'r'),
+              x: place.x + head.x,
+              y: place.y + head.y,
+            };
+          });
+          for (const head of heads.filter(({ id }) => own.has(id))) {
+            for (const other of heads) {
+              if (other === head) continue;
+              assert.ok(
+                Math.hypot(head.x - other.x, head.y - other.y) >=
+                  head.r + other.r,
+                `visit ${String(seed)}: ${head.id}'s head meets ${other.id}'s on ${String(across)}×${String(down)}`,
+              );
+            }
+          }
+        }
+      }
+    }
+  });
 
   it('refuses a second flower on a tuft already planted, and grows none once the meadow is full', () => {
     const seed = 3;
