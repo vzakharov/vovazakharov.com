@@ -33,10 +33,10 @@ import {
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { FINGER_ACROSS, fingerPad } from './mushroom-tap';
-import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
+import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { VIEWPORTS, VISITS } from './viewports';
-import { opened } from './visit-play';
+import { opened, openingCrop } from './visit-play';
 
 /** A screen's name, as the sweeps know it. */
 type Screen = (typeof VIEWPORTS)[number][0];
@@ -47,7 +47,7 @@ type Screen = (typeof VIEWPORTS)[number][0];
  */
 const RULED = VISITS.filter((_, index) => index % 160 === 0);
 
-/** Every rule a grown mushroom keeps on the screen it grew on. */
+/** Every rule a grown mushroom keeps on the crop it grew on. */
 const RULES = [
   'shown',
   'inside the edge margin',
@@ -65,7 +65,7 @@ const MEASURES = MUSHROOM_SPECIES.flatMap((species) =>
   RULES.map((rule) => `${species}: ${rule}`),
 );
 
-/** Each screen's visits grown, the latest screen's only: its tests run one after another. */
+/** Each screen's visits grown `+` by `+` on the opening crop, the latest screen's only: its tests run one after another. */
 let grown: { screen: string; meadows: Array<[number, Planted[]]> } = {
   screen: '',
   meadows: [],
@@ -80,7 +80,7 @@ function grownOn(
       screen: name,
       meadows: RULED.map((seed) => [
         seed,
-        [...opened(seed, width, height, true).mushrooms],
+        [...opened(seed, width, height, true, openingCrop).mushrooms],
       ]),
     };
   }
@@ -110,8 +110,12 @@ function asTheyGrew(mushrooms: readonly Planted[]): Planted[][] {
   ];
 }
 
-/** Every control's hit area, open pickers and all, and the sun's rays. */
+/**
+ * Every control's hit area, open pickers and all, and the sun's rays, where
+ * they stand over the world on the opening crop.
+ */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
+  const crop = openingCrop(layout);
   const { mute, releases, plus, minus, house, picker, housePicker, sun } =
     layout;
   const controls = [
@@ -127,7 +131,7 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   return [
     ...controls.map((control) => ({ ...control, r: tapReach(control.r) })),
     { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
-  ];
+  ].map((circle) => crop.toWorld(circle));
 }
 
 /** Whether `circle` reaches into any of `outlines`. */
@@ -147,7 +151,7 @@ function standingArea({ genes, turn, placed }: Standing): Point[][] {
 type Fault = { rule: Rule; sentence: string };
 
 /**
- * Every rule `meadow` breaks on `layout`, noting in `measured` each rule read
+ * Every rule `meadow` breaks on `layout`'s opening crop, noting in `measured` each rule read
  * for the newest mushroom's species.
  */
 function broken(
@@ -157,6 +161,9 @@ function broken(
 ): Fault[] {
   const { sun, mushrooms: ground } = layout;
   const { world } = ground.camera;
+  const crop = openingCrop(layout);
+  const shown = [0, layout.width].map((x) => crop.toWorld({ x, y: 0 }).x);
+  const [left = 0, right = world] = shown;
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
@@ -181,7 +188,10 @@ function broken(
     const { id, species } = mushroom;
     const cap = capBox(standing);
     note(species, 'inside the edge margin');
-    if (cap.left < EDGE_MARGIN || cap.right > world - EDGE_MARGIN) {
+    if (
+      cap.left < Math.max(EDGE_MARGIN, left + EDGE_MARGIN) ||
+      cap.right > Math.min(world, right) - EDGE_MARGIN
+    ) {
       fault(
         'inside the edge margin',
         `${id}'s ${species} cap past the edge margin`,
@@ -189,7 +199,7 @@ function broken(
     }
     note(species, 'out of the wash');
     if (
-      Math.hypot(place.x - sun.x, place.y - sun.y) <
+      nearestTheSun(ground.camera, sun, place) <
       wash + place.size * WASH_FOOT_CLEAR
     ) {
       fault('out of the wash', `${id}'s foot in the sun's wash`);

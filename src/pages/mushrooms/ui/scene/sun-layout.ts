@@ -218,44 +218,68 @@ const WASH_REACH = [4, 14] as const;
 type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>;
 
 /**
- * How near `point`, in the world, comes to the sun's middle on any crop a
- * pan can take: the sun stands on the screen and the world pans under it,
- * so across it is as near as the crops at the world's two ends bring it.
+ * How far across the screen from the sun's middle the nearest of the world's
+ * stretch `left..right` comes on any crop a pan can take: the sun stands on
+ * the screen and the world pans under it, so the stretch reaches from where
+ * its left end stands on the crop at the world's right end to where its
+ * right end stands on the crop at the world's left end.
  */
+function acrossFromSun(
+  camera: Camera,
+  sun: Point,
+  left: number,
+  right: number,
+): number {
+  const cropped = (crop: number, x: number) =>
+    screenOf(
+      {
+        ...camera,
+        motion: { kind: 'rest', left: clampLeft(camera, crop) },
+      },
+      0,
+      x,
+    );
+  return Math.max(
+    0,
+    cropped(camera.world, left) - sun.x,
+    sun.x - cropped(0, right),
+  );
+}
+
+/** How near `point`, in the world, comes to the sun's middle on any crop a pan can take. */
 export function nearestTheSun(
   camera: Camera,
   sun: Point,
   { x, y }: Point,
 ): number {
-  const cropped = (left: number) =>
-    screenOf(
-      {
-        ...camera,
-        motion: { kind: 'rest', left: clampLeft(camera, left) },
-      },
-      0,
-      x,
-    );
-  const across = Math.max(0, cropped(camera.world) - sun.x, sun.x - cropped(0));
-  return Math.hypot(across, y - sun.y);
+  return Math.hypot(acrossFromSun(camera, sun, x, x), y - sun.y);
 }
 
 /**
  * The farthest the sun's wash over the land reaches from its middle: down to
  * the ground's upper third at most, and short of the foot and the shadow
- * round it of every place at the frame's extremes (`everyPlace`) on every
- * crop (`nearestTheSun`). A place's height and size both grow linearly down
- * the band, so no foot on the frame stands in it on any crop, and the wash
- * never lifts the ground a mushroom stands on.
+ * round it of every place on the frame on every crop. Each row of the frame
+ * `everyPlace` gives the ends of is measured at its nearest to the sun
+ * across (`acrossFromSun`), which may lie between its ends, and a place's
+ * height and size both grow linearly down the band, so the rows at its
+ * extremes bound every foot, and the wash never lifts the ground a mushroom
+ * stands on.
  */
 function washReach({ sun, groundTop, height, mushrooms }: Washed): number {
+  const rows = Map.groupBy(everyPlace(mushrooms), ({ y }) => y);
   return Math.min(
     groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
-    ...everyPlace(mushrooms).map(
-      (place) =>
-        nearestTheSun(mushrooms.camera, sun, place) -
-        place.size * WASH_FOOT_CLEAR,
-    ),
+    ...[...rows].map(([y, row]) => {
+      const xs = row.map(({ x }) => x);
+      const size = Math.max(...row.map((place) => place.size));
+      const across = acrossFromSun(
+        mushrooms.camera,
+        sun,
+        Math.min(...xs),
+        Math.max(...xs),
+      );
+      return Math.hypot(across, y - sun.y) - size * WASH_FOOT_CLEAR;
+    }),
   );
 }
 

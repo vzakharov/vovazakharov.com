@@ -41,13 +41,31 @@ found is looked for again once the crop's left edge has moved.
   twelve over the world in 99% (the same), and the tablet's caps' span grown
   on the opening crop (median 90%, bound 60%). The file takes ~4.6 min.
 
+- Step 2 (this commit): the controls left `mushroom-patch.ts`'s `Tapped`
+  (orchestrator's decision). `meadow-rules.test.ts` grows on the opening
+  crop, converts the controls and the sun's rays through `openingCrop`,
+  keeps each cap inside the edge margin of the crop as well as the world,
+  and measures the wash through `nearestTheSun` — green on every screen.
+  That test found `washReach` short: it measured the frame's rows at their
+  two ends and middle only, but on a screen wider than the world's overhang
+  the stretch a pan can bring under the sun lies between them (desktop,
+  visit 3: mushroom-12 at x 1896 in the wash, the far row's ends and middle
+  all 183+ px across from it). Each row is now measured at its nearest across
+  (`acrossFromSun`); desktop's wash 426 → 390 px.
+- `mushroom-patch.test.ts` at twelve: every patch test green; the
+  fingertip bound red on three screens — tablet 27.1% (bound 25%), tablet
+  portrait 3.3% (3%), phone 24.8% (22%). Root cause, from
+  `tmp/room/fingertip.ts`: 99%+ of those mushrooms lack a fingertip patch
+  standing alone, flowers gone too — their own size, far caps drawn small.
+  Per grown mushroom the share barely moved from six to twelve (tablet 36%
+  → 32%, phone 27% → 29%, tablet portrait 3.8% → 4.0%); what moved is the mix:
+  the opening clump, near and almost never under a fingertip (2 and 19 of
+  400), is a third of six and a sixth of twelve. So the bounds, measured at
+  six, cannot hold at twelve without loosening: left red for the
+  orchestrator.
+
 ## Left
 
-- Step 2: `meadow-rules.test.ts` (wash through `nearestTheSun`, controls
-  through `openingCrop` on a forest grown on the opening crop) and
-  `mushroom-patch.test.ts`, with the controls out of `mushroom-patch.ts`'s
-  `Tapped` (orchestrator's decision; a pan can slide any cap under a
-  button, and `roomFor` keeps a new one off them where they stand).
 - Step 3: `scripts/sweep-mushrooms.ts` to the world and twelve.
 - Step 4: every forest-growing test re-run with twelve.
 - Step 5: how much the wash shrank per screen.

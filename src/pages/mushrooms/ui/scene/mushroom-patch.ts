@@ -1,9 +1,11 @@
 /**
  * A grown mushroom's own patch: where a finger lands on it and nothing but
  * that mushroom takes the tap, as the scene hit-tests it (`hit-areas.ts`) —
- * a control over everything, then the front-most of the mushrooms and the
- * flowers that answer. Growth keeps one for every mushroom (`roomFor`), and
- * the sweeps measure how wide it is.
+ * the front-most of the mushrooms and the flowers that answer. Growth keeps
+ * one for every mushroom (`roomFor`), and the sweeps measure how wide it is.
+ * The controls stand on the screen and the world pans under them, so a pan
+ * may slide any cap under one: a patch is measured without them, and
+ * `roomFor` keeps a new mushroom off them where they stand as it grows.
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -13,7 +15,6 @@ import {
   type Box,
   boxAround,
   boxesMeet,
-  type Circle,
   placedAt,
   type Point,
 } from '../../model/geometry';
@@ -35,8 +36,6 @@ import {
   tappedMushroom,
   tapTarget,
 } from './mushroom-tap';
-import { standingControls } from './sky-layout';
-import { tapReach } from './tap-reach';
 
 /**
  * The least radius, in CSS px, of the disc the opening clump's own patch
@@ -77,9 +76,8 @@ export type PatchTarget = MushroomTarget & {
   reach: Box;
 };
 
-/** What on a screen takes a tap: its controls, its flowers and its mushrooms, the last back to front. */
+/** What in the world takes a tap: its flowers and its mushrooms, the last back to front. */
 export type Tapped = {
-  controls: readonly Circle[];
   flowers: readonly FlowerTap[];
   targets: readonly PatchTarget[];
 };
@@ -120,17 +118,10 @@ export function patchTarget(
   };
 }
 
-/**
- * What takes a tap on `stand`'s screen with its pickers shut: its controls
- * as far as a finger reaches them, its flowers and its mushrooms.
- */
+/** What takes a tap in `stand`'s world: its flowers and its mushrooms. */
 export function tappedIn(stand: Stand): Tapped {
   const { layout, mushrooms } = stand;
   return {
-    controls: standingControls(layout).map((control) => ({
-      ...control,
-      r: tapReach(control.r),
-    })),
     flowers: flowerTaps(stand),
     targets: mushrooms
       .flatMap((mushroom) => {
@@ -146,7 +137,7 @@ export function tappedIn(stand: Stand): Tapped {
 /**
  * The id of each of `stand`'s mushrooms keeping no patch (`patchOf`) as
  * wide as `least` asks of the mushroom standing on its foot, `patchFloor`
- * by default, with its pickers shut (`tappedIn`).
+ * by default (`tappedIn`).
  */
 export function patchlessIn(
   stand: Stand,
@@ -186,28 +177,18 @@ function boxHolds({ left, right, top, bottom }: Box, { x, y }: Point): boolean {
   return x >= left && x <= right && y >= top && y <= bottom;
 }
 
-/** The id a tap on a control goes to. */
-const CONTROL = 'a control';
 /** The id a tap on a flower goes to. */
 const FLOWER = 'a flower';
 
 /**
- * What a tap at `at` goes to: a control over everything; else, of the
- * mushrooms that answer it — whose drawn parts hold it, or whose pad takes
+ * What a tap at `at` goes to: of the mushrooms that answer it — whose drawn parts hold it, or whose pad takes
  * it (`tappedMushroom`) — and the flowers that take it (`flowerTakes`), the
  * nearest the front, a mushroom winning a tie.
  */
 export function takerAt(
   at: Point,
-  { controls, flowers, targets }: Tapped,
+  { flowers, targets }: Tapped,
 ): string | undefined {
-  if (
-    controls.some(
-      (control) => Math.hypot(control.x - at.x, control.y - at.y) <= control.r,
-    )
-  ) {
-    return CONTROL;
-  }
   // Past its `reach` a mushroom takes no part in a tap.
   const near = targets.filter((target) => boxHolds(target.reach, at));
   const padded = tappedMushroom(at, near);
@@ -271,7 +252,6 @@ export function patchOf(
   const reaches = ({ x, y }: Point, r: number) =>
     boxesMeet(zone, { left: x - r, right: x + r, top: y - r, bottom: y + r });
   const near: Tapped = {
-    controls: tapped.controls.filter((control) => reaches(control, control.r)),
     flowers: tapped.flowers.filter((flower) =>
       reaches(flower, Math.max(flower.petals, flower.tap)),
     ),
