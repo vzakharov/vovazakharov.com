@@ -707,19 +707,26 @@ Standing rules for every session in the chain:
     - A hue-nudge gene, drawn last so the other genes stand, keeps every
       petal three times nearer its own colour's hue than any other's; a
       white warms toward cream (`flower-tints.ts`).
-    - `instrument-voices.ts` is the synth, every envelope data the tests
-      hold: a soft keyed note (sine, quiet triangle, an octave partial
-      under a lowpass, louder and longer low where a phone loses the
-      fundamental) and eight soft downtempo drums — sine skins, filtered
-      noise ticks, nothing past 8 kHz — through a compressor on master.
-      Up to five voices asked for before the synth starts wait for it; no
-      Web Audio, no sound, no error.
+    - `instrument-voices.ts` is the synth, every voice its parts as data:
+      a soft keyed note (sine, quiet triangle, an octave partial under a
+      lowpass, louder and longer low where a phone loses the fundamental)
+      and eight soft downtempo drums — sine skins, each with a quieter
+      higher mode a phone gives back, filtered noise ticks, every hiss's
+      upper −3 dB edge under 8 kHz — through a compressor on master.
+      `part-loudness.ts` computes a voice's loudest 50 ms from its parts
+      (within 0.6 dB of a Chromium offline render, compressor aside); the
+      tests hold every one of the twenty sounds within 12 dB of a C5 above
+      300 Hz, and every drum under it
+      (`docs/remove-before-merging/frames/bite-10/sound.md`). Up to five
+      voices asked for before the synth starts wait for it, a sixth
+      dropping the oldest; no Web Audio, no sound, no error.
     - A flower tap plays through the Instrument and still deselects and
       blooms; a re-tap mid-bloom reopens from where the head stands. A
-      bee's flower plays from the melody without moving it. Fingers past
-      the first play only a flower's head under them (a touchstart
-      listener using Phaser's hit test), so every other gesture stays
-      one-finger. The focused canvas plays the keyboard by `event.code`
+      bee's flower plays from the melody without moving it. Every finger
+      but the one Phaser's pointer holds plays only a flower's head under
+      it (a touchstart listener using Phaser's hit test), opening and
+      sounding it and nothing else — the selection and an open picker
+      hold — so every other gesture stays one-finger. The focused canvas plays the keyboard by `event.code`
       (a Russian layout plays the same); a key opens every flower in sight
       of its sound.
     - **Planting.** The reducer in `model/game.ts` (held by
