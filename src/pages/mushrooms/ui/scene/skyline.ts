@@ -54,43 +54,49 @@ function farSpan({ camera }: MeadowLayout): Span {
 }
 
 /**
- * How deep under the sun's middle, in its radii, the far hills part; how far
- * either side, in radii, the parting is still half as deep, which keeps it
- * wider than the glow round the sun; and how soft, in radii, the crease is
- * where a hill slope meets the parting.
+ * How deep under the sun's middle, in its radii, the far hills part; and how
+ * far either side, in radii, the parting is still half as deep, which keeps
+ * it wider than the glow round the sun.
  */
 const PARTED_DEPTH = 2;
-const PARTED_SPREAD = 3;
-const PARTED_SOFTNESS = 0.4;
+const PARTED_SPREAD = 5;
 /** How much deeper, in the sun's radii, the parting sags midway along the stretch the sun sweeps as the crop pans, so its floor never runs level. */
 const PARTED_SAG = 0.2;
+/** How sharply a range's lowering eases back to none where the bowl clears its crest: the higher, the narrower the shoulder. */
+const PARTED_EASE = 3;
 
-/** The larger of `a` and `b` — the lower on screen — with the crease between them rounded over `k`. */
-function softLower(a: number, b: number, k: number): number {
-  const h = Math.min(1, Math.max(0, 0.5 + (0.5 * (b - a)) / k));
-  return a + (b - a) * h + k * h * (1 - h);
+/** The smaller of `share` and 1, rounded so it bends without a corner, and never above either. */
+function softShare(share: number): number {
+  return share / (1 + share ** PARTED_EASE) ** (1 / PARTED_EASE);
 }
 
+/** A far range's skyline before the sun parts it, and the height its crests reach at the most. */
+export type FarRange = { line: Point[]; crest: number };
+
 /**
- * `line`, the far hills' layer's, parted under the sun by a bowl
- * `PARTED_DEPTH` radii deep at its middle, its sides under every ray and
- * outside the glow, so no hill stands in front of the sun, the glow is not
- * cut out of the sky by the hills, and the parting has no level floor. The
- * sun stands still on the screen while the layer slides under it, so the
- * bowl's middle runs along the whole stretch of the layer the sun passes
- * over as the crop pans, sagging a little midway along it.
+ * The height, at each `x` of the far hills' layer, no far hill may rise
+ * above: a bowl `PARTED_DEPTH` radii below the sun's middle, its sides under
+ * every ray and outside the glow, so no hill stands in front of the sun and
+ * the glow is not cut out of the sky by the hills. The sun stands still on
+ * the screen while the layer slides under it, so the bowl's middle runs
+ * along the whole stretch of the layer the sun passes over as the crop pans,
+ * sagging a little midway along it, and it bends without a corner.
  */
-function partedUnderSun(line: readonly Point[], layout: MeadowLayout): Point[] {
+function sunBowl(layout: MeadowLayout): (x: number) => number {
   const { sun, width } = layout;
   const span = farSpan(layout);
   const sweep = { left: sun.x + span.left, across: span.across - width };
   const depth = sun.r * PARTED_DEPTH;
-  const sag = sun.r * PARTED_SAG;
   const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
+  // Bending no sharper than half the bowl's sides do, however short the sweep.
+  const sag = Math.min(
+    sun.r * PARTED_SAG,
+    (depth * sweep.across ** 2) / (4 * Math.PI ** 2 * spread ** 2),
+  );
   // A parabola through `depth` below the middle and `depth / 2` below it at
   // `spread` either side of the sweep; no narrower than the rays' reach,
   // which keeps it under the rays' circle wherever the sun stands.
-  const bowl = (x: number) => {
+  return (x) => {
     const along =
       sweep.across > 0
         ? Math.min(1, Math.max(0, (x - sweep.left) / sweep.across))
@@ -99,52 +105,65 @@ function partedUnderSun(line: readonly Point[], layout: MeadowLayout): Point[] {
     return (
       sun.y +
       depth +
-      sag * Math.sin(Math.PI * along) -
+      sag * Math.sin(Math.PI * along) ** 2 -
       (depth * off ** 2) / (2 * spread ** 2)
     );
   };
-  return line.map(({ x, y }) => ({
-    x,
-    y: softLower(y, bowl(x), sun.r * PARTED_SOFTNESS),
-  }));
-}
-
-/** The far hills' skyline: a rolling line rising from the horizon, parted under the sun. */
-export function farSkyline(random: Random, layout: MeadowLayout): Point[] {
-  const { width, horizon, groundTop } = layout;
-  return partedUnderSun(
-    hillLine(
-      random,
-      farSpan(layout),
-      width,
-      horizon,
-      (groundTop - horizon) * FAR_RISE,
-    ),
-    layout,
-  );
 }
 
 /**
- * The farthest hills' skyline, behind the far range: its foot a little above
- * the horizon and its rise lower, so it shows in the far range's dips, parted
- * under the sun as the far range is.
+ * A far range parted under the sun: wherever its crest would rise above the
+ * sun's bowl, the whole range is pressed down toward the near hills' band by
+ * at least as much as brings the crest to the bowl, easing back to its own
+ * height as the bowl climbs clear (`PARTED_EASE`). It is squashed rather than
+ * cut, so the lowered stretch keeps rolling as the rest does, with no level
+ * top and no shoulder, and no point of it stands above the bowl.
  */
-export function farthestSkyline(
-  random: Random,
+export function partedUnderSun(
+  { line, crest }: FarRange,
   layout: MeadowLayout,
 ): Point[] {
+  const { nearHills } = layout;
+  const bowl = sunBowl(layout);
+  return line.map(({ x, y }) => {
+    const room = Math.max(0, (nearHills - bowl(x)) / (nearHills - crest));
+    return { x, y: nearHills - (nearHills - y) * softShare(room) };
+  });
+}
+
+/** The far hills' range: a rolling line rising from the horizon. */
+export function farRange(random: Random, layout: MeadowLayout): FarRange {
+  const { width, horizon, groundTop } = layout;
+  const rise = (groundTop - horizon) * FAR_RISE;
+  return {
+    line: hillLine(random, farSpan(layout), width, horizon, rise),
+    crest: horizon - rise,
+  };
+}
+
+/**
+ * The farthest hills' range, behind the far range: its foot a little above
+ * the horizon and its rise lower, so it shows in the far range's dips.
+ */
+export function farthestRange(random: Random, layout: MeadowLayout): FarRange {
   const { width, horizon, groundTop } = layout;
   const rise = groundTop - horizon;
-  return partedUnderSun(
-    hillLine(
-      random,
-      farSpan(layout),
-      width,
-      horizon - rise * FARTHEST_LIFT,
-      rise * FAR_RISE * FARTHEST_RISE,
-    ),
-    layout,
-  );
+  const foot = horizon - rise * FARTHEST_LIFT;
+  const height = rise * FAR_RISE * FARTHEST_RISE;
+  return {
+    line: hillLine(random, farSpan(layout), width, foot, height),
+    crest: foot - height,
+  };
+}
+
+/** The far hills' skyline, parted under the sun. */
+export function farSkyline(random: Random, layout: MeadowLayout): Point[] {
+  return partedUnderSun(farRange(random, layout), layout);
+}
+
+/** The farthest hills' skyline, parted under the sun as the far range is. */
+export function farthestSkyline(random: Random, layout: MeadowLayout): Point[] {
+  return partedUnderSun(farthestRange(random, layout), layout);
 }
 
 /** The near hills' skyline, rolling across the band below the far hills'. */

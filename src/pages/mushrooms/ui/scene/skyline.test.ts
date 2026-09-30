@@ -8,11 +8,14 @@ import { mulberry32 } from '../../model/random';
 import { meadowLayout } from './layout';
 import { PARALLAX } from './parallax';
 import {
+  farRange,
   farSkyline,
+  farthestRange,
   farthestSkyline,
   hillBands,
   litRidge,
   nearSkyline,
+  partedUnderSun,
   seamAt,
 } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
@@ -26,6 +29,23 @@ function area(outline: readonly Point[]): number {
     twice += x * next.y - next.x * y;
   }
   return Math.abs(twice) / 2;
+}
+
+/**
+ * How sharply an evenly sampled line bends at its sharpest, per the sun's
+ * radius `r`: its greatest second difference over the step squared. A corner
+ * shows as a second difference of the order of the step, not of its square.
+ */
+function sharpestBend(line: readonly Point[], r: number): number {
+  let sharpest = 0;
+  for (const [index, point] of line.slice(2).entries()) {
+    const before = line[index + 1] ?? point;
+    const first = line[index] ?? before;
+    const step = point.x - before.x;
+    const bend = Math.abs(point.y - 2 * before.y + first.y) / step ** 2;
+    sharpest = Math.max(sharpest, bend * r);
+  }
+  return sharpest;
 }
 
 describe('the hill bands', () => {
@@ -87,6 +107,34 @@ describe('the far hills under the sun', () => {
                 `visit ${String(seed)}: a far hill on the rays`,
               );
             }
+          }
+        }
+      }
+    });
+
+    it(`bend no sharper where the sun lowers them than they roll anyway, below its disc, on a ${name} screen`, () => {
+      for (const seed of VISITS.slice(0, 200)) {
+        const layout = meadowLayout(width, height, seed);
+        const { sun, camera } = layout;
+        // Where the far layer has the sun, from one world end to the other.
+        const track = {
+          left: sun.x + PARALLAX.far * clampLeft(camera, -Infinity),
+          right: sun.x + PARALLAX.far * clampLeft(camera, Infinity),
+        };
+        for (const range of [farthestRange, farRange]) {
+          const unparted = range(mulberry32(seed), layout);
+          const line = partedUnderSun(unparted, layout);
+          assert.ok(
+            sharpestBend(line, sun.r) <=
+              sharpestBend(unparted.line, sun.r) + 0.25,
+            `visit ${String(seed)}: a corner in the lowered hills`,
+          );
+          for (const { x, y } of line) {
+            if (x < track.left - sun.r || x > track.right + sun.r) continue;
+            assert.ok(
+              y >= sun.y + sun.r,
+              `visit ${String(seed)}: a far hill on the disc`,
+            );
           }
         }
       }
