@@ -58,16 +58,41 @@ async function holding(
 /** What a stretch of traced frames is checked against: which way it turns, how fast it may, and what it is called in a message. */
 type Turning = { toward: -1 | 1; cruise: number; what: string };
 
-/** Each frame's move, `toward` the key's way, and the time it took. */
+/** Each traced frame's move after the one before it, `toward` the key's way, and the time it took. */
 function moves(
-  from: number,
   frames: ReadonlyArray<z.infer<typeof Frame>>,
   toward: -1 | 1,
 ): Array<{ by: number; over: number }> {
-  return frames.map(([clock, left], index) => {
-    const [was, before] = frames[index - 1] ?? [clock, from];
+  return frames.slice(1).map(([clock, left], index) => {
+    const [was, before] = frames[index] ?? [clock, left];
     return { by: toward * (left - before), over: clock - was };
   });
+}
+
+/** Holds `key` as `holding` does, tracing from the frame before the press to `REST_FRAMES` after the release: the moves while held, and after. */
+async function traced(
+  page: Page,
+  key: Key,
+  frames: number,
+  enough?: (left: number) => boolean,
+): Promise<{
+  held: Array<{ by: number; over: number }>;
+  after: Array<{ by: number; over: number }>;
+  from: number;
+  letGo: number;
+  rest: number;
+}> {
+  const start = await page.evaluate(FRAME, Frame);
+  const holds = await holding(page, key, frames, enough);
+  const after = await page.trace(REST_FRAMES, FRAME, Frame);
+  const all = moves([start, ...holds, ...after], key === 'ArrowRight' ? 1 : -1);
+  return {
+    held: all.slice(0, holds.length),
+    after: all.slice(holds.length),
+    from: start[1],
+    letGo: holds.at(-1)?.[1] ?? start[1],
+    rest: after.at(-1)?.[1] ?? start[1],
+  };
 }
 
 /** Every frame moves the key's way, if at all, and none faster than the cruise. */
@@ -138,35 +163,28 @@ export async function playKeys(
   note: (line: string) => void,
 ): Promise<void> {
   await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
-    const from = await crop();
+    const { width } = await crop();
     const turning: Turning = {
       toward: key === 'ArrowRight' ? 1 : -1,
-      cruise: CRUISE_ACROSS * from.width,
+      cruise: CRUISE_ACROSS * width,
       what: `${key} held`,
     };
-    const held = await holding(page, key, HELD_FRAMES);
-    const heldTo = held.at(-1)?.[1] ?? from.left;
-    const after = await page.trace(REST_FRAMES, FRAME, Frame);
-    const steps = moves(from.left, held, turning.toward);
-    turnsSmoothly(
-      [...steps, ...moves(heldTo, after, turning.toward)],
-      turning,
-      expect,
+    const { held, after, from, letGo, rest } = await traced(
+      page,
+      key,
+      HELD_FRAMES,
     );
-    easesIn(steps, turning, expect);
-    const fastest = Math.max(...steps.map(({ by, over }) => by / over));
+    turnsSmoothly([...held, ...after], turning, expect);
+    easesIn(held, turning, expect);
+    const fastest = Math.max(...held.map(({ by, over }) => by / over));
     expect(
       Math.abs(fastest - turning.cruise) < 0.02 * turning.cruise,
       `${key} held cruised at ${fastest.toFixed(0)} px/s, not ${turning.cruise.toFixed(0)}`,
     );
-    stopsSoftly(
-      moves(heldTo, after, turning.toward),
-      { ...turning, what: `${key} let go` },
-      expect,
-    );
-    const to = after.at(-1)?.[1] ?? heldTo;
+    stopsSoftly(after, { ...turning, what: `${key} let go` }, expect);
+    const { toward } = turning;
     note(
-      `${key} held ${String(HELD_FRAMES)} frames: cruised at ${fastest.toFixed(0)} px/s, turned the crop ${(turning.toward * (to - from.left)).toFixed(1)} px, ${(turning.toward * (to - heldTo)).toFixed(1)} of it after the release`,
+      `${key} held ${String(HELD_FRAMES)} frames: cruised at ${fastest.toFixed(0)} px/s, turned the crop ${(toward * (rest - from)).toFixed(1)} px, ${(toward * (rest - letGo)).toFixed(1)} of it after the release`,
     );
   });
   await walkTo(page, crop, 'ArrowRight', expect);
@@ -191,17 +209,14 @@ export async function walkTo(
   const passed = (at: number) =>
     toward * (at - goal) >= 0 || Math.abs(at - end) < SAME;
   if (passed(left)) return;
-  const held = await holding(page, key, WALK_FRAMES, passed);
-  const heldTo = held.at(-1)?.[1] ?? left;
-  const after = await page.trace(REST_FRAMES, FRAME, Frame);
+  const { held, after, rest } = await traced(page, key, WALK_FRAMES, passed);
   const turning: Turning = {
     toward,
     cruise: CRUISE_ACROSS * width,
     what: `${key} held to ${until === undefined ? "the world's end" : String(until)}`,
   };
-  const steps = [...moves(left, held, toward), ...moves(heldTo, after, toward)];
+  const steps = [...held, ...after];
   turnsSmoothly(steps, turning, expect);
-  const rest = after.at(-1)?.[1] ?? heldTo;
   if (until !== undefined) return;
   expect(
     Math.abs(rest - end) < SAME,
