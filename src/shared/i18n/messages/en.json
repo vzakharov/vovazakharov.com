@@ -70,7 +70,7 @@
           "title": "Working Style",
           "paragraphs": [
             "Hands-on is the point: I set the direction and write the rules the work runs on, then stay in the code — reviewing what the agents ship, fixing what the gate catches, and deciding what gets built next. Give me the vector and I'll own the result as if the company were my own.",
-            "Handing over is part of the job rather than the end of it. At Playgram the platform went to the engineers who run it now as checked-in procedure, not as a wiki page, and I mentored two developers along the way."
+            "Handing over is part of the job rather than the end of it: the procedure lives in the repository, where the next engineer will find it, and at Playgram I mentored two developers along the way."
           ]
         },
         "aiExpertise": {
