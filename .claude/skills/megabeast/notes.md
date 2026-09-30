@@ -481,6 +481,41 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   in the orchestrator's session. The orchestrator must not commit them,
   since they are another agent's work in progress. The skill should say
   so, so the hook does not read as an order.
+- **The container restarts under running agents, and takes them with
+  it.** Bite 10's session lost its background agents to two container
+  restarts. The first wave had committed its work step by step, so the sound
+  group's two commits survived its death whole. The play-fails group had
+  committed nothing and was re-run from scratch. After the first restart
+  every brief asked for a push after each passing step and a hand-over note
+  kept current, and the orchestrator wrote each report's decisions to a
+  committed file (`bite10/half-a.md`) as it arrived. The picker-2 group then
+  died with its work pushed and its note committed, and nothing had to be
+  redone. The skill's common brief should carry "the container can restart
+  without warning" from the start. On every restart notice the orchestrator
+  should read `origin`'s log and the hand-over notes before re-dispatching
+  anything, since a dead agent may have finished.
+- **Agents' scratch under `tmp/` breaks vet.** The test script's
+  `**/*.test.ts` glob reaches into gitignored `tmp/`, so throwaway tests
+  and a leftover `git worktree` (with uncommitted debug edits) made the
+  bite's vet run red. The tail agent moved them aside into its scratchpad,
+  and auto mode flagged that as interfering with another workload. It was
+  harmless, because the owner had finished and its fixes were committed.
+  The skill should brief agents to keep scratch tests and worktrees out of
+  `tmp/`, or should propose excluding `tmp/` from the test glob. It should
+  also have each agent remove its own worktree before reporting.
+- **A parallel wave breaks type-check for its siblings.** A half-written
+  module from one agent fails `tsc` at the shared HEAD. Two agents built
+  and shot the probe from a clean `git worktree` at a known commit instead,
+  and committed their fixes in the main tree. The skill's brief should
+  offer that route from the start.
+- **A play-run failure is a claim about the game, to be tested before it is
+  fixed.** Bite 9's play run reported an untappable mushroom, a gapped
+  selection band and a butterfly that never came to the chanterelle. All
+  three were check defects: the probe missed a cap under a resting
+  butterfly, the band check underestimated the ink's reach, and the wait
+  was shorter than the odds. The sweep that disproved the first found two
+  real tap losses nobody had reported. The skill's handling brief should
+  ask "is the game wrong or is the check?" before any fix, as bite 10's did.
 
 ## Quality levers
 
