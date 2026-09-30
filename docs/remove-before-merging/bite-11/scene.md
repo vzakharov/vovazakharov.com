@@ -29,9 +29,30 @@
   span the world and scroll with it. `skyline.ts` is taken as this
   package's (it is the paint's pure half; no one else owns it).
 
+- The stash of the shared tree cost nothing here: `keyboard.test.ts`'s
+  arrow test is in 1fc17fd, and `keyboard.ts`, `instrument.ts`,
+  `instrument-input.ts`, `flower-bed.ts` and `meadow-scene.ts` all hold
+  steps 1–2 as committed; nothing needed recovering from `stash@{0}`.
+
 ## Left
 
-- Steps 4–6.
+- **Not yet looked at**: step 3's bakes have passed tests, typecheck and
+  lint but no one has seen them render. Check first (probe build, CDP at
+  tablet 1180×820@2 and phone 390×844@3): no gap or seam between columns,
+  the hills sliding at their parallax on a drag, the sun's widened valley.
+- Step 4: world↔screen at the seams. `Controls.paint` to take a
+  `toScreen(point)` (the scene passes `crop.toScreen`) for the tuft
+  (`standingOn(layout.camera, planting.foot)`) and the fly-out origins
+  (`mushroomAt`, `flowerAt`). `InsectView`: take the `Crop`; `offScreen`
+  at the screen's edges in world px (`crop.toWorld({x: -reach | width +
+  reach})`); `fraction`/`toScreen` keep a leg's start in clump units from
+  the world's midline (`(x − world/2)/unit`, y / height) so a resize keeps
+  it; a flier arriving from away picks the screen edge nearer the perch it
+  flies to (resolve lazily on its first `fly` frame, where `perchAt` gives
+  the end), a departure keeps its seed's side.
+- Step 5: only the `+` crop (package 3 stopped before its first-perch
+  API): pull, read `room.md` for the name, pass the current crop.
+- Step 6: `flock tmp/site.lock pnpm build:vova` and the `/preview` look.
 
 ## Decided
 
