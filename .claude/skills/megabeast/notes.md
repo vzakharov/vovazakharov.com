@@ -532,6 +532,22 @@ select(.type=="text") | .text' <output> | tail -c 5000`. The skill's
   was shorter than the odds. The sweep that disproved the first found two
   real tap losses nobody had reported. The skill's handling brief should
   ask "is the game wrong or is the check?" before any fix, as bite 10's did.
+- **Groups split by module ownership run in parallel cleanly, and a stopped
+  agent's note is enough to finish from.** Bite 10's handling put twelve
+  threads on three agents at once, each owning named modules
+  (`handle-bite10/groups.md`). No commit swept up another's edit, and the
+  one cross-module edit came with a line naming it. The layout agent stopped
+  at its hand-over line with one thread open, and a fresh agent finished it
+  from `layout.md` alone. The cost is that each group sees only its own
+  files: the tufts agent capped tufts to the flowers left, and so hid the
+  full-meadow refusal the plan promised, a design change only the
+  orchestrator could weigh. The skill should have every agent report each
+  place its fix departs from a design line in the plan, and have the
+  orchestrator rule on each before the relay.
+- **An operator's mid-run ask goes to the agent already holding those
+  files.** The operator saw a tuft drawn under a planted flower while the
+  last agent was working in `tufts.ts`. The ask went to that agent through
+  `SendMessage` rather than to a new agent, and came back as its own commit.
 
 ## Quality levers
 

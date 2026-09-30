@@ -855,7 +855,10 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
 
 In order.
 
-**Open:** near-square windows of ~320–360 px each way (no phone has one)
+**Open:** review 5360733525 is handled, every thread answered; one miss it
+left stands: on phoneL, visit 12733755's clump back cap keeps a 22 px patch,
+not 24, because phoneL stands the clump under the zoom floor and growth does
+not place the clump. Near-square windows of ~320–360 px each way (no phone has one)
 fit no finger-sized picker row: it overlaps `−`, and `+` stands below the
 ground; no test covers them. The play run shoots no 568×320 screen, so the
 tests alone hold it. A turn keeps the meadow laid out for the shape it was grown on,
