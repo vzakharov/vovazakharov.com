@@ -17,3 +17,5 @@ From the probe build of 6c3af04, `pnpm play:mushrooms --no-build`, green on all 
 - `butterfly-on-chanterelle-phoneL.png` — worth a look: a small back chanterelle mostly covered by the butterfly on its lip (a tap still reaches the cap).
 - `shapes-280x600.png` — the shape stage on a 280×600 phone after the review: the fourth shape goes under the row rather than into the band beside the butterfly, where it stood 2.3 px from the third (no before frame; the review measured it in the game).
 - `shapes-phoneL.png` — the shape stage on phoneL after the review: the four shapes stand 32 px (`PICK_APART`) off the bee and the house, a group of their own. Before: `../bite-10-review/phoneL-13-shapes-in-forest.png`, one unbroken row of ten.
+- `planted-five-tabL.png` — five flowers the child planted on tabL after the review, each on the nearest bare tuft or the one behind it: every head stands clear of its neighbours'. Before: `../bite-10-review/tabL-05-full.png`, heads over heads at the front right.
+- `planted-no-tuft-tabL.png` — the planted blue flower up close: no sprout at its root any more, only the flower.
