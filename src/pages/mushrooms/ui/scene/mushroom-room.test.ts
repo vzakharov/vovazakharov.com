@@ -14,7 +14,8 @@ import { stillCrop } from './visit-play';
  * `keptRoom` over a finder that counts how often it is asked, and a crop
  * test that holds a foot while `fitting` says so.
  */
-function counted(fitting = { now: true }) {
+function counted() {
+  const fitting = { now: true };
   const asked = { times: 0 };
   const room = keptRoom(
     () => {
@@ -23,7 +24,7 @@ function counted(fitting = { now: true }) {
     },
     () => fitting.now,
   );
-  return { asked, room };
+  return { asked, fitting, room };
 }
 
 describe('the room kept for the next mushroom', () => {
@@ -56,8 +57,7 @@ describe('the room kept for the next mushroom', () => {
   });
 
   it('keeps the room it found over a pan while the foot still fits the crop, and finds it again once it does not', () => {
-    const fitting = { now: true };
-    const { asked, room } = counted(fitting);
+    const { asked, fitting, room } = counted();
     room(stand, 7, stillCrop(opening));
     room(stand, 7, stillCrop(restingAt(opening, 0)));
     assert.equal(asked.times, 1);
@@ -69,9 +69,8 @@ describe('the room kept for the next mushroom', () => {
   it('looks for room again on a pan where it found none', () => {
     let asked = 0;
     const room = keptRoom(
-      () => {
+      (): undefined => {
         asked += 1;
-        return undefined;
       },
       () => true,
     );

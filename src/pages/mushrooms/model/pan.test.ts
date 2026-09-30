@@ -270,14 +270,8 @@ describe('a held key', () => {
       });
       const [first = [0, 0]] = lands;
       for (const [letGo, rest] of lands) {
-        assert.ok(
-          Math.abs(letGo - first[0]) < 1,
-          `let go at ${String(letGo)}`,
-        );
-        assert.ok(
-          Math.abs(rest - first[1]) < 1,
-          `rested at ${String(rest)}`,
-        );
+        assert.ok(Math.abs(letGo - first[0]) < 1, `let go at ${String(letGo)}`);
+        assert.ok(Math.abs(rest - first[1]) < 1, `rested at ${String(rest)}`);
       }
     }
   });

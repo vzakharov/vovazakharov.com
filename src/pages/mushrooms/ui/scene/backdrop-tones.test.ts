@@ -14,12 +14,7 @@ import { channels, contrast, luminance, mix, toHsv } from './colour';
 import { tuftColours } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { PALETTE } from './palette';
-import {
-  farSkyline,
-  farthestSkyline,
-  nearSkyline,
-  seamAt,
-} from './skyline';
+import { farSkyline, farthestSkyline, nearSkyline, seamAt } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
 import { VIEWPORTS, VISITS } from './viewports';
 
