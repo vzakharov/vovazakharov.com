@@ -876,7 +876,9 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
       control and picker. The far and near hills scroll at 0.3 and 0.6
       (`parallax.ts`); everything else moves with the ground. Five baked
       layers, none past 2048 columns. The far hills part under the sun
-      along the whole stretch the pan brings under it.
+      along the whole stretch the pan brings under it, the range pressed
+      down by a smooth envelope rather than cut level, so it rolls on
+      below the disc with no plateau or shoulder (`skyline.ts`).
     - Twelve mushrooms over the world, at least six on the opening crop in
       every visit. `roomFor(stand, seed, crop?)` grows `+` wholly inside
       the crop, clear of the controls where they stand; a cap or a tuft a
