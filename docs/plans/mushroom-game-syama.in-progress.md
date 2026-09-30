@@ -111,9 +111,10 @@ Standing rules for every session in the chain:
   repaints into the objects already on screen, never destroying one, so a
   rotation or a collapsing toolbar leaves every tween running. Randomness enters the model
   only as an injected seeded generator, so every test is deterministic.
-- **Made for a six-year-old's hands.** Every target at least ~64 CSS px, taps
-  only (no drags, no double taps, no long presses), nothing to lose, nothing
-  to read. Every tap answers within a frame with motion and sound; anything
+- **Made for a six-year-old's hands.** Every target at least ~64 CSS px, one
+  finger's taps and one drag — past a 10 px slop it pans the meadow, and
+  nothing else drags — no double taps, no long presses, nothing to lose,
+  nothing to read. Every tap answers within a frame with motion and sound; anything
   tappable in the meadow does something when tapped. Tablet landscape is the
   primary layout, phone portrait the second, desktop the third.
 - **Juice is the product.** Squash and stretch on every arrival, `Back.Out`
@@ -161,8 +162,9 @@ Standing rules for every session in the chain:
   blooms — so a creature never costs the child the thing under it. An insect
   in flight takes the tap alone. Buttons stay above every insect.
 - **An insect perches only where it can be seen.** A flower is a perch only
-  while its head stands clear of every control's tap circle and the screen's
-  edge by the wingspan, and no nearer mushroom covers it; the scene hands the
+  while its head stands clear of the world's edge by the wingspan and no
+  nearer mushroom covers it — a pan changes neither, so sight is not
+  recomputed on one — and a released insect's first perch is on screen; the scene hands the
   model the flowers that qualify, by id. Two insects never share a perch: a
   leg's next perch skips any another flier sits on or is heading to, and any
   the scene marks as too close to one of those. A flier with no free perch
@@ -176,12 +178,10 @@ Standing rules for every session in the chain:
   air holds at least as many spots as all the kinds' limits together on
   every screen, so a flier leaves only by eviction, a startle or its own
   leaving.
-- **Flowers stay put.** A rotation or a growth never moves a flower, so a
-  floored forest mushroom may stand in front of one; such a flower is out of
-  sight by the rule above, so no insect is sent to it. Bite 6's bees plant
-  through the same in-sight test, on this screen only: a planted flower a
-  turn hides is out of sight there as a seeded one is. A seeded flower is
-  placed on the visit's opening screen and its turn.
+- **Flowers stay put.** A pan, a rotation or a growth never moves a flower,
+  so a forest mushroom may stand in front of one; such a flower is out of
+  sight by the rule above, so no insect is sent to it. Bees plant through
+  the same in-sight test. The seeded bed is placed once across the world.
 - **A tap on fliers in the air reaches the one whose body is nearest the
   finger**, not the one drawn on top, so the child gets the one they aimed
   at.
@@ -852,143 +852,53 @@ one, the agent's call standing until the operator redraws it: tufts are
 held to the flowers the cap has left (review 5360733525), so a tuft never
 promises a flower that cannot grow, and the child meets one "no" fewer.
 
-## Rest of the bite
+### A wider meadow, panned (bite 11)
 
-11. **A wider meadow, panned.** The meadow is a world wider than the screen,
-    and the screen a window onto it ("если мы сделаем более широкое поле, то
-    можно делать не ресайз а просто кроп, а там уже ребёнок сам будет водить
-    влево-вправо"; "кажется, что экран слишком маловат — или объекты
-    великоваты — чтобы было прямо интересно"). The first idea (walking)
-    stays out of scope; its «Что ты решил» is read only where it answers a
-    question this bite has too.
-
-    **Decided, each beating the alternative named:**
-
-    - **One finger pans; nothing pinches.** Item 11 as first written asked
-      for a pinch, but the operator's later review (5355192406) ruled
-      «давай однопальцевые жесты», and every extra finger already plays a
-      flower (bite 10's chords). So the zoom is the screen's, as today
-      (`composedUnit`), and a drag of Phaser's pointer past a slop of 10 CSS
-      px moves the crop across, 1:1 under the finger, with a short glide
-      after release, stopping soft at the world's ends. A finger that
-      barely moves is a tap. Taps keep acting on the press, so every tap
-      answers within a frame: a drag that starts on a flower has already
-      played it, on a mushroom has selected it — accepted, since neither
-      costs the child anything. A drag that starts on a control does not
-      pan. The hidden `←`/`→` keys pan by a step, eased.
-    - **Scroll the Phaser camera; lay out once per screen size.** The layout
-      is computed for the whole world in world px and `cameras.main.scrollX`
-      is the crop. Re-projecting through `Camera.midline` per pan step would
-      re-run every cache keyed on the layout, `roomFor`'s search and
-      `tendTufts`' seeded draw per frame. A pan never makes a new
-      `MeadowLayout`. `model/pan.ts` is the crop's pure state: clamp,
-      slop, glide, key step, and a resize keeping the ground point at the
-      screen's centre where it was.
-    - **The world is `WORLD_ACROSS` ground units across**, twice what a
-      tablet held sideways shows today, the same on every screen; the visit
-      opens centred on the clump. A turn or resize changes the zoom and the
-      crop, never the ground — so the refit that zooms out to keep the used
-      feet in view (`perchedOn`, `Used`, `shown`, `usedIn`, `opening`), the
-      flowers placed against both meadows' feet and the turn assertions go.
-      Resolves bite 10's open note that a turn bunches or shrinks the six.
-    - **Fixed on the screen:** the sky, the sun, its wash, the clouds and
-      every control and picker (`scrollFactor 0`). **Parallax:** the far
-      and near hills scroll slower than the ground (0.3, 0.6), which splits
-      the `near` bake. **With the ground:** the land, grain, grass, tufts,
-      mushrooms, flowers, spores, insects. A world-wide bake goes past a
-      4096 texture on older phones, so the land bakes in tiles.
-    - **What the child adds appears where they look.** `+` grows its
-      mushroom on a foot inside the current crop, checked against the
-      controls where they stand now and against the world's edges; a later
-      pan may slide a cap under a button, which then takes the tap there —
-      accepted, one more pan moves it out, where keeping every cap off a
-      control's band across the whole world would starve the room. A
-      released insect flies in from the nearer screen edge and takes its
-      first perch in view. A key plays the flowers on screen.
-    - **The meadow holds twelve mushrooms**, room permitting: six was a
-      screen's worth, and a world twice as wide with six reads empty. The
-      suite's "six in 99%" holds for the opening crop.
-    - **The flower cap becomes room** ("сейчас, конечно, это делать не надо —
-      но в тот байт где расширяем, да"): `FLOWER_LIMIT` goes, a flower is
-      planted by bee or child wherever a flower has room, the bare tufts
-      bounded by their density over the world. The seeded bed spreads over
-      the world, its seven sounds (C D E G A, kick, hat) once per half.
-    - **Insects perch anywhere in the world** («пусть садятся куда хотят»,
-      from the first idea's calls, which the pan makes a question here too):
-      sight is tested against the world's edges by the wingspan, not the
-      screen's nor the controls', and is not recomputed on a pan; the air
-      and away spots span the world.
-
-    **Work, by who owns which files** (the scene map in
-    `docs/remove-before-merging/bite-11/map.md`):
-
-    1. **Built** (19b7306, 8971c9b, 17a3abb; `bite-11/core.md`): `pan.ts`
-       (slop, 1:1 follow, glide, key step 0.4 of a screen, re-crop keeping
-       the centre's ground point, `worldOf`/`screenOf`); `Camera.world`,
-       `midline = world/2`; `WORLD_ACROSS` 5.764 and `MEADOW_FRAME` in
-       `meadow-camera.ts`; `meadowLayout(width, height, seed, openers)` with
-       the refit, `Used`, `shown`, `opening` gone; the seeded bed placed once
-       through the tablet's camera across the world; the camera scrolled to
-       the crop, sky and controls fixed. The zoom is the opening zoom
-       capped to show the opening clump (bare `composedUnit` would cut the
-       clump off a phone held upright). Red, for 2 and 3: `fliers.test.ts`
-       (bees roam 68–69%, sight still tests the screen's edges) and
-       `mushroom-patch.test.ts`'s tablet fingertip bound; `washReach`
-       measures the fixed sun against world positions. The seam grass is
-       still drawn over world x 0..screen width, and the `near` bake and
-       grain are screen-sized and fixed: 3 and 4.
-    2. **Built** (558e309, be7e71b, dc25945, a4661b7, a866c5e;
-       `bite-11/room.md`, `roomfix.md`): twelve mushrooms, twelve over
-       the world in every visit, at least six on the opening crop in every
-       visit; `roomFor(stand, seed, crop?)` grows `+` inside the crop, the
-       new cap wholly on screen, clear of controls and rays where they
-       stand; the controls out of `mushroom-patch.ts`'s `Tapped`; the wash
-       keeps off every foot any crop brings under the fixed sun
-       (`nearestTheSun`, each row at its nearest point). **Decided:** the
-       three "under a fingertip" bounds counted heads flatter than a
-       fingertip is round (a 44 px disc in a 33–48 px deep cap), while
-       every tap on them lands (12,000 checked, worst mushroom keeps 83%
-       of its head's taps), so the test asserts that instead — zero misses
-       at the head's middle, at least 80% of the head's taps — beating
-       re-reading the bounds over grown mushrooms only, a loosening. A
-       small agent was writing it at the relay (see relay.md). **Decided:**
-       the wash on a phone held sideways stays at 82 px (151 before): it
-       is drawn beneath every cap, the difference is faint in
-       `look/sideways-wash-*.png`, and every way back (roomfix.md A–C)
-       grows the tablet's wash ≥43% or breaks the foot rule.
-    3. Steps 1–3 **built** (3ddb960, 3452376, a675f2e; `bite-11/flowers.md`):
-       sight and air against the world; butterflies' `slowest` 2 → 4 in
-       `flight-habits.ts`, since flights across the world ran twice as fast
-       and dropped the catch rate to 0.63–0.65 (now 0.78–0.95);
-       `FLOWER_LIMIT` gone, tufts `TUFTS_PER_1000PX` 6 over the world (the
-       tablet's opening screen shows ~6.9, bite 10's 7); a tuft a pan slides
-       under a control is the control's to tap there; the seeded bed 14,
-       each sound once per half. **Left:** run `fliers.test.ts` alone with a
-       590 s timeout against the 14-flower bed (unchecked); step 4, seam
-       grass over the whole world (`grass.ts` — the right end's horizon is
-       bare in `look/*-right-end.png`); step 5, the released insect's first
-       perch in view, plugging into `InsectView` per `scene.md`.
-    4. **Built** (71165ac, 1fc17fd, 47b2a95, b935210; `bite-11/scene.md`,
-       frames in `bite-11/look/`): `pan-input.ts`'s `Crop` (the one
-       screen↔world home), drag with glide, `←`/`→`, a key plays the
-       flowers on screen, five baked layers in ≤2048 columns with
-       parallax (`parallax.ts`), controls and insects converted through the
-       crop, `+` wired to the crop. **Decided:** the far hills part under
-       the sun along the whole stretch the pan brings under it, keeping "no
-       hill in front of the sun"; the frames read it as a low range, not a
-       hole.
-    5. Play run, last: `scripts/lib/mushroom-probe.ts` (screen = world −
-       scroll), a drag helper, checks that a drag pans without tapping, a
-       small move taps, and the keys pan; a turn step.
-
-    2–4 run in parallel once 1's types land. The Decisions section's
-    "taps only", the perch-in-sight rule and "Flowers stay put … on its turn"
-    are rewritten when the bite folds in.
-
-    **DRY:** `pan.ts` is the one home for the crop; every screen↔world
-    conversion goes through one helper on it rather than `− scrollX` at each
-    call site. The room, sight and tuft checks keep their functions and
-    change only the bounds they test against.
+11. The meadow is a world `WORLD_ACROSS` (5.764) ground units across,
+    twice a sideways tablet's screen, and the screen a crop onto it ("если
+    мы сделаем более широкое поле, то можно делать не ресайз а просто кроп,
+    а там уже ребёнок сам будет водить влево-вправо"). It supersedes item
+    10's 14-flower cap, the turn's refit and `perchedOn`. What the next
+    bites build on:
+    - `model/pan.ts` is the crop's pure state: a 10 CSS px slop, 1:1
+      follow, a glide timed by the events' own timestamps, a key step of
+      0.4 of a screen, soft ends, and a resize keeping the ground point at
+      the screen's centre. `pan-input.ts`'s `Crop` is the one screen↔world
+      home. The layout is computed once per screen size for the whole
+      world and `cameras.main.scrollX` is the crop, so a pan never makes a
+      new `MeadowLayout`. The zoom is the screen's, capped to show the
+      opening clump; a turn changes the zoom and the crop, never the
+      ground.
+    - Fixed on the screen: the sky, the sun, its wash, the clouds, every
+      control and picker. The far and near hills scroll at 0.3 and 0.6
+      (`parallax.ts`); everything else moves with the ground. Five baked
+      layers, none past 2048 columns. The far hills part under the sun
+      along the whole stretch the pan brings under it.
+    - Twelve mushrooms over the world, at least six on the opening crop in
+      every visit. `roomFor(stand, seed, crop?)` grows `+` wholly inside
+      the crop, clear of the controls where they stand; a cap or a tuft a
+      pan slides under a control is the control's to tap there. The wash
+      keeps off every foot any crop brings under the sun (`nearestTheSun`),
+      82 px on a phone held sideways.
+    - A flower grows wherever one has room; the bare tufts are
+      `TUFTS_PER_1000PX` 6 over the world. The seeded bed is fourteen,
+      `FLOWER_SPOTS.landscape` once per half, each half sounding C D E G A,
+      a kick and a hat. The seam grass spans the world (`layerSpan`).
+    - Sight and the air grid span the world, tested against its edges by
+      the wingspan and not recomputed on a pan; butterflies' `slowest` is 4,
+      so a leg across the world flies no faster than one across a tablet
+      did. A released insect enters from the screen edge nearer its first
+      perch and takes that perch in view (`model/flight-in.ts`,
+      `onscreenOf`); every later leg roams the world.
+    - Every grown mushroom's tap lands — none missed at the head's middle,
+      at least 80% of the head's taps — asserted in place of the fingertip
+      bounds, which counted heads flatter than a fingertip is round.
+      `fliers.test.ts` takes ~354 s and runs alone under a 590 s timeout.
+    - The play run converts through the crop (`__probe.toScreen`,
+      `toWorld`), drags with its frame clock as each touch's timestamp, and
+      checks in `scripts/lib/play-pan.ts` that keys step the crop, a drag
+      from bare ground pans and taps nothing, a 6 px press taps, and a turn
+      keeps every mushroom's ground; one screen per call, ~8.5 min each.
 
 ## Rest of the elephant
 
