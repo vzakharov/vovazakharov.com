@@ -9,7 +9,7 @@ You build one work package of bite 11 of the mushroom game
   lines; types derived, never hand-duplicated (`pnpm type-overlap`); comments
   state the code's lasting contract, never the change.
 - `docs/plans/mushroom-game-syama.in-progress.md` § "Decisions the whole game
-  carries", § "Eaten so far" items 9–10, and § "This bite" — the decisions
+  carries", § "Eaten so far" items 9–10, and § "Rest of the bite" — the decisions
   there are made; build them, don't reopen them. Where one cannot hold as
   written, stop and report which and why rather than picking another.
 - `docs/remove-before-merging/bite-11/map.md` — where everything is today.
