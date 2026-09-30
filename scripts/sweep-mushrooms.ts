@@ -2,8 +2,10 @@
  * Grows the forest as `+` grows it, over every visit the layout sweeps draw
  * from (`VISITS`) on every screen they know (`VIEWPORTS`), and prints what
  * the suite only samples: how many visits reach `MUSHROOM_SLOTS`, how wide
- * the grown caps span in the median visit, and the most of any cap and stem
- * the nearer mushrooms hide (`hidersOf`, against `MOST_HIDDEN`). The tests
+ * the grown caps span in the median visit, the most of any cap and stem
+ * the nearer mushrooms hide (`hidersOf`, against `MOST_HIDDEN`), which
+ * mushrooms keep no patch of their own as wide as their floor
+ * (`patchlessIn`), and how many keep one narrower than a fingertip. The tests
  * hold a floor over a share of these visits; the numbers a plan quotes for
  * the whole of them come from here.
  *
@@ -22,6 +24,7 @@ import {
   PARTS,
   partSighted,
 } from '../src/pages/mushrooms/ui/scene/cap-cover';
+import { patchlessIn } from '../src/pages/mushrooms/ui/scene/mushroom-patch';
 import { VIEWPORTS, VISITS } from '../src/pages/mushrooms/ui/scene/viewports';
 import {
   capsSpan,
@@ -53,6 +56,9 @@ const seeds = VISITS.filter(
   (_, index) => (index * visits) % VISITS.length < visits,
 );
 
+/** The radius, in CSS px, of a patch a fingertip lands in whole: 44 across. */
+const FINGERTIP = 22;
+
 const percent = (share: number) => `${(share * 100).toFixed(1)}%`;
 
 for (const [name, width, height] of VIEWPORTS) {
@@ -62,9 +68,16 @@ for (const [name, width, height] of VIEWPORTS) {
   let least = MUSHROOM_SLOTS;
   const spans: number[] = [];
   const most = { cap: 0, stem: 0 };
+  const patchless: string[] = [];
+  let mushrooms = 0;
+  let narrow = 0;
   for (const seed of seeds) {
     const stand = opened(seed, width, height, true);
     const grown = stand.mushrooms.length;
+    mushrooms += grown;
+    for (const id of patchlessIn(stand))
+      patchless.push(`${String(seed)} ${id}`);
+    narrow += patchlessIn(stand, () => FINGERTIP).length;
     if (grown === MUSHROOM_SLOTS) full += 1;
     least = Math.min(least, grown);
     spans.push(capsSpan(stand));
@@ -86,6 +99,8 @@ for (const [name, width, height] of VIEWPORTS) {
     `${String(MUSHROOM_SLOTS)} in ${String(full)} of ${String(seeds.length)} visits (${percent(full / seeds.length)}), least ${String(least)}`,
     `caps span a median ${percent(median(spans))} of the width`,
     `most hidden: ${hidden.join(', ')}`,
+    `no patch: ${patchless.length > 0 ? patchless.join(', ') : 'none'}`,
+    `under a fingertip ${percent(narrow / mushrooms)}`,
     `${String(Math.round((Date.now() - started) / seeds.length))} ms a visit`,
   ].join('; ');
   process.stdout.write(`${line}\n`);

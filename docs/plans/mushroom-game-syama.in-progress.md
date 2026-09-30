@@ -776,10 +776,15 @@ Standing rules for every session in the chain:
       standings at 11%, the worst tenth at 18%.
     - Spore puffs are containers tied to their mushroom, following it
       through a refit (`puffFrom`).
-    - **Every grown mushroom keeps a tappable patch** of at least 24 px,
-      swept over every forest size on every `VIEWPORTS` screen
-      (`mushroom-patch.test.ts`); 64 px cannot hold while placement lets
-      a quarter of a cap hide. Fixed by hit-testing, layout untouched: past
+    - **Every grown mushroom keeps a tappable patch**, which growth keeps
+      (`keepsPatches` in `mushroom-patch.ts`): 32 px across for each the
+      forest grows, 24 px for the opening clump's two, over all 2000
+      visits' full forests on every `VIEWPORTS` screen
+      (`pnpm sweep:mushrooms`) but for one phoneL clump whose back cap,
+      under the zoom floor, keeps 22 px. A wider floor for the forest
+      leaves fewer visits room for six; under a 44 px fingertip stay
+      15–34% of a full forest's mushrooms by screen (2.6% on tabP), a
+      bound `mushroom-patch.test.ts` holds per screen. Past
       its petals a flower answers only where no mushroom is drawn, and a
       head drawn shallower than `TAP_RADIUS` gets the finger pad too. The
       play run's "unreachable" caps were its probe missing a cap under a

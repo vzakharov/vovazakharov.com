@@ -5,7 +5,8 @@
  * Judged as the scene stands and draws it: its cap inside `EDGE_MARGIN`, no
  * cap or stem hidden behind the nearer ones past `MOST_HIDDEN`, every door
  * in sight (`doorInSight`), every control, the sun's rays and its wash off
- * it, and off every flower.
+ * it, and off every flower; and every mushroom keeping a patch of its own a
+ * finger lands on (`keepsPatches`).
  */
 
 import { pick } from '@/shared/lib/collections';
@@ -52,6 +53,12 @@ import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import type { MeadowLayout, Placement } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
+import {
+  type Around,
+  keepsPatches,
+  patchesAround,
+  patchTarget,
+} from './mushroom-patch';
 import { fingerPad } from './mushroom-tap';
 import { standingControls } from './sky-layout';
 import { SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
@@ -296,13 +303,16 @@ function doorsKept({ own }: Trial, others: readonly Weighed[]): boolean {
   );
 }
 
+/** The id a mushroom being tried is sought by among the meadow's. */
+const TRIED = 'the tried mushroom';
+
 /**
  * Where the mushroom grown from `seed` grows in `stand`, as the scene and
  * the visit a sweep opens both find it, whichever species the child picks:
  * `undefined` where the meadow has no room left for one. It keeps off every
  * flower standing there (`flowerFeet`), and each foot is tried on the cheap
  * rules first, then the controls, then what it hides and what hides it,
- * then the doors.
+ * then the doors, then the patches, the dearest to try.
  */
 export function roomFor(stand: Stand, seed: number): Ground | undefined {
   const { layout, mushrooms } = stand;
@@ -312,6 +322,8 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
   const grown = MUSHROOM_SPECIES.map((species) =>
     mushroomGenes({ seed, species }),
   );
+  let around: Around | undefined;
+  const aroundNow = (): Around => (around ??= patchesAround(stand));
   const splays = new Map(
     [-FOREST_SPLAY, FOREST_SPLAY].map((splay) => [
       splay,
@@ -348,7 +360,10 @@ export function roomFor(stand: Stand, seed: number): Ground | undefined {
           ),
         ) &&
         trials.every((trial) => partsInView(trial.own, others)) &&
-        trials.every((trial) => doorsKept(trial, others))
+        trials.every((trial) => doorsKept(trial, others)) &&
+        trials.every(({ place, stood }) =>
+          keepsPatches(patchTarget(TRIED, place, stood), aroundNow()),
+        )
       );
     },
   });

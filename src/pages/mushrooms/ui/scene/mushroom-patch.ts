@@ -1,0 +1,358 @@
+/**
+ * A grown mushroom's own patch: where a finger lands on it and nothing but
+ * that mushroom takes the tap, as the scene hit-tests it (`hit-areas.ts`) —
+ * a control over everything, then the front-most of the mushrooms and the
+ * flowers that answer. Growth keeps one for every mushroom (`roomFor`), and
+ * the sweeps measure how wide it is.
+ */
+
+import { pick } from '@/shared/lib/collections';
+
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
+import {
+  type Box,
+  boxAround,
+  boxesMeet,
+  type Circle,
+  placedAt,
+  type Point,
+} from '../../model/geometry';
+import type { Ground } from '../../model/ground';
+import type { Splayed } from '../../model/mushroom-pose';
+import { openingIndex } from '../../model/placement';
+import { placeIn } from './clump-layout';
+import { standingAt } from './door-sight';
+import { standingFlowers } from './flower-plots';
+import { flowerTapReach, type Stand } from './flower-sight';
+import type { Placement } from './layout';
+import {
+  drawnHolds,
+  drawnUnder,
+  fingerPad,
+  type FlowerReach,
+  flowerTakes,
+  type MushroomTarget,
+  tappedMushroom,
+  tapTarget,
+} from './mushroom-tap';
+import { standingControls } from './sky-layout';
+import { tapReach } from './tap-reach';
+
+/**
+ * The least radius, in CSS px, of the disc the opening clump's own patch
+ * holds, on every screen: its back cap is crossed by the front one by design
+ * and shows at least `BACK_CAP_SHOWN` of itself, on a short screen under the
+ * zoom floor (`floorOn`) a crescent that holds little more.
+ */
+export const CLUMP_PATCH = 12;
+/**
+ * The least radius, in CSS px, of the disc the patch of each mushroom the
+ * forest grows holds, which growth keeps (`roomFor`): the most that still
+ * leaves room for six mushrooms in almost every visit (`LEAST_FULL`).
+ */
+export const GROWN_PATCH = 16;
+/** How far apart the middles of the discs tried for a patch are, in CSS px. */
+const TRY_STEP = 3;
+/** How many points each of a disc's two rings is tried at, beside its middle. */
+const RING_POINTS = 12;
+
+/** The least radius of the patch the mushroom standing on `foot` keeps. */
+export function patchFloor(foot: Ground): number {
+  return openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
+}
+
+/** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
+export type FlowerTap = Point & FlowerReach & { depth: number };
+
+/** A mushroom as its patch is sought: how a tap finds it, and where on screen to seek. */
+export type PatchTarget = MushroomTarget & {
+  id: string;
+  /** The foot's y, which the scene paints by: the higher, the nearer the front. */
+  depth: number;
+  /** The head's middle on screen, where a patch is sought first. */
+  middle: Point;
+  /** The box round its head and pad on screen, where a patch is sought. */
+  box: Box;
+  /** The box round all it takes a tap on, stem too, on screen: nothing past it reaches the mushroom. */
+  reach: Box;
+};
+
+/** What on a screen takes a tap: its controls, its flowers and its mushrooms, the last back to front. */
+export type Tapped = {
+  controls: readonly Circle[];
+  flowers: readonly FlowerTap[];
+  targets: readonly PatchTarget[];
+};
+
+/** The mushroom `id`, `stood` as the scene stands it in `place`, as its patch is sought. */
+export function patchTarget(
+  id: string,
+  place: Placement,
+  { genes, turn }: Splayed,
+): PatchTarget {
+  const target = tapTarget(genes, place.size, place, turn);
+  const { cap, gills, stem } = target.area;
+  const head = boxAround([...cap, ...gills]);
+  const pad = fingerPad(target.area);
+  const onScreen = (points: readonly Point[]) =>
+    points.map((point) => placedAt(place, turn, point));
+  const padCorners = onScreen(
+    pad
+      ? [-1, 1].flatMap((dx) =>
+          [-1, 1].map((dy) => ({
+            x: pad.x + dx * pad.r,
+            y: pad.y + dy * pad.r,
+          })),
+        )
+      : [],
+  );
+  const headCorners = [...onScreen([...cap, ...gills]), ...padCorners];
+  return {
+    ...target,
+    id,
+    depth: place.y,
+    middle: placedAt(place, turn, {
+      x: (head.left + head.right) / 2,
+      y: (head.top + head.bottom) / 2,
+    }),
+    box: boxAround(headCorners),
+    reach: boxAround([...headCorners, ...onScreen(stem)]),
+  };
+}
+
+/**
+ * What takes a tap on `stand`'s screen with its pickers shut: its controls
+ * as far as a finger reaches them, its flowers and its mushrooms.
+ */
+export function tappedIn(stand: Stand): Tapped {
+  const { layout, mushrooms } = stand;
+  return {
+    controls: standingControls(layout).map((control) => ({
+      ...control,
+      r: tapReach(control.r),
+    })),
+    flowers: flowerTaps(stand),
+    targets: mushrooms
+      .flatMap((mushroom) => {
+        const place = placeIn(layout.mushrooms, mushroom);
+        return place
+          ? [patchTarget(mushroom.id, place, standingAt(place, mushroom))]
+          : [];
+      })
+      .toSorted((a, b) => a.depth - b.depth),
+  };
+}
+
+/**
+ * The id of each of `stand`'s mushrooms keeping no patch (`patchOf`) as
+ * wide as `least` asks of the mushroom standing on its foot, `patchFloor`
+ * by default, with its pickers shut (`tappedIn`).
+ */
+export function patchlessIn(
+  stand: Stand,
+  least: (foot: Ground) => number = patchFloor,
+): string[] {
+  const tapped = tappedIn(stand);
+  return tapped.targets.flatMap((target) => {
+    const mushroom = stand.mushrooms.find(({ id }) => id === target.id);
+    if (!mushroom) throw new Error(`${target.id} stands in no meadow`);
+    return patchOf(target, tapped, least(mushroom.foot)) ? [] : [target.id];
+  });
+}
+
+/** Every flower standing in `stand`, as a tap finds its head. */
+export function flowerTaps({
+  layout,
+  flowers,
+  planted,
+  mushrooms,
+}: Stand): FlowerTap[] {
+  return standingFlowers(layout, flowers, planted, mushrooms).map(
+    ({ place, seed }) => {
+      const head = flowerHead(flowerGenes({ seed }), place.size);
+      return {
+        x: place.x + head.x,
+        y: place.y + head.y,
+        petals: head.r,
+        tap: flowerTapReach(head.r),
+        depth: place.y,
+      };
+    },
+  );
+}
+
+/** Whether `box` holds `at`. */
+function boxHolds({ left, right, top, bottom }: Box, { x, y }: Point): boolean {
+  return x >= left && x <= right && y >= top && y <= bottom;
+}
+
+/** The id a tap on a control goes to. */
+const CONTROL = 'a control';
+/** The id a tap on a flower goes to. */
+const FLOWER = 'a flower';
+
+/**
+ * What a tap at `at` goes to: a control over everything; else, of the
+ * mushrooms that answer it — whose drawn parts hold it, or whose pad takes
+ * it (`tappedMushroom`) — and the flowers that take it (`flowerTakes`), the
+ * nearest the front, a mushroom winning a tie.
+ */
+export function takerAt(
+  at: Point,
+  { controls, flowers, targets }: Tapped,
+): string | undefined {
+  if (
+    controls.some(
+      (control) => Math.hypot(control.x - at.x, control.y - at.y) <= control.r,
+    )
+  ) {
+    return CONTROL;
+  }
+  // Past its `reach` a mushroom takes no part in a tap.
+  const near = targets.filter((target) => boxHolds(target.reach, at));
+  const padded = tappedMushroom(at, near);
+  let front: { id: string; depth: number } | undefined;
+  for (const target of near) {
+    const answers =
+      target === padded || drawnHolds(target.area, target.local(at));
+    if (answers && (!front || target.depth >= front.depth)) front = target;
+  }
+  let under: boolean | undefined;
+  const underDrawn = () => (under ??= drawnUnder(at, near));
+  for (const flower of flowers) {
+    const takes = flowerTakes(
+      Math.hypot(flower.x - at.x, flower.y - at.y),
+      flower,
+      underDrawn,
+    );
+    if (takes && (!front || flower.depth > front.depth)) {
+      front = { id: FLOWER, ...pick(flower, 'depth') };
+    }
+  }
+  return front?.id;
+}
+
+/** The points a disc `radius` round its middle is tried at: its middle, and two rings round it. */
+function discOf(radius: number): Point[] {
+  return [
+    { x: 0, y: 0 },
+    ...[0.5, 1].flatMap((share) =>
+      Array.from({ length: RING_POINTS }, (_, index) => {
+        const angle = (index * 2 * Math.PI) / RING_POINTS + share;
+        return {
+          x: share * radius * Math.cos(angle),
+          y: share * radius * Math.sin(angle),
+        };
+      }),
+    ),
+  ];
+}
+
+/**
+ * The middle of a disc `radius` round, within `target`'s box, that only
+ * `target` takes a tap in, nearest its head's middle; `undefined` where
+ * none is.
+ */
+export function patchOf(
+  target: PatchTarget,
+  tapped: Tapped,
+  radius: number,
+): Point | undefined {
+  const disc = discOf(radius);
+  const { box, reach, middle, id } = target;
+  const { left, right, top, bottom } = box;
+  // Only what reaches a disc round the box takes part in a tap on it.
+  const zone = {
+    left: left - radius,
+    right: right + radius,
+    top: top - radius,
+    bottom: bottom + radius,
+  };
+  const reaches = ({ x, y }: Point, r: number) =>
+    boxesMeet(zone, { left: x - r, right: x + r, top: y - r, bottom: y + r });
+  const near: Tapped = {
+    controls: tapped.controls.filter((control) => reaches(control, control.r)),
+    flowers: tapped.flowers.filter((flower) =>
+      reaches(flower, Math.max(flower.petals, flower.tap)),
+    ),
+    targets: tapped.targets.filter((each) => boxesMeet(zone, each.reach)),
+  };
+  // A disc the mushroom alone takes lies inside all it takes a tap on.
+  const held = (x: number, y: number) =>
+    x - radius >= reach.left &&
+    x + radius <= reach.right &&
+    y - radius >= reach.top &&
+    y + radius <= reach.bottom;
+  const tries: Array<Point & { away: number }> = [];
+  for (let x = left; x <= right; x += TRY_STEP) {
+    for (let y = top; y <= bottom; y += TRY_STEP) {
+      if (!held(x, y)) continue;
+      const away = Math.hypot(x - middle.x, y - middle.y);
+      tries.push({ x, y, away });
+    }
+  }
+  return tries
+    .toSorted((a, b) => a.away - b.away)
+    .find((at) =>
+      disc.every(
+        ({ x, y }) => takerAt({ x: at.x + x, y: at.y + y }, near) === id,
+      ),
+    );
+}
+
+/**
+ * One of the meadow's mushrooms as a tap finds it, the least patch it keeps
+ * (`patchFloor`), and the middle of the patch it keeps before a new one
+ * grows: `undefined` where it keeps none.
+ */
+type Held = { target: PatchTarget; floor: number; patch: Point | undefined };
+
+/** What takes a tap on a meadow a new mushroom is tried on, and the patch each of its mushrooms keeps. */
+export type Around = { tapped: Tapped; held: readonly Held[] };
+
+/** `stand` as a new mushroom is tried on it (`keepsPatches`). */
+export function patchesAround(stand: Stand): Around {
+  const tapped = tappedIn(stand);
+  const floors = new Map(
+    stand.mushrooms.map(({ id, foot }) => [id, patchFloor(foot)]),
+  );
+  return {
+    tapped,
+    held: tapped.targets.map((target) => {
+      const floor = floors.get(target.id);
+      if (floor === undefined) throw new Error(`${target.id} has no foot`);
+      return { target, floor, patch: patchOf(target, tapped, floor) };
+    }),
+  };
+}
+
+/**
+ * Whether `own`, grown among what takes a tap `around` it, keeps a patch of
+ * its own `GROWN_PATCH` round, and leaves every mushroom there the patch it
+ * kept. A new mushroom takes a tap only within its `reach`, so a patch clear
+ * of it is kept as it was, and one that kept none before is not asked for
+ * one.
+ */
+export function keepsPatches(
+  own: PatchTarget,
+  { tapped, held }: Around,
+): boolean {
+  const among = {
+    ...tapped,
+    targets: [...tapped.targets, own].toSorted((a, b) => a.depth - b.depth),
+  };
+  return (
+    patchOf(own, among, GROWN_PATCH) !== undefined &&
+    held.every(
+      ({ target, floor, patch }) =>
+        !patch ||
+        !boxesMeet(own.reach, {
+          left: patch.x - floor,
+          right: patch.x + floor,
+          top: patch.y - floor,
+          bottom: patch.y + floor,
+        }) ||
+        patchOf(target, among, floor) !== undefined,
+    )
+  );
+}

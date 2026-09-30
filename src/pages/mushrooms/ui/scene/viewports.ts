@@ -14,6 +14,9 @@ export const VIEWPORTS = [
   ['desktop', 1920, 1080],
 ] as const;
 
+/** A screen of `VIEWPORTS`, by name. */
+export type Screen = (typeof VIEWPORTS)[number][0];
+
 /** A phone narrower than any of `VIEWPORTS`, whose camera the zoom floor holds. */
 export const FLOOR_HELD = ['280×600', 280, 600] as const;
 

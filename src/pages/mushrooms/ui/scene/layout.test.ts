@@ -36,11 +36,14 @@ import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 import { TAP_RADIUS, tapReach } from './tap-reach';
-import { FLOOR_HELD, TURNED_SMALL, VIEWPORTS, VISITS } from './viewports';
+import {
+  FLOOR_HELD,
+  type Screen,
+  TURNED_SMALL,
+  VIEWPORTS,
+  VISITS,
+} from './viewports';
 import { capsSpan, opened } from './visit-play';
-
-/** A screen's name, as the sweeps know it. */
-type Screen = (typeof VIEWPORTS)[number][0];
 
 /** Each control as its hit area, which the mute's small drawing reaches past. */
 const reach = (circles: readonly Circle[]) =>
