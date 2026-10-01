@@ -44,6 +44,16 @@ the sun". Paths under `src/pages/mushrooms/ui/scene/` unless given.
    - Test: `planting.test.ts` "stays open on a flower through an insect
      startled…" (18/18); `game.test.ts` 41/41.
 
+3. Replays (scratch worktree at f12b4b11): `hold` green on tabL, phoneP
+   and phoneS — 1 tuft back where the seeded flower stood on each; frame JS
+   median 13.1 / 10.3 / 10.9 ms. Frames in `frames/bite-12/`: tabL's four
+   `p4-*` replaced (the sun back at (991, 160), the cross before the
+   colours' first), phoneS's four new (the cross under the white colour,
+   the sun where it stood, r 24), phoneP's came out identical. The pulled
+   frames are replaced with the held ones, since they too showed the sun
+   where it no longer stands. phoneL not replayed (its cross and sun did
+   not move).
+
 ## Left
 
-3. Replays of `hold` on tabL, phoneS, phoneP; frames.
+Nothing in this package.
