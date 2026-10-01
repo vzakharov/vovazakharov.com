@@ -228,26 +228,6 @@ export async function playVeer(
   await inTurn(kinds, async (kind) => {
     await releaseBack(kind, `veer-back-${kind}-out`);
   });
-  // Where round the eye a child can grow a perch: the `+` has room and a tuft
-  // a tap reaches bare is drawn.
-  const ground: string[] = [];
-  await inTurn(
-    Array.from({ length: 24 }, (_, index) => (index * Math.PI) / 12),
-    async (heading) => {
-      await face(heading);
-      await page.step(2);
-      const at = await page.evaluate(
-        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
-        z.object({ roomy: z.boolean(), tufts: z.number() }),
-      );
-      ground.push(
-        `${heading.toFixed(2)} ${at.roomy ? 'room' : 'no room'}, ${String(at.tufts)} tufts`,
-      );
-    },
-  );
-  note(`ground to grow on, by heading: ${ground.join('; ')}`);
-  await face(Math.PI);
-  await page.step(2);
   const grown = await perchesBack(page, controls, expect, note);
   await page.shoot('veer-back-grown');
   if (grown > 0) {
@@ -322,4 +302,23 @@ export async function playVeer(
   zooms(seen, lens, expect, note);
   pace(seen, butterfly, note);
   flicks(seen, width, butterfly, expect, note);
+
+  // Where round the eye a child can grow a perch: the `+` has room and a tuft
+  // a tap reaches bare is drawn. Last, its snaps past every measure.
+  const ground: string[] = [];
+  await inTurn(
+    Array.from({ length: 24 }, (_, index) => (index * Math.PI) / 12),
+    async (heading) => {
+      await face(heading);
+      await page.step(2);
+      const at = await page.evaluate(
+        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
+        z.object({ roomy: z.boolean(), tufts: z.number() }),
+      );
+      ground.push(
+        `${heading.toFixed(2)} ${at.roomy ? 'room' : 'no room'}, ${String(at.tufts)} tufts`,
+      );
+    },
+  );
+  note(`ground to grow on, by heading: ${ground.join('; ')}`);
 }
