@@ -68,3 +68,18 @@ foot row's opening distance.
 
 `fliers.test.ts` result (see the report); play on the tablet to judge the
 cruise numbers and the dash shapes.
+
+## Open — `fliers.test.ts` red
+
+`is caught by a tap aimed where it was a moment ago at least seven times in
+ten`: the fly fails. With the first dash shape (0.7 in 0.25) it failed on
+all six screens (fly caught 0.29–0.40); with 0.8 in 0.2 (and bee 0.7 in
+0.2) on two (0.43, 0.68). Cause: the dash now runs on every fly leg, short
+ones included, and the in-coming tail flies at 0.25× cruise ≈ 1.75 sizes/s
+where it used to fly at ~1 size/s. Not checked whether origin was green on
+this test before these commits. Options: a dash only past a length (but
+not scaled by it), a slower tail (less of the way in more of the time), or
+the fly's cruise lowered.
+
+`Habits.cruise` renamed `cruising`, `Place.q` renamed `fromEye`, for
+`pnpm type-overlap` (clean).

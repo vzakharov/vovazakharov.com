@@ -332,8 +332,8 @@ export function perchSight(stand: Stand): Sight {
           ] as const,
       ),
     ].map(([name, { x, y }]) => {
-      const q = perchDistance(layout, rows.get(name) ?? aloftRow);
-      return [name, { x: x / unit, y: y / unit, q }];
+      const fromEye = perchDistance(layout, rows.get(name) ?? aloftRow);
+      return [name, { x: x / unit, y: y / unit, fromEye }];
     }),
   );
   return {
@@ -356,7 +356,7 @@ export function clumpRow({ camera }: MeadowLayout): number {
 
 /**
  * How far from the eye a perch standing over the ground row `row` is, in the
- * clump's size (`Place`'s `q`), the one seam a perch's distance enters
+ * clump's size (`Place`'s `fromEye`), the one seam a perch's distance enters
  * `Places` by: the opening eye's distance ahead of the row, the eye the
  * layout is laid out for.
  */
