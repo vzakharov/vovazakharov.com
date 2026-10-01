@@ -113,7 +113,18 @@ time), `pnpm typecheck`, eslint and prettier clean. Fixed:
    - `pnpm type-overlap` is red on `insect-away`/`insect-shown`/`flight`
      (`OverRow`, `Shown`, `Span`): not this package's files, red before it.
 
+3. `layoutAtRow`'s cost, timed in node (not committed), `meadowLayout`
+   seed 7, six headings from 0 to π: `onscreenOf` (33 columns × 2 rows,
+   66 crossings) takes 0.36–0.51 ms at the median, 0.71 ms at p95, on both
+   tabL (1180×820) and phoneP (390×844); one `layoutAtRow` 4–5 µs,
+   `layoutShown` ~0.02 ms. The play run's budget is a 26 ms median of
+   `game.step` (`scripts/lib/frame-budget.ts`), so that is under 2 % of a
+   frame. And `onscreenOf` runs only when an insect is released
+   (`arrivals.ts`), not every frame. Per frame, only `offScreen`
+   (one `layoutAtRow` per insect flying in or out) and `layoutShown`
+   (on a controls repaint) touch the search. Left as it is.
+
 ## Left
 
-1. Round 3 step 3: `layoutAtRow`'s cost in `onscreenOf`.
-2. Frames (`lens-land-*.png`).
+1. Frames (`lens-land-*.png`), and playing `play-opening`'s restated
+   identity, `play-walk`'s drag and `play-approach`'s aim.
