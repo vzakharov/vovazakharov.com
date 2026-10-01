@@ -137,7 +137,8 @@ keyboard through the flowers in view; every grass tuft is a planting spot,
 a tap opening a two-stage picker (colour, then shape) whose exact flower
 grows there (bite-10.md), or a note key plants the flower that sounds it.
 A long press on a flower opens the picker on it, ringed, with a cross: a
-pick or a key replaces it, the cross pulls it, leaving a tuft (bite-12.md). A mute pictogram sits top left.
+pick or a key replaces it, the cross pulls it, leaving a tuft (bite-12.md).
+A mute pictogram sits top left.
 
 **Pure model, reconciling scene.** `model/` is Phaser-free and under
 `node:test`. `game.ts`'s `reduce` over the `Meadow` (growing, selecting,
