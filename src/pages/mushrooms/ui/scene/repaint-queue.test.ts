@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
+import { FRAME_DEPTH, OPENING_EYE, project } from '../../model/ground';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import {
@@ -16,6 +16,12 @@ import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 
 const SEEDS = [1, 42, 99];
+
+/** The eye three steps in from the opening, in the clump's size. */
+const STEPPED_IN = { ...OPENING_EYE, y: 3 };
+
+/** The haze a back-row mushroom reads as misty at: the spec's «up to 0.39». */
+const MISTY = 0.3;
 
 /** A thing `ahead` of the eye, its haze `drifted` from its paint. */
 const hazing = (ahead: number, drifted: number): Hazing => ({
@@ -42,13 +48,12 @@ describe('the repaint queue', () => {
   });
 
   for (const [name, width, height] of VIEWPORTS) {
-    it(`repaints nothing at the opening eye, and clears the back row as the eye steps in, on a ${name} screen`, () => {
+    it(`repaints nothing at the opening eye, and only clears as the eye steps in, on a ${name} screen`, () => {
       for (const seed of SEEDS) {
         const { meadow, layout } = opened(seed, width, height, true);
         const { camera, mushrooms: ground } = layout;
         const opening = viewAt(camera, OPENING_EYE);
-        const nearer = viewAt(camera, { ...OPENING_EYE, y: 3 });
-        let cleared = 0;
+        const nearer = viewAt(camera, STEPPED_IN);
         for (const { id, foot } of meadow.mushrooms) {
           const painted = placeIn(ground, { foot })?.haze;
           if (painted === undefined) continue;
@@ -57,9 +62,28 @@ describe('the repaint queue', () => {
           assert.ok(Math.abs(there - painted) < 1e-9, where);
           const near = hazeAhead(camera, bedPlace(nearer, foot).ahead);
           assert.ok(near <= painted, where);
-          if (painted - near >= HAZE_DRIFT) cleared++;
         }
-        assert.ok(cleared > 0, `visit ${String(seed)}: nothing cleared`);
+      }
+    });
+
+    // On the frame's back row, not on a grown forest's: which screens grow a
+    // mushroom that far back is the forest's rule, not the haze's.
+    it(`clears a misty mushroom on the back row as the eye steps in, on a ${name} screen`, () => {
+      const { camera } = opened(SEEDS[0] ?? 1, width, height, false).layout;
+      for (const x of [-1, 0, 1]) {
+        const foot = { x, z: FRAME_DEPTH.far };
+        const painted = project(camera, foot).haze;
+        const where = `across ${String(x)}`;
+        assert.ok(painted >= MISTY, `${where}: painted ${String(painted)}`);
+        const opening = bedPlace(viewAt(camera, OPENING_EYE), foot).ahead;
+        assert.ok(Math.abs(hazeAhead(camera, opening) - painted) < 1e-9, where);
+        const near = hazeAhead(
+          camera,
+          bedPlace(viewAt(camera, STEPPED_IN), foot).ahead,
+        );
+        assert.ok(painted - near >= HAZE_DRIFT, `${where}: to ${String(near)}`);
+        const [due] = repaintsDue([{ ahead: 1, painted, haze: near }]);
+        assert.ok(due, where);
       }
     });
   }
