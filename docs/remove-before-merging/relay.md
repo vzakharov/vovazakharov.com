@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: 3. The successor may relay with `create_session` again; the
+Relay depth: 4. The successor may relay with `create_session` again; the
 cap is 8 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth
 cap").
 
@@ -46,130 +46,121 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > разбить megabeast на папку+файлы внутри, а то уже непотребно раздуло
 
-From review 5350040790, comment 4131492133, about the operator's two game
-ideas:
-
-> Не вноси их пока ни в какой план, но подготовь отдельные два документа (по одному на идею), в котором опиши, насколько существующий код готов к реализации той и другой, насколько drastic changes нужны в оставшемся плане и текущей реализации. Исходя из этого будем думать. Документы на русском.
-
-That hold is lifted for the second idea only (bite 10). The first idea
-(walking meadow) stays out of the plan.
-
 **Syama is a boy**: Салман, "Сяма" for short («Сяма -- мальчик :)», «ещё
 Сяма -- это короткое от Салман»). Never infer otherwise from the name.
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask the
 operator nothing, except where they are present and the call is about how
-the game feels (contract.md's last note). Fill the megabeast notes —
+the game feels (contract.md's last notes). Fill the megabeast notes —
 `.claude/skills/megabeast/notes/`, one file per theme — before every relay.
 No module past ~450 lines. Each bite ends by committing its best frames to
 `docs/remove-before-merging/frames/bite-<n>/` and republishing the game
 Artifact at its one URL. The depth cap is accepted, never engineered around.
 Pause/replace a subagent past ~170k. Every session and subagent runs on Opus,
 named explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
-`model: "opus"`). **The plan is split** (below); keep it that way, per
+`model: "opus"`). **The plan is split**; keep it that way, per
 `.claude/skills/plan/elephant.md` § "The plan's shape". Pass this section on
 verbatim.
 
-**Correction to the hold above, from this session:** the walking meadow is
-not wholly out of the plan. Bites 9 and 11 built its left half (the
-ground, the wide world, the pan, the keys, a turn as a crop) on the
-operator's review calls. Its right half — the step forward and back, the
-map in the mute's circle, far mushrooms tapped only where drawn, insects
-perching out of sight — has no item yet and waits for the operator's word
-on where it goes (the plan's `## Rest of the elephant` says so). Answer a
-question about a feature from `docs/remove-before-merging/ideas/` as well
-as from the plan.
+Idea 1 (the walking meadow) is now fully in the plan: bite 12 and 12b are
+walking, item 15 the map. Answer a question about a feature from
+`docs/remove-before-merging/ideas/` as well as from the plan.
 
 ## 2. The conversation
 
-The session started from `/relay take claude/mushroom-game-syama-lbirv7`
-and ran bite 11's review tail. The operator sent three messages:
+Started from `/relay take claude/mushroom-game-syama-lbirv7`; the agent
+attached, took bite 12 as Rain (cut to the shower, the aftermath as 13),
+briefed a model agent. The operator sent:
 
-1. > > Вопрос к тебе, не срочный: в бите 2 кнопка mute молча запоминается в localStorage, и там записано, что это ждёт твоего одобрения. Его я не нашёл. Оставить так?
+1. > подтверждаю вот это
+
+   (with a screenshot of the previous session's proposal: idea 1's rest as
+   "13. Шаг вперёд-назад" and "14. Карта" after Rain, before Dusk.) The
+   agent wrote them in as items 14–15 (49de5d7), explaining rain was split
+   so the numbers shifted.
+
+2. > слушай, всё-таки я хочу чтобы шагать можно было уже сейчас. давай зафиксируем что сделал текущий подагент, чтобы не пропало, но потом таки поставим 14 до 12. карту можно отложить до после после дождя
+
+   The agent wrapped the model agent up (its rain model landed, 5c9f2e9),
+   reordered: 12 walking, 13 rain shower (detail kept, model marked built),
+   14 after the rain, 15 map, 16 dusk, 17 around the canvas (4f2bbd7,
+   0815e1b), and launched a spec agent for walking.
+
+3. > > 12. Шаг вперёд‑назад. Это текущий кусок.
    >
-   > ок, но мы все равно же кнопку будем удалять на каком-то этапе?
+   > а влево-вправо становится при этом циркулярным? то есть повернуться вокруг собственной оси можно?
 
-   The agent recorded the «ок» as approval in bite-02.md (a00fa5a) and
-   wrongly answered that no bite removes the button, reading the plan
-   alone.
+   The agent: no — today left-right slides a crop along a strip with hard
+   ends. Offered (1) keep the strip, (2) a ring of the strip, (3) a real
+   heading on a plane; leaned to 2; forwarded the fork to the spec agent.
 
-2. > хм... мы планировали заменить кнопку звука на "карту" -- см. идею 1, разве там этого не прописано?
+4. > я тоже склоняюсь но хочу понять чем это будет хуже 2 с точки зрения игрока?
+   >
+   > и я хотел было предложить сделать компас, но потом подумал что в качестве компаса может быть солнце -- а потом посмотрел саму игру и понял, что солнце у нас всегда на месте, что makes no sense
 
-   The agent confirmed `idea-1-walking-meadow.md` § «Кнопка звука» gives
-   the mute's circle to the map view, explained idea 1 was held out of the
-   plan, and that the circle anchors the layout, so the mute stays until
-   the map takes its place.
+   The agent: in a ring you stand in the centre and never go anywhere; the
+   sun is fixed because a sideways slide leaves things at infinity in
+   place, and once turning exists it becomes the compass; the rainbow then
+   stands opposite the sun.
 
-3. > погоди как это не собирались реализовывать, если под это меняли всю "схему мира"?
+5. > нет, ну, конечно, ходить мы хотим. иначе как он "карту" засеивать будет?
 
-   The agent agreed: bites 9 and 11 built the idea's left half, and the
-   summaries kept repeating the stale "out of the plan" line. It proposed,
-   and asked: **"Вписать так? Или карту поставить раньше — она от ходьбы
-   не зависит?"** — the rest as bite 13 (step forward and back, with
-   footstep sounds) and bite 14 (the map in the mute's circle, taking the
-   `localStorage` with it), Dusk and Around the canvas becoming 15 and 16.
-   **Not answered yet.**
+   Decided: option 3, real walking (1004b31). The spec agent wrote
+   `step-spec.md` (2ace9d5); the agent took its every recommendation as
+   bite 12's contract and paused the plan (15e801d).
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable
-for a six-year-old boy. Each bite gets an agent review, handled by the next
-session. The Artifact stays playable after every bite. `/finalize` comes at
-the end, with no merge. New: the operator expects idea 1's remaining half
-(walking forward/back, the map replacing the mute) to be built.
+for a six-year-old boy; each bite reviewed by an agent, handled by the next
+session; the Artifact playable after every bite; `/finalize` at the end, no
+merge. New: the child really walks the meadow now — turns through 360°,
+steps along the heading — so he can reach and sow the whole map later.
 
 ## 4. Decisions
 
-- **The mute's silent `localStorage` fallback is approved** («ок»,
-  bite-02.md), standing until the map replaces the button.
-- **The tail ran polish → vet → play run → frames → Artifact → `/pr`**,
-  not play run first, because polish and vet change source and the play
-  run must follow the last source commit.
-- **Play screens run one at a time**: the frame budget is a median and
-  parallel Chromium on 4 cores fails it falsely.
-- **phoneL's held-arrow check starts from the far end** (1c75aa2,
-  `scripts/lib/play-pan-keys.ts`): the opening crop leaves ~99 px to the
-  end while the ease-in needs ~105 px. The game was right; the script's
-  expectation was wrong.
+- **Order**: 12 walking, 12b walking the whole glade, 13 rain (shower), 14
+  after the rain, 15 map, 16 dusk, 17 around the canvas.
+- **Real walking beat the strip and a ring**: a ring only leans toward what
+  is in front, so the child could never go anywhere or sow the map.
+- **The sun is the compass**; no compass is drawn.
+- **Every open call in `step-spec.md` is taken at its recommendation**,
+  listed in a line each in the plan's `## Rest of the bite`. The bite cut:
+  12 ends with turning and walking in a glade disc, the current meadow
+  standing inside the opening wedge, bare ground behind; 12b moves stored
+  positions onto the plane and sows the glade.
+- **Rain's model is built** (5c9f2e9): `Rain = { startedAt, stopsAt }`,
+  `model/weather.ts`; item 13 records it.
 
 ## 5. Errors and dead ends
 
-- Answering the mute question from the plan only, missing idea 1's
-  document; the operator caught it twice. Recorded in
-  `.claude/skills/megabeast/notes/contract.md`.
-- The PR agent's cleanup deleted two tracked files in `docs/pr/57/`; it
-  restored them from HEAD, and the tree is clean.
+- Prettier's code-span trap recurred on the plan (a span wrapped across a
+  line); fixed by rewording, as `gates.md` says.
+- The session spent its whole budget on the reorder, the forks and the
+  spec, building nothing of bite 12 (noted in `pickup-and-relay.md`).
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE/CLEAN. Last pushed commit dd3503d2 (plus this relay's commit).
-- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 11 and its review
-  are fully done: polish (32cb68d, 083a13d), knip/format (7af16ba),
-  type-overlap (3b6b84d), vet green (932/932 tests), play run green on all
-  five screens, frames in `docs/remove-before-merging/frames/bite-11/`
-  (32b533f), Artifact version 12 at
-  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG, PR body refreshed.
-- Open, carried in the plan: the 0.09 px chanterelle hit-area crack (visit
-  2193566); the world-end drag check skips on tabL (nothing tappable at
-  either end of the seeded meadow); frames at the world's left end on
-  phones are sparse; clouds drift behind the controls.
-- Nothing is running: no subagents, no PR subscription, no check-ins.
+- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`.
+- Plan `docs/plans/mushroom-game-syama.paused.md`, with `## Rest of the
+  bite` (bite 12, walking) — nothing of it built.
+- Nothing running: both subagents finished; no PR subscription, no
+  check-ins. The Artifact is still version 12 (bite 11).
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite11-tail/common-brief.md` — the brief
-  template this session's agents ran from.
-- `docs/remove-before-merging/ideas/idea-1-walking-meadow.md` — idea 1,
-  its «Что ты решил» section and § «Кнопка звука».
-- `.claude/skills/megabeast/notes/README.md` indexes the notes.
-- The relaying session: https://claude.ai/code/session_01UuJeXhkErjH7ZCown4ZshT
+- `docs/remove-before-merging/bite-12/step-spec.md` — the contract: the
+  projection finding, the design, packages (step 0, P1–P3), play checks,
+  risks.
+- `docs/remove-before-merging/bite-12/brief-common.md` — the shared brief
+  for bite 12's build agents (written for rain; holds for walking).
+- `docs/remove-before-merging/ideas/idea-1-walking-meadow.md` § «Что ты
+  решил» — the operator's walking rulings.
+- The relaying session: https://claude.ai/code/session_01UHiMdQjMFeiRgwknih4zDr
 
 ## 8. Next step
 
-`/go` — item 12, Rain, per the plan's `## Rest of the elephant`. The
-operator's open question on where idea 1's rest goes does not block Rain,
-which comes first in either ordering; if they answer, write the items
-into `## Rest of the elephant` as they say before or after the bite.
-Then continue the loop per § 1: "/relay оставь код ревью на последний
-кусок" after the bite.
+`/go` — bite 12, walking, per the plan's `## Rest of the bite` and
+`step-spec.md`: brief step 0, then P1–P3 in parallel, then the tail. Then
+continue the loop per § 1: "/relay оставь код ревью на последний кусок"
+after the bite.
