@@ -12,6 +12,7 @@ import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts
 import { LIGHT_STEP } from '../../src/pages/mushrooms/model/insect-light.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { LEAST_SPANS } from '../../src/pages/mushrooms/ui/scene/layout.ts';
+import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import {
   HEADING_AFTER,
   MOST_HEADING_OFF,
@@ -147,6 +148,17 @@ async function tapAtRest(
   await page.shoot(`f2-${resting.kind}-startled`);
 }
 
+/** Page-side: whether `point`, on screen, stands within the tap reach (`tapReach`) of one of the controls always shown. */
+const underControl = (point: z.infer<typeof Point>) => `(() => {
+  const { mute, plus, minus, house, releases } = __probe.scene.layout;
+  const { x, y } = ${JSON.stringify(point)};
+  return [mute, plus, minus, house, ...Object.values(releases)].some(
+    (circle) =>
+      Math.hypot(circle.x - x, circle.y - y) <=
+      Math.max(circle.r, ${String(TAP_RADIUS)}),
+  );
+})()`;
+
 /**
  * Taps a fly in flight where it is drawn on the screen, `FLYING_TAPS` times, among every
  * other insect in the air, and expects at least `FLYING_REACHED` of the taps
@@ -161,6 +173,8 @@ async function tapFlying(
   note: (line: string) => void,
 ): Promise<void> {
   const tally = { aimed: 0, reached: 0, onTop: 0 };
+  /** What each tap that missed reached instead, by the scene's hit test (`topAt`), and where. */
+  const missed: string[] = [];
   const screen = await page.evaluate(
     '({ width: innerWidth, height: innerHeight })',
     Screen,
@@ -182,7 +196,11 @@ async function tapFlying(
     if (!fly || !drawn) return undefined;
     const point = Point.parse(drawn);
     const { x, y } = point;
-    if (x >= 0 && x <= screen.width && y >= 0 && y <= screen.height) {
+    const onScreen =
+      x >= 0 && x <= screen.width && y >= 0 && y <= screen.height;
+    // A control stands over the meadow and takes a tap there first, as a
+    // child's finger on a button means the button.
+    if (onScreen && !(await page.evaluate(underControl(point), z.boolean()))) {
       return { fly, point };
     }
     if (looks <= 1) return undefined;
@@ -197,6 +215,10 @@ async function tapFlying(
       `__probe.topAt(${JSON.stringify({ ...point, drawn: true })})`,
       Top,
     );
+    const reaches = await page.evaluate(
+      `__probe.topAt(${JSON.stringify(point)})`,
+      Top,
+    );
     const before = await now();
     await page.tap(point);
     await page.step(2);
@@ -205,12 +227,16 @@ async function tapFlying(
     if (top === `insect:${fly.id}`) tally.onTop += 1;
     if (typeof tappedAt === 'number' && tappedAt * 1000 >= before) {
       tally.reached += 1;
+    } else {
+      missed.push(
+        `${String(reaches)} at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`,
+      );
     }
     await page.step(20);
   });
   expect(
     tally.aimed === FLYING_TAPS && tally.reached >= FLYING_REACHED,
-    `of ${String(tally.aimed)} taps at a fly in flight, ${String(tally.reached)} reached it, under ${String(FLYING_REACHED)} of ${String(FLYING_TAPS)}`,
+    `of ${String(tally.aimed)} taps at a fly in flight, ${String(tally.reached)} reached it, under ${String(FLYING_REACHED)} of ${String(FLYING_TAPS)}; the rest reached ${missed.join(', ')}`,
   );
   note(
     `taps at a fly in flight: ${String(tally.reached)} of ${String(tally.aimed)} reached it; the top-drawn insect alone would have let ${String(tally.onTop)} through`,
