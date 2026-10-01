@@ -1,11 +1,21 @@
 /**
  * Where a released insect first flies in: its first perch is one the screen
- * shows as it is released, it enters at the screen's edge nearer that perch,
- * and it lands there within `ARRIVAL`, so a tap on its button is answered in
- * view. Every later perch is drawn from the whole world (`nextFlight`).
+ * shows as it is released, its leg is timed in from the screen's edge nearer
+ * that perch, and it lands there within `ARRIVAL`, so a tap on its button is
+ * answered in view. Every later perch is drawn from the whole world
+ * (`nextFlight`). Where it is drawn setting off is the view's
+ * (`insect-away.ts`).
  */
 
-import type { Leg, Perch, Perches, PerchKind, Places, Side } from './flight';
+import type {
+  Leg,
+  Perch,
+  Perches,
+  PerchKind,
+  Places,
+  Side,
+  Span,
+} from './flight';
 import type { Lefted, Point } from './geometry';
 import { perchName } from './perch-room';
 
@@ -43,6 +53,15 @@ export function arriving(leg: Leg): Leg {
   const flown = leg.arrives - leg.departs;
   const early = flown - Math.min(flown, ARRIVAL);
   return { ...leg, arrives: leg.arrives - early, leaves: leg.leaves - early };
+}
+
+/**
+ * How long, in ms, a released insect with no open perch in view takes to
+ * fly across it and out by its side, on a first leg `leg`: as long as an
+ * arrival at most, and half the leg, so the rest of the way is still flown.
+ */
+export function outOfView({ departs, arrives }: Span): number {
+  return Math.min(ARRIVAL, (arrives - departs) / 2);
 }
 
 /**

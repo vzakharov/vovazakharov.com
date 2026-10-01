@@ -17,6 +17,7 @@ import {
   isShown,
   nearerSide,
   type Onscreen,
+  outOfView,
   shownOf,
 } from './flight-in';
 import { INSECT_KINDS } from './insect-genes';
@@ -142,6 +143,11 @@ describe('a released insect', () => {
     assert.deepEqual(arriving(short), short);
   });
 
+  it('flies out of view, with no open perch in it, within ARRIVAL and half its leg', () => {
+    assert.equal(outOfView({ departs: 1000, arrives: 9000 }), ARRIVAL);
+    assert.equal(outOfView({ departs: 1000, arrives: 2000 }), 500);
+  });
+
   it('flies slower than its arrival once it has landed, a butterfly', () => {
     for (const seed of SEEDS.slice(0, 50)) {
       const insect = { seed, kind: 'butterfly' } as const;
@@ -191,7 +197,7 @@ describe('a released insect', () => {
   });
 
   it('takes its later perches anywhere in the world', () => {
-    let outOfView = 0;
+    let unseen = 0;
     for (const seed of SEEDS.slice(0, 50)) {
       let flight: Flight = firstFlight(
         { seed, kind: 'butterfly' },
@@ -206,9 +212,9 @@ describe('a released insect', () => {
           PERCHES,
           flight.leg.leaves,
         );
-        if (!isShown(ONSCREEN, placeOf(flight.leg.to))) outOfView++;
+        if (!isShown(ONSCREEN, placeOf(flight.leg.to))) unseen++;
       }
     }
-    assert.ok(outOfView > 0);
+    assert.ok(unseen > 0);
   });
 });
