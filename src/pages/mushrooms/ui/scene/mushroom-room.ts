@@ -263,7 +263,7 @@ export function roomFor(
         trials.every((trial) => partsInView(trial.own, others)) &&
         trials.every((trial) => doorsKept(trial.own, others)) &&
         trials.every(({ place, stood }) =>
-          keepsPatches(patchTarget(TRIED, place, stood), aroundNow()),
+          keepsPatches(patchTarget(TRIED, place, stood), foot, aroundNow()),
         )
       );
     },

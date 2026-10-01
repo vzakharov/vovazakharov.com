@@ -20,7 +20,13 @@ import {
   type Point,
   type WithMiddle,
 } from '../../model/geometry';
-import type { Camera, Ground, Layered, LayeredPoint } from '../../model/ground';
+import {
+  type Camera,
+  type Ground,
+  type Layered,
+  type LayeredPoint,
+  scaleAt,
+} from '../../model/ground';
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
 import { placeIn } from './clump-layout';
@@ -47,16 +53,13 @@ import {
 const CLUMP_PATCH = 12;
 /**
  * The least radius, in CSS px, of the disc the patch of each mushroom the
- * forest grows holds on a tablet held sideways, which growth keeps
+ * forest grows holds on a tablet held sideways, standing as far off as the
+ * clump's front foot or nearer, which growth keeps
  * (`roomFor`): the most that still leaves room for six mushrooms in almost
  * every visit (`LEAST_FULL`).
  */
 const GROWN_PATCH = 16;
-/**
- * The least patch on any screen: a phone held sideways draws its far caps,
- * and the clump's back one, too small for more and still grow the forest to
- * six.
- */
+/** The least patch on any screen, at any depth. */
 const LEAST_PATCH = 8;
 /** The clump's size on the tablet held sideways the patches are set on. */
 const TABLET_UNIT = meadowCamera(1180, 820).unit;
@@ -66,24 +69,17 @@ const TRY_STEP = 3;
 const RING_POINTS = 12;
 
 /**
- * A patch `tablet` px wide on a tablet held sideways, where `camera` shows
- * the meadow: shrunk with the size the camera draws the clump at below a
- * tablet's, down to `LEAST_PATCH`, and never grown past `tablet`.
+ * The least radius of the patch the mushroom standing on `foot` keeps where
+ * `camera` shows it: its patch on a tablet held sideways, shrunk with the
+ * size the camera draws the clump at below a tablet's and with how much
+ * smaller a mushroom stands drawn farther off than the clump's front foot,
+ * down to `LEAST_PATCH`. Neither a bigger screen nor a nearer foot grows it.
  */
-function scaledPatch(tablet: number, { unit }: Camera): number {
-  return Math.min(tablet, Math.max(LEAST_PATCH, (tablet * unit) / TABLET_UNIT));
-}
-
-/** The least radius of a grown mushroom's patch where `camera` shows the meadow. */
-function grownPatch(camera: Camera): number {
-  return scaledPatch(GROWN_PATCH, camera);
-}
-
-/** The least radius of the patch the mushroom standing on `foot` keeps where `camera` shows it. */
-function patchFloor(foot: Ground, camera: Camera): number {
-  return openingIndex(foot) === undefined
-    ? grownPatch(camera)
-    : scaledPatch(CLUMP_PATCH, camera);
+function patchFloor(foot: Ground, { unit }: Camera): number {
+  const tablet = openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
+  const shrunk =
+    (Math.min(unit, TABLET_UNIT) / TABLET_UNIT) * Math.min(1, scaleAt(foot.z));
+  return Math.max(LEAST_PATCH, tablet * shrunk);
 }
 
 /** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
@@ -308,9 +304,10 @@ type Held = { target: PatchTarget; floor: number; patch: Point | undefined };
 
 /**
  * What takes a tap on a meadow a new mushroom is tried on, the patch each of
- * its mushrooms keeps, and the least a new one keeps (`grownPatch`).
+ * its mushrooms keeps, and the camera that sets the least a new one keeps
+ * (`patchFloor`).
  */
-export type Around = { tapped: Tapped; held: readonly Held[]; grown: number };
+export type Around = { tapped: Tapped; held: readonly Held[]; camera: Camera };
 
 /** `stand` as a new mushroom is tried on it (`keepsPatches`). */
 export function patchesAround(stand: Stand): Around {
@@ -321,7 +318,7 @@ export function patchesAround(stand: Stand): Around {
   );
   return {
     tapped,
-    grown: grownPatch(camera),
+    camera,
     held: tapped.targets.map((target) => {
       const floor = floors.get(target.id);
       if (floor === undefined) throw new Error(`${target.id} has no foot`);
@@ -331,22 +328,23 @@ export function patchesAround(stand: Stand): Around {
 }
 
 /**
- * Whether `own`, grown among what takes a tap `around` it, keeps a patch of
- * its own as wide as `around` asks of a new one, and leaves every mushroom
- * there the patch it kept. A new mushroom takes a tap only within its
+ * Whether `own`, grown on `foot` among what takes a tap `around` it, keeps a
+ * patch of its own as wide as one there keeps (`patchFloor`), and leaves
+ * every mushroom there the patch it kept. A new mushroom takes a tap only within its
  * `reach`, so a patch clear of it is kept as it was, and one that kept none
  * before is not asked for one.
  */
 export function keepsPatches(
   own: PatchTarget,
-  { tapped, held, grown }: Around,
+  foot: Ground,
+  { tapped, held, camera }: Around,
 ): boolean {
   const among = {
     ...tapped,
     targets: [...tapped.targets, own].toSorted((a, b) => a.depth - b.depth),
   };
   return (
-    patchOf(own, among, grown) !== undefined &&
+    patchOf(own, among, patchFloor(foot, camera)) !== undefined &&
     held.every(
       ({ target, floor, patch }) =>
         !patch ||
