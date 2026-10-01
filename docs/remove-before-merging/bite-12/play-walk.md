@@ -21,14 +21,21 @@ Package: bite 12 P3 step 3, the probe and the play run (spec §4), and the
    ← held as long returns every bed object within 0.5 px; a sideways drag
    from bare ground turns with the ground under the finger and steps
    nowhere; a drag down the screen walks ≤ cruise; nothing tapped; the
-   screen turned keeps heading and place.
-3. `play-mushrooms.ts`: `--plays meadow,walk,planting,species,tufts` picks
+   screen turned keeps heading and place; nothing appears or vanishes while
+   reaching above the screen's foot as ↑/↓ walk (`checkPops`).
+3. Played green on all five screens (walk only). Frames committed under
+   `docs/remove-before-merging/frames/bite-12/` (`*-walk-*.png`).
+4. `play-mushrooms.ts`: `--plays meadow,walk,planting,species,tufts` picks
    plays; every play on its own fresh meadow.
 
 ## Left
 
-- Spec §4 not played: opening identity against bite 11, walk through the
-  clump, walk up to a back-row mushroom (haze, drawn-only tap), the insect
+- Seen in the frames (the game's, not this package's): a seeded flower past
+  `D_SEE` stands whole on the far hill where the near hill's crest dips
+  below its foot (tabL rim, phoneL rim) — `behindHills`/`depthOf` in
+  `bed-place.ts` draws it between the hill layers, which covers it only
+  where the near crest stands above its foot.
+- Spec §4 not played: opening identity against bite 11, walk up to a back-row mushroom (haze, drawn-only tap), the insect
   after a 180° turn, the frame budget while walking into the forest.
 - The rest of `pnpm play:mushrooms` (taps) — see the report.
 

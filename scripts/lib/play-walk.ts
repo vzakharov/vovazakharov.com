@@ -43,6 +43,27 @@ const SAME_PX = 0.5;
 /** The bob's depth as a share of the screen's height (`walking.ts`). */
 const BOB_SHARE = 0.004;
 
+/**
+ * The eye, and how high on the screen each mushroom and flower drawn reaches,
+ * in CSS px, \`null\` where it is not drawn: what a pop is read from.
+ */
+const WALKING = `({
+  ...__probe.eye(),
+  tops: Object.fromEntries([
+    ...[...__probe.scene.bed.shown].map(([id, { graphics }]) => [
+      'mushroom:' + id,
+      graphics.visible ? __probe.bounds(id).y : null,
+    ]),
+    ...[...__probe.scene.flowers.shown].map(([id, { container }]) => [
+      'flower:' + id,
+      container.visible ? __probe.toScreen(container.getBounds()).y : null,
+    ]),
+  ]),
+})`;
+const Walking = Eye.extend({
+  tops: z.record(z.string(), z.number().nullable()),
+});
+
 type Seen = z.infer<typeof Eye>;
 
 /** Every bed object drawn, mushrooms and flowers, where it stands on the screen. */
@@ -100,9 +121,9 @@ export async function playWalk(
   /** `key` held `frames` frames and let go, then left to settle: the eye frame by frame throughout. */
   const hold = async (key: Arrow, frames: number) => {
     await page.key(key, 'keyDown');
-    const held = await page.trace(frames, '__probe.eye()', Eye);
+    const held = await page.trace(frames, WALKING, Walking);
     await page.key(key, 'keyUp');
-    const after = await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye);
+    const after = await page.trace(SETTLE_FRAMES, WALKING, Walking);
     return [...held, ...after];
   };
   const shoot = async (name: string) => {
@@ -117,18 +138,20 @@ export async function playWalk(
 
   // Toward the clump, then back to the rim.
   await page.key('ArrowUp', 'keyDown');
-  const ahead = await page.trace(Math.round(FPS * 1.2), '__probe.eye()', Eye);
+  const ahead = await page.trace(Math.round(FPS * 1.2), WALKING, Walking);
   await shoot('forward');
   ahead.push(
-    await eye(),
-    ...(await page.trace(Math.round(FPS * 1.3), '__probe.eye()', Eye)),
+    await page.evaluate(WALKING, Walking),
+    ...(await page.trace(Math.round(FPS * 1.3), WALKING, Walking)),
   );
   await page.key('ArrowUp', 'keyUp');
-  ahead.push(...(await page.trace(SETTLE_FRAMES, '__probe.eye()', Eye)));
+  ahead.push(...(await page.trace(SETTLE_FRAMES, WALKING, Walking)));
   await shoot('near');
   checkWalk(opening, ahead, bob, 'ArrowUp', expect, note);
+  checkPops(ahead, 'ArrowUp', expect);
   const back = await hold('ArrowDown', FPS * 12);
   const rim = back.at(-1) ?? opening;
+  checkPops(back, 'ArrowDown', expect);
   await shoot('rim');
   checkWalk(ahead.at(-1) ?? opening, back, bob, 'ArrowDown', expect, note);
   expect(
@@ -160,14 +183,18 @@ export async function playWalk(
   await page.key('ArrowRight', 'keyUp');
   round.push(...(await page.trace(SETTLE_FRAMES, TURNING, Turning)));
   checkTurn([rim.heading, ...round.map(([heading]) => heading)], expect, note);
+  // The turn runs a little past a full one, which on a narrow view can carry
+  // the sun off again: it has only to come back once.
   const sunGone = round.findIndex(([, sun]) => sun === null);
-  const sunBack = round.findLastIndex(([, sun]) => sun === null);
+  const sunBack = round.findIndex(
+    ([, sun], index) => index > sunGone && sun !== null,
+  );
   expect(
-    sunFrom !== null &&
-      sunGone !== -1 &&
-      sunBack < round.length - 1 &&
-      round.at(-1)?.[1] !== null,
-    `a full turn on → did not carry the sun off the screen and back (opening ${String(sunFrom)}, gone at frame ${String(sunGone)}, last gone ${String(sunBack)})`,
+    sunFrom !== null && sunGone !== -1 && sunBack !== -1,
+    `a full turn on → did not carry the sun off the screen and back (opening ${String(sunFrom)}, gone at frame ${String(sunGone)}, back at ${String(sunBack)})`,
+  );
+  note(
+    `the sun left the screen at frame ${String(sunGone)} of the turn and came back at ${String(sunBack)}`,
   );
   await hold('ArrowLeft', full);
   const returned = moved(beds, await page.evaluate(BEDS, Beds));
@@ -327,5 +354,35 @@ function checkTurn(
   );
   note(
     `→ held: turned ${total.toFixed(3)} rad at most ${fastest.toFixed(3)} rad/s`,
+  );
+}
+
+/**
+ * Nothing pops while the eye walks: whatever stops or starts being drawn
+ * between two frames reached no higher than the screen's foot on the frame
+ * it was drawn.
+ */
+function checkPops(
+  seen: ReadonlyArray<z.infer<typeof Walking>>,
+  by: Arrow,
+  expect: Expect,
+): void {
+  const popped = seen.slice(1).flatMap((now, index) => {
+    const was = seen[index];
+    if (!was) return [];
+    return Object.keys({ ...was.tops, ...now.tops }).flatMap((id) => {
+      const [before, after] = [was.tops[id] ?? null, now.tops[id] ?? null];
+      if ((before === null) === (after === null)) return [];
+      const top = before ?? after ?? Infinity;
+      return top < now.height
+        ? [
+            `${id} ${before === null ? 'appeared' : 'vanished'} reaching ${top.toFixed(0)} px`,
+          ]
+        : [];
+    });
+  });
+  expect(
+    popped.length === 0,
+    `${by}: things popped on screen: ${popped.slice(0, 6).join('; ')}`,
   );
 }
