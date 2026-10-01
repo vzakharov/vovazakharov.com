@@ -24,7 +24,7 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   rotation or a collapsing toolbar leaves every tween running. Randomness enters the model
   only as an injected seeded generator, so every test is deterministic.
 - **Made for a six-year-old's hands.** Every target at least ~64 CSS px, one
-  finger's taps and one drag — past a 10 px slop it pans the meadow, and
+  finger's taps and one drag — past a 24 px slop it pans the meadow, and
   nothing else drags — no double taps, no long presses, nothing to lose,
   nothing to read. Every tap answers within a frame with motion and sound; anything
   tappable in the meadow does something when tapped. Tablet landscape is the
@@ -53,12 +53,13 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   starves, dies or is lost — the meadow only ever gets fuller and livelier,
   within the caps the layout sets. These rules are the model's, so they are
   tested like the rest: a `tick` in the reducer, driven by the scene's clock.
-- **Every mushroom is a finger's target, on every screen.** A slot's size
-  never falls below the floor at which the narrowest cap the genes allow is
-  `2 × TAP_RADIUS` wide, and a phone keeps all six slots, placed to fit under
-  that floor, rather than fewer: a slot count that changed with the screen
-  would strand a mushroom whenever a phone is turned. The controls stand clear
-  of every slot's farthest cap reach and of the sun.
+- **Every mushroom is a finger's target, on every screen.** The zoom never
+  falls below the floor at which the narrowest cap the genes allow is
+  `2 × TAP_RADIUS` wide, and every screen holds the same twelve
+  (`MUSHROOM_SLOTS`) in one world, rather than fewer on a small one: a count
+  that changed with the screen would strand a mushroom whenever a phone is
+  turned. A mushroom grows clear of the controls where they stand and of the
+  sun's wash.
 - **No tap is ever answered with a shrug.** `−` with nothing selected sinks
   the newest mushroom, so `−` always takes something away and a selection
   only chooses which. A control that truly cannot act — `+` on a full meadow,
