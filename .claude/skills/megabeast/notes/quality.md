@@ -85,6 +85,20 @@
 
 ## Sweeps and the tests they become
 
+- **A test "fixed" because its fixture no longer arises is a regression
+  report.** Bite 12's drawn-only taps quietly stopped the forest growing
+  behind the clump; the haze test went red ("nothing cleared") because no
+  hazy mushroom grew any more, and its agent rightly made it plant its own
+  — with "every mushroom stands 7.8–9.8 ahead" as a side remark. Two other
+  reds and a phone-growth table had the same cause. The orchestrator
+  caught it only by asking why the fixture vanished. The skill should
+  brief: when a test is repaired by supplying what the game used to
+  produce, report the vanished behaviour as a finding of its own.
+- **A probe of a parameter has to bypass that parameter's clamp.** "Same
+  result with both patches at 0.1 px" ruled the patch out, wrongly: the
+  8 px floor lifted 0.1 back to 8. The next agent found the cause in the
+  patch after all. A sweep that sets a value should print the value the
+  code actually used.
 - **Measure a property over many seeds as a committed script; don't eyeball
   one frame.** "The front cap nearly touches the edge" was a note from one
   frame; a 30-line `tsx` script running 2000 visit seeds through the real

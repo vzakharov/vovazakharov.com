@@ -266,3 +266,13 @@
   the next agent's first instruction was "confirm the tree equals the
   patch, land it within ~50k", and the blockage cleared in one commit.
   When a pause leaves a patch in the tree, relaunch that package first.
+- **The play run goes beside the source work, not after it, once its
+  probe builds from a commit.** Bite 12's rest ran a `scripts/`-only play
+  agent alongside each `src/` wave: the walk frames found the far-hill
+  flower before P4 was built on it, and the play agents' reports caught a
+  game fault (a portrait phone's `+` refusing after one mushroom). A
+  sibling's uncommitted edit in the shared tree made the page throw on
+  load, so the probe is built in a scratchpad worktree at HEAD (`pnpm
+  install --offline` there; a symlinked `node_modules` fails Turbopack).
+  One step per agent and a ~10-minute check-in held every agent under
+  ~190k with commits on origin; six packages ran in ~1¾ hours.

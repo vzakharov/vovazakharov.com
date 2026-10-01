@@ -443,12 +443,16 @@ departures were taken):
    (below).
 4. The rest of the play run. The probe reads the eye, and the walk play
    with its `walk-*.png` frames is in (002b560, d14e506, e8e4e79;
-   `play-walk.md`). Left: `play-band.ts`'s `bandGaps` reads a gone scene
-   field (the species play throws, the tufts play never ran); spec §4's
-   opening identity, the walk to a back-row mushroom, an insect after
-   180°, the frame budget walking into the forest; the full run on all
-   five screens. The footstep level (`STEP_PEAK`, ~10 dB under a C5) for
-   the operator's ear.
+   `play-walk.md`). The species, tufts and insect plays read the view now
+   (b3254511, 608fbcfc, adfe6fc6, 3c07c7b9; `play-rest.md`): every screen
+   passed all five plays, though not in one run at one commit. Left: one
+   full five-screen run at the final HEAD, one screen per call, its
+   frames committed; spec §4's opening identity, the walk to a back-row
+   mushroom and a tap on its drawn cap, an insect after 180°, the frame
+   budget walking into the forest. The footstep level (`STEP_PEAK`,
+   ~10 dB under a C5) for the operator's ear. Build the probe in a
+   scratchpad worktree when another agent's edits sit uncommitted in the
+   tree.
    **Fixed (c3acaa50, `seam-cover.md`): past the seam a thing sinks under
    the ground, never onto a far hill.** The walk frames showed a back-row
    flower past `D_SEE` standing whole on the far hill wherever the near
