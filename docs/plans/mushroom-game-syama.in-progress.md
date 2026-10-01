@@ -443,7 +443,15 @@ departures were taken):
    predate the split (`Shown.bob` / `Stepped.bob` among them) — the
    bite's end fixes them before vet.
 3. P4: the long press, the flower picker with the cross, the ring
-   (below).
+   (below). Built (6ce6e395, 13f5a80a, 7a3a3d53; `p4.md`), with the
+   `hold` play. **Decided for the fix round:** a pulled seeded flower
+   leaves a tuft where it stood, since every planting spot is a tuft and
+   the plan's "its tuft coming back" is about the spot, not the record
+   (beaten: bare grass, which hides where the child can plant again); a
+   press on the flower the picker is already open on keeps it open
+   (beaten: shut then reopen, a flicker); a press through a resting
+   insect is a long press too; the sun keeps off the cross as it does
+   off the colour row. Then flowers' paling (`brow-flower-pale.patch`).
 4. The rest of the play run. The probe reads the eye, and the walk play
    with its `walk-*.png` frames is in (002b560, d14e506, e8e4e79;
    `play-walk.md`). The species, tufts and insect plays read the view now
