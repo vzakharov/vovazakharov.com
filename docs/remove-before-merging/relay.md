@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: 2. The successor may relay with `create_session` again; the
+Relay depth: 3. The successor may relay with `create_session` again; the
 cap is 8 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth
 cap").
 
@@ -70,134 +70,106 @@ named explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
 `.claude/skills/plan/elephant.md` § "The plan's shape". Pass this section on
 verbatim.
 
+**Correction to the hold above, from this session:** the walking meadow is
+not wholly out of the plan. Bites 9 and 11 built its left half (the
+ground, the wide world, the pan, the keys, a turn as a crop) on the
+operator's review calls. Its right half — the step forward and back, the
+map in the mute's circle, far mushrooms tapped only where drawn, insects
+perching out of sight — has no item yet and waits for the operator's word
+on where it goes (the plan's `## Rest of the elephant` says so). Answer a
+question about a feature from `docs/remove-before-merging/ideas/` as well
+as from the plan.
+
 ## 2. The conversation
 
-The session started from `/relay take claude/mushroom-game-syama-lbirv7` and
-ran `/handle` on review 5373085053 (bite 11's eight threads). The operator
-was present for part of it:
+The session started from `/relay take claude/mushroom-game-syama-lbirv7`
+and ran bite 11's review tail. The operator sent three messages:
 
-1. > Любое перетаскивание ещё и нажимает на то, с чего началось. Игра отвечает на касание сразу при нажатии, а понимает, что это прокрутка луга, только потом.
+1. > > Вопрос к тебе, не срочный: в бите 2 кнопка mute молча запоминается в localStorage, и там записано, что это ждёт твоего одобрения. Его я не нашёл. Оставить так?
    >
-   > а как быть? получается, каждая реакция при нажатии на что-то будет "запоздалой"?
+   > ок, но мы все равно же кнопку будем удалять на каком-то этапе?
 
-   The operator quoted the review's finding 2. The agent proposed: the touched
-   thing dips at once, and everything irreversible fires on a lift inside the
-   slop or after 150 ms of rest. It also offered pan only from bare grass as
-   an alternative.
+   The agent recorded the «ок» as approval in bite-02.md (a00fa5a) and
+   wrongly answered that no bite removes the button, reading the plan
+   alone.
 
-2. > Read mushroom-game-syama.paused.md (20–91, 855–967)
-   >
-   > ого его раздуло. надо разбивать
+2. > хм... мы планировали заменить кнопку звука на "карту" -- см. идею 1, разве там этого не прописано?
 
-   The agent split the plan: an index file plus `mushroom-game-syama/` with
-   `decisions.md` and `bite-01.md` … `bite-11.md`.
+   The agent confirmed `idea-1-walking-meadow.md` § «Кнопка звука» gives
+   the mute's circle to the map view, explained idea 1 was held out of the
+   plan, and that the circle anchors the layout, so the mute stays until
+   the map takes its place.
 
-3. > Единственное место, где 100 мс могли бы чувствоваться, — цветы-инструмент в быстром ритме. Но быстрый ритм — это короткие тапы, а они срабатывают на отпускании.
-   >
-   > не, при игре 100мс это уже ощутимая (и неприятная) задержка (говорю как человек выросший на софтовых эмуляторах гитарных педалек). сейчас я поиграюсь с тем, как есть, может оно и норм
+3. > погоди как это не собирались реализовывать, если под это меняли всю "схему мира"?
 
-   The operator quoted the agent's claim before answering. The agent held the
-   taps group back and offered a compromise: flowers sound on the press, the
-   rest waits for the lift.
-
-4. > проверил, текущая механика -- норм. про разбитый файл надо где-то записать, а то ты сделать сделал, а как решение не оформил
-
-   Taps stay on the press, with the review's ask declined and recorded in
-   bite-11.md. The split became a rule in `elephant.md`, a step in the
-   plan's loop, and a megabeast note.
-
-5. > > `## Eaten so far` cut to an index, one row per bite pointing at `docs/plans/<slug>/bite-<nn>.md`
-   >
-   > помимо индекса должен быть саммари того, что сделано за все куски, фиксированного размера (какого именно не уточняется, но так чтобы весь файл был не больше 400 строк) -- в конце каждого байта редактируется, а не дополняется
-
-   The rule now says this. A subagent wrote the summary (9d85db9) and the
-   agent read it.
-
-6. > по слону, пока ещё тут: разбивать нужно когда >450 до <400 -- чтобы был какой-то гистерезис, иначе агенты будут бесконечно урезать по крупицам
-
-   This went into elephant.md in a079429: split past 450,
-   down to under 400.
-
-**Asked and not answered:** the agent asked whether the mute's silent
-`localStorage` fallback, which bite-02.md says is "awaiting the operator's
-approval", may stay. The operator did not reply. It is not blocking; leave it
-as it is and keep it in the next report's open questions.
+   The agent agreed: bites 9 and 11 built the idea's left half, and the
+   summaries kept repeating the stale "out of the plan" line. It proposed,
+   and asked: **"Вписать так? Или карту поставить раньше — она от ходьбы
+   не зависит?"** — the rest as bite 13 (step forward and back, with
+   footstep sounds) and bite 14 (the map in the mute's circle, taking the
+   `localStorage` with it), Dusk and Around the canvas becoming 15 and 16.
+   **Not answered yet.**
 
 ## 3. Intent
 
-Unchanged: the whole game, built autonomously, beautiful and comfortable for
-a six-year-old boy. Each bite gets an agent review, handled by the next
+Unchanged: the whole game, built autonomously, beautiful and comfortable
+for a six-year-old boy. Each bite gets an agent review, handled by the next
 session. The Artifact stays playable after every bite. `/finalize` comes at
-the end, with no merge.
+the end, with no merge. New: the operator expects idea 1's remaining half
+(walking forward/back, the map replacing the mute) to be built.
 
 ## 4. Decisions
 
-All are in `docs/plans/mushroom-game-syama/bite-11.md` under "Decided at
-bite 11's review":
-
-- **Taps on the press.** The review asked for taps on lift. The operator
-  played the build and kept the press, since any delay is felt on the flower
-  instrument. A pan begun on something taps it, as an accepted cost.
-- **24 px slop.** The ground lags the finger by the slop, the glide uses
-  velocity from after the crossing only, ends are hard, and keys and fingers
-  add up.
-- **One world across every screen is accepted.** The sideways phone pans only
-  ~200 px, and portrait worlds are empty away from the clump.
-- **Head-share floor 72%**, measured over the opening crop and the world ends.
-- **The plan's shape** is in `.claude/skills/plan/elephant.md`: past 450
-  lines, cut to under 400, with a fixed-size summary that each bite rewrites,
-  plus an index and per-bite files.
+- **The mute's silent `localStorage` fallback is approved** («ок»,
+  bite-02.md), standing until the map replaces the button.
+- **The tail ran polish → vet → play run → frames → Artifact → `/pr`**,
+  not play run first, because polish and vet change source and the play
+  run must follow the last source commit.
+- **Play screens run one at a time**: the frame budget is a median and
+  parallel Chromium on 4 cores fails it falsely.
+- **phoneL's held-arrow check starts from the far end** (1c75aa2,
+  `scripts/lib/play-pan-keys.ts`): the opening crop leaves ~99 px to the
+  end while the ease-in needs ~105 px. The game was right; the script's
+  expectation was wrong.
 
 ## 5. Errors and dead ends
 
-- The agent's first answer on taps (a 150 ms hold) underrated the latency
-  for an instrument, and the operator corrected it. The taps group was never
-  briefed, so no code was wasted.
-- The plan split was done without being recorded as a decision until the
-  operator asked.
-- The first edit to item 11 left a sentence of the pan bullet dangling under
-  a sub-bullet. It is fixed.
+- Answering the mute question from the plan only, missing idea 1's
+  document; the operator caught it twice. Recorded in
+  `.claude/skills/megabeast/notes/contract.md`.
+- The PR agent's cleanup deleted two tracked files in `docs/pr/57/`; it
+  restored them from HEAD, and the tree is clean.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE/CLEAN.
-- Plan `docs/plans/mushroom-game-syama.paused.md` (301 lines), with the
-  index plus `docs/plans/mushroom-game-syama/`. `## Rest of the elephant`
-  opens with what is left of bite 11's review.
-- Code commits for the review: 52db783, 0330aa0, 04ca338 (pan), 678c8d8
-  (isPanning cut, play-pan expects the slop lag), fbe6c6e (head-share test),
-  cb0029d (`mushroom-room.ts` split into `standing-weighed.ts`,
-  `FLOWER_SPOTS.portrait` cut). The review threads are all answered on
-  GitHub, none resolved.
-- **Not run since the fixes:** `pnpm play:mushrooms`, `./scripts/vet.sh`,
-  `fliers.test.ts`. The Artifact is still bite 11's (version 11 of
-  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG).
-- Open defect: in visit 2193566 a chanterelle's middle sits in a 0.09 px crack
-  between its cap's and gills' hit polygons, so a tap there selects nothing
-  (recorded in bite-11.md).
-- Nothing is running: no subagents, no PR subscription. The one check-in has
-  fired.
+  MERGEABLE/CLEAN. Last pushed commit dd3503d2 (plus this relay's commit).
+- Plan `docs/plans/mushroom-game-syama.paused.md`; bite 11 and its review
+  are fully done: polish (32cb68d, 083a13d), knip/format (7af16ba),
+  type-overlap (3b6b84d), vet green (932/932 tests), play run green on all
+  five screens, frames in `docs/remove-before-merging/frames/bite-11/`
+  (32b533f), Artifact version 12 at
+  https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG, PR body refreshed.
+- Open, carried in the plan: the 0.09 px chanterelle hit-area crack (visit
+  2193566); the world-end drag check skips on tabL (nothing tappable at
+  either end of the seeded meadow); frames at the world's left end on
+  phones are sparse; clouds drift behind the controls.
+- Nothing is running: no subagents, no PR subscription, no check-ins.
 
 ## 7. Pointers
 
-- The plan and its directory, as above; `docs/remove-before-merging/handle-bite11/`
-  holds the common brief and groups.
-- `python3 scripts/export-github-item.py 57` re-exports the PR, review
-  threads T120–T127.
+- `docs/remove-before-merging/bite11-tail/common-brief.md` — the brief
+  template this session's agents ran from.
+- `docs/remove-before-merging/ideas/idea-1-walking-meadow.md` — idea 1,
+  its «Что ты решил» section and § «Кнопка звука».
 - `.claude/skills/megabeast/notes/README.md` indexes the notes.
-- The relaying session: https://claude.ai/code/session_01RWCYgtgAxej61a2Fzb8qFL
+- The relaying session: https://claude.ai/code/session_01UuJeXhkErjH7ZCown4ZshT
 
 ## 8. Next step
 
-Finish bite 11's review tail, as the plan's `## Rest of the elephant` opens:
-
-1. the play run over all five screens, fixing any red;
-2. the frames worth showing, in `docs/remove-before-merging/frames/bite-11/`;
-3. the Artifact republished at its URL;
-4. `/polish`, then `/pr`.
-
-Hand the run and frames to subagents. Then take item 12 (Rain) with `/go`
-in the same session if the budget allows, otherwise `/relay /go`. Continue
-the loop per § 1: "/relay оставь код ревью на последний кусок" after each
-bite, "/relay /handle" after each review, and "/relay finalize" at the end.
+`/go` — item 12, Rain, per the plan's `## Rest of the elephant`. The
+operator's open question on where idea 1's rest goes does not block Rain,
+which comes first in either ordering; if they answer, write the items
+into `## Rest of the elephant` as they say before or after the bite.
+Then continue the loop per § 1: "/relay оставь код ревью на последний
+кусок" after the bite.
