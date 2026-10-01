@@ -124,3 +124,13 @@
   been read with the Read tool; a shell diff does not count. Its shell
   differs from the build only by the publish wrapper and the old bundle, so
   reading lines 1–17 and 19 onward settles it.
+- **The operator's own play finds what the play run's frames miss, and
+  its fixes get measured before they are built.** Bite 12's operator,
+  playing mid-bite, saw sinking read as burying, a far flower riding up
+  and down through a straight brow as he turned, and a flat slab across
+  the hills at a few headings — none flagged by green plays. The fix
+  agent's first step was a trace, and it found the plan's description of
+  the code wrong (the sink keyed on depth along the heading, the option
+  the plan had recorded as beaten). Brief a fix from a play report as
+  "measure the cause, stop if it differs", and sweep headings in small
+  steps (720) for anything that shows "at some turns but not others".

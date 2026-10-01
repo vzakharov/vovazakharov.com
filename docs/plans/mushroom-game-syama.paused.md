@@ -526,6 +526,15 @@ departures were taken):
    vanish as the child turns toward it). Also found: a flat pale band
    across the hills at some headings — traced and fixed in the same
    package.
+   Built (3157cfb7–06a7c0b8 and the patches' landing; `brow-round.md`):
+   HEAD sank by depth along the heading, the beaten option, and from
+   `groundTop` rather than the drawn brow; now things sink by distance,
+   the brow is the `D_SEE` circle's row at each x (`browRow`), flowers
+   pale by distance. The band was Phaser's 1 px path skip dropping a hill
+   band's corner (`PATH_SKIP` in `skyline.ts`, a test through Phaser's own
+   skip). Left: at the opening on phoneL one edge flower starts partly
+   sunk (desktop: one thing 28 px) — the world frame reaches past the
+   circle near the sides; judge it in the five-screen run.
    Built (99f2007d, ca991f66, 651e48f2, db4e08e3; `brow.md`): the brow in
    `brow.ts`, a crest with clumped blades at compass headings, redrawn
    only on a turn; past `D_SEE` mushrooms pale up to 0.2 more haze
