@@ -10,7 +10,7 @@
 import type { WithId } from '@/shared/typings';
 
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
-import { enteringSide, type Onscreen, shownOf } from './flight-in';
+import { arriving, enteringSide, type Onscreen, shownOf } from './flight-in';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
@@ -91,8 +91,9 @@ export type Places = Readonly<Record<string, Point>>;
  * of perches standing too close for an insect on each (`Crowding`), so a
  * perch crowded by a taken one counts as taken; and, where the scene gives
  * them, the `places` of the perches, so a long flight takes longer than a
- * short one (`Habits`). With them, where a bee could plant a flower
- * (`Plot`).
+ * short one (`Habits`), and how far the screen shows `across` in their
+ * units, which caps a dash's speed (`dashing`). With them, where a bee
+ * could plant a flower (`Plot`).
  */
 export type Sight = Plot & {
   flowers: readonly string[];
@@ -100,7 +101,11 @@ export type Sight = Plot & {
   air: readonly string[];
   crowded: readonly Crowding[];
   places?: Places;
+  across?: number;
 };
+
+/** What of `Sight` times a leg: where the perches stand, and how far the screen shows across. */
+type Placed = Pick<Sight, 'places' | 'across'>;
 
 /**
  * The perches the meadow offers: every standing mushroom's cap, the spotted
@@ -290,12 +295,13 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
  * How a flight from `from` to `to` is timed, in times its `flying` time: 1 up
  * to a `stride`, in proportion past it up to `slowest`, and `slowest` past
  * that, where a kind that dashes (`dashing`) flies its last strides at its
- * own pace and dashes the rest, and any other simply flies faster.
+ * own pace and dashes the rest, no faster than across the screen (`across`;
+ * uncapped where it is not given), and any other simply flies faster.
  */
 function paced(
   { stride, slowest, dashing }: Habits,
   { from, to }: Pick<Leg, 'from' | 'to'>,
-  places: Places | undefined,
+  { places, across = Infinity }: Placed,
 ): Pick<Span, 'dash'> & { stretch: number } {
   const apart = apartIn(places, from, to);
   if (apart === undefined) return { stretch: 1 };
@@ -303,19 +309,25 @@ function paced(
   if (strides <= slowest || dashing === undefined) {
     return { stretch: Math.min(slowest, Math.max(1, strides)) };
   }
-  const way = 1 - ((1 - dashing) * slowest) / strides;
-  return { stretch: slowest, dash: { time: dashing, way } };
+  // The last strides at its pace, in as many strides as `flying` times.
+  const atPace = (1 - dashing) * slowest;
+  const slower = Math.max(1, (strides - atPace) / (across / stride - atPace));
+  const share = 1 - dashing + dashing * slower;
+  return {
+    stretch: slowest * share,
+    dash: { time: (dashing * slower) / share, way: 1 - atPace / strides },
+  };
 }
 
 function legTo(
   random: Random,
   habits: Habits,
   route: Pick<Leg, 'from' | 'to'>,
-  { now, places }: Timed & Pick<Sight, 'places'>,
+  { now, ...placed }: Timed & Placed,
 ): Leg {
   const { from, to } = route;
   const flown = between(random, ...habits.flying);
-  const { stretch, dash } = paced(habits, route, places);
+  const { stretch, dash } = paced(habits, route, placed);
   const arrives = now + flown * stretch;
   return {
     from,
@@ -330,9 +342,9 @@ function legTo(
 /**
  * A new insect's first flight, in from off screen to an open perch
  * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
- * one it shows while any is open there, and the insect enters by the
- * screen's edge nearer it (`flight-in.ts`); otherwise by a side its seed
- * picks.
+ * one it shows while any is open there, and the insect enters at the
+ * screen's edge nearer it and lands there soon (`flight-in.ts`); otherwise
+ * by a side its seed picks.
  */
 export function firstFlight(
   { seed, kind }: InsectSeed,
@@ -347,29 +359,27 @@ export function firstFlight(
   const choose = (among: Perches) =>
     nextPerch(random, { kind, habits }, drawn, among, taken);
   if (!onscreen) {
-    const { places } = perches;
+    const { places, across } = perches;
     const to = choose(perches);
     return {
-      leg: legTo(random, habits, { from: drawn, to }, { now, places }),
+      leg: legTo(random, habits, { from: drawn, to }, { now, places, across }),
       legs: 1,
     };
   }
   const shown = shownOf(perches, onscreen);
   const inView = choose(shown);
   const to = inView.kind === 'away' ? choose(perches) : inView;
-  const { places } = shown;
+  const { places, across } = shown;
   const side = enteringSide(onscreen, places, to, drawn.side);
   const from: Perch = { kind: 'away', side };
-  return {
-    leg: legTo(random, habits, { from, to }, { now, places }),
-    legs: 1,
-  };
+  const leg = legTo(random, habits, { from, to }, { now, places, across });
+  return { leg: to === inView ? arriving(leg) : leg, legs: 1 };
 }
 
 /** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */
 function onward(
   { seed, kind, leg, legs }: InsectSeed & Flight,
-  moment: Timed & Pick<Sight, 'places'>,
+  moment: Timed & Placed,
   choose: (random: Random, habits: Habits) => Perch,
 ): Flight {
   const random = legRandom(seed, legs);
@@ -391,8 +401,8 @@ export function nextFlight(
   now: number,
   taken: readonly Held[] = [],
 ): Flight {
-  const [{ kind }, { places }] = [insect, perches];
-  return onward(insect, { now, places }, (random, habits) =>
+  const [{ kind }, { places, across }] = [insect, perches];
+  return onward(insect, { now, places, across }, (random, habits) =>
     nextPerch(random, { kind, habits }, insect.leg.to, perches, taken),
   );
 }
@@ -404,9 +414,9 @@ export function nextFlight(
 export function flightAway(
   insect: InsectSeed & Flight,
   now: number,
-  { places }: Pick<Sight, 'places'> = {},
+  { places, across }: Placed = {},
 ): Flight {
-  return onward(insect, { now, places }, awayPerch);
+  return onward(insect, { now, places, across }, awayPerch);
 }
 
 /** Whether `perches` still offers `perch` to an insect of `kind`; `away` always is. */

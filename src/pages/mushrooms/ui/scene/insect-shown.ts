@@ -1,9 +1,11 @@
+import { pick } from '@/shared/lib/collections';
+
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import { firstSteering, type Steering } from '../../model/insect-steering';
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
-import type { Spanned } from './insect-away';
+import type { OverRow, Spanned } from './insect-away';
 import type { Flying, Look } from './insect-look';
 
 /** An insect on screen (`InsectView`): its look, and where and how it flies. */
@@ -21,12 +23,20 @@ export type Shown = TappedFigure &
      */
     from: Point;
     /**
-     * Whether its leg in from away has yet to pick the screen edge it
-     * enters by, which it does on its first frame, once its perch stands.
+     * Whether its leg in from away has yet to pick where it sets off
+     * (`entry`), which it does on its first frame, once its perch stands.
      */
     entering: boolean;
     /** The ground row, in world px, its current leg set off standing over. */
     fromRow: number;
+    /**
+     * Where a release with no open perch in view flies out of it, past the
+     * screen's side (`entry`), in `from`'s units, and the row it stands
+     * over; `undefined` once it is out, and on every other leg.
+     */
+    out: OverRow | undefined;
+    /** When the stretch of its leg drawn now set off: the leg's departure, or once it is `out`, when it flew out of view. */
+    departs: number;
     /** The ground row it was drawn standing over last frame. */
     row: number;
     /** Where its flight had it last frame, in the world. */
@@ -63,6 +73,8 @@ export function freshShown(
     from: { x: 0, y: 0 },
     entering: false,
     fromRow: row,
+    out: undefined,
+    ...pick(parts.flier.leg, 'departs'),
     row,
     at: { x: 0, y: 0 },
     offset: { x: 0, y: 0 },

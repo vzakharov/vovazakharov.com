@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { meadowLayout } from '../ui/scene/layout';
+import { type Screen, VIEWPORTS } from '../ui/scene/viewports';
 import {
   firstFlight,
   type Flight,
@@ -290,45 +292,133 @@ const placesAt = (to: Perch, kinded: InsectKind, strides: number) => {
   };
 };
 
+/** How far each of `VIEWPORTS` shows across, in butterfly sizes (`Places`), by its name. */
+const ACROSS = new Map(
+  VIEWPORTS.map(([name, width, height]) => {
+    const layout = meadowLayout(width, height, 1);
+    return [name, layout.width / layout.insectSize] as const;
+  }),
+);
+
+/** How far the screen `name` shows across. */
+const acrossOn = (name: Screen) => {
+  const across = ACROSS.get(name);
+  assert.ok(across !== undefined, name);
+  return across;
+};
+
+/**
+ * `kinded`'s leg out to the edges `apart` butterfly sizes away, on a screen
+ * `across` butterfly sizes wide, seeded `seed`.
+ */
+const legOver = (
+  kinded: InsectKind,
+  apart: number,
+  across: number,
+  seed = 3,
+) => {
+  const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
+  const places = placesAt(
+    first.leg.to,
+    kinded,
+    apart / FLIGHT_HABITS[kinded].stride,
+  );
+  const insect = { seed, kind: kinded, ...first };
+  return flightAway(insect, 0, { places, across }).leg;
+};
+
+/** How fast `leg`, `apart` butterfly sizes long, dashes, in sizes a ms. */
+const dashSpeed = ({ departs, arrives, dash }: Leg, apart: number) => {
+  assert.ok(dash);
+  return (dash.way * apart) / (dash.time * (arrives - departs));
+};
+
 describe('a flight across the screen', () => {
-  it('takes its pace to a stride, longer in proportion past it, and never past its slowest, every kind', () => {
-    for (const kinded of INSECT_KINDS) {
-      const { flying, slowest } = FLIGHT_HABITS[kinded];
-      for (const strides of [0.5, 1, (1 + slowest) / 2, slowest, 3, 40]) {
-        const stretch = Math.min(slowest, Math.max(1, strides));
-        for (const seed of SEEDS.slice(0, 20)) {
-          const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
-          const places = placesAt(first.leg.to, kinded, strides);
-          const { leg } = flightAway({ seed, kind: kinded, ...first }, 0, {
-            places,
-          });
-          const taken = leg.arrives - leg.departs;
-          assert.ok(
-            within(taken / stretch, flying),
-            `${kinded} over ${String(strides)} strides takes ${String(taken)}`,
-          );
+  it('takes its pace to a stride, longer in proportion past it, and never past its slowest up to the screen across, every kind on every screen', () => {
+    for (const [name, across] of ACROSS) {
+      for (const kinded of INSECT_KINDS) {
+        const { flying, slowest, stride, dashing } = FLIGHT_HABITS[kinded];
+        const farthest = dashing === undefined ? 40 : across / stride;
+        for (const strides of [
+          0.5,
+          1,
+          (1 + slowest) / 2,
+          slowest,
+          3,
+          farthest,
+        ]) {
+          const stretch = Math.min(slowest, Math.max(1, strides));
+          for (const seed of SEEDS.slice(0, 20)) {
+            const leg = legOver(kinded, strides * stride, across, seed);
+            const taken = leg.arrives - leg.departs;
+            assert.ok(
+              within(taken / stretch, flying),
+              `${kinded} over ${String(strides)} strides on the ${name} takes ${String(taken)}`,
+            );
+          }
         }
       }
     }
   });
 
-  it('dashes past its slowest, the rest flown at its pace, for a kind that dashes', () => {
-    for (const kinded of INSECT_KINDS) {
-      const { slowest, dashing } = FLIGHT_HABITS[kinded];
-      for (const strides of [slowest, 3, 40]) {
-        const first = firstFlight({ seed: 3, kind: kinded }, PERCHES, 0);
-        const places = placesAt(first.leg.to, kinded, strides);
-        const { dash } = flightAway({ seed: 3, kind: kinded, ...first }, 0, {
-          places,
-        }).leg;
-        if (dashing === undefined || strides <= slowest) {
-          assert.equal(dash, undefined, kinded);
-          continue;
+  it('dashes past its slowest, the rest flown at its pace, for a kind that dashes, on every screen', () => {
+    for (const [name, across] of ACROSS) {
+      for (const kinded of INSECT_KINDS) {
+        const { slowest, dashing, stride, flying } = FLIGHT_HABITS[kinded];
+        for (const strides of [slowest, 3, across / stride, 40]) {
+          const leg = legOver(kinded, strides * stride, across);
+          const { dash, departs, arrives } = leg;
+          if (dashing === undefined || strides <= slowest) {
+            assert.equal(dash, undefined, kinded);
+            continue;
+          }
+          assert.ok(dash, `${kinded} on the ${name}`);
+          const rest = (1 - dash.way) * strides;
+          assert.ok(Math.abs(rest - (1 - dashing) * slowest) < 1e-9, kinded);
+          assert.ok(
+            within(((1 - dash.time) * (arrives - departs)) / rest, flying),
+          );
+          if (strides <= across / stride) {
+            assert.ok(Math.abs(dash.time - dashing) < 1e-12, kinded);
+          }
         }
-        assert.ok(dash, kinded);
-        assert.equal(dash.time, dashing);
-        const rest = (1 - dash.way) * strides;
-        assert.ok(Math.abs(rest - (1 - dashing) * slowest) < 1e-9, kinded);
+      }
+    }
+  });
+
+  it('dashes no faster across the world than across its screen, and takes the longer for it, on every screen', () => {
+    for (const [name, across] of ACROSS) {
+      for (const kinded of INSECT_KINDS) {
+        if (FLIGHT_HABITS[kinded].dashing === undefined) continue;
+        for (const seed of SEEDS.slice(0, 20)) {
+          const screenwide = legOver(kinded, across, across, seed);
+          const fastest = dashSpeed(screenwide, across);
+          let longest = screenwide.arrives - screenwide.departs;
+          for (const apart of [1.5, 2, 3].map((n) => n * across)) {
+            const leg = legOver(kinded, apart, across, seed);
+            const { departs, arrives } = leg;
+            const speed = dashSpeed(leg, apart);
+            const at = `${kinded} on the ${name}`;
+            assert.ok(Math.abs(speed - fastest) < 1e-9 * fastest, at);
+            assert.ok(arrives - departs > longest, at);
+            longest = arrives - departs;
+          }
+        }
+      }
+    }
+  });
+
+  it("caps a phone's dash at its own width, slower than a tablet's over the same way", () => {
+    const [phone, tablet] = [acrossOn('phone'), acrossOn('tablet')];
+    assert.ok(phone < tablet);
+    for (const kinded of INSECT_KINDS) {
+      if (FLIGHT_HABITS[kinded].dashing === undefined) continue;
+      for (const seed of SEEDS.slice(0, 20)) {
+        const own = dashSpeed(legOver(kinded, phone, phone, seed), phone);
+        const onPhone = dashSpeed(legOver(kinded, tablet, phone, seed), tablet);
+        const onTablet = legOver(kinded, tablet, tablet, seed);
+        assert.ok(Math.abs(onPhone - own) < 1e-9 * own, kinded);
+        assert.ok(onPhone < dashSpeed(onTablet, tablet), kinded);
       }
     }
   });

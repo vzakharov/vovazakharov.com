@@ -15,11 +15,15 @@ export type Habits = {
    * follow it across a wide screen.
    */
   stride: number;
-  /** The most times its `flying` time any flight takes, so none drags. */
+  /**
+   * The most times its `flying` time a flight takes, so none drags — but for
+   * a dash longer than the screen shows across (`Sight`).
+   */
   slowest: number;
   /**
    * Past `slowest`, the share of its time a flight dashes before it flies its
-   * last strides at its pace; `undefined` for a kind that simply flies faster.
+   * last strides at its pace, up to as far as the screen shows across;
+   * `undefined` for a kind that simply flies faster.
    */
   dashing: number | undefined;
   /** A stay at a flower. */
@@ -50,9 +54,11 @@ export type Habits = {
  * world, twice what a tablet held sideways shows, a butterfly takes at most
  * four times as long as over a stride, flying the faster the farther it
  * goes, so crossing the world it flies no faster than it would across that
- * tablet's screen at twice a stride's time; a fly or a bee darts over most of the way and comes in to its
- * perch at its own pace, so each is a child's finger's to catch most of the
- * way.
+ * tablet's screen at twice a stride's time. A fly or a bee darts over most
+ * of the way and comes in to its perch at its own pace, so each is a child's
+ * finger's to catch most of the way; its dash is never faster than across
+ * the screen it is flying on, so a longer flight takes longer rather than
+ * darting the faster, while one no longer takes `slowest`.
  */
 export const FLIGHT_HABITS = {
   butterfly: {

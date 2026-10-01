@@ -515,6 +515,32 @@ depth's scale** — perched, at its host's drawn scale (the seat fix's
 `Host`); in flight, at the scale of the view's depth at its ground point.
 If flight scale needs 12b's plane, build the perched half here, stop, and
 report the rest as 12b's.
+Built, both halves (69d7c5f, 8cd4f07, `insect-arrive.md`): a release enters
+with its middle on the nearer edge and its first leg to a perch in view is
+cut to at most `ARRIVAL` 1500 ms (measured before: butterflies 4.3–8.8 s
+median, up to 15.3); in flight an insect's zoom blends between its two
+hosts' by the seat fix's weights, so nothing jumps at take-off or landing.
+Taken: a far insect's tap circle never shrinks under `TAP_RADIUS` (catching
+them is the child's game; caps and flowers do shrink theirs). Facing past
+the strip, a release still flies in unseen — 12b's accepted case below.
+**Re-decided, the operator's idea: a release drops in from above** («может у
+нас насекомые будут вылетать не сбоку а где-то сверху? тогда даже если она
+потом полетит "за тебя", направление будет видно»). It enters at the top
+edge of the screen, at an x between the screen's middle and its first
+perch's, and comes down to that perch within `ARRIVAL`. With no open perch
+in view it drops in at the middle and flies out by the side nearer its
+perch in the world, at its arrival pace, so the child sees which way it
+went. **Refined with the operator, told a screen row is a depth: it rises
+from behind the brow in front** («ну тогда пусть вылезает "из-за холма"
+спереди»). The release starts just past `D_SEE` along the heading, at an x
+between the screen's middle and its first perch's, so it comes up over the
+round brow as anything nearing it does, and flies in to the perch within
+`ARRIVAL`, growing by the depth scale as it nears. With no open perch in
+view it comes over the brow at the middle and flies out by the side nearer
+its perch in the world. No height is needed: the depth model draws it.
+Beaten: the side edge (half off screen, and an unseen leg's way lost), and
+the top edge (a sky row is no depth, so it needed a height of its own
+before 12b).
 **From the operator, after the relay at depth 8: «субъективно кажется что
 мухи и пчёлы стали перелетать слишком быстро».** Traced: 3ddb960 let
 insects perch anywhere in a world twice a sideways tablet's screen, and
@@ -529,6 +555,70 @@ instead, its last strides still at the kind's pace. Beaten: doubling
 distance, and mid legs slow too), and a slower pace overall (the dart is
 what a fly and a bee are). Short and mid legs keep today's timing; the
 catch tests and the arrivals' ~1.5 s first perch must hold.
+Built (f736ec2, `dash-cap.md`) as one cap for every screen, `TABLET_ACROSS`
+= 1180 / 60 ≈ 19.7 butterfly sizes (`paced` reads places in butterfly
+sizes; "≈6 units" was ground units, and the ×2.3/×2.5 were computed in the
+wrong unit — the real world-crossing gain is ×2.0–2.4). **Re-decided: the
+cap is this screen's own width** in butterfly sizes, the longest leg each
+screen allowed before 3ddb960. One tablet-wide cap left a portrait phone
+(6.5 sizes across) dashing up to ~9 screen widths a second against ~2.6
+before, and slowed a desktop (28.5 across) below what it ever had. Beaten:
+the tablet's cap everywhere (above), and the cap in screen px (places are
+already in each screen's butterfly size, which is what the eye reads).
+Built (da93055, `dash-cap.md`): `Sight.across` set by `perchSight`; every
+screen's fastest dash back to 2.5–3.1 screens a second. Left for the
+review: `across` is optional and an absent one means no cap, which only
+test fixtures rely on; `flight.ts` stands at 454 lines.
+
+**Where the relay at 13:00 on 1 Oct left it.** Done: the subagent notice
+(8bf5044, `subagent-notice.md`), the arrival and depth scale, the dash cap.
+Running when it relayed, in that session's container, pushing here: `v-near`
+(the frame budget, `v-near.md`) and `drop-in` (the rise from behind the
+brow, `drop-in.md`) — read their notes and `git log` before briefing
+anything on their files. **Open with the operator: a full turn takes 16.5 s
+of a held key** (`TURN_CRUISE` 0.38 rad/s; the heading wraps, checked), and
+behind the meadow is bare grass, so the operator turned and saw «бесконечная
+поляна», never the circle closing. Their answer decides between a faster
+turn (an acceleration while held, or a higher cruise) and something to
+see behind. Left after that: the five-screen run with frames, the phoneL
+edge flower, the review subagent and its fixes, delete this section,
+`/polish`, vet, the Artifact, `/pr`.
+
+**Decided, from the operator's turn: the meadow is half as deep, so a full
+turn is half as many screens.** The operator's complaint is the length of the
+circle, not the slide («претензии не к тому с какой скоростью движутся
+цветы-грибы, это как раз ок, а к тому какой длины ощущается "полный
+поворот"»), and the opening stays as it is («выглядит как будто ты прямо
+посреди грибочков… и это хорошо»). Measured (`tmp/fov.ts`): a circle is
+`2π · focal` px, and `focal = unit · CLUMP_DISTANCE`, so it is 7.9 screens
+on tabL, 5.2 on phoneL and 18–19 on every portrait screen (a 19° view).
+The row form fixes only `EYE_HEIGHT` (a row's scale is `(row − horizon) /
+EYE_HEIGHT` whatever the focal length); `CLUMP_DISTANCE` is free. So
+`CLUMP_DISTANCE` halves (8.64 → 4.32), `EYE_HEIGHT` stays 4.15 by its own
+derivation from the row form, and `focal` halves with it: `viewOf` at
+`OPENING_EYE` is still `project`, every screen's opening frame identical to
+the pixel, and only depth along the plane halves — the clump stands nearer
+and what is beside it comes round sooner. A circle becomes 3.9 screens on
+tabL (77° across), 2.6 on phoneL, 9–9.5 on portrait. `TURN_CRUISE` comes out
+of the slide in px, which stays (`0.38 · old focal` → 0.76 rad/s, 8.3 s a
+circle). Everything else measured along the plane follows `CLUMP_DISTANCE`
+rather than being retuned by hand: `GLADE`, `STRIDE_CRUISE` (so the clump
+nears at the same pace on screen), `V_NEAR`, the brow, the repaint queue.
+Beaten: a faster `TURN_CRUISE` alone (the circle still 7.9 screens, the
+complaint stands); a cylindrical lens over a world spread sideways (the
+spread would have to differ per screen, and the world is one); a narrower
+crop (the clump shrinks, which the operator ruled out).
+
+**Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
+ground point, not its middle.** What sinks is keyed on distance along the
+ground (the round brow's rule), and a flier's middle stands above that ground
+point, so keying the flier on its middle hid ~1% of releases for 0.15–1.0 s
+while the insect still flew in front of the brow. Beaten: leaving it (the
+child taps and sees nothing). The half-depth package carries it with the
+rest of that note: `PAST_BROW` becomes a share of `D_SEE`, a no-perch first
+leg is lengthened so its unseen part keeps cruise, a release never sets off
+past the world's end (before the first fit, or looking back past the
+opening row), then `fliers.test.ts` and the tabL / phoneP release frames.
 
 **Left, in order:**
 
