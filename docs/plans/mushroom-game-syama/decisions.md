@@ -24,11 +24,24 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   rotation or a collapsing toolbar leaves every tween running. Randomness enters the model
   only as an injected seeded generator, so every test is deterministic.
 - **Made for a six-year-old's hands.** Every target at least ~64 CSS px, one
-  finger's taps and one drag — past a 24 px slop it pans the meadow, and
-  nothing else drags — no double taps, no long presses, nothing to lose,
-  nothing to read. Every tap answers within a frame with motion and sound; anything
+  finger's taps and one drag — past a radial 24 px slop it locks its axis,
+  within 45° of horizontal turning the child on the spot and otherwise
+  stepping along the heading, and nothing else drags — no double taps,
+  nothing to lose, nothing to read. The one long press (~0.45 s inside the
+  slop) is on a flower, which a tap only plays: it opens the picker to
+  change or pull that flower, its note sounding at the press as a tap's
+  does. Every tap answers within a frame with motion and sound; anything
   tappable in the meadow does something when tapped. Tablet landscape is the
   primary layout, phone portrait the second, desktop the third.
+- **The child walks a small round world.** A heading turns through 360° and
+  wraps; steps go along it, eased, inside a glade rim the eye slides along
+  rather than stopping at. The sun, its wash and the clouds belong to
+  headings, so the sun is the compass and none is drawn; the wash lies on
+  the sky alone, and the hills are drawn live from one 360° crest, with no
+  parallax. The far edge is a horizon: a brow drawn along the projection of
+  the `D_SEE` circle round the eye, a thing beyond it sinking under it foot
+  first by its distance — so it does not ride up or down as the child
+  turns — and paling into haze as it goes.
 - **Juice is the product.** Squash and stretch on every arrival, `Back.Out`
   overshoot, a puff of particles on pop-in, idle motion everywhere (grass
   sway, mushroom breathing, drifting clouds, wing beats), depth from layered
@@ -53,9 +66,9 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   starves, dies or is lost — the meadow only ever gets fuller and livelier,
   within the caps the layout sets. These rules are the model's, so they are
   tested like the rest: a `tick` in the reducer, driven by the scene's clock.
-- **Every mushroom is a finger's target, on every screen.** The zoom never
-  falls below the floor at which the narrowest cap the genes allow is
-  `2 × TAP_RADIUS` wide, and every screen holds the same twelve
+- **A mushroom is tapped where it is drawn, on every screen.** The opening
+  zoom never falls below the floor at which the narrowest cap the genes
+  allow is `2 × TAP_RADIUS` wide, and every screen holds the same twelve
   (`MUSHROOM_SLOTS`) in one world, rather than fewer on a small one: a count
   that changed with the screen would strand a mushroom whenever a phone is
   turned. A mushroom grows clear of the controls where they stand and of the
@@ -74,11 +87,10 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   tap carries on to whatever it sits on — a mushroom is selected, a flower
   blooms — so a creature never costs the child the thing under it. An insect
   in flight takes the tap alone. Buttons stay above every insect.
-- **An insect perches only where it can be seen.** A flower is a perch only
-  while its head stands clear of the world's edge by the wingspan and no
-  nearer mushroom covers it — a pan changes neither, so sight is not
-  recomputed on one — and a released insect's first perch is on screen; the scene hands the
-  model the flowers that qualify, by id. Two insects never share a perch: a
+- **An insect perches only clear of the world's edge.** A flower is a perch
+  only while its head stands clear of the world's edge by the wingspan, and a
+  released insect's first perch is on screen; the scene hands the model the
+  flowers that qualify, by id. Two insects never share a perch: a
   leg's next perch skips any another flier sits on or is heading to, and any
   the scene marks as too close to one of those. A flier with no free perch
   roams the open air and tries again, so a butterfly is never lost for want
@@ -91,10 +103,10 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   air holds at least as many spots as all the kinds' limits together on
   every screen, so a flier leaves only by eviction, a startle or its own
   leaving.
-- **Flowers stay put.** A pan, a rotation or a growth never moves a flower,
-  so a forest mushroom may stand in front of one; such a flower is out of
-  sight by the rule above, so no insect is sent to it. Bees plant through
-  the same in-sight test. The seeded bed is placed once across the world.
+- **Flowers stay put.** A turn, a step, a rotation or a growth never moves a
+  flower, so a forest mushroom may stand in front of one. The seeded bed is
+  placed once across the world; a child may replace or pull a seeded flower
+  as a planted one, and a pulled flower leaves a tuft to plant again.
 - **A tap on fliers in the air reaches the one whose body is nearest the
   finger**, not the one drawn on top, so the child gets the one they aimed
   at.
