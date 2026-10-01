@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: 1 → **the successor is depth 2**
+Relay depth: 2 → **the successor is depth 3**
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
@@ -48,14 +48,11 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > 1 - relay, и всегда так. вроде договаривались. в какой момент "without operator involvement" исчезло с карты?
 
-New this session:
-
 > не понял почему мы вдруг заговорили по-английски
 
-**Every reply to the operator is in Russian, «ты»** — including turns
-woken by an agent's report or a check-in, which arrive in English (this
-session slipped twice). **Syama is a boy** (Салман, «Сяма»). The operator
-is Vova.
+**Every reply to the operator is in Russian, «ты»**, including turns woken
+by an agent's report, a check-in or a cross-session message, which arrive in
+English. **Syama is a boy** (Салман, «Сяма»). The operator is Vova.
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask
 the operator nothing, except where they are present and the call is about
@@ -73,97 +70,121 @@ Pass this section on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take claude/mushroom-game-syama-lbirv7`; the attach
-went clean (no stale ref). The classifier refused deleting the auto-branch
-`claude/optimistic-franklin-0ki90q`; left. The agent ran `/go`: flipped the
-plan, rewrote `brief-common.md` for worktrees, launched four agents
-(dash-cap, insect-arrive, v-near, subagent-notice), check-ins by
-`send_later`.
+Started from `/relay take`. The attach went like this: the clone was
+deepened; the stale local ref was renamed to `stale/mushroom-game-syama-e66b8e1`,
+since it had diverged; `pnpm install` ran. The session told the operator
+the turn question was open and waited on the depth-1 relaying session's two
+agents.
 
-1. Operator (mid-turn): «в дополнение к предыдущим замечаниям-вопросам,
-   субъективно кажется что мухи и пчёлы стали перелетать слишком быстро.
-   что-то менялось в методике их перемещения?» Agent: yes — 3ddb960 spread
-   perches over the world and slowed only butterflies; a fly's/bee's dash
-   keeps its leg's time so it sped up on long legs; decided a cap.
-2. Operator (screenshot from the old session, saying the "previous remarks"
-   were relay §2 items 7–8 and §4) «вот это предыдущие / с автоветкой шут с
-   ней». Agent: all three already in work.
-3. Operator: «не понял почему мы вдруг заговорили по-английски -- но может у
-   нас насекомые будут вылетать не сбоку а где-то сверху? тогда даже если
-   она потом полетит "за тебя", направление будет видно». Agent: apologised;
-   took it; warned a screen row is a depth, so the top edge reads as far.
-4. Operator: «а, ну тогда пусть вылезает "из-за холма" спереди». Agent:
-   took it (1330f5f), redirected the `drop-in` agent.
-5. Operator: «так... что-то я вращаюсь вокруг своей оси, и никогда не
-   "завершаю" круг -- просто бесконечная поляна, сколько бы ни жал. это
-   временно, или баг?» Agent (this relay's last reply): not a bug in the
-   model — the heading wraps after 16.5 s of a held key (simulated); behind
-   the meadow is bare grass, so it reads as endless; asked which they want —
-   a faster turn or something to see behind. **Unanswered at the relay.**
+The relaying session (session_01UtZKz1KhUShxyTZXbZ24vD) then forwarded the
+operator's answer to the turn question, verbatim:
+
+- «а, всё, докрутил. но это заняло аж 16 секунд; по ощущениям (как если бы
+  я был реально человеком так вращающимся, судя по движению грибо и
+  цветов) это должно было бы произойти намного раньше»
+- «то есть претензии не к тому с какой скоростью движутся цветы-грибы, это
+  как раз ок, а к тому какой длины ощущается "полный поворот"»
+- «да, точно не через трубу. выглядит как будто ты прямо посреди
+  грибочков, стартовые грибы метрах в двух-трёх, и это хорошо»
+
+The agent measured the views (`tmp/fov.ts`, not committed): 7.9 screens a
+turn on tabL, 18–19 on portrait. It decided to halve `CLUMP_DISTANCE`, which
+it claimed would keep the opening pixel-identical (aba53f0). It then
+recorded `drop-in`'s and `v-near`'s leftovers as decisions and briefed
+`half-depth`. That agent stopped at step 1: the brow became a dome and side
+flowers sank, with 10–36% of the opening's pixels changed. The agent showed
+the operator the frames, admitted its claim was wrong, and offered four
+options, recommending a 0.7 cut.
+
+1. Operator: «не, это конечно выглядит не айс 🙂 а что нужно бы было
+   сделать чтобы сохранив текущую округлость горизонта, но сделать меньше
+   поворотов? законы оптики? :)» / «как-то в компьютерных играх-стрелялках
+   ж это работает?» Agent: a shooter's horizon is at infinity, so it stays
+   straight at any view. Ours is a near circle, which dips harder as the
+   view widens. Games with a round horizon (Animal Crossing) render wide
+   with a straight horizon and then bend the screen by a fixed curve. It
+   proposed a panoramic lens (linear in azimuth, rows by distance) plus
+   today's brow curve as a screen-space bend, probe first. It asked:
+   «Делаю?»
+2. Operator: «да, и 4 экрана как раз кажется правильным "ощущением", сейчас
+   проверил, грубо говоря если мы смотрим на "север", то каждый "экран"
+   направо это поворот: восток-юг-запад-опять север / про пробу -- ок».
+   Agent: wrote the decision (bac7c5a) and briefed `lens-probe`. The probe
+   landed (147a6c6) and its four frame pairs were sent to the operator.
+   **The operator has not yet answered on the probe.** The agent then
+   relayed, at ~200k of context.
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable
 for a six-year-old boy; each bite reviewed by a subagent and its findings
 fixed; the Artifact playable after every bite; `/finalize` at the end, no
-merge. Bite 12: the child really walks; its tail is under way.
+merge. Bite 12: the child really walks, and now a full turn feels like a
+person's — **4 screens on tabL, one screen per compass quarter**. The
+opening stays as it is (the clump, the round brow).
 
-## 4. Decisions (all in the plan's `## Rest of the bite`)
+## 4. Decisions (all in the plan, just before `**Left, in order:**`)
 
-- **A fly's or bee's dash is capped at its own screen's width** in
-  butterfly sizes (`Sight.across`). Beaten: one tablet-wide cap (phones 3×
-  too fast, desktop slower than ever), doubling `slowest`. Built da93055.
-- **A release lands within `ARRIVAL` 1500 ms; insects are drawn at their
-  depth's scale** (blended between hosts in flight). Built 69d7c5f,
-  8cd4f07. A far insect's tap circle never shrinks under `TAP_RADIUS`.
-- **A release rises from behind the brow in front** (operator's idea),
-  at an x between the screen's middle and its perch; with no perch in view
-  it comes over the brow at the middle and flies out by the side nearer
-  its perch. Beaten: the side edge, the top edge (a sky row is no depth).
-  Being built by `drop-in`.
-- **Subagent context notice** at 170k from the agent's own transcript
-  (`<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`);
-  fired live once, worked. Built 8bf5044.
+- **A panoramic lens with a bent screen.** Across, the screen is linear in
+  azimuth. Rows go by distance, so the `D_SEE` circle is one row and every
+  row is turn-invariant. The whole ground is then bent by today's brow curve
+  (`hypot(1, dx / focal)` at today's focal). The meadow's angles widen by
+  one factor (`SPREAD` 1.9617), giving 4 screens a turn on tabL; the other
+  screens take whatever that factor gives them. The slide in px stays.
+  - Beaten: the half-depth pinhole (a dome, side flowers sunk); a smaller
+    cut; a straight brow (a far flower vanishes as you turn toward it); a
+    brow drawn at the old focal over a wide pinhole (sinking things ride up
+    and down as the child turns).
+- **"Half depth" is the beaten attempt.** `half-depth.patch` is kept only as
+  a reference for which constants follow `CLUMP_DISTANCE`. Its rule that
+  plane constants follow `CLUMP_DISTANCE` rather than literals still holds
+  in spirit.
+- **A flier sinks under the brow by its ground point**, not its middle. This
+  fixes ~1% of releases that were hidden while in front of the brow.
+- **An insect is culled by its own drawn extent**, not by `V_NEAR`.
+- **`V_NEAR = 0.58 · CLUMP_DISTANCE`** (2c1ed70, by `v-near`). Its ceiling of
+  0.613 needs re-measuring after the lens changes.
+- **The release rises over the brow in front** (d290cd0, by `drop-in`).
+  Leftovers in `drop-in.md`: `PAST_BROW` as a share of `D_SEE`, the no-perch
+  first leg lengthened, no release past the world's end.
 
 ## 5. Errors and dead ends
 
-- The orchestrator wrote the dash cap as "≈6 world units"; the model reads
-  butterfly sizes. The agent caught it; the plan carries the correction.
-- Two replies went out in English after agent reports; the operator
-  noticed.
+- **The agent promised the operator a pixel-identical opening for half
+  depth, and it was wrong.** It checked one projection, not the brow, which
+  is a circle of plane distance. The operator saw the dome. The lesson is in
+  megabeast `quality.md` (last entry): a geometry call goes through a frame
+  probe before a build is briefed.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  **`CONFLICTING`** at the relay (reported, not fixed — `/finalize`'s job).
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
+  **`CONFLICTING`** (reported, not fixed — `/finalize`'s job).
 - Plan `docs/plans/mushroom-game-syama.paused.md`.
-- **Two agents still running in the relaying session's container**, pushing
-  to the branch: `v-near` (raising `V_NEAR` until the forest walk holds
-  26 ms; was measuring 2, 4, 5) and `drop-in`. Their hand-over notes
-  `docs/remove-before-merging/bite-12/v-near.md` and `drop-in.md` say
-  what landed; `git log` shows their commits. Do not re-brief their files
-  until their notes say "Left: nothing" or they go quiet for ~30 min.
-- A `send_later` check-in fires into the relaying session at 13:01; it
-  will see the agents through. No PR subscription.
-- The Artifact has not been republished this session.
+- No agent is running, here or in the depth-1 session (both reported). No
+  PR subscription, no scheduled check-in from this session.
+- The Artifact has not been republished this bite.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/`: `brief-common.md` (worktrees),
-  `dash-cap.md`, `insect-arrive.md`, `subagent-notice.md`, `v-near.md`,
-  `drop-in.md`, `play-final.md` (the five-screen run).
-- `.claude/context-budget/` (the subagent notice).
-- `src/pages/mushrooms/model/pan.ts` `TURN_CRUISE`, `model/walk.ts` (the
-  turn question).
-- The relaying session: https://claude.ai/code/session_01UtZKz1KhUShxyTZXbZ24vD
+- `docs/remove-before-merging/bite-12/lens-probe.md` and `lens-probe.patch`:
+  the probe, its numbers, and what a real build must change.
+- `docs/remove-before-merging/frames/bite-12/lens-probe-*.png`: the frames
+  the operator was shown.
+- `docs/remove-before-merging/bite-12/half-depth.md` and `.patch`; also
+  `drop-in.md`, `v-near.md`, `brief-common.md`.
+- This session: https://claude.ai/code/session_01Hsurffgkik4M4cmidrfK6B
 
 ## 8. Next step
 
-First, the operator's open question on turning (§2 item 5): when they
-answer, write the call into the plan and brief it. Then `/go` — continue
-bite 12 from the plan's «Where the relay at 13:00 on 1 Oct left it»: once
-`v-near` and `drop-in` have landed, the five-screen run with frames (incl.
-a release on tabL and phoneP, and a walk toward a perched butterfly), the
-phoneL edge flower; the review subagent and its fixes; delete
-`## Rest of the bite`; `/polish`, vet, the Artifact republished, `/pr`.
-Then 12b per the plan.
+**Wait for the operator's verdict on the lens probe**, the one open thing.
+If it is a yes (or anything short of a no), brief the lens build
+("on a yes, that build is the next package" in the plan): spread the ground
+itself (`planeOf`/`ofLayout`) rather than inside `viewOf`, the inverse
+projections and taps, the insects, the tests. Then the half-depth package's
+carried items, re-measured under the new lens: the fliers' ground-point
+sink, `PAST_BROW`, the no-perch leg, the world's-end release, the insect
+cull, and `V_NEAR`'s ceiling. Then continue bite 12 from the plan's
+«Where the relay at 13:00 on 1 Oct left it»: the five-screen run with
+frames, the phoneL edge flower, the review subagent and its fixes, delete
+`## Rest of the bite`, `/polish`, vet, the Artifact, `/pr`. Then 12b.
