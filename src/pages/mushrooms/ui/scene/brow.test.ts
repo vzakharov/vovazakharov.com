@@ -55,12 +55,12 @@ describe('the brow', () => {
         assert.ok(Math.max(...gaps) < reach * 3, `${heading}`);
       }
       // Each blade's distance from the one before it, in CSS px at the screen's middle.
-      const { focal } = pinholeOf(camera);
+      const { arc } = pinholeOf(camera);
       const gaps = blades
         .slice(1)
         .map(
           ({ azimuth }, index) =>
-            (azimuth - (blades[index]?.azimuth ?? azimuth)) * focal,
+            (azimuth - (blades[index]?.azimuth ?? azimuth)) * arc,
         );
       const close = gaps.filter(
         (gap) => gap < Math.max(reach * 0.3, 2.1),

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
+import { OPENING_EYE, pinholeOf } from '../../model/ground';
 import { haloReach, litSkyAt, skyAt } from './backdrop-tones';
 import { meadowLayout } from './layout';
 import {
@@ -22,7 +22,7 @@ import { VIEWPORTS } from './viewports';
 function cloudsShown(view: View, clouds: readonly Cloud[], t: number): number {
   return clouds.filter((cloud) => {
     const x = screenAt(view, driftedAzimuth(cloud, t));
-    return x !== undefined && x >= 0 && x <= view.width;
+    return x >= 0 && x <= view.width;
   }).length;
 }
 
@@ -34,16 +34,14 @@ describe('the panorama', () => {
 
     it(`shows the sun and the opening clouds where the opening screen always has, on a ${name} screen`, () => {
       assert.ok(
-        Math.abs(
-          (screenAt(opening, azimuthAt(camera, sun.x)) ?? Number.NaN) - sun.x,
-        ) < 1e-9,
+        Math.abs(screenAt(opening, azimuthAt(camera, sun.x)) - sun.x) < 1e-9,
       );
-      assert.ok(Math.abs(shiftOf(opening, sun.x) ?? Number.NaN) < 1e-9);
+      assert.ok(Math.abs(shiftOf(opening, sun.x)) < 1e-9);
       for (const [index, across] of [0.16, 0.5, 0.68].entries()) {
         const cloud = clouds[index];
         assert.ok(cloud);
         const x = screenAt(opening, driftedAzimuth(cloud, 0));
-        assert.ok(Math.abs((x ?? Number.NaN) - width * across) < 1e-9);
+        assert.ok(Math.abs(x - width * across) < 1e-9);
       }
     });
 
@@ -77,12 +75,16 @@ describe('the panorama', () => {
       assert.ok(Math.abs((opened ?? Number.NaN) - home.left) < 1e-9);
       const turned = viewAt(camera, { ...OPENING_EYE, heading: -0.05 });
       const sunAt = screenAt(turned, azimuthAt(camera, sun.x));
-      assert.ok(sunAt !== undefined);
       const left = placedLeft(turned, sun.x, home);
       assert.ok(
         Math.abs((left ?? Number.NaN) - (home.left + sunAt - sun.x)) < 1e-9,
       );
-      const away = viewAt(camera, { ...OPENING_EYE, heading: 1.2 });
+      // Turned right by a screen and the picture's width, the picture is
+      // past the screen's left edge.
+      const away = viewAt(camera, {
+        ...OPENING_EYE,
+        heading: (width + home.across) / pinholeOf(camera).arc,
+      });
       assert.equal(placedLeft(away, sun.x, home), undefined);
       const behind = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
       assert.equal(placedLeft(behind, sun.x, home), undefined);
@@ -99,9 +101,10 @@ describe('the panorama', () => {
 
     it(`carries the sun off the screen and back over a full turn, on a ${name} screen`, () => {
       const half = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
-      assert.equal(shiftOf(half, sun.x), undefined);
+      const away = screenAt(half, azimuthAt(camera, sun.x));
+      assert.ok(away < -sun.r || away > width + sun.r, String(away));
       const full = viewAt(camera, { ...OPENING_EYE, heading: Math.PI * 2 });
-      assert.ok(Math.abs(shiftOf(full, sun.x) ?? Number.NaN) < 1e-6);
+      assert.ok(Math.abs(shiftOf(full, sun.x)) < 1e-6);
     });
   }
 

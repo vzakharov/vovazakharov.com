@@ -347,8 +347,8 @@ function turn({ columns, home, offsets }: Turning, view: View, at: number) {
 
 /**
  * Moves `backdrop`'s clouds to where they have drifted round the sky by its
- * `drifted`, as its `view` shows them: a cloud behind the eye, or past the
- * screen's edges by more than it spreads, is hidden.
+ * `drifted`, as its `view` shows them: a cloud past the screen's edges by
+ * more than it spreads is hidden.
  */
 function placeClouds(
   { clouds: drawn, view, drifted }: Backdrop,
@@ -359,7 +359,7 @@ function placeClouds(
     if (!cloud) continue;
     const x = screenAt(view, driftedAzimuth(cloud, drifted));
     const spread = cloud.r * CLOUD_SPREAD;
-    const shown = x !== undefined && x > -spread && x < width + spread;
+    const shown = x > -spread && x < width + spread;
     graphics.setVisible(shown);
     if (shown) graphics.x = x;
   }

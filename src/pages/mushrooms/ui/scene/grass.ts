@@ -87,9 +87,9 @@ export type SeamTuft = Tuft & Azimuthed;
 export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
   const { height, groundTop, camera } = layout;
   const seam = seamCrest(layout);
-  const { focal } = pinholeOf(camera);
+  const { arc } = pinholeOf(camera);
   const depth = height - groundTop;
-  const round = Math.PI * 2 * focal;
+  const round = Math.PI * 2 * arc;
   const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
   // One to each even share of the circle, anywhere in it.
   const share = (Math.PI * 2) / count;
@@ -98,7 +98,7 @@ export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
     const below =
       SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
     const y = seam(azimuth) + depth * below;
-    return { ...tuftOn(layout, focal * azimuth, y, random), azimuth };
+    return { ...tuftOn(layout, arc * azimuth, y, random), azimuth };
   });
 }
 
@@ -108,9 +108,7 @@ export const BLADE_OVERHANG = 3;
 /** The tufts of `seam` that `view`'s screen shows, each where it stands across it. */
 export function seamShown(view: View, seam: readonly SeamTuft[]): Tuft[] {
   return seam.flatMap((tuft) => {
-    const x = screenAt(view, tuft.azimuth);
-    if (x === undefined) return [];
-    const shown = { ...tuft, x };
+    const shown = { ...tuft, x: screenAt(view, tuft.azimuth) };
     return onScreen(view, shown, -BLADE_OVERHANG * tuft.size) ? [shown] : [];
   });
 }

@@ -205,40 +205,102 @@ export type Eye = Point & { heading: number };
 export const OPENING_EYE: Eye = { x: 0, y: 0, heading: 0 };
 
 /**
- * A ground point on the plane the eye walks: `x` across as it is, `y` its
- * true distance ahead of `OPENING_EYE`, of which `z` is a warped measure.
+ * How many times wider the meadow's angles round `OPENING_EYE` stand on the
+ * plane than the opening crop's pinhole sees them: the plane is the layout's
+ * ground spread round the opening eye by this, every point kept at its
+ * distance, so the screen, linear in azimuth at `focal / SPREAD` px to the
+ * radian, still shows the opening crop's middle as the pinhole did and a
+ * full turn of the heading spans four screens of a sideways tablet (1180 px
+ * across at a unit of 170.56). One factor for the one world; every other
+ * screen turns in its own count of screens.
  */
-export function planeOf({ x, z }: Ground): Point {
-  return { x, y: CLUMP_DISTANCE / scaleAt(z) };
-}
+export const SPREAD = (2 * Math.PI * 170.56 * CLUMP_DISTANCE) / (4 * 1180);
 
 /**
- * The pinhole `camera` is, in CSS px: `focal`, its focal length, and the
- * screen point straight ahead on the horizon (`x` the screen's middle, `y`
- * the horizon's row).
+ * `point`, as the opening crop's pinhole sees the ground round
+ * `OPENING_EYE`, on the plane the eye walks: its azimuth from the opening
+ * heading `SPREAD` times as wide, its distance kept.
  */
-export type Pinhole = Point & { focal: number };
-
-export function pinholeOf({ width, groundTop, ground, unit }: Camera): Pinhole {
+export function spread(point: Point): Point {
+  const distance = Math.hypot(point.x, point.y);
+  const azimuth = SPREAD * Math.atan2(point.x, point.y);
   return {
-    x: width / 2,
-    y: groundTop + ground * HORIZON_DOWN,
-    focal: unit * CLUMP_DISTANCE,
+    x: distance * Math.sin(azimuth),
+    y: distance * Math.cos(azimuth),
   };
 }
 
 /**
+ * `spread` run backwards: a plane point as the opening crop's pinhole sees
+ * it. A point turned more than `SPREAD` half-turns from the opening heading
+ * has none there, and comes back at or behind the opening eye (`y` ≤ 0).
+ */
+export function gathered(point: Point): Point {
+  const distance = Math.hypot(point.x, point.y);
+  const azimuth = Math.atan2(point.x, point.y) / SPREAD;
+  return {
+    x: distance * Math.sin(azimuth),
+    y: distance * Math.cos(azimuth),
+  };
+}
+
+/**
+ * A ground point on the plane the eye walks: as the opening crop's pinhole
+ * stands it, `x` across as it is and `y` its true distance ahead of
+ * `OPENING_EYE`, of which `z` is a warped measure, then `spread`.
+ */
+export function planeOf({ x, z }: Ground): Point {
+  return spread({ x, y: CLUMP_DISTANCE / scaleAt(z) });
+}
+
+/**
+ * The lens `camera` is, in CSS px: the screen point straight ahead on the
+ * horizon (`x` the screen's middle, `y` the horizon's row); `focal`, the
+ * opening crop's pinhole's focal length, which the ground's bend and a
+ * distance's scale are measured in; and `arc`, the px across the screen to a
+ * radian of the plane's azimuth.
+ */
+export type Pinhole = Point & Record<'focal' | 'arc', number>;
+
+export function pinholeOf({ width, groundTop, ground, unit }: Camera): Pinhole {
+  const focal = unit * CLUMP_DISTANCE;
+  return {
+    x: width / 2,
+    y: groundTop + ground * HORIZON_DOWN,
+    focal,
+    arc: focal / SPREAD,
+  };
+}
+
+/** `angle` wrapped into `[−π, π)`. */
+function wrapped(angle: number): number {
+  return angle - 2 * Math.PI * Math.floor((angle + Math.PI) / (2 * Math.PI));
+}
+
+/**
+ * How much the screen bends the ground down at `x` across it: the ground's
+ * rows go by distance from the eye, so a circle round it is a straight row,
+ * and below the horizon every row is drawn this many times as far down at
+ * `x` as at the middle, a fixed curve on the screen, the opening crop's
+ * pinhole's own for the circle of the clump's distance.
+ */
+export function bendAt(pinhole: Pinhole, x: number): number {
+  return Math.hypot(1, (x - pinhole.x) / pinhole.focal);
+}
+
+/**
  * A plane point as an eye sees it: where on the screen, in CSS px, how big
- * one of the clump's size stands there, and `ahead`, how far ahead of the eye
- * along its heading it stands, in the clump's size: behind the eye at 0 and
- * under.
+ * one of the clump's size stands there, and `ahead`, its distance from the
+ * eye less the screen's bend there, in the clump's size, the distance a
+ * thing of its drawn size stands at the screen's middle.
  */
 export type Viewed = Point & Scaling & { ahead: number };
 
 /**
  * Where `camera` shows `point` on the plane, `height` above it in the clump's
- * size, to `eye`. Meaningless for a point not ahead of the eye (`ahead` ≤ 0),
- * which is the caller's to cull.
+ * size, to `eye`: across by its azimuth off the heading the shorter way
+ * round, `arc` px to the radian, so a thing behind the eye stands off the
+ * screen's side; down by its distance, bent (`bendAt`).
  */
 export function viewOf(
   camera: Camera,
@@ -249,16 +311,47 @@ export function viewOf(
   const pinhole = pinholeOf(camera);
   const dx = point.x - eye.x;
   const dy = point.y - eye.y;
-  const cos = Math.cos(eye.heading);
-  const sin = Math.sin(eye.heading);
-  const across = dx * cos - dy * sin;
-  const ahead = dx * sin + dy * cos;
-  const scale = pinhole.focal / ahead;
+  const distance = Math.hypot(dx, dy);
+  const x = pinhole.x + pinhole.arc * wrapped(Math.atan2(dx, dy) - eye.heading);
+  const bend = bendAt(pinhole, x);
+  const scale = (pinhole.focal * bend) / distance;
   return {
-    x: pinhole.x + across * scale,
+    x,
     y: pinhole.y + (EYE_HEIGHT - height) * scale,
     scale,
-    ahead,
+    ahead: distance / bend,
+  };
+}
+
+/**
+ * `viewOf` run backwards for the ground: the plane point `eye` sees under
+ * `screen`, in CSS px; none at or above the horizon.
+ */
+export function planeSeen(
+  camera: Camera,
+  eye: Eye,
+  screen: Point,
+): Point | undefined {
+  const pinhole = pinholeOf(camera);
+  const below = screen.y - pinhole.y;
+  if (below <= 0) return undefined;
+  const distance =
+    (pinhole.focal * bendAt(pinhole, screen.x) * EYE_HEIGHT) / below;
+  return alongSight(camera, eye, screen.x, distance);
+}
+
+/** The plane point `distance` from `eye` along the azimuth it sees at `x` across `camera`'s screen. */
+export function alongSight(
+  camera: Camera,
+  eye: Eye,
+  x: number,
+  distance: number,
+): Point {
+  const pinhole = pinholeOf(camera);
+  const azimuth = eye.heading + (x - pinhole.x) / pinhole.arc;
+  return {
+    x: eye.x + distance * Math.sin(azimuth),
+    y: eye.y + distance * Math.cos(azimuth),
   };
 }
 

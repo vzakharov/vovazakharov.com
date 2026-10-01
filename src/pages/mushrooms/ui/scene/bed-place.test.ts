@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
-import { type Ground, OPENING_EYE, zAt } from '../../model/ground';
+import { type Ground, OPENING_EYE, pinholeOf, zAt } from '../../model/ground';
 import { bedPlace, depthOf } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
@@ -50,9 +50,20 @@ describe('a bed object at the opening eye', () => {
             assert.ok(place.y >= browRow(view, place.x) - 1e-6, where);
             continue;
           }
-          assert.ok(Math.abs(place.x - (at.x - left)) < SAME_PX, where);
-          assert.ok(Math.abs(place.y - at.y) < SAME_PX, where);
-          assert.ok(Math.abs(place.zoom - 1) < 1e-6, where);
+          // The lens shows the layout's ground at the azimuth the opening
+          // crop's pinhole sees it at, its row bent as the brow is.
+          const { x: middle, y: horizon, focal } = pinholeOf(view);
+          const azimuth = Math.atan((at.x - left - middle) / focal);
+          const bend = Math.cos(azimuth) * Math.hypot(1, azimuth);
+          assert.ok(
+            Math.abs(place.x - (middle + focal * azimuth)) < SAME_PX,
+            where,
+          );
+          assert.ok(
+            Math.abs(place.y - (horizon + (at.y - horizon) * bend)) < SAME_PX,
+            where,
+          );
+          assert.ok(Math.abs(place.zoom - bend) < 1e-6, where);
           assert.equal(place.depth, place.y, where);
           assert.ok(place.drawn, where);
           assert.equal(place.behind, false, where);

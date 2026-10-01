@@ -6,7 +6,7 @@ import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
-import { azimuthAt, crestAcross, screenAt } from './panorama';
+import { azimuthAt, crestAcross, crestAt, screenAt } from './panorama';
 import { PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import {
@@ -23,8 +23,13 @@ import { VIEWPORTS, VISITS } from './viewports';
 /** How many points across a disc its showing share is measured at. */
 const SUN_GRID = 40;
 
-/** The share of `disc` above `skyline`, a line of points left to right. */
+/**
+ * The share of `disc` above `skyline`, a line of points left to right, of
+ * the part of the disc over the line's run: past either end nothing is
+ * drawn to hide it.
+ */
 function shownAbove(disc: Circle, skyline: readonly Point[]): number {
+  const [first, last] = [skyline[0]?.x ?? 0, skyline.at(-1)?.x ?? 0];
   const lineAt = (x: number) => {
     const next = skyline.findIndex((point) => point.x >= x);
     const right = skyline[Math.max(next, 1)] ?? { x, y: Infinity };
@@ -39,6 +44,7 @@ function shownAbove(disc: Circle, skyline: readonly Point[]): number {
       const x = disc.x + disc.r * ((2 * column) / SUN_GRID - 1);
       const y = disc.y + disc.r * ((2 * row) / SUN_GRID - 1);
       if (Math.hypot(x - disc.x, y - disc.y) > disc.r) continue;
+      if (x < first || x > last) continue;
       inside++;
       if (y < lineAt(x)) shown++;
     }
@@ -152,7 +158,7 @@ describe('the sun', () => {
           const view = viewAt(camera, { ...OPENING_EYE, heading });
           const x = screenAt(view, azimuthAt(camera, sun.x));
           // Only a sun whose rays reach onto the screen meets the hills drawn across it.
-          if (x === undefined || x + rays.r < 0 || x - rays.r > width) continue;
+          if (x + rays.r < 0 || x - rays.r > width) continue;
           const at = `visit ${String(seed)}, heading ${heading.toFixed(2)}`;
           for (const crest of crests) {
             assert.equal(
@@ -198,8 +204,12 @@ describe('the sun', () => {
           const at = `visit ${String(seed)}, heading ${heading.toFixed(2)}`;
           for (const [index, point] of line.slice(1).entries()) {
             const before = line[index] ?? point;
+            // Two samples may straddle a ripple of the rolling crest at one
+            // height; a level run stays at it between them too.
+            const between = crestAt(crest, view, (before.x + point.x) / 2);
             assert.ok(
-              Math.abs(point.y - before.y) > 1e-6,
+              Math.abs(point.y - before.y) > 1e-6 ||
+                Math.abs(between - point.y) > 1e-6,
               `${at}: level at x ${point.x.toFixed(0)}`,
             );
             assert.ok(point.y < layout.nearHills, `${at}: sky`);

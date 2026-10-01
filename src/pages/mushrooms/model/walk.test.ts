@@ -177,9 +177,7 @@ describe('a drag on the walk', () => {
         const seen = viewOf(camera, eye, under, 0);
         assert.ok(Math.abs(seen.x - x) < 1e-6, `${name} at ${x}: ${seen.x}`);
         // And the angle formula itself, from the crossing.
-        const { x: cx, focal } = pinholeOf(camera);
-        const want =
-          Math.atan((crossing.x - cx) / focal) - Math.atan((x - cx) / focal);
+        const want = (crossing.x - x) / pinholeOf(camera).arc;
         assert.ok(turnedBy(want, eye.heading) < 1e-9, `${name} formula`);
       }
     }

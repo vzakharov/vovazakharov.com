@@ -3,7 +3,8 @@
  * wash, the clouds and the hills all stand at infinity, so a turn slides them
  * across the screen and a step moves none of them. An azimuth is measured as
  * the eye's heading is, from the plane's `+y` toward its `+x`; the screen
- * shows azimuth `α` at `cx + F·tan(α − heading)` (`pinholeOf`).
+ * shows azimuth `α` at `cx + arc·(α − heading)`, the shorter way round
+ * (`pinholeOf`).
  */
 
 import { type Circle, type Point, sample } from '../../model/geometry';
@@ -52,15 +53,15 @@ function hermite(
  * so it joins itself. Its value at each azimuth, from −1 to 1.
  */
 export function ringWave(camera: Camera, rate: number, phase: number): Crest {
-  const { x: middle, focal } = pinholeOf(camera);
-  const from = Math.atan(-middle / focal);
-  const to = Math.atan((camera.width - middle) / focal);
+  const { x: middle, arc } = pinholeOf(camera);
+  const from = -middle / arc;
+  const to = (camera.width - middle) / arc;
   const behind = TURN - (to - from);
-  const across = (azimuth: number) => rate * focal * Math.tan(azimuth);
-  const pace = (azimuth: number) => (rate * focal) / Math.cos(azimuth) ** 2;
+  const across = (azimuth: number) => rate * arc * azimuth;
+  const pace = (_azimuth: number) => rate * arc;
   const turns = Math.max(
     1,
-    Math.round((across(to) - across(from) + rate * focal * behind) / TURN),
+    Math.round((across(to) - across(from) + rate * arc * behind) / TURN),
   );
   const [leaving, back] = [across(to), across(from) + turns * TURN];
   const [out, into] = [pace(to) * behind, pace(from) * behind];
@@ -94,61 +95,56 @@ export function crestAcross(
 
 /** How far down `view`'s screen `crest` stands at `x` across it, in CSS px. */
 export function crestAt(crest: Crest, view: View, x: number): number {
-  const { x: middle, focal } = pinholeOf(view);
-  return crest(view.eye.heading + Math.atan((x - middle) / focal));
+  const { x: middle, arc } = pinholeOf(view);
+  return crest(view.eye.heading + (x - middle) / arc);
 }
 
 /** The azimuth the opening eye, looking along heading 0, sees `x` across `camera`'s screen at. */
 export function azimuthAt(camera: Camera, x: number): number {
-  const { x: middle, focal } = pinholeOf(camera);
-  return Math.atan((x - middle) / focal);
+  const { x: middle, arc } = pinholeOf(camera);
+  return (x - middle) / arc;
 }
 
 /**
- * Where across the screen `view` shows `azimuth`, in CSS px; `undefined`
- * where it lies behind the eye, a quarter turn or more off the heading.
+ * Where across the screen `view` shows `azimuth`, in CSS px, the shorter way
+ * round from the heading: behind the eye is off the screen's side.
  */
-export function screenAt(view: View, azimuth: number): number | undefined {
+export function screenAt(view: View, azimuth: number): number {
   const off = wrapAngle(azimuth - view.eye.heading);
-  if (Math.abs(off) >= Math.PI / 2) return undefined;
-  const { x, focal } = pinholeOf(view);
-  return x + focal * Math.tan(off);
+  const { x, arc } = pinholeOf(view);
+  return x + arc * off;
 }
 
 /** The azimuths `view`'s screen shows, from its left edge to its right. */
 export function shownAzimuths(view: View): { from: number; to: number } {
-  const { x, focal } = pinholeOf(view);
+  const { x, arc } = pinholeOf(view);
   const { heading } = view.eye;
   return {
-    from: heading + Math.atan(-x / focal),
-    to: heading + Math.atan((view.width - x) / focal),
+    from: heading - x / arc,
+    to: heading + (view.width - x) / arc,
   };
 }
 
 /**
  * How far across the screen `view` moves what was laid out round `at`, in
  * CSS px across the opening screen: a picture baked about the sun is drawn
- * this far over from where it was baked. `undefined` where `at` is behind the
- * eye, so the picture is hidden.
+ * this far over from where it was baked.
  */
-export function shiftOf(view: View, at: number): number | undefined {
-  const x = screenAt(view, azimuthAt(view, at));
-  return x === undefined ? undefined : x - at;
+export function shiftOf(view: View, at: number): number {
+  return screenAt(view, azimuthAt(view, at)) - at;
 }
 
 /**
  * Where `view` draws the left edge of a picture baked over `home`, across the
  * opening screen, round the opening x `at`, in CSS px; `undefined` where it is
- * hidden, behind the eye or wholly off the screen.
+ * wholly off the screen.
  */
 export function placedLeft(
   view: View,
   at: number,
   home: Span,
 ): number | undefined {
-  const shift = shiftOf(view, at);
-  if (shift === undefined) return undefined;
-  const left = home.left + shift;
+  const left = home.left + shiftOf(view, at);
   return left < view.width && left + home.across > 0 ? left : undefined;
 }
 
@@ -181,30 +177,43 @@ const CLOUD_ROWS = [0.08, 0.24] as const;
 const CLOUD_SIZES = [0.045, 0.06] as const;
 
 /**
+ * How far round the sky from its leader, in radians, each of a lane's other
+ * clouds stands, for a screen `shown` radians wide: the two beside the
+ * leader a whole screen off it, so wherever on the opening screen the leader
+ * stands neither is on it, and the rest evenly between, no gap wider than
+ * the screen.
+ */
+function laneOffsets(shown: number): number[] {
+  const beside = Math.min(shown, TURN / 2);
+  const inner = Math.ceil(TURN / beside - 2);
+  const pace = inner > 0 ? (TURN - 2 * beside) / inner : 0;
+  return Array.from({ length: inner + 1 }, (_, index) => beside + index * pace);
+}
+
+/**
  * The sky's clouds: the opening screen's three where it has always shown
- * them, each leading a lane evenly round the sky that drifts together at
- * the leader's pace, the lane's clouds no farther apart than the screen is
- * wide in azimuth. So whatever the heading and however long the visit, every
- * lane has a cloud on the screen, and the screen shows at least the three
- * the visit opened on. A lane's others stand as high and as large as the
- * opening three run, from `CLOUD_SEED`.
+ * them, each leading a lane round the sky that drifts together at the
+ * leader's pace (`laneOffsets`), the lane's clouds no farther apart than the
+ * screen is wide in azimuth. So whatever the heading and however long the
+ * visit, every lane has a cloud on the screen, and the opening screen shows
+ * the three the visit opened on and no other. A lane's others stand as high
+ * and as large as the opening three run, from `CLOUD_SEED`.
  */
 export function skyClouds(camera: Camera): Cloud[] {
   const { width, height } = camera;
   const short = Math.min(width, height);
-  const { focal } = pinholeOf(camera);
+  const { arc } = pinholeOf(camera);
   const random = mulberry32(CLOUD_SEED);
-  const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
-  const lane = Math.ceil(TURN / shown);
+  const offsets = laneOffsets(azimuthAt(camera, width) - azimuthAt(camera, 0));
   const leaders = OPENING_CLOUDS.map(([across, down, size, speed]) => ({
     azimuth: azimuthAt(camera, width * across),
-    drift: speed / focal,
+    drift: speed / arc,
     y: height * down,
     r: short * size,
   }));
   const followers = leaders.flatMap(({ azimuth, drift }) =>
-    Array.from({ length: lane - 1 }, (_, index) => ({
-      azimuth: wrapAngle(azimuth + ((index + 1) * TURN) / lane),
+    offsets.map((offset) => ({
+      azimuth: wrapAngle(azimuth + offset),
       drift,
       y: height * between(random, ...CLOUD_ROWS),
       r: short * between(random, ...CLOUD_SIZES),

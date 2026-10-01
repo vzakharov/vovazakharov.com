@@ -12,6 +12,7 @@ import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
 import { tapArea } from '../../model/mushroom-outline';
 import { openingIndex } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
+import { aboutFoot } from './bed-place';
 import {
   amongAt,
   capBox,
@@ -29,11 +30,11 @@ import {
   type Standing,
   standingAt,
 } from './door-sight';
-import { layoutShown } from './eye-crop';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { nearestTheSun, SUN_RAY_REACH, WASH_FOOT_CLEAR } from './sun-layout';
 import { tapReach } from './tap-reach';
+import { ofLayout } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
 import { opened, openingCrop } from './visit-play';
 
@@ -105,19 +106,25 @@ function asTheyGrew(mushrooms: readonly Planted[]): Planted[][] {
   ];
 }
 
-/** Where across the world, in px, the opening view's screen spans. */
-function openingShown(layout: MeadowLayout): Record<'left' | 'right', number> {
-  const shown = layoutShown(openingCrop(layout));
-  if (!shown) throw new Error('The opening view shows no ground');
-  return shown;
+/**
+ * Where the opening view draws `points`, laid out on a thing whose foot the
+ * layout stands at `laidFoot`, in CSS px on the screen: about its drawn foot,
+ * as the bed draws it.
+ */
+function drawnAtOpening(
+  layout: MeadowLayout,
+  laidFoot: Point,
+  points: readonly Point[],
+): Point[] {
+  const foot = ofLayout(openingCrop(layout), laidFoot, laidFoot.y);
+  return points.map((point) => aboutFoot(foot, laidFoot, point));
 }
 
 /**
  * Every control's hit area, open pickers and all, and the sun's rays, where
- * they stand over the world in the opening view.
+ * they stand on the screen.
  */
 function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
-  const { left } = openingShown(layout);
   const { mute, releases, plus, minus, house, picker, housePicker, sun } =
     layout;
   const controls = [
@@ -133,7 +140,7 @@ function keepOff(layout: MeadowLayout): Array<Circle & { name: string }> {
   return [
     ...controls.map((control) => ({ ...control, r: tapReach(control.r) })),
     { name: 'the sun', ...sun, r: sun.r * SUN_RAY_REACH },
-  ].map((circle) => ({ ...circle, x: circle.x + left }));
+  ];
 }
 
 /** Whether `circle` reaches into any of `outlines`. */
@@ -144,7 +151,7 @@ const reaches = (outlines: readonly Point[][], circle: Circle) =>
       distanceToEdge(outline, circle) < circle.r,
   );
 
-/** A mushroom's tap area where it stands on screen. */
+/** A mushroom's tap area where it stands, in the layout's world px. */
 function standingArea({ genes, turn, placed }: Standing): Point[][] {
   return Object.values(tapArea(genes, turn)).map((outline) => placed(outline));
 }
@@ -161,9 +168,8 @@ function broken(
   layout: MeadowLayout,
   measured = new Set<string>(),
 ): Fault[] {
-  const { sun, mushrooms: ground } = layout;
+  const { sun, width, mushrooms: ground } = layout;
   const { world } = ground.camera;
-  const { left, right } = openingShown(layout);
   const newest = meadow.at(-1);
   const note = (species: Species, rule: Rule) => {
     if (newest?.species === species) measured.add(`${species}: ${rule}`);
@@ -187,10 +193,15 @@ function broken(
     const { mushroom, place, standing } = one;
     const { id, species } = mushroom;
     const cap = capBox(standing);
+    const drawnCap = drawnAtOpening(layout, place, [
+      { x: cap.left, y: cap.top },
+      { x: cap.right, y: cap.bottom },
+    ]).map(({ x }) => x);
     note(species, 'inside the edge margin');
     if (
-      cap.left < Math.max(EDGE_MARGIN, left + EDGE_MARGIN) ||
-      cap.right > Math.min(world, right) - EDGE_MARGIN
+      cap.left < EDGE_MARGIN ||
+      cap.right > world - EDGE_MARGIN ||
+      drawnCap.some((x) => x < EDGE_MARGIN || x > width - EDGE_MARGIN)
     ) {
       fault(
         'inside the edge margin',
@@ -231,7 +242,9 @@ function broken(
         );
       }
     }
-    const outlines = standingArea(standing);
+    const outlines = standingArea(standing).map((outline) =>
+      drawnAtOpening(layout, place, outline),
+    );
     note(species, 'off the controls');
     for (const { name, ...circle } of controls) {
       if (reaches(outlines, circle)) {

@@ -135,7 +135,7 @@ export function paintClouds(
   { clouds, sun, camera, height }: MeadowLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
-  const { focal } = pinholeOf(camera);
+  const { arc } = pinholeOf(camera);
   const sunAzimuth = azimuthAt(camera, sun.x);
   const round = mulberry32(PUFF_SEED);
   return clouds.map(({ azimuth, y, r }, place) => {
@@ -146,7 +146,7 @@ export function paintClouds(
         ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE)
         : colour;
     // The sun's way across the sky from the cloud, round the shorter side.
-    const across = focal * wrapAngle(sunAzimuth - azimuth);
+    const across = arc * wrapAngle(sunAzimuth - azimuth);
     const toSun = Math.hypot(across, sun.y - y) || 1;
     const lean = {
       x: (across / toSun) * r * 0.08,

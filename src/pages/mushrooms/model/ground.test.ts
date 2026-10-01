@@ -13,16 +13,21 @@ import {
 import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened, relaidOn } from '../ui/scene/visit-play';
 import {
+  bendAt,
+  CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
   type Frame,
+  gathered,
   type Ground,
   OPENING_EYE,
   pinholeOf,
   planeOf,
+  planeSeen,
   project,
   scaleAt,
   seen,
+  spread,
   type Viewed,
   viewOf,
 } from './ground';
@@ -173,16 +178,22 @@ describe('the eye', () => {
     const camera = meadowCamera(width, height);
     const left = leftAt(openingPan(camera), 0);
 
-    it(`at the opening shows every foot, at every height, where the ${name} camera's opening crop does`, () => {
+    it(`at the opening shows every foot, at every height, at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
+      const pinhole = pinholeOf(camera);
       const past: string[] = [];
       for (const foot of feetOver(MEADOW_FRAME)) {
         for (const lift of HEIGHTS) {
-          const { x, y, scale } = project(camera, foot);
+          const shown = project(camera, foot);
+          const azimuth = Math.atan(
+            (shown.x - left - pinhole.x) / pinhole.focal,
+          );
+          const bend = Math.hypot(1, azimuth);
+          const scale = shown.scale * Math.cos(azimuth) * bend;
           const expected = {
-            x: x - left,
-            y: y - lift * scale,
+            x: pinhole.x + pinhole.focal * azimuth,
+            y: pinhole.y + (EYE_HEIGHT - lift) * scale,
             scale,
-            ahead: planeOf(foot).y,
+            ahead: Math.hypot(planeOf(foot).x, planeOf(foot).y) / bend,
           };
           const off = apart(
             viewOf(camera, OPENING_EYE, planeOf(foot), lift),
@@ -216,22 +227,26 @@ describe('the eye', () => {
       }
     });
 
-    it(`scales every point by its distance over the nearer one after a step ahead, on the ${name} camera`, () => {
+    it(`scales a point straight ahead by its distance over the nearer one after a step ahead, on the ${name} camera`, () => {
       const step = 1.5;
+      const { x: middle } = pinholeOf(camera);
       for (const eye of EYES) {
         const stepped = {
           ...eye,
           x: eye.x + step * Math.sin(eye.heading),
           y: eye.y + step * Math.cos(eye.heading),
         };
-        const { x: middle } = pinholeOf(camera);
-        for (const foot of feetOver(MEADOW_FRAME)) {
-          const point = planeOf(foot);
+        for (const distance of [step + 1, 4, 9, 20]) {
+          const point = {
+            x: eye.x + distance * Math.sin(eye.heading),
+            y: eye.y + distance * Math.cos(eye.heading),
+          };
           const before = viewOf(camera, eye, point, 0);
-          if (before.ahead <= step + 1) continue;
           const after = viewOf(camera, stepped, point, 0);
-          const k = before.ahead / (before.ahead - step);
-          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
+          const k = distance / (distance - step);
+          const at = `eye ${JSON.stringify(eye)}, ${String(distance)} ahead`;
+          assert.ok(Math.abs(before.x - middle) < 1e-6, `${at}: across`);
+          assert.ok(Math.abs(after.x - middle) < 1e-6, `${at}: across after`);
           assert.ok(
             Math.abs(after.ahead - (before.ahead - step)) < SAME_VIEW,
             `${at}: ahead`,
@@ -240,9 +255,81 @@ describe('the eye', () => {
             Math.abs(after.scale - before.scale * k) < SAME_VIEW * after.scale,
             `${at}: scale`,
           );
+        }
+      }
+    });
+
+    it(`after a step ahead, on the ${name} camera, draws every point in front of the eye bigger and no nearer the screen's middle`, () => {
+      const step = 0.5;
+      const pinhole = pinholeOf(camera);
+      for (const eye of EYES) {
+        const stepped = {
+          ...eye,
+          x: eye.x + step * Math.sin(eye.heading),
+          y: eye.y + step * Math.cos(eye.heading),
+        };
+        for (const foot of feetOver(MEADOW_FRAME)) {
+          const point = planeOf(foot);
+          const before = viewOf(camera, eye, point, 0);
+          // In front of the eye, far enough for a step to bring it nearer.
+          const off = (before.x - pinhole.x) / pinhole.arc;
+          const distance = before.ahead * bendAt(pinhole, before.x);
+          if (Math.cos(off) <= step / distance) continue;
+          const after = viewOf(camera, stepped, point, 0);
+          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
+          assert.ok(after.scale > before.scale, `${at}: scale`);
           assert.ok(
-            Math.abs(after.x - middle - (before.x - middle) * k) < 1e-6,
+            Math.abs(after.x - pinhole.x) >=
+              Math.abs(before.x - pinhole.x) - 1e-9,
             `${at}: across`,
+          );
+        }
+      }
+    });
+  }
+});
+
+describe('the lens', () => {
+  it('turns once round in four screens of a tablet held sideways', () => {
+    const [, width, height] = VIEWPORTS[0];
+    const { arc } = pinholeOf(meadowCamera(width, height));
+    assert.ok(Math.abs((2 * Math.PI * arc) / width - 4) < 1e-3);
+  });
+
+  it('spreads every point round the opening eye and gathers it back, its distance kept', () => {
+    for (const foot of feetOver(MEADOW_FRAME)) {
+      const { x, z } = foot;
+      const pinholed = { x, y: CLUMP_DISTANCE / scaleAt(z) };
+      const plane = spread(pinholed);
+      const back = gathered(plane);
+      const at = `foot ${JSON.stringify(foot)}`;
+      assert.ok(
+        Math.abs(
+          Math.hypot(plane.x, plane.y) - Math.hypot(pinholed.x, pinholed.y),
+        ) < SAME_VIEW,
+        `${at}: distance`,
+      );
+      assert.ok(
+        Math.abs(back.x - pinholed.x) < SAME_VIEW &&
+          Math.abs(back.y - pinholed.y) < SAME_VIEW,
+        `${at}: back`,
+      );
+    }
+  });
+
+  for (const { name, width, height } of SCREENS) {
+    it(`finds the ground under every point it shows on the ground, on the ${name} camera`, () => {
+      const camera = meadowCamera(width, height);
+      for (const eye of EYES) {
+        for (const foot of feetOver(MEADOW_FRAME)) {
+          const point = planeOf(foot);
+          const shown = viewOf(camera, eye, point, 0);
+          const under = planeSeen(camera, eye, shown);
+          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
+          assert.ok(
+            under !== undefined &&
+              Math.hypot(under.x - point.x, under.y - point.y) < 1e-9,
+            at,
           );
         }
       }

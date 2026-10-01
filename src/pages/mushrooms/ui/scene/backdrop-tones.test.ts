@@ -73,7 +73,7 @@ function openSky(
 ) {
   const { width, sun, camera } = layout;
   const view = viewAt(camera, { ...OPENING_EYE, heading });
-  const at = screenAt(view, azimuthAt(camera, sun.x)) ?? Infinity;
+  const at = screenAt(view, azimuthAt(camera, sun.x));
   const crests = [farthestSkyline, farSkyline, nearSkyline].map((skyline) =>
     skyline(mulberry32(seed), layout),
   );

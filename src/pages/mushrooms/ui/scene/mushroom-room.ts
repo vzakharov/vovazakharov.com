@@ -33,6 +33,7 @@ import {
   type WithOptionalSpan,
 } from '../../model/placement';
 import type { Seeded } from '../../model/random';
+import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
@@ -100,19 +101,19 @@ function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
 }
 
 /**
- * Whether a cap boxed by `cap`, in world px, standing on the ground row
- * `footRow`, is drawn whole on `view`'s screen `EDGE_MARGIN` inside its
- * sides: its foot in front of the hills and far enough ahead to be drawn.
+ * Whether a cap boxed by `cap`, in world px, on a mushroom whose foot the
+ * layout stands at `laidFoot`, is drawn whole on `view`'s screen
+ * `EDGE_MARGIN` inside its sides: its foot in front of the hills and far
+ * enough ahead to be drawn.
  */
-function capShown(view: View, cap: Box, footRow: number): boolean {
+function capShown(view: View, cap: Box, laidFoot: Point): boolean {
   const { left, right, top, bottom } = cap;
-  const foot = ofLayout(view, { x: (left + right) / 2, y: footRow }, footRow);
+  const foot = ofLayout(view, laidFoot, laidFoot.y);
   if (cull(foot) || behindHills(foot)) return false;
   return [left, right].every((x) =>
     [top, bottom].every((y) => {
-      const at = ofLayout(view, { x, y }, footRow);
+      const at = aboutFoot(foot, laidFoot, { x, y });
       return (
-        !cull(at) &&
         at.x >= EDGE_MARGIN &&
         at.x <= view.width - EDGE_MARGIN &&
         at.y >= 0 &&
@@ -129,17 +130,18 @@ function distanceTo(outline: readonly Point[], point: Point): number {
 
 /**
  * Whether every one of `circles`, on the screen, keeps off the drawn parts of
- * `own`, standing on the ground row `footRow`, as `view` draws them there.
+ * `own`, its foot laid out at `laidFoot`, as `view` draws them there.
  */
 function keptOff(
   view: View,
   { drawn }: Standing,
-  footRow: number,
+  laidFoot: Point,
   circles: readonly Circle[],
 ): boolean {
+  const foot = ofLayout(view, laidFoot, laidFoot.y);
   // A mushroom's drawn outlines are its tap area's parts (`TAP_PARTS`).
   const outlines = drawn.map((outline) => {
-    const shown = outline.map((point) => ofLayout(view, point, footRow));
+    const shown = outline.map((point) => aboutFoot(foot, laidFoot, point));
     return { outline: shown, box: boxAround(shown) };
   });
   return circles.every((circle) =>
@@ -178,7 +180,7 @@ function trialOn(
   if (cap.left < screen.edges.left || cap.right > screen.edges.right) {
     return undefined;
   }
-  if (screen.view && !capShown(screen.view, cap, place.y)) return undefined;
+  if (screen.view && !capShown(screen.view, cap, place)) return undefined;
   return { screen, place, stood: grown, own };
 }
 
@@ -218,7 +220,7 @@ function shownTrials(
   }
   const { view, keepOff } = screen;
   return !view ||
-    trials.every((trial) => keptOff(view, trial.own, trial.place.y, keepOff))
+    trials.every((trial) => keptOff(view, trial.own, trial.place, keepOff))
     ? trials
     : undefined;
 }

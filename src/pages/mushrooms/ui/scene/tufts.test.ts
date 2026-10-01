@@ -5,7 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { MUSHROOM_SLOTS, reduce } from '../../model/game';
-import { type Eye, OPENING_EYE } from '../../model/ground';
+import { type Eye, OPENING_EYE, pinholeOf } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
@@ -112,22 +112,29 @@ describe('shownSprouts', () => {
     const grown = growTufts(layout, [], tuftingOf(seedOf(1)));
     const left = (layout.camera.world - width) / 2;
 
-    it(`draws every tuft at the opening as laid out, on a ${name} screen`, () => {
+    it(`draws every tuft at the opening at the azimuth its layout is seen at, bent, on a ${name} screen`, () => {
       const view = viewAt(layout.camera, OPENING_EYE);
       const { near, behind } = shownSprouts(view, grown);
       // Only what is laid past the brow, which curves below the ground's top
       // row toward the screen's sides, sinks at the opening.
-      for (const { sprout } of behind) {
-        assert.ok(behindHills(ofGround(view, sprout.foot)));
+      for (const { sprout: sunk } of behind) {
+        assert.ok(behindHills(ofGround(view, sunk.foot)));
       }
       assert.ok(near.length > 0);
+      // The lens shows the layout's ground at the azimuth the opening crop's
+      // pinhole sees it at, its row bent as the brow is.
+      const { x: middle, y: horizon, focal } = pinholeOf(view);
       for (const {
         tuft,
         sprout: { tuft: laid },
       } of near) {
-        assert.ok(Math.abs(tuft.x - (laid.x - left)) < 0.5);
-        assert.ok(Math.abs(tuft.y - laid.y) < 0.5);
-        assert.ok(Math.abs(tuft.size - laid.size) < 1e-6 * laid.size);
+        const azimuth = Math.atan((laid.x - left - middle) / focal);
+        const bend = Math.cos(azimuth) * Math.hypot(1, azimuth);
+        assert.ok(Math.abs(tuft.x - (middle + focal * azimuth)) < 0.5);
+        assert.ok(
+          Math.abs(tuft.y - (horizon + (laid.y - horizon) * bend)) < 0.5,
+        );
+        assert.ok(Math.abs(tuft.size - laid.size * bend) < 1e-6 * laid.size);
       }
     });
 

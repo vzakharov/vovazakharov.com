@@ -8,14 +8,17 @@
 
 import type { Point } from '../../model/geometry';
 import {
+  bendAt,
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
+  gathered,
   type Ground,
-  OPENING_EYE,
   pinholeOf,
   planeOf,
+  scaleAt,
+  spread,
   type Viewed,
   viewOf,
   zAt,
@@ -75,31 +78,70 @@ function placedAt(
 
 /** Where `view` places a thing standing on `foot`, `height` above the ground in the clump's size. */
 export function ofGround(view: View, foot: Ground, height = 0): Placed {
-  const plane = planeOf(foot);
-  return placedAt(view, plane, height, plane.y);
+  return placedAt(
+    view,
+    planeOf(foot),
+    height,
+    CLUMP_DISTANCE / scaleAt(foot.z),
+  );
+}
+
+/**
+ * How the opening crop's pinhole stands the layout's ground row `footRow`
+ * (world px down the screen, below the horizon): `opening`, its distance
+ * ahead of `OPENING_EYE`, the plane's origin, and how many of the clump's
+ * size a world px spans on it.
+ */
+export function rowAt(
+  camera: Camera,
+  footRow: number,
+): { opening: number; perPx: number } {
+  const pinhole = pinholeOf(camera);
+  const opening = (pinhole.focal * EYE_HEIGHT) / (footRow - pinhole.y);
+  return { opening, perPx: opening / pinhole.focal };
+}
+
+/** The world px across `camera`'s layout of the opening crop's middle. */
+export function middleOf(camera: Camera): number {
+  return (camera.world - camera.width) / 2 + pinholeOf(camera).x;
 }
 
 /**
  * Where `view` places `point`, in world px as the opening eye lays it out,
- * standing over the ground row `footRow` (world px down the screen, below the
- * horizon): the point stands on the plane at that row's distance, as high
- * over it as it stands over the row. Exact for a thing whose foot is on that
- * row; at the opening eye, the point less the opening crop's left.
+ * standing over the ground row `footRow`: the opening crop's pinhole stands
+ * it at that row's distance, as high over it as it stands over the row, and
+ * the plane has it `spread` from there. Exact for a thing whose foot is on
+ * that row. A thing drawn round a foot is drawn about the foot's place
+ * (`onHost`), not point by point through here: the spread widens a span
+ * across the plane that the screen narrows back only at the opening eye.
  */
 export function ofLayout(view: View, point: Point, footRow: number): Placed {
-  const pinhole = pinholeOf(view);
-  const opening = (pinhole.focal * EYE_HEIGHT) / (footRow - pinhole.y);
-  const perPx = opening / pinhole.focal;
-  const across = point.x - (view.world - view.width) / 2 - pinhole.x;
+  const { opening, perPx } = rowAt(view, footRow);
   return placedAt(
     view,
-    { x: OPENING_EYE.x + across * perPx, y: OPENING_EYE.y + opening },
+    spread({ x: (point.x - middleOf(view)) * perPx, y: opening }),
     (footRow - point.y) * perPx,
     opening,
   );
 }
 
-/** Whether a thing `ahead` of the eye is too near, or behind it, to be drawn. */
+/**
+ * The ground at `plane` as the opening eye lays it out, `ofLayout`'s ground
+ * run backwards: where across, in world px, and the row it stands on;
+ * none for ground the opening crop's pinhole sees at or behind its eye.
+ */
+export function layoutOfPlane(camera: Camera, plane: Point): Point | undefined {
+  const seen = gathered(plane);
+  if (!(seen.y > 0)) return undefined;
+  const pinhole = pinholeOf(camera);
+  const perPx = seen.y / pinhole.focal;
+  return {
+    x: middleOf(camera) + seen.x / perPx,
+    y: pinhole.y + (pinhole.focal * EYE_HEIGHT) / seen.y,
+  };
+}
+
+/** Whether a thing `ahead` of the eye is too near to be drawn. */
 export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
   return ahead < V_NEAR;
 }
@@ -112,16 +154,14 @@ export function behindHills({ distance }: Pick<Placed, 'distance'>): boolean {
 /**
  * The meadow's brow at `x` across `camera`'s screen: the row the circle
  * `D_SEE` round the eye stands on there, the ground's top row at the
- * screen's middle and lower toward its edges, since a screen row is a depth
- * along the heading and the circle's depth falls off it. Where a thing goes
- * under, at its own x, whichever way the eye looks; the same on every
- * heading, so the brow stands still on the screen as the eye turns.
+ * screen's middle, bent lower toward its edges as every row is (`bendAt`).
+ * Where a thing goes under, at its own x, whichever way the eye looks; the
+ * same on every heading, so the brow stands still on the screen as the eye
+ * turns.
  */
 export function browRow(camera: Camera, x: number): number {
-  const { x: middle, y: horizon, focal } = pinholeOf(camera);
-  return (
-    horizon + (camera.groundTop - horizon) * Math.hypot(1, (x - middle) / focal)
-  );
+  const pinhole = pinholeOf(camera);
+  return pinhole.y + (camera.groundTop - pinhole.y) * bendAt(pinhole, x);
 }
 
 /** The brow's lowest row on `camera`'s screen, at its edges. */

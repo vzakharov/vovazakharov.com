@@ -10,17 +10,13 @@ import type { Sized } from '@/shared/typings';
 
 import type { Side } from '../../model/flight';
 import type { Point } from '../../model/geometry';
-import {
-  type Camera,
-  EYE_HEIGHT,
-  OPENING_EYE,
-  pinholeOf,
-} from '../../model/ground';
+import { alongSight, type Camera, pinholeOf } from '../../model/ground';
 import { layoutAtRow } from './eye-crop';
 import {
   buried,
   cull,
   D_SEE,
+  layoutOfPlane,
   ofLayout,
   onScreen,
   type Placed,
@@ -119,48 +115,22 @@ export type OverRow = { at: Point; row: number };
 
 /**
  * The ground `distance` from `view`'s eye, in the clump's size, along the
- * ray through the screen's `x`, in CSS px: the point on it and the row it
- * stands on, as the opening eye lays them out (`ofLayout` backwards);
- * `undefined` where that ground stands at or behind the opening eye's own
- * row, which no row lays out.
+ * azimuth it sees at the screen's `x`, in CSS px: the point on it and the
+ * row it stands on, as the opening eye lays them out (`ofLayout`
+ * backwards); `undefined` where the opening eye lays out no row there.
  */
 export function groundAlong(
   view: View,
   x: number,
   distance: number,
 ): OverRow | undefined {
-  const pinhole = pinholeOf(view);
-  const across = (x - pinhole.x) / pinhole.focal;
-  const { heading, ...eye } = view.eye;
-  const cos = Math.cos(heading);
-  const sin = Math.sin(heading);
-  // The ray on the plane, `across` to one ahead along the heading.
-  const toward = { x: across * cos + sin, y: cos - across * sin };
-  const reach = distance / Math.hypot(toward.x, toward.y);
-  const plane = {
-    x: eye.x + toward.x * reach,
-    y: eye.y + toward.y * reach,
-  };
-  const opening = plane.y - OPENING_EYE.y;
-  if (!(opening > 0)) return undefined;
-  const perPx = opening / pinhole.focal;
-  const row = pinhole.y + (pinhole.focal * EYE_HEIGHT) / opening;
-  return {
-    at: {
-      x:
-        (plane.x - OPENING_EYE.x) / perPx +
-        (view.world - view.width) / 2 +
-        pinhole.x,
-      y: row,
-    },
-    row,
-  };
+  const at = layoutOfPlane(view, alongSight(view, view.eye, x, distance));
+  return at && { at, row: at.y };
 }
 
 /** The screen side `view`'s eye turns by, the shorter way, to face `point` standing over `row`. */
 export function turnSide(view: View, point: Point, row: number): Side {
-  const { x, ahead } = ofLayout(view, point, row);
-  return (x - pinholeOf(view).x) * ahead < 0 ? 'left' : 'right';
+  return ofLayout(view, point, row).x < pinholeOf(view).x ? 'left' : 'right';
 }
 
 /**

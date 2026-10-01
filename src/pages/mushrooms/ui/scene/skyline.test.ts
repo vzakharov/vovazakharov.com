@@ -212,7 +212,6 @@ describe('the far hills under the sun', () => {
         for (const heading of HEADINGS) {
           const view = turnedTo(camera, heading);
           const x = screenAt(view, azimuthAt(camera, sun.x));
-          if (x === undefined) continue;
           for (const crest of crests) {
             for (let dx = -rays; dx <= rays; dx += rays / 16) {
               const under = sun.y + Math.sqrt(rays ** 2 - dx ** 2);
@@ -246,7 +245,6 @@ describe('the far hills under the sun', () => {
               `visit ${String(seed)}, heading ${heading.toFixed(2)}: a corner in the lowered hills`,
             );
             const x = screenAt(view, azimuthAt(camera, sun.x));
-            if (x === undefined) continue;
             for (let dx = -sun.r; dx <= sun.r; dx += sun.r / 8) {
               assert.ok(
                 crestAt(parted, view, x + dx) >= sun.y + sun.r,

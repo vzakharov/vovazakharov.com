@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Point } from '../../model/geometry';
 import {
   type Eye,
   EYE_HEIGHT,
   OPENING_EYE,
+  pinholeOf,
   project,
   viewOf,
 } from '../../model/ground';
@@ -61,6 +63,24 @@ function standing(view: View, distance: number, off: number): Placed {
   return { ...viewOf(view, eye, plane, 0), zoom: 1, distance };
 }
 
+/**
+ * Where the lens draws, at the opening eye, a point the opening crop lays out
+ * at `layout` (world px): at the azimuth the crop's pinhole sees it at, its
+ * height below the horizon bent as the brow is, and drawn `zoom` times its
+ * laid-out size.
+ */
+function lensed(view: View, layout: Point): Point & { zoom: number } {
+  const { x: middle, y: horizon, focal } = pinholeOf(view);
+  const left = (view.world - view.width) / 2;
+  const azimuth = Math.atan((layout.x - left - middle) / focal);
+  const zoom = Math.cos(azimuth) * Math.hypot(1, azimuth);
+  return {
+    x: middle + focal * azimuth,
+    y: horizon + (layout.y - horizon) * zoom,
+    zoom,
+  };
+}
+
 /** How near two screen positions count as one, in CSS px. */
 const SAME_PX = 1e-9;
 
@@ -73,18 +93,19 @@ describe('the view', () => {
       assert.ok(Math.abs(y - camera.groundTop) < 1e-9, String(y));
     });
 
-    it(`places every foot at the opening as the ${name} camera's opening crop shows it, at its own size`, () => {
+    it(`places every foot at the opening at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
       const view = viewAt(camera, OPENING_EYE);
       for (const foot of FEET) {
-        const shown = project(camera, foot);
         const placed = ofGround(view, foot);
-        assert.ok(Math.abs(placed.x - (shown.x - left)) < SAME_PX, 'across');
-        assert.ok(Math.abs(placed.y - shown.y) < SAME_PX, 'down');
-        assert.ok(Math.abs(placed.zoom - 1) < SAME_PX, 'zoom');
+        const expected = lensed(view, project(camera, foot));
+        const at = `foot ${JSON.stringify(foot)}`;
+        assert.ok(Math.abs(placed.x - expected.x) < SAME_PX, `${at}: across`);
+        assert.ok(Math.abs(placed.y - expected.y) < 1e-6, `${at}: down`);
+        assert.ok(Math.abs(placed.zoom - expected.zoom) < 1e-9, `${at}: zoom`);
       }
     });
 
-    it(`places a layout point at the opening where the ${name} camera's opening crop shows it`, () => {
+    it(`places a layout point at the opening at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
       const view = viewAt(camera, OPENING_EYE);
       for (const foot of FEET) {
         const row = project(camera, foot).y;
@@ -94,9 +115,14 @@ describe('the view', () => {
           { x: left + camera.width - 5, y: 30 },
         ]) {
           const placed = ofLayout(view, point, row);
-          assert.ok(Math.abs(placed.x - (point.x - left)) < 1e-6, 'across');
-          assert.ok(Math.abs(placed.y - point.y) < 1e-6, 'down');
-          assert.ok(Math.abs(placed.zoom - 1) < SAME_PX, 'zoom');
+          const expected = lensed(view, point);
+          const at = `foot ${JSON.stringify(foot)}, ${JSON.stringify(point)}`;
+          assert.ok(Math.abs(placed.x - expected.x) < 1e-6, `${at}: across`);
+          assert.ok(Math.abs(placed.y - expected.y) < 1e-6, `${at}: down`);
+          assert.ok(
+            Math.abs(placed.zoom - expected.zoom) < 1e-9,
+            `${at}: zoom`,
+          );
         }
       }
     });

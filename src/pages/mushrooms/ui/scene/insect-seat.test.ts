@@ -30,6 +30,9 @@ function hostOn(view: View, foot: Ground): Host {
   return { laidFoot: { x, y }, stands: bedPlace(view, foot) };
 }
 
+/** How near the opening's zoom stands to 1 anywhere on the screen. */
+const SAME_SIZE = 1e-3;
+
 function plus(a: Point, b: Point): Point {
   return { x: a.x + b.x, y: a.y + b.y };
 }
@@ -87,7 +90,9 @@ describe('drawnInsect', () => {
         );
         const flown = drawnAt(view, point, laidFoot.y);
         assert.ok(sitting && flown);
-        if (heading === 0) assert.ok(apart(sitting, flown) < 1e-6);
+        // At the opening the two part only by the lens's squeeze across a
+        // seat's span off the screen's middle, never by a whole px.
+        if (heading === 0) assert.ok(apart(sitting, flown) < 1);
         most = Math.max(most, apart(sitting, flown));
       }
     }
@@ -145,8 +150,10 @@ describe('drawnInsect', () => {
         assert.ok(
           before && after?.sitting !== undefined && after.flying !== undefined,
         );
-        assert.ok(Math.abs((before.sitting ?? 0) - 1) < 1e-9);
-        assert.ok(Math.abs((before.flying ?? 0) - 1) < 1e-9);
+        // Off the screen's middle the lens draws a thing a hair smaller than
+        // the layout does, by its bend against the pinhole's slant.
+        assert.ok(Math.abs((before.sitting ?? 0) - 1) < SAME_SIZE);
+        assert.ok(Math.abs((before.flying ?? 0) - 1) < SAME_SIZE);
         assert.ok(after.sitting > 1);
         assert.ok(Math.abs(after.flying - after.sitting) < 1e-9);
         return { row: laid.y, zoom: after.flying };

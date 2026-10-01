@@ -1,6 +1,7 @@
 # lens-land — the panoramic lens landed
 
-**State: step 1 part done, as `lens-land.patch`** (applies on 95f6ad9, whose
+**State: landed as source (Round 2, below); `lens-land.patch` is gone.**
+Round 1 left it as `lens-land.patch` (applies on 95f6ad9, whose
 source is aa7bf73's; type-checks, lint- and prettier-clean). It is still a
 patch, not source, because six test files are red. It holds all of
 `lens-build.patch` and the fixes below, so `lens-build.patch` is deleted.
@@ -57,3 +58,43 @@ started.
 3. Cost of `layoutAtRow`'s search in `onscreenOf` (66 calls) against the
    frame budget.
 4. Frames (`lens-land-*.png`).
+
+## Round 2 — landed as source
+
+Every mushroom test file but `fliers.test.ts` is green (82 files, one at a
+time), `pnpm typecheck`, eslint and prettier clean. Fixed:
+
+- `view`, `tufts` (24, 6): "at the opening as the crop shows it" is the
+  lens rule `ground`/`bed-place` already state: across at
+  `middle + focal · θ`, θ the crop's pinhole azimuth, the height below the
+  horizon and the zoom times `cos θ · hypot(1, θ)`.
+- `repaint-queue` (12): the bed paints a thing at `hazeAhead` where the
+  view stands it (`mushroom-bed.ts` `place`), so "nothing repaints at the
+  opening" holds by construction. The layout's pinhole haze is no longer
+  the opening's: a side mushroom stands up to 0.067 hazier at θ ≈ 0.59
+  (phoneL's edge, off-screen on the rest), 0.02–0.03 inside tabL. The test
+  now says only that stepping in clears; the back-row case reads its paint
+  off the view and checks it within 1e-3 of the layout's near the middle.
+- `perch-sight` (6): at the opening `onscreenOf` reaches
+  `middle ± focal · tan(half / focal)` (the screen's edge azimuth), wider
+  than the crop.
+- **A lens defect, fixed in source (`eye-crop.ts`, `perch-sight.ts`):**
+  facing away, the spread wraps a row's two far ends (±176°) onto the
+  screen out of order, so `onscreenOf` answered the whole world and
+  `layoutShown` (the room's `within`) a span holding it. New `rowRuns`
+  cuts a row's crossings into left-to-right runs; `onscreenOf` keeps each
+  run to the world's strip, `layoutShown` answers none for edges out of
+  order (the world's wedge is ±71°, so a screen straddling the back never
+  shows it). New `layoutShown` test in `eye-crop.test.ts`.
+- `meadow-rules` (3): the edge margin and the controls are measured on the
+  screen, the cap and tap area drawn about the foot through the opening
+  view, as the room does; it used to shift the controls by the shown
+  stretch's left, the pinhole's identity.
+- `sun-layout` (phoneL, 1409585, 4.54): two samples straddled a 0.001 px
+  ripple of the far range's own crest at equal height. A level run now has
+  to stay level at the midpoint too.
+
+## Left
+
+1. `fliers.test.ts` alone (~6 min), not run: stopped by the context budget.
+2. Then Round 1's Left 2–4 (play scripts, `layoutAtRow` cost, frames).

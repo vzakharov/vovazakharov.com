@@ -9,7 +9,7 @@
  * eased in and out, stepped frame by frame through `tick`; a resize re-crops
  * it round the ground point at the screen's centre. Screen x and world x
  * convert through `worldOf` and `screenOf` alone. A crop with a `turn` is a
- * heading instead: `left` is the heading times the focal length, it has no
+ * heading instead: `left` is the heading times the lens's `arc`, it has no
  * ends and wraps once round, and its keys cruise at `TURN_CRUISE`.
  */
 
@@ -21,7 +21,7 @@ import {
   type Paced,
 } from './cruise';
 import type { Lefted, Point } from './geometry';
-import type { Camera } from './ground';
+import { type Camera, SPREAD } from './ground';
 
 /**
  * What a crop is taken across: the world's width and the screen's, in CSS
@@ -31,7 +31,7 @@ export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
 
 /**
  * A heading's crop: its keys' cruise in px per second, and how many px a full
- * turn spans, both the focal length's multiples.
+ * turn spans, both multiples of the lens's `arc`.
  */
 export type Turn = Cruised & { around: number };
 
@@ -126,14 +126,16 @@ const STILL_AFTER = 0.1;
 export const CRUISE_ACROSS = 0.5;
 export const KEY_EASE = 0.25;
 /**
- * A held key's turn of the heading, in radians a second: a tablet's half a
- * screen width a second at its 43.7° view, the same on every screen.
+ * A held key's turn of the heading, in radians a second, the same on every
+ * screen: the meadow slides by as fast in px as it did at 0.38 a second
+ * through the opening crop's pinhole, a tablet's half a screen width a
+ * second, its angles `SPREAD` times as wide.
  */
-export const TURN_CRUISE = 0.38;
+export const TURN_CRUISE = 0.38 * SPREAD;
 
-/** The turn of a heading seen at `focal` px, the screen's focal length. */
-export function turnOf(focal: number): Turn {
-  return { cruise: TURN_CRUISE * focal, around: 2 * Math.PI * focal };
+/** The turn of a heading seen at `arc` px across the screen to the radian. */
+export function turnOf(arc: number): Turn {
+  return { cruise: TURN_CRUISE * arc, around: 2 * Math.PI * arc };
 }
 
 /**

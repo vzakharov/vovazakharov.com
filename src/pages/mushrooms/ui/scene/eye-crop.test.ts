@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { OPENING_EYE } from '../../model/ground';
-import { layoutAtRow } from './eye-crop';
+import { layoutAtRow, layoutShown } from './eye-crop';
 import { meadowLayout } from './layout';
 import { ofLayout, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -49,4 +49,21 @@ describe('layoutAtRow', () => {
     const past = viewAt(camera, { x: 0, y: 30, heading: 0 });
     assert.equal(layoutAtRow(past, centre, camera.height), undefined);
   });
+});
+
+describe('layoutShown', () => {
+  for (const [name, width, height] of VIEWPORTS) {
+    it(`shows the world turned toward it, and none of it facing away, on a ${name} screen`, () => {
+      const { camera } = meadowLayout(width, height, 7);
+      const shown = layoutShown(viewAt(camera, OPENING_EYE));
+      assert.ok(shown && shown.left < camera.world / 2);
+      assert.ok(camera.world / 2 < shown.right);
+      for (const heading of [2.6, Math.PI, -2.8]) {
+        const away = layoutShown(viewAt(camera, { ...OPENING_EYE, heading }));
+        const none =
+          away === undefined || away.right < 0 || away.left > camera.world;
+        assert.ok(none, `${String(heading)}: ${JSON.stringify(away)}`);
+      }
+    });
+  }
 });

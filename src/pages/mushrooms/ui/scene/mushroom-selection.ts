@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import type { TapArea } from '../../model/mushroom-outline';
-import { standAt,type Standing } from './bed-place';
+import { standAt, type Standing } from './bed-place';
 import {
   drawSelection,
   drawSelectionRing,

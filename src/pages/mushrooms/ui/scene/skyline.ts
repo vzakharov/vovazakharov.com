@@ -124,16 +124,16 @@ export type FarRange = WithCrest & { highest: number };
  * `PARTED_DEPTH` radii below the sun's middle at the sun's azimuth, its
  * sides under every ray and outside the glow, so no hill stands in front of
  * the sun and the glow is not cut out of the sky by the hills. Its sides are
- * measured in azimuth, `focal` px to the radian, which a view spreads across
+ * measured in azimuth, `arc` px to the radian, which a view spreads across
  * the screen at least as wide, so the bowl clears the rays from any heading.
  */
 function sunBowl({ sun, camera }: MeadowLayout): Crest {
-  const { focal } = pinholeOf(camera);
+  const { arc } = pinholeOf(camera);
   const middle = azimuthAt(camera, sun.x);
   const depth = sun.r * PARTED_DEPTH;
   const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
   return (azimuth) => {
-    const off = focal * wrapAngle(azimuth - middle);
+    const off = arc * wrapAngle(azimuth - middle);
     return sun.y + depth - (depth * off ** 2) / (2 * spread ** 2);
   };
 }

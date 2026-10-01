@@ -100,11 +100,11 @@ export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
  */
 export function browBlades(camera: Camera): BrowBlade[] {
   const random = mulberry32(BROW_SEED);
-  const { focal } = pinholeOf(camera);
+  const { arc } = pinholeOf(camera);
   const reach = seamReach(camera);
   /** A length in the seam's reach as the azimuth it spans at the screen's middle. */
-  const turn = (share: number): number => (share * reach) / focal;
-  const least = LEAST_SPACING / focal;
+  const turn = (share: number): number => (share * reach) / arc;
+  const least = LEAST_SPACING / arc;
   const blades: BrowBlade[] = [];
   const gap = (): number => {
     const [shortest, longest] = CLUMP_GAP;
@@ -172,7 +172,7 @@ export function browShown(
   return blades.flatMap(({ azimuth, tall, lean, lit }) => {
     const x = screenAt(view, azimuth);
     const overhang = reach * (BLADE_LEAN + BLADE_HALF);
-    if (x === undefined || x < -overhang || x > view.width + overhang) {
+    if (x < -overhang || x > view.width + overhang) {
       return [];
     }
     const root = browRow(view, x) + reach * ROOT_DOWN;

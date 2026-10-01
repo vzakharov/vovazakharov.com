@@ -83,9 +83,22 @@ export type Host = Standing & { laidFoot: Point };
  * draws its body, at every heading.
  */
 export function onHost({ stands, laidFoot }: Host, point: Point): Point {
+  return aboutFoot(stands, laidFoot, point);
+}
+
+/**
+ * Where a thing whose foot, laid out at `laidFoot`, is drawn at `drawn`
+ * draws its `point`, laid out on it: off the drawn foot by the layout's
+ * offset scaled by the foot's `zoom`.
+ */
+export function aboutFoot(
+  drawn: Point & Pick<Placed, 'zoom'>,
+  laidFoot: Point,
+  point: Point,
+): Point {
   return {
-    x: stands.x + (point.x - laidFoot.x) * stands.zoom,
-    y: stands.y + (point.y - laidFoot.y) * stands.zoom,
+    x: drawn.x + (point.x - laidFoot.x) * drawn.zoom,
+    y: drawn.y + (point.y - laidFoot.y) * drawn.zoom,
   };
 }
 

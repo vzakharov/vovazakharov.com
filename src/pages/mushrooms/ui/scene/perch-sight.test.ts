@@ -6,7 +6,7 @@ import type { WithId } from '@/shared/typings';
 import { isSeat, perchName } from '../../model/flight';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import { OPENING_EYE } from '../../model/ground';
+import { OPENING_EYE, pinholeOf } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
@@ -24,7 +24,7 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { ofLayout, viewAt } from './view';
+import { middleOf, ofLayout, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 
@@ -245,14 +245,20 @@ describe('the butterflies of a visit', () => {
 
 describe('onscreenOf', () => {
   for (const [name, width, height] of VIEWPORTS) {
-    it(`shows the opening crop at the opening eye, a turned stretch turned, and nothing facing away, on a ${name} screen`, () => {
+    it(`shows at the opening eye the layout out to the azimuth of the screen's edges, a turned stretch turned, and nothing facing away, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 7);
       const { camera, insectSize: unit } = layout;
-      const left = (camera.world - width) / 2;
+      // The lens draws the layout at the azimuth the opening crop's pinhole
+      // sees it at, so the screen's edge shows it `focal · tan` out.
+      const { x: half, focal } = pinholeOf(camera);
+      const reach = focal * Math.tan(half / focal);
+      const middle = middleOf(camera);
       const opening = onscreenOf(layout, viewAt(camera, OPENING_EYE));
       assert.ok(opening);
-      assert.ok(Math.abs(opening.left - left / unit) < 1e-6);
-      assert.ok(Math.abs(opening.right - (left + width) / unit) < 1e-6);
+      const left = Math.max(0, middle - reach) / unit;
+      const right = Math.min(camera.world, middle + reach) / unit;
+      assert.ok(Math.abs(opening.left - left) < 1e-6);
+      assert.ok(Math.abs(opening.right - right) < 1e-6);
       const turned = onscreenOf(
         layout,
         viewAt(camera, { ...OPENING_EYE, heading: -0.3 }),

@@ -34,7 +34,7 @@ import { toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { placeIn } from './clump-layout';
-import { layoutAtRow } from './eye-crop';
+import { rowRuns } from './eye-crop';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import {
   coversOn,
@@ -391,10 +391,18 @@ export function onscreenOf(
 ): Onscreen | undefined {
   if (!view) return undefined;
   const { width, height, groundTop, camera, insectSize: unit } = layout;
+  const columns = Array.from(
+    { length: COLUMNS + 1 },
+    (_, column) => (width * column) / COLUMNS,
+  );
   const reaches = [height, groundTop].map((row) => {
-    const across = Array.from({ length: COLUMNS + 1 }, (_, column) =>
-      layoutAtRow(view, { x: (width * column) / COLUMNS, y: row }, row),
-    ).flatMap((point) => (point ? [point.x] : []));
+    // Each run kept to the world's strip, so a screen facing the plane's
+    // back, which meets the row's far ends out of order, shows none of it.
+    const across = rowRuns(view, columns, row).flatMap((run) => {
+      const left = Math.max(0, run[0] ?? Infinity);
+      const right = Math.min(camera.world, run.at(-1) ?? -Infinity);
+      return left <= right ? [left, right] : [];
+    });
     return across.length > 0
       ? { left: Math.min(...across), right: Math.max(...across) }
       : undefined;

@@ -1,7 +1,7 @@
 /**
  * The walk: the eye's heading and its place on the plane, as functions of the
  * clock, in seconds, and of the finger and keys that move them. The heading
- * is a `pan.ts` heading crop, its `left` the heading times the focal length;
+ * is a `pan.ts` heading crop, its `left` the heading times the lens's `arc`;
  * the place is `stride.ts`'s. One finger moves one of them: a press inside
  * `SLOP` of where it went down taps, and once it moves past it, radially,
  * its axis locks for the rest of the press — within 45° of horizontal it
@@ -77,7 +77,7 @@ export type Walk = {
 /** The heading's crop `camera` takes. */
 function panView(camera: Camera): View & { turn: Turn } {
   const { width, world, unit } = camera;
-  return { width, world, unit, turn: turnOf(pinholeOf(camera).focal) };
+  return { width, world, unit, turn: turnOf(pinholeOf(camera).arc) };
 }
 
 /** The walk a visit opens on: the opening eye, at rest. */
@@ -86,7 +86,7 @@ export function openingWalk(camera: Camera): Walk {
     lens: camera,
     pan: restingAt(
       panView(camera),
-      OPENING_EYE.heading * pinholeOf(camera).focal,
+      OPENING_EYE.heading * pinholeOf(camera).arc,
     ),
     stride: standingAt(pick(OPENING_EYE, 'x', 'y')),
     drag: undefined,
@@ -108,7 +108,7 @@ export function refit(walk: Walk, camera: Camera, time: number): Walk {
 
 /** The heading at `time`, in radians, from 0 up to a full turn. */
 export function headingAt({ lens, pan }: Walk, time: number): number {
-  return leftAt(pan, time) / pinholeOf(lens).focal;
+  return leftAt(pan, time) / pinholeOf(lens).arc;
 }
 
 /** The eye at `time`: the stride's place as of its last `tickWalk`, and the heading then. */
@@ -119,17 +119,18 @@ export function eyeAt(walk: Walk, time: number): Eye {
 
 /**
  * A screen x, in CSS px, as the heading's crop measures it: its azimuth from
- * straight ahead, times the focal length. A turn that moves this by the
- * finger's change keeps the azimuth under the finger exactly.
+ * straight ahead, times `arc`, which is its px off the screen's middle. A
+ * turn that moves this by the finger's change keeps the azimuth under the
+ * finger exactly.
  */
 function arcOf(pinhole: Pinhole, x: number): number {
-  return pinhole.focal * Math.atan((x - pinhole.x) / pinhole.focal);
+  return x - pinhole.x;
 }
 
 /**
- * How far ahead of the eye, in the clump's size, the ground under screen row
- * `y` stands, a row above the seam counting as the seam's: the farthest
- * ground the screen shows.
+ * How far from the eye, in the clump's size, the ground under screen row
+ * `y` stands at the screen's middle, a row above the seam counting as the
+ * seam's: the farthest ground the screen shows.
  */
 export function distanceOfRow(camera: Camera, y: number): number {
   const pinhole = pinholeOf(camera);
