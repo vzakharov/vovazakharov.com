@@ -91,9 +91,11 @@ Distances in ground units on the sideways tablet (× 3.41 sizes a unit):
   screen with its own `across` (`meadowLayout` width / `insectSize`); a new
   test pins a phone's cap at its own width, slower than the tablet's over the
   same way.
-- Green: `flight`, `flight-kinds`, `flight-in`, `insect-motion`, `insects`,
-  `perch-sight`; `pnpm typecheck`.
+- Green (da93055): `flight`, `flight-kinds`, `flight-in`, `insect-motion`,
+  `insects`, `perch-sight`; `pnpm typecheck`, `pnpm type-overlap`;
+  `ui/scene/fliers.test.ts` 48/48 (5 min 32 s), run after merging the
+  branch at e05a7f2.
 
 ## Left
 
-- `ui/scene/fliers.test.ts` once.
+Nothing.
