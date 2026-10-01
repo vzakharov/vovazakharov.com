@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
+import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import { pick } from '../../src/shared/lib/collections.ts';
 import {
   type Controls,
@@ -82,6 +83,43 @@ export function fliersOn(page: Page, expect: Expect) {
     return waitFor(found, looks - 1, every);
   };
 
+  /**
+   * Whether a finger at `point` can tap what is drawn there: on the screen,
+   * and off every control, which stands over the meadow and takes a tap
+   * within its reach first, as a child's finger on a button means the button.
+   */
+  const tappable = async (point: z.infer<typeof Point>) =>
+    page.evaluate(
+      `(() => {
+        const { mute, plus, minus, house, releases } = __probe.scene.layout;
+        const { x, y } = ${JSON.stringify(pick(point, 'x', 'y'))};
+        const controls = [mute, plus, minus, house, ...Object.values(releases)];
+        return x >= 0 && x <= innerWidth && y >= 0 && y <= innerHeight &&
+          !controls.some((circle) =>
+            Math.hypot(circle.x - x, circle.y - y) <= Math.max(circle.r, ${String(TAP_RADIUS)}));
+      })()`,
+      z.boolean(),
+    );
+  /**
+   * Steps until `found` picks an insect drawn where a finger can tap it
+   * (`tappable`), and where; `undefined` if none ever is.
+   */
+  const waitInReach = async (
+    found: (all: Insect[], at: number) => Insect | undefined,
+    looks = MOST_LOOKS,
+  ): Promise<
+    | { insect: Insect; point: NonNullable<z.infer<typeof ShownInsect>> }
+    | undefined
+  > => {
+    const insect = await waitFor(found, looks);
+    if (insect === undefined) return undefined;
+    const point = await shown(insect.id);
+    if (point !== null && (await tappable(point))) return { insect, point };
+    if (looks <= 1) return undefined;
+    await page.step(LOOK);
+    return waitInReach(found, looks - 1);
+  };
+
   /** What a tap at each of `points` reaches first (`__probe.topAt`). */
   const topsAt = async (points: ReadonlyArray<z.infer<typeof Point>>) =>
     Promise.all(
@@ -137,6 +175,8 @@ export function fliersOn(page: Page, expect: Expect) {
     now,
     perched,
     waitFor,
+    tappable,
+    waitInReach,
     topsAt,
     waitForCapRest,
     expectPassedOn,
@@ -156,11 +196,16 @@ export async function playInsects(
     byId,
     now,
     perched,
-    waitFor,
+    waitInReach,
     topsAt,
     waitForCapRest,
     expectPassedOn,
   } = fliersOn(page, expect);
+  /** What a tap at `point` reaches (`topAt`), and where, for a failure to name. */
+  const reaches = async (point: z.infer<typeof Point> | null) =>
+    point === null
+      ? 'nothing: it is not drawn'
+      : `${String(await page.evaluate(`__probe.topAt(${JSON.stringify(point)})`, z.string().nullable()))} at (${point.x.toFixed(0)}, ${point.y.toFixed(0)})`;
 
   // Something to rest on: two mushrooms, grown from the picker's first two caps.
   await inTurn(controls.picker.slice(0, 2), async (cap) => {
@@ -235,22 +280,23 @@ export async function playInsects(
   await page.shoot('b3-perched');
 
   // A tap on one at rest sends it off and goes on to what it sits on.
-  const resting = await waitFor((all, at) =>
+  const sitting = await waitInReach((all, at) =>
     all.find((insect) => landed(insect, at) && insect.leaves - at > 1000),
   );
-  if (resting === undefined) {
-    expect(false, 'no butterfly ever sat still to be tapped');
+  if (sitting === undefined) {
+    expect(false, 'no butterfly ever sat still where a finger reaches it');
     return;
   }
-  const restingAt = await shown(resting.id);
-  if (restingAt) await page.tap(restingAt);
+  const { insect: resting, point: restingAt } = sitting;
+  const restingTop = await reaches(restingAt);
+  await page.tap(restingAt);
   const tappedAt = await now();
   await page.step(2);
   const startled = await byId(resting.id);
   expect(
     startled?.legs === resting.legs + 1 &&
       Math.abs(startled.departs - tappedAt) < 100,
-    `a tap on ${resting.id} at rest did not send it off`,
+    `a tap on ${resting.id} at rest did not send it off: it reached ${restingTop}`,
   );
   await expectPassedOn(resting, tappedAt);
   await page.step(12);
@@ -263,6 +309,7 @@ export async function playInsects(
   const before = await state();
   expect(before.picking, '`+` did not open the picker');
   const flying = await shown(resting.id);
+  const flyingTop = await reaches(flying);
   if (flying) await page.tap(flying);
   await page.step(2);
   const still = await byId(resting.id);
@@ -275,7 +322,7 @@ export async function playInsects(
   expect(
     typeof jolted?.tappedAt === 'number' &&
       (await now()) - jolted.tappedAt * 1000 < 200,
-    `a tap on ${resting.id} in the air did not reach it`,
+    `a tap on ${resting.id} in the air did not reach it: it reached ${flyingTop}`,
   );
   expect(
     after.picking && after.selected === before.selected,

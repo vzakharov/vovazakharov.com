@@ -12,7 +12,6 @@ import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts
 import { LIGHT_STEP } from '../../src/pages/mushrooms/model/insect-light.ts';
 import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
 import { LEAST_SPANS } from '../../src/pages/mushrooms/ui/scene/layout.ts';
-import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
 import {
   HEADING_AFTER,
   MOST_HEADING_OFF,
@@ -48,7 +47,6 @@ const SIGHT_LOOKS =
       ((SIGHT_LOOK * 1000) / 60),
   ) + 1;
 
-const Screen = z.object({ width: z.number(), height: z.number() });
 /** Frames per look while waiting for a bee to plant, and the most looks. */
 const PLANT_LOOK = 30;
 const PLANT_LOOKS = 180;
@@ -148,17 +146,6 @@ async function tapAtRest(
   await page.shoot(`f2-${resting.kind}-startled`);
 }
 
-/** Page-side: whether `point`, on screen, stands within the tap reach (`tapReach`) of one of the controls always shown. */
-const underControl = (point: z.infer<typeof Point>) => `(() => {
-  const { mute, plus, minus, house, releases } = __probe.scene.layout;
-  const { x, y } = ${JSON.stringify(point)};
-  return [mute, plus, minus, house, ...Object.values(releases)].some(
-    (circle) =>
-      Math.hypot(circle.x - x, circle.y - y) <=
-      Math.max(circle.r, ${String(TAP_RADIUS)}),
-  );
-})()`;
-
 /**
  * Taps a fly in flight where it is drawn on the screen, `FLYING_TAPS` times, among every
  * other insect in the air, and expects at least `FLYING_REACHED` of the taps
@@ -168,17 +155,13 @@ const underControl = (point: z.infer<typeof Point>) => `(() => {
  */
 async function tapFlying(
   page: Page,
-  { waitFor, shown, now }: Fliers,
+  { waitFor, shown, now, tappable }: Fliers,
   expect: Expect,
   note: (line: string) => void,
 ): Promise<void> {
   const tally = { aimed: 0, reached: 0, onTop: 0 };
   /** What each tap that missed reached instead, by the scene's hit test (`topAt`), and where. */
   const missed: string[] = [];
-  const screen = await page.evaluate(
-    '({ width: innerWidth, height: innerHeight })',
-    Screen,
-  );
   /** Steps until a fly is mid-flight and drawn on the screen, where a child could tap it; `undefined` if none ever is. */
   const flyingInSight = async (
     looks: number,
@@ -195,14 +178,7 @@ async function tapFlying(
     const drawn = fly && (await shown(fly.id));
     if (!fly || !drawn) return undefined;
     const point = Point.parse(drawn);
-    const { x, y } = point;
-    const onScreen =
-      x >= 0 && x <= screen.width && y >= 0 && y <= screen.height;
-    // A control stands over the meadow and takes a tap there first, as a
-    // child's finger on a button means the button.
-    if (onScreen && !(await page.evaluate(underControl(point), z.boolean()))) {
-      return { fly, point };
-    }
+    if (await tappable(point)) return { fly, point };
     if (looks <= 1) return undefined;
     await page.step(SIGHT_LOOK);
     return flyingInSight(looks - 1);
