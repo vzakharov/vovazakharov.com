@@ -20,7 +20,7 @@ import {
   ofLayout,
   onScreen,
   type Placed,
-  sunk,
+  sunkOver,
   type View,
 } from './view';
 
@@ -52,9 +52,22 @@ export function awayDown(height: number, phase: number): number {
 export type Zoomed = Point & Pick<Placed, 'zoom'>;
 
 /**
+ * Where `view` places the world's `point`, standing over `row`, past the
+ * brow lowered as far as the ground under it sinks (`sunkOver`).
+ */
+export function flownAt(view: View, point: Point, row: number): Placed {
+  return sunkOver(
+    view,
+    ofLayout(view, point, row),
+    ofLayout(view, { ...pick(point, 'x'), y: row }, row),
+  );
+}
+
+/**
  * Where the world's `point`, standing over `row`, is drawn on the screen
- * now, at the zoom of that row's depth there; `undefined` too near the eye
- * to be drawn. As laid out, at its own size, before the eye's first fit.
+ * now, at the zoom of that row's depth there (`flownAt`); `undefined` too
+ * near the eye to be drawn, or sunk under the brow. As laid out, at its own
+ * size, before the eye's first fit.
  */
 export function drawnAt(
   view: View | undefined,
@@ -62,7 +75,7 @@ export function drawnAt(
   row: number,
 ): Zoomed | undefined {
   if (!view) return { ...point, zoom: 1 };
-  const placed = sunk(view, ofLayout(view, point, row));
+  const placed = flownAt(view, point, row);
   return cull(placed) || buried(view, placed)
     ? undefined
     : pick(placed, 'x', 'y', 'zoom');

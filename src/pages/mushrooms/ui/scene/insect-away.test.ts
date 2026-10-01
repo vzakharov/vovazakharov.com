@@ -6,13 +6,14 @@ import { OPENING_FEET } from '../../model/placement';
 import {
   drawnAt,
   entry,
+  groundAlong,
   offScreen,
   PAST_BROW,
   type Seen,
   turnSide,
 } from './insect-away';
 import { meadowCamera } from './meadow-camera';
-import { D_SEE, ofLayout, onScreen, viewAt } from './view';
+import { D_SEE, ofLayout, onScreen, sunk, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** Headings the eye turns through, the clump still ahead. */
@@ -76,6 +77,32 @@ describe('entry', () => {
         assert.ok(out.distance < start.distance, 'nearer as it goes');
       }
     }
+  });
+
+  it('sinks a flier past the brow by the ground under it, so one in the air just past it still shows', () => {
+    let checked = 0;
+    for (const [, width, height] of VIEWPORTS) {
+      for (const heading of HEADINGS) {
+        const view = viewAt(meadowCamera(width, height), {
+          ...OPENING_EYE,
+          heading,
+        });
+        for (const x of [0.1, 0.5, 0.9].map((share) => share * width)) {
+          const ground = groundAlong(view, x, D_SEE + 0.05);
+          if (!ground) continue;
+          const point = { ...ground.at, y: ground.row - 60 };
+          const drawn = drawnAt(view, point, ground.row);
+          assert.ok(drawn, `${String(width)} ${String(heading)} ${String(x)}`);
+          const foot = ofLayout(view, ground.at, ground.row);
+          const lowered = sunk(view, foot).y - foot.y;
+          assert.ok(lowered > 0);
+          const placed = ofLayout(view, point, ground.row);
+          assert.ok(Math.abs(drawn.y - placed.y - lowered) < 1e-9);
+          checked++;
+        }
+      }
+    }
+    assert.ok(checked > 50, String(checked));
   });
 
   it('leaves an insect going away past the edge by its span', () => {

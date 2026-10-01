@@ -183,6 +183,19 @@ export function sunk(view: View, placed: Placed): Placed {
 }
 
 /**
+ * Where `view` draws `placed`, a thing in the air over the ground point
+ * `foot`: lowered as far as `sunk` lowers the foot, so it goes under the brow
+ * by the ground under it, as a thing standing there does, not by its own
+ * height over that ground.
+ */
+export function sunkOver(view: View, placed: Placed, foot: Placed): Placed {
+  const drawn = sunk(view, foot);
+  return drawn === foot
+    ? placed
+    : { ...placed, y: placed.y + drawn.y - foot.y };
+}
+
+/**
  * Whether `placed`, as `sunk` draws it, has sunk below the brow: hidden for
  * a thing drawn over everything in the meadow, as an insect is, which
  * nothing would cover there.

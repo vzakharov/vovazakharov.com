@@ -10,9 +10,9 @@ import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import { type Host, onHost } from './bed-place';
-import { drawnAt, type Zoomed } from './insect-away';
+import { drawnAt, flownAt, type Zoomed } from './insect-away';
 import type { Shown } from './insect-shown';
-import { browRow, cull, ofLayout, sunk, type View } from './view';
+import { browRow, cull, type View } from './view';
 
 /** The hosts a leg is drawn between: `left`, the one it set off sitting on, and `to`, the one it flies to sit on; either absent where the leg has none. */
 export type Seats = { left?: Host; to?: Host };
@@ -35,9 +35,8 @@ function onSeat(view: View, host: Host, point: Point): Zoomed | undefined {
 
 /** How far from where, and how much larger than, the flight would draw `point` over `host`'s foot row `host` draws it; nothing for a host too near the eye to place. */
 function offHost(view: View, host: Host, point: Point): Zoomed {
-  const placed = ofLayout(view, point, host.laidFoot.y);
-  if (cull(placed)) return { x: 0, y: 0, zoom: 0 };
-  const flown = sunk(view, placed);
+  const flown = flownAt(view, point, host.laidFoot.y);
+  if (cull(flown)) return { x: 0, y: 0, zoom: 0 };
   const drawn = onHost(host, point);
   return {
     x: drawn.x - flown.x,
