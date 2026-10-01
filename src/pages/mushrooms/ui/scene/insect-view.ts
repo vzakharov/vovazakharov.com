@@ -11,7 +11,6 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
-import type { Host } from './bed-place';
 import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import {
@@ -31,6 +30,7 @@ import { drawnInsect, type Seats } from './insect-seat';
 import { freshShown, type Shown } from './insect-shown';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
+import type { PerchAt, Perched } from './perch-hosts';
 import { clumpRow, type FootRows } from './perch-sight';
 import type { MeadowSound } from './sound';
 import { tapReach } from './tap-reach';
@@ -49,15 +49,6 @@ function alongOf(point: Point, start: Point, end: Point): number {
   const left = Math.hypot(point.x - end.x, point.y - end.y);
   return gone + left > 0 ? gone / (gone + left) : 1;
 }
-
-/**
- * Where an insect sits on a perch, at a flower the head's middle it drinks
- * from, and on a cap or a flower the host it sits on, which draws it.
- */
-export type Perched = Point & { nectar?: Point; on?: Host };
-
-/** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
-export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 
 /**
  * The meadow's insects, reconciled with the state by id: each a container of

@@ -31,7 +31,7 @@ import {
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import { bedPlace, layoutPlace, standAt, UNPLACED } from './bed-place';
+import { bedPlace, layoutPlace, onHost, standAt, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
@@ -39,10 +39,10 @@ import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import { containsMushroom } from './hit-areas';
 import { type Body, HouseView } from './house-view';
 import type { Lighting } from './ink';
-import type { Perched } from './insect-view';
 import type { MeadowLayout } from './layout';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection, type Selected } from './mushroom-selection';
+import type { Perched } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { puffFrom, puffSpores } from './spores';
@@ -259,7 +259,8 @@ export class MushroomBed implements Following {
    * Where a butterfly sits on `id`'s cap as it stands this frame, `across`
    * from -1 to 1 of the way from the crown toward either rim, in world px at
    * the opening eye, where the insects fly, and the cap it sits on, which
-   * draws it; `undefined` for a mushroom it does not hold.
+   * draws it, with the seat as it draws it this frame; `undefined` for a
+   * mushroom it does not hold.
    */
   capTop(id: string, across: number): Perched | undefined {
     const shown = this.shown.get(id);
@@ -267,13 +268,11 @@ export class MushroomBed implements Following {
     const { genes, size, graphics, laid, stands } = shown;
     const seat = toCanvas(size)(capSeat(genes, across));
     const on = { laidFoot: laid, ...pick(shown, 'stands') };
-    return {
-      ...placedAt(laid, graphics.rotation, {
-        x: (seat.x * graphics.scaleX) / stands.zoom,
-        y: (seat.y * graphics.scaleY) / stands.zoom,
-      }),
-      on,
-    };
+    const at = placedAt(laid, graphics.rotation, {
+      x: (seat.x * graphics.scaleX) / stands.zoom,
+      y: (seat.y * graphics.scaleY) / stands.zoom,
+    });
+    return { ...at, on, drawn: onHost(on, at) };
   }
 
   /**
