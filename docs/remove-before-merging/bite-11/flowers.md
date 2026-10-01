@@ -70,7 +70,9 @@ then drop the stash.
   the 290 s cap with fourteen. Run it alone with a 590 s timeout next.
 - Known limit: `standingFlowers` pairs seeded flowers with bed feet by index,
   so a slot left out would shift the later sounds a half; no visit leaves one
-  out today (14.00 a visit), and the new test would catch it.
+  out today (14.00 a visit). The guard is 'sound each seeded sound once in
+  each half of the world' in `flower-layout.test.ts`, over 200 tablet visits;
+  `LEAST_FLOWERS = 6.5` is an average over visits, so it lets a slot go.
 
 ## Left
 

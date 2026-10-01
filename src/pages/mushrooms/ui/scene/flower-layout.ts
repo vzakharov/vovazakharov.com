@@ -40,26 +40,17 @@ import type { Footing } from './layout';
  * sound (`SEEDED_SOUNDS`), in the order `firstFlowers` deals them, and each
  * visit jitters every flower off its slot.
  */
-const FLOWER_SPOTS = {
-  landscape: [
-    [0.12, 0.35],
-    [0.37, 0.22],
-    [0.26, 0.72],
-    [0.67, 0.28],
-    [0.78, 0.74],
-    [0.9, 0.42],
-    [0.56, 0.88],
-  ],
-  portrait: [
-    [0.14, 0.4],
-    [0.86, 0.36],
-    [0.36, 0.26],
-    [0.3, 0.62],
-    [0.78, 0.6],
-    [0.52, 0.44],
-    [0.84, 0.16],
-  ],
-} as const;
+const FLOWER_SPOTS = [
+  [0.12, 0.35],
+  [0.37, 0.22],
+  [0.26, 0.72],
+  [0.67, 0.28],
+  [0.78, 0.74],
+  [0.9, 0.42],
+  [0.56, 0.88],
+] as const;
+/** A slot of `FLOWER_SPOTS`: across its half and down the ground. */
+type Spot = (typeof FLOWER_SPOTS)[number];
 /**
  * How far a flower strays from its slot, as a fraction of its half's width
  * and of the ground's depth.
@@ -321,28 +312,24 @@ function jitter(
 const BED_HALVES = 2;
 
 /**
- * Where the flower in slot `index` of the world's `half` stands on the ground `opening` shows: the
- * first try off its slot, from its own seeded stream, that stands off the
- * opening clump's feet and apart from every flower of `placed` on the
- * ground, and on `opening` has its head clear of every control and shown
- * past the clump; `undefined` when none of its tries does.
+ * Where the flower in slot `index`, at `spot`, of the world's `half` stands
+ * on the ground `opening` shows: the first try off its slot, from its own
+ * seeded stream, that stands off the opening clump's feet and apart from
+ * every flower of `placed` on the ground, and on `opening` has its head
+ * clear of every control and shown past the clump; `undefined` when none of
+ * its tries does.
  */
 function spotOn(
   opening: FlowerGround,
   half: number,
-  index: number,
+  [index, [across, down]]: readonly [number, Spot],
   seed: number,
   placed: readonly FlowerFoot[],
 ): FlowerFoot | undefined {
-  const { width, height, frame, controls, clump } = opening;
-  const spot = FLOWER_SPOTS[height > width ? 'portrait' : 'landscape'][index];
-  if (!spot) return undefined;
+  const { frame, controls, clump } = opening;
   const camera = cameraOf(opening);
   const feet = clump.map(({ place }) => groundOf(camera, place));
-  const [across, down] = spot;
-  const random = mulberry32(
-    seed + half * FLOWER_SPOTS.landscape.length + index,
-  );
+  const random = mulberry32(seed + half * FLOWER_SPOTS.length + index);
   for (let attempt = 0; attempt < FLOWER_TRIES; attempt++) {
     // Each miss strays a little farther, so a slot on the clump finds a way off it.
     const stray = 1 + attempt / 4;
@@ -375,8 +362,8 @@ function spotOn(
 export function seededBed(opening: FlowerGround, seed: number): FlowerFoot[] {
   const bed: FlowerFoot[] = [];
   for (let half = 0; half < BED_HALVES; half++) {
-    for (const index of FLOWER_SPOTS.landscape.keys()) {
-      const foot = spotOn(opening, half, index, seed, bed);
+    for (const slot of FLOWER_SPOTS.entries()) {
+      const foot = spotOn(opening, half, slot, seed, bed);
       if (foot) bed.push(foot);
     }
   }
