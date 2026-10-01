@@ -180,6 +180,18 @@
   brought frames and report at 158k. A player gets the 20-minute check-in
   by default; a reader rarely needs one.
 
+- **The check-in timer is a stand-in for a hook the agent should get.**
+  The context-budget `PostToolUse` hook already fires on every subagent
+  tool call and exits on `agent_id`, because its notice says "pause the
+  plan", which a subagent must not do. The operator asked why agents are
+  not simply told, as the main session is («им нельзя говорить чтобы
+  применяли ту же эвристику… вместо того чтобы проверять каждые эндцать
+  минут?»). The skill should have that hook read the subagent's own
+  transcript and send it a subagent notice at ~170k — commit what passes,
+  bring the note current, report — and keep the timer only as a backstop
+  for an agent stuck in one long command. Open: which transcript path the
+  hook receives from a subagent's call.
+
 - **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
   the common brief from the start.** Bite 11's first flowers agent stashed
   for a test baseline and swept up two siblings' uncommitted edits; the
