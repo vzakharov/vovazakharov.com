@@ -36,12 +36,32 @@ export const PROBE = `(() => {
   const centre = ({ x, y }) => ({ x, y });
   const finite = (at) => (Number.isFinite(at) ? at : null);
   /**
-   * A world point where the screen shows it now, and back, through the
-   * scene's crop: what stands on the ground is placed in the world, and a
-   * finger lands on the screen.
+   * A point of the camera's world where the screen shows it now, and back:
+   * the eye's view places everything on the screen, and the camera scrolls
+   * only by the walk's bob, down the screen.
    */
-  const toScreen = ({ x, y }) => scene.crop.toScreen({ x, y });
-  const toWorld = ({ x, y }) => scene.crop.toWorld({ x, y });
+  const toScreen = ({ x, y }) => {
+    const { scrollX, scrollY } = scene.cameras.main;
+    return { x: x - scrollX, y: y - scrollY };
+  };
+  const toWorld = ({ x, y }) => {
+    const { scrollX, scrollY } = scene.cameras.main;
+    return { x: x + scrollX, y: y + scrollY };
+  };
+  /** Whether the screen shows the camera's world x across it. */
+  const shows = (x) => {
+    const across = toScreen({ x, y: 0 }).x;
+    return across >= 0 && across <= scene.layout.width;
+  };
+  /** A point of the layout's world, standing over the ground row \`row\`, where the screen shows it now. */
+  const ofLayout = (point, row) => toScreen(scene.eye.toScreen(point, row));
+  // Every footstep the walk sounds, counted whether or not the sound is on.
+  const step = scene.voice.step.bind(scene.voice);
+  let steps = 0;
+  scene.voice.step = (foot) => {
+    steps += 1;
+    step(foot);
+  };
   /** The middle of \`points\`, in \`graphics\`' frame, on screen. */
   const onScreen = (graphics, points) => {
     const x = points.reduce((sum, point) => sum + point.x, 0) / points.length;
@@ -109,13 +129,39 @@ export const PROBE = `(() => {
     scene,
     toScreen,
     toWorld,
-    /** The crop's left edge, in world px, and the world's and the screen's widths. */
-    crop: () => ({
-      left: scene.crop.left(),
-      world: scene.layout.camera.world,
-      width: scene.layout.camera.width,
-      unit: scene.layout.camera.unit,
-    }),
+    shows,
+    /**
+     * Where the eye stands and which way it looks, how far it has walked,
+     * the camera's bob, the footsteps sounded since the probe went in, and
+     * the screen and the clump's size it is seen on.
+     */
+    eye: () => {
+      const { x, y, heading } = scene.eye.eye();
+      return {
+        x,
+        y,
+        heading,
+        walked: scene.eye.walked(),
+        bob: scene.cameras.main.scrollY,
+        steps,
+        width: scene.layout.width,
+        height: scene.layout.height,
+        unit: scene.layout.camera.unit,
+      };
+    },
+    /** Where the sun's picture stands across the screen, in CSS px; \`null\` while the view leaves it out. */
+    sun: () => {
+      const columns = scene.backdrop.sun.columns.filter(
+        (column) => column.visible,
+      );
+      if (columns.length === 0) return null;
+      const left = Math.min(...columns.map((column) => column.x));
+      const right = Math.max(
+        ...columns.map((column) => column.x + column.displayWidth),
+      );
+      const middle = toScreen({ x: (left + right) / 2, y: 0 }).x;
+      return middle >= 0 && middle <= scene.layout.width ? middle : null;
+    },
     state: () => ({
       picking: scene.meadow.picking,
       furnishing: scene.meadow.furnishing,
@@ -151,7 +197,10 @@ export const PROBE = `(() => {
           kind,
           legs,
           ...leg,
-          inSight: shown !== undefined && scene.crop.shows(shown.container.x),
+          inSight:
+            shown !== undefined &&
+            shown.container.visible &&
+            shows(shown.container.x),
         };
       }),
     /**
@@ -163,8 +212,8 @@ export const PROBE = `(() => {
       if (!shown) return null;
       return {
         ...toScreen(shown.container),
-        at: toScreen(shown.at),
-        end: shown.end ? toScreen(shown.end) : null,
+        at: ofLayout(shown.at, shown.row),
+        end: shown.end ? ofLayout(shown.end, shown.row) : null,
         span: shown.span * shown.container.scaleX,
         tappedAt: finite(shown.tappedAt),
       };
@@ -237,7 +286,7 @@ export const PROBE = `(() => {
           const at = flower.head.getWorldTransformMatrix();
           return { id, depth: flower.container.depth, x: at.tx, y: at.ty };
         })
-        .filter(({ x }) => scene.crop.shows(x))
+        .filter(({ x }) => shows(x))
         .sort((a, b) => b.depth - a.depth)[0];
       if (!shown) return null;
       const { id, x, y } = shown;
@@ -319,13 +368,22 @@ export const Controls = z.object({
   housePicker: z.array(Point),
   releases: z.record(z.enum(INSECT_KINDS), Point),
 });
-/** `__probe.crop()`: the crop's left edge and the widths it is taken across, in CSS px, and the clump's size. */
-export const Crop = z.object({
-  left: z.number(),
-  world: z.number(),
+/** `__probe.eye()`: the eye on the plane, in the clump's size, its heading in radians, and the screen in CSS px. */
+export const Eye = z.object({
+  x: z.number(),
+  y: z.number(),
+  heading: z.number(),
+  walked: z.number(),
+  /** The camera's scroll down the screen, in CSS px: the walk's bob, never above 0. */
+  bob: z.number(),
+  /** Footsteps sounded since the probe went in. */
+  steps: z.number(),
   width: z.number(),
+  height: z.number(),
   unit: z.number(),
 });
+/** `__probe.sun()`: the sun's middle across the screen, `null` while the view leaves it out. */
+export const Sun = z.number().nullable();
 export const Mouse = z.object({
   tappedAt: z.number().nullable(),
   out: z.number(),
@@ -337,6 +395,15 @@ export const Pose = z
   .object({ mushroom: z.number(), house: z.number(), shown: z.boolean() })
   .nullable();
 export const Flower = Point.extend({ id: z.string() }).nullable();
+
+/** The arrow keys, by their DOM `key`, and the key code each goes down with. */
+export const ARROWS = {
+  ArrowLeft: 37,
+  ArrowUp: 38,
+  ArrowRight: 39,
+  ArrowDown: 40,
+} as const;
+export type Arrow = keyof typeof ARROWS;
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
 export type Page = {
@@ -372,7 +439,7 @@ export type Page = {
    * the browser's own repeat of a held key's press.
    */
   key: (
-    key: 'ArrowLeft' | 'ArrowRight',
+    key: Arrow,
     type: 'keyDown' | 'keyUp',
     repeat?: boolean,
   ) => Promise<void>;

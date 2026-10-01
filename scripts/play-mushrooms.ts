@@ -2,15 +2,16 @@
  * Plays `/mushrooms` on the five screens it is made for and fails on the first
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
- * the meadow is tapped the way a finger does, and the meadow is panned by
- * drag and by key and turned — the steps are `lib/play-meadow.ts`,
+ * the meadow is tapped the way a finger does, and the eye is turned and
+ * walked by drag and by key and the screen turned — the steps are `lib/play-meadow.ts`,
  * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
- * `lib/play-pan.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and a
+ * `lib/play-walk.ts`, `lib/play-species.ts` and `lib/play-tufts.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
  *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
  *   pnpm play:mushrooms --no-build --screens tabL,phoneS  # only those screens
+ *   pnpm play:mushrooms --no-build --plays walk,tufts     # only those plays
  *
  * The page hands its game over only in a build with
  * `NEXT_PUBLIC_MUSHROOM_PROBE` set, which this builds; the game loop is put to
@@ -32,6 +33,7 @@ import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { median, overBudget } from './lib/frame-budget.ts';
 import {
+  ARROWS,
   Controls,
   type Expect,
   inTurn,
@@ -42,9 +44,9 @@ import {
 } from './lib/mushroom-probe.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playMeadow } from './lib/play-meadow.ts';
-import { playPan } from './lib/play-pan.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
+import { playWalk } from './lib/play-walk.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'apps/vova/out');
@@ -62,6 +64,15 @@ const SCREENS = [
 ] as const;
 
 type Screen = (typeof SCREENS)[number];
+
+/** Each play by the name `--plays` picks it by, in the order they run. */
+const PLAYS = [
+  ['meadow', playMeadow],
+  ['walk', playWalk],
+  ['planting', playPlanting],
+  ['species', playSpecies],
+  ['tufts', playTufts],
+] as const;
 
 const TYPES: Record<string, string> = {
   '.html': 'text/html',
@@ -263,7 +274,7 @@ async function open(
         type,
         key,
         code: key,
-        windowsVirtualKeyCode: { ArrowLeft: 37, ArrowRight: 39 }[key],
+        windowsVirtualKeyCode: ARROWS[key],
         autoRepeat: repeat,
       });
     },
@@ -337,7 +348,6 @@ async function main(): Promise<void> {
     ...rest
   ]: readonly Screen[]): Promise<void> => {
     if (screen === undefined) return;
-    const page = await open(browser, origin, screen, errors);
     const fail = (message: string) => {
       failures.push(`${screen.name}: ${message}`);
     };
@@ -347,21 +357,17 @@ async function main(): Promise<void> {
     const expect: Expect = (holds, message) => {
       if (!holds) fail(message);
     };
-    await playMeadow(
-      page,
-      await page.evaluate('__probe.controls()', Controls),
-      expect,
-      note,
-    );
-    // Fresh meadows, one after the other: panned and turned on one, the
-    // bees alone on the next, every species grown on the next, the child
-    // planting flowers on the last.
-    const frames = [...page.rendered];
+    // A fresh meadow for each play, one after the other: every control on
+    // the first, walked and turned on the next, the bees alone on the next,
+    // every species grown on the next, the child planting flowers on the
+    // last. `--plays walk,tufts` plays only those.
+    const only = flag('plays')?.split(',');
+    const frames: number[] = [];
     await inTurn(
-      [playPan, playPlanting, playSpecies, playTufts],
-      async (playOn) => {
+      PLAYS.filter(([name]) => only?.includes(name) ?? true),
+      async ([name, playOn]) => {
         const on = await open(browser, origin, screen, errors);
-        await on.step(30);
+        if (name !== 'meadow') await on.step(30);
         await playOn(
           on,
           await on.evaluate('__probe.controls()', Controls),

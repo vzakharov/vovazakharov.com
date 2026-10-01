@@ -50,7 +50,7 @@ const PLANTING = `(() => {
  * insect or button over it — the farthest first.
  */
 const TUFTS = `__probe.scene.grass.tufts
-  .filter(({ tuft: { x } }) => __probe.scene.crop.shows(x))
+  .filter(({ tuft: { x } }) => __probe.shows(x))
   .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;
