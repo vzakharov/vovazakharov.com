@@ -1,0 +1,667 @@
+diff --git a/docs/remove-before-merging/bite-12/ip3/back.ts b/docs/remove-before-merging/bite-12/ip3/back.ts
+new file mode 100644
+index 00000000..41a0e375
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/back.ts
+@@ -0,0 +1,75 @@
++/**
++ * R3.1's look back: a release's bowed (steered) leg, in the leg's frame, with
++ * the eye looking back — from beyond the forest at the clump, and from the
++ * opening eye at a perch stood behind it — start → each perch the screen
++ * shows, and start → out past the side. Share of frames drawn, per screen.
++ * `node --import tsx back.ts`.
++ */
++
++import { alongSight, CLUMP_DISTANCE, EYE_HEIGHT, type Eye, pinholeOf } from '../../../../src/pages/mushrooms/model/ground';
++import { INSECT_KINDS } from '../../../../src/pages/mushrooms/model/insect-genes';
++import { bendAt } from '../../../../src/pages/mushrooms/model/ground';
++import { awayDown, PAST_BROW } from '../../../../src/pages/mushrooms/ui/scene/insect-away';
++import { D_SEE, onScreen, viewAt } from '../../../../src/pages/mushrooms/ui/scene/view';
++import { VIEWPORTS } from '../../../../src/pages/mushrooms/ui/scene/viewports';
++import { fly, SPANS } from './legs';
++import { type Aloft, drawnAloft, radiusOn } from './proto';
++import { perchesOf } from './world';
++
++const OUT_AHEAD = 0.5;
++
++for (const [screen, width, height] of VIEWPORTS) {
++  const { layout, perches } = perchesOf(1, width, height);
++  const camera = layout.camera;
++  const pin = pinholeOf(camera);
++  const shares: number[] = [];
++  let [legs, full, landed] = [0, 0, 0];
++  const at = (eye: Eye, x: number, d: number, y: number): Aloft => {
++    const plane = alongSight(camera, eye, x, d);
++    return { ...plane, h: EYE_HEIGHT - ((y - pin.y) * d) / (pin.focal * bendAt(pin, x)) };
++  };
++  const eyes: Array<{ eye: Eye; behind?: Aloft[] }> = [Math.PI, Math.PI - 0.035, Math.PI + 0.035].flatMap((heading) => {
++    const opening = { x: 0, y: 0, heading };
++    return [
++      { eye: { x: 0, y: 18, heading } },
++      // From the opening eye nothing stands behind; three perches stood there, on the ground's middle rows.
++      { eye: opening, behind: [0.25, 0.5, 0.75].map((share) => ({ ...alongSight(camera, opening, width * share, 0.6 * D_SEE), h: 1 })) },
++    ];
++  });
++  for (const { eye, behind } of eyes) {
++    const view = viewAt(camera, eye);
++    const shownPerches = (behind ?? perches.filter(({ seat }) => seat).map(({ at: a }) => a)).filter((a) => {
++      const drawn = drawnAloft(view, a);
++      return drawn !== undefined && onScreen(view, drawn);
++    });
++    const middle = width / 2;
++    for (const kind of INSECT_KINDS) {
++      const ends = [
++        ...shownPerches.map((end) => ({ end, x: (middle + (drawnAloft(view, end)?.x ?? middle)) / 2, seat: true })),
++        ...(['left', 'right'] as const).map((side) => {
++          const span = SPANS[kind] * layout.insectSizes[kind];
++          const x = side === 'left' ? -span : width + span;
++          return { end: at(eye, x, OUT_AHEAD * D_SEE, awayDown(height, 1.3)), x: middle, seat: false };
++        }),
++      ];
++      for (const { end, x, seat } of ends) {
++        const start = { ...alongSight(camera, eye, x, D_SEE + PAST_BROW), h: 0 };
++        const { frames } = fly(
++          { camera, kind, size: layout.insectSizes[kind], butterfly: layout.insectSizes.butterfly, phase: 1.3, start, end, startSeat: false, endSeat: seat, eye: () => eye },
++          [{ name: 'edge', veer: (c) => ({ r: radiusOn(c, true), w: 0.1 * CLUMP_DISTANCE }) }],
++        );
++        const drawn = frames[0] ?? [];
++        const share = drawn.filter(({ shown }) => shown).length / drawn.length;
++        shares.push(share);
++        legs += 1;
++        if (share >= 0.95) full += 1;
++        if (seat && drawn.at(-1)?.shown) landed += 1;
++      }
++    }
++  }
++  const sorted = shares.toSorted((a, b) => a - b);
++  console.log(
++    `${screen.padEnd(20)} ${String(legs)} legs, drawn ≥ 95% of frames on ${String(full)}, ` +
++      `median ${((sorted[Math.floor(sorted.length / 2)] ?? 0) * 100).toFixed(1)}%, least ${((sorted[0] ?? 0) * 100).toFixed(1)}%, landed drawn ${String(landed)}`,
++  );
++}
+diff --git a/docs/remove-before-merging/bite-12/ip3/bench.ts b/docs/remove-before-merging/bite-12/ip3/bench.ts
+new file mode 100644
+index 00000000..2188b241
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/bench.ts
+@@ -0,0 +1,62 @@
++/**
++ * R3.2: what drawing one flying insect costs a frame, today's `drawnInsect`
++ * (mid-leg, a host at either end) against the leg's frame path (both ends
++ * framed, the point back to an `Aloft`, the veer, `drawnAloft`). `steer` is
++ * the same on both and left out. `node --import tsx bench.ts`.
++ */
++
++import { CLUMP_DISTANCE, type Ground, project } from '../../../../src/pages/mushrooms/model/ground';
++import { bedPlace, type Host } from '../../../../src/pages/mushrooms/ui/scene/bed-place';
++import { drawnInsect } from '../../../../src/pages/mushrooms/ui/scene/insect-seat';
++import { meadowCamera } from '../../../../src/pages/mushrooms/ui/scene/meadow-camera';
++import { type View, viewAt } from '../../../../src/pages/mushrooms/ui/scene/view';
++import { aloftOf, alongOf, centreOf, drawnAloft, framedOf, mixQ, radiusOn, veerAloft } from './proto';
++
++const camera = meadowCamera(1180, 820);
++const eye = { x: 0.4, y: 1.1, heading: 0.3 };
++const view = viewAt(camera, eye);
++
++function hostOn(on: View, foot: Ground): Host {
++  const { x, y } = project(on, foot);
++  return { laidFoot: { x, y }, stands: bedPlace(on, foot) };
++}
++
++const seats = { left: hostOn(view, { x: -0.4, z: 0.1 }), to: hostOn(view, { x: 0.9, z: 0.7 }) };
++const points = Array.from({ length: 64 }, (_, index) => ({ x: 300 + index * 9, y: 380 + (index % 7) * 11 }));
++const start = { x: -2, y: 9, h: 0.9 };
++const end = { x: 3, y: 12, h: 1.1 };
++const veer = { r: radiusOn(camera, true), w: 0.1 * CLUMP_DISTANCE };
++const c = centreOf(eye, start, end);
++
++const RUNS = 400_000;
++let sink = 0;
++
++function time(name: string, each: (index: number) => number): number {
++  for (let index = 0; index < RUNS / 10; index++) sink += each(index);
++  const rounds: number[] = [];
++  for (let round = 0; round < 5; round++) {
++    const begun = performance.now();
++    for (let index = 0; index < RUNS; index++) sink += each(index);
++    rounds.push(((performance.now() - begun) * 1000) / RUNS);
++  }
++  const best = Math.min(...rounds);
++  console.log(`${name.padEnd(34)} ${best.toFixed(3)} µs per insect, ${(best * 30).toFixed(1)} µs for 30`);
++  return best;
++}
++
++time('today: drawnInsect, two hosts', (index) => {
++  const point = points[index % points.length] ?? { x: 0, y: 0 };
++  return drawnInsect(view, point, { flown: 0.4, row: 560 }, seats)?.zoom ?? 0;
++});
++time('today: drawnInsect, no host', (index) => {
++  const point = points[index % points.length] ?? { x: 0, y: 0 };
++  return drawnInsect(view, point, { flown: 0.4, row: 560 }, {})?.zoom ?? 0;
++});
++time('frame: frame ends, back, veer, draw', (index) => {
++  const point = points[index % points.length] ?? { x: 0, y: 0 };
++  const [s, e] = [framedOf(camera, eye, c, start), framedOf(camera, eye, c, end)];
++  const flown = alongOf(point, s, e);
++  const aloft = veerAloft(eye, aloftOf(camera, eye, c, point, mixQ(s.q, e.q, flown)), veer);
++  return drawnAloft(view, aloft)?.zoom ?? 0;
++});
++console.log(sink > 0 ? '' : '-');
+diff --git a/docs/remove-before-merging/bite-12/ip3/legs.ts b/docs/remove-before-merging/bite-12/ip3/legs.ts
+new file mode 100644
+index 00000000..18674c2f
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/legs.ts
+@@ -0,0 +1,141 @@
++/**
++ * One leg flown in the leg's frame with the real `steer`, 60 fps, and drawn
++ * through `drawnAloft` with each veer the round tries, frame by frame.
++ */
++
++import type { Point } from '../../../../src/pages/mushrooms/model/geometry';
++import {
++  type Camera,
++  CLUMP_DISTANCE,
++  type Eye,
++} from '../../../../src/pages/mushrooms/model/ground';
++import type { InsectKind } from '../../../../src/pages/mushrooms/model/insect-genes';
++import { firstSteering, steer } from '../../../../src/pages/mushrooms/model/insect-steering';
++import { smooth } from '../../../../src/pages/mushrooms/model/motion';
++import { onScreen, V_NEAR, viewAt } from '../../../../src/pages/mushrooms/ui/scene/view';
++import {
++  type Aloft,
++  aloftOf,
++  alongOf,
++  centreOf,
++  drawnAloft,
++  framedOf,
++  mixQ,
++  type Veer,
++  veerAloft,
++} from './proto';
++
++/** Each kind's cruise, in butterfly sizes a second (the plan's starting values). */
++export const CRUISE = { butterfly: 1, fly: 7, bee: 4.6 } as const satisfies Record<InsectKind, number>;
++/** Each kind's widest span, in its own size (`perch-sight.ts` `WIDEST_SPANS`). */
++export const SPANS = { butterfly: 1.22, fly: 1.36, bee: 1.2 } as const satisfies Record<InsectKind, number>;
++
++const FLUTTER = 0.28;
++const FRAME = 1000 / 60;
++/** How long a leg's end is held after it arrives, in ms. */
++const HOLD = 500;
++/** The share of a leg's way the veer fades in over off a seat inside it. */
++export const FADE = 0.3;
++
++/** What a leg is flown between: its ends, whether each is a seat (a host that hides its sitter when culled), and the eye frame by frame. */
++export type Leg = {
++  camera: Camera;
++  kind: InsectKind;
++  /** Its size in CSS px at `CLUMP_DISTANCE` (`insectSizes`), and the butterfly's. */
++  size: number;
++  butterfly: number;
++  phase: number;
++  start: Aloft;
++  end: Aloft;
++  startSeat: boolean;
++  endSeat: boolean;
++  eye: (now: number) => Eye;
++  /** Ms flown, by default its length at its cruise. */
++  time?: number;
++};
++
++/** One frame of a leg, drawn one way. */
++export type Drawn = { shown: boolean; zoom: number; px: number; x: number; y: number; d: number; popped?: boolean };
++
++/** The veer a variant draws through, or none. */
++export type Variant = { name: string; veer?: (camera: Camera) => Veer };
++
++/** A seat end's share inside the veer, 0 outside `r + w` to 1 inside `r`. */
++function inside(d: number, { r, w }: Veer): number {
++  return Math.min(1, Math.max(0, (r + w - d) / w));
++}
++
++/** The leg's time in ms: its length in its set-off frame, in butterfly sizes as drawn, at its kind's cruise. */
++export function legTime(leg: Leg, c: number): number {
++  const eye = leg.eye(0);
++  const [a, b] = [framedOf(leg.camera, eye, c, leg.start), framedOf(leg.camera, eye, c, leg.end)];
++  const px = Math.hypot(b.x - a.x, b.y - a.y);
++  const mean = Math.abs(a.q - b.q) < 1e-9 ? a.q : (a.q - b.q) / Math.log(a.q / b.q);
++  const sizes = (px / leg.butterfly) * (mean / CLUMP_DISTANCE);
++  return Math.max(300, (1000 * sizes) / CRUISE[leg.kind]);
++}
++
++/** Flies `leg`, drawing each frame through every variant. */
++export function fly(leg: Leg, variants: readonly Variant[]): { time: number; frames: Drawn[][] } {
++  const { camera, kind, size, phase, start, end } = leg;
++  const c = centreOf(leg.eye(0), start, end);
++  const time = leg.time ?? legTime(leg, c);
++  let steering = firstSteering({ facing: 0, turn: 0 });
++  let flown = 0;
++  let aim: Point | undefined;
++  const frames: Drawn[][] = variants.map(() => []);
++  const span = SPANS[kind] * size;
++  for (let now = 0; now <= time + HOLD; now += FRAME) {
++    const eye = leg.eye(now);
++    const view = viewAt(camera, eye);
++    const [s, e] = [framedOf(camera, eye, c, start), framedOf(camera, eye, c, end)];
++    aim ??= e;
++    const zoomed = (size * CLUMP_DISTANCE) / mixQ(s.q, e.q, flown);
++    const out = steer(
++      steering,
++      {
++        leg: { departs: 0, arrives: time },
++        carried: { launch: leg.startSeat ? 0 : 1, speed: 0, drink: 0 },
++        start: s,
++        end: e,
++        aim,
++        sat: leg.startSeat ? 0 : undefined,
++        perched: leg.endSeat,
++        size: zoomed,
++        motion: { kind, phase, flutter: zoomed * FLUTTER },
++      },
++      now,
++    );
++    steering = out.steering;
++    flown = now >= time ? 1 : alongOf(out.point, s, e);
++    const raw = aloftOf(camera, eye, c, out.point, mixQ(s.q, e.q, flown));
++    const ds = Math.hypot(start.x - eye.x, start.y - eye.y);
++    const de = Math.hypot(end.x - eye.x, end.y - eye.y);
++    // A seat whose host the meadow culls hides its sitter (`cull`, at the host's drawn distance).
++    const sittingHidden =
++      (flown >= 1 && leg.endSeat && (drawnAloft(view, end)?.zoom ?? Infinity) > CLUMP_DISTANCE / V_NEAR) ||
++      (flown <= 0 && leg.startSeat && (drawnAloft(view, start)?.zoom ?? Infinity) > CLUMP_DISTANCE / V_NEAR);
++    variants.forEach((variant, index) => {
++      let aloft = raw;
++      if (variant.veer) {
++        const veer = variant.veer(camera);
++        const s0 = leg.startSeat ? inside(ds, veer) : 0;
++        const s1 = leg.endSeat ? inside(de, veer) : 0;
++        const keep = (1 - s0 * (1 - smooth(flown / FADE))) * (1 - s1 * (1 - smooth((1 - flown) / FADE)));
++        aloft = veerAloft(eye, raw, veer, keep);
++      }
++      const drawn = sittingHidden ? undefined : drawnAloft(view, aloft);
++      const shown = drawn !== undefined && onScreen(view, drawn, -span * drawn.zoom);
++      frames[index]?.push({
++        shown,
++        popped: sittingHidden,
++        zoom: drawn?.zoom ?? 0,
++        px: span * (drawn?.zoom ?? 0),
++        x: drawn?.x ?? Number.NaN,
++        y: drawn?.y ?? Number.NaN,
++        d: Math.hypot(aloft.x - eye.x, aloft.y - eye.y),
++      });
++    });
++  }
++  return { time, frames };
++}
+diff --git a/docs/remove-before-merging/bite-12/ip3/proto.ts b/docs/remove-before-merging/bite-12/ip3/proto.ts
+new file mode 100644
+index 00000000..bf655a46
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/proto.ts
+@@ -0,0 +1,155 @@
++/**
++ * Round 3's prototype of the leg's frame (`insect-plane.md` R2.1) and the
++ * veer (R3.1), against the real modules: an `Aloft` framed by the pinhole
++ * stood at the eye and turned to `c`, back again, and drawn through `viewOf`.
++ */
++
++import type { Point } from '../../../../src/pages/mushrooms/model/geometry';
++import {
++  bendAt,
++  type Camera,
++  CLUMP_DISTANCE,
++  type Eye,
++  EYE_HEIGHT,
++  pinholeOf,
++  SPREAD,
++  viewOf,
++} from '../../../../src/pages/mushrooms/model/ground';
++import {
++  buried,
++  type Placed,
++  sunkOver,
++  V_NEAR,
++  type View,
++} from '../../../../src/pages/mushrooms/ui/scene/view';
++
++/** A plane point and a height over it, in the clump's size. */
++export type Aloft = Point & { h: number };
++
++/** A point in a leg's frame, in CSS px, and its forward distance `q`. */
++export type Framed = Point & { q: number };
++
++/** The edge of the frame the ends keep inside, in gathered radians. */
++const EDGE = 0.9;
++/** The same, as plane azimuth off the frame's centre. */
++export const M = SPREAD * EDGE;
++
++/** `angle` wrapped into `[−π, π)`. */
++export function wrapped(angle: number): number {
++  return angle - 2 * Math.PI * Math.floor((angle + Math.PI) / (2 * Math.PI));
++}
++
++/** The plane azimuth of `point` from `eye`, from `+y` toward `+x`. */
++export function azimuthOf(eye: Point, point: Point): number {
++  return Math.atan2(point.x - eye.x, point.y - eye.y);
++}
++
++/** The frame's centre for a leg from `start` to `end` set off with `eye`: its heading, clamped so both ends lie within `M`. */
++export function centreOf(eye: Eye, start: Point, end: Point): number {
++  const a0 = azimuthOf(eye, start);
++  const a1 = a0 + wrapped(azimuthOf(eye, end) - a0);
++  const [lo, hi] = [Math.min(a0, a1), Math.max(a0, a1)];
++  const middle = (lo + hi) / 2;
++  const heading = middle + wrapped(eye.heading - middle);
++  return Math.min(Math.max(heading, hi - M), lo + M);
++}
++
++/** `aloft` in the frame centred on `c` stood at `eye`. */
++export function framedOf(
++  camera: Camera,
++  eye: Point,
++  c: number,
++  aloft: Aloft,
++): Framed {
++  const pin = pinholeOf(camera);
++  const theta = wrapped(azimuthOf(eye, aloft) - c) / SPREAD;
++  const d = Math.hypot(aloft.x - eye.x, aloft.y - eye.y);
++  const q = d * Math.cos(theta);
++  return {
++    x: pin.x + pin.focal * Math.tan(theta),
++    y: pin.y + ((EYE_HEIGHT - aloft.h) * pin.focal) / q,
++    q,
++  };
++}
++
++/** `framedOf` backwards, at forward distance `q`. */
++export function aloftOf(
++  camera: Camera,
++  eye: Point,
++  c: number,
++  point: Point,
++  q: number,
++): Aloft {
++  const pin = pinholeOf(camera);
++  const theta = Math.atan((point.x - pin.x) / pin.focal);
++  const azimuth = c + SPREAD * theta;
++  const d = q / Math.cos(theta);
++  return {
++    x: eye.x + d * Math.sin(azimuth),
++    y: eye.y + d * Math.cos(azimuth),
++    h: EYE_HEIGHT - ((point.y - pin.y) * q) / pin.focal,
++  };
++}
++
++/** The forward distance `flown` of the way from `q0` to `q1`, mixed straight in `1/q`. */
++export function mixQ(q0: number, q1: number, flown: number): number {
++  return 1 / ((1 - flown) / q0 + flown / q1);
++}
++
++/** How far along from `start` to `end` `point` stands, by its distance to each (`alongOf`). */
++export function alongOf(point: Point, start: Point, end: Point): number {
++  const gone = Math.hypot(point.x - start.x, point.y - start.y);
++  const left = Math.hypot(point.x - end.x, point.y - end.y);
++  return gone + left > 0 ? gone / (gone + left) : 1;
++}
++
++/** The veer's radius `R_V` and half-width `w`, in the clump's size. */
++export type Veer = { r: number; w: number };
++
++/** `d` pushed out to at least `r`, C¹-smooth over `[r − w, r + w]`. */
++export function veered(d: number, { r, w }: Veer): number {
++  if (d >= r + w) return d;
++  if (d <= r - w) return r;
++  return r + (d - r + w) ** 2 / (4 * w);
++}
++
++/** `aloft` pushed radially out from `eye` on the plane by `veered`, kept by `keep` (0 none of the push, 1 all of it). */
++export function veerAloft(
++  eye: Point,
++  aloft: Aloft,
++  veer: Veer,
++  keep = 1,
++): Aloft {
++  const d = Math.hypot(aloft.x - eye.x, aloft.y - eye.y);
++  const pushed = veered(d, veer);
++  if (pushed === d || d === 0) return aloft;
++  const scale = 1 + keep * (pushed / d - 1);
++  return {
++    x: eye.x + (aloft.x - eye.x) * scale,
++    y: eye.y + (aloft.y - eye.y) * scale,
++    h: aloft.h,
++  };
++}
++
++/** The veer's radius on `camera`: `V_NEAR`, or `V_NEAR` times the bend at the screen's edge. */
++export function radiusOn(camera: Camera, atEdge: boolean): number {
++  return atEdge ? V_NEAR * bendAt(pinholeOf(camera), 0) : V_NEAR;
++}
++
++/** Where `view` draws `aloft`, at zoom `CLUMP_DISTANCE / ahead`, sunk by the ground under it; `undefined` behind the eye or buried. */
++export function drawnAloft(
++  view: View,
++  aloft: Aloft,
++): (Point & { zoom: number }) | undefined {
++  const placedOf = (h: number): Placed => {
++    const viewed = viewOf(view, view.eye, aloft, h);
++    return {
++      ...viewed,
++      zoom: CLUMP_DISTANCE / viewed.ahead,
++      distance: Math.hypot(aloft.x - view.eye.x, aloft.y - view.eye.y),
++    };
++  };
++  const placed = sunkOver(view, placedOf(aloft.h), placedOf(0));
++  if (placed.ahead <= 0 || buried(view, placed)) return undefined;
++  return { x: placed.x, y: placed.y, zoom: placed.zoom };
++}
+diff --git a/docs/remove-before-merging/bite-12/ip3/veer.ts b/docs/remove-before-merging/bite-12/ip3/veer.ts
+new file mode 100644
+index 00000000..8139b500
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/veer.ts
+@@ -0,0 +1,161 @@
++/**
++ * R3.1: legs past the eye, with and without the veer, per screen and kind.
++ * `node --import tsx veer.ts` from this directory; `SCREEN=` one screen's
++ * name, `SEEDS=` a comma list of visits, `LEGS=` legs per eye and kind.
++ */
++
++import { CLUMP_DISTANCE, type Eye, OPENING_EYE } from '../../../../src/pages/mushrooms/model/ground';
++import { INSECT_KINDS, type InsectKind } from '../../../../src/pages/mushrooms/model/insect-genes';
++import { mulberry32 } from '../../../../src/pages/mushrooms/model/random';
++import { STRIDE_CRUISE } from '../../../../src/pages/mushrooms/model/stride';
++import { onScreen, viewAt } from '../../../../src/pages/mushrooms/ui/scene/view';
++import { VIEWPORTS } from '../../../../src/pages/mushrooms/ui/scene/viewports';
++import { type Drawn, fly, SPANS, type Variant } from './legs';
++import { azimuthOf, drawnAloft, radiusOn, type Veer, veerAloft } from './proto';
++import { perchesOf, type PlanePerch } from './world';
++
++const CD = CLUMP_DISTANCE;
++const env = process.env;
++const SEEDS = (env['SEEDS'] ?? '1').split(',').map(Number);
++const LEGS = Number(env['LEGS'] ?? '3');
++const W = (env['W'] ?? '0.1,0.25').split(',').map(Number);
++
++const VARIANTS: Variant[] = [
++  { name: 'none' },
++  ...W.flatMap((w) => [
++    { name: `V_NEAR w${String(w)}`, veer: (camera) => ({ r: radiusOn(camera, false), w: w * CD }) },
++    { name: `edge w${String(w)}`, veer: (camera) => ({ r: radiusOn(camera, true), w: w * CD }) },
++  ] satisfies Variant[]),
++];
++
++/** What a run of legs adds up to, for one variant. */
++type Tally = { legs: number; zoom: number; px: number; near: [number, number, number]; big: number; jump: number; whips: number; pops: number; shown: number; frames: number };
++
++const fresh = (): Tally => ({ legs: 0, zoom: 0, px: 0, near: [0, 0, 0], big: 0, jump: 0, whips: 0, pops: 0, shown: 0, frames: 0 });
++
++function add(tally: Tally, frames: readonly Drawn[], width: number, height: number): void {
++  tally.legs += 1;
++  let [nearest, run, last, jump, popped] = [Infinity, 0, undefined as Drawn | undefined, 0, false];
++  const inside = (frame: Drawn) => frame.x >= 0 && frame.x <= width && frame.y >= 0 && frame.y <= height;
++  for (const frame of frames) {
++    nearest = Math.min(nearest, frame.d);
++    tally.frames += 1;
++    if (frame.shown) tally.shown += 1;
++    if (frame.shown && inside(frame)) {
++      tally.zoom = Math.max(tally.zoom, frame.zoom);
++      tally.px = Math.max(tally.px, frame.px);
++      if (last?.shown && inside(last)) jump = Math.max(jump, Math.hypot(frame.x - last.x, frame.y - last.y));
++    }
++    if (frame.popped && last?.shown && inside(last)) popped = true;
++    run = frame.shown && frame.px > width / 2 ? run + 1 : 0;
++    tally.big = Math.max(tally.big, run / 60);
++    last = frame;
++  }
++  tally.jump = Math.max(tally.jump, jump);
++  if (jump > width / 20) tally.whips += 1;
++  if (popped) tally.pops += 1;
++  [1, 0.5, 0.25].forEach((share, index) => {
++    if (nearest < share * CD) tally.near[index] = (tally.near[index] ?? 0) + 1;
++  });
++}
++
++const fmt = (tally: Tally) =>
++  `${String(tally.legs).padStart(4)} legs  zoom ${tally.zoom.toFixed(2)}  px ${tally.px.toFixed(0).padStart(5)}  ` +
++  `near<1/.5/.25 ${tally.near.map((n) => ((100 * n) / Math.max(1, tally.legs)).toFixed(1) + '%').join(' / ')}  ` +
++  `big ${tally.big.toFixed(2)} s  jump ${tally.jump.toFixed(0)} px  whips ${String(tally.whips)}  pops ${String(tally.pops)}  shown ${((100 * tally.shown) / Math.max(1, tally.frames)).toFixed(0)}%`;
++
++type Scenario = 'opening' | 'grid' | 'grid seat' | 'by a perch' | 'walk-in';
++
++const screens = VIEWPORTS.filter(([name]) => !env['SCREEN'] || name === env['SCREEN']);
++
++for (const [screen, width, height] of screens) {
++  const tallies = new Map<string, Tally>();
++  const tallyOf = (scenario: Scenario, kind: string, variant: string) => {
++    const key = `${scenario} | ${kind} | ${variant}`;
++    const found = tallies.get(key) ?? fresh();
++    tallies.set(key, found);
++    return found;
++  };
++  for (const seed of SEEDS) {
++    const random = mulberry32(seed * 977);
++    const { layout, perches } = perchesOf(seed, width, height);
++    const camera = layout.camera;
++    const seats = perches.filter(({ seat }) => seat);
++    const air = perches.filter(({ seat }) => !seat);
++    const someAir = Array.from({ length: 40 }, () => air[Math.floor(random() * air.length)]).filter((p) => p !== undefined);
++    const pool = [...seats, ...someAir];
++    const any = () => pool[Math.floor(random() * pool.length)] as PlanePerch;
++    const run = (scenario: Scenario, kind: InsectKind, from: PlanePerch, to: PlanePerch, eye: Eye) => {
++      if (from === to) return;
++      const { frames } = fly(
++        {
++          camera,
++          kind,
++          size: layout.insectSizes[kind],
++          butterfly: layout.insectSizes.butterfly,
++          phase: random() * Math.PI * 2,
++          start: from.at,
++          end: to.at,
++          startSeat: from.seat,
++          endSeat: to.seat,
++          eye: () => eye,
++        },
++        VARIANTS,
++      );
++      VARIANTS.forEach((variant, index) => add(tallyOf(scenario, kind, variant.name), frames[index] ?? [], width, height));
++    };
++    for (const kind of INSECT_KINDS) {
++      // The eye standing at the opening.
++      for (let leg = 0; leg < LEGS * 20; leg++) run('opening', kind, any(), any(), OPENING_EYE);
++      // Eyes on a grid among the perches, four headings each, with a leg to and from the nearest seat.
++      for (const x of [-6, -3, 0, 3, 6])
++        for (const y of [2, 5, 8, 11])
++          for (const heading of [0, Math.PI / 2, Math.PI, -Math.PI / 2]) {
++            const eye = { x, y, heading };
++            for (let leg = 0; leg < LEGS; leg++) run('grid', kind, any(), any(), eye);
++            const nearest = seats.toSorted((a, b) => Math.hypot(a.at.x - x, a.at.y - y) - Math.hypot(b.at.x - x, b.at.y - y))[0];
++            if (nearest) {
++              run('grid seat', kind, any(), nearest, eye);
++              run('grid seat', kind, nearest, any(), eye);
++            }
++          }
++      // Standing by a perch, facing it from the origin's side.
++      for (const by of seats.slice(0, 12))
++        for (const off of [0.3, 0.6]) {
++          const along = Math.hypot(by.at.x, by.at.y);
++          const s = 1 - (off * CD) / along;
++          const eye = { x: by.at.x * s, y: by.at.y * s, heading: azimuthOf({ x: 0, y: 0 }, by.at) };
++          for (let leg = 0; leg < LEGS; leg++) {
++            run('by a perch', kind, any(), by, eye);
++            run('by a perch', kind, by, any(), eye);
++          }
++        }
++    }
++    // Walking into a hovering insect: the eye walks from the opening at the stride's cruise
++    // through an air perch in front, a lateral offset off it, on to a clump's distance past.
++    const front = air.filter(({ at }) => Math.abs(at.x) < 4 && at.y < 11).slice(0, 6);
++    for (const kind of INSECT_KINDS)
++      for (const hover of front)
++        for (const off of [0, 0.1, 0.3]) {
++          const heading = azimuthOf({ x: 0, y: 0 }, hover.at);
++          const length = Math.hypot(hover.at.x, hover.at.y) + CD;
++          const side = { x: Math.cos(heading) * off * CD, y: -Math.sin(heading) * off * CD };
++          const span = SPANS[kind] * layout.insectSizes[kind];
++          VARIANTS.forEach((variant) => {
++            const frames: Drawn[] = [];
++            for (let t = 0; t <= length / STRIDE_CRUISE; t += 1 / 60) {
++              const eye = { x: side.x + Math.sin(heading) * STRIDE_CRUISE * t, y: side.y + Math.cos(heading) * STRIDE_CRUISE * t, heading };
++              const view = viewAt(camera, eye);
++              const veer: Veer | undefined = variant.veer?.(camera);
++              const aloft = veer ? veerAloft(eye, hover.at, veer) : hover.at;
++              const drawn = drawnAloft(view, aloft);
++              const shown = drawn !== undefined && onScreen(view, drawn, -span * drawn.zoom);
++              frames.push({ shown, zoom: drawn?.zoom ?? 0, px: span * (drawn?.zoom ?? 0), x: drawn?.x ?? Number.NaN, y: drawn?.y ?? Number.NaN, d: Math.hypot(aloft.x - eye.x, aloft.y - eye.y) });
++            }
++            add(tallyOf('walk-in', kind, variant.name), frames, width, height);
++          });
++        }
++  }
++  console.log(`\n== ${screen} (${String(width)}×${String(height)}), R_V edge ${(radiusOn(perchesOf(SEEDS[0] ?? 1, width, height).layout.camera, true) / CD).toFixed(3)} CD`);
++  for (const [key, tally] of tallies) console.log(`${key.padEnd(40)} ${fmt(tally)}`);
++}
+diff --git a/docs/remove-before-merging/bite-12/ip3/world.ts b/docs/remove-before-merging/bite-12/ip3/world.ts
+new file mode 100644
+index 00000000..72f70a91
+--- /dev/null
++++ b/docs/remove-before-merging/bite-12/ip3/world.ts
+@@ -0,0 +1,37 @@
++/**
++ * A visit's perches as `Aloft`s: every cap's and standing flower's seat and
++ * every spot in the air, from the real `perchSight` and `footRows`, stood on
++ * the plane by `ofLayout`'s own construction.
++ */
++
++import { spread } from '../../../../src/pages/mushrooms/model/ground';
++import type { MeadowLayout } from '../../../../src/pages/mushrooms/ui/scene/layout';
++import { clumpRow, footRows, perchSight } from '../../../../src/pages/mushrooms/ui/scene/perch-sight';
++import { middleOf, rowAt } from '../../../../src/pages/mushrooms/ui/scene/view';
++import { opened } from '../../../../src/pages/mushrooms/ui/scene/visit-play';
++import type { Aloft } from './proto';
++
++/** A perch on the plane: its name, whether it is a seat, and where. */
++export type PlanePerch = { name: string; seat: boolean; at: Aloft };
++
++/** The visit `seed`'s forest on a `width` × `height` screen, and its perches on the plane. */
++export function perchesOf(
++  seed: number,
++  width: number,
++  height: number,
++): { layout: MeadowLayout; perches: PlanePerch[] } {
++  const stand = opened(seed, width, height, true);
++  const { layout } = stand;
++  const places = perchSight(stand).places ?? {};
++  const rows = footRows(stand);
++  const clump = clumpRow(layout);
++  const perches = Object.entries(places).flatMap(([name, place]) => {
++    if (name.startsWith('away')) return [];
++    const row = rows.get(name) ?? clump;
++    const [x, y] = [place.x * layout.insectSize, place.y * layout.insectSize];
++    const { opening, perPx } = rowAt(layout.camera, row);
++    const plane = spread({ x: (x - middleOf(layout.camera)) * perPx, y: opening });
++    return [{ name, seat: !name.startsWith('air'), at: { ...plane, h: (row - y) * perPx } }];
++  });
++  return { layout, perches };
++}
