@@ -277,10 +277,15 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-13. **Rain** — the shower itself; what it leaves behind is item 14. Cut
-    there because item 12 as written was four packages (weather, the
-    shower's look and sound, shelter, sprouting), and a bite past two runs
-    into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
+12b. **Walking, the whole glade.** Stored positions move onto the plane
+(anything behind the starting point needs it), the whole glade is
+sown, light follows the heading, the insects fly fully on the plane,
+the glade's radius is set for it (`step-spec.md`). **Open for the
+operator:** what replaces the twelve-mushroom cap once the whole glade
+can be sown. 13. **Rain** — the shower itself; what it leaves behind is item 14. Cut
+there because item 12 as written was four packages (weather, the
+shower's look and sound, shelter, sprouting), and a bite past two runs
+into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
 
     **Behaviour.**
     - **A tap on any cloud starts the rain.** The tapped cloud darkens
@@ -364,7 +369,7 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
     carries side projects, none otherwise. Then, the Artifact republished,
     `/relay /finalize`.
 
-## This bite
+## Rest of the bite
 
 12. **Walking.** The player really walks the meadow: turns on the spot
     through 360° and steps forward and back along the heading — a camera
@@ -374,8 +379,43 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
     засеивать будет?»). The sun, its wash and the clouds belong to a
     heading, so the sun is the compass and no compass is drawn (the
     operator: a compass was the first thought, then the sun, «солнце у нас
-    всегда на месте, что makes no sense»). About two bites; the contract,
-    and where it is cut, follows `docs/remove-before-merging/bite-12/step-spec.md`.
+    всегда на месте, что makes no sense»).
+
+    **The contract is `docs/remove-before-merging/bite-12/step-spec.md`
+    (2ace9d5), its recommendation taken on every open call** — read it
+    whole before briefing. What it settles, in a line each: today's
+    projection is already a pinhole written per row (`model/ground.ts`), so
+    the true pinhole derived from its constants reproduces the opening
+    frame exactly (a unit test and a play check); the walk's state lives in
+    the scene as pure state like `pan.ts`, not in `Meadow`; bite 12's
+    bounds are a glade disc, centre (0, 8), radius 12, sliding along its
+    rim; no collisions — nearer than 2 units is hidden, farther than 13.33
+    fades in at the hills' foot; keys turn 0.38 rad/s on every screen, a
+    finger turns 1:1 with the glide, a walk is 1.6 units/s eased over
+    0.25 s, the pan's cruise maths shared through `model/cruise.ts`; a drag
+    locks its axis at the 24 px slop's crossing (within 45° of horizontal
+    turns, else steps), a vertical drag chasing the finger no faster than a
+    step, with no glide; hills drawn live from a 360° crest, redrawn only
+    while turning; the sun its own small bake placed by heading, the wash
+    on the sky only, one dip in the hills under the sun, clouds at
+    headings; ground bands and grain fixed to the screen, mottles back as
+    objects in 12b; haze by distance through a repaint queue capped at two
+    a frame; a mushroom answers only where drawn (`fingerPad` goes, by the
+    operator's idea-1 ruling); insects keep flying in the opening view's
+    frame, drawn through a conversion, the sight rule down to the world
+    edge; `+` grows only inside the wedge and on screen; a 3 px bob by
+    distance walked and one soft step per 0.8 units, alternating sides.
+    Packages: step 0 (pure model and types) alone, then P1 the ground on
+    the plane, P2 the panorama, P3 walking in, disjoint by files, P3's
+    wiring step after P1's and P2's first. **Bite 12 ends** with a child
+    turning all the way round and walking anywhere in the glade, the sun as
+    compass, the current meadow standing and tapping as before inside the
+    wedge, bare ground behind.
+
+    The decisions this rewrites — the one-drag pan, "every mushroom is a
+    finger's target", the sight rule, bite 11's fixed sun, hill parallax,
+    wash rule and hard ends — are rewritten in `decisions.md` at the
+    bite's end, as the spec names them.
 
 ## DRY notes
 

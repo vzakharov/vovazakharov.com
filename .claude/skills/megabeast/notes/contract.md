@@ -118,3 +118,20 @@
   held idea, write into the plan which half is built and which half waits,
   and answer an operator's question about a feature by searching the idea
   documents as well as the plan.
+- **An operator present at a bite's start reorders it, and the work in
+  flight is kept, not dropped.** Bite 12 was taken as rain; minutes into
+  it the operator moved walking ahead of it («всё-таки я хочу чтобы
+  шагать можно было уже сейчас»). The model agent was told to land the
+  step it was on and push; its commit stayed on the branch, and the rain
+  item kept its detail with a line naming what was already built, so the
+  rain bite starts with its model done. The skill should treat a reorder
+  as: wrap up the running agents to a pushed step, move the open bite's
+  text into the rest of the elephant whole, and write which part is built.
+- **A design fork the operator raises mid-spec goes to the running spec
+  agent, not a fresh one.** While the walking spec was being written the
+  operator asked whether left-right turns full circle, then that the sun
+  should be the compass, then chose real walking — three `SendMessage`s
+  to the same agent, each answered in the one spec it was already
+  writing (2ace9d5). The orchestrator laid the forks out for the operator
+  from the player's side (what a child could no longer do), which is what
+  let them decide in one line; the agent supplied the costs.

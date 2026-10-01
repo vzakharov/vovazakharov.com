@@ -143,3 +143,10 @@
   sweep isn't confined to them.
 - **`tmp/` doesn't survive a relay**, so anything a successor reruns — the
   play script, a sweep — is committed.
+- **A bite that turns into a design session relays at the contract, not
+  the code.** Bite 12's session reached 200k having built nothing of the
+  bite: the reorder, three forks and a 448-line spec took the budget. The
+  natural stop was the settled contract — `## Rest of the bite` pointing
+  at the committed spec with every call decided — so the successor starts
+  briefing step 0 at once. The skill should expect a structural bite to
+  spend its first session this way when the operator is present.
