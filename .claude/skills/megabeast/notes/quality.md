@@ -196,3 +196,13 @@
   less like themselves than asked. The plan for a proportions bite budgets
   the layout change alongside the genes, or says up front which floor may
   move.
+- **"Identical by construction" is a claim about one projection, not the
+  frame.** Bite 12's half depth kept `viewOf = project` exact, and the
+  orchestrator promised the operator a pixel-identical opening; the brow,
+  a circle of plane distance, dipped hard at the sides and 10–36% of the
+  pixels moved. Before promising an unchanged picture, list every quantity
+  the frame draws from (here plane distance as well as screen position) and
+  check each, or say "a probe will show it" instead. A geometry call goes
+  through a frame probe (a patch plus HEAD-vs-probe pairs) before a build
+  agent is briefed: the second probe settled in ten minutes what the first
+  build spent half an hour finding.

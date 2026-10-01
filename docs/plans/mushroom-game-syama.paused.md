@@ -639,6 +639,19 @@ HEAD's, and tabL after a quarter turn, before anything is built (the
 operator: «про пробу — ок»). Beaten: the half-depth pinhole (above), a
 brow drawn at the old focal over a wider pinhole (what sinks would ride up
 and down as the child turns).
+Probed (147a6c6, `lens-probe.md`, `lens-probe.patch`,
+`frames/bite-12/lens-probe-*`): 4.00 screens a turn on tabL (tabP 9.76,
+phoneP 9.43, phoneL 2.66, phoneS 9.30), 8.4 s; the clump 0 px off; side
+flowers in by 4–5% on tabL, 9–10% on phoneL, under 1% on portrait; nothing
+HEAD shows sinks (phoneL gains a cut-off flower whole); 0.9–2.8% of the
+opening's pixels differ. The probe spreads angles inside `viewOf` round the
+eye (`SPREAD` 1.9617), exact only for the opening eye and turning in place;
+**the build spreads the ground itself** (`planeOf`, `ofLayout`), then the
+inverse projections (taps), the insects, the tests. **Waiting on the
+operator's look at the frames**; on a yes, that build is the next package,
+and then the half-depth package's other carried items (the fliers'
+ground-point sink, `PAST_BROW`, the no-perch leg, the world's-end release,
+the insect cull by drawn extent, `V_NEAR`'s ceiling re-measured).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
