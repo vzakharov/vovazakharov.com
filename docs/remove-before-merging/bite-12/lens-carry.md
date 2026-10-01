@@ -114,9 +114,18 @@ seam, `fliers.test.ts`, the frames.
    extent reaches the screen" (red on the old source) and "hides an insect
    only once a span each way …".
 
+6. **`V_NEAR`'s ceiling under the lens: 0.614 · `CLUMP_DISTANCE`** (5.30;
+   was 0.613), so `V_NEAR = 0.58` stands and `view.ts` is unchanged. Bisected
+   where each species' tallest head (as `view.test.ts` sizes it) crosses the
+   screen's foot from the opening eye: fly agaric 0.614, chanterelle 0.647,
+   russula 0.651, porcini 0.677, the same on every screen upright and turned
+   (the foot is at 7.78 on all of them). Off the middle the bend only lowers
+   a head, so the fly agaric's ceiling, swept across every column still on
+   the screen, is 0.614 there too.
+
 ## Left
 
-6 (`V_NEAR`'s ceiling under the lens), the `flight.ts` seam (461 lines),
+The `flight.ts` seam (461 lines),
 `fliers.test.ts` alone (not run: this package changed `drawnAt`, the sink,
 the cull and `firstFlight`'s no-perch leg), the tabL / phoneP release frames
 `lens-carry-*.png`.
