@@ -2,10 +2,9 @@
 
 The plan's decision (`lens-carry.md` round 3): an insect's points are plane
 points, and its drawn size is its own size over its distance from the eye.
-This note says how to build it. **Stopped by the subagent context budget**
-before the looking-back measure and the cost measure; § "Left" says what a
-next research agent picks up. The design below is complete enough to start
-step 0; the packages after it wait on § "Open".
+This note says how to build it. Round 1 (§1–§4, Open, Left) set the model;
+**§ "Round 2" supersedes it where they differ**: the gaze is the leg's
+frame (R2.1), and Open 1 is decided, option (a).
 
 ## 1. The model: where an insect is
 
@@ -104,7 +103,7 @@ by a plane start); `groundNear` and `pastEnd` go from the insect path;
 
 ## Open — where the decision may not hold as worded
 
-1. **"Facing the clump nothing moves" vs "sized by distance".** Today every
+1. **Decided (a)**, with the operator (plan, cc06116b). **"Facing the clump nothing moves" vs "sized by distance".** Today every
    insect is drawn the same size at the opening eye whatever its depth
    (`insect-seat.test.ts` asserts it). Sized by distance, an insect on the
    back caps is 0.65× today's, on the front ones up to 1.11–1.48×, and a
@@ -115,7 +114,7 @@ by a plane start); `groundNear` and `pastEnd` go from the insect path;
    it, but an insect near the origin seen from afar is drawn tiny against its
    cap and a release's zoom does not match a perched one's: beaten by
    property 3. The spec builds (a); the orchestrator confirms.
-2. **The wide-screen tails in (1)**: 101–224 px on tablet, sideways phone
+2. **Explained and fixed in R2.1.** **The wide-screen tails in (1)**: 101–224 px on tablet, sideways phone
    and desktop. Suspects: `steer`'s `size` changing frame to frame (the
    `1/d` zoom) moving its flutter and facing; the leg's bow measured on a
    gaze length that differs from the layout's off the middle (angle vs
@@ -126,7 +125,74 @@ by a plane start); `groundNear` and `pastEnd` go from the insect path;
    `drawnInsect` belongs with step 0. Budget 26 ms median
    (`scripts/lib/frame-budget.ts`).
 
+## Round 2
+
+Scratch scripts: `<scratchpad>/ip2/` (`proto.mts`, `facing.mts` with the
+switches below), never committed. Sizes are option (a) throughout.
+
+### R2.1 The facing tails: the bow's side, then the frame
+
+**Cause: the leg's bow flips side, not its size.** Facing the clump, at
+heading 0, `facing.mts` with each suspect switched off (p99 / max px; the
+frame run is `MODE=tan CENTRE=clamp`, and on the tall screens gives
+2.1 / 3.0, 0.3 / 1.4, 0.0 / 6.8):
+
+| run                                          | tablet     | sideways phone | desktop     |
+| -------------------------------------------- | ---------- | -------------- | ----------- |
+| round 1's gaze                               | 28.4 / 130 | 33.7 / 102     | 83.7 / 224  |
+| `size` fixed (`FIX`)                         | 28.3 / 130 | 33.7 / 102     | 82.6 / 220  |
+| no flutter (`FLUT=0`)                        | 28.0 / 130 | 33.8 / 101     | 82.6 / 219  |
+| no bow, no zigzag (`NOBOW`, `FIX`, `FLUT=0`) | 5.7 / 7.3  | —              | 12.3 / 15.2 |
+| bow forced to today's side (`SAMEBOW`)       | 9.2 / 17.4 | 11.3 / 18.2    | 19.2 / 31.5 |
+| **the leg's frame (below)**                  | 2.1 / 3.5  | 1.0 / 2.6      | 3.3 / 5.8   |
+
+`steer`'s `setOffFor` picks the bow's side by the least body swing, against
+the perch's rest facing and the seat's turn, which are fixed angles on the
+points' axes. On 13 / 21 / 19 legs (of 426 / 455 / 409; 0–3 on the tall
+screens) the two sides come out within a hair, and the gaze's slightly
+different chord direction tips it: the leg then bows the other way, up to
+`arc · chord` off. It is a tie today too: a 1 px shift of today's own start
+flips 11–18 legs a screen. What is left with the side forced is the shape:
+the gaze is linear in azimuth, the layout in its tangent (the opening crop's
+pinhole: `x = focal · tan(θ)`, `θ` the gathered azimuth, up to 0.6 rad on
+the sideways phone), so the same cubic bows differently off the middle.
+
+**Fix: steer in the leg's frame — the layout, stood at the eye.** The
+opening layout is a pinhole on `gathered(plane)` at the plane's origin,
+looking at azimuth 0. The leg's frame is the same pinhole stood at the eye
+and turned to a centre azimuth `c` fixed as the leg sets off:
+
+- `θ = wrapped(azimuth − c) / SPREAD`, `q = d · cos θ`;
+  `x = pin.x + focal · tan θ`, `y = pin.y + (EYE_HEIGHT − h) · focal / q`.
+- Depth along the leg: `1/q` mixed straight by `flown`, `q` the forward
+  distance in the frame — today's row mix exactly at the opening eye.
+- Back: `θ = atan((x − pin.x)/focal)`, azimuth `c + SPREAD · θ`, `d = q / cos θ`,
+  `h = EYE_HEIGHT − (y − pin.y) · q / focal`.
+- **`c` is the eye's heading at set-off, clamped so both ends lie within
+  `M` of it**: `c = clamp(heading, a_hi − M, a_lo + M)`, the ends' azimuths
+  taken the short way round, `M = SPREAD · 0.9` (1.77 rad; `tan 0.9 = 1.26`
+  at the frame's edge). A chord spans at most π, so `2M > π` always has room.
+  Facing anything on the screen the clamp does not bite (the screen's
+  half-width is at most 0.97 rad of azimuth, desktop), so at the opening the
+  frame is today's layout and the leg is today's leg.
+- The frame is fixed for the leg: turning the eye moves no framed point;
+  walking moves them by true parallax, as round 1's gaze did. The frame's one
+  singular line is `|θ| = π/2`, an azimuth `SPREAD · π/2` (176°) off `c`;
+  the clamp keeps the ends 1.77 rad inside it, and R2.5 measures how close a
+  walking eye brings a mid-leg point.
+
+Its residual against today is the 1/q mix against today's row (equal at the
+opening eye) and the 1–4 px of `sunkOver` and the zoom on `steer`'s flutter;
+the 6.8 px max on the small phone is one bow tie (1 / 462), as it is in every
+run. **The bound holds: p99 ≤ 4 px, max ≤ 12 px on every screen** (worst
+desktop 3.3 / 5.8). Centring the frame on the leg's middle azimuth or its
+start instead (heading-free) brings the flips back (p99 27 / 13 px on
+tablet): the chord's direction against the fixed rest angles is what the
+side turns on, so only the eye's own heading reproduces today. Round 1's
+§1 gaze (`x = arc · azimuth`) is superseded by this frame; its
+branch-keeping unwrap is not needed (the clamp keeps ends inside the frame).
+
 ## Left
 
-Open 1 decided; Open 2 explained and the bound set; measures 3 and 4
-written and run; the micro-benchmark; then the packages firmed up.
+Measures R2.2–R2.6 (looking back, the cap, the near pass, the frame cost),
+then the packages firmed up.
