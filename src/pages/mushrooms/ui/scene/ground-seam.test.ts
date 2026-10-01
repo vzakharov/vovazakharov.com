@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
-import { seamGrass } from './grass';
+import { seamGrass, seamShown } from './grass';
 import { meadowLayout } from './layout';
-import { groundSeam, SEAM_REACH, seamAt } from './skyline';
+import { groundSeam, SEAM_REACH, seamCrest } from './skyline';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How far across, as a share of the screen, the seam may run level at most. */
@@ -87,10 +89,10 @@ describe('the seam between the near hills and the ground', () => {
     for (const [, width, height] of VIEWPORTS) {
       for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const seam = groundSeam(layout);
+        const seam = seamCrest(layout);
         const depth = height - layout.groundTop;
         const back = seamGrass(layout, mulberry32(seed))
-          .map(({ x, y }) => (y - seamAt(seam, x)) / depth)
+          .map(({ azimuth, y }) => (y - seam(azimuth)) / depth)
           .filter((below) => below < 0.1);
         for (const below of back) assert.ok(below >= 0);
         const mean = back.reduce((sum, v) => sum + v, 0) / back.length;
@@ -102,25 +104,46 @@ describe('the seam between the near hills and the ground', () => {
     }
   });
 
-  it('grows its tufts across the whole world, none of its crops bare', () => {
+  it('grows its tufts round the whole panorama, no heading’s screen bare', () => {
+    const headings = Array.from(
+      { length: 12 },
+      (_, step) => (step * Math.PI) / 6,
+    );
     for (const [name, width, height] of VIEWPORTS) {
       for (const seed of VISITS.slice(0, 20)) {
         const layout = meadowLayout(width, height, seed);
-        const { world } = layout.camera;
-        const xs = seamGrass(layout, mulberry32(seed)).map(({ x }) => x);
-        for (const x of xs) assert.ok(x >= 0 && x <= world, `${name}: ${x}`);
-        const crops = [0, (world - width) / 2, world - width];
-        const counts = crops.map(
-          (left) => xs.filter((x) => x >= left && x <= left + width).length,
-        );
-        const share = (xs.length * width) / world;
-        for (const [index, count] of counts.entries()) {
+        const grass = seamGrass(layout, mulberry32(seed));
+        const opening = seamShown(viewAt(layout.camera, OPENING_EYE), grass);
+        for (const heading of headings) {
+          const view = viewAt(layout.camera, { ...OPENING_EYE, heading });
+          const shown = seamShown(view, grass);
           assert.ok(
-            count >= share / 4,
-            `${name}, seed ${seed}: ${count} in crop ${index}, ${share.toFixed(1)} expected`,
+            shown.length >= opening.length / 4,
+            `${name}, seed ${seed}: ${shown.length} at ${heading.toFixed(2)}, ${opening.length} at the opening`,
           );
+          for (const { x } of shown) assert.ok(Number.isFinite(x));
         }
       }
+    }
+  });
+
+  it('turns its tufts with the eye and steps none of them', () => {
+    // Tablet landscape.
+    const layout = meadowLayout(1180, 820, 42);
+    const grass = seamGrass(layout, mulberry32(42));
+    const opening = seamShown(viewAt(layout.camera, OPENING_EYE), grass);
+    const stepped = seamShown(
+      viewAt(layout.camera, { ...OPENING_EYE, y: OPENING_EYE.y + 3 }),
+      grass,
+    );
+    assert.deepEqual(stepped, opening);
+    const round = seamShown(
+      viewAt(layout.camera, { ...OPENING_EYE, heading: Math.PI * 2 }),
+      grass,
+    );
+    assert.equal(round.length, opening.length);
+    for (const [index, tuft] of round.entries()) {
+      assert.ok(Math.abs(tuft.x - (opening[index]?.x ?? Number.NaN)) < 1e-6);
     }
   });
 });

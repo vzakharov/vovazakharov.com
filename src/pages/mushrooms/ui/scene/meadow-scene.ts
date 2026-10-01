@@ -259,10 +259,12 @@ export class MeadowScene extends Phaser.Scene {
    * never scrolls across: the view places everything.
    */
   private walk(height: number): void {
-    const { eye, backdrop, bed, flowers, voice, gait, clock, cameras } = this;
+    const { eye, backdrop, grass, bed, flowers, voice, gait, clock, cameras } =
+      this;
     const view = eye.view();
     if (!view) return;
     backdrop?.follow(view);
+    grass?.follow(view);
     bed?.follow(view);
     flowers?.follow(view);
     const { feet, bob } = gait.step(eye.walked(), clock, height);

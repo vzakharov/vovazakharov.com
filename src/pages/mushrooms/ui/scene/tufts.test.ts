@@ -5,6 +5,7 @@ import { pick } from '@/shared/lib/collections';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import { MUSHROOM_SLOTS, reduce } from '../../model/game';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
@@ -12,6 +13,7 @@ import { FLOWER_SIZE, standingOn } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { type Stand, takesFlower } from './flower-sight';
 import type { Tuft } from './grass';
+import { meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 import {
@@ -19,12 +21,14 @@ import {
   growTufts,
   mostTufts,
   plantableIn,
+  shownSprouts,
   type Sprout,
   tendTufts,
   TUFT_REACH,
   tuftAt,
   tuftReach,
 } from './tufts';
+import { cull, ofGround, viewAt } from './view';
 import { FLOOR_HELD, VIEWPORTS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
 
@@ -91,6 +95,57 @@ describe('tuftAt', () => {
       undefined,
     );
   });
+});
+
+describe('shownSprouts', () => {
+  /** The opening eye, and one stepped 3 units in. */
+  const EYES: ReadonlyArray<[string, Eye]> = [
+    ['the opening eye', OPENING_EYE],
+    ['an eye stepped in', { ...OPENING_EYE, y: OPENING_EYE.y + 3 }],
+  ];
+
+  for (const [name, width, height] of VIEWPORTS) {
+    const layout = meadowLayout(width, height, seedOf(1));
+    const grown = growTufts(layout, [], tuftingOf(seedOf(1)));
+    const left = (layout.camera.world - width) / 2;
+
+    it(`draws every tuft at the opening as laid out, on a ${name} screen`, () => {
+      const view = viewAt(layout.camera, OPENING_EYE);
+      const { near, behind } = shownSprouts(view, grown);
+      assert.equal(behind.length, 0);
+      assert.ok(near.length > 0);
+      for (const {
+        tuft,
+        sprout: { tuft: laid },
+      } of near) {
+        assert.ok(Math.abs(tuft.x - (laid.x - left)) < 0.5);
+        assert.ok(Math.abs(tuft.y - laid.y) < 0.5);
+        assert.ok(Math.abs(tuft.size - laid.size) < 1e-6 * laid.size);
+      }
+    });
+
+    for (const [eyeName, eye] of EYES) {
+      it(`draws each tuft where ${eyeName} places its foot, and takes a tap there, on a ${name} screen`, () => {
+        const view = viewAt(layout.camera, eye);
+        const { near } = shownSprouts(view, grown);
+        for (const {
+          tuft,
+          sprout: { foot, tuft: laid },
+        } of near) {
+          const placed = ofGround(view, foot);
+          assert.ok(!cull(placed));
+          assert.ok(Math.abs(tuft.x - placed.x) < 1e-6);
+          assert.ok(Math.abs(tuft.y - placed.y) < 1e-6);
+          assert.ok(
+            Math.abs(tuft.size - laid.size * placed.zoom) < 1e-6 * tuft.size,
+          );
+          // The nearest drawn tuft takes it, this one or one drawn over it.
+          const { x, y, size } = tuft;
+          assert.ok(tuftAt(near, { x, y: y - size }));
+        }
+      });
+    }
+  }
 });
 
 /**

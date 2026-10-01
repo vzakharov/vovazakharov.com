@@ -1,14 +1,17 @@
 import type * as Phaser from 'phaser';
 
+import { pinholeOf } from '../../model/ground';
 import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import { groundAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { layerSpan, PARALLAX } from './parallax';
-import { groundSeam, seamAt } from './skyline';
+import { screenAt } from './panorama';
+import { seamCrest } from './skyline';
+import { onScreen, type View } from './view';
 
+/** How many tufts break the seam up per 1000 CSS px of the panorama, as the screen's middle shows it. */
 const SEAM_TUFTS_PER_1000PX = 28;
 /** How far below the seam the tufts that break it up stand, as shares of the ground's depth. */
 const SEAM_SCATTER = [0.004, 0.09] as const;
@@ -66,23 +69,49 @@ export function tuftOn(
 }
 
 /**
- * The grass scattered just under the seam with the hills, following its
- * waver, drawn from `random`, so the same source regrows it: it breaks the
- * seam up rather than lining it, standing behind the flowers' band, where no
- * flower is planted. It spans the ground's layer, the seam's own stretch
- * (`layerSpan`), so every crop shows it at one density.
+ * A tuft breaking the seam up, at the azimuth it stands at round the
+ * panorama. Its `x` is its arc round the panorama in CSS px, which the gust
+ * lags by, until `seamShown` places it across the screen; its row is the
+ * seam's at its azimuth, whichever way the eye looks.
  */
-export function seamGrass(layout: MeadowLayout, random: Random): Tuft[] {
+export type SeamTuft = Tuft & { azimuth: number };
+
+/**
+ * The grass scattered just under the seam with the hills, following its
+ * waver round the whole panorama (`seamCrest`), drawn from `random`, so the
+ * same source regrows it: it breaks the seam up rather than lining it,
+ * standing behind the flowers' band, where no flower is planted. It stands at
+ * the horizon, so a turn slides it and a step moves none of it, and one tuft
+ * to each even share of the circle shows every heading it at one density.
+ */
+export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
   const { height, groundTop, camera } = layout;
-  const { left, across } = layerSpan(camera, PARALLAX.ground);
-  const seam = groundSeam(layout);
+  const seam = seamCrest(layout);
+  const { focal } = pinholeOf(camera);
   const depth = height - groundTop;
-  const count = Math.round((across / 1000) * SEAM_TUFTS_PER_1000PX);
-  return Array.from({ length: count }, () => {
-    const x = between(random, left, left + across);
+  const round = Math.PI * 2 * focal;
+  const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
+  // One to each even share of the circle, anywhere in it.
+  const share = (Math.PI * 2) / count;
+  return Array.from({ length: count }, (_, index) => {
+    const azimuth = -Math.PI + share * (index + random());
     const below =
       SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
-    return tuftOn(layout, x, seamAt(seam, x) + depth * below, random);
+    const y = seam(azimuth) + depth * below;
+    return { ...tuftOn(layout, focal * azimuth, y, random), azimuth };
+  });
+}
+
+/** How far past the screen's edge, in units of its size, a tuft still has blades on it. */
+export const BLADE_OVERHANG = 3;
+
+/** The tufts of `seam` that `view`'s screen shows, each where it stands across it. */
+export function seamShown(view: View, seam: readonly SeamTuft[]): Tuft[] {
+  return seam.flatMap((tuft) => {
+    const x = screenAt(view, tuft.azimuth);
+    if (x === undefined) return [];
+    const shown = { ...tuft, x };
+    return onScreen(view, shown, -BLADE_OVERHANG * tuft.size) ? [shown] : [];
   });
 }
 
