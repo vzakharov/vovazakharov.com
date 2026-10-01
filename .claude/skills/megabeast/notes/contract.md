@@ -105,3 +105,16 @@
   agent, so no code was wasted. The skill should hold back the brief for a
   feel call (latency, motion, sound) while the operator is in the session,
   ask them, and brief the groups that don't depend on it meanwhile.
+- **A held idea that bites build piecemeal needs its hold rewritten as
+  "built / unplaced".** Idea 1 was held out of the plan, then bite 9 built
+  its ground and bite 11 its pan and keys on the operator's review calls.
+  The relay summaries still carried "idea 1 stays out of the plan", so when
+  the operator asked whether the mute stays, the agent answered from the
+  plan alone and said nothing removes it — while the idea's document gives
+  the mute's circle to the map. The operator caught it («мы планировали
+  заменить кнопку звука на "карту"… разве там этого не прописано?»; «как
+  это не собирались реализовывать, если под это меняли всю "схему
+  мира"?»). The skill should, at the end of any bite that builds part of a
+  held idea, write into the plan which half is built and which half waits,
+  and answer an operator's question about a feature by searching the idea
+  documents as well as the plan.

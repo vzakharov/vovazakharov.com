@@ -46,6 +46,13 @@
   item 10's whole bullet list into a paragraph, and `--check` failed after
   each. The skill should run `prettier --check` after every `--write` on the
   plan, and its prose rule should say never to wrap inside a code span.
+- **A review's handling ends with its own vet, since the bite's may not
+  have run.** Bite 11's tail found knip, format and type-overlap red, all
+  three since the bite's build commits, so the review was read against a
+  tree vet would have refused. The full vet also passes the tool's
+  10-minute ceiling now (the suite alone is ~6 min with `fliers.test.ts`);
+  the harness moved it to the background and it finished, but the brief
+  should say to run vet's gates one call each when the whole exceeds it.
 - **`gh pr edit` fails** on GitHub's Projects-classic GraphQL deprecation;
   `gh api -X PATCH repos/<o>/<r>/pulls/<n> -F body=@<file>` works. The
   skill's PR steps should use the REST form directly.

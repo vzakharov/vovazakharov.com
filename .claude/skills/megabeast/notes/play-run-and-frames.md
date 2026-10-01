@@ -110,4 +110,17 @@
 - **The play run is one screen per call.** Bite 11's run took ~8.5 min a
   screen once the probe converted through the crop, so all five in one
   call pass the tool's 10-minute ceiling; brief it per screen from the
-  start.
+  start. Run the screens one after another, never side by side: the frame
+  budget is a median frame time, and parallel Chromium on four cores fails
+  it falsely.
+- **A play check's room comes from the screen, not from the middle.** The
+  held-arrow check expected full cruise from the opening crop, but a
+  sideways phone pans ~200 px and the key's ease-in needs ~105 px ahead, so
+  phoneL went red against a game braking correctly (fixed in
+  `play-pan-keys.ts` by starting from the far end). A check of motion
+  should derive its starting point from the range the screen has.
+- **Republishing the Artifact from a fresh session needs a read of the
+  live version first.** The publish is refused until the live source has
+  been read with the Read tool; a shell diff does not count. Its shell
+  differs from the build only by the publish wrapper and the old bundle, so
+  reading lines 1–17 and 19 onward settles it.
