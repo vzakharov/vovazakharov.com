@@ -153,7 +153,23 @@ being the probe's to the pixel), `lens-land-quarter-tabL-probe-head.png`
 `lens-land-forward-tabL-opening-forward.png` (opening above, after the
 walk below).
 
+4. **The three plays round 3 restated are green against the real page**
+   (`pnpm play:mushrooms --no-build --plays opening,walk,approach`, one
+   screen per call) on tabL, phoneP and phoneL, no script change needed:
+   - opening identity: 15 things within 0.000 px of where the lens stands
+     them, on all three;
+   - sideways drag turned 0.439 / 0.159 / 0.642 rad at the lift (tabL /
+     phoneP / phoneL), under the 0.471 / 0.200 / 0.709 that keeps the
+     ground; a full `→` turn 6.659 rad at most 0.745 rad/s;
+   - approach: walked up to a forest mushroom, drawn 1.54 times its
+     opening size; rendered-frame JS median 17.7–18.6 ms (26 ms budget).
+   - The opening note "flower-1 past the brow, sunk 1.9–4.0 px" is the
+     flower at phoneL's left edge (x 33) and off screen on tabL and phoneP
+     (x −227, −442), alpha 1, ≥ 95 % of it over the brow: a note, not a
+     check, and the probe's own left-edge flower.
+5. The Artifact page was built from this tree
+   (`pnpm artifact:mushrooms`, 185 KB) for the orchestrator to publish.
+
 ## Left
 
-1. Playing `play-opening`'s restated identity, `play-walk`'s drag and
-   `play-approach`'s aim.
+Nothing in this package.
