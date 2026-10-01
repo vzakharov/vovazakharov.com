@@ -136,6 +136,42 @@ seam, `fliers.test.ts`, the frames.
    files, among them `insect-away`, `insect-seat`, `flight-in`, `flight`,
    `view`).
 
+### Stopped: item 4 does not hold in play, looking back
+
+A scratch play (`<scratchpad>/lc/play-release.ts`; register it in
+`PLAYS` as `['release', playRelease]`, the file
+`lc/play-mushrooms.with-release.ts` has it) on tabL, two caps grown, then:
+
+- **Walked back 3.5 (`ArrowDown`), clump near the brow, butterfly
+  released:** its perch (`mushroom-3`) stood behind the brow, not drawn, so
+  it took the no-perch path: it came up over the brow beside the clump
+  (frame 8, 488,514 px, zoom 0.70) and flew out by the left side by frame
+  32, then landed at 120. Reads right.
+- **Turned to heading 3.106 (≈ π) at that eye, released:** the butterfly
+  is never seen. `entry`'s start is at world x 24 013, row 1 010 748 (the
+  screen is 820 tall), drawn at scale 0.000 45: `groundNear` takes the
+  first column whose ground has a row at all, and at the wedge's edge
+  `gathered(plane).y` is barely above 0, so `layoutOfPlane`'s row is near
+  infinite and the zoom near 0. The `out` point is as far off (row
+  1 708 701). The unit tests passed because they check the start's
+  distance and column, not its row or zoom.
+
+Options, not built:
+
+1. search outward for the nearest column whose row is within the layout's
+   own range (say, at most the brow row of the opening crop's bottom edge,
+   `browLowest`, or a row whose `rowAt` opening stays within some multiple
+   of `D_SEE`), not merely defined;
+2. looking back, skip the brow start: set off just past the screen's edge
+   (`offScreen` with the view), as a leaving insect goes out;
+3. define the start in plane units rather than as a layout point, so a
+   wedge-edge row never enters `ofLayout` (the larger change).
+
+The sweep to choose a bound: `lc/no-row.mts` extended to report the row
+and zoom `groundNear` lands on, per screen.
+
 ## Left
 
-The tabL / phoneP release frames `lens-carry-*.png`.
+The fix for item 4 looking back (above), a test that checks the start's
+row and drawn zoom, then the tabL / phoneP release frames
+`lens-carry-*.png` (none committed: the looking-back one shows nothing).
