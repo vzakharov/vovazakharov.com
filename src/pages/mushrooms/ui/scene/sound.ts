@@ -7,9 +7,10 @@
 
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
+import { type Foot, FOOT_PAN, footstep } from './footsteps';
 import { TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
-import { tone, type Voice } from './synth';
+import { brownNoise, panned, tone, type Voice } from './synth';
 
 const MUTED_KEY = 'mushrooms-muted';
 const LOUDNESS = 0.8;
@@ -122,15 +123,10 @@ const bird: Voice = (context, out) => {
 
 /** A breeze: brown noise through a low filter that opens and closes slowly. */
 function startBreeze(context: AudioContext, out: AudioNode): void {
-  const length = context.sampleRate * 3;
-  const buffer = context.createBuffer(1, length, context.sampleRate);
-  const samples = buffer.getChannelData(0);
-  let last = 0;
-  for (let index = 0; index < length; index++) {
-    last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-    samples[index] = last * 3.5;
-  }
-  const noise = new AudioBufferSourceNode(context, { buffer, loop: true });
+  const noise = new AudioBufferSourceNode(context, {
+    buffer: brownNoise(context, 3),
+    loop: true,
+  });
   const filter = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: 420,
@@ -258,6 +254,15 @@ export class MeadowSound {
 
   squeak(): void {
     this.play(squeak);
+  }
+
+  /**
+   * The eye's step landing on `foot`, sounding on its side. A step before
+   * the synth exists is dropped rather than waiting for `start`: it belongs
+   * to the moment it was walked, and would crowd a tap's note out of the wait.
+   */
+  step(foot: Foot): void {
+    if (this.context) this.play(panned(footstep, FOOT_PAN[foot]));
   }
 
   /** An insect of `kind` taking wing: a butterfly's trill, a fly's or a bee's buzz. */

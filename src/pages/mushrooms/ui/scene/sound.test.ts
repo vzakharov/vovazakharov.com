@@ -104,6 +104,7 @@ const globals = {
   AudioBufferSourceNode: FakeNode,
   BiquadFilterNode: FakeNode,
   DynamicsCompressorNode: FakeNode,
+  StereoPannerNode: FakeNode,
   document: page,
   localStorage: { getItem: () => null, setItem: () => null },
 };
@@ -139,6 +140,8 @@ function askForEverything(sound: MeadowSound): void {
   sound.takeOff('butterfly');
   sound.takeOff('fly');
   sound.takeOff('bee');
+  sound.step('left');
+  sound.step('right');
 }
 
 function started(): MeadowSound {
@@ -217,6 +220,20 @@ describe('MeadowSound', () => {
       for (let n = 0; n < 6; n++) sound.note(72);
     });
     assert.equal(sixNotes, 5 * note);
+  });
+
+  it('a step is built while sound is on, and one walked before the synth exists never waits for it', () => {
+    const sound = started();
+    const before = built.nodes;
+    sound.step('left');
+    assert.ok(built.nodes > before);
+    sound.stop();
+    assert.equal(
+      builtOnStart((early) => {
+        early.step('right');
+      }),
+      0,
+    );
   });
 
   it('a browser with no Web Audio stays silent without throwing', () => {

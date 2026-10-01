@@ -20,10 +20,40 @@ wiring.
      `instrument-input.ts`'s `playTheFlowers` ignores step keys while it
      still takes a `Crop`.
 
+2. Step 2:
+   - `ui/scene/footsteps.ts` + test — `Foot`, `footfalls(before, after)`
+     (the feet landing as `walked` crosses multiples of `STEP_LENGTH`,
+     alternating from the left), `FOOT_PAN` (±0.3), the `footstep` voice
+     (60 ms of `brownNoise` through a 600 Hz low-pass, peak 1.5).
+   - `synth.ts` — `brownNoise` (the breeze's, shared) and `panned` (a
+     `StereoPannerNode` in front of the voice's out); `sound.ts` —
+     `MeadowSound.step(foot)`, through `play`, so silent under the mute; a
+     step before the synth exists is dropped, never queued.
+   - `ui/scene/keyed-flowers.ts` + test — `FlowerInView`, `keyedFlowers`,
+     `KeyedPlay`, `playKey`; `instrument-input.ts` gains `playTheMeadow`
+     (the `EyeInput` + flowers-in-view successor of `playTheFlowers`, which
+     stays while the scene passes a `Crop`).
+
+## Footstep level (offline render)
+
+Chromium `OfflineAudioContext`, 48 kHz, through the master gain 0.8 and the
+compressor; loudest 50 ms, Hann, dB of power. Six renders of the step
+(the noise is random):
+
+| sound            |        full |     >300 Hz |
+| ---------------- | ----------: | ----------: |
+| C5 (72)          |       −21.5 |       −21.5 |
+| kick             |       −18.4 |       −26.7 |
+| breeze (no gust) |       −27.5 |       −34.9 |
+| step, peak 1.5   | −28.8…−32.4 | −36.9…−42.3 |
+
+So a step sits ~10 dB under a C5 overall, about level with the breeze's
+own band, and ~15–20 dB under a C5 above 300 Hz (a phone speaker hears
+little of it). It wants a listen; `STEP_PEAK` in `footsteps.ts` is the dial.
+
 ## Left
 
-- Step 2: `MeadowSound.step(side)`, the footfall helper, the level render;
-  the keyboard plays only the flowers in view.
+- Nothing in this package. The scene wiring (P3 step 2) calls the API.
 
 ## Decided
 

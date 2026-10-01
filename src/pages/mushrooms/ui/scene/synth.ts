@@ -84,3 +84,31 @@ export function tone(
     delay,
   });
 }
+
+/**
+ * `seconds` of brown noise: white noise through a leaky integrator, swinging
+ * about ±1 at its loudest, the breeze's and the footsteps' grain.
+ */
+export function brownNoise(
+  context: BaseAudioContext,
+  seconds: number,
+): AudioBuffer {
+  const length = Math.ceil(context.sampleRate * seconds);
+  const buffer = context.createBuffer(1, length, context.sampleRate);
+  const samples = buffer.getChannelData(0);
+  let last = 0;
+  for (let index = 0; index < length; index++) {
+    last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+    samples[index] = last * 3.5;
+  }
+  return buffer;
+}
+
+/** `voice` set `pan` across the stereo field, from -1 at the left to 1 at the right. */
+export function panned(voice: Voice, pan: number): Voice {
+  return (context, out) => {
+    const panner = new StereoPannerNode(context, { pan });
+    panner.connect(out);
+    voice(context, panner);
+  };
+}
