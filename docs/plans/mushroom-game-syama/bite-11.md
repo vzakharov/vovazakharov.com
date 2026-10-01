@@ -28,6 +28,11 @@ What bite 11 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md
         («получается, каждая реакция при нажатии на что-то будет
         "запоздалой"?»): only the part that cannot be undone, and a
         child's tap (100–200 ms) lifts before the 150 ms mostly do.
+        **On hold, unbuilt:** the operator rejected any delay on the
+        flowers as an instrument («при игре 100мс это уже ощутимая (и
+        неприятная) задержка») and is playing the current build to judge
+        it. The candidate offered: flowers sound on the press, as keys do,
+        and only the rest waits — a pan begun on a flower plays its note.
       - **The slop is a child's drift**, 24 px (the review measured taps
         drifting 11–24 px), not 10: a wobbly tap still taps. Past it the
         ground lags the finger by the slop, never by the first step's
