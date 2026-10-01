@@ -1,19 +1,17 @@
 # Relay summary
 
-Relay depth: 8 → **the successor is depth 1** (the operator pastes the
-pickup into a fresh session, so the chain restarts;
-`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
+Relay depth: 1 → **the successor is depth 2**
+(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
 
 **Never issue `git reset --hard` on pickup.** If the local ref is stale,
-first `git fetch --deepen=300 origin <branch>` (the clone is shallow, so
-an ancestor looks unrelated), check `git merge-base --is-ancestor`, and
-rename a genuinely stale ref aside (`git branch -m <branch> stale/<n>`)
-before checking out a fresh tracking branch. **After the attach, run
-`pnpm install --frozen-lockfile`** (the SessionStart hook installs the
-trunk's lockfile, which has no `phaser` or `esbuild`). Read files with
-`Read`, not `cat`/`sed` (CLAUDE.md).
+first `git fetch --deepen=300 origin <branch>` (the clone is shallow),
+check `git merge-base --is-ancestor`, and rename a genuinely stale ref
+aside (`git branch -m <branch> stale/<n>`) before checking out a fresh
+tracking branch. **After the attach, run `pnpm install --frozen-lockfile`**
+(the SessionStart hook installs the trunk's lockfile, which has no
+`phaser` or `esbuild`). Read files with `Read`, not `cat`/`sed` (CLAUDE.md).
 
 Carried from earlier sessions, the operator's words verbatim (Russian):
 
@@ -48,12 +46,16 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > разбить megabeast на папку+файлы внутри, а то уже непотребно раздуло
 
-New this session:
-
 > 1 - relay, и всегда так. вроде договаривались. в какой момент "without operator involvement" исчезло с карты?
 
-**Syama is a boy** (Салман, «Сяма» for short). Never infer otherwise.
-**Address the operator as «ты»**, never «вы» (this session slipped once).
+New this session:
+
+> не понял почему мы вдруг заговорили по-английски
+
+**Every reply to the operator is in Russian, «ты»** — including turns
+woken by an agent's report or a check-in, which arrive in English (this
+session slipped twice). **Syama is a boy** (Салман, «Сяма»). The operator
+is Vova.
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask
 the operator nothing, except where they are present and the call is about
@@ -62,134 +64,106 @@ how the game feels; **the context-budget notice's "offer `/compact` or
 `.claude/skills/megabeast/notes/` before every relay. No module past ~450
 lines. Each bite ends by committing its best frames to
 `docs/remove-before-merging/frames/bite-<n>/` and republishing the game
-Artifact at its one URL. Every session and subagent runs on Opus, named
-explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
-`model: "opus"`). **The review is now a subagent in each bite's tail**,
-not separate review / `/handle` sessions (plan § "How this elephant is
-eaten" step 2). **Build agents work in their own `git worktree`** (plan
-§ "Rest of the bite"). Pass this section on verbatim.
+Artifact at its one URL (https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG).
+Every session and subagent runs on Opus, named explicitly
+(`create_session` `model: "claude-opus-5-5"`, `Agent` `model: "opus"`).
+The review is a subagent in each bite's tail. Build agents work in their
+own `git worktree` (`docs/remove-before-merging/bite-12/brief-common.md`).
+Pass this section on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take claude/mushroom-game-syama-lbirv7`; the stale
-local ref was an ancestor and went aside as
-`stale/mushroom-game-syama-lbirv7-e66b8e1`. The agent ran `/go` as
-orchestrator: type-overlap, the five-screen play, the fold, `decisions.md`.
+Started from `/relay take claude/mushroom-game-syama-lbirv7`; the attach
+went clean (no stale ref). The classifier refused deleting the auto-branch
+`claude/optimistic-franklin-0ki90q`; left. The agent ran `/go`: flipped the
+plan, rewrote `brief-common.md` for worktrees, launched four agents
+(dash-cap, insect-arrive, v-near, subagent-notice), check-ins by
+`send_later`.
 
-1. Operator: «поиграл. во-первых, кромка стала шикарной (круглой), всё
-   смотрится отлично. есть небольшой вопрос про отзывчивость "игры" на
-   цветах. Когда нажимаю клавишу, есть как будто задержка до того как звук
-   пойдёт… Это следствие неизбежной латенси на чём-то, или может мы там
-   программно чего-то ждём… и ещё, когда сажаем цветок, давай нажатие на
-   "клавишу" этого цветка будет сразу его сажать, без необходимости
-   выбирать цвет-форму. А то я сто лет буду запоминать где там например фа
-   диез :)» Agent: nothing waits in code (keydown → note at
-   `currentTime`, attacks 4–14 ms, compressor ~6 ms); the rest is the
-   output path, Bluetooth 150–300 ms; check whether the flower's bounce
-   leads the sound. Decided item 4b (a key plants / replaces through an
-   open picker), built.
-2. Operator: «а агент сам не знает сколько токенов тратит? им нельзя
-   говорить чтобы применяли ту же эвристику что встроенный context budget
-   control? вместо того чтобы проверять каждые эндцать минут?» Agent: no;
-   the context-budget hook fires on subagent calls but exits on `agent_id`;
-   proposed a subagent notice at ~170k from its own transcript.
-3. Operator: «сколько нам вообще примерно по твоим прикидкам осталось? и
-   ещё отдельно хочу спросить, оправдывает ли себя механизм code review ->
-   handle?» Agent: ~$550–650 at API rates, ~30 sessions, 5–7 pastes
-   (branch so far $904 over 47 sessions); review yes, separate sessions no
-   — propose a fresh-eyed reviewer subagent in the bite's tail.
-4. Operator: «говорю "да" :)» → loop changed in the plan (7ccc3d04).
-   «а комменты в пиарах при этом останутся как объект?» — yes, the review
-   still posts on PR #57. «а после ревью кто исправлять будет?» / «и в
-   какой сессии» — the same orchestrator session, via fix subagents.
-   «ну то есть в рамках одной сессии, save for context budget control» —
-   yes.
-5. Operator: «как-то можно отключить этот хук который требует коммитить
-   каждый раз?» Agent: it is the cloud environment's hook
-   (`~/.claude/stop-hook-git-check.sh`), not the repo's; it fires on the
-   subagents' uncommitted work in the shared tree; proposed per-agent
-   worktrees.
-6. Operator: «не помню никакой своей гипотезы» (the agent had written
-   «Ваша прежняя гипотеза» — it was the play agent's) «1 - relay, и всегда
-   так… 2 - сделай, подагентом в следующей сессии 3 - не надо.» Agent:
-   owned both slips, paused the play agent, recorded the lapse in
-   megabeast.
-7. Operator: «пару раз нажал на бабочку -- кажется, она каждый раз
-   появляется за пределами экрана» Agent: likely the adapter's accepted
-   edge case (released while turned away); decided a release always
-   arrives in the current view (9ab9ef5a). Operator: «нет, никуда не
-   ходил, просто нажимаю бабочку, и она медленно-медленно вылетает из-за
-   кадра к цветку. остальные тоже из-за кадра, но разумеется быстрее. а
-   ещё кажется насекомые не изменяют размера при движении вперёд-назад»
-   Agent: redecided — enter at the current view's edge with a fast arrival
-   leg (~1.5 s to the first perch); insects drawn at their depth's scale.
-8. Operator: «хотя на самом деле пусть делают в worktree, мы же от этого
-   ничего не потеряем?» Agent: nothing that matters — adopted (see §4).
+1. Operator (mid-turn): «в дополнение к предыдущим замечаниям-вопросам,
+   субъективно кажется что мухи и пчёлы стали перелетать слишком быстро.
+   что-то менялось в методике их перемещения?» Agent: yes — 3ddb960 spread
+   perches over the world and slowed only butterflies; a fly's/bee's dash
+   keeps its leg's time so it sped up on long legs; decided a cap.
+2. Operator (screenshot from the old session, saying the "previous remarks"
+   were relay §2 items 7–8 and §4) «вот это предыдущие / с автоветкой шут с
+   ней». Agent: all three already in work.
+3. Operator: «не понял почему мы вдруг заговорили по-английски -- но может у
+   нас насекомые будут вылетать не сбоку а где-то сверху? тогда даже если
+   она потом полетит "за тебя", направление будет видно». Agent: apologised;
+   took it; warned a screen row is a depth, so the top edge reads as far.
+4. Operator: «а, ну тогда пусть вылезает "из-за холма" спереди». Agent:
+   took it (1330f5f), redirected the `drop-in` agent.
+5. Operator: «так... что-то я вращаюсь вокруг своей оси, и никогда не
+   "завершаю" круг -- просто бесконечная поляна, сколько бы ни жал. это
+   временно, или баг?» Agent (this relay's last reply): not a bug in the
+   model — the heading wraps after 16.5 s of a held key (simulated); behind
+   the meadow is bare grass, so it reads as endless; asked which they want —
+   a faster turn or something to see behind. **Unanswered at the relay.**
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable
 for a six-year-old boy; each bite reviewed by a subagent and its findings
 fixed; the Artifact playable after every bite; `/finalize` at the end, no
-merge. Bite 12: the child really walks; its tail is nearly done.
+merge. Bite 12: the child really walks; its tail is under way.
 
-## 4. Decisions (all in the plan, `## Rest of the bite`'s first paragraph and item 4b)
+## 4. Decisions (all in the plan's `## Rest of the bite`)
 
-- **4b, a key plants**: with the picker open on a tuft, a note/drum key
-  plants the flower of that sound (`classOf`, `keyPlanting` in
-  `keyed-flowers.ts`); on a flower, replaces it. The key itself is
-  silent; the new flower sounds as a planting does.
-- **Review as a tail subagent**, findings fixed by the same session's fix
-  subagents, replies on GitHub; structural bites (12b) keep a review
-  session.
-- **A released insect is seen at once and lands soon** — enters at the
-  current view's nearer edge, a fast arrival leg, first perch on screen
-  within ~1.5 s; the slow cruise stays. **Insects scale with depth** —
-  perched at the host's scale; in flight at the view's depth, or that half
-  to 12b if it needs the plane. Measure first.
-- **Frame budget: raise `V_NEAR` first** (spec §5); beaten: relaxing the
-  budget.
-- **Subagent context notice**: a subagent builds it next session.
-- **Per-agent worktrees**: adopted (operator reversed «не надо»); the
-  common brief `docs/remove-before-merging/bite-12/brief-common.md` must be
-  rewritten for it before the first brief. Cost: a `pnpm install --offline`
-  per worktree and a `git pull --no-rebase` merge on push.
-- `Leaning` as a shared base for mushroom `lean` (radians) and brow-blade
-  `lean` (a sideways share) — accepted, like `Point`'s per-module units.
+- **A fly's or bee's dash is capped at its own screen's width** in
+  butterfly sizes (`Sight.across`). Beaten: one tablet-wide cap (phones 3×
+  too fast, desktop slower than ever), doubling `slowest`. Built da93055.
+- **A release lands within `ARRIVAL` 1500 ms; insects are drawn at their
+  depth's scale** (blended between hosts in flight). Built 69d7c5f,
+  8cd4f07. A far insect's tap circle never shrinks under `TAP_RADIUS`.
+- **A release rises from behind the brow in front** (operator's idea),
+  at an x between the screen's middle and its perch; with no perch in view
+  it comes over the brow at the middle and flies out by the side nearer
+  its perch. Beaten: the side edge, the top edge (a sky row is no depth).
+  Being built by `drop-in`.
+- **Subagent context notice** at 170k from the agent's own transcript
+  (`<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`);
+  fired live once, worked. Built 8bf5044.
 
 ## 5. Errors and dead ends
 
-- The agent offered `/compact` vs `/relay` at the budget notice and asked
-  two infra questions — the operator objected; the loop relays unasked.
-- The agent called the play agent's hypothesis the operator's, and used
-  «вы».
-- The first play agent hit ~200k with nothing committed; the nudge landed
-  4fa8349a.
+- The orchestrator wrote the dash cap as "≈6 world units"; the model reads
+  butterfly sizes. The agent caught it; the plan carries the correction.
+- Two replies went out in English after agent reports; the operator
+  noticed.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
-  MERGEABLE.
+  **`CONFLICTING`** at the relay (reported, not fixed — `/finalize`'s job).
 - Plan `docs/plans/mushroom-game-syama.paused.md`.
-- Nothing running: every subagent reported; no check-ins pending, no PR
-  subscription. The Artifact is still the bite-11 version.
-- tabL passes every play at b0a652bb except the frame budget (33.5 ms).
+- **Two agents still running in the relaying session's container**, pushing
+  to the branch: `v-near` (raising `V_NEAR` until the forest walk holds
+  26 ms; was measuring 2, 4, 5) and `drop-in`. Their hand-over notes
+  `docs/remove-before-merging/bite-12/v-near.md` and `drop-in.md` say
+  what landed; `git log` shows their commits. Do not re-brief their files
+  until their notes say "Left: nothing" or they go quiet for ~30 min.
+- A `send_later` check-in fires into the relaying session at 13:01; it
+  will see the agents through. No PR subscription.
+- The Artifact has not been republished this session.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/` — `play-final.md` (the run, how
-  to split it by `--plays`), `seat-fix.md`, `key-plants.md`,
-  `type-overlap.md`, `step-spec.md` §4/§5, `brief-common.md`.
-- `docs/plans/mushroom-game-syama/bite-12.md` (the fold), `decisions.md`.
-- `.claude/context-budget/` (the hook to extend; `CLAUDE.md` there).
-- The relaying session: https://claude.ai/code/session_012enH5VNKgR1eWosaAJ4VCN
+- `docs/remove-before-merging/bite-12/`: `brief-common.md` (worktrees),
+  `dash-cap.md`, `insect-arrive.md`, `subagent-notice.md`, `v-near.md`,
+  `drop-in.md`, `play-final.md` (the five-screen run).
+- `.claude/context-budget/` (the subagent notice).
+- `src/pages/mushrooms/model/pan.ts` `TURN_CRUISE`, `model/walk.ts` (the
+  turn question).
+- The relaying session: https://claude.ai/code/session_01UtZKz1KhUShxyTZXbZ24vD
 
 ## 8. Next step
 
-`/go` — finish bite 12 from the plan's `## Rest of the bite` first
-paragraph: rewrite `brief-common.md` for per-agent worktrees; in
-parallel, the released-insect fix with the insects' depth scale, the `V_NEAR` frame-budget fix and the
-subagent context-notice hook («сделай, подагентом в следующей сессии»);
-then the five-screen run with frames and the phoneL edge flower; the
-review subagent and its fixes; delete `## Rest of the bite`; `/polish`,
-vet, the Artifact republished, `/pr`. Then 12b per the plan.
+First, the operator's open question on turning (§2 item 5): when they
+answer, write the call into the plan and brief it. Then `/go` — continue
+bite 12 from the plan's «Where the relay at 13:00 on 1 Oct left it»: once
+`v-near` and `drop-in` have landed, the five-screen run with frames (incl.
+a release on tabL and phoneP, and a walk toward a perched butterfly), the
+phoneL edge flower; the review subagent and its fixes; delete
+`## Rest of the bite`; `/polish`, vet, the Artifact republished, `/pr`.
+Then 12b per the plan.
