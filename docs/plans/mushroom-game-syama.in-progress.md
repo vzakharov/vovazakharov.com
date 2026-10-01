@@ -416,6 +416,15 @@ departures were taken):
    tablet forests crowd for no gain) and no growth on phones (breaks "the
    meadow only gets fuller"). If the scaled floor leaves a phone short of
    the old 120, the floor goes to 8 on that screen, measured.
+   Built (d396ca72, `p1e-patch.md`): 120 to six on every screen. The
+   clump's own patch follows the same rule — `CLUMP_PATCH` 12 at a
+   tablet's unit, scaled, floored at 8 (the sideways phone's back cap
+   kept a crescent too thin for 12; 0 failures at ≤9). Left, red since
+   86503fb: `layout.test.ts` "grows 12 over the world" on the sideways
+   phone (3 of 200 stop at 5–8, not for the patch), and
+   `clump-layout.test.ts` "wider cap farther in" (tablet 318 → 589 of
+   2250 pairs) — each traced to its cause and judged against the rule it
+   stands for before anything is tuned.
 2. `meadow-scene.ts` (455) and `insect-view.ts` (479) back under ~450.
 3. P4: the long press, the flower picker with the cross, the ring
    (below).
