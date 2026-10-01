@@ -25,7 +25,7 @@ import {
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
 import { placedAt, type Point } from '../../model/geometry';
-import { project } from '../../model/ground';
+import { type Camera, project, spread } from '../../model/ground';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
@@ -48,6 +48,7 @@ import {
   type Stand,
   WIDEST_SPAN,
 } from './flower-sight';
+import { type Aloft, framedOf } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import {
   crowdings,
@@ -55,7 +56,7 @@ import {
   seatsWith,
   type Track,
 } from './perch-crowding';
-import { rowAt, type View } from './view';
+import { middleOf, rowAt, V_NEAR, type View } from './view';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -332,7 +333,10 @@ export function perchSight(stand: Stand): Sight {
           ] as const,
       ),
     ].map(([name, { x, y }]) => {
-      const fromEye = perchDistance(layout, rows.get(name) ?? aloftRow);
+      const fromEye = perchDistanceAtOpening(
+        layout,
+        rows.get(name) ?? aloftRow,
+      );
       return [name, { x: x / unit, y: y / unit, fromEye }];
     }),
   );
@@ -355,13 +359,53 @@ export function clumpRow({ camera }: MeadowLayout): number {
 }
 
 /**
- * How far from the eye a perch standing over the ground row `row` is, in the
- * clump's size (`Place`'s `fromEye`), the one seam a perch's distance enters
- * `Places` by: the opening eye's distance ahead of the row, the eye the
- * layout is laid out for.
+ * How far from the opening eye, the eye the layout is laid out for, a perch
+ * standing over the ground row `row` is, in the clump's size: what
+ * `perchSight` measures `Place`'s `fromEye` by, and what `perchDistance`
+ * measures at the opening eye.
  */
-function perchDistance(layout: MeadowLayout, row: number): number {
+function perchDistanceAtOpening(layout: MeadowLayout, row: number): number {
   return rowAt(layout.camera, row).opening;
+}
+
+/**
+ * `point`, in world px as `camera`'s layout lays it out over the ground row
+ * `footRow`, as a fixed point in the world: `ofLayout`'s own construction, so
+ * the opening eye draws it where the layout does, and a thing whose foot is
+ * on that row stands on the plane where its bed places it.
+ */
+export function aloftOfLayout(
+  camera: Camera,
+  point: Point,
+  footRow: number,
+): Aloft {
+  const { opening, perPx } = rowAt(camera, footRow);
+  return {
+    ...spread({ x: (point.x - middleOf(camera)) * perPx, y: opening }),
+    h: (footRow - point.y) * perPx,
+  };
+}
+
+/** Each spot in the open air (`airSpots`) as a fixed point in the world over the clump's row (`aloftOfLayout`), by id. */
+export const airAlofts = perLayout(
+  (layout): ReadonlyMap<string, Aloft> =>
+    new Map(
+      airSpots(layout).map(({ id, x, y }) => [
+        id,
+        aloftOfLayout(layout.camera, { x, y }, clumpRow(layout)),
+      ]),
+    ),
+);
+
+/**
+ * How far from `view`'s eye a perch at `at` is, in the clump's size (`Place`'s
+ * `fromEye`), the one seam a perch's distance enters `Places` by: its forward
+ * distance in the frame turned to the eye's heading (`framedOf`), which at the
+ * opening eye is its foot row's opening distance; kept out at `V_NEAR`, as
+ * the frame's forward falls to nothing and below straight behind the eye.
+ */
+export function perchDistance(view: View, at: Aloft): number {
+  return Math.max(V_NEAR, framedOf(view, view.eye.heading, at).forward);
 }
 
 /** The ground row each cap's and standing flower's foot stands on in `stand`, among its `standing` flowers, and the clump's under every spot in the air. */
