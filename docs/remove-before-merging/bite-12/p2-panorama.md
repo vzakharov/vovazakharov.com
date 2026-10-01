@@ -37,15 +37,29 @@ F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
   is as before 0b32d8fb (that commit's 5 extra clouds had shifted the
   hills). A cloud is pale when it is in the top tenth of the screen (was:
   the single highest), the same three-cloud opening.
+- Step 1 rest (code, unit-tested; not yet screenshot-compared): `paintSky`
+  is rows only (`skyAt`); `paintGlow` paints `skyGrid`'s cells with
+  `litSkyAt` over `sun.x ± haloReach` (new in `backdrop-tones.ts`, the
+  largest `SUN_HALO` reach, = max(0.4·short, 3.5r)), unclamped past the
+  screen, baked on whole device pixels (`onPixels`, `baking.ts`); the sun
+  (`paintSun`) baked over `sun ± (1.8r + 2 px)` (tablet: 225 CSS px
+  square); the wash over `sun ± outer ring`, rows from the top. Each is a
+  `Turning` picture slid by `placedLeft(view, sun.x, home)` (`panorama.ts`,
+  `shiftOf` plus off-screen hiding). `Backdrop` is `Following`:
+  `backdrop.follow(view)` places glow, sun, wash and clouds;
+  `driftClouds(backdrop, layout, t)` (the scene's existing call) sets the
+  drift and places clouds through the last followed view. A repaint keeps
+  `view.eye` and `drifted`. Depths renumbered -9..-1 (sky, glow, sun,
+  clouds, far, near, ground, wash, grain).
 
 ## Left
 
-- Step 1 rest: sun disc/rays as their own small bake moved by
-  `shiftOf(view, sun.x)` and hidden outside the view; the sun's halo
-  (`litSkyAt`'s `SUN_HALO`) as an opaque lit-sky strip `sun.x ± max(0.4·short,
-3.5r)` over a rows-only sky bake (base-independent, seamless where the
-  halo reaches 0); the wash baked over `sun.x ± outer` only, moved likewise;
-  a `follow(view)` on the backdrop driving all of it.
+- Step 1: the `/preview` pair at tablet landscape against a 0b32d8fb~
+  worktree (`docs/remove-before-merging/frames/bite-12/sun-opening-*.png`).
+  Expected differences: the wash no longer reaching the land's top third
+  (0b32d8fb's spec-sanctioned cut); possibly ±1 level at the sun's
+  antialiased edge (it is now composited over the sky rather than baked
+  with it).
 - Step 2: periodic crests in `skyline.ts` (integer cycles round 360°,
   `k = round(waves·πF/width)`), one bowl at `α_sun` (`off = F·wrapAngle(α −
 α_sun)`; screen offset ≥ that, so the old bowl's clearance still holds),

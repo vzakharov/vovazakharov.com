@@ -2,11 +2,12 @@ import * as Phaser from 'phaser';
 
 import { pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
-import { litSkyAt, skyGrid } from './backdrop-tones';
+import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT, wrapAngle } from './panorama';
+import type { Span } from './parallax';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
@@ -23,19 +24,20 @@ const PUFF_SEED = 0x9f_f5;
 export type Layer = () => Phaser.GameObjects.Graphics;
 
 /**
- * The sky down to the near hills, warm at the bottom, and pale and warm round
- * the sun: `skyGrid`'s cells, each shaded between its corners' colours. A
- * renderer that cannot shade between corners fills each with the colour at
- * its middle.
+ * `skyGrid`'s cells from column `from` up to `to`, which may lie past the
+ * screen's edges, each shaded between its corners' colours `at`. A renderer
+ * that cannot shade between corners fills each with the colour at its
+ * middle.
  */
-export function paintSky(
+function paintCells(
   graphics: Phaser.GameObjects.Graphics,
   layout: MeadowLayout,
+  at: (x: number, y: number) => number,
+  [from, to]: readonly [number, number],
 ): void {
-  const { columns, rows, across, down } = skyGrid(layout);
-  const at = (x: number, y: number) => litSkyAt(layout, x, y);
+  const { rows, across, down } = skyGrid(layout);
   for (let row = 0; row < rows; row++) {
-    for (let column = 0; column < columns; column++) {
+    for (let column = from; column < to; column++) {
       const [x, y] = [column * across, row * down];
       graphics.fillStyle(at(x + across / 2, y + down / 2));
       graphics.fillGradientStyle(
@@ -50,9 +52,41 @@ export function paintSky(
 }
 
 /**
+ * The bare sky down to the near hills, warm at the bottom: by rows alone, so
+ * it stands fixed on the screen however the eye turns, the sun's light laid
+ * over it by `paintGlow`.
+ */
+export function paintSky(
+  graphics: Phaser.GameObjects.Graphics,
+  layout: MeadowLayout,
+): void {
+  const at = (_x: number, y: number) => skyAt(y / layout.nearHills);
+  paintCells(graphics, layout, at, [0, skyGrid(layout).columns]);
+}
+
+/**
+ * The sky pale and warm round the sun, opaque, in the cells `litSkyAt` lights
+ * either side of it, on or off the screen, so it turns with the sun over the
+ * bare sky and meets it seamlessly where the light runs out. Returns the
+ * stretch across the screen it covers.
+ */
+export function paintGlow(
+  graphics: Phaser.GameObjects.Graphics,
+  layout: MeadowLayout,
+): Span {
+  const { across } = skyGrid(layout);
+  const reach = haloReach(layout);
+  const from = Math.floor((layout.sun.x - reach) / across);
+  const to = Math.ceil((layout.sun.x + reach) / across);
+  const at = (x: number, y: number) => litSkyAt(layout, x, y);
+  paintCells(graphics, layout, at, [from, to]);
+  return { left: from * across, across: (to - from) * across };
+}
+
+/**
  * The sun as a rosette: two rings of rays set half a step apart, then a ring
  * of petals inside the disc — the first of the meadow's mandala ornament —
- * over the glow the sky lays round it (`litSkyAt`).
+ * a picture of its own over the glow the sky lays round it (`paintGlow`).
  */
 export function paintSun(
   graphics: Phaser.GameObjects.Graphics,
@@ -137,9 +171,9 @@ export function paintClouds(
 }
 
 /**
- * The sun's light over the land, screened on so it only ever lightens: faint
- * discs round the sun at the layout's `wash`, so the ground a mushroom stands
- * on is never lifted.
+ * The sun's light over the sky, screened on so it only ever lightens: faint
+ * discs round the sun at the layout's `wash`, short of the ground's top, so
+ * the ground a mushroom stands on is never lifted.
  */
 export function paintWash(
   graphics: Phaser.GameObjects.Graphics,

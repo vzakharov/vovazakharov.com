@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { bakeTiles, faceFrame } from './baking';
+import { bakeTiles, faceFrame, onPixels } from './baking';
 
 const HOMES = [
   { x: 37.3, y: 61.85, r: 28.4 },
@@ -59,6 +59,18 @@ describe('bakeTiles', () => {
         }
       }
       assert.ok(covered.every((count) => count === 1));
+    }
+  });
+});
+
+describe('a stretch on whole device pixels', () => {
+  it('widens to the device pixels it touches, whole at the ratio', () => {
+    for (const ratio of [1, 1.5, 2, 3]) {
+      const [from, to] = onPixels(10.37, 211.9, ratio);
+      assert.ok(from <= 10.37 && to >= 211.9);
+      assert.ok(Number.isInteger(Math.round(from * ratio * 1e9) / 1e9));
+      assert.ok(Number.isInteger(Math.round(to * ratio * 1e9) / 1e9));
+      assert.ok(10.37 - from < 1 / ratio && to - 211.9 < 1 / ratio);
     }
   });
 });

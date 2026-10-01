@@ -82,3 +82,16 @@ export function bakeTiles(
   }
   return tiles;
 }
+
+/**
+ * The stretch `from` to `to`, in CSS px, widened to whole device pixels at
+ * `ratio` either way, so a picture baked over it lays its texels on the very
+ * pixels a screen-wide bake does.
+ */
+export function onPixels(
+  from: number,
+  to: number,
+  ratio: number,
+): readonly [number, number] {
+  return [Math.floor(from * ratio) / ratio, Math.ceil(to * ratio) / ratio];
+}

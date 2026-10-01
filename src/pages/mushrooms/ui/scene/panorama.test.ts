@@ -2,12 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { OPENING_EYE } from '../../model/ground';
+import { haloReach, litSkyAt, skyAt } from './backdrop-tones';
 import { meadowLayout } from './layout';
 import {
   azimuthAt,
   type Cloud,
   driftedAzimuth,
   OPENING_CLOUD_COUNT,
+  placedLeft,
   screenAt,
   shiftOf,
   shownAzimuths,
@@ -27,7 +29,7 @@ function cloudsShown(view: View, clouds: readonly Cloud[], t: number): number {
 describe('the panorama', () => {
   for (const [name, width, height] of VIEWPORTS) {
     const layout = meadowLayout(width, height, 1);
-    const { camera, sun, clouds } = layout;
+    const { camera, sun, clouds, nearHills } = layout;
     const opening = viewAt(camera, OPENING_EYE);
 
     it(`shows the sun and the opening clouds where the opening screen always has, on a ${name} screen`, () => {
@@ -66,6 +68,33 @@ describe('the panorama', () => {
         }
       }
       assert.ok(least >= opened - 1, `only ${String(least)} in view`);
+    });
+
+    it(`draws the sun's pictures where they were baked at the opening, slid with the sun as it turns, on a ${name} screen`, () => {
+      const reach = haloReach(layout);
+      const home = { left: sun.x - reach, across: 2 * reach };
+      const opened = placedLeft(opening, sun.x, home);
+      assert.ok(Math.abs((opened ?? Number.NaN) - home.left) < 1e-9);
+      const turned = viewAt(camera, { ...OPENING_EYE, heading: -0.05 });
+      const sunAt = screenAt(turned, azimuthAt(camera, sun.x));
+      assert.ok(sunAt !== undefined);
+      const left = placedLeft(turned, sun.x, home);
+      assert.ok(
+        Math.abs((left ?? Number.NaN) - (home.left + sunAt - sun.x)) < 1e-9,
+      );
+      const away = viewAt(camera, { ...OPENING_EYE, heading: 1.2 });
+      assert.equal(placedLeft(away, sun.x, home), undefined);
+      const behind = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
+      assert.equal(placedLeft(behind, sun.x, home), undefined);
+    });
+
+    it(`lights the sky round the sun no farther than its glow's picture runs, on a ${name} screen`, () => {
+      const reach = haloReach(layout);
+      for (let y = 0; y <= nearHills; y += nearHills / 40) {
+        for (const x of [sun.x - reach, sun.x + reach, sun.x + reach * 1.5]) {
+          assert.equal(litSkyAt(layout, x, y), skyAt(y / nearHills));
+        }
+      }
     });
 
     it(`carries the sun off the screen and back over a full turn, on a ${name} screen`, () => {

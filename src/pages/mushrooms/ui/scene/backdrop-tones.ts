@@ -108,6 +108,18 @@ function falloff(t: number): number {
   return 1 - clamped * clamped * (3 - 2 * clamped);
 }
 
+/** How far from the sun's middle, in CSS px, its light over the sky reaches: past it `litSkyAt` is the bare sky. */
+export function haloReach({
+  sun,
+  width,
+  height,
+}: Pick<MeadowLayout, 'sun' | 'width' | 'height'>): number {
+  const short = Math.min(width, height);
+  return Math.max(
+    ...SUN_HALO.map(({ to, per }) => to * (per === 'sun' ? sun.r : short)),
+  );
+}
+
 /**
  * The sky at `x`, `y` with the sun's light laid over it, each layer in turn
  * at its opacity there, composited in full precision and rounded once, so

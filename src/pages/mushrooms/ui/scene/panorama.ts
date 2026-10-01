@@ -9,6 +9,7 @@
 import type { Circle } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import { between, mulberry32 } from '../../model/random';
+import type { Span } from './parallax';
 import type { View } from './view';
 
 const TURN = Math.PI * 2;
@@ -54,6 +55,22 @@ export function shownAzimuths(view: View): { from: number; to: number } {
 export function shiftOf(view: View, at: number): number | undefined {
   const x = screenAt(view, azimuthAt(view, at));
   return x === undefined ? undefined : x - at;
+}
+
+/**
+ * Where `view` draws the left edge of a picture baked over `home`, across the
+ * opening screen, round the opening x `at`, in CSS px; `undefined` where it is
+ * hidden, behind the eye or wholly off the screen.
+ */
+export function placedLeft(
+  view: View,
+  at: number,
+  home: Span,
+): number | undefined {
+  const shift = shiftOf(view, at);
+  if (shift === undefined) return undefined;
+  const left = home.left + shift;
+  return left < view.width && left + home.across > 0 ? left : undefined;
 }
 
 /**
