@@ -523,6 +523,24 @@ hosts' by the seat fix's weights, so nothing jumps at take-off or landing.
 Taken: a far insect's tap circle never shrinks under `TAP_RADIUS` (catching
 them is the child's game; caps and flowers do shrink theirs). Facing past
 the strip, a release still flies in unseen — 12b's accepted case below.
+**Re-decided, the operator's idea: a release drops in from above** («может у
+нас насекомые будут вылетать не сбоку а где-то сверху? тогда даже если она
+потом полетит "за тебя", направление будет видно»). It enters at the top
+edge of the screen, at an x between the screen's middle and its first
+perch's, and comes down to that perch within `ARRIVAL`. With no open perch
+in view it drops in at the middle and flies out by the side nearer its
+perch in the world, at its arrival pace, so the child sees which way it
+went. **Refined with the operator, told a screen row is a depth: it rises
+from behind the brow in front** («ну тогда пусть вылезает "из-за холма"
+спереди»). The release starts just past `D_SEE` along the heading, at an x
+between the screen's middle and its first perch's, so it comes up over the
+round brow as anything nearing it does, and flies in to the perch within
+`ARRIVAL`, growing by the depth scale as it nears. With no open perch in
+view it comes over the brow at the middle and flies out by the side nearer
+its perch in the world. No height is needed: the depth model draws it.
+Beaten: the side edge (half off screen, and an unseen leg's way lost), and
+the top edge (a sky row is no depth, so it needed a height of its own
+before 12b).
 **From the operator, after the relay at depth 8: «субъективно кажется что
 мухи и пчёлы стали перелетать слишком быстро».** Traced: 3ddb960 let
 insects perch anywhere in a world twice a sideways tablet's screen, and
