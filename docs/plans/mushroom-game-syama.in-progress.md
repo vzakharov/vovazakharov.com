@@ -481,6 +481,16 @@ passes, note current, report — instead of exiting on `agent_id`
 (operator: «сделай, подагентом в следующей сессии»; see
 `.claude/skills/megabeast/notes/subagents.md`). Per-agent worktrees to
 quiet the Stop hook's git check: declined («не надо»).
+**From the operator's play at the relay: «пару раз нажал на бабочку --
+кажется, она каждый раз появляется за пределами экрана».** Likely the
+insect adapter's accepted edge case (spec §5: insects fly in the opening
+view's frame, so a release while turned away flies to the strip unseen) —
+measure first, and stop if the cause differs. **Decided: a release always
+arrives in the current view** — it enters from the nearer screen edge of
+what the child is looking at and its first perch is on screen, at every
+heading, since a button that answers with nothing breaks "every tap
+answers". This is bite 12's to fix, not 12b's; beaten: leaving it to
+12b's insects on the plane.
 
 **Left, in order:**
 
