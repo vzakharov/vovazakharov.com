@@ -9,10 +9,18 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
-import { type Host, onHost } from './bed-place';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import { type Host, onHost, type Standing } from './bed-place';
 import { drawnAt, flownAt, type Zoomed } from './insect-away';
+import {
+  type Aloft,
+  drawnAloft,
+  type SeatEnds,
+  veeredAlong,
+  veerOf,
+} from './insect-frame';
 import type { Shown } from './insect-shown';
-import { browRow, cull, type View } from './view';
+import { browRow, cull, type Placed, type View } from './view';
 
 /** The hosts a leg is drawn between: `left`, the one it set off sitting on, and `to`, the one it flies to sit on; either absent where the leg has none. */
 export type Seats = { left?: Host; to?: Host };
@@ -74,4 +82,27 @@ export function drawnInsect(
     drawn.zoom += off.zoom * weight;
   }
   return drawn;
+}
+
+/**
+ * Where `view` draws an insect flying at `raw`, `flown` of the way along its
+ * leg between the seats `ends`, at its own size over its distance: veered
+ * round the eye (`veeredAlong`), the veer faded out toward a seat it would
+ * move; `undefined` where it is hidden.
+ */
+export function drawnFlier(
+  view: View,
+  raw: Aloft,
+  flown: number,
+  ends: SeatEnds,
+): Placed | undefined {
+  return drawnAloft(
+    view,
+    veeredAlong(view.eye, raw, veerOf(view), flown, ends),
+  );
+}
+
+/** The zoom an insect sitting on `host` is drawn at: its own size over the host's distance, as `drawnFlier` lands it. */
+export function seatedZoom(host: Standing): number {
+  return CLUMP_DISTANCE / host.stands.ahead;
 }
