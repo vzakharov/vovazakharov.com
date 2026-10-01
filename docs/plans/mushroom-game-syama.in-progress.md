@@ -412,6 +412,26 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
     compass, the current meadow standing and tapping as before inside the
     wedge, bare ground behind.
 
+    **Two fixes from the operator's play, folded into the packages that
+    own the files.**
+    - **The planting spots are grass again (P1).** Bite 10 drew each bare
+      tuft as a sprout round a closed pink bud, and capped them at
+      `TUFTS_PER_1000PX` 6, so the ground's grass thinned and the meadow
+      went noisy («заменил травинки "недоцветками"… выглядит так себе…
+      слишком noisy… травинки были ок, и ок когда их было больше»). A bare
+      tuft is drawn as a plain grass tuft, the seam's blades, and the
+      ground carries plain tufts again at the density it had before bite
+      10, of which the planting spots are a subset; a tap on a planting
+      spot still opens the picker, and the one it is open on keeps its
+      cream glow. No bud anywhere.
+    - **The keyboard plays only the flowers in front of you (P3).** A note
+      or drum key sounds only through a flower in the current view with
+      that pitch class or drum, at that flower's own note, and that flower
+      answers as to a tap; with none in view the key is silent («"пианино"
+      с клавиатуры не должно играть, если перед тобой нет подходящего
+      цветка»). The octave keys go if nothing is left for them to do; the
+      agent reports it.
+
     The decisions this rewrites — the one-drag pan, "every mushroom is a
     finger's target", the sight rule, bite 11's fixed sun, hill parallax,
     wash rule and hard ends — are rewritten in `decisions.md` at the
