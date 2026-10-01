@@ -1,0 +1,354 @@
+diff --git a/src/pages/mushrooms/model/ground.ts b/src/pages/mushrooms/model/ground.ts
+index 3fed07d..8c7e6b0 100644
+--- a/src/pages/mushrooms/model/ground.ts
++++ b/src/pages/mushrooms/model/ground.ts
+@@ -181,18 +181,29 @@ const SCALE_PER_DOWN = depthScale(1) - depthScale(0);
+ const HORIZON_DOWN = -depthScale(0) / SCALE_PER_DOWN;
+ 
+ /**
+- * How far ahead of the opening eye the clump's front foot stands, on the
+- * plane, in the clump's size: the distance at which one step into the
+- * distance (`z`) is one step on the plane, so depth is true at the clump.
++ * How high above the plane the eye stands, in the clump's size: the clump's
++ * front foot's height below the horizon in the row form, in the clump's size
++ * there. The row form fixes this and nothing else of the pinhole.
+  */
+-export const CLUMP_DISTANCE =
+-  (BAND_DEPTH * depthScale(CLUMP_DOWN)) / SCALE_PER_DOWN;
++export const EYE_HEIGHT =
++  BAND_DEPTH * UP_PER_Z * (CLUMP_DOWN - HORIZON_DOWN);
+ 
+ /**
+- * How high above the plane the eye stands, in the clump's size: the height
+- * that looks down at the clump's front foot at `UP_PER_Z`.
++ * How deep the plane is against the row form's own depth, where one step
++ * into the distance (`z`) is one step on the plane at the clump. The row form
++ * fixes only `EYE_HEIGHT`, so any share draws the opening the same; what it
++ * sets is the focal length, and a full turn is `2π · focal` px, so a shallower
++ * plane is a turn that takes fewer screens.
+  */
+-export const EYE_HEIGHT = CLUMP_DISTANCE * UP_PER_Z;
++const DEPTH_SHARE = 0.5;
++
++/**
++ * How far ahead of the opening eye the clump's front foot stands, on the
++ * plane, in the clump's size: every distance along the plane is in its
++ * measure.
++ */
++export const CLUMP_DISTANCE =
++  ((BAND_DEPTH * depthScale(CLUMP_DOWN)) / SCALE_PER_DOWN) * DEPTH_SHARE;
+ 
+ /**
+  * Where on the plane the eye stands, in the clump's size, and which way it
+diff --git a/src/pages/mushrooms/model/pan.ts b/src/pages/mushrooms/model/pan.ts
+index 0ddbcda..918544a 100644
+--- a/src/pages/mushrooms/model/pan.ts
++++ b/src/pages/mushrooms/model/pan.ts
+@@ -21,7 +21,7 @@ import {
+   type Paced,
+ } from './cruise';
+ import type { Lefted, Point } from './geometry';
+-import type { Camera } from './ground';
++import { type Camera, CLUMP_DISTANCE } from './ground';
+ 
+ /**
+  * What a crop is taken across: the world's width and the screen's, in CSS
+@@ -126,10 +126,17 @@ const STILL_AFTER = 0.1;
+ export const CRUISE_ACROSS = 0.5;
+ export const KEY_EASE = 0.25;
+ /**
+- * A held key's turn of the heading, in radians a second: a tablet's half a
+- * screen width a second at its 43.7° view, the same on every screen.
++ * How fast a held key's turn slides the meadow across the screen, in the
++ * clump's size a second where the clump's front foot stands: the pace the
++ * eye reads, about half a sideways tablet's width a second.
+  */
+-export const TURN_CRUISE = 0.38;
++const SLIDE_CRUISE = 3.28;
++/**
++ * A held key's turn of the heading, in radians a second, the same on every
++ * screen: the angle that slides the meadow at `SLIDE_CRUISE`, so it follows
++ * the plane's depth.
++ */
++export const TURN_CRUISE = SLIDE_CRUISE / CLUMP_DISTANCE;
+ 
+ /** The turn of a heading seen at `focal` px, the screen's focal length. */
+ export function turnOf(focal: number): Turn {
+diff --git a/src/pages/mushrooms/model/stride.test.ts b/src/pages/mushrooms/model/stride.test.ts
+index cd9180b..ac1c860 100644
+--- a/src/pages/mushrooms/model/stride.test.ts
++++ b/src/pages/mushrooms/model/stride.test.ts
+@@ -22,6 +22,8 @@ import {
+ const FRAME = 1 / 60;
+ const REACH = GLADE.r - RIM_KEEP;
+ const ORIGIN: Point = { x: 0, y: 0 };
++/** The lengths below in the glade's own measure, its radius 12 of them. */
++const U = GLADE.r / 12;
+ 
+ /** How far `one` is from `other`. */
+ function apart(one: Point, other: Point): number {
+@@ -98,7 +100,7 @@ describe('the stride on the keys', () => {
+ 
+   it('slides along the rim when it meets it slanting, to where the rim turns square to it', () => {
+     const heading = 1.1;
+-    const start = standingAt({ x: 0, y: 4 });
++    const start = standingAt({ x: 0, y: 4 * U });
+     const [, seen] = walked(holdStep(start, 1), heading, 30);
+     const contact = seen.findIndex((at) => apart(at, GLADE) > REACH - 1e-9);
+     assert.ok(contact > 0, 'it reaches the rim');
+@@ -113,8 +115,8 @@ describe('the stride on the keys', () => {
+   it('never walks faster than its cruise, nor out of the glade', () => {
+     for (let index = 0; index < 24; index++) {
+       const start = standingAt({
+-        x: 9 * Math.cos(index * 2.4),
+-        y: 8 + 9 * Math.sin(index * 1.7),
++        x: 9 * U * Math.cos(index * 2.4),
++        y: (8 + 9 * Math.sin(index * 1.7)) * U,
+       });
+       let stride = holdStep(start, index % 3 === 0 ? -1 : 1);
+       let heading = index * 0.9;
+@@ -133,7 +135,7 @@ describe('the stride on the keys', () => {
+   });
+ 
+   it('keeps a stand put inside the glade', () => {
+-    const outside = standingAt({ x: 0, y: 30 });
++    const outside = standingAt({ x: 0, y: 30 * U });
+     assert.ok(apart(outside.at, rimAlong(0)) < 1e-9);
+   });
+ });
+@@ -141,10 +143,10 @@ describe('the stride on the keys', () => {
+ describe('the stride on a drag', () => {
+   it('settles on its target and rests after the lift, with no glide', () => {
+     const heading = -0.4;
+-    const pressed = chaseTo(chaseFrom(standingAt({ x: 1, y: 2 }), heading), 3);
++    const pressed = chaseTo(chaseFrom(standingAt({ x: U, y: 2 * U }), heading), 3 * U);
+     const [lifted] = walked(liftChase(pressed), heading, 4);
+     const way = forwardOf(heading);
+-    const target = { x: 1 + 3 * way.x, y: 2 + 3 * way.y };
++    const target = { x: (1 + 3 * way.x) * U, y: (2 + 3 * way.y) * U };
+     assert.ok(apart(lifted.at, target) < 1e-9);
+     assert.equal(lifted.chase, undefined);
+     assert.equal(tick(lifted, heading, FRAME), lifted);
+@@ -152,29 +154,29 @@ describe('the stride on a drag', () => {
+ 
+   it('chases no faster than its cruise, however far the finger runs', () => {
+     const start = standingAt(ORIGIN);
+-    const pressed = chaseTo(chaseFrom(start, 0), -3.5);
++    const pressed = chaseTo(chaseFrom(start, 0), -3 * U);
+     const [, seen] = walked(pressed, 0, 4);
+     const steps = moves(start.at, seen);
+     assert.ok(steps.every((each) => each <= STRIDE_CRUISE * FRAME + 1e-9));
+-    assert.ok(Math.abs((seen.at(-1)?.y ?? 0) + 3.5) < 1e-9);
++    assert.ok(Math.abs((seen.at(-1)?.y ?? 0) + 3 * U) < 1e-9);
+   });
+ 
+   it('follows a moving target, the keys waiting for the lift', () => {
+     let stride = holdStep(chaseFrom(standingAt(ORIGIN), 0), -1);
+     for (let frame = 1; frame <= 60; frame++) {
+-      stride = tick(chaseTo(stride, frame * 0.02), 0, FRAME);
++      stride = tick(chaseTo(stride, frame * 0.02 * U), 0, FRAME);
+     }
+-    assert.ok(stride.at.y > 0.8, 'it follows the finger on, not the key back');
++    assert.ok(stride.at.y > 0.8 * U, 'it follows the finger on, not the key back');
+     const [lifted] = walked(liftChase(stride), 0, 3);
+     assert.equal(lifted.chase, undefined);
+     assert.ok(
+-      lifted.at.y < 1.2,
++      lifted.at.y < 1.2 * U,
+       'the held key walks it back once the chase is done',
+     );
+   });
+ 
+   it('stops on the rim when the target lies past it', () => {
+-    const pressed = chaseTo(chaseFrom(standingAt({ x: 0, y: 15 }), 0), 10);
++    const pressed = chaseTo(chaseFrom(standingAt({ x: 0, y: 15 * U }), 0), 10 * U);
+     const [lifted] = walked(liftChase(pressed), 0, 6);
+     assert.ok(apart(lifted.at, rimAlong(0)) < 1e-9);
+     assert.equal(lifted.chase, undefined);
+@@ -182,13 +184,13 @@ describe('the stride on a drag', () => {
+ 
+   it('slides to its target when the rim stands between, if the target is on the slide', () => {
+     const heading = 1.2;
+-    const from = standingAt({ x: 9, y: 8 });
+-    const pressed = chaseTo(chaseFrom(from, heading), 2.9);
++    const from = standingAt({ x: 9 * U, y: 8 * U });
++    const pressed = chaseTo(chaseFrom(from, heading), 2.9 * U);
+     const [lifted] = walked(liftChase(pressed), heading, 6);
+     const way = forwardOf(heading);
+-    const gained = (lifted.at.x - 9) * way.x + (lifted.at.y - 8) * way.y;
++    const gained = (lifted.at.x - 9 * U) * way.x + (lifted.at.y - 8 * U) * way.y;
+     assert.ok(Math.abs(apart(lifted.at, GLADE) - REACH) < 1e-9, 'on the rim');
+-    assert.ok(Math.abs(gained - 2.9) < 1e-6, 'as far on as the target');
++    assert.ok(Math.abs(gained - 2.9 * U) < 1e-6, 'as far on as the target');
+   });
+ });
+ 
+@@ -200,8 +202,8 @@ describe('the room ahead', () => {
+   });
+ 
+   it('adds the slide along the rim to the ray', () => {
+-    const at = { x: 6, y: 8 };
+-    const ray = Math.sqrt(REACH ** 2 - 36);
++    const at = { x: 6 * U, y: 8 * U };
++    const ray = Math.sqrt(REACH ** 2 - (6 * U) ** 2);
+     const slide = REACH * Math.acos(ray / REACH);
+     assert.ok(Math.abs(roomAhead(at, forwardOf(0)) - ray - slide) < 1e-9);
+   });
+diff --git a/src/pages/mushrooms/model/stride.ts b/src/pages/mushrooms/model/stride.ts
+index c352916..c13d643 100644
+--- a/src/pages/mushrooms/model/stride.ts
++++ b/src/pages/mushrooms/model/stride.ts
+@@ -17,16 +17,25 @@ import {
+   type Placed,
+ } from './cruise';
+ import type { Circle, Point } from './geometry';
++import { CLUMP_DISTANCE } from './ground';
+ import { KEY_EASE } from './pan';
+ 
+-/** A held key's walk, in the clump's size a second. */
+-export const STRIDE_CRUISE = 1.6;
++/**
++ * A held key's walk, in the clump's size a second: a share of
++ * `CLUMP_DISTANCE`, as every length along the plane is, so the clump nears
++ * at the same pace on the screen whatever the plane's depth.
++ */
++export const STRIDE_CRUISE = 0.185 * CLUMP_DISTANCE;
+ /** How far one step carries the eye: two a second at the cruise. */
+-export const STEP_LENGTH = 0.8;
++export const STEP_LENGTH = STRIDE_CRUISE / 2;
+ /** The ground the eye may walk: it holds the whole opening view, with room to step back. */
+-export const GLADE: Circle = { x: 0, y: 8, r: 12 };
++export const GLADE: Circle = {
++  x: 0,
++  y: 0.926 * CLUMP_DISTANCE,
++  r: 1.389 * CLUMP_DISTANCE,
++};
+ /** How far inside the glade's rim the eye keeps. */
+-export const RIM_KEEP = 0.5;
++export const RIM_KEEP = 0.058 * CLUMP_DISTANCE;
+ 
+ /** The radius of the disc the eye's own point keeps to. */
+ const REACH = GLADE.r - RIM_KEEP;
+diff --git a/src/pages/mushrooms/ui/scene/panorama.test.ts b/src/pages/mushrooms/ui/scene/panorama.test.ts
+index cae63a8..f1f889e 100644
+--- a/src/pages/mushrooms/ui/scene/panorama.test.ts
++++ b/src/pages/mushrooms/ui/scene/panorama.test.ts
+@@ -82,7 +82,7 @@ describe('the panorama', () => {
+       assert.ok(
+         Math.abs((left ?? Number.NaN) - (home.left + sunAt - sun.x)) < 1e-9,
+       );
+-      const away = viewAt(camera, { ...OPENING_EYE, heading: 1.2 });
++      const away = viewAt(camera, { ...OPENING_EYE, heading: Math.PI / 2 });
+       assert.equal(placedLeft(away, sun.x, home), undefined);
+       const behind = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
+       assert.equal(placedLeft(behind, sun.x, home), undefined);
+diff --git a/src/pages/mushrooms/ui/scene/panorama.ts b/src/pages/mushrooms/ui/scene/panorama.ts
+index aa7ee3f..5a04d38 100644
+--- a/src/pages/mushrooms/ui/scene/panorama.ts
++++ b/src/pages/mushrooms/ui/scene/panorama.ts
+@@ -182,11 +182,12 @@ const CLOUD_SIZES = [0.045, 0.06] as const;
+ 
+ /**
+  * The sky's clouds: the opening screen's three where it has always shown
+- * them, each leading a lane evenly round the sky that drifts together at
+- * the leader's pace, the lane's clouds no farther apart than the screen is
+- * wide in azimuth. So whatever the heading and however long the visit, every
+- * lane has a cloud on the screen, and the screen shows at least the three
+- * the visit opened on. A lane's others stand as high and as large as the
++ * them, each leading a lane round the sky that drifts together at the
++ * leader's pace, the lane's clouds no farther apart than the screen is wide
++ * in azimuth: its first and last followers that far round either side of the
++ * leader, so off the opening screen, the rest evenly between. So whatever
++ * the heading and however long the visit, every lane has a cloud on the
++ * screen, and the screen shows at least the three the visit opened on. A lane's others stand as high and as large as the
+  * opening three run, from `CLOUD_SEED`.
+  */
+ export function skyClouds(camera: Camera): Cloud[] {
+@@ -195,7 +196,8 @@ export function skyClouds(camera: Camera): Cloud[] {
+   const { focal } = pinholeOf(camera);
+   const random = mulberry32(CLOUD_SEED);
+   const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
+-  const lane = Math.ceil(TURN / shown);
++  const behind = TURN - 2 * shown;
++  const gaps = Math.ceil(behind / shown);
+   const leaders = OPENING_CLOUDS.map(([across, down, size, speed]) => ({
+     azimuth: azimuthAt(camera, width * across),
+     drift: speed / focal,
+@@ -203,8 +205,8 @@ export function skyClouds(camera: Camera): Cloud[] {
+     r: short * size,
+   }));
+   const followers = leaders.flatMap(({ azimuth, drift }) =>
+-    Array.from({ length: lane - 1 }, (_, index) => ({
+-      azimuth: wrapAngle(azimuth + ((index + 1) * TURN) / lane),
++    Array.from({ length: gaps + 1 }, (_, index) => ({
++      azimuth: wrapAngle(azimuth + shown + (index * behind) / gaps),
+       drift,
+       y: height * between(random, ...CLOUD_ROWS),
+       r: short * between(random, ...CLOUD_SIZES),
+diff --git a/src/pages/mushrooms/ui/scene/repaint-queue.test.ts b/src/pages/mushrooms/ui/scene/repaint-queue.test.ts
+index df43793..641249e 100644
+--- a/src/pages/mushrooms/ui/scene/repaint-queue.test.ts
++++ b/src/pages/mushrooms/ui/scene/repaint-queue.test.ts
+@@ -1,7 +1,12 @@
+ import assert from 'node:assert/strict';
+ import { describe, it } from 'node:test';
+ 
+-import { FRAME_DEPTH, OPENING_EYE, project } from '../../model/ground';
++import {
++  CLUMP_DISTANCE,
++  FRAME_DEPTH,
++  OPENING_EYE,
++  project,
++} from '../../model/ground';
+ import { bedPlace } from './bed-place';
+ import { placeIn } from './clump-layout';
+ import {
+@@ -17,8 +22,8 @@ import { opened } from './visit-play';
+ 
+ const SEEDS = [1, 42, 99];
+ 
+-/** The eye three steps in from the opening, in the clump's size. */
+-const STEPPED_IN = { ...OPENING_EYE, y: 3 };
++/** The eye a third of the way in to the clump from the opening. */
++const STEPPED_IN = { ...OPENING_EYE, y: 0.35 * CLUMP_DISTANCE };
+ 
+ /** The haze a back-row mushroom reads as misty at: the spec's «up to 0.39». */
+ const MISTY = 0.3;
+@@ -71,15 +76,15 @@ describe('the repaint queue', () => {
+ 
+     it(`pales a thing as it sinks behind the brow, more than the ground's haze rises, on a ${name} screen`, () => {
+       const { camera } = opened(SEEDS[0] ?? 1, width, height, false).layout;
+-      const span = 1.2;
++      const span = 0.09 * D_SEE;
+       // Straight ahead, where the distance is the depth along the heading.
+       const at = (ahead: number) =>
+         hazeAhead(camera, { ahead, distance: ahead });
+       const before = at(D_SEE) - at(D_SEE - span);
+       const after = at(D_SEE + span) - at(D_SEE);
+       assert.ok(after - before > 0.15, `${String(before)} → ${String(after)}`);
+-      const sinking = [0, 0.3, 0.6, 0.9, 1.2, 2].map((past) =>
+-        at(D_SEE + past),
++      const sinking = [0, 0.25, 0.5, 0.75, 1, 1.7].map((past) =>
++        at(D_SEE + past * span),
+       );
+       assert.deepEqual(
+         sinking,
+diff --git a/src/pages/mushrooms/ui/scene/repaint-queue.ts b/src/pages/mushrooms/ui/scene/repaint-queue.ts
+index a99d21d..82dac1f 100644
+--- a/src/pages/mushrooms/ui/scene/repaint-queue.ts
++++ b/src/pages/mushrooms/ui/scene/repaint-queue.ts
+@@ -24,12 +24,12 @@ export const REPAINTS_PER_FRAME = 2;
+ 
+ /**
+  * How much paler than the ground's haze a thing stands as it sinks behind the
+- * brow, at the most, and how far past `D_SEE`, in the clump's size, it gets
++ * brow, at the most, and how far past `D_SEE`, as a share of it, it gets
+  * there: about as far as a back-row mushroom takes to sink away, so it pales
+  * as it goes under rather than after.
+  */
+ export const BROW_PALE = 0.2;
+-const PALE_SPAN = 1.2;
++const PALE_SPAN = 0.09 * D_SEE;
+ 
+ /** How much paler a thing `distance` from the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
+ export function browPale(distance: number): number {
