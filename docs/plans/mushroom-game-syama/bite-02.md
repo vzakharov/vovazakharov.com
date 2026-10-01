@@ -33,7 +33,7 @@ What bite 2 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md`
      the whole synth once faded, and `settle()` keeps it suspended while muted
      or hidden. The mute is
      remembered in `localStorage` and falls back to unmuted where storage
-     throws — the one silent fallback in the game, awaiting the operator's
-     approval on the PR.
+     throws — the one silent fallback in the game, approved by the operator
+     («ок»).
    - Taps land on hit areas no smaller than `TAP_RADIUS` (32 CSS px); the
      front-most object takes the tap, depth being where its foot stands.
