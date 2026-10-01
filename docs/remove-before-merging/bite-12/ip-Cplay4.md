@@ -42,10 +42,10 @@ curve's ceiling.
 Where the worst steps fall: fly-15 `away→air` released at the landing heading
 (90.5 / 85.8, drawn 72 / 67 px); fly-22 `cap→away` at heading 0 (88.9); fly-26
 `air→cap` in the walk-in (89.5 at zoom 1.61, 144 px drawn, the eye walking);
-bee-5 `flower→away` at 1.83, sustained ~57 over flown 0.43–0.53. A leg to or
-from `away` has no `places`, so `paced` gives it no dash and no length: its
-flight is the `flying` draw over however far the side is, which is not the
-dash curve. On phoneP the bee's worst are `flower→flower`/`air→flower` at
+bee-5 `flower→away` at 1.83, sustained ~57 over flown 0.43–0.53. An `away`
+leg is timed off `places`' point just past the side, but drawn to
+`offAloft`, worked out each frame from the eye where it now stands — a
+suspect for the excess, untraced. On phoneP the bee's worst are `flower→flower`/`air→flower` at
 31–33, 1.3–1.4× the curve.
 
 The flower failure is the script's or the game's, not yet told apart:
@@ -62,6 +62,7 @@ the far left on tabL, the far right on phoneP.
 ## Left
 
 - Decide the dash bound: the curve's peak (41.6 / 23.5) is under what the
-  game draws; the excess is on `away` legs and the walk-in, not the dash.
+  game draws; the worst is on `away` legs and the walk-in, the bee's on
+  phoneP on ordinary flower legs.
 - Trace the flower that is not planted; the fly that never perches in view
   on phoneP (6 tries).
