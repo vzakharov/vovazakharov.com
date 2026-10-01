@@ -60,7 +60,18 @@ given.
    hand in `ui/scene/flower-bed.ts` (the import, `BROW_FADE`, the two lines
    at the end of `stand`, unchanged from the patch) and the patch deleted.
 
+5. Replays (scratch worktree at e1915503): `hold,walk` green on tabL,
+   phoneP and phoneL — 1 tuft back where the seeded flower stood on each,
+   the planted one's back too, a tap on the held flower leaving its picker
+   open; walk 5 under the cover (8.4 / 6.5 / 4.0 px), frame JS median
+   10.0 / 9.9 / 11.0 ms. Frames: `frames/bite-12/{tabL,phoneP}-p4-*.png`
+   replaced (phoneP-p4-seeded-held came out identical), `phoneL-p4-*.png`
+   new. On tabL the sun now stands under the cross, its rays clear.
+   The walk frames are not replaced (the walk play's own).
+
 ## Left
+
+- `mushroom-light.test.ts`'s small-phone overhead guard (step 3).
 
 5. Replays and frames.
 
