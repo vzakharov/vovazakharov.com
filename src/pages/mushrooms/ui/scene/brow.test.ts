@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { OPENING_EYE } from '../../model/ground';
 import { browBlades, browShown } from './brow';
 import { meadowCamera } from './meadow-camera';
+import { seamReach } from './skyline';
 import { coverRow, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
@@ -33,14 +34,40 @@ describe('the brow', () => {
       }
     });
 
-    it(`${name}: every heading shows the brow's blades at one density`, () => {
-      const counts = HEADINGS.map(
-        (heading) =>
-          browShown(viewAt(camera, { ...OPENING_EYE, heading }), blades).length,
+    it(`${name}: every heading shows clumps of blades with bare brow between them, none bare for long`, () => {
+      const reach = seamReach(camera);
+      for (const heading of HEADINGS) {
+        const view = viewAt(camera, { ...OPENING_EYE, heading });
+        const xs = browShown(view, blades)
+          .map(({ x }) => x)
+          .filter((x) => x > view.width / 4 && x < (view.width * 3) / 4)
+          .toSorted((one, other) => one - other);
+        assert.ok(xs.length > 0);
+        const gaps = xs.slice(1).map((x, index) => x - (xs[index] ?? x));
+        assert.ok(Math.max(...gaps) < reach * 3, `${heading}`);
+      }
+      const gaps = blades
+        .slice(1)
+        .map(
+          ({ azimuth }, index) => azimuth - (blades[index]?.azimuth ?? azimuth),
+        );
+      const mean = gaps.reduce((sum, gap) => sum + gap, 0) / gaps.length;
+      assert.ok(
+        gaps.filter((gap) => gap > mean * 3).length > gaps.length / 20,
+        'some blades stand well apart',
       );
-      const least = Math.min(...counts);
-      assert.ok(least > 0);
-      assert.ok(Math.max(...counts) <= least * 1.15, counts.join(' '));
+      assert.ok(
+        gaps.filter((gap) => gap < mean / 2).length > gaps.length / 3,
+        'most stand close in clumps',
+      );
+    });
+
+    it(`${name}: the blades stand at many heights, a few tufts over the rest`, () => {
+      const talls = blades.map(({ tall }) => tall);
+      assert.ok(Math.min(...talls) < 0.2);
+      assert.ok(Math.max(...talls) > 0.75);
+      const tufts = talls.filter((tall) => tall > 0.7).length;
+      assert.ok(tufts > 0 && tufts < talls.length / 10, `${tufts}`);
     });
 
     it(`${name}: a turn slides the blades with the hills`, () => {
