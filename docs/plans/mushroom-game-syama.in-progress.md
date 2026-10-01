@@ -251,12 +251,12 @@ A held arrow on phoneL starts from the far end, since the opening crop
 leaves less room than the key's ease-in needs (`play-pan-keys.ts`). Item 12
 is next.
 
-**The rest of idea 1 has no item yet.** Bites 9 and 11 built its left half
-(the ground, the wide world, the pan, the keys, a turn as a crop); the step
-forward and back, the map in the mute's circle, far mushrooms tapped only
-where drawn and insects perching out of sight are written up in
-`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` and wait for the
-operator's word on where they go.
+**The rest of idea 1 is items 14 and 15.** Bites 9 and 11 built its left
+half (the ground, the wide world, the pan, the keys, a turn as a crop); the
+operator placed the right half as two bites after the rain and before dusk,
+confirming the proposal to write it in that way («подтверждаю вот это»).
+`docs/remove-before-merging/ideas/idea-1-walking-meadow.md` is their spec,
+its «Что ты решил» section overriding the body.
 
 **Open:** review 5360733525 is handled, every thread answered; one miss it
 left stands: on phoneL, visit 12733755's clump back cap keeps a 22 px patch,
@@ -277,21 +277,97 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-12. **Rain.** A tap on a cloud darkens it and it rains, falling as drops that
-    splash on caps and ground, with its own sound. While it rains, flowers
-    close, insects shelter under the nearest cap, and mushrooms swell a
-    little. When it stops, the sun comes back with a rainbow, and spores an
-    old mushroom shed sprout into little mushrooms that grow over the next
-    minutes, within the forest's cap.
-13. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
+13. **After the rain.** While it rains, insects shelter under the nearest
+    cap (a perch in `flight-habits.ts`, in sight by the same rule); when it
+    stops, spores an old mushroom shed sprout into little mushrooms that
+    grow over the next minutes through `pickFoot` and `roomFor`, within
+    `MUSHROOM_SLOTS` — the first thing the reducer's `tick` grows.
+14. **A step forward and back.** A finger up and down, and `↑`/`↓`, step
+    the player into and out of the meadow at a natural pace, with soft
+    footsteps and a slight head bob — a large bite, since it moves the
+    camera, the tap areas and the insects' sight: a far mushroom is tapped
+    only where it is drawn, and insects perch where they like, out of frame
+    included, sight recomputed per step.
+15. **The map.** A map view and its button take the mute's circle, which
+    anchors the layout; the mute and its `localStorage` memory go with it
+    (sound off is the device's), `settle()` staying.
+16. **Dusk.** The dark scheme is dusk: the sky, dimmer hills, windows
     glowing, fireflies waking, mice coming out of their doors, butterflies
     folded on the caps and flowers closed for the night.
-14. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
+17. **Around the canvas.** A way home as a pictogram; `prefers-reduced-motion`
     (idle loops off, short tweens without overshoot); a visually hidden row
     of HTML buttons beside the canvas dispatching the same actions, for
     assistive tech; a home-page link in the footer's `SEE_ALSO` if that list
     carries side projects, none otherwise. Then, the Artifact republished,
     `/relay /finalize`.
+
+## This bite
+
+12. **Rain** — the shower itself; what it leaves behind is item 13. Cut
+    there because item 12 as written was four packages (weather, the
+    shower's look and sound, shelter, sprouting), and a bite past two runs
+    into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
+
+    **Behaviour.**
+    - **A tap on any cloud starts the rain.** The tapped cloud darkens
+      first and the others follow within ~0.6 s; the sky and land dim under
+      a slate wash; rain falls across the whole screen, densest under the
+      tapped cloud. The weather is the meadow's, not a cloud's: one shower
+      at a time, so flowers everywhere close at once, a cause a child reads
+      without a word.
+    - **It lasts `RAIN_MS` 10 s; a tap on a cloud while it rains restarts
+      the 10 s** and gives that cloud a wobble and a gush of drops under
+      it, so the tap always answers (decisions: "No tap is ever answered
+      with a shrug"). A cloud tap is a tap on the meadow, so it shuts the
+      flower picker, as a flower tap does.
+    - **Drops** are short slanted streaks, screen-fixed like the clouds, at
+      most ~120 at once. Where one lands it splashes as a small ring
+      (decisions: mandala ornament): on a cap's top where the drop's column
+      crosses a cap in sight, otherwise on the ground at a depth picked from
+      the crop. Splashes are drawn through the `Crop`, so they sit on the
+      ground under a pan.
+    - **Sound**: a soft hiss of filtered noise with a patter of tiny ticks,
+      fading in over ~1 s and out with the rain; a cloud tap answers with a
+      low soft whoosh. Synthesized in `synth.ts`'s manner, silent under the
+      mute; level above ~300 Hz checked by rendering (play-run note "Sound
+      is reviewed by rendering it").
+    - **While it rains** every flower closes — petals folded up toward the
+      centre over ~1.5 s, reopening as it stops — and stays playable as an
+      instrument; every mushroom's cap swells ~6% and settles back. Both
+      are clock functions of the shower, so a resize or a pan never
+      interrupts them. Insects carry on as before this bite.
+    - **When it stops** the wash lifts and a rainbow fades in over the sky,
+      screen-fixed, as concentric bands, holds ~8 s and fades over ~3 s. A
+      new tap on a cloud while the rainbow shows starts a new shower and
+      fades it out.
+
+    **Model.** `Meadow` gains a `rain` span, `{ start, end }` or
+    `undefined`, in the insects' ms clock; `{ kind: 'rain' } & Timed`
+    starts or restarts it and shuts the flower picker. Nothing ends it:
+    whether it rains, how wet the meadow is (0–1, eased in and out) and the
+    rainbow's strength are pure functions of `rain` and the clock, in a
+    Phaser-free `model/weather.ts` under `node:test`, so the reducer's
+    `tick` stays as it is this bite.
+
+    **Scene.** A rain bed module (`rain-view.ts` and what it needs beside it)
+    owns the cloud hit areas, the darkening, the wash, the drops, the
+    splashes and the rainbow; `meadow-scene.ts` (429 lines) only wires it,
+    staying under ~450. Cloud hit areas are the cloud's circle, at least
+    `TAP_RADIUS`, the lowest priority: a control, a mushroom, a flower or an
+    insect over a cloud takes the tap. Closing petals in `draw-flower.ts`,
+    the swell where the caps are scaled; colours in `palette-backdrop.ts`
+    (wash, dark cloud, rainbow bands). The probe exposes the shower
+    (`__probe`), and `pnpm play:mushrooms` taps a cloud on every screen,
+    steps through the rain and the rainbow, checks `rain` is set, the
+    flowers closed mid-shower and open after, and holds the 26 ms frame
+    budget with the drops falling.
+
+    **DRY notes.** The weather's clock functions join `motion.ts`'s
+    pattern (pure functions of seconds or ms) in their own module, since
+    `motion.ts` is per-creature motion and weather is the meadow's. Splash
+    rings reuse `spores.ts`'s particle manner where it fits rather than a
+    second particle helper. The rain's sound is built from `synth.ts`'s
+    primitives; no new audio graph beside `MeadowSound`.
 
 ## DRY notes
 
