@@ -28,14 +28,15 @@ type Sample = Pick<Point, 'x'> & { sampledAt: number };
 
 /**
  * A finger on the screen, pressed at `downAt` across it: the crop at `left`
- * as of its latest sample, and its velocity across in px per second;
- * `panning` once it has moved past `SLOP`.
+ * as of its latest sample; `panning` once it has moved past `SLOP`, and its
+ * velocity across in px per second, measured only from the samples after
+ * that, so none until the first of them.
  */
 type Pressing = Lefted & {
   kind: 'press';
   downAt: number;
   last: Sample;
-  velocity: number;
+  velocity: number | undefined;
   panning: boolean;
 };
 
@@ -74,8 +75,11 @@ export type Pan = View & {
 /** Which way a key turns the crop: -1 leftward, 1 rightward. */
 export type Direction = -1 | 1;
 
-/** How far, in CSS px, a finger moves before its press pans rather than taps. */
-export const SLOP = 10;
+/**
+ * How far, in CSS px, a finger moves before its press pans rather than taps:
+ * as far as a child's tap drifts, which runs to 11–24 px.
+ */
+export const SLOP = 24;
 
 /**
  * A glide's time constant, in seconds: it carries the crop on by its release
@@ -181,10 +185,26 @@ export function press(pan: Pan, x: number, time: number): Pan {
       left: leftAt(pan, time),
       downAt: x,
       last: { x, sampledAt: time },
-      velocity: 0,
+      velocity: undefined,
       panning: false,
     },
   };
+}
+
+/**
+ * A panning finger's velocity, as it `was`, with a step of `across` px over
+ * `span` seconds: the first step past the slop sets it, and each later one
+ * blends in by its share of `VELOCITY_WINDOW`.
+ */
+function blended(
+  was: number | undefined,
+  across: number,
+  span: number,
+): number | undefined {
+  if (span <= 0) return was;
+  const now = across / span;
+  if (was === undefined) return now;
+  return was + (now - was) * Math.min(1, span / VELOCITY_WINDOW);
 }
 
 /**
@@ -192,17 +212,16 @@ export function press(pan: Pan, x: number, time: number): Pan {
  * where it pressed, the crop follows it 1:1 from the slop's line, so the
  * ground under the press lags the finger by the slop and no more, and not at
  * all before. At a world's end the crop stops and the finger's overshoot is
- * dropped, so the finger turning back moves the crop at once.
+ * dropped, so the finger turning back moves the crop at once. The step that
+ * crosses the slop counts toward no velocity, so a release then never glides.
  */
 export function move(pan: Pan, x: number, time: number): Pan {
   const { motion } = pan;
   if (motion.kind !== 'press') return pan;
   const { last, velocity: was, panning, downAt, left } = motion;
-  const span = time - last.sampledAt;
-  const velocity =
-    span > 0
-      ? was + ((x - last.x) / span - was) * Math.min(1, span / VELOCITY_WINDOW)
-      : was;
+  const velocity = panning
+    ? blended(was, x - last.x, time - last.sampledAt)
+    : undefined;
   const crossed = !panning && Math.abs(x - downAt) > SLOP;
   const from = crossed ? downAt + Math.sign(x - downAt) * SLOP : last.x;
   return {
@@ -226,7 +245,7 @@ export function isPanning({ motion }: Pan): boolean {
 
 /**
  * The finger lifted at `time`: a tap leaves the crop where it stands, and a
- * pan glides on from the finger's velocity, easing to rest at the world's end
+ * pan glides on from the finger's velocity past the slop, easing to rest at the world's end
  * where it would pass one. With a key held, the keys take the crop over
  * instead, from the finger's pace no faster than their cruise.
  */
@@ -235,7 +254,7 @@ export function release(pan: Pan, time: number): Pan {
   if (motion.kind !== 'press') return pan;
   const start = leftAt(pan, time);
   const still = time - motion.last.sampledAt > STILL_AFTER;
-  const velocity = still || !motion.panning ? 0 : -motion.velocity;
+  const velocity = still ? 0 : -(motion.velocity ?? 0);
   if (isHeld(pan)) return keyedFrom(pan, start, velocity);
   if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, start);
   const fastest =

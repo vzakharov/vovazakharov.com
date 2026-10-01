@@ -89,7 +89,7 @@ describe('a drag', () => {
   });
 
   it('keeps the ground under the press within the slop of the finger, whatever its first step', () => {
-    for (const step of [SLOP + 1, 25, 60, 200]) {
+    for (const step of [SLOP + 1, 40, 60, 200]) {
       for (const way of [-1, 1]) {
         let pan = press(openingPan(TABLET), 600, 0);
         const ground = worldOf(pan, 0, 600);
@@ -104,6 +104,44 @@ describe('a drag', () => {
         }
       }
     }
+  });
+
+  it('moves the crop no farther than a wobbly tap drifts', () => {
+    // The drifts the review measured over 100 ms, which slid the crop 0–83 px.
+    for (const drift of [4, 8, 11, 14, 18, 24]) {
+      for (const steps of [3, 6, 12]) {
+        for (const way of [-1, 1]) {
+          const wobbled = dragged(openingPan(TABLET), 600, way * drift, {
+            steps,
+            seconds: 0.1,
+          });
+          const slid = Math.abs(leftAt(release(wobbled, 0.1), 5) - 590);
+          assert.ok(
+            slid <= drift,
+            `a ${String(drift)} px drift in ${String(steps)} steps slid ${String(slid)} px`,
+          );
+        }
+      }
+    }
+  });
+
+  it('glides only on the finger’s velocity after it crossed the slop', () => {
+    const crossed = move(press(openingPan(TABLET), 600, 0), 540, FRAME);
+    const at = leftAt(crossed, FRAME);
+    assert.equal(at, 590 + 60 - SLOP);
+    assert.equal(
+      leftAt(release(crossed, FRAME + 0.004), 5),
+      at,
+      'a lift right after the crossing step does not glide',
+    );
+    let slow = crossed;
+    for (let index = 2; index <= 6; index++) {
+      slow = move(slow, 540 - (index - 1), index * FRAME);
+    }
+    const from = leftAt(slow, 6 * FRAME);
+    const glide = leftAt(release(slow, 6 * FRAME), 5) - from;
+    // 60 px/s after the crossing glides on by that times `GLIDE_TAU`, 0.325 s.
+    assert.ok(Math.abs(glide - 60 * 0.325) < 1e-6, `glided ${String(glide)}`);
   });
 
   it('stops at the world’s ends however far the finger goes', () => {
