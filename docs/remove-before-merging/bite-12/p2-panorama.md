@@ -121,24 +121,20 @@ and `grain.ts` no longer import `parallax.ts`. `skyline.ts` still does, for
 Dropping the mottles' draws shifts the backdrop's `random` stream after the
 hills, so the grain tile's seed differs from before.
 
+### Step 3: the opening pair (fourth agent)
+
+`frames/bite-12/backdrop-opening-{before,after}.png`: tablet landscape
+1180×820, seed 7, SwiftShader; before = 0b32d8fb~, after = 621be67d (both
+clean worktrees). Seen: the far ranges left of the sun stand at their own
+height rather than dipped into the old trough under it, still below the
+rays; the ground's mottled patches are gone (smooth rows); sky, sun, glow,
+clouds (a few px of drift) and near hills as before. The flowers and grass
+differ from scene-wiring commits, not this package.
+
 ## Left
 
-- Step 1: the `/preview` pair at tablet landscape against a 0b32d8fb~
-  worktree (`docs/remove-before-merging/frames/bite-12/sun-opening-*.png`).
-  Expected differences: the wash no longer reaching the land's top third
-  (0b32d8fb's spec-sanctioned cut); possibly ±1 level at the sun's
-  antialiased edge (it is now composited over the sky rather than baked
-  with it).
-- Step 2: periodic crests in `skyline.ts` (integer cycles round 360°,
-  `k = round(waves·πF/width)`), one bowl at `α_sun` (`off = F·wrapAngle(α −
-α_sun)`; screen offset ≥ that, so the old bowl's clearance still holds),
-  live Graphics over `shownAzimuths` in `panorama.ts`, redrawn on heading
-  change; `hillBands` with flat runs collapsed to cut vertices; the seam as a
-  periodic crest drawn in the near-hills layer (near.foot fill).
-- Step 3: ground as flat rows from `groundTop + seam reach` (colour-matched
-  to near.foot, so no line), no mottles, grain screen-wide.
-- Rewrite `sun-layout.test.ts` / `skyline.test.ts` crop sweeps as heading
-  sweeps once step 2 lands.
+- Nothing of steps 1–3. `groundSeam` (and `skyline.ts`'s `parallax`
+  import) goes once `ground-seam.test.ts` stops reading it.
 
 ## Decided
 
