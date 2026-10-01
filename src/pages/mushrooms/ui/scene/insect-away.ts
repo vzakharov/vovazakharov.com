@@ -111,10 +111,11 @@ export function offScreen(
 
 /**
  * How far past the brow, in the clump's size, a released insect sets off on
- * the ground: under it on its first frame, so it comes up over the brow as
- * anything nearing the eye does, within a frame or two of flight.
+ * the ground, as a share of the brow's distance: under it on its first
+ * frame, so it comes up over the brow as anything nearing the eye does,
+ * within a frame or two of flight.
  */
-export const PAST_BROW = 0.01;
+export const PAST_BROW = 0.000_75 * D_SEE;
 
 /**
  * How far ahead, as a share of the brow's distance, the ground stands that

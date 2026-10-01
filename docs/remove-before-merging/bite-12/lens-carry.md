@@ -28,6 +28,19 @@ the leg arrives. 28 779 legs.
    New test: `insect-away.test.ts` "sinks a flier past the brow by the
    ground under it" (red on the old source).
 
+2. **`PAST_BROW = 0.000_75 · D_SEE`** (0.009998 at `D_SEE` 13.33, today's
+   0.01 to 0.02 %). Measured, after step 1:
+
+   | share of `D_SEE` | in clump sizes | median | p95 | p99 | max | > 150 ms |
+   | ---------------- | -------------- | ------ | --- | --- | --- | -------- |
+   | 0.003 75         | 0.05           | 67 ms  | 100 | 133 | 400 | 95       |
+   | **0.000 75**     | 0.01           | 33 ms  | 50  | 67  | 133 | 0        |
+   | 0.000 5          | 0.0067         | 33 ms  | 50  | 50  | 117 | 0        |
+   | 0.000 1          | 0.0013         | 17 ms  | 17  | 33  | 50  | 0        |
+
+   Kept the value `drop-in.md` took; a smaller share hides less, measured
+   above, for the orchestrator.
+
 ## Left
 
-2–6 of the package, `fliers.test.ts`, the frames.
+3–6 of the package, `fliers.test.ts`, the frames.
