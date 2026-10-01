@@ -424,6 +424,14 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
     compass, the current meadow standing and tapping as before inside the
     wedge, bare ground behind.
 
+    **Past the seam a thing goes behind the hills, not into a fade.** The
+    spec's alpha fade from 12.3 would mist back-row mushrooms at the
+    opening (the frame reaches D = 13.24; tablet seed 42 has one at alpha
+    0.57), and a fade squeezed into 13.24–13.33 pops. A thing whose foot
+    lies beyond `D_SEE` is drawn under the near hills instead, so they
+    cover it from the foot up as it recedes, as a crest does; `fade`
+    retires.
+
     **Two fixes from the operator's play, folded into the packages that
     own the files.**
     - **The planting spots are grass again (P1).** Bite 10 drew each bare
