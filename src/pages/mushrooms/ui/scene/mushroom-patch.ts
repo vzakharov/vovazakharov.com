@@ -60,7 +60,7 @@ const CLUMP_PATCH = 12;
  */
 const GROWN_PATCH = 16;
 /** The least patch on any screen, at any depth. */
-const LEAST_PATCH = 8;
+const LEAST_PATCH = 6;
 /** The clump's size on the tablet held sideways the patches are set on. */
 const TABLET_UNIT = meadowCamera(1180, 820).unit;
 /** How far apart the middles of the discs tried for a patch are, in CSS px. */
