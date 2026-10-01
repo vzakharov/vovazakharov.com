@@ -170,8 +170,86 @@ Options, not built:
 The sweep to choose a bound: `lc/no-row.mts` extended to report the row
 and zoom `groundNear` lands on, per screen.
 
+## Round 3
+
+The plan's decision: a release whose brow start has no usable row sets off
+just past the screen's edge (`offScreen` with the view), as before the
+first fit.
+
+### Built, not landed: `lens-carry-round3.patch`
+
+`git apply`-able beside this note; type-checks, lints, and
+`insect-away.test.ts` passes on it (8/8). Not committed as source because it
+does not do what the decision is for: looking back, the insect is still
+never seen.
+
+- `entry` takes `groundAlong` at the wanted column, no outward search
+  (`groundNear` gone). Where it has no row it uses `offScreen` with the
+  view over the perch's `row`: from the side nearer the perch shown; with no
+  perch shown, from the side across from the one it flies out by, and `out`
+  is `offScreen` over the perch's row where `near` has no row either.
+  Before the first fit unchanged.
+- New test "looking back, flies a release across the screen over its
+  perch's row, at the zoom that row is drawn at" (headings π, π ± 0.035,
+  every screen): start and `out` over the perch's row, drawn just past the
+  screen's edges, zoom > 0.1. Red on the current source (row ~1e6).
+
+### Why the decision does not hold, measured
+
+Scratch measures in the scratchpad's `lc/` (`back-leg.mts`,
+`back-zoom.mts`, `back-edge.mts`, `edge-row.mts`; each
+`WT=<worktree> node --import tsx <script>`). A leg sampled 201 times as
+`InsectView` flies it, the point and the row mixed straight in the layout,
+counted where `drawnAt` draws it and `reachesScreen` holds.
+
+1. **A leg is flown in the layout, and looking back the screen is the
+   layout's two far ends.** At heading π from the opening eye the screen's
+   right edge is layout x −2 435 over the clump's row, its left edge 4 598;
+   the screen shows x below the one or above the other, with the no-row
+   wedge between them at the middle. Any leg from just past one edge to the
+   other, or to a perch behind the eye, runs through the layout's middle —
+   the meadow in front of the opening eye, behind this one. **No perch
+   shown, the patch's release is drawn on 0/201 samples, start to `out` and
+   `out` to perch, on every screen, at π and π − 0.035.** (Round 2's
+   wedge-edge start: also never seen.) With the perch shown, 197–199/201.
+2. **Over the perch's row the edge looking back stands past the brow:**
+   the clump's row meets the tablet's edge 23.0 units off (`D_SEE` 13.3), so
+   it starts sunk under the brow; only rows with an opening under ~5 units
+   meet the edge in front of it.
+3. **The real cause of "zoom ~0": a flier is drawn at its own size times
+   `opening / ahead`** (`placedAt`), the opening being its row's distance
+   from the opening eye. Looking back the rows wrap toward the wedge and
+   their opening goes to 0, so **every insect, flying or sitting (a host's
+   zoom is the same ratio), shrinks toward the screen's middle**, at any
+   distance: at heading π over the brow, zoom 0.39 at the tablet's edge,
+   0.17 a quarter in, 0 at the middle (tabP 0.135 / 0.052, phoneP 0.141 /
+   0.054, phoneL 0.63 / 0.28, desktop 0.50 / 0.22; 1.0 facing the clump).
+   A mushroom is not affected: its laid-out size grows by as much as the
+   zoom shrinks. Round 2's wedge-edge start was drawn and on the screen; it
+   was 0.00045 of its size.
+4. **Huge rows are not themselves the fault:** with the middle column's row
+   defined, the no-perch leg start→`out` draws 189–199/201 samples at every
+   heading to 3.08 (rows up to 1.1e6), only at the zoom above (0.04 at
+   heading 3.0 on the tablet, 0.0007 at 3.08).
+
+Options for the orchestrator:
+
+1. **Draw an insect by its distance, not its row's opening** (its zoom the
+   ratio a thing its own size at the clump's distance would be drawn at):
+   the cause, and it fixes the looking-back size of every insect, sitting
+   too; round 2's wedge-edge start then shows (item 4). The larger change:
+   `insect-away`, `insect-seat`, every insect test that checks a zoom.
+2. **The brow start at the nearest column where the zoom reaches a floor**
+   (round 2's search with a bound): 0.1 is reached 92–325 px off the middle
+   at π, 0.2 nowhere on portrait and phone screens; the beaten bound, and it
+   still draws the insect at a tenth of its size.
+3. **The patch (the decision):** right for a shown perch, unseen with none.
+
+Step 2 (play-check, frames) and step 3 (the Artifact page) not done: they
+check a fix that is not in.
+
 ## Left
 
-The fix for item 4 looking back (above), a test that checks the start's
-row and drawn zoom, then the tabL / phoneP release frames
-`lens-carry-*.png` (none committed: the looking-back one shows nothing).
+A decision on the options above, then the looking-back release built, a
+test of the start's row and drawn zoom (the patch's), the tabL / phoneP
+release frames `lens-carry-*.png`, the Artifact page.
