@@ -1,3 +1,180 @@
+diff --git a/src/pages/mushrooms/model/ground.test.ts b/src/pages/mushrooms/model/ground.test.ts
+index a9e7d20..ecde97e 100644
+--- a/src/pages/mushrooms/model/ground.test.ts
++++ b/src/pages/mushrooms/model/ground.test.ts
+@@ -13,16 +13,21 @@ import {
+ import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
+ import { opened, relaidOn } from '../ui/scene/visit-play';
+ import {
++  bendAt,
++  CLUMP_DISTANCE,
+   type Eye,
+   EYE_HEIGHT,
+   type Frame,
++  gathered,
+   type Ground,
+   OPENING_EYE,
+   pinholeOf,
+   planeOf,
++  planeSeen,
+   project,
+   scaleAt,
+   seen,
++  spread,
+   type Viewed,
+   viewOf,
+ } from './ground';
+@@ -173,16 +178,22 @@ describe('the eye', () => {
+     const camera = meadowCamera(width, height);
+     const left = leftAt(openingPan(camera), 0);
+ 
+-    it(`at the opening shows every foot, at every height, where the ${name} camera's opening crop does`, () => {
++    it(`at the opening shows every foot, at every height, at the azimuth the ${name} camera's opening crop sees it at, bent`, () => {
++      const pinhole = pinholeOf(camera);
+       const past: string[] = [];
+       for (const foot of feetOver(MEADOW_FRAME)) {
+         for (const lift of HEIGHTS) {
+-          const { x, y, scale } = project(camera, foot);
++          const shown = project(camera, foot);
++          const azimuth = Math.atan(
++            (shown.x - left - pinhole.x) / pinhole.focal,
++          );
++          const bend = Math.hypot(1, azimuth);
++          const scale = shown.scale * Math.cos(azimuth) * bend;
+           const expected = {
+-            x: x - left,
+-            y: y - lift * scale,
++            x: pinhole.x + pinhole.focal * azimuth,
++            y: pinhole.y + (EYE_HEIGHT - lift) * scale,
+             scale,
+-            ahead: planeOf(foot).y,
++            ahead: Math.hypot(planeOf(foot).x, planeOf(foot).y) / bend,
+           };
+           const off = apart(
+             viewOf(camera, OPENING_EYE, planeOf(foot), lift),
+@@ -216,22 +227,26 @@ describe('the eye', () => {
+       }
+     });
+ 
+-    it(`scales every point by its distance over the nearer one after a step ahead, on the ${name} camera`, () => {
++    it(`scales a point straight ahead by its distance over the nearer one after a step ahead, on the ${name} camera`, () => {
+       const step = 1.5;
++      const { x: middle } = pinholeOf(camera);
+       for (const eye of EYES) {
+         const stepped = {
+           ...eye,
+           x: eye.x + step * Math.sin(eye.heading),
+           y: eye.y + step * Math.cos(eye.heading),
+         };
+-        const { x: middle } = pinholeOf(camera);
+-        for (const foot of feetOver(MEADOW_FRAME)) {
+-          const point = planeOf(foot);
++        for (const distance of [step + 1, 4, 9, 20]) {
++          const point = {
++            x: eye.x + distance * Math.sin(eye.heading),
++            y: eye.y + distance * Math.cos(eye.heading),
++          };
+           const before = viewOf(camera, eye, point, 0);
+-          if (before.ahead <= step + 1) continue;
+           const after = viewOf(camera, stepped, point, 0);
+-          const k = before.ahead / (before.ahead - step);
+-          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
++          const k = distance / (distance - step);
++          const at = `eye ${JSON.stringify(eye)}, ${String(distance)} ahead`;
++          assert.ok(Math.abs(before.x - middle) < 1e-6, `${at}: across`);
++          assert.ok(Math.abs(after.x - middle) < 1e-6, `${at}: across after`);
+           assert.ok(
+             Math.abs(after.ahead - (before.ahead - step)) < SAME_VIEW,
+             `${at}: ahead`,
+@@ -240,8 +255,32 @@ describe('the eye', () => {
+             Math.abs(after.scale - before.scale * k) < SAME_VIEW * after.scale,
+             `${at}: scale`,
+           );
++        }
++      }
++    });
++
++    it(`after a step ahead, on the ${name} camera, draws every point in front of the eye bigger and no nearer the screen's middle`, () => {
++      const step = 0.5;
++      const pinhole = pinholeOf(camera);
++      for (const eye of EYES) {
++        const stepped = {
++          ...eye,
++          x: eye.x + step * Math.sin(eye.heading),
++          y: eye.y + step * Math.cos(eye.heading),
++        };
++        for (const foot of feetOver(MEADOW_FRAME)) {
++          const point = planeOf(foot);
++          const before = viewOf(camera, eye, point, 0);
++          // In front of the eye, far enough for a step to bring it nearer.
++          const off = (before.x - pinhole.x) / pinhole.arc;
++          const distance = before.ahead * bendAt(pinhole, before.x);
++          if (Math.cos(off) <= step / distance) continue;
++          const after = viewOf(camera, stepped, point, 0);
++          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
++          assert.ok(after.scale > before.scale, `${at}: scale`);
+           assert.ok(
+-            Math.abs(after.x - middle - (before.x - middle) * k) < 1e-6,
++            Math.abs(after.x - pinhole.x) >=
++              Math.abs(before.x - pinhole.x) - 1e-9,
+             `${at}: across`,
+           );
+         }
+@@ -250,6 +289,54 @@ describe('the eye', () => {
+   }
+ });
+ 
++describe('the lens', () => {
++  it('turns once round in four screens of a tablet held sideways', () => {
++    const [, width, height] = VIEWPORTS[0];
++    const { arc } = pinholeOf(meadowCamera(width, height));
++    assert.ok(Math.abs((2 * Math.PI * arc) / width - 4) < 1e-3);
++  });
++
++  it('spreads every point round the opening eye and gathers it back, its distance kept', () => {
++    for (const foot of feetOver(MEADOW_FRAME)) {
++      const { x, z } = foot;
++      const pinholed = { x, y: CLUMP_DISTANCE / scaleAt(z) };
++      const plane = spread(pinholed);
++      const back = gathered(plane);
++      const at = `foot ${JSON.stringify(foot)}`;
++      assert.ok(
++        Math.abs(
++          Math.hypot(plane.x, plane.y) - Math.hypot(pinholed.x, pinholed.y),
++        ) < SAME_VIEW,
++        `${at}: distance`,
++      );
++      assert.ok(
++        Math.abs(back.x - pinholed.x) < SAME_VIEW &&
++          Math.abs(back.y - pinholed.y) < SAME_VIEW,
++        `${at}: back`,
++      );
++    }
++  });
++
++  for (const { name, width, height } of SCREENS) {
++    it(`finds the ground under every point it shows on the ground, on the ${name} camera`, () => {
++      const camera = meadowCamera(width, height);
++      for (const eye of EYES) {
++        for (const foot of feetOver(MEADOW_FRAME)) {
++          const point = planeOf(foot);
++          const shown = viewOf(camera, eye, point, 0);
++          const under = planeSeen(camera, eye, shown);
++          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
++          assert.ok(
++            under !== undefined &&
++              Math.hypot(under.x - point.x, under.y - point.y) < 1e-9,
++            at,
++          );
++        }
++      }
++    });
++  }
++});
++
+ /** The visits a meadow is grown in and turned. */
+ const TURNED_VISITS = VISITS.slice(0, 12);
+ /** How near a foot read back off a screen counts as the foot, in the clump's size. */
 diff --git a/src/pages/mushrooms/model/ground.ts b/src/pages/mushrooms/model/ground.ts
 index 3fed07d..e61a8b3 100644
 --- a/src/pages/mushrooms/model/ground.ts
@@ -227,6 +404,21 @@ index 0ddbcda..5ce2a5f 100644
  }
  
  /**
+diff --git a/src/pages/mushrooms/model/walk.test.ts b/src/pages/mushrooms/model/walk.test.ts
+index fc8a58d..26a5948 100644
+--- a/src/pages/mushrooms/model/walk.test.ts
++++ b/src/pages/mushrooms/model/walk.test.ts
+@@ -177,9 +177,7 @@ describe('a drag on the walk', () => {
+         const seen = viewOf(camera, eye, under, 0);
+         assert.ok(Math.abs(seen.x - x) < 1e-6, `${name} at ${x}: ${seen.x}`);
+         // And the angle formula itself, from the crossing.
+-        const { x: cx, focal } = pinholeOf(camera);
+-        const want =
+-          Math.atan((crossing.x - cx) / focal) - Math.atan((x - cx) / focal);
++        const want = (crossing.x - x) / pinholeOf(camera).arc;
+         assert.ok(turnedBy(want, eye.heading) < 1e-9, `${name} formula`);
+       }
+     }
 diff --git a/src/pages/mushrooms/model/walk.ts b/src/pages/mushrooms/model/walk.ts
 index d1be163..086519a 100644
 --- a/src/pages/mushrooms/model/walk.ts
@@ -292,6 +484,56 @@ index d1be163..086519a 100644
   */
  export function distanceOfRow(camera: Camera, y: number): number {
    const pinhole = pinholeOf(camera);
+diff --git a/src/pages/mushrooms/ui/scene/backdrop-tones.test.ts b/src/pages/mushrooms/ui/scene/backdrop-tones.test.ts
+index ea74f45..cd246cc 100644
+--- a/src/pages/mushrooms/ui/scene/backdrop-tones.test.ts
++++ b/src/pages/mushrooms/ui/scene/backdrop-tones.test.ts
+@@ -73,7 +73,7 @@ function openSky(
+ ) {
+   const { width, sun, camera } = layout;
+   const view = viewAt(camera, { ...OPENING_EYE, heading });
+-  const at = screenAt(view, azimuthAt(camera, sun.x)) ?? Infinity;
++  const at = screenAt(view, azimuthAt(camera, sun.x));
+   const crests = [farthestSkyline, farSkyline, nearSkyline].map((skyline) =>
+     skyline(mulberry32(seed), layout),
+   );
+diff --git a/src/pages/mushrooms/ui/scene/bed-place.test.ts b/src/pages/mushrooms/ui/scene/bed-place.test.ts
+index ad94cbc..ae1790e 100644
+--- a/src/pages/mushrooms/ui/scene/bed-place.test.ts
++++ b/src/pages/mushrooms/ui/scene/bed-place.test.ts
+@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
+ import { describe, it } from 'node:test';
+ 
+ import type { Point } from '../../model/geometry';
+-import { type Ground, OPENING_EYE, zAt } from '../../model/ground';
++import { type Ground, OPENING_EYE, pinholeOf, zAt } from '../../model/ground';
+ import { bedPlace, depthOf } from './bed-place';
+ import { placeIn } from './clump-layout';
+ import { standingFlowers } from './flower-plots';
+@@ -50,9 +50,20 @@ describe('a bed object at the opening eye', () => {
+             assert.ok(place.y >= browRow(view, place.x) - 1e-6, where);
+             continue;
+           }
+-          assert.ok(Math.abs(place.x - (at.x - left)) < SAME_PX, where);
+-          assert.ok(Math.abs(place.y - at.y) < SAME_PX, where);
+-          assert.ok(Math.abs(place.zoom - 1) < 1e-6, where);
++          // The lens shows the layout's ground at the azimuth the opening
++          // crop's pinhole sees it at, its row bent as the brow is.
++          const { x: middle, y: horizon, focal } = pinholeOf(view);
++          const azimuth = Math.atan((at.x - left - middle) / focal);
++          const bend = Math.cos(azimuth) * Math.hypot(1, azimuth);
++          assert.ok(
++            Math.abs(place.x - (middle + focal * azimuth)) < SAME_PX,
++            where,
++          );
++          assert.ok(
++            Math.abs(place.y - (horizon + (at.y - horizon) * bend)) < SAME_PX,
++            where,
++          );
++          assert.ok(Math.abs(place.zoom - bend) < 1e-6, where);
+           assert.equal(place.depth, place.y, where);
+           assert.ok(place.drawn, where);
+           assert.equal(place.behind, false, where);
 diff --git a/src/pages/mushrooms/ui/scene/bed-place.ts b/src/pages/mushrooms/ui/scene/bed-place.ts
 index 27f818c..36e94c5 100644
 --- a/src/pages/mushrooms/ui/scene/bed-place.ts
@@ -321,21 +563,55 @@ index 27f818c..36e94c5 100644
    };
  }
  
+diff --git a/src/pages/mushrooms/ui/scene/brow.test.ts b/src/pages/mushrooms/ui/scene/brow.test.ts
+index 4758760..ff139ec 100644
+--- a/src/pages/mushrooms/ui/scene/brow.test.ts
++++ b/src/pages/mushrooms/ui/scene/brow.test.ts
+@@ -55,12 +55,12 @@ describe('the brow', () => {
+         assert.ok(Math.max(...gaps) < reach * 3, `${heading}`);
+       }
+       // Each blade's distance from the one before it, in CSS px at the screen's middle.
+-      const { focal } = pinholeOf(camera);
++      const { arc } = pinholeOf(camera);
+       const gaps = blades
+         .slice(1)
+         .map(
+           ({ azimuth }, index) =>
+-            (azimuth - (blades[index]?.azimuth ?? azimuth)) * focal,
++            (azimuth - (blades[index]?.azimuth ?? azimuth)) * arc,
+         );
+       const close = gaps.filter(
+         (gap) => gap < Math.max(reach * 0.3, 2.1),
 diff --git a/src/pages/mushrooms/ui/scene/brow.ts b/src/pages/mushrooms/ui/scene/brow.ts
-index 20bda68..404c807 100644
+index 20bda68..a3c4e43 100644
 --- a/src/pages/mushrooms/ui/scene/brow.ts
 +++ b/src/pages/mushrooms/ui/scene/brow.ts
-@@ -100,7 +100,7 @@ export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
+@@ -100,11 +100,11 @@ export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
   */
  export function browBlades(camera: Camera): BrowBlade[] {
    const random = mulberry32(BROW_SEED);
 -  const { focal } = pinholeOf(camera);
-+  const { arc: focal } = pinholeOf(camera);
++  const { arc } = pinholeOf(camera);
    const reach = seamReach(camera);
    /** A length in the seam's reach as the azimuth it spans at the screen's middle. */
-   const turn = (share: number): number => (share * reach) / focal;
+-  const turn = (share: number): number => (share * reach) / focal;
+-  const least = LEAST_SPACING / focal;
++  const turn = (share: number): number => (share * reach) / arc;
++  const least = LEAST_SPACING / arc;
+   const blades: BrowBlade[] = [];
+   const gap = (): number => {
+     const [shortest, longest] = CLUMP_GAP;
+@@ -172,7 +172,7 @@ export function browShown(
+   return blades.flatMap(({ azimuth, tall, lean, lit }) => {
+     const x = screenAt(view, azimuth);
+     const overhang = reach * (BLADE_LEAN + BLADE_HALF);
+-    if (x === undefined || x < -overhang || x > view.width + overhang) {
++    if (x < -overhang || x > view.width + overhang) {
+       return [];
+     }
+     const root = browRow(view, x) + reach * ROOT_DOWN;
 diff --git a/src/pages/mushrooms/ui/scene/eye-crop.ts b/src/pages/mushrooms/ui/scene/eye-crop.ts
-index aaa9979..92532d0 100644
+index aaa9979..2e91519 100644
 --- a/src/pages/mushrooms/ui/scene/eye-crop.ts
 +++ b/src/pages/mushrooms/ui/scene/eye-crop.ts
 @@ -1,13 +1,60 @@
@@ -358,7 +634,7 @@ index aaa9979..92532d0 100644
 + */
 +const SOUGHT = Array.from(
 +  { length: 49 },
-+  (_, step) => 0.05 * Math.pow(4000, step / 48),
++  (_, step) => 0.05 * 4000 ** (step / 48),
 +);
 +
 +/** How many halvings pin a crossing down between two of `SOUGHT`'s distances. */
@@ -445,18 +721,41 @@ index aaa9979..92532d0 100644
  export function layoutShown(
    view: View,
 diff --git a/src/pages/mushrooms/ui/scene/grass.ts b/src/pages/mushrooms/ui/scene/grass.ts
-index 45895f1..45e53b2 100644
+index 45895f1..3254681 100644
 --- a/src/pages/mushrooms/ui/scene/grass.ts
 +++ b/src/pages/mushrooms/ui/scene/grass.ts
-@@ -87,7 +87,7 @@ export type SeamTuft = Tuft & Azimuthed;
+@@ -87,9 +87,9 @@ export type SeamTuft = Tuft & Azimuthed;
  export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
    const { height, groundTop, camera } = layout;
    const seam = seamCrest(layout);
 -  const { focal } = pinholeOf(camera);
-+  const { arc: focal } = pinholeOf(camera);
++  const { arc } = pinholeOf(camera);
    const depth = height - groundTop;
-   const round = Math.PI * 2 * focal;
+-  const round = Math.PI * 2 * focal;
++  const round = Math.PI * 2 * arc;
    const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
+   // One to each even share of the circle, anywhere in it.
+   const share = (Math.PI * 2) / count;
+@@ -98,7 +98,7 @@ export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
+     const below =
+       SEAM_SCATTER[0] + (SEAM_SCATTER[1] - SEAM_SCATTER[0]) * random() ** 1.6;
+     const y = seam(azimuth) + depth * below;
+-    return { ...tuftOn(layout, focal * azimuth, y, random), azimuth };
++    return { ...tuftOn(layout, arc * azimuth, y, random), azimuth };
+   });
+ }
+ 
+@@ -108,9 +108,7 @@ export const BLADE_OVERHANG = 3;
+ /** The tufts of `seam` that `view`'s screen shows, each where it stands across it. */
+ export function seamShown(view: View, seam: readonly SeamTuft[]): Tuft[] {
+   return seam.flatMap((tuft) => {
+-    const x = screenAt(view, tuft.azimuth);
+-    if (x === undefined) return [];
+-    const shown = { ...tuft, x };
++    const shown = { ...tuft, x: screenAt(view, tuft.azimuth) };
+     return onScreen(view, shown, -BLADE_OVERHANG * tuft.size) ? [shown] : [];
+   });
+ }
 diff --git a/src/pages/mushrooms/ui/scene/insect-away.ts b/src/pages/mushrooms/ui/scene/insect-away.ts
 index 63256e1..f682e30 100644
 --- a/src/pages/mushrooms/ui/scene/insect-away.ts
@@ -536,6 +835,44 @@ index 63256e1..f682e30 100644
  }
  
  /**
+diff --git a/src/pages/mushrooms/ui/scene/insect-seat.test.ts b/src/pages/mushrooms/ui/scene/insect-seat.test.ts
+index cc0af37..015b50c 100644
+--- a/src/pages/mushrooms/ui/scene/insect-seat.test.ts
++++ b/src/pages/mushrooms/ui/scene/insect-seat.test.ts
+@@ -30,6 +30,9 @@ function hostOn(view: View, foot: Ground): Host {
+   return { laidFoot: { x, y }, stands: bedPlace(view, foot) };
+ }
+ 
++/** How near the opening's zoom stands to 1 anywhere on the screen. */
++const SAME_SIZE = 1e-3;
++
+ function plus(a: Point, b: Point): Point {
+   return { x: a.x + b.x, y: a.y + b.y };
+ }
+@@ -87,7 +90,9 @@ describe('drawnInsect', () => {
+         );
+         const flown = drawnAt(view, point, laidFoot.y);
+         assert.ok(sitting && flown);
+-        if (heading === 0) assert.ok(apart(sitting, flown) < 1e-6);
++        // At the opening the two part only by the lens's squeeze across a
++        // seat's span off the screen's middle, never by a whole px.
++        if (heading === 0) assert.ok(apart(sitting, flown) < 1);
+         most = Math.max(most, apart(sitting, flown));
+       }
+     }
+@@ -145,8 +150,10 @@ describe('drawnInsect', () => {
+         assert.ok(
+           before && after?.sitting !== undefined && after.flying !== undefined,
+         );
+-        assert.ok(Math.abs((before.sitting ?? 0) - 1) < 1e-9);
+-        assert.ok(Math.abs((before.flying ?? 0) - 1) < 1e-9);
++        // Off the screen's middle the lens draws a thing a hair smaller than
++        // the layout does, by its bend against the pinhole's slant.
++        assert.ok(Math.abs((before.sitting ?? 0) - 1) < SAME_SIZE);
++        assert.ok(Math.abs((before.flying ?? 0) - 1) < SAME_SIZE);
+         assert.ok(after.sitting > 1);
+         assert.ok(Math.abs(after.flying - after.sitting) < 1e-9);
+         return { row: laid.y, zoom: after.flying };
 diff --git a/src/pages/mushrooms/ui/scene/mushroom-room.ts b/src/pages/mushrooms/ui/scene/mushroom-room.ts
 index ad5aa2c..0ce9584 100644
 --- a/src/pages/mushrooms/ui/scene/mushroom-room.ts
@@ -628,8 +965,32 @@ index b8cb304..36e8b8f 100644
  import {
    drawSelection,
    drawSelectionRing,
+diff --git a/src/pages/mushrooms/ui/scene/paint-backdrop.ts b/src/pages/mushrooms/ui/scene/paint-backdrop.ts
+index 1c8203d..6579279 100644
+--- a/src/pages/mushrooms/ui/scene/paint-backdrop.ts
++++ b/src/pages/mushrooms/ui/scene/paint-backdrop.ts
+@@ -347,8 +347,8 @@ function turn({ columns, home, offsets }: Turning, view: View, at: number) {
+ 
+ /**
+  * Moves `backdrop`'s clouds to where they have drifted round the sky by its
+- * `drifted`, as its `view` shows them: a cloud behind the eye, or past the
+- * screen's edges by more than it spreads, is hidden.
++ * `drifted`, as its `view` shows them: a cloud past the screen's edges by
++ * more than it spreads is hidden.
+  */
+ function placeClouds(
+   { clouds: drawn, view, drifted }: Backdrop,
+@@ -359,7 +359,7 @@ function placeClouds(
+     if (!cloud) continue;
+     const x = screenAt(view, driftedAzimuth(cloud, drifted));
+     const spread = cloud.r * CLOUD_SPREAD;
+-    const shown = x !== undefined && x > -spread && x < width + spread;
++    const shown = x > -spread && x < width + spread;
+     graphics.setVisible(shown);
+     if (shown) graphics.x = x;
+   }
 diff --git a/src/pages/mushrooms/ui/scene/paint-sky.ts b/src/pages/mushrooms/ui/scene/paint-sky.ts
-index 59235a6..0029399 100644
+index 59235a6..43765be 100644
 --- a/src/pages/mushrooms/ui/scene/paint-sky.ts
 +++ b/src/pages/mushrooms/ui/scene/paint-sky.ts
 @@ -135,7 +135,7 @@ export function paintClouds(
@@ -637,15 +998,108 @@ index 59235a6..0029399 100644
    random: Random,
  ): Phaser.GameObjects.Graphics[] {
 -  const { focal } = pinholeOf(camera);
-+  const { arc: focal } = pinholeOf(camera);
++  const { arc } = pinholeOf(camera);
    const sunAzimuth = azimuthAt(camera, sun.x);
    const round = mulberry32(PUFF_SEED);
    return clouds.map(({ azimuth, y, r }, place) => {
+@@ -146,7 +146,7 @@ export function paintClouds(
+         ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE)
+         : colour;
+     // The sun's way across the sky from the cloud, round the shorter side.
+-    const across = focal * wrapAngle(sunAzimuth - azimuth);
++    const across = arc * wrapAngle(sunAzimuth - azimuth);
+     const toSun = Math.hypot(across, sun.y - y) || 1;
+     const lean = {
+       x: (across / toSun) * r * 0.08,
+diff --git a/src/pages/mushrooms/ui/scene/panorama.test.ts b/src/pages/mushrooms/ui/scene/panorama.test.ts
+index cae63a8..f9ccb24 100644
+--- a/src/pages/mushrooms/ui/scene/panorama.test.ts
++++ b/src/pages/mushrooms/ui/scene/panorama.test.ts
+@@ -1,7 +1,7 @@
+ import assert from 'node:assert/strict';
+ import { describe, it } from 'node:test';
+ 
+-import { OPENING_EYE } from '../../model/ground';
++import { OPENING_EYE, pinholeOf } from '../../model/ground';
+ import { haloReach, litSkyAt, skyAt } from './backdrop-tones';
+ import { meadowLayout } from './layout';
+ import {
+@@ -22,7 +22,7 @@ import { VIEWPORTS } from './viewports';
+ function cloudsShown(view: View, clouds: readonly Cloud[], t: number): number {
+   return clouds.filter((cloud) => {
+     const x = screenAt(view, driftedAzimuth(cloud, t));
+-    return x !== undefined && x >= 0 && x <= view.width;
++    return x >= 0 && x <= view.width;
+   }).length;
+ }
+ 
+@@ -34,16 +34,14 @@ describe('the panorama', () => {
+ 
+     it(`shows the sun and the opening clouds where the opening screen always has, on a ${name} screen`, () => {
+       assert.ok(
+-        Math.abs(
+-          (screenAt(opening, azimuthAt(camera, sun.x)) ?? Number.NaN) - sun.x,
+-        ) < 1e-9,
++        Math.abs(screenAt(opening, azimuthAt(camera, sun.x)) - sun.x) < 1e-9,
+       );
+-      assert.ok(Math.abs(shiftOf(opening, sun.x) ?? Number.NaN) < 1e-9);
++      assert.ok(Math.abs(shiftOf(opening, sun.x)) < 1e-9);
+       for (const [index, across] of [0.16, 0.5, 0.68].entries()) {
+         const cloud = clouds[index];
+         assert.ok(cloud);
+         const x = screenAt(opening, driftedAzimuth(cloud, 0));
+-        assert.ok(Math.abs((x ?? Number.NaN) - width * across) < 1e-9);
++        assert.ok(Math.abs(x - width * across) < 1e-9);
+       }
+     });
+ 
+@@ -77,12 +75,16 @@ describe('the panorama', () => {
+       assert.ok(Math.abs((opened ?? Number.NaN) - home.left) < 1e-9);
+       const turned = viewAt(camera, { ...OPENING_EYE, heading: -0.05 });
+       const sunAt = screenAt(turned, azimuthAt(camera, sun.x));
+-      assert.ok(sunAt !== undefined);
+       const left = placedLeft(turned, sun.x, home);
+       assert.ok(
+         Math.abs((left ?? Number.NaN) - (home.left + sunAt - sun.x)) < 1e-9,
+       );
+-      const away = viewAt(camera, { ...OPENING_EYE, heading: 1.2 });
++      // Turned right by a screen and the picture's width, the picture is
++      // past the screen's left edge.
++      const away = viewAt(camera, {
++        ...OPENING_EYE,
++        heading: (width + home.across) / pinholeOf(camera).arc,
++      });
+       assert.equal(placedLeft(away, sun.x, home), undefined);
+       const behind = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
+       assert.equal(placedLeft(behind, sun.x, home), undefined);
+@@ -99,9 +101,10 @@ describe('the panorama', () => {
+ 
+     it(`carries the sun off the screen and back over a full turn, on a ${name} screen`, () => {
+       const half = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
+-      assert.equal(shiftOf(half, sun.x), undefined);
++      const away = screenAt(half, azimuthAt(camera, sun.x));
++      assert.ok(away < -sun.r || away > width + sun.r, String(away));
+       const full = viewAt(camera, { ...OPENING_EYE, heading: Math.PI * 2 });
+-      assert.ok(Math.abs(shiftOf(full, sun.x) ?? Number.NaN) < 1e-6);
++      assert.ok(Math.abs(shiftOf(full, sun.x)) < 1e-6);
+     });
+   }
+ 
 diff --git a/src/pages/mushrooms/ui/scene/panorama.ts b/src/pages/mushrooms/ui/scene/panorama.ts
-index aa7ee3f..b55a713 100644
+index aa7ee3f..f138afe 100644
 --- a/src/pages/mushrooms/ui/scene/panorama.ts
 +++ b/src/pages/mushrooms/ui/scene/panorama.ts
-@@ -52,15 +52,15 @@ function hermite(
+@@ -3,7 +3,8 @@
+  * wash, the clouds and the hills all stand at infinity, so a turn slides them
+  * across the screen and a step moves none of them. An azimuth is measured as
+  * the eye's heading is, from the plane's `+y` toward its `+x`; the screen
+- * shows azimuth `α` at `cx + F·tan(α − heading)` (`pinholeOf`).
++ * shows azimuth `α` at `cx + arc·(α − heading)`, the shorter way round
++ * (`pinholeOf`).
+  */
+ 
+ import { type Circle, type Point, sample } from '../../model/geometry';
+@@ -52,15 +53,15 @@ function hermite(
   * so it joins itself. Its value at each azimuth, from −1 to 1.
   */
  export function ringWave(camera: Camera, rate: number, phase: number): Crest {
@@ -667,7 +1121,7 @@ index aa7ee3f..b55a713 100644
    );
    const [leaving, back] = [across(to), across(from) + turns * TURN];
    const [out, into] = [pace(to) * behind, pace(from) * behind];
-@@ -94,14 +94,14 @@ export function crestAcross(
+@@ -94,61 +95,56 @@ export function crestAcross(
  
  /** How far down `view`'s screen `crest` stands at `x` across it, in CSS px. */
  export function crestAt(crest: Crest, view: View, x: number): number {
@@ -686,9 +1140,13 @@ index aa7ee3f..b55a713 100644
  }
  
  /**
-@@ -110,18 +110,17 @@ export function azimuthAt(camera: Camera, x: number): number {
+- * Where across the screen `view` shows `azimuth`, in CSS px; `undefined`
+- * where it lies behind the eye, a quarter turn or more off the heading.
++ * Where across the screen `view` shows `azimuth`, in CSS px, the shorter way
++ * round from the heading: behind the eye is off the screen's side.
   */
- export function screenAt(view: View, azimuth: number): number | undefined {
+-export function screenAt(view: View, azimuth: number): number | undefined {
++export function screenAt(view: View, azimuth: number): number {
    const off = wrapAngle(azimuth - view.eye.heading);
 -  if (Math.abs(off) >= Math.PI / 2) return undefined;
 -  const { x, focal } = pinholeOf(view);
@@ -710,15 +1168,80 @@ index aa7ee3f..b55a713 100644
    };
  }
  
-@@ -192,13 +191,13 @@ const CLOUD_SIZES = [0.045, 0.06] as const;
+ /**
+  * How far across the screen `view` moves what was laid out round `at`, in
+  * CSS px across the opening screen: a picture baked about the sun is drawn
+- * this far over from where it was baked. `undefined` where `at` is behind the
+- * eye, so the picture is hidden.
++ * this far over from where it was baked.
+  */
+-export function shiftOf(view: View, at: number): number | undefined {
+-  const x = screenAt(view, azimuthAt(view, at));
+-  return x === undefined ? undefined : x - at;
++export function shiftOf(view: View, at: number): number {
++  return screenAt(view, azimuthAt(view, at)) - at;
+ }
+ 
+ /**
+  * Where `view` draws the left edge of a picture baked over `home`, across the
+  * opening screen, round the opening x `at`, in CSS px; `undefined` where it is
+- * hidden, behind the eye or wholly off the screen.
++ * wholly off the screen.
+  */
+ export function placedLeft(
+   view: View,
+   at: number,
+   home: Span,
+ ): number | undefined {
+-  const shift = shiftOf(view, at);
+-  if (shift === undefined) return undefined;
+-  const left = home.left + shift;
++  const left = home.left + shiftOf(view, at);
+   return left < view.width && left + home.across > 0 ? left : undefined;
+ }
+ 
+@@ -180,31 +176,44 @@ const CLOUD_SEED = 0xc1_0d;
+ const CLOUD_ROWS = [0.08, 0.24] as const;
+ const CLOUD_SIZES = [0.045, 0.06] as const;
+ 
++/**
++ * How far round the sky from its leader, in radians, each of a lane's other
++ * clouds stands, for a screen `shown` radians wide: the two beside the
++ * leader a whole screen off it, so wherever on the opening screen the leader
++ * stands neither is on it, and the rest evenly between, no gap wider than
++ * the screen.
++ */
++function laneOffsets(shown: number): number[] {
++  const beside = Math.min(shown, TURN / 2);
++  const inner = Math.ceil(TURN / beside - 2);
++  const pace = inner > 0 ? (TURN - 2 * beside) / inner : 0;
++  return Array.from({ length: inner + 1 }, (_, index) => beside + index * pace);
++}
++
+ /**
+  * The sky's clouds: the opening screen's three where it has always shown
+- * them, each leading a lane evenly round the sky that drifts together at
+- * the leader's pace, the lane's clouds no farther apart than the screen is
+- * wide in azimuth. So whatever the heading and however long the visit, every
+- * lane has a cloud on the screen, and the screen shows at least the three
+- * the visit opened on. A lane's others stand as high and as large as the
+- * opening three run, from `CLOUD_SEED`.
++ * them, each leading a lane round the sky that drifts together at the
++ * leader's pace (`laneOffsets`), the lane's clouds no farther apart than the
++ * screen is wide in azimuth. So whatever the heading and however long the
++ * visit, every lane has a cloud on the screen, and the opening screen shows
++ * the three the visit opened on and no other. A lane's others stand as high
++ * and as large as the opening three run, from `CLOUD_SEED`.
+  */
  export function skyClouds(camera: Camera): Cloud[] {
    const { width, height } = camera;
    const short = Math.min(width, height);
 -  const { focal } = pinholeOf(camera);
 +  const { arc } = pinholeOf(camera);
    const random = mulberry32(CLOUD_SEED);
-   const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
-   const lane = Math.ceil(TURN / shown);
+-  const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
+-  const lane = Math.ceil(TURN / shown);
++  const offsets = laneOffsets(azimuthAt(camera, width) - azimuthAt(camera, 0));
    const leaders = OPENING_CLOUDS.map(([across, down, size, speed]) => ({
      azimuth: azimuthAt(camera, width * across),
 -    drift: speed / focal,
@@ -726,21 +1249,96 @@ index aa7ee3f..b55a713 100644
      y: height * down,
      r: short * size,
    }));
+   const followers = leaders.flatMap(({ azimuth, drift }) =>
+-    Array.from({ length: lane - 1 }, (_, index) => ({
+-      azimuth: wrapAngle(azimuth + ((index + 1) * TURN) / lane),
++    offsets.map((offset) => ({
++      azimuth: wrapAngle(azimuth + offset),
+       drift,
+       y: height * between(random, ...CLOUD_ROWS),
+       r: short * between(random, ...CLOUD_SIZES),
+diff --git a/src/pages/mushrooms/ui/scene/skyline.test.ts b/src/pages/mushrooms/ui/scene/skyline.test.ts
+index 4958aea..3aece0c 100644
+--- a/src/pages/mushrooms/ui/scene/skyline.test.ts
++++ b/src/pages/mushrooms/ui/scene/skyline.test.ts
+@@ -212,7 +212,6 @@ describe('the far hills under the sun', () => {
+         for (const heading of HEADINGS) {
+           const view = turnedTo(camera, heading);
+           const x = screenAt(view, azimuthAt(camera, sun.x));
+-          if (x === undefined) continue;
+           for (const crest of crests) {
+             for (let dx = -rays; dx <= rays; dx += rays / 16) {
+               const under = sun.y + Math.sqrt(rays ** 2 - dx ** 2);
+@@ -246,7 +245,6 @@ describe('the far hills under the sun', () => {
+               `visit ${String(seed)}, heading ${heading.toFixed(2)}: a corner in the lowered hills`,
+             );
+             const x = screenAt(view, azimuthAt(camera, sun.x));
+-            if (x === undefined) continue;
+             for (let dx = -sun.r; dx <= sun.r; dx += sun.r / 8) {
+               assert.ok(
+                 crestAt(parted, view, x + dx) >= sun.y + sun.r,
 diff --git a/src/pages/mushrooms/ui/scene/skyline.ts b/src/pages/mushrooms/ui/scene/skyline.ts
-index d867241..c331dee 100644
+index d867241..754757f 100644
 --- a/src/pages/mushrooms/ui/scene/skyline.ts
 +++ b/src/pages/mushrooms/ui/scene/skyline.ts
-@@ -128,7 +128,7 @@ export type FarRange = WithCrest & { highest: number };
+@@ -124,16 +124,16 @@ export type FarRange = WithCrest & { highest: number };
+  * `PARTED_DEPTH` radii below the sun's middle at the sun's azimuth, its
+  * sides under every ray and outside the glow, so no hill stands in front of
+  * the sun and the glow is not cut out of the sky by the hills. Its sides are
+- * measured in azimuth, `focal` px to the radian, which a view spreads across
++ * measured in azimuth, `arc` px to the radian, which a view spreads across
   * the screen at least as wide, so the bowl clears the rays from any heading.
   */
  function sunBowl({ sun, camera }: MeadowLayout): Crest {
 -  const { focal } = pinholeOf(camera);
-+  const { arc: focal } = pinholeOf(camera);
++  const { arc } = pinholeOf(camera);
    const middle = azimuthAt(camera, sun.x);
    const depth = sun.r * PARTED_DEPTH;
    const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
+   return (azimuth) => {
+-    const off = focal * wrapAngle(azimuth - middle);
++    const off = arc * wrapAngle(azimuth - middle);
+     return sun.y + depth - (depth * off ** 2) / (2 * spread ** 2);
+   };
+ }
+diff --git a/src/pages/mushrooms/ui/scene/sun-layout.test.ts b/src/pages/mushrooms/ui/scene/sun-layout.test.ts
+index 72483d9..8fdb39c 100644
+--- a/src/pages/mushrooms/ui/scene/sun-layout.test.ts
++++ b/src/pages/mushrooms/ui/scene/sun-layout.test.ts
+@@ -23,8 +23,13 @@ import { VIEWPORTS, VISITS } from './viewports';
+ /** How many points across a disc its showing share is measured at. */
+ const SUN_GRID = 40;
+ 
+-/** The share of `disc` above `skyline`, a line of points left to right. */
++/**
++ * The share of `disc` above `skyline`, a line of points left to right, of
++ * the part of the disc over the line's run: past either end nothing is
++ * drawn to hide it.
++ */
+ function shownAbove(disc: Circle, skyline: readonly Point[]): number {
++  const [first, last] = [skyline[0]?.x ?? 0, skyline.at(-1)?.x ?? 0];
+   const lineAt = (x: number) => {
+     const next = skyline.findIndex((point) => point.x >= x);
+     const right = skyline[Math.max(next, 1)] ?? { x, y: Infinity };
+@@ -39,6 +44,7 @@ function shownAbove(disc: Circle, skyline: readonly Point[]): number {
+       const x = disc.x + disc.r * ((2 * column) / SUN_GRID - 1);
+       const y = disc.y + disc.r * ((2 * row) / SUN_GRID - 1);
+       if (Math.hypot(x - disc.x, y - disc.y) > disc.r) continue;
++      if (x < first || x > last) continue;
+       inside++;
+       if (y < lineAt(x)) shown++;
+     }
+@@ -152,7 +158,7 @@ describe('the sun', () => {
+           const view = viewAt(camera, { ...OPENING_EYE, heading });
+           const x = screenAt(view, azimuthAt(camera, sun.x));
+           // Only a sun whose rays reach onto the screen meets the hills drawn across it.
+-          if (x === undefined || x + rays.r < 0 || x - rays.r > width) continue;
++          if (x + rays.r < 0 || x - rays.r > width) continue;
+           const at = `visit ${String(seed)}, heading ${heading.toFixed(2)}`;
+           for (const crest of crests) {
+             assert.equal(
 diff --git a/src/pages/mushrooms/ui/scene/view-inverse.ts b/src/pages/mushrooms/ui/scene/view-inverse.ts
-index 9980da7..878d0cc 100644
+index 9980da7..621fdad 100644
 --- a/src/pages/mushrooms/ui/scene/view-inverse.ts
 +++ b/src/pages/mushrooms/ui/scene/view-inverse.ts
 @@ -1,52 +1,30 @@
@@ -757,7 +1355,7 @@ index 9980da7..878d0cc 100644
  
  import type { Point } from '../../model/geometry';
  import {
--  type Camera,
+   type Camera,
 -  EYE_HEIGHT,
    type Ground,
 -  OPENING_EYE,
@@ -765,7 +1363,6 @@ index 9980da7..878d0cc 100644
 +  planeSeen,
    scaleAt,
 -  viewOf,
-+  type Camera,
    zAt,
  } from '../../model/ground';
 -import type { View } from './view';
