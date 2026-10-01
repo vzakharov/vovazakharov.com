@@ -4,13 +4,21 @@ import { describe, it } from 'node:test';
 import {
   firstFlight,
   type Flight,
+  FLIGHT_HABITS,
   nextFlight,
   type Perch,
   type Perches,
   perchName,
   type Places,
 } from './flight';
-import { isShown, nearerSide, type Onscreen, shownOf } from './flight-in';
+import {
+  ARRIVAL,
+  arriving,
+  isShown,
+  nearerSide,
+  type Onscreen,
+  shownOf,
+} from './flight-in';
 import { INSECT_KINDS } from './insect-genes';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
@@ -92,10 +100,59 @@ describe('a released insect', () => {
     assert.equal(sides.size, 2);
   });
 
-  it('is timed in from just past the screen edge, not the world edge', () => {
+  it('is timed in from the screen edge, not the world edge', () => {
     const places = shownOf(PERCHES, ONSCREEN).places ?? {};
-    assert.deepEqual(places['away left'], { x: 29, y: 8 });
-    assert.deepEqual(places['away right'], { x: 61, y: 8 });
+    assert.deepEqual(places['away left'], { x: 30, y: 8 });
+    assert.deepEqual(places['away right'], { x: 60, y: 8 });
+  });
+
+  for (const kind of INSECT_KINDS) {
+    it(`lands on its first perch in view within ARRIVAL, staying as long as its habits say, a ${kind}`, () => {
+      const habits = FLIGHT_HABITS[kind];
+      for (const seed of SEEDS) {
+        const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], ONSCREEN);
+        assert.ok(leg.arrives <= ARRIVAL, `${String(seed)} ${leg.arrives}`);
+        const stays = {
+          flower: habits.drinking,
+          cap: habits.resting ?? [0, 0],
+          air: habits.hovering,
+          away: [0, 0],
+        } as const;
+        const [least, most] = stays[leg.to.kind];
+        const stay = leg.leaves - leg.arrives;
+        assert.ok(stay >= least - 1e-6 && stay <= most + 1e-6, String(seed));
+      }
+    });
+  }
+
+  it('takes off and lands as `arriving` says: in ARRIVAL at most, its stay kept', () => {
+    const leg = {
+      from: { kind: 'away', side: 'left' },
+      to: { kind: 'flower', id: 'flower-0' },
+      departs: 1000,
+      arrives: 6000,
+      leaves: 9000,
+    } as const;
+    assert.deepEqual(arriving(leg), {
+      ...leg,
+      arrives: 1000 + ARRIVAL,
+      leaves: 4000 + ARRIVAL,
+    });
+    const short = { ...leg, arrives: 1800, leaves: 4800 };
+    assert.deepEqual(arriving(short), short);
+  });
+
+  it('flies slower than its arrival once it has landed, a butterfly', () => {
+    for (const seed of SEEDS.slice(0, 50)) {
+      const insect = { seed, kind: 'butterfly' } as const;
+      const first = firstFlight(insect, PERCHES, 0, [], ONSCREEN);
+      const { leg } = nextFlight(
+        { ...insect, ...first },
+        PERCHES,
+        first.leg.leaves,
+      );
+      assert.ok(leg.arrives - leg.departs > ARRIVAL, String(seed));
+    }
   });
 
   it('roams the air in view while every seat in view is taken', () => {
@@ -118,10 +175,10 @@ describe('a released insect', () => {
     }
   });
 
-  it('still finds a perch in the world where the screen shows none', () => {
+  it('still finds a perch in the world where the screen shows none, flying there at its cruise', () => {
     const narrow: Onscreen = { left: 0, right: 1, inset: 1 };
     for (const seed of SEEDS.slice(0, 50)) {
-      const { to } = firstFlight(
+      const { to, arrives } = firstFlight(
         { seed, kind: 'butterfly' },
         PERCHES,
         0,
@@ -129,6 +186,7 @@ describe('a released insect', () => {
         narrow,
       ).leg;
       assert.notEqual(to.kind, 'away');
+      assert.ok(arrives > ARRIVAL, String(seed));
     }
   });
 

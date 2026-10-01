@@ -73,8 +73,19 @@ export function offScreen(
   away: Away,
   row: number,
 ): Point {
+  return byEdge(seen, side, away, row, away.span);
+}
+
+/** As `offScreen`, `past` px beyond the edge rather than its span. */
+function byEdge(
+  seen: Seen,
+  side: Side,
+  away: Away,
+  row: number,
+  past: number,
+): Point {
   const screen = {
-    x: side === 'left' ? -away.span : seen.width + away.span,
+    x: side === 'left' ? -past : seen.width + past,
     y: away.drop,
   };
   const opening = (seen.world - seen.width) / 2;
@@ -84,9 +95,9 @@ export function offScreen(
 
 /**
  * Where an insect in from away, standing over `row`, sets off for `seated`,
- * its first perch: past the screen's edge nearer it where the screen shows
- * it, else past the world's end nearer it; by `side` for a perch standing
- * nowhere.
+ * its first perch: its middle on the screen's edge nearer it where the
+ * screen shows it, so it is seen at once, else past the world's end nearer
+ * it; past the edge by `side` for a perch standing nowhere.
  */
 export function entry(
   seen: Seen,
@@ -99,7 +110,7 @@ export function entry(
   const drawn = drawnAt(seen.view, seated, row);
   if (drawn && seen.view && onScreen(seen.view, drawn)) {
     const nearer = drawn.x < seen.width / 2 ? 'left' : 'right';
-    return offScreen(seen, nearer, away, row);
+    return byEdge(seen, nearer, away, row, 0);
   }
   return pastEnd(seen, seated.x < seen.world / 2 ? 'left' : 'right', away);
 }
