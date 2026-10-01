@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: 4 → **the successor is depth 5**
+Relay depth: 5 → **the successor is depth 6**
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap", limit 8).
 
 ## 1. Standing constraints
@@ -75,102 +75,78 @@ on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take`. Attach: deepened; the local ref (e66b8e1) was
-not an ancestor of origin's tip, renamed to
-`stale/mushroom-game-syama-e66b8e1`; fresh tracking branch; `pnpm install`.
-The plan flipped paused → in-progress. The agent ran seven agents in waves
-(see § 6) and reported each round in Russian.
+Started from `/relay take`. Attach: deepened; the local ref (e66b8e1, an
+older relay commit) was not an ancestor of origin's tip, renamed to
+`stale/claude/mushroom-game-syama-lbirv7-e66b8e1`; fresh tracking branch;
+`pnpm install`. Plan flipped paused → in-progress (06e4457).
 
-1. Operator (mid-turn): «у нас же пока ещё в том что на ветке не
-   масштабируются насекомые? потому что пока я этого не увидел». Agent:
-   right — neither the Artifact (version 13) nor the branch sizes insects by
-   distance yet; the built pieces are not wired into the scene, package C
-   does that, then the Artifact is republished with what to look for.
-
-No other operator message this session.
+No operator message this session. Every turn was the orchestrator, agent
+reports and check-ins; each was answered to the operator in Russian.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, beautiful and comfortable for a
 six-year-old boy; reviewed per bite by a subagent; the Artifact playable
 after every bite; `/finalize` at the end, no merge. Bite 12 now: insects
-that live in the world — seen from any heading, sized by distance, veering
-past the child's head, flying at their own calm cruise however long the
-way. The operator is waiting to *see* the sizing.
+that live in the world, sized by distance, veering past the child's head,
+flying at their own calm cruise. The operator is waiting to *see* the
+sizing (asked at depth 4: «у нас же пока ещё в том что на ветке не
+масштабируются насекомые?») — the Artifact is still version 13, without it.
 
-## 4. Decisions
+## 4. Decisions (all in the plan's `## Rest of the bite`)
 
-In the plan's `## Rest of the bite` (`docs/plans/mushroom-game-syama.paused.md`,
-item 1 of **Left** carries this session's) and `insect-plane.md` § R3:
-
-- **Veer**: `R_V = V_NEAR · bendAt(pinhole, 0)` (0.625 · CLUMP_DISTANCE on
-  the tablet), `w = 0.1 · CLUMP_DISTANCE`; a leg to/from a seat inside the
-  band fades the veer over 0.3 of `flown` scaled by the seat's depth in the
-  band, landing exactly. Beaten: `R_V = V_NEAR` alone (1.86–1.92× zoom); a
-  veered landing beside the seat. Accepted cost: up to ~2.4× during a fade
-  by a perch; rare one-frame fly flicks; a ~60 ms brow blink looking back —
-  all three for C's play check.
-- **Pace**: leg time = max(flown, drawn length / cruise), no ceiling,
-  ARRIVAL gone, a fixed dash shape per kind. **Cruise set by the catch
-  test** (`ip-dart`): fly 5, bee 4, butterfly 0.95 butterfly sizes/s; dash
-  fly 0.85 of the way in 0.2 of the time, bee 0.75 in 0.2. Beaten: fly 7 /
-  bee 4.6 (caught 0.43 on the upright tablet); darting only on long legs
-  (worse, 0.32–0.36). The butterfly's ~45 s longest leg is for play to judge.
-- **A perch's distance** is its foot's forward distance in the frame turned
-  to the eye's heading, floored at `V_NEAR` (`ip-B`). Beaten: `stands.ahead`
-  (reads high off the middle).
-- **Packages are additive; C switches over and deletes.** C1's three calls,
-  decided: every non-away leg fades the veer in from its start; `drawnFlier`
-  returns the veered point; `Perched` a seat/air union, `seatedZoom` at the
-  seat's drawn point.
-- Terms: **"the leg's frame"** — the opening layout's pinhole stood at the
-  eye, turned to `centreOf` at set-off; **`forward`** — the spec's `q`
-  (renamed for `type-overlap`); **`fromEye`** — a place's distance.
+- ip-C1's three calls built as recommended (veer fades in from every leg not
+  from away; `drawnFlier` returns the veered aloft; `Perched` a union).
+- **The insect view has no jump bug** (`ip-jump.md`): every butterfly/bee
+  jump was the play's one-frame `face()`; the fly's are its designed dash
+  magnified near the eye.
+- **Dash bound**: `step / zoom ≤ 1.1 ×` the dash curve's own peak, derived
+  from `insect-motion.ts` (fly ~65, bee ~48 butterfly px a frame on tabL),
+  fly and bee; the width/20 drawn bound for the butterfly only. Beaten: a
+  lower dash; slowing the drawn dash by zoom. `dash-cap.md`'s 60/36
+  sizes/s figure is stale (pace removed `across`) — do not use it.
+- **Looking back is bare by design** (12b makes the field endless): the
+  veer play lands its looking-back releases at the farthest heading with
+  room (~1.8 rad tabL, ~1.6 phoneP; `15d6d8b`'s sweep logs it).
+- Whether the dash reads too fast is for the operator's play.
 
 ## 5. Errors and dead ends
 
-- ip-measures stopped before writing the spec; ip-spec3 wrote Round 3.
-- ip-pace left `fliers.test.ts`'s fly catch red (0.43, 0.68); its guessed
-  cause was backwards; ip-dart fixed it (§ 4).
-- **ip-C1 built nothing**: its whole 178k went on reading six notes and the
-  view code. Its design and a partial patch are committed. Lesson in
-  megabeast `subagents.md` ("Additive packages, then one switch-over").
-- The branch still has the live regression from depth 3: a release while
-  looking back is invisible; insects shrink toward the middle looking back.
-  C fixes both.
+- The first switch agent hit 174k with nothing pushed; one nudge landed it.
+- `ip-Cplay` filled (185k) writing the play, never ran it; lesson in
+  megabeast `subagents.md` ("two agents").
+- The orchestrator briefed a 66 px fly bound from `dash-cap.md`; the code's
+  dash is different and both kinds failed it. Lesson in `subagents.md`.
+- A worker restart killed a foreground `fliers.test.ts`; rerun passed.
 
 ## 6. State
 
-- Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
-  **`CONFLICTING`** (reported, not fixed — `/finalize`'s job).
-- Last pushed commit: the one carrying this file (after 9d4518a1).
-- Plan `docs/plans/mushroom-game-syama.paused.md` (412 lines).
-- No agent running; no PR subscription; no scheduled check-in.
-- The Artifact is version 13, not republished this session.
-- Built this session: `insect-frame.ts` (d3cb5b21, cac36794, 5178c0e4),
-  pace (a9827e74, 24a64947, 55de90a2, 2dd972a4), spec R3 (9d2090c0,
-  47e813a8), A (7495c9ff, 0bd642d2), B (4982bbfd, 7cca03f7), C1's note
-  (e2b6f123).
+- Branch `claude/mushroom-game-syama-lbirv7`; PR #57 draft, base `main`,
+  **`CONFLICTING`** (reported, `/finalize`'s job).
+- Last pushed commit: the one carrying this file (after c9a2aa5).
+- Plan `docs/plans/mushroom-game-syama.paused.md` (425 lines).
+- No agent running, no worktree, no pending check-in, no PR subscription.
+- Artifact: version 13, not republished.
+- `pnpm knip` reports 11 unused exports, none in C's files; not checked
+  against the base — `/finalize`'s vet will show it.
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/insect-plane.md` § R3.3 — package C.
-- `docs/remove-before-merging/bite-12/ip-C1.md` + `ip-C1.patch` — the
-  switch-over's design (call sites, `mushroom-probe.ts` `insect()` outside
-  C's list, `meadow-scene.ts`'s three reads of `perches.sight`, `airSpots`
-  stays). Start C's next agent from it.
-- `ip-frame.md`, `ip-veer.md`, `ip-A.md`, `ip-B.md` — the APIs C calls;
-  `ip-pace.md`, `ip-dart.md` — pace; `ip-measures.md` + `.patch` — the
-  prototype scripts.
-- Quick catch check: `node --import tsx --test --test-name-pattern="caught by a tap" src/pages/mushrooms/ui/scene/fliers.test.ts` (~6 s).
-- This session: https://claude.ai/code/session_01Mb57F2fFiH5LcRRo66oKts
+- `docs/remove-before-merging/bite-12/ip-C2.md` (the switch), `ip-Cplay3.md`
+  (the play as it stands, per-screen numbers), `ip-jump.md` (the trace;
+  its repro script was in this session's scratchpad, gone — recipe in the
+  note).
+- Frames: `docs/remove-before-merging/frames/bite-12/insect-plane/`.
+- Play: `flock tmp/site.lock env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`,
+  then `flock tmp/site.lock pnpm play:mushrooms --no-build --screens <one> --plays veer`.
+- This session: https://claude.ai/code/session_016QmYmqofLgheYYYYgU827x
 
 ## 8. Next step
 
-Continue bite 12 from the plan's `**Left, in order:**`, item 1: brief
-package C's switch-over from `ip-C1.md` — one step per agent (the switch,
-`fliers.test.ts` green; then the flowerLiftAt/`drawn` tests; then the play
-checks on tabL and phoneP with frames), check-ins at ~12 min. Then
-republish the Artifact and tell the operator what to try (turn your back and
-release a bug; insects smaller over the back caps, bigger near; a fly on a
-long leg, calm). Then items 2–5 of the Left list.
+Continue bite 12 from the plan's `**Left, in order:**`, item 1: one agent
+(scripts only) makes the two veer-play bound changes and reruns tabL then
+phoneP, committing frames; C's step 2 tests in parallel in `src/`. Then
+build and republish the Artifact and tell the operator, in Russian, what to
+try: turn your back and release a bug (it flies out by the side, drawn the
+whole way); insects smaller over the back caps, bigger near; walk at a
+hovering fly — it veers past; is the fly's dash too fast? Then items 2–5.
