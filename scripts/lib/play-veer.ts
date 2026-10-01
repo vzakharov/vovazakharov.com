@@ -6,10 +6,12 @@
  * kind released with no perch in view flies out by the side, and with a
  * mushroom and a flower grown in view lands drawn, seen on nearly every frame
  * of its flight in, and sits at no smaller a size in the screen's middle than
- * its distance gives; walked into one hovering in the air, it veers off round the eye,
- * never past the nearest mushroom's zoom at its x. A fly's pace and dash,
- * its one-frame flicks and the blinks at the brow as the eye turns are
- * measured and logged, not failed. Frames land as `veer-*.png`.
+ * its distance gives; walked into one hovering in the air, it veers off round
+ * the eye, never past the nearest mushroom's zoom at its x; and no one frame
+ * steps a dashing kind past its dash at its own size, or a butterfly or bee
+ * past a twentieth of the screen as drawn. A fly's pace and the blinks at the
+ * brow as the eye turns are measured and logged, not failed. Frames land as
+ * `veer-*.png`.
  */
 
 import { z } from 'zod';
@@ -32,7 +34,6 @@ import { buttonsOf, TUFTS } from './play-tufts.ts';
 import {
   blinks,
   flicks,
-  FPS,
   lookedBack,
   type Note,
   type OnScreen,
@@ -42,7 +43,7 @@ import {
   walkedIn,
   zooms,
 } from './veer-report.ts';
-import { type Sample, Samples, VEER } from './veer-watch.ts';
+import { FPS, type Sample, Samples, VEER } from './veer-watch.ts';
 
 /** How many of one kind are released looking back for one to take a perch in view: a fly roams to the air most legs. */
 const BACK_TRIES = 6;
@@ -227,26 +228,6 @@ export async function playVeer(
   await inTurn(kinds, async (kind) => {
     await releaseBack(kind, `veer-back-${kind}-out`);
   });
-  // Where round the eye a child can grow a perch: the `+` has room and a tuft
-  // a tap reaches bare is drawn.
-  const ground: string[] = [];
-  await inTurn(
-    Array.from({ length: 24 }, (_, index) => (index * Math.PI) / 12),
-    async (heading) => {
-      await face(heading);
-      await page.step(2);
-      const at = await page.evaluate(
-        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
-        z.object({ roomy: z.boolean(), tufts: z.number() }),
-      );
-      ground.push(
-        `${heading.toFixed(2)} ${at.roomy ? 'room' : 'no room'}, ${String(at.tufts)} tufts`,
-      );
-    },
-  );
-  note(`ground to grow on, by heading: ${ground.join('; ')}`);
-  await face(Math.PI);
-  await page.step(2);
   const grown = await perchesBack(page, controls, expect, note);
   await page.shoot('veer-back-grown');
   if (grown > 0) {
@@ -285,7 +266,7 @@ export async function playVeer(
     await run(30);
     return hovering(looks - 1);
   };
-  const target = await hovering(40);
+  const target = await hovering(80);
   if (target === undefined) {
     note(
       'no insect ever hovered in the air: the walk into a hover is not played',
@@ -320,5 +301,24 @@ export async function playVeer(
   // 3 and 4 over the whole run: zoom, the fly's pace, flicks.
   zooms(seen, lens, expect, note);
   pace(seen, butterfly, note);
-  flicks(seen, width, note);
+  flicks(seen, width, butterfly, expect, note);
+
+  // Where round the eye a child can grow a perch: the `+` has room and a tuft
+  // a tap reaches bare is drawn. Last, its snaps past every measure.
+  const ground: string[] = [];
+  await inTurn(
+    Array.from({ length: 24 }, (_, index) => (index * Math.PI) / 12),
+    async (heading) => {
+      await face(heading);
+      await page.step(2);
+      const at = await page.evaluate(
+        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
+        z.object({ roomy: z.boolean(), tufts: z.number() }),
+      );
+      ground.push(
+        `${heading.toFixed(2)} ${at.roomy ? 'room' : 'no room'}, ${String(at.tufts)} tufts`,
+      );
+    },
+  );
+  note(`ground to grow on, by heading: ${ground.join('; ')}`);
 }

@@ -5,18 +5,23 @@
 
 import type { z } from 'zod';
 
+import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
 import {
   bendAt,
   CLUMP_DISTANCE,
   type Pinhole,
 } from '../../src/pages/mushrooms/model/ground.ts';
-import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import {
+  INSECT_KINDS,
+  type InsectKind,
+} from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { D_SEE, V_NEAR } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import type { Expect, Point } from './mushroom-probe.ts';
 import {
   byInsect,
   byLeg,
   fading,
+  FPS,
   hiddenRuns,
   most,
   type Sample,
@@ -24,7 +29,8 @@ import {
   steps,
 } from './veer-watch.ts';
 
-export const FPS = 60;
+/** How far past its dash a frame a dashing kind's step at its own size may run: the dash's ease and zigzag over its mean. */
+const DASH_SLACK = 1.1;
 /** The least share of its flight in a release looking back is drawn on (`insect-plane.md` R3.1). */
 const DRAWN_SHARE = 0.95;
 /** The most zoom a flier shows standing by a perch, through the veer's fade (R3.1's accepted ~2.4×). */
@@ -274,27 +280,55 @@ export function pace(
   );
 }
 
-/** One-frame drawn steps past a twentieth of the screen's width, per kind, and the worst. */
+/** A dashing kind's dash, in px a frame at its own size: its `cruising` times `way / time` (`FLIGHT_HABITS`). */
+function dashFrame(kind: InsectKind, butterfly: number): number | undefined {
+  const { cruising, dashing } = FLIGHT_HABITS[kind];
+  return dashing && (cruising * dashing.way * butterfly) / dashing.time / FPS;
+}
+
+/**
+ * One-frame steps per kind: a dashing kind's, over its own size (`zoom`),
+ * held to `DASH_SLACK` of its dash a frame; a butterfly's and a bee's, as
+ * drawn, to a twentieth of the screen's width. The worst of each, drawn and
+ * at its own size, is logged.
+ */
 export function flicks(
   samples: readonly Sample[],
   width: number,
+  butterfly: number,
+  expect: Expect,
   note: Note,
 ): void {
-  const over = [...byInsect(samples).values()].flatMap((frames) =>
-    steps(frames).filter(({ step }) => step > width / 20),
+  const all = [...byInsect(samples).values()].flatMap((frames) =>
+    steps(frames),
   );
-  const worst = most(over, ({ step }) => step);
-  const counts = ['butterfly', 'fly', 'bee']
-    .map(
-      (kind) =>
-        [kind, over.filter(({ at }) => at.kind === kind).length] as const,
-    )
-    .filter(([, count]) => count > 0)
-    .map(([kind, count]) => `${kind} ${String(count)}`)
-    .join(', ');
-  note(
-    `one-frame steps over ${fixed(width / 20, 0)} px: ${counts || 'none'}${worst ? `; worst ${fixed(worst.step, 0)} px, ${worst.at.kind} ${worst.at.id} ${worst.at.from}→${worst.at.to} flown ${fixed(worst.at.flown)} d ${fixed(worst.at.distance)} heading ${fixed(worst.at.heading)}` : ''}`,
-  );
+  const leg = ({ at }: (typeof all)[number]) =>
+    `${at.id} ${at.from}→${at.to} flown ${fixed(at.flown)} d ${fixed(at.distance)} zoom ${fixed(at.zoom)} heading ${fixed(at.heading)}`;
+  for (const kind of INSECT_KINDS) {
+    const own = all.filter(({ at }) => at.kind === kind);
+    const dash = dashFrame(kind, butterfly);
+    const drawnBound = kind === 'fly' ? undefined : width / 20;
+    const ownBound = dash === undefined ? undefined : dash * DASH_SLACK;
+    const pastDrawn = own.filter(
+      ({ step }) => drawnBound !== undefined && step > drawnBound,
+    );
+    const pastOwn = own.filter(
+      ({ step, at }) => ownBound !== undefined && step / at.zoom > ownBound,
+    );
+    const drawn = most(own, ({ step }) => step);
+    const sized = most(own, ({ step, at }) => step / at.zoom);
+    note(
+      `one-frame steps, ${kind}: ${String(own.length)} measured; ${drawnBound === undefined ? '' : `${String(pastDrawn.length)} over ${fixed(drawnBound, 0)} px drawn; `}${ownBound === undefined ? '' : `${String(pastOwn.length)} over ${fixed(ownBound, 1)} px at its own size (dash ${fixed(dash ?? 0, 1)} px a frame); `}most drawn ${drawn ? `${fixed(drawn.step, 0)} px (${leg(drawn)})` : 'none'}; most at its own size ${sized ? `${fixed(sized.step / sized.at.zoom, 1)} px (${leg(sized)})` : 'none'}`,
+    );
+    expect(
+      pastDrawn.length === 0,
+      `${String(pastDrawn.length)} ${kind} one-frame steps over ${fixed(width / 20, 0)} px drawn, the most ${fixed(most(pastDrawn, ({ step }) => step)?.step ?? 0, 0)} px`,
+    );
+    expect(
+      pastOwn.length === 0,
+      `${String(pastOwn.length)} ${kind} one-frame steps over ${fixed(ownBound ?? 0, 1)} px at its own size, the most ${fixed(Math.max(0, ...pastOwn.map(({ step, at }) => step / at.zoom)), 1)} px`,
+    );
+  }
 }
 
 /** Short hidings of an insect drawn on screen on either side of them, the brow's among them. */
