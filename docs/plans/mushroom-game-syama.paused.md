@@ -609,6 +609,17 @@ complaint stands); a cylindrical lens over a world spread sideways (the
 spread would have to differ per screen, and the world is one); a narrower
 crop (the clump shrinks, which the operator ruled out).
 
+**Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
+ground point, not its middle.** What sinks is keyed on distance along the
+ground (the round brow's rule), and a flier's middle stands above that ground
+point, so keying the flier on its middle hid ~1% of releases for 0.15–1.0 s
+while the insect still flew in front of the brow. Beaten: leaving it (the
+child taps and sees nothing). The half-depth package carries it with the
+rest of that note: `PAST_BROW` becomes a share of `D_SEE`, a no-perch first
+leg is lengthened so its unseen part keeps cruise, a release never sets off
+past the world's end (before the first fit, or looking back past the
+opening row), then `fliers.test.ts` and the tabL / phoneP release frames.
+
 **Left, in order:**
 
 1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where
