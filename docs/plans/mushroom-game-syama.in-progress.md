@@ -369,12 +369,18 @@ cap. The cause is `paced` (`flight-timing.ts`): a leg's time is the kind's
 every longer leg takes the same time and flies faster. The operator: «а
 почему они вообще должны летать тем быстрее, чем больше путь? вроде в жизни
 муха летит себе и летит». **Decided: a leg's time is its length at the
-kind's own pace** (a `stride` per `flying` time), with no ceiling, so a
-long leg simply takes longer; a fly's darting stays a shape within that
-time (bursts and hovers that average to its pace), never a speed-up for
-distance. Measured as the speed seen on screen under the plane's sizes.
-Beaten: halving the dash cap (still faster the longer the way, only less);
-leaving it (the complaint stands).
+kind's own cruise**, a speed per kind set by play — to start, today's
+median-leg speed on the tablet (fly ≈ 7, bee ≈ 4.6 butterfly sizes a
+second; the butterfly as today) — with no ceiling, so a long leg simply
+takes longer; a fly's darting stays a fixed burst shape within that time,
+never a speed-up for distance. Timed by the leg's length as drawn
+(`Places` carry each perch's depth), so the seen speed holds at 1.0–1.1×
+the cruise at any depth (`insect-plane.md` R2.4). Beaten: a `stride` per
+`flying` time (≈ 1 size a second for every kind, a fly 20 s across the
+tablet); halving the dash cap (still faster the longer the way); leaving
+it (the complaint stands). **Open with the operator: `ARRIVAL`** (1.5 s)
+still caps a tapped release's first leg to a perch on screen, the one
+ceiling left on a long leg.
 
 **Left, in order:**
 
