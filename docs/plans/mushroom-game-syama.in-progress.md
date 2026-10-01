@@ -694,11 +694,17 @@ sliding across the screen).
 быстро» on a long leg.** `dash-cap.md` caps a dash at the kind's dash
 across the screen it flies on, which is still ~3 screens a second for a
 fly and ~1.8 for a bee on the tablet, and a long leg always reaches the
-cap. **Decided: the cap halves** (fly 30, bee 18 butterfly sizes a second
-on the tablet, each screen's own width in proportion as before), measured
-as the speed seen on screen under the plane's sizes, so a near insect does
-not read faster than a far one at the same cap; the operator's next play
-judges it. Beaten: leaving the cap (the complaint stands).
+cap. The cause is `paced` (`flight-timing.ts`): a leg's time is the kind's
+`flying` time stretched with its strides only up to `slowest`, so past that
+every longer leg takes the same time and flies faster. The operator: «а
+почему они вообще должны летать тем быстрее, чем больше путь? вроде в жизни
+муха летит себе и летит». **Decided: a leg's time is its length at the
+kind's own pace** (a `stride` per `flying` time), with no ceiling, so a
+long leg simply takes longer; a fly's darting stays a shape within that
+time (bursts and hovers that average to its pace), never a speed-up for
+distance. Measured as the speed seen on screen under the plane's sizes.
+Beaten: halving the dash cap (still faster the longer the way, only less);
+leaving it (the complaint stands).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
