@@ -52,6 +52,74 @@ F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
   `view.eye` and `drifted`. Depths renumbered -9..-1 (sky, glow, sun,
   clouds, far, near, ground, wash, grain).
 
+## Third agent: the live hills (uncommitted as source)
+
+Stopped on the orchestrator's word (context) before the tests were rewritten,
+so the source does not type-check yet and rides as
+`p2-panorama-hills.patch` (`git apply` it on HEAD; the working tree also
+holds it unstaged). What it does:
+
+- `panorama.ts`: `Crest` (azimuth → screen y), `ringWave(camera, rate,
+  phase)` — a sine that is exactly `rate·(x − cx) + phase` over the opening
+  screen (via `F·tan α`), then a C1 Hermite in azimuth round the rest of the
+  circle at the middle's pace, a whole number of turns round 360°;
+  `crestAcross(crest, view, steps, margin)` samples a crest across a view.
+- `skyline.ts`: `farSkyline` / `farthestSkyline` / `nearSkyline` return a
+  `Crest`; `FarRange = {crest, highest}`; the bowl is one parabola at
+  `α_sun` with `off = F·wrapAngle(α − α_sun)` (sweep and `PARTED_SAG` gone);
+  `OPENING_SLIDE` (0.3/0.6/1) only phases each range so the opening view
+  shows its old crests; `seamCrest` is the seam round the panorama;
+  `groundSeam` kept for `grass.ts` (still via `layerSpan`); `hillBands`
+  drops level runs (`withoutLevelRuns`).
+- `paint-land.ts`: `hillsOf(layout, random)` (same `random` order), and
+  `drawHills(layers, hills, view)` live into two screen-fixed Graphics, the
+  seam filled `RANGES.near.foot` in the near layer down to `groundTop +
+  reach + 2`. Ground/grain painters still the old ones.
+- `paint-backdrop.ts`: `Backdrop.hills: {far, near}` Graphics +
+  `hillsFrom`; `follow(view)` redraws them only when `view.eye.heading`
+  changed. No change to the per-frame or resize API.
+- `Span` moved to `baking.ts` (`parallax.ts` imports it from there).
+
+To finish step 1: rewrite `skyline.test.ts`, `sun-layout.test.ts` (the
+`shownAbove`/level-run checks) and `backdrop-tones.test.ts` `openSky` to
+sample `crestAcross(crest, viewAt(camera, {...OPENING_EYE, heading}))`
+over a heading sweep, the sun at `screenAt(view, azimuthAt(camera, sun.x))`.
+
+### Measured (tabL 1180×820 @2, play run's SwiftShader Chromium, 80 frames, medians, 3 runs)
+
+| | `game.step` JS | step + `readPixels` sync |
+| --- | --- | --- |
+| live hills, static | 7.9–8.3 ms | 237–313 ms |
+| live hills, turning (redraw each frame) | 7.8–8.0 ms + 0.6 ms `follow` | 245–255 ms |
+| hills hidden | 7.3–7.8 ms | 212–290 ms |
+| baked strip (1.5 screens, 3540×615 texels), static | 7.3–7.6 ms | 244–270 ms |
+| re-baking that strip | 95–137 ms per bake, every ~0.5 s at `TURN_CRUISE` | |
+
+**Call: live.** The live hills cost ≈ 0.5 ms of JS a frame (Phaser
+re-tessellating ~4.1k commands), static or turning; the synced raster cost is
+the same as a baked strip's within noise. Baking would save that 0.5 ms but
+hitch ~100 ms twice a second while turning.
+
+### Opening match (old 0b32d8fb~ skylines vs new crests, 100 visits a screen)
+
+Away from the old bowl, every range matches within 0.2 px (near), ≤ 1.8 px
+(far, tablet; 0 on portrait/phone screens). Within ~8–16 sun radii of the
+sun the far ranges differ by up to 24 px (tabL), 63 px (tabP), 33 (phone),
+11 (phoneL), 54 (phoneS): the old long trough along the sun's crop sweep is
+gone, so the far hills near the sun stand at their own height rather than
+pressed down. Seam: ≤ 0.9 px.
+
+### Step 2 (not started in source)
+
+Draft: `paintGround` as 32 flat full-width rects from `groundTop − reach`,
+each clipped to `y ≥ groundTop + reach` (today's band colours, seam fill
+above), no mottles; `paintGrain` screen-fixed (`setScrollFactor(0)`, x 0,
+width = screen) from `groundTop − reach`; then bakes are all factor 0, and
+`layerSpan` leaves `paint-backdrop.ts`/`grain.ts`/`paint-land.ts`.
+`parallax.ts` stays for `grass.ts` (`layerSpan`, `PARALLAX`) and
+`skyline.ts`'s `groundSeam` (grass's seam). Screenshot pair not taken; the
+0b32d8fb~ worktree was removed.
+
 ## Left
 
 - Step 1: the `/preview` pair at tablet landscape against a 0b32d8fb~
