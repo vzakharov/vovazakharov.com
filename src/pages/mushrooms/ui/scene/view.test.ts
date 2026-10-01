@@ -15,11 +15,13 @@ import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import {
   behindHills,
+  buried,
   cull,
   D_SEE,
   ofGround,
   ofLayout,
   onScreen,
+  sunk,
   V_NEAR,
   viewAt,
 } from './view';
@@ -126,6 +128,42 @@ describe('the view', () => {
     assert.equal(behindHills({ ahead: D_SEE }), false);
     assert.equal(behindHills({ ahead: D_SEE + 1e-6 }), true);
   });
+
+  for (const { name, camera } of CAMERAS) {
+    it(`sinks what stands past D_SEE below the ground's top row, with no jump, on the ${name} camera`, () => {
+      for (const eye of EYES) {
+        const view = viewAt(camera, eye);
+        const foot = (ahead: number) => {
+          const plane = {
+            x: eye.x + ahead * Math.sin(eye.heading),
+            y: eye.y + ahead * Math.cos(eye.heading),
+          };
+          const viewed = viewOf(view, eye, plane, 0);
+          return { ...viewed, zoom: 1 };
+        };
+        const crossing = foot(D_SEE);
+        assert.equal(sunk(view, crossing), crossing);
+        assert.ok(Math.abs(crossing.y - camera.groundTop) < 1e-6);
+        const past = sunk(view, foot(D_SEE + 1e-6));
+        assert.ok(Math.abs(past.y - crossing.y) < 1e-3, 'jumps at D_SEE');
+        let last = crossing.y;
+        for (const ahead of [13.5, 15, 20, 40, 400]) {
+          const drawn = sunk(view, foot(ahead));
+          assert.ok(
+            drawn.y > last,
+            `${String(ahead)}: does not sink as it recedes`,
+          );
+          assert.ok(buried(view, drawn), `${String(ahead)}: not buried`);
+          last = drawn.y;
+        }
+        for (const ahead of [V_NEAR, 9, D_SEE]) {
+          const placed = foot(ahead);
+          assert.equal(sunk(view, placed), placed);
+          assert.equal(buried(view, placed), false);
+        }
+      }
+    });
+  }
 
   it('says what stands on the screen, inside or past its edges', () => {
     const [, width, height] = VIEWPORTS[0];

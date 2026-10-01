@@ -33,7 +33,7 @@ import type { MeadowLayout } from './layout';
 import { clumpRow, type FootRows } from './perch-sight';
 import type { MeadowSound } from './sound';
 import { tapReach } from './tap-reach';
-import { cull, ofLayout, onScreen, type View } from './view';
+import { buried, cull, ofLayout, onScreen, sunk, type View } from './view';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;
@@ -347,8 +347,10 @@ export class InsectView {
   private screenOf(point: Point, row: number): Point | undefined {
     const view = this.view();
     if (!view) return point;
-    const placed = ofLayout(view, point, row);
-    return cull(placed) ? undefined : pick(placed, 'x', 'y');
+    const placed = sunk(view, ofLayout(view, point, row));
+    return cull(placed) || buried(view, placed)
+      ? undefined
+      : pick(placed, 'x', 'y');
   }
 
   private show(flier: Flier): Shown {

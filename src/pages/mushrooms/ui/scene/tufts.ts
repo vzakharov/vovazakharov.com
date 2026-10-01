@@ -46,7 +46,7 @@ import {
 } from './grass';
 import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
-import { behindHills, cull, ofGround, onScreen, type View } from './view';
+import { behindHills, cull, ofGround, onScreen, sunk, type View } from './view';
 
 /**
  * How many tufts the ground grows per 1000 CSS px of its world across: a
@@ -228,14 +228,14 @@ export function tendTufts(stand: Stand, grown: readonly Sprout[]): Sprout[] {
 /** A tuft of the ground as a frame draws it: the tuft laid out, and where and how big the view draws it. */
 export type ShownSprout = WithTuft & { sprout: Sprout };
 
-/** The ground's tufts a frame draws: those over the ground's top row, and those behind the near hills. */
+/** The ground's tufts a frame draws: those this side of the ground's top row, and those past it, sinking. */
 export type ShownGrass = { near: ShownSprout[]; behind: ShownSprout[] };
 
 /**
  * Where `view` draws each of `sprouts`: at its foot, its size scaled by its
  * zoom and its colours toned by the screen row it stands on, as the ground's
  * bands are. A tuft too near the eye (`cull`), or off the screen, is not
- * drawn; one past the ground's top row is drawn behind the near hills.
+ * drawn; one past the ground's top row sinks under the ground (`sunk`).
  */
 export function shownSprouts(
   view: View,
@@ -244,7 +244,7 @@ export function shownSprouts(
   const shown: ShownGrass = { near: [], behind: [] };
   const depth = view.height - view.groundTop;
   for (const sprout of sprouts) {
-    const placed = ofGround(view, sprout.foot);
+    const placed = sunk(view, ofGround(view, sprout.foot));
     if (cull(placed)) continue;
     const size = sprout.tuft.size * placed.zoom;
     if (!onScreen(view, placed, -BLADE_OVERHANG * size)) continue;
@@ -277,7 +277,7 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
  */
 export class Grass {
   private readonly graphics: Phaser.GameObjects.Graphics;
-  /** The ground's tufts past its top row, under the near hills as the beds' things there are (`depthOf`). */
+  /** The ground's tufts past its top row, sinking under the ground as the beds' things there do (`depthOf`). */
   private readonly behind: Phaser.GameObjects.Graphics;
   /** The stream every tuft of the ground is drawn from, so a replay grows the same. */
   private readonly growing: Random;

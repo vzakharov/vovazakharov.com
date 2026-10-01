@@ -56,24 +56,29 @@ describe('a bed object at the opening eye', () => {
 
 describe("a bed object past the ground's top row", () => {
   for (const { name, width, height } of SCREENS) {
-    it(`is drawn under the near hills and over the far ones, its parts in order, on a ${name} screen`, () => {
+    it(`stands its foot below that row, under the ground and over the near hills, the farther behind, its parts in order, on a ${name} screen`, () => {
       const { layout } = opened(1, width, height, false);
       const view = viewAt(layout.camera, OPENING_EYE);
       const near = bedPlace(view, { x: 0, z: zAt(0.02) });
       assert.equal(near.behind, false);
-      for (const down of [-0.02, -0.3, -1]) {
+      let farther = Infinity;
+      for (const down of [-0.02, -0.3, -0.6, -1]) {
         const place = bedPlace(view, { x: 0.4, z: zAt(down) });
-        assert.ok(place.drawn && place.behind, `down ${String(down)}`);
+        const where = `down ${String(down)}`;
+        assert.ok(place.drawn && place.behind, where);
+        assert.ok(place.y > layout.camera.groundTop, where);
         const [shadow, body, house] = [-0.5, 0, 0.1].map((nearer) =>
           depthOf(place, nearer),
         );
         for (const depth of [shadow, body, house]) {
-          assert.ok(depth !== undefined && depth > -5 && depth < -4);
+          assert.ok(depth !== undefined && depth > -4 && depth < -3, where);
         }
         assert.ok(
           shadow !== undefined && body !== undefined && house !== undefined,
         );
-        assert.ok(shadow < body && body < house);
+        assert.ok(shadow < body && body < house, where);
+        assert.ok(body < farther, `${where}: sorts before a nearer one`);
+        farther = body;
       }
     });
   }

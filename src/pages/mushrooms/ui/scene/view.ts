@@ -42,8 +42,8 @@ export const V_NEAR = 2;
 
 /**
  * How far ahead, in the clump's size, the ground meets the hills: the
- * ground's top row at the opening eye. A thing standing farther is behind
- * the near hills, which cover it from the foot up.
+ * ground's top row at the opening eye. A thing standing farther sinks behind
+ * the ground's top row (`sunk`), which covers it from the foot up.
  */
 export const D_SEE = planeOf({ x: 0, z: zAt(0) }).y;
 
@@ -96,6 +96,30 @@ export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
 /** Whether a thing `ahead` of the eye stands past the ground's top row, behind the near hills. */
 export function behindHills({ ahead }: Pick<Viewed, 'ahead'>): boolean {
   return ahead > D_SEE;
+}
+
+/**
+ * Where `view` draws `placed`: where it is placed, up to the ground's top
+ * row; past it, sunk as far below that row as its foot would stand above it,
+ * so its foot never stands on the hills above the ground, whatever their
+ * crest does there. It sinks as it recedes and rises as it nears, with no
+ * jump where it crosses the row, and whatever is drawn over the ground's top
+ * rows covers it from the foot up (`depthOf`).
+ */
+export function sunk(view: View, placed: Placed): Placed {
+  if (!behindHills(placed)) return placed;
+  const { focal } = pinholeOf(view);
+  const lift = focal * EYE_HEIGHT * (1 / D_SEE - 1 / placed.ahead);
+  return { ...placed, y: placed.y + 2 * lift };
+}
+
+/**
+ * Whether `placed`, as `sunk` draws it, has sunk below the ground's top row:
+ * hidden for a thing drawn over everything in the meadow, as an insect is,
+ * which nothing would cover there.
+ */
+export function buried(view: View, placed: Placed): boolean {
+  return behindHills(placed) && placed.y > view.groundTop;
 }
 
 /**

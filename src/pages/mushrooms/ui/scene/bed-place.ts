@@ -2,34 +2,43 @@
  * Where a bed draws a thing standing on the ground this frame: the beds lay
  * everything out once at the opening eye and draw it at that size, and this
  * is what places it through the view (`ofGround`), scales it by `zoom`, sorts
- * it by the row it stands on, hides it near the eye (`cull`) and sets it
- * under the near hills past the ground's top row (`behindHills`).
+ * it by the row it stands on, hides it near the eye (`cull`) and, past the
+ * ground's top row (`behindHills`), sinks it under the ground (`sunk`).
  */
 
 import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Ground, LayeredPoint } from '../../model/ground';
-import { behindHills, cull, ofGround, type Placed, type View } from './view';
+import {
+  behindHills,
+  cull,
+  ofGround,
+  type Placed,
+  sunk,
+  type View,
+} from './view';
 
 /**
  * The depth a thing past the ground's top row is drawn about: between the
- * far hills (-5) and the near hills (-4) of `paint-backdrop.ts`'s `DEPTHS`,
- * so the near hills cover it from the foot up.
+ * near hills (-4) and the ground (-3) of `paint-backdrop.ts`'s `DEPTHS`, so
+ * it stands over the hills and the ground covers it from the foot up as it
+ * sinks (`sunk`).
  */
-const BEHIND_HILLS = -4.5;
+const BEHIND_HILLS = -3.5;
 /**
  * How much of a unit of depth a px down the screen, or a part's `nearer`,
- * is worth behind the hills: small enough that every row of the tallest
- * screen keeps inside the half unit between the two ranges.
+ * is worth past the ground's top row: small enough that every row of the
+ * tallest screen keeps inside the half unit either side of `BEHIND_HILLS`.
  */
 const BEHIND_SQUEEZE = 1e-4;
 
 /**
- * A thing's place on the screen this frame: where its foot stands, in CSS
- * px, the row it sorts by (`depth`, its foot's screen row), whether it is
- * drawn at all and whether behind the near hills, and how far ahead of the
- * eye it stands: `Infinity` while no view placed it.
+ * A thing's place on the screen this frame: where its foot is drawn, in CSS
+ * px, the row it sorts by (`depth`, the screen row its foot stands on before
+ * it sinks, so the farther sorts behind), whether it is drawn at all and
+ * whether past the ground's top row, and how far ahead of the eye it stands:
+ * `Infinity` while no view placed it.
  */
 export type BedPlace = LayeredPoint &
   Pick<Placed, 'zoom' | 'ahead'> & { drawn: boolean; behind: boolean };
@@ -41,7 +50,7 @@ export type Standing = { stands: BedPlace };
 export function bedPlace(view: View, foot: Ground): BedPlace {
   const placed = ofGround(view, foot);
   return {
-    ...pick(placed, 'x', 'y', 'zoom', 'ahead'),
+    ...pick(sunk(view, placed), 'x', 'y', 'zoom', 'ahead'),
     depth: placed.y,
     drawn: !cull(placed),
     behind: behindHills(placed),
@@ -81,8 +90,9 @@ type Stands = {
 
 /**
  * The depth `place` draws a part at, `nearer` than the thing itself so the
- * parts of one thing keep their order among themselves: its row, or behind
- * the hills that row squeezed under the near hills.
+ * parts of one thing keep their order among themselves: its row, or past
+ * the ground's top row that row squeezed between the near hills and the
+ * ground.
  */
 export function depthOf(place: BedPlace, nearer = 0): number {
   const row = place.depth + nearer;
