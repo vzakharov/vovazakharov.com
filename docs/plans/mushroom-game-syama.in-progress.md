@@ -315,13 +315,16 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
       new tap on a cloud while the rainbow shows starts a new shower and
       fades it out.
 
-    **Model.** `Meadow` gains a `rain` span, `{ start, end }` or
-    `undefined`, in the insects' ms clock; `{ kind: 'rain' } & Timed`
-    starts or restarts it and shuts the flower picker. Nothing ends it:
-    whether it rains, how wet the meadow is (0–1, eased in and out) and the
-    rainbow's strength are pure functions of `rain` and the clock, in a
-    Phaser-free `model/weather.ts` under `node:test`, so the reducer's
-    `tick` stays as it is this bite.
+    **Model — built (5c9f2e9), before walking took bite 12.** `Meadow`
+    has `rain: Rain | undefined`, `{ startedAt, stopsAt }` in the insects'
+    ms clock (not `start`, which `pan.ts` holds as a position);
+    `{ kind: 'rain' } & Timed` starts it or pushes `stopsAt` to
+    `now + RAIN_MS` and shuts the flower picker. `model/weather.ts` gives
+    `raining`, `wetness`, `downpour` (drops, on over 0.6 s, off at
+    `stopsAt`) and `rainbow` as pure functions of the span and the clock;
+    `tick` is untouched. Left to the scene: the rainbow a new shower
+    starts under drops to 0 at once, so its fade-out is the scene's to
+    hold; drops in the air finish falling after `stopsAt`.
 
     **Scene.** A rain bed module (`rain-view.ts` and what it needs beside it)
     owns the cloud hit areas, the darkening, the wash, the drops, the
