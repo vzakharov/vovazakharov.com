@@ -685,6 +685,20 @@ caps to 1.1–1.5× near the front, each in scale with its cap and the brow.
 Beaten: sizing by distance from the plane's origin (today's sizes at the
 opening, but a perched and a flying insect at one distance differ, and
 sizes drift as the child turns).
+**Decided, with the operator: a leg veers round the eye** («да, 1 — ок»)
+at the distance where an insect's zoom reaches today's `V_NEAR` value
+(~1.7×), so a fly passes the child's ear rather than through his head and
+never fills the screen. Beaten: a zoom cap on a straight leg (a flat sticker
+sliding across the screen).
+**Open with the operator's play: flies and bees still fly «неприлично
+быстро» on a long leg.** `dash-cap.md` caps a dash at the kind's dash
+across the screen it flies on, which is still ~3 screens a second for a
+fly and ~1.8 for a bee on the tablet, and a long leg always reaches the
+cap. **Decided: the cap halves** (fly 30, bee 18 butterfly sizes a second
+on the tablet, each screen's own width in proportion as before), measured
+as the speed seen on screen under the plane's sizes, so a near insect does
+not read faster than a far one at the same cap; the operator's next play
+judges it. Beaten: leaving the cap (the complaint stands).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
