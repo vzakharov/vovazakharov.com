@@ -3,13 +3,14 @@
  * mushrooms grown: what a child sees of every insect frame by frame
  * (`veer-watch.ts`). Released facing the clump, each perches at its own size
  * over its distance, in scale with its cap; the eye turned to look back, each
- * kind released with no perch in view flies out by the side, and with a
- * mushroom and a flower grown in view lands drawn, seen on nearly every frame
+ * kind released with no perch in view flies out by the side, and, turned
+ * as far round as there is room to grow on, with a mushroom and a flower
+ * grown in view lands drawn, seen on nearly every frame
  * of its flight in, and sits at no smaller a size in the screen's middle than
  * its distance gives; walked into one hovering in the air, it veers off round
  * the eye, never past the nearest mushroom's zoom at its x; and no one frame
- * steps a dashing kind past its dash at its own size, or a butterfly or bee
- * past a twentieth of the screen as drawn. A fly's pace and the blinks at the
+ * steps a dashing kind past its dash curve's fastest frame at its own size,
+ * or a butterfly past a twentieth of the screen as drawn. A fly's pace and the blinks at the
  * brow as the eye turns are measured and logged, not failed. Frames land as
  * `veer-*.png`.
  */
@@ -18,6 +19,7 @@ import { z } from 'zod';
 
 import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
+import { wrap } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { azimuthOf } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
 import {
@@ -43,7 +45,13 @@ import {
   walkedIn,
   zooms,
 } from './veer-report.ts';
-import { FPS, type Sample, Samples, VEER } from './veer-watch.ts';
+import { FPS, most, type Sample, Samples, VEER } from './veer-watch.ts';
+
+/** The headings round the eye a perch is looked for at, in radians. */
+const HEADINGS = Array.from(
+  { length: 24 },
+  (_, index) => (index * Math.PI) / 12,
+);
 
 /** How many of one kind are released looking back for one to take a perch in view: a fly roams to the air most legs. */
 const BACK_TRIES = 6;
@@ -148,6 +156,25 @@ export async function playVeer(
   };
   const onScreen: OnScreen = ({ x, y }) =>
     x >= 0 && x <= width && y >= 0 && y <= height;
+  /**
+   * The eye faced to each of `HEADINGS`, and what a child could grow there.
+   * Its snaps are no insect's doing, so the frames it steps are dropped.
+   */
+  const ground = async () => {
+    const found: Array<{ heading: number; roomy: boolean; tufts: number }> = [];
+    await keep();
+    await inTurn(HEADINGS, async (heading) => {
+      await face(heading);
+      await page.step(2);
+      const at = await page.evaluate(
+        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
+        z.object({ roomy: z.boolean(), tufts: z.number() }),
+      );
+      found.push({ heading, ...at });
+    });
+    await page.evaluate('__veer.take().length', z.number());
+    return found;
+  };
 
   // Something to sit on: four mushrooms, grown from the picker's first four caps.
   await inTurn(controls.picker.slice(0, 4), async (cap) => {
@@ -193,8 +220,10 @@ export async function playVeer(
   await page.step(2);
 
   // 1. Looking back: each kind released, drawn in, landed on a drawn perch —
-  // first with none in view, so it flies out by the side, then with a
-  // mushroom and a flower grown in view as a child grows them.
+  // first at π with none in view, so it flies out by the side, then, at the
+  // heading farthest round with room to grow on (the glade is bare behind
+  // the eye), with a mushroom and a flower grown in view as a child grows
+  // them.
   const kinds: InsectKind[] = ['butterfly', 'fly', 'bee'];
   /** One `kind` released and watched till it lands; whether it flew in to a perch in view, not out by the side. */
   const releaseBack = async (kind: InsectKind, shot: string) => {
@@ -228,6 +257,14 @@ export async function playVeer(
   await inTurn(kinds, async (kind) => {
     await releaseBack(kind, `veer-back-${kind}-out`);
   });
+  const roomy = (await ground()).filter(({ roomy: room }) => room);
+  const landing =
+    most(roomy, ({ heading }) => Math.abs(wrap(heading)))?.heading ?? Math.PI;
+  note(
+    `looking back: landing at heading ${landing.toFixed(2)}, the farthest from 0 the + has room at${roomy.length === 0 ? ' (none had room: π)' : ''}`,
+  );
+  await face(landing);
+  await page.step(2);
   const grown = await perchesBack(page, controls, expect, note);
   await page.shoot('veer-back-grown');
   if (grown > 0) {
@@ -248,7 +285,9 @@ export async function playVeer(
   }
   await run(FPS * 3);
   await page.shoot('veer-back-perched');
-  const back = seen.filter(({ heading }) => Math.abs(heading - Math.PI) < 1e-6);
+  const back = seen.filter(
+    ({ heading }) => Math.abs(wrap(heading - landing)) < 1e-6,
+  );
   sizesAt('looking back', back, note);
   satBack(back, onScreen, lens, expect);
 
@@ -305,20 +344,13 @@ export async function playVeer(
 
   // Where round the eye a child can grow a perch: the `+` has room and a tuft
   // a tap reaches bare is drawn. Last, its snaps past every measure.
-  const ground: string[] = [];
-  await inTurn(
-    Array.from({ length: 24 }, (_, index) => (index * Math.PI) / 12),
-    async (heading) => {
-      await face(heading);
-      await page.step(2);
-      const at = await page.evaluate(
-        `({ roomy: __probe.scene.arrivals.roomy(), tufts: (${TUFTS}).length })`,
-        z.object({ roomy: z.boolean(), tufts: z.number() }),
-      );
-      ground.push(
-        `${heading.toFixed(2)} ${at.roomy ? 'room' : 'no room'}, ${String(at.tufts)} tufts`,
-      );
-    },
+  const swept = await ground();
+  note(
+    `ground to grow on, by heading: ${swept
+      .map(
+        ({ heading, roomy: room, tufts }) =>
+          `${heading.toFixed(2)} ${room ? 'room' : 'no room'}, ${String(tufts)} tufts`,
+      )
+      .join('; ')}`,
   );
-  note(`ground to grow on, by heading: ${ground.join('; ')}`);
 }
