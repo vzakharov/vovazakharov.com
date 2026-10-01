@@ -501,6 +501,21 @@ departures were taken):
    operator: «ок, давай попробуем». Beaten: shrinking into fog alone (the
    spec's fade mists the opening's back rows, and pushed farther it
    pops), and leaving it as a style.
+   **Decided, from the operator's second play: the brow is round.** A
+   far flower stood with its foot above the straight brow, higher at the
+   middle of the screen than at its side, and rode up and down as the
+   child turned (screenshots in `bite-12/brow-round.md`): what sinks is
+   keyed on the distance along the ground (turn-invariant, kept), but a
+   screen row is the depth along the heading, so the line where things
+   go under is the projection of the circle `D_SEE` round the eye, not a
+   row. The brow is drawn along that curve — highest at the screen's
+   middle, lower toward its edges — and each thing sinks relative to the
+   brow at its own x, so a far flower slides along the curve as you turn.
+   The operator: «закруглить горизонт?». Beaten: keying the sink on the
+   depth along the heading (a straight brow, but a far flower would
+   vanish as the child turns toward it). Also found: a flat pale band
+   across the hills at some headings — traced and fixed in the same
+   package.
    Built (99f2007d, ca991f66, 651e48f2, db4e08e3; `brow.md`): the brow in
    `brow.ts`, a crest with clumped blades at compass headings, redrawn
    only on a turn; past `D_SEE` mushrooms pale up to 0.2 more haze
