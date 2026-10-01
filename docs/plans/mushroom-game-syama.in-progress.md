@@ -493,6 +493,11 @@ departures were taken):
    operator: «ок, давай попробуем». Beaten: shrinking into fog alone (the
    spec's fade mists the opening's back rows, and pushed farther it
    pops), and leaving it as a style.
+   Built (99f2007d, ca991f66, 651e48f2, db4e08e3; `brow.md`): the brow in
+   `brow.ts`, a crest with clumped blades at compass headings, redrawn
+   only on a turn; past `D_SEE` mushrooms pale up to 0.2 more haze
+   (`browPale` in `repaint-queue.ts`). Left: flowers' paling,
+   `brow-flower-pale.patch`, applied once P4's `flower-bed.ts` lands.
    **Found on the way: since 86503fb the forest on four screens grows
    nothing behind the opening clump** (every grown mushroom 7.8–9.8
    ahead, haze 0). The forest must still grow into the misty back rows;
