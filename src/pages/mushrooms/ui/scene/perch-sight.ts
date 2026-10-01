@@ -337,7 +337,6 @@ export function perchSight(stand: Stand): Sight {
     air: air.map(({ id }) => id),
     crowded: [...perched, ...aloft],
     places,
-    across: layout.width / unit,
     room: roomFor(stand, beeFlowers, covers),
   };
 }

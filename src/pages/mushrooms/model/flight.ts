@@ -11,10 +11,10 @@ import type { WithId } from '@/shared/typings';
 
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
 import {
-  arriving,
   enteringSide,
   type Onscreen,
   outFirst,
+  outWay,
   shownOf,
 } from './flight-in';
 import { apartIn, legTo, type Placed, type Span } from './flight-timing';
@@ -92,8 +92,7 @@ export type Places = Readonly<Record<string, Point>>;
  * of perches standing too close for an insect on each (`Crowding`), so a
  * perch crowded by a taken one counts as taken; and, where the scene gives
  * them, the `places` of the perches, so a long flight takes longer than a
- * short one (`Habits`), and how far the screen shows `across` in their
- * units, which caps a dash's speed (`dashing`). With them, where a bee
+ * short one (`Habits`). With them, where a bee
  * could plant a flower (`Plot`).
  */
 export type Sight = Plot & {
@@ -102,7 +101,6 @@ export type Sight = Plot & {
   air: readonly string[];
   crowded: readonly Crowding[];
   places?: Places;
-  across?: number;
 };
 
 /**
@@ -123,7 +121,13 @@ export type Timed = { now: number };
  * leg to the air hovers there a while (`hovering`); an `away` leg leaves as
  * it arrives, and the insect is gone.
  */
-export type Leg = Span & { from: Perch; to: Perch; leaves: number };
+export type Leg = Span & {
+  from: Perch;
+  to: Perch;
+  leaves: number;
+  /** On a first leg flown out of view first (`outFirst`), how long that stretch takes, in ms. */
+  out?: number;
+};
 
 /** An insect's current leg, and how many legs it has flown, that one included. */
 export type Flight = { leg: Leg; legs: number };
@@ -244,9 +248,9 @@ function awayPerch(random: Random): Extract<Perch, { kind: 'away' }> {
  * A new insect's first flight, in from off screen to an open perch
  * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
  * one it shows while any is open there, and the insect enters at the
- * screen's edge nearer it and lands there soon (`flight-in.ts`), and with
- * none open there its leg is lengthened by the stretch it flies out of view
- * first (`outFirst`); otherwise by a side its seed picks.
+ * screen's edge nearer it (`flight-in.ts`), and with none open there its leg
+ * is lengthened by the stretch it flies out of view first at its cruise
+ * (`outFirst`); otherwise by a side its seed picks.
  */
 export function firstFlight(
   { seed, kind }: InsectSeed,
@@ -261,21 +265,23 @@ export function firstFlight(
   const choose = (among: Perches) =>
     nextPerch(random, { kind, habits }, drawn, among, taken);
   if (!onscreen) {
-    const { places, across } = perches;
+    const { places } = perches;
     const to = choose(perches);
     return {
-      leg: legTo(random, habits, { from: drawn, to }, { now, places, across }),
+      leg: legTo(random, habits, { from: drawn, to }, { now, places }),
       legs: 1,
     };
   }
   const shown = shownOf(perches, onscreen);
   const inView = choose(shown);
   const to = inView.kind === 'away' ? choose(perches) : inView;
-  const { places, across } = shown;
+  const { places } = shown;
   const side = enteringSide(onscreen, places, to, drawn.side);
   const from: Perch = { kind: 'away', side };
-  const leg = legTo(random, habits, { from, to }, { now, places, across });
-  return { leg: to === inView ? arriving(leg) : outFirst(leg), legs: 1 };
+  const leg = legTo(random, habits, { from, to }, { now, places });
+  if (to === inView) return { leg, legs: 1 };
+  const out = (1000 * outWay(onscreen)) / habits.cruise;
+  return { leg: outFirst(leg, out), legs: 1 };
 }
 
 /** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */
@@ -303,8 +309,8 @@ export function nextFlight(
   now: number,
   taken: readonly Held[] = [],
 ): Flight {
-  const [{ kind }, { places, across }] = [insect, perches];
-  return onward(insect, { now, places, across }, (random, habits) =>
+  const [{ kind }, { places }] = [insect, perches];
+  return onward(insect, { now, places }, (random, habits) =>
     nextPerch(random, { kind, habits }, insect.leg.to, perches, taken),
   );
 }
@@ -316,9 +322,9 @@ export function nextFlight(
 export function flightAway(
   insect: InsectSeed & Flight,
   now: number,
-  { places, across }: Placed = {},
+  { places }: Placed = {},
 ): Flight {
-  return onward(insect, { now, places, across }, awayPerch);
+  return onward(insect, { now, places }, awayPerch);
 }
 
 /** Whether `perches` still offers `perch` to an insect of `kind`; `away` always is. */
