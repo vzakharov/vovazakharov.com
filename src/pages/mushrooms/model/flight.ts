@@ -78,11 +78,18 @@ export type Pairing = readonly [InsectKind, InsectKind];
 export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
 
 /**
- * Where each perch stands, by its name (`perchName`), in units of a
- * butterfly's size, so a distance between two reads the same on every
- * screen; `away` by its side, just past the screen's edge.
+ * Where a perch stands, in units of a butterfly's size as the layout draws
+ * one, and `q`, how far from the eye, in the clump's size: an insect there
+ * is drawn `CLUMP_DISTANCE / q` of that size.
  */
-export type Places = Readonly<Record<string, Point>>;
+export type Place = Point & { q: number };
+
+/**
+ * Where each perch stands (`Place`), by its name (`perchName`), so a distance
+ * between two reads the same on every screen; `away` by its side, just past
+ * the screen's edge.
+ */
+export type Places = Readonly<Record<string, Place>>;
 
 /**
  * What the scene sees of the perches, which only the screen can say: the

@@ -6,7 +6,7 @@ import type { WithId } from '@/shared/typings';
 import { isSeat, perchName } from '../../model/flight';
 import { type Meadow, reduce } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import { OPENING_EYE, pinholeOf } from '../../model/ground';
+import { CLUMP_DISTANCE, OPENING_EYE, pinholeOf } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
@@ -24,7 +24,7 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { middleOf, ofLayout, viewAt } from './view';
+import { middleOf, ofLayout, rowAt, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 
@@ -266,6 +266,21 @@ describe('onscreenOf', () => {
       assert.ok(turned && turned.right < opening.right);
       const away = viewAt(camera, { ...OPENING_EYE, heading: Math.PI });
       assert.equal(onscreenOf(layout, away), undefined);
+    });
+
+    it(`places every perch at its foot row's distance from the opening eye, the air and the edges at the clump's, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout } = stand;
+      const rows = footRows(stand);
+      const { places = {} } = perchSight(stand);
+      const clump = rowAt(layout.camera, clumpRow(layout)).opening;
+      for (const [perch, { q }] of Object.entries(places)) {
+        const row = rows.get(perch);
+        const expected =
+          row === undefined ? clump : rowAt(layout.camera, row).opening;
+        assert.ok(Math.abs(q - expected) < 1e-9 * expected, perch);
+        assert.ok(q > 0.8 * CLUMP_DISTANCE && q < 1.7 * CLUMP_DISTANCE, perch);
+      }
     });
 
     it(`counts a perch shown only where the view draws its seat on the screen, stepped in and turned, on a ${name} screen`, () => {

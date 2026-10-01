@@ -55,7 +55,7 @@ import {
   seatsWith,
   type Track,
 } from './perch-crowding';
-import type { View } from './view';
+import { rowAt, type View } from './view';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -309,6 +309,8 @@ export function perchSight(stand: Stand): Sight {
   const { spots: air, aloft } = airOf(layout);
   const unit = layout.insectSize;
   const reach = widestOn(layout, 'butterfly');
+  const rows = footRows(stand, standing);
+  const aloftRow = clumpRow(layout);
   const places: Places = Object.fromEntries(
     [
       ...seaters.map(
@@ -329,7 +331,10 @@ export function perchSight(stand: Stand): Sight {
             },
           ] as const,
       ),
-    ].map(([name, { x, y }]) => [name, { x: x / unit, y: y / unit }]),
+    ].map(([name, { x, y }]) => {
+      const q = perchDistance(layout, rows.get(name) ?? aloftRow);
+      return [name, { x: x / unit, y: y / unit, q }];
+    }),
   );
   return {
     flowers: shown,
@@ -349,8 +354,21 @@ export function clumpRow({ camera }: MeadowLayout): number {
   return project(camera, { x: 0, z: 0 }).y;
 }
 
-/** The ground row each cap's and standing flower's foot stands on in `stand`, and the clump's under every spot in the air. */
-export function footRows(stand: Stand): FootRows {
+/**
+ * How far from the eye a perch standing over the ground row `row` is, in the
+ * clump's size (`Place`'s `q`), the one seam a perch's distance enters
+ * `Places` by: the opening eye's distance ahead of the row, the eye the
+ * layout is laid out for.
+ */
+function perchDistance(layout: MeadowLayout, row: number): number {
+  return rowAt(layout.camera, row).opening;
+}
+
+/** The ground row each cap's and standing flower's foot stands on in `stand`, among its `standing` flowers, and the clump's under every spot in the air. */
+export function footRows(
+  stand: Stand,
+  standing: readonly StandingFlower[] = flowersOf(stand),
+): FootRows {
   const { layout, mushrooms } = stand;
   const caps = mushrooms.flatMap((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
@@ -363,7 +381,7 @@ export function footRows(stand: Stand): FootRows {
         ]
       : [];
   });
-  const heads = flowersOf(stand).map(
+  const heads = standing.map(
     ({ id, place }) => [perchName({ kind: 'flower', id }), place.y] as const,
   );
   const air = airSpots(layout).map(

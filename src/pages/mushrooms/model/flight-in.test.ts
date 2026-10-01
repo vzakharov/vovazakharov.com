@@ -20,6 +20,7 @@ import {
   outWay,
   shownOf,
 } from './flight-in';
+import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS } from './insect-genes';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
@@ -34,7 +35,7 @@ function spread(kind: 'flower' | 'cap' | 'air', count: number) {
     (id, index) =>
       [
         perchName({ kind, id }),
-        { x: ((index + 0.5) / count) * WORLD, y: 10 },
+        { x: ((index + 0.5) / count) * WORLD, y: 10, q: CLUMP_DISTANCE },
       ] as const,
   );
   return { ids, places };
@@ -49,8 +50,8 @@ const PLACES: Places = Object.fromEntries([
   ...FLOWERS.places,
   ...CAPS.places,
   ...AIR.places,
-  ['away left', { x: -2, y: 8 }],
-  ['away right', { x: WORLD + 2, y: 8 }],
+  ['away left', { x: -2, y: 8, q: CLUMP_DISTANCE }],
+  ['away right', { x: WORLD + 2, y: 8, q: CLUMP_DISTANCE }],
 ]);
 const PERCHES: Perches = {
   flowers: FLOWERS.ids,
@@ -103,8 +104,8 @@ describe('a released insect', () => {
 
   it('is timed in from the screen edge, not the world edge', () => {
     const places = shownOf(PERCHES, ONSCREEN).places ?? {};
-    assert.deepEqual(places['away left'], { x: 30, y: 8 });
-    assert.deepEqual(places['away right'], { x: 60, y: 8 });
+    assert.deepEqual(places['away left'], { x: 30, y: 8, q: CLUMP_DISTANCE });
+    assert.deepEqual(places['away right'], { x: 60, y: 8, q: CLUMP_DISTANCE });
   });
 
   for (const kind of INSECT_KINDS) {

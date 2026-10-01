@@ -15,6 +15,7 @@ import {
   type Perches,
   perchName,
 } from './flight';
+import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 
 const kind = 'butterfly' as const;
@@ -280,20 +281,34 @@ describe('flightAway', () => {
   });
 });
 
-/** Both edges `apart` butterfly sizes from the perch `to`. */
-const placesAt = (to: Perch, apart: number) => {
-  const far = { x: apart, y: 0 };
+/**
+ * Both edges `apart` butterfly sizes across the layout from the perch `to`,
+ * the perch `q` from the eye and the edges `edge` (`Place`).
+ */
+const placesAt = (to: Perch, apart: number, q: number, edge: number) => {
+  const far = { x: apart, y: 0, q: edge };
   return {
-    [perchName(to)]: { x: 0, y: 0 },
+    [perchName(to)]: { x: 0, y: 0, q },
     'away left': far,
     'away right': far,
   };
 };
 
-/** `kinded`'s leg out to the edges `apart` butterfly sizes away, seeded `seed`. */
-const legOver = (kinded: InsectKind, apart: number, seed = 3) => {
+/**
+ * `kinded`'s leg out to the edges `apart` butterfly sizes away, seeded
+ * `seed`, from a perch `q` from the eye to edges `edge` from it; both at
+ * the clump's distance, where the layout draws an insect its own size,
+ * unless given.
+ */
+const legOver = (
+  kinded: InsectKind,
+  apart: number,
+  seed = 3,
+  q = CLUMP_DISTANCE,
+  edge = q,
+) => {
   const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
-  const places = placesAt(first.leg.to, apart);
+  const places = placesAt(first.leg.to, apart, q, edge);
   const insect = { seed, kind: kinded, ...first };
   return flightAway(insect, 0, { places }).leg;
 };
@@ -345,6 +360,31 @@ describe('a flight across the screen', () => {
       const { dashing } = FLIGHT_HABITS[kinded];
       for (const apart of APARTS) {
         assert.deepEqual(legOver(kinded, apart).dash, dashing, kinded);
+      }
+    }
+  });
+
+  it('flies at its cruise as drawn where it is over a straight way at one depth, and a little under it between the depths perches stand at, every kind', () => {
+    // The perches' distances from the opening eye run 0.9 to 1.5 of the clump's.
+    const depths = [0.9, 1, 1.2, 1.5].map((share) => share * CLUMP_DISTANCE);
+    const [apart, steps] = [60, 1000];
+    for (const kinded of INSECT_KINDS) {
+      const { cruise } = FLIGHT_HABITS[kinded];
+      for (const q of depths) {
+        for (const edge of depths) {
+          // Drawn `CLUMP_DISTANCE / q` its size, with `1 / q` going evenly
+          // along the way, as a straight way across the ground's rows does.
+          let seen = 0;
+          for (let step = 0; step < steps; step++) {
+            const t = (step + 0.5) / steps;
+            seen += apart / steps / ((1 - t) / q + t / edge) / CLUMP_DISTANCE;
+          }
+          const { departs, arrives } = legOver(kinded, apart, 3, q, edge);
+          const share = seen / ((arrives - departs) / 1000) / cruise;
+          const at = `${kinded} from ${q.toFixed(1)} to ${edge.toFixed(1)}: ${share.toFixed(4)}`;
+          if (q === edge) assert.ok(Math.abs(share - 1) < 1e-6, at);
+          else assert.ok(share > 0.97 && share < 1, at);
+        }
       }
     }
   });

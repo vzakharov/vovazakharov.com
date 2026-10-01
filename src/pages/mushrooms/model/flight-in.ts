@@ -9,6 +9,7 @@
 
 import type { Leg, Perch, Perches, PerchKind, Places, Side } from './flight';
 import type { Lefted, Point } from './geometry';
+import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 
 /**
@@ -93,7 +94,8 @@ export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
 function edgesOf(places: Places, { left, right }: Onscreen): Places {
   const edge = (side: Side, x: number) => {
     const name = perchName({ kind: 'away', side });
-    return [name, { x, y: places[name]?.y ?? 0 }] as const;
+    const { y, q } = places[name] ?? { y: 0, q: CLUMP_DISTANCE };
+    return [name, { x, y, q }] as const;
   };
   return Object.fromEntries([edge('left', left), edge('right', right)]);
 }
