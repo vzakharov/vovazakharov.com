@@ -10,7 +10,7 @@
 import type { WithId } from '@/shared/typings';
 
 import { FLIGHT_HABITS, type Habits, TABLET_ACROSS } from './flight-habits';
-import { enteringSide, type Onscreen, shownOf } from './flight-in';
+import { arriving, enteringSide, type Onscreen, shownOf } from './flight-in';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
 import {
@@ -340,9 +340,9 @@ function legTo(
 /**
  * A new insect's first flight, in from off screen to an open perch
  * (`nextPerch`), departing `now`. Given what the screen shows, the perch is
- * one it shows while any is open there, and the insect enters by the
- * screen's edge nearer it (`flight-in.ts`); otherwise by a side its seed
- * picks.
+ * one it shows while any is open there, and the insect enters at the
+ * screen's edge nearer it and lands there soon (`flight-in.ts`); otherwise
+ * by a side its seed picks.
  */
 export function firstFlight(
   { seed, kind }: InsectSeed,
@@ -370,10 +370,8 @@ export function firstFlight(
   const { places } = shown;
   const side = enteringSide(onscreen, places, to, drawn.side);
   const from: Perch = { kind: 'away', side };
-  return {
-    leg: legTo(random, habits, { from, to }, { now, places }),
-    legs: 1,
-  };
+  const leg = legTo(random, habits, { from, to }, { now, places });
+  return { leg: to === inView ? arriving(leg) : leg, legs: 1 };
 }
 
 /** The leg after the current one, from its perch to the one `choose` draws first off the leg's stream. */

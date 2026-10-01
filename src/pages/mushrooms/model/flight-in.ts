@@ -1,17 +1,18 @@
 /**
  * Where a released insect first flies in: its first perch is one the screen
- * shows as it is released, and it enters by the screen's edge nearer that
- * perch. Every later perch is drawn from the whole world (`nextFlight`).
+ * shows as it is released, it enters at the screen's edge nearer that perch,
+ * and it lands there within `ARRIVAL`, so a tap on its button is answered in
+ * view. Every later perch is drawn from the whole world (`nextFlight`).
  */
 
-import type { Perch, Perches, PerchKind, Places, Side } from './flight';
+import type { Leg, Perch, Perches, PerchKind, Places, Side } from './flight';
 import type { Lefted, Point } from './geometry';
 import { perchName } from './perch-room';
 
 /**
  * The stretch of the world the screen shows as an insect is released,
  * across in the units of `Places`, and `inset`: how far inside either edge a
- * perch stands to count as shown, and how far past it the insect sets off.
+ * perch stands to count as shown.
  */
 export type Onscreen = Lefted & { right: number; inset: number };
 
@@ -31,8 +32,22 @@ export function nearerSide({ left, right }: Onscreen, place: Point): Side {
 }
 
 /**
- * `perches` cut down to those `onscreen` shows, with the away spots just past
- * the screen's edges rather than the world's, so a flight in is timed from
+ * The longest a released insect's flight in to a perch the screen shows
+ * takes, in ms: faster than any kind's cruise over the same way, so the
+ * butterfly, slow for a finger to catch, still lands soon after its tap.
+ */
+export const ARRIVAL = 1500;
+
+/** `leg` flown in no longer than `ARRIVAL`, its stay after it as long as it was. */
+export function arriving(leg: Leg): Leg {
+  const flown = leg.arrives - leg.departs;
+  const early = flown - Math.min(flown, ARRIVAL);
+  return { ...leg, arrives: leg.arrives - early, leaves: leg.leaves - early };
+}
+
+/**
+ * `perches` cut down to those `onscreen` shows, with the away spots at the
+ * screen's edges rather than past the world's, so a flight in is timed from
  * where it enters. Without `places` nothing can be told shown, and `perches`
  * comes back as it is.
  */
@@ -55,16 +70,13 @@ export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
   };
 }
 
-/** The away spots of `places` moved to just past `onscreen`'s edges, at the heights `places` gives them. */
-function edgesOf(places: Places, { left, right, inset }: Onscreen): Places {
+/** The away spots of `places` moved to `onscreen`'s edges, at the heights `places` gives them. */
+function edgesOf(places: Places, { left, right }: Onscreen): Places {
   const edge = (side: Side, x: number) => {
     const name = perchName({ kind: 'away', side });
     return [name, { x, y: places[name]?.y ?? 0 }] as const;
   };
-  return Object.fromEntries([
-    edge('left', left - inset),
-    edge('right', right + inset),
-  ]);
+  return Object.fromEntries([edge('left', left), edge('right', right)]);
 }
 
 /** The edge an insect flying in to `to` enters by: the one nearer where `places` puts it, `drawn` where it puts it nowhere. */

@@ -72,8 +72,8 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  * over the clump's row. Drawn at its own size wherever it is, and hidden
  * nearer the eye than `V_NEAR`. Away is just past
  * the screen's edge where the view stands now, at the row it flies over: one
- * in from away enters by the edge nearer its first perch where the screen
- * shows that perch, else by the world's end nearer it; one leaving goes out
+ * in from away sets off on the edge nearer its first perch where the screen
+ * shows that perch, else past the world's end nearer it; one leaving goes out
  * by its seed's side.
  */
 export class InsectView {
