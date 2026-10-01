@@ -16,6 +16,7 @@ import { CLUMP_DISTANCE } from '../../src/pages/mushrooms/model/ground.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { HAZE_DRIFT } from '../../src/pages/mushrooms/ui/scene/repaint-queue.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
+import type { Sized } from '../../src/shared/typings/index.ts';
 import { median, overBudget } from './frame-budget.ts';
 import {
   type Arrow,
@@ -250,13 +251,11 @@ export async function playApproach(
   );
 }
 
-type ReachableScreen = { width: number; height: number };
-
 /** Whether a finger at `point` reaches the meadow: on the screen and off every control's tap reach. */
 function reachable(
   point: z.infer<typeof Point>,
   controls: z.infer<typeof Controls>,
-  screen: ReachableScreen,
+  screen: Sized,
 ): boolean {
   const buttons = [
     controls.plus,

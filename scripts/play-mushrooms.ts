@@ -7,7 +7,7 @@
  * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
  * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
  * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
- * `lib/play-hold.ts` — and a
+ * `lib/play-hold.ts` and `lib/play-keys.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -35,10 +35,10 @@ import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { median, overBudget } from './lib/frame-budget.ts';
 import {
-  ARROWS,
   Controls,
   type Expect,
   inTurn,
+  KEY_CODES,
   type Page,
   type Point,
   PROBE,
@@ -47,6 +47,7 @@ import {
 import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playHold } from './lib/play-hold.ts';
+import { playKeys } from './lib/play-keys.ts';
 import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playSpecies } from './lib/play-species.ts';
@@ -80,6 +81,7 @@ const PLAYS = [
   ['species', playSpecies],
   ['tufts', playTufts],
   ['hold', playHold],
+  ['keys', playKeys],
 ] as const;
 
 const TYPES: Record<string, string> = {
@@ -280,9 +282,12 @@ async function open(
     key: async (key, type, repeat = false) => {
       await send('Input.dispatchKeyEvent', {
         type,
-        key,
+        // A letter's DOM `key` is what it prints, its `code` where it sits.
+        key: key.startsWith('Key')
+          ? key.slice('Key'.length).toLowerCase()
+          : key,
         code: key,
-        windowsVirtualKeyCode: ARROWS[key],
+        windowsVirtualKeyCode: KEY_CODES[key],
         autoRepeat: repeat,
       });
     },

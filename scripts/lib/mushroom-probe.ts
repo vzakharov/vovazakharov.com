@@ -397,13 +397,23 @@ export const Pose = z
 export const Flower = Point.extend({ id: z.string() }).nullable();
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
-export const ARROWS = {
+const ARROWS = {
   ArrowLeft: 37,
   ArrowUp: 38,
   ArrowRight: 39,
   ArrowDown: 40,
 } as const;
 export type Arrow = keyof typeof ARROWS;
+
+/**
+ * The letter keys a play presses, by their DOM `code`, and the key code each
+ * goes down with: `l` the note G, `h` the note D.
+ */
+const LETTERS = { KeyL: 76, KeyH: 72 } as const;
+export type Letter = keyof typeof LETTERS;
+
+/** Every key a play presses, and the key code it goes down with. */
+export const KEY_CODES = { ...ARROWS, ...LETTERS } as const;
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
 export type Page = {
@@ -435,11 +445,11 @@ export type Page = {
     frames: number,
   ) => Promise<void>;
   /**
-   * A key going down or up, by its DOM `key`, as `ArrowLeft`; a `repeat` is
+   * A key going down or up, by its DOM `code`, as `ArrowLeft`; a `repeat` is
    * the browser's own repeat of a held key's press.
    */
   key: (
-    key: Arrow,
+    key: Arrow | Letter,
     type: 'keyDown' | 'keyUp',
     repeat?: boolean,
   ) => Promise<void>;

@@ -38,6 +38,16 @@ scratch worktree at origin 63df3268.
     still fails, spec §5's mitigation is to raise `V_NEAR` first.
 - Frames: `tabL-final-{opening,perched,seat-turning,near,tap,close-turn}.png`.
 
+## Done (step 2, this session)
+
+- `seat-fix-probe.patch` applied: the opening play's seat check reads the
+  drawn container less its fidget at the perch's zoom. Patch file removed.
+- `pnpm type-overlap` clean: `play-approach.ts`'s screen is `Sized`.
+- `play-keys.ts` (`--plays keys`, d4028a5a): the picker open on a tuft at
+  its colours, `l` plants a G flower there and shuts it; held open on that
+  flower with the first colour (blue) picked, `h` replaces it with a D one,
+  the old one pulled. `page.key` takes `KeyL`/`KeyH` by `code`.
+
 ## Game fault found
 
 **A perched insect slides off its seat as the eye turns.** On tabL the
