@@ -51,6 +51,24 @@ growing to `MUSHROOM_SLOTS` over 10 visits, anywhere in the world:
 options: `GROWN_PATCH` 8 everywhere; a floor scaled to the camera's unit
 (not measured); or accept no growth on phones. Not picked here.
 
+### The rest of the suite, run after the commit (at 86503fb)
+
+- Pass: `tufts` 46, `meadow-rules` 12, `eye-crop` 7, `ground-seam` 12,
+  `mushroom-room` 7.
+- `layout.test.ts` fails 6, all the phone growth shares: phone 13/200 visits
+  reach 6 on the opening view and 3/200 reach 12; phone held sideways and
+  small phone 0.
+- `mushroom-patch.test.ts` fails 3, all on phone held sideways:
+  - visit 237573 with 2 grown: the opening clump keeps no `CLUMP_PATCH`
+    (12 px) once its pad is gone;
+  - visit 9819563, anywhere in the world;
+  - visit 237573 again, stepped in.
+
+  The other screens pass. The worst head share is 73.0%, so
+  `LEAST_HEAD_SHARE` 0.72 holds.
+
+So the clump's patch floor is caught as well, not only `GROWN_PATCH`.
+
 ## Left
 
 - The orchestrator's call above, then rerun `mushroom-patch`,
