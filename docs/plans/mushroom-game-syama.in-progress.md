@@ -620,6 +620,16 @@ leg is lengthened so its unseen part keeps cruise, a release never sets off
 past the world's end (before the first fit, or looking back past the
 opening row), then `fliers.test.ts` and the tabL / phoneP release frames.
 
+**Decided, from `v-near.md`'s Left: an insect is culled by its own drawn
+extent against the screen, not by `V_NEAR`.** `V_NEAR` is now `0.58 ·
+CLUMP_DISTANCE` (2c1ed70), safe for a mushroom because one that near is
+already below the screen's foot; an insect flies higher than a cap, so the
+shared cull could drop a butterfly still on screen. Beaten: a separate,
+smaller insect `V_NEAR` (still a guess at where an insect leaves the
+screen). The half-depth package carries it, and re-measures `V_NEAR`'s
+ceiling (0.613 today, where the fly agaric's cap leaves the screen) once
+the focal length halves.
+
 **Left, in order:**
 
 1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where
