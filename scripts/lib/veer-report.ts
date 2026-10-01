@@ -106,9 +106,14 @@ export function lookedBack(
   const flight = leg.filter(
     ({ now, departs, arrives }) => now >= departs && now < arrives,
   );
-  const outFrames = flight.filter(({ out }) => out).length;
-  const drawn = flight.filter(({ visible }) => visible).length;
-  const share = drawn / Math.max(1, flight.length - outFrames);
+  // `out` holds while a release with no open perch in view flies out by the
+  // side, and clears once it is past it: every frame after the last `out`
+  // is flown off screen by design.
+  const lastOut = flight.findLastIndex(({ out }) => out);
+  const inView = lastOut === -1 ? flight : flight.slice(0, lastOut + 1);
+  const outFrames = flight.length - inView.length;
+  const drawn = inView.filter(({ visible }) => visible).length;
+  const share = drawn / Math.max(1, inView.length);
   const runs = hiddenRuns(flight)
     .map(
       ({ first: at, frames, out }) =>
@@ -121,13 +126,13 @@ export function lookedBack(
       sample.visible && sample.seat?.drawn === true && onScreen(sample),
   );
   note(
-    `looking back, the ${kind} released ${first.from}→${first.to}: drawn on ${String(drawn)} of ${String(flight.length)} flight frames (${String(outFrames)} flying out of view), hidden runs: ${runs || 'none'}; sat drawn on screen ${String(seated.length)} of ${String(landed.length)} frames, zoom at landing ${fixed(landed[0]?.zoom ?? Number.NaN)}×`,
+    `looking back, the ${kind} released ${first.from}→${first.to}: drawn on ${String(drawn)} of ${String(inView.length)} flight frames in view, then ${String(outFrames)} flown out of view${lastOut === -1 ? '' : ' (no open perch in view: it left by the side)'}, hidden runs: ${runs || 'none'}; sat drawn on screen ${String(seated.length)} of ${String(landed.length)} frames, zoom at landing ${fixed(landed[0]?.zoom ?? Number.NaN)}×`,
   );
   expect(
     share >= DRAWN_SHARE,
     `looking back, the ${kind} released was drawn on only ${fixed(share * 100, 1)}% of its flight in`,
   );
-  if (first.to === 'cap' || first.to === 'flower') {
+  if (lastOut === -1 && (first.to === 'cap' || first.to === 'flower')) {
     expect(
       landed.length > 0 && seated.length === landed.length,
       `looking back, the ${kind} released sat drawn on screen on ${String(seated.length)} of ${String(landed.length)} frames`,

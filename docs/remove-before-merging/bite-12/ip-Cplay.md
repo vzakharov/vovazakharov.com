@@ -1,8 +1,6 @@
-# ip-Cplay — package C's play checks: the play written, not yet run
+# ip-Cplay — package C's play checks: landed, played on tabL
 
-Stopped at the context ceiling before the first play run. **No check has a
-result yet.** No frames were taken and nothing in `src/` was looked at in a
-browser.
+Played on tabL (passes). phoneP not yet played.
 
 ## What exists
 
@@ -45,21 +43,45 @@ browser.
 
 ## State
 
-- Landed as source (the patch is removed): `scripts/lib/veer-watch.ts` (the
-  recorder), `scripts/lib/play-veer.ts` (the play, 212 lines) and
-  `scripts/lib/veer-report.ts` (the checks and logged measures read off the
-  record, including the looking-back size check `satBack`). Lint, typecheck,
-  prettier and `pnpm type-overlap` clean (`Hidden.start` is `first`, which
-  `pan.ts`'s `Gliding` also declared).
-- Not run yet: its page-side field names (`scene.insects.view()`,
-  `scene.eye.walk`, `shown.out`, `seat.on.stands`) are unverified.
+- Landed as source: `scripts/lib/veer-watch.ts` (the recorder),
+  `scripts/lib/play-veer.ts` (the play, 212 lines) and
+  `scripts/lib/veer-report.ts` (the checks and logged measures, including the
+  looking-back size check `satBack`). Lint, typecheck, prettier and
+  `pnpm type-overlap` clean (`Hidden.start` is `first`, which `pan.ts`'s
+  `Gliding` also declared).
+- Field names all resolved on the first run; none needed a rename.
+- `shown.out` holds while a release with no open perch in view flies out by
+  the side and clears once it is past (`insect-shown.ts`), so check 1 counts
+  every flight frame after the last `out` as off screen by design, and the
+  landed-on-screen expectation applies only to a leg that never had `out`.
+
+## tabL results
+
+- Check 2, opening: 6 sitters at 0.71–0.93 of their host's zoom (fly 0.71 at
+  d 12.93; butterfly 0.74–0.76 at d 12.2; bee 0.83 at d 10.41, 0.93 at d 9.39).
+  Logged.
+- Check 5: 0 blinks on either turn.
+- Check 1: looking back from the clump (heading π) no perch is in view, so all
+  three releases left by the side, as `entryAloft` designs: drawn on 381/383,
+  88/88 and 167/168 of their in-view frames (butterfly, fly, bee), then landed
+  off screen. Passes, but **the landed-on-screen half and `satBack` are
+  vacuous here** (0 sitters looking back): the play has no perch in view
+  behind the eye. Frames: `tabL-veer-back-*`.
+- Check 3: walking into fly-12 hovering, nearest 5.40, zoom ≤ 1.60× at x 590
+  (bound 1.78), widest span 68 px of 1180. Pass. Frames:
+  `tabL-veer-walk-into-hover-{1,5,7}`.
+- Over the run: most zoom by a perch's fade 1.42× (≤ 2.45), in flight 1.60×,
+  sitting 1.55×. Pass.
+- Check 4, logged: 34 fly legs flown whole, cruise 3.3–5.4 sizes/s; one
+  cap→away 6.78 s leg had a 131.1 sizes/s frame and 0.00 flown a fifth in.
+  17 one-frame steps over 59 px (butterfly 4, fly 11, bee 2), worst 98 px, fly
+  cap→cap flown 0.55 d 5.95.
 
 ## Left
 
-1. Build the probe:
-   `flock /home/user/vovazakharov.com/tmp/site.lock env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`.
-   Then play one screen per call:
-   `flock … pnpm play:mushrooms --no-build --screens tabL --plays veer`,
-   then `phoneP`.
-2. Read the notes, pick frames into
-   `docs/remove-before-merging/frames/bite-12/insect-plane/`, and report.
+1. Play phoneP:
+   `flock /home/user/vovazakharov.com/tmp/site.lock pnpm play:mushrooms --no-build --screens phoneP --plays veer`
+   (after the probe build,
+   `flock … env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`).
+2. Decide whether check 1 needs a perch in view behind the eye (it is vacuous
+   on tabL as played).
