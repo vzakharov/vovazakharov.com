@@ -244,6 +244,12 @@ The bites, each file its full contract:
 
 In order.
 
+**Bite 11's review (5373085053) is fixed in code and every thread is
+answered.** Its tail is not done yet: the play run over all five screens
+(play-pan's drag check now expects the slop lag), the frames worth showing
+to `docs/remove-before-merging/frames/bite-11/`, the Artifact republished,
+`/polish`, and `/pr`. After that comes item 12.
+
 **Open:** review 5360733525 is handled, every thread answered; one miss it
 left stands: on phoneL, visit 12733755's clump back cap keeps a 22 px patch,
 not 24, because phoneL stands the clump under the zoom floor and growth does
