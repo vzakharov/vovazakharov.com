@@ -47,6 +47,18 @@ scratch worktree at origin 63df3268.
   its colours, `l` plants a G flower there and shuts it; held open on that
   flower with the first colour (blue) picked, `h` replaces it with a D one,
   the old one pulled. `page.key` takes `KeyL`/`KeyH` by `code`.
+- The buzzers play and the flier watch read `scene.perches.sight` (the sight
+  moved there in e9a6f995; `scene.sight` stopped the run at `meadow`).
+- Full run at b0a652bb (probe built at 9ac52e0f; only scripts differ):
+  - **tabL: every check passes but the frame budget.** `approach`'s walk
+    and turn: 33.5 ms median over 659 frames (slowest 2678 ms), against
+    26 ms; the whole screen 21.4 ms over 1681. Load average 1.6 at the
+    start (no other agent), 3.9 by the end — the run's own Chromium. So the
+    budget fails on an idle machine: spec §5's mitigation (raise `V_NEAR`
+    first) is the orchestrator's call. Seat held 0.00 px over 66 frames to
+    heading 0.38. Keys: `l` planted G on a tuft, `h` replaced it with D.
+    Run took 9m17s, near the tool's 10-minute ceiling: split later screens
+    by `--plays`.
 
 ## Game fault found
 
@@ -64,11 +76,12 @@ not fixed here (`src/` is off limits).
 
 ## Left
 
-- Step 2: the full five-screen run (tabL tabP phoneP phoneL phoneS) at one
-  commit, one screen per call, with its frames. Not started.
+- Step 2: the full run on tabP, phoneP, phoneL, phoneS at b0a652bb, one
+  screen per call (split by `--plays`, e.g. `opening,meadow,walk,approach`
+  then `planting,species,tufts,hold,keys`, to stay under 10 min).
 - The phoneL edge-flower judgement: the opening play's note prints how much
   of each sunk thing shows. Run `--screens phoneL --plays opening` and look at
   `phoneL-final-opening.png`. Not yet run.
-- The frame budget rerun, on an idle machine.
-- A play check for d4028a5a (a note or drum key plants through an open
-  picker): no play covers it yet.
+- Step 3: commit a handful of frames per screen as
+  `<screen>-final-<what>.png` (opening, mid-walk, the brow, after a 180°
+  turn, the back-row tap, a key planting). None committed this session.
