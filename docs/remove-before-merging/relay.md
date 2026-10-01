@@ -1,6 +1,6 @@
 # Relay summary
 
-Relay depth: 3 → **the successor is depth 4**
+Relay depth: 4 → **the successor is depth 5**
 (`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap", limit 8).
 
 ## 1. Standing constraints
@@ -50,8 +50,6 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > не понял почему мы вдруг заговорили по-английски
 
-New this session:
-
 > кажется у нас была планка 400 строк. что не влезает либо сокращать либо выносить в смежные доки по темам, как такой вариант?
 
 **Every reply to the operator is in Russian, «ты»**, including turns woken
@@ -77,146 +75,102 @@ on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take`. Attach: the clone deepened; the local ref
-(e66b8e1) was an ancestor of origin's tip and was renamed to
+Started from `/relay take`. Attach: deepened; the local ref (e66b8e1) was
+not an ancestor of origin's tip, renamed to
 `stale/mushroom-game-syama-e66b8e1`; fresh tracking branch; `pnpm install`.
-The agent greeted the operator and said it was waiting on the lens probe.
+The plan flipped paused → in-progress. The agent ran seven agents in waves
+(see § 6) and reported each round in Russian.
 
-1. Operator: «слушай, ну выгялдит сверху и снизу идентично ж? мне ок, но я
-   если честно не очень понимаю на что мне смотреть». Agent: identical
-   openings are the point (half depth had broken them); flipped the plan to
-   in-progress quoting «мне ок», briefed `lens-build`.
-2. Operator (mid-turn): «а, вот в …lens-probe-quarter-tabL-head-probe.png
-   вижу разницу, на пробе видны цветы сбоку, на хеде нет. но что это значит
-   я тоже не до конца понимаю.» Agent: after a quarter turn the lens shows
-   the opening's right-side flowers at the left edge — one screen is one
-   compass quarter, the turn feels like turning a head.
-3. Operator: «давай напишем минимальный вариант, который мне можно будет
-   потестировать "поворотом", и оттуда решим». Agent built the probe as an
-   Artifact page (not published) and told `lens-build` to wrap up.
-4. Operator (mid-turn), quoting the agent's «Ты повернулся на экран и
-   видишь, откуда пришёл…»: «а, ну замечательно. тогда делаем и не
-   оглядываемся (пока)». Agent cancelled the wrap-up; the agent had already
-   stopped, so it was resumed; then a chain of agents built and landed the
-   lens (see § 6).
-5. (No operator message while the lens landed; the agent reported each
-   round in Russian.) After the frames, the agent republished the Artifact
-   (version 13) and sent `lens-land-quarter…` and `lens-land-forward…`.
-6. After lens-carry round 3, the agent explained insects live in the opening
-   eye's layout, decided "insects on the plane", briefed a spec. It asked the
-   operator Open 1: size by distance (a) or today's equal sizes (b),
-   recommending (a). Operator: «ну да, а звучит хорошо».
-7. Operator: «то есть грубо говоря вылетают малютками из-за горизонта и
-   летят к своему цветку? кстати, интересно, что будет, если цветок позади
-   ребёнка, и она "сквозь" него пролетит. насколько она на максимуме
-   увеличится?» Agent: 0.65× at the brow, not tiny; through the eye the zoom
-   is unbounded since the V_NEAR cull no longer applies to insects; offered
-   (1) veer round the head (recommended) or (2) a zoom cap.
-8. Operator: «да, 1 -- ок / > Хотя бабочка размером с экран для
-   шестилетки, может, и есть главная фишка игры :) / бесспорно) но пока
-   попробуем найти другие фишки / ещё, мухи и пчёлы до сих пор летают
-   неприлично быстро, если путь достаточно длинный. в какой-то момент это
-   правили, но, кажется, недоправили». Agent: decided to halve the dash cap.
-9. Operator: «а почему они вообще должны летать тем быстрее, чем больше
-   путь? вроде в жизни муха летит себе и летит :)». Agent: the cause is
-   `paced` saturating at `slowest`; re-decided: a leg's time is its length at
-   the kind's pace, no ceiling.
-10. Operator (mid-turn): «ещё, мне кажется, или файл плана опять раздуло?»
-    Agent: yes, 1002 lines; briefed a slimming agent (target 600).
-11. Operator: «кажется у нас была планка 400 строк…» (verbatim in § 1).
-    Agent retargeted under 400 by topic files; the plan came to 396.
-12. After the spec's round 2, the agent asked: `ARRIVAL` (1.5 s cap on a
-    tapped release's first leg) — (1) remove (recommended) or (2) keep.
-    Operator: «убрать».
+1. Operator (mid-turn): «у нас же пока ещё в том что на ветке не
+   масштабируются насекомые? потому что пока я этого не увидел». Agent:
+   right — neither the Artifact (version 13) nor the branch sizes insects by
+   distance yet; the built pieces are not wired into the scene, package C
+   does that, then the Artifact is republished with what to look for.
+
+No other operator message this session.
 
 ## 3. Intent
 
 Unchanged: the whole game, autonomous, beautiful and comfortable for a
 six-year-old boy; reviewed per bite by a subagent; the Artifact playable
-after every bite; `/finalize` at the end, no merge. Bite 12: the child
-walks and turns like a person (4 screens a turn on tabL). Now: insects that
-live in the world, not in the opening's screen — seen from any heading,
-sized by distance, veering past the child's head, flying at their own calm
-cruise however long the way. The operator wants "other фишки" than a
-screen-sized butterfly.
+after every bite; `/finalize` at the end, no merge. Bite 12 now: insects
+that live in the world — seen from any heading, sized by distance, veering
+past the child's head, flying at their own calm cruise however long the
+way. The operator is waiting to *see* the sizing.
 
 ## 4. Decisions
 
-All in the plan's `## Rest of the bite` (`docs/plans/mushroom-game-syama.paused.md`,
-the unbuilt ones verbatim) and bite 12's topic files
-(`docs/plans/mushroom-game-syama/bite-12/{lens,insects,progress,…}.md`):
+In the plan's `## Rest of the bite` (`docs/plans/mushroom-game-syama.paused.md`,
+item 1 of **Left** carries this session's) and `insect-plane.md` § R3:
 
-- **The panoramic lens is built** (accepted «мне ок»). Plus `rowRuns`
-  (a row seen from behind the meadow is not on screen), cloud lane offsets,
-  haze by `ahead`.
-- **Insects fly and are sized on the plane, not the layout** — the root
-  cause of the invisible looking-back release and insects shrinking toward
-  the middle looking back. Beaten: distance-only sizing, a zoom floor, the
-  past-the-edge patch.
-- **Size by distance at the opening too** (option (a), «ну да, а звучит
-  хорошо»): release 0.65× at the brow, perched 0.65×–1.5×.
-- **Legs veer round the eye** at the distance where zoom reaches ~1.7×
-  («да, 1 -- ок»). Beaten: a zoom cap.
-- **A leg's time is its length at the kind's own cruise**, set by play,
-  starting at today's median-leg speed (fly ≈ 7, bee ≈ 4.6 sizes/s on the
-  tablet), no ceiling, timed by drawn length. Beaten: halving the dash cap;
-  a stride per `flying` time (≈1 size/s, a fly 20 s across the tablet).
-- **`ARRIVAL` goes** («убрать»).
-- Terms: **"the layout"** — the opening eye's screen unrolled onto the
-  plane, where insects live today; **"the leg's frame"** (spec R2.1) — the
-  layout pinhole moved to the eye and turned to its heading at set-off,
-  which reproduces today's paths facing the clump.
+- **Veer**: `R_V = V_NEAR · bendAt(pinhole, 0)` (0.625 · CLUMP_DISTANCE on
+  the tablet), `w = 0.1 · CLUMP_DISTANCE`; a leg to/from a seat inside the
+  band fades the veer over 0.3 of `flown` scaled by the seat's depth in the
+  band, landing exactly. Beaten: `R_V = V_NEAR` alone (1.86–1.92× zoom); a
+  veered landing beside the seat. Accepted cost: up to ~2.4× during a fade
+  by a perch; rare one-frame fly flicks; a ~60 ms brow blink looking back —
+  all three for C's play check.
+- **Pace**: leg time = max(flown, drawn length / cruise), no ceiling,
+  ARRIVAL gone, a fixed dash shape per kind. **Cruise set by the catch
+  test** (`ip-dart`): fly 5, bee 4, butterfly 0.95 butterfly sizes/s; dash
+  fly 0.85 of the way in 0.2 of the time, bee 0.75 in 0.2. Beaten: fly 7 /
+  bee 4.6 (caught 0.43 on the upright tablet); darting only on long legs
+  (worse, 0.32–0.36). The butterfly's ~45 s longest leg is for play to judge.
+- **A perch's distance** is its foot's forward distance in the frame turned
+  to the eye's heading, floored at `V_NEAR` (`ip-B`). Beaten: `stands.ahead`
+  (reads high off the middle).
+- **Packages are additive; C switches over and deletes.** C1's three calls,
+  decided: every non-away leg fades the veer in from its start; `drawnFlier`
+  returns the veered point; `Perched` a seat/air union, `seatedZoom` at the
+  seat's drawn point.
+- Terms: **"the leg's frame"** — the opening layout's pinhole stood at the
+  eye, turned to `centreOf` at set-off; **`forward`** — the spec's `q`
+  (renamed for `type-overlap`); **`fromEye`** — a place's distance.
 
 ## 5. Errors and dead ends
 
-- The agent told `lens-build` to wrap up for a test build, then the
-  operator said go on; the cancel arrived after the agent had stopped.
-- The looking-back release: a nearest-column search (round 2) landed at the
-  no-row wedge's edge (row ~1e6, zoom ~0); the past-the-edge start (round 3,
-  `lens-carry-round3.patch`, obsolete) was never seen with no perch shown.
-  Both passed unit tests. Lesson in megabeast `subagents.md` (last entry).
-- The agent first said the dash cap would halve, then that a leg flies "a
-  stride per flying time" — the spec measured that as ≈1 size/s for every
-  kind; replaced by a per-kind cruise.
-- The agent first targeted 600 lines for the plan; the operator recalled
-  the 400 rule.
-- **Live regression on the branch (not in the published Artifact):** a
-  release while the eye looks back is invisible; insects shrink toward the
-  screen's middle looking back. The insect-plane packages fix both.
+- ip-measures stopped before writing the spec; ip-spec3 wrote Round 3.
+- ip-pace left `fliers.test.ts`'s fly catch red (0.43, 0.68); its guessed
+  cause was backwards; ip-dart fixed it (§ 4).
+- **ip-C1 built nothing**: its whole 178k went on reading six notes and the
+  view code. Its design and a partial patch are committed. Lesson in
+  megabeast `subagents.md` ("Additive packages, then one switch-over").
+- The branch still has the live regression from depth 3: a release while
+  looking back is invisible; insects shrink toward the middle looking back.
+  C fixes both.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`; PR #57, draft, base `main`,
   **`CONFLICTING`** (reported, not fixed — `/finalize`'s job).
-- Last pushed commit: the one carrying this file (after 4a7f0d12).
-- Plan `docs/plans/mushroom-game-syama.paused.md` (402 lines).
-- No agent running. No PR subscription, no scheduled check-in.
-- The Artifact is version 13 (the landed lens, before lens-carry); not
-  republished since.
-- Built this session: the lens (88c9357), play scripts (96be619),
-  type-overlap (49b97a1), sink/PAST_BROW/no-perch leg (f8f3f4c5–e31be911),
-  looking-back nearest column (38664c44, to be replaced), insect cull by
-  drawn extent (edd93bf8), `flight-timing.ts` split (0f4c63c5).
+- Last pushed commit: the one carrying this file (after 9d4518a1).
+- Plan `docs/plans/mushroom-game-syama.paused.md` (412 lines).
+- No agent running; no PR subscription; no scheduled check-in.
+- The Artifact is version 13, not republished this session.
+- Built this session: `insect-frame.ts` (d3cb5b21, cac36794, 5178c0e4),
+  pace (a9827e74, 24a64947, 55de90a2, 2dd972a4), spec R3 (9d2090c0,
+  47e813a8), A (7495c9ff, 0bd642d2), B (4982bbfd, 7cca03f7), C1's note
+  (e2b6f123).
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/insect-plane.md` — the spec, rounds
-  1–2, its `Left` current; scratch scripts were in this session's container
-  only (lost): `proto.mts`, `facing.mts` and round 2's `ip2/`.
-- `docs/remove-before-merging/bite-12/lens-land.md`, `lens-carry.md` — what
-  was built and measured; `brief-common.md` — the shared brief.
-- `docs/remove-before-merging/frames/bite-12/lens-land-*.png` — the lens
-  frames the operator saw.
-- This session: https://claude.ai/code/session_01Mdh48ie7FaMZAJtrtAjEFR
+- `docs/remove-before-merging/bite-12/insect-plane.md` § R3.3 — package C.
+- `docs/remove-before-merging/bite-12/ip-C1.md` + `ip-C1.patch` — the
+  switch-over's design (call sites, `mushroom-probe.ts` `insect()` outside
+  C's list, `meadow-scene.ts`'s three reads of `perches.sight`, `airSpots`
+  stays). Start C's next agent from it.
+- `ip-frame.md`, `ip-veer.md`, `ip-A.md`, `ip-B.md` — the APIs C calls;
+  `ip-pace.md`, `ip-dart.md` — pace; `ip-measures.md` + `.patch` — the
+  prototype scripts.
+- Quick catch check: `node --import tsx --test --test-name-pattern="caught by a tap" src/pages/mushrooms/ui/scene/fliers.test.ts` (~6 s).
+- This session: https://claude.ai/code/session_01Mb57F2fFiH5LcRRo66oKts
 
 ## 8. Next step
 
-Continue bite 12 from the plan's `**Left, in order:**`, item 1: finish the
-insect-plane spec's open measures (`insect-plane.md` "Left": legs past the
-eye with and without the veer, R2.5; the frame-cost benchmark, R2.6;
-firm packages, now with the pace package and `ARRIVAL` removed), then brief
-its build packages one to three steps per agent (step 0 the leg's frame and
-the veer; A away/seat; B perches; pace; C view, with play checks of what the
-child sees, including looking back). Republish the Artifact once it lands
-and tell the operator what to try (turn your back and release a bug; a fly
-on a long leg). Then items 2–5 of the Left list.
+Continue bite 12 from the plan's `**Left, in order:**`, item 1: brief
+package C's switch-over from `ip-C1.md` — one step per agent (the switch,
+`fliers.test.ts` green; then the flowerLiftAt/`drawn` tests; then the play
+checks on tabL and phoneP with frames), check-ins at ~12 min. Then
+republish the Artifact and tell the operator what to try (turn your back and
+release a bug; insects smaller over the back caps, bigger near; a fly on a
+long leg, calm). Then items 2–5 of the Left list.
