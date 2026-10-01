@@ -176,8 +176,8 @@
 ## A subagent's context
 
 - **A subagent cannot see its own context, so the orchestrator reads it
-  off the transcript on a timer.** No budget notice reaches a subagent, and
-  asked for its usage one answered 115k while its transcript held 220k.
+  off the transcript on a timer.** Asked for its usage, one answered 115k
+  while its transcript held 220k.
   `jq -c 'select(.message.usage) | .message.usage | (.input_tokens + (.cache_read_input_tokens//0) + (.cache_creation_input_tokens//0))' <output_file> | tail -1`
   prints the last call's context without reading any content (or
   `tac | grep -m1` for the last `cache_read_input_tokens`). Agents reach
@@ -193,17 +193,17 @@
   brought frames and report at 158k. A player gets the 20-minute check-in
   by default; a reader rarely needs one.
 
-- **The check-in timer is a stand-in for a hook the agent should get.**
-  The context-budget `PostToolUse` hook already fires on every subagent
-  tool call and exits on `agent_id`, because its notice says "pause the
-  plan", which a subagent must not do. The operator asked why agents are
-  not simply told, as the main session is («им нельзя говорить чтобы
-  применяли ту же эвристику… вместо того чтобы проверять каждые эндцать
-  минут?»). The skill should have that hook read the subagent's own
-  transcript and send it a subagent notice at ~170k — commit what passes,
-  bring the note current, report — and keep the timer only as a backstop
-  for an agent stuck in one long command. Open: which transcript path the
-  hook receives from a subagent's call.
+- **The check-in timer is a backstop to the hook's subagent notice.**
+  The operator asked why agents are not simply told, as the main session
+  is («им нельзя говорить чтобы применяли ту же эвристику… вместо того
+  чтобы проверять каждые эндцать минут?»), so the context-budget
+  `PostToolUse` hook gives a subagent its own notice at 170k of its own
+  context — commit what passes, bring the note current, report, leave the
+  plan file alone (`.claude/context-budget/CLAUDE.md`). The timer stays for
+  an agent stuck in one long command, which makes no tool call to fire on.
+  A subagent's call carries the parent's `transcript_path` and its own
+  `agent_id`, so the hook reads
+  `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`.
 
 - **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
   the common brief from the start.** Bite 11's first flowers agent stashed
@@ -298,6 +298,6 @@
   game fault (a portrait phone's `+` refusing after one mushroom). A
   sibling's uncommitted edit in the shared tree made the page throw on
   load, so the probe is built in a scratchpad worktree at HEAD (`pnpm
-  install --offline` there; a symlinked `node_modules` fails Turbopack).
+install --offline` there; a symlinked `node_modules` fails Turbopack).
   One step per agent and a ~10-minute check-in held every agent under
   ~190k with commits on origin; six packages ran in ~1¾ hours.

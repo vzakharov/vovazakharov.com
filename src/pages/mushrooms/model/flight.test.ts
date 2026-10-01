@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { meadowLayout } from '../ui/scene/layout';
 import {
   firstFlight,
   type Flight,
@@ -15,6 +16,7 @@ import {
   type Perches,
   perchName,
 } from './flight';
+import { TABLET_ACROSS } from './flight-habits';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 
 const kind = 'butterfly' as const;
@@ -290,11 +292,34 @@ const placesAt = (to: Perch, kinded: InsectKind, strides: number) => {
   };
 };
 
+/** `kinded`'s leg out to the edges `apart` butterfly sizes away, seeded `seed`. */
+const legOver = (kinded: InsectKind, apart: number, seed = 3) => {
+  const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
+  const places = placesAt(
+    first.leg.to,
+    kinded,
+    apart / FLIGHT_HABITS[kinded].stride,
+  );
+  return flightAway({ seed, kind: kinded, ...first }, 0, { places }).leg;
+};
+
+/** How fast `leg`, `apart` butterfly sizes long, dashes, in sizes a ms. */
+const dashSpeed = ({ departs, arrives, dash }: Leg, apart: number) => {
+  assert.ok(dash);
+  return (dash.way * apart) / (dash.time * (arrives - departs));
+};
+
 describe('a flight across the screen', () => {
-  it('takes its pace to a stride, longer in proportion past it, and never past its slowest, every kind', () => {
+  it('reads a tablet held sideways as as many butterflies across as it shows', () => {
+    const { width, insectSize } = meadowLayout(1180, 820, 1);
+    assert.ok(Math.abs(width / insectSize - TABLET_ACROSS) < 1e-9);
+  });
+
+  it('takes its pace to a stride, longer in proportion past it, and never past its slowest up to a tablet across, every kind', () => {
     for (const kinded of INSECT_KINDS) {
-      const { flying, slowest } = FLIGHT_HABITS[kinded];
-      for (const strides of [0.5, 1, (1 + slowest) / 2, slowest, 3, 40]) {
+      const { flying, slowest, stride, dashing } = FLIGHT_HABITS[kinded];
+      const farthest = dashing === undefined ? 40 : TABLET_ACROSS / stride;
+      for (const strides of [0.5, 1, (1 + slowest) / 2, slowest, 3, farthest]) {
         const stretch = Math.min(slowest, Math.max(1, strides));
         for (const seed of SEEDS.slice(0, 20)) {
           const first = firstFlight({ seed, kind: kinded }, PERCHES, 0);
@@ -314,21 +339,41 @@ describe('a flight across the screen', () => {
 
   it('dashes past its slowest, the rest flown at its pace, for a kind that dashes', () => {
     for (const kinded of INSECT_KINDS) {
-      const { slowest, dashing } = FLIGHT_HABITS[kinded];
-      for (const strides of [slowest, 3, 40]) {
-        const first = firstFlight({ seed: 3, kind: kinded }, PERCHES, 0);
-        const places = placesAt(first.leg.to, kinded, strides);
-        const { dash } = flightAway({ seed: 3, kind: kinded, ...first }, 0, {
-          places,
-        }).leg;
+      const { slowest, dashing, stride, flying } = FLIGHT_HABITS[kinded];
+      for (const strides of [slowest, 3, TABLET_ACROSS / stride, 40]) {
+        const { dash, departs, arrives } = legOver(kinded, strides * stride);
         if (dashing === undefined || strides <= slowest) {
           assert.equal(dash, undefined, kinded);
           continue;
         }
         assert.ok(dash, kinded);
-        assert.equal(dash.time, dashing);
         const rest = (1 - dash.way) * strides;
         assert.ok(Math.abs(rest - (1 - dashing) * slowest) < 1e-9, kinded);
+        assert.ok(
+          within(((1 - dash.time) * (arrives - departs)) / rest, flying),
+        );
+        if (strides <= TABLET_ACROSS / stride) {
+          assert.ok(Math.abs(dash.time - dashing) < 1e-12, kinded);
+        }
+      }
+    }
+  });
+
+  it('dashes no faster across the world than across a tablet, and takes the longer for it', () => {
+    for (const kinded of INSECT_KINDS) {
+      if (FLIGHT_HABITS[kinded].dashing === undefined) continue;
+      for (const seed of SEEDS.slice(0, 20)) {
+        const across = legOver(kinded, TABLET_ACROSS, seed);
+        const fastest = dashSpeed(across, TABLET_ACROSS);
+        let longest = across.arrives - across.departs;
+        for (const apart of [1.5, 2, 3].map((n) => n * TABLET_ACROSS)) {
+          const leg = legOver(kinded, apart, seed);
+          const { departs, arrives } = leg;
+          const speed = dashSpeed(leg, apart);
+          assert.ok(Math.abs(speed - fastest) < 1e-9 * fastest, kinded);
+          assert.ok(arrives - departs > longest, kinded);
+          longest = arrives - departs;
+        }
       }
     }
   });
