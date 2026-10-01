@@ -54,7 +54,7 @@ planet's horizon. Paths under `src/pages/mushrooms/ui/scene/`.
    `phoneL-brow-rim`); walk green on tabL (5 under the cover, ≤ 8.4 px) and
    phoneL (5, ≤ 4.0 px), frame JS median 10.7 / 11.7 ms.
 
-4. Step 2, paling into the haze (this commit). `repaint-queue.ts`:
+4. db4e08e3 — step 2, paling into the haze. `repaint-queue.ts`:
    `browPale(ahead)` — 0 up to `D_SEE` (13.33), easing (smoothstep) up to
    `BROW_PALE` 0.2 at `D_SEE + 1.2`, about where a back-row mushroom has
    sunk away (tabL: 1.2 past is ~100 px sunk). `hazeAhead` adds it and is
