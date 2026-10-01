@@ -82,10 +82,30 @@ Scratch scripts (not committed, in the scratchpad's `lc/`):
 above); each runs as `WT=<worktree> node --import tsx <script>` from the
 worktree.
 
+## Round 2
+
+Item 4 as above, confirmed by the orchestrator; items 5–6, the `flight.ts`
+seam, `fliers.test.ts`, the frames.
+
+### Done
+
+4. **A release looking back sets off at the nearest column with a row**
+   (`groundNear` in `insect-away.ts`, used by `entry` for the perch-shown
+   start, the no-perch start and the no-perch `near` alike): `groundAlong`
+   searched a px at a time outward across the screen. Before the first fit
+   `entry` returns `offScreen` with no view, just past the opening screen's
+   edge nearer the perch; `pastEnd` stays only for a screen where no column
+   has a row (none found in the sweep). Looking straight back from the
+   plane's origin (heading π) the middle column has no row on every screen
+   and the start lands 22–77 px off it. New tests: `insect-away.test.ts`
+   "looking back, …" and "before the eye's first fit, …" (both red on the
+   old source).
+
 ## Left
 
-4 (above), 5 (the insect cull by drawn extent), 6 (`V_NEAR`'s ceiling under
-the lens), `fliers.test.ts` alone (not run: this package changed `drawnAt`,
-the sink, and `firstFlight`'s no-perch leg), the tabL / phoneP release
-frames `lens-carry-*.png`. The `InsectView` docstring still says an insect is
-"hidden nearer the eye than `V_NEAR`", which item 5 changes.
+5 (the insect cull by drawn extent), 6 (`V_NEAR`'s ceiling under the lens),
+the `flight.ts` seam (461 lines), `fliers.test.ts` alone (not run: this
+package changed `drawnAt`, the sink, and `firstFlight`'s no-perch leg), the
+tabL / phoneP release frames `lens-carry-*.png`. The `InsectView` docstring
+still says an insect is "hidden nearer the eye than `V_NEAR`", which item 5
+changes.

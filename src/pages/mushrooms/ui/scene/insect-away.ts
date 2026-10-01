@@ -142,6 +142,28 @@ export function groundAlong(
   return at && { at, row: at.y };
 }
 
+/**
+ * `groundAlong` at the screen column nearest `x` whose ground `distance`
+ * away has a layout row, searched a px at a time outward across the screen:
+ * looking back, the opening eye lays out no row in a wedge straight behind
+ * the plane's origin, at most about 100 px across on any screen. `undefined`
+ * where no column on the screen has one.
+ */
+function groundNear(
+  view: View,
+  x: number,
+  distance: number,
+): OverRow | undefined {
+  for (let off = 0; off <= view.width; off++) {
+    for (const at of off ? [x - off, x + off] : [x]) {
+      if (at < 0 || at > view.width) continue;
+      const ground = groundAlong(view, at, distance);
+      if (ground) return ground;
+    }
+  }
+  return undefined;
+}
+
 /** The screen side `view`'s eye turns by, the shorter way, to face `point` standing over `row`. */
 export function turnSide(view: View, point: Point, row: number): Side {
   return ofLayout(view, point, row).x < pinholeOf(view).x ? 'left' : 'right';
@@ -155,8 +177,10 @@ export function turnSide(view: View, point: Point, row: number): Side {
  * the screen's middle to its perch where the screen shows the perch, else
  * at the middle, flying out by the side its perch stands to, over ground
  * `OUT_AHEAD` of the brow's distance. A perch standing nowhere goes out by
- * `side`. Where that ground has no row, it sets off past the world's end
- * nearer its perch, as it does before the eye's first fit.
+ * `side`. Where that ground has no row, it is taken at the nearest column
+ * that has one (`groundNear`), and where no column on the screen has one,
+ * past the world's end nearer its perch. Before the eye's first fit it sets
+ * off just past the opening screen's edge nearer its perch (`offScreen`).
  */
 export function entry(
   seen: Seen,
@@ -166,20 +190,18 @@ export function entry(
   seated: Point | undefined,
 ): OverRow & { out?: OverRow } {
   const { view, width, world } = seen;
-  const fallback = {
-    at: pastEnd(seen, (seated?.x ?? 0) < world / 2 ? 'left' : 'right', away),
-    row,
-  };
-  if (!view) return fallback;
+  const nearer = (seated?.x ?? 0) < world / 2 ? 'left' : 'right';
+  if (!view) return { at: offScreen(seen, nearer, away, row), row };
+  const fallback = { at: pastEnd(seen, nearer, away), row };
   const drawn = seated && drawnAt(view, seated, row);
   const middle = width / 2;
   if (drawn && onScreen(view, drawn)) {
     return (
-      groundAlong(view, (middle + drawn.x) / 2, D_SEE + PAST_BROW) ?? fallback
+      groundNear(view, (middle + drawn.x) / 2, D_SEE + PAST_BROW) ?? fallback
     );
   }
-  const start = groundAlong(view, middle, D_SEE + PAST_BROW);
-  const near = groundAlong(view, middle, D_SEE * OUT_AHEAD);
+  const start = groundNear(view, middle, D_SEE + PAST_BROW);
+  const near = groundNear(view, middle, D_SEE * OUT_AHEAD);
   if (!start || !near) return fallback;
   const exit = seated ? turnSide(view, seated, row) : side;
   return {

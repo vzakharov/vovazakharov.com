@@ -79,6 +79,44 @@ describe('entry', () => {
     }
   });
 
+  it('looking back, sets a release off at the nearest column whose ground has a row', () => {
+    for (const [name, width, height] of VIEWPORTS) {
+      const view = viewAt(meadowCamera(width, height), {
+        ...OPENING_EYE,
+        heading: Math.PI,
+      });
+      const middle = width / 2;
+      // Straight behind the plane's origin the opening eye lays out no row.
+      assert.equal(groundAlong(view, middle, D_SEE + PAST_BROW), undefined);
+      assert.equal(groundAlong(view, middle, D_SEE / 2), undefined);
+      const set = entry({ ...view, view }, 'left', AWAY, 0, undefined);
+      assert.ok(set.out, name);
+      const start = ofLayout(view, set.at, set.row);
+      assert.ok(Math.abs(start.distance - D_SEE - PAST_BROW) < 1e-9, name);
+      const off = Math.abs(start.x - middle);
+      assert.ok(off > 0 && off < 120, `${name} ${String(off)}`);
+      for (let x = Math.ceil(middle - off) + 1; x < middle + off - 1; x++) {
+        assert.equal(groundAlong(view, x, D_SEE + PAST_BROW), undefined);
+      }
+      const out = ofLayout(view, set.out.at, set.out.row);
+      assert.ok(Math.abs(out.x + AWAY.span) < 1e-6, `${name} ${String(out.x)}`);
+    }
+  });
+
+  it('before the eye’s first fit, sets a release off just past the opening screen’s edge nearer its perch', () => {
+    const camera = meadowCamera(1180, 820);
+    const seen: Seen = { ...camera, view: undefined };
+    const opening = (camera.world - camera.width) / 2;
+    for (const [x, edge] of [
+      [100, opening - AWAY.span],
+      [camera.world - 100, opening + camera.width + AWAY.span],
+    ] as const) {
+      const set = entry(seen, 'left', AWAY, 300, { x, y: 250 });
+      assert.deepEqual(set, { at: { x: edge, y: AWAY.drop }, row: 300 });
+      assert.ok(set.at.x > 0 && set.at.x < camera.world);
+    }
+  });
+
   it('sinks a flier past the brow by the ground under it, so one in the air just past it still shows', () => {
     let checked = 0;
     for (const [, width, height] of VIEWPORTS) {
