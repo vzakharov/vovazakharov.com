@@ -99,8 +99,134 @@ before a bite that adds a creature, a control or a look.
 
 ## Eaten so far
 
-One file per bite under `mushroom-game-syama/`, each stating what exists and
-what the next bites build on. A bite opens only the files its slice touches.
+The game as it stands, then an index whose rows point at each bite's full
+contract under `mushroom-game-syama/`. Each bite's end rewrites this summary
+rather than appending to it, and a bite opens only the files its slice
+touches. Paths below are under `src/pages/mushrooms/` unless they say
+otherwise.
+
+**What a child sees.** `/mushrooms` opens on a sunny meadow drawn in Syama's
+indigo ink: a rosette sun in a gold halo, drifting clouds, three hill ranges
+misting toward the air, lit ground whose grass sways in a travelling gust.
+Two spotted fly agarics stand as one clump, feet close and caps leaning
+apart, and the meadow is a world twice a sideways tablet's width with the
+screen a crop onto it: a drag past a 24 px slop, or a held `←`/`→`, pans it,
+the far and near hills scrolling slower. Every mushroom, flower and insect
+grows from its own seed, so no two visits match. No text, no goal, no
+failing; every tap answers at once with motion and sound.
+
+**What a child can do.** A tap wobbles a mushroom, puffs spores and selects
+it. `+` opens a picker of four species — fly agaric, porcini, chanterelle,
+russula — and grows the pick where it has room inside the crop, up to
+twelve; where none does, `+` shakes its head with a "nuh-uh". `−` sinks the
+selected or the newest. The house button furnishes a cap with windows from
+Syama's row and its stem with a door, where a mouse now and then peeks out,
+or comes at once to a tap with a squeak. The butterfly, fly and bee buttons
+fly one in from the nearer screen edge (4/3/3 at most, the oldest leaving):
+butterflies drink at flowers and rest on caps, flies favour the fly agarics,
+bees carry pollen and plant a flower in a ring round one they visited. A tap
+on a resting insect sends it off and goes through to what it sat on. Every
+flower is a note or a drum, darker being lower, played by a tap, by several
+fingers at once as a chord, or by the keyboard; a tap on a bare grass tuft
+opens a two-stage picker (colour, then shape) whose exact flower grows
+there (bite-10.md). A mute pictogram sits top left.
+
+**Pure model, reconciling scene.** `model/` is Phaser-free and under
+`node:test`. `game.ts`'s `reduce` over the `Meadow` (growing, selecting,
+furnishing, planting, releasing, startling, `tick`) is the only way the
+state changes: the scene calls `dispatch`, diffs what comes back by id, and
+skips reconciling when the same `Meadow` returns. Randomness enters only as
+an injected `random.ts` generator. `motion.ts` (seconds) and
+`insect-motion.ts` (ms) make every movement a pure function of the clock,
+so a resize repaints into the objects on screen and never interrupts one.
+`MUSHROOM_SLOTS` (12) caps the forest and `INSECT_LIMITS` the fliers; a
+flower grows wherever one has room. `meadow-scene.ts` only orchestrates the
+beds — `mushroom-bed.ts`, `flower-bed.ts`, `insect-view.ts`,
+`house-view.ts`, `controls.ts`, `hud.ts`.
+
+**The world, the crop, the pan.** One world `WORLD_ACROSS` (5.764) ground
+units across on every screen (`ui/scene/meadow-camera.ts`), in
+`model/ground.ts`'s `Ground {x, z}`, seen from one angle (`UP_PER_Z`). The
+zoom is the screen's, capped to show the opening clump and floored where
+its narrowest cap is a finger wide (`ZOOM_FLOOR`); `layout.ts` computes the
+layout once per screen size for the whole world, in CSS px. `model/pan.ts`
+is the crop's pure state — slop, 1:1 follow, a glide timed by the events'
+timestamps, hard ends, an eased key turn, keys and fingers adding up — and
+`pan-input.ts`'s `Crop` the one screen↔world conversion; the crop is
+`cameras.main.scrollX`, so a pan builds no new layout. A turn changes the
+zoom and the crop, never the ground. Fixed on screen: sky, sun, its wash,
+clouds, every control and picker; the hills scroll at 0.3 and 0.6
+(`parallax.ts`), everything else with the ground (bite-11.md).
+
+**Placement and fingers.** A grown mushroom's foot is `pickFoot`'s best of
+32 candidates by its seed (`model/placement.ts`), which `roomFor` in
+`mushroom-room.ts` checks — inside the crop, off the controls, cap and stem
+cover (`cap-cover.ts`), door in sight — and `keptRoom` finds again when the
+meadow changes. Hit areas are at least `TAP_RADIUS` 32 (`tap-reach.ts`):
+a mushroom's is what is drawn (`model/mushroom-outline.ts`) plus a finger
+pad round a head narrower than a finger (`mushroom-tap.ts`), the front-most
+taking the tap, and every grown one keeps a tappable patch
+(`mushroom-patch.ts`). Flowers stay put: the seeded bed is fourteen, each
+half of the world sounding C D E G A, a kick and a hat (`flower-layout.ts`),
+and bees and the child plant through `flower-plots.ts` and
+`flower-sight.ts`; the bare tufts are `tendTufts`'s (`tufts.ts`). An insect
+perches only on what is in sight (`perch-sight.ts`), never two to a perch
+(`perch-room.ts`), its first perch on screen (`model/flight-in.ts`), each
+kind's habits in `model/flight-habits.ts`. Pickers unfold from their button
+(`picker.ts`) in finger-sized rows (`picker-rows.ts`), hiding the buttons
+they cover where the sky is short (bite-10.md).
+
+**Generators and painting.** Genes and drawing are two modules per
+creature. `model/`: `mushroom-genes.ts` (a gene table per species,
+`HEAD_KIND` dome or trumpet), `mushroom-pose.ts`, `mushroom-profile.ts`,
+`chanterelle-outline.ts`, `flower-genes.ts`, `insect-genes.ts`
+(`INSECT_KINDS`, `GenesOf<K>`), `fly-genes.ts`, `bee-genes.ts`, `house.ts`.
+The scene paints with `draw-*.ts`, `paint-dome.ts`, `paint-trumpet.ts` and
+`paint-backdrop.ts` (`paint-sky.ts`, `paint-land.ts`, `skyline.ts`), the
+backdrop baked once a paint (`baking.ts`) in bands and one grain texture,
+no filters or gradient fills. One light, `sunLight` (`model/light.ts`),
+reaches every bed and painter; every ink comes from `inkFor` (`ink.ts`);
+`palette.ts`, `palette-backdrop.ts` and `palette-creatures.ts` hold every
+colour literal (bite-07.md, bite-08.md).
+
+**Sound.** All synthesized: `sound.ts`'s `MeadowSound`, built on the first
+tap's release and playing what was asked before it, with `synth.ts` and
+`insect-voices.ts`; the mute is remembered in `localStorage`.
+`instrument.ts`'s `Instrument` plays `instrument-voices.ts`'s twenty voices
+(`model/flower-sounds.ts`, `model/notes.ts`) through a compressor on master,
+levelled by `part-loudness.ts` (bite-10.md).
+
+**The play run, the sweep, the suite.** `pnpm play:mushrooms` builds a probe
+export (`NEXT_PUBLIC_MUSHROOM_PROBE`) and drives every control over the
+DevTools protocol on tabL, tabP, phoneP, phoneL and phoneS
+(`scripts/lib/play-*.ts`, the probe and its schema in
+`scripts/lib/mushroom-probe.ts`), converting through the crop
+(`__probe.toScreen`, `toWorld`). It fails on a page error, a wrong effect,
+a flier turning or relit too fast (`flier-watch.ts`) or a median frame past
+26 ms (`frame-budget.ts`); frames land in `tmp/play/`, about 8.5 min a
+screen (`--screens`, `--no-build`). `pnpm sweep:mushrooms` grows all 2000
+visits on every `VIEWPORTS` screen. The suite runs a file at a time,
+`fliers.test.ts` alone (~354 s).
+
+**The Artifact.** `pnpm artifact:mushrooms`
+(`scripts/build-mushroom-artifact.ts`) esbuilds the scene into one HTML
+under `tmp/mushroom-artifact/`, Phaser from jsDelivr at the lockfile's
+version, republished in place at the URL on the PR.
+
+**What the next bites stand on.** Rain falls from clouds fixed on the
+screen onto ground that scrolls, so a drop lands through the `Crop`; its
+weather is model state the reducer's `tick` advances, the sprouting spores
+grow through `pickFoot` and `roomFor` under `MUSHROOM_SLOTS`, sheltering is
+a perch in `flight-habits.ts`, and closing flowers and swelling caps are
+clock functions in `motion.ts`. Dusk is a second set of `palette*.ts`
+colours through the baked backdrop and `sunLight`, lit windows in
+`draw-house.ts`, mice from the house's peek motion, and fireflies a fourth
+`INSECT_KINDS` entry. Around the canvas: reduced motion switches the clock
+functions' idle loops off; the hidden HTML buttons dispatch the same
+actions from `ui/meadow-canvas.tsx`; the home pictogram is a `hud.ts`
+drawing placed by `layout.ts`.
+
+The bites, each file its full contract:
 
 1. **The meadow, still** — [bite-01.md](mushroom-game-syama/bite-01.md)
 2. **The meadow alive, and heard** — [bite-02.md](mushroom-game-syama/bite-02.md)
