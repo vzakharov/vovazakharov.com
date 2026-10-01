@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
 
-import type { Layered } from '../../model/ground';
-import { drift } from '../../model/motion';
+import { type Layered, OPENING_EYE } from '../../model/ground';
 import type { Random } from '../../model/random';
 import { bakeTiles, pictureColumns, SUPERSAMPLE } from './baking';
 import type { Band } from './grain';
@@ -14,7 +13,12 @@ import {
   paintSun,
   paintWash,
 } from './paint-sky';
+import { driftedAzimuth, screenAt } from './panorama';
 import { layerSpan, PARALLAX, type Span } from './parallax';
+import { type View, viewAt } from './view';
+
+/** How far a cloud's puffs spread either side of its middle, in its radii. */
+const CLOUD_SPREAD = 4;
 
 /**
  * A picture baked in columns side by side, left to right, each texture at
@@ -226,26 +230,24 @@ export function paintBackdrop(
   };
 }
 
-/** How far a cloud drifts each second, in CSS pixels, the nearest fastest. */
-const CLOUD_SPEEDS = [7, 4, 5.5];
-
-/** Moves `backdrop`'s clouds to where they have drifted across `layout` by `t`, in seconds. */
+/**
+ * Moves `backdrop`'s clouds to where they have drifted round the sky by `t`,
+ * in seconds, as `view` shows them: a cloud behind the eye, or past the
+ * screen's edges by more than it spreads, is hidden.
+ */
 export function driftClouds(
   backdrop: Backdrop,
-  { width, clouds }: MeadowLayout,
+  { camera, clouds, width }: MeadowLayout,
   t: number,
+  view: View = viewAt(camera, OPENING_EYE),
 ): void {
   for (const [index, graphics] of backdrop.clouds.entries()) {
     const cloud = clouds[index];
     if (!cloud) continue;
-    const { x, r } = cloud;
-    const margin = r * 4;
-    graphics.x =
-      drift(
-        x + margin,
-        CLOUD_SPEEDS[index % CLOUD_SPEEDS.length] ?? 5,
-        t,
-        width + margin * 2,
-      ) - margin;
+    const x = screenAt(view, driftedAzimuth(camera, cloud, index, t));
+    const spread = cloud.r * CLOUD_SPREAD;
+    const shown = x !== undefined && x > -spread && x < width + spread;
+    graphics.setVisible(shown);
+    if (shown) graphics.x = x;
   }
 }

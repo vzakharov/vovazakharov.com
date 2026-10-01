@@ -1,10 +1,12 @@
 import * as Phaser from 'phaser';
 
+import { pinholeOf } from '../../model/ground';
 import { between, type Random } from '../../model/random';
 import { litSkyAt, skyGrid } from './backdrop-tones';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
+import { azimuthAt, wrapAngle } from './panorama';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
@@ -90,17 +92,21 @@ export function paintSun(
  */
 export function paintClouds(
   layer: Layer,
-  { clouds, sun }: MeadowLayout,
+  { clouds, sun, camera }: MeadowLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
   const highest = Math.min(...clouds.map(({ y }) => y));
-  return clouds.map(({ x, y, r }) => {
-    const graphics = layer().setPosition(x, y);
+  const { focal } = pinholeOf(camera);
+  const sunAzimuth = azimuthAt(camera, sun.x);
+  return clouds.map(({ azimuth, y, r }) => {
+    const graphics = layer().setPosition(0, y);
     const tone = (colour: number) =>
       y === highest ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE) : colour;
-    const toSun = Math.hypot(sun.x - x, sun.y - y) || 1;
+    // The sun's way across the sky from the cloud, round the shorter side.
+    const across = focal * wrapAngle(sunAzimuth - azimuth);
+    const toSun = Math.hypot(across, sun.y - y) || 1;
     const lean = {
-      x: ((sun.x - x) / toSun) * r * 0.08,
+      x: (across / toSun) * r * 0.08,
       y: ((sun.y - y) / toSun) * r * 0.08,
     };
     const puffs = Array.from({ length: 5 }, (_, index) => ({

@@ -4,7 +4,7 @@
  */
 
 import type { Box, Circle, Point } from '../../model/geometry';
-import type { Camera } from '../../model/ground';
+import { type Camera, pinholeOf } from '../../model/ground';
 import { restingAt, screenOf } from '../../model/pan';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
@@ -205,8 +205,6 @@ function sunAt(
   return { x: Math.max(x, ...rightOf), y, r };
 }
 
-/** How far down the ground, as a share of its depth, the sun's wash over the land may reach. */
-const WASH_FLOOR = 1 / 3;
 /** How far round a mushroom's foot, in its size, the wash leaves the ground as it is: its foot and the shadow round it. */
 export const WASH_FOOT_CLEAR = 0.5;
 /** The wash's rings, one disc of each alpha per ring. */
@@ -215,7 +213,7 @@ const WASH_RINGS = 10;
 const WASH_REACH = [4, 14] as const;
 
 /** What the sun's wash is laid out over. */
-type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'height' | 'mushrooms'>;
+type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'mushrooms'>;
 
 /**
  * How far across the screen from the sun's middle the nearest of the world's
@@ -249,31 +247,22 @@ export function nearestTheSun(
 }
 
 /**
- * The farthest the sun's wash over the land reaches from its middle: down to
- * the ground's upper third at most, and short of the foot and the shadow
- * round it of every place on the frame on every crop. Each row of the frame
- * `everyPlace` gives the ends of is measured at its nearest to the sun
- * across (`acrossFromSun`), which may lie between its ends, and a place's
- * height and size both grow linearly down the band, so the rows at its
- * extremes bound every foot, and the wash never lifts the ground a mushroom
- * stands on.
+ * The farthest the sun's wash reaches from its middle: it stays on the sky,
+ * above the ground's top, and short of the foot and the shadow round it of a
+ * place seen as far off as the ground runs, on whatever azimuth the sun
+ * stands over. Every foot the eye can see lies on the ground's top or below
+ * it, and a place's size shrinks toward the horizon row in step with its
+ * height above it, far slower than its foot climbs, so the farthest foot
+ * bounds every nearer one, from every eye on the glade.
  */
-function washReach({ sun, groundTop, height, mushrooms }: Washed): number {
-  const rows = Map.groupBy(everyPlace(mushrooms), ({ y }) => y);
-  return Math.min(
-    groundTop + (height - groundTop) * WASH_FLOOR - sun.y,
-    ...[...rows].map(([y, row]) => {
-      const xs = row.map(({ x }) => x);
-      const size = Math.max(...row.map((place) => place.size));
-      const across = acrossFromSun(
-        mushrooms.camera,
-        sun,
-        Math.min(...xs),
-        Math.max(...xs),
-      );
-      return Math.hypot(across, y - sun.y) - size * WASH_FOOT_CLEAR;
-    }),
+function washReach({ sun, groundTop, mushrooms }: Washed): number {
+  const horizon = pinholeOf(mushrooms.camera).y;
+  const farthest = Math.max(
+    ...everyPlace(mushrooms).map(
+      ({ y, size }) => (size * (groundTop - horizon)) / (y - horizon),
+    ),
   );
+  return groundTop - sun.y - farthest * WASH_FOOT_CLEAR;
 }
 
 /**

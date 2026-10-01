@@ -18,6 +18,7 @@ import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { type FlowerFoot, flowersOn, seededBed } from './flower-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import { type Cloud, skyClouds } from './panorama';
 import { type Controls, placeControls } from './sky-layout';
 import { horizonAt, placeSun, washRings } from './sun-layout';
 
@@ -75,8 +76,9 @@ export type MeadowLayout = Sized &
     horizon: number;
     /** The top of the near hills' band. */
     nearHills: number;
+    /** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
     sun: Circle;
-    clouds: readonly Circle[];
+    clouds: readonly Cloud[];
     /** How the mushrooms stand, each by its foot (`placeIn`). */
     mushrooms: MushroomGround;
     flowers: readonly Footing[];
@@ -84,7 +86,7 @@ export type MeadowLayout = Sized &
     insectSize: number;
     /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
     insectSizes: Readonly<Record<InsectKind, number>>;
-    /** The radii of the sun's wash over the land, innermost first (`washRings`). */
+    /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
     wash: readonly number[];
   };
 
@@ -219,11 +221,7 @@ function standMeadow(width: number, height: number): Stood {
       controls,
       openingCrowns(camera),
     ),
-    clouds: [
-      { x: width * 0.16, y: height * 0.14, r: short * 0.06 },
-      { x: width * 0.5, y: height * 0.08, r: short * 0.045 },
-      { x: width * 0.68, y: height * 0.24, r: short * 0.05 },
-    ],
+    clouds: skyClouds(camera),
     ...controls,
     mushrooms,
     insectSize,
