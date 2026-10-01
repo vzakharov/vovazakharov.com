@@ -14,7 +14,7 @@
 
 import { z } from 'zod';
 
-import { CLUMP_DISTANCE } from '../../src/pages/mushrooms/model/ground.ts';
+import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import {
   GLADE,
@@ -28,6 +28,7 @@ import {
 } from '../../src/pages/mushrooms/ui/scene/view.ts';
 import {
   type Arrow,
+  Camera,
   type Controls,
   type Expect,
   Eye,
@@ -154,18 +155,7 @@ export async function playWalk(
 
   const opening = await eye();
   const bob = BOB_SHARE * opening.height;
-  const camera = await page.evaluate(
-    '__probe.scene.layout.camera',
-    z.object({
-      width: z.number(),
-      height: z.number(),
-      groundTop: z.number(),
-      ground: z.number(),
-      world: z.number(),
-      midline: z.number(),
-      unit: z.number(),
-    }),
-  );
+  const camera = await page.evaluate('__probe.scene.layout.camera', Camera);
   const cover = (x: number) => browRow(camera, x);
   await shoot('opening');
   const tapsBefore = await taps();
@@ -239,12 +229,8 @@ export async function playWalk(
 
   // A sideways drag from bare ground turns the eye with the ground under
   // the finger, and steps nowhere.
-  const lens = await page.evaluate(
-    '__probe.scene.layout.camera',
-    z.object({ width: z.number(), unit: z.number() }),
-  );
-  const focal = lens.unit * CLUMP_DISTANCE;
-  const azimuth = (x: number) => Math.atan((x - lens.width / 2) / focal);
+  const lens = pinholeOf(camera);
+  const azimuth = (x: number) => (x - lens.x) / lens.arc;
   const start = await page.evaluate(BARE_START, Point.nullable());
   if (start === null) {
     note('no bare ground to drag from: the drags are not played');
@@ -255,7 +241,7 @@ export async function playWalk(
     const lifted = await eye();
     const want = azimuth(start.x) - azimuth(to.x);
     const got = turned(before.heading, lifted.heading);
-    const slack = azimuth(lens.width / 2 + SLOP) * 1.5;
+    const slack = azimuth(lens.x + SLOP) * 1.5;
     expect(
       Math.abs(got - want) <= slack,
       `a sideways drag turned the eye ${got.toFixed(4)} rad, not the ${want.toFixed(4)} that keeps the ground under the finger`,

@@ -1,23 +1,34 @@
 /**
  * The opening, `play-mushrooms.ts`'s run on a fresh meadow: at the opening
- * eye every mushroom and flower is drawn where bite 11's opening crop drew
- * it, the layout's world px less the crop's left, within `SAME_PX` — but for
- * a thing standing past the brow, which sinks behind it by design and is
- * measured instead, how much of it shows over the brow; then a butterfly
+ * eye every mushroom and flower is drawn where the lens stands its layout
+ * place (`ofLayout`), within `SAME_PX` — but for a thing standing past the
+ * brow, which sinks behind it by design and is measured instead, how much
+ * of it shows over the brow; then a butterfly
  * released facing the clump perches in view, and a 180° turn on `→` raises
  * no page error while it stays on its seat within `ON_SEAT`.
  */
 
 import { z } from 'zod';
 
+import { OPENING_EYE } from '../../src/pages/mushrooms/model/ground.ts';
 import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
-import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
-import type { Controls, Expect, Page } from './mushroom-probe.ts';
+import {
+  browRow,
+  ofLayout,
+  viewAt,
+} from '../../src/pages/mushrooms/ui/scene/view.ts';
+import {
+  Camera,
+  type Controls,
+  type Expect,
+  type Page,
+  Point,
+} from './mushroom-probe.ts';
 import { fliersOn } from './play-insects.ts';
 
 const FPS = 60;
-/** How near, in CSS px, a thing drawn at the opening counts as where bite 11's crop drew it. */
+/** How near, in CSS px, a thing drawn at the opening counts as where the lens stands it. */
 const SAME_PX = 0.5;
 /** How far, in CSS px, a perched insect may be drawn off its seat as the eye turns. */
 const ON_SEAT = 1;
@@ -27,23 +38,20 @@ const LANDED_FRAMES = 30;
 const SEAT_SHOT = 60;
 
 /**
- * Every mushroom and flower drawn at the opening: where it is drawn, where
- * bite 11's crop drew it (the layout's place less the crop's left), whether it
+ * Every mushroom and flower drawn at the opening: where it is drawn, its
+ * foot's place in the layout's world px, whether it
  * stands past the brow, and for a flower how tall it is drawn and how far its
  * head reaches up the screen.
  */
 const OPENING = `(() => {
   const scene = __probe.scene;
-  const { world, width } = scene.layout.camera;
-  const left = (world - width) / 2;
-  const crop = ({ x, y }) => ({ x: x - left, y });
   return [
     ...[...scene.bed.shown]
       .filter(([, { graphics }]) => graphics.visible)
       .map(([id, { graphics, laid, stands }]) => ({
         id: 'mushroom:' + id,
         drawn: __probe.toScreen(graphics),
-        crop: crop(laid),
+        laid: { x: laid.x, y: laid.y },
         behind: stands.behind,
         alpha: graphics.alpha,
         height: null,
@@ -56,7 +64,7 @@ const OPENING = `(() => {
         return {
           id: 'flower:' + id,
           drawn: __probe.toScreen(container),
-          crop: crop(laid.place),
+          laid: { x: laid.place.x, y: laid.place.y },
           behind: stands?.behind ?? false,
           alpha: container.alpha,
           height,
@@ -65,22 +73,11 @@ const OPENING = `(() => {
       }),
   ];
 })()`;
-const Point = z.object({ x: z.number(), y: z.number() });
-/** The layout's camera, as `browRow` reads it. */
-const Camera = z.object({
-  width: z.number(),
-  height: z.number(),
-  groundTop: z.number(),
-  ground: z.number(),
-  world: z.number(),
-  midline: z.number(),
-  unit: z.number(),
-});
 const Opening = z.array(
   z.object({
     id: z.string(),
     drawn: Point,
-    crop: Point,
+    laid: Point,
     behind: z.boolean(),
     alpha: z.number(),
     height: z.number().nullable(),
@@ -141,25 +138,27 @@ export async function playOpening(
 ): Promise<void> {
   const camera = await page.evaluate('__probe.scene.layout.camera', Camera);
   await page.shoot('final-opening');
-  const things = await page.evaluate(OPENING, Opening);
+  const things = (await page.evaluate(OPENING, Opening)).map((thing) => ({
+    ...thing,
+    lensed: ofLayout(viewAt(camera, OPENING_EYE), thing.laid, thing.laid.y),
+  }));
   const strayBy = (thing: (typeof things)[number]) =>
-    Math.hypot(thing.drawn.x - thing.crop.x, thing.drawn.y - thing.crop.y);
+    Math.hypot(thing.drawn.x - thing.lensed.x, thing.drawn.y - thing.lensed.y);
   const standing = things.filter(({ behind }) => !behind);
   const farthest = Math.max(0, ...standing.map((thing) => strayBy(thing)));
   const strays = standing.filter((thing) => strayBy(thing) > SAME_PX);
   expect(
     strays.length === 0,
-    `at the opening ${String(strays.length)} things stand off bite 11's crop: ${strays
+    `at the opening ${String(strays.length)} things stand off where the lens stands them: ${strays
       .slice(0, 4)
       .map((thing) => `${thing.id} ${strayBy(thing).toFixed(2)} px`)
       .join(', ')}`,
   );
   note(
-    `opening identity: ${String(standing.length)} things within ${farthest.toFixed(3)} px of bite 11's crop`,
+    `opening identity: ${String(standing.length)} things within ${farthest.toFixed(3)} px of where the lens stands them`,
   );
-  // A thing past the brow at the opening is drawn sunk behind it, which
-  // bite 11 never did: how much of it shows over the brow is what a child
-  // sees of it.
+  // A thing past the brow at the opening is drawn sunk behind it: how
+  // much of it shows over the brow is what a child sees of it.
   for (const thing of things.filter(({ behind }) => behind)) {
     const cover = browRow(camera, thing.drawn.x);
     const shows =
@@ -167,7 +166,7 @@ export async function playOpening(
         ? `, ${(cover - thing.top).toFixed(1)} of its ${thing.height.toFixed(1)} px over the brow at x ${thing.drawn.x.toFixed(0)}, alpha ${thing.alpha.toFixed(2)}`
         : '';
     note(
-      `at the opening ${thing.id} stands past the brow, sunk ${(thing.drawn.y - thing.crop.y).toFixed(1)} px below bite 11's crop${shows}`,
+      `at the opening ${thing.id} stands past the brow, sunk ${(thing.drawn.y - thing.lensed.y).toFixed(1)} px below where the lens stands it${shows}`,
     );
   }
 

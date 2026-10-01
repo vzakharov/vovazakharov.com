@@ -94,7 +94,26 @@ time), `pnpm typecheck`, eslint and prettier clean. Fixed:
   ripple of the far range's own crest at equal height. A level run now has
   to stay level at the midpoint too.
 
+## Round 3
+
+1. `fliers.test.ts` alone: 48/48 green (3.6 min) on the landed lens, no
+   change needed.
+2. Play scripts read the lens from source:
+   - `play-walk.ts` (sideways drag): azimuth `(x − pinhole.x) / arc`, from
+     `pinholeOf(camera)`, the rule `walk.ts`'s drag turns by.
+   - `play-approach.ts` (aim): frames to turn by `|offset| / arc`.
+   - `play-opening.ts` also read the old pinhole: its opening identity
+     compared each drawn thing against "bite 11's crop" (layout px less the
+     crop's left), which the lens no longer is off the middle. It now
+     compares against `ofLayout(viewAt(camera, OPENING_EYE), laid, laid.y)`,
+     within the same 0.5 px; the sunk-past-the-brow notes measure from
+     there too. Not played yet (the frames round plays it).
+   - The camera schema three scripts spelled is one `Camera` in
+     `mushroom-probe.ts`, `satisfies z.ZodType` of the model's `Camera`.
+   - `pnpm type-overlap` is red on `insect-away`/`insect-shown`/`flight`
+     (`OverRow`, `Shown`, `Span`): not this package's files, red before it.
+
 ## Left
 
-1. `fliers.test.ts` alone (~6 min), not run: stopped by the context budget.
-2. Then Round 1's Left 2–4 (play scripts, `layoutAtRow` cost, frames).
+1. Round 3 step 3: `layoutAtRow`'s cost in `onscreenOf`.
+2. Frames (`lens-land-*.png`).

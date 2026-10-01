@@ -13,6 +13,7 @@ import {
   type PerchKind,
   SIDES,
 } from '../../src/pages/mushrooms/model/flight.ts';
+import type { Camera as ModelCamera } from '../../src/pages/mushrooms/model/ground.ts';
 import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
 import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
 
@@ -321,6 +322,16 @@ export const State = z.object({
   clock: z.number(),
 });
 export const Point = z.object({ x: z.number(), y: z.number() });
+/** `__probe.scene.layout.camera`, parsing to the model's camera. */
+export const Camera = z.object({
+  width: z.number(),
+  height: z.number(),
+  groundTop: z.number(),
+  ground: z.number(),
+  world: z.number(),
+  midline: z.number(),
+  unit: z.number(),
+}) satisfies z.ZodType<ModelCamera>;
 /** A box on screen, in CSS px. */
 export const Box = Point.extend({ width: z.number(), height: z.number() });
 /** One schema per kind of perch, each parsing to the model's perch of that kind. */

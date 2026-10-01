@@ -12,7 +12,7 @@
 
 import { z } from 'zod';
 
-import { CLUMP_DISTANCE } from '../../src/pages/mushrooms/model/ground.ts';
+import { pinholeOf } from '../../src/pages/mushrooms/model/ground.ts';
 import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
 import { HAZE_DRIFT } from '../../src/pages/mushrooms/ui/scene/repaint-queue.ts';
 import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
@@ -20,6 +20,7 @@ import type { Sized } from '../../src/shared/typings/index.ts';
 import { median, overBudget } from './frame-budget.ts';
 import {
   type Arrow,
+  Camera,
   type Controls,
   type Expect,
   inTurn,
@@ -93,11 +94,8 @@ export async function playApproach(
   const stands = async () => page.evaluate(STANDS, Stands);
   const standOf = async (id: string) =>
     (await stands()).find((stand) => stand.id === id);
-  const screen = await page.evaluate(
-    '({ width: __probe.scene.layout.width, height: __probe.scene.layout.height, unit: __probe.scene.layout.camera.unit })',
-    z.object({ width: z.number(), height: z.number(), unit: z.number() }),
-  );
-  const focal = screen.unit * CLUMP_DISTANCE;
+  const screen = await page.evaluate('__probe.scene.layout.camera', Camera);
+  const { arc } = pinholeOf(screen);
 
   // The forest, grown from `+` and the picker's buttons in turn.
   await inTurn([...Array.from({ length: GROWN }).keys()], async (index) => {
@@ -136,9 +134,7 @@ export async function playApproach(
     const key: Arrow = offset > 0 ? 'ArrowRight' : 'ArrowLeft';
     const frames = Math.max(
       2,
-      Math.round(
-        ((Math.atan(Math.abs(offset) / focal) / TURN_CRUISE) * FPS) / 2,
-      ),
+      Math.round(((Math.abs(offset) / arc / TURN_CRUISE) * FPS) / 2),
     );
     await page.key(key, 'keyDown');
     await page.step(frames);
