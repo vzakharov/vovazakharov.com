@@ -425,6 +425,19 @@ departures were taken):
    `clump-layout.test.ts` "wider cap farther in" (tablet 318 → 589 of
    2250 pairs) — each traced to its cause and judged against the rule it
    stands for before anything is tuned.
+   Traced (2758d677, 5d6f8d88, `p1f-reds.md`): the lost back rows were
+   the patch, not the view's `+` — a back-row mushroom is drawn at 0.65
+   of a front one and could not hold the screen's one patch size. The
+   patch now also shrinks with depth (`× min(1, scaleAt(z))`): tablet,
+   phone and small phone grow behind the clump again (70/67/59 → 131/
+   129/120 of the first 20 visits), clump-layout's tablet pairs 589 →
+   303. **Decided: `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
+   patch is 7.6–4.9 px, so the 8 floor kept its back rows shut and both
+   reds red; at 6, `layout` "grows 12" 200/200, clump-layout 358/2250,
+   57% behind the clump (pads: 66%). Beaten: 5 (66%, but the farthest
+   cap's patch gets hard for a finger) and relaxing the tests (they
+   state the rule the meadow keeps). Left: set it, re-run
+   `mushroom-patch`, `layout`, `clump-layout` and `fliers`.
 2. `meadow-scene.ts` (455) and `insect-view.ts` (479) back under ~450.
 3. P4: the long press, the flower picker with the cross, the ring
    (below).
