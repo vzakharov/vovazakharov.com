@@ -383,10 +383,17 @@ it (the complaint stands). **Decided, with the operator: `ARRIVAL` goes**
 kind's cruise like any other, so a far flower may take 3–4 s, calmly.
 Beaten: keeping the 1.5 s cap (a release to a far flower races).
 **Decided, from C's tabL play (`ip-jump.md`): a fly's one-frame step is
-held to its own size** (`step / zoom` ≤ 1.1 × its dash cap), so a dash near
-the eye flicks up to ~100 px drawn by perspective alone. Beaten: a lower dash
-cap (reopens `dash-cap.md`, every fly leg slower); a drawn dash slowed by the
-zoom (the view re-timing legs the model sets).
+held to its own size**, and so is a bee's: `step / zoom` ≤ 1.1 × the dash
+curve's own peak, derived from `insect-motion.ts` (a fly peaks ~65 butterfly
+px a frame on tabL, a bee ~48), so a dash near the eye flicks up to ~100 px
+drawn by perspective alone; only the butterfly, which never dashes, keeps
+the width/20 drawn bound. The bound catches a discontinuity, not the design.
+Beaten: a lower dash (every fly leg slower, against the catch test's
+tuning); a drawn dash slowed by the zoom (the view re-timing legs the model
+sets). Whether the dash reads too fast is the operator's play to judge.
+**Looking back the glade is bare by design** (12b makes the field endless),
+so nothing grows at π; the veer play lands its looking-back releases at the
+farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
 
 **Left, in order:**
 
