@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '../../model/geometry';
-import { type Ground, OPENING_EYE } from '../../model/ground';
-import { bedPlace } from './bed-place';
+import { type Ground, OPENING_EYE, zAt } from '../../model/ground';
+import { bedPlace, depthOf } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
 import { viewAt } from './view';
@@ -47,7 +47,33 @@ describe('a bed object at the opening eye', () => {
           assert.ok(Math.abs(place.zoom - 1) < 1e-6, where);
           assert.equal(place.depth, place.y, where);
           assert.ok(place.drawn, where);
+          assert.equal(place.behind, false, where);
         }
+      }
+    });
+  }
+});
+
+describe("a bed object past the ground's top row", () => {
+  for (const { name, width, height } of SCREENS) {
+    it(`is drawn under the near hills and over the far ones, its parts in order, on a ${name} screen`, () => {
+      const { layout } = opened(1, width, height, false);
+      const view = viewAt(layout.camera, OPENING_EYE);
+      const near = bedPlace(view, { x: 0, z: zAt(0.02) });
+      assert.equal(near.behind, false);
+      for (const down of [-0.02, -0.3, -1]) {
+        const place = bedPlace(view, { x: 0.4, z: zAt(down) });
+        assert.ok(place.drawn && place.behind, `down ${String(down)}`);
+        const [shadow, body, house] = [-0.5, 0, 0.1].map((nearer) =>
+          depthOf(place, nearer),
+        );
+        for (const depth of [shadow, body, house]) {
+          assert.ok(depth !== undefined && depth > -5 && depth < -4);
+        }
+        assert.ok(
+          shadow !== undefined && body !== undefined && house !== undefined,
+        );
+        assert.ok(shadow < body && body < house);
       }
     });
   }

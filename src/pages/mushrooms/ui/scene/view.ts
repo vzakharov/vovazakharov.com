@@ -42,12 +42,10 @@ export const V_NEAR = 2;
 
 /**
  * How far ahead, in the clump's size, the ground meets the hills: the
- * ground's top row at the opening eye. Nothing farther is drawn.
+ * ground's top row at the opening eye. A thing standing farther is behind
+ * the near hills, which cover it from the foot up.
  */
 export const D_SEE = planeOf({ x: 0, z: zAt(0) }).y;
-
-/** How far ahead, in the clump's size, a thing starts fading out toward `D_SEE`. */
-const FADE_FROM = 12.3;
 
 export function viewAt(camera: Camera, eye: Eye): View {
   return { ...camera, eye };
@@ -95,12 +93,9 @@ export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
   return ahead < V_NEAR;
 }
 
-/**
- * How opaque a thing `ahead` of the eye is drawn: whole up to `FADE_FROM`,
- * fading out to none at `D_SEE`, behind the hills.
- */
-export function fade({ ahead }: Pick<Viewed, 'ahead'>): number {
-  return Math.min(1, Math.max(0, (D_SEE - ahead) / (D_SEE - FADE_FROM)));
+/** Whether a thing `ahead` of the eye stands past the ground's top row, behind the near hills. */
+export function behindHills({ ahead }: Pick<Viewed, 'ahead'>): boolean {
+  return ahead > D_SEE;
 }
 
 /**

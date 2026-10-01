@@ -14,9 +14,9 @@ import { OPENING_FEET } from '../../model/placement';
 import { extremes, placeOf } from './clump-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import {
+  behindHills,
   cull,
   D_SEE,
-  fade,
   ofGround,
   ofLayout,
   onScreen,
@@ -121,15 +121,10 @@ describe('the view', () => {
     assert.equal(cull({ ahead: D_SEE }), false);
   });
 
-  it('fades a thing out only over the last stretch before D_SEE', () => {
-    assert.equal(fade({ ahead: V_NEAR }), 1);
-    assert.equal(fade({ ahead: 12.3 }), 1);
-    assert.equal(fade({ ahead: D_SEE }), 0);
-    assert.equal(fade({ ahead: D_SEE + 5 }), 0);
-    const steps = Array.from({ length: 11 }, (_, step) => 12.3 + step * 0.1);
-    for (const [index, ahead] of steps.slice(1).entries()) {
-      assert.ok(fade({ ahead }) <= fade({ ahead: steps[index] ?? 0 }));
-    }
+  it('puts behind the hills only what stands past D_SEE', () => {
+    assert.equal(behindHills({ ahead: V_NEAR }), false);
+    assert.equal(behindHills({ ahead: D_SEE }), false);
+    assert.equal(behindHills({ ahead: D_SEE + 1e-6 }), true);
   });
 
   it('says what stands on the screen, inside or past its edges', () => {

@@ -3,11 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import { type Flower, flowerGenes } from '../../model/flower-genes';
-import {
-  type FlowerSound,
-  sameSound,
-  soundOf,
-} from '../../model/flower-sounds';
+import { soundOf } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
@@ -37,9 +33,10 @@ import { containsFlower, type TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Perched } from './insect-view';
 import type { Instrument } from './instrument';
+import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
-import type { Following, View } from './view';
+import { type Following, onScreen, type View } from './view';
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
@@ -241,14 +238,29 @@ export class FlowerBed implements Following {
   }
 
   /**
-   * Opens every flower that makes `sound`, as a key played it, of those the
-   * screen shows: `shows` says whether it shows a world x.
+   * The flowers the view last followed shows, and the sound each makes: drawn,
+   * not hidden near the eye, with the head on the screen.
    */
-  answer(sound: FlowerSound, shows: (x: number) => boolean): void {
-    for (const flower of [...this.seeded, ...this.planted]) {
-      const shown = this.shown.get(flower.id);
-      if (!shown?.laid || !shows(shown.laid.place.x)) continue;
-      if (sameSound(soundOf(flowerGenes(flower)), sound)) this.open(shown);
+  inView(): FlowerInView[] {
+    const { view, seeded, planted, shown: shownById } = this;
+    if (!view) return [];
+    return [...seeded, ...planted].flatMap((flower) => {
+      const shown = shownById.get(flower.id);
+      if (!shown?.laid) return [];
+      const { stands, head, headR, headY } = shown;
+      const { x, y, zoom, drawn } = stands;
+      const middle = { x: x + head.x * zoom, y: y + headY * zoom };
+      return drawn && onScreen(view, middle, -headR * zoom)
+        ? [{ ...pick(flower, 'id'), sound: soundOf(flowerGenes(flower)) }]
+        : [];
+    });
+  }
+
+  /** Opens each of `flowers`, as a played key's sound answers through it. */
+  answer(flowers: readonly FlowerInView[]): void {
+    for (const { id } of flowers) {
+      const shown = this.shown.get(id);
+      if (shown) this.open(shown);
     }
   }
 

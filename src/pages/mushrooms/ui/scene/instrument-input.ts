@@ -6,7 +6,6 @@ import type { FlowerBed } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
 import { type KeyedPlay, playKey } from './keyed-flowers';
-import type { Crop } from './pan-input';
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
@@ -64,47 +63,6 @@ function listenForChords(
 
 /**
  * Lets `scene`'s flowers be played as an instrument beyond one finger's
- * taps: from the keyboard while the canvas holds focus (`listenForKeys`), a
- * played key opening the flowers of its sound the screen shows, and the
- * held arrows turning `crop`; and with more fingers than one
- * (`listenForChords`). Returns what stops both.
- */
-export function playTheFlowers(
-  scene: Phaser.Scene,
-  instrument: Instrument,
-  flowers: FlowerBed,
-  crop: Crop,
-): () => void {
-  const { canvas } = scene.game;
-  takeFocus(canvas);
-  const stopKeys = listenForKeys(
-    canvas,
-    (action) => {
-      if (action.kind === 'pan') {
-        crop.hold(action.direction);
-        return;
-      }
-      // The crop has no place to walk; `EyeInput` takes these.
-      if (action.kind === 'step') return;
-      instrument.wake();
-      const sound = instrument.key(action);
-      if (sound) {
-        flowers.answer(sound, (x) => crop.shows(x));
-      }
-    },
-    (key) => {
-      if (key.kind === 'pan') crop.letGo(key.direction);
-    },
-  );
-  const stopChords = listenForChords(scene, flowers);
-  return () => {
-    stopKeys();
-    stopChords();
-  };
-}
-
-/**
- * Lets `scene`'s flowers be played as an instrument beyond one finger's
  * taps: from the keyboard while the canvas holds focus (`listenForKeys`),
  * only through the flowers in front of the player (`playKey`), the held
  * arrows turning and walking `eye`; and with more fingers than one
@@ -113,11 +71,16 @@ export function playTheFlowers(
 export function playTheMeadow(
   scene: Phaser.Scene,
   instrument: Instrument,
-  flowers: Pick<FlowerBed, 'chordTap'>,
+  flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer'>,
   eye: EyeInput,
-  keyed: KeyedPlay,
 ): () => void {
   const { canvas } = scene.game;
+  const keyed: KeyedPlay = {
+    inView: () => flowers.inView(),
+    answer: (answering) => {
+      flowers.answer(answering);
+    },
+  };
   takeFocus(canvas);
   const stopKeys = listenForKeys(
     canvas,

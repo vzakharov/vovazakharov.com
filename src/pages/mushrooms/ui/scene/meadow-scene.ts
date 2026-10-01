@@ -11,22 +11,23 @@ import {
   reduce,
 } from '../../model/game';
 import type { Point } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
+import type { Camera, Ground } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { Opener } from './clump-shade';
 import { Controls } from './controls';
+import { eyeCrop } from './eye-crop';
+import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import type { Stand } from './flower-sight';
 import { InsectView, type Perched } from './insect-view';
 import { Instrument } from './instrument';
-import { playTheFlowers } from './instrument-input';
+import { playTheMeadow } from './instrument-input';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { MushroomBed } from './mushroom-bed';
 import { keptRoom } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
-import { Crop } from './pan-input';
 import {
   perchedOn,
   type PerchHosts,
@@ -37,6 +38,7 @@ import { airSpots, onscreenOf, perchSight } from './perch-sight';
 import { Planter } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
+import { Gait } from './walking';
 
 /** The registry key the host writes the device pixel ratio under. */
 export const PIXEL_RATIO_KEY = 'pixelRatio';
@@ -98,8 +100,13 @@ export class MeadowScene extends Phaser.Scene {
   /** Seconds on the scene's clock, as of the last frame. */
   private clock = 0;
   private readonly now = (): number => this.clock;
-  /** Which stretch of the world the screen shows: the camera's scroll. */
-  private readonly crop = new Crop(this.now);
+  /** Where the frames are seen from, and what turns and walks it. */
+  private readonly eye = new EyeInput(this.now);
+  /** The walk as the frames go by: the feet landing and the bob. */
+  private readonly gait = new Gait();
+  private readonly camera = (): Camera | undefined => this.layout?.camera;
+  /** The eye's view as a crop of the layout's world. */
+  private readonly crop = eyeCrop(this.eye, this.camera);
   private readonly instrument = new Instrument(this.voice, this.now);
   private readonly planter = new Planter(
     this.voice,
@@ -141,7 +148,7 @@ export class MeadowScene extends Phaser.Scene {
       (id) => {
         this.tapInsect(id);
       },
-      this.crop,
+      { ...pick(this.eye, 'toScreen'), ...pick(this.crop, 'toWorld') },
     );
     this.controls = new Controls(
       this,
@@ -198,13 +205,13 @@ export class MeadowScene extends Phaser.Scene {
     this.input.on(Phaser.Input.Events.POINTER_DOWN, this.tapMeadow, this);
     // A browser lets sound start only on a tap's release.
     this.input.on(Phaser.Input.Events.POINTER_UP, this.startSound, this);
-    const stopPlaying = playTheFlowers(
+    const stopPlaying = playTheMeadow(
       this,
       this.instrument,
       this.flowers,
-      this.crop,
+      this.eye,
     );
-    const stopPanning = this.crop.listen(this);
+    const stopPanning = this.eye.listen(this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       stopPlaying();
       stopPanning();
@@ -230,11 +237,9 @@ export class MeadowScene extends Phaser.Scene {
       perchAt,
       sight,
       meadow,
-      crop,
-      cameras,
     } = this;
     if (!layout || !backdrop) return;
-    crop.scroll(cameras.main);
+    this.walk(layout.height);
     this.dispatch({ kind: 'tick', now: time, ...sight });
     driftClouds(backdrop, layout, t);
     grass?.update(t, meadow?.planting?.foot);
@@ -245,6 +250,24 @@ export class MeadowScene extends Phaser.Scene {
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
     insects?.update(t, perchAt);
+  }
+
+  /**
+   * Sees the frame from where the eye stands now: everything on the ground
+   * and the sky's turning parts through its view, the camera bobbing with
+   * the walk (`Gait`) and a footstep for each foot that lands. The camera
+   * never scrolls across: the view places everything.
+   */
+  private walk(height: number): void {
+    const { eye, backdrop, bed, flowers, voice, gait, clock, cameras } = this;
+    const view = eye.view();
+    if (!view) return;
+    backdrop?.follow(view);
+    bed?.follow(view);
+    flowers?.follow(view);
+    const { feet, bob } = gait.step(eye.walked(), clock, height);
+    for (const foot of feet) voice.step(foot);
+    cameras.main.setScroll(0, bob);
   }
 
   /** Draws the flowers as the plantings and the mushrooms now stand, and sees the perches with them. */
@@ -364,7 +387,7 @@ export class MeadowScene extends Phaser.Scene {
         this.meadow,
         this.voice.muted,
         this.pixelRatio(),
-        this.crop.toScreen,
+        this.eye.toScreen,
       );
     }
   }
@@ -396,10 +419,9 @@ export class MeadowScene extends Phaser.Scene {
       this.openers,
     );
     this.layout = layout;
-    // The visit opens on the clump; a resize keeps the ground at the
-    // screen's centre where it was.
-    this.crop.fit(layout.camera);
-    this.crop.scroll(this.cameras.main);
+    // The visit opens on the clump; a resize keeps where the eye stands
+    // and which way it looks.
+    this.eye.fit(layout.camera);
     // Its own stream, so the backdrop never shifts the creatures' seeds.
     const random = mulberry32(this.visitSeed ^ 0x5e_ed);
     this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
@@ -413,6 +435,7 @@ export class MeadowScene extends Phaser.Scene {
     if (this.meadow) this.bed?.paint(this.meadow, layout, lighting);
     this.insects?.paint(layout, lighting);
     this.flowers?.paint(layout, lighting);
+    this.walk(layout.height);
     this.see();
     this.repaintControls();
   };
