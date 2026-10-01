@@ -94,3 +94,14 @@
   and the relay summary written while its tests ran. The skill should treat
   it as `/relay` with no `create_session`, the successor line handed to the
   operator.
+- **An operator watching mid-handling can settle a review's design call by
+  playing, so a call that changes how the game feels waits for them.** Bite
+  11's review asked for taps only on a lift. The handling decided a lift or
+  a 150 ms rest, and explained to the operator why the delay would rarely
+  show. The operator, who has played guitar-pedal emulators, answered that
+  even 100 ms is felt on an instrument, then played the build and kept the
+  press («текущая механика -- норм»). The agent had already committed that
+  group's plan bullets, so they were rewritten; it had not briefed the
+  agent, so no code was wasted. The skill should hold back the brief for a
+  feel call (latency, motion, sound) while the operator is in the session,
+  ask them, and brief the groups that don't depend on it meanwhile.
