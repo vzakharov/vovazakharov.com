@@ -90,12 +90,14 @@ parabola `R_V + (d − R_V + w)² / 4w` between, azimuth and height kept.
 
 - **`w = 0.1 · CD`** (0.864 clump sizes) on every screen.
 - **A leg to or from a seat inside `R_V + w` fades the veer out over the
-  last (first) 0.3 of the way**, so the insect lands exactly on its seat:
-  `keep = (1 − s₀ · (1 − smooth(flown / 0.3))) · (1 − s₁ · (1 −
-smooth((1 − flown) / 0.3)))`, `sᵢ = clamp((R_V + w − dᵢ) / w, 0, 1)` for a
-  seat end at distance `dᵢ` (0 for an air or away end), the push scaled by
-  `keep` (`d' = d + keep · (veered(d) − d)`). **Accepted cost**: up to ~2.4×
-  zoom during the fade, standing by a perch.
+  last (first) 0.3 of the way**, so the insect lands exactly on its seat.
+  As built (`ip-veer`, `veeredAlong`): a seat end at distance `d` from the
+  eye has depth `smooth((R_V + w − d) / w)` (1 inside `R_V`, 0 from
+  `R_V + w`), the fade's window is `SEAT_FADE · depth` of `flown`
+  (`SEAT_FADE = 0.3`), and the keep scales the veer's displacement
+  (`aloft + keep · (veered − aloft)`) — landing exactly on any seat in the
+  band, where the prototype's partial keep missed by up to ~w/27.
+  **Accepted cost**: up to ~2.4× zoom during the fade, standing by a perch.
 - **Accepted pending play**: a few one-frame flicks (a drawn step > width/20
   px) of a fly passing very near; package C's play looks for them.
 
@@ -180,16 +182,18 @@ beside today's, which stay live and green — and **C switches the insect over
 and deletes the old path** in A's and B's files after both have landed. So A
 and B never touch the same file, and nothing breaks between packages.
 
-**Order**: `ip-veer` (in progress) → A; B now (after `ip-pace` reports); A ∥
-B (disjoint files); C after both. Pace is done but its play judgement, which
-C's play run covers.
+**Order**: A and B now, in parallel (disjoint files; B once `ip-pace`
+reports, it last edited `perch-sight.ts`); C after both. `ip-veer` and pace
+are built; pace's play judgement is C's play run.
 
-#### `ip-veer` — the decided veer (in progress, another agent)
+#### `ip-veer` — the decided veer (built)
 
-`insect-frame.ts`: the veer per screen (`near = V_NEAR · bendAt(pinholeOf(
-view), 0)`, `width = 0.1 · CD`) and the seat-end fade of R3.1. A reads its
-note (`ip-veer.md`) for the names it lands; if the fade's `keep` is not
-there, A adds it to `insect-frame.ts` as R3.1 words it.
+`insect-frame.ts` (`ip-veer.md`): `veerOf(camera): Veer` — `near = V_NEAR ·
+bendAt(pinholeOf(camera), 0)`, `width = 0.1 · CD`; `veered(eye, aloft,
+veer)`; `SeatEnds = Partial<Record<'from' | 'to', Point>>` (a leg's seat
+ends as plane points, an air end absent); `SEAT_FADE = 0.3`;
+`veeredAlong(eye, aloft, veer, flown, ends)`, the veer with R3.1's fade.
+`VEER` is gone.
 
 #### Pace — `ip-pace` (built)
 
@@ -205,10 +209,10 @@ one seam `perchDistance(layout, row)` in `perch-sight.ts` (today the opening
 eye's), which B swaps. Left with it: the `fliers.test.ts` result and play
 judgement of the cruise numbers and dash shapes (C's play).
 
-#### A — away and seat (files: `insect-away.ts`, `insect-seat.ts`, `insect-frame.ts` after `ip-veer`; their tests)
+#### A — away and seat (files: `insect-away.ts`, `insect-seat.ts`, `insect-frame.ts`; their tests)
 
-Calls `insect-frame.ts`: `drawnAloft`, the veer and its fade; adds
-`aloftAt`.
+Calls `insect-frame.ts`: `drawnAloft`, `veerOf`, `veeredAlong`,
+`SeatEnds`; adds `aloftAt`.
 
 1. **`aloftAt` and the way in and out.** `insect-frame.ts`
    `aloftAt(view, at: Point, distance): Aloft` — the plane point the screen
@@ -225,13 +229,12 @@ D_SEE)`; `offAloft(view, side, away, distance)` = `aloftAt` of the point
    1e-9 px over every screen and 8 headings; `entryAloft` defined and its
    `out` drawn past the edge looking back (π, π ± 0.035).
 2. **The insect drawn.** `insect-seat.ts`: `drawnFlier(view, raw: Aloft,
-flown, ends)` — the veer with its seat-end fade (`ends`: each end's
-   distance from the eye and whether it is a seat), then `drawnAloft`;
-   `seatedZoom(host) = CD / host.stands.ahead`. Tests: the sitter's zoom
-   equals `drawnAloft`'s at its seat, |Δ| < 1e-3; a leg to a seat inside
-   `R_V + w` ends on the seat to 1e-9; a leg with air ends never comes
-   within `R_V − 1e-9` of the eye; "its own size at the opening" rewritten
-   to `CD / ahead`.
+flown, ends: SeatEnds)` = `drawnAloft(view, veeredAlong(view.eye, raw,
+veerOf(view), flown, ends))`; `seatedZoom(host) = CD / host.stands.ahead`.
+   Tests: the sitter's zoom equals `drawnFlier`'s at its seat at `flown`
+   1, |Δ| < 1e-3; "its own size at the opening" rewritten to `CD / ahead`
+   (the veer's own landing and clearance are `insect-frame.test.ts`'s,
+   from `ip-veer`).
 
 Ends with: `insect-frame.test.ts`, `insect-away.test.ts`,
 `insect-seat.test.ts` and `pnpm typecheck` green, pushed.
