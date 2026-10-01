@@ -523,6 +523,19 @@ hosts' by the seat fix's weights, so nothing jumps at take-off or landing.
 Taken: a far insect's tap circle never shrinks under `TAP_RADIUS` (catching
 them is the child's game; caps and flowers do shrink theirs). Facing past
 the strip, a release still flies in unseen — 12b's accepted case below.
+**Re-decided, the operator's idea: a release drops in from above** («может у
+нас насекомые будут вылетать не сбоку а где-то сверху? тогда даже если она
+потом полетит "за тебя", направление будет видно»). It enters at the top
+edge of the screen, at an x between the screen's middle and its first
+perch's, and comes down to that perch within `ARRIVAL`. With no open perch
+in view it drops in at the middle and flies out by the side nearer its
+perch in the world, at its arrival pace, so the child sees which way it
+went. Entering, it is drawn at its first perch's zoom (or the near view's
+when it heads off). Beaten: the side edge (half off screen, and an unseen
+leg's way lost). If an insect high on the screen cannot be drawn without
+12b's legs with height (the adapter reading a sky row as past the brow),
+the entrance gets its own height for that leg only, measured, or stops
+and reports.
 **From the operator, after the relay at depth 8: «субъективно кажется что
 мухи и пчёлы стали перелетать слишком быстро».** Traced: 3ddb960 let
 insects perch anywhere in a world twice a sideways tablet's screen, and
