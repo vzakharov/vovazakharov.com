@@ -515,6 +515,20 @@ depth's scale** — perched, at its host's drawn scale (the seat fix's
 `Host`); in flight, at the scale of the view's depth at its ground point.
 If flight scale needs 12b's plane, build the perched half here, stop, and
 report the rest as 12b's.
+**From the operator, after the relay at depth 8: «субъективно кажется что
+мухи и пчёлы стали перелетать слишком быстро».** Traced: 3ddb960 let
+insects perch anywhere in a world twice a sideways tablet's screen, and
+gave butterflies' `slowest` 2 → 4 for it but not flies' or bees'. A fly or
+a bee past its `slowest` keeps the leg's time and dashes the rest
+(`paced` in `flight.ts`), so its dash speeds up with the leg's length:
+across the world it dashes ~2.3× (fly) and ~2.5× (bee) as fast as across
+that tablet's screen (≈6 world units). **Decided: a dash is never faster
+than the kind's dash across ≈6 units was**; a longer leg takes longer
+instead, its last strides still at the kind's pace. Beaten: doubling
+`slowest` as for butterflies (the dash still speeds up without bound with
+distance, and mid legs slow too), and a slower pace overall (the dart is
+what a fly and a bee are). Short and mid legs keep today's timing; the
+catch tests and the arrivals' ~1.5 s first perch must hold.
 
 **Left, in order:**
 
@@ -544,8 +558,7 @@ report the rest as 12b's.
    of a front one and could not hold the screen's one patch size. The
    patch now also shrinks with depth (`× min(1, scaleAt(z))`): tablet,
    phone and small phone grow behind the clump again (70/67/59 → 131/
-   129/120 of the first 20 visits), clump-layout's tablet pairs 589 →
-   303. **Set (45d9cce4): `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
+   129/120 of the first 20 visits), clump-layout's tablet pairs 589 → 303. **Set (45d9cce4): `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
    patch is 7.6–4.9 px, so the 8 floor kept its back rows shut and both
    reds red; at 6, `layout` "grows 12" 200/200, clump-layout 358/2250,
    57% behind the clump (pads: 66%). Beaten: 5 (66%, but the farthest
@@ -658,7 +671,7 @@ report the rest as 12b's.
    nothing behind the opening clump** (every grown mushroom 7.8–9.8
    ahead, haze 0). The forest must still grow into the misty back rows;
    traced with the two reds in item 1.
-4b. **A key plants (operator, playing the round brow).** While the picker
+   4b. **A key plants (operator, playing the round brow).** While the picker
    is open on a tuft, a note or drum key plants the flower that sounds it
    there at once — its colour and shape are the key's, by `soundOf`'s law
    (`seedSounding`) — sounding as a planting does, in view of a matching
