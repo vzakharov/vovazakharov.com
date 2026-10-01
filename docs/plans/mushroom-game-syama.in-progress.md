@@ -411,10 +411,22 @@ departures were taken):
 2. `meadow-scene.ts` (455) and `insect-view.ts` (479) back under ~450.
 3. P4: the long press, the flower picker with the cross, the ring
    (below).
-4. The probe and play run (spec §4; `p3b-wiring.md` "For the
-   probe/play-run agent"), with `walk-*.png` frames — nothing of walking
-   has been looked at in the running game yet. The footstep level
-   (`STEP_PEAK`, ~10 dB under a C5) for the operator's ear.
+4. The rest of the play run. The probe reads the eye, and the walk play
+   with its `walk-*.png` frames is in (002b560, d14e506, e8e4e79;
+   `play-walk.md`). Left: `play-band.ts`'s `bandGaps` reads a gone scene
+   field (the species play throws, the tufts play never ran); spec §4's
+   opening identity, the walk to a back-row mushroom, an insect after
+   180°, the frame budget walking into the forest; the full run on all
+   five screens. The footstep level (`STEP_PEAK`, ~10 dB under a C5) for
+   the operator's ear.
+   **A defect the walk frames show, fixed in the game before P4:** at the
+   rim (`tabL-walk-rim.png` ≈(1470, 690), `phoneL-walk-rim.png`
+   ≈(1578, 465)) a back-row flower past `D_SEE` stands whole on the far
+   hill, because where the near crest dips below its foot nothing covers
+   it — it reads as a giant flower on a distant hill. A thing past the
+   seam never shows above the near crest at its own x: it is covered from
+   the crest down, wherever that crest is (`bed-place.ts`
+   `behindHills`/`depthOf` are the suspects).
 5. The bite's end: `decisions.md` rewritten where the spec names, the
    fold into `## Eaten so far`, `/polish`, vet, the Artifact, `/pr`.
 
