@@ -163,6 +163,7 @@ export function paintBackdrop(
   const sunLayer = layer();
   paintSun(sunLayer, layout);
   const clouds = paintClouds(cloudLayer, layout, random);
+  for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
   const hills = { far: layer(), near: layer() };
   const hillRows = paintRanges(hills, layout, random);
   const groundLayer = layer();
@@ -244,7 +245,7 @@ export function driftClouds(
   for (const [index, graphics] of backdrop.clouds.entries()) {
     const cloud = clouds[index];
     if (!cloud) continue;
-    const x = screenAt(view, driftedAzimuth(camera, cloud, index, t));
+    const x = screenAt(view, driftedAzimuth(cloud, t));
     const spread = cloud.r * CLOUD_SPREAD;
     const shown = x !== undefined && x > -spread && x < width + spread;
     graphics.setVisible(shown);

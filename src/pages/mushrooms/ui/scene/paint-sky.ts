@@ -1,19 +1,23 @@
 import * as Phaser from 'phaser';
 
 import { pinholeOf } from '../../model/ground';
-import { between, type Random } from '../../model/random';
+import { between, mulberry32, type Random } from '../../model/random';
 import { litSkyAt, skyGrid } from './backdrop-tones';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { azimuthAt, wrapAngle } from './panorama';
+import { azimuthAt, OPENING_CLOUD_COUNT, wrapAngle } from './panorama';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
 const SUN_RAYS = 16;
 const WASH_ALPHA = 0.02;
-/** The highest cloud's share of the way toward the sky's top colour. */
+/** A high cloud's share of the way toward the sky's top colour. */
 const HIGH_CLOUD_HAZE = 0.2;
+/** How far down the screen, as a share of its height, a cloud is high. */
+const HIGH_CLOUD_ROW = 0.1;
+/** The seed the clouds round the sky past the opening screen are shaped from. */
+const PUFF_SEED = 0x9f_f5;
 
 /** The next graphics object to paint into, in painting order. */
 export type Layer = () => Phaser.GameObjects.Graphics;
@@ -87,21 +91,26 @@ export function paintSun(
 
 /**
  * One graphics object per cloud, so each can drift on its own: a cool shade
- * below and away from the sun, a warm rim on its side, the highest cloud
- * paler with the sky's blue.
+ * below and away from the sun, a warm rim on its side, the high clouds paler
+ * with the sky's blue. The opening screen's clouds are shaped from `random`,
+ * the rest from a stream of their own, so however many the sky holds, what
+ * `random` shapes after them stays as it is.
  */
 export function paintClouds(
   layer: Layer,
-  { clouds, sun, camera }: MeadowLayout,
+  { clouds, sun, camera, height }: MeadowLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
-  const highest = Math.min(...clouds.map(({ y }) => y));
   const { focal } = pinholeOf(camera);
   const sunAzimuth = azimuthAt(camera, sun.x);
-  return clouds.map(({ azimuth, y, r }) => {
+  const round = mulberry32(PUFF_SEED);
+  return clouds.map(({ azimuth, y, r }, place) => {
     const graphics = layer().setPosition(0, y);
+    const shaping = place < OPENING_CLOUD_COUNT ? random : round;
     const tone = (colour: number) =>
-      y === highest ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE) : colour;
+      y <= height * HIGH_CLOUD_ROW
+        ? mix(colour, PALETTE.skyTop, HIGH_CLOUD_HAZE)
+        : colour;
     // The sun's way across the sky from the cloud, round the shorter side.
     const across = focal * wrapAngle(sunAzimuth - azimuth);
     const toSun = Math.hypot(across, sun.y - y) || 1;
@@ -110,8 +119,8 @@ export function paintClouds(
       y: ((sun.y - y) / toSun) * r * 0.08,
     };
     const puffs = Array.from({ length: 5 }, (_, index) => ({
-      x: (index - 2) * r * between(random, 0.75, 0.95),
-      r: r * (index === 2 ? 1 : between(random, 0.55, 0.8)),
+      x: (index - 2) * r * between(shaping, 0.75, 0.95),
+      r: r * (index === 2 ? 1 : between(shaping, 0.55, 0.8)),
     }));
     for (const [colour, dx, dy, scale] of [
       [PALETTE.cloudShade, -lean.x, r * 0.14 - lean.y, 1],

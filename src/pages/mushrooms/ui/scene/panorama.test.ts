@@ -5,14 +5,24 @@ import { OPENING_EYE } from '../../model/ground';
 import { meadowLayout } from './layout';
 import {
   azimuthAt,
+  type Cloud,
   driftedAzimuth,
+  OPENING_CLOUD_COUNT,
   screenAt,
   shiftOf,
   shownAzimuths,
   wrapAngle,
 } from './panorama';
-import { viewAt } from './view';
+import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
+
+/** How many of `clouds`, drifted by `t`, `view` shows the middle of. */
+function cloudsShown(view: View, clouds: readonly Cloud[], t: number): number {
+  return clouds.filter((cloud) => {
+    const x = screenAt(view, driftedAzimuth(cloud, t));
+    return x !== undefined && x >= 0 && x <= view.width;
+  }).length;
+}
 
 describe('the panorama', () => {
   for (const [name, width, height] of VIEWPORTS) {
@@ -30,17 +40,32 @@ describe('the panorama', () => {
       for (const [index, across] of [0.16, 0.5, 0.68].entries()) {
         const cloud = clouds[index];
         assert.ok(cloud);
-        const x = screenAt(opening, driftedAzimuth(camera, cloud, index, 0));
+        const x = screenAt(opening, driftedAzimuth(cloud, 0));
         assert.ok(Math.abs((x ?? Number.NaN) - width * across) < 1e-9);
       }
     });
 
     it(`keeps the clouds round the sky off the opening screen, on a ${name} screen`, () => {
-      assert.equal(clouds.length, 8);
       const { from, to } = shownAzimuths(opening);
-      for (const { azimuth } of clouds.slice(3)) {
+      for (const { azimuth } of clouds.slice(OPENING_CLOUD_COUNT)) {
         assert.ok(azimuth < from || azimuth > to);
       }
+    });
+
+    it(`never leaves a view with fewer than one cloud short of the opening's, on a ${name} screen`, () => {
+      const opened = cloudsShown(opening, clouds, 0);
+      assert.equal(opened, OPENING_CLOUD_COUNT);
+      let least = Infinity;
+      for (let turn = 0; turn < 360; turn += 1) {
+        const view = viewAt(camera, {
+          ...OPENING_EYE,
+          heading: (turn * Math.PI) / 180,
+        });
+        for (let t = 0; t <= 3600; t += 37) {
+          least = Math.min(least, cloudsShown(view, clouds, t));
+        }
+      }
+      assert.ok(least >= opened - 1, `only ${String(least)} in view`);
     });
 
     it(`carries the sun off the screen and back over a full turn, on a ${name} screen`, () => {

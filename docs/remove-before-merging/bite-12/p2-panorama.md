@@ -7,7 +7,7 @@ orchestrator's word (context).
 
 - `panorama.ts` (new, pure) + `panorama.test.ts`: `wrapAngle`, `azimuthAt`
   (opening x → azimuth, `atan((x − cx)/F)`), `screenAt(view, α)` (`cx +
-  F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
+F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
   `shiftOf(view, x)` (how far a picture baked round opening x moves),
   `Cloud` (`{azimuth, y, r}`), `skyClouds(camera)` (the 3 opening clouds at
   their opening azimuths + 5 round the rest of the sky, fixed seed),
@@ -24,17 +24,31 @@ orchestrator's word (context).
   third; the wash stays above `groundTop`, short of the farthest foot's
   clearance (a bound that holds from every eye, see Decided).
 
+## Done (second agent)
+
+- Clouds by density (`skyClouds`): each opening cloud leads a lane spaced
+  evenly round the sky, `ceil(2π / view span)` clouds a lane, no farther
+  apart than the opening view is wide, drifting together at the leader's
+  pace (`Cloud.drift`, rad/s; today's 7/4/5.5 px/s at the middle). So every
+  heading at every time shows ≥ 3 cloud middles (sweep: min 3, mean
+  3.05–3.27, max 5 on every `VIEWPORTS` screen). 18 clouds (phone sideways)
+  to 60 (tablet portrait). The round clouds are shaped from their own
+  stream (`PUFF_SEED`), so the backdrop's `random` stream after the clouds
+  is as before 0b32d8fb (that commit's 5 extra clouds had shifted the
+  hills). A cloud is pale when it is in the top tenth of the screen (was:
+  the single highest), the same three-cloud opening.
+
 ## Left
 
 - Step 1 rest: sun disc/rays as their own small bake moved by
   `shiftOf(view, sun.x)` and hidden outside the view; the sun's halo
   (`litSkyAt`'s `SUN_HALO`) as an opaque lit-sky strip `sun.x ± max(0.4·short,
-  3.5r)` over a rows-only sky bake (base-independent, seamless where the
+3.5r)` over a rows-only sky bake (base-independent, seamless where the
   halo reaches 0); the wash baked over `sun.x ± outer` only, moved likewise;
   a `follow(view)` on the backdrop driving all of it.
 - Step 2: periodic crests in `skyline.ts` (integer cycles round 360°,
   `k = round(waves·πF/width)`), one bowl at `α_sun` (`off = F·wrapAngle(α −
-  α_sun)`; screen offset ≥ that, so the old bowl's clearance still holds),
+α_sun)`; screen offset ≥ that, so the old bowl's clearance still holds),
   live Graphics over `shownAzimuths` in `panorama.ts`, redrawn on heading
   change; `hillBands` with flat runs collapsed to cut vertices; the seam as a
   periodic crest drawn in the near-hills layer (near.foot fill).

@@ -56,60 +56,68 @@ export function shiftOf(view: View, at: number): number | undefined {
   return x === undefined ? undefined : x - at;
 }
 
-/** A cloud aloft: the azimuth it stands at as the visit opens, its height on the screen and its size. */
-export type Cloud = Pick<Circle, 'y' | 'r'> & { azimuth: number };
+/**
+ * A cloud aloft: the azimuth it stands at as the visit opens, how fast it
+ * drifts rightward round the sky in radians a second, its height on the
+ * screen and its size.
+ */
+export type Cloud = Pick<Circle, 'y' | 'r'> & {
+  azimuth: number;
+  drift: number;
+};
 
-/** The clouds the opening screen shows, across and down it and by its short side. */
+/**
+ * The clouds the opening screen shows, across and down it and by its short
+ * side, and how far each drifts a second, in CSS px across the screen's
+ * middle. Each leads a lane of clouds round the sky at its pace.
+ */
 const OPENING_CLOUDS = [
-  [0.16, 0.14, 0.06],
-  [0.5, 0.08, 0.045],
-  [0.68, 0.24, 0.05],
+  [0.16, 0.14, 0.06, 7],
+  [0.5, 0.08, 0.045, 4],
+  [0.68, 0.24, 0.05, 5.5],
 ] as const;
-/** How many clouds stand round the rest of the sky, behind and beside the opening screen. */
-const CLOUDS_ROUND = 5;
-/** The seed the clouds round the sky are placed from, the same on every visit. */
+/** How many clouds the opening screen shows, which `skyClouds` lists first. */
+export const OPENING_CLOUD_COUNT = OPENING_CLOUDS.length;
+/** The seed the clouds round the sky are shaped from, the same on every visit. */
 const CLOUD_SEED = 0xc1_0d;
-/** How far from its own slot's middle a cloud round the sky may stand, as a share of a slot. */
-const CLOUD_JITTER = 0.3;
+/** The rows, as shares of the screen's height, and the sizes, as shares of its short side, a cloud round the sky is drawn between. */
+const CLOUD_ROWS = [0.08, 0.24] as const;
+const CLOUD_SIZES = [0.045, 0.06] as const;
 
 /**
  * The sky's clouds: the opening screen's three where it has always shown
- * them, then `CLOUDS_ROUND` round the rest of the sky, one to each slot of
- * the arc the opening screen does not show, as high and as large as the
- * opening three run.
+ * them, each leading a lane evenly round the sky that drifts together at
+ * the leader's pace, the lane's clouds no farther apart than the screen is
+ * wide in azimuth. So whatever the heading and however long the visit, every
+ * lane has a cloud on the screen, and the screen shows at least the three
+ * the visit opened on. A lane's others stand as high and as large as the
+ * opening three run, from `CLOUD_SEED`.
  */
 export function skyClouds(camera: Camera): Cloud[] {
   const { width, height } = camera;
   const short = Math.min(width, height);
-  const opening = OPENING_CLOUDS.map(([across, down, size]) => ({
+  const { focal } = pinholeOf(camera);
+  const random = mulberry32(CLOUD_SEED);
+  const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
+  const lane = Math.ceil(TURN / shown);
+  const leaders = OPENING_CLOUDS.map(([across, down, size, speed]) => ({
     azimuth: azimuthAt(camera, width * across),
+    drift: speed / focal,
     y: height * down,
     r: short * size,
   }));
-  const random = mulberry32(CLOUD_SEED);
-  const shown = azimuthAt(camera, width);
-  const slot = (TURN - 2 * shown) / CLOUDS_ROUND;
-  const round = Array.from({ length: CLOUDS_ROUND }, (_, index) => ({
-    azimuth: wrapAngle(
-      shown +
-        slot * (index + 0.5 + between(random, -CLOUD_JITTER, CLOUD_JITTER)),
-    ),
-    y: height * between(random, 0.08, 0.24),
-    r: short * between(random, 0.045, 0.06),
-  }));
-  return [...opening, ...round];
+  const followers = leaders.flatMap(({ azimuth, drift }) =>
+    Array.from({ length: lane - 1 }, (_, index) => ({
+      azimuth: wrapAngle(azimuth + ((index + 1) * TURN) / lane),
+      drift,
+      y: height * between(random, ...CLOUD_ROWS),
+      r: short * between(random, ...CLOUD_SIZES),
+    })),
+  );
+  return [...leaders, ...followers];
 }
 
-/** How far a cloud drifts each second, in CSS px across the screen's middle, by its place among the clouds. */
-const CLOUD_SPEEDS = [7, 4, 5.5];
-
-/** Where `cloud` has drifted round the sky by `t`, in seconds, as its azimuth: rightward, at its own pace. */
-export function driftedAzimuth(
-  camera: Camera,
-  cloud: Cloud,
-  index: number,
-  t: number,
-): number {
-  const speed = CLOUD_SPEEDS[index % CLOUD_SPEEDS.length] ?? 5;
-  return wrapAngle(cloud.azimuth + (speed * t) / pinholeOf(camera).focal);
+/** Where `cloud` has drifted round the sky by `t`, in seconds, as its azimuth. */
+export function driftedAzimuth({ azimuth, drift }: Cloud, t: number): number {
+  return wrapAngle(azimuth + drift * t);
 }
