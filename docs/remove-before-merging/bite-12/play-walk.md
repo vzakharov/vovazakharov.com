@@ -37,7 +37,12 @@ Package: bite 12 P3 step 3, the probe and the play run (spec §4), and the
   where the near crest stands above its foot.
 - Spec §4 not played: opening identity against bite 11, walk up to a back-row mushroom (haze, drawn-only tap), the insect
   after a 180° turn, the frame budget while walking into the forest.
-- The rest of `pnpm play:mushrooms` (taps) — see the report.
+- The full run on tabL (probe build of the tree with the taps agent's
+  uncommitted `src/` edits in it): `meadow`, `walk`, `planting` pass;
+  `species` throws in `play-band.ts`'s page-side `bandGaps` ("Cannot read
+  properties of undefined (reading 'band')", line 47 of the evaluated
+  source) — a scene field it reads is gone; `tufts` never ran. The other
+  four screens' full runs not played.
 
 ## Decided
 
