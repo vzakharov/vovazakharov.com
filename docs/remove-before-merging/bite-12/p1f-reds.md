@@ -9,7 +9,7 @@ clump's patch scaled, then the two reds left since 86503fb. Starting point
 - 2758d677 — the clump's patch scales like a grown one: 12 px at the
   tablet's unit, × unit ÷ tablet unit, between 8 and 12. `mushroom-patch`
   33/33.
-- The patch scales with depth too (`patchFloor`): 16 (grown) or 12 (clump)
+- 5d6f8d88 — the patch scales with depth too (`patchFloor`): 16 (grown) or 12 (clump)
   px × min(unit, tablet unit) ÷ tablet unit × min(1, `scaleAt(z)`), floored
   at `LEAST_PATCH` 8. `keepsPatches(own, foot, around)` reads the new foot;
   `Around` carries the camera instead of one `grown` px.
@@ -54,17 +54,23 @@ candidate fails its own patch, none fail another's. The refusal is the patch
 rule working as written, so the test is not wrong; the floor is what the
 plan named ("floored at 8 px"), so it is not picked here.
 
-Measured, sideways, 40 visits, with the floor at:
+Measured on the sideways phone at 5d6f8d88 with `LEAST_PATCH` changed (the
+floor is shared by every screen, but only the sideways phone's scaled patch
+falls below 8 — small phone's back row is 10.1 × 0.65 ≈ 6.6, so it would
+loosen there too):
 
-| floor | full                        | behind the clump | plane `y` max |
-| ----- | --------------------------- | ---------------- | ------------- |
-| 8     | 40/40 (197/200 in `layout`) | ~20%             | 10.3          |
-| 6     | 39/40                       | 232/397 (58%)    | 13.1          |
-| 5     | 39/40                       | 260/397 (65%)    | 13.2          |
-| 4     | 39/40                       | 259/397          | 13.2          |
+| floor | full (40 visits) | behind the clump (of 400) | plane `y` max | `layout` reach 12 | `clump-layout` pairs |
+| ----- | ---------------- | ------------------------- | ------------- | ----------------- | -------------------- |
+| 8     | 40/40            | ~80 (40 of 200)           | 10.3          | 197/200 red       | 684/2206 red         |
+| 6     | 40/40            | 227                       | 13.1          | 200/200           | 358/2250             |
+| 5     | 40/40            | 258                       | 13.2          | 200/200           | 330/2250             |
 
-(These floor rows were measured with the patch growing past the screen's
-size for near rows, since dropped; rerun before picking.)
+The pads' baseline (7a94a1c) was 132 of 200 behind (66%), so 5 restores it,
+6 nearly. Not run at a lower floor: `mushroom-patch` (7 min) and `fliers`.
+Options for the orchestrator: (a) `LEAST_PATCH` 6 or 5 everywhere; (b) the
+floor kept at 8 and the sideways phone's forest left in front, with
+`layout`'s and `clump-layout`'s sideways rows relaxed — which the tests'
+rule ("the meadow grows into the back rows") argues against.
 
 ## Tests (at the depth-scaled patch)
 
