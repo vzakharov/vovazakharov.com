@@ -8,6 +8,7 @@
 
 import { z } from 'zod';
 
+import type { Cruised } from '../../src/pages/mushrooms/model/cruise.ts';
 import {
   CRUISE_ACROSS,
   type Direction,
@@ -63,7 +64,7 @@ async function holding(
 }
 
 /** What a stretch of traced frames is checked against: which way it turns, how fast it may, and what it is called in a message. */
-type Turning = { toward: Direction; cruise: number; what: string };
+type Turning = Cruised & { toward: Direction; what: string };
 
 /** How far a traced frame moved the crop the key's way, and the time it took. */
 type Move = Lasting & { by: number };

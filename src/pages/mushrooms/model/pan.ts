@@ -8,9 +8,18 @@
  * before an end; a held key turns it at a steady cruise,
  * eased in and out, stepped frame by frame through `tick`; a resize re-crops
  * it round the ground point at the screen's centre. Screen x and world x
- * convert through `worldOf` and `screenOf` alone.
+ * convert through `worldOf` and `screenOf` alone. A crop with a `turn` is a
+ * heading instead: `left` is the heading times the focal length, it has no
+ * ends and wraps once round, and its keys cruise at `TURN_CRUISE`.
  */
 
+import {
+  type Course,
+  cruise,
+  type Cruised,
+  type Direction,
+  type Paced,
+} from './cruise';
 import type { Lefted, Point } from './geometry';
 import type { Camera } from './ground';
 
@@ -19,6 +28,15 @@ import type { Camera } from './ground';
  * px, and the clump's size in px, which ties a world px to the ground.
  */
 export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
+
+/**
+ * A heading's crop: its keys' cruise in px per second, and how many px a full
+ * turn spans, both the focal length's multiples.
+ */
+export type Turn = Cruised & { around: number };
+
+/** A crop's `turn`, when it is a heading's rather than a stretch of the world. */
+type Turned = { turn?: Turn };
 
 /**
  * A finger at `x` across the screen, in CSS px, at `sampledAt` on the scene's
@@ -55,7 +73,7 @@ type Gliding = Lasting & {
  * The arrow keys turning the crop: at `left` as of the last `tick`, its left
  * edge moving at `pace` px per second.
  */
-type Keying = Lefted & { kind: 'keys'; pace: number };
+type Keying = Lefted & Paced & { kind: 'keys' };
 
 type Resting = Lefted & { kind: 'rest' };
 
@@ -69,13 +87,14 @@ const NONE_HELD: Held = { leftward: false, rightward: false };
  * held, whatever moves it: while a key is held and no finger is down, the
  * keys turn it, at a stand with both held.
  */
-export type Pan = View & {
-  held: Held;
-  motion: Resting | Gliding | Pressing | Keying;
-};
+export type Pan = View &
+  Turned & {
+    held: Held;
+    motion: Resting | Gliding | Pressing | Keying;
+  };
 
 /** Which way a key turns the crop: -1 leftward, 1 rightward. */
-export type Direction = -1 | 1;
+export type { Direction } from './cruise';
 
 /**
  * How far, in CSS px, a finger moves before its press pans rather than taps:
@@ -107,12 +126,15 @@ const STILL_AFTER = 0.1;
 export const CRUISE_ACROSS = 0.5;
 export const KEY_EASE = 0.25;
 /**
- * The longest stretch of time one `tick` integrates, in seconds, so a frame
- * after the tab was away does not leap; and the longest sub-step it takes,
- * so the braking at the world's ends comes out the same at any frame rate.
+ * A held key's turn of the heading, in radians a second: a tablet's half a
+ * screen width a second at its 43.7° view, the same on every screen.
  */
-const LONGEST_TICK = 0.1;
-const SUBSTEP = 1 / 240;
+export const TURN_CRUISE = 0.38;
+
+/** The turn of a heading seen at `focal` px, the screen's focal length. */
+export function turnOf(focal: number): Turn {
+  return { cruise: TURN_CRUISE * focal, around: 2 * Math.PI * focal };
+}
 
 /**
  * `left` held inside the world: from 0 to the world's width less the
@@ -123,12 +145,19 @@ export function clampLeft({ world, width }: View, left: number): number {
   return most <= 0 ? most / 2 : Math.min(most, Math.max(0, left));
 }
 
+/** `left` held inside the world, or once round a heading's turn. */
+function inside(view: View & Turned, left: number): number {
+  const { turn } = view;
+  if (!turn) return clampLeft(view, left);
+  return left - turn.around * Math.floor(left / turn.around);
+}
+
 /** The crop at rest at `left`, held inside the world, no key held. */
-export function restingAt(view: View, left: number): Pan {
+export function restingAt(view: View & Turned, left: number): Pan {
   return {
     ...view,
     held: NONE_HELD,
-    motion: { kind: 'rest', left: clampLeft(view, left) },
+    motion: { kind: 'rest', left: inside(view, left) },
   };
 }
 
@@ -148,10 +177,11 @@ function glideShare({ began, over }: Gliding, time: number): number {
 }
 
 /** The crop's left edge at `time`, in world px; a key's turn as of its last `tick`. */
-export function leftAt({ motion }: Pan, time: number): number {
+export function leftAt(pan: Pan, time: number): number {
+  const { motion } = pan;
   if (motion.kind !== 'glide') return motion.left;
   const { start, goal } = motion;
-  return start + (goal - start) * glided(glideShare(motion, time));
+  return inside(pan, start + (goal - start) * glided(glideShare(motion, time)));
 }
 
 /** How fast the crop's left edge moves on its own at `time`, in px per second. */
@@ -231,7 +261,7 @@ export function move(pan: Pan, x: number, time: number): Pan {
     motion: {
       ...motion,
       ...((panning || crossed) && {
-        left: clampLeft(pan, left - (x - from)),
+        left: inside(pan, left - (x - from)),
         panning: true,
       }),
       last: { x, sampledAt: time },
@@ -247,7 +277,7 @@ export function move(pan: Pan, x: number, time: number): Pan {
  * the crop over instead, from the finger's pace no faster than their cruise.
  */
 export function release(pan: Pan, time: number): Pan {
-  const { motion } = pan;
+  const { motion, turn } = pan;
   if (motion.kind !== 'press') return pan;
   const start = leftAt(pan, time);
   const still = time - motion.last.sampledAt > STILL_AFTER;
@@ -256,7 +286,9 @@ export function release(pan: Pan, time: number): Pan {
   if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, start);
   const fastest =
     Math.sign(velocity) * Math.min(GLIDE_FASTEST, Math.abs(velocity));
-  const goal = clampLeft(pan, start + fastest * GLIDE_TAU);
+  const coast = start + fastest * GLIDE_TAU;
+  // A heading's glide is left unwrapped, so it turns the short way round.
+  const goal = turn ? coast : clampLeft(pan, coast);
   return {
     ...pan,
     motion: {
@@ -286,15 +318,20 @@ function isHeld({ held }: Pan): boolean {
 
 /** The keys turning `pan` from `left`, setting off at `pace` held to their cruise. */
 function keyedFrom(pan: Pan, left: number, pace: number): Pan {
-  const cruise = CRUISE_ACROSS * pan.width;
+  const fastest = cruiseOf(pan);
   return {
     ...pan,
     motion: {
       kind: 'keys',
       left,
-      pace: Math.min(cruise, Math.max(-cruise, pace)),
+      pace: Math.min(fastest, Math.max(-fastest, pace)),
     },
   };
+}
+
+/** A held key's cruise, in px per second. */
+function cruiseOf({ turn, width }: Pan): number {
+  return turn ? turn.cruise : CRUISE_ACROSS * width;
 }
 
 /**
@@ -325,57 +362,36 @@ export function letGoKey(pan: Pan, direction: Direction): Pan {
 }
 
 /**
- * The keys' turn `seconds` on, the most of `LONGEST_TICK`: the pace eases at
- * one steady rate toward the cruise the held keys ask (none for both or
- * neither), and toward a world's end brakes on the curve that brings it to
- * rest exactly there. Each sub-step is integrated exactly, so away from the
- * ends a frame's length changes nothing, and near them the sub-steps keep
- * any two frame rates within a fraction of a px. Once no key is held and the
- * pace is spent, the crop rests. Anything but a key's turn, and a turn that
- * stands still, is returned as the same object.
+ * The keys' turn `seconds` on, by `cruise`: the pace eases toward the cruise
+ * the held keys ask (none for both or neither), and toward a world's end
+ * brakes to rest exactly there; a heading has none. Once no key is held and
+ * the pace is spent, the crop rests. Anything but a key's turn, and a turn
+ * that stands still, is returned as the same object.
  */
 export function tick(pan: Pan, seconds: number): Pan {
-  const { motion, width } = pan;
+  const { motion, turn } = pan;
   if (motion.kind !== 'keys' || seconds <= 0) return pan;
-  const cruise = CRUISE_ACROSS * width;
-  const rate = cruise / KEY_EASE;
-  const low = clampLeft(pan, -Infinity);
-  const high = clampLeft(pan, Infinity);
+  const low = turn ? -Infinity : clampLeft(pan, -Infinity);
+  const high = turn ? Infinity : clampLeft(pan, Infinity);
   const toward = heading(pan);
-  const span = Math.min(seconds, LONGEST_TICK);
-  const count = Math.ceil(span / SUBSTEP);
-  const each = span / count;
+  const course: Course<number> = {
+    cruise: cruiseOf(pan),
+    ease: KEY_EASE,
+    toward: () => toward,
+    room: (left, way) => (way > 0 ? high - left : left - low),
+    step: (left, by) => {
+      const next = left + by;
+      const held = Math.min(high, Math.max(low, next));
+      return { at: held, stopped: held !== next };
+    },
+  };
   const { left: setOff, pace: setOffPace } = motion;
-  let left = setOff;
-  let pace = setOffPace;
-  for (let index = 0; index < count; index++) {
-    const ahead = toward > 0 ? high - left : left - low;
-    const wanted =
-      toward * Math.min(cruise, Math.sqrt(2 * rate * Math.max(0, ahead)));
-    // Toward an end faster than the steady rate can stop in the room left,
-    // as a glide handed on can be, the crop brakes as hard as it must.
-    const room = pace > 0 ? high - left : left - low;
-    const slowing =
-      Math.sign(wanted) !== Math.sign(pace) ||
-      Math.abs(wanted) < Math.abs(pace);
-    const braking = pace !== 0 && slowing && room > 0;
-    const easing = braking ? Math.max(rate, pace ** 2 / (2 * room)) : rate;
-    const gap = wanted - pace;
-    const reached = Math.abs(gap) / easing;
-    if (reached >= each) {
-      const next = pace + Math.sign(gap) * easing * each;
-      left += ((pace + next) / 2) * each;
-      pace = next;
-    } else {
-      left += ((pace + wanted) / 2) * reached + wanted * (each - reached);
-      pace = wanted;
-    }
-    const inside = Math.min(high, Math.max(low, left));
-    if (inside !== left) {
-      left = inside;
-      pace = 0;
-    }
-  }
+  const { at, pace } = cruise(
+    course,
+    { at: setOff, pace: setOffPace },
+    seconds,
+  );
+  const left = inside(pan, at);
   if (!isHeld(pan) && pace === 0) return restingAt(pan, left);
   if (left === setOff && pace === setOffPace) return pan;
   return { ...pan, motion: { ...motion, left, pace } };
@@ -384,17 +400,21 @@ export function tick(pan: Pan, seconds: number): Pan {
 /**
  * The crop taken across `view` at `time`, a resize or a turn: the ground
  * point at the screen's centre stays there, in the clump's size so it holds
- * across a new zoom, held inside the new world. A glide stops; the held keys
- * turn on from the new crop at a pace in the new screen's widths; a pressed
- * finger pans on from the new crop.
+ * across a new zoom, held inside the new world. A heading taken across a new
+ * `turn` keeps its angle, which is all a phone's turn is. A glide stops; the
+ * held keys turn on from the new crop at a pace in the new screen's widths, or
+ * at the same angle a second; a pressed finger pans on from the new crop.
  */
-export function recrop(pan: Pan, view: View, time: number): Pan {
-  const { motion, width, world, unit, held } = pan;
-  const centre = (leftAt(pan, time) + width / 2 - world / 2) / unit;
-  const there = clampLeft(
-    view,
-    view.world / 2 + centre * view.unit - view.width / 2,
-  );
+export function recrop(pan: Pan, view: View & Turned, time: number): Pan {
+  const { motion, width, world, unit, held, turn } = pan;
+  const left = leftAt(pan, time);
+  const centre = (left + width / 2 - world / 2) / unit;
+  const ratio =
+    turn && view.turn ? view.turn.around / turn.around : view.width / width;
+  const there =
+    turn && view.turn
+      ? inside(view, left * ratio)
+      : clampLeft(view, view.world / 2 + centre * view.unit - view.width / 2);
   if (motion.kind === 'press') {
     return {
       ...view,
@@ -403,7 +423,7 @@ export function recrop(pan: Pan, view: View, time: number): Pan {
     };
   }
   if (motion.kind === 'keys') {
-    const pace = (motion.pace * view.width) / width;
+    const pace = motion.pace * ratio;
     return { ...view, held, motion: { ...motion, left: there, pace } };
   }
   return restingAt(view, there);
