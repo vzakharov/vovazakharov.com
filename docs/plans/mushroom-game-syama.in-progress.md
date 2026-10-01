@@ -463,6 +463,25 @@ departures were taken):
   things past the seam behind the hills (0dfbc9e7, `p3b-wiring.md`); the
   insects through the view (579c7312, `p3c-insects.md`).
 
+**Where the relay at depth 8 left it** (each line's note under
+`docs/remove-before-merging/bite-12/`): `pnpm type-overlap`'s groups fixed
+(5c7a7b43, `type-overlap.md`); `decisions.md` rewritten (b2fb9fd1); the
+fold done — `bite-12.md`, the summary, row 12, the elephant reworded
+(181167e8, 34354853); item 4b built (d4028a5a, `key-plants.md`); the
+opening, approach and seat plays (4fa8349a); a perched insect drawn where
+its cap or flower draws the seat, 0.00 px through a turn on tabL and
+phoneP (c8c32263, `seat-fix.md`). Left: the five-screen run at the final
+HEAD with its frames (`play-final.md` says how far it got), the frame
+budget judged on an idle machine (36 ms on tabL with agents running), the
+phoneL edge flower judged; then the review subagent (§ "How this elephant
+is eaten" step 2) and its fixes; delete this section; `/polish`, vet, the
+Artifact, `/pr`. **Also, by a subagent:** the context-budget hook gives a
+subagent its own notice at ~170k from its own transcript — commit what
+passes, note current, report — instead of exiting on `agent_id`
+(operator: «сделай, подагентом в следующей сессии»; see
+`.claude/skills/megabeast/notes/subagents.md`). Per-agent worktrees to
+quiet the Stop hook's git check: declined («не надо»).
+
 **Left, in order:**
 
 1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where

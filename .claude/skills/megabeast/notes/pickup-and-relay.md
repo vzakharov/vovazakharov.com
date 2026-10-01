@@ -107,6 +107,16 @@
   script's shell plus the publish wrapper, and publish the same file again.
   A second unchanged publish without that `Read` is refused as a resend.
 
+- **The budget notice's "offer `/compact` or `/relay`" does not apply in
+  the loop: it relays, unasked.** Bite 12's last session met the 200k
+  notice with the operator present and put the choice to him, and with it
+  two infrastructure questions; he answered «relay, и всегда так. вроде
+  договаривались. в какой момент "without operator involvement" исчезло с
+  карты?». The notice is written for a session with no loop around it; the
+  plan's standing rules outrank it. The skill should say so where the
+  notice is met, and a session should put to a present operator only what
+  is about how the game feels.
+
 ## The depth cap
 
 - **A relay chain stops at eight sessions deep, and the operator's paste is
