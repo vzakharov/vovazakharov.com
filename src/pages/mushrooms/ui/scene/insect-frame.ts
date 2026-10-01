@@ -43,7 +43,7 @@ export type Framed = Point & { forward: number };
 export const FRAME_MARGIN = SPREAD * 0.9;
 
 /** The plane azimuth of `point` from `eye`, turned from its `+y` toward its `+x`. */
-function azimuthOf(eye: Point, point: Point): number {
+export function azimuthOf(eye: Point, point: Point): number {
   return Math.atan2(point.x - eye.x, point.y - eye.y);
 }
 

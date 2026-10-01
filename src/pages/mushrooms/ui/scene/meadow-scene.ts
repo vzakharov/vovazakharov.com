@@ -9,6 +9,7 @@ import {
   type Meadow,
   reduce,
 } from '../../model/game';
+import { OPENING_EYE } from '../../model/ground';
 import type { Flier } from '../../model/insects';
 import { sunLight } from '../../model/light';
 import { mulberry32 } from '../../model/random';
@@ -29,6 +30,7 @@ import { Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { MeadowSound, readMuted } from './sound';
 import { Grass } from './tufts';
+import { type View, viewAt } from './view';
 import { Gait } from './walking';
 
 /** The registry key the host writes the device pixel ratio under. */
@@ -101,7 +103,7 @@ export class MeadowScene extends Phaser.Scene {
       ...this.scened,
       layout: () => this.requireLayout(),
       view: () => this.eye.view(),
-      sight: () => this.perches.sight,
+      sight: () => this.perches.sightFrom(this.viewNow()),
     },
     this.visitSeed,
   );
@@ -135,7 +137,7 @@ export class MeadowScene extends Phaser.Scene {
       (id) => {
         this.tapInsect(id);
       },
-      () => this.eye.view(),
+      () => this.viewNow(),
     );
     this.controls = new Controls(
       this,
@@ -214,7 +216,11 @@ export class MeadowScene extends Phaser.Scene {
     } = this;
     if (!layout || !backdrop) return;
     this.walk(layout.height);
-    this.dispatch({ kind: 'tick', now: time, ...perches.sight });
+    this.dispatch({
+      kind: 'tick',
+      now: time,
+      ...perches.sightFrom(this.viewNow()),
+    });
     driftClouds(backdrop, layout, t);
     const planting = meadow?.planting;
     // The grass marks the tuft the picker is open on; the bed rings a flower.
@@ -331,7 +337,12 @@ export class MeadowScene extends Phaser.Scene {
     const now = this.clock * 1000;
     const flier = this.meadow?.insects.find((each) => each.id === id);
     const under = restingOn(flier, now);
-    this.dispatch({ kind: 'startle', id, now, ...this.perches.sight });
+    this.dispatch({
+      kind: 'startle',
+      id,
+      now,
+      ...this.perches.sightFrom(this.viewNow()),
+    });
     this.perches.tapThrough(under);
   }
 
@@ -358,6 +369,11 @@ export class MeadowScene extends Phaser.Scene {
   private requireLayout(): MeadowLayout {
     if (!this.layout) throw new Error('The meadow is used before its paint');
     return this.layout;
+  }
+
+  /** The view the frame is drawn through now: the opening eye's before the eye's first fit. */
+  private viewNow(): View {
+    return this.eye.view() ?? viewAt(this.requireLayout().camera, OPENING_EYE);
   }
 
   private repaintControls(): void {
@@ -424,7 +440,6 @@ export class MeadowScene extends Phaser.Scene {
   private see(): void {
     const stand = this.stand();
     if (!stand) return;
-    const feet = this.perches.see(stand);
-    this.insects?.see(feet);
+    this.perches.see(stand);
   }
 }

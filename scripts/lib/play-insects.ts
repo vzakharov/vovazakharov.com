@@ -20,7 +20,7 @@ import {
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;
-/** How close to its perch, in CSS px, a butterfly at rest is drawn. */
+/** How close to its perch, in px of its leg's frame, a butterfly at rest is flown. */
 const ON_PERCH = 1.5;
 /** Frames per look while waiting for a butterfly to be somewhere, and the most looks. */
 const LOOK = 15;

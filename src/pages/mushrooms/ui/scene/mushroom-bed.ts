@@ -42,7 +42,7 @@ import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection, type Selected } from './mushroom-selection';
-import type { Perched } from './perch-hosts';
+import type { Seat } from './perch-hosts';
 import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { puffFrom, puffSpores } from './spores';
@@ -262,7 +262,7 @@ export class MushroomBed implements Following {
    * draws it, with the seat as it draws it this frame; `undefined` for a
    * mushroom it does not hold.
    */
-  capTop(id: string, across: number): Perched | undefined {
+  capTop(id: string, across: number): Seat | undefined {
     const shown = this.shown.get(id);
     if (!shown) return undefined;
     const { genes, size, graphics, laid, stands } = shown;

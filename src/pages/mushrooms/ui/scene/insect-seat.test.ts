@@ -11,9 +11,8 @@ import {
 } from '../../model/ground';
 import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, type Host, onHost } from './bed-place';
-import { drawnAt, type Zoomed } from './insect-away';
-import { aloftAt, veerOf } from './insect-frame';
-import { drawnFlier, drawnInsect, seatedZoom } from './insect-seat';
+import { aloftAt, drawnAloft, veerOf } from './insect-frame';
+import { drawnFlier, drawnSitter, seatAloft, seatedZoom } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -59,118 +58,6 @@ const CASES = VIEWPORTS.flatMap(([name, width, height]) =>
   ),
 );
 
-describe('drawnInsect', () => {
-  it('draws a sitting insect where its host draws the seat, at every heading', () => {
-    for (const { view, foot } of CASES) {
-      const host = hostOn(view, foot);
-      const { stands, laidFoot } = host;
-      for (const seat of SEATS) {
-        const drawn = drawnInsect(
-          view,
-          plus(laidFoot, seat),
-          { flown: 1, row: laidFoot.y },
-          { to: host },
-        );
-        // The bed draws its body flat at its foot, `zoom` times its layout.
-        const sprite = {
-          x: stands.x + seat.x * stands.zoom,
-          y: stands.y + seat.y * stands.zoom,
-        };
-        assert.ok(drawn && apart(drawn, sprite) < 1e-9);
-        assert.equal(drawn.zoom, stands.zoom);
-      }
-    }
-  });
-
-  it('agrees with the flight through the view at the opening, and parts from it as the eye turns', () => {
-    let most = 0;
-    for (const { view, foot, heading } of CASES) {
-      const host = hostOn(view, foot);
-      const { laidFoot } = host;
-      for (const seat of SEATS) {
-        const point = plus(laidFoot, seat);
-        const sitting = drawnInsect(
-          view,
-          point,
-          { flown: 1, row: laidFoot.y },
-          { to: host },
-        );
-        const flown = drawnAt(view, point, laidFoot.y);
-        assert.ok(sitting && flown);
-        // At the opening the two part only by the lens's squeeze across a
-        // seat's span off the screen's middle, never by a whole px.
-        if (heading === 0) assert.ok(apart(sitting, flown) < 1);
-        most = Math.max(most, apart(sitting, flown));
-      }
-    }
-    assert.ok(most > 1, `the flight's ${most.toFixed(2)} px off the seat`);
-  });
-
-  it('sets off from where it sat and lands where it will sit, with no jump', () => {
-    for (const { view, foot } of CASES) {
-      const left = hostOn(view, foot);
-      const to = hostOn(view, { x: foot.x - 0.5, z: foot.z + 0.2 });
-      const start = plus(left.laidFoot, SEATS[1] ?? { x: 0, y: 0 });
-      const end = plus(to.laidFoot, SEATS[2] ?? { x: 0, y: 0 });
-      const rows = { from: left.laidFoot.y, to: to.laidFoot.y };
-      const at = (along: number): Zoomed | undefined => {
-        const point = {
-          x: start.x + (end.x - start.x) * along,
-          y: start.y + (end.y - start.y) * along,
-        };
-        const row = rows.from + (rows.to - rows.from) * along;
-        return drawnInsect(view, point, { flown: along, row }, { left, to });
-      };
-      for (const [edge, near] of [
-        [0, 1e-6],
-        [1, 1 - 1e-6],
-      ] as const) {
-        const sat = at(edge);
-        const flying = at(near);
-        assert.ok(sat && flying && apart(sat, flying) < 0.01);
-        assert.ok(Math.abs(sat.zoom - flying.zoom) < 1e-4);
-      }
-    }
-  });
-
-  it('draws an insect at its depth: its own size at the opening, larger stepped toward it, sitting or flying', () => {
-    for (const [, width, height] of VIEWPORTS) {
-      const camera = meadowCamera(width, height);
-      const [opening, stepped] = [OPENING_EYE, { x: 0, y: 1, heading: 0 }].map(
-        (eye) => viewAt(camera, eye),
-      );
-      assert.ok(opening && stepped);
-      const sizes = FEET.map((foot) => {
-        const laid = project(opening, foot);
-        const point = plus(laid, SEATS[0] ?? { x: 0, y: 0 });
-        const along = { flown: 0.5, row: laid.y };
-        const zooms = [opening, stepped].map((view) => ({
-          sitting: drawnInsect(
-            view,
-            point,
-            { flown: 1, row: laid.y },
-            { to: hostOn(view, foot) },
-          )?.zoom,
-          flying: drawnInsect(view, point, along, {})?.zoom,
-        }));
-        const [before, after] = zooms;
-        assert.ok(
-          before && after?.sitting !== undefined && after.flying !== undefined,
-        );
-        // Off the screen's middle the lens draws a thing a hair smaller than
-        // the layout does, by its bend against the pinhole's slant.
-        assert.ok(Math.abs((before.sitting ?? 0) - 1) < SAME_SIZE);
-        assert.ok(Math.abs((before.flying ?? 0) - 1) < SAME_SIZE);
-        assert.ok(after.sitting > 1);
-        assert.ok(Math.abs(after.flying - after.sitting) < 1e-9);
-        return { row: laid.y, zoom: after.flying };
-      });
-      const [far, near] = sizes.toSorted((a, b) => a.row - b.row);
-      assert.ok(far && near && near.zoom > far.zoom);
-    }
-  });
-});
-
 /** Every case's view, and the eye stood in front of each foot facing it, near enough to veer a leg by it. */
 const NEAR_CASES = [
   ...CASES,
@@ -199,14 +86,11 @@ describe('drawnFlier', () => {
       for (const offset of SEATS) {
         const at = onHost(host, plus(host.laidFoot, offset));
         const seat = aloftAt(view, at, host.stands.distance);
-        const drawn = drawnFlier(view, seat, 1, { to: seat });
+        const { drawn } = drawnFlier(view, seat, 1, { to: seat });
         assert.ok(drawn, name);
         assert.ok(apart(drawn, at) < 1e-6, name);
-        // A seat toward a rim stands off the foot's x, where the screen
-        // bends a hair more or less than at the foot, by up to 1.2% on the
-        // sideways phone's edge.
-        const off = Math.abs(drawn.zoom / seatedZoom(host) - 1);
-        assert.ok(off < (offset.x === 0 ? 1e-3 : 0.015), `${name}: ${off}`);
+        const off = Math.abs(drawn.zoom / seatedZoom(view, host, at) - 1);
+        assert.ok(off < SAME_SIZE, `${name}: ${off}`);
         const { near, width } = veerOf(view);
         if (host.stands.distance < near + width) veered++;
         landed++;
@@ -227,18 +111,68 @@ describe('seatedZoom', () => {
       const zooms = FEET.map((foot) => {
         const before = hostOn(opening, foot);
         const after = hostOn(stepped, foot);
-        assert.ok(seatedZoom(after) > seatedZoom(before));
+        const zoomBefore = seatedZoom(opening, before, before.stands);
+        const zoomAfter = seatedZoom(stepped, after, after.stands);
+        assert.ok(zoomAfter > zoomBefore);
         // In scale with its cap wherever the eye stands.
-        const scale = seatedZoom(before) / before.stands.zoom;
-        assert.ok(
-          Math.abs(seatedZoom(after) / after.stands.zoom - scale) < 1e-12,
-        );
+        const scale = zoomBefore / before.stands.zoom;
+        assert.ok(Math.abs(zoomAfter / after.stands.zoom - scale) < 1e-12);
+        // Its own size over its distance ahead at the opening.
         const { ahead } = before.stands;
-        return { ahead, zoom: seatedZoom(before) };
+        assert.ok(
+          Math.abs((zoomBefore * ahead) / CLUMP_DISTANCE - 1) < SAME_SIZE,
+        );
+        return { ahead, zoom: zoomBefore };
       });
       const byDistance = zooms.toSorted((a, b) => a.ahead - b.ahead);
       const [nearest, farthest] = [byDistance[0], byDistance.at(-1)];
       assert.ok(nearest && farthest && nearest.zoom > farthest.zoom);
+    }
+  });
+});
+
+describe('drawnSitter', () => {
+  it('draws a sitter off its seat at its seated zoom, hidden with a host not drawn', () => {
+    let sat = 0;
+    for (const { name, view, foot } of CASES) {
+      const on = hostOn(view, foot);
+      const laid = plus(on.laidFoot, SEATS[0] ?? { x: 0, y: 0 });
+      const seat = { ...laid, on, drawn: onHost(on, laid) };
+      const off = { x: 3, y: -2 };
+      const drawn = drawnSitter(view, seat, off);
+      if (!on.stands.drawn) {
+        assert.equal(drawn, undefined, name);
+        continue;
+      }
+      if (!drawn) continue;
+      const zoom = seatedZoom(view, on, seat.drawn);
+      assert.equal(drawn.zoom, zoom);
+      assert.ok(
+        apart(drawn, plus(seat.drawn, { x: 3 * zoom, y: -2 * zoom })) < 1e-9,
+      );
+      sat++;
+    }
+    assert.ok(sat > 50, String(sat));
+  });
+});
+
+describe('seatAloft', () => {
+  it('is where a flight lands on the seat its host draws, and the seat as laid out where the host is not drawn', () => {
+    for (const { name, view, foot } of CASES) {
+      const on = hostOn(view, foot);
+      const laid = plus(on.laidFoot, SEATS[0] ?? { x: 0, y: 0 });
+      const seat = { ...laid, on, drawn: onHost(on, laid) };
+      const aloft = seatAloft(view, seat);
+      if (!on.stands.drawn) continue;
+      const drawn = drawnAloft(view, aloft);
+      if (drawn) assert.ok(apart(drawn, seat.drawn) < 1e-6, name);
+      assert.ok(
+        Math.abs(
+          Math.hypot(aloft.x - view.eye.x, aloft.y - view.eye.y) -
+            on.stands.distance,
+        ) < 1e-9,
+        name,
+      );
     }
   });
 });

@@ -37,7 +37,7 @@ import type { Instrument } from './instrument';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
-import type { Perched } from './perch-hosts';
+import type { Seat } from './perch-hosts';
 import { browPale } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 
@@ -251,7 +251,7 @@ export class FlowerBed implements Following {
    * (`flowerLiftAt`, `CLUMP_DISTANCE` over the flower's distance ahead);
    * `undefined` while the screen has no room for the flower.
    */
-  seat(id: string, spot: number, kind: InsectKind): Perched | undefined {
+  seat(id: string, spot: number, kind: InsectKind): Seat | undefined {
     const shown = this.shown.get(id);
     if (!shown?.laid) return undefined;
     const { container, head, headR, disc, laid, stands } = shown;

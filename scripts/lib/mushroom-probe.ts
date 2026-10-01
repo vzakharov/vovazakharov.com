@@ -54,8 +54,6 @@ export const PROBE = `(() => {
     const across = toScreen({ x, y: 0 }).x;
     return across >= 0 && across <= scene.layout.width;
   };
-  /** A point of the layout's world, standing over the ground row \`row\`, where the screen shows it now. */
-  const ofLayout = (point, row) => toScreen(scene.eye.toScreen(point, row));
   // Every footstep the walk sounds, counted whether or not the sound is on.
   const step = scene.voice.step.bind(scene.voice);
   let steps = 0;
@@ -205,16 +203,17 @@ export const PROBE = `(() => {
         };
       }),
     /**
-     * An insect on screen: where it is drawn, where its perch stood last
-     * frame, and when it was last tapped; \`null\` once it is gone.
+     * An insect on screen: where it is drawn, where its flight had it and
+     * its perch stood last frame, both in its leg's frame (world px at the
+     * opening eye), and when it was last tapped; \`null\` once it is gone.
      */
     insect: (id) => {
       const shown = scene.insects.shown.get(id);
       if (!shown) return null;
       return {
         ...toScreen(shown.container),
-        at: ofLayout(shown.at, shown.row),
-        end: shown.end ? ofLayout(shown.end, shown.row) : null,
+        at: { x: shown.at.x, y: shown.at.y },
+        end: shown.end ? { x: shown.end.x, y: shown.end.y } : null,
         span: shown.span * shown.container.scaleX,
         tappedAt: finite(shown.tappedAt),
       };

@@ -48,7 +48,7 @@ import {
 } from './draw-insect';
 import type { Lighted, Lighting } from './ink';
 import type { Footing } from './layout';
-import type { Perched } from './perch-hosts';
+import type { Seat } from './perch-hosts';
 
 /** How far a butterfly's wings fold at the most closed, seen from above, as a share of open. */
 const FOLDED = 0.12;
@@ -102,7 +102,7 @@ export type Moment = Timed &
 export type Flying = { flier: Flier };
 
 /** Where a drinking butterfly's middle and turn stand this frame, and the flower's middle it drinks from. */
-export type Drinking = Pick<Perched, 'nectar'> &
+export type Drinking = Pick<Seat, 'nectar'> &
   WithMiddle & {
     rotation: number;
   };

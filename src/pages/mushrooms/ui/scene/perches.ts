@@ -1,5 +1,4 @@
 import { type Perch, perchName, SIDES, type Sight } from '../../model/flight';
-import type { Point } from '../../model/geometry';
 import type { Flier } from '../../model/insects';
 import type { Stand } from './flower-sight';
 import type { Aloft } from './insect-frame';
@@ -10,14 +9,7 @@ import {
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';
-import {
-  airAlofts,
-  airSpots,
-  type FootRows,
-  footRows,
-  perchDistance,
-  perchSight,
-} from './perch-sight';
+import { airAlofts, perchDistance, perchSight } from './perch-sight';
 import type { View } from './view';
 
 /**
@@ -28,8 +20,6 @@ import type { View } from './view';
 export class Perches {
   /** What the insects see of the perches, as last seen. */
   sight: Sight = { flowers: [], air: [], crowded: [], room: [] };
-  /** Where each spot in the open air stands, by id, as last seen. */
-  private air = new Map<string, Point>();
   /** Each spot in the open air as a fixed point in the world, by id, as last seen. */
   private alofts: ReadonlyMap<string, Aloft> = new Map();
   /** Every perch `sight` places, by its name (`perchName`). */
@@ -41,11 +31,10 @@ export class Perches {
     this.beds = beds;
   }
 
-  /** Sees the perches afresh on `stand`; the rows they stand over (`footRows`). */
-  see(stand: Stand): FootRows {
+  /** Sees the perches afresh on `stand`. */
+  see(stand: Stand): void {
     const { layout, mushrooms } = stand;
     this.sight = perchSight(stand);
-    this.air = new Map(airSpots(layout).map(({ id, x, y }) => [id, { x, y }]));
     this.alofts = airAlofts(layout);
     const { flowers, beeFlowers = [], air } = this.sight;
     const perches: Perch[] = [
@@ -57,7 +46,6 @@ export class Perches {
       ...SIDES.map((side) => ({ kind: 'away', side }) as const),
     ];
     this.named = new Map(perches.map((perch) => [perchName(perch), perch]));
-    return footRows(stand);
   }
 
   /**
@@ -90,7 +78,7 @@ export class Perches {
   }
 
   private hosts(): PerchHosts {
-    const { air, alofts } = this;
-    return { ...this.beds(), air, alofts };
+    const { alofts } = this;
+    return { ...this.beds(), alofts };
   }
 }

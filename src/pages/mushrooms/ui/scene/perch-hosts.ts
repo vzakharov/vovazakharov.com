@@ -9,32 +9,33 @@ import type { MushroomBed } from './mushroom-bed';
 import { aloftOfLayout, perchSpot } from './perch-sight';
 
 /**
- * Where an insect sits on a perch, in world px at the opening eye: at a
- * flower the head's middle it drinks from; on a cap or a flower the host it
- * sits on, which draws it, and the seat as the host draws it this frame
- * (`drawn`, CSS px), its parts on the host at the host's zoom and its lift
- * off the host at the sitter's own; in the air, the spot as a fixed point in
- * the world.
+ * Where an insect sits on a cap or a flower, in world px at the opening eye,
+ * and at a flower the head's middle it drinks from; the host it sits on,
+ * which draws it, and the seat as the host draws it this frame (`drawn`, CSS
+ * px), its parts on the host at the host's zoom and its lift off the host at
+ * the sitter's own.
  */
-export type Perched = Point & {
-  nectar?: Point;
-  on?: Host;
-  drawn?: Point;
-  aloft?: Aloft;
-};
+export type Seat = Point & { on: Host; drawn: Point; nectar?: Point };
+
+/** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
+export type Perched = Seat | { aloft: Aloft };
+
+/** Whether `perched` is a seat on a host. */
+export function isSeated(perched: Perched): perched is Seat {
+  return 'on' in perched;
+}
 
 /** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
 export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 
 /**
  * What the scene's perches stand on: the mushrooms' caps, the flowers' heads,
- * and each spot in the open air by id, where the layout lays it out (`air`)
- * and as a fixed point in the world (`alofts`, `airAlofts`).
+ * and each spot in the open air by id, as a fixed point in the world
+ * (`airAlofts`).
  */
 export type PerchHosts = {
   bed: MushroomBed | undefined;
   flowers: FlowerBed | undefined;
-  air: ReadonlyMap<string, Point>;
   alofts: ReadonlyMap<string, Aloft>;
 };
 
@@ -45,7 +46,7 @@ export type PerchHosts = {
  * it; or a spot in the open air.
  */
 export function perchedOn(
-  { bed, flowers, air, alofts }: PerchHosts,
+  { bed, flowers, alofts }: PerchHosts,
   perch: Perch,
   insect: Flier,
 ): Perched | undefined {
@@ -58,8 +59,8 @@ export function perchedOn(
       return flowers?.seat(perch.id, spot, insect.kind);
     }
     case 'air': {
-      const [at, aloft] = [air.get(perch.id), alofts.get(perch.id)];
-      return at && (aloft ? { ...at, aloft } : at);
+      const aloft = alofts.get(perch.id);
+      return aloft && { aloft };
     }
     case 'away': {
       return undefined;

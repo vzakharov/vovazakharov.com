@@ -6,7 +6,8 @@ import type { CarryingOver } from '../../model/insect-paths';
 import { firstSteering, type Steering } from '../../model/insect-steering';
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
-import type { OverRow, Spanned } from './insect-away';
+import type { Spanned } from './insect-away';
+import type { Aloft, Framed } from './insect-frame';
 import type { Flying, Look } from './insect-look';
 
 /** An insect on screen (`InsectView`): its look, and where and how it flies. */
@@ -17,71 +18,78 @@ export type Shown = TappedFigure &
   Spanned &
   // How far its landing's bob sank it last frame, in units of its size.
   Bobbed &
-  // Where its flight had it last frame, in the world, and the ground row it
-  // was drawn standing over.
-  OverRow &
   // When the stretch of its leg drawn now set off: the leg's departure, or
   // once it is `out`, when it flew out of view.
   Pick<Span, 'departs'> & {
     look: Look;
+    /** Where its current leg set off. */
+    from: Aloft;
     /**
-     * Where its current leg set off: across, in ground units from the
-     * world's midline; down, as a fraction of the screen's height.
+     * Where it was drawn last frame, veered round the eye and fidgets and
+     * all, its bob aside, hidden or not: where a new leg sets off.
      */
-    from: Point;
+    drawn: Aloft;
+    /**
+     * The centre azimuth of its current leg's frame (`centreOf`), fixed on
+     * the leg's first frame; `undefined` before it.
+     */
+    centre: number | undefined;
+    /** How far along the stretch drawn now it was last frame, from 0 to 1. */
+    flown: number;
+    /** Where its flight had it last frame, in its leg's frame. */
+    at: Point;
+    /** Where its perch stood last frame, in its leg's frame; `undefined` before its leg's first frame. */
+    end: Framed | undefined;
+    /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
+    goal: Aloft | undefined;
     /**
      * Whether its leg in from away has yet to pick where it sets off
-     * (`entry`), which it does on its first frame, once its perch stands.
+     * (`entryAloft`), which it does on its first frame, once its perch stands.
      */
     entering: boolean;
-    /** The ground row, in world px, its current leg set off standing over. */
-    fromRow: number;
     /**
      * Where a release with no open perch in view flies out of it, past the
-     * screen's side (`entry`), in `from`'s units, and the row it stands
-     * over; `undefined` once it is out, and on every other leg.
+     * screen's side (`entryAloft`); `undefined` once it is out, and on every
+     * other leg.
      */
-    out: OverRow | undefined;
-    /** How far its fidgets on its perch moved it off `at` last frame. */
+    out: Aloft | undefined;
+    /** How far its fidgets on its perch moved it off its flight last frame, in px at its own size. */
     offset: Point;
     /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
     bobFrom: number;
-    /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
-    end: Point | undefined;
     /** How its body is held from one frame to the next (`steer`). */
     steering: Steering;
     /**
      * Where its perch stood on its current leg's first frame, or the first
-     * since the screen was last painted, which its leg sets off by; `undefined`
-     * before it.
+     * since the screen was last painted, in its leg's frame, which its leg
+     * sets off by; `undefined` before it.
      */
     aim: Point | undefined;
     /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
     turnedFrom: number | undefined;
   };
 
-/**
- * An insect just shown, before its first paint and its first frame: still,
- * untapped, standing over `row`.
- */
+/** An insect just shown, before its first paint and its first frame: still, untapped, at `from`. */
 export function freshShown(
   parts: Pick<Shown, 'container' | 'hit' | 'look' | 'flier'>,
-  row: number,
+  from: Aloft,
 ): Shown {
   return {
     ...parts,
     span: 0,
-    from: { x: 0, y: 0 },
+    from,
+    drawn: from,
+    centre: undefined,
+    flown: 0,
     entering: false,
-    fromRow: row,
     out: undefined,
     ...pick(parts.flier.leg, 'departs'),
-    row,
     at: { x: 0, y: 0 },
+    end: undefined,
+    goal: undefined,
     offset: { x: 0, y: 0 },
     bob: 0,
     bobFrom: 0,
-    end: undefined,
     steering: firstSteering({ facing: 0, turn: 0 }),
     aim: undefined,
     turnedFrom: undefined,

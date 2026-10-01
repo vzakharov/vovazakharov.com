@@ -1,108 +1,78 @@
 /**
- * Where an insect is drawn, and at what zoom: sitting, where the cap or the
- * flower under it draws its seat, at the zoom it draws itself; flying,
- * through the view over the ground row it flies over (`drawnAt`), carried
- * onto the host it left near the leg's start and onto the one it lands on
- * near its end, so it sets off and lands with no jump in place or size.
+ * Where an insect is drawn, and at what zoom: flying, at its own size over
+ * its distance, veered round the eye; sitting, where the cap or the flower
+ * under it draws its seat, at the zoom that landing gave it.
  */
 
-import { pick } from '@/shared/lib/collections';
-
 import type { Point } from '../../model/geometry';
-import { CLUMP_DISTANCE } from '../../model/ground';
-import { type Host, onHost, type Standing } from './bed-place';
-import { drawnAt, flownAt, type Zoomed } from './insect-away';
+import { bendAt, CLUMP_DISTANCE, pinholeOf } from '../../model/ground';
+import type { Standing } from './bed-place';
+import type { Zoomed } from './insect-away';
 import {
   type Aloft,
+  aloftAt,
   drawnAloft,
   type SeatEnds,
   veeredAlong,
   veerOf,
 } from './insect-frame';
-import type { Shown } from './insect-shown';
-import { browRow, cull, type Placed, type View } from './view';
-
-/** The hosts a leg is drawn between: `left`, the one it set off sitting on, and `to`, the one it flies to sit on; either absent where the leg has none. */
-export type Seats = { left?: Host; to?: Host };
-
-/** `flown`, how far along its leg an insect is, from 0 at its start to 1 at its end, and the ground row it is drawn standing over there. */
-export type Along = Pick<Shown, 'row'> & { flown: number };
-
-/**
- * Where `host` draws `point`, laid out on it, at the host's zoom:
- * `undefined` where the host is not drawn, or where its point has sunk below
- * the brow, which an insect, drawn over everything, would otherwise stand on.
- */
-function onSeat(view: View, host: Host, point: Point): Zoomed | undefined {
-  if (!host.stands.drawn) return undefined;
-  const drawn = onHost(host, point);
-  return host.stands.behind && drawn.y > browRow(view, drawn.x)
-    ? undefined
-    : { ...drawn, ...pick(host.stands, 'zoom') };
-}
-
-/** How far from where, and how much larger than, the flight would draw `point` over `host`'s foot row `host` draws it; nothing for a host too near the eye to place. */
-function offHost(view: View, host: Host, point: Point): Zoomed {
-  const flown = flownAt(view, point, host.laidFoot.y);
-  if (cull(flown)) return { x: 0, y: 0, zoom: 0 };
-  const drawn = onHost(host, point);
-  return {
-    x: drawn.x - flown.x,
-    y: drawn.y - flown.y,
-    zoom: host.stands.zoom - flown.zoom,
-  };
-}
-
-/**
- * Where an insect at `point`, in world px at the opening eye, is drawn on
- * the screen now, and at what zoom, as far along its leg between `seats` as
- * `flown` says; `undefined` where it is hidden. As laid out, at its own
- * size, before the eye's first fit.
- */
-export function drawnInsect(
-  view: View | undefined,
-  point: Point,
-  { flown, row }: Along,
-  { left, to }: Seats,
-): Zoomed | undefined {
-  if (!view) return { ...point, zoom: 1 };
-  if (to && flown >= 1) return onSeat(view, to, point);
-  if (left && flown <= 0) return onSeat(view, left, point);
-  const flying = drawnAt(view, point, row);
-  if (!flying) return undefined;
-  const drawn = { ...flying };
-  for (const [host, weight] of [
-    [left, 1 - flown],
-    [to, flown],
-  ] as const) {
-    if (!host) continue;
-    const off = offHost(view, host, point);
-    drawn.x += off.x * weight;
-    drawn.y += off.y * weight;
-    drawn.zoom += off.zoom * weight;
-  }
-  return drawn;
-}
+import type { Seat } from './perch-hosts';
+import { aloftOfLayout } from './perch-sight';
+import { browRow, type Placed, type View } from './view';
 
 /**
  * Where `view` draws an insect flying at `raw`, `flown` of the way along its
  * leg between the seats `ends`, at its own size over its distance: veered
  * round the eye (`veeredAlong`), the veer faded out toward a seat it would
- * move; `undefined` where it is hidden.
+ * move; `drawn` is `undefined` where it is hidden. `aloft` is the veered
+ * point, drawn or not, which a leg cut short sets off again from.
  */
 export function drawnFlier(
   view: View,
   raw: Aloft,
   flown: number,
   ends: SeatEnds,
-): Placed | undefined {
-  return drawnAloft(
-    view,
-    veeredAlong(view.eye, raw, veerOf(view), flown, ends),
+): { aloft: Aloft; drawn: Placed | undefined } {
+  const aloft = veeredAlong(view.eye, raw, veerOf(view), flown, ends);
+  return { aloft, drawn: drawnAloft(view, aloft) };
+}
+
+/**
+ * The zoom an insect sitting on `host` is drawn at, its seat drawn at
+ * `drawn`: its own size over the host's distance, bent as the screen bends
+ * it there, as `drawnFlier` lands it.
+ */
+export function seatedZoom(view: View, host: Standing, drawn: Point): number {
+  return (
+    (CLUMP_DISTANCE * bendAt(pinholeOf(view), drawn.x)) / host.stands.distance
   );
 }
 
-/** The zoom an insect sitting on `host` is drawn at: its own size over the host's distance, as `drawnFlier` lands it. */
-export function seatedZoom(host: Standing): number {
-  return CLUMP_DISTANCE / host.stands.ahead;
+/**
+ * The seat `seat` as a point in the world `view` sees: where its host draws
+ * it, at the host's distance, so a flight lands on it exactly; where the host
+ * is not drawn, the seat as the layout lays it out (`aloftOfLayout`).
+ */
+export function seatAloft(view: View, seat: Seat): Aloft {
+  const { on, drawn } = seat;
+  return on.stands.drawn
+    ? aloftAt(view, drawn, on.stands.distance)
+    : aloftOfLayout(view, seat, on.laidFoot.y);
+}
+
+/**
+ * Where `view` draws an insect sitting on `seat`, `off` px off it at its own
+ * size, and at what zoom (`seatedZoom`): `undefined` where the host is not
+ * drawn, or where the seat has sunk below the brow, which an insect, drawn
+ * over everything, would otherwise stand on.
+ */
+export function drawnSitter(
+  view: View,
+  { on, drawn }: Seat,
+  off: Point,
+): Zoomed | undefined {
+  if (!on.stands.drawn) return undefined;
+  if (on.stands.behind && drawn.y > browRow(view, drawn.x)) return undefined;
+  const zoom = seatedZoom(view, on, drawn);
+  return { x: drawn.x + off.x * zoom, y: drawn.y + off.y * zoom, zoom };
 }
