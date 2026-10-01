@@ -50,19 +50,26 @@ type Gliding = {
 
 /**
  * The arrow keys turning the crop: at `left` as of the last `tick`, its left
- * edge moving at `pace` px per second, and which of the two keys are held.
+ * edge moving at `pace` px per second.
  */
-type Keying = Lefted & {
-  kind: 'keys';
-  pace: number;
-  leftward: boolean;
-  rightward: boolean;
-};
+type Keying = Lefted & { kind: 'keys'; pace: number };
 
 type Resting = Lefted & { kind: 'rest' };
 
-/** A crop, over the view it is taken across, and how it moves. */
-export type Pan = View & { motion: Resting | Gliding | Pressing | Keying };
+/** Which of the two arrow keys are held. */
+type Held = { leftward: boolean; rightward: boolean };
+
+const NONE_HELD: Held = { leftward: false, rightward: false };
+
+/**
+ * A crop, over the view it is taken across, how it moves, and the arrow keys
+ * held, whatever moves it: while a key is held and no finger is down, the
+ * keys turn it, at a stand with both held.
+ */
+export type Pan = View & {
+  held: Held;
+  motion: Resting | Gliding | Pressing | Keying;
+};
 
 /** Which way a key turns the crop: -1 leftward, 1 rightward. */
 export type Direction = -1 | 1;
@@ -110,9 +117,13 @@ export function clampLeft({ world, width }: View, left: number): number {
   return most <= 0 ? most / 2 : Math.min(most, Math.max(0, left));
 }
 
-/** The crop at rest at `left`, held inside the world. */
+/** The crop at rest at `left`, held inside the world, no key held. */
 export function restingAt(view: View, left: number): Pan {
-  return { ...view, motion: { kind: 'rest', left: clampLeft(view, left) } };
+  return {
+    ...view,
+    held: NONE_HELD,
+    motion: { kind: 'rest', left: clampLeft(view, left) },
+  };
 }
 
 /** The crop a visit opens on: the world's middle at the screen's. */
@@ -167,13 +178,14 @@ export function screenOf(pan: Pan, time: number, x: number): number {
 export function isMoving(pan: Pan, time: number): boolean {
   const { motion } = pan;
   if (motion.kind === 'glide') return time < motion.began + motion.over;
-  if (motion.kind === 'keys') {
-    return motion.pace !== 0 || motion.leftward !== motion.rightward;
-  }
+  if (motion.kind === 'keys') return motion.pace !== 0 || heading(pan) !== 0;
   return motion.kind === 'press' && motion.panning;
 }
 
-/** A finger pressed at `x` at `time`: the crop stops where it stands, a glide's or a key's turn with it. */
+/**
+ * A finger pressed at `x` at `time`: the crop stops where it stands, a
+ * glide's or a key's turn with it; a held key turns it again after the lift.
+ */
 export function press(pan: Pan, x: number, time: number): Pan {
   const base = leftAt(pan, time);
   return {
@@ -222,7 +234,8 @@ export function isPanning({ motion }: Pan): boolean {
 /**
  * The finger lifted at `time`: a tap leaves the crop where it stands, and a
  * pan glides on from the finger's velocity, easing to rest at the world's end
- * where it would pass one.
+ * where it would pass one. With a key held, the keys take the crop over
+ * instead, from the finger's pace no faster than their cruise.
  */
 export function release(pan: Pan, time: number): Pan {
   const { motion } = pan;
@@ -230,6 +243,7 @@ export function release(pan: Pan, time: number): Pan {
   const start = leftAt(pan, time);
   const still = time - motion.last.sampledAt > STILL_AFTER;
   const velocity = still || !motion.panning ? 0 : -motion.velocity;
+  if (isHeld(pan)) return keyedFrom(pan, start, velocity);
   if (Math.abs(velocity) < GLIDE_SLOWEST) return restingAt(pan, start);
   const fastest =
     Math.sign(velocity) * Math.min(GLIDE_FASTEST, Math.abs(velocity));
@@ -247,41 +261,58 @@ export function release(pan: Pan, time: number): Pan {
 }
 
 /** The held-key flag `direction` names. */
-function heldFlag(direction: Direction): 'leftward' | 'rightward' {
+function heldFlag(direction: Direction): keyof Held {
   return direction < 0 ? 'leftward' : 'rightward';
 }
 
-/**
- * The arrow key for `direction` went down at `time`. A key already turning
- * the crop only adds its flag, so a held key's repeats change nothing; a
- * glide hands its pace on to the keys, no faster than their cruise, so the
- * key takes over without a jolt. A finger on the screen keeps the crop.
- */
-export function holdKey(pan: Pan, direction: Direction, time: number): Pan {
-  const { motion, width } = pan;
-  if (motion.kind === 'press') return pan;
-  if (motion.kind === 'keys') {
-    return { ...pan, motion: { ...motion, [heldFlag(direction)]: true } };
-  }
-  const cruise = CRUISE_ACROSS * width;
-  const pace = Math.min(cruise, Math.max(-cruise, paceAt(pan, time)));
+/** Which way the held keys ask the crop to turn: -1, 1, or 0 for both or neither. */
+function heading({ held }: Pan): number {
+  return Number(held.rightward) - Number(held.leftward);
+}
+
+/** Whether either arrow key is held. */
+function isHeld({ held }: Pan): boolean {
+  return held.leftward || held.rightward;
+}
+
+/** The keys turning `pan` from `left`, setting off at `pace` held to their cruise. */
+function keyedFrom(pan: Pan, left: number, pace: number): Pan {
+  const cruise = CRUISE_ACROSS * pan.width;
   return {
     ...pan,
     motion: {
       kind: 'keys',
-      left: leftAt(pan, time),
-      pace,
-      leftward: direction < 0,
-      rightward: direction > 0,
+      left,
+      pace: Math.min(cruise, Math.max(-cruise, pace)),
     },
   };
 }
 
-/** The arrow key for `direction` came up: the crop eases to rest unless the other is still held. */
-export function letGoKey(pan: Pan, direction: Direction): Pan {
+/**
+ * The arrow key for `direction` went down at `time`. A key already held
+ * changes nothing, so its repeats do not restart the turn; a glide hands its
+ * pace on to the keys, no faster than their cruise, so the key takes over
+ * without a jolt. A finger on the screen keeps the crop until it lifts.
+ */
+export function holdKey(pan: Pan, direction: Direction, time: number): Pan {
+  const flag = heldFlag(direction);
+  if (pan.held[flag]) return pan;
+  const held = { ...pan.held, [flag]: true };
   const { motion } = pan;
-  if (motion.kind !== 'keys') return pan;
-  return { ...pan, motion: { ...motion, [heldFlag(direction)]: false } };
+  if (motion.kind === 'press' || motion.kind === 'keys') {
+    return { ...pan, held };
+  }
+  return keyedFrom({ ...pan, held }, leftAt(pan, time), paceAt(pan, time));
+}
+
+/**
+ * The arrow key for `direction` came up: the crop eases to rest unless the
+ * other is still held, which then turns it its own way.
+ */
+export function letGoKey(pan: Pan, direction: Direction): Pan {
+  const flag = heldFlag(direction);
+  if (!pan.held[flag]) return pan;
+  return { ...pan, held: { ...pan.held, [flag]: false } };
 }
 
 /**
@@ -291,7 +322,8 @@ export function letGoKey(pan: Pan, direction: Direction): Pan {
  * rest exactly there. Each sub-step is integrated exactly, so away from the
  * ends a frame's length changes nothing, and near them the sub-steps keep
  * any two frame rates within a fraction of a px. Once no key is held and the
- * pace is spent, the crop rests. Anything but a key's turn is left as it is.
+ * pace is spent, the crop rests. Anything but a key's turn, and a turn that
+ * stands still, is returned as the same object.
  */
 export function tick(pan: Pan, seconds: number): Pan {
   const { motion, width } = pan;
@@ -300,15 +332,17 @@ export function tick(pan: Pan, seconds: number): Pan {
   const rate = cruise / KEY_EASE;
   const low = clampLeft(pan, -Infinity);
   const high = clampLeft(pan, Infinity);
-  const heading = Number(motion.rightward) - Number(motion.leftward);
+  const toward = heading(pan);
   const span = Math.min(seconds, LONGEST_TICK);
   const count = Math.ceil(span / SUBSTEP);
   const each = span / count;
-  let { left, pace } = motion;
+  const { left: setOff, pace: setOffPace } = motion;
+  let left = setOff;
+  let pace = setOffPace;
   for (let index = 0; index < count; index++) {
-    const ahead = heading > 0 ? high - left : left - low;
+    const ahead = toward > 0 ? high - left : left - low;
     const wanted =
-      heading * Math.min(cruise, Math.sqrt(2 * rate * Math.max(0, ahead)));
+      toward * Math.min(cruise, Math.sqrt(2 * rate * Math.max(0, ahead)));
     // Toward an end faster than the steady rate can stop in the room left,
     // as a glide handed on can be, the crop brakes as hard as it must.
     const room = pace > 0 ? high - left : left - low;
@@ -333,7 +367,8 @@ export function tick(pan: Pan, seconds: number): Pan {
       pace = 0;
     }
   }
-  if (heading === 0 && pace === 0) return restingAt(pan, left);
+  if (!isHeld(pan) && pace === 0) return restingAt(pan, left);
+  if (left === setOff && pace === setOffPace) return pan;
   return { ...pan, motion: { ...motion, left, pace } };
 }
 
@@ -345,7 +380,7 @@ export function tick(pan: Pan, seconds: number): Pan {
  * finger pans on from the new crop.
  */
 export function recrop(pan: Pan, view: View, time: number): Pan {
-  const { motion, width, world, unit } = pan;
+  const { motion, width, world, unit, held } = pan;
   const centre = (leftAt(pan, time) + width / 2 - world / 2) / unit;
   const there = clampLeft(
     view,
@@ -354,12 +389,13 @@ export function recrop(pan: Pan, view: View, time: number): Pan {
   if (motion.kind === 'press') {
     return {
       ...view,
+      held,
       motion: { ...motion, base: there, anchor: motion.last.x },
     };
   }
   if (motion.kind === 'keys') {
     const pace = (motion.pace * view.width) / width;
-    return { ...view, motion: { ...motion, left: there, pace } };
+    return { ...view, held, motion: { ...motion, left: there, pace } };
   }
   return restingAt(view, there);
 }

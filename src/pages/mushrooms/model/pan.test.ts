@@ -234,8 +234,59 @@ describe('a held key', () => {
 
   it('holds still with both keys held', () => {
     const both = holdKey(holdKey(openingPan(TABLET), 1, 0), -1, 0);
-    const [, lefts] = ticked(both, 1, FRAME);
+    const [standing, lefts] = ticked(both, 1, FRAME);
     assert.ok(lefts.every((left) => left === 590));
+    assert.equal(tick(standing, FRAME), standing, 'a stand is the same crop');
+  });
+
+  it('turns the other way at cruise within the ease once one of two keys is let go', () => {
+    const [rightward] = ticked(holdKey(openingPan(TABLET), 1, 0), 0.5, FRAME);
+    const [both, standing] = ticked(holdKey(rightward, -1, 0.5), 1, FRAME);
+    const stood = moves(standing).slice(-10);
+    assert.ok(
+      stood.every((each) => each === 0),
+      `stands: ${stood.join(', ')}`,
+    );
+    const [, lefts] = ticked(letGoKey(both, 1), KEY_EASE + FRAME, FRAME);
+    const last = moves(lefts).at(-1) ?? 0;
+    assert.ok(
+      Math.abs(last + CRUISE * FRAME) < 1e-6,
+      `turns leftward at ${String(last / FRAME)} px/s`,
+    );
+  });
+
+  it('turns on after a finger presses and lifts while it is held', () => {
+    const [turning] = ticked(holdKey(openingPan(TABLET), -1, 0), 0.5, FRAME);
+    const at = leftAt(turning, 0);
+    const pressed = press(turning, 400, 0.5);
+    assert.equal(leftAt(tick(pressed, FRAME), 0.6), at, 'the finger keeps it');
+    const lifted = release(tick(pressed, 0.1), 0.6);
+    const [, lefts] = ticked(lifted, KEY_EASE + FRAME, FRAME);
+    const last = moves(lefts).at(-1) ?? 0;
+    assert.ok(
+      Math.abs(last + CRUISE * FRAME) < 1e-6,
+      `turns leftward at ${String(last / FRAME)} px/s`,
+    );
+  });
+
+  it('turns on after a finger drags while it is held, from the drag’s crop', () => {
+    const turning = holdKey(openingPan(TABLET), 1, 0);
+    const lifted = release(dragged(turning, 800, -200, { seconds: 0.1 }), 0.1);
+    const from = leftAt(lifted, 0.1);
+    assert.ok(from > 590 + 150, `the drag carried it to ${String(from)}`);
+    const [, lefts] = ticked(lifted, 0.4, FRAME);
+    const steps = moves(lefts);
+    assert.ok(
+      steps.every((each) => each > 0 && each <= CRUISE * FRAME + 1e-9),
+      'it turns on rightward, never past the cruise',
+    );
+  });
+
+  it('is the same crop each frame it is held against a world’s end', () => {
+    const { held } = heldFor(TABLET, 1, 4, FRAME);
+    assert.equal(held.at(-1), 1180);
+    const [atEnd] = ticked(holdKey(openingPan(TABLET), 1, 0), 4, FRAME);
+    assert.equal(tick(atEnd, FRAME), atEnd);
   });
 
   it('comes to rest softly at the world’s end, never past it', () => {
@@ -299,12 +350,14 @@ describe('a held key', () => {
     assert.ok((lefts.at(-1) ?? 0) < at, 'the key turns it back');
   });
 
-  it('is stopped by a finger, and keeps the finger’s crop', () => {
-    const [turning] = ticked(holdKey(openingPan(TABLET), 1, 0), 0.5, FRAME);
-    const at = leftAt(turning, 0);
-    const pressed = press(turning, 400, 0.5);
-    assert.equal(leftAt(tick(pressed, FRAME), 0.6), at);
-    assert.equal(holdKey(pressed, 1, 0.6), pressed);
+  it('pressed under a finger waits for the lift, and then turns', () => {
+    const pressed = press(openingPan(TABLET), 400, 0);
+    const keyed = holdKey(pressed, 1, 0.1);
+    assert.equal(leftAt(tick(keyed, FRAME), 0.2), 590);
+    const [, lefts] = ticked(release(keyed, 0.2), 1, FRAME);
+    assert.ok((lefts.at(-1) ?? 0) > 590 + CRUISE * 0.5, 'it turns after');
+    const letGo = release(letGoKey(keyed, 1), 0.2);
+    assert.equal(letGo.motion.kind, 'rest', 'a key let go first is let go');
   });
 });
 
