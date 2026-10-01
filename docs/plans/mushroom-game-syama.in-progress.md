@@ -277,7 +277,15 @@ from off screen still takes up to 5 s for a butterfly; a butterfly making
 way for a bee leaves its flower moments after landing, which may read as a
 twitch; a flier holding an air spot is drawn still, with no hover bob.
 
-12b. **Walking, the whole glade.** Stored positions move onto the plane
+12b. **The meadow has no edge** («ну да, бесконечный»): bite 12's glade
+rim is scaffolding for bare ground and goes here — the ground beyond the
+opening meadow is sown procedurally in seeded patches as the child walks,
+each place its own meadow, so there is no rim to slide along. The map
+(item 15) shows the surroundings rather than a whole world, and helps the
+child find his way back to his own mushrooms; the twelve-mushroom cap
+becomes a cap per area. The operator plays only the finished game, so
+bite 12's rim is never something a child meets.
+**Walking, the whole glade.** Stored positions move onto the plane
 (anything behind the starting point needs it), the whole glade is
 sown, light follows the heading, the insects fly fully on the plane,
 the glade's radius is set for it (`step-spec.md`). **Open for the
