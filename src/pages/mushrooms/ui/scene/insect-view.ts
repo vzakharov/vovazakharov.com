@@ -21,6 +21,7 @@ import {
   fromUnits,
   offScreen,
   type OverRow,
+  reachesScreen,
   type Seen,
   type Stage,
   toUnits,
@@ -72,8 +73,10 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  * leg's two rows mixed by how far along it is, carried onto the host it left
  * and the one it lands on as it nears either (`drawnInsect`); one in the air,
  * over the clump's row. Drawn at its own size times the zoom of where it is
- * drawn — its host's sitting, its row's depth flying — and hidden nearer the
- * eye than `V_NEAR`. One in from away comes up over the brow (`entry`), and
+ * drawn — its host's sitting, its row's depth flying — and hidden once its
+ * own drawn extent leaves the screen (`reachesScreen`), however near the eye
+ * that is: an insect flies higher than a cap, so the meadow's own cull by
+ * distance would drop one still on the screen. One in from away comes up over the brow (`entry`), and
  * where the screen shows no open perch, flies out of view by the side its
  * perch stands to before the rest of its way; one leaving goes out just past
  * the screen's edge where the view stands now, by its seed's side.
@@ -281,8 +284,10 @@ export class InsectView {
       { flown, row },
       seats,
     );
-    shown.container.setVisible(middle !== undefined);
-    if (!middle) return;
+    const visible =
+      middle !== undefined && reachesScreen(this.view(), middle, shown.span);
+    shown.container.setVisible(visible);
+    if (!visible) return;
     const { x, y, zoom } = middle;
     shown.container
       .setPosition(x, y)

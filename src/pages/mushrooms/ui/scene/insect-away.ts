@@ -14,7 +14,6 @@ import { alongSight, type Camera, pinholeOf } from '../../model/ground';
 import { layoutAtRow } from './eye-crop';
 import {
   buried,
-  cull,
   D_SEE,
   layoutOfPlane,
   ofLayout,
@@ -65,9 +64,10 @@ export function flownAt(view: View, point: Point, row: number): Placed {
 
 /**
  * Where the world's `point`, standing over `row`, is drawn on the screen
- * now, at the zoom of that row's depth there (`flownAt`); `undefined` too
- * near the eye to be drawn, or sunk under the brow. As laid out, at its own
- * size, before the eye's first fit.
+ * now, at the zoom of that row's depth there (`flownAt`); `undefined` at or
+ * behind the eye, or sunk under the brow. As laid out, at its own size,
+ * before the eye's first fit. Whether what is drawn there reaches the screen
+ * is the insect's own extent's to say (`reachesScreen`), not a distance's.
  */
 export function drawnAt(
   view: View | undefined,
@@ -76,9 +76,23 @@ export function drawnAt(
 ): Zoomed | undefined {
   if (!view) return { ...point, zoom: 1 };
   const placed = flownAt(view, point, row);
-  return cull(placed) || buried(view, placed)
+  return placed.ahead <= 0 || buried(view, placed)
     ? undefined
     : pick(placed, 'x', 'y', 'zoom');
+}
+
+/**
+ * Whether an insect `span` px across at its own size, drawn at `drawn`,
+ * reaches `view`'s screen: a span each way round its middle, so no wing,
+ * body or antenna at any turn reaches past that. Always before the eye's
+ * first fit.
+ */
+export function reachesScreen(
+  view: View | undefined,
+  drawn: Zoomed,
+  span: number,
+): boolean {
+  return !view || onScreen(view, drawn, -span * drawn.zoom);
 }
 
 /** In the world, just past its `side` end, at the height `away` flies. */

@@ -101,11 +101,22 @@ seam, `fliers.test.ts`, the frames.
    "looking back, …" and "before the eye's first fit, …" (both red on the
    old source).
 
+5. **An insect is culled by its own drawn extent** (`reachesScreen` in
+   `insect-away.ts`, applied in `InsectView` to the drawn middle): hidden
+   once a box a span each way round its middle (its wingspan times the zoom
+   it is drawn at, so any turn, the body and antennae stay inside) is wholly
+   off the screen. `drawnAt` no longer culls by `V_NEAR`; it hides only a
+   point at or behind the eye (`ahead ≤ 0`) or buried under the brow. The
+   `InsectView` docstring says so. `offHost` keeps `cull`: there it stands
+   for the host's own cull (a mushroom nearer than `V_NEAR` is not drawn,
+   and an insect on it hides with it via `onSeat`). New tests:
+   `insect-away.test.ts` "draws a flier nearer the eye than V_NEAR while its
+   extent reaches the screen" (red on the old source) and "hides an insect
+   only once a span each way …".
+
 ## Left
 
-5 (the insect cull by drawn extent), 6 (`V_NEAR`'s ceiling under the lens),
-the `flight.ts` seam (461 lines), `fliers.test.ts` alone (not run: this
-package changed `drawnAt`, the sink, and `firstFlight`'s no-perch leg), the
-tabL / phoneP release frames `lens-carry-*.png`. The `InsectView` docstring
-still says an insect is "hidden nearer the eye than `V_NEAR`", which item 5
-changes.
+6 (`V_NEAR`'s ceiling under the lens), the `flight.ts` seam (461 lines),
+`fliers.test.ts` alone (not run: this package changed `drawnAt`, the sink,
+the cull and `firstFlight`'s no-perch leg), the tabL / phoneP release frames
+`lens-carry-*.png`.

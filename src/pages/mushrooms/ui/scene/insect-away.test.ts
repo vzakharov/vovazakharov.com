@@ -9,11 +9,12 @@ import {
   groundAlong,
   offScreen,
   PAST_BROW,
+  reachesScreen,
   type Seen,
   turnSide,
 } from './insect-away';
 import { meadowCamera } from './meadow-camera';
-import { D_SEE, ofLayout, onScreen, sunk, viewAt } from './view';
+import { D_SEE, ofLayout, onScreen, sunk, V_NEAR, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** Headings the eye turns through, the clump still ahead. */
@@ -141,6 +142,55 @@ describe('entry', () => {
       }
     }
     assert.ok(checked > 50, String(checked));
+  });
+
+  it('draws a flier nearer the eye than V_NEAR while its extent reaches the screen', () => {
+    let near = 0;
+    for (const [name, width, height] of VIEWPORTS) {
+      const view = viewAt(meadowCamera(width, height), OPENING_EYE);
+      const ground = groundAlong(view, width / 2, V_NEAR / 2);
+      assert.ok(ground, name);
+      for (let up = 0; up < 4 * height; up += 10) {
+        const point = { ...ground.at, y: ground.row - up };
+        const drawn = drawnAt(view, point, ground.row);
+        assert.ok(drawn, name);
+        assert.ok(ofLayout(view, point, ground.row).ahead < V_NEAR);
+        assert.equal(
+          reachesScreen(view, drawn, 30),
+          drawn.y >= -30 * drawn.zoom && drawn.y <= height + 30 * drawn.zoom,
+        );
+        if (onScreen(view, drawn)) near++;
+      }
+    }
+    assert.ok(near > 20, String(near));
+  });
+
+  it('hides an insect only once a span each way round its middle has left the screen', () => {
+    const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
+    for (const zoom of [0.5, 1, 3]) {
+      const reach = 40 * zoom;
+      for (const [x, y] of [
+        [-reach, 400],
+        [1180 + reach, 400],
+        [590, -reach],
+        [590, 820 + reach],
+      ] as const) {
+        assert.equal(reachesScreen(view, { x, y, zoom }, 40), true);
+        const outward = {
+          x: x + Math.sign(x - 590),
+          y: y + Math.sign(y - 410),
+        };
+        assert.equal(
+          reachesScreen(view, { ...outward, zoom }, 40),
+          false,
+          `${String(x)} ${String(y)}`,
+        );
+      }
+    }
+    assert.equal(
+      reachesScreen(undefined, { x: -1e4, y: 0, zoom: 1 }, 40),
+      true,
+    );
   });
 
   it('leaves an insect going away past the edge by its span', () => {
