@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 
+import { pick } from '@/shared/lib/collections';
+
 import { type Flower, flowerGenes } from '../../model/flower-genes';
 import {
   type FlowerSound,
@@ -20,9 +22,16 @@ import {
   sway,
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
+import {
+  type BedPlace,
+  bedPlace,
+  layoutPlace,
+  standAt,
+  UNPLACED,
+} from './bed-place';
 import { drawFlower } from './draw-flower';
 import { FLOWER_SWAY } from './flower-layout';
-import { standingFlowers } from './flower-plots';
+import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type Centred, flowerLift, flowerTapReach } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower, type TappedFigure } from './hit-areas';
@@ -31,6 +40,7 @@ import type { Perched } from './insect-view';
 import type { Instrument } from './instrument';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
+import type { Following, View } from './view';
 
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
@@ -41,6 +51,13 @@ type Shown = TappedFigure &
     headR: number;
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
+    /**
+     * Where the layout stands its foot, on the ground and in world px at the
+     * opening eye; `undefined` while the screen has no room for it.
+     */
+    laid: Pick<StandingFlower, 'foot' | 'place'> | undefined;
+    /** Where it stands on the screen as last placed. */
+    stands: BedPlace;
   };
 
 /**
@@ -50,8 +67,10 @@ type Shown = TappedFigure &
  * under an insect drinking at it; a planted one, a bee's or the child's,
  * grows up out of the ground and opens sounding its note or drum.
  */
-export class FlowerBed {
+export class FlowerBed implements Following {
   private readonly shown = new Map<string, Shown>();
+  /** The view it last followed; `undefined` while it stands as laid out. */
+  private view: View | undefined;
   private readonly scene: Phaser.Scene;
   private readonly instrument: Instrument;
   /** Seconds on the scene's clock. */
@@ -96,11 +115,12 @@ export class FlowerBed {
     );
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
-      const place = standing.find(({ id }) => id === flower.id)?.place;
+      const stood = standing.find(({ id }) => id === flower.id);
       // A screen may have no room for some; they wait, hidden.
-      shown.container.setVisible(place !== undefined);
-      if (!place) continue;
-      shown.container.setPosition(place.x, place.y).setDepth(place.y);
+      shown.laid = stood && pick(stood, 'foot', 'place');
+      this.stand(shown);
+      if (!stood) continue;
+      const { place } = stood;
       const genes = flowerGenes(flower);
       shown.headR = drawFlower(
         shown,
@@ -140,6 +160,23 @@ export class FlowerBed {
     this.paint(layout, this.lighting);
   }
 
+  follow(view: View): void {
+    this.view = view;
+    for (const shown of this.shown.values()) this.stand(shown);
+  }
+
+  /** Stands `shown` where the view, or else the layout, puts its foot. */
+  private stand(shown: Shown): void {
+    const { laid, container } = shown;
+    const place = laid
+      ? this.view
+        ? bedPlace(this.view, laid.foot)
+        : layoutPlace(laid.place)
+      : UNPLACED;
+    shown.stands = place;
+    standAt(container, place);
+  }
+
   /** Sways and blooms every flower at `t`, in seconds, each sagging under whatever of `insects` drinks at it. */
   update(t: number, insects: readonly Flier[]): void {
     const drunk = drinkingAt(insects, t * 1000);
@@ -148,7 +185,7 @@ export class FlowerBed {
       const { dip, flicker } = drunk.get(id) ?? { dip: 0, flicker: 0 };
       shown.container
         .setRotation(sway(t, shown.phase) * FLOWER_SWAY)
-        .setScale(emerge(t - shown.plantedAt));
+        .setScale(emerge(t - shown.plantedAt) * shown.stands.zoom);
       shown.head
         .setScale(1 + open)
         .setRotation(open * 0.6 + flicker)
@@ -158,19 +195,20 @@ export class FlowerBed {
 
   /**
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
-   * radius across (`perchSpot`), with the head's middle it drinks from;
-   * `undefined` while the flower is not shown.
+   * radius across (`perchSpot`), with the head's middle it drinks from, in
+   * world px at the opening eye, where the insects fly; `undefined` while the
+   * screen has no room for the flower.
    */
   seat(id: string, spot: number, kind: InsectKind): Perched | undefined {
     const shown = this.shown.get(id);
-    if (shown?.container.visible !== true) return undefined;
-    const { container, head, headR, disc } = shown;
+    if (!shown?.laid) return undefined;
+    const { container, head, headR, disc, laid } = shown;
     const lift = flowerLift({ r: headR, disc }, this.sizes[kind], kind);
-    const seat = placedAt(container, container.rotation, {
+    const seat = placedAt(laid.place, container.rotation, {
       x: head.x + spot * headR,
       y: head.y - lift,
     });
-    const nectar = placedAt(container, container.rotation, head);
+    const nectar = placedAt(laid.place, container.rotation, head);
     return { ...seat, nectar };
   }
 
@@ -211,9 +249,7 @@ export class FlowerBed {
   answer(sound: FlowerSound, shows: (x: number) => boolean): void {
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id);
-      if (shown?.container.visible !== true || !shows(shown.container.x)) {
-        continue;
-      }
+      if (!shown?.laid || !shows(shown.laid.place.x)) continue;
       if (sameSound(soundOf(flowerGenes(flower)), sound)) this.open(shown);
     }
   }
@@ -239,6 +275,8 @@ export class FlowerBed {
       hit,
       headR: 0,
       headY: 0,
+      laid: undefined,
+      stands: UNPLACED,
       disc: 0,
       plantedAt,
       phase: phaseOf(flower),

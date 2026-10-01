@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
+import type { Ground } from '../../model/ground';
 import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
@@ -11,6 +12,7 @@ import {
   type Tapped,
 } from '../../model/motion';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
+import { type BedPlace, bedPlace, standAt } from './bed-place';
 import { mix } from './colour';
 import { doorHitArea, mouseHead } from './door-reach';
 import { paintHouse } from './draw-house';
@@ -21,9 +23,12 @@ import type { HazedGraphics } from './mushroom-paint';
 import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { puffFrom } from './spores';
+import type { Following, View } from './view';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
+/** How much nearer than its mushroom a house is drawn, so it stands just in front. */
+const HOUSE_NEARER = 0.1;
 
 /** Where `body`'s door stands, which the bed seats before any door goes in. */
 function seated({ door }: Body): DoorPlace {
@@ -44,12 +49,12 @@ export type Body = HazedGraphics &
   };
 
 /**
- * One mushroom's windows and door, in a graphics of their own that takes the
- * mushroom's pose every frame, just in front of it, so they grow, wobble and
- * sink with it. The door is this graphics' hit area and the windows are not,
- * so a tap on a window falls through to the mushroom.
+ * One mushroom's windows and door, in a graphics of their own that stands on
+ * the mushroom's foot, just in front of it, and takes its pose every frame, so
+ * they grow, wobble and sink with it. The door is this graphics' hit area and
+ * the windows are not, so a tap on a window falls through to the mushroom.
  */
-export class HouseView {
+export class HouseView implements Following {
   readonly graphics: Phaser.GameObjects.Graphics;
   /** When each window was put in, in `House.windows`' order. */
   private readonly windowsAt: number[] = [];
@@ -69,6 +74,8 @@ export class HouseView {
   private readonly voice: MeadowSound;
   private readonly now: () => number;
   private readonly puffDepth: number;
+  /** Where its mushroom's foot stands on the ground. */
+  private readonly foot: Ground;
 
   constructor(
     scene: Phaser.Scene,
@@ -76,9 +83,11 @@ export class HouseView {
     now: () => number,
     phase: number,
     puffDepth: number,
+    foot: Ground,
     nearest: (house: HouseView, at: Point) => boolean,
   ) {
     this.scene = scene;
+    this.foot = foot;
     this.voice = voice;
     this.now = now;
     this.puffDepth = puffDepth;
@@ -181,15 +190,21 @@ export class HouseView {
     return this.doorAt === undefined ? 0 : mouseOut(t, this.mouse);
   }
 
-  /** Follows `body`'s pose as of `t`, and repaints what has moved. */
+  follow(view: View): void {
+    this.stand(bedPlace(view, this.foot));
+  }
+
+  /** Stands the house at `place`, its mushroom's. */
+  stand(place: BedPlace): void {
+    standAt(this.graphics, place, HOUSE_NEARER);
+  }
+
+  /** Takes `body`'s pose as of `t`, and repaints what has moved. */
   update(t: number, body: Body): void {
     const { graphics } = body;
     this.graphics
-      .setPosition(graphics.x, graphics.y)
       .setScale(graphics.scaleX, graphics.scaleY)
-      .setRotation(graphics.rotation)
-      .setDepth(graphics.depth + 0.1)
-      .setVisible(graphics.visible);
+      .setRotation(graphics.rotation);
     const out = this.out(t);
     const popping = [...this.windowsAt, this.doorAt ?? -Infinity].some(
       (at) => t - at < EMERGE_DURATION,
