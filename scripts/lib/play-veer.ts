@@ -266,7 +266,7 @@ export async function playVeer(
     await run(30);
     return hovering(looks - 1);
   };
-  const target = await hovering(40);
+  const target = await hovering(80);
   if (target === undefined) {
     note(
       'no insect ever hovered in the air: the walk into a hover is not played',
