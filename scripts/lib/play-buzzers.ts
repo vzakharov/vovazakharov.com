@@ -306,7 +306,7 @@ async function checkWatch(
 /** What the scene sees of the flowers: how many in sight, and how many with room to plant beside. */
 async function flowerSight(page: Page) {
   return page.evaluate(
-    '({ flowers: __probe.scene.sight.flowers.length, room: __probe.scene.sight.room.length })',
+    '({ flowers: __probe.scene.perches.sight.flowers.length, room: __probe.scene.perches.sight.room.length })',
     z.object({ flowers: z.number(), room: z.number() }),
   );
 }

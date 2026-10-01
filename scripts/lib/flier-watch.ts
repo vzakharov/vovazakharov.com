@@ -90,7 +90,7 @@ export const WATCH = `(() => {
    * not to be lost, and its overlap is forced.
    */
   const airOpen = () => {
-    const { air, crowded } = scene.sight;
+    const { air, crowded } = scene.perches.sight;
     const taken = scene.meadow.insects
       .map(({ leg }) => leg.to)
       .filter((to) => to.kind === 'air')
