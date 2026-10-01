@@ -1,0 +1,13 @@
+diff --git a/src/pages/mushrooms/ui/scene/flower-bed.ts b/src/pages/mushrooms/ui/scene/flower-bed.ts
+index 3fd50bf7..e3173697 100644
+--- a/src/pages/mushrooms/ui/scene/flower-bed.ts
++++ b/src/pages/mushrooms/ui/scene/flower-bed.ts
+@@ -165,7 +165,7 @@ export class FlowerBed implements Following {
+     const { laid, container } = shown;
+     const place = laid
+       ? this.view
+-        ? bedPlace(this.view, laid.foot)
++        ? bedPlace(this.view, laid.foot, shown.headR - shown.headY)
+         : layoutPlace(laid.place)
+       : UNPLACED;
+     shown.stands = place;

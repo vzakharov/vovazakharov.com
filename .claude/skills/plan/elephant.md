@@ -33,6 +33,21 @@ the plan logs no departures from itself — each resume pays for every line the
 plan holds, and how the plan got to its current text is what git history and
 the PR's review are for.
 
+**A plan past 450 lines splits into files beside it, down to under 400.**
+The gap between the two is the point: a single trigger line would have every
+later bite trimming a few lines to stay under it. The lifecycle-named file
+stays the plan, since its name is the gate: it keeps the loop,
+`## Rest of the elephant`, `## This bite`, and `## Eaten so far` cut to two
+parts. One is a summary of everything built so far, which each bite's end
+rewrites rather than appending to. Its size is fixed, so that the file comes
+back under 400 lines whenever it is cut, and it is cut again only once the
+file passes 450. The other is an index, one row per bite pointing
+at `docs/plans/<slug>/bite-<nn>.md`, which holds that bite's full contract.
+Standing decisions move to `docs/plans/<slug>/decisions.md` behind a pointer.
+A bite then folds itself in by writing its own file and row and rewriting the
+summary, and a resume opens only the files its slice touches. `/finalize`
+sweeps the directory with the plan.
+
 ## Taking a bite
 
 The session that claims the plan writes `## This bite` before building:
@@ -58,3 +73,11 @@ The session that claims the plan writes `## This bite` before building:
 
 What a pause does — at a bite's end or forced mid-bite by the budget — is
 `/go` Step 2's.
+
+## Unattended runs
+
+An elephant whose plan writes the loop into itself — bite, agent review,
+handle, next bite, with no operator between them — is what
+`@.claude/skills/megabeast/notes/README.md` collects toward a skill of its
+own, one file per theme. Each session in such a run adds to it before its
+relay.

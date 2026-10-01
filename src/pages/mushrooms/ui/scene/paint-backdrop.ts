@@ -1,0 +1,376 @@
+import * as Phaser from 'phaser';
+
+import { type Layered, OPENING_EYE } from '../../model/ground';
+import type { Random } from '../../model/random';
+import {
+  bakeTiles,
+  onPixels,
+  pictureColumns,
+  type Span,
+  SUPERSAMPLE,
+} from './baking';
+import { type BrowBlade, browBlades, drawBrow } from './brow';
+import type { Band } from './grain';
+import type { MeadowLayout } from './layout';
+import {
+  drawHills,
+  type HillLayers,
+  type Hills,
+  hillsOf,
+  paintGrain,
+  paintGround,
+} from './paint-land';
+import {
+  type Layer,
+  paintClouds,
+  paintGlow,
+  paintSky,
+  paintSun,
+  paintWash,
+} from './paint-sky';
+import { driftedAzimuth, placedLeft, screenAt } from './panorama';
+import { SUN_RAY_REACH } from './sun-layout';
+import { type Following, type View, viewAt } from './view';
+
+/** How far a cloud's puffs spread either side of its middle, in its radii. */
+const CLOUD_SPREAD = 4;
+/** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
+const SUN_MARGIN = 2;
+
+/**
+ * A picture baked in columns side by side, left to right, each texture at
+ * most `WIDEST_TEXTURE` texels wide.
+ */
+type Picture = Phaser.GameObjects.RenderTexture[];
+
+/**
+ * A picture baked round the sun, which turns with it: its columns, the
+ * stretch across the opening screen it was baked over, and each column's
+ * left edge from that stretch's.
+ */
+type Turning = { columns: Picture; home: Span; offsets: number[] };
+
+/**
+ * The backdrop as the screen shows it: pictures baked once a paint, and the
+ * clouds live, since they drift. The bare sky stands fixed on the screen;
+ * the sky's glow round the sun, the sun and its wash over the sky are each
+ * a picture of their own that `follow` slides to where the view shows the
+ * sun, and the clouds go to their azimuths through the same view. The hills
+ * and the brow are drawn live, as the view shows them, again only when its
+ * heading changes; the ground's rows and its grain stand on the screen, which a
+ * step or a turn leaves as they are. Stacked by `DEPTHS`, sky
+ * at the back and the grain over the wash. `layers` are what the pictures
+ * are baked from, off the display list, kept so a repaint paints into them
+ * again; `view` is the view last followed and `drifted` how many seconds the
+ * clouds have drifted, both kept across a repaint.
+ */
+export type Backdrop = Following & {
+  sky: Picture;
+  glow: Turning;
+  sun: Turning;
+  clouds: Phaser.GameObjects.Graphics[];
+  hills: HillLayers;
+  /** The meadow's brow along the ground's cover row, in front of what sinks under it. */
+  brow: Phaser.GameObjects.Graphics;
+  /** The heading the hills and the brow were last drawn from. */
+  hillsFrom: number | undefined;
+  ground: Picture;
+  wash: Turning;
+  grain: Phaser.GameObjects.TileSprite[];
+  layers: Phaser.GameObjects.Graphics[];
+  /** Where each tile of a bake is drawn before it is shrunk into its picture. */
+  scratch: Phaser.GameObjects.RenderTexture;
+  view: View;
+  drifted: number;
+};
+
+/** The side of a finished picture's square baked at a time, in texels, so the supersampled scratch stays 2048² whatever the screen. */
+const TILE = 1024;
+
+/**
+ * Each part of the backdrop's depth, back to front, all under everything in
+ * the meadow, so a column a repaint adds stacks where its picture does.
+ */
+const DEPTHS = {
+  sky: -9,
+  glow: -8,
+  sun: -7,
+  clouds: -6,
+  farHills: -5,
+  nearHills: -4,
+  ground: -3,
+  brow: -2.5,
+  wash: -2,
+  grain: -1,
+} as const;
+
+/** What a picture is baked from and where it lies: its stretch across the screen, the rows it covers and its depth. */
+type Bake = Layered & {
+  sources: readonly Phaser.GameObjects.GameObject[];
+  span: Span;
+  rows: Band;
+};
+
+/**
+ * Bakes `sources`, drawn in CSS pixels, into a picture over `span` and
+ * `rows` at `ratio` device pixels each, so a texel lands on one device
+ * pixel, reusing `existing`'s columns: column by column, tile by tile, each
+ * tile drawn into `scratch` at `SUPERSAMPLE` times that and shrunk into
+ * place. The picture stands on the screen and stacks at `depth`.
+ */
+function bake(
+  scene: Phaser.Scene,
+  existing: Picture | undefined,
+  scratch: Phaser.GameObjects.RenderTexture,
+  { sources, span, rows, depth }: Bake,
+  ratio: number,
+): Picture {
+  const columns = pictureColumns(Math.ceil(span.across * ratio));
+  for (const spare of existing?.slice(columns.length) ?? []) spare.destroy();
+  const tall = Math.max(2, Math.ceil((rows.bottom - rows.top) * ratio));
+  scratch.camera.setOrigin(0, 0).setZoom(ratio * SUPERSAMPLE);
+  return columns.map(({ left, across }, index) => {
+    const picture = (
+      existing?.[index] ?? scene.add.renderTexture(0, 0, 2, 2)
+    ).setOrigin(0, 0);
+    picture.resize(Math.max(2, across), tall);
+    picture.camera.setOrigin(0, 0).setZoom(1).setScroll(0, 0);
+    const x = span.left + left / ratio;
+    picture
+      .setPosition(x, rows.top)
+      .setScale(1 / ratio)
+      .setScrollFactor(0)
+      .setDepth(depth)
+      .clear()
+      .render();
+    for (const tile of bakeTiles(picture.width, picture.height, TILE)) {
+      scratch.camera.setScroll(
+        x + tile.left / ratio,
+        rows.top + tile.top / ratio,
+      );
+      scratch.clear().draw(sources).render();
+      picture.draw(scratch, tile.left, tile.top).render();
+    }
+    return picture;
+  });
+}
+
+/** The stretch across and the rows `from` to `to` either way of the sun's middle, on whole device pixels, never above the screen's top. */
+function aboutTheSun(
+  { sun }: MeadowLayout,
+  across: readonly [number, number],
+  down: readonly [number, number],
+  ratio: number,
+): Pick<Bake, 'span' | 'rows'> {
+  const [left, right] = onPixels(sun.x + across[0], sun.x + across[1], ratio);
+  const [top, bottom] = onPixels(
+    Math.max(0, sun.y + down[0]),
+    sun.y + down[1],
+    ratio,
+  );
+  return { span: { left, across: right - left }, rows: { top, bottom } };
+}
+
+/**
+ * Everything behind the grass: sky, its glow round the sun, the sun, clouds,
+ * three hill ranges, the ground and its brow, the sun's wash over the sky and the ground's
+ * grain. `random` shapes the opening screen's clouds, the hills, the ground's
+ * mottling and the grain, so the same source repaints the same meadow. It
+ * paints into `existing` and adds only what is missing, so a repaint keeps
+ * the objects — and whatever is moving them — and the view and the drift
+ * they were placed by. The clouds are drawn afresh each frame and the hills
+ * at each new heading; the rest is baked here and costs a frame a few
+ * textured quads and the grain's strips.
+ */
+export function paintBackdrop(
+  scene: Phaser.Scene,
+  existing: Backdrop | undefined,
+  layout: MeadowLayout,
+  random: Random,
+  ratio: number,
+): Backdrop {
+  const painted: Phaser.GameObjects.Graphics[] = [];
+  const layer: Layer = () => {
+    const graphics = (
+      existing?.layers[painted.length] ?? scene.make.graphics({}, false)
+    )
+      .clear()
+      .setPosition(0, 0)
+      .setBlendMode(Phaser.BlendModes.NORMAL);
+    painted.push(graphics);
+    return graphics;
+  };
+  let cloudCount = 0;
+  const cloudLayer: Layer = () => {
+    const graphics = (
+      existing?.clouds[cloudCount] ??
+      scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.clouds)
+    ).clear();
+    cloudCount += 1;
+    return graphics;
+  };
+  // Drawn in this order, which is the order `random` is drawn from.
+  const skyLayer = layer();
+  paintSky(skyLayer, layout);
+  const glowLayer = layer();
+  const glowSpan = paintGlow(glowLayer, layout);
+  const sunLayer = layer();
+  paintSun(sunLayer, layout);
+  const clouds = paintClouds(cloudLayer, layout, random);
+  for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
+  const { camera, width, height, nearHills, sun, wash: rings } = layout;
+  const hills = hillsOf(layout, random);
+  const hillLayers: HillLayers = existing?.hills ?? {
+    far: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.farHills),
+    near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
+  };
+  const brow =
+    existing?.brow ??
+    scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.brow);
+  const blades = browBlades(camera);
+  const groundLayer = layer();
+  const groundRows = paintGround(groundLayer, layout);
+  const washLayer = layer();
+  paintWash(washLayer, layout);
+  const grain = paintGrain(
+    scene,
+    existing?.grain,
+    layout,
+    Math.floor(random() * 2 ** 32),
+  );
+  for (const strip of grain) strip.setDepth(DEPTHS.grain);
+  const scratch = (
+    existing?.scratch ??
+    scene.make.renderTexture(
+      { width: TILE * SUPERSAMPLE, height: TILE * SUPERSAMPLE },
+      false,
+    )
+  )
+    .setOrigin(0, 0)
+    .setScale(1 / SUPERSAMPLE);
+  const screen = { left: 0, across: width };
+  const baked = (
+    picture: keyof typeof DEPTHS,
+    was: Picture | undefined,
+    how: Omit<Bake, 'depth'>,
+  ) => bake(scene, was, scratch, { ...how, depth: DEPTHS[picture] }, ratio);
+  const turning = (
+    picture: 'glow' | 'sun' | 'wash',
+    how: Omit<Bake, 'depth'>,
+  ): Turning => {
+    const columns = baked(picture, existing?.[picture].columns, how);
+    return {
+      columns,
+      home: how.span,
+      offsets: columns.map(({ x }) => x - how.span.left),
+    };
+  };
+  const [glowLeft, glowRight] = onPixels(
+    glowSpan.left,
+    glowSpan.left + glowSpan.across,
+    ratio,
+  );
+  const [, glowBottom] = onPixels(0, nearHills, ratio);
+  const rays = sun.r * SUN_RAY_REACH + SUN_MARGIN;
+  const outer = Math.max(...rings);
+  const wash = turning('wash', {
+    ...aboutTheSun(layout, [-outer, outer], [-outer, outer], ratio),
+    sources: [washLayer],
+  });
+  for (const column of wash.columns) {
+    column.setBlendMode(Phaser.BlendModes.SCREEN);
+  }
+  const backdrop: Backdrop = {
+    sky: baked('sky', existing?.sky, {
+      span: screen,
+      rows: { top: 0, bottom: height },
+      sources: [skyLayer],
+    }),
+    glow: turning('glow', {
+      span: { left: glowLeft, across: glowRight - glowLeft },
+      rows: { top: 0, bottom: glowBottom },
+      sources: [glowLayer],
+    }),
+    sun: turning('sun', {
+      ...aboutTheSun(layout, [-rays, rays], [-rays, rays], ratio),
+      sources: [sunLayer],
+    }),
+    clouds,
+    hills: hillLayers,
+    brow,
+    hillsFrom: undefined,
+    ground: baked('ground', existing?.ground, {
+      span: screen,
+      rows: groundRows,
+      sources: [groundLayer],
+    }),
+    wash,
+    grain,
+    layers: painted,
+    scratch,
+    view: viewAt(camera, existing?.view.eye ?? OPENING_EYE),
+    drifted: existing?.drifted ?? 0,
+    follow: (view) => {
+      backdrop.view = view;
+      for (const picture of [backdrop.glow, backdrop.sun, backdrop.wash]) {
+        turn(picture, view, sun.x);
+      }
+      placeClouds(backdrop, layout);
+      raiseHills(backdrop, hills, blades, view);
+    },
+  };
+  backdrop.follow(backdrop.view);
+  return backdrop;
+}
+
+/** Draws `backdrop`'s hills and its brow as `view` shows them, unless they were last drawn from its heading. */
+function raiseHills(
+  backdrop: Backdrop,
+  hills: Hills,
+  blades: readonly BrowBlade[],
+  view: View,
+): void {
+  if (backdrop.hillsFrom === view.eye.heading) return;
+  backdrop.hillsFrom = view.eye.heading;
+  drawHills(backdrop.hills, hills, view);
+  drawBrow(backdrop.brow, blades, view);
+}
+
+/** Slides `picture`, baked round the opening x `at`, to where `view` shows `at`, or hides it. */
+function turn({ columns, home, offsets }: Turning, view: View, at: number) {
+  const left = placedLeft(view, at, home);
+  for (const [index, column] of columns.entries()) {
+    column.setVisible(left !== undefined);
+    if (left !== undefined) column.x = left + (offsets[index] ?? 0);
+  }
+}
+
+/**
+ * Moves `backdrop`'s clouds to where they have drifted round the sky by its
+ * `drifted`, as its `view` shows them: a cloud behind the eye, or past the
+ * screen's edges by more than it spreads, is hidden.
+ */
+function placeClouds(
+  { clouds: drawn, view, drifted }: Backdrop,
+  { clouds, width }: MeadowLayout,
+): void {
+  for (const [index, graphics] of drawn.entries()) {
+    const cloud = clouds[index];
+    if (!cloud) continue;
+    const x = screenAt(view, driftedAzimuth(cloud, drifted));
+    const spread = cloud.r * CLOUD_SPREAD;
+    const shown = x !== undefined && x > -spread && x < width + spread;
+    graphics.setVisible(shown);
+    if (shown) graphics.x = x;
+  }
+}
+
+/** Drifts `backdrop`'s clouds round the sky to where they are `t` seconds into the visit, through the view it last followed. */
+export function driftClouds(
+  backdrop: Backdrop,
+  layout: MeadowLayout,
+  t: number,
+): void {
+  backdrop.drifted = t;
+  placeClouds(backdrop, layout);
+}
