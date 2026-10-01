@@ -35,9 +35,29 @@ given.
      it is open on"; the hold play taps the held flower and expects the
      picker still open.
 
+3. The sun keeps off the cross.
+   - `ui/scene/sun-layout.ts`: `placeSun` reads `flowerPicker` — its colours,
+     shapes and cross — beside the mushrooms' and the house's rows; the rays
+     keep off all of them (`fitsSky`), but only the rows bring the sun down
+     below them (`sunAt`): the cross stands under the colour row on narrow
+     screens, and coming down below it drops the sun under the horizon
+     (phoneL went to the moved-sun fallback and a far hill rose onto its
+     rays). `groundTop` comes back from the horizon (`groundTopUnder`,
+     `horizonAt` undone), since `placeSun` is handed the horizon only.
+   - Moved: tabL (991, 160) → (966, 222), r 61.5 kept; small phone
+     (126, 228, r 24) → (182, 236, r 16), the cross being where the sun
+     stood; phoneL unchanged.
+   - Tests: `sun-layout.test.ts` checks the rays off every picker's button,
+     the flower picker's included.
+   - **Red, not mine to edit:** `mushroom-light.test.ts` "lights every
+     mushroom on the side facing the sun … on a small phone screen" asserts
+     `overhead > 0` ("no mushroom under the sun") on the small phone only —
+     a coverage guard for the overhead branch, pinned to where the sun used
+     to stand. With the sun moved off the cross no mushroom is under it
+     there. Green at HEAD before this step (24/24).
+
 ## Left
 
-3. The sun off the cross (`sun-layout.ts`).
 4. `brow-flower-pale.patch`.
 5. Replays and frames.
 
