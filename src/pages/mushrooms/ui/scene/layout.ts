@@ -19,8 +19,13 @@ import { clumpShade, type Opener } from './clump-shade';
 import { type FlowerFoot, flowersOn, seededBed } from './flower-layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { type Cloud, skyClouds } from './panorama';
-import { type Controls, placeControls } from './sky-layout';
-import { horizonAt, placeSun, washRings } from './sun-layout';
+import {
+  type Controls,
+  type Crossed,
+  flowerCross,
+  placeControls,
+} from './sky-layout';
+import { horizonAt, placeSun, SUN_RAY_REACH, washRings } from './sun-layout';
 
 /**
  * A mushroom's footing, the `splay` it is stood with (`splayed`), and its
@@ -69,6 +74,7 @@ const KIND_SCALE = {
 
 export type MeadowLayout = Sized &
   Controls &
+  Crossed &
   Pick<Camera, 'groundTop'> & {
     /** What the meadow is shown through: a turn or a resize fits a new one. */
     camera: Camera;
@@ -208,6 +214,12 @@ function standMeadow(width: number, height: number): Stood {
   const mushrooms = { camera, frame: MEADOW_FRAME };
   const controls = placeControls(width, height, groundTop);
   const insectSize = insectSizeFor(unit);
+  const sun = placeSun(
+    { width, height, horizon },
+    short * 0.075,
+    controls,
+    openingCrowns(camera),
+  );
   return {
     width,
     height,
@@ -215,12 +227,10 @@ function standMeadow(width: number, height: number): Stood {
     horizon,
     nearHills: horizon + (groundTop - horizon) * 0.45,
     groundTop,
-    sun: placeSun(
-      { width, height, horizon },
-      short * 0.075,
-      controls,
-      openingCrowns(camera),
-    ),
+    sun,
+    cross: flowerCross({ ...controls, width, groundTop }, [
+      { ...sun, r: sun.r * SUN_RAY_REACH },
+    ]),
     clouds: skyClouds(camera),
     ...controls,
     mushrooms,

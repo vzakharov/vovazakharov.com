@@ -8,7 +8,7 @@ import { type Camera, pinholeOf } from '../../model/ground';
 import { restingAt, screenOf } from '../../model/pan';
 import { everyPlace } from './clump-layout';
 import type { MeadowLayout } from './layout';
-import { type Controls, flowerPicker, standingControls } from './sky-layout';
+import { type Controls, standingControls } from './sky-layout';
 import { BUTTON_INSET, tapReach } from './tap-reach';
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
@@ -27,43 +27,17 @@ const SUN_LEAST = 0.5;
  */
 const SUN_SMALLEST = 0.1;
 
-/** How far down the ground's top the far hills meet the sky (`horizonAt`). */
-const HORIZON_DOWN = 0.7;
-
 /**
  * Where the far hills meet the sky, over ground whose band begins
  * `groundTop` down the screen: the hills stand as tall against the ground's
  * depth on every screen.
  */
 export function horizonAt(groundTop: number): number {
-  return groundTop * HORIZON_DOWN;
-}
-
-/** Where the ground's band begins under the far hills meeting the sky at `horizon`: `horizonAt` undone. */
-function groundTopUnder(horizon: number): number {
-  return horizon / HORIZON_DOWN;
+  return groundTop * 0.7;
 }
 
 /** The screen the sun stands on, and where its sky meets the hills. */
 type SunScreen = Pick<MeadowLayout, 'width' | 'height' | 'horizon'>;
-
-/**
- * Every picker's button that can open on `screen`: the rows — the
- * mushrooms', the house's, the flower picker's colours and shapes — and the
- * flower picker's cross beside its colours.
- */
-function pickerButtons(
-  { width, horizon }: SunScreen,
-  controls: Controls,
-): { rows: Circle[]; cross: Circle } {
-  const { picker, housePicker } = controls;
-  const { colours, shapes, cross } = flowerPicker({
-    ...controls,
-    width,
-    groundTop: groundTopUnder(horizon),
-  });
-  return { rows: [...picker, ...housePicker, ...colours, ...shapes], cross };
-}
 
 /** The step, in CSS px, of the grid across the sky the sun is moved over. */
 const SKY_STEP = 2;
@@ -77,13 +51,11 @@ const SKY_STEP = 2;
  * screen's sun would stand over the clump or a button.
  */
 export function placeSun(
-  screen: SunScreen,
+  { width, height, horizon }: SunScreen,
   r: number,
   controls: Controls,
   crowns: readonly Box[],
 ): Circle {
-  const { width, height, horizon } = screen;
-  const { rows, cross } = pickerButtons(screen, controls);
   const sky = {
     width,
     horizon,
@@ -92,18 +64,21 @@ export function placeSun(
         ...button,
         r: tapReach(button.r) + BUTTON_INSET,
       })),
-      ...[...rows, cross].map((pick) => ({ ...pick, r: tapReach(pick.r) })),
+      ...[...controls.picker, ...controls.housePicker].map((pick) => ({
+        ...pick,
+        r: tapReach(pick.r),
+      })),
     ],
     crowns,
   };
   for (let size = r; size >= r * SUN_LEAST; size--) {
-    const sun = sunAt(width, height, size, controls, rows);
+    const sun = sunAt(width, height, size, controls);
     if (fitsSky(sky, sun)) return sun;
   }
   // A smaller sun fits wherever a larger one does, so the largest that fits
   // anywhere is a bisection over the sizes a pixel apart.
   const moved = (shrink: number) =>
-    movedSun(sky, sunAt(width, height, r - shrink, controls, rows));
+    movedSun(sky, sunAt(width, height, r - shrink, controls));
   let [fits, fails] = [Math.floor(r * (1 - SUN_SMALLEST)), -1];
   let sun = moved(fits);
   if (!sun) {
@@ -181,18 +156,17 @@ export function raysClear(sun: Circle, box: Box): boolean {
 
 /**
  * The sun, of radius `r`, in the top right, pulled in from the corner until
- * its glow fits. Where its rays would reach a picker's row of `picks` it
- * comes down below the rows — over on the left, where a phone's narrow width
- * brings a row down onto the sun itself — and it moves left until its rays
- * keep `BUTTON_INSET` off the buttons down the right, and right until they
- * keep it off the insects'.
+ * its glow fits. Where its rays would reach a picker's row it comes down below
+ * the rows — over on the left, where a phone's narrow width brings a row down
+ * onto the sun itself — and it moves left until its rays keep `BUTTON_INSET`
+ * off the buttons down the right, and right until they keep it off the
+ * insects'.
  */
 function sunAt(
   width: number,
   height: number,
   r: number,
-  { plus, minus, house, releases }: Controls,
-  picks: readonly Circle[],
+  { plus, minus, house, releases, picker, housePicker }: Controls,
 ): Circle {
   const glow = r * SUN_GLOW_REACH;
   const rays = r * SUN_RAY_REACH;
@@ -200,6 +174,7 @@ function sunAt(
     x: Math.min(width * 0.84, width - glow),
     y: Math.max(height * 0.15, glow),
   };
+  const picks = [...picker, ...housePicker];
   const meets = (reach: number) =>
     picks.some(
       (pick) =>

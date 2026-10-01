@@ -5,9 +5,10 @@ import type { Circle, Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
-import { type MeadowLayout, meadowLayout } from './layout';
+import { meadowLayout } from './layout';
 import { azimuthAt, crestAcross, screenAt } from './panorama';
-import { flowerPicker, standingControls } from './sky-layout';
+import { PICK_CLEAR } from './picker-rows';
+import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import {
   farSkyline,
   farthestSkyline,
@@ -51,20 +52,17 @@ const HEADINGS = Array.from(
   (_, index) => (index * Math.PI * 2) / 18,
 );
 
-/** Every picker's button `layout` can open: the mushrooms', the house's, and the flower picker's colours, shapes and cross. */
-function pickerButtons(layout: MeadowLayout): Circle[] {
-  const { colours, shapes, cross } = flowerPicker(layout);
-  return [
-    ...layout.picker,
-    ...layout.housePicker,
-    ...colours,
-    ...shapes,
-    cross,
-  ];
-}
-
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
+
+/** Whether `button`'s reach keeps `PICK_CLEAR` off every one of `others`'. */
+const clearOf = (button: Circle, others: readonly Circle[]) =>
+  others.every((other) =>
+    apart(
+      { ...button, r: tapReach(button.r) },
+      { ...other, r: tapReach(other.r) + PICK_CLEAR },
+    ),
+  );
 
 /** Every screen from 300 to 2600 px wide and 300 to 1600 px tall, this many px apart each way. */
 const GRID_STEP = 20;
@@ -74,7 +72,7 @@ describe('the sun on every screen size', () => {
     for (let width = 300; width <= 2600; width += GRID_STEP) {
       for (let height = 300; height <= 1600; height += GRID_STEP) {
         const layout = meadowLayout(width, height, 1);
-        const { sun, horizon, camera } = layout;
+        const { sun, horizon, camera, picker, housePicker } = layout;
         const screen = `${String(width)}×${String(height)}`;
         const glow = sun.r * SUN_GLOW_REACH;
         assert.ok(sun.y + sun.r <= horizon + 1e-9, `${screen}: the horizon`);
@@ -91,13 +89,45 @@ describe('the sun on every screen size', () => {
         const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
         for (const control of [
           ...standingControls(layout),
-          ...pickerButtons(layout),
+          ...picker,
+          ...housePicker,
         ]) {
           assert.ok(
             apart({ ...control, r: tapReach(control.r) }, rays),
             `${screen}: a control on the sun`,
           );
         }
+      }
+    }
+  });
+
+  it("stands the flower picker's cross on the screen, off the sun's rays and clear of every button shown with it", () => {
+    for (let width = 300; width <= 2600; width += GRID_STEP) {
+      for (let height = 300; height <= 1600; height += GRID_STEP) {
+        const layout = meadowLayout(width, height, 1);
+        const { sun } = layout;
+        const { colours, cross } = flowerPicker(layout);
+        const screen = `${String(width)}×${String(height)}`;
+        const touch = { ...cross, r: tapReach(cross.r) };
+        assert.ok(
+          touch.x - touch.r >= -1e-9 &&
+            touch.x + touch.r <= width + 1e-9 &&
+            touch.y - touch.r >= -1e-9,
+          `${screen}: the cross off the screen`,
+        );
+        assert.ok(
+          apart(touch, { ...sun, r: sun.r * SUN_RAY_REACH }),
+          `${screen}: the cross on the sun`,
+        );
+        // The cross keeps clear of the buttons wherever its colours do: on
+        // the few screens whose colours stand on an insect's button, no spot
+        // beside them is clear of everything.
+        const shown = shownOverPickers(layout);
+        if (!colours.every((colour) => clearOf(colour, shown))) continue;
+        assert.ok(
+          clearOf(cross, [...colours, ...shown]),
+          `${screen}: the cross on a button`,
+        );
       }
     }
   });
@@ -108,7 +138,7 @@ describe('the sun', () => {
     it(`stands whole in the sky, clear of both hill ranges and every control, on a ${name} screen`, () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed);
-        const { sun, horizon, camera } = layout;
+        const { sun, horizon, picker, housePicker, camera } = layout;
         const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
         assert.ok(
           sun.y + sun.r <= horizon + 1e-9,
@@ -147,7 +177,8 @@ describe('the sun', () => {
         assert.ok(sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9);
         for (const control of [
           ...standingControls(layout),
-          ...pickerButtons(layout),
+          ...picker,
+          ...housePicker,
         ]) {
           assert.ok(
             apart({ ...control, r: tapReach(control.r) }, rays),

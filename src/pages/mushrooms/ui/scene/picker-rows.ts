@@ -165,20 +165,27 @@ export function completed(
   return fits ? under : [...row, ...inBand];
 }
 
-/** The room `beside` may stand a button in: `width` across, down to `floor`, and the buttons it keeps clear of. */
-type Beside = Pick<Room, 'floor' | 'standing'> & Pick<Sized, 'width'>;
+/**
+ * The room `beside` may stand a button in: `width` across, down to `floor`,
+ * the buttons it keeps clear of, and what else its reach stays out of, as
+ * drawn (the sun's rays).
+ */
+type Beside = Pick<Room, 'floor' | 'standing'> &
+  Pick<Sized, 'width'> & { drawn: readonly Circle[] };
 
 /**
  * One more button with `row`, its size, the first of these that keeps inside
- * the room's width, above its floor and `PICK_CLEAR` clear of `row` and of
- * the room's standing buttons: a step past the row's last along its own row,
- * a step before its first, under its last, under its first; under its last
- * where none does. The step along is the row's own spacing, and down it is
- * `stacked`'s.
+ * the room's width, above its floor, `PICK_CLEAR` clear of `row` and of the
+ * room's standing buttons, and its reach out of what the room keeps it off:
+ * a step past the row's last along its own row, a step before its first,
+ * under its last, under its first, under each between from the last's side
+ * in. Where none does, the first that keeps all of that but the floor, and
+ * under its last where none does that either. The step along is the row's
+ * own spacing, and down it is `stacked`'s.
  */
 export function beside(
   row: readonly Circle[],
-  { width, floor, standing }: Beside,
+  { width, floor, standing, drawn }: Beside,
 ): Circle {
   const [first, second] = row;
   const last = row.at(-1);
@@ -192,13 +199,25 @@ export function beside(
     { ...first, x: first.x - across },
     under,
     { ...first, y: first.y + down },
+    ...row
+      .slice(1, -1)
+      .toReversed()
+      .map((button) => ({ ...button, y: button.y + down })),
   ];
-  const fits = (button: Circle) =>
-    button.x - reach >= BUTTON_INSET &&
-    button.x + reach <= width - BUTTON_INSET &&
-    button.y + reach <= floor &&
-    [...row, ...standing].every((other) => apart(button, other, PICK_CLEAR));
-  return tries.find((button) => fits(button)) ?? under;
+  // A spot over a button of the row stands as far in as it does, which is
+  // `BUTTON_INSET` to within rounding.
+  const clear = (button: Circle) =>
+    button.x - reach >= BUTTON_INSET - 1e-9 &&
+    button.x + reach <= width - BUTTON_INSET + 1e-9 &&
+    [...row, ...standing].every((other) => apart(button, other, PICK_CLEAR)) &&
+    drawn.every(
+      (off) => Math.hypot(button.x - off.x, button.y - off.y) >= reach + off.r,
+    );
+  return (
+    tries.find((button) => clear(button) && button.y + reach <= floor) ??
+    tries.find((button) => clear(button)) ??
+    under
+  );
 }
 
 /** Where `rowsFrom` fits the pickers' rows in the top row. */

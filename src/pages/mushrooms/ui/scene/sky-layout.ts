@@ -104,29 +104,56 @@ export function standingControls({
  * stand, then its four shapes where the caps' four do. Where that picker
  * does not hold a stage's count apart, the stage stands as many abreast as
  * the caps' row holds, the rest in rows under it. Open on a flower, the
- * colours have the cross with them, which pulls it up (`beside`).
+ * colours have the cross with them, which pulls it up (`flowerCross`).
  */
-export function flowerPicker(
-  controls: Controls & Pick<Camera, 'width' | 'groundTop'>,
-): Record<'colours' | 'shapes', readonly Circle[]> & { cross: Circle } {
-  const { picker, housePicker, width, groundTop } = controls;
-  const whole = (row: readonly Circle[], count: number) =>
+export function flowerPicker({
+  cross,
+  ...controls
+}: Controls & Crossed): FlowerStages & Crossed {
+  return { ...flowerStages(controls), cross };
+}
+
+type FlowerStages = Record<'colours' | 'shapes', readonly Circle[]>;
+
+/** Whether `row` holds `count` buttons, each `PICK_CLEAR` from every other. */
+function whole(row: readonly Circle[], count: number): boolean {
+  return (
     row.length === count &&
     row.every((button, index) =>
       row.slice(index + 1).every((other) => apart(button, other, PICK_CLEAR)),
-    );
+    )
+  );
+}
+
+/** The flower picker's colours and shapes (`flowerPicker`). */
+function flowerStages({ picker, housePicker }: Controls): FlowerStages {
   const stage = (row: readonly Circle[], count: number) =>
     whole(row, count) ? row : stacked(picker, count);
-  const colours = stage(housePicker, PICKED_COLOURS.length);
   return {
-    colours,
+    colours: stage(housePicker, PICKED_COLOURS.length),
     shapes: stage(picker, FLOWER_SHAPES.length),
-    cross: beside(colours, {
-      width,
-      floor: groundTop * COLUMN_REACH,
-      standing: shownOverPickers(controls),
-    }),
   };
+}
+
+/** Where the flower picker's cross stands (`flowerCross`). */
+export type Crossed = { cross: Circle };
+
+/**
+ * The flower picker's cross beside its colours (`beside`), its reach out of
+ * what is `drawn` there: the sun's rays stand where they do whatever is
+ * open, so the cross, shown only while picking, is what yields.
+ */
+export function flowerCross(
+  controls: Controls & Pick<Camera, 'width' | 'groundTop'>,
+  drawn: readonly Circle[],
+): Circle {
+  const { width, groundTop } = controls;
+  return beside(flowerStages(controls).colours, {
+    width,
+    floor: groundTop * COLUMN_REACH,
+    standing: shownOverPickers(controls),
+    drawn,
+  });
 }
 
 /**

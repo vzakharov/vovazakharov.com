@@ -34,7 +34,7 @@ import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
-import { SUN_GLOW_REACH } from './sun-layout';
+import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { TAP_RADIUS, tapReach } from './tap-reach';
 import {
   FLOOR_HELD,
@@ -375,6 +375,15 @@ describe('the controls', () => {
           }
         }
       }
+      // The cross, shown only while picking, yields to the sun's rays.
+      const { sun } = layout;
+      assert.ok(
+        apart(
+          { ...cross, r: tapReach(cross.r) },
+          { ...sun, r: sun.r * SUN_RAY_REACH },
+        ),
+        'the cross on the sun',
+      );
     });
 
     // A screen with room for every button sets the four-button row apart
