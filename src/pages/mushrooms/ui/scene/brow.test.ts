@@ -40,7 +40,7 @@ describe('the brow', () => {
       );
       const least = Math.min(...counts);
       assert.ok(least > 0);
-      assert.ok(Math.max(...counts) <= least * 1.15, `${counts.join(' ')}`);
+      assert.ok(Math.max(...counts) <= least * 1.15, counts.join(' '));
     });
 
     it(`${name}: a turn slides the blades with the hills`, () => {
@@ -48,11 +48,10 @@ describe('the brow', () => {
         browShown(viewAt(camera, { ...OPENING_EYE, heading }), blades),
       );
       const middle = camera.width / 2;
-      const nearest = (shown: typeof from) =>
-        shown.reduce((best, blade) =>
-          Math.abs(blade.x - middle) < Math.abs(best.x - middle) ? blade : best,
-        );
-      const before = nearest(from ?? []);
+      const before = (from ?? []).toSorted(
+        (one, other) => Math.abs(one.x - middle) - Math.abs(other.x - middle),
+      )[0];
+      assert.ok(before);
       const after = (to ?? []).find((blade) => blade.tip.y === before.tip.y);
       assert.ok(after);
       assert.ok(after.x < before.x - 1, `${before.x} → ${after.x}`);
