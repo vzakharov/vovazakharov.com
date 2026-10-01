@@ -27,6 +27,7 @@ import {
   type Sample,
   sitting,
   steps,
+  walkedSteps,
 } from './veer-watch.ts';
 
 /** How far past its dash curve's fastest frame a dashing kind's step at its own size may run: its flutter, and the frame's own jitter. */
@@ -284,8 +285,10 @@ export function pace(
  * One-frame steps per kind: a dashing kind's, over its own size (`zoom`),
  * held to `DASH_SLACK` of its dash curve's fastest frame (`dashPeak`); a
  * butterfly's, which never dashes, as drawn, to a twentieth of the screen's
- * width. The worst of each, drawn and at its own size, is logged, and the
- * worst steps past a bound with them.
+ * width. A step over a frame the browser ran late counts at a 60 fps frame's
+ * share of it, so the bound stays the curve's per frame. The worst of each,
+ * drawn and at its own size, is logged, and the worst steps past a bound
+ * with them.
  */
 export function flicks(
   samples: readonly Sample[],
@@ -294,11 +297,23 @@ export function flicks(
   expect: Expect,
   note: Note,
 ): void {
-  const all = [...byInsect(samples).values()].flatMap((frames) =>
-    steps(frames),
+  const insects = [...byInsect(samples).values()];
+  const frame = 1000 / FPS;
+  // A frame the browser ran late is held to the frames it spans.
+  const all = insects.flatMap((frames) =>
+    steps(frames).map(({ step, at, time }) => ({
+      step: step * Math.min(1, frame / time),
+      at,
+      time,
+    })),
   );
-  const leg = ({ at }: (typeof all)[number]) =>
-    `${at.id} ${at.from}→${at.to} flown ${fixed(at.flown)} d ${fixed(at.distance)} zoom ${fixed(at.zoom)} heading ${fixed(at.heading)}`;
+  const late = all.filter(({ time }) => time > 1.5 * frame).length;
+  const walked = insects.reduce((sum, frames) => sum + walkedSteps(frames), 0);
+  note(
+    `one-frame steps: ${String(walked)} left out as the eye walked; ${String(late)} of ${String(all.length)} over frames longer than 1.5 × ${fixed(frame, 1)} ms, held to a frame's share`,
+  );
+  const leg = ({ at, time }: (typeof all)[number]) =>
+    `${at.id} ${at.from}→${at.to} flown ${fixed(at.flown)} d ${fixed(at.distance)} zoom ${fixed(at.zoom)} heading ${fixed(at.heading)}, ${fixed(time, 0)} ms`;
   for (const kind of INSECT_KINDS) {
     const own = all.filter(({ at }) => at.kind === kind);
     const peak = dashPeak(kind);

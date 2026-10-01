@@ -45,3 +45,14 @@ the cure — timing an away leg on the plane points it is drawn between — puts
 the view's away points into `places`, the model's timing table, which spans
 `flight-in.ts`, `flight-timing.ts`, `perch-sight.ts` and `insect-away.ts`.
 That is a decision for the plan.
+
+## 2. Walking frames out, late frames held to a frame
+
+`veer-watch.ts` records the eye's plane point per sample; `steps()` leaves out
+a frame where it moved (`walkedSteps` counts them, logged by `flicks`), as it
+left out a turn past a held one. Not in the brief, decided here: Phaser's clock
+is real time, so a frame the browser runs late (the phoneP frame median is
+27.5 ms) moves every insect as far as the time it spans. `flicks` now holds a
+step over a frame longer than 16.7 ms to a 60 fps frame's share of it, logs how
+many were, and logs each worst step's frame time — the bound stays the
+curve's, per frame.

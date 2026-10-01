@@ -40,6 +40,8 @@ export const VEER = `(() => {
         frame: veer.frame,
         now,
         heading: eye.heading,
+        eyeX: eye.x,
+        eyeY: eye.y,
         id: flier.id,
         kind: flier.kind,
         legs: flier.legs,
@@ -80,6 +82,9 @@ export const Sample = z.object({
   frame: z.number(),
   now: z.number(),
   heading: z.number(),
+  /** Where the eye stood on the plane, in the clump's size. */
+  eyeX: z.number(),
+  eyeY: z.number(),
   id: z.string(),
   kind: Kind,
   legs: z.number(),
@@ -176,23 +181,54 @@ export function hiddenRuns(seen: readonly Sample[]): Hidden[] {
 }
 
 /**
- * A frame's drawn step, in CSS px, for an insect drawn on both frames of the
- * same leg with the eye turned no more than a held turn turns it in a frame:
- * a heading set outright (the play's `face`) slides every insect across the
- * screen at once, which is the play's doing, not the insect's.
+ * Why the drawn move from `was` to `at` is not the insect's own: the eye
+ * turned more than a held turn turns it in a frame, since a heading set
+ * outright (the play's `face`) slides every insect across the screen at
+ * once; or the eye walked, which shifts every insect drawn by the eye's own
+ * motion. `undefined` where the eye stood or only turned as a held key does.
  */
-export function steps(
-  seen: readonly Sample[],
-): Array<{ step: number; at: Sample }> {
+function eyeMoved(was: Sample, at: Sample): 'turned' | 'walked' | undefined {
+  const turned = at.heading - was.heading;
+  if (Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > TURN_STEP) {
+    return 'turned';
+  }
+  return at.eyeX === was.eyeX && at.eyeY === was.eyeY ? undefined : 'walked';
+}
+
+/** Each pair of frames on which an insect is drawn on the same leg, and how the eye moved between them. */
+function drawnPairs(seen: readonly Sample[]) {
   return seen.slice(1).flatMap((at, index) => {
     const was = seen[index];
     if (was?.visible !== true || !at.visible || was.legs !== at.legs) return [];
-    const turned = at.heading - was.heading;
-    if (Math.abs(Math.atan2(Math.sin(turned), Math.cos(turned))) > TURN_STEP) {
-      return [];
-    }
-    return [{ step: Math.hypot(at.x - was.x, at.y - was.y), at }];
+    return [{ was, at, eye: eyeMoved(was, at) }];
   });
+}
+
+/**
+ * A frame's drawn step, in CSS px, for an insect drawn on both frames of the
+ * same leg with the eye standing or turning no more than a held turn does
+ * (`eyeMoved`), and how long the frame took, in ms: a frame the browser ran
+ * late moves it as far as the time it spans.
+ */
+export function steps(
+  seen: readonly Sample[],
+): Array<{ step: number; at: Sample; time: number }> {
+  return drawnPairs(seen).flatMap(({ was, at, eye }) =>
+    eye
+      ? []
+      : [
+          {
+            step: Math.hypot(at.x - was.x, at.y - was.y),
+            at,
+            time: at.now - was.now,
+          },
+        ],
+  );
+}
+
+/** How many of `seen`'s drawn frames `steps` leaves out because the eye walked. */
+export function walkedSteps(seen: readonly Sample[]): number {
+  return drawnPairs(seen).filter(({ eye }) => eye === 'walked').length;
 }
 
 /** The item in `items` with the largest `of`, `undefined` for none. */
