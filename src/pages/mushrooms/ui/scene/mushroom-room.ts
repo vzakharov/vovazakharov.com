@@ -26,7 +26,11 @@ import type { Ground } from '../../model/ground';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
 import { type TapArea, tapArea, toCanvas } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import { apartOnScreen, pickFoot, type Span } from '../../model/placement';
+import {
+  apartOnScreen,
+  pickFoot,
+  type WithOptionalSpan,
+} from '../../model/placement';
 import type { Seeded } from '../../model/random';
 import { capBox } from './cap-cover';
 import { FOREST_SPLAY, placeOf } from './clump-layout';
@@ -70,11 +74,10 @@ type Shown = Pick<Crop, 'toWorld'>;
  * and how far across the ground its foot is drawn (`seen`). Absent a crop,
  * the whole world, which no control stands over.
  */
-type Screen = {
+type Screen = WithOptionalSpan & {
   stage: MeadowLayout;
   edges: Record<'left' | 'right', number>;
   keepOff: readonly Circle[];
-  within?: Span;
 };
 
 /** `stage` as a new mushroom is held to on it, over `crop`. */

@@ -86,8 +86,10 @@ export function seamGrass(layout: MeadowLayout, random: Random): Tuft[] {
   });
 }
 
+export type WithTuft = { tuft: Tuft };
+
 /** A tuft that refused a flower, and when, in seconds on the scene's clock. */
-export type Refusal = { tuft: Tuft; shakenAt: number };
+export type Refusal = WithTuft & { shakenAt: number };
 
 /** One blade of a tuft: how far it leans, in units of its size, how tall it stands, and its colour. */
 type Blade = readonly [lean: number, height: number, colour: number];

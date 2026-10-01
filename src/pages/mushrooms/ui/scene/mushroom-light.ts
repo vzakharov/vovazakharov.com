@@ -13,6 +13,7 @@ import {
   type Point,
   sample,
   type Scaled,
+  type Wide,
 } from '../../model/geometry';
 import { type Light, turnedLight } from '../../model/light';
 import {
@@ -268,11 +269,11 @@ const SHADOW_LAYERS = [
 ] as const;
 
 /** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
-export type ShadowLayer = Pick<Point, 'x'> & {
-  across: number;
-  tall: number;
-  alpha: number;
-};
+export type ShadowLayer = Pick<Point, 'x'> &
+  Wide & {
+    tall: number;
+    alpha: number;
+  };
 
 /**
  * The shadow a thing standing at the origin casts on the ground, `across` by

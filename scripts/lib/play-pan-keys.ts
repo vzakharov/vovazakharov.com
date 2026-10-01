@@ -12,6 +12,7 @@ import {
   CRUISE_ACROSS,
   type Direction,
   KEY_EASE,
+  type Lasting,
 } from '../../src/pages/mushrooms/model/pan.ts';
 import { type Crop, type Expect, inTurn, type Page } from './mushroom-probe.ts';
 
@@ -63,7 +64,7 @@ async function holding(
 type Turning = { toward: Direction; cruise: number; what: string };
 
 /** How far a traced frame moved the crop the key's way, and the time it took. */
-type Move = { by: number; over: number };
+type Move = Lasting & { by: number };
 
 /** Each traced frame's move after the one before it, `toward` the key's way, and the time it took. */
 function moves(

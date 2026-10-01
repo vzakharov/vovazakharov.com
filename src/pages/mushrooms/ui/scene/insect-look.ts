@@ -18,7 +18,7 @@ import {
 } from '../../model/buzz-rest';
 import type { Timed } from '../../model/flight';
 import type { FlyGenes } from '../../model/fly-genes';
-import type { Point } from '../../model/geometry';
+import type { Point, WithMiddle } from '../../model/geometry';
 import {
   type ButterflyGenes,
   insectGenes,
@@ -102,10 +102,10 @@ export type Moment = Timed &
 export type Flying = { flier: Flier };
 
 /** Where a drinking butterfly's middle and turn stand this frame, and the flower's middle it drinks from. */
-export type Drinking = Pick<Perched, 'nectar'> & {
-  middle: Point;
-  rotation: number;
-};
+export type Drinking = Pick<Perched, 'nectar'> &
+  WithMiddle & {
+    rotation: number;
+  };
 
 /**
  * A look for `flier`, its graphics made in `scene`, and those graphics in

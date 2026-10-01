@@ -9,6 +9,7 @@
  */
 
 import { pick } from '@/shared/lib/collections';
+import type { WithId } from '@/shared/typings';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import {
@@ -17,8 +18,9 @@ import {
   boxesMeet,
   placedAt,
   type Point,
+  type WithMiddle,
 } from '../../model/geometry';
-import type { Ground } from '../../model/ground';
+import type { Ground, Layered, LayeredPoint } from '../../model/ground';
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
 import { placeIn } from './clump-layout';
@@ -61,20 +63,20 @@ function patchFloor(foot: Ground): number {
 }
 
 /** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
-type FlowerTap = Point & FlowerReach & { depth: number };
+type FlowerTap = LayeredPoint & FlowerReach;
 
 /** A mushroom as its patch is sought: how a tap finds it, and where on screen to seek. */
-export type PatchTarget = MushroomTarget & {
-  id: string;
+export type PatchTarget = MushroomTarget &
+  WithId &
   /** The foot's y, which the scene paints by: the higher, the nearer the front. */
-  depth: number;
+  Layered &
   /** The head's middle on screen, where a patch is sought first. */
-  middle: Point;
-  /** The box round its head and pad on screen, where a patch is sought. */
-  box: Box;
-  /** The box round all it takes a tap on, stem too, on screen: nothing past it reaches the mushroom. */
-  reach: Box;
-};
+  WithMiddle & {
+    /** The box round its head and pad on screen, where a patch is sought. */
+    box: Box;
+    /** The box round all it takes a tap on, stem too, on screen: nothing past it reaches the mushroom. */
+    reach: Box;
+  };
 
 /** What in the world takes a tap: its flowers and its mushrooms, the last back to front. */
 export type Tapped = {

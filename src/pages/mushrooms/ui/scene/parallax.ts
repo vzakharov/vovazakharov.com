@@ -4,14 +4,14 @@
  * hills slide slower than the ground, and the ground moves with the world.
  */
 
-import type { Lefted } from '../../model/geometry';
+import type { Lefted, Wide } from '../../model/geometry';
 import { clampLeft, type View } from '../../model/pan';
 
 /** Each layer's scroll factor: the far and farthest hills, the near hills, and the land. */
 export const PARALLAX = { fixed: 0, far: 0.3, near: 0.6, ground: 1 } as const;
 
 /** A stretch of a layer, in its own px: where it starts and how far it runs. */
-export type Span = Lefted & { across: number };
+export type Span = Lefted & Wide;
 
 /**
  * The stretch of a layer at scroll factor `factor` the screen shows over

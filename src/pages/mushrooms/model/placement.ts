@@ -53,7 +53,10 @@ export function apartOnScreen(a: Ground, b: Ground): number {
  * A stretch across the ground as a camera lays it out (`seen`), in the
  * clump's size, from `left` to `right`.
  */
-export type Span = Record<'left' | 'right', number>;
+type Span = Record<'left' | 'right', number>;
+
+/** How far across the frame a foot is drawn: all of it where absent. */
+export type WithOptionalSpan = { within?: Span };
 
 /** A ground point drawn evenly over `frame`, within `span`, as a camera lays it out. */
 function drawnFoot(
@@ -65,17 +68,16 @@ function drawnFoot(
   return { x: (left + random() * (right - left)) / scaleAt(z), z };
 }
 
-export type Picking = Framed & {
-  /** How far across the frame a foot is drawn: all of it where absent. */
-  within?: Span;
-  /** The feet already standing, which a new one stands clear of and as far from as it can. */
-  feet: readonly Ground[];
-  /**
-   * Whether the scene can stand a mushroom at a foot — off every flower, and
-   * whatever else the ground alone cannot tell.
-   */
-  admits: (foot: Ground) => boolean;
-};
+export type Picking = Framed &
+  WithOptionalSpan & {
+    /** The feet already standing, which a new one stands clear of and as far from as it can. */
+    feet: readonly Ground[];
+    /**
+     * Whether the scene can stand a mushroom at a foot — off every flower, and
+     * whatever else the ground alone cannot tell.
+     */
+    admits: (foot: Ground) => boolean;
+  };
 
 /**
  * The foot the mushroom grown from `seed` takes: of each round's

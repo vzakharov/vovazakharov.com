@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+import type { Layered } from '../../model/ground';
 import { drift } from '../../model/motion';
 import type { Random } from '../../model/random';
 import { bakeTiles, pictureColumns, SUPERSAMPLE } from './baking';
@@ -65,12 +66,11 @@ const DEPTHS = {
 type Baked = 'sky' | 'farHills' | 'nearHills' | 'ground' | 'wash';
 
 /** What a picture is baked from and where it lies: its layer's stretch, the rows it covers, its scroll factor and its depth. */
-type Bake = {
+type Bake = Layered & {
   sources: readonly Phaser.GameObjects.GameObject[];
   span: Span;
   rows: Band;
   factor: number;
-  depth: number;
 };
 
 /**

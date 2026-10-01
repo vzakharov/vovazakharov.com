@@ -38,6 +38,7 @@ import {
   seamGrass,
   type Tuft,
   tuftOn,
+  type WithTuft,
 } from './grass';
 import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
@@ -76,7 +77,7 @@ const BARE_CORE = 0.25;
 const CORE_RING = 8;
 
 /** A tuft the child can plant on, and the foot on the ground a flower planted there stands on. */
-export type Sprout = Rooted & { tuft: Tuft };
+export type Sprout = Rooted & WithTuft;
 
 /** Where a tuft's blades stand thickest: halfway up the middle blade. */
 function middleOf({ x, y, size }: Tuft): Point {

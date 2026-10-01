@@ -5,6 +5,10 @@ export type Circle = Point & { r: number };
 export type Topped = { top: number };
 /** Where a thing's left edge stands, in its module's units. */
 export type Lefted = { left: number };
+
+export type Wide = { across: number };
+
+export type WithMiddle = { middle: Point };
 /** Where a box's top-left corner stands. */
 export type Cornered = Topped & Lefted;
 /** How big a thing stands on screen, in its points' units: the unit its shape is drawn in. */

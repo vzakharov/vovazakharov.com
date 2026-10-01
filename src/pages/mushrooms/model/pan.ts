@@ -40,13 +40,15 @@ type Pressing = Lefted & {
   panning: boolean;
 };
 
+/** How long something takes, in seconds. */
+export type Lasting = { over: number };
+
 /** A glide from `start` to `goal`, beginning at `began` and taking `over` seconds. */
-type Gliding = {
+type Gliding = Lasting & {
   kind: 'glide';
   start: number;
   goal: number;
   began: number;
-  over: number;
 };
 
 /**

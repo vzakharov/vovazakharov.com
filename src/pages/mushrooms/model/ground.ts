@@ -46,6 +46,9 @@ export type Camera = Sized & {
 /** The depth a thing is drawn at: the nearer, the deeper, so it is drawn over what stands behind. */
 export type Layered = { depth: number };
 
+/** A point on the screen and how near the front it is painted. */
+export type LayeredPoint = Point & Layered;
+
 /** Where on the ground something is laid out: the world's frame. */
 export type Framed = { frame: Frame };
 
@@ -53,7 +56,7 @@ export type Framed = { frame: Frame };
  * A ground point as a camera shows it: where on the screen, how big one of
  * the clump's size stands there, how hazy, and the depth it is drawn at.
  */
-export type Projected = Point & Hazed & Layered & { scale: number };
+export type Projected = LayeredPoint & Hazed & { scale: number };
 
 /**
  * How deep the ground is, in the clump's size, from the screen's foot to
