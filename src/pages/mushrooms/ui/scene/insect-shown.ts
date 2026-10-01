@@ -1,5 +1,6 @@
 import { pick } from '@/shared/lib/collections';
 
+import type { Span } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import { firstSteering, type Steering } from '../../model/insect-steering';
@@ -15,7 +16,13 @@ export type Shown = TappedFigure &
   // Its span as last painted.
   Spanned &
   // How far its landing's bob sank it last frame, in units of its size.
-  Bobbed & {
+  Bobbed &
+  // Where its flight had it last frame, in the world, and the ground row it
+  // was drawn standing over.
+  OverRow &
+  // When the stretch of its leg drawn now set off: the leg's departure, or
+  // once it is `out`, when it flew out of view.
+  Pick<Span, 'departs'> & {
     look: Look;
     /**
      * Where its current leg set off: across, in ground units from the
@@ -35,12 +42,6 @@ export type Shown = TappedFigure &
      * over; `undefined` once it is out, and on every other leg.
      */
     out: OverRow | undefined;
-    /** When the stretch of its leg drawn now set off: the leg's departure, or once it is `out`, when it flew out of view. */
-    departs: number;
-    /** The ground row it was drawn standing over last frame. */
-    row: number;
-    /** Where its flight had it last frame, in the world. */
-    at: Point;
     /** How far its fidgets on its perch moved it off `at` last frame. */
     offset: Point;
     /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
