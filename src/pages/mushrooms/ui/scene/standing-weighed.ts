@@ -99,6 +99,15 @@ export function standingOn(
   return here;
 }
 
+/** Those of `others` standing behind `own` whose box meets its own. */
+function behind(own: Standing, others: readonly Weighed[]): Weighed[] {
+  const whole = boxAround(own.drawn.flat());
+  return others.filter(
+    (other) =>
+      other.standing.depth < own.depth && boxesMeet(whole, other.whole),
+  );
+}
+
 /**
  * Whether `own`, standing among `others`, leaves every part of each in view
  * past `MOST_HIDDEN`: its own behind the nearer ones, and each of those it
@@ -119,11 +128,7 @@ export function partsInView(
   ) {
     return false;
   }
-  const whole = boxAround(own.drawn.flat());
-  return others.every((other) => {
-    if (other.standing.depth >= own.depth || !boxesMeet(whole, other.whole)) {
-      return true;
-    }
+  return behind(own, others).every((other) => {
     const sight = other.sight();
     return PARTS.every((part) => {
       const before = sight[part];
@@ -137,18 +142,13 @@ export function partsInView(
 }
 
 /**
- * Whether `own`, newly grown, keeps every door in sight among `others`: its own, and
- * every one behind it that showed before it grew.
+ * Whether `own`, newly grown, keeps every door in sight among `others`: its
+ * own, and every one behind it that showed before it grew.
  */
 export function doorsKept(own: Standing, others: readonly Weighed[]): boolean {
   const after = [...others.map(({ standing }) => standing), own];
   if (!doorShows(own, after)) return false;
-  const whole = boxAround(own.drawn.flat());
-  return others.every(
-    (other) =>
-      other.standing.depth >= own.depth ||
-      !boxesMeet(whole, other.whole) ||
-      !other.shows() ||
-      doorShows(other.standing, after),
+  return behind(own, others).every(
+    (other) => !other.shows() || doorShows(other.standing, after),
   );
 }

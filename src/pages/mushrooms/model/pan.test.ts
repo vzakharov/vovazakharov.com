@@ -238,6 +238,15 @@ function moves(lefts: readonly number[]): number[] {
 
 const CRUISE = CRUISE_ACROSS * TABLET.width;
 
+/** That the last frame of `lefts` moves leftward at the cruise. */
+function assertCruisesLeftward(lefts: readonly number[]): void {
+  const last = moves(lefts).at(-1) ?? 0;
+  assert.ok(
+    Math.abs(last + CRUISE * FRAME) < 1e-6,
+    `turns leftward at ${String(last / FRAME)} px/s`,
+  );
+}
+
 describe('a held key', () => {
   it('eases in to a steady cruise in screen widths a second', () => {
     const { held } = heldFor(TABLET, 1, 1, FRAME);
@@ -316,11 +325,7 @@ describe('a held key', () => {
       `stands: ${stood.join(', ')}`,
     );
     const [, lefts] = ticked(letGoKey(both, 1), KEY_EASE + FRAME, FRAME);
-    const last = moves(lefts).at(-1) ?? 0;
-    assert.ok(
-      Math.abs(last + CRUISE * FRAME) < 1e-6,
-      `turns leftward at ${String(last / FRAME)} px/s`,
-    );
+    assertCruisesLeftward(lefts);
   });
 
   it('turns on after a finger presses and lifts while it is held', () => {
@@ -330,11 +335,7 @@ describe('a held key', () => {
     assert.equal(leftAt(tick(pressed, FRAME), 0.6), at, 'the finger keeps it');
     const lifted = release(tick(pressed, 0.1), 0.6);
     const [, lefts] = ticked(lifted, KEY_EASE + FRAME, FRAME);
-    const last = moves(lefts).at(-1) ?? 0;
-    assert.ok(
-      Math.abs(last + CRUISE * FRAME) < 1e-6,
-      `turns leftward at ${String(last / FRAME)} px/s`,
-    );
+    assertCruisesLeftward(lefts);
   });
 
   it('turns on after a finger drags while it is held, from the drag’s crop', () => {
