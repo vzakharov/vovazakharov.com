@@ -50,8 +50,7 @@ const WORST: ReadonlyArray<{ screen: Screen; crop: string; visit: number }> = [
  * reach it, over every screen's forests grown on each of `GROWN_ON`: the rest
  * land where something is drawn in front, which takes them by design. Set
  * under the worst measured over each screen's first 400 visits on each crop,
- * 73.0%, held both by visit 2051024's mushroom-10 on the tablet's opening crop
- * and by visit 1282881's mushroom-4 at the phone's right end (`WORST`).
+ * 73.0%, which the visits of `WORST` hold.
  */
 const LEAST_HEAD_SHARE = 0.72;
 /** The mushrooms review 5360733525 found keeping no patch, each on its screen, where a full forest stands. */

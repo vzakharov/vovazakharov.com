@@ -208,12 +208,12 @@ function blended(
 }
 
 /**
- * The pressed finger moved to `x` at `time`: once it is past `SLOP` from
- * where it pressed, the crop follows it 1:1 from the slop's line, so the
- * ground under the press lags the finger by the slop and no more, and not at
- * all before. At a world's end the crop stops and the finger's overshoot is
- * dropped, so the finger turning back moves the crop at once. The step that
- * crosses the slop counts toward no velocity, so a release then never glides.
+ * The pressed finger moved to `x` at `time`: once past `SLOP` from where it
+ * pressed, the crop follows it 1:1 from the slop's line, so the ground under
+ * the press lags the finger by the slop and no more. At a world's end the
+ * crop stops and drops the overshoot, so the finger turning back moves it at
+ * once. The crossing step counts toward no velocity, so a lift then never
+ * glides.
  */
 export function move(pan: Pan, x: number, time: number): Pan {
   const { motion } = pan;
@@ -240,9 +240,9 @@ export function move(pan: Pan, x: number, time: number): Pan {
 
 /**
  * The finger lifted at `time`: a tap leaves the crop where it stands, and a
- * pan glides on from the finger's velocity past the slop, easing to rest at the world's end
- * where it would pass one. With a key held, the keys take the crop over
- * instead, from the finger's pace no faster than their cruise.
+ * pan glides on from the finger's velocity past the slop, easing to rest at
+ * the world's end where it would pass one. With a key held, the keys take
+ * the crop over instead, from the finger's pace no faster than their cruise.
  */
 export function release(pan: Pan, time: number): Pan {
   const { motion } = pan;

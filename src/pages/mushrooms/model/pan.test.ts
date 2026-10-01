@@ -104,7 +104,7 @@ describe('a drag', () => {
   });
 
   it('moves the crop no farther than a wobbly tap drifts', () => {
-    // The drifts the review measured over 100 ms, which slid the crop 0–83 px.
+    // How far a child's tap drifts over 100 ms.
     for (const drift of [4, 8, 11, 14, 18, 24]) {
       for (const steps of [3, 6, 12]) {
         for (const way of [-1, 1]) {
