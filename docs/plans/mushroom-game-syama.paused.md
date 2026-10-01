@@ -470,10 +470,18 @@ fold done — `bite-12.md`, the summary, row 12, the elephant reworded
 (181167e8, 34354853); item 4b built (d4028a5a, `key-plants.md`); the
 opening, approach and seat plays (4fa8349a); a perched insect drawn where
 its cap or flower draws the seat, 0.00 px through a turn on tabL and
-phoneP (c8c32263, `seat-fix.md`). Left: the five-screen run at the final
-HEAD with its frames (`play-final.md` says how far it got), the frame
-budget judged on an idle machine (36 ms on tabL with agents running), the
-phoneL edge flower judged; then the review subagent (§ "How this elephant
+phoneP (c8c32263, `seat-fix.md`); the keys play and the probe's seat read
+(9ac52e0f, b0a652bb) — tabL passes every play at b0a652bb but the frame
+budget. **The frame budget fails on an idle machine** (33.5 ms median
+walking into the forest and turning at the closest approach, against 26;
+21.4 ms over the whole screen). **Decided: spec §5's mitigation, raise
+`V_NEAR` first**, measured until the forest walk holds 26 ms, then judged
+on frames that a near mushroom does not vanish too early for a child;
+beaten: relaxing the budget, which is the measure the game keeps. Left:
+the released-insect fix (below), the `V_NEAR` fix, then the five-screen
+run at the final HEAD with its frames (`play-final.md`: split each screen
+by `--plays`, the full set takes ~9 min on tabL), the phoneL edge flower
+judged; then the review subagent (§ "How this elephant
 is eaten" step 2) and its fixes; delete this section; `/polish`, vet, the
 Artifact, `/pr`. **Also, by a subagent:** the context-budget hook gives a
 subagent its own notice at ~170k from its own transcript — commit what
