@@ -1,6 +1,6 @@
 /**
  * The arrow keys held on the meadow, for `play-pan.ts`: `→` then `←` held a
- * while each from the middle, and held on to either end of the world. Traced
+ * while each, and held on to either end of the world. Traced
  * frame by frame, a held key turns the crop one way only, never faster than
  * its cruise, easing in from the press through the browser's repeats and
  * easing out to rest on the release, softly at a world's end.
@@ -25,10 +25,12 @@ export type CropOf = () => Promise<z.infer<typeof Crop>>;
 
 /** How near two crops' edges, in CSS px, count as one: the easing's float left over. */
 export const SAME = 0.5;
-/** How long each key is held from the middle, in frames: past its ease, short of either end. */
+/** How long each key is held, in frames: past its ease, which a world a few screens across leaves short of its end. */
 const HELD_FRAMES = 36;
 /** Frames between a held key's repeats, as a browser's own come about every 33 ms. */
 const REPEAT_FRAMES = 2;
+/** The room ahead, in `KEY_EASE`s at the cruise, a hold wants to cruise a while between its ease in and its brake. */
+const CRUISING_ROOM = 1.5;
 /** Frames enough for a let-go key's turn to come to rest, with room to spare. */
 const REST_FRAMES = 30;
 /** The most frames a walk to a world's end holds its key, a world being a few screens across. */
@@ -163,7 +165,13 @@ function stopsSoftly(
   );
 }
 
-/** `→` then `←`, each held `HELD_FRAMES` from where the crop rests and let go; then `→` held on to the world's right end. */
+/**
+ * `→` then `←`, each held `HELD_FRAMES` from where the crop rests and let go;
+ * then `→` held on to the world's right end. A key with less room ahead than
+ * its ease in and its brake take, as a phone held sideways leaves either way
+ * from the middle of its ~200 px, first walks the crop to the other end, so
+ * the hold can reach its cruise.
+ */
 export async function playKeys(
   page: Page,
   crop: CropOf,
@@ -171,12 +179,22 @@ export async function playKeys(
   note: (line: string) => void,
 ): Promise<void> {
   await inTurn(['ArrowRight', 'ArrowLeft'] as const, async (key) => {
-    const { width } = await crop();
+    const { left, world, width } = await crop();
     const turning: Turning = {
       toward: towardOf(key),
       cruise: CRUISE_ACROSS * width,
       what: `${key} held`,
     };
+    // Easing in and braking out each cover half a `KEY_EASE` at the cruise.
+    const ahead = turning.toward === 1 ? world - width - left : left;
+    if (ahead < CRUISING_ROOM * turning.cruise * KEY_EASE) {
+      await walkTo(
+        page,
+        crop,
+        key === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight',
+        expect,
+      );
+    }
     const { held, after, from, letGo, rest } = await traced(
       page,
       key,
