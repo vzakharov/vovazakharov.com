@@ -544,6 +544,17 @@ departures were taken):
    nothing behind the opening clump** (every grown mushroom 7.8–9.8
    ahead, haze 0). The forest must still grow into the misty back rows;
    traced with the two reds in item 1.
+4b. **A key plants (operator, playing the round brow).** While the picker
+   is open on a tuft, a note or drum key plants the flower that sounds it
+   there at once — its colour and shape are the key's, by `soundOf`'s law
+   (`seedSounding`) — sounding as a planting does, in view of a matching
+   flower or not, and the picker shuts («нажатие на "клавишу" этого цветка
+   будет сразу его сажать, без необходимости выбирать цвет-форму… сто лет
+   буду запоминать где там например фа диез»). Either stage of the picker
+   takes it. The same holds for the picker open on a flower: the key
+   replaces it, the picker being one picker. Beaten: keys planting only at
+   the colour stage (the child would still have to find the colour).
+   Octave keys still only shift the octave.
 5. The bite's end: `decisions.md` rewritten where the spec names, the
    fold into `## Eaten so far`, `/polish`, vet, the Artifact, `/pr`.
 
