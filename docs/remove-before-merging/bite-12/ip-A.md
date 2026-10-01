@@ -12,9 +12,35 @@ the old path.
   `insect-frame.test.ts` (round trip to 1e-9 px, every screen turned or not,
   8 headings, two eyes, short of the brow) and `insect-away.test.ts`.
 
+- Step 2, the insect drawn: `insect-seat.ts` `drawnFlier(view, raw, flown,
+ends)` and `seatedZoom(host)`. Tests in `insect-seat.test.ts`: a flier at
+  its seat (`aloftAt(view, onHost(...), host.stands.distance)`) at `flown`
+  1 lands where the host draws the seat (1e-6 px) at the sitter's zoom, from
+  the opening's headings and from eyes 0.6–1.2 CD in front of each host (the
+  veer's fade in play); a sitter's zoom is in a fixed scale with its cap's
+  wherever the eye stands, and larger the nearer.
+
 ## Left
 
-- Step 2: `insect-seat.ts` `drawnFlier`, `seatedZoom`, their tests.
+Nothing in this package. C switches the insect over and deletes the old
+path (`entry`, `offScreen`, `drawnAt`, `flownAt`, `drawnInsect`, `offHost`
+and their tests, including `drawnInsect`'s "its own size at the opening").
+
+## Departs from the spec
+
+- **The landing zoom matches to 1e-3 only for a seat over its host's foot.**
+  A seat toward a rim is drawn off the foot's `x`, and `seatedZoom(host) =
+CD / host.stands.ahead` takes the bend at the foot's `x`, while
+  `drawnFlier` takes it at the seat's own: up to 1.2% apart (sideways phone,
+  ±30 world px seats, a foot near the screen's edge) — a step of well under a
+  px at landing. The test holds that bound (< 1.5%) for rim seats. Exact
+  instead: `seatedZoom` by the seat's drawn `x`, `CD · bendAt(pin, drawn.x) /
+host.stands.distance`, which needs the seat's drawn point in its
+  signature. Not taken: the orchestrator's call.
+- `drawnInsect`'s "its own size at the opening" test is left as it is, the
+  old path still being live; the `CD / ahead` property is a new
+  `seatedZoom` test (the sitter's zoom over its cap's constant as the eye
+  steps in, and larger nearer).
 
 ## Decided
 
