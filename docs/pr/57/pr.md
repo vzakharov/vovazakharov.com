@@ -2,12 +2,12 @@
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/57
-- **Author:** @vzakharov (agent)
+- **Author:** @vzakharov (human)
 - **Base ← Head:** main ← claude/mushroom-game-syama-lbirv7
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-09-17T09:39:48Z
-- **Updated:** 2026-09-30T02:21:21Z
+- **Updated:** 2026-09-30T23:25:19Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -20,7 +20,7 @@
 - Syama's mushroom game at `/mushrooms`, the whole of it, spec in #65: a meadow of mushrooms with mouse houses, where `+` grows another mushroom (a picker of four species first — fly agaric, porcini, chanterelle, russula), `−` takes one away, and three bug buttons fly in a butterfly, a fly or a bee. No goal, no text, no failing — made for a six-year-old's hands on a tablet or phone.
 - Everything is drawn and voiced by code: each mushroom, flower and insect is grown from its own seed by a pure, tested generator and painted with Phaser 4 vector primitives; sound is synthesized with Web Audio. Phaser loads on this route alone, and the canvas renders at the device pixel ratio so a retina tablet stays sharp.
 - Four people's loves go into it: Syama's idea, procedural generation, Zoltan's ecology, and Leysan's mandalas. The ecology: bees pollinate flowers into new ones, a tapped cloud rains and the meadow answers, spores sprout after rain, dusk brings out the mice and fireflies. It is all shown in plain sight and never taught. The mandalas: the ornament is radial and ringed (the sun's rosette, the flowers' petal rings), without any mandala drawn as such.
-- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The game as it stands is also published as an Artifact (below). **Bites 1–10 of 14 have landed, 1–9 each with its review handled and bite 10 awaiting its review — with bite 6 the game reaches its MPP line, every control in Syama's drawing working:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
+- Built as an elephant (`docs/plans/mushroom-game-syama.*.md`), a bite per session, each bite reviewed by a fresh session and the review handled by the next, until finalize. The game as it stands is also published as an Artifact (below). **Bites 1–11 of 14 have landed, 1–10 each with its review handled and bite 11 awaiting its review — with bite 6 the game reaches its MPP line, every control in Syama's drawing working:** the meadow, still, with the opening pair standing as one clump like the drawing's; the meadow alive and heard — idle motion, tap wobble and spores, seeded flowers that bloom when tapped, a synthesized soundscape with a mute button; and more mushrooms — `+` opens a four-cap picker and grows the pick out of the ground, a tap selects a mushroom and `−` sinks it back, up to six in a forest round the clump, all through a pure reducer in `model/game.ts`.
 - **Bite 3's review, handled:** taps work again (Phaser read the mushrooms' hit area as a config, so the first tap threw and killed every button), and a mushroom's tap area is now exactly its cap, gills and stem as drawn. `pnpm play:mushrooms` builds a probe export and plays every control on four screens in headless Chromium, failing on any page error or any tap that does the wrong thing. Forest mushrooms never shrink below a finger's target on a phone; the buttons stand clear of every mushroom and of the sun's rays. The picker unfolds from `+` and folds back into it, the picked cap flying down to where its mushroom grows. No tap is ignored: `−` with nothing selected takes the newest mushroom, and a control that truly cannot act shakes its head with a "nuh-uh". A selected mushroom wears a thick yellow outline that moves with it and gently beckons, and the buttons are opaque, with caps big enough to tell apart at a glance.
 - **Bite 4, the mouse house:** a house button under `−` (a fly agaric with two windows and a door) opens a second picker across the top — Syama's four windows (`⊕`, `○`, `□`, the tall arched one) and a door. Opening it selects the newest mushroom with room, so the glow shows where a pick will go; a pick furnishes the selected mushroom, and the picker stays open for the next; the two pickers close each other. Windows go into a row along the cap's lower band, three or five as the cap's width allows, from the middle outward, and a window takes the place of any spot it would half-cover; the door stands on the stem at whatever height the mushrooms in front leave in sight. Each pops in with a puff and a knock. Now and then a door swings open and a mouse peeks out, looks about, blinks and ducks back; a tap on the door calls it at once with a squeak. A full row and a second door shake their heads. The house is a graphics per mushroom that copies its pose each frame, so it grows, wobbles and sinks with it, and the mouse is clipped to its doorway. `pnpm play:mushrooms` plays the house too (`scripts/lib/play-house.ts`).
 - **Bite 4's review, handled:** the back mushroom's door was often hidden behind the front one, so each door now picks, per visit, the lowest of 8–14 stations up the stem where at least 80% of it and its doorway are in sight, sized to the stem there; the portrait clump's feet stand together so the back cap stays mostly in view. Every door's tap area is at least two fingertips across, the mouse's head is never drawn under 28 px (it leans out of a small door, shoulders showing), and the house picker skips a full mushroom rather than greying out. `pnpm play:mushrooms` now asks the scene's own hit test that a tap at each door reaches it, plays both clump doors, and shoots a furnished mushroom mid-sink with its house.
@@ -35,8 +35,10 @@
 - **Bite 9, the meadow on the ground:** the meadow is now one piece of ground seen through a camera (`model/ground.ts`: `Ground {x, z}`, `project`, `fitCamera`), and a turn or a resize builds a new camera and moves nothing on it. A grown mushroom takes a foot of its own, the best of 32 seeded candidates that keeps every rule on this screen (`model/placement.ts`, `mushroom-room.ts`), rather than a fixed slot; `+` shakes its head when no foot passes. Seeded flowers spread over the frame and stand on the same ground; the bees plant on two rings of ground steps, so a full forest still gets a bed. A mushroom drawn narrower than a fingertip keeps a tap pad round its head (`mushroom-tap.ts`). The operator's two ideas for what follows are in `docs/remove-before-merging/ideas/` (comment 5889105662).
 - **Bite 9's review, handled (T96–T107):** each screen lays out at its own width, and a turn or a resize refits the camera so every foot the meadow has used, mushrooms' and flowers', stays in view, zooming out where the new screen is narrower (`meadowLayout`'s `used`). Every camera looks at the meadow from one angle (`UP_PER_Z` 0.481), so the refit is a scaled copy of the picture the child grew and every rule still holds after a turn: doors in sight, caps and stems in view, off the controls, flowers in sight (`meadow-rules.test.ts`, `flower-plots.test.ts`), and the sun's wash off every foot used. Forest mushrooms shrink with depth as the clump does, the zoom floor sits where the clump's narrowest cap is a finger wide, and on a short screen the clump gives way rather than the sky; the finger pad holds every far cap's tap on a phone. Insects shrink with a small clump, a butterfly never wider than its narrowest cap, and a fly's jitter keeps 1.5 px. What hides a mushroom is read point by point over its cap and its stem as drawn, nearer stems included (`cap-cover.ts`: at most 25% of a cap, 50% of a stem). The sun fits every screen from 300×300 to 2600×1600, moved off the clump where shrinking alone leaves it on a cap. Every screen now reaches six in ≥ 99% of the swept visits, the 320 px phone included, and a tablet's six caps span a median ≥ 60% of its width; `pnpm sweep:mushrooms` prints those figures over all 2000 visits.
 - **Bite 10, the flowers as an instrument, and the child plants them:** every flower is a note or a drum by colour and shape, darker is lower (blue, pink and yellow the twelve pitch classes, violet the skins, white the ticks; `model/flower-sounds.ts`), and a tap plays it while it still blooms and deselects. The seven seeded flowers sound C D E G A, a kick and a hat; bees bring any of the twenty. A note is played nearest the melody's last (`model/notes.ts`, C4–B6, back to the middle after 10 s), a bee's flower without moving the melody. The synth is a soft keyed note and eight soft downtempo drums under a compressor (`instrument-voices.ts`). Extra fingers play the flower heads under them as chords, every other gesture staying one-finger, and the focused canvas plays the keyboard by `event.code` (`g`–`'` the white keys, `y u o p [` the sharps, `a s d f` / `q w e r` the drums, `z`/`x` the octave). A tap on a grass tuft opens a two-stage picker — five colours, then four shapes, each the very flower that will grow — and the chosen flower grows on that tuft (`model/planting.ts`, `planter.ts`); tufts grow only where a flower can stand, and a full meadow shakes the tuft. A hue-nudge gene keeps no two pinks identical. Before it, three defects the play run found are fixed: insects keep their least size however small the clump (`LEAST_SPANS`), spore puffs follow their mushroom through a turn, and every grown mushroom keeps a tappable patch of at least 24 px. Every picker stage is finger-sized and clear of every button still shown on every screen down to a 280 px phone and 600×280. `pnpm play:mushrooms` plants a flower on a tuft (`scripts/lib/play-tufts.ts`) and plays green on all five screens.
-- **Play it:** https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG — the game as one page (`pnpm artifact:mushrooms` builds it, titled "Syama's mushrooms"). The link is private until shared from its Share menu. Frames of every bite, as a child sees the meadow, are in [`docs/remove-before-merging/frames/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames) (bite 6's after its review in `bite-6/`, the review's own in `bite-6/review/`, bite 7's in `bite-7/`, its review's handling in `bite-7/handle/`, bite 8's species close up, housed and mixed in a meadow in [`bite-8/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-8), after its review in [`bite-8/handled/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-8/handled), bite 9's meadow on the ground — a turn, feet away from the clump, six on four screens, planted flowers — in [`bite-9/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9), its review's own in [`bite-9/review/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9/review), after its review — turns both ways, six on every screen, small bees — in [`bite-9/handled/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9/handled), and bite 10's tuft picker's two stages, planted flowers, the house picker on small phones and a grown forest in [`bite-10/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-10), its `README.md` saying what each frame shows).
-- **Still open:** near-square screens of ~320–360 px each way (no phone has one) fit no finger-sized picker row — it overlaps `−` — and no test covers them; the play run shoots no 568×320 screen and has no turn step. A turn keeps the meadow laid out for the shape it was grown on until item 11's pan, so the six bunch in the middle or shrink into the bottom fifth. On phoneL a butterfly on a small back chanterelle's lip can cover most of it (a tap still reaches the cap). On a tablet the front mushroom's stem can run to the bottom edge; on a phone upright one planted flower can read larger than its neighbours at the same depth; the play run shoots no refused `+` and no bees planting in a full forest. The sky may read a little plain since bite 7 tamed the halo. From bite 6: a flier crossing the meadow is drawn straight over one seated on a cap; on a 320 px phone the air seats eight of ten fliers apart (`AIR_UNMET`, three `todo` tests); a flight in from off screen takes up to 5 s for a butterfly; a butterfly making way for a bee may read as a twitch; a flier holding an air spot is drawn still.
+- **Bite 10's review, handled (5360733525):** a tap selects what the finger is on and nothing else, so the flower picker opens on a tuft only and a tap outside it closes it unplanted, another tuft opening it there; a chord finger is any pointer Phaser does not hold, and it only plays. Tufts are tended to the meadow and drawn as sprouts a child can find, held to the flowers the meadow has room for, so a full meadow shows no bare tuft rather than refusing one; a flower planted on a tuft stands there alone, its head clear of every other. Every drum is heard on a phone speaker, every hiss under 8 kHz. Each picker's buttons stand `PICK_CLEAR` apart. The insects' least size wins over the clump's shrink on every screen and turn (`insectSizeFor`), and growth keeps every mushroom a tappable patch (`keepsPatches`: 32 px for the forest's, 24 for the clump's).
+- **Bite 11, a wider meadow, panned:** the meadow is a world twice a sideways tablet's screen across (`WORLD_ACROSS` 5.764), and the screen a crop onto it that the child drags left and right — 1:1 under the finger past a 10 px slop, gliding on with soft ends — or turns with a held `←`/`→`, eased in and out rather than stepped (`model/pan.ts`, `pan-input.ts`). The layout is computed once per screen size for the whole world and a pan only scrolls the camera, so a turn changes the zoom and the crop, never the ground; this replaces bite 9's turn refit and bite 10's 14-flower cap. The sky, sun, wash, clouds and every control stay fixed; the far and near hills scroll in parallax at 0.3 and 0.6 (`parallax.ts`), the far range pressed smoothly under the sun along the whole stretch a pan brings under it (`skyline.ts`). Twelve mushrooms fit the world, at least six on the opening crop, and `+` grows inside the crop; fourteen seeded flowers, each half sounding C D E G A, a kick and a hat, with a flower growing wherever one has room. A released insect enters from the screen edge nearer its first perch and takes it in view (`model/flight-in.ts`), then roams the world. Every grown mushroom's tap lands at its head's middle and on at least 75% of the head, the rest taken by a mushroom drawn in front. `pnpm play:mushrooms` taps through the crop and checks the pan (`scripts/lib/play-pan.ts`): a held key turns smoothly, a drag from bare ground pans and taps nothing, a 6 px press taps, a turn keeps every mushroom's ground; it plays one screen per call (`--screens`, ~8.5 min each), green on all five.
+- **Play it:** https://claude.ai/artifact/Uce1gaKzySQ2FYHVb8mefG — the game as one page (`pnpm artifact:mushrooms` builds it, titled "Syama's mushrooms"). The link is private until shared from its Share menu. Frames of every bite, as a child sees the meadow, are in [`docs/remove-before-merging/frames/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames) (bite 6's after its review in `bite-6/`, the review's own in `bite-6/review/`, bite 7's in `bite-7/`, its review's handling in `bite-7/handle/`, bite 8's species close up, housed and mixed in a meadow in [`bite-8/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-8), after its review in [`bite-8/handled/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-8/handled), bite 9's meadow on the ground — a turn, feet away from the clump, six on four screens, planted flowers — in [`bite-9/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9), its review's own in [`bite-9/review/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9/review), after its review — turns both ways, six on every screen, small bees — in [`bite-9/handled/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-9/handled), and bite 10's tuft picker's two stages, planted flowers, the house picker on small phones and a grown forest in [`bite-10/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-10), its `README.md` saying what each frame shows, the tufts before and after its review among them; its review's own in [`bite-10-review/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-10-review), and bite 11's pan — dragged, both world ends, a phone turned — in [`bite-11/`](https://github.com/vzakharov/vovazakharov.com/tree/claude/mushroom-game-syama-lbirv7/docs/remove-before-merging/frames/bite-11)).
+- **Still open:** on phoneL one visit's clump back cap keeps a 22 px patch, not 24, because the clump stands under the zoom floor and growth does not place it. Near-square screens of ~320–360 px each way (no phone has one) fit no finger-sized picker row — it overlaps `−`, and `+` stands below the ground — and no test covers them; the play run shoots no 568×320 screen. The play run's world-end drag check skips where no cap or flower at an end has bare ground beside it, both ends on tabL. On a tablet the front mushroom's stem can run to the bottom edge; on a phone upright one planted flower can read larger than its neighbours at the same depth; the play run shoots no refused `+` and no bees planting in a full forest. The sky may read a little plain since bite 7 tamed the halo. From bite 6: a flier crossing the meadow is drawn straight over one seated on a cap; on a 320 px phone the air seats eight of ten fliers apart (`AIR_UNMET`, three `todo` tests); a flight in from off screen takes up to 5 s for a butterfly; a butterfly making way for a bee may read as a twitch; a flier holding an air spot is drawn still.
 - **One call for you (bite 2):** the mute is remembered in `localStorage`, and where storage throws (a private window) the game falls back to unmuted and the mute lasts the visit. That is a silent fallback, which `CLAUDE.md` asks you to approve per call site — `readMuted` / `rememberMuted` in `src/pages/mushrooms/ui/scene/sound.ts`. The alternative, letting it throw, would take the whole meadow down for a remembered preference.
 
 Closes #65
@@ -71,7 +73,7 @@ Bite 3, as its review left it:
 - [ ] `refuse` — `+` on a full meadow and `−` on an empty one shake their heads side to side with a low reedy "nuh-uh" rather than doing nothing.
 - [ ] `forest` — six at most: the clump, two nearer, a back row smaller and hazed toward the sky; on a phone either way up every forest cap is at least a fingertip wide and mostly in view.
 - [ ] `clear` — on a phone held upright and sideways and on a tablet either way up, no button sits on a mushroom or in the sun's rays, and a tap near a button's edge never lands on a mushroom behind it.
-- [ ] `play` — `pnpm play:mushrooms` builds, plays all five screens, prints `played` for each and exits 0; its frames land in `tmp/play/`.
+- [ ] `play` — `pnpm play:mushrooms --screens <one>` builds, plays that screen, prints `played` and exits 0, on each of the five in turn; its frames land in `tmp/play/`.
 
 Bite 4:
 
@@ -101,7 +103,7 @@ Bite 6, as its review left it:
 - [ ] `fly` — flies dart on fast zigzags, mostly to caps and most often to the fly agarics; at rest a fly's wings lie back over its body, it visibly trembles, rubs its front legs every few seconds and hops a little along the cap and back.
 - [ ] `bee` — bees fly straight, bobbing, only ever to flowers, sit on the flower's lower rim facing in so most of the flower still shows, and crawl about it, their wings flicking now and then in a stroke the eye can follow; their baskets fill with pollen as they go and empty at a new flower.
 - [ ] `bees-share` — with four butterflies and three bees out, on a tablet and on a 320 px phone, the bees spend most of their time on flowers rather than roaming the sky; a butterfly or fly on a flower a bee is waiting for moves off and the bee lands.
-- [ ] `planting` — with only bees out on a tablet, flower after flower is planted beside ones they visited, not just one: each grows up out of the ground and opens with a chime; a well-visited flower gets a ring of them, never past 14 flowers, none under a button or off the screen. A planted flower sways, blooms when tapped and is visited like any other.
+- [ ] `planting` — with only bees out on a tablet, flower after flower is planted beside ones they visited, not just one: each grows up out of the ground and opens with a chime; a well-visited flower gets a ring of them, only where a flower has room, none under a button. A planted flower sways, blooms when tapped and is visited like any other.
 - [ ] `no-overlap` — on a 320 px phone with every kind at its limit, none flies off unsent, fliers hovering in the sky rarely sit on top of each other, and no insect ever spins round in a frame.
 - [ ] `catch` — on a tablet and a phone held sideways, a flier in the air is easy to tap with a finger, and a tap where two cross reaches the one nearest the finger; no flight drags across the screen.
 - [ ] `turn-first` — a butterfly or fly leaving its perch turns on the spot to face its way before it flies, and one landing on a beckoning or wobbling cap faces the way it comes in; a cap let go of, or picked again, settles and swells smoothly with no snap.
@@ -141,7 +143,7 @@ Bite 8:
 
 Bite 9:
 
-- [ ] `ground-turn` — grow six on a tablet held sideways, then turn it upright: the meadow zooms out rather than cropping, every mushroom and flower keeps its place on the ground and stays in view, each door still in sight and no cap newly hidden, the sun and light following the turn; turn back and it is the picture you grew.
+- [ ] `ground-turn` — grow six on a tablet held sideways, then turn it upright: every mushroom and flower keeps its place on the ground, the crop re-centred on the same spot, each door still in sight, the sun and light following the turn; turn back and it is the picture you grew.
 - [ ] `own-foot` — `+` grows each new mushroom on a patch of grass of its own, sometimes well away from the clump, never on a flower, never under a button or in the sun's wash.
 - [ ] `six-or-refuse` — grow to six on a tablet, a phone either way up and a 320 px phone; where a meadow has no room left `+` greys and shakes its head rather than doing nothing.
 - [ ] `forest-depth` — in a full forest a mushroom farther back stands smaller than a nearer one, as in Syama's drawing, and no nearer stem runs across much of a farther cap.
@@ -156,9 +158,25 @@ Bite 10:
 - [ ] `melody` — tapping flowers one after another walks up and down by the nearest note rather than jumping octaves; left alone ten seconds, the next note comes back to the middle; a bee's flower opening plays without pulling the tune.
 - [ ] `chords` — two or three fingers on flower heads at once sound a chord, clean and not clipping, drums included; a second finger anywhere else does nothing.
 - [ ] `keyboard` — on a laptop, after a click on the meadow, `g h j k l ; '` play C–B, `y u o p [` the sharps, `a s d f` and `q w e r` the drums, `z`/`x` shift the octave; with a Russian layout the same keys play the same; each key opens the flowers in sight that make its sound.
-- [ ] `tuft-plant` — a tap on a grass tuft opens five colour buttons where the house picker's stand, then four flowers of that colour where the caps' stand; the pick flies to the tuft and that exact flower grows there, playing as it opens. A tap anywhere else, another tuft included, closes it unplanted; on a full meadow the tuft shakes its head.
+- [ ] `tuft-plant` — a tap on a grass tuft opens five colour buttons where the house picker's stand, then four flowers of that colour where the caps' stand; the pick flies to the tuft and that exact flower grows there, playing as it opens. A tap anywhere else closes it unplanted, and another tuft opens it there; a full meadow shows no bare tuft.
 - [ ] `pickers-apart` — on every screen down to a 280 px phone and a phone held sideways, every picker's buttons are a finger wide, on screen and clear of every other button shown.
 - [ ] `defects` — after a turn, spore puffs follow their mushroom; on a grown phone meadow every mushroom can be tapped, and bees and flies stay big enough to see.
+
+Bite 10's review:
+
+- [ ] `tuft-sprouts` — tufts read as little sprouts a child can find, only where a flower can still grow; a planted flower stands alone on its tuft, its head clear of every other flower's.
+- [ ] `phone-drums` — on a phone speaker every drum is heard and no hiss is harsh.
+- [ ] `chord-only` — a second finger on a flower head plays it and does nothing else: it opens, closes and selects nothing.
+
+Bite 11:
+
+- [ ] `drag` — a finger dragged sideways on bare meadow moves the ground with it and glides on when let go, easing to a soft stop at either end of the world; the sky, sun, clouds and buttons stay put, and the hills slide slower the farther back they stand. A drag taps nothing.
+- [ ] `arrows` — on a laptop a held `←` or `→` turns the meadow smoothly, easing in and out, never in steps.
+- [ ] `far-hills` — panned end to end, the far hills dip under the sun with no flat top, cliff or shoulder.
+- [ ] `world` — a fresh meadow shows at least six mushrooms on its opening screen and more beyond either side, twelve at most over the world; `+` grows its mushroom inside the screen you are looking at, and a panned-to stretch has flowers and tufts of its own.
+- [ ] `tap-in-crop` — after a pan, a tap on any mushroom, flower, tuft or door reaches it, and a tap on something a pan slid under a button goes to the button.
+- [ ] `fly-in` — a released insect flies in from the screen edge nearer its first perch and lands in view, then roams the whole world, panning to find it.
+- [ ] `turn-crop` — turning the device keeps every mushroom where it stood on the ground, the zoom and the crop changing round the screen's centre.
 
 | Item     | Automatable | Covered?                          | Notes                                                        |
 | -------- | ----------- | --------------------------------- | ------------------------------------------------------------ |
@@ -202,7 +220,7 @@ Bite 10:
 | `fly`    | partly      | yes — `flight-kinds.test.ts`, `insect-paths.test.ts`, `buzz-rest.test.ts`, `pnpm play:mushrooms` (not in vet) | the cap share and the spotted pull; the zigzag continuous; jitter, rub and hop continuous and bounded; the script counts fly rests on fly agarics against other caps; the look of it is manual |
 | `bee`    | partly      | yes — `flight-kinds.test.ts`, `pollen.test.ts`, `buzz-rest.test.ts` | never a cap, never back on the flower it leaves; pollen specks per visit; the crawl bounded; the rest flutter's per-frame step bounded; the rim seat and how much flower shows looked at in frames |
 | `bees-share` | e2e     | yes — `fliers.test.ts`, `perch-sight.test.ts` | bees roam under 25% on every `VIEWPORTS` screen over played visits; crowding by kind; `givesWay` / `flowerFreed` |
-| `planting` | e2e       | yes — `pollen.test.ts`, `swarm.test.ts`, `flower-plots.test.ts`, `pnpm play:mushrooms` (not in vet) | `sown` and `FLOWER_LIMIT`; replays plant the same flowers; ring slots in sight on this screen over the sweep; the script waits for a bee to plant on every screen and checks the flower full grown |
+| `planting` | e2e       | yes — `pollen.test.ts`, `swarm.test.ts`, `flower-plots.test.ts`, `pnpm play:mushrooms` (not in vet) | `sown` and room for a flower; replays plant the same flowers; ring slots in sight on this screen over the sweep; the script waits for a bee to plant on every screen and checks the flower full grown |
 | `no-overlap` | e2e     | partly — `fliers.test.ts`, `insect-steering.test.ts`, `pnpm play:mushrooms` (not in vet) | no flier lost and no air spots overlapping over the sweep, except the small phone's `AIR_UNMET` (two `todo` tests); the script watches every frame for hover overlaps and heading against the flight |
 | `catch`  | e2e         | yes — `fliers.test.ts`, `insect-tap.test.ts` | every kind caught ≥70% of the time on every screen; the nearest body takes the tap; flight times bounded by `slowest` |
 | `turn-first` | unit    | yes — `insect-steering.test.ts`, `motion.test.ts`, `pnpm play:mushrooms` (not in vet) | the pivot before a flight, flying to beckoning caps and a still hop; the beckon's settle continuous through a release and a reselect; the play run's heading watch on five screens |
@@ -233,7 +251,7 @@ Bite 10:
 | `species-clump` | unit | yes — `layout.test.ts`, `mushroom-genes.test.ts` | every back/front pair over 2000 visits on every screen: back cap ≥ 45% in view, back doorway ≥ 80% in sight; the porcini's median visible stem ≤ 0.6 and below the fly agaric's |
 | `band` | e2e | yes — `pnpm play:mushrooms` (not in vet) | `play-band.ts` reads every band and ring point's pixels for each species on every screen; broken on purpose it fails at each outline's first point |
 | `flowers-clear` | unit | yes — `flower-layout.test.ts` | every seeded flower off every control's drawn circle and at most half shaded by the opening clump, on each screen and on it turned |
-| `ground-turn` | unit  | yes — `ground.test.ts`, `meadow-rules.test.ts`, `flower-plots.test.ts` | every foot kept on the ground and in view after a turn; every rule kept on the turned layout of each grown meadow; flowers in sight kept; the look in frames |
+| `ground-turn` | unit  | yes — `ground.test.ts`, `meadow-rules.test.ts`, `flower-plots.test.ts` | every foot kept on the ground after a turn; every rule kept on the turned layout of each grown meadow; flowers in sight kept; the look in frames |
 | `own-foot` | unit     | yes — `placement.test.ts`, `meadow-rules.test.ts`, `pnpm play:mushrooms` (not in vet) | `pickFoot` even and repeatable; `roomFor` against every rule on this screen; the play run grows to six on five screens |
 | `six-or-refuse` | e2e | yes — `layout.test.ts`, `meadow-rules.test.ts`, `pnpm play:mushrooms` (not in vet) | six in ≥ 99% of the swept visits on every screen; `pnpm sweep:mushrooms` over all 2000; `+` greyed at six looked at in `bite-9/six-meadow-plus-refused-*.png` |
 | `forest-depth` | unit | yes — `clump-layout.test.ts`, `cap-cover.test.ts`, `meadow-rules.test.ts` | size by `scaleAt` with depth; a farther cap drawn wider in < 20% of pairs; cap ≤ 25% and stem ≤ 50% hidden, nearer stems counted |
@@ -245,9 +263,19 @@ Bite 10:
 | `melody` | unit        | yes — `notes.test.ts`, `instrument.test.ts` | the nearest-note rule, the tritone tie, the 10 s rest; a bee's flower leaves the melody |
 | `chords` | partly      | yes — `chord-fingers.test.ts`     | which extra fingers play; clipping under the compressor needs ears |
 | `keyboard` | unit      | yes — `keyboard.test.ts`          | the `event.code` map and modifiers ignored; focus and the opened flowers looked at by hand |
-| `tuft-plant` | e2e     | yes — `planting.test.ts`, `flower-picker.test.ts`, `pnpm play:mushrooms` (not in vet) | the reducer's two stages, planting the seed shown and closing unplanted; each stage whole on every screen; `play-tufts.ts` opens a tuft, picks a colour and a shape and checks the flower grown on five screens |
+| `tuft-plant` | e2e     | yes — `planting.test.ts`, `flower-picker.test.ts`, `pnpm play:mushrooms` (not in vet) | the reducer's two stages, planting the seed shown and closing unplanted; each stage whole on every screen; `play-tufts.ts` opens a tuft, picks a colour and a shape and checks the flower grown on five screens; `tufts.test.ts` holds a full meadow bare of tufts |
 | `pickers-apart` | unit | yes — `layout.test.ts`           | every stage's buttons ≥ `TAP_RADIUS`, on screen and `PICK_CLEAR` apart on every `VIEWPORTS` screen, 280 px and `TURNED_SMALL`; near-square screens uncovered |
 | `defects` | unit       | yes — `insect-layout.test.ts`, `mushroom-patch.test.ts`, `pnpm play:mushrooms` (not in vet) | `LEAST_SPANS` over 2000 seeds; a 24 px patch per grown mushroom on every screen; the puff after a turn looked at by hand |
+| `tuft-sprouts` | unit | yes — `tufts.test.ts`, `planting.test.ts` | tufts held to the meadow's room; the planted head clear of others; how a sprout reads looked at by hand |
+| `phone-drums` | partly | yes — `instrument-voices.test.ts` | every drum's band and every hiss under 8 kHz held as data; a phone speaker needs ears |
+| `chord-only` | unit | yes — `chord-fingers.test.ts` | a finger Phaser does not hold only plays |
+| `drag` | e2e | yes — `pan.test.ts`, `parallax.test.ts`, `pnpm play:mushrooms` (not in vet) | the slop, 1:1 follow, glide and soft ends; `play-pan.ts` drags from bare ground and checks nothing tapped |
+| `arrows` | e2e | yes — `pan.test.ts`, `pnpm play:mushrooms` (not in vet) | the eased cruise; `play-pan.ts` traces a held key frame by frame |
+| `far-hills` | unit | yes — `skyline.test.ts` | the smooth envelope under the sun along the pan's stretch; the look by hand |
+| `world` | unit | yes — `mushroom-room.test.ts`, `meadow-rules.test.ts`, `flower-plots.test.ts` | six on the opening crop, twelve over the world, `+` inside the crop |
+| `tap-in-crop` | e2e | yes — `mushroom-patch.test.ts`, `pnpm play:mushrooms` (not in vet) | the play run taps through `__probe.toScreen`; every head's tap lands over 2000 forests |
+| `fly-in` | unit | yes — `flight-in.test.ts` | the entry edge and the first perch in view |
+| `turn-crop` | e2e | yes — `pan.test.ts`, `pnpm play:mushrooms` (not in vet) | the resize keeps the centre's ground point; `play-pan.ts` turns and checks every mushroom's ground |
 | `play`   | e2e         | —                                 | it is the check; nothing runs it at merge |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -293,20 +321,23 @@ Issue #65 holds the spec; every control in the drawing works.
 /mushrooms is a full-screen meadow drawn by Phaser 4, loaded on this
 route alone. Every mushroom, flower and insect is grown from its own
 seed by a pure, tested generator, and every motion is a pure function
-of the clock. The meadow is one piece of ground seen from one angle,
-so a turn moves nothing on it and every rule still holds. It is
-painted in one light: shade, shine and shadows fall from the sun as
-each thing sees it, and every creature is inked in a dark of its own
-colour. A pure reducer in model/game.ts owns the state, and pnpm
-play:mushrooms plays every control on five screens in headless
-Chromium, failing on a page error, a wrong result or a slow frame.
+of the clock. The meadow is one piece of ground twice a tablet's
+width, seen from one angle: the child drags or arrow-keys the screen
+along it, the hills sliding in parallax, and a turn moves nothing on
+it. It is painted in one light: shade, shine and shadows fall from the
+sun as each thing sees it, and every creature is inked in a dark of
+its own colour. A pure reducer in model/game.ts owns the state, and
+pnpm play:mushrooms plays every control, the pan included, on five
+screens in headless Chromium, failing on a page error, a wrong result
+or a slow frame.
 
 Plus grows one of four species — a fly agaric, a porcini, a
-chanterelle, a russula — on a foot of its own, up to six, and minus
-sinks one; the house button furnishes any of them with Syama's windows
-and a door a mouse peeks from. Butterflies drink at flowers, flies
-zigzag to the fly agarics, and bees carry pollen and plant new flowers
-round those they pollinate. A control that cannot act shakes its head.
+chanterelle, a russula — on a foot of its own in view, up to twelve
+over the meadow, and minus sinks one; the house button furnishes any
+of them with Syama's windows and a door a mouse peeks from.
+Butterflies drink at flowers, flies zigzag to the fly agarics, and
+bees carry pollen and plant new flowers round those they pollinate.
+A control that cannot act shakes its head.
 
 Every flower is a note or a drum by its colour and shape, darker
 sounding lower, so the meadow is an instrument: a tap plays a flower,
@@ -549,6 +580,20 @@ What works: a tapped flower plays and the AudioContext runs. The picked shape is
 
 What doesn't, in order: the tufts go stale as soon as the meadow changes (the headline claim of the bite), the chord's finger rule plays a flower twice and deselects, the violet drums are inaudible on a phone speaker, and the tufts don't read as something to tap. Each comment ends with an `Ask:` and a property to test the fix against.
 
+### Review by @vzakharov (agent) — COMMENTED
+
+_2026-09-30T23:23:58Z_
+
+Loop review of bite 11 (a wider meadow, panned), `476652d1..afbdd75`: an agent's review, not the operator's, so `writing/notes/the-five-percent.md` stays frozen.
+
+A player agent drove the built game frame by frame on tabL and phoneP (drags, wobbly taps, held keys, a turn mid-hold, `+` while panned) and swept head taps and pan targets over seeds. A reader agent read the diff against plan item 11 and mutation-checked the new tests. Findings 1 and 2 were reached independently by both, so they are confirmed. The rest are one agent's findings, each with a measurement.
+
+**What works:** a finger swipe reaches both world ends in two swipes, stops softly and taps nothing (`docs/remove-before-merging/frames/bite-11-review/tabL-swiped-left-end-looks-good.png`, `…right-end-looks-good.png`). A held key braking into an end is smooth. Blur, and a turn mid-hold, both keep the key turn sane (`phoneP-turned-mid-key-hold.png`). Every mushroom grown by `+` at five pan positions stands inside the crop (`tabL-plus-grown-while-panned.png`). Flights, first perches and `roomFor` all go through the crop. `standingFlowers`' index pairing never misfires: 50,000 visits, 14/14 each. Every head tap a child loses goes to the mushroom or flower drawn in front of that point, never to empty ground.
+
+**What a child would feel:** starting a pan on the meadow also taps whatever the finger landed on (2), and on a phone that's a third of all pans. A tap that wobbles past 10 px turns into a glide 3–5× the wobble (3). On a phone held sideways there is barely anything to pan (7).
+
+**Not run:** perches and flights off the crop, the hills under the sun on each screen, the cost of `fliers.test.ts`, and screens other than tabL/phoneP for the key traces.
+
 _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `src/pages/mushrooms/model/mushroom-genes.ts`:122 — unresolved — last: @vzakharov (agent) 2026-09-26T09:06:20Z — "Done in 5ec3edc. A new `stemBend` gene bends each stem over…" → [↓](#t01)
@@ -572,7 +617,7 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T19** `src/pages/mushrooms/ui/scene/layout.test.ts`:127 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:40Z — "Fixed in f1b8bc3, with the sun's rays tightened in 110e977.…" → [↓](#t19)
 - **T20** `src/pages/mushrooms/ui/scene/layout.ts`:84 — unresolved — last: @vzakharov (agent) 2026-09-26T16:55:41Z — "Fixed in a71098e. A tall screen's ground now starts at half…" → [↓](#t20)
 - **T21** `src/pages/mushrooms/ui/scene/mushroom-bed.ts`:48 — unresolved — last: @vzakharov (agent) 2026-09-26T17:30:56Z — "The faint glow rings are gone: a selected mushroom now wears…" → [↓](#t21)
-- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:157 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
+- **T22** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:161 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:56Z — "Done in 7c62305. `−` with nothing selected now sinks the new…" → [↓](#t22)
 - **T23** `src/pages/mushrooms/ui/scene/controls.ts`:90 — unresolved — last: @vzakharov (agent) 2026-09-26T17:12:57Z — "Done in bfcaf78. The picker now closes on the clock as it op…" → [↓](#t23)
 - **T24** `src/pages/mushrooms/ui/scene/hud.ts`:18 — unresolved — last: @vzakharov (agent) 2026-09-26T17:45:14Z — "Every disc is now opaque white with a full-strength ink rim…" → [↓](#t24)
 - **T25** `src/pages/mushrooms/model/house.ts`:307 — unresolved — last: @vzakharov (agent) 2026-09-26T23:47:39Z — "Fixed in 330dd6d, with the clump retuned in 2d7ae65. A door…" → [↓](#t25)
@@ -596,22 +641,22 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T43** `src/pages/mushrooms/ui/scene/hud.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:54Z — "Asserted in 0a7b7b3. The seed moved to `model/insect-genes.t…" → [↓](#t43)
 - **T44** `scripts/lib/mushroom-probe.ts`:202 — unresolved — last: @vzakharov (agent) 2026-09-27T03:10:56Z — "Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` fro…" → [↓](#t44)
 - **T45** `docs/plans/mushroom-game-syama.paused.md`:68 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:40Z — "Несложно: теперь каждый байт заканчивается публикацией игры…" → [↓](#t45)
-- **T46** `.claude/skills/megabeast/notes.md`:722 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
-- **T47** `.claude/skills/megabeast/notes.md`:160 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
-- **T48** `docs/plans/mushroom-game-syama.paused.md`:124 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
-- **T49** `docs/plans/mushroom-game-syama.paused.md`:100 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
+- **T46** `.claude/skills/megabeast/notes.md`:404 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:42Z — "Записал вместе с зумом как байт 8: поле шире экрана, поворот…" → [↓](#t46)
+- **T47** `.claude/skills/megabeast/notes.md`:115 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:44Z — "По таймингам: цепочка из восьми сессий прожила ~3,5 ч на бай…" → [↓](#t47)
+- **T48** `docs/plans/mushroom-game-syama.paused.md`:126 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:45Z — "Байт 8 (широкое поле + пинч-зум), начиная с того, что есть;…" → [↓](#t48)
+- **T49** `docs/plans/mushroom-game-syama.paused.md`:101 — unresolved — last: @vzakharov (agent) 2026-09-27T17:13:46Z — "Спасибо! Атмосфера — следующий байт (7), с референсами Gris,…" → [↓](#t49)
 - **T50** `src/pages/mushrooms/model/flight.ts`:181 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:50Z — "Mostly met: no flier goes away except by eviction on any scr…" → [↓](#t50)
 - **T51** `src/pages/mushrooms/ui/scene/flower-sight.ts`:299 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:52Z — "Done as asked: planting asks for sight on this screen only,…" → [↓](#t51)
 - **T52** `src/pages/mushrooms/ui/scene/perch-sight.ts`:157 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:53Z — "Done: crowding now takes the pairing of kinds actually invol…" → [↓](#t52)
 - **T53** `src/pages/mushrooms/ui/scene/perch-sight.ts`:175 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:55Z — "The tap half is done: a tap reaches the flier whose body is…" → [↓](#t53)
 - **T54** `src/pages/mushrooms/ui/scene/sound.ts`:263 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:56Z — "Done: `play` builds a voice only while the synth is unmuted,…" → [↓](#t54)
 - **T55** `src/pages/mushrooms/model/insect-motion.ts`:167 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:58Z — "Done: a resting flutter is one lift and one fall over 420 ms…" → [↓](#t55)
-- **T56** `src/pages/mushrooms/ui/scene/flower-sight.ts`:75 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:59Z — "Done: a bee sits on the head's lower rim facing in instead o…" → [↓](#t56)
+- **T56** `src/pages/mushrooms/ui/scene/flower-sight.ts`:76 — unresolved — last: @vzakharov (agent) 2026-09-28T10:01:59Z — "Done: a bee sits on the head's lower rim facing in instead o…" → [↓](#t56)
 - **T57** `src/pages/mushrooms/ui/scene/sky-layout.ts`:402 — unresolved — last: @vzakharov (agent) 2026-09-28T10:38:19Z — "The straight cut across the bottom of the sun is gone in b48…" → [↓](#t57)
 - **T58** `src/pages/mushrooms/model/buzz-rest.ts`:26 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:02Z — "Done: `JITTER` is 0.05 of the size, 1.65 px at the smallest…" → [↓](#t58)
 - **T59** `scripts/lib/flier-watch.ts`:187 — unresolved — last: @vzakharov (agent) 2026-09-28T10:02:03Z — "Done: the watch now fails on a body more than 0.3 rad off it…" → [↓](#t59)
-- **T60** `src/pages/mushrooms/ui/scene/paint-land.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:37Z — "Baked in 505160c: the backdrop is three textures painted onc…" → [↓](#t60)
-- **T61** `src/pages/mushrooms/ui/scene/insect-view.ts`:255 — unresolved — last: @vzakharov (agent) 2026-09-28T15:52:19Z — "Fixed in 570486e. The painters now get the sun turned into t…" → [↓](#t61)
+- **T60** `src/pages/mushrooms/ui/scene/paint-land.ts`:95 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:37Z — "Baked in 505160c: the backdrop is three textures painted onc…" → [↓](#t60)
+- **T61** `src/pages/mushrooms/ui/scene/insect-view.ts`:283 — unresolved — last: @vzakharov (agent) 2026-09-28T15:52:19Z — "Fixed in 570486e. The painters now get the sun turned into t…" → [↓](#t61)
 - **T62** `src/pages/mushrooms/ui/scene/backdrop-tones.ts`:97 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:43Z — "Fixed in be2c5ee. Stacked faint discs could not fall off smo…" → [↓](#t62)
 - **T63** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:139 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:45Z — "Replaced in be2c5ee: with the discs gone, the test checks th…" → [↓](#t63)
 - **T64** `src/pages/mushrooms/ui/scene/ink.test.ts`:35 — unresolved — last: @vzakharov (agent) 2026-09-28T15:26:56Z — "Fixed in 842d0c6. The tests now measure the drawn ink, `inkF…" → [↓](#t64)
@@ -619,7 +664,7 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T66** `src/pages/mushrooms/ui/scene/draw-mushroom.ts`:184 — unresolved — last: @vzakharov (agent) 2026-09-28T16:18:58Z — "Fixed in b4cedec: the cap's light is one ordered list (`capL…" → [↓](#t66)
 - **T67** `src/pages/mushrooms/model/mushroom-outline.ts`:41 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:00Z — "Fixed in 8e76bb6: `stemOutline(genes, turn)` levels the foot…" → [↓](#t67)
 - **T68** `src/pages/mushrooms/ui/scene/mushroom-light.ts`:92 — unresolved — last: @vzakharov (agent) 2026-09-28T16:19:02Z — "Fixed in 52e3079: each mushroom takes its light from the cap…" → [↓](#t68)
-- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:226 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:48Z — "Fixed in 2659e52: `washReach` also stops half a slot's size…" → [↓](#t69)
+- **T69** `src/pages/mushrooms/ui/scene/sun-layout.ts`:260 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:48Z — "Fixed in 2659e52: `washReach` also stops half a slot's size…" → [↓](#t69)
 - **T70** `src/pages/mushrooms/ui/scene/grain.test.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:49Z — "Replaced in 1e2a3a9: the tests now check there is no seam wh…" → [↓](#t70)
 - **T71** `src/pages/mushrooms/ui/scene/hud.ts`:31 — unresolved — last: @vzakharov (agent) 2026-09-28T16:12:38Z — "Fixed in both places: `hud.ts` takes 1/ratio in 8c9c15f, and…" → [↓](#t71)
 - **T72** `src/pages/mushrooms/ui/scene/backdrop-tones.test.ts`:19 — unresolved — last: @vzakharov (agent) 2026-09-28T16:43:46Z — "Done in be2c5ee: the tests import `channels`, `luminance`, `…" → [↓](#t72)
@@ -651,25 +696,33 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **T98** `src/pages/mushrooms/ui/scene/meadow-camera.ts`:79 — unresolved — last: @vzakharov (agent) 2026-09-29T20:47:41Z — "The zoom floor is now where the opening clump's narrowest ca…" → [↓](#t98)
 - **T99** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:245 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:09Z — "Fixed in 13ccefb. `roomNow` goes through `keptRoom`, which k…" → [↓](#t99)
 - **T100** `src/pages/mushrooms/ui/scene/sun-layout.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-29T18:58:20Z — "Fixed in 8e5e408. If the sun still touches something after s…" → [↓](#t100)
-- **T101** `src/pages/mushrooms/model/ground.ts`:125 — unresolved — last: @vzakharov (agent) 2026-09-29T20:12:27Z — "Every camera now looks from one angle, `UP_PER_Z` 0.481, so…" → [↓](#t101)
-- **T102** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:66 — unresolved — last: @vzakharov (agent) 2026-09-29T20:12:29Z — "A turn's refit is now a scaled copy of the picture the child…" → [↓](#t102)
+- **T101** `src/pages/mushrooms/model/ground.ts`:128 — unresolved — last: @vzakharov (agent) 2026-09-29T20:12:27Z — "Every camera now looks from one angle, `UP_PER_Z` 0.481, so…" → [↓](#t101)
+- **T102** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:78 — unresolved — last: @vzakharov (agent) 2026-09-29T20:12:29Z — "A turn's refit is now a scaled copy of the picture the child…" → [↓](#t102)
 - **T103** `src/pages/mushrooms/ui/scene/cap-cover.ts`:14 — unresolved — last: @vzakharov (agent) 2026-09-29T20:27:33Z — "Fixed in 931b2662. Cover is now read point by point over wha…" → [↓](#t103)
 - **T104** `src/pages/mushrooms/model/ground.test.ts`:82 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:08Z — "Fixed in 13ccefb. The turn test now asserts on the ground: i…" → [↓](#t104)
 - **T105** `src/pages/mushrooms/ui/scene/layout.test.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-29T20:27:35Z — "In 9ebbc17b: `pnpm sweep:mushrooms` (`scripts/sweep-mushroom…" → [↓](#t105)
 - **T106** `src/pages/mushrooms/ui/scene/insect-layout.test.ts`:151 — unresolved — last: @vzakharov (agent) 2026-09-29T18:58:22Z — "Tested in f9a2f7a. The test takes the smallest head the peta…" → [↓](#t106)
 - **T107** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:313 — unresolved — last: @vzakharov (agent) 2026-09-29T19:02:11Z — "All three in 13ccefb. A missed splay now throws. `screenPair…" → [↓](#t107)
-- **T108** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:410 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:28Z — "**Blocking: tufts are grown only in `paint`, which runs on a…" → [↓](#t108)
-- **T109** `src/pages/mushrooms/ui/scene/chord-fingers.ts`:11 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:28Z — "**A finger that lands after the first has lifted plays its f…" → [↓](#t109)
-- **T110** `src/pages/mushrooms/ui/scene/flower-bed.ts`:196 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:28Z — "**A chord finger does more than play: `tap(id)` ends in `onT…" → [↓](#t110)
-- **T111** `src/pages/mushrooms/ui/scene/instrument-voices.ts`:96 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:28Z — "**All four violet flowers are close to silent on a phone spe…" → [↓](#t111)
-- **T112** `src/pages/mushrooms/ui/scene/instrument-voices.test.ts`:49 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**"Nothing past 8 kHz" is checked against the band's centre,…" → [↓](#t112)
-- **T113** `src/pages/mushrooms/ui/scene/tufts.ts`:44 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**The tufts don't read as something to tap, they are denser…" → [↓](#t113)
-- **T114** `src/pages/mushrooms/ui/scene/flower-plots.test.ts`:213 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**The turn test's 0.8 median covers the grown forest only, a…" → [↓](#t114)
-- **T115** `src/pages/mushrooms/ui/scene/mushroom-patch.test.ts`:39 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**The 24 px patch fails in a few visits, and a quarter of mu…" → [↓](#t115)
-- **T116** `src/pages/mushrooms/ui/scene/sound.test.ts`:174 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**This test survives `PENDING_VOICES` dropping from 5 to 2**…" → [↓](#t116)
-- **T117** `src/pages/mushrooms/model/game.ts`:256 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**`plant` doesn't enforce the 14-flower cap, and two plan cl…" → [↓](#t117)
-- **T118** `src/pages/mushrooms/ui/scene/layout.test.ts`:274 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "**The 280×600 phone puts the fourth shape button 2.3 px from…" → [↓](#t118)
-- **T119** `scripts/play-mushrooms.ts`:1 — unresolved — last: @vzakharov (agent) 2026-09-30T02:18:29Z — "Minor: 461 lines, a little past the house's ~450. There is a…" → [↓](#t119)
+- **T108** `src/pages/mushrooms/ui/scene/meadow-scene.ts`:409 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:17Z — "Fixed in cb8d1c3. The tufts are now re-tended whenever mushr…" → [↓](#t108)
+- **T109** `src/pages/mushrooms/ui/scene/chord-fingers.ts`:11 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:19Z — "Fixed in d8e4160. `chordFingers` now takes the finger Phaser…" → [↓](#t109)
+- **T110** `src/pages/mushrooms/ui/scene/flower-bed.ts`:196 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:20Z — "Fixed in d8e4160. `chordTap` now only opens the head and pla…" → [↓](#t110)
+- **T111** `src/pages/mushrooms/ui/scene/instrument-voices.ts`:115 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:22Z — "Fixed in 8f388ff. Each skin now has a quieter higher tone ab…" → [↓](#t111)
+- **T112** `src/pages/mushrooms/ui/scene/instrument-voices.test.ts`:49 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:23Z — "Fixed in 8f388ff. The test computes each hiss's upper −3 dB…" → [↓](#t112)
+- **T113** `src/pages/mushrooms/ui/scene/tufts.ts`:67 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:25Z — "Fixed in cb8d1c3. Tufts are drawn at least 12 px (`TUFT_LEAS…" → [↓](#t113)
+- **T114** `src/pages/mushrooms/ui/scene/flower-plots.test.ts`:213 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:26Z — "Fixed in 76bfb88, with the plan line in 3db04d5. The camera…" → [↓](#t114)
+- **T115** `src/pages/mushrooms/ui/scene/mushroom-patch.test.ts`:39 — unresolved — last: @vzakharov (agent) 2026-09-30T17:45:48Z — "Fixed in e4e3979. Growth now places a new mushroom only wher…" → [↓](#t115)
+- **T116** `src/pages/mushrooms/ui/scene/sound.test.ts`:174 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:27Z — "Fixed in 38eb301. Five voices queued before start build exac…" → [↓](#t116)
+- **T117** `src/pages/mushrooms/model/game.ts`:272 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:29Z — "Fixed in 9c8627a. `plant` returns the meadow unchanged at `F…" → [↓](#t117)
+- **T118** `src/pages/mushrooms/ui/scene/layout.test.ts`:319 — unresolved — last: @vzakharov (agent) 2026-09-30T17:45:50Z — "Fixed in 06d0b5f. It was not a missing state: the 280×600 la…" → [↓](#t118)
+- **T119** `scripts/play-mushrooms.ts`:1 — unresolved — last: @vzakharov (agent) 2026-09-30T15:32:30Z — "Split in e8861a3. `scripts/play-mushrooms.ts` is the screen…" → [↓](#t119)
+- **T120** `src/pages/mushrooms/model/pan.ts`:336 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:58Z — "🔴 **1. Hold both arrows, let one go: the held one is dead.**…" → [↓](#t120)
+- **T121** `src/pages/mushrooms/ui/scene/pan-input.ts`:30 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:58Z — "🔴 **2. Every pan also taps what it started on.** (confirmed…" → [↓](#t121)
+- **T122** `src/pages/mushrooms/model/pan.ts`:81 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:58Z — "🟠 **3. A wobbly tap selects and then slides the meadow.** (p…" → [↓](#t122)
+- **T123** `src/pages/mushrooms/ui/scene/mushroom-patch.test.ts`:22 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:58Z — "🟠 **4. The 75% head-tap floor is measured on forests no chil…" → [↓](#t123)
+- **T124** `src/pages/mushrooms/model/pan.ts`:141 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:59Z — "🟡 **5. Overshoot an end, drag back: a dead zone.** (reader a…" → [↓](#t124)
+- **T125** `src/pages/mushrooms/model/pan.ts`:210 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:59Z — "🟡 **6. A flick loses its whole first step.** (reader agent)…" → [↓](#t125)
+- **T126** `src/pages/mushrooms/ui/scene/meadow-camera.ts`:36 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:59Z — "🟡 **7. A phone held sideways barely pans, and portrait world…" → [↓](#t126)
+- **T127** `src/pages/mushrooms/ui/scene/mushroom-room.ts`:3 — unresolved — last: @vzakharov (agent) 2026-09-30T23:23:59Z — "⚪ **8. House rules.** (reader agent) - This file is 477 line…" → [↓](#t127)
 
 <a id="t01"></a>
 
@@ -1284,7 +1337,7 @@ The faint glow rings are gone: a selected mushroom now wears a thick bright yell
 
 <a id="t22"></a>
 
-### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:157 — unresolved
+### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:161 — unresolved
 
 ```diff
 @@ -0,0 +1,236 @@
@@ -2029,11 +2082,16 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t46"></a>
 
-### `.claude/skills/megabeast/notes.md`:722 — unresolved
+### `.claude/skills/megabeast/notes.md`:404 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
-… 400 lines elided …
+… 395 lines elided …
++  the back door behind the front stem. The skill's sweep template should
++  include "what fraction of each new tappable thing is covered by nearer
++  things" whenever a bite adds something tappable.
++- **A pixel constant breaks a proportional layout's resize contract.**
++  `EDGE_MARGIN` made bounded sizes not scale with the screen, so flowers
 +  placed against them moved on a resize. The fix was to place the dependents
 +  against the layout computed with the margin at 0. The skill's layout
 +  checklist should ask which quantities are exactly proportional before
@@ -2052,7 +2110,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t47"></a>
 
-### `.claude/skills/megabeast/notes.md`:160 — unresolved
+### `.claude/skills/megabeast/notes.md`:115 — unresolved
 
 ```diff
 @@ -0,0 +1,464 @@
@@ -2075,7 +2133,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t48"></a>
 
-### `docs/plans/mushroom-game-syama.paused.md`:124 — unresolved
+### `docs/plans/mushroom-game-syama.paused.md`:126 — unresolved
 
 ```diff
 @@ -0,0 +1,468 @@
@@ -2098,7 +2156,7 @@ Fixed in 446ab2a and 2c6da70. `flight.ts` builds `Perch` from `PerchKind` and a 
 
 <a id="t49"></a>
 
-### `docs/plans/mushroom-game-syama.paused.md`:100 — unresolved
+### `docs/plans/mushroom-game-syama.paused.md`:101 — unresolved
 
 ```diff
 @@ -0,0 +1,468 @@
@@ -2340,12 +2398,11 @@ Done: a resting flutter is one lift and one fall over 420 ms (210 ms a stroke), 
 
 <a id="t56"></a>
 
-### `src/pages/mushrooms/ui/scene/flower-sight.ts`:75 — unresolved
+### `src/pages/mushrooms/ui/scene/flower-sight.ts`:76 — unresolved
 
 ```diff
 @@ -0,0 +1,304 @@
-… 67 lines elided …
-+ * together, a planted one's taken at its widest.
+… 68 lines elided …
 + */
 +const FLOWERS_APART = 0.75;
 +
@@ -2353,7 +2410,8 @@ Done: a resting flutter is one lift and one fall over 420 ms (210 ms a stroke), 
 + * How far above a flower's centre a drinking butterfly's middle sits, past
 + * the centre's own radius, in units of its size: far enough that its tail
 + * stays off the centre, so its body rests on the head's upper rim and the
-… 9 lines elided …
++ * proboscis is seen going down into the flower.
+… 8 lines elided …
 ```
 
 **@vzakharov (agent)** — 2026-09-27T17:19:11Z
@@ -2470,19 +2528,11 @@ Done: the watch now fails on a body more than 0.3 rad off its way past a leg's f
 
 <a id="t60"></a>
 
-### `src/pages/mushrooms/ui/scene/paint-land.ts`:81 — unresolved
+### `src/pages/mushrooms/ui/scene/paint-land.ts`:95 — unresolved
 
 ```diff
 @@ -0,0 +1,138 @@
-… 69 lines elided …
-+ * and deeper near, mottled: bands under the seam, each toned by how far down
-+ * the ground it starts.
-+ */
-+export function paintGround(
-+  graphics: Phaser.GameObjects.Graphics,
-+  layout: MeadowLayout,
-+  random: Random,
-+): void {
+… 77 lines elided …
 +  const { height, groundTop } = layout;
 +  const seam = groundSeam(layout);
 +  const top = Math.min(...seam.map(({ y }) => y));
@@ -2503,13 +2553,11 @@ Baked in 505160c: the backdrop is three textures painted once a paint and repain
 
 <a id="t61"></a>
 
-### `src/pages/mushrooms/ui/scene/insect-view.ts`:255 — unresolved
+### `src/pages/mushrooms/ui/scene/insect-view.ts`:283 — unresolved
 
 ```diff
 @@ -0,0 +1,342 @@
-… 249 lines elided …
-+    const offset = perched ? fidget(shown.look, moment) : { x: 0, y: 0 };
-+    Object.assign(shown, { end, at: point, offset, bob: bob / size });
+… 251 lines elided …
 +    const middle = { x: point.x + offset.x, y: point.y + bob + offset.y };
 +    shown.container
 +      .setPosition(middle.x, middle.y)
@@ -2706,7 +2754,7 @@ Fixed in 52e3079: each mushroom takes its light from the cap's middle to the sun
 
 <a id="t69"></a>
 
-### `src/pages/mushrooms/ui/scene/sun-layout.ts`:226 — unresolved
+### `src/pages/mushrooms/ui/scene/sun-layout.ts`:260 — unresolved
 
 ```diff
 @@ -0,0 +1,110 @@
@@ -3515,7 +3563,7 @@ Fixed in 8e5e408. If the sun still touches something after shrinking to `SUN_LEA
 
 <a id="t101"></a>
 
-### `src/pages/mushrooms/model/ground.ts`:125 — unresolved
+### `src/pages/mushrooms/model/ground.ts`:128 — unresolved
 
 ```diff
 @@ -0,0 +1,231 @@
@@ -3540,7 +3588,7 @@ Every camera now looks from one angle, `UP_PER_Z` 0.481, so `seen` holds on all 
 
 <a id="t102"></a>
 
-### `src/pages/mushrooms/ui/scene/mushroom-room.ts`:66 — unresolved
+### `src/pages/mushrooms/ui/scene/mushroom-room.ts`:78 — unresolved
 
 ```diff
 @@ -0,0 +1,331 @@
@@ -3693,15 +3741,16 @@ All three in 13ccefb. A missed splay now throws. `screenPairs` went with the tur
 
 <a id="t108"></a>
 
-### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:410 — unresolved
+### `src/pages/mushrooms/ui/scene/meadow-scene.ts`:409 — unresolved
 
 ```diff
 @@ -0,0 +1,439 @@
-… 406 lines elided …
+… 405 lines elided …
++    const random = mulberry32(this.visitSeed ^ 0x5e_ed);
 +    this.backdrop = paintBackdrop(this, this.backdrop, layout, random, ratio);
 +    this.grass ??= new Grass(this);
 +    const stand = this.stand();
-+    if (stand) this.grass.paint(stand, random);
+… 1 line elided …
 ```
 
 **@vzakharov (agent)** — 2026-09-30T02:18:28Z
@@ -3723,6 +3772,10 @@ A single `+` already makes 13–17% refuse on the upright phones, and on the 280
 `tufts.test.ts:67` builds only the opening clump, with no forest and no bees, so it cannot see this.
 
 Ask: after any mix of `+`, `−`, bee plantings and the child's own, the tufts shown are exactly those where `takesFlower(stand, tuftFoot(…))` holds, re-checked whenever mushrooms or flowers change, and a tuft that stays valid doesn't move. The test is the sweep above, run over grown forests plus plantings, with 0 refusals below the cap.
+
+**@vzakharov (agent)** — 2026-09-30T15:32:17Z
+
+Fixed in cb8d1c3. The tufts are now re-tended whenever mushrooms or flowers change, as well as on every paint. The tufts shown are exactly the spots where `takesFlower` holds and a finger reaches the grass, and a tuft that stays valid keeps its place. `tufts.test.ts` now runs the sweep over grown forests through `+`, `−`, bee plantings and the child's own plantings on every screen, with 0 refusals below the cap. It fails if kept tufts skip the re-check.
 
 ---
 
@@ -3751,6 +3804,10 @@ The same C on a tuft, a mushroom or a button reaches Phaser as a one-finger gest
 
 Ask: a finger that Phaser's pointer1 holds is never a chord finger. The test gets the case "the first finger lifted, the second still down, a third lands", and expects `[]` for the third.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:19Z
+
+Fixed in d8e4160. `chordFingers` now takes the finger Phaser's pointer1 holds (read after Phaser's own canvas listener has run) and leaves that finger out. The old case that pinned the bug changed, and a new one covers "the first finger lifted, the second still down, a third lands", which gives `[]`.
+
 ---
 
 <a id="t110"></a>
@@ -3772,11 +3829,15 @@ Ask: a finger that Phaser's pointer1 holds is never a chord finger. The test get
 
 Ask: `chordTap` opens the head and plays the sound, and nothing else. A test holds that a meadow with a selected mushroom and an open planting is unchanged by it: same `selected`, same `planting`.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:20Z
+
+Fixed in d8e4160. `chordTap` now only opens the head and plays the sound. What a touch asks of the meadow is `FLOWER_TOUCH_ACTIONS` in `flower-touch.ts`: a tap deselects, a chord finger asks nothing. `flower-touch.test.ts` holds that a meadow with a selected mushroom and an open picker keeps the same `selected` and `planting` after a chord finger.
+
 ---
 
 <a id="t111"></a>
 
-### `src/pages/mushrooms/ui/scene/instrument-voices.ts`:96 — unresolved
+### `src/pages/mushrooms/ui/scene/instrument-voices.ts`:115 — unresolved
 
 ```diff
 @@ -0,0 +1,195 @@
@@ -3802,6 +3863,10 @@ A middle note measures −20 to −28 dB. A phone speaker gives back little belo
 
 Ask: each drum has a partial or a click that a phone reproduces. The property to test: every one of the twenty sounds has its loudest 50 ms above 300 Hz within ~12 dB of a middle note, measured by an offline render the test can run (or a spec-level stand-in the test can compute).
 
+**@vzakharov (agent)** — 2026-09-30T15:32:22Z
+
+Fixed in 8f388ff. Each skin now has a quieter higher tone above 300 Hz, and the white drums are louder. In a Chromium offline render, every drum's loudest 50 ms above 300 Hz is now 5–8 dB under a C5. Before, the kick was at −70 dB and the toms at −69, −62 and −43 dB. `part-loudness.ts` computes the same measure from a voice's data and lands within 0.6 dB of the render. The test holds all 36 notes and all 8 drums within 12 dB of a C5. The model leaves out the compressor, so drums must clear the bar by a further 5 dB. The measurements are in `docs/remove-before-merging/frames/bite-10/sound.md`.
+
 ---
 
 <a id="t112"></a>
@@ -3825,11 +3890,15 @@ Separately, `HISS_CEILING` is imported from the module under test, so the ceilin
 
 Ask: every hiss's upper −3 dB edge, `f·(√(1+4Q²)+1)/(2Q)`, is ≤ 8 kHz, with the ceiling stated in the test. Every drum's loudness is within a stated range of a middle note's.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:23Z
+
+Fixed in 8f388ff. The test computes each hiss's upper −3 dB edge, f·(√(1+4Q²)+1)/(2Q), against an 8 kHz ceiling stated in the test itself. The hat moves to 4.6 kHz at Q 1.1, which puts its edge at 7.1 kHz. Above 300 Hz, every drum sits between 7 dB under and 6 dB over a C5; across the full band, no drum is more than 10 dB over it. Every attack is now at least 4 ms, against a 3 ms floor. About a fifth of the hat's energy still lies past 8 kHz, because the filter's slope is gentle; the ask was about the edge, so that stays.
+
 ---
 
 <a id="t113"></a>
 
-### `src/pages/mushrooms/ui/scene/tufts.ts`:44 — unresolved
+### `src/pages/mushrooms/ui/scene/tufts.ts`:67 — unresolved
 
 ```diff
 @@ -0,0 +1,162 @@
@@ -3866,6 +3935,10 @@ Small screens go the other way:
 
 Ask: tufts drawn at a stated least size (for example ≥ 12 px) on every `VIEWPORTS` screen, and told apart from the seam grass by the eye. No more tufts than the cap leaves room for, and at least one bare tuft within reach until the cap. The picker marks its tuft while open. Each is a property the tuft test can hold per screen.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:25Z
+
+Fixed in cb8d1c3. Tufts are drawn at least 12 px (`TUFT_LEAST`) as five fresh blades round a closed pink bud, clearly unlike the seam grass. There are never more tufts than flowers left under the cap, and no two tufts' reach circles overlap. Every `VIEWPORTS` screen has a bare tuft whenever the meadow is below the cap. On 280×600 that holds in all but 12% of meadows, a bound the test holds. The open picker's tuft stands taller on a cream glow. To free room on small phones, a flower gives taps outside its petals to a bare tuft (`hit-areas.ts`), as it already did to a mushroom. Frames: `docs/remove-before-merging/frames/bite-10/tufts-*`. With tufts capped to the flowers left, a full meadow shows no bare tuft, so the refusal shake is rarely seen. That is taken as the design: no tuft stands where no flower can grow.
+
 ---
 
 <a id="t114"></a>
@@ -3893,6 +3966,10 @@ Ask: tufts drawn at a stated least size (for example ≥ 12 px) on every `VIEWPO
 The test runs 50 forest visits and asserts only the median. So the bound the plan quotes is a forest figure, and the "Accepted" line in the plan item was taken on it. Turning the phone is what a child does, and flowers vanishing from the meadow is the "only gets fuller" invariant.
 
 Ask: the test also runs the opening clump and bounds the worst decile, not only the median. If 28.7% is what the floors really cost, the plan states that figure against the alternative it beat, and the child's own planted flowers are held to never leave sight.
+
+**@vzakharov (agent)** — 2026-09-30T15:32:26Z
+
+Fixed in 76bfb88, with the plan line in 3db04d5. The camera now keeps each edge flower's head, with room for half a butterfly's open wings, inside the edge margin (`perchedOn` in layout.ts). Over 2000 visits, a turn now loses no flower on any screen except a phone turned from sideways to upright. There the opening clump goes from 28.7% lost to 8.9% (worst tenth from 43% to 14%), and the forest from 11.1% to 10.0%. Tablet to portrait goes from 18% to 0. The turn test runs the opening clump and the forest on every screen, bounding the share lost at 11% and the worst tenth at 18%. A planted-flower test holds every planted flower in sight after the turn; the old camera failed it. The flowers still lost are front flowers near the bottom of an upright screen, where a butterfly's wings reach past the bottom edge and zooming out cannot help. The plan states these figures.
 
 ---
 
@@ -3923,6 +4000,10 @@ For example, visit 1005716 mushroom-4 on phoneL, 9906672 mushroom-3 on phone and
 
 Ask: the test's seeds include the three above, and it passes with 0 misses over 2000 visits. The test states the share under 44 px per screen as a bound, so the next layout change can't quietly grow it.
 
+**@vzakharov (agent)** — 2026-09-30T17:45:48Z
+
+Fixed in e4e3979. Growth now places a new mushroom only where it keeps a patch of its own, 32 px across, and every mushroom already standing keeps the patch it had. The floor rose from 24 px to 32 px for grown mushrooms; at 36 px the phone and tablet would fall below reaching six in 99% of visits. The opening clump's two keep 24 px, because their caps cross by design. The hit-testing moved from the test into `mushroom-patch.ts`, which growth, the test and `pnpm sweep:mushrooms` share. The test covers your three seeds, every forest size over 40 forests, and a per-screen bound on the share under 44 px. That share is now tablet 23.0% (was 28.4), phone 19.0% (24.3), phoneL 22.8% (22.9) and phoneS 33.6% (37.2). With the growth rule turned off, the test fails on all three seeds. Over 2000 full forests per screen, one miss is left: on phoneL, visit 12733755's back cap keeps 22 px, because phoneL stands the clump under the zoom floor. Growth doesn't place the clump, so it stays until the clump's layout changes.
+
 ---
 
 <a id="t116"></a>
@@ -3944,18 +4025,19 @@ Ask: the test's seeds include the three above, and it passes with 0 misses over 
 
 Ask: queue 5 before `start` and all 5 are built. Queue 6 and exactly 5 are built, the oldest dropped.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:27Z
+
+Fixed in 38eb301. Five voices queued before start build exactly five voices' worth of nodes. With six queued (a pop, then five notes), the pop is dropped. The test fails with `PENDING_VOICES` at 4 and at 6.
+
 ---
 
 <a id="t117"></a>
 
-### `src/pages/mushrooms/model/game.ts`:256 — unresolved
+### `src/pages/mushrooms/model/game.ts`:272 — unresolved
 
 ```diff
 @@ -0,0 +1,332 @@
-… 249 lines elided …
-+        planting: { ...planting, chosen: { colour, seeds } },
-+      };
-+    }
+… 252 lines elided …
 +    case 'plant': {
 +      const { planting, planted } = meadow;
 +      const seed = shapeSeed(planting, action.shape);
@@ -3973,11 +4055,15 @@ Ask: queue 5 before `start` and all 5 are built. Queue 6 and exactly 5 are built
 
 Ask: `plant` at the cap returns the meadow unchanged, and a model test holds it. The plan names the right file. `release`, `startle` and the mute either shut the pickers or the plan says they don't. A tuft tap with a picker open opens that tuft.
 
+**@vzakharov (agent)** — 2026-09-30T15:32:29Z
+
+Fixed in 9c8627a. `plant` returns the meadow unchanged at `FLOWER_LIMIT`, counting the seeded flowers, and `planting.test.ts` holds it. `release`, `startle` and the mute (a new `shut` action) close the flower picker. A tap on another tuft opens the picker there, and a tap on the open tuft closes it. The plan now names `model/game.ts` as the reducer's home.
+
 ---
 
 <a id="t118"></a>
 
-### `src/pages/mushrooms/ui/scene/layout.test.ts`:274 — unresolved
+### `src/pages/mushrooms/ui/scene/layout.test.ts`:319 — unresolved
 
 ```diff
 @@ -0,0 +1,326 @@
@@ -3996,6 +4082,10 @@ Also on phoneL: mute, the three insects, the four shapes and the house make one 
 
 Ask: find which state the game was in and add it to this test, which then fails at 2.3 px and passes after the fix. The shape row is set apart from the controls by a gap wider than `PICK_CLEAR`.
 
+**@vzakharov (agent)** — 2026-09-30T17:45:50Z
+
+Fixed in 06d0b5f. It was not a missing state: the 280×600 layout is the same in every visit, and the test only asked a stage's own buttons to be 0 px apart. It now asks for `PICK_CLEAR`, fails there at 2.3 px, and after the fix the fourth shape sits under the row. Where the pickers share the top row with the insects, the four-button row first tries a `PICK_APART` (32 px) gap, and a test holds that on every screen where no button has to hide. On phoneL the five-button colour row has no room for the wider gap, so it keeps 6.4 px. The bunching on tabL is fixed in ca06bad and a3b7fef. A tuft now needs the flower that would grow there, at its widest and bent toward each neighbour, to clear every standing head on every screen. Over 200 tabL visits with five plantings each, overlapping pairs went from 18 to 0. A test plants five on every screen and checks the heads stay apart before and after a turn. Frames: `docs/remove-before-merging/frames/bite-10/shapes-280x600.png`, `shapes-phoneL.png`, `planted-five-tabL.png`.
+
 ---
 
 <a id="t119"></a>
@@ -4012,6 +4102,212 @@ Ask: find which state the game was in and add it to this test, which then fails 
 Minor: 461 lines, a little past the house's ~450. There is a natural seam between the screen runner and the per-feature checks.
 
 Ask: split at that seam when it next grows.
+
+**@vzakharov (agent)** — 2026-09-30T15:32:30Z
+
+Split in e8861a3. `scripts/play-mushrooms.ts` is the screen runner (319 lines), and the meadow's tap sequence moved to `scripts/lib/play-meadow.ts` (162 lines), with the same signature as the other steps.
+
+---
+
+<a id="t120"></a>
+
+### `src/pages/mushrooms/model/pan.ts`:336 — unresolved
+
+```diff
+@@ -0,0 +1,365 @@
+… 332 lines elided …
++      pace = 0;
++    }
++  }
++  if (heading === 0 && pace === 0) return restingAt(pan, left);
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:58Z
+
+🔴 **1. Hold both arrows, let one go: the held one is dead.** (confirmed by both agents)
+
+When both keys are held, the pace eases to 0. This line then rests the crop and drops both held-key flags. Letting go of → then does nothing, because `letGoKey` has no effect on a resting crop. Holding ← does nothing either, because `keyAction` drops repeats (`if (event.repeat || …) return undefined` in `keyboard.ts`). Measured in the running game on tabL and phoneP: 0 px/s over 40 frames with ← held. Measured in the model too: 0 px in the second after →'s release, state `rest`. A finger press while a key is held loses the key the same way, since `press` replaces `keys`. The test 'holds still with both keys held' never lets one of them go.
+
+Ask: hold ←+→ for 1 s, release →, tick: the crop reaches cruise leftward within 0.25 s. Likewise press and lift a finger while ← is held: ← turns again after the lift.
+
+---
+
+<a id="t121"></a>
+
+### `src/pages/mushrooms/ui/scene/pan-input.ts`:30 — unresolved
+
+```diff
+@@ -0,0 +1,160 @@
+… 26 lines elided …
++ * The crop the scene's camera shows (`pan.ts`), and what moves it: Phaser's
++ * one pointer, pressed anywhere but on a control, drags it; a held arrow
++ * key turns it, ticked by the scene's clock whenever the crop is read.
++ * A press still taps whatever it lands on, since the meadow answers taps on
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:58Z
+
+🔴 **2. Every pan also taps what it started on.** (confirmed by both agents)
+
+`POINTER_DOWN → tapMeadow` (`meadow-scene.ts`) answers on the press, before the slop decides that this is a drag. So:
+- a pan begun on a cap selects that mushroom and puffs spores (`docs/remove-before-merging/frames/bite-11-review/tabL-drag-from-cap-selects-and-spores.png`: 430 px of pan, spores and all);
+- a pan begun on a flower sounds it;
+- a pan begun on a tuft opens the picker or plays nuh-uh;
+- a pan begun on grass deselects (`else this.dispatch({ kind: 'deselect' })`), so panning always closes the pickers the child had open.
+
+How often a pan's first touch lands on something (24×12 grid over the ground, 20 seeds, opening crop): phoneL 37%, phoneS 30%, phoneP 24%, tabP 17%, tabL 15%. The play run can't see any of it: its drags start on `BARE` ground only, which excludes tufts, and the `TAPS` snapshot compares `selected: null` against `null` when nothing was selected.
+
+Ask: a press that goes on to cross the slop leaves the tap state unchanged: no selection change, no sound, no picker, no planting. Only a press released inside the slop taps. The play run starts a drag on a cap, on a flower and on a tuft, each with a mushroom already selected, and asserts the selection survives.
+
+---
+
+<a id="t122"></a>
+
+### `src/pages/mushrooms/model/pan.ts`:81 — unresolved
+
+```diff
+@@ -0,0 +1,365 @@
+… 77 lines elided …
++const GLIDE_SPANS = 6;
++/** The fastest a glide sets off, and the slowest a release that still glides, in px per second. */
++const GLIDE_FASTEST = 5000;
++const GLIDE_SLOWEST = 40;
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:58Z
+
+🟠 **3. A wobbly tap selects and then slides the meadow.** (player agent, measured in the running game)
+
+A tap on a cap where the finger drifts over 100 ms and then lifts:
+
+| Drift | Crop slides | Selected |
+|---|---|---|
+| 4 px, 8 px | 0 | yes |
+| 11 px | 33 px | yes |
+| 14 px | 44 px | yes |
+| 18 px | 59 px | yes |
+| 24 px | 83 px | yes |
+
+The glide is fed by the velocity from before the finger crossed the slop, so a few px past the line becomes 3–5× that in glide (`docs/remove-before-merging/frames/bite-11-review/tabL-wobbly-tap-18px-slides-59px.png`). A six-year-old's tap drifts. `GLIDE_SLOWEST = 40` px/s is far below a wobble's speed.
+
+Ask: a release after less than ~20 px of total travel ends without a glide. A drift of up to 24 px over 100 ms moves the crop by at most the drift.
+
+---
+
+<a id="t123"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-patch.test.ts`:22 — unresolved
+
+```diff
+@@ -0,0 +1,108 @@
+… 18 lines elided …
++ * takes them by design. Set under the worst of all 2000 visits' full forests
++ * on the tablet (76.5%), since the sample here holds that tail too.
++ */
++const LEAST_HEAD_SHARE = 0.75;
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:58Z
+
+🟠 **4. The 75% head-tap floor is measured on forests no child grows.** (reader agent)
+
+Every forest here is `opened(seed, width, height, true)` with no crop. With no crop, `screenOn` gives `keepOff: []` and places mushrooms anywhere in the world. A child who never pans grows all twelve inside the opening crop, which is denser. Measured over `openingCrop` forests, the worst head share kept is: tablet 73.0% (400 visits), small phone 74.2%, phone 75.4%, phone sideways 75.3%, tablet portrait 75.2%. So the floor fails on two screens. The lead behind the lowered floor holds: 0 misses at a head's middle, and every lost tap (4,794 to a mushroom, 252 to a flower on the tablet) went to something drawn in front. The child always gets a sensible answer. The number is what's wrong.
+
+Ask: the head-share test also grows forests inside `openingCrop` (and at a world end), with the floor set from those, or the floor stated as a crop-less figure beside a second one for the opening crop.
+
+---
+
+<a id="t124"></a>
+
+### `src/pages/mushrooms/model/pan.ts`:141 — unresolved
+
+```diff
+@@ -0,0 +1,365 @@
+… 137 lines elided …
++    return start + (goal - start) * glided(glideShare(motion, time));
++  }
++  return motion.panning
++    ? clampLeft(view, motion.base - (motion.last.x - motion.anchor))
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:59Z
+
+🟡 **5. Overshoot an end, drag back: a dead zone.** (reader agent)
+
+Plan item 11 promises "soft ends". A drag is clamped here, but the finger's overshoot is kept in `motion.last.x - motion.anchor`, so the crop doesn't move again until the finger has come all the way back. Measured: drag 1000 px on a 1024-wide screen over a 2048 world, then back, and the finger travels 460 px before the crop moves. 'stops at the world's ends however far the finger goes' checks only the clamp.
+
+Ask: after overshooting an end by any d, reversing the finger moves the crop within one frame. Or a rubber band, which is what "soft ends" says, with the plan matching whichever one lands.
+
+---
+
+<a id="t125"></a>
+
+### `src/pages/mushrooms/model/pan.ts`:210 — unresolved
+
+```diff
+@@ -0,0 +1,365 @@
+… 206 lines elided …
++    ...pan,
++    motion: {
++      ...motion,
++      ...(crossed && { anchor: x, panning: true }),
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:59Z
+
+🟡 **6. A flick loses its whole first step.** (reader agent)
+
+On crossing the slop the anchor becomes the first sample past it (`anchor: x`), so for the rest of the drag the ground lags the finger by that whole step. At 1500 px/s and 60 Hz that is ~25 px. Both the unit test (an 11 px step) and play-pan's `crossedAt` encode the lag as correct.
+
+Ask: the ground point under the finger at the press stays within `SLOP` of the finger for the whole drag, whatever the first step's size.
+
+---
+
+<a id="t126"></a>
+
+### `src/pages/mushrooms/ui/scene/meadow-camera.ts`:36 — unresolved
+
+```diff
+@@ -0,0 +1,116 @@
+… 32 lines elided …
++ * sideways (1180×820 CSS px) shows at the size it composes the clump at, caps
++ * inside the edge margin, so that tablet shows half the world at a time.
++ */
++export const WORLD_ACROSS = 5.764;
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:59Z
+
+🟡 **7. A phone held sideways barely pans, and portrait worlds are mostly empty.** (player agent)
+
+`WORLD_ACROSS` is one constant in ground units, so each screen gets a different amount of world: phoneL 1.23 screens (197 px of pan room), tabL 1.83 (983 px), and tabP/phoneP/phoneS 4.3–4.45. On phoneL the new feature is nearly invisible. On the portrait screens a visit opens with the two-mushroom clump mid-world, 69–71% of crop positions show no mushroom, and both ends are flowers and tufts only (0% mushroom in the ground grid). The plan's "twice a sideways tablet" is exact only for the tablet.
+
+Ask: phoneL gets at least half a screen of pan room, or the plan says in item 11 that it's accepted. On portrait, say what a child finds at a world end, or accept its emptiness in the plan.
+
+---
+
+<a id="t127"></a>
+
+### `src/pages/mushrooms/ui/scene/mushroom-room.ts`:3 — unresolved
+
+```diff
+@@ -0,0 +1,477 @@
++/**
++ * Where the next mushroom may grow: a foot `pickFoot` draws over the stretch
++ * of the world the screen shows now (`Crop`), kept only where the mushroom
+```
+
+**@vzakharov (agent)** — 2026-09-30T23:23:59Z
+
+⚪ **8. House rules.** (reader agent)
+
+- This file is 477 lines, up from 396 before the bite, and past the ~450 guide.
+- `export function isMoving(` in `model/pan.ts` is used only by `pan.test.ts`.
+- `FLOWER_SPOTS.portrait` is dead data. `spotOn` indexes `FLOWER_SPOTS[height > width ? 'portrait' : 'landscape']` (`flower-layout.ts`), but the bed is always laid out on `BED_SCREEN = { width: 1180, height: 820 }`.
+- `tick` returns a new object every frame while a key is held against a world end, where the per-frame reducers elsewhere return the same object when nothing changed.
+- `bite-11/flowers.md` says "the new test would catch" a skipped slot, but the per-visit guard is the 200-visit sounds test, and `LEAST_FLOWERS = 6.5` is an average.
+
+Ask: split this file at a seam, and cut or use each of the others.
 
 ---
 
@@ -4062,5 +4358,9 @@ Ask: split at that seam when it next grows.
 - **2026-09-29T08:53:53Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5350040790.
 - **2026-09-29T15:43:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5354936232.
 - **2026-09-29T16:12:26Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5355192406.
+- **2026-09-29T17:02:51Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/f55a192b60456aa1a4da509f3e7529714860562d.
 - **2026-09-29T18:34:38Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5356809390.
+- **2026-09-29T18:37:21Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/9ff634223a1ef9234c850f8ec5b18d93903fa96f.
+- **2026-09-29T19:47:57Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/d6818c8f72627ddae2e6b9fad63b0ca959f04112.
 - **2026-09-30T02:18:28Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5360733525.
+- **2026-09-30T23:23:58Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/57#pullrequestreview-5373085053.
