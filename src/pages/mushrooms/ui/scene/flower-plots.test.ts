@@ -14,7 +14,12 @@ import {
   FOOT_CLEARANCE,
   widestHead,
 } from './flower-layout';
-import { flowerFeet, flowersOf, standingFlowers } from './flower-plots';
+import {
+  flowerFeet,
+  flowersOf,
+  pulledFeet,
+  standingFlowers,
+} from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { perchSight } from './perch-sight';
@@ -220,6 +225,22 @@ describe('a flower pulled up', () => {
       );
     }
     assert.ok(rung > 0, 'no visit rings a flower round a seeded one');
+  });
+
+  it('leaves the foot it stood on, seeded or planted, in the order they went, and a flower that never stood none', () => {
+    for (const seed of VISITS.slice(0, PLANTED_VISITS)) {
+      const stand = plantedOut(seed, [1180, 820], 'clump');
+      const standing = flowersOf(stand);
+      const [seeded] = standing;
+      const planted = standing.at(-1);
+      assert.ok(seeded && planted && seeded !== planted);
+      const pulled = [planted.id, 'flower-none', seeded.id];
+      assert.deepEqual(
+        pulledFeet({ ...stand, pulled }),
+        [planted.foot, seeded.foot],
+        `visit ${String(seed)}`,
+      );
+    }
   });
 });
 

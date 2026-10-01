@@ -7,7 +7,8 @@
  * takes reaches the grass (`MeadowScene.tapMeadow`); it lands on the nearest
  * tuft drawn bare to a finger (`bareToTap`), which opens the flower picker
  * where a flower fits (`plantableIn`) and shakes its head where none does
- * (`Planter.tapTuft`). A flower planted on a tuft takes its place.
+ * (`Planter.tapTuft`). A flower planted on a tuft takes its place, and a
+ * flower pulled up leaves a tuft where it stood (`leaveTufts`).
  */
 
 import type * as Phaser from 'phaser';
@@ -29,7 +30,7 @@ import {
   headClear,
   standingOn,
 } from './flower-layout';
-import { flowersOf } from './flower-plots';
+import { flowersOf, pulledFeet } from './flower-plots';
 import { roomIn, sightingOf, type Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
@@ -212,12 +213,55 @@ export function growTufts(
   random: Random,
 ): Sprout[] {
   const most = mostTufts(layout.camera);
-  const tufts = kept.slice(0, most).map(({ foot }) => {
-    const { x, y } = standingOn(layout.camera, foot);
-    return { foot, tuft: tuftOn(layout, x, y, random) };
-  });
+  const tufts = kept
+    .slice(0, most)
+    .map(({ foot }) => sproutOn(layout, foot, random));
   while (tufts.length < most) tufts.push(grownTuft(layout, random));
   return tufts;
+}
+
+/** A tuft on `foot`, drawn from `random` where `layout` shows it. */
+function sproutOn(
+  layout: MeadowLayout,
+  foot: FlowerFoot,
+  random: Random,
+): Sprout {
+  const { x, y } = standingOn(layout.camera, foot);
+  return { foot, tuft: tuftOn(layout, x, y, random) };
+}
+
+/** Each of `kept` on its own foot, its tuft drawn afresh for `layout` (`sproutOn`). */
+export function regrowTufts(
+  layout: MeadowLayout,
+  kept: readonly Sprout[],
+  random: Random,
+): Sprout[] {
+  return kept.map(({ foot }) => sproutOn(layout, foot, random));
+}
+
+/**
+ * The tufts the flowers pulled up in `stand` leave: `left`, then one from
+ * `random` where each pulled flower stood that no tuft of `grown` or `left`
+ * stands on already, in a planted flower's size — a seeded flower's spot, or
+ * a bee's, the child can plant on again as on the tuft a planted one comes
+ * back to. Each stays on its foot from then on, as the grown ones do.
+ */
+export function leaveTufts(
+  stand: Stand,
+  grown: readonly Sprout[],
+  left: readonly Sprout[],
+  random: Random,
+): readonly Sprout[] {
+  const tufts = [...grown, ...left];
+  const added: Sprout[] = [];
+  for (const { x, z } of pulledFeet(stand)) {
+    const foot = { x, z, size: FLOWER_SIZE };
+    if (tufts.some((sprout) => sameFoot(sprout.foot, foot))) continue;
+    const sprout = sproutOn(stand.layout, foot, random);
+    tufts.push(sprout);
+    added.push(sprout);
+  }
+  return added.length === 0 ? left : [...left, ...added];
 }
 
 /**
@@ -291,6 +335,8 @@ export class Grass {
   private seam: readonly SeamTuft[] = [];
   /** Every tuft the ground grows, standing or not (`growTufts`). */
   private grown: readonly Sprout[] = [];
+  /** Every tuft a pulled flower left, standing or not (`leaveTufts`). */
+  private left: readonly Sprout[] = [];
   /** The tufts that stand, each taking a flower. */
   private tufts: readonly Sprout[] = [];
   /** The standing tufts as the last frame drew them, which a tap is judged on. */
@@ -321,14 +367,18 @@ export class Grass {
     this.seam = seamGrass(stand.layout, random);
     if (this.layout !== stand.layout) {
       this.grown = growTufts(stand.layout, this.grown, this.growing);
+      this.left = regrowTufts(stand.layout, this.left, this.growing);
       this.layout = stand.layout;
     }
     this.tend(stand);
   }
 
-  /** Tends the tufts to `stand` as it now stands (`tendTufts`). */
+  /** Tends the tufts to `stand` as it now stands, with those its pulled flowers left (`tendTufts`). */
   tend(stand: Stand): void {
-    this.tufts = tendTufts(stand, this.grown);
+    const { grown, growing } = this;
+    const left = leaveTufts(stand, grown, this.left, growing);
+    this.left = left;
+    this.tufts = tendTufts(stand, [...grown, ...left]);
   }
 
   /** Whether a tuft stands on `foot`: where the flower picker can stay open. */

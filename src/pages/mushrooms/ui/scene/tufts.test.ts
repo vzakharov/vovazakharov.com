@@ -10,7 +10,7 @@ import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
-import { standingFlowers } from './flower-plots';
+import { flowersOf, standingFlowers } from './flower-plots';
 import { type Stand, takesFlower } from './flower-sight';
 import type { Tuft } from './grass';
 import { meadowLayout } from './layout';
@@ -19,6 +19,7 @@ import { perchSight } from './perch-sight';
 import {
   bareToTap,
   growTufts,
+  leaveTufts,
   mostTufts,
   plantableIn,
   shownSprouts,
@@ -38,6 +39,8 @@ const VISITS = 40;
 /** How many visits each screen plays a mix of `+`, `−` and plantings over, and how many turns each. */
 const PLAYED = 40;
 const TURNS = 16;
+/** How many visits each screen pulls every seeded flower of, one at a time. */
+const PULLED_VISITS = 6;
 
 const seedOf = (visit: number) => visit * 7919 + 3;
 const tuftingOf = (seed: number): Random => mulberry32(seed ^ 0x70_f7_5e);
@@ -442,6 +445,67 @@ describe('the ground’s grass', () => {
           }
         }
       }
+    }
+  });
+
+  it('leaves a tuft where a seeded flower pulled up stood, which takes a flower as any tuft does, and comes back once that one is pulled too', () => {
+    for (const [name, width, height] of SCREENS) {
+      let left = 0;
+      let tried = 0;
+      for (let visit = 0; visit < PULLED_VISITS; visit++) {
+        const seed = seedOf(visit);
+        const stand = opened(seed, width, height, visit % 2 === 1);
+        const [grown, standing] = grassOf(stand, seed);
+        for (const flower of flowersOf(stand)) {
+          const at = `${name}, visit ${String(seed)}, ${flower.id}`;
+          const pulled = { ...stand, pulled: [flower.id] };
+          const tufting = tuftingOf(seed + 1);
+          const leaving = leaveTufts(pulled, grown, [], tufting);
+          assert.equal(leaving.length, 1, at);
+          const [spot] = leaving;
+          assert.ok(spot);
+          assert.deepEqual(spot.foot, {
+            ...pick(flower.foot, 'x', 'z'),
+            size: FLOWER_SIZE,
+          });
+          const back = tendTufts(pulled, [...grown, ...leaving]);
+          tried += 1;
+          if (!back.includes(spot)) continue;
+          left += 1;
+          assert.ok(back.length > standing.length, at);
+          const replanted = plantedOn(pulled, spot, seed + 2);
+          assert.equal(
+            leaveTufts(replanted, grown, leaving, tufting),
+            leaving,
+            at,
+          );
+          assert.ok(
+            !tendTufts(replanted, [...grown, ...leaving]).includes(spot),
+            at,
+          );
+          const newest = replanted.planted.at(-1);
+          assert.ok(newest);
+          const repulled = {
+            ...replanted,
+            pulled: [...replanted.pulled, newest.id],
+          };
+          assert.equal(
+            leaveTufts(repulled, grown, leaving, tufting),
+            leaving,
+            at,
+          );
+          assert.ok(
+            tendTufts(repulled, [...grown, ...leaving]).includes(spot),
+            at,
+          );
+        }
+      }
+      // A spot stands only where a flower fits and a finger finds it bare, as
+      // every tuft does; a mushroom's cap over it keeps some away.
+      assert.ok(
+        left > tried / 2,
+        `${String(left)} of ${String(tried)} seeded flowers on the ${name} left a tuft standing`,
+      );
     }
   });
 });
