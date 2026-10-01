@@ -167,7 +167,13 @@ What bite 12 built, as `## Eaten so far` in `docs/plans/mushroom-game-syama.*.md
       or drum, which answers as to a tap, and with none it is silent
       («"пианино" с клавиатуры не должно играть, если перед тобой нет
       подходящего цветка»). The octave keys stay. A sunk flower is out of
-      view.
+      view. **While a flower picker is open**, on a tuft or a flower and at
+      either stage, a note or drum key instead plants or replaces with the
+      flower that makes its sound (`keyPlanting`, colour and shape read off
+      `soundOf` backwards by `classOf` in `model/flower-sounds.ts`), sounding
+      as a planting does, and the picker shuts («сто лет буду запоминать где
+      там например фа диез»). Beaten: keys planting only at the colour stage,
+      where the child would still have to find the colour.
     - **A retap restarts** a flower's bounce from the top, as its sound
       already did.
     - **A flower can be changed or pulled.** A tap only plays it; a long
