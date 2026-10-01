@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { DRUMS, PITCH_CLASSES } from '../../model/flower-sounds';
-import { type KeyAction, keyAction, KEYS, letGoPan } from './keyboard';
+import { type KeyAction, keyAction, KEYS, letGoMove } from './keyboard';
 
 const press = (code: string, held: Partial<KeyboardEvent> = {}) =>
   keyAction({
@@ -47,14 +47,20 @@ describe('the keyboard', () => {
     ]);
   });
 
-  it('turns the meadow on the arrows, and lets go of them under any modifier', () => {
+  it('turns the eye on ← →, walks it on ↑ ↓, and lets go of them under any modifier', () => {
     assert.deepEqual(press('ArrowLeft'), { kind: 'pan', direction: -1 });
     assert.deepEqual(press('ArrowRight'), { kind: 'pan', direction: 1 });
-    assert.deepEqual(letGoPan({ code: 'ArrowRight' }), {
+    assert.deepEqual(press('ArrowUp'), { kind: 'step', direction: 1 });
+    assert.deepEqual(press('ArrowDown'), { kind: 'step', direction: -1 });
+    assert.deepEqual(letGoMove({ code: 'ArrowRight' }), {
       kind: 'pan',
       direction: 1,
     });
-    assert.equal(letGoPan({ code: 'KeyG' }), undefined);
+    assert.deepEqual(letGoMove({ code: 'ArrowDown' }), {
+      kind: 'step',
+      direction: -1,
+    });
+    assert.equal(letGoMove({ code: 'KeyG' }), undefined);
   });
 
   it('ignores a held key’s repeats, a shortcut and a key it has no use for', () => {

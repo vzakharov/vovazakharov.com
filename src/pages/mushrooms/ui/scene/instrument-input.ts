@@ -41,14 +41,16 @@ export function playTheFlowers(
         crop.hold(action.direction);
         return;
       }
+      // The crop has no place to walk; `EyeInput` takes these.
+      if (action.kind === 'step') return;
       instrument.wake();
       const sound = instrument.key(action);
       if (sound) {
         flowers.answer(sound, (x) => crop.shows(x));
       }
     },
-    ({ direction }) => {
-      crop.letGo(direction);
+    (key) => {
+      if (key.kind === 'pan') crop.letGo(key.direction);
     },
   );
 

@@ -1,26 +1,37 @@
 /**
  * The meadow played from a computer's keyboard: `g h j k l ; '` the white
  * keys C to B, `y u o p [` the sharps above them, `a s d f` violet's drums and
- * `q w e r` white's, `z`/`x` the octave down and up, and `←`/`→` turn the
- * meadow while held. Keys are read by
+ * `q w e r` white's, `z`/`x` the octave down and up, `←`/`→` turn the
+ * eye while held and `↑`/`↓` walk it on and back. Keys are read by
  * `event.code`, where they sit rather than what they print, so a Russian
  * layout plays the same.
  */
 
+import type { Direction } from '../../model/cruise';
 import type { Drum, FlowerSound, PitchClass } from '../../model/flower-sounds';
-import type { Direction } from '../../model/pan';
 
 /** What a key plays on the instrument. */
 export type PlayedKey = FlowerSound | { kind: 'octave'; step: -1 | 1 };
 
-/** A key that turns the crop across the world while held, leftward or rightward. */
-export type PanKey = { kind: 'pan'; direction: Direction };
+/** Which way a held key moves the eye: -1 leftward or back, 1 rightward or on. */
+type Directed = { direction: Direction };
 
-export type KeyAction = PlayedKey | PanKey;
+/** A key that turns the eye while held, leftward or rightward. */
+export type PanKey = Directed & { kind: 'pan' };
+
+/** A key that walks the eye while held, on along its heading or back. */
+export type StepKey = Directed & { kind: 'step' };
+
+/** A key that moves the eye while held, and so must be let go. */
+export type MoveKey = PanKey | StepKey;
+
+export type KeyAction = PlayedKey | MoveKey;
 
 const LEFTWARD: PanKey = { kind: 'pan', direction: -1 };
 const RIGHTWARD: PanKey = { kind: 'pan', direction: 1 };
-const PAN_KEYS = [LEFTWARD, RIGHTWARD];
+const ON: StepKey = { kind: 'step', direction: 1 };
+const BACK: StepKey = { kind: 'step', direction: -1 };
+const MOVE_KEYS: readonly MoveKey[] = [LEFTWARD, RIGHTWARD, ON, BACK];
 
 /** C D E F G A B. */
 const WHITE_KEYS = [
@@ -65,6 +76,8 @@ export const KEYS: ReadonlyMap<string, KeyAction> = new Map([
   ['KeyX', { kind: 'octave', step: 1 }],
   ['ArrowLeft', LEFTWARD],
   ['ArrowRight', RIGHTWARD],
+  ['ArrowUp', ON],
+  ['ArrowDown', BACK],
 ] satisfies Bound[]);
 
 type Pressed = Pick<
@@ -81,27 +94,27 @@ export function keyAction(event: Pressed): KeyAction | undefined {
 }
 
 /**
- * The pan key a key's release lets go, whatever modifiers are down by then:
- * a held arrow let go under a modifier must still stop the crop.
+ * The move key a key's release lets go, whatever modifiers are down by then:
+ * a held arrow let go under a modifier must still stop the eye.
  */
-export function letGoPan(
+export function letGoMove(
   event: Pick<KeyboardEvent, 'code'>,
-): PanKey | undefined {
+): MoveKey | undefined {
   const action = KEYS.get(event.code);
-  return action?.kind === 'pan' ? action : undefined;
+  return action?.kind === 'pan' || action?.kind === 'step' ? action : undefined;
 }
 
 /**
  * Plays the key presses `host` takes into `onKey` while it holds focus, and
  * not the page's: single-letter keys bound page-wide would take a screen
- * reader's own. A pan key's release goes to `onLetGo`, and so does every pan
- * key when `host` loses focus, whose releases it then never hears. Returns
+ * reader's own. A move key's release goes to `onLetGo`, and so does every
+ * move key when `host` loses focus, whose releases it then never hears. Returns
  * what stops listening.
  */
 export function listenForKeys(
   host: HTMLElement,
   onKey: (action: KeyAction) => void,
-  onLetGo: (key: PanKey) => void,
+  onLetGo: (key: MoveKey) => void,
 ): () => void {
   const pressed = (event: KeyboardEvent) => {
     const action = keyAction(event);
@@ -110,11 +123,11 @@ export function listenForKeys(
     onKey(action);
   };
   const lifted = (event: KeyboardEvent) => {
-    const key = letGoPan(event);
+    const key = letGoMove(event);
     if (key) onLetGo(key);
   };
   const blurred = () => {
-    for (const key of PAN_KEYS) onLetGo(key);
+    for (const key of MOVE_KEYS) onLetGo(key);
   };
   host.addEventListener('keydown', pressed);
   host.addEventListener('keyup', lifted);
