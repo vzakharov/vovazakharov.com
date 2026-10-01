@@ -487,18 +487,34 @@ Artifact, `/pr`. **Also, by a subagent:** the context-budget hook gives a
 subagent its own notice at ~170k from its own transcript — commit what
 passes, note current, report — instead of exiting on `agent_id`
 (operator: «сделай, подагентом в следующей сессии»; see
-`.claude/skills/megabeast/notes/subagents.md`). Per-agent worktrees to
-quiet the Stop hook's git check: declined («не надо»).
+`.claude/skills/megabeast/notes/subagents.md`). **Every build agent works
+in its own `git worktree`** in the scratchpad (outside the repo, `pnpm
+install --offline` there), committing and pushing to the branch from
+there with `git pull --no-rebase` first, so the shared checkout stays
+clean, the Stop hook's git check stays quiet, and no agent's half-done
+edit reaches another's typecheck (operator, after a first «не надо»:
+«пусть делают в worktree, мы же от этого ничего не потеряем?»). The
+common brief's shared-tree rules change with it.
 **From the operator's play at the relay: «пару раз нажал на бабочку --
-кажется, она каждый раз появляется за пределами экрана».** Likely the
-insect adapter's accepted edge case (spec §5: insects fly in the opening
-view's frame, so a release while turned away flies to the strip unseen) —
-measure first, and stop if the cause differs. **Decided: a release always
-arrives in the current view** — it enters from the nearer screen edge of
-what the child is looking at and its first perch is on screen, at every
-heading, since a button that answers with nothing breaks "every tap
-answers". This is bite 12's to fix, not 12b's; beaten: leaving it to
-12b's insects on the plane.
+кажется, она каждый раз появляется за пределами экрана».** The operator
+had not moved: «никуда не ходил, просто нажимаю бабочку, и она
+медленно-медленно вылетает из-за кадра к цветку. остальные тоже из-за
+кадра, но разумеется быстрее». So it is the fly-in itself: a release
+starts off screen and the butterfly's cruise (two thirds of bite 5's) is
+slow over that distance. **Decided: a release is seen at once and lands
+soon** — it enters at the nearer screen edge of the current view (not past
+it), its arrival leg flies faster than its cruise so it reaches its first
+perch, on screen, within ~1.5 s, at every heading, as "every tap answers
+within a frame" asks. Measure the start point and the leg's length first.
+Beaten: a faster butterfly overall (the slow cruise is what lets a finger
+catch one).
+**Also from the operator: «кажется насекомые не изменяют размера при
+движении вперёд-назад».** Walking toward a perched butterfly, the cap
+grows and the butterfly does not. **Decided: an insect is drawn at its
+depth's scale** — perched, at its host's drawn scale (the seat fix's
+`Host`); in flight, at the scale of the view's depth at its ground point.
+If flight scale needs 12b's plane, build the perched half here, stop, and
+report the rest as 12b's.
 
 **Left, in order:**
 

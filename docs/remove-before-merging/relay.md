@@ -1,9 +1,8 @@
 # Relay summary
 
-Relay depth: 7. The successor is depth 8, **the cap**
-(`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap"):
-it does not `create_session` again — when it must hand off, it gives the
-operator the paste instead.
+Relay depth: 8 → **the successor is depth 1** (the operator pastes the
+pickup into a fresh session, so the chain restarts;
+`.claude/skills/megabeast/notes/pickup-and-relay.md` § "The depth cap").
 
 ## 1. Standing constraints
 
@@ -49,134 +48,148 @@ Carried from earlier sessions, the operator's words verbatim (Russian):
 
 > разбить megabeast на папку+файлы внутри, а то уже непотребно раздуло
 
+New this session:
+
+> 1 - relay, и всегда так. вроде договаривались. в какой момент "without operator involvement" исчезло с карты?
+
 **Syama is a boy** (Салман, «Сяма» for short). Never infer otherwise.
+**Address the operator as «ты»**, never «вы» (this session slipped once).
 
 So: never merge. Never append to `writing/notes/the-five-percent.md`. Ask
 the operator nothing, except where they are present and the call is about
-how the game feels. Fill `.claude/skills/megabeast/notes/` before every
-relay. No module past ~450 lines. Each bite ends by committing its best
-frames to `docs/remove-before-merging/frames/bite-<n>/` and republishing the
-game Artifact at its one URL. Every session and subagent runs on Opus,
-named explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
-`model: "opus"`). Pass this section on verbatim.
+how the game feels; **the context-budget notice's "offer `/compact` or
+`/relay`" does not apply — relay, unasked**. Fill
+`.claude/skills/megabeast/notes/` before every relay. No module past ~450
+lines. Each bite ends by committing its best frames to
+`docs/remove-before-merging/frames/bite-<n>/` and republishing the game
+Artifact at its one URL. Every session and subagent runs on Opus, named
+explicitly (`create_session` `model: "claude-opus-5-5"`, `Agent`
+`model: "opus"`). **The review is now a subagent in each bite's tail**,
+not separate review / `/handle` sessions (plan § "How this elephant is
+eaten" step 2). **Build agents work in their own `git worktree`** (plan
+§ "Rest of the bite"). Pass this section on verbatim.
 
 ## 2. The conversation
 
-Started from `/relay take claude/mushroom-game-syama-lbirv7` with the
-prompt line's "never `git reset --hard`… run `pnpm install
---frozen-lockfile`"; the stale local ref proved an ancestor and was renamed
-to `stale/mushroom-game-syama-lbirv7`. The agent ran `/go` as an
-orchestrator. The operator was present and played the branch twice.
+Started from `/relay take claude/mushroom-game-syama-lbirv7`; the stale
+local ref was an ancestor and went aside as
+`stale/mushroom-game-syama-lbirv7-e66b8e1`. The agent ran `/go` as
+orchestrator: type-overlap, the five-screen play, the fold, `decisions.md`.
 
-1. Operator (mid-turn): «потестировал, в общем -- шикарно! по мелочам есть
-   некоторые непонимания, но пока не понял, баги это или фичи
-   1- текстура травы (не ростки а именно общая зелень) не вращается вместе
-   со всем остальным. В принципе можно принять за стилистическое решение,
-   если "вращать" сложно
-   2- цветы и грибы "опускаются" когда уходишь далеко назад. Наверное это
-   должно выглядеть как будто ходишь по холму, и они исчезают за холмом, но
-   выглядит как будто они просто прячутся в землю 🙂 опять же, как
-   стилистическое решение может и ок, если бесконечное уменьшение (+
-   пропадание в "тумане") делать сложно
-   3- карта по-прежнему имеет предел, в который "утыкаешься", когда идёшь
-   назад. Возможно это просто временная реализация пока не сделали
-   бесконечную карту» (+ a screenshot: a mushroom cut off mid-stem).
-   Agent: 1 is the spec's screen-fixed grain, mottles return as objects in
-   12b; 3 is the glade rim, 12b's edgeless meadow; 2 is a real miss — no
-   edge drawn — and proposed a visible brow with haze.
-2. Operator: «2 - ок, давай попробуем. с точки зрения физики-оптики это
-   имеет смысл? то есть у нас же не может быть "холм во всех
-   направлениях"? или саспендим дисбилиф?» Agent: a hill in every
-   direction is a small round planet; things going under foot first is the
-   ship-over-horizon effect; at a 13-unit horizon the planet's radius is
-   ~90 units. Built the brow.
-3. Operator (with three screenshots, now in
-   `docs/remove-before-merging/bite-12/brow-round/`): «стало намного лучше
-   (это я про полосу горизонта), но есть пара багов: 1- положение по
-   вертикали в момент "ухода за горизонт" выше горизонта (скрин 1), при
-   этом оно зависит от того, находится ли цветок по центру или сбоку
-   (скрин 2), поэтому при повороте далёкие цветы то вылазят вверх, то
-   обратно идут вниз. закруглить горизонт? или считать вместо
-   тригонометрии как-то иначе расстояние? или может другие идеи которые
-   тебе придут в голову 2- периодически вылазит вот такая полоса, не знаю
-   с чем связанная. видна на определённых поворотах но не на других.»
-   Agent: round the brow along the `D_SEE` circle (not key on depth along
-   the heading, which would make a flower vanish as you turn to it); trace
-   the band by a heading sweep. Both built (see §4).
+1. Operator: «поиграл. во-первых, кромка стала шикарной (круглой), всё
+   смотрится отлично. есть небольшой вопрос про отзывчивость "игры" на
+   цветах. Когда нажимаю клавишу, есть как будто задержка до того как звук
+   пойдёт… Это следствие неизбежной латенси на чём-то, или может мы там
+   программно чего-то ждём… и ещё, когда сажаем цветок, давай нажатие на
+   "клавишу" этого цветка будет сразу его сажать, без необходимости
+   выбирать цвет-форму. А то я сто лет буду запоминать где там например фа
+   диез :)» Agent: nothing waits in code (keydown → note at
+   `currentTime`, attacks 4–14 ms, compressor ~6 ms); the rest is the
+   output path, Bluetooth 150–300 ms; check whether the flower's bounce
+   leads the sound. Decided item 4b (a key plants / replaces through an
+   open picker), built.
+2. Operator: «а агент сам не знает сколько токенов тратит? им нельзя
+   говорить чтобы применяли ту же эвристику что встроенный context budget
+   control? вместо того чтобы проверять каждые эндцать минут?» Agent: no;
+   the context-budget hook fires on subagent calls but exits on `agent_id`;
+   proposed a subagent notice at ~170k from its own transcript.
+3. Operator: «сколько нам вообще примерно по твоим прикидкам осталось? и
+   ещё отдельно хочу спросить, оправдывает ли себя механизм code review ->
+   handle?» Agent: ~$550–650 at API rates, ~30 sessions, 5–7 pastes
+   (branch so far $904 over 47 sessions); review yes, separate sessions no
+   — propose a fresh-eyed reviewer subagent in the bite's tail.
+4. Operator: «говорю "да" :)» → loop changed in the plan (7ccc3d04).
+   «а комменты в пиарах при этом останутся как объект?» — yes, the review
+   still posts on PR #57. «а после ревью кто исправлять будет?» / «и в
+   какой сессии» — the same orchestrator session, via fix subagents.
+   «ну то есть в рамках одной сессии, save for context budget control» —
+   yes.
+5. Operator: «как-то можно отключить этот хук который требует коммитить
+   каждый раз?» Agent: it is the cloud environment's hook
+   (`~/.claude/stop-hook-git-check.sh`), not the repo's; it fires on the
+   subagents' uncommitted work in the shared tree; proposed per-agent
+   worktrees.
+6. Operator: «не помню никакой своей гипотезы» (the agent had written
+   «Ваша прежняя гипотеза» — it was the play agent's) «1 - relay, и всегда
+   так… 2 - сделай, подагентом в следующей сессии 3 - не надо.» Agent:
+   owned both slips, paused the play agent, recorded the lapse in
+   megabeast.
+7. Operator: «пару раз нажал на бабочку -- кажется, она каждый раз
+   появляется за пределами экрана» Agent: likely the adapter's accepted
+   edge case (released while turned away); decided a release always
+   arrives in the current view (9ab9ef5a). Operator: «нет, никуда не
+   ходил, просто нажимаю бабочку, и она медленно-медленно вылетает из-за
+   кадра к цветку. остальные тоже из-за кадра, но разумеется быстрее. а
+   ещё кажется насекомые не изменяют размера при движении вперёд-назад»
+   Agent: redecided — enter at the current view's edge with a fast arrival
+   leg (~1.5 s to the first perch); insects drawn at their depth's scale.
+8. Operator: «хотя на самом деле пусть делают в worktree, мы же от этого
+   ничего не потеряем?» Agent: nothing that matters — adopted (see §4).
 
 ## 3. Intent
 
 Unchanged: the whole game, built autonomously, beautiful and comfortable
-for a six-year-old boy; each bite reviewed by an agent, handled by the
-next session; the Artifact playable after every bite; `/finalize` at the
-end, no merge. Bite 12: the child really walks — turns through 360°,
-steps along the heading, the sun as the compass — and the far edge reads
-as a small planet's horizon.
+for a six-year-old boy; each bite reviewed by a subagent and its findings
+fixed; the Artifact playable after every bite; `/finalize` at the end, no
+merge. Bite 12: the child really walks; its tail is nearly done.
 
-## 4. Decisions (all in the plan's `## Rest of the bite`, items 1–4)
+## 4. Decisions (all in the plan, `## Rest of the bite`'s first paragraph and item 4b)
 
-- `LEAST_PATCH` 8 → 6 set (45d9cce4); mushroom-patch, layout,
-  clump-layout, fliers green.
-- **The seam is a visible horizon** (operator: «ок, давай попробуем»):
-  a brow with clumped blades along it (`brow.ts`), things pale into haze
-  as they go under. Beaten: fog-shrink alone; leaving it.
-- **The brow is round** (operator: «закруглить горизонт?»): the
-  projection of the `D_SEE` circle round the eye (`browRow(camera, x)`);
-  things sink by distance (turn-invariant). Beaten: keying on depth along
-  the heading. The trace found HEAD had in fact keyed on depth — the plan
-  had misdescribed it.
-- **The pale band** was Phaser's 1 px path-detail skip dropping a hill
-  band's corner; fixed in the outline (`PATH_SKIP`, `skyline.ts`).
-- **P4 built**: long press 0.45 s opens the picker on a flower with a
-  ring and a cross; a pulled flower (seeded too) leaves a tuft; a press on
-  the held flower keeps the picker; startling an insect does not shut a
-  picker on a flower. **The cross yields to the sun**, not the sun to the
-  cross (moving the sun moved it on every screen for a button shown only
-  while picking, and broke `mushroom-light`).
-- "Survive a reload" read as "survive a resize": nothing in the game
-  persists across reloads but mute.
+- **4b, a key plants**: with the picker open on a tuft, a note/drum key
+  plants the flower of that sound (`classOf`, `keyPlanting` in
+  `keyed-flowers.ts`); on a flower, replaces it. The key itself is
+  silent; the new flower sounds as a planting does.
+- **Review as a tail subagent**, findings fixed by the same session's fix
+  subagents, replies on GitHub; structural bites (12b) keep a review
+  session.
+- **A released insect is seen at once and lands soon** — enters at the
+  current view's nearer edge, a fast arrival leg, first perch on screen
+  within ~1.5 s; the slow cruise stays. **Insects scale with depth** —
+  perched at the host's scale; in flight at the view's depth, or that half
+  to 12b if it needs the plane. Measure first.
+- **Frame budget: raise `V_NEAR` first** (spec §5); beaten: relaxing the
+  budget.
+- **Subagent context notice**: a subagent builds it next session.
+- **Per-agent worktrees**: adopted (operator reversed «не надо»); the
+  common brief `docs/remove-before-merging/bite-12/brief-common.md` must be
+  rewritten for it before the first brief. Cost: a `pnpm install --offline`
+  per worktree and a `git pull --no-rebase` merge on push.
+- `Leaning` as a shared base for mushroom `lean` (radians) and brow-blade
+  `lean` (a sideways share) — accepted, like `Point`'s per-module units.
 
 ## 5. Errors and dead ends
 
-- Moving the sun for the cross (749fc52f) — reverted in f17e590b.
-- `fa6dbe0a` (a Graphics' `pathDetailThreshold` 0) did nothing: Phaser
-  takes the max of object and game config; 7b82014a is the fix.
-- The first brow was a comb (one height, even spacing); the orchestrator's
-  frame read sent it back for clumps.
+- The agent offered `/compact` vs `/relay` at the budget notice and asked
+  two infra questions — the operator objected; the loop relays unasked.
+- The agent called the play agent's hypothesis the operator's, and used
+  «вы».
+- The first play agent hit ~200k with nothing committed; the nudge landed
+  4fa8349a.
 
 ## 6. State
 
 - Branch `claude/mushroom-game-syama-lbirv7`, PR #57, draft, base `main`,
   MERGEABLE.
-- Plan `docs/plans/mushroom-game-syama.paused.md`; `## Rest of the bite`
-  § "Left, in order" items 1–4 now say what is built; item 5 is the bite's
-  end.
-- Nothing running: every subagent reported; no check-ins, no PR
-  subscription. The Artifact is still version 12 (bite 11).
-- `pnpm type-overlap` failed on 5 groups predating this session
-  (`Shown.bob` / `Stepped.bob` among them) — fix before vet.
+- Plan `docs/plans/mushroom-game-syama.paused.md`.
+- Nothing running: every subagent reported; no check-ins pending, no PR
+  subscription. The Artifact is still the bite-11 version.
+- tabL passes every play at b0a652bb except the frame budget (33.5 ms).
 
 ## 7. Pointers
 
-- `docs/remove-before-merging/bite-12/` — `brief-common.md` (shared
-  brief), `step-spec.md` (contract); this session's notes: `seam-end.md`,
-  `split.md`, `brow.md`, `brow-round.md` (with the operator's report),
-  `p4.md`, `p4-fix.md`, `p4-sun.md`.
-- Frames: `docs/remove-before-merging/frames/bite-12/` — `*-brow-*`,
-  `*-brow-round-*`, `*-p4-*`.
-- New plays: `hold` (`scripts/lib/play-hold.ts`).
-- The relaying session: https://claude.ai/code/session_01WfAfJs7tfjH2HmoicBALz5
+- `docs/remove-before-merging/bite-12/` — `play-final.md` (the run, how
+  to split it by `--plays`), `seat-fix.md`, `key-plants.md`,
+  `type-overlap.md`, `step-spec.md` §4/§5, `brief-common.md`.
+- `docs/plans/mushroom-game-syama/bite-12.md` (the fold), `decisions.md`.
+- `.claude/context-budget/` (the hook to extend; `CLAUDE.md` there).
+- The relaying session: https://claude.ai/code/session_012enH5VNKgR1eWosaAJ4VCN
 
 ## 8. Next step
 
-`/go` — finish bite 12 from the plan's § "Left, in order": the full
-five-screen play run at the final HEAD, one screen per agent call, with
-spec §4's checks (opening identity — judge the phoneL edge flower that
-starts partly sunk — the walk to a back-row mushroom and a tap on its
-drawn cap, an insect after 180°, the frame budget walking into the
-forest, the `hold` play) and its frames; then the bite's end (item 5):
-`pnpm type-overlap`'s 5 groups, `decisions.md` rewritten where the spec
-names, the fold into `## Eaten so far`, `/polish`, vet, the Artifact
-republished, `/pr`. Then the loop per §1: "/relay оставь код ревью на
-последний кусок" — as the depth cap, give the operator that line to paste
-rather than `create_session`.
+`/go` — finish bite 12 from the plan's `## Rest of the bite` first
+paragraph: rewrite `brief-common.md` for per-agent worktrees; in
+parallel, the released-insect fix with the insects' depth scale, the `V_NEAR` frame-budget fix and the
+subagent context-notice hook («сделай, подагентом в следующей сессии»);
+then the five-screen run with frames and the phoneL edge flower; the
+review subagent and its fixes; delete `## Rest of the bite`; `/polish`,
+vet, the Artifact republished, `/pr`. Then 12b per the plan.
