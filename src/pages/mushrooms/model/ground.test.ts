@@ -12,8 +12,23 @@ import {
 } from '../ui/scene/meadow-camera';
 import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import { opened, relaidOn } from '../ui/scene/visit-play';
-import { type Frame, type Ground, project, scaleAt, seen } from './ground';
-import { maxReach } from './mushroom-pose';
+import {
+  type Eye,
+  EYE_HEIGHT,
+  type Frame,
+  type Ground,
+  OPENING_EYE,
+  pinholeOf,
+  planeOf,
+  project,
+  scaleAt,
+  seen,
+  type Viewed,
+  viewOf,
+} from './ground';
+import { MUSHROOM_SPECIES } from './mushroom-genes';
+import { maxReach, speciesHeight } from './mushroom-pose';
+import { leftAt, openingPan } from './pan';
 import { OPENING_FEET } from './placement';
 
 /** How many steps across and into the distance the frame is walked in. */
@@ -124,6 +139,115 @@ describe('the world', () => {
     const shown = (width / 2 - EDGE_MARGIN) / unit - beyond;
     assert.ok(Math.abs(2 * shown - WORLD_ACROSS) < 1e-3, String(2 * shown));
   });
+});
+
+/** How near two views count as one, in px and in the clump's size. */
+const SAME_VIEW = 1e-9;
+
+/** Heights over the ground, in the clump's size, up to the tallest mushroom and past it. */
+const HEIGHTS = [
+  0,
+  0.3,
+  Math.max(...MUSHROOM_SPECIES.map((species) => speciesHeight(species))),
+  EYE_HEIGHT / 2,
+];
+
+/** Where `a` and `b` differ, by name, past `SAME_VIEW` relative to their size. */
+function apart(a: Viewed, b: Viewed): string[] {
+  return (['x', 'y', 'scale', 'ahead'] as const).filter(
+    (key) =>
+      Math.abs(a[key] - b[key]) > SAME_VIEW * Math.max(1, Math.abs(b[key])),
+  );
+}
+
+/** Eyes about the glade, each looking its own way. */
+const EYES: Eye[] = [
+  OPENING_EYE,
+  { x: 0, y: 3, heading: 0 },
+  { x: -2.5, y: 1, heading: 0.6 },
+  { x: 3, y: -2, heading: -1.1 },
+];
+
+describe('the eye', () => {
+  for (const { name, width, height } of SCREENS) {
+    const camera = meadowCamera(width, height);
+    const left = leftAt(openingPan(camera), 0);
+
+    it(`at the opening shows every foot, at every height, where the ${name} camera's opening crop does`, () => {
+      const past: string[] = [];
+      for (const foot of feetOver(MEADOW_FRAME)) {
+        for (const lift of HEIGHTS) {
+          const { x, y, scale } = project(camera, foot);
+          const expected = {
+            x: x - left,
+            y: y - lift * scale,
+            scale,
+            ahead: planeOf(foot).y,
+          };
+          const off = apart(
+            viewOf(camera, OPENING_EYE, planeOf(foot), lift),
+            expected,
+          );
+          if (off.length > 0) {
+            past.push(
+              `foot ${foot.x.toFixed(2)}, ${foot.z.toFixed(2)} at ${String(lift)}: ${off.join(', ')}`,
+            );
+          }
+        }
+      }
+      assert.deepEqual(past, []);
+    });
+
+    it(`comes back to every point after a full turn, on the ${name} camera`, () => {
+      for (const eye of EYES) {
+        const turned = { ...eye, heading: eye.heading + 2 * Math.PI };
+        for (const foot of feetOver(MEADOW_FRAME)) {
+          const point = planeOf(foot);
+          const off = apart(
+            viewOf(camera, turned, point, 1),
+            viewOf(camera, eye, point, 1),
+          );
+          assert.deepEqual(
+            off,
+            [],
+            `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`,
+          );
+        }
+      }
+    });
+
+    it(`scales every point by its distance over the nearer one after a step ahead, on the ${name} camera`, () => {
+      const step = 1.5;
+      for (const eye of EYES) {
+        const stepped = {
+          ...eye,
+          x: eye.x + step * Math.sin(eye.heading),
+          y: eye.y + step * Math.cos(eye.heading),
+        };
+        const { x: middle } = pinholeOf(camera);
+        for (const foot of feetOver(MEADOW_FRAME)) {
+          const point = planeOf(foot);
+          const before = viewOf(camera, eye, point, 0);
+          if (before.ahead <= step + 1) continue;
+          const after = viewOf(camera, stepped, point, 0);
+          const k = before.ahead / (before.ahead - step);
+          const at = `eye ${JSON.stringify(eye)}, foot ${JSON.stringify(foot)}`;
+          assert.ok(
+            Math.abs(after.ahead - (before.ahead - step)) < SAME_VIEW,
+            `${at}: ahead`,
+          );
+          assert.ok(
+            Math.abs(after.scale - before.scale * k) < SAME_VIEW * after.scale,
+            `${at}: scale`,
+          );
+          assert.ok(
+            Math.abs(after.x - middle - (before.x - middle) * k) < 1e-6,
+            `${at}: across`,
+          );
+        }
+      }
+    });
+  }
 });
 
 /** The visits a meadow is grown in and turned. */

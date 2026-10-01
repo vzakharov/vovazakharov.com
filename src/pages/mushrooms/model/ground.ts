@@ -52,11 +52,14 @@ export type LayeredPoint = Point & Layered;
 /** Where on the ground something is laid out: the world's frame. */
 export type Framed = { frame: Frame };
 
+/** How big, in px, one of the clump's size stands where a point is shown. */
+export type Scaling = { scale: number };
+
 /**
  * A ground point as a camera shows it: where on the screen, how big one of
  * the clump's size stands there, how hazy, and the depth it is drawn at.
  */
-export type Projected = LayeredPoint & Hazed & { scale: number };
+export type Projected = LayeredPoint & Hazed & Scaling;
 
 /**
  * How deep the ground is, in the clump's size, from the screen's foot to
@@ -162,6 +165,98 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
     scale,
     haze: MAX_HAZE * Math.max(0, 1 - down / HAZE_REACH),
     depth: y,
+  };
+}
+
+/**
+ * The row form above is a pinhole camera's: scale is linear in screen y and
+ * vanishes `HORIZON_DOWN` of the way down the band, above its top, which is
+ * the pinhole's horizon, hidden behind the hills. The constants below are
+ * that pinhole's, derived from the row form's own, so `viewOf` at
+ * `OPENING_EYE` is `project` exactly.
+ */
+const SCALE_PER_DOWN = depthScale(1) - depthScale(0);
+const HORIZON_DOWN = -depthScale(0) / SCALE_PER_DOWN;
+
+/**
+ * How far ahead of the opening eye the clump's front foot stands, on the
+ * plane, in the clump's size: the distance at which one step into the
+ * distance (`z`) is one step on the plane, so depth is true at the clump.
+ */
+export const CLUMP_DISTANCE =
+  (BAND_DEPTH * depthScale(CLUMP_DOWN)) / SCALE_PER_DOWN;
+
+/**
+ * How high above the plane the eye stands, in the clump's size: the height
+ * that looks down at the clump's front foot at `UP_PER_Z`.
+ */
+export const EYE_HEIGHT = CLUMP_DISTANCE * UP_PER_Z;
+
+/**
+ * Where on the plane the eye stands, in the clump's size, and which way it
+ * looks: `heading`, in radians, turned from straight into the distance (the
+ * plane's `+y`) toward its `+x`, so a growing heading turns rightward.
+ */
+export type Eye = Point & { heading: number };
+
+/** The eye a visit opens on: it sees what `project` shows on the opening crop. */
+export const OPENING_EYE: Eye = { x: 0, y: 0, heading: 0 };
+
+/**
+ * A ground point on the plane the eye walks: `x` across as it is, `y` its
+ * true distance ahead of `OPENING_EYE`, of which `z` is a warped measure.
+ */
+export function planeOf({ x, z }: Ground): Point {
+  return { x, y: CLUMP_DISTANCE / scaleAt(z) };
+}
+
+/**
+ * The pinhole `camera` is, in CSS px: `focal`, its focal length, and the
+ * screen point straight ahead on the horizon (`x` the screen's middle, `y`
+ * the horizon's row).
+ */
+export type Pinhole = Point & { focal: number };
+
+export function pinholeOf({ width, groundTop, ground, unit }: Camera): Pinhole {
+  return {
+    x: width / 2,
+    y: groundTop + ground * HORIZON_DOWN,
+    focal: unit * CLUMP_DISTANCE,
+  };
+}
+
+/**
+ * A plane point as an eye sees it: where on the screen, in CSS px, how big
+ * one of the clump's size stands there, and `ahead`, how far ahead of the eye
+ * along its heading it stands, in the clump's size: behind the eye at 0 and
+ * under.
+ */
+export type Viewed = Point & Scaling & { ahead: number };
+
+/**
+ * Where `camera` shows `point` on the plane, `height` above it in the clump's
+ * size, to `eye`. Meaningless for a point not ahead of the eye (`ahead` ≤ 0),
+ * which is the caller's to cull.
+ */
+export function viewOf(
+  camera: Camera,
+  eye: Eye,
+  point: Point,
+  height: number,
+): Viewed {
+  const pinhole = pinholeOf(camera);
+  const dx = point.x - eye.x;
+  const dy = point.y - eye.y;
+  const cos = Math.cos(eye.heading);
+  const sin = Math.sin(eye.heading);
+  const across = dx * cos - dy * sin;
+  const ahead = dx * sin + dy * cos;
+  const scale = pinhole.focal / ahead;
+  return {
+    x: pinhole.x + across * scale,
+    y: pinhole.y + (EYE_HEIGHT - height) * scale,
+    scale,
+    ahead,
   };
 }
 
