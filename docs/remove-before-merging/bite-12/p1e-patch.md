@@ -41,9 +41,9 @@ phone 113/95/92/92; both 120 at 8. 430×932 (13.8 px) 94, 412×915 (13.2 px)
 ## Tests
 
 Pass: `meadow-rules` 12/12, `mushroom-room` 7/7, `mushroom-tap` 15/15,
-`flower-layout` 43/43, `insect-layout` 13/13, `sun-layout` 19/19.
-`mushroom-patch` 30/33; `LEAST_HEAD_SHARE` 0.72 holds (worst 73.0%, tablet
-in the opening view, as before). `layout`: pending.
+`flower-layout` 43/43, `insect-layout` 13/13, `sun-layout` 19/19,
+`fliers` 48/48 (4 min). `mushroom-patch` 30/33; `LEAST_HEAD_SHARE` 0.72
+holds (worst 73.0%, tablet in the opening view, as before). `layout` 66/67.
 
 **Red before this package, not from it** (both red at bc13de6, green at
 7a94a1c):
@@ -60,7 +60,14 @@ in the opening view, as before). `layout`: pending.
   2250 (26%) at bc13de6 and now, 318 at 7a94a1c; phone, sideways and small
   phone fail too. Not this package's file.
 
+**Red, and no patch fixes it:** `layout` "grows 12 over the world" on a
+phone held sideways, 197 of 200 (`LEAST_FULL` 0.99); 200 of 200 at
+7a94a1c. Visits 4038693, 8710903, 12907973 stop at 8, 7, 5 — the same with
+both patches at 0.1 px, so another of `roomFor`'s rules (since 86503fb)
+runs out of room there, not the patch. At bc13de6 those visits grew 2.
+
 ## Left
 
-- `fliers.test.ts` once.
+- The clump patch on a phone held sideways (options above), the sideways
+  `layout` shortfall and `clump-layout`'s share: the orchestrator's call.
 - `openingCrop` → `openingView` with the scripts' owner.
