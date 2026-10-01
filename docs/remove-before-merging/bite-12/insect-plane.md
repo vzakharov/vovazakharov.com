@@ -192,7 +192,96 @@ side turns on, so only the eye's own heading reproduces today. Round 1's
 §1 gaze (`x = arc · azimuth`) is superseded by this frame; its
 branch-keeping unwrap is not needed (the clamp keeps ends inside the frame).
 
-## Left
+### R2.2 Looking back — holds
 
-Measures R2.2–R2.6 (looking back, the cap, the near pass, the frame cost),
-then the packages firmed up.
+`ip2/back.mts` (round 1's `lc/back-leg.mts` ported: a straight leg in the
+leg's frame, 201 samples, drawn through `drawAloft`, counted where the
+insect's span reaches the screen), headings π and π ± 0.035, every screen,
+frame and round 1's gaze alike: **start → out with no perch shown 200/201,
+start → a perch the screen shows 200/201** (the one not drawn is the start,
+under the brow by design). Out → the opening clump's cap (behind the child)
+is drawn on 1–13 of 201: it flies out by the side and on behind, as it
+should. **Zoom at landing equals the perched insect's** (`CLUMP_DISTANCE /
+ahead` of the host's foot both): max |Δ| 2.2e-16. Not run: a bowed (steered)
+leg looking back — `facing.mts` builds its perches through `groundAlong`,
+which has no row looking back.
+
+### R2.3 A perched insect tracks its cap — holds
+
+`ip2/cap.mts`: the opening feet and 12 forest feet, eyes on a 5×5 grid ±6,
+16 headings, every screen (33 600 samples). Perched insect's zoom over its
+cap's: **constant per host to 3.6e-16**, its value `CLUMP_DISTANCE / the
+host's opening distance` (0.648 at the brow to 1.72 at `V_NEAR`; 0.93–1.04
+on the hosts sampled). Today the ratio is 1 on every host; under (a) it is
+the host's own constant, so the insect never changes size against its cap.
+The seat itself tracks exactly: both go through `aboutFoot` off the host's
+drawn foot.
+
+### R2.4 Speed seen on screen — the pace decision, measured
+
+`ip2/speed.mts`, the opening eye facing the clump, every leg between a grid
+of 99 perches (11 columns × 9 depths), peak over a 2-frame step and mean
+(seen length / flight time) over legs longer than two strides, in butterfly
+sizes **as drawn where the insect is** a second. Tablet / desktop:
+
+| kind      | today peak | plane, today's `paced` peak | pace: layout length, peak · mean · longest | seen: drawn length, peak · mean · longest |
+| --------- | ---------- | --------------------------- | ------------------------------------------ | ----------------------------------------- |
+| butterfly | 3 / 4      | 3 / 5                       | 2 · 0.5–1.5 · 23 s / 2 · 0.5–1.5 · 33 s    | 2 · 1.0 · 28 s / 2 · 1.0 · 40 s           |
+| fly       | 111 / 163  | 146 / 209                   | 3 · 0.6–1.7 · 21 s / 3 · 0.6–1.7 · 30 s    | 2 · 1.1 · 26 s / 2 · 1.1 · 37 s           |
+| bee       | 54 / 81    | 73 / 109                    | 2 · 0.5–1.5 · 23 s / 2 · 0.5–1.5 · 33 s    | 2 · 1.0 · 27 s / 2 · 1.0 · 38 s           |
+
+- Today's peak is ~1.8× the cap's nominal dash (60 / 36 on the tablet): the
+  dash's Hermite eases in and out. The plane's sizes raise it another
+  ~1.3× (a far insect is drawn smaller, so the same px read as more sizes).
+- **Literal "a stride per `flying` time" is ~1 size a second for every
+  kind** (fly 0.9 / 0.85 s, bee 1.4 / 1.45 s, butterfly 3 / 3.15 s): a fly
+  crosses the tablet in ~20 s, a median leg (11 sizes) in ~11 s against
+  1.5 s today. The butterfly barely changes (today it stretches to 4×
+  `flying` before speeding up); flies and bees slow ~7× on a median leg.
+  **This likely is not what the operator means by «летит себе и летит»;
+  confirm the pace before building.** Options: (i) the literal pace;
+  (ii) a cruise speed per kind set by play (e.g. today's median-leg speed:
+  fly ~7, bee ~4.6 sizes/s on the tablet), legs timed `length / cruise`, no
+  ceiling.
+- **Measure on drawn length**: timing by the layout length leaves the seen
+  speed 0.5–1.7× pace by depth; timing by the length seen in drawn sizes
+  holds it at 1.0–1.1 everywhere. Proposed: `Places` carry each perch's
+  opening distance `q`, and `apartIn` returns the drawn length, the layout
+  length × `logmean(q0, q1) / CLUMP_DISTANCE` (the 1/q mix's exact mean of
+  `q` along a straight leg).
+- In `flight-timing.ts` `paced`: `stretch = length / pace` (≥ 1), `slowest`
+  and `across` go (`Sight.across` from `perchSight`, `Placed`'s `across`,
+  `dash-cap.md`'s cap tests in `flight.test.ts`); `dashing` stops scaling
+  with distance — kept, if at all, as a fixed burst shape (dash a set share
+  of the way in a set share of the time), averaging to the pace.
+  `outFirst` keeps lengthening by the out-of-view stretch (`outOfView`,
+  ≤ `ARRIVAL`). **Conflict to settle**: `ARRIVAL` (1.5 s) still caps a
+  release's first leg to a shown perch, a ceiling on exactly the long legs
+  the decision frees; under (i) that leg flies ~7–20× its pace.
+
+## Left (context budget reached)
+
+- **R2.5, legs past the eye (the veer)**: not measured. What is known: the
+  frame's depth mix (1/q straight in `flown`) never brings a leg nearer the
+  eye than its nearer end's forward distance `q` (≥ 0.62 of its distance,
+  the clamp keeping ends within 0.9 rad gathered), so a near pass comes
+  from an end near the eye (a perch the child stands by, or the eye walking
+  into a hovering insect) plus the bow's and zigzag's offsets. The veer to
+  spec: each frame's `Aloft` pushed radially out to `R_V` from the eye on
+  the plane, C¹-smooth (`d' = R_V + (d − R_V + w)² / 4w` over
+  `[R_V − w, R_V + w]`, `R_V` otherwise), `R_V = V_NEAR` so zoom ≤ 1.72 at
+  the middle and ≤ 1.72 · `bendAt` at the edge (desktop 1.92, sideways
+  phone ~2.0) — or `R_V = V_NEAR · max bend` for 1.72 everywhere. To
+  settle: a perch inside `R_V` (its host is culled by `V_NEAR`) — the leg
+  lands at the veered point and the insect hides with its host. To measure:
+  max zoom and drawn size per screen and kind, share of legs within 1, 0.5,
+  0.25 · `CLUMP_DISTANCE`, time a giant covers the screen, with and without
+  the veer.
+- **R2.6 frame cost**: not run (by count the frame path is two `viewOf`,
+  one `atan2`/`hypot`/`tan`/`cos` per insect against today's up to six
+  `ofLayout`); budget 26 ms median.
+- **Packages**: §4 stands with these changes — step 0 builds the leg's
+  frame (`framedOf`, `aloftFramed`, `centreOf`, `mixD` on `q`) and the veer,
+  not the angle gaze; a new pace package in `flight-timing.ts` /
+  `perch-sight.ts` (`Places` with `q`) re-running `flight`, `flight-kinds`,
+  `flight-in`, `perch-sight`, then `fliers.test.ts` alone. Not yet firmed.
