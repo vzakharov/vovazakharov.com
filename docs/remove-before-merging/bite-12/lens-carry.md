@@ -130,8 +130,12 @@ seam, `fliers.test.ts`, the frames.
    re-exports `Span` so its importers stand. The two import each other's
    types only, as `perch-room.ts` already does.
 
+8. **`fliers.test.ts` alone: 48 pass, 0 fail** (3 min 43 s), at 0f4c63c.
+   Re-run green beside it: every test file under `src/pages/mushrooms/` that
+   imports flight, `insect-away`, `insect-seat`, `insect-view` or `view` (32
+   files, among them `insect-away`, `insect-seat`, `flight-in`, `flight`,
+   `view`).
+
 ## Left
 
-`fliers.test.ts` alone (not run: this package changed `drawnAt`, the sink,
-the cull and `firstFlight`'s no-perch leg), the tabL / phoneP release frames
-`lens-carry-*.png`.
+The tabL / phoneP release frames `lens-carry-*.png`.
