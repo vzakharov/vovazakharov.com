@@ -52,8 +52,13 @@ export class Planter {
     this.scene.dispatch({ kind: 'plant', shape });
   };
 
-  /** Whether the tuft the flower picker is open on can still take a flower. */
+  /**
+   * Whether the flower picker's pick can plant where it is open: always on a
+   * flower, which the pick replaces where it stands; on a tuft while it can
+   * still take a flower.
+   */
   readonly plantable = ({ planting }: Meadow): boolean => {
+    if (planting?.flower !== undefined) return true;
     const stand = this.scene.stand();
     return (
       planting !== undefined &&

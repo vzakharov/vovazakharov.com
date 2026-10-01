@@ -1,6 +1,6 @@
 /**
  * The flower picker's pictograms, no words on either stage: a swatch of each
- * colour, then the very flower each shape grows in the colour picked, drawn
+ * colour, and on a flower a cross that pulls it up, then the very flower each shape grows in the colour picked, drawn
  * by the meadow's own flower drawing from the seed it will grow from — its
  * head large on a short stem, so its petals and rings read at a button's
  * size.
@@ -40,6 +40,27 @@ export function drawColourButton(
     Math.max(2, r * SWATCH_INK),
     iconLighting(hairline),
   );
+}
+
+/** The cross's arm from its middle, and its bars' width, in its button's radius. */
+const CROSS_ARM = 0.42;
+const CROSS_BAR = 0.17;
+
+/** The button beside the colours that pulls up the flower the picker is open on: a cross, in the `−` badge's colour. */
+export function drawPullButton(
+  graphics: Phaser.GameObjects.Graphics,
+  r: number,
+): void {
+  drawDisc(graphics, r);
+  const arm = r * CROSS_ARM;
+  const bar = Math.max(4, r * CROSS_BAR);
+  // Bars rather than strokes, so the arms meet square, as the `+` badge's do.
+  graphics.save();
+  graphics.rotateCanvas(Math.PI / 4);
+  graphics.fillStyle(PALETTE.shrink);
+  graphics.fillRect(-arm, -bar / 2, arm * 2, bar);
+  graphics.fillRect(-bar / 2, -arm, bar, arm * 2);
+  graphics.restore();
 }
 
 /**

@@ -4,6 +4,8 @@
  * or under the row, each held `PICK_CLEAR` off every other button.
  */
 
+import type { Sized } from '@/shared/typings';
+
 import type { Circle } from '../../model/geometry';
 import {
   apart,
@@ -161,6 +163,42 @@ export function completed(
         standing.every((other) => apart(button, other, PICK_CLEAR)),
     );
   return fits ? under : [...row, ...inBand];
+}
+
+/** The room `beside` may stand a button in: `width` across, down to `floor`, and the buttons it keeps clear of. */
+type Beside = Pick<Room, 'floor' | 'standing'> & Pick<Sized, 'width'>;
+
+/**
+ * One more button with `row`, its size, the first of these that keeps inside
+ * the room's width, above its floor and `PICK_CLEAR` clear of `row` and of
+ * the room's standing buttons: a step past the row's last along its own row,
+ * a step before its first, under its last, under its first; under its last
+ * where none does. The step along is the row's own spacing, and down it is
+ * `stacked`'s.
+ */
+export function beside(
+  row: readonly Circle[],
+  { width, floor, standing }: Beside,
+): Circle {
+  const [first, second] = row;
+  const last = row.at(-1);
+  if (!first || !last) throw new Error('A button beside an empty row');
+  const reach = tapReach(first.r);
+  const down = reach * 2 + GROW_GAP;
+  const across = second?.y === first.y ? second.x - first.x : down;
+  const under = { ...last, y: last.y + down };
+  const tries = [
+    { ...last, x: last.x + across },
+    { ...first, x: first.x - across },
+    under,
+    { ...first, y: first.y + down },
+  ];
+  const fits = (button: Circle) =>
+    button.x - reach >= BUTTON_INSET &&
+    button.x + reach <= width - BUTTON_INSET &&
+    button.y + reach <= floor &&
+    [...row, ...standing].every((other) => apart(button, other, PICK_CLEAR));
+  return tries.find((button) => fits(button)) ?? under;
 }
 
 /** Where `rowsFrom` fits the pickers' rows in the top row. */

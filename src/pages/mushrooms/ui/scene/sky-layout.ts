@@ -8,10 +8,12 @@ import type { Sized } from '@/shared/typings';
 
 import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
 import type { Circle } from '../../model/geometry';
+import type { Camera } from '../../model/ground';
 import { FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import {
+  beside,
   completed,
   PICK_CLEAR,
   pickerRow,
@@ -101,15 +103,13 @@ export function standingControls({
  * other pickers share: its five colours where the house picker's five
  * stand, then its four shapes where the caps' four do. Where that picker
  * does not hold a stage's count apart, the stage stands as many abreast as
- * the caps' row holds, the rest in rows under it.
+ * the caps' row holds, the rest in rows under it. Open on a flower, the
+ * colours have the cross with them, which pulls it up (`beside`).
  */
-export function flowerPicker({
-  picker,
-  housePicker,
-}: Pick<Controls, 'picker' | 'housePicker'>): Record<
-  'colours' | 'shapes',
-  readonly Circle[]
-> {
+export function flowerPicker(
+  controls: Controls & Pick<Camera, 'width' | 'groundTop'>,
+): Record<'colours' | 'shapes', readonly Circle[]> & { cross: Circle } {
+  const { picker, housePicker, width, groundTop } = controls;
   const whole = (row: readonly Circle[], count: number) =>
     row.length === count &&
     row.every((button, index) =>
@@ -117,9 +117,15 @@ export function flowerPicker({
     );
   const stage = (row: readonly Circle[], count: number) =>
     whole(row, count) ? row : stacked(picker, count);
+  const colours = stage(housePicker, PICKED_COLOURS.length);
   return {
-    colours: stage(housePicker, PICKED_COLOURS.length),
+    colours,
     shapes: stage(picker, FLOWER_SHAPES.length),
+    cross: beside(colours, {
+      width,
+      floor: groundTop * COLUMN_REACH,
+      standing: shownOverPickers(controls),
+    }),
   };
 }
 

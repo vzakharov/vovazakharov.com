@@ -319,11 +319,17 @@ describe('the controls', () => {
     it(`gives every control and every picker's stage a finger's reach, apart, on a ${name} screen`, () => {
       const layout = screenLayout(width, height);
       const { yielding, picker, housePicker } = layout;
-      const { colours, shapes } = flowerPicker(layout);
+      const { colours, shapes, cross } = flowerPicker(layout);
       assert.equal(picker.length, MUSHROOM_SPECIES.length);
       assert.equal(housePicker.length, FURNISHINGS.length);
       const standing = standingControls(layout);
-      const stages = { picker, housePicker, colours, shapes };
+      // Open on a flower, the colours stand with the cross.
+      const stages = {
+        picker,
+        housePicker,
+        colours: [...colours, cross],
+        shapes,
+      };
       for (const { r } of [
         ...standing.slice(1),
         ...Object.values(stages).flat(),

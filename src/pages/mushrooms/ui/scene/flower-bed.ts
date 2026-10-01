@@ -17,16 +17,12 @@ import {
   sway,
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
-import {
-  bedPlace,
-  layoutPlace,
-  standAt,
-  type Standing,
-  UNPLACED,
-} from './bed-place';
+import { bedPlace, layoutPlace, standAt, UNPLACED } from './bed-place';
 import { drawFlower } from './draw-flower';
+import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
 import { type StandingFlower, standingFlowers } from './flower-plots';
+import { FlowerRing, type Ringed } from './flower-ring';
 import { type Centred, flowerLift, flowerTapReach } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower, type TappedFigure } from './hit-areas';
@@ -42,10 +38,9 @@ import { type Following, onScreen, type View } from './view';
 type Shown = TappedFigure &
   Sprouted &
   Centred &
-  Standing & {
+  Ringed & {
     stem: Phaser.GameObjects.Graphics;
     head: Phaser.GameObjects.Graphics;
-    headR: number;
     /** Where the head stands on its stem as laid out, before a drinking insect sags it. */
     headY: number;
     /**
@@ -60,7 +55,9 @@ type Shown = TappedFigure &
  * ones the bees plant alike: each stands where the layout puts it
  * (`standingFlowers`), sways in the breeze, blooms open when tapped and sags
  * under an insect drinking at it; a planted one, a bee's or the child's,
- * grows up out of the ground and opens sounding its note or drum.
+ * grows up out of the ground and opens sounding its note or drum. A press
+ * held on one opens the flower picker on it (`FlowerHold`), and the flower
+ * the picker is open on stands in a ring (`FlowerRing`).
  */
 export class FlowerBed implements Following {
   private readonly shown = new Map<string, Shown>();
@@ -86,18 +83,30 @@ export class FlowerBed implements Following {
     bee: 1,
   };
 
+  /** A press on a head held long enough to open the flower picker there. */
+  private readonly hold: FlowerHold;
+  private readonly ring: FlowerRing;
+
+  /** `heldStill` is how long the pressed finger has stood inside the slop (`EyeInput.heldStill`). */
   constructor(
     scene: Phaser.Scene,
     instrument: Instrument,
     now: () => number,
     seeded: readonly Flower[],
     dispatch: (action: Action) => void,
+    heldStill: () => number | undefined,
   ) {
     this.scene = scene;
     this.instrument = instrument;
     this.now = now;
     this.seeded = seeded;
     this.dispatch = dispatch;
+    this.hold = new FlowerHold({
+      heldStill,
+      footOf: (id) => this.shown.get(id)?.laid?.foot,
+      dispatch,
+    });
+    this.ring = new FlowerRing(scene);
   }
 
   /** Stands every flower where `layout` puts it, into the objects it has. */
@@ -187,8 +196,16 @@ export class FlowerBed implements Following {
     standAt(container, place);
   }
 
-  /** Sways and blooms every flower at `t`, in seconds, each sagging under whatever of `insects` drinks at it. */
-  update(t: number, insects: readonly Flier[]): void {
+  /**
+   * Sways and blooms every flower at `t`, in seconds, each sagging under
+   * whatever of `insects` drinks at it, and rings the one `held` names, the
+   * flower picker's, where it stands; a press on a head held long enough
+   * opens the picker there.
+   */
+  update(t: number, insects: readonly Flier[], held: string | undefined): void {
+    this.hold.update();
+    const ringed = held === undefined ? undefined : this.shown.get(held);
+    this.ring.stand(ringed?.laid && ringed);
     const drunk = drinkingAt(insects, t * 1000);
     for (const [id, shown] of this.shown) {
       const open = bloom(t - shown.tappedAt);
@@ -312,6 +329,7 @@ export class FlowerBed implements Following {
     );
     head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.tap(flower.id);
+      this.hold.press(flower.id);
     });
     this.shown.set(flower.id, shown);
     return shown;

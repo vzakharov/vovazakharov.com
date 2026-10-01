@@ -122,6 +122,7 @@ export class MeadowScene extends Phaser.Scene {
       (action) => {
         this.dispatch(action);
       },
+      () => this.eye.heldStill(),
     );
     this.bed = new MushroomBed(this, this.voice, this.now, (id) => {
       this.dispatch({ kind: 'select', id });
@@ -161,6 +162,10 @@ export class MeadowScene extends Phaser.Scene {
         },
         ...pick(this.arrivals, 'grow', 'roomy', 'release'),
         ...pick(this.planter, 'colour', 'plant', 'plantable'),
+        pull: () => {
+          this.voice.pop();
+          this.dispatch({ kind: 'pull' });
+        },
         refuse: () => {
           this.voice.nuhUh();
         },
@@ -210,11 +215,16 @@ export class MeadowScene extends Phaser.Scene {
     this.walk(layout.height);
     this.dispatch({ kind: 'tick', now: time, ...perches.sight });
     driftClouds(backdrop, layout, t);
-    grass?.update(t, meadow?.planting?.foot);
+    const planting = meadow?.planting;
+    // The grass marks the tuft the picker is open on; the bed rings a flower.
+    grass?.update(
+      t,
+      planting?.flower === undefined ? planting?.foot : undefined,
+    );
     bed?.update(t);
     controls?.update(t);
     // As the tick just left them.
-    flowers?.update(t, this.fliers());
+    flowers?.update(t, this.fliers(), planting?.flower);
     // Last, so every perch stands where this frame has put it, a sagging
     // head's included.
     insects?.update(t, perches.at);
@@ -257,10 +267,18 @@ export class MeadowScene extends Phaser.Scene {
     this.shutStrayPicker();
   }
 
-  /** Shuts the flower picker once the tuft it is open on no longer takes a flower. */
+  /**
+   * Shuts the flower picker once the tuft it is open on no longer takes a
+   * flower; one open on a flower stands, with no tuft under it to lose.
+   */
   private shutStrayPicker(): void {
-    const open = this.meadow?.planting?.foot;
-    if (open && this.grass && !this.grass.holds(open)) {
+    const planting = this.meadow?.planting;
+    if (
+      planting &&
+      planting.flower === undefined &&
+      this.grass &&
+      !this.grass.holds(planting.foot)
+    ) {
       this.dispatch({ kind: 'shut' });
     }
   }

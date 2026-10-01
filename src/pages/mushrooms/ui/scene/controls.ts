@@ -27,7 +27,11 @@ import {
   standButton,
 } from './button';
 import { placeIn } from './clump-layout';
-import { drawColourButton, drawShapeButton } from './flower-icons';
+import {
+  drawColourButton,
+  drawPullButton,
+  drawShapeButton,
+} from './flower-icons';
 import { standingOn } from './flower-layout';
 import {
   drawFurnishButton,
@@ -41,6 +45,9 @@ import type { MeadowLayout } from './layout';
 import { Picker } from './picker';
 import { flowerPicker } from './sky-layout';
 
+/** The cross picker's one item. */
+const PULL = ['pull'] as const;
+
 export type ControlHandlers = {
   mute: () => void;
   pick: () => void;
@@ -52,8 +59,10 @@ export type ControlHandlers = {
   /** The flower picker's two stages: a colour picked, then a shape planted. */
   colour: (colour: FlowerColour) => void;
   plant: (shape: FlowerShape) => void;
-  /** Whether the tuft the flower picker is open on can still take a flower. */
+  /** Whether the flower picker's pick can plant where it is open. */
   plantable: (meadow: Meadow) => boolean;
+  /** The cross beside the colours: pulls up the flower the picker is open on. */
+  pull: () => void;
   /** Whether the meadow has room for another mushroom, full or not. */
   roomy: (meadow: Meadow) => boolean;
   /** A tap on a control that cannot act. */
@@ -63,8 +72,9 @@ export type ControlHandlers = {
 /**
  * The buttons over the meadow: mute, `+`, `−`, the house and one per insect,
  * and the pickers — the four caps `+` opens, the windows and door the house
- * does, and the flower picker a tuft opens, its five colours standing where
- * the house's five do and then its four shapes where the caps do.
+ * does, and the flower picker a tuft or a held flower opens, its five
+ * colours standing where the house's five do, a flower's with the cross
+ * that pulls it up, and then its four shapes where the caps do.
  * Each presses in when a tap sets it acting; one that cannot act shakes its
  * head instead. A picker comes up one button after another and goes the same
  * way back, a picked cap flying down to where its mushroom grows; the house's
@@ -85,6 +95,8 @@ export class Controls {
   private readonly housePicker: Picker<Furnishing>;
   private readonly colourPicker: Picker<FlowerColour>;
   private readonly shapePicker: Picker<FlowerShape, Sown>;
+  /** The cross, a picker of one, which comes and goes with the colours on a flower. */
+  private readonly crossPicker: Picker<(typeof PULL)[number]>;
   /** Where the flower picker last opened, which it folds back into. */
   private tuft: Point = { x: 0, y: 0 };
   /** As of the last paint, which says what each button can do. */
@@ -159,6 +171,16 @@ export class Controls {
       },
       button,
     );
+    this.crossPicker = new Picker(
+      {
+        items: PULL,
+        pick: handlers.pull,
+        draw: (graphics, r) => {
+          drawPullButton(graphics, r);
+        },
+      },
+      button,
+    );
   }
 
   /**
@@ -219,6 +241,7 @@ export class Controls {
     const stages = flowerPicker(layout);
     const colouring = planting !== undefined && planting.chosen === undefined;
     const shaping = planting?.chosen !== undefined;
+    const pulling = colouring && planting.flower !== undefined;
     const mushroomAt = (mushroom: Planted) => {
       const place = placeIn(layout.mushrooms, mushroom);
       return place && toScreen(place);
@@ -257,6 +280,15 @@ export class Controls {
       ratio,
       picking || furnishing || shaping,
     );
+    this.crossPicker.paint(
+      [stages.cross],
+      this.tuft,
+      pulling,
+      now,
+      meadow,
+      ratio,
+      picking || furnishing || shaping,
+    );
     this.shapePicker.paint(
       stages.shapes,
       this.tuft,
@@ -288,6 +320,7 @@ export class Controls {
       this.picker,
       this.housePicker,
       this.colourPicker,
+      this.crossPicker,
       this.shapePicker,
     ]) {
       picker.update(t);

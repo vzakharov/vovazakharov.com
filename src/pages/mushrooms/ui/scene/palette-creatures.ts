@@ -83,6 +83,8 @@ export const CREATURES = {
    * edged in `ink` against the pale ones.
    */
   selection: 0xff_d4_1a,
+  /** The ring on the ground under the flower the picker is open on: the selection's yellow, paler, as the ring is plainer. */
+  heldFlower: 0xff_e8_7a,
   /**
    * A window's pane: a warm lamplight, as if the room behind were lit — the
    * hue dusk turns up.
