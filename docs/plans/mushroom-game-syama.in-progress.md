@@ -431,14 +431,17 @@ departures were taken):
    patch now also shrinks with depth (`× min(1, scaleAt(z))`): tablet,
    phone and small phone grow behind the clump again (70/67/59 → 131/
    129/120 of the first 20 visits), clump-layout's tablet pairs 589 →
-   303. **Decided: `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
+   303. **Set (45d9cce4): `LEAST_PATCH` 8 → 6.** The sideways phone's scaled
    patch is 7.6–4.9 px, so the 8 floor kept its back rows shut and both
    reds red; at 6, `layout` "grows 12" 200/200, clump-layout 358/2250,
    57% behind the clump (pads: 66%). Beaten: 5 (66%, but the farthest
    cap's patch gets hard for a finger) and relaxing the tests (they
    state the rule the meadow keeps). Left: set it, re-run
    `mushroom-patch`, `layout`, `clump-layout` and `fliers`.
-2. `meadow-scene.ts` (455) and `insect-view.ts` (479) back under ~450.
+2. Done (fff4e84, e9a6f995, `split.md`): `insect-view.ts` 349,
+   `meadow-scene.ts` 408. `pnpm type-overlap` fails on 5 groups that
+   predate the split (`Shown.bob` / `Stepped.bob` among them) — the
+   bite's end fixes them before vet.
 3. P4: the long press, the flower picker with the cross, the ring
    (below).
 4. The rest of the play run. The probe reads the eye, and the walk play
@@ -476,6 +479,20 @@ departures were taken):
    play's `checkPops`, which must not count a vanish under the ground's
    cover as a pop — all three in one package once the play agent is out
    of `scripts/`.
+   Built (d5bbaf85, 1efc4d07, `seam-end.md`): flowers, mushrooms and the
+   house hide their last sliver; `checkPops` reads the cover, its
+   allowance `SHOWN_LEAST` of the drawn height plus 2 px.
+   **Decided, from the operator's play: the seam is a horizon you can
+   see.** Sinking under a ground with no edge drawn reads as burying
+   («выглядит как будто они просто прячутся в землю»). The world reads as
+   a small round planet — on a sphere the horizon is a brow in every
+   direction, and a far thing goes under it foot first, as a ship does —
+   so the cover row gets a visible brow: a lighter crest line with a
+   fringe of blades along it, standing in front of what sinks, and what
+   nears the brow pales a little into the haze before it goes under. The
+   operator: «ок, давай попробуем». Beaten: shrinking into fog alone (the
+   spec's fade mists the opening's back rows, and pushed farther it
+   pops), and leaving it as a style.
    **Found on the way: since 86503fb the forest on four screens grows
    nothing behind the opening clump** (every grown mushroom 7.8–9.8
    ahead, haze 0). The forest must still grow into the misty back rows;
