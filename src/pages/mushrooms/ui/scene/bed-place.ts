@@ -9,23 +9,28 @@
 import { pick } from '@/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
-import type { Ground, Layered } from '../../model/ground';
+import type { Ground, LayeredPoint } from '../../model/ground';
+import type { Translucent } from './ink';
 import { cull, fade, ofGround, type Placed, type View } from './view';
 
 /**
  * A thing's place on the screen this frame: where its foot stands, in CSS
- * px, the depth it is drawn at, whether it is drawn at all and how opaque.
+ * px, the depth it is drawn at, whether it is drawn at all and how opaque,
+ * and how far ahead of the eye it stands: `Infinity` while no view placed it.
  */
-export type BedPlace = Point &
-  Layered &
-  Pick<Placed, 'zoom'> & { drawn: boolean; alpha: number };
+export type BedPlace = LayeredPoint &
+  Pick<Placed, 'zoom' | 'ahead'> &
+  Translucent & { drawn: boolean };
+
+/** A bed object's place on the screen as last placed. */
+export type Standing = { stands: BedPlace };
 
 /** Where `view` draws a thing whose foot stands on `foot`. */
 export function bedPlace(view: View, foot: Ground): BedPlace {
   const placed = ofGround(view, foot);
   const alpha = fade(placed);
   return {
-    ...pick(placed, 'x', 'y', 'zoom'),
+    ...pick(placed, 'x', 'y', 'zoom', 'ahead'),
     depth: placed.y,
     drawn: !cull(placed) && alpha > 0,
     alpha,
@@ -34,7 +39,7 @@ export function bedPlace(view: View, foot: Ground): BedPlace {
 
 /** A thing drawn where the layout stands it, as no view has placed it yet. */
 export function layoutPlace({ x, y }: Point): BedPlace {
-  return { x, y, zoom: 1, depth: y, drawn: true, alpha: 1 };
+  return { x, y, zoom: 1, ahead: Infinity, depth: y, drawn: true, alpha: 1 };
 }
 
 /** A thing not drawn, as it waits for a place. */
@@ -42,6 +47,7 @@ export const UNPLACED: BedPlace = {
   x: 0,
   y: 0,
   zoom: 1,
+  ahead: Infinity,
   depth: 0,
   drawn: false,
   alpha: 1,

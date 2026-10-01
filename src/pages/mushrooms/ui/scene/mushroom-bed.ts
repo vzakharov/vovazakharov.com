@@ -31,28 +31,18 @@ import {
 import { capFrame, capSeat, splayed } from '../../model/mushroom-pose';
 import { capSurface } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import {
-  type BedPlace,
-  bedPlace,
-  layoutPlace,
-  standAt,
-  UNPLACED,
-} from './bed-place';
+import { bedPlace, layoutPlace, standAt, UNPLACED } from './bed-place';
 import { placeIn } from './clump-layout';
 import { doorInSight, standingAt } from './door-sight';
 import { tappedDoor } from './door-tap';
-import {
-  drawMushroom,
-  drawMushroomShadow,
-  drawSelection,
-  drawSelectionRing,
-  type RingGraphics,
-} from './draw-mushroom';
+import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import { containsMushroom } from './hit-areas';
 import { type Body, HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { mushroomLights } from './mushroom-light';
+import { MushroomSelection, type Selected } from './mushroom-selection';
+import { hazeAhead, repaintsDue } from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { puffFrom, puffSpores } from './spores';
 import type { Following, View } from './view';
@@ -63,12 +53,8 @@ const SPORE_DEPTH = 1e5;
 const WOBBLE_ROCK = 0.35;
 /** How much wider a shadow spreads per unit of the mushroom's squash. */
 const SHADOW_SPREAD = 0.6;
-/**
- * How much nearer than its mushroom each of its ground parts is drawn: its
- * shadow before anything standing behind it, and the selection's band
- * between the ring's edge and its yellow.
- */
-const NEARER = { shadow: -0.5, ringEdge: -0.4, band: -0.3, ringTop: -0.2 };
+/** How much nearer than its mushroom its shadow is drawn: just behind it, before anything standing behind it. */
+const SHADOW_NEARER = -0.5;
 
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 type Shown = Tapped &
@@ -76,18 +62,16 @@ type Shown = Tapped &
   Lit &
   Body &
   Pick<MushroomGenes, 'spots'> &
-  Footed & {
+  Footed &
+  Selected & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
-    hit: TapArea;
     /** Its windows and door, which follow it. */
     house: HouseView;
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
     goneAt: number;
     /** Where the layout stands its foot, in world px at the opening eye. */
     laid: Point;
-    /** Where it stands on the screen as last placed. */
-    stands: BedPlace;
   };
 
 /**
@@ -99,13 +83,7 @@ export class MushroomBed implements Following {
   private readonly shown = new Map<string, Shown>();
   /** The view it last followed; `undefined` while it stands as laid out. */
   private view: View | undefined;
-  /**
-   * The selected mushroom's band, set each frame to its graphics' own pose so
-   * it moves as the mushroom does, and its ring on the ground, which says which
-   * of two crossed mushrooms it is.
-   */
-  private readonly outline: Phaser.GameObjects.Graphics;
-  private readonly footRing: RingGraphics;
+  private readonly selection: MushroomSelection;
   private selected: string | undefined;
   /** The screen's light as it last stood, which each mushroom takes from where it stands (`mushroomLights`). */
   private lighting: Lighting | undefined;
@@ -126,11 +104,7 @@ export class MushroomBed implements Following {
     this.voice = voice;
     this.onTap = onTap;
     this.now = now;
-    this.outline = scene.add.graphics().setVisible(false);
-    this.footRing = {
-      edge: scene.add.graphics().setVisible(false),
-      band: scene.add.graphics().setVisible(false),
-    };
+    this.selection = new MushroomSelection(scene);
   }
 
   /**
@@ -195,7 +169,7 @@ export class MushroomBed implements Following {
       const now = this.lit();
       if (now) Object.assign(now, lightUp(now, clock));
     }
-    this.paintSelection();
+    this.selection.paint(this.lit());
   }
 
   /**
@@ -209,13 +183,35 @@ export class MushroomBed implements Following {
       if (shown) this.place(shown, mushroom, layout);
     }
     this.seatDoors(meadow.mushrooms, layout, (shown) => shown.house.doored);
-    this.paintSelection();
+    this.selection.paint(this.lit());
   }
 
+  /**
+   * Stands every mushroom where `view` sees its foot, and repaints the
+   * nearest few whose haze there has drifted from their paint (`repaintsDue`).
+   */
   follow(view: View): void {
     this.view = view;
-    for (const shown of this.shown.values()) this.stand(shown);
-    this.standSelection();
+    const hazing = [...this.shown.values()].flatMap((shown) => {
+      this.stand(shown);
+      const haze = this.hazeHere(shown);
+      return haze === undefined || shown.goneAt !== Infinity
+        ? []
+        : [
+            {
+              shown,
+              haze,
+              painted: shown.haze,
+              ...pick(shown.stands, 'ahead'),
+            },
+          ];
+    });
+    const lit = this.lit();
+    if (lit) this.selection.stand(lit);
+    for (const { shown, haze } of repaintsDue(hazing)) {
+      shown.haze = haze;
+      this.paintBody(shown);
+    }
   }
 
   update(t: number): void {
@@ -252,15 +248,7 @@ export class MushroomBed implements Following {
         (1 + Math.max(0, -stretch) * SHADOW_SPREAD) * grown * zoom,
         grown * zoom,
       );
-      if (id !== this.selected) continue;
-      this.outline
-        .setPosition(graphics.x, graphics.y)
-        .setScale(graphics.scaleX, graphics.scaleY)
-        .setRotation(graphics.rotation);
-      // As wide as the foot it rings, which widens as the mushroom squashes.
-      for (const ring of Object.values(this.footRing)) {
-        ring.setScale(graphics.scaleX);
-      }
+      if (id === this.selected) this.selection.pose(shown);
     }
   }
 
@@ -323,15 +311,11 @@ export class MushroomBed implements Following {
       place,
       layout.sun,
     );
-    Object.assign(shown, { genes, turn, size, haze, spots, lighting });
+    Object.assign(shown, { genes, turn, size, spots, lighting });
     shown.laid = { x, y };
     this.stand(shown);
-    shown.house.repaint();
-    shown.graphics.clear();
-    drawMushroom(shown.graphics, { ...genes, spots }, size, lighting, {
-      haze,
-      turn,
-    });
+    shown.haze = this.hazeHere(shown) ?? haze;
+    this.paintBody(shown);
     shown.shadow.clear();
     drawMushroomShadow(shown.shadow, genes, size, ground, turn);
     // Written into the hit area `show` registered, the object Phaser keeps testing.
@@ -342,6 +326,21 @@ export class MushroomBed implements Following {
     }
   }
 
+  /** Paints `shown`'s body and its house as it now stands, at its haze and light. */
+  private paintBody(shown: Shown): void {
+    const { graphics, genes, spots, size, lighting, haze, turn, house } = shown;
+    graphics.clear();
+    drawMushroom(graphics, { ...genes, spots }, size, lighting, { haze, turn });
+    house.repaint();
+  }
+
+  /** The haze where the view stands `shown`; `undefined` with no view, or out of its sight. */
+  private hazeHere({ stands }: Shown): number | undefined {
+    return this.view && stands.drawn
+      ? hazeAhead(this.view, stands.ahead)
+      : undefined;
+  }
+
   /** Stands `shown`, its shadow and its house where the view, or else the layout, puts its foot. */
   private stand(shown: Shown): void {
     const place = this.view
@@ -349,36 +348,8 @@ export class MushroomBed implements Following {
       : layoutPlace(shown.laid);
     shown.stands = place;
     standAt(shown.graphics, place);
-    standAt(shown.shadow, place, NEARER.shadow);
+    standAt(shown.shadow, place, SHADOW_NEARER);
     shown.house.stand(place);
-  }
-
-  /**
-   * The band round the selected mushroom, just behind it, and its ring over
-   * its shadow and under its stem: the ring's edge under the band, its
-   * yellow over it (`RingGraphics`).
-   */
-  private paintSelection(): void {
-    const lit = this.lit();
-    const { edge, band } = this.footRing;
-    for (const graphics of [this.outline, edge, band]) {
-      graphics.clear().setVisible(lit !== undefined);
-    }
-    if (!lit) return;
-    const { genes, size, turn, hit } = lit;
-    this.standSelection();
-    drawSelection(this.outline, hit, size);
-    drawSelectionRing(this.footRing, genes, size, turn, hit.stem);
-  }
-
-  /** Stands the selection's band and ring where the selected mushroom stands. */
-  private standSelection(): void {
-    const lit = this.lit();
-    if (!lit) return;
-    const { stands } = lit;
-    standAt(this.outline, stands, NEARER.band);
-    standAt(this.footRing.edge, stands, NEARER.ringEdge);
-    standAt(this.footRing.band, stands, NEARER.ringTop);
   }
 
   private requireLighting(): Lighting {

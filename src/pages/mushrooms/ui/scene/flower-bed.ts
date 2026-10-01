@@ -22,10 +22,10 @@ import {
 } from '../../model/motion';
 import { isBeeSown, type Sown } from '../../model/pollen';
 import {
-  type BedPlace,
   bedPlace,
   layoutPlace,
   standAt,
+  type Standing,
   UNPLACED,
 } from './bed-place';
 import { drawFlower } from './draw-flower';
@@ -44,7 +44,8 @@ import type { Following, View } from './view';
 /** `plantedAt`: `-Infinity` for a seeded flower, standing from the start. */
 type Shown = TappedFigure &
   Sprouted &
-  Centred & {
+  Centred &
+  Standing & {
     stem: Phaser.GameObjects.Graphics;
     head: Phaser.GameObjects.Graphics;
     headR: number;
@@ -55,8 +56,6 @@ type Shown = TappedFigure &
      * opening eye; `undefined` while the screen has no room for it.
      */
     laid: Pick<StandingFlower, 'foot' | 'place'> | undefined;
-    /** Where it stands on the screen as last placed. */
-    stands: BedPlace;
   };
 
 /**

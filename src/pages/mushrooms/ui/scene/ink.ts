@@ -18,6 +18,9 @@ import { PALETTE } from './palette';
 export type Lighting = Light & { hairline: number };
 export type Lighted = { lighting: Lighting };
 
+/** How opaque a thing is drawn, from 0 to 1. */
+export type Translucent = { alpha: number };
+
 /** How far a fill's own dark goes, and how much of Syama's pen it takes. */
 const INK_DARKEN = 0.6;
 const INK_COOL = 0.35;

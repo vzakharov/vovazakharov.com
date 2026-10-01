@@ -24,7 +24,7 @@ import {
 import { domeArc, footWidth, toCanvas } from '../../model/mushroom-outline';
 import { capFrame, type Splayed } from '../../model/mushroom-pose';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
-import { awayAngle, litSide, shadowFall } from './ink';
+import { awayAngle, litSide, shadowFall, type Translucent } from './ink';
 import { PALETTE } from './palette';
 
 /** How sideways a light, as its across share, gives a full side shade: about 37° off straight above. */
@@ -270,9 +270,9 @@ const SHADOW_LAYERS = [
 
 /** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
 export type ShadowLayer = Pick<Point, 'x'> &
-  Wide & {
+  Wide &
+  Translucent & {
     tall: number;
-    alpha: number;
   };
 
 /**
