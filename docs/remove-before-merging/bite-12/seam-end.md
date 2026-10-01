@@ -20,7 +20,7 @@ mushrooms' and houses', and the walk play's `checkPops`. Paths under
      (5 under the cover on ↓, at most 8.4 px over it) and phoneL (5, at
      most 4.0 px).
 
-2. (this commit) — mushrooms and houses. `mushroom-bed.ts` keeps `tall`,
+2. 1efc4d0 — mushrooms and houses. `mushroom-bed.ts` keeps `tall`,
    how far the tap area (cap, gills, stem at layout size, turned) reaches
    above the foot, written in `place` before it stands the mushroom, and
    `stand` passes it to `bedPlace`; the shadow and the house ride on the
@@ -30,9 +30,20 @@ mushrooms' and houses', and the walk play's `checkPops`. Paths under
    these screens, and the rim is at −3.5), so the hide is covered only by
    `bed-place.test.ts`'s height rule.
 
+3. A buried flower out of `inView` and taps: **holds since 1, with no
+   further code.** A flower hidden by the sliver rule has `stands.drawn`
+   false, which `inView` already requires, and its container invisible,
+   which Phaser 4's `InputManager.inputCandidate` reads up the
+   `parentContainer` chain (`willRender`), so its head takes no tap.
+
 ## Left
 
-- Optional: a buried flower out of `inView` and taps.
+- A flower still drawn past the seam (more than `SHOWN_LEAST` showing)
+  whose head is partly under the ground: a tap on the covered part of its
+  head still reaches it, since the ground takes no taps, and `inView`
+  counts it by its head's middle, which may be under the cover. Neither was
+  asked for; closing either wants the cover row in `flower-bed.ts` (a hit
+  test clipped at `groundTop + seamReach`).
 
 ## Decided
 
