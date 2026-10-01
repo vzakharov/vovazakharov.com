@@ -17,6 +17,7 @@ import {
   isShown,
   nearerSide,
   type Onscreen,
+  outFirst,
   outOfView,
   shownOf,
 } from './flight-in';
@@ -146,6 +147,23 @@ describe('a released insect', () => {
   it('flies out of view, with no open perch in it, within ARRIVAL and half its leg', () => {
     assert.equal(outOfView({ departs: 1000, arrives: 9000 }), ARRIVAL);
     assert.equal(outOfView({ departs: 1000, arrives: 2000 }), 500);
+  });
+
+  it('flies the rest of a first leg out of view first as long as the leg took', () => {
+    for (const arrives of [1200, 2000, 2500, 9000]) {
+      const leg = {
+        from: { kind: 'away', side: 'left' },
+        to: { kind: 'flower', id: 'flower-0' },
+        departs: 1000,
+        arrives,
+        leaves: arrives + 3000,
+      } as const;
+      const lengthened = outFirst(leg);
+      const rest =
+        lengthened.arrives - lengthened.departs - outOfView(lengthened);
+      assert.equal(rest, arrives - 1000, String(arrives));
+      assert.equal(lengthened.leaves - lengthened.arrives, 3000);
+    }
   });
 
   it('flies slower than its arrival once it has landed, a butterfly', () => {

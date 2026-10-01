@@ -57,11 +57,23 @@ export function arriving(leg: Leg): Leg {
 
 /**
  * How long, in ms, a released insect with no open perch in view takes to
- * fly across it and out by its side, on a first leg `leg`: as long as an
- * arrival at most, and half the leg, so the rest of the way is still flown.
+ * fly across it and out by its side, on a first leg `leg` (`outFirst`): as
+ * long as an arrival at most, and half the leg, so the rest of the way is
+ * still flown.
  */
 export function outOfView({ departs, arrives }: Span): number {
   return Math.min(ARRIVAL, (arrives - departs) / 2);
+}
+
+/**
+ * `leg`, timed from the screen's edge to a perch the screen does not show,
+ * lengthened by the stretch flown out of view first, so `outOfView` of it is
+ * that stretch and the rest of the way still takes as long as `leg` did, at
+ * the kind's cruise; its stay after it as long as it was.
+ */
+export function outFirst(leg: Leg): Leg {
+  const out = Math.min(ARRIVAL, leg.arrives - leg.departs);
+  return { ...leg, arrives: leg.arrives + out, leaves: leg.leaves + out };
 }
 
 /**

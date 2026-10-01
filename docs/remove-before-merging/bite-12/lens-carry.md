@@ -41,6 +41,16 @@ the leg arrives. 28 779 legs.
    Kept the value `drop-in.md` took; a smaller share hides less, measured
    above, for the orchestrator.
 
+3. **A no-perch first leg is lengthened** (`outFirst` in `flight-in.ts`,
+   used by `firstFlight` when the screen shows no open perch): by
+   `min(ARRIVAL, leg)`, so `outOfView` of the lengthened leg is exactly the
+   added stretch and the rest, past the screen's side to the perch in the
+   world, takes as long as the model timed it from the screen's edge, at the
+   kind's cruise. Before, that rest flew `T − min(ARRIVAL, T / 2)` of the
+   leg's `T`: 1.6–2.7× its cruise for a butterfly (`T` 2.4–3.9 s), 2× for
+   a fly or bee under 3 s. Not a lens matter (the timing is the model's), so
+   nothing to re-measure on the screen. `flight.ts` stands at 461 lines.
+
 ## Left
 
-3–6 of the package, `fliers.test.ts`, the frames.
+4–6 of the package, `fliers.test.ts`, the frames.
