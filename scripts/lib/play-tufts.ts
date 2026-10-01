@@ -46,12 +46,14 @@ const PLANTING = `(() => {
 })()`;
 
 /**
- * Every tuft's middle on screen, where the last frame drew it, that a tap
+ * Every tuft's middle on screen — a tuft is drawn while its blades reach
+ * over the edge, its middle past it — where the last frame drew it, that a tap
  * reaches bare — no mushroom, flower, insect or button over it — the farthest
  * first.
  */
 const TUFTS = `__probe.scene.grass.shown.near
   .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))
+  .filter(({ x, y }) => x >= 0 && x <= innerWidth && y >= 0 && y <= innerHeight)
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;
 
@@ -66,6 +68,21 @@ const NEWEST = `(() => {
     shown: shown.container.visible,
     head: __probe.toScreen({ x: at.tx, y: at.ty }),
   };
+})()`;
+
+/**
+ * What a tap at a screen point lands on in the grass, as the scene's own
+ * `tapMeadow` judges it, and whether that tuft takes a flower: a refused
+ * tap's failure says which of the two turned it away.
+ */
+const tuftAt = (at: z.infer<typeof Point>) => `(() => {
+  const world = __probe.toWorld(${JSON.stringify(at)});
+  const sprout = __probe.scene.grass.at(world);
+  const refused = __probe.scene.grass.refused;
+  return sprout === undefined
+    ? 'no tuft there'
+    : 'a tuft at (' + sprout.tuft.x.toFixed(0) + ', ' + sprout.tuft.y.toFixed(0) + ') in its layout' +
+      (refused?.tuft === sprout.tuft ? ', which shook its head' : '');
 })()`;
 
 /** A stage's buttons where they stand. */
@@ -92,7 +109,11 @@ export async function playTufts(
   if (far) {
     await page.tap(far);
     await page.step(30);
-    expect((await planting()).open, 'the farthest tuft refused a flower');
+    const landed = await page.evaluate(tuftAt(far), z.string());
+    expect(
+      (await planting()).open,
+      `the farthest tuft, at (${far.x.toFixed(0)}, ${far.y.toFixed(0)}), refused a flower: the tap reached ${landed}`,
+    );
     await page.shoot('tuft-0-far');
     await page.tap(far);
     await page.step(20);
@@ -113,7 +134,14 @@ export async function playTufts(
     expect(false, `none of ${String(near.length)} tufts opened the picker`);
     return;
   }
-  expect(opened === near[0], 'the nearest tuft refused a flower');
+  const [nearest] = near;
+  if (nearest && opened !== nearest) {
+    const landed = await page.evaluate(tuftAt(nearest), z.string());
+    expect(
+      false,
+      `the nearest tuft, at (${nearest.x.toFixed(0)}, ${nearest.y.toFixed(0)}), refused a flower: the tap reached ${landed}`,
+    );
+  }
   const before = await planting();
   expect(!before.chosen, 'the picker opened past its colours');
   await page.shoot('tuft-1-colours');
