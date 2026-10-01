@@ -39,8 +39,32 @@ tablet shows 19.7 sizes across.
 
 ## Step 2 — timed by drawn length
 
-Not started.
+- `Place = Point & { q }` (`flight.ts`); `Places` maps names to it.
+  `perchSight` sets `q` per perch from its foot row (`footRows`, the air and
+  the away spots over `clumpRow`). The seam is `perchDistance(layout, row)`
+  in `perch-sight.ts`: today `rowAt(layout.camera, row).opening`; the view
+  package swaps the eye's distance in there. `shownOf`'s edges carry `q`.
+- `apartIn` returns layout length × `logMean(q0, q1) / CLUMP_DISTANCE`. It
+  also drives `nextPerch`'s nearness weighting, so a far pair weighs a
+  little nearer-to-equal than before.
+- R2.4 calls the logmean "the 1/q mix's exact mean"; it is not — with
+  `1/q` mixed evenly the exact chord mean is q0·q1·ln(q1/q0)/(q1−q0), below
+  the logmean. Over the depths perches stand at (0.9–1.5× the clump on
+  tablet, desktop and phone) the two differ ≤ 2.1%, so the straight-chord
+  seen speed is 0.98–1.0× cruise and R2.4's measured 1.0–1.1 (bows
+  included) holds. Kept the logmean as specified; docstring says so.
+- Probe (5 visits with forest, perch-to-perch): tablet drawn legs median
+  11.4, longest 42.7 sizes → longest fly 6.1 s, bee 9.3 s, butterfly
+  44.9 s; desktop longest 46.8 (fly 6.7, bee 10.2, butterfly 49.3 s).
+
+## Step 3 — tests
+
+In `flight.test.ts`: twice the way twice the time per kind; seen speed over
+a straight way between depths 0.9–1.5× clump within 0.97–1.0× cruise
+(exactly 1.0 at one depth). `perch-sight.test.ts`: every place's `q` is its
+foot row's opening distance.
 
 ## Left
 
-Step 2, step 3's depth test.
+`fliers.test.ts` result (see the report); play on the tablet to judge the
+cruise numbers and the dash shapes.

@@ -5,6 +5,7 @@
 
 import type { Leg, Perch, Places, Sight, Timed } from './flight';
 import type { Dash, Habits } from './flight-habits';
+import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
@@ -17,16 +18,31 @@ export type Placed = Pick<Sight, 'places'>;
  */
 export type Span = { departs: number; arrives: number; dash?: Dash };
 
-/** How far apart `places` puts two perches, `undefined` where it places either nowhere. */
+/**
+ * The logarithmic mean of two distances: a touch over the mean of `q` along
+ * a straight way between them with `1 / q` mixed evenly, as a leg's frame
+ * mixes it — within 2% over the depths perches stand at, short of the
+ * length a leg's bow adds.
+ */
+function logMean(a: number, b: number): number {
+  return Math.abs(b - a) < 1e-9 * a ? a : (b - a) / Math.log(b / a);
+}
+
+/**
+ * How far apart `places` puts two perches as an insect flying between them
+ * is drawn, in butterfly sizes where it is: the length across the layout,
+ * the more the farther from the eye the way runs (`Place`); `undefined`
+ * where it places either nowhere.
+ */
 export function apartIn(
   places: Places | undefined,
   a: Perch,
   b: Perch,
 ): number | undefined {
   const [here, there] = [places?.[perchName(a)], places?.[perchName(b)]];
-  return here && there
-    ? Math.hypot(there.x - here.x, there.y - here.y)
-    : undefined;
+  if (!here || !there) return undefined;
+  const across = Math.hypot(there.x - here.x, there.y - here.y);
+  return (across * logMean(here.q, there.q)) / CLUMP_DISTANCE;
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {
