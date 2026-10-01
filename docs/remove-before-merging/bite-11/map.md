@@ -24,7 +24,7 @@ edges as the world's edge, and the sky/HUD that must stay fixed.
   (:252–302) builds camera, frame, controls, sun, clouds (screen fractions,
   :287), insect sizes; cached by `width height shown` (`stoodMeadow` :224).
 - `meadow-scene.ts` `paint` (:403–438) calls `meadowLayout(…, this.opening,
-  this.used())`; `used()` (:441) reads `usedIn` (`flower-plots.ts:198`).
+this.used())`; `used()` (:441) reads `usedIn` (`flower-plots.ts:198`).
 - Ground-placed (through the camera): mushrooms (`mushroom-bed.ts:296`,
   `setDepth(y)`), flowers (`groundOf` `flower-plots.ts:154–176`,
   `flower-bed.ts:103`), tufts (`tendTufts`/`relaid` `tufts.ts:225–288`), the

@@ -64,7 +64,6 @@
   paint (every dispatch): a pan with the flower picker open leaves it
   folding back to where the tuft stood on screen then.
 
-
 ## Decided
 
 - A press on anything fixed on the screen (scroll factor 0 — every control

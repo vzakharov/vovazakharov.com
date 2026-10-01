@@ -51,7 +51,7 @@ export function faceFrame({ x, y, r }: Circle, ratio: number): FaceFrame {
  * picture on a dense screen passes the 4096 an older phone allows, so it is
  * baked as columns this wide at most, side by side.
  */
-export const WIDEST_TEXTURE = 2048;
+const WIDEST_TEXTURE = 2048;
 
 /**
  * The columns, in texels, that a picture `width` texels wide is baked in,

@@ -57,7 +57,7 @@ export type Band = { frequency: number; q: number };
 export type TonePart = Swell & { lowpass?: Band };
 
 /** White noise through a bandpass, enveloped. */
-export type HissPart = Envelope & Band;
+type HissPart = Envelope & Band;
 
 /** What a voice is made of, which `playParts` plays and the tests measure. */
 export type Part =
@@ -202,7 +202,7 @@ function playHiss(context: AudioContext, out: AudioNode, hiss: HissPart): void {
 }
 
 /** Plays `parts` together, each from the context's current time. */
-export function playParts(parts: readonly Part[]): Voice {
+function playParts(parts: readonly Part[]): Voice {
   return (context, out) => {
     for (const part of parts) {
       if (part.kind === 'hiss') {

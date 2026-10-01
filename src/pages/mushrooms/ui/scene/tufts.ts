@@ -110,7 +110,7 @@ export function tuftAt(
  * The foot on the ground a flower planted on `tuft` stands on, as `camera`
  * shows the tuft: at its root, in a seeded flower's size.
  */
-export function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
+function tuftFoot(camera: Camera, { x, y }: Tuft): FlowerFoot {
   return { ...groundOf(camera, { x, y, size: 0 }), size: FLOWER_SIZE };
 }
 

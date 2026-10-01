@@ -43,25 +43,25 @@ import {
  * and shows at least `BACK_CAP_SHOWN` of itself, on a short screen under the
  * zoom floor (`floorOn`) a crescent that holds little more.
  */
-export const CLUMP_PATCH = 12;
+const CLUMP_PATCH = 12;
 /**
  * The least radius, in CSS px, of the disc the patch of each mushroom the
  * forest grows holds, which growth keeps (`roomFor`): the most that still
  * leaves room for six mushrooms in almost every visit (`LEAST_FULL`).
  */
-export const GROWN_PATCH = 16;
+const GROWN_PATCH = 16;
 /** How far apart the middles of the discs tried for a patch are, in CSS px. */
 const TRY_STEP = 3;
 /** How many points each of a disc's two rings is tried at, beside its middle. */
 const RING_POINTS = 12;
 
 /** The least radius of the patch the mushroom standing on `foot` keeps. */
-export function patchFloor(foot: Ground): number {
+function patchFloor(foot: Ground): number {
   return openingIndex(foot) === undefined ? GROWN_PATCH : CLUMP_PATCH;
 }
 
 /** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
-export type FlowerTap = Point & FlowerReach & { depth: number };
+type FlowerTap = Point & FlowerReach & { depth: number };
 
 /** A mushroom as its patch is sought: how a tap finds it, and where on screen to seek. */
 export type PatchTarget = MushroomTarget & {
@@ -152,7 +152,7 @@ export function patchlessIn(
 }
 
 /** Every flower standing in `stand`, as a tap finds its head. */
-export function flowerTaps({
+function flowerTaps({
   layout,
   flowers,
   planted,
@@ -239,7 +239,7 @@ function discOf(radius: number): Point[] {
  * `target` takes a tap in, nearest its head's middle; `undefined` where
  * none is.
  */
-export function patchOf(
+function patchOf(
   target: PatchTarget,
   tapped: Tapped,
   radius: number,

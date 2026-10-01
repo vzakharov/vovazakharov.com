@@ -31,7 +31,7 @@ const TRIANGLE = Array.from({ length: 16 }, (_, index) => {
 const SINE = [{ n: 1, amplitude: 1 }];
 
 /** A biquad's power gain at `f`, from the Audio EQ Cookbook as Web Audio uses it (a lowpass's Q in dB). */
-export function biquadPower(
+function biquadPower(
   type: 'lowpass' | 'bandpass',
   { frequency, q }: Band,
   f: number,

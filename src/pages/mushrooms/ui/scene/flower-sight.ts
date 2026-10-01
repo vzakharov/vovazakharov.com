@@ -42,7 +42,6 @@ import {
   standingFlowers,
 } from './flower-plots';
 import type { Footing, MeadowLayout } from './layout';
-import { standingControls } from './sky-layout';
 import { tapReach } from './tap-reach';
 
 /**
@@ -202,14 +201,6 @@ export function perLayout<Measured extends object>(
 export function flowerTapReach(r: number): number {
   return tapReach(r * 1.2);
 }
-
-/** Every control's tap circle, as far as a finger reaches it. */
-export const tapCircles = perLayout((layout): readonly Circle[] => {
-  const { picker, housePicker } = layout;
-  return [...standingControls(layout), ...picker, ...housePicker].map(
-    (circle) => ({ ...circle, r: tapReach(circle.r) }),
-  );
-});
 
 /** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
 export type Cover = Pick<Standing, 'depth'> & {

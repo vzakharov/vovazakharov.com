@@ -84,12 +84,14 @@ was present for part of it:
    thing dips at once, and everything irreversible fires on a lift inside the
    slop or after 150 ms of rest. It also offered pan only from bare grass as
    an alternative.
+
 2. > Read mushroom-game-syama.paused.md (20–91, 855–967)
    >
    > ого его раздуло. надо разбивать
 
    The agent split the plan: an index file plus `mushroom-game-syama/` with
    `decisions.md` and `bite-01.md` … `bite-11.md`.
+
 3. > Единственное место, где 100 мс могли бы чувствоваться, — цветы-инструмент в быстром ритме. Но быстрый ритм — это короткие тапы, а они срабатывают на отпускании.
    >
    > не, при игре 100мс это уже ощутимая (и неприятная) задержка (говорю как человек выросший на софтовых эмуляторах гитарных педалек). сейчас я поиграюсь с тем, как есть, может оно и норм
@@ -97,17 +99,20 @@ was present for part of it:
    The operator quoted the agent's claim before answering. The agent held the
    taps group back and offered a compromise: flowers sound on the press, the
    rest waits for the lift.
+
 4. > проверил, текущая механика -- норм. про разбитый файл надо где-то записать, а то ты сделать сделал, а как решение не оформил
 
    Taps stay on the press, with the review's ask declined and recorded in
    bite-11.md. The split became a rule in `elephant.md`, a step in the
    plan's loop, and a megabeast note.
+
 5. > > `## Eaten so far` cut to an index, one row per bite pointing at `docs/plans/<slug>/bite-<nn>.md`
    >
    > помимо индекса должен быть саммари того, что сделано за все куски, фиксированного размера (какого именно не уточняется, но так чтобы весь файл был не больше 400 строк) -- в конце каждого байта редактируется, а не дополняется
 
    The rule now says this. A subagent wrote the summary (9d85db9) and the
    agent read it.
+
 6. > по слону, пока ещё тут: разбивать нужно когда >450 до <400 -- чтобы был какой-то гистерезис, иначе агенты будут бесконечно урезать по крупицам
 
    This went into elephant.md in a079429: split past 450,
