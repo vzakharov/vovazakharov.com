@@ -382,6 +382,11 @@ it (the complaint stands). **Decided, with the operator: `ARRIVAL` goes**
 («убрать»): a tapped release's first leg to a perch on screen flies at the
 kind's cruise like any other, so a far flower may take 3–4 s, calmly.
 Beaten: keeping the 1.5 s cap (a release to a far flower races).
+**Decided, from C's tabL play (`ip-jump.md`): a fly's one-frame step is
+held to its own size** (`step / zoom` ≤ 1.1 × its dash cap), so a dash near
+the eye flicks up to ~100 px drawn by perspective alone. Beaten: a lower dash
+cap (reopens `dash-cap.md`, every fly leg slower); a drawn dash slowed by the
+zoom (the view re-timing legs the model sets).
 
 **Left, in order:**
 
