@@ -56,3 +56,18 @@ is real time, so a frame the browser runs late (the phoneP frame median is
 step over a frame longer than 16.7 ms to a 60 fps frame's share of it, logs how
 many were, and logs each worst step's frame time — the bound stays the
 curve's, per frame.
+
+## Left (stopped on the context budget)
+
+- **3. Flower planting looking back — untraced.** Read so far: `perchesBack`
+  taps the nearest tuft that opens the picker, then the _first_ colour and the
+  _first_ shape (`buttonsOf(...)[0]`), where `play-tufts.ts` taps colour 0 and
+  shape 2 on a tuft facing 0. The colour and shape stages are laid out from
+  the tuft (`controls.ts` `stages.colours` / `stages.shapes`, painted at
+  `this.tuft`), and at the landing heading the tuft is at the screen's edge,
+  so the lead is a first button laid off screen (tap lands nowhere, `chosen`
+  never set). Next: log `coloured.chosen` and the buttons' points after each
+  tap, and the screen width, in `perchesBack`.
+- **4. The rerun** (build, veer play tabL then phoneP), its table, frames:
+  not run; the walked-frame and late-frame logging of step 2 is untested in
+  the page.
