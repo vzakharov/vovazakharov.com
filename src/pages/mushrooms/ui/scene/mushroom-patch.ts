@@ -40,9 +40,9 @@ import {
 
 /**
  * The least radius, in CSS px, of the disc the opening clump's own patch
- * holds, on every screen: its back cap is crossed by the front one by design
- * and shows at least `BACK_CAP_SHOWN` of itself, on a short screen under the
- * zoom floor (`floorOn`) a crescent that holds little more.
+ * holds on a tablet held sideways: its back cap is crossed by the front one
+ * by design and shows at least `BACK_CAP_SHOWN` of itself, on a short screen
+ * under the zoom floor (`floorOn`) a crescent that holds little more.
  */
 const CLUMP_PATCH = 12;
 /**
@@ -53,11 +53,12 @@ const CLUMP_PATCH = 12;
  */
 const GROWN_PATCH = 16;
 /**
- * The least `grownPatch` on any screen: a phone held sideways draws its far
- * caps too small for more and still grow the forest to six.
+ * The least patch on any screen: a phone held sideways draws its far caps,
+ * and the clump's back one, too small for more and still grow the forest to
+ * six.
  */
-const LEAST_GROWN_PATCH = 8;
-/** The clump's size on the tablet held sideways `GROWN_PATCH` is set on. */
+const LEAST_PATCH = 8;
+/** The clump's size on the tablet held sideways the patches are set on. */
 const TABLET_UNIT = meadowCamera(1180, 820).unit;
 /** How far apart the middles of the discs tried for a patch are, in CSS px. */
 const TRY_STEP = 3;
@@ -65,20 +66,24 @@ const TRY_STEP = 3;
 const RING_POINTS = 12;
 
 /**
- * The least radius of a grown mushroom's patch where `camera` shows the
- * meadow: `GROWN_PATCH`, shrunk with the size the camera draws the clump at
- * below a tablet's, down to `LEAST_GROWN_PATCH`.
+ * A patch `tablet` px wide on a tablet held sideways, where `camera` shows
+ * the meadow: shrunk with the size the camera draws the clump at below a
+ * tablet's, down to `LEAST_PATCH`, and never grown past `tablet`.
  */
-function grownPatch({ unit }: Camera): number {
-  return Math.min(
-    GROWN_PATCH,
-    Math.max(LEAST_GROWN_PATCH, (GROWN_PATCH * unit) / TABLET_UNIT),
-  );
+function scaledPatch(tablet: number, { unit }: Camera): number {
+  return Math.min(tablet, Math.max(LEAST_PATCH, (tablet * unit) / TABLET_UNIT));
+}
+
+/** The least radius of a grown mushroom's patch where `camera` shows the meadow. */
+function grownPatch(camera: Camera): number {
+  return scaledPatch(GROWN_PATCH, camera);
 }
 
 /** The least radius of the patch the mushroom standing on `foot` keeps where `camera` shows it. */
 function patchFloor(foot: Ground, camera: Camera): number {
-  return openingIndex(foot) === undefined ? grownPatch(camera) : CLUMP_PATCH;
+  return openingIndex(foot) === undefined
+    ? grownPatch(camera)
+    : scaledPatch(CLUMP_PATCH, camera);
 }
 
 /** A flower's head as a tap finds it, on screen (`flowerTakes`), and how near the front it stands. */
