@@ -6,7 +6,7 @@ foot. Paths under `src/pages/mushrooms/ui/scene/`.
 
 ## Done
 
-1. The rule (`view.ts` `sunk`, `buried`): a thing whose foot lies past
+1. c3acaa50 — the rule (`view.ts` `sunk`, `buried`): a thing whose foot lies past
    `D_SEE` is drawn sunk below the ground's top row by as much as its foot
    would stand above it (`y + 2·F·E·(1/D_SEE − 1/ahead)`), so its foot is
    never above the ground's top row, which every near crest stands above
