@@ -618,6 +618,27 @@ That is a wider view itself, not the patch: at a wider angle the circle of
 equal distance dips harder at the sides. Put to the operator with the
 frames: accept the rounder brow, a smaller cut (`DEPTH_SHARE` 0.7–0.8), or
 a straight brow (beaten before, see "the brow is round").
+The operator: «не, это конечно выглядит не айс».
+
+**Re-decided: a panoramic lens with a bent screen, as games with a round
+horizon do (Animal Crossing's rolling world).** A wide pinhole dips a near
+circle at its sides; the brow's roundness has to stop coming from the field
+of view. So across, a screen is linear in azimuth (`x = c · azimuth`, a
+cylinder), rows go by distance rather than depth along the heading, so the
+circle `D_SEE` is a straight row and every row is turn-invariant, and the
+whole ground is then bent down toward the screen's sides by a fixed
+screen-space curve, today's brow curve (`hypot(1, dx / focal)` at today's
+focal), so the opening's roundness is today's. **A full turn is 4 screens
+on tabL** («каждый "экран" направо это поворот: восток-юг-запад-опять
+север»): the meadow's angles widen by one factor everywhere (the world is
+one), which gives the other screens their own count (portrait ≈ 9.5, phoneL
+≈ 2.7), and the turn's slide in px stays. The clump and the middle stay;
+things at the opening's sides draw inward (≈ 15% at tabL's edge, more on
+phoneL) — **a probe first**: the opening on tabL, phoneL and phoneP beside
+HEAD's, and tabL after a quarter turn, before anything is built (the
+operator: «про пробу — ок»). Beaten: the half-depth pinhole (above), a
+brow drawn at the old focal over a wider pinhole (what sinks would ride up
+and down as the child turns).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
