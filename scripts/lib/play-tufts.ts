@@ -46,11 +46,11 @@ const PLANTING = `(() => {
 })()`;
 
 /**
- * Every tuft's middle on screen a tap reaches bare — no mushroom, flower,
- * insect or button over it — the farthest first.
+ * Every tuft's middle on screen, where the last frame drew it, that a tap
+ * reaches bare — no mushroom, flower, insect or button over it — the farthest
+ * first.
  */
-const TUFTS = `__probe.scene.grass.tufts
-  .filter(({ tuft: { x } }) => __probe.shows(x))
+const TUFTS = `__probe.scene.grass.shown.near
   .map(({ tuft: { x, y, size } }) => __probe.toScreen({ x, y: y - size }))
   .filter((point) => __probe.topAt(point) === null)
   .sort((a, b) => a.y - b.y)`;

@@ -114,7 +114,7 @@ export async function playSpecies(
     const [gap] = band.gaps;
     expect(
       gap === undefined,
-      `the ${species}'s band leaves ${String(band.gaps.length)} gaps, the first on its ${String(gap?.outline)} at point ${String(gap?.index)}`,
+      `the ${species}'s band leaves ${String(band.gaps.length)} gaps, the first on its ${String(gap?.outline)} at point ${String(gap?.index)}, (${String(gap?.x.toFixed(0))}, ${String(gap?.y.toFixed(0))}) in the world, drawn ${String(gap?.rgb.join(' '))}`,
     );
     note(
       `the ${species}'s band: ${band.outlines.map(({ outline, sampled, first }) => `${outline} ${String(sampled)} samples${first ? ', its first point one' : ''}`).join('; ')}`,

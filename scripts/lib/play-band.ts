@@ -55,6 +55,7 @@ function source(
   return `(() => {
   const scene = window.__game.scene.scenes[0];
   const { bed } = scene;
+  const { outline, footRing } = bed.selection;
   const lit = bed.shown.get(${JSON.stringify(id)});
   // Graphics commands: the ids and argument counts Phaser records them with.
   const ARGS = { 1: 0, 2: 0, 4: 2, 5: 2, 6: 3, 9: 0 };
@@ -98,7 +99,7 @@ function source(
   const clear = ${String(clear)};
   const samples = [];
   const outlines = [];
-  for (const [name, graphics] of [['band', bed.outline], ['ring', bed.footRing.band]]) {
+  for (const [name, graphics] of [['band', outline], ['ring', footRing.band]]) {
     const { width, paths } = stroked(graphics);
     const matrix = graphics.getWorldTransformMatrix();
     const out = ${String(OUT)} * width / 2;
@@ -140,18 +141,26 @@ function source(
       outlines.push({ outline, sampled, first });
     });
   }
-  const keep = new Set([bed.outline, ...Object.values(bed.footRing), lit.graphics, lit.house.graphics]);
+  const keep = new Set([outline, ...Object.values(footRing),lit.graphics, lit.house.graphics]);
   const hidden = scene.children.list.filter(
     (object) => object.visible && object.depth > lit.shadow.depth && !keep.has(object),
   );
-  for (const object of hidden) object.setVisible(false);
+  // The view places each frame what it shows, visible or not (\`bed-place.ts\`),
+  // so each hidden object's own \`setVisible\` is held off for the drawn frame.
+  for (const object of hidden) {
+    object.setVisible(false);
+    object.setVisible = () => object;
+  }
   window.__game.step(scene.clock * 1000, 0);
   const canvas = window.__game.canvas;
   const copy = document.createElement('canvas');
   [copy.width, copy.height] = [canvas.width, canvas.height];
   const context = copy.getContext('2d', { willReadFrequently: true });
   context.drawImage(canvas, 0, 0);
-  for (const object of hidden) object.setVisible(true);
+  for (const object of hidden) {
+    delete object.setVisible;
+    object.setVisible(true);
+  }
   window.__game.step(scene.clock * 1000, 0);
   // From the world, where the scene lays things out, to the canvas's own pixels.
   const camera = scene.cameras.main.matrixCombined;
