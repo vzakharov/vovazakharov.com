@@ -860,13 +860,37 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
     а там уже ребёнок сам будет водить влево-вправо"). It supersedes item
     10's 14-flower cap, the turn's refit and `layout.ts`'s `perchedOn`. What the next
     bites build on:
-    - `model/pan.ts` is the crop's pure state: a 10 CSS px slop, 1:1
-      follow, a glide timed by the events' own timestamps, soft ends, and a
+    - `model/pan.ts` is the crop's pure state: a 24 CSS px slop, 1:1
+      follow, a glide timed by the events' own timestamps, hard ends, and a
       resize keeping the ground point at the screen's centre. A held `←` or
       `→` turns the meadow like a shooter's keyboard turn, only slower —
       eased in, a steady cruise in screen widths a second, eased out on
       release — never in steps («курсорами -- как-то дёрганно. Должен быть
-      плавный, умеренно медленный поворот»). `pan-input.ts`'s `Crop` is the one screen↔world
+      плавный, умеренно медленный поворот»). Decided at bite 11's review
+      (5373085053):
+      - **A press is a tap only if it never becomes a pan.** On the press
+        the thing under the finger answers only with what can be taken
+        back — it dips, and springs back if the finger pans. Everything
+        that cannot be taken back (selection, sound, spores, a picker, a
+        planting, a deselect) waits for the lift inside the slop, or for
+        150 ms of the finger resting inside it, whichever comes first; a
+        press that crosses the slop first never taps. Beat tapping on the
+        press and undoing on a pan, since a sound or a puff cannot be
+        undone. The operator asked whether every answer then comes late
+        («получается, каждая реакция при нажатии на что-то будет
+        "запоздалой"?»): only the part that cannot be undone, and a
+        child's tap (100–200 ms) lifts before the 150 ms mostly do.
+      - **The slop is a child's drift**, 24 px (the review measured taps
+        drifting 11–24 px), not 10: a wobbly tap still taps. Past it the
+        ground lags the finger by the slop, never by the first step's
+        size, and a release glides only on the velocity measured after
+        the crossing.
+      - **Hard ends, not a rubber band.** A drag stops at a world end and
+        drops the finger's overshoot, so reversing moves the crop at once.
+      - **Keys and fingers add up.** Both arrows held cancel to a stand
+        without dropping either; letting one go turns the other way, and a
+        finger pressed and lifted while a key is held leaves the key
+        turning. `pan-input.ts`'s `Crop` is the one screen↔world
       home. The layout is computed once per screen size for the whole
       world and `cameras.main.scrollX` is the crop, so a pan never makes a
       new `MeadowLayout`. The zoom is the screen's, capped to show the
@@ -879,6 +903,15 @@ promises a flower that cannot grow, and the child meets one "no" fewer.
       along the whole stretch the pan brings under it, the range pressed
       down by a smooth envelope rather than cut level, so it rolls on
       below the disc with no plateau or shoulder (`skyline.ts`).
+    - One world across every screen, in ground units, so a turn keeps
+      every mushroom's ground; the cost is accepted (bite 11's review,
+      thread 7). A phone held sideways shows ~81% of the world at once and
+      pans only ~200 px, since it already sees nearly the whole meadow;
+      widening the world for it would thin the portrait worlds further.
+      Those span 4.3–4.45 screens, and away from the clump a child finds
+      flowers to play and tufts to plant, with room where `+` grows a
+      mushroom inside the crop: the empty stretches are the forest's room
+      to grow.
     - Twelve mushrooms over the world, at least six on the opening crop in
       every visit. `roomFor(stand, seed, crop?)` grows `+` wholly inside
       the crop, clear of the controls where they stand; a cap or a tuft a
