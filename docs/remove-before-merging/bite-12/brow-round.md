@@ -153,6 +153,13 @@ the flat slab across the sky and hills at y ≈ 615 is gone.
   a flower pales by the same distance it sinks by. One line; applied in the
   frames' worktree. Until it lands a flower at the side pales a little less
   than it sinks.
+- `brow-round-tufts-test.patch`: `tufts.test.ts` "draws every tuft at the
+  opening as laid out" asserts no tuft sinks at the opening; on tablet,
+  phone held sideways and desktop a grown tuft laid past the circle by the
+  screen's side now does (as the opening's flowers do, below). The patch
+  checks that what sinks is past the brow instead. **Red without it** (3
+  tests); `tufts.test.ts` is with the tufts' owner, so it is not applied.
+- Every other scene test file green at 085175dd, `fliers.test.ts` included.
 
 ## Decided
 

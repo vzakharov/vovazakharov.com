@@ -1,0 +1,26 @@
+diff --git a/src/pages/mushrooms/ui/scene/tufts.test.ts b/src/pages/mushrooms/ui/scene/tufts.test.ts
+index f1cca206..54b4fdbf 100644
+--- a/src/pages/mushrooms/ui/scene/tufts.test.ts
++++ b/src/pages/mushrooms/ui/scene/tufts.test.ts
+@@ -29,7 +29,7 @@ import {
+   tuftAt,
+   tuftReach,
+ } from './tufts';
+-import { cull, ofGround, viewAt } from './view';
++import { behindHills, cull, ofGround, viewAt } from './view';
+ import { FLOOR_HELD, VIEWPORTS } from './viewports';
+ import { type Opened, opened, relaidOn } from './visit-play';
+ 
+@@ -115,7 +115,11 @@ describe('shownSprouts', () => {
+     it(`draws every tuft at the opening as laid out, on a ${name} screen`, () => {
+       const view = viewAt(layout.camera, OPENING_EYE);
+       const { near, behind } = shownSprouts(view, grown);
+-      assert.equal(behind.length, 0);
++      // Only what is laid past the brow, which curves below the ground's top
++      // row toward the screen's sides, sinks at the opening.
++      for (const { sprout } of behind) {
++        assert.ok(behindHills(ofGround(view, sprout.foot)));
++      }
+       assert.ok(near.length > 0);
+       for (const {
+         tuft,
