@@ -9,6 +9,7 @@
 import type { Point } from '../../model/geometry';
 import {
   type Camera,
+  CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
   type Ground,
@@ -38,9 +39,12 @@ export type Following = { follow: (view: View) => void };
 /**
  * How near the eye, in the clump's size, a thing is no longer drawn: every
  * mushroom's head has sunk below the screen's foot by then, so hiding it
- * never pops.
+ * never pops. As far out as that holds (the tallest head leaves the foot at
+ * about 0.61 of `CLUMP_DISTANCE`), because a mushroom below the foot still
+ * costs the frame its drawing: walking into the forest under the software
+ * rasterizer keeps the 26 ms budget only from about 0.58 on.
  */
-export const V_NEAR = 2;
+export const V_NEAR = 0.58 * CLUMP_DISTANCE;
 
 /**
  * How far from the eye, in the clump's size, the meadow's brow stands: the
