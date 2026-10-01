@@ -12,12 +12,12 @@ import {
   farSkyline,
   farthestRange,
   farthestSkyline,
-  HILL_DETAIL,
   HILL_STEPS,
   hillBands,
   litRidge,
   nearSkyline,
   partedUnderSun,
+  PATH_SKIP,
 } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
 import { viewAt } from './view';
@@ -86,7 +86,10 @@ describe('the hill bands', () => {
               (total, { outline }) => total + area(outline),
               0,
             );
-            assert.ok(Math.abs(sum - whole) < whole * 1e-9 + 1e-6);
+            // A band's last point dropped before its corner (`PATH_SKIP`)
+            // trims at most a sliver a sample wide.
+            const sample = (line[1]?.x ?? 0) - (line[0]?.x ?? 0);
+            assert.ok(Math.abs(sum - whole) < 16 * sample * PATH_SKIP + 1e-6);
             const top = Math.min(...line.map(({ y }) => y));
             for (const { outline } of bands) {
               for (const { y } of outline) assert.ok(y >= top - 1e-9);
@@ -99,6 +102,9 @@ describe('the hill bands', () => {
     });
   }
 });
+
+/** The game's `pathDetailThreshold`, Phaser's default, in device px. */
+const PHASER_DETAIL = 1;
 
 /**
  * `outline` in device px at `ratio`, as Phaser's fill keeps it at `detail`:
@@ -169,10 +175,12 @@ describe('the hill bands as the hills fill them', () => {
               16,
             ).entries()) {
               for (const ratio of [1, 2, 3]) {
-                const kept = phaserKept(outline, ratio, HILL_DETAIL);
+                // As `fillPoints` closes it, back to its first point.
+                const path = [...outline, ...outline.slice(0, 1)];
+                const kept = phaserKept(path, ratio, PHASER_DETAIL);
                 // Skipping only repeated points leaves the outline as it was.
                 const crossed =
-                  kept.length === phaserKept(outline, ratio, 0).length
+                  kept.length === phaserKept(path, ratio, 0).length
                     ? undefined
                     : crossedEdges(kept);
                 assert.equal(

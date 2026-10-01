@@ -86,3 +86,14 @@ px of a level. Measured (Phaser's own `Earcut`, its 1 px skip, 720 headings
 × 6 hill seeds × 3 ranges × 16 bands): tabL 380 / 207 360 bands overfilled,
 up to 12 400 CSS px²; phoneP 154, phoneL 473, tabP 231. With the skip off
 (threshold 0): 0 on every screen.
+
+**Fixed (see Done).** A Graphics' own `pathDetailThreshold` cannot lower
+the game config's (`max(object, config, 0)`), so fa6dbe0a's threshold 0
+did nothing in the game; the fix is in the outline: `hillBands` drops the
+crest's end points within `PATH_SKIP` (1 CSS px) of the band's lower right
+corner, so Phaser skips nothing that matters. The probe's sweep (720
+headings, the game's own hill paths read from the command buffer, Phaser's
+skip at the screen's ratio): phoneP 25 headings with a crossed band before
+(5°, 23°, 54°, 59°, 65.5°, … 339.5°), tabL 59; after, 0 on both.
+`frames/bite-12/phoneP-brow-round-band-{before,after}.png` (heading 23°):
+the flat slab across the sky and hills at y ≈ 615 is gone.

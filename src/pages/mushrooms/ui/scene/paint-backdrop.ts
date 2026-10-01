@@ -29,7 +29,6 @@ import {
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
-import { HILL_DETAIL } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
 
@@ -221,14 +220,9 @@ export function paintBackdrop(
   for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
   const { camera, width, height, nearHills, sun, wash: rings } = layout;
   const hills = hillsOf(layout, random);
-  const hillLayer = (depth: number) => {
-    const graphics = scene.add.graphics().setScrollFactor(0).setDepth(depth);
-    graphics.pathDetailThreshold = HILL_DETAIL;
-    return graphics;
-  };
   const hillLayers: HillLayers = existing?.hills ?? {
-    far: hillLayer(DEPTHS.farHills),
-    near: hillLayer(DEPTHS.nearHills),
+    far: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.farHills),
+    near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
   };
   const brow =
     existing?.brow ??

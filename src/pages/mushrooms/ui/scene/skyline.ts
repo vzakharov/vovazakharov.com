@@ -307,14 +307,28 @@ function withoutLevelRuns(points: readonly Point[]): Point[] {
 }
 
 /**
- * The path detail, in device px, the hills' Graphics fill their outlines at
- * (Phaser's `pathDetailThreshold`, which skips every point within it of the
- * last one kept). None: a band's outline closes along its lower edge from a
- * corner a px or less from the crest's last point, and skipping that corner
- * slopes the closing edge across the band's own, which the fill then spills
- * past as a flat slab over the range behind.
+ * How near, in CSS px both ways, Phaser's fill skips a path's point to the one
+ * kept before it: the game's `pathDetailThreshold`, 1 device px by default,
+ * which no Graphics can lower, and at most 1 CSS px on any screen of a
+ * device-pixel ratio of 1 or more.
  */
-export const HILL_DETAIL = 0;
+export const PATH_SKIP = 1;
+
+/**
+ * `line` without the points at its end that stand within `PATH_SKIP` of
+ * `corner`, the band's lower right corner that follows them. Phaser would skip
+ * the corner after such a point instead, sloping the band's closing edge
+ * across its own clamped edge, and its fill would spill past the band as a
+ * flat slab over the range behind. Dropping the point moves the band's edge
+ * by under `PATH_SKIP`.
+ */
+function beforeCorner(line: readonly Point[], corner: Point): Point[] {
+  const near = ({ x, y }: Point) =>
+    Math.abs(x - corner.x) <= PATH_SKIP && Math.abs(y - corner.y) <= PATH_SKIP;
+  let end = line.length;
+  while (end > 1 && near(line[end - 1] ?? corner)) end -= 1;
+  return line.slice(0, end);
+}
 
 /** One of a range's bands: its outline, and how far down the range it lies, 0 at the crest and 1 at the foot. */
 export type HillBand = { outline: Point[]; down: number };
@@ -340,12 +354,16 @@ export function hillBands(
   const right = fine.at(-1)?.x ?? 0;
   return levels.slice(0, -1).map((y0, index) => {
     const y1 = levels[index + 1] ?? floor;
+    const corner = { x: right, y: y1 };
     return {
       outline: [
-        ...withoutLevelRuns(
-          fine.map(({ x, y }) => ({ x, y: Math.min(y1, Math.max(y0, y)) })),
+        ...beforeCorner(
+          withoutLevelRuns(
+            fine.map(({ x, y }) => ({ x, y: Math.min(y1, Math.max(y0, y)) })),
+          ),
+          corner,
         ),
-        { x: right, y: y1 },
+        corner,
         { x: left, y: y1 },
       ],
       down: bands === 1 ? 0 : index / (bands - 1),
