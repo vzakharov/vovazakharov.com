@@ -529,6 +529,16 @@ instead, its last strides still at the kind's pace. Beaten: doubling
 distance, and mid legs slow too), and a slower pace overall (the dart is
 what a fly and a bee are). Short and mid legs keep today's timing; the
 catch tests and the arrivals' ~1.5 s first perch must hold.
+Built (f736ec2, `dash-cap.md`) as one cap for every screen, `TABLET_ACROSS`
+= 1180 / 60 ≈ 19.7 butterfly sizes (`paced` reads places in butterfly
+sizes; "≈6 units" was ground units, and the ×2.3/×2.5 were computed in the
+wrong unit — the real world-crossing gain is ×2.0–2.4). **Re-decided: the
+cap is this screen's own width** in butterfly sizes, the longest leg each
+screen allowed before 3ddb960. One tablet-wide cap left a portrait phone
+(6.5 sizes across) dashing up to ~9 screen widths a second against ~2.6
+before, and slowed a desktop (28.5 across) below what it ever had. Beaten:
+the tablet's cap everywhere (above), and the cap in screen px (places are
+already in each screen's butterfly size, which is what the eye reads).
 
 **Left, in order:**
 
