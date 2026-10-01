@@ -1,7 +1,10 @@
 # Bite 12 — the brief every build agent shares
 
 You build one work package of bite 12 of the mushroom game
-(`src/pages/mushrooms/`): the rain shower. Read, before anything else:
+(`src/pages/mushrooms/`): walking — a heading on the plane, turning through
+360° and stepping along it. Your package's contract is
+`docs/remove-before-merging/bite-12/step-spec.md`; read its §1–§3 and the
+sections your package names. Read, before anything else:
 
 - `CLAUDE.md` — the house rules. The ones that bite most here: files are read
   and edited with `Read`/`Edit`/`Write`, never `cat`/`sed`/heredocs; no Bash

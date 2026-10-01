@@ -369,7 +369,7 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
     carries side projects, none otherwise. Then, the Artifact republished,
     `/relay /finalize`.
 
-## Rest of the bite
+## This bite
 
 12. **Walking.** The player really walks the meadow: turns on the spot
     through 360° and steps forward and back along the heading — a camera
