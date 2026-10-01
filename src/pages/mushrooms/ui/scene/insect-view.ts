@@ -2,38 +2,35 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
-import { isSeat, type Perch, perchName, type Side } from '../../model/flight';
+import { isSeat, type Perch, perchName } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
-import type { CarryingOver } from '../../model/insect-paths';
-import {
-  firstSteering,
-  startLeg,
-  steer,
-  type Steering,
-} from '../../model/insect-steering';
+import { startLeg, steer } from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
-import { phaseOf, smooth, wobble } from '../../model/motion';
-import { layoutAtRow } from './eye-crop';
-import { containsCircle, type TappedFigure } from './hit-areas';
+import { smooth, wobble } from '../../model/motion';
+import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import {
-  drawLook,
-  fidget,
-  type Flying,
-  type Look,
-  lookOf,
-  newDrink,
-  poseLook,
-} from './insect-look';
+  type Away,
+  awayDown,
+  drawnAt,
+  entry,
+  fromUnits,
+  offScreen,
+  type Seen,
+  type Stage,
+  toUnits,
+} from './insect-away';
+import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
+import { freshShown, type Shown } from './insect-shown';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
 import { clumpRow, type FootRows } from './perch-sight';
 import type { MeadowSound } from './sound';
 import { tapReach } from './tap-reach';
-import { buried, cull, ofLayout, onScreen, sunk, type View } from './view';
+import type { View } from './view';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;
@@ -41,11 +38,6 @@ const FLUTTER = 0.28;
 const JOLT = 0.7;
 /** How long a landing's bob cut short by a take-off takes to die away, in ms. */
 const BOB_FADE = 200;
-/**
- * The band of the screen's height an insect flies in from and out to off
- * screen, its phase picking where.
- */
-const AWAY_BAND = [0.18, 0.5] as const;
 
 /** How far along from `start` to `end` `point` stands, from 0 to 1, by its distance to each. */
 function alongOf(point: Point, start: Point, end: Point): number {
@@ -59,49 +51,6 @@ export type Perched = Point & { nectar?: Point };
 
 /** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
 export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
-
-/** An insect on screen: its look, and where and how it flies. */
-type Shown = TappedFigure &
-  Flying &
-  CarryingOver & {
-    look: Look;
-    /** How far its open wings span on screen, in pixels, as last painted. */
-    span: number;
-    /**
-     * Where its current leg set off: across, in ground units from the
-     * world's midline; down, as a fraction of the screen's height.
-     */
-    from: Point;
-    /**
-     * Whether its leg in from away has yet to pick the screen edge it
-     * enters by, which it does on its first frame, once its perch stands.
-     */
-    entering: boolean;
-    /** The ground row, in world px, its current leg set off standing over. */
-    fromRow: number;
-    /** The ground row it was drawn standing over last frame. */
-    row: number;
-    /** Where its flight had it last frame, in the world. */
-    at: Point;
-    /** How far its fidgets on its perch moved it off `at` last frame. */
-    offset: Point;
-    /** How far its landing's bob sank it last frame, in units of its size. */
-    bob: number;
-    /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
-    bobFrom: number;
-    /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */
-    end: Point | undefined;
-    /** How its body is held from one frame to the next (`steer`). */
-    steering: Steering;
-    /**
-     * Where its perch stood on its current leg's first frame, or the first
-     * since the screen was last painted, which its leg sets off by; `undefined`
-     * before it.
-     */
-    aim: Point | undefined;
-    /** How it was turned as its leg set off, which it turns from into its heading; `undefined` flying in. */
-    turnedFrom: number | undefined;
-  };
 
 /**
  * The meadow's insects, reconciled with the state by id: each a container of
@@ -123,12 +72,7 @@ type Shown = TappedFigure &
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
-  /** The screen's width and height, in CSS px, as last painted. */
-  private width = 1;
-  private height = 1;
-  /** The world's width and its ground unit, in px, as last painted. */
-  private world = 1;
-  private unit = 1;
+  private stage: Stage = { width: 1, height: 1, world: 1, unit: 1 };
   /** The row the opening clump stands on, in world px, as last painted. */
   private clump = 1;
   /** The row each perch stands over, as the scene last saw them. */
@@ -190,13 +134,12 @@ export class InsectView {
       // From where it was drawn, fidgets and all, so a startle never jumps.
       shown.entering = from.kind === 'away';
       shown.fromRow = from.kind === 'away' ? this.clump : shown.row;
-      shown.from =
+      shown.from = toUnits(
+        this.stage,
         from.kind === 'away'
-          ? this.units(this.offScreen(from.side, shown, shown.fromRow))
-          : this.units({
-              x: shown.at.x + shown.offset.x,
-              y: shown.at.y + shown.offset.y,
-            });
+          ? offScreen(this.seen(), from.side, this.awayOf(shown), shown.fromRow)
+          : { x: shown.at.x + shown.offset.x, y: shown.at.y + shown.offset.y },
+      );
       shown.bobFrom = shown.bob;
       shown.end = undefined;
       shown.steering = startLeg(shown.steering);
@@ -215,10 +158,7 @@ export class InsectView {
   paint(layout: MeadowLayout, lighting: Lighting): void {
     const { width, height, camera, insectSizes } = layout;
     this.lighting = lighting;
-    this.width = width;
-    this.height = height;
-    this.world = camera.world;
-    this.unit = camera.unit;
+    this.stage = { width, height, ...pick(camera, 'world', 'unit') };
     this.clump = clumpRow(layout);
     this.sizes = insectSizes;
     for (const shown of this.shown.values()) {
@@ -267,12 +207,15 @@ export class InsectView {
     if (shown.entering && leg.from.kind === 'away') {
       shown.entering = false;
       shown.fromRow = this.rowOf(leg.to) ?? this.clump;
-      shown.from = this.units(this.entry(shown, leg.from.side, seated));
+      const away = this.awayOf(shown);
+      const { side } = leg.from;
+      const set = entry(this.seen(), side, away, shown.fromRow, seated);
+      shown.from = toUnits(this.stage, set);
     }
-    const start = this.placed(shown.from);
+    const start = fromUnits(this.stage, shown.from);
     const end =
       (leg.to.kind === 'away'
-        ? this.offScreen(leg.to.side, shown, shown.fromRow)
+        ? offScreen(this.seen(), leg.to.side, this.awayOf(shown), shown.fromRow)
         : seated) ??
       shown.end ??
       start;
@@ -317,7 +260,8 @@ export class InsectView {
         ? toRow
         : shown.fromRow + (toRow - shown.fromRow) * alongOf(point, start, end);
     Object.assign(shown, { end, at: point, offset, bob: bob / size, row });
-    const middle = this.screenOf(
+    const middle = drawnAt(
+      this.view(),
       { x: point.x + offset.x, y: point.y + bob + offset.y },
       row,
     );
@@ -330,7 +274,7 @@ export class InsectView {
     poseLook(shown.look, moment, {
       middle,
       rotation: turn,
-      nectar: seated?.nectar && this.screenOf(seated.nectar, row),
+      nectar: seated?.nectar && drawnAt(this.view(), seated.nectar, row),
     });
   }
 
@@ -339,18 +283,21 @@ export class InsectView {
     return perch.kind === 'away' ? undefined : this.feet.get(perchName(perch));
   }
 
+  /** The stage as last painted, seen through the view the frame is drawn through now. */
+  private seen(): Seen {
+    return { ...this.stage, view: this.view() };
+  }
+
   /**
-   * Where the world's `point`, standing over `row`, is drawn on the screen
-   * now; `undefined` too near the eye to be drawn. As laid out before the
-   * eye's first fit.
+   * How an insect stands away (`insect-away.ts`): past an edge by its open
+   * wings' span at its size now — measured afresh, since a new one stands
+   * away before its first `draw` — at a height its phase picks.
    */
-  private screenOf(point: Point, row: number): Point | undefined {
-    const view = this.view();
-    if (!view) return point;
-    const placed = sunk(view, ofLayout(view, point, row));
-    return cull(placed) || buried(view, placed)
-      ? undefined
-      : pick(placed, 'x', 'y');
+  private awayOf(shown: Shown): Away {
+    return {
+      span: wingspan(shown.look.genes) * this.sizeOf(shown),
+      drop: awayDown(this.stage.height, shown.phase),
+    };
   }
 
   private show(flier: Flier): Shown {
@@ -361,32 +308,16 @@ export class InsectView {
       .container(0, 0, stack)
       .setDepth(this.depth)
       .setInteractive(hit, containsCircle);
-    const shown: Shown = {
-      container,
-      hit,
-      look,
-      flier,
-      span: 0,
-      from: { x: 0, y: 0 },
-      entering: false,
-      fromRow: this.clump,
-      row: this.clump,
-      at: { x: 0, y: 0 },
-      offset: { x: 0, y: 0 },
-      bob: 0,
-      bobFrom: 0,
-      end: undefined,
-      steering: firstSteering({ facing: 0, turn: 0 }),
-      aim: undefined,
-      turnedFrom: undefined,
-      carried: { launch: 0, speed: 0, drink: 0 },
-      phase: phaseOf(flier),
-      tappedAt: -Infinity,
-    };
+    const shown = freshShown({ container, hit, look, flier }, this.clump);
     const { from } = flier.leg;
     if (from.kind === 'away') {
-      shown.at = this.offScreen(from.side, shown, shown.fromRow);
-      shown.from = this.units(shown.at);
+      shown.at = offScreen(
+        this.seen(),
+        from.side,
+        this.awayOf(shown),
+        shown.fromRow,
+      );
+      shown.from = toUnits(this.stage, shown.at);
       shown.entering = true;
     }
     // The top insect under a finger takes the tap for them all and hands it
@@ -414,68 +345,5 @@ export class InsectView {
     drawLook(shown.look, size, shown.flier, this.now() * 1000);
     shown.span = wingspan(shown.look.genes) * size;
     shown.hit.setTo(0, 0, tapReach(shown.span / 2));
-  }
-
-  /**
-   * Where an insect in from away sets off for `seated`, its first perch: past
-   * the screen's edge nearer it where the screen shows it, else past the
-   * world's end nearer it; by `side` for a perch standing nowhere.
-   */
-  private entry(shown: Shown, side: Side, seated: Point | undefined): Point {
-    if (!seated) return this.offScreen(side, shown, shown.fromRow);
-    const drawn = this.screenOf(seated, shown.fromRow);
-    const view = this.view();
-    if (drawn && view && onScreen(view, drawn)) {
-      const nearer = drawn.x < this.width / 2 ? 'left' : 'right';
-      return this.offScreen(nearer, shown, shown.fromRow);
-    }
-    return this.pastEnd(seated.x < this.world / 2 ? 'left' : 'right', shown);
-  }
-
-  /** How far past an edge an insect stands away: its open wings' span. */
-  private reachOf(shown: Shown): number {
-    return wingspan(shown.look.genes) * this.sizeOf(shown);
-  }
-
-  /** How far down the screen, in px, an insect away flies: in `AWAY_BAND`, where its phase picks. */
-  private awayDown(shown: Shown): number {
-    const share = 0.5 + 0.5 * Math.sin(shown.phase * 3);
-    return this.height * (AWAY_BAND[0] + (AWAY_BAND[1] - AWAY_BAND[0]) * share);
-  }
-
-  /**
-   * In the world, just past the screen's `side` edge where the view stands
-   * now, at a height `awayDown` picks, standing over `row`; past the world's
-   * end on that side where the screen's edge meets no point over that row.
-   */
-  private offScreen(side: Side, shown: Shown, row: number): Point {
-    const reach = this.reachOf(shown);
-    const screen = {
-      x: side === 'left' ? -reach : this.width + reach,
-      y: this.awayDown(shown),
-    };
-    const view = this.view();
-    const opening = (this.world - this.width) / 2;
-    if (!view) return { ...screen, x: screen.x + opening };
-    return layoutAtRow(view, screen, row) ?? this.pastEnd(side, shown);
-  }
-
-  /** In the world, just past its `side` end, at a height `awayDown` picks. */
-  private pastEnd(side: Side, shown: Shown): Point {
-    const reach = this.reachOf(shown);
-    return {
-      x: side === 'left' ? -reach : this.world + reach,
-      y: this.awayDown(shown),
-    };
-  }
-
-  /** A world point as `Shown.from` keeps it. */
-  private units({ x, y }: Point): Point {
-    return { x: (x - this.world / 2) / this.unit, y: y / this.height };
-  }
-
-  /** `Shown.from` back in the world. */
-  private placed({ x, y }: Point): Point {
-    return { x: this.world / 2 + x * this.unit, y: y * this.height };
   }
 }
