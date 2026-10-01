@@ -11,20 +11,26 @@ import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import { type Flier, INSECT_LIMITS } from '../../model/insects';
 import { mulberry32, nextSeed } from '../../model/random';
+import { bedPlace } from './bed-place';
+import { flowersOf } from './flower-plots';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
+import { drawnAloft } from './insect-frame';
 import { meadowLayout } from './layout';
 import {
   AIR_BELOW,
+  airAlofts,
   airSpots,
+  aloftOfLayout,
   clumpRow,
   footRows,
   MOST_OVERLAP,
   onscreenOf,
+  perchDistance,
   perchSight,
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { middleOf, ofLayout, rowAt, viewAt } from './view';
+import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 
@@ -280,6 +286,74 @@ describe('onscreenOf', () => {
           row === undefined ? clump : rowAt(layout.camera, row).opening;
         assert.ok(Math.abs(q - expected) < 1e-9 * expected, perch);
         assert.ok(q > 0.8 * CLUMP_DISTANCE && q < 1.7 * CLUMP_DISTANCE, perch);
+      }
+    });
+
+    it(`measures every spot in the air and every flower at its place's distance from the eye at the opening eye, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { layout } = stand;
+      const { places = {} } = perchSight(stand);
+      const view = viewAt(layout.camera, OPENING_EYE);
+      const near = (measured: number, perch: string) => {
+        const expected = places[perch]?.fromEye;
+        assert.ok(expected !== undefined, perch);
+        assert.ok(Math.abs(measured - expected) < 1e-9 * expected, perch);
+      };
+      for (const [id, aloft] of airAlofts(layout)) {
+        near(perchDistance(view, aloft), perchName({ kind: 'air', id }));
+      }
+      for (const { id, place } of flowersOf(stand)) {
+        const perch = perchName({ kind: 'flower', id });
+        if (!places[perch]) continue;
+        const foot = aloftOfLayout(layout.camera, place, place.y);
+        near(perchDistance(view, foot), perch);
+      }
+    });
+
+    it(`stands a flower's foot on the plane where its bed places it, on a ${name} screen`, () => {
+      const stand = opened(3, width, height, true);
+      const { camera } = stand.layout;
+      for (const eye of [OPENING_EYE, { x: 1.5, y: 2, heading: 2.5 }]) {
+        const view = viewAt(camera, eye);
+        for (const { id, foot, place } of flowersOf(stand)) {
+          const aloft = aloftOfLayout(camera, place, place.y);
+          const placed = bedPlace(view, foot);
+          const drawn = drawnAloft(view, aloft);
+          if (!drawn || !placed.drawn) continue;
+          assert.ok(Math.abs(drawn.x - placed.x) < 1e-6, id);
+          assert.ok(Math.abs(drawn.y - placed.y) < 1e-6, id);
+        }
+      }
+    });
+
+    it(`draws every spot in the air as a fixed point where the layout lays it out at the opening eye, on a ${name} screen`, () => {
+      const { layout } = opened(3, width, height, true);
+      const view = viewAt(layout.camera, OPENING_EYE);
+      const alofts = airAlofts(layout);
+      const row = clumpRow(layout);
+      for (const spot of airSpots(layout)) {
+        const aloft = alofts.get(spot.id);
+        assert.ok(aloft, spot.id);
+        const drawn = drawnAloft(view, aloft);
+        const today = ofLayout(view, spot, row);
+        assert.ok(drawn, spot.id);
+        assert.ok(Math.abs(drawn.x - today.x) < 0.1, spot.id);
+        assert.ok(Math.abs(drawn.y - today.y) < 0.1, spot.id);
+      }
+    });
+
+    it(`keeps a spot in the air out at V_NEAR from an eye turned or walked any way, on a ${name} screen`, () => {
+      const { layout } = opened(3, width, height, true);
+      const alofts = [...airAlofts(layout).values()];
+      for (let turn = 0; turn < 16; turn += 1) {
+        const view = viewAt(layout.camera, {
+          x: 0.5,
+          y: 4,
+          heading: (turn / 16) * 2 * Math.PI,
+        });
+        for (const aloft of alofts) {
+          assert.ok(perchDistance(view, aloft) >= V_NEAR);
+        }
       }
     });
 
