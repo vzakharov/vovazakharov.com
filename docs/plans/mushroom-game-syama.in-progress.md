@@ -678,6 +678,13 @@ Beaten: sizing by distance alone (fixes the size, not the legs through the
 meadow); a zoom floor (the bound beaten above, a tenth-size insect); the
 past-the-edge patch alone (`lens-carry-round3.patch`, never seen with no
 perch shown). A spec first (`insect-plane.md`), then build packages.
+**Decided, with the operator: an insect's size at the opening goes by its
+distance too** («ну да, а звучит хорошо»), so the opening's equal sizes go:
+a release over the brow at 0.65× today's, perched insects 0.65× on the back
+caps to 1.1–1.5× near the front, each in scale with its cap and the brow.
+Beaten: sizing by distance from the plane's origin (today's sizes at the
+opening, but a perched and a flying insect at one distance differ, and
+sizes drift as the child turns).
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
