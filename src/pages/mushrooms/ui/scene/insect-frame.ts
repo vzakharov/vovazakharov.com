@@ -21,6 +21,7 @@ import {
   type Placed,
   placedAt,
   sunkOver,
+  V_NEAR,
   type View,
 } from './view';
 
@@ -112,4 +113,38 @@ export function drawnAloft(view: View, aloft: Aloft): Placed | undefined {
     placedAt(view, aloft, 0, CLUMP_DISTANCE),
   );
   return buried(view, drawn) ? undefined : drawn;
+}
+
+/**
+ * How a leg veers round the eye, in the clump's size on the plane: `near`,
+ * the least distance it passes the eye at, and `width`, half the band over
+ * which the veer eases in. `near` is `V_NEAR`, where an insect's zoom is the
+ * nearest drawn mushroom's, so a fly passes the child's ear and never fills
+ * the screen.
+ */
+export type Veer = Record<'near' | 'width', number>;
+
+export const VEER: Veer = { near: V_NEAR, width: V_NEAR / 2 };
+
+/**
+ * `aloft` pushed radially out on the plane from `eye` to `veer.near`: as it
+ * is past `near + width`, at `near` inside `near − width`, and between them
+ * on the parabola that joins the two with a matching slope at both ends, so
+ * a leg bends round the eye with no kink. Straight at the eye, it is pushed
+ * along the eye's heading.
+ */
+export function veered(eye: Eye, aloft: Aloft, veer: Veer = VEER): Aloft {
+  const { near, width } = veer;
+  const distance = Math.hypot(aloft.x - eye.x, aloft.y - eye.y);
+  if (distance >= near + width) return aloft;
+  const pushed =
+    distance <= near - width
+      ? near
+      : near + (distance - near + width) ** 2 / (4 * width);
+  const azimuth = distance > 0 ? azimuthOf(eye, aloft) : eye.heading;
+  return {
+    ...aloft,
+    x: eye.x + pushed * Math.sin(azimuth),
+    y: eye.y + pushed * Math.cos(azimuth),
+  };
 }

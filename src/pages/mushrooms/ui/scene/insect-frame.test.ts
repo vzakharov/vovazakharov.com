@@ -18,6 +18,9 @@ import {
   FRAME_MARGIN,
   framedOf,
   mixD,
+  VEER,
+  type Veer,
+  veered,
 } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
 import { wrapAngle } from './panorama';
@@ -220,5 +223,72 @@ describe('insect-frame', () => {
   it('hides an aloft point at the eye', () => {
     const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
     assert.equal(drawnAloft(view, { x: 0, y: 0, h: 0.3 }), undefined);
+  });
+});
+
+describe('veered', () => {
+  const eye: Eye = { x: 0.7, y: -1.2, heading: 0.5 };
+  const toward = 2.1;
+
+  /** A point `distance` from `eye` along `toward`. */
+  function outAt(distance: number): Aloft {
+    return {
+      x: eye.x + distance * Math.sin(toward),
+      y: eye.y + distance * Math.cos(toward),
+      h: 0.3,
+    };
+  }
+
+  /** How far from `eye` `veered` leaves the point `distance` out. */
+  function veeredAt(distance: number, veer: Veer): number {
+    const moved = veered(eye, outAt(distance), veer);
+    return Math.hypot(moved.x - eye.x, moved.y - eye.y);
+  }
+
+  for (const veer of [VEER, { near: 1, width: 0.2 }]) {
+    const label = `near ${veer.near.toFixed(3)}, width ${veer.width}`;
+    const step = 1e-6;
+
+    it(`joins continuously and with a matching slope at both ends (${label})`, () => {
+      const joins = [
+        { join: veer.near - veer.width, slope: 0 },
+        { join: veer.near + veer.width, slope: 1 },
+      ];
+      for (const { join, slope } of joins) {
+        const at = veeredAt(join, veer);
+        near(veeredAt(join - step, veer), at, 1e-5);
+        near(veeredAt(join + step, veer), at, 1e-5);
+        near((at - veeredAt(join - step, veer)) / step, slope, 1e-4);
+        near((veeredAt(join + step, veer) - at) / step, slope, 1e-4);
+      }
+    });
+
+    it(`leaves a point past the band where it is (${label})`, () => {
+      for (const distance of [
+        veer.near + veer.width + 1e-9,
+        2 * (veer.near + veer.width),
+        40,
+      ]) {
+        const point = outAt(distance);
+        assert.equal(veered(eye, point, veer), point);
+      }
+    });
+
+    it(`never leaves a point nearer than near, nor turns it (${label})`, () => {
+      for (let sample = 1; sample <= 200; sample++) {
+        const point = outAt(((veer.near + veer.width) * sample) / 200);
+        const moved = veered(eye, point, veer);
+        const distance = Math.hypot(moved.x - eye.x, moved.y - eye.y);
+        assert.ok(distance >= veer.near - 1e-12);
+        near(Math.atan2(moved.x - eye.x, moved.y - eye.y), toward, 1e-9);
+        assert.equal(moved.h, point.h);
+      }
+    });
+  }
+
+  it('pushes a point at the eye out along its heading', () => {
+    const moved = veered(eye, { ...eye, h: 0 });
+    near(Math.atan2(moved.x - eye.x, moved.y - eye.y), eye.heading, 1e-12);
+    near(Math.hypot(moved.x - eye.x, moved.y - eye.y), VEER.near, 1e-12);
   });
 });

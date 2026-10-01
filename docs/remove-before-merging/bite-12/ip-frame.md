@@ -6,9 +6,18 @@ through it yet.
 
 ## Done
 
-- Step 1, the frame: `Aloft`, `Framed`, `FRAME_MARGIN`, `centreOf`,
-  `framedOf`, `aloftFramed`, `mixD`, `drawnAloft`.
-- Step 2, the veer: see below once committed.
+- Step 1, the frame (d3cb5b21): `Aloft`, `Framed`, `FRAME_MARGIN`,
+  `centreOf`, `framedOf`, `aloftFramed`, `mixD`, `drawnAloft`.
+- Step 2, the veer: `Veer`, `VEER`, `veered(eye, aloft, veer = VEER)`.
+
+Nothing is left in this package. The wiring is packages A–C's.
+
+## Provisional
+
+- `VEER = { near: V_NEAR, width: V_NEAR / 2 }` is a default, not a settled
+  value: `ip-measures` is measuring `R_V` and `w`. Changing it is a one-line
+  edit; the tests run over `VEER` and a second pair, so they hold for any
+  values.
 
 ## Decided
 
@@ -22,3 +31,5 @@ through it yet.
   `opening = CLUMP_DISTANCE` rather than repeating it; `wrapAngle` comes
   from `panorama.ts` (`ground.ts`'s `wrapped` is private and the same).
 - `drawnAloft` returns `undefined` when hidden.
+- `veered` keeps the point's azimuth and height; a point exactly at the eye
+  is pushed out along the eye's heading.
