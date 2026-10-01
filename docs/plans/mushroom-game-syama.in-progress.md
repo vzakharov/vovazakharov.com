@@ -441,14 +441,20 @@ into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
       sound already does («если второе нажатие до завершения анимации,
       анимация начинается заново»).
     - **A flower can be changed or removed (P4, after P1b and P3).** A
-      tap on a flower plays it and opens the picker on it: the colour row
+      tap on a flower only plays it; a long press — held ~0.45 s without
+      moving past the slop, the note sounding at the press as a tap's does
+      — selects it and opens the picker on it («да, давай так»: a picker
+      on every tap would jump from flower to flower through a melody).
+      The selected flower is marked by a small ring on the ground where
+      its stem enters it, plainer than the mushroom's selection («попроще,
+      чем гриб — например кружочком под цветком»). The picker: the colour row
       plus one button with a cross, then the shape row once a colour is
       picked; the pick replaces the flower in place, the cross removes it,
       its tuft coming back («при нажатии на цветок возникают снова кнопки
       цвета… плюс к кнопкам цвета одна кнопка с крестиком»). Seeded
       flowers too, so the model remembers the replaced and removed ones.
-      The picker follows the flower last tapped and shuts on a tap on the
-      meadow, as on a tuft; a chord of several fingers opens none.
+      The picker shuts, and the ring with it, on a tap on the meadow, as
+      on a tuft; a long press on another flower moves it there.
 
     The decisions this rewrites — the one-drag pan, "every mushroom is a
     finger's target", the sight rule, bite 11's fixed sun, hill parallax,
