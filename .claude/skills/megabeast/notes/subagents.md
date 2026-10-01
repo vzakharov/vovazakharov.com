@@ -253,3 +253,16 @@
   nothing in common and run side by side. The orchestrator keeps the
   replies where it can, the Artifact publish (its tool is the
   orchestrator's) and the relay.
+- **A scene package fits one step, not three.** Bite 12's build ran
+  eleven agents; every one briefed with two or three steps reached
+  ~170k in 12–20 minutes having landed one, and four of them first
+  committed only after the nudge. Agents reading four or five hand-over
+  notes before starting were the fastest to fill. Brief one step, the
+  second as "if context allows", and arm the check-in at ~12 minutes;
+  the wrap-up nudge at ~170k landed a commit or a patch every time.
+- **A pause that leaves a shared type half-migrated blocks every other
+  agent's typecheck.** P2c paused with its hills as a patch and the same
+  edits in the tree, so P3b's and P1c's `pnpm typecheck` went red on it;
+  the next agent's first instruction was "confirm the tree equals the
+  patch, land it within ~50k", and the blockage cleared in one commit.
+  When a pause leaves a patch in the tree, relaunch that package first.

@@ -135,3 +135,16 @@
   writing (2ace9d5). The orchestrator laid the forks out for the operator
   from the player's side (what a child could no longer do), which is what
   let them decide in one line; the agent supplied the costs.
+- **An operator playing mid-bite sends design notes in a stream, each
+  refining the last, and a running agent can take them on the fly.**
+  Bite 12's build session got nine (tufts as grass, then every tuft a
+  spot, then no tuft where none fits; octave keys stay; a long press;
+  an endless field, then "only grass until he plants"). Each went into
+  the plan in a commit of its own with the operator's words quoted, and
+  the one that touched a running agent's step went to it by
+  `SendMessage` at once, superseding the previous message by name; the
+  agent built the latest. The skill should treat a mid-run note as a
+  plan edit plus a forward, never a queue for "after this bite", and
+  answer a "why?" by naming the old rule's reason and whether it still
+  holds: two of the notes asked "почему?" of a call the agent had made
+  without a reason the operator would accept.
