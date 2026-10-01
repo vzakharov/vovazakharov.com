@@ -18,6 +18,7 @@ from pathlib import Path
 HOOK = Path(__file__).resolve().parent / "hooks" / "post-tool-context-budget.sh"
 WARN = 200_000
 PAUSE = 300_000
+SUBAGENT = 170_000
 
 
 def assistant(context: int, *, sidechain: bool = False, model: str = "claude-x") -> dict:
@@ -47,8 +48,16 @@ class Session:
         self.transcript = root / "transcript.jsonl"
         self.transcript.write_text("")
 
-    def append(self, *records: dict) -> None:
-        with self.transcript.open("a") as f:
+    def subagent_transcript(self, agent_id: str, subdir: str = "") -> Path:
+        # Where the harness keeps a subagent's own transcript: beside the
+        # session's, under `<session>/subagents/`.
+        path = self.transcript.with_suffix("") / "subagents" / subdir / f"agent-{agent_id}.jsonl"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.touch()
+        return path
+
+    def append(self, *records: dict, to: Path | None = None) -> None:
+        with (to or self.transcript).open("a") as f:
             for record in records:
                 f.write(json.dumps(record, separators=(",", ":")) + "\n")
 
@@ -175,10 +184,77 @@ class WhichRecordsAreTheReading(BudgetTestCase):
         self.session.append(assistant(WARN + 1), assistant(0, model="<synthetic>"))
         self.assertIsNotNone(self.session.notice())
 
-    def test_ignores_a_subagents_tool_call(self) -> None:
+    def test_a_subagents_tool_call_reads_its_own_transcript_not_the_sessions(
+        self,
+    ) -> None:
+        own = self.session.subagent_transcript("a1")
         self.session.append(assistant(PAUSE + 1))
-        self.assertIsNone(self.session.notice(agent_id="agent-1"))
+        self.session.append(assistant(SUBAGENT - 1, sidechain=True), to=own)
+        self.assertIsNone(self.session.notice(agent_id="a1"))
+        # Nor does the subagent's call spend the session's own notice.
         self.assertIsNotNone(self.session.notice())
+
+
+class TheSubagentNotice(BudgetTestCase):
+    def test_reports_once_on_crossing_the_subagent_line(self) -> None:
+        own = self.session.subagent_transcript("a1")
+        self.session.append(assistant(SUBAGENT + 5_000, sidechain=True), to=own)
+        notice = self.session.notice(agent_id="a1")
+        assert notice is not None
+        self.assertIn("~175k", notice)
+        self.assertIn("170k line", notice)
+        self.assertIn("report to your caller", notice)
+        self.assertIn("Do not touch the plan file", notice)
+        self.assertNotIn("Stopping partway", notice)
+        self.session.append(assistant(PAUSE + 1, sidechain=True), to=own)
+        self.assertIsNone(self.session.notice(agent_id="a1"))
+
+    def test_each_subagent_gets_its_own(self) -> None:
+        for agent in ("a1", "a2"):
+            own = self.session.subagent_transcript(agent)
+            self.session.append(assistant(SUBAGENT + 1, sidechain=True), to=own)
+        self.assertIsNotNone(self.session.notice(agent_id="a1"))
+        self.assertIsNotNone(self.session.notice(agent_id="a2"))
+
+    def test_leaves_the_sessions_notices_armed(self) -> None:
+        own = self.session.subagent_transcript("a1")
+        self.session.append(assistant(WARN + 1, sidechain=True), to=own)
+        self.session.append(assistant(WARN + 1))
+        self.assertIsNotNone(self.session.notice(agent_id="a1"))
+        notice = self.session.notice()
+        assert notice is not None
+        self.assertIn("warning line", notice)
+
+    def test_dropping_under_the_line_rearms_it(self) -> None:
+        own = self.session.subagent_transcript("a1")
+        self.session.append(assistant(SUBAGENT + 1, sidechain=True), to=own)
+        self.session.notice(agent_id="a1")
+        self.session.append(assistant(40_000, sidechain=True), to=own)
+        self.assertIsNone(self.session.notice(agent_id="a1"))
+        self.session.append(assistant(SUBAGENT + 1, sidechain=True), to=own)
+        self.assertIsNotNone(self.session.notice(agent_id="a1"))
+
+    def test_finds_a_transcript_filed_one_directory_down(self) -> None:
+        own = self.session.subagent_transcript("a1", subdir="workflows")
+        self.session.append(assistant(SUBAGENT + 1, sidechain=True), to=own)
+        self.assertIsNotNone(self.session.notice(agent_id="a1"))
+
+    def test_the_line_follows_its_env_override(self) -> None:
+        own = self.session.subagent_transcript("a1")
+        self.session.append(assistant(60_000, sidechain=True), to=own)
+        notice = self.session.notice({"CONTEXT_BUDGET_SUBAGENT": "50000"}, agent_id="a1")
+        assert notice is not None
+        self.assertIn("50k line", notice)
+
+    def test_a_missing_subagent_transcript_is_silent(self) -> None:
+        self.session.append(assistant(PAUSE + 1))
+        result = self.session.tool_call(agent_id="a1")
+        self.assertEqual(result.stdout, "")
+
+    def test_an_agent_id_that_could_leave_the_directory_is_silent(self) -> None:
+        self.session.append(assistant(PAUSE + 1))
+        result = self.session.tool_call(agent_id="../a1")
+        self.assertEqual(result.stdout, "")
 
 
 class WhenThereIsNothingToRead(BudgetTestCase):
