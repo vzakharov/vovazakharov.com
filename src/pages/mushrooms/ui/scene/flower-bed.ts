@@ -86,6 +86,8 @@ export class FlowerBed implements Following {
   /** A press on a head held long enough to open the flower picker there. */
   private readonly hold: FlowerHold;
   private readonly ring: FlowerRing;
+  /** The flower the picker is open on as of the last frame, which a tap on it leaves open. */
+  private held: string | undefined;
 
   /** `heldStill` is how long the pressed finger has stood inside the slop (`EyeInput.heldStill`). */
   constructor(
@@ -203,6 +205,7 @@ export class FlowerBed implements Following {
    * opens the picker there.
    */
   update(t: number, insects: readonly Flier[], held: string | undefined): void {
+    this.held = held;
     this.hold.update();
     const ringed = held === undefined ? undefined : this.shown.get(held);
     this.ring.stand(ringed?.laid && ringed);
@@ -239,9 +242,14 @@ export class FlowerBed implements Following {
     return { ...seat, nectar };
   }
 
-  /** Answers a tap on the flower `id`, whether it landed there or went through an insect drinking at it. */
+  /**
+   * Answers a press on the flower `id`, whether it landed there or went
+   * through an insect resting on it: a tap, and held long enough, the
+   * picker's opening there (`FlowerHold`).
+   */
   tap(id: string): void {
     this.touch(id, 'tap');
+    this.hold.press(id);
   }
 
   /**
@@ -266,6 +274,8 @@ export class FlowerBed implements Following {
     if (!shown || !flower) return;
     this.open(shown);
     this.sound(flower, true);
+    // The picker open on this very flower stays open under its own tap.
+    if (id === this.held) return;
     for (const action of FLOWER_TOUCH_ACTIONS[touch]) this.dispatch(action);
   }
 
@@ -329,7 +339,6 @@ export class FlowerBed implements Following {
     );
     head.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
       this.tap(flower.id);
-      this.hold.press(flower.id);
     });
     this.shown.set(flower.id, shown);
     return shown;

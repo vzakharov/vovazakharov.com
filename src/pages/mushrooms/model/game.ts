@@ -279,6 +279,8 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
       };
     }
     case 'flower': {
+      // A press on the flower the picker is open on keeps it as it stands.
+      if (meadow.planting?.flower === action.id) return meadow;
       return {
         ...meadow,
         ...PICKERS_SHUT,

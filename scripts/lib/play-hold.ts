@@ -2,8 +2,8 @@
  * The child changing a flower, `play-mushrooms.ts`'s run on a fresh meadow:
  * a tap on a flower opens no picker; a press held on it opens the picker
  * there, ringed, its colours with the cross; the cross pulls the flower up,
- * the picker shutting and the tufts it kept away coming back — a seeded
- * flower's, then one the child planted on a tuft, whose tuft comes back; and
+ * the picker shutting and a tuft coming back where it stood — a seeded
+ * flower's, then one the child planted on a tuft; and
  * a press on another flower that turns the eye opens nothing.
  */
 
@@ -78,8 +78,9 @@ export async function playHold(
     'a tap on a flower opened the picker',
   );
 
-  // A seeded flower may have kept no tuft away.
+  // A seeded flower leaves a tuft where it stood, as a planted one's comes back.
   const seeded = await holdAndPull(page, expect, flower, 'seeded');
+  expect(seeded > 0, `no tuft came back where seeded flower ${id} stood`);
   note(`${String(seeded)} tufts came back where seeded flower ${id} stood`);
 
   // The child's own flower stands on a tuft, which comes back with it pulled.
@@ -134,6 +135,15 @@ async function holdAndPull(
   expect(open.colours === 5, `${String(open.colours)} colours offered`);
   expect(open.cross !== null, 'the picker on a flower offers no cross');
   await page.shoot(`p4-${name}-held`);
+
+  // Pressed again, even too briefly to hold, the flower keeps its picker open.
+  await page.tap(head);
+  await page.step(30);
+  const again = await read();
+  expect(
+    again.open && again.flower === id,
+    `a second press on flower ${id} shut its picker`,
+  );
 
   if (open.cross) await page.tap(open.cross);
   await page.step(60);

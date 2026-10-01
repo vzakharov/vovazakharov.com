@@ -206,6 +206,25 @@ describe('the flower picker on a flower held', () => {
     assert.deepEqual(shut.pulled, []);
   });
 
+  it('stays as it stands on a press on the flower it is open on', () => {
+    const open = run([HELD, { kind: 'colour', colour: 'blue', seeds }]);
+    assert.equal(reduce(open, HELD), open);
+  });
+
+  it('plants on the tuft a seeded flower pulled up leaves, as on any tuft', () => {
+    const meadow = run([
+      HELD,
+      { kind: 'pull' },
+      { kind: 'tuft', foot: OTHER_TUFT },
+      { kind: 'colour', colour: 'blue', seeds },
+      { kind: 'plant', shape: roundOne },
+    ]);
+    assert.deepEqual(meadow.pulled, ['flower-3']);
+    assert.deepEqual(meadow.planted, [
+      { id: 'planted-1', seed: seeds[0], foot: OTHER_TUFT },
+    ]);
+  });
+
   it('takes no cross while open on a tuft or closed', () => {
     const open = run([{ kind: 'tuft', foot: TUFT }]);
     assert.equal(reduce(open, { kind: 'pull' }), open);
