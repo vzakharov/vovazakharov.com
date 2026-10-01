@@ -366,7 +366,16 @@ twitch; a flier holding an air spot is drawn still, with no hover bob.
 
 ## This bite
 
-12. **A step forward and back.** (being written)
+12. **Walking.** The player really walks the meadow: turns on the spot
+    through 360° and steps forward and back along the heading — a camera
+    with a heading on the flat ground, not the strip's sideways slide, nor
+    a ring of the strip joined at its ends, where the player could only
+    lean toward what is in front («ходить мы хотим. иначе как он "карту"
+    засеивать будет?»). The sun, its wash and the clouds belong to a
+    heading, so the sun is the compass and no compass is drawn (the
+    operator: a compass was the first thought, then the sun, «солнце у нас
+    всегда на месте, что makes no sense»). About two bites; the contract,
+    and where it is cut, follows `docs/remove-before-merging/bite-12/step-spec.md`.
 
 ## DRY notes
 
