@@ -135,3 +135,26 @@ The standing design of `docs/plans/mushroom-game-syama.*.md`, which keeps a poin
   `palette-creatures.ts`. A canvas is out of the CSS tokens' reach;
   `.claude/rules/styling.md` § Colours says so in one sentence scoped to those
   paths.
+
+## DRY notes
+
+The reuse calls the whole game stands on, moved from the plan.
+
+- **Metadata reuses `constructMetadata` wholesale**, as the music page does;
+  with no locale there is no `hreflang` map to build.
+- **The route is one line and the sitemap one key**, `PAGE_ROUTES` already
+  feeding `sitemap()`.
+- **The game shares nothing below the page with the rest of the site, on
+  purpose.** No other page has a canvas, an engine or a generator, so a
+  `shared/game` segment or `features/` slice would have one consumer and fail
+  Steiger's `insignificant-slice`; `Mushroom` and `Insect` are not
+  `entities/` slices for the same reason.
+- **Genes and drawing are two modules per creature** — one is tested, the
+  other looked at. `random.ts` is shared by every generator, which is why it
+  is its own module from bite 1.
+- **`Seeded = { seed: number }` and `WithId` are the bases** `Mushroom` and
+  `Insect` both intersect, so `pnpm type-overlap` holds as the second
+  creature arrives.
+- **Numbers and colours have one home each**: `layout.ts` positions and sizes
+  everything, `palette.ts` holds every base hue; a per-instance nudge is a
+  gene.
