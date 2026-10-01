@@ -8,12 +8,15 @@
 
 import type { Point } from '../../model/geometry';
 import {
+  bendAt,
+  type Camera,
   CLUMP_DISTANCE,
   type Eye,
   EYE_HEIGHT,
   pinholeOf,
   SPREAD,
 } from '../../model/ground';
+import { smooth } from '../../model/motion';
 import { wrapAngle } from './panorama';
 import {
   buried,
@@ -118,13 +121,22 @@ export function drawnAloft(view: View, aloft: Aloft): Placed | undefined {
 /**
  * How a leg veers round the eye, in the clump's size on the plane: `near`,
  * the least distance it passes the eye at, and `width`, half the band over
- * which the veer eases in. `near` is `V_NEAR`, where an insect's zoom is the
- * nearest drawn mushroom's, so a fly passes the child's ear and never fills
- * the screen.
+ * which the veer eases in.
  */
 export type Veer = Record<'near' | 'width', number>;
 
-export const VEER: Veer = { near: V_NEAR, width: V_NEAR / 2 };
+/**
+ * The veer on `camera`'s screen: `near` is `V_NEAR` bent as the screen's edge
+ * bends it, so an insect passing the eye there is drawn no bigger than the
+ * nearest mushroom drawn at the middle, and never fills the screen; `width`
+ * barely moves the zoom, so it is kept narrow.
+ */
+export function veerOf(camera: Camera): Veer {
+  return {
+    near: V_NEAR * bendAt(pinholeOf(camera), 0),
+    width: 0.1 * CLUMP_DISTANCE,
+  };
+}
 
 /**
  * `aloft` pushed radially out on the plane from `eye` to `veer.near`: as it
@@ -133,7 +145,7 @@ export const VEER: Veer = { near: V_NEAR, width: V_NEAR / 2 };
  * a leg bends round the eye with no kink. Straight at the eye, it is pushed
  * along the eye's heading.
  */
-export function veered(eye: Eye, aloft: Aloft, veer: Veer = VEER): Aloft {
+export function veered(eye: Eye, aloft: Aloft, veer: Veer): Aloft {
   const { near, width } = veer;
   const distance = Math.hypot(aloft.x - eye.x, aloft.y - eye.y);
   if (distance >= near + width) return aloft;
@@ -146,5 +158,54 @@ export function veered(eye: Eye, aloft: Aloft, veer: Veer = VEER): Aloft {
     ...aloft,
     x: eye.x + pushed * Math.sin(azimuth),
     y: eye.y + pushed * Math.cos(azimuth),
+  };
+}
+
+/**
+ * The seats a leg leaves from (`from`) and lands on (`to`), as plane points;
+ * an end in the air, which the veer may move, is absent.
+ */
+export type SeatEnds = Partial<Record<'from' | 'to', Point>>;
+
+/** The share of `flown` at a seat end over which the veer fades out. */
+export const SEAT_FADE = 0.3;
+
+/**
+ * How much of the veer a leg keeps `flown` of the way along, from the seat
+ * `seat` at its end `toward` (`flown`'s distance from that end, 0 at it):
+ * all of it unless the veer moves the seat (inside `near + width` of `eye`),
+ * none at the seat, and in between a smoothstep over `SEAT_FADE` of the way,
+ * shortened as the seat nears the band's outer edge, where the veer moves it
+ * less, so the keep is continuous as the eye walks a seat out of the band.
+ */
+function keptBy(eye: Eye, seat: Point, veer: Veer, toward: number): number {
+  const distance = Math.hypot(seat.x - eye.x, seat.y - eye.y);
+  const depth = smooth((veer.near + veer.width - distance) / veer.width);
+  if (depth === 0) return 1;
+  return smooth(toward / (SEAT_FADE * depth));
+}
+
+/**
+ * `aloft`, `flown` of the way along its leg, veered round `eye` (`veered`)
+ * but with the veer faded out toward a seat end the veer would move, so the
+ * insect leaves and lands on that seat exactly. The fade is C¹ in `flown`;
+ * on a leg with no such seat end it is `veered` itself.
+ */
+export function veeredAlong(
+  eye: Eye,
+  aloft: Aloft,
+  veer: Veer,
+  flown: number,
+  ends: SeatEnds,
+): Aloft {
+  const moved = veered(eye, aloft, veer);
+  if (moved === aloft) return aloft;
+  const keep =
+    (ends.from ? keptBy(eye, ends.from, veer, flown) : 1) *
+    (ends.to ? keptBy(eye, ends.to, veer, 1 - flown) : 1);
+  return {
+    ...aloft,
+    x: aloft.x + keep * (moved.x - aloft.x),
+    y: aloft.y + keep * (moved.y - aloft.y),
   };
 }
