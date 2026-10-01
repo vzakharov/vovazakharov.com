@@ -14,8 +14,9 @@ sections your package names. Read, before anything else:
 - `docs/plans/mushroom-game-syama.in-progress.md` § "Eaten so far" (the
   summary above the index; it names each module's job) and § "Rest of the
   bite" — the decisions there are made; build them, don't reopen them (what
-  is already built, and why, is in `docs/plans/mushroom-game-syama/bite-12-log.md`;
-  open it only when your package needs that history). Where
+  is already built, and why, is in the topic files under
+  `docs/plans/mushroom-game-syama/bite-12/`; open only the one your package
+  needs). Where
   one cannot hold as written, stop and report which and why, with the
   options measured, rather than picking another.
 - `docs/plans/mushroom-game-syama/decisions.md` — the standing design (taps

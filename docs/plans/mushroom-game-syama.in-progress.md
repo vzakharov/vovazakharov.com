@@ -27,8 +27,10 @@ The operator delegated the whole loop and does not step in until the end
    tail (step 2), then folds it into `## Eaten so far`
    as its own `mushroom-game-syama/bite-<nn>.md` and an index row, and
    rewrites the summary above the index rather than appending to it
-   (`.claude/skills/plan/elephant.md` § "The plan's shape"; split at 1001
-   lines on the operator's «ого его раздуло. надо разбивать»), runs `/polish` and `/pr`, publishes the Artifact (below), pauses the plan,
+   (`.claude/skills/plan/elephant.md` § "The plan's shape": past 450 lines,
+   back under 400; an open bite's settled history goes to topic files in
+   `mushroom-game-syama/bite-<nn>/`), runs `/polish` and `/pr`, publishes
+   the Artifact (below), pauses the plan,
    then relays `/go` for the next bite when its context is spent.
 2. **The review is a subagent in the bite's tail, not a session of its
    own.** Separate review and `/handle` sessions cost about 40% of the
@@ -130,8 +132,8 @@ room in the current view, up to twelve; where none does, facing bare ground
 included, `+` shakes its head with a "nuh-uh". `−` sinks the selected or the
 newest. The house button furnishes a cap with windows from Syama's row and
 its stem with a door, where a mouse now and then peeks out, or comes at once
-to a tap with a squeak. The butterfly, fly and bee buttons fly one in from
-the nearer screen edge (4/3/3 at most, the oldest leaving): butterflies
+to a tap with a squeak. The butterfly, fly and bee buttons fly one in over
+the brow (4/3/3 at most, the oldest leaving): butterflies
 drink at flowers and rest on caps, flies favour the fly agarics, bees carry
 pollen and plant a flower in a ring round one they visited. A tap on a
 resting insect sends it off and goes through to what it sat on. Every
@@ -163,23 +165,20 @@ units across on every screen (`ui/scene/meadow-camera.ts`), stored in
 `model/ground.ts`'s `Ground {x, z}` and laid out once per screen size for
 the opening eye (`layout.ts`, CSS px); the zoom is the screen's, capped to
 show the opening clump and floored where its narrowest cap is a finger
-wide (`ZOOM_FLOOR`). The layout stands on a plane (`planeOf`) seen through a
-pinhole from an `Eye {x, y, heading}` (`viewOf`), which at `OPENING_EYE`
-reproduces the opening frame exactly. The eye is the scene's pure state,
-not the `Meadow`'s: `model/pan.ts` is a wrapping heading (`TURN_CRUISE`
-0.38 rad/s), `model/stride.ts` the step (`STRIDE_CRUISE` 1.6 units/s inside
-the `GLADE` rim, centre (0, 8) radius 12), both through `model/cruise.ts`,
-and `model/walk.ts` the axis-locked drag and the keys over them, with
-`eye-input.ts`'s `EyeInput` the one screen↔eye home. Each frame every bed
-`follow`s the `View` (`view.ts`, `bed-place.ts`): position, scale by
-`zoom`, depth by screen row, culled nearer than `V_NEAR` 2; the camera never
-scrolls across, its `scrollY` only the walk's bob (`walking.ts`). Past
-`D_SEE` (13.33) a thing sinks under a round brow by its distance (`brow.ts`,
-`browRow`) and pales; haze follows distance through `repaint-queue.ts`, at
-most two repaints a frame. The sun, its glow and wash and the clouds stand
-at azimuths (`panorama.ts`), the hills are drawn live round 360° and the
-ground is screen-fixed rows; controls and pickers stay on the screen
-(bite-12.md).
+wide (`ZOOM_FLOOR`). The layout stands on a plane (`planeOf`, its angles
+widened by `SPREAD`) seen from an `Eye {x, y, heading}` through a panoramic
+lens (`viewOf`): linear in azimuth across, rows by distance, the ground bent
+toward the sides by a fixed curve, a full turn 4 screens on tabL, the
+opening frame exact at `OPENING_EYE`. The eye is the scene's pure state:
+`model/pan.ts` a wrapping heading, `model/stride.ts` the step inside the
+`GLADE` rim, both through `model/cruise.ts`, `model/walk.ts` the drag and
+keys over them, `eye-input.ts`'s `EyeInput` the one screen↔eye home. Each
+frame every bed `follow`s the `View` (`view.ts`, `bed-place.ts`), culled
+nearer than `V_NEAR`; the camera's `scrollY` is only the walk's bob. Past
+`D_SEE` a thing sinks under a round brow by its distance (`brow.ts`) and
+pales; haze follows distance through `repaint-queue.ts`. The sun, glow, wash
+and clouds stand at azimuths (`panorama.ts`), the hills are live round 360°,
+the ground screen-fixed rows (bite-12.md).
 
 **Placement and taps.** A grown mushroom's foot is `pickFoot`'s best of 32
 candidates by its seed (`model/placement.ts`), which `roomFor` in
@@ -246,21 +245,14 @@ visits on every `VIEWPORTS` screen. The suite runs a file at a time,
 under `tmp/mushroom-artifact/`, Phaser from jsDelivr at the lockfile's
 version, republished in place at the URL on the PR.
 
-**What the next bites stand on.** Rain falls from clouds at their azimuths
-onto the ground, so a cloud is tapped where the view draws it and a drop
-lands through the view (`ofGround`); the rainbow stands opposite the sun.
-Its weather is model state already built (`model/weather.ts`,
-`Meadow.rain`); the sprouting spores
-grow through `pickFoot` and `roomFor` under `MUSHROOM_SLOTS`, sheltering is
-a perch in `flight-habits.ts`, and closing flowers and swelling caps are
-clock functions in `motion.ts`. Dusk is a second set of `palette*.ts`
-colours through the baked backdrop and `sunLight`, lit windows in
-`draw-house.ts`, mice from the house's peek motion, and fireflies a fourth
-`INSECT_KINDS` entry. The map reads the eye from `EyeInput`. Around the
-canvas: reduced motion switches the clock functions' idle loops and the
-walk's bob off; the hidden HTML buttons dispatch the same
-actions from `ui/meadow-canvas.tsx`; the home pictogram is a `hud.ts`
-drawing placed by `layout.ts`.
+**What the next bites stand on.** Rain's weather is model state already
+built (`model/weather.ts`, `Meadow.rain`; the rest in `rain.md`). Dusk is a
+second set of `palette*.ts` colours through the baked backdrop and
+`sunLight`, lit windows in `draw-house.ts`, mice from the house's peek
+motion, fireflies a fourth `INSECT_KINDS` entry. Around the canvas, reduced
+motion switches the clock functions' idle loops and the walk's bob off, the
+hidden buttons dispatch from `ui/meadow-canvas.tsx`, and the home pictogram
+is a `hud.ts` drawing placed by `layout.ts`.
 
 The bites, each file its full contract:
 
@@ -281,10 +273,6 @@ The bites, each file its full contract:
 
 In order.
 
-**Bite 11's review (5373085053) is handled**: every thread answered, the
-play run green on all five screens, its frames in
-`docs/remove-before-merging/frames/bite-11/`, the Artifact at version 12.
-
 **The rest of idea 1 is 12b and item 15.** Bites 9, 11 and 12 built the
 ground, the wide world and walking it; the map comes after the rain's
 aftermath («карту можно отложить до после после дождя»).
@@ -298,129 +286,24 @@ ground; no test covers them. The play run shoots no 568×320 screen, so the
 tests alone hold it. On tablets the front mushroom's stem can run to the
 bottom edge. On phoneP one planted flower reads larger than its neighbours
 at the same depth. The play run shoots no refused `+` and no bees planting
-in a full forest, and of bite 12's checks it does not play the walk up to a
-back-row mushroom (its haze cleared, a tap on its drawn cap), an insect
-after a 180° turn, or the frame budget walking into the forest. The
-footstep's level (`STEP_PEAK`, ~10 dB under a C5) wants the operator's ear.
-At the opening, a thing laid past the brow near a screen's side starts
-partly sunk (phoneL, desktop). A flower still drawn past the brow takes a
+in a full forest. A flower still drawn past the brow takes a
 tap on the covered part of its head. The sky may read a little plain since
 bite 7 tamed the halo. Carried from bite 6: fliers are kept apart where
 they sit and hover, not in flight, so a flier crossing the meadow is drawn
 straight over one seated on a cap (frame
-`phoneL-butterfly-crosses-one-on-a-cap.png`); a flight in from off screen
-still takes up to 5 s for a butterfly; a butterfly making way for a bee
+`phoneL-butterfly-crosses-one-on-a-cap.png`); a butterfly making way for a bee
 leaves its flower moments after landing, which may read as a twitch; a
 flier holding an air spot is drawn still, with no hover bob.
 
-12b. **The meadow has no edge** («ну да, бесконечный»): bite 12's glade
-rim (`GLADE` in `model/stride.ts`) goes, and the field runs on wherever the
-child walks. **Nothing grows on it but grass until the child plants it**:
-the opening clump and its seeded flowers are the whole of what the game
-sows, and every other mushroom and flower is his («ничего кроме стартовых
-двух грибов и скольки-то там цветков быть не должно, всё остальное ребёнок
-засевает сам… там пустое поле пока он туда что-то не посадит»). The grass
-is the field's, laid as the child walks, every tuft a planting spot by
-bite 12's rules (`tufts.ts`), judged where the child stands rather than at
-the opening eye. The map (item 15) shows the surroundings rather than a
-whole world, and helps the child find his way back to his own mushrooms;
-the twelve-mushroom cap becomes a cap per area. The operator plays only
-the finished game, so bite 12's rim is never something a child meets.
-What it takes:
+12b. **The meadow has no edge**: the glade rim goes and the field runs on
+wherever the child walks, nothing on it but grass until he plants it; the
+store, the light and the insects move onto the plane, and the clear-outs
+bite 12 left go. Its contract:
+[endless-field.md](mushroom-game-syama/endless-field.md).
 
-- **The store on the plane.** `Ground {x, z}` cannot write a point behind
-  the opening eye, so stored positions (`Planted.foot`, the flower feet,
-  `pickFoot`'s candidates) become plane points, the layout keeping the
-  opening frame for the clump only; `+` and planting work anywhere in front
-  of the child (`roomFor` already judges the screen by the view), and the
-  patch and room rules judged at the opening eye move to the current one.
-- **Light by heading** through bite 12's repaint queue (a high sun, side
-  component `sin(heading − α_sun)`), and the ground's **mottles back as
-  objects on the plane**, gone since bite 12 made the ground screen-fixed
-  rows.
-- **The insects on the plane.** Legs with height, air spots round the eye,
-  entry from the view's edge, take-offs panned by azimuth; the layout-px
-  adapter in `insect-view.ts` retires, and with it bite 12's accepted cases
-  (a leg ending behind the eye hidden for that stretch, a release facing
-  away flying in unseen, `onscreenOf`'s x-only test).
-- **Clear-outs bite 12 left:** `parallax.ts` and `skyline.ts`'s
-  `groundSeam`, alive only for `ground-seam.test.ts`; `sun-layout.ts`'s
-  `nearestTheSun`, alive only for `meadow-rules.test.ts`; `visit-play.ts`'s
-  `openingCrop`, which returns a `View`; `model/motion.ts`'s `rebloom`, dead
-  since a retap restarts.
-- **Open for the operator:** what replaces the twelve-mushroom cap once the
-  whole field can be sown.
-
-13. **Rain** — the shower itself; what it leaves behind is item 14. Cut
-    there because item 12 as written was four packages (weather, the
-    shower's look and sound, shelter, sprouting), and a bite past two runs
-    into the budget notice (`.claude/skills/megabeast/notes/pickup-and-relay.md`).
-
-    **Behaviour.**
-    - **A tap on any cloud starts the rain.** The tapped cloud darkens
-      first and the others follow within ~0.6 s; the sky and land dim under
-      a slate wash; rain falls across the whole screen, densest under the
-      tapped cloud, which turns with it as the child does (a cloud stands at
-      an azimuth, `panorama.ts`). The weather is the meadow's, not a
-      cloud's: one shower at a time, so flowers everywhere close at once, a
-      cause a child reads without a word.
-    - **It lasts `RAIN_MS` 10 s; a tap on a cloud while it rains restarts
-      the 10 s** and gives that cloud a wobble and a gush of drops under
-      it, so the tap always answers (decisions: "No tap is ever answered
-      with a shrug"). A cloud tap is a tap on the meadow, so it shuts the
-      flower picker, as a flower tap does.
-    - **Drops** are short slanted streaks across the screen, at most ~120
-      at once. Where one lands it splashes as a small ring (decisions:
-      mandala ornament): on a cap's top where the drop's column crosses a
-      drawn cap, otherwise on the ground at a distance picked from the view.
-      Splashes are placed through the view (`ofGround`), so they sit on the
-      ground as the child turns and walks.
-    - **Sound**: a soft hiss of filtered noise with a patter of tiny ticks,
-      fading in over ~1 s and out with the rain; a cloud tap answers with a
-      low soft whoosh. Synthesized in `synth.ts`'s manner, silent under the
-      mute; level above ~300 Hz checked by rendering (play-run note "Sound
-      is reviewed by rendering it").
-    - **While it rains** every flower closes — petals folded up toward the
-      centre over ~1.5 s, reopening as it stops — and stays playable as an
-      instrument; every mushroom's cap swells ~6% and settles back. Both
-      are clock functions of the shower, so a resize or a walk never
-      interrupts them. Insects carry on as before this bite.
-    - **When it stops** the wash lifts and a rainbow fades in over the sky
-      opposite the sun (at `α_sun + π`, so the child turns her back to the
-      sun to see it), as concentric bands, holds ~8 s and fades over ~3 s. A
-      new tap on a cloud while the rainbow shows starts a new shower and
-      fades it out.
-
-    **Model — built (5c9f2e9), before walking took bite 12.** `Meadow`
-    has `rain: Rain | undefined`, `{ startedAt, stopsAt }` in the insects'
-    ms clock (not `start`, which `pan.ts` holds as a position);
-    `{ kind: 'rain' } & Timed` starts it or pushes `stopsAt` to
-    `now + RAIN_MS` and shuts the flower picker. `model/weather.ts` gives
-    `raining`, `wetness`, `downpour` (drops, on over 0.6 s, off at
-    `stopsAt`) and `rainbow` as pure functions of the span and the clock;
-    `tick` is untouched. Left to the scene: the rainbow a new shower
-    starts under drops to 0 at once, so its fade-out is the scene's to
-    hold; drops in the air finish falling after `stopsAt`.
-
-    **Scene.** A rain bed module (`rain-view.ts` and what it needs beside it)
-    owns the cloud hit areas, the darkening, the wash, the drops, the
-    splashes and the rainbow; `meadow-scene.ts` (429 lines) only wires it,
-    staying under ~450. Cloud hit areas are the cloud's circle where the
-    view draws it, at least `TAP_RADIUS`, the lowest priority: a control, a
-    mushroom, a flower or an insect over a cloud takes the tap. Closing petals in `draw-flower.ts`,
-    the swell where the caps are scaled; colours in `palette-backdrop.ts`
-    (wash, dark cloud, rainbow bands). The probe exposes the shower
-    (`__probe`), and `pnpm play:mushrooms` taps a cloud on every screen,
-    steps through the rain and the rainbow, checks `rain` is set, the
-    flowers closed mid-shower and open after, and holds the 26 ms frame
-    budget with the drops falling.
-
-    **DRY notes.** The weather's clock functions join `motion.ts`'s
-    pattern (pure functions of seconds or ms) in their own module, since
-    `motion.ts` is per-creature motion and weather is the meadow's. Splash
-    rings reuse `spores.ts`'s particle manner where it fits rather than a
-    second particle helper. The rain's sound is built from `synth.ts`'s
-    primitives; no new audio graph beside `MeadowSound`.
+13. **Rain** — the shower itself; what it leaves behind is item 14. Its
+    contract, the model already built (5c9f2e9):
+    [rain.md](mushroom-game-syama/rain.md).
 
 14. **After the rain.** While it rains, insects shelter under the nearest
     cap (a perch in `flight-habits.ts`, clear of the world's edge as every
@@ -444,12 +327,10 @@ What it takes:
 
 ## Rest of the bite
 
-Built: steps 0–P4, the seam and the round brow, a key planting, the
-arrivals and the dash cap, the subagent notice, the panoramic lens and the
-items it carried — each with its sha, its note under
-`docs/remove-before-merging/bite-12/` and what it beat, in
-`docs/plans/mushroom-game-syama/bite-12-log.md`. Every build agent works in
-its own `git worktree` (`brief-common.md` § "Your own worktree").
+Everything else bite 12 decided is built; its shas, notes and what each
+beat are in `mushroom-game-syama/bite-12/` by topic — `progress.md`,
+`insects.md`, `lens.md`, `taps-and-flowers.md`, `seam-and-brow.md`,
+`walking.md`. Build agents work in their own `git worktree` (`brief-common.md`).
 
 **Re-decided, from `lens-carry.md` round 3: insects fly and are sized on the
 plane, not in the layout.** The past-the-edge start did not hold: every leg
@@ -464,7 +345,7 @@ world, which the lens and walking made wrong away from the opening; the
 0.76% release was the symptom. So a leg's points are plane points, and an
 insect's drawn size is its own size over its distance from the eye.
 Beaten: sizing by distance alone (fixes the size, not the legs through the
-meadow); a zoom floor (the bound beaten in the log's round-2 decision, a tenth-size insect); the
+meadow); a zoom floor (the bound beaten in `bite-12/insects.md`'s round-2 decision, a tenth-size insect); the
 past-the-edge patch alone (`lens-carry-round3.patch`, never seen with no
 perch shown). A spec first (`insect-plane.md`), then build packages.
 **Decided, with the operator: an insect's size at the opening goes by its
@@ -510,21 +391,6 @@ leaving it (the complaint stands).
 
 ## DRY notes
 
-- **Metadata reuses `constructMetadata` wholesale**, as the music page does;
-  with no locale there is no `hreflang` map to build.
-- **The route is one line and the sitemap one key**, `PAGE_ROUTES` already
-  feeding `sitemap()`.
-- **The game shares nothing below the page with the rest of the site, on
-  purpose.** No other page has a canvas, an engine or a generator, so a
-  `shared/game` segment or `features/` slice would have one consumer and fail
-  Steiger's `insignificant-slice`; `Mushroom` and `Insect` are not
-  `entities/` slices for the same reason.
-- **Genes and drawing are two modules per creature** — one is tested, the
-  other looked at. `random.ts` is shared by every generator, which is why it
-  is its own module from bite 1.
-- **`Seeded = { seed: number }` and `WithId` are the bases** `Mushroom` and
-  `Insect` both intersect, so `pnpm type-overlap` holds as the second
-  creature arrives.
-- **Numbers and colours have one home each**: `layout.ts` positions and sizes
-  everything, `palette.ts` holds every base hue; a per-instance nudge is a
-  gene.
+The reuse calls the whole game stands on are in
+[decisions.md](mushroom-game-syama/decisions.md) § "DRY notes"; a bite with a
+reuse call of its own carries it in its own file.
