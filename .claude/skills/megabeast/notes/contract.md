@@ -8,9 +8,11 @@
   split before it is read whole.** Bites 1–11 plus their reviews' calls took
   `## Eaten so far` to 1001 lines, about 20k tokens on every resume, until
   the operator flagged it («ого его раздуло. надо разбивать»). The split
-  became `.claude/skills/plan/elephant.md`'s rule: past ~450 lines, an index
-  in the lifecycle-named file plus one file per bite and one for the
-  standing decisions. The skill should start a long run in that shape from
+  became `.claude/skills/plan/elephant.md`'s rule: past ~400 lines, the
+  lifecycle-named file keeps a fixed-size summary of everything built, which
+  each bite rewrites rather than appends to (so the file stays within 400
+  lines), plus an index, one file per bite and one for the standing
+  decisions. The skill should start a long run in that shape from
   bite 1, and should record a structural change like this one as a decision
   in the same commit, not leave it to be asked for.
 - **Standing constraints travel verbatim, or they stop applying.** The relay
