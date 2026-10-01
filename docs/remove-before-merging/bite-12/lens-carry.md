@@ -123,9 +123,15 @@ seam, `fliers.test.ts`, the frames.
    a head, so the fly agaric's ceiling, swept across every column still on
    the screen, is 0.614 there too.
 
+7. **`flight.ts` split at the leg's timing**: `flight-timing.ts` (110 lines)
+   holds `Span`, `Dash`, `Placed`, `apartIn`, `stayAt`, `paced` and `legTo`
+   — how long a flight and the stay after it take — moved unchanged;
+   `flight.ts` (363) keeps the choosing of perches and the flights, and
+   re-exports `Span` so its importers stand. The two import each other's
+   types only, as `perch-room.ts` already does.
+
 ## Left
 
-The `flight.ts` seam (461 lines),
 `fliers.test.ts` alone (not run: this package changed `drawnAt`, the sink,
 the cull and `firstFlight`'s no-perch leg), the tabL / phoneP release frames
 `lens-carry-*.png`.
