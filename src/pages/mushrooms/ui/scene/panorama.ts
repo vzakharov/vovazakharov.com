@@ -6,10 +6,10 @@
  * shows azimuth `α` at `cx + F·tan(α − heading)` (`pinholeOf`).
  */
 
-import type { Circle } from '../../model/geometry';
+import { type Circle, type Point, sample } from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import { between, mulberry32 } from '../../model/random';
-import type { Span } from './parallax';
+import type { Span } from './baking';
 import type { View } from './view';
 
 const TURN = Math.PI * 2;
@@ -17,6 +17,81 @@ const TURN = Math.PI * 2;
 /** `angle` wrapped into `[−π, π)`. */
 export function wrapAngle(angle: number): number {
   return angle - TURN * Math.floor((angle + Math.PI) / TURN);
+}
+
+/** A line round the panorama: its height down the screen, in CSS px, at each azimuth. */
+export type Crest = (azimuth: number) => number;
+
+/** The cubic from `from` to `to` over `s` in [0, 1], leaving at `out` and arriving at `into`, each per the whole of `s`. */
+function hermite(
+  from: number,
+  out: number,
+  to: number,
+  into: number,
+  s: number,
+): number {
+  const [s2, s3] = [s * s, s * s * s];
+  return (
+    (2 * s3 - 3 * s2 + 1) * from +
+    (s3 - 2 * s2 + s) * out +
+    (3 * s2 - 2 * s3) * to +
+    (s3 - s2) * into
+  );
+}
+
+/**
+ * A sine wave round the panorama, as `camera`'s opening view shows it
+ * `rate` radians of its phase to a CSS px across the screen, `phase` at the
+ * screen's middle: over the opening screen exactly that, and round the rest
+ * of the circle at about the pace it runs at the middle, easing between the
+ * two with no corner and turning a whole number of times round the circle,
+ * so it joins itself. Its value at each azimuth, from −1 to 1.
+ */
+export function ringWave(camera: Camera, rate: number, phase: number): Crest {
+  const { x: middle, focal } = pinholeOf(camera);
+  const from = Math.atan(-middle / focal);
+  const to = Math.atan((camera.width - middle) / focal);
+  const behind = TURN - (to - from);
+  const across = (azimuth: number) => rate * focal * Math.tan(azimuth);
+  const pace = (azimuth: number) => (rate * focal) / Math.cos(azimuth) ** 2;
+  const turns = Math.max(
+    1,
+    Math.round((across(to) - across(from) + rate * focal * behind) / TURN),
+  );
+  const [leaving, back] = [across(to), across(from) + turns * TURN];
+  const [out, into] = [pace(to) * behind, pace(from) * behind];
+  return (azimuth) => {
+    const at = from + ((((azimuth - from) % TURN) + TURN) % TURN);
+    const turned =
+      at <= to
+        ? across(at)
+        : hermite(leaving, out, back, into, (at - to) / behind);
+    return Math.sin(turned + phase);
+  };
+}
+
+/**
+ * `crest` across `view`'s screen, `steps` points to its width and `margin`
+ * CSS px past either edge, left to right, in CSS px.
+ */
+export function crestAcross(
+  crest: Crest,
+  view: View,
+  steps: number,
+  margin = 0,
+): Point[] {
+  const { width } = view;
+  const count = Math.ceil((steps * (width + 2 * margin)) / width);
+  return sample(-margin, width + margin, count, (x) => ({
+    x,
+    y: crestAt(crest, view, x),
+  }));
+}
+
+/** How far down `view`'s screen `crest` stands at `x` across it, in CSS px. */
+export function crestAt(crest: Crest, view: View, x: number): number {
+  const { x: middle, focal } = pinholeOf(view);
+  return crest(view.eye.heading + Math.atan((x - middle) / focal));
 }
 
 /** The azimuth the opening eye, looking along heading 0, sees `x` across `camera`'s screen at. */

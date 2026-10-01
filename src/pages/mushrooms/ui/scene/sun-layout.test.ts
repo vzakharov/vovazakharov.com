@@ -2,13 +2,21 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Circle, Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
+import { azimuthAt, crestAcross, screenAt } from './panorama';
 import { standingControls } from './sky-layout';
-import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
+import {
+  farSkyline,
+  farthestSkyline,
+  HILL_STEPS,
+  nearSkyline,
+} from './skyline';
 import { raysClear, SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */
@@ -36,6 +44,12 @@ function shownAbove(disc: Circle, skyline: readonly Point[]): number {
   }
   return shown / inside;
 }
+
+/** Headings round the whole circle, an eighteenth of a turn apart. */
+const HEADINGS = Array.from(
+  { length: 18 },
+  (_, index) => (index * Math.PI * 2) / 18,
+);
 
 const apart = (a: Circle, b: Circle) =>
   Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r;
@@ -83,25 +97,41 @@ describe('the sun', () => {
     it(`stands whole in the sky, clear of both hill ranges and every control, on a ${name} screen`, () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed);
-        const { sun, horizon, picker, housePicker } = layout;
+        const { sun, horizon, picker, housePicker, camera } = layout;
         const rays = { ...sun, r: sun.r * SUN_RAY_REACH };
         assert.ok(
           sun.y + sun.r <= horizon + 1e-9,
           `visit ${String(seed)}: the disc below the horizon`,
         );
-        for (const skyline of [farthestSkyline, farSkyline]) {
+        const crests = [farthestSkyline, farSkyline].map((skyline) =>
+          skyline(mulberry32(seed), layout),
+        );
+        const near = nearSkyline(mulberry32(seed), layout);
+        for (const heading of HEADINGS) {
+          const view = viewAt(camera, { ...OPENING_EYE, heading });
+          const x = screenAt(view, azimuthAt(camera, sun.x));
+          // Only a sun whose rays reach onto the screen meets the hills drawn across it.
+          if (x === undefined || x + rays.r < 0 || x - rays.r > width) continue;
+          const at = `visit ${String(seed)}, heading ${heading.toFixed(2)}`;
+          for (const crest of crests) {
+            assert.equal(
+              shownAbove(
+                { ...rays, x },
+                crestAcross(crest, view, HILL_STEPS, rays.r),
+              ),
+              1,
+              `${at}: a far hill on the rays`,
+            );
+          }
           assert.equal(
-            shownAbove(rays, skyline(mulberry32(seed), layout)),
+            shownAbove(
+              { ...sun, x },
+              crestAcross(near, view, HILL_STEPS, sun.r),
+            ),
             1,
-            `visit ${String(seed)}: a far hill on the rays`,
+            `${at}: a near hill on the disc`,
           );
         }
-        const near = nearSkyline(mulberry32(seed), layout);
-        assert.equal(
-          shownAbove(sun, near),
-          1,
-          `visit ${String(seed)}: a near hill on the disc`,
-        );
         const glow = sun.r * SUN_GLOW_REACH;
         assert.ok(sun.x + glow <= width + 1e-9 && sun.y - glow >= -1e-9);
         for (const control of [
@@ -117,17 +147,22 @@ describe('the sun', () => {
       }
     });
 
-    it(`parts the far hills under the sun with no level run, above where the sky ends, on a ${name} screen`, () => {
+    it(`parts the far hills under the sun with no level run, above where the sky ends, from every heading, on a ${name} screen`, () => {
       for (const seed of VISITS.slice(0, 200)) {
         const layout = meadowLayout(width, height, seed);
-        const line = farSkyline(mulberry32(seed), layout);
-        for (const [index, point] of line.slice(1).entries()) {
-          const before = line[index] ?? point;
-          assert.ok(
-            Math.abs(point.y - before.y) > 1e-6,
-            `visit ${String(seed)}: level at x ${point.x.toFixed(0)}`,
-          );
-          assert.ok(point.y < layout.nearHills, `visit ${String(seed)}: sky`);
+        const crest = farSkyline(mulberry32(seed), layout);
+        for (const heading of HEADINGS) {
+          const view = viewAt(layout.camera, { ...OPENING_EYE, heading });
+          const line = crestAcross(crest, view, HILL_STEPS);
+          const at = `visit ${String(seed)}, heading ${heading.toFixed(2)}`;
+          for (const [index, point] of line.slice(1).entries()) {
+            const before = line[index] ?? point;
+            assert.ok(
+              Math.abs(point.y - before.y) > 1e-6,
+              `${at}: level at x ${point.x.toFixed(0)}`,
+            );
+            assert.ok(point.y < layout.nearHills, `${at}: sky`);
+          }
         }
       }
     });

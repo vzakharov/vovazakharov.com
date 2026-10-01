@@ -3,11 +3,11 @@ import * as Phaser from 'phaser';
 import { pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { haloReach, litSkyAt, skyAt, skyGrid } from './backdrop-tones';
+import type { Span } from './baking';
 import { mix } from './colour';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT, wrapAngle } from './panorama';
-import type { Span } from './parallax';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 

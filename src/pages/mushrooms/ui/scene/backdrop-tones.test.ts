@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { OPENING_EYE } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import {
   GROUND_STOPS,
@@ -14,8 +15,10 @@ import { channels, contrast, luminance, mix, toHsv } from './colour';
 import { tuftColours } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { farSkyline, farthestSkyline, nearSkyline, seamAt } from './skyline';
+import { azimuthAt, crestAt, screenAt } from './panorama';
+import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 const rgb = (colour: number) => {
@@ -56,27 +59,41 @@ function saturationAndLightness(colour: number): [number, number] {
 const shiftAt = (layout: MeadowLayout, x: number, y: number) =>
   levels(litSkyAt(layout, x, y), skyAt(y / layout.nearHills));
 
-/** Where the sky shows past the sun's rays, above all three ranges at the leftmost crop, `step` px apart, for `seed`'s hills. */
-function openSky(layout: MeadowLayout, seed: number, step: number) {
-  const { width, sun } = layout;
-  const lines = [farthestSkyline, farSkyline, nearSkyline].map((skyline) =>
+/**
+ * Where the sky shows past the sun's rays, above all three ranges, `step` px
+ * apart across the screen of the opening eye turned to `heading`, for
+ * `seed`'s hills: each point where the sun's light, slid with the sun, was
+ * laid out, so `shiftAt` reads its light there.
+ */
+function openSky(
+  layout: MeadowLayout,
+  seed: number,
+  step: number,
+  heading: number,
+) {
+  const { width, sun, camera } = layout;
+  const view = viewAt(camera, { ...OPENING_EYE, heading });
+  const at = screenAt(view, azimuthAt(camera, sun.x)) ?? Infinity;
+  const crests = [farthestSkyline, farSkyline, nearSkyline].map((skyline) =>
     skyline(mulberry32(seed), layout),
   );
   const top = (x: number) =>
-    Math.min(
-      // Each layer as the crop at the world's left end shows it, where
-      // every layer's x is the screen's.
-      ...lines.map((line) => seamAt(line, x)),
-    );
+    Math.min(...crests.map((crest) => crestAt(crest, view, x)));
   const points: Array<[number, number]> = [];
   for (let x = 0; x < width; x += step) {
     for (let y = 0; y < top(x); y += step) {
-      if (Math.hypot(x - sun.x, y - sun.y) >= sun.r * SUN_RAY_REACH)
-        points.push([x, y]);
+      if (Math.hypot(x - at, y - sun.y) >= sun.r * SUN_RAY_REACH)
+        points.push([x - at + sun.x, y]);
     }
   }
   return points;
 }
+
+/** The headings that stand the sun a tenth, half and nine tenths of the way across `layout`'s screen. */
+const sunAcross = ({ camera, sun, width }: MeadowLayout) =>
+  [0.1, 0.5, 0.9].map(
+    (share) => azimuthAt(camera, sun.x) - azimuthAt(camera, share * width),
+  );
 
 /**
  * `turns` lines of points a pixel apart, from the sun's rays out to the sky's
@@ -208,12 +225,14 @@ describe('the backdrop', () => {
     it(`lights no more than ${String(HALO_COVER * 100)}% of the open sky, and nowhere flat, on a ${name} screen`, () => {
       const layout = meadowLayout(width, height, 1);
       for (const seed of VISITS.slice(0, 8)) {
-        const sky = openSky(layout, seed, 4);
-        const lit = sky.filter(([x, y]) => shiftAt(layout, x, y) >= 8);
-        assert.ok(
-          lit.length <= sky.length * HALO_COVER,
-          `visit ${String(seed)}: ${(lit.length / sky.length).toFixed(2)} of the sky`,
-        );
+        for (const heading of [0, ...sunAcross(layout)]) {
+          const sky = openSky(layout, seed, 4, heading);
+          const lit = sky.filter(([x, y]) => shiftAt(layout, x, y) >= 8);
+          assert.ok(
+            lit.length <= sky.length * HALO_COVER,
+            `visit ${String(seed)}, heading ${heading.toFixed(2)}: ${(lit.length / sky.length).toFixed(2)} of the sky`,
+          );
+        }
       }
       // A plateau: a sun radius of lit sky at one colour.
       for (const line of raysOut(layout, 32)) {

@@ -4,8 +4,10 @@
  * which device pixels each texture covers and how it is baked tile by tile.
  */
 
-import type { Circle, Cornered } from '../../model/geometry';
-import type { Span } from './parallax';
+import type { Circle, Cornered, Lefted, Wide } from '../../model/geometry';
+
+/** A stretch across, in CSS px or texels: where it starts and how far it runs. */
+export type Span = Lefted & Wide;
 
 /**
  * How many texels a side a bake draws per device pixel before shrinking to

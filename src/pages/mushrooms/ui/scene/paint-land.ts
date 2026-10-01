@@ -1,22 +1,28 @@
 import type * as Phaser from 'phaser';
 
-import { sunLight } from '../../model/light';
+import { type Light, sunLight } from '../../model/light';
 import type { Random } from '../../model/random';
 import { groundAt, RANGES, ridgeTone } from './backdrop-tones';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips, mottles } from './grain';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
+import { type Crest, crestAcross } from './panorama';
 import { layerSpan, PARALLAX } from './parallax';
 import { fillShape } from './shapes';
 import {
   farSkyline,
   farthestSkyline,
   groundSeam,
+  HILL_STEPS,
   hillBands,
   litRidge,
   nearSkyline,
+  SEAM_STEPS,
+  seamCrest,
+  seamReach,
 } from './skyline';
+import type { View } from './view';
 
 const HILL_BANDS = 16;
 const GROUND_BANDS = 32;
@@ -28,55 +34,105 @@ const GRAIN_SIDE = 256;
 const GRAIN_ALPHA = 0.07;
 /** CSS pixels per grain texel. */
 const GRAIN_SCALE = 1;
-
-/**
- * Each range: its skyline, its tones, whether it is the near range, whose
- * floor reaches down past the seam's lowest point (its foot lies under the
- * whole seam) and which scrolls in a layer of its own, where the other two
- * stop at the ground's top and share the far layer, and its sunlit rim's
- * depth; farthest first.
- */
-const RANGE_FLOORS = [
-  [farthestSkyline, RANGES.farthest, false, 2],
-  [farSkyline, RANGES.far, false, 3],
-  [nearSkyline, RANGES.near, true, 4],
-] as const;
-
-/** The rows each hill layer covers. */
-export type HillRows = Record<'far' | 'near', Band>;
+/** How far past either edge of the screen the hills are drawn, in CSS px, so no rim or band stops short of it. */
+const HILL_MARGIN = 4;
 /** How far past the seam's lowest point the near range's foot reaches, so no sliver of sky shows under it. */
 const FOOT_OVERLAP = 2;
 
+/** The two layers the hills are drawn into: the farthest and far ranges, and the near one under the far. */
+export type HillLayers = Record<'far' | 'near', Phaser.GameObjects.Graphics>;
+
+/** A range as it is drawn: its skyline round the panorama, its tones, the layer it lies in and its sunlit rim's depth. */
+type Range = {
+  crest: Crest;
+  tones: (typeof RANGES)[keyof typeof RANGES];
+  layer: keyof HillLayers;
+  rim: number;
+};
+
 /**
- * The three hill ranges, farthest first, each nearer the air the farther it
- * stands and paling into the mist at its foot, its slopes that face the sun
- * rimmed with light: the farthest and far ranges into `far`, the near one
- * into `near`. Returns the rows each covers.
+ * The hills round the panorama, ready to draw from any heading: the three
+ * ranges, farthest first, the seam along the near range's foot, how far
+ * down each layer reaches, and the light their rims face, as it stands at
+ * the opening.
  */
-export function paintRanges(
-  { far, near }: Record<'far' | 'near', Phaser.GameObjects.Graphics>,
-  layout: MeadowLayout,
-  random: Random,
-): HillRows {
-  const light = sunLight(layout);
-  const seamBottom = Math.max(...groundSeam(layout).map(({ y }) => y));
-  const rows: HillRows = {
-    far: { top: Infinity, bottom: layout.groundTop },
-    near: { top: Infinity, bottom: seamBottom + FOOT_OVERLAP },
+export type Hills = {
+  ranges: Range[];
+  seam: Crest;
+  floors: Record<keyof HillLayers, number>;
+  light: Light;
+};
+
+/**
+ * The hills' ranges, their phases drawn from `random` farthest first, so the
+ * same source raises the same hills: the farthest and far ranges stop at the
+ * ground's top, the near one reaches under the whole seam.
+ */
+export function hillsOf(layout: MeadowLayout, random: Random): Hills {
+  const ranges: Range[] = [
+    {
+      crest: farthestSkyline(random, layout),
+      tones: RANGES.farthest,
+      layer: 'far',
+      rim: 2,
+    },
+    {
+      crest: farSkyline(random, layout),
+      tones: RANGES.far,
+      layer: 'far',
+      rim: 3,
+    },
+    {
+      crest: nearSkyline(random, layout),
+      tones: RANGES.near,
+      layer: 'near',
+      rim: 4,
+    },
+  ];
+  return {
+    ranges,
+    seam: seamCrest(layout),
+    floors: {
+      far: layout.groundTop,
+      near: layout.groundTop + seamReach(layout) + FOOT_OVERLAP,
+    },
+    light: sunLight(layout),
   };
-  for (const [skyline, { lit, foot }, nearest, rim] of RANGE_FLOORS) {
-    const graphics = nearest ? near : far;
-    const band = rows[nearest ? 'near' : 'far'];
-    const line = skyline(random, layout);
-    band.top = Math.min(band.top, ...line.map(({ y }) => y));
-    for (const { outline, down } of hillBands(line, band.bottom, HILL_BANDS)) {
-      graphics.fillStyle(mix(lit, foot, down));
+}
+
+/**
+ * The hills as `view` shows them, into `layers`, cleared first: each range
+ * nearer the air the farther it stands and paling into the mist at its foot,
+ * its slopes that face the sun rimmed with light, and the near range's foot
+ * meeting the ground along the seam, in the ground's own colour there.
+ */
+export function drawHills(
+  layers: HillLayers,
+  { ranges, seam, floors, light }: Hills,
+  view: View,
+): void {
+  for (const graphics of Object.values(layers)) graphics.clear();
+  for (const { crest, tones, layer, rim } of ranges) {
+    const graphics = layers[layer];
+    const line = crestAcross(crest, view, HILL_STEPS, HILL_MARGIN);
+    for (const { outline, down } of hillBands(
+      line,
+      floors[layer],
+      HILL_BANDS,
+    )) {
+      graphics.fillStyle(mix(tones.lit, tones.foot, down));
       fillShape(graphics, outline);
     }
-    graphics.fillStyle(ridgeTone(lit));
+    graphics.fillStyle(ridgeTone(tones.lit));
     for (const quad of litRidge(line, light, rim)) fillShape(graphics, quad);
   }
-  return rows;
+  const seamLine = crestAcross(seam, view, SEAM_STEPS, HILL_MARGIN);
+  layers.near.fillStyle(RANGES.near.foot);
+  fillShape(layers.near, [
+    ...seamLine,
+    { x: seamLine.at(-1)?.x ?? view.width, y: floors.near },
+    { x: seamLine[0]?.x ?? 0, y: floors.near },
+  ]);
 }
 
 /**

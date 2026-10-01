@@ -52,12 +52,9 @@ F·tan(α − heading)`, `undefined` behind the eye), `shownAzimuths(view)`,
   `view.eye` and `drifted`. Depths renumbered -9..-1 (sky, glow, sun,
   clouds, far, near, ground, wash, grain).
 
-## Third agent: the live hills (uncommitted as source)
+## Third agent: the live hills (landed by the fourth)
 
-Stopped on the orchestrator's word (context) before the tests were rewritten,
-so the source does not type-check yet and rides as
-`p2-panorama-hills.patch` (`git apply` it on HEAD; the working tree also
-holds it unstaged). What it does:
+The patch is now source (the `.patch` is gone). What it does:
 
 - `panorama.ts`: `Crest` (azimuth → screen y), `ringWave(camera, rate,
   phase)` — a sine that is exactly `rate·(x − cx) + phase` over the opening
@@ -80,10 +77,12 @@ holds it unstaged). What it does:
   changed. No change to the per-frame or resize API.
 - `Span` moved to `baking.ts` (`parallax.ts` imports it from there).
 
-To finish step 1: rewrite `skyline.test.ts`, `sun-layout.test.ts` (the
-`shownAbove`/level-run checks) and `backdrop-tones.test.ts` `openSky` to
-sample `crestAcross(crest, viewAt(camera, {...OPENING_EYE, heading}))`
-over a heading sweep, the sun at `screenAt(view, azimuthAt(camera, sun.x))`.
+Fourth agent landed it: `crestAt(crest, view, x)` (`panorama.ts`; `crestAcross`
+samples through it); `skyline.test.ts`, `sun-layout.test.ts` and
+`backdrop-tones.test.ts` sweep headings — 18 round the circle (bands, rays,
+disc, level runs, bends), plus for the halo cover the headings standing the
+sun at 0.1/0.5/0.9 of the screen; the sun at `screenAt(view, azimuthAt(camera,
+sun.x))`, skipped where its rays are wholly off the screen.
 
 ### Measured (tabL 1180×820 @2, play run's SwiftShader Chromium, 80 frames, medians, 3 runs)
 

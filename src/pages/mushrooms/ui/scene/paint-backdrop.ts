@@ -2,10 +2,23 @@ import * as Phaser from 'phaser';
 
 import { type Layered, OPENING_EYE } from '../../model/ground';
 import type { Random } from '../../model/random';
-import { bakeTiles, onPixels, pictureColumns, SUPERSAMPLE } from './baking';
+import {
+  bakeTiles,
+  onPixels,
+  pictureColumns,
+  type Span,
+  SUPERSAMPLE,
+} from './baking';
 import type { Band } from './grain';
 import type { MeadowLayout } from './layout';
-import { paintGrain, paintGround, paintRanges } from './paint-land';
+import {
+  drawHills,
+  type HillLayers,
+  type Hills,
+  hillsOf,
+  paintGrain,
+  paintGround,
+} from './paint-land';
 import {
   type Layer,
   paintClouds,
@@ -15,7 +28,7 @@ import {
   paintWash,
 } from './paint-sky';
 import { driftedAzimuth, placedLeft, screenAt } from './panorama';
-import { layerSpan, PARALLAX, type Span } from './parallax';
+import { layerSpan, PARALLAX } from './parallax';
 import { SUN_RAY_REACH } from './sun-layout';
 import { type Following, type View, viewAt } from './view';
 
@@ -42,9 +55,9 @@ type Turning = { columns: Picture; home: Span; offsets: number[] };
  * clouds live, since they drift. The bare sky stands fixed on the screen;
  * the sky's glow round the sun, the sun and its wash over the sky are each
  * a picture of their own that `follow` slides to where the view shows the
- * sun, and the clouds go to their azimuths through the same view. The far
- * hills and the near hills slide slower than the ground as the crop pans,
- * and the ground and its grain move with the world. Stacked by `DEPTHS`, sky
+ * sun, and the clouds go to their azimuths through the same view. The hills
+ * are drawn live, as the view shows them, again only when its heading
+ * changes; the ground and its grain move with the world. Stacked by `DEPTHS`, sky
  * at the back and the grain over the wash. `layers` are what the pictures
  * are baked from, off the display list, kept so a repaint paints into them
  * again; `view` is the view last followed and `drifted` how many seconds the
@@ -55,8 +68,9 @@ export type Backdrop = Following & {
   glow: Turning;
   sun: Turning;
   clouds: Phaser.GameObjects.Graphics[];
-  farHills: Picture;
-  nearHills: Picture;
+  hills: HillLayers;
+  /** The heading the hills were last drawn from. */
+  hillsFrom: number | undefined;
   ground: Picture;
   wash: Turning;
   grain: Phaser.GameObjects.TileSprite[];
@@ -161,9 +175,9 @@ function aboutTheSun(
  * mottling and the grain, so the same source repaints the same meadow. It
  * paints into `existing` and adds only what is missing, so a repaint keeps
  * the objects — and whatever is moving them — and the view and the drift
- * they were placed by. Only the clouds are drawn afresh each frame; the rest
- * is baked here and costs a frame a few textured quads and the grain's
- * strips.
+ * they were placed by. The clouds are drawn afresh each frame and the hills
+ * at each new heading; the rest is baked here and costs a frame a few
+ * textured quads and the grain's strips.
  */
 export function paintBackdrop(
   scene: Phaser.Scene,
@@ -201,8 +215,11 @@ export function paintBackdrop(
   paintSun(sunLayer, layout);
   const clouds = paintClouds(cloudLayer, layout, random);
   for (const spare of existing?.clouds.slice(cloudCount) ?? []) spare.destroy();
-  const hills = { far: layer(), near: layer() };
-  const hillRows = paintRanges(hills, layout, random);
+  const hills = hillsOf(layout, random);
+  const hillLayers: HillLayers = existing?.hills ?? {
+    far: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.farHills),
+    near: scene.add.graphics().setScrollFactor(0).setDepth(DEPTHS.nearHills),
+  };
   const groundLayer = layer();
   const groundRows = paintGround(groundLayer, layout, random);
   const washLayer = layer();
@@ -279,16 +296,8 @@ export function paintBackdrop(
       sources: [sunLayer],
     }),
     clouds,
-    farHills: baked('farHills', existing?.farHills, {
-      ...layered(PARALLAX.far),
-      rows: hillRows.far,
-      sources: [hills.far],
-    }),
-    nearHills: baked('nearHills', existing?.nearHills, {
-      ...layered(PARALLAX.near),
-      rows: hillRows.near,
-      sources: [hills.near],
-    }),
+    hills: hillLayers,
+    hillsFrom: undefined,
     ground: baked('ground', existing?.ground, {
       ...layered(PARALLAX.ground),
       rows: groundRows,
@@ -306,10 +315,18 @@ export function paintBackdrop(
         turn(picture, view, sun.x);
       }
       placeClouds(backdrop, layout);
+      raiseHills(backdrop, hills, view);
     },
   };
   backdrop.follow(backdrop.view);
   return backdrop;
+}
+
+/** Draws `backdrop`'s hills as `view` shows them, unless they were last drawn from its heading. */
+function raiseHills(backdrop: Backdrop, hills: Hills, view: View): void {
+  if (backdrop.hillsFrom === view.eye.heading) return;
+  backdrop.hillsFrom = view.eye.heading;
+  drawHills(backdrop.hills, hills, view);
 }
 
 /** Slides `picture`, baked round the opening x `at`, to where `view` shows `at`, or hides it. */
