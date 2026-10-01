@@ -1,0 +1,935 @@
+diff --git a/src/pages/mushrooms/model/ground.ts b/src/pages/mushrooms/model/ground.ts
+index 3fed07d..e61a8b3 100644
+--- a/src/pages/mushrooms/model/ground.ts
++++ b/src/pages/mushrooms/model/ground.ts
+@@ -205,40 +205,102 @@ export type Eye = Point & { heading: number };
+ export const OPENING_EYE: Eye = { x: 0, y: 0, heading: 0 };
+ 
+ /**
+- * A ground point on the plane the eye walks: `x` across as it is, `y` its
+- * true distance ahead of `OPENING_EYE`, of which `z` is a warped measure.
++ * How many times wider the meadow's angles round `OPENING_EYE` stand on the
++ * plane than the opening crop's pinhole sees them: the plane is the layout's
++ * ground spread round the opening eye by this, every point kept at its
++ * distance, so the screen, linear in azimuth at `focal / SPREAD` px to the
++ * radian, still shows the opening crop's middle as the pinhole did and a
++ * full turn of the heading spans four screens of a sideways tablet (1180 px
++ * across at a unit of 170.56). One factor for the one world; every other
++ * screen turns in its own count of screens.
++ */
++export const SPREAD = (2 * Math.PI * 170.56 * CLUMP_DISTANCE) / (4 * 1180);
++
++/**
++ * `point`, as the opening crop's pinhole sees the ground round
++ * `OPENING_EYE`, on the plane the eye walks: its azimuth from the opening
++ * heading `SPREAD` times as wide, its distance kept.
++ */
++export function spread(point: Point): Point {
++  const distance = Math.hypot(point.x, point.y);
++  const azimuth = SPREAD * Math.atan2(point.x, point.y);
++  return {
++    x: distance * Math.sin(azimuth),
++    y: distance * Math.cos(azimuth),
++  };
++}
++
++/**
++ * `spread` run backwards: a plane point as the opening crop's pinhole sees
++ * it. A point turned more than `SPREAD` half-turns from the opening heading
++ * has none there, and comes back at or behind the opening eye (`y` ≤ 0).
++ */
++export function gathered(point: Point): Point {
++  const distance = Math.hypot(point.x, point.y);
++  const azimuth = Math.atan2(point.x, point.y) / SPREAD;
++  return {
++    x: distance * Math.sin(azimuth),
++    y: distance * Math.cos(azimuth),
++  };
++}
++
++/**
++ * A ground point on the plane the eye walks: as the opening crop's pinhole
++ * stands it, `x` across as it is and `y` its true distance ahead of
++ * `OPENING_EYE`, of which `z` is a warped measure, then `spread`.
+  */
+ export function planeOf({ x, z }: Ground): Point {
+-  return { x, y: CLUMP_DISTANCE / scaleAt(z) };
++  return spread({ x, y: CLUMP_DISTANCE / scaleAt(z) });
+ }
+ 
+ /**
+- * The pinhole `camera` is, in CSS px: `focal`, its focal length, and the
+- * screen point straight ahead on the horizon (`x` the screen's middle, `y`
+- * the horizon's row).
++ * The lens `camera` is, in CSS px: the screen point straight ahead on the
++ * horizon (`x` the screen's middle, `y` the horizon's row); `focal`, the
++ * opening crop's pinhole's focal length, which the ground's bend and a
++ * distance's scale are measured in; and `arc`, the px across the screen to a
++ * radian of the plane's azimuth.
+  */
+-export type Pinhole = Point & { focal: number };
++export type Pinhole = Point & Record<'focal' | 'arc', number>;
+ 
+ export function pinholeOf({ width, groundTop, ground, unit }: Camera): Pinhole {
++  const focal = unit * CLUMP_DISTANCE;
+   return {
+     x: width / 2,
+     y: groundTop + ground * HORIZON_DOWN,
+-    focal: unit * CLUMP_DISTANCE,
++    focal,
++    arc: focal / SPREAD,
+   };
+ }
+ 
++/** `angle` wrapped into `[−π, π)`. */
++function wrapped(angle: number): number {
++  return angle - 2 * Math.PI * Math.floor((angle + Math.PI) / (2 * Math.PI));
++}
++
++/**
++ * How much the screen bends the ground down at `x` across it: the ground's
++ * rows go by distance from the eye, so a circle round it is a straight row,
++ * and below the horizon every row is drawn this many times as far down at
++ * `x` as at the middle, a fixed curve on the screen, the opening crop's
++ * pinhole's own for the circle of the clump's distance.
++ */
++export function bendAt(pinhole: Pinhole, x: number): number {
++  return Math.hypot(1, (x - pinhole.x) / pinhole.focal);
++}
++
+ /**
+  * A plane point as an eye sees it: where on the screen, in CSS px, how big
+- * one of the clump's size stands there, and `ahead`, how far ahead of the eye
+- * along its heading it stands, in the clump's size: behind the eye at 0 and
+- * under.
++ * one of the clump's size stands there, and `ahead`, its distance from the
++ * eye less the screen's bend there, in the clump's size, the distance a
++ * thing of its drawn size stands at the screen's middle.
+  */
+ export type Viewed = Point & Scaling & { ahead: number };
+ 
+ /**
+  * Where `camera` shows `point` on the plane, `height` above it in the clump's
+- * size, to `eye`. Meaningless for a point not ahead of the eye (`ahead` ≤ 0),
+- * which is the caller's to cull.
++ * size, to `eye`: across by its azimuth off the heading the shorter way
++ * round, `arc` px to the radian, so a thing behind the eye stands off the
++ * screen's side; down by its distance, bent (`bendAt`).
+  */
+ export function viewOf(
+   camera: Camera,
+@@ -249,16 +311,47 @@ export function viewOf(
+   const pinhole = pinholeOf(camera);
+   const dx = point.x - eye.x;
+   const dy = point.y - eye.y;
+-  const cos = Math.cos(eye.heading);
+-  const sin = Math.sin(eye.heading);
+-  const across = dx * cos - dy * sin;
+-  const ahead = dx * sin + dy * cos;
+-  const scale = pinhole.focal / ahead;
++  const distance = Math.hypot(dx, dy);
++  const x = pinhole.x + pinhole.arc * wrapped(Math.atan2(dx, dy) - eye.heading);
++  const bend = bendAt(pinhole, x);
++  const scale = (pinhole.focal * bend) / distance;
+   return {
+-    x: pinhole.x + across * scale,
++    x,
+     y: pinhole.y + (EYE_HEIGHT - height) * scale,
+     scale,
+-    ahead,
++    ahead: distance / bend,
++  };
++}
++
++/**
++ * `viewOf` run backwards for the ground: the plane point `eye` sees under
++ * `screen`, in CSS px; none at or above the horizon.
++ */
++export function planeSeen(
++  camera: Camera,
++  eye: Eye,
++  screen: Point,
++): Point | undefined {
++  const pinhole = pinholeOf(camera);
++  const below = screen.y - pinhole.y;
++  if (below <= 0) return undefined;
++  const distance =
++    (pinhole.focal * bendAt(pinhole, screen.x) * EYE_HEIGHT) / below;
++  return alongSight(camera, eye, screen.x, distance);
++}
++
++/** The plane point `distance` from `eye` along the azimuth it sees at `x` across `camera`'s screen. */
++export function alongSight(
++  camera: Camera,
++  eye: Eye,
++  x: number,
++  distance: number,
++): Point {
++  const pinhole = pinholeOf(camera);
++  const azimuth = eye.heading + (x - pinhole.x) / pinhole.arc;
++  return {
++    x: eye.x + distance * Math.sin(azimuth),
++    y: eye.y + distance * Math.cos(azimuth),
+   };
+ }
+ 
+diff --git a/src/pages/mushrooms/model/pan.ts b/src/pages/mushrooms/model/pan.ts
+index 0ddbcda..5ce2a5f 100644
+--- a/src/pages/mushrooms/model/pan.ts
++++ b/src/pages/mushrooms/model/pan.ts
+@@ -9,7 +9,7 @@
+  * eased in and out, stepped frame by frame through `tick`; a resize re-crops
+  * it round the ground point at the screen's centre. Screen x and world x
+  * convert through `worldOf` and `screenOf` alone. A crop with a `turn` is a
+- * heading instead: `left` is the heading times the focal length, it has no
++ * heading instead: `left` is the heading times the lens's `arc`, it has no
+  * ends and wraps once round, and its keys cruise at `TURN_CRUISE`.
+  */
+ 
+@@ -21,7 +21,7 @@ import {
+   type Paced,
+ } from './cruise';
+ import type { Lefted, Point } from './geometry';
+-import type { Camera } from './ground';
++import { type Camera, SPREAD } from './ground';
+ 
+ /**
+  * What a crop is taken across: the world's width and the screen's, in CSS
+@@ -31,7 +31,7 @@ export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
+ 
+ /**
+  * A heading's crop: its keys' cruise in px per second, and how many px a full
+- * turn spans, both the focal length's multiples.
++ * turn spans, both multiples of the lens's `arc`.
+  */
+ export type Turn = Cruised & { around: number };
+ 
+@@ -126,14 +126,16 @@ const STILL_AFTER = 0.1;
+ export const CRUISE_ACROSS = 0.5;
+ export const KEY_EASE = 0.25;
+ /**
+- * A held key's turn of the heading, in radians a second: a tablet's half a
+- * screen width a second at its 43.7° view, the same on every screen.
++ * A held key's turn of the heading, in radians a second, the same on every
++ * screen: the meadow slides by as fast in px as it did at 0.38 a second
++ * through the opening crop's pinhole, a tablet's half a screen width a
++ * second, its angles `SPREAD` times as wide.
+  */
+-export const TURN_CRUISE = 0.38;
++export const TURN_CRUISE = 0.38 * SPREAD;
+ 
+-/** The turn of a heading seen at `focal` px, the screen's focal length. */
+-export function turnOf(focal: number): Turn {
+-  return { cruise: TURN_CRUISE * focal, around: 2 * Math.PI * focal };
++/** The turn of a heading seen at `arc` px across the screen to the radian. */
++export function turnOf(arc: number): Turn {
++  return { cruise: TURN_CRUISE * arc, around: 2 * Math.PI * arc };
+ }
+ 
+ /**
+diff --git a/src/pages/mushrooms/model/walk.ts b/src/pages/mushrooms/model/walk.ts
+index d1be163..086519a 100644
+--- a/src/pages/mushrooms/model/walk.ts
++++ b/src/pages/mushrooms/model/walk.ts
+@@ -1,7 +1,7 @@
+ /**
+  * The walk: the eye's heading and its place on the plane, as functions of the
+  * clock, in seconds, and of the finger and keys that move them. The heading
+- * is a `pan.ts` heading crop, its `left` the heading times the focal length;
++ * is a `pan.ts` heading crop, its `left` the heading times the lens's `arc`;
+  * the place is `stride.ts`'s. One finger moves one of them: a press inside
+  * `SLOP` of where it went down taps, and once it moves past it, radially,
+  * its axis locks for the rest of the press — within 45° of horizontal it
+@@ -77,7 +77,7 @@ export type Walk = {
+ /** The heading's crop `camera` takes. */
+ function panView(camera: Camera): View & { turn: Turn } {
+   const { width, world, unit } = camera;
+-  return { width, world, unit, turn: turnOf(pinholeOf(camera).focal) };
++  return { width, world, unit, turn: turnOf(pinholeOf(camera).arc) };
+ }
+ 
+ /** The walk a visit opens on: the opening eye, at rest. */
+@@ -86,7 +86,7 @@ export function openingWalk(camera: Camera): Walk {
+     lens: camera,
+     pan: restingAt(
+       panView(camera),
+-      OPENING_EYE.heading * pinholeOf(camera).focal,
++      OPENING_EYE.heading * pinholeOf(camera).arc,
+     ),
+     stride: standingAt(pick(OPENING_EYE, 'x', 'y')),
+     drag: undefined,
+@@ -108,7 +108,7 @@ export function refit(walk: Walk, camera: Camera, time: number): Walk {
+ 
+ /** The heading at `time`, in radians, from 0 up to a full turn. */
+ export function headingAt({ lens, pan }: Walk, time: number): number {
+-  return leftAt(pan, time) / pinholeOf(lens).focal;
++  return leftAt(pan, time) / pinholeOf(lens).arc;
+ }
+ 
+ /** The eye at `time`: the stride's place as of its last `tickWalk`, and the heading then. */
+@@ -119,17 +119,18 @@ export function eyeAt(walk: Walk, time: number): Eye {
+ 
+ /**
+  * A screen x, in CSS px, as the heading's crop measures it: its azimuth from
+- * straight ahead, times the focal length. A turn that moves this by the
+- * finger's change keeps the azimuth under the finger exactly.
++ * straight ahead, times `arc`, which is its px off the screen's middle. A
++ * turn that moves this by the finger's change keeps the azimuth under the
++ * finger exactly.
+  */
+ function arcOf(pinhole: Pinhole, x: number): number {
+-  return pinhole.focal * Math.atan((x - pinhole.x) / pinhole.focal);
++  return x - pinhole.x;
+ }
+ 
+ /**
+- * How far ahead of the eye, in the clump's size, the ground under screen row
+- * `y` stands, a row above the seam counting as the seam's: the farthest
+- * ground the screen shows.
++ * How far from the eye, in the clump's size, the ground under screen row
++ * `y` stands at the screen's middle, a row above the seam counting as the
++ * seam's: the farthest ground the screen shows.
+  */
+ export function distanceOfRow(camera: Camera, y: number): number {
+   const pinhole = pinholeOf(camera);
+diff --git a/src/pages/mushrooms/ui/scene/bed-place.ts b/src/pages/mushrooms/ui/scene/bed-place.ts
+index 27f818c..36e94c5 100644
+--- a/src/pages/mushrooms/ui/scene/bed-place.ts
++++ b/src/pages/mushrooms/ui/scene/bed-place.ts
+@@ -83,9 +83,22 @@ export type Host = Standing & { laidFoot: Point };
+  * draws its body, at every heading.
+  */
+ export function onHost({ stands, laidFoot }: Host, point: Point): Point {
++  return aboutFoot(stands, laidFoot, point);
++}
++
++/**
++ * Where a thing whose foot, laid out at `laidFoot`, is drawn at `drawn`
++ * draws its `point`, laid out on it: off the drawn foot by the layout's
++ * offset scaled by the foot's `zoom`.
++ */
++export function aboutFoot(
++  drawn: Point & Pick<Placed, 'zoom'>,
++  laidFoot: Point,
++  point: Point,
++): Point {
+   return {
+-    x: stands.x + (point.x - laidFoot.x) * stands.zoom,
+-    y: stands.y + (point.y - laidFoot.y) * stands.zoom,
++    x: drawn.x + (point.x - laidFoot.x) * drawn.zoom,
++    y: drawn.y + (point.y - laidFoot.y) * drawn.zoom,
+   };
+ }
+ 
+diff --git a/src/pages/mushrooms/ui/scene/brow.ts b/src/pages/mushrooms/ui/scene/brow.ts
+index 20bda68..404c807 100644
+--- a/src/pages/mushrooms/ui/scene/brow.ts
++++ b/src/pages/mushrooms/ui/scene/brow.ts
+@@ -100,7 +100,7 @@ export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
+  */
+ export function browBlades(camera: Camera): BrowBlade[] {
+   const random = mulberry32(BROW_SEED);
+-  const { focal } = pinholeOf(camera);
++  const { arc: focal } = pinholeOf(camera);
+   const reach = seamReach(camera);
+   /** A length in the seam's reach as the azimuth it spans at the screen's middle. */
+   const turn = (share: number): number => (share * reach) / focal;
+diff --git a/src/pages/mushrooms/ui/scene/eye-crop.ts b/src/pages/mushrooms/ui/scene/eye-crop.ts
+index aaa9979..92532d0 100644
+--- a/src/pages/mushrooms/ui/scene/eye-crop.ts
++++ b/src/pages/mushrooms/ui/scene/eye-crop.ts
+@@ -1,13 +1,60 @@
+ import type { Point } from '../../model/geometry';
+-import { EYE_HEIGHT, OPENING_EYE, pinholeOf } from '../../model/ground';
+-import type { View } from './view';
++import {
++  alongSight,
++  bendAt,
++  EYE_HEIGHT,
++  gathered,
++  pinholeOf,
++} from '../../model/ground';
++import { middleOf, rowAt, type View } from './view';
++
++/**
++ * The distances along a sight line, in the clump's size, its crossing of a
++ * row is sought between, nearest first: geometric, so a crossing near the
++ * eye is found as finely, for its size, as one at the meadow's far end.
++ */
++const SOUGHT = Array.from(
++  { length: 49 },
++  (_, step) => 0.05 * Math.pow(4000, step / 48),
++);
++
++/** How many halvings pin a crossing down between two of `SOUGHT`'s distances. */
++const HALVINGS = 32;
++
++/**
++ * The distance from `view`'s eye, along the azimuth it sees at `x` across
++ * the screen, to where that sight line first crosses the plane's curve the
++ * layout's row `opening` ahead of the opening eye is spread onto; none
++ * where it never does within the meadow's reach.
++ */
++function crossing(view: View, x: number, opening: number): number | undefined {
++  const off = (distance: number) =>
++    gathered(alongSight(view, view.eye, x, distance)).y - opening;
++  let near = 0;
++  let before = off(near);
++  for (const far of SOUGHT) {
++    const after = off(far);
++    if (Math.sign(after) !== Math.sign(before)) {
++      let [low, high] = [near, far];
++      for (let halving = 0; halving < HALVINGS; halving++) {
++        const middle = (low + high) / 2;
++        if (Math.sign(off(middle)) === Math.sign(before)) low = middle;
++        else high = middle;
++      }
++      return (low + high) / 2;
++    }
++    [near, before] = [far, after];
++  }
++  return undefined;
++}
+ 
+ /**
+  * `ofLayout` run backwards: the point, in the layout's world px, that `view`
+  * shows at `screen`, in CSS px, standing over the ground row `footRow`. A
+- * row's points stand on one upright plane across the plane's y, so this is
+- * where the screen's ray meets it; none where it never does in front of the
+- * eye, nor for a row at or above the horizon.
++ * row's points stand on one upright curve over the plane, the row the
++ * opening crop's pinhole sees `spread`, so this is where the screen's sight
++ * line first meets it; none where it never does, nor for a row at or above
++ * the horizon.
+  */
+ export function layoutAtRow(
+   view: View,
+@@ -16,23 +63,14 @@ export function layoutAtRow(
+ ): Point | undefined {
+   const pinhole = pinholeOf(view);
+   if (footRow <= pinhole.y) return undefined;
+-  const opening = (pinhole.focal * EYE_HEIGHT) / (footRow - pinhole.y);
+-  const perPx = opening / pinhole.focal;
+-  const across = (screen.x - pinhole.x) / pinhole.focal;
+-  const { x, y, heading } = view.eye;
+-  const cos = Math.cos(heading);
+-  const sin = Math.sin(heading);
+-  // The ray one unit ahead of the eye, on the plane.
+-  const toward = { x: across * cos + sin, y: cos - across * sin };
+-  const ahead = (OPENING_EYE.y + opening - y) / toward.y;
+-  if (!(ahead > 0) || !Number.isFinite(ahead)) return undefined;
+-  const plane = x + ahead * toward.x;
+-  const height = EYE_HEIGHT - ((screen.y - pinhole.y) * ahead) / pinhole.focal;
++  const { opening, perPx } = rowAt(view, footRow);
++  const distance = crossing(view, screen.x, opening);
++  if (distance === undefined) return undefined;
++  const seen = gathered(alongSight(view, view.eye, screen.x, distance));
++  const scale = (pinhole.focal * bendAt(pinhole, screen.x)) / distance;
++  const height = EYE_HEIGHT - (screen.y - pinhole.y) / scale;
+   return {
+-    x:
+-      (plane - OPENING_EYE.x) / perPx +
+-      (view.world - view.width) / 2 +
+-      pinhole.x,
++    x: middleOf(view) + seen.x / perPx,
+     y: footRow - height / perPx,
+   };
+ }
+@@ -43,7 +81,7 @@ export function layoutAtRow(
+  * where either edge of the screen meets either row. A screen's upright edge
+  * meets a row at one x, which moves one way as the row does, so the two rows
+  * bound every row between. `undefined` where an edge meets a row nowhere
+- * ahead of the eye, as when turned past the wedge's side.
++ * the meadow reaches, as when turned to face away from the layout.
+  */
+ export function layoutShown(
+   view: View,
+diff --git a/src/pages/mushrooms/ui/scene/grass.ts b/src/pages/mushrooms/ui/scene/grass.ts
+index 45895f1..45e53b2 100644
+--- a/src/pages/mushrooms/ui/scene/grass.ts
++++ b/src/pages/mushrooms/ui/scene/grass.ts
+@@ -87,7 +87,7 @@ export type SeamTuft = Tuft & Azimuthed;
+ export function seamGrass(layout: MeadowLayout, random: Random): SeamTuft[] {
+   const { height, groundTop, camera } = layout;
+   const seam = seamCrest(layout);
+-  const { focal } = pinholeOf(camera);
++  const { arc: focal } = pinholeOf(camera);
+   const depth = height - groundTop;
+   const round = Math.PI * 2 * focal;
+   const count = Math.round((round / 1000) * SEAM_TUFTS_PER_1000PX);
+diff --git a/src/pages/mushrooms/ui/scene/insect-away.ts b/src/pages/mushrooms/ui/scene/insect-away.ts
+index 63256e1..f682e30 100644
+--- a/src/pages/mushrooms/ui/scene/insect-away.ts
++++ b/src/pages/mushrooms/ui/scene/insect-away.ts
+@@ -10,17 +10,13 @@ import type { Sized } from '@/shared/typings';
+ 
+ import type { Side } from '../../model/flight';
+ import type { Point } from '../../model/geometry';
+-import {
+-  type Camera,
+-  EYE_HEIGHT,
+-  OPENING_EYE,
+-  pinholeOf,
+-} from '../../model/ground';
++import { alongSight, type Camera, pinholeOf } from '../../model/ground';
+ import { layoutAtRow } from './eye-crop';
+ import {
+   buried,
+   cull,
+   D_SEE,
++  layoutOfPlane,
+   ofLayout,
+   onScreen,
+   type Placed,
+@@ -119,48 +115,22 @@ export type OverRow = { at: Point; row: number };
+ 
+ /**
+  * The ground `distance` from `view`'s eye, in the clump's size, along the
+- * ray through the screen's `x`, in CSS px: the point on it and the row it
+- * stands on, as the opening eye lays them out (`ofLayout` backwards);
+- * `undefined` where that ground stands at or behind the opening eye's own
+- * row, which no row lays out.
++ * azimuth it sees at the screen's `x`, in CSS px: the point on it and the
++ * row it stands on, as the opening eye lays them out (`ofLayout`
++ * backwards); `undefined` where the opening eye lays out no row there.
+  */
+ export function groundAlong(
+   view: View,
+   x: number,
+   distance: number,
+ ): OverRow | undefined {
+-  const pinhole = pinholeOf(view);
+-  const across = (x - pinhole.x) / pinhole.focal;
+-  const { heading, ...eye } = view.eye;
+-  const cos = Math.cos(heading);
+-  const sin = Math.sin(heading);
+-  // The ray on the plane, `across` to one ahead along the heading.
+-  const toward = { x: across * cos + sin, y: cos - across * sin };
+-  const reach = distance / Math.hypot(toward.x, toward.y);
+-  const plane = {
+-    x: eye.x + toward.x * reach,
+-    y: eye.y + toward.y * reach,
+-  };
+-  const opening = plane.y - OPENING_EYE.y;
+-  if (!(opening > 0)) return undefined;
+-  const perPx = opening / pinhole.focal;
+-  const row = pinhole.y + (pinhole.focal * EYE_HEIGHT) / opening;
+-  return {
+-    at: {
+-      x:
+-        (plane.x - OPENING_EYE.x) / perPx +
+-        (view.world - view.width) / 2 +
+-        pinhole.x,
+-      y: row,
+-    },
+-    row,
+-  };
++  const at = layoutOfPlane(view, alongSight(view, view.eye, x, distance));
++  return at && { at, row: at.y };
+ }
+ 
+ /** The screen side `view`'s eye turns by, the shorter way, to face `point` standing over `row`. */
+ export function turnSide(view: View, point: Point, row: number): Side {
+-  const { x, ahead } = ofLayout(view, point, row);
+-  return (x - pinholeOf(view).x) * ahead < 0 ? 'left' : 'right';
++  return ofLayout(view, point, row).x < pinholeOf(view).x ? 'left' : 'right';
+ }
+ 
+ /**
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-room.ts b/src/pages/mushrooms/ui/scene/mushroom-room.ts
+index ad5aa2c..0ce9584 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-room.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-room.ts
+@@ -33,6 +33,7 @@ import {
+   type WithOptionalSpan,
+ } from '../../model/placement';
+ import type { Seeded } from '../../model/random';
++import { aboutFoot } from './bed-place';
+ import { capBox } from './cap-cover';
+ import { FOREST_SPLAY, placeOf } from './clump-layout';
+ import { type Standing, standingAs } from './door-sight';
+@@ -100,19 +101,19 @@ function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
+ }
+ 
+ /**
+- * Whether a cap boxed by `cap`, in world px, standing on the ground row
+- * `footRow`, is drawn whole on `view`'s screen `EDGE_MARGIN` inside its
+- * sides: its foot in front of the hills and far enough ahead to be drawn.
++ * Whether a cap boxed by `cap`, in world px, on a mushroom whose foot the
++ * layout stands at `laidFoot`, is drawn whole on `view`'s screen
++ * `EDGE_MARGIN` inside its sides: its foot in front of the hills and far
++ * enough ahead to be drawn.
+  */
+-function capShown(view: View, cap: Box, footRow: number): boolean {
++function capShown(view: View, cap: Box, laidFoot: Point): boolean {
+   const { left, right, top, bottom } = cap;
+-  const foot = ofLayout(view, { x: (left + right) / 2, y: footRow }, footRow);
++  const foot = ofLayout(view, laidFoot, laidFoot.y);
+   if (cull(foot) || behindHills(foot)) return false;
+   return [left, right].every((x) =>
+     [top, bottom].every((y) => {
+-      const at = ofLayout(view, { x, y }, footRow);
++      const at = aboutFoot(foot, laidFoot, { x, y });
+       return (
+-        !cull(at) &&
+         at.x >= EDGE_MARGIN &&
+         at.x <= view.width - EDGE_MARGIN &&
+         at.y >= 0 &&
+@@ -129,17 +130,18 @@ function distanceTo(outline: readonly Point[], point: Point): number {
+ 
+ /**
+  * Whether every one of `circles`, on the screen, keeps off the drawn parts of
+- * `own`, standing on the ground row `footRow`, as `view` draws them there.
++ * `own`, its foot laid out at `laidFoot`, as `view` draws them there.
+  */
+ function keptOff(
+   view: View,
+   { drawn }: Standing,
+-  footRow: number,
++  laidFoot: Point,
+   circles: readonly Circle[],
+ ): boolean {
++  const foot = ofLayout(view, laidFoot, laidFoot.y);
+   // A mushroom's drawn outlines are its tap area's parts (`TAP_PARTS`).
+   const outlines = drawn.map((outline) => {
+-    const shown = outline.map((point) => ofLayout(view, point, footRow));
++    const shown = outline.map((point) => aboutFoot(foot, laidFoot, point));
+     return { outline: shown, box: boxAround(shown) };
+   });
+   return circles.every((circle) =>
+@@ -178,7 +180,7 @@ function trialOn(
+   if (cap.left < screen.edges.left || cap.right > screen.edges.right) {
+     return undefined;
+   }
+-  if (screen.view && !capShown(screen.view, cap, place.y)) return undefined;
++  if (screen.view && !capShown(screen.view, cap, place)) return undefined;
+   return { screen, place, stood: grown, own };
+ }
+ 
+@@ -218,7 +220,7 @@ function shownTrials(
+   }
+   const { view, keepOff } = screen;
+   return !view ||
+-    trials.every((trial) => keptOff(view, trial.own, trial.place.y, keepOff))
++    trials.every((trial) => keptOff(view, trial.own, trial.place, keepOff))
+     ? trials
+     : undefined;
+ }
+diff --git a/src/pages/mushrooms/ui/scene/mushroom-selection.ts b/src/pages/mushrooms/ui/scene/mushroom-selection.ts
+index b8cb304..36e8b8f 100644
+--- a/src/pages/mushrooms/ui/scene/mushroom-selection.ts
++++ b/src/pages/mushrooms/ui/scene/mushroom-selection.ts
+@@ -1,7 +1,7 @@
+ import type * as Phaser from 'phaser';
+ 
+ import type { TapArea } from '../../model/mushroom-outline';
+-import { standAt,type Standing } from './bed-place';
++import { standAt, type Standing } from './bed-place';
+ import {
+   drawSelection,
+   drawSelectionRing,
+diff --git a/src/pages/mushrooms/ui/scene/paint-sky.ts b/src/pages/mushrooms/ui/scene/paint-sky.ts
+index 59235a6..0029399 100644
+--- a/src/pages/mushrooms/ui/scene/paint-sky.ts
++++ b/src/pages/mushrooms/ui/scene/paint-sky.ts
+@@ -135,7 +135,7 @@ export function paintClouds(
+   { clouds, sun, camera, height }: MeadowLayout,
+   random: Random,
+ ): Phaser.GameObjects.Graphics[] {
+-  const { focal } = pinholeOf(camera);
++  const { arc: focal } = pinholeOf(camera);
+   const sunAzimuth = azimuthAt(camera, sun.x);
+   const round = mulberry32(PUFF_SEED);
+   return clouds.map(({ azimuth, y, r }, place) => {
+diff --git a/src/pages/mushrooms/ui/scene/panorama.ts b/src/pages/mushrooms/ui/scene/panorama.ts
+index aa7ee3f..b55a713 100644
+--- a/src/pages/mushrooms/ui/scene/panorama.ts
++++ b/src/pages/mushrooms/ui/scene/panorama.ts
+@@ -52,15 +52,15 @@ function hermite(
+  * so it joins itself. Its value at each azimuth, from −1 to 1.
+  */
+ export function ringWave(camera: Camera, rate: number, phase: number): Crest {
+-  const { x: middle, focal } = pinholeOf(camera);
+-  const from = Math.atan(-middle / focal);
+-  const to = Math.atan((camera.width - middle) / focal);
++  const { x: middle, arc } = pinholeOf(camera);
++  const from = -middle / arc;
++  const to = (camera.width - middle) / arc;
+   const behind = TURN - (to - from);
+-  const across = (azimuth: number) => rate * focal * Math.tan(azimuth);
+-  const pace = (azimuth: number) => (rate * focal) / Math.cos(azimuth) ** 2;
++  const across = (azimuth: number) => rate * arc * azimuth;
++  const pace = (_azimuth: number) => rate * arc;
+   const turns = Math.max(
+     1,
+-    Math.round((across(to) - across(from) + rate * focal * behind) / TURN),
++    Math.round((across(to) - across(from) + rate * arc * behind) / TURN),
+   );
+   const [leaving, back] = [across(to), across(from) + turns * TURN];
+   const [out, into] = [pace(to) * behind, pace(from) * behind];
+@@ -94,14 +94,14 @@ export function crestAcross(
+ 
+ /** How far down `view`'s screen `crest` stands at `x` across it, in CSS px. */
+ export function crestAt(crest: Crest, view: View, x: number): number {
+-  const { x: middle, focal } = pinholeOf(view);
+-  return crest(view.eye.heading + Math.atan((x - middle) / focal));
++  const { x: middle, arc } = pinholeOf(view);
++  return crest(view.eye.heading + (x - middle) / arc);
+ }
+ 
+ /** The azimuth the opening eye, looking along heading 0, sees `x` across `camera`'s screen at. */
+ export function azimuthAt(camera: Camera, x: number): number {
+-  const { x: middle, focal } = pinholeOf(camera);
+-  return Math.atan((x - middle) / focal);
++  const { x: middle, arc } = pinholeOf(camera);
++  return (x - middle) / arc;
+ }
+ 
+ /**
+@@ -110,18 +110,17 @@ export function azimuthAt(camera: Camera, x: number): number {
+  */
+ export function screenAt(view: View, azimuth: number): number | undefined {
+   const off = wrapAngle(azimuth - view.eye.heading);
+-  if (Math.abs(off) >= Math.PI / 2) return undefined;
+-  const { x, focal } = pinholeOf(view);
+-  return x + focal * Math.tan(off);
++  const { x, arc } = pinholeOf(view);
++  return x + arc * off;
+ }
+ 
+ /** The azimuths `view`'s screen shows, from its left edge to its right. */
+ export function shownAzimuths(view: View): { from: number; to: number } {
+-  const { x, focal } = pinholeOf(view);
++  const { x, arc } = pinholeOf(view);
+   const { heading } = view.eye;
+   return {
+-    from: heading + Math.atan(-x / focal),
+-    to: heading + Math.atan((view.width - x) / focal),
++    from: heading - x / arc,
++    to: heading + (view.width - x) / arc,
+   };
+ }
+ 
+@@ -192,13 +191,13 @@ const CLOUD_SIZES = [0.045, 0.06] as const;
+ export function skyClouds(camera: Camera): Cloud[] {
+   const { width, height } = camera;
+   const short = Math.min(width, height);
+-  const { focal } = pinholeOf(camera);
++  const { arc } = pinholeOf(camera);
+   const random = mulberry32(CLOUD_SEED);
+   const shown = azimuthAt(camera, width) - azimuthAt(camera, 0);
+   const lane = Math.ceil(TURN / shown);
+   const leaders = OPENING_CLOUDS.map(([across, down, size, speed]) => ({
+     azimuth: azimuthAt(camera, width * across),
+-    drift: speed / focal,
++    drift: speed / arc,
+     y: height * down,
+     r: short * size,
+   }));
+diff --git a/src/pages/mushrooms/ui/scene/skyline.ts b/src/pages/mushrooms/ui/scene/skyline.ts
+index d867241..c331dee 100644
+--- a/src/pages/mushrooms/ui/scene/skyline.ts
++++ b/src/pages/mushrooms/ui/scene/skyline.ts
+@@ -128,7 +128,7 @@ export type FarRange = WithCrest & { highest: number };
+  * the screen at least as wide, so the bowl clears the rays from any heading.
+  */
+ function sunBowl({ sun, camera }: MeadowLayout): Crest {
+-  const { focal } = pinholeOf(camera);
++  const { arc: focal } = pinholeOf(camera);
+   const middle = azimuthAt(camera, sun.x);
+   const depth = sun.r * PARTED_DEPTH;
+   const spread = sun.r * Math.max(PARTED_SPREAD, SUN_RAY_REACH);
+diff --git a/src/pages/mushrooms/ui/scene/view-inverse.ts b/src/pages/mushrooms/ui/scene/view-inverse.ts
+index 9980da7..878d0cc 100644
+--- a/src/pages/mushrooms/ui/scene/view-inverse.ts
++++ b/src/pages/mushrooms/ui/scene/view-inverse.ts
+@@ -1,52 +1,30 @@
+ /**
+  * The view run backwards: from a point on the screen to the ground under it,
+  * on the plane and in the layout's world px. A screen point at or above the
+- * horizon has no ground under it, and a plane point at or behind the opening
+- * eye has no place in the layout, which the opening eye lays out; both are
+- * `undefined`.
++ * horizon has no ground under it, and a plane point the opening crop sees at
++ * or behind its eye has no place in the layout, which the opening eye lays
++ * out; both are `undefined`.
+  */
+ 
+ import type { Point } from '../../model/geometry';
+ import {
+-  type Camera,
+-  EYE_HEIGHT,
+   type Ground,
+-  OPENING_EYE,
+-  pinholeOf,
++  planeSeen,
+   scaleAt,
+-  viewOf,
++  type Camera,
+   zAt,
+ } from '../../model/ground';
+-import type { View } from './view';
++import { layoutOfPlane, type View } from './view';
+ 
+ /** The plane point the ground under `screen`, in CSS px, stands at, seen through `view`. */
+ export function planeUnder(view: View, screen: Point): Point | undefined {
+-  const pinhole = pinholeOf(view);
+-  const below = screen.y - pinhole.y;
+-  if (below <= 0) return undefined;
+-  const ahead = (pinhole.focal * EYE_HEIGHT) / below;
+-  const across = ((screen.x - pinhole.x) * ahead) / pinhole.focal;
+-  const { x, y, heading } = view.eye;
+-  const cos = Math.cos(heading);
+-  const sin = Math.sin(heading);
+-  return {
+-    x: x + across * cos + ahead * sin,
+-    y: y - across * sin + ahead * cos,
+-  };
+-}
+-
+-/** Where the layout, in world px, has the ground at `plane`: where the opening eye shows it, on the opening crop. */
+-export function layoutOf(camera: Camera, plane: Point): Point | undefined {
+-  const viewed = viewOf(camera, OPENING_EYE, plane, 0);
+-  if (viewed.ahead <= 0) return undefined;
+-  const { x, y } = viewed;
+-  return { x: x + (camera.world - camera.width) / 2, y };
++  return planeSeen(view, view.eye, screen);
+ }
+ 
+ /** The layout's world px of the ground under `screen`, seen through `view`. */
+ export function layoutUnder(view: View, screen: Point): Point | undefined {
+   const plane = planeUnder(view, screen);
+-  return plane && layoutOf(view, plane);
++  return plane && layoutOfPlane(view, plane);
+ }
+ 
+ /** The ground point the layout has at `layout`, in world px: `project`'s inverse. */
+diff --git a/src/pages/mushrooms/ui/scene/view.ts b/src/pages/mushrooms/ui/scene/view.ts
+index 9b4bf55..cfb4034 100644
+--- a/src/pages/mushrooms/ui/scene/view.ts
++++ b/src/pages/mushrooms/ui/scene/view.ts
+@@ -8,14 +8,17 @@
+ 
+ import type { Point } from '../../model/geometry';
+ import {
++  bendAt,
+   type Camera,
+   CLUMP_DISTANCE,
+   type Eye,
+   EYE_HEIGHT,
++  gathered,
+   type Ground,
+-  OPENING_EYE,
+   pinholeOf,
+   planeOf,
++  scaleAt,
++  spread,
+   type Viewed,
+   viewOf,
+   zAt,
+@@ -75,31 +78,70 @@ function placedAt(
+ 
+ /** Where `view` places a thing standing on `foot`, `height` above the ground in the clump's size. */
+ export function ofGround(view: View, foot: Ground, height = 0): Placed {
+-  const plane = planeOf(foot);
+-  return placedAt(view, plane, height, plane.y);
++  return placedAt(
++    view,
++    planeOf(foot),
++    height,
++    CLUMP_DISTANCE / scaleAt(foot.z),
++  );
++}
++
++/**
++ * How the opening crop's pinhole stands the layout's ground row `footRow`
++ * (world px down the screen, below the horizon): `opening`, its distance
++ * ahead of `OPENING_EYE`, the plane's origin, and how many of the clump's
++ * size a world px spans on it.
++ */
++export function rowAt(
++  camera: Camera,
++  footRow: number,
++): { opening: number; perPx: number } {
++  const pinhole = pinholeOf(camera);
++  const opening = (pinhole.focal * EYE_HEIGHT) / (footRow - pinhole.y);
++  return { opening, perPx: opening / pinhole.focal };
++}
++
++/** The world px across `camera`'s layout of the opening crop's middle. */
++export function middleOf(camera: Camera): number {
++  return (camera.world - camera.width) / 2 + pinholeOf(camera).x;
+ }
+ 
+ /**
+  * Where `view` places `point`, in world px as the opening eye lays it out,
+- * standing over the ground row `footRow` (world px down the screen, below the
+- * horizon): the point stands on the plane at that row's distance, as high
+- * over it as it stands over the row. Exact for a thing whose foot is on that
+- * row; at the opening eye, the point less the opening crop's left.
++ * standing over the ground row `footRow`: the opening crop's pinhole stands
++ * it at that row's distance, as high over it as it stands over the row, and
++ * the plane has it `spread` from there. Exact for a thing whose foot is on
++ * that row. A thing drawn round a foot is drawn about the foot's place
++ * (`onHost`), not point by point through here: the spread widens a span
++ * across the plane that the screen narrows back only at the opening eye.
+  */
+ export function ofLayout(view: View, point: Point, footRow: number): Placed {
+-  const pinhole = pinholeOf(view);
+-  const opening = (pinhole.focal * EYE_HEIGHT) / (footRow - pinhole.y);
+-  const perPx = opening / pinhole.focal;
+-  const across = point.x - (view.world - view.width) / 2 - pinhole.x;
++  const { opening, perPx } = rowAt(view, footRow);
+   return placedAt(
+     view,
+-    { x: OPENING_EYE.x + across * perPx, y: OPENING_EYE.y + opening },
++    spread({ x: (point.x - middleOf(view)) * perPx, y: opening }),
+     (footRow - point.y) * perPx,
+     opening,
+   );
+ }
+ 
+-/** Whether a thing `ahead` of the eye is too near, or behind it, to be drawn. */
++/**
++ * The ground at `plane` as the opening eye lays it out, `ofLayout`'s ground
++ * run backwards: where across, in world px, and the row it stands on;
++ * none for ground the opening crop's pinhole sees at or behind its eye.
++ */
++export function layoutOfPlane(camera: Camera, plane: Point): Point | undefined {
++  const seen = gathered(plane);
++  if (!(seen.y > 0)) return undefined;
++  const pinhole = pinholeOf(camera);
++  const perPx = seen.y / pinhole.focal;
++  return {
++    x: middleOf(camera) + seen.x / perPx,
++    y: pinhole.y + (pinhole.focal * EYE_HEIGHT) / seen.y,
++  };
++}
++
++/** Whether a thing `ahead` of the eye is too near to be drawn. */
+ export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
+   return ahead < V_NEAR;
+ }
+@@ -112,16 +154,14 @@ export function behindHills({ distance }: Pick<Placed, 'distance'>): boolean {
+ /**
+  * The meadow's brow at `x` across `camera`'s screen: the row the circle
+  * `D_SEE` round the eye stands on there, the ground's top row at the
+- * screen's middle and lower toward its edges, since a screen row is a depth
+- * along the heading and the circle's depth falls off it. Where a thing goes
+- * under, at its own x, whichever way the eye looks; the same on every
+- * heading, so the brow stands still on the screen as the eye turns.
++ * screen's middle, bent lower toward its edges as every row is (`bendAt`).
++ * Where a thing goes under, at its own x, whichever way the eye looks; the
++ * same on every heading, so the brow stands still on the screen as the eye
++ * turns.
+  */
+ export function browRow(camera: Camera, x: number): number {
+-  const { x: middle, y: horizon, focal } = pinholeOf(camera);
+-  return (
+-    horizon + (camera.groundTop - horizon) * Math.hypot(1, (x - middle) / focal)
+-  );
++  const pinhole = pinholeOf(camera);
++  return pinhole.y + (camera.groundTop - pinhole.y) * bendAt(pinhole, x);
+ }
+ 
+ /** The brow's lowest row on `camera`'s screen, at its edges. */
