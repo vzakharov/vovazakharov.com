@@ -35,7 +35,15 @@ the sun". Paths under `src/pages/mushrooms/ui/scene/` unless given.
      named screen. `mushroom-light.test.ts` 24/24, `layout.test.ts` 67/67,
      `flower-picker.test.ts` 9/9 green.
 
+2. Startling an insect does not shut a picker open on a flower.
+   - `model/game.ts` `startle`: shuts the flower picker only where it is
+     open on a tuft; open on a flower it stays (the tap goes on through an
+     insect at rest, `flower` on the held one returns the meadow as it
+     stands), so a press through a resting insect on the held flower no
+     longer shuts and reopens it 0.45 s on.
+   - Test: `planting.test.ts` "stays open on a flower through an insect
+     startled…" (18/18); `game.test.ts` 41/41.
+
 ## Left
 
-2. Startling an insect does not shut a picker open on a flower.
 3. Replays of `hold` on tabL, phoneS, phoneP; frames.

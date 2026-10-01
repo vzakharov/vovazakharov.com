@@ -211,6 +211,24 @@ describe('the flower picker on a flower held', () => {
     assert.equal(reduce(open, HELD), open);
   });
 
+  it('stays open on a flower through an insect startled, so a press through one at rest does not flicker', () => {
+    const open = run([
+      { kind: 'release', insect: 'bee', seed: 5, now: 0, ...SIGHT },
+      HELD,
+      { kind: 'colour', colour: 'blue', seeds },
+    ]);
+    for (const now of [10, 60_000]) {
+      const startled = reduce(open, {
+        kind: 'startle',
+        id: 'bee-1',
+        now,
+        ...SIGHT,
+      });
+      assert.equal(startled.planting, open.planting);
+      assert.equal(reduce(startled, HELD), startled);
+    }
+  });
+
   it('plants on the tuft a seeded flower pulled up leaves, as on any tuft', () => {
     const meadow = run([
       HELD,

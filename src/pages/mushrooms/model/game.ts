@@ -384,7 +384,12 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     case 'startle': {
       const perches = perchesOf(meadow, action);
       const swarm = startled(meadow, action.id, perches, action.now);
-      return flowersShut(swarmed(meadow, swarm));
+      const stirred = swarmed(meadow, swarm);
+      // A picker open on a flower stays: the tap goes on through an insect
+      // at rest, and a press through one on the held flower keeps it open.
+      return meadow.planting?.flower === undefined
+        ? flowersShut(stirred)
+        : stirred;
     }
     case 'shut': {
       return flowersShut(meadow);
