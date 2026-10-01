@@ -4,6 +4,7 @@
  * by time, so it keeps in step with the feet.
  */
 
+import type { Bobbed } from '../../model/motion';
 import { STEP_LENGTH, STRIDE_CRUISE } from '../../model/stride';
 import { type Foot, footfalls } from './footsteps';
 
@@ -33,7 +34,7 @@ export function gaitOf(walked: number, seconds: number): number {
 }
 
 /** A frame's walk: the feet landed since the last frame, and the camera's bob. */
-export type Stepped = { feet: Foot[]; bob: number };
+export type Stepped = Bobbed & { feet: Foot[] };
 
 /** The walk frame by frame (`step`), from the distance walked as of each frame. */
 export class Gait {

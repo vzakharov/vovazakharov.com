@@ -1,7 +1,7 @@
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import { firstSteering, type Steering } from '../../model/insect-steering';
-import { phaseOf } from '../../model/motion';
+import { type Bobbed, phaseOf } from '../../model/motion';
 import type { TappedFigure } from './hit-areas';
 import type { Spanned } from './insect-away';
 import type { Flying, Look } from './insect-look';
@@ -11,7 +11,9 @@ export type Shown = TappedFigure &
   Flying &
   CarryingOver &
   // Its span as last painted.
-  Spanned & {
+  Spanned &
+  // How far its landing's bob sank it last frame, in units of its size.
+  Bobbed & {
     look: Look;
     /**
      * Where its current leg set off: across, in ground units from the
@@ -31,8 +33,6 @@ export type Shown = TappedFigure &
     at: Point;
     /** How far its fidgets on its perch moved it off `at` last frame. */
     offset: Point;
-    /** How far its landing's bob sank it last frame, in units of its size. */
-    bob: number;
     /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
     bobFrom: number;
     /** Where its perch stood last frame, which it keeps to while the perch has nowhere to be. */

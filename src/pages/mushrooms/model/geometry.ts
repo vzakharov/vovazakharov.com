@@ -7,6 +7,10 @@ export type Topped = { top: number };
 export type Lefted = { left: number };
 
 export type Wide = { across: number };
+/** How tall a thing stands, in its module's units. */
+export type Tall = { tall: number };
+/** How far a thing leans from upright, in its module's units. */
+export type Leaning = { lean: number };
 
 export type WithMiddle = { middle: Point };
 /** Where a box's top-left corner stands. */

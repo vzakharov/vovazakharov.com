@@ -26,6 +26,7 @@ import {
   type Layered,
   type LayeredPoint,
   scaleAt,
+  type WithCamera,
 } from '../../model/ground';
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
@@ -300,7 +301,7 @@ type Held = { target: PatchTarget; floor: number; patch: Point | undefined };
  * its mushrooms keeps, and the camera that sets the least a new one keeps
  * (`patchFloor`).
  */
-export type Around = { tapped: Tapped; held: readonly Held[]; camera: Camera };
+export type Around = WithCamera & { tapped: Tapped; held: readonly Held[] };
 
 /** `stand` as a new mushroom is tried on it (`keepsPatches`). */
 export function patchesAround(stand: Stand): Around {

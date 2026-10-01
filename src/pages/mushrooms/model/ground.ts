@@ -42,6 +42,8 @@ export type Camera = Sized & {
   midline: number;
   unit: number;
 };
+/** The camera a thing is seen through. */
+export type WithCamera = { camera: Camera };
 
 /** The depth a thing is drawn at: the nearer, the deeper, so it is drawn over what stands behind. */
 export type Layered = { depth: number };

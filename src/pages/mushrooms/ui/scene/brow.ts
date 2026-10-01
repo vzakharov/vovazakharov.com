@@ -11,12 +11,17 @@
 
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '../../model/geometry';
+import {
+  type Leaning,
+  type Point,
+  sample,
+  type Tall,
+} from '../../model/geometry';
 import { type Camera, pinholeOf } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
 import { BROW, groundRowAt } from './backdrop-tones';
 import { mix } from './colour';
-import { screenAt } from './panorama';
+import { type Azimuthed, screenAt } from './panorama';
 import { hillBands, seamReach } from './skyline';
 import { browLowest, browRow, type View } from './view';
 
@@ -82,13 +87,11 @@ export function browFloor(camera: Camera): number {
   return Math.max(camera.groundTop + seamReach(camera), browLowest(camera));
 }
 
+/** Whether a blade's tip is lit. */
+type WhetherLit = { lit: boolean };
+
 /** One blade of the brow: the azimuth it stands at, its height and lean as shares of the seam's reach, and whether its tip is lit. */
-export type BrowBlade = {
-  azimuth: number;
-  tall: number;
-  lean: number;
-  lit: boolean;
-};
+export type BrowBlade = Azimuthed & Tall & Leaning & WhetherLit;
 
 /**
  * The brow's blades round the whole panorama for `camera`, clump by clump
@@ -152,13 +155,12 @@ function clumpAt(random: Random): Array<Omit<BrowBlade, 'azimuth'>> {
 }
 
 /** A blade as a view draws it, in CSS px: its root's middle, its half width there, and its tip. */
-export type ShownBlade = {
-  x: number;
-  root: number;
-  half: number;
-  tip: { x: number; y: number };
-  lit: boolean;
-};
+export type ShownBlade = Pick<Point, 'x'> &
+  WhetherLit & {
+    root: number;
+    half: number;
+    tip: Point;
+  };
 
 /** The blades of `blades` that `view`'s screen shows, each where it stands across it at the heading. */
 export function browShown(

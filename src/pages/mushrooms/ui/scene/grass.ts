@@ -7,7 +7,7 @@ import { groundAt } from './backdrop-tones';
 import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import { screenAt } from './panorama';
+import { type Azimuthed, screenAt } from './panorama';
 import { seamCrest } from './skyline';
 import { onScreen, type View } from './view';
 
@@ -74,7 +74,7 @@ export function tuftOn(
  * lags by, until `seamShown` places it across the screen; its row is the
  * seam's at its azimuth, whichever way the eye looks.
  */
-export type SeamTuft = Tuft & { azimuth: number };
+export type SeamTuft = Tuft & Azimuthed;
 
 /**
  * The grass scattered just under the seam with the hills, following its

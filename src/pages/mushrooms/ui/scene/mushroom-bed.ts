@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/shared/lib/collections';
 
 import type { Meadow, Planted } from '../../model/game';
-import { placedAt, type Point } from '../../model/geometry';
+import { placedAt, type Point, type Tall } from '../../model/geometry';
 import { paintedSpots } from '../../model/house';
 import {
   beckon,
@@ -63,7 +63,9 @@ type Shown = Tapped &
   Body &
   Pick<MushroomGenes, 'spots'> &
   Footed &
-  Selected & {
+  Selected &
+  // How far its tap area reaches above its foot, in world px at the opening eye.
+  Tall & {
     /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
     shadow: Phaser.GameObjects.Graphics;
     /** Its windows and door, which follow it. */
@@ -72,8 +74,6 @@ type Shown = Tapped &
     goneAt: number;
     /** Where the layout stands its foot, in world px at the opening eye. */
     laid: Point;
-    /** How far its tap area reaches above its foot, in world px at the opening eye. */
-    tall: number;
   };
 
 /**

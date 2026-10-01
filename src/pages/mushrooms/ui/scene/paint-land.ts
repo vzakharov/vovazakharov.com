@@ -7,7 +7,7 @@ import { browFloor } from './brow';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
 import type { MeadowLayout } from './layout';
-import { type Crest, crestAcross } from './panorama';
+import { type Crest, crestAcross, type WithCrest } from './panorama';
 import { fillShape } from './shapes';
 import {
   farSkyline,
@@ -37,8 +37,7 @@ const FOOT_OVERLAP = 2;
 export type HillLayers = Record<'far' | 'near', Phaser.GameObjects.Graphics>;
 
 /** A range as it is drawn: its skyline round the panorama, its tones, the layer it lies in and its sunlit rim's depth. */
-type Range = {
-  crest: Crest;
+type Range = WithCrest & {
   tones: (typeof RANGES)[keyof typeof RANGES];
   layer: keyof HillLayers;
   rim: number;

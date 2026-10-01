@@ -21,6 +21,10 @@ export function wrapAngle(angle: number): number {
 
 /** A line round the panorama: its height down the screen, in CSS px, at each azimuth. */
 export type Crest = (azimuth: number) => number;
+/** A thing's skyline round the panorama. */
+export type WithCrest = { crest: Crest };
+/** The azimuth a thing stands at round the panorama. */
+export type Azimuthed = { azimuth: number };
 
 /** The cubic from `from` to `to` over `s` in [0, 1], leaving at `out` and arriving at `into`, each per the whole of `s`. */
 function hermite(
@@ -153,10 +157,10 @@ export function placedLeft(
  * drifts rightward round the sky in radians a second, its height on the
  * screen and its size.
  */
-export type Cloud = Pick<Circle, 'y' | 'r'> & {
-  azimuth: number;
-  drift: number;
-};
+export type Cloud = Pick<Circle, 'y' | 'r'> &
+  Azimuthed & {
+    drift: number;
+  };
 
 /**
  * The clouds the opening screen shows, across and down it and by its short

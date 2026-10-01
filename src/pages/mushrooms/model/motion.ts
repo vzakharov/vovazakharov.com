@@ -11,6 +11,8 @@ export type Phased = { phase: number };
 export type Tapped = Phased & { tappedAt: number };
 /** A thing that grows up out of the ground (`emerge`), and when it began to, on the scene's clock. */
 export type Sprouted = { plantedAt: number };
+/** How far a bob sinks a thing, in its module's units. */
+export type Bobbed = { bob: number };
 
 /** A `Phased` phase read off the seed, so it holds across repaints. */
 export function phaseOf({ seed }: Seeded): number {

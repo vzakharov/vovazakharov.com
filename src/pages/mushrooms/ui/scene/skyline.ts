@@ -10,7 +10,13 @@ import { type Camera, pinholeOf } from '../../model/ground';
 import type { Light } from '../../model/light';
 import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
-import { azimuthAt, type Crest, ringWave, wrapAngle } from './panorama';
+import {
+  azimuthAt,
+  type Crest,
+  ringWave,
+  type WithCrest,
+  wrapAngle,
+} from './panorama';
 import { layerSpan, PARALLAX } from './parallax';
 import { SUN_RAY_REACH } from './sun-layout';
 
@@ -111,7 +117,7 @@ function softShare(share: number): number {
 }
 
 /** A far range's crest before the sun parts it, and the height its crests reach at the most. */
-export type FarRange = { crest: Crest; highest: number };
+export type FarRange = WithCrest & { highest: number };
 
 /**
  * The height, at each azimuth, no far hill may rise above: a bowl

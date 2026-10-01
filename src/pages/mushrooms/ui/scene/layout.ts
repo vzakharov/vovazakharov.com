@@ -11,7 +11,7 @@ import { pick } from '@/shared/lib/collections';
 import type { Sized } from '@/shared/typings';
 
 import type { Box, Circle, Point, Scaled } from '../../model/geometry';
-import type { Camera, Hazed } from '../../model/ground';
+import type { Camera, Hazed, WithCamera } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
@@ -75,9 +75,9 @@ const KIND_SCALE = {
 export type MeadowLayout = Sized &
   Controls &
   Crossed &
-  Pick<Camera, 'groundTop'> & {
-    /** What the meadow is shown through: a turn or a resize fits a new one. */
-    camera: Camera;
+  Pick<Camera, 'groundTop'> &
+  // What the meadow is shown through: a turn or a resize fits a new one.
+  WithCamera & {
     /** Where the far hills meet the sky. */
     horizon: number;
     /** The top of the near hills' band. */
