@@ -452,6 +452,16 @@ departures were taken):
    (beaten: shut then reopen, a flicker); a press through a resting
    insect is a long press too; the sun keeps off the cross as it does
    off the colour row. Then flowers' paling (`brow-flower-pale.patch`).
+   Built (560e0db2–422c373b, `p4-fix.md`). **Re-decided: the cross
+   yields to the sun, not the sun to the cross.** Moving the sun for the
+   cross moved it on every screen at all times (tablet lower, small phone
+   r 24 → 16) for a button shown only while picking, and broke
+   `mushroom-light`'s small-phone case; so `placeSun` goes back to
+   reading the button rows only, and the cross takes the first of its
+   spots that keeps off the sun's disc and rays (on tabL, before the
+   colour row's first button). Also: startling an insect does not shut a
+   picker open on a flower, so a press through a resting insect does not
+   flicker.
 4. The rest of the play run. The probe reads the eye, and the walk play
    with its `walk-*.png` frames is in (002b560, d14e506, e8e4e79;
    `play-walk.md`). The species, tufts and insect plays read the view now
