@@ -239,8 +239,9 @@ export class FlowerBed implements Following {
   /**
    * Where an insect sits on the flower `id` this frame, `spot` of its head's
    * radius across (`perchSpot`), with the head's middle it drinks from, in
-   * world px at the opening eye, where the insects fly; `undefined` while the
-   * screen has no room for the flower.
+   * world px at the opening eye, where the insects fly, and the flower it
+   * sits on, which draws it; `undefined` while the screen has no room for the
+   * flower.
    */
   seat(id: string, spot: number, kind: InsectKind): Perched | undefined {
     const shown = this.shown.get(id);
@@ -252,7 +253,8 @@ export class FlowerBed implements Following {
       y: head.y - lift,
     });
     const nectar = placedAt(laid.place, container.rotation, head);
-    return { ...seat, nectar };
+    const on = { laidFoot: laid.place, ...pick(shown, 'stands') };
+    return { ...seat, nectar, on };
   }
 
   /**

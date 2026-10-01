@@ -69,6 +69,26 @@ export function bedPlace(view: View, foot: Ground, height?: number): BedPlace {
   };
 }
 
+/**
+ * A bed object as something to sit on: where the layout stands its foot, in
+ * world px at the opening eye, and its place on the screen this frame. A bed
+ * draws it flat at its foot, so a point laid out on it is drawn where
+ * `onHost` puts it.
+ */
+export type Host = Standing & { laidFoot: Point };
+
+/**
+ * Where `host` draws `point`, laid out on it in world px at the opening eye:
+ * off its drawn foot by the layout's offset scaled by its `zoom`, as the bed
+ * draws its body, at every heading.
+ */
+export function onHost({ stands, laidFoot }: Host, point: Point): Point {
+  return {
+    x: stands.x + (point.x - laidFoot.x) * stands.zoom,
+    y: stands.y + (point.y - laidFoot.y) * stands.zoom,
+  };
+}
+
 /** A thing drawn where the layout stands it, as no view has placed it yet. */
 export function layoutPlace({ x, y }: Point): BedPlace {
   return {

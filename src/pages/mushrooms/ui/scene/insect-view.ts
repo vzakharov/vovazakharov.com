@@ -10,12 +10,12 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import type { Flier } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
+import type { Host } from './bed-place';
 import { containsCircle } from './hit-areas';
 import type { Lighting } from './ink';
 import {
   type Away,
   awayDown,
-  drawnAt,
   entry,
   fromUnits,
   offScreen,
@@ -24,6 +24,7 @@ import {
   toUnits,
 } from './insect-away';
 import { drawLook, fidget, lookOf, newDrink, poseLook } from './insect-look';
+import { drawnInsect, type Seats } from './insect-seat';
 import { freshShown, type Shown } from './insect-shown';
 import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
@@ -46,8 +47,11 @@ function alongOf(point: Point, start: Point, end: Point): number {
   return gone + left > 0 ? gone / (gone + left) : 1;
 }
 
-/** Where an insect sits on a perch, and at a flower the head's middle it drinks from. */
-export type Perched = Point & { nectar?: Point };
+/**
+ * Where an insect sits on a perch, at a flower the head's middle it drinks
+ * from, and on a cap or a flower the host it sits on, which draws it.
+ */
+export type Perched = Point & { nectar?: Point; on?: Host };
 
 /** Where a perch stands in the world this frame, `undefined` while it has nowhere to be. */
 export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
@@ -60,11 +64,13 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  * it jump; its end is wherever its perch stands that frame, so it lands on a
  * breathing cap or a swaying flower.
  *
- * Every leg is flown in the world as the opening eye lays it out, and drawn
- * through the view standing over a ground row (`ofLayout`): perched, its
- * perch's foot's; in flight, the leg's two rows mixed by how far along it is;
- * in the air, the clump's. Exact for a perched insect; drawn at its own size
- * wherever it is, and hidden nearer the eye than `V_NEAR`. Away is just past
+ * Every leg is flown in the world as the opening eye lays it out. One
+ * sitting on a cap or a flower is drawn where that host draws its seat; one
+ * in flight, through the view standing over a ground row (`ofLayout`), the
+ * leg's two rows mixed by how far along it is, carried onto the host it left
+ * and the one it lands on as it nears either (`drawnInsect`); one in the air,
+ * over the clump's row. Drawn at its own size wherever it is, and hidden
+ * nearer the eye than `V_NEAR`. Away is just past
  * the screen's edge where the view stands now, at the row it flies over: one
  * in from away enters by the edge nearer its first perch where the screen
  * shows that perch, else by the world's end nearer it; one leaving goes out
@@ -72,6 +78,10 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
  */
 export class InsectView {
   private readonly shown = new Map<string, Shown>();
+  /** The insects drawn sitting on their perch last frame, by id. */
+  private readonly sat = new Set<string>();
+  /** The perch each insect's current leg set off sitting on, by id. */
+  private readonly leftFrom = new Map<string, Perch>();
   private stage: Stage = { width: 1, height: 1, world: 1, unit: 1 };
   /** The row the opening clump stands on, in world px, as last painted. */
   private clump = 1;
@@ -121,6 +131,8 @@ export class InsectView {
       if (ids.has(id)) continue;
       shown.container.destroy();
       this.shown.delete(id);
+      this.sat.delete(id);
+      this.leftFrom.delete(id);
     }
     for (const flier of insects) {
       const shown = this.shown.get(flier.id) ?? this.show(flier);
@@ -130,6 +142,8 @@ export class InsectView {
       shown.flier = flier;
       if (!newLeg) continue;
       const { from, to, departs } = flier.leg;
+      if (this.sat.has(flier.id)) this.leftFrom.set(flier.id, last.to);
+      else this.leftFrom.delete(flier.id);
       shown.carried = carriedFrom(last, departs);
       // From where it was drawn, fidgets and all, so a startle never jumps.
       shown.entering = from.kind === 'away';
@@ -195,7 +209,7 @@ export class InsectView {
 
   private fly(shown: Shown, t: number, perchAt: PerchAt): void {
     const now = t * 1000;
-    const { leg } = shown.flier;
+    const { leg, id } = shown.flier;
     const size = this.sizeOf(shown);
     const motion = {
       ...pick(shown, 'phase'),
@@ -255,15 +269,18 @@ export class InsectView {
     const toRow =
       (leg.to.kind === 'away' ? undefined : this.rowOf(leg.to)) ??
       shown.fromRow;
-    const row =
-      perched && now >= leg.arrives
-        ? toRow
-        : shown.fromRow + (toRow - shown.fromRow) * alongOf(point, start, end);
+    const sitting = perched && now >= leg.arrives;
+    const flown = sitting ? 1 : alongOf(point, start, end);
+    const row = shown.fromRow + (toRow - shown.fromRow) * flown;
     Object.assign(shown, { end, at: point, offset, bob: bob / size, row });
-    const middle = drawnAt(
+    if (sitting) this.sat.add(id);
+    else this.sat.delete(id);
+    const seats = this.seatsOf(shown, perched ? seated : undefined, perchAt);
+    const middle = drawnInsect(
       this.view(),
       { x: point.x + offset.x, y: point.y + bob + offset.y },
-      row,
+      { flown, row },
+      seats,
     );
     shown.container.setVisible(middle !== undefined);
     if (!middle) return;
@@ -274,8 +291,28 @@ export class InsectView {
     poseLook(shown.look, moment, {
       middle,
       rotation: turn,
-      nectar: seated?.nectar && drawnAt(this.view(), seated.nectar, row),
+      nectar:
+        seated?.nectar &&
+        drawnInsect(
+          this.view(),
+          seated.nectar,
+          { flown, row },
+          pick(seats, 'to'),
+        ),
     });
+  }
+
+  /** The hosts `shown`'s leg is drawn between: the one it left sitting, and `seated`'s, where it flies to sit. */
+  private seatsOf(
+    shown: Shown,
+    seated: Perched | undefined,
+    perchAt: PerchAt,
+  ): Seats {
+    const left = this.leftFrom.get(shown.flier.id);
+    return {
+      left: left && perchAt(left, shown.flier)?.on,
+      to: seated?.on,
+    };
   }
 
   /** The row `perch` stands over; `undefined` for one the scene has not seen standing. */
