@@ -62,7 +62,7 @@ export function viewAt(camera: Camera, eye: Eye): View {
 }
 
 /** `plane`, `height` above the plane, as `view` places a thing laid out `opening` ahead of the opening eye. */
-function placedAt(
+export function placedAt(
   view: View,
   plane: Point,
   height: number,
