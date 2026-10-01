@@ -565,6 +565,10 @@ screen allowed before 3ddb960. One tablet-wide cap left a portrait phone
 before, and slowed a desktop (28.5 across) below what it ever had. Beaten:
 the tablet's cap everywhere (above), and the cap in screen px (places are
 already in each screen's butterfly size, which is what the eye reads).
+Built (da93055, `dash-cap.md`): `Sight.across` set by `perchSight`; every
+screen's fastest dash back to 2.5–3.1 screens a second. Left for the
+review: `across` is optional and an absent one means no cap, which only
+test fixtures rely on; `flight.ts` stands at 454 lines.
 
 **Left, in order:**
 
