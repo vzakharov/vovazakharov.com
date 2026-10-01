@@ -6,7 +6,7 @@ mushrooms' and houses', and the walk play's `checkPops`. Paths under
 
 ## Done
 
-1. (this commit) — flowers and the walk play, together.
+1. d5bbaf8 — flowers and the walk play, together.
    - `flower-bed.ts` `stand`: `bedPlace(view, foot, headR - headY)`, the
      `seam-tail-flowers.patch` line, so a sunk flower hides its last sliver.
    - `scripts/lib/play-walk.ts`: the walk's trace records each thing's top
@@ -20,9 +20,18 @@ mushrooms' and houses', and the walk play's `checkPops`. Paths under
      (5 under the cover on ↓, at most 8.4 px over it) and phoneL (5, at
      most 4.0 px).
 
+2. (this commit) — mushrooms and houses. `mushroom-bed.ts` keeps `tall`,
+   how far the tap area (cap, gills, stem at layout size, turned) reaches
+   above the foot, written in `place` before it stands the mushroom, and
+   `stand` passes it to `bedPlace`; the shadow and the house ride on the
+   same place, so all three hide together. Walk green on tabL and phoneL,
+   house green on phoneL. **Not exercised by a play**: neither walk carries
+   a mushroom past the seam (the forest grows none behind the clump on
+   these screens, and the rim is at −3.5), so the hide is covered only by
+   `bed-place.test.ts`'s height rule.
+
 ## Left
 
-- `mushroom-bed.ts` `stand`: pass the mushroom's drawn height.
 - Optional: a buried flower out of `inView` and taps.
 
 ## Decided

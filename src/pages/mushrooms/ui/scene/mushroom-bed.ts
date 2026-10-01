@@ -72,6 +72,8 @@ type Shown = Tapped &
     goneAt: number;
     /** Where the layout stands its foot, in world px at the opening eye. */
     laid: Point;
+    /** How far its tap area reaches above its foot, in world px at the opening eye. */
+    tall: number;
   };
 
 /**
@@ -312,18 +314,21 @@ export class MushroomBed implements Following {
       layout.sun,
     );
     Object.assign(shown, { genes, turn, size, spots, lighting });
-    shown.laid = { x, y };
-    this.stand(shown);
-    shown.haze = this.hazeHere(shown) ?? haze;
-    this.paintBody(shown);
-    shown.shadow.clear();
-    drawMushroomShadow(shown.shadow, genes, size, ground, turn);
     // Written into the hit area `show` registered, the object Phaser keeps testing.
     const canvas = toCanvas(size);
     const area = tapArea(genes, turn);
     for (const part of TAP_PARTS) {
       shown.hit[part] = area[part].map((point) => canvas(point));
     }
+    shown.tall = -Math.min(
+      ...TAP_PARTS.flatMap((part) => shown.hit[part].map((point) => point.y)),
+    );
+    shown.laid = { x, y };
+    this.stand(shown);
+    shown.haze = this.hazeHere(shown) ?? haze;
+    this.paintBody(shown);
+    shown.shadow.clear();
+    drawMushroomShadow(shown.shadow, genes, size, ground, turn);
   }
 
   /** Paints `shown`'s body and its house as it now stands, at its haze and light. */
@@ -341,10 +346,13 @@ export class MushroomBed implements Following {
       : undefined;
   }
 
-  /** Stands `shown`, its shadow and its house where the view, or else the layout, puts its foot. */
+  /**
+   * Stands `shown`, its shadow and its house where the view, or else the
+   * layout, puts its foot: all three hidden together once it has sunk away.
+   */
   private stand(shown: Shown): void {
     const place = this.view
-      ? bedPlace(this.view, shown.foot)
+      ? bedPlace(this.view, shown.foot, shown.tall)
       : layoutPlace(shown.laid);
     shown.stands = place;
     standAt(shown.graphics, place);
@@ -369,6 +377,7 @@ export class MushroomBed implements Following {
       shadow: this.scene.add.graphics(),
       ...pick(mushroom, 'foot'),
       laid: { x: 0, y: 0 },
+      tall: 0,
       stands: UNPLACED,
       hit,
       genes: mushroomGenes(mushroom),
