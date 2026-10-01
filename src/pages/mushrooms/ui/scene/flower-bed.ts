@@ -17,7 +17,6 @@ import {
   bloom,
   emerge,
   phaseOf,
-  rebloom,
   type Sprouted,
   sway,
 } from '../../model/motion';
@@ -254,10 +253,9 @@ export class FlowerBed implements Following {
     }
   }
 
-  /** Blooms `shown` open from where it stands. */
+  /** Blooms `shown` open from the top, mid-bloom or not, as its sound starts again. */
   private open(shown: Shown): void {
-    const now = this.now();
-    shown.tappedAt = now - rebloom(now - shown.tappedAt);
+    shown.tappedAt = this.now();
   }
 
   private sound(flower: Flower, leads: boolean): void {

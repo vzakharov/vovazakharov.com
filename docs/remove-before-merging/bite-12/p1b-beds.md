@@ -27,9 +27,12 @@ calls each house's placement itself; `HouseView.follow` is there for the
 `capTop`, `seat` and `answer`'s `shows(x)` stay in world px at the opening
 eye (insects fly in layout space, step-spec "Insects").
 
+2. A retap restarts a flower's bloom from the top (`FlowerBed.open` sets
+   `tappedAt` to now; a key's answer does the same). No clock function, so
+   no test. `PALETTE.sprout`/`sproutDark` removed (unused).
+
 ## Left
 
-- Step 2: retap restarts a flower's bounce; `PALETTE.sprout`/`sproutDark`.
 - Step 3: the haze repaint queue.
 
 ## Decided / found
@@ -39,3 +42,7 @@ eye (insects fly in layout space, step-spec "Insects").
   mushrooms fade at the opening (tablet: seed 42 one at alpha 0.57, seed 99
   one at 0.28; flowers none). `view.ts` is not this package's; the test
   asserts position, zoom and drawn, not alpha. Reported.
+- `rebloom` (`model/motion.ts`) and its test are now dead in production:
+  `model/*` is not this package's, so they stay for its owner to remove.
+- The restart snaps the head back to its rest size for a frame before it
+  opens again: a retap at the bloom's widest shows a jump, as asked.

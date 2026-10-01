@@ -24,9 +24,6 @@ export const BACKDROP = {
   groundDeep: 0x3a_7e_46,
   tuft: 0x86_d0_62,
   tuftDark: 0x2e_6c_2c,
-  /** The tufts the child plants on: a fresher green than the seam's grass. */
-  sprout: 0x9c_e8_4e,
-  sproutDark: 0x3c_9a_2a,
   /** The glow on the ground under the tuft the flower picker is open on. */
   sproutGlow: 0xff_f8_d0,
 } as const;
