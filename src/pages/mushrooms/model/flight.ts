@@ -9,7 +9,7 @@
 
 import type { WithId } from '@/shared/typings';
 
-import { FLIGHT_HABITS, type Habits } from './flight-habits';
+import { FLIGHT_HABITS, type Habits, TABLET_ACROSS } from './flight-habits';
 import { enteringSide, type Onscreen, shownOf } from './flight-in';
 import type { Point } from './geometry';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
@@ -290,7 +290,8 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
  * How a flight from `from` to `to` is timed, in times its `flying` time: 1 up
  * to a `stride`, in proportion past it up to `slowest`, and `slowest` past
  * that, where a kind that dashes (`dashing`) flies its last strides at its
- * own pace and dashes the rest, and any other simply flies faster.
+ * own pace and dashes the rest, no faster than across `TABLET_ACROSS`, and
+ * any other simply flies faster.
  */
 function paced(
   { stride, slowest, dashing }: Habits,
@@ -303,8 +304,17 @@ function paced(
   if (strides <= slowest || dashing === undefined) {
     return { stretch: Math.min(slowest, Math.max(1, strides)) };
   }
-  const way = 1 - ((1 - dashing) * slowest) / strides;
-  return { stretch: slowest, dash: { time: dashing, way } };
+  // The last strides at its pace, in as many strides as `flying` times.
+  const atPace = (1 - dashing) * slowest;
+  const slower = Math.max(
+    1,
+    (strides - atPace) / (TABLET_ACROSS / stride - atPace),
+  );
+  const share = 1 - dashing + dashing * slower;
+  return {
+    stretch: slowest * share,
+    dash: { time: (dashing * slower) / share, way: 1 - atPace / strides },
+  };
 }
 
 function legTo(
