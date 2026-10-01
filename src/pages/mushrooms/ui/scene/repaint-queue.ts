@@ -14,6 +14,7 @@ import {
   scaleAt,
   type Viewed,
 } from '../../model/ground';
+import { D_SEE } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
 export const HAZE_DRIFT = 0.04;
@@ -22,14 +23,31 @@ export const HAZE_DRIFT = 0.04;
 export const REPAINTS_PER_FRAME = 2;
 
 /**
+ * How much paler than the ground's haze a thing stands as it sinks behind the
+ * brow, at the most, and how far past `D_SEE`, in the clump's size, it gets
+ * there: about as far as a back-row mushroom takes to sink away, so it pales
+ * as it goes under rather than after.
+ */
+export const BROW_PALE = 0.2;
+const PALE_SPAN = 1.2;
+
+/** How much paler a thing `ahead` of the eye stands for sinking behind the brow: none up to `D_SEE`, easing up to `BROW_PALE`. */
+export function browPale(ahead: number): number {
+  const past = Math.min(1, Math.max(0, (ahead - D_SEE) / PALE_SPAN));
+  return BROW_PALE * past * past * (3 - 2 * past);
+}
+
+/**
  * The haze on a thing `ahead` of the eye, in the clump's size: the opening
  * eye's haze on the ground row as far ahead, so a thing stands as hazy at the
- * opening as the layout painted it.
+ * opening as the layout painted it; past `D_SEE`, paler still (`browPale`).
  */
 export function hazeAhead(camera: Camera, ahead: number): number {
   const [near, far] = [scaleAt(0), scaleAt(1)];
   const z = (CLUMP_DISTANCE / ahead - near) / (far - near);
-  return project(camera, { x: 0, z }).haze;
+  // The ground's haze runs on past `MAX_HAZE` beyond its top row; a colour
+  // mixed toward the air past all of it would overshoot.
+  return Math.min(1, project(camera, { x: 0, z }).haze + browPale(ahead));
 }
 
 /** A thing's haze now, as it was `painted`, and how far `ahead` it stands. */

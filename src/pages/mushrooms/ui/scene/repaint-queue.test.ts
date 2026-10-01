@@ -11,7 +11,7 @@ import {
   REPAINTS_PER_FRAME,
   repaintsDue,
 } from './repaint-queue';
-import { viewAt } from './view';
+import { D_SEE, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 
@@ -64,6 +64,21 @@ describe('the repaint queue', () => {
           assert.ok(near <= painted, where);
         }
       }
+    });
+
+    it(`pales a thing as it sinks behind the brow, more than the ground's haze rises, on a ${name} screen`, () => {
+      const { camera } = opened(SEEDS[0] ?? 1, width, height, false).layout;
+      const span = 1.2;
+      const before = hazeAhead(camera, D_SEE) - hazeAhead(camera, D_SEE - span);
+      const after = hazeAhead(camera, D_SEE + span) - hazeAhead(camera, D_SEE);
+      assert.ok(after - before > 0.15, `${String(before)} → ${String(after)}`);
+      const sinking = [0, 0.3, 0.6, 0.9, 1.2, 2].map((past) =>
+        hazeAhead(camera, D_SEE + past),
+      );
+      assert.deepEqual(
+        sinking,
+        sinking.toSorted((one, other) => one - other),
+      );
     });
 
     // On the frame's back row, not on a grown forest's: which screens grow a
