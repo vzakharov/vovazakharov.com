@@ -19,6 +19,7 @@ off `Crop`. Paths under `src/pages/mushrooms/ui/scene/`.
   (screen circles, no conversion) off the drawn outlines. Candidates are
   drawn over `layoutShown(view)` (new in `eye-crop.ts`, replacing
   `eyeCrop`/`Crosswise`), the whole frame where an edge meets no row ahead.
+- `pan-input.ts` deleted (nothing imported it).
 - `meadow-scene.ts`: passes `this.eye.view()`; `crop` and `camera` fields
   gone (−3 lines).
 - `visit-play.ts`: `stillCrop` gone; `openingCrop(layout)` now returns the
@@ -55,6 +56,5 @@ options: `GROWN_PATCH` 8 everywhere; a floor scaled to the camera's unit
 - The orchestrator's call above, then rerun `mushroom-patch`,
   `meadow-rules`, `tufts`, `layout` (their `LEAST_HEAD_SHARE` comment
   names crops still).
-- `pan-input.ts` deletion (still imported by nothing in this package? check
-  `grep -rn pan-input src/`), `fliers.test.ts` once.
+- `fliers.test.ts` once.
 - Rename `openingCrop` → `openingView` with the scripts' owner.
