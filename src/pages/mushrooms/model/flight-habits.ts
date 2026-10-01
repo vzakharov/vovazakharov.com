@@ -25,8 +25,8 @@ export type Habits = {
    * takes its length at this speed, however long, so a far perch is simply
    * farther, never flown to faster.
    */
-  cruise: number;
-  /** How it darts over every flight, at its `cruise` on average; `undefined` for a kind that glides evenly. */
+  cruising: number;
+  /** How it darts over every flight, at its `cruising` speed on average; `undefined` for a kind that glides evenly. */
   dashing: Dash | undefined;
   /** A stay at a flower. */
   drinking: readonly [number, number];
@@ -54,15 +54,15 @@ export type Habits = {
  * them and carry pollen between them. Hovers are long enough that on a
  * small screen few insects in the air move at once. Each cruises at its
  * own speed whatever the way, a fly fastest and a butterfly slowest; a fly
- * darts most of the way in a quarter of its flight and a bee more gently,
- * each coming in to its perch slower, at a dash about a tablet's screen a
- * second at most on average, so a child's finger can follow it.
+ * darts most of the way in a fifth of its flight and a bee a little less of it,
+ * each coming in to its perch slower, so a finger can catch it most of the
+ * time.
  */
 export const FLIGHT_HABITS = {
   butterfly: {
     flying: [2400, 3900],
     stride: 3,
-    cruise: 0.95,
+    cruising: 0.95,
     dashing: undefined,
     drinking: [3000, 6000],
     hovering: [4000, 8000],
@@ -75,8 +75,8 @@ export const FLIGHT_HABITS = {
   fly: {
     flying: [600, 1100],
     stride: 0.9,
-    cruise: 7,
-    dashing: { time: 0.25, way: 0.7 },
+    cruising: 7,
+    dashing: { time: 0.2, way: 0.8 },
     drinking: [1500, 4000],
     hovering: [2000, 4500],
     resting: [1500, 4000],
@@ -88,8 +88,8 @@ export const FLIGHT_HABITS = {
   bee: {
     flying: [1100, 1800],
     stride: 1.4,
-    cruise: 4.6,
-    dashing: { time: 0.3, way: 0.6 },
+    cruising: 4.6,
+    dashing: { time: 0.2, way: 0.7 },
     drinking: [2000, 3500],
     hovering: [1500, 3000],
     resting: undefined,

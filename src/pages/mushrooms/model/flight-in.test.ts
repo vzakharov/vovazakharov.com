@@ -35,7 +35,7 @@ function spread(kind: 'flower' | 'cap' | 'air', count: number) {
     (id, index) =>
       [
         perchName({ kind, id }),
-        { x: ((index + 0.5) / count) * WORLD, y: 10, q: CLUMP_DISTANCE },
+        { x: ((index + 0.5) / count) * WORLD, y: 10, fromEye: CLUMP_DISTANCE },
       ] as const,
   );
   return { ids, places };
@@ -50,8 +50,8 @@ const PLACES: Places = Object.fromEntries([
   ...FLOWERS.places,
   ...CAPS.places,
   ...AIR.places,
-  ['away left', { x: -2, y: 8, q: CLUMP_DISTANCE }],
-  ['away right', { x: WORLD + 2, y: 8, q: CLUMP_DISTANCE }],
+  ['away left', { x: -2, y: 8, fromEye: CLUMP_DISTANCE }],
+  ['away right', { x: WORLD + 2, y: 8, fromEye: CLUMP_DISTANCE }],
 ]);
 const PERCHES: Perches = {
   flowers: FLOWERS.ids,
@@ -104,8 +104,16 @@ describe('a released insect', () => {
 
   it('is timed in from the screen edge, not the world edge', () => {
     const places = shownOf(PERCHES, ONSCREEN).places ?? {};
-    assert.deepEqual(places['away left'], { x: 30, y: 8, q: CLUMP_DISTANCE });
-    assert.deepEqual(places['away right'], { x: 60, y: 8, q: CLUMP_DISTANCE });
+    assert.deepEqual(places['away left'], {
+      x: 30,
+      y: 8,
+      fromEye: CLUMP_DISTANCE,
+    });
+    assert.deepEqual(places['away right'], {
+      x: 60,
+      y: 8,
+      fromEye: CLUMP_DISTANCE,
+    });
   });
 
   for (const kind of INSECT_KINDS) {
@@ -117,7 +125,7 @@ describe('a released insect', () => {
         const [from, to] = [edges[perchName(leg.from)], placeOf(leg.to)];
         assert.ok(from && to);
         const apart = Math.hypot(to.x - from.x, to.y - from.y);
-        const atCruise = (1000 * apart) / habits.cruise;
+        const atCruise = (1000 * apart) / habits.cruising;
         const flown = leg.arrives - leg.departs;
         assert.equal(leg.out, undefined);
         assert.ok(flown >= atCruise - 1e-9, `${String(seed)} ${flown}`);
@@ -189,7 +197,7 @@ describe('a released insect', () => {
   for (const kind of INSECT_KINDS) {
     it(`still finds a perch in the world where the screen shows none, flying out of view first at its cruise, a ${kind}`, () => {
       const narrow: Onscreen = { left: 0, right: 6, inset: 4 };
-      const out = (1000 * outWay(narrow)) / FLIGHT_HABITS[kind].cruise;
+      const out = (1000 * outWay(narrow)) / FLIGHT_HABITS[kind].cruising;
       for (const seed of SEEDS.slice(0, 50)) {
         const { leg } = firstFlight({ seed, kind }, PERCHES, 0, [], narrow);
         assert.notEqual(leg.to.kind, 'away');

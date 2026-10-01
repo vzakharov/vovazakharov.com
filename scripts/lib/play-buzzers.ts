@@ -50,7 +50,7 @@ const SIGHT_LOOKS =
   Math.ceil(
     Math.max(
       FLIGHT_HABITS.fly.flying[1],
-      (1000 * FARTHEST) / FLIGHT_HABITS.fly.cruise,
+      (1000 * FARTHEST) / FLIGHT_HABITS.fly.cruising,
     ) /
       ((SIGHT_LOOK * 1000) / 60),
   ) + 1;

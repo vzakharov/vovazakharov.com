@@ -42,7 +42,7 @@ export function apartIn(
   const [here, there] = [places?.[perchName(a)], places?.[perchName(b)]];
   if (!here || !there) return undefined;
   const across = Math.hypot(there.x - here.x, there.y - here.y);
-  return (across * logMean(here.q, there.q)) / CLUMP_DISTANCE;
+  return (across * logMean(here.fromEye, there.fromEye)) / CLUMP_DISTANCE;
 }
 
 function stayAt(random: Random, habits: Habits, to: Perch): number {
@@ -71,20 +71,20 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
 
 /**
  * How long a flight from `from` to `to` takes, in ms, and how it dashes: its
- * length at its kind's `cruise`, however long, but never quicker than
+ * length at its kind's `cruising` speed, however long, but never quicker than
  * `flown`, its draw of the kind's `flying` time; `flown` where `places` puts
  * either perch nowhere. A kind that dashes darts the same share of every
  * flight it has a length for, so a longer way is never flown faster.
  */
 function paced(
-  { cruise, dashing }: Habits,
+  { cruising, dashing }: Habits,
   { from, to }: Pick<Leg, 'from' | 'to'>,
   { places }: Placed,
   flown: number,
 ): Pick<Span, 'dash'> & { flight: number } {
   const apart = apartIn(places, from, to);
   if (apart === undefined) return { flight: flown };
-  const flight = Math.max(flown, (1000 * apart) / cruise);
+  const flight = Math.max(flown, (1000 * apart) / cruising);
   return { flight, ...(dashing && { dash: dashing }) };
 }
 
