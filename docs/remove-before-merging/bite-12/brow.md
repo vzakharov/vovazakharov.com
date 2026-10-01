@@ -6,7 +6,7 @@ planet's horizon. Paths under `src/pages/mushrooms/ui/scene/`.
 
 ## Done
 
-1. Step 1, the brow (this commit).
+1. 99f2007d, 1f0fd68e — step 1, the brow.
    - `brow.ts` (new): `browBlades(camera)` — blades round the whole
      panorama, one to each even share of the circle, from the brow's own
      seed (`BROW_SEED`), so the backdrop's `random` stream is untouched;
@@ -27,10 +27,25 @@ planet's horizon. Paths under `src/pages/mushrooms/ui/scene/`.
      row, one density at every heading, a turn slides them, same camera
      same blades.
 
+2. Frames (scratch worktree at f28b892e, walk play): `frames/bite-12/`
+   `tabL-brow-rim.png` and `-rim-close.png` (walked back to the rim: the
+   blue flower right of the clump is going down behind the fringe, its
+   stem's foot hidden by the blades), `tabL-brow-quarter.png` (bare
+   ground a quarter turn round: the crest and blades across the screen),
+   `phoneL-brow-rim.png`. Walk play green on both (tabL: 5 under the cover
+   on ↓, at most 8.4 px over it; phoneL: 5, 4.0 px); frame JS median 11.3
+   and 9.6 ms.
+
 ## Left
 
-- Frames (tabL, phoneL, walking back), the walk play.
-- Step 2: paling into the haze before the brow.
+- Step 2: paling into the haze before the brow (not started). Only
+  mushrooms haze (`mushroom-bed.ts` through `hazeAhead`); the way in is an
+  extra term in `hazeAhead` past `D_SEE`, rising as a thing sinks, so the
+  opening frame (back row ≤ 13.24 ahead) is untouched. Flowers have no
+  haze, so paling them needs `flower-bed.ts` (a `.patch`).
+- The crest is soft; on tabL it reads as a light line under the blades. If
+  it should read stronger, `BROW.crest`'s mix (0.5) and `CREST_DEPTH` are
+  the knobs.
 
 ## Decided
 
