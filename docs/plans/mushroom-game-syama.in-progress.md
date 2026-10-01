@@ -391,6 +391,14 @@ the width/20 drawn bound. The bound catches a discontinuity, not the design.
 Beaten: a lower dash (every fly leg slower, against the catch test's
 tuning); a drawn dash slowed by the zoom (the view re-timing legs the model
 sets). Whether the dash reads too fast is the operator's play to judge.
+**Corrected, from `ip-Cplay4.md`:** the ~65 / ~48 were the play's measured
+peaks; the curve's own (`scripts/lib/veer-dash.ts`, sampling `flightPoint`)
+is 41.6 / 23.5, and measured steps reach ~90 / ~58 on `away` legs and walking
+frames. **Decided: the bound stays the curve's**, and a step the curve does
+not explain is a defect to trace (`ip-Cplay5.md`: an `away` leg drawn toward
+a side point recomputed each frame; walking frames counted as steps), not a
+number to loosen. Beaten: binding to the measured peaks (writes the defect
+into the check).
 **Looking back the glade is bare by design** (12b makes the field endless),
 so nothing grows at π; the veer play lands its looking-back releases at the
 farthest heading with room (~1.8 rad on tabL, ~1.6 on phoneP).
