@@ -1,287 +1,315 @@
-# insect-plane — spec (research package, unfinished)
+# insect-plane — spec (research package, firm)
 
 The plan's decision (`lens-carry.md` round 3): an insect's points are plane
 points, and its drawn size is its own size over its distance from the eye.
-This note says how to build it. Round 1 (§1–§4, Open, Left) set the model;
-**§ "Round 2" supersedes it where they differ**: the gaze is the leg's
-frame (R2.1), and Open 1 is decided, option (a).
+This note says how to build it. §1–§3 are the model and the properties it
+holds, condensed from rounds 1–2; **§ "Round 3" is the build**: the veer
+(R3.1), the cost (R3.2) and the packages (R3.3). Sizes are option (a)
+throughout (decided with the operator, plan, cc06116b).
 
-## 1. The model: where an insect is
+Units: plane lengths in the clump's size (`CLUMP_DISTANCE`, CD = 8.64 of
+them, is the opening eye's distance to the clump); screen lengths in CSS px;
+zoom as a ratio (×) to the insect's size at CD; insect speeds in butterfly
+sizes a second.
 
-- **`Aloft = Point & { h: number }`**: a plane point (the clump's size, the
-  plane `viewOf` takes) and a height over it, same units. Resize-invariant by
-  construction, so `toUnits`/`fromUnits` and `Stage`'s `world`/`unit` drop out
-  of the leg's start.
-- **The gaze**, the 2-D space `steer` runs in: for a view, `x = arc ·
-azimuth` (absolute plane azimuth from the eye, not off its heading),
-  `y = pinhole.y + (EYE_HEIGHT − h) · focal / d` (the row before `bendAt`
-  bends it). Turning the eye leaves every gaze point where it is, so `steer`'s
-  drift and facing see nothing when the child turns; walking moves them by
-  true parallax. Each leg's points are unwrapped about the leg's start
-  (`ref + arc · wrapped((x − ref)/arc)`), and every point keeps last frame's
-  branch (`new = last + wrapped(raw − last)`), so a leg never flips round
-  the eye when the eye walks across its line.
-- **Depth along a leg**: `1/d` mixed straight by `flown` (`alongOf`, kept),
-  `d` the distance from the eye. This is today's row mix at the opening eye
-  (a row is linear in `1/opening`) and never dips through the eye.
-- **Back to the world**: gaze point + `d` → `Aloft` (azimuth `x/arc`, the
-  plane point `d` along it, `h` from `y`). **Drawn**: `viewOf(view, eye,
-plane, h)`, `zoom = CLUMP_DISTANCE / ahead`, sunk by the ground point under
-  it (`sunkOver` with `viewOf(plane, 0)`), hidden at `ahead ≤ 0` or
-  `buried`. Prototype: `<scratchpad>/ip/proto.mts`.
-- `steer`'s `size` is the insect's size times the zoom the `1/d` mix gives
-  at last frame's `flown` (its flutter and thresholds scale with how big it
-  is drawn). `steer`, `flightPoint`, the model's timing, cruise, perch
-  choice, `Places`, `onscreenOf`, crowding and the air grid's ids are
-  unchanged: the model keeps layout units.
+## 1. The model (built in `insect-frame.ts`, `ip-frame.md`)
 
-## 2. Module by module
+- **`Aloft = Point & { h }`**: a plane point and a height over it, both in
+  the clump's size. Resize-invariant, so `toUnits`/`fromUnits` and `Stage`'s
+  `world`/`unit` drop out of the insect path.
+- **The leg's frame** (R2.1): the opening layout's pinhole stood at the eye
+  and turned to a centre azimuth `c` fixed as the leg sets off.
+  `θ = wrapped(azimuth − c) / SPREAD`, `forward = d · cos θ`,
+  `x = middleOf(view) + focal · tan θ` (world px), `y = pin.y +
+(EYE_HEIGHT − h) · focal / forward`; back by `atan`, `d = forward / cos θ`.
+  `c` is the eye's heading at set-off clamped so both ends lie within
+  `FRAME_MARGIN = SPREAD · 0.9` (1.77 rad) of it (`centreOf`). Facing anything
+  on the screen the clamp does not bite, so at the opening eye the frame _is_
+  the layout and the leg is today's leg. Turning the eye moves no framed
+  point; walking moves them by true parallax.
+- **Depth along a leg**: `1/forward` mixed straight by `flown` (`mixD`) —
+  today's row mix at the opening eye, never nearer than the nearer end.
+- **Drawn**: `drawnAloft(view, aloft)` — zoom `CD / ahead`, sunk by the
+  ground under it, `undefined` at `ahead ≤ 0` or buried.
+- `steer`'s `size` is the insect's size × the zoom `mixD` gives at last
+  frame's `flown`. `steer`, `flightPoint`, perch choice, `onscreenOf`,
+  crowding and the air grid's ids are unchanged: the model keeps layout units.
 
-| module                                                               | today                                                                                                                               | becomes                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `view.ts`                                                            | `ofLayout`, `layoutOfPlane`, `rowAt` place a layout point over a row; `placedAt` zoom `opening/ahead`                               | adds `gazeOf`, `aloftAt`, `drawnAloft` (or a new `insect-gaze.ts`, ~80 lines, to keep `view.ts` the meadow's); `ofLayout` stays for beds                                                                                                                                                                                                                                                                                                       |
-| `insect-away.ts`                                                     | `drawnAt`/`flownAt` over a row; `entry` via `groundAlong` → layout, `groundNear`, `pastEnd` fallback; `offScreen` via `layoutAtRow` | `entry` returns `Aloft`s: start `alongSight(x, D_SEE + PAST_BROW)`, `h 0` — always defined, so **`groundNear` and the `pastEnd` fallback go**; `out` `offScreen` at `OUT_AHEAD · D_SEE`; `offScreen(view, side, away, d)` = the screen point past the edge at `drop`, back to an `Aloft` at distance `d` (always defined: **`pastEnd` goes** from insects); `toUnits`/`fromUnits`, `OverRow` go; `reachesScreen`, `PAST_BROW`, `awayDown` stay |
-| `insect-seat.ts`                                                     | sitting: `onSeat` at host zoom; flying: `drawnAt` plus `offHost` carry blend                                                        | sitting: the host's drawn seat, insect at `CLUMP_DISTANCE / host.stands.ahead`; flying: `drawnAloft`. The end of a leg _is_ the host's drawn seat (screen → gaze each frame, `d` the host's `distance`), so the `offHost` blend goes; the start is a fixed `Aloft` taken where it was drawn                                                                                                                                                    |
-| `insect-view.ts`                                                     | `from` in units, `fromRow`/`row` mix, `seated` layout point                                                                         | `from: Aloft`, `fromD`; the `row` fields become distances; steering in gaze; no `View                                                                                                                                                                                                                                                                                                                                                          | undefined`(before the first fit,`viewAt(camera, OPENING_EYE)`, which is what the eye fits to) |
-| `insect-shown.ts`                                                    | `OverRow`, `fromRow`, `from` units                                                                                                  | `Aloft`/distance fields, same shape otherwise                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `perch-hosts.ts`, `mushroom-bed.capTop`, `flower-bed.seat`           | `Perched` layout point + `on` host                                                                                                  | `Perched` gains the seat as the host draws it on the screen; a flower's `flowerLift` splits into the host part (`disc`, at host zoom) and the insect part (`ABOVE_CENTRE · size` etc., at insect zoom) so legs stay on the head when the two zooms differ                                                                                                                                                                                      |
-| air perches (`airSpots` → `Perches.air`)                             | layout point over `clumpRow`                                                                                                        | `Aloft` via `ofLayout`'s own construction over the clump's row (`spread` at `CLUMP_DISTANCE`, height `(clumpRow − y)·perPx`), fixed in the world                                                                                                                                                                                                                                                                                               |
-| `perch-sight.ts` `footRows`, `clumpRow`                              | rows per perch for the flier's mix                                                                                                  | distance per perch from the eye, read each frame from `stands.distance` (bed hosts) or the `Aloft` (air) — `FootRows` goes                                                                                                                                                                                                                                                                                                                     |
-| `insect-tap.ts`, `insect-look`, `insect-voices`                      | screen px                                                                                                                           | unchanged                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `flight*.ts`, `insect-steering.ts`, `insect-paths.ts`, `arrivals.ts` | model                                                                                                                               | unchanged                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+## 2. What it holds (rounds 1–2, measured on `ip2/` prototypes)
 
-`lens-carry-round3.patch` is obsolete (its edge-over-row start is replaced
-by a plane start); `groundNear` and `pastEnd` go from the insect path;
-`offScreen` survives in plane terms.
+1. **Facing the clump, against today** (R2.1, heading 0, the perch-shown
+   release, real `steer`, 60 fps): drawn middle apart p99 / max, px —
+   tablet 2.1 / 3.5, tablet portrait 2.1 / 3.0, phone 0.3 / 1.4, sideways
+   phone 1.0 / 2.6, small phone 0.0 / 6.8, desktop 3.3 / 5.8. **Bound: p99
+   ≤ 4 px, max ≤ 12 px**. Round 1's angle gaze (`x = arc · azimuth`) missed it
+   by up to 224 px: `steer`'s `setOffFor` picks the bow's side by a near-tie
+   against fixed rest angles, and a gaze chord tipped 13–21 legs a screen to
+   the other side; only the eye's own heading as the frame's centre
+   reproduces today's sides. The 6.8 px is one bow tie (1 of 462 legs).
+2. **Sizes change by design**: plane / today's zoom 0.648 at the brow to
+   1.48 at the front caps facing the clump.
+3. **Looking back holds** (R2.2, straight legs; R3.1 for bowed ones): a
+   release start → out and start → a shown perch drawn on 200 of 201
+   samples (the one is the start, under the brow by design); zoom at landing
+   equals the perched insect's, |Δ| ≤ 2.2e-16.
+4. **A perched insect tracks its cap** (R2.3, 33 600 samples): its zoom over
+   its cap's is constant per host to 3.6e-16 — `CD / the host's opening
+distance`, 0.648 at the brow to 1.72 at `V_NEAR`.
+5. **Pace** (R2.4): a leg's time is its length at its kind's cruise,
+   measured in sizes as drawn where it flies — built by `ip-pace` (R3.3).
 
-## 3. Checkable properties and their measures
+## Round 3
 
-1. **Facing the clump, against today** — `<scratchpad>/ip/facing.mts`
-   (`WT=<worktree> node --import tsx ../ip/facing.mts`, `H=` headings):
-   the perch-shown release, real `steer`, 60 fps, today vs the prototype, at
-   the opening eye, heading 0. Drawn middle apart (px):
+Prototype: `ip-measures.patch` (`git apply`, adds `ip3/`: `proto.ts`,
+`legs.ts` — a leg flown by the real `steer` at 60 fps — `world.ts`,
+`veer.ts`, `back.ts`, `bench.ts`; `node --import tsx <file>` from `ip3/`).
+Never source. Leg time in the prototype: its length in the set-off frame in
+drawn butterfly sizes at the cruise (butterfly 1, fly 7, bee 4.6 sizes/s),
+≥ 0.3 s.
 
-   | screen          | median | p95  | p99  | max   |
-   | --------------- | ------ | ---- | ---- | ----- |
-   | tablet          | 0.6    | 7.3  | 28.4 | 130.5 |
-   | tablet portrait | 0.2    | 2.1  | 4.0  | 6.6   |
-   | phone           | 0.1    | 1.0  | 2.0  | 8.3   |
-   | phone sideways  | 0.6    | 9.4  | 33.7 | 101.8 |
-   | small phone     | 0.1    | 0.8  | 1.6  | 6.8   |
-   | desktop         | 1.2    | 17.7 | 83.7 | 224.2 |
+### R3.1 The veer — decided
 
-   The wide screens' tails are not explained yet (§ "Open" 2). Proposed
-   bound once explained: p99 ≤ 4 px, max ≤ 12 px.
+**Each frame's `Aloft` is pushed radially out on the plane from the eye**
+(`veered`): untouched past `R_V + w`, at `R_V` inside `R_V − w`, on the C¹
+parabola `R_V + (d − R_V + w)² / 4w` between, azimuth and height kept.
 
-2. **Size facing the clump changes by design** (§ "Open" 1): plane/today
-   zoom 0.648–0.67 at the release's start (the brow), 0.648–1.48 at the
-   perch, by `scaleAt(z)` of the perch's ground.
-3. **Looking back** (headings π, π ± 0.035, every screen): a release with
-   and without a perch shown drawn on ≥ 95% of 201 samples, start → `out`
-   and start → perch; its zoom at landing equals the perched insect's
-   (`CLUMP_DISTANCE / ahead` both, |Δ| < 1e-3). Measure to write:
-   `lc/back-leg.mts` ported to `proto.mts` (not run).
-4. **A perched insect tracks its cap**: drawn insect px / drawn cap px
-   constant per host over an eye grid × headings (spread < 1e-9). Holds
-   today too; the new property is (3)'s equality. Measure not written.
+**Decision (orchestrator, from the numbers below)**:
 
-## 4. Packages (provisional)
+- **`R_V = V_NEAR · bendAt(pinholeOf(view), 0)`**, the bend at the screen's
+  edge, constant per screen, so a veered insect's zoom is ≤ 1.72× (the
+  nearest drawn mushroom's) anywhere on the screen, edge included:
 
-- **Step 0 — the gaze** (`view.ts` or `insect-gaze.ts` + its test): `Aloft`,
-  `gazeOf` with the branch-keeping unwrap, `aloftAt`, `drawnAloft`. Tests:
-  `view.test.ts`, the new file. Nothing draws through it yet.
-- **A — away and seat** (`insect-away.ts`, `insect-seat.ts`, their tests):
-  `entry`/`offScreen` in `Aloft`, `drawnInsect` on gaze, `offHost` out.
-  Re-runs `insect-away.test.ts`, `insect-seat.test.ts` (the "its own size at
-  the opening" test is rewritten to `CLUMP_DISTANCE / ahead`).
-- **B — perches** (`perch-hosts.ts`, `perches.ts`, `perch-sight.ts`
-  `footRows`/air, `mushroom-bed.capTop`, `flower-bed.seat`, the lift split):
-  re-runs `perch-sight.test.ts`, `flower-plots.test.ts`, `tufts.test.ts`,
-  then `fliers.test.ts` alone (~6 min).
-- **C — the view** (`insect-view.ts`, `insect-shown.ts`, `meadow-scene.ts`
-  wiring): depends on A and B; play-check frames tabL / phoneP, looking back.
+  | screen          | bend at the edge | R_V (CD) | R_V (clump sizes) |
+  | --------------- | ---------------- | -------- | ----------------- |
+  | tablet          | 1.077            | 0.625    | 5.40              |
+  | tablet portrait | 1.013            | 0.588    | 5.08              |
+  | phone           | 1.014            | 0.588    | 5.08              |
+  | phone sideways  | 1.167            | 0.677    | 5.85              |
+  | small phone     | 1.015            | 0.589    | 5.09              |
+  | desktop         | 1.116            | 0.647    | 5.59              |
 
-## Open — where the decision may not hold as worded
+- **`w = 0.1 · CD`** (0.864 clump sizes) on every screen.
+- **A leg to or from a seat inside `R_V + w` fades the veer out over the
+  last (first) 0.3 of the way**, so the insect lands exactly on its seat.
+  As built (`ip-veer`, `veeredAlong`): a seat end at distance `d` from the
+  eye has depth `smooth((R_V + w − d) / w)` (1 inside `R_V`, 0 from
+  `R_V + w`), the fade's window is `SEAT_FADE · depth` of `flown`
+  (`SEAT_FADE = 0.3`), and the keep scales the veer's displacement
+  (`aloft + keep · (veered − aloft)`) — landing exactly on any seat in the
+  band, where the prototype's partial keep missed by up to ~w/27.
+  **Accepted cost**: up to ~2.4× zoom during the fade, standing by a perch.
+- **Accepted pending play**: a few one-frame flicks (a drawn step > width/20
+  px) of a fly passing very near; package C's play looks for them.
 
-1. **Decided (a)**, with the operator (plan, cc06116b). **"Facing the clump nothing moves" vs "sized by distance".** Today every
-   insect is drawn the same size at the opening eye whatever its depth
-   (`insect-seat.test.ts` asserts it). Sized by distance, an insect on the
-   back caps is 0.65× today's, on the front ones up to 1.11–1.48×, and a
-   release comes over the brow at 0.65×. Positions can hold; sizes cannot.
-   Options: (a) accept — the insect matches its cap and the brow, as the
-   decision says; (b) size by the thing's distance from the plane's origin
-   over `ahead` — today's sizes at the opening, no shrink looking back from
-   it, but an insect near the origin seen from afar is drawn tiny against its
-   cap and a release's zoom does not match a perched one's: beaten by
-   property 3. The spec builds (a); the orchestrator confirms.
-2. **Explained and fixed in R2.1.** **The wide-screen tails in (1)**: 101–224 px on tablet, sideways phone
-   and desktop. Suspects: `steer`'s `size` changing frame to frame (the
-   `1/d` zoom) moving its flutter and facing; the leg's bow measured on a
-   gaze length that differs from the layout's off the middle (angle vs
-   tangent). Re-run with `size` fixed to see which.
-3. **Per frame**: not measured. By count the new path is cheaper (two
-   `viewOf` and three `atan2`/`hypot` per insect, against today's up to six
-   `ofLayout`, each a `spread` and a `viewOf`); a micro-benchmark against
-   `drawnInsect` belongs with step 0. Budget 26 ms median
-   (`scripts/lib/frame-budget.ts`).
+**Measured** (`veer.ts`, seeds 1 and 42, 3 legs a pair). Scenarios: `grid`
+(eyes at x ∈ −6..6 step 3, y ∈ {2, 5, 8, 11} clump sizes, 4 headings, legs
+among seats and 40 air spots), `by a perch` (eye 0.3 and 0.6 CD in front of
+each of 12 seats, facing it), `walk-in` (eye walks at `STRIDE_CRUISE`
+through a hovering air-perch insect, lateral offsets 0, 0.1, 0.3 CD). Max
+zoom while the middle is on the screen, no veer → the decision (butterfly /
+fly):
 
-## Round 2
+| screen          | grid                  | by a perch            | walk-in           |
+| --------------- | --------------------- | --------------------- | ----------------- |
+| tablet          | 7.45→1.82 / 5.35→1.89 | 5.79→2.38 / 4.24→2.11 | 200.6→1.72 / same |
+| tablet portrait | 5.44→1.72 / 4.82→1.72 | 3.26→1.82 / 4.85→1.93 | 6.42→1.72         |
+| phone           | 5.04→1.72 / 9.49→1.72 | 4.69→2.07 / 3.81→1.94 | 1.19 both         |
+| phone sideways  | 7.05→1.89 / 12.5→1.74 | 9.08→2.24 / 6.17→2.10 | 17.8→1.72         |
+| small phone     | 5.99→1.84 / 20.3→1.72 | 3.70→1.95 / 3.71→2.00 | 2.04→1.72         |
+| desktop         | 5.23→1.88 / 5.36→1.98 | 5.19→1.89 / 5.73→1.99 | 20.5→1.72         |
 
-Scratch scripts: `<scratchpad>/ip2/` (`proto.mts`, `facing.mts` with the
-switches below), never committed. Sizes are option (a) throughout.
+- At the opening eye no leg comes within 0.5 CD and zoom ≤ 1.10×: the veer
+  changes nothing there.
+- Grid legs passing within 1 / 0.5 / 0.25 CD: 84–88% / 36–42% / 8–12% with
+  no veer; with it 13–17% / 3–6% remain within 0.5 / 0.25 CD, every one a
+  leg with a seat end inside `R_V + w` (the fade).
+- Longest time a giant (drawn span > half the screen's width) holds the
+  screen: up to 9.4 s with no veer (phone, butterfly), 1.1–3.0 s walking
+  in; **0 s with the veer** on every screen but one 0.12 s (small phone, by
+  a perch).
+- Zoom above 1.72× is only the fade by a seat inside `R_V` (up to 2.38×,
+  tablet): that seat's host is culled by `V_NEAR`, so the seat is below the
+  screen's foot and the sitter lands there. No pops (a sitter hidden while
+  drawn inside the screen) in any run. `R_V = V_NEAR` alone gives 1.86–1.92×
+  where the edge `R_V` holds 1.72×.
+- `w` 0.1 vs 0.25 CD: same max zoom, drawn jumps within ±3 px.
+- Flicks (a drawn step > width/20 px in one frame): the veer adds them for
+  flies passing near the eye — tablet 0 → 4, sideways phone 3 → 13 (by a
+  perch), phone 42 → 46 (pre-existing): the radial push slides the point
+  round the `R_V` circle fast when the raw leg passes very near.
 
-### R2.1 The facing tails: the bow's side, then the frame
+**A bowed leg looking back** (`back.ts`, run for this round): a release
+flown by the real `steer` in the leg's frame with the decided veer, headings
+π and π ± 0.035, from (0, 18) clump sizes at the clump's caps and from the
+opening eye at three perches stood behind it (0.6 · `D_SEE` out), start →
+every shown perch and start → out past either side, every kind:
 
-**Cause: the leg's bow flips side, not its size.** Facing the clump, at
-heading 0, `facing.mts` with each suspect switched off (p99 / max px; the
-frame run is `MODE=tan CENTRE=clamp`, and on the tall screens gives
-2.1 / 3.0, 0.3 / 1.4, 0.0 / 6.8):
+| screen          | legs | drawn on ≥ 95% of frames | median | least | seat legs landed drawn |
+| --------------- | ---- | ------------------------ | ------ | ----- | ---------------------- |
+| tablet          | 249  | 247                      | 98.0%  | 91.5% | 213 / 213              |
+| tablet portrait | 99   | 99                       | 98.6%  | 97.3% | 63 / 63                |
+| phone           | 114  | 114                      | 98.6%  | 97.2% | 78 / 78                |
+| phone sideways  | 252  | 252                      | 98.2%  | 96.7% | 216 / 216              |
+| small phone     | 114  | 114                      | 98.4%  | 97.1% | 78 / 78                |
+| desktop         | 234  | 234                      | 98.0%  | 95.5% | 198 / 198              |
 
-| run                                          | tablet     | sideways phone | desktop     |
-| -------------------------------------------- | ---------- | -------------- | ----------- |
-| round 1's gaze                               | 28.4 / 130 | 33.7 / 102     | 83.7 / 224  |
-| `size` fixed (`FIX`)                         | 28.3 / 130 | 33.7 / 102     | 82.6 / 220  |
-| no flutter (`FLUT=0`)                        | 28.0 / 130 | 33.8 / 101     | 82.6 / 219  |
-| no bow, no zigzag (`NOBOW`, `FIX`, `FLUT=0`) | 5.7 / 7.3  | —              | 12.3 / 15.2 |
-| bow forced to today's side (`SAMEBOW`)       | 9.2 / 17.4 | 11.3 / 18.2    | 19.2 / 31.5 |
-| **the leg's frame (below)**                  | 2.1 / 3.5  | 1.0 / 2.6      | 3.3 / 5.8   |
+The misses are the start's first 2–3 frames, under the brow by design. The
+two tablet legs under 95% are flies from (0, 18) whose bow carries them back
+out past the brow (13.7–13.8 clump sizes from the eye, the brow at
+`D_SEE` = 13.3) for 3–4 frames (~60 ms) just after they rise over it — a
+blink at the brow, on the C play list.
 
-`steer`'s `setOffFor` picks the bow's side by the least body swing, against
-the perch's rest facing and the seat's turn, which are fixed angles on the
-points' axes. On 13 / 21 / 19 legs (of 426 / 455 / 409; 0–3 on the tall
-screens) the two sides come out within a hair, and the gaze's slightly
-different chord direction tips it: the leg then bows the other way, up to
-`arc · chord` off. It is a tie today too: a 1 px shift of today's own start
-flips 11–18 legs a screen. What is left with the side forced is the shape:
-the gaze is linear in azimuth, the layout in its tangent (the opening crop's
-pinhole: `x = focal · tan(θ)`, `θ` the gathered azimuth, up to 0.6 rad on
-the sideways phone), so the same cubic bows differently off the middle.
+### R3.2 The cost — negligible
 
-**Fix: steer in the leg's frame — the layout, stood at the eye.** The
-opening layout is a pinhole on `gathered(plane)` at the plane's origin,
-looking at azimuth 0. The leg's frame is the same pinhole stood at the eye
-and turned to a centre azimuth `c` fixed as the leg sets off:
+`bench.ts`, 400 000 insects × 5 rounds, best round, run with one other test
+process on 4 cores (it matches the earlier contaminated run to 0.02 µs):
 
-- `θ = wrapped(azimuth − c) / SPREAD`, `q = d · cos θ`;
-  `x = pin.x + focal · tan θ`, `y = pin.y + (EYE_HEIGHT − h) · focal / q`.
-- Depth along the leg: `1/q` mixed straight by `flown`, `q` the forward
-  distance in the frame — today's row mix exactly at the opening eye.
-- Back: `θ = atan((x − pin.x)/focal)`, azimuth `c + SPREAD · θ`, `d = q / cos θ`,
-  `h = EYE_HEIGHT − (y − pin.y) · q / focal`.
-- **`c` is the eye's heading at set-off, clamped so both ends lie within
-  `M` of it**: `c = clamp(heading, a_hi − M, a_lo + M)`, the ends' azimuths
-  taken the short way round, `M = SPREAD · 0.9` (1.77 rad; `tan 0.9 = 1.26`
-  at the frame's edge). A chord spans at most π, so `2M > π` always has room.
-  Facing anything on the screen the clamp does not bite (the screen's
-  half-width is at most 0.97 rad of azimuth, desktop), so at the opening the
-  frame is today's layout and the leg is today's leg.
-- The frame is fixed for the leg: turning the eye moves no framed point;
-  walking moves them by true parallax, as round 1's gaze did. The frame's one
-  singular line is `|θ| = π/2`, an azimuth `SPREAD · π/2` (176°) off `c`;
-  the clamp keeps the ends 1.77 rad inside it, and R2.5 measures how close a
-  walking eye brings a mid-leg point.
+| path                                                | per insect | 30 insects |
+| --------------------------------------------------- | ---------- | ---------- |
+| today's `drawnInsect`, a host at either end         | 1.56 µs    | 46.7 µs    |
+| today's `drawnInsect`, no host                      | 0.64 µs    | 19.3 µs    |
+| the frame: two `framedOf`, back, veer, `drawnAloft` | 0.91 µs    | 27.3 µs    |
 
-Its residual against today is the 1/q mix against today's row (equal at the
-opening eye) and the 1–4 px of `sunkOver` and the zoom on `steer`'s flutter;
-the 6.8 px max on the small phone is one bow tie (1 / 462), as it is in every
-run. **The bound holds: p99 ≤ 4 px, max ≤ 12 px on every screen** (worst
-desktop 3.3 / 5.8). Centring the frame on the leg's middle azimuth or its
-start instead (heading-free) brings the flips back (p99 27 / 13 px on
-tablet): the chord's direction against the fixed rest angles is what the
-side turns on, so only the eye's own heading reproduces today. Round 1's
-§1 gaze (`x = arc · azimuth`) is superseded by this frame; its
-branch-keeping unwrap is not needed (the clamp keeps ends inside the frame).
+The frame path is cheaper than today's worst; either is ~0.1% of the 26 ms
+median frame budget (`scripts/lib/frame-budget.ts`). `steer` is the same on
+both and left out.
 
-### R2.2 Looking back — holds
+### R3.3 The packages — firm
 
-`ip2/back.mts` (round 1's `lc/back-leg.mts` ported: a straight leg in the
-leg's frame, 201 samples, drawn through `drawAloft`, counted where the
-insect's span reaches the screen), headings π and π ± 0.035, every screen,
-frame and round 1's gaze alike: **start → out with no perch shown 200/201,
-start → a perch the screen shows 200/201** (the one not drawn is the start,
-under the brow by design). Out → the opening clump's cap (behind the child)
-is drawn on 1–13 of 201: it flies out by the side and on behind, as it
-should. **Zoom at landing equals the perched insect's** (`CLUMP_DISTANCE /
-ahead` of the host's foot both): max |Δ| 2.2e-16. Not run: a bowed (steered)
-leg looking back — `facing.mts` builds its perches through `groundAlong`,
-which has no row looking back.
+Shared by every package: `brief-common.md`; each commits only what
+type-checks. **A and B are additive** — they add the plane-terms functions
+beside today's, which stay live and green — and **C switches the insect over
+and deletes the old path** in A's and B's files after both have landed. So A
+and B never touch the same file, and nothing breaks between packages.
 
-### R2.3 A perched insect tracks its cap — holds
+**Order**: A and B now, in parallel (disjoint files; B once `ip-pace`
+reports, it last edited `perch-sight.ts`); C after both. `ip-veer` and pace
+are built; pace's play judgement is C's play run.
 
-`ip2/cap.mts`: the opening feet and 12 forest feet, eyes on a 5×5 grid ±6,
-16 headings, every screen (33 600 samples). Perched insect's zoom over its
-cap's: **constant per host to 3.6e-16**, its value `CLUMP_DISTANCE / the
-host's opening distance` (0.648 at the brow to 1.72 at `V_NEAR`; 0.93–1.04
-on the hosts sampled). Today the ratio is 1 on every host; under (a) it is
-the host's own constant, so the insect never changes size against its cap.
-The seat itself tracks exactly: both go through `aboutFoot` off the host's
-drawn foot.
+#### `ip-veer` — the decided veer (built)
 
-### R2.4 Speed seen on screen — the pace decision, measured
+`insect-frame.ts` (`ip-veer.md`): `veerOf(camera): Veer` — `near = V_NEAR ·
+bendAt(pinholeOf(camera), 0)`, `width = 0.1 · CD`; `veered(eye, aloft,
+veer)`; `SeatEnds = Partial<Record<'from' | 'to', Point>>` (a leg's seat
+ends as plane points, an air end absent); `SEAT_FADE = 0.3`;
+`veeredAlong(eye, aloft, veer, flown, ends)`, the veer with R3.1's fade.
+`VEER` is gone.
 
-`ip2/speed.mts`, the opening eye facing the clump, every leg between a grid
-of 99 perches (11 columns × 9 depths), peak over a 2-frame step and mean
-(seen length / flight time) over legs longer than two strides, in butterfly
-sizes **as drawn where the insect is** a second. Tablet / desktop:
+#### Pace — `ip-pace` (built)
 
-| kind      | today peak | plane, today's `paced` peak | pace: layout length, peak · mean · longest | seen: drawn length, peak · mean · longest |
-| --------- | ---------- | --------------------------- | ------------------------------------------ | ----------------------------------------- |
-| butterfly | 3 / 4      | 3 / 5                       | 2 · 0.5–1.5 · 23 s / 2 · 0.5–1.5 · 33 s    | 2 · 1.0 · 28 s / 2 · 1.0 · 40 s           |
-| fly       | 111 / 163  | 146 / 209                   | 3 · 0.6–1.7 · 21 s / 3 · 0.6–1.7 · 30 s    | 2 · 1.1 · 26 s / 2 · 1.1 · 37 s           |
-| bee       | 54 / 81    | 73 / 109                    | 2 · 0.5–1.5 · 23 s / 2 · 0.5–1.5 · 33 s    | 2 · 1.0 · 27 s / 2 · 1.0 · 38 s           |
+Files: `flight.ts`, `flight-timing.ts`, `flight-in.ts`, `perch-sight.ts`,
+`scripts/lib/play-buzzers.ts`, their tests. Built: `Habits.cruise`
+(butterfly 0.95, fly 7, bee 4.6 sizes/s); `paced` flies max(`flown`,
+length / cruise), no ceiling; `slowest`, `across`, `ARRIVAL`, `arriving`
+gone; a fixed `Dash` per kind (fly 0.7 of the way in 0.25 of the time, bee
+0.6 in 0.3, butterfly none); the out-of-view stretch timed at the cruise
+over half the shown width (`Leg.out`). Step 2: `Place = Point & { q }`,
+`apartIn` = layout length × `logMean(q₀, q₁) / CD`; `q` comes through the
+one seam `perchDistance(layout, row)` in `perch-sight.ts` (today the opening
+eye's), which B swaps. Left with it: the `fliers.test.ts` result and play
+judgement of the cruise numbers and dash shapes (C's play).
 
-- Today's peak is ~1.8× the cap's nominal dash (60 / 36 on the tablet): the
-  dash's Hermite eases in and out. The plane's sizes raise it another
-  ~1.3× (a far insect is drawn smaller, so the same px read as more sizes).
-- **Literal "a stride per `flying` time" is ~1 size a second for every
-  kind** (fly 0.9 / 0.85 s, bee 1.4 / 1.45 s, butterfly 3 / 3.15 s): a fly
-  crosses the tablet in ~20 s, a median leg (11 sizes) in ~11 s against
-  1.5 s today. The butterfly barely changes (today it stretches to 4×
-  `flying` before speeding up); flies and bees slow ~7× on a median leg.
-  **This likely is not what the operator means by «летит себе и летит»;
-  confirm the pace before building.** Options: (i) the literal pace;
-  (ii) a cruise speed per kind set by play (e.g. today's median-leg speed:
-  fly ~7, bee ~4.6 sizes/s on the tablet), legs timed `length / cruise`, no
-  ceiling.
-- **Measure on drawn length**: timing by the layout length leaves the seen
-  speed 0.5–1.7× pace by depth; timing by the length seen in drawn sizes
-  holds it at 1.0–1.1 everywhere. Proposed: `Places` carry each perch's
-  opening distance `q`, and `apartIn` returns the drawn length, the layout
-  length × `logmean(q0, q1) / CLUMP_DISTANCE` (the 1/q mix's exact mean of
-  `q` along a straight leg).
-- In `flight-timing.ts` `paced`: `stretch = length / pace` (≥ 1), `slowest`
-  and `across` go (`Sight.across` from `perchSight`, `Placed`'s `across`,
-  `dash-cap.md`'s cap tests in `flight.test.ts`); `dashing` stops scaling
-  with distance — kept, if at all, as a fixed burst shape (dash a set share
-  of the way in a set share of the time), averaging to the pace.
-  `outFirst` keeps lengthening by the out-of-view stretch (`outOfView`,
-  ≤ `ARRIVAL`). **Conflict to settle**: `ARRIVAL` (1.5 s) still caps a
-  release's first leg to a shown perch, a ceiling on exactly the long legs
-  the decision frees; under (i) that leg flies ~7–20× its pace.
+#### A — away and seat (files: `insect-away.ts`, `insect-seat.ts`, `insect-frame.ts`; their tests)
 
-## Left (context budget reached)
+Calls `insect-frame.ts`: `drawnAloft`, `veerOf`, `veeredAlong`,
+`SeatEnds`; adds `aloftAt`.
 
-- **R2.5, legs past the eye (the veer)**: not measured. What is known: the
-  frame's depth mix (1/q straight in `flown`) never brings a leg nearer the
-  eye than its nearer end's forward distance `q` (≥ 0.62 of its distance,
-  the clamp keeping ends within 0.9 rad gathered), so a near pass comes
-  from an end near the eye (a perch the child stands by, or the eye walking
-  into a hovering insect) plus the bow's and zigzag's offsets. The veer to
-  spec: each frame's `Aloft` pushed radially out to `R_V` from the eye on
-  the plane, C¹-smooth (`d' = R_V + (d − R_V + w)² / 4w` over
-  `[R_V − w, R_V + w]`, `R_V` otherwise), `R_V = V_NEAR` so zoom ≤ 1.72 at
-  the middle and ≤ 1.72 · `bendAt` at the edge (desktop 1.92, sideways
-  phone ~2.0) — or `R_V = V_NEAR · max bend` for 1.72 everywhere. To
-  settle: a perch inside `R_V` (its host is culled by `V_NEAR`) — the leg
-  lands at the veered point and the insect hides with its host. To measure:
-  max zoom and drawn size per screen and kind, share of legs within 1, 0.5,
-  0.25 · `CLUMP_DISTANCE`, time a giant covers the screen, with and without
-  the veer.
-- **R2.6 frame cost**: not run (by count the frame path is two `viewOf`,
-  one `atan2`/`hypot`/`tan`/`cos` per insect against today's up to six
-  `ofLayout`); budget 26 ms median.
-- **Packages**: §4 stands with these changes — step 0 builds the leg's
-  frame (`framedOf`, `aloftFramed`, `centreOf`, `mixD` on `q`) and the veer,
-  not the angle gaze; a new pace package in `flight-timing.ts` /
-  `perch-sight.ts` (`Places` with `q`) re-running `flight`, `flight-kinds`,
-  `flight-in`, `perch-sight`, then `fliers.test.ts` alone. Not yet firmed.
+1. **`aloftAt` and the way in and out.** `insect-frame.ts`
+   `aloftAt(view, at: Point, distance): Aloft` — the plane point the screen
+   point `at` (CSS px) stands over at that distance (`alongSight`), at the
+   height that draws it at `at.y`: `h = EYE_HEIGHT − (at.y − pin.y) ·
+distance / (focal · bendAt(pin, at.x))` (`ip3/back.ts`'s `at`).
+   `insect-away.ts`: `entryAloft(view, side, away, seated?: Point)` →
+   `{ from: Aloft, out?: Aloft }`, `from` = `{ ...alongSight(camera, eye, x,
+D_SEE + PAST_BROW), h: 0 }` at `x` the screen's middle (or half way to
+   the seat's drawn `x`) — always defined, so no `groundNear` and no
+   `pastEnd` fallback; `out` = `offAloft(view, side, away, OUT_AHEAD ·
+D_SEE)`; `offAloft(view, side, away, distance)` = `aloftAt` of the point
+   past `side` at `away.drop`. Tests: `aloftAt` → `drawnAloft` round-trips to
+   1e-9 px over every screen and 8 headings; `entryAloft` defined and its
+   `out` drawn past the edge looking back (π, π ± 0.035).
+2. **The insect drawn.** `insect-seat.ts`: `drawnFlier(view, raw: Aloft,
+flown, ends: SeatEnds)` = `drawnAloft(view, veeredAlong(view.eye, raw,
+veerOf(view), flown, ends))`; `seatedZoom(host) = CD / host.stands.ahead`.
+   Tests: the sitter's zoom equals `drawnFlier`'s at its seat at `flown`
+   1, |Δ| < 1e-3; "its own size at the opening" rewritten to `CD / ahead`
+   (the veer's own landing and clearance are `insect-frame.test.ts`'s,
+   from `ip-veer`).
+
+Ends with: `insect-frame.test.ts`, `insect-away.test.ts`,
+`insect-seat.test.ts` and `pnpm typecheck` green, pushed.
+
+#### B — perches (files: `perch-sight.ts`, `perches.ts`, `perch-hosts.ts`, `mushroom-bed.ts` `capTop`, `flower-bed.ts` `seat`, `flower-sight.ts` `flowerLift`; the `Perched`/`PerchAt` type lines of `insect-view.ts`; their tests)
+
+Calls `insect-frame.ts`: `Aloft`, `framedOf`.
+
+1. **Air perches and distances.** `perch-sight.ts`: `airAlofts(layout)` —
+   each air spot as a fixed world `Aloft` through `ofLayout`'s own
+   construction over the clump's row (`spread` at CD, `h = (clumpRow − y) ·
+perPx`; `ip3/world.ts`); `perchDistance` (pace's seam) returns each
+   perch's `forward` in the eye's own heading frame (`framedOf(view,
+eye.heading, aloft).forward`; a bed host's `stands.ahead`), which at the
+   opening eye is today's `rowAt(...).opening`, so pace's `q` test holds
+   unchanged there. `perches.ts` carries the air `Aloft`s to the hosts.
+   Tests: `perch-sight.test.ts` (`q` at the opening unchanged; an air
+   `Aloft` drawn where today's air point is, to 0.1 px at the opening eye).
+2. **The seat as the host draws it.** `Perched` and `PerchAt` move to
+   `perch-hosts.ts` (`insect-view.ts` imports them); `Perched` gains
+   `drawn: Point`, the seat in CSS px as the host draws it this frame, and
+   an air perch's `aloft`. `flowerLift` splits into the host part (`disc`,
+   at host zoom) and the insect part (`ABOVE_CENTRE · size` etc., at the
+   insect's zoom `CD / host.stands.ahead`), so legs stay on the head when the
+   two zooms differ; `capTop` and `seat` fill `drawn`. Tests:
+   `perch-sight.test.ts`, `flower-plots.test.ts`, `tufts.test.ts`, every
+   other test importing a touched module, then `fliers.test.ts` alone
+   (~6 min).
+
+Ends with: `fliers.test.ts` and `pnpm typecheck` green, pushed.
+
+#### C — the view (files: `insect-view.ts`, `insect-shown.ts`, `meadow-scene.ts`, a new `insect-leg.ts` if `insect-view.ts` passes ~450 lines, a new `scripts/lib/play-veer.ts` and its line in `scripts/play-mushrooms.ts`; deletions in A's and B's files)
+
+Calls `insect-frame.ts`: `centreOf`, `framedOf`, `aloftFramed`, `mixD`,
+`aloftAt`; `drawnFlier`, `seatedZoom`; `entryAloft`, `offAloft`.
+
+1. **The insect on the plane.** `insect-shown.ts`: `from: Aloft`, the
+   `row` fields become forward distances, `OverRow` goes. `insect-view.ts`:
+   a leg sets off with `c = centreOf(eye, from, to)`; each frame frames its
+   fixed start and its end (a seat: `aloftAt(view, perched.drawn, host
+distance)`; air: `perched.aloft`; away: `offAloft`), steers in frame px
+   with `size` × the `mixD` zoom, takes the point back by `aloftFramed` at
+   `mixD(...)` and draws it with `drawnFlier`; a sitter at `seatedZoom`.
+   `View | undefined` goes (`viewAt(camera, OPENING_EYE)` before the first
+   fit). `see()` takes B's distances; `meadow-scene.ts` wires them.
+   Deletes: `toUnits`, `fromUnits`, `Stage`'s `world`/`unit`, `groundAlong`,
+   `pastEnd`, `OverRow`, the old `entry`/`offScreen`/`drawnAt`/`flownAt`
+   (`insect-away.ts`); `drawnInsect`, `offHost` (`insect-seat.ts`);
+   `footRows`/`FootRows` and `airSpots` if unused (`perch-sight.ts`);
+   `lens-carry-round3.patch` is obsolete. Tests: `insect-away`,
+   `insect-seat`, `insect-frame`, `insect-tap`, `insect-layout`,
+   `perch-sight`, `walking`, then `fliers.test.ts` alone.
+2. **Play checks** (`scripts/lib/play-veer.ts`, a `veer` play in
+   `PLAYS`), on tabL and phoneP:
+   - **looking back**: the eye turned π; every insect in the air drawn on
+     ≥ 95% of its frames through a release, landing drawn;
+   - **a walk into a hovering insect**: the eye walked at `STRIDE_CRUISE`
+     through an air perch's sitter; its zoom ≤ 1.72 · `bendAt` at its
+     drawn x, its span never over half the screen's width;
+   - **the fly flick**: drawn steps > width/20 px in one frame counted and
+     logged per fly, frames of the worst kept as `veer-*.png`; logged, not
+     failed (accepted pending play);
+   - a frame of the fade standing by a perch (up to ~2.4×) and of the
+     brow blink (R3.1) to look at.
+
+   Run `flock /home/user/vovazakharov.com/tmp/site.lock pnpm play:mushrooms
+--screens tabL,phoneP` (the whole play, which also times the frame
+   budget), then look at the frames.
+
+Ends with: the play green on tabL and phoneP, the frames looked at and
+described in C's note (flicks, fade, blink, pace), pushed.
+
+## Left
+
+Nothing for research. What only play settles is C's step 2: whether the
+fly flicks, the ~2.4× fade by a perch and the brow blink read as wrong, and
+pace's cruise numbers and dash shapes; any change they call for goes back to
+the orchestrator with the frames.
