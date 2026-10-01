@@ -378,9 +378,10 @@ never a speed-up for distance. Timed by the leg's length as drawn
 the cruise at any depth (`insect-plane.md` R2.4). Beaten: a `stride` per
 `flying` time (≈ 1 size a second for every kind, a fly 20 s across the
 tablet); halving the dash cap (still faster the longer the way); leaving
-it (the complaint stands). **Open with the operator: `ARRIVAL`** (1.5 s)
-still caps a tapped release's first leg to a perch on screen, the one
-ceiling left on a long leg.
+it (the complaint stands). **Decided, with the operator: `ARRIVAL` goes**
+(«убрать»): a tapped release's first leg to a perch on screen flies at the
+kind's cruise like any other, so a far flower may take 3–4 s, calmly.
+Beaten: keeping the 1.5 s cap (a release to a far flower races).
 
 **Left, in order:**
 
