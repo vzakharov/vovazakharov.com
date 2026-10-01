@@ -427,14 +427,22 @@ departures were taken):
    180°, the frame budget walking into the forest; the full run on all
    five screens. The footstep level (`STEP_PEAK`, ~10 dB under a C5) for
    the operator's ear.
-   **A defect the walk frames show, fixed in the game before P4:** at the
-   rim (`tabL-walk-rim.png` ≈(1470, 690), `phoneL-walk-rim.png`
-   ≈(1578, 465)) a back-row flower past `D_SEE` stands whole on the far
-   hill, because where the near crest dips below its foot nothing covers
-   it — it reads as a giant flower on a distant hill. A thing past the
-   seam never shows above the near crest at its own x: it is covered from
-   the crest down, wherever that crest is (`bed-place.ts`
-   `behindHills`/`depthOf` are the suspects).
+   **Fixed (c3acaa50, `seam-cover.md`): past the seam a thing sinks under
+   the ground, never onto a far hill.** The walk frames showed a back-row
+   flower past `D_SEE` standing whole on the far hill wherever the near
+   crest dipped below its foot. Covering it "from the crest down" cannot
+   hold: the crest never comes lower than 0.4 of the near band (32 px on
+   tabL), about a flower's height at `D_SEE`, so the plan's cover hid
+   whole flowers at the seam at once — a pop. Instead, past `D_SEE` a
+   thing is drawn below the ground's top row by as much as its foot would
+   stand above it (`view.ts` `sunk`/`buried`), between the near hills and
+   the ground, which covers it from the foot up; walking away, it slides
+   over the meadow's brow. Left from it: a sunk thing's last sliver reads
+   as a speck at the seam (`tabL-walk-rim.png` ≈(240, 850)) — hide it
+   once less than a recognisable head shows; a buried flower must count
+   neither for the keys' `inView` nor for taps (`flower-bed.ts`, with P4);
+   `repaint-queue.test.ts` fails 4 of 8 at HEAD (from 25a1928e's haze
+   clearing, before this fix).
 5. The bite's end: `decisions.md` rewritten where the spec names, the
    fold into `## Eaten so far`, `/polish`, vet, the Artifact, `/pr`.
 
