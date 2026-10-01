@@ -3,9 +3,10 @@
  * thing that goes wrong: a page error, or a tap whose effect on the meadow is
  * not the one its control promises. Every control and every tappable thing in
  * the meadow is tapped the way a finger does, and the eye is turned and
- * walked by drag and by key and the screen turned — the steps are `lib/play-meadow.ts`,
- * `lib/play-house.ts`, `lib/play-insects.ts`, `lib/play-buzzers.ts`,
- * `lib/play-walk.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
+ * walked by drag and by key and the screen turned — the steps are
+ * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
+ * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
+ * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
  * `lib/play-hold.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
@@ -43,9 +44,11 @@ import {
   PROBE,
   seededRandom,
 } from './lib/mushroom-probe.ts';
+import { playApproach } from './lib/play-approach.ts';
 import { playPlanting } from './lib/play-buzzers.ts';
 import { playHold } from './lib/play-hold.ts';
 import { playMeadow } from './lib/play-meadow.ts';
+import { playOpening } from './lib/play-opening.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playWalk } from './lib/play-walk.ts';
@@ -69,8 +72,10 @@ type Screen = (typeof SCREENS)[number];
 
 /** Each play by the name `--plays` picks it by, in the order they run. */
 const PLAYS = [
+  ['opening', playOpening],
   ['meadow', playMeadow],
   ['walk', playWalk],
+  ['approach', playApproach],
   ['planting', playPlanting],
   ['species', playSpecies],
   ['tufts', playTufts],
