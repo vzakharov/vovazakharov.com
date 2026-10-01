@@ -16,6 +16,7 @@ import { INSECT_LIMITS } from './insects';
 import { mushroomGenes } from './mushroom-genes';
 import { OPENING_FEET } from './placement';
 import { mulberry32 } from './random';
+import { RAIN_MS } from './weather';
 
 const opening = () => firstMeadow(mulberry32(1));
 /** Where the scene picked the foot of the mushroom grown from `seed`, as these tests have it. */
@@ -28,6 +29,8 @@ const grow = (seed: number): Action => ({
 });
 const feetOf = (meadow: Meadow) =>
   meadow.mushrooms.map(({ id, foot }) => [id, foot]);
+/** A tap on a cloud at `now`. */
+const rain = (now: number): Action => ({ kind: 'rain', now });
 function run(meadow: Meadow, actions: readonly Action[]): Meadow {
   let state = meadow;
   for (const action of actions) state = reduce(state, action);
@@ -475,5 +478,45 @@ describe('the butterflies', () => {
       { kind: 'deselect' },
     ]);
     assert.equal(after.insects, meadow.insects);
+  });
+});
+
+describe('the rain', () => {
+  it('opens dry', () => {
+    assert.equal(opening().rain, undefined);
+  });
+
+  it('starts a shower lasting RAIN_MS at the tap', () => {
+    assert.deepEqual(reduce(opening(), rain(2000)).rain, {
+      startedAt: 2000,
+      stopsAt: 2000 + RAIN_MS,
+    });
+  });
+
+  it('restarts the time of a falling shower, keeping its start', () => {
+    const meadow = run(opening(), [rain(2000), rain(6000)]);
+    assert.deepEqual(meadow.rain, { startedAt: 2000, stopsAt: 6000 + RAIN_MS });
+  });
+
+  it('starts a fresh shower once the last has stopped', () => {
+    const stopped = 2000 + RAIN_MS;
+    const meadow = run(opening(), [rain(2000), rain(stopped + 3000)]);
+    assert.deepEqual(meadow.rain, {
+      startedAt: stopped + 3000,
+      stopsAt: stopped + 3000 + RAIN_MS,
+    });
+  });
+
+  it('shuts the flower picker and changes nothing else', () => {
+    const meadow = run(opening(), [
+      { kind: 'select', id: 'mushroom-1' },
+      { kind: 'tuft', foot: { x: 0.4, z: 1.3, size: 0.28 } },
+    ]);
+    assert.ok(meadow.planting);
+    const { rain: shower, ...after } = reduce(meadow, rain(1000));
+    assert.ok(shower);
+    const { rain: dry, ...before } = meadow;
+    assert.equal(dry, undefined);
+    assert.deepEqual(after, { ...before, planting: undefined });
   });
 });

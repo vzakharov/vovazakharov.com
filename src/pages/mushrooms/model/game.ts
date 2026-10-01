@@ -31,6 +31,7 @@ import {
 import { type Footed, OPENING_FEET } from './placement';
 import { plantedId } from './pollen';
 import type { Random, Seeded } from './random';
+import { type Rain, RAIN_MS, raining } from './weather';
 
 /**
  * How many mushrooms the meadow holds at most, room permitting: a world two
@@ -68,6 +69,8 @@ export type Meadow = Swarm & {
   grown: number;
   /** How many insects the meadow has ever released, so every id is new. */
   released: number;
+  /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
+  rain: Rain | undefined;
 };
 
 export type Action =
@@ -84,6 +87,8 @@ export type Action =
   // A tap on a control that changes nothing here, the mute's: it closes
   // the flower picker, as any tap outside it does.
   | { kind: 'shut' }
+  // A tap on a cloud: starts a shower, or while one falls restarts its time.
+  | ({ kind: 'rain' } & Timed)
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
@@ -109,6 +114,7 @@ export function firstMeadow(random: Random): Meadow {
     insects: [],
     planted: [],
     released: 0,
+    rain: undefined,
   };
 }
 
@@ -342,6 +348,15 @@ export function reduce(meadow: Meadow, action: Action): Meadow {
     }
     case 'shut': {
       return flowersShut(meadow);
+    }
+    case 'rain': {
+      const { rain } = meadow;
+      const { now } = action;
+      const startedAt = rain && raining(rain, now) ? rain.startedAt : now;
+      return {
+        ...flowersShut(meadow),
+        rain: { startedAt, stopsAt: now + RAIN_MS },
+      };
     }
     case 'tick': {
       const perches = perchesOf(meadow, action);
