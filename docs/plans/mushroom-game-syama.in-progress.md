@@ -449,9 +449,20 @@ departures were taken):
    over the meadow's brow. Left from it: a sunk thing's last sliver reads
    as a speck at the seam (`tabL-walk-rim.png` ≈(240, 850)) — hide it
    once less than a recognisable head shows; a buried flower must count
-   neither for the keys' `inView` nor for taps (`flower-bed.ts`, with P4);
-   `repaint-queue.test.ts` fails 4 of 8 at HEAD (from 25a1928e's haze
-   clearing, before this fix).
+   neither for the keys' `inView` nor for taps (`flower-bed.ts`, with P4).
+   The haze test is green again (0613c525: it now plants its own
+   back-row mushroom). The sliver rule is in (fe149c59, `seam-tail.md`):
+   past the seam a thing is hidden once under 0.2 of its drawn height
+   shows above `groundTop + seamReach`; tufts follow it. Left: flowers
+   (`seam-tail-flowers.patch`, one line in `flower-bed.ts`), mushrooms
+   and the house (`mushroom-bed.ts` passes no height), and the walk
+   play's `checkPops`, which must not count a vanish under the ground's
+   cover as a pop — all three in one package once the play agent is out
+   of `scripts/`.
+   **Found on the way: since 86503fb the forest on four screens grows
+   nothing behind the opening clump** (every grown mushroom 7.8–9.8
+   ahead, haze 0). The forest must still grow into the misty back rows;
+   traced with the two reds in item 1.
 5. The bite's end: `decisions.md` rewritten where the spec names, the
    fold into `## Eaten so far`, `/polish`, vet, the Artifact, `/pr`.
 
