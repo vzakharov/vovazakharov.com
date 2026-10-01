@@ -43,26 +43,23 @@ browser.
   `veer-back-<kind>-in` and `-landed`, `veer-back-perched`,
   `veer-walk-in-{1,3,5,7}`.
 
-## State of the patch
+## State
 
-- `pnpm typecheck` green with it applied.
-- eslint: 12 errors, all mechanical: `toSorted` instead of `sort`, no
-  `reduce` or `forEach`, an inline object parameter type, passing a function
-  reference to `filter`, strict-boolean checks, the import sort, and a
-  redundant property copy.
-- `play-veer.ts` is 506 lines. Move `sizesAt`, `lookedBack`, `walkedIn`,
-  `zooms`, `pace`, `flicks` and `blinks` into a `veer-report.ts` to bring it
-  under ~450.
-- Never run, so its page-side field names (`scene.insects.view()`,
+- Landed as source (the patch is removed): `scripts/lib/veer-watch.ts` (the
+  recorder), `scripts/lib/play-veer.ts` (the play, 212 lines) and
+  `scripts/lib/veer-report.ts` (the checks and logged measures read off the
+  record, including the looking-back size check `satBack`). Lint, typecheck,
+  prettier and `pnpm type-overlap` clean (`Hidden.start` is `first`, which
+  `pan.ts`'s `Gliding` also declared).
+- Not run yet: its page-side field names (`scene.insects.view()`,
   `scene.eye.walk`, `shown.out`, `seat.on.stands`) are unverified.
 
 ## Left
 
-1. Apply the patch, fix the lint, split the file.
-2. Build the probe:
+1. Build the probe:
    `flock /home/user/vovazakharov.com/tmp/site.lock env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova`.
    Then play one screen per call:
    `flock … pnpm play:mushrooms --no-build --screens tabL --plays veer`,
    then `phoneP`.
-3. Read the notes, pick frames into
+2. Read the notes, pick frames into
    `docs/remove-before-merging/frames/bite-12/insect-plane/`, and report.

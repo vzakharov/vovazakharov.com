@@ -7,7 +7,7 @@
  * `lib/play-opening.ts`, `lib/play-meadow.ts`, `lib/play-house.ts`,
  * `lib/play-insects.ts`, `lib/play-buzzers.ts`, `lib/play-walk.ts`,
  * `lib/play-approach.ts`, `lib/play-species.ts`, `lib/play-tufts.ts` and
- * `lib/play-hold.ts` and `lib/play-keys.ts` — and a
+ * `lib/play-hold.ts`, `lib/play-keys.ts` and `lib/play-veer.ts` — and a
  * frame of each lands in `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
@@ -52,6 +52,7 @@ import { playMeadow } from './lib/play-meadow.ts';
 import { playOpening } from './lib/play-opening.ts';
 import { playSpecies } from './lib/play-species.ts';
 import { playTufts } from './lib/play-tufts.ts';
+import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -82,6 +83,7 @@ const PLAYS = [
   ['tufts', playTufts],
   ['hold', playHold],
   ['keys', playKeys],
+  ['veer', playVeer],
 ] as const;
 
 const TYPES: Record<string, string> = {
