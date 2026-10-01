@@ -570,6 +570,20 @@ screen's fastest dash back to 2.5–3.1 screens a second. Left for the
 review: `across` is optional and an absent one means no cap, which only
 test fixtures rely on; `flight.ts` stands at 454 lines.
 
+**Where the relay at 13:00 on 1 Oct left it.** Done: the subagent notice
+(8bf5044, `subagent-notice.md`), the arrival and depth scale, the dash cap.
+Running when it relayed, in that session's container, pushing here: `v-near`
+(the frame budget, `v-near.md`) and `drop-in` (the rise from behind the
+brow, `drop-in.md`) — read their notes and `git log` before briefing
+anything on their files. **Open with the operator: a full turn takes 16.5 s
+of a held key** (`TURN_CRUISE` 0.38 rad/s; the heading wraps, checked), and
+behind the meadow is bare grass, so the operator turned and saw «бесконечная
+поляна», never the circle closing. Their answer decides between a faster
+turn (an acceleration while held, or a higher cruise) and something to
+see behind. Left after that: the five-screen run with frames, the phoneL
+edge flower, the review subagent and its fixes, delete this section,
+`/polish`, vet, the Artifact, `/pr`.
+
 **Left, in order:**
 
 1. P1 step 2 is built (86503fb, 9d637ea; `p1d-taps.md`): taps only where

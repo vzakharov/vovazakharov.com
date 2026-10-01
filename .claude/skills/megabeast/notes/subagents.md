@@ -204,6 +204,20 @@
   A subagent's call carries the parent's `transcript_path` and its own
   `agent_id`, so the hook reads
   `<transcript_path minus .jsonl>/subagents/agent-<agent_id>.jsonl`.
+  Its first live run (bite 12, `insect-arrive`) fired at 170k, and the
+  agent finished step 2 and reported at 184k with no nudge.
+- **Per-agent worktrees ran five agents with no collision.** Each pulled
+  with `--no-rebase` before its push; the merges resolved themselves but
+  for one import line in `flight.ts`, which the agent settled. The shared
+  checkout stayed the orchestrator's, so the Stop hook flagged only its
+  own cost row.
+- **A brief's numbers carry their unit, checked against the code.** The
+  orchestrator wrote a dash cap as "≈6 world units"; the model reads
+  places in butterfly sizes, and the agent found the mix-up, built the
+  cap in the right unit and reported it. Its report also showed the cap
+  should be per screen, a second call. The skill should have the
+  orchestrator read the function's units before it writes a number into
+  a decision.
 
 - **A shared tree bans `git stash`, `checkout -- <path>` and `restore` in
   the common brief from the start.** Bite 11's first flowers agent stashed
