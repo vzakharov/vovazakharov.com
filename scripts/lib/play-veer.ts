@@ -3,9 +3,10 @@
  * mushrooms grown: what a child sees of every insect frame by frame
  * (`veer-watch.ts`). Released facing the clump, each perches at its own size
  * over its distance, in scale with its cap; the eye turned to look back, each
- * kind released lands drawn, seen on nearly every frame of its flight in,
- * and sits at no smaller a size in the screen's middle than its distance
- * gives; walked into one hovering in the air, it veers off round the eye,
+ * kind released with no perch in view flies out by the side, and with a
+ * mushroom and a flower grown in view lands drawn, seen on nearly every frame
+ * of its flight in, and sits at no smaller a size in the screen's middle than
+ * its distance gives; walked into one hovering in the air, it veers off round the eye,
  * never past the nearest mushroom's zoom at its x. A fly's pace and dash,
  * its one-frame flicks and the blinks at the brow as the eye turns are
  * measured and logged, not failed. Frames land as `veer-*.png`.
@@ -27,6 +28,7 @@ import {
   type Page,
   Point,
 } from './mushroom-probe.ts';
+import { buttonsOf, TUFTS } from './play-tufts.ts';
 import {
   blinks,
   flicks,
@@ -41,6 +43,71 @@ import {
   zooms,
 } from './veer-report.ts';
 import { type Sample, Samples, VEER } from './veer-watch.ts';
+
+/** How many of one kind are released looking back for one to take a perch in view: a fly roams to the air most legs. */
+const BACK_TRIES = 6;
+
+/**
+ * Something to sit on looking back, grown in view as a child grows it: a
+ * mushroom off the `+` and the picker's first cap, and a flower planted on
+ * the nearest tuft that takes one, its first colour and first shape — a bee
+ * takes no cap.
+ */
+async function perchesBack(
+  page: Page,
+  controls: z.infer<typeof Controls>,
+  expect: Expect,
+  note: Note,
+): Promise<void> {
+  const [cap] = controls.picker;
+  const mushrooms = async () =>
+    page.evaluate('__probe.state().mushrooms.length', z.number());
+  const grownFrom = await mushrooms();
+  await page.tap(controls.plus);
+  await page.step(30);
+  if (cap) await page.tap(cap);
+  await page.step(90);
+  expect(
+    (await mushrooms()) === grownFrom + 1,
+    'looking back, the + and a cap grew no mushroom',
+  );
+  const planted = async () =>
+    page.evaluate('__probe.scene.meadow.planted.length', z.number());
+  const open = async () =>
+    page.evaluate('__probe.scene.meadow.planting !== undefined', z.boolean());
+  const sownFrom = await planted();
+  const tufts = (await page.evaluate(TUFTS, z.array(Point))).toReversed();
+  const opening = async ([tuft, ...rest]: ReadonlyArray<
+    z.infer<typeof Point>
+  >): Promise<boolean> => {
+    if (!tuft) return false;
+    await page.tap(tuft);
+    await page.step(30);
+    return (await open()) || opening(rest);
+  };
+  if (!(await opening(tufts.slice(0, 16)))) {
+    expect(
+      false,
+      `looking back, none of ${String(tufts.length)} tufts in view opened the flower picker`,
+    );
+    return;
+  }
+  const pickFirst = async (picker: 'colourPicker' | 'shapePicker') => {
+    const [button] = await page.evaluate(buttonsOf(picker), z.array(Point));
+    if (button) await page.tap(button);
+    await page.step(30);
+  };
+  await pickFirst('colourPicker');
+  await pickFirst('shapePicker');
+  await page.step(80);
+  expect(
+    (await planted()) === sownFrom + 1,
+    'looking back, the flower picker planted no flower',
+  );
+  note(
+    `looking back: grew a mushroom and planted a flower in view, ${String(await mushrooms())} mushrooms and ${String(await planted())} flowers planted`,
+  );
+}
 
 export async function playVeer(
   page: Page,
@@ -127,9 +194,12 @@ export async function playVeer(
   await face(Math.PI);
   await page.step(2);
 
-  // 1. Looking back: each kind released, drawn in, landed on a drawn perch.
+  // 1. Looking back: each kind released, drawn in, landed on a drawn perch —
+  // first with none in view, so it flies out by the side, then with a
+  // mushroom and a flower grown in view as a child grows them.
   const kinds: InsectKind[] = ['butterfly', 'fly', 'bee'];
-  await inTurn(kinds, async (kind) => {
+  /** One `kind` released and watched till it lands; its first perch's kind, or `undefined` for none released. */
+  const releaseBack = async (kind: InsectKind, shot: string) => {
     const before = new Set((await insects()).map(({ id }) => id));
     await page.tap(controls.releases[kind]);
     await page.step(2);
@@ -145,13 +215,33 @@ export async function playVeer(
     const flight = released.arrives - at;
     const middle = Math.max(2, Math.round((flight * 0.4 * FPS) / 1000));
     await run(middle, middle);
-    await page.shoot(`veer-back-${kind}-in`);
+    await page.shoot(`${shot}-in`);
     await run(Math.max(30, Math.round(((flight + 900) * FPS) / 1000) - middle));
-    await page.shoot(`veer-back-${kind}-landed`);
+    await page.shoot(`${shot}-landed`);
     const leg = seen.filter(
       (sample) => sample.id === released.id && sample.legs === released.legs,
     );
     lookedBack(kind, leg, onScreen, expect, note);
+    return released.to.kind;
+  };
+  await inTurn(kinds, async (kind) => {
+    await releaseBack(kind, `veer-back-${kind}-out`);
+  });
+  await perchesBack(page, controls, expect, note);
+  await page.shoot('veer-back-grown');
+  await inTurn(kinds, async (kind) => {
+    const perched = async (tries: number): Promise<boolean> => {
+      if (tries === 0) return false;
+      const to = await releaseBack(
+        kind,
+        `veer-back-${kind}${tries === BACK_TRIES ? '' : `-${String(BACK_TRIES - tries)}`}`,
+      );
+      return to === 'cap' || to === 'flower' || perched(tries - 1);
+    };
+    expect(
+      await perched(BACK_TRIES),
+      `looking back, none of ${String(BACK_TRIES)} ${kind} releases took a perch in view`,
+    );
   });
   await run(FPS * 3);
   await page.shoot('veer-back-perched');
