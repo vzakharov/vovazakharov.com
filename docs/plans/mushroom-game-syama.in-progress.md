@@ -662,6 +662,22 @@ the no-row wedge's edge, where the row is near-infinite and the zoom near 0,
 so the butterfly never shows. Beaten: searching for a row within a bound
 (the bound is a guess at the layout's range), keeping the start in plane
 units (a larger change for a 0.76% case).
+**Re-decided, from `lens-carry.md` round 3: insects fly and are sized on the
+plane, not in the layout.** The past-the-edge start did not hold: every leg
+is flown in the layout (the opening eye's screen), and looking back the
+screen shows only the layout's two far ends with the no-row wedge between,
+so a leg across the screen runs through the meadow in front of the opening
+eye and is drawn on 0 of 201 samples; and an insect is sized by its row's
+distance from the opening eye, which falls to 0 looking back, so every
+insect, a perched one too, shrinks toward the screen's middle (zoom 0.05–0.6
+at π) while its cap keeps its size. Both are the layout standing in for the
+world, which the lens and walking made wrong away from the opening; the
+0.76% release was the symptom. So a leg's points are plane points, and an
+insect's drawn size is its own size over its distance from the eye.
+Beaten: sizing by distance alone (fixes the size, not the legs through the
+meadow); a zoom floor (the bound beaten above, a tenth-size insect); the
+past-the-edge patch alone (`lens-carry-round3.patch`, never seen with no
+perch shown). A spec first (`insect-plane.md`), then build packages.
 
 **Decided, from `drop-in.md`'s Left: a flier goes under the brow by its
 ground point, not its middle.** What sinks is keyed on distance along the
